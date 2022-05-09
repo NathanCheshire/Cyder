@@ -28,9 +28,9 @@ public class UnitTests {
     @Test
     public void testInsertBreaks() {
         assertEquals("It's the strangest feeling,<br/>feeling this way for you.", BoundsUtil.insertBreaks(
-                "It's the strangest feeling, feeling this way for you.",2));
+                "It's the strangest feeling, feeling this way for you.", 2));
         assertEquals("Waka waka<br/>waka<br/>waka<br/>waka waka waka.", BoundsUtil.insertBreaks(
-                "Waka waka waka waka waka waka waka.",4));
+                "Waka waka waka waka waka waka waka.", 4));
     }
 
     @Test
@@ -38,8 +38,8 @@ public class UnitTests {
         //cardinal directions and +/1 1, +/1 0.1
 
         //east
-        assertEquals(WeatherWidget.getWindDirection(- 1.0), "SE");
-        assertEquals(WeatherWidget.getWindDirection(- 0.1), "SE");
+        assertEquals(WeatherWidget.getWindDirection(-1.0), "SE");
+        assertEquals(WeatherWidget.getWindDirection(-0.1), "SE");
         assertEquals(WeatherWidget.getWindDirection(0.0), "E");
         assertEquals(WeatherWidget.getWindDirection(0.1), "NE");
         assertEquals(WeatherWidget.getWindDirection(1.0), "NE");
@@ -106,15 +106,15 @@ public class UnitTests {
 
     @Test
     public void testPluralConversion() {
-        assertEquals(StringUtil.getPlural(-1, "dog"),"dogs");
-        assertEquals(StringUtil.getPlural(0, "dog"),"dogs");
-        assertEquals(StringUtil.getPlural(1, "dog"),"dog");
-        assertEquals(StringUtil.getPlural(2, "dog"),"dogs");
+        assertEquals(StringUtil.getPlural(-1, "dog"), "dogs");
+        assertEquals(StringUtil.getPlural(0, "dog"), "dogs");
+        assertEquals(StringUtil.getPlural(1, "dog"), "dog");
+        assertEquals(StringUtil.getPlural(2, "dog"), "dogs");
 
-        assertEquals(StringUtil.getPlural(-1, "bus"),"buses");
-        assertEquals(StringUtil.getPlural(0, "bus"),"buses");
-        assertEquals(StringUtil.getPlural(1, "bus"),"bus");
-        assertEquals(StringUtil.getPlural(2, "bus"),"buses");
+        assertEquals(StringUtil.getPlural(-1, "bus"), "buses");
+        assertEquals(StringUtil.getPlural(0, "bus"), "buses");
+        assertEquals(StringUtil.getPlural(1, "bus"), "bus");
+        assertEquals(StringUtil.getPlural(2, "bus"), "buses");
     }
 
     @Test
@@ -140,13 +140,13 @@ public class UnitTests {
 
     @Test
     public void testIsComment() {
-         assert StatUtil.isComment("*");
-         assert StatUtil.isComment("//*");
-         assert StatUtil.isComment("*/");
-         assert StatUtil.isComment("**");
-         assert StatUtil.isComment("/* is this one */");
-         assert StatUtil.isComment("//**//**//");
-         assert StatUtil.isComment("/*/");
+        assert StatUtil.isComment("*");
+        assert StatUtil.isComment("//*");
+        assert StatUtil.isComment("*/");
+        assert StatUtil.isComment("**");
+        assert StatUtil.isComment("/* is this one */");
+        assert StatUtil.isComment("//**//**//");
+        assert StatUtil.isComment("/*/");
 
         assert !StatUtil.isComment("raw text");
         assert !StatUtil.isComment("tee: //haha");
@@ -162,8 +162,8 @@ public class UnitTests {
 
     @Test
     public void testFileSignature() {
-        assertTrue(FileUtil.matchesSignature(new File(OSUtil.buildPath("static","pictures","CyderIcon.png")),
-               FileUtil.PNG_SIGNATURE));
+        assertTrue(FileUtil.matchesSignature(new File(OSUtil.buildPath("static", "pictures", "CyderIcon.png")),
+                FileUtil.PNG_SIGNATURE));
         assertFalse(FileUtil.matchesSignature(new File(""), FileUtil.PNG_SIGNATURE));
         assertFalse(FileUtil.matchesSignature(null, FileUtil.PNG_SIGNATURE));
     }
@@ -223,7 +223,7 @@ public class UnitTests {
     public void testYouTubeVideoQueryConstruction() {
         String query = YoutubeUtil.buildYouTubeApiV3SearchQuery(1, "hello world");
         assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
-                                "&maxResults=1&q=hello%20world&type=video&key=AI"));
+                "&maxResults=1&q=hello%20world&type=video&key=AI"));
 
         query = YoutubeUtil.buildYouTubeApiV3SearchQuery(15, "hello world");
         assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +

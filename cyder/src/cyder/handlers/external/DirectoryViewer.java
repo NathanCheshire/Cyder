@@ -86,7 +86,7 @@ public class DirectoryViewer {
 
         boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
 
-        dirFrame = new CyderFrame(630,510, darkMode
+        dirFrame = new CyderFrame(630, 510, darkMode
                 ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor);
         dirFrame.setTitle(currentDirectory.getName());
 
@@ -105,7 +105,7 @@ public class DirectoryViewer {
                 IOUtil.openFile(ChosenDir.getAbsolutePath());
             }
         });
-        dirField.setBounds(60,40,500,40);
+        dirField.setBounds(60, 40, 500, 40);
         dirFrame.getContentPane().add(dirField);
 
         CyderButton last = new CyderButton(" < ");
@@ -113,7 +113,7 @@ public class DirectoryViewer {
         last.setForeground(CyderColors.navy);
         last.setBackground(CyderColors.regularRed);
         last.setFont(CyderFonts.segoe20);
-        last.setBorder(new LineBorder(CyderColors.navy,5,false));
+        last.setBorder(new LineBorder(CyderColors.navy, 5, false));
         last.addActionListener(e -> {
             //we may only go back if there's something in the back, and it's different from where we are now
             if (backward != null && !backward.isEmpty() && !backward.peek().equals(currentDirectory)) {
@@ -127,7 +127,7 @@ public class DirectoryViewer {
                 refreshBasedOnDir(currentDirectory, false);
             }
         });
-        last.setBounds(10,40,40,40);
+        last.setBounds(10, 40, 40, 40);
         dirFrame.getContentPane().add(last);
 
         CyderButton next = new CyderButton(" > ");
@@ -135,7 +135,7 @@ public class DirectoryViewer {
         next.setForeground(CyderColors.navy);
         next.setBackground(CyderColors.regularRed);
         next.setFont(CyderFonts.segoe20);
-        next.setBorder(new LineBorder(CyderColors.navy,5,false));
+        next.setBorder(new LineBorder(CyderColors.navy, 5, false));
         next.addActionListener(e -> {
             //only traverse forward if the stack is not empty and forward is different from where we are
             if (forward != null && !forward.isEmpty() && !forward.peek().equals(currentDirectory)) {
@@ -149,7 +149,7 @@ public class DirectoryViewer {
                 refreshBasedOnDir(currentDirectory, false);
             }
         });
-        next.setBounds(620 - 50,40,40, 40);
+        next.setBounds(620 - 50, 40, 40, 40);
         dirFrame.getContentPane().add(next);
 
         // label to show where files will be
@@ -161,7 +161,7 @@ public class DirectoryViewer {
         tempLabel.setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
                 : CyderColors.navy, 5, false));
         tempLabel.setOpaque(false);
-        tempLabel.setBounds(10,90,600, 400);
+        tempLabel.setBounds(10, 90, 600, 400);
         dirFrame.getContentPane().add(tempLabel);
 
         dirFrame.finalizeAndShow();
@@ -184,7 +184,7 @@ public class DirectoryViewer {
             cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
             cyderScrollList.removeAllElements();
 
-            for (int i = 0; i < currentFileNames.size() ; i++) {
+            for (int i = 0 ; i < currentFileNames.size() ; i++) {
                 int finalI = i;
                 cyderScrollList.addElement(currentFileNames.get(i), () -> {
                     if (currentFiles.get(finalI).isDirectory()) {
@@ -196,7 +196,7 @@ public class DirectoryViewer {
             }
 
             dirScrollLabel = cyderScrollList.generateScrollList();
-            dirScrollLabel.setBounds(10,90,600, 400);
+            dirScrollLabel.setBounds(10, 90, 600, 400);
             dirFrame.getContentPane().add(dirScrollLabel);
 
             dirFrame.revokeAllNotifications();
@@ -206,7 +206,7 @@ public class DirectoryViewer {
     /**
      * Refreshes the current file list based on the provided file.
      *
-     * @param directory the directory/file to refresh on
+     * @param directory   the directory/file to refresh on
      * @param wipeForward whether to clear the forward traversal stack
      */
     private static void refreshBasedOnDir(File directory, boolean wipeForward) {
@@ -249,7 +249,7 @@ public class DirectoryViewer {
         cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
 
         // generate clickable components to add to the list
-        for (int i = 0; i < currentFileNames.size() ; i++) {
+        for (int i = 0 ; i < currentFileNames.size() ; i++) {
             int eye = i;
 
             cyderScrollList.addElement(currentFileNames.get(i), () -> {
@@ -261,7 +261,7 @@ public class DirectoryViewer {
             });
         }
         dirScrollLabel = cyderScrollList.generateScrollList();
-        dirScrollLabel.setBounds(10,90,600, 400);
+        dirScrollLabel.setBounds(10, 90, 600, 400);
         dirFrame.getContentPane().add(dirScrollLabel);
 
         // revalidate, set title, set pwd text

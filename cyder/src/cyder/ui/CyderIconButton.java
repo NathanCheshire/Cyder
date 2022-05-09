@@ -36,8 +36,8 @@ public class CyderIconButton extends JButton {
     /**
      * Constructs a new icon button with the following parameters, and default mouse and focus listeners.
      *
-     * @param tooltipText the tool tip text of the button
-     * @param defaultIcon the default icon
+     * @param tooltipText       the tool tip text of the button
+     * @param defaultIcon       the default icon
      * @param hoverAndFocusIcon the hover icon
      */
     public CyderIconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon) {
@@ -47,10 +47,10 @@ public class CyderIconButton extends JButton {
     /**
      * Constructs a new icon button with the following parameters, and no focus listener.
      *
-     * @param tooltipText the tool tip text of the button
-     * @param defaultIcon the default icon
+     * @param tooltipText       the tool tip text of the button
+     * @param defaultIcon       the default icon
      * @param hoverAndFocusIcon the hover icon
-     * @param mouseListener the custom mouse listener for when a mouse enters/exits the icon button's area
+     * @param mouseListener     the custom mouse listener for when a mouse enters/exits the icon button's area
      */
     public CyderIconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon, MouseListener mouseListener) {
         this(tooltipText, defaultIcon, hoverAndFocusIcon, mouseListener, new FocusAdapter() {
@@ -69,11 +69,11 @@ public class CyderIconButton extends JButton {
     /**
      * Constructs a new icon button with the following parameters.
      *
-     * @param tooltipText the tooltip text of the button
-     * @param defaultIcon the default icon
+     * @param tooltipText       the tooltip text of the button
+     * @param defaultIcon       the default icon
      * @param hoverAndFocusIcon the hover icon
-     * @param mouseListener the custom mouse listener for when a mouse enters/exits the icon button's area
-     * @param focusListener the focus listener for when the button gains/loses focus
+     * @param mouseListener     the custom mouse listener for when a mouse enters/exits the icon button's area
+     * @param focusListener     the focus listener for when the button gains/loses focus
      */
     public CyderIconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon,
                            MouseListener mouseListener, FocusListener focusListener) {
@@ -82,7 +82,7 @@ public class CyderIconButton extends JButton {
         if (defaultIcon != null && defaultIcon == hoverAndFocusIcon)
             throw new IllegalArgumentException("Provided hover image is the same as the default icon");
         if (defaultIcon != null && hoverAndFocusIcon != null && (defaultIcon.getIconWidth() != hoverAndFocusIcon.getIconWidth()
-                                || defaultIcon.getIconHeight() != hoverAndFocusIcon.getIconHeight()))
+                || defaultIcon.getIconHeight() != hoverAndFocusIcon.getIconHeight()))
             throw new IllegalArgumentException("Provided icons are not equal in size");
 
         if (defaultIcon != null)
@@ -169,7 +169,7 @@ public class CyderIconButton extends JButton {
      * hover/focus icon for "iterations" iterations.
      *
      * @param iterations the number of iterations to flash the icon button for
-     * @param msDelay the delay in milliseconds between button flash calls
+     * @param msDelay    the delay in milliseconds between button flash calls
      */
     public void flash(int iterations, int msDelay) {
         Preconditions.checkArgument(hoverAndFocusIcon != null && defaultIcon != null,

@@ -58,26 +58,26 @@ public class CyderWatchdog {
     public static void initializeWatchDog() {
         CyderThreadRunner.submit(() -> {
             OUTER:
-                while (true) {
-                    try {
-                        // timeout first
-                        Thread.sleep(INITIALIZE_TIMEOUT);
+            while (true) {
+                try {
+                    // timeout first
+                    Thread.sleep(INITIALIZE_TIMEOUT);
 
-                        // get thread group and enumerate over threads
-                        ThreadGroup group = Thread.currentThread().getThreadGroup();
-                        Thread[] currentThreads = new Thread[group.activeCount()];
-                        group.enumerate(currentThreads);
+                    // get thread group and enumerate over threads
+                    ThreadGroup group = Thread.currentThread().getThreadGroup();
+                    Thread[] currentThreads = new Thread[group.activeCount()];
+                    group.enumerate(currentThreads);
 
-                        for (Thread thread : currentThreads) {
-                            // thread found so start actual watchdog timer and break out of initializer
-                            if (thread.getName().equals(AWT_EVENT_QUEUE_0_NAME)) {
-                                startWatchDog(thread);
-                                break OUTER;
-                            }
+                    for (Thread thread : currentThreads) {
+                        // thread found so start actual watchdog timer and break out of initializer
+                        if (thread.getName().equals(AWT_EVENT_QUEUE_0_NAME)) {
+                            startWatchDog(thread);
+                            break OUTER;
                         }
-                    } catch (Exception e) {
-                        Logger.Debug(ExceptionHandler.getPrintableException(e));
                     }
+                } catch (Exception e) {
+                    Logger.Debug(ExceptionHandler.getPrintableException(e));
+                }
             }
         }, IgnoreThread.WatchdogInitializer.getName());
     }
@@ -87,7 +87,7 @@ public class CyderWatchdog {
      *
      * @param awtEventQueueThread the AWT-EventQueue-0 thread
      * @throws IllegalArgumentException if the provided thread
-     * is not named {@link CyderWatchdog#AWT_EVENT_QUEUE_0_NAME}
+     *                                  is not named {@link CyderWatchdog#AWT_EVENT_QUEUE_0_NAME}
      */
     private static void startWatchDog(Thread awtEventQueueThread) {
         Preconditions.checkArgument(awtEventQueueThread.getName().equals(AWT_EVENT_QUEUE_0_NAME),

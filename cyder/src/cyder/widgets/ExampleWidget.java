@@ -27,12 +27,12 @@ public class ExampleWidget {
     }
 
     public void innerShowGui() {
-        CyderFrame cyderFrame = new CyderFrame(600,600);
+        CyderFrame cyderFrame = new CyderFrame(600, 600);
         cyderFrame.setTitle("My Title");
         cyderFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
         CyderButton cyderButton = new CyderButton("Button");
-        cyderButton.setBounds((600 - 200) / 2, (600 - 40 + CyderDragLabel.DEFAULT_HEIGHT) / 2,200,40);
+        cyderButton.setBounds((600 - 200) / 2, (600 - 40 + CyderDragLabel.DEFAULT_HEIGHT) / 2, 200, 40);
         cyderButton.addActionListener(e -> {
             // your logic here or a lambda to a class level private method
             cyderFrame.notify("Hello World!");

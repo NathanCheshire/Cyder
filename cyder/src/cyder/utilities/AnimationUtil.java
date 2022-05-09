@@ -36,7 +36,7 @@ public class AnimationUtil {
                 int x = (int) point.getX();
                 int y = (int) point.getY();
 
-                for (int i = y; i >= -frame.getHeight(); i -= 15) {
+                for (int i = y ; i >= -frame.getHeight() ; i -= 15) {
                     Thread.sleep(0, 500);
                     frame.setLocation(x, i);
                 }
@@ -66,7 +66,7 @@ public class AnimationUtil {
         int y = (int) point.getY();
 
         try {
-            for (int i = y; i <= ScreenUtil.getScreenHeight(); i += 15) {
+            for (int i = y ; i <= ScreenUtil.getScreenHeight() ; i += 15) {
                 Thread.sleep(0, 250);
                 frame.setLocation(x, i);
             }
@@ -93,7 +93,7 @@ public class AnimationUtil {
     public static void componentUpSepThread(int start, int stop, int delay, int increment, Component comp) {
         if (comp.getY() == start)
             CyderThreadRunner.submit(() -> {
-                for (int i = start; i >= stop; i -= increment) {
+                for (int i = start ; i >= stop ; i -= increment) {
                     try {
                         Thread.sleep(delay);
                         comp.setLocation(comp.getX(), i);
@@ -117,7 +117,7 @@ public class AnimationUtil {
     public static void componentDownSepThread(int start, int stop, int delay, int increment, Component comp) {
         if (comp.getY() == start)
             CyderThreadRunner.submit(() -> {
-                for (int i = start; i <= stop; i += increment) {
+                for (int i = start ; i <= stop ; i += increment) {
                     try {
                         Thread.sleep(delay);
                         comp.setLocation(comp.getX(), i);
@@ -141,7 +141,7 @@ public class AnimationUtil {
     public static void componentLeftSepThread(int start, int stop, int delay, int increment, Component comp) {
         if (comp.getX() == start)
             CyderThreadRunner.submit(() -> {
-                for (int i = start; i >= stop; i -= increment) {
+                for (int i = start ; i >= stop ; i -= increment) {
                     try {
                         Thread.sleep(delay);
                         comp.setLocation(i, comp.getY());
@@ -165,7 +165,7 @@ public class AnimationUtil {
     public static void componentRightSepThread(int start, int stop, int delay, int increment, Component comp) {
         if (comp.getX() == start)
             CyderThreadRunner.submit(() -> {
-                for (int i = start; i <= stop; i += increment) {
+                for (int i = start ; i <= stop ; i += increment) {
                     try {
                         Thread.sleep(delay);
                         comp.setLocation(i, comp.getY());

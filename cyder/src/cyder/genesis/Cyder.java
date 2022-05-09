@@ -38,8 +38,9 @@ public class Cyder {
 
     /**
      * Setup and start the best program ever made :D
+     *
      * @param arguments possible command line args passed in. They serve no purpose yet,
-     *           but we shall log them regardless (just like Big Brother would want)
+     *                  but we shall log them regardless (just like Big Brother would want)
      */
     public static void main(String[] arguments) {
         // set start time, this should be the first call always
@@ -70,7 +71,7 @@ public class Cyder {
         // make sure all fonts are loaded, fatal subroutine if failure
         if (!registerFonts()) {
             Logger.log(Logger.Tag.EXCEPTION, "SYSTEM FAILURE");
-            ExceptionHandler.exceptionExit("Font required by system could not be loaded","Font failure",
+            ExceptionHandler.exceptionExit("Font required by system could not be loaded", "Font failure",
                     ExitCondition.CorruptedSystemFiles);
             return;
         }
@@ -79,7 +80,7 @@ public class Cyder {
         if (OSUtil.isOSX()) {
             Logger.log(Logger.Tag.EXCEPTION, "IMPROPER OS");
             ExceptionHandler.exceptionExit("System OS not intended for Cyder use. You should" +
-                    " install a dual boot or a VM or something :/","OS Exception",
+                            " install a dual boot or a VM or something :/", "OS Exception",
                     ExitCondition.CorruptedSystemFiles);
             return;
         }
@@ -87,7 +88,7 @@ public class Cyder {
         // check for fast testing
         if (CyderToggles.FAST_TESTING_MODE) {
             ManualTests.launchTests();
-            ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit","Fast Testing",
+            ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit", "Fast Testing",
                     ExitCondition.TestingModeExit);
             return;
         }
@@ -121,7 +122,7 @@ public class Cyder {
         CyderThreadRunner.submit(() -> {
             setLoadingMessage("Logging JVM args");
             IOUtil.logArgs(arguments);
-        },"Cyder Start Secondary Subroutines");
+        }, "Cyder Start Secondary Subroutines");
 
         // off-ship how to login to the LoginHandler since all subroutines finished
         LoginHandler.determineCyderEntry();
@@ -165,7 +166,8 @@ public class Cyder {
             if (deleteDirectory.exists()) {
                 try {
                     Thread.sleep(1000);
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
             }
 
             OSUtil.deleteFile(deleteDirectory, false);
@@ -181,7 +183,7 @@ public class Cyder {
      * @return whether all the fonts were loaded properly
      */
     private static boolean registerFonts() {
-        File fontsDir = new File(OSUtil.buildPath("static","fonts"));
+        File fontsDir = new File(OSUtil.buildPath("static", "fonts"));
 
         if (!fontsDir.exists()) {
             return false;

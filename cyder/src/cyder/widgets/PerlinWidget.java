@@ -190,12 +190,12 @@ public class PerlinWidget {
         //init with random
         _2DNoise = new float[resolution];
         _3DNoise = new GridNode[resolution][resolution];
-        
+
         timeStep = 0;
 
         for (int x = 0 ; x < resolution ; x++) {
             for (int y = 0 ; y < resolution ; y++) {
-                _3DNoise[x][y] = new GridNode(x,y);
+                _3DNoise[x][y] = new GridNode(x, y);
             }
         }
 
@@ -220,7 +220,7 @@ public class PerlinWidget {
         _2DNoise = generate2DNoise(instanceSeed[0], octaves);
 
         //ui constructions
-        perlinFrame = new CyderFrame(600 + 10,750 + CyderDragLabel.DEFAULT_HEIGHT);
+        perlinFrame = new CyderFrame(600 + 10, 750 + CyderDragLabel.DEFAULT_HEIGHT);
         perlinFrame.setTitle("Noise");
 
         perlinFrame.addPreCloseAction(() -> {
@@ -266,31 +266,31 @@ public class PerlinWidget {
 
                         //top line
                         g2d.setColor(Color.black);
-                        g2d.fillRect(x, minY,2, 2);
+                        g2d.fillRect(x, minY, 2, 2);
 
                         lenDown += 2;
 
                         //green grass
                         g2d.setColor(CyderColors.regularGreen);
-                        g2d.fillRect(x, minY + lenDown,2, 10);
+                        g2d.fillRect(x, minY + lenDown, 2, 10);
 
                         lenDown += 10;
 
                         // brown dirt
                         g2d.setColor(CyderColors.brownDirt);
-                        g2d.fillRect(x, minY + lenDown,2, 20);
+                        g2d.fillRect(x, minY + lenDown, 2, 20);
 
                         lenDown += 20;
 
                         //gray stone
                         g2d.setColor(Color.darkGray);
-                        g2d.fillRect(x, minY + lenDown,2, resolution - (minY + lenDown));
+                        g2d.fillRect(x, minY + lenDown, 2, resolution - (minY + lenDown));
                     }
                 } else {
                     for (int i = 0 ; i < resolution ; i++) {
                         for (int j = 0 ; j < resolution ; j++) {
                             g2d.setColor(_3DNoise[i][j].getColor());
-                            g2d.fillRect(i,j,1,1);
+                            g2d.fillRect(i, j, 1, 1);
                         }
                     }
                 }
@@ -312,29 +312,29 @@ public class PerlinWidget {
         animateCheckBox.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            super.mouseClicked(e);
+                super.mouseClicked(e);
 
-            if (timer != null && timer.isRunning())
-                timer.stop();
+                if (timer != null && timer.isRunning())
+                    timer.stop();
             }
         });
-        animateCheckBox.setBounds(25,630,50,50);
+        animateCheckBox.setBounds(25, 630, 50, 50);
         perlinFrame.getContentPane().add(animateCheckBox);
 
         CyderLabel animateLabel = new CyderLabel("Animate");
-        animateLabel.setBounds(0,605, 100, 20);
+        animateLabel.setBounds(0, 605, 100, 20);
         perlinFrame.getContentPane().add(animateLabel);
 
         generate = new CyderButton("Generate");
         generate.addActionListener(e -> generate());
         generate.setToolTipText("resets the seed, octaves, and current noise");
-        generate.setBounds(25 + 25 + 50,630, 180, 40);
+        generate.setBounds(25 + 25 + 50, 630, 180, 40);
         perlinFrame.getContentPane().add(generate);
 
         nextIteration = new CyderButton("Next Iteration");
         nextIteration.addActionListener(e -> nextIteration());
         nextIteration.setToolTipText("increments the octave and displayed the revalidated noise");
-        nextIteration.setBounds(25 + 25 + 50 + 180 + 25,630, 180, 40);
+        nextIteration.setBounds(25 + 25 + 50 + 180 + 25, 630, 180, 40);
         perlinFrame.getContentPane().add(nextIteration);
 
         ArrayList<SwitcherState> states = new ArrayList<>();
@@ -343,12 +343,12 @@ public class PerlinWidget {
         switcher = new CyderSwitcher(80, 40, states, twoDimensionState);
         switcher.setBounds(25 + 25 + 50 + 180 + 25 + 180 + 25, 630, 80, 40);
         perlinFrame.getContentPane().add(switcher);
-        switcher.getIterationButton().addActionListener(e ->  {
+        switcher.getIterationButton().addActionListener(e -> {
             nextIteration();
 
             timeStep += 0.1;
-            for (int y = 0; y < resolution; y++) {
-                for (int x = 0; x < resolution; x++) {
+            for (int y = 0 ; y < resolution ; y++) {
+                for (int x = 0 ; x < resolution ; x++) {
                     double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
                     _3DNoise[x][y].setColor(generateGrayscaleColor(value));
                     _3DNoise[x][y].setX(x);
@@ -403,8 +403,8 @@ public class PerlinWidget {
                     * (MAXIMUM_FEATURE_SIZE - MINIMUM_FEATURE_SIZE) + MINIMUM_FEATURE_SIZE;
 
             if (switcher.getCurrentState().equals(threeDimensionState) && !timer.isRunning()) {
-                for (int y = 0; y < resolution; y++) {
-                    for (int x = 0; x < resolution; x++) {
+                for (int y = 0 ; y < resolution ; y++) {
+                    for (int x = 0 ; x < resolution ; x++) {
                         double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
                         _3DNoise[x][y].setColor(generateGrayscaleColor(value));
                         _3DNoise[x][y].setX(x);
@@ -432,15 +432,15 @@ public class PerlinWidget {
             return;
 
         if (animateCheckBox.isSelected()) {
-           if (timer.isRunning()) {
-               timer.stop();
-               unlockUI();
-               generate.setText("Generate");
-           } else {
-               lockUI();
-               generate.setText("Stop");
-               timer.start();
-           }
+            if (timer.isRunning()) {
+                timer.stop();
+                unlockUI();
+                generate.setText("Generate");
+            } else {
+                lockUI();
+                generate.setText("Stop");
+                timer.start();
+            }
         } else {
             if (switcher.getCurrentState().equals(twoDimensionState)) {
                 if (timer.isRunning()) {
@@ -465,9 +465,9 @@ public class PerlinWidget {
                 //reset timeStep
                 timeStep = 0;
 
-                noise = new SimplexNoiseUtil(NumberUtil.randInt(0,1000));
-                for (int y = 0; y < resolution; y++) {
-                    for (int x = 0; x < resolution; x++) {
+                noise = new SimplexNoiseUtil(NumberUtil.randInt(0, 1000));
+                for (int y = 0 ; y < resolution ; y++) {
+                    for (int x = 0 ; x < resolution ; x++) {
                         double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
                         _3DNoise[x][y].setColor(generateGrayscaleColor(value));
                         _3DNoise[x][y].setX(x);
@@ -510,31 +510,31 @@ public class PerlinWidget {
     /**
      * Generates perlin noise based on common algorithm implementation.
      *
-     * @param fSeed the seed value
+     * @param fSeed    the seed value
      * @param nOctaves the number of iterations to perform the algorithm on
      * @return 2D perlin noise representation (values are between 0 and 1)
      */
     private static float[] generate2DNoise(float[] fSeed, int nOctaves) {
         float[] ret = new float[resolution];
 
-        for (int x = 0; x < resolution; x++) {
-           float fNoise = 0.0f;
-           float fScale = 1.0f;
-           float fScaleAcc = 0.0f;
+        for (int x = 0 ; x < resolution ; x++) {
+            float fNoise = 0.0f;
+            float fScale = 1.0f;
+            float fScaleAcc = 0.0f;
 
-           for (int o = 0 ; o < nOctaves ; o++) {
-               int nPitch = resolution >> o; //assuming octaves is a power of 2
-               int nSample1 =  (x / nPitch) * nPitch;
-               int nSample2 = (nSample1 + nPitch) % resolution;
+            for (int o = 0 ; o < nOctaves ; o++) {
+                int nPitch = resolution >> o; //assuming octaves is a power of 2
+                int nSample1 = (x / nPitch) * nPitch;
+                int nSample2 = (nSample1 + nPitch) % resolution;
 
-               float fBlend = (float) (x - nSample1) / (float) nPitch;
-               float fSample = (1.0f - fBlend) * fSeed[nSample1] + fBlend * fSeed[nSample2];
-               fNoise +=  fSample * fScale;
-               fScaleAcc += fScale;
-               fScale = fScale / 2.0f;
-           }
+                float fBlend = (float) (x - nSample1) / (float) nPitch;
+                float fSample = (1.0f - fBlend) * fSeed[nSample1] + fBlend * fSeed[nSample2];
+                fNoise += fSample * fScale;
+                fScaleAcc += fScale;
+                fScale = fScale / 2.0f;
+            }
 
-           ret[x] = fNoise / fScaleAcc;
+            ret[x] = fNoise / fScaleAcc;
         }
 
         return ret;
@@ -566,8 +566,8 @@ public class PerlinWidget {
         } else {
             timeStep += 0.1;
 
-            for (int y = 0; y < resolution; y++) {
-                for (int x = 0; x < resolution; x++) {
+            for (int y = 0 ; y < resolution ; y++) {
+                for (int x = 0 ; x < resolution ; x++) {
                     // just to be safe
                     if (closed)
                         return;
@@ -591,7 +591,7 @@ public class PerlinWidget {
      * @return a grayscale color unique to the double provided.
      */
     private static Color generateGrayscaleColor(double value) {
-        return new Color(0x010101 * (int)((value + 1) * 127.5));
+        return new Color(0x010101 * (int) ((value + 1) * 127.5));
     }
 
     /**
@@ -621,6 +621,6 @@ public class PerlinWidget {
      * @return the gray scale color for the provided float
      */
     private static Color getColor(float val) {
-        return Color.decode(String.valueOf(0x010101 * (int)((val + 1) * 127.5)));
+        return Color.decode(String.valueOf(0x010101 * (int) ((val + 1) * 127.5)));
     }
 }

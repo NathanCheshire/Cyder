@@ -379,7 +379,7 @@ public class ReflectionUtil {
                 if (!clazz.getName().toLowerCase().endsWith("widget")) {
                     Logger.log(Logger.Tag.DEBUG,
                             "Class annotated with @Vanilla does not end" +
-                            " with Widget; name: " + clazz.getName());
+                                    " with Widget; name: " + clazz.getName());
                 }
 
                 if (!clazz.isAnnotationPresent(CyderAuthor.class)) {

@@ -13,7 +13,7 @@ public class TaggedString {
      * The type a given String is: HTML or TEXT
      */
     public enum Type {
-        HTML,TEXT
+        HTML, TEXT
     }
 
     private String text;
@@ -55,7 +55,8 @@ public class TaggedString {
     public boolean equals(Object o) {
         if (this == o) {
             return true;
-        } if (!(o instanceof TaggedString)) {
+        }
+        if (!(o instanceof TaggedString)) {
             return false;
         }
 

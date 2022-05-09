@@ -198,14 +198,14 @@ public class HangmanGame {
             char[] wordArr = hangmanWord.toCharArray();
             char[] compArr = currentLabelText.toCharArray();
 
-            for (int i = 0; i < wordArr.length; i++) {
+            for (int i = 0 ; i < wordArr.length ; i++) {
                 if (wordArr[i] == letter)
                     compArr[i] = wordArr[i];
             }
 
             String newLabelText = "";
 
-            for (int i = 0; i < compArr.length; i++) {
+            for (int i = 0 ; i < compArr.length ; i++) {
                 newLabelText += compArr[i];
                 if (i != compArr.length - 1)
                     newLabelText += " ";

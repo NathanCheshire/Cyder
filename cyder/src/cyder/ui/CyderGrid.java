@@ -137,7 +137,7 @@ public class CyderGrid extends JLabel {
     /**
      * Default constructor for CyderGrid.
      *
-     * @param nodes the amount of nodes to initially draw: nodes x nodes
+     * @param nodes               the amount of nodes to initially draw: nodes x nodes
      * @param gridComponentLength the physical length of this component on its parent container
      */
     public CyderGrid(int nodes, int gridComponentLength) {
@@ -214,8 +214,8 @@ public class CyderGrid extends JLabel {
     /**
      * Adds a node at the provided location if it is not already on the grid.
      *
-     * @param x the x value of the grid node to add
-     * @param y the y value of the grid node to add
+     * @param x     the x value of the grid node to add
+     * @param y     the y value of the grid node to add
      * @param color the color of the node
      */
     public void addNode(int x, int y, Color color) {
@@ -334,7 +334,7 @@ public class CyderGrid extends JLabel {
             //fill the background in if it is set
             if (getBackground() != null) {
                 g2d.setColor(getBackground());
-                g2d.fillRect(0,0, drawTo, drawTo);
+                g2d.fillRect(0, 0, drawTo, drawTo);
             }
 
             g2d.setColor(CyderColors.navy);
@@ -456,7 +456,7 @@ public class CyderGrid extends JLabel {
      * Used for grid operations triggered by a user mouse event to account for
      * the possible relative node.
      *
-     * @param event the mouse event of where the user clicked/dragged on
+     * @param event     the mouse event of where the user clicked/dragged on
      * @param dragEvent whether the event was a drag event
      */
     private void handleEventAccountingForOffset(MouseEvent event, boolean dragEvent) {

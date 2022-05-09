@@ -23,14 +23,14 @@ public class SwitcherState {
      * @param value the display value and underlying map value of the state
      */
     public SwitcherState(String value) {
-       this(value, value);
+        this(value, value);
     }
 
     /**
      * Constructs a new switch state
      *
      * @param displayValue the display value of the state
-     * @param mappedValue the underlying value of the state
+     * @param mappedValue  the underlying value of the state
      */
     public SwitcherState(String displayValue, String mappedValue) {
         Preconditions.checkArgument(displayValue != null, "Display value is null");

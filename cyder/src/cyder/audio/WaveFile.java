@@ -17,7 +17,7 @@ import java.nio.ByteOrder;
  * Wrapper class for a wave (.wav) file.
  * See <a href="http://soundfile.sapp.org/doc/WaveFormat">this link</a>
  * to reference the wav file data structure.
- *
+ * <p>
  * Instances of this class are immutable.
  */
 @Immutable
@@ -149,7 +149,7 @@ public class WaveFile {
 
         byte[] sampleBytes = new byte[INT_SIZE];
 
-        for (int i = 0; i < sampleSize; i++) {
+        for (int i = 0 ; i < sampleSize ; i++) {
             sampleBytes[i] = data[samplePoint * sampleSize * numChannels + i];
         }
 

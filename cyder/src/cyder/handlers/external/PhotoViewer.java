@@ -83,7 +83,7 @@ public class PhotoViewer {
         File currentImage = validDirectoryImages.get(0);
 
         if (startDir.isFile()) {
-            for (int i = 0; i < validDirectoryImages.size() ; i++) {
+            for (int i = 0 ; i < validDirectoryImages.size() ; i++) {
                 if (validDirectoryImages.get(i).equals(startDir)) {
                     currentImage = validDirectoryImages.get(i);
                     break;
@@ -245,48 +245,48 @@ public class PhotoViewer {
         }
 
         CyderThreadRunner.submit(() -> {
-           try {
-               GetterBuilder builder = new GetterBuilder("Rename");
-               builder.setRelativeTo(pictureFrame);
-               builder.setFieldTooltip("Valid filename");
-               builder.setSubmitButtonText("Rename");
-               String name = GetterUtil.getInstance().getString(builder);
+            try {
+                GetterBuilder builder = new GetterBuilder("Rename");
+                builder.setRelativeTo(pictureFrame);
+                builder.setFieldTooltip("Valid filename");
+                builder.setSubmitButtonText("Rename");
+                String name = GetterUtil.getInstance().getString(builder);
 
-               if (!StringUtil.isNull(name)) {
-                   File oldName = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
+                if (!StringUtil.isNull(name)) {
+                    File oldName = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
 
-                   String replaceOldName = FileUtil.getFilename(oldName);
+                    String replaceOldName = FileUtil.getFilename(oldName);
 
-                   File newName = new File(oldName.getAbsolutePath()
-                           .replace(replaceOldName, name));
-                   boolean renamed = oldName.renameTo(newName);
+                    File newName = new File(oldName.getAbsolutePath()
+                            .replace(replaceOldName, name));
+                    boolean renamed = oldName.renameTo(newName);
 
-                   if (renamed) {
-                       pictureFrame.notify("Successfully renamed to " + name);
+                    if (renamed) {
+                        pictureFrame.notify("Successfully renamed to " + name);
 
-                       refreshValidFiles();
+                        refreshValidFiles();
 
-                       // update index based on new name
-                       for (int i = 0 ; i < validDirectoryImages.size() ; i++) {
-                           if (FileUtil.getFilename(validDirectoryImages.get(i)).equals(name)) {
-                               currentIndex = i;
-                           }
-                       }
+                        // update index based on new name
+                        for (int i = 0 ; i < validDirectoryImages.size() ; i++) {
+                            if (FileUtil.getFilename(validDirectoryImages.get(i)).equals(name)) {
+                                currentIndex = i;
+                            }
+                        }
 
-                       pictureFrame.setTitle(name);
+                        pictureFrame.setTitle(name);
 
-                       // invoke callback
-                       if (onRenameCallback != null) {
-                           onRenameCallback.run();
-                       }
-                   } else {
-                       pictureFrame.notify("Could not rename at this time");
-                   }
-               }
-           } catch (Exception e) {
-               ExceptionHandler.handle(e);
-           }
-       }, "PhotoViewer Image Renamer: " + this);
+                        // invoke callback
+                        if (onRenameCallback != null) {
+                            onRenameCallback.run();
+                        }
+                    } else {
+                        pictureFrame.notify("Could not rename at this time");
+                    }
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, "PhotoViewer Image Renamer: " + this);
     }
 
     /**

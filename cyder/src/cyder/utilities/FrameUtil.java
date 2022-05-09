@@ -68,7 +68,7 @@ public class FrameUtil {
         for (CyderFrame frame : getCyderFrames()) {
             if (frame.isVisible()
                     && frame.getWidth() >= CyderFrame.MINIMUM_WIDTH
-                    && frame.getHeight() >= CyderFrame.MINIMUM_HEIGHT)  {
+                    && frame.getHeight() >= CyderFrame.MINIMUM_HEIGHT) {
                 screenshotCyderFrame(frame);
             }
         }
@@ -95,7 +95,7 @@ public class FrameUtil {
 
         String saveName = refFrame.getTitle().substring(0, Math.min(15, refFrame.getTitle().length()));
         File refFile = UserUtil.createFileInUserSpace(saveName + "_" + TimeUtil.logTime()
-                + "_" + TimeUtil.logTime()+ ".png");
+                + "_" + TimeUtil.logTime() + ".png");
         return screenshotCyderFrame(refFrame, refFile);
     }
 
@@ -149,9 +149,9 @@ public class FrameUtil {
      *
      * @param requestedMonitor the id number of the monitor to place the frame on, if invalid,
      *                         the frame is placed in the center of the primary display
-     * @param requestedX the x value to set the frame to
-     * @param requestedY the y value to set the frame to
-     * @param frame the frame to set the location/size of
+     * @param requestedX       the x value to set the frame to
+     * @param requestedY       the y value to set the frame to
+     * @param frame            the frame to set the location/size of
      */
     public static void requestFramePosition(int requestedMonitor, int requestedX,
                                             int requestedY, CyderFrame frame) {
@@ -175,7 +175,7 @@ public class FrameUtil {
 
         //if too far right, set to max x for this monitor
         if (requestedX + frame.getWidth() > monitorX + monitorWidth) {
-            requestedX = monitorX  + monitorWidth - frame.getWidth();
+            requestedX = monitorX + monitorWidth - frame.getWidth();
         }
 
         //if too far left, set to min x for this monitor
@@ -210,7 +210,7 @@ public class FrameUtil {
      * Closes all instances of Frame. If a frame is an instance of CyderFrame,
      * fastClose follows the value provided.
      *
-     * @param fastClose whether to fastClose any instances of CyderFrame
+     * @param fastClose    whether to fastClose any instances of CyderFrame
      * @param ignoreFrames frames to not dispose if encountered
      */
     public static void closeAllFrames(boolean fastClose, Frame... ignoreFrames) {

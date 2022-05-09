@@ -9,7 +9,7 @@ import java.util.concurrent.Semaphore;
 /**
  * Links a JTextPane, StringUtil, and Semaphore all
  * together into one thread-safe happy little entity.
- *
+ * <p>
  * Note that this does not make the provided objedcts immutable and make defensive copies.
  * Instead this is merely a wrapper for these objects since they almost always exist together.
  */
@@ -41,7 +41,7 @@ public class CyderOutputPane {
      * Constructor for CyderOutputPane that takes in the JTextpane and StringUtil and
      * creates its own Semahore.
      *
-     * @param jTextPane the JTextPane to link
+     * @param jTextPane  the JTextPane to link
      * @param stringUtil the StringUtil to use for the JTextPane
      */
     public CyderOutputPane(JTextPane jTextPane, StringUtil stringUtil) {

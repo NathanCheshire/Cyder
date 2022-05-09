@@ -34,6 +34,7 @@ public class ExceptionHandler {
     /**
      * This method takes an exception, prints it to a string, and then passes the
      * error to the SessionLogger to be logged
+     *
      * @param e the exception we are handling and possibly informing the user of
      */
     public static void handle(Exception e) {
@@ -48,7 +49,7 @@ public class ExceptionHandler {
                     !ConsoleFrame.INSTANCE.isClosed() &&
                     UserUtil.getCyderUser().getSilenceerrors().equals("0")) {
 
-               showExceptionPane(e);
+                showExceptionPane(e);
             }
         } catch (Exception ex) {
             // uh oh
@@ -114,7 +115,7 @@ public class ExceptionHandler {
             StringBuilder builder = new StringBuilder();
             builder.append("<html>");
 
-            for (int i = 0 ; i < exceptionLines; i++) {
+            for (int i = 0 ; i < exceptionLines ; i++) {
                 builder.append(lines[i]);
 
                 if (i != lines.length - 1) {
@@ -196,6 +197,7 @@ public class ExceptionHandler {
     /**
      * This method handles an exception the same way as {@link ExceptionHandler#handle(Exception)} (String)}
      * except it does so without informing the user/developer/etc.
+     *
      * @param e the exception to be silently handled
      */
     public static void silentHandle(Exception e) {
@@ -259,8 +261,8 @@ public class ExceptionHandler {
      * Shows a popup with the provided error message. When the opened popup frame is disposed,
      * Cyder exits.
      *
-     * @param message the message of the popup
-     * @param title the title of the popup
+     * @param message   the message of the popup
+     * @param title     the title of the popup
      * @param condition the exit condition to log when exiting
      */
     public static void exceptionExit(String message, String title, ExitCondition condition) {

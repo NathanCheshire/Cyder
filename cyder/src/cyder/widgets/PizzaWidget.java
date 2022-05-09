@@ -51,13 +51,13 @@ public class PizzaWidget {
             pizzaFrame.dispose();
         }
 
-        pizzaFrame = new CyderFrame(600,800, CyderIcons.defaultBackground);
+        pizzaFrame = new CyderFrame(600, 800, CyderIcons.defaultBackground);
         pizzaFrame.setTitle("Pizza");
 
         JLabel CustomerName = new JLabel("Name:");
         CustomerName.setFont(CyderFonts.segoe20);
         CustomerName.setForeground(CyderColors.navy);
-        CustomerName.setBounds(40,45,100,30);
+        CustomerName.setBounds(40, 45, 100, 30);
         pizzaFrame.getContentPane().add(CustomerName);
 
         nameField = new CyderTextField(0);
@@ -85,31 +85,31 @@ public class PizzaWidget {
             }
         });
         nameField.setBackground(Color.white);
-        nameField.setBounds(140,40,400,40);
+        nameField.setBounds(140, 40, 400, 40);
         pizzaFrame.getContentPane().add(nameField);
 
         JLabel pizzaSizeLabel = new JLabel("Size:");
         pizzaSizeLabel.setFont(CyderFonts.segoe20);
         pizzaSizeLabel.setForeground(CyderColors.navy);
-        pizzaSizeLabel.setBounds(40,140,50,30);
+        pizzaSizeLabel.setBounds(40, 140, 50, 30);
         pizzaFrame.getContentPane().add(pizzaSizeLabel);
 
         JLabel smallLabel = new JLabel("Small");
         smallLabel.setFont(CyderFonts.segoe20);
         smallLabel.setForeground(CyderColors.navy);
-        smallLabel.setBounds(180,100,100,30);
+        smallLabel.setBounds(180, 100, 100, 30);
         pizzaFrame.getContentPane().add(smallLabel);
 
         JLabel mediumLabel = new JLabel("Medium");
         mediumLabel.setFont(CyderFonts.segoe20);
         mediumLabel.setForeground(CyderColors.navy);
-        mediumLabel.setBounds(285,100,100,30);
+        mediumLabel.setBounds(285, 100, 100, 30);
         pizzaFrame.getContentPane().add(mediumLabel);
 
         JLabel largeLabel = new JLabel("Large");
         largeLabel.setFont(CyderFonts.segoe20);
         largeLabel.setForeground(CyderColors.navy);
-        largeLabel.setBounds(420,100,100,30);
+        largeLabel.setBounds(420, 100, 100, 30);
         pizzaFrame.getContentPane().add(largeLabel);
 
         smallPizza = new CyderCheckbox();
@@ -122,7 +122,7 @@ public class PizzaWidget {
                 largePizza.setNotSelected();
             }
         });
-        smallPizza.setBounds(185,135,50,50);
+        smallPizza.setBounds(185, 135, 50, 50);
         pizzaFrame.getContentPane().add(smallPizza);
 
         mediumPizza = new CyderCheckbox();
@@ -135,7 +135,7 @@ public class PizzaWidget {
                 largePizza.setNotSelected();
             }
         });
-        mediumPizza.setBounds(305,135,50,50);
+        mediumPizza.setBounds(305, 135, 50, 50);
         pizzaFrame.getContentPane().add(mediumPizza);
 
         largePizza = new CyderCheckbox();
@@ -148,19 +148,19 @@ public class PizzaWidget {
                 mediumPizza.setNotSelected();
             }
         });
-        largePizza.setBounds(425,135,50,50);
+        largePizza.setBounds(425, 135, 50, 50);
         pizzaFrame.getContentPane().add(largePizza);
 
         JLabel crustLabel = new JLabel("Crust Type");
         crustLabel.setFont(CyderFonts.segoe20);
         crustLabel.setForeground(CyderColors.navy);
-        crustLabel.setBounds(90,210,130,30);
+        crustLabel.setBounds(90, 210, 130, 30);
         pizzaFrame.getContentPane().add(crustLabel);
 
         JLabel Toppings = new JLabel("Toppings");
         Toppings.setFont(CyderFonts.segoe20);
         Toppings.setForeground(CyderColors.navy);
-        Toppings.setBounds(370,210,130,30);
+        Toppings.setBounds(370, 210, 130, 30);
         pizzaFrame.getContentPane().add(Toppings);
 
         String[] crustTypes = {"Thin", "Thick", "Deep Dish", "Classic", "Tavern", "Seasonal"};
@@ -171,7 +171,7 @@ public class PizzaWidget {
         }
 
         JLabel crustTypeLabel = crustTypeScroll.generateScrollList();
-        crustTypeLabel.setBounds(80,250,160,200);
+        crustTypeLabel.setBounds(80, 250, 160, 200);
         pizzaFrame.getContentPane().add(crustTypeLabel);
 
         String[] pizzaToppings = {"Pepperoni", "Sausage", "Green Peppers",
@@ -184,58 +184,58 @@ public class PizzaWidget {
         }
 
         JLabel pizzaToppingsLabel = pizzaToppingsScroll.generateScrollList();
-        pizzaToppingsLabel.setBounds(320,250,200,200);
+        pizzaToppingsLabel.setBounds(320, 250, 200, 200);
         pizzaFrame.getContentPane().add(pizzaToppingsLabel);
 
         JLabel Extra = new JLabel("Extras:");
         Extra.setForeground(CyderColors.navy);
         Extra.setFont(CyderFonts.segoe20);
-        Extra.setBounds(40,510,130,30);
+        Extra.setBounds(40, 510, 130, 30);
         pizzaFrame.getContentPane().add(Extra);
 
         JLabel breadSticksLabel = new JLabel("Bread Sticks");
         breadSticksLabel.setFont(CyderFonts.segoe20);
         breadSticksLabel.setForeground(CyderColors.navy);
-        breadSticksLabel.setBounds(130,470,150,30);
+        breadSticksLabel.setBounds(130, 470, 150, 30);
         pizzaFrame.getContentPane().add(breadSticksLabel);
 
         breadSticks = new CyderCheckbox();
         breadSticks.setHorizontalAlignment(SwingConstants.CENTER);
         breadSticks.setNotSelected();
-        breadSticks.setBounds(165,505,50,50);
+        breadSticks.setBounds(165, 505, 50, 50);
         pizzaFrame.getContentPane().add(breadSticks);
 
         JLabel saladLabel = new JLabel("Salad");
         saladLabel.setFont(CyderFonts.segoe20);
         saladLabel.setForeground(CyderColors.navy);
-        saladLabel.setBounds(310,470,150,30);
+        saladLabel.setBounds(310, 470, 150, 30);
         pizzaFrame.getContentPane().add(saladLabel);
 
         salad = new CyderCheckbox();
         salad.setHorizontalAlignment(SwingConstants.CENTER);
         salad.setNotSelected();
-        salad.setBounds(315,505,50,50);
+        salad.setBounds(315, 505, 50, 50);
         pizzaFrame.getContentPane().add(salad);
 
         JLabel sodaLabel = new JLabel("Soda");
         sodaLabel.setFont(CyderFonts.segoe20);
         sodaLabel.setForeground(CyderColors.navy);
-        sodaLabel.setBounds(445,470,150,30);
+        sodaLabel.setBounds(445, 470, 150, 30);
         pizzaFrame.getContentPane().add(sodaLabel);
 
         soda = new CyderCheckbox();
         soda.setHorizontalAlignment(SwingConstants.CENTER);
         soda.setNotSelected();
-        soda.setBounds(445,505,50,50);
+        soda.setBounds(445, 505, 50, 50);
         pizzaFrame.getContentPane().add(soda);
 
         JLabel orderCommentsLabel = new JLabel("Order Comments");
         orderCommentsLabel.setFont(CyderFonts.segoe20);
         orderCommentsLabel.setForeground(CyderColors.navy);
-        orderCommentsLabel.setBounds(210,565,200,30);
+        orderCommentsLabel.setBounds(210, 565, 200, 30);
         pizzaFrame.getContentPane().add(orderCommentsLabel);
 
-        orderComments = new JTextArea(5,20);
+        orderComments = new JTextArea(5, 20);
         orderComments.setFont(CyderFonts.segoe20);
         orderComments.setAutoscrolls(true);
         orderComments.setLineWrap(true);
@@ -250,9 +250,9 @@ public class PizzaWidget {
         orderCommentsScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         orderCommentsScroll.getViewport().setBorder(null);
         orderCommentsScroll.setViewportBorder(null);
-        orderCommentsScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
-        orderCommentsScroll.setPreferredSize(new Dimension(400,200));
-        orderCommentsScroll.setBounds(80,600,600 - 160,120);
+        orderCommentsScroll.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        orderCommentsScroll.setPreferredSize(new Dimension(400, 200));
+        orderCommentsScroll.setBounds(80, 600, 600 - 160, 120);
         pizzaFrame.getContentPane().add(orderCommentsScroll);
 
         CyderButton placeOrder = new CyderButton("Place Order");
@@ -315,12 +315,12 @@ public class PizzaWidget {
                 Comments = Comments.trim().isEmpty() ? "" : "<br/>Comments: " + "<br/>" + Comments;
 
                 pizzaFrame.inform("Customer Name: " + "<br/>" + Name + "<br/>" + "Size: "
-                    + "<br/>" + Size + "<br/>" + "Crust: " + "<br/>" + Crust + "<br/><br/>" + "Toppings: " + "<br/>" + ToppingsChosen
-                        + Extras + Comments,"");
+                        + "<br/>" + Size + "<br/>" + "Crust: " + "<br/>" + Crust + "<br/><br/>" + "Toppings: " + "<br/>" + ToppingsChosen
+                        + Extras + Comments, "");
 
             }
         });
-        placeOrder.setBounds(80,740,200,40);
+        placeOrder.setBounds(80, 740, 200, 40);
         pizzaFrame.getContentPane().add(placeOrder);
 
         CyderButton resetPizza = new CyderButton("Reset");
@@ -338,7 +338,7 @@ public class PizzaWidget {
             orderComments.setText("");
 
         });
-        resetPizza.setBounds(180 + 100 + 40,740,200,40);
+        resetPizza.setBounds(180 + 100 + 40, 740, 200, 40);
         pizzaFrame.getContentPane().add(resetPizza);
 
         pizzaFrame.finalizeAndShow();

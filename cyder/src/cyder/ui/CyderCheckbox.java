@@ -16,7 +16,7 @@ public class CyderCheckbox extends JLabel {
     private boolean selected;
     private boolean enabled = true;
     public static final int sideLength = 50;
-    private Color background = new Color(21,23,24);
+    private Color background = new Color(21, 23, 24);
     private boolean roundedCorners = true;
     private CyderCheckboxGroup cyderCheckboxGroup;
 
@@ -164,10 +164,10 @@ public class CyderCheckbox extends JLabel {
                 graphics2D.setPaint(background);
                 GeneralPath outlinePath = new GeneralPath();
                 outlinePath.moveTo(0, 0);
-                outlinePath.lineTo(sideLength,0);
-                outlinePath.lineTo(sideLength,sideLength);
-                outlinePath.lineTo(0,sideLength);
-                outlinePath.lineTo(0,0);
+                outlinePath.lineTo(sideLength, 0);
+                outlinePath.lineTo(sideLength, sideLength);
+                outlinePath.lineTo(0, sideLength);
+                outlinePath.lineTo(0, 0);
                 outlinePath.closePath();
                 graphics2D.fill(outlinePath);
 
@@ -197,20 +197,20 @@ public class CyderCheckbox extends JLabel {
                 graphics2D.setPaint(background);
                 GeneralPath outlinePath = new GeneralPath();
                 outlinePath.moveTo(0, 0);
-                outlinePath.lineTo(sideLength,0);
-                outlinePath.lineTo(sideLength,sideLength);
-                outlinePath.lineTo(0,50);
-                outlinePath.lineTo(0,0);
+                outlinePath.lineTo(sideLength, 0);
+                outlinePath.lineTo(sideLength, sideLength);
+                outlinePath.lineTo(0, 50);
+                outlinePath.lineTo(0, 0);
                 outlinePath.closePath();
                 graphics2D.fill(outlinePath);
 
                 graphics2D.setPaint(CyderColors.vanila);
                 GeneralPath fillPath = new GeneralPath();
                 fillPath.moveTo(borderWidth, borderWidth);
-                fillPath.lineTo(sideLength - borderWidth,borderWidth);
-                fillPath.lineTo(sideLength - borderWidth,sideLength - borderWidth);
-                fillPath.lineTo(borderWidth,sideLength - borderWidth);
-                fillPath.lineTo(borderWidth,borderWidth);
+                fillPath.lineTo(sideLength - borderWidth, borderWidth);
+                fillPath.lineTo(sideLength - borderWidth, sideLength - borderWidth);
+                fillPath.lineTo(borderWidth, sideLength - borderWidth);
+                fillPath.lineTo(borderWidth, borderWidth);
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
             }

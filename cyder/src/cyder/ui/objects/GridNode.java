@@ -43,8 +43,8 @@ public final class GridNode {
      * Constructs a new GridNode.
      *
      * @param color the color of this node.
-     * @param x the x value of this node
-     * @param y the y value of this node
+     * @param x     the x value of this node
+     * @param y     the y value of this node
      */
     public GridNode(Color color, int x, int y) {
         this.color = color;

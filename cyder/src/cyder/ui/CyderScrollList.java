@@ -82,13 +82,13 @@ public class CyderScrollList {
      * Constructs a new scroll list object.
      */
     public CyderScrollList() {
-        this(400,400);
+        this(400, 400);
     }
 
     /**
      * Constructs a new scroll list object.
      *
-     * @param width the width of the component.
+     * @param width  the width of the component.
      * @param height the height of the component
      */
     public CyderScrollList(int width, int height) {
@@ -98,8 +98,8 @@ public class CyderScrollList {
     /**
      * Constructs a new scroll list object.
      *
-     * @param width the width of the component
-     * @param height the height of the component
+     * @param width           the width of the component
+     * @param height          the height of the component
      * @param selectionPolicy the selection policy of the scroll list
      */
     public CyderScrollList(int width, int height, SelectionPolicy selectionPolicy) {
@@ -109,10 +109,10 @@ public class CyderScrollList {
     /**
      * Constructs a new scroll list object.
      *
-     * @param width the width of the component
-     * @param height the height of the component
+     * @param width           the width of the component
+     * @param height          the height of the component
      * @param selectionPolicy the selection policy of the component
-     * @param darkMode whether the component should be constructed in a dark mode format
+     * @param darkMode        whether the component should be constructed in a dark mode format
      */
     public CyderScrollList(int width, int height, SelectionPolicy selectionPolicy, boolean darkMode) {
         this.width = width;
@@ -126,7 +126,7 @@ public class CyderScrollList {
         }
 
         border = new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
-                : CyderColors.navy,5,false);
+                : CyderColors.navy, 5, false);
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
@@ -237,7 +237,7 @@ public class CyderScrollList {
         listPane = new JTextPane();
         listPane.setEditable(false);
         listPane.setAutoscrolls(false);
-        listPane.setBounds(0, 0, width , height);
+        listPane.setBounds(0, 0, width, height);
         listPane.setFocusable(true);
         listPane.setOpaque(false);
         listPane.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.vanila);
@@ -301,7 +301,7 @@ public class CyderScrollList {
      * Adds a new element to the scroll list.
      *
      * @param labelText the text for the element to have
-     * @param action the action to invoke when the element is double clicked
+     * @param action    the action to invoke when the element is double clicked
      */
     public final void addElement(String labelText, Runnable action) {
         Preconditions.checkNotNull(labelText);
@@ -333,7 +333,7 @@ public class CyderScrollList {
      * Adds a new element to the scroll list.
      *
      * @param labelText the text for the element to have
-     * @param action the action to invoke when the element is clicked once
+     * @param action    the action to invoke when the element is clicked once
      */
     public final void addElementWithSingleCLickAction(String labelText, Runnable action) {
         Preconditions.checkNotNull(labelText);

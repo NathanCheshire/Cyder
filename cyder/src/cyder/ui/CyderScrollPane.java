@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 
 /**
  * A custom implementation of a ScrollPane to give it a more modern feel.
- *
+ * <p>
  * Credit: Philipp Danner from Stack Overflow
  * https://stackoverflow.com/questions/16373459/java-jscrollbar-design/16375805
  */
@@ -30,8 +30,8 @@ public class CyderScrollPane extends JScrollPane {
         this(view, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
         setThumbColor(CyderColors.regularPink);
         setFont(CyderFonts.segoe20);
-        setBackground(new Color(0,0,0,0));
-        getViewport().setBackground(new Color(0,0,0,0));
+        setBackground(new Color(0, 0, 0, 0));
+        getViewport().setBackground(new Color(0, 0, 0, 0));
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -49,8 +49,8 @@ public class CyderScrollPane extends JScrollPane {
         horizontalScrollBarPolicy = hsbPolicy;
         setThumbColor(CyderColors.regularPink);
         setFont(CyderFonts.segoe20);
-        setBackground(new Color(0,0,0,0));
-        getViewport().setBackground(new Color(0,0,0,0));
+        setBackground(new Color(0, 0, 0, 0));
+        getViewport().setBackground(new Color(0, 0, 0, 0));
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -99,43 +99,43 @@ public class CyderScrollPane extends JScrollPane {
 
             @Override
             public void layoutContainer(Container parent) {
-            Rectangle availR = parent.getBounds();
-            availR.x = availR.y = 0;
+                Rectangle availR = parent.getBounds();
+                availR.x = availR.y = 0;
 
-            // viewport
-            Insets insets = parent.getInsets();
-            availR.x = insets.left;
-            availR.y = insets.top;
-            availR.width -= insets.left + insets.right;
-            availR.height -= insets.top + insets.bottom;
-            if (viewport != null) {
-                viewport.setBounds(availR);
-            }
-
-            boolean vsbNeeded = isVerticalScrollBarNecessary();
-            boolean hsbNeeded = isHorizontalScrollBarNecessary();
-
-            if (vsbNeeded) {
-                Rectangle vsbR = new Rectangle();
-                vsbR.width = SB_SIZE;
-                vsbR.height = availR.height - (hsbNeeded ? vsbR.width : 0);
-                vsbR.x = availR.x + availR.width - vsbR.width;
-                vsbR.y = availR.y;
-                if (vsb != null) {
-                    vsb.setBounds(vsbR);
+                // viewport
+                Insets insets = parent.getInsets();
+                availR.x = insets.left;
+                availR.y = insets.top;
+                availR.width -= insets.left + insets.right;
+                availR.height -= insets.top + insets.bottom;
+                if (viewport != null) {
+                    viewport.setBounds(availR);
                 }
-            }
 
-            if (hsbNeeded) {
-                Rectangle hsbR = new Rectangle();
-                hsbR.height = SB_SIZE;
-                hsbR.width = availR.width - (vsbNeeded ? hsbR.height : 0);
-                hsbR.x = availR.x;
-                hsbR.y = availR.y + availR.height - hsbR.height;
-                if (hsb != null) {
-                    hsb.setBounds(hsbR);
+                boolean vsbNeeded = isVerticalScrollBarNecessary();
+                boolean hsbNeeded = isHorizontalScrollBarNecessary();
+
+                if (vsbNeeded) {
+                    Rectangle vsbR = new Rectangle();
+                    vsbR.width = SB_SIZE;
+                    vsbR.height = availR.height - (hsbNeeded ? vsbR.width : 0);
+                    vsbR.x = availR.x + availR.width - vsbR.width;
+                    vsbR.y = availR.y;
+                    if (vsb != null) {
+                        vsb.setBounds(vsbR);
+                    }
                 }
-            }
+
+                if (hsbNeeded) {
+                    Rectangle hsbR = new Rectangle();
+                    hsbR.height = SB_SIZE;
+                    hsbR.width = availR.width - (vsbNeeded ? hsbR.height : 0);
+                    hsbR.x = availR.x;
+                    hsbR.y = availR.y + availR.height - hsbR.height;
+                    if (hsb != null) {
+                        hsb.setBounds(hsbR);
+                    }
+                }
             }
         });
 
@@ -202,7 +202,8 @@ public class CyderScrollPane extends JScrollPane {
          * {@inheritDoc}
          */
         @Override
-        protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {}
+        protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
+        }
 
         @Override
         protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {

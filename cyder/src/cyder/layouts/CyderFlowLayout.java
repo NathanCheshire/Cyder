@@ -145,7 +145,7 @@ public class CyderFlowLayout extends CyderLayout {
      * Constructs a new FlowLayout with the provided alignment and component gaps of 5 pixels.
      *
      * @param horizontalAlignment the horizontal alignment to use
-     * @param verticalAlignment the vertical alignment to use
+     * @param verticalAlignment   the vertical alignment to use
      */
     public CyderFlowLayout(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment) {
         this(horizontalAlignment, verticalAlignment, DEFAULT_HGAP, DEFAULT_VGAP);
@@ -156,11 +156,11 @@ public class CyderFlowLayout extends CyderLayout {
      * between the components of "hgap" pixels and "vgap" pixels.
      *
      * @param horizontalAlignment the alignment to use to determine what
-     *                           to do with excess space on the horizontal axis
-     * @param verticalAlignment the alignment to use to determine what
-     *                          to do with excess space on the vertical axis
-     * @param hgap the horizontal spacing value
-     * @param vgap the vertical spacing value
+     *                            to do with excess space on the horizontal axis
+     * @param verticalAlignment   the alignment to use to determine what
+     *                            to do with excess space on the vertical axis
+     * @param hgap                the horizontal spacing value
+     * @param vgap                the vertical spacing value
      */
     public CyderFlowLayout(HorizontalAlignment horizontalAlignment,
                            VerticalAlignment verticalAlignment, int hgap, int vgap) {
@@ -396,7 +396,7 @@ public class CyderFlowLayout extends CyderLayout {
 
             // now figure out how much width this row really requires (we know it will fit).
             // the initial value is -hgap to offset the last component having an hgap after it
-            int necessaryWidth = - hgap;
+            int necessaryWidth = -hgap;
             int componentCount = 0;
             for (Component flowComponent : currentRow) {
                 necessaryWidth += flowComponent.getWidth() + hgap;
@@ -499,7 +499,7 @@ public class CyderFlowLayout extends CyderLayout {
             }
 
             // increment the centering line by the other half of the max height
-            currentHeightCenteringInc +=  maxHeight / 2;
+            currentHeightCenteringInc += maxHeight / 2;
 
             // additionally increment by the vertical gap which may or may not be
             // the one passed in depending on the horizontal alingment

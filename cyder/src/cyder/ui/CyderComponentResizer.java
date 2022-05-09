@@ -122,7 +122,7 @@ public class CyderComponentResizer extends MouseAdapter {
      * Constructs a new component resizer
      *
      * @param dragInsets the drag insets for the component
-     * @param snapSize the snap size for the component
+     * @param snapSize   the snap size for the component
      */
     private CyderComponentResizer(Insets dragInsets, Dimension snapSize) {
         setDragInsets(dragInsets);
@@ -368,7 +368,7 @@ public class CyderComponentResizer extends MouseAdapter {
         Component source = e.getComponent();
         source.setCursor(sourceCursor);
 
-        if (source instanceof JComponent  && !(source instanceof CyderFrame)) {
+        if (source instanceof JComponent && !(source instanceof CyderFrame)) {
             ((JComponent) source).setAutoscrolls(componentIsAutoscroll);
         }
 
@@ -415,11 +415,11 @@ public class CyderComponentResizer extends MouseAdapter {
     /**
      * Updates the component bounds on drag events.
      *
-     * @param source the source component
+     * @param source    the source component
      * @param direction the direction of the drag
-     * @param bounds the old bounds of the component
-     * @param pressed the point at which the component was pressed
-     * @param current the current point at which the component is pressed
+     * @param bounds    the old bounds of the component
+     * @param pressed   the point at which the component was pressed
+     * @param current   the current point at which the component is pressed
      */
     protected void changeBounds(Component source, int direction, Rectangle bounds, Point pressed, Point current) {
         if (!resizingAllowed)
@@ -450,7 +450,7 @@ public class CyderComponentResizer extends MouseAdapter {
 
         if (EAST == (direction & EAST)) {
             int drag = getDragDistance(current.x, pressed.x, snapSize.width);
-            Dimension boundingSize = getBoundingSize( source );
+            Dimension boundingSize = getBoundingSize(source);
             int maximum = Math.min(boundingSize.width - x, maximumSize.width);
             drag = getDragBounded(drag, snapSize.width, width, minimumSize.width, maximum);
             width += drag;
@@ -458,7 +458,7 @@ public class CyderComponentResizer extends MouseAdapter {
 
         if (SOUTH == (direction & SOUTH)) {
             int drag = getDragDistance(current.y, pressed.y, snapSize.height);
-            Dimension boundingSize = getBoundingSize( source );
+            Dimension boundingSize = getBoundingSize(source);
             int maximum = Math.min(boundingSize.height - y, maximumSize.height);
             drag = getDragBounded(drag, snapSize.height, height, minimumSize.height, maximum);
             height += drag;
@@ -494,8 +494,8 @@ public class CyderComponentResizer extends MouseAdapter {
     /**
      * Returns the dragged distance rounding to the nearest snap size.
      *
-     * @param larger the larger of the two values
-     * @param smaller the smaller of the two values
+     * @param larger   the larger of the two values
+     * @param smaller  the smaller of the two values
      * @param snapSize the current snap size
      * @return the distance dragged between the two values
      * rounded to the nearest snap size increment.
@@ -503,7 +503,7 @@ public class CyderComponentResizer extends MouseAdapter {
     private int getDragDistance(int larger, int smaller, int snapSize) {
         int halfway = snapSize / 2;
         int drag = larger - smaller;
-        drag += (drag < 0) ? - halfway : halfway;
+        drag += (drag < 0) ? -halfway : halfway;
         drag = (drag / snapSize) * snapSize;
 
         return drag;
@@ -512,11 +512,11 @@ public class CyderComponentResizer extends MouseAdapter {
     /**
      * Returns the drag after accounting for possible out of bounds dragging and the snap size.
      *
-     * @param drag the current drag distance
-     * @param snapSize the current snap size
+     * @param drag      the current drag distance
+     * @param snapSize  the current snap size
      * @param dimension the current dimension we are working with such as height
-     * @param minimum the minimum of the dimension
-     * @param maximum the maximum of the dimension
+     * @param minimum   the minimum of the dimension
+     * @param maximum   the maximum of the dimension
      * @return the bounded drag after accounting for the outlined conditions
      */
     private int getDragBounded(int drag, int snapSize, int dimension, int minimum, int maximum) {

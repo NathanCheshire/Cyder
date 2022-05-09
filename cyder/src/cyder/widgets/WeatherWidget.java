@@ -119,11 +119,11 @@ public class WeatherWidget {
                     + UserUtil.getCyderUser().getName() + ", but"
                     + " this feature is suspended until a stable internet connection can be established");
             return;
-        } else if(StringUtil.isNull(UserUtil.getCyderUser().getWeatherkey())) {
+        } else if (StringUtil.isNull(UserUtil.getCyderUser().getWeatherkey())) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has "
                     + "not been set or is invalid, as a result, many features of Cyder will not work as"
                     + " intended. Please see the fields panel of the user editor to learn how to acquire "
-                    + "a key and set it.","Weather Key Not Set");
+                    + "a key and set it.", "Weather Key Not Set");
             return;
         }
 
@@ -132,11 +132,11 @@ public class WeatherWidget {
         if (weatherFrame != null)
             weatherFrame.dispose();
 
-        weatherFrame = new CyderFrame(480,640, new ImageIcon(
+        weatherFrame = new CyderFrame(480, 640, new ImageIcon(
                 ImageUtil.getImageGradient(480, 640,
-                        new Color(205,119,130),
-                        new Color(38,21,75),
-                        new Color(89,85,161)))) {
+                        new Color(205, 119, 130),
+                        new Color(38, 21, 75),
+                        new Color(89, 85, 161)))) {
             @Override
             public void dispose() {
                 update = false;
@@ -251,12 +251,12 @@ public class WeatherWidget {
             @Override
             public void paintComponent(Graphics g) {
                 g.setColor(CyderColors.navy);
-                g.fillRect(3,3,400 - 6,40 - 6);
+                g.fillRect(3, 3, 400 - 6, 40 - 6);
 
                 try {
                     // map temp val in width range
                     double tempVal = map(Double.parseDouble(temperature),
-                            minTemp, maxTemp, 0 , 400);
+                            minTemp, maxTemp, 0, 400);
 
                     // draw current temp line
                     g.setColor(CyderColors.regularPink);
@@ -264,7 +264,7 @@ public class WeatherWidget {
                     g.fillRect(line + 3, 3, 6, 34);
 
                     // set min temp label
-                    String minText = minTemp  + "F";
+                    String minText = minTemp + "F";
                     minTempLabel.setText(minText);
                     minTempLabel.setSize(
                             StringUtil.getMinWidth(minText, minTempLabel.getFont()),
@@ -273,7 +273,7 @@ public class WeatherWidget {
                     temperatureLabel.add(minTempLabel);
 
                     // set max temp label
-                    String maxText = maxTemp  + "F";
+                    String maxText = maxTemp + "F";
                     maxTempLabel.setText(maxText);
                     maxTempLabel.setSize(
                             StringUtil.getMinWidth(maxText, minTempLabel.getFont()),
@@ -289,9 +289,9 @@ public class WeatherWidget {
                 // border last, 3px
                 g.setColor(Color.black);
                 // left
-                g.fillRect(0,0,3,40);
+                g.fillRect(0, 0, 3, 40);
                 // right
-                g.fillRect(400 - 3,0,3,40);
+                g.fillRect(400 - 3, 0, 3, 40);
                 // top
                 g.fillRect(0, 0, 400, 3);
                 // bottom
@@ -317,7 +317,7 @@ public class WeatherWidget {
             @Override
             public void paintComponent(Graphics g) {
                 g.setColor(Color.black);
-                g.fillRect(0,0, 50, 50);
+                g.fillRect(0, 0, 50, 50);
 
                 g.setColor(CyderColors.navy);
                 g.fillRect(3, 3, getWidth() - 6, getHeight() - 6);
@@ -328,12 +328,12 @@ public class WeatherWidget {
                 double y = radius * Math.sin(theta);
 
                 int drawToX = (int) Math.round(x);
-                int drawToY = - (int) Math.round(y);
+                int drawToY = -(int) Math.round(y);
 
                 ((Graphics2D) g).setStroke(new BasicStroke(3));
                 g.setColor(CyderColors.regularPink);
                 g.drawLine(getWidth() / 2, getHeight() / 2,
-                        getWidth() / 2 + drawToX,  getWidth() / 2 + drawToY);
+                        getWidth() / 2 + drawToX, getWidth() / 2 + drawToY);
             }
         };
         windDirectionLabel.setBounds(weatherFrame.getWidth() / 2 - 50 / 2, 430, 50, 50);
@@ -365,22 +365,22 @@ public class WeatherWidget {
         CyderThreadRunner.submit(() -> {
             try {
                 EXIT:
-                    for (;;) {
-                        for (int i = 0 ; i < 60 * 5 ; i++) {
-                            if (!update)
-                                break EXIT;
-                            Thread.sleep(60 * 5);
-                        }
-                        repullWeatherStats();
+                for ( ; ; ) {
+                    for (int i = 0 ; i < 60 * 5 ; i++) {
+                        if (!update)
+                            break EXIT;
+                        Thread.sleep(60 * 5);
                     }
+                    repullWeatherStats();
+                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"Weather Stats Updater");
+        }, "Weather Stats Updater");
 
         CyderThreadRunner.submit(() -> {
             try {
-                for (;;) {
+                for ( ; ; ) {
                     if (!update)
                         break;
                     Thread.sleep(1000);
@@ -389,13 +389,13 @@ public class WeatherWidget {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"Weather Clock Updater");
+        }, "Weather Clock Updater");
     }
 
     /**
      * Maps the value in from one range to the next.
      *
-     * @param value the value to map
+     * @param value       the value to map
      * @param oldRangeMin the old range's min
      * @param oldRangeMax the old range's max
      * @param newRangeMin the new range's min
@@ -462,7 +462,7 @@ public class WeatherWidget {
             temperatureLabel.repaint();
 
             int temperatureLineCenter = (int) Math.ceil(temperatureLabel.getX() + map(Double.parseDouble(temperature),
-                                minTemp, maxTemp, 0 , 400)) + 5;
+                    minTemp, maxTemp, 0, 400)) + 5;
 
             currentTemperatureLabel.setText(temperature + "F");
 
@@ -504,9 +504,7 @@ public class WeatherWidget {
                 builder.setArrowDir(Direction.LEFT);
                 weatherFrame.notify(builder);
             }
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
@@ -634,7 +632,7 @@ public class WeatherWidget {
             } finally {
                 refreshWeatherLabels();
             }
-        },"Weather Stats Updater");
+        }, "Weather Stats Updater");
     }
 
     /**
@@ -663,32 +661,32 @@ public class WeatherWidget {
 
         // northern hemisphere
         if (bearing >= 0.0 && bearing <= 180.0) {
-           if (bearing == 0.0)
-               ret = "E";
-           else if (bearing == 180.0)
-               ret = "W";
-           else {
-               //we now know it's north something
-               ret += "N";
+            if (bearing == 0.0)
+                ret = "E";
+            else if (bearing == 180.0)
+                ret = "W";
+            else {
+                //we now know it's north something
+                ret += "N";
 
-               if (bearing > 90.0) {
-                   ret += "W";
-               } else if (bearing < 90.0){
-                   ret += "E";
-               }
-           }
-       }
-       // southern hemisphere excluding directly East and West
-       else {
-           //already know it must be S appended
-           ret = "S";
+                if (bearing > 90.0) {
+                    ret += "W";
+                } else if (bearing < 90.0) {
+                    ret += "E";
+                }
+            }
+        }
+        // southern hemisphere excluding directly East and West
+        else {
+            //already know it must be S appended
+            ret = "S";
 
-           //is it east
-           if (bearing < 270.0)
-               ret += "W";
-           if (bearing > 270.0)
-               ret += "E";
-       }
+            //is it east
+            if (bearing < 270.0)
+                ret += "W";
+            if (bearing > 270.0)
+                ret += "E";
+        }
 
         return ret;
     }

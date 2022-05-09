@@ -33,8 +33,8 @@ public class InformHandler {
      * A quick information pane.
      *
      * @param text the possibly html styled text to display.
-     * @throws IllegalArgumentException if the provided text is null
      * @return a reference to the shown inform frame
+     * @throws IllegalArgumentException if the provided text is null
      */
     @CanIgnoreReturnValue /* calls don't always need the reference */
     public static CyderFrame inform(String text) {
@@ -69,8 +69,8 @@ public class InformHandler {
      * Opens an information using the information provided by builder.
      *
      * @param builder the InformBuilder to use for the construction of the information pane
-     * @throws IllegalArgumentException if the provided builder is null
      * @return a reference to the shown inform frame
+     * @throws IllegalArgumentException if the provided builder is null
      */
     @CanIgnoreReturnValue /* calls don't always need the reference  */
     public static CyderFrame inform(InformBuilder builder) {

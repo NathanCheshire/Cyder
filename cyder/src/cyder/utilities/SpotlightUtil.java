@@ -84,7 +84,7 @@ public class SpotlightUtil {
 
         return new File(OSUtil.buildPath(
                 OSUtil.C_COLON_SLASH, "users", OSUtil.getSystemUsername(),
-                "AppData", "Local", "Packages",  local, "LocalState", "Assets"));
+                "AppData", "Local", "Packages", local, "LocalState", "Assets"));
     }
 
     /**

@@ -176,9 +176,9 @@ public class CyderSliderUI extends BasicSliderUI {
             g2d.setColor(fillColor);
             int x = (int) (trackRect.getX() + trackRect.getWidth() * slider.getValue() / 100.0 - (thumbDiameter / 4));
             int y = (int) (trackRect.getY() + trackRect.getHeight() / 2 - (thumbDiameter / 4));
-            g.fillOval(x, y,thumbDiameter / 2, thumbDiameter / 2);
+            g.fillOval(x, y, thumbDiameter / 2, thumbDiameter / 2);
             g2d.dispose();
-        } else if (sliderShape == SliderShape.RECT){
+        } else if (sliderShape == SliderShape.RECT) {
             Rectangle knobBounds = thumbRect;
             int w = knobBounds.width;
             int h = knobBounds.height;
@@ -240,9 +240,7 @@ public class CyderSliderUI extends BasicSliderUI {
                 if (thumbRect.contains(currentMouseX, currentMouseY)) {
                     upperPressed = true;
                 }
-            }
-
-            else {
+            } else {
                 if (thumbRect.contains(currentMouseX, currentMouseY)) {
                     upperPressed = true;
                 }

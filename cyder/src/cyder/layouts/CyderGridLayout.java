@@ -43,7 +43,7 @@ public class CyderGridLayout extends CyderLayout {
         ArrayList<Component> ret = new ArrayList<>();
 
         for (GridComponent[] component : components) {
-            for (int j = 0; j < components[0].length; j++) {
+            for (int j = 0 ; j < components[0].length ; j++) {
                 if (component[j] != null)
                     ret.add(component[j].getComponent());
             }
@@ -132,7 +132,7 @@ public class CyderGridLayout extends CyderLayout {
                 //otherwise if it doesn't fit in the partitioned space,
                 // set the size to as big as we can let it be so now overflow is visible
                 else if (refComponent.getOriginalWidth() >= widthPartition ||
-                         refComponent.getOriginalHeight() >= heightPartition) {
+                        refComponent.getOriginalHeight() >= heightPartition) {
                     refComponent.getComponent().setBounds(startX, startY,
                             //only one might be over the max value so take the min of partition and len
                             Math.min(widthPartition, refComponent.getOriginalWidth()),
@@ -152,21 +152,21 @@ public class CyderGridLayout extends CyderLayout {
                     switch (refComponent.getPosition()) {
                         case TOP_LEFT:
                             //move up and to the left
-                            adjustX = - (widthPartition - refComponent.getOriginalWidth()) / 2;
-                            adjustY = - (heightPartition - refComponent.getOriginalHeight()) / 2;
+                            adjustX = -(widthPartition - refComponent.getOriginalWidth()) / 2;
+                            adjustY = -(heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
                         case TOP_CENTER:
                             //move up
-                            adjustY = - (heightPartition - refComponent.getOriginalHeight()) / 2;
+                            adjustY = -(heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
                         case TOP_RIGHT:
                             //move up and right
                             adjustX = (widthPartition - refComponent.getOriginalWidth()) / 2;
-                            adjustY = - (heightPartition - refComponent.getOriginalHeight()) / 2;
+                            adjustY = -(heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
                         case MIDDLE_LEFT:
                             //move left
-                            adjustX = - (widthPartition - refComponent.getOriginalWidth()) / 2;
+                            adjustX = -(widthPartition - refComponent.getOriginalWidth()) / 2;
                             break;
                         case MIDDLE_CENTER:
                             //relative to origin so nothing done here
@@ -177,7 +177,7 @@ public class CyderGridLayout extends CyderLayout {
                             break;
                         case BOTTOM_LEFT:
                             //move down and left
-                            adjustX = - (widthPartition - refComponent.getOriginalWidth()) / 2;
+                            adjustX = -(widthPartition - refComponent.getOriginalWidth()) / 2;
                             adjustY = (heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
                         case BOTTOM_CENTER:
@@ -230,9 +230,9 @@ public class CyderGridLayout extends CyderLayout {
     /**
      * Adds the provided component to the grid at the first available space.
      *
-     * @param component the component to add to the grid if possible
+     * @param component       the component to add to the grid if possible
      * @param sectionPosition the position to set the component to if it fits
-     * in the partitioned space or how to position the component should it overflow the partitioned space
+     *                        in the partitioned space or how to position the component should it overflow the partitioned space
      * @return whether the component was added successfully
      */
     public boolean addComponent(Component component, Position sectionPosition) {
@@ -254,8 +254,8 @@ public class CyderGridLayout extends CyderLayout {
      * Adds the provided component to the grid at the specified location.
      *
      * @param component the component to add to the grid
-     * @param x the x value to add the component to
-     * @param y the y value to add the component to
+     * @param x         the x value to add the component to
+     * @param y         the y value to add the component to
      */
     public void addComponent(Component component, int x, int y) {
         if (components == null)
@@ -276,11 +276,11 @@ public class CyderGridLayout extends CyderLayout {
     /**
      * Adds the component to the grid at the specified location with the provided Position value.
      *
-     * @param component the component to add to the grid
-     * @param x the x value to add the component to
-     * @param y the y value to add the component to
+     * @param component       the component to add to the grid
+     * @param x               the x value to add the component to
+     * @param y               the y value to add the component to
      * @param sectionPosition the position value to use to
-     *        figure out how to place the component in its cell
+     *                        figure out how to place the component in its cell
      */
     public void addComponent(Component component, int x, int y, Position sectionPosition) {
         if (components == null)

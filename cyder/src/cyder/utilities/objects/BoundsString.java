@@ -27,9 +27,9 @@ public class BoundsString {
     /**
      * Constructs a new BoundsString object.
      *
-     * @param width the width for the string
+     * @param width  the width for the string
      * @param height the height for the string
-     * @param text the string text
+     * @param text   the string text
      */
     public BoundsString(int width, int height, String text) {
         this.width = width;

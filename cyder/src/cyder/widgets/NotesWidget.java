@@ -68,7 +68,7 @@ public class NotesWidget {
 
         noteFrames = new LinkedList<>();
 
-        noteFrame = new CyderFrame(600,625, CyderIcons.defaultBackground);
+        noteFrame = new CyderFrame(600, 625, CyderIcons.defaultBackground);
         noteFrame.setTitle(UserUtil.getCyderUser().getName() +
                 StringUtil.getApostrophe(UserUtil.getCyderUser().getName()) + " notes");
 
@@ -79,25 +79,25 @@ public class NotesWidget {
         for (int i = 0 ; i < noteNameList.size() ; i++) {
             int finalI = i;
             cyderScrollList.addElement(noteNameList.get(i),
-                    () ->  openNote(noteList.get(finalI)));
+                    () -> openNote(noteList.get(finalI)));
         }
 
         noteScrollLabel = cyderScrollList.generateScrollList();
-        noteScrollLabel.setBounds(40,40,520, 510);
+        noteScrollLabel.setBounds(40, 40, 520, 510);
         noteFrame.getContentPane().add(noteScrollLabel);
 
         CyderButton addNote = new CyderButton("Add Note");
-        addNote.setBorder(new LineBorder(CyderColors.navy,5,false));
+        addNote.setBorder(new LineBorder(CyderColors.navy, 5, false));
         addNote.setFocusPainted(false);
         addNote.setBackground(CyderColors.regularRed);
         addNote.setFont(CyderFonts.segoe20);
         addNote.addActionListener(e -> addNote());
-        addNote.setBounds(40,560,160,40);
+        addNote.setBounds(40, 560, 160, 40);
         noteFrame.getContentPane().add(addNote);
 
         openNote = new CyderButton("Open Note");
         openNote.setFocusPainted(false);
-        openNote.setBorder(new LineBorder(CyderColors.navy,5,false));
+        openNote.setBorder(new LineBorder(CyderColors.navy, 5, false));
         openNote.setBackground(CyderColors.regularRed);
         openNote.setFont(CyderFonts.segoe20);
         openNote.addActionListener(e -> {
@@ -115,11 +115,11 @@ public class NotesWidget {
                 }
             }
         });
-        openNote.setBounds(220,560,160,40);
+        openNote.setBounds(220, 560, 160, 40);
         noteFrame.getContentPane().add(openNote);
 
         CyderButton deleteNote = new CyderButton("Delete Note");
-        deleteNote.setBorder(new LineBorder(CyderColors.navy,5,false));
+        deleteNote.setBorder(new LineBorder(CyderColors.navy, 5, false));
         deleteNote.setFocusPainted(false);
         deleteNote.setBackground(CyderColors.regularRed);
         deleteNote.setFont(CyderFonts.segoe20);
@@ -157,7 +157,7 @@ public class NotesWidget {
                     }
 
                     noteScrollLabel = cyderScrollList.generateScrollList();
-                    noteScrollLabel.setBounds(40,40,520, 500);
+                    noteScrollLabel.setBounds(40, 40, 520, 500);
                     noteFrame.getContentPane().add(noteScrollLabel);
                     noteFrame.revalidate();
                     noteFrame.repaint();
@@ -166,7 +166,7 @@ public class NotesWidget {
                 }
             }
         });
-        deleteNote.setBounds(400,560,160,40);
+        deleteNote.setBounds(400, 560, 160, 40);
         noteFrame.getContentPane().add(deleteNote);
 
         noteFrame.finalizeAndShow();
@@ -176,16 +176,16 @@ public class NotesWidget {
         if (newNoteFrame != null)
             newNoteFrame.dispose();
 
-        newNoteFrame = new CyderFrame(600,625, CyderIcons.defaultBackground);
+        newNoteFrame = new CyderFrame(600, 625, CyderIcons.defaultBackground);
         newNoteFrame.setTitle("New note");
 
         newNoteField = new CyderTextField(0);
         newNoteField.setHorizontalAlignment(JTextField.CENTER);
         newNoteField.setToolTipText("Title");
-        newNoteField.setBounds(40,50,510,40);
+        newNoteField.setBounds(40, 50, 510, 40);
         newNoteFrame.getContentPane().add(newNoteField);
 
-        newNoteArea = new JTextArea(20,20);
+        newNoteArea = new JTextArea(20, 20);
         newNoteArea.setFont(CyderFonts.segoe20);
         newNoteArea.setToolTipText("Note contents");
         newNoteArea.setAutoscrolls(false);
@@ -204,12 +204,12 @@ public class NotesWidget {
         NewNoteScroll.getViewport().setBorder(null);
         NewNoteScroll.setViewportBorder(null);
 
-        NewNoteScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
-        NewNoteScroll.setBounds(40,120,510,440);
+        NewNoteScroll.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        NewNoteScroll.setBounds(40, 120, 510, 440);
         newNoteFrame.getContentPane().add(NewNoteScroll);
 
         CyderButton submitNewNote = new CyderButton("Create Note");
-        submitNewNote.setBorder(new LineBorder(CyderColors.navy,5,false));
+        submitNewNote.setBorder(new LineBorder(CyderColors.navy, 5, false));
         submitNewNote.setFocusPainted(false);
         submitNewNote.setBackground(CyderColors.regularRed);
         submitNewNote.setFont(CyderFonts.segoe20);
@@ -226,9 +226,7 @@ public class NotesWidget {
                                 newNoteField.getText().trim() + ".txt"), true));
                 newNoteArea.write(NoteWriter);
                 NoteWriter.close();
-            }
-
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
 
@@ -250,7 +248,7 @@ public class NotesWidget {
             noteFrame.revalidate();
             noteFrame.repaint();
         });
-        submitNewNote.setBounds(50,570,600 - 50 - 50,40);
+        submitNewNote.setBounds(50, 570, 600 - 50 - 50, 40);
         newNoteFrame.getContentPane().add(submitNewNote);
 
         newNoteFrame.finalizeAndShow();
@@ -277,14 +275,14 @@ public class NotesWidget {
     }
 
     private static void openNote(File File) {
-        CyderFrame noteEditorFrame = new CyderFrame(600,625, CyderIcons.defaultBackground);
+        CyderFrame noteEditorFrame = new CyderFrame(600, 625, CyderIcons.defaultBackground);
         noteEditorFrame.setTitle("Editing note: " + File.getName().replace(".txt", ""));
 
         noteEditField = new CyderTextField(0);
         noteEditField.setHorizontalAlignment(JTextField.CENTER);
         noteEditField.setToolTipText("Change Name");
-        noteEditField.setText(File.getName().replaceFirst(".txt",""));
-        noteEditField.setBounds(50,50,600 - 50 - 50, 40);
+        noteEditField.setText(File.getName().replaceFirst(".txt", ""));
+        noteEditField.setBounds(50, 50, 600 - 50 - 50, 40);
         noteEditorFrame.getContentPane().add(noteEditField);
 
         noteEditArea = new JTextArea(20, 20);
@@ -328,8 +326,8 @@ public class NotesWidget {
         noteScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         noteScroll.getViewport().setBorder(null);
         noteScroll.setViewportBorder(null);
-        noteScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
-        noteScroll.setBounds(50,120,600 - 50 - 50, 400);
+        noteScroll.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        noteScroll.setBounds(50, 120, 600 - 50 - 50, 400);
         noteEditorFrame.getContentPane().add(noteScroll);
 
         try {
@@ -349,7 +347,7 @@ public class NotesWidget {
         currentUserNote = File;
 
         CyderButton saveNote = new CyderButton("Save");
-        saveNote.setBorder(new LineBorder(CyderColors.navy,5,false));
+        saveNote.setBorder(new LineBorder(CyderColors.navy, 5, false));
         saveNote.setFocusPainted(false);
         saveNote.setBackground(CyderColors.regularRed);
         saveNote.setFont(CyderFonts.segoe20);
@@ -381,14 +379,14 @@ public class NotesWidget {
                 if (!noteEditField.getText().isEmpty() && !FileUtil.getFilename(currentUserNote)
                         .equals(noteEditField.getText().trim())) {
                     File newName = new File(currentUserNote.getAbsolutePath().replace(
-                            currentUserNote.getName(),noteEditField.getText().trim() + ".txt"));
+                            currentUserNote.getName(), noteEditField.getText().trim() + ".txt"));
                     boolean updated = File.renameTo(newName);
 
                     if (updated) {
                         noteEditorFrame.notify(newName.getName().replace(".txt", "") +
                                 " has been successfully saved");
                     } else {
-                         noteEditorFrame.notify("Could not rename note at this time");
+                        noteEditorFrame.notify("Could not rename note at this time");
                     }
 
                     initializeNotesList();
@@ -410,13 +408,11 @@ public class NotesWidget {
                     noteEditorFrame.notify(currentUserNote.getName().replace(".txt", "")
                             + " has been successfully saved");
                 }
-            }
-
-            catch (Exception exc) {
+            } catch (Exception exc) {
                 ExceptionHandler.handle(exc);
             }
         });
-        saveNote.setBounds(50,550,600 - 50 - 50, 40);
+        saveNote.setBounds(50, 550, 600 - 50 - 50, 40);
         noteEditorFrame.getContentPane().add(saveNote);
 
         noteEditArea.requestFocus();

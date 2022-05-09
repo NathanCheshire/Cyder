@@ -84,7 +84,8 @@ public class AudioUtil {
             // another precaution to ensure process is completed before file is returned
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = null;
-            while ((line = reader.readLine()) != null) {}
+            while ((line = reader.readLine()) != null) {
+            }
 
             // wait for file to be created by ffmpeg
             while (!outputFile.exists()) {
@@ -124,7 +125,8 @@ public class AudioUtil {
             // another precaution to ensure process is completed before file is returned
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = null;
-            while ((line = reader.readLine()) != null) {}
+            while ((line = reader.readLine()) != null) {
+            }
 
             // wait for file to be created by ffmpeg
             while (!outputFile.exists()) {
@@ -160,7 +162,7 @@ public class AudioUtil {
             // in case the audio wav name contains spaces, surround with quotes
             String safeFilename = "\"" + wavOrMp3File.getAbsolutePath() + "\"";
 
-            File outputFile =  OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+            File outputFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                     "tmp", FileUtil.getFilename(wavOrMp3File) + DREAMY_SUFFIX + ".mp3");
 
             ProcessBuilder pb = new ProcessBuilder(
@@ -292,7 +294,7 @@ public class AudioUtil {
      */
     public static boolean ffprobeInstalled() {
         return OSUtil.isBinaryInstalled("ffprobe")
-                || OSUtil.isBinaryInExes("ffprobe.exe") ;
+                || OSUtil.isBinaryInExes("ffprobe.exe");
     }
 
     /**
@@ -306,7 +308,7 @@ public class AudioUtil {
 
         return OSUtil.isBinaryInstalled(FFMPEG) ? FFMPEG
                 : OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
-                         DynamicDirectory.EXES.getDirectoryName(), FFMPEG + ".exe");
+                DynamicDirectory.EXES.getDirectoryName(), FFMPEG + ".exe");
     }
 
     /**
@@ -383,7 +385,7 @@ public class AudioUtil {
                     Thread.onSpinWait();
                 }
 
-                File extractFolder =  OSUtil.buildFile(
+                File extractFolder = OSUtil.buildFile(
                         DynamicDirectory.DYNAMIC_PATH,
                         DynamicDirectory.EXES.getDirectoryName());
 
@@ -421,7 +423,7 @@ public class AudioUtil {
     public static Future<Boolean> downloadYoutubeDl() {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("YouTubeDl Downloader")).submit(() -> {
-            File downloadZip =  OSUtil.buildFile(
+            File downloadZip = OSUtil.buildFile(
                     DynamicDirectory.DYNAMIC_PATH,
                     DynamicDirectory.EXES.getDirectoryName(),
                     YOUTUBE_DL + ".zip");
@@ -432,7 +434,7 @@ public class AudioUtil {
                 Thread.onSpinWait();
             }
 
-            File extractFolder =  OSUtil.buildFile(
+            File extractFolder = OSUtil.buildFile(
                     DynamicDirectory.DYNAMIC_PATH,
                     DynamicDirectory.EXES.getDirectoryName());
 
@@ -448,7 +450,7 @@ public class AudioUtil {
     /**
      * Returns a pretty representation of the provided number of seconds
      * using hours, minutes, and seconds.
-     *
+     * <p>
      * Example: 3661 would return "1h 1m 1s".
      *
      * @param seconds the amount of seconds

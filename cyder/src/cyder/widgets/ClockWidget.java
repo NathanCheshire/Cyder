@@ -107,11 +107,11 @@ public class ClockWidget {
             showSecondHand = true;
             paintHourLabels = true;
 
-            currentLocation  = IPUtil.getIpdata().getCity() + "," + IPUtil.getIpdata().getRegion() + ","
+            currentLocation = IPUtil.getIpdata().getCity() + "," + IPUtil.getIpdata().getRegion() + ","
                     + IPUtil.getIpdata().getCountry_name();
             currentGMTOffset = getGmtFromUserLocation();
 
-            clockFrame = new CyderFrame(800,900) {
+            clockFrame = new CyderFrame(800, 900) {
                 @Override
                 public void dispose() {
                     update = false;
@@ -145,7 +145,7 @@ public class ClockWidget {
 
             digitalTimeAndDateLabel = new CyderLabel(getTime(currentGMTOffset));
             digitalTimeAndDateLabel.setFont(CyderFonts.defaultFont);
-            digitalTimeAndDateLabel.setBounds(10,60, 780, 40);
+            digitalTimeAndDateLabel.setBounds(10, 60, 780, 40);
             clockFrame.getContentPane().add(digitalTimeAndDateLabel);
 
             clockLabel = new JLabel() {
@@ -171,7 +171,7 @@ public class ClockWidget {
                     if (paintHourLabels) {
                         //draw numbers in the boxes
 
-                        String[] numerals = {"III","IV","V","VI","VII","VIII","IX","X","XI","XII","I","II"};
+                        String[] numerals = {"III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "I", "II"};
 
                         //drawing center points
                         for (int i = 0 ; i < numPoints ; i++) {
@@ -230,7 +230,7 @@ public class ClockWidget {
                     int drawToY;
 
                     g.setColor(clockColor);
-                    ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                    ((Graphics2D) g).setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                     theta = (currentHour[0] * 30.0) + 270.0;
 
@@ -240,16 +240,16 @@ public class ClockWidget {
                     theta = theta * Math.PI / 180.0;
 
                     x = r * Math.cos(theta);
-                    y = - r * Math.sin(theta);
+                    y = -r * Math.sin(theta);
 
                     drawToX = (int) Math.round(x);
-                    drawToY = - (int) Math.round(y);
+                    drawToY = -(int) Math.round(y);
 
                     g.setColor(clockColor);
-                    ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                    ((Graphics2D) g).setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                     //draw hour hand
-                    g.drawLine(center, center, center + drawToX,  center + drawToY);
+                    g.drawLine(center, center, center + drawToX, center + drawToY);
 
                     //minute hand is 20% decrease
                     r = (int) (originalR * 0.80);
@@ -257,16 +257,16 @@ public class ClockWidget {
                     //current theta, and x,y pair to draw from the center to
                     theta = (currentMinute[0] / 60.0) * Math.PI * 2.0 + Math.PI * 1.5;
                     x = r * Math.cos(theta);
-                    y = - r * Math.sin(theta);
+                    y = -r * Math.sin(theta);
 
                     drawToX = (int) Math.round(x);
-                    drawToY = - (int) Math.round(y);
+                    drawToY = -(int) Math.round(y);
 
                     g.setColor(clockColor);
-                    ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                    ((Graphics2D) g).setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                     //draw minute hand
-                    g.drawLine(center, center, center + drawToX,  center + drawToY);
+                    g.drawLine(center, center, center + drawToX, center + drawToY);
 
                     if (showSecondHand) {
                         //second hand is 85% of original r
@@ -275,28 +275,28 @@ public class ClockWidget {
                         //current theta, and x,y pair to draw from the center to
                         theta = (currentSecond[0] / 60.0) * Math.PI * 2.0 + Math.PI * 1.5;
                         x = r * Math.cos(theta);
-                        y = - r * Math.sin(theta);
+                        y = -r * Math.sin(theta);
 
                         drawToX = (int) Math.round(x);
-                        drawToY = - (int) Math.round(y);
+                        drawToY = -(int) Math.round(y);
 
                         g.setColor(clockColor);
-                        ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                        ((Graphics2D) g).setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                         //draw second hand
-                        g.drawLine(center, center, center + drawToX,  center + drawToY);
+                        g.drawLine(center, center, center + drawToX, center + drawToY);
                     }
 
                     //draw center dot
                     Graphics2D g2d = (Graphics2D) g;
                     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                     g2d.setColor(CyderColors.navy);
-                    ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                    ((Graphics2D) g).setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
                     int radius = 20;
                     g.fillOval(center - radius / 2, center - radius / 2, radius, radius);
                 }
             };
-            clockLabel.setBounds(80,100, 640, 640);
+            clockLabel.setBounds(80, 100, 640, 640);
             clockLabel.setBorder(new LineBorder(CyderColors.navy, 5));
             clockFrame.getContentPane().add(clockLabel);
 
@@ -341,7 +341,7 @@ public class ClockWidget {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-            },"Clock Widget Updater");
+            }, "Clock Widget Updater");
 
             CyderSwitch paintHourLabelsSwitch = new CyderSwitch(320, 50);
             paintHourLabelsSwitch.setOnText("Labels");
@@ -402,7 +402,7 @@ public class ClockWidget {
                     hexLabel.setForeground(CyderColors.navy);
                 }
             });
-            hexLabel.setBounds(60, 830, StringUtil.getMinWidth("Clock Color Hex:",hexLabel.getFont()), 40);
+            hexLabel.setBounds(60, 830, StringUtil.getMinWidth("Clock Color Hex:", hexLabel.getFont()), 40);
             clockFrame.getContentPane().add(hexLabel);
 
             CyderTextField locationField = new CyderTextField(0);
@@ -422,7 +422,7 @@ public class ClockWidget {
                                     "but the Weather Key has not been set or is invalid" +
                                     ", as a result, many features of Cyder will not work as intended. " +
                                     "Please see the fields panel of the user editor to learn how to acquire " +
-                                    "a key and set it.","Weather Key Not Set");
+                                    "a key and set it.", "Weather Key Not Set");
                             return;
                         }
 
@@ -473,7 +473,7 @@ public class ClockWidget {
     private static void spawnMiniClock() {
         boolean[] updateMiniClock = {true};
 
-        CyderFrame miniFrame = new CyderFrame(600,150) {
+        CyderFrame miniFrame = new CyderFrame(600, 150) {
             @Override
             public void dispose() {
                 updateMiniClock[0] = false;
@@ -514,7 +514,7 @@ public class ClockWidget {
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
             }
-        },"Mini Clock Updater [GMT" + currentGMTOffset + "]");
+        }, "Mini Clock Updater [GMT" + currentGMTOffset + "]");
 
         miniFrame.setVisible(true);
         miniFrame.setLocationRelativeTo(clockFrame);
@@ -575,7 +575,7 @@ public class ClockWidget {
                     + "but the Weather Key has not been set or is invalid"
                     + ", as a result, many features of Cyder will not work as intended. "
                     + "Please see the fields panel of the user editor to learn how to acquire a key"
-                    + " and set it.","Weather Key Not Set");
+                    + " and set it.", "Weather Key Not Set");
 
             currentGMTOffset = 0;
             currentLocation = "Greenwich, London";

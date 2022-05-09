@@ -126,7 +126,7 @@ public class InputHandler {
      * Handles preliminaries such as assumptions before passing input data to the subHandle methods.
      * Also sets the ops array to the found command and arguments
      *
-     * @param command the command to handle preliminaries on before behind handled
+     * @param command       the command to handle preliminaries on before behind handled
      * @param userTriggered whether the provided operation was produced via a user
      * @return whether the process may proceed
      */
@@ -224,7 +224,7 @@ public class InputHandler {
     /**
      * Handles the input and provides output if necessary to the linked JTextPane.
      *
-     * @param op the operation that is being handled
+     * @param op            the operation that is being handled
      * @param userTriggered whether the provided op was produced via a user
      * @throws Exception for numerous reasons such as if the JTextPane is not linked
      */
@@ -245,9 +245,7 @@ public class InputHandler {
                 preferenceCheck(commandAndArgsToString()) ||
                 manualTestCheck(commandAndArgsToString())) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "FINAL HANDLE");
-        }
-
-        else unknownInput();
+        } else unknownInput();
 
         //clean up routines --------------------------------------
 
@@ -272,7 +270,7 @@ public class InputHandler {
             println("Who is the spiciest meme lord?");
         } else if (commandIs("thor")) {
             println("Piss off, ghost.");
-        }  else if (commandIs("alextrebek")) {
+        } else if (commandIs("alextrebek")) {
             println("Do you mean who is alex trebek?");
         } else if (StringUtil.isPalindrome(command.replace(" ", "")) && command.length() > 3) {
             println("Nice palindrome.");
@@ -324,7 +322,7 @@ public class InputHandler {
             println("My memes are better.");
         } else if (commandIs("thanks")) {
             println("You're welcome.");
-        }  else if (commandIs("name")) {
+        } else if (commandIs("name")) {
             println("My name is Cyder. I am a tool built by Nathan Cheshire for programmers/advanced users.");
         } else if (commandIs("k")) {
             println("Fun Fact: the letter \"K\" comes from the Greek letter kappa, which was taken "
@@ -382,9 +380,7 @@ public class InputHandler {
                     + " It was at this moment that Cyder knew its day had been ruined.");
         } else if (commandIs("i hate you")) {
             println("That's not very nice.");
-        }
-
-        else ret = false;
+        } else ret = false;
 
         if (ret)
             Logger.log(Logger.Tag.HANDLE_METHOD, "GENERAL PRINT COMMAND HANDLED");
@@ -426,9 +422,7 @@ public class InputHandler {
                     true, 50, false);
         } else if (commandIs("easter")) {
             println("Easter Sunday is on " + TimeUtil.getEasterSundayString());
-        }
-
-        else ret = false;
+        } else ret = false;
 
         if (ret) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "PRINT IMAGE COMMAND HANDLED");
@@ -520,9 +514,7 @@ public class InputHandler {
             }
         } else if (commandIs("dance")) {
             ConsoleFrame.INSTANCE.dance();
-        }
-
-        else ret = false;
+        } else ret = false;
 
         if (ret) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "CYDERFRAME MOVEMENT COMMAND HANDLED");
@@ -566,17 +558,17 @@ public class InputHandler {
             NetworkUtil.openUrl(CyderUrls.TRIANGLE);
         } else if (commandIs("board")) {
             NetworkUtil.openUrl(CyderUrls.FLY_SQUIREL_FLY);
-        }else if (commandIs("arduino")) {
+        } else if (commandIs("arduino")) {
             NetworkUtil.openUrl(CyderUrls.ARDUINO);
         } else if (commandIs("rasberrypi")) {
             NetworkUtil.openUrl(CyderUrls.RASPBERRY_PI);
-        }else if (commandIs("vexento")) {
+        } else if (commandIs("vexento")) {
             NetworkUtil.openUrl(CyderUrls.VEXENTO);
-        }else if (commandIs("papersplease")) {
+        } else if (commandIs("papersplease")) {
             NetworkUtil.openUrl(CyderUrls.PAPERS_PLEASE);
-        }else if (commandIs("donut")) {
+        } else if (commandIs("donut")) {
             NetworkUtil.openUrl(CyderUrls.DUNKIN_DONUTS);
-        }else if (commandIs("bai")) {
+        } else if (commandIs("bai")) {
             NetworkUtil.openUrl(CyderUrls.BAI);
         } else if (commandIs("occamrazor")) {
             NetworkUtil.openUrl(CyderUrls.OCCAM_RAZOR);
@@ -587,9 +579,7 @@ public class InputHandler {
             NetworkUtil.openUrl("about:blank");
         } else if (commandIs("github")) {
             NetworkUtil.openUrl(CyderUrls.CYDER_SOURCE);
-        }
-
-        else ret = false;
+        } else ret = false;
 
         if (ret) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "EXTERNAL OPENER COMMAND HANDLED");
@@ -603,9 +593,9 @@ public class InputHandler {
 
         if (commandIs("hey")) {
             IOUtil.playAudio("static/audio/heyya.mp3");
-        }  else if (commandIs("windows")) {
+        } else if (commandIs("windows")) {
             IOUtil.playAudio("static/audio/windows.mp3");
-        }  else if (commandIs("lightsaber")) {
+        } else if (commandIs("lightsaber")) {
             IOUtil.playAudio("static/audio/Lightsaber.mp3");
         } else if (commandIs("xbox")) {
             IOUtil.playAudio("static/audio/xbox.mp3");
@@ -619,9 +609,7 @@ public class InputHandler {
             IOUtil.playAudio("static/audio/commando.mp3");
         } else if (commandIs("1-800-273-8255") || commandIs("18002738255")) {
             IOUtil.playAudio("static/audio/1800.mp3");
-        }
-
-        else ret = false;
+        } else ret = false;
 
         if (ret)
             Logger.log(Logger.Tag.HANDLE_METHOD, "AUDIO COMMAND HANDLED");
@@ -645,7 +633,7 @@ public class InputHandler {
                     }
 
                     BufferedImage saveImage = ImageUtil.bufferedImageFromColor(
-                            Color.decode("#" + getArg(0).replace("#","")), w, h);
+                            Color.decode("#" + getArg(0).replace("#", "")), w, h);
 
                     String saveName = "Solid_" + getArg(0) + "Generated_Background.png";
 
@@ -769,24 +757,24 @@ public class InputHandler {
 
                     File finalStartDir = startDir;
 
-                   CyderThreadRunner.submit(() -> {
-                       if (finalStartDir != null) {
-                           int totalLines = StatUtil.totalLines(finalStartDir);
-                           int codeLines = StatUtil.totalJavaLines(finalStartDir);
-                           int blankLines = StatUtil.totalBlankLines(finalStartDir);
-                           int commentLines = StatUtil.totalComments(finalStartDir);
-                           int classes = ReflectionUtil.cyderClasses.size();
+                    CyderThreadRunner.submit(() -> {
+                        if (finalStartDir != null) {
+                            int totalLines = StatUtil.totalLines(finalStartDir);
+                            int codeLines = StatUtil.totalJavaLines(finalStartDir);
+                            int blankLines = StatUtil.totalBlankLines(finalStartDir);
+                            int commentLines = StatUtil.totalComments(finalStartDir);
+                            int classes = ReflectionUtil.cyderClasses.size();
 
-                           println("Total lines: " + totalLines);
-                           println("Code lines: " + codeLines);
-                           println("Blank lines: " + blankLines);
-                           println("Comment lines: " + commentLines);
-                           println("Classes: " + classes);
+                            println("Total lines: " + totalLines);
+                            println("Code lines: " + codeLines);
+                            println("Blank lines: " + blankLines);
+                            println("Comment lines: " + commentLines);
+                            println("Classes: " + classes);
 
-                           double ratio = ((double) codeLines / (double) commentLines);
-                           println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
-                       }
-                   }, "Code Analyzer");
+                            double ratio = ((double) codeLines / (double) commentLines);
+                            println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
+                        }
+                    }, "Code Analyzer");
                 } else {
                     println("analyzecode usage: analyzecode [path/to/the/root/directory] " +
                             "(leave path blank to analyze Cyder)");
@@ -794,17 +782,18 @@ public class InputHandler {
             }
         } else if (commandIs("f17")) {
             new Robot().keyPress(KeyEvent.VK_F17);
-        }  else if (commandIs("debugstats")) {
+        } else if (commandIs("debugstats")) {
             StatUtil.allStats();
         } else if (commandIs("binary")) {
             if (checkArgsLength(1)
                     && CyderRegexPatterns.numberPattern.matcher(getArg(0)).matches()) {
-                 CyderThreadRunner.submit(() -> {
-                     try {
-                         println(getArg(0) + " converted to binary equals: "
-                                 + Integer.toBinaryString(Integer.parseInt(getArg(0))));
-                     } catch (Exception ignored) {}
-                 }, "Binary Converter");
+                CyderThreadRunner.submit(() -> {
+                    try {
+                        println(getArg(0) + " converted to binary equals: "
+                                + Integer.toBinaryString(Integer.parseInt(getArg(0))));
+                    } catch (Exception ignored) {
+                    }
+                }, "Binary Converter");
             } else {
                 println("Your value must only contain numbers.");
             }
@@ -905,14 +894,14 @@ public class InputHandler {
             MasterYoutubeThread.killAll();
             println("YouTube scripts have been killed.");
         } else if (commandIs("longword")) {
-            for (int i = 0; i < args.size(); i++) {
+            for (int i = 0 ; i < args.size() ; i++) {
                 print("pneumonoultramicroscopicsilicovolcanoconiosis");
             }
 
             println("");
         } else if (commandIs("ip")) {
             println(InetAddress.getLocalHost().getHostAddress());
-        }  else if (commandIs("computerproperties")) {
+        } else if (commandIs("computerproperties")) {
             println("This may take a second, since this feature counts your PC's free memory");
             StatUtil.computerProperties();
         } else if (commandIs("systemproperties")) {
@@ -988,7 +977,7 @@ public class InputHandler {
                 if (YoutubeUtil.isPlaylistUrl(url)) {
                     YoutubeUtil.downloadPlaylist(url);
                 } else {
-                    String extractedUuid = argsToString().replace(CyderUrls.YOUTUBE_VIDEO_HEADER,"");
+                    String extractedUuid = argsToString().replace(CyderUrls.YOUTUBE_VIDEO_HEADER, "");
 
                     if (extractedUuid.replace(" ", "").length() != 11) {
                         println("Searching youtube for: " + url);
@@ -999,7 +988,7 @@ public class InputHandler {
                     YoutubeUtil.downloadVideo(url);
                 }
             }, "YouTube Download Initializer Thread");
-        }  else if (commandIs("pastebin")) {
+        } else if (commandIs("pastebin")) {
             if (checkArgsLength(1)) {
                 String urlString;
                 if (getArg(0).contains("pastebin.com")) {
@@ -1026,16 +1015,16 @@ public class InputHandler {
             }
         } else if (commandIs("screenshot")) {
             if (!args.isEmpty()) {
-               if (getArg(0).equalsIgnoreCase("frames")) {
-                   FrameUtil.screenshotCyderFrames();
-                   println("Successfully saved to your Files directory");
-               } else {
-                   if (!FrameUtil.screenshotCyderFrame(argsToString())) {
-                       println("CyderFrame not found");
-                   } else {
-                       println("Successfully saved to your Files directory");
-                   }
-               }
+                if (getArg(0).equalsIgnoreCase("frames")) {
+                    FrameUtil.screenshotCyderFrames();
+                    println("Successfully saved to your Files directory");
+                } else {
+                    if (!FrameUtil.screenshotCyderFrame(argsToString())) {
+                        println("CyderFrame not found");
+                    } else {
+                        println("Successfully saved to your Files directory");
+                    }
+                }
             } else {
                 println("Screenshot command usage: screenshot [FRAMES or FRAME_NAME]");
             }
@@ -1050,14 +1039,14 @@ public class InputHandler {
                 println(issues.length + " issue" + (issues.length == 1 ? "" : "s") + " found:\n");
                 println("----------------------------------------");
 
-                for (GitHubUtil.Issue issue: issues) {
+                for (GitHubUtil.Issue issue : issues) {
                     println("Issue #" + issue.number);
                     println(issue.title);
                     println(issue.body);
                     println("----------------------------------------");
                 }
             }, "GitHub Issue Getter");
-        } else if (commandIs("blackpanther")|| commandIs("chadwickboseman")) {
+        } else if (commandIs("blackpanther") || commandIs("chadwickboseman")) {
             CyderThreadRunner.submit(() -> {
                 clc();
 
@@ -1080,7 +1069,7 @@ public class InputHandler {
             CyderThreadRunner.submit(() -> {
                 String location = IPUtil.getIpdata().getCity() + ", "
                         + IPUtil.getIpdata().getRegion() + ", "
-                        +  IPUtil.getIpdata().getCountry_name();
+                        + IPUtil.getIpdata().getCountry_name();
 
                 if (IPUtil.getIpdata().getTime_zone().isIs_dst()) {
                     println("Yes, DST is underway in " + location + ".");
@@ -1105,7 +1094,7 @@ public class InputHandler {
             }
         } else if (commandIs("filesizes")) {
             StatUtil.fileSizes();
-        } else if (commandIs("badwords") ) {
+        } else if (commandIs("badwords")) {
             if (OSUtil.JAR_MODE) {
                 println("Bad words not available in jar mode");
             } else {
@@ -1117,25 +1106,25 @@ public class InputHandler {
             }
         } else if (commandIs("usb")) {
             CyderThreadRunner.submit(() -> {
-               try {
-                   println("Finding connected USB devices");
-                   Future<ArrayList<String>> futureLines = IOUtil.getUsbDevices();
+                try {
+                    println("Finding connected USB devices");
+                    Future<ArrayList<String>> futureLines = IOUtil.getUsbDevices();
 
-                   while (!futureLines.isDone()) {
-                       Thread.onSpinWait();
-                   }
+                    while (!futureLines.isDone()) {
+                        Thread.onSpinWait();
+                    }
 
-                   if (futureLines.get() != null) {
-                       ArrayList<String> lines = futureLines.get();
+                    if (futureLines.get() != null) {
+                        ArrayList<String> lines = futureLines.get();
 
-                       println("Devices connected to " + OSUtil.getComputerName() + " via USB protocol:");
-                       for (String line : lines)  {
-                           println(line);
-                       }
-                   }
-               } catch (Exception ex) {
-                   ExceptionHandler.handle(ex);
-               }
+                        println("Devices connected to " + OSUtil.getComputerName() + " via USB protocol:");
+                        for (String line : lines) {
+                            println(line);
+                        }
+                    }
+                } catch (Exception ex) {
+                    ExceptionHandler.handle(ex);
+                }
             }, "USB Device Finder");
         } else if (commandIs("number2string") || commandIs("number2word")) {
             if (checkArgsLength(1)) {
@@ -1204,7 +1193,7 @@ public class InputHandler {
         } else if (commandIs("wipe")) {
             if (checkArgsLength(1)) {
                 File requestedDeleteFile = new File(OSUtil.buildPath(
-                        DynamicDirectory.DYNAMIC_PATH,"users",
+                        DynamicDirectory.DYNAMIC_PATH, "users",
                         ConsoleFrame.INSTANCE.getUUID(), getArg(0)));
                 if (requestedDeleteFile.exists()) {
                     if (requestedDeleteFile.isDirectory()) {
@@ -1233,7 +1222,7 @@ public class InputHandler {
             ConsoleFrame.INSTANCE.originalChams();
         } else if (commandIs("opacity")) {
             JSlider opacitySlider = new JSlider(SwingConstants.HORIZONTAL, 0, 100, 100);
-            opacitySlider.setBounds(0,0, 300, 50);
+            opacitySlider.setBounds(0, 0, 300, 50);
             CyderSliderUI UI = new CyderSliderUI(opacitySlider);
             UI.setThumbStroke(new BasicStroke(2.0f));
             UI.setSliderShape(SliderShape.CIRCLE);
@@ -1275,7 +1264,7 @@ public class InputHandler {
                         }
                     }
 
-                    File saveFile = new File(OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,"users",
+                    File saveFile = new File(OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH, "users",
                             ConsoleFrame.INSTANCE.getUUID(), UserFile.FILES.getName(), saveName));
 
                     // clear text as soon as possible
@@ -1355,20 +1344,19 @@ public class InputHandler {
             println(OSUtil.getComputerName() + OSUtil.FILE_SEP
                     + StringUtil.capsFirstWords(UserUtil.getCyderUser().getName()));
         } else if (commandIs("freeze")) {
-            while (true) {}
+            while (true) {
+            }
         } else if (commandAndArgsToString().equalsIgnoreCase("wipe spotlights")) {
             SpotlightUtil.wipeSpotlights();
         } else if (commandIs("toast")) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().toast("A toast to you, sir/madam");
+        } else ret = false;
+
+        if (ret) {
+            Logger.log(Logger.Tag.HANDLE_METHOD, "GENERAL COMMAND HANDLED");
         }
 
-        else ret = false;
-
-         if (ret) {
-             Logger.log(Logger.Tag.HANDLE_METHOD, "GENERAL COMMAND HANDLED");
-         }
-
-         return ret;
+        return ret;
     }
 
     //sub-handle methods in the order they appear above --------------------------
@@ -1387,7 +1375,8 @@ public class InputHandler {
             url.openConnection();
             ret = true;
             NetworkUtil.openUrl(command);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         // log before returning
         if (ret) {
@@ -1400,17 +1389,17 @@ public class InputHandler {
     /**
      * Determines if the command was a simple evaluable function such as floor() or pow().
      * Valid expressions:
-     *      abs - 1 arg, returns the absolute value
-     *      ceil - 1 arg, returns the ceiling
-     *      floor - 1 arg, returns the floor
-     *      log - 1 arg, returns the natural log
-     *      log10 - 1 arg, returns the base 10 log
-     *      max - 2 args, returns the max
-     *      min - 2 args, returns the min
-     *      pow - 2 args, returns the first raised to the power of the second
-     *      round - 1 arg, round the arg to a whole number
-     *      sqrt - 1 arg, returns the sqrt of the number
-     *      convert2 - 1 arg, converts the number to binary
+     * abs - 1 arg, returns the absolute value
+     * ceil - 1 arg, returns the ceiling
+     * floor - 1 arg, returns the floor
+     * log - 1 arg, returns the natural log
+     * log10 - 1 arg, returns the base 10 log
+     * max - 2 args, returns the max
+     * min - 2 args, returns the min
+     * pow - 2 args, returns the first raised to the power of the second
+     * round - 1 arg, round the arg to a whole number
+     * sqrt - 1 arg, returns the sqrt of the number
+     * convert2 - 1 arg, converts the number to binary
      *
      * @param command the command to attempt to evaluate as a simple math library call
      * @return whether the command was a simple math library call
@@ -1487,7 +1476,8 @@ public class InputHandler {
         try {
             println(new DoubleEvaluator().evaluate(StringUtil.firstCharToLowerCase(command.trim())));
             ret = true;
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         if (ret)
             Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE MATH HANDLED");
@@ -1917,7 +1907,7 @@ public class InputHandler {
 
                     if (!consolePriorityPrintingList.isEmpty()) {
                         Object line = consolePriorityPrintingList.removeFirst();
-                        Logger.log(Logger.Tag.CONSOLE_OUT,line);
+                        Logger.log(Logger.Tag.CONSOLE_OUT, line);
 
                         if (redirection) {
                             redirectionWrite(line);
@@ -1946,7 +1936,7 @@ public class InputHandler {
                     // concurrency issues
                     else if (!consolePrintingList.isEmpty()) {
                         Object line = consolePrintingList.removeFirst();
-                        Logger.log(Logger.Tag.CONSOLE_OUT,line);
+                        Logger.log(Logger.Tag.CONSOLE_OUT, line);
 
                         if (redirection) {
                             redirectionWrite(line);
@@ -2027,7 +2017,8 @@ public class InputHandler {
             //this sometimes throws so we ignore it
             try {
                 capsMode = UserUtil.getCyderUser().getCapsmode().equals("1");
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
 
             StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
             document.insertString(document.getLength(),
@@ -2125,10 +2116,10 @@ public class InputHandler {
 
     /**
      * Removes the last "thing" added to the JTextPane whether it's a component,
-     *  icon, or string of multi-lined text.
-     *
-     *  In more detail, this method figures out what it'll be removing and then determines how many calls
-     *   are needed to {@link StringUtil#removeLastLine()}
+     * icon, or string of multi-lined text.
+     * <p>
+     * In more detail, this method figures out what it'll be removing and then determines how many calls
+     * are needed to {@link StringUtil#removeLastLine()}
      */
     public final void removeLast() {
         try {
@@ -2188,10 +2179,10 @@ public class InputHandler {
 
     /**
      * Removes the last line added to the linked JTextPane. This could appear to remove nothing,
-     *  but really be removing just a newline (line break) character.
+     * but really be removing just a newline (line break) character.
      */
     private void removeLastLine() {
-       outputArea.getStringUtil().removeLastLine();
+        outputArea.getStringUtil().removeLastLine();
     }
 
     //redirection logic ---------------------------------------

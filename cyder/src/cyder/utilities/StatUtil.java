@@ -146,12 +146,10 @@ public class StatUtil {
                         "Loopback Address: " + InetAddress.getLoopbackAddress()};
 
                 ConsoleFrame.INSTANCE.getInputHandler().printlns(lines);
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"Debug Stat Thread");
+        }, "Debug Stat Thread");
     }
 
     public static String fileByFileAnalyze(File startDir) {
@@ -172,6 +170,7 @@ public class StatUtil {
     /**
      * Finds the total number of Java lines found within .java files
      * and recursive directories within the provided starting directory
+     *
      * @param startDir the directory to begin recursing from
      * @return the total number of java code lines found
      */
@@ -206,6 +205,7 @@ public class StatUtil {
     /**
      * Finds the total number of lines found within each java file provided the starting directory
      * to begin recursing from
+     *
      * @param startDir the directory to begin recursing from
      * @return the total number of lines found
      */
@@ -238,6 +238,7 @@ public class StatUtil {
     /**
      * Finds the number of java comments associated with all .java files
      * within the directory and recurively located directories provided
+     *
      * @param startDir the directory to begin recursing from
      * @return the raw number of comments found
      */
@@ -276,7 +277,7 @@ public class StatUtil {
                     //if we've activated block comment or still on, increment line count
                     if (blockComment)
                         localRet++;
-                    //otherwise if the line has text and is a comment inc
+                        //otherwise if the line has text and is a comment inc
                     else if (!line.trim().isEmpty() && (isComment(line)))
                         localRet++;
                 }
@@ -292,6 +293,7 @@ public class StatUtil {
 
     /**
      * Determines if the provided line is a comment line
+     *
      * @param line the string in question to possibly be a comment
      * @return whether the line is a comment
      */
@@ -301,6 +303,7 @@ public class StatUtil {
 
     /**
      * Finds the number of blank lines associated with .java files within the provided start directory
+     *
      * @param startDir the directory to begin recursing from to find .java files
      * @return the number of blank lines found in the provided directory and subdirectories
      */
@@ -354,7 +357,7 @@ public class StatUtil {
         return ret;
     }
 
-    private static final class FileComparator implements Comparator<FileSize>{
+    private static final class FileComparator implements Comparator<FileSize> {
         public int compare(FileSize fs1, FileSize fs2) {
             if (fs1.getSize() < fs2.getSize())
                 return 1;
@@ -403,9 +406,9 @@ public class StatUtil {
                 String line;
 
                 while ((line = lineReader.readLine()) != null) {
-                    if (isComment(line) && StringUtil.containsBlockedWords(line,false)) {
-                       ConsoleFrame.INSTANCE.getInputHandler().println(
-                               FileUtil.getFilename(startDir.getName()) + ": " + line.trim());
+                    if (isComment(line) && StringUtil.containsBlockedWords(line, false)) {
+                        ConsoleFrame.INSTANCE.getInputHandler().println(
+                                FileUtil.getFilename(startDir.getName()) + ": " + line.trim());
                     }
                 }
             } catch (Exception ex) {

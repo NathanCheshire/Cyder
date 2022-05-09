@@ -6,7 +6,7 @@ import java.awt.*;
 
 /**
  * Common fonts used throughout Cyder.
- *
+ * <p>
  * Format for new fonts: fontNameFontSize unless there is a rare exception that applies
  */
 public class CyderFonts {

@@ -159,7 +159,7 @@ public class CyderNotification extends JLabel {
         }
 
         graphics2D.setPaint(new Color(borderColor.getRed(), borderColor.getGreen(),
-                                      borderColor.getBlue(), opacity));
+                borderColor.getBlue(), opacity));
 
         GeneralPath outlinePath = new GeneralPath();
 
@@ -184,7 +184,7 @@ public class CyderNotification extends JLabel {
         outlinePath.moveTo(x, y);
 
         // curve up 2 and right 2, twice
-        outlinePath.curveTo(x, y,x + 2,y - 2, x + 4, y - 4);
+        outlinePath.curveTo(x, y, x + 2, y - 2, x + 4, y - 4);
 
         // new x,y we're at
         x += 4;
@@ -248,7 +248,7 @@ public class CyderNotification extends JLabel {
                     // top so we know that the x needs to be offset by 4 and the height by arrow len
                     outlinePath.moveTo(2 * 2 + componentWidth / 2 - len, len);
                     outlinePath.lineTo(2 * 2 + componentWidth / 2, 0);
-                    outlinePath.lineTo(2 * 2 + (componentWidth / 2) +  len, len);
+                    outlinePath.lineTo(2 * 2 + (componentWidth / 2) + len, len);
                     outlinePath.lineTo(2 * 2 + componentWidth / 2 - len, len);
 
                     break;
@@ -274,7 +274,7 @@ public class CyderNotification extends JLabel {
                     outlinePath.moveTo(2 * 2 + componentWidth / 2 - len, 2 * 2 * 2 + componentHeight);
                     outlinePath.lineTo(2 * 2 + componentWidth / 2, 2 * 2 * 2 + componentHeight + len);
                     outlinePath.lineTo(2 * 2 + componentWidth / 2 + len, 2 * 2 * 2 + componentHeight);
-                    outlinePath.lineTo(2 * 2 + componentWidth / 2 - len, 2 * 2 * 2+ componentHeight);
+                    outlinePath.lineTo(2 * 2 + componentWidth / 2 - len, 2 * 2 * 2 + componentHeight);
 
                     break;
             }
@@ -328,7 +328,7 @@ public class CyderNotification extends JLabel {
         fillPath.moveTo(x, y);
 
         // curve up 2 and right 2, twice
-        fillPath.curveTo(x, y,x + 2,y - 2, x + 4, y - 4);
+        fillPath.curveTo(x, y, x + 2, y - 2, x + 4, y - 4);
 
         // new x,y we're at
         x += 4;
@@ -393,7 +393,7 @@ public class CyderNotification extends JLabel {
                     // by 2 * 2 + border and the height by border + arrow len
                     fillPath.moveTo(2 * 2 + borderLen + componentWidth / 2 - len, len + borderLen);
                     fillPath.lineTo(2 * 2 + borderLen + componentWidth / 2, borderLen);
-                    fillPath.lineTo(2 * 2 + borderLen + (componentWidth / 2) +  len, len + borderLen);
+                    fillPath.lineTo(2 * 2 + borderLen + (componentWidth / 2) + len, len + borderLen);
                     fillPath.lineTo(2 * 2 + borderLen + componentWidth / 2 - len, len + borderLen);
 
                     break;
@@ -532,7 +532,7 @@ public class CyderNotification extends JLabel {
                                     CyderDragLabel.DEFAULT_HEIGHT - getHeight(), getWidth(), getHeight());
                             setVisible(true);
 
-                            for (int i = getY(); i < CyderDragLabel.DEFAULT_HEIGHT; i += ANIMATION_INCREMENT) {
+                            for (int i = getY() ; i < CyderDragLabel.DEFAULT_HEIGHT ; i += ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
                                 }
@@ -548,7 +548,7 @@ public class CyderNotification extends JLabel {
                                     CyderDragLabel.DEFAULT_HEIGHT, getWidth(), getHeight());
                             setVisible(true);
 
-                            for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= ANIMATION_INCREMENT) {
+                            for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
                                 }
@@ -563,7 +563,7 @@ public class CyderNotification extends JLabel {
                             setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT, getWidth(), getHeight());
                             setVisible(true);
 
-                            for (int i = getX(); i < 5; i += ANIMATION_INCREMENT) {
+                            for (int i = getX() ; i < 5 ; i += ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
                                 }
@@ -577,10 +577,10 @@ public class CyderNotification extends JLabel {
                         case LEFT:
                             // note drag label used here to center on content pane
                             setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT
-                                            + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
+                                    + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
                             setVisible(true);
 
-                            for (int i = getX() ; i < 5 ; i+= ANIMATION_INCREMENT) {
+                            for (int i = getX() ; i < 5 ; i += ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
                                 }
@@ -598,7 +598,7 @@ public class CyderNotification extends JLabel {
                                     + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
                             setVisible(true);
 
-                            for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= ANIMATION_INCREMENT) {
+                            for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
                                 }
@@ -615,7 +615,7 @@ public class CyderNotification extends JLabel {
                                     + getHeight(), getWidth(), getHeight());
                             setVisible(true);
 
-                            for (int i = getY(); i > parent.getHeight() - getHeight() + 5; i -= ANIMATION_INCREMENT) {
+                            for (int i = getY() ; i > parent.getHeight() - getHeight() + 5 ; i -= ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
                                 }
@@ -632,7 +632,7 @@ public class CyderNotification extends JLabel {
                                     - bottomOffset, getWidth(), getHeight());
                             setVisible(true);
 
-                            for (int i = getX(); i < 5; i += ANIMATION_INCREMENT) {
+                            for (int i = getX() ; i < 5 ; i += ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
                                 }
@@ -648,7 +648,7 @@ public class CyderNotification extends JLabel {
                                     - getHeight() - bottomOffset, getWidth(), getHeight());
                             setVisible(true);
 
-                            for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= ANIMATION_INCREMENT) {
+                            for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
                                 }
@@ -672,13 +672,13 @@ public class CyderNotification extends JLabel {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"Notification Appear Animatior");
+        }, "Notification Appear Animatior");
     }
 
     /**
      * Kill the notification by stopping all animation threads
      * and setting this visibility to false.
-     *
+     * <p>
      * Note: you should not make a killed notification
      * visible again via {@link Component#setVisible(boolean)}.
      */
@@ -709,8 +709,8 @@ public class CyderNotification extends JLabel {
      * Upon completing the animation, the notification is removed from the parent.
      *
      * @param notificationDirection the direction to exit to
-     * @param parent the component the notification is on. Used for bounds calculations
-     * @param delay the delay before vanish
+     * @param parent                the component the notification is on. Used for bounds calculations
+     * @param delay                 the delay before vanish
      */
     protected void vanish(NotificationDirection notificationDirection, Component parent, int delay) {
         CyderThreadRunner.submit(() -> {
@@ -737,9 +737,9 @@ public class CyderNotification extends JLabel {
                         parentcomp.repaint();
                     }
                 } else {
-                    switch(notificationDirection) {
+                    switch (notificationDirection) {
                         case TOP:
-                            for (int i = getY() ; i > - getHeight() ; i -= ANIMATION_INCREMENT) {
+                            for (int i = getY() ; i > -getHeight() ; i -= ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
                                 }
@@ -789,9 +789,9 @@ public class CyderNotification extends JLabel {
                 repaint();
                 kill();
             } catch (Exception e) {
-               ExceptionHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
-        },"Notificaiton Vanish Animator");
+        }, "Notificaiton Vanish Animator");
     }
 
     // -------------------------------------------------------

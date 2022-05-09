@@ -48,9 +48,9 @@ public class CyderSwitcher extends JLabel {
      * to the internal button if you wish to invoke actions whenever the
      * switch button is clicked. Use the getNextState() and getCurrentState() as needed.
      *
-     * @param width the width of the whole switch
-     * @param height the height of the whole switch
-     * @param states the valid states
+     * @param width         the width of the whole switch
+     * @param height        the height of the whole switch
+     * @param states        the valid states
      * @param startingState the starting state
      */
     public CyderSwitcher(int width, int height, ArrayList<SwitcherState> states, SwitcherState startingState) {

@@ -122,8 +122,8 @@ public class ColorUtil {
 
         Map<Integer, Integer> colorCounter = new HashMap<>(100);
 
-        for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
+        for (int x = 0 ; x < image.getWidth() ; x++) {
+            for (int y = 0 ; y < image.getHeight() ; y++) {
                 int currentRGB = image.getRGB(x, y);
                 int count = colorCounter.getOrDefault(currentRGB, 0);
                 colorCounter.put(currentRGB, count + 1);
@@ -146,8 +146,8 @@ public class ColorUtil {
 
         Map<Integer, Integer> colorCounter = new HashMap<>(100);
 
-        for (int x = 0; x < bi.getWidth(); x++) {
-            for (int y = 0; y < bi.getHeight(); y++) {
+        for (int x = 0 ; x < bi.getWidth() ; x++) {
+            for (int y = 0 ; y < bi.getHeight() ; y++) {
                 int currentRGB = bi.getRGB(x, y);
                 int count = colorCounter.getOrDefault(currentRGB, 0);
                 colorCounter.put(currentRGB, count + 1);

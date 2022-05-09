@@ -426,7 +426,7 @@ public class GetterUtil {
                     cyderScrollListRef.get().setScrollFont(CyderFonts.segoe20.deriveFont(16f));
 
                     //adding things to the list and setting up actions for what to do when an element is clicked
-                    for (int i = 0; i < directoryNameList.size(); i++) {
+                    for (int i = 0 ; i < directoryNameList.size() ; i++) {
                         int finalI = i;
                         cyderScrollListRef.get().addElement(directoryNameList.get(i), () -> {
                             if (directoryFileList.get(finalI).isDirectory()) {
@@ -518,7 +518,7 @@ public class GetterUtil {
         cyderScrollListRef.get().setScrollFont(CyderFonts.segoe20.deriveFont(16f));
 
         // generate clickable components to add to the list
-        for (int i = 0; i < directoryNameList.size(); i++) {
+        for (int i = 0 ; i < directoryNameList.size() ; i++) {
             int eye = i;
 
             cyderScrollListRef.get().addElement(directoryNameList.get(i), () -> {

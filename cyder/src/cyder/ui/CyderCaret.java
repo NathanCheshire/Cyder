@@ -67,7 +67,7 @@ public class CyderCaret extends DefaultCaret {
             int textHeight = fm.getHeight();
 
             g.setColor(caretColor);
-            g.fillRect(x,y,width,height);
+            g.fillRect(x, y, width, height);
         }
     }
 

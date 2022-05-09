@@ -267,7 +267,7 @@ public class UserEditor {
         openFile.addActionListener(e -> {
             String element = filesScrollListRef.get().getSelectedElement();
 
-            for (int i = 0; i < filesNameList.size(); i++) {
+            for (int i = 0 ; i < filesNameList.size() ; i++) {
                 if (element.equalsIgnoreCase(filesNameList.get(i))) {
                     IOUtil.openFile(filesList.get(i).getAbsolutePath());
                     break;
@@ -285,7 +285,7 @@ public class UserEditor {
                     String clickedSelection = filesScrollListRef.get().getSelectedElements().get(0);
                     File selectedFile = null;
 
-                    for (int i = 0; i < filesNameList.size(); i++) {
+                    for (int i = 0 ; i < filesNameList.size() ; i++) {
                         if (clickedSelection.equals(filesNameList.get(i))) {
                             selectedFile = filesList.get(i);
                             break;
@@ -392,7 +392,7 @@ public class UserEditor {
                 String clickedSelection = filesScrollListRef.get().getSelectedElements().get(0);
                 File selectedFile = null;
 
-                for (int i = 0; i < filesNameList.size(); i++) {
+                for (int i = 0 ; i < filesNameList.size() ; i++) {
                     if (clickedSelection.equals(filesNameList.get(i))) {
                         selectedFile = filesList.get(i);
                         break;
@@ -475,7 +475,7 @@ public class UserEditor {
         filesScroll.setBorder(null);
         filesScrollListRef.set(filesScroll);
 
-        for (int i = 0; i < filesNameList.size(); i++) {
+        for (int i = 0 ; i < filesNameList.size() ; i++) {
             int finalI = i;
             filesScroll.addElement(filesNameList.get(i),
                     () -> {
@@ -743,7 +743,7 @@ public class UserEditor {
             Collections.addAll(fontList, GraphicsEnvironment.getLocalGraphicsEnvironment()
                     .getAvailableFontFamilyNames());
 
-            for (int i = 0; i < fontList.size(); i++) {
+            for (int i = 0 ; i < fontList.size() ; i++) {
                 int finalI = i;
                 fontScrollRef.get().addElementWithSingleCLickAction(fontList.get(i),
                         () -> FontLabel.setFont(new Font(fontList.get(finalI),
@@ -895,7 +895,7 @@ public class UserEditor {
         printingUtil.printlnComponent(prefsTitle);
 
         // print boolean userdatas (preferences)
-        for (int i = 0; i < Preferences.getPreferences().size(); i++) {
+        for (int i = 0 ; i < Preferences.getPreferences().size() ; i++) {
             if (Preferences.getPreferences().get(i).getDisplayName().equals("IGNORE"))
                 continue;
 

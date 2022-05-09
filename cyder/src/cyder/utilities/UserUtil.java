@@ -104,26 +104,26 @@ public class UserUtil {
         if (cyderUserFile == null || !cyderUserFile.exists() || cyderUser == null)
             return;
 
-       try {
-           // write to user data file
-           setUserData(cyderUserFile, cyderUser);
+        try {
+            // write to user data file
+            setUserData(cyderUserFile, cyderUser);
 
-           // don't bother with other actions if the written value was no different than the previous
-           if (currentLevenshteinDistance > 0) {
-               // log the write since we know the user is valid
-               Logger.log(Logger.Tag.SYSTEM_IO, "[JSON WRITE] [Levenshtein = "
-                       + currentLevenshteinDistance + "] User was written to file: "
-                       + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
+            // don't bother with other actions if the written value was no different than the previous
+            if (currentLevenshteinDistance > 0) {
+                // log the write since we know the user is valid
+                Logger.log(Logger.Tag.SYSTEM_IO, "[JSON WRITE] [Levenshtein = "
+                        + currentLevenshteinDistance + "] User was written to file: "
+                        + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
 
-               // validate the user is still valid
-               getterSetterValidator(cyderUserFile);
+                // validate the user is still valid
+                getterSetterValidator(cyderUserFile);
 
-               // backup the file
-               userJsonBackupSubroutine(cyderUserFile);
-           }
-       } catch (Exception e) {
-           ExceptionHandler.handle(e);
-       }
+                // backup the file
+                userJsonBackupSubroutine(cyderUserFile);
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 
     /**
@@ -131,19 +131,20 @@ public class UserUtil {
      * This method should only be called if the current contents
      * of the user, meaning possible writes within the past 100ms,
      * can be discarded.
-     *
+     * <p>
      * This method should only be called when setting
      * the user due to a Cyder login event.
-     *
+     * <p>
      * If you are trying to set data for the current cyder user,
      * call {@link UserUtil#getCyderUser()}.
-     *
+     * <p>
      * Common usages of this, such as setting an object such
      * as the screen stat would look like the following:
      *
      * <pre>{@code UserUtil.getCyderUser().setScreenStat(myScreenStat);}</pre>
+     *
      * @param jsonFile the use's json file to set as the userJson and extract
-     *        and serialize as the current user object
+     *                 and serialize as the current user object
      */
     public static void setCyderUser(File jsonFile) {
         Preconditions.checkArgument(jsonFile.exists(), "File does not exist");
@@ -433,7 +434,7 @@ public class UserUtil {
      *
      * @param userJson the json file to validate and fix if needed
      * @return whether the file could be handled correctly as a user
-     *                 and was fixed if it was incorrect at first
+     * and was fixed if it was incorrect at first
      */
     public static boolean getterSetterValidator(File userJson) {
         Preconditions.checkArgument(userJson != null);
@@ -480,7 +481,7 @@ public class UserUtil {
                             Preference preference = null;
                             for (Preference pref : Preferences.getPreferences()) {
                                 if (pref.getID().equalsIgnoreCase(getterMethod.getName()
-                                        .replace("get",""))) {
+                                        .replace("get", ""))) {
                                     preference = pref;
                                     break;
                                 }
@@ -503,8 +504,8 @@ public class UserUtil {
                                 // if the setter matches our getter
                                 if (setterMethod.getName().startsWith("set")
                                         && setterMethod.getParameterTypes().length == 1
-                                        && setterMethod.getName().replace("set","")
-                                        .equalsIgnoreCase(getterMethod.getName().replace("get",""))) {
+                                        && setterMethod.getName().replace("set", "")
+                                        .equalsIgnoreCase(getterMethod.getName().replace("get", ""))) {
 
                                     // invoke setter method with default value
                                     setterMethod.invoke(user, preference.getDefaultValue());
@@ -590,7 +591,7 @@ public class UserUtil {
 
             File currentUserBackgrounds = OSUtil.buildFile(
                     DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.USERS.getDirectoryName(),uuid,
+                    DynamicDirectory.USERS.getDirectoryName(), uuid,
                     UserFile.BACKGROUNDS.getName());
 
             if (!currentUserBackgrounds.exists())
@@ -648,7 +649,7 @@ public class UserUtil {
      * This method exists purely for when indexing the preferences and user data
      * is required. The direct setter should be used if possible.
      *
-     * @param name the name of the data to set
+     * @param name  the name of the data to set
      * @param value the new value
      */
     public static void setUserDataById(String name, String value) {
@@ -656,7 +657,7 @@ public class UserUtil {
             for (Method m : cyderUser.getClass().getMethods()) {
                 if (m.getName().startsWith("set")
                         && m.getParameterTypes().length == 1
-                        && m.getName().replace("set","").equalsIgnoreCase(name)) {
+                        && m.getName().replace("set", "").equalsIgnoreCase(name)) {
                     m.invoke(cyderUser, value);
                     writeUser();
                     break;
@@ -716,7 +717,7 @@ public class UserUtil {
      * Returns a user with all the default values set.
      * Note some default values are empty strings and others
      * are objects that should not be cast to strings.
-     *
+     * <p>
      * Due to the mutability of a User, this method exist to create
      * a brand new object with default values each time as a static final
      * user cannot be created and returned safely.
@@ -784,7 +785,7 @@ public class UserUtil {
                 if (user.isDirectory() && user.getName().contains("VoidUser")) {
                     OSUtil.deleteFile(user);
                 } else {
-                    File musicDir = new File(OSUtil.buildPath(user.getAbsolutePath(),"Music"));
+                    File musicDir = new File(OSUtil.buildPath(user.getAbsolutePath(), "Music"));
 
                     if (!musicDir.exists()) {
                         continue;
@@ -802,7 +803,7 @@ public class UserUtil {
                         }
                     }
 
-                    File albumArtDirectory = new File(OSUtil.buildPath(user.getAbsolutePath(),"Music", "AlbumArt"));
+                    File albumArtDirectory = new File(OSUtil.buildPath(user.getAbsolutePath(), "Music", "AlbumArt"));
 
                     if (!albumArtDirectory.exists())
                         continue;
@@ -853,7 +854,7 @@ public class UserUtil {
      * un-parsable, null, empty, not there, or any other reason, this
      * method attempts to locate a backup to save the user.
      * If this fails, an information pane is shown saying which user failed to be parsed
-     *
+     * <p>
      * This method should be utilized anywhere a userdata file is deemed invalid. Never
      * should a userdata file be deleted.
      *
@@ -867,36 +868,36 @@ public class UserUtil {
                     uuid, UserFile.USERDATA.getName());
 
             try {
-               // attempt to recovery a backup
-               Optional<File> userJsonBackup = getUserJsonBackup(uuid);
+                // attempt to recovery a backup
+                Optional<File> userJsonBackup = getUserJsonBackup(uuid);
 
-               if (userJsonBackup.isPresent()) {
-                   File restore = userJsonBackup.get();
+                if (userJsonBackup.isPresent()) {
+                    File restore = userJsonBackup.get();
 
-                   // if it doens't exist create it
-                   if (!userJson.exists())
-                       userJson.createNewFile();
+                    // if it doens't exist create it
+                    if (!userJson.exists())
+                        userJson.createNewFile();
 
-                   Gson gson = new Gson();
+                    Gson gson = new Gson();
 
-                   // ensure the backup is parsable as a user object
-                   Reader reader = new FileReader(restore);
-                   User backupUser = gson.fromJson(reader, User.class);
-                   reader.close();
+                    // ensure the backup is parsable as a user object
+                    Reader reader = new FileReader(restore);
+                    User backupUser = gson.fromJson(reader, User.class);
+                    reader.close();
 
-                   // write user to current user json
-                   Writer writer = new FileWriter(userJson);
-                   gson.toJson(backupUser, writer);
-                   writer.close();
+                    // write user to current user json
+                    Writer writer = new FileWriter(userJson);
+                    gson.toJson(backupUser, writer);
+                    writer.close();
 
-                   // log success
-                   Logger.log(Logger.Tag.CORRUPTION,
-                           "[BACKUP SUCCESS] Successfully restored "
-                                   + uuid + " from: " + FileUtil.getFilename(userJsonBackup.get().getName()));
+                    // log success
+                    Logger.log(Logger.Tag.CORRUPTION,
+                            "[BACKUP SUCCESS] Successfully restored "
+                                    + uuid + " from: " + FileUtil.getFilename(userJsonBackup.get().getName()));
 
-                   // success in restoring user from backup so exit method
-                   return;
-               }
+                    // success in restoring user from backup so exit method
+                    return;
+                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 // exception above so proceed as normal
@@ -913,7 +914,7 @@ public class UserUtil {
                     DynamicDirectory.USERS.getDirectoryName(), uuid);
             File json = OSUtil.buildFile(
                     DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.USERS.getDirectoryName(),uuid, UserFile.USERDATA.getName());
+                    DynamicDirectory.USERS.getDirectoryName(), uuid, UserFile.USERDATA.getName());
 
             // check for empty content
             if (json.exists()) {
@@ -1019,7 +1020,7 @@ public class UserUtil {
      * @return the number of valid users associated with Cyder
      */
     public static int getUserCount() {
-       return getUserUUIDs().size();
+        return getUserUUIDs().size();
     }
 
     /**
@@ -1104,7 +1105,7 @@ public class UserUtil {
             ExceptionHandler.handle(e);
 
             bi = new BufferedImage(img.getWidth(null),
-                    img.getHeight(null),BufferedImage.TYPE_INT_RGB);
+                    img.getHeight(null), BufferedImage.TYPE_INT_RGB);
             Graphics2D g2 = bi.createGraphics();
             g2.drawImage(img, 0, 0, null);
             g2.dispose();
@@ -1163,7 +1164,8 @@ public class UserUtil {
                     Logger.log(Logger.Tag.SYSTEM_IO, "Created file in userspace: " + name);
                     return createFile;
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
             //impossible to throw due to check, or is it?
         }
 

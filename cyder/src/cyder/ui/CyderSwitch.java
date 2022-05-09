@@ -81,8 +81,8 @@ public class CyderSwitch extends JLabel {
     /**
      * Constructs a new switch from the provided parameters.
      *
-     * @param width the width of the switch
-     * @param height the height of the switch
+     * @param width         the width of the switch
+     * @param height        the height of the switch
      * @param startingState the state to initialize the switch in
      */
     public CyderSwitch(int width, int height, State startingState) {
@@ -123,7 +123,7 @@ public class CyderSwitch extends JLabel {
     /**
      * Constructs a new swtich with the inital state as off.
      *
-     * @param width the switch width
+     * @param width  the switch width
      * @param height the switch height
      */
     public CyderSwitch(int width, int height) {
@@ -133,8 +133,8 @@ public class CyderSwitch extends JLabel {
     /**
      * Constructs a new switch with a width of 400, a height of 120, and a state of off.
      */
-    public CyderSwitch () {
-        this(400,120);
+    public CyderSwitch() {
+        this(400, 120);
     }
 
     /**
@@ -147,7 +147,7 @@ public class CyderSwitch extends JLabel {
 
         this.state = state;
 
-        switch(state) {
+        switch (state) {
             case ON:
                 switchButton.setText(onText);
                 if (shouldAniamte)
@@ -169,14 +169,14 @@ public class CyderSwitch extends JLabel {
                         AnimationUtil.componentLeftSepThread(switchButton.getX(),
                                 width / 2 - switchButton.getWidth() / 2, animationDelay, 8, switchButton);
                     }
-                    switchButton.setLocation(width / 2 - switchButton.getWidth() / 2,10);
+                    switchButton.setLocation(width / 2 - switchButton.getWidth() / 2, 10);
                 } else {
                     if (shouldAniamte) {
-                        switchButton.setLocation(10,10);
+                        switchButton.setLocation(10, 10);
                         AnimationUtil.componentRightSepThread(10, width / 2 - switchButton.getWidth() / 2,
                                 animationDelay, 8, switchButton);
                     }
-                    switchButton.setLocation(10,10);
+                    switchButton.setLocation(10, 10);
                 }
                 break;
         }
@@ -286,10 +286,10 @@ public class CyderSwitch extends JLabel {
 
         switch (state) {
             case ON:
-                switchButton.setLocation(width - switchButton.getWidth() - 10,10);
+                switchButton.setLocation(width - switchButton.getWidth() - 10, 10);
                 break;
             case OFF:
-                switchButton.setLocation(10,10);
+                switchButton.setLocation(10, 10);
                 break;
             case INDETERMINITE:
                 switchButton.setLocation(width / 2 - switchButton.getWidth() / 2, 10);

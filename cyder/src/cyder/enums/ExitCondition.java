@@ -14,7 +14,7 @@ public enum ExitCondition {
     ExternalStop(-9, "External Stop"),
     JsonParsingException(-8, "JSON Parsing Exception"),
     FatalTimeout(-7, "Fatal Timeout"),
-    CorruptedSystemFiles(-6,"Corrupted System Files"),
+    CorruptedSystemFiles(-6, "Corrupted System Files"),
     ImproperOS(-5, "Unsupported OS"),
     CorruptedUser(-4, "Corrupted User"),
     UserDeleted(-3, "User Deleted"),
@@ -45,8 +45,8 @@ public enum ExitCondition {
     private final String description;
 
     ExitCondition(int code, String description) {
-       this.code = code;
-       this.description = description;
+        this.code = code;
+        this.description = description;
     }
 
     /**

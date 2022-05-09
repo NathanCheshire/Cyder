@@ -25,7 +25,7 @@ public class RelativeFrame {
     /**
      * Constructs a new RelativeFrame object.
      *
-     * @param frame the frame that is relative to some other component
+     * @param frame   the frame that is relative to some other component
      * @param xOffset the x offset to the other component
      * @param yOffset the y offset to the other component
      */
@@ -67,7 +67,7 @@ public class RelativeFrame {
     /**
      * Sets the x offset to the other component.
      *
-      * @param xOffset the x offset to the other component
+     * @param xOffset the x offset to the other component
      */
     public void setxOffset(int xOffset) {
         this.xOffset = xOffset;

@@ -89,9 +89,9 @@ public class FileUtil {
     /**
      * Returns whether the given file matches the provided signature.
      * Example: passing a png image and an integer array of "89 50 4E 47 0D 0A 1A 0A"
-     *          should return true
+     * should return true
      *
-     * @param file the file to validate
+     * @param file              the file to validate
      * @param expectedSignature the expected file signature bytes
      * @return whether the given file matches the provided signature
      */
@@ -105,7 +105,7 @@ public class FileUtil {
             BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
             int[] headerBytes = new int[expectedSignature.length];
 
-            for (int i = 0; i < expectedSignature.length; i++) {
+            for (int i = 0 ; i < expectedSignature.length ; i++) {
                 headerBytes[i] = inputStream.read();
 
                 if (headerBytes[i] != expectedSignature[i]) {
@@ -165,7 +165,7 @@ public class FileUtil {
     /**
      * Returns whether the provided file ends in the expected extension.
      *
-     * @param file the file to validate the extension again
+     * @param file              the file to validate the extension again
      * @param expectedExtension the expected extension such as ".json"
      * @return whether the provided file ends in the expected extension
      */
@@ -180,7 +180,7 @@ public class FileUtil {
     /**
      * Returns whether the provided file ends in one of the expected extensions.
      *
-     * @param file the file to validate the extension again
+     * @param file               the file to validate the extension again
      * @param expectedExtensions the expected extensions such as ".json", ".mp3", ".png", etc.
      * @return whether the provided file ends in one of the expected extension
      */
@@ -195,7 +195,7 @@ public class FileUtil {
     /**
      * Returns whether the file's name without the extension matches the expected name.
      *
-     * @param file the file
+     * @param file         the file
      * @param expectedName the expected name
      * @return whether the file's name without the extension matches the expected name
      */
@@ -231,7 +231,7 @@ public class FileUtil {
         if (!fileOne.exists() || !fileTwo.exists())
             return false;
 
-       boolean ret;
+        boolean ret;
 
         try {
             ret = com.google.common.io.Files.equal(fileOne, fileTwo);
@@ -246,10 +246,10 @@ public class FileUtil {
     /**
      * Zips the provided file/folder and deletes the original if successful and requested.
      *
-     * @param source the file/dir to zip
+     * @param source      the file/dir to zip
      * @param destination the destination of the zip archive
      */
-    public static void zip(String source, String destination)  {
+    public static void zip(String source, String destination) {
         checkNotNull(source);
         checkNotNull(destination);
 
@@ -259,11 +259,11 @@ public class FileUtil {
 
             if (new File(destination).exists()) {
                 int incrementer = 1;
-                usedFileName = destination.replace(".zip","") + "_" + incrementer + ".zip";
+                usedFileName = destination.replace(".zip", "") + "_" + incrementer + ".zip";
 
                 while (new File(usedFileName).exists()) {
                     incrementer++;
-                    usedFileName = destination.replace(".zip","") + "_" + incrementer + ".zip";
+                    usedFileName = destination.replace(".zip", "") + "_" + incrementer + ".zip";
                 }
             } else {
                 usedFileName = destination;
@@ -272,7 +272,7 @@ public class FileUtil {
             Path zipFile = Files.createFile(Paths.get(usedFileName));
             Path sourceDirPath = Paths.get(source);
 
-            try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile));
+            try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile)) ;
                  Stream<Path> paths = Files.walk(sourceDirPath)) {
                 paths.filter(path -> !Files.isDirectory(path)).forEach(path -> {
                     ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
@@ -298,7 +298,7 @@ public class FileUtil {
     /**
      * Unzips the provided zip directory to the provided directory.
      *
-     * @param sourceZip the source zip file
+     * @param sourceZip         the source zip file
      * @param destinationFolder the folder to save the contents of the zip to
      * @return whether the unzipping process was successful
      */

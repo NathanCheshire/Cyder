@@ -25,8 +25,8 @@ public final class CyderRegexPatterns {
      * Pattern to identify common phone number patterns
      */
     public static final Pattern phoneNumberPattern =
-           Pattern.compile( "\\s*[0-9]?\\s*[\\-]?\\s*[(]?\\s*[0-9]{0,3}\\s*[)]?\\s*" +
-                   "[\\-]?\\s*[0-9]{3}\\s*[\\-]?\\s*[0-9]{4}\\s*");
+            Pattern.compile("\\s*[0-9]?\\s*[\\-]?\\s*[(]?\\s*[0-9]{0,3}\\s*[)]?\\s*" +
+                    "[\\-]?\\s*[0-9]{3}\\s*[\\-]?\\s*[0-9]{4}\\s*");
 
     /**
      * Pattern to identify common phone number patterns with an
@@ -70,7 +70,7 @@ public final class CyderRegexPatterns {
      */
     public static final Pattern rgbPattern =
             Pattern.compile("((\\d{1,3})|(\\d{1,3},)|(\\d{1,3},\\d{1,3})|(\\d{1,3},\\d{1,3},)" +
-            "|(\\d{1,3},\\d{1,3},\\d{1,3}))");
+                    "|(\\d{1,3},\\d{1,3},\\d{1,3}))");
 
     /**
      * The pattern for matching carriage returns.

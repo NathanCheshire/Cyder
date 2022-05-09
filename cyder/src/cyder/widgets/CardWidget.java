@@ -19,12 +19,12 @@ import java.awt.*;
 /**
  * Naming convention: you should name the card with the name of
  * the holiday followed by the year without any spaces.
- *
+ * <p>
  * Example: Christmas2022() or Halloween2020() could be a method.
  * These methods will then be automatically invoked on that particular day
  * See special day events in ConsoleFrame for an example on how these
  * methods are invoked and why.
- *
+ * <p>
  * Additionally, make sure to tag your card with an @Widget annotation as well as a
  * {@code @SuppressCyderInspections} annotation to avoid false warnings.
  */
@@ -46,19 +46,19 @@ public class CardWidget {
     @Widget(triggers = "Christmascard2020", description = "Christmas card for the year of 2020")
     @SuppressCyderInspections(values = "WidgetInspection")
     public static void Christmas2020() {
-        
+
 
         if (christmas2020Frame != null)
             christmas2020Frame.dispose();
 
-        christmas2020Frame = new CyderFrame(498,490, new ImageIcon("static/pictures/cards/Santa.gif"));
+        christmas2020Frame = new CyderFrame(498, 490, new ImageIcon("static/pictures/cards/Santa.gif"));
         christmas2020Frame.setTitle("Merry Christmas!");
         christmas2020Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
         christmas2020Frame.initializeResizing();
-        christmas2020Frame.setMinimumSize(new Dimension(498,490));
-        christmas2020Frame.setMaximumSize(new Dimension(498 * 2,498 * 2));
-        christmas2020Frame.setSnapSize(new Dimension(1,1));
+        christmas2020Frame.setMinimumSize(new Dimension(498, 490));
+        christmas2020Frame.setMaximumSize(new Dimension(498 * 2, 498 * 2));
+        christmas2020Frame.setSnapSize(new Dimension(1, 1));
         christmas2020Frame.setBackground(CyderColors.vanila);
         christmas2020Frame.setFrameResizing(true);
 
@@ -73,7 +73,7 @@ public class CardWidget {
         cardLabel.setFont(CyderFonts.segoe20.deriveFont(24f));
         cardLabel.setHorizontalAlignment(JLabel.CENTER);
         cardLabel.setVerticalAlignment(JLabel.CENTER);
-        cardLabel.setBounds(498 + 40,40, christmas2020Frame.getWidth() - 40, christmas2020Frame.getHeight() - 40);
+        cardLabel.setBounds(498 + 40, 40, christmas2020Frame.getWidth() - 40, christmas2020Frame.getHeight() - 40);
         christmas2020Frame.getContentPane().add(cardLabel);
 
         christmas2020Frame.finalizeAndShow();
@@ -82,12 +82,12 @@ public class CardWidget {
     @Widget(triggers = "FathersDaycard2021", description = "Fathers day card for the year of 2021")
     @SuppressCyderInspections(values = "WidgetInspection")
     public static void FathersDay2021() {
-        
+
 
         if (fathersDay2021Frame != null)
             fathersDay2021Frame.dispose();
 
-        fathersDay2021Frame = new CyderFrame(800,721, new ImageIcon("static/pictures/cards/Philmont.png"));
+        fathersDay2021Frame = new CyderFrame(800, 721, new ImageIcon("static/pictures/cards/Philmont.png"));
         fathersDay2021Frame.setTitle("Happy Father's Day!");
         fathersDay2021Frame.setBackground(CyderColors.navy);
         fathersDay2021Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
@@ -99,7 +99,7 @@ public class CardWidget {
         cardLabel.setFont(CyderFonts.segoe20.deriveFont(24f));
         cardLabel.setHorizontalAlignment(JLabel.CENTER);
         cardLabel.setVerticalAlignment(JLabel.CENTER);
-        cardLabel.setBounds(5,40, fathersDay2021Frame.getWidth() - 40, 240);
+        cardLabel.setBounds(5, 40, fathersDay2021Frame.getWidth() - 40, 240);
         fathersDay2021Frame.getContentPane().add(cardLabel);
 
         fathersDay2021Frame.finalizeAndShow();
@@ -108,12 +108,12 @@ public class CardWidget {
     @Widget(triggers = "Birthdaycard2021", description = "Birthday card for my dad for the year 2021")
     @SuppressCyderInspections(values = "WidgetInspection")
     public static void Birthday2021() {
-        
+
 
         if (birthday2021Frame != null)
             birthday2021Frame.dispose();
 
-        birthday2021Frame = new CyderFrame(800,600, new ImageIcon("static/pictures/cards/Confetti.png"));
+        birthday2021Frame = new CyderFrame(800, 600, new ImageIcon("static/pictures/cards/Confetti.png"));
         birthday2021Frame.setTitle("Happy Birthday Day!");
         birthday2021Frame.setBackground(CyderColors.navy);
         birthday2021Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
@@ -125,7 +125,7 @@ public class CardWidget {
         cardLabel.setFont(CyderFonts.segoe20.deriveFont(24f));
         cardLabel.setHorizontalAlignment(JLabel.CENTER);
         cardLabel.setVerticalAlignment(JLabel.CENTER);
-        cardLabel.setBounds(5,40, birthday2021Frame.getWidth() - 40, 240);
+        cardLabel.setBounds(5, 40, birthday2021Frame.getWidth() - 40, 240);
         birthday2021Frame.getContentPane().add(cardLabel);
 
         birthday2021Frame.finalizeAndShow();
@@ -137,7 +137,7 @@ public class CardWidget {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-            },"Birthday card 2021 notification wait thread");
+            }, "Birthday card 2021 notification wait thread");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -146,12 +146,12 @@ public class CardWidget {
     @Widget(triggers = "Christmascard2021", description = "Christmas card for the year of 2021")
     @SuppressCyderInspections(values = "WidgetInspection")
     public static void Christmas2021() {
-        
+
 
         if (christmas2021Frame != null)
             christmas2021Frame.dispose();
 
-        christmas2021Frame = new CyderFrame(800,800);
+        christmas2021Frame = new CyderFrame(800, 800);
         christmas2021Frame.setTitle("Merry Christmas!");
         christmas2021Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
@@ -165,7 +165,7 @@ public class CardWidget {
                 "<br/><br/>Love,<br/>" +
                 "Nathan</html>");
         cardLabel.setFont(CyderFonts.segoe20.deriveFont(24f));
-        cardLabel.setBounds(40, 40, christmas2021Frame.getWidth() - 80,christmas2021Frame.getHeight() - 80);
+        cardLabel.setBounds(40, 40, christmas2021Frame.getWidth() - 80, christmas2021Frame.getHeight() - 80);
         christmas2021Frame.getContentPane().add(cardLabel);
         cardLabel.setRippleChars(25);
         cardLabel.setRippleMsTimeout(20);

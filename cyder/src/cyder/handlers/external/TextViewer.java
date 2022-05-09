@@ -44,15 +44,15 @@ public class TextViewer {
      * Opens the text viewer gui.
      */
     public void showGui() {
-        textEditorFrame = new CyderFrame(600,625, CyderIcons.defaultBackground);
+        textEditorFrame = new CyderFrame(600, 625, CyderIcons.defaultBackground);
         textEditorFrame.setTitle("Editing: " + file.getName().replace(".txt", ""));
 
         textNameEditField = new CyderTextField(0);
         textNameEditField.setHorizontalAlignment(JTextField.CENTER);
         textNameEditField.setBackground(Color.white);
         textNameEditField.setToolTipText("Change Name");
-        textNameEditField.setText(file.getName().replaceFirst(".txt",""));
-        textNameEditField.setBounds(50,50,600 - 50 - 50, 40);
+        textNameEditField.setText(file.getName().replaceFirst(".txt", ""));
+        textNameEditField.setBounds(50, 50, 600 - 50 - 50, 40);
         textEditorFrame.getContentPane().add(textNameEditField);
 
         textEditArea = new JTextArea(20, 20);
@@ -68,8 +68,8 @@ public class TextViewer {
         CyderScrollPane textScroll = new CyderScrollPane(textEditArea,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        textScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
-        textScroll.setBounds(50,120,500, 400);
+        textScroll.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        textScroll.setBounds(50, 120, 500, 400);
         textEditorFrame.getContentPane().add(textScroll);
 
         try {
@@ -82,14 +82,12 @@ public class TextViewer {
             }
 
             textReader.close();
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
         CyderButton saveText = new CyderButton("Save & Resign");
-        saveText.setBorder(new LineBorder(CyderColors.navy,5,false));
+        saveText.setBorder(new LineBorder(CyderColors.navy, 5, false));
         saveText.setFocusPainted(false);
         saveText.setBackground(CyderColors.regularRed);
         saveText.setFont(CyderFonts.segoe20);
@@ -106,21 +104,17 @@ public class TextViewer {
                     file.renameTo(newName);
                     textEditorFrame.notify(newName.getName().replace(".txt", "")
                             + " has been successfully saved");
-                }
-
-                else {
+                } else {
                     textEditorFrame.notify(file.getName().replace(".txt", "")
                             + " has been successfully saved");
                 }
 
                 textEditorFrame.dispose();
-            }
-
-            catch (Exception exc) {
+            } catch (Exception exc) {
                 ExceptionHandler.handle(exc);
             }
         });
-        saveText.setBounds(50,550,600 - 50 - 50, 40);
+        saveText.setBounds(50, 550, 600 - 50 - 50, 40);
         textEditorFrame.getContentPane().add(saveText);
 
         textEditorFrame.finalizeAndShow();

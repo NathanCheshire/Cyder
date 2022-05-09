@@ -47,7 +47,7 @@ public class ImagePixelatorWidget {
 
     @Widget(triggers = {"pixelatepicture", "pixelateimage", "pixelator"},
             description = "A simple image pixelator widget that transforms" +
-            " the image into an image depicted of the specified number of pixels")
+                    " the image into an image depicted of the specified number of pixels")
     public static void showGui() {
         showGui(null);
     }

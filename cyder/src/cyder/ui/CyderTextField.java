@@ -67,12 +67,12 @@ public class CyderTextField extends JTextField {
         addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent evt) {
                 if (getText().length() > limit) {
-                    setText(getText().substring(0,getText().length() - 1));
+                    setText(getText().substring(0, getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
                 } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty()
                         && getText() != null && !getText().isEmpty()) {
                     if (!currentTextMatchesPattern()) {
-                        setText(getText().substring(0,getText().length() - 1));
+                        setText(getText().substring(0, getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
                     }
                 }
@@ -80,12 +80,12 @@ public class CyderTextField extends JTextField {
 
             public void keyPressed(KeyEvent evt) {
                 if (getText().length() > limit) {
-                    setText(getText().substring(0,getText().length() - 1));
+                    setText(getText().substring(0, getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
                 } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty()
                         && getText() != null && !getText().isEmpty()) {
                     if (!currentTextMatchesPattern()) {
-                        setText(getText().substring(0,getText().length() - 1));
+                        setText(getText().substring(0, getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
                     }
                 }
@@ -93,12 +93,12 @@ public class CyderTextField extends JTextField {
 
             public void keyReleased(KeyEvent evt) {
                 if (getText().length() > limit) {
-                    setText(getText().substring(0,getText().length() - 1));
+                    setText(getText().substring(0, getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
                 } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty()
                         && getText() != null && !getText().isEmpty()) {
                     if (!currentTextMatchesPattern()) {
-                        setText(getText().substring(0,getText().length() - 1));
+                        setText(getText().substring(0, getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
                     }
                 }
@@ -235,7 +235,7 @@ public class CyderTextField extends JTextField {
 
     /**
      * {@inheritDoc}
-     *
+     * <p>
      * If line borders are used, then the invalid
      * and valid form data methods may be called.
      */

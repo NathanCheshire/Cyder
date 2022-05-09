@@ -36,7 +36,7 @@ public class OSUtil {
      * A list of the restricted windows filenames due to backwards compatibility
      * and the nature of "APIs are forever".
      */
-    public static final ArrayList<String> invalidWindowsFilenames = new ArrayList<>(){{
+    public static final ArrayList<String> invalidWindowsFilenames = new ArrayList<>() {{
         add("CON");
         add("PRN");
         add("AUX");
@@ -136,7 +136,7 @@ public class OSUtil {
      * Controlled program exit that calls System.exit which will also invoke the shutdown hook.
      *
      * @param exitCondition the exiting code to describe why the program exited (0 is standard
-     *             but for this program, the key/value pairs in {@link ExitCondition} are followed)
+     *                      but for this program, the key/value pairs in {@link ExitCondition} are followed)
      */
     public static void exit(ExitCondition exitCondition) {
         try {
@@ -287,7 +287,7 @@ public class OSUtil {
 
         StringBuilder ret = new StringBuilder();
 
-        for (int i = 0; i < directories.length; i++) {
+        for (int i = 0 ; i < directories.length ; i++) {
             ret.append(directories[i]);
 
             if (i != directories.length - 1)
@@ -389,8 +389,8 @@ public class OSUtil {
      * Deletes the provided file/folder recursively.
      *
      * @param fileOrFolder the folder/file to delete
-     * @param log whether to log the delete operation. Ideally this is
-     *            always true but some rare cases require loggin to be skipped.
+     * @param log          whether to log the delete operation. Ideally this is
+     *                     always true but some rare cases require loggin to be skipped.
      * @return whether the folder/file was successfully deleted
      */
     @CanIgnoreReturnValue
@@ -467,7 +467,7 @@ public class OSUtil {
      * Returns a list of all files contained within the startDir and subdirectories
      * that have the specified extension.
      *
-     * @param startDir the starting directory
+     * @param startDir  the starting directory
      * @param extension the specified extension. Ex. ".java" (Pass null to ignore file extensions)
      * @return an ArrayList of all files with the given extension found within the startDir and
      * subdirectories
@@ -546,7 +546,7 @@ public class OSUtil {
 
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < gs.length; i++) {
+        for (int i = 0 ; i < gs.length ; i++) {
             DisplayMode dm = gs[i].getDisplayMode();
             sb.append(i);
             sb.append(", width: ");
@@ -578,11 +578,11 @@ public class OSUtil {
 
     /**
      * Executes the provided process and prints the output to the provided input handler.
-     *
+     * <p>
      * Note that this is executed on the current thread so surround invokation of this method
      * with a new thread to avoid blocking the calling thread.
      *
-     * @param pipeTo the input handle to print the output to
+     * @param pipeTo  the input handle to print the output to
      * @param builder the process builder to run
      */
     public static void runAndPrintProcess(InputHandler pipeTo, ProcessBuilder builder) {
@@ -607,7 +607,7 @@ public class OSUtil {
     /**
      * Executes the provided processes successively and prints the output to the provided input handler.
      *
-     * @param pipeTo the input handle to print the output to
+     * @param pipeTo   the input handle to print the output to
      * @param builders the process builders to run
      */
     public static void runAndPrintProcessesSuccessive(InputHandler pipeTo, ProcessBuilder... builders) {
@@ -659,7 +659,7 @@ public class OSUtil {
             Runtime rt = Runtime.getRuntime();
             Process proc = rt.exec(invokeCommand);
         } catch (Exception e) {
-           return false;
+            return false;
         }
 
         return true;

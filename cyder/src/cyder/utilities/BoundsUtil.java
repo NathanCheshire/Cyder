@@ -36,9 +36,10 @@ public class BoundsUtil {
 
     /**
      * Calculates the needed height of an inform/dialog window.
+     *
      * @param text the string to display
      * @return an object composed of the width, height, and possibly corrected text to form the bounding box
-     *           for the provided display string.
+     * for the provided display string.
      */
     public static BoundsString widthHeightCalculation(String text) {
         return widthHeightCalculation(text, CyderFonts.defaultFontSmall, ScreenUtil.getScreenWidth() / 2);
@@ -50,11 +51,12 @@ public class BoundsUtil {
 
     /**
      * Calculates the needed height for an inform/dialog window given the preferred width and text.
-     * @param text the string to display
+     *
+     * @param text     the string to display
      * @param maxWidth the maximum width allowed
-     * @param font the font to be used
+     * @param font     the font to be used
      * @return an object composed of the width, height, and possibly corrected text to form the bounding box
-     *           for the provided display string.
+     * for the provided display string.
      */
     public static BoundsString widthHeightCalculation(String text, Font font, int maxWidth) {
         // init red object
@@ -251,7 +253,7 @@ public class BoundsUtil {
      * Note that break tags may NOT exist in this string and should be parsed
      * away prior to invoking this method.
      *
-     * @param rawText the raw text
+     * @param rawText  the raw text
      * @param numLines the numbr of lines required
      * @return the text with html line breaks inserted
      */
@@ -283,7 +285,7 @@ public class BoundsUtil {
             if (ret.charAt(i) == ' ') {
                 StringBuilder sb = new StringBuilder(ret);
                 sb.deleteCharAt(i);
-                sb.insert(i,"<br/>");
+                sb.insert(i, "<br/>");
                 ret = sb.toString();
             }
             // otherwise logic is harder
@@ -298,7 +300,7 @@ public class BoundsUtil {
                         if (ret.charAt(j) == ' ') {
                             StringBuilder sb = new StringBuilder(ret);
                             sb.deleteCharAt(j);
-                            sb.insert(j,"<br/>");
+                            sb.insert(j, "<br/>");
                             ret = sb.toString();
                             spaceFound = true;
                             currentLines++;
@@ -319,7 +321,7 @@ public class BoundsUtil {
                         if (ret.charAt(j) == ' ') {
                             StringBuilder sb = new StringBuilder(ret);
                             sb.deleteCharAt(j);
-                            sb.insert(j,"<br/>");
+                            sb.insert(j, "<br/>");
                             ret = sb.toString();
                             spaceFound = true;
                             currentLines++;
@@ -334,7 +336,7 @@ public class BoundsUtil {
                 // unfortunate final resort is to just place the string at the location we are currently at
                 // there shouldn't be any html formatting in this string so this is safe.
                 StringBuilder sb = new StringBuilder(ret);
-                sb.insert(i,"<br/>");
+                sb.insert(i, "<br/>");
                 ret = sb.toString();
             }
             currentLines++;

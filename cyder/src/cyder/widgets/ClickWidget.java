@@ -29,7 +29,7 @@ public class ClickWidget {
     @Widget(triggers = "clickme", description = "A troll widget that pops open a new window every time it is clicked")
     public static void showGui() {
         try {
-            CyderFrame clickMeFrame = new CyderFrame(220,100) {
+            CyderFrame clickMeFrame = new CyderFrame(220, 100) {
                 @Override
                 public void dispose() {
                     dispose(true);
@@ -70,7 +70,7 @@ public class ClickWidget {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
             Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
-            clickMeFrame.setLocation(NumberUtil.randInt(0, (int) (rect.getMaxX() - 200)),NumberUtil.randInt(0,(int) rect.getMaxY() - 200));
+            clickMeFrame.setLocation(NumberUtil.randInt(0, (int) (rect.getMaxX() - 200)), NumberUtil.randInt(0, (int) rect.getMaxY() - 200));
             clickMeFrame.setAlwaysOnTop(true);
         } catch (Exception e) {
             ExceptionHandler.handle(e);

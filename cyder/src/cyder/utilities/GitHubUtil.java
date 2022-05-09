@@ -182,8 +182,8 @@ public class GitHubUtil {
      * Clones the provided github repo to the provided directory.
      *
      * @param githubRepo the URL of the github repository to clone
-     * @param directory the directory to save the repo to.
-     *                  Note this directory must exist prior to method invocation
+     * @param directory  the directory to save the repo to.
+     *                   Note this directory must exist prior to method invocation
      * @return whether the repo was successfully cloned and saved
      */
     public static Future<Optional<Boolean>> cloneRepoToDirectory(String githubRepo, File directory) {
@@ -213,7 +213,7 @@ public class GitHubUtil {
             if (!repoName.endsWith(".git"))
                 return Optional.of(Boolean.FALSE);
 
-            repoName = repoName.replace(".git","");
+            repoName = repoName.replace(".git", "");
 
             //folder name is index of last / to the .git
             File saveDir = new File(directory.getAbsolutePath()

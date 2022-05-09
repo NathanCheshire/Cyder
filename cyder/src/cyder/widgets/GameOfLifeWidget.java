@@ -204,7 +204,7 @@ public class GameOfLifeWidget {
     }
 
     @SuppressCyderInspections(values = "WidgetInspection")
-    @Widget(triggers = {"conway","conways","game of life"}, description = "Conway's game of life visualizer")
+    @Widget(triggers = {"conway", "conways", "game of life"}, description = "Conway's game of life visualizer")
     public static void showGui() {
         if (conwayFrame != null)
             conwayFrame.disposeIfActive();
@@ -310,16 +310,16 @@ public class GameOfLifeWidget {
                 conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
         conwayFrame.getContentPane().add(loadButton);
         loadButton.addActionListener(e -> {
-           CyderThreadRunner.submit(() -> {
-               GetterBuilder builder = new GetterBuilder("Load state");
-               builder.setRelativeTo(conwayFrame);
-               File loadFile = GetterUtil.getInstance().getFile(builder);
+            CyderThreadRunner.submit(() -> {
+                GetterBuilder builder = new GetterBuilder("Load state");
+                builder.setRelativeTo(conwayFrame);
+                File loadFile = GetterUtil.getInstance().getFile(builder);
 
-               if (loadFile != null && loadFile.exists()
-                       && FileUtil.validateExtension(loadFile, ".json")) {
-                   fromJson(loadFile);
-               }
-           }, "Conway State Loader");
+                if (loadFile != null && loadFile.exists()
+                        && FileUtil.validateExtension(loadFile, ".json")) {
+                    fromJson(loadFile);
+                }
+            }, "Conway State Loader");
         });
 
         CyderLabel detectOscillationsLabel = new CyderLabel("Oscillations");
@@ -525,7 +525,7 @@ public class GameOfLifeWidget {
                     ExceptionHandler.handle(e);
                 }
             }
-        },"Conway Simulator");
+        }, "Conway Simulator");
     }
 
     /**
@@ -614,7 +614,7 @@ public class GameOfLifeWidget {
      * needed to compute the next Conway iteration.
      *
      * @param nodes the list of cydergrid nodes
-     * @param len the dimensional length of the grid
+     * @param len   the dimensional length of the grid
      * @return the 2D array consisting of 1s and 0s
      */
     private static int[][] cyderGridToConwayGrid(LinkedList<GridNode> nodes, int len) {
@@ -643,8 +643,8 @@ public class GameOfLifeWidget {
         for (int l = 1 ; l < currentGeneration.length - 1 ; l++) {
             for (int m = 1 ; m < currentGeneration[0].length - 1 ; m++) {
                 int aliveNeighbours = 0;
-                for (int i = -1; i <= 1; i++) {
-                    for (int j = -1; j <= 1; j++) {
+                for (int i = -1 ; i <= 1 ; i++) {
+                    for (int j = -1 ; j <= 1 ; j++) {
                         aliveNeighbours += currentGeneration[l + i][m + j];
                     }
                 }
@@ -673,7 +673,7 @@ public class GameOfLifeWidget {
         switcherStates = new ArrayList<>();
         correspondingConwayStates = new ArrayList<>();
 
-        File statesDir = new File(OSUtil.buildPath("static","json","conway"));
+        File statesDir = new File(OSUtil.buildPath("static", "json", "conway"));
 
         if (statesDir.exists()) {
             for (File json : statesDir.listFiles()) {
@@ -685,7 +685,8 @@ public class GameOfLifeWidget {
 
                         correspondingConwayStates.add(loadState);
                         switcherStates.add(new SwitcherState(loadState.getName()));
-                    } catch (Exception ignored) {}
+                    } catch (Exception ignored) {
+                    }
                 }
             }
         }

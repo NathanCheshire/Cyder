@@ -143,7 +143,7 @@ public class PathFinderWidget {
     /**
      * The default slider value in between the min and max values.
      */
-    private static final int DEFAULT_SLIDER_VALUE = (MIN_SLIDER_VALUE + MAX_SLIDER_VALUE ) / 2;
+    private static final int DEFAULT_SLIDER_VALUE = (MIN_SLIDER_VALUE + MAX_SLIDER_VALUE) / 2;
 
     /**
      * The timeout in ms between the path animation refresh.
@@ -227,7 +227,7 @@ public class PathFinderWidget {
     /**
      * The default point the starting node is placed at.
      */
-    private static final Point DEFAULT_START_POINT = new Point(0,0);
+    private static final Point DEFAULT_START_POINT = new Point(0, 0);
 
     /**
      * The default point the goal node is placed at.
@@ -263,13 +263,13 @@ public class PathFinderWidget {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    @Widget(triggers = {"path","pathfinder", "A*"},
+    @Widget(triggers = {"path", "pathfinder", "A*"},
             description = "A pathfinding visualizer for A* and Dijkstras algorithms")
     public static void showGui() {
         if (pathFindingFrame != null)
             pathFindingFrame.dispose();
 
-        pathFindingFrame = new CyderFrame(1000,1070, CyderIcons.defaultBackgroundLarge);
+        pathFindingFrame = new CyderFrame(1000, 1070, CyderIcons.defaultBackgroundLarge);
         pathFindingFrame.setTitle("Pathfinding Visualizer");
 
         pathfindingGrid = new CyderGrid(DEFAULT_NODES, 800);
@@ -293,12 +293,12 @@ public class PathFinderWidget {
         int startX = pathfindingGrid.getX();
 
         CyderLabel placeStartLabel = new CyderLabel("Start");
-        placeStartLabel.setBounds(startX - 50, startY + 5,150,40);
+        placeStartLabel.setBounds(startX - 50, startY + 5, 150, 40);
         pathFindingFrame.getContentPane().add(placeStartLabel);
 
         placeStartBox = new CyderCheckbox();
         placeStartBox.setToolTipText("Place start node");
-        placeStartBox.setBounds(startX, startY + 40,50,50);
+        placeStartBox.setBounds(startX, startY + 40, 50, 50);
         pathFindingFrame.getContentPane().add(placeStartBox);
         placeStartBox.addMouseListener(new MouseAdapter() {
             @Override
@@ -324,12 +324,12 @@ public class PathFinderWidget {
         });
 
         CyderLabel placeGoalLabel = new CyderLabel("Goal");
-        placeGoalLabel.setBounds(startX - 50 + 80, startY + 5,150,40);
+        placeGoalLabel.setBounds(startX - 50 + 80, startY + 5, 150, 40);
         pathFindingFrame.getContentPane().add(placeGoalLabel);
 
         placeGoalBox = new CyderCheckbox();
         placeGoalBox.setToolTipText("Place goal node");
-        placeGoalBox.setBounds(startX + 80, startY + 40,50,50);
+        placeGoalBox.setBounds(startX + 80, startY + 40, 50, 50);
         pathFindingFrame.getContentPane().add(placeGoalBox);
         placeGoalBox.addMouseListener(new MouseAdapter() {
             @Override
@@ -359,12 +359,12 @@ public class PathFinderWidget {
         nodeGroup.addCheckbox(placeGoalBox);
 
         CyderLabel deleteWallsLabel = new CyderLabel("Delete walls");
-        deleteWallsLabel.setBounds(startX - 50 + 80 * 2, startY + 5,150,40);
+        deleteWallsLabel.setBounds(startX - 50 + 80 * 2, startY + 5, 150, 40);
         pathFindingFrame.getContentPane().add(deleteWallsLabel);
 
         deleteWallsCheckBox = new CyderCheckbox();
         deleteWallsCheckBox.setToolTipText("Delete Walls");
-        deleteWallsCheckBox.setBounds(startX + 80 * 2, startY + 40,50,50);
+        deleteWallsCheckBox.setBounds(startX + 80 * 2, startY + 40, 50, 50);
         pathFindingFrame.getContentPane().add(deleteWallsCheckBox);
         deleteWallsCheckBox.addMouseListener(new MouseAdapter() {
             @Override
@@ -380,30 +380,30 @@ public class PathFinderWidget {
         });
 
         CyderLabel showStepsLabel = new CyderLabel("Steps");
-        showStepsLabel.setBounds(startX - 50, startY + 5 + 80,150,40);
+        showStepsLabel.setBounds(startX - 50, startY + 5 + 80, 150, 40);
         pathFindingFrame.getContentPane().add(showStepsLabel);
 
         showStepsBox = new CyderCheckbox();
         showStepsBox.setToolTipText("Show steps");
-        showStepsBox.setBounds(startX, startY + 40 + 80,50,50);
+        showStepsBox.setBounds(startX, startY + 40 + 80, 50, 50);
         pathFindingFrame.getContentPane().add(showStepsBox);
 
         CyderLabel allowDiagonalsLabel = new CyderLabel("Diagonals");
-        allowDiagonalsLabel.setBounds(startX - 50 + 80, startY + 5 + 80,150,40);
+        allowDiagonalsLabel.setBounds(startX - 50 + 80, startY + 5 + 80, 150, 40);
         pathFindingFrame.getContentPane().add(allowDiagonalsLabel);
 
         diagonalBox = new CyderCheckbox();
         diagonalBox.setToolTipText("Allow diagonals");
-        diagonalBox.setBounds(startX + 80, startY + 40 + 80,50,50);
+        diagonalBox.setBounds(startX + 80, startY + 40 + 80, 50, 50);
         pathFindingFrame.getContentPane().add(diagonalBox);
 
         CyderLabel drawGridLinesLabel = new CyderLabel("Grid Lines");
-        drawGridLinesLabel.setBounds(startX - 50 + 80 * 2, startY + 5 + 80,150,40);
+        drawGridLinesLabel.setBounds(startX - 50 + 80 * 2, startY + 5 + 80, 150, 40);
         pathFindingFrame.getContentPane().add(drawGridLinesLabel);
 
         drawGridLinesBox = new CyderCheckbox();
         drawGridLinesBox.setToolTipText("Draw grid lines");
-        drawGridLinesBox.setBounds(startX + 80 * 2, startY + 40 + 80,50,50);
+        drawGridLinesBox.setBounds(startX + 80 * 2, startY + 40 + 80, 50, 50);
         drawGridLinesBox.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -423,7 +423,7 @@ public class PathFinderWidget {
         pathFindingFrame.getContentPane().add(reset);
 
         startPauseButton = new CyderButton("Start");
-        startPauseButton.setBounds(350,startY + 40 + 80, 180, 50);
+        startPauseButton.setBounds(350, startY + 40 + 80, 180, 50);
         startPauseButton.addActionListener(e -> {
             // start must be placed
             if (pathfindingGrid.getNodesOfColor(startNodeColor).isEmpty()) {
@@ -463,7 +463,7 @@ public class PathFinderWidget {
         });
         pathFindingFrame.getContentPane().add(startPauseButton);
 
-        heuristicSwitch = new CyderSwitch(350,50);
+        heuristicSwitch = new CyderSwitch(350, 50);
         heuristicSwitch.setOffText(HEURISTIC_OFF);
         heuristicSwitch.setOnText(HEURISTIC_ON);
         heuristicSwitch.setToolTipText("A* Heuristic");
@@ -492,7 +492,7 @@ public class PathFinderWidget {
         pathFindingFrame.getContentPane().add(speedSlider);
         // no change listener since the sleep value is used as soon as possible
 
-        algorithmSwitch = new CyderSwitch(350,50);
+        algorithmSwitch = new CyderSwitch(350, 50);
         algorithmSwitch.setOffText(ALGORITHM_OFF);
         algorithmSwitch.setOnText(ALGORITHM_ON);
         algorithmSwitch.setToolTipText("Algorithm Switcher");
@@ -592,13 +592,13 @@ public class PathFinderWidget {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"Path Solver");
+        }, "Path Solver");
     }
 
     /**
      * Takes a step towards the goal node according to
      * the current heuristic and pathable nodes.
-     *
+     * <p>
      * This is equivalent to what is computed in the primary A* while loop.
      * A future feature could be added to allow the algorithm to be
      * stepped through via this method.
@@ -607,7 +607,7 @@ public class PathFinderWidget {
         if (!openNodes.isEmpty()) {
             PathNode min = openNodes.poll();
 
-             if (min.equals(goalNode)) {
+            if (min.equals(goalNode)) {
                 goalNode.setParent(min.getParent());
 
                 pathFound();
@@ -624,7 +624,7 @@ public class PathFinderWidget {
                 }
             }
 
-            for (PathNode neighbor: neighbors) {
+            for (PathNode neighbor : neighbors) {
                 //calculate new H
                 double newH = heuristic(neighbor);
 
@@ -681,7 +681,7 @@ public class PathFinderWidget {
 
         // reverse the path so that it goes from start to goal
         ArrayList<Point> pathReversed = new ArrayList<>();
-        for (int i = pathForward.size() - 1; i > -1 ; i--) {
+        for (int i = pathForward.size() - 1 ; i > -1 ; i--) {
             pathReversed.add(pathForward.get(i));
         }
 
@@ -703,7 +703,7 @@ public class PathFinderWidget {
         /**
          * The color used for the path found animation trickle.
          */
-        private static final Color PATH_ANIMATION_COLOR = new Color(34,216,248);
+        private static final Color PATH_ANIMATION_COLOR = new Color(34, 216, 248);
 
         /**
          * Whether this animation has been killed

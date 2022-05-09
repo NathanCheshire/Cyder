@@ -72,7 +72,7 @@ public final class InformBuilder {
      */
     public InformBuilder(String htmlText) {
         Preconditions.checkNotNull(htmlText);
-        Preconditions.checkArgument( StringUtil.getRawTextLength(htmlText) >= MINIMUM_TEXT_LENGTH);
+        Preconditions.checkArgument(StringUtil.getRawTextLength(htmlText) >= MINIMUM_TEXT_LENGTH);
 
         this.htmlText = htmlText;
         Logger.log(Logger.Tag.OBJECT_CREATION, this);

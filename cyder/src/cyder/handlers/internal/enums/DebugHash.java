@@ -7,7 +7,7 @@ public enum DebugHash {
     /**
      * Nathan's hash.
      */
-    Nathan("Nathan","571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7ca733d0a7f6");
+    Nathan("Nathan", "571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7ca733d0a7f6");
 
     /**
      * The name for the debug hash to use for the username.

@@ -72,7 +72,7 @@ public class HashingWidget {
      * Shows the gui for this instance of the hashing widget.
      */
     public void innerShowGui() {
-        hashFrame = new CyderFrame(500,200, CyderIcons.defaultBackgroundLarge);
+        hashFrame = new CyderFrame(500, 200, CyderIcons.defaultBackgroundLarge);
         hashFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         hashFrame.setTitle("Hasher");
 
@@ -80,17 +80,17 @@ public class HashingWidget {
         Instructions.setForeground(CyderColors.navy);
         Instructions.setFont(CyderFonts.segoe20);
 
-        Instructions.setBounds(65,40, 400, 30);
+        Instructions.setBounds(65, 40, 400, 30);
         hashFrame.getContentPane().add(Instructions);
 
         hashField = new CyderPasswordField();
         hashField.addActionListener(e -> hash());
-        hashField.setBounds(50,90, 400, 40);
+        hashField.setBounds(50, 90, 400, 40);
         hashFrame.getContentPane().add(hashField);
 
         hashButton = new CyderButton("Hash");
         hashButton.addActionListener(e -> hash());
-        hashButton.setBounds(50,140, 180, 40);
+        hashButton.setBounds(50, 140, 180, 40);
         hashFrame.getContentPane().add(hashButton);
 
         ArrayList<SwitcherState> states = new ArrayList<>();
@@ -100,8 +100,8 @@ public class HashingWidget {
 
         SwitcherState startingState = states.get(0);
 
-        switcher = new CyderSwitcher(210,40, states, startingState);
-        switcher.setBounds(240,140,210,40);
+        switcher = new CyderSwitcher(210, 40, states, startingState);
+        switcher.setBounds(240, 140, 210, 40);
         hashFrame.getContentPane().add(switcher);
 
         hashFrame.finalizeAndShow();

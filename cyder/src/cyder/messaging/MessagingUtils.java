@@ -149,7 +149,7 @@ public class MessagingUtils {
 
         // get local non-normalized samples and find local max
         int index = 0;
-        for (int i = startFrame; i < startFrame + numSamples; i++) {
+        for (int i = startFrame ; i < startFrame + numSamples ; i++) {
             int sample = wav.getSample(i);
 
             localMax = Math.max(sample, localMax);
@@ -162,7 +162,7 @@ public class MessagingUtils {
         int interpolationNeededValue = -69;
 
         // normalize values and skip ones which exceeding tol
-        for (int i = 0; i < normalizedSamples.length; i++) {
+        for (int i = 0 ; i < normalizedSamples.length ; i++) {
             int normalizedValue = (int) ((nonNormalizedSamples[i] / (float) localMax) * height);
 
             if (normalizedValue >= height * 0.9) {
@@ -174,7 +174,7 @@ public class MessagingUtils {
 
         // interpolate between surrounding values where
         // the amplitude was set to the interpolation value
-        for (int i = 0; i < normalizedSamples.length; i++) {
+        for (int i = 0 ; i < normalizedSamples.length ; i++) {
             // if a true zero amplitude don't interpolate
             if (normalizedSamples[i] == 0) {
                 continue;
@@ -183,7 +183,7 @@ public class MessagingUtils {
             else if (normalizedSamples[i] == interpolationNeededValue) {
                 // find the next value that isn't a 0 or an amp that has yet to be interpolated
                 int nextNonZeroIndex = 0;
-                for (int j = i; j < normalizedSamples.length; j++) {
+                for (int j = i ; j < normalizedSamples.length ; j++) {
                     if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationNeededValue) {
                         nextNonZeroIndex = j;
                         break;
@@ -191,7 +191,7 @@ public class MessagingUtils {
                 }
                 // find the previous value that isn't 0 or an amp that has yet to be interpolated
                 int lastNonZeroIndex = 0;
-                for (int j = i; j >= 0; j--) {
+                for (int j = i ; j >= 0 ; j--) {
                     if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationNeededValue) {
                         lastNonZeroIndex = j;
                         break;
@@ -216,7 +216,7 @@ public class MessagingUtils {
         g2d.setColor(waveColor);
 
         // draw samples
-        for (int i = 0; i < normalizedSamples.length; i++) {
+        for (int i = 0 ; i < normalizedSamples.length ; i++) {
             g2d.drawLine(i, height, i, height - normalizedSamples[i]);
             g2d.drawLine(i, height, i, height - 1);
         }
@@ -266,7 +266,7 @@ public class MessagingUtils {
         int maxAmp = 0;
 
         // find the max and add to the samples at the same time
-        for (int i = 0; i < wav.getNumFrames(); i++) {
+        for (int i = 0 ; i < wav.getNumFrames() ; i++) {
             maxAmp = Math.max(maxAmp, wav.getSample(i));
 
             if (i == currentSampleLoc) {
@@ -288,7 +288,7 @@ public class MessagingUtils {
         int[] normalizedSamples = new int[width];
 
         // normalize raw samples and mark values to interpolate
-        for (int i = 0; i < width; i++) {
+        for (int i = 0 ; i < width ; i++) {
             int normalizedValue = (int) ((nonNormalizedSamples[i] / (double) maxAmp) * height);
 
             // if extending beyond bounds of our image, paint as zero and don't interpolate
@@ -299,7 +299,7 @@ public class MessagingUtils {
         }
 
         // interpolate between surrounding values where the amplitude is 0
-        for (int i = 0; i < normalizedSamples.length; i++) {
+        for (int i = 0 ; i < normalizedSamples.length ; i++) {
             // if a true zero amplitude don't paint it
             if (normalizedSamples[i] == 0)
                 continue;
@@ -308,7 +308,7 @@ public class MessagingUtils {
             else if (normalizedSamples[i] == -69) {
                 // find the next value that isn't a 0 or an amp that has yet to be interpolated
                 int nextNonZeroIndex = 0;
-                for (int j = i; j < normalizedSamples.length; j++) {
+                for (int j = i ; j < normalizedSamples.length ; j++) {
                     if (normalizedSamples[j] != 0 && normalizedSamples[j] != -69) {
                         nextNonZeroIndex = j;
                         break;
@@ -317,7 +317,7 @@ public class MessagingUtils {
 
                 // find the previous value that isn't 0 or an amp that has yet to be interpolated
                 int lastNonZeroIndex = 0;
-                for (int j = i; j >= 0; j--) {
+                for (int j = i ; j >= 0 ; j--) {
                     if (normalizedSamples[j] != 0 && normalizedSamples[j] != -69) {
                         lastNonZeroIndex = j;
                         break;
@@ -334,13 +334,13 @@ public class MessagingUtils {
 
         // draw center line to ensure every y value on
         // the image contains at least one pixel
-        for (int i = 0; i < width; i++) {
+        for (int i = 0 ; i < width ; i++) {
             // from the center line extending downwards
             g2d.drawLine(i, height / 2, i, height / 2);
         }
 
         // paint the amplitude wave
-        for (int i = 0; i < normalizedSamples.length; i++) {
+        for (int i = 0 ; i < normalizedSamples.length ; i++) {
             // from the center line extending downwards
             g2d.drawLine(i, height / 2, i,
                     height / 2 + normalizedSamples[i]);

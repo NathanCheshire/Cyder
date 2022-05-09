@@ -71,8 +71,8 @@ public class CyderDragLabel extends JLabel {
     /**
      * Constructs a new drag label with the provided bounds and frame to effect.
      *
-     * @param width the width of the drag label, typically the width of the effect frame.
-     * @param height the height of the drag label, typically {@link CyderDragLabel#DEFAULT_HEIGHT}
+     * @param width       the width of the drag label, typically the width of the effect frame.
+     * @param height      the height of the drag label, typically {@link CyderDragLabel#DEFAULT_HEIGHT}
      * @param effectFrame the cyder frame object to control
      */
     public CyderDragLabel(int width, int height, CyderFrame effectFrame) {
@@ -155,7 +155,7 @@ public class CyderDragLabel extends JLabel {
      * @param width the width of this drag label
      */
     public void setWidth(int width) {
-        super.setSize(width,getHeight());
+        super.setSize(width, getHeight());
         this.width = width;
         refreshButtons();
         revalidate();
@@ -176,12 +176,12 @@ public class CyderDragLabel extends JLabel {
     /**
      * Sets the size of this drag label.
      *
-     * @param width the width of this drag label
+     * @param width  the width of this drag label
      * @param height the height of this drag label
      */
     @Override
     public void setSize(int width, int height) {
-        super.setSize(width,height);
+        super.setSize(width, height);
         this.width = width;
         this.height = height;
         refreshButtons();
@@ -386,9 +386,9 @@ public class CyderDragLabel extends JLabel {
 
     /**
      * Adds the button at the given index, 0 means add to the start and {@link CyderDragLabel#getButton(int)#getSize()}
-     *  means add to the end.
+     * means add to the end.
      *
-     * @param button the JButton with all the properties already set such as listeners, visuals, etc. to add
+     * @param button   the JButton with all the properties already set such as listeners, visuals, etc. to add
      *                 to the button list
      * @param addIndex the index to append the button to in the button list
      */
@@ -408,7 +408,7 @@ public class CyderDragLabel extends JLabel {
     /**
      * Moves the provided button to the specified index.
      *
-     * @param button the button to move to the specified index
+     * @param button   the button to move to the specified index
      * @param newIndex the index to move the specified button to
      */
     public void setButtonIndex(JButton button, int newIndex) {
@@ -419,7 +419,7 @@ public class CyderDragLabel extends JLabel {
 
         int oldIndex = -1;
 
-        for (int i = 0; i < buttonList.size() ; i++) {
+        for (int i = 0 ; i < buttonList.size() ; i++) {
             if (button == buttonList.get(i)) {
                 oldIndex = i;
                 break;
@@ -517,10 +517,10 @@ public class CyderDragLabel extends JLabel {
             case RIGHT:
                 int addWidth = width - 26;
 
-                for (int i = buttonList.size() - 1; i >= 0 ; i--) {
+                for (int i = buttonList.size() - 1 ; i >= 0 ; i--) {
                     int textWidth = 0;
 
-                    if(!buttonList.get(i).getText().isEmpty()) {
+                    if (!buttonList.get(i).getText().isEmpty()) {
                         textWidth = StringUtil.getMinWidth(buttonList.get(i).getText().trim(), buttonList.get(i).getFont());
                     }
 
@@ -534,10 +534,10 @@ public class CyderDragLabel extends JLabel {
             case LEFT:
                 int leftAddWidth = 26 * (buttonList.size() - 1) + 5;
 
-                for (int i = buttonList.size() - 1; i >= 0 ; i--) {
+                for (int i = buttonList.size() - 1 ; i >= 0 ; i--) {
                     int textWidth = 0;
 
-                    if(!buttonList.get(i).getText().isEmpty()) {
+                    if (!buttonList.get(i).getText().isEmpty()) {
                         textWidth = StringUtil.getMinWidth(buttonList.get(i).getText().trim(), buttonList.get(i).getFont());
                     }
 

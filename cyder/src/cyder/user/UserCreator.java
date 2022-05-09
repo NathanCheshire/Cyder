@@ -16,7 +16,10 @@ import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.objects.InformBuilder;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.*;
+import cyder.ui.CyderButton;
+import cyder.ui.CyderCaret;
+import cyder.ui.CyderPasswordField;
+import cyder.ui.CyderTextField;
 import cyder.user.objects.Preference;
 import cyder.user.objects.ScreenStat;
 import cyder.utilities.*;
@@ -290,7 +293,7 @@ public class UserCreator {
      * Initializes the new user's background.
      *
      * @param referenceButton the button to set to the tooltip
-     *                       of the chosen background if a valid one is chosen
+     *                        of the chosen background if a valid one is chosen
      */
     private static void chooseBackground(CyderButton referenceButton) {
         CyderThreadRunner.submit(() -> {
@@ -323,14 +326,14 @@ public class UserCreator {
     /**
      * Attempts to create a user based off of the provided necessary initial data.
      *
-     * @param name the requested name of the new user
-     * @param password the password of the new user
+     * @param name         the requested name of the new user
+     * @param password     the password of the new user
      * @param passwordConf the password confirmation of the new user
      * @return whether the user was created
      */
     public static boolean createUser(String name, char[] password, char[] passwordConf) {
         // validate data for basic correctness
-        if (StringUtil.isNull(name) ) {
+        if (StringUtil.isNull(name)) {
             return false;
         }
 
@@ -405,7 +408,8 @@ public class UserCreator {
                     userNameExists = true;
                     break;
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         if (userNameExists) {
@@ -430,12 +434,12 @@ public class UserCreator {
 
             if (f.isFile()) {
                 try {
-                   if (!makeMe.createNewFile())
-                       return false;
-               } catch (Exception e) {
-                   ExceptionHandler.handle(e);
-                   return false;
-               }
+                    if (!makeMe.createNewFile())
+                        return false;
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                    return false;
+                }
             } else {
                 if (!makeMe.mkdir()) {
                     return false;
@@ -474,7 +478,7 @@ public class UserCreator {
                 for (Method m : user.getClass().getMethods()) {
                     if (m.getName().startsWith("set")
                             && m.getParameterTypes().length == 1
-                            && m.getName().replace("set","").equalsIgnoreCase(pref.getID())) {
+                            && m.getName().replace("set", "").equalsIgnoreCase(pref.getID())) {
                         try {
                             m.invoke(user, pref.getDefaultValue());
                         } catch (Exception e) {
@@ -504,7 +508,7 @@ public class UserCreator {
         // figure out the monitor we should be using for the user's screen stats
         if (createUserFrame != null) {
             GraphicsConfiguration gc = createUserFrame.getGraphicsConfiguration();
-            String monitorID = gc.getDevice().getIDstring().replaceAll("[^0-9]","");
+            String monitorID = gc.getDevice().getIDstring().replaceAll("[^0-9]", "");
 
             try {
                 monitorNum = Integer.parseInt(monitorID);

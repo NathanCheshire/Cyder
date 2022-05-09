@@ -48,12 +48,12 @@ public class ConvexHullWidget {
             hullFrame.dispose();
         }
 
-        hullFrame = new CyderFrame(800,850);
+        hullFrame = new CyderFrame(800, 850);
         hullFrame.setTitle("Convex Hull Visualizer");
 
-        gridComponent = new CyderGrid(100,700);
+        gridComponent = new CyderGrid(100, 700);
         gridComponent.setDrawGridLines(false);
-        gridComponent.setBounds(50, 50,700, 700);
+        gridComponent.setBounds(50, 50, 700, 700);
         hullFrame.getContentPane().add(gridComponent);
         gridComponent.setResizable(false);
         gridComponent.setNodeColor(CyderColors.navy);
@@ -63,13 +63,13 @@ public class ConvexHullWidget {
         gridComponent.setSaveStates(false);
 
         CyderButton solveButton = new CyderButton("Solve");
-        solveButton.setBounds(50, 700 + 80,325, 40);
+        solveButton.setBounds(50, 700 + 80, 325, 40);
         solveButton.addActionListener(e -> solveAndUpdate());
         hullFrame.getContentPane().add(solveButton);
 
         CyderButton resetButton = new CyderButton("Reset");
         resetButton.addActionListener(e -> reset());
-        resetButton.setBounds(50 + 375, 700 + 80,325, 40);
+        resetButton.setBounds(50 + 375, 700 + 80, 325, 40);
         hullFrame.getContentPane().add(resetButton);
 
         hullFrame.finalizeAndShow();
@@ -115,7 +115,7 @@ public class ConvexHullWidget {
 
         GridNode upperLeft = new GridNode(CyderColors.navy, 0, 0);
         GridNode upperRight = new GridNode(CyderColors.navy, 0,
-                gridComponent.getNodeDimensionLength() - 1 );
+                gridComponent.getNodeDimensionLength() - 1);
         GridNode bottomLeft = new GridNode(CyderColors.navy,
                 gridComponent.getNodeDimensionLength() - 1, 0);
         GridNode bottomRight = new GridNode(CyderColors.navy,
@@ -183,7 +183,7 @@ public class ConvexHullWidget {
         stack.push(points.get(0));
         stack.push(points.get(1));
 
-        for (int i = 2, size = points.size(); i < size; i++) {
+        for (int i = 2, size = points.size() ; i < size ; i++) {
             Point next = points.get(i);
             Point p = stack.pop();
 
@@ -257,7 +257,7 @@ public class ConvexHullWidget {
      * Sorts the list of points by angle using the reference point.
      *
      * @param points the list of points
-     * @param ref the reference point
+     * @param ref    the reference point
      */
     private static void sortByAngle(LinkedList<? extends Point> points, Point ref) {
         points.sort((b, c) -> {

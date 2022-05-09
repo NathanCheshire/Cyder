@@ -41,8 +41,8 @@ public class CyderLabel extends JLabel {
     /**
      * Returns html text which constrains its parent label to the provided pixel bounds.
      *
-     * @param text the text of the label
-     * @param width the width of the label
+     * @param text   the text of the label
+     * @param width  the width of the label
      * @param height the height of the label
      * @return html text which constrains its parent label to the provided pixel bounds
      */
@@ -201,21 +201,21 @@ public class CyderLabel extends JLabel {
 
                 //now ripple through our ripple iterations
                 RIPPLING:
-                    while (isRippling && !((((CyderFrame) SwingUtilities.getWindowAncestor(this))).isDisposed())) {
-                        for (String rippleText : rippleTextIterations) {
-                            setText(rippleText);
+                while (isRippling && !((((CyderFrame) SwingUtilities.getWindowAncestor(this))).isDisposed())) {
+                    for (String rippleText : rippleTextIterations) {
+                        setText(rippleText);
 
-                            repaint();
-                            Thread.sleep(rippleMsTimeout);
+                        repaint();
+                        Thread.sleep(rippleMsTimeout);
 
-                            //check for break to free resources quickly
-                            if (!isRippling)
-                                break RIPPLING;
-                        }
-
+                        //check for break to free resources quickly
                         if (!isRippling)
-                            break;
+                            break RIPPLING;
                     }
+
+                    if (!isRippling)
+                        break;
+                }
 
                 //fix foreground and text
                 setText(originalText);

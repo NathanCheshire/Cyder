@@ -52,7 +52,7 @@ public class ColorConverterWidget {
     }
 
     public void innerShowGui() {
-        CyderFrame colorFrame = new CyderFrame(300,400, CyderIcons.defaultBackground);
+        CyderFrame colorFrame = new CyderFrame(300, 400, CyderIcons.defaultBackground);
         colorFrame.setTitle("Color Converter");
         colorFrame.initializeResizing();
         colorFrame.setResizable(true);
@@ -60,7 +60,7 @@ public class ColorConverterWidget {
         colorFrame.setMinimumSize(new Dimension(300, 400));
         colorFrame.setMaximumSize(new Dimension(300, 800));
 
-        CyderGridLayout layout = new CyderGridLayout(1,5);
+        CyderGridLayout layout = new CyderGridLayout(1, 5);
 
         JLabel hexLabel = new JLabel("Hex Value");
         hexLabel.setFont(CyderFonts.segoe20);
@@ -71,7 +71,7 @@ public class ColorConverterWidget {
         JLabel rgbLabel = new JLabel("RGB Value");
         rgbLabel.setFont(CyderFonts.segoe20);
         rgbLabel.setForeground(CyderColors.navy);
-        rgbLabel.setSize(120,30);
+        rgbLabel.setSize(120, 30);
         layout.addComponent(rgbLabel, 0, 3, CyderGridLayout.Position.MIDDLE_CENTER);
 
         JTextField colorBlock = new JTextField();
@@ -93,8 +93,8 @@ public class ColorConverterWidget {
         hexField.setHorizontalAlignment(JTextField.CENTER);
         hexField.setText(String.format("#%02X%02X%02X", CyderColors.navy.getRed(),
                 CyderColors.navy.getGreen(),
-                CyderColors.navy.getBlue()).replace("#",""));
-        hexField.setBackground(new Color(0,0,0,0));
+                CyderColors.navy.getBlue()).replace("#", ""));
+        hexField.setBackground(new Color(0, 0, 0, 0));
         hexField.setToolTipText("Hex Value");
         hexField.setFont(hexField.getFont().deriveFont(26f));
         hexField.addKeyListener(new KeyAdapter() {
@@ -103,29 +103,27 @@ public class ColorConverterWidget {
                     Color c = ColorUtil.hexToRgb(hexField.getText());
                     rgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
                     colorBlock.setBackground(c);
+                } catch (Exception ignored) {
                 }
-
-                catch (Exception ignored) {}
             }
         });
         hexField.setSize(220, 50);
         hexField.setOpaque(false);
         layout.addComponent(hexField, 0, 1, CyderGridLayout.Position.MIDDLE_CENTER);
 
-        rgbField.setBackground(new Color(0,0,0,0));
+        rgbField.setBackground(new Color(0, 0, 0, 0));
         rgbField.setKeyEventRegexMatcher(CyderRegexPatterns.rgbPattern.pattern());
         rgbField.setToolTipText("RGB Value");
         rgbField.setFont(hexField.getFont().deriveFont(26f));
         rgbField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-            try {
-                String[] parts = rgbField.getText().split(",");
-                Color c = new Color(Integer.parseInt(parts[0]),Integer.parseInt(parts[1]),Integer.parseInt(parts[2]));
-                hexField.setText(ColorUtil.rgbToHexString(c));
-                colorBlock.setBackground(c);
-            }
-
-            catch (Exception ignored) {}
+                try {
+                    String[] parts = rgbField.getText().split(",");
+                    Color c = new Color(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                    hexField.setText(ColorUtil.rgbToHexString(c));
+                    colorBlock.setBackground(c);
+                } catch (Exception ignored) {
+                }
             }
         });
         rgbField.setSize(220, 50);

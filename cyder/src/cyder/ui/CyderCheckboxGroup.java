@@ -106,7 +106,7 @@ public class CyderCheckboxGroup {
 
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < getCheckboxCount() ; i++) {
+        for (int i = 0 ; i < getCheckboxCount() ; i++) {
             sb.append(checkboxes.get(i).toString());
 
             if (i != getCheckboxCount() - 1)

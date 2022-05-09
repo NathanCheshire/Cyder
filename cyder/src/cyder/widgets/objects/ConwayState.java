@@ -29,9 +29,9 @@ public class ConwayState {
     /**
      * Constructs a new ConwayState object.
      *
-     * @param name the name of the state
+     * @param name     the name of the state
      * @param gridSize the length of the state
-     * @param nodes the list of nodes
+     * @param nodes    the list of nodes
      */
     public ConwayState(String name, int gridSize, LinkedList<Point> nodes) {
         this.name = name;

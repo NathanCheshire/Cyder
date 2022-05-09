@@ -46,7 +46,7 @@ public class PathNode {
      * Constructs a new path node with 0,0 as the x,y.
      */
     public PathNode() {
-        this(0,0);
+        this(0, 0);
     }
 
     /**

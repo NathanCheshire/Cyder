@@ -29,7 +29,7 @@ public class BackendUtil {
     /**
      * Standard CRUD create operation.
      *
-     * @param putSchema the schema to put on the backend
+     * @param putSchema    the schema to put on the backend
      * @param relativePath the relative path to the backend
      * @return the create result
      */
@@ -52,7 +52,7 @@ public class BackendUtil {
     /**
      * Standard CRUD update operation.
      *
-     * @param postSchema the schema to post to the backend
+     * @param postSchema   the schema to post to the backend
      * @param relativePath the relative path to the backend path
      * @return whether the post result
      */

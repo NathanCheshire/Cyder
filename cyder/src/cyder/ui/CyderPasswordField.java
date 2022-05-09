@@ -25,7 +25,7 @@ public class CyderPasswordField extends JPasswordField {
         setForeground(CyderColors.navy);
         setSelectionColor(CyderColors.selectionColor);
 
-        setFont(new Font("Agency FB",Font.BOLD, 20));
+        setFont(new Font("Agency FB", Font.BOLD, 20));
 
         setBorder(new LineBorder(CyderColors.navy, 5, false));
 

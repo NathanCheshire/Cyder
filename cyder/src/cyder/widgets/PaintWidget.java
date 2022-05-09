@@ -125,7 +125,7 @@ public class PaintWidget {
             int increment = 0;
             String defaultFilename = base + increment + ".png";
 
-            String path = OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,"users",
+            String path = OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH, "users",
                     ConsoleFrame.INSTANCE.getUUID(), "Files");
 
             while (new File(path + OSUtil.FILE_SEP + defaultFilename).exists()) {
@@ -157,7 +157,7 @@ public class PaintWidget {
 
                     NotificationBuilder notifBuilder = new NotificationBuilder(
                             "Successfully saved grid as \"" + filename
-                            + "\" to your Files/ directory. Click me to open it");
+                                    + "\" to your Files/ directory. Click me to open it");
                     notifBuilder.setOnKillAction(() -> ImageUtil.drawImage(image, filename));
                     paintFrame.notify(notifBuilder);
                 } catch (Exception exception) {
@@ -269,7 +269,7 @@ public class PaintWidget {
                     }
 
                     double scaler = (double) dimensionInt / cyderGrid.getNodeDimensionLength();
-                    int len =  (int) (scaler * referenceImage.getWidth());
+                    int len = (int) (scaler * referenceImage.getWidth());
 
                     BufferedImage newStateImage = ImageUtil.resizeImage(
                             referenceImage, BufferedImage.TYPE_INT_ARGB, len, len);
@@ -356,18 +356,18 @@ public class PaintWidget {
 
         recentColors = new ArrayList<>();
 
-        paintControlsFrame = new CyderFrame(frameLength,230);
+        paintControlsFrame = new CyderFrame(frameLength, 230);
         paintControlsFrame.setTitle("Paint Controls");
         paintControlsFrame.setResizable(true);
         paintControlsFrame.setShouldFastClose(true);
 
-        CyderGridLayout parentLayout = new CyderGridLayout(1,2);
+        CyderGridLayout parentLayout = new CyderGridLayout(1, 2);
 
         CyderGridLayout topLayout = new CyderGridLayout(5, 1);
         CyderPanel topLayoutPanel = new CyderPanel(topLayout);
         parentLayout.addComponent(topLayoutPanel, 0, 0);
 
-        CyderGridLayout bottomLayout = new CyderGridLayout(6,1);
+        CyderGridLayout bottomLayout = new CyderGridLayout(6, 1);
         CyderPanel bottomLayoutPanel = new CyderPanel(bottomLayout);
         parentLayout.addComponent(bottomLayoutPanel, 0, 1);
 
@@ -380,11 +380,11 @@ public class PaintWidget {
         recentColorsBlock = new JLabel() {
             @Override
             protected void paintComponent(Graphics g) {
-                g.translate(0,10);
+                g.translate(0, 10);
                 g.setColor(Color.BLACK);
-                g.fillRect(0,0,colorsPerRow * colorBlockLen + 2 * padding,50);
+                g.fillRect(0, 0, colorsPerRow * colorBlockLen + 2 * padding, 50);
                 g.setColor(CyderColors.vanila);
-                g.fillRect(padding,padding,colorsPerRow * colorBlockLen,40);
+                g.fillRect(padding, padding, colorsPerRow * colorBlockLen, 40);
 
                 int numColorsPainted = 0;
                 int currentX = padding;
@@ -419,7 +419,7 @@ public class PaintWidget {
                 }
             }
         };
-        recentColorsBlock.setSize(130,60);
+        recentColorsBlock.setSize(130, 60);
         recentColorsBlock.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -481,13 +481,13 @@ public class PaintWidget {
         });
         colorHexField.setText(ColorUtil.rgbToHexString(currentPaintColor));
 
-        CyderGridLayout innerLayout = new CyderGridLayout(1,2);
+        CyderGridLayout innerLayout = new CyderGridLayout(1, 2);
 
         CyderLabel colorTextLabel = new CyderLabel("New Color");
         colorTextLabel.setBounds(5, 5, 100, 40);
         innerLayout.addComponent(colorTextLabel, 0, 0);
 
-        innerLayout.addComponent(colorHexField,0, 1);
+        innerLayout.addComponent(colorHexField, 0, 1);
         CyderPanel innerPanel = new CyderPanel(innerLayout);
 
         topLayout.addComponent(innerPanel, 1, 0);
@@ -496,11 +496,11 @@ public class PaintWidget {
         historyLabel.setSize(120, 100);
 
         CyderLabel undoLabel = new CyderLabel("Undo");
-        undoLabel.setBounds(5,5,50, 30);
+        undoLabel.setBounds(5, 5, 50, 30);
         historyLabel.add(undoLabel);
 
         CyderLabel redoLabel = new CyderLabel("Redo");
-        redoLabel.setBounds(5 + 52 + 10,5,50, 30);
+        redoLabel.setBounds(5 + 52 + 10, 5, 50, 30);
         historyLabel.add(redoLabel);
 
         CyderIconButton undo = new CyderIconButton("Undo",
@@ -519,7 +519,7 @@ public class PaintWidget {
         CyderIconButton redo = new CyderIconButton("Redo",
                 new ImageIcon("static/pictures/paint/redo.png"),
                 new ImageIcon("static/pictures/paint/redo_hover.png"), null);
-        redo.setBounds(5 + 52 + 10, 100 - 60,52, 49);
+        redo.setBounds(5 + 52 + 10, 100 - 60, 52, 49);
         redo.addActionListener(e -> {
             cyderGrid.forwardState();
             cyderGrid.revalidate();
@@ -529,7 +529,7 @@ public class PaintWidget {
         });
         historyLabel.add(redo);
 
-        topLayout.addComponent(historyLabel,2,0);
+        topLayout.addComponent(historyLabel, 2, 0);
 
         JLabel checkBoxLabel = new JLabel();
         checkBoxLabel.setSize(120, 100);
@@ -537,7 +537,7 @@ public class PaintWidget {
         CyderCheckboxGroup group = new CyderCheckboxGroup();
 
         CyderLabel addLabel = new CyderLabel("Add");
-        addLabel.setBounds(5,5,50, 30);
+        addLabel.setBounds(5, 5, 50, 30);
         checkBoxLabel.add(addLabel);
 
         add = new CyderCheckbox();
@@ -554,7 +554,7 @@ public class PaintWidget {
         checkBoxLabel.add(add);
 
         CyderLabel deletelabel = new CyderLabel("Delete");
-        deletelabel.setBounds(5 + 50 + 10,5,50, 30);
+        deletelabel.setBounds(5 + 50 + 10, 5, 50, 30);
         checkBoxLabel.add(deletelabel);
 
         CyderCheckbox delete = new CyderCheckbox();
@@ -635,14 +635,14 @@ public class PaintWidget {
         });
         selectionTool.addActionListener(e -> toggleSelectionMode());
         selectionTool.setSize(50, 50);
-        bottomLayout.addComponent(selectionTool, 0,0);
+        bottomLayout.addComponent(selectionTool, 0, 0);
 
         CyderIconButton cropToRegion = new CyderIconButton("Crop Region",
                 new ImageIcon("static/pictures/paint/crop.png"),
                 new ImageIcon("static/pictures/paint/crop_hover.png"), null);
         cropToRegion.setSize(50, 50);
         cropToRegion.addActionListener(e -> cyderGrid.cropToRegion());
-        bottomLayout.addComponent(cropToRegion, 1,0);
+        bottomLayout.addComponent(cropToRegion, 1, 0);
 
         CyderIconButton deleteRegion = new CyderIconButton("Delete Region",
                 new ImageIcon("static/pictures/paint/cut.png"),
@@ -650,7 +650,7 @@ public class PaintWidget {
         deleteRegion.setSize(66, 50);
         deleteRegion.setToolTipText("Cut region");
         deleteRegion.addActionListener(e -> cyderGrid.deleteRegion());
-        bottomLayout.addComponent(deleteRegion, 2,0);
+        bottomLayout.addComponent(deleteRegion, 2, 0);
 
         selectColor = new CyderIconButton("Select Color",
                 new ImageIcon("static/pictures/paint/select_color.png"),
@@ -676,14 +676,14 @@ public class PaintWidget {
         });
         selectColor.setSize(50, 50);
         selectColor.addActionListener(e -> toggleColorSelection());
-        bottomLayout.addComponent(selectColor, 3,0);
+        bottomLayout.addComponent(selectColor, 3, 0);
 
         CyderIconButton rotate = new CyderIconButton("Rotate Region",
                 new ImageIcon("static/pictures/paint/rotate.png"),
                 new ImageIcon("static/pictures/paint/rotate_hover.png"), null);
         rotate.setSize(50, 50);
         rotate.addActionListener(e -> cyderGrid.rotateRegion());
-        bottomLayout.addComponent(rotate, 4,0);
+        bottomLayout.addComponent(rotate, 4, 0);
 
         // selection region reflecting
         CyderIconButton reflect = new CyderIconButton("Reflect Region",
@@ -691,7 +691,7 @@ public class PaintWidget {
                 new ImageIcon("static/pictures/paint/reflect_hover.png"), null);
         reflect.setSize(51, 50);
         reflect.addActionListener(e -> cyderGrid.reflectRegionHorizontally());
-        bottomLayout.addComponent(reflect, 5,0);
+        bottomLayout.addComponent(reflect, 5, 0);
 
         // use master layout as content pane
         CyderPanel panel = new CyderPanel(parentLayout);

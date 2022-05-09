@@ -67,14 +67,14 @@ public class CyderProgressUI extends BasicProgressBarUI {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
 
-        GradientPaint darkToLight = new GradientPaint(new Point2D.Double(0,0),
+        GradientPaint darkToLight = new GradientPaint(new Point2D.Double(0, 0),
                 darkColor, new Point2D.Double(width / 2.0, 0), lightColor);
-        GradientPaint lightToDark = new GradientPaint(new Point2D.Double(width / 2.0,0),
+        GradientPaint lightToDark = new GradientPaint(new Point2D.Double(width / 2.0, 0),
                 lightColor, new Point2D.Double(width, 0), darkColor);
         g2.setPaint(darkToLight);
-        g2.fillRect(0, 0, width/2, height);
+        g2.fillRect(0, 0, width / 2, height);
         g2.setPaint(lightToDark);
-        g2.fillRect(width/2, 0, width/2, height);
+        g2.fillRect(width / 2, 0, width / 2, height);
 
         return image;
     }
@@ -83,14 +83,14 @@ public class CyderProgressUI extends BasicProgressBarUI {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
 
-        GradientPaint darkToLight = new GradientPaint(new Point2D.Double(0,0),
+        GradientPaint darkToLight = new GradientPaint(new Point2D.Double(0, 0),
                 darkColor, new Point2D.Double(0, height / 2.0), lightColor);
-        GradientPaint lightToDark = new GradientPaint(new Point2D.Double(0,height / 2.0),
+        GradientPaint lightToDark = new GradientPaint(new Point2D.Double(0, height / 2.0),
                 lightColor, new Point2D.Double(0, height), darkColor);
         g2.setPaint(darkToLight);
-        g2.fillRect(0, 0, width, height/2);
+        g2.fillRect(0, 0, width, height / 2);
         g2.setPaint(lightToDark);
-        g2.fillRect(0, height/2, width, height/2);
+        g2.fillRect(0, height / 2, width, height / 2);
 
         return image;
     }
@@ -168,7 +168,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
                 int numRepetitions = (progressBar.getHeight() / barImage.getHeight()) + 2;
 
-                for (int i = 0; i < numRepetitions; i++) {
+                for (int i = 0 ; i < numRepetitions ; i++) {
                     g.drawImage(barImage, 0, (i - 1) * barImage.getHeight() + offset, null);
                 }
             } else {
@@ -200,7 +200,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
                 int numRepetitions = (progressBar.getWidth() / barImage.getWidth()) + 2;
 
-                for (int i = 0; i < numRepetitions; i++) {
+                for (int i = 0 ; i < numRepetitions ; i++) {
                     g.drawImage(barImage, (i - 1) * barImage.getWidth() + offset, 0, null);
                 }
             }
@@ -224,7 +224,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
                 int drawFill = (int) Math.min(fullH, prog);
 
                 RoundRectangle2D fill = new RoundRectangle2D.Double(oStrokeHeight / 2.0, oStrokeHeight / 2.0,
-                         outerWidth - oStrokeHeight, drawFill, outerWidth, outerWidth);
+                        outerWidth - oStrokeHeight, drawFill, outerWidth, outerWidth);
 
                 g2d.fill(fill);
 
@@ -295,9 +295,9 @@ public class CyderProgressUI extends BasicProgressBarUI {
      * Maps the provided value in the original range to the second range.
      *
      * @param value the value to map
-     * @param low1 the min value of the orignal range
+     * @param low1  the min value of the orignal range
      * @param high1 the max value of the original range
-     * @param low2 the min value of the new range
+     * @param low2  the min value of the new range
      * @param high2 the max value of the new range
      * @return the mapped value
      */
@@ -310,7 +310,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
      *
      * @param value1 the first value
      * @param value2 the second value
-     * @param amt the alpha value
+     * @param amt    the alpha value
      * @return the linear interpolation
      */
     private static double linearInterpolate(double value1, double value2, double amt) {

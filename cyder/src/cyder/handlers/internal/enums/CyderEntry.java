@@ -7,12 +7,12 @@ public enum CyderEntry {
     /**
      * DebugHashes within DebugHash.
      */
-    AutoCypher("AutoCypher","AutoCypher Success", "AutoCypher Fail"),
+    AutoCypher("AutoCypher", "AutoCypher Success", "AutoCypher Fail"),
 
     /**
      * The official login frame.
      */
-    Login("Login","STD Login Success", "STD Login FAIL"),
+    Login("Login", "STD Login Success", "STD Login FAIL"),
 
     /**
      * If the previous session was terminated without a logout.
@@ -38,7 +38,7 @@ public enum CyderEntry {
     /**
      * Constructs a new CyderEntry type.
      *
-     * @param name the name for this entry method
+     * @param name        the name for this entry method
      * @param passMessage the success message
      * @param failMessage the fail message
      */

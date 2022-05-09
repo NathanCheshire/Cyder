@@ -117,7 +117,7 @@ public class LoginHandler {
         //add the standard login animation
         printingList.add("Cyder version: " + CyderToggles.VERSION + "\n");
         printingList.add("Type \"help\" for a list of valid commands\n");
-        printingList.add("Build: " + CyderToggles.RELEASE_DATE +"\n");
+        printingList.add("Build: " + CyderToggles.RELEASE_DATE + "\n");
         printingList.add("Author: Nathan Cheshire\n");
         printingList.add("Design JVM: 8+\n");
         printingList.add("Description: A programmer's swiss army knife\n");
@@ -130,7 +130,7 @@ public class LoginHandler {
         CyderThreadRunner.submit(() -> {
             try {
                 //while the animation should be performed
-                while (doLoginAnimations && loginFrame != null)  {
+                while (doLoginAnimations && loginFrame != null) {
                     //pull from the priority list first
                     if (!priorityPrintingList.isEmpty()) {
                         //ensure concurrency
@@ -164,12 +164,10 @@ public class LoginHandler {
 
                     Thread.sleep(lineTimeout);
                 }
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"Login printing animation");
+        }, "Login printing animation");
 
         //thread to update the input field caret position
         CyderThreadRunner.submit(() -> {
@@ -189,18 +187,16 @@ public class LoginHandler {
 
                     Thread.sleep(50);
                 }
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"Login Input Caret Position Updater");
+        }, "Login Input Caret Position Updater");
     }
 
     /**
      * Shows the login frame.
      */
-    @Widget(triggers = {"login","pin"}, description = "A widget to switch between Cyder users")
+    @Widget(triggers = {"login", "pin"}, description = "A widget to switch between Cyder users")
     public static void showGui() {
         //clear lists
         priorityPrintingList.clear();
@@ -218,9 +214,9 @@ public class LoginHandler {
 
         //new anonymous CyderFrame so that we can control the login animation var
         loginFrame = new CyderFrame(LOGIN_FRAME_WIDTH, LOGIN_FRAME_HEIGHT,
-                ImageUtil.imageIconFromColor(new Color(21,23,24), 1, 1));
+                ImageUtil.imageIconFromColor(new Color(21, 23, 24), 1, 1));
         loginFrame.setTitle("Cyder Login [" + CyderToggles.VERSION + " Build]");
-        loginFrame.setBackground(new Color(21,23,24));
+        loginFrame.setBackground(new Color(21, 23, 24));
 
         //whether the frame is open or closed handling
         loginFrameClosed = false;
@@ -245,12 +241,12 @@ public class LoginHandler {
         //printing animation output
         JTextPane loginArea = new JTextPane();
         loginArea.setBounds(20, 40, 560, 280);
-        loginArea.setBackground(new Color(21,23,24));
+        loginArea.setBackground(new Color(21, 23, 24));
         loginArea.setBorder(null);
         loginArea.setFocusable(false);
         loginArea.setEditable(false);
-        loginArea.setFont(new Font("Agency FB",Font.BOLD, 26));
-        loginArea.setForeground(new Color(85,181,219));
+        loginArea.setFont(new Font("Agency FB", Font.BOLD, 26));
+        loginArea.setForeground(new Color(85, 181, 219));
         loginArea.setCaretColor(loginArea.getForeground());
         CyderScrollPane loginScroll = new CyderScrollPane(loginArea,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,
@@ -265,16 +261,16 @@ public class LoginHandler {
 
         //field input
         loginField = new JPasswordField(20);
-        loginField.setEchoChar((char)0);
+        loginField.setEchoChar((char) 0);
         loginField.setText(currentBashString);
         loginField.setBounds(20, 340, 560, 40);
-        loginField.setBackground(new Color(21,23,24));
+        loginField.setBackground(new Color(21, 23, 24));
         loginField.setBorder(null);
         loginField.setCaret(new CyderCaret(loginArea.getForeground()));
         loginField.setSelectionColor(CyderColors.selectionColor);
-        loginField.setFont(new Font("Agency FB",Font.BOLD, 26));
-        loginField.setForeground(new Color(85,181,219));
-        loginField.setCaretColor(new Color(85,181,219));
+        loginField.setFont(new Font("Agency FB", Font.BOLD, 26));
+        loginField.setForeground(new Color(85, 181, 219));
+        loginField.setCaretColor(new Color(85, 181, 219));
         loginField.addActionListener(e -> loginField.requestFocusInWindow());
         loginField.addKeyListener(loginFieldAdapter);
         loginField.setCaretPosition(currentBashString.length());
@@ -324,7 +320,7 @@ public class LoginHandler {
 
                 //if the login mode is not expecting a password
                 if (loginMode != 2) {
-                    inputString = new String(input).replace(currentBashString,"");
+                    inputString = new String(input).replace(currentBashString, "");
 
                     Logger.log(Logger.Tag.CLIENT, "[LOGIN FRAME] " + String.valueOf(input));
                 }
@@ -371,14 +367,14 @@ public class LoginHandler {
                         break;
                     //expecting a password
                     case 2:
-                        loginField.setEchoChar((char)0);
+                        loginField.setEchoChar((char) 0);
                         loginField.setText("");
                         priorityPrintingList.add("Attempting validation\n");
 
                         if (!recognize(username, SecurityUtil.toHexString(
                                 SecurityUtil.getSHA256(input)), false)) {
 
-                            loginField.setEchoChar((char)0);
+                            loginField.setEchoChar((char) 0);
                             loginField.setText(currentBashString);
                             loginField.setCaretPosition(loginField.getPassword().length);
 
@@ -402,7 +398,7 @@ public class LoginHandler {
         //holding shift allows the user to see their password
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                loginField.setEchoChar((char)0);
+                loginField.setEchoChar((char) 0);
             }
         }
 
@@ -469,7 +465,7 @@ public class LoginHandler {
 
                 ConsoleFrame.INSTANCE.setUUID(loggedInUUID);
 
-                Logger.log(Logger.Tag.LOGIN,  CyderEntry.PreviouslyLoggedIn.getName().toUpperCase()
+                Logger.log(Logger.Tag.LOGIN, CyderEntry.PreviouslyLoggedIn.getName().toUpperCase()
                         + ", " + loggedInUUID);
 
                 ConsoleFrame.INSTANCE.launch(CyderEntry.PreviouslyLoggedIn);
@@ -483,7 +479,7 @@ public class LoginHandler {
      * Attempts to log in a user based on the provided
      * name and already hashed password.
      *
-     * @param name the provided user account name
+     * @param name       the provided user account name
      * @param hashedPass the password already having been
      *                   hashed (we hash it again in checkPassword method)
      * @return whether the name and pass combo was authenticated and logged in
@@ -568,7 +564,7 @@ public class LoginHandler {
      * Checks whether the given name/pass combo is valid and if so, returns the UUID matched.
      * Otherwise, null is returned to represent that no user was found.
      *
-     * @param name the username given
+     * @param name       the username given
      * @param hashedPass the already once SHA256 hashed password
      * @return the uuid found associated with the name, password combo
      */
@@ -592,7 +588,7 @@ public class LoginHandler {
 
                 //we always hash again here
                 if (name.equalsIgnoreCase(user.getName()) && SecurityUtil.toHexString(SecurityUtil.getSHA256(
-                                hashedPass.toCharArray())).equals(user.getPass())) {
+                        hashedPass.toCharArray())).equals(user.getPass())) {
                     ret = FileUtil.getFilename(userJsonFile.getParentFile().getName());
                     break;
                 }

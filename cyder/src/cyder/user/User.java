@@ -85,7 +85,7 @@ public class User {
      * Whether to draw a border around the input field.
      */
     private String inputborder;
-    
+
     /**
      * Whether to chime hourly.
      */
@@ -95,7 +95,7 @@ public class User {
      * Whether to silence errors when they occur.
      */
     private String silenceerrors;
-    
+
     /**
      * Whether to draw the console frame as a fullscreen frame.
      */
@@ -220,7 +220,7 @@ public class User {
      * If true, any unrecognized input is passed to the native termain/shell.
      */
     private String wrapshell;
-    
+
     /**
      * Dark mode controls certain gui aspects about Cyder
      * such as inform panes and the file chooser.

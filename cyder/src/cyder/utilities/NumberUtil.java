@@ -26,7 +26,7 @@ public class NumberUtil {
     /**
      * Returns a random integer in the range [min, upperBound].
      *
-     * @param lowerBound        the minimum possible value to return (must be at least 0)
+     * @param lowerBound the minimum possible value to return (must be at least 0)
      * @param upperBound the upper bound of random range (included in the possible return values)
      * @return a random integer in the provided range [0, upperBound]
      */
@@ -53,7 +53,7 @@ public class NumberUtil {
     public static boolean isPrime(int num) {
         boolean ret = true;
 
-        for (int i = 2; i < Math.ceil(Math.sqrt(num)); i += 1)
+        for (int i = 2 ; i < Math.ceil(Math.sqrt(num)) ; i += 1)
             if (num % i == 0) {
                 ret = false;
                 break;
@@ -78,7 +78,7 @@ public class NumberUtil {
         } else {
             ArrayList<Integer> numbers = new ArrayList<>();
 
-            for (int i = 2; i < Math.ceil(Math.sqrt(num)); i += 1) {
+            for (int i = 2 ; i < Math.ceil(Math.sqrt(num)) ; i += 1) {
                 if (num % i == 0) {
                     numbers.add(i);
                 }
@@ -99,7 +99,7 @@ public class NumberUtil {
     public static LinkedList<Long> fib(long a, long b, int numFibs) {
         LinkedList<Long> ret = new LinkedList<>();
         ret.add(a);
-        for (int i = 1; i < numFibs; i++) {
+        for (int i = 1 ; i < numFibs ; i++) {
             ret.add(b);
 
             long next = a + b;
@@ -171,7 +171,7 @@ public class NumberUtil {
         trioStrings.clear();
 
         //for all trios get the prefix and add and to the last prefix (first since reversed)
-        for (int i = 0; i < reversed.size(); i++) {
+        for (int i = 0 ; i < reversed.size() ; i++) {
             trioStrings.add((i == 0 && reversed.size() > 1 ? " and " : "")
                     + reversed.get(i) + getThousandsPrefix(i));
         }
@@ -181,7 +181,7 @@ public class NumberUtil {
         if (negative)
             ret.append("Negative ");
 
-        for (int i = trioStrings.size() - 1; i > -1; i--) {
+        for (int i = trioStrings.size() - 1 ; i > -1 ; i--) {
             ret.append(trioStrings.get(i).trim());
 
             if (i != 0)
@@ -314,11 +314,11 @@ public class NumberUtil {
                 }
             }
 
-            for (int i = 0; i < uniqueInts.size(); i++) {
+            for (int i = 0 ; i < uniqueInts.size() ; i++) {
                 ret[i] = uniqueInts.get(i);
             }
         } else {
-            for (int i = 0; i < number; i++) {
+            for (int i = 0 ; i < number ; i++) {
                 ret[i] = randInt(min, max);
             }
         }

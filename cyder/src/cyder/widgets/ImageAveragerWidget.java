@@ -81,14 +81,14 @@ public class ImageAveragerWidget {
         if (averagerFrame != null)
             averagerFrame.dispose(true);
 
-        averagerFrame = new CyderFrame(600,640);
+        averagerFrame = new CyderFrame(600, 640);
         averagerFrame.setTitle("Image Averager");
 
         imagesScroll = new CyderScrollList(400, 400, CyderScrollList.SelectionPolicy.SINGLE);
         imagesScroll.setBorder(null);
 
         imageScrollLabelHolder = new JLabel();
-        imageScrollLabelHolder.setBounds(90,40,420,420);
+        imageScrollLabelHolder.setBounds(90, 40, 420, 420);
         imageScrollLabelHolder.setBorder(new LineBorder(CyderColors.navy, 5));
         averagerFrame.getContentPane().add(imageScrollLabelHolder);
 
@@ -102,7 +102,7 @@ public class ImageAveragerWidget {
         imagesScrollLabel.setBackground(Color.white);
 
         CyderButton addButton = new CyderButton("Add Image");
-        addButton.setBounds(90,480,420,40);
+        addButton.setBounds(90, 480, 420, 40);
         averagerFrame.getContentPane().add(addButton);
         addButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
@@ -122,7 +122,7 @@ public class ImageAveragerWidget {
         }, "wait thread for GetterUtil().getFile()"));
 
         CyderButton remove = new CyderButton("Remove Image");
-        remove.setBounds(90,530,420,40);
+        remove.setBounds(90, 530, 420, 40);
         averagerFrame.getContentPane().add(remove);
         remove.addActionListener(e -> {
             String matchName = imagesScroll.getSelectedElement();
@@ -143,7 +143,7 @@ public class ImageAveragerWidget {
 
         CyderButton average = new CyderButton("Average Images");
         average.setColors(CyderColors.regularPink);
-        average.setBounds(90,580,420,40);
+        average.setBounds(90, 580, 420, 40);
         averagerFrame.getContentPane().add(average);
         average.addActionListener(e -> averageButtonAction());
 
@@ -199,7 +199,7 @@ public class ImageAveragerWidget {
                 Graphics2D graph = saveImage.createGraphics();
 
                 //init transparent image
-                graph.setPaint(new Color(0,0,0,0));
+                graph.setPaint(new Color(0, 0, 0, 0));
                 graph.fillRect(0, 0, width, height);
 
                 //compute the average based on max width, height, and the BI to write to
@@ -245,7 +245,7 @@ public class ImageAveragerWidget {
                 save.setFocusPainted(false);
                 drawFrame.getTopDragLabel().addButton(save, 0);
 
-                drawFrame.getTopDragLabel().add(save,1);
+                drawFrame.getTopDragLabel().add(save, 1);
                 drawFrame.setVisible(true);
                 drawFrame.setLocationRelativeTo(averagerFrame);
             } catch (Exception e) {
@@ -260,8 +260,8 @@ public class ImageAveragerWidget {
      * Computes the average of the images inside of the files array list and
      * modifies saveImage to have the reuslting calcualted pixel average.
      *
-     * @param width the width of the resulting image
-     * @param height the height of the resulting image
+     * @param width     the width of the resulting image
+     * @param height    the height of the resulting image
      * @param saveImage the reference image to save the averaged image to
      */
     private static void computerAverage(int width, int height, BufferedImage saveImage) {
@@ -293,8 +293,8 @@ public class ImageAveragerWidget {
                 int currentYOffset = (height - currentHeight) / 2;
 
                 //loop through current data
-                for (int y = 0; y < currentPixels.length; y++) {
-                    for (int x = 0; x < currentPixels[0].length; x++) {
+                for (int y = 0 ; y < currentPixels.length ; y++) {
+                    for (int x = 0 ; x < currentPixels[0].length ; x++) {
                         //add in current data to master array accounting for offset
                         pixels[y + currentYOffset][x + currentXOffset] += currentPixels[y][x];
                         //add in data to say this pixel was added to
@@ -338,7 +338,7 @@ public class ImageAveragerWidget {
         int[][] result = new int[height][width];
         if (hasAlphaChannel) {
             final int pixelLength = 4;
-            for (int pixel = 0, row = 0, col = 0; pixel + 3 < pixels.length; pixel += pixelLength) {
+            for (int pixel = 0, row = 0, col = 0 ; pixel + 3 < pixels.length ; pixel += pixelLength) {
                 int argb = 0;
                 argb += (((int) pixels[pixel] & 0xff) << 24); // alpha
                 argb += ((int) pixels[pixel + 1] & 0xff); // blue
@@ -355,7 +355,7 @@ public class ImageAveragerWidget {
         } else {
             final int pixelLength = 3;
 
-            for (int pixel = 0, row = 0, col = 0; pixel + 2 < pixels.length; pixel += pixelLength) {
+            for (int pixel = 0, row = 0, col = 0 ; pixel + 2 < pixels.length ; pixel += pixelLength) {
                 int argb = 0;
                 argb -= 16777216; // 255 alpha
                 argb += ((int) pixels[pixel] & 0xff); // blue
@@ -411,9 +411,7 @@ public class ImageAveragerWidget {
             } else {
                 return new ImageIcon(bi.getScaledInstance(800, 800, Image.SCALE_SMOOTH));
             }
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 

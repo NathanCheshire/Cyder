@@ -131,11 +131,11 @@ public class YoutubeThread {
                         double totalUUIDs = Math.pow(64, 11);
                         double completedUUIDs = 0;
 
-                        for (int i = 10; i >= 0; i--) {
+                        for (int i = 10 ; i >= 0 ; i--) {
                             int weight = Math.abs(i - 10);
                             char currentDigit = uuidArr[i];
 
-                            for (int j = 0; j < 64; j++) {
+                            for (int j = 0 ; j < 64 ; j++) {
                                 if (validChars[j] == currentDigit) {
                                     completedUUIDs += j * Math.pow(64, weight);
                                     break;

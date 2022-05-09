@@ -51,7 +51,7 @@ public class CyderButton extends JButton {
     @Override
     protected void paintComponent(Graphics g) {
         setFocusPainted(false);
-        setBorder(new LineBorder(CyderColors.navy,5,false));
+        setBorder(new LineBorder(CyderColors.navy, 5, false));
         if (getModel().isPressed()) {
             g.setColor(pressedBackgroundColor);
         } else if (getModel().isRollover()) {
@@ -128,9 +128,7 @@ public class CyderButton extends JButton {
                     if (threadsKilled)
                         return;
                 }
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         }, getName() + " alert thread").start();

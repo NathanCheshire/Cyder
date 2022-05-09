@@ -23,7 +23,7 @@ public class MappedExecutable {
     /**
      * Constructs a new mapped executable object.
      *
-     * @param name the display name of the mapped executable
+     * @param name     the display name of the mapped executable
      * @param filepath the path to the file to open
      */
     public MappedExecutable(String name, String filepath) {

@@ -50,8 +50,8 @@ public class CyderProgressBar extends JProgressBar {
      * Constructs a new CyderProgressBar.
      *
      * @param orientation the orientation of the progressbar
-     * @param min the minimum progress bar value
-     * @param max the maximum progress bar value
+     * @param min         the minimum progress bar value
+     * @param max         the maximum progress bar value
      */
     public CyderProgressBar(int orientation, int min, int max) {
         super(orientation, min, max);

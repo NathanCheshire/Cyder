@@ -105,7 +105,7 @@ public class IOUtil {
                 // build string of all JVM args
                 StringBuilder argBuilder = new StringBuilder();
 
-                for (int i = 0; i < cyderArgs.length; i++) {
+                for (int i = 0 ; i < cyderArgs.length ; i++) {
                     if (i != 0)
                         argBuilder.append(",");
 
@@ -230,7 +230,7 @@ public class IOUtil {
 
     /**
      * Plays the requested audio file using a new JLayer Player object.
-     *      (this cannot be stopped util the mpeg is finished)
+     * (this cannot be stopped util the mpeg is finished)
      *
      * @param FilePath the path to the audio file to play
      */
@@ -240,7 +240,7 @@ public class IOUtil {
             Player systemPlayer = new Player(FileInputStream);
 
             if (!FilePath.equals("static/audio/Typing.mp3"))
-                Logger.log(Logger.Tag.AUDIO,"[SYSTEM AUDIO] " + FilePath);
+                Logger.log(Logger.Tag.AUDIO, "[SYSTEM AUDIO] " + FilePath);
             CyderThreadRunner.submit(() -> {
                 try {
                     systemPlayer.play();
@@ -296,6 +296,7 @@ public class IOUtil {
 
     /**
      * Changes the current user from console frame's name to the provided name.
+     *
      * @param newName the new name of the user
      */
     public static void changeUsername(String newName) {
@@ -321,8 +322,8 @@ public class IOUtil {
      *
      * @param file the file to obtain the attributes of
      * @return the DOS attributes in the following order: isArchive, isHidden,
-     *              isReadOnly, isSystem, creationTime, isDirectory, isOther, isSymbolicLink,
-     *              lastAccessTime, lastModifiedTime
+     * isReadOnly, isSystem, creationTime, isDirectory, isOther, isSymbolicLink,
+     * lastAccessTime, lastModifiedTime
      */
     public static String[] getDOSAttributes(File file) {
         String[] ret = new String[10];
@@ -443,7 +444,7 @@ public class IOUtil {
             ArrayList<String> ret = new ArrayList<>();
 
             try {
-                String[] commands = {"python", OSUtil.buildPath("static","python","usb_q.py")};
+                String[] commands = {"python", OSUtil.buildPath("static", "python", "usb_q.py")};
                 Process proc = Runtime.getRuntime().exec(commands);
 
                 BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));

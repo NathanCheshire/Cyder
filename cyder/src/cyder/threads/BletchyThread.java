@@ -103,7 +103,7 @@ public class BletchyThread {
 
                     printingSemaphore.acquire();
 
-                    for (int i = 1; i < print.length; i++) {
+                    for (int i = 1 ; i < print.length ; i++) {
                         if (!isActive) {
                             printingSemaphore.release();
                             return;
@@ -191,12 +191,12 @@ public class BletchyThread {
             LinkedList<Character> chars = new LinkedList<>();
 
             // card suites
-            for (int index = 9824; index <= 9835; index++) {
+            for (int index = 9824 ; index <= 9835 ; index++) {
                 chars.add((char) index);
             }
 
             //cool looking unicode chars
-            for (int index = 880; index <= 1023; index++) {
+            for (int index = 880 ; index <= 1023 ; index++) {
                 chars.add((char) index);
             }
 
@@ -205,12 +205,12 @@ public class BletchyThread {
 
         int iterationsPerChar = 7;
 
-        for (int i = 1; i < len; i++) {
-            for (int j = 0; j < iterationsPerChar; j++) {
+        for (int i = 1 ; i < len ; i++) {
+            for (int j = 0 ; j < iterationsPerChar ; j++) {
 
                 String current = "";
 
-                for (int k = 0; k <= len; k++) {
+                for (int k = 0 ; k <= len ; k++) {
                     current += lowercaseAlphabet[NumberUtil.randInt(0,
                             lowercaseAlphabet.length - 1)];
                 }

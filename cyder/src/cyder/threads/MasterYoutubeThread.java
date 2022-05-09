@@ -50,7 +50,7 @@ public class MasterYoutubeThread {
      * Sets the master YouTube JTextPane, and its linked semaphore.
      *
      * @param outputArea the JTextPane to use for appending text to
-     * @param semaphore the semaphore to use to block other text from being appended while thread is underway
+     * @param semaphore  the semaphore to use to block other text from being appended while thread is underway
      */
     public static void initialize(JTextPane outputArea, Semaphore semaphore) {
         MasterYoutubeThread.outputArea = outputArea;
@@ -84,7 +84,7 @@ public class MasterYoutubeThread {
             return;
         }
 
-        for (int i = 0; i < number; i++) {
+        for (int i = 0 ; i < number ; i++) {
             YoutubeThread current = new YoutubeThread(outputArea, i);
             youtubeThreads.add(current);
         }

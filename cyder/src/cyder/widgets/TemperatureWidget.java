@@ -68,9 +68,9 @@ public class TemperatureWidget {
         startingValue.setHorizontalAlignment(JTextField.CENTER);
         startingValue.setKeyEventRegexMatcher(
                 "(\\-?)" +
-                "|(\\-?[0-9]+)" +
-                "|(\\-?[0-9]+.)" +
-                "|(\\-?[0-9]+.[0-9]+)");
+                        "|(\\-?[0-9]+)" +
+                        "|(\\-?[0-9]+.)" +
+                        "|(\\-?[0-9]+.[0-9]+)");
 
         ValueLabel.setBounds(60, 40, 200, 30);
 

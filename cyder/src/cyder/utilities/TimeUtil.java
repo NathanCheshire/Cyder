@@ -229,7 +229,7 @@ public class TimeUtil {
      * @return whether the current day is thanksgiving day
      */
     public static boolean isThanksgiving() {
-        int year =calendarInstance.get(Calendar.YEAR);
+        int year = calendarInstance.get(Calendar.YEAR);
         int Month = calendarInstance.get(Calendar.MONTH) + 1;
         int Date = calendarInstance.get(Calendar.DATE);
         LocalDate RealTG = LocalDate.of(year, 11, 1)
@@ -340,7 +340,7 @@ public class TimeUtil {
     public static String monthFromNumber(int monthNumber) {
         String result = "";
 
-        switch(monthNumber) {
+        switch (monthNumber) {
             case 1:
                 result = "January";
                 break;
@@ -420,7 +420,7 @@ public class TimeUtil {
      *
      * @param msTime the raw long of ms
      * @return a String detailing how many years/months/days...
-     *      are represented by the provided milliseconds.
+     * are represented by the provided milliseconds.
      */
     public static String millisToFormattedString(long msTime) {
         StringBuilder sb = new StringBuilder();
@@ -441,7 +441,7 @@ public class TimeUtil {
         }
 
         // take away seconds that were converted
-        seconds -=minutes * 60;
+        seconds -= minutes * 60;
 
         // convert minutes to hours
         if (minutes >= 60) {
@@ -620,9 +620,9 @@ public class TimeUtil {
      * Sleeps on the current thread for the specified amount of time,
      * checking the escapeCondition for truth every checkConditionFrequency ms.
      *
-     * @param sleepTime the total time to sleep for
+     * @param sleepTime               the total time to sleep for
      * @param checkConditionFrequency the frequency to check the escapeCondition
-     * @param escapeCondition the condition to stop sleeping if true
+     * @param escapeCondition         the condition to stop sleeping if true
      */
     public static void sleepWithChecks(long sleepTime, long checkConditionFrequency, AtomicBoolean escapeCondition) {
         Preconditions.checkNotNull(escapeCondition);

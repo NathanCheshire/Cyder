@@ -54,7 +54,7 @@ public class NetworkUtil {
     static {
         CyderThreadRunner.submit(() -> {
             try {
-                for (;;) {
+                for ( ; ; ) {
                     if (!decentPing()) {
                         setHighLatency(true);
                     } else {
@@ -294,7 +294,7 @@ public class NetworkUtil {
             }
         }
 
-        try (BufferedInputStream in = new BufferedInputStream(new URL(urlResource).openStream());
+        try (BufferedInputStream in = new BufferedInputStream(new URL(urlResource).openStream()) ;
              FileOutputStream fileOutputStream = new FileOutputStream(referenceFile)) {
 
             byte[] dataBuffer = new byte[BUFFER_SIZE];

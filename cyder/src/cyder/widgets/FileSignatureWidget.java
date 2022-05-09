@@ -55,7 +55,7 @@ public class FileSignatureWidget {
     @Widget(triggers = "filesignature", description = "A widget to read the raw file " +
             "hex data and determine if the file signature matches the provided extension")
     public static void showGui() {
-        signatureFrame = new CyderFrame(400,420, CyderIcons.defaultBackground);
+        signatureFrame = new CyderFrame(400, 420, CyderIcons.defaultBackground);
         signatureFrame.setTitle("File Signature Checker");
 
         signatureField = new CyderTextField(0);
@@ -66,7 +66,7 @@ public class FileSignatureWidget {
         signatureFrame.getContentPane().add(signatureField);
 
         CyderLabel referenceLabel = new CyderLabel("File Signature Sheet");
-        referenceLabel.setBounds(50,50,300,40);
+        referenceLabel.setBounds(50, 50, 300, 40);
         referenceLabel.setFont(CyderFonts.defaultFontSmall.deriveFont(28f));
         referenceLabel.setToolTipText("Click here to view a list of common file extensions");
         referenceLabel.addMouseListener(new MouseAdapter() {
@@ -89,7 +89,7 @@ public class FileSignatureWidget {
 
         CyderButton getFile = new CyderButton("Select File");
         getFile.setColors(CyderColors.regularPink);
-        getFile.setBounds(50,190,300,40);
+        getFile.setBounds(50, 190, 300, 40);
         getFile.addActionListener(e -> {
             try {
                 CyderThreadRunner.submit(() -> {
@@ -114,12 +114,12 @@ public class FileSignatureWidget {
 
         CyderButton checkFile = new CyderButton("Validate File Type");
         checkFile.setColors(CyderColors.regularBlue);
-        checkFile.setBounds(50,260, 300, 40);
+        checkFile.setBounds(50, 260, 300, 40);
         checkFile.addActionListener(e -> validate());
         signatureFrame.getContentPane().add(checkFile);
 
         resultLabel = new CyderLabel("Comparison not performed yet");
-        resultLabel.setBounds(50,300, 300, 120);
+        resultLabel.setBounds(50, 300, 300, 120);
         signatureFrame.getContentPane().add(resultLabel);
 
         signatureFrame.finalizeAndShow();
@@ -133,15 +133,15 @@ public class FileSignatureWidget {
                 signatureFrame.notify("Please enter a file extension");
             } else {
                 String byteSignature = signatureField.getText().trim()
-                        .replace(" ","").replace("0x","");
+                        .replace(" ", "").replace("0x", "");
                 InputStream inputStream = new FileInputStream(currentFile);
                 int numberOfColumns = (int) Math.ceil(byteSignature.length() / 2.0);
                 StringBuilder sb = new StringBuilder();
 
                 long streamPtr = 0;
                 while (inputStream.available() > 0) {
-                    long col = streamPtr ++ % numberOfColumns;
-                    sb.append(String.format("%02x ",inputStream.read()));
+                    long col = streamPtr++ % numberOfColumns;
+                    sb.append(String.format("%02x ", inputStream.read()));
 
                     if (col == (numberOfColumns - 1)) {
                         break;

@@ -66,7 +66,7 @@ public class YoutubeUtil {
 
             String parsedAsciiSaveName =
                     StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
-                            .replace("- YouTube","")
+                            .replace("- YouTube", "")
                             .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(),
                                     "").trim();
 
@@ -109,7 +109,7 @@ public class YoutubeUtil {
                     audioProgress.setMinimum(0);
                     audioProgress.setMaximum(10000);
                     audioProgress.setBorder(new LineBorder(Color.black, 2));
-                    audioProgress.setBounds(0,0,400, 40);
+                    audioProgress.setBounds(0, 0, 400, 40);
                     audioProgress.setVisible(true);
                     audioProgress.setValue(0);
                     audioProgress.setOpaque(false);
@@ -134,7 +134,7 @@ public class YoutubeUtil {
 
                         if (updateMatcher.find()) {
                             float progress = Float.parseFloat(updateMatcher.group(1)
-                                    .replaceAll("[^0-9.]",""));
+                                    .replaceAll("[^0-9.]", ""));
                             audioProgress.setValue((int) ((progress / 100.0) * audioProgress.getMaximum()));
 
                             if (fileSize == null) {
@@ -154,7 +154,7 @@ public class YoutubeUtil {
                     downloadThumbnail(url);
                     ConsoleFrame.INSTANCE.getInputHandler()
                             .println("Download complete: saved as " + finalParsedAsciiSaveName + extension
-                            + " and added to audio queue");
+                                    + " and added to audio queue");
                     AudioPlayer.addAudioNext(new File(OSUtil.buildPath(
                             saveDir, finalParsedAsciiSaveName + extension)));
 
@@ -194,7 +194,7 @@ public class YoutubeUtil {
 
                     String jsonResponse = NetworkUtil.readUrl(link);
 
-                    Matcher m = CyderRegexPatterns.youtubeApiV3UuidPattern .matcher(jsonResponse);
+                    Matcher m = CyderRegexPatterns.youtubeApiV3UuidPattern.matcher(jsonResponse);
                     ArrayList<String> uuids = new ArrayList<>();
 
                     while (m.find()) {
@@ -202,7 +202,7 @@ public class YoutubeUtil {
                     }
 
                     for (String uuid : uuids) {
-                       downloadVideo(buildYoutubeVideoUrl(uuid));
+                        downloadVideo(buildYoutubeVideoUrl(uuid));
                     }
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
@@ -234,7 +234,7 @@ public class YoutubeUtil {
      * Downloads the youtube video's thumbnail with the provided
      * url to the current user's album aart directory.
      *
-     * @param url the url of the youtube video to download
+     * @param url       the url of the youtube video to download
      * @param dimension the dimensions to crop the image to
      */
     public static void downloadThumbnail(String url, Dimension dimension) {
@@ -301,7 +301,7 @@ public class YoutubeUtil {
 
         if (jsonString.contains("\"videoId\":\"")) {
             String[] parts = jsonString.split("\"videoId\":\"");
-            ret =  parts[1].substring(0,11);
+            ret = parts[1].substring(0, 11);
         }
 
         return ret;
@@ -334,7 +334,7 @@ public class YoutubeUtil {
      */
     @Widget(triggers = {"youtube", "thumbnail"}, description = "A widget to steal youtube thumbnails")
     public static void showGui() {
-        CyderFrame uuidFrame = new CyderFrame(400,240, CyderIcons.defaultBackground);
+        CyderFrame uuidFrame = new CyderFrame(400, 240, CyderIcons.defaultBackground);
         uuidFrame.setTitle("Thumbnail Stealer");
         uuidFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
 
@@ -374,11 +374,12 @@ public class YoutubeUtil {
                     try {
                         thumbnailURL = buildSdDefThumbnailUrl(uuid);
                         thumbnail = ImageIO.read(new URL(thumbnailURL));
-                    } catch (Exception ignoredDos) {}
+                    } catch (Exception ignoredDos) {
+                    }
                 }
 
                 if (thumbnail == null) {
-                    uuidFrame.inform("No thumbnail found for provided youtube uuid","Error");
+                    uuidFrame.inform("No thumbnail found for provided youtube uuid", "Error");
                     return;
                 }
 
@@ -393,7 +394,7 @@ public class YoutubeUtil {
 
                 CyderButton addToBackgrounds = new CyderButton("Set as background");
                 addToBackgrounds.setBounds(10, thumbnail.getHeight() + 10,
-                        (thumbnail.getWidth() - 30) / 2 , 40);
+                        (thumbnail.getWidth() - 30) / 2, 40);
                 String finalThumbnailURL = thumbnailURL;
                 addToBackgrounds.addActionListener(e1 -> {
 
@@ -428,9 +429,7 @@ public class YoutubeUtil {
                 thumbnailFrame.setLocationRelativeTo(uuidFrame);
 
                 uuidFrame.dispose();
-            }
-
-            catch (Exception exc) {
+            } catch (Exception exc) {
                 uuidFrame.notify("Invalid YouTube UUID");
             }
         });
@@ -441,7 +440,7 @@ public class YoutubeUtil {
     /**
      * Returns a square, 720x720 image of the provided youtube video's thumbnail.
      *
-     * @param videoURL the url of the youtube video to query
+     * @param videoURL  the url of the youtube video to query
      * @param dimension the dimension of the resulting image
      * @return a square image of the thumbnail
      */
@@ -560,7 +559,7 @@ public class YoutubeUtil {
     public static String getYoutubeUUID(String youtubeURL) {
         Matcher matcher = CyderRegexPatterns.extractYoutubeUuidPattern.matcher(youtubeURL);
 
-        if(matcher.find()){
+        if (matcher.find()) {
             return matcher.group();
         } else throw new IllegalArgumentException("No UUID found in provided string: " + youtubeURL);
     }
@@ -569,7 +568,7 @@ public class YoutubeUtil {
      * Constructs the url to query YouTube with a specific string for video results.
      *
      * @param numResults the number of results to return (max 20 results per page)
-     * @param rawQuery the raw search query such as "blade parade"
+     * @param rawQuery   the raw search query such as "blade parade"
      * @return the constructed url to match the provided parameters
      */
     public static String buildYouTubeApiV3SearchQuery(int numResults, String rawQuery) {

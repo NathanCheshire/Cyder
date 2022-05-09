@@ -35,7 +35,7 @@ public class MinecraftWidget {
         if (minecraftFrame != null)
             minecraftFrame.dispose();
 
-        minecraftFrame = new CyderFrame(1263,160, new ImageIcon("static/pictures/minecraft/Minecraft.png"));
+        minecraftFrame = new CyderFrame(1263, 160, new ImageIcon("static/pictures/minecraft/Minecraft.png"));
         minecraftFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         minecraftFrame.setTitle("Minecraft Widget");
 
@@ -142,8 +142,8 @@ public class MinecraftWidget {
         //open minecraft if map exists
         for (MappedExecutable exe : UserUtil.getCyderUser().getExecutables()) {
             if (exe.getName().equalsIgnoreCase("minecraft") ||
-                exe.getName().equalsIgnoreCase("lunar") ||
-                exe.getName().equalsIgnoreCase("badlion")) {
+                    exe.getName().equalsIgnoreCase("lunar") ||
+                    exe.getName().equalsIgnoreCase("badlion")) {
                 IOUtil.openFileOutsideProgram(exe.getFilepath());
                 break;
             }

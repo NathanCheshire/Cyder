@@ -146,7 +146,7 @@ public class StringUtil {
 
     /**
      * Removes the last line added to the linked JTextPane. This could appear to remove nothing,
-     *  but really be removing just a newline (line break) character.
+     * but really be removing just a newline (line break) character.
      */
     public synchronized void removeLastLine() {
         try {
@@ -176,8 +176,8 @@ public class StringUtil {
                             value.getEndOffset() - value.getStartOffset());
                 }
             }
-        } catch (BadLocationException ignored) {}
-        catch (Exception e) {
+        } catch (BadLocationException ignored) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
@@ -187,9 +187,10 @@ public class StringUtil {
 
     /**
      * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
-     *  modifiers, etc. have been set before printing the component.
-     * @param c the component to append to the pane
-     * @param nm the name identifier for the style
+     * modifiers, etc. have been set before printing the component.
+     *
+     * @param c   the component to append to the pane
+     * @param nm  the name identifier for the style
      * @param str the string identifier for the underlying insert string call
      */
     public synchronized void printComponent(Component c, String nm, String str) {
@@ -205,7 +206,8 @@ public class StringUtil {
 
     /**
      * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
-     *  modifiers, etc. have been set before printing the component.
+     * modifiers, etc. have been set before printing the component.
+     *
      * @param c the component to append to the pane
      */
     public synchronized void printComponent(Component c) {
@@ -222,8 +224,9 @@ public class StringUtil {
 
     /**
      * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
-     *  modifiers, etc. have been set before printing the component. Following the component print,
-     *  a new line is appended to the pane.
+     * modifiers, etc. have been set before printing the component. Following the component print,
+     * a new line is appended to the pane.
+     *
      * @param c the component to append to the pane
      */
     public synchronized void printlnComponent(Component c) {
@@ -238,10 +241,11 @@ public class StringUtil {
 
     /**
      * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
-     *  modifiers, etc. have been set before printing the component. Following the component print,
-     *  a new line is appended to the pane.
-     * @param c the component to append to the pane
-     * @param nm the name identifier for the style
+     * modifiers, etc. have been set before printing the component. Following the component print,
+     * a new line is appended to the pane.
+     *
+     * @param c   the component to append to the pane
+     * @param nm  the name identifier for the style
      * @param str the string identifier for the underlying insert string call
      */
     public synchronized void printlnComponent(Component c, String nm, String str) {
@@ -333,7 +337,7 @@ public class StringUtil {
         }
     }
 
-    public synchronized  void println(String Usage) {
+    public synchronized void println(String Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -415,6 +419,7 @@ public class StringUtil {
 
     /**
      * Prints the object array to {@link this} object's connected output area
+     *
      * @param arr the array of objects to print
      */
     public synchronized void printArr(Object[] arr) {
@@ -430,6 +435,7 @@ public class StringUtil {
 
     /**
      * Reverses the given array
+     *
      * @param Array the array to reverse
      * @return the reversed array
      */
@@ -441,6 +447,7 @@ public class StringUtil {
     /**
      * Determines the proper english grammar when attempting to use possession on a string that typically
      * represents a noun.
+     *
      * @param name the proper name of the noun
      * @return the string to be appended to the proper noun ('s or simply ')
      */
@@ -454,7 +461,8 @@ public class StringUtil {
     /**
      * Returns the plural form of the word. A singular item doesn't need to be made plural
      * whilst any number of objects other than 1 should be converted to plural using English Language rules.
-     * @param num the number of items associated with the word
+     *
+     * @param num  the number of items associated with the word
      * @param word the word to be converted to plural
      * @return the plural form of the word
      */
@@ -470,13 +478,13 @@ public class StringUtil {
      * Fills a string with the provided character to result in a string of the specified length.
      *
      * @param count the length of the resultant string
-     * @param c the character to fill the string with
+     * @param c     the character to fill the string with
      * @return the resultant filled array
      */
     public static String fillString(int count, String c) {
         StringBuilder sb = new StringBuilder(count);
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0 ; i < count ; i++) {
             sb.append(c);
         }
 
@@ -569,9 +577,9 @@ public class StringUtil {
             //someone pls make this better and PR a method for this, make it work for permutations
             //from this table: https://cleanspeak.com/images/blog/leet-wiki-table.png
 
-            if (c == '4' || c == '@' || c == '^' || c == 'z') 
+            if (c == '4' || c == '@' || c == '^' || c == 'z')
                 chars[i] = 'a';
-            else if (c == '8' || c == '6') 
+            else if (c == '8' || c == '6')
                 chars[i] = 'b';
             else if (c == '(' || c == '<' || c == '{')
                 chars[i] = 'c';
@@ -579,7 +587,7 @@ public class StringUtil {
                 chars[i] = 'e';
             else if (c == '}')
                 chars[i] = 'f';
-            else if ( c == '9')
+            else if (c == '9')
                 chars[i] = 'g';
             else if (c == '#')
                 chars[i] = 'h';
@@ -605,7 +613,7 @@ public class StringUtil {
                 chars[i] = 'x';
             else if (c == '%')
                 chars[i] = 'z';
-            
+
         }
 
         return String.valueOf(chars);
@@ -615,7 +623,7 @@ public class StringUtil {
      * Tests whether the provided string has the provided word inside it.
      *
      * @param userInput the master string to search through
-     * @param findWord the word to search the master string for
+     * @param findWord  the word to search the master string for
      * @return a boolean depicting whether the given string contains the test word
      */
     public static boolean hasWord(String userInput, String findWord) {
@@ -625,8 +633,8 @@ public class StringUtil {
     /**
      * Tests whether the provided string has the provided word inside it.
      *
-     * @param userInput the master string to search through
-     * @param findWord the word to search the master string for
+     * @param userInput      the master string to search through
+     * @param findWord       the word to search the master string for
      * @param removeComments whether to remove comment tags from the input
      * @return a boolean depicting whether the given string contains the test word
      */
@@ -636,25 +644,25 @@ public class StringUtil {
                     + userInput + ", word = " + findWord);
 
         if (removeComments) {
-            userInput = userInput.replace("//","")
-                    .replace("/*","")
-                    .replace("*/","")
-                    .replace("*","");
+            userInput = userInput.replace("//", "")
+                    .replace("/*", "")
+                    .replace("*/", "")
+                    .replace("*", "");
         }
 
         userInput = userInput.toLowerCase();
         findWord = findWord.toLowerCase();
 
         return userInput.startsWith(findWord + ' ') || //first word
-               userInput.endsWith(' ' + findWord) || //last word
-               userInput.contains(' ' + findWord + ' ') || //middle word
-               userInput.equalsIgnoreCase(findWord); //literal
+                userInput.endsWith(' ' + findWord) || //last word
+                userInput.contains(' ' + findWord + ' ') || //middle word
+                userInput.equalsIgnoreCase(findWord); //literal
     }
 
     /**
      * Tests a given string to see if it contains any blocked words contained in the v.txt system file.
      *
-     * @param input the provided string to test against
+     * @param input      the provided string to test against
      * @param filterLeet whether to filter out possible leet from the string
      * @return a boolean describing whether the filter was triggered by the input
      */
@@ -690,7 +698,7 @@ public class StringUtil {
         if (str == null || str.isEmpty())
             return "";
 
-        if(str.length() == 1)
+        if (str.length() == 1)
             return str.toLowerCase();
         else return str.substring(0, 1).toLowerCase() + str.substring(1);
     }
@@ -759,14 +767,14 @@ public class StringUtil {
     public static String getWikipediaSummary(String query) {
         String ret;
 
-        try  {
+        try {
             String urlString = CyderUrls.WIKIPEDIA_SUMMARY_BASE +
                     "&prop=extracts&exintro&explaintext&redirects=1&titles=" +
-                    query.replace(" ","%20");
+                    query.replace(" ", "%20");
             String jsonString = NetworkUtil.readUrl(urlString);
 
             String[] serializedPageNumber = jsonString.split("\"extract\":\"");
-            ret = serializedPageNumber[1].replace("}","");
+            ret = serializedPageNumber[1].replace("}", "");
             ret = ret.substring(0, ret.length() - 1);
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
@@ -898,15 +906,15 @@ public class StringUtil {
     /**
      * Returns whether the provided string is in the listed strings.
      *
-     * @param lookFor the string to look for
-     * @param strings the list of strings
+     * @param lookFor    the string to look for
+     * @param strings    the list of strings
      * @param ignoreCase whether to ignore the case of the words
      * @return whether the provided string is in the list of strings
      */
     public static boolean in(String lookFor, boolean ignoreCase, String... strings) {
         for (String look : strings) {
             if ((ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look)) {
-               return true;
+                return true;
             }
         }
 
@@ -916,8 +924,8 @@ public class StringUtil {
     /**
      * Returns whether the provided string is in the listed strings.
      *
-     * @param lookFor the string to look for
-     * @param strings the list of strings
+     * @param lookFor    the string to look for
+     * @param strings    the list of strings
      * @param ignoreCase whether to ignore the case of the words
      * @return whether the provided string is in the list of strings
      */
@@ -934,8 +942,8 @@ public class StringUtil {
     /**
      * Returns whether the provided string is in the listed strings.
      *
-     * @param lookFor the string to look for
-     * @param strings the list of strings
+     * @param lookFor    the string to look for
+     * @param strings    the list of strings
      * @param ignoreCase whether to ignore the case of the words
      * @return whether the provided string is in the list of strings
      */
@@ -953,7 +961,7 @@ public class StringUtil {
      * Returns the minimum width required for the given String using the given font.
      *
      * @param title the text you want to determine the width of
-     * @param f the font for the text
+     * @param f     the font for the text
      * @return an integer value determining the minimum width of
      * a string of text (10 is added to avoid ... bug)
      */
@@ -967,7 +975,7 @@ public class StringUtil {
      * Returns the minimum width required for the given String using the given font.
      *
      * @param title the text you want to determine the width of
-     * @param f the font for the text
+     * @param f     the font for the text
      * @return an integer value determining the minimum width of a string of text
      */
     public static int getAbsoluteMinWidth(String title, Font f) {
@@ -1044,7 +1052,7 @@ public class StringUtil {
      * Splits the provided string using the provided pattern and returns a
      * linked list as opposed to an array containing the parts of the split.
      *
-     * @param string the string to split on using the pattern
+     * @param string  the string to split on using the pattern
      * @param pattern the pattern to split the string on
      * @return a list of the split parts
      */
@@ -1052,7 +1060,7 @@ public class StringUtil {
         Matcher m = pattern.matcher(string);
         LinkedList<String> ret = new LinkedList<>();
 
-        while(m.find()) {
+        while (m.find()) {
             // group 0 is the entire match
             ret.add(m.group(0));
         }
@@ -1097,7 +1105,7 @@ public class StringUtil {
      * From <a href="http://rosettacode.org/wiki/Levenshtein_distance#Iterative_space_optimized_.28even_bounded.29</a>
      *
      * @param alpha the first string
-     * @param beta the second string
+     * @param beta  the second string
      * @return the levenshtein distance between alpha and beta
      */
     public static int levenshteinDistance(String alpha, String beta) {
@@ -1110,7 +1118,7 @@ public class StringUtil {
      * into string beta.
      *
      * @param alpha the first string
-     * @param beta the second string
+     * @param beta  the second string
      * @return the number of operations required to transform
      * string alpha into string beta
      */
@@ -1153,10 +1161,10 @@ public class StringUtil {
 
         for (int i = 1 ; i <= la ; i += 1) {
             cost[0] = i;
-            int prv = i-1;
+            int prv = i - 1;
             int min = prv;
 
-            for (int j = 1; j <= lb ; j += 1) {
+            for (int j = 1 ; j <= lb ; j += 1) {
                 int act = prv + (alpha.charAt(i - 1) == beta.charAt(j - 1) ? 0 : 1);
                 cost[j] = MathUtil.min(1 + (prv = cost[j]), 1 + cost[j - 1], act);
 

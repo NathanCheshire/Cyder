@@ -90,9 +90,9 @@ public class Logger {
     /**
      * The main log method to log an action associated with a type tag.
      *
-     * @param tag the type of data we are logging
+     * @param tag            the type of data we are logging
      * @param representation the representation of the object
-     * @param <T> the object instance of representation
+     * @param <T>            the object instance of representation
      */
     public static <T> void log(Tag tag, T representation) {
         if (logConcluded) {
@@ -314,7 +314,7 @@ public class Logger {
     private static void writeCyderAsciiArt() {
         // log file created so write Cyder Ascii art first
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(
-                OSUtil.buildFile(OSUtil.buildPath("static","txt","cyder.txt")))) ;
+                OSUtil.buildFile(OSUtil.buildPath("static", "txt", "cyder.txt")))) ;
              BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentLog, true))) {
             String line;
 
@@ -377,7 +377,7 @@ public class Logger {
      * Formats and writes the line to the current log file.
      *
      * @param line the line to write to the current log file
-     * @param tag the tag which was used to handle the constructed string to write
+     * @param tag  the tag which was used to handle the constructed string to write
      */
     private static synchronized void formatAndWriteLine(String line, Tag tag) {
         // just to be safe, we'll add in the 11 spaces in this method
@@ -418,7 +418,7 @@ public class Logger {
         Preconditions.checkArgument(lines != null);
         Preconditions.checkArgument(lines.length > 0);
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog,true)))  {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog, true))) {
             for (int i = 0 ; i < lines.length ; i++) {
                 if (i != 0) {
                     bw.write(StringUtil.generateNSpaces(NEWLINE_SPACE_OFFSET));
@@ -445,7 +445,7 @@ public class Logger {
         Preconditions.checkArgument(lines != null);
         Preconditions.checkArgument(!lines.isEmpty());
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog,true)))  {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog, true))) {
             for (int i = 0 ; i < lines.size() ; i++) {
                 if (i != 0) {
                     bw.write(StringUtil.generateNSpaces(NEWLINE_SPACE_OFFSET));
@@ -668,7 +668,7 @@ public class Logger {
         String currentLine;
         int currentCount = 1;
 
-        for (int i = 0 ; i < lines.size() - 1; i++) {
+        for (int i = 0 ; i < lines.size() - 1 ; i++) {
             lastLine = lines.get(i);
             currentLine = lines.get(i + 1);
 
@@ -677,7 +677,7 @@ public class Logger {
             } else {
                 if (currentCount > 1) {
                     writeLines.add(lastLine + " [" + currentCount + "x]");
-                } else{
+                } else {
                     writeLines.add(lastLine);
                 }
 
@@ -692,7 +692,7 @@ public class Logger {
         }
 
         // prelines
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,false))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, false))) {
             for (String line : prelines) {
                 bw.write(line);
                 bw.newLine();
@@ -702,7 +702,7 @@ public class Logger {
         }
 
         // actual log lines
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
             for (String line : writeLines) {
                 bw.write(line);
                 bw.newLine();
@@ -725,8 +725,8 @@ public class Logger {
 
         // if not full line tags, directly compare
         if (!logLine1.startsWith("[") || !logLine1.contains("]")
-            || !logLine2.startsWith("[") || !logLine2.contains("]")
-            || !logLine1.startsWith("[") || !logLine2.startsWith("["))
+                || !logLine2.startsWith("[") || !logLine2.contains("]")
+                || !logLine1.startsWith("[") || !logLine2.startsWith("["))
             return logLine1.equals(logLine2);
 
         // guaranteed to have square braces now
@@ -982,7 +982,7 @@ public class Logger {
 
         /**
          * Constructs a new Tag object.
-         * 
+         *
          * @param logName the name to be written to the log file when this tag is logged
          */
         Tag(String logName) {
