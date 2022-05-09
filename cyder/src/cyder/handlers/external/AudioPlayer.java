@@ -51,9 +51,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-// todo do some kind of a cool effect for dreamy album art?
+// todo need to refresh audio files BEFORE skip actions and looking for next songs
 
-// todo need to be able to stop a dreamified audio
+// todo new audio slider custom component should not be used for location
+//  when dremaifying audio back and forth audio is not as seemless as it should be
 
 // todo on view transition progress bar sets to full
 
@@ -929,6 +930,11 @@ public class AudioPlayer {
     private static final AtomicBoolean dreamifierLocked = new AtomicBoolean();
 
     /**
+     * Whether the current audio is dreamified.
+     */
+    private static final AtomicBoolean audioDreamified = new AtomicBoolean();
+
+    /**
      * Installs all the menu options on the AudioPlayer frame.
      */
     private static void installFrameMenuItems() {
@@ -1121,8 +1127,39 @@ public class AudioPlayer {
             if (currentAudioFile != null) {
                 String currentAudioFilename = FileUtil.getFilename(currentAudioFile);
 
+                // already dreamified so attempt to find non-dreamy version
                 if (currentAudioFilename.endsWith(AudioUtil.DREAMY_SUFFIX)) {
-                    audioPlayerFrame.notify("Current audio has already been dreamified");
+                    refreshAudioFiles();
+
+                    String nonDreamyStdName = currentAudioFilename.substring(0,
+                            currentAudioFilename.length() - AudioUtil.DREAMY_SUFFIX.length());
+
+                    for (int i = 0 ; i < validAudioFiles.size() ; i++) {
+                        String localFilename = FileUtil.getFilename(validAudioFiles.get(i));
+
+                        if (localFilename.equals(nonDreamyStdName)) {
+                            audioDreamified.set(false);
+
+                            currentAudioFile = validAudioFiles.get(i);
+
+                            boolean resume = isAudioPlaying();
+                            pauseAudio();
+
+                            refreshFrameTitle();
+                            refreshAudioTitleLabel();
+                            refreshAlbumArt();
+                            refreshAudioFiles();
+                            refreshAudioProgressLabel();
+
+                            if (resume) {
+                                playAudio();
+                            }
+
+                            return;
+                        }
+                    }
+
+                    audioPlayerFrame.notify("Could not find audio's non-dreamy equivalent");
                     return;
                 }
 
@@ -1142,6 +1179,8 @@ public class AudioPlayer {
                             if (isAudioPlaying()) {
                                 pauseAudio();
                             }
+
+                            audioDreamified.set(true);
 
                             currentAudioFile = audioFile;
 
@@ -1208,16 +1247,18 @@ public class AudioPlayer {
                             refreshAudioProgressLabel();
                             playAudio();
 
+                            audioDreamified.set(true);
                             audioPlayerFrame.notify("Successfully dreamified audio");
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                         }
                     } else {
+                        audioDreamified.set(false);
                         audioPlayerFrame.notify("Could not dreamify audio at this time");
                     }
                 }, "Audio Dreamifier");
             }
-        });
+        }, audioDreamified);
     }
 
     /**
@@ -1476,7 +1517,7 @@ public class AudioPlayer {
             albumArtLabel.remove(dreamyLabel);
             albumArtLabel.add(dreamyLabel);
             dreamyLabel.setSize(albumArtLabel.getSize());
-            dreamyLabel.setFont(dreamyLabel.getFont().deriveFont(100f));
+            dreamyLabel.setFont(dreamyLabel.getFont().deriveFont(150f));
             dreamyLabel.setVisible(true);
 
             audioPlayerFrame.setCustomTaskbarIcon(distortedIcon);
