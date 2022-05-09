@@ -3006,6 +3006,17 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    public void revalidateMenu() {
+        if (menuEnabled) {
+            boolean wasVisible = menuLabel != null && menuLabel.isVisible();
+            generateMenu();
+
+            if (wasVisible) {
+                showMenu();
+            }
+        }
+    }
+
     /**
      * Returns the frame's current menu type.
      *
@@ -3098,17 +3109,9 @@ public class CyderFrame extends JFrame {
             return ret;
         }
 
-        @Override // todo is removing even possible right now?
+        @Override
         public boolean remove(Object o) {
-            if (!(o instanceof JLabel)) {
-                return false;
-            }
-
-            boolean ret = false;
-
-            if (menuItems.contains(o)) {
-                ret = super.remove(o);
-            }
+            boolean ret = super.remove(o);
 
             if (menuItems.isEmpty()) {
                 titleLabel.removeMouseListener(titleLabelListener);
@@ -3131,7 +3134,35 @@ public class CyderFrame extends JFrame {
      */
     private static final int maxTextLength = 13;
 
-    // todo remove method
+    /**
+     * Removes the menu item with the provided text.
+     * If multiple menu items are found with the same text,
+     * the first one is removed.
+     *
+     * @param text the text of the menu item to remove
+     */
+    public void removeMenuItem(String text) {
+        for (int i = 0 ; i < menuItems.size() ; i++) {
+            if (menuItems.get(i).getText().equals(text)) {
+                removeMenuItem(i);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Removes the menu item from the provided index.
+     *
+     * @param index the index of the menu item to remove
+     */
+    public void removeMenuItem(int index) {
+        checkNotNull(menuItems);
+        checkArgument(!menuItems.isEmpty());
+        checkArgument(index >= 0);
+        checkArgument(index < menuItems.size());
+
+        menuItems.remove(index);
+    }
 
     /**
      * Adds a new menu item to the menu and revalidates the menu.
@@ -3328,8 +3359,9 @@ public class CyderFrame extends JFrame {
      * and sets the location to the starting point for inward animation.
      */
     private void generateMenu() {
-        if (menuLabel != null)
+        if (menuLabel != null) {
             menuLabel.setVisible(false);
+        }
 
         menuLabel = new JLabel();
         menuLabel.setOpaque(true);

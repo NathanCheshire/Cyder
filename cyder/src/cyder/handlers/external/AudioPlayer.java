@@ -55,6 +55,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 // todo views should slide in and out like StraightShot
 
+// todo need to test dreamifying with boolean and menu updating
+
 
 // todo progress bar needs to move smoothly even if 1s audio length
 
@@ -64,6 +66,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 // todo new audio slider custom component should not be used for location
 //  when dremaifying audio back and forth audio is not as seemless as it should be
+
+// todo need a method to revalidate stuff when an audio file changes
 
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
@@ -561,11 +565,8 @@ public class AudioPlayer {
             // todo use method for duplicate calls like this when we want to refresh most things
             // refreshAndPlay() method
 
-            refreshFrameTitle();
-            refreshAudioTitleLabel();
-            refreshAudioProgressLabel();
-            refreshAlbumArt();
-            refreshAudioFiles();
+            revalidateFromAudioFileChange();
+
             playAudio();
 
             return;
@@ -1107,11 +1108,8 @@ public class AudioPlayer {
                     pauseLocation = 0;
                     totalAudioLength = 0;
 
-                    refreshFrameTitle();
-                    refreshAudioTitleLabel();
-                    refreshAudioProgressLabel();
-                    refreshAlbumArt();
-                    refreshAudioFiles();
+                    revalidateFromAudioFileChange();
+
                     playAudio();
                 } else {
                     audioPlayerFrame.notify("Invalid file chosen");
@@ -1144,11 +1142,7 @@ public class AudioPlayer {
                             boolean resume = isAudioPlaying();
                             pauseAudio();
 
-                            refreshFrameTitle();
-                            refreshAudioTitleLabel();
-                            refreshAlbumArt();
-                            refreshAudioFiles();
-                            refreshAudioProgressLabel();
+                            revalidateFromAudioFileChange();
 
                             if (resume) {
                                 playAudio();
@@ -1183,11 +1177,8 @@ public class AudioPlayer {
 
                             currentAudioFile = audioFile;
 
-                            refreshFrameTitle();
-                            refreshAudioTitleLabel();
-                            refreshAlbumArt();
-                            refreshAudioFiles();
-                            refreshAudioProgressLabel();
+                            revalidateFromAudioFileChange();
+
                             playAudio();
 
                             return;
@@ -1239,11 +1230,8 @@ public class AudioPlayer {
 
                             currentAudioFile = destinationFile.getAbsoluteFile();
 
-                            refreshFrameTitle();
-                            refreshAudioTitleLabel();
-                            refreshAlbumArt();
-                            refreshAudioFiles();
-                            refreshAudioProgressLabel();
+                            revalidateFromAudioFileChange();
+
                             playAudio();
 
                             audioDreamified.set(true);
@@ -1800,11 +1788,8 @@ public class AudioPlayer {
                     else if (!audioFileQueue.isEmpty()) {
                         currentAudioFile = audioFileQueue.remove(0);
 
-                        refreshFrameTitle();
-                        refreshAudioTitleLabel();
-                        refreshAlbumArt();
-                        refreshAudioFiles();
-                        refreshAudioProgressLabel();
+                        revalidateFromAudioFileChange();
+
                         playAudio();
                     }
                     // shuffle audio takes next priority
@@ -1812,11 +1797,8 @@ public class AudioPlayer {
                         currentAudioFile = audioFileQueue.get(
                                 NumberUtil.randInt(0, audioFileQueue.size() - 1));
 
-                        refreshFrameTitle();
-                        refreshAudioTitleLabel();
-                        refreshAlbumArt();
-                        refreshAudioFiles();
-                        refreshAudioProgressLabel();
+                        revalidateFromAudioFileChange();
+
                         playAudio();
                     }
                     // last of priorities is so choose the next audio file
@@ -1837,11 +1819,8 @@ public class AudioPlayer {
 
                         currentAudioFile = validAudioFiles.get(nextIndex);
 
-                        refreshFrameTitle();
-                        refreshAudioTitleLabel();
-                        refreshAlbumArt();
-                        refreshAudioFiles();
-                        refreshAudioProgressLabel();
+                        revalidateFromAudioFileChange();
+
                         playAudio();
                     }
                 }
@@ -1938,10 +1917,7 @@ public class AudioPlayer {
 
         currentAudioFile = validAudioFiles.get(lastIndex);
 
-        refreshFrameTitle();
-        refreshAudioTitleLabel();
-        refreshAlbumArt();
-        refreshAudioProgressLabel();
+        revalidateFromAudioFileChange();
 
         if (shouldPlay) {
             playAudio();
@@ -1973,10 +1949,7 @@ public class AudioPlayer {
 
         currentAudioFile = validAudioFiles.get(nextIndex);
 
-        refreshFrameTitle();
-        refreshAudioTitleLabel();
-        refreshAlbumArt();
-        refreshAudioProgressLabel();
+        revalidateFromAudioFileChange();
 
         if (shouldPlay) {
             playAudio();
@@ -2136,6 +2109,23 @@ public class AudioPlayer {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Revalidates necessary components following an audio file change.
+     */
+    private static void revalidateFromAudioFileChange() {
+        refreshFrameTitle();
+        refreshAudioTitleLabel();
+        refreshAlbumArt();
+        refreshAudioFiles();
+        refreshAudioProgressLabel();
+
+        // todo test for current audio dreamy, maybe make method, and set boolean value from that
+        // todo make sure menu is generated from the value of the atomic boolean
+
+        // todo use this method directly whenever dreamified atomi boolean is updated
+        audioPlayerFrame.revalidateMenu();
     }
 
     /*
