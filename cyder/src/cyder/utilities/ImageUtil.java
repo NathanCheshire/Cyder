@@ -16,9 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.PixelGrabber;
+import java.awt.image.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -609,7 +607,7 @@ public class ImageUtil {
      * @param file the path to the image file
      * @return whether the image is gray scale
      */
-    public static boolean grayScaleImage(File file) {
+    public static boolean isImageGrayScale(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
 
@@ -635,6 +633,36 @@ public class ImageUtil {
         }
 
         return false;
+    }
+
+    public static BufferedImage grayscaleImage(BufferedImage bi) {
+        Preconditions.checkNotNull(bi);
+
+        int width = bi.getWidth();
+        int height = bi.getHeight();
+
+        BufferedImage ret = new BufferedImage(width, height, bi.getType());
+
+        for (int i = 0 ; i < width ; i++) {
+            for (int j = 0 ; j < height ; j++) {
+                int p = bi.getRGB(i, j);
+
+                int a = (p >> 24) & 0xff;
+
+                int r = (p >> 16) & 0xff;
+                int g = (p >> 8) & 0xff;
+                int b = p & 0xff;
+
+                int avg = (r + g + b) / 3;
+
+                p = (a << 24) | (avg << 16) | (avg << 8) | avg;
+
+
+                ret.setRGB(i, j, p);
+            }
+        }
+
+        return ret;
     }
 
     /**
@@ -942,7 +970,23 @@ public class ImageUtil {
     public static BufferedImage applyGaussianBlur(BufferedImage image) {
         Preconditions.checkNotNull(image);
 
+        int len = 7;
+        float[] kernelFloat =
+                {0, 0, 1, 2, 1, 0, 0,
+                        0, 3, 13, 22, 13, 3, 0,
+                        1, 13, 59, 97, 59, 13, 1,
+                        2, 22, 97, 159, 97, 22, 2,
+                        1, 13, 59, 97, 59, 13, 1,
+                        0, 3, 13, 22, 13, 3, 0,
+                        0, 0, 1, 2, 1, 0, 0,};
 
-        return null;
+        for (int i = 0 ; i < kernelFloat.length ; i++) {
+            kernelFloat[i] /= 1003f;
+        }
+
+        Kernel kernel = new Kernel(len, len, kernelFloat);
+        BufferedImageOp op = new ConvolveOp(kernel);
+        image = op.filter(image, null);
+        return image;
     }
 }

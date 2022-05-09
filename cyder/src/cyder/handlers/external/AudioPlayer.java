@@ -1423,6 +1423,8 @@ public class AudioPlayer {
         audioPlayerFrame.setTitle(title);
     }
 
+    private static final CyderLabel dreamyLabel = new CyderLabel("D");
+
     /**
      * Attempts to find and set the album art label to the current audio file's album art if it originates
      * from a user's audio files with a linked audio file album art. Otherwise the label is set to the
@@ -1467,15 +1469,24 @@ public class AudioPlayer {
                     ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE);
 
             ImageIcon distortedIcon = ImageUtil.toImageIcon(
-                    ImageUtil.applyGaussianBlur(ImageUtil.toBufferedImage(regularIcon)));
+                    ImageUtil.grayscaleImage(ImageUtil.toBufferedImage(regularIcon)));
 
             albumArtLabel.setIcon(distortedIcon);
+
+            albumArtLabel.remove(dreamyLabel);
+            albumArtLabel.add(dreamyLabel);
+            dreamyLabel.setSize(albumArtLabel.getSize());
+            dreamyLabel.setFont(dreamyLabel.getFont().deriveFont(100f));
+            dreamyLabel.setVisible(true);
+
             audioPlayerFrame.setCustomTaskbarIcon(distortedIcon);
         } else {
             ImageIcon regularIcon = ImageUtil.resizeImage(customAlbumArt,
                     ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE);
             albumArtLabel.setIcon(regularIcon);
             audioPlayerFrame.setCustomTaskbarIcon(regularIcon);
+
+            albumArtLabel.remove(dreamyLabel);
         }
 
         albumArtLabel.repaint();
