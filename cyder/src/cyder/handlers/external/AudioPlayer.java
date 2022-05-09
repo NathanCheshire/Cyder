@@ -53,10 +53,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 // todo need to refresh audio files BEFORE skip actions and looking for next songs
 
-// todo new audio slider custom component should not be used for location
-//  when dremaifying audio back and forth audio is not as seemless as it should be
+// todo views should slide in and out like StraightShot
 
-// todo on view transition progress bar sets to full
 
 // todo progress bar needs to move smoothly even if 1s audio length
 
@@ -64,7 +62,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 //  be delayed by delay function of a max click rate
 // todo need a custom component for this
 
-// todo views should slide in and out like StraightShot
+// todo new audio slider custom component should not be used for location
+//  when dremaifying audio back and forth audio is not as seemless as it should be
 
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
