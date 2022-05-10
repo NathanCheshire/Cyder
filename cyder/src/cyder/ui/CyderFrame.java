@@ -13,6 +13,7 @@ import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.objects.InformBuilder;
 import cyder.threads.CyderThreadRunner;
+import cyder.ui.objects.MenuItem;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.utilities.*;
 import cyder.utilities.enums.NotificationType;
@@ -3093,13 +3094,13 @@ public class CyderFrame extends JFrame {
      * The list of menu items. The listener to show/hide the menu
      * is added/removed depending on the length of this list.
      */
-    private final LinkedList<JLabel> menuItems = new LinkedList<>() {
+    private final LinkedList<MenuItem> menuItems = new LinkedList<>() {
         @Override
-        public boolean add(JLabel label) {
+        public boolean add(MenuItem menuItem) {
             boolean ret = false;
 
-            if (!menuItems.contains(label)) {
-                ret = super.add(label);
+            if (!menuItems.contains(menuItem)) {
+                ret = super.add(menuItem);
             }
 
             if (menuItems.size() == 1) {
@@ -3143,7 +3144,7 @@ public class CyderFrame extends JFrame {
      */
     public void removeMenuItem(String text) {
         for (int i = 0 ; i < menuItems.size() ; i++) {
-            if (menuItems.get(i).getText().equals(text)) {
+            if (menuItems.get(i).getLabel().getText().equals(text)) {
                 removeMenuItem(i);
                 return;
             }
@@ -3215,7 +3216,7 @@ public class CyderFrame extends JFrame {
                 newLabel.setForeground(state != null && state.get() ? CyderColors.regularRed : CyderColors.vanila);
             }
         });
-        menuItems.add(newLabel);
+        menuItems.add(new MenuItem(newLabel, state));
 
         // regenerate if menu is already visible
         if (menuLabel != null && menuLabel.isVisible()) {
@@ -3433,9 +3434,18 @@ public class CyderFrame extends JFrame {
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
         menuPane.setText("");
 
+        // update externally synced label foregrounds
+        for (int i = 0 ; i < menuItems.size() ; i++) {
+            if (menuItems.get(i).getState() != null) {
+                menuItems.get(i).getLabel().setForeground(menuItems.get(i).getState().get()
+                        ? CyderColors.regularRed
+                        : CyderColors.vanila);
+            }
+        }
+
         if (currentMenuType == MenuType.PANEL) {
             for (int i = 0 ; i < menuItems.size() ; i++) {
-                printingUtil.printComponent(menuItems.get(i));
+                printingUtil.printComponent(menuItems.get(i).getLabel());
 
                 if (i != menuItems.size() - 1) {
                     printingUtil.print("\n");
@@ -3443,7 +3453,7 @@ public class CyderFrame extends JFrame {
             }
         } else {
             for (int i = 0 ; i < menuItems.size() ; i++) {
-                printingUtil.printComponent(menuItems.get(i));
+                printingUtil.printComponent(menuItems.get(i).getLabel());
 
                 if (i != menuItems.size() - 1) {
                     printingUtil.print(StringUtil.generateNSpaces(4));

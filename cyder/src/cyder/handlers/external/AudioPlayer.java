@@ -1465,8 +1465,7 @@ public class AudioPlayer {
         }
 
         String name = FileUtil.getFilename(currentAudioFile);
-
-        boolean dreamy = false;
+        boolean dreamy = isCurrentAudioDreamy();
 
         if (name.endsWith(AudioUtil.DREAMY_SUFFIX)) {
             name = name.substring(0, name.length() - AudioUtil.DREAMY_SUFFIX.length());
@@ -1522,6 +1521,15 @@ public class AudioPlayer {
         audioPlayerFrame.setUseCustomTaskbarIcon(customAlbumArt != null);
 
         ConsoleFrame.INSTANCE.revalidateMenu();
+    }
+
+    /**
+     * Returns whether the current audio file is a dreamy audio file.
+     *
+     * @return whether the current audio file is a dreamy audio file
+     */
+    private static boolean isCurrentAudioDreamy() {
+        return FileUtil.getFilename(currentAudioFile).endsWith(AudioUtil.DREAMY_SUFFIX);
     }
 
     /**
@@ -2120,6 +2128,14 @@ public class AudioPlayer {
         refreshAlbumArt();
         refreshAudioFiles();
         refreshAudioProgressLabel();
+
+        if (isCurrentAudioDreamy()) {
+            audioDreamified.set(true);
+            System.out.println("true");
+        } else {
+            audioDreamified.set(false);
+            System.out.println("false");
+        }
 
         // todo test for current audio dreamy, maybe make method, and set boolean value from that
         // todo make sure menu is generated from the value of the atomic boolean
