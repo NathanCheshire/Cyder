@@ -62,9 +62,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 // todo new audio slider custom component should not be used for location
 //  when dremaifying audio back and forth audio is not as seemless as it should be
 
-// todo extract D for dreamy audio so that we only update visibility
-// todo based on album art label color should be navy or inverse?
-
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
@@ -810,7 +807,7 @@ public class AudioPlayer {
 
         if (shouldPlay) {
             lastAction = LastAction.Scrub;
-            playAudio(); //todo
+            playAudio();
         }
     }
 
