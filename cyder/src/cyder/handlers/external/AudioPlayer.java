@@ -562,9 +562,6 @@ public class AudioPlayer {
             pauseAudio();
             pauseLocation = 0;
 
-            // todo use method for duplicate calls like this when we want to refresh most things
-            // refreshAndPlay() method
-
             revalidateFromAudioFileChange();
 
             playAudio();
@@ -1136,6 +1133,7 @@ public class AudioPlayer {
 
                         if (localFilename.equals(nonDreamyStdName)) {
                             audioDreamified.set(false);
+                            audioPlayerFrame.revalidateMenu();
 
                             currentAudioFile = validAudioFiles.get(i);
 
@@ -1174,6 +1172,7 @@ public class AudioPlayer {
                             }
 
                             audioDreamified.set(true);
+                            audioPlayerFrame.revalidateMenu();
 
                             currentAudioFile = audioFile;
 
@@ -1235,12 +1234,14 @@ public class AudioPlayer {
                             playAudio();
 
                             audioDreamified.set(true);
+                            audioPlayerFrame.revalidateMenu();
                             audioPlayerFrame.notify("Successfully dreamified audio");
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                         }
                     } else {
                         audioDreamified.set(false);
+                        audioPlayerFrame.revalidateMenu();
                         audioPlayerFrame.notify("Could not dreamify audio at this time");
                     }
                 }, "Audio Dreamifier");
@@ -2131,16 +2132,10 @@ public class AudioPlayer {
 
         if (isCurrentAudioDreamy()) {
             audioDreamified.set(true);
-            System.out.println("true");
         } else {
             audioDreamified.set(false);
-            System.out.println("false");
         }
 
-        // todo test for current audio dreamy, maybe make method, and set boolean value from that
-        // todo make sure menu is generated from the value of the atomic boolean
-
-        // todo use this method directly whenever dreamified atomi boolean is updated
         audioPlayerFrame.revalidateMenu();
     }
 

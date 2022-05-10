@@ -96,7 +96,7 @@ public class Logger {
      */
     public static <T> void log(Tag tag, T representation) {
         if (logConcluded) {
-            System.out.println(getLogTime() + "[LOG CONCLUDED LOG CALL]: " + representation);
+            System.out.println(getLogTime() + "[LOG CALL AFTER LOG CONCLUDED]: " + representation);
             return;
         }
 

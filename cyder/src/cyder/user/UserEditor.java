@@ -488,8 +488,6 @@ public class UserEditor {
                             IOUtil.openFile(filesList.get(finalI).getAbsolutePath());
                         }
                     });
-
-            System.out.println(filesNameList.get(i));
         }
 
         JLabel filesLabel = null;
