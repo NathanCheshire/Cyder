@@ -51,12 +51,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-// todo need to refresh audio files BEFORE skip actions and looking for next songs
-
 // todo views should slide in and out like StraightShot
-
-// todo need to test dreamifying with boolean and menu updating
-
 
 // todo progress bar needs to move smoothly even if 1s audio length
 
@@ -67,7 +62,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 // todo new audio slider custom component should not be used for location
 //  when dremaifying audio back and forth audio is not as seemless as it should be
 
-// todo need a method to revalidate stuff when an audio file changes
+// todo extract D for dreamy audio so that we only update visibility
+// todo based on album art label color should be navy or inverse?
 
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
@@ -607,6 +603,11 @@ public class AudioPlayer {
         albumArtLabel.setBorder(new LineBorder(Color.BLACK, BORDER_WIDTH));
         audioPlayerFrame.getContentPane().add(albumArtLabel);
 
+        albumArtLabel.add(dreamyLabel);
+        dreamyLabel.setSize(albumArtLabel.getSize());
+        dreamyLabel.setFont(dreamyLabel.getFont().deriveFont(150f));
+        dreamyLabel.setVisible(false);
+
         audioTitleLabelContainer.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioTitleLabel.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioTitleLabel.setText(DEFAULT_AUDIO_TITLE);
@@ -809,7 +810,7 @@ public class AudioPlayer {
 
         if (shouldPlay) {
             lastAction = LastAction.Scrub;
-            //playAudio(); //todo
+            playAudio(); //todo
         }
     }
 
@@ -1501,10 +1502,6 @@ public class AudioPlayer {
 
             albumArtLabel.setIcon(distortedIcon);
 
-            albumArtLabel.remove(dreamyLabel);
-            albumArtLabel.add(dreamyLabel);
-            dreamyLabel.setSize(albumArtLabel.getSize());
-            dreamyLabel.setFont(dreamyLabel.getFont().deriveFont(150f));
             dreamyLabel.setVisible(true);
 
             audioPlayerFrame.setCustomTaskbarIcon(distortedIcon);
@@ -1514,7 +1511,7 @@ public class AudioPlayer {
             albumArtLabel.setIcon(regularIcon);
             audioPlayerFrame.setCustomTaskbarIcon(regularIcon);
 
-            albumArtLabel.remove(dreamyLabel);
+            dreamyLabel.setVisible(false);
         }
 
         albumArtLabel.repaint();
