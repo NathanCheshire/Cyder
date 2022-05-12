@@ -1,18 +1,23 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;
 import cyder.ui.enums.AnimationDirection;
-import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * A progress bar ui with a dual color animation.
+ */
 public class CyderProgressUI extends BasicProgressBarUI {
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void installDefaults() {
         super.installDefaults();
@@ -22,7 +27,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
     }
 
     /**
-     * Constructor that starts the animation timer to allow the progressbar to move the animation colors
+     * Constructs a new progress bar ui.
      */
     public CyderProgressUI() {
         startAnimationTimer();
@@ -30,39 +35,71 @@ public class CyderProgressUI extends BasicProgressBarUI {
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void stopAnimationTimer() {
         super.stopAnimationTimer();
     }
 
-    //frames for animation, more frames means slower animation
+    /**
+     * The number of frames per second
+     */
+    private int framesPerSecond = 100;
 
-    private int numFrames = 100;
-
-    public void setNumFrames(int numFrame) {
-        numFrames = numFrame;
+    /**
+     * Sets the frames per second for this progress ui.
+     *
+     * @param numFrame the frames per second for this progress ui
+     */
+    public void setFramesPerSecond(int numFrame) {
+        framesPerSecond = numFrame;
     }
 
-    public int getNumFrames() {
-        return numFrames;
+    /**
+     * Returns the frames per second for this progress ui.
+     *
+     * @return the frames per second for this progress ui
+     */
+    public int getFramesPerSecond() {
+        return framesPerSecond;
     }
 
-    //two colors for the buffered image used for animation
+    /**
+     * The colors for the progress ui.
+     */
+    private Color[] colors = {};
 
-    private Color[] colors = {CyderColors.selectionColor, CyderColors.vanila};
-
+    /**
+     * Sets the colors of the progress ui.
+     *
+     * @param color the colors for the progress ui
+     */
     public void setColors(Color[] color) {
-        if (color.length != 2)
-            return;
+        Preconditions.checkArgument(colors.length == 2);
 
         colors = color;
     }
 
+    /**
+     * Returns the colors for this progress ui.
+     *
+     * @return the colors for this progress ui
+     */
     private Color[] getColors() {
         return colors;
     }
 
-    //the image used for the animation
-
+    /**
+     * Creates a rippled image between the two provided colors.
+     *
+     * @param darkColor  the dark color for the image
+     * @param lightColor the light color for the image
+     * @param width      the width of the image
+     * @param height     the height of the image
+     * @return a rippled image between the two provided colors
+     */
     public static BufferedImage createRippleImageHorizontal(Color darkColor, Color lightColor, int width, int height) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
@@ -79,6 +116,15 @@ public class CyderProgressUI extends BasicProgressBarUI {
         return image;
     }
 
+    /**
+     * Creates a rippled image between the two provided colors.
+     *
+     * @param darkColor  the dark color for the image
+     * @param lightColor the light color for the image
+     * @param width      the width of the image
+     * @param height     the height of the image
+     * @return a rippled image between the two provided colors
+     */
     public static BufferedImage createRippleImageVertical(Color darkColor, Color lightColor, int width, int height) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
@@ -95,198 +141,111 @@ public class CyderProgressUI extends BasicProgressBarUI {
         return image;
     }
 
-    //direction of animation, L2R or R2L for horiz and T2B or B2T for vert
-
+    /**
+     * The animation direction.
+     */
     private AnimationDirection direction = AnimationDirection.LEFT_TO_RIGHT;
 
+    /**
+     * Returns the animation direction.
+     *
+     * @return the animation direction
+     */
     public AnimationDirection getAnimationDirection() {
         return direction;
     }
 
+    /**
+     * Sets the animation direction.
+     *
+     * @param direction the animation direction
+     */
     public void setAnimationDirection(AnimationDirection direction) {
         this.direction = direction;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void incrementAnimationIndex() {
         if (progressBar == null)
             return;
 
         int val = getAnimationIndex() + 1;
-        setAnimationIndex(val < numFrames ? val : 0);
+        setAnimationIndex(val < framesPerSecond ? val : 0);
     }
 
-    //UI Shape, currently only SQUARE works, rounded still being implemented
-    public enum Shape {
-        SQUARE, ROUNDED
-    }
-
-    private Shape shape = Shape.SQUARE;
-
-    public void setShape(Shape s) {
-        shape = s;
-    }
-
-    public Shape getShape() {
-        return shape;
-    }
-
-    //NOTE: animation direction is simply the direction the bar animation moves,
-    // not what direction the bar moves (top to bottom vs bottom to top or left to right vs right to left)
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void paintDeterminate(Graphics g, JComponent c) {
-        //square uses the custom animation
-        if (shape == Shape.SQUARE) {
-            c.setBackground(CyderColors.vanila);
+        c.setBackground(CyderColors.vanila);
 
-            BufferedImage barImage;
-            if (progressBar.getOrientation() == JProgressBar.VERTICAL) {
-                barImage = createRippleImageVertical(colors[0], colors[1], c.getWidth(), c.getHeight());
+        BufferedImage barImage;
+        if (progressBar.getOrientation() == JProgressBar.VERTICAL) {
+            barImage = createRippleImageVertical(colors[0], colors[1], c.getWidth(), c.getHeight());
 
-                //get proper width and height accounting for insets as well
-                Insets b = progressBar.getInsets();
-                int barRectWidth = progressBar.getWidth() - (b.right + b.left);
-                int barRectHeight = progressBar.getHeight() - (b.top + b.bottom);
+            //get proper width and height accounting for insets as well
+            Insets b = progressBar.getInsets();
+            int barRectWidth = progressBar.getWidth() - (b.right + b.left);
+            int barRectHeight = progressBar.getHeight() - (b.top + b.bottom);
 
-                //if it's invisible then why paint?
-                if (barRectWidth <= 0 || barRectHeight <= 0)
-                    return;
+            //if it's invisible then why paint?
+            if (barRectWidth <= 0 || barRectHeight <= 0)
+                return;
 
-                //the amount the progress bar should be filled by with the proper parameters passed
-                int amountFull = getAmountFull(b, barRectWidth, barRectHeight);
+            //the amount the progress bar should be filled by with the proper parameters passed
+            int amountFull = getAmountFull(b, barRectWidth, barRectHeight);
 
-                //set the clip at the point that it shouldn't extend past
-                g.setClip(b.left, b.top, barRectWidth, amountFull);
+            //set the clip at the point that it shouldn't extend past
+            g.setClip(b.left, b.top, barRectWidth, amountFull);
 
-                int offset;
-                //image drawing offset for completed percent
-                if (direction == AnimationDirection.TOP_TO_BOTTOM) {
-                    offset = (int) (rangeMap(getAnimationIndex(), 0, numFrames, 0, barImage.getHeight()));
-                } else {
-                    offset = (int) (rangeMap(getAnimationIndex(), 0, numFrames, barImage.getHeight(), 0));
-                }
-
-                int numRepetitions = (progressBar.getHeight() / barImage.getHeight()) + 2;
-
-                for (int i = 0 ; i < numRepetitions ; i++) {
-                    g.drawImage(barImage, 0, (i - 1) * barImage.getHeight() + offset, null);
-                }
+            int offset;
+            //image drawing offset for completed percent
+            if (direction == AnimationDirection.TOP_TO_BOTTOM) {
+                offset = (int) (rangeMap(getAnimationIndex(), 0, framesPerSecond, 0, barImage.getHeight()));
             } else {
-                //get the image with the colors of proper width and height
-                barImage = createRippleImageHorizontal(colors[0], colors[1], c.getWidth() * 2, c.getHeight());
+                offset = (int) (rangeMap(getAnimationIndex(), 0, framesPerSecond, barImage.getHeight(), 0));
+            }
 
-                //get proper width and height accounting for insets as well
-                Insets b = progressBar.getInsets();
-                int barRectWidth = progressBar.getWidth() - (b.right + b.left);
-                int barRectHeight = progressBar.getHeight() - (b.top + b.bottom);
+            int numRepetitions = (progressBar.getHeight() / barImage.getHeight()) + 2;
 
-                //if it's invisible then why paint?
-                if (barRectWidth <= 0 || barRectHeight <= 0)
-                    return;
-
-                //the amount the progress bar should be filled by with the proper parameters passed
-                int amountFull = getAmountFull(b, barRectWidth, barRectHeight);
-
-                //set the clip at the point that it shouldn't extend past
-                g.setClip(b.left, b.top, amountFull, barRectHeight);
-
-                int offset;
-                //right to left otherwise left to right, offset for progress image drawing
-                if (direction == AnimationDirection.RIGHT_TO_LEFT) {
-                    offset = (int) (rangeMap(getAnimationIndex(), 0, numFrames, barImage.getWidth(), 0));
-                } else {
-                    offset = (int) (rangeMap(getAnimationIndex(), 0, numFrames, 0, barImage.getWidth()));
-                }
-
-                int numRepetitions = (progressBar.getWidth() / barImage.getWidth()) + 2;
-
-                for (int i = 0 ; i < numRepetitions ; i++) {
-                    g.drawImage(barImage, (i - 1) * barImage.getWidth() + offset, 0, null);
-                }
+            for (int i = 0 ; i < numRepetitions ; i++) {
+                g.drawImage(barImage, 0, (i - 1) * barImage.getHeight() + offset, null);
             }
         } else {
-            if (progressBar.getOrientation() == JProgressBar.VERTICAL) {
-                Graphics2D g2d = (Graphics2D) g.create();
+            //get the image with the colors of proper width and height
+            barImage = createRippleImageHorizontal(colors[0], colors[1], c.getWidth() * 2, c.getHeight());
 
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            //get proper width and height accounting for insets as well
+            Insets b = progressBar.getInsets();
+            int barRectWidth = progressBar.getWidth() - (b.right + b.left);
+            int barRectHeight = progressBar.getHeight() - (b.top + b.bottom);
 
-                //fill
-                int oStrokeHeight = 3;
-                g2d.setStroke(new BasicStroke(oStrokeHeight, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-                g2d.setColor(colors[0]);
+            //if it's invisible then why paint?
+            if (barRectWidth <= 0 || barRectHeight <= 0)
+                return;
 
-                int outerWidth = c.getWidth();
-                int outerHeight = c.getHeight();
+            //the amount the progress bar should be filled by with the proper parameters passed
+            int amountFull = getAmountFull(b, barRectWidth, barRectHeight);
 
-                double progressPercent = progressBar.getValue() / (double) progressBar.getMaximum();
-                double prog = (outerHeight - oStrokeHeight) * progressPercent;
-                int fullH = (outerHeight - oStrokeHeight);
-                int drawFill = (int) Math.min(fullH, prog);
+            //set the clip at the point that it shouldn't extend past
+            g.setClip(b.left, b.top, amountFull, barRectHeight);
 
-                RoundRectangle2D fill = new RoundRectangle2D.Double(oStrokeHeight / 2.0, oStrokeHeight / 2.0,
-                        outerWidth - oStrokeHeight, drawFill, outerWidth, outerWidth);
-
-                g2d.fill(fill);
-
-                //outline over fill
-                int iStrokeHeight = 3;
-                g2d.setStroke(new BasicStroke(iStrokeHeight, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-                g2d.setColor(CyderColors.navy);
-                g2d.setBackground(CyderColors.navy);
-
-                int width = c.getWidth();
-                int height = c.getHeight();
-
-                RoundRectangle2D outline = new RoundRectangle2D.Double(iStrokeHeight / 2.0, iStrokeHeight / 2.0,
-                        width - iStrokeHeight, height - iStrokeHeight, width, width);
-
-                g2d.draw(outline);
-
-                //clip so nothing out of outer oval
-                g2d.setClip(outline);
-
-                g2d.dispose();
+            int offset;
+            //right to left otherwise left to right, offset for progress image drawing
+            if (direction == AnimationDirection.RIGHT_TO_LEFT) {
+                offset = (int) (rangeMap(getAnimationIndex(), 0, framesPerSecond, barImage.getWidth(), 0));
             } else {
-                Graphics2D g2d = (Graphics2D) g.create();
+                offset = (int) (rangeMap(getAnimationIndex(), 0, framesPerSecond, 0, barImage.getWidth()));
+            }
 
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            int numRepetitions = (progressBar.getWidth() / barImage.getWidth()) + 2;
 
-                //fill
-                int oStrokeWidth = 3;
-                g2d.setStroke(new BasicStroke(oStrokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-                g2d.setColor(CyderColors.regularPink);
-
-                int outerWidth = c.getWidth();
-                int outerHeight = c.getHeight();
-
-                double progressPercent = progressBar.getValue() / (double) progressBar.getMaximum();
-                double prog = (outerWidth - oStrokeWidth) * progressPercent;
-                int fullW = (outerWidth - oStrokeWidth);
-                int drawFill = (int) Math.min(fullW, prog);
-
-                RoundRectangle2D fill = new RoundRectangle2D.Double(oStrokeWidth / 2.0, oStrokeWidth / 2.0,
-                        drawFill, outerHeight - oStrokeWidth, outerHeight, outerHeight);
-
-                g2d.fill(fill);
-
-                //outline over fill
-                int iStrokWidth = 3;
-                g2d.setStroke(new BasicStroke(iStrokWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-                g2d.setColor(CyderColors.navy);
-                g2d.setBackground(CyderColors.navy);
-
-                int width = c.getWidth();
-                int height = c.getHeight();
-
-                RoundRectangle2D outline = new RoundRectangle2D.Double(iStrokWidth / 2.0, iStrokWidth / 2.0,
-                        width - iStrokWidth, height - iStrokWidth, height, height);
-
-                g2d.draw(outline);
-
-                //clip so nothing out of outer oval
-                g2d.setClip(outline);
-
-                g2d.dispose();
+            for (int i = 0 ; i < numRepetitions ; i++) {
+                g.drawImage(barImage, (i - 1) * barImage.getWidth() + offset, 0, null);
             }
         }
     }
@@ -301,8 +260,9 @@ public class CyderProgressUI extends BasicProgressBarUI {
      * @param high2 the max value of the new range
      * @return the mapped value
      */
+    @SuppressWarnings("SameParameterValue")
     private static double rangeMap(double value, double low1, double high1, double low2, double high2) {
-        return linearInterpolate(low2, high2, (value - low1) / (high1 - low1));
+        return linearlyInterpolate(low2, high2, (value - low1) / (high1 - low1));
     }
 
     /**
@@ -313,15 +273,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
      * @param amt    the alpha value
      * @return the linear interpolation
      */
-    private static double linearInterpolate(double value1, double value2, double amt) {
+    private static double linearlyInterpolate(double value1, double value2, double amt) {
         return ((value2 - value1) * amt) + value1;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
     }
 }

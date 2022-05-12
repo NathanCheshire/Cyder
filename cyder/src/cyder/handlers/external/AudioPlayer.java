@@ -658,7 +658,6 @@ public class AudioPlayer {
         audioProgressBarUi = new CyderProgressUI();
         audioProgressBarUi.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
         audioProgressBarUi.setColors(new Color[]{CyderColors.regularPink, CyderColors.notificationForegroundColor});
-        audioProgressBarUi.setShape(CyderProgressUI.Shape.SQUARE);
         audioProgressBar.setUI(audioProgressBarUi);
 
         audioProgressBar.setMinimum(0);

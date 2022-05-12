@@ -443,7 +443,6 @@ public class ManualTests {
         CyderProgressUI ui = new CyderProgressUI();
         ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
         ui.setColors(new Color[]{CyderColors.regularBlue, CyderColors.regularPink});
-        ui.setShape(CyderProgressUI.Shape.SQUARE);
         jpb.setUI(ui);
         jpb.setValue(50);
         cf.getContentPane().add(jpb);

@@ -104,7 +104,6 @@ public class YoutubeUtil {
 
                     ui.setColors(new Color[]{CyderColors.regularPink, CyderColors.regularBlue});
                     ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
-                    ui.setShape(CyderProgressUI.Shape.SQUARE);
                     audioProgress.setUI(ui);
                     audioProgress.setMinimum(0);
                     audioProgress.setMaximum(10000);
