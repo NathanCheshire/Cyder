@@ -6,13 +6,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class HarmonicRectangle extends JLabel {
-    private int width;
-    private int height;
+    private int staticWidth;
+    private int staticHeight;
 
     /**
      * The amount to increase or decrease the animation direction by.
      */
     private int animateDelta;
+    private int currentWidth;
+    private int currentHeight;
 
     private int delay;
 
@@ -25,26 +27,26 @@ public class HarmonicRectangle extends JLabel {
     }
 
     public HarmonicRectangle(int width, int height) {
-        this.width = width;
-        this.height = height;
+        this.staticWidth = width;
+        this.staticHeight = height;
     }
 
     @Override
     public int getWidth() {
-        return width;
+        return staticWidth;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    public void setStaticWidth(int staticWidth) {
+        this.staticWidth = staticWidth;
     }
 
     @Override
     public int getHeight() {
-        return height;
+        return staticHeight;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public void setStaticHeight(int staticHeight) {
+        this.staticHeight = staticHeight;
     }
 
     public int getDelay() {
@@ -81,6 +83,9 @@ public class HarmonicRectangle extends JLabel {
 
     @Override
     public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
 
+        g2d.setColor(backgroundColor);
+        g2d.fillRect(0, 0, currentWidth, currentHeight);
     }
 }

@@ -58,6 +58,26 @@ public class CyderSplash {
     private static final int LOGO_BORDER_PADDING = 40;
 
     /**
+     * The timeout between loading label updates.
+     */
+    private static final int loadingLabelUpdateTimeout = 50;
+
+    /**
+     * The maximum seconds of the splash should be visible for.
+     */
+    private static final int loadingLabelSeconds = 30;
+
+    /**
+     * The nuber of times to update the loading label.
+     */
+    private static final int loadingLabelUpdateIterations = (loadingLabelSeconds * 1000) / loadingLabelUpdateTimeout;
+
+    /**
+     * The timeout beefore starting to display loading messages after finishing the splash animation.
+     */
+    private static final int loadingMessageStartTimeout = 800;
+
+    /**
      * Instantiation of CyderSplash is not allowed
      */
     private CyderSplash() {
@@ -191,39 +211,26 @@ public class CyderSplash {
                         // animation finished so remove on top mode
                         splashFrame.setAlwaysOnTop(false);
 
-                        Thread.sleep(800);
+                        Thread.sleep(loadingMessageStartTimeout);
 
-                        String message = CyderSplash.loadingMessage;
-                        int dotTimeout = 400;
                         Font newFont = new Font("Agency FB", Font.BOLD, 50);
 
-                        loadingLabel = new CyderLabel("Test text");
+                        loadingLabel = new CyderLabel(CyderSplash.loadingMessage);
                         loadingLabel.setFont(newFont);
                         loadingLabel.setForeground(CyderColors.vanila);
                         loadingLabel.setSize(FRAME_LEN,
-                                StringUtil.getMinHeight(CyderStrings.europeanToymaker, newFont));
+                                StringUtil.getMinHeight(CyderSplash.loadingMessage, newFont));
                         loadingLabel.setLocation(creatorLabel.getX(), creatorLabel.getY() - 5);
 
                         creatorLabel.setVisible(false);
                         splashFrame.getContentPane().remove(creatorLabel);
                         splashFrame.getContentPane().add(loadingLabel);
 
-                        for (int i = 0 ; i < 30 ; i++) {
-                            loadingLabel.setText(message);
+                        for (int i = 0 ; i < loadingLabelUpdateIterations ; i++) {
+                            loadingLabel.setText(CyderSplash.loadingMessage);
                             loadingLabel.repaint();
-                            Thread.sleep(dotTimeout);
 
-                            loadingLabel.setText(message + ".");
-                            loadingLabel.repaint();
-                            Thread.sleep(dotTimeout);
-
-                            loadingLabel.setText(message + "..");
-                            loadingLabel.repaint();
-                            Thread.sleep(dotTimeout);
-
-                            loadingLabel.setText(message + "...");
-                            Thread.sleep(dotTimeout);
-                            loadingLabel.repaint();
+                            Thread.sleep(loadingLabelUpdateTimeout);
 
                             // if disposed, exit thread
                             if (splashFrame.isDisposed()) {
@@ -233,7 +240,7 @@ public class CyderSplash {
                         }
 
                         // to be safe always set message back to whatever it was
-                        loadingLabel.setText(message);
+                        loadingLabel.setText(CyderSplash.loadingMessage);
                         loadingLabel.repaint();
 
                         // if frame is still active and it should have been dispoed

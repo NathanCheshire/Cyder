@@ -45,7 +45,7 @@ public class CyderToggles {
     /**
      * Whether the splash frame should be auto disposed.
      */
-    public static final boolean DISPOSE_SPLASH = true;
+    public static final boolean DISPOSE_SPLASH = false;
 
     /**
      * Whether to automatically wipe all past logs on Cyder start.
