@@ -235,15 +235,27 @@ public class CyderSplash {
                         splashFrame.getContentPane().remove(creatorLabel);
                         splashFrame.getContentPane().add(loadingLabel);
 
-                        HarmonicRectangle harmonicRectangle = new HarmonicRectangle(
-                                30, 60, 30, 120);
-                        harmonicRectangle.setHarmonicDirection(HarmonicRectangle.HarmonicDirection.VERTICAL);
-                        harmonicRectangle.setAnimationInc(2);
-                        harmonicRectangle.setAnimationDelay(25);
-                        harmonicRectangle.startAnimation();
-                        harmonicRectangle.setLocation(splashFrame.getWidth() - 50,
-                                splashFrame.getHeight() - 200);
-                        splashFrame.getContentPane().add(harmonicRectangle);
+                        int yPadding = 10;
+                        int xPadding = 20;
+                        int xInnerPadding = 10;
+                        int numRects = 10;
+
+                        int rectLen = (FRAME_LEN - 2 * xPadding - (numRects - 1) * xInnerPadding) / numRects;
+
+                        // re-evalidate xPadding to ensure in center
+                        xPadding = (FRAME_LEN - rectLen * numRects - xInnerPadding * (numRects - 1)) / 2;
+
+                        for (int i = 0 ; i < numRects ; i++) {
+                            int x = xPadding + i * rectLen + i * xInnerPadding;
+                            HarmonicRectangle harmonicRectangle = new HarmonicRectangle(
+                                    rectLen, 40, rectLen, 60);
+                            harmonicRectangle.setHarmonicDirection(HarmonicRectangle.HarmonicDirection.VERTICAL);
+                            harmonicRectangle.setAnimationInc(2);
+                            harmonicRectangle.setAnimationDelay(25);
+                            harmonicRectangle.startAnimation();
+                            harmonicRectangle.setLocation(x, yPadding);
+                            splashFrame.getContentPane().add(harmonicRectangle);
+                        }
 
                         for (int i = 0 ; i < loadingLabelUpdateIterations ; i++) {
                             loadingLabel.setText(CyderSplash.loadingMessage);
