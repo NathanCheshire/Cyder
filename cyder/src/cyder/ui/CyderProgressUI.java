@@ -77,7 +77,8 @@ public class CyderProgressUI extends BasicProgressBarUI {
      * @param color the colors for the progress ui
      */
     public void setColors(Color[] color) {
-        Preconditions.checkArgument(colors.length == 2);
+        Preconditions.checkArgument(colors.length == 2,
+                "colors length is: " + colors.length);
 
         colors = color;
     }
