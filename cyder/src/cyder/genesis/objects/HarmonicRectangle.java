@@ -121,8 +121,32 @@ public class HarmonicRectangle extends JLabel {
             CyderThreadRunner.submit(() -> {
                 while (shouldAnimate) {
                     try {
-                        // todo add delta to thing
                         switch (harmonicDirection) {
+                            case HORIZONTAL:
+                                switch (deltaDirection) {
+                                    case INCREASING:
+                                        if (currentWidth + animationInc < staticMaxWidth) {
+                                            currentWidth += animationInc;
+                                        } else {
+                                            currentWidth = staticMaxWidth;
+                                            deltaDirection = DeltaDirection.DECREASING;
+                                        }
+
+                                        break;
+                                    case DECREASING:
+                                        if (currentWidth - animationInc > staticMinWidth) {
+                                            currentWidth -= animationInc;
+                                        } else {
+                                            currentWidth = staticMinWidth;
+                                            deltaDirection = DeltaDirection.INCREASING;
+                                        }
+
+                                        break;
+                                    default:
+                                        throw new IllegalStateException("Invalid delta direction: " + deltaDirection);
+                                }
+
+                                break;
                             case VERTICAL:
                                 switch (deltaDirection) {
                                     case INCREASING:
@@ -135,19 +159,17 @@ public class HarmonicRectangle extends JLabel {
 
                                         break;
                                     case DECREASING:
-                                        if (currentHeight - animationInc > 0) {
+                                        if (currentHeight - animationInc > staticMinHeight) {
                                             currentHeight -= animationInc;
                                         } else {
-                                            currentHeight = 0;
+                                            currentHeight = staticMinHeight;
+                                            deltaDirection = DeltaDirection.INCREASING;
                                         }
 
                                         break;
                                     default:
                                         throw new IllegalStateException("Invalid delta direction: " + deltaDirection);
                                 }
-
-                                break;
-                            case HORIZONTAL:
 
                                 break;
                             default:
@@ -172,10 +194,7 @@ public class HarmonicRectangle extends JLabel {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setColor(backgroundColor);
-        // todo this implies the anchor point is static, will need to be updated if
-        //  animating the left or top sides are desired and not just bottom and right
         g2d.fillRect(getX(), getY(), currentWidth, currentHeight);
-
 
         g2d.dispose(); //todo is this a resource leak throughout Cyder where dispose calls are not used?
     }
