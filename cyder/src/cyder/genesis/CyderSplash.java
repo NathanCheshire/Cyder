@@ -18,6 +18,7 @@ import cyder.utilities.StringUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
 
 /**
  * The splash screen for Cyder when it is originally first launched.
@@ -225,25 +226,28 @@ public class CyderSplash {
                         Thread.sleep(loadingMessageStartTimeout);
 
                         loadingLabel = new CyderLabel(CyderSplash.loadingMessage);
+                        loadingLabel.setFocusable(false);
                         loadingLabel.setFont(loadingLabelFont);
                         loadingLabel.setForeground(CyderColors.vanila);
                         loadingLabel.setSize(FRAME_LEN,
                                 StringUtil.getMinHeight(CyderSplash.loadingMessage, loadingLabelFont));
                         loadingLabel.setLocation(creatorLabel.getX(), creatorLabel.getY() - 5);
 
-                        creatorLabel.setVisible(false);
-                        splashFrame.getContentPane().remove(creatorLabel);
                         splashFrame.getContentPane().add(loadingLabel);
+
+                        // todo start thread to update loading label here
 
                         int yPadding = 10;
                         int xPadding = 20;
                         int xInnerPadding = 10;
-                        int numRects = 10;
+                        int numRects = 15;
 
                         int rectLen = (FRAME_LEN - 2 * xPadding - (numRects - 1) * xInnerPadding) / numRects;
 
                         // re-evalidate xPadding to ensure in center
                         xPadding = (FRAME_LEN - rectLen * numRects - xInnerPadding * (numRects - 1)) / 2;
+
+                        LinkedList<HarmonicRectangle> rectangles = new LinkedList<>();
 
                         for (int i = 0 ; i < numRects ; i++) {
                             int x = xPadding + i * rectLen + i * xInnerPadding;
@@ -252,9 +256,14 @@ public class CyderSplash {
                             harmonicRectangle.setHarmonicDirection(HarmonicRectangle.HarmonicDirection.VERTICAL);
                             harmonicRectangle.setAnimationInc(2);
                             harmonicRectangle.setAnimationDelay(25);
-                            harmonicRectangle.startAnimation();
                             harmonicRectangle.setLocation(x, yPadding);
                             splashFrame.getContentPane().add(harmonicRectangle);
+                            rectangles.add(harmonicRectangle);
+                        }
+
+                        for (HarmonicRectangle rectangle : rectangles) {
+                            rectangle.startAnimation();
+                            Thread.sleep(100);
                         }
 
                         for (int i = 0 ; i < loadingLabelUpdateIterations ; i++) {

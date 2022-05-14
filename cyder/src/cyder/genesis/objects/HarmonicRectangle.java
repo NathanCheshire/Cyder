@@ -14,10 +14,10 @@ public class HarmonicRectangle extends JLabel {
     private int currentWidth;
     private int currentHeight;
 
-    private int staticMaxWidth;
-    private int staticMaxHeight;
-    private int staticMinWidth;
-    private int staticMinHeight;
+    private final int staticMaxWidth;
+    private final int staticMaxHeight;
+    private final int staticMinWidth;
+    private final int staticMinHeight;
 
     /**
      * The amount to increase or decrease the animation direction by.
@@ -137,70 +137,74 @@ public class HarmonicRectangle extends JLabel {
     private final Runnable animationRunnable = () -> {
         while (shouldAnimate) {
             try {
-                switch (harmonicDirection) {
-                    case HORIZONTAL:
-                        switch (deltaDirection) {
-                            case INCREASING:
-                                if (currentWidth + animationInc < staticMaxWidth) {
-                                    currentWidth += animationInc;
-                                } else {
-                                    currentWidth = staticMaxWidth;
-                                    deltaDirection = DeltaDirection.DECREASING;
-                                }
-
-                                break;
-                            case DECREASING:
-                                if (currentWidth - animationInc > staticMinWidth) {
-                                    currentWidth -= animationInc;
-                                } else {
-                                    currentWidth = staticMinWidth;
-                                    deltaDirection = DeltaDirection.INCREASING;
-                                }
-
-                                break;
-                            default:
-                                throw new IllegalStateException("Invalid delta direction: " + deltaDirection);
-                        }
-
-                        break;
-                    case VERTICAL:
-                        switch (deltaDirection) {
-                            case INCREASING:
-                                if (currentHeight + animationInc < staticMaxHeight) {
-                                    currentHeight += animationInc;
-                                } else {
-                                    currentHeight = staticMaxHeight;
-                                    deltaDirection = DeltaDirection.DECREASING;
-                                }
-
-                                break;
-                            case DECREASING:
-                                if (currentHeight - animationInc > staticMinHeight) {
-                                    currentHeight -= animationInc;
-                                } else {
-                                    currentHeight = staticMinHeight;
-                                    deltaDirection = DeltaDirection.INCREASING;
-                                }
-
-                                break;
-                            default:
-                                throw new IllegalStateException("Invalid delta direction: " + deltaDirection);
-                        }
-
-                        break;
-                    default:
-                        throw new IllegalStateException("Invalid harmonic direction: " + harmonicDirection);
-                }
-
-                setSize(currentWidth, currentHeight);
-                revalidate();
-                repaint();
+                animationStep();
                 Thread.sleep(animationDelay);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         }
     };
+
+    public void animationStep() {
+        switch (harmonicDirection) {
+            case HORIZONTAL:
+                switch (deltaDirection) {
+                    case INCREASING:
+                        if (currentWidth + animationInc < staticMaxWidth) {
+                            currentWidth += animationInc;
+                        } else {
+                            currentWidth = staticMaxWidth;
+                            deltaDirection = DeltaDirection.DECREASING;
+                        }
+
+                        break;
+                    case DECREASING:
+                        if (currentWidth - animationInc > staticMinWidth) {
+                            currentWidth -= animationInc;
+                        } else {
+                            currentWidth = staticMinWidth;
+                            deltaDirection = DeltaDirection.INCREASING;
+                        }
+
+                        break;
+                    default:
+                        throw new IllegalStateException("Invalid delta direction: " + deltaDirection);
+                }
+
+                break;
+            case VERTICAL:
+                switch (deltaDirection) {
+                    case INCREASING:
+                        if (currentHeight + animationInc < staticMaxHeight) {
+                            currentHeight += animationInc;
+                        } else {
+                            currentHeight = staticMaxHeight;
+                            deltaDirection = DeltaDirection.DECREASING;
+                        }
+
+                        break;
+                    case DECREASING:
+                        if (currentHeight - animationInc > staticMinHeight) {
+                            currentHeight -= animationInc;
+                        } else {
+                            currentHeight = staticMinHeight;
+                            deltaDirection = DeltaDirection.INCREASING;
+                        }
+
+                        break;
+                    default:
+                        throw new IllegalStateException("Invalid delta direction: " + deltaDirection);
+                }
+
+                break;
+            default:
+                throw new IllegalStateException("Invalid harmonic direction: " + harmonicDirection);
+        }
+
+        setSize(currentWidth, currentHeight);
+        revalidate();
+        repaint();
+    }
 
     public void stopAnimation() {
         shouldAnimate = false;
