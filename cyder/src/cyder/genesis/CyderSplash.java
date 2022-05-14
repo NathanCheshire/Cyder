@@ -62,7 +62,7 @@ public class CyderSplash {
     /**
      * The timeout between loading label updates.
      */
-    private static final int loadingLabelUpdateTimeout = 50;
+    private static final int loadingLabelUpdateTimeout = 25;
 
     /**
      * The maximum seconds of the splash should be visible for.
@@ -80,19 +80,14 @@ public class CyderSplash {
     private static final int loadingMessageStartTimeout = 800;
 
     /**
-     * The font size used for the loading label and developer fonts.
-     */
-    private static final int FONT_SIZE = 50;
-
-    /**
      * The font used for the loading label messages.
      */
-    private static final Font loadingLabelFont = new Font("Agency FB", Font.BOLD, FONT_SIZE);
+    private static final Font loadingLabelFont = new Font("Agency FB", Font.BOLD, 40);
 
     /**
      * The font used for the author signature.
      */
-    private static final Font developerSignatureFont = new Font("Condiment", Font.BOLD, FONT_SIZE);
+    private static final Font developerSignatureFont = new Font("Condiment", Font.BOLD, 50);
 
     /**
      * Instantiation of CyderSplash is not allowed
@@ -100,6 +95,26 @@ public class CyderSplash {
     private CyderSplash() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
+
+    /**
+     * The padding between the top/bottom of the frame and the harmonic rectangles.
+     */
+    private static final int harmonicYPadding = 10;
+
+    /**
+     * The padding between the left/right of the frame and the harmonic rectangles.
+     */
+    private static int harmonicXPadding = 20;
+
+    /**
+     * The padding between harmonic rectangles themselves.
+     */
+    private static final int harmonicXInnerPadding = 10;
+
+    /**
+     * The number of harmonic rectangles to draw
+     */
+    private static final int numHarmonicRectangles = 20;
 
     /**
      * Shows the splash screen as long as it has not already been shown.
@@ -198,27 +213,14 @@ public class CyderSplash {
                             Thread.sleep(3);
                         }
 
-                        Font cyderFont = new Font("Agency FB", Font.BOLD, 80);
-                        CyderLabel cyderLabel = new CyderLabel("Cyder");
-                        cyderLabel.setFont(cyderFont);
-                        cyderLabel.setForeground(CyderColors.vanila);
-                        cyderLabel.setBounds(0, -StringUtil.getMinHeight("Cyder", cyderFont),
-                                FRAME_LEN, StringUtil.getMinHeight("Cyder", cyderFont));
-                        splashFrame.getContentPane().add(cyderLabel);
-
-                        while (cyderLabel.getY() < FRAME_LEN / 2 - ICON_LEN / 2 - cyderLabel.getHeight() - 30) {
-                            cyderLabel.setLocation(cyderLabel.getX(), cyderLabel.getY() + 5);
-                            Thread.sleep(5);
-                        }
-
                         CyderLabel creatorLabel = new CyderLabel("By Nathan Cheshire");
                         creatorLabel.setFont(developerSignatureFont);
                         creatorLabel.setForeground(CyderColors.vanila);
                         creatorLabel.setBounds(0, FRAME_LEN, FRAME_LEN,
-                                StringUtil.getMinHeight("By Nathan Cheshire", developerSignatureFont) + 10);
+                                StringUtil.getMinHeight(creatorLabel.getText(), developerSignatureFont) + 10);
                         splashFrame.getContentPane().add(creatorLabel);
 
-                        while (creatorLabel.getY() > FRAME_LEN / 2 + ICON_LEN / 2 + creatorLabel.getHeight()) {
+                        while (creatorLabel.getY() > FRAME_LEN / 2 + ICON_LEN / 2 + 40) {
                             creatorLabel.setLocation(creatorLabel.getX(), creatorLabel.getY() - 5);
                             Thread.sleep(5);
                         }
@@ -231,32 +233,45 @@ public class CyderSplash {
                         loadingLabel.setForeground(CyderColors.vanila);
                         loadingLabel.setSize(FRAME_LEN,
                                 StringUtil.getMinHeight(CyderSplash.loadingMessage, loadingLabelFont));
-                        loadingLabel.setLocation(creatorLabel.getX(), creatorLabel.getY() - 5);
+                        loadingLabel.setLocation(0, FRAME_LEN - 100);
 
                         splashFrame.getContentPane().add(loadingLabel);
 
-                        // todo start thread to update loading label here
+                        CyderThreadRunner.submit(() -> {
+                            try {
+                                for (int i = 0 ; i < loadingLabelUpdateIterations ; i++) {
+                                    loadingLabel.setText(CyderSplash.loadingMessage);
+                                    loadingLabel.repaint();
 
-                        int yPadding = 10;
-                        int xPadding = 20;
-                        int xInnerPadding = 10;
-                        int numRects = 15;
+                                    Thread.sleep(loadingLabelUpdateTimeout);
 
-                        int rectLen = (FRAME_LEN - 2 * xPadding - (numRects - 1) * xInnerPadding) / numRects;
+                                    // if disposed, exit thread
+                                    if (splashFrame.isDisposed()) {
+                                        loadingLabel.setText("Subroutines Complete");
+                                        return;
+                                    }
+                                }
+                            } catch (Exception e) {
+                                ExceptionHandler.handle(e);
+                            }
+                        }, "Splash Loading Label Updator");
+
+                        int rectLen = (FRAME_LEN - 2 * harmonicXPadding - (numHarmonicRectangles - 1) * harmonicXInnerPadding) / numHarmonicRectangles;
 
                         // re-evalidate xPadding to ensure in center
-                        xPadding = (FRAME_LEN - rectLen * numRects - xInnerPadding * (numRects - 1)) / 2;
+                        harmonicXPadding = (FRAME_LEN - rectLen * numHarmonicRectangles - harmonicXInnerPadding * (numHarmonicRectangles - 1)) / 2;
 
+                        // todo private so on disposal we can stop animation
                         LinkedList<HarmonicRectangle> rectangles = new LinkedList<>();
 
-                        for (int i = 0 ; i < numRects ; i++) {
-                            int x = xPadding + i * rectLen + i * xInnerPadding;
+                        for (int i = 0 ; i < numHarmonicRectangles ; i++) {
+                            int x = harmonicXPadding + i * rectLen + i * harmonicXInnerPadding;
                             HarmonicRectangle harmonicRectangle = new HarmonicRectangle(
                                     rectLen, 40, rectLen, 60);
                             harmonicRectangle.setHarmonicDirection(HarmonicRectangle.HarmonicDirection.VERTICAL);
                             harmonicRectangle.setAnimationInc(2);
                             harmonicRectangle.setAnimationDelay(25);
-                            harmonicRectangle.setLocation(x, yPadding);
+                            harmonicRectangle.setLocation(x, harmonicYPadding);
                             splashFrame.getContentPane().add(harmonicRectangle);
                             rectangles.add(harmonicRectangle);
                         }
@@ -266,18 +281,8 @@ public class CyderSplash {
                             Thread.sleep(100);
                         }
 
-                        for (int i = 0 ; i < loadingLabelUpdateIterations ; i++) {
-                            loadingLabel.setText(CyderSplash.loadingMessage);
-                            loadingLabel.repaint();
-
-                            Thread.sleep(loadingLabelUpdateTimeout);
-
-                            // if disposed, exit thread
-                            if (splashFrame.isDisposed()) {
-                                loadingLabel.setText("Subroutines Complete");
-                                return;
-                            }
-                        }
+                        // wait for disposal or show error messsage
+                        Thread.sleep(loadingLabelSeconds);
 
                         // to be safe always set message back to whatever it was
                         loadingLabel.setText(CyderSplash.loadingMessage);
