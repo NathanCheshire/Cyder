@@ -17,6 +17,8 @@ import cyder.utilities.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
@@ -117,6 +119,11 @@ public class CyderSplash {
     private static final int numHarmonicRectangles = 20;
 
     /**
+     * The list of harmonic rectangles.
+     */
+    private static final LinkedList<HarmonicRectangle> harmonicRectangles = new LinkedList<>();
+
+    /**
      * Shows the splash screen as long as it has not already been shown.
      */
     public static void showSplash() {
@@ -128,6 +135,21 @@ public class CyderSplash {
         CyderThreadRunner.submit(() -> {
             try {
                 splashFrame = CyderFrame.generateBorderlessFrame(FRAME_LEN, FRAME_LEN, CyderColors.navy);
+                splashFrame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        for (HarmonicRectangle rectangle : harmonicRectangles) {
+                            rectangle.stopAnimation();
+                        }
+                    }
+
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        for (HarmonicRectangle rectangle : harmonicRectangles) {
+                            rectangle.stopAnimation();
+                        }
+                    }
+                });
                 splashFrame.setTitle("Cyder Splash");
 
                 // set AlwaysOnTop, this will be quickly turned off
@@ -256,13 +278,13 @@ public class CyderSplash {
                             }
                         }, "Splash Loading Label Updator");
 
-                        int rectLen = (FRAME_LEN - 2 * harmonicXPadding - (numHarmonicRectangles - 1) * harmonicXInnerPadding) / numHarmonicRectangles;
+                        int rectLen = (FRAME_LEN - 2 * harmonicXPadding - (numHarmonicRectangles - 1)
+                                * harmonicXInnerPadding) / numHarmonicRectangles;
 
                         // re-evalidate xPadding to ensure in center
-                        harmonicXPadding = (FRAME_LEN - rectLen * numHarmonicRectangles - harmonicXInnerPadding * (numHarmonicRectangles - 1)) / 2;
+                        harmonicXPadding = (FRAME_LEN - rectLen * numHarmonicRectangles - harmonicXInnerPadding
+                                * (numHarmonicRectangles - 1)) / 2;
 
-                        // todo private so on disposal we can stop animation
-                        LinkedList<HarmonicRectangle> rectangles = new LinkedList<>();
 
                         for (int i = 0 ; i < numHarmonicRectangles ; i++) {
                             int x = harmonicXPadding + i * rectLen + i * harmonicXInnerPadding;
@@ -273,10 +295,10 @@ public class CyderSplash {
                             harmonicRectangle.setAnimationDelay(25);
                             harmonicRectangle.setLocation(x, harmonicYPadding);
                             splashFrame.getContentPane().add(harmonicRectangle);
-                            rectangles.add(harmonicRectangle);
+                            harmonicRectangles.add(harmonicRectangle);
                         }
 
-                        for (HarmonicRectangle rectangle : rectangles) {
+                        for (HarmonicRectangle rectangle : harmonicRectangles) {
                             rectangle.startAnimation();
                             Thread.sleep(100);
                         }
