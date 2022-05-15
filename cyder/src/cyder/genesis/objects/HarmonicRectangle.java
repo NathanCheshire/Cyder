@@ -9,6 +9,10 @@ import cyder.threads.CyderThreadRunner;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.function.Function;
+
+// todo should have a period for this for when to update or something so that they an all start at the same time
+//  but at different values, then you can update one by one and make it look like an actual wave
 
 /**
  * A simple rectangle which can grow and shrink for a simple animation.
@@ -82,6 +86,12 @@ public class HarmonicRectangle extends JLabel {
     public enum DeltaDirection {
         INCREASING, DECREASING
     }
+
+    /**
+     * The wave equation to use for this harmonic rectangle if synchronization to other rectangles is needed.
+     * This is commonly used when multiple rectangles have different phases.
+     */
+    private Function<Float, Float> waveEquation;
 
     /**
      * Suppress default constructor.
@@ -344,5 +354,33 @@ public class HarmonicRectangle extends JLabel {
     public void paint(Graphics g) {
         g.setColor(backgroundColor);
         g.fillRect(0, 0, currentWidth, currentHeight);
+    }
+
+    /**
+     * Returns the wave equation for this harmonic rectangle
+     *
+     * @return the wave equation for this harmonic rectangle
+     */
+    public Function<Float, Float> getWaveEquation() {
+        return waveEquation;
+    }
+
+    /**
+     * Sets the wave equation for this harmonic rectangle.
+     *
+     * @param waveEquation the wave equation for this harmonic rectangle
+     */
+    public void setWaveEquation(Function<Float, Float> waveEquation) {
+        this.waveEquation = waveEquation;
+    }
+
+    /**
+     * Calculates the result of this harmonic rectangles wave equation at the time "t".
+     *
+     * @param t the time to evaluate the wave equation at
+     * @return the wave equation evaluated at time t
+     */
+    public float calculateWaveAtPoint(float t) {
+        return waveEquation.apply(t);
     }
 }
