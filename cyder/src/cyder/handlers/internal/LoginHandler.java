@@ -91,6 +91,8 @@ public class LoginHandler {
      */
     private static boolean loginFrameClosed = true;
 
+    public static final Color backgroundColor = new Color(21, 23, 24);
+
     /**
      * The regular non-priority printing list for the login frame.
      */
@@ -216,7 +218,7 @@ public class LoginHandler {
         loginFrame = new CyderFrame(LOGIN_FRAME_WIDTH, LOGIN_FRAME_HEIGHT,
                 ImageUtil.imageIconFromColor(new Color(21, 23, 24), 1, 1));
         loginFrame.setTitle("Cyder Login [" + CyderToggles.VERSION + " Build]");
-        loginFrame.setBackground(new Color(21, 23, 24));
+        loginFrame.setBackground(backgroundColor);
 
         //whether the frame is open or closed handling
         loginFrameClosed = false;

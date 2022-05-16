@@ -19,6 +19,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Optional;
 import java.util.concurrent.Executors;
@@ -875,7 +876,8 @@ public class ImageUtil {
                 }
 
                 return true;
-            } else return false;
+            } else
+                return false;
         } catch (Exception ignored) {
             return false;
         }
@@ -988,5 +990,36 @@ public class ImageUtil {
         BufferedImageOp op = new ConvolveOp(kernel);
         image = op.filter(image, null);
         return image;
+    }
+
+    /**
+     * Sets the alpha value of all pixels within the buffered image to the provided value.
+     *
+     * @param bi    the buffered image to alter
+     * @param alpha the alpha value to set all the pixels to
+     * @return the altered buffered image
+     */
+    public static BufferedImage setAlphaOfPixels(BufferedImage bi, int alpha) throws IOException {
+        Preconditions.checkNotNull(bi);
+        Preconditions.checkArgument(alpha >= 0);
+        Preconditions.checkArgument(alpha < 256);
+
+        byte[] pixels = ((DataBufferByte) bi.getRaster().getDataBuffer()).getData();
+
+        for (int i = 0 ; i < pixels.length ; i++) {
+            int rgb = pixels[i];
+            int mc = (alpha << 24) | 0x00ffffff;
+            pixels[i] = (byte) (rgb & mc);
+        }
+
+        BufferedImage ret = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        for (int y = 0 ; y < bi.getHeight() ; y++) {
+            for (int x = 0 ; x < bi.getWidth() ; x++) {
+
+                ret.setRGB(x, y, pixels[y * bi.getWidth() + x]);
+            }
+        }
+
+        return ret;
     }
 }

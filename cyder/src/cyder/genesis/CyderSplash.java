@@ -338,10 +338,12 @@ public class CyderSplash {
      * Disposes the splashFrame using fast close.
      */
     public static void fastDispose() {
-        if (disposed)
+        if (disposed) {
             return;
-        if (!CyderToggles.DISPOSE_SPLASH)
+        }
+        if (!CyderToggles.DISPOSE_SPLASH) {
             return;
+        }
 
         splashFrame.dispose(true);
         disposed = true;

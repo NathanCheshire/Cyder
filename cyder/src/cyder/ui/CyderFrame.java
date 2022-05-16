@@ -2043,8 +2043,10 @@ public class CyderFrame extends JFrame {
             currentOrigIcon = icon;
             iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                     .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
-            iconLabel.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen, height - 2 * frameResizingLen);
-            iconPane.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen, height - 2 * frameResizingLen);
+            iconLabel.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen,
+                    height - 2 * frameResizingLen);
+            iconPane.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen,
+                    height - 2 * frameResizingLen);
 
             if (cr != null) {
                 cr.setMinimumSize(new Dimension(600, 600));
@@ -2722,7 +2724,8 @@ public class CyderFrame extends JFrame {
     public static JLabel generateDefaultTaskbarComponent(String title, Runnable clickAction, Color borderColor) {
         JLabel ret = new JLabel();
 
-        BufferedImage bufferedImage = new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferedImage =
+                new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
         Graphics g = bufferedImage.getGraphics();
 
         //set border color
@@ -2738,7 +2741,8 @@ public class CyderFrame extends JFrame {
         //draw darker image
         Font labelFont = new Font("Agency FB", Font.BOLD, 28);
 
-        BufferedImage darkerBufferedImage = new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
+        BufferedImage darkerBufferedImage =
+                new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
         Graphics g2 = darkerBufferedImage.getGraphics();
 
         //set border color
@@ -3502,11 +3506,13 @@ public class CyderFrame extends JFrame {
         if (!ConsoleFrame.INSTANCE.isClosed()) {
             if (ConsoleFrame.INSTANCE.getConsoleCyderFrame().getState() == ICONIFIED) {
                 return null;
-            } else return ConsoleFrame.INSTANCE.getConsoleCyderFrame();
+            } else
+                return ConsoleFrame.INSTANCE.getConsoleCyderFrame();
         } else if (!LoginHandler.isLoginFrameClosed() && LoginHandler.getLoginFrame() != null) {
             return LoginHandler.getLoginFrame();
         }
         // other possibly dominant/stand-alone frame checks here
-        else return null;
+        else
+            return null;
     }
 }

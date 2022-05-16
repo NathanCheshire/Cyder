@@ -41,6 +41,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -3126,11 +3127,20 @@ public enum ConsoleFrame {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return consoleCyderFrame.toString();
+    public void transform() {
+        consoleCyderFrame.getTopDragLabel().removeButton(2);
+
+        CyderThreadRunner.submit(() -> {
+            consoleCyderFrame.setBackground(LoginHandler.backgroundColor);
+
+            for (int i = 250 ; i >= 0 ; i -= 10) {
+                try {
+                    ((JLabel) consoleCyderFrame.getContentPane()).setIcon(ImageUtil.toImageIcon(
+                            ImageUtil.setAlphaOfPixels(getCurrentBackground().generateBufferedImage(), i)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "Background Animator");
     }
 }
