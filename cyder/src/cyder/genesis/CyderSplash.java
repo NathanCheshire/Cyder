@@ -304,20 +304,20 @@ public class CyderSplash {
                         }
 
                         // wait for disposal or show error messsage
-                        Thread.sleep(loadingLabelSeconds);
+                        Thread.sleep(loadingLabelSeconds * 1000);
 
                         // to be safe always set message back to whatever it was
                         loadingLabel.setText(CyderSplash.loadingMessage);
                         loadingLabel.repaint();
 
                         // if frame is still active and it should have been dispoed
-                        if (splashFrame != null && CyderToggles.DISPOSE_SPLASH) {
+                        if (!disposed && CyderToggles.DISPOSE_SPLASH) {
                             splashFrame.dispose(true);
 
                             // this has been going on for over a minute at this point if the program reaches here
                             // clearly something is wrong so exit
                             InformBuilder builder = new InformBuilder(
-                                    "idk what happened but you screwed something up");
+                                    "Splash failed to be disposed; Console failed to load");
                             builder.setTitle("Startup Exception");
                             builder.setPostCloseAction(() -> OSUtil.exit(ExitCondition.FatalTimeout));
                             InformHandler.inform(builder);
@@ -345,6 +345,7 @@ public class CyderSplash {
 
         splashFrame.dispose(true);
         disposed = true;
+
     }
 
     /**

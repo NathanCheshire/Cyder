@@ -50,5 +50,5 @@ public class CyderToggles {
     /**
      * Whether to automatically wipe all past logs on Cyder start.
      */
-    public static final boolean WIPE_LOGS_ON_START = true;
+    public static final boolean WIPE_LOGS_ON_START = false;
 }

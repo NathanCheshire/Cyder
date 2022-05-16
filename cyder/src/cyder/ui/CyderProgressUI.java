@@ -69,27 +69,39 @@ public class CyderProgressUI extends BasicProgressBarUI {
     /**
      * The colors for the progress ui.
      */
-    private Color[] colors = {};
+    private Color primaryColor;
+    private Color secondaryColor;
 
     /**
      * Sets the colors of the progress ui.
      *
-     * @param color the colors for the progress ui
+     * @param primaryColor   the colors for the progress ui
+     * @param secondaryColor the second color for the progress ui
      */
-    public void setColors(Color[] color) {
-        Preconditions.checkArgument(colors.length == 2,
-                "colors length is: " + colors.length);
+    public void setColors(Color primaryColor, Color secondaryColor) {
+        Preconditions.checkNotNull(primaryColor);
+        Preconditions.checkNotNull(secondaryColor);
 
-        colors = color;
+        this.primaryColor = primaryColor;
+        this.secondaryColor = secondaryColor;
     }
 
     /**
-     * Returns the colors for this progress ui.
+     * Returns the primary animation color.
      *
-     * @return the colors for this progress ui
+     * @return the primary animation color
      */
-    private Color[] getColors() {
-        return colors;
+    public Color getPrimaryColor() {
+        return primaryColor;
+    }
+
+    /**
+     * Returns the secondary animation color.
+     *
+     * @return the secondary animation color
+     */
+    public Color getSecondaryColor() {
+        return secondaryColor;
     }
 
     /**
@@ -186,7 +198,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
         BufferedImage barImage;
         if (progressBar.getOrientation() == JProgressBar.VERTICAL) {
-            barImage = createRippleImageVertical(colors[0], colors[1], c.getWidth(), c.getHeight());
+            barImage = createRippleImageVertical(primaryColor, secondaryColor, c.getWidth(), c.getHeight());
 
             //get proper width and height accounting for insets as well
             Insets b = progressBar.getInsets();
@@ -218,7 +230,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
             }
         } else {
             //get the image with the colors of proper width and height
-            barImage = createRippleImageHorizontal(colors[0], colors[1], c.getWidth() * 2, c.getHeight());
+            barImage = createRippleImageHorizontal(primaryColor, secondaryColor, c.getWidth() * 2, c.getHeight());
 
             //get proper width and height accounting for insets as well
             Insets b = progressBar.getInsets();

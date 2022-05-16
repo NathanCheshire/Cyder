@@ -102,7 +102,7 @@ public class YoutubeUtil {
                     // progress label for this download to update
                     CyderProgressBar audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
 
-                    ui.setColors(new Color[]{CyderColors.regularPink, CyderColors.regularBlue});
+                    ui.setColors(CyderColors.regularPink, CyderColors.regularBlue);
                     ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
                     audioProgress.setUI(ui);
                     audioProgress.setMinimum(0);

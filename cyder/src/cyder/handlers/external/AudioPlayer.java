@@ -62,6 +62,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 // todo new audio slider custom component should not be used for location
 //  when dremaifying audio back and forth audio is not as seemless as it should be
 
+// todo dreamifying doesn't perfectly resume audio from where it was before dreamifying/un-dreamifying
+
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
@@ -657,7 +659,7 @@ public class AudioPlayer {
 
         audioProgressBarUi = new CyderProgressUI();
         audioProgressBarUi.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
-        audioProgressBarUi.setColors(new Color[]{CyderColors.regularPink, CyderColors.notificationForegroundColor});
+        audioProgressBarUi.setColors(CyderColors.regularPink, CyderColors.notificationForegroundColor);
         audioProgressBar.setUI(audioProgressBarUi);
 
         audioProgressBar.setMinimum(0);
