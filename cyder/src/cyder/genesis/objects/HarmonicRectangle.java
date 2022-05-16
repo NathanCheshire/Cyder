@@ -11,9 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.function.Function;
 
-// todo should have a period for this for when to update or something so that they an all start at the same time
-//  but at different values, then you can update one by one and make it look like an actual wave
-
 /**
  * A simple rectangle which can grow and shrink for a simple animation.
  */
@@ -365,8 +362,14 @@ public class HarmonicRectangle extends JLabel {
         return waveEquation;
     }
 
+
     /**
      * Sets the wave equation for this harmonic rectangle.
+     * The standard form of a simple wave equation is as follows:
+     *
+     * <pre>
+     * y_value = amplitude * Math.sin(period * (x_value + phase_shift)) + vertical_shift
+     * <pre/>
      *
      * @param waveEquation the wave equation for this harmonic rectangle
      */
