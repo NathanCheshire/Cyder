@@ -32,7 +32,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * Tests which must be performed manually and cannot be unit tested.
+ * Manual widgets used to test certain aspects/implementations of Cyder.
  */
 public class ManualTests {
     /**

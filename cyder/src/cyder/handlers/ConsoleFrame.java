@@ -658,7 +658,8 @@ public enum ConsoleFrame {
             consoleDragButtonList.add(toggleAudioControls);
             toggleAudioControls.setVisible(false);
 
-            CyderIconButton minimize = new CyderIconButton("Minimize", CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover);
+            CyderIconButton minimize =
+                    new CyderIconButton("Minimize", CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover);
             minimize.addActionListener(e -> {
                 consoleCyderFrame.setRestoreX(consoleCyderFrame.getX());
                 consoleCyderFrame.setRestoreY(consoleCyderFrame.getY());
@@ -1189,7 +1190,8 @@ public enum ConsoleFrame {
                 int finalAddX = addX;
 
                 for (int i = inputField.getX() ; i < finalAddX + 15 ; i += 8) {
-                    outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1, outputScroll.getHeight());
+                    outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1,
+                            outputScroll.getHeight());
                     inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
                     try {
                         Thread.sleep(10);
@@ -1417,7 +1419,8 @@ public enum ConsoleFrame {
                 int height = consoleCyderFrame.getHeight();
 
                 for (int i = inputField.getX() ; i > 15 ; i -= 8) {
-                    outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1, outputScroll.getHeight());
+                    outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1,
+                            outputScroll.getHeight());
                     inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
 
                     try {
@@ -1513,19 +1516,22 @@ public enum ConsoleFrame {
             int code = event.getKeyCode();
             try {
                 //command scrolling
-                if ((event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & InputEvent.ALT_DOWN_MASK) == 0)) {
+                if ((event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) == 0 &&
+                        ((event.getModifiersEx() & InputEvent.ALT_DOWN_MASK) == 0)) {
                     //scroll to previous commands
                     if (code == KeyEvent.VK_UP) {
                         if (commandIndex - 1 >= 0) {
                             commandIndex -= 1;
-                            inputField.setText(consoleBashString + commandList.get(commandIndex).replace(consoleBashString, ""));
+                            inputField.setText(
+                                    consoleBashString + commandList.get(commandIndex).replace(consoleBashString, ""));
                         }
                     }
                     //scroll to subsequent command if exist
                     else if (code == KeyEvent.VK_DOWN) {
                         if (commandIndex + 1 < commandList.size()) {
                             commandIndex += 1;
-                            inputField.setText(consoleBashString + commandList.get(commandIndex).replace(consoleBashString, ""));
+                            inputField.setText(
+                                    consoleBashString + commandList.get(commandIndex).replace(consoleBashString, ""));
                         } else if (commandIndex + 1 == commandList.size()) {
                             commandIndex += 1;
                             inputField.setText(consoleBashString);
@@ -1533,7 +1539,8 @@ public enum ConsoleFrame {
                     }
 
                     // F17 Easter egg and other acknowledgement of other function keys
-                    for (int i = CyderNumbers.FUNCTION_KEY_START - 13 ; i < CyderNumbers.FUNCTION_KEY_START + 13 ; i++) {
+                    for (int i = CyderNumbers.FUNCTION_KEY_START - 13 ; i < CyderNumbers.FUNCTION_KEY_START + 13 ;
+                         i++) {
                         if (code == i) {
                             if (i - 61427 == 17) {
                                 IOUtil.playAudio("static/audio/f17.mp3");
@@ -1676,7 +1683,8 @@ public enum ConsoleFrame {
                     InformHandler.inform(builder);
                 }
 
-                Dimension resizeDimensions = ImageUtil.getImageResizeDimensions(minWidth, minHeight, maxWidth, maxHeight, currentImage);
+                Dimension resizeDimensions =
+                        ImageUtil.getImageResizeDimensions(minWidth, minHeight, maxWidth, maxHeight, currentImage);
                 int deltaWidth = (int) resizeDimensions.getWidth();
                 int deltaHeight = (int) resizeDimensions.getHeight();
 
