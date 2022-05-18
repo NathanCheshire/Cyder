@@ -1004,19 +1004,14 @@ public class ImageUtil {
         Preconditions.checkArgument(alpha >= 0);
         Preconditions.checkArgument(alpha < 256);
 
-        byte[] pixels = ((DataBufferByte) bi.getRaster().getDataBuffer()).getData();
-
-        for (int i = 0 ; i < pixels.length ; i++) {
-            int rgb = pixels[i];
-            int mc = (alpha << 24) | 0x00ffffff;
-            pixels[i] = (byte) (rgb & mc);
-        }
-
         BufferedImage ret = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        for (int y = 0 ; y < bi.getHeight() ; y++) {
-            for (int x = 0 ; x < bi.getWidth() ; x++) {
 
-                ret.setRGB(x, y, pixels[y * bi.getWidth() + x]);
+        for (int x = 0 ; x < bi.getWidth() ; x++) {
+            for (int y = 0 ; y < bi.getHeight() ; y++) {
+                int rgb = bi.getRGB(x, y);
+                int mc = (alpha << 24) | 0x00ffffff;
+
+                ret.setRGB(x, y, (byte) (rgb & mc));
             }
         }
 

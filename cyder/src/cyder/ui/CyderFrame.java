@@ -1167,7 +1167,7 @@ public class CyderFrame extends JFrame {
 
                 // now when building the notification component, we'll use
                 // this as our container that we must build around
-                currentBuilder.setContainer(textContainerLabel);
+                currentNotif.getBuilder().setContainer(textContainerLabel);
             }
 
             // add notification component to proper layer
@@ -2930,6 +2930,16 @@ public class CyderFrame extends JFrame {
     public Point getCenterPoint() {
         checkNotNull(this);
         return new Point(getX() + (getWidth() / 2), getY() + (getHeight() / 2));
+    }
+
+    /**
+     * Sets the center point of the frame to the provided point.
+     *
+     * @param p the center point of the frame
+     */
+    public void setCenterPoint(Point p) {
+        checkNotNull(p);
+        setLocation(p.x - getWidth() / 2, p.y - getHeight() / 2);
     }
 
     // ---------------------------------
