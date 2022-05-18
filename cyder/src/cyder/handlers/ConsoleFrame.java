@@ -3141,21 +3141,42 @@ public enum ConsoleFrame {
             //                }
             //            }
 
-            Point center = consoleCyderFrame.getCenterPoint();
+            int xDec = consoleCyderFrame.getWidth() - MINIMUM_SIZE.width;
+            int yDec = consoleCyderFrame.getHeight() - MINIMUM_SIZE.height;
 
-            for (int i = consoleCyderFrame.getWidth() ; i > MINIMUM_SIZE.width ; i--) {
+            int steps = 100;
 
-                consoleCyderFrame.setSize(i, consoleCyderFrame.getHeight());
-                //consoleCyderFrame.setCenterPoint(center);
+            int xStep = xDec / steps;
+            int yStep = yDec / steps;
+
+            if (xStep == 0) {
+                xStep = 1;
+            }
+
+            if (yStep == 0) {
+                yStep = 1;
+            }
+
+            while (consoleCyderFrame.getWidth() > MINIMUM_SIZE.width
+                    || consoleCyderFrame.getHeight() > MINIMUM_SIZE.height) {
+                Point center = consoleCyderFrame.getCenterPoint();
+
+                int newWidth = consoleCyderFrame.getWidth() > MINIMUM_SIZE.width
+                        ? consoleCyderFrame.getWidth() - xStep : consoleCyderFrame.getWidth();
+                int newHeight = consoleCyderFrame.getHeight() > MINIMUM_SIZE.height
+                        ? consoleCyderFrame.getHeight() - xStep : consoleCyderFrame.getHeight();
+
+                consoleCyderFrame.setSize(newWidth, newHeight);
+
+                consoleCyderFrame.setCenterPoint(center);
 
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
             }
 
-
+            consoleCyderFrame.setSize(MINIMUM_SIZE);
         }, "Background Animator");
     }
 }

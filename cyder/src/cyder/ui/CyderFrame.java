@@ -1053,9 +1053,9 @@ public class CyderFrame extends JFrame {
 
             // init current notification object, needed
             // for builder access and to kill via revokes
-            currentNotif = new CyderNotification(currentBuilder);
+            CyderNotification toBeCurrentNotification = new CyderNotification(currentBuilder);
 
-            currentNotif.setVisible(false);
+            toBeCurrentNotification.setVisible(false);
             // ensure invisible to start
 
             // generate label for notification
@@ -1099,7 +1099,7 @@ public class CyderFrame extends JFrame {
                 }
 
                 // we can show a custom container on the notification so add the dispose label
-                long notifiedAt = currentNotif.getBuilder().getNotifyTime();
+                long notifiedAt = toBeCurrentNotification.getBuilder().getNotifyTime();
                 JLabel interactionLabel = new JLabel();
                 interactionLabel.setSize(containerWidth, containerHeight);
                 interactionLabel.setToolTipText("Notified at: " + notifiedAt);
@@ -1108,12 +1108,12 @@ public class CyderFrame extends JFrame {
                     public void mouseClicked(MouseEvent e) {
                         // fire the on kill actions
                         if (currentBuilder.getOnKillAction() != null) {
-                            currentNotif.kill();
+                            toBeCurrentNotification.kill();
                             currentBuilder.getOnKillAction().run();
                         }
                         // smoothly animate notification away
                         else {
-                            currentNotif.vanish(currentBuilder.getNotificationDirection(),
+                            toBeCurrentNotification.vanish(currentBuilder.getNotificationDirection(),
                                     getContentPane(), 0);
                         }
                     }
@@ -1128,7 +1128,7 @@ public class CyderFrame extends JFrame {
                 textContainerLabel.setFont(CyderFonts.notificationFont);
                 textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
 
-                long notifiedAt = currentNotif.getBuilder().getNotifyTime();
+                long notifiedAt = toBeCurrentNotification.getBuilder().getNotifyTime();
                 JLabel interactionLabel = new JLabel();
                 interactionLabel.setSize(notificationWidth, notificationHeight);
                 interactionLabel.setToolTipText("Notified at: " + notifiedAt);
@@ -1137,12 +1137,12 @@ public class CyderFrame extends JFrame {
                     public void mouseClicked(MouseEvent e) {
                         // fire the on kill action
                         if (currentBuilder.getOnKillAction() != null) {
-                            currentNotif.kill();
+                            toBeCurrentNotification.kill();
                             currentBuilder.getOnKillAction().run();
                         }
                         // smoothly animate notification away
                         else {
-                            currentNotif.vanish(currentBuilder.getNotificationDirection(),
+                            toBeCurrentNotification.vanish(currentBuilder.getNotificationDirection(),
                                     getContentPane(), 0);
                         }
                     }
@@ -1151,15 +1151,15 @@ public class CyderFrame extends JFrame {
                     public void mouseEntered(MouseEvent e) {
                         textContainerLabel.setForeground(
                                 CyderColors.notificationForegroundColor.darker());
-                        currentNotif.setHovered(true);
-                        currentNotif.repaint();
+                        toBeCurrentNotification.setHovered(true);
+                        toBeCurrentNotification.repaint();
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
                         textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
-                        currentNotif.setHovered(false);
-                        currentNotif.repaint();
+                        toBeCurrentNotification.setHovered(false);
+                        toBeCurrentNotification.repaint();
                     }
                 });
 
@@ -1167,11 +1167,11 @@ public class CyderFrame extends JFrame {
 
                 // now when building the notification component, we'll use
                 // this as our container that we must build around
-                currentNotif.getBuilder().setContainer(textContainerLabel);
+                toBeCurrentNotification.getBuilder().setContainer(textContainerLabel);
             }
 
             // add notification component to proper layer
-            iconPane.add(currentNotif, JLayeredPane.POPUP_LAYER);
+            iconPane.add(toBeCurrentNotification, JLayeredPane.POPUP_LAYER);
             getContentPane().repaint();
 
             int duration = currentBuilder.getViewDuration();
@@ -1189,8 +1189,10 @@ public class CyderFrame extends JFrame {
                     getTitle() + "] [NOTIFICATION] \"" + brokenText + "\"");
 
             // notification itself handles itself appearing, pausing, and vanishing
-            currentNotif.appear(currentBuilder.getNotificationDirection(),
+            toBeCurrentNotification.appear(currentBuilder.getNotificationDirection(),
                     getContentPane(), duration);
+
+            currentNotif = toBeCurrentNotification;
 
             // when the notification is killed/vanishes, it sets itself
             // to killed; this loop will exit after
