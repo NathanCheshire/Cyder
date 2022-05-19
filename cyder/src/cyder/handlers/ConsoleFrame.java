@@ -3127,24 +3127,31 @@ public enum ConsoleFrame {
     }
 
     public void transform() {
-        consoleCyderFrame.getTopDragLabel().removeButton(2);
+        ArrayList<JButton> removeMe = new ArrayList<>(2);
+
+        for (JButton dragLabelButton : consoleCyderFrame.getTopDragLabel().getButtonList()) {
+            if (dragLabelButton.equals(pin)
+                    || dragLabelButton.equals(toggleAudioControls)
+                    || dragLabelButton.equals(menuButton)) {
+                removeMe.add(dragLabelButton);
+            }
+        }
+
+        consoleCyderFrame.getTopDragLabel().getButtonList().removeAll(removeMe);
+        System.out.println(consoleCyderFrame.getTopDragLabel().getButtonList().size());
 
         CyderThreadRunner.submit(() -> {
             consoleCyderFrame.setBackground(LoginHandler.backgroundColor);
 
-            //            for (int i = 250 ; i >= 0 ; i -= 10) {
-            //                try {
-            //                    ((JLabel) consoleCyderFrame.getContentPane()).setIcon(ImageUtil.toImageIcon(
-            //                            ImageUtil.setAlphaOfPixels(getCurrentBackground().generateBufferedImage(), i)));
-            //                } catch (IOException e) {
-            //                    e.printStackTrace();
-            //                }
-            //            }
+            ImageIcon newBackground = ImageUtil.imageIconFromColor(
+                    LoginHandler.backgroundColor, MINIMUM_SIZE.width, MINIMUM_SIZE.height);
+            ((JLabel) consoleCyderFrame.getContentPane()).setIcon(newBackground);
+            setBackground(newBackground);
 
             int xDec = consoleCyderFrame.getWidth() - MINIMUM_SIZE.width;
             int yDec = consoleCyderFrame.getHeight() - MINIMUM_SIZE.height;
 
-            int steps = 100;
+            int steps = 50;
 
             int xStep = xDec / steps;
             int yStep = yDec / steps;
