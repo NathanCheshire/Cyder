@@ -3131,16 +3131,30 @@ public enum ConsoleFrame {
         }
     }
 
+    /**
+     * Sets the visibility of the buttons to the left of the drag label which
+     * are not included in the drag label button list currently.
+     *
+     * @param visible whether the buttons should be visible
+     */
+    public void setLeftDragLabelButtonVisibilities(boolean visible) {
+        helpButton.setVisible(visible);
+        menuButton.setVisible(visible);
+    }
+
     public void transform() {
         consoleCyderFrame.getTopDragLabel().removeButton(3);
-        helpButton.setVisible(false);
-        menuButton.setVisible(false);
+
+        setLeftDragLabelButtonVisibilities(false);
+
         consoleCyderFrame.setPaintWindowTitle(true);
         consoleCyderFrame.setPaintSuperTitle(true);
-        // todo make a method for this now I guess
-        consoleCyderFrame.setTitle("Cyder Login [" + CyderToggles.VERSION + " Build]");
+        consoleCyderFrame.setTitle(LoginHandler.generateLoginFrameTitle());
+
         consoleCyderFrame.getTopDragLabel().remove(consoleClockLabel);
 
+        // animate frame shrinking
+        int delay = 1;
         CyderThreadRunner.submit(() -> {
             consoleCyderFrame.setBackground(LoginHandler.backgroundColor);
 
@@ -3179,12 +3193,12 @@ public enum ConsoleFrame {
                 consoleCyderFrame.setCenterPoint(center);
 
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(delay);
                 } catch (InterruptedException e) {
                 }
             }
 
             consoleCyderFrame.setSize(MINIMUM_SIZE);
-        }, "Background Animator");
+        }, "ConsoleFrame to LoginFrame Animator");
     }
 }

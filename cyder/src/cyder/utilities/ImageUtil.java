@@ -16,10 +16,11 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
+import java.awt.image.PixelGrabber;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Optional;
 import java.util.concurrent.Executors;
@@ -969,29 +970,6 @@ public class ImageUtil {
         });
     }
 
-    public static BufferedImage applyGaussianBlur(BufferedImage image) {
-        Preconditions.checkNotNull(image);
-
-        int len = 7;
-        float[] kernelFloat =
-                {0, 0, 1, 2, 1, 0, 0,
-                        0, 3, 13, 22, 13, 3, 0,
-                        1, 13, 59, 97, 59, 13, 1,
-                        2, 22, 97, 159, 97, 22, 2,
-                        1, 13, 59, 97, 59, 13, 1,
-                        0, 3, 13, 22, 13, 3, 0,
-                        0, 0, 1, 2, 1, 0, 0,};
-
-        for (int i = 0 ; i < kernelFloat.length ; i++) {
-            kernelFloat[i] /= 1003f;
-        }
-
-        Kernel kernel = new Kernel(len, len, kernelFloat);
-        BufferedImageOp op = new ConvolveOp(kernel);
-        image = op.filter(image, null);
-        return image;
-    }
-
     /**
      * Sets the alpha value of all pixels within the buffered image to the provided value.
      *
@@ -999,7 +977,7 @@ public class ImageUtil {
      * @param alpha the alpha value to set all the pixels to
      * @return the altered buffered image
      */
-    public static BufferedImage setAlphaOfPixels(BufferedImage bi, int alpha) throws IOException {
+    public static BufferedImage setAlphaOfPixels(BufferedImage bi, int alpha) {
         Preconditions.checkNotNull(bi);
         Preconditions.checkArgument(alpha >= 0);
         Preconditions.checkArgument(alpha < 256);
