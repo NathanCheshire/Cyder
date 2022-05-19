@@ -140,7 +140,12 @@ public enum ConsoleFrame {
     /**
      * The top drag label pin button.
      */
-    private JButton pin;
+    private JButton pinButton;
+
+    /**
+     * The top drag label help button.
+     */
+    private JButton helpButton;
 
     /**
      * The top drag label audio menu toggle button.
@@ -612,7 +617,7 @@ public enum ConsoleFrame {
             menuLabel.setFocusable(false);
             menuLabel.setVisible(false);
 
-            JButton helpButton = new CyderIconButton("Help", CyderIcons.helpIcon, CyderIcons.helpIconHover);
+            helpButton = new CyderIconButton("Help", CyderIcons.helpIcon, CyderIcons.helpIconHover);
             helpButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
                 //print tests in case the user was trying to invoke one
                 inputHandler.printManualTests();
@@ -667,53 +672,53 @@ public enum ConsoleFrame {
             });
             consoleDragButtonList.add(minimize);
 
-            pin = new CyderIconButton("Pin", CyderIcons.pinIcon, CyderIcons.pinIconHover, new MouseAdapter() {
+            pinButton = new CyderIconButton("Pin", CyderIcons.pinIcon, CyderIcons.pinIconHover, new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     if (consoleCyderFrame.isAlwaysOnTop()) {
-                        pin.setIcon(CyderIcons.pinIcon);
+                        pinButton.setIcon(CyderIcons.pinIcon);
                     } else {
-                        pin.setIcon(CyderIcons.pinIconHover);
+                        pinButton.setIcon(CyderIcons.pinIconHover);
                     }
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
                     if (consoleCyderFrame.isAlwaysOnTop()) {
-                        pin.setIcon(CyderIcons.pinIconHover);
+                        pinButton.setIcon(CyderIcons.pinIconHover);
                     } else {
-                        pin.setIcon(CyderIcons.pinIcon);
+                        pinButton.setIcon(CyderIcons.pinIcon);
                     }
                 }
             }, new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    pin.setIcon(CyderIcons.pinIconHover);
+                    pinButton.setIcon(CyderIcons.pinIconHover);
                 }
 
                 @Override
                 public void focusLost(FocusEvent e) {
                     if (consoleCyderFrame.isAlwaysOnTop()) {
-                        pin.setIcon(CyderIcons.pinIconHover);
+                        pinButton.setIcon(CyderIcons.pinIconHover);
                     } else {
-                        pin.setIcon(CyderIcons.pinIcon);
+                        pinButton.setIcon(CyderIcons.pinIcon);
                     }
                 }
             });
-            pin.addActionListener(e -> {
+            pinButton.addActionListener(e -> {
                 if (consoleCyderFrame.isAlwaysOnTop()) {
                     consoleCyderFrame.setAlwaysOnTop(false);
-                    pin.setIcon(CyderIcons.pinIcon);
+                    pinButton.setIcon(CyderIcons.pinIcon);
                     saveScreenStat();
                 } else {
                     consoleCyderFrame.setAlwaysOnTop(true);
-                    pin.setIcon(CyderIcons.pinIconHover);
+                    pinButton.setIcon(CyderIcons.pinIconHover);
                     saveScreenStat();
                 }
             });
-            pin.setIcon(UserUtil.getCyderUser().getScreenStat().isConsoleOnTop() ?
+            pinButton.setIcon(UserUtil.getCyderUser().getScreenStat().isConsoleOnTop() ?
                     CyderIcons.pinIconHover : CyderIcons.pinIcon);
-            consoleDragButtonList.add(pin);
+            consoleDragButtonList.add(pinButton);
 
             CyderIconButton alternateBackground = new CyderIconButton("Alternate Background",
                     CyderIcons.changeSizeIcon, CyderIcons.changeSizeIconHover);
@@ -3127,18 +3132,14 @@ public enum ConsoleFrame {
     }
 
     public void transform() {
-        ArrayList<JButton> removeMe = new ArrayList<>(2);
-
-        for (JButton dragLabelButton : consoleCyderFrame.getTopDragLabel().getButtonList()) {
-            if (dragLabelButton.equals(pin)
-                    || dragLabelButton.equals(toggleAudioControls)
-                    || dragLabelButton.equals(menuButton)) {
-                removeMe.add(dragLabelButton);
-            }
-        }
-
-        consoleCyderFrame.getTopDragLabel().getButtonList().removeAll(removeMe);
-        System.out.println(consoleCyderFrame.getTopDragLabel().getButtonList().size());
+        consoleCyderFrame.getTopDragLabel().removeButton(3);
+        helpButton.setVisible(false);
+        menuButton.setVisible(false);
+        consoleCyderFrame.setPaintWindowTitle(true);
+        consoleCyderFrame.setPaintSuperTitle(true);
+        // todo make a method for this now I guess
+        consoleCyderFrame.setTitle("Cyder Login [" + CyderToggles.VERSION + " Build]");
+        consoleCyderFrame.getTopDragLabel().remove(consoleClockLabel);
 
         CyderThreadRunner.submit(() -> {
             consoleCyderFrame.setBackground(LoginHandler.backgroundColor);
