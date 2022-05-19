@@ -23,7 +23,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class FileSignatureWidget {
     /**
      * The file to validate.

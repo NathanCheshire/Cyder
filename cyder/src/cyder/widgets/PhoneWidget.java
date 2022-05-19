@@ -16,7 +16,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class PhoneWidget {
     /**
      * The label numbers are appended to.

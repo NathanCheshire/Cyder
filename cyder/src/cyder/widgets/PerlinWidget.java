@@ -25,7 +25,7 @@ import java.util.Random;
  * A visualizer for two dimensional perlin-noise and three-dimensional open simplex noise.
  */
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class PerlinWidget {
     /**
      * Prevent illegal class instantiation.

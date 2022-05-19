@@ -18,7 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class MinecraftWidget {
     private static CyderFrame minecraftFrame;
     private static JLabel realmsLabel;

@@ -23,7 +23,7 @@ import java.awt.event.KeyAdapter;
  * A widget for converting between rgb and hex colors.
  */
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class ColorConverterWidget {
     /**
      * Returns a new instance of ColorConverterWidget.

@@ -30,7 +30,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class ImagePixelatorWidget {
     private static ImageIcon displayIcon;
     private static ImageIcon originalIcon;

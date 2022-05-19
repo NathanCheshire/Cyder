@@ -36,7 +36,7 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
  * A widget to average images together.
  */
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class ImageAveragerWidget {
     /**
      * The list of selected files to average together.

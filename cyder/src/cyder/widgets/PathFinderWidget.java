@@ -26,7 +26,7 @@ import java.util.concurrent.Semaphore;
  * with Euclidean distance and Manhattan distance as valid A* heuristics.
  */
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class PathFinderWidget {
     /**
      * Whether the animation is currently running.

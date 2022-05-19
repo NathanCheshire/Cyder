@@ -39,7 +39,7 @@ import java.util.LinkedList;
  * A widget to create a Cyder user.
  */
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 @SuppressCyderInspections(values = "VanillaInspection")
 public class UserCreator {
     /**

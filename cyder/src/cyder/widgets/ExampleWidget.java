@@ -10,7 +10,7 @@ import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class ExampleWidget {
     private ExampleWidget() {
         Logger.log(Logger.Tag.OBJECT_CREATION, this);

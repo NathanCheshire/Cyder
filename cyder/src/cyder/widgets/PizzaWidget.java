@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class PizzaWidget {
     private static CyderFrame pizzaFrame;
     private static CyderTextField nameField;

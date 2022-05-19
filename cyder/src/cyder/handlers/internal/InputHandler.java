@@ -1528,7 +1528,7 @@ public class InputHandler {
 
             for (Method m : classer.getMethods()) {
                 if (m.isAnnotationPresent(ManualTest.class)) {
-                    String trigger = m.getAnnotation(ManualTest.class).trigger();
+                    String trigger = m.getAnnotation(ManualTest.class).value();
                     if (trigger.equalsIgnoreCase(command)) {
                         try {
                             println("Invoking manual test " + m.getName());
@@ -1711,7 +1711,7 @@ public class InputHandler {
 
             for (Method m : classer.getMethods()) {
                 if (m.isAnnotationPresent(ManualTest.class)) {
-                    String trigger = m.getAnnotation(ManualTest.class).trigger();
+                    String trigger = m.getAnnotation(ManualTest.class).value();
                     println(trigger);
                 }
             }

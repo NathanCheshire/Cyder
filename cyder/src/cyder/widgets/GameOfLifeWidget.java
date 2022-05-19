@@ -34,7 +34,7 @@ import java.util.LinkedList;
  * Conway's game of life visualizer.
  */
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class GameOfLifeWidget {
     /**
      * The game of life frame.

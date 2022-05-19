@@ -23,7 +23,7 @@ import java.awt.*;
  * A calculator widget to parse mathematical expressions.
  */
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class CalculatorWidget {
     private static CyderTextField resultField;
     private static CyderTextField calculatorField;

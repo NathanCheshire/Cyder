@@ -68,7 +68,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 @SuppressCyderInspections(values = "VanillaInspection")
 public class AudioPlayer {
     /**

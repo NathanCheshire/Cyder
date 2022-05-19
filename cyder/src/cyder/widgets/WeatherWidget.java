@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class WeatherWidget {
     private JLabel locationLabel;
     private JLabel currentWeatherLabel;

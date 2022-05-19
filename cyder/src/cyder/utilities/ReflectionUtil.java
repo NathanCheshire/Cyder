@@ -328,7 +328,7 @@ public class ReflectionUtil {
 
             for (Method m : classer.getMethods()) {
                 if (m.isAnnotationPresent(ManualTest.class)) {
-                    String trigger = m.getAnnotation(ManualTest.class).trigger();
+                    String trigger = m.getAnnotation(ManualTest.class).value();
 
                     String[] values = null;
 

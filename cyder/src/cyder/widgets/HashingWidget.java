@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * A widget for computing the hash of strings.
  */
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class HashingWidget {
     /**
      * The hash frame.

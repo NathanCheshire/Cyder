@@ -29,7 +29,7 @@ import java.awt.*;
  * {@code @SuppressCyderInspections} annotation to avoid false warnings.
  */
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class CardWidget {
     private static CyderFrame christmas2020Frame;
     private static CyderFrame christmas2021Frame;

@@ -19,7 +19,7 @@ import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class TemperatureWidget {
     private CyderFrame temperatureFrame;
     private CyderTextField startingValue;

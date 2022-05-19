@@ -36,7 +36,7 @@ import java.util.LinkedList;
  * A painting widget, not currently intended to be able to edit/markup images.
  */
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class PaintWidget {
     /**
      * The length of the frame.

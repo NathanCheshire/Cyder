@@ -19,7 +19,7 @@ import java.util.*;
  * Convexhull widget that solve a convexhull problem using a CyderGrid as the drawing label.
  */
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class ConvexHullWidget {
     /**
      * The CyderFrame to use for the convex hull widget.

@@ -30,7 +30,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Vanilla
-@CyderAuthor(author = "Nathan Cheshire")
+@CyderAuthor
 public class NotesWidget {
     //main frame
     private static CyderFrame noteFrame;
