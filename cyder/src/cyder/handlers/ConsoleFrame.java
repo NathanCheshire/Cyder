@@ -554,6 +554,7 @@ public enum ConsoleFrame {
                     consoleFrameBackgroundHeight - (62 + outputArea.getHeight() + 20 + 20));
             inputField.setOpaque(false);
             consoleCyderFrame.getContentPane().add(inputField);
+            // todo extract out listener
             inputField.addActionListener(e -> {
                 try {
                     String op = String.valueOf(inputField.getPassword()).substring(consoleBashString.length())
@@ -3142,7 +3143,10 @@ public enum ConsoleFrame {
         menuButton.setVisible(visible);
     }
 
-    public void transform() {
+    // todo console frame constructor should be invoked to transform to the primary method
+    // todo need to disable background changing with input field commands
+    // todo need to suppress scroll actions on fields
+    public void toLoginFrame() {
         consoleCyderFrame.getTopDragLabel().removeButton(3);
 
         setLeftDragLabelButtonVisibilities(false);
@@ -3153,40 +3157,52 @@ public enum ConsoleFrame {
 
         consoleCyderFrame.getTopDragLabel().remove(consoleClockLabel);
 
+        // todo we should have an install and uninstall method for input and output areas (4 methods)
+        // remove input field listeners
+        inputField.removeKeyListener(inputFieldKeyAdapter);
+        inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .remove(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK));
+        inputField.removeKeyListener(commandScrolling);
+        inputField.removeMouseWheelListener(fontSizerListener);
+
+
         // animate frame shrinking
+        int numFrames = 50;
         int delay = 1;
+
+        consoleCyderFrame.setBackground(LoginHandler.backgroundColor);
+
+        ImageIcon current = getCurrentBackground().generateImageIcon();
+        ImageIcon newBackground = ImageUtil.imageIconFromColor(
+                LoginHandler.backgroundColor,
+                current.getIconWidth(), current.getIconWidth());
+        ((JLabel) consoleCyderFrame.getContentPane()).setIcon(newBackground);
+
+        int xDec = consoleCyderFrame.getWidth() - MINIMUM_SIZE.width;
+        int yDec = consoleCyderFrame.getHeight() - MINIMUM_SIZE.height;
+
+        int xStep = xDec / numFrames;
+        int yStep = yDec / numFrames;
+
+        if (xStep == 0) {
+            xStep = 1;
+        }
+
+        if (yStep == 0) {
+            yStep = 1;
+        }
+
+        int finalXStep = xStep;
+        int finalYStep = yStep;
         CyderThreadRunner.submit(() -> {
-            consoleCyderFrame.setBackground(LoginHandler.backgroundColor);
-
-            ImageIcon newBackground = ImageUtil.imageIconFromColor(
-                    LoginHandler.backgroundColor, MINIMUM_SIZE.width, MINIMUM_SIZE.height);
-            ((JLabel) consoleCyderFrame.getContentPane()).setIcon(newBackground);
-            setBackground(newBackground);
-
-            int xDec = consoleCyderFrame.getWidth() - MINIMUM_SIZE.width;
-            int yDec = consoleCyderFrame.getHeight() - MINIMUM_SIZE.height;
-
-            int steps = 50;
-
-            int xStep = xDec / steps;
-            int yStep = yDec / steps;
-
-            if (xStep == 0) {
-                xStep = 1;
-            }
-
-            if (yStep == 0) {
-                yStep = 1;
-            }
-
             while (consoleCyderFrame.getWidth() > MINIMUM_SIZE.width
                     || consoleCyderFrame.getHeight() > MINIMUM_SIZE.height) {
                 Point center = consoleCyderFrame.getCenterPoint();
 
                 int newWidth = consoleCyderFrame.getWidth() > MINIMUM_SIZE.width
-                        ? consoleCyderFrame.getWidth() - xStep : consoleCyderFrame.getWidth();
+                        ? consoleCyderFrame.getWidth() - finalXStep : consoleCyderFrame.getWidth();
                 int newHeight = consoleCyderFrame.getHeight() > MINIMUM_SIZE.height
-                        ? consoleCyderFrame.getHeight() - xStep : consoleCyderFrame.getHeight();
+                        ? consoleCyderFrame.getHeight() - finalYStep : consoleCyderFrame.getHeight();
 
                 consoleCyderFrame.setSize(newWidth, newHeight);
 

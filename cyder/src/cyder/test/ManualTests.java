@@ -54,7 +54,7 @@ public class ManualTests {
                 //                        ConsoleFrame.INSTANCE.getUUID(),
                 //                        UserFile.MUSIC.getName()).listFiles()[0]);
 
-                ConsoleFrame.INSTANCE.transform();
+                ConsoleFrame.INSTANCE.toLoginFrame();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
