@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
+import cyder.common.GetterBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -16,7 +17,6 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
 import cyder.user.UserFile;
 import cyder.utilities.*;
-import cyder.utilities.objects.GetterBuilder;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

@@ -5,7 +5,6 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderScrollList;
-import cyder.user.objects.Preference;
 import cyder.utilities.ColorUtil;
 import cyder.utilities.FrameUtil;
 import cyder.utilities.UserUtil;

@@ -1,4 +1,4 @@
-package cyder.user.objects;
+package cyder.user;
 
 import cyder.enums.Direction;
 import cyder.handlers.internal.Logger;

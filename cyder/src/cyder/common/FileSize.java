@@ -1,4 +1,4 @@
-package cyder.utilities.objects;
+package cyder.common;
 
 import cyder.handlers.internal.Logger;
 

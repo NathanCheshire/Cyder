@@ -1,4 +1,4 @@
-package cyder.utilities.objects;
+package cyder.common;
 
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;

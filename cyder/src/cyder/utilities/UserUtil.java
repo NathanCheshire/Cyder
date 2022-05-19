@@ -11,16 +11,10 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.InformBuilder;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
-import cyder.handlers.internal.objects.InformBuilder;
-import cyder.user.Preferences;
-import cyder.user.User;
-import cyder.user.UserFile;
-import cyder.user.objects.MappedExecutable;
-import cyder.user.objects.Preference;
-import cyder.user.objects.ScreenStat;
-import cyder.utilities.enums.IgnoreData;
+import cyder.user.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -1170,5 +1164,40 @@ public class UserUtil {
         }
 
         throw new IllegalStateException("File could not be created at this time: " + name);
+    }
+
+    // todo or maybe these should be an ini file
+    // todo these should be a property within the userdata itself (preferences or something like that)
+
+    /**
+     * The user datas to ignore when they are requested.
+     */
+    private enum IgnoreData {
+        TypingAnimation("typinganimation"),
+        ShowSeconds("showseconds"),
+        RoundedWindows("roundedwindows"),
+        WindowColor("windowcolor"),
+        AudioLength("audiolength"),
+        CapsMode("capsmode"),
+        TypingSound("typingsound"),
+        ShowBusyIcon("showbusyicon");
+
+        /**
+         * The ID associated with the user data to not log upon access calls.
+         */
+        private final String id;
+
+        /**
+         * Constructs a new ignore data.
+         *
+         * @param id the id of the data
+         */
+        IgnoreData(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
     }
 }

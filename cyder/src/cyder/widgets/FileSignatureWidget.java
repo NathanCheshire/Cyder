@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
+import cyder.common.GetterBuilder;
 import cyder.constants.*;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -13,7 +14,6 @@ import cyder.ui.CyderLabel;
 import cyder.ui.CyderTextField;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.NetworkUtil;
-import cyder.utilities.objects.GetterBuilder;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;

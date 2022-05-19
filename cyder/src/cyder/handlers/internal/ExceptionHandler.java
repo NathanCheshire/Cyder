@@ -6,7 +6,6 @@ import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
-import cyder.handlers.internal.objects.InformBuilder;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
 import cyder.utilities.OSUtil;

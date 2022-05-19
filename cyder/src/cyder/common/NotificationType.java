@@ -1,5 +1,8 @@
-package cyder.utilities.enums;
+package cyder.common;
 
+/**
+ * The possible notification types.
+ */
 public enum NotificationType {
     /**
      * A common notification with an arrow on any cardinal side.

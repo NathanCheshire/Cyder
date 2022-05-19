@@ -1,4 +1,4 @@
-package cyder.handlers.internal.enums;
+package cyder.handlers.internal;
 
 /**
  * Hashes used for AutoCyphering upon Cyder entry.

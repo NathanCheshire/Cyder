@@ -1,6 +1,8 @@
 package cyder.user;
 
 import cyder.annotations.Widget;
+import cyder.common.CyderBackground;
+import cyder.common.GetterBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -15,11 +17,7 @@ import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
-import cyder.ui.objects.CyderBackground;
-import cyder.user.objects.MappedExecutable;
-import cyder.user.objects.Preference;
 import cyder.utilities.*;
-import cyder.utilities.objects.GetterBuilder;
 import cyder.widgets.ColorConverterWidget;
 
 import javax.swing.*;

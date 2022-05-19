@@ -8,7 +8,7 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderFrame;
-import cyder.user.objects.MappedExecutable;
+import cyder.user.MappedExecutable;
 import cyder.utilities.IOUtil;
 import cyder.utilities.NetworkUtil;
 import cyder.utilities.UserUtil;

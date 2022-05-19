@@ -1,7 +1,7 @@
 package cyder.messaging;
 
 import com.google.common.base.Preconditions;
-import cyder.audio.WaveFile;
+import cyder.common.WaveFile;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;

@@ -1,4 +1,4 @@
-package cyder.handlers.internal.enums;
+package cyder.handlers.internal;
 
 /**
  * Possible ways to enter Cyder.

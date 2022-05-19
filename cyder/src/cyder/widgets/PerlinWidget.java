@@ -3,13 +3,13 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
+import cyder.common.GridNode;
+import cyder.common.SliderShape;
+import cyder.common.SwitcherState;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.*;
-import cyder.ui.enums.SliderShape;
-import cyder.ui.objects.GridNode;
-import cyder.ui.objects.SwitcherState;
 import cyder.utilities.NumberUtil;
 import cyder.utilities.SimplexNoiseUtil;
 

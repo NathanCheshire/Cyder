@@ -1,4 +1,4 @@
-package cyder.user.objects;
+package cyder.user;
 
 import com.google.errorprone.annotations.Immutable;
 import cyder.handlers.internal.Logger;

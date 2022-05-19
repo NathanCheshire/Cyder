@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import com.google.common.base.Preconditions;
+import cyder.common.FileSize;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -8,7 +9,6 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
-import cyder.utilities.objects.FileSize;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

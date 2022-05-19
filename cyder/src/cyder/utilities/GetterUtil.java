@@ -1,5 +1,7 @@
 package cyder.utilities;
 
+import cyder.common.BoundsString;
+import cyder.common.GetterBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -7,8 +9,6 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
-import cyder.utilities.objects.BoundsString;
-import cyder.utilities.objects.GetterBuilder;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

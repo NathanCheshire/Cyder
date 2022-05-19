@@ -1,7 +1,6 @@
-package cyder.handlers.internal.objects;
+package cyder.handlers.internal;
 
 import com.google.common.base.Preconditions;
-import cyder.handlers.internal.Logger;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;

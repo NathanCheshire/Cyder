@@ -1,6 +1,9 @@
 package cyder.handlers;
 
 import com.google.common.base.Preconditions;
+import cyder.common.CyderBackground;
+import cyder.common.GetterBuilder;
+import cyder.common.NotificationBuilder;
 import cyder.constants.*;
 import cyder.enums.Direction;
 import cyder.enums.DynamicDirectory;
@@ -12,23 +15,12 @@ import cyder.genesis.CyderSplash;
 import cyder.genesis.CyderToggles;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
-import cyder.handlers.internal.enums.CyderEntry;
-import cyder.handlers.internal.enums.ScreenPosition;
-import cyder.handlers.internal.objects.InformBuilder;
 import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
-import cyder.ui.objects.CyderBackground;
-import cyder.ui.objects.NotificationBuilder;
-import cyder.user.Preferences;
-import cyder.user.UserEditor;
-import cyder.user.UserFile;
-import cyder.user.objects.MappedExecutable;
-import cyder.user.objects.ScreenStat;
+import cyder.user.*;
 import cyder.utilities.*;
-import cyder.utilities.objects.GetterBuilder;
 import cyder.widgets.CardWidget;
-import cyder.widgets.objects.RelativeFrame;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -3216,5 +3208,98 @@ public enum ConsoleFrame {
 
             consoleCyderFrame.setSize(MINIMUM_SIZE);
         }, "ConsoleFrame to LoginFrame Animator");
+    }
+
+    /*
+    Inner classes
+     */
+
+    /**
+     * A wrapper used to store it's position relative to some other component.
+     */
+    private static class RelativeFrame {
+        /**
+         * The frame we are keeping track of.
+         */
+        private CyderFrame frame;
+
+        /**
+         * The frame's x offset to the other component.
+         */
+        private int xOffset;
+
+        /**
+         * The frame's y offset to the other component.
+         */
+        private int yOffset;
+
+        /**
+         * Constructs a new RelativeFrame object.
+         *
+         * @param frame   the frame that is relative to some other component
+         * @param xOffset the x offset to the other component
+         * @param yOffset the y offset to the other component
+         */
+        public RelativeFrame(CyderFrame frame, int xOffset, int yOffset) {
+            this.frame = frame;
+            this.xOffset = xOffset;
+            this.yOffset = yOffset;
+
+            Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        }
+
+        /**
+         * Returns the reference frame.
+         *
+         * @return the reference frame
+         */
+        public CyderFrame getFrame() {
+            return frame;
+        }
+
+        /**
+         * Sets the reference frame.
+         *
+         * @param frame the reference frame
+         */
+        public void setFrame(CyderFrame frame) {
+            this.frame = frame;
+        }
+
+        /**
+         * Returns the x offset from the reference frame to the other component.
+         *
+         * @return the x offset from the reference frame to the other component
+         */
+        public int getxOffset() {
+            return xOffset;
+        }
+
+        /**
+         * Sets the x offset to the other component.
+         *
+         * @param xOffset the x offset to the other component
+         */
+        public void setxOffset(int xOffset) {
+            this.xOffset = xOffset;
+        }
+
+        /**
+         * Returns the y offset from the reference frame to the other component.
+         *
+         * @return the y offset from the reference frame to the other component
+         */
+        public int getyOffset() {
+            return yOffset;
+        }
+
+        /**
+         * Sets the y offset to the other component.
+         *
+         * @param yOffset the y offset to the other component
+         */
+        public void setyOffset(int yOffset) {
+            this.yOffset = yOffset;
+        }
     }
 }

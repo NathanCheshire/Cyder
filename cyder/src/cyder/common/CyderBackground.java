@@ -1,4 +1,4 @@
-package cyder.ui.objects;
+package cyder.common;
 
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;

@@ -1,9 +1,9 @@
 package cyder.ui;
 
 import com.google.common.base.Preconditions;
+import cyder.common.AnimationDirection;
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;
-import cyder.ui.enums.AnimationDirection;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicProgressBarUI;

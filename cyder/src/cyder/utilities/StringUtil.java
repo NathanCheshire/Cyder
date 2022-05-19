@@ -2,10 +2,10 @@ package cyder.utilities;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
+import cyder.common.TaggedString;
 import cyder.constants.CyderUrls;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderOutputPane;
-import cyder.utilities.objects.TaggedString;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;

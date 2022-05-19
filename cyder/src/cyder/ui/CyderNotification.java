@@ -2,6 +2,8 @@ package cyder.ui;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import cyder.common.NotificationBuilder;
+import cyder.common.NotificationType;
 import cyder.constants.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
@@ -9,10 +11,8 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.objects.NotificationBuilder;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.UserUtil;
-import cyder.utilities.enums.NotificationType;
 
 import javax.swing.*;
 import java.awt.*;

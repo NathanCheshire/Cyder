@@ -2,16 +2,15 @@ package cyder.handlers.internal;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import cyder.common.BoundsString;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.objects.InformBuilder;
 import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.utilities.BoundsUtil;
 import cyder.utilities.UserUtil;
-import cyder.utilities.objects.BoundsString;
 
 import javax.swing.*;
 import java.awt.*;

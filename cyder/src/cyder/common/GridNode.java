@@ -1,4 +1,4 @@
-package cyder.ui.objects;
+package cyder.common;
 
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;

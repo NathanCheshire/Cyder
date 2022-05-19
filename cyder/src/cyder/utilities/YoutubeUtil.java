@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
+import cyder.common.AnimationDirection;
 import cyder.constants.*;
 import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
@@ -10,7 +11,6 @@ import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
-import cyder.ui.enums.AnimationDirection;
 import cyder.user.UserFile;
 
 import javax.imageio.ImageIO;

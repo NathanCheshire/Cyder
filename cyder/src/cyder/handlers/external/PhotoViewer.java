@@ -1,6 +1,7 @@
 package cyder.handlers.external;
 
 import com.google.common.base.Preconditions;
+import cyder.common.GetterBuilder;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -11,7 +12,6 @@ import cyder.utilities.FileUtil;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.UserUtil;
-import cyder.utilities.objects.GetterBuilder;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

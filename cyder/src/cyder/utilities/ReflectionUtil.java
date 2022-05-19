@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.*;
+import cyder.common.WidgetDescription;
 import cyder.constants.CyderStrings;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
@@ -12,7 +13,6 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.CyderFrame;
-import cyder.utilities.objects.WidgetDescription;
 
 import javax.swing.*;
 import java.awt.*;

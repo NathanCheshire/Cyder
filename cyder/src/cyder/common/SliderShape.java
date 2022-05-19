@@ -1,4 +1,4 @@
-package cyder.ui.enums;
+package cyder.common;
 
 public enum SliderShape {
     /**

@@ -1,8 +1,8 @@
 package cyder.ui;
 
 import com.google.common.collect.ImmutableMap;
+import cyder.common.FocusWrappedComponent;
 import cyder.handlers.internal.Logger;
-import cyder.ui.objects.FocusWrappedComponent;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;

@@ -8,8 +8,6 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.CyderToggles;
 import cyder.handlers.ConsoleFrame;
-import cyder.handlers.internal.enums.CyderEntry;
-import cyder.handlers.internal.enums.DebugHash;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;

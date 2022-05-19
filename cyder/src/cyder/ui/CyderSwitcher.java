@@ -1,9 +1,9 @@
 package cyder.ui;
 
 import com.google.common.base.Preconditions;
+import cyder.common.SwitcherState;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.Logger;
-import cyder.ui.objects.SwitcherState;
 
 import javax.swing.*;
 import java.util.ArrayList;

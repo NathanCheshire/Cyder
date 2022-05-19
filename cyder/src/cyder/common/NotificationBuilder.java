@@ -1,4 +1,4 @@
-package cyder.ui.objects;
+package cyder.common;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -6,7 +6,6 @@ import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
-import cyder.utilities.enums.NotificationType;
 
 import javax.swing.*;
 

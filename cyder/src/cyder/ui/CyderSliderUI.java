@@ -1,7 +1,7 @@
 package cyder.ui;
 
+import cyder.common.SliderShape;
 import cyder.handlers.internal.Logger;
-import cyder.ui.enums.SliderShape;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;

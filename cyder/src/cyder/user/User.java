@@ -2,8 +2,6 @@ package cyder.user;
 
 import com.google.common.base.Objects;
 import cyder.handlers.internal.Logger;
-import cyder.user.objects.MappedExecutable;
-import cyder.user.objects.ScreenStat;
 import cyder.utilities.ReflectionUtil;
 
 import java.util.LinkedList;

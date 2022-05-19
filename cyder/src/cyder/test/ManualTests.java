@@ -2,6 +2,10 @@ package cyder.test;
 
 import cyder.annotations.ManualTest;
 import cyder.annotations.SuppressCyderInspections;
+import cyder.common.AnimationDirection;
+import cyder.common.NotificationBuilder;
+import cyder.common.SliderShape;
+import cyder.common.SwitcherState;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -11,16 +15,12 @@ import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.InformBuilder;
 import cyder.handlers.internal.InformHandler;
-import cyder.handlers.internal.objects.InformBuilder;
 import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
-import cyder.ui.enums.AnimationDirection;
-import cyder.ui.enums.SliderShape;
-import cyder.ui.objects.NotificationBuilder;
-import cyder.ui.objects.SwitcherState;
 import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
