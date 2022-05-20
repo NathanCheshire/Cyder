@@ -55,6 +55,7 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 /* some methods have yet to be utilized, arg lengths are always checked before accessing*/
 public class InputHandler {
@@ -96,7 +97,7 @@ public class InputHandler {
     /**
      * The arguments of the command.
      */
-    private ArrayList<String> args;
+    private final ArrayList<String> args = new ArrayList<>();
 
     /**
      * The regex used to match 1-n whitespace.
@@ -123,102 +124,6 @@ public class InputHandler {
         BletchyThread.initialize(outputArea, makePrintingThreadsafeAgain);
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
-    }
-
-    /**
-     * Handles preliminaries such as assumptions before passing input data to the subHandle methods.
-     * Also sets the ops array to the found command and arguments
-     *
-     * @param command       the command to handle preliminaries on before behind handled
-     * @param userTriggered whether the provided operation was produced via a user
-     * @return whether the process may proceed
-     */
-    private boolean handlePreliminaries(String command, boolean userTriggered) {
-        Preconditions.checkNotNull(command);
-        Preconditions.checkNotNull(outputArea);
-
-        resetMembers();
-
-        this.command = command.trim();
-
-        if (StringUtil.isNull(this.command)) {
-            return false;
-        }
-
-        Logger.log(Logger.Tag.CLIENT, userTriggered
-                ? commandAndArgsToString() : "[SIMULATED INPUT] " + this.command);
-
-        if (this.command.matches(whiteSpaceRegex)) {
-            String[] parts = this.command.split(whiteSpaceRegex);
-            Arrays.stream(parts).map(String::trim).toArray(scheibe -> parts);
-
-            this.command = parts[0];
-        }
-
-        // todo redirection and size and other stuff checks
-        synchronized (this) {
-
-        }
-
-        // check for requested redirection
-        if (args.size() > 1 && getArg(args.size() - 2).equals(">")) {
-            // filename in new command arg system is last arg
-            String filename = getArg(args.size() - 1);
-
-            if (!filename.trim().isEmpty()) {
-                //check for validity of requested filename
-                if (OSUtil.isValidFilename(filename)) {
-                    redirection = true;
-
-                    //acquire sem to ensure file is not being written to
-                    try {
-                        redirectionSem.acquire();
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-
-                    //create the file name
-                    redirectionFile = OSUtil.buildFile(
-                            DynamicDirectory.DYNAMIC_PATH, "users",
-                            ConsoleFrame.INSTANCE.getUUID(),
-                            UserFile.FILES.getName(), filename);
-
-                    //create file for current use
-                    try {
-                        if (redirectionFile.exists()) {
-                            OSUtil.deleteFile(redirectionFile);
-                        }
-                        redirectionFile.createNewFile();
-                    } catch (Exception ignored) {
-                        redirection = false;
-                        redirectionFile = null;
-                    }
-
-                    //release sem
-                    redirectionSem.release();
-                }
-            }
-        }
-
-        //check for bad language if filterchat
-        if (checkFoulLanguage()) {
-            println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language is prohibited.");
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean checkFoulLanguage() {
-        return UserUtil.getCyderUser().getFilterchat().equals("1")
-                && StringUtil.containsBlockedWords(command, true);
-    }
-
-    private void resetMembers() {
-        redirection = false;
-        redirectionFile = null;
-
-        args = new ArrayList<>();
     }
 
     /**
@@ -263,6 +168,128 @@ public class InputHandler {
             // todo restore new input method
             ConsoleFrame.INSTANCE.getInputField().setText("");
         }
+    }
+
+    /**
+     * Handles preliminaries such as assumptions before passing input data to the subHandle methods.
+     * Also sets the ops array to the found command and arguments
+     *
+     * @param command       the command to handle preliminaries on before behind handled
+     * @param userTriggered whether the provided operation was produced via a user
+     * @return whether the process may proceed
+     */
+    private boolean handlePreliminaries(String command, boolean userTriggered) {
+        Preconditions.checkNotNull(command);
+        Preconditions.checkNotNull(outputArea);
+
+        resetMembers();
+
+        this.command = command.trim();
+
+        if (StringUtil.isNull(this.command)) {
+            return false;
+        }
+
+        Logger.log(Logger.Tag.CLIENT, userTriggered
+                ? commandAndArgsToString() : "[SIMULATED INPUT] \"" + this.command + "\"");
+
+        if (checkFoulLanguage()) {
+            println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language is prohibited.");
+            return false;
+        }
+
+
+        // todo check for redirection
+        if (sizeCheck()) {
+            return true;
+        }
+
+        // todo check for size
+
+        parseArgs();
+
+        // check for requested redirection
+        if (args.size() > 1 && getArg(args.size() - 2).equals(">")) {
+            // filename in new command arg system is last arg
+            String filename = getArg(args.size() - 1);
+
+            if (!filename.trim().isEmpty()) {
+                //check for validity of requested filename
+                if (OSUtil.isValidFilename(filename)) {
+                    redirection = true;
+
+                    //acquire sem to ensure file is not being written to
+                    try {
+                        redirectionSem.acquire();
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
+
+                    //create the file name
+                    redirectionFile = OSUtil.buildFile(
+                            DynamicDirectory.DYNAMIC_PATH, "users",
+                            ConsoleFrame.INSTANCE.getUUID(),
+                            UserFile.FILES.getName(), filename);
+
+                    //create file for current use
+                    try {
+                        if (redirectionFile.exists()) {
+                            OSUtil.deleteFile(redirectionFile);
+                        }
+                        redirectionFile.createNewFile();
+                    } catch (Exception ignored) {
+                        redirection = false;
+                        redirectionFile = null;
+                    }
+
+                    //release sem
+                    redirectionSem.release();
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Parses the current command into arguments and a command.
+     */
+    private void parseArgs() {
+        String[] parts = command.split(whiteSpaceRegex);
+        if (parts.length > 1) {
+            Arrays.stream(parts).map(String::trim).toArray(i -> parts);
+
+            args.addAll(Arrays.stream(parts).filter(i -> i != parts[0]).collect(Collectors.toList()));
+
+            command = parts[0];
+        }
+    }
+
+    /**
+     * Checks for whether the provided string contains blocked words.
+     *
+     * @return whether the provided string contains blocked words
+     */
+    private boolean checkFoulLanguage() {
+        return UserUtil.getCyderUser().getFilterchat().equals("1")
+                && StringUtil.containsBlockedWords(command, true);
+    }
+
+    /**
+     * Resets redirection, redirection file, and the arguments array.
+     */
+    private void resetMembers() {
+        redirection = false;
+        redirectionFile = null;
+        args.clear();
+    }
+
+    // todo this should be consolidated with the floor and what not handlers
+    private boolean sizeCheck() {
+        if (command.startsWith("size"))
+            ;
+
+        return false;
     }
 
     //primary sections of handle methods

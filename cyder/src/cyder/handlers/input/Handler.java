@@ -25,9 +25,12 @@ public interface Handler {
     /**
      * Attempts to handle the provided input and returns whether the input was successfully processed.
      *
+     * @param tees          the objects necessary for handling
+     * @param <T>           the type of objects provided for handling
+     * @param userTriggered whether the input was triggered by a user or an artificial source
      * @return whether the input was successfully processed
      */
-    default <T> boolean handle(T[] tees) {
+    default <T> boolean handle(T[] tees, boolean userTriggered) {
         throw new IllegalMethodException("Handle method not implemented");
     }
 
