@@ -5,7 +5,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.ManualTest;
 import cyder.common.GetterBuilder;
-import cyder.common.SliderShape;
 import cyder.common.WidgetDescription;
 import cyder.constants.*;
 import cyder.enums.DynamicDirectory;
@@ -224,31 +223,43 @@ public class InputHandler {
      *
      * @param op            the operation that is being handled
      * @param userTriggered whether the provided op was produced via a user
-     * @throws Exception for numerous reasons such as if the JTextPane is not linked
      */
-    public final void handle(String op, boolean userTriggered) throws Exception {
+    public final void handle(String op, boolean userTriggered) {
+        String handleResult = "FAILED PRELIMINARIES";
+
         if (!handlePreliminaries(op, userTriggered)) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "FAILED PRELIMINARIES");
+            return;
         }
-        //primary checks
-        else if (generalPrintsCheck() || printImageCheck() ||
-                ReflectionUtil.openWidget((commandAndArgsToString()).trim()) ||
-                cyderFrameMovementCheck() || externalOpenerCheck() ||
-                audioCommandCheck() || generalCommandCheck()) {
-            Logger.log(Logger.Tag.HANDLE_METHOD, "PRIMARY HANDLE");
+
+        try {
+            // todo these should be handler sub methods that we simply loop through and attempt to handle
+            // abstract class with base implementations of fail, primary, and final handle
+            if (generalPrintsCheck()
+                    || printImageCheck()
+                    || ReflectionUtil.openWidget((commandAndArgsToString()))
+                    || cyderFrameMovementCheck()
+                    || externalOpenerCheck()
+                    || audioCommandCheck()
+                    || generalCommandCheck()) {
+                handleResult = "Primary handle method succeeded";
+            } else if (isURLCheck(command)
+                    || handleMath(commandAndArgsToString())
+                    || evaluateExpression(commandAndArgsToString())
+                    || preferenceCheck(commandAndArgsToString())
+                    || manualTestCheck(commandAndArgsToString())) {
+                handleResult = "Final handle method succeeded";
+            } else {
+                unknownInput();
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        } finally {
+            Logger.log(Logger.Tag.HANDLE_METHOD, handleResult);
+            //just to be safe...
+            // todo restore new input method
+            ConsoleFrame.INSTANCE.getInputField().setText("");
         }
-        //final checks
-        else if (isURLCheck(command) || handleMath(commandAndArgsToString()) ||
-                evaluateExpression(commandAndArgsToString()) ||
-                preferenceCheck(commandAndArgsToString()) ||
-                manualTestCheck(commandAndArgsToString())) {
-            Logger.log(Logger.Tag.HANDLE_METHOD, "FINAL HANDLE");
-        } else unknownInput();
-
-        //clean up routines --------------------------------------
-
-        //just to be safe...
-        ConsoleFrame.INSTANCE.getInputField().setText("");
     }
 
     //primary sections of handle methods
@@ -369,7 +380,8 @@ public class InputHandler {
         } else if (commandIs("home")) {
             println("There's no place like localhost/127.0.0.1");
         } else if (commandIs("love")) {
-            println("Sorry, " + UserUtil.getCyderUser().getName() + ", but I don't understand human emotions or affections.");
+            println("Sorry, " + UserUtil.getCyderUser().getName() +
+                    ", but I don't understand human emotions or affections.");
         } else if (commandIs("loop")) {
             println("InputHandler.handle(\"loop\", true);");
         } else if (commandIs("story")) {
@@ -378,7 +390,8 @@ public class InputHandler {
                     + " It was at this moment that Cyder knew its day had been ruined.");
         } else if (commandIs("i hate you")) {
             println("That's not very nice.");
-        } else ret = false;
+        } else
+            ret = false;
 
         if (ret)
             Logger.log(Logger.Tag.HANDLE_METHOD, "GENERAL PRINT COMMAND HANDLED");
@@ -420,7 +433,8 @@ public class InputHandler {
                     true, 50, false);
         } else if (commandIs("easter")) {
             println("Easter Sunday is on " + TimeUtil.getEasterSundayString());
-        } else ret = false;
+        } else
+            ret = false;
 
         if (ret) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "PRINT IMAGE COMMAND HANDLED");
@@ -512,7 +526,8 @@ public class InputHandler {
             }
         } else if (commandIs("dance")) {
             ConsoleFrame.INSTANCE.dance();
-        } else ret = false;
+        } else
+            ret = false;
 
         if (ret) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "CYDERFRAME MOVEMENT COMMAND HANDLED");
@@ -577,7 +592,8 @@ public class InputHandler {
             NetworkUtil.openUrl("about:blank");
         } else if (commandIs("github")) {
             NetworkUtil.openUrl(CyderUrls.CYDER_SOURCE);
-        } else ret = false;
+        } else
+            ret = false;
 
         if (ret) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "EXTERNAL OPENER COMMAND HANDLED");
@@ -607,7 +623,8 @@ public class InputHandler {
             IOUtil.playAudio("static/audio/commando.mp3");
         } else if (commandIs("1-800-273-8255") || commandIs("18002738255")) {
             IOUtil.playAudio("static/audio/1800.mp3");
-        } else ret = false;
+        } else
+            ret = false;
 
         if (ret)
             Logger.log(Logger.Tag.HANDLE_METHOD, "AUDIO COMMAND HANDLED");
@@ -1223,7 +1240,7 @@ public class InputHandler {
             opacitySlider.setBounds(0, 0, 300, 50);
             CyderSliderUI UI = new CyderSliderUI(opacitySlider);
             UI.setThumbStroke(new BasicStroke(2.0f));
-            UI.setSliderShape(SliderShape.CIRCLE);
+            UI.setSliderShape(CyderSliderUI.SliderShape.CIRCLE);
             UI.setThumbDiameter(35);
             UI.setFillColor(CyderColors.navy);
             UI.setOutlineColor(CyderColors.vanila);
@@ -1348,7 +1365,8 @@ public class InputHandler {
             SpotlightUtil.wipeSpotlights();
         } else if (commandIs("toast")) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().toast("A toast to you, sir/madam");
-        } else ret = false;
+        } else
+            ret = false;
 
         if (ret) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "GENERAL COMMAND HANDLED");
@@ -1449,8 +1467,10 @@ public class InputHandler {
                     println(Math.sqrt(param1));
                 } else if (mathop.equalsIgnoreCase("convert2")) {
                     println(Integer.toBinaryString((int) (param1)));
-                } else ret = false;
-            } else ret = false;
+                } else
+                    ret = false;
+            } else
+                ret = false;
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
             ret = false;
@@ -1581,7 +1601,8 @@ public class InputHandler {
                             wrapShellCheck();
                         }
                     }
-                } else wrapShellCheck();
+                } else
+                    wrapShellCheck();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -1660,8 +1681,9 @@ public class InputHandler {
     private @Nullable String getArg(int index) {
         if (index + 1 <= args.size() && index >= 0) {
             return args.get(index);
-        } else throw new IllegalArgumentException("Provided index is out of bounds: " + index
-                + ", argument size: " + args.size());
+        } else
+            throw new IllegalArgumentException("Provided index is out of bounds: " + index
+                    + ", argument size: " + args.size());
     }
 
     /**
@@ -1913,7 +1935,8 @@ public class InputHandler {
                             if (line instanceof String) {
                                 StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
                                 document.insertString(document.getLength(), (String) line, null);
-                                outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+                                outputArea.getJTextPane()
+                                        .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
                             } else if (line instanceof JComponent) {
                                 String componentUUID = SecurityUtil.generateUUID();
                                 Style cs = outputArea.getJTextPane().getStyledDocument().addStyle(componentUUID, null);
@@ -1925,7 +1948,8 @@ public class InputHandler {
                             } else {
                                 StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
                                 document.insertString(document.getLength(), String.valueOf(line), null);
-                                outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+                                outputArea.getJTextPane()
+                                        .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
                             }
                         }
                     }
@@ -1942,7 +1966,8 @@ public class InputHandler {
                             if (line instanceof String) {
                                 if (typingAnimationLocal) {
                                     if (finishPrinting) {
-                                        StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
+                                        StyledDocument document =
+                                                (StyledDocument) outputArea.getJTextPane().getDocument();
                                         document.insertString(document.getLength(), (String) line, null);
                                         outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane()
                                                 .getDocument().getLength());
@@ -1959,7 +1984,8 @@ public class InputHandler {
                                 } else {
                                     StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
                                     document.insertString(document.getLength(), (String) line, null);
-                                    outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+                                    outputArea.getJTextPane()
+                                            .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
                                 }
                             } else if (line instanceof JComponent) {
                                 String componentUUID = SecurityUtil.generateUUID();
@@ -1972,7 +1998,8 @@ public class InputHandler {
                             } else {
                                 StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
                                 document.insertString(document.getLength(), String.valueOf(line), null);
-                                outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+                                outputArea.getJTextPane()
+                                        .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
                             }
                         }
                     }
@@ -2145,7 +2172,8 @@ public class InputHandler {
                         continue;
                     }
 
-                    if (value.toString().toLowerCase().contains("icon") || value.toString().toLowerCase().contains("component")) {
+                    if (value.toString().toLowerCase().contains("icon") ||
+                            value.toString().toLowerCase().contains("component")) {
                         removeTwoLines = true;
                     }
                 }

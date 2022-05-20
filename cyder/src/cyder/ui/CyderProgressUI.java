@@ -1,7 +1,6 @@
 package cyder.ui;
 
 import com.google.common.base.Preconditions;
-import cyder.common.AnimationDirection;
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;
 
@@ -288,5 +287,15 @@ public class CyderProgressUI extends BasicProgressBarUI {
      */
     private static double linearlyInterpolate(double value1, double value2, double amt) {
         return ((value2 - value1) * amt) + value1;
+    }
+
+    /**
+     * The direction to animate the colors in.
+     */
+    public enum AnimationDirection {
+        LEFT_TO_RIGHT,
+        RIGHT_TO_LEFT,
+        TOP_TO_BOTTOM,
+        BOTTOM_TO_TOP
     }
 }

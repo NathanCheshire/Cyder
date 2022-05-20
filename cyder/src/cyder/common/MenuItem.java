@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A CyderFrame menu item.
- * This class is essentially a wrapper to associate a label with a possible
+ * This class is a wrapper to associate a label with a possible
  * AtomicBoolean which dictates the state of the menu item.
  * <p>
  * Instances of this class are immutable.

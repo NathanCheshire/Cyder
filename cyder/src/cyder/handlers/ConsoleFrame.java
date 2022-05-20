@@ -488,11 +488,10 @@ public enum ConsoleFrame {
                 inputField.setBorder(null);
             }
 
-            //input field key listeners such as escaping and console rotations
+            // input field listeners
             inputField.addKeyListener(inputFieldKeyAdapter);
             inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                     .put(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), "debuglines");
-
             inputField.getActionMap().put("debuglines", new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -503,16 +502,16 @@ public enum ConsoleFrame {
                     }
                 }
             });
-
             inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                     .put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK), "forcedexit");
-
             inputField.getActionMap().put("forcedexit", new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     OSUtil.exit(ExitCondition.ForcedImmediateExit);
                 }
             });
+            inputField.addKeyListener(commandScrolling);
+            inputField.addMouseWheelListener(fontSizerListener);
 
             //a bodge to update the caret position if it goes before an allowed index for console bash string
             CyderThreadRunner.submit(() -> {
@@ -539,7 +538,6 @@ public enum ConsoleFrame {
 
             inputField.setToolTipText("Input Field");
             inputField.setSelectionColor(CyderColors.selectionColor);
-            inputField.addKeyListener(commandScrolling);
             inputField.setCaretPosition(inputField.getPassword().length);
 
             inputField.setBounds(15, 62 + outputArea.getHeight() + 20, consoleFrameBackgroundWidth - 40,
@@ -547,36 +545,7 @@ public enum ConsoleFrame {
             inputField.setOpaque(false);
             consoleCyderFrame.getContentPane().add(inputField);
             // todo extract out listener
-            inputField.addActionListener(e -> {
-                try {
-                    String op = String.valueOf(inputField.getPassword()).substring(consoleBashString.length())
-                            .trim().replace(consoleBashString, "");
-
-                    if (!StringUtil.isNull(op)) {
-                        // add op unless last thing
-                        if (commandList.isEmpty() || !commandList.get(commandList.size() - 1).equals(op)) {
-                            commandList.add(op);
-                        }
-
-                        commandIndex = commandList.size();
-
-                        //calls to linked InputHandler
-                        if (!inputHandler.getUserInputMode()) {
-                            inputHandler.handle(op, true);
-                        }
-                        //send the operation to handle second if it is awaiting a secondary input
-                        else if (inputHandler.getUserInputMode()) {
-                            inputHandler.setUserInputMode(false);
-                            inputHandler.handleSecond(op);
-                        }
-                    }
-
-                    inputField.setText(consoleBashString);
-                    inputField.setCaretPosition(consoleBashString.length());
-                } catch (Exception ex) {
-                    ExceptionHandler.handle(ex);
-                }
-            });
+            inputField.addActionListener(inputFieldActionListener);
 
             inputField.setCaretColor(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
             inputField.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground())));
@@ -598,7 +567,6 @@ public enum ConsoleFrame {
             }
 
             //font size changers
-            inputField.addMouseWheelListener(fontSizerListener);
             outputArea.addMouseWheelListener(fontSizerListener);
 
             //instantiate enter listener for all buttons
@@ -1316,6 +1284,36 @@ public enum ConsoleFrame {
         menuPane.setCaretPosition(0);
 
     }
+
+    private final ActionListener inputFieldActionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String op = String.valueOf(inputField.getPassword()).substring(consoleBashString.length())
+                    .trim().replace(consoleBashString, "");
+
+            if (!StringUtil.isNull(op)) {
+                // add op unless last thing
+                if (commandList.isEmpty() || !commandList.get(commandList.size() - 1).equals(op)) {
+                    commandList.add(op);
+                }
+
+                commandIndex = commandList.size();
+
+                //calls to linked InputHandler
+                if (!inputHandler.getUserInputMode()) {
+                    inputHandler.handle(op, true);
+                }
+                //send the operation to handle second if it is awaiting a secondary input
+                else if (inputHandler.getUserInputMode()) {
+                    inputHandler.setUserInputMode(false);
+                    inputHandler.handleSecond(op);
+                }
+            }
+
+            inputField.setText(consoleBashString);
+            inputField.setCaretPosition(consoleBashString.length());
+        }
+    };
 
     /**
      * Revalidates the taskbar bounds and revalidates the icons.

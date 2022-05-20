@@ -2,9 +2,7 @@ package cyder.test;
 
 import cyder.annotations.ManualTest;
 import cyder.annotations.SuppressCyderInspections;
-import cyder.common.AnimationDirection;
 import cyder.common.NotificationBuilder;
-import cyder.common.SliderShape;
 import cyder.common.SwitcherState;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -439,7 +437,7 @@ public class ManualTests {
         jpb.setBounds(40, 40, 320, 20);
         jpb.setOrientation(SwingConstants.HORIZONTAL);
         CyderProgressUI ui = new CyderProgressUI();
-        ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
+        ui.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
         ui.setColors(CyderColors.regularBlue, CyderColors.regularPink);
         jpb.setUI(ui);
         jpb.setValue(50);
@@ -478,7 +476,7 @@ public class ManualTests {
         JSlider audioVolumeSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 100, 50);
         CyderSliderUI UI = new CyderSliderUI(audioVolumeSlider);
         UI.setThumbDiameter(25);
-        UI.setSliderShape(SliderShape.CIRCLE);
+        UI.setSliderShape(CyderSliderUI.SliderShape.CIRCLE);
         UI.setFillColor(CyderColors.regularPink);
         UI.setOutlineColor(CyderColors.regularPink);
         UI.setNewValColor(CyderColors.navy);

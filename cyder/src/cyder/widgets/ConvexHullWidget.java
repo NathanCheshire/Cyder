@@ -4,7 +4,6 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.common.GridNode;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -85,7 +84,7 @@ public class ConvexHullWidget {
         LinkedList<Point> points = new LinkedList<>();
 
         // get all grid nodes that the user placed
-        for (GridNode gn : gridComponent.getGridNodes()) {
+        for (CyderGrid.GridNode gn : gridComponent.getGridNodes()) {
             points.add(new Point(gn.getX(), gn.getY()));
         }
 
@@ -113,16 +112,16 @@ public class ConvexHullWidget {
             addMidPoints(p0, p1);
         }
 
-        GridNode upperLeft = new GridNode(CyderColors.navy, 0, 0);
-        GridNode upperRight = new GridNode(CyderColors.navy, 0,
+        CyderGrid.GridNode upperLeft = new CyderGrid.GridNode(CyderColors.navy, 0, 0);
+        CyderGrid.GridNode upperRight = new CyderGrid.GridNode(CyderColors.navy, 0,
                 gridComponent.getNodeDimensionLength() - 1);
-        GridNode bottomLeft = new GridNode(CyderColors.navy,
+        CyderGrid.GridNode bottomLeft = new CyderGrid.GridNode(CyderColors.navy,
                 gridComponent.getNodeDimensionLength() - 1, 0);
-        GridNode bottomRight = new GridNode(CyderColors.navy,
+        CyderGrid.GridNode bottomRight = new CyderGrid.GridNode(CyderColors.navy,
                 gridComponent.getNodeDimensionLength() - 1,
                 gridComponent.getNodeDimensionLength() - 1);
 
-        LinkedList<GridNode> cornerNodes = new LinkedList<>();
+        LinkedList<CyderGrid.GridNode> cornerNodes = new LinkedList<>();
 
         cornerNodes.add(upperLeft);
         cornerNodes.add(upperRight);
@@ -158,7 +157,7 @@ public class ConvexHullWidget {
             return;
         }
 
-        GridNode add = new GridNode(CyderColors.navy, midPointX, midPointY);
+        CyderGrid.GridNode add = new CyderGrid.GridNode(CyderColors.navy, midPointX, midPointY);
         if (gridComponent.contains(add)) {
             gridComponent.removeNode(add);
         }

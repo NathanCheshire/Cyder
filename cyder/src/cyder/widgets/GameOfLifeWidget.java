@@ -8,8 +8,6 @@ import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.common.GetterBuilder;
-import cyder.common.GridNode;
-import cyder.common.SliderShape;
 import cyder.common.SwitcherState;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
@@ -169,12 +167,12 @@ public class GameOfLifeWidget {
     /**
      * The state the grid was in before the user last pressed start.
      */
-    private static LinkedList<GridNode> beforeStartingState;
+    private static LinkedList<CyderGrid.GridNode> beforeStartingState;
 
     /**
      * The last state of the grid.
      */
-    private static LinkedList<GridNode> lastState = new LinkedList<>();
+    private static LinkedList<CyderGrid.GridNode> lastState = new LinkedList<>();
 
     /**
      * The conway states laoded from static/json/conway.
@@ -283,7 +281,7 @@ public class GameOfLifeWidget {
                     beforeStartingState = new LinkedList<>();
 
                     for (Point point : correspondingConwayStates.get(i).getNodes()) {
-                        beforeStartingState.add(new GridNode((int) point.getX(), (int) point.getY()));
+                        beforeStartingState.add(new CyderGrid.GridNode((int) point.getX(), (int) point.getY()));
                     }
 
                     conwayFrame.notify("Loaded state: " + correspondingConwayStates.get(i).getName());
@@ -360,7 +358,7 @@ public class GameOfLifeWidget {
                 MAX_ITERATIONS_PER_SECOND, DEFAULT_ITERATIONS_PER_SECOND);
         CyderSliderUI UI = new CyderSliderUI(iterationsPerSecondSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
-        UI.setSliderShape(SliderShape.RECT);
+        UI.setSliderShape(CyderSliderUI.SliderShape.RECT);
         UI.setFillColor(Color.black);
         UI.setOutlineColor(CyderColors.navy);
         UI.setNewValColor(CyderColors.regularBlue);
@@ -468,14 +466,14 @@ public class GameOfLifeWidget {
         CyderThreadRunner.submit(() -> {
             while (simulationRunning) {
                 try {
-                    LinkedList<GridNode> nextState = new LinkedList<>();
+                    LinkedList<CyderGrid.GridNode> nextState = new LinkedList<>();
 
                     int[][] nextGen = nextGeneration(cyderGridToConwayGrid(
                             conwayGrid.getGridNodes(), conwayGrid.getNodeDimensionLength()));
                     for (int i = 0 ; i < nextGen.length ; i++) {
                         for (int j = 0 ; j < nextGen[0].length ; j++) {
                             if (nextGen[i][j] == 1) {
-                                nextState.add(new GridNode(i, j));
+                                nextState.add(new CyderGrid.GridNode(i, j));
                             }
                         }
                     }
@@ -547,7 +545,7 @@ public class GameOfLifeWidget {
             conwayGrid.setNodeDimensionLength(loadState.getGridSize());
 
             for (Point p : loadState.getNodes()) {
-                conwayGrid.addNode(new GridNode((int) p.getX(), (int) p.getY()));
+                conwayGrid.addNode(new CyderGrid.GridNode((int) p.getX(), (int) p.getY()));
             }
 
             conwayFrame.notify("Loaded state: " + loadState.getName());
@@ -588,7 +586,7 @@ public class GameOfLifeWidget {
 
                 LinkedList<Point> points = new LinkedList<>();
 
-                for (GridNode node : conwayGrid.getGridNodes()) {
+                for (CyderGrid.GridNode node : conwayGrid.getGridNodes()) {
                     points.add(new Point(node.getX(), node.getY()));
                 }
 
@@ -617,10 +615,10 @@ public class GameOfLifeWidget {
      * @param len   the dimensional length of the grid
      * @return the 2D array consisting of 1s and 0s
      */
-    private static int[][] cyderGridToConwayGrid(LinkedList<GridNode> nodes, int len) {
+    private static int[][] cyderGridToConwayGrid(LinkedList<CyderGrid.GridNode> nodes, int len) {
         int[][] ret = new int[len][len];
 
-        for (GridNode node : nodes) {
+        for (CyderGrid.GridNode node : nodes) {
             ret[node.getX()][node.getY()] = 1;
         }
 

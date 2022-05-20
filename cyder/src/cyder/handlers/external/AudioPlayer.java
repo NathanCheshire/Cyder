@@ -4,10 +4,8 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.common.AnimationDirection;
 import cyder.common.GetterBuilder;
 import cyder.common.NotificationBuilder;
-import cyder.common.SliderShape;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -658,7 +656,7 @@ public class AudioPlayer {
         audioPlayerFrame.getContentPane().add(audioProgressBar);
 
         audioProgressBarUi = new CyderProgressUI();
-        audioProgressBarUi.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
+        audioProgressBarUi.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
         audioProgressBarUi.setColors(CyderColors.regularPink, CyderColors.notificationForegroundColor);
         audioProgressBar.setUI(audioProgressBarUi);
 
@@ -692,7 +690,7 @@ public class AudioPlayer {
         audioLocationUpdator = new AudioLocationUpdator(audioProgressLabel, audioProgressBar);
 
         audioVolumeSliderUi.setThumbStroke(new BasicStroke(2.0f));
-        audioVolumeSliderUi.setSliderShape(SliderShape.CIRCLE);
+        audioVolumeSliderUi.setSliderShape(CyderSliderUI.SliderShape.CIRCLE);
         audioVolumeSliderUi.setThumbDiameter(25);
         audioVolumeSliderUi.setFillColor(CyderColors.vanila);
         audioVolumeSliderUi.setOutlineColor(CyderColors.vanila);

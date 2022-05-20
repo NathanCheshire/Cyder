@@ -1,6 +1,5 @@
 package cyder.utilities;
 
-import cyder.common.BoundsString;
 import cyder.common.GetterBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -92,7 +91,7 @@ public class GetterUtil {
                 int height = GET_STRING_MIN_HEIGHT;
                 int width = GET_STRING_MIN_WIDTH;
 
-                BoundsString bounds = null;
+                BoundsUtil.BoundsString bounds = null;
 
                 if (!StringUtil.isNull(builder.getLabelText())) {
                     bounds = BoundsUtil.widthHeightCalculation(builder.getLabelText(),
@@ -571,7 +570,8 @@ public class GetterUtil {
             try {
                 CyderLabel textLabel = new CyderLabel();
 
-                BoundsString bs = BoundsUtil.widthHeightCalculation(builder.getInitialString(), textLabel.getFont());
+                BoundsUtil.BoundsString bs =
+                        BoundsUtil.widthHeightCalculation(builder.getInitialString(), textLabel.getFont());
                 int w = bs.getWidth();
                 int h = bs.getHeight();
                 textLabel.setText(bs.getText());

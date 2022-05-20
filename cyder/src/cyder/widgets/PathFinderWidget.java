@@ -3,8 +3,6 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.common.GridNode;
-import cyder.common.SliderShape;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
@@ -474,7 +472,7 @@ public class PathFinderWidget {
                 MAX_SLIDER_VALUE, DEFAULT_SLIDER_VALUE);
         CyderSliderUI UI = new CyderSliderUI(speedSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
-        UI.setSliderShape(SliderShape.RECT);
+        UI.setSliderShape(CyderSliderUI.SliderShape.RECT);
         UI.setFillColor(Color.black);
         UI.setOutlineColor(CyderColors.navy);
         UI.setNewValColor(CyderColors.regularBlue);
@@ -515,15 +513,15 @@ public class PathFinderWidget {
         removePathingNodes();
 
         // find walls that we cannot path through
-        LinkedList<GridNode> walls = pathfindingGrid.getNodesOfColor(wallsColor);
+        LinkedList<CyderGrid.GridNode> walls = pathfindingGrid.getNodesOfColor(wallsColor);
 
         // get goal node and convert to path node
-        GridNode gridGoal = pathfindingGrid.getNodesOfColor(goalNodeColor).get(0);
+        CyderGrid.GridNode gridGoal = pathfindingGrid.getNodesOfColor(goalNodeColor).get(0);
         goalNode = new PathNode(gridGoal.getX(), gridGoal.getY());
         goalNode.setParent(null);
 
         // get start node and convert to path node
-        GridNode gridStart = pathfindingGrid.getNodesOfColor(startNodeColor).get(0);
+        CyderGrid.GridNode gridStart = pathfindingGrid.getNodesOfColor(startNodeColor).get(0);
         startNode = new PathNode(gridStart.getX(), gridStart.getY());
         startNode.setParent(null);
 
@@ -531,7 +529,7 @@ public class PathFinderWidget {
         pathableNodes.clear();
         for (int x = 0 ; x < pathfindingGrid.getNodeDimensionLength() ; x++) {
             for (int y = 0 ; y < pathfindingGrid.getNodeDimensionLength() ; y++) {
-                GridNode node = new GridNode(x, y);
+                CyderGrid.GridNode node = new CyderGrid.GridNode(x, y);
 
                 // skip walls
                 if (walls.contains(node))
@@ -646,9 +644,9 @@ public class PathFinderWidget {
                     continue;
 
                 if (openNodes.contains(pathNode)) {
-                    lockingAddNode(new GridNode(pathableOpenColor, pathNode.getX(), pathNode.getY()));
+                    lockingAddNode(new CyderGrid.GridNode(pathableOpenColor, pathNode.getX(), pathNode.getY()));
                 } else if (pathNode.getParent() != null) {
-                    lockingAddNode(new GridNode(pathableClosedColor, pathNode.getX(), pathNode.getY()));
+                    lockingAddNode(new CyderGrid.GridNode(pathableClosedColor, pathNode.getX(), pathNode.getY()));
                 }
             }
         } else
@@ -729,9 +727,9 @@ public class PathFinderWidget {
                         if (killed)
                             return;
 
-                        GridNode updateNode = null;
+                        CyderGrid.GridNode updateNode = null;
 
-                        for (GridNode node : pathfindingGrid.getGridNodes()) {
+                        for (CyderGrid.GridNode node : pathfindingGrid.getGridNodes()) {
                             if (killed)
                                 return;
 
@@ -744,7 +742,8 @@ public class PathFinderWidget {
 
                         if (updateNode.getColor().equals(PATH_ANIMATION_COLOR)
                                 || updateNode.getColor().equals(pathableClosedColor)) {
-                            lockingAddNode(new GridNode(PATH_ANIMATION_COLOR, updateNode.getX(), updateNode.getY()));
+                            lockingAddNode(
+                                    new CyderGrid.GridNode(PATH_ANIMATION_COLOR, updateNode.getX(), updateNode.getY()));
                             lockingRepaintGrid();
                             Thread.sleep(PATH_TRICLE_TIMEOUT);
                         }
@@ -756,11 +755,11 @@ public class PathFinderWidget {
                             if (killed)
                                 return;
 
-                            Optional<GridNode> overridePoint = pathfindingGrid.getNodeAtPoint(p);
+                            Optional<CyderGrid.GridNode> overridePoint = pathfindingGrid.getNodeAtPoint(p);
                             if (overridePoint.isPresent()
                                     && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
                                     || overridePoint.get().getColor().equals(PATH_COLOR))) {
-                                lockingAddNode(new GridNode(PATH_COLOR, (int) p.getX(), (int) p.getY()));
+                                lockingAddNode(new CyderGrid.GridNode(PATH_COLOR, (int) p.getX(), (int) p.getY()));
                                 lockingRepaintGrid();
                             }
 
@@ -776,7 +775,8 @@ public class PathFinderWidget {
                             if (overridePoint.isPresent()
                                     && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
                                     || overridePoint.get().getColor().equals(PATH_COLOR))) {
-                                lockingAddNode(new GridNode(PATH_ANIMATION_COLOR, (int) p.getX(), (int) p.getY()));
+                                lockingAddNode(
+                                        new CyderGrid.GridNode(PATH_ANIMATION_COLOR, (int) p.getX(), (int) p.getY()));
                                 lockingRepaintGrid();
                             }
                         }
@@ -789,11 +789,12 @@ public class PathFinderWidget {
                             if (killed)
                                 return;
 
-                            Optional<GridNode> overridePoint = pathfindingGrid.getNodeAtPoint(pathPoints.get(i));
+                            Optional<CyderGrid.GridNode> overridePoint =
+                                    pathfindingGrid.getNodeAtPoint(pathPoints.get(i));
                             if (overridePoint.isPresent()
                                     && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
                                     || overridePoint.get().getColor().equals(PATH_COLOR))) {
-                                lockingAddNode(new GridNode(PATH_COLOR,
+                                lockingAddNode(new CyderGrid.GridNode(PATH_COLOR,
                                         (int) pathPoints.get(i).getX(),
                                         (int) pathPoints.get(i).getY()));
                                 lockingRepaintGrid();
@@ -811,7 +812,7 @@ public class PathFinderWidget {
                             if (overridePoint.isPresent()
                                     && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
                                     || overridePoint.get().getColor().equals(PATH_COLOR))) {
-                                lockingAddNode(new GridNode(PATH_ANIMATION_COLOR,
+                                lockingAddNode(new CyderGrid.GridNode(PATH_ANIMATION_COLOR,
                                         (int) pathPoints.get(i).getX(),
                                         (int) pathPoints.get(i).getY()));
                                 lockingRepaintGrid();
@@ -960,8 +961,8 @@ public class PathFinderWidget {
         startNode = new PathNode(DEFAULT_START_POINT);
         goalNode = new PathNode(DEFAULT_GOAL_POINT);
 
-        lockingAddNode(new GridNode(startNodeColor, startNode.getX(), startNode.getY()));
-        lockingAddNode(new GridNode(goalNodeColor, goalNode.getX(), goalNode.getY()));
+        lockingAddNode(new CyderGrid.GridNode(startNodeColor, startNode.getX(), startNode.getY()));
+        lockingAddNode(new CyderGrid.GridNode(goalNodeColor, goalNode.getX(), goalNode.getY()));
     }
 
     /**
@@ -1047,7 +1048,7 @@ public class PathFinderWidget {
      *
      * @param node the node to add to the grid
      */
-    private static void lockingAddNode(GridNode node) {
+    private static void lockingAddNode(CyderGrid.GridNode node) {
         try {
             semaphore.acquire();
         } catch (Exception e) {

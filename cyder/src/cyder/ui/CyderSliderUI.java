@@ -1,6 +1,5 @@
 package cyder.ui;
 
-import cyder.common.SliderShape;
 import cyder.handlers.internal.Logger;
 
 import javax.swing.*;
@@ -315,5 +314,28 @@ public class CyderSliderUI extends BasicSliderUI {
                 slider.setValue(valueForXPosition(thumbMiddle));
             }
         }
+    }
+
+    /**
+     * Possible slider shapes for a CyderSlider.
+     */
+    public enum SliderShape {
+        /**
+         * A classic filled circle.
+         */
+        CIRCLE,
+        /**
+         * A rectangle
+         */
+        RECT,
+        /**
+         * A circle that isn't filled in, you can see where the track splits colors
+         * if old value is different from new value.
+         */
+        HOLLOW_CIRCLE,
+        /**
+         * Why though.
+         */
+        NONE
     }
 }

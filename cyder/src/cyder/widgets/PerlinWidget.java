@@ -3,8 +3,6 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.common.GridNode;
-import cyder.common.SliderShape;
 import cyder.common.SwitcherState;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
@@ -139,7 +137,7 @@ public class PerlinWidget {
     /**
      * The node array to store the open simplex noise.
      */
-    private static GridNode[][] _3DNoise;
+    private static CyderGrid.GridNode[][] _3DNoise;
 
     /**
      * The array to store the perlin noise.
@@ -189,13 +187,13 @@ public class PerlinWidget {
 
         //init with random
         _2DNoise = new float[resolution];
-        _3DNoise = new GridNode[resolution][resolution];
+        _3DNoise = new CyderGrid.GridNode[resolution][resolution];
 
         timeStep = 0;
 
         for (int x = 0 ; x < resolution ; x++) {
             for (int y = 0 ; y < resolution ; y++) {
-                _3DNoise[x][y] = new GridNode(x, y);
+                _3DNoise[x][y] = new CyderGrid.GridNode(x, y);
             }
         }
 
@@ -361,7 +359,7 @@ public class PerlinWidget {
         speedSlider = new JSlider(JSlider.HORIZONTAL, speedsliderMinValue, speedSliderMaxValue, speedSliderValue);
         CyderSliderUI UI = new CyderSliderUI(speedSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
-        UI.setSliderShape(SliderShape.RECT);
+        UI.setSliderShape(CyderSliderUI.SliderShape.RECT);
         UI.setFillColor(Color.black);
         UI.setOutlineColor(CyderColors.navy);
         UI.setNewValColor(CyderColors.regularBlue);
@@ -386,7 +384,7 @@ public class PerlinWidget {
         featureSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 500);
         CyderSliderUI UI2 = new CyderSliderUI(featureSlider);
         UI2.setThumbStroke(new BasicStroke(2.0f));
-        UI2.setSliderShape(SliderShape.RECT);
+        UI2.setSliderShape(CyderSliderUI.SliderShape.RECT);
         UI2.setFillColor(Color.black);
         UI2.setOutlineColor(CyderColors.navy);
         UI2.setNewValColor(CyderColors.regularBlue);

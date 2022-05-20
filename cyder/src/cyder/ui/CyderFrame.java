@@ -1,8 +1,10 @@
 package cyder.ui;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import cyder.common.GetterBuilder;
 import cyder.common.MenuItem;
-import cyder.common.*;
+import cyder.common.NotificationBuilder;
+import cyder.common.NotificationType;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -1052,7 +1054,7 @@ public class CyderFrame extends JFrame {
             // ensure invisible to start
 
             // generate label for notification
-            BoundsString bs = BoundsUtil.widthHeightCalculation(
+            BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(
                     currentBuilder.getHtmlText(),
                     CyderFonts.notificationFont, (int) Math.ceil(width * 0.8));
             int notificationWidth = bs.getWidth();

@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+// todo this should actually be inside of audio player.java
+
 /**
  * The audio progress bar used for the audio player.
  */

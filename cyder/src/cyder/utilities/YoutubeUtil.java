@@ -2,7 +2,6 @@ package cyder.utilities;
 
 import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
-import cyder.common.AnimationDirection;
 import cyder.constants.*;
 import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
@@ -103,7 +102,7 @@ public class YoutubeUtil {
                     CyderProgressBar audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
 
                     ui.setColors(CyderColors.regularPink, CyderColors.regularBlue);
-                    ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
+                    ui.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
                     audioProgress.setUI(ui);
                     audioProgress.setMinimum(0);
                     audioProgress.setMaximum(10000);
