@@ -1,4 +1,4 @@
-package cyder.handlers.internal;
+package cyder.handlers.input;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import com.google.common.base.Preconditions;
@@ -12,6 +12,10 @@ import cyder.enums.ExitCondition;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
+import cyder.handlers.internal.ScreenPosition;
+import cyder.handlers.internal.Suggestion;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.MasterYoutubeThread;
@@ -95,7 +99,12 @@ public class InputHandler {
     private ArrayList<String> args;
 
     /**
-     * Private constructor to avoid incorrect instantiation.
+     * The regex used to match 1-n whitespace.
+     */
+    private final String whiteSpaceRegex = "\\s+";
+
+    /**
+     * Suppress default constructor.
      */
     private InputHandler() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
@@ -104,15 +113,12 @@ public class InputHandler {
     /**
      * Default constructor with required JTextPane.
      *
-     * @param outputArea the JTextPane to output pictures/components/text/etc. to
+     * @param outputArea the JTextPane to output to
      */
     public InputHandler(JTextPane outputArea) {
-        // link JTextPane
+        Preconditions.checkNotNull(outputArea);
         this.outputArea = new CyderOutputPane(outputArea);
 
-        //init other JTextPane objects such as Threads
-
-        //printing threads initialization with JTextPane and sem -------------------
         MasterYoutubeThread.initialize(outputArea, makePrintingThreadsafeAgain);
         BletchyThread.initialize(outputArea, makePrintingThreadsafeAgain);
 
@@ -128,44 +134,30 @@ public class InputHandler {
      * @return whether the process may proceed
      */
     private boolean handlePreliminaries(String command, boolean userTriggered) {
-        //check for null link (should be impossible)
-        if (outputArea == null)
-            throw new IllegalStateException("Output area not set. " + CyderStrings.europeanToymaker);
+        Preconditions.checkNotNull(command);
+        Preconditions.checkNotNull(outputArea);
 
-        //if empty string don't do anything
-        if (StringUtil.isNull(command))
+        resetMembers();
+
+        this.command = command.trim();
+
+        if (StringUtil.isNull(this.command)) {
             return false;
-
-        //reset redirection now since we have a new command
-        redirection = false;
-        redirectionFile = null;
-
-        //trim command
-        command = command.trim();
-        this.command = command;
-
-        //reset args
-        args = new ArrayList<>();
-
-        //set args ArrayList
-        if (command.contains(" ")) {
-            String[] arrArgs = command.split(" ");
-            this.command = arrArgs[0];
-
-            //add all that have length greater than 0 after trimming
-            // and that are not the first since that is "command"
-            for (int i = 1 ; i < arrArgs.length ; i++) {
-                if (!arrArgs[i].trim().isEmpty()) {
-                    args.add(arrArgs[i].trim());
-                }
-            }
         }
 
-        //log input as user triggered or simulated client input
-        if (userTriggered) {
-            Logger.log(Logger.Tag.CLIENT, commandAndArgsToString());
-        } else {
-            Logger.log(Logger.Tag.CLIENT, "[SIMULATED INPUT] " + this.command);
+        Logger.log(Logger.Tag.CLIENT, userTriggered
+                ? commandAndArgsToString() : "[SIMULATED INPUT] " + this.command);
+
+        if (this.command.matches(whiteSpaceRegex)) {
+            String[] parts = this.command.split(whiteSpaceRegex);
+            Arrays.stream(parts).map(String::trim).toArray(scheibe -> parts);
+
+            this.command = parts[0];
+        }
+
+        // todo redirection and size and other stuff checks
+        synchronized (this) {
+
         }
 
         // check for requested redirection
@@ -209,13 +201,24 @@ public class InputHandler {
         }
 
         //check for bad language if filterchat
-        if (UserUtil.getCyderUser().getFilterchat().equals("1")
-                && StringUtil.containsBlockedWords(this.command, true)) {
+        if (checkFoulLanguage()) {
             println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language is prohibited.");
             return false;
         }
 
         return true;
+    }
+
+    private boolean checkFoulLanguage() {
+        return UserUtil.getCyderUser().getFilterchat().equals("1")
+                && StringUtil.containsBlockedWords(command, true);
+    }
+
+    private void resetMembers() {
+        redirection = false;
+        redirectionFile = null;
+
+        args = new ArrayList<>();
     }
 
     /**

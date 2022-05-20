@@ -14,6 +14,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.CyderToggles;
 import cyder.handlers.external.AudioPlayer;
+import cyder.handlers.input.InputHandler;
 import cyder.handlers.internal.*;
 import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;

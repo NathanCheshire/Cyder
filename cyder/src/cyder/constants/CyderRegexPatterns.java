@@ -117,4 +117,9 @@ public final class CyderRegexPatterns {
                     "|www\\.)?[-A-Z0-9+&#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$]\\." +
                     "[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$]",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+
+    /**
+     * The pattern used to detect one or more whitespace characters.
+     */
+    public static final Pattern whiteSpace = Pattern.compile("\\s+");
 }

@@ -8,8 +8,8 @@ import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.Cyder;
+import cyder.handlers.input.InputHandler;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.InputHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 

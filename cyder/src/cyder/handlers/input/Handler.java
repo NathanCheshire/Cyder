@@ -1,6 +1,7 @@
-package cyder.handlers.internal;
+package cyder.handlers.input;
 
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.Logger;
 
 /**
  * A handler that takes care and handles all pieces of some Cyder operation.
@@ -10,10 +11,6 @@ public interface Handler {
      * The types of handlers.
      */
     enum Type {
-        /**
-         * An input was checked and determined to not be valid.
-         */
-        FAIL,
         /**
          * An common input was handled properly.
          */
@@ -40,6 +37,22 @@ public interface Handler {
      * @return the type for this handle method
      */
     default Type getType() {
-        return Type.FAIL;
+        return Type.PRIMARY;
+    }
+
+    /**
+     * Returns the log message for this handler.
+     *
+     * @return the log message for this handler
+     */
+    default String getLogMessage() {
+        return "Primary handler succeeded";
+    }
+
+    /**
+     * Logs a handle action of this handler.
+     */
+    default void logSelfHandle() {
+        Logger.log(Logger.Tag.HANDLE_METHOD, getLogMessage());
     }
 }
