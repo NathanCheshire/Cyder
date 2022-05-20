@@ -198,55 +198,9 @@ public class InputHandler {
             return false;
         }
 
-
-        // todo check for redirection
-        if (sizeCheck()) {
-            return true;
-        }
-
-        // todo check for size
-
         parseArgs();
 
-        // check for requested redirection
-        if (args.size() > 1 && getArg(args.size() - 2).equals(">")) {
-            // filename in new command arg system is last arg
-            String filename = getArg(args.size() - 1);
-
-            if (!filename.trim().isEmpty()) {
-                //check for validity of requested filename
-                if (OSUtil.isValidFilename(filename)) {
-                    redirection = true;
-
-                    //acquire sem to ensure file is not being written to
-                    try {
-                        redirectionSem.acquire();
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-
-                    //create the file name
-                    redirectionFile = OSUtil.buildFile(
-                            DynamicDirectory.DYNAMIC_PATH, "users",
-                            ConsoleFrame.INSTANCE.getUUID(),
-                            UserFile.FILES.getName(), filename);
-
-                    //create file for current use
-                    try {
-                        if (redirectionFile.exists()) {
-                            OSUtil.deleteFile(redirectionFile);
-                        }
-                        redirectionFile.createNewFile();
-                    } catch (Exception ignored) {
-                        redirection = false;
-                        redirectionFile = null;
-                    }
-
-                    //release sem
-                    redirectionSem.release();
-                }
-            }
-        }
+        redirectionCheck();
 
         return true;
     }
@@ -284,16 +238,47 @@ public class InputHandler {
         args.clear();
     }
 
-    // todo this should be consolidated with the floor and what not handlers
-    private boolean sizeCheck() {
-        if (command.startsWith("size"))
-            ;
+    /**
+     * Checks for a requested redirection and attempts to create the file if valid.
+     */
+    private void redirectionCheck() {
+        if (args.size() <= 2)
+            return;
+        if (!args.get(args.size() - 2).equalsIgnoreCase(">"))
+            return;
 
-        return false;
+        String requestedFilename = args.get(args.size() - 1);
+
+        if (!OSUtil.isValidFilename(requestedFilename)) {
+            // todo print invalid filename
+            return;
+        }
+
+        redirection = true;
+
+        try {
+            redirectionSem.acquire();
+
+            redirectionFile = OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH, "users",
+                    ConsoleFrame.INSTANCE.getUUID(),
+                    UserFile.FILES.getName(), requestedFilename);
+
+            if (redirectionFile.exists())
+                OSUtil.deleteFile(redirectionFile);
+
+            OSUtil.createFile(redirectionFile);
+        } catch (Exception ignored) {
+            redirection = false;
+            redirectionFile = null;
+
+            // todo print couldn't redirect this input
+        } finally {
+            redirectionSem.release();
+        }
     }
 
-    //primary sections of handle methods
-
+    // todo sep handle clsses
     private boolean generalPrintsCheck() {
         boolean ret = true;
 
