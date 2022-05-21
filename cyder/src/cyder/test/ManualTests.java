@@ -11,6 +11,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformBuilder;
 import cyder.handlers.internal.InformHandler;
@@ -51,7 +52,7 @@ public class ManualTests {
                 //                        ConsoleFrame.INSTANCE.getUUID(),
                 //                        UserFile.MUSIC.getName()).listFiles()[0]);
 
-                // ConsoleFrame.INSTANCE.toLoginFrame();
+                ConsoleFrame.INSTANCE.toLoginFrame();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

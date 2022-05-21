@@ -14,7 +14,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.CyderToggles;
 import cyder.handlers.external.AudioPlayer;
-import cyder.handlers.input.InputHandler;
+import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.*;
 import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
@@ -87,7 +87,7 @@ public enum ConsoleFrame {
     /**
      * The input handler linked to the ConsoleFrame's IO.
      */
-    private InputHandler inputHandler;
+    private BaseInputHandler baseInputHandler;
 
     /**
      * The ConsoleFrame output scroll pane.
@@ -371,7 +371,6 @@ public enum ConsoleFrame {
                 }
             });
 
-            //we should always be using controlled exits so this is why we use DO_NOTHING_ON_CLOSE
             consoleCyderFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
             consoleCyderFrame.setPaintWindowTitle(false);
@@ -379,26 +378,13 @@ public enum ConsoleFrame {
             consoleCyderFrame.setTitle(CyderToggles.VERSION +
                     " Cyder [" + UserUtil.getCyderUser().getName() + "]");
 
-            // ConsoleFrame resizing
-            consoleCyderFrame.initializeResizing();
-            consoleCyderFrame.setResizable(true);
-
-            consoleCyderFrame.setBackgroundResizing(true);
-
-            consoleCyderFrame.setMinimumSize(MINIMUM_SIZE);
-            consoleCyderFrame.setMaximumSize(new Dimension(consoleFrameBackgroundWidth,
-                    consoleFrameBackgroundHeight));
+            installResizing(consoleFrameBackgroundWidth, consoleFrameBackgroundHeight);
 
             //set contentpane tooltip
             ((JLabel) (consoleCyderFrame.getContentPane())).setToolTipText(
                     FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
 
             outputArea = new JTextPane() {
-                @Override
-                public String toString() {
-                    return "JTextPane outputArea used for ConsoleFrame instance: " + consoleCyderFrame;
-                }
-
                 @Override
                 public void setBounds(int x, int y, int w, int h) {
                     StyledDocument sd = outputArea.getStyledDocument();
@@ -443,10 +429,10 @@ public enum ConsoleFrame {
             outputArea.setFont(INSTANCE.generateUserFont());
 
             //init input handler
-            inputHandler = new InputHandler(outputArea);
+            baseInputHandler = new BaseInputHandler(outputArea);
 
             //start printing queue for input handler
-            inputHandler.startConsolePrintingAnimation();
+            baseInputHandler.startConsolePrintingAnimation();
 
             outputScroll = new CyderScrollPane(outputArea,
                     ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED,
@@ -474,7 +460,8 @@ public enum ConsoleFrame {
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
             }
 
-            outputScroll.setBounds(15, 62, consoleCyderFrame.getWidth() - 40, getBackgroundHeight() - 204);
+            outputScroll.setBounds(15, 62,
+                    consoleCyderFrame.getWidth() - 40, getBackgroundHeight() - 204);
             consoleCyderFrame.getContentPane().add(outputScroll);
 
             //output area settings complete; starting input field
@@ -489,30 +476,7 @@ public enum ConsoleFrame {
                 inputField.setBorder(null);
             }
 
-            // input field listeners
-            inputField.addKeyListener(inputFieldKeyAdapter);
-            inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                    .put(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), "debuglines");
-            inputField.getActionMap().put("debuglines", new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    boolean drawLines = !consoleCyderFrame.isDrawDebugLines();
-
-                    for (CyderFrame frame : FrameUtil.getCyderFrames()) {
-                        frame.drawDebugLines(drawLines);
-                    }
-                }
-            });
-            inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                    .put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK), "forcedexit");
-            inputField.getActionMap().put("forcedexit", new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    OSUtil.exit(ExitCondition.ForcedImmediateExit);
-                }
-            });
-            inputField.addKeyListener(commandScrolling);
-            inputField.addMouseWheelListener(fontSizerListener);
+            installInputFieldListeners();
 
             //a bodge to update the caret position if it goes before an allowed index for console bash string
             CyderThreadRunner.submit(() -> {
@@ -545,8 +509,6 @@ public enum ConsoleFrame {
                     consoleFrameBackgroundHeight - (62 + outputArea.getHeight() + 20 + 20));
             inputField.setOpaque(false);
             consoleCyderFrame.getContentPane().add(inputField);
-            // todo extract out listener
-            inputField.addActionListener(inputFieldActionListener);
 
             inputField.setCaretColor(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
             inputField.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground())));
@@ -582,7 +544,7 @@ public enum ConsoleFrame {
             helpButton = new CyderIconButton("Help", CyderIcons.helpIcon, CyderIcons.helpIconHover);
             helpButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
                 //print tests in case the user was trying to invoke one
-                inputHandler.printManualTests();
+                baseInputHandler.printManualTests();
 
                 CyderButton suggestionButton = new CyderButton("    Make a Suggestion   ");
                 suggestionButton.setColors(CyderColors.regularPink);
@@ -597,11 +559,11 @@ public enum ConsoleFrame {
                     if (!StringUtil.isNull(suggestion)
                             && !suggestion.equalsIgnoreCase("Make Cyder Great Again")) {
                         Logger.log(Logger.Tag.SUGGESTION, suggestion.trim());
-                        inputHandler.println("Suggestion logged");
+                        baseInputHandler.println("Suggestion logged");
                     }
                 }, "Suggestion Getter Waiter Thread"));
 
-                inputHandler.println(suggestionButton);
+                baseInputHandler.println(suggestionButton);
             }, "Suggestion Getter Waiter Thread"));
             helpButton.setBounds(32, 4, 22, 22);
             consoleCyderFrame.getTopDragLabel().add(helpButton);
@@ -825,6 +787,52 @@ public enum ConsoleFrame {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+    }
+
+    private final String debugLines = "debuglines";
+    private final String forcedExit = "forcedexit";
+
+    private void installInputFieldListeners() {
+        inputField.addKeyListener(inputFieldKeyAdapter);
+        inputField.addKeyListener(commandScrolling);
+
+        inputField.addMouseWheelListener(fontSizerListener);
+        inputField.addActionListener(inputFieldActionListener);
+
+        inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), debugLines);
+        inputField.getActionMap().put(debugLines, debugLinesAbstractAction);
+
+        inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK), forcedExit);
+        inputField.getActionMap().put(forcedExit, forcedExitAbstractAction);
+    }
+
+    private void uninstallInputFieldListeners() {
+        inputField.removeKeyListener(inputFieldKeyAdapter);
+        inputField.removeKeyListener(commandScrolling);
+
+        inputField.removeMouseWheelListener(fontSizerListener);
+        inputField.removeActionListener(inputFieldActionListener);
+
+        inputField.getActionMap().remove(debugLines);
+        inputField.getActionMap().remove(forcedExit);
+    }
+
+    private void installOutputAreaListeners() {
+        // todo
+    }
+
+    private void uninstallOuptutAreaListeners() {
+        // todo
+    }
+
+    private void installResizing(int maxSize, int minSize) {
+        consoleCyderFrame.initializeResizing();
+        consoleCyderFrame.setResizable(true);
+        consoleCyderFrame.setBackgroundResizing(true);
+        consoleCyderFrame.setMinimumSize(MINIMUM_SIZE);
+        consoleCyderFrame.setMaximumSize(new Dimension(maxSize, minSize));
     }
 
     /**
@@ -1122,6 +1130,24 @@ public enum ConsoleFrame {
         }
     }
 
+    private final AbstractAction debugLinesAbstractAction = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            boolean drawLines = !consoleCyderFrame.isDrawDebugLines();
+
+            for (CyderFrame frame : FrameUtil.getCyderFrames()) {
+                frame.drawDebugLines(drawLines);
+            }
+        }
+    };
+
+    private final AbstractAction forcedExitAbstractAction = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            OSUtil.exit(ExitCondition.ForcedImmediateExit);
+        }
+    };
+
     private final ActionListener menuButtonListener = e -> {
         if (!menuLabel.isVisible()) {
             CyderThreadRunner.submit(() -> {
@@ -1301,13 +1327,13 @@ public enum ConsoleFrame {
                 commandIndex = commandList.size();
 
                 //calls to linked InputHandler
-                if (!inputHandler.getUserInputMode()) {
-                    inputHandler.handle(op, true);
+                if (!baseInputHandler.getUserInputMode()) {
+                    baseInputHandler.handle(op, true);
                 }
                 //send the operation to handle second if it is awaiting a secondary input
-                else if (inputHandler.getUserInputMode()) {
-                    inputHandler.setUserInputMode(false);
-                    inputHandler.handleSecond(op);
+                else if (baseInputHandler.getUserInputMode()) {
+                    baseInputHandler.setUserInputMode(false);
+                    baseInputHandler.handleSecond(op);
                 }
             }
 
@@ -1459,7 +1485,7 @@ public enum ConsoleFrame {
             //escaping
             if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)) {
                 try {
-                    inputHandler.escapeThreads();
+                    baseInputHandler.escapeThreads();
                 } catch (Exception exception) {
                     ExceptionHandler.handle(exception);
                 }
@@ -1542,7 +1568,8 @@ public enum ConsoleFrame {
                             if (i - 61427 == 17) {
                                 IOUtil.playAudio("static/audio/f17.mp3");
                             } else {
-                                inputHandler.println("Interesting F" + (i - CyderNumbers.FUNCTION_KEY_START) + " key");
+                                baseInputHandler.println(
+                                        "Interesting F" + (i - CyderNumbers.FUNCTION_KEY_START) + " key");
                             }
                         }
                     }
@@ -2310,8 +2337,8 @@ public enum ConsoleFrame {
      *
      * @return the input handler associated with the ConsoleFrame
      */
-    public InputHandler getInputHandler() {
-        return inputHandler;
+    public BaseInputHandler getInputHandler() {
+        return baseInputHandler;
     }
 
     /**
@@ -2936,8 +2963,8 @@ public enum ConsoleFrame {
         IOUtil.stopAudio();
 
         //close the input handler
-        Objects.requireNonNull(inputHandler).killThreads();
-        inputHandler = null;
+        Objects.requireNonNull(baseInputHandler).killThreads();
+        baseInputHandler = null;
 
         if (logoutUser) {
             Logger.log(Logger.Tag.LOGOUT, "[CyderUser: " + UserUtil.getCyderUser().getName() + "]");
@@ -3148,21 +3175,15 @@ public enum ConsoleFrame {
 
         consoleCyderFrame.getTopDragLabel().remove(consoleClockLabel);
 
-        // todo we should have an install and uninstall method for input and output areas (4 methods)
-        // remove input field listeners
-        inputField.removeKeyListener(inputFieldKeyAdapter);
-        inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .remove(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK));
-        inputField.removeKeyListener(commandScrolling);
-        inputField.removeMouseWheelListener(fontSizerListener);
+        consoleCyderFrame.setResizable(false);
 
+        uninstallInputFieldListeners();
 
-        // animate frame shrinking
         int numFrames = 50;
         int delay = 1;
 
+        // todo doesn't work, need to actually someone createa background that will fucking stay
         consoleCyderFrame.setBackground(LoginHandler.backgroundColor);
-
         ImageIcon current = getCurrentBackground().generateImageIcon();
         ImageIcon newBackground = ImageUtil.imageIconFromColor(
                 LoginHandler.backgroundColor,

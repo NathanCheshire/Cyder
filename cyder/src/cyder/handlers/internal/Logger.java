@@ -182,7 +182,7 @@ public class Logger {
                 logBuilder.append("], exceptions thrown: ");
 
                 logBuilder.append(exceptionsCounter.get() == 0
-                        ? " no exceptions thrown" : exceptionsCounter.get());
+                        ? "no exceptions thrown" : exceptionsCounter.get());
 
                 formatAndWriteLine(logBuilder.toString(), tag);
                 logConcluded = true;

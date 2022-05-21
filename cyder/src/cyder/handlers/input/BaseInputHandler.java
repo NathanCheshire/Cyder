@@ -58,7 +58,7 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 /* some methods have yet to be utilized, arg lengths are always checked before accessing*/
-public class InputHandler {
+public class BaseInputHandler {
     /**
      * The linked CyderOutputPane.
      */
@@ -107,7 +107,7 @@ public class InputHandler {
     /**
      * Suppress default constructor.
      */
-    private InputHandler() {
+    private BaseInputHandler() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
@@ -116,7 +116,7 @@ public class InputHandler {
      *
      * @param outputArea the JTextPane to output to
      */
-    public InputHandler(JTextPane outputArea) {
+    public BaseInputHandler(JTextPane outputArea) {
         Preconditions.checkNotNull(outputArea);
         this.outputArea = new CyderOutputPane(outputArea);
 

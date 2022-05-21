@@ -8,7 +8,7 @@ import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.Cyder;
-import cyder.handlers.input.InputHandler;
+import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
@@ -585,7 +585,7 @@ public class OSUtil {
      * @param pipeTo  the input handle to print the output to
      * @param builder the process builder to run
      */
-    public static void runAndPrintProcess(InputHandler pipeTo, ProcessBuilder builder) {
+    public static void runAndPrintProcess(BaseInputHandler pipeTo, ProcessBuilder builder) {
         checkNotNull(pipeTo);
         checkNotNull(builder);
 
@@ -610,7 +610,7 @@ public class OSUtil {
      * @param pipeTo   the input handle to print the output to
      * @param builders the process builders to run
      */
-    public static void runAndPrintProcessesSuccessive(InputHandler pipeTo, ProcessBuilder... builders) {
+    public static void runAndPrintProcessesSuccessive(BaseInputHandler pipeTo, ProcessBuilder... builders) {
         checkNotNull(pipeTo, "pipeTo is null");
         checkNotNull(builders, "builders are null");
         checkArgument(builders.length > 0, "must be at least one builder");
