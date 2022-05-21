@@ -1,6 +1,8 @@
 package cyder.constants;
 
 import cyder.exceptions.IllegalMethodException;
+import cyder.utilities.ColorUtil;
+import cyder.utilities.UserUtil;
 
 import java.awt.*;
 
@@ -8,8 +10,6 @@ import java.awt.*;
  * Common colors used throughout Cyder
  */
 public class CyderColors {
-    //begin regular colors
-
     /**
      * A common color used for selected text such as in CyderFields
      */
@@ -74,8 +74,6 @@ public class CyderColors {
      */
     public static final Color nullus = new Color(0, 0, 0, 0);
 
-    //navy colors
-
     /**
      * A default navy color that is used extensively throughout Cyder
      */
@@ -85,8 +83,6 @@ public class CyderColors {
      * A complementary color to navy to be used in conjunction with {@code CyderColors.navy}
      */
     public static final Color navyComplementary = new Color(39, 40, 34);
-
-    //begin notification colors
 
     /**
      * The color used for notification borders
@@ -112,8 +108,6 @@ public class CyderColors {
      * The background used for notifications
      */
     public static final Color notificationBackgroundColor = new Color(0, 0, 0);
-
-    //begin button colors
 
     /**
      * The default button color
@@ -178,7 +172,19 @@ public class CyderColors {
         guiThemeColor = c;
     }
 
+    /**
+     * Returns the current gui theme color.
+     *
+     * @return the current gui theme color
+     */
     public static Color getGuiThemeColor() {
         return guiThemeColor;
+    }
+
+    /**
+     * Instantiates the gui theme color based on the current user's data.
+     */
+    public static void refreshGuiThemeColor() {
+        setGuiThemeColor(ColorUtil.hexToRgb(UserUtil.getCyderUser().getWindowcolor()));
     }
 }

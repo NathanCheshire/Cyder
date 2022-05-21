@@ -2196,6 +2196,19 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Sets whether dragging is enabled for this frame.
+     *
+     * @param allowed whether dragging is enabled for this frame
+     */
+    public void setDraggingEnabled(boolean allowed) {
+        if (allowed) {
+            enableDragging();
+        } else {
+            disableDragging();
+        }
+    }
+
+    /**
      * Repaints the frame, associated shape, and objects using
      * the {@link CyderColors#getGuiThemeColor()} attribute.
      */

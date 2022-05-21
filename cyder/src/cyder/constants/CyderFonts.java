@@ -41,6 +41,11 @@ public class CyderFonts {
     public static final Font javaTooltipFont = new Font("tahoma", Font.BOLD, 20);
 
     /**
+     * The font used for the console clock label.
+     */
+    public static final Font consoleClockLabelFont = new Font("Segoe UI Black", Font.BOLD, 21);
+
+    /**
      * No class instantiation allowed for CyderFonts
      */
     private CyderFonts() {
