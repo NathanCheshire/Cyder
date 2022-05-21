@@ -2364,7 +2364,7 @@ public class CyderFrame extends JFrame {
      *
      * @param ml the listener to add to the drag labels
      */
-    public void addDragMouseListener(MouseListener ml) {
+    public void addDragLabelMouseListener(MouseListener ml) {
         topDrag.addMouseListener(ml);
         bottomDrag.addMouseListener(ml);
         leftDrag.addMouseListener(ml);

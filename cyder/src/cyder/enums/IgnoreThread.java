@@ -10,7 +10,6 @@ public enum IgnoreThread {
     HourlyChimeChecker("Hourly Chime Checker"),
     HighPingChecker("High Ping Checker"),
     DestroyJavaVm("DestroyJavaVM"),
-    ConsoleInputCaret("Console Input Caret Position Updater"),
     ConsolePrintingAnimation("Console Printing Animation"),
     ConsoleDataSaver("ConsoleFrame Stat Saver"),
     SingularInstanceEnsurer("Singular Cyder Instance Ensurer"),
