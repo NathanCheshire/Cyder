@@ -49,6 +49,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+// todo opening a dreamy file to start with breaks it
+
 // todo views should slide in and out like StraightShot
 
 // todo progress bar needs to move smoothly even if 1s audio length

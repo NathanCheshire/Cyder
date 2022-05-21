@@ -1,6 +1,5 @@
 package cyder.handlers.input;
 
-import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
 
 /**
@@ -30,9 +29,7 @@ public interface Handler {
      * @param userTriggered whether the input was triggered by a user or an artificial source
      * @return whether the input was successfully processed
      */
-    default <T> boolean handle(T[] tees, boolean userTriggered) {
-        throw new IllegalMethodException("Handle method not implemented");
-    }
+    <T> boolean handle(T[] tees, boolean userTriggered);
 
     /**
      * Returns the type for this handle method.

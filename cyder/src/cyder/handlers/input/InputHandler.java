@@ -133,8 +133,6 @@ public class InputHandler {
      * @param userTriggered whether the provided op was produced via a user
      */
     public final void handle(String op, boolean userTriggered) {
-        String handleResult = "FAILED PRELIMINARIES";
-
         if (!handlePreliminaries(op, userTriggered)) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "FAILED PRELIMINARIES");
             return;
@@ -150,33 +148,34 @@ public class InputHandler {
                     || externalOpenerCheck()
                     || audioCommandCheck()
                     || generalCommandCheck()) {
-                handleResult = "Primary handle method succeeded";
+
             } else if (isURLCheck(command)
                     || handleMath(commandAndArgsToString())
                     || evaluateExpression(commandAndArgsToString())
                     || preferenceCheck(commandAndArgsToString())
                     || manualTestCheck(commandAndArgsToString())) {
-                handleResult = "Final handle method succeeded";
+
             } else {
                 unknownInput();
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            Logger.log(Logger.Tag.HANDLE_METHOD, handleResult);
-            //just to be safe...
-            // todo restore new input method
-            ConsoleFrame.INSTANCE.getInputField().setText("");
         }
+
+        cleanUp();
+    }
+
+    private void cleanUp() {
+        ConsoleFrame.INSTANCE.getInputField().setText("");
     }
 
     /**
-     * Handles preliminaries such as assumptions before passing input data to the subHandle methods.
-     * Also sets the ops array to the found command and arguments
+     * Handles preliminaries such as argument/command parsing and redirection checks
+     * before passing input data to the jhandle methods.
      *
      * @param command       the command to handle preliminaries on before behind handled
      * @param userTriggered whether the provided operation was produced via a user
-     * @return whether the process may proceed
+     * @return whether preliminary checks successfully completed
      */
     private boolean handlePreliminaries(String command, boolean userTriggered) {
         Preconditions.checkNotNull(command);
@@ -250,7 +249,7 @@ public class InputHandler {
         String requestedFilename = args.get(args.size() - 1);
 
         if (!OSUtil.isValidFilename(requestedFilename)) {
-            // todo print invalid filename
+            failedRedirection();
             return;
         }
 
@@ -267,18 +266,26 @@ public class InputHandler {
             if (redirectionFile.exists())
                 OSUtil.deleteFile(redirectionFile);
 
-            OSUtil.createFile(redirectionFile);
+            if (!OSUtil.createFile(redirectionFile)) {
+                failedRedirection();
+            }
         } catch (Exception ignored) {
-            redirection = false;
-            redirectionFile = null;
-
-            // todo print couldn't redirect this input
+            failedRedirection();
         } finally {
             redirectionSem.release();
         }
     }
 
-    // todo sep handle clsses
+    /**
+     * Handles a failed redirection attempt.
+     */
+    private void failedRedirection() {
+        redirection = false;
+        redirectionFile = null;
+
+        println("Error: could not redirect output");
+    }
+
     private boolean generalPrintsCheck() {
         boolean ret = true;
 
@@ -1912,22 +1919,33 @@ public class InputHandler {
     private boolean printingAnimationInvoked;
 
     /**
-     * Begins the printing animation for the linked JTextPane. The typing animation is only
-     * used if the user preference is enabled.
+     * Begins the typing animation for the ConsoleFrame.
+     * The typing animation is only used if the user preference is enabled.
      */
     public final void startConsolePrintingAnimation() {
         if (printingAnimationInvoked)
             return;
 
         printingAnimationInvoked = true;
-
         consolePrintingList.clear();
         consolePriorityPrintingList.clear();
 
-        int charTimeout = 15;
-        int lineTimeout = 200;
+        CyderThreadRunner.submit(consolePrintingRunnable,
+                IgnoreThread.ConsolePrintingAnimation.getName());
+    }
 
-        CyderThreadRunner.submit(() -> {
+    /**
+     * The timeout between characters for the printing animation.
+     */
+    private final int printingAnimationCharTimeout = 8;
+    // todo make these configurable on config.ini
+    /**
+     * The timeout between lines for the printing animation.
+     */
+    private final int printingAnimationLineTimeout = 200;
+
+    private final Runnable consolePrintingRunnable = new Runnable() {
+        @Override public void run() {
             try {
                 boolean typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
                 long lastPull = System.currentTimeMillis();
@@ -1992,7 +2010,7 @@ public class InputHandler {
                                             innerConsolePrint(c);
 
                                             if (!finishPrinting)
-                                                Thread.sleep(charTimeout);
+                                                Thread.sleep(printingAnimationCharTimeout);
                                         }
                                         outputArea.getSemaphore().release();
                                     }
@@ -2025,13 +2043,13 @@ public class InputHandler {
                     }
 
                     if (!finishPrinting && typingAnimationLocal)
-                        Thread.sleep(lineTimeout);
+                        Thread.sleep(printingAnimationLineTimeout);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, IgnoreThread.ConsolePrintingAnimation.getName());
-    }
+        }
+    };
 
     /**
      * The increment we are currently on for inner char printing.
@@ -2214,7 +2232,7 @@ public class InputHandler {
      *
      * @return the last line of text on the linked JTextPane
      */
-    public final String getLastTextLine() {
+    private final String getLastTextLine() {
         return outputArea.getStringUtil().getLastTextLine();
     }
 
