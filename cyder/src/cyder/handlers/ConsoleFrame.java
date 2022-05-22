@@ -284,6 +284,10 @@ public enum ConsoleFrame {
             throw new FatalException("ConsoleFrame launch() invoked when not closed. Old uuid = " + previousUuid);
         }
 
+        // todo what gets focus after close button before output area?
+
+        // todo need to use padding and better values for bounds of input and output areas
+
         // todo make sure login from frame is disposed after
 
         Logger.log(Logger.Tag.DEBUG, "Cyder Entry = " + entryPoint);
@@ -436,9 +440,6 @@ public enum ConsoleFrame {
                 - TimeUtil.getAbsoluteStartTime()) + "ms");
     }
 
-
-    // todo use me
-
     /**
      * Refreshes the console frame title.
      */
@@ -446,10 +447,6 @@ public enum ConsoleFrame {
         consoleCyderFrame.setTitle(CyderToggles.VERSION +
                 " Cyder [" + UserUtil.getCyderUser().getName() + "]");
     }
-
-    // todo what gets focus after close button before output area?
-
-    // todo need to use padding and better values for bounds of input and output areas
 
     /**
      * The mouse motion adapter to add to the console frame used for pinned window logic.
@@ -2698,33 +2695,6 @@ public enum ConsoleFrame {
         audioControlsLabel.setBorder(new LineBorder(Color.black, 5));
         audioControlsLabel.setVisible(false);
         consoleCyderFrame.getIconPane().add(audioControlsLabel, JLayeredPane.MODAL_LAYER);
-
-        // todo use cyder icon button and svgs
-        JLabel stopMusicLabel = new JLabel("");
-        stopMusicLabel.setBounds(45, 5, 30, 30);
-        stopMusicLabel.setIcon(new ImageIcon("static/pictures/music/Stop.png"));
-        audioControlsLabel.add(stopMusicLabel);
-        stopMusicLabel.setToolTipText("Stop");
-        stopMusicLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                IOUtil.stopAllAudio();
-                playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                stopMusicLabel.setIcon(new ImageIcon("static/pictures/music/StopHover.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                stopMusicLabel.setIcon(new ImageIcon("static/pictures/music/Stop.png"));
-            }
-        });
-        stopMusicLabel.setVisible(true);
-        stopMusicLabel.setOpaque(false);
-        audioControlsLabel.add(stopMusicLabel);
 
         playPauseAudioLabel = new JLabel("");
         playPauseAudioLabel.setBounds(80, 5, 30, 30);

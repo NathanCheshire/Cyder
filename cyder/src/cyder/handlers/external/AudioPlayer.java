@@ -60,7 +60,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 // todo need a custom component for this
 
 // todo new audio slider custom component should not be used for location
-//  when dremaifying audio back and forth audio is not as seemless as it should be
+//  when dreamifying audio back and forth audio is not as seamless as it should be
 
 // todo dreamifying doesn't perfectly resume audio from where it was before dreamifying/un-dreamifying
 
@@ -113,12 +113,6 @@ public class AudioPlayer {
      * The container to hold the audioTitleLabel used for animations like Spotify if the text overflows.
      */
     private static final JLabel audioTitleLabelContainer = new JLabel();
-
-    /**
-     * The height of the audioTitleLabel.
-     */
-    private static final int AUDIO_TITLE_LABEL_HEIGHT =
-            StringUtil.getMinHeight("YATTA", CyderFonts.defaultFontSmall);
 
     /**
      * The maximum value of the audio progress bar.
@@ -433,7 +427,7 @@ public class AudioPlayer {
      * The animator object for the audio location label.
      * This is set and the previous object killed whenever a new audio file is initiated.
      */
-    private static AudioLocationUpdator audioLocationUpdator;
+    private static AudioLocationUpdater audioLocationUpdater;
 
     /**
      * The scrolling title label to display and scroll the current
@@ -460,18 +454,11 @@ public class AudioPlayer {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     switch (currentFrameView) {
-                        case FULL:
-                            setupAndShowFrameView(FrameView.HIDDEN_ART);
-                            break;
-                        case HIDDEN_ART:
-                            setupAndShowFrameView(FrameView.MINI);
-                            break;
-                        case MINI:
-                            setupAndShowFrameView(FrameView.FULL);
-                            break;
-                        default:
-                            throw new IllegalArgumentException(
-                                    "Illegal requested view to switch to via view switch frame button");
+                        case FULL -> setupAndShowFrameView(FrameView.HIDDEN_ART);
+                        case HIDDEN_ART -> setupAndShowFrameView(FrameView.MINI);
+                        case MINI -> setupAndShowFrameView(FrameView.FULL);
+                        default -> throw new IllegalArgumentException(
+                                "Illegal requested view to switch to via view switch frame button");
                     }
                 }
 
@@ -542,7 +529,7 @@ public class AudioPlayer {
      *
      * @param startPlaying the audio file to start playing.
      *                     If null, {@link AudioPlayer#DEFAULT_AUDIO_FILE} is played.
-     * @throws IllegalArgumentException if startPlaying is null or or doesn't exist
+     * @throws IllegalArgumentException if startPlaying is null or doesn't exist
      */
     public static void showGui(File startPlaying) {
         checkNotNull(startPlaying);
@@ -576,14 +563,14 @@ public class AudioPlayer {
         audioPlayerFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                // no other pre/post close window Runnables
+                // no other pre- / post-close window Runnables
                 // should be added or window listeners
                 killAndCloseWidget();
             }
 
             @Override
             public void windowClosed(WindowEvent e) {
-                // no other pre/post close window Runnables
+                // no other pre- / post-close window Runnables
                 // should be added or window listeners
                 killAndCloseWidget();
             }
@@ -593,7 +580,7 @@ public class AudioPlayer {
         /*
          All components which will ever be on the frame for phase 1 are added now and their sizes set.
          The bounds are set in the view switcher.
-         The sizes are almost never set outside of the construction below.
+         The sizes are almost never set outside the construction below.
          */
 
         albumArtLabel.setSize(ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE);
@@ -685,11 +672,11 @@ public class AudioPlayer {
             }
         });
 
-        if (audioLocationUpdator != null) {
-            audioLocationUpdator.kill();
+        if (audioLocationUpdater != null) {
+            audioLocationUpdater.kill();
         }
 
-        audioLocationUpdator = new AudioLocationUpdator(audioProgressLabel, audioProgressBar);
+        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel, audioProgressBar);
 
         audioVolumeSliderUi.setThumbStroke(new BasicStroke(2.0f));
         audioVolumeSliderUi.setSliderShape(CyderSliderUI.SliderShape.CIRCLE);
@@ -708,7 +695,7 @@ public class AudioPlayer {
             audioVolumeLabelAnimator.kill();
         }
 
-        audioVolumeLabelAnimator = new AudioVolumeLabelAnimator(audioVolumePercentLabel);
+        audioVolumeLabelAnimator = new AudioVolumeLabelAnimator();
 
         audioVolumeSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioPlayerFrame.getContentPane().add(audioVolumeSlider);
@@ -763,9 +750,7 @@ public class AudioPlayer {
                                 "binaries. Try to install both ffmpeg and youtube-dl and try again");
                         builder.setTitle("Network Error");
                         builder.setRelativeTo(audioPlayerFrame);
-                        builder.setPostCloseAction(() -> {
-                            killAndCloseWidget();
-                        });
+                        builder.setPostCloseAction(AudioPlayer::killAndCloseWidget);
 
                         InformHandler.inform(builder);
                     } else {
@@ -943,7 +928,6 @@ public class AudioPlayer {
 
             if (FileUtil.validateExtension(currentAudioFile, ".wav")) {
                 audioPlayerFrame.notify("This file is already a wav");
-                return;
             } else if (FileUtil.validateExtension(currentAudioFile, ".mp3")) {
                 CyderThreadRunner.submit(() -> {
                     Future<Optional<File>> wavConvertedFile = AudioUtil.mp3ToWav(currentAudioFile);
@@ -989,7 +973,6 @@ public class AudioPlayer {
 
             if (FileUtil.validateExtension(currentAudioFile, ".mp3")) {
                 audioPlayerFrame.notify("This file is already an mp3");
-                return;
             } else if (FileUtil.validateExtension(currentAudioFile, ".wav")) {
                 CyderThreadRunner.submit(() -> {
                     Future<Optional<File>> mp3ConvertedFile = AudioUtil.wavToMp3(currentAudioFile);
@@ -1064,9 +1047,7 @@ public class AudioPlayer {
                             ImageIO.write(waveform.get(), WAVEFORM_EXPORT_FORMAT, saveFile.getAbsoluteFile());
                             NotificationBuilder notifyBuilder = new NotificationBuilder
                                     ("Saved waveform to your files directory");
-                            notifyBuilder.setOnKillAction(() -> {
-                                PhotoViewer.getInstance(saveFile).showGui();
-                            });
+                            notifyBuilder.setOnKillAction(() -> PhotoViewer.getInstance(saveFile).showGui());
                             audioPlayerFrame.notify(notifyBuilder);
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
@@ -1127,14 +1108,14 @@ public class AudioPlayer {
                     String nonDreamyStdName = currentAudioFilename.substring(0,
                             currentAudioFilename.length() - AudioUtil.DREAMY_SUFFIX.length());
 
-                    for (int i = 0 ; i < validAudioFiles.size() ; i++) {
-                        String localFilename = FileUtil.getFilename(validAudioFiles.get(i));
+                    for (File validAudioFile : validAudioFiles) {
+                        String localFilename = FileUtil.getFilename(validAudioFile);
 
                         if (localFilename.equals(nonDreamyStdName)) {
                             audioDreamified.set(false);
                             audioPlayerFrame.revalidateMenu();
 
-                            currentAudioFile = validAudioFiles.get(i);
+                            currentAudioFile = validAudioFile;
 
                             boolean resume = isAudioPlaying();
                             pauseAudio();
@@ -1162,24 +1143,26 @@ public class AudioPlayer {
                 if (userMusicDir.exists()) {
                     File[] audioFiles = userMusicDir.listFiles();
 
-                    for (File audioFile : audioFiles) {
-                        if ((currentAudioFilename + AudioUtil.DREAMY_SUFFIX)
-                                .equalsIgnoreCase(FileUtil.getFilename(audioFile))) {
+                    if (audioFiles != null && audioFiles.length > 0) {
+                        for (File audioFile : audioFiles) {
+                            if ((currentAudioFilename + AudioUtil.DREAMY_SUFFIX)
+                                    .equalsIgnoreCase(FileUtil.getFilename(audioFile))) {
 
-                            if (isAudioPlaying()) {
-                                pauseAudio();
+                                if (isAudioPlaying()) {
+                                    pauseAudio();
+                                }
+
+                                audioDreamified.set(true);
+                                audioPlayerFrame.revalidateMenu();
+
+                                currentAudioFile = audioFile;
+
+                                revalidateFromAudioFileChange();
+
+                                playAudio();
+
+                                return;
                             }
-
-                            audioDreamified.set(true);
-                            audioPlayerFrame.revalidateMenu();
-
-                            currentAudioFile = audioFile;
-
-                            revalidateFromAudioFileChange();
-
-                            playAudio();
-
-                            return;
                         }
                     }
                 }
@@ -1272,142 +1255,104 @@ public class AudioPlayer {
         setUiComponentsVisible(false);
 
         switch (view) {
-            case FULL:
+            case FULL -> {
                 setUiComponentsVisible(true);
                 currentFrameView = FrameView.FULL;
-
                 audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN);
 
                 // set location of all components needed
                 int xOff = DEFAULT_FRAME_LEN / 2 - ALBUM_ART_LABEL_SIZE / 2;
                 int yOff = CyderDragLabel.DEFAULT_HEIGHT;
                 yOff += 20;
-
                 albumArtLabel.setLocation(xOff, yOff);
                 yOff += ALBUM_ART_LABEL_SIZE + yComponentPadding;
-
                 refreshAlbumArt();
 
                 // xOff of rest of components is len s.t. the total
                 // width is 1.5x the width of the  album art label
                 xOff = (int) (DEFAULT_FRAME_LEN / 2 - (1.5 * ALBUM_ART_LABEL_SIZE) / 2);
-
                 refreshAudioTitleLabel();
-
                 audioTitleLabelContainer.setLocation(xOff, yOff);
                 yOff += 40 + yComponentPadding;
-
                 shuffleAudioButton.setLocation(xOff + primaryButtonSpacing, yOff);
                 lastAudioButton.setLocation(xOff + primaryButtonSpacing * 2 + primaryButtonWidth, yOff);
                 playPauseButton.setLocation(xOff + primaryButtonSpacing * 3 + primaryButtonWidth * 2, yOff);
                 nextAudioButton.setLocation(xOff + primaryButtonSpacing * 4 + primaryButtonWidth * 3, yOff);
                 repeatAudioButton.setLocation(xOff + primaryButtonSpacing * 5 + primaryButtonWidth * 4, yOff);
-
                 yOff += 30 + yComponentPadding;
-
                 audioProgressBar.setLocation(xOff, yOff);
                 audioProgressBar.setValue(audioProgressBar.getMaximum());
 
                 // 0,0 since it is layered perfectly over audioProgressBar
                 audioProgressLabel.setLocation(0, 0);
-
                 audioVolumePercentLabel.setLocation(DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2,
                         yOff + 35);
-
                 yOff += 40 + yComponentPadding;
-
                 audioVolumeSlider.setLocation(xOff, yOff);
-
-                yOff += 40 + yComponentPadding;
-
-                break;
-            case HIDDEN_ART:
+            }
+            case HIDDEN_ART -> {
                 setUiComponentsVisible(true);
-
                 audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN
                         - ALBUM_ART_LABEL_SIZE - HIDDEN_ART_HEIGHT_OFFSET);
-
                 albumArtLabel.setVisible(false);
                 albumArtLabel.setBorder(null);
 
                 // set location of all components needed
-                xOff = DEFAULT_FRAME_LEN / 2 - ALBUM_ART_LABEL_SIZE / 2;
-                yOff = CyderDragLabel.DEFAULT_HEIGHT + 10;
+                int xOff;
+                int yOff = CyderDragLabel.DEFAULT_HEIGHT + 10;
 
                 // xOff of rest of components is s.t. the total width is 1.5x width of album art label
                 xOff = (int) (DEFAULT_FRAME_LEN / 2 - (1.5 * ALBUM_ART_LABEL_SIZE) / 2);
-
                 refreshAudioTitleLabel();
-
                 audioTitleLabelContainer.setLocation(xOff, yOff);
                 yOff += 40 + yComponentPadding;
-
                 shuffleAudioButton.setLocation(xOff + primaryButtonSpacing, yOff);
                 lastAudioButton.setLocation(xOff + primaryButtonSpacing * 2 + primaryButtonWidth, yOff);
                 playPauseButton.setLocation(xOff + primaryButtonSpacing * 3 + primaryButtonWidth * 2, yOff);
                 nextAudioButton.setLocation(xOff + primaryButtonSpacing * 4 + primaryButtonWidth * 3, yOff);
                 repeatAudioButton.setLocation(xOff + primaryButtonSpacing * 5 + primaryButtonWidth * 4, yOff);
-
                 yOff += 30 + yComponentPadding;
-
                 audioProgressBar.setLocation(xOff, yOff);
                 audioProgressBar.setValue(audioProgressBar.getMaximum());
 
                 // 0,0 since it is layered perfectly over audioProgressBar
                 audioProgressLabel.setLocation(0, 0);
-
                 audioVolumePercentLabel.setLocation(DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2,
                         yOff + 35);
-
                 yOff += 40 + yComponentPadding;
-
                 audioVolumeSlider.setLocation(xOff, yOff);
-
-                yOff += 40 + yComponentPadding;
-
                 currentFrameView = FrameView.HIDDEN_ART;
-                break;
-            case MINI:
+            }
+            case MINI -> {
                 currentFrameView = FrameView.MINI;
                 setUiComponentsVisible(true);
-
                 audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN
                         - ALBUM_ART_LABEL_SIZE - MINI_FRAME_HEIGHT_OFFSET);
-
                 albumArtLabel.setVisible(false);
                 albumArtLabel.setBorder(null);
 
                 // set location of all components needed
-                xOff = DEFAULT_FRAME_LEN / 2 - ALBUM_ART_LABEL_SIZE / 2;
-                yOff = CyderDragLabel.DEFAULT_HEIGHT + 10;
+                int xOff;
+                int yOff = CyderDragLabel.DEFAULT_HEIGHT + 10;
 
                 // xOff of rest of components is s.t. the total width is 1.5x width of album art label
                 xOff = (int) (DEFAULT_FRAME_LEN / 2 - (1.5 * ALBUM_ART_LABEL_SIZE) / 2);
-
                 refreshAudioTitleLabel();
-
                 yOff += 40 + yComponentPadding;
-
                 shuffleAudioButton.setLocation(xOff + primaryButtonSpacing, yOff);
                 lastAudioButton.setLocation(xOff + primaryButtonSpacing * 2 + primaryButtonWidth, yOff);
                 playPauseButton.setLocation(xOff + primaryButtonSpacing * 3 + primaryButtonWidth * 2, yOff);
                 nextAudioButton.setLocation(xOff + primaryButtonSpacing * 4 + primaryButtonWidth * 3, yOff);
                 repeatAudioButton.setLocation(xOff + primaryButtonSpacing * 5 + primaryButtonWidth * 4, yOff);
-
-                yOff += 30 + yComponentPadding;
-
                 audioProgressBar.setVisible(false);
                 audioProgressLabel.setVisible(false);
                 audioVolumeSlider.setVisible(false);
-
-                if (audioLocationUpdator != null) {
-                    audioLocationUpdator.kill();
-                    audioLocationUpdator = null;
+                if (audioLocationUpdater != null) {
+                    audioLocationUpdater.kill();
+                    audioLocationUpdater = null;
                 }
-
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported frame view to switch to: " + view);
+            }
+            default -> throw new IllegalArgumentException("Unsupported frame view to switch to: " + view);
         }
     }
 
@@ -1455,7 +1400,7 @@ public class AudioPlayer {
 
     /**
      * Attempts to find and set the album art label to the current audio file's album art if it originates
-     * from a user's audio files with a linked audio file album art. Otherwise the label is set to the
+     * from a user's audio files with a linked audio file album art. Otherwise, the label is set to the
      * default album art.
      */
     private static void refreshAlbumArt() {
@@ -1491,9 +1436,9 @@ public class AudioPlayer {
             ExceptionHandler.handle(e);
         }
 
+        ImageIcon regularIcon = ImageUtil.resizeImage(customAlbumArt,
+                ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE);
         if (dreamy) {
-            ImageIcon regularIcon = ImageUtil.resizeImage(customAlbumArt,
-                    ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE);
 
             ImageIcon distortedIcon = ImageUtil.toImageIcon(
                     ImageUtil.grayscaleImage(ImageUtil.toBufferedImage(regularIcon)));
@@ -1504,8 +1449,6 @@ public class AudioPlayer {
 
             audioPlayerFrame.setCustomTaskbarIcon(distortedIcon);
         } else {
-            ImageIcon regularIcon = ImageUtil.resizeImage(customAlbumArt,
-                    ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE);
             albumArtLabel.setIcon(regularIcon);
             audioPlayerFrame.setCustomTaskbarIcon(regularIcon);
 
@@ -1529,10 +1472,10 @@ public class AudioPlayer {
     }
 
     /**
-     * Termiantes the current ScrollingTitleLabel object controlling the title label
+     * Terminates the current ScrollingTitleLabel object controlling the title label
      * in the title label container and creates a new instance based on the current audio file's title.
      */
-    private static final void refreshAudioTitleLabel() {
+    private static void refreshAudioTitleLabel() {
         String text = StringUtil.capsFirst(FileUtil.getFilename(currentAudioFile.getName()));
 
         // end old object
@@ -1563,18 +1506,18 @@ public class AudioPlayer {
     }
 
     /**
-     * Refreshes the audio progres label and total length.
+     * Refreshes the audio progress label and total length.
      */
     private static void refreshAudioProgressLabel() {
         if (currentFrameView == FrameView.MINI) {
             return;
         }
 
-        if (audioLocationUpdator != null) {
-            audioLocationUpdator.kill();
+        if (audioLocationUpdater != null) {
+            audioLocationUpdater.kill();
         }
 
-        audioLocationUpdator = new AudioLocationUpdator(audioProgressLabel, audioProgressBar);
+        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel, audioProgressBar);
     }
 
     /**
@@ -1591,7 +1534,7 @@ public class AudioPlayer {
         if (parentDirectory.exists()) {
             File[] siblings = parentDirectory.listFiles();
 
-            if (siblings.length > 0) {
+            if (siblings != null && siblings.length > 0) {
                 for (File sibling : siblings) {
                     if (FileUtil.isSupportedAudioExtension(sibling)) {
                         validAudioFiles.add(sibling);
@@ -1656,7 +1599,7 @@ public class AudioPlayer {
     }
 
     /**
-     * Refreshes the totalAudioLength based on the curent audio file.
+     * Refreshes the totalAudioLength based on the current audio file.
      */
     public static void refreshAudioTotalLength() {
         try {
@@ -1672,20 +1615,16 @@ public class AudioPlayer {
      * Handles a click from the play/pause button.
      */
     public static void handlePlayPauseButtonClick() {
-        if (!shouldAllowClick()) {
+        if (shouldSuppressClick()) {
             return;
         }
 
-        // always before handle button methods
         checkNotNull(currentAudioFile);
         checkArgument(!uiLocked);
 
-        // if we're playing, pause the audio
         if (isAudioPlaying()) {
             pauseAudio();
-        }
-        // otherwise start playing, this should always play something
-        else {
+        } else {
             playAudio();
         }
     }
@@ -1729,6 +1668,7 @@ public class AudioPlayer {
     /**
      * Starts playing the current audio file.
      */
+    @SuppressWarnings({"ResultOfMethodCallIgnored", "ConstantConditions"})
     private static void playAudio() {
         try {
             if (isAudioPlaying()) {
@@ -1763,7 +1703,7 @@ public class AudioPlayer {
                     audioPlayingSemaphore.release();
 
                     if (ignoredExceptionThrown.get()) {
-                        // occasionally JLayer likes to throw for no apparently reason
+                        // occasionally JLayer likes to throw for no apparently reason,
                         // so we'll just reset resources and play again
                         pauseAudio();
                         playAudio();
@@ -1865,10 +1805,11 @@ public class AudioPlayer {
     }
 
     /**
-     * Closes the provided input stream if not null and assigns the refernce to null;
+     * Closes the provided input stream if not null and assigns the reference to null;
      *
      * @param is the input stream to close and assign to null
      */
+    @SuppressWarnings("UnusedAssignment")
     public static void closeIfNotNull(InputStream is) {
         if (is != null) {
             try {
@@ -1890,7 +1831,7 @@ public class AudioPlayer {
      * Handles a click from the last button.
      */
     public static void handleLastAudioButtonClick() {
-        if (!shouldAllowClick()) {
+        if (shouldSuppressClick()) {
             return;
         }
 
@@ -1932,7 +1873,7 @@ public class AudioPlayer {
      * Handles a click from the next audio button.
      */
     public static void handleNextAudioButtonClick() {
-        if (!shouldAllowClick()) {
+        if (shouldSuppressClick()) {
             return;
         }
 
@@ -2002,10 +1943,9 @@ public class AudioPlayer {
     private static boolean shuffleAudio;
 
     /**
-     * Hanldes a click of the shuffle button.
+     * Handles a click of the shuffle button.
      */
     public static void handleShuffleButtonClick() {
-        // always before handle button methods
         checkNotNull(currentAudioFile);
         checkArgument(!uiLocked);
 
@@ -2033,6 +1973,7 @@ public class AudioPlayer {
      *
      * @param audioFile the audio file to add to the end of the queue
      */
+    @SuppressWarnings("unused")
     public static void addAudioLast(File audioFile) {
         checkNotNull(audioFile);
         checkArgument(audioFile.exists());
@@ -2080,9 +2021,9 @@ public class AudioPlayer {
             audioVolumeLabelAnimator = null;
         }
 
-        if (audioLocationUpdator != null) {
-            audioLocationUpdator.kill();
-            audioLocationUpdator = null;
+        if (audioLocationUpdater != null) {
+            audioLocationUpdater.kill();
+            audioLocationUpdater = null;
         }
 
         if (scrollingTitleLabel != null) {
@@ -2102,16 +2043,16 @@ public class AudioPlayer {
     private static long lastActionTime;
 
     /**
-     * Returns whether to allow a requested ui action such as a button click.
+     * Returns whether to suppress a requested ui action such as a button click.
      *
-     * @return whether to allow a requested ui action such as a button click
+     * @return whether to suppress a requested ui action such as a button click
      */
-    private static boolean shouldAllowClick() {
+    private static boolean shouldSuppressClick() {
         if (System.currentTimeMillis() - lastActionTime >= ACTION_TIMEOUT_MS) {
             lastActionTime = System.currentTimeMillis();
-            return true;
-        } else {
             return false;
+        } else {
+            return true;
         }
     }
 
@@ -2125,11 +2066,7 @@ public class AudioPlayer {
         refreshAudioFiles();
         refreshAudioProgressLabel();
 
-        if (isCurrentAudioDreamy()) {
-            audioDreamified.set(true);
-        } else {
-            audioDreamified.set(false);
-        }
+        audioDreamified.set(isCurrentAudioDreamy());
 
         audioPlayerFrame.revalidateMenu();
     }
@@ -2145,39 +2082,26 @@ public class AudioPlayer {
     /**
      * The class to update the audio location label and progress bar.
      */
-    private static class AudioLocationUpdator {
+    private static class AudioLocationUpdater {
         /**
-         * The delay between update cycles for the audio lcoation text.
+         * The delay between update cycles for the audio location text.
          */
         private static final int audioLocationTextUpdateDelay = 1000;
 
         /**
-         * Whether this AudioLocationlabelUpdater has been killed.
+         * Whether this AudioLocationUpdater has been killed.
          */
         private boolean killed;
 
         /**
-         * The label to update displaying the audio time and length.
-         */
-        private final JLabel effectLabel;
-
-        /**
-         * The progress bar to update.
-         */
-        private final CyderProgressBar progressBar;
-
-        /**
          * Constructs a new audio location label to update for the provided progress bar.
          *
-         * @param effectLabel the label to update update
+         * @param effectLabel the label to update
          * @param progressBar the progress bar to update
          */
-        public AudioLocationUpdator(JLabel effectLabel, CyderProgressBar progressBar) {
+        public AudioLocationUpdater(JLabel effectLabel, CyderProgressBar progressBar) {
             checkNotNull(effectLabel);
             checkNotNull(progressBar);
-
-            this.effectLabel = effectLabel;
-            this.progressBar = progressBar;
 
             if (currentFrameView == FrameView.MINI) {
                 return;
@@ -2253,7 +2177,7 @@ public class AudioPlayer {
      */
     private static class ScrollingTitleLabel {
         /**
-         * The minimum width of the titel label.
+         * The minimum width of the title label.
          */
         public static final int MIN_WIDTH = 100;
 
@@ -2304,14 +2228,12 @@ public class AudioPlayer {
 
         /**
          * Starts the scrolling animation if necessary.
-         * Otherwise the label is centered in the parent container.
+         * Otherwise, the label is centered in the parent container.
          *
          * @param localTitle the title to display
          */
         private void start(String localTitle) {
             try {
-                int parentX = effectLabel.getParent().getX();
-                int parentY = effectLabel.getParent().getY();
 
                 int parentWidth = effectLabel.getParent().getWidth();
                 int parentHeight = effectLabel.getParent().getHeight();
@@ -2396,11 +2318,6 @@ public class AudioPlayer {
         private boolean killed;
 
         /**
-         * The label to set to visible/non-visible
-         */
-        private JLabel referenceLabel;
-
-        /**
          * The time remaining before setting the visibility of the audio volume label to false.
          */
         public static final AtomicInteger audioVolumeLabelTimeout = new AtomicInteger();
@@ -2417,10 +2334,8 @@ public class AudioPlayer {
 
         /**
          * Constructs a new AudioVolumeLabelAnimator.
-         *
-         * @param referenceLabel the label to set to visible/non-visible
          */
-        AudioVolumeLabelAnimator(JLabel referenceLabel) {
+        AudioVolumeLabelAnimator() {
             CyderThreadRunner.submit(() -> {
                 try {
                     while (!killed) {
@@ -2439,7 +2354,7 @@ public class AudioPlayer {
         }
 
         /**
-         * Resets the timeout before the lable is set to be invisible.
+         * Resets the timeout before the label is set to be invisible.
          */
         public void resetTimeout() {
             audioVolumeLabelTimeout.set(MAX_AUDIO_VOLUME_LABEL_VISIBLE + AUDIO_VOLUME_LABEL_SLEEP_TIME);

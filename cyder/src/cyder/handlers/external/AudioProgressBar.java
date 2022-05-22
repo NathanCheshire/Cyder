@@ -34,7 +34,7 @@ public class AudioProgressBar {
         return null;
     }
 
-    public void startAnimaiton() {
+    public void startAnimation() {
 
     }
 
