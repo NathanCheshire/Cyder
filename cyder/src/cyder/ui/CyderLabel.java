@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
 import org.jsoup.Jsoup;
@@ -46,7 +47,7 @@ public class CyderLabel extends JLabel {
      * @param height the height of the label
      * @return html text which constrains its parent label to the provided pixel bounds
      */
-    public static String generateConstraintedWidthTag(String text, int width, int height) {
+    public static String generateConstrainedWidthTag(String text, int width, int height) {
         return "<div style=\"width:" + width + "px; height:" + height + "px; background:#000000\">" + text + "</div>";
     }
 
@@ -133,7 +134,7 @@ public class CyderLabel extends JLabel {
     }
 
     private void beginRippleSequence() {
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 //restore color so everything goes back to original foreground
                 Color restoreColor = getForeground();
@@ -175,7 +176,7 @@ public class CyderLabel extends JLabel {
                             for (char c : ts.getText().toCharArray()) {
                                 //first we need to pass as many raw chars
                                 // as the iteration "i" we are on, next we need to make sure
-                                // we havne't used up all the ripple chars for this iteration
+                                // we haven't used up all the ripple chars for this iteration
                                 if (charSum >= i && rippled < rippleChars) {
                                     //ripple this char and inc rippled
                                     builder.append(getColoredText(String.valueOf(c), rippleColor));
@@ -223,7 +224,7 @@ public class CyderLabel extends JLabel {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Rippled thread for CyderLabel: " + this).start();
+        }, "CyderLabel Rippler, text = " + this.getText());
     }
 
     private String getColoredText(String text, Color c) {

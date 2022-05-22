@@ -239,7 +239,7 @@ public enum ConsoleFrame {
     /**
      * The index of the command in the command history list we are at.
      */
-    private static int commandIndex;
+    private int commandIndex;
 
     /**
      * The last direction performed upon the most recent switch background call.
@@ -274,12 +274,12 @@ public enum ConsoleFrame {
     /**
      * The absolute minimum size allowable for the ConsoleFrame.
      */
-    private static final Dimension MINIMUM_SIZE = new Dimension(600, 600);
+    private final Dimension MINIMUM_SIZE = new Dimension(600, 600);
 
     /**
      * The possible audio files to play if the starting user background is grayscale.
      */
-    private static final ImmutableList<String> grayscaleAudioPaths = ImmutableList.of(
+    private final ImmutableList<String> grayscaleAudioPaths = ImmutableList.of(
             OSUtil.buildPath("static", "audio", "BadApple.mp3"),
             OSUtil.buildPath("static", "audio", "BadApple.mp3"),
             OSUtil.buildPath("static", "audio", "BlackOrWhite.mp3"));
@@ -2613,16 +2613,6 @@ public enum ConsoleFrame {
             menuButton.setIcon(CyderIcons.menuIcon);
             //no other actions needed
         }
-
-        // set bounds of components affected by the menu
-
-        int addX = 0;
-        int w = consoleCyderFrame.getWidth();
-        int h = consoleCyderFrame.getHeight();
-
-        //offset for components below
-        if (menuLabel.isVisible())
-            addX = 2 + menuLabel.getWidth();
 
         revalidateInputAndOutputBounds();
     }

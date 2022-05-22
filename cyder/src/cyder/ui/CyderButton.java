@@ -4,6 +4,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
@@ -109,7 +110,7 @@ public class CyderButton extends JButton {
     }
 
     public void alert() {
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 Color c1 = getBackground();
                 Color c2 = c1.darker();
@@ -131,7 +132,7 @@ public class CyderButton extends JButton {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, getName() + " alert thread").start();
+        }, getName() + " Alerter");
     }
 
     public void killThreads() {
