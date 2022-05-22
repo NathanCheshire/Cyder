@@ -29,7 +29,6 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -38,7 +37,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * CyderFrame component is the primary backbone that all of Cyder lays on.
+ * CyderFrame component is the primary backbone that all Cyder lies on.
  */
 public class CyderFrame extends JFrame {
     /**
@@ -46,16 +45,6 @@ public class CyderFrame extends JFrame {
      * the notification is turned into a popup pane.
      */
     public static final float NOTIFICATION_TO_FRAME_RATIO = 0.9f;
-
-    /**
-     * The default width for a CyderFrame.
-     */
-    public static final int DEFAULT_WIDTH = 800;
-
-    /**
-     * The default height for a CyderFrame.
-     */
-    public static final int DEFAULT_HEIGHT = 800;
 
     /**
      * The possible title positions for a CyderFrame title.
@@ -489,11 +478,9 @@ public class CyderFrame extends JFrame {
      * @param width      the width of this borderless frame
      * @param height     the height of this borderless frame
      * @param background the background color of the borderless frame
+     * @param borderless an irrelevant parameter because I can't think of a better way to do this
      */
     private CyderFrame(int width, int height, Color background, String borderless) {
-        // borderless param still here since I haven't thought of a better way
-        // to achieve this functionality in a clean, elegant way
-
         this.width = width;
         this.height = height;
 
@@ -583,7 +570,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Returns the icon pane of this CyderFrame.
-     * Currently this is necessary for ConsoleFrame's audio menu and taskbar menu.
+     * Currently, this is necessary for ConsoleFrame's audio menu and taskbar menu.
      *
      * @return the icon pane of this CyderFrame
      */
@@ -631,7 +618,7 @@ public class CyderFrame extends JFrame {
         //removing a panel and setting it to null
         if (cyderPanel == null) {
             if (this.cyderPanel != null) {
-                iconLabel.remove(cyderPanel);
+                iconLabel.remove(this.cyderPanel);
             }
 
             this.cyderPanel = null;
@@ -650,11 +637,11 @@ public class CyderFrame extends JFrame {
      * Returns the components managed by the layout.
      *
      * @return the components managed by the layout
-     * @throws IllegalStateException if no layout is associated with the rame
+     * @throws IllegalStateException if no layout is associated with the name
      */
     public ArrayList<Component> getLayoutComponents() {
         checkNotNull(cyderPanel);
-        checkNotNull(cyderPanel).getLayout();
+        checkNotNull(cyderPanel.getLayout());
         checkNotNull(cyderPanel.getLayoutComponents());
 
         return cyderPanel.getLayoutComponents();
@@ -756,18 +743,17 @@ public class CyderFrame extends JFrame {
             this.titlePosition = titlePosition;
 
             switch (titlePosition) {
-                case LEFT:
+                case LEFT -> {
                     titleLabel.setLocation(4, 2);
                     setButtonPosition(ButtonPosition.RIGHT);
-                    break;
-                case RIGHT:
+                }
+                case RIGHT -> {
                     titleLabel.setLocation(width
                             - StringUtil.getMinWidth(title, titleLabel.getFont()), 2);
                     setButtonPosition(ButtonPosition.LEFT);
-                    break;
-                case CENTER:
-                    titleLabel.setLocation((getTopDragLabel().getWidth() / 2)
-                            - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2), 2);
+                }
+                case CENTER -> titleLabel.setLocation((getTopDragLabel().getWidth() / 2)
+                        - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2), 2);
             }
         }
     }
@@ -786,6 +772,7 @@ public class CyderFrame extends JFrame {
      *
      * @return the button position of this frame
      */
+    @SuppressWarnings("unused")
     public ButtonPosition getButtonPosition() {
         return buttonPosition;
     }
@@ -818,6 +805,7 @@ public class CyderFrame extends JFrame {
      *
      * @return the frame type of this CyderFrame. See {@link CyderFrame#frameType}
      */
+    @SuppressWarnings("unused")
     public FrameType getFrameType() {
         return frameType;
     }
@@ -831,23 +819,20 @@ public class CyderFrame extends JFrame {
         this.frameType = frameType;
 
         switch (this.frameType) {
-            case DEFAULT:
-                setAlwaysOnTop(false);
-                break;
-            case POPUP:
+            case DEFAULT -> setAlwaysOnTop(false);
+            case POPUP -> {
                 setAlwaysOnTop(true);
                 //remove minimize
                 topDrag.removeButton(0);
                 //remove pin
                 topDrag.removeButton(0);
-                break;
-            case INPUT_GETTER:
+            }
+            case INPUT_GETTER -> {
                 setAlwaysOnTop(true);
                 //remove pin
                 topDrag.removeButton(1);
-                break;
-            default:
-                throw new IllegalStateException("Unimplemented state");
+            }
+            default -> throw new IllegalStateException("Unimplemented state");
         }
     }
 
@@ -874,6 +859,7 @@ public class CyderFrame extends JFrame {
      *
      * @return whether the title label will be painted
      */
+    @SuppressWarnings("unused")
     public boolean getPaintWindowTitle() {
         return paintWindowTitle;
     }
@@ -897,6 +883,7 @@ public class CyderFrame extends JFrame {
      *
      * @return whether the window title will be set
      */
+    @SuppressWarnings("unused")
     public boolean getPaintSuperTitle() {
         return paintSuperTitle;
     }
@@ -939,15 +926,10 @@ public class CyderFrame extends JFrame {
             titleWidth = StringUtil.getMinWidth(this.title, titleLabel.getFont());
 
             switch (titlePosition) {
-                case CENTER:
-                    titleLabel.setBounds((getTopDragLabel().getWidth() / 2) - (titleWidth / 2), 2, titleWidth, 25);
-                    break;
-                case RIGHT:
-                    titleLabel.setBounds(width - titleWidth, 2, titleWidth, 25);
-                    break;
-                case LEFT:
-                    titleLabel.setBounds(5, 2, titleWidth, 25);
-                    break;
+                case CENTER -> titleLabel.setBounds((getTopDragLabel().getWidth() / 2) - (titleWidth / 2), 2,
+                        titleWidth, 25);
+                case RIGHT -> titleLabel.setBounds(width - titleWidth, 2, titleWidth, 25);
+                case LEFT -> titleLabel.setBounds(5, 2, titleWidth, 25);
             }
         }
     }
@@ -1232,19 +1214,13 @@ public class CyderFrame extends JFrame {
      *
      * @param expectedText the text of the notification to revoke.
      */
+    @SuppressWarnings("unused")
     public void revokeNotification(String expectedText) {
-        // if it's the current one, revoke it
         if (currentNotif.getBuilder().getHtmlText().equals(expectedText)) {
             revokeCurrentNotification();
         } else {
-            // if in the queue
-            Iterator<NotificationBuilder> iter = notificationList.iterator();
-
-            while (iter.hasNext()) {
-                if (iter.next().getHtmlText().equals(expectedText)) {
-                    iter.remove();
-                }
-            }
+            notificationList.removeIf(notificationBuilder
+                    -> notificationBuilder.getHtmlText().equals(expectedText));
         }
     }
 
@@ -1411,6 +1387,7 @@ public class CyderFrame extends JFrame {
      *
      * @return this frame should fast close when the default dispose is invoked
      */
+    @SuppressWarnings("unused")
     public boolean isShouldFastClose() {
         return shouldFastClose;
     }
@@ -1480,14 +1457,12 @@ public class CyderFrame extends JFrame {
                     int x = (int) point.getX();
                     int y = (int) point.getY();
 
-                    //figure out increment for frames
-                    int distanceToTravel = Math.abs(getY()) + Math.abs(getHeight());
-                    //25 frames to animate
+                    int distanceToTravel = Math.abs(y) + Math.abs(getHeight());
                     int animationInc = (int) ((double) distanceToTravel / animationFrames);
 
                     for (int i = getY() ; i >= -getHeight() ; i -= animationInc) {
                         Thread.sleep(1);
-                        setLocation(getX(), i);
+                        setLocation(x, i);
                     }
                 }
 
@@ -1533,6 +1508,7 @@ public class CyderFrame extends JFrame {
      *
      * @param relocatable whether to allow the frame to be relocated via dragging.
      */
+    @SuppressWarnings("unused")
     public void setRelocatable(boolean relocatable) {
         if (relocatable) {
             enableDragging();
@@ -1556,11 +1532,6 @@ public class CyderFrame extends JFrame {
      * The direction the frame is currently going in its dance routine.
      */
     private DancingDirection dancingDirection = DancingDirection.INITIAL_UP;
-
-    /**
-     * How much the frame location is incremented each dance step.
-     */
-    private final int dancingIncrement = 10;
 
     /**
      * Whether dancing has finished for this frame.
@@ -1600,42 +1571,38 @@ public class CyderFrame extends JFrame {
      * Takes a step in the current dancing direction for a dance routine.
      */
     public void danceStep() {
+        int dancingIncrement = 10;
         switch (dancingDirection) {
-            case INITIAL_UP:
+            case INITIAL_UP -> {
                 setLocation(getX(), getY() - dancingIncrement);
-
                 if (getY() < 0) {
                     setLocation(getX(), 0);
                     dancingDirection = DancingDirection.LEFT;
                 }
-                break;
-            case LEFT:
+            }
+            case LEFT -> {
                 setLocation(getX() - 10, getY());
-
                 if (getX() < 0) {
                     setLocation(0, 0);
                     dancingDirection = DancingDirection.DOWN;
                 }
-                break;
-            case DOWN:
+            }
+            case DOWN -> {
                 setLocation(getX(), getY() + 10);
-
                 if (getY() > ScreenUtil.getScreenHeight() - getHeight()) {
                     setLocation(getX(), ScreenUtil.getScreenHeight() - getHeight());
                     dancingDirection = DancingDirection.RIGHT;
                 }
-                break;
-            case RIGHT:
+            }
+            case RIGHT -> {
                 setLocation(getX() + 10, getY());
-
                 if (getX() > ScreenUtil.getScreenWidth() - getWidth()) {
                     setLocation(ScreenUtil.getScreenWidth() - getWidth(), getY());
                     dancingDirection = DancingDirection.UP;
                 }
-                break;
-            case UP:
+            }
+            case UP -> {
                 setLocation(getX(), getY() - 10);
-
                 if (getY() < 0) {
                     setLocation(getX(), 0);
 
@@ -1643,7 +1610,7 @@ public class CyderFrame extends JFrame {
                     dancingFinished = true;
                     dancingDirection = DancingDirection.LEFT;
                 }
-                break;
+            }
         }
     }
 
@@ -1696,26 +1663,16 @@ public class CyderFrame extends JFrame {
      */
     public void refreshTitleAndButtonPosition() {
         switch (titlePosition) {
-            case LEFT:
-                titleLabel.setLocation(4, 2);
-                break;
-            case RIGHT:
-                titleLabel.setLocation(width -
-                        StringUtil.getMinWidth(title, titleLabel.getFont()), 2);
-                break;
-            case CENTER:
-                titleLabel.setLocation((getTopDragLabel().getWidth() / 2)
-                        - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2), 2);
-                break;
+            case LEFT -> titleLabel.setLocation(4, 2);
+            case RIGHT -> titleLabel.setLocation(width -
+                    StringUtil.getMinWidth(title, titleLabel.getFont()), 2);
+            case CENTER -> titleLabel.setLocation((getTopDragLabel().getWidth() / 2)
+                    - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2), 2);
         }
 
         switch (buttonPosition) {
-            case LEFT:
-                getTopDragLabel().setButtonPosition(CyderDragLabel.ButtonPosition.LEFT);
-                break;
-            case RIGHT:
-                getTopDragLabel().setButtonPosition(CyderDragLabel.ButtonPosition.RIGHT);
-                break;
+            case LEFT -> getTopDragLabel().setButtonPosition(CyderDragLabel.ButtonPosition.LEFT);
+            case RIGHT -> getTopDragLabel().setButtonPosition(CyderDragLabel.ButtonPosition.RIGHT);
         }
     }
 
@@ -1832,20 +1789,15 @@ public class CyderFrame extends JFrame {
         if (getCurrentNotification() != null)
             switch (getCurrentNotification().getBuilder().getArrowDir()) {
                 // center on frame
-                case TOP:
-                case BOTTOM:
-                    currentNotif.setLocation(getWidth() / 2 - currentNotif.getWidth() / 2,
-                            currentNotif.getY());
-                    break;
+                case TOP, BOTTOM -> currentNotif.setLocation(getWidth() / 2 - currentNotif.getWidth() / 2,
+                        currentNotif.getY());
+
                 // maintain right of frame
-                case RIGHT:
-                    currentNotif.setLocation(getWidth() - currentNotif.getWidth() + 5,
-                            currentNotif.getY());
-                    break;
+                case RIGHT -> currentNotif.setLocation(getWidth() - currentNotif.getWidth() + 5,
+                        currentNotif.getY());
+
                 // maintain left of frame
-                case LEFT:
-                    currentNotif.setLocation(5, currentNotif.getY());
-                    break;
+                case LEFT -> currentNotif.setLocation(5, currentNotif.getY());
             }
     }
 
@@ -2102,6 +2054,7 @@ public class CyderFrame extends JFrame {
      *
      * @return whether threads have been killed
      */
+    @SuppressWarnings("unused")
     public boolean threadsKilled() {
         return threadsKilled;
     }
@@ -2109,6 +2062,7 @@ public class CyderFrame extends JFrame {
     /**
      * Set the background of {@code this} to the current ConsoleFrame background.
      */
+    @SuppressWarnings("unused")
     public void stealConsoleBackground() {
         if (ConsoleFrame.INSTANCE.getCurrentBackground() == null)
             return;
@@ -2624,6 +2578,7 @@ public class CyderFrame extends JFrame {
     /**
      * Increments the color index to use for border colors for CyderFrame objects.
      */
+    @SuppressWarnings("unused")
     public static void incrementColorIndex() {
         colorIndex++;
 
@@ -2938,7 +2893,6 @@ public class CyderFrame extends JFrame {
      * @return the center point of this frame
      */
     public Point getCenterPoint() {
-        checkNotNull(this);
         return new Point(getX() + (getWidth() / 2), getY() + (getHeight() / 2));
     }
 
@@ -2947,6 +2901,7 @@ public class CyderFrame extends JFrame {
      *
      * @param p the center point of the frame
      */
+    @SuppressWarnings("unused")
     public void setCenterPoint(Point p) {
         checkNotNull(p);
         setLocation(p.x - getWidth() / 2, p.y - getHeight() / 2);
@@ -3063,6 +3018,7 @@ public class CyderFrame extends JFrame {
     /**
      * Ensures the menu isn't visible and cannot be triggered.
      */
+    @SuppressWarnings("unused")
     public void lockMenuIn() {
         hideMenu();
         setMenuEnabled(false);
@@ -3166,6 +3122,7 @@ public class CyderFrame extends JFrame {
      *
      * @param text the text of the menu item to remove
      */
+    @SuppressWarnings("unused")
     public void removeMenuItem(String text) {
         for (int i = 0 ; i < menuItems.size() ; i++) {
             if (menuItems.get(i).getLabel().getText().equals(text)) {
@@ -3207,9 +3164,9 @@ public class CyderFrame extends JFrame {
      * @param state   the atomic boolean used to dictate the toggled/not toggled state of the menu item if necessary
      */
     public void addMenuItem(String text, Runnable onClick, AtomicBoolean state) {
-        checkArgument(text != null, "Text is null");
-        checkNotNull(!text.isEmpty(), "Provided text is empty");
-        checkNotNull(onClick != null, "onClick runnable action is null");
+        checkNotNull(text);
+        checkArgument(!text.isEmpty());
+        checkNotNull(onClick);
 
         // just to be safe
         text = text.trim();
@@ -3218,8 +3175,6 @@ public class CyderFrame extends JFrame {
         if (text.length() > maxTextLength) {
             text = (text.substring(0, maxTextLength - 3).trim() + "...");
         }
-
-        AtomicBoolean toggled = new AtomicBoolean(false);
 
         JLabel newLabel = new JLabel(text);
         newLabel.setFont(CyderFonts.defaultFontSmall);
@@ -3260,6 +3215,7 @@ public class CyderFrame extends JFrame {
      *
      * @return whether the menu is accessible
      */
+    @SuppressWarnings("unused")
     public boolean isMenuEnabled() {
         return menuEnabled;
     }
@@ -3301,7 +3257,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Animatesthe menu label in.
+     * Animates the menu label in.
      */
     private void animateMenuIn() {
         if (!menuLabel.isVisible())
@@ -3411,8 +3367,6 @@ public class CyderFrame extends JFrame {
             menuLabel.setBorder(new LineBorder(Color.black, 4));
         }
 
-        Dimension menuSize = new Dimension(menuLabel.getWidth(), menuLabel.getHeight());
-
         JTextPane menuPane = new JTextPane() {
             // overridden to disable vertical scrollbar since setting
             // the policy doesn't work apparently, thanks JDK devs
@@ -3459,9 +3413,9 @@ public class CyderFrame extends JFrame {
         menuPane.setText("");
 
         // update externally synced label foregrounds
-        for (int i = 0 ; i < menuItems.size() ; i++) {
-            if (menuItems.get(i).getState() != null) {
-                menuItems.get(i).getLabel().setForeground(menuItems.get(i).getState().get()
+        for (MenuItem menuItem : menuItems) {
+            if (menuItem.getState() != null) {
+                menuItem.getLabel().setForeground(menuItem.getState().get()
                         ? CyderColors.regularRed
                         : CyderColors.vanila);
             }
