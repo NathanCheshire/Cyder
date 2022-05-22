@@ -198,7 +198,7 @@ public class IOUtil {
      */
     public static void playAudio(String FilePath) {
         try {
-            stopAudio();
+            stopGeneralAudio();
             FileInputStream FileInputStream = new FileInputStream(FilePath);
             player = new Player(FileInputStream);
             Logger.log(Logger.Tag.AUDIO, FilePath);
@@ -254,9 +254,10 @@ public class IOUtil {
     }
 
     /**
-     * Stops the audio currently playing. Note that this does not include any system audio or AudioPlayer widget audio.
+     * Stops the audio currently playing. Note that this does not include
+     * any system audio or AudioPlayer widget audio.
      */
-    public static void stopAudio() {
+    public static void stopGeneralAudio() {
         try {
             if (player != null && !player.isComplete()) {
                 player.close();
@@ -273,9 +274,10 @@ public class IOUtil {
     /**
      * Stops any and all audio playing either through the audio player or the general player.
      */
+    @SuppressWarnings("unused")
     public static void stopAllAudio() {
         if (generalAudioPlaying()) {
-            stopAudio();
+            stopGeneralAudio();
         }
 
         if (AudioPlayer.isAudioPlaying()) {
@@ -286,11 +288,12 @@ public class IOUtil {
     /**
      * Pause audio if playing via AudioPlayer.
      */
+    @SuppressWarnings("unused")
     public static void pauseAudio() {
         if (AudioPlayer.isAudioPlaying()) {
             AudioPlayer.handlePlayPauseButtonClick();
         } else if (generalAudioPlaying()) {
-            stopAudio();
+            stopGeneralAudio();
         }
     }
 

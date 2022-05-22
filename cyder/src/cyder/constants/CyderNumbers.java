@@ -26,11 +26,6 @@ public class CyderNumbers {
     public static final float SIMILAR_COMMAND_TOL = 0.80f;
 
     /**
-     * The start of function key code identifiers for Windows.
-     */
-    public static final int FUNCTION_KEY_START = 61427;
-
-    /**
      * Suppress default constructor.
      */
     private CyderNumbers() {

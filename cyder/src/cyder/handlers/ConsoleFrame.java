@@ -5,7 +5,10 @@ import com.google.common.collect.ImmutableList;
 import cyder.common.CyderBackground;
 import cyder.common.GetterBuilder;
 import cyder.common.NotificationBuilder;
-import cyder.constants.*;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
@@ -340,7 +343,8 @@ public enum ConsoleFrame {
                 }
 
                 if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
-                    audioControlsLabel.setBounds(w - 156, CyderDragLabel.DEFAULT_HEIGHT - 2,
+                    audioControlsLabel.setBounds(w - audioControlsLabel.getWidth() - 6,
+                            CyderDragLabel.DEFAULT_HEIGHT - 2,
                             audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
                 }
 
@@ -1575,20 +1579,38 @@ public enum ConsoleFrame {
         }
     };
 
+    private final ImmutableList<Integer> specialFunctionKeyCodes = ImmutableList.of(
+            KeyEvent.VK_F13,
+            KeyEvent.VK_F14,
+            KeyEvent.VK_F15,
+            KeyEvent.VK_F16,
+            KeyEvent.VK_F17,
+            KeyEvent.VK_F18,
+            KeyEvent.VK_F19,
+            KeyEvent.VK_F20,
+            KeyEvent.VK_F21,
+            KeyEvent.VK_F22,
+            KeyEvent.VK_F23,
+            KeyEvent.VK_F24);
+
     /**
      * The key listener for input field to control command scrolling.
      */
     private final KeyListener commandScrolling = new KeyAdapter() {
         @Override
-        @SuppressWarnings("ConstantConditions")
         public void keyPressed(java.awt.event.KeyEvent event) {
             int code = event.getKeyCode();
+
+            if (code == KeyEvent.VK_E)
+                code = KeyEvent.VK_F17;
 
             try {
                 // make sure ctrl + alt are not pressed
                 if ((event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) == 0
                         && ((event.getModifiersEx() & InputEvent.ALT_DOWN_MASK) == 0)) {
+
                     // command scrolling
+
                     if (code == KeyEvent.VK_UP) {
                         if (commandIndex - 1 >= 0) {
                             commandIndex -= 1;
@@ -1606,15 +1628,14 @@ public enum ConsoleFrame {
                         }
                     }
 
-                    // todo make this easier to read
-                    int functionKeyOffset = 13;
-                    for (int i = CyderNumbers.FUNCTION_KEY_START - functionKeyOffset
-                         ; i < CyderNumbers.FUNCTION_KEY_START + functionKeyOffset ; i++) {
-                        if (code == i) {
-                            baseInputHandler.println("Interesting F"
-                                    + (i - CyderNumbers.FUNCTION_KEY_START) + " key");
+                    // function key easter egg
 
-                            if (i - CyderNumbers.FUNCTION_KEY_START == 17) {
+                    for (int specialCode : specialFunctionKeyCodes) {
+                        if (code == specialCode) {
+                            int functionKey = (code - KeyEvent.VK_F13 + 13);
+                            baseInputHandler.println("Interesting F" + functionKey + " key");
+
+                            if (functionKey == 17) {
                                 IOUtil.playAudio("static/audio/f17.mp3");
                             }
                         }
@@ -2551,7 +2572,7 @@ public enum ConsoleFrame {
 
         //audio menu bounds
         if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
-            audioControlsLabel.setBounds(w - 156, CyderDragLabel.DEFAULT_HEIGHT - 2,
+            audioControlsLabel.setBounds(w - audioControlsLabel.getWidth(), CyderDragLabel.DEFAULT_HEIGHT - 2,
                     audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
         }
 
@@ -2614,7 +2635,8 @@ public enum ConsoleFrame {
     private void animateOutAudioControls() {
         CyderThreadRunner.submit(() -> {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
-                audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, i);
+                audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
+                        - audioControlsLabel.getWidth() - 6, i);
                 try {
                     Thread.sleep(10);
                 } catch (Exception ignored) {
@@ -2630,7 +2652,8 @@ public enum ConsoleFrame {
     public void animateOutAndRemoveAudioControls() {
         CyderThreadRunner.submit(() -> {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
-                audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, i);
+                audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
+                        - audioControlsLabel.getWidth() - 6, i);
                 try {
                     Thread.sleep(10);
                 } catch (Exception ignored) {
@@ -2646,16 +2669,19 @@ public enum ConsoleFrame {
      */
     private void animateInAudioControls() {
         CyderThreadRunner.submit(() -> {
-            audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, -40);
+            audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
+                    - audioControlsLabel.getWidth() - 6, -40);
             audioControlsLabel.setVisible(true);
             for (int i = -40 ; i < CyderDragLabel.DEFAULT_HEIGHT - 2 ; i += 8) {
-                audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, i);
+                audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
+                        - audioControlsLabel.getWidth() - 6, i);
                 try {
                     Thread.sleep(10);
                 } catch (Exception ignored) {
                 }
             }
-            audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, CyderDragLabel.DEFAULT_HEIGHT - 2);
+            audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
+                    - audioControlsLabel.getWidth() - 6, CyderDragLabel.DEFAULT_HEIGHT - 2);
         }, "Console Audio Menu Minimizer");
     }
 
@@ -2696,25 +2722,68 @@ public enum ConsoleFrame {
      * Generates the audio menu label and the button components.
      */
     private void generateAudioMenu() {
-        audioControlsLabel = new JLabel("");
-        audioControlsLabel.setBounds(consoleCyderFrame.getWidth() - 156,
-                -40, //negative height
-                150, 40);
+        int numButtons = 3;
+        int buttonSize = 30;
+
+        int xPadding = 10;
+
+        int labelWidth = buttonSize * numButtons + xPadding * (numButtons + 1);
+        int labelHeight = 40;
+
+        int yPadding = (labelHeight - buttonSize) / 2;
+
+        audioControlsLabel = new JLabel();
+        audioControlsLabel.setBounds(consoleCyderFrame.getWidth() - labelWidth - 6,
+                -labelHeight, labelWidth, labelHeight);
         audioControlsLabel.setOpaque(true);
         audioControlsLabel.setBackground(CyderColors.getGuiThemeColor());
         audioControlsLabel.setBorder(new LineBorder(Color.black, 5));
         audioControlsLabel.setVisible(false);
         consoleCyderFrame.getIconPane().add(audioControlsLabel, JLayeredPane.MODAL_LAYER);
 
-        playPauseAudioLabel = new JLabel("");
-        playPauseAudioLabel.setBounds(80, 5, 30, 30);
+        int currentX = xPadding;
 
-        audioControlsLabel.add(playPauseAudioLabel);
+        JLabel lastMusicLabel = new JLabel();
+        lastMusicLabel.setBounds(currentX, yPadding, buttonSize, buttonSize);
+        lastMusicLabel.setIcon(new ImageIcon("static/pictures/music/SkipBack.png"));
+        lastMusicLabel.setToolTipText("Previous");
+        lastMusicLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (AudioPlayer.isWidgetOpen()) {
+                    AudioPlayer.handleLastAudioButtonClick();
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lastMusicLabel.setIcon(new ImageIcon("static/pictures/music/SkipBackHover.png"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lastMusicLabel.setIcon(new ImageIcon("static/pictures/music/SkipBack.png"));
+            }
+        });
+        lastMusicLabel.setVisible(true);
+        lastMusicLabel.setOpaque(false);
+        audioControlsLabel.add(lastMusicLabel);
+
+        currentX += xPadding + buttonSize;
+
+        playPauseAudioLabel = new JLabel();
+        playPauseAudioLabel.setBounds(currentX, yPadding, buttonSize, buttonSize);
         playPauseAudioLabel.setToolTipText("Play/Pause");
         playPauseAudioLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                AudioPlayer.handlePlayPauseButtonClick();
+                if (AudioPlayer.isWidgetOpen()) {
+                    AudioPlayer.handlePlayPauseButtonClick();
+                }
+
+                if (IOUtil.generalAudioPlaying()) {
+                    IOUtil.stopGeneralAudio();
+                }
             }
 
             @Override
@@ -2738,14 +2807,19 @@ public enum ConsoleFrame {
         playPauseAudioLabel.setVisible(true);
         playPauseAudioLabel.setOpaque(false);
         audioControlsLabel.add(playPauseAudioLabel);
+
         if (!IOUtil.generalAudioPlaying() && !AudioPlayer.isAudioPlaying()) {
             playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
         } else {
             playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
         }
 
-        JLabel nextMusicLabel = new JLabel("");
-        nextMusicLabel.setBounds(110, 5, 30, 30);
+        audioControlsLabel.add(playPauseAudioLabel);
+
+        currentX += xPadding + buttonSize;
+
+        JLabel nextMusicLabel = new JLabel();
+        nextMusicLabel.setBounds(currentX, yPadding, buttonSize, buttonSize);
         nextMusicLabel.setIcon(new ImageIcon("static/pictures/music/Skip.png"));
         audioControlsLabel.add(nextMusicLabel);
         nextMusicLabel.setToolTipText("Skip");
@@ -2769,34 +2843,8 @@ public enum ConsoleFrame {
         });
         nextMusicLabel.setVisible(true);
         nextMusicLabel.setOpaque(false);
+
         audioControlsLabel.add(nextMusicLabel);
-
-        JLabel lastMusicLabel = new JLabel("");
-        lastMusicLabel.setBounds(10, 5, 30, 30);
-        lastMusicLabel.setIcon(new ImageIcon("static/pictures/music/SkipBack.png"));
-        audioControlsLabel.add(nextMusicLabel);
-        lastMusicLabel.setToolTipText("Previous");
-        lastMusicLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (AudioPlayer.isWidgetOpen()) {
-                    AudioPlayer.handleLastAudioButtonClick();
-                }
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                lastMusicLabel.setIcon(new ImageIcon("static/pictures/music/SkipBackHover.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                lastMusicLabel.setIcon(new ImageIcon("static/pictures/music/SkipBack.png"));
-            }
-        });
-        lastMusicLabel.setVisible(true);
-        lastMusicLabel.setOpaque(false);
-        audioControlsLabel.add(lastMusicLabel);
     }
 
     /**
@@ -2929,7 +2977,7 @@ public enum ConsoleFrame {
         saveScreenStat();
 
         //stop any audio
-        IOUtil.stopAudio();
+        IOUtil.stopGeneralAudio();
 
         //close the input handler
         Objects.requireNonNull(baseInputHandler).killThreads();

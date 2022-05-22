@@ -641,7 +641,7 @@ public class BaseInputHandler {
         } else if (commandIs("toystory")) {
             IOUtil.playAudio("static/audio/TheClaw.mp3");
         } else if (commandIs("stopmusic")) {
-            IOUtil.stopAudio();
+            IOUtil.stopGeneralAudio();
         } else if (commandIs("logic")) {
             IOUtil.playAudio("static/audio/commando.mp3");
         } else if (commandIs("1-800-273-8255") || commandIs("18002738255")) {
@@ -2289,7 +2289,7 @@ public class BaseInputHandler {
         escapeWrapShell = true;
 
         //stop music
-        IOUtil.stopAudio();
+        IOUtil.stopGeneralAudio();
 
         //cancel dancing threads
         ConsoleFrame.INSTANCE.stopDancing();

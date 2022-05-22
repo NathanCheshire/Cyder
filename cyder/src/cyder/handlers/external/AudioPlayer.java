@@ -49,8 +49,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-// todo opening a dreamy file to start with breaks it
-
 // todo views should slide in and out like StraightShot
 
 // todo progress bar needs to move smoothly even if 1s audio length
@@ -63,6 +61,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 //  when dreamifying audio back and forth audio is not as seamless as it should be
 
 // todo dreamifying doesn't perfectly resume audio from where it was before dreamifying/un-dreamifying
+
+// todo there's just general bugs from determining how long an audio is too
 
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
@@ -537,6 +537,8 @@ public class AudioPlayer {
 
         currentAudioFile = startPlaying;
         refreshAudioFiles();
+
+        audioDreamified.set(isCurrentAudioDreamy());
 
         // if frame is open, stop whatever audio is playing or
         // paused and begin playing the requested audio
