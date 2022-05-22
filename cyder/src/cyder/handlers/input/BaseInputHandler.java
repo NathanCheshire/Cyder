@@ -322,12 +322,13 @@ public class BaseInputHandler {
                     println("Hello, " + UserUtil.getCyderUser().getName() + ".");
                     break;
                 case 2:
-                    if (TimeUtil.isEvening())
+                    if (TimeUtil.isEvening()) {
                         println("Good evening, " + UserUtil.getCyderUser().getName() + ". How can I help?");
-                    else if (TimeUtil.isMorning())
+                    } else if (TimeUtil.isMorning()) {
                         println("Good morning, " + UserUtil.getCyderUser().getName() + ". How can I help?");
-                    else
+                    } else {
                         println("Good afternoon, " + UserUtil.getCyderUser().getName() + ". How can I help?");
+                    }
                     break;
                 case 3:
                     println("What's up, " + UserUtil.getCyderUser().getName() + "?");

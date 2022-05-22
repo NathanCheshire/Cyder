@@ -19,20 +19,53 @@ public final class NotificationBuilder {
      */
     public static final int MINIMUM_TEXT_LENGTH = 2;
 
-    // required params
+    // -------------------
+    // Required parameters
+    // -------------------
+
+    /**
+     * The html styled text to display.
+     */
     private final String htmlText;
 
-    // optional params
+    // -------------------
+    // Optional parameters
+    // -------------------
+
+    /**
+     * The duration the notification should be visible for in ms not counting the animation period.
+     */
     private int viewDuration = 5000;
+
+    /**
+     * The direction to draw the notification arrow.
+     */
     private Direction arrowDir = Direction.TOP;
+
+    /**
+     * The runnable to invoke upon the notification being killed by a user.
+     */
     private Runnable onKillAction;
+
+    /**
+     * The direction for the notification to appear/disappear from/to.
+     */
     private NotificationDirection notificationDirection = NotificationDirection.TOP;
+
+    /**
+     * The type of notification, i.e. notification vs toast.
+     */
     private NotificationType notificationType = NotificationType.NOTIFICATION;
 
-    // the container, typically just the text label
+    /**
+     * The custom container for the notification. If this is not provided a label is generated
+     * which holds the html styled text.
+     */
     private JLabel container;
 
-    // set on object creation
+    /**
+     * The time the notification was originally constructed at.
+     */
     private final String notifyTime;
 
     /**
@@ -41,18 +74,14 @@ public final class NotificationBuilder {
      * @param htmlText the html styled text to display
      */
     public NotificationBuilder(String htmlText) {
-        // ensure valid props
         Preconditions.checkNotNull(htmlText);
         Preconditions.checkArgument(htmlText.length() >= MINIMUM_TEXT_LENGTH,
                 "HTML text length is less than " + MINIMUM_TEXT_LENGTH);
 
-        // necessary vars init
         this.htmlText = htmlText;
 
-        // auto generated vars
         notifyTime = TimeUtil.notificationTime();
 
-        // log object creation
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
@@ -188,9 +217,9 @@ public final class NotificationBuilder {
         this.notificationType = notificationType;
     }
 
-    // -------------------------------------------------------
-    // Primary methods to override according to Effective Java
-    // -------------------------------------------------------
+    // -----------------------------------------------
+    // Methods to override according to Effective Java
+    // -----------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -220,9 +249,15 @@ public final class NotificationBuilder {
      */
     @Override
     public int hashCode() {
-        return Objects.hashCode(htmlText, viewDuration,
-                arrowDir, onKillAction, notificationDirection,
-                notificationType, container, notifyTime);
+        return Objects.hashCode(
+                viewDuration,
+                notifyTime,
+                htmlText,
+                arrowDir,
+                onKillAction,
+                notificationDirection,
+                notificationType,
+                container);
     }
 
     /**

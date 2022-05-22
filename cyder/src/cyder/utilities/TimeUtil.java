@@ -345,50 +345,21 @@ public class TimeUtil {
      * @return the String representation of the month
      */
     public static String monthFromNumber(int monthNumber) {
-        String result = "";
-
-        switch (monthNumber) {
-            case 1:
-                result = "January";
-                break;
-            case 2:
-                result = "February";
-                break;
-            case 3:
-                result = "March";
-                break;
-            case 4:
-                result = "April";
-                break;
-            case 5:
-                result = "May";
-                break;
-            case 6:
-                result = "June";
-                break;
-            case 7:
-                result = "July";
-                break;
-            case 8:
-                result = "August";
-                break;
-            case 9:
-                result = "September";
-                break;
-            case 10:
-                result = "October";
-                break;
-            case 11:
-                result = "November";
-                break;
-            case 12:
-                result = "December";
-                break;
-            default:
-                throw new IllegalStateException("Invalid month code: " + monthNumber);
-        }
-
-        return result;
+        return switch (monthNumber) {
+            case 1 -> "January";
+            case 2 -> "February";
+            case 3 -> "March";
+            case 4 -> "April";
+            case 5 -> "May";
+            case 6 -> "June";
+            case 7 -> "July";
+            case 8 -> "August";
+            case 9 -> "September";
+            case 10 -> "October";
+            case 11 -> "November";
+            case 12 -> "December";
+            default -> throw new IllegalStateException("Invalid month code: " + monthNumber);
+        };
     }
 
     /**
@@ -416,6 +387,7 @@ public class TimeUtil {
      *
      * @return whether the current time is between 12:00pm and 6:00pm
      */
+    @SuppressWarnings("unused")
     public static boolean isAfterNoon() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         return hour > 11 && hour < 17;
@@ -562,6 +534,7 @@ public class TimeUtil {
      * @param msTime the time represented in milliseconds
      * @return the provided milliseconds to years
      */
+    @SuppressWarnings("unused")
     public static double millisToYears(long msTime) {
         return millisToMonths(msTime) / 12.0;
     }
