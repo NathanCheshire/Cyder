@@ -237,7 +237,7 @@ public class Cyder {
         try {
             // started blocking method in above thread but need to wait
             // for it to either bind or fail
-            Thread.sleep(500);
+            Thread.sleep(CyderNumbers.singleInstanceEnsurerTimeout);
         } catch (InterruptedException e) {
             ExceptionHandler.handle(e);
         }

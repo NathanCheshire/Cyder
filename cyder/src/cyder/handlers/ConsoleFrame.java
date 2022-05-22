@@ -22,7 +22,6 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.user.*;
 import cyder.utilities.*;
-import cyder.widgets.CardWidget;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -35,7 +34,6 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 import java.io.File;
-import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -1024,30 +1022,29 @@ public enum ConsoleFrame {
      * debug properties, determining the user's last start time, auto testing, etc.
      */
     private void onLaunch() {
-        //special day events
         if (TimeUtil.isChristmas()) {
             consoleCyderFrame.notify("Merry Christmas!");
-            cardReflector("Christmas", TimeUtil.getYear());
+            ReflectionUtil.cardReflector("Christmas", TimeUtil.getYear());
         }
 
         if (TimeUtil.isHalloween()) {
             consoleCyderFrame.notify("Happy Halloween!");
-            cardReflector("Halloween", TimeUtil.getYear());
+            ReflectionUtil.cardReflector("Halloween", TimeUtil.getYear());
         }
 
         if (TimeUtil.isIndependenceDay()) {
             consoleCyderFrame.notify("Happy 4th of July!");
-            cardReflector("Independence", TimeUtil.getYear());
+            ReflectionUtil.cardReflector("Independence", TimeUtil.getYear());
         }
 
         if (TimeUtil.isThanksgiving()) {
             consoleCyderFrame.notify("Happy Thanksgiving!");
-            cardReflector("Thanksgiving", TimeUtil.getYear());
+            ReflectionUtil.cardReflector("Thanksgiving", TimeUtil.getYear());
         }
 
         if (TimeUtil.isAprilFoolsDay()) {
             consoleCyderFrame.notify("Happy April Fools Day!");
-            cardReflector("AprilFools", TimeUtil.getYear());
+            ReflectionUtil.cardReflector("AprilFools", TimeUtil.getYear());
         }
 
         if (TimeUtil.isValentinesDay()) {
@@ -1062,23 +1059,22 @@ public enum ConsoleFrame {
             consoleCyderFrame.notify("Happy Easter!");
         }
 
-        if (TimeUtil.isDeveloperBirthday())
+        if (TimeUtil.isDeveloperBirthday()) {
+            ConsoleFrame.INSTANCE.getInputHandler().println("Thanks for creating me Nate :,)");
+        }
 
-            //preferences that launch widgets/stats on start
-            if (UserUtil.getCyderUser().getDebugwindows().equals("1")) {
-                StatUtil.systemProperties();
-                StatUtil.computerProperties();
-                StatUtil.javaProperties();
-                StatUtil.debugMenu();
-            }
+        if (UserUtil.getCyderUser().getDebugwindows().equals("1")) {
+            StatUtil.systemProperties();
+            StatUtil.computerProperties();
+            StatUtil.javaProperties();
+            StatUtil.debugMenu();
+        }
 
-        //testing mode to auto execute Debug tests
         if (CyderToggles.TESTING_MODE) {
             Logger.log(Logger.Tag.CONSOLE_LOAD, "[" + OSUtil.getSystemUsername() + "] [TESTING MODE]");
             ManualTests.launchTests();
         }
 
-        //last start time operations
         if (TimeUtil.millisToDays(System.currentTimeMillis() -
                 Long.parseLong(UserUtil.getCyderUser().getLaststart())) > 1) {
             consoleCyderFrame.notify("Welcome back, " + UserUtil.getCyderUser().getName() + "!");
@@ -1087,25 +1083,6 @@ public enum ConsoleFrame {
         UserUtil.getCyderUser().setLaststart(String.valueOf(System.currentTimeMillis()));
 
         introMusicCheck();
-    }
-
-    /**
-     * Invokes the method with the name holiday + year from the CardsWidget.
-     *
-     * @param holiday the holiday name such as Christmas
-     * @param year    the year of the holiday such as 2021
-     */
-    private void cardReflector(String holiday, int year) {
-        try {
-            for (Method m : CardWidget.class.getMethods()) {
-                if (m.getName().toLowerCase().contains(holiday.toLowerCase())
-                        && m.getName().toLowerCase().contains(String.valueOf(year))) {
-                    m.invoke(CardWidget.class);
-                }
-            }
-        } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
-        }
     }
 
     /**
@@ -1603,11 +1580,12 @@ public enum ConsoleFrame {
      */
     private final KeyListener commandScrolling = new KeyAdapter() {
         @Override
-        @SuppressWarnings("ConstantConditions") // todo test function easter eggs
+        @SuppressWarnings("ConstantConditions")
         public void keyPressed(java.awt.event.KeyEvent event) {
             int code = event.getKeyCode();
 
             try {
+                // make sure ctrl + alt are not pressed
                 if ((event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) == 0
                         && ((event.getModifiersEx() & InputEvent.ALT_DOWN_MASK) == 0)) {
                     // command scrolling
@@ -1628,6 +1606,7 @@ public enum ConsoleFrame {
                         }
                     }
 
+                    // todo make this easier to read
                     int functionKeyOffset = 13;
                     for (int i = CyderNumbers.FUNCTION_KEY_START - functionKeyOffset
                          ; i < CyderNumbers.FUNCTION_KEY_START + functionKeyOffset ; i++) {
@@ -1651,7 +1630,7 @@ public enum ConsoleFrame {
      * The MouseWheelListener used for increasing/decreasing the
      * font size for input field and output area.
      */
-    @SuppressWarnings("MagicConstant") // font metric should be within range
+    @SuppressWarnings("MagicConstant") // check font metric before using
     private final MouseWheelListener fontSizerListener = e -> {
         if (e.isControlDown()) {
             int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
@@ -1668,8 +1647,10 @@ public enum ConsoleFrame {
                 String fontName = UserUtil.getCyderUser().getFont();
                 int fontMetric = Integer.parseInt(UserUtil.getCyderUser().getFontmetric());
 
-                inputField.setFont(new Font(fontName, fontMetric, size));
-                outputArea.setFont(new Font(fontName, fontMetric, size));
+                if (NumberUtil.numberInFontMetricRange(fontMetric)) {
+                    inputField.setFont(new Font(fontName, fontMetric, size));
+                    outputArea.setFont(new Font(fontName, fontMetric, size));
+                }
 
                 UserUtil.getCyderUser().setFontsize(String.valueOf(size));
             } catch (Exception ignored) {
@@ -1722,11 +1703,17 @@ public enum ConsoleFrame {
      *
      * @return the font to use for the input and output areas
      */
-    @SuppressWarnings("MagicConstant")
+    @SuppressWarnings("MagicConstant") // check font metric before use
     public Font generateUserFont() {
-        return new Font(UserUtil.getCyderUser().getFont(),
-                Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
-                Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
+        int metric = Integer.parseInt(UserUtil.getCyderUser().getFontmetric());
+
+        if (NumberUtil.numberInFontMetricRange(metric)) {
+            return new Font(UserUtil.getCyderUser().getFont(), metric,
+                    Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
+        } else {
+            return new Font(UserUtil.getCyderUser().getFont(), Font.BOLD,
+                    Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
+        }
     }
 
     // -----------------

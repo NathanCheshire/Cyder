@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.*;
@@ -13,6 +14,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.CyderFrame;
+import cyder.widgets.CardWidget;
 
 import javax.swing.*;
 import java.awt.*;
@@ -77,6 +79,7 @@ public class ReflectionUtil {
      * @param clazz the class to find all getters of
      * @return a list of strings resulting from the get calls on the provided class
      */
+    @SuppressWarnings("unused")
     public static LinkedList<String> getGetters(Class<?> clazz) {
         Preconditions.checkNotNull(clazz);
 
@@ -106,12 +109,42 @@ public class ReflectionUtil {
     public static String commonCyderToString(Object obj) {
         String reflectedFields = buildGetterString(obj);
 
-        if (reflectedFields == null || reflectedFields.isEmpty()) {
+        if (reflectedFields.isEmpty()) {
             reflectedFields = "No reflection data acquired";
         }
 
         return getBottomLevelClass(obj.getClass()) + ", hash = " + obj.hashCode()
                 + ", reflection data = " + reflectedFields;
+    }
+
+    /**
+     * A class used for reflection to find special methods within an object.
+     */
+    private static class SpecialMethod {
+        private final String startsWith;
+        private final String logPattern;
+        private String methodResult;
+
+        public SpecialMethod(String startsWith, String logPattern) {
+            this.startsWith = startsWith;
+            this.logPattern = logPattern;
+        }
+
+        public String getStartsWith() {
+            return startsWith;
+        }
+
+        public String getLogPattern() {
+            return logPattern;
+        }
+
+        public String getMethodResult() {
+            return methodResult;
+        }
+
+        public void setMethodResult(String methodResult) {
+            this.methodResult = methodResult;
+        }
     }
 
     /**
@@ -122,54 +155,32 @@ public class ReflectionUtil {
      */
     public static String commonCyderUIReflection(Component obj) {
         CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(obj);
-        String parentFrame;
 
-        if (topFrame != null) {
-            parentFrame = topFrame.getTitle();
-        } else if (obj instanceof CyderFrame) {
-            parentFrame = "Component is top frame";
-        } else {
-            parentFrame = "No parent frame";
-        }
+        String parentFrame = topFrame != null
+                ? topFrame.getTitle()
+                : obj instanceof CyderFrame
+                ? "Component itself is a CyderFrame"
+                : "No parent frame found";
 
-        // special methods to look for as a Component
-        String getTitleResult = null;
-        String getTextResult = null;
-        String getTooltipResult = null;
+        ImmutableList<SpecialMethod> specialMethods = ImmutableList.of(
+                new SpecialMethod("getText", ", getText() = "),
+                new SpecialMethod("getTooltipText", ", getTooltipText() = "),
+                new SpecialMethod("getTitle", ", getTitle() = ")
+        );
 
         try {
             for (Method method : obj.getClass().getMethods()) {
-                if (method.getName().startsWith("getText") && method.getParameterCount() == 0) {
-                    Object locGetText = method.invoke(obj);
+                for (SpecialMethod specialMethod : specialMethods) {
+                    if (method.getName().startsWith(specialMethod.startsWith)
+                            && method.getParameterCount() == 0) {
+                        Object localInvokeResult = method.invoke(obj);
 
-                    if (locGetText instanceof String) {
-                        String locGetTextString = (String) locGetText;
-
-                        if (locGetTextString != null && !locGetTextString.isEmpty()
-                                && !locGetTextString.equalsIgnoreCase("null")) {
-                            getTextResult = locGetTextString;
-                        }
-                    }
-                } else if (method.getName().startsWith("getTooltipText") && method.getParameterCount() == 0) {
-                    Object locGetTooltipText = method.invoke(obj);
-
-                    if (locGetTooltipText instanceof String) {
-                        String locGetTooltipTextString = (String) locGetTooltipText;
-
-                        if (locGetTooltipTextString != null && !locGetTooltipTextString.isEmpty()
-                                && !locGetTooltipTextString.equalsIgnoreCase("null")) {
-                            getTooltipResult = locGetTooltipTextString;
-                        }
-                    }
-                } else if (method.getName().startsWith("getTitle") && method.getParameterCount() == 0) {
-                    Object locGetTitle = method.invoke(obj);
-
-                    if (locGetTitle instanceof String) {
-                        String locGetTitleString = (String) locGetTitle;
-
-                        if (locGetTitleString != null && !locGetTitleString.isEmpty()
-                                && !locGetTitleString.equalsIgnoreCase("null")) {
-                            getTitleResult = locGetTitleString;
+                        if (localInvokeResult instanceof String localInvokeResultString) {
+                            if (!localInvokeResultString.isEmpty()
+                                    && !StringUtil.isNull(localInvokeResultString)) {
+                                specialMethod.setMethodResult(specialMethod.getLogPattern()
+                                        + localInvokeResultString);
+                            }
                         }
                     }
                 }
@@ -179,21 +190,20 @@ public class ReflectionUtil {
         }
 
         StringBuilder ret = new StringBuilder();
-        ret.append("Component = " + getBottomLevelClass(obj.getClass()) + ", hash = " + obj.hashCode()
-                + ", bounds = (" + obj.getX() + ", " + obj.getY() + ", " + obj.getWidth() + ", "
-                + obj.getHeight() + ")");
-        ret.append(", parent frame = " + parentFrame);
 
-        if (!StringUtil.isNull(getTextResult)) {
-            ret.append(", getText() = " + getTextResult);
-        }
+        ret.append("Component = ")
+                .append(getBottomLevelClass(obj.getClass()))
+                .append(", hash = ")
+                .append(obj.hashCode())
+                .append(", bounds = (").append(obj.getX()).append(", ").append(obj.getY())
+                .append(", ").append(obj.getWidth()).append(", ").append(obj.getHeight()).append(")");
 
-        if (!StringUtil.isNull(getTooltipResult)) {
-            ret.append(", getTooltip() = " + getTooltipResult);
-        }
+        ret.append(", parent frame = ").append(parentFrame);
 
-        if (!StringUtil.isNull(getTitleResult)) {
-            ret.append(", getTitle() = " + getTitleResult);
+        for (SpecialMethod specialMethod : specialMethods) {
+            if (!StringUtil.isNull(specialMethod.getLogPattern())) {
+                ret.append(specialMethod.getMethodResult());
+            }
         }
 
         return ret.toString();
@@ -463,6 +473,25 @@ public class ReflectionUtil {
         }
 
         return false;
+    }
+
+    /**
+     * Invokes the method with the name holiday + year from the CardsWidget.
+     *
+     * @param holiday the holiday name such as Christmas
+     * @param year    the year of the holiday such as 2021
+     */
+    public static void cardReflector(String holiday, int year) {
+        try {
+            for (Method m : CardWidget.class.getMethods()) {
+                if (m.getName().toLowerCase().contains(holiday.toLowerCase())
+                        && m.getName().toLowerCase().contains(String.valueOf(year))) {
+                    m.invoke(CardWidget.class);
+                }
+            }
+        } catch (Exception e) {
+            ExceptionHandler.silentHandle(e);
+        }
     }
 
     /**

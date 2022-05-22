@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.common.collect.Range;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
@@ -7,9 +8,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
-
-import static cyder.constants.CyderNumbers.INFINITY;
-import static cyder.constants.CyderNumbers.NEG_INFINITY;
 
 /**
  * A common Number methods class such as generating random
@@ -37,7 +35,7 @@ public class NumberUtil {
     /**
      * Returns a random integer in the range [0, upperBound).
      *
-     * @param upperBound the upper bound of the random range (upperBound is exluded from the possible values)
+     * @param upperBound the upper bound of the random range (upperBound is excluded from the possible values)
      * @return a random integer in the range [0, upperBound)
      */
     public static int randInt(int upperBound) {
@@ -117,6 +115,7 @@ public class NumberUtil {
      * @param num the number of find a string representation for
      * @return the string representation for the provided integer
      */
+    @SuppressWarnings("unused")
     public static String toWords(int num) {
         return toWords(String.valueOf(num));
     }
@@ -132,7 +131,7 @@ public class NumberUtil {
         if (wordRep == null || wordRep.isEmpty())
             return "ERROR";
 
-        //convert to a big interger
+        //convert to a big integer
         BigInteger num = new BigInteger(wordRep);
 
         //check for zero
@@ -233,6 +232,7 @@ public class NumberUtil {
      * @param num the number to get a word representation for
      * @return the word representation for any digit in the inclusive range [0, 9]
      */
+    @SuppressWarnings("unused")
     private static String wordForOnes(int num) {
         return onesPlace[num];
     }
@@ -240,16 +240,17 @@ public class NumberUtil {
     /**
      * String representations for all digits in the ten's place in base 10
      */
-    private static final String[] tensPlace = {"", "", "twenty", "thirty", "fourty",
+    private static final String[] tensPlace = {"", "", "twenty", "thirty", "forty",
             "fifty", "sixty", "seventy", "eighty", "ninety"};
 
     /**
      * Returns the word representation for any digit in the ten's place in base 10.
      * Example: 0 and 1 return nothing whilst 9 returns ninety.
      *
-     * @param num the number to get a word represenation for provided the number is in the ten's place
+     * @param num the number to get a word representation for provided the number is in the ten's place
      * @return the word representation for the number in the ten's place in base 10
      */
+    @SuppressWarnings("unused")
     private static String wordForTens(int num) {
         return tensPlace[num];
     }
@@ -266,6 +267,7 @@ public class NumberUtil {
      * @param num the number to find a word representation of
      * @return the word representation for a number in the inclusive range [10, 19]
      */
+    @SuppressWarnings("unused")
     private static String wordForTeenNums(int num) {
         return teens[num - 10];
     }
@@ -284,7 +286,7 @@ public class NumberUtil {
      * Example: 1 will return "-thousand" and 3 will return "-billion"
      *
      * @param trioPlace the place of the trio in its parent number
-     * @return the prefix associated with the palce of a trio of digits in base 10
+     * @return the prefix associated with the palace of a trio of digits in base 10
      */
     private static String getThousandsPrefix(int trioPlace) {
         return thousandPrefixes[trioPlace];
@@ -334,27 +336,45 @@ public class NumberUtil {
      * @param b the second integer to add
      * @return the result of adding a to b guaranteed to not overflow
      */
+    @SuppressWarnings("unused")
     public static int addWithoutOverflow(int a, int b) {
         //convert to longs so that addition is guaranteed to work for integers
         long sum = (long) a + (long) b;
 
         //check bounds of sum and return correct value
-        return (sum > INFINITY ? INFINITY : a + b);
+        return (sum > Integer.MAX_VALUE ? Integer.MAX_VALUE : a + b);
     }
 
     /**
-     * Subtracts the subtrahend from the minuend and returns the result guaranteed to not have underflowed.
+     * Subtracts the subtrahend from the minuend and returns the result guaranteed to not have underflow.
      * If underflow does occur, NEG_INFINITY is returned.
      *
      * @param a minuend
      * @param b the subtrahend (value to subtract from a)
      * @return the result of subtracting b from a guaranteed to not underflow
      */
+    @SuppressWarnings("unused")
     public static int subtractWithoutUnderflow(int a, int b) {
         //convert to longs so that subtraction is guaranteed to work for integers
         long difference = (long) a - (long) b;
 
         //check bounds of difference and return correct result
-        return (difference < NEG_INFINITY ? NEG_INFINITY : a - b);
+        return (difference < Integer.MIN_VALUE ? Integer.MIN_VALUE : a - b);
+    }
+
+    /**
+     * The allowable range for font metrics.
+     */
+    private static final Range<Integer> fontMetricRange = Range.closed(0, 3);
+
+    /**
+     * Returns whether the provided font metric is within the allowable range,
+     * that of Font.PLAIN, Font.BOLD, Font.ITALIC or a combination.
+     *
+     * @param metric the font metric
+     * @return whether the provided metric is in the allowable bounds
+     */
+    public static boolean numberInFontMetricRange(int metric) {
+        return fontMetricRange.contains(metric);
     }
 }

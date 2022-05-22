@@ -1,7 +1,9 @@
 package cyder.genesis;
 
+// todo these will become props in an ini/yml file
+
 /**
- * Booelean toggles used through Cyder components.
+ * Boolean toggles used through Cyder components.
  * These are not in a yml file and loaded because they
  * should not be able to be triggered or changed if Cyder
  * is running in Jar mode.
