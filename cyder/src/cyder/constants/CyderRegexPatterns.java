@@ -96,8 +96,11 @@ public final class CyderRegexPatterns {
      * of using JSON serialization via GSON.
      */
     public static final Pattern youtubeApiV3UuidPattern = Pattern.compile(
-            "\"resourceId\":\\s*\\{\\s*\n\\s*\"kind\":\\s*\"youtube#video\",\\s*\n\\s*\"" +
-                    "videoId\":\\s*\"(.*)\"\\s*\n\\s*},");
+            """
+                    "resourceId":\\s*\\{\\s*
+                    \\s*"kind":\\s*"youtube#video",\\s*
+                    \\s*"videoId":\\s*"(.*)"\\s*
+                    \\s*},""");
 
     /**
      * The pattern sued to webscrape the isp from a google search.
@@ -122,4 +125,9 @@ public final class CyderRegexPatterns {
      * The pattern used to detect one or more whitespace characters.
      */
     public static final Pattern whiteSpace = Pattern.compile("\\s+");
+
+    /**
+     * The regex used to match 1-n whitespace.
+     */
+    public static final String whiteSpaceRegex = "\\s+";
 }

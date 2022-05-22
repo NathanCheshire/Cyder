@@ -175,20 +175,41 @@ public enum ConsoleFrame {
     /**
      * The top drag label minimize button.
      */
-    private final CyderIconButton minimize = new CyderIconButton(
+    private final CyderIconButton minimizeButton = new CyderIconButton(
             "Minimize", CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover);
 
     /**
      * The top drag label alternate background button.
      */
-    private final CyderIconButton alternateBackground = new CyderIconButton("Alternate Background",
+    private final CyderIconButton alternateBackgroundButton = new CyderIconButton("Alternate Background",
             CyderIcons.changeSizeIcon, CyderIcons.changeSizeIconHover);
 
     /**
      * The top drag label close button.
      */
-    private final CyderIconButton close = new CyderIconButton("Close",
-            CyderIcons.closeIcon, CyderIcons.closeIconHover);
+    private final CyderIconButton closeButton = new CyderIconButton("Close",
+            CyderIcons.closeIcon, CyderIcons.closeIconHover, new MouseAdapter() {
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            closeButton.setIcon(CyderIcons.closeIconHover);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            closeButton.setIcon(CyderIcons.closeIcon);
+        }
+    }, new FocusAdapter() {
+        @Override
+        public void focusGained(FocusEvent e) {
+            closeButton.setIcon(CyderIcons.closeIconHover);
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            closeButton.setIcon(CyderIcons.closeIcon);
+            outputArea.requestFocus();
+        }
+    });
 
     /**
      * The audio menu parent label
@@ -285,6 +306,17 @@ public enum ConsoleFrame {
             throw new FatalException("ConsoleFrame launch() invoked when not closed. Old uuid = " + previousUuid);
         }
 
+        new Thread(() -> {
+            while (true) {
+                try {
+                    System.out.println(consoleCyderFrame.getFocusOwner());
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+            }
+        }).start();
+
         // todo what gets focus after close button before output area?
 
         // todo need to use padding and better values for bounds of input and output areas
@@ -317,6 +349,8 @@ public enum ConsoleFrame {
         int consoleBackWidth = consoleIcon.dimension().width;
         int consoleBackHeight = consoleIcon.dimension.height;
         ImageIcon consoleBackIcon = consoleIcon.background;
+
+        // todo construct frame method?
 
         consoleCyderFrame = new CyderFrame(consoleBackWidth, consoleBackHeight, consoleBackIcon) {
             @Override
@@ -394,10 +428,6 @@ public enum ConsoleFrame {
 
         setupButtonEnterInputMap();
 
-        menuLabel = new JLabel();
-        menuLabel.setFocusable(false);
-        menuLabel.setVisible(false);
-
         installDragLabelButtons();
 
         generateAudioMenu();
@@ -439,8 +469,9 @@ public enum ConsoleFrame {
 
         if (UserUtil.getCyderUser().getRandombackground().equals("1")) {
             if (getBackgrounds().size() <= 1) {
-                consoleCyderFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() + ", " +
-                        "but you only have one background file so there's no random element to be chosen.");
+                consoleCyderFrame.notify("Sorry, " + UserUtil.getCyderUser().getName()
+                        + ", but you only have one background file "
+                        + "so there's no random element to be chosen.");
             } else {
                 backgroundIndex = NumberUtil.randInt(0, backgrounds.size() - 1);
             }
@@ -457,6 +488,9 @@ public enum ConsoleFrame {
             icon = new ImageIcon(ImageUtil.getRotatedImage(
                     getCurrentBackground().getReferenceFile().toString(), getConsoleDirection()));
         }
+
+        if (width == 0 || height == 0)
+            throw new RuntimeException("Could not construct background dimension");
 
         return new ConsoleIcon(icon, new Dimension(width, height));
     }
@@ -711,12 +745,12 @@ public enum ConsoleFrame {
         toggleAudioControls.setVisible(false);
         consoleDragButtonList.add(toggleAudioControls);
 
-        minimize.addActionListener(e -> {
+        minimizeButton.addActionListener(e -> {
             consoleCyderFrame.setRestoreX(consoleCyderFrame.getX());
             consoleCyderFrame.setRestoreY(consoleCyderFrame.getY());
             consoleCyderFrame.minimizeAnimation();
         });
-        consoleDragButtonList.add(minimize);
+        consoleDragButtonList.add(minimizeButton);
 
         pinButton.addActionListener(e -> {
             consoleCyderFrame.setAlwaysOnTop(!consoleCyderFrame.isAlwaysOnTop());
@@ -727,7 +761,7 @@ public enum ConsoleFrame {
                 CyderIcons.pinIconHover : CyderIcons.pinIcon);
         consoleDragButtonList.add(pinButton);
 
-        alternateBackground.addActionListener(e -> {
+        alternateBackgroundButton.addActionListener(e -> {
             loadBackgrounds();
 
             try {
@@ -746,16 +780,16 @@ public enum ConsoleFrame {
                 Logger.log(Logger.Tag.EXCEPTION, "Background DNE");
             }
         });
-        consoleDragButtonList.add(alternateBackground);
+        consoleDragButtonList.add(alternateBackgroundButton);
 
-        close.addActionListener(e -> {
+        closeButton.addActionListener(e -> {
             if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
                 FrameUtil.minimizeAllFrames();
             } else {
                 closeConsoleFrame(true, false);
             }
         });
-        consoleDragButtonList.add(close);
+        consoleDragButtonList.add(closeButton);
 
         consoleCyderFrame.getTopDragLabel().setButtonList(consoleDragButtonList);
         consoleCyderFrame.getBottomDragLabel().setButtonList(null);
@@ -1196,6 +1230,10 @@ public enum ConsoleFrame {
     };
 
     private final ActionListener menuButtonListener = e -> {
+        if (menuLabel == null) {
+            generateConsoleMenu();
+        }
+
         if (!menuLabel.isVisible()) {
             CyderThreadRunner.submit(() -> {
                 menuLabel.setLocation(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
@@ -1405,12 +1443,15 @@ public enum ConsoleFrame {
 
         int menuWidth = 110;
 
+        menuLabel = new JLabel();
+
         menuLabel = new JLabel("");
         menuLabel.setBounds(-menuWidth, CyderDragLabel.DEFAULT_HEIGHT - 2,
                 menuWidth, menuHeight);
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.getGuiThemeColor());
-        menuLabel.setVisible(true);
+        menuLabel.setFocusable(false);
+        menuLabel.setVisible(false);
         menuLabel.setBorder(new LineBorder(Color.black, 5));
         consoleCyderFrame.getIconPane().add(menuLabel, JLayeredPane.MODAL_LAYER);
 
@@ -1600,9 +1641,6 @@ public enum ConsoleFrame {
         @Override
         public void keyPressed(java.awt.event.KeyEvent event) {
             int code = event.getKeyCode();
-
-            if (code == KeyEvent.VK_E)
-                code = KeyEvent.VK_F17;
 
             try {
                 // make sure ctrl + alt are not pressed

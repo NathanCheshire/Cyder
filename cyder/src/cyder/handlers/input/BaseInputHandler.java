@@ -58,6 +58,7 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 /* some methods have yet to be utilized, arg lengths are always checked before accessing*/
+@SuppressWarnings("SpellCheckingInspection")
 public class BaseInputHandler {
     /**
      * The linked CyderOutputPane.
@@ -100,11 +101,6 @@ public class BaseInputHandler {
     private final ArrayList<String> args = new ArrayList<>();
 
     /**
-     * The regex used to match 1-n whitespace.
-     */
-    private final String whiteSpaceRegex = "\\s+";
-
-    /**
      * Suppress default constructor.
      */
     private BaseInputHandler() {
@@ -124,6 +120,8 @@ public class BaseInputHandler {
         BletchyThread.initialize(outputArea, makePrintingThreadsafeAgain);
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
+
+        startConsolePrintingAnimation();
     }
 
     /**
@@ -207,12 +205,13 @@ public class BaseInputHandler {
     /**
      * Parses the current command into arguments and a command.
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void parseArgs() {
-        String[] parts = command.split(whiteSpaceRegex);
+        String[] parts = command.split(CyderRegexPatterns.whiteSpaceRegex);
         if (parts.length > 1) {
             Arrays.stream(parts).map(String::trim).toArray(i -> parts);
 
-            args.addAll(Arrays.stream(parts).filter(i -> i != parts[0]).collect(Collectors.toList()));
+            args.addAll(Arrays.stream(parts).filter(i -> !Objects.equals(i, parts[0])).collect(Collectors.toList()));
 
             command = parts[0];
         }
