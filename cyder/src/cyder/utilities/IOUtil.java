@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -320,34 +321,34 @@ public class IOUtil {
                 SecurityUtil.toHexString(SecurityUtil.getSHA256(newPassword)).toCharArray())));
     }
 
+    private static record DosAttribute(String name, String value) {
+    }
+
     /**
      * Gets DOS attributes of the provided file.
      *
      * @param file the file to obtain the attributes of
-     * @return the DOS attributes in the following order: isArchive, isHidden,
-     * isReadOnly, isSystem, creationTime, isDirectory, isOther, isSymbolicLink,
-     * lastAccessTime, lastModifiedTime
+     * @return the DOS attributes of the file
      */
-    public static String[] getDOSAttributes(File file) {
-        String[] ret = new String[10];
-
+    public static ImmutableList<DosAttribute> getDOSAttributes(File file) {
         try {
             DosFileAttributes attr = Files.readAttributes(Paths.get(file.getPath()), DosFileAttributes.class);
-            ret[0] = String.valueOf(attr.isArchive());
-            ret[1] = String.valueOf(attr.isHidden());
-            ret[2] = String.valueOf(attr.isReadOnly());
-            ret[3] = String.valueOf(attr.isSystem());
-            ret[4] = String.valueOf(attr.creationTime());
-            ret[5] = String.valueOf(attr.isDirectory());
-            ret[6] = String.valueOf(attr.isOther());
-            ret[7] = String.valueOf(attr.isSymbolicLink());
-            ret[8] = String.valueOf(attr.lastAccessTime());
-            ret[9] = String.valueOf(attr.lastModifiedTime());
-        } catch (IOException e) {
+            return ImmutableList.of(
+                    new DosAttribute("isArchive", String.valueOf(attr.isArchive())),
+                    new DosAttribute("isHidden", String.valueOf(attr.isHidden())),
+                    new DosAttribute("isReadOnly", String.valueOf(attr.isReadOnly())),
+                    new DosAttribute("isSystem", String.valueOf(attr.isSystem())),
+                    new DosAttribute("creationTime", String.valueOf(attr.creationTime())),
+                    new DosAttribute("isDirectory", String.valueOf(attr.isDirectory())),
+                    new DosAttribute("isOther", String.valueOf(attr.isOther())),
+                    new DosAttribute("isSymbolicLink", String.valueOf(attr.isSymbolicLink())),
+                    new DosAttribute("lastAccessTime", String.valueOf(attr.lastAccessTime())),
+                    new DosAttribute("lastModifiedTime", String.valueOf(attr.lastModifiedTime())));
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        return ret;
+        return ImmutableList.of();
     }
 
     /**
@@ -435,7 +436,7 @@ public class IOUtil {
                     .println("Python was not found; please install Python and add it" +
                             " to the windows PATH environment variable");
 
-            CyderButton installPython = new CyderButton("Downlaod Python");
+            CyderButton installPython = new CyderButton("Download Python");
             installPython.addActionListener(e -> NetworkUtil.openUrl("https://www.python.org/downloads/"));
             ConsoleFrame.INSTANCE.getInputHandler().println(installPython);
 

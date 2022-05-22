@@ -306,26 +306,11 @@ public enum ConsoleFrame {
             throw new FatalException("ConsoleFrame launch() invoked when not closed. Old uuid = " + previousUuid);
         }
 
-        new Thread(() -> {
-            while (true) {
-                try {
-                    System.out.println(consoleCyderFrame.getFocusOwner());
-                    Thread.sleep(1000);
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-            }
-        }).start();
-
-        // todo what gets focus after close button before output area?
-
-        // todo need to use padding and better values for bounds of input and output areas
-
         // todo make sure login from frame is disposed after
 
-        Logger.log(Logger.Tag.DEBUG, "Cyder Entry = " + entryPoint);
+        // todo need to update borders and fill when fill color is updated
 
-        CyderSplash.setLoadingMessage("Creating user files");
+        Logger.log(Logger.Tag.DEBUG, "Cyder Entry = " + entryPoint);
 
         UserUtil.ensureUserFilesExist(uuid);
         UserUtil.getCyderUser().setFullscreen("0");
@@ -346,82 +331,15 @@ public enum ConsoleFrame {
 
         ConsoleIcon consoleIcon = determineConsoleIconAndDimensions();
 
-        int consoleBackWidth = consoleIcon.dimension().width;
-        int consoleBackHeight = consoleIcon.dimension.height;
-        ImageIcon consoleBackIcon = consoleIcon.background;
+        setupConsoleCyderFrame(consoleIcon);
 
-        // todo construct frame method?
-
-        consoleCyderFrame = new CyderFrame(consoleBackWidth, consoleBackHeight, consoleBackIcon) {
-            @Override
-            public void setBounds(int x, int y, int w, int h) {
-                super.setBounds(x, y, w, h);
-
-                if (outputScroll != null && inputField != null) {
-                    int addX = 0;
-
-                    if (menuLabel != null && menuLabel.isVisible())
-                        addX = 2 + menuLabel.getWidth();
-
-                    outputScroll.setBounds(addX + 15, 62,
-                            w - 40 - addX, h - 204);
-                    inputField.setBounds(addX + 15, 62 + outputScroll.getHeight() + 20,
-                            w - 40 - addX,
-                            h - (62 + outputScroll.getHeight() + 20 + 20));
-                }
-
-                if (menuLabel != null && menuLabel.isVisible()) {
-                    menuLabel.setBounds(3, CyderDragLabel.DEFAULT_HEIGHT - 2,
-                            menuLabel.getWidth(),
-                            consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5);
-                }
-
-                if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
-                    audioControlsLabel.setBounds(w - audioControlsLabel.getWidth() - 6,
-                            CyderDragLabel.DEFAULT_HEIGHT - 2,
-                            audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
-                }
-
-                revalidateMenu();
-                refreshClockText();
-            }
-
-            /**
-             * Disposes the console frame and ensures focus borders do not appear during
-             * the possible close animation.
-             */
-            @Override
-            public void dispose() {
-                outputArea.setFocusable(false);
-                outputScroll.setFocusable(false);
-                super.dispose();
-            }
-
-            /**
-             * Barrel roll not allowed for ConsoleFrame yet.
-             */
-            @Override
-            public void barrelRoll() {
-                throw new IllegalMethodException("Method is broken for ConsoleFrame; implementation pending");
-            }
-        };
-
-        consoleCyderFrame.setBackground(Color.black);
-        consoleCyderFrame.addPostCloseAction(() -> OSUtil.exit(ExitCondition.GenesisControlledExit));
-        consoleCyderFrame.setDraggingEnabled(!UserUtil.getCyderUser().getFullscreen().equals("1"));
-        consoleCyderFrame.addWindowListener(consoleFrameWindowAdapter);
-        ((JLabel) (consoleCyderFrame.getContentPane())).setToolTipText(
-                FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
-        consoleCyderFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        consoleCyderFrame.setPaintWindowTitle(false);
-        consoleCyderFrame.setPaintSuperTitle(true);
         refreshConsoleFrameTitle();
 
-        installConsoleResizing(consoleBackWidth, consoleBackHeight);
+        installConsoleResizing();
 
         installOutputArea();
 
-        installInputField(consoleBackWidth, consoleBackHeight);
+        installInputField();
 
         baseInputHandler = new BaseInputHandler(outputArea);
         baseInputHandler.startConsolePrintingAnimation();
@@ -440,7 +358,7 @@ public enum ConsoleFrame {
 
         FrameUtil.closeAllFrames(true, consoleCyderFrame, CyderSplash.getSplashFrame());
 
-        restorePreviousFrameBounds(consoleBackWidth, consoleBackHeight);
+        restorePreviousFrameBounds(consoleIcon);
 
         CyderSplash.fastDispose();
 
@@ -449,6 +367,72 @@ public enum ConsoleFrame {
         TimeUtil.setConsoleStartTime(System.currentTimeMillis());
         baseInputHandler.println("Console loaded in " + (TimeUtil.getConsoleStartTime()
                 - TimeUtil.getAbsoluteStartTime()) + "ms");
+    }
+
+    /**
+     * Sets up the console cyder frame and performs all subsequent calls on the object.
+     *
+     * @param consoleIcon the console icon record to use for the direct props
+     */
+    private void setupConsoleCyderFrame(ConsoleIcon consoleIcon) {
+        consoleCyderFrame =
+                new CyderFrame(consoleIcon.dimension().width, consoleIcon.dimension.height, consoleIcon.background) {
+                    @Override
+                    public void setBounds(int x, int y, int w, int h) {
+                        super.setBounds(x, y, w, h);
+
+                        revalidateInputAndOutputBounds();
+
+                        if (menuLabel != null && menuLabel.isVisible()) {
+                            menuLabel.setBounds(3, CyderDragLabel.DEFAULT_HEIGHT - 2,
+                                    menuLabel.getWidth(),
+                                    consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5);
+                        }
+
+                        if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
+                            audioControlsLabel.setBounds(w - audioControlsLabel.getWidth() - 6,
+                                    CyderDragLabel.DEFAULT_HEIGHT - 2,
+                                    audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
+                        }
+
+                        revalidateMenu();
+                        refreshClockText();
+                    }
+
+                    /**
+                     * Disposes the console frame and ensures focus borders do not appear during
+                     * the possible close animation.
+                     */
+                    @Override
+                    public void dispose() {
+                        outputArea.setFocusable(false);
+                        outputScroll.setFocusable(false);
+                        super.dispose();
+                    }
+
+                    /**
+                     * Barrel roll not allowed for ConsoleFrame yet.
+                     */
+                    @Override
+                    public void barrelRoll() {
+                        throw new IllegalMethodException("Method is broken for ConsoleFrame; implementation pending");
+                    }
+                };
+
+        consoleCyderFrame.setBackground(Color.black);
+
+        consoleCyderFrame.addPostCloseAction(() -> OSUtil.exit(ExitCondition.GenesisControlledExit));
+
+        consoleCyderFrame.setDraggingEnabled(!UserUtil.getCyderUser().getFullscreen().equals("1"));
+
+        consoleCyderFrame.addWindowListener(consoleFrameWindowAdapter);
+
+        getContentPane().setToolTipText(FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
+
+        consoleCyderFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+
+        consoleCyderFrame.setPaintWindowTitle(false);
+        consoleCyderFrame.setPaintSuperTitle(true);
     }
 
     /**
@@ -573,6 +557,34 @@ public enum ConsoleFrame {
     }
 
     /**
+     * Revalidates the bounds of the input field and output area based off
+     * of the current console frame size and the menu state.
+     */
+    private void revalidateInputAndOutputBounds() {
+        int xPadding = 15;
+        int yPadding = 15;
+        int inputFieldHeight = 100;
+
+        if (outputScroll != null && inputField != null) {
+            int w = consoleCyderFrame.getWidth();
+            int h = consoleCyderFrame.getHeight();
+
+            int addX = 0;
+
+            if (menuLabel != null && menuLabel.isVisible()) {
+                addX = 2 + menuLabel.getWidth();
+            }
+
+            outputScroll.setBounds(addX + xPadding, CyderDragLabel.DEFAULT_HEIGHT + yPadding,
+                    w - addX - 2 * xPadding,
+                    h - inputFieldHeight - yPadding * 3 - CyderDragLabel.DEFAULT_HEIGHT);
+
+            inputField.setBounds(addX + xPadding, outputScroll.getY() + yPadding + outputScroll.getHeight(),
+                    w - 2 * xPadding - addX, inputFieldHeight);
+        }
+    }
+
+    /**
      * Sets up the output area and output scroll and adds it to the console frame.
      */
     private void installOutputArea() {
@@ -591,8 +603,7 @@ public enum ConsoleFrame {
         outputArea.setCaretColor(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
         outputArea.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground())));
         outputArea.setAutoscrolls(true);
-        outputArea.setBounds(10, 62, INSTANCE.getBackgroundWidth() - 20,
-                INSTANCE.getBackgroundHeight() - 204);
+
         outputArea.setFocusable(true);
         outputArea.setSelectionColor(CyderColors.selectionColor);
         outputArea.setOpaque(false);
@@ -624,8 +635,6 @@ public enum ConsoleFrame {
                 ? new LineBorder(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()),
                 fieldBorderThickness, false)
                 : BorderFactory.createEmptyBorder());
-        outputScroll.setBounds(15, 62,
-                consoleCyderFrame.getWidth() - 40, getBackgroundHeight() - 204);
 
         if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
             outputArea.setOpaque(true);
@@ -639,11 +648,8 @@ public enum ConsoleFrame {
 
     /**
      * Sets up the input field and adds it to the console frame.
-     *
-     * @param consoleWidth  the width of the console frame
-     * @param consoleHeight the height of the console frame
      */
-    private void installInputField(int consoleWidth, int consoleHeight) {
+    private void installInputField() {
         inputField = new JPasswordField(40);
 
         inputField.setEchoChar((char) 0);
@@ -654,9 +660,7 @@ public enum ConsoleFrame {
                 : BorderFactory.createEmptyBorder());
         inputField.setSelectionColor(CyderColors.selectionColor);
         inputField.setCaretPosition(inputField.getPassword().length);
-        inputField.setBounds(15, 62 + outputArea.getHeight() + 20,
-                consoleWidth - 40,
-                consoleHeight - (62 + outputArea.getHeight() + 20 + 20));
+
         inputField.setOpaque(false);
         inputField.setCaretColor(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
         inputField.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground())));
@@ -691,10 +695,9 @@ public enum ConsoleFrame {
     /**
      * Sets up the console frame position based on the saved stats from the previous session.
      *
-     * @param consoleWidth  the width of the console frame
-     * @param consoleHeight the height of the console frame
+     * @param consoleIcon the console icon record to get the size from
      */
-    private void restorePreviousFrameBounds(int consoleWidth, int consoleHeight) {
+    private void restorePreviousFrameBounds(ConsoleIcon consoleIcon) {
         ScreenStat requestedConsoleStats = UserUtil.getCyderUser().getScreenStat();
 
         consoleCyderFrame.setAlwaysOnTop(requestedConsoleStats.isConsoleOnTop());
@@ -702,8 +705,8 @@ public enum ConsoleFrame {
         int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
         int requestedConsoleHeight = requestedConsoleStats.getConsoleHeight();
 
-        if (requestedConsoleWidth <= consoleWidth
-                && requestedConsoleHeight <= consoleHeight
+        if (requestedConsoleWidth <= consoleIcon.dimension().width
+                && requestedConsoleHeight <= consoleIcon.dimension().height
                 && requestedConsoleWidth >= MINIMUM_SIZE.width
                 && requestedConsoleHeight >= MINIMUM_SIZE.height) {
             consoleCyderFrame.setSize(requestedConsoleWidth, requestedConsoleHeight);
@@ -901,12 +904,15 @@ public enum ConsoleFrame {
         outputArea.removeMouseWheelListener(fontSizerListener);
     }
 
-    private void installConsoleResizing(int maxSize, int minSize) {
+    /**
+     * Sets up resizing for the console frame.
+     */
+    private void installConsoleResizing() {
         consoleCyderFrame.initializeResizing();
         consoleCyderFrame.setResizable(true);
         consoleCyderFrame.setBackgroundResizing(true);
         consoleCyderFrame.setMinimumSize(MINIMUM_SIZE);
-        consoleCyderFrame.setMaximumSize(new Dimension(maxSize, minSize));
+        consoleCyderFrame.setMaximumSize(consoleCyderFrame.getSize());
     }
 
     private final WindowAdapter consoleFrameWindowAdapter = new WindowAdapter() {
@@ -1251,6 +1257,8 @@ public enum ConsoleFrame {
                 menuLabel.setLocation(2, y);
 
                 menuButton.setIcon(CyderIcons.menuIcon);
+
+                revalidateInputAndOutputBounds();
             }, "minimize menu thread");
 
             CyderThreadRunner.submit(() -> {
@@ -1259,8 +1267,6 @@ public enum ConsoleFrame {
                 menuLabel.setVisible(true);
 
                 int addX = 0;
-                int width = consoleCyderFrame.getWidth();
-                int height = consoleCyderFrame.getHeight();
 
                 if (menuLabel.isVisible())
                     addX = 2 + menuLabel.getWidth();
@@ -1278,9 +1284,7 @@ public enum ConsoleFrame {
                     }
                 }
 
-                outputScroll.setBounds(finalAddX + 15, 62, width - 40 - finalAddX, height - 204);
-                inputField.setBounds(finalAddX + 15, 62 + outputScroll.getHeight() + 20, width - 40 - finalAddX,
-                        height - (62 + outputScroll.getHeight() + 20 + 20));
+                revalidateInputAndOutputBounds();
             }, "Console menu animator");
         } else {
             minimizeMenu();
@@ -1528,9 +1532,6 @@ public enum ConsoleFrame {
     private void minimizeMenu() {
         if (menuLabel.isVisible()) {
             CyderThreadRunner.submit(() -> {
-                int width = consoleCyderFrame.getWidth();
-                int height = consoleCyderFrame.getHeight();
-
                 for (int i = inputField.getX() ; i > 15 ; i -= 8) {
                     outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1,
                             outputScroll.getHeight());
@@ -1543,9 +1544,7 @@ public enum ConsoleFrame {
                     }
                 }
 
-                outputScroll.setBounds(15, 62, width - 40, height - 204);
-                inputField.setBounds(15, 62 + outputScroll.getHeight() + 20, width - 40,
-                        height - (62 + outputScroll.getHeight() + 20 + 20));
+                revalidateInputAndOutputBounds();
             }, "Console menu animator");
 
             CyderThreadRunner.submit(() -> {
@@ -1565,6 +1564,8 @@ public enum ConsoleFrame {
 
                 menuLabel.setVisible(false);
                 menuButton.setIcon(CyderIcons.menuIcon);
+
+                revalidateInputAndOutputBounds();
             }, "minimize menu thread");
         }
     }
@@ -1899,7 +1900,7 @@ public enum ConsoleFrame {
      */
     private void revalidateBackgroundIndex() {
         if (consoleCyderFrame != null) {
-            JLabel contentLabel = ((JLabel) consoleCyderFrame.getContentPane());
+            JLabel contentLabel = getContentPane();
 
             if (contentLabel != null) {
                 String filename = contentLabel.getToolTipText();
@@ -1998,16 +1999,9 @@ public enum ConsoleFrame {
                 (int) (center.getY() - (imageIcon.getIconHeight()) / 2));
 
         //tooltip based on image name
-        ((JLabel) (consoleCyderFrame.getContentPane()))
-                .setToolTipText(FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
+        getContentPane().setToolTipText(FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
 
-        int width = imageIcon.getIconWidth();
-        int height = imageIcon.getIconHeight();
-
-        //console frame component bounds
-        outputScroll.setBounds(15, 62, width - 40, height - 204);
-        inputField.setBounds(15, 62 + outputScroll.getHeight() + 20, width - 40,
-                height - (62 + outputScroll.getHeight() + 20 + 20));
+        revalidateInputAndOutputBounds();
 
         //focus default component
         inputField.requestFocus();
@@ -2252,36 +2246,6 @@ public enum ConsoleFrame {
             CyderThreadRunner.submit(backgroundSwitcher, "Background Switcher");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * Returns the width associated with the current background. If fullscreen mode is active,
-     * returns the width of the screen the frame is on.
-     *
-     * @return the width associated with the current background. If fullscreen mode is active,
-     * * returns the width of the screen the frame is on
-     */
-    private int getBackgroundWidth() {
-        if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
-            return (int) consoleCyderFrame.getMonitorBounds().getWidth();
-        } else {
-            return getCurrentBackground().generateImageIcon().getIconWidth();
-        }
-    }
-
-    /**
-     * Returns the height associated with the current background. If fullscreen mode is active,
-     * returns the height of the screen the frame is on.
-     *
-     * @return the height associated with the current background. If fullscreen mode is active,
-     * * returns the height of the screen the frame is on
-     */
-    private int getBackgroundHeight() {
-        if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
-            return (int) consoleCyderFrame.getMonitorBounds().getHeight();
-        } else {
-            return getCurrentBackground().generateImageIcon().getIconHeight();
         }
     }
 
@@ -2591,9 +2555,7 @@ public enum ConsoleFrame {
                 (int) originalCenter.getX() - w / 2,
                 (int) originalCenter.getY() - h / 2, consoleCyderFrame);
 
-        outputScroll.setBounds(15, 62, w - 40, h - 204);
-        inputField.setBounds(15, 62 + outputScroll.getHeight() + 20, w - 40,
-                h - (62 + outputScroll.getHeight() + 20 + 20));
+        revalidateInputAndOutputBounds();
 
         consoleCyderFrame.setMaximumSize(new Dimension(w, h));
 
@@ -2662,9 +2624,7 @@ public enum ConsoleFrame {
         if (menuLabel.isVisible())
             addX = 2 + menuLabel.getWidth();
 
-        outputScroll.setBounds(addX + 15, 62, w - 40 - addX, h - 204);
-        inputField.setBounds(addX + 15, 62 + outputScroll.getHeight() + 20, w - 40 - addX,
-                h - (62 + outputScroll.getHeight() + 20 + 20));
+        revalidateInputAndOutputBounds();
     }
 
     /**
@@ -3211,5 +3171,14 @@ public enum ConsoleFrame {
     public void setLeftDragLabelButtonVisibilities(boolean visible) {
         helpButton.setVisible(visible);
         menuButton.setVisible(visible);
+    }
+
+    /**
+     * Returns the console frame's content pane.
+     *
+     * @return the console frame's content pane
+     */
+    public JLabel getContentPane() {
+        return ((JLabel) (consoleCyderFrame.getContentPane()));
     }
 }

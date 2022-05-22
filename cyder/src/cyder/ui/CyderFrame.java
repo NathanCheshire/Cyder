@@ -2914,20 +2914,71 @@ public class CyderFrame extends JFrame {
     /**
      * The opacity value to set the frame to on drag events.
      */
-    public static final float DRAG_OPACITY = 0.7f;
+    public static final float DRAG_OPACITY = 0.70f;
+
+    /**
+     * The default frame opacity
+     */
+    public static final float DEFAULT_OPACITY = 1.0f;
+
+    /**
+     * The opacity to grow/shrink by during animations.
+     */
+    public static final float OPACITY_DELTA = 0.01f;
+
+    /**
+     * The delay between opacity sets when transitioning.
+     */
+    public static final int DRAG_OPACITY_ANIMATION_DELAY = 5;
+
+    /**
+     * Whether the animater to transition the frame back to DEFAULT_OPACITY is underway.
+     */
+    private boolean animatingOut = false;
 
     /**
      * Sets the opacity of the frame to {@link CyderFrame#DRAG_OPACITY}.
      */
     protected void startDragEvent() {
-        setOpacity(DRAG_OPACITY);
+        CyderThreadRunner.submit(() -> {
+            for (float i = DEFAULT_OPACITY ; i >= DRAG_OPACITY ; i -= OPACITY_DELTA) {
+                if (animatingOut)
+                    break;
+
+                setOpacity(i);
+                repaint();
+
+                try {
+                    Thread.sleep(DRAG_OPACITY_ANIMATION_DELAY);
+                } catch (InterruptedException ignored) {
+                }
+            }
+
+            setOpacity(DRAG_OPACITY);
+        }, getTitle() + " Opacity Animater");
     }
 
     /**
-     * Sets the opacity of the frame to 1.0f.
+     * Sets the opacity of the frame to {@link CyderFrame#DEFAULT_OPACITY}.
      */
     protected void endDragEvent() {
-        setOpacity(1.0f);
+        CyderThreadRunner.submit(() -> {
+            animatingOut = true;
+
+            for (float i = DRAG_OPACITY ; i <= DEFAULT_OPACITY ; i += OPACITY_DELTA) {
+                setOpacity(i);
+                repaint();
+
+                try {
+                    Thread.sleep(DRAG_OPACITY_ANIMATION_DELAY);
+                } catch (InterruptedException ignored) {
+                }
+            }
+
+            setOpacity(DEFAULT_OPACITY);
+
+            animatingOut = false;
+        }, getTitle() + " Opacity Animater");
     }
 
     /**

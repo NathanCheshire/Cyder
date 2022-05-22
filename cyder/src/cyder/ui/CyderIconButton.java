@@ -77,18 +77,24 @@ public class CyderIconButton extends JButton {
      */
     public CyderIconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon,
                            MouseListener mouseListener, FocusListener focusListener) {
-        if (StringUtil.isNull(tooltipText))
-            throw new IllegalArgumentException("Tooltip text is null");
-        if (defaultIcon != null && defaultIcon == hoverAndFocusIcon)
-            throw new IllegalArgumentException("Provided hover image is the same as the default icon");
-        if (defaultIcon != null && hoverAndFocusIcon != null && (defaultIcon.getIconWidth() != hoverAndFocusIcon.getIconWidth()
-                || defaultIcon.getIconHeight() != hoverAndFocusIcon.getIconHeight()))
-            throw new IllegalArgumentException("Provided icons are not equal in size");
+        Preconditions.checkNotNull(tooltipText);
+        Preconditions.checkArgument(!StringUtil.isNull(tooltipText));
 
-        if (defaultIcon != null)
+        if (defaultIcon != null) {
             this.defaultIcon = defaultIcon;
-        if (hoverAndFocusIcon != null)
+        }
+
+        if (hoverAndFocusIcon != null) {
             this.hoverAndFocusIcon = hoverAndFocusIcon;
+        }
+
+        Preconditions.checkArgument(!(defaultIcon != null && defaultIcon == hoverAndFocusIcon),
+                "Provided hover image is the same as the default icon");
+        Preconditions.checkArgument(!(defaultIcon != null
+                        && hoverAndFocusIcon != null
+                        && (defaultIcon.getIconWidth() != hoverAndFocusIcon.getIconWidth()
+                        || defaultIcon.getIconHeight() != hoverAndFocusIcon.getIconHeight())),
+                "Provided icons are not equal in size");
 
         setToolTipText(tooltipText);
 
@@ -116,8 +122,9 @@ public class CyderIconButton extends JButton {
             }
         }));
 
-        if (defaultIcon != null)
+        if (defaultIcon != null) {
             setIcon(defaultIcon);
+        }
 
         setFocusPainted(false);
         setOpaque(false);
