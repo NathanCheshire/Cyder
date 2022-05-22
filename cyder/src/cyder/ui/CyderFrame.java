@@ -1076,10 +1076,10 @@ public class CyderFrame extends JFrame {
                 }
 
                 // we can show a custom container on the notification so add the dispose label
-                long notifiedAt = toBeCurrentNotification.getBuilder().getNotifyTime();
                 JLabel interactionLabel = new JLabel();
                 interactionLabel.setSize(containerWidth, containerHeight);
-                interactionLabel.setToolTipText("Notified at: " + notifiedAt);
+                interactionLabel.setToolTipText("Notified at: "
+                        + toBeCurrentNotification.getBuilder().getNotifyTime());
                 interactionLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -1105,10 +1105,10 @@ public class CyderFrame extends JFrame {
                 textContainerLabel.setFont(CyderFonts.notificationFont);
                 textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
 
-                long notifiedAt = toBeCurrentNotification.getBuilder().getNotifyTime();
                 JLabel interactionLabel = new JLabel();
                 interactionLabel.setSize(notificationWidth, notificationHeight);
-                interactionLabel.setToolTipText("Notified at: " + notifiedAt);
+                interactionLabel.setToolTipText("Notified at: "
+                        + toBeCurrentNotification.getBuilder().getNotifyTime());
                 interactionLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {

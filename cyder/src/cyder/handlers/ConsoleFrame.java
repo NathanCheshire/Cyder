@@ -311,34 +311,13 @@ public enum ConsoleFrame {
 
         CyderColors.refreshGuiThemeColor();
 
-        // todo method for actual frame only construction
+        ConsoleIcon consoleIcon = determineConsoleIconAndDimensions();
 
-        int consoleBackgroundWidth;
-        int consoleBackgroundHeight;
-        ImageIcon consoleBackgroundIcon;
+        int consoleBackWidth = consoleIcon.dimension().width;
+        int consoleBackHeight = consoleIcon.dimension.height;
+        ImageIcon consoleBackIcon = consoleIcon.background;
 
-        if (UserUtil.getCyderUser().getRandombackground().equals("1")) {
-            if (getBackgrounds().size() <= 1) {
-                consoleCyderFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() + ", " +
-                        "but you only have one background file so there's no random element to be chosen.");
-            } else {
-                backgroundIndex = NumberUtil.randInt(0, backgrounds.size() - 1);
-            }
-        }
-
-        if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
-            consoleBackgroundWidth = ScreenUtil.getScreenWidth();
-            consoleBackgroundHeight = ScreenUtil.getScreenHeight();
-            consoleBackgroundIcon = new ImageIcon(ImageUtil.resizeImage(consoleBackgroundWidth,
-                    consoleBackgroundHeight, getCurrentBackground().getReferenceFile()));
-        } else {
-            consoleBackgroundWidth = getCurrentBackground().generateBufferedImage().getWidth();
-            consoleBackgroundHeight = getCurrentBackground().generateBufferedImage().getHeight();
-            consoleBackgroundIcon = new ImageIcon(ImageUtil.getRotatedImage(
-                    getCurrentBackground().getReferenceFile().toString(), getConsoleDirection()));
-        }
-
-        consoleCyderFrame = new CyderFrame(consoleBackgroundWidth, consoleBackgroundHeight, consoleBackgroundIcon) {
+        consoleCyderFrame = new CyderFrame(consoleBackWidth, consoleBackHeight, consoleBackIcon) {
             @Override
             public void setBounds(int x, int y, int w, int h) {
                 super.setBounds(x, y, w, h);
@@ -402,11 +381,11 @@ public enum ConsoleFrame {
         consoleCyderFrame.setPaintSuperTitle(true);
         refreshConsoleFrameTitle();
 
-        installConsoleResizing(consoleBackgroundWidth, consoleBackgroundHeight);
+        installConsoleResizing(consoleBackWidth, consoleBackHeight);
 
         installOutputArea();
 
-        installInputField(consoleBackgroundWidth, consoleBackgroundHeight);
+        installInputField(consoleBackWidth, consoleBackHeight);
 
         baseInputHandler = new BaseInputHandler(outputArea);
         baseInputHandler.startConsolePrintingAnimation();
@@ -429,7 +408,7 @@ public enum ConsoleFrame {
 
         FrameUtil.closeAllFrames(true, consoleCyderFrame, CyderSplash.getSplashFrame());
 
-        restorePreviousFrameBounds(consoleBackgroundWidth, consoleBackgroundHeight);
+        restorePreviousFrameBounds(consoleBackWidth, consoleBackHeight);
 
         CyderSplash.fastDispose();
 
@@ -438,6 +417,46 @@ public enum ConsoleFrame {
         TimeUtil.setConsoleStartTime(System.currentTimeMillis());
         baseInputHandler.println("Console loaded in " + (TimeUtil.getConsoleStartTime()
                 - TimeUtil.getAbsoluteStartTime()) + "ms");
+    }
+
+    /**
+     * The record used for determining the console background icon and the corresponding width and height.
+     */
+    private record ConsoleIcon(ImageIcon background, Dimension dimension) {
+    }
+
+    /**
+     * Determines the initial console frame background icon.
+     *
+     * @return a record containing the initial console frame background icon and the dimensions of the icon
+     */
+    private ConsoleIcon determineConsoleIconAndDimensions() {
+        int width;
+        int height;
+        ImageIcon icon;
+
+        if (UserUtil.getCyderUser().getRandombackground().equals("1")) {
+            if (getBackgrounds().size() <= 1) {
+                consoleCyderFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() + ", " +
+                        "but you only have one background file so there's no random element to be chosen.");
+            } else {
+                backgroundIndex = NumberUtil.randInt(0, backgrounds.size() - 1);
+            }
+        }
+
+        if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
+            width = ScreenUtil.getScreenWidth();
+            height = ScreenUtil.getScreenHeight();
+            icon = new ImageIcon(ImageUtil.resizeImage(width,
+                    height, getCurrentBackground().getReferenceFile()));
+        } else {
+            width = getCurrentBackground().generateBufferedImage().getWidth();
+            height = getCurrentBackground().generateBufferedImage().getHeight();
+            icon = new ImageIcon(ImageUtil.getRotatedImage(
+                    getCurrentBackground().getReferenceFile().toString(), getConsoleDirection()));
+        }
+
+        return new ConsoleIcon(icon, new Dimension(width, height));
     }
 
     /**
@@ -1000,8 +1019,10 @@ public enum ConsoleFrame {
         }, IgnoreThread.ConsoleDataSaver.getName());
     }
 
-    //one time run things such as notifying due to special days, debug properties,
-    // last start time, and auto testing
+    /**
+     * Performs special actions on the console start such as special day events,
+     * debug properties, determining the user's last start time, auto testing, etc.
+     */
     private void onLaunch() {
         //special day events
         if (TimeUtil.isChristmas()) {
@@ -1041,13 +1062,15 @@ public enum ConsoleFrame {
             consoleCyderFrame.notify("Happy Easter!");
         }
 
-        //preferences that launch widgets/stats on start
-        if (UserUtil.getCyderUser().getDebugwindows().equals("1")) {
-            StatUtil.systemProperties();
-            StatUtil.computerProperties();
-            StatUtil.javaProperties();
-            StatUtil.debugMenu();
-        }
+        if (TimeUtil.isDeveloperBirthday())
+
+            //preferences that launch widgets/stats on start
+            if (UserUtil.getCyderUser().getDebugwindows().equals("1")) {
+                StatUtil.systemProperties();
+                StatUtil.computerProperties();
+                StatUtil.javaProperties();
+                StatUtil.debugMenu();
+            }
 
         //testing mode to auto execute Debug tests
         if (CyderToggles.TESTING_MODE) {
@@ -2831,6 +2854,12 @@ public enum ConsoleFrame {
     }
 
     /**
+     * The record used for pinned frame logic.
+     */
+    private record RelativeFrame(CyderFrame frame, int xOffset, int yOffset) {
+    }
+
+    /**
      * Returns a list of all frames that are pinned to the ConsoleFrame.
      *
      * @return a list of all frames that are pinned to the ConsoleFrame
@@ -3109,18 +3138,5 @@ public enum ConsoleFrame {
     public void setLeftDragLabelButtonVisibilities(boolean visible) {
         helpButton.setVisible(visible);
         menuButton.setVisible(visible);
-    }
-
-    /**
-     * The record used for pinned frame logic.
-     */
-    private record RelativeFrame(CyderFrame frame, int xOffset, int yOffset) {
-        public RelativeFrame(CyderFrame frame, int xOffset, int yOffset) {
-            this.frame = frame;
-            this.xOffset = xOffset;
-            this.yOffset = yOffset;
-
-            Logger.log(Logger.Tag.OBJECT_CREATION, this);
-        }
     }
 }

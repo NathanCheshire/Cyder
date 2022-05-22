@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Static utility class for things related to time/date queries and conversions.
  */
+@SuppressWarnings("SpellCheckingInspection") // date time patterns
 public class TimeUtil {
     /**
      * The calendar instance to use for calculations.
@@ -270,6 +271,12 @@ public class TimeUtil {
         int[] sundayDate = getEasterSundayDate(calendarInstance.get(Calendar.YEAR));
 
         return (Month == sundayDate[0] && Date == sundayDate[1]);
+    }
+
+    public static boolean isDeveloperBirthday() {
+        int Month = calendarInstance.get(Calendar.MONTH) + 1;
+        int Date = calendarInstance.get(Calendar.DATE);
+        return (Month == 6 && Date == 2);
     }
 
     /**

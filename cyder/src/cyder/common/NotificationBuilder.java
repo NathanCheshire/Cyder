@@ -6,6 +6,7 @@ import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
+import cyder.utilities.TimeUtil;
 
 import javax.swing.*;
 
@@ -32,7 +33,7 @@ public final class NotificationBuilder {
     private JLabel container;
 
     // set on object creation
-    private final long notifyTime;
+    private final String notifyTime;
 
     /**
      * Default constructor for a Notification with the required parameters for the Notification.
@@ -49,7 +50,7 @@ public final class NotificationBuilder {
         this.htmlText = htmlText;
 
         // auto generated vars
-        notifyTime = System.currentTimeMillis();
+        notifyTime = TimeUtil.notificationTime();
 
         // log object creation
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
@@ -165,7 +166,7 @@ public final class NotificationBuilder {
      *
      * @return the time at which this object was created
      */
-    public long getNotifyTime() {
+    public String getNotifyTime() {
         return notifyTime;
     }
 
@@ -205,7 +206,7 @@ public final class NotificationBuilder {
         NotificationBuilder that = (NotificationBuilder) o;
 
         return viewDuration == that.viewDuration
-                && notifyTime == that.notifyTime
+                && notifyTime.equals(that.notifyTime)
                 && Objects.equal(htmlText, that.htmlText)
                 && arrowDir == that.arrowDir
                 && Objects.equal(onKillAction, that.onKillAction)
