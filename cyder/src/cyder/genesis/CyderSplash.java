@@ -71,12 +71,12 @@ public class CyderSplash {
     private static final int loadingLabelSeconds = 30;
 
     /**
-     * The nuber of times to update the loading label.
+     * The number of times to update the loading label.
      */
     private static final int loadingLabelUpdateIterations = (loadingLabelSeconds * 1000) / loadingLabelUpdateTimeout;
 
     /**
-     * The timeout beefore starting to display loading messages after finishing the splash animation.
+     * The timeout before starting to display loading messages after finishing the splash animation.
      */
     private static final int loadingMessageStartTimeout = 800;
 
@@ -275,12 +275,12 @@ public class CyderSplash {
                             } catch (Exception e) {
                                 ExceptionHandler.handle(e);
                             }
-                        }, "Splash Loading Label Updator");
+                        }, "Splash Loading Label Updater");
 
                         int rectLen = (FRAME_LEN - 2 * harmonicXPadding - (numHarmonicRectangles - 1)
                                 * harmonicXInnerPadding) / numHarmonicRectangles;
 
-                        // re-evalidate xPadding to ensure in center
+                        // re-validate xPadding to ensure in center
                         harmonicXPadding = (FRAME_LEN - rectLen * numHarmonicRectangles - harmonicXInnerPadding
                                 * (numHarmonicRectangles - 1)) / 2;
 
@@ -302,14 +302,14 @@ public class CyderSplash {
                             Thread.sleep(100);
                         }
 
-                        // wait for disposal or show error messsage
+                        // wait for disposal or show error message
                         Thread.sleep(loadingLabelSeconds * 1000);
 
                         // to be safe always set message back to whatever it was
                         loadingLabel.setText(CyderSplash.loadingMessage);
                         loadingLabel.repaint();
 
-                        // if frame is still active and it should have been dispoed
+                        // if frame is still active, and it should have been disposed
                         if (!disposed && CyderToggles.DISPOSE_SPLASH) {
                             splashFrame.dispose(true);
 

@@ -465,8 +465,9 @@ public class LoginHandler {
 
                 ConsoleFrame.INSTANCE.setUUID(loggedInUUID);
 
-                Logger.log(Logger.Tag.LOGIN, CyderEntry.PreviouslyLoggedIn.getName().toUpperCase()
-                        + ", " + loggedInUUID);
+                Logger.log(Logger.Tag.LOGIN,
+                        CyderEntry.PreviouslyLoggedIn.getName().toUpperCase()
+                                + ", " + loggedInUUID);
 
                 ConsoleFrame.INSTANCE.launch(CyderEntry.PreviouslyLoggedIn);
             } else {
@@ -494,15 +495,11 @@ public class LoginHandler {
             String uuid = checkPassword(name, hashedPass);
 
             if (uuid != null) {
-                //set the UUID
                 ConsoleFrame.INSTANCE.setUUID(uuid);
 
                 ret = true;
 
                 doLoginAnimations = false;
-
-                Logger.log(Logger.Tag.LOGIN, (autoCypherAttempt
-                        ? "AUTOCYPHER PASS, " : "[STD LOGIN], ") + uuid);
 
                 if (!ConsoleFrame.INSTANCE.isClosed()) {
                     ConsoleFrame.INSTANCE.closeConsoleFrame(false, true);
@@ -510,25 +507,12 @@ public class LoginHandler {
 
                 ConsoleFrame.INSTANCE.launch(autoCypherAttempt
                         ? CyderEntry.AutoCypher : CyderEntry.Login);
-
-                // and exiting the program when we have just logged in
-                if (loginFrame != null) {
-                    loginFrame.removePostCloseActions();
-                    loginFrame.dispose(true);
-                }
-            }
-            // autocypher fail
-            else if (autoCypherAttempt) {
-                Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
-            }
-            // login frame fail
-            else if (loginFrame != null && loginFrame.isVisible()) {
-                Logger.log(Logger.Tag.LOGIN, "LOGIN FAIL");
+            } else if (autoCypherAttempt) {
+                Logger.log(Logger.Tag.LOGIN, CyderEntry.AutoCypher.getFailMessage());
+            } else if (loginFrame != null && loginFrame.isVisible()) {
+                Logger.log(Logger.Tag.LOGIN, CyderEntry.Login.getFailMessage());
                 loginField.requestFocusInWindow();
             }
-
-            // reset vars
-            autoCypherAttempt = false;
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
         }
@@ -543,10 +527,8 @@ public class LoginHandler {
     public static boolean autoCypher() {
         boolean ret = false;
 
-        // try block to ensure something is always returned
         try {
             for (DebugHash hash : DebugHash.values()) {
-                //if the login works, stop trying hashes
                 if (recognize(hash.getName(), hash.getPass(), true)) {
                     ret = true;
                     break;
@@ -554,7 +536,6 @@ public class LoginHandler {
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-            ret = false;
         }
 
         return ret;
@@ -569,8 +550,6 @@ public class LoginHandler {
      * @return the uuid found associated with the name, password combo
      */
     public static String checkPassword(String name, String hashedPass) {
-        String ret = null;
-
         try {
             LinkedList<String> userNames = new LinkedList<>();
 
@@ -580,7 +559,7 @@ public class LoginHandler {
 
             if (!StringUtil.in(name, true, userNames)) {
                 priorityPrintingList.add("Username not found\n");
-                return ret;
+                return null;
             }
 
             for (File userJsonFile : UserUtil.getUserJsons()) {
@@ -589,8 +568,7 @@ public class LoginHandler {
                 //we always hash again here
                 if (name.equalsIgnoreCase(user.getName()) && SecurityUtil.toHexString(SecurityUtil.getSHA256(
                         hashedPass.toCharArray())).equals(user.getPass())) {
-                    ret = FileUtil.getFilename(userJsonFile.getParentFile().getName());
-                    break;
+                    return FileUtil.getFilename(userJsonFile.getParentFile().getName());
                 }
             }
 
@@ -599,7 +577,7 @@ public class LoginHandler {
             ExceptionHandler.handle(e);
         }
 
-        return ret;
+        return null;
     }
 
     /**

@@ -102,7 +102,7 @@ public class Cyder {
             OSUtil.ensureDynamicsCreated();
 
             setLoadingMessage("Validating users");
-            UserUtil.validateAllusers();
+            UserUtil.validateUsers();
 
             setLoadingMessage("Cleaning users");
             UserUtil.cleanUsers();

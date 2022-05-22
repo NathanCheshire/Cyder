@@ -61,11 +61,6 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Whether the ConsoleFrame singleton has been initialized.
-     */
-    private static boolean singletonCreated;
-
-    /**
      * The UUID of the user currently associated with the ConsoleFrame.
      */
     private String uuid;
@@ -218,7 +213,7 @@ public enum ConsoleFrame {
     /**
      * The command list used for scrolling.
      */
-    private static final ArrayList<String> commandList = new ArrayList<>();
+    private final ArrayList<String> commandList = new ArrayList<>();
 
     /**
      * The index of the command in the command history list we are at.
@@ -287,27 +282,28 @@ public enum ConsoleFrame {
      */
     public void launch(CyderEntry entryPoint) {
         if (!isClosed()) {
-            throw new FatalException("ConsoleFrame lauch() invoked when not closed. Old uuid = " + previousUuid);
+            throw new FatalException("ConsoleFrame launch() invoked when not closed. Old uuid = " + previousUuid);
         }
 
+        // todo make sure login from frame is disposed after
+
+        Logger.log(Logger.Tag.DEBUG, "Cyder Entry = " + entryPoint);
+
         CyderSplash.setLoadingMessage("Creating user files");
+
         UserUtil.ensureUserFilesExist(uuid);
+        UserUtil.getCyderUser().setFullscreen("0");
 
         loadBackgrounds();
         resizeBackgrounds();
 
         consoleBashString = UserUtil.getCyderUser().getName() + "@Cyder:~$ ";
-
         lastSlideDirection = Direction.LEFT;
         consoleDir = Direction.TOP;
-
-        commandList.clear();
         commandIndex = 0;
-
-        UserUtil.getCyderUser().setFullscreen("0");
         consoleFrameClosed = false;
 
-        menuLabel = null;
+        commandList.clear();
         menuTaskbarFrames.clear();
 
         CyderColors.refreshGuiThemeColor();
@@ -316,7 +312,7 @@ public enum ConsoleFrame {
 
         int consoleBackgroundWidth;
         int consoleBackgroundHeight;
-        ImageIcon usage;
+        ImageIcon consoleBackgroundIcon;
 
         if (UserUtil.getCyderUser().getRandombackground().equals("1")) {
             if (getBackgrounds().size() <= 1) {
@@ -330,22 +326,20 @@ public enum ConsoleFrame {
         if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
             consoleBackgroundWidth = ScreenUtil.getScreenWidth();
             consoleBackgroundHeight = ScreenUtil.getScreenHeight();
-            usage = new ImageIcon(ImageUtil.resizeImage(consoleBackgroundWidth,
+            consoleBackgroundIcon = new ImageIcon(ImageUtil.resizeImage(consoleBackgroundWidth,
                     consoleBackgroundHeight, getCurrentBackground().getReferenceFile()));
-            UserUtil.getCyderUser().setFullscreen("1");
         } else {
             consoleBackgroundWidth = getCurrentBackground().generateBufferedImage().getWidth();
             consoleBackgroundHeight = getCurrentBackground().generateBufferedImage().getHeight();
-            usage = new ImageIcon(ImageUtil.getRotatedImage(
+            consoleBackgroundIcon = new ImageIcon(ImageUtil.getRotatedImage(
                     getCurrentBackground().getReferenceFile().toString(), getConsoleDirection()));
         }
 
-        consoleCyderFrame = new CyderFrame(consoleBackgroundWidth, consoleBackgroundHeight, usage) {
+        consoleCyderFrame = new CyderFrame(consoleBackgroundWidth, consoleBackgroundHeight, consoleBackgroundIcon) {
             @Override
             public void setBounds(int x, int y, int w, int h) {
                 super.setBounds(x, y, w, h);
 
-                //set pane component bounds
                 if (outputScroll != null && inputField != null) {
                     int addX = 0;
 
@@ -359,14 +353,12 @@ public enum ConsoleFrame {
                             h - (62 + outputScroll.getHeight() + 20 + 20));
                 }
 
-                //menu label bounds
                 if (menuLabel != null && menuLabel.isVisible()) {
                     menuLabel.setBounds(3, CyderDragLabel.DEFAULT_HEIGHT - 2,
                             menuLabel.getWidth(),
                             consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5);
                 }
 
-                //audio menu bounds
                 if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
                     audioControlsLabel.setBounds(w - 156, CyderDragLabel.DEFAULT_HEIGHT - 2,
                             audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
@@ -405,8 +397,7 @@ public enum ConsoleFrame {
         consoleCyderFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         consoleCyderFrame.setPaintWindowTitle(false);
         consoleCyderFrame.setPaintSuperTitle(true);
-        consoleCyderFrame.setTitle(CyderToggles.VERSION +
-                " Cyder [" + UserUtil.getCyderUser().getName() + "]");
+        refreshConsoleFrameTitle();
 
         installConsoleResizing(consoleBackgroundWidth, consoleBackgroundHeight);
 
@@ -444,6 +435,17 @@ public enum ConsoleFrame {
         TimeUtil.setConsoleStartTime(System.currentTimeMillis());
         baseInputHandler.println("Console loaded in " + (TimeUtil.getConsoleStartTime()
                 - TimeUtil.getAbsoluteStartTime()) + "ms");
+    }
+
+
+    // todo use me
+
+    /**
+     * Refreshes the console frame title.
+     */
+    private void refreshConsoleFrameTitle() {
+        consoleCyderFrame.setTitle(CyderToggles.VERSION +
+                " Cyder [" + UserUtil.getCyderUser().getName() + "]");
     }
 
     // todo what gets focus after close button before output area?
@@ -825,6 +827,7 @@ public enum ConsoleFrame {
     /**
      * Removes all the input field listeners
      */
+    @SuppressWarnings("unused")
     private void uninstallInputFieldListeners() {
         inputField.removeKeyListener(inputFieldKeyAdapter);
         inputField.removeKeyListener(commandScrolling);
@@ -845,9 +848,10 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Removes all the outout area listeners.
+     * Removes all the output area listeners.
      */
-    private void uninstallOuptutAreaListeners() {
+    @SuppressWarnings("unused")
+    private void uninstallOutputAreaListeners() {
         outputArea.removeFocusListener(outputAreaFocusAdapter);
         outputArea.removeMouseWheelListener(fontSizerListener);
     }
@@ -1079,17 +1083,11 @@ public enum ConsoleFrame {
      * @param year    the year of the holiday such as 2021
      */
     private void cardReflector(String holiday, int year) {
-        //don't reflect if in testing mode
-        if (CyderToggles.TESTING_MODE)
-            return;
-
         try {
-            CardWidget cardWidget = new CardWidget();
-
-            for (Method m : cardWidget.getClass().getMethods()) {
+            for (Method m : CardWidget.class.getMethods()) {
                 if (m.getName().toLowerCase().contains(holiday.toLowerCase())
                         && m.getName().toLowerCase().contains(String.valueOf(year))) {
-                    m.invoke(cardWidget);
+                    m.invoke(CardWidget.class);
                 }
             }
         } catch (Exception e) {
@@ -1111,7 +1109,7 @@ public enum ConsoleFrame {
 
             File[] files = userMusicDir.listFiles();
 
-            if (files.length > 0) {
+            if (files != null && files.length > 0) {
                 for (File file : files) {
                     if (FileUtil.isSupportedAudioExtension(file)) {
                         musicList.add(file);
@@ -1367,6 +1365,9 @@ public enum ConsoleFrame {
 
     }
 
+    /**
+     * The listener used when input is first handled.
+     */
     private final ActionListener inputFieldActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1590,41 +1591,40 @@ public enum ConsoleFrame {
      */
     private final KeyListener commandScrolling = new KeyAdapter() {
         @Override
+        @SuppressWarnings("ConstantConditions") // todo test function easter eggs
         public void keyPressed(java.awt.event.KeyEvent event) {
             int code = event.getKeyCode();
+
             try {
-                //command scrolling
-                if ((event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) == 0 &&
-                        ((event.getModifiersEx() & InputEvent.ALT_DOWN_MASK) == 0)) {
-                    //scroll to previous commands
+                if ((event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) == 0
+                        && ((event.getModifiersEx() & InputEvent.ALT_DOWN_MASK) == 0)) {
+                    // command scrolling
                     if (code == KeyEvent.VK_UP) {
                         if (commandIndex - 1 >= 0) {
                             commandIndex -= 1;
-                            inputField.setText(
-                                    consoleBashString + commandList.get(commandIndex).replace(consoleBashString, ""));
+                            inputField.setText(consoleBashString
+                                    + commandList.get(commandIndex).replace(consoleBashString, ""));
                         }
-                    }
-                    //scroll to subsequent command if exist
-                    else if (code == KeyEvent.VK_DOWN) {
+                    } else if (code == KeyEvent.VK_DOWN) {
                         if (commandIndex + 1 < commandList.size()) {
                             commandIndex += 1;
-                            inputField.setText(
-                                    consoleBashString + commandList.get(commandIndex).replace(consoleBashString, ""));
+                            inputField.setText(consoleBashString + commandList.get(commandIndex)
+                                    .replace(consoleBashString, ""));
                         } else if (commandIndex + 1 == commandList.size()) {
                             commandIndex += 1;
                             inputField.setText(consoleBashString);
                         }
                     }
 
-                    // F17 Easter egg and other acknowledgement of other function keys
-                    for (int i = CyderNumbers.FUNCTION_KEY_START - 13 ; i < CyderNumbers.FUNCTION_KEY_START + 13 ;
-                         i++) {
+                    int functionKeyOffset = 13;
+                    for (int i = CyderNumbers.FUNCTION_KEY_START - functionKeyOffset
+                         ; i < CyderNumbers.FUNCTION_KEY_START + functionKeyOffset ; i++) {
                         if (code == i) {
-                            if (i - 61427 == 17) {
+                            baseInputHandler.println("Interesting F"
+                                    + (i - CyderNumbers.FUNCTION_KEY_START) + " key");
+
+                            if (i - CyderNumbers.FUNCTION_KEY_START == 17) {
                                 IOUtil.playAudio("static/audio/f17.mp3");
-                            } else {
-                                baseInputHandler.println(
-                                        "Interesting F" + (i - CyderNumbers.FUNCTION_KEY_START) + " key");
                             }
                         }
                     }
@@ -1639,6 +1639,7 @@ public enum ConsoleFrame {
      * The MouseWheelListener used for increasing/decreasing the
      * font size for input field and output area.
      */
+    @SuppressWarnings("MagicConstant") // font metric should be within range
     private final MouseWheelListener fontSizerListener = e -> {
         if (e.isControlDown()) {
             int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
@@ -1686,17 +1687,12 @@ public enum ConsoleFrame {
         this.uuid = uuid;
 
         // build file and pass to user util to set user and user file
-        UserUtil.setCyderUser(OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.USERS.getDirectoryName(), uuid, UserFile.USERDATA.getName()));
+        UserUtil.setCyderUser(uuid);
 
-        // log out all users that may have been left as logged in
-        // since we are now logging in this one
         UserUtil.logoutAllUsers();
 
-        // log in the current user
         UserUtil.getCyderUser().setLoggedin("1");
 
-        // delete invalid backgrounds backgrounds before they're used
         UserUtil.deleteInvalidBackgrounds(uuid);
     }
 

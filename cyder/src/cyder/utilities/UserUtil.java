@@ -137,12 +137,18 @@ public class UserUtil {
      *
      * <pre>{@code UserUtil.getCyderUser().setScreenStat(myScreenStat);}</pre>
      *
-     * @param jsonFile the use's json file to set as the userJson and extract
-     *                 and serialize as the current user object
+     * @param uuid the user's uuid
      */
-    public static void setCyderUser(File jsonFile) {
+    public static void setCyderUser(String uuid) {
+        Preconditions.checkNotNull(uuid);
+        Preconditions.checkArgument(!uuid.isEmpty());
+
+        File jsonFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName(), uuid, UserFile.USERDATA.getName());
+
         Preconditions.checkArgument(jsonFile.exists(), "File does not exist");
-        Preconditions.checkArgument(FileUtil.getExtension(jsonFile).equals(".json"), "File is not a json type");
+        Preconditions.checkArgument(FileUtil.getExtension(jsonFile).equals(".json"),
+                "File is not a json type");
 
         cyderUserFile = jsonFile;
         cyderUser = extractUser(jsonFile);
@@ -215,6 +221,7 @@ public class UserUtil {
      *
      * @param jsonFile the current user json file
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void userJsonBackupSubroutine(File jsonFile) {
         try {
             // ensure save directory exists
@@ -430,7 +437,7 @@ public class UserUtil {
      * @return whether the file could be handled correctly as a user
      * and was fixed if it was incorrect at first
      */
-    public static boolean getterSetterValidator(File userJson) {
+    @SuppressWarnings("UnusedAssignment") public static boolean getterSetterValidator(File userJson) {
         Preconditions.checkArgument(userJson != null);
 
         // user doesn't have json so ignore it during Cyder instance
@@ -441,8 +448,8 @@ public class UserUtil {
         // ensure all the user files are created
         ensureUserFilesExist(userJson.getParentFile().getName());
 
-        // serialze the user, if this fails we're screwed from the start
-        User user = null;
+        // serialize the user, if this fails we're screwed from the start
+        User user;
         try {
             user = extractUser(userJson);
         } catch (Exception ignored) {
@@ -468,7 +475,7 @@ public class UserUtil {
                     if (getterMethod.getName().startsWith("get")) {
                         Object getter = getterMethod.invoke(user);
 
-                        if (!(getter instanceof String) || (String) getter == null) {
+                        if (!(getter instanceof String)) {
                             // invalid getter result so find default value and set
 
                             // find the preference associated with this getter
@@ -552,21 +559,23 @@ public class UserUtil {
      * If this fails for a user, they become corrupted
      * for the current session meaning it is not usable.
      */
-    public static void validateAllusers() {
+    public static void validateUsers() {
         // we use all user files here since we are determining if they are corrupted or not
         File users = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                 DynamicDirectory.USERS.getDirectoryName());
 
-        // for all files
-        for (File userFile : users.listFiles()) {
-            //file userdata
-            File json = new File(OSUtil.buildPath(
-                    userFile.getAbsolutePath(), UserFile.USERDATA.getName()));
+        File[] files = users.listFiles();
 
-            if (json.exists()) {
-                // ensure parsable and with all data before pref injection
-                if (!getterSetterValidator(json)) {
-                    userJsonCorruption(userFile.getName());
+        if (files != null && files.length > 0) {
+            for (File userFile : files) {
+                //file userdata
+                File json = new File(OSUtil.buildPath(
+                        userFile.getAbsolutePath(), UserFile.USERDATA.getName()));
+
+                if (json.exists()) {
+                    if (!getterSetterValidator(json)) {
+                        userJsonCorruption(userFile.getName());
+                    }
                 }
             }
         }
@@ -591,21 +600,24 @@ public class UserUtil {
             if (!currentUserBackgrounds.exists())
                 return;
 
-            for (File f : currentUserBackgrounds.listFiles()) {
-                boolean valid = true;
+            File[] files = currentUserBackgrounds.listFiles();
 
-                try (FileInputStream fi = new FileInputStream(f)) {
-                    ImageIO.read(fi).getWidth();
-                } catch (Exception e) {
-                    valid = false;
-                    ExceptionHandler.silentHandle(e);
-                }
+            if (files != null && files.length > 0) {
+                for (File f : files) {
+                    boolean valid = true;
 
-                if (!valid) {
-                    OSUtil.deleteFile(f);
+                    try (FileInputStream fi = new FileInputStream(f)) {
+                        ImageIO.read(fi).getWidth();
+                    } catch (Exception e) {
+                        valid = false;
+                        ExceptionHandler.silentHandle(e);
+                    }
+
+                    if (!valid) {
+                        OSUtil.deleteFile(f);
+                    }
                 }
             }
-
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
@@ -763,6 +775,7 @@ public class UserUtil {
      * Deleting non audio files from the Music/ directory
      * Removing album art not linked to an audio file
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void cleanUsers() {
         File users = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                 DynamicDirectory.USERS.getDirectoryName());
@@ -770,46 +783,52 @@ public class UserUtil {
         if (!users.exists()) {
             users.mkdir();
         } else {
-            File[] UUIDs = users.listFiles();
+            File[] uuids = users.listFiles();
 
-            for (File user : UUIDs) {
-                if (!user.isDirectory())
-                    continue;
-                // take care of void users
-                if (user.isDirectory() && user.getName().contains("VoidUser")) {
-                    OSUtil.deleteFile(user);
-                } else {
-                    File musicDir = new File(OSUtil.buildPath(user.getAbsolutePath(), "Music"));
-
-                    if (!musicDir.exists()) {
+            if (uuids != null && uuids.length > 0) {
+                for (File user : uuids) {
+                    if (!user.isDirectory())
                         continue;
-                    }
+                    // take care of void users
+                    if (user.isDirectory() && user.getName().contains("VoidUser")) {
+                        OSUtil.deleteFile(user);
+                    } else {
+                        File musicDir = new File(OSUtil.buildPath(user.getAbsolutePath(), "Music"));
 
-                    File[] files = musicDir.listFiles();
-                    ArrayList<String> validMusicFileNames = new ArrayList<>();
-
-                    // delete all non audio files
-                    for (File musicFile : files) {
-                        if (!FileUtil.isSupportedAudioExtension(musicFile) && !musicFile.isDirectory()) {
-                            OSUtil.deleteFile(musicFile);
-                        } else {
-                            validMusicFileNames.add(FileUtil.getFilename(musicFile));
+                        if (!musicDir.exists()) {
+                            continue;
                         }
-                    }
 
-                    File albumArtDirectory = new File(OSUtil.buildPath(user.getAbsolutePath(), "Music", "AlbumArt"));
+                        File[] files = musicDir.listFiles();
+                        ArrayList<String> validMusicFileNames = new ArrayList<>();
 
-                    if (!albumArtDirectory.exists())
-                        continue;
+                        if (files != null && files.length > 0) {
+                            for (File musicFile : files) {
+                                if (!FileUtil.isSupportedAudioExtension(musicFile) && !musicFile.isDirectory()) {
+                                    OSUtil.deleteFile(musicFile);
+                                } else {
+                                    validMusicFileNames.add(FileUtil.getFilename(musicFile));
+                                }
+                            }
+                        }
 
-                    File[] albumArtFiles = albumArtDirectory.listFiles();
+                        File albumArtDirectory = new File
+                                (OSUtil.buildPath(user.getAbsolutePath(), "Music", "AlbumArt"));
 
-                    // for all album art files
-                    for (File albumArt : albumArtFiles) {
+                        if (!albumArtDirectory.exists())
+                            continue;
 
-                        // if the albumart file name does not match to a music file name, delete it
-                        if (!StringUtil.in(FileUtil.getFilename(albumArt), true, validMusicFileNames)) {
-                            OSUtil.deleteFile(albumArt);
+                        File[] albumArtFiles = albumArtDirectory.listFiles();
+
+                        if (albumArtFiles != null && albumArtFiles.length > 0) {
+                            for (File albumArt : albumArtFiles) {
+
+                                // if the album art file name does not match to a music file name, delete it
+                                if (!StringUtil.in(FileUtil.getFilename(albumArt),
+                                        true, validMusicFileNames)) {
+                                    OSUtil.deleteFile(albumArt);
+                                }
+                            }
                         }
                     }
                 }
@@ -820,7 +839,12 @@ public class UserUtil {
     /**
      * The linked list of invalid users which this instance of Cyder will ignore.
      */
-    private static final LinkedList<String> invalidUUIDs = new LinkedList<>();
+    private static final LinkedList<String> invalidUUIDs = new LinkedList<>() {
+        @Override
+        public boolean remove(Object o) {
+            throw new IllegalMethodException("Removing of invalid uuids not allowed");
+        }
+    };
 
     /**
      * Adds the provided uuid to the list of uuids to ignore throughout Cyder.
@@ -834,16 +858,6 @@ public class UserUtil {
     }
 
     /**
-     * Removes the specified uuid from the invalid uuids list.
-     *
-     * @param uuid the specified uuid to remove from the invalid uuids list
-     */
-    private static void removeInvalidUuid(String uuid) {
-        //method purposefully left blank since this isn't something
-        // that should be fixed and revalidated at runtime.
-    }
-
-    /**
      * After a user's json file was found to be invalid due to it being
      * un-parsable, null, empty, not there, or any other reason, this
      * method attempts to locate a backup to save the user.
@@ -854,6 +868,7 @@ public class UserUtil {
      *
      * @param uuid the uuid of the corrupted user
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void userJsonCorruption(String uuid) {
         try {
             File userJson = OSUtil.buildFile(
@@ -868,7 +883,6 @@ public class UserUtil {
                 if (userJsonBackup.isPresent()) {
                     File restore = userJsonBackup.get();
 
-                    // if it doens't exist create it
                     if (!userJson.exists())
                         userJson.createNewFile();
 
@@ -919,17 +933,19 @@ public class UserUtil {
                 }
             }
 
-            //if there's nothing left in the user dir for some reason, delete the whole folder
-            if (userDir.listFiles().length == 0) {
+            File[] files = userDir.listFiles();
+
+            //if there's nothing left in the user
+            if (files != null && files.length == 0) {
                 OSUtil.deleteFile(userDir);
             } else {
-                //otherwise, we need to figure out all the file names in each sub-dir, not recursive, and inform the user
-                // that a json was deleted and tell them which files are remaining
+                // otherwise, we need to figure out all the file names in each sub-dir,
+                // not recursive, and inform the user that a json was deleted
+                // and tell them which files are remaining
 
-                //String path = "";
-                String informString = "Unfortunately a user's data file was corrupted and had to be deleted. " +
-                        "The following files still exists and are associated with the user at the following " +
-                        "path:<br/><b>"
+                String informString = "Unfortunately a user's data file was corrupted and had to be deleted. "
+                        + "The following files still exists and are associated with the user at the following "
+                        + "path:<br/><b>"
                         + OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
                         DynamicDirectory.USERS.getDirectoryName(), uuid) + "</b><br/>Files:";
 
