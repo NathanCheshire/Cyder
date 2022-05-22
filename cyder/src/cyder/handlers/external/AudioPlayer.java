@@ -730,6 +730,8 @@ public class AudioPlayer {
 
         audioPlayerFrame.finalizeAndShow();
 
+        ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
+
         // now that frame is shown, ensure binaries installed and restrict UI until proven
         if (!AudioUtil.ffmpegInstalled() || !AudioUtil.youtubeDlInstalled()) {
             CyderThreadRunner.submit(() -> {
@@ -1693,12 +1695,15 @@ public class AudioPlayer {
             CyderThreadRunner.submit(() -> {
                 try {
                     refreshPlayPauseButtonIcon();
-                    lastAction = LastAction.Play;
+                    ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
 
+                    lastAction = LastAction.Play;
                     audioPlayingSemaphore.acquire();
+
                     audioPlayer.play();
 
                     refreshPlayPauseButtonIcon();
+                    ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
                 } catch (Exception ignored) {
                     ignoredExceptionThrown.set(true);
                 } finally {
@@ -2032,6 +2037,8 @@ public class AudioPlayer {
             scrollingTitleLabel.kill();
             scrollingTitleLabel = null;
         }
+
+        ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
     }
 
     /**

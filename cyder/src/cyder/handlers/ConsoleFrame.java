@@ -306,12 +306,6 @@ public enum ConsoleFrame {
 
         // todo need to update borders and fill when fill color is updated
 
-        // todo need to stop audio on entry
-
-        // todo is intro theme a system audio or not?
-
-        // todo factor in console audio into audio player
-
         Logger.log(Logger.Tag.DEBUG, "Cyder Entry = " + entryPoint);
 
         UserUtil.ensureUserFilesExist(uuid);
@@ -1190,7 +1184,7 @@ public enum ConsoleFrame {
                             IOUtil.playAudio(grayscaleAudioPaths.get(
                                     NumberUtil.randInt(0, grayscaleAudioPaths.size() - 1)));
                         } else if (CyderToggles.RELEASED) {
-                            IOUtil.playSystemAudio("static/audio/CyderIntroTheme.mp3");
+                            IOUtil.playAudio("static/audio/CyderIntroTheme.mp3");
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
@@ -3037,6 +3031,8 @@ public enum ConsoleFrame {
     public void logout() {
         closeConsoleFrame(false, true);
         FrameUtil.closeAllFrames(true);
+
+        IOUtil.stopAllAudio();
 
         LoginHandler.showGui();
     }
