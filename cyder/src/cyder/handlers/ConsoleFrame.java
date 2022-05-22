@@ -40,7 +40,6 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Objects;
 
 /**
  * Singleton of components that represent the GUI way a user
@@ -302,13 +301,16 @@ public enum ConsoleFrame {
      * @throws FatalException if the ConsoleFrame was left open
      */
     public void launch(CyderEntry entryPoint) {
-        if (!isClosed()) {
-            throw new FatalException("ConsoleFrame launch() invoked when not closed. Old uuid = " + previousUuid);
-        }
-
-        // todo make sure login from frame is disposed after
+        ExceptionHandler.checkFatalCondition(isClosed(),
+                "ConsoleFrame launch() invoked when not closed. Old uuid = " + previousUuid);
 
         // todo need to update borders and fill when fill color is updated
+
+        // todo need to stop audio on entry
+
+        // todo is intro theme a system audio or not?
+
+        // todo factor in console audio into audio player
 
         Logger.log(Logger.Tag.DEBUG, "Cyder Entry = " + entryPoint);
 
@@ -2968,11 +2970,13 @@ public enum ConsoleFrame {
         IOUtil.stopGeneralAudio();
 
         //close the input handler
-        Objects.requireNonNull(baseInputHandler).killThreads();
-        baseInputHandler = null;
+        if (baseInputHandler != null) {
+            baseInputHandler.killThreads();
+            baseInputHandler = null;
+        }
 
         if (logoutUser) {
-            Logger.log(Logger.Tag.LOGOUT, "[CyderUser: " + UserUtil.getCyderUser().getName() + "]");
+            Logger.log(Logger.Tag.LOGOUT, "[CyderUser = " + UserUtil.getCyderUser().getName() + "]");
             UserUtil.getCyderUser().setLoggedin("0");
         }
 

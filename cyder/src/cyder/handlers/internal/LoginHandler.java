@@ -226,17 +226,11 @@ public class LoginHandler {
                 loginFrameClosed = true;
                 doLoginAnimations = false;
 
-                //if the console frame isn't open, close the user creator if it's open
                 if (ConsoleFrame.INSTANCE.isClosed()) {
-                    UserCreator.close();
+                    OSUtil.exit(ExitCondition.GenesisControlledExit);
                 }
             }
         });
-
-        //exit cyder frame on disposal call of login frame if ConsoleFrame isn't active
-        if (ConsoleFrame.INSTANCE.isClosed()) {
-            loginFrame.addPostCloseAction(() -> OSUtil.exit(ExitCondition.GenesisControlledExit));
-        }
 
         //printing animation output
         JTextPane loginArea = new JTextPane();

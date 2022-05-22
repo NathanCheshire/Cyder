@@ -53,4 +53,9 @@ public class CyderToggles {
      * Whether to automatically wipe all past logs on Cyder start.
      */
     public static final boolean WIPE_LOGS_ON_START = false;
+
+    /**
+     * Whether to activate the watchdog on Cyder start.
+     */
+    public static final boolean ACTIVATE_WATCHDOG = false;
 }

@@ -4,6 +4,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.threads.CyderThreadRunner;
@@ -269,5 +270,17 @@ public class ExceptionHandler {
         builder.setTitle(title);
         builder.setPostCloseAction(() -> OSUtil.exit(condition));
         InformHandler.inform(builder);
+    }
+
+    /**
+     * Validates the provided condition, throwing a fatal exception if false.
+     *
+     * @param condition          the condition to validate
+     * @param fatalExceptionText the exception text if the condition is false
+     */
+    public static void checkFatalCondition(boolean condition, String fatalExceptionText) {
+        if (!condition) {
+            throw new FatalException(fatalExceptionText);
+        }
     }
 }

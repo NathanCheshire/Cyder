@@ -40,7 +40,7 @@ public class CyderWatchdog {
     public static final String AWT_EVENT_QUEUE_0_NAME = "AWT-EventQueue-0";
 
     /**
-     * The actual watchdog timer to detect a hault if it is not reset by the time a certain
+     * The actual watchdog timer to detect a halt if it is not reset by the time a certain
      * value is reached.
      */
     private static final AtomicInteger watchdogCounter = new AtomicInteger();
@@ -102,9 +102,7 @@ public class CyderWatchdog {
                 }
 
                 // reset watchdog timer using AWT EventQueue thread
-                SwingUtilities.invokeLater(() -> {
-                    watchdogCounter.set(0);
-                });
+                SwingUtilities.invokeLater(() -> watchdogCounter.set(0));
 
                 Thread.State currentState = awtEventQueueThread.getState();
 
@@ -120,9 +118,8 @@ public class CyderWatchdog {
                     }
 
                     if (watchdogCounter.get() == MAX_WATCHDOG_COUNT) {
-                        Logger.log(Logger.Tag.DEBUG, "Hault detected by watchdog,");
+                        Logger.log(Logger.Tag.DEBUG, "Halt detected by watchdog,");
 
-                        boolean tmpJarMode = true;
                         if (OSUtil.JAR_MODE) {
                             Logger.log(Logger.Tag.DEBUG, "JAR_MODE detected; attempting to " +
                                     "locate jar to boostrap from");

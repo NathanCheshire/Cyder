@@ -57,7 +57,8 @@ public class Cyder {
         initUiManagerProps();
 
         // initialize watchdog timer for fatal GUI thread blocks
-        CyderWatchdog.initializeWatchDog();
+        if (CyderToggles.ACTIVATE_WATCHDOG)
+            CyderWatchdog.initializeWatchDog();
 
         // prevent multiple instances, fatal subroutine if failure
         if (!isSingularInstance()) {
