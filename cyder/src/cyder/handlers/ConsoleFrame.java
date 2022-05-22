@@ -38,7 +38,6 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -671,7 +670,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Sets up the drag label button lists for all of the console frame's drag labels.
+     * Sets up the drag label button lists for all the console frame's drag labels.
      */
     private void installDragLabelButtons() {
         menuButton.addActionListener(menuButtonListener);
@@ -702,15 +701,9 @@ public enum ConsoleFrame {
         consoleDragButtonList.add(minimize);
 
         pinButton.addActionListener(e -> {
-            if (consoleCyderFrame.isAlwaysOnTop()) {
-                consoleCyderFrame.setAlwaysOnTop(false);
-                pinButton.setIcon(CyderIcons.pinIcon);
-                saveScreenStat();
-            } else {
-                consoleCyderFrame.setAlwaysOnTop(true);
-                pinButton.setIcon(CyderIcons.pinIconHover);
-                saveScreenStat();
-            }
+            consoleCyderFrame.setAlwaysOnTop(!consoleCyderFrame.isAlwaysOnTop());
+            pinButton.setIcon(consoleCyderFrame.isAlwaysOnTop() ? CyderIcons.pinIconHover : CyderIcons.pinIcon);
+            saveScreenStat();
         });
         pinButton.setIcon(UserUtil.getCyderUser().getScreenStat().isConsoleOnTop() ?
                 CyderIcons.pinIconHover : CyderIcons.pinIcon);
@@ -1385,12 +1378,11 @@ public enum ConsoleFrame {
                 //calls to linked InputHandler
                 if (!baseInputHandler.getUserInputMode()) {
                     baseInputHandler.handle(op, true);
-                }
-                //send the operation to handle second if it is awaiting a secondary input
-                else if (baseInputHandler.getUserInputMode()) {
-                    baseInputHandler.setUserInputMode(false);
-                    baseInputHandler.handleSecond(op);
-                }
+                } else //noinspection ConstantConditions
+                    if (baseInputHandler.getUserInputMode()) {
+                        baseInputHandler.setUserInputMode(false);
+                        baseInputHandler.handleSecond(op);
+                    }
             }
 
             inputField.setText(consoleBashString);
@@ -1710,6 +1702,7 @@ public enum ConsoleFrame {
      *
      * @return the font to use for the input and output areas
      */
+    @SuppressWarnings("MagicConstant")
     public Font generateUserFont() {
         return new Font(UserUtil.getCyderUser().getFont(),
                 Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
@@ -1785,17 +1778,23 @@ public enum ConsoleFrame {
      */
     public void loadBackgrounds() {
         try {
-            //allowable image formats include png and jpg
-            ArrayList<File> backgroundFiles = new ArrayList<>(Arrays.asList(
-                    Objects.requireNonNull(
-                                    OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                                            DynamicDirectory.USERS.getDirectoryName(), uuid, "Backgrounds"))
-                            .listFiles((directory, filename) ->
-                                    StringUtil.in(FileUtil.getExtension(filename),
-                                            true, FileUtil.SUPPORTED_IMAGE_EXTENSIONS))));
+            File backgroundsDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.USERS.getDirectoryName(), uuid, "Backgrounds");
+
+            ArrayList<File> backgroundFiles = new ArrayList<>();
+
+            File[] backgroundFilesArr = backgroundsDir.listFiles();
+            if (backgroundFilesArr != null && backgroundFilesArr.length > 0) {
+                for (File file : backgroundFilesArr) {
+                    if (StringUtil.in(FileUtil.getExtension(file),
+                            true, FileUtil.SUPPORTED_IMAGE_EXTENSIONS)) {
+                        backgroundFiles.add(file);
+                    }
+                }
+            }
 
             if (backgroundFiles.isEmpty()) {
-                //create and reload backgrounds since this shouldn't be empty now
+                // create and reload backgrounds since this shouldn't be empty now
                 UserUtil.createDefaultBackground(uuid);
                 loadBackgrounds();
             }
@@ -1916,25 +1915,15 @@ public enum ConsoleFrame {
 
         backgroundIndex = index;
 
-        ImageIcon imageIcon = null;
-
-        switch (consoleDir) {
-            case LEFT:
-                imageIcon = new ImageIcon(ImageUtil.rotateImageByDegrees(
-                        backgrounds.get(backgroundIndex).generateBufferedImage(), -90));
-                break;
-            case RIGHT:
-                imageIcon = new ImageIcon(ImageUtil.rotateImageByDegrees(
-                        backgrounds.get(backgroundIndex).generateBufferedImage(), 90));
-                break;
-            case TOP:
-                imageIcon = getCurrentBackground().generateImageIcon();
-                break;
-            case BOTTOM:
-                imageIcon = new ImageIcon(ImageUtil.rotateImageByDegrees(
-                        backgrounds.get(backgroundIndex).generateBufferedImage(), 180));
-                break;
-        }
+        ImageIcon imageIcon = switch (consoleDir) {
+            case LEFT -> new ImageIcon(ImageUtil.rotateImageByDegrees(
+                    backgrounds.get(backgroundIndex).generateBufferedImage(), -90));
+            case RIGHT -> new ImageIcon(ImageUtil.rotateImageByDegrees(
+                    backgrounds.get(backgroundIndex).generateBufferedImage(), 90));
+            case TOP -> getCurrentBackground().generateImageIcon();
+            case BOTTOM -> new ImageIcon(ImageUtil.rotateImageByDegrees(
+                    backgrounds.get(backgroundIndex).generateBufferedImage(), 180));
+        };
 
         consoleCyderFrame.setBackground(imageIcon);
         consoleCyderFrame.setSize(imageIcon.getIconWidth(), imageIcon.getIconHeight());
@@ -1987,6 +1976,7 @@ public enum ConsoleFrame {
      * The ConsoleFrame will remain in fullscreen mode if in fullscreen mode as well as maintain
      * whatever size it was at before a background switch was requested.
      */
+    @SuppressWarnings("UnnecessaryDefault")
     private void switchBackground() {
         // always load first to ensure we're up-to-date with the valid backgrounds
         loadBackgrounds();
@@ -2060,52 +2050,36 @@ public enum ConsoleFrame {
                     (int) originalCenter.getY() - height / 2, consoleCyderFrame);
 
             // stitch images
-            ImageIcon combinedIcon;
-
-            switch (lastSlideDirection) {
-                case LEFT:
-                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.BOTTOM);
-                    break;
-                case RIGHT:
-                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.TOP);
-                    break;
-                case TOP:
-                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.LEFT);
-                    break;
-                case BOTTOM:
-                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.RIGHT);
-                    break;
-                default:
-                    throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
-            }
+            ImageIcon combinedIcon = switch (lastSlideDirection) {
+                case LEFT -> ImageUtil.combineImages(oldBack, nextBack, Direction.BOTTOM);
+                case RIGHT -> ImageUtil.combineImages(oldBack, nextBack, Direction.TOP);
+                case TOP -> ImageUtil.combineImages(oldBack, nextBack, Direction.LEFT);
+                case BOTTOM -> ImageUtil.combineImages(oldBack, nextBack, Direction.RIGHT);
+                default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
+            };
 
             // revalidate bounds for icon label and icon pane
             consoleCyderFrame.refreshBackground();
 
             // set dimensions
             switch (lastSlideDirection) {
-                case LEFT:
-                    // will be sliding up
-                    contentPane.setBounds(2, 2,
-                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
-                    break;
-                case RIGHT:
-                    // will be sliding down
-                    contentPane.setBounds(2, -combinedIcon.getIconHeight() / 2,
-                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
-                    break;
-                case TOP:
-                    // will be sliding right
-                    contentPane.setBounds(-combinedIcon.getIconWidth() / 2, 2,
-                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
-                    break;
-                case BOTTOM:
-                    // will be sliding left
-                    contentPane.setBounds(combinedIcon.getIconWidth() / 2, 2,
-                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
-                    break;
-                default:
-                    throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
+                case LEFT ->
+                        // will be sliding up
+                        contentPane.setBounds(2, 2,
+                                combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
+                case RIGHT ->
+                        // will be sliding down
+                        contentPane.setBounds(2, -combinedIcon.getIconHeight() / 2,
+                                combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
+                case TOP ->
+                        // will be sliding right
+                        contentPane.setBounds(-combinedIcon.getIconWidth() / 2, 2,
+                                combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
+                case BOTTOM ->
+                        // will be sliding left
+                        contentPane.setBounds(combinedIcon.getIconWidth() / 2, 2,
+                                combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
+                default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
             }
 
             // set to combined icon
@@ -2125,7 +2099,7 @@ public enum ConsoleFrame {
 
                 // animate the old image away and set last slide direction
                 switch (lastSlideDirection) {
-                    case LEFT:
+                    case LEFT -> {
                         // sliding up
                         for (int i = 0 ; i >= -consoleCyderFrame.getHeight() ; i -= increment) {
                             try {
@@ -2136,10 +2110,9 @@ public enum ConsoleFrame {
                                 ExceptionHandler.handle(e);
                             }
                         }
-
                         lastSlideDirection = Direction.TOP;
-                        break;
-                    case RIGHT:
+                    }
+                    case RIGHT -> {
                         // sliding down
                         for (int i = -consoleCyderFrame.getHeight() ; i <= 0 ; i += increment) {
                             try {
@@ -2150,10 +2123,9 @@ public enum ConsoleFrame {
                                 ExceptionHandler.handle(e);
                             }
                         }
-
                         lastSlideDirection = Direction.BOTTOM;
-                        break;
-                    case TOP:
+                    }
+                    case TOP -> {
                         // sliding right
                         for (int i = -consoleCyderFrame.getWidth() ; i <= 0 ; i += increment) {
                             try {
@@ -2164,10 +2136,9 @@ public enum ConsoleFrame {
                                 ExceptionHandler.handle(e);
                             }
                         }
-
                         lastSlideDirection = Direction.RIGHT;
-                        break;
-                    case BOTTOM:
+                    }
+                    case BOTTOM -> {
                         // sliding left
                         for (int i = 0 ; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
                             try {
@@ -2178,11 +2149,9 @@ public enum ConsoleFrame {
                                 ExceptionHandler.handle(e);
                             }
                         }
-
                         lastSlideDirection = Direction.LEFT;
-                        break;
-                    default:
-                        throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
+                    }
+                    default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
                 }
 
                 // set the new image since the animation has concluded
@@ -2276,34 +2245,6 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Smoothly transitions the background icon to the specified degrees.
-     * Use set console direction for console flipping and not this.
-     *
-     * @param degree the degree by which to smoothly rotate
-     */
-    private void rotateConsole(int degree) {
-        ImageIcon masterIcon = (ImageIcon) ((JLabel) consoleCyderFrame.getContentPane()).getIcon();
-        BufferedImage master = ImageUtil.getBi(masterIcon);
-
-        new Timer(10, new ActionListener() {
-            private double angle;
-            BufferedImage rotated;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                angle += 2.0; // delta
-                if (angle > degree) {
-                    rotated = ImageUtil.rotateImageByDegrees(master, degree);
-                    ((JLabel) consoleCyderFrame.getContentPane()).setIcon(new ImageIcon(rotated));
-                    return;
-                }
-                rotated = ImageUtil.rotateImageByDegrees(master, angle);
-                ((JLabel) consoleCyderFrame.getContentPane()).setIcon(new ImageIcon(rotated));
-            }
-        }).start();
-    }
-
-    /**
      * Refreshes the console frame, bounds, orientation, and fullscreen mode.
      *
      * @param fullscreen whether to set the frame to fullscreen mode.
@@ -2337,6 +2278,7 @@ public enum ConsoleFrame {
      *
      * @return the index in the command history we are currently at
      */
+    @SuppressWarnings("unused")
     public int getCommandIndex() {
         return commandIndex;
     }
@@ -2346,6 +2288,7 @@ public enum ConsoleFrame {
      *
      * @param downs the index in the command history we are at
      */
+    @SuppressWarnings("unused")
     public void setCommandIndex(int downs) {
         commandIndex = downs;
     }
@@ -2353,6 +2296,7 @@ public enum ConsoleFrame {
     /**
      * Increments the command index by 1.
      */
+    @SuppressWarnings("unused")
     public void incrementCommandIndex() {
         commandIndex += 1;
     }
@@ -2360,6 +2304,7 @@ public enum ConsoleFrame {
     /**
      * Decreases the command index by 1.
      */
+    @SuppressWarnings("unused")
     public void decrementCommandIndex() {
         commandIndex -= 1;
     }
@@ -2369,6 +2314,7 @@ public enum ConsoleFrame {
      *
      * @return whether the current background index is the maximum index
      */
+    @SuppressWarnings("unused")
     public boolean onLastBackground() {
         loadBackgrounds();
         return backgrounds.size() == backgroundIndex + 1;
@@ -2445,6 +2391,7 @@ public enum ConsoleFrame {
      *
      * @return the command history
      */
+    @SuppressWarnings("unused")
     public ArrayList<String> getCommandHistory() {
         return commandList;
     }
@@ -2502,27 +2449,19 @@ public enum ConsoleFrame {
     public void revalidate(boolean maintainDirection, boolean maintainFullscreen, boolean maintainConsoleSize) {
         Point originalCenter = consoleCyderFrame.getCenterPoint();
 
-        ImageIcon background = null;
+        ImageIcon background;
 
         if (maintainDirection) {
             // have full size of image and maintain currently set direction
-            switch (consoleDir) {
-                case TOP:
-                    background = getCurrentBackground().generateImageIcon();
-                    break;
-                case LEFT:
-                    background = new ImageIcon(ImageUtil.getRotatedImage(
-                            getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.LEFT));
-                    break;
-                case RIGHT:
-                    background = new ImageIcon(ImageUtil.getRotatedImage(
-                            getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.RIGHT));
-                    break;
-                case BOTTOM:
-                    background = new ImageIcon(ImageUtil.getRotatedImage(
-                            getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.BOTTOM));
-                    break;
-            }
+            background = switch (consoleDir) {
+                case TOP -> getCurrentBackground().generateImageIcon();
+                case LEFT -> new ImageIcon(ImageUtil.getRotatedImage(
+                        getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.LEFT));
+                case RIGHT -> new ImageIcon(ImageUtil.getRotatedImage(
+                        getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.RIGHT));
+                case BOTTOM -> new ImageIcon(ImageUtil.getRotatedImage(
+                        getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.BOTTOM));
+            };
 
             UserUtil.getCyderUser().setFullscreen("0");
         } else if (maintainFullscreen && UserUtil.getCyderUser().getFullscreen().equals("1")) {
@@ -2564,6 +2503,10 @@ public enum ConsoleFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
+        }
+
+        if (background == null) {
+            throw new FatalException("Could not create a background");
         }
 
         int w = background.getIconWidth();
@@ -2637,8 +2580,7 @@ public enum ConsoleFrame {
             menuLabel.setBounds(3, CyderDragLabel.DEFAULT_HEIGHT - 2,
                     menuLabel.getWidth(), consoleCyderFrame.getHeight()
                             - CyderDragLabel.DEFAULT_HEIGHT - 5);
-            menuScroll.setBounds(7, 10, (int)
-                    (menuLabel.getWidth() - 10), menuLabel.getHeight() - 20);
+            menuScroll.setBounds(7, 10, menuLabel.getWidth() - 10, menuLabel.getHeight() - 20);
         } else {
             menuButton.setIcon(CyderIcons.menuIcon);
             //no other actions needed
@@ -2901,30 +2843,20 @@ public enum ConsoleFrame {
         ArrayList<RelativeFrame> frames = getPinnedFrames();
 
         switch (screenPos) {
-            case CENTER:
-                consoleCyderFrame.setLocationRelativeTo(null);
-                break;
-            case TOP_LEFT:
-                consoleCyderFrame.setLocation(0, 0);
-                break;
-            case TOP_RIGHT:
-                consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth()
-                        - INSTANCE.getWidth(), 0);
-                break;
-            case BOTTOM_LEFT:
-                consoleCyderFrame.setLocation(0, ScreenUtil.getScreenHeight()
-                        - INSTANCE.getHeight());
-                break;
-            case BOTTOM_RIGHT:
-                consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth() - INSTANCE.getWidth(),
-                        ScreenUtil.getScreenHeight() - INSTANCE.getHeight());
-                break;
+            case CENTER -> consoleCyderFrame.setLocationRelativeTo(null);
+            case TOP_LEFT -> consoleCyderFrame.setLocation(0, 0);
+            case TOP_RIGHT -> consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth()
+                    - INSTANCE.getWidth(), 0);
+            case BOTTOM_LEFT -> consoleCyderFrame.setLocation(0, ScreenUtil.getScreenHeight()
+                    - INSTANCE.getHeight());
+            case BOTTOM_RIGHT -> consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth() - INSTANCE.getWidth(),
+                    ScreenUtil.getScreenHeight() - INSTANCE.getHeight());
         }
 
         for (RelativeFrame rf : frames) {
-            rf.getFrame().setLocation(
-                    rf.getxOffset() + consoleCyderFrame.getX(),
-                    rf.getyOffset() + consoleCyderFrame.getY());
+            rf.frame().setLocation(
+                    rf.xOffset() + consoleCyderFrame.getX(),
+                    rf.yOffset() + consoleCyderFrame.getY());
         }
     }
 
@@ -3077,9 +3009,6 @@ public enum ConsoleFrame {
      * relative to where ConsoleFrame was closed.
      */
     public void logout() {
-        Point centerPoint = consoleCyderFrame.getCenterPoint();
-        int monitor = consoleCyderFrame.getMonitor();
-
         closeConsoleFrame(false, true);
         FrameUtil.closeAllFrames(true);
 
@@ -3185,7 +3114,6 @@ public enum ConsoleFrame {
     public void originalChams() {
         try {
             CyderFrame ref = INSTANCE.getConsoleCyderFrame();
-            Robot robot = new Robot();
             Rectangle monitorBounds = ref.getMonitorBounds();
 
             INSTANCE.getConsoleCyderFrame().setVisible(false);
@@ -3207,101 +3135,22 @@ public enum ConsoleFrame {
      *
      * @param visible whether the buttons should be visible
      */
+    @SuppressWarnings("unused")
     public void setLeftDragLabelButtonVisibilities(boolean visible) {
         helpButton.setVisible(visible);
         menuButton.setVisible(visible);
     }
 
-    /*
-    Inner classes
-     */
-
     /**
-     * A wrapper used to store it's position relative to some other component.
+     * The record used for pinned frame logic.
      */
-    private static class RelativeFrame {
-        /**
-         * The frame we are keeping track of.
-         */
-        private CyderFrame frame;
-
-        /**
-         * The frame's x offset to the other component.
-         */
-        private int xOffset;
-
-        /**
-         * The frame's y offset to the other component.
-         */
-        private int yOffset;
-
-        /**
-         * Constructs a new RelativeFrame object.
-         *
-         * @param frame   the frame that is relative to some other component
-         * @param xOffset the x offset to the other component
-         * @param yOffset the y offset to the other component
-         */
+    private record RelativeFrame(CyderFrame frame, int xOffset, int yOffset) {
         public RelativeFrame(CyderFrame frame, int xOffset, int yOffset) {
             this.frame = frame;
             this.xOffset = xOffset;
             this.yOffset = yOffset;
 
             Logger.log(Logger.Tag.OBJECT_CREATION, this);
-        }
-
-        /**
-         * Returns the reference frame.
-         *
-         * @return the reference frame
-         */
-        public CyderFrame getFrame() {
-            return frame;
-        }
-
-        /**
-         * Sets the reference frame.
-         *
-         * @param frame the reference frame
-         */
-        public void setFrame(CyderFrame frame) {
-            this.frame = frame;
-        }
-
-        /**
-         * Returns the x offset from the reference frame to the other component.
-         *
-         * @return the x offset from the reference frame to the other component
-         */
-        public int getxOffset() {
-            return xOffset;
-        }
-
-        /**
-         * Sets the x offset to the other component.
-         *
-         * @param xOffset the x offset to the other component
-         */
-        public void setxOffset(int xOffset) {
-            this.xOffset = xOffset;
-        }
-
-        /**
-         * Returns the y offset from the reference frame to the other component.
-         *
-         * @return the y offset from the reference frame to the other component
-         */
-        public int getyOffset() {
-            return yOffset;
-        }
-
-        /**
-         * Sets the y offset to the other component.
-         *
-         * @param yOffset the y offset to the other component
-         */
-        public void setyOffset(int yOffset) {
-            this.yOffset = yOffset;
         }
     }
 }
