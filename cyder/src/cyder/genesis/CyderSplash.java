@@ -299,6 +299,9 @@ public class CyderSplash {
                         }
 
                         for (HarmonicRectangle rectangle : harmonicRectangles) {
+                            if (disposed)
+                                break;
+
                             rectangle.startAnimation();
                             Thread.sleep(100);
                         }

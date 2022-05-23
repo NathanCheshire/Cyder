@@ -9,6 +9,7 @@ import cyder.common.WidgetDescription;
 import cyder.constants.CyderStrings;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -403,6 +404,21 @@ public class ReflectionUtil {
                                 " Nathan Cheshire as an author");
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Validates all the props within props.ini.
+     */
+    public static void validateProps() {
+        ArrayList<String> discoveredKeys = new ArrayList<>();
+
+        for (PropLoader.Prop prop : PropLoader.getProps()) {
+            if (!StringUtil.in(prop.key(), false, discoveredKeys)) {
+                discoveredKeys.add(prop.key());
+            } else {
+                Logger.log(Logger.Tag.DEBUG, "Found duplicate prop key: " + prop.key());
             }
         }
     }

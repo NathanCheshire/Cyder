@@ -45,6 +45,15 @@ public class PropLoader {
     private static ImmutableList<Prop> props;
 
     /**
+     * Returns the props.
+     *
+     * @return the props
+     */
+    public static ImmutableList<Prop> getProps() {
+        return props;
+    }
+
+    /**
      * Loads the props from the prop file.
      */
     public static void reloadProps() {
