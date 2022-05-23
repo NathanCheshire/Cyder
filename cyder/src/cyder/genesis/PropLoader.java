@@ -56,7 +56,7 @@ public class PropLoader {
                 Prop addProp;
 
                 if (parts.length == 2) {
-                    addProp = new Prop(parts[0], parts[1]);
+                    addProp = new Prop(parts[0].trim(), parts[1].trim());
                 } else {
                     int lastKeyIndex = -1;
 
@@ -98,11 +98,11 @@ public class PropLoader {
                         }
                     }
 
-                    addProp = new Prop(key.toString(), value.toString());
+                    addProp = new Prop(key.toString().trim(), value.toString().trim());
                 }
 
                 propsList.add(addProp);
-                Logger.log(Logger.Tag.DEBUG, "Loaded prop: " + addProp);
+                Logger.log(Logger.Tag.PROP_LOADED, addProp);
             }
 
             props = ImmutableList.copyOf(propsList);

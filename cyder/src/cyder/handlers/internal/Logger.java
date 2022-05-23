@@ -94,6 +94,7 @@ public class Logger {
      * @param representation the representation of the object
      * @param <T>            the object instance of representation
      */
+    @SuppressWarnings("IfCanBeSwitch") // intelliJ being stupid
     public static <T> void log(Tag tag, T representation) {
         if (logConcluded) {
             System.out.println(getLogTime() + "[LOG CALL AFTER LOG CONCLUDED]: " + representation);
@@ -103,7 +104,7 @@ public class Logger {
         // don't log new lines
         if (representation instanceof String
                 && (((String) representation).trim().isEmpty()
-                || ((String) representation).equals("\n"))) {
+                || representation.equals("\n"))) {
             return;
         }
 
@@ -174,18 +175,21 @@ public class Logger {
                 logBuilder.append(constructLogTagPrepend(TimeUtil.logTime()));
                 logBuilder.append("[EOL]: Log completed, exiting Cyder with exit code: ");
 
-                ExitCondition condition = (ExitCondition) representation;
-                logBuilder.append(condition.getCode());
+                if (representation instanceof ExitCondition condition) {
+                    logBuilder.append(condition.getCode());
 
-                logBuilder.append(" [");
-                logBuilder.append(condition.getDescription());
-                logBuilder.append("], exceptions thrown: ");
+                    logBuilder.append(" [");
+                    logBuilder.append(condition.getDescription());
+                    logBuilder.append("], exceptions thrown: ");
 
-                logBuilder.append(exceptionsCounter.get() == 0
-                        ? "no exceptions thrown" : exceptionsCounter.get());
+                    logBuilder.append(exceptionsCounter.get() == 0
+                            ? "no exceptions thrown" : exceptionsCounter.get());
 
-                formatAndWriteLine(logBuilder.toString(), tag);
-                logConcluded = true;
+                    formatAndWriteLine(logBuilder.toString(), tag);
+                    logConcluded = true;
+                } else {
+                    logBuilder.append("ERROR PARSING EXIT CONDITION");
+                }
 
                 return;
             case CORRUPTION:
@@ -244,9 +248,8 @@ public class Logger {
                     logBuilder.append(representation);
                 } else if (representation instanceof Thread) {
                     logBuilder.append(Tag.THREAD_STATUS);
-                    logBuilder.append("name = "
-                            + ((Thread) representation).getName() + ", state = "
-                            + ((Thread) representation).getState());
+                    logBuilder.append("name = ").append(((Thread) representation).getName()).append(", state = ")
+                            .append(((Thread) representation).getState());
                 } else {
                     logBuilder.append(constructLogTagPrepend("THREAD"));
                     logBuilder.append(representation);
@@ -255,7 +258,7 @@ public class Logger {
                 break;
             case CONSOLE_REDIRECTION:
                 logBuilder.append(constructLogTagPrepend(Tag.CONSOLE_REDIRECTION));
-                logBuilder.append("console output was redirected to files/" + representation);
+                logBuilder.append("console output was redirected to files/").append(representation);
                 break;
             case CRUD_OP:
                 logBuilder.append(constructLogTagPrepend(Tag.CRUD_OP));
@@ -277,7 +280,7 @@ public class Logger {
 
     /**
      * Initializes the logger for logging by generating the log file, starts
-     * the object creation logger, concludes unconcluded logs, consolidates past log lines,
+     * the object creation logger, concludes un-concluded logs, consolidates past log lines,
      * and zips the past logs.
      */
     public static void initialize() {
@@ -334,6 +337,7 @@ public class Logger {
     /**
      * Creates the log file if it is not set/DNE.
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void generateAndSetLogFile() {
         try {
             // ensure logs dir exists
@@ -564,6 +568,7 @@ public class Logger {
     /**
      * Zips the log files of the past.
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void zipPastLogs() {
         File topLevelLogsDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                 DynamicDirectory.LOGS.getDirectoryName());
@@ -723,10 +728,12 @@ public class Logger {
         Preconditions.checkNotNull(logLine1);
         Preconditions.checkNotNull(logLine2);
 
+
         // if not full line tags, directly compare
-        if (!logLine1.startsWith("[") || !logLine1.contains("]")
-                || !logLine2.startsWith("[") || !logLine2.contains("]")
-                || !logLine1.startsWith("[") || !logLine2.startsWith("["))
+        if (!logLine1.startsWith("[")
+                || !logLine1.contains("]")
+                || !logLine2.contains("]")
+                || !logLine2.startsWith("["))
             return logLine1.equals(logLine2);
 
         // guaranteed to have square braces now
@@ -889,7 +896,7 @@ public class Logger {
          */
         EXCEPTION("EXCEPTION"),
         /**
-         * Audio played/stoped/paused/etc.
+         * Audio played/stopped/paused/etc.
          */
         AUDIO("AUDIO"),
         /**
@@ -905,7 +912,7 @@ public class Logger {
          */
         SUGGESTION("SUGGESTION"),
         /**
-         * IO by Cyder typically to/from a json file but moreso to files within DynamicDirectory.DYNAMIC_PATH
+         * IO by Cyder typically to/from a json file but usually to files within DynamicDirectory.DYNAMIC_PATH
          */
         SYSTEM_IO("SYSTEM IO"),
         /**
@@ -934,7 +941,7 @@ public class Logger {
          */
         CORRUPTION("CORRUPTION"),
         /**
-         * A quick debug information statment.
+         * A quick debug information statement.
          */
         DEBUG("DEBUG"),
         /**
@@ -965,6 +972,10 @@ public class Logger {
          * A font was loaded by the sub-routine from the fonts/ directory.
          */
         FONT_LOADED("FONT LOADED"),
+        /**
+         * A prop from props.ini was loaded.
+         */
+        PROP_LOADED("PROP LOADED"),
         /**
          * The status of a thread, typically AWT-EventQueue-0.
          */
