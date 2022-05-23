@@ -117,12 +117,14 @@ public class Logger {
         if (logConcluded) {
             System.out.println(getLogTime() + "[LOG CALL AFTER LOG CONCLUDED]: " + representation);
             return;
+        } else if (representation instanceof String && (((String) representation).trim().isEmpty()
+                || representation.equals("\n"))) {
+            log(Tag.DEBUG, "Attempted to log a new or empty line");
+            return;
         }
 
-        // don't log new lines
-        if (representation instanceof String && (((String) representation).trim().isEmpty()
-                || representation.equals("\n"))) {
-            return;
+        if (logStarted) {
+            logAwaitingLogCalls();
         }
 
         StringBuilder logBuilder = new StringBuilder(getLogTime());
@@ -183,6 +185,9 @@ public class Logger {
             case JVM_ENTRY:
                 logBuilder.append(constructLogTagPrepend(Tag.JVM_ENTRY));
                 logBuilder.append(representation);
+
+                logStarted = true;
+
                 break;
             case EXIT:
                 logBuilder.append(constructLogTagPrepend(Tag.EXIT));
@@ -292,14 +297,14 @@ public class Logger {
                         "idiot and added an enum to LoggerTag but forgot to handle it Logger.log, Tag = " + tag);
         }
 
-        // check for nothing being written except the time tag
-        Preconditions.checkArgument(logBuilder.toString().length() > getLogTime().length(),
-                "Log call resulting in nothing built: tag = " + tag);
+        String logLine = logBuilder.toString().trim();
 
-        if (!logStarted) {
-            awaitingLogCalls.add(new AwaitingLog(logBuilder.toString(), tag));
+        if (logLine.length() <= getLogTime().trim().length()) {
+            log(Tag.EXCEPTION, "Log call resulted in nothing build; tag = " + tag);
+        } else if (!logStarted) {
+            awaitingLogCalls.add(new AwaitingLog(logLine, tag));
         } else {
-            formatAndWriteLine(logBuilder.toString(), tag);
+            formatAndWriteLine(logLine, tag);
         }
     }
 
@@ -318,10 +323,6 @@ public class Logger {
 
         writeCyderAsciiArt();
 
-        logStarted = true;
-
-        logAwaitingLogCalls();
-
         // first log tag call should always be a JVM_ENTRY tag
         log(Tag.JVM_ENTRY, OSUtil.getSystemUsername());
 
@@ -338,6 +339,8 @@ public class Logger {
         for (AwaitingLog awaitingLog : awaitingLogCalls) {
             formatAndWriteLine(awaitingLog.line, awaitingLog.tag);
         }
+
+        awaitingLogCalls.clear();
     }
 
     /**

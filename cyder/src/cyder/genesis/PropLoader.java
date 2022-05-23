@@ -40,14 +40,14 @@ public class PropLoader {
     }
 
     /**
-     * The props array
+     * The props immutable list.
      */
     private static ImmutableList<Prop> props;
 
     /**
-     * Returns the props.
+     * Returns the props list.
      *
-     * @return the props
+     * @return the props list
      */
     public static ImmutableList<Prop> getProps() {
         return props;
