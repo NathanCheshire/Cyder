@@ -17,6 +17,7 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.CyderToggles;
+import cyder.genesis.PropLoader;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.*;
@@ -1699,7 +1700,7 @@ public enum ConsoleFrame {
                 return;
             try {
                 String fontName = UserUtil.getCyderUser().getFont();
-                int fontMetric = Integer.parseInt(UserUtil.getCyderUser().getFontmetric());
+                int fontMetric = Integer.parseInt(PropLoader.get("font_metric"));
 
                 if (NumberUtil.numberInFontMetricRange(fontMetric)) {
                     inputField.setFont(new Font(fontName, fontMetric, size));
@@ -1759,7 +1760,7 @@ public enum ConsoleFrame {
      */
     @SuppressWarnings("MagicConstant") // check font metric before use
     public Font generateUserFont() {
-        int metric = Integer.parseInt(UserUtil.getCyderUser().getFontmetric());
+        int metric = Integer.parseInt(PropLoader.get("font_metric"));
 
         if (NumberUtil.numberInFontMetricRange(metric)) {
             return new Font(UserUtil.getCyderUser().getFont(), metric,

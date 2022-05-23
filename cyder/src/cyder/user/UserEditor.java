@@ -788,7 +788,7 @@ public class UserEditor {
             Collections.addAll(fontList, GraphicsEnvironment.getLocalGraphicsEnvironment()
                     .getAvailableFontFamilyNames());
 
-            int metric = Integer.parseInt(UserUtil.getCyderUser().getFontmetric());
+            int metric = Integer.parseInt(PropLoader.get("font_metric"));
             int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
 
             if (NumberUtil.numberInFontMetricRange(metric)) {
@@ -826,7 +826,7 @@ public class UserEditor {
             if (selectedFont != null) {
                 UserUtil.getCyderUser().setFont(selectedFont);
                 Font ApplyFont = new Font(selectedFont,
-                        Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
+                        Integer.parseInt(PropLoader.get("font_metric")),
                         Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
                 ConsoleFrame.INSTANCE.getOutputArea().setFont(ApplyFont);
                 ConsoleFrame.INSTANCE.getInputField().setFont(ApplyFont);
@@ -1010,7 +1010,6 @@ public class UserEditor {
     /**
      * Switches to the field input preference page.
      */
-    @SuppressWarnings("MagicConstant")
     private static void switchToFieldInputs() {
         JTextPane fieldInputsPane = new JTextPane();
         fieldInputsPane.setEditable(false);
@@ -1350,56 +1349,6 @@ public class UserEditor {
             }
         }, "IP key validator"));
         printingUtil.printlnComponent(validateIpKey);
-
-        printingUtil.print("\n\n");
-
-        CyderLabel fontMetricLabel = new CyderLabel("Font Metric");
-        printingUtil.printlnComponent(fontMetricLabel);
-
-        printingUtil.print("\n");
-
-        int fontMetric = Integer.parseInt(UserUtil.getCyderUser().getFontmetric());
-
-        if (!NumberUtil.numberInFontMetricRange(fontMetric)) {
-            fontMetric = Font.BOLD;
-        }
-
-        JTextField fontMetricField = new JTextField(0);
-        fontMetricField.setHorizontalAlignment(JTextField.CENTER);
-        fontMetricField.setToolTipText("Font metrics: 0 = plain, 1 = bold, 2 = italic, 3 = bold + italic");
-        fontMetricField.setBackground(CyderColors.vanila);
-        fontMetricField.setSelectionColor(CyderColors.selectionColor);
-        fontMetricField.setFont(new Font(UserUtil.getCyderUser().getFont(), fontMetric, 20));
-        fontMetricField.setForeground(CyderColors.navy);
-        fontMetricField.setCaretColor(CyderColors.navy);
-        fontMetricField.setCaret(new CyderCaret(CyderColors.navy));
-        fontMetricField.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        fontMetricField.setOpaque(true);
-        printingUtil.printlnComponent(fontMetricField);
-        fontMetricField.setText(UserUtil.getCyderUser().getFontmetric());
-        fontMetricField.addActionListener(e -> {
-            String numbers = fontMetricField.getText().replace("[^0-9]+", "");
-
-            if (!numbers.isEmpty()) {
-                int number = Integer.parseInt(numbers);
-
-                if (number < 0 || number > 3) {
-                    fontMetricField.setText(UserUtil.getCyderUser().getFontmetric());
-                    editUserFrame.notify("Font metric has to be in the list [0,1,2,3]");
-                    return;
-                }
-
-                UserUtil.getCyderUser().setFontmetric(numbers);
-
-                fontMetricField.setFont(new Font(
-                        UserUtil.getCyderUser().getFont(), number,
-                        Integer.parseInt(UserUtil.getCyderUser().getFontsize())));
-                Preferences.invokeRefresh("fontmetric");
-            } else {
-                fontMetricField.setText(UserUtil.getCyderUser().getFontmetric());
-                editUserFrame.notify("Font metric has to be in the list [0,1,2,3]");
-            }
-        });
 
         printingUtil.println("\n\n");
 

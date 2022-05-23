@@ -23,6 +23,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.user.UserFile;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.NumberUtil;
 import cyder.utilities.OSUtil;
 
 import javax.swing.*;
@@ -59,7 +60,7 @@ public class ManualTests {
                 File[] music = musicDirectory.listFiles();
 
                 if (music != null && music.length > 0) {
-                    AudioPlayer.showGui(music[0]);
+                    AudioPlayer.showGui(music[NumberUtil.randInt(0, music.length - 1)]);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

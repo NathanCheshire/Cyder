@@ -60,6 +60,10 @@ public class PropLoader {
                 if (line.trim().startsWith(commentString)) {
                     continue;
                 }
+                // blank line
+                else if (line.trim().length() == 0) {
+                    continue;
+                }
 
                 String[] parts = line.split(":");
 

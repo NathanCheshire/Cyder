@@ -7,7 +7,7 @@ import cyder.utilities.ReflectionUtil;
 import java.util.LinkedList;
 
 /**
- * A user object which holds all relavent data about a Cyder user.
+ * A user object which holds all relevant data about a Cyder user.
  * Note that the default constructor is not restricted due to GSON parsing.
  */
 public class User {
@@ -38,11 +38,6 @@ public class User {
      * The current font name.
      */
     private String font;
-
-    /**
-     * The font metric (Font.BOLD, Font.PLAIN, etc.)
-     */
-    private String fontmetric;
 
     /**
      * The font size.
@@ -105,7 +100,7 @@ public class User {
     private String outputfill;
 
     /**
-     * Whether to fill the intput field.
+     * Whether to fill the input field.
      */
     private String inputfill;
 
@@ -125,7 +120,7 @@ public class User {
     private String filterchat;
 
     /**
-     * The last time this user starte and logged in to Cyder.
+     * The last time this user start and logged in to Cyder.
      */
     private String laststart;
 
@@ -165,7 +160,7 @@ public class User {
     private String typingsound;
 
     /**
-     * The currnet uuid the procedural script is at.
+     * The current uuid the procedural script is at.
      */
     private String youtubeuuid;
 
@@ -215,7 +210,7 @@ public class User {
     private String youTubeAPI3Key;
 
     /**
-     * If true, any unrecognized input is passed to the native termain/shell.
+     * If true, any unrecognized input is passed to the native terminal/shell.
      */
     private String wrapshell;
 
@@ -273,15 +268,6 @@ public class User {
      */
     public String getFont() {
         return font;
-    }
-
-    /**
-     * Returns the user font metric.
-     *
-     * @return the user font metric
-     */
-    public String getFontmetric() {
-        return fontmetric;
     }
 
     /**
@@ -658,15 +644,6 @@ public class User {
     }
 
     /**
-     * Sets the user font metric.
-     *
-     * @param fontmetric the user font metric
-     */
-    public void setFontmetric(String fontmetric) {
-        this.fontmetric = fontmetric;
-    }
-
-    /**
      * Sets the user font size.
      *
      * @param fontsize the user font size
@@ -1024,10 +1001,8 @@ public class User {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof User))
+        if (!(o instanceof User other))
             return false;
-
-        User other = (User) o;
 
         // name and password serve as a primary key so we only need to compare them thankfully
         return other.getPass().equals(getPass()) && other.getName().equals(getName());
