@@ -7,7 +7,7 @@ import cyder.enums.ExitCondition;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderToggles;
+import cyder.genesis.PropLoader;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.FileUtil;
 import cyder.utilities.OSUtil;
@@ -68,6 +68,17 @@ public class Logger {
     private static boolean logConcluded;
 
     /**
+     * Whether or not the logger has been initialized.
+     */
+    private static boolean logStarted;
+
+    /**
+     * The log calls that were requested to be logged before the logger was initialized
+     * and are awaiting logger initialization.
+     */
+    private static final ArrayList<AwaitingLog> awaitingLogCalls = new ArrayList<>();
+
+    /**
      * The file that is currently being written to on log calls.
      */
     private static File currentLog;
@@ -76,6 +87,13 @@ public class Logger {
      * The absolute start time of Cyder, initialized at runtime.
      */
     public static final long start = System.currentTimeMillis();
+
+    /**
+     * A record to hold a log call which cannot be written due to the logger
+     * not being initialized yet.
+     */
+    private static record AwaitingLog(String line, Tag tag) {
+    }
 
     /**
      * Calls string.valueOf on the provided generic and prints to the debug console
@@ -102,8 +120,7 @@ public class Logger {
         }
 
         // don't log new lines
-        if (representation instanceof String
-                && (((String) representation).trim().isEmpty()
+        if (representation instanceof String && (((String) representation).trim().isEmpty()
                 || representation.equals("\n"))) {
             return;
         }
@@ -279,7 +296,11 @@ public class Logger {
         Preconditions.checkArgument(logBuilder.toString().length() > getLogTime().length(),
                 "Log call resulting in nothing built: tag = " + tag);
 
-        formatAndWriteLine(logBuilder.toString(), tag);
+        if (!logStarted) {
+            awaitingLogCalls.add(new AwaitingLog(logBuilder.toString(), tag));
+        } else {
+            formatAndWriteLine(logBuilder.toString(), tag);
+        }
     }
 
     /**
@@ -288,7 +309,7 @@ public class Logger {
      * and zips the past logs.
      */
     public static void initialize() {
-        if (CyderToggles.WIPE_LOGS_ON_START) {
+        if (PropLoader.getBoolean("wipe_logs_on_start")) {
             OSUtil.deleteFile(OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                     DynamicDirectory.LOGS.getDirectoryName()), false);
         }
@@ -297,6 +318,10 @@ public class Logger {
 
         writeCyderAsciiArt();
 
+        logStarted = true;
+
+        logAwaitingLogCalls();
+
         // first log tag call should always be a JVM_ENTRY tag
         log(Tag.JVM_ENTRY, OSUtil.getSystemUsername());
 
@@ -304,6 +329,15 @@ public class Logger {
         concludeLogs();
         consolidateLogLines();
         zipPastLogs();
+    }
+
+    /**
+     * Logs the calls within awaitingLogCalls.
+     */
+    private static void logAwaitingLogCalls() {
+        for (AwaitingLog awaitingLog : awaitingLogCalls) {
+            formatAndWriteLine(awaitingLog.line, awaitingLog.tag);
+        }
     }
 
     /**

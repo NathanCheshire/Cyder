@@ -1109,7 +1109,7 @@ public enum ConsoleFrame {
             StatUtil.debugMenu();
         }
 
-        if (CyderToggles.TESTING_MODE) {
+        if (PropLoader.getBoolean("testing_mode")) {
             Logger.log(Logger.Tag.CONSOLE_LOAD, "[" + OSUtil.getSystemUsername() + "] [TESTING MODE]");
             ManualTests.launchTests();
         }
@@ -1700,7 +1700,7 @@ public enum ConsoleFrame {
                 return;
             try {
                 String fontName = UserUtil.getCyderUser().getFont();
-                int fontMetric = Integer.parseInt(PropLoader.get("font_metric"));
+                int fontMetric = Integer.parseInt(PropLoader.getString("font_metric"));
 
                 if (NumberUtil.numberInFontMetricRange(fontMetric)) {
                     inputField.setFont(new Font(fontName, fontMetric, size));
@@ -1760,7 +1760,7 @@ public enum ConsoleFrame {
      */
     @SuppressWarnings("MagicConstant") // check font metric before use
     public Font generateUserFont() {
-        int metric = Integer.parseInt(PropLoader.get("font_metric"));
+        int metric = Integer.parseInt(PropLoader.getString("font_metric"));
 
         if (NumberUtil.numberInFontMetricRange(metric)) {
             return new Font(UserUtil.getCyderUser().getFont(), metric,

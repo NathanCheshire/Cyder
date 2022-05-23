@@ -49,6 +49,9 @@ public class Cyder {
         //set shutdown hooks
         addExitHook();
 
+        setLoadingMessage("Loading props");
+        PropLoader.reloadProps();
+
         // start session logger
         Logger.initialize();
 
@@ -57,8 +60,11 @@ public class Cyder {
         initUiManagerProps();
 
         // initialize watchdog timer for fatal GUI thread blocks
-        if (CyderToggles.ACTIVATE_WATCHDOG)
+        if (PropLoader.getBoolean("activate_watchdog")) {
             CyderWatchdog.initializeWatchDog();
+        } else {
+            Logger.log(Logger.Tag.DEBUG, "Watchdog skipped");
+        }
 
         // prevent multiple instances, fatal subroutine if failure
         if (!isSingularInstance()) {
@@ -107,9 +113,6 @@ public class Cyder {
 
             setLoadingMessage("Cleaning users");
             UserUtil.cleanUsers();
-
-            setLoadingMessage("Loading props");
-            PropLoader.reloadProps();
 
             setLoadingMessage("Validating annotations");
             ReflectionUtil.validateWidgets();

@@ -690,7 +690,7 @@ public class UserUtil {
 
         String ret = null;
 
-        String[] ignoreDatas = PropLoader.get("ignore_data").split(",");
+        String[] ignoreDatas = PropLoader.getString("ignore_data").split(",");
         boolean shouldIgnore = StringUtil.in(id, true, ignoreDatas);
 
         if (!shouldIgnore) {

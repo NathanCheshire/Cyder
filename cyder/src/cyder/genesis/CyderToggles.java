@@ -35,11 +35,6 @@ public class CyderToggles {
     public static final boolean COMPONENTS_RELOCATABLE = false;
 
     /**
-     * Whether normal testing mode is on.
-     */
-    public static final boolean TESTING_MODE = true;
-
-    /**
      * Whether auto cypher is active.
      */
     public static final boolean AUTO_CYPHER = true;
@@ -49,13 +44,4 @@ public class CyderToggles {
      */
     public static final boolean DISPOSE_SPLASH = true;
 
-    /**
-     * Whether to automatically wipe all past logs on Cyder start.
-     */
-    public static final boolean WIPE_LOGS_ON_START = false;
-
-    /**
-     * Whether to activate the watchdog on Cyder start.
-     */
-    public static final boolean ACTIVATE_WATCHDOG = false;
 }

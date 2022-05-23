@@ -132,10 +132,26 @@ public class PropLoader {
      * @param key the key to get the prop value of
      * @return the prop value with the provided key
      */
-    public static String get(String key) {
+    public static String getString(String key) {
         for (Prop prop : props) {
             if (prop.key.equals(key)) {
                 return prop.value;
+            }
+        }
+
+        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + "\"");
+    }
+
+    /**
+     * Returns the prop value with the provided key.
+     *
+     * @param key the key to get the prop value of
+     * @return the prop value with the provided key
+     */
+    public static boolean getBoolean(String key) {
+        for (Prop prop : props) {
+            if (prop.key.equals(key)) {
+                return prop.value.equals("1") || prop.value.equalsIgnoreCase("true");
             }
         }
 

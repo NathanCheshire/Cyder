@@ -788,7 +788,7 @@ public class UserEditor {
             Collections.addAll(fontList, GraphicsEnvironment.getLocalGraphicsEnvironment()
                     .getAvailableFontFamilyNames());
 
-            int metric = Integer.parseInt(PropLoader.get("font_metric"));
+            int metric = Integer.parseInt(PropLoader.getString("font_metric"));
             int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
 
             if (NumberUtil.numberInFontMetricRange(metric)) {
@@ -826,7 +826,7 @@ public class UserEditor {
             if (selectedFont != null) {
                 UserUtil.getCyderUser().setFont(selectedFont);
                 Font ApplyFont = new Font(selectedFont,
-                        Integer.parseInt(PropLoader.get("font_metric")),
+                        Integer.parseInt(PropLoader.getString("font_metric")),
                         Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
                 ConsoleFrame.INSTANCE.getOutputArea().setFont(ApplyFont);
                 ConsoleFrame.INSTANCE.getInputField().setFont(ApplyFont);
@@ -1249,7 +1249,7 @@ public class UserEditor {
 
             if (!text.isEmpty()) {
                 String openString = CyderUrls.OPEN_WEATHER_BASE +
-                        PropLoader.get("default_weather_location") + "&appid=" + text + "&units=imperial";
+                        PropLoader.getString("default_weather_location") + "&appid=" + text + "&units=imperial";
 
                 boolean valid = false;
 

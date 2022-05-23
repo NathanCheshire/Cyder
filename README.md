@@ -54,8 +54,8 @@ custom
 
 Since this is a Gradle project, you can simply clone this project via http or ssh, run the gradle setup task using your
 favorite IDE
-(Eclipse, IntelliJ, NetBeans, etc.), and then execute the main method inside of `src/cyder/genesis/Cyder.java`. Keep
-in mind that the minimum SDK is Java 9.0.4.
+(Eclipse, IntelliJ, NetBeans, etc.), and then execute the main method inside of `src/cyder/genesis/Cyder.java`. Keep in
+mind that the intended Java SDK is 17.0.3 or higher.
 
 Soon the first build of Cyder will be released and will be downloadable as a stand-alone JAR file. When compiled, Cyder
 will only create/delete files within a `dynamic` directly which will exist in the same directory as `Cyder.jar`.
