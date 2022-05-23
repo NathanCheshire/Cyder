@@ -22,6 +22,11 @@ public class PropLoader {
     private static final File propFile = new File("props.ini");
 
     /**
+     * Lines which start with this are marked as a comment and not parsed as props.
+     */
+    public static final String commentString = "#";
+
+    /**
      * Suppress default constructor.
      */
     private PropLoader() {
@@ -51,6 +56,11 @@ public class PropLoader {
             String line;
 
             while ((line = reader.readLine()) != null) {
+                // comment
+                if (line.trim().startsWith(commentString)) {
+                    continue;
+                }
+
                 String[] parts = line.split(":");
 
                 Prop addProp;

@@ -9,6 +9,7 @@ import cyder.enums.Direction;
 import cyder.enums.DynamicDirectory;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformBuilder;
@@ -316,7 +317,7 @@ public class UserUtil {
      * If none is found, and empty optional is returned.
      *
      * @param uuid the uuid for the backup json to return
-     * @return the most recent backupfile for the user if found
+     * @return the most recent backup file for the user if found
      */
     public static Optional<File> getUserJsonBackup(String uuid) {
         Optional<File> ret = Optional.empty();
@@ -424,7 +425,7 @@ public class UserUtil {
     }
 
     /**
-     * The maximum number of times to attempt to invoke the gettersetter vaidator on a file.
+     * The maximum number of times to attempt to invoke the getter/setter validator on a file.
      */
     public static final int MAX_GETTER_SETTER_VALIDATION_ATTEMPTS = 10;
 
@@ -437,7 +438,8 @@ public class UserUtil {
      * @return whether the file could be handled correctly as a user
      * and was fixed if it was incorrect at first
      */
-    @SuppressWarnings("UnusedAssignment") public static boolean getterSetterValidator(File userJson) {
+    @SuppressWarnings("UnusedAssignment")
+    public static boolean getterSetterValidator(File userJson) {
         Preconditions.checkArgument(userJson != null);
 
         // user doesn't have json so ignore it during Cyder instance
@@ -488,7 +490,7 @@ public class UserUtil {
                                 }
                             }
 
-                            // this skips for non primitive vals
+                            // this skips for non primitive values
                             if (preference == null) {
                                 continue;
                             }
@@ -688,17 +690,10 @@ public class UserUtil {
 
         String ret = null;
 
-        // log handler calls unless set to be ignored (due to lots of calls)
-        boolean in = false;
+        String[] ignoreDatas = PropLoader.get("ignore_data").split(",");
+        boolean shouldIgnore = StringUtil.in(id, true, ignoreDatas);
 
-        for (IgnoreData ignoreData : IgnoreData.values()) {
-            if (ignoreData.getId().equalsIgnoreCase(id)) {
-                in = true;
-                break;
-            }
-        }
-
-        if (!in) {
+        if (!shouldIgnore) {
             Logger.log(Logger.Tag.SYSTEM_IO, "Userdata requested: " + id);
         }
 
@@ -951,12 +946,20 @@ public class UserUtil {
 
                 LinkedList<String> filenames = new LinkedList<>();
 
-                for (File f : userDir.listFiles()) {
-                    if (f.isFile()) {
-                        filenames.add(FileUtil.getFilename(f));
-                    } else if (f.isDirectory()) {
-                        for (File file : f.listFiles()) {
-                            filenames.add(FileUtil.getFilename(file));
+                File[] userFiles = userDir.listFiles();
+
+                if (userFiles != null && userFiles.length > 0) {
+                    for (File f : userFiles) {
+                        if (f.isFile()) {
+                            filenames.add(FileUtil.getFilename(f));
+                        } else if (f.isDirectory()) {
+                            File[] subFiles = f.listFiles();
+
+                            if (subFiles != null && subFiles.length > 0) {
+                                for (File file : subFiles) {
+                                    filenames.add(FileUtil.getFilename(file));
+                                }
+                            }
                         }
                     }
                 }
@@ -1041,12 +1044,17 @@ public class UserUtil {
     public static ArrayList<String> getUserUUIDs() {
         ArrayList<String> uuids = new ArrayList<>();
 
-        for (File user : OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.USERS.getDirectoryName()).listFiles()) {
-            File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
+        File usersDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName());
+        File[] users = usersDir.listFiles();
 
-            if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs))
-                uuids.add(user.getName());
+        if (users != null && users.length > 0) {
+            for (File user : users) {
+                File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
+
+                if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs))
+                    uuids.add(user.getName());
+            }
         }
 
         return uuids;
@@ -1060,12 +1068,18 @@ public class UserUtil {
     public static ArrayList<File> getUserJsons() {
         ArrayList<File> userFiles = new ArrayList<>();
 
-        for (File user : OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.USERS.getDirectoryName()).listFiles()) {
-            File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
+        File usersDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName());
+        File[] users = usersDir.listFiles();
 
-            if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs))
-                userFiles.add(json);
+        if (users != null && users.length > 0) {
+            for (File user : users) {
+                File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
+
+                if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs)) {
+                    userFiles.add(json);
+                }
+            }
         }
 
         return userFiles;
@@ -1102,6 +1116,7 @@ public class UserUtil {
      * @param uuid the user's uuid to save the default background to
      * @return a reference to the file created
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static File createDefaultBackground(String uuid) {
         //default background is creating an image gradient
         Image img = CyderIcons.defaultBackground.getImage();
@@ -1151,6 +1166,7 @@ public class UserUtil {
      * @return a File object representing the file that was created
      * @throws IllegalStateException if the file could not be created at this time
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static File createFileInUserSpace(String name) {
         if (!StringUtil.isNull(ConsoleFrame.INSTANCE.getUUID())) {
             File saveDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
@@ -1168,52 +1184,14 @@ public class UserUtil {
                     saveDir.mkdir();
                 }
 
-                boolean created = OSUtil.createFile(createFile);
-
-                if (created) {
+                if (OSUtil.createFile(createFile)) {
                     Logger.log(Logger.Tag.SYSTEM_IO, "Created file in userspace: " + name);
                     return createFile;
                 }
             } catch (Exception ignored) {
             }
-            //impossible to throw due to check, or is it?
         }
 
         throw new IllegalStateException("File could not be created at this time: " + name);
-    }
-
-    // todo or maybe these should be an ini file
-    // todo these should be a property within the userdata itself (preferences or something like that)
-
-    /**
-     * The user datas to ignore when they are requested.
-     */
-    private enum IgnoreData {
-        TypingAnimation("typinganimation"),
-        ShowSeconds("showseconds"),
-        RoundedWindows("roundedwindows"),
-        WindowColor("windowcolor"),
-        AudioLength("audiolength"),
-        CapsMode("capsmode"),
-        TypingSound("typingsound"),
-        ShowBusyIcon("showbusyicon");
-
-        /**
-         * The ID associated with the user data to not log upon access calls.
-         */
-        private final String id;
-
-        /**
-         * Constructs a new ignore data.
-         *
-         * @param id the id of the data
-         */
-        IgnoreData(String id) {
-            this.id = id;
-        }
-
-        public String getId() {
-            return id;
-        }
     }
 }

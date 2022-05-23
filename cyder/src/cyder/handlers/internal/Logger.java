@@ -264,6 +264,10 @@ public class Logger {
                 logBuilder.append(constructLogTagPrepend(Tag.CRUD_OP));
                 logBuilder.append(representation);
                 break;
+            case PROP_LOADED:
+                logBuilder.append(constructLogTagPrepend(Tag.PROP_LOADED));
+                logBuilder.append(representation);
+                break;
             default:
                 //this is here and not UNKNOWN as the default so that we can detect if
                 // a log tag was added but not implemented
