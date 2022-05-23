@@ -1458,7 +1458,7 @@ public enum ConsoleFrame {
         menuPane = new JTextPane();
         menuPane.setEditable(false);
         menuPane.setAutoscrolls(false);
-        menuPane.setFocusable(true);
+        menuPane.setFocusable(false);
         menuPane.setOpaque(false);
         menuPane.setBackground(CyderColors.getGuiThemeColor());
 

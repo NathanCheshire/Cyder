@@ -93,7 +93,9 @@ public class PropLoader {
 
                 Prop addProp;
 
-                if (parts.length == 2) {
+                if (parts.length < 2) {
+                    throw new IllegalStateException("Could not parse line: " + line);
+                } else if (parts.length == 2) {
                     addProp = new Prop(parts[0].trim(), parts[1].trim());
                 } else {
                     int lastKeyIndex = -1;
@@ -159,6 +161,8 @@ public class PropLoader {
      * @return the prop value with the provided key
      */
     public static String getString(String key) {
+        Preconditions.checkArgument(propsLoaded);
+
         for (Prop prop : props) {
             if (prop.key.equals(key)) {
                 return prop.value;
@@ -175,9 +179,65 @@ public class PropLoader {
      * @return the prop value with the provided key
      */
     public static boolean getBoolean(String key) {
+        Preconditions.checkArgument(propsLoaded);
+
         for (Prop prop : props) {
             if (prop.key.equals(key)) {
                 return prop.value.equals("1") || prop.value.equalsIgnoreCase("true");
+            }
+        }
+
+        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + "\"");
+    }
+
+    /**
+     * Returns the prop value with the provided key.
+     *
+     * @param key the key to get the prop value of
+     * @return the prop value with the provided key
+     */
+    public static int getInteger(String key) {
+        Preconditions.checkArgument(propsLoaded);
+
+        for (Prop prop : props) {
+            if (prop.key.equals(key)) {
+                return Integer.parseInt(prop.value);
+            }
+        }
+
+        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + "\"");
+    }
+
+    /**
+     * Returns the prop value with the provided key.
+     *
+     * @param key the key to get the prop value of
+     * @return the prop value with the provided key
+     */
+    public static float getFloat(String key) {
+        Preconditions.checkArgument(propsLoaded);
+
+        for (Prop prop : props) {
+            if (prop.key.equals(key)) {
+                return Float.parseFloat(prop.value);
+            }
+        }
+
+        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + "\"");
+    }
+
+    /**
+     * Returns the prop value with the provided key.
+     *
+     * @param key the key to get the prop value of
+     * @return the prop value with the provided key
+     */
+    public static double getDouble(String key) {
+        Preconditions.checkArgument(propsLoaded);
+
+        for (Prop prop : props) {
+            if (prop.key.equals(key)) {
+                return Double.parseDouble(prop.value);
             }
         }
 

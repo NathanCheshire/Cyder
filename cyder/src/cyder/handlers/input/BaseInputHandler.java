@@ -11,6 +11,7 @@ import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -1922,22 +1923,15 @@ public class BaseInputHandler {
                 IgnoreThread.ConsolePrintingAnimation.getName());
     }
 
-    /**
-     * The timeout between characters for the printing animation.
-     */
-    private final int printingAnimationCharTimeout = 8;
-    // todo make these configurable on config.ini
-    /**
-     * The timeout between lines for the printing animation.
-     */
-    private final int printingAnimationLineTimeout = 200;
-
     private final Runnable consolePrintingRunnable = new Runnable() {
+        @SuppressWarnings("ConstantConditions") // intellij being stupid
         @Override public void run() {
             try {
                 boolean typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
                 long lastPull = System.currentTimeMillis();
                 long dataPullTimeout = 3000;
+                int charTimeout = PropLoader.getInteger("printing_animation_char_timeout");
+                int lineTimeout = PropLoader.getInteger("printing_animation_line_timeout");
 
                 while (!ConsoleFrame.INSTANCE.isClosed()) {
                     //update typingAnimationLocal every 3 seconds to reduce resource usage
@@ -1953,24 +1947,28 @@ public class BaseInputHandler {
                         if (redirection) {
                             redirectionWrite(line);
                         } else {
-                            if (line instanceof String) {
-                                StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
-                                document.insertString(document.getLength(), (String) line, null);
-                                outputArea.getJTextPane()
-                                        .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
-                            } else if (line instanceof JComponent) {
-                                String componentUUID = SecurityUtil.generateUUID();
-                                Style cs = outputArea.getJTextPane().getStyledDocument().addStyle(componentUUID, null);
-                                StyleConstants.setComponent(cs, (Component) line);
-                                outputArea.getJTextPane().getStyledDocument().insertString(outputArea.getJTextPane()
-                                        .getStyledDocument().getLength(), componentUUID, cs);
-                            } else if (line instanceof ImageIcon) {
-                                outputArea.getJTextPane().insertIcon((ImageIcon) line);
-                            } else {
-                                StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
-                                document.insertString(document.getLength(), String.valueOf(line), null);
-                                outputArea.getJTextPane()
-                                        .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+                            switch (line) {
+                                case String string -> {
+                                    StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
+                                    document.insertString(document.getLength(), string, null);
+                                    outputArea.getJTextPane()
+                                            .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+                                }
+                                case JComponent jComponent -> {
+                                    String componentUUID = SecurityUtil.generateUUID();
+                                    Style cs =
+                                            outputArea.getJTextPane().getStyledDocument().addStyle(componentUUID, null);
+                                    StyleConstants.setComponent(cs, jComponent);
+                                    outputArea.getJTextPane().getStyledDocument().insertString(outputArea.getJTextPane()
+                                            .getStyledDocument().getLength(), componentUUID, cs);
+                                }
+                                case ImageIcon imageIcon -> outputArea.getJTextPane().insertIcon(imageIcon);
+                                case null, default -> {
+                                    StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
+                                    document.insertString(document.getLength(), String.valueOf(line), null);
+                                    outputArea.getJTextPane()
+                                            .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+                                }
                             }
                         }
                     }
@@ -1984,43 +1982,52 @@ public class BaseInputHandler {
                         if (redirection) {
                             redirectionWrite(line);
                         } else {
-                            if (line instanceof String) {
-                                if (typingAnimationLocal) {
-                                    if (finishPrinting) {
+                            switch (line) {
+                                case String s:
+                                    if (typingAnimationLocal) {
+                                        if (finishPrinting) {
+                                            StyledDocument document =
+                                                    (StyledDocument) outputArea.getJTextPane().getDocument();
+                                            document.insertString(document.getLength(), s, null);
+                                            outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane()
+                                                    .getDocument().getLength());
+                                        } else {
+                                            outputArea.getSemaphore().acquire();
+                                            for (char c : s.toCharArray()) {
+                                                innerConsolePrint(c);
+
+                                                if (!finishPrinting)
+                                                    Thread.sleep(charTimeout);
+                                            }
+                                            outputArea.getSemaphore().release();
+                                        }
+                                    } else {
                                         StyledDocument document =
                                                 (StyledDocument) outputArea.getJTextPane().getDocument();
                                         document.insertString(document.getLength(), (String) line, null);
-                                        outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane()
-                                                .getDocument().getLength());
-                                    } else {
-                                        outputArea.getSemaphore().acquire();
-                                        for (char c : ((String) line).toCharArray()) {
-                                            innerConsolePrint(c);
-
-                                            if (!finishPrinting)
-                                                Thread.sleep(printingAnimationCharTimeout);
-                                        }
-                                        outputArea.getSemaphore().release();
+                                        outputArea.getJTextPane()
+                                                .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
                                     }
-                                } else {
+                                    break;
+                                case JComponent jComponent:
+                                    String componentUUID = SecurityUtil.generateUUID();
+                                    Style cs =
+                                            outputArea.getJTextPane().getStyledDocument().addStyle(componentUUID, null);
+                                    StyleConstants.setComponent(cs, jComponent);
+                                    outputArea.getJTextPane().getStyledDocument().insertString(
+                                            outputArea.getJTextPane().getStyledDocument().getLength(), componentUUID,
+                                            cs);
+                                    break;
+                                case ImageIcon imageIcon:
+                                    outputArea.getJTextPane().insertIcon(imageIcon);
+                                    break;
+                                case null:
+                                default:
                                     StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
-                                    document.insertString(document.getLength(), (String) line, null);
+                                    document.insertString(document.getLength(), String.valueOf(line), null);
                                     outputArea.getJTextPane()
                                             .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
-                                }
-                            } else if (line instanceof JComponent) {
-                                String componentUUID = SecurityUtil.generateUUID();
-                                Style cs = outputArea.getJTextPane().getStyledDocument().addStyle(componentUUID, null);
-                                StyleConstants.setComponent(cs, (Component) line);
-                                outputArea.getJTextPane().getStyledDocument().insertString(
-                                        outputArea.getJTextPane().getStyledDocument().getLength(), componentUUID, cs);
-                            } else if (line instanceof ImageIcon) {
-                                outputArea.getJTextPane().insertIcon((ImageIcon) line);
-                            } else {
-                                StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
-                                document.insertString(document.getLength(), String.valueOf(line), null);
-                                outputArea.getJTextPane()
-                                        .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+                                    break;
                             }
                         }
                     }
@@ -2031,7 +2038,7 @@ public class BaseInputHandler {
                     }
 
                     if (!finishPrinting && typingAnimationLocal)
-                        Thread.sleep(printingAnimationLineTimeout);
+                        Thread.sleep(lineTimeout);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

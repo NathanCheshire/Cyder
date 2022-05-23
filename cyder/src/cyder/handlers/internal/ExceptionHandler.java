@@ -41,8 +41,13 @@ public class ExceptionHandler {
         try {
             Optional<String> write = getPrintableException(e);
 
-            if (write.isPresent() && !write.get().trim().isEmpty())
-                Logger.log(Logger.Tag.EXCEPTION, write.get());
+            if (write.isPresent() && !write.get().trim().isEmpty()) {
+                if (Logger.isLogStarted()) {
+                    Logger.log(Logger.Tag.EXCEPTION, write.get());
+                } else {
+                    Logger.Debug(write.get());
+                }
+            }
 
             // if user wants to be informed of exceptions
             if (ConsoleFrame.INSTANCE.getUUID() != null &&

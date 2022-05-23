@@ -50,17 +50,17 @@ public class Logger {
     /**
      * The rate at which to log the amount of objects created since the last log.
      */
-    public static final int deltaT = 5;
+    private static final int deltaT = 5;
 
     /**
      * The maximum number of chars per line of a log.
      */
-    public static final int MAX_LINE_LENGTH = 120;
+    private static final int MAX_LINE_LENGTH = 120;
 
     /**
      * The number of spaces to prepend to a continuation line.
      */
-    public static final int NEWLINE_SPACE_OFFSET = 11;
+    private static final int NEWLINE_SPACE_OFFSET = 11;
 
     /**
      * Whether the current log should not be written to again.
@@ -96,13 +96,22 @@ public class Logger {
     }
 
     /**
+     * Returns whether the log has started.
+     *
+     * @return whether the log has started
+     */
+    public static boolean isLogStarted() {
+        return logStarted;
+    }
+
+    /**
      * Calls string.valueOf on the provided generic and prints to the debug console
-     * using the debug tag.
+     * using the debug tag. Note this method does not log the exception to the current log.
      *
      * @param representation the object to debug print
      */
     public static <T> void Debug(T representation) {
-        log(Tag.DEBUG, String.valueOf(representation));
+        System.out.println(getLogTime() + " [" + Tag.DEBUG.logName + "]: " + representation);
     }
 
     /**
@@ -882,18 +891,12 @@ public class Logger {
 
     /**
      * Returns the time tag placed at the beginning of all log statements.
+     * Example: "[22-12-39] "
      *
      * @return the time tag placed at the beginning of all log statements
      */
     private static String getLogTime() {
         return "[" + TimeUtil.logTime() + "] ";
-    }
-
-    /**
-     * Logs a here string using the DEBUG tag.
-     */
-    public static void HERE() {
-        log(Tag.DEBUG, "Here");
     }
 
     /**
