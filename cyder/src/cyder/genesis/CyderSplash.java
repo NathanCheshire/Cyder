@@ -311,7 +311,7 @@ public class CyderSplash {
                         loadingLabel.repaint();
 
                         // if frame is still active, and it should have been disposed
-                        if (!disposed && CyderToggles.DISPOSE_SPLASH) {
+                        if (!disposed && PropLoader.getBoolean("dispose_splash")) {
                             splashFrame.dispose(true);
 
                             // this has been going on for over a minute at this point if the program reaches here
@@ -341,7 +341,7 @@ public class CyderSplash {
         if (disposed) {
             return;
         }
-        if (!CyderToggles.DISPOSE_SPLASH) {
+        if (!PropLoader.getBoolean("dispose_splash")) {
             return;
         }
 

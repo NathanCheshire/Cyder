@@ -16,7 +16,6 @@ import cyder.enums.IgnoreThread;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
-import cyder.genesis.CyderToggles;
 import cyder.genesis.PropLoader;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.input.BaseInputHandler;
@@ -478,7 +477,7 @@ public enum ConsoleFrame {
      * Refreshes the console frame title.
      */
     private void refreshConsoleFrameTitle() {
-        consoleCyderFrame.setTitle(CyderToggles.VERSION +
+        consoleCyderFrame.setTitle(PropLoader.getString("version") +
                 " Cyder [" + UserUtil.getCyderUser().getName() + "]");
     }
 
@@ -1156,7 +1155,7 @@ public enum ConsoleFrame {
             }
         }
         // intro music not on, check for grayscale image
-        else if (CyderToggles.RELEASED) {
+        else if (PropLoader.getBoolean("released")) {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
@@ -1182,7 +1181,7 @@ public enum ConsoleFrame {
                         if (correct) {
                             IOUtil.playAudio(grayscaleAudioPaths.get(
                                     NumberUtil.randInt(0, grayscaleAudioPaths.size() - 1)));
-                        } else if (CyderToggles.RELEASED) {
+                        } else if (PropLoader.getBoolean("released")) {
                             IOUtil.playAudio("static/audio/CyderIntroTheme.mp3");
                         }
                     } catch (Exception e) {

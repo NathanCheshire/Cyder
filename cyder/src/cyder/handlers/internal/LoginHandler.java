@@ -6,7 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
-import cyder.genesis.CyderToggles;
+import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderCaret;
@@ -115,9 +115,9 @@ public class LoginHandler {
         printingList.clear();
 
         //add the standard login animation
-        printingList.add("Cyder version: " + CyderToggles.VERSION + "\n");
+        printingList.add("Cyder version: " + PropLoader.getString("version") + "\n");
         printingList.add("Type \"help\" for a list of valid commands\n");
-        printingList.add("Build: " + CyderToggles.RELEASE_DATE + "\n");
+        printingList.add("Build: " + PropLoader.getBoolean("release_date") + "\n");
         printingList.add("Author: Nathan Cheshire\n");
         printingList.add("Design JVM: 8+\n");
         printingList.add("Description: A programmer's swiss army knife\n");
@@ -430,7 +430,7 @@ public class LoginHandler {
         CyderSplash.setLoadingMessage("Checking for an AutoCypher");
 
         //if AutoCyphering is enabled, attempt all cyphers
-        if (CyderToggles.AUTO_CYPHER) {
+        if (PropLoader.getBoolean("autocypher")) {
             Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
             CyderSplash.setLoadingMessage("Auto Cyphering");
 
@@ -441,7 +441,7 @@ public class LoginHandler {
             }
         }
         // otherwise, unreleased exit
-        else if (!CyderToggles.RELEASED) {
+        else if (!PropLoader.getBoolean("released")) {
             ExceptionHandler.exceptionExit("Unreleased build of Cyder",
                     "Exception", ExitCondition.NotReleased);
         }
@@ -580,6 +580,6 @@ public class LoginHandler {
      * @return the title to use for the login frame
      */
     public static String generateLoginFrameTitle() {
-        return "Cyder Login [" + CyderToggles.VERSION + " Build]";
+        return "Cyder Login [" + PropLoader.getString("version") + " Build]";
     }
 }

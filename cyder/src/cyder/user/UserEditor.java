@@ -10,7 +10,6 @@ import cyder.constants.CyderUrls;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderToggles;
 import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
@@ -1521,7 +1520,7 @@ public class UserEditor {
             IOUtil.changeUsername(newUsername);
             editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
             ConsoleFrame.INSTANCE.getConsoleCyderFrame()
-                    .setTitle(CyderToggles.VERSION + " Cyder [" + newUsername + "]");
+                    .setTitle(PropLoader.getString("version") + " Cyder [" + newUsername + "]");
             changeUsernameField.setText(UserUtil.getCyderUser().getName());
         }
     }

@@ -1,6 +1,6 @@
 package cyder.ui;
 
-import cyder.genesis.CyderToggles;
+import cyder.genesis.PropLoader;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
@@ -18,7 +18,7 @@ public class CyderDraggableComponent implements MouseMotionListener {
 
     @Override
     public final void mouseDragged(MouseEvent e) {
-        if (CyderToggles.COMPONENTS_RELOCATABLE) {
+        if (PropLoader.getBoolean("components_relocatable")) {
             JFrame refFrame = (JFrame) SwingUtilities.windowForComponent(e.getComponent());
             int x = (int) (e.getLocationOnScreen().getX() - refFrame.getX() - xMouse);
             int y = (int) (e.getLocationOnScreen().getY() - refFrame.getY() - yMouse);
