@@ -54,9 +54,24 @@ public class PropLoader {
     }
 
     /**
+     * Whether the props have been loaded
+     */
+    private static boolean propsLoaded = false;
+
+    /**
+     * Returns whether the props have been loaded.
+     *
+     * @return whether the props have been loaded
+     */
+    public static boolean arePropsLoaded() {
+        return propsLoaded;
+    }
+
+    /**
      * Loads the props from the prop file.
      */
-    public static void reloadProps() {
+    public static void loadProps() {
+        Preconditions.checkArgument(!propsLoaded);
         Preconditions.checkArgument(propFile.exists());
         ExceptionHandler.checkFatalCondition(propFile.exists(), "Prop file DNE");
 
@@ -132,6 +147,8 @@ public class PropLoader {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             props = ImmutableList.of();
+        } finally {
+            propsLoaded = true;
         }
     }
 

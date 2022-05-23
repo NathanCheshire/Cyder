@@ -13,7 +13,6 @@ public enum IgnoreThread {
     ConsolePrintingAnimation("Console Printing Animation"),
     ConsoleDataSaver("ConsoleFrame Stat Saver"),
     SingularInstanceEnsurer("Singular Cyder Instance Ensurer"),
-    SimilarCommandFinder("Similar Command Finder"),
     ObjectCreationLogger("Object Creation Logger"),
     CyderWatchdog("Cyder Watchdog"),
     WatchdogInitializer("Watchdog Initializer");

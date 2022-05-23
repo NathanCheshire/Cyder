@@ -50,7 +50,7 @@ public class Cyder {
         addExitHook();
 
         setLoadingMessage("Loading props");
-        PropLoader.reloadProps();
+        PropLoader.loadProps();
 
         // start session logger
         Logger.initialize();

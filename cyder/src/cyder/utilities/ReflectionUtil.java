@@ -7,27 +7,20 @@ import com.google.common.reflect.ClassPath;
 import cyder.annotations.*;
 import cyder.common.WidgetDescription;
 import cyder.constants.CyderStrings;
-import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.threads.CyderThreadFactory;
 import cyder.ui.CyderFrame;
 import cyder.widgets.CardWidget;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * Utilities for methods regarding reflection.
@@ -202,7 +195,7 @@ public class ReflectionUtil {
         ret.append(", parent frame = ").append(parentFrame);
 
         for (SpecialMethod specialMethod : specialMethods) {
-            if (!StringUtil.isNull(specialMethod.getLogPattern())) {
+            if (!StringUtil.isNull(specialMethod.getMethodResult())) {
                 ret.append(specialMethod.getMethodResult());
             }
         }
@@ -477,8 +470,9 @@ public class ReflectionUtil {
                                             shortWidgetName + ", trigger = " + trigger);
 
                                     return true;
-                                } else throw new IllegalStateException("Found widget showGui()" +
-                                        " annotated method with parameters: " + m.getName() + ", class: " + clazz);
+                                } else
+                                    throw new IllegalStateException("Found widget showGui()" +
+                                            " annotated method with parameters: " + m.getName() + ", class: " + clazz);
                             } catch (Exception e) {
                                 ExceptionHandler.handle(e);
                             }
@@ -497,7 +491,7 @@ public class ReflectionUtil {
      * @param holiday the holiday name such as Christmas
      * @param year    the year of the holiday such as 2021
      */
-    public static void cardReflector(String holiday, int year) {
+    public static void cardInvoker(String holiday, int year) {
         try {
             for (Method m : CardWidget.class.getMethods()) {
                 if (m.getName().toLowerCase().contains(holiday.toLowerCase())
@@ -511,37 +505,24 @@ public class ReflectionUtil {
     }
 
     /**
-     * Executor service used to find a similar command utilizing command_finder.py.
+     * A record representing a found similar command how close the
+     * found command is to the original string.
      */
-    private static final ExecutorService executor = Executors.newSingleThreadExecutor(
-            new CyderThreadFactory(IgnoreThread.SimilarCommandFinder.getName()));
-    // todo will be removed after new ContextEngine and InputHandler implementation
+    public static record SimilarCommand(Optional<String> command, float tolerance) {
+    }
 
     /**
-     * Finds the most similar command to the unrecognized one the user provided.
+     * Finds the most similar command to the unrecognized one provided.
      *
-     * @param command the command to find a similar one to
+     * @param command the user entered command to attempt to find a similar command to
      * @return the most similar command to the one provided
      */
-    public static Future<Optional<String>> getSimilarCommand(String command) {
-        return executor.submit(() -> {
-            Optional<String> ret = Optional.empty();
+    public static SimilarCommand getSimilarCommand(String command) {
+        Preconditions.checkNotNull(command);
+        Preconditions.checkArgument(!command.isEmpty());
 
-            try {
-                Runtime rt = Runtime.getRuntime();
-                String[] commands = {"python",
-                        OSUtil.buildPath("static", "python", "command_finder.py"),
-                        command, String.valueOf(OSUtil.JAR_MODE)};
-                Process proc = rt.exec(commands);
+        // todo
 
-                BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-                String output = stdInput.readLine();
-                ret = Optional.of(output);
-            } catch (Exception e) {
-                ExceptionHandler.silentHandle(e);
-            }
-
-            return ret;
-        });
+        return new SimilarCommand(Optional.empty(), 0.0f);
     }
 }

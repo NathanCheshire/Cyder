@@ -1,10 +1,12 @@
 package cyder.utilities;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Range;
 import cyder.annotations.Widget;
 import cyder.constants.*;
 import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
@@ -30,7 +32,6 @@ import java.util.regex.Pattern;
  * Utility methods related to youtube videos.
  */
 public class YoutubeUtil {
-
     /**
      * The maximum number of chars that can be used for a filename from a youtube video's title.
      */
@@ -48,8 +49,6 @@ public class YoutubeUtil {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    public static final String AUDIO_FORMAT = "mp3"; // todo preference switcher for wav vs mp3?
-
     /**
      * Downloads the youtube video with the provided url.
      *
@@ -59,7 +58,7 @@ public class YoutubeUtil {
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
             String saveDir = OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
                     "users", ConsoleFrame.INSTANCE.getUUID(), "Music");
-            String extension = "." + AUDIO_FORMAT;
+            String extension = "." + PropLoader.getString("ffmpeg_audio_output_format");
 
             Runtime rt = Runtime.getRuntime();
 
@@ -86,7 +85,7 @@ public class YoutubeUtil {
                     AudioUtil.getYoutubeDlCommand(),
                     url,
                     "--extract-audio",
-                    "--audio-format", AUDIO_FORMAT,
+                    "--audio-format", PropLoader.getString("ffmpeg_audio_output_format"),
                     "--output", new File(saveDir).getAbsolutePath()
                     + OSUtil.FILE_SEP + finalParsedAsciiSaveName + ".%(ext)s"
             };
@@ -160,7 +159,7 @@ public class YoutubeUtil {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                     ConsoleFrame.INSTANCE.getInputHandler()
-                            .println("An exception occured while attempting to download: " + url);
+                            .println("An exception occurred while attempting to download: " + url);
                     ui.stopAnimationTimer();
                 }
             }, "YouTube Download Progress Updater");
@@ -205,7 +204,7 @@ public class YoutubeUtil {
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
                     ConsoleFrame.INSTANCE.getInputHandler().println(
-                            "An exception occured while downloading playlist: " + playlistID);
+                            "An exception occurred while downloading playlist: " + playlistID);
                 }
             }
         } else {
@@ -235,6 +234,7 @@ public class YoutubeUtil {
      * @param url       the url of the youtube video to download
      * @param dimension the dimensions to crop the image to
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void downloadThumbnail(String url, Dimension dimension) {
         Preconditions.checkNotNull(ConsoleFrame.INSTANCE.getUUID());
 
@@ -286,7 +286,7 @@ public class YoutubeUtil {
     }
 
     /**
-     * Retreives the first valid UUID for the provided query (if one exists)
+     * Retrieves the first valid UUID for the provided query (if one exists)
      *
      * @param youtubeQuery the user friendly query on youtube. Example: "Gryffin Digital Mirage"
      * @return the first UUID obtained from the raw html page youtube returns corresponding to the desired query
@@ -372,7 +372,7 @@ public class YoutubeUtil {
                     try {
                         thumbnailURL = buildSdDefThumbnailUrl(uuid);
                         thumbnail = ImageIO.read(new URL(thumbnailURL));
-                    } catch (Exception ignoredDos) {
+                    } catch (Exception ignored1) {
                     }
                 }
 
@@ -445,7 +445,7 @@ public class YoutubeUtil {
     public static BufferedImage getSquareThumbnail(String videoURL, Dimension dimension) {
         String uuid = getYoutubeUUID(videoURL);
 
-        BufferedImage ret = null;
+        BufferedImage ret;
         BufferedImage save = null;
 
         try {
@@ -542,7 +542,7 @@ public class YoutubeUtil {
      * Returns a url for the default thumbnail of a youtube video.
      *
      * @param uuid the uuid of the video
-     * @return a url for the default youtube video's thumbanil
+     * @return a url for the default youtube video's thumbnail
      */
     public static String buildSdDefThumbnailUrl(String uuid) {
         return CyderUrls.YOUTUBE_THUMBNAIL_BASE + uuid + "/sddefault.jpg";
@@ -555,12 +555,16 @@ public class YoutubeUtil {
      * @return the extracted uuid
      */
     public static String getYoutubeUUID(String youtubeURL) {
+        Preconditions.checkNotNull(youtubeURL);
         Matcher matcher = CyderRegexPatterns.extractYoutubeUuidPattern.matcher(youtubeURL);
 
         if (matcher.find()) {
             return matcher.group();
-        } else throw new IllegalArgumentException("No UUID found in provided string: " + youtubeURL);
+        } else
+            throw new IllegalArgumentException("No UUID found in provided string: " + youtubeURL);
     }
+
+    private static final Range<Integer> searchQueryResultsRange = Range.closed(0, 20);
 
     /**
      * Constructs the url to query YouTube with a specific string for video results.
@@ -569,12 +573,18 @@ public class YoutubeUtil {
      * @param rawQuery   the raw search query such as "blade parade"
      * @return the constructed url to match the provided parameters
      */
+    @SuppressWarnings("ConstantConditions") // unit test asserts throws for rawQuery of null
     public static String buildYouTubeApiV3SearchQuery(int numResults, String rawQuery) {
-        Preconditions.checkArgument(numResults > 0 && numResults < 21);
         Preconditions.checkNotNull(rawQuery);
+        Preconditions.checkArgument(searchQueryResultsRange.contains(numResults));
         Preconditions.checkArgument(!rawQuery.isEmpty());
 
-        String key = UserUtil.getCyderUser().getYouTubeAPI3Key();
+        // load props if not loaded (probably a Jenkins build)
+        if (!PropLoader.arePropsLoaded()) {
+            PropLoader.loadProps();
+        }
+
+        String key = PropLoader.getString("test_youtube_api_3_key");
 
         Preconditions.checkArgument(!StringUtil.isNull(key));
 

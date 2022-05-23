@@ -100,7 +100,7 @@ public class UnitTests {
         ipv4Tests.add("045");
 
         for (String ipv4Address : ipv4Tests) {
-            assert ipv4Address.matches(CyderRegexPatterns.ipv4Pattern.pattern());
+            assertTrue(ipv4Address.matches(CyderRegexPatterns.ipv4Pattern.pattern()));
         }
     }
 
@@ -134,30 +134,30 @@ public class UnitTests {
         phoneNumbers.add("48884560112");
 
         for (String phoneNumber : phoneNumbers) {
-            assert phoneNumber.matches(CyderRegexPatterns.phoneNumberPattern.pattern());
+            assertTrue(phoneNumber.matches(CyderRegexPatterns.phoneNumberPattern.pattern()));
         }
     }
 
     @Test
     public void testIsComment() {
-        assert StatUtil.isComment("*");
-        assert StatUtil.isComment("//*");
-        assert StatUtil.isComment("*/");
-        assert StatUtil.isComment("**");
-        assert StatUtil.isComment("/* is this one */");
-        assert StatUtil.isComment("//**//**//");
-        assert StatUtil.isComment("/*/");
+        assertTrue(StatUtil.isComment("*"));
+        assertTrue(StatUtil.isComment("//*"));
+        assertTrue(StatUtil.isComment("*/"));
+        assertTrue(StatUtil.isComment("**"));
+        assertTrue(StatUtil.isComment("/* is this one */"));
+        assertTrue(StatUtil.isComment("//**//**//"));
+        assertTrue(StatUtil.isComment("/*/"));
 
-        assert !StatUtil.isComment("raw text");
-        assert !StatUtil.isComment("tee: //haha");
+        assertFalse(StatUtil.isComment("raw text"));
+        assertFalse(StatUtil.isComment("tee: //haha"));
 
-        //technically this line contains a comment but it iself is not a comment
-        assert !StatUtil.isComment("tee: /*haha*/ alpha");
+        //technically this line contains a comment but it itself is not a comment
+        assertFalse(StatUtil.isComment("tee: /*haha*/ alpha"));
 
-        assert !StatUtil.isComment("tee: //haha   /*");
-        assert !StatUtil.isComment("tee: //haha/*");
-        assert !StatUtil.isComment("tee: /*haha");
-        assert !StatUtil.isComment("\"//\"");
+        assertFalse(StatUtil.isComment("tee: //haha   /*"));
+        assertFalse(StatUtil.isComment("tee: //haha/*"));
+        assertFalse(StatUtil.isComment("tee: /*haha"));
+        assertFalse(StatUtil.isComment("\"//\""));
     }
 
     @Test

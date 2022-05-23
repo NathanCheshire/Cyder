@@ -1062,27 +1062,27 @@ public enum ConsoleFrame {
     private void onLaunch() {
         if (TimeUtil.isChristmas()) {
             consoleCyderFrame.notify("Merry Christmas!");
-            ReflectionUtil.cardReflector("Christmas", TimeUtil.getYear());
+            ReflectionUtil.cardInvoker("Christmas", TimeUtil.getYear());
         }
 
         if (TimeUtil.isHalloween()) {
             consoleCyderFrame.notify("Happy Halloween!");
-            ReflectionUtil.cardReflector("Halloween", TimeUtil.getYear());
+            ReflectionUtil.cardInvoker("Halloween", TimeUtil.getYear());
         }
 
         if (TimeUtil.isIndependenceDay()) {
             consoleCyderFrame.notify("Happy 4th of July!");
-            ReflectionUtil.cardReflector("Independence", TimeUtil.getYear());
+            ReflectionUtil.cardInvoker("Independence", TimeUtil.getYear());
         }
 
         if (TimeUtil.isThanksgiving()) {
             consoleCyderFrame.notify("Happy Thanksgiving!");
-            ReflectionUtil.cardReflector("Thanksgiving", TimeUtil.getYear());
+            ReflectionUtil.cardInvoker("Thanksgiving", TimeUtil.getYear());
         }
 
         if (TimeUtil.isAprilFoolsDay()) {
             consoleCyderFrame.notify("Happy April Fools Day!");
-            ReflectionUtil.cardReflector("AprilFools", TimeUtil.getYear());
+            ReflectionUtil.cardInvoker("AprilFools", TimeUtil.getYear());
         }
 
         if (TimeUtil.isValentinesDay()) {

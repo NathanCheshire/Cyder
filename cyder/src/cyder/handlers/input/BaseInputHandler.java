@@ -1592,39 +1592,27 @@ public class BaseInputHandler {
      * The final handle method for if all other handle methods failed.
      */
     private void unknownInput() {
-        println("Unknown command, looking for similar ones...");
-
         CyderThreadRunner.submit(() -> {
             try {
-                Future<Optional<String>> similarCommand = ReflectionUtil.getSimilarCommand(command);
+                ReflectionUtil.SimilarCommand similarCommand = ReflectionUtil.getSimilarCommand(command);
 
-                //wait for script to finish
-                while (!similarCommand.isDone()) {
-                    Thread.onSpinWait();
-                }
-
-                //if future returned and not null/empty value
-                if (similarCommand.get().isPresent()) {
-                    String simCom = similarCommand.get().get();
+                if (similarCommand.command().isPresent()) {
+                    String simCom = similarCommand.command().get();
+                    float tol = similarCommand.tolerance();
 
                     if (!StringUtil.isNull(simCom)) {
-                        assert simCom.contains(",");
-                        String[] parts = simCom.split(",");
-                        assert parts.length == 2;
-
-                        float tol = Float.parseFloat(parts[1]);
-
                         Logger.log(Logger.Tag.DEBUG, "Similar command to \""
-                                + command + "\" found with tol of " + tol + ", command = \"" + parts[0] + "\"");
+                                + command + "\" found with tol of " + tol + ", command = \"" + simCom + "\"");
 
                         if (tol >= CyderNumbers.SIMILAR_COMMAND_TOL) {
-                            println("Unknown command; Most similar command: \"" + parts[0] + "\"");
+                            println("Unknown command; Most similar command: \"" + simCom + "\"");
                         } else {
                             wrapShellCheck();
                         }
                     }
-                } else
+                } else {
                     wrapShellCheck();
+                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
