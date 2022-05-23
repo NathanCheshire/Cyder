@@ -15,6 +15,7 @@ import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.utilities.*;
@@ -156,26 +157,38 @@ public class UserEditor {
         filesList.clear();
         filesNameList.clear();
 
-        for (File file : backgroundDir.listFiles()) {
-            if (FileUtil.isSupportedImageExtension(file)) {
-                filesList.add(file.getAbsoluteFile());
-                filesNameList.add(OSUtil.buildPath(
-                        UserFile.BACKGROUNDS.getName(), file.getName()));
+        File[] backgroundFiles = backgroundDir.listFiles();
+
+        if (backgroundFiles != null && backgroundFiles.length > 0) {
+            for (File file : backgroundFiles) {
+                if (FileUtil.isSupportedImageExtension(file)) {
+                    filesList.add(file.getAbsoluteFile());
+                    filesNameList.add(OSUtil.buildPath(
+                            UserFile.BACKGROUNDS.getName(), file.getName()));
+                }
             }
         }
 
-        for (File file : musicDir.listFiles()) {
-            if (FileUtil.isSupportedAudioExtension(file)) {
-                filesList.add(file.getAbsoluteFile());
-                filesNameList.add(OSUtil.buildPath(
-                        UserFile.MUSIC.getName(), file.getName()));
+        File[] musicFiles = musicDir.listFiles();
+
+        if (musicFiles != null && musicFiles.length > 0) {
+            for (File file : musicFiles) {
+                if (FileUtil.isSupportedAudioExtension(file)) {
+                    filesList.add(file.getAbsoluteFile());
+                    filesNameList.add(OSUtil.buildPath(
+                            UserFile.MUSIC.getName(), file.getName()));
+                }
             }
         }
 
-        for (File file : filesDir.listFiles()) {
-            filesList.add(file.getAbsoluteFile());
-            filesNameList.add(OSUtil.buildPath(
-                    UserFile.FILES.getName(), file.getName()));
+        File[] fileFiles = filesDir.listFiles();
+
+        if (fileFiles != null && fileFiles.length > 0) {
+            for (File file : fileFiles) {
+                filesList.add(file.getAbsoluteFile());
+                filesNameList.add(OSUtil.buildPath(
+                        UserFile.FILES.getName(), file.getName()));
+            }
         }
     }
 
@@ -290,12 +303,17 @@ public class UserEditor {
                         }
                     }
 
+                    if (selectedFile == null)
+                        return;
+
+                    File absoluteSelectedFile = selectedFile.getAbsoluteFile();
+
                     if ((AudioPlayer.getCurrentAudio() != null
-                            && selectedFile.getAbsoluteFile().toString().equals(
+                            && absoluteSelectedFile.toString().equals(
                             AudioPlayer.getCurrentAudio().getAbsoluteFile().toString()))
                             || selectedFile.getAbsoluteFile().toString().equals(
-                            ConsoleFrame.INSTANCE.getCurrentBackground().getReferenceFile()
-                                    .getAbsoluteFile().toString())) {
+                            ConsoleFrame.INSTANCE.getCurrentBackground()
+                                    .getReferenceFile().getAbsoluteFile().toString())) {
                         editUserFrame.notify("Cannot rename a file that is in use");
                     } else {
                         String oldName = FileUtil.getFilename(selectedFile);
@@ -337,13 +355,17 @@ public class UserEditor {
                                         "AlbumArt");
 
                                 if (albumArtDir.exists()) {
-                                    //try to find a file with the same name as oldName
+                                    // try to find a file with the same name as oldName
                                     File refFile = null;
 
-                                    for (File f : albumArtDir.listFiles()) {
-                                        if (FileUtil.getFilename(f).equals(oldName)) {
-                                            refFile = f;
-                                            break;
+                                    File[] albumArtFiles = albumArtDir.listFiles();
+
+                                    if (albumArtFiles != null && albumArtFiles.length > 0) {
+                                        for (File f : albumArtFiles) {
+                                            if (FileUtil.getFilename(f).equals(oldName)) {
+                                                refFile = f;
+                                                break;
+                                            }
                                         }
                                     }
 
@@ -355,14 +377,13 @@ public class UserEditor {
                                                 ConsoleFrame.INSTANCE.getUUID(),
                                                 UserFile.MUSIC.getName(),
                                                 "AlbumArt", newName + ".png");
-                                        if (artRename.exists())
-                                            throw new IOException("album art file exists");
 
-                                        //rename file to new name
-                                        boolean albumRenSuccess = refFile.renameTo(artRename);
+                                        if (artRename.exists()) {
+                                            throw new IOException("album art file exists: " + artRename);
+                                        }
 
-                                        if (!albumRenSuccess) {
-                                            throw new IllegalStateException(
+                                        if (!refFile.renameTo(artRename)) {
+                                            throw new IOException(
                                                     "Could not rename music's corresponding album art");
                                         }
                                     }
@@ -397,6 +418,10 @@ public class UserEditor {
                     }
                 }
 
+                if (selectedFile == null) {
+                    return;
+                }
+
                 if (selectedFile.getAbsolutePath().equalsIgnoreCase(ConsoleFrame.INSTANCE
                         .getCurrentBackground().getReferenceFile().getAbsolutePath())) {
                     editUserFrame.notify("Unable to delete the background you are currently using");
@@ -424,14 +449,20 @@ public class UserEditor {
                             //attempt to find album art to delete
                             String name = FileUtil.getFilename(selectedFile.getName());
 
-                            //find corresponding album art and delete
-                            for (File f : OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                            File albumArtDirectory = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                                     DynamicDirectory.USERS.getDirectoryName(),
                                     ConsoleFrame.INSTANCE.getUUID(),
-                                    UserFile.MUSIC.getName(), "AlbumArt").listFiles()) {
-                                if (FileUtil.getFilename(f).equals(name)) {
-                                    OSUtil.deleteFile(f);
-                                    break;
+                                    UserFile.MUSIC.getName(), "AlbumArt");
+
+                            File[] albumArtFiles = albumArtDirectory.listFiles();
+
+                            if (albumArtFiles != null && albumArtFiles.length > 0) {
+                                // find corresponding album art and delete
+                                for (File f : albumArtFiles) {
+                                    if (FileUtil.getFilename(f).equals(name)) {
+                                        OSUtil.deleteFile(f);
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -480,7 +511,7 @@ public class UserEditor {
                         // if photo viewer can handle
                         if (FileUtil.isSupportedImageExtension(filesList.get(finalI))) {
                             PhotoViewer pv = PhotoViewer.getInstance(filesList.get(finalI));
-                            pv.setRenameCallback(() -> revalidateFilesScroll());
+                            pv.setRenameCallback(UserEditor::revalidateFilesScroll);
                             pv.showGui();
                         } else {
                             IOUtil.openFile(filesList.get(finalI).getAbsolutePath());
@@ -488,7 +519,7 @@ public class UserEditor {
                     });
         }
 
-        JLabel filesLabel = null;
+        JLabel filesLabel;
         filesLabel = filesScroll.generateScrollList();
         filesLabel.setBounds(20, 60, 680, 360);
         filesLabel.setBackground(CyderColors.vanila);
@@ -502,6 +533,7 @@ public class UserEditor {
     /**
      * Switches to the fonts and colors preference page.
      */
+    @SuppressWarnings("MagicConstant") // check font metric
     private static void switchToFontAndColor() {
         JLabel titleLabel = new JLabel("Colors & Font", SwingConstants.CENTER);
         titleLabel.setFont(CyderFonts.segoe30);
@@ -698,12 +730,28 @@ public class UserEditor {
                         ConsoleFrame.INSTANCE.getOutputArea().repaint();
                         ConsoleFrame.INSTANCE.getOutputArea().revalidate();
                     }
-
-                    //input color fill
                     if (UserUtil.getCyderUser().getInputfill().equals("1")) {
                         ConsoleFrame.INSTANCE.getInputField().setOpaque(true);
                         ConsoleFrame.INSTANCE.getInputField()
                                 .setBackground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()));
+                        ConsoleFrame.INSTANCE.getInputField().repaint();
+                        ConsoleFrame.INSTANCE.getInputField().revalidate();
+                    }
+                    if (UserUtil.getCyderUser().getOutputborder().equals("1")) {
+                        ConsoleFrame.INSTANCE.getOutputScroll()
+                                .setBorder(UserUtil.getCyderUser().getOutputborder().equals("1")
+                                        ? new LineBorder(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()),
+                                        3, false)
+                                        : BorderFactory.createEmptyBorder());
+                        ConsoleFrame.INSTANCE.getOutputScroll().repaint();
+                        ConsoleFrame.INSTANCE.getOutputScroll().revalidate();
+                    }
+                    if (UserUtil.getCyderUser().getInputborder().equals("1")) {
+                        ConsoleFrame.INSTANCE.getInputField()
+                                .setBorder(UserUtil.getCyderUser().getInputborder().equals("1")
+                                        ? new LineBorder(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()),
+                                        3, false)
+                                        : BorderFactory.createEmptyBorder());
                         ConsoleFrame.INSTANCE.getInputField().repaint();
                         ConsoleFrame.INSTANCE.getInputField().revalidate();
                     }
@@ -739,12 +787,16 @@ public class UserEditor {
             Collections.addAll(fontList, GraphicsEnvironment.getLocalGraphicsEnvironment()
                     .getAvailableFontFamilyNames());
 
-            for (int i = 0 ; i < fontList.size() ; i++) {
-                int finalI = i;
-                fontScrollRef.get().addElementWithSingleCLickAction(fontList.get(i),
-                        () -> FontLabel.setFont(new Font(fontList.get(finalI),
-                                Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
-                                Integer.parseInt(UserUtil.getCyderUser().getFontsize()))));
+            int metric = Integer.parseInt(UserUtil.getCyderUser().getFontmetric());
+            int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
+
+            if (NumberUtil.numberInFontMetricRange(metric)) {
+                for (String fontName : fontList) {
+                    Font font = new Font(fontName, metric, size);
+
+                    fontScrollRef.get().addElementWithSingleCLickAction(fontName,
+                            () -> FontLabel.setFont(font));
+                }
             }
 
             if (prefsPanelIndex == 1) {
@@ -882,7 +934,7 @@ public class UserEditor {
         preferencePane.setOpaque(false);
         preferencePane.setBackground(Color.white);
 
-        //adding components
+        // adding components
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(preferencePane));
 
         // print title
@@ -890,7 +942,7 @@ public class UserEditor {
         prefsTitle.setFont(CyderFonts.segoe30);
         printingUtil.printlnComponent(prefsTitle);
 
-        // print boolean userdatas (preferences)
+        // print boolean userdata, i.e. (preferences)
         for (int i = 0 ; i < Preferences.getPreferences().size() ; i++) {
             if (Preferences.getPreferences().get(i).getDisplayName().equals("IGNORE"))
                 continue;
@@ -957,6 +1009,7 @@ public class UserEditor {
     /**
      * Switches to the field input preference page.
      */
+    @SuppressWarnings("MagicConstant")
     private static void switchToFieldInputs() {
         JTextPane fieldInputsPane = new JTextPane();
         fieldInputsPane.setEditable(false);
@@ -1195,18 +1248,19 @@ public class UserEditor {
             String text = weatherKeyField.getText().trim();
 
             if (!text.isEmpty()) {
-                String OpenString = CyderUrls.OPEN_WEATHER_BASE +
-                        //default location
+                String openString = CyderUrls.OPEN_WEATHER_BASE +
+                        // todo configurable
                         "Austin,Tx,USA" + "&appid=" + text + "&units=imperial";
 
                 boolean valid = false;
 
-                try {
-                    BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(new URL(OpenString).openStream()));
-                    reader.read();
+                try (BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(new URL(openString).openStream()))) {
+                    String openRead = reader.readLine();
+
+                    Logger.log(Logger.Tag.DEBUG, "Weather key validated, data returned: " + openRead);
+
                     valid = true;
-                    reader.close();
                 } catch (Exception ex) {
                     ExceptionHandler.silentHandle(ex);
                 }
@@ -1304,15 +1358,18 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
+        int fontMetric = Integer.parseInt(UserUtil.getCyderUser().getFontmetric());
+
+        if (!NumberUtil.numberInFontMetricRange(fontMetric)) {
+            fontMetric = Font.BOLD;
+        }
+
         JTextField fontMetricField = new JTextField(0);
         fontMetricField.setHorizontalAlignment(JTextField.CENTER);
         fontMetricField.setToolTipText("Font metrics: 0 = plain, 1 = bold, 2 = italic, 3 = bold + italic");
         fontMetricField.setBackground(CyderColors.vanila);
         fontMetricField.setSelectionColor(CyderColors.selectionColor);
-        fontMetricField.setFont(new Font(
-                UserUtil.getCyderUser().getFont(),
-                Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
-                20));
+        fontMetricField.setFont(new Font(UserUtil.getCyderUser().getFont(), fontMetric, 20));
         fontMetricField.setForeground(CyderColors.navy);
         fontMetricField.setCaretColor(CyderColors.navy);
         fontMetricField.setCaret(new CyderCaret(CyderColors.navy));

@@ -11,6 +11,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformBuilder;
 import cyder.handlers.internal.InformHandler;
@@ -50,6 +51,10 @@ public class ManualTests {
                 //                        DynamicDirectory.USERS.getDirectoryName(),
                 //                        ConsoleFrame.INSTANCE.getUUID(),
                 //                        UserFile.MUSIC.getName()).listFiles()[0]);
+
+                for (PropLoader.Prop prop : PropLoader.getProps()) {
+                    System.out.println("Loaded prop: " + prop);
+                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

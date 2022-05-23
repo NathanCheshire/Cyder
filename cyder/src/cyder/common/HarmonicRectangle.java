@@ -1,4 +1,4 @@
-package cyder.genesis;
+package cyder.common;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;

@@ -1,5 +1,6 @@
 package cyder.genesis;
 
+import cyder.common.HarmonicRectangle;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;

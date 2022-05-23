@@ -304,8 +304,6 @@ public enum ConsoleFrame {
         ExceptionHandler.checkFatalCondition(isClosed(),
                 "ConsoleFrame launch() invoked when not closed. Old uuid = " + previousUuid);
 
-        // todo need to update borders and fill when fill color is updated
-
         Logger.log(Logger.Tag.DEBUG, "Cyder Entry = " + entryPoint);
 
         UserUtil.ensureUserFilesExist(uuid);
