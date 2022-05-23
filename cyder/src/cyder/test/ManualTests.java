@@ -9,9 +9,11 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
+import cyder.enums.DynamicDirectory;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.PropLoader;
+import cyder.handlers.ConsoleFrame;
+import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformBuilder;
 import cyder.handlers.internal.InformHandler;
@@ -19,10 +21,13 @@ import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
+import cyder.user.UserFile;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.OSUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -46,14 +51,15 @@ public class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                //                AudioPlayer.showGui(OSUtil.buildFile(
-                //                        DynamicDirectory.DYNAMIC_PATH,
-                //                        DynamicDirectory.USERS.getDirectoryName(),
-                //                        ConsoleFrame.INSTANCE.getUUID(),
-                //                        UserFile.MUSIC.getName()).listFiles()[0]);
+                File musicDirectory = OSUtil.buildFile(
+                        DynamicDirectory.DYNAMIC_PATH,
+                        DynamicDirectory.USERS.getDirectoryName(),
+                        ConsoleFrame.INSTANCE.getUUID(),
+                        UserFile.MUSIC.getName());
+                File[] music = musicDirectory.listFiles();
 
-                for (PropLoader.Prop prop : PropLoader.getProps()) {
-                    System.out.println("Loaded prop: " + prop);
+                if (music != null && music.length > 0) {
+                    AudioPlayer.showGui(music[0]);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -727,13 +733,13 @@ public class ManualTests {
         testFrame.addMenuItem("friend", () -> testFrame.notify("friend"));
         testFrame.addMenuItem("I've come to talk", () -> testFrame.notify("I've come to talk"));
         testFrame.addMenuItem("with you again", () -> testFrame.notify("with you again"));
-        testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
-        testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
-        testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
-        testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
-        testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
-        testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
-        testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
+        testFrame.addMenuItem("something", () -> testFrame.notify("something"));
+        testFrame.addMenuItem("something", () -> testFrame.notify("something"));
+        testFrame.addMenuItem("something", () -> testFrame.notify("something"));
+        testFrame.addMenuItem("something", () -> testFrame.notify("something"));
+        testFrame.addMenuItem("something", () -> testFrame.notify("something"));
+        testFrame.addMenuItem("something", () -> testFrame.notify("something"));
+        testFrame.addMenuItem("something", () -> testFrame.notify("something"));
         testFrame.addMenuItem("done", () -> testFrame.notify("done"));
 
         CyderButton switchMenuType = new CyderButton("Switch Menu");

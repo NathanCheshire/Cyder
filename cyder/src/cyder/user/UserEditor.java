@@ -11,6 +11,7 @@ import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderToggles;
+import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
@@ -1249,8 +1250,7 @@ public class UserEditor {
 
             if (!text.isEmpty()) {
                 String openString = CyderUrls.OPEN_WEATHER_BASE +
-                        // todo configurable
-                        "Austin,Tx,USA" + "&appid=" + text + "&units=imperial";
+                        PropLoader.get("default_weather_location") + "&appid=" + text + "&units=imperial";
 
                 boolean valid = false;
 

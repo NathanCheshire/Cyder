@@ -108,6 +108,9 @@ public class Cyder {
             setLoadingMessage("Cleaning users");
             UserUtil.cleanUsers();
 
+            setLoadingMessage("Loading props");
+            PropLoader.reloadProps();
+
             setLoadingMessage("Validating annotations");
             ReflectionUtil.validateWidgets();
             ReflectionUtil.validateTests();

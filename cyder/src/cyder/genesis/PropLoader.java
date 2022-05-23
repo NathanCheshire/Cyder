@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,23 +34,10 @@ public class PropLoader {
     public static record Prop(String key, String value) {
     }
 
-    static {
-        reloadProps();
-    }
-
     /**
      * The props array
      */
     private static ImmutableList<Prop> props;
-
-    /**
-     * Returns an immutable list of props.
-     *
-     * @return an immutable list of props
-     */
-    public static ImmutableList<Prop> getProps() {
-        return props;
-    }
 
     /**
      * Loads the props from the prop file.
@@ -65,8 +53,10 @@ public class PropLoader {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(":");
 
+                Prop addProp;
+
                 if (parts.length == 2) {
-                    propsList.add(new Prop(parts[0], parts[1]));
+                    addProp = new Prop(parts[0], parts[1]);
                 } else {
                     int lastKeyIndex = -1;
 
@@ -108,8 +98,11 @@ public class PropLoader {
                         }
                     }
 
-                    propsList.add(new Prop(key.toString(), value.toString()));
+                    addProp = new Prop(key.toString(), value.toString());
                 }
+
+                propsList.add(addProp);
+                Logger.log(Logger.Tag.DEBUG, "Loaded prop: " + addProp);
             }
 
             props = ImmutableList.copyOf(propsList);
@@ -132,6 +125,6 @@ public class PropLoader {
             }
         }
 
-        return null;
+        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + "\"");
     }
 }
