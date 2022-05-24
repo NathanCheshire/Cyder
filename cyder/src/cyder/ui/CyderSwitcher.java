@@ -53,6 +53,7 @@ public class CyderSwitcher extends JLabel {
      * @param states        the valid states
      * @param startingState the starting state
      */
+    @SuppressWarnings("SuspiciousNameCombination") // incorrect
     public CyderSwitcher(int width, int height, ArrayList<SwitcherState> states, SwitcherState startingState) {
         Preconditions.checkArgument(width > 0);
         Preconditions.checkArgument(height > 0);
@@ -77,8 +78,8 @@ public class CyderSwitcher extends JLabel {
         valueDisplayField.setFocusable(false);
         valueDisplayField.setSize(width - height + borderOffset, height);
         add(valueDisplayField);
-        valueDisplayField.setText(currentState.getDisplayValue());
-        valueDisplayField.setToolTipText(currentState.getMappedValue());
+        valueDisplayField.setText(currentState.displayValue());
+        valueDisplayField.setToolTipText(currentState.mappedValue());
 
         iterationButton = new CyderButton(CyderStrings.downArrow);
         iterationButton.setSize(height, height);
@@ -87,11 +88,11 @@ public class CyderSwitcher extends JLabel {
 
         iterationButton.addActionListener(e -> {
             currentState = getNextState();
-            valueDisplayField.setText(currentState.getDisplayValue());
-            valueDisplayField.setToolTipText(currentState.getMappedValue());
+            valueDisplayField.setText(currentState.displayValue());
+            valueDisplayField.setToolTipText(currentState.mappedValue());
         });
 
-        valueDisplayField.setText(startingState.getDisplayValue());
+        valueDisplayField.setText(startingState.displayValue());
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
@@ -173,7 +174,7 @@ public class CyderSwitcher extends JLabel {
      */
     public void setCurrentState(SwitcherState currentState) {
         this.currentState = currentState;
-        valueDisplayField.setText(currentState.getDisplayValue());
+        valueDisplayField.setText(currentState.displayValue());
     }
 
 

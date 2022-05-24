@@ -1,5 +1,6 @@
 package cyder.handlers.internal;
 
+import cyder.builders.InformBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;

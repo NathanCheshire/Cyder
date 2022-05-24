@@ -6,17 +6,7 @@ import cyder.handlers.internal.Logger;
 /**
  * An enum used to map a preview value to the actual value to switch on.
  */
-public class SwitcherState {
-    /**
-     * The display value of this state.
-     */
-    String displayValue;
-
-    /**
-     * The underlying value of this state.
-     */
-    String mappedValue;
-
+public record SwitcherState(String displayValue, String mappedValue) {
     /**
      * Constructs a new switch state
      *
@@ -33,82 +23,12 @@ public class SwitcherState {
      * @param mappedValue  the underlying value of the state
      */
     public SwitcherState(String displayValue, String mappedValue) {
-        Preconditions.checkArgument(displayValue != null, "Display value is null");
-        Preconditions.checkArgument(mappedValue != null, "Mapped value is null");
+        Preconditions.checkNotNull(displayValue);
+        Preconditions.checkNotNull(mappedValue);
 
         this.displayValue = displayValue;
         this.mappedValue = mappedValue;
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
-    }
-
-    /**
-     * Returns the name of this state.
-     *
-     * @return the name of this state
-     */
-    public String getDisplayValue() {
-        return displayValue;
-    }
-
-    /**
-     * Sets the name of this state.
-     *
-     * @param displayValue the name of this state
-     */
-    public void setDisplayValue(String displayValue) {
-        this.displayValue = displayValue;
-    }
-
-    /**
-     * Returns the underlying value of this state.
-     *
-     * @return the underlying value of this state
-     */
-    public String getMappedValue() {
-        return mappedValue;
-    }
-
-    /**
-     * Sets the underlying value of this state.
-     *
-     * @param mappedValue the underlying value of this state
-     */
-    public void setMappedValue(String mappedValue) {
-        this.mappedValue = mappedValue;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof SwitcherState))
-            return false;
-
-        SwitcherState other = (SwitcherState) o;
-
-        return other.getDisplayValue().equals(getDisplayValue())
-                && other.getMappedValue().equals(getMappedValue());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        int ret = displayValue.hashCode();
-        ret = 31 * ret + mappedValue.hashCode();
-        return ret;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return "SwitchState: " + displayValue + " => " + mappedValue;
     }
 }

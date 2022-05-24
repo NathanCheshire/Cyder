@@ -2,9 +2,10 @@ package cyder.handlers;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.builders.GetterBuilder;
+import cyder.builders.InformBuilder;
+import cyder.builders.NotificationBuilder;
 import cyder.common.CyderBackground;
-import cyder.common.GetterBuilder;
-import cyder.common.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;

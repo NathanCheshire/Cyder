@@ -4,7 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import com.google.common.base.Preconditions;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.ManualTest;
-import cyder.common.GetterBuilder;
+import cyder.builders.GetterBuilder;
 import cyder.common.WidgetDescription;
 import cyder.constants.*;
 import cyder.enums.DynamicDirectory;
@@ -1183,15 +1183,15 @@ public class BaseInputHandler {
             for (WidgetDescription description : descriptions) {
                 StringBuilder triggers = new StringBuilder();
 
-                for (int i = 0 ; i < description.getTriggers().length ; i++) {
-                    triggers.append(description.getTriggers()[i]);
+                for (int i = 0 ; i < description.triggers().length ; i++) {
+                    triggers.append(description.triggers()[i]);
 
-                    if (i != description.getTriggers().length - 1)
+                    if (i != description.triggers().length - 1)
                         triggers.append(", ");
                 }
 
-                println("Name: " + description.getName());
-                println("Description: " + description.getDescription() + "\nTriggers: ["
+                println("Name: " + description.name());
+                println("Description: " + description.description() + "\nTriggers: ["
                         + triggers.toString().trim() + "]");
                 println("-------------------------------------");
             }

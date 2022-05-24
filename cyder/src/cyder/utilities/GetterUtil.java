@@ -1,6 +1,6 @@
 package cyder.utilities;
 
-import cyder.common.GetterBuilder;
+import cyder.builders.GetterBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;

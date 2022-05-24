@@ -4,8 +4,9 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.common.GetterBuilder;
-import cyder.common.NotificationBuilder;
+import cyder.builders.GetterBuilder;
+import cyder.builders.InformBuilder;
+import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -13,7 +14,6 @@ import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.InformBuilder;
 import cyder.handlers.internal.InformHandler;
 import cyder.messaging.MessagingUtils;
 import cyder.threads.CyderThreadFactory;
@@ -52,6 +52,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 // todo test Levenshtein distance, notifications
 
 // todo show dimensions in photo viewer, use photo viewer for drawing stuff from image util
+
 
 // todo views should slide in and out like StraightShot
 

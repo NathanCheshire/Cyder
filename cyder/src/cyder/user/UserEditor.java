@@ -1,8 +1,8 @@
 package cyder.user;
 
 import cyder.annotations.Widget;
+import cyder.builders.GetterBuilder;
 import cyder.common.CyderBackground;
-import cyder.common.GetterBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;

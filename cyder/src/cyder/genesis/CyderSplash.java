@@ -1,12 +1,12 @@
 package cyder.genesis;
 
+import cyder.builders.InformBuilder;
 import cyder.common.HarmonicRectangle;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.InformBuilder;
 import cyder.handlers.internal.InformHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;

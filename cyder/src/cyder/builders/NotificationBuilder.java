@@ -1,10 +1,11 @@
-package cyder.common;
+package cyder.builders;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.Logger;
+import cyder.ui.CyderNotification;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.TimeUtil;
 
@@ -55,7 +56,7 @@ public final class NotificationBuilder {
     /**
      * The type of notification, i.e. notification vs toast.
      */
-    private NotificationType notificationType = NotificationType.NOTIFICATION;
+    private CyderNotification.NotificationType notificationType = CyderNotification.NotificationType.NOTIFICATION;
 
     /**
      * The custom container for the notification. If this is not provided a label is generated
@@ -204,7 +205,7 @@ public final class NotificationBuilder {
      *
      * @return the notification type of this notification
      */
-    public NotificationType getNotificationType() {
+    public CyderNotification.NotificationType getNotificationType() {
         return notificationType;
     }
 
@@ -213,7 +214,7 @@ public final class NotificationBuilder {
      *
      * @param notificationType the notification type of this notification
      */
-    public void setNotificationType(NotificationType notificationType) {
+    public void setNotificationType(CyderNotification.NotificationType notificationType) {
         this.notificationType = notificationType;
     }
 

@@ -1,17 +1,19 @@
 package cyder.ui;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.common.GetterBuilder;
-import cyder.common.MenuItem;
-import cyder.common.NotificationBuilder;
-import cyder.common.NotificationType;
+import cyder.builders.GetterBuilder;
+import cyder.builders.InformBuilder;
+import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderNumbers;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
-import cyder.handlers.internal.*;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.InformHandler;
+import cyder.handlers.internal.Logger;
+import cyder.handlers.internal.LoginHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.*;
 import org.jetbrains.annotations.Nullable;
@@ -994,7 +996,7 @@ public class CyderFrame extends JFrame {
                 > NotificationBuilder.MINIMUM_TEXT_LENGTH, "Raw text must be 3 characters or greater");
 
         NotificationBuilder toastBuilder = new NotificationBuilder(htmlText);
-        toastBuilder.setNotificationType(NotificationType.TOAST);
+        toastBuilder.setNotificationType(CyderNotification.NotificationType.TOAST);
 
         notificationList.add(toastBuilder);
 
@@ -3175,7 +3177,7 @@ public class CyderFrame extends JFrame {
     @SuppressWarnings("unused")
     public void removeMenuItem(String text) {
         for (int i = 0 ; i < menuItems.size() ; i++) {
-            if (menuItems.get(i).getLabel().getText().equals(text)) {
+            if (menuItems.get(i).label().getText().equals(text)) {
                 removeMenuItem(i);
                 return;
             }
@@ -3475,8 +3477,8 @@ public class CyderFrame extends JFrame {
 
         // update externally synced label foregrounds
         for (MenuItem menuItem : menuItems) {
-            if (menuItem.getState() != null) {
-                menuItem.getLabel().setForeground(menuItem.getState().get()
+            if (menuItem.state() != null) {
+                menuItem.label().setForeground(menuItem.state().get()
                         ? CyderColors.regularRed
                         : CyderColors.vanila);
             }
@@ -3484,7 +3486,7 @@ public class CyderFrame extends JFrame {
 
         if (currentMenuType == MenuType.PANEL) {
             for (int i = 0 ; i < menuItems.size() ; i++) {
-                printingUtil.printComponent(menuItems.get(i).getLabel());
+                printingUtil.printComponent(menuItems.get(i).label());
 
                 if (i != menuItems.size() - 1) {
                     printingUtil.print("\n");
@@ -3492,7 +3494,7 @@ public class CyderFrame extends JFrame {
             }
         } else {
             for (int i = 0 ; i < menuItems.size() ; i++) {
-                printingUtil.printComponent(menuItems.get(i).getLabel());
+                printingUtil.printComponent(menuItems.get(i).label());
 
                 if (i != menuItems.size() - 1) {
                     printingUtil.print(StringUtil.generateNSpaces(4));
@@ -3549,5 +3551,15 @@ public class CyderFrame extends JFrame {
         // other possibly dominant/stand-alone frame checks here
         else
             return null;
+    }
+
+    /**
+     * A CyderFrame menu item.
+     * This class is a wrapper to associate a label with a possible
+     * AtomicBoolean which dictates the state of the menu item.
+     * <p>
+     * Instances of this class are immutable.
+     */
+    private static record MenuItem(JLabel label, AtomicBoolean state) {
     }
 }

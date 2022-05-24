@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
+import cyder.builders.InformBuilder;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -12,7 +13,6 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.InformBuilder;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
 import cyder.user.*;

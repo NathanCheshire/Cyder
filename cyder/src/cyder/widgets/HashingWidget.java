@@ -3,11 +3,11 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
+import cyder.builders.InformBuilder;
 import cyder.common.SwitcherState;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
-import cyder.handlers.internal.InformBuilder;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
@@ -30,11 +30,6 @@ public class HashingWidget {
      * The hash frame.
      */
     private CyderFrame hashFrame;
-
-    /**
-     * The hash button.
-     */
-    private CyderButton hashButton;
 
     /**
      * The hash field.
@@ -88,7 +83,7 @@ public class HashingWidget {
         hashField.setBounds(50, 90, 400, 40);
         hashFrame.getContentPane().add(hashField);
 
-        hashButton = new CyderButton("Hash");
+        CyderButton hashButton = new CyderButton("Hash");
         hashButton.addActionListener(e -> hash());
         hashButton.setBounds(50, 140, 180, 40);
         hashFrame.getContentPane().add(hashButton);
@@ -115,7 +110,7 @@ public class HashingWidget {
             String inform;
             String algorithm;
 
-            algorithm = switcher.getCurrentState().getDisplayValue();
+            algorithm = switcher.getCurrentState().displayValue();
 
             if (algorithm.equals("SHA-256")) {
                 hashResult = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));

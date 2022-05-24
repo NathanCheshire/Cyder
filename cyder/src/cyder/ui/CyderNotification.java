@@ -2,8 +2,7 @@ package cyder.ui;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import cyder.common.NotificationBuilder;
-import cyder.common.NotificationType;
+import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
@@ -233,6 +232,7 @@ public class CyderNotification extends JLabel {
         outlinePath.lineTo(x, y - componentHeight);
 
         // new y
+        //noinspection UnusedAssignment
         y -= componentHeight;
 
         // close and fill
@@ -244,39 +244,35 @@ public class CyderNotification extends JLabel {
             int len = arrowLen;
 
             switch (builder.getArrowDir()) {
-                case TOP:
+                case TOP -> {
                     // top so we know that the x needs to be offset by 4 and the height by arrow len
                     outlinePath.moveTo(2 * 2 + componentWidth / 2 - len, len);
                     outlinePath.lineTo(2 * 2 + componentWidth / 2, 0);
                     outlinePath.lineTo(2 * 2 + (componentWidth / 2) + len, len);
                     outlinePath.lineTo(2 * 2 + componentWidth / 2 - len, len);
-
-                    break;
-                case LEFT:
+                }
+                case LEFT -> {
                     // left so we know that the x needs to be offset by arrow len and the height by 4
                     outlinePath.moveTo(len, 2 * 2 + componentHeight / 2 - len);
                     outlinePath.lineTo(0, 2 * 2 + componentHeight / 2);
                     outlinePath.lineTo(len, 2 * 2 + componentHeight / 2 + len);
                     outlinePath.moveTo(len, 2 * 2 + componentHeight / 2 - len);
-
-                    break;
-                case RIGHT:
+                }
+                case RIGHT -> {
                     // right so we know that the x needs to be offset by 4 * 2 + componentWidth
                     // and the height by 2 * 2 + componentHeight / 2 - len
                     outlinePath.moveTo(2 * 2 * 2 + componentWidth, 2 * 2 + componentHeight / 2 - len);
                     outlinePath.lineTo(2 * 2 * 2 + componentWidth + len, 2 * 2 + componentHeight / 2);
                     outlinePath.lineTo(2 * 2 * 2 + componentWidth, 2 * 2 + componentHeight / 2 + len);
                     outlinePath.moveTo(2 * 2 * 2 + componentWidth, 2 * 2 + componentHeight / 2 - len);
-
-                    break;
-                case BOTTOM:
+                }
+                case BOTTOM -> {
                     // bottom so x axis is middle but y is all the way down
                     outlinePath.moveTo(2 * 2 + componentWidth / 2 - len, 2 * 2 * 2 + componentHeight);
                     outlinePath.lineTo(2 * 2 + componentWidth / 2, 2 * 2 * 2 + componentHeight + len);
                     outlinePath.lineTo(2 * 2 + componentWidth / 2 + len, 2 * 2 * 2 + componentHeight);
                     outlinePath.lineTo(2 * 2 + componentWidth / 2 - len, 2 * 2 * 2 + componentHeight);
-
-                    break;
+                }
             }
         }
 
@@ -377,6 +373,7 @@ public class CyderNotification extends JLabel {
         fillPath.lineTo(x, y - componentHeight);
 
         // new y
+        //noinspection UnusedAssignment
         y -= componentHeight;
 
         // close and fill
@@ -388,25 +385,23 @@ public class CyderNotification extends JLabel {
             int len = arrowLen;
 
             switch (builder.getArrowDir()) {
-                case TOP:
+                case TOP -> {
                     // top so we know that the x needs to be offset
                     // by 2 * 2 + border and the height by border + arrow len
                     fillPath.moveTo(2 * 2 + borderLen + componentWidth / 2 - len, len + borderLen);
                     fillPath.lineTo(2 * 2 + borderLen + componentWidth / 2, borderLen);
                     fillPath.lineTo(2 * 2 + borderLen + (componentWidth / 2) + len, len + borderLen);
                     fillPath.lineTo(2 * 2 + borderLen + componentWidth / 2 - len, len + borderLen);
-
-                    break;
-                case LEFT:
+                }
+                case LEFT -> {
                     // left so we know that the x needs to be offset
                     // by arrow len + border and the height by 2 * 2 + border
                     fillPath.moveTo(len + borderLen, 2 * 2 + borderLen + componentHeight / 2 - len);
                     fillPath.lineTo(borderLen, 2 * 2 + borderLen + componentHeight / 2);
                     fillPath.lineTo(len + borderLen, 2 * 2 + borderLen + componentHeight / 2 + len);
                     fillPath.moveTo(len + borderLen, 2 * 2 + borderLen + componentHeight / 2 - len);
-
-                    break;
-                case RIGHT:
+                }
+                case RIGHT -> {
                     // right so we know that the x needs to be offset by 2 * 2 * 2 + componentWidth + borderlen
                     // and the height by 2 * 2 + componentHeight / 2 - len + borderlen
                     fillPath.moveTo(2 * 2 * 2 + borderLen + componentWidth,
@@ -417,9 +412,8 @@ public class CyderNotification extends JLabel {
                             2 * 2 + componentHeight / 2 + len + borderLen);
                     fillPath.moveTo(2 * 2 * 2 + borderLen + componentWidth,
                             2 * 2 + componentHeight / 2 - len + borderLen);
-
-                    break;
-                case BOTTOM:
+                }
+                case BOTTOM -> {
                     // bottom so we know that the x needs to be offset by 2 * 2 + width / 2 + border len
                     // and y needs to be offset 2 * 2 * 2 + height + border len
                     fillPath.moveTo(2 * 2 + componentWidth / 2 - len + borderLen,
@@ -430,8 +424,7 @@ public class CyderNotification extends JLabel {
                             2 * 2 * 2 + componentHeight + borderLen);
                     fillPath.lineTo(2 * 2 + componentWidth / 2 - len + borderLen,
                             2 * 2 * 2 + componentHeight + borderLen);
-
-                    break;
+                }
             }
         }
 
@@ -527,11 +520,10 @@ public class CyderNotification extends JLabel {
                     int bottomOffset = 5;
 
                     switch (notificationDirection) {
-                        case TOP:
+                        case TOP -> {
                             setBounds(parent.getWidth() / 2 - getWidth() / 2,
                                     CyderDragLabel.DEFAULT_HEIGHT - getHeight(), getWidth(), getHeight());
                             setVisible(true);
-
                             for (int i = getY() ; i < CyderDragLabel.DEFAULT_HEIGHT ; i += ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
@@ -540,14 +532,12 @@ public class CyderNotification extends JLabel {
                                 setLocation(getX(), i);
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-
                             setLocation(getX(), CyderDragLabel.DEFAULT_HEIGHT - 1);
-                            break;
-                        case TOP_RIGHT:
+                        }
+                        case TOP_RIGHT -> {
                             setBounds(parent.getWidth() + getWidth(),
                                     CyderDragLabel.DEFAULT_HEIGHT, getWidth(), getHeight());
                             setVisible(true);
-
                             for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
@@ -556,13 +546,11 @@ public class CyderNotification extends JLabel {
                                 setLocation(i, getY());
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-
                             setLocation(parent.getWidth() - getWidth() + 5, getY());
-                            break;
-                        case TOP_LEFT:
+                        }
+                        case TOP_LEFT -> {
                             setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT, getWidth(), getHeight());
                             setVisible(true);
-
                             for (int i = getX() ; i < 5 ; i += ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
@@ -571,15 +559,13 @@ public class CyderNotification extends JLabel {
                                 setLocation(i, getY());
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-
                             setLocation(2, getY());
-                            break;
-                        case LEFT:
+                        }
+                        case LEFT -> {
                             // note drag label used here to center on content pane
                             setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT
                                     + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
                             setVisible(true);
-
                             for (int i = getX() ; i < 5 ; i += ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
@@ -588,16 +574,14 @@ public class CyderNotification extends JLabel {
                                 setLocation(i, getY());
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-
                             setLocation(2, CyderDragLabel.DEFAULT_HEIGHT
                                     + parent.getHeight() / 2 - getHeight() / 2);
-                            break;
-                        case RIGHT:
+                        }
+                        case RIGHT -> {
                             // note drag label used here to center on content pane
                             setBounds(parent.getWidth() + getWidth(), CyderDragLabel.DEFAULT_HEIGHT
                                     + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
                             setVisible(true);
-
                             for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
@@ -606,15 +590,13 @@ public class CyderNotification extends JLabel {
                                 setLocation(i, getY());
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-
                             setLocation(parent.getWidth() - getWidth() + 5,
                                     CyderDragLabel.DEFAULT_HEIGHT + parent.getHeight() / 2 - getHeight() / 2);
-                            break;
-                        case BOTTOM:
+                        }
+                        case BOTTOM -> {
                             setBounds(parent.getWidth() / 2 - getWidth() / 2, parent.getHeight()
                                     + getHeight(), getWidth(), getHeight());
                             setVisible(true);
-
                             for (int i = getY() ; i > parent.getHeight() - getHeight() + 5 ; i -= ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
@@ -623,15 +605,13 @@ public class CyderNotification extends JLabel {
                                 setLocation(getX(), i);
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-
                             setBounds(parent.getWidth() / 2 - getWidth() / 2,
                                     parent.getHeight() - getHeight() + arrowLen, getWidth(), getHeight());
-                            break;
-                        case BOTTOM_LEFT:
+                        }
+                        case BOTTOM_LEFT -> {
                             setBounds(-getWidth(), parent.getHeight() - getHeight()
                                     - bottomOffset, getWidth(), getHeight());
                             setVisible(true);
-
                             for (int i = getX() ; i < 5 ; i += ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
@@ -640,14 +620,12 @@ public class CyderNotification extends JLabel {
                                 setLocation(i, getY());
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-
                             setLocation(2, parent.getHeight() - getHeight() - bottomOffset);
-                            break;
-                        case BOTTOM_RIGHT:
+                        }
+                        case BOTTOM_RIGHT -> {
                             setBounds(parent.getWidth() + getWidth(), parent.getHeight()
                                     - getHeight() - bottomOffset, getWidth(), getHeight());
                             setVisible(true);
-
                             for (int i = getX() ; i > parent.getWidth() - getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
                                 if (killed || UserUtil.getCyderUser().getDoAnimations().equals("0")) {
                                     break;
@@ -656,12 +634,11 @@ public class CyderNotification extends JLabel {
                                 setLocation(i, getY());
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-
                             setLocation(parent.getWidth() - getWidth() + 5,
                                     parent.getHeight() - getHeight() - bottomOffset);
-                            break;
-                        default:
-                            throw new IllegalStateException("Illegal Notification Direction: " + notificationDirection);
+                        }
+                        default -> throw new IllegalStateException(
+                                "Illegal Notification Direction: " + notificationDirection);
                     }
                 }
 
@@ -801,6 +778,7 @@ public class CyderNotification extends JLabel {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("ConstantConditions")  // might not be always true in future
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -848,5 +826,19 @@ public class CyderNotification extends JLabel {
      */
     public void setHovered(boolean hovered) {
         isHovered = hovered;
+    }
+
+    /**
+     * The possible notification types.
+     */
+    public enum NotificationType {
+        /**
+         * A common notification with an arrow on any cardinal side.
+         */
+        NOTIFICATION,
+        /**
+         * A toast emulating Android's toast.
+         */
+        TOAST
     }
 }

@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.common.GetterBuilder;
+import cyder.builders.GetterBuilder;
 import cyder.constants.*;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;

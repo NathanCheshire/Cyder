@@ -103,7 +103,7 @@ public class HarmonicRectangle extends JLabel {
      * @param staticMinWidth  the minimum width.
      * @param staticMinHeight the minimum height.
      * @param staticMaxWidth  the maximum width.
-     * @param staticMaxHeight the maximum heght.
+     * @param staticMaxHeight the maximum height.
      */
     public HarmonicRectangle(int staticMinWidth, int staticMinHeight, int staticMaxWidth, int staticMaxHeight) {
         Preconditions.checkArgument(staticMaxWidth > 0);

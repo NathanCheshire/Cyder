@@ -7,7 +7,7 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.common.GetterBuilder;
+import cyder.builders.GetterBuilder;
 import cyder.common.SwitcherState;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;

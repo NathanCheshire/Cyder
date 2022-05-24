@@ -2,7 +2,8 @@ package cyder.test;
 
 import cyder.annotations.ManualTest;
 import cyder.annotations.SuppressCyderInspections;
-import cyder.common.NotificationBuilder;
+import cyder.builders.InformBuilder;
+import cyder.builders.NotificationBuilder;
 import cyder.common.SwitcherState;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -15,7 +16,6 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.InformBuilder;
 import cyder.handlers.internal.InformHandler;
 import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
@@ -88,7 +88,7 @@ public class ManualTests {
         switcher.setBounds(40, 40, 200, 40);
         testFrame.getContentPane().add(switcher);
         switcher.addOnChangeListener((param) -> {
-            testFrame.notify(switcher.getNextState().getMappedValue());
+            testFrame.notify(switcher.getNextState().mappedValue());
 
             return param;
         });

@@ -1,4 +1,4 @@
-package cyder.common;
+package cyder.builders;
 
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;
@@ -51,7 +51,7 @@ public class GetterBuilder {
     private Color submitButtonColor = CyderColors.regularRed;
 
     /**
-     * The initial text of the field for getter framds which have a text field.
+     * The initial text of the field for getter frames which have a text field.
      */
     private String initialString = "";
 

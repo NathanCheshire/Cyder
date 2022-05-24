@@ -48,11 +48,6 @@ public class WaveFile {
     private boolean isPlayable;
 
     /**
-     * The stream for the wav.
-     */
-    private AudioInputStream audioInputStream;
-
-    /**
      * The audio format of the wav.
      */
     private AudioFormat audioFormat;
@@ -100,9 +95,10 @@ public class WaveFile {
      * Performs setup for common wav file props after the object
      * has been constructed and the file validated.
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")  // read() is for validation
     private void setup() {
         try {
-            audioInputStream = AudioSystem.getAudioInputStream(wavFile);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(wavFile);
             audioFormat = audioInputStream.getFormat();
             numFrames = audioInputStream.getFrameLength();
 
@@ -149,9 +145,8 @@ public class WaveFile {
 
         byte[] sampleBytes = new byte[INT_SIZE];
 
-        for (int i = 0 ; i < sampleSize ; i++) {
-            sampleBytes[i] = data[samplePoint * sampleSize * numChannels + i];
-        }
+        if (sampleSize >= 0)
+            System.arraycopy(data, samplePoint * sampleSize * numChannels, sampleBytes, 0, sampleSize);
 
         return ByteBuffer.wrap(sampleBytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
     }
