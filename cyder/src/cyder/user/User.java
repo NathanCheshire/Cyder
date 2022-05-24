@@ -165,16 +165,6 @@ public class User {
     private String youtubeuuid;
 
     /**
-     * The ip key.
-     */
-    private String ipkey;
-
-    /**
-     * The open weather map ip key.
-     */
-    private String weatherkey;
-
-    /**
      * Whether to output ascii chars as capitalized letters.
      */
     private String capsmode;
@@ -203,11 +193,6 @@ public class User {
      * Whether compact text mode is active.
      */
     private String compactTextMode;
-
-    /**
-     * The youtube api v3 key.
-     */
-    private String youTubeAPI3Key;
 
     /**
      * If true, any unrecognized input is passed to the native terminal/shell.
@@ -496,24 +481,6 @@ public class User {
     }
 
     /**
-     * Returns the ip key.
-     *
-     * @return the ip key
-     */
-    public String getIpkey() {
-        return ipkey;
-    }
-
-    /**
-     * Return the open weather map key.
-     *
-     * @return the open weather map key
-     */
-    public String getWeatherkey() {
-        return weatherkey;
-    }
-
-    /**
      * Returns whether caps mode is on.
      *
      * @return whether caps mode is on
@@ -565,15 +532,6 @@ public class User {
      */
     public String getCompactTextMode() {
         return compactTextMode;
-    }
-
-    /**
-     * Returns the youtube api 3 key.
-     *
-     * @return the youtube api 3 key
-     */
-    public String getYouTubeAPI3Key() {
-        return youTubeAPI3Key;
     }
 
     /**
@@ -869,24 +827,6 @@ public class User {
     }
 
     /**
-     * sets the ip key.
-     *
-     * @param ipkey the ip key
-     */
-    public void setIpkey(String ipkey) {
-        this.ipkey = ipkey;
-    }
-
-    /**
-     * Sets the open weather map api key.
-     *
-     * @param weatherkey the open weather map api key
-     */
-    public void setWeatherkey(String weatherkey) {
-        this.weatherkey = weatherkey;
-    }
-
-    /**
      * Sets caps mode.
      *
      * @param capsmode caps mode
@@ -938,15 +878,6 @@ public class User {
      */
     public void setCompactTextMode(String compactTextMode) {
         this.compactTextMode = compactTextMode;
-    }
-
-    /**
-     * Sets the youtube v3 api key.
-     *
-     * @param youTubeAPI3Key the youtube v3 api key
-     */
-    public void setYouTubeAPI3Key(String youTubeAPI3Key) {
-        this.youTubeAPI3Key = youTubeAPI3Key;
     }
 
     /**

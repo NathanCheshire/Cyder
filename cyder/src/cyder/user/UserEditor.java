@@ -1287,7 +1287,6 @@ public class UserEditor {
             try {
                 NetworkUtil.readUrl(CyderUrls.YOUTUBE_API_V3_SEARCH +
                         "?part=snippet&q=gift+and+a+curse+skizzy+mars&type=video&key=" + text);
-                UserUtil.getCyderUser().setYouTubeAPI3Key(text);
                 return true;
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);

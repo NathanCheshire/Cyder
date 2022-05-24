@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 
@@ -39,7 +40,7 @@ public class IPUtil {
         if (UserUtil.getCyderUser() == null)
             return;
 
-        String key = UserUtil.getCyderUser().getIpkey();
+        String key = PropLoader.getString("ip_key");
 
         if (key.trim().isEmpty()) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the IP Key has not been set or is invalid" +

@@ -9,6 +9,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -16,7 +17,10 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.ui.CyderSwitch;
 import cyder.ui.CyderTextField;
-import cyder.utilities.*;
+import cyder.utilities.ColorUtil;
+import cyder.utilities.IPUtil;
+import cyder.utilities.StringUtil;
+import cyder.utilities.TimeUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -28,7 +32,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -188,7 +191,6 @@ public class ClockWidget {
                             int topleftY = (int) (y - radius / 2 + center);
 
                             String minText = numerals[i];
-                            FontMetrics fm = g.getFontMetrics();
                             g.setColor(clockColor);
                             g.setFont(CyderFonts.defaultFont);
                             g.drawString(minText, topLeftX - boxLen / 2, topleftY + boxLen / 2);
@@ -414,7 +416,7 @@ public class ClockWidget {
 
                 if (!possibleLocation.isEmpty()) {
                     try {
-                        String key = UserUtil.getCyderUser().getWeatherkey();
+                        String key = PropLoader.getString("weather_key");
 
                         if (key.trim().isEmpty()) {
                             ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, " +
@@ -490,11 +492,9 @@ public class ClockWidget {
         miniFrame.getContentPane().add(currentTimeLabel);
 
         if (!currentLocation.trim().isEmpty()) {
-            String labelText = "(GMT" + currentGMTOffset + ")";
+            String labelText;
 
-            if (!currentLocation.trim().isEmpty()) {
-                labelText = StringUtil.formatCommas(currentLocation) + " " + ("(GMT" + currentGMTOffset + ")");
-            }
+            labelText = StringUtil.formatCommas(currentLocation) + " " + ("(GMT" + currentGMTOffset + ")");
 
             JLabel locationLabel = new JLabel(labelText, SwingConstants.CENTER);
             locationLabel.setForeground(CyderColors.navy);
@@ -527,7 +527,6 @@ public class ClockWidget {
      */
     private static String getTime(int gmtOffsetInHours) {
         Calendar cal = Calendar.getInstance();
-        Date Time = cal.getTime();
         SimpleDateFormat dateFormatter = TimeUtil.weatherFormat;
         dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 
@@ -548,7 +547,6 @@ public class ClockWidget {
      */
     private static int getUnitForCurrentGMT(String unit) {
         Calendar cal = Calendar.getInstance();
-        Date Time = cal.getTime();
         SimpleDateFormat dateFormatter = new SimpleDateFormat(unit);
         dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 
@@ -567,7 +565,7 @@ public class ClockWidget {
      * @return the GMT based off of the current location
      */
     private static int getGmtFromUserLocation() {
-        String key = UserUtil.getCyderUser().getWeatherkey();
+        String key = PropLoader.getString("weather_key");
 
         if (key.trim().isEmpty()) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, "

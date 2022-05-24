@@ -134,21 +134,6 @@ public class CyderUrls {
     public static final String SIMPLE_DATE_PATTERN_GUIDE = "https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html";
 
     /**
-     * The link to sign up for Open Weather.
-     */
-    public static final String OPEN_WEATHER_SIGN_UP = "https://home.openweathermap.org/users/sign_up";
-
-    /**
-     * The link to sign up for IpData.
-     */
-    public static final String IPDATA_SIGN_UP = "https://ipdata.co/";
-
-    /**
-     * The link to sign up for youtube api v3.
-     */
-    public static final String YOUTUBE_API_V3_SIGN_UP = "https://developers.google.com/youtube/v3/getting-started";
-
-    /**
      * The default thumbnail base url for youtube videos.
      */
     public static final String THUMBNAIL_BASE_URL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";

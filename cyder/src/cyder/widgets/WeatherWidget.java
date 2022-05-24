@@ -117,7 +117,7 @@ public class WeatherWidget {
                     + UserUtil.getCyderUser().getName() + ", but"
                     + " this feature is suspended until a stable internet connection can be established");
             return;
-        } else if (StringUtil.isNull(UserUtil.getCyderUser().getWeatherkey())) {
+        } else if (StringUtil.isNull(PropLoader.getString("weather_key"))) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has "
                     + "not been set or is invalid, as a result, many features of Cyder will not work as"
                     + " intended. Please see the fields panel of the user editor to learn how to acquire "
@@ -585,7 +585,7 @@ public class WeatherWidget {
                 if (!useCustomLoc)
                     locationString = userCity + ", " + userState + ", " + userCountry;
 
-                String key = UserUtil.getCyderUser().getWeatherkey();
+                String key = PropLoader.getString("weather_key");
 
                 String OpenString = CyderUrls.OPEN_WEATHER_BASE +
                         locationString + "&appid=" + key + "&units=imperial";

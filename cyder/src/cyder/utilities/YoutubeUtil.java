@@ -177,7 +177,7 @@ public class YoutubeUtil {
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
             String playlistID = extractPlaylistId(playlist);
 
-            if (StringUtil.isNull(UserUtil.getCyderUser().getYouTubeAPI3Key())) {
+            if (StringUtil.isNull(PropLoader.getString("youtube_api_3_key"))) {
                 ConsoleFrame.INSTANCE.getInputHandler().println(
                         "Sorry, your YouTubeAPI3 key has not been set. Visit the user editor " +
                                 "to learn how to set this in order to download whole playlists. " +
@@ -187,7 +187,7 @@ public class YoutubeUtil {
                 try {
                     String link = CyderUrls.YOUTUBE_API_V3_PLAYLIST_ITEMS +
                             "part=snippet%2C+id&playlistId=" + playlistID + "&key="
-                            + UserUtil.getCyderUser().getYouTubeAPI3Key();
+                            + PropLoader.getString("youtube_api_3_key");
 
                     String jsonResponse = NetworkUtil.readUrl(link);
 
