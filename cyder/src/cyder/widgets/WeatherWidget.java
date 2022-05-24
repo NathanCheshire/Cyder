@@ -614,7 +614,7 @@ public class WeatherWidget {
                     lon = wd.getCoord().getLon();
 
                     String string = "http://www.mapquestapi.com/staticmap/v5/map?key="
-                            + PropLoader.getString("map_quest_key") + "&type=map&size="
+                            + PropLoader.getString("map_quest_api_key") + "&type=map&size="
                             + weatherFrame.getWidth() + "," + weatherFrame.getHeight()
                             + "&locations=" + lat + "," + lon + "%7Cmarker-sm-50318A-1"
                             + "&scalebar=true&zoom=15&rand=286585877";

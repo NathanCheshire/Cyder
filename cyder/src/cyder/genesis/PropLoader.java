@@ -54,6 +54,13 @@ public class PropLoader {
     }
 
     /**
+     * Whether to log the next prop that is loaded.
+     * Props which should not be logged when loaded should be
+     * annotated with the @no_log annotation.
+     */
+    private static boolean logNextProp = true;
+
+    /**
      * Whether the props have been loaded
      */
     private static boolean propsLoaded = false;
@@ -86,6 +93,9 @@ public class PropLoader {
                 }
                 // blank line
                 else if (line.trim().length() == 0) {
+                    continue;
+                } else if (line.trim().equals("@no_log")) {
+                    logNextProp = false;
                     continue;
                 }
 
@@ -142,7 +152,14 @@ public class PropLoader {
                 }
 
                 propsList.add(addProp);
-                Logger.log(Logger.Tag.PROP_LOADED, addProp);
+
+                if (logNextProp) {
+                    Logger.log(Logger.Tag.PROP_LOADED, addProp);
+                } else {
+                    Logger.log(Logger.Tag.PROP_LOADED, "key = " + addProp.key + ", value = HIDDEN");
+                }
+
+                logNextProp = true;
             }
 
             props = ImmutableList.copyOf(propsList);
