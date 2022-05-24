@@ -584,7 +584,7 @@ public class YoutubeUtil {
             PropLoader.loadProps();
         }
 
-        String key = PropLoader.getString("test_youtube_api_3_key");
+        String key = PropLoader.getString("youtube_api_3_key");
 
         Preconditions.checkArgument(!StringUtil.isNull(key));
 

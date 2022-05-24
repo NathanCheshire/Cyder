@@ -20,7 +20,7 @@ public class PropLoader {
      * The props files to parse props from.
      */
     private static final ImmutableList<File> propFiles =
-            ImmutableList.of(new File("props.ini"), new File("prop_keys.ini"));
+            ImmutableList.of(new File("props.ini"), new File("propkeys.ini"));
 
     /**
      * Lines which start with this are marked as a comment and not parsed as props.

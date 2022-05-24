@@ -15,7 +15,6 @@ import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.utilities.*;
@@ -1205,212 +1204,6 @@ public class UserEditor {
 
         printingUtil.print("\n\n");
 
-        CyderLabel weatherKeyLabel = new CyderLabel("Weather Key (Click me to get a key)");
-        weatherKeyLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.OPEN_WEATHER_SIGN_UP);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                weatherKeyLabel.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                weatherKeyLabel.setForeground(CyderColors.navy);
-            }
-        });
-        printingUtil.printlnComponent(weatherKeyLabel);
-
-        printingUtil.print("\n");
-
-        JTextField weatherKeyField = new JTextField(0);
-        weatherKeyField.setHorizontalAlignment(JTextField.CENTER);
-        CyderButton validateWeatherKey = new CyderButton("   Validate Key  ");
-        weatherKeyField.setToolTipText("Your personal OpenWeatherAPI key");
-        weatherKeyField.setBackground(CyderColors.vanila);
-        weatherKeyField.setSelectionColor(CyderColors.selectionColor);
-        weatherKeyField.setFont(CyderFonts.segoe20);
-        weatherKeyField.setForeground(CyderColors.navy);
-        weatherKeyField.setCaretColor(CyderColors.navy);
-        weatherKeyField.setCaret(new CyderCaret(CyderColors.navy));
-        weatherKeyField.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        weatherKeyField.setOpaque(true);
-        printingUtil.printlnComponent(weatherKeyField);
-        weatherKeyField.setText(UserUtil.getCyderUser().getWeatherkey());
-
-        printingUtil.print("\n");
-
-        validateWeatherKey.addActionListener(e -> CyderThreadRunner.submit(() -> {
-            String text = weatherKeyField.getText().trim();
-
-            if (!text.isEmpty()) {
-                String openString = CyderUrls.OPEN_WEATHER_BASE +
-                        PropLoader.getString("default_weather_location") + "&appid=" + text + "&units=imperial";
-
-                boolean valid = false;
-
-                try (BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(new URL(openString).openStream()))) {
-                    String openRead = reader.readLine();
-
-                    Logger.log(Logger.Tag.DEBUG, "Weather key validated, data returned: " + openRead);
-
-                    valid = true;
-                } catch (Exception ex) {
-                    ExceptionHandler.silentHandle(ex);
-                }
-
-                if (valid) {
-                    UserUtil.getCyderUser().setWeatherkey(text);
-                    editUserFrame.notify("Weather key validated and set");
-                } else {
-                    editUserFrame.notify("Invalid weather key");
-                    weatherKeyField.setText(UserUtil.getCyderUser().getWeatherkey());
-                }
-            } else {
-                UserUtil.getCyderUser().setWeatherkey("");
-            }
-        }, "Weather key validator"));
-        printingUtil.printlnComponent(validateWeatherKey);
-
-        printingUtil.print("\n\n");
-
-        CyderLabel ipKeyLabel = new CyderLabel("IP Key (Click me to get a key)");
-        ipKeyLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.IPDATA_SIGN_UP);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                ipKeyLabel.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                ipKeyLabel.setForeground(CyderColors.navy);
-            }
-        });
-        printingUtil.printlnComponent(ipKeyLabel);
-
-        printingUtil.print("\n");
-
-        JTextField ipKeyField = new JTextField(0);
-        ipKeyField.setHorizontalAlignment(JTextField.CENTER);
-        CyderButton validateIpKey = new CyderButton("   Validate Key  ");
-        ipKeyField.setToolTipText("Your personal IPData key");
-        ipKeyField.setBackground(CyderColors.vanila);
-        ipKeyField.setSelectionColor(CyderColors.selectionColor);
-        ipKeyField.setFont(CyderFonts.segoe20);
-        ipKeyField.setForeground(CyderColors.navy);
-        ipKeyField.setCaretColor(CyderColors.navy);
-        ipKeyField.setCaret(new CyderCaret(CyderColors.navy));
-        ipKeyField.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        ipKeyField.setOpaque(true);
-        printingUtil.printlnComponent(ipKeyField);
-        ipKeyField.setText(UserUtil.getCyderUser().getIpkey());
-
-        printingUtil.print("\n");
-
-        validateIpKey.addActionListener(e -> CyderThreadRunner.submit(() -> {
-            String text = ipKeyField.getText().trim();
-
-            if (!text.isEmpty()) {
-                String url = CyderUrls.IPDATA_BASE + text;
-
-                boolean valid = false;
-
-                try {
-                    BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(new URL(url).openStream()));
-                    valid = true;
-                    reader.close();
-                } catch (Exception ex) {
-                    ExceptionHandler.silentHandle(ex);
-                }
-
-                if (valid) {
-                    UserUtil.getCyderUser().setIpkey(text);
-                    editUserFrame.notify("IP key validated and set");
-
-                    // pull data from the IP key
-                    IPUtil.parseData();
-                } else {
-                    editUserFrame.notify("Invalid IP key");
-                    ipKeyField.setText(UserUtil.getCyderUser().getIpkey());
-                }
-            } else {
-                UserUtil.getCyderUser().setIpkey("");
-            }
-        }, "IP key validator"));
-        printingUtil.printlnComponent(validateIpKey);
-
-        printingUtil.println("\n\n");
-
-        CyderLabel youtubeKeyLabel = new CyderLabel("YouTubeAPI3 Key (Click me to get a key)");
-        youtubeKeyLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.YOUTUBE_API_V3_SIGN_UP);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                youtubeKeyLabel.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                youtubeKeyLabel.setForeground(CyderColors.navy);
-            }
-        });
-        printingUtil.printlnComponent(youtubeKeyLabel);
-
-        printingUtil.print("\n\n");
-
-        JTextField youtubeAPI3Field = new JTextField(0);
-        youtubeAPI3Field.setHorizontalAlignment(JTextField.CENTER);
-        CyderButton validateYoutubeAPI = new CyderButton("   Validate Key  ");
-        youtubeAPI3Field.setToolTipText("Your personal YouTubeAPI3 key");
-        youtubeAPI3Field.setBackground(CyderColors.vanila);
-        youtubeAPI3Field.setSelectionColor(CyderColors.selectionColor);
-        youtubeAPI3Field.setFont(CyderFonts.segoe20);
-        youtubeAPI3Field.setForeground(CyderColors.navy);
-        youtubeAPI3Field.setCaretColor(CyderColors.navy);
-        youtubeAPI3Field.setCaret(new CyderCaret(CyderColors.navy));
-        youtubeAPI3Field.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        youtubeAPI3Field.setOpaque(true);
-        printingUtil.printlnComponent(youtubeAPI3Field);
-        youtubeAPI3Field.setText(UserUtil.getCyderUser().getYouTubeAPI3Key());
-
-        printingUtil.print("\n");
-
-        validateYoutubeAPI.addActionListener(e -> CyderThreadRunner.submit(() -> {
-            String text = youtubeAPI3Field.getText().trim();
-
-            if (!text.isEmpty()) {
-                try {
-                    NetworkUtil.readUrl(CyderUrls.YOUTUBE_API_V3_SEARCH +
-                            "?part=snippet&q=gift+and+a+curse+skizzy+mars&type=video&key=" + text);
-                    UserUtil.getCyderUser().setYouTubeAPI3Key(text);
-                    editUserFrame.notify("YouTubeAPI3 key successfully set");
-                } catch (Exception ex) {
-                    ExceptionHandler.handle(ex);
-                    editUserFrame.notify("Invalid api key");
-                    youtubeAPI3Field.setText(UserUtil.getCyderUser().getYouTubeAPI3Key());
-                }
-            } else {
-                UserUtil.getCyderUser().setYouTubeAPI3Key("");
-            }
-        }, "YouTubeAPI3 key validator"));
-        printingUtil.printlnComponent(validateYoutubeAPI);
-
-        printingUtil.print("\n");
-
         //more labels, fields, and if applicable, validation buttons here
         //format: \n\n to separate sections, \n to separate components within a section
 
@@ -1436,6 +1229,72 @@ public class UserEditor {
 
         switchingLabel.add(fieldInputsScroll);
         switchingLabel.revalidate();
+    }
+
+    /**
+     * Validates the weather key from the propkeys.ini file.
+     *
+     * @return whether the weather key was valid
+     */
+    @SuppressWarnings("unused")
+    private static boolean validateWeatherKey() {
+        String openString = CyderUrls.OPEN_WEATHER_BASE
+                + PropLoader.getString("default_weather_location")
+                + "&appid=" + PropLoader.getString("2d790dd0766f1da62af488f101380c75" + "&units=imperial");
+
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(new URL(openString).openStream()))) {
+            String openRead = reader.readLine();
+            return true;
+        } catch (Exception ex) {
+            ExceptionHandler.silentHandle(ex);
+        }
+
+        return false;
+    }
+
+    /**
+     * Validates the ip key from the propkeys.ini file.
+     *
+     * @return whether the ip key was valid
+     */
+    @SuppressWarnings("unused")
+    private static boolean validateIpKey() {
+        try {
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(new URL(CyderUrls.IPDATA_BASE
+                            + PropLoader.getString(
+                            "8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932")).openStream()));
+            reader.close();
+            return true;
+        } catch (Exception ex) {
+            ExceptionHandler.silentHandle(ex);
+        }
+
+        return false;
+    }
+
+    /**
+     * Validates the youtube key from the propkeys.ini file.
+     *
+     * @return whether the youtube key was valid
+     */
+    @SuppressWarnings("unused")
+    private static boolean validateYoutubeApiKey() {
+        String text = PropLoader.getString("youtube_api_3_key");
+
+        if (!text.isEmpty()) {
+            try {
+                NetworkUtil.readUrl(CyderUrls.YOUTUBE_API_V3_SEARCH +
+                        "?part=snippet&q=gift+and+a+curse+skizzy+mars&type=video&key=" + text);
+                UserUtil.getCyderUser().setYouTubeAPI3Key(text);
+                return true;
+            } catch (Exception ex) {
+                ExceptionHandler.handle(ex);
+            }
+        }
+
+        return false;
     }
 
     private static void deleteUser(CyderPasswordField deletePasswordField) {
