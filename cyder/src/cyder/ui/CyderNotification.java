@@ -23,14 +23,6 @@ import java.awt.geom.GeneralPath;
  * A custom notification component used for CyderFrames.
  */
 public class CyderNotification extends JLabel {
-    /*
-    Note: I am aware this could be a tagged class but per
-          Effective Java item 23, tagged classes are
-          a bad idea and class hierarchies should be used instead.
-          I've opted to use an enum in the builder pattern
-          used for notifications, however.
-     */
-
     /**
      * The length of the notification arrow above the border.
      */
@@ -42,7 +34,7 @@ public class CyderNotification extends JLabel {
     public static final int DEFAULT_BORDER_LEN = 5;
 
     /**
-     * The arow length of this notification.
+     * The arrow length of this notification.
      * This supports changing the arrow length in the future if needed.
      */
     private final int arrowLen = DEFAULT_ARROW_LEN;
@@ -89,7 +81,7 @@ public class CyderNotification extends JLabel {
      * Constructs a new CyderNotification.
      *
      * @param builder the notification builder to construct the notification
-     *                when it is pulled from the notificaiton queue for
+     *                when it is pulled from the notification queue for
      *                the frame it was notified from.
      */
     public CyderNotification(NotificationBuilder builder) {
@@ -243,35 +235,38 @@ public class CyderNotification extends JLabel {
         if (builder.getNotificationType() != NotificationType.TOAST) {
             int len = arrowLen;
 
+            int halfCompWidth = componentWidth / 2;
+            int halfCompHeight = componentHeight / 2;
+
             switch (builder.getArrowDir()) {
                 case TOP -> {
                     // top so we know that the x needs to be offset by 4 and the height by arrow len
-                    outlinePath.moveTo(2 * 2 + componentWidth / 2 - len, len);
-                    outlinePath.lineTo(2 * 2 + componentWidth / 2, 0);
-                    outlinePath.lineTo(2 * 2 + (componentWidth / 2) + len, len);
-                    outlinePath.lineTo(2 * 2 + componentWidth / 2 - len, len);
+                    outlinePath.moveTo(2 * 2 + halfCompWidth - len, len);
+                    outlinePath.lineTo(2 * 2 + halfCompWidth, 0);
+                    outlinePath.lineTo(2 * 2 + (halfCompWidth) + len, len);
+                    outlinePath.lineTo(2 * 2 + halfCompWidth - len, len);
                 }
                 case LEFT -> {
                     // left so we know that the x needs to be offset by arrow len and the height by 4
-                    outlinePath.moveTo(len, 2 * 2 + componentHeight / 2 - len);
-                    outlinePath.lineTo(0, 2 * 2 + componentHeight / 2);
-                    outlinePath.lineTo(len, 2 * 2 + componentHeight / 2 + len);
-                    outlinePath.moveTo(len, 2 * 2 + componentHeight / 2 - len);
+                    outlinePath.moveTo(len, 2 * 2 + halfCompHeight - len);
+                    outlinePath.lineTo(0, 2 * 2 + halfCompHeight);
+                    outlinePath.lineTo(len, 2 * 2 + halfCompHeight + len);
+                    outlinePath.moveTo(len, 2 * 2 + halfCompHeight - len);
                 }
                 case RIGHT -> {
                     // right so we know that the x needs to be offset by 4 * 2 + componentWidth
                     // and the height by 2 * 2 + componentHeight / 2 - len
-                    outlinePath.moveTo(2 * 2 * 2 + componentWidth, 2 * 2 + componentHeight / 2 - len);
-                    outlinePath.lineTo(2 * 2 * 2 + componentWidth + len, 2 * 2 + componentHeight / 2);
-                    outlinePath.lineTo(2 * 2 * 2 + componentWidth, 2 * 2 + componentHeight / 2 + len);
-                    outlinePath.moveTo(2 * 2 * 2 + componentWidth, 2 * 2 + componentHeight / 2 - len);
+                    outlinePath.moveTo(2 * 2 * 2 + componentWidth, 2 * 2 + halfCompHeight - len);
+                    outlinePath.lineTo(2 * 2 * 2 + componentWidth + len, 2 * 2 + halfCompHeight);
+                    outlinePath.lineTo(2 * 2 * 2 + componentWidth, 2 * 2 + halfCompHeight + len);
+                    outlinePath.moveTo(2 * 2 * 2 + componentWidth, 2 * 2 + halfCompHeight - len);
                 }
                 case BOTTOM -> {
                     // bottom so x axis is middle but y is all the way down
-                    outlinePath.moveTo(2 * 2 + componentWidth / 2 - len, 2 * 2 * 2 + componentHeight);
-                    outlinePath.lineTo(2 * 2 + componentWidth / 2, 2 * 2 * 2 + componentHeight + len);
-                    outlinePath.lineTo(2 * 2 + componentWidth / 2 + len, 2 * 2 * 2 + componentHeight);
-                    outlinePath.lineTo(2 * 2 + componentWidth / 2 - len, 2 * 2 * 2 + componentHeight);
+                    outlinePath.moveTo(2 * 2 + halfCompWidth - len, 2 * 2 * 2 + componentHeight);
+                    outlinePath.lineTo(2 * 2 + halfCompWidth, 2 * 2 * 2 + componentHeight + len);
+                    outlinePath.lineTo(2 * 2 + halfCompWidth + len, 2 * 2 * 2 + componentHeight);
+                    outlinePath.lineTo(2 * 2 + halfCompWidth - len, 2 * 2 * 2 + componentHeight);
                 }
             }
         }
@@ -383,46 +378,48 @@ public class CyderNotification extends JLabel {
         // draw the border arrow if not a toast
         if (builder.getNotificationType() != NotificationType.TOAST) {
             int len = arrowLen;
+            int halfCompWidth = componentWidth / 2;
+            int halfCompHeight = componentHeight / 2;
 
             switch (builder.getArrowDir()) {
                 case TOP -> {
                     // top so we know that the x needs to be offset
                     // by 2 * 2 + border and the height by border + arrow len
-                    fillPath.moveTo(2 * 2 + borderLen + componentWidth / 2 - len, len + borderLen);
-                    fillPath.lineTo(2 * 2 + borderLen + componentWidth / 2, borderLen);
-                    fillPath.lineTo(2 * 2 + borderLen + (componentWidth / 2) + len, len + borderLen);
-                    fillPath.lineTo(2 * 2 + borderLen + componentWidth / 2 - len, len + borderLen);
+                    fillPath.moveTo(2 * 2 + borderLen + halfCompWidth - len, len + borderLen);
+                    fillPath.lineTo(2 * 2 + borderLen + halfCompWidth, borderLen);
+                    fillPath.lineTo(2 * 2 + borderLen + (halfCompWidth) + len, len + borderLen);
+                    fillPath.lineTo(2 * 2 + borderLen - len, len + borderLen);
                 }
                 case LEFT -> {
                     // left so we know that the x needs to be offset
                     // by arrow len + border and the height by 2 * 2 + border
-                    fillPath.moveTo(len + borderLen, 2 * 2 + borderLen + componentHeight / 2 - len);
-                    fillPath.lineTo(borderLen, 2 * 2 + borderLen + componentHeight / 2);
-                    fillPath.lineTo(len + borderLen, 2 * 2 + borderLen + componentHeight / 2 + len);
-                    fillPath.moveTo(len + borderLen, 2 * 2 + borderLen + componentHeight / 2 - len);
+                    fillPath.moveTo(len + borderLen, 2 * 2 + borderLen + halfCompHeight - len);
+                    fillPath.lineTo(borderLen, 2 * 2 + borderLen + halfCompHeight);
+                    fillPath.lineTo(len + borderLen, 2 * 2 + borderLen + halfCompHeight + len);
+                    fillPath.moveTo(len + borderLen, 2 * 2 + borderLen + halfCompHeight - len);
                 }
                 case RIGHT -> {
                     // right so we know that the x needs to be offset by 2 * 2 * 2 + componentWidth + borderlen
                     // and the height by 2 * 2 + componentHeight / 2 - len + borderlen
                     fillPath.moveTo(2 * 2 * 2 + borderLen + componentWidth,
-                            2 * 2 + componentHeight / 2 - len + borderLen);
+                            2 * 2 + halfCompHeight - len + borderLen);
                     fillPath.lineTo(2 * 2 * 2 + borderLen + componentWidth + len,
-                            2 * 2 + componentHeight / 2 + borderLen);
+                            2 * 2 + halfCompHeight + borderLen);
                     fillPath.lineTo(2 * 2 * 2 + borderLen + componentWidth,
-                            2 * 2 + componentHeight / 2 + len + borderLen);
+                            2 * 2 + halfCompHeight + len + borderLen);
                     fillPath.moveTo(2 * 2 * 2 + borderLen + componentWidth,
-                            2 * 2 + componentHeight / 2 - len + borderLen);
+                            2 * 2 + halfCompHeight - len + borderLen);
                 }
                 case BOTTOM -> {
                     // bottom so we know that the x needs to be offset by 2 * 2 + width / 2 + border len
                     // and y needs to be offset 2 * 2 * 2 + height + border len
-                    fillPath.moveTo(2 * 2 + componentWidth / 2 - len + borderLen,
+                    fillPath.moveTo(2 * 2 + halfCompWidth - len + borderLen,
                             2 * 2 * 2 + componentHeight + borderLen);
-                    fillPath.lineTo(2 * 2 + componentWidth / 2 + borderLen,
+                    fillPath.lineTo(2 * 2 + halfCompWidth + borderLen,
                             2 * 2 * 2 + componentHeight + len + borderLen);
-                    fillPath.lineTo(2 * 2 + componentWidth / 2 + len + borderLen,
+                    fillPath.lineTo(2 * 2 + halfCompWidth + len + borderLen,
                             2 * 2 * 2 + componentHeight + borderLen);
-                    fillPath.lineTo(2 * 2 + componentWidth / 2 - len + borderLen,
+                    fillPath.lineTo(2 * 2 + halfCompWidth - len + borderLen,
                             2 * 2 * 2 + componentHeight + borderLen);
                 }
             }
@@ -649,7 +646,7 @@ public class CyderNotification extends JLabel {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Notification Appear Animatior");
+        }, "Notification Appear Animator");
     }
 
     /**
@@ -706,12 +703,12 @@ public class CyderNotification extends JLabel {
                         Thread.sleep(2);
                     }
 
-                    Container parentcomp = getParent();
+                    Container parentComponent = getParent();
 
-                    if (parentcomp != null) {
-                        parentcomp.remove(this);
+                    if (parentComponent != null) {
+                        parentComponent.remove(this);
                         setVisible(false);
-                        parentcomp.repaint();
+                        parentComponent.repaint();
                     }
                 } else {
                     switch (notificationDirection) {
@@ -768,7 +765,7 @@ public class CyderNotification extends JLabel {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Notificaiton Vanish Animator");
+        }, "Notification Vanish Animator");
     }
 
     // -------------------------------------------------------

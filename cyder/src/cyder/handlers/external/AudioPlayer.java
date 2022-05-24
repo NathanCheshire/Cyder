@@ -49,7 +49,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-// todo test Levenshtein distance, notifications
 
 // todo show dimensions in photo viewer, use photo viewer for drawing stuff from image util
 

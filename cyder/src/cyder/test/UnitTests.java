@@ -22,7 +22,6 @@ public class UnitTests {
      */
     @SuppressWarnings("RedundantNoArgConstructor")
     public UnitTests() {
-        // junit invokes
     }
 
     @Test
@@ -305,5 +304,20 @@ public class UnitTests {
 
         assertEquals(MathUtil.convertAngleToStdForm(720.5), 0.5, 0.0);
         assertEquals(MathUtil.convertAngleToStdForm(721.5), 1.5, 0.0);
+    }
+
+    @Test
+    public void testLevenshteinDistance() {
+        assertEquals(StringUtil.levenshteinDistance("hello", ""), 5);
+        assertEquals(StringUtil.levenshteinDistance("hello", "hell"), 1);
+        assertEquals(StringUtil.levenshteinDistance("hello", "hel"), 2);
+        assertEquals(StringUtil.levenshteinDistance("hello", "he"), 3);
+        assertEquals(StringUtil.levenshteinDistance("hello", "hello     "), 5);
+        assertEquals(StringUtil.levenshteinDistance("", ""), 0);
+        assertEquals(StringUtil.levenshteinDistance("nathan", "nathan"), 0);
+
+        assertNotEquals(StringUtil.levenshteinDistance("", ""), 1);
+
+        assertEquals(StringUtil.levenshteinDistance("distance", "levenshtein"), 10);
     }
 }

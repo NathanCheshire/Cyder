@@ -1010,7 +1010,7 @@ public class CyderFrame extends JFrame {
      * The semaphore used to lock the notification queue
      * so that only one may ever be present at a time.
      */
-    private final Semaphore constructionLock = new Semaphore(1);
+    private final Semaphore notificationConstructionLock = new Semaphore(1);
 
     /**
      * The notification queue for internal frame notifications/toasts.
@@ -1021,7 +1021,7 @@ public class CyderFrame extends JFrame {
         while (!threadsKilled && !notificationList.isEmpty()) {
             // lock so that only one notification is visible at a time
             try {
-                constructionLock.acquire();
+                notificationConstructionLock.acquire();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -1052,7 +1052,7 @@ public class CyderFrame extends JFrame {
                         + currentBuilder.getNotifyTime() + ")");
 
                 // release and continue with queue
-                constructionLock.release();
+                notificationConstructionLock.release();
                 continue;
             }
 
@@ -1072,7 +1072,7 @@ public class CyderFrame extends JFrame {
                     InformHandler.inform(informBuilder);
 
                     // done with actions so release and continue
-                    constructionLock.release();
+                    notificationConstructionLock.release();
                     continue;
                 }
 
@@ -1178,7 +1178,7 @@ public class CyderFrame extends JFrame {
                 Thread.onSpinWait();
             }
 
-            constructionLock.release();
+            notificationConstructionLock.release();
         }
 
         // the above while isn't checking so it needs
