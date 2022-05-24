@@ -225,10 +225,10 @@ public class CyderFrame extends JFrame {
     public static final float MAX_TITLE_LENGTH_RATIO = 0.75f;
 
     /**
-     * Allowable indicies to add components to the contentLabel
+     * Allowable indices to add components to the contentLabel
      * which is a JLayeredPane and the content pane.
      */
-    public static final ArrayList<Integer> allowableContentLabelIndicies = new ArrayList<>() {{
+    public static final ArrayList<Integer> allowableContentLabelIndices = new ArrayList<>() {{
         // Drag labels
         add(JLayeredPane.DRAG_LAYER);
         // notifications
@@ -279,10 +279,10 @@ public class CyderFrame extends JFrame {
      * @param width      the specified width of the cyder frame
      * @param height     the specified height of the cyder frame
      * @param background the specified background image (you may
-     *                   enable rescaling of this background on fram resize events should you choose)
+     *                   enable rescaling of this background on frame resize events should you choose)
      */
     public CyderFrame(int width, int height, ImageIcon background) {
-        // ensure non null backgrond
+        // ensure non null background
         checkNotNull(background);
 
         // correct possibly too small width and heights
@@ -341,7 +341,7 @@ public class CyderFrame extends JFrame {
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
-                if (allowableContentLabelIndicies.contains(index)) {
+                if (allowableContentLabelIndices.contains(index)) {
                     return super.add(comp, index);
                 }
 
@@ -897,7 +897,7 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setTitle(String title) {
-        // super call, super title will alway be provided title
+        // super call, super title will always be provided title
         super.setTitle(paintSuperTitle ? title : "");
 
         if (paintWindowTitle && !StringUtil.isNull(title) && titleLabel != null) {
@@ -3308,6 +3308,16 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * The increment/decrement value when animating the frame menu.
+     */
+    private static final int menuAnimationInc = 2;
+
+    /**
+     * The delay between animation increments when animating the frame menu.
+     */
+    private static final int menuAnimationDelay = 1;
+
+    /**
      * Animates the menu label in.
      */
     private void animateMenuIn() {
@@ -3319,17 +3329,17 @@ public class CyderFrame extends JFrame {
                 if (currentMenuType == MenuType.PANEL) {
                     menuLabel.setLocation(-menuLabel.getWidth(), animateMenuToPoint.getLocation().y);
                     menuLabel.setVisible(true);
-                    for (int x = menuLabel.getX() ; x < animateMenuToPoint.x ; x += 1) {
+                    for (int x = menuLabel.getX() ; x < animateMenuToPoint.x ; x += menuAnimationInc) {
                         menuLabel.setLocation(x, menuLabel.getY());
-                        Thread.sleep(2);
+                        Thread.sleep(menuAnimationDelay);
                     }
                 } else {
                     menuLabel.setLocation(animateMenuToPoint.x,
                             animateMenuToPoint.y - menuLabel.getHeight());
                     menuLabel.setVisible(true);
-                    for (int y = menuLabel.getY() ; y <= animateMenuToPoint.y ; y += 1) {
+                    for (int y = menuLabel.getY() ; y <= animateMenuToPoint.y ; y += menuAnimationInc) {
                         menuLabel.setLocation(animateMenuToPoint.x, y);
-                        Thread.sleep(2);
+                        Thread.sleep(menuAnimationDelay);
                     }
                 }
 
@@ -3352,15 +3362,16 @@ public class CyderFrame extends JFrame {
         CyderThreadRunner.submit(() -> {
             try {
                 if (currentMenuType == MenuType.PANEL) {
-                    for (int x = menuLabel.getX() ; x > -menuLabel.getWidth() ; x -= 1) {
+                    for (int x = menuLabel.getX() ; x > -menuLabel.getWidth() ; x -= menuAnimationInc) {
                         menuLabel.setLocation(x, menuLabel.getY());
-                        Thread.sleep(2);
+                        Thread.sleep(menuAnimationDelay);
                     }
                 } else {
                     menuLabel.setLocation(animateMenuToPoint.x, animateMenuToPoint.y);
-                    for (int y = menuLabel.getY() ; y >= animateMenuToPoint.y - menuLabel.getHeight() ; y -= 1) {
+                    for (int y = menuLabel.getY() ; y >= animateMenuToPoint.y - menuLabel.getHeight()
+                            ; y -= menuAnimationInc) {
                         menuLabel.setLocation(animateMenuToPoint.x, y);
-                        Thread.sleep(2);
+                        Thread.sleep(menuAnimationDelay);
                     }
                 }
 
