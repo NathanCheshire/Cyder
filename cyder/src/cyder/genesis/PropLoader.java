@@ -76,7 +76,7 @@ public class PropLoader {
     }
 
     /**
-     * Loads the props from the prop file.
+     * Loads the props from all prop files.
      */
     public static void loadProps() {
         Preconditions.checkArgument(!propsLoaded);
