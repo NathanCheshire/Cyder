@@ -17,9 +17,10 @@ import java.util.ArrayList;
  */
 public class PropLoader {
     /**
-     * The props file.
+     * The props files to parse props from.
      */
-    private static final File propFile = new File("props.ini");
+    private static final ImmutableList<File> propFiles =
+            ImmutableList.of(new File("props.ini"), new File("prop_keys.ini"));
 
     /**
      * Lines which start with this are marked as a comment and not parsed as props.
@@ -79,87 +80,97 @@ public class PropLoader {
      */
     public static void loadProps() {
         Preconditions.checkArgument(!propsLoaded);
-        Preconditions.checkArgument(propFile.exists());
-        ExceptionHandler.checkFatalCondition(propFile.exists(), "Prop file DNE");
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(propFile))) {
+        for (File f : propFiles) {
+            Preconditions.checkArgument(f.exists(), "Could not find prop file: " + f.getName());
+        }
+
+        try {
             ArrayList<Prop> propsList = new ArrayList<>();
-            String line;
 
-            while ((line = reader.readLine()) != null) {
-                // comment
-                if (line.trim().startsWith(commentString)) {
-                    continue;
-                }
-                // blank line
-                else if (line.trim().length() == 0) {
-                    continue;
-                } else if (line.trim().equals("@no_log")) {
-                    logNextProp = false;
-                    continue;
-                }
+            for (File propFile : propFiles) {
+                BufferedReader reader = new BufferedReader(new FileReader(propFile));
+                String line;
 
-                String[] parts = line.split(":");
-
-                Prop addProp;
-
-                if (parts.length < 2) {
-                    throw new IllegalStateException("Could not parse line: " + line);
-                } else if (parts.length == 2) {
-                    addProp = new Prop(parts[0].trim(), parts[1].trim());
-                } else {
-                    int lastKeyIndex = -1;
-
-                    for (int i = 0 ; i < parts.length - 1 ; i++) {
-                        // if it's an escaped comma, continue
-                        if (parts[i].endsWith("\\")) {
-                            parts[i] = parts[i].substring(0, parts[i].length() - 1);
-                            continue;
-                        }
-
-                        // should be real comma so ensure not already set
-                        if (lastKeyIndex != -1)
-                            throw new IllegalStateException("Could not parse line: " + line);
-
-                        // set last index of key parts
-                        lastKeyIndex = i;
+                while ((line = reader.readLine()) != null) {
+                    // comment
+                    if (line.trim().startsWith(commentString)) {
+                        continue;
+                    }
+                    // blank line
+                    else if (line.trim().length() == 0) {
+                        continue;
+                    }
+                    // hide next prop value
+                    else if (line.trim().equals("@no_log")) {
+                        logNextProp = false;
+                        continue;
                     }
 
-                    if (lastKeyIndex == -1) {
+                    String[] parts = line.split(":");
+
+                    Prop addProp;
+
+                    if (parts.length < 2) {
                         throw new IllegalStateException("Could not parse line: " + line);
-                    }
+                    } else if (parts.length == 2) {
+                        addProp = new Prop(parts[0].trim(), parts[1].trim());
+                    } else {
+                        int lastKeyIndex = -1;
 
-                    StringBuilder key = new StringBuilder();
-                    StringBuilder value = new StringBuilder();
+                        for (int i = 0 ; i < parts.length - 1 ; i++) {
+                            // if it's an escaped comma, continue
+                            if (parts[i].endsWith("\\")) {
+                                parts[i] = parts[i].substring(0, parts[i].length() - 1);
+                                continue;
+                            }
 
-                    for (int i = 0 ; i <= lastKeyIndex ; i++) {
-                        key.append(parts[i]);
+                            // should be real comma so ensure not already set
+                            if (lastKeyIndex != -1)
+                                throw new IllegalStateException("Could not parse line: " + line);
 
-                        if (i != lastKeyIndex) {
-                            key.append(":");
+                            // set last index of key parts
+                            lastKeyIndex = i;
                         }
-                    }
 
-                    for (int i = lastKeyIndex + 1 ; i < parts.length ; i++) {
-                        value.append(parts[i]);
-
-                        if (i != parts.length - 1) {
-                            value.append(":");
+                        if (lastKeyIndex == -1) {
+                            throw new IllegalStateException("Could not parse line: " + line);
                         }
+
+                        StringBuilder key = new StringBuilder();
+                        StringBuilder value = new StringBuilder();
+
+                        for (int i = 0 ; i <= lastKeyIndex ; i++) {
+                            key.append(parts[i]);
+
+                            if (i != lastKeyIndex) {
+                                key.append(":");
+                            }
+                        }
+
+                        for (int i = lastKeyIndex + 1 ; i < parts.length ; i++) {
+                            value.append(parts[i]);
+
+                            if (i != parts.length - 1) {
+                                value.append(":");
+                            }
+                        }
+
+                        addProp = new Prop(key.toString().trim(), value.toString().trim());
                     }
 
-                    addProp = new Prop(key.toString().trim(), value.toString().trim());
+                    propsList.add(addProp);
+
+                    if (logNextProp) {
+                        Logger.log(Logger.Tag.PROP_LOADED, addProp);
+                    } else {
+                        Logger.log(Logger.Tag.PROP_LOADED, "key = " + addProp.key + ", value = HIDDEN");
+                    }
+
+                    logNextProp = true;
                 }
 
-                propsList.add(addProp);
-
-                if (logNextProp) {
-                    Logger.log(Logger.Tag.PROP_LOADED, addProp);
-                } else {
-                    Logger.log(Logger.Tag.PROP_LOADED, "key = " + addProp.key + ", value = HIDDEN");
-                }
-
-                logNextProp = true;
+                reader.close();
             }
 
             props = ImmutableList.copyOf(propsList);

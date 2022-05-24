@@ -9,3 +9,4 @@ build/
 Userdata.json
 dynamic/backup/*
 dynamic/tmp/*
+prop_keys.ini
