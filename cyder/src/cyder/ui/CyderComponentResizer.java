@@ -1,7 +1,6 @@
 package cyder.ui;
 
 import com.google.common.collect.ImmutableMap;
-import cyder.common.FocusWrappedComponent;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
@@ -197,7 +196,7 @@ public class CyderComponentResizer extends MouseAdapter {
     }
 
     /**
-     * Deregisters the following component of resizing, removing
+     * Unregisters the following component of resizing, removing
      * the mouse listener and mouse motion listeners from it.
      *
      * @param component the component to deregister
@@ -228,6 +227,7 @@ public class CyderComponentResizer extends MouseAdapter {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("MagicConstant") // safe cursor types
     @Override
     public void mouseMoved(MouseEvent e) {
         Component source = e.getComponent();
@@ -280,6 +280,7 @@ public class CyderComponentResizer extends MouseAdapter {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("ConstantConditions") // condition might not always be true
     @Override
     public void mousePressed(MouseEvent e) {
         if (dragDirection == 0)
@@ -311,8 +312,7 @@ public class CyderComponentResizer extends MouseAdapter {
             }
         }
 
-        if (source instanceof JComponent && !(source instanceof CyderFrame)) {
-            JComponent jc = (JComponent) source;
+        if (source instanceof JComponent jc && !(source instanceof CyderFrame)) {
             componentIsAutoscroll = jc.getAutoscrolls();
             jc.setAutoscrolls(false);
         }
@@ -324,7 +324,7 @@ public class CyderComponentResizer extends MouseAdapter {
      * @param component the component to perform calls and checks on
      */
     private void foundComponentSubroutine(Component component) {
-        focusableComponents.add(new FocusWrappedComponent(component));
+        focusableComponents.add(new FocusWrappedComponent(component, component.isFocusable()));
 
         if (component.isFocusOwner() && originalFocusOwner == null) {
             originalFocusOwner = component;
@@ -339,7 +339,7 @@ public class CyderComponentResizer extends MouseAdapter {
      * layout are returned as well.
      *
      * @param parentLayout the top-level panel that holds a layout
-     * @return a list of all components recusively found if one child happens to be a layout itself
+     * @return a list of all components recursively found if one child happens to be a layout itself
      */
     private static ArrayList<Component> recursivelyFindComponents(CyderPanel parentLayout) {
         ArrayList<Component> ret = new ArrayList<>();
@@ -361,6 +361,7 @@ public class CyderComponentResizer extends MouseAdapter {
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("ConstantConditions")  // condition might not be true in future
     @Override
     public void mouseReleased(MouseEvent e) {
         currentlyResizing = false;
@@ -384,8 +385,8 @@ public class CyderComponentResizer extends MouseAdapter {
             component.restore();
 
             // restore original focus owner
-            if (component.getComp().equals(originalFocusOwner)) {
-                component.getComp().requestFocus();
+            if (component.component().equals(originalFocusOwner)) {
+                component.component().requestFocus();
             }
         }
     }
@@ -404,7 +405,7 @@ public class CyderComponentResizer extends MouseAdapter {
 
         changeBounds(source, dragDirection, currentBounds, pressed, dragged);
 
-        // if a cyderframe with a panel, refresh always
+        // if a CyderFrame with a panel, refresh always
         if (source instanceof CyderFrame) {
             if (backgroundRefreshOnResize) {
                 ((CyderFrame) source).refreshLayout();
@@ -572,5 +573,33 @@ public class CyderComponentResizer extends MouseAdapter {
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderToString(this);
+    }
+
+    /**
+     * A class to link the ability to focus with a component.
+     */
+    public static record FocusWrappedComponent(Component component, boolean canFocus) {
+        /**
+         * Constructs a new FocusWrappedComponent.
+         *
+         * @param component the component
+         * @param canFocus  whether the component and be focused
+         */
+        public FocusWrappedComponent(Component component, boolean canFocus) {
+            this.component = component;
+            this.canFocus = canFocus;
+
+            Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        }
+
+        /**
+         * Resets the original focusable property of the encapsulated component.
+         */
+        @SuppressWarnings("ConstantConditions") // it is not always true
+        public void restore() {
+            if (canFocus) {
+                component.setFocusable(canFocus);
+            }
+        }
     }
 }

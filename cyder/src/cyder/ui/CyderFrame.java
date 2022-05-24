@@ -641,7 +641,6 @@ public class CyderFrame extends JFrame {
      */
     public ArrayList<Component> getLayoutComponents() {
         checkNotNull(cyderPanel);
-        checkNotNull(cyderPanel.getLayout());
         checkNotNull(cyderPanel.getLayoutComponents());
 
         return cyderPanel.getLayoutComponents();

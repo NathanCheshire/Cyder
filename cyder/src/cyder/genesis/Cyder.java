@@ -46,27 +46,20 @@ public class Cyder {
         // set start time, this should be the first call always
         TimeUtil.setAbsoluteStartTime(System.currentTimeMillis());
 
-        //set shutdown hooks
-        addExitHook();
-
         setLoadingMessage("Loading props");
         PropLoader.loadProps();
 
-        // start session logger
+        addExitHook();
         Logger.initialize();
 
-        // platform key:value pair subroutines
-        initSystemProps();
-        initUiManagerProps();
+        initUiAndSystemProps();
 
-        // initialize watchdog timer for fatal GUI thread blocks
         if (PropLoader.getBoolean("activate_watchdog")) {
             CyderWatchdog.initializeWatchDog();
         } else {
             Logger.log(Logger.Tag.DEBUG, "Watchdog skipped");
         }
 
-        // prevent multiple instances, fatal subroutine if failure
         if (!isSingularInstance()) {
             Logger.log(Logger.Tag.DEBUG, "ATTEMPTED MULTIPLE CYDER INSTANCES");
             ExceptionHandler.exceptionExit("Multiple instances of Cyder are not allowed. " +
@@ -75,7 +68,6 @@ public class Cyder {
             return;
         }
 
-        // make sure all fonts are loaded, fatal subroutine if failure
         if (!registerFonts()) {
             Logger.log(Logger.Tag.EXCEPTION, "SYSTEM FAILURE");
             ExceptionHandler.exceptionExit("Font required by system could not be loaded", "Font failure",
@@ -83,7 +75,6 @@ public class Cyder {
             return;
         }
 
-        // not permitted on Mac OS X
         if (OSUtil.isOSX()) {
             Logger.log(Logger.Tag.EXCEPTION, "IMPROPER OS");
             ExceptionHandler.exceptionExit("System OS not intended for Cyder use. You should" +
@@ -92,7 +83,6 @@ public class Cyder {
             return;
         }
 
-        // check for fast testing
         if (PropLoader.getBoolean("fast_test")) {
             ManualTests.launchTests();
             ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit", "Fast Testing",
@@ -100,10 +90,9 @@ public class Cyder {
             return;
         }
 
-        // launch splash screen since we will most likely be launching Cyder
         CyderSplash.showSplash();
 
-        // necessary subroutines to successfully complete before continuing
+        // necessary subroutines
         try {
             setLoadingMessage("Creating dynamics");
             OSUtil.ensureDynamicsCreated();
@@ -117,36 +106,49 @@ public class Cyder {
             setLoadingMessage("Validating props");
             ReflectionUtil.validateProps();
 
-            setLoadingMessage("Validating annotations");
+            setLoadingMessage("Validating Widgets");
             ReflectionUtil.validateWidgets();
+
+            setLoadingMessage("Validating Test");
             ReflectionUtil.validateTests();
+
+            setLoadingMessage("Validating Vanilla");
             ReflectionUtil.validateVanillaWidgets();
-            // todo ReflectionUtil.validateHandles();
         } catch (Exception e) {
-            ExceptionHandler.exceptionExit("Exception thrown from subroutine. "
+            ExceptionHandler.exceptionExit("Exception thrown from subroutine runner, message = "
                     + e.getMessage(), "Subroutine Exception", ExitCondition.SubroutineException);
             return;
         }
 
-        // secondary subroutines that can be executed when program has started essentially
+        // sufficient subroutines
         CyderThreadRunner.submit(() -> {
             setLoadingMessage("Logging JVM args");
             IOUtil.logArgs(arguments);
-        }, "Cyder Start Secondary Subroutines");
+        }, "Secondary Subroutines Runner");
 
         // off-ship how to login to the LoginHandler since all subroutines finished
         LoginHandler.determineCyderEntry();
     }
 
     /**
-     * Initializes UIManager.put key/value pairs.
+     * Initializes UIManager tooltip key-value props.
      */
-    private static void initUiManagerProps() {
+    private static void initUiManagerTooltipProps() {
         UIManager.put("ToolTip.background", CyderColors.tooltipBackgroundColor);
         UIManager.put("ToolTip.border", new BorderUIResource(
                 BorderFactory.createLineBorder(CyderColors.tooltipBorderColor, 2, true)));
         UIManager.put("ToolTip.font", CyderFonts.javaTooltipFont);
         UIManager.put("ToolTip.foreground", CyderColors.tooltipForegroundColor);
+    }
+
+    /**
+     * Initializes all system and ui-manager toolkit key-value props.
+     */
+    private static void initUiAndSystemProps() {
+        initUiManagerTooltipProps();
+        initSystemProps();
+
+        // calls which have no method
         UIManager.put("Slider.onlyLeftMouseButtonDrag", Boolean.TRUE);
     }
 

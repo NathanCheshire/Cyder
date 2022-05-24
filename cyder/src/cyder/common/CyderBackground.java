@@ -14,6 +14,7 @@ import java.util.Arrays;
 /**
  * A background for the ConsoleFrame.
  */
+@SuppressWarnings("ClassCanBeRecord") // fine to be a class
 public class CyderBackground {
     /**
      * The file associated with this background.
