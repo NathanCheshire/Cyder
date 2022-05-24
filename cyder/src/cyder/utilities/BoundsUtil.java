@@ -4,7 +4,6 @@ import cyder.common.TaggedString;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -76,7 +75,7 @@ public class BoundsUtil {
         // careful where we insert needed line breaks
         String[] parts = text.split("<br/>");
 
-        // parse away all html except for break tags and add back in inbetween parts
+        // parse away all html except for break tags and add back in between parts
         StringBuilder sb = new StringBuilder();
 
         for (int j = 0 ; j < parts.length ; j++) {
@@ -95,7 +94,7 @@ public class BoundsUtil {
 
             // while we still have text
             while ((textCopy.contains("<") && textCopy.contains(">"))) {
-                // get indicies of the next tag
+                // get indices of the next tag
                 int firstOpeningTag = textCopy.indexOf("<");
                 int firstClosingTag = textCopy.indexOf(">");
 
@@ -122,24 +121,25 @@ public class BoundsUtil {
                 taggedStrings.add(new TaggedString(textCopy, TaggedString.Type.TEXT));
 
             // now add breaks into the lines that are needed
-            for (TaggedString taggedString : taggedStrings) {
-                // if it's a text tag
-                if (taggedString.getType() == TaggedString.Type.TEXT) {
+            for (int i = 0 ; i < taggedStrings.size() ; i++) {
+                // if tagged as text
+                if (taggedStrings.get(i).type() == TaggedString.Type.TEXT) {
                     // get full line width
-                    int fullLineWidth = (int) (font.getStringBounds(
-                            taggedString.getText(), frc).getWidth() + widthAddition);
+                    int fullLineWidth = (int) (font.getStringBounds(taggedStrings.get(i).text(), frc)
+                            .getWidth() + widthAddition);
 
                     // evaluate if the line is too long
                     if (fullLineWidth > maxWidth) {
-                        //line is too long, figure out how many breaks to add
-                        //first, how many multiples of current width does it take to get to max width?
+                        // line is too long, figure out how many breaks to add
+                        // first, how many multiples of current width does it take to get to max width?
                         int neededLines = (int) Math.ceil((double) fullLineWidth / (double) maxWidth);
 
-                        //if only one line is the result somehow, ensure it's 2
+                        // if only one line is the result, ensure 2 since it is larger than allowable width
                         neededLines = Math.max(2, neededLines);
 
                         // set the tagged string text to the insertion of the text with breaks
-                        taggedString.setText(insertBreaks(taggedString.getText(), neededLines));
+                        taggedStrings.set(i, new TaggedString(insertBreaks(taggedStrings.get(i).text(),
+                                neededLines), taggedStrings.get(i).type()));
                     }
                 }
             }
@@ -148,7 +148,7 @@ public class BoundsUtil {
             StringBuilder htmlBuilder = new StringBuilder();
 
             for (TaggedString tg : taggedStrings) {
-                htmlBuilder.append(tg.getText());
+                htmlBuilder.append(tg.text());
             }
 
             // figure out the height based on the number of break tags
@@ -161,11 +161,11 @@ public class BoundsUtil {
             // for all lines
             for (TaggedString ts : taggedStrings) {
                 // if non format text
-                if (ts.getType() == TaggedString.Type.HTML)
+                if (ts.type() == TaggedString.Type.HTML)
                     continue;
 
                 // get breaks of the tagged string
-                String[] tsLines = ts.getText().split("<br/>");
+                String[] tsLines = ts.text().split("<br/>");
 
                 // for all lines
                 for (String line : tsLines) {
@@ -189,7 +189,7 @@ public class BoundsUtil {
             ret = new BoundsString(w, h, retString);
         }
         // no formatting so we can just add breaks
-        // normally wihtout having to worry where we we place them
+        // normally without having to worry where we we place them
         else {
             // only contains possible line breaks so split at those
             StringBuilder nonHtmlBuilder = new StringBuilder();
@@ -254,7 +254,7 @@ public class BoundsUtil {
      * away prior to invoking this method.
      *
      * @param rawText  the raw text
-     * @param numLines the numbr of lines required
+     * @param numLines the number of lines required
      * @return the text with html line breaks inserted
      */
     public static String insertBreaks(String rawText, int numLines) {
@@ -275,7 +275,7 @@ public class BoundsUtil {
         // the number of lines we are at
         int currentLines = 1;
 
-        // loop through string at the indicies we desire
+        // loop through string at the indices we desire
         for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
             //if goal lines is reached, exit
             if (currentLines == numLines)
@@ -371,132 +371,15 @@ public class BoundsUtil {
     }
 
     /**
+     * Constructs a new BoundsString object.
+     * <p>
      * A String associated with the width and height it should fit in
      * based on it's contents which possibly contain html formatting.
+     *
+     * @param width  the width for the string
+     * @param height the height for the string
+     * @param text   the string text
      */
-    public static class BoundsString {
-        /**
-         * The width for the container.
-         */
-        private int width;
-
-        /**
-         * The height for the container.
-         */
-        private int height;
-
-        /**
-         * The text for the container
-         */
-        private String text;
-
-        /**
-         * Constructs a new BoundsString object.
-         *
-         * @param width  the width for the string
-         * @param height the height for the string
-         * @param text   the string text
-         */
-        public BoundsString(int width, int height, String text) {
-            this.width = width;
-            this.height = height;
-            this.text = text;
-
-            Logger.log(Logger.Tag.OBJECT_CREATION, this);
-        }
-
-        /**
-         * Restrict class instantiation.
-         */
-        private BoundsString() {
-            throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
-        }
-
-        /**
-         * Returns the width of the string.
-         *
-         * @return the width of the string
-         */
-        public int getWidth() {
-            return width;
-        }
-
-        /**
-         * Sets the width of the string.
-         *
-         * @param width the width of the string
-         */
-        public void setWidth(int width) {
-            this.width = width;
-        }
-
-        /**
-         * Returns the height of the string.
-         *
-         * @return the height of the string
-         */
-        public int getHeight() {
-            return height;
-        }
-
-        /**
-         * Sets the height of the string.
-         *
-         * @param height the height of the string
-         */
-        public void setHeight(int height) {
-            this.height = height;
-        }
-
-        /**
-         * Returns the text of the string
-         *
-         * @return the text of the string
-         */
-        public String getText() {
-            return text;
-        }
-
-        /**
-         * Sets the text of the string.
-         *
-         * @param text the text of the string
-         */
-        public void setText(String text) {
-            this.text = text;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString() {
-            return "[" + width + "x" + height + "], Text: \"" + text + "\"";
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean equals(Object o) {
-            if (this == o)
-                return true;
-            else if (!(o instanceof BoundsString))
-                return false;
-
-            BoundsString other = (BoundsString) o;
-            return other.getWidth() == getWidth()
-                    && other.getHeight() == getHeight()
-                    && other.getText().equals(getText());
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public int hashCode() {
-            int ret = Integer.hashCode(width);
-            ret = 31 * ret + Integer.hashCode(height);
-            return 31 * ret + text.hashCode();
-        }
+    public record BoundsString(int width, int height, String text) {
     }
 }

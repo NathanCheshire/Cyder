@@ -56,7 +56,7 @@ public class GetterUtil {
     private static final int getStringYPadding = 10;
 
     /**
-     * The lefta nd right padding for a string popup.
+     * The left and right padding for a string popup.
      */
     private static final int getStringXPadding = 40;
 
@@ -80,7 +80,7 @@ public class GetterUtil {
      *
      * @param builder the builder pattern to use
      * @return the user entered input string. NOTE: if any improper
-     * input is ateempted to be returned, this function returns
+     * input is attempted to be returned, this function returns
      * the string literal of "NULL" instead of {@code null}
      */
     public String getString(GetterBuilder builder) {
@@ -97,9 +97,9 @@ public class GetterUtil {
                     bounds = BoundsUtil.widthHeightCalculation(builder.getLabelText(),
                             CyderFonts.defaultFont, GET_STRING_MIN_WIDTH);
 
-                    height += bounds.getHeight() + 2 * getStringYPadding;
-                    width = bounds.getWidth() + 2 * getStringXPadding;
-                    builder.setLabelText(bounds.getText());
+                    height += bounds.height() + 2 * getStringYPadding;
+                    width = bounds.width() + 2 * getStringXPadding;
+                    builder.setLabelText(bounds.text());
                 }
 
                 CyderFrame inputFrame = new CyderFrame(width,
@@ -111,10 +111,10 @@ public class GetterUtil {
 
                 if (bounds != null) {
                     CyderLabel textLabel = new CyderLabel(builder.getLabelText());
-                    textLabel.setBounds(getStringXPadding, yOff, bounds.getWidth(), bounds.getHeight());
+                    textLabel.setBounds(getStringXPadding, yOff, bounds.width(), bounds.height());
                     inputFrame.getContentPane().add(textLabel);
 
-                    yOff += getStringYPadding + bounds.getHeight();
+                    yOff += getStringYPadding + bounds.height();
                 }
 
                 CyderTextField inputField = new CyderTextField(0);
@@ -154,10 +154,8 @@ public class GetterUtil {
                         width - 2 * getStringXPadding, 40);
                 inputFrame.getContentPane().add(submit);
 
-                inputFrame.addPreCloseAction(() -> {
-                    returnString.set((inputField.getText() == null || inputField.getText().isEmpty() ?
-                            "NULL" : inputField.getText()));
-                });
+                inputFrame.addPreCloseAction(() -> returnString.set((inputField.getText() == null
+                        || inputField.getText().isEmpty() ? "NULL" : inputField.getText())));
 
                 Component relativeTo = builder.getRelativeTo();
 
@@ -414,7 +412,11 @@ public class GetterUtil {
 
                     refFrame.setTitle(currentDirectory.getName());
 
-                    Collections.addAll(directoryFileList, currentDirectory.listFiles());
+                    File[] currentDirectoryFiles = currentDirectory.listFiles();
+
+                    if (currentDirectoryFiles != null && currentDirectoryFiles.length > 0) {
+                        Collections.addAll(directoryFileList, currentDirectoryFiles);
+                    }
 
                     for (File file : directoryFileList) {
                         directoryNameList.add(file.getName());
@@ -503,8 +505,11 @@ public class GetterUtil {
         directoryNameList.clear();
         directoryFileList.clear();
 
-        // init new files list
-        Collections.addAll(directoryFileList, currentDirectory.listFiles());
+        File[] currentDirectoryFiles = currentDirectory.listFiles();
+
+        if (currentDirectoryFiles != null && currentDirectoryFiles.length > 0) {
+            Collections.addAll(directoryFileList, currentDirectoryFiles);
+        }
 
         // regenerate names list
         for (File file : directoryFileList) {
@@ -572,9 +577,9 @@ public class GetterUtil {
 
                 BoundsUtil.BoundsString bs =
                         BoundsUtil.widthHeightCalculation(builder.getInitialString(), textLabel.getFont());
-                int w = bs.getWidth();
-                int h = bs.getHeight();
-                textLabel.setText(bs.getText());
+                int w = bs.width();
+                int h = bs.height();
+                textLabel.setText(bs.text());
 
                 CyderFrame frame = new CyderFrame(w + 40,
                         h + 25 + 20 + 40 + 40, CyderIcons.defaultBackgroundLarge);

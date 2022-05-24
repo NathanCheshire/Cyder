@@ -1038,9 +1038,9 @@ public class CyderFrame extends JFrame {
             BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(
                     currentBuilder.getHtmlText(),
                     CyderFonts.notificationFont, (int) Math.ceil(width * 0.8));
-            int notificationWidth = bs.getWidth();
-            int notificationHeight = bs.getHeight();
-            String brokenText = bs.getText();
+            int notificationWidth = bs.width();
+            int notificationHeight = bs.height();
+            String brokenText = bs.text();
 
             // if too wide, cannot notify so inform
             if (notificationHeight > height * NOTIFICATION_TO_FRAME_RATIO
@@ -1155,7 +1155,7 @@ public class CyderFrame extends JFrame {
             // if duration of 0 was passed, we should calculate it based on words
             if (duration == 0) {
                 duration = 300 * StringUtil.countWords(
-                        Jsoup.clean(bs.getText(), Safelist.none()));
+                        Jsoup.clean(bs.text(), Safelist.none()));
             }
 
             // failsafe to ensure notifications are at least four seconds

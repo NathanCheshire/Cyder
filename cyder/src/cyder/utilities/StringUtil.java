@@ -19,6 +19,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -113,7 +114,8 @@ public class StringUtil {
                         continue;
                     }
 
-                    if (value.toString().toLowerCase().contains("icon") || value.toString().toLowerCase().contains("component")) {
+                    if (value.toString().toLowerCase().contains("icon") ||
+                            value.toString().toLowerCase().contains("component")) {
                         removeTwoLines = true;
                     }
                 }
@@ -482,13 +484,7 @@ public class StringUtil {
      * @return the resultant filled array
      */
     public static String fillString(int count, String c) {
-        StringBuilder sb = new StringBuilder(count);
-
-        for (int i = 0 ; i < count ; i++) {
-            sb.append(c);
-        }
-
-        return sb.toString();
+        return String.valueOf(c).repeat(Math.max(0, count));
     }
 
     /**
@@ -700,7 +696,8 @@ public class StringUtil {
 
         if (str.length() == 1)
             return str.toLowerCase();
-        else return str.substring(0, 1).toLowerCase() + str.substring(1);
+        else
+            return str.substring(0, 1).toLowerCase() + str.substring(1);
     }
 
     /**
@@ -873,8 +870,8 @@ public class StringUtil {
             length = htmlText.length();
         } else {
             for (TaggedString ts : taggedStrings) {
-                if (ts.getType() == TaggedString.Type.TEXT)
-                    length += ts.getText().length();
+                if (ts.type() == TaggedString.Type.TEXT)
+                    length += ts.text().length();
             }
         }
 
@@ -1039,13 +1036,7 @@ public class StringUtil {
     public static String generateNSpaces(int n) {
         Preconditions.checkArgument(n > 0, "Provided number of spaces is less than 1");
 
-        StringBuilder ret = new StringBuilder();
-
-        for (int i = 0 ; i < n ; i++) {
-            ret.append(" ");
-        }
-
-        return ret.toString();
+        return " ".repeat(n);
     }
 
     /**
@@ -1125,16 +1116,12 @@ public class StringUtil {
     private static int distance(String alpha, String beta) {
         // note: -1 is what max prop used to be
 
-        if (alpha == beta) {
+        if (Objects.equals(alpha, beta)) {
             return 0;
         }
 
         int la = alpha.length();
         int lb = beta.length();
-
-        if (-1 >= 0 && Math.abs(la - lb) > -1) {
-            return -1 + 1;
-        }
 
         if (la == 0) {
             return lb;
@@ -1172,14 +1159,6 @@ public class StringUtil {
                     min = prv;
                 }
             }
-
-            if (-1 >= 0 && min > -1) {
-                return -1 + 1;
-            }
-        }
-
-        if (-1 >= 0 && cost[lb] > -1) {
-            return -1 + 1;
         }
 
         return cost[lb];

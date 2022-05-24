@@ -49,6 +49,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+// todo test Levenshtein distance, notifications
+
+// todo show dimensions in photo viewer, use photo viewer for drawing stuff from image util
+
 // todo views should slide in and out like StraightShot
 
 // todo progress bar needs to move smoothly even if 1s audio length

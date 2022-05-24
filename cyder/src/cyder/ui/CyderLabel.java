@@ -167,13 +167,13 @@ public class CyderLabel extends JLabel {
                     //loop through all our tagged string
                     for (TaggedString ts : taggedStrings) {
                         //if it's html simply add it to the builder
-                        if (ts.getType() == TaggedString.Type.HTML) {
-                            builder.append(ts.getText());
+                        if (ts.type() == TaggedString.Type.HTML) {
+                            builder.append(ts.text());
                         }
                         //otherwise we might need to ripple some  chars
                         else {
                             //loop through all the chars of this Text tagged string
-                            for (char c : ts.getText().toCharArray()) {
+                            for (char c : ts.text().toCharArray()) {
                                 //first we need to pass as many raw chars
                                 // as the iteration "i" we are on, next we need to make sure
                                 // we haven't used up all the ripple chars for this iteration
