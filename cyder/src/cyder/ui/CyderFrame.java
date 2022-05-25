@@ -472,9 +472,9 @@ public class CyderFrame extends JFrame {
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
-    // ------------------
-    // Borderless frames
-    // ------------------
+    // -----------------------------
+    // Borderless frame constructors
+    // -----------------------------
 
     /**
      * Generates and returns a borderless CyderFrame.

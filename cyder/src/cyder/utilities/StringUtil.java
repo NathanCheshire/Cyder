@@ -24,10 +24,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Simple general String utility methods along with some JTextPane utility methods
+ * String utility methods along with some JTextPane utility methods
+ * <p>
  * Note: these methods are not thread safe and thus this class should be externally synchronized
  * to achieve thread safety. Typically, in Cyder, this is performed via using a {@link CyderOutputPane}
- * which bundles a JTextPane, StringUtil, and Semaphore together.
+ * which bundles a JTextPane, StringUtil, and Semaphore.
  */
 public class StringUtil {
     /**
@@ -524,7 +525,7 @@ public class StringUtil {
     /**
      * Converts the first character to upper case provided it is a standard latin character.
      *
-     * @param word the word to captialize the first letter of
+     * @param word the word to capitalize the first letter of
      * @return the capitalized word
      */
     public static String capsFirst(String word) {

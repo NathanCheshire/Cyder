@@ -224,9 +224,12 @@ public class WeatherWidget {
     /**
      * The gmt offset for the current location.
      */
-    private int currentGmtOffset;
-    // todo what is this?
-    private String gmtOffset = "0";
+    private int parsedGmtOffset;
+
+    /**
+     * The last gmt offset returned when parsing weather data.
+     */
+    private String weatherDataGmtOffset = "0";
 
     /**
      * Whether the gmt offset has been set.
@@ -593,7 +596,7 @@ public class WeatherWidget {
         dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         try {
-            int timeOffset = Integer.parseInt(gmtOffset) / 3600;
+            int timeOffset = Integer.parseInt(weatherDataGmtOffset) / 3600;
             cal.add(Calendar.HOUR, timeOffset);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -699,7 +702,7 @@ public class WeatherWidget {
      * @return the text for the timezone label
      */
     private String getTimezoneLabel() {
-        return "GMT" + (Integer.parseInt(gmtOffset) / 3600)
+        return "GMT" + (Integer.parseInt(weatherDataGmtOffset) / 3600)
                 + (IPUtil.getIpdata().getTime_zone().isIs_dst() ? " [DST Active]" : "");
     }
 
@@ -722,7 +725,7 @@ public class WeatherWidget {
         int hour = Integer.parseInt(parts[0]);
         int minute = Integer.parseInt(parts[1]);
 
-        hour += (Integer.parseInt(gmtOffset) / 3600 - (currentGmtOffset / 60 / 60));
+        hour += (Integer.parseInt(weatherDataGmtOffset) / 3600 - (parsedGmtOffset / 60 / 60));
 
         // hour, colon, 01,...,09,10,..., 59,01
         return hour + ":" + (minute < 10 ? "0" + minute : minute);
@@ -766,7 +769,7 @@ public class WeatherWidget {
                     pressure = wd.getMain().getPressure();
                     humidity = wd.getMain().getHumidity();
                     temperature = wd.getMain().getTemp();
-                    gmtOffset = String.valueOf(wd.getTimezone());
+                    weatherDataGmtOffset = String.valueOf(wd.getTimezone());
 
                     minTemp = wd.getMain().getTemp_min();
                     maxTemp = wd.getMain().getTemp_max();
@@ -791,7 +794,7 @@ public class WeatherWidget {
 
                     //calculate the offset from GMT + 0/Zulu time
                     if (!gmtSet) {
-                        currentGmtOffset = Integer.parseInt(gmtOffset);
+                        parsedGmtOffset = Integer.parseInt(weatherDataGmtOffset);
                         gmtSet = true;
                     }
 

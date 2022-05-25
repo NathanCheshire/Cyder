@@ -320,4 +320,50 @@ public class UnitTests {
 
         assertEquals(StringUtil.levenshteinDistance("distance", "levenshtein"), 10);
     }
+
+    @Test
+    public void testDefine() {
+        assertEquals(StringUtil.getDefinition("definition"),
+                "The Act Of Defining, Or Of Making Something Definite, Distinct, " +
+                        "Or Clear: We Need A Better Definition Of Her Responsibilities.");
+    }
+
+    /**
+     * The summary tolerance for wikipedia summary queries.
+     */
+    private static final float wikiSumTol = 0.05f;
+
+    /**
+     * The MGK wikipedia summary.
+     */
+    private static final String mgkWikiSum = """
+            Colson Baker (born April 22, 1990), known professionally as Machine Gun Kelly (MGK),
+            is an American rapper, singer, musician, and actor. He is noted for his compositional
+            blending of contemporary and alternative hip hop with rock.\\nMachine Gun Kelly released
+            four mixtapes between 2007 and 2010 before signing with Bad Boy Records. He released his
+            debut studio album, Lace Up, in 2012, which peaked at number four on the US Billboard 200
+            and contained his breakout single "Wild Boy" (featuring Waka Flocka Flame). His second
+            and third albums, General Admission (2015) and Bloom (2017), achieved similar commercial
+            success; the latter included the single "Bad Things" (with Camila Cabello), which peaked
+            at number 4 on the Billboard Hot 100. His fourth album, Hotel Diablo (2019), included
+            rap rock.\\nMachine Gun Kelly released his fifth album, Tickets to My Downfall,
+            in 2020; it marked a complete departure from hip hop and entry into pop punk.
+            It debuted at number one on the Billboard 200, the only rock album to do so that year,
+            and contained the single "My Ex's Best Friend", which reached number 20 on the Hot 100.
+            He achieved similar commercial success with its follow up Mainstream Sellout (2022).Machine
+            Gun Kelly had his first starring role in the romantic drama Beyond the Lights (2014),
+            and since appeared in the techno-thriller Nerve (2016), the horror Bird Box (2018),
+            the comedy Big Time Adolescence and portrayed Tommy Lee in the biopic The Dirt (both 2019).
+            """;
+
+    @Test
+    public void testWikiSum() {
+        int lt = StringUtil.levenshteinDistance(
+                StringUtil.getWikipediaSummary("MGK").replace("\\s+", ""),
+                mgkWikiSum.replace("\\s+", ""));
+        float difference = (float) lt / mgkWikiSum.length();
+        System.out.println(difference);
+
+        assertTrue(difference <= wikiSumTol);
+    }
 }
