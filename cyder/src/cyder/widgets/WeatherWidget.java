@@ -31,56 +31,173 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+// todo if two parts for location and middle one is 2 len, use to upper case
 
 @Vanilla
 @CyderAuthor
 public class WeatherWidget {
+    /**
+     * The current location label.
+     */
     private JLabel locationLabel;
+
+    /**
+     * The current weather description label.
+     */
     private JLabel currentWeatherLabel;
+
+    /**
+     * The custom painted temperature label container to hold the min, current, and max temperatures.
+     */
     private JLabel customTempLabel;
+
+    /**
+     * The wind speed label.
+     */
     private JLabel windSpeedLabel;
+
+    /**
+     * The custom painted wind direction label.
+     */
     private JLabel windDirectionLabel;
+
+    /**
+     * The humidity label.
+     */
     private JLabel humidityLabel;
+
+    /**
+     * The pressure label.
+     */
     private JLabel pressureLabel;
+
+    /**
+     * The sunset label.
+     */
     private JLabel sunsetLabel;
+
+    /**
+     * The sunrise label.
+     */
     private JLabel sunriseLabel;
+
+    /**
+     * The timezone label.
+     */
     private JLabel timezoneLabel;
+
+    /**
+     * The current time label.
+     */
     private JLabel currentTimeLabel;
+
+    /**
+     * The current weather icon label.
+     */
     private JLabel currentWeatherIconLabel;
+
+    /**
+     * The current temperature label
+     */
     private JLabel currentTempLabel;
+
+    /**
+     * The min temperature label.
+     */
+    private JLabel minTempLabel;
+
+    /**
+     * The max temperature label.
+     */
+    private JLabel maxTempLabel;
 
     private String sunrise = "0";
     private String sunset = "0";
     private String weatherIcon = "01d.png";
     private String weatherCondition = "";
-    private String windSpeed = "0";
-    private String temperature = "0";
-    private String humidity = "0";
-    private String pressure = "0";
-    private String windBearing = "0";
+    private float windSpeed = 0f;
+    private float temperature = 0f;
+    private float humidity = 0f;
+    private float pressure = 0f;
+    private float windBearing = 0f;
+
+    /**
+     * The current latitude.
+     */
     private double lat = 0d;
+
+    /**
+     * The current longitude.
+     */
     private double lon = 0d;
 
-    private String locationString = "";
-    private String oldLocation = "";
+    /**
+     * The current location.
+     */
+    private String currentLocationString = "";
 
+    /**
+     * The previous location.
+     */
+    private String previousLocationString = "";
+
+    /**
+     * The currently set city.
+     */
     private String userCity = "";
+
+    /**
+     * The currently set state.
+     */
     private String userState = "";
+
+    /**
+     * The currently set country.
+     */
     private String userCountry = "";
-    private String gmtOffset = "0";
 
-    private JLabel minTempLabel;
-    private JLabel maxTempLabel;
-
+    /**
+     * The weather frame.
+     */
     private CyderFrame weatherFrame;
 
+    /**
+     * Whether to use the custom location.
+     */
     private boolean useCustomLoc;
-    private boolean update;
 
-    private double minTemp;
-    private double maxTemp;
+    /**
+     * Whether to repull weather data every updateFrequency minutes.
+     */
+    private final AtomicBoolean stopUpdating = new AtomicBoolean(true);
 
-    private int currentLocationGMTOffset;
+    /**
+     * The frequency at which to update the weather data at in minutes.
+     */
+    private final int updateFrequency = 5;
+
+    /**
+     * The maximum temperature
+     */
+    private float minTemp;
+
+    /**
+     * The minimum temperature.
+     */
+    private float maxTemp;
+
+    /**
+     * The gmt offset for the current location.
+     */
+    private int currentGmtOffset;
+    // todo what is this?
+    private String gmtOffset = "0";
+
+    /**
+     * Whether the gmt offset has been set.
+     */
     private boolean gmtSet;
 
     /**
@@ -132,7 +249,7 @@ public class WeatherWidget {
         weatherFrame = new CyderFrame(480, 640) {
             @Override
             public void dispose() {
-                update = false;
+                stopUpdating.set(true);
                 super.dispose();
             }
         };
@@ -144,13 +261,13 @@ public class WeatherWidget {
         currentTimeLabel.setBounds(0, 50, 480, 30);
         weatherFrame.getContentPane().add(currentTimeLabel);
 
-        locationLabel = new JLabel(locationString, SwingConstants.CENTER);
+        locationLabel = new JLabel(currentLocationString, SwingConstants.CENTER);
         locationLabel.setForeground(CyderColors.navy);
         locationLabel.setFont(CyderFonts.segoe20);
         locationLabel.setBounds(0, 85, 480, 30);
         weatherFrame.getContentPane().add(locationLabel);
 
-        currentWeatherIconLabel = new JLabel(new ImageIcon("static/pictures/weather/" + weatherIcon + ".png")) {
+        JLabel currentWeatherContainer = new JLabel() {
             @Override
             public void paint(Graphics g) {
                 Graphics2D g2d = (Graphics2D) g;
@@ -160,15 +277,20 @@ public class WeatherWidget {
                 super.paint(g);
             }
         };
-        currentWeatherIconLabel.setBounds(180, 120, 120, 180);
-        weatherFrame.getContentPane().add(currentWeatherIconLabel);
+        currentWeatherContainer.setBounds(180, 120, 120, 180);
+        weatherFrame.getContentPane().add(currentWeatherContainer);
+
+        currentWeatherIconLabel = new JLabel(new ImageIcon("static/pictures/weather/" + weatherIcon + ".png"));
+        currentWeatherIconLabel.setBounds(0, 0, currentWeatherContainer.getWidth(),
+                currentWeatherContainer.getHeight() / 2);
+        currentWeatherContainer.add(currentWeatherIconLabel);
 
         currentWeatherLabel = new JLabel("", SwingConstants.CENTER);
         currentWeatherLabel.setForeground(CyderColors.vanila);
         currentWeatherLabel.setFont(CyderFonts.segoe20.deriveFont(18f));
-        currentWeatherLabel.setBounds(0, currentWeatherIconLabel.getHeight() / 2, currentWeatherIconLabel.getWidth(),
-                currentWeatherIconLabel.getHeight() / 2);
-        currentWeatherIconLabel.add(currentWeatherLabel);
+        currentWeatherLabel.setBounds(0, currentWeatherContainer.getHeight() / 2, currentWeatherContainer.getWidth(),
+                currentWeatherContainer.getHeight() / 2);
+        currentWeatherContainer.add(currentWeatherLabel);
 
         JLabel sunriseLabelIcon = new JLabel(new ImageIcon("static/pictures/weather/sunrise.png")) {
             @Override
@@ -215,7 +337,7 @@ public class WeatherWidget {
             GetterBuilder builder = new GetterBuilder("Change Location");
             builder.setRelativeTo(weatherFrame);
             builder.setSubmitButtonText("Change Location");
-            builder.setInitialString(locationString);
+            builder.setInitialString(currentLocationString);
             builder.setSubmitButtonColor(CyderColors.notificationForegroundColor);
             builder.setLabelText("<html>Enter your city, state, and country code separated by a comma. "
                     + "Example:<p style=\"color:rgb(45, 100, 220)\">New Orleans, LA, US</p></html>");
@@ -227,7 +349,7 @@ public class WeatherWidget {
                     if (StringUtil.isNull(newLocation))
                         return;
 
-                    oldLocation = locationString;
+                    previousLocationString = currentLocationString;
                     String[] parts = newLocation.split(",");
 
                     StringBuilder sb = new StringBuilder();
@@ -239,11 +361,11 @@ public class WeatherWidget {
                             sb.append(",");
                     }
 
-                    locationString = sb.toString();
+                    currentLocationString = sb.toString();
                     useCustomLoc = true;
 
                     weatherFrame.notify("Attempting to refresh weather stats for location \""
-                            + locationString + "\"");
+                            + currentLocationString + "\"");
 
                     repullWeatherStats();
                 } catch (Exception ex) {
@@ -273,8 +395,7 @@ public class WeatherWidget {
 
                 try {
                     // map temp val in width range
-                    double tempVal = map(Double.parseDouble(temperature),
-                            minTemp, maxTemp, 0, 400);
+                    double tempVal = map(temperature, minTemp, maxTemp, 0, 400);
 
                     // draw current temp line
                     g.setColor(CyderColors.regularPink);
@@ -282,7 +403,7 @@ public class WeatherWidget {
                     g.fillRect(line + 3, 3, 6, 34);
 
                     // set min temp label
-                    String minText = minTemp + "F";
+                    String minText = formatFloatMeasurement(minTemp) + "F";
                     minTempLabel.setText(minText);
                     minTempLabel.setSize(
                             StringUtil.getMinWidth(minText, minTempLabel.getFont()),
@@ -291,7 +412,7 @@ public class WeatherWidget {
                     customTempLabel.add(minTempLabel);
 
                     // current temp
-                    String currentTemp = temperature + "F";
+                    String currentTemp = formatFloatMeasurement(temperature) + "F";
                     currentTempLabel.setText(currentTemp);
                     currentTempLabel.setSize(
                             StringUtil.getMinWidth(currentTemp, currentTempLabel.getFont()),
@@ -301,7 +422,7 @@ public class WeatherWidget {
                     customTempLabel.add(currentTempLabel);
 
                     // set max temp label
-                    String maxText = maxTemp + "F";
+                    String maxText = formatFloatMeasurement(maxTemp) + "F";
                     maxTempLabel.setText(maxText);
                     maxTempLabel.setSize(
                             StringUtil.getMinWidth(maxText, minTempLabel.getFont()),
@@ -346,7 +467,7 @@ public class WeatherWidget {
                 g.fillRect(3, 3, getWidth() - 6, getHeight() - 6);
 
                 int radius = 20;
-                double theta = Double.parseDouble(windBearing) * Math.PI / 180.0;
+                double theta = windBearing * Math.PI / 180.0;
                 double x = radius * Math.cos(theta);
                 double y = radius * Math.sin(theta);
 
@@ -368,7 +489,7 @@ public class WeatherWidget {
         humidityLabel.setBounds(0, 500, 480, 30);
         weatherFrame.getContentPane().add(humidityLabel);
 
-        pressureLabel = new JLabel("Pressure: " + Double.parseDouble(pressure) + "atm",
+        pressureLabel = new JLabel("Pressure: " + pressure + "atm",
                 SwingConstants.CENTER);
         pressureLabel.setForeground(CyderColors.navy);
         pressureLabel.setFont(CyderFonts.segoe20);
@@ -383,17 +504,17 @@ public class WeatherWidget {
 
         weatherFrame.finalizeAndShow();
 
-        update = true;
+        stopUpdating.set(false);
 
         CyderThreadRunner.submit(() -> {
             try {
-                EXIT:
-                for ( ; ; ) {
-                    for (int i = 0 ; i < 60 * 5 ; i++) {
-                        if (!update)
-                            break EXIT;
-                        Thread.sleep(60 * 5);
+                while (true) {
+                    TimeUtil.sleepWithChecks(
+                            1000 * 60 * updateFrequency, 10000, stopUpdating);
+                    if (stopUpdating.get()) {
+                        break;
                     }
+
                     repullWeatherStats();
                 }
             } catch (Exception e) {
@@ -403,7 +524,7 @@ public class WeatherWidget {
 
         CyderThreadRunner.submit(() -> {
             try {
-                while (update) {
+                while (stopUpdating.get()) {
                     Thread.sleep(1000);
                     currentTimeLabel.setText(getWeatherTime());
                 }
@@ -453,8 +574,8 @@ public class WeatherWidget {
      */
     private void refreshWeatherLabels() {
         try {
-            if (locationString.length() > 1) {
-                String[] parts = locationString.split(",");
+            if (currentLocationString.length() > 1) {
+                String[] parts = currentLocationString.split(",");
                 StringBuilder sb = new StringBuilder();
 
                 for (int i = 0 ; i < parts.length ; i++) {
@@ -475,7 +596,9 @@ public class WeatherWidget {
             windSpeedLabel.setText(
                     "Wind: " + windSpeed + "mph, " + windBearing + "deg (" + getWindDirection(windBearing) + ")");
             humidityLabel.setText("Humidity: " + humidity + "%");
-            pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) + "atm");
+
+            pressureLabel.setText("Pressure: " + formatFloatMeasurement(pressure) + "atm");
+
             timezoneLabel.setText("Timezone: " + getTimezoneLabel());
             sunriseLabel.setText(correctedSunTime(sunrise) + "am");
             sunsetLabel.setText(correctedSunTime(sunset) + "pm");
@@ -483,7 +606,7 @@ public class WeatherWidget {
             // repaint custom temperature drawing
             customTempLabel.repaint();
 
-            int temperatureLineCenter = (int) Math.ceil(customTempLabel.getX() + map(Double.parseDouble(temperature),
+            int temperatureLineCenter = (int) Math.ceil(customTempLabel.getX() + map(temperature,
                     minTemp, maxTemp, 0, 400)) + 5;
 
             currentTempLabel.setText(temperature + "F");
@@ -509,7 +632,7 @@ public class WeatherWidget {
             //redraw arrow
             windDirectionLabel.repaint();
 
-            String[] parts = locationString.split(",");
+            String[] parts = currentLocationString.split(",");
 
             //frame title
             if (!parts[0].trim().isEmpty()) {
@@ -560,7 +683,7 @@ public class WeatherWidget {
         int hour = Integer.parseInt(parts[0]);
         int minute = Integer.parseInt(parts[1]);
 
-        hour += (Integer.parseInt(gmtOffset) / 3600 - (currentLocationGMTOffset / 60 / 60));
+        hour += (Integer.parseInt(gmtOffset) / 3600 - (currentGmtOffset / 60 / 60));
 
         // hour, colon, 01,...,09,10,..., 59,01
         return hour + ":" + (minute < 10 ? "0" + minute : minute);
@@ -582,12 +705,12 @@ public class WeatherWidget {
                 userCountry = IPUtil.getIpdata().getCountry_name();
 
                 if (!useCustomLoc)
-                    locationString = userCity + ", " + userState + ", " + userCountry;
+                    currentLocationString = userCity + ", " + userState + ", " + userCountry;
 
                 String key = PropLoader.getString("weather_key");
 
                 String OpenString = CyderUrls.OPEN_WEATHER_BASE +
-                        locationString + "&appid=" + key + "&units=imperial";
+                        currentLocationString + "&appid=" + key + "&units=imperial";
 
                 WeatherData wd;
 
@@ -598,12 +721,12 @@ public class WeatherWidget {
                     sunrise = String.valueOf(wd.getSys().getSunrise());
                     sunset = String.valueOf(wd.getSys().getSunset());
                     weatherIcon = wd.getWeather().get(0).getIcon();
-                    windSpeed = String.valueOf(wd.getWind().getSpeed());
-                    windBearing = String.valueOf(wd.getWind().getDeg());
+                    windSpeed = wd.getWind().getSpeed();
+                    windBearing = wd.getWind().getDeg();
                     weatherCondition = wd.getWeather().get(0).getDescription();
-                    pressure = String.valueOf(wd.getMain().getPressure()).substring(0, Math.min(pressure.length(), 4));
-                    humidity = String.valueOf(wd.getMain().getHumidity());
-                    temperature = String.valueOf(wd.getMain().getTemp());
+                    pressure = wd.getMain().getPressure();
+                    humidity = wd.getMain().getHumidity();
+                    temperature = wd.getMain().getTemp();
                     gmtOffset = String.valueOf(wd.getTimezone());
 
                     minTemp = wd.getMain().getTemp_min();
@@ -611,8 +734,6 @@ public class WeatherWidget {
 
                     lat = wd.getCoord().getLat();
                     lon = wd.getCoord().getLon();
-
-                    // todo state abbr should always be capitalized
 
                     try {
                         ImageIcon newBack = MapUtil.getMapView(lat, lon,
@@ -631,7 +752,7 @@ public class WeatherWidget {
 
                     //calculate the offset from GMT + 0/Zulu time
                     if (!gmtSet) {
-                        currentLocationGMTOffset = Integer.parseInt(gmtOffset);
+                        currentGmtOffset = Integer.parseInt(gmtOffset);
                         gmtSet = true;
                     }
 
@@ -640,7 +761,7 @@ public class WeatherWidget {
                         weatherIcon = weatherIcon.replace("d", "n");
                     }
 
-                    String[] parts = locationString.split(",");
+                    String[] parts = currentLocationString.split(",");
 
                     if (!parts[0].trim().isEmpty()) {
                         String city = StringUtil.capsFirstWords(parts[0].trim()).trim();
@@ -655,7 +776,7 @@ public class WeatherWidget {
             } catch (FileNotFoundException e) {
                 //invalid custom location so go back to the old one
                 weatherFrame.notify("Sorry, but that location is invalid");
-                locationString = oldLocation;
+                currentLocationString = previousLocationString;
                 useCustomLoc = false;
                 ExceptionHandler.silentHandle(e);
             } catch (Exception e) {
@@ -720,6 +841,23 @@ public class WeatherWidget {
         }
 
         return ret;
+    }
+
+    /**
+     * The max length of the string returned by {@link WeatherWidget#formatFloatMeasurement(float)}.
+     */
+    private static final int MAX_FLOAT_MEASUREMENT_LENGTH = 5;
+
+    /**
+     * Returns a formatted string no greater than {@link WeatherWidget#MAX_FLOAT_MEASUREMENT_LENGTH}.
+     *
+     * @param measurement the float measurement to format
+     * @return the formatted measurement
+     */
+    private static String formatFloatMeasurement(float measurement) {
+        String string = String.valueOf(measurement);
+        return string.substring(0, string.length() > MAX_FLOAT_MEASUREMENT_LENGTH - 1
+                ? MAX_FLOAT_MEASUREMENT_LENGTH : string.length());
     }
 
     /**
@@ -905,88 +1043,88 @@ public class WeatherWidget {
         }
 
         public static class Main {
-            private double temp;
-            private double feels_like;
-            private double temp_min;
-            private double temp_max;
-            private double pressure;
-            private double humidity;
+            private float temp;
+            private float feels_like;
+            private float temp_min;
+            private float temp_max;
+            private float pressure;
+            private float humidity;
 
-            public double getTemp() {
+            public float getTemp() {
                 return temp;
             }
 
-            public double getFeels_like() {
-                return feels_like;
-            }
-
-            public double getTemp_min() {
-                return temp_min;
-            }
-
-            public double getTemp_max() {
-                return temp_max;
-            }
-
-            public double getPressure() {
-                return pressure;
-            }
-
-            public double getHumidity() {
-                return humidity;
-            }
-
-            public void setTemp(double temp) {
+            public void setTemp(float temp) {
                 this.temp = temp;
             }
 
-            public void setFeels_like(double feels_like) {
+            public float getFeels_like() {
+                return feels_like;
+            }
+
+            public void setFeels_like(float feels_like) {
                 this.feels_like = feels_like;
             }
 
-            public void setTemp_min(double temp_min) {
+            public float getTemp_min() {
+                return temp_min;
+            }
+
+            public void setTemp_min(float temp_min) {
                 this.temp_min = temp_min;
             }
 
-            public void setTemp_max(double temp_max) {
+            public float getTemp_max() {
+                return temp_max;
+            }
+
+            public void setTemp_max(float temp_max) {
                 this.temp_max = temp_max;
             }
 
-            public void setPressure(double pressure) {
+            public float getPressure() {
+                return pressure;
+            }
+
+            public void setPressure(float pressure) {
                 this.pressure = pressure;
             }
 
-            public void setHumidity(double humidity) {
+            public float getHumidity() {
+                return humidity;
+            }
+
+            public void setHumidity(float humidity) {
                 this.humidity = humidity;
             }
         }
 
         public static class Wind {
-            private double speed;
+            private float speed;
             private int deg;
-            private double gust;
+            private float gust;
 
-            public double getSpeed() {
+            public float getSpeed() {
                 return speed;
+            }
+
+            public void setSpeed(float speed) {
+                this.speed = speed;
             }
 
             public int getDeg() {
                 return deg;
             }
 
-            public double getGust() {
-                return gust;
-            }
-
-            public void setSpeed(double speed) {
-                this.speed = speed;
-            }
-
             public void setDeg(int deg) {
                 this.deg = deg;
             }
 
-            public void setGust(double gust) {
+            public float getGust() {
+                return gust;
+            }
+
+            public void setGust(float gust) {
                 this.gust = gust;
             }
         }

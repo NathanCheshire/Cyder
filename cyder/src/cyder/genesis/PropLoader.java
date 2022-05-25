@@ -62,7 +62,7 @@ public class PropLoader {
     private static boolean logNextProp = true;
 
     /**
-     * Whether the props have been loaded
+     * Whether the props have been loaded.
      */
     private static boolean propsLoaded = false;
 
@@ -71,6 +71,7 @@ public class PropLoader {
      *
      * @return whether the props have been loaded
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean arePropsLoaded() {
         return propsLoaded;
     }

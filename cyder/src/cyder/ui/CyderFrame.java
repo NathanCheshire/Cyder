@@ -1122,9 +1122,6 @@ public class CyderFrame extends JFrame {
                 textContainerLabel.setFont(CyderFonts.notificationFont);
                 textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
 
-                System.out.println("Container width: " + notificationWidth);
-                System.out.println("Container height: " + notificationHeight);
-
                 JLabel interactionLabel = new JLabel();
                 interactionLabel.setSize(notificationWidth, notificationHeight);
                 interactionLabel.setToolTipText("Notified at: "
