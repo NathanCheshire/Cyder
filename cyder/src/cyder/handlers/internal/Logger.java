@@ -24,6 +24,8 @@ import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
+import static java.lang.System.out;
+
 /**
  * Logger class used to log useful information about any Cyder instance from beginning at
  * runtime to exit at JVM termination.
@@ -111,7 +113,11 @@ public class Logger {
      * @param representation the object to debug print
      */
     public static <T> void Debug(T representation) {
-        System.out.println(getLogTime() + " [" + Tag.DEBUG.logName + "]: " + representation);
+        println(getLogTime() + " [" + Tag.DEBUG.logName + "]: " + representation);
+    }
+
+    public static void println(String string) {
+        out.println(string);
     }
 
     /**
@@ -124,7 +130,7 @@ public class Logger {
     @SuppressWarnings("IfCanBeSwitch") // intelliJ being stupid
     public static <T> void log(Tag tag, T representation) {
         if (logConcluded) {
-            System.out.println(getLogTime() + "[LOG CALL AFTER LOG CONCLUDED]: " + representation);
+            println(getLogTime() + "[LOG CALL AFTER LOG CONCLUDED]: " + representation);
             return;
         } else if (representation instanceof String && (((String) representation).trim().isEmpty()
                 || representation.equals("\n"))) {
@@ -457,7 +463,7 @@ public class Logger {
             }
 
             // print to standard output
-            System.out.println(line);
+            println(line);
         }
     }
 

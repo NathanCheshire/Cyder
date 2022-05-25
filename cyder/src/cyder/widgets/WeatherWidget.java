@@ -111,14 +111,49 @@ public class WeatherWidget {
      */
     private JLabel maxTempLabel;
 
+    /**
+     * The sunrise time in unix time format.
+     */
     private String sunrise = "0";
+
+    /**
+     * The sunset time in unix time format.
+     */
     private String sunset = "0";
+
+    /**
+     * The current weather icon resource.
+     */
     private String weatherIcon = "01d.png";
+
+    /**
+     * The current weather condition.
+     */
     private String weatherCondition = "";
+
+    /**
+     * The current wind speed.
+     */
     private float windSpeed = 0f;
+
+    /**
+     * The current temperature.
+     */
     private float temperature = 0f;
+
+    /**
+     * The current humidity.
+     */
     private float humidity = 0f;
+
+    /**
+     * The current pressure.
+     */
     private float pressure = 0f;
+
+    /**
+     * The current wind direction.
+     */
     private float windBearing = 0f;
 
     /**
