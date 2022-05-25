@@ -34,22 +34,22 @@ public class CyderUrls {
     public static final String OPEN_WEATHER_BASE = "https://api.openweathermap.org/data/2.5/weather?q=";
 
     /**
-     * The mincraft.net link that redirects to the hamburger icon's result.
+     * The minecraft.net link that redirects to the hamburger icon's result.
      */
     public static final String MINECRAFT_HAMBURGER = "https://minecraft.net/en-us/?ref=m";
 
     /**
-     * The mincraft.net link that redirects to the store icon's result.
+     * The minecraft.net link that redirects to the store icon's result.
      */
     public static final String MINECRAFT_CHEST = "https://minecraft.net/en-us/store/?ref=m";
 
     /**
-     * The mincraft.net link that redirects to the realm icon's result.
+     * The minecraft.net link that redirects to the realm icon's result.
      */
     public static final String MINECRAFT_REALMS = "https://minecraft.net/en-us/realms/?ref=m";
 
     /**
-     * The mincraft.net link that redirects to the block icon's result.
+     * The minecraft.net link that redirects to the block icon's result.
      */
     public static final String MINECRAFT_BLOCK = "https://my.minecraft.net/en-us/store/minecraft/";
 
@@ -139,7 +139,7 @@ public class CyderUrls {
     public static final String THUMBNAIL_BASE_URL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
 
     /**
-     * A link for Desmos' graphing calculator.
+     * A link for Desmos graphing calculator.
      */
     public static final String DESMOS = "https://www.desmos.com/calculator";
 
@@ -164,9 +164,9 @@ public class CyderUrls {
     public static final String TRIANGLE = "https://www.triangle-calculator.com/";
 
     /**
-     * A link to GameNinja's Fly Squirel Fly.
+     * A link to GameNinja's Fly Squirrel Fly.
      */
-    public static final String FLY_SQUIREL_FLY = "http://gameninja.com//games//fly-squirrel-fly.html";
+    public static final String FLY_SQUIRREL_FLY_HTML = "http://gameninja.com//games//fly-squirrel-fly.html";
 
     /**
      * A link to Arduino.
@@ -250,9 +250,14 @@ public class CyderUrls {
     public static final String YOUTUBE_VIDEO_HEADER = "https://www.youtube.com/watch?v=";
 
     /**
-     * The header used for obtaining a youtube video's highest resolution thumbanil.
+     * The header used for obtaining a youtube video's highest resolution thumbnail.
      */
     public static final String YOUTUBE_THUMBNAIL_BASE = "https://img.youtube.com/vi/";
+
+    /**
+     * The base for youtube api v3 search queries.
+     */
+    public static final String YOUTUBE_API_V3_SEARCH_BASE = "https://www.googleapis.com/youtube/v3/search?part=snippet";
 
     /*
     Binary and resource Url links.

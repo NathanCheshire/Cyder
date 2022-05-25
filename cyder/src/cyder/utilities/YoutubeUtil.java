@@ -564,7 +564,10 @@ public class YoutubeUtil {
             throw new IllegalArgumentException("No UUID found in provided string: " + youtubeURL);
     }
 
-    private static final Range<Integer> searchQueryResultsRange = Range.closed(0, 20);
+    /**
+     * The range of valid values for the number of results a youtube api 3 search query.
+     */
+    private static final Range<Integer> searchQueryResultsRange = Range.closed(1, 20);
 
     /**
      * Constructs the url to query YouTube with a specific string for video results.
@@ -585,10 +588,7 @@ public class YoutubeUtil {
         }
 
         String key = PropLoader.getString("youtube_api_3_key");
-
         Preconditions.checkArgument(!StringUtil.isNull(key));
-
-        String base = "https://www.googleapis.com/youtube/v3/search?part=snippet";
 
         String[] parts = rawQuery.split("\\s+");
 
@@ -603,7 +603,7 @@ public class YoutubeUtil {
             }
         }
 
-        return base + "&maxResults=" + numResults + "&q="
+        return CyderUrls.YOUTUBE_API_V3_SEARCH_BASE + "&maxResults=" + numResults + "&q="
                 + builder + "&type=video" + "&key=" + key;
     }
 }

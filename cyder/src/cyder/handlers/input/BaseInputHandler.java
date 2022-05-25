@@ -593,7 +593,7 @@ public class BaseInputHandler {
         } else if (commandIs("triangle")) {
             NetworkUtil.openUrl(CyderUrls.TRIANGLE);
         } else if (commandIs("board")) {
-            NetworkUtil.openUrl(CyderUrls.FLY_SQUIREL_FLY);
+            NetworkUtil.openUrl(CyderUrls.FLY_SQUIRREL_FLY_HTML);
         } else if (commandIs("arduino")) {
             NetworkUtil.openUrl(CyderUrls.ARDUINO);
         } else if (commandIs("rasberrypi")) {
