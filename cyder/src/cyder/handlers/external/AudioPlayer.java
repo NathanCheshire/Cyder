@@ -50,7 +50,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 
-// todo show dimensions in photo viewer, use photo viewer for drawing stuff from image util
+// todo show dimensions in photo viewer [200x200] title here
+// todo ensure cyder frame title never over flows to button list
 
 
 // todo views should slide in and out like StraightShot

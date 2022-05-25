@@ -84,8 +84,16 @@ public class ImageUtil {
         Preconditions.checkArgument(y >= 0);
         Preconditions.checkArgument(width <= image.getWidth());
         Preconditions.checkArgument(height <= image.getHeight());
-        Preconditions.checkArgument(x + width <= image.getWidth());
-        Preconditions.checkArgument(y + height <= image.getHeight());
+
+        if (x + width > image.getWidth()) {
+            x = 0;
+            width = image.getWidth();
+        }
+
+        if (y + height > image.getHeight()) {
+            y = 0;
+            height = image.getHeight();
+        }
 
         return image.getSubimage(x, y, width, height);
     }
@@ -135,7 +143,7 @@ public class ImageUtil {
     /**
      * Resizes the provided ImageIcon to the requested dimensions.
      *
-     * @param width  the width of the reqested image
+     * @param width  the width of the requested image
      * @param height the height of the requested image
      * @param icon   the ImageIcon to resize
      * @return the resized image
@@ -263,23 +271,19 @@ public class ImageUtil {
      * @param direction the direction of rotation
      * @return the rotated image
      */
+    @SuppressWarnings("UnnecessaryDefault")
     public static BufferedImage getRotatedImage(String filepath, Direction direction) {
         Preconditions.checkNotNull(filepath);
         Preconditions.checkArgument(!filepath.isEmpty());
         Preconditions.checkNotNull(direction);
 
-        switch (direction) {
-            case TOP:
-                return getBi(filepath);
-            case RIGHT:
-                return rotateImageByDegrees(getBi(filepath), 90);
-            case BOTTOM:
-                return rotateImageByDegrees(getBi(filepath), 180);
-            case LEFT:
-                return rotateImageByDegrees(getBi(filepath), -90);
-            default:
-                throw new IllegalArgumentException("Invalid direction: " + direction);
-        }
+        return switch (direction) {
+            case TOP -> getBi(filepath);
+            case RIGHT -> rotateImageByDegrees(getBi(filepath), 90);
+            case BOTTOM -> rotateImageByDegrees(getBi(filepath), 180);
+            case LEFT -> rotateImageByDegrees(getBi(filepath), -90);
+            default -> throw new IllegalArgumentException("Invalid direction: " + direction);
+        };
     }
 
     /**
@@ -402,9 +406,7 @@ public class ImageUtil {
         Preconditions.checkArgument(!frameTitle.isEmpty());
 
         CyderFrame frame = new CyderFrame(icon.getIconWidth(), icon.getIconHeight());
-
-        if (frameTitle != null && !frameTitle.isEmpty())
-            frame.setTitle(frameTitle);
+        frame.setTitle("[" + icon.getIconWidth() + "x" + icon.getIconHeight() + "] " + frameTitle);
 
         JLabel label = new JLabel(icon);
         label.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
@@ -467,15 +469,15 @@ public class ImageUtil {
      * <p>
      * The two images must be of the same size in order to merge them into one image.
      *
-     * @param newImage the new image (image to be placed to the dir[ection] of the old image)
-     * @param oldImage the old image (image to be placed center)
-     * @param dir      the direction to place the newImage relative to the oldImage
+     * @param newImage  the new image (image to be placed to the direction of the old image)
+     * @param oldImage  the old image (image to be placed center)
+     * @param direction the direction to place the newImage relative to the oldImage
      * @return the combined image
      */
-    public static ImageIcon combineImages(ImageIcon oldImage, ImageIcon newImage, Direction dir) {
+    public static ImageIcon combineImages(ImageIcon oldImage, ImageIcon newImage, Direction direction) {
         Preconditions.checkNotNull(oldImage);
         Preconditions.checkNotNull(newImage);
-        Preconditions.checkNotNull(dir);
+        Preconditions.checkNotNull(direction);
         Preconditions.checkArgument(oldImage.getIconWidth() == newImage.getIconWidth());
         Preconditions.checkArgument(oldImage.getIconHeight() == newImage.getIconHeight());
 
@@ -490,57 +492,44 @@ public class ImageUtil {
             BufferedImage combined;
             Graphics2D g2;
 
-            switch (dir) {
-                case LEFT:
+            switch (direction) {
+                case LEFT -> {
                     width = 2 * newImage.getIconWidth();
                     height = newImage.getIconHeight();
-
                     combined = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
                     g2 = combined.createGraphics();
-
                     g2.drawImage(bi1, null, width / 2, 0);
                     g2.drawImage(bi2, null, 0, 0);
                     g2.dispose();
-
-                    break;
-                case RIGHT:
+                }
+                case RIGHT -> {
                     width = 2 * newImage.getIconWidth();
                     height = newImage.getIconHeight();
-
                     combined = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
                     g2 = combined.createGraphics();
-
                     g2.drawImage(bi1, null, 0, 0);
                     g2.drawImage(bi2, null, width / 2, 0);
                     g2.dispose();
-
-                    break;
-                case TOP:
+                }
+                case TOP -> {
                     width = newImage.getIconWidth();
                     height = 2 * newImage.getIconHeight();
-
                     combined = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
                     g2 = combined.createGraphics();
-
                     g2.drawImage(bi1, null, 0, height / 2);
                     g2.drawImage(bi2, null, 0, 0);
                     g2.dispose();
-
-                    break;
-                case BOTTOM:
+                }
+                case BOTTOM -> {
                     width = newImage.getIconWidth();
                     height = 2 * newImage.getIconHeight();
-
                     combined = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
                     g2 = combined.createGraphics();
-
                     g2.drawImage(bi1, null, 0, 0);
                     g2.drawImage(bi2, null, 0, height / 2);
                     g2.dispose();
-
-                    break;
-                default:
-                    throw new IllegalArgumentException("Somehow an invalid direction was specified");
+                }
+                default -> throw new IllegalArgumentException("Invalid direction: " + direction);
             }
 
             ret = new ImageIcon(combined);
@@ -578,8 +567,9 @@ public class ImageUtil {
      * @param primaryLeft  the primary color for the left
      * @return an image gradient
      */
-    public static BufferedImage getImageGradient(int width, int height, Color shadeColor,
-                                                 Color primaryRight, Color primaryLeft) {
+    @SuppressWarnings("SuspiciousNameCombination")
+    public static BufferedImage getImageGradient(int width, int height,
+                                                 Color shadeColor, Color primaryRight, Color primaryLeft) {
         Preconditions.checkArgument(width > 0);
         Preconditions.checkArgument(height > 0);
         Preconditions.checkNotNull(shadeColor);
@@ -708,7 +698,7 @@ public class ImageUtil {
      * @return whether the provided ImageIcons are equal
      */
     public static boolean imageIconsEqual(ImageIcon first, ImageIcon second) {
-        return imagesEqual(first.getImage(), second.getImage());
+        return areImagesEqual(first.getImage(), second.getImage());
     }
 
     /**
@@ -718,7 +708,8 @@ public class ImageUtil {
      * @param secondImage the second image
      * @return whether the two images represent the same pixel data
      */
-    public static boolean imagesEqual(Image firstImage, Image secondImage) {
+    @SuppressWarnings("ConstantConditions") // throw nullptr handled
+    public static boolean areImagesEqual(Image firstImage, Image secondImage) {
         if (firstImage == null && secondImage == null) {
             return true;
         }
@@ -757,6 +748,7 @@ public class ImageUtil {
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+            ret = false;
         }
 
         return ret;
@@ -769,6 +761,7 @@ public class ImageUtil {
      * @return an array representing the new image dimensions that the provided image should be cropped to
      * so that the provided min/max properties are maintained
      */
+    @SuppressWarnings("ConstantConditions") // aspect ratio of 1.0 needs to not change delta values
     public static Dimension getImageResizeDimensions(int minWidth, int minHeight,
                                                      int maxWidth, int maxHeight, BufferedImage image) {
         Preconditions.checkArgument(minWidth > 0);
@@ -782,7 +775,6 @@ public class ImageUtil {
 
         int backgroundWidth = image.getWidth();
         int backgroundHeight = image.getHeight();
-        int imageType = image.getType();
 
         //inform the user we are changing the size of the image
         boolean resizeNeeded = backgroundWidth > maxWidth || backgroundHeight > maxHeight ||
@@ -912,7 +904,7 @@ public class ImageUtil {
     /**
      * Returns a good background color for the provided image file.
      *
-     * @param imagePath the path to the iamge file
+     * @param imagePath the path to the image file
      * @return a good background color for the provided image file
      */
     public static Future<Optional<Color>> getComplementaryBackgroundColor(String imagePath) {
@@ -925,7 +917,7 @@ public class ImageUtil {
                     .println("Python was not found; please install Python and add it" +
                             " to the windows PATH environment variable");
 
-            CyderButton installPython = new CyderButton("Downlaod Python");
+            CyderButton installPython = new CyderButton("Download Python");
             installPython.addActionListener(e -> NetworkUtil.openUrl("https://www.python.org/downloads/"));
             ConsoleFrame.INSTANCE.getInputHandler().println(installPython);
 

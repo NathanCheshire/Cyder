@@ -106,7 +106,7 @@ public class ExceptionHandler {
             // split at the newlines the method adds
             String[] lines = informTextOptional.get().split("\n");
 
-            // find maxa width of lines
+            // find max width of lines
             int width = 0;
             Font font = CyderFonts.defaultFontSmall;
 

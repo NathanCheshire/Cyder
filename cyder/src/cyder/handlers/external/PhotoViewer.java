@@ -83,9 +83,9 @@ public class PhotoViewer {
         File currentImage = validDirectoryImages.get(0);
 
         if (startDir.isFile()) {
-            for (int i = 0 ; i < validDirectoryImages.size() ; i++) {
-                if (validDirectoryImages.get(i).equals(startDir)) {
-                    currentImage = validDirectoryImages.get(i);
+            for (File validDirectoryImage : validDirectoryImages) {
+                if (validDirectoryImage.equals(startDir)) {
+                    currentImage = validDirectoryImage;
                     break;
                 }
             }
@@ -96,16 +96,13 @@ public class PhotoViewer {
 
         pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
         pictureFrame.setBackground(Color.BLACK);
-        pictureFrame.setTitle(FileUtil.getFilename(currentImage.getName()));
-        pictureFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
+        revalidateTitle(FileUtil.getFilename(currentImage.getName()));
         pictureFrame.setVisible(true);
 
         pictureFrame.finalizeAndShow();
 
         pictureFrame.setMenuEnabled(true);
-        pictureFrame.addMenuItem("Rename", () -> {
-            rename();
-        });
+        pictureFrame.addMenuItem("Rename", this::rename);
 
         ImageIcon nextIcon = new ImageIcon("static/pictures/icons/nextPicture1.png");
         ImageIcon nextIconHover = new ImageIcon("static/pictures/icons/nextPicture2.png");
@@ -123,7 +120,7 @@ public class PhotoViewer {
     }
 
     /**
-     * Refreshses the valid files list.
+     * Refreshes the valid files list.
      */
     private void refreshValidFiles() {
         validDirectoryImages.clear();
@@ -131,8 +128,9 @@ public class PhotoViewer {
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
-            if (files.length == 0)
+            if (files == null || files.length == 0) {
                 return;
+            }
 
             for (File f : files) {
                 if (FileUtil.isSupportedImageExtension(f)) {
@@ -143,8 +141,9 @@ public class PhotoViewer {
             File parent = startDir.getParentFile();
             File[] neighbors = parent.listFiles();
 
-            if (neighbors.length == 0)
+            if (neighbors == null || neighbors.length == 0) {
                 return;
+            }
 
             for (File f : neighbors) {
                 if (FileUtil.isSupportedImageExtension(f)) {
@@ -191,7 +190,7 @@ public class PhotoViewer {
                 (int) (center.getY() - newImage.getIconHeight() / 2));
 
         pictureFrame.refreshBackground();
-        pictureFrame.setTitle(FileUtil.getFilename(validDirectoryImages.get(currentIndex).getName()));
+        revalidateTitle(FileUtil.getFilename(validDirectoryImages.get(currentIndex).getName()));
     }
 
     /**
@@ -273,7 +272,7 @@ public class PhotoViewer {
                             }
                         }
 
-                        pictureFrame.setTitle(name);
+                        revalidateTitle(name);
 
                         // invoke callback
                         if (onRenameCallback != null) {
@@ -302,5 +301,20 @@ public class PhotoViewer {
     public void setRenameCallback(Runnable runnable) {
         Preconditions.checkNotNull(runnable);
         onRenameCallback = runnable;
+    }
+
+    /**
+     * Revalidates the frame title based on the provided name.
+     *
+     * @param title the title of the frame
+     */
+    public void revalidateTitle(String title) {
+        try {
+            BufferedImage bi = ImageIO.read(validDirectoryImages.get(currentIndex));
+            pictureFrame.setTitle("[" + bi.getWidth() + "x" + bi.getHeight() + "] " + title);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            pictureFrame.setTitle(title);
+        }
     }
 }

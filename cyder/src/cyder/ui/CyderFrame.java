@@ -8,7 +8,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderNumbers;
-import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
@@ -227,6 +226,11 @@ public class CyderFrame extends JFrame {
     public static final float MAX_TITLE_LENGTH_RATIO = 0.75f;
 
     /**
+     * The default CyderFrame dimension.
+     */
+    public static final Dimension DEFAULT_DIMENSION = new Dimension(400, 400);
+
+    /**
      * Allowable indices to add components to the contentLabel
      * which is a JLayeredPane and the content pane.
      */
@@ -238,10 +242,22 @@ public class CyderFrame extends JFrame {
     }};
 
     /**
-     * Restrict default constructor.
+     * Constructs a new CyderFrame object with default dimensions.
      */
-    private CyderFrame() {
-        throw new IllegalMethodException("Illegal CyderFrame constructor");
+    public CyderFrame() {
+        this(DEFAULT_DIMENSION);
+    }
+
+    /**
+     * Constructs a new CyderFrame with the provided size.
+     * Note that if the width or height falls below the minimum size, the returned
+     * frame object will have the minimum width and/or height, not the width and
+     * height provided.
+     *
+     * @param size the size of the CyderFrame.
+     */
+    public CyderFrame(Dimension size) {
+        this(size.width, size.height);
     }
 
     /**
@@ -470,21 +486,19 @@ public class CyderFrame extends JFrame {
      * @return the borderless frame
      */
     public static CyderFrame generateBorderlessFrame(int width, int height, Color backgroundColor) {
-        return new CyderFrame(width, height, backgroundColor, "borderless");
+        return new CyderFrame(new Dimension(width, height), backgroundColor);
     }
 
     /**
      * Constructs a CyderFrame object that exists without
      * surrounding drag labels, the title label, and the button list.
      *
-     * @param width      the width of this borderless frame
-     * @param height     the height of this borderless frame
+     * @param size       the size of the frame to construct
      * @param background the background color of the borderless frame
-     * @param borderless an irrelevant parameter because I can't think of a better way to do this
      */
-    private CyderFrame(int width, int height, Color background, String borderless) {
-        this.width = width;
-        this.height = height;
+    private CyderFrame(Dimension size, Color background) {
+        this.width = size.width;
+        this.height = size.height;
 
         setSize(new Dimension(width, height));
         setResizable(false);
@@ -492,8 +506,6 @@ public class CyderFrame extends JFrame {
         setBackground(Color.BLACK);
         setIconImage(CyderIcons.CYDER_ICON.getImage());
 
-        //listener to ensure the close button was always pressed which ensures
-        // things like closeAnimation are always performed
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -501,10 +513,9 @@ public class CyderFrame extends JFrame {
             }
         });
 
-        setShape(new RoundRectangle2D.Double(0, 0,
-                getWidth(), getHeight(), 30, 30));
+        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
 
-        //master contentLabel
+        // master contentLabel
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
@@ -942,7 +953,7 @@ public class CyderFrame extends JFrame {
     /**
      * The notification that is currently being displayed.
      */
-    private CyderNotification currentNotif;
+    private CyderNotification currentNotification;
 
     /**
      * Whether the notification thread has been started for this frame.
@@ -955,7 +966,7 @@ public class CyderFrame extends JFrame {
      * @return the current notification
      */
     public CyderNotification getCurrentNotification() {
-        return currentNotif;
+        return currentNotification;
     }
 
     /**
@@ -1013,6 +1024,11 @@ public class CyderFrame extends JFrame {
     private final Semaphore notificationConstructionLock = new Semaphore(1);
 
     /**
+     * The number of pixels to add to the width and height of a notification's calculated bounds.
+     */
+    private static final int notificationExcessLen = 5;
+
+    /**
      * The notification queue for internal frame notifications/toasts.
      */
     private final Runnable notificationQueueRunnable = () -> {
@@ -1040,8 +1056,8 @@ public class CyderFrame extends JFrame {
             BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(
                     currentBuilder.getHtmlText(),
                     CyderFonts.notificationFont, (int) Math.ceil(width * 0.8));
-            int notificationWidth = bs.width();
-            int notificationHeight = bs.height();
+            int notificationWidth = bs.width() + notificationExcessLen;
+            int notificationHeight = bs.height() + notificationExcessLen;
             String brokenText = bs.text();
 
             // if too wide, cannot notify so inform
@@ -1105,6 +1121,9 @@ public class CyderFrame extends JFrame {
                 textContainerLabel.setSize(notificationWidth, notificationHeight);
                 textContainerLabel.setFont(CyderFonts.notificationFont);
                 textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
+
+                System.out.println("Container width: " + notificationWidth);
+                System.out.println("Container height: " + notificationHeight);
 
                 JLabel interactionLabel = new JLabel();
                 interactionLabel.setSize(notificationWidth, notificationHeight);
@@ -1170,11 +1189,11 @@ public class CyderFrame extends JFrame {
             toBeCurrentNotification.appear(currentBuilder.getNotificationDirection(),
                     getContentPane(), duration);
 
-            currentNotif = toBeCurrentNotification;
+            currentNotification = toBeCurrentNotification;
 
             // when the notification is killed/vanishes, it sets itself
             // to killed; this loop will exit after
-            while (!currentNotif.isKilled()) {
+            while (!currentNotification.isKilled()) {
                 Thread.onSpinWait();
             }
 
@@ -1202,10 +1221,10 @@ public class CyderFrame extends JFrame {
      */
     public void revokeCurrentNotification(boolean animate) {
         if (animate) {
-            currentNotif.vanish(currentNotif.getBuilder()
+            currentNotification.vanish(currentNotification.getBuilder()
                     .getNotificationDirection(), this, 0);
         } else {
-            currentNotif.kill();
+            currentNotification.kill();
         }
     }
 
@@ -1217,7 +1236,7 @@ public class CyderFrame extends JFrame {
      */
     @SuppressWarnings("unused")
     public void revokeNotification(String expectedText) {
-        if (currentNotif.getBuilder().getHtmlText().equals(expectedText)) {
+        if (currentNotification.getBuilder().getHtmlText().equals(expectedText)) {
             revokeCurrentNotification();
         } else {
             notificationList.removeIf(notificationBuilder
@@ -1229,8 +1248,8 @@ public class CyderFrame extends JFrame {
      * Removes all currently displayed notifications and wipes the notification queue.
      */
     public void revokeAllNotifications() {
-        if (currentNotif != null)
-            currentNotif.kill();
+        if (currentNotification != null)
+            currentNotification.kill();
 
         if (notificationList != null)
             notificationList.clear();
@@ -1439,8 +1458,8 @@ public class CyderFrame extends JFrame {
                     action.run();
                 }
 
-                if (currentNotif != null) {
-                    currentNotif.kill();
+                if (currentNotification != null) {
+                    currentNotification.kill();
                 }
 
                 //kill all threads
@@ -1790,15 +1809,15 @@ public class CyderFrame extends JFrame {
         if (getCurrentNotification() != null)
             switch (getCurrentNotification().getBuilder().getArrowDir()) {
                 // center on frame
-                case TOP, BOTTOM -> currentNotif.setLocation(getWidth() / 2 - currentNotif.getWidth() / 2,
-                        currentNotif.getY());
+                case TOP, BOTTOM -> currentNotification.setLocation(getWidth() / 2 - currentNotification.getWidth() / 2,
+                        currentNotification.getY());
 
                 // maintain right of frame
-                case RIGHT -> currentNotif.setLocation(getWidth() - currentNotif.getWidth() + 5,
-                        currentNotif.getY());
+                case RIGHT -> currentNotification.setLocation(getWidth() - currentNotification.getWidth() + 5,
+                        currentNotification.getY());
 
                 // maintain left of frame
-                case LEFT -> currentNotif.setLocation(5, currentNotif.getY());
+                case LEFT -> currentNotification.setLocation(5, currentNotification.getY());
             }
     }
 
@@ -3399,6 +3418,11 @@ public class CyderFrame extends JFrame {
     private static final int menuPadding = 5;
 
     /**
+     * The thickness of the menu label border.
+     */
+    private static final int menuBorderThickness = 4;
+
+    /**
      * Generates the menu based off of the current menu components
      * and sets the location to the starting point for inward animation.
      */
@@ -3412,9 +3436,8 @@ public class CyderFrame extends JFrame {
         menuLabel.setBackground(CyderColors.getGuiThemeColor());
 
         if (currentMenuType == MenuType.PANEL) {
-            int menuHeight = 2 * paddingHeight +
-                    (menuItems.size() * (StringUtil.getAbsoluteMinHeight(String.valueOf(CyderNumbers.JENNY),
-                            CyderFonts.defaultFontSmall))) + 5;
+            int menuHeight = 2 * paddingHeight + (menuItems.size() * (StringUtil.getAbsoluteMinHeight(
+                    String.valueOf(CyderNumbers.JENNY), CyderFonts.defaultFontSmall))) + 5;
 
             int sub = 5;
 
@@ -3423,12 +3446,12 @@ public class CyderFrame extends JFrame {
             }
 
             menuLabel.setSize(menuWidth, menuHeight);
-            menuLabel.setBorder(new LineBorder(Color.black, 4));
         } else {
             menuLabel.setSize(getWidth() - 10,
                     (StringUtil.getMinHeight(String.valueOf(CyderNumbers.JENNY), CyderFonts.defaultFontSmall)));
-            menuLabel.setBorder(new LineBorder(Color.black, 4));
         }
+
+        menuLabel.setBorder(new LineBorder(Color.black, menuBorderThickness));
 
         JTextPane menuPane = new JTextPane() {
             // overridden to disable vertical scrollbar since setting
@@ -3509,6 +3532,12 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * The delay before setting the always on top mode to
+     * the original value after invoking finalizeAndShow();
+     */
+    private static final int FINALIZE_AND_SHOW_DELAY = 500;
+
+    /**
      * Sets the frame's location relative to the dominant frame,
      * the visibility to true, and sets always on top mode to true
      * temporarily to ensure the frame is placed on top of other possible frames.
@@ -3520,12 +3549,11 @@ public class CyderFrame extends JFrame {
         boolean wasOnTop = isAlwaysOnTop();
         setAlwaysOnTop(true);
 
-        // if it wasn't always on top, set to false after half a second
         if (!wasOnTop) {
             CyderThreadRunner.submit(() -> {
                 try {
-                    Thread.sleep(715);
-                    setAlwaysOnTop(wasOnTop);
+                    Thread.sleep(FINALIZE_AND_SHOW_DELAY);
+                    setAlwaysOnTop(false);
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }

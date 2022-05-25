@@ -77,10 +77,8 @@ public class PaintWidget {
         if (paintFrame != null)
             paintFrame.dispose(true);
 
-        int padding = 0;
-
-        paintFrame = new CyderFrame(frameLength + padding * 2,
-                frameLength + CyderDragLabel.DEFAULT_HEIGHT + padding * 2);
+        paintFrame = new CyderFrame(frameLength,
+                frameLength + CyderDragLabel.DEFAULT_HEIGHT);
         paintFrame.setTitle("Paint");
         paintFrame.setBackground(CyderIcons.defaultBackgroundLarge);
         paintFrame.addPreCloseAction(() -> {
@@ -102,7 +100,7 @@ public class PaintWidget {
         });
 
         cyderGrid = new CyderGrid(200, frameLength);
-        cyderGrid.setBounds(padding, CyderDragLabel.DEFAULT_HEIGHT + padding - 5, frameLength, frameLength);
+        cyderGrid.setBounds(0, CyderDragLabel.DEFAULT_HEIGHT - 5, frameLength, frameLength);
         paintFrame.getContentPane().add(cyderGrid);
         cyderGrid.setResizable(true);
         cyderGrid.setDrawGridLines(false);
@@ -153,11 +151,11 @@ public class PaintWidget {
                 try {
                     ImageIO.write(image, "png", UserUtil.createFileInUserSpace(filename));
 
-                    NotificationBuilder notifBuilder = new NotificationBuilder(
+                    NotificationBuilder notificationBuilder = new NotificationBuilder(
                             "Successfully saved grid as \"" + filename
                                     + "\" to your Files/ directory. Click me to open it");
-                    notifBuilder.setOnKillAction(() -> ImageUtil.drawImage(image, filename));
-                    paintFrame.notify(notifBuilder);
+                    notificationBuilder.setOnKillAction(() -> ImageUtil.drawImage(image, filename));
+                    paintFrame.notify(notificationBuilder);
                 } catch (Exception exception) {
                     ExceptionHandler.handle(exception);
                     paintFrame.notify("Could not save image at this time");
@@ -300,7 +298,7 @@ public class PaintWidget {
                 paintFrame.notify("Could not resize at this time");
             }
         }, "Paint Grid Scaler"));
-        paintFrame.addMenuItem("Controls", () -> installControlFrames());
+        paintFrame.addMenuItem("Controls", PaintWidget::installControlFrames);
 
         installControlFrames();
     }
@@ -326,7 +324,7 @@ public class PaintWidget {
     private static ArrayList<Color> recentColors;
 
     /**
-     * The custom component with an overriden paint component.
+     * The custom component with an overridden paint component.
      */
     private static JLabel recentColorsBlock;
 
@@ -551,9 +549,9 @@ public class PaintWidget {
         add.setSelected();
         checkBoxLabel.add(add);
 
-        CyderLabel deletelabel = new CyderLabel("Delete");
-        deletelabel.setBounds(5 + 50 + 10, 5, 50, 30);
-        checkBoxLabel.add(deletelabel);
+        CyderLabel deleteLabel = new CyderLabel("Delete");
+        deleteLabel.setBounds(5 + 50 + 10, 5, 50, 30);
+        checkBoxLabel.add(deleteLabel);
 
         CyderCheckbox delete = new CyderCheckbox();
         delete.setBounds(5 + 50 + 10, 100 - 55, 50, 50);
