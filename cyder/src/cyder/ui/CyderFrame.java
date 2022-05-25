@@ -855,15 +855,15 @@ public class CyderFrame extends JFrame {
     /**
      * Whether to paint the title label on the top drag label.
      */
-    private boolean paintWindowTitle = true;
+    private boolean paintCyderFrameTitle = true;
 
     /**
      * Whether to paint the CyderFrame's title label
      *
      * @param enable whether ot paint CyderFrame's title label
      */
-    public void setPaintWindowTitle(boolean enable) {
-        paintWindowTitle = enable;
+    public void setPaintCyderFrameTitle(boolean enable) {
+        paintCyderFrameTitle = enable;
     }
 
     /**
@@ -872,8 +872,8 @@ public class CyderFrame extends JFrame {
      * @return whether the title label will be painted
      */
     @SuppressWarnings("unused")
-    public boolean getPaintWindowTitle() {
-        return paintWindowTitle;
+    public boolean getPaintCyderFrameTitle() {
+        return paintCyderFrameTitle;
     }
 
     /**
@@ -912,7 +912,7 @@ public class CyderFrame extends JFrame {
         // super call, super title will always be provided title
         super.setTitle(paintSuperTitle ? title : "");
 
-        if (paintWindowTitle && !StringUtil.isNull(title) && titleLabel != null) {
+        if (paintCyderFrameTitle && !StringUtil.isNull(title) && titleLabel != null) {
             // inner title needs to have ascii parsed away
             String innerTitle = StringUtil.getTrimmedText(StringUtil.parseNonAscii(title));
 
@@ -1803,7 +1803,7 @@ public class CyderFrame extends JFrame {
             }
         }
 
-        if (getCurrentNotification() != null)
+        if (getCurrentNotification() != null) {
             switch (getCurrentNotification().getBuilder().getArrowDir()) {
                 // center on frame
                 case TOP, BOTTOM -> currentNotification.setLocation(getWidth() / 2 - currentNotification.getWidth() / 2,
@@ -1816,6 +1816,34 @@ public class CyderFrame extends JFrame {
                 // maintain left of frame
                 case LEFT -> currentNotification.setLocation(5, currentNotification.getY());
             }
+        }
+
+        checkTitleOverflow();
+    }
+
+    /**
+     * Checks for the title label overflowing onto the drag
+     * label buttons and clips the label if it does extend.
+     */
+    private void checkTitleOverflow() {
+        if (getTopDragLabel() == null || getTopDragLabel().getButtonList() == null)
+            return;
+
+        LinkedList<JButton> buttons = getTopDragLabel().getButtonList();
+
+        if (buttons.size() > 0) {
+            int minX = this.getWidth();
+
+            for (JButton button : buttons) {
+                minX = Math.min(minX, button.getX());
+            }
+
+            if (titleLabel.getX() + titleLabel.getWidth() >= minX) {
+                titleLabel.setSize(minX - titleLabel.getX(), titleLabel.getHeight());
+            }
+        } else if (titleLabel.getWidth() + titleLabel.getX() > this.getWidth()) {
+            titleLabel.setSize(this.getWidth() - titleLabel.getX(), titleLabel.getHeight());
+        }
     }
 
     /**

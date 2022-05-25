@@ -426,7 +426,7 @@ public enum ConsoleFrame {
 
         consoleCyderFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
-        consoleCyderFrame.setPaintWindowTitle(false);
+        consoleCyderFrame.setPaintCyderFrameTitle(false);
         consoleCyderFrame.setPaintSuperTitle(true);
     }
 

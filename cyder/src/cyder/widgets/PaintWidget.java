@@ -12,6 +12,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
+import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
@@ -135,7 +136,12 @@ public class PaintWidget {
             builder.setSubmitButtonColor(CyderColors.regularPink);
             builder.setSubmitButtonText("Save Image");
             builder.setFieldTooltip("The filename to save the image");
+
             String filename = GetterUtil.getInstance().getString(builder);
+
+            if (!filename.endsWith(".png")) {
+                filename += ".png";
+            }
 
             if (OSUtil.isValidFilename(filename)) {
                 BufferedImage image = new BufferedImage(cyderGrid.getNodeDimensionLength(),
@@ -149,12 +155,13 @@ public class PaintWidget {
                 }
 
                 try {
-                    ImageIO.write(image, "png", UserUtil.createFileInUserSpace(filename));
+                    File referenceFile = UserUtil.createFileInUserSpace(filename);
+                    ImageIO.write(image, "png", referenceFile);
 
                     NotificationBuilder notificationBuilder = new NotificationBuilder(
                             "Successfully saved grid as \"" + filename
-                                    + "\" to your Files/ directory. Click me to open it");
-                    notificationBuilder.setOnKillAction(() -> ImageUtil.drawImage(image, filename));
+                                    + "\" to your Files/ directory. Click me to view it");
+                    notificationBuilder.setOnKillAction(() -> PhotoViewer.getInstance(referenceFile).showGui());
                     paintFrame.notify(notificationBuilder);
                 } catch (Exception exception) {
                     ExceptionHandler.handle(exception);
