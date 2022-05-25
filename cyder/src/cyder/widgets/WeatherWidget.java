@@ -20,7 +20,6 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
 import cyder.utilities.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -613,14 +612,11 @@ public class WeatherWidget {
                     lat = wd.getCoord().getLat();
                     lon = wd.getCoord().getLon();
 
-                    String string = "http://www.mapquestapi.com/staticmap/v5/map?key="
-                            + PropLoader.getString("map_quest_api_key") + "&type=map&size="
-                            + weatherFrame.getWidth() + "," + weatherFrame.getHeight()
-                            + "&locations=" + lat + "," + lon + "%7Cmarker-sm-50318A-1"
-                            + "&scalebar=true&zoom=15&rand=286585877";
+                    // todo state abbr should always be capitalized
 
                     try {
-                        ImageIcon newBack = ImageUtil.toImageIcon(ImageIO.read(new URL(string)));
+                        ImageIcon newBack = MapUtil.getMapView(lat, lon,
+                                weatherFrame.getWidth(), weatherFrame.getHeight());
                         weatherFrame.setBackground(newBack);
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
