@@ -33,8 +33,6 @@ import java.util.LinkedList;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-// todo if two parts for location and middle one is 2 len, use to upper case
-
 @Vanilla
 @CyderAuthor
 public class WeatherWidget {
@@ -281,7 +279,7 @@ public class WeatherWidget {
         weatherFrame.getContentPane().add(currentWeatherContainer);
 
         currentWeatherIconLabel = new JLabel(new ImageIcon("static/pictures/weather/" + weatherIcon + ".png"));
-        currentWeatherIconLabel.setBounds(0, 0, currentWeatherContainer.getWidth(),
+        currentWeatherIconLabel.setBounds(0, 25, currentWeatherContainer.getWidth(),
                 currentWeatherContainer.getHeight() / 2);
         currentWeatherContainer.add(currentWeatherIconLabel);
 
@@ -578,8 +576,14 @@ public class WeatherWidget {
                 String[] parts = currentLocationString.split(",");
                 StringBuilder sb = new StringBuilder();
 
+                boolean isLenThree = parts.length == 3;
+
                 for (int i = 0 ; i < parts.length ; i++) {
-                    sb.append(StringUtil.capsFirstWords(parts[i].trim()).trim());
+                    if (isLenThree && i == 1 && parts[i].length() == 2) {
+                        sb.append(parts[i].trim().toUpperCase());
+                    } else {
+                        sb.append(StringUtil.capsFirstWords(parts[i].trim()).trim());
+                    }
 
                     if (i != parts.length - 1)
                         sb.append(", ");
