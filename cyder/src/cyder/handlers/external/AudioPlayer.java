@@ -49,9 +49,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-// todo ensure cyder frame title never over flows to button list
-
-
 // todo views should slide in and out like StraightShot
 
 // todo progress bar needs to move smoothly even if 1s audio length

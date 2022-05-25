@@ -914,11 +914,13 @@ public enum ConsoleFrame {
         @Override
         public void windowDeiconified(WindowEvent e) {
             inputField.requestFocus();
+            inputField.setCaretPosition(inputField.getPassword().length);
         }
 
         @Override
         public void windowOpened(WindowEvent e) {
             inputField.requestFocus();
+            inputField.setCaretPosition(inputField.getPassword().length);
             onLaunch();
         }
     };
@@ -972,7 +974,7 @@ public enum ConsoleFrame {
                     }
                 }
             }
-        }, IgnoreThread.ConsoleClockUpdator.getName());
+        }, IgnoreThread.ConsoleClockUpdater.getName());
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -1226,7 +1228,7 @@ public enum ConsoleFrame {
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
 
             inputField.requestFocusInWindow();
-            inputField.setCaretPosition(inputField.getDocument().getLength());
+            inputField.setCaretPosition(inputField.getPassword().length);
         }
     };
 
@@ -1606,12 +1608,32 @@ public enum ConsoleFrame {
 
         @Override
         public void keyTyped(java.awt.event.KeyEvent e) {
-            // BashString checker
-            if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+            // if the caret position is before start
+            if (inputField.getCaretPosition() < consoleBashString.toCharArray().length) {
+                // if missing content, set to bash string and place cursor at end
                 if (inputField.getPassword().length < consoleBashString.toCharArray().length) {
-                    e.consume();
                     inputField.setText(consoleBashString);
+                    inputField.setCaretPosition(consoleBashString.length());
                 }
+
+                // place cursor at start of user-entered string
+                inputField.setCaretPosition(consoleBashString.toCharArray().length);
+            } else {
+                // content is long enough but check for starting with bash string
+                String text = new String(inputField.getPassword());
+
+                if (!text.startsWith(consoleBashString)) {
+                    inputField.setText(consoleBashString + text.replace(consoleBashString, ""));
+                    inputField.setCaretPosition(consoleBashString.length());
+                }
+            }
+
+            super.keyTyped(e);
+
+            // handles if bash string content was removed
+            if (inputField.getPassword().length < consoleBashString.toCharArray().length) {
+                inputField.setText(consoleBashString);
+                inputField.setCaretPosition(consoleBashString.length());
             }
         }
     };

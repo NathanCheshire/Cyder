@@ -6,7 +6,7 @@ package cyder.enums;
 public enum IgnoreThread {
     CyderBusyChecker("Cyder Busy Checker"),
     AwtEventQueue0("AWT-EventQueue-0"),
-    ConsoleClockUpdator("Console Clock Updater"),
+    ConsoleClockUpdater("Console Clock Updater"),
     HourlyChimeChecker("Hourly Chime Checker"),
     HighPingChecker("High Ping Checker"),
     DestroyJavaVm("DestroyJavaVM"),
@@ -23,7 +23,7 @@ public enum IgnoreThread {
     private final String name;
 
     /**
-     * Constrcuts a new thread to ignore when counting worker threads.
+     * Constructs a new thread to ignore when counting worker threads.
      *
      * @param name the name of the thread to ignore
      */
