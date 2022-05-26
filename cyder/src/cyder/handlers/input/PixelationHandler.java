@@ -2,7 +2,9 @@ package cyder.handlers.input;
 
 import com.google.common.collect.Range;
 import cyder.annotations.Handle;
+import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.user.UserFile;
@@ -20,13 +22,20 @@ import java.io.File;
  */
 public class PixelationHandler implements Handleable {
     /**
+     * Suppress default constructor.
+     */
+    private PixelationHandler() {
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    }
+
+    /**
      * The range of allowable user-entered pixelation values.
      */
     private static final Range<Integer> pixelRange = Range.closed(2, 500);
 
     @Override
     @Handle({"pixelate", "pixelation"})
-    public void handle() {
+    public boolean handle() {
         switch (ConsoleFrame.INSTANCE.getInputHandler().getHandleIterations()) {
             case 0 -> {
                 if (ImageUtil.solidColor(ConsoleFrame.INSTANCE.getCurrentBackground().getReferenceFile())) {
@@ -40,6 +49,8 @@ public class PixelationHandler implements Handleable {
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                             getInputHandler().println("Could not parse argument as an integer");
+
+                            getInputHandler().resetHandlers();
                         }
                     } else {
                         getInputHandler().setRedirectionHandler(this);
@@ -47,6 +58,8 @@ public class PixelationHandler implements Handleable {
                         getInputHandler().println("Enter pixel size");
                     }
                 }
+
+                return true;
             }
             case 1 -> {
                 try {
@@ -55,6 +68,9 @@ public class PixelationHandler implements Handleable {
                 } catch (Exception ignored) {
                     getInputHandler().println("Could not parse input as an integer");
                 }
+
+                getInputHandler().resetHandlers();
+                return true;
             }
             default -> throw new IllegalArgumentException(
                     "Illegal handle index for handler: " + this.getClass().getName());

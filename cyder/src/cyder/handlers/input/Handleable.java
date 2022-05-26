@@ -24,8 +24,10 @@ public interface Handleable {
 
     /**
      * Attempts to handle the provided input and returns whether the input was successfully processed.
+     *
+     * @return whether the handler successfully parsed the input
      */
-    void handle();
+    boolean handle();
 
     /**
      * Returns the type for this handle method.
@@ -126,6 +128,4 @@ public interface Handleable {
     default String commandAndArgsToString() {
         return getInputHandler().commandAndArgsToString();
     }
-
-    // todo prints, commandIs, getArg, etc. these should reference base methods
 }
