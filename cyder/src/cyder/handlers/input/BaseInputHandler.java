@@ -1776,11 +1776,6 @@ public class BaseInputHandler {
      */
     private int typingAnimationSoundInc;
 
-    /**
-     * The frequency at which we should play a printing animation sound.
-     */
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int typingAnimationSoundFrequency = 2;
 
     /**
      * The console printing animation runnable.
@@ -1796,7 +1791,7 @@ public class BaseInputHandler {
                 int lineTimeout = PropLoader.getInteger("printing_animation_line_timeout");
 
                 while (!ConsoleFrame.INSTANCE.isClosed()) {
-                    //update typingAnimationLocal every 3 seconds to reduce resource usage
+                    // update typingAnimationLocal every 3 seconds to reduce resource usage
                     if (System.currentTimeMillis() - lastPull > dataPullTimeout) {
                         lastPull = System.currentTimeMillis();
                         typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
@@ -1809,35 +1804,15 @@ public class BaseInputHandler {
                         if (redirection) {
                             redirectionWrite(line);
                         } else {
+                            StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
+
                             switch (line) {
-                                case String string -> {
-                                    StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
-                                    document.insertString(document.getLength(), string, null);
-                                    outputArea.getJTextPane()
-                                            .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
-                                }
-                                case JComponent jComponent -> {
-                                    String componentUUID = SecurityUtil.generateUUID();
-                                    Style cs =
-                                            outputArea.getJTextPane().getStyledDocument().addStyle(componentUUID, null);
-                                    StyleConstants.setComponent(cs, jComponent);
-                                    outputArea.getJTextPane().getStyledDocument().insertString(outputArea.getJTextPane()
-                                            .getStyledDocument().getLength(), componentUUID, cs);
-                                }
-                                case ImageIcon imageIcon -> outputArea.getJTextPane().insertIcon(imageIcon);
-                                case null, default -> {
-                                    StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
-                                    document.insertString(document.getLength(), String.valueOf(line), null);
-                                    outputArea.getJTextPane()
-                                            .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
-                                }
+                                case JComponent jComponent -> insertJComponent(jComponent);
+                                case ImageIcon imageIcon -> insertImageIcon(imageIcon);
+                                case null, default -> insertAsString(line);
                             }
                         }
-                    }
-                    //regular will perform a typing animation on strings if no method
-                    // is currently running, such as random YouTube or bletchy, that would cause
-                    // concurrency issues
-                    else if (!consolePrintingList.isEmpty()) {
+                    } else if (!consolePrintingList.isEmpty()) {
                         Object line = consolePrintingList.removeFirst();
                         Logger.log(Logger.Tag.CONSOLE_OUT, line);
 
@@ -1848,65 +1823,110 @@ public class BaseInputHandler {
                                 case String s:
                                     if (typingAnimationLocal) {
                                         if (finishPrinting) {
-                                            StyledDocument document =
-                                                    (StyledDocument) outputArea.getJTextPane().getDocument();
-                                            document.insertString(document.getLength(), s, null);
-                                            outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane()
-                                                    .getDocument().getLength());
+                                            insertAsString(s);
                                         } else {
                                             outputArea.getSemaphore().acquire();
                                             for (char c : s.toCharArray()) {
                                                 innerConsolePrint(c);
 
-                                                if (!finishPrinting)
+                                                if (!finishPrinting) {
                                                     Thread.sleep(charTimeout);
+                                                }
                                             }
                                             outputArea.getSemaphore().release();
                                         }
                                     } else {
-                                        StyledDocument document =
-                                                (StyledDocument) outputArea.getJTextPane().getDocument();
-                                        document.insertString(document.getLength(), (String) line, null);
-                                        outputArea.getJTextPane()
-                                                .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+                                        insertAsString(line);
                                     }
                                     break;
                                 case JComponent jComponent:
-                                    String componentUUID = SecurityUtil.generateUUID();
-                                    Style cs =
-                                            outputArea.getJTextPane().getStyledDocument().addStyle(componentUUID, null);
-                                    StyleConstants.setComponent(cs, jComponent);
-                                    outputArea.getJTextPane().getStyledDocument().insertString(
-                                            outputArea.getJTextPane().getStyledDocument().getLength(), componentUUID,
-                                            cs);
+                                    insertJComponent(jComponent);
                                     break;
                                 case ImageIcon imageIcon:
-                                    outputArea.getJTextPane().insertIcon(imageIcon);
+                                    insertImageIcon(imageIcon);
                                     break;
                                 case null:
                                 default:
-                                    StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
-                                    document.insertString(document.getLength(), String.valueOf(line), null);
-                                    outputArea.getJTextPane()
-                                            .setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+                                    insertAsString(line);
                                     break;
                             }
                         }
-                    }
-                    // lists are empty
-                    else {
-                        //fix possible escape from last command
+                    } else {
                         finishPrinting = false;
                     }
 
-                    if (!finishPrinting && typingAnimationLocal)
+                    if (!finishPrinting && typingAnimationLocal) {
                         Thread.sleep(lineTimeout);
+                    }
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         }
     };
+
+    // -----------------------
+    // document insert methods
+    // -----------------------
+
+    /**
+     * Inserts the provided object into the current outputArea.
+     *
+     * @param object the object to insert
+     */
+    private void insertAsString(Object object) {
+        StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
+
+        try {
+            document.insertString(document.getLength(), String.valueOf(object), null);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+    }
+
+    /**
+     * Inserts the provided component into the current outputArea.
+     *
+     * @param component the component to insert
+     */
+    private void insertJComponent(JComponent component) {
+        Preconditions.checkNotNull(component);
+        Preconditions.checkNotNull(outputArea.getJTextPane());
+
+        String componentUUID = SecurityUtil.generateUUID();
+
+        Style cs = outputArea.getJTextPane()
+                .getStyledDocument().addStyle(componentUUID, null);
+
+        StyleConstants.setComponent(cs, component);
+
+        try {
+            outputArea.getJTextPane().getStyledDocument()
+                    .insertString(outputArea.getJTextPane().getStyledDocument().getLength(), componentUUID, cs);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * Inserts the provided image icon into the current outputArea.
+     *
+     * @param imageIcon the iamge icon to insert
+     */
+    private void insertImageIcon(ImageIcon imageIcon) {
+        Preconditions.checkNotNull(imageIcon);
+        Preconditions.checkNotNull(outputArea.getJTextPane());
+
+        outputArea.getJTextPane().insertIcon(imageIcon);
+    }
+
+    /**
+     * The frequency at which to play a typing sound effect if enabled.
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int typingAnimationSoundFrequency = 2;
 
     /**
      * Appends the provided char to the linked JTextPane and plays
