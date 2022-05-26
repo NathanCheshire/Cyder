@@ -23,10 +23,7 @@ import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderOutputPane;
 import cyder.ui.CyderSliderUI;
-import cyder.user.Preference;
-import cyder.user.Preferences;
-import cyder.user.UserCreator;
-import cyder.user.UserFile;
+import cyder.user.*;
 import cyder.utilities.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -67,7 +64,7 @@ public class BaseInputHandler {
     /**
      * boolean describing whether to quickly append all remaining queued objects to the linked JTextPane.
      */
-    private boolean finishPrinting;
+    private boolean shouldFinishPrinting;
 
     /**
      * The file to redirect the outputs of a command to if redirection is enabled.
@@ -152,6 +149,7 @@ public class BaseInputHandler {
             Logger.log(Logger.Tag.HANDLE_METHOD, "FAILED PRELIMINARIES");
             return;
         }
+
 
         // todo loop on handlers
 
@@ -1771,23 +1769,14 @@ public class BaseInputHandler {
     }
 
     /**
-     * The increment we are currently on for inner char printing.
-     * Used to determine when to play a typing animation sound.
-     */
-    private int typingAnimationSoundInc;
-
-
-    /**
      * The console printing animation runnable.
      */
     private final Runnable consolePrintingRunnable = new Runnable() {
-        @SuppressWarnings("ConstantConditions") // intellij being stupid
         @Override public void run() {
             try {
                 boolean typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
                 long lastPull = System.currentTimeMillis();
                 long dataPullTimeout = 3000;
-                int charTimeout = PropLoader.getInteger("printing_animation_char_timeout");
                 int lineTimeout = PropLoader.getInteger("printing_animation_line_timeout");
 
                 while (!ConsoleFrame.INSTANCE.isClosed()) {
@@ -1798,23 +1787,19 @@ public class BaseInputHandler {
                     }
 
                     if (!consolePriorityPrintingList.isEmpty()) {
-                        Object line = consolePriorityPrintingList.removeFirst();
-                        Logger.log(Logger.Tag.CONSOLE_OUT, line);
+                        Object line = removeAndLog(consolePriorityPrintingList);
 
                         if (redirection) {
                             redirectionWrite(line);
                         } else {
-                            StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
-
                             switch (line) {
                                 case JComponent jComponent -> insertJComponent(jComponent);
                                 case ImageIcon imageIcon -> insertImageIcon(imageIcon);
-                                case null, default -> insertAsString(line);
+                                case default -> insertAsString(line);
                             }
                         }
                     } else if (!consolePrintingList.isEmpty()) {
-                        Object line = consolePrintingList.removeFirst();
-                        Logger.log(Logger.Tag.CONSOLE_OUT, line);
+                        Object line = removeAndLog(consolePrintingList);
 
                         if (redirection) {
                             redirectionWrite(line);
@@ -1822,18 +1807,10 @@ public class BaseInputHandler {
                             switch (line) {
                                 case String s:
                                     if (typingAnimationLocal) {
-                                        if (finishPrinting) {
+                                        if (shouldFinishPrinting) {
                                             insertAsString(s);
                                         } else {
-                                            outputArea.getSemaphore().acquire();
-                                            for (char c : s.toCharArray()) {
-                                                innerConsolePrint(c);
-
-                                                if (!finishPrinting) {
-                                                    Thread.sleep(charTimeout);
-                                                }
-                                            }
-                                            outputArea.getSemaphore().release();
+                                            innerPrintString(s);
                                         }
                                     } else {
                                         insertAsString(line);
@@ -1845,17 +1822,16 @@ public class BaseInputHandler {
                                 case ImageIcon imageIcon:
                                     insertImageIcon(imageIcon);
                                     break;
-                                case null:
                                 default:
                                     insertAsString(line);
                                     break;
                             }
                         }
                     } else {
-                        finishPrinting = false;
+                        shouldFinishPrinting = false;
                     }
 
-                    if (!finishPrinting && typingAnimationLocal) {
+                    if (!shouldFinishPrinting && typingAnimationLocal) {
                         Thread.sleep(lineTimeout);
                     }
                 }
@@ -1864,6 +1840,21 @@ public class BaseInputHandler {
             }
         }
     };
+
+    /**
+     * Removes, logs, and returns the first element from the provided list.
+     *
+     * @param list the list to perform the operations on.
+     * @return the object removed from the list
+     */
+    private Object removeAndLog(LinkedList<Object> list) {
+        Preconditions.checkNotNull(list);
+        Preconditions.checkArgument(list.size() > 0);
+
+        Object ret = list.removeFirst();
+        Logger.log(Logger.Tag.CONSOLE_OUT, ret);
+        return ret;
+    }
 
     // -----------------------
     // document insert methods
@@ -1926,41 +1917,63 @@ public class BaseInputHandler {
      * The frequency at which to play a typing sound effect if enabled.
      */
     @SuppressWarnings("FieldCanBeLocal")
-    private final int typingAnimationSoundFrequency = 2;
+    private final int typingSoundFrequency = 2;
 
     /**
-     * Appends the provided char to the linked JTextPane and plays
-     * a printing animation sound if playInc == playRate.
-     *
-     * @param c the character to append to the JTextPane
+     * The increment we are currently on for inner char printing.
+     * Used to determine when to play a typing animation sound.
      */
-    private void innerConsolePrint(char c) {
+    private int typingSoundInc;
+
+    /**
+     * Prints the string to the output area checking for
+     * typing sound, finish printing, and other parameters.
+     * <p>
+     * Note: this method is locking and SHOULD NOT be used as a
+     * substitute for the default print/println methods.
+     *
+     * @param line the string to append to the output area
+     */
+    private void innerPrintString(String line) {
         try {
-            boolean capsMode = false;
+            outputArea.getSemaphore().acquire();
 
-            //this sometimes throws so we ignore it
-            try {
-                capsMode = UserUtil.getCyderUser().getCapsmode().equals("1");
-            } catch (Exception ignored) {
-            }
+            User localUser = UserUtil.getCyderUser();
+            boolean shouldDoSound = localUser.getTypingsound().equals("1");
 
-            StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
-            document.insertString(document.getLength(),
-                    capsMode ? String.valueOf(c).toUpperCase() : String.valueOf(c), null);
-            outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+            for (char c : line.toCharArray()) {
+                String character = String.valueOf(c);
+                String insertCharacter = localUser.getCapsmode().equals("1") ? character.toUpperCase() : character;
 
-            if (typingAnimationSoundInc == typingAnimationSoundFrequency - 1) {
-                if (!finishPrinting && UserUtil.getCyderUser().getTypingsound().equals("1")) {
-                    IOUtil.playSystemAudio("static/audio/Typing.mp3");
-                    typingAnimationSoundInc = 0;
+                StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
+
+                document.insertString(document.getLength(), insertCharacter, null);
+
+                outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+
+                if (typingSoundInc == typingSoundFrequency - 1) {
+                    if (!shouldFinishPrinting && shouldDoSound) {
+                        IOUtil.playSystemAudio(OSUtil.buildPath("static", "audio", "Typing.mp3"));
+                        typingSoundInc = 0;
+                    }
+                } else {
+                    typingSoundInc++;
                 }
-            } else {
-                typingAnimationSoundInc++;
+
+                if (!shouldFinishPrinting) {
+                    Thread.sleep(PropLoader.getInteger("printing_animation_char_timeout"));
+                }
             }
         } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
+            ExceptionHandler.handle(e);
+        } finally {
+            outputArea.getSemaphore().release();
         }
     }
+
+    // -----------------------
+    // document entity removal
+    // -----------------------
 
     /**
      * Removes the last entity added to the JTextPane whether it's a component,
@@ -2035,6 +2048,10 @@ public class BaseInputHandler {
         outputArea.getStringUtil().removeLastLine();
     }
 
+    // -----------------
+    // redirection logic
+    // -----------------
+
     /**
      * Semaphore used to ensure all things that need to
      * be written to the redirectionFile are written to it.
@@ -2071,7 +2088,7 @@ public class BaseInputHandler {
         escapeWrapShell = true;
         IOUtil.stopGeneralAudio();
         ConsoleFrame.INSTANCE.stopDancing();
-        finishPrinting = true;
+        shouldFinishPrinting = true;
         println("Escaped");
         resetHandlers();
     }
