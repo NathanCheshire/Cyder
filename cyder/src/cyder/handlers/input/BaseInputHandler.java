@@ -4,7 +4,6 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import com.google.common.base.Preconditions;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.ManualTest;
-import cyder.builders.GetterBuilder;
 import cyder.common.WidgetDescription;
 import cyder.constants.*;
 import cyder.enums.DynamicDirectory;
@@ -91,10 +90,30 @@ public class BaseInputHandler {
     private final ArrayList<String> args = new ArrayList<>();
 
     /**
+     * The robot used for screen operations.
+     */
+    private static final Robot robot = initializeRobot();
+
+    /**
      * Suppress default constructor.
      */
     private BaseInputHandler() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    }
+
+    /**
+     * Constructs and returns the base input handler robot.
+     *
+     * @return the base input handler robot
+     */
+    private static Robot initializeRobot() {
+        try {
+            return new Robot();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return null;
     }
 
     /**
@@ -649,7 +668,7 @@ public class BaseInputHandler {
         return ret;
     }
 
-    private boolean generalCommandCheck() throws IOException, AWTException {
+    private boolean generalCommandCheck() throws IOException {
         boolean ret = true;
 
         if (commandIs("createuser")) {
@@ -729,47 +748,6 @@ public class BaseInputHandler {
             } else {
                 println("wikisum usage: wikisum YOUR_WORD/expression");
             }
-        } else if (commandIs("pixelate") && checkArgsLength(0)) {
-            if (ImageUtil.solidColor(ConsoleFrame.INSTANCE.getCurrentBackground().getReferenceFile())) {
-                println("Silly " + UserUtil.getCyderUser().getName() + "; your background " +
-                        "is a solid color :P");
-            } else {
-                CyderThreadRunner.submit(() -> {
-                    GetterBuilder builder = new GetterBuilder("Pixel size");
-                    builder.setRelativeTo(ConsoleFrame.INSTANCE.getConsoleCyderFrame());
-                    builder.setFieldTooltip("Enter an integer");
-                    builder.setSubmitButtonText("Pixelate");
-                    builder.setSubmitButtonColor(CyderColors.regularPink);
-                    String input = GetterUtil.getInstance().getString(builder);
-
-                    if (StringUtil.isNull(input))
-                        return;
-
-                    try {
-                        int pixelSize = Integer.parseInt(input);
-
-                        if (pixelSize > 0) {
-                            BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.INSTANCE.
-                                    getCurrentBackground().getReferenceFile().getAbsoluteFile()), pixelSize);
-
-                            String newName = FileUtil.getFilename(ConsoleFrame.INSTANCE
-                                    .getCurrentBackground().getReferenceFile().getName())
-                                    + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
-
-                            File saveFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH, "users",
-                                    ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(), newName);
-
-                            ImageIO.write(img, "png", saveFile);
-
-                            println("Background pixelated and saved as a separate background file.");
-
-                            ConsoleFrame.INSTANCE.setBackgroundFile(saveFile);
-                        }
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-                }, "Image Pixelator");
-            }
         } else if (commandIs("hide")) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().minimizeAnimation();
         } else if (commandIs("analyzecode")) {
@@ -809,7 +787,11 @@ public class BaseInputHandler {
                 }
             }
         } else if (commandIs("f17")) {
-            new Robot().keyPress(KeyEvent.VK_F17);
+            if (robot != null) {
+                robot.keyPress(KeyEvent.VK_F17);
+            } else {
+                println("Mr. Robot didn't start :(");
+            }
         } else if (commandIs("debugstats")) {
             StatUtil.allStats();
         } else if (commandIs("binary")) {
@@ -1711,8 +1693,6 @@ public class BaseInputHandler {
         BletchyThread.kill();
     }
 
-    //printing queue methods and logic ----------------------------
-
     /**
      * Semaphore for adding objects to both consolePrintingList and consolePriorityPrintingList.
      */
@@ -1789,6 +1769,18 @@ public class BaseInputHandler {
 
         CyderThreadRunner.submit(consolePrintingRunnable, IgnoreThread.ConsolePrintingAnimation.getName());
     }
+
+    /**
+     * The increment we are currently on for inner char printing.
+     * Used to determine when to play a typing animation sound.
+     */
+    private int typingAnimationSoundInc;
+
+    /**
+     * The frequency at which we should play a printing animation sound.
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int typingAnimationSoundFrequency = 2;
 
     /**
      * The console printing animation runnable.
@@ -1917,18 +1909,6 @@ public class BaseInputHandler {
     };
 
     /**
-     * The increment we are currently on for inner char printing.
-     * Used to determine when to play a typing animation sound.
-     */
-    private int typingAnimationSoundInc;
-
-    /**
-     * The frequency at which we should play a printing animation sound.
-     */
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int typingAnimationSoundFrequency = 2;
-
-    /**
      * Appends the provided char to the linked JTextPane and plays
      * a printing animation sound if playInc == playRate.
      *
@@ -1960,76 +1940,6 @@ public class BaseInputHandler {
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
         }
-    }
-
-    /**
-     * Prints the provided tee.
-     *
-     * @param tee the tee to print
-     */
-    public final <T> void print(T tee) {
-        if (MasterYoutubeThread.isActive() || BletchyThread.isActive()) {
-            consolePriorityPrintingList.add(tee);
-        } else {
-            consolePrintingList.add(tee);
-        }
-    }
-
-    /**
-     * Prints the provided tee followed by a newline.
-     *
-     * @param tee the tee to print
-     */
-    public final <T> void println(T tee) {
-        if (MasterYoutubeThread.isActive() || BletchyThread.isActive()) {
-            consolePriorityPrintingList.add(tee);
-            consolePriorityPrintingList.add("\n");
-        } else {
-            consolePrintingList.add(tee);
-            consolePrintingList.add("\n");
-        }
-    }
-
-    /**
-     * Adds the provided tee to the priority printing list.
-     *
-     * @param tee the tee to add to the priority printing list
-     */
-    public final <T> void printPriority(T tee) {
-        consolePriorityPrintingList.add(tee);
-    }
-
-    /**
-     * Adds the provided tee and a newline to the priority printing list.
-     *
-     * @param tee the tee to add to the priority printing list
-     */
-    public final <T> void printlnPriority(T tee) {
-        consolePriorityPrintingList.add(tee);
-        consolePriorityPrintingList.add("\n");
-    }
-
-    /**
-     * Prints the provided String lines to the linked JTextPane.
-     * Note that new lines are automatically added in this so the passed
-     * array may be strings that do not end with new lines.
-     *
-     * @param lines the lines to print to the JTextPane
-     */
-    public final void printlns(String[] lines) {
-        for (String line : lines) {
-            println(line);
-        }
-    }
-
-    /**
-     * Determines if the current command equals the provided text ignoring case.
-     *
-     * @param compare the string to check for case-insensitive equality to command
-     * @return if the current command equals the provided text ignoring case
-     */
-    protected boolean commandIs(String compare) {
-        return command.equalsIgnoreCase(compare);
     }
 
     /**
@@ -2210,6 +2120,16 @@ public class BaseInputHandler {
     }
 
     /**
+     * Determines if the current command equals the provided text ignoring case.
+     *
+     * @param compare the string to check for case-insensitive equality to command
+     * @return if the current command equals the provided text ignoring case
+     */
+    protected boolean commandIs(String compare) {
+        return command.equalsIgnoreCase(compare);
+    }
+
+    /**
      * Returns whether the arguments array contains the expected number of arguments.
      *
      * @param expectedSize the expected size of the command arguments
@@ -2264,5 +2184,69 @@ public class BaseInputHandler {
         }
 
         return sb.toString().trim();
+    }
+
+    // ---------------------
+    // generic print methods
+    // ---------------------
+
+    /**
+     * Prints the provided tee.
+     *
+     * @param tee the tee to print
+     */
+    public final <T> void print(T tee) {
+        if (MasterYoutubeThread.isActive() || BletchyThread.isActive()) {
+            consolePriorityPrintingList.add(tee);
+        } else {
+            consolePrintingList.add(tee);
+        }
+    }
+
+    /**
+     * Prints the provided tee followed by a newline.
+     *
+     * @param tee the tee to print
+     */
+    public final <T> void println(T tee) {
+        if (MasterYoutubeThread.isActive() || BletchyThread.isActive()) {
+            consolePriorityPrintingList.add(tee);
+            consolePriorityPrintingList.add("\n");
+        } else {
+            consolePrintingList.add(tee);
+            consolePrintingList.add("\n");
+        }
+    }
+
+    /**
+     * Adds the provided tee to the priority printing list.
+     *
+     * @param tee the tee to add to the priority printing list
+     */
+    public final <T> void printPriority(T tee) {
+        consolePriorityPrintingList.add(tee);
+    }
+
+    /**
+     * Adds the provided tee and a newline to the priority printing list.
+     *
+     * @param tee the tee to add to the priority printing list
+     */
+    public final <T> void printlnPriority(T tee) {
+        consolePriorityPrintingList.add(tee);
+        consolePriorityPrintingList.add("\n");
+    }
+
+    /**
+     * Prints the provided String lines to the linked JTextPane.
+     * Note that new lines are automatically added in this so the passed
+     * array may be strings that do not end with new lines.
+     *
+     * @param lines the lines to print to the JTextPane
+     */
+    public final void printlns(String[] lines) {
+        for (String line : lines) {
+            println(line);
+        }
     }
 }

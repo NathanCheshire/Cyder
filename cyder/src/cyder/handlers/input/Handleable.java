@@ -24,10 +24,8 @@ public interface Handleable {
 
     /**
      * Attempts to handle the provided input and returns whether the input was successfully processed.
-     *
-     * @return whether the input was successfully processed
      */
-    boolean handle();
+    void handle();
 
     /**
      * Returns the type for this handle method.

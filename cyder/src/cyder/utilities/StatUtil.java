@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -8,7 +9,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.threads.CyderThreadRunner;
+import cyder.threads.CyderThreadFactory;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,6 +22,8 @@ import java.net.NetworkInterface;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class StatUtil {
     private StatUtil() {
@@ -92,69 +95,69 @@ public class StatUtil {
     }
 
     public static void allStats() {
-        debugMenu();
+        getDebugProps();
         computerProperties();
         javaProperties();
         systemProperties();
     }
 
-    public static void debugMenu() {
+    /**
+     * A record type to hold the stats returned by {@link StatUtil#getDebugProps()}.
+     */
+    public record DebugStats(ImmutableList<String> lines, ImageIcon countryFlag) {
+    }
+
+    public static Future<DebugStats> getDebugProps() {
         Preconditions.checkArgument(!NetworkUtil.isHighLatency());
 
-        CyderThreadRunner.submit(() -> {
-            try {
-                DecimalFormat gByteFormatter = new DecimalFormat("##.###");
-                double gBytes = Double.parseDouble(gByteFormatter
-                        .format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
-                InetAddress address = InetAddress.getLocalHost();
-                NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
+        return Executors.newSingleThreadExecutor(new CyderThreadFactory("test")).submit(() -> {
+            DecimalFormat gByteFormatter = new DecimalFormat("##.###");
+            double gBytes = Double.parseDouble(gByteFormatter
+                    .format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
+            InetAddress address = InetAddress.getLocalHost();
+            NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
 
-                BufferedImage flag = ImageIO.read(new URL(IPUtil.getIpdata().getFlag()));
+            BufferedImage flag = ImageIO.read(new URL(IPUtil.getIpdata().getFlag()));
 
-                double x = flag.getWidth();
-                double y = flag.getHeight();
+            double x = flag.getWidth();
+            double y = flag.getHeight();
 
-                ConsoleFrame.INSTANCE.getInputHandler().println("Country: "
-                        + IPUtil.getIpdata().getCountry_name() + "\nCountry Flag: ");
-                ConsoleFrame.INSTANCE.getInputHandler().println(
-                        new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
+            ImageIcon resized = new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y)));
 
-                String[] lines = {"Time requested: " + TimeUtil.weatherTime(),
-                        "ISP: " + IPUtil.getIpdata().getAsn().getName(),
-                        "IP: " + IPUtil.getIpdata().getIp(),
-                        "Postal Code: " + IPUtil.getIpdata().getPostal(),
-                        "City: " + IPUtil.getIpdata().getCity(),
-                        "State: " + IPUtil.getIpdata().getRegion(),
-                        "Country: " + IPUtil.getIpdata().getCountry_name() + " (" + IPUtil.getIpdata().getCountry_code() + ")",
-                        "Latitude: " + IPUtil.getIpdata().getLatitude() + " Degrees N",
-                        "Longitude: " + IPUtil.getIpdata().getLongitude() + " Degrees W",
-                        "latency: " + NetworkUtil.latency(10000) + " ms",
-                        "Google Reachable: " + NetworkUtil.siteReachable(CyderUrls.GOOGLE),
-                        "YouTube Reachable: " + NetworkUtil.siteReachable(CyderUrls.YOUTUBE),
-                        "Apple Reachable: " + NetworkUtil.siteReachable(CyderUrls.APPLE),
-                        "Microsoft Reachable: " + NetworkUtil.siteReachable(CyderUrls.MICROSOFT),
-                        "User Name: " + OSUtil.getSystemUsername(),
-                        "Computer Name: " + OSUtil.getComputerName(),
-                        "Available Cores: " + Runtime.getRuntime().availableProcessors(),
-                        "Available Memory: " + gBytes + " GigaBytes",
-                        "Operating System: " + OSUtil.OPERATING_SYSTEM_NAME,
-                        "Java Version: " + System.getProperty("java.version"),
-                        "Network Interface Name: " + netIn.getName(),
-                        "Network Interface Display Name: " + netIn.getDisplayName(),
-                        "Network MTU: " + netIn.getMTU(),
-                        "Host Address: " + address.getHostAddress(),
-                        "Local Host Address: " + InetAddress.getLocalHost(),
-                        "Loopback Address: " + InetAddress.getLoopbackAddress()};
-
-                ConsoleFrame.INSTANCE.getInputHandler().printlns(lines);
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }, "Debug Stat Thread");
+            return new DebugStats(ImmutableList.of(
+                    "Time requested: " + TimeUtil.weatherTime(),
+                    "ISP: " + IPUtil.getIpdata().getAsn().getName(),
+                    "IP: " + IPUtil.getIpdata().getIp(),
+                    "Postal Code: " + IPUtil.getIpdata().getPostal(),
+                    "City: " + IPUtil.getIpdata().getCity(),
+                    "State: " + IPUtil.getIpdata().getRegion(),
+                    "Country: " + IPUtil.getIpdata().getCountry_name() + " ("
+                            + IPUtil.getIpdata().getCountry_code() + ")",
+                    "Latitude: " + IPUtil.getIpdata().getLatitude() + " Degrees N",
+                    "Longitude: " + IPUtil.getIpdata().getLongitude() + " Degrees W",
+                    "latency: " + NetworkUtil.latency(10000) + " ms",
+                    "Google Reachable: " + NetworkUtil.siteReachable(CyderUrls.GOOGLE),
+                    "YouTube Reachable: " + NetworkUtil.siteReachable(CyderUrls.YOUTUBE),
+                    "Apple Reachable: " + NetworkUtil.siteReachable(CyderUrls.APPLE),
+                    "Microsoft Reachable: " + NetworkUtil.siteReachable(CyderUrls.MICROSOFT),
+                    "User Name: " + OSUtil.getSystemUsername(),
+                    "Computer Name: " + OSUtil.getComputerName(),
+                    "Available Cores: " + Runtime.getRuntime().availableProcessors(),
+                    "Available Memory: " + gBytes + " GigaBytes",
+                    "Operating System: " + OSUtil.OPERATING_SYSTEM_NAME,
+                    "Java Version: " + System.getProperty("java.version"),
+                    "Network Interface Name: " + netIn.getName(),
+                    "Network Interface Display Name: " + netIn.getDisplayName(),
+                    "Network MTU: " + netIn.getMTU(),
+                    "Host Address: " + address.getHostAddress(),
+                    "Local Host Address: " + InetAddress.getLocalHost(),
+                    "Loopback Address: " + InetAddress.getLoopbackAddress()), resized);
+        });
     }
 
     public static String fileByFileAnalyze(File startDir) {
-        StringBuilder ret = new StringBuilder("Numbers in order represent: code lines, comment lines, and blank lines respectively\n");
+        StringBuilder ret = new StringBuilder(
+                "Numbers in order represent: code lines, comment lines, and blank lines respectively\n");
 
         ArrayList<File> javaFiles = OSUtil.getFiles(startDir, ".java");
 
@@ -401,10 +404,14 @@ public class StatUtil {
                     if (giga >= coalesceSpace) {
                         float tera = giga / coalesceSpace;
                         return (formatter.format(tera) + "TB");
-                    } else return (formatter.format(giga) + "GB");
-                } else return (formatter.format(mega) + "MB");
-            } else return (formatter.format(kilo) + "KB");
-        } else return (bytes + " bytes");
+                    } else
+                        return (formatter.format(giga) + "GB");
+                } else
+                    return (formatter.format(mega) + "MB");
+            } else
+                return (formatter.format(kilo) + "KB");
+        } else
+            return (bytes + " bytes");
     }
 
     public static void findBadWords() {

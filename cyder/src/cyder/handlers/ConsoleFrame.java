@@ -1105,10 +1105,11 @@ public enum ConsoleFrame {
         }
 
         if (UserUtil.getCyderUser().getDebugwindows().equals("1")) {
+            // todo all of these should return stuff to be printed
             StatUtil.systemProperties();
             StatUtil.computerProperties();
             StatUtil.javaProperties();
-            StatUtil.debugMenu();
+            StatUtil.getDebugProps();
         }
 
         if (PropLoader.getBoolean("testing_mode")) {

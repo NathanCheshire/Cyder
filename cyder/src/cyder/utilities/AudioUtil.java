@@ -345,7 +345,7 @@ public class AudioUtil {
     }
 
     /**
-     * Downlaods ffmpeg, ffplay, and ffprobe to the exes dynamic
+     * Downloads ffmpeg, ffplay, and ffprobe to the exes dynamic
      * directory and sets the user path for ffmpeg to the one in dynamic.
      *
      * @return whether the download was successful
