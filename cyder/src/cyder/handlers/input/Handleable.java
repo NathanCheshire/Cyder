@@ -1,5 +1,6 @@
 package cyder.handlers.input;
 
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.Logger;
 
 /**
@@ -56,6 +57,16 @@ public interface Handleable {
     // -------------------------
     // print and utility methods
     // -------------------------
+
+    /**
+     * Returns whether the provided string equals, ignoring case, the current input handler command.
+     *
+     * @param string the string to test for
+     * @return whether the provided string equals ignore case the current input handler command
+     */
+    default boolean commandIs(String string) {
+        return ConsoleFrame.INSTANCE.getInputHandler().commandIs(string);
+    }
 
     // todo prints, commandIs, getArg, etc. these should reference base methods
 }

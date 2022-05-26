@@ -103,8 +103,9 @@ public class StatUtil {
 
         CyderThreadRunner.submit(() -> {
             try {
-                DecimalFormat gFormater = new DecimalFormat("##.###");
-                double gBytes = Double.parseDouble(gFormater.format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
+                DecimalFormat gByteFormatter = new DecimalFormat("##.###");
+                double gBytes = Double.parseDouble(gByteFormatter
+                        .format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
                 InetAddress address = InetAddress.getLocalHost();
                 NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
 
@@ -180,8 +181,11 @@ public class StatUtil {
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
-            for (File f : files)
-                ret += totalJavaLines(f);
+            if (files != null && files.length > 0) {
+                for (File f : files) {
+                    ret += totalJavaLines(f);
+                }
+            }
         } else if (startDir.getName().endsWith(".java")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
@@ -215,12 +219,14 @@ public class StatUtil {
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
-            for (File f : files)
-                ret += totalLines(f);
+            if (files != null && files.length > 0) {
+                for (File f : files) {
+                    ret += totalLines(f);
+                }
+            }
         } else if (startDir.getName().endsWith(".java")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
-                String line = "";
                 int localRet = 0;
 
                 while (lineReader.readLine() != null)
@@ -237,7 +243,7 @@ public class StatUtil {
 
     /**
      * Finds the number of java comments associated with all .java files
-     * within the directory and recurively located directories provided
+     * within the directory and recursively located directories provided
      *
      * @param startDir the directory to begin recursing from
      * @return the raw number of comments found
@@ -248,8 +254,11 @@ public class StatUtil {
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
-            for (File f : files)
-                ret += totalComments(f);
+            if (files != null && files.length > 0) {
+                for (File f : files) {
+                    ret += totalComments(f);
+                }
+            }
         } else if (startDir.getName().endsWith(".java")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
@@ -313,8 +322,11 @@ public class StatUtil {
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
-            for (File f : files)
-                ret += totalBlankLines(f);
+            if (files != null && files.length > 0) {
+                for (File f : files) {
+                    ret += totalBlankLines(f);
+                }
+            }
         } else if (startDir.getName().endsWith(".java")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
@@ -348,8 +360,13 @@ public class StatUtil {
         LinkedList<FileSize> ret = new LinkedList<>();
 
         if (startDir.isDirectory()) {
-            for (File f : startDir.listFiles())
-                ret.addAll(innerFileSizes(f));
+            File[] files = startDir.listFiles();
+
+            if (files != null && files.length > 0) {
+                for (File f : files) {
+                    ret.addAll(innerFileSizes(f));
+                }
+            }
         } else {
             ret.add(new FileSize(startDir.getName(), startDir.length()));
         }
@@ -398,8 +415,11 @@ public class StatUtil {
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
-            for (File f : files)
-                innerFindBadWords(f);
+            if (files != null && files.length > 0) {
+                for (File f : files) {
+                    innerFindBadWords(f);
+                }
+            }
         } else if (startDir.isFile() && !FileUtil.getFilename(startDir.getName()).equals("v.txt")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));

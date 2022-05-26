@@ -99,27 +99,28 @@ public class BaseInputHandler {
     }
 
     /**
-     * Default constructor with required JTextPane.
+     * Constructs a new base input handler liked to the provided {@link JTextPane}.
      *
-     * @param outputArea the JTextPane to output to
+     * @param outputArea the JTextPane object to append content to
      */
     public BaseInputHandler(JTextPane outputArea) {
         Preconditions.checkNotNull(outputArea);
+
         this.outputArea = new CyderOutputPane(outputArea);
 
-        installThreads();
-
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        initializeThreads();
 
         startConsolePrintingAnimation();
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
      * Sets up the custom thread objects managed by this base.
      */
-    private void installThreads() {
-        MasterYoutubeThread.initialize(outputArea.getJTextPane(), makePrintingThreadsafeAgain);
-        BletchyThread.initialize(outputArea.getJTextPane(), makePrintingThreadsafeAgain);
+    private void initializeThreads() {
+        MasterYoutubeThread.initialize(outputArea.getJTextPane(), printingListLock);
+        BletchyThread.initialize(outputArea.getJTextPane(), printingListLock);
     }
 
     /**
@@ -795,22 +796,17 @@ public class BaseInputHandler {
                     File finalStartDir = startDir;
 
                     CyderThreadRunner.submit(() -> {
-                        if (finalStartDir != null) {
-                            int totalLines = StatUtil.totalLines(finalStartDir);
-                            int codeLines = StatUtil.totalJavaLines(finalStartDir);
-                            int blankLines = StatUtil.totalBlankLines(finalStartDir);
-                            int commentLines = StatUtil.totalComments(finalStartDir);
-                            int classes = ReflectionUtil.cyderClasses.size();
+                        int codeLines = StatUtil.totalJavaLines(finalStartDir);
+                        int commentLines = StatUtil.totalComments(finalStartDir);
 
-                            println("Total lines: " + totalLines);
-                            println("Code lines: " + codeLines);
-                            println("Blank lines: " + blankLines);
-                            println("Comment lines: " + commentLines);
-                            println("Classes: " + classes);
+                        println("Total lines: " + StatUtil.totalLines(finalStartDir));
+                        println("Code lines: " + codeLines);
+                        println("Blank lines: " + StatUtil.totalBlankLines(finalStartDir));
+                        println("Comment lines: " + commentLines);
+                        println("Classes: " + ReflectionUtil.cyderClasses.size());
 
-                            double ratio = ((double) codeLines / (double) commentLines);
-                            println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
-                        }
+                        float ratio = ((float) codeLines / (float) commentLines);
+                        println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
                     }, "Code Analyzer");
                 } else {
                     println("analyzecode usage: analyzecode [path/to/the/root/directory] " +
@@ -956,7 +952,7 @@ public class BaseInputHandler {
         } else if (commandIs("clc") ||
                 commandIs("cls") ||
                 commandIs("clear")) {
-            clc();
+            outputArea.getJTextPane().setText("");
         } else if (commandIs("mouse")) {
             if (checkArgsLength(2)) {
                 OSUtil.setMouseLoc(Integer.parseInt(getArg(0)), Integer.parseInt(getArg(1)));
@@ -1085,7 +1081,7 @@ public class BaseInputHandler {
             }, "GitHub Issue Getter");
         } else if (commandIs("blackpanther") || commandIs("chadwickboseman")) {
             CyderThreadRunner.submit(() -> {
-                clc();
+                outputArea.getJTextPane().setText("");
 
                 IOUtil.playAudio("static/audio/Kendrick Lamar - All The Stars.mp3");
                 Font oldFont = outputArea.getJTextPane().getFont();
@@ -1780,22 +1776,12 @@ public class BaseInputHandler {
         BletchyThread.kill();
     }
 
-    /**
-     * Returns a String representation of this input handler object.
-     *
-     * @return a String representation of this input handler object
-     */
-    @Override
-    public final String toString() {
-        return ReflectionUtil.commonCyderToString(this);
-    }
-
     //printing queue methods and logic ----------------------------
 
     /**
      * Semaphore for adding objects to both consolePrintingList and consolePriorityPrintingList.
      */
-    private final Semaphore makePrintingThreadsafeAgain = new Semaphore(1);
+    private final Semaphore printingListLock = new Semaphore(1);
 
     /**
      * the printing list of non-important outputs.
@@ -1812,12 +1798,12 @@ public class BaseInputHandler {
         @Override
         public boolean add(Object e) {
             try {
-                makePrintingThreadsafeAgain.acquire();
+                printingListLock.acquire();
             } catch (InterruptedException ex) {
                 ExceptionHandler.handle(ex);
             }
             boolean ret = super.add(e);
-            makePrintingThreadsafeAgain.release();
+            printingListLock.release();
             return ret;
         }
     };
@@ -1837,12 +1823,13 @@ public class BaseInputHandler {
         @Override
         public boolean add(Object e) {
             try {
-                makePrintingThreadsafeAgain.acquire();
+                printingListLock.acquire();
             } catch (InterruptedException ex) {
                 ExceptionHandler.handle(ex);
             }
+
             boolean ret = super.add(e);
-            makePrintingThreadsafeAgain.release();
+            printingListLock.release();
             return ret;
         }
     };
@@ -1857,17 +1844,20 @@ public class BaseInputHandler {
      * The typing animation is only used if the user preference is enabled.
      */
     public final void startConsolePrintingAnimation() {
-        if (printingAnimationInvoked)
+        if (printingAnimationInvoked) {
             return;
+        }
 
         printingAnimationInvoked = true;
         consolePrintingList.clear();
         consolePriorityPrintingList.clear();
 
-        CyderThreadRunner.submit(consolePrintingRunnable,
-                IgnoreThread.ConsolePrintingAnimation.getName());
+        CyderThreadRunner.submit(consolePrintingRunnable, IgnoreThread.ConsolePrintingAnimation.getName());
     }
 
+    /**
+     * The console printing animation runnable.
+     */
     private final Runnable consolePrintingRunnable = new Runnable() {
         @SuppressWarnings("ConstantConditions") // intellij being stupid
         @Override public void run() {
@@ -1995,12 +1985,13 @@ public class BaseInputHandler {
      * The increment we are currently on for inner char printing.
      * Used to determine when to play a typing animation sound.
      */
-    private static int playInc;
+    private int typingAnimationSoundInc;
 
     /**
      * The frequency at which we should play a printing animation sound.
      */
-    private static final int playRate = 2;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int typingAnimationSoundFrequency = 2;
 
     /**
      * Appends the provided char to the linked JTextPane and plays
@@ -2023,13 +2014,13 @@ public class BaseInputHandler {
                     capsMode ? String.valueOf(c).toUpperCase() : String.valueOf(c), null);
             outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
 
-            if (playInc == playRate - 1) {
+            if (typingAnimationSoundInc == typingAnimationSoundFrequency - 1) {
                 if (!finishPrinting && UserUtil.getCyderUser().getTypingsound().equals("1")) {
                     IOUtil.playSystemAudio("static/audio/Typing.mp3");
-                    playInc = 0;
+                    typingAnimationSoundInc = 0;
                 }
             } else {
-                playInc++;
+                typingAnimationSoundInc++;
             }
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
@@ -2091,8 +2082,9 @@ public class BaseInputHandler {
      * @param lines the lines to print to the JTextPane
      */
     public final void printlns(String[] lines) {
-        for (String line : lines)
+        for (String line : lines) {
             println(line);
+        }
     }
 
     /**
@@ -2101,25 +2093,18 @@ public class BaseInputHandler {
      * @param compare the string to check for case-insensitive equality to command
      * @return if the current command equals the provided text ignoring case
      */
-    private boolean commandIs(String compare) {
+    protected boolean commandIs(String compare) {
         return command.equalsIgnoreCase(compare);
     }
 
     /**
-     * Removes all components from the linked JTextPane.
-     */
-    private void clc() {
-        outputArea.getJTextPane().setText("");
-    }
-
-    /**
-     * Removes the last "thing" added to the JTextPane whether it's a component,
+     * Removes the last entity added to the JTextPane whether it's a component,
      * icon, or string of multi-lined text.
      * <p>
      * In more detail, this method figures out what it'll be removing and then determines how many calls
      * are needed to {@link StringUtil#removeLastLine()}
      */
-    public final void removeLast() {
+    public final void removeLastEntity() {
         try {
             boolean removeTwoLines = false;
 
@@ -2172,6 +2157,7 @@ public class BaseInputHandler {
      *
      * @return the last line of text on the linked JTextPane
      */
+    @SuppressWarnings("unused")
     private final String getLastTextLine() {
         return outputArea.getStringUtil().getLastTextLine();
     }
@@ -2232,8 +2218,6 @@ public class BaseInputHandler {
         handleIterations = 0;
         redirectionHandler = null;
     }
-
-    /////////////////////////////////////////
 
     /**
      * The iteration the current handler is on.

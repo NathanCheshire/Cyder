@@ -17,7 +17,7 @@ public class PixelationHandler implements Handleable {
             }
             case 1 -> {
                 try {
-                    int size = Integer.parseInt("todo get thing");
+                    int size = Integer.parseInt("");
                 } catch (Exception ignored) {
                     ConsoleFrame.INSTANCE.getInputHandler().println("Could not parse input as an integer");
                 }
