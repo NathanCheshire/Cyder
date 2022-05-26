@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 /**
  * An annotation used to credit authors of Cyder classes.
  */
-@Retention(RetentionPolicy.RUNTIME) /* allow to be found after compilation to bytecode */
-@Target(ElementType.TYPE) /* restrict annotations to classes */
-public @interface CyderAuthor {
-    String author() default "Nathan Cheshire";
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR})
+public @interface Handle {
+    String[] value();
 }

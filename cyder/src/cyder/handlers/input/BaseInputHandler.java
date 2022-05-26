@@ -67,16 +67,6 @@ public class BaseInputHandler {
     private final CyderOutputPane outputArea;
 
     /**
-     * boolean describing whether input should be passed to handle() or handleSecond().
-     */
-    private boolean userInputMode;
-
-    /**
-     * The description of the secondary input handleSecond will receive.
-     */
-    private String userInputDesc;
-
-    /**
      * boolean describing whether to quickly append all remaining queued objects to the linked JTextPane.
      */
     private boolean finishPrinting;
@@ -117,12 +107,19 @@ public class BaseInputHandler {
         Preconditions.checkNotNull(outputArea);
         this.outputArea = new CyderOutputPane(outputArea);
 
-        MasterYoutubeThread.initialize(outputArea, makePrintingThreadsafeAgain);
-        BletchyThread.initialize(outputArea, makePrintingThreadsafeAgain);
+        installThreads();
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
 
         startConsolePrintingAnimation();
+    }
+
+    /**
+     * Sets up the custom thread objects managed by this base.
+     */
+    private void installThreads() {
+        MasterYoutubeThread.initialize(outputArea.getJTextPane(), makePrintingThreadsafeAgain);
+        BletchyThread.initialize(outputArea.getJTextPane(), makePrintingThreadsafeAgain);
     }
 
     /**
@@ -136,6 +133,8 @@ public class BaseInputHandler {
             Logger.log(Logger.Tag.HANDLE_METHOD, "FAILED PRELIMINARIES");
             return;
         }
+
+        // todo loop on handlers
 
         try {
             // todo these should be handler sub methods that we simply loop through and attempt to handle
@@ -1752,24 +1751,6 @@ public class BaseInputHandler {
     // end printing tests ----------------------------------
 
     /**
-     * Handles a secondary input following a subsequent operation that was sent to handle().
-     *
-     * @param input the secondary input to handle
-     */
-    public final void handleSecond(String input) {
-        try {
-            String desc = getUserInputDesc();
-
-            //tests on desc which should have been set from the first handle method
-            if (desc.equals("YOUR PREVIOUSLY SET DESC") && StringUtil.hasWord(input, "YOUR WORD")) {
-                println("");
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
      * Prints the suggestions as recommendations to the user for what to use Cyder for.
      */
     private void help() {
@@ -1788,42 +1769,6 @@ public class BaseInputHandler {
      */
     public final JTextPane getOutputArea() {
         return outputArea.getJTextPane();
-    }
-
-    /**
-     * Getter for this instance's input mode. Used by ConsoleFrame to trigger a handleSecond call.
-     *
-     * @return the value of user input mode
-     */
-    public final boolean getUserInputMode() {
-        return userInputMode;
-    }
-
-    /**
-     * Set the value of secondary input mode. Used by ConsoleFrame to trigger a handleSecond call.
-     *
-     * @param b the value of input mode
-     */
-    public final void setUserInputMode(boolean b) {
-        userInputMode = b;
-    }
-
-    /**
-     * Returns the expected secondary input description.
-     *
-     * @return the input description
-     */
-    private String getUserInputDesc() {
-        return userInputDesc;
-    }
-
-    /**
-     * Sets this instance's secondary input description.
-     *
-     * @param s the description of the input we expect to receive next
-     */
-    public final void setUserInputDesc(String s) {
-        userInputDesc = s;
     }
 
     /**
@@ -2239,8 +2184,6 @@ public class BaseInputHandler {
         outputArea.getStringUtil().removeLastLine();
     }
 
-    //redirection logic ---------------------------------------
-
     /**
      * Semaphore used to ensure all things that need to
      * be written to the redirectionFile are written to it.
@@ -2256,7 +2199,7 @@ public class BaseInputHandler {
      */
     private void redirectionWrite(Object object) {
         Preconditions.checkNotNull(object);
-        Preconditions.checkNotNull(redirectionFile.exists(), "Redirection file does not exist");
+        Preconditions.checkArgument(redirectionFile.exists(), "Redirection file does not exist");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(redirectionFile, true))) {
             redirectionSem.acquire();
@@ -2273,25 +2216,68 @@ public class BaseInputHandler {
      * stops any audio playing, and finishes printing anything in the printing lists.
      */
     public final void escapeThreads() {
-        //exit user input mode if in it
-        setUserInputMode(false);
-
-        //kill threads
         killThreads();
-
-        //escape possible wrapped terminal call
         escapeWrapShell = true;
-
-        //stop music
         IOUtil.stopGeneralAudio();
-
-        //cancel dancing threads
         ConsoleFrame.INSTANCE.stopDancing();
-
-        //finish printing anything in printing queue
         finishPrinting = true;
+        println("Escaped");
+        resetHandlers();
+    }
 
-        //inform user we escaped
-        consolePrintingList.add("Escaped\n");
+    /**
+     * Resets the handle iterations and redirection handler.
+     */
+    public void resetHandlers() {
+        handleIterations = 0;
+        redirectionHandler = null;
+    }
+
+    /////////////////////////////////////////
+
+    /**
+     * The iteration the current handler is on.
+     */
+    private int handleIterations = 0;
+
+    /**
+     * Returns the current handle iteration.
+     *
+     * @return the current handle iteration
+     */
+    public int getHandleIterations() {
+        return handleIterations;
+    }
+
+    /**
+     * Sets the current handle iteration.
+     *
+     * @param handleIterations the current handle iteration
+     */
+    public void setHandleIterations(int handleIterations) {
+        this.handleIterations = handleIterations;
+    }
+
+    /**
+     * The current handler to send the input to.
+     */
+    private Handleable redirectionHandler;
+
+    /**
+     * Returns the current redirection handler.
+     *
+     * @return the current redirection handler
+     */
+    public Handleable getRedirectionHandler() {
+        return redirectionHandler;
+    }
+
+    /**
+     * Sets the current redirection handler.
+     *
+     * @param redirectionHandler the current redirection handler
+     */
+    public void setRedirectionHandler(Handleable redirectionHandler) {
+        this.redirectionHandler = redirectionHandler;
     }
 }

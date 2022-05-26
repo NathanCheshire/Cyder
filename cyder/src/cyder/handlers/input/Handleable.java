@@ -5,7 +5,7 @@ import cyder.handlers.internal.Logger;
 /**
  * A handler that takes care and handles all pieces of some Cyder operation.
  */
-public interface Handler {
+public interface Handleable {
     /**
      * The types of handlers.
      */
@@ -24,12 +24,9 @@ public interface Handler {
     /**
      * Attempts to handle the provided input and returns whether the input was successfully processed.
      *
-     * @param tees          the objects necessary for handling
-     * @param <T>           the type of objects provided for handling
-     * @param userTriggered whether the input was triggered by a user or an artificial source
      * @return whether the input was successfully processed
      */
-    <T> boolean handle(T[] tees, boolean userTriggered);
+    boolean handle();
 
     /**
      * Returns the type for this handle method.
@@ -46,13 +43,19 @@ public interface Handler {
      * @return the log message for this handler
      */
     default String getLogMessage() {
-        return "Primary handler succeeded";
+        return "Someone forgot to override the log message :/";
     }
 
     /**
-     * Logs a handle action of this handler.
+     * Logs a successful handle action of this handler.
      */
     default void logSelfHandle() {
         Logger.log(Logger.Tag.HANDLE_METHOD, getLogMessage());
     }
+
+    // -------------------------
+    // print and utility methods
+    // -------------------------
+
+    // todo prints, commandIs, getArg, etc. these should reference base methods
 }

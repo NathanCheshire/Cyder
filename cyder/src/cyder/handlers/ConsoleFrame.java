@@ -1404,7 +1404,8 @@ public enum ConsoleFrame {
     private final ActionListener inputFieldActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String op = String.valueOf(inputField.getPassword()).substring(consoleBashString.length())
+            String op = String.valueOf(inputField.getPassword())
+                    .substring(consoleBashString.length())
                     .trim().replace(consoleBashString, "");
 
             if (!StringUtil.isNull(op)) {
@@ -1414,15 +1415,7 @@ public enum ConsoleFrame {
                 }
 
                 commandIndex = commandList.size();
-
-                //calls to linked InputHandler
-                if (!baseInputHandler.getUserInputMode()) {
-                    baseInputHandler.handle(op, true);
-                } else //noinspection ConstantConditions
-                    if (baseInputHandler.getUserInputMode()) {
-                        baseInputHandler.setUserInputMode(false);
-                        baseInputHandler.handleSecond(op);
-                    }
+                baseInputHandler.handle(op, true);
             }
 
             inputField.setText(consoleBashString);
