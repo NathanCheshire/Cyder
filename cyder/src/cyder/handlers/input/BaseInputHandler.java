@@ -29,7 +29,6 @@ import cyder.user.Preferences;
 import cyder.user.UserCreator;
 import cyder.user.UserFile;
 import cyder.utilities.*;
-import org.jetbrains.annotations.Nullable;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -138,8 +137,7 @@ public class BaseInputHandler {
         // todo loop on handlers
 
         try {
-            // todo these should be handler sub methods that we simply loop through and attempt to handle
-            // abstract class with base implementations of fail, primary, and final handle
+            //noinspection StatementWithEmptyBody
             if (generalPrintsCheck()
                     || printImageCheck()
                     || ReflectionUtil.openWidget((commandAndArgsToString()))
@@ -148,24 +146,21 @@ public class BaseInputHandler {
                     || audioCommandCheck()
                     || generalCommandCheck()) {
 
-            } else if (isURLCheck(command)
-                    || handleMath(commandAndArgsToString())
-                    || evaluateExpression(commandAndArgsToString())
-                    || preferenceCheck(commandAndArgsToString())
-                    || manualTestCheck(commandAndArgsToString())) {
+            } else //noinspection StatementWithEmptyBody
+                if (isURLCheck(command)
+                        || handleMath(commandAndArgsToString())
+                        || evaluateExpression(commandAndArgsToString())
+                        || preferenceCheck(commandAndArgsToString())
+                        || manualTestCheck(commandAndArgsToString())) {
 
-            } else {
-                unknownInput();
-            }
+                } else {
+                    unknownInput();
+                }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+        } finally {
+            ConsoleFrame.INSTANCE.getInputField().setText("");
         }
-
-        cleanUp();
-    }
-
-    private void cleanUp() {
-        ConsoleFrame.INSTANCE.getInputField().setText("");
     }
 
     /**
@@ -860,12 +855,12 @@ public class BaseInputHandler {
                 if (!getArg(0).equals("-f")) {
                     println("Bindump usage: bindump -f /path/to/binary/file");
                 } else {
-                    File f = new File(getArg(1).trim());
+                    File f = new File(getArg(1));
 
                     if (f.exists()) {
                         printlnPriority("0b" + IOUtil.getBinaryString(f));
                     } else {
-                        println("File: " + getArg(0).trim() + " does not exist.");
+                        println("File: " + getArg(0) + " does not exist.");
                     }
                 }
             } else {
@@ -876,7 +871,7 @@ public class BaseInputHandler {
                 if (!getArg(0).equals("-f")) {
                     println("Hexdump usage: hexdump -f /path/to/binary/file");
                 } else {
-                    File f = new File(getArg(1).trim());
+                    File f = new File(getArg(1));
 
                     if (!f.exists())
                         throw new IllegalArgumentException("File does not exist");
@@ -885,7 +880,7 @@ public class BaseInputHandler {
                         if (f.exists()) {
                             printlnPriority("0x" + IOUtil.getHexString(f).toUpperCase());
                         } else {
-                            println("File: " + getArg(1).trim() + " does not exist.");
+                            println("File: " + getArg(1) + " does not exist.");
                         }
                     } else {
                         InputStream inputStream = new FileInputStream(f);
@@ -976,12 +971,19 @@ public class BaseInputHandler {
             int count = 0;
             int days = 0;
 
-            for (File logDir : logDirs) {
-                days++;
-                for (File log : logDir.listFiles()) {
-                    if (FileUtil.getExtension(log).equals(".log")
-                            && !logDir.equals(Logger.getCurrentLog())) {
-                        count++;
+            if (logDirs != null && logDirs.length > 0) {
+                for (File logDir : logDirs) {
+                    days++;
+
+                    File[] logDirFiles = logDir.listFiles();
+
+                    if (logDirFiles != null && logDirFiles.length > 0) {
+                        for (File log : logDirFiles) {
+                            if (FileUtil.getExtension(log).equals(".log")
+                                    && !logDir.equals(Logger.getCurrentLog())) {
+                                count++;
+                            }
+                        }
                     }
                 }
             }
@@ -993,12 +995,13 @@ public class BaseInputHandler {
         } else if (commandIs("openlastlog")) {
             File[] logs = Logger.getCurrentLog().getParentFile().listFiles();
 
-            if (logs.length == 1) {
-                println("No previous logs found");
-            } else if (logs.length > 1) {
-                IOUtil.openFileOutsideProgram(logs[logs.length - 2].getAbsolutePath());
+            if (logs != null) {
+                if (logs.length == 1) {
+                    println("No previous logs found");
+                } else if (logs.length > 1) {
+                    IOUtil.openFileOutsideProgram(logs[logs.length - 2].getAbsolutePath());
+                }
             }
-
         } else if (commandIs("play")) {
             if (StringUtil.isNull(argsToString())) {
                 println("Play command usage: Play [video_url/playlist_url/search query]");
@@ -1143,11 +1146,11 @@ public class BaseInputHandler {
                     println("Finding connected USB devices");
                     Future<ArrayList<String>> futureLines = IOUtil.getUsbDevices();
 
-                    while (!futureLines.isDone()) {
+                    while (futureLines != null && !futureLines.isDone()) {
                         Thread.onSpinWait();
                     }
 
-                    if (futureLines.get() != null) {
+                    if (futureLines != null && futureLines.get() != null) {
                         ArrayList<String> lines = futureLines.get();
 
                         println("Devices connected to " + OSUtil.getComputerName() + " via USB protocol:");
@@ -1158,7 +1161,7 @@ public class BaseInputHandler {
                 } catch (Exception ex) {
                     ExceptionHandler.handle(ex);
                 }
-            }, "USB Device Finder");
+            }, "Usb Device Finder");
         } else if (commandIs("number2string") || commandIs("number2word")) {
             if (checkArgsLength(1)) {
                 if (CyderRegexPatterns.numberPattern.matcher(getArg(0)).matches()) {
@@ -1377,6 +1380,7 @@ public class BaseInputHandler {
             println(OSUtil.getComputerName() + OSUtil.FILE_SEP
                     + StringUtil.capsFirstWords(UserUtil.getCyderUser().getName()));
         } else if (commandIs("freeze")) {
+            //noinspection StatementWithEmptyBody
             while (true) {
             }
         } else if (commandAndArgsToString().equalsIgnoreCase("wipe spotlights")) {
@@ -1655,75 +1659,6 @@ public class BaseInputHandler {
             println("Unknown command");
         }
     }
-
-    //end handle methods --------------------------------
-
-    /**
-     * Returns the current user issued command.
-     *
-     * @return the current user issued command
-     */
-    public final String getCommand() {
-        return command;
-    }
-
-    /**
-     * Returns whether the arguments array contains the expected number of arguments.
-     *
-     * @param expectedSize the expected size of the command arguments
-     * @return whether the arguments array contains the expected number of arguments
-     */
-    private boolean checkArgsLength(int expectedSize) {
-        return args.size() == expectedSize;
-    }
-
-    /**
-     * Returns the command argument at the provided index.
-     * Returns null if the index is out of bounds instead of throwing.
-     *
-     * @param index the index to retrieve the command argument of
-     * @return the command argument at the provided index
-     */
-    private @Nullable String getArg(int index) {
-        if (index + 1 <= args.size() && index >= 0) {
-            return args.get(index);
-        } else
-            throw new IllegalArgumentException("Provided index is out of bounds: " + index
-                    + ", argument size: " + args.size());
-    }
-
-    /**
-     * Returns the arguments in String form separated by spaces.
-     *
-     * @return the arguments in String form separated by spaces
-     */
-    private String argsToString() {
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0 ; i < args.size() ; i++) {
-            sb.append(args.get(i)).append(i == args.size() - 1 ? "" : " ");
-        }
-
-        return sb.toString();
-    }
-
-    /**
-     * Returns the original user input, that of command followed by the arguments.
-     *
-     * @return the original user input, that of command followed by the arguments
-     */
-    private String commandAndArgsToString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(command.trim()).append(" ");
-
-        for (int i = 0 ; i < args.size() ; i++) {
-            sb.append(args.get(i)).append(i == args.size() - 1 ? "" : " ");
-        }
-
-        return sb.toString().trim();
-    }
-
-    //end argument/command accessors --------------------------------
 
     /**
      * Prints the available manual tests that follow the standard
@@ -2263,5 +2198,71 @@ public class BaseInputHandler {
      */
     public void setRedirectionHandler(Handleable redirectionHandler) {
         this.redirectionHandler = redirectionHandler;
+    }
+
+    /**
+     * Returns the current user issued command.
+     *
+     * @return the current user issued command
+     */
+    public final String getCommand() {
+        return command;
+    }
+
+    /**
+     * Returns whether the arguments array contains the expected number of arguments.
+     *
+     * @param expectedSize the expected size of the command arguments
+     * @return whether the arguments array contains the expected number of arguments
+     */
+    protected boolean checkArgsLength(int expectedSize) {
+        return args.size() == expectedSize;
+    }
+
+    /**
+     * Returns the command argument at the provided index.
+     * Returns null if the index is out of bounds instead of throwing.
+     *
+     * @param index the index to retrieve the command argument of
+     * @return the command argument at the provided index
+     */
+    protected String getArg(int index) {
+        if (index + 1 <= args.size() && index >= 0) {
+            return args.get(index);
+        }
+
+        throw new IllegalArgumentException("Provided index is out of bounds: "
+                + index + ", argument size: " + args.size());
+    }
+
+    /**
+     * Returns the arguments in String form separated by spaces.
+     *
+     * @return the arguments in String form separated by spaces
+     */
+    protected String argsToString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0 ; i < args.size() ; i++) {
+            sb.append(args.get(i)).append(i == args.size() - 1 ? "" : " ");
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Returns the original user input, that of command followed by the arguments.
+     *
+     * @return the original user input, that of command followed by the arguments
+     */
+    protected String commandAndArgsToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(command.trim()).append(" ");
+
+        for (int i = 0 ; i < args.size() ; i++) {
+            sb.append(args.get(i)).append(i == args.size() - 1 ? "" : " ");
+        }
+
+        return sb.toString().trim();
     }
 }
