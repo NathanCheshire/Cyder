@@ -521,8 +521,30 @@ public class ReflectionUtil {
         Preconditions.checkNotNull(command);
         Preconditions.checkArgument(!command.isEmpty());
 
-        // todo
+        String mostSimilarTrigger = "";
+        float tol = 100.0f;
 
-        return new SimilarCommand(Optional.empty(), 0.0f);
+        for (ClassPath.ClassInfo classInfo : cyderClasses) {
+            Class<?> clazz = classInfo.load();
+
+            for (Method m : clazz.getMethods()) {
+                if (m.isAnnotationPresent(Handle.class)) {
+                    String[] triggers = m.getAnnotation(Handle.class).value();
+
+                    for (String trigger : triggers) {
+                        int ld = StringUtil.levenshteinDistance(trigger, command);
+                        float difference = ld / (float) command.length();
+
+                        if (difference < tol) {
+                            tol = difference;
+                            mostSimilarTrigger = trigger;
+                        }
+                    }
+                }
+            }
+        }
+
+        return new SimilarCommand(StringUtil.isNull(mostSimilarTrigger)
+                ? Optional.empty() : Optional.of(mostSimilarTrigger), tol);
     }
 }
