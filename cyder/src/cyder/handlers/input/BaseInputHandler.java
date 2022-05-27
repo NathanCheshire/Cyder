@@ -142,7 +142,8 @@ public class BaseInputHandler {
     }
 
     private static final ImmutableList<Class<?>> handlers = ImmutableList.of(
-            PixelationHandler.class
+            PixelationHandler.class,
+            GitHandler.class
     );
 
     /**
@@ -211,9 +212,9 @@ public class BaseInputHandler {
                     || generalCommandCheck()) {
 
             } else //noinspection StatementWithEmptyBody
-                if (isURLCheck(command)
-                        || handleMath(commandAndArgsToString())
-                        || evaluateExpression(commandAndArgsToString())
+                if (urlCheck(command)
+                        || argumentCommandCheck(commandAndArgsToString())
+                        || mathExpressionCheck(commandAndArgsToString())
                         || preferenceCheck(commandAndArgsToString())
                         || manualTestCheck(commandAndArgsToString())) {
 
@@ -672,8 +673,6 @@ public class BaseInputHandler {
             NetworkUtil.openUrl(CyderUrls.PICKLE_RICK);
         } else if (commandIs("about:blank")) {
             NetworkUtil.openUrl("about:blank");
-        } else if (commandIs("github")) {
-            NetworkUtil.openUrl(CyderUrls.CYDER_SOURCE);
         } else
             ret = false;
 
@@ -1096,19 +1095,6 @@ public class BaseInputHandler {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame()
                     .setIconImage(new ImageIcon("static/pictures/print/x.png").getImage());
             IOUtil.playAudio("static/audio/x.mp3");
-        } else if (commandIs("issues")) {
-            CyderThreadRunner.submit(() -> {
-                GitHubUtil.Issue[] issues = GitHubUtil.getIssues();
-                println(issues.length + " issue" + (issues.length == 1 ? "" : "s") + " found:\n");
-                println("----------------------------------------");
-
-                for (GitHubUtil.Issue issue : issues) {
-                    println("Issue #" + issue.number);
-                    println(issue.title);
-                    println(issue.body);
-                    println("----------------------------------------");
-                }
-            }, "GitHub Issue Getter");
         } else if (commandIs("blackpanther") || commandIs("chadwickboseman")) {
             CyderThreadRunner.submit(() -> {
                 outputArea.getJTextPane().setText("");
@@ -1364,18 +1350,6 @@ public class BaseInputHandler {
             } else {
                 println("Curl command usage: curl URL");
             }
-        } else if (commandIs("gitme")) {
-            if (!args.isEmpty()) {
-                ProcessBuilder processBuilderAdd = new ProcessBuilder("git", "add", ".");
-                ProcessBuilder processBuilderCommit = new ProcessBuilder(
-                        "git", "commit", "-m", "\"" + argsToString() + "\"");
-                ProcessBuilder processBuilderPush = new ProcessBuilder("git", "push", "-u", "origin", "main");
-
-                OSUtil.runAndPrintProcessesSuccessive(this, processBuilderAdd,
-                        processBuilderCommit, processBuilderPush);
-            } else {
-                println("gitme usage: gitme [commit message without quotes]");
-            }
         } else if (commandIs("whereami")) {
             CyderThreadRunner.submit(() -> {
                 try {
@@ -1432,7 +1406,7 @@ public class BaseInputHandler {
      * @param command the command to attempt to open as a URL
      * @return whether the command was indeed a valid URL
      */
-    private boolean isURLCheck(String command) {
+    private boolean urlCheck(String command) {
         boolean ret = false;
 
         try {
@@ -1453,6 +1427,7 @@ public class BaseInputHandler {
 
     /**
      * Determines if the command was a simple evaluable function such as floor() or pow().
+     * <p>
      * Valid expressions:
      * abs - 1 arg, returns the absolute value
      * ceil - 1 arg, returns the ceiling
@@ -1469,7 +1444,7 @@ public class BaseInputHandler {
      * @param command the command to attempt to evaluate as a simple math library call
      * @return whether the command was a simple math library call
      */
-    private boolean handleMath(String command) {
+    private boolean argumentCommandCheck(String command) {
         boolean ret = true;
 
         try {
@@ -1526,8 +1501,10 @@ public class BaseInputHandler {
         }
 
         //log before returning
-        if (ret)
-            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE MATH FUNCTION HANDLED");
+        if (ret) {
+            Logger.log(Logger.Tag.HANDLE_METHOD, "Console command/arg handled");
+        }
+
         return ret;
     }
 
@@ -1537,7 +1514,7 @@ public class BaseInputHandler {
      * @param command the command to attempt to evaluate as a mathematical expression
      * @return whether the command was a mathematical expression
      */
-    private boolean evaluateExpression(String command) {
+    private boolean mathExpressionCheck(String command) {
         boolean ret = false;
 
         try {
@@ -1546,8 +1523,10 @@ public class BaseInputHandler {
         } catch (Exception ignored) {
         }
 
-        if (ret)
-            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE MATH HANDLED");
+        if (ret) {
+            Logger.log(Logger.Tag.HANDLE_METHOD, "Console math handled");
+        }
+
         return ret;
     }
 
@@ -1576,8 +1555,10 @@ public class BaseInputHandler {
             }
         }
 
-        if (ret)
-            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE PREFERENCE TOGGLE HANDLED");
+        if (ret) {
+            Logger.log(Logger.Tag.HANDLE_METHOD, "Preference toggle handled");
+        }
+
         return ret;
     }
 
@@ -1610,8 +1591,10 @@ public class BaseInputHandler {
             }
         }
 
-        if (ret)
-            Logger.log(Logger.Tag.HANDLE_METHOD, "MANUAL TEST FIRED");
+        if (ret) {
+            Logger.log(Logger.Tag.HANDLE_METHOD, "Manual test fired");
+        }
+
         return ret;
     }
 

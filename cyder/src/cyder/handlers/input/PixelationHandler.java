@@ -7,6 +7,7 @@ import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.threads.CyderThreadRunner;
 import cyder.user.UserFile;
 import cyder.utilities.FileUtil;
 import cyder.utilities.ImageUtil;
@@ -68,7 +69,6 @@ public class PixelationHandler {
                     getInputHandler().println("Could not parse input as an integer");
                 }
 
-                getInputHandler().resetHandlers();
                 return true;
             }
             default -> throw new IllegalArgumentException("Illegal handle index for pixelation handler");
@@ -82,25 +82,27 @@ public class PixelationHandler {
      */
     private static void attemptPixelation(int size) {
         if (pixelRange.contains(size)) {
-            try {
-                BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.INSTANCE.
-                        getCurrentBackground().getReferenceFile().getAbsoluteFile()), size);
+            CyderThreadRunner.submit(() -> {
+                try {
+                    BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.INSTANCE.
+                            getCurrentBackground().getReferenceFile().getAbsoluteFile()), size);
 
-                String newName = FileUtil.getFilename(ConsoleFrame.INSTANCE
-                        .getCurrentBackground().getReferenceFile().getName())
-                        + "_Pixelated_Pixel_Size_" + size + ".png";
+                    String newName = FileUtil.getFilename(ConsoleFrame.INSTANCE
+                            .getCurrentBackground().getReferenceFile().getName())
+                            + "_Pixelated_Pixel_Size_" + size + ".png";
 
-                File saveFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH, "users",
-                        ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(), newName);
+                    File saveFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH, "users",
+                            ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(), newName);
 
-                ImageIO.write(img, "png", saveFile);
+                    ImageIO.write(img, "png", saveFile);
 
-                getInputHandler().println("Background pixelated and saved as a separate background file.");
+                    getInputHandler().println("Background pixelated and saved as a separate background file.");
 
-                ConsoleFrame.INSTANCE.setBackgroundFile(saveFile);
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
+                    ConsoleFrame.INSTANCE.setBackgroundFile(saveFile);
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+            }, "Console Background Pixelator");
         } else {
             getInputHandler().println("Sorry, " + UserUtil.getCyderUser().getName()
                     + ", but your pixel value must be in the range ["
