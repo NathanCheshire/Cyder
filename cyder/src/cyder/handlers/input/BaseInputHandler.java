@@ -2,7 +2,9 @@ package cyder.handlers.input;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.ClassPath;
+import cyder.annotations.Handle;
 import cyder.annotations.ManualTest;
 import cyder.common.WidgetDescription;
 import cyder.constants.*;
@@ -94,6 +96,7 @@ public class BaseInputHandler {
     /**
      * Suppress default constructor.
      */
+    @SuppressWarnings("unused")
     private BaseInputHandler() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
@@ -138,6 +141,10 @@ public class BaseInputHandler {
         BletchyThread.initialize(outputArea.getJTextPane(), printingListLock);
     }
 
+    private static final ImmutableList<Class<?>> handlers = ImmutableList.of(
+            PixelationHandler.class
+    );
+
     /**
      * Handles the input and provides output if necessary to the linked JTextPane.
      *
@@ -150,9 +157,49 @@ public class BaseInputHandler {
             return;
         }
 
+        // check redirection handler first
 
-        // todo loop on handlers
+        if (redirectionHandler != null) {
+            for (Method method : redirectionHandler.getMethods()) {
+                if (method.isAnnotationPresent(Handle.class)) {
+                    try {
+                        if (method.invoke(redirectionHandler) instanceof Boolean bool && bool) {
+                            return;
+                        }
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
+                }
+            }
+        }
 
+        // next check partitioned handlers
+
+        for (Class<?> handle : handlers) {
+            for (Method method : handle.getMethods()) {
+                if (method.isAnnotationPresent(Handle.class)) {
+                    String[] triggers = method.getAnnotation(Handle.class).value();
+
+                    for (String trigger : triggers) {
+                        if (trigger.equalsIgnoreCase(getCommand())) {
+                            try {
+                                if (method.getParameterCount() == 0) {
+                                    if (method.invoke(handle) instanceof Boolean bool && bool) {
+                                        return;
+                                    }
+                                }
+                            } catch (Exception e) {
+                                ExceptionHandler.handle(e);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // finally general handlers
+
+        // handlers didn't work so now use final ones
         try {
             //noinspection StatementWithEmptyBody
             if (generalPrintsCheck()
@@ -774,7 +821,7 @@ public class BaseInputHandler {
                         println("Code lines: " + codeLines);
                         println("Blank lines: " + StatUtil.totalBlankLines(finalStartDir));
                         println("Comment lines: " + commentLines);
-                        println("Classes: " + ReflectionUtil.cyderClasses.size());
+                        println("Classes: " + ReflectionUtil.CYDER_CLASSES.size());
 
                         float ratio = ((float) codeLines / (float) commentLines);
                         println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
@@ -1543,7 +1590,7 @@ public class BaseInputHandler {
     private boolean manualTestCheck(String command) {
         boolean ret = false;
 
-        for (ClassPath.ClassInfo classInfo : ReflectionUtil.cyderClasses) {
+        for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
             Class<?> classer = classInfo.load();
 
             for (Method m : classer.getMethods()) {
@@ -1578,7 +1625,7 @@ public class BaseInputHandler {
 
                 if (similarCommand.command().isPresent()) {
                     String simCom = similarCommand.command().get();
-                    float tol = similarCommand.tolerance();
+                    double tol = similarCommand.tolerance();
 
                     if (!StringUtil.isNull(simCom)) {
                         Logger.log(Logger.Tag.DEBUG, "Similar command to \""
@@ -1647,7 +1694,7 @@ public class BaseInputHandler {
     public final void printManualTests() {
         println("Manual tests:");
 
-        for (ClassPath.ClassInfo classInfo : ReflectionUtil.cyderClasses) {
+        for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
             Class<?> classer = classInfo.load();
 
             for (Method m : classer.getMethods()) {
@@ -2127,14 +2174,14 @@ public class BaseInputHandler {
     /**
      * The current handler to send the input to.
      */
-    private Handleable redirectionHandler;
+    private Class<?> redirectionHandler;
 
     /**
      * Returns the current redirection handler.
      *
      * @return the current redirection handler
      */
-    public Handleable getRedirectionHandler() {
+    public Class<?> getRedirectionHandler() {
         return redirectionHandler;
     }
 
@@ -2143,7 +2190,7 @@ public class BaseInputHandler {
      *
      * @param redirectionHandler the current redirection handler
      */
-    public void setRedirectionHandler(Handleable redirectionHandler) {
+    public void setRedirectionHandler(Class<?> redirectionHandler) {
         this.redirectionHandler = redirectionHandler;
     }
 

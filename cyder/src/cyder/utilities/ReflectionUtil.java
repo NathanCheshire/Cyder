@@ -14,6 +14,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 import cyder.widgets.CardWidget;
+import org.apache.commons.text.similarity.JaroWinklerDistance;
 
 import javax.swing.*;
 import java.awt.*;
@@ -240,12 +241,12 @@ public class ReflectionUtil {
     /**
      * A set of all classes contained within Cyder starting at {@link ReflectionUtil#TOP_LEVEL_PACKAGE}.
      */
-    public static ImmutableSet<ClassPath.ClassInfo> cyderClasses;
+    public static ImmutableSet<ClassPath.ClassInfo> CYDER_CLASSES;
 
     // load cyder classes at runtime
     static {
         try {
-            cyderClasses = ClassPath
+            CYDER_CLASSES = ClassPath
                     .from(Thread.currentThread().getContextClassLoader())
                     .getTopLevelClassesRecursive(TOP_LEVEL_PACKAGE);
         } catch (Exception e) {
@@ -267,7 +268,7 @@ public class ReflectionUtil {
      * @throws IllegalMethodException if an invalid {@link Widget} annotation is located
      */
     public static void validateWidgets() {
-        for (ClassPath.ClassInfo classInfo : cyderClasses) {
+        for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
             Class<?> classer = classInfo.load();
 
             for (Method m : classer.getMethods()) {
@@ -327,7 +328,7 @@ public class ReflectionUtil {
     public static void validateTests() {
         LinkedList<String> foundTriggers = new LinkedList<>();
 
-        for (ClassPath.ClassInfo classInfo : cyderClasses) {
+        for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
             Class<?> classer = classInfo.load();
 
             for (Method m : classer.getMethods()) {
@@ -367,7 +368,7 @@ public class ReflectionUtil {
      * Validates all widget classes annotated with with {@link cyder.annotations.Vanilla} annotation.
      */
     public static void validateVanillaWidgets() {
-        for (ClassPath.ClassInfo classInfo : cyderClasses) {
+        for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
             Class<?> clazz = classInfo.load();
 
             if (clazz.isAnnotationPresent(Vanilla.class)) {
@@ -424,7 +425,7 @@ public class ReflectionUtil {
     public static ArrayList<WidgetDescription> getWidgetDescriptions() {
         ArrayList<WidgetDescription> ret = new ArrayList<>();
 
-        for (ClassPath.ClassInfo classInfo : cyderClasses) {
+        for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
             Class<?> classer = classInfo.load();
 
             for (Method m : classer.getMethods()) {
@@ -451,7 +452,7 @@ public class ReflectionUtil {
         Preconditions.checkNotNull(trigger);
         Preconditions.checkArgument(!trigger.isEmpty());
 
-        for (ClassPath.ClassInfo classInfo : cyderClasses) {
+        for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
             Class<?> clazz = classInfo.load();
 
             for (Method m : clazz.getMethods()) {
@@ -508,7 +509,7 @@ public class ReflectionUtil {
      * A record representing a found similar command how close the
      * found command is to the original string.
      */
-    public static record SimilarCommand(Optional<String> command, float tolerance) {
+    public static record SimilarCommand(Optional<String> command, double tolerance) {
     }
 
     /**
@@ -522,9 +523,9 @@ public class ReflectionUtil {
         Preconditions.checkArgument(!command.isEmpty());
 
         String mostSimilarTrigger = "";
-        float tol = 100.0f;
+        double tol = 100.0f;
 
-        for (ClassPath.ClassInfo classInfo : cyderClasses) {
+        for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
             Class<?> clazz = classInfo.load();
 
             for (Method m : clazz.getMethods()) {
@@ -532,11 +533,10 @@ public class ReflectionUtil {
                     String[] triggers = m.getAnnotation(Handle.class).value();
 
                     for (String trigger : triggers) {
-                        int ld = StringUtil.levenshteinDistance(trigger, command);
-                        float difference = ld / (float) command.length();
+                        double ratio = new JaroWinklerDistance().apply(trigger, command);
 
-                        if (difference < tol) {
-                            tol = difference;
+                        if (ratio < tol) {
+                            tol = ratio;
                             mostSimilarTrigger = trigger;
                         }
                     }

@@ -20,7 +20,7 @@ import java.io.File;
 /**
  * A handler for handling when images or the console background should be pixelated.
  */
-public class PixelationHandler implements Handleable {
+public class PixelationHandler {
     /**
      * Suppress default constructor.
      */
@@ -33,18 +33,17 @@ public class PixelationHandler implements Handleable {
      */
     private static final Range<Integer> pixelRange = Range.closed(2, 500);
 
-    @Override
     @Handle({"pixelate", "pixelation"})
-    public boolean handle() {
-        switch (ConsoleFrame.INSTANCE.getInputHandler().getHandleIterations()) {
+    public static boolean handle() {
+        switch (getInputHandler().getHandleIterations()) {
             case 0 -> {
                 if (ImageUtil.solidColor(ConsoleFrame.INSTANCE.getCurrentBackground().getReferenceFile())) {
                     getInputHandler().println("Silly " + UserUtil.getCyderUser().getName()
                             + "; your background " + "is a solid color :P");
                 } else {
-                    if (checkArgsLength(1)) {
+                    if (getInputHandler().checkArgsLength(1)) {
                         try {
-                            int size = Integer.parseInt(getArg(0));
+                            int size = Integer.parseInt(getInputHandler().getArg(0));
                             attemptPixelation(size);
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
@@ -53,7 +52,7 @@ public class PixelationHandler implements Handleable {
                             getInputHandler().resetHandlers();
                         }
                     } else {
-                        getInputHandler().setRedirectionHandler(this);
+                        getInputHandler().setRedirectionHandler(PixelationHandler.class);
                         getInputHandler().setHandleIterations(1);
                         getInputHandler().println("Enter pixel size");
                     }
@@ -63,7 +62,7 @@ public class PixelationHandler implements Handleable {
             }
             case 1 -> {
                 try {
-                    int size = Integer.parseInt(getArg(0));
+                    int size = Integer.parseInt(getInputHandler().getCommand());
                     attemptPixelation(size);
                 } catch (Exception ignored) {
                     getInputHandler().println("Could not parse input as an integer");
@@ -72,8 +71,7 @@ public class PixelationHandler implements Handleable {
                 getInputHandler().resetHandlers();
                 return true;
             }
-            default -> throw new IllegalArgumentException(
-                    "Illegal handle index for handler: " + this.getClass().getName());
+            default -> throw new IllegalArgumentException("Illegal handle index for pixelation handler");
         }
     }
 
@@ -82,7 +80,7 @@ public class PixelationHandler implements Handleable {
      *
      * @param size the requested pixel size
      */
-    private void attemptPixelation(int size) {
+    private static void attemptPixelation(int size) {
         if (pixelRange.contains(size)) {
             try {
                 BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.INSTANCE.
@@ -108,13 +106,11 @@ public class PixelationHandler implements Handleable {
                     + ", but your pixel value must be in the range ["
                     + pixelRange.lowerEndpoint() + ", " + pixelRange.upperEndpoint() + "]");
         }
+
+        getInputHandler().resetHandlers();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getLogMessage() {
-        return "Pixelation handler succeeded";
+    private static BaseInputHandler getInputHandler() {
+        return ConsoleFrame.INSTANCE.getInputHandler();
     }
 }
