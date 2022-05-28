@@ -1,7 +1,7 @@
-package cyder.handlers.internal;
+package cyder.common;
 
 public enum Suggestion {
-    Pathfinder("pathfinder", "open an A* and Dijkstras algorithm path finding visualizer"),
+    Pathfinder("pathfinder", "open an A* and Dijkstra's algorithm path finding visualizer"),
     Math("e^pi", "calculate e^pi using the command line mathematical expression parser"),
     Audio("mp3", "open Cyder's custom audio player"),
     Prefs("prefs", "open up the preference editor"),

@@ -1,6 +1,7 @@
 package cyder.handlers.internal;
 
 import cyder.annotations.Widget;
+import cyder.common.CyderEntry;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
@@ -77,7 +78,8 @@ public class LoginHandler {
     /**
      * The string at the beginning of the input field.
      */
-    private static final String defaultBashString = OSUtil.getSystemUsername() + "@" + OSUtil.getComputerName() + ":~$ ";
+    private static final String defaultBashString =
+            OSUtil.getSystemUsername() + "@" + OSUtil.getComputerName() + ":~$ ";
 
     /**
      * The BashString currently being used.
@@ -472,11 +474,10 @@ public class LoginHandler {
 
     /**
      * Attempts to log in a user based on the provided
-     * name and already hashed password.
+     * name and an already hashed password.
      *
      * @param name       the provided user account name
-     * @param hashedPass the password already having been
-     *                   hashed (we hash it again in checkPassword method)
+     * @param hashedPass the password already having been hashed
      * @return whether the name and pass combo was authenticated and logged in
      */
     public static boolean recognize(String name, String hashedPass, boolean autoCypherAttempt) {
@@ -519,20 +520,16 @@ public class LoginHandler {
      * in if their account exists, otherwise the program proceeds as normal.
      */
     public static boolean autoCypher() {
-        boolean ret = false;
-
         try {
-            for (DebugHash hash : DebugHash.values()) {
-                if (recognize(hash.getName(), hash.getPass(), true)) {
-                    ret = true;
-                    break;
-                }
+            if (recognize(PropLoader.getString("debug_hash_name"),
+                    PropLoader.getString("debug_hash_password"), true)) {
+                return true;
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        return ret;
+        return false;
     }
 
     /**

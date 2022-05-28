@@ -1,4 +1,4 @@
-package cyder.handlers.internal;
+package cyder.common;
 
 /**
  * Possible ways to enter Cyder.

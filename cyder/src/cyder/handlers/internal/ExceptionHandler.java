@@ -24,6 +24,9 @@ import java.io.StringWriter;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * A class to handle and log exceptions thrown throughout Cyder.
+ */
 public class ExceptionHandler {
     /**
      * Restrict default constructor.

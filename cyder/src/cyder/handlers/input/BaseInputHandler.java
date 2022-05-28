@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.Handle;
 import cyder.annotations.ManualTest;
+import cyder.common.Suggestion;
 import cyder.common.WidgetDescription;
 import cyder.constants.*;
 import cyder.enums.DynamicDirectory;
@@ -16,7 +17,6 @@ import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.handlers.internal.Suggestion;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.MasterYoutubeThread;
@@ -789,7 +789,7 @@ public class BaseInputHandler {
                     println(prop);
                 }
             }, "Computer Memory Computer");
-        } else if (commandIs("systemproperties")) {
+        } else if (inputWithoutSpacesIs("systemproperties")) {
             for (String prop : StatUtil.getSystemProperties()) {
                 println(prop);
             }

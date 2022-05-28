@@ -449,6 +449,11 @@ public class StatUtil {
     }
 
     /**
+     * The root file when recursively finding code stats.
+     */
+    private static final File ROOT = new File("cyder");
+
+    /**
      * Finds and returns an immutable list of all the classes found which contain
      * a word classified as restricted by v.txt.
      *
@@ -456,7 +461,7 @@ public class StatUtil {
      * a word classified as restricted by v.txt
      */
     public static ImmutableList<String> findBadWords() {
-        return innerFindBadWords(new File("cyder"));
+        return innerFindBadWords(ROOT);
     }
 
     private static ImmutableList<String> innerFindBadWords(File startDir) {
