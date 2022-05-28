@@ -1730,6 +1730,8 @@ public class AudioPlayer {
 
                 closePlayerObject();
 
+                refreshAudioFiles();
+
                 // no user interaction so proceed naturally
                 if (lastAction == LastAction.Play) {
                     pauseLocation = 0;

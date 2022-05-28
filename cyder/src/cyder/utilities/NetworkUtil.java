@@ -6,6 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
@@ -15,6 +16,7 @@ import org.jsoup.nodes.Document;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 
 /**
@@ -51,18 +53,19 @@ public class NetworkUtil {
         NetworkUtil.highLatency = highLatency;
     }
 
+    /**
+     * The function used by the high ping checker to provide to TimeUtil.
+     */
+    private static final Function<Void, Boolean> exit = ignored -> ConsoleFrame.INSTANCE.isClosed();
+
     static {
         CyderThreadRunner.submit(() -> {
             try {
-                for ( ; ; ) {
-                    if (!decentPing()) {
-                        setHighLatency(true);
-                    } else {
-                        setHighLatency(false);
-                    }
+                while (true) {
+                    setHighLatency(!decentPing());
 
-                    // sleep 2 minutes
-                    Thread.sleep(1000 * 60 * 2);
+                    TimeUtil.sleepWithChecks(1000 * 60 * 2,
+                            1000 * 30, exit);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -203,27 +206,24 @@ public class NetworkUtil {
         Preconditions.checkNotNull(urlString);
         Preconditions.checkArgument(!urlString.isEmpty());
 
-        String ret = null;
-        BufferedReader reader;
-        StringBuilder sb = null;
-
         try {
             URL url = new URL(urlString);
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            sb = new StringBuilder();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            StringBuilder sb = new StringBuilder();
             int read;
             char[] chars = new char[BUFFER_SIZE];
 
-            while ((read = reader.read(chars)) != -1)
+            while ((read = reader.read(chars)) != -1) {
                 sb.append(chars, 0, read);
+            }
 
-            if (reader != null)
-                reader.close();
+            reader.close();
+            return sb.toString();
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
         }
 
-        return sb.toString();
+        throw new IllegalCallerException("Error reading from url: " + urlString);
     }
 
     /**
@@ -274,24 +274,26 @@ public class NetworkUtil {
      * @param referenceFile the file to save the resource to
      * @return whether the downloading concluded without errors
      */
-    public static boolean downloadResource(String urlResource, File referenceFile) {
+    public static boolean downloadResource(String urlResource, File referenceFile) throws IOException {
         Preconditions.checkNotNull(urlResource);
+        Preconditions.checkArgument(isURL(urlResource));
         Preconditions.checkArgument(!urlResource.isEmpty());
         Preconditions.checkNotNull(referenceFile);
         Preconditions.checkArgument(!referenceFile.exists());
 
-        if (referenceFile == null)
-            throw new IllegalArgumentException("The provided reference file is null");
-        if (urlResource == null || !isURL(urlResource))
-            throw new IllegalArgumentException("The provided url is null or not a valid url");
+        boolean created = false;
 
         if (!referenceFile.exists()) {
             try {
-                referenceFile.createNewFile();
+                created = referenceFile.createNewFile();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 return false;
             }
+        }
+
+        if (!created) {
+            throw new IOException("Could not create reference file: " + referenceFile);
         }
 
         try (BufferedInputStream in = new BufferedInputStream(new URL(urlResource).openStream()) ;

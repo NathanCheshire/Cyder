@@ -8,7 +8,6 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
 import javazoom.jl.decoder.Bitstream;
-import javazoom.jl.decoder.Header;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,7 +20,7 @@ import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 
 /**
- * Utilities related to audio files, typically MP3 and wav files.
+ * Utilities related to audio files, typically mp3 and wav files.
  */
 public class AudioUtil {
     /**
@@ -58,12 +57,13 @@ public class AudioUtil {
 
     /**
      * Converts the mp3 file to a wav file and returns the file object.
-     * Note the file is creatd in the Cyder temporary directory which is
+     * Note the file is created in the Cyder temporary directory which is
      * removed upon proper Cyder shutdown/startup.
      *
      * @param mp3File the mp3 file to convert to wav
      * @return the mp3 file converted to wav
      */
+    @SuppressWarnings({"ResultOfMethodCallIgnored"})
     public static Future<Optional<File>> mp3ToWav(File mp3File) {
         Preconditions.checkNotNull(mp3File);
         Preconditions.checkArgument(FileUtil.validateExtension(mp3File, ".mp3"));
@@ -83,8 +83,8 @@ public class AudioUtil {
 
             // another precaution to ensure process is completed before file is returned
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line = null;
-            while ((line = reader.readLine()) != null) {
+            while (reader.readLine() != null) {
+                Thread.onSpinWait();
             }
 
             // wait for file to be created by ffmpeg
@@ -98,13 +98,13 @@ public class AudioUtil {
 
     /**
      * Converts the wav file to an mp3 file and returns the file object.
-     * Note the file is creatd in the Cyder temporary directory which is
+     * Note the file is created in the Cyder temporary directory which is
      * removed upon proper Cyder shutdown/startup.
      *
      * @param wavFile the wav file to convert to mp3
      * @return the wav file converted to mp3
      */
-    public static Future<Optional<File>> wavToMp3(File wavFile) {
+    @SuppressWarnings("ResultOfMethodCallIgnored") public static Future<Optional<File>> wavToMp3(File wavFile) {
         Preconditions.checkNotNull(wavFile);
         Preconditions.checkArgument(FileUtil.validateExtension(wavFile, ".wav"));
 
@@ -124,8 +124,8 @@ public class AudioUtil {
 
             // another precaution to ensure process is completed before file is returned
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line = null;
-            while ((line = reader.readLine()) != null) {
+            while (reader.readLine() != null) {
+                Thread.onSpinWait();
             }
 
             // wait for file to be created by ffmpeg
@@ -172,7 +172,7 @@ public class AudioUtil {
                     "-filter:a",
                     "\"highpass=f=2, lowpass=f=300\"",
                     "\"" + outputFile.getAbsolutePath() + "\"");
-            Process p = pb.start();
+            pb.start();
 
             // get original time of wav (after process started to save time)
             Future<Integer> startingMillis = getMillis(wavOrMp3File);
@@ -237,7 +237,7 @@ public class AudioUtil {
                 // another precaution to ensure process is completed before file is returned
                 BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
-                String line = null;
+                String line;
                 while ((line = reader.readLine()) != null) {
                     if (durationPattern.matcher(line).matches()) {
                         return (int) (Double.parseDouble(
@@ -459,8 +459,8 @@ public class AudioUtil {
     public static String formatSeconds(int seconds) {
         StringBuilder sb = new StringBuilder();
 
-        int minutes = 0;
-        int hours = 0;
+        int minutes;
+        int hours;
 
         minutes = seconds / 60;
         seconds -= minutes * 60;
@@ -484,7 +484,7 @@ public class AudioUtil {
     }
 
     /**
-     * Returns the numver of milliseconds in an audio file faster than using the
+     * Returns the number of milliseconds in an audio file faster than using the
      * standard {@link AudioUtil#getMillis(File)} method which utilizes ffprobe.
      *
      * @param audioFile the audio file to return the duration of
@@ -492,20 +492,10 @@ public class AudioUtil {
      */
     public static int getMillisFast(File audioFile) {
         try {
-            Header h = null;
             FileInputStream fis = new FileInputStream(audioFile);
             Bitstream bitstream = new Bitstream(fis);
-            h = bitstream.readFrame();
-
-            int size = h.calculate_framesize();
-            float ms_per_frame = h.ms_per_frame();
-            int maxSize = h.max_number_of_frames(10000);
-            float t = h.total_ms(size);
-            long tn = 0;
-            tn = fis.getChannel().size();
-
-            int min = h.min_number_of_frames(500);
-            return (int) h.total_ms((int) tn);
+            long tn = fis.getChannel().size();
+            return (int) bitstream.readFrame().total_ms((int) tn);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

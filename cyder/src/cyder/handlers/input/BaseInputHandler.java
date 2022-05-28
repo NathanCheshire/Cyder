@@ -25,7 +25,10 @@ import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderOutputPane;
 import cyder.ui.CyderSliderUI;
-import cyder.user.*;
+import cyder.user.Preferences;
+import cyder.user.User;
+import cyder.user.UserCreator;
+import cyder.user.UserFile;
 import cyder.utilities.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -153,7 +156,9 @@ public class BaseInputHandler {
      * The handlers which have no exact handle and instead perform checks on the command directly.
      */
     private static final ImmutableList<Class<?>> finalHandlers = ImmutableList.of(
-            PlayAudioHandler.class
+            PlayAudioHandler.class,
+            UrlHandler.class,
+            PreferenceHandler.class
     );
 
     /**
@@ -233,14 +238,11 @@ public class BaseInputHandler {
                     || printImageCheck()
                     || ReflectionUtil.openWidget((commandAndArgsToString()))
                     || cyderFrameMovementCheck()
-                    || externalOpenerCheck()
                     || generalCommandCheck()) {
 
             } else //noinspection StatementWithEmptyBody
-                if (urlCheck(command)
-                        || argumentCommandCheck(commandAndArgsToString())
+                if (argumentCommandCheck(commandAndArgsToString())
                         || mathExpressionCheck(commandAndArgsToString())
-                        || preferenceCheck(commandAndArgsToString())
                         || manualTestCheck(commandAndArgsToString())) {
 
                 } else {
@@ -639,70 +641,6 @@ public class BaseInputHandler {
 
         if (ret) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "CYDERFRAME MOVEMENT COMMAND HANDLED");
-        }
-
-        return ret;
-    }
-
-    private boolean externalOpenerCheck() {
-        boolean ret = true;
-
-        if (commandIs("YoutubeWordSearch")) {
-            if (checkArgsLength(1)) {
-                String input = getArg(0);
-                String browse = CyderUrls.YOUTUBE_WORD_SEARCH_BASE.replace("REPLACE", input).replace(" ", "+");
-                NetworkUtil.openUrl(browse);
-            } else {
-                println("YoutubeWordSearch usage: YoutubeWordSearch WORD_TO_FIND");
-            }
-        } else if (commandIs("echo") || commandIs("print") || commandIs("println")) {
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0 ; i < args.size() ; i++) {
-                //print arg plus a space unless last argument
-                sb.append(args.get(i)).append(i == args.size() - 1 ? "" : " ");
-            }
-
-            //ending new line
-            println(sb.toString());
-        } else if (commandIs("cmd")) {
-            OSUtil.openShell();
-        } else if (commandIs("desmos")) {
-            NetworkUtil.openUrl(CyderUrls.DESMOS);
-        } else if (commandIs("404")) {
-            NetworkUtil.openUrl(CyderUrls.GOOGLE_404);
-        } else if (commandIs("coffee")) {
-            NetworkUtil.openUrl(CyderUrls.COFFEE_SHOPS);
-        } else if (commandIs("quake3")) {
-            NetworkUtil.openUrl(CyderUrls.QUAKE_3);
-        } else if (commandIs("triangle")) {
-            NetworkUtil.openUrl(CyderUrls.TRIANGLE);
-        } else if (commandIs("board")) {
-            NetworkUtil.openUrl(CyderUrls.FLY_SQUIRREL_FLY_HTML);
-        } else if (commandIs("arduino")) {
-            NetworkUtil.openUrl(CyderUrls.ARDUINO);
-        } else if (commandIs("rasberrypi")) {
-            NetworkUtil.openUrl(CyderUrls.RASPBERRY_PI);
-        } else if (commandIs("vexento")) {
-            NetworkUtil.openUrl(CyderUrls.VEXENTO);
-        } else if (commandIs("papersplease")) {
-            NetworkUtil.openUrl(CyderUrls.PAPERS_PLEASE);
-        } else if (commandIs("donut")) {
-            NetworkUtil.openUrl(CyderUrls.DUNKIN_DONUTS);
-        } else if (commandIs("bai")) {
-            NetworkUtil.openUrl(CyderUrls.BAI);
-        } else if (commandIs("occamrazor")) {
-            NetworkUtil.openUrl(CyderUrls.OCCAM_RAZOR);
-        } else if (commandIs("rickandmorty")) {
-            println("Turned myself into a pickle morty! Boom! Big reveal; I'm a pickle!");
-            NetworkUtil.openUrl(CyderUrls.PICKLE_RICK);
-        } else if (commandIs("about:blank")) {
-            NetworkUtil.openUrl("about:blank");
-        } else
-            ret = false;
-
-        if (ret) {
-            Logger.log(Logger.Tag.HANDLE_METHOD, "EXTERNAL OPENER COMMAND HANDLED");
         }
 
         return ret;
@@ -1296,10 +1234,14 @@ public class BaseInputHandler {
                     println("Saving file: " + saveName + " to files directory");
 
                     CyderThreadRunner.submit(() -> {
-                        if (NetworkUtil.downloadResource(getArg(0), saveFile)) {
-                            println("Successfully saved");
-                        } else {
-                            println("Error: could not download at this time");
+                        try {
+                            if (NetworkUtil.downloadResource(getArg(0), saveFile)) {
+                                println("Successfully saved");
+                            } else {
+                                println("Error: could not download at this time");
+                            }
+                        } catch (Exception e) {
+                            ExceptionHandler.handle(e);
                         }
                     }, "File URL Downloader");
                 } else {
@@ -1367,33 +1309,6 @@ public class BaseInputHandler {
 
         if (ret) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "GENERAL COMMAND HANDLED");
-        }
-
-        return ret;
-    }
-
-    //sub-handle methods in the order they appear above --------------------------
-
-    /**
-     * Checks of the provided command is a URL and if so, opens a connection to it.
-     *
-     * @param command the command to attempt to open as a URL
-     * @return whether the command was indeed a valid URL
-     */
-    private boolean urlCheck(String command) {
-        boolean ret = false;
-
-        try {
-            URL url = new URL(command);
-            url.openConnection();
-            ret = true;
-            NetworkUtil.openUrl(command);
-        } catch (Exception ignored) {
-        }
-
-        // log before returning
-        if (ret) {
-            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE URL FUNCTION HANDLED");
         }
 
         return ret;
@@ -1504,37 +1419,6 @@ public class BaseInputHandler {
         return ret;
     }
 
-    /**
-     * Checks the command for an intended preference toggle and if so, toggles the preference.
-     * The user may include 1, true, 0, or false with the command to specify the value of the targeted preference.
-     *
-     * @param targetedPreference the preference to change
-     * @return whether a preference was toggled/handled
-     */
-    private boolean preferenceCheck(String targetedPreference) {
-        targetedPreference = targetedPreference.trim();
-
-        boolean ret = false;
-
-        for (Preference pref : Preferences.getPreferences()) {
-            if (targetedPreference.equalsIgnoreCase(pref.getID().trim())) {
-                if (!pref.getDisplayName().equals("IGNORE")) {
-                    String newVal = UserUtil.getUserDataById(pref.getID()).equals("1") ? "0" : "1";
-                    UserUtil.setUserDataById(pref.getID(), newVal);
-                    println(pref.getDisplayName() + " set to " + (newVal.equals("1") ? "true" : "false"));
-
-                    Preferences.invokeRefresh(pref.getID());
-                    ret = true;
-                }
-            }
-        }
-
-        if (ret) {
-            Logger.log(Logger.Tag.HANDLE_METHOD, "Preference toggle handled");
-        }
-
-        return ret;
-    }
 
     /**
      * Determines if the command intended to invoke a manual test from manual tests.
@@ -2230,6 +2114,17 @@ public class BaseInputHandler {
         }
 
         return sb.toString().trim();
+    }
+
+    /**
+     * Returns whether the provided string matches the command and
+     * arguments strung together with whitespace removed.
+     *
+     * @param match the string to match to
+     * @return whether the provided string matched the command args with whitespace removed
+     */
+    protected boolean inputWithoutSpacesIs(String match) {
+        return match.equalsIgnoreCase(commandAndArgsToString().replaceAll("\\s+", ""));
     }
 
     // ---------------------

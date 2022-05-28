@@ -14,6 +14,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Function;
 
 /**
  * Static utility class for things related to time/date queries and conversions.
@@ -334,7 +335,8 @@ public class TimeUtil {
             return dateInMonth + "nd";
         } else if (j == 3 && k != 13) {
             return dateInMonth + "rd";
-        } else return dateInMonth + "th";
+        } else
+            return dateInMonth + "th";
     }
 
     /**
@@ -618,6 +620,37 @@ public class TimeUtil {
                 acc += checkConditionFrequency;
 
                 if (escapeCondition.get()) {
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * Sleeps on the current thread for the specified amount of time,
+     * checking the escapeCondition for truth every checkConditionFrequency ms.
+     *
+     * @param sleepTime               the total time to sleep for
+     * @param checkConditionFrequency the frequency to check the escapeCondition
+     * @param shouldExit              the function to evaluate to determine whether to stop sleeping
+     */
+    public static void sleepWithChecks(long sleepTime, long checkConditionFrequency,
+                                       Function<Void, Boolean> shouldExit) {
+        Preconditions.checkNotNull(shouldExit);
+        Preconditions.checkArgument(sleepTime > 0);
+        Preconditions.checkArgument(checkConditionFrequency > 0);
+        Preconditions.checkArgument(sleepTime > checkConditionFrequency);
+
+        try {
+            long acc = 0;
+
+            while (acc < sleepTime) {
+                Thread.sleep(checkConditionFrequency);
+                acc += checkConditionFrequency;
+
+                if (shouldExit.apply(null)) {
                     break;
                 }
             }
