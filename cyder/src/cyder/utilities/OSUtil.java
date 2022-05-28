@@ -9,6 +9,7 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.Cyder;
 import cyder.genesis.PropLoader;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -171,7 +172,7 @@ public class OSUtil {
     public static final String FILE_SEP = System.getProperty("file.separator");
 
     /**
-     * The maximum number of times something should be attepted to be deleted.
+     * The maximum number of times something should be attempted to be deleted.
      */
     public static final int MAX_DELETION_ATTEMPTS = 500;
 
@@ -339,8 +340,7 @@ public class OSUtil {
      */
     public static void setMouseLoc(int x, int y) {
         try {
-            Robot Rob = new Robot();
-            Rob.mouseMove(x, y);
+            ConsoleFrame.INSTANCE.getInputHandler().getRobot().mouseMove(x, y);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
@@ -355,13 +355,12 @@ public class OSUtil {
         checkNotNull(c);
 
         try {
-            Point topleft = c.getLocationOnScreen();
+            Point topLeft = c.getLocationOnScreen();
 
-            int x = (int) (topleft.getX() + c.getWidth() / 2);
-            int y = (int) (topleft.getY() + c.getHeight() / 2);
+            int x = (int) (topLeft.getX() + c.getWidth() / 2);
+            int y = (int) (topLeft.getY() + c.getHeight() / 2);
 
-            Robot Rob = new Robot();
-            Rob.mouseMove(x, y);
+            setMouseLoc(x, y);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
@@ -385,7 +384,7 @@ public class OSUtil {
      *
      * @param fileOrFolder the folder/file to delete
      * @param log          whether to log the delete operation. Ideally this is
-     *                     always true but some rare cases require loggin to be skipped.
+     *                     always true but some rare cases require logging to be skipped.
      * @return whether the folder/file was successfully deleted
      */
     @CanIgnoreReturnValue
@@ -514,9 +513,9 @@ public class OSUtil {
         try {
             Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
 
-            for (NetworkInterface netint : Collections.list(nets)) {
-                sb.append("Display name:").append(netint.getDisplayName()).append("\n");
-                sb.append("Name:").append(netint.getName()).append("\n");
+            for (NetworkInterface networkInterface : Collections.list(nets)) {
+                sb.append("Display name:").append(networkInterface.getDisplayName()).append("\n");
+                sb.append("Name:").append(networkInterface.getName()).append("\n");
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -569,7 +568,7 @@ public class OSUtil {
     /**
      * Executes the provided process and prints the output to the provided input handler.
      * <p>
-     * Note that this is executed on the current thread so surround invokation of this method
+     * Note that this is executed on the current thread so surround invocation of this method
      * with a new thread to avoid blocking the calling thread.
      *
      * @param pipeTo  the input handle to print the output to

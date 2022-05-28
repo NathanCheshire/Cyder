@@ -117,6 +117,8 @@ public class FrameMovementHandler extends InputHandlerBase {
             }
         } else if (getInputHandler().commandIs("dance")) {
             ConsoleFrame.INSTANCE.dance();
+        } else if (getInputHandler().commandIs("hide")) {
+            ConsoleFrame.INSTANCE.getConsoleCyderFrame().minimizeAnimation();
         } else {
             ret = false;
         }

@@ -37,7 +37,6 @@ import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
@@ -91,17 +90,17 @@ public class BaseInputHandler {
     private final ArrayList<String> args = new ArrayList<>();
 
     /**
-     * The robot used for screen operations.
-     */
-    private static final Robot robot = initializeRobot();
-
-    /**
      * Suppress default constructor.
      */
     @SuppressWarnings("unused")
     private BaseInputHandler() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
+
+    /**
+     * The robot used for screen operations.
+     */
+    private static final Robot robot = initializeRobot();
 
     /**
      * Constructs and returns the base input handler robot.
@@ -116,6 +115,15 @@ public class BaseInputHandler {
         }
 
         return null;
+    }
+
+    /**
+     * Returns the common robot object.
+     *
+     * @return the common robot object
+     */
+    public final Robot getRobot() {
+        return robot;
     }
 
     /**
@@ -584,8 +592,6 @@ public class BaseInputHandler {
             } else {
                 println("wikisum usage: wikisum YOUR_WORD/expression");
             }
-        } else if (commandIs("hide")) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().minimizeAnimation();
         } else if (commandIs("analyzecode")) {
             if (OSUtil.JAR_MODE) {
                 println("Code analyzing is not available when in Jar mode");
@@ -621,12 +627,6 @@ public class BaseInputHandler {
                     println("analyzecode usage: analyzecode [path/to/the/root/directory] " +
                             "(leave path blank to analyze Cyder)");
                 }
-            }
-        } else if (commandIs("f17")) {
-            if (robot != null) {
-                robot.keyPress(KeyEvent.VK_F17);
-            } else {
-                println("Mr. Robot didn't start :(");
             }
         } else if (commandIs("debugstats")) {
             StatUtil.allStats();

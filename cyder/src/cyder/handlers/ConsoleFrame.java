@@ -3154,7 +3154,8 @@ public enum ConsoleFrame {
             Rectangle monitorBounds = ref.getMonitorBounds();
 
             INSTANCE.getConsoleCyderFrame().setVisible(false);
-            BufferedImage capture = new Robot().createScreenCapture(monitorBounds);
+            BufferedImage capture = ConsoleFrame.INSTANCE
+                    .getInputHandler().getRobot().createScreenCapture(monitorBounds);
             INSTANCE.getConsoleCyderFrame().setVisible(true);
 
             capture = ImageUtil.getCroppedImage(capture, (int) (Math.abs(monitorBounds.getX()) + ref.getX()),

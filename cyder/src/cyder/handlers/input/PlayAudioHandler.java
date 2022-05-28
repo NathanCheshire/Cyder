@@ -9,9 +9,11 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.IOUtil;
+import cyder.utilities.OSUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 /**
  * A handler for commands that play audio.
@@ -50,17 +52,15 @@ public class PlayAudioHandler extends InputHandlerBase {
             CyderIcons.setCurrentCyderIcon(CyderIcons.xxxIcon);
             ConsoleFrame.INSTANCE.getConsoleCyderFrame()
                     .setIconImage(new ImageIcon("static/pictures/print/x.png").getImage());
-            IOUtil.playAudio("static/audio/x.mp3");
-        } else if (getInputHandler().commandAndArgsToString()
-                .replaceAll("\\s+", "").equalsIgnoreCase("blackpanther")
-                || getInputHandler().commandAndArgsToString()
-                .replaceAll("\\s+", "").equalsIgnoreCase("chadwickboseman")) {
+            IOUtil.playAudio(OSUtil.buildPath("static", "audio", "x.mp3"));
+        } else if (getInputHandler().inputWithoutSpacesIs("blackpanther")
+                || getInputHandler().inputWithoutSpacesIs("chadwickboseman")) {
             CyderThreadRunner.submit(() -> {
                 getInputHandler().getOutputArea().setText("");
 
-                IOUtil.playAudio("static/audio/allthestars.mp3");
-                Font oldFont = getInputHandler().getOutputArea().getFont();
-                getInputHandler().getOutputArea().setFont(new Font("BEYNO", Font.BOLD, oldFont.getSize()));
+                IOUtil.playAudio(OSUtil.buildPath("static", "audio", "allthestars.mp3"));
+                getInputHandler().getOutputArea().setFont(new Font("BEYNO",
+                        Font.BOLD, getInputHandler().getOutputArea().getFont().getSize()));
                 BletchyThread.bletchy("RIP CHADWICK BOSEMAN",
                         false, 15, false);
 
@@ -70,8 +70,14 @@ public class PlayAudioHandler extends InputHandlerBase {
                     ExceptionHandler.silentHandle(e);
                 }
 
-                getInputHandler().getOutputArea().setFont(oldFont);
+                getInputHandler().getOutputArea().setFont(ConsoleFrame.INSTANCE.generateUserFont());
             }, "Chadwick Boseman");
+        } else if (getInputHandler().commandIs("f17")) {
+            if (getInputHandler().getRobot() != null) {
+                getInputHandler().getRobot().keyPress(KeyEvent.VK_F17);
+            } else {
+                getInputHandler().println("Mr. Robot didn't start :(");
+            }
         } else {
             ret = false;
         }
