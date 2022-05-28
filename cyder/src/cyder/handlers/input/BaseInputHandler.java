@@ -56,10 +56,6 @@ import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
-// todo update readme with drop down pictures/gifs
-// todo make all images drop downs like the material widgets for JFX
-// todo add readme section about setting up
-
 /* some methods have yet to be utilized, arg lengths are always checked before accessing*/
 @SuppressWarnings("SpellCheckingInspection")
 public class BaseInputHandler {

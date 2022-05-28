@@ -108,12 +108,13 @@ public class Logger {
 
     /**
      * Calls string.valueOf on the provided generic and prints to the debug console
-     * using the debug tag. Note this method does not log the exception to the current log.
+     * using the debug tag.
+     * Note this method does not save anything to the current log.
      *
      * @param representation the object to debug print
      */
     public static <T> void Debug(T representation) {
-        println(getLogTime() + " [" + Tag.DEBUG.logName + "]: " + representation);
+        println(getLogTime() + "[" + Tag.DEBUG.logName + "]: " + representation);
     }
 
     public static void println(String string) {

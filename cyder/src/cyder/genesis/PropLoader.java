@@ -3,6 +3,7 @@ package cyder.genesis;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -17,12 +18,6 @@ import java.util.ArrayList;
  * A class for loading ini props from props.ini used throughout Cyder.
  */
 public class PropLoader {
-    /**
-     * The props files to parse props from.
-     */
-    private static final ImmutableList<File> propFiles =
-            ImmutableList.of(new File("props.ini"), new File("propkeys.ini"));
-
     /**
      * Lines which start with this are marked as a comment and not parsed as props.
      */
@@ -78,15 +73,25 @@ public class PropLoader {
     }
 
     /**
-     * Loads the props from all prop files.
+     * Loads the props from all discovered prop files.
      */
-    public static void loadProps() {
+    protected static void loadProps() {
         Preconditions.checkArgument(!propsLoaded);
 
-        for (File f : propFiles) {
-            Preconditions.checkArgument(f.exists(), "Could not find prop file: " + f.getName());
-            Preconditions.checkArgument(FileUtil.validateExtension(f, ".ini"),
-                    "Illegal prop file format: " + FileUtil.getExtension(f));
+        ArrayList<File> propFiles = new ArrayList<>();
+
+        File root = new File(".");
+        File[] rootFiles = root.listFiles();
+
+        if (rootFiles == null || rootFiles.length < 2) {
+            throw new FatalException("Could not find any prop files");
+        }
+
+        for (File f : rootFiles) {
+            if (f.getName().startsWith("prop") && FileUtil.validateExtension(f, ".ini")) {
+                propFiles.add(f);
+                Logger.Debug("Found prop file: " + f);
+            }
         }
 
         try {
@@ -165,11 +170,8 @@ public class PropLoader {
 
                     propsList.add(addProp);
 
-                    if (logNextProp) {
-                        Logger.log(Logger.Tag.PROP_LOADED, addProp);
-                    } else {
-                        Logger.log(Logger.Tag.PROP_LOADED, "key = " + addProp.key + ", value = HIDDEN");
-                    }
+                    Logger.log(Logger.Tag.PROP_LOADED, "[key = " + addProp.key
+                            + (logNextProp ? ", value = " + addProp.value : "") + "]");
 
                     logNextProp = true;
                 }

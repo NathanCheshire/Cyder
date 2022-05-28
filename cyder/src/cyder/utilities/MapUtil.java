@@ -37,10 +37,6 @@ public class MapUtil {
         Preconditions.checkArgument(width > 0);
         Preconditions.checkArgument(height > 0);
 
-        if (!PropLoader.arePropsLoaded()) {
-            PropLoader.loadProps();
-        }
-
         String string = "http://www.mapquestapi.com/staticmap/v5/map?key="
                 + PropLoader.getString("map_quest_api_key") + "&type=map&size="
                 + width + "," + height

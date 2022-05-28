@@ -584,7 +584,7 @@ public class YoutubeUtil {
 
         // load props if not loaded (probably a Jenkins build)
         if (!PropLoader.arePropsLoaded()) {
-            PropLoader.loadProps();
+            throw new IllegalMethodException("Cannot build search query because props are not loaded");
         }
 
         String key = PropLoader.getString("youtube_api_3_key");
