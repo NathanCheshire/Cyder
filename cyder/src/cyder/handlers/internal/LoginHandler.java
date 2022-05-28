@@ -483,9 +483,9 @@ public class LoginHandler {
     public static boolean recognize(String name, String hashedPass, boolean autoCypherAttempt) {
         boolean ret = false;
 
-        //master try block to ensure something is always returned
+        // master try block to ensure something is always returned
         try {
-            //attempt to validate the name and password
+            // attempt to validate the name and password
             // and obtain the resulting uuid if checkPassword() succeeded
             String uuid = checkPassword(name, hashedPass);
 

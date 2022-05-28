@@ -455,10 +455,10 @@ public class StatUtil {
 
     /**
      * Finds and returns an immutable list of all the classes found which contain
-     * a word classified as restricted by v.txt.
+     * a word classified as restricted by blocked.txt.
      *
      * @return an immutable list of all the classes found which contain
-     * a word classified as restricted by v.txt
+     * a word classified as restricted by blocked.txt
      */
     public static ImmutableList<String> findBadWords() {
         return innerFindBadWords(ROOT);
@@ -478,7 +478,7 @@ public class StatUtil {
                     ret.addAll(innerFindBadWords(f));
                 }
             }
-        } else if (startDir.isFile() && !FileUtil.getFilename(startDir.getName()).equals("v.txt")) {
+        } else if (startDir.isFile() && !FileUtil.getFilename(startDir.getName()).equals("blocked.txt")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
                 String line;

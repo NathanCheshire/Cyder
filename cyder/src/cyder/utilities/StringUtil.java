@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
  * to achieve thread safety. Typically, in Cyder, this is performed via using a {@link CyderOutputPane}
  * which bundles a JTextPane, StringUtil, and Semaphore.
  */
+@SuppressWarnings("SpellCheckingInspection") // html elements
 public class StringUtil {
     /**
      * The output pane to print to in the case an object is created.
@@ -37,8 +38,9 @@ public class StringUtil {
     private final CyderOutputPane linkedCyderPane;
 
     /**
-     * StringUtil instantiation not allowed unless a valid CyderOutputPane is provided.
+     * Suppress default constructor.
      */
+    @SuppressWarnings("unused")
     private StringUtil() {
         throw new IllegalStateException("Instantiation of StringUtil is not permitted without a CyderOutputPane");
     }
@@ -657,7 +659,7 @@ public class StringUtil {
     }
 
     /**
-     * Tests a given string to see if it contains any blocked words contained in the v.txt system file.
+     * Tests a given string to see if it contains any blocked words contained in the blocked.txt system file.
      *
      * @param input      the provided string to test against
      * @param filterLeet whether to filter out possible leet from the string
@@ -669,7 +671,8 @@ public class StringUtil {
         if (filterLeet)
             input = filterLeet(input.toLowerCase());
 
-        try (BufferedReader vReader = new BufferedReader(new FileReader("static/txt/v.txt"))) {
+        try (BufferedReader vReader = new BufferedReader(
+                new FileReader(OSUtil.buildPath("static", "txt", "blocked.txt")))) {
             String blockedWord;
 
             while ((blockedWord = vReader.readLine()) != null) {
@@ -732,6 +735,11 @@ public class StringUtil {
     }
 
     /**
+     * The name for the element to grab from the DOM returned when getting a Dictionary.com html document.
+     */
+    private static final String DEFINITION_ELEMENT_NAME = "one-click-content css-nnyc96 e1q3nk1v1";
+
+    /**
      * Searches Dictionary.com for the provided word.
      *
      * @param word the word to find a definition for
@@ -742,7 +750,7 @@ public class StringUtil {
 
         try {
             Document doc = Jsoup.connect(CyderUrls.DICTIONARY_BASE + word).get();
-            Elements els = doc.getElementsByClass("one-click-content css-nnyc96 e1q3nk1v1")
+            Elements els = doc.getElementsByClass(DEFINITION_ELEMENT_NAME)
                     .not(".pad_10").not(".pad_20");
             org.jsoup.nodes.Element htmlDescription = els.get(0);
 
@@ -1062,7 +1070,7 @@ public class StringUtil {
 
     /**
      * Strips all new lines and replaces them with a space.
-     * Returns the reuslting String trimmed.
+     * Returns the resulting String trimmed.
      *
      * @param line the line to strip of new line characters and trim
      * @return the line stripped of new line characters and trimmed
