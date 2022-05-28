@@ -29,13 +29,19 @@ Some examples of what you can do with Cyder include:
 <details>
 <summary><b>Cyder Console</b></summary>
 <br>
-<img src="https://user-images.githubusercontent.com/60986919/163657071-17f9866c-bf2b-4307-9c8f-cf7e97982af9.png" alt="Liminal Cyder" width="700">
+<img src="https://user-images.githubusercontent.com/60986919/170841022-1e70ebb9-437e-4a47-bbba-abeaa75c8b1d.png" alt="Liminal Cyder" width="700">
 </details>
 
 <details>
 <summary><b>Weather Widget</b></summary>
 <br>
-<img src="https://user-images.githubusercontent.com/60986919/156911464-73221df7-68fa-4ce3-8211-555ddc9c0ac2.png" alt="Weather" width="400">
+<img src="https://user-images.githubusercontent.com/60986919/170841041-cf1f7ddb-c40a-4d18-b1b6-cf8478bdee4c.png" alt="Weather" width="400">
+</details>
+
+<details>
+<summary><b>Weather Widget</b></summary>
+<br>
+<img src="https://user-images.githubusercontent.com/60986919/170841055-b52ef42e-7267-4ac8-8bcc-fac4453596c9.png" alt="Music" width="400">
 </details>
 
 <details>
