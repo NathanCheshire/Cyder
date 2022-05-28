@@ -39,9 +39,9 @@ Some examples of what you can do with Cyder include:
 </details>
 
 <details>
-<summary><b>Weather Widget</b></summary>
+<summary><b>Music Widget</b></summary>
 <br>
-<img src="https://user-images.githubusercontent.com/60986919/170841055-b52ef42e-7267-4ac8-8bcc-fac4453596c9.png" alt="Music" width="400">
+<img src="https://user-images.githubusercontent.com/60986919/170841148-997aefce-6e8f-4423-9e44-94e4539c3441.png" alt="Music" width="400">
 </details>
 
 <details>
