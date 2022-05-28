@@ -6,6 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.utilities.FileUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -84,6 +85,8 @@ public class PropLoader {
 
         for (File f : propFiles) {
             Preconditions.checkArgument(f.exists(), "Could not find prop file: " + f.getName());
+            Preconditions.checkArgument(FileUtil.validateExtension(f, ".ini"),
+                    "Illegal prop file format: " + FileUtil.getExtension(f));
         }
 
         try {

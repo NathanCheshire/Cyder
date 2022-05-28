@@ -6,11 +6,10 @@
 
 Funny you should ask this question, I'm asked it quite a lot and usually fail to give a comprehensive and elegant
 answer. The best I can do is something along the lines of "Cyder is a multi-purpose, desktop manager, GUI tool." It is
-written using a custom Java UI library which was built on top of lightweight Swing components.
+written using a custom Java UI library which was built on top of lightweight Swing components. No modern GUI
+dependencies such as Material or FXML were used and all Cyder components are closely related to `Component.java`
 
-Cyder is a multipurpose, desktop manager, GUI tool written using a custom UI library which on top of Swing/AWT. No
-modern GUI dependencies such as FXML were used for Cyder hence all UI elements directly inherit from Component. Some
-examples of what you can do with Cyder include:
+Some examples of what you can do with Cyder include:
 
 * Downloading Audio from a YouTube video, playlist, uuid, or link
 * Image transforms, markup, and painting
@@ -66,21 +65,22 @@ https://user-images.githubusercontent.com/60986919/160253262-8b10844a-6385-4328-
 
 ## Usage and Setup
 
-To get starting with Cyder, first download your favorite Java IDE such as IntelliJ, NetBeans, Eclipse, etc. You'll then
+To get started with Cyder, first download your favorite Java IDE such as IntelliJ, NetBeans, Eclipse, etc. You'll then
 want to make sure the IDE supports gradle operations. Next, clone Cyder via
-repo `git clone https://github.com/NathanCheshire/Cyder.git`. Now load the project in your IDE and allow the gradle
-setup task to run and the IDE to synchronize. Make sure that you have a Java 17 SDK installed and set(I use temurin as
-the vendor). Additionally make sure your java bytecode version is set to 17 and that the project language level is set
-to `17 (Preview) - Pattern matching for switch`. Now you'll be able to run Cyder by a runtime configuration which
-invokes the main method inside of `Cyder.java` which is located in the `genesis` package. Once started, Cyder should
-recognize there are no users found and prompt for the creation of a user. Go ahead and create an account now.
+`git clone https://github.com/NathanCheshire/Cyder.git`. Now load the project in your IDE and allow the gradle setup
+task to run and the IDE to synchronize. Make sure that you have a Java 17 SDK installed and set as the project SDK (I
+use temurin as the vendor). Additionally, make sure your Java bytecode version is set to 17 and that the project
+language level is set to `17 (Preview) - Pattern matching for switch`. Now you'll be able to run Cyder by a runtime
+configuration which invokes the main method inside of `Cyder.java` which is located in the `genesis` package. Once
+started, Cyder should recognize there are no users found and prompt for the creation of a user. Go ahead and create an
+account now.
 
 For development purposes, you may want to initialize another props file within the root directory to store your keys,
-passwords, and other sensitive data. This file should NOT be tracked via your VCS. Within this file, add two
-props: `debug_hash_name` with the value of your username and `debug_hash_password` with the value of your password
-hashed once using SHA256 (hint: you can hash your password inside of Cyder using the hashing widget). Follow the format
-of `props.ini` when creating your own props file. You may name your props file whatever you wish, just make sure you
-tell Cyder to load it in `PropLoader.java`s prop files list. One last thing, make sure you annotate these key props and
-any other props whose values you do not want appearing in the log files with `@no_log`. This will prevent the logger
-from writing the value to the log file when props are loaded at runtime.
-
+passwords, and other sensitive data. This file should NOT be tracked via your VCS (add it to to your .gitignore if you
+don't use the name propkeys.ini). Within this file, add two props: `debug_hash_name` with the value of your username
+and `debug_hash_password` with the value of your password hashed once using SHA256 (hint: you can hash your password
+inside of Cyder using the hashing widget). Follow the ini key-value format or copy from `props.ini` when creating your
+own props file. You may name your props file whatever you wish, just make sure you tell Cyder to load it
+in `PropLoader.java`s prop files list. One last thing, make sure that you annotate these key props and any other props
+whose values you do not want appearing in the log files with `@no_log`. This will prevent the logger from writing the
+value to the log file when props are loaded at runtime.
