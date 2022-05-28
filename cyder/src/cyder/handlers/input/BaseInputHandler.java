@@ -16,13 +16,11 @@ import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.handlers.internal.ScreenPosition;
 import cyder.handlers.internal.Suggestion;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.MasterYoutubeThread;
 import cyder.ui.CyderCaret;
-import cyder.ui.CyderFrame;
 import cyder.ui.CyderOutputPane;
 import cyder.ui.CyderSliderUI;
 import cyder.user.Preferences;
@@ -159,6 +157,7 @@ public class BaseInputHandler {
      * The handlers which have no exact handle and instead perform checks on the command directly.
      */
     private static final ImmutableList<Class<?>> finalHandlers = ImmutableList.of(
+            FrameMovementHandler.class,
             UrlHandler.class,
             PreferenceHandler.class,
             WrappedCommandHandler.class
@@ -239,7 +238,6 @@ public class BaseInputHandler {
             //noinspection StatementWithEmptyBody
             if (generalPrintsCheck()
                     || ReflectionUtil.openWidget((commandAndArgsToString()))
-                    || cyderFrameMovementCheck()
                     || generalCommandCheck()) {
 
             } else //noinspection StatementWithEmptyBody
@@ -501,99 +499,6 @@ public class BaseInputHandler {
             println("That's not very nice.");
         } else {
             ret = false;
-        }
-
-        return ret;
-    }
-
-    private boolean cyderFrameMovementCheck() {
-        boolean ret = true;
-
-        if (commandAndArgsToString().equalsIgnoreCase("top left")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.TOP_LEFT);
-        } else if (commandAndArgsToString().equalsIgnoreCase("top right")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.TOP_RIGHT);
-        } else if (commandAndArgsToString().equalsIgnoreCase("bottom left")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.BOTTOM_LEFT);
-        } else if (commandAndArgsToString().equalsIgnoreCase("bottom right")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.BOTTOM_RIGHT);
-        } else if (commandAndArgsToString().equalsIgnoreCase("middle")
-                || commandAndArgsToString().equals("center")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.CENTER);
-        } else if (commandAndArgsToString().equalsIgnoreCase("frame titles")) {
-            Frame[] frames = Frame.getFrames();
-            for (Frame f : frames)
-                if (f instanceof CyderFrame) {
-                    println(f.getTitle());
-                } else {
-                    println(f.getTitle());
-                }
-        } else if (command.equalsIgnoreCase("consolidate")
-                && getArg(0).equalsIgnoreCase("windows")) {
-            if (checkArgsLength(3)) {
-                if (getArg(2).equalsIgnoreCase("top")
-                        && getArg(3).equalsIgnoreCase("right")) {
-                    for (CyderFrame f : FrameUtil.getCyderFrames()) {
-                        if (f.getState() == Frame.ICONIFIED) {
-                            f.setState(Frame.NORMAL);
-                            f.setRestoreX(ConsoleFrame.INSTANCE.getX()
-                                    + ConsoleFrame.INSTANCE.getWidth() - f.getWidth());
-                            f.setRestoreY(ConsoleFrame.INSTANCE.getY());
-                        }
-
-                        f.setLocation(ConsoleFrame.INSTANCE.getX() + ConsoleFrame.INSTANCE.getWidth()
-                                - f.getWidth(), ConsoleFrame.INSTANCE.getY());
-                    }
-                } else if (getArg(2).equalsIgnoreCase("bottom")
-                        && getArg(3).equalsIgnoreCase("right")) {
-                    for (CyderFrame f : FrameUtil.getCyderFrames()) {
-                        if (f.getState() == Frame.ICONIFIED) {
-                            f.setState(Frame.NORMAL);
-                            f.setRestoreX(ConsoleFrame.INSTANCE.getX()
-                                    + ConsoleFrame.INSTANCE.getWidth() - f.getWidth());
-                            f.setRestoreY(ConsoleFrame.INSTANCE.getY()
-                                    + ConsoleFrame.INSTANCE.getHeight() - f.getHeight());
-
-                        }
-
-                        f.setLocation(ConsoleFrame.INSTANCE.getX() + ConsoleFrame.INSTANCE.getWidth()
-                                - f.getWidth(), ConsoleFrame.INSTANCE.getY() +
-                                ConsoleFrame.INSTANCE.getHeight() - f.getHeight());
-                    }
-                } else if (getArg(2).equalsIgnoreCase("bottom")
-                        && getArg(3).equalsIgnoreCase("left")) {
-                    for (CyderFrame f : FrameUtil.getCyderFrames()) {
-                        if (f.getState() == Frame.ICONIFIED) {
-                            f.setState(Frame.NORMAL);
-                            f.setRestoreX(ConsoleFrame.INSTANCE.getX());
-                            f.setRestoreY(ConsoleFrame.INSTANCE.getY()
-                                    + ConsoleFrame.INSTANCE.getHeight() - f.getHeight());
-                        }
-
-                        f.setLocation(ConsoleFrame.INSTANCE.getX(), ConsoleFrame.INSTANCE.getY() +
-                                ConsoleFrame.INSTANCE.getHeight() - f.getHeight());
-                    }
-                } else {
-                    for (CyderFrame f : FrameUtil.getCyderFrames()) {
-                        if (f.getState() == Frame.ICONIFIED) {
-                            f.setState(Frame.NORMAL);
-                            f.setRestoreX(ConsoleFrame.INSTANCE.getX());
-                            f.setRestoreY(ConsoleFrame.INSTANCE.getY());
-                        }
-
-                        f.setLocation(ConsoleFrame.INSTANCE.getX(), ConsoleFrame.INSTANCE.getY());
-                    }
-                }
-            } else {
-                println("Command usage: consolidate windows top left");
-            }
-        } else if (commandIs("dance")) {
-            ConsoleFrame.INSTANCE.dance();
-        } else
-            ret = false;
-
-        if (ret) {
-            Logger.log(Logger.Tag.HANDLE_METHOD, "CYDERFRAME MOVEMENT COMMAND HANDLED");
         }
 
         return ret;
