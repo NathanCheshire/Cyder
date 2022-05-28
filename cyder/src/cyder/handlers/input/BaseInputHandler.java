@@ -44,11 +44,7 @@ import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
-import java.security.SecureRandom;
 import java.text.DecimalFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.Future;
@@ -165,6 +161,7 @@ public class BaseInputHandler {
      * The handlers which have no exact handle and instead perform checks on the command directly.
      */
     private static final ImmutableList<Class<?>> finalHandlers = ImmutableList.of(
+            GeneralPrintHandler.class,
             FrameMovementHandler.class,
             UrlHandler.class,
             PreferenceHandler.class,
@@ -244,8 +241,7 @@ public class BaseInputHandler {
         // handlers didn't work so now use final ones
         try {
             //noinspection StatementWithEmptyBody
-            if (generalPrintsCheck()
-                    || ReflectionUtil.openWidget((commandAndArgsToString()))
+            if (ReflectionUtil.openWidget((commandAndArgsToString()))
                     || generalCommandCheck()) {
 
             } else //noinspection StatementWithEmptyBody
@@ -378,138 +374,6 @@ public class BaseInputHandler {
         redirectionFile = null;
 
         println("Error: could not redirect output");
-    }
-
-    private boolean generalPrintsCheck() {
-        boolean ret = true;
-
-        if (commandIs("shakespeare")) {
-            if (NumberUtil.randInt(1, 2) == 1) {
-                println("Glamis hath murdered sleep, and therefore Cawdor shall sleep no more, Macbeth shall sleep no more.");
-            } else {
-                println("To be, or not to be, that is the question: Whether 'tis nobler in " +
-                        "the mind to suffer the slings and arrows of "
-                        + "outrageous fortune, or to take arms against a sea of troubles and by opposing end them.");
-            }
-        } else if (commandIs("asdf")) {
-            println("Who is the spiciest meme lord?");
-        } else if (commandIs("thor")) {
-            println("Piss off, ghost.");
-        } else if (commandIs("alextrebek")) {
-            println("Do you mean who is alex trebek?");
-        } else if (StringUtil.isPalindrome(command.replace(" ", "")) && command.length() > 3) {
-            println("Nice palindrome.");
-        } else if (commandIs("coinflip")) {
-            double randGauss = new SecureRandom().nextGaussian();
-            if (randGauss <= 0.0001) {
-                println("You're not going to believe this, but it landed on its side.");
-            } else if (randGauss <= 0.5) {
-                println("It's Heads!");
-            } else {
-                println("It's Tails!");
-            }
-        } else if (commandIs("hello") || commandIs("hi")) {
-            switch (NumberUtil.randInt(1, 7)) {
-                case 1:
-                    println("Hello, " + UserUtil.getCyderUser().getName() + ".");
-                    break;
-                case 2:
-                    if (TimeUtil.isEvening()) {
-                        println("Good evening, " + UserUtil.getCyderUser().getName() + ". How can I help?");
-                    } else if (TimeUtil.isMorning()) {
-                        println("Good morning, " + UserUtil.getCyderUser().getName() + ". How can I help?");
-                    } else {
-                        println("Good afternoon, " + UserUtil.getCyderUser().getName() + ". How can I help?");
-                    }
-                    break;
-                case 3:
-                    println("What's up, " + UserUtil.getCyderUser().getName() + "?");
-                    break;
-                case 4:
-                    println("How are you doing, " + UserUtil.getCyderUser().getName() + "?");
-                    break;
-                case 5:
-                    println("Greetings, " + UserUtil.getCyderUser().getName() + ".");
-                    break;
-                case 6:
-                    println("I'm here....");
-                    break;
-                case 7:
-                    println("Go ahead...");
-                    break;
-            }
-        } else if (commandIs("bye")) {
-            println("Just say you won't let go.");
-        } else if (commandIs("time")) {
-            println(TimeUtil.weatherTime());
-        } else if (commandIs("lol")) {
-            println("My memes are better.");
-        } else if (commandIs("thanks")) {
-            println("You're welcome.");
-        } else if (commandIs("name")) {
-            println("My name is Cyder. I am a tool built by Nathan Cheshire for programmers/advanced users.");
-        } else if (commandIs("k")) {
-            println("Fun Fact: the letter \"K\" comes from the Greek letter kappa, which was taken "
-                    + "from the Semitic kap, the symbol for an open hand. It is this very hand which "
-                    + "will be slapping you in the face for saying \"k\" to me.");
-        } else if (commandIs("no")) {
-            println("Yes");
-        } else if (commandIs("nope")) {
-            println("yep");
-        } else if (commandIs("yes")) {
-            println("no");
-        } else if (commandIs("yep")) {
-            println("nope");
-        } else if (commandIs("jarvis")) {
-            println("*scoffs in Java* primitive loser AI");
-        } else if (commandIs("thanksgiving")) {
-            int year = Calendar.getInstance().get(Calendar.YEAR);
-            LocalDate RealTG = LocalDate.of(year, 11, 1)
-                    .with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
-            println("Thanksgiving this year is on the " + RealTG.getDayOfMonth() + " of November.");
-        } else if (commandIs("fibonacci")) {
-            for (long i : NumberUtil.fib(0, 1, 100))
-                println(i);
-        } else if (commandIs("break;")) {
-            println("Thankfully my pure console based infinite while loop days are over. <3 Nathan");
-        } else if (commandIs("why")) {
-            println("Why not?");
-        } else if (commandIs("why not")) {
-            println("Why?");
-        } else if (commandIs("groovy")) {
-            println("Kotlin is the best JVM lang.... I mean, Java is obviously the best!");
-        } else if (commandIs("&&")) {
-            println("||");
-        } else if (commandIs("||")) {
-            println("&&");
-        } else if (commandIs("&")) {
-            println("|");
-        } else if (commandIs("|")) {
-            println("&");
-        } else if (commandIs("espanol")) {
-            println("Tu hablas Espanol? Yo estudio Espanol mas-o-menos. Hay tu mi amigo?");
-        } else if (commandIs("look")) {
-            println("L()()K ---->> !FREE STUFF! <<---- L()()K");
-        } else if (commandIs("cyder")) {
-            println("That's my name, don't wear it out pls");
-        } else if (commandIs("home")) {
-            println("There's no place like localhost/127.0.0.1");
-        } else if (commandIs("love")) {
-            println("Sorry, " + UserUtil.getCyderUser().getName() +
-                    ", but I don't understand human emotions or affections.");
-        } else if (commandIs("loop")) {
-            println("InputHandler.handle(\"loop\", true);");
-        } else if (commandIs("story")) {
-            println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly "
-                    + UserUtil.getCyderUser().getName() + " started talking to Cyder."
-                    + " It was at this moment that Cyder knew its day had been ruined.");
-        } else if (commandIs("i hate you")) {
-            println("That's not very nice.");
-        } else {
-            ret = false;
-        }
-
-        return ret;
     }
 
     private boolean generalCommandCheck() throws IOException {

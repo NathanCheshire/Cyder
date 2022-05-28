@@ -21,34 +21,12 @@ public class PropLoader {
     /**
      * Lines which start with this are marked as a comment and not parsed as props.
      */
-    public static final String commentString = "#";
-
-    /**
-     * Suppress default constructor.
-     */
-    private PropLoader() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
-    }
-
-    /**
-     * A prop object mapping a key to a value of the props.ini file.
-     */
-    public static record Prop(String key, String value) {
-    }
+    public static final String COMMENT_PATTERN = "#";
 
     /**
      * The props immutable list.
      */
     private static ImmutableList<Prop> props;
-
-    /**
-     * Returns the props list.
-     *
-     * @return the props list
-     */
-    public static ImmutableList<Prop> getProps() {
-        return props;
-    }
 
     /**
      * Whether to log the next prop that is loaded.
@@ -60,7 +38,23 @@ public class PropLoader {
     /**
      * Whether the props have been loaded.
      */
-    private static boolean propsLoaded = false;
+    private static boolean propsLoaded;
+
+    /**
+     * Suppress default constructor.
+     */
+    private PropLoader() {
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    }
+
+    /**
+     * Returns the props list.
+     *
+     * @return the props list
+     */
+    public static ImmutableList<Prop> getProps() {
+        return props;
+    }
 
     /**
      * Returns whether the props have been loaded.
@@ -70,122 +64,6 @@ public class PropLoader {
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean arePropsLoaded() {
         return propsLoaded;
-    }
-
-    /**
-     * Loads the props from all discovered prop files.
-     */
-    protected static void loadProps() {
-        Preconditions.checkArgument(!propsLoaded);
-
-        ArrayList<File> propFiles = new ArrayList<>();
-
-        File root = new File(".");
-        File[] rootFiles = root.listFiles();
-
-        if (rootFiles == null || rootFiles.length < 2) {
-            throw new FatalException("Could not find any prop files");
-        }
-
-        for (File f : rootFiles) {
-            if (f.getName().startsWith("prop") && FileUtil.validateExtension(f, ".ini")) {
-                propFiles.add(f);
-                Logger.Debug("Found prop file: " + f);
-            }
-        }
-
-        try {
-            ArrayList<Prop> propsList = new ArrayList<>();
-
-            for (File propFile : propFiles) {
-                BufferedReader reader = new BufferedReader(new FileReader(propFile));
-                String line;
-
-                while ((line = reader.readLine()) != null) {
-                    // comment
-                    if (line.trim().startsWith(commentString)) {
-                        continue;
-                    }
-                    // blank line
-                    else if (line.trim().length() == 0) {
-                        continue;
-                    }
-                    // hide next prop value
-                    else if (line.trim().equals("@no_log")) {
-                        logNextProp = false;
-                        continue;
-                    }
-
-                    String[] parts = line.split(":");
-
-                    Prop addProp;
-
-                    if (parts.length < 2) {
-                        throw new IllegalStateException("Could not parse line: " + line);
-                    } else if (parts.length == 2) {
-                        addProp = new Prop(parts[0].trim(), parts[1].trim());
-                    } else {
-                        int lastKeyIndex = -1;
-
-                        for (int i = 0 ; i < parts.length - 1 ; i++) {
-                            // if it's an escaped comma, continue
-                            if (parts[i].endsWith("\\")) {
-                                parts[i] = parts[i].substring(0, parts[i].length() - 1);
-                                continue;
-                            }
-
-                            // should be real comma so ensure not already set
-                            if (lastKeyIndex != -1)
-                                throw new IllegalStateException("Could not parse line: " + line);
-
-                            // set last index of key parts
-                            lastKeyIndex = i;
-                        }
-
-                        if (lastKeyIndex == -1) {
-                            throw new IllegalStateException("Could not parse line: " + line);
-                        }
-
-                        StringBuilder key = new StringBuilder();
-                        StringBuilder value = new StringBuilder();
-
-                        for (int i = 0 ; i <= lastKeyIndex ; i++) {
-                            key.append(parts[i]);
-
-                            if (i != lastKeyIndex) {
-                                key.append(":");
-                            }
-                        }
-
-                        for (int i = lastKeyIndex + 1 ; i < parts.length ; i++) {
-                            value.append(parts[i]);
-
-                            if (i != parts.length - 1) {
-                                value.append(":");
-                            }
-                        }
-
-                        addProp = new Prop(key.toString().trim(), value.toString().trim());
-                    }
-
-                    propsList.add(addProp);
-
-                    Logger.log(Logger.Tag.PROP_LOADED, "[key = " + addProp.key
-                            + (logNextProp ? ", value = " + addProp.value : "") + "]");
-
-                    logNextProp = true;
-                }
-
-                reader.close();
-            }
-
-            props = ImmutableList.copyOf(propsList);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-            props = ImmutableList.of();
-        } finally {
-            propsLoaded = true;
-        }
     }
 
     /**
@@ -276,5 +154,127 @@ public class PropLoader {
         }
 
         throw new IllegalArgumentException("Prop with key not found: key = \"" + key + "\"");
+    }
+
+    /**
+     * Loads the props from all discovered prop files.
+     */
+    protected static void loadProps() {
+        Preconditions.checkArgument(!propsLoaded);
+
+        ArrayList<File> propFiles = new ArrayList<>();
+
+        File root = new File(".");
+        File[] rootFiles = root.listFiles();
+
+        if (rootFiles == null || rootFiles.length < 2) {
+            throw new FatalException("Could not find any prop files");
+        }
+
+        for (File f : rootFiles) {
+            if (f.getName().startsWith("prop") && FileUtil.validateExtension(f, ".ini")) {
+                propFiles.add(f);
+                Logger.Debug("Found prop file: " + f);
+            }
+        }
+
+        try {
+            ArrayList<Prop> propsList = new ArrayList<>();
+
+            for (File propFile : propFiles) {
+                BufferedReader reader = new BufferedReader(new FileReader(propFile));
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    // comment
+                    if (line.trim().startsWith(COMMENT_PATTERN)) {
+                        continue;
+                    }
+                    // blank line
+                    else if (line.trim().isEmpty()) {
+                        continue;
+                    }
+                    // hide next prop value
+                    else if (line.trim().equals("@no_log")) {
+                        logNextProp = false;
+                        continue;
+                    }
+
+                    String[] parts = line.split(":");
+
+                    Prop addProp;
+
+                    if (parts.length < 2) {
+                        throw new IllegalStateException("Could not parse line: " + line);
+                    } else if (parts.length == 2) {
+                        addProp = new Prop(parts[0].trim(), parts[1].trim());
+                    } else {
+                        int lastKeyIndex = -1;
+
+                        for (int i = 0 ; i < parts.length - 1 ; i++) {
+                            // if it's an escaped comma, continue
+                            if (parts[i].endsWith("\\")) {
+                                parts[i] = parts[i].substring(0, parts[i].length() - 1);
+                                continue;
+                            }
+
+                            // should be real comma so ensure not already set
+                            if (lastKeyIndex != -1)
+                                throw new IllegalStateException("Could not parse line: " + line);
+
+                            // set last index of key parts
+                            lastKeyIndex = i;
+                        }
+
+                        if (lastKeyIndex == -1) {
+                            throw new IllegalStateException("Could not parse line: " + line);
+                        }
+
+                        StringBuilder key = new StringBuilder();
+                        StringBuilder value = new StringBuilder();
+
+                        for (int i = 0 ; i <= lastKeyIndex ; i++) {
+                            key.append(parts[i]);
+
+                            if (i != lastKeyIndex) {
+                                key.append(":");
+                            }
+                        }
+
+                        for (int i = lastKeyIndex + 1 ; i < parts.length ; i++) {
+                            value.append(parts[i]);
+
+                            if (i != parts.length - 1) {
+                                value.append(":");
+                            }
+                        }
+
+                        addProp = new Prop(key.toString().trim(), value.toString().trim());
+                    }
+
+                    propsList.add(addProp);
+
+                    Logger.log(Logger.Tag.PROP_LOADED, "[key = " + addProp.key
+                            + (logNextProp ? ", value = " + addProp.value : "") + "]");
+
+                    logNextProp = true;
+                }
+
+                reader.close();
+            }
+
+            props = ImmutableList.copyOf(propsList);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            props = ImmutableList.of();
+        } finally {
+            propsLoaded = true;
+        }
+    }
+
+    /**
+     * A prop object mapping a key to a value of the props.ini file.
+     */
+    public static record Prop(String key, String value) {
     }
 }
