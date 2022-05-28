@@ -52,6 +52,7 @@ import java.text.DecimalFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
+import java.util.List;
 import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
@@ -159,7 +160,8 @@ public class BaseInputHandler {
      */
     private static final ImmutableList<Class<?>> finalHandlers = ImmutableList.of(
             UrlHandler.class,
-            PreferenceHandler.class
+            PreferenceHandler.class,
+            WrappedCommandHandler.class
     );
 
     /**
@@ -241,8 +243,7 @@ public class BaseInputHandler {
                     || generalCommandCheck()) {
 
             } else //noinspection StatementWithEmptyBody
-                if (argumentCommandCheck(commandAndArgsToString())
-                        || mathExpressionCheck(commandAndArgsToString())
+                if (mathExpressionCheck(commandAndArgsToString())
                         || manualTestCheck(commandAndArgsToString())) {
 
                 } else {
@@ -402,9 +403,7 @@ public class BaseInputHandler {
                 println("It's Tails!");
             }
         } else if (commandIs("hello") || commandIs("hi")) {
-            int choice = NumberUtil.randInt(1, 7);
-
-            switch (choice) {
+            switch (NumberUtil.randInt(1, 7)) {
                 case 1:
                     println("Hello, " + UserUtil.getCyderUser().getName() + ".");
                     break;
@@ -500,11 +499,10 @@ public class BaseInputHandler {
                     + " It was at this moment that Cyder knew its day had been ruined.");
         } else if (commandIs("i hate you")) {
             println("That's not very nice.");
-        } else
+        } else {
             ret = false;
+        }
 
-        if (ret)
-            Logger.log(Logger.Tag.HANDLE_METHOD, "GENERAL PRINT COMMAND HANDLED");
         return ret;
     }
 
@@ -995,7 +993,7 @@ public class BaseInputHandler {
             }, "DST Checker");
         } else if (commandIs("tests")) {
             println("Valid tests to call:\n");
-            printManualTests();
+            printlns(ReflectionUtil.getManualTests());
         } else if (commandIs("networkaddresses")) {
             Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
 
@@ -1287,89 +1285,6 @@ public class BaseInputHandler {
     }
 
     /**
-     * Determines if the command was a simple evaluable function such as floor() or pow().
-     * <p>
-     * Valid expressions:
-     * abs - 1 arg, returns the absolute value
-     * ceil - 1 arg, returns the ceiling
-     * floor - 1 arg, returns the floor
-     * log - 1 arg, returns the natural log
-     * log10 - 1 arg, returns the base 10 log
-     * max - 2 args, returns the max
-     * min - 2 args, returns the min
-     * pow - 2 args, returns the first raised to the power of the second
-     * round - 1 arg, round the arg to a whole number
-     * sqrt - 1 arg, returns the sqrt of the number
-     * convert2 - 1 arg, converts the number to binary
-     *
-     * @param command the command to attempt to evaluate as a simple math library call
-     * @return whether the command was a simple math library call
-     */
-    private boolean argumentCommandCheck(String command) {
-        boolean ret = true;
-
-        try {
-            int firstParen = command.indexOf("(");
-            int comma = command.indexOf(",");
-            int lastParen = command.indexOf(")");
-
-            String mathop;
-            double param1 = 0.0;
-            double param2 = 0.0;
-
-            if (firstParen != -1) {
-                mathop = command.substring(0, firstParen);
-
-                if (comma != -1) {
-                    param1 = Double.parseDouble(command.substring(firstParen + 1, comma));
-
-                    if (lastParen != -1) {
-                        param2 = Double.parseDouble(command.substring(comma + 1, lastParen));
-                    }
-                } else if (lastParen != -1) {
-                    param1 = Double.parseDouble(command.substring(firstParen + 1, lastParen));
-                }
-
-                if (mathop.equalsIgnoreCase("abs")) {
-                    println(Math.abs(param1));
-                } else if (mathop.equalsIgnoreCase("ceil")) {
-                    println(Math.ceil(param1));
-                } else if (mathop.equalsIgnoreCase("floor")) {
-                    println(Math.floor(param1));
-                } else if (mathop.equalsIgnoreCase("log")) {
-                    println(Math.log(param1));
-                } else if (mathop.equalsIgnoreCase("log10")) {
-                    println(Math.log10(param1));
-                } else if (mathop.equalsIgnoreCase("max")) {
-                    println(Math.max(param1, param2));
-                } else if (mathop.equalsIgnoreCase("min")) {
-                    println(Math.min(param1, param2));
-                } else if (mathop.equalsIgnoreCase("pow")) {
-                    println(Math.pow(param1, param2));
-                } else if (mathop.equalsIgnoreCase("round")) {
-                    println(Math.round(param1));
-                } else if (mathop.equalsIgnoreCase("sqrt")) {
-                    println(Math.sqrt(param1));
-                } else if (mathop.equalsIgnoreCase("convert2")) {
-                    println(Integer.toBinaryString((int) (param1)));
-                } else
-                    ret = false;
-            } else
-                ret = false;
-        } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
-            ret = false;
-        }
-
-        //log before returning
-        if (ret) {
-            Logger.log(Logger.Tag.HANDLE_METHOD, "Console command/arg handled");
-        }
-
-        return ret;
-    }
-
-    /**
      * Determines if the provided command was a mathematical expression and if so, evaluates it.
      *
      * @param command the command to attempt to evaluate as a mathematical expression
@@ -1497,25 +1412,6 @@ public class BaseInputHandler {
             }, "Wrap Shell Thread");
         } else {
             println("Unknown command");
-        }
-    }
-
-    /**
-     * Prints the available manual tests that follow the standard
-     * naming convention to the linked JTextPane.
-     */
-    public final void printManualTests() {
-        println("Manual tests:");
-
-        for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
-            Class<?> classer = classInfo.load();
-
-            for (Method m : classer.getMethods()) {
-                if (m.isAnnotationPresent(ManualTest.class)) {
-                    String trigger = m.getAnnotation(ManualTest.class).value();
-                    println(trigger);
-                }
-            }
         }
     }
 
@@ -2158,6 +2054,19 @@ public class BaseInputHandler {
      * @param lines the lines to print to the JTextPane
      */
     public final void printlns(String[] lines) {
+        for (String line : lines) {
+            println(line);
+        }
+    }
+
+    /**
+     * Prints the provided String lines to the linked JTextPane.
+     * Note that new lines are automatically added in this so the passed
+     * array may be strings that do not end with new lines.
+     *
+     * @param lines the lines to print to the JTextPane
+     */
+    public final void printlns(List<String> lines) {
         for (String line : lines) {
             println(line);
         }

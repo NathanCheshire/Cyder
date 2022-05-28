@@ -547,4 +547,29 @@ public class ReflectionUtil {
         return new SimilarCommand(StringUtil.isNull(mostSimilarTrigger)
                 ? Optional.empty() : Optional.of(mostSimilarTrigger), tol);
     }
+
+    /**
+     * Returns a list the available manual tests that follow the standard
+     * naming convention to the linked JTextPane.
+     *
+     * @return a list of triggers for manual tests
+     */
+    public static ImmutableList<String> getManualTests() {
+        LinkedList<String> ret = new LinkedList<>();
+
+        ret.add("Manual tests:");
+
+        for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
+            Class<?> classer = classInfo.load();
+
+            for (Method m : classer.getMethods()) {
+                if (m.isAnnotationPresent(ManualTest.class)) {
+                    String trigger = m.getAnnotation(ManualTest.class).value();
+                    ret.add(trigger);
+                }
+            }
+        }
+
+        return ImmutableList.copyOf(ret);
+    }
 }

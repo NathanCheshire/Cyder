@@ -802,7 +802,7 @@ public enum ConsoleFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             CyderThreadRunner.submit(() -> {
-                baseInputHandler.printManualTests();
+                baseInputHandler.printlns(ReflectionUtil.getManualTests());
 
                 CyderButton suggestionButton = new CyderButton("    Make a Suggestion   ");
                 suggestionButton.setColors(CyderColors.regularPink);
