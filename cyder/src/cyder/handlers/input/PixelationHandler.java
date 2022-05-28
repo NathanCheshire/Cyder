@@ -21,7 +21,7 @@ import java.io.File;
 /**
  * A handler for handling when images or the console background should be pixelated.
  */
-public class PixelationHandler {
+public class PixelationHandler extends InputHandlerBase {
     /**
      * Suppress default constructor.
      */
@@ -110,9 +110,5 @@ public class PixelationHandler {
         }
 
         getInputHandler().resetHandlers();
-    }
-
-    private static BaseInputHandler getInputHandler() {
-        return ConsoleFrame.INSTANCE.getInputHandler();
     }
 }

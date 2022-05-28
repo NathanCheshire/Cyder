@@ -4,7 +4,6 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.utilities.NetworkUtil;
 import cyder.utilities.OSUtil;
 
@@ -13,7 +12,7 @@ import java.net.URL;
 /**
  * A handler for opening urls.
  */
-public class UrlHandler {
+public class UrlHandler extends InputHandlerBase {
     /**
      * Suppress default constructor.
      */
@@ -82,14 +81,5 @@ public class UrlHandler {
         }
 
         return ret;
-    }
-
-    /**
-     * Returns the ConsoleFrame's input handler.
-     *
-     * @return the ConsoleFrame's input handler
-     */
-    private static BaseInputHandler getInputHandler() {
-        return ConsoleFrame.INSTANCE.getInputHandler();
     }
 }

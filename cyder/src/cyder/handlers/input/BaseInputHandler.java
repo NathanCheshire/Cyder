@@ -149,14 +149,15 @@ public class BaseInputHandler {
      */
     private static final ImmutableList<Class<?>> primaryHandlers = ImmutableList.of(
             PixelationHandler.class,
-            GitHandler.class
+            GitHandler.class,
+            PrintImageHandler.class,
+            PlayAudioHandler.class
     );
 
     /**
      * The handlers which have no exact handle and instead perform checks on the command directly.
      */
     private static final ImmutableList<Class<?>> finalHandlers = ImmutableList.of(
-            PlayAudioHandler.class,
             UrlHandler.class,
             PreferenceHandler.class
     );
@@ -235,7 +236,6 @@ public class BaseInputHandler {
         try {
             //noinspection StatementWithEmptyBody
             if (generalPrintsCheck()
-                    || printImageCheck()
                     || ReflectionUtil.openWidget((commandAndArgsToString()))
                     || cyderFrameMovementCheck()
                     || generalCommandCheck()) {
@@ -505,51 +505,6 @@ public class BaseInputHandler {
 
         if (ret)
             Logger.log(Logger.Tag.HANDLE_METHOD, "GENERAL PRINT COMMAND HANDLED");
-        return ret;
-    }
-
-    private boolean printImageCheck() {
-        boolean ret = true;
-
-        if (commandIs("java")) {
-            println(new ImageIcon("static/pictures/print/duke.png"));
-        } else if (commandIs("msu")) {
-            println(new ImageIcon("static/pictures/print/msu.png"));
-        } else if (commandIs("nathan")) {
-            println(new ImageIcon("static/pictures/print/me.png"));
-        } else if (commandIs("html")) {
-            println(new ImageIcon("static/pictures/print/html5.png"));
-        } else if (commandIs("css")) {
-            println(new ImageIcon("static/pictures/print/css.png"));
-        } else if (commandIs("docker")) {
-            println(new ImageIcon("static/pictures/print/Docker.png"));
-        } else if (commandIs("redis")) {
-            println(new ImageIcon("static/pictures/print/Redis.png"));
-        }
-
-        //calls that will result in threads being spun off or thread operations
-        else if (commandIs("randomyoutube")) {
-            MasterYoutubeThread.start(1);
-        } else if (commandIs("scrub")) {
-            BletchyThread.bletchy("No you!", false, 50, true);
-        } else if (commandIs("bletchy")) {
-            BletchyThread.bletchy(argsToString(), false, 50, true);
-        } else if (commandIs("threads")) {
-            ThreadUtil.printThreads();
-        } else if (commandIs("daemonthreads")) {
-            ThreadUtil.printDaemonThreads();
-        } else if (commandIs("age")) {
-            BletchyThread.bletchy("I am somewhere between 69 and 420 years old.",
-                    true, 50, false);
-        } else if (commandIs("easter")) {
-            println("Easter Sunday is on " + TimeUtil.getEasterSundayString());
-        } else
-            ret = false;
-
-        if (ret) {
-            Logger.log(Logger.Tag.HANDLE_METHOD, "PRINT IMAGE COMMAND HANDLED");
-        }
-
         return ret;
     }
 
@@ -1304,6 +1259,23 @@ public class BaseInputHandler {
             SpotlightUtil.wipeSpotlights();
         } else if (commandIs("toast")) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().toast("A toast to you, sir/madam");
+        }
+        //calls that will result in threads being spun off or thread operations
+        else if (commandIs("randomyoutube")) {
+            MasterYoutubeThread.start(1);
+        } else if (commandIs("scrub")) {
+            BletchyThread.bletchy("No you!", false, 50, true);
+        } else if (commandIs("bletchy")) {
+            BletchyThread.bletchy(argsToString(), false, 50, true);
+        } else if (commandIs("threads")) {
+            ThreadUtil.printThreads();
+        } else if (commandIs("daemonthreads")) {
+            ThreadUtil.printDaemonThreads();
+        } else if (commandIs("age")) {
+            BletchyThread.bletchy("I am somewhere between 69 and 420 years old.",
+                    true, 50, false);
+        } else if (commandIs("easter")) {
+            println("Easter Sunday is on " + TimeUtil.getEasterSundayString());
         } else
             ret = false;
 

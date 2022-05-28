@@ -3,7 +3,6 @@ package cyder.handlers.input;
 import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.user.Preference;
 import cyder.user.Preferences;
 import cyder.utilities.StringUtil;
@@ -12,7 +11,7 @@ import cyder.utilities.UserUtil;
 /**
  * A handler for switching/toggling preferences.
  */
-public class PreferenceHandler {
+public class PreferenceHandler extends InputHandlerBase {
     /**
      * Suppress default constructor.
      */
@@ -53,14 +52,5 @@ public class PreferenceHandler {
         }
 
         return false;
-    }
-
-    /**
-     * Returns the ConsoleFrame's input handler.
-     *
-     * @return the ConsoleFrame's input handler
-     */
-    private static BaseInputHandler getInputHandler() {
-        return ConsoleFrame.INSTANCE.getInputHandler();
     }
 }

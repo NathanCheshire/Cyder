@@ -16,7 +16,7 @@ import java.awt.*;
 /**
  * A handler for commands that play audio.
  */
-public class PlayAudioHandler {
+public class PlayAudioHandler extends InputHandlerBase {
     /**
      * Suppress default constructor.
      */
@@ -24,11 +24,12 @@ public class PlayAudioHandler {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    @Handle("")
+    @Handle({"heyya", "windows", "lightsaber", "xbox", "startrek", "toystory",
+            "logic", "18002738255", "xxx", "blackpanther", "chadwickboseman", ""})
     public static boolean handle() {
         boolean ret = true;
 
-        if (getInputHandler().commandIs("hey")) {
+        if (getInputHandler().inputWithoutSpacesIs("heyya")) {
             IOUtil.playAudio("static/audio/hey.mp3");
         } else if (getInputHandler().commandIs("windows")) {
             IOUtil.playAudio("static/audio/windows.mp3");
@@ -76,14 +77,5 @@ public class PlayAudioHandler {
         }
 
         return ret;
-    }
-
-    /**
-     * Returns the ConsoleFrame's input handler.
-     *
-     * @return the ConsoleFrame's input handler
-     */
-    private static BaseInputHandler getInputHandler() {
-        return ConsoleFrame.INSTANCE.getInputHandler();
     }
 }

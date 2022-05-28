@@ -4,7 +4,6 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.GitHubUtil;
 import cyder.utilities.NetworkUtil;
@@ -13,7 +12,7 @@ import cyder.utilities.OSUtil;
 /**
  * A handler for commands and inputs related to git/github/gitlab.
  */
-public class GitHandler {
+public class GitHandler extends InputHandlerBase {
     /**
      * Suppress default constructor.
      */
@@ -76,14 +75,5 @@ public class GitHandler {
                 getInputHandler().println("----------------------------------------");
             }
         }, "GitHub Issue Getter");
-    }
-
-    /**
-     * Returns the ConsoleFrame's input handler.
-     *
-     * @return the ConsoleFrame's input handler
-     */
-    private static BaseInputHandler getInputHandler() {
-        return ConsoleFrame.INSTANCE.getInputHandler();
     }
 }
