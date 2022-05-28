@@ -4,7 +4,6 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
-import cyder.handlers.internal.ScreenPosition;
 import cyder.ui.CyderFrame;
 import cyder.utilities.FrameUtil;
 
@@ -26,16 +25,16 @@ public class FrameMovementHandler extends InputHandlerBase {
         boolean ret = true;
 
         if (getInputHandler().inputWithoutSpacesIs("top left")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.TOP_LEFT);
+            ConsoleFrame.INSTANCE.setLocationOnScreen(ConsoleFrame.ScreenPosition.TOP_LEFT);
         } else if (getInputHandler().inputWithoutSpacesIs("top right")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.TOP_RIGHT);
+            ConsoleFrame.INSTANCE.setLocationOnScreen(ConsoleFrame.ScreenPosition.TOP_RIGHT);
         } else if (getInputHandler().inputWithoutSpacesIs("bottom left")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.BOTTOM_LEFT);
+            ConsoleFrame.INSTANCE.setLocationOnScreen(ConsoleFrame.ScreenPosition.BOTTOM_LEFT);
         } else if (getInputHandler().inputWithoutSpacesIs("bottom right")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.BOTTOM_RIGHT);
+            ConsoleFrame.INSTANCE.setLocationOnScreen(ConsoleFrame.ScreenPosition.BOTTOM_RIGHT);
         } else if (getInputHandler().inputWithoutSpacesIs("middle")
                 || getInputHandler().inputWithoutSpacesIs("center")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.CENTER);
+            ConsoleFrame.INSTANCE.setLocationOnScreen(ConsoleFrame.ScreenPosition.CENTER);
         } else if (getInputHandler().inputWithoutSpacesIs("frametitles")) {
             Frame[] frames = Frame.getFrames();
             for (Frame f : frames)

@@ -573,7 +573,9 @@ public class BaseInputHandler {
             ConsoleFrame.INSTANCE.revalidate(false, false);
             println("ConsoleFrame repainted");
         } else if (commandIs("javaproperties")) {
-            StatUtil.javaProperties();
+            for (String prop : StatUtil.getJavaProperties()) {
+                println(prop);
+            }
         } else if (commandIs("panic")) {
             if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
                 FrameUtil.minimizeAllFrames();
@@ -629,7 +631,37 @@ public class BaseInputHandler {
                 }
             }
         } else if (commandIs("debugstats")) {
-            StatUtil.allStats();
+            CyderThreadRunner.submit(() -> {
+                try {
+                    for (String prop : StatUtil.getComputerMemorySpaces()) {
+                        println(prop);
+                    }
+
+                    for (String prop : StatUtil.getJavaProperties()) {
+                        println(prop);
+                    }
+
+                    for (String prop : StatUtil.getSystemProperties()) {
+                        println(prop);
+                    }
+
+                    Future<StatUtil.DebugStats> futureStats = StatUtil.getDebugProps();
+
+                    while (!futureStats.isDone()) {
+                        Thread.onSpinWait();
+                    }
+
+                    StatUtil.DebugStats stats = futureStats.get();
+
+                    for (String line : stats.lines()) {
+                        println(line);
+                    }
+
+                    println(stats.countryFlag());
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+            }, "Debug Stat Finder");
         } else if (commandIs("binary")) {
             if (checkArgsLength(1)
                     && CyderRegexPatterns.numberPattern.matcher(getArg(0)).matches()) {
@@ -749,11 +781,18 @@ public class BaseInputHandler {
             IOUtil.stopGeneralAudio();
         } else if (commandIs("ip")) {
             println(InetAddress.getLocalHost().getHostAddress());
-        } else if (commandIs("computerproperties")) {
-            println("This may take a second, since this feature counts your PC's free memory");
-            StatUtil.computerProperties();
+        } else if (inputWithoutSpacesIs("computerproperties")) {
+            println("This may take a second since this feature counts your PC's free memory");
+
+            CyderThreadRunner.submit(() -> {
+                for (String prop : StatUtil.getComputerMemorySpaces()) {
+                    println(prop);
+                }
+            }, "Computer Memory Computer");
         } else if (commandIs("systemproperties")) {
-            StatUtil.systemProperties();
+            for (String prop : StatUtil.getSystemProperties()) {
+                println(prop);
+            }
         } else if (commandIs("anagram")) {
             if (checkArgsLength(2)) {
                 if (StringUtil.areAnagrams(getArg(0), getArg(1))) {
@@ -912,14 +951,20 @@ public class BaseInputHandler {
                 }
             }
         } else if (commandIs("filesizes")) {
-            StatUtil.fileSizes();
+            for (StatUtil.FileSize fileSize : StatUtil.fileSizes()) {
+                println(fileSize.name() + ": " + OSUtil.formatBytes(fileSize.size()));
+            }
         } else if (commandIs("badwords")) {
             if (OSUtil.JAR_MODE) {
                 println("Bad words not available in jar mode");
             } else {
                 CyderThreadRunner.submit(() -> {
                     println("Finding bad words:");
-                    StatUtil.findBadWords();
+
+                    for (String line : StatUtil.findBadWords()) {
+                        println(line);
+                    }
+
                     println("Concluded");
                 }, "Bad Word Finder");
             }

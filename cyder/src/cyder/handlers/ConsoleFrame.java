@@ -41,6 +41,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.concurrent.Future;
 
 /**
  * Singleton of components that represent the GUI way a user
@@ -1105,11 +1106,37 @@ public enum ConsoleFrame {
         }
 
         if (UserUtil.getCyderUser().getDebugwindows().equals("1")) {
-            // todo all of these should return stuff to be printed
-            StatUtil.systemProperties();
-            StatUtil.computerProperties();
-            StatUtil.javaProperties();
-            StatUtil.getDebugProps();
+            CyderThreadRunner.submit(() -> {
+                try {
+                    for (String prop : StatUtil.getSystemProperties()) {
+                        getInputHandler().println(prop);
+                    }
+
+                    for (String prop : StatUtil.getComputerMemorySpaces()) {
+                        getInputHandler().println(prop);
+                    }
+
+                    for (String prop : StatUtil.getJavaProperties()) {
+                        getInputHandler().println(prop);
+                    }
+
+                    Future<StatUtil.DebugStats> futureStats = StatUtil.getDebugProps();
+
+                    while (!futureStats.isDone()) {
+                        Thread.onSpinWait();
+                    }
+
+                    StatUtil.DebugStats stats = futureStats.get();
+
+                    for (String line : stats.lines()) {
+                        getInputHandler().println(line);
+                    }
+
+                    getInputHandler().println(stats.countryFlag());
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+            }, "Debug Stat Finder");
         }
 
         if (PropLoader.getBoolean("testing_mode")) {
@@ -3168,23 +3195,18 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Sets the visibility of the buttons to the left of the drag label which
-     * are not included in the drag label button list currently.
-     *
-     * @param visible whether the buttons should be visible
-     */
-    @SuppressWarnings("unused")
-    public void setLeftDragLabelButtonVisibilities(boolean visible) {
-        helpButton.setVisible(visible);
-        menuButton.setVisible(visible);
-    }
-
-    /**
      * Returns the console frame's content pane.
      *
      * @return the console frame's content pane
      */
     public JLabel getContentPane() {
         return ((JLabel) (consoleCyderFrame.getContentPane()));
+    }
+
+    /**
+     * The valid screen positions for a frame object.
+     */
+    public enum ScreenPosition {
+        TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, CENTER
     }
 }

@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -685,5 +686,39 @@ public class OSUtil {
         }
 
         return false;
+    }
+
+    /**
+     * Formats the provided number of bytes in a human-readable format.
+     * Example: passing 1024MB would return 1GB.
+     *
+     * @param bytes the raw number of bytes to coalesce
+     * @return a formatted string detailing the number of bytes provided
+     */
+    public static String formatBytes(float bytes) {
+        DecimalFormat formatter = new DecimalFormat("##.###");
+
+        float coalesceSpace = 1024.0f;
+
+        if (bytes >= coalesceSpace) {
+            float kilo = bytes / coalesceSpace;
+
+            if (kilo >= coalesceSpace) {
+                float mega = kilo / coalesceSpace;
+
+                if (mega >= coalesceSpace) {
+                    float giga = mega / coalesceSpace;
+
+                    if (giga >= coalesceSpace) {
+                        float tera = giga / coalesceSpace;
+                        return (formatter.format(tera) + "TB");
+                    } else
+                        return (formatter.format(giga) + "GB");
+                } else
+                    return (formatter.format(mega) + "MB");
+            } else
+                return (formatter.format(kilo) + "KB");
+        } else
+            return (bytes + " bytes");
     }
 }

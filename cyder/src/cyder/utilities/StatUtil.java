@@ -6,9 +6,7 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadFactory;
 
 import javax.imageio.ImageIO;
@@ -25,13 +23,24 @@ import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * Utilities around general statistics gathering.
+ */
 public class StatUtil {
+    /**
+     * Suppress default constructor.
+     */
     private StatUtil() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    public static void javaProperties() {
-        ArrayList<String> PropertiesList = new ArrayList<>();
+    /**
+     * Returns an immutable list of all the System property key value pairs of the current JVM.
+     *
+     * @return an immutable list of all the System property key value pairs of the current JVM
+     */
+    public static ImmutableList<String> getJavaProperties() {
+        LinkedList<String> ret = new LinkedList<>();
         Properties Props = System.getProperties();
 
         Enumeration<?> keys = Props.keys();
@@ -39,66 +48,75 @@ public class StatUtil {
         while (keys.hasMoreElements()) {
             String key = (String) keys.nextElement();
             String value = (String) Props.get(key);
-            PropertiesList.add(key + ": " + value);
+            ret.add(key + ": " + value);
         }
 
-        ConsoleFrame.INSTANCE.getInputHandler().println("Java Properties:\n------------------------");
+        return ImmutableList.copyOf(ret);
+    }
 
-        for (String s : PropertiesList) {
-            ConsoleFrame.INSTANCE.getInputHandler().println(s);
+    /**
+     * Returns an immutable list detailing the java system properties of the current JVM.
+     *
+     * @return an immutable list detailing the java system properties of the current JVM
+     */
+    public static ImmutableList<String> getSystemProperties() {
+        LinkedList<String> ret = new LinkedList<>();
+
+        String systemProps = System.getProperty("java.class.path");
+        StringBuilder separatedSystemProps = new StringBuilder();
+
+        for (String part : systemProps.split(";")) {
+            separatedSystemProps.append(part).append("\n");
         }
+
+        ret.add("File Separator: " + System.getProperty("file.separator"));
+        ret.add("Class Path: " + separatedSystemProps);
+        ret.add("Java Home: " + System.getProperty("java.home"));
+        ret.add("Java Vendor: " + System.getProperty("java.vendor"));
+        ret.add("Java Vendor URL: " + System.getProperty("java.vendor.url"));
+        ret.add("Java Version: " + System.getProperty("java.version"));
+        ret.add("Line Separator: " + System.getProperty("line.separator"));
+        ret.add("OS Architecture: " + System.getProperty("os.arch"));
+        ret.add("OS Name: " + System.getProperty("os.name"));
+        ret.add("OS Version: " + System.getProperty("os.version"));
+        ret.add("OS Path Separator: " + System.getProperty("path.separator"));
+        ret.add("User Directory: " + OSUtil.USER_DIR);
+        ret.add("User Home: " + System.getProperty("user.home"));
+        ret.add("Computer Username: " + System.getProperty("user.name"));
+
+        return ImmutableList.copyOf(ret);
     }
 
-    public static void systemProperties() {
-        ArrayList<String> arrayLines = new ArrayList<>();
-        arrayLines.add("File Separator: " + System.getProperty("file.separator"));
-        arrayLines.add("Class Path: " + System.getProperty("java.class.path"));
-        arrayLines.add("Java Home: " + System.getProperty("java.home"));
-        arrayLines.add("Java Vendor: " + System.getProperty("java.vendor"));
-        arrayLines.add("Java Vendor URL: " + System.getProperty("java.vendor.url"));
-        arrayLines.add("Java Version: " + System.getProperty("java.version"));
-        arrayLines.add("Line Separator: " + System.getProperty("line.separator"));
-        arrayLines.add("OS Architecture: " + System.getProperty("os.arch"));
-        arrayLines.add("OS Name: " + System.getProperty("os.name"));
-        arrayLines.add("OS Version: " + System.getProperty("os.version"));
-        arrayLines.add("OS Path Separator: " + System.getProperty("path.separator"));
-        arrayLines.add("User Directory: " + OSUtil.USER_DIR);
-        arrayLines.add("User Home: " + System.getProperty("user.home"));
-        arrayLines.add("Computer Username: " + System.getProperty("user.name"));
+    /**
+     * Returns an immutable list detailing the found computer memory spaces.
+     * <p>
+     * Note: invocation of this method should be done in a separate thread
+     * since computation of free memory may take some time.
+     *
+     * @return an immutable list detailing the found computer properties
+     */
+    public static ImmutableList<String> getComputerMemorySpaces() {
+        LinkedList<String> ret = new LinkedList<>();
 
-        for (String arrayLine : arrayLines)
-            ConsoleFrame.INSTANCE.getInputHandler().println(arrayLine);
-    }
-
-    public static void computerProperties() {
-        ArrayList<String> arrayLines = new ArrayList<>();
-
-        arrayLines.add("Available processors (cores): " + Runtime.getRuntime().availableProcessors());
-        arrayLines.add("Free memory (bytes): " + Runtime.getRuntime().freeMemory());
+        ret.add("Available processors (cores): " + Runtime.getRuntime().availableProcessors());
+        ret.add("Free memory: " + OSUtil.formatBytes(Runtime.getRuntime().freeMemory()));
 
         long maxMemory = Runtime.getRuntime().maxMemory();
 
-        arrayLines.add("Maximum memory (bytes): " + (maxMemory == Long.MAX_VALUE ? "no limit" : maxMemory));
-        arrayLines.add("Total memory available to JVM (bytes): " + Runtime.getRuntime().totalMemory());
+        ret.add("Maximum memory: " +
+                (maxMemory == Long.MAX_VALUE ? "no limit" : OSUtil.formatBytes(maxMemory)));
+        ret.add("Total memory available to JVM: " + OSUtil.formatBytes(Runtime.getRuntime().totalMemory()));
 
         File[] roots = File.listRoots();
 
         for (File root : roots) {
-            arrayLines.add("File system root: " + root.getAbsolutePath());
-            arrayLines.add("Total space (bytes): " + root.getTotalSpace());
-            arrayLines.add("Free space (bytes): " + root.getFreeSpace());
-            arrayLines.add("Usable space (bytes): " + root.getUsableSpace());
+            ret.add("File system root: " + root.getAbsolutePath());
+            ret.add("Total space (root): " + OSUtil.formatBytes(root.getTotalSpace()));
+            ret.add("Free space (root): " + OSUtil.formatBytes(root.getFreeSpace()));
+            ret.add("Usable space (root): " + OSUtil.formatBytes(root.getUsableSpace()));
         }
 
-        for (String arrayLine : arrayLines)
-            ConsoleFrame.INSTANCE.getInputHandler().println(arrayLine);
-    }
-
-    public static void allStats() {
-        getDebugProps();
-        computerProperties();
-        javaProperties();
-        systemProperties();
+        return ImmutableList.copyOf(ret);
     }
 
     /**
@@ -107,6 +125,11 @@ public class StatUtil {
     public record DebugStats(ImmutableList<String> lines, ImageIcon countryFlag) {
     }
 
+    /**
+     * Returns a debug object containing the found user flag and some common debug details.
+     *
+     * @return a debug object containing the found user flag and some common debug details
+     */
     public static Future<DebugStats> getDebugProps() {
         Preconditions.checkArgument(!NetworkUtil.isHighLatency());
 
@@ -124,38 +147,50 @@ public class StatUtil {
 
             ImageIcon resized = new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y)));
 
-            return new DebugStats(ImmutableList.of(
-                    "Time requested: " + TimeUtil.weatherTime(),
-                    "ISP: " + IPUtil.getIpdata().getAsn().getName(),
-                    "IP: " + IPUtil.getIpdata().getIp(),
-                    "Postal Code: " + IPUtil.getIpdata().getPostal(),
-                    "City: " + IPUtil.getIpdata().getCity(),
-                    "State: " + IPUtil.getIpdata().getRegion(),
-                    "Country: " + IPUtil.getIpdata().getCountry_name() + " ("
-                            + IPUtil.getIpdata().getCountry_code() + ")",
-                    "Latitude: " + IPUtil.getIpdata().getLatitude() + " Degrees N",
-                    "Longitude: " + IPUtil.getIpdata().getLongitude() + " Degrees W",
-                    "latency: " + NetworkUtil.latency(10000) + " ms",
-                    "Google Reachable: " + NetworkUtil.siteReachable(CyderUrls.GOOGLE),
-                    "YouTube Reachable: " + NetworkUtil.siteReachable(CyderUrls.YOUTUBE),
-                    "Apple Reachable: " + NetworkUtil.siteReachable(CyderUrls.APPLE),
-                    "Microsoft Reachable: " + NetworkUtil.siteReachable(CyderUrls.MICROSOFT),
-                    "User Name: " + OSUtil.getSystemUsername(),
-                    "Computer Name: " + OSUtil.getComputerName(),
-                    "Available Cores: " + Runtime.getRuntime().availableProcessors(),
-                    "Available Memory: " + gBytes + " GigaBytes",
-                    "Operating System: " + OSUtil.OPERATING_SYSTEM_NAME,
-                    "Java Version: " + System.getProperty("java.version"),
-                    "Network Interface Name: " + netIn.getName(),
-                    "Network Interface Display Name: " + netIn.getDisplayName(),
-                    "Network MTU: " + netIn.getMTU(),
-                    "Host Address: " + address.getHostAddress(),
-                    "Local Host Address: " + InetAddress.getLocalHost(),
-                    "Loopback Address: " + InetAddress.getLoopbackAddress()), resized);
+            return new DebugStats(
+                    ImmutableList.of(
+                            "Time requested: " + TimeUtil.weatherTime(),
+                            "ISP: " + IPUtil.getIpdata().getAsn().getName(),
+                            "IP: " + IPUtil.getIpdata().getIp(),
+                            "Postal Code: " + IPUtil.getIpdata().getPostal(),
+                            "City: " + IPUtil.getIpdata().getCity(),
+                            "State: " + IPUtil.getIpdata().getRegion(),
+                            "Country: " + IPUtil.getIpdata().getCountry_name() + " ("
+                                    + IPUtil.getIpdata().getCountry_code() + ")",
+                            "Latitude: " + IPUtil.getIpdata().getLatitude() + " Degrees N",
+                            "Longitude: " + IPUtil.getIpdata().getLongitude() + " Degrees W",
+                            "latency: " + NetworkUtil.latency(10000) + " ms",
+                            "Google Reachable: " + NetworkUtil.siteReachable(CyderUrls.GOOGLE),
+                            "YouTube Reachable: " + NetworkUtil.siteReachable(CyderUrls.YOUTUBE),
+                            "Apple Reachable: " + NetworkUtil.siteReachable(CyderUrls.APPLE),
+                            "Microsoft Reachable: " + NetworkUtil.siteReachable(CyderUrls.MICROSOFT),
+                            "User Name: " + OSUtil.getSystemUsername(),
+                            "Computer Name: " + OSUtil.getComputerName(),
+                            "Available Cores: " + Runtime.getRuntime().availableProcessors(),
+                            "Available Memory: " + gBytes + " GigaBytes",
+                            "Operating System: " + OSUtil.OPERATING_SYSTEM_NAME,
+                            "Java Version: " + System.getProperty("java.version"),
+                            "Network Interface Name: " + netIn.getName(),
+                            "Network Interface Display Name: " + netIn.getDisplayName(),
+                            "Network MTU: " + netIn.getMTU(),
+                            "Host Address: " + address.getHostAddress(),
+                            "Local Host Address: " + InetAddress.getLocalHost(),
+                            "Loopback Address: " + InetAddress.getLoopbackAddress()), resized);
         });
     }
 
+    /**
+     * Returns a string representing statistics found about all .java files found from the starting directory such as
+     * comment lines, total lines, and blank lines.
+     *
+     * @param startDir the directory to start from
+     * @return a string representing statistics found about all .java files found from the starting directory such as
+     * * comment lines, total lines, and blank lines
+     */
     public static String fileByFileAnalyze(File startDir) {
+        Preconditions.checkNotNull(startDir);
+        Preconditions.checkArgument(startDir.exists());
+
         StringBuilder ret = new StringBuilder(
                 "Numbers in order represent: code lines, comment lines, and blank lines respectively\n");
 
@@ -179,6 +214,9 @@ public class StatUtil {
      * @return the total number of java code lines found
      */
     public static int totalJavaLines(File startDir) {
+        Preconditions.checkNotNull(startDir);
+        Preconditions.checkArgument(startDir.exists());
+
         int ret = 0;
 
         if (startDir.isDirectory()) {
@@ -217,6 +255,9 @@ public class StatUtil {
      * @return the total number of lines found
      */
     public static int totalLines(File startDir) {
+        Preconditions.checkNotNull(startDir);
+        Preconditions.checkArgument(startDir.exists());
+
         int ret = 0;
 
         if (startDir.isDirectory()) {
@@ -252,6 +293,9 @@ public class StatUtil {
      * @return the raw number of comments found
      */
     public static int totalComments(File startDir) {
+        Preconditions.checkNotNull(startDir);
+        Preconditions.checkArgument(startDir.exists());
+
         int ret = 0;
 
         if (startDir.isDirectory()) {
@@ -310,6 +354,8 @@ public class StatUtil {
      * @return whether the line is a comment
      */
     public static boolean isComment(String line) {
+        Preconditions.checkNotNull(line);
+
         return line.matches(CyderRegexPatterns.commentPattern.pattern());
     }
 
@@ -320,6 +366,9 @@ public class StatUtil {
      * @return the number of blank lines found in the provided directory and subdirectories
      */
     public static int totalBlankLines(File startDir) {
+        Preconditions.checkNotNull(startDir);
+        Preconditions.checkArgument(startDir.exists());
+
         int ret = 0;
 
         if (startDir.isDirectory()) {
@@ -349,14 +398,21 @@ public class StatUtil {
         return ret;
     }
 
-    public static void fileSizes() {
-        LinkedList<FileSize> prints = innerFileSizes(new File("../Cyder"));
-
-        prints.sort(new FileComparator());
-
-        for (FileSize print : prints) {
-            ConsoleFrame.INSTANCE.getInputHandler().println(print.getName() + ": " + formatBytes(print.getSize()));
+    /**
+     * Returns an immutable list detailing all the files found
+     * within the root level directory and their sizes.
+     *
+     * @return an immutable list detailing all the files found
+     * within the root level directory and their sizes
+     */
+    public static ImmutableList<FileSize> fileSizes() {
+        if (OSUtil.JAR_MODE) {
+            throw new IllegalMethodException("Method not allowed when in Jar mode");
         }
+
+        LinkedList<FileSize> prints = innerFileSizes(OSUtil.buildFile("..", "Cyder"));
+        prints.sort(new FileComparator());
+        return ImmutableList.copyOf(prints);
     }
 
     private static LinkedList<FileSize> innerFileSizes(File startDir) {
@@ -377,54 +433,44 @@ public class StatUtil {
         return ret;
     }
 
+    /**
+     * The file comparator used for comparing files by their sizes in bytes.
+     */
     private static final class FileComparator implements Comparator<FileSize> {
         public int compare(FileSize fs1, FileSize fs2) {
-            if (fs1.getSize() < fs2.getSize())
+            if (fs1.size() < fs2.size()) {
                 return 1;
-            else if (fs1.getSize() > fs2.getSize())
+            } else if (fs1.size() > fs2.size()) {
                 return -1;
+            }
+
             return 0;
         }
     }
 
-    private static String formatBytes(float bytes) {
-        DecimalFormat formatter = new DecimalFormat("##.###");
-
-        float coalesceSpace = 1024.0f;
-
-        if (bytes >= coalesceSpace) {
-            float kilo = bytes / coalesceSpace;
-
-            if (kilo >= coalesceSpace) {
-                float mega = kilo / coalesceSpace;
-
-                if (mega >= coalesceSpace) {
-                    float giga = mega / coalesceSpace;
-
-                    if (giga >= coalesceSpace) {
-                        float tera = giga / coalesceSpace;
-                        return (formatter.format(tera) + "TB");
-                    } else
-                        return (formatter.format(giga) + "GB");
-                } else
-                    return (formatter.format(mega) + "MB");
-            } else
-                return (formatter.format(kilo) + "KB");
-        } else
-            return (bytes + " bytes");
+    /**
+     * Finds and returns an immutable list of all the classes found which contain
+     * a word classified as restricted by v.txt.
+     *
+     * @return an immutable list of all the classes found which contain
+     * a word classified as restricted by v.txt
+     */
+    public static ImmutableList<String> findBadWords() {
+        return innerFindBadWords(new File("cyder"));
     }
 
-    public static void findBadWords() {
-        innerFindBadWords(new File("cyder"));
-    }
+    private static ImmutableList<String> innerFindBadWords(File startDir) {
+        Preconditions.checkNotNull(startDir);
+        Preconditions.checkArgument(startDir.exists());
 
-    private static void innerFindBadWords(File startDir) {
+        LinkedList<String> ret = new LinkedList<>();
+
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
             if (files != null && files.length > 0) {
                 for (File f : files) {
-                    innerFindBadWords(f);
+                    ret.addAll(innerFindBadWords(f));
                 }
             }
         } else if (startDir.isFile() && !FileUtil.getFilename(startDir.getName()).equals("v.txt")) {
@@ -434,77 +480,20 @@ public class StatUtil {
 
                 while ((line = lineReader.readLine()) != null) {
                     if (isComment(line) && StringUtil.containsBlockedWords(line, false)) {
-                        ConsoleFrame.INSTANCE.getInputHandler().println(
-                                FileUtil.getFilename(startDir.getName()) + ": " + line.trim());
+                        ret.add(FileUtil.getFilename(startDir.getName()) + ": " + line.trim());
                     }
                 }
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
         }
+
+        return ImmutableList.copyOf(ret);
     }
 
     /**
-     * Associated name of a file and it's size.
+     * A record to associate a file name with its size.
      */
-    public static final class FileSize {
-        /**
-         * The size of the file.
-         */
-        private long size;
-
-        /**
-         * The name of the file.
-         */
-        private String name;
-
-        /**
-         * Creates a new file size object.
-         *
-         * @param name the name of the file
-         * @param size the size of the file in bytes
-         */
-        public FileSize(String name, long size) {
-            this.size = size;
-            this.name = name;
-
-            Logger.log(Logger.Tag.OBJECT_CREATION, this);
-        }
-
-        /**
-         * Returns the size of the file in bytes.
-         *
-         * @return the size of the file in bytes
-         */
-        public long getSize() {
-            return size;
-        }
-
-        /**
-         * Sets the size of the file in bytes.
-         *
-         * @param size the size of the file in bytes
-         */
-        public void setSize(long size) {
-            this.size = size;
-        }
-
-        /**
-         * Returns the name of the file.
-         *
-         * @return the name of the file
-         */
-        public String getName() {
-            return name;
-        }
-
-        /**
-         * Sets the name of the file.
-         *
-         * @param name the name of the file
-         */
-        public void setName(String name) {
-            this.name = name;
-        }
+    public record FileSize(String name, long size) {
     }
 }
