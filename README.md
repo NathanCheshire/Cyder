@@ -87,6 +87,6 @@ don't use the name propkeys.ini). Within this file, add two props: `debug_hash_n
 and `debug_hash_password` with the value of your password hashed once using SHA256 (hint: you can hash your password
 inside of Cyder using the hashing widget). Follow the ini key-value format or copy from `props.ini` when creating your
 own props file. You may name your props file whatever you wish, just make sure you tell Cyder to load it
-in `PropLoader.java`s prop files list. One last thing, make sure that you annotate these key props and any other props
+by ensuring the filename starts with `prop` and is an `ini` file. One last thing, make sure that you annotate these key props and any other props
 whose values you do not want appearing in the log files with `@no_log`. This will prevent the logger from writing the
 value to the log file when props are loaded at runtime.
