@@ -10,10 +10,8 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
-import cyder.enums.DynamicDirectory;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
@@ -21,14 +19,10 @@ import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
-import cyder.user.UserFile;
 import cyder.utilities.ImageUtil;
-import cyder.utilities.NumberUtil;
-import cyder.utilities.OSUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -52,16 +46,7 @@ public class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                File musicDirectory = OSUtil.buildFile(
-                        DynamicDirectory.DYNAMIC_PATH,
-                        DynamicDirectory.USERS.getDirectoryName(),
-                        ConsoleFrame.INSTANCE.getUUID(),
-                        UserFile.MUSIC.getName());
-                File[] music = musicDirectory.listFiles();
-
-                if (music != null && music.length > 0) {
-                    AudioPlayer.showGui(music[NumberUtil.randInt(0, music.length - 1)]);
-                }
+              AudioPlayer.showGui();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

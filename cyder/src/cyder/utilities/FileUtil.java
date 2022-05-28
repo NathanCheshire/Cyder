@@ -87,6 +87,20 @@ public class FileUtil {
     }
 
     /**
+     * Returns whether the provided file is a supported audio file by validating
+     * the file extension.
+     *
+     * @param file the filename to determine if it is a supported audio type
+     * @return whether the provided file is a supported audio file
+     */
+    public static boolean isSupportedAudioExtension(String file) {
+        checkNotNull(file);
+        checkArgument(!file.isEmpty());
+
+        return StringUtil.in(getExtension(file), true, SUPPORTED_AUDIO_EXTENSIONS);
+    }
+
+    /**
      * Returns whether the given file matches the provided signature.
      * Example: passing a png image and an integer array of "89 50 4E 47 0D 0A 1A 0A"
      * should return true
@@ -320,7 +334,7 @@ public class FileUtil {
             while (zentry != null) {
                 File zippedFile = OSUtil.buildFile(destinationFolder.getAbsolutePath(), zentry.getName());
 
-                // ensure parents of zentry exist
+                // ensure parents of zip entry exist
                 File zentryParent = new File(zippedFile.getParent());
                 zentryParent.mkdirs();
 

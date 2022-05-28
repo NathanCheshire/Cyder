@@ -382,12 +382,6 @@ public class AudioPlayer {
     private static final ArrayList<File> validAudioFiles = new ArrayList<>();
 
     /**
-     * The default audio file to play if no starting file was provided.
-     */
-    public static final File DEFAULT_AUDIO_FILE = OSUtil.buildFile(
-            "static", "audio", "Kendrick Lamar - All The Stars.mp3");
-
-    /**
      * The width and height of the audio frame.
      */
     private static final int DEFAULT_FRAME_LEN = 600;
@@ -520,15 +514,25 @@ public class AudioPlayer {
      */
     @Widget(triggers = {"mp3", "wav", "music", "audio"}, description = "An advanced audio playing widget")
     public static void showGui() {
-        showGui(DEFAULT_AUDIO_FILE);
+        File userMusicDir = OSUtil.buildFile(
+                DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName(),
+                ConsoleFrame.INSTANCE.getUUID(),
+                UserFile.MUSIC.getName());
+
+        File[] userMusicFiles = userMusicDir.listFiles((dir, name) -> FileUtil.isSupportedAudioExtension(name));
+
+        if (userMusicFiles != null && userMusicFiles.length > 0) {
+            showGui(userMusicFiles[NumberUtil.randInt(0, userMusicFiles.length - 1)]);
+        } else
+            throw new IllegalArgumentException("Could not find any user audio files");
     }
 
     /**
      * Starts playing the provided audio file.
      * The file must be mp3 or wav.
      *
-     * @param startPlaying the audio file to start playing.
-     *                     If null, {@link AudioPlayer#DEFAULT_AUDIO_FILE} is played.
+     * @param startPlaying the audio file to start playing
      * @throws IllegalArgumentException if startPlaying is null or doesn't exist
      */
     public static void showGui(File startPlaying) {

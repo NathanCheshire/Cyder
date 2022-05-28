@@ -162,7 +162,7 @@ public class PhotoViewer {
     private void transition(boolean forward) {
         refreshValidFiles();
 
-        if (validDirectoryImages.size() < 1)
+        if (validDirectoryImages.size() <= 1)
             return;
 
         // change the index

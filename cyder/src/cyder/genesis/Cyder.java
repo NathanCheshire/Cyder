@@ -157,9 +157,9 @@ public class Cyder {
      */
     private static void initSystemProps() {
         System.setProperty("sun.java2d.uiScale.enabled", "true");
-        System.setProperty("sun.java2d.uiScale", String.valueOf(OSUtil.getUIScale()));
+        System.setProperty("sun.java2d.uiScale", String.valueOf(OSUtil.getUiScale()));
         System.setProperty("sun.java2d.uiScale.enabled", "true");
-        System.setProperty("ide.ui.scale", String.valueOf(OSUtil.getUIScale()));
+        System.setProperty("ide.ui.scale", String.valueOf(OSUtil.getUiScale()));
     }
 
     /**

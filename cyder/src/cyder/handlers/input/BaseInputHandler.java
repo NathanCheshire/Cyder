@@ -141,9 +141,19 @@ public class BaseInputHandler {
         BletchyThread.initialize(outputArea.getJTextPane(), printingListLock);
     }
 
-    private static final ImmutableList<Class<?>> handlers = ImmutableList.of(
+    /**
+     * The handlers to attempt to find a matching handle for.
+     */
+    private static final ImmutableList<Class<?>> primaryHandlers = ImmutableList.of(
             PixelationHandler.class,
             GitHandler.class
+    );
+
+    /**
+     * The handlers which have no exact handle and instead perform checks on the command directly.
+     */
+    private static final ImmutableList<Class<?>> finalHandlers = ImmutableList.of(
+            PlayAudioHandler.class
     );
 
     /**
@@ -176,7 +186,7 @@ public class BaseInputHandler {
 
         // next check partitioned handlers
 
-        for (Class<?> handle : handlers) {
+        for (Class<?> handle : primaryHandlers) {
             for (Method method : handle.getMethods()) {
                 if (method.isAnnotationPresent(Handle.class)) {
                     String[] triggers = method.getAnnotation(Handle.class).value();
@@ -198,7 +208,23 @@ public class BaseInputHandler {
             }
         }
 
-        // finally general handlers
+        // final handlers
+
+        for (Class<?> handle : finalHandlers) {
+            for (Method method : handle.getMethods()) {
+                if (method.isAnnotationPresent(Handle.class)) {
+                    try {
+                        if (method.getParameterCount() == 0) {
+                            if (method.invoke(handle) instanceof Boolean bool && bool) {
+                                return;
+                            }
+                        }
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
+                }
+            }
+        }
 
         // handlers didn't work so now use final ones
         try {
@@ -208,7 +234,6 @@ public class BaseInputHandler {
                     || ReflectionUtil.openWidget((commandAndArgsToString()))
                     || cyderFrameMovementCheck()
                     || externalOpenerCheck()
-                    || audioCommandCheck()
                     || generalCommandCheck()) {
 
             } else //noinspection StatementWithEmptyBody
@@ -683,35 +708,6 @@ public class BaseInputHandler {
         return ret;
     }
 
-    private boolean audioCommandCheck() {
-        boolean ret = true;
-
-        if (commandIs("hey")) {
-            IOUtil.playAudio("static/audio/heyya.mp3");
-        } else if (commandIs("windows")) {
-            IOUtil.playAudio("static/audio/windows.mp3");
-        } else if (commandIs("lightsaber")) {
-            IOUtil.playAudio("static/audio/Lightsaber.mp3");
-        } else if (commandIs("xbox")) {
-            IOUtil.playAudio("static/audio/xbox.mp3");
-        } else if (commandIs("startrek")) {
-            IOUtil.playAudio("static/audio/StarTrek.mp3");
-        } else if (commandIs("toystory")) {
-            IOUtil.playAudio("static/audio/TheClaw.mp3");
-        } else if (commandIs("stopmusic")) {
-            IOUtil.stopGeneralAudio();
-        } else if (commandIs("logic")) {
-            IOUtil.playAudio("static/audio/commando.mp3");
-        } else if (commandIs("1-800-273-8255") || commandIs("18002738255")) {
-            IOUtil.playAudio("static/audio/1800.mp3");
-        } else
-            ret = false;
-
-        if (ret)
-            Logger.log(Logger.Tag.HANDLE_METHOD, "AUDIO COMMAND HANDLED");
-        return ret;
-    }
-
     private boolean generalCommandCheck() throws IOException {
         boolean ret = true;
 
@@ -953,6 +949,8 @@ public class BaseInputHandler {
             }
 
             println("");
+        } else if (commandIs("stopmusic")) {
+            IOUtil.stopGeneralAudio();
         } else if (commandIs("ip")) {
             println(InetAddress.getLocalHost().getHostAddress());
         } else if (commandIs("computerproperties")) {
@@ -1090,30 +1088,6 @@ public class BaseInputHandler {
             } else {
                 println("Screenshot command usage: screenshot [FRAMES or FRAME_NAME]");
             }
-        } else if (commandIs("xxx")) {
-            CyderIcons.setCurrentCyderIcon(CyderIcons.xxxIcon);
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame()
-                    .setIconImage(new ImageIcon("static/pictures/print/x.png").getImage());
-            IOUtil.playAudio("static/audio/x.mp3");
-        } else if (commandIs("blackpanther") || commandIs("chadwickboseman")) {
-            CyderThreadRunner.submit(() -> {
-                outputArea.getJTextPane().setText("");
-
-                IOUtil.playAudio("static/audio/Kendrick Lamar - All The Stars.mp3");
-                Font oldFont = outputArea.getJTextPane().getFont();
-                outputArea.getJTextPane().setFont(new Font("BEYNO", Font.BOLD, oldFont.getSize()));
-                BletchyThread.bletchy("RIP CHADWICK BOSEMAN",
-                        false, 15, false);
-
-                try {
-                    //wait to reset font to original font
-                    Thread.sleep(4000);
-                } catch (Exception e) {
-                    ExceptionHandler.silentHandle(e);
-                }
-
-                outputArea.getJTextPane().setFont(oldFont);
-            }, "Chadwick Boseman Easteregg");
         } else if (commandIs("dst")) {
             CyderThreadRunner.submit(() -> {
                 String location = IPUtil.getIpdata().getCity() + ", "
@@ -1956,6 +1930,11 @@ public class BaseInputHandler {
     private int typingSoundInc;
 
     /**
+     * The path to the typing sound effect.
+     */
+    private final String typingSoundPath = OSUtil.buildPath("static", "audio", "typing.mp3");
+
+    /**
      * Prints the string to the output area checking for
      * typing sound, finish printing, and other parameters.
      * <p>
@@ -1983,7 +1962,7 @@ public class BaseInputHandler {
 
                 if (typingSoundInc == typingSoundFrequency - 1) {
                     if (!shouldFinishPrinting && shouldDoSound) {
-                        IOUtil.playSystemAudio(OSUtil.buildPath("static", "audio", "Typing.mp3"));
+                        IOUtil.playSystemAudio(typingSoundPath, false);
                         typingSoundInc = 0;
                     }
                 } else {

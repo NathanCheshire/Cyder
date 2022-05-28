@@ -36,10 +36,16 @@ public class GitHandler {
                 printIssues();
                 return true;
             }
-            default -> throw new IllegalArgumentException("Illegal handle index for pixelation handler");
+            default -> throw new IllegalArgumentException("Illegal command for git handler");
         }
     }
 
+    /**
+     * Performs the following git commands:
+     * 1. git add .
+     * 2. git commit -m getArg(0)
+     * 3. git push -u origin main
+     */
     private static void gitme() {
         if (!getInputHandler().checkArgsLength(1)) {
             ProcessBuilder processBuilderAdd = new ProcessBuilder("git", "add", ".");
@@ -72,6 +78,11 @@ public class GitHandler {
         }, "GitHub Issue Getter");
     }
 
+    /**
+     * Returns the ConsoleFrame's input handler.
+     *
+     * @return the ConsoleFrame's input handler
+     */
     private static BaseInputHandler getInputHandler() {
         return ConsoleFrame.INSTANCE.getInputHandler();
     }

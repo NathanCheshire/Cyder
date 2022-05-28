@@ -233,22 +233,35 @@ public class IOUtil {
      * Plays the requested audio file using a new JLayer Player object.
      * (this cannot be stopped util the mpeg is finished)
      *
-     * @param FilePath the path to the audio file to play
+     * @param filePath the path to the audio file to play
      */
-    public static void playSystemAudio(String FilePath) {
+    public static void playSystemAudio(String filePath) {
+        playSystemAudio(filePath, true);
+    }
+
+    /**
+     * Plays the requested audio file using a new JLayer Player object.
+     * (this cannot be stopped util the mpeg is finished)
+     *
+     * @param filePath the path to the audio file to play
+     * @param log      whether to log the system audio play request
+     */
+    public static void playSystemAudio(String filePath, boolean log) {
         try {
-            FileInputStream FileInputStream = new FileInputStream(FilePath);
+            FileInputStream FileInputStream = new FileInputStream(filePath);
             Player systemPlayer = new Player(FileInputStream);
 
-            if (!FilePath.equals("static/audio/Typing.mp3"))
-                Logger.log(Logger.Tag.AUDIO, "[SYSTEM AUDIO] " + FilePath);
+            if (log) {
+                Logger.log(Logger.Tag.AUDIO, "[SYSTEM AUDIO] " + filePath);
+            }
+
             CyderThreadRunner.submit(() -> {
                 try {
                     systemPlayer.play();
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-            }, "system audio thread");
+            }, "System Audio Player");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

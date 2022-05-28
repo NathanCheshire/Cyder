@@ -8,6 +8,7 @@ import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.Cyder;
+import cyder.genesis.PropLoader;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -255,18 +256,12 @@ public class OSUtil {
     public static void openShell() {
         try {
             switch (OPERATING_SYSTEM) {
-                case WINDOWS:
-                    Runtime.getRuntime().exec("cmd");
-                    break;
-                case UNIX:
-                    //fall through
-                case OSX:
+                case WINDOWS -> Runtime.getRuntime().exec("cmd");
+                case UNIX, OSX -> {
                     String[] args = {"/bin/bash", "-c"};
-                    Process proc = new ProcessBuilder(args).start();
-                    break;
-                case UNKNOWN:
-                default:
-                    throw new FatalException("Unknown operating system type: " + OPERATING_SYSTEM);
+                    new ProcessBuilder(args).start();
+                }
+                case UNKNOWN, default -> throw new FatalException("Unknown operating system type: " + OPERATING_SYSTEM);
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -405,7 +400,7 @@ public class OSUtil {
         if (fileOrFolder.isDirectory()) {
             File[] files = fileOrFolder.listFiles();
 
-            if (files.length != 0) {
+            if (files != null && files.length != 0) {
                 for (File file : files) {
                     deleteFile(file, log);
                 }
@@ -434,7 +429,7 @@ public class OSUtil {
      * Creates the provided file/folder if possible.
      *
      * @param file the file/folder to attempt to create
-     * @return whether the file/fodler could be created
+     * @return whether the file/folder could be created
      */
     public static boolean createFile(File file) {
         checkNotNull(file);
@@ -442,15 +437,16 @@ public class OSUtil {
         try {
             int inc = 0;
             while (inc < MAX_CREATION_ATTEMPTS) {
-                // figure out type to create
+                boolean created;
+
                 if (file.isFile()) {
-                    file.createNewFile();
+                    created = file.createNewFile();
                 } else {
-                    file.mkdirs();
+                    created = file.mkdirs();
                 }
 
                 // success
-                if (file.exists()) {
+                if (file.exists() && created) {
                     return true;
                 }
 
@@ -478,9 +474,6 @@ public class OSUtil {
         checkNotNull(extension);
         checkArgument(!extension.isEmpty());
 
-        if (startDir == null)
-            throw new IllegalArgumentException("Start directory is null");
-
         // init return set
         ArrayList<File> ret = new ArrayList<>();
 
@@ -494,8 +487,6 @@ public class OSUtil {
             for (File f : files)
                 ret.addAll(getFiles(f, extension));
 
-        } else if (extension == null) {
-            ret.add(startDir);
         } else if (FileUtil.getExtension(startDir).equals(extension)) {
             ret.add(startDir);
         }
@@ -508,9 +499,8 @@ public class OSUtil {
      *
      * @return the UI scaling factor for the primary monitor
      */
-    public static double getUIScale() {
-        return 1.0;
-        // todo make dynamic and configurable? requires bootstrapping and restart confirmation
+    public static double getUiScale() {
+        return PropLoader.getDouble("ui_scale");
     }
 
     /**
@@ -628,8 +618,14 @@ public class OSUtil {
     public static void ensureDynamicsCreated() {
         File dynamic = new File(DynamicDirectory.DYNAMIC_PATH);
 
-        if (!dynamic.exists()) {
-            dynamic.mkdir();
+        boolean dynamicExists = dynamic.exists();
+
+        if (!dynamicExists) {
+            dynamicExists = dynamic.mkdir();
+        }
+
+        if (!dynamicExists) {
+            throw new FatalException("Could nto create dynamic directory");
         }
 
         for (DynamicDirectory dynamicDirectory : DynamicDirectory.values()) {
@@ -656,8 +652,7 @@ public class OSUtil {
         checkArgument(!invokeCommand.isEmpty());
 
         try {
-            Runtime rt = Runtime.getRuntime();
-            Process proc = rt.exec(invokeCommand);
+            Runtime.getRuntime().exec(invokeCommand);
         } catch (Exception e) {
             return false;
         }
@@ -679,9 +674,13 @@ public class OSUtil {
                 DynamicDirectory.EXES.getDirectoryName());
 
         if (exes.exists()) {
-            for (File exe : exes.listFiles()) {
-                if (exe.getName().equalsIgnoreCase(filename)) {
-                    return true;
+            File[] exeFiles = exes.listFiles();
+
+            if (exeFiles != null && exeFiles.length > 0) {
+                for (File exe : exeFiles) {
+                    if (exe.getName().equalsIgnoreCase(filename)) {
+                        return true;
+                    }
                 }
             }
         }

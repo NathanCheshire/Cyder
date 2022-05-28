@@ -280,9 +280,9 @@ public enum ConsoleFrame {
      * The possible audio files to play if the starting user background is grayscale.
      */
     private final ImmutableList<String> grayscaleAudioPaths = ImmutableList.of(
-            OSUtil.buildPath("static", "audio", "BadApple.mp3"),
-            OSUtil.buildPath("static", "audio", "BadApple.mp3"),
-            OSUtil.buildPath("static", "audio", "BlackOrWhite.mp3"));
+            OSUtil.buildPath("static", "audio", "badapple.mp3"),
+            OSUtil.buildPath("static", "audio", "beetlejuice.mp3"),
+            OSUtil.buildPath("static", "audio", "blackorwhite.mp3"));
 
     /**
      * Whether dancing is currently active.
@@ -1155,7 +1155,7 @@ public enum ConsoleFrame {
             }
             // otherwise, play our own
             else {
-                IOUtil.playAudio(OSUtil.buildPath("static", "audio", "Ride.mp3"));
+                IOUtil.playAudio(OSUtil.buildPath("static", "audio", "ride.mp3"));
             }
         }
         // intro music not on, check for grayscale image
@@ -1186,7 +1186,7 @@ public enum ConsoleFrame {
                             IOUtil.playAudio(grayscaleAudioPaths.get(
                                     NumberUtil.randInt(0, grayscaleAudioPaths.size() - 1)));
                         } else if (PropLoader.getBoolean("released")) {
-                            IOUtil.playAudio("static/audio/CyderIntroTheme.mp3");
+                            IOUtil.playAudio("static/audio/introtheme.mp3");
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
