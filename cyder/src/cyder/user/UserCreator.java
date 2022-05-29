@@ -6,6 +6,7 @@ import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.builders.GetterBuilder;
 import cyder.builders.InformBuilder;
+import cyder.common.CyderInspection;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -38,7 +39,7 @@ import java.util.LinkedList;
  */
 @Vanilla
 @CyderAuthor
-@SuppressCyderInspections(values = "VanillaInspection")
+@SuppressCyderInspections(CyderInspection.VanillaInspection)
 public class UserCreator {
     /**
      * The user creator frame.
@@ -255,9 +256,11 @@ public class UserCreator {
                         builder.setRelativeTo(CyderFrame.getDominantFrame());
                         InformHandler.inform(builder);
 
+                        File[] userFiles = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                                DynamicDirectory.USERS.getDirectoryName()).listFiles();
+
                         // attempt to log in new user if it's the only user
-                        if (OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                                DynamicDirectory.USERS.getDirectoryName()).listFiles().length == 1) {
+                        if (userFiles != null && userFiles.length == 1) {
                             LoginHandler.getLoginFrame().dispose();
                             LoginHandler.recognize(newUserName.getText().trim(),
                                     SecurityUtil.toHexString(SecurityUtil.getSHA256(
@@ -388,7 +391,12 @@ public class UserCreator {
         // ensure that the username doesn't already exist
         boolean userNameExists = false;
 
-        for (File f : folder.getParentFile().listFiles()) {
+        File[] files = folder.getParentFile().listFiles();
+
+        if (files == null || files.length == 0)
+            return false;
+
+        for (File f : files) {
             File jsonFile = new File(OSUtil.buildPath(f.getAbsolutePath(), UserFile.USERDATA.getName()));
 
             // user files might remain without a user json

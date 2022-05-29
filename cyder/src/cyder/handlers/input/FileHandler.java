@@ -23,7 +23,7 @@ public class FileHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    @Handle({"wipelogs", "opencurrentlog", "openlastlog", "wipe", ""})
+    @Handle({"wipelogs", "opencurrentlog", "openlastlog", "wipe"})
     public static boolean handle() {
         boolean ret = true;
 

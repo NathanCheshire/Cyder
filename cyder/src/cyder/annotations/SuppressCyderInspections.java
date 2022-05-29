@@ -1,5 +1,7 @@
 package cyder.annotations;
 
+import cyder.common.CyderInspection;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -17,5 +19,5 @@ import java.lang.annotation.Target;
         ElementType.TYPE
 })
 public @interface SuppressCyderInspections {
-    String[] values();
+    CyderInspection[] value();
 }

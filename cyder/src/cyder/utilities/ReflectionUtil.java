@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.*;
+import cyder.common.CyderInspection;
 import cyder.common.WidgetDescription;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -277,24 +278,47 @@ public class ReflectionUtil {
                     String[] triggers = m.getAnnotation(Widget.class).triggers();
                     String description = m.getAnnotation(Widget.class).description();
 
-                    String[] suppressionValues = null;
+                    CyderInspection[] suppressionValues = null;
 
-                    if (m.isAnnotationPresent(SuppressCyderInspections.class))
-                        suppressionValues = m.getAnnotation(SuppressCyderInspections.class).values();
+                    if (m.isAnnotationPresent(SuppressCyderInspections.class)) {
+                        suppressionValues = m.getAnnotation(SuppressCyderInspections.class).value();
+                    }
 
                     if (!m.getName().equals(STANDARD_WIDGET_SHOW_METHOD_NAME)) {
-                        if (suppressionValues != null && StringUtil.in("WidgetInspection",
-                                false, suppressionValues))
-                            continue;
+                        if (suppressionValues != null) {
+                            boolean in = false;
+
+                            for (CyderInspection inspection : suppressionValues) {
+                                if (inspection == CyderInspection.WidgetInspection) {
+                                    in = true;
+                                    break;
+                                }
+                            }
+
+                            if (in) {
+                                continue;
+                            }
+                        }
 
                         Logger.log(Logger.Tag.DEBUG, "Method annotated with @Widget is not named " +
                                 STANDARD_WIDGET_SHOW_METHOD_NAME + "(); name: " + m.getName());
                     }
 
                     if (StringUtil.isNull(description)) {
-                        if (suppressionValues != null && StringUtil.in("WidgetInspection",
-                                false, suppressionValues))
-                            continue;
+                        if (suppressionValues != null) {
+                            boolean in = false;
+
+                            for (CyderInspection inspection : suppressionValues) {
+                                if (inspection == CyderInspection.WidgetInspection) {
+                                    in = true;
+                                    break;
+                                }
+                            }
+
+                            if (in) {
+                                continue;
+                            }
+                        }
 
                         throw new IllegalMethodException("Method annotated with @Widget has empty description");
                     }
@@ -307,9 +331,20 @@ public class ReflectionUtil {
                         if (StringUtil.isNull(trigger)) {
                             throw new IllegalMethodException("Method annotated with @Widget has an empty trigger");
                         } else if (trigger.contains(" ")) {
-                            if (suppressionValues != null && StringUtil.in("WidgetInspection",
-                                    false, suppressionValues))
-                                continue;
+                            if (suppressionValues != null) {
+                                boolean in = false;
+
+                                for (CyderInspection inspection : suppressionValues) {
+                                    if (inspection == CyderInspection.WidgetInspection) {
+                                        in = true;
+                                        break;
+                                    }
+                                }
+
+                                if (in) {
+                                    continue;
+                                }
+                            }
 
                             throw new IllegalMethodException("Method annotated with " +
                                     "@Widget has triggers which contain spaces: \"" + trigger + "\"");
@@ -336,14 +371,26 @@ public class ReflectionUtil {
                 if (m.isAnnotationPresent(ManualTest.class)) {
                     String trigger = m.getAnnotation(ManualTest.class).value();
 
-                    String[] values = null;
+                    CyderInspection[] values = null;
 
                     if (m.isAnnotationPresent(SuppressCyderInspections.class))
-                        values = m.getAnnotation(SuppressCyderInspections.class).values();
+                        values = m.getAnnotation(SuppressCyderInspections.class).value();
 
                     if (!m.getName().toLowerCase().endsWith("test")) {
-                        if (values != null && StringUtil.in("TestInspection", false, values))
-                            continue;
+                        if (values != null) {
+                            boolean in = false;
+
+                            for (CyderInspection inspection : values) {
+                                if (inspection == CyderInspection.TestInspection) {
+                                    in = true;
+                                    break;
+                                }
+                            }
+
+                            if (in) {
+                                continue;
+                            }
+                        }
 
                         Logger.log(Logger.Tag.DEBUG, "Method annotated with @ManualTest does not end" +
                                 " with \"test\"; name: " + m.getName());
@@ -374,11 +421,21 @@ public class ReflectionUtil {
 
             if (clazz.isAnnotationPresent(Vanilla.class)) {
                 if (clazz.isAnnotationPresent(SuppressCyderInspections.class)) {
-                    String[] values = clazz.getAnnotation(SuppressCyderInspections.class).values();
+                    CyderInspection[] values = clazz.getAnnotation(SuppressCyderInspections.class).value();
 
-                    // if set to ignore, go to next class
-                    if (StringUtil.in("VanillaInspection", true, values)) {
-                        continue;
+                    if (values != null) {
+                        boolean in = false;
+
+                        for (CyderInspection inspection : values) {
+                            if (inspection == CyderInspection.VanillaInspection) {
+                                in = true;
+                                break;
+                            }
+                        }
+
+                        if (in) {
+                            continue;
+                        }
                     }
                 }
 

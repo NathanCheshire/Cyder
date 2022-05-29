@@ -4,6 +4,7 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
+import cyder.common.CyderInspection;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -15,8 +16,9 @@ import java.awt.*;
 import java.util.*;
 
 /**
- * Convexhull widget that solve a convexhull problem using a CyderGrid as the drawing label.
+ * Convex hull widget that solve a convex hull problem using a CyderGrid as the drawing label.
  */
+@SuppressWarnings("unused")
 @Vanilla
 @CyderAuthor
 public class ConvexHullWidget {
@@ -40,7 +42,7 @@ public class ConvexHullWidget {
     /**
      * Shows the convex hull widget.
      */
-    @SuppressCyderInspections(values = "WidgetInspection")
+    @SuppressCyderInspections(CyderInspection.WidgetInspection)
     @Widget(triggers = {"convex", "convex hull"}, description = "A convex hull algorithm visualizer")
     public static void showGui() {
         if (hullFrame != null) {
@@ -196,6 +198,9 @@ public class ConvexHullWidget {
 
         Point p = stack.pop();
 
+        if (stack.peek() == null)
+            return new LinkedList<>();
+
         if (ccw(stack.peek(), p, minYPoint) > 0) {
             stack.push(p);
         }
@@ -258,6 +263,7 @@ public class ConvexHullWidget {
      * @param points the list of points
      * @param ref    the reference point
      */
+    @SuppressWarnings("ComparatorMethodParameterNotUsed")
     private static void sortByAngle(LinkedList<? extends Point> points, Point ref) {
         points.sort((b, c) -> {
             if (b == ref) {

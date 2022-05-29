@@ -1,0 +1,141 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[11-12-49] [ENTRY]: Nathan
+[11-12-49] [PROP LOADED]: [key = map_quest_api_key]
+[11-12-49] [PROP LOADED]: [key = youtube_api_3_key]
+[11-12-49] [PROP LOADED]: [key = ip_key]
+[11-12-49] [PROP LOADED]: [key = weather_key]
+[11-12-49] [PROP LOADED]: [key = debug_hash_name]
+[11-12-49] [PROP LOADED]: [key = debug_hash_password]
+[11-12-49] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[11-12-49] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[11-12-49] [PROP LOADED]: [key = font_metric, value = 1]
+[11-12-49] [PROP LOADED]: [key = released, value = false]
+[11-12-49] [PROP LOADED]: [key = fast_test, value = false]
+[11-12-49] [PROP LOADED]: [key = version, value = Liminal]
+[11-12-49] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[11-12-49] [PROP LOADED]: [key = components_relocatable, value = false]
+[11-12-49] [PROP LOADED]: [key = testing_mode, value = true]
+[11-12-49] [PROP LOADED]: [key = autocypher, value = true]
+[11-12-49] [PROP LOADED]: [key = dispose_splash, value = true]
+[11-12-49] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[11-12-49] [PROP LOADED]: [key = activate_watchdog, value = false]
+[11-12-49] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[11-12-49] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[11-12-49] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[11-12-49] [PROP LOADED]: [key = ui_scale, value = 1.0]
+[11-12-49] [THREAD STARTED]: Object Creation Logger
+[11-12-49] [DEBUG]: Watchdog skipped
+[11-12-49] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[11-12-50] [FONT LOADED]: agency-fb
+[11-12-50] [FONT LOADED]: arial-black
+[11-12-50] [FONT LOADED]: beyno
+[11-12-50] [FONT LOADED]: condiment-regular
+[11-12-50] [FONT LOADED]: prompt-bold
+[11-12-50] [FONT LOADED]: segoe-ui-black
+[11-12-50] [FONT LOADED]: tahoma
+[11-12-50] [THREAD STARTED]: Splash Loader
+[11-12-50] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[11-12-50] [THREAD STARTED]: Splash Animation
+[11-12-50] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[11-12-50] [DEBUG]: Primary handler found with empty trigger: class = FileHandler
+[11-12-50] [DEBUG]: Final handler found containing triggers: class = FrameMovementHandler
+[11-12-50] [THREAD STARTED]: Secondary Subroutines Runner
+[11-12-50] [LOGIN]: AUTOCYPHER ATTEMPT
+[11-12-50] [THREAD STARTED]: JVM Args Logger
+[11-12-51] [DEBUG]: Cyder Entry = AutoCypher
+[11-12-51] [THREAD STARTED]: Console Printing Animation
+[11-12-51] [THREAD STARTED]: Hourly Chime Checker
+[11-12-51] [THREAD STARTED]: Console Clock Updater
+[11-12-51] [THREAD STARTED]: Cyder Busy Checker
+[11-12-51] [THREAD STARTED]: ConsoleFrame Stat Saver
+[11-12-51] [THREAD STARTED]: High Ping Checker
+[11-12-52] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[11-12-52] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 1056713817, bounds = (980,
+           396, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[11-12-52] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[11-12-52] [THREAD STARTED]: Manual Tests Thread
+[11-12-52] [CONSOLE OUT]: [STRING]: Console loaded in 3087ms
+[11-12-52] [OBJECT CREATION]: Objects created since last delta (5s): 115
+[11-12-52] [THREAD STARTED]: Katana Progress Label Thread
+[11-12-52] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[11-12-52] [THREAD STARTED]: Audio Progress Label Animator
+[11-12-52] [THREAD STARTED]: [Katana] finalizeAndShow()
+[11-12-52] [DEBUG]: Attempted to log a new or empty line
+[11-12-52] [THREAD STARTED]: Splash Loading Label Updater
+[11-12-54] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 7] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[11-12-54] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1653840512111.json
+[11-12-57] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[11-13-01] [THREAD STARTED]: Taki taki - DJ Snake ft. Selena Gomez Progress Label Thread
+[11-13-02] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[11-13-02] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down Progress Label Thread
+[11-13-03] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies Tuesday - Burnin It Down]
+[11-13-06] [THREAD STARTED]: Timeflies tuesday - burnin it down Menu Label Animator
+[11-13-07] [OBJECT CREATION]: Objects created since last delta (5s): 4
+[11-13-07] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down_Dreamy Progress Label Thread
+[11-13-07] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies Tuesday - Burnin It Down_Dreamy]
+[11-13-09] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down Progress Label Thread
+[11-13-09] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies Tuesday - Burnin It Down]
+[11-13-10] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down_Dreamy Progress Label Thread
+[11-13-10] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies Tuesday - Burnin It Down_Dreamy]
+[11-13-12] [OBJECT CREATION]: Objects created since last delta (5s): 12
+[11-13-12] [UI]: Component = CyderLabel, hash = 1451617032, bounds = (0, 0, 450, 40), parent frame = Timeflies tuesday -
+           burnin it down_d..., getText() = <html><div style='text-align: center;'>15s played, 5m 46s remaining</html>
+[11-13-12] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies Tuesday - Burnin It Down_Dreamy]
+[11-13-22] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down Progress Label Thread
+[11-13-22] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies Tuesday - Burnin It Down]
+[11-13-23] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down Progress Label Thread
+[11-13-23] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies Tuesday - Burnin It Down]
+[11-13-26] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down_Dreamy Progress Label Thread
+[11-13-26] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies Tuesday - Burnin It Down_Dreamy]
+[11-13-27] [OBJECT CREATION]: Objects created since last delta (5s): 10
+[11-13-28] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down Progress Label Thread
+[11-13-28] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies Tuesday - Burnin It Down]
+[11-13-32] [OBJECT CREATION]: Objects created since last delta (5s): 4
+[11-13-37] [THREAD STARTED]: Timeflies tuesday - burnin it down Opacity Decrement Animator
+[11-13-38] [THREAD STARTED]: Timeflies tuesday - burnin it down Opacity Increment Animator
+[11-13-39] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 3] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[11-13-39] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1653840774826.json
+[11-13-40] [UI]: Component = CyderDragLabel, hash = -14491413, bounds = (2, 2, 596, 28), parent frame = Timeflies
+           tuesday - burnin it down
+[11-13-40] [THREAD STARTED]: [Timeflies tuesday - burnin it down] dispose() animation thread
+[11-13-40] [UI]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 895242061, bounds = (710,
+           483, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Timeflies tuesday - burnin it down
+[11-13-40] [THREAD STARTED]: [Timeflies tuesday - burnin it down] dispose() animation thread
+[11-13-42] [OBJECT CREATION]: Objects created since last delta (5s): 99
+[11-28-29] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 3] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[11-28-29] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1653840819499.json
+[11-28-31] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[11-28-31] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 423733503, bounds =
+           (1527, 280, 781, 767), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[11-28-31] [EXIT]: [RUNTIME] 15m 42s
+[11-28-31] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown

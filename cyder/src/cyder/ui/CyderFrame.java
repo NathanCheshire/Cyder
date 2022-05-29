@@ -3082,6 +3082,9 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    /**
+     * Regenerates the menu and shows it if it was visible.
+     */
     public void revalidateMenu() {
         if (menuEnabled) {
             boolean wasVisible = menuLabel != null && menuLabel.isVisible();

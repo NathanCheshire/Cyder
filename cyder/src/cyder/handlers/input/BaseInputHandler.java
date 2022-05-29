@@ -140,7 +140,8 @@ public class BaseInputHandler {
             NumberHandler.class,
             ThreadHandler.class,
             UiHandler.class,
-            FileHandler.class
+            FileHandler.class,
+            FrameMovementHandler.class
     );
 
     /**
@@ -148,7 +149,6 @@ public class BaseInputHandler {
      */
     public static final ImmutableList<Class<?>> finalHandlers = ImmutableList.of(
             GeneralPrintHandler.class,
-            FrameMovementHandler.class,
             WidgetHandler.class,
             MathHandler.class,
             UrlHandler.class,

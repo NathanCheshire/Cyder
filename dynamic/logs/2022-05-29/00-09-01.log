@@ -1,0 +1,119 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[00-09-01] [ENTRY]: Nathan
+[00-09-01] [PROP LOADED]: [key = map_quest_api_key]
+[00-09-01] [PROP LOADED]: [key = youtube_api_3_key]
+[00-09-01] [PROP LOADED]: [key = ip_key]
+[00-09-01] [PROP LOADED]: [key = weather_key]
+[00-09-01] [PROP LOADED]: [key = debug_hash_name]
+[00-09-01] [PROP LOADED]: [key = debug_hash_password]
+[00-09-01] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[00-09-01] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[00-09-01] [PROP LOADED]: [key = font_metric, value = 1]
+[00-09-01] [PROP LOADED]: [key = released, value = false]
+[00-09-01] [PROP LOADED]: [key = fast_test, value = false]
+[00-09-01] [PROP LOADED]: [key = version, value = Liminal]
+[00-09-01] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[00-09-01] [PROP LOADED]: [key = components_relocatable, value = false]
+[00-09-01] [PROP LOADED]: [key = testing_mode, value = true]
+[00-09-01] [PROP LOADED]: [key = autocypher, value = true]
+[00-09-01] [PROP LOADED]: [key = dispose_splash, value = true]
+[00-09-01] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[00-09-01] [PROP LOADED]: [key = activate_watchdog, value = false]
+[00-09-01] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[00-09-01] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[00-09-01] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[00-09-01] [PROP LOADED]: [key = ui_scale, value = 1.0]
+[00-09-01] [THREAD STARTED]: Object Creation Logger
+[00-09-01] [DEBUG]: Watchdog skipped
+[00-09-01] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[00-09-02] [FONT LOADED]: agency-fb
+[00-09-02] [FONT LOADED]: arial-black
+[00-09-02] [FONT LOADED]: beyno
+[00-09-02] [FONT LOADED]: condiment-regular
+[00-09-02] [FONT LOADED]: prompt-bold
+[00-09-02] [FONT LOADED]: segoe-ui-black
+[00-09-02] [FONT LOADED]: tahoma
+[00-09-02] [THREAD STARTED]: Splash Loader
+[00-09-02] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[00-09-03] [THREAD STARTED]: Splash Animation
+[00-09-03] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[00-09-03] [DEBUG]: Primary handler found with empty trigger: class = FileHandler
+[00-09-03] [DEBUG]: Final handler found containing triggers: class = FrameMovementHandler
+[00-09-03] [THREAD STARTED]: Secondary Subroutines Runner
+[00-09-03] [LOGIN]: AUTOCYPHER ATTEMPT
+[00-09-03] [THREAD STARTED]: JVM Args Logger
+[00-09-03] [DEBUG]: Cyder Entry = AutoCypher
+[00-09-04] [THREAD STARTED]: Console Printing Animation
+[00-09-04] [THREAD STARTED]: Hourly Chime Checker
+[00-09-04] [THREAD STARTED]: Console Clock Updater
+[00-09-04] [THREAD STARTED]: Cyder Busy Checker
+[00-09-04] [THREAD STARTED]: ConsoleFrame Stat Saver
+[00-09-04] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[00-09-04] [THREAD STARTED]: High Ping Checker
+[00-09-04] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 1556421487, bounds = (980,
+           396, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[00-09-04] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[00-09-04] [THREAD STARTED]: Manual Tests Thread
+[00-09-04] [CONSOLE OUT]: [STRING]: Console loaded in 2979ms
+[00-09-04] [THREAD STARTED]: Katana Progress Label Thread
+[00-09-04] [THREAD STARTED]: Audio Progress Label Animator
+[00-09-04] [OBJECT CREATION]: Objects created since last delta (5s): 115
+[00-09-05] [DEBUG]: Attempted to log a new or empty line
+[00-09-05] [THREAD STARTED]: [Katana] finalizeAndShow()
+[00-09-05] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[00-09-05] [THREAD STARTED]: Splash Loading Label Updater
+[00-09-06] [UI]: Component = CyderDragLabel, hash = -14491413, bounds = (2, 2, 596, 28), parent frame = Katana
+[00-09-06] [THREAD STARTED]: [Katana] dispose() animation thread
+[00-09-06] [UI]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 1113670406, bounds = (252,
+           367, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Katana
+[00-09-06] [THREAD STARTED]: [Katana] dispose() animation thread
+[00-09-06] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[00-09-07] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[00-09-07] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 8] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[00-09-07] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1653800547200.json
+[00-09-09] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[00-09-10] [CLIENT]: analyzecode
+[00-09-10] [THREAD STARTED]: Code Analyzer
+[00-09-12] [CONSOLE OUT]: [STRING]: Total lines: 58096
+[00-09-12] [DEBUG]: Attempted to log a new or empty line
+[00-09-12] [CONSOLE OUT]: [STRING]: Code lines: 35228
+[00-09-12] [DEBUG]: Attempted to log a new or empty line
+[00-09-12] [CONSOLE OUT]: [STRING]: Blank lines: 8782
+[00-09-13] [DEBUG]: Attempted to log a new or empty line
+[00-09-13] [CONSOLE OUT]: [STRING]: Comment lines: 14105
+[00-09-13] [DEBUG]: Attempted to log a new or empty line
+[00-09-13] [CONSOLE OUT]: [STRING]: Classes: 160
+[00-09-13] [DEBUG]: Attempted to log a new or empty line
+[00-09-13] [CONSOLE OUT]: [STRING]: Code to comment ratio: 2.50
+[00-09-14] [DEBUG]: Attempted to log a new or empty line
+[00-10-31] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[00-10-31] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 877612522, bounds =
+           (1527, 280, 781, 767), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[00-10-31] [EXIT]: [RUNTIME] 1m 29s
+[00-10-31] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown

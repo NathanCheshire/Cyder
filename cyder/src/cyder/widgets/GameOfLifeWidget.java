@@ -8,6 +8,7 @@ import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.builders.GetterBuilder;
+import cyder.common.CyderInspection;
 import cyder.common.SwitcherState;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
@@ -31,6 +32,7 @@ import java.util.LinkedList;
 /**
  * Conway's game of life visualizer.
  */
+@SuppressWarnings("unused")
 @Vanilla
 @CyderAuthor
 public class GameOfLifeWidget {
@@ -45,29 +47,9 @@ public class GameOfLifeWidget {
     private static CyderGrid conwayGrid;
 
     /**
-     * The button to reset the grid to the state it was in before the simulation was started.
-     */
-    private static CyderButton resetButton;
-
-    /**
      * The button to begin/stop (pause) the simulation.
      */
     private static CyderButton simulateStopButton;
-
-    /**
-     * The button to clear the board and reset values.
-     */
-    private static CyderButton clearButton;
-
-    /**
-     * The button to save the current grid state to a json object.
-     */
-    private static CyderButton saveButton;
-
-    /**
-     * The button to load a grid state from a json object.
-     */
-    private static CyderButton loadButton;
 
     /**
      * The checkbox to detect oscillations when the simulation devolves to two state swaps.
@@ -75,14 +57,9 @@ public class GameOfLifeWidget {
     private static CyderCheckbox detectOscillationsCheckbox;
 
     /**
-     * The checkbox to determine wheter to draw grid lines.
+     * The checkbox to determine whether to draw grid lines.
      */
     private static CyderCheckbox drawGridLinesCheckbox;
-
-    /**
-     * The label to let the user know what the speed slider controls.
-     */
-    private static CyderLabel speedLabel;
 
     /**
      * The switcher to cycle through the built-in presets.
@@ -147,7 +124,7 @@ public class GameOfLifeWidget {
     /**
      * The label to display which generation the simulation is on.
      */
-    private static CyderLabel currentGenerationlabel;
+    private static CyderLabel currentGenerationLabel;
 
     /**
      * The label to display the population for the current generation.
@@ -175,7 +152,7 @@ public class GameOfLifeWidget {
     private static LinkedList<CyderGrid.GridNode> lastState = new LinkedList<>();
 
     /**
-     * The conway states laoded from static/json/conway.
+     * The conway states loaded from static/json/conway.
      */
     private static ArrayList<ConwayState> correspondingConwayStates;
 
@@ -201,7 +178,7 @@ public class GameOfLifeWidget {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    @SuppressCyderInspections(values = "WidgetInspection")
+    @SuppressCyderInspections(CyderInspection.WidgetInspection)
     @Widget(triggers = {"conway", "conways", "game of life"}, description = "Conway's game of life visualizer")
     public static void showGui() {
         if (conwayFrame != null)
@@ -214,9 +191,9 @@ public class GameOfLifeWidget {
         currentPopulationLabel.setBounds(25, CyderDragLabel.DEFAULT_HEIGHT, 240, 30);
         conwayFrame.getContentPane().add(currentPopulationLabel);
 
-        currentGenerationlabel = new CyderLabel();
-        currentGenerationlabel.setBounds(25 + 240 + 20, CyderDragLabel.DEFAULT_HEIGHT, 240, 30);
-        conwayFrame.getContentPane().add(currentGenerationlabel);
+        currentGenerationLabel = new CyderLabel();
+        currentGenerationLabel.setBounds(25 + 240 + 20, CyderDragLabel.DEFAULT_HEIGHT, 240, 30);
+        conwayFrame.getContentPane().add(currentGenerationLabel);
 
         maxPopulationLabel = new CyderLabel();
         maxPopulationLabel.setBounds(25, CyderDragLabel.DEFAULT_HEIGHT + 30, 240, 30);
@@ -239,7 +216,7 @@ public class GameOfLifeWidget {
         conwayFrame.getContentPane().add(conwayGrid);
         conwayGrid.setSaveStates(false);
 
-        resetButton = new CyderButton("Reset");
+        CyderButton resetButton = new CyderButton("Reset");
         resetButton.setBounds(25 + 15, conwayGrid.getY() + conwayGrid.getHeight() + 10, 160, 40);
         conwayFrame.getContentPane().add(resetButton);
         resetButton.addActionListener(e -> resetToPreviousState());
@@ -264,7 +241,7 @@ public class GameOfLifeWidget {
             }
         });
 
-        clearButton = new CyderButton("Clear");
+        CyderButton clearButton = new CyderButton("Clear");
         clearButton.setBounds(25 + 15 + 160 + 20 + 160 + 20,
                 conwayGrid.getY() + conwayGrid.getHeight() + 10, 160, 40);
         conwayFrame.getContentPane().add(clearButton);
@@ -280,12 +257,12 @@ public class GameOfLifeWidget {
                 if (switcherStates.get(i).equals(nextState)) {
                     beforeStartingState = new LinkedList<>();
 
-                    for (Point point : correspondingConwayStates.get(i).getNodes()) {
+                    for (Point point : correspondingConwayStates.get(i).nodes()) {
                         beforeStartingState.add(new CyderGrid.GridNode((int) point.getX(), (int) point.getY()));
                     }
 
-                    conwayFrame.notify("Loaded state: " + correspondingConwayStates.get(i).getName());
-                    conwayGrid.setNodeDimensionLength(correspondingConwayStates.get(i).getGridSize());
+                    conwayFrame.notify("Loaded state: " + correspondingConwayStates.get(i).name());
+                    conwayGrid.setNodeDimensionLength(correspondingConwayStates.get(i).gridSize());
 
                     break;
                 }
@@ -297,28 +274,26 @@ public class GameOfLifeWidget {
                 conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
         conwayFrame.getContentPane().add(presetSwitcher);
 
-        saveButton = new CyderButton("Save");
+        CyderButton saveButton = new CyderButton("Save");
         saveButton.setBounds(25 + 15 + 160 + 20,
                 conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
         conwayFrame.getContentPane().add(saveButton);
         saveButton.addActionListener(e -> toFile());
 
-        loadButton = new CyderButton("Load");
+        CyderButton loadButton = new CyderButton("Load");
         loadButton.setBounds(25 + 15 + 160 + 20 + 160 + 20,
                 conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
         conwayFrame.getContentPane().add(loadButton);
-        loadButton.addActionListener(e -> {
-            CyderThreadRunner.submit(() -> {
-                GetterBuilder builder = new GetterBuilder("Load state");
-                builder.setRelativeTo(conwayFrame);
-                File loadFile = GetterUtil.getInstance().getFile(builder);
+        loadButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
+            GetterBuilder builder = new GetterBuilder("Load state");
+            builder.setRelativeTo(conwayFrame);
+            File loadFile = GetterUtil.getInstance().getFile(builder);
 
-                if (loadFile != null && loadFile.exists()
-                        && FileUtil.validateExtension(loadFile, ".json")) {
-                    fromJson(loadFile);
-                }
-            }, "Conway State Loader");
-        });
+            if (loadFile != null && loadFile.exists()
+                    && FileUtil.validateExtension(loadFile, ".json")) {
+                fromJson(loadFile);
+            }
+        }, "Conway State Loader"));
 
         CyderLabel detectOscillationsLabel = new CyderLabel("Oscillations");
         detectOscillationsLabel.setBounds(15,
@@ -343,13 +318,8 @@ public class GameOfLifeWidget {
         drawGridLinesCheckbox.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (drawGridLinesCheckbox.isSelected()) {
-                    conwayGrid.setDrawGridLines(true);
-                    conwayGrid.repaint();
-                } else {
-                    conwayGrid.setDrawGridLines(false);
-                    conwayGrid.repaint();
-                }
+                conwayGrid.setDrawGridLines(drawGridLinesCheckbox.isSelected());
+                conwayGrid.repaint();
             }
         });
         drawGridLinesCheckbox.setToolTipText("Draw Grid Lines");
@@ -419,7 +389,7 @@ public class GameOfLifeWidget {
      * Updates the statistic labels based on the currently set values.
      */
     public static void updateLabels() {
-        currentGenerationlabel.setText("Generation: " + generation);
+        currentGenerationLabel.setText("Generation: " + generation);
         currentPopulationLabel.setText("Population: " + population);
         maxPopulationLabel.setText("Max Population: " + maxPopulation);
 
@@ -448,7 +418,7 @@ public class GameOfLifeWidget {
     }
 
     /**
-     * Performs any stopping actions needed to properly stop the simualtion.
+     * Performs any stopping actions needed to properly stop the simulation.
      */
     private static void stop() {
         simulationRunning = false;
@@ -542,17 +512,17 @@ public class GameOfLifeWidget {
 
             resetSimulation();
 
-            conwayGrid.setNodeDimensionLength(loadState.getGridSize());
+            conwayGrid.setNodeDimensionLength(loadState.gridSize());
 
-            for (Point p : loadState.getNodes()) {
+            for (Point p : loadState.nodes()) {
                 conwayGrid.addNode(new CyderGrid.GridNode((int) p.getX(), (int) p.getY()));
             }
 
-            conwayFrame.notify("Loaded state: " + loadState.getName());
+            conwayFrame.notify("Loaded state: " + loadState.name());
             beforeStartingState = new LinkedList<>(conwayGrid.getGridNodes());
 
             resetStats();
-            population = loadState.getNodes().size();
+            population = loadState.nodes().size();
             updateLabels();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -611,7 +581,7 @@ public class GameOfLifeWidget {
      * Converts the CyderGrid nodes to the 2D integer array
      * needed to compute the next Conway iteration.
      *
-     * @param nodes the list of cydergrid nodes
+     * @param nodes the list of cyder grid nodes
      * @param len   the dimensional length of the grid
      * @return the 2D array consisting of 1s and 0s
      */
@@ -674,18 +644,24 @@ public class GameOfLifeWidget {
         File statesDir = new File(OSUtil.buildPath("static", "json", "conway"));
 
         if (statesDir.exists()) {
-            for (File json : statesDir.listFiles()) {
-                if (FileUtil.validateExtension(json, ".json")) {
-                    try {
-                        Reader reader = new FileReader(json);
-                        ConwayState loadState = conwayGson.fromJson(reader, ConwayState.class);
-                        reader.close();
+            File[] statesDirFiles = statesDir.listFiles();
 
-                        correspondingConwayStates.add(loadState);
-                        switcherStates.add(new SwitcherState(loadState.getName()));
-                    } catch (Exception ignored) {
+            if (statesDirFiles != null && statesDirFiles.length > 0) {
+                for (File json : statesDirFiles) {
+                    if (FileUtil.validateExtension(json, ".json")) {
+                        try {
+                            Reader reader = new FileReader(json);
+                            ConwayState loadState = conwayGson.fromJson(reader, ConwayState.class);
+                            reader.close();
+
+                            correspondingConwayStates.add(loadState);
+                            switcherStates.add(new SwitcherState(loadState.name()));
+                        } catch (Exception ignored) {
+                        }
                     }
                 }
+            } else {
+                presetSwitcher.getIterationButton().setEnabled(false);
             }
         }
     }
@@ -694,96 +670,6 @@ public class GameOfLifeWidget {
      * An object used to store a Conway's game of life grid state.
      */
     @Immutable
-    private static class ConwayState {
-        /**
-         * The name of the state.
-         */
-        private final String name;
-
-        /**
-         * The grid length of the state.
-         */
-        private final int gridSize;
-
-        /**
-         * The list of nodes
-         */
-        private final LinkedList<Point> nodes;
-
-        /**
-         * Constructs a new ConwayState object.
-         *
-         * @param name     the name of the state
-         * @param gridSize the length of the state
-         * @param nodes    the list of nodes
-         */
-        public ConwayState(String name, int gridSize, LinkedList<Point> nodes) {
-            this.name = name;
-            this.gridSize = gridSize;
-            this.nodes = nodes;
-        }
-
-        /**
-         * Returns the name of the state.
-         *
-         * @return the name of the state
-         */
-        public String getName() {
-            return name;
-        }
-
-        /**
-         * Returns the length of the state.
-         *
-         * @return the length of the state
-         */
-        public int getGridSize() {
-            return gridSize;
-        }
-
-        /**
-         * Returns the list of nodes for the state.
-         *
-         * @return the list of nodes for the state
-         */
-        public LinkedList<Point> getNodes() {
-            return nodes;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString() {
-            return ReflectionUtil.commonCyderToString(this);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int hashCode() {
-            int ret = name.hashCode();
-            ret = 31 * ret + Integer.hashCode(gridSize);
-            ret = 31 * ret + nodes.hashCode();
-            return ret;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean equals(Object o) {
-            if (o == this) {
-                return true;
-            } else if (!(o instanceof ConwayState)) {
-                return false;
-            }
-
-            ConwayState other = (ConwayState) o;
-
-            return other.getName().equals(getName()) && other.getGridSize() == getGridSize()
-                    && other.getNodes().equals(getNodes());
-        }
+    private record ConwayState(String name, int gridSize, LinkedList<Point> nodes) {
     }
 }

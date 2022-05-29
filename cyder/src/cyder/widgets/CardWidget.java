@@ -4,6 +4,7 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
+import cyder.common.CyderInspection;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -44,14 +45,15 @@ public class CardWidget {
     }
 
     @Widget(triggers = "Christmascard2020", description = "Christmas card for the year of 2020")
-    @SuppressCyderInspections(values = "WidgetInspection")
+    @SuppressCyderInspections(CyderInspection.WidgetInspection)
     public static void Christmas2020() {
 
 
         if (christmas2020Frame != null)
             christmas2020Frame.dispose();
 
-        christmas2020Frame = new CyderFrame(498, 490, new ImageIcon("static/pictures/cards/Santa.gif"));
+        christmas2020Frame = new CyderFrame(498, 490,
+                new ImageIcon("static/pictures/cards/Santa.gif"));
         christmas2020Frame.setTitle("Merry Christmas!");
         christmas2020Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
@@ -63,7 +65,7 @@ public class CardWidget {
         christmas2020Frame.setFrameResizing(true);
 
         JLabel cardLabel = new JLabel("<html>Dear Mom and Dad,<br/>" +
-                "Thank yall so much for everything yall do for me and espcially " +
+                "Thank yall so much for everything yall do for me and especially " +
                 "everything yall did this year in particular such as the vacations, " +
                 "college from home, picking me up for the wedding and, you know, providing" +
                 " room and board (food and my room at home).<br/><br/>" +
@@ -73,21 +75,23 @@ public class CardWidget {
         cardLabel.setFont(CyderFonts.segoe20.deriveFont(24f));
         cardLabel.setHorizontalAlignment(JLabel.CENTER);
         cardLabel.setVerticalAlignment(JLabel.CENTER);
-        cardLabel.setBounds(498 + 40, 40, christmas2020Frame.getWidth() - 40, christmas2020Frame.getHeight() - 40);
+        cardLabel.setBounds(498 + 40, 40, christmas2020Frame.getWidth() - 40,
+                christmas2020Frame.getHeight() - 40);
         christmas2020Frame.getContentPane().add(cardLabel);
 
         christmas2020Frame.finalizeAndShow();
     }
 
     @Widget(triggers = "FathersDaycard2021", description = "Fathers day card for the year of 2021")
-    @SuppressCyderInspections(values = "WidgetInspection")
+    @SuppressCyderInspections(CyderInspection.WidgetInspection)
     public static void FathersDay2021() {
 
 
         if (fathersDay2021Frame != null)
             fathersDay2021Frame.dispose();
 
-        fathersDay2021Frame = new CyderFrame(800, 721, new ImageIcon("static/pictures/cards/Philmont.png"));
+        fathersDay2021Frame = new CyderFrame(800, 721,
+                new ImageIcon("static/pictures/cards/Philmont.png"));
         fathersDay2021Frame.setTitle("Happy Father's Day!");
         fathersDay2021Frame.setBackground(CyderColors.navy);
         fathersDay2021Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
@@ -106,20 +110,21 @@ public class CardWidget {
     }
 
     @Widget(triggers = "Birthdaycard2021", description = "Birthday card for my dad for the year 2021")
-    @SuppressCyderInspections(values = "WidgetInspection")
+    @SuppressCyderInspections(CyderInspection.WidgetInspection)
     public static void Birthday2021() {
 
 
         if (birthday2021Frame != null)
             birthday2021Frame.dispose();
 
-        birthday2021Frame = new CyderFrame(800, 600, new ImageIcon("static/pictures/cards/Confetti.png"));
+        birthday2021Frame = new CyderFrame(800, 600,
+                new ImageIcon("static/pictures/cards/Confetti.png"));
         birthday2021Frame.setTitle("Happy Birthday Day!");
         birthday2021Frame.setBackground(CyderColors.navy);
         birthday2021Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
         JLabel cardLabel = new JLabel("<html>Happy Birthday Dad! Thanks for everything " +
-                "this year such as helpng me move into BR and back home, the Destin and Kentucky " +
+                "this year such as helping me move into BR and back home, the Destin and Kentucky " +
                 "trips, and for bringing my desk up next weekend :D<br/><br/>Love,<br/>Nathan</html>");
         cardLabel.setForeground(CyderColors.navy);
         cardLabel.setFont(CyderFonts.segoe20.deriveFont(24f));
@@ -144,7 +149,7 @@ public class CardWidget {
     }
 
     @Widget(triggers = "Christmascard2021", description = "Christmas card for the year of 2021")
-    @SuppressCyderInspections(values = "WidgetInspection")
+    @SuppressCyderInspections(CyderInspection.WidgetInspection)
     public static void Christmas2021() {
 
 
@@ -155,17 +160,21 @@ public class CardWidget {
         christmas2021Frame.setTitle("Merry Christmas!");
         christmas2021Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
-        CyderLabel cardLabel = new CyderLabel("<html>Dear Mom and Dad,<br/><br/>" +
-                "Thank yall so much for everything this year. 2021 went by insanely quickly " +
-                "and I wish I had more time at college, time at home, and so on. " +
-                "But time waits for no one, so I too must push forward to the next stage of my life." +
-                "<br/><br/>I can't wait to start my career at Camgian and be back in Starkville with all my friends where it now truly feels like home. " +
-                "Feel free to swing by or fly up one weekend to see me or perhaps do something for Karla's spring break." +
-                " Thanks for this vacation, Destin for fall break, and putting up with me while I lived at home this past spring semester." +
-                "<br/><br/>Love,<br/>" +
-                "Nathan</html>");
+        CyderLabel cardLabel = new CyderLabel("<html>Dear Mom and Dad,<br/><br/>"
+                + "Thank yall so much for everything this year. 2021 went by insanely quickly "
+                + "and I wish I had more time at college, time at home, and so on. "
+                + "But time waits for no one, so I too must push forward to the next stage of my life."
+                + "<br/><br/>I can't wait to start my career at Camgian and be back in Starkville with "
+                + "all my friends where it now truly feels like home. "
+                + "Feel free to swing by or fly up one weekend to see me or perhaps do something for Karla's "
+                + "spring break."
+                + " Thanks for this vacation, Destin for fall break, and putting up with me while I lived at "
+                + "home this past spring semester."
+                + "<br/><br/>Love,<br/>"
+                + "Nathan</html>");
         cardLabel.setFont(CyderFonts.segoe20.deriveFont(24f));
-        cardLabel.setBounds(40, 40, christmas2021Frame.getWidth() - 80, christmas2021Frame.getHeight() - 80);
+        cardLabel.setBounds(40, 40, christmas2021Frame.getWidth() - 80,
+                christmas2021Frame.getHeight() - 80);
         christmas2021Frame.getContentPane().add(cardLabel);
         cardLabel.setRippleChars(25);
         cardLabel.setRippleMsTimeout(20);

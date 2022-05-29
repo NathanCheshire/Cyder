@@ -7,6 +7,7 @@ import cyder.annotations.Widget;
 import cyder.builders.GetterBuilder;
 import cyder.builders.InformBuilder;
 import cyder.builders.NotificationBuilder;
+import cyder.common.CyderInspection;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -63,13 +64,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 // todo dreamifying doesn't perfectly resume audio from where it was before dreamifying/un-dreamifying
 
 // todo there's just general bugs from determining how long an audio is too
+// todo revalidating audio menu doesn't work when dreamifying I guess
+
+// todo length of audio text is wrong sometimes and sometimes overflows, make it the width of the label always
 
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
 @Vanilla
 @CyderAuthor
-@SuppressCyderInspections(values = "VanillaInspection")
+@SuppressCyderInspections(CyderInspection.VanillaInspection)
 public class AudioPlayer {
     /**
      * The audio player frame.
@@ -1120,6 +1124,8 @@ public class AudioPlayer {
                         String localFilename = FileUtil.getFilename(validAudioFile);
 
                         if (localFilename.equals(nonDreamyStdName)) {
+                            long unDreamifyPauseLoc = getRawPauseLocation();
+
                             audioDreamified.set(false);
                             audioPlayerFrame.revalidateMenu();
 
@@ -1131,6 +1137,7 @@ public class AudioPlayer {
                             revalidateFromAudioFileChange();
 
                             if (resume) {
+                                pauseLocation = unDreamifyPauseLoc;
                                 playAudio();
                             }
 
@@ -1730,7 +1737,9 @@ public class AudioPlayer {
 
                 closePlayerObject();
 
-                refreshAudioFiles();
+                // invokes an audio file refresh and returns the possible new current index
+                int currentAudioIndex = getCurrentAudioIndex();
+                currentAudioFile = validAudioFiles.get(currentAudioIndex);
 
                 // no user interaction so proceed naturally
                 if (lastAction == LastAction.Play) {
@@ -2084,6 +2093,24 @@ public class AudioPlayer {
         audioDreamified.set(isCurrentAudioDreamy());
 
         audioPlayerFrame.revalidateMenu();
+    }
+
+    /**
+     * Returns the raw pause location of the exact number of bytes played by fis.
+     *
+     * @return the raw pause location of the exact number of bytes played by fis
+     * @throws IllegalArgumentException if the raw pause location cannot be calculated
+     */
+    private static long getRawPauseLocation() {
+        try {
+            if (fis != null) {
+                return totalAudioLength - fis.available();
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        throw new IllegalArgumentException("Could not get raw pause location");
     }
 
     /*

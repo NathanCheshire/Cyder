@@ -4,6 +4,7 @@ import cyder.annotations.ManualTest;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.builders.InformBuilder;
 import cyder.builders.NotificationBuilder;
+import cyder.common.CyderInspection;
 import cyder.common.SwitcherState;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -41,7 +42,7 @@ public class ManualTests {
      * This method is used purely for testing purposes.
      */
     @ManualTest("test")
-    @SuppressCyderInspections(values = "TestInspection") /* not ending in test */
+    @SuppressCyderInspections(CyderInspection.TestInspection) /* not ending in test */
     @SuppressWarnings({"EmptyTryBlock", "RedundantSuppression"}) /* for when try is empty and not empty */
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
