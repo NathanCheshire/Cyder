@@ -7,7 +7,7 @@
 Funny you should ask this question, I'm asked it quite a lot and usually fail to give a comprehensive and elegant
 answer. The best I can do is something along the lines of "Cyder is a multi-purpose, desktop manager, GUI tool." It is
 written using a custom Java UI library which was built on top of lightweight Swing components. No modern GUI
-dependencies such as Material or FXML were used and all Cyder components are closely related to `Component.java`
+dependencies such as Material or FXML were used and all Cyder components are closely related to [java/awt/Component.java](https://developer.classpath.org/doc/java/awt/Component-source.html).
 
 Some examples of what you can do with Cyder include:
 
