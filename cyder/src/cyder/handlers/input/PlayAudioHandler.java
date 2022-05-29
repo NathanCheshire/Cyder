@@ -3,6 +3,7 @@ package cyder.handlers.input;
 import cyder.annotations.Handle;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -10,6 +11,8 @@ import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.IOUtil;
 import cyder.utilities.OSUtil;
+import cyder.utilities.StringUtil;
+import cyder.utilities.YoutubeUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +30,7 @@ public class PlayAudioHandler extends InputHandler {
     }
 
     @Handle({"heyya", "windows", "lightsaber", "xbox", "startrek", "toystory",
-            "logic", "18002738255", "xxx", "blackpanther", "chadwickboseman", ""})
+            "logic", "18002738255", "xxx", "blackpanther", "chadwickboseman", "f17", "play"})
     public static boolean handle() {
         boolean ret = true;
 
@@ -78,6 +81,29 @@ public class PlayAudioHandler extends InputHandler {
             } else {
                 getInputHandler().println("Mr. Robot didn't start :(");
             }
+        } else if (getInputHandler().commandIs("play")) {
+            if (StringUtil.isNull(getInputHandler().argsToString())) {
+                getInputHandler().println("Play command usage: Play [video_url/playlist_url/search query]");
+            }
+
+            CyderThreadRunner.submit(() -> {
+                String url = getInputHandler().argsToString();
+
+                if (YoutubeUtil.isPlaylistUrl(url)) {
+                    YoutubeUtil.downloadPlaylist(url);
+                } else {
+                    String extractedUuid = getInputHandler().argsToString()
+                            .replace(CyderUrls.YOUTUBE_VIDEO_HEADER, "");
+
+                    if (extractedUuid.replace(" ", "").length() != 11) {
+                        getInputHandler().println("Searching youtube for: " + url);
+                        String uuid = YoutubeUtil.getFirstUUID(url);
+                        url = CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
+                    }
+
+                    YoutubeUtil.downloadVideo(url);
+                }
+            }, "YouTube Download Initializer");
         } else {
             ret = false;
         }

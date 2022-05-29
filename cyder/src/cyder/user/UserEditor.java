@@ -13,6 +13,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
+import cyder.handlers.external.DirectoryViewer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -113,6 +114,9 @@ public class UserEditor {
         prefsPanelIndex = startingIndex;
 
         editUserFrame.addMenuItem("Files", () -> {
+            if (prefsPanelIndex == 0)
+                return;
+
             revalidateOnMenuItemClicked();
             switchToUserFiles();
             prefsPanelIndex = 0;
@@ -126,11 +130,17 @@ public class UserEditor {
             prefsPanelIndex = 1;
         });
         editUserFrame.addMenuItem("Preferences", () -> {
+            if (prefsPanelIndex == 2)
+                return;
+
             revalidateOnMenuItemClicked();
             switchToPreferences();
             prefsPanelIndex = 2;
         });
         editUserFrame.addMenuItem("Fields", () -> {
+            if (prefsPanelIndex == 3)
+                return;
+
             revalidateOnMenuItemClicked();
             switchToFieldInputs();
             prefsPanelIndex = 3;
@@ -396,7 +406,7 @@ public class UserEditor {
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
-        }, "Wait thread for getterUtil"));
+        }, "Rename File Getter Waiter"));
 
         renameFile.setBackground(CyderColors.regularRed);
         renameFile.setFont(CyderFonts.segoe20);
@@ -512,6 +522,8 @@ public class UserEditor {
                             PhotoViewer pv = PhotoViewer.getInstance(filesList.get(finalI));
                             pv.setRenameCallback(UserEditor::revalidateFilesScroll);
                             pv.showGui();
+                        } else if (filesList.get(finalI).isDirectory()) {
+                            DirectoryViewer.showGui(filesList.get(finalI));
                         } else {
                             IOUtil.openFile(filesList.get(finalI).getAbsolutePath());
                         }
@@ -1263,8 +1275,7 @@ public class UserEditor {
         try {
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(new URL(CyderUrls.IPDATA_BASE
-                            + PropLoader.getString(
-                            "8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932")).openStream()));
+                            + PropLoader.getString("ip_key")).openStream()));
             reader.close();
             return true;
         } catch (Exception ex) {

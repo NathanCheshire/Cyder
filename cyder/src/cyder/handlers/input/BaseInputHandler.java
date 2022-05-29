@@ -17,10 +17,8 @@ import cyder.handlers.internal.Logger;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.MasterYoutubeThread;
-import cyder.ui.CyderCaret;
 import cyder.ui.CyderOutputPane;
 import cyder.ui.CyderSliderUI;
-import cyder.user.Preferences;
 import cyder.user.User;
 import cyder.user.UserCreator;
 import cyder.user.UserFile;
@@ -29,12 +27,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
@@ -145,17 +141,18 @@ public class BaseInputHandler {
     }
 
     /**
-     * The handlers to attempt to find a matching handle for.
+     * The handlers which contain specific triggers for commands.
      */
     private static final ImmutableList<Class<?>> primaryHandlers = ImmutableList.of(
             PixelationHandler.class,
             GitHandler.class,
             PrintImageHandler.class,
-            PlayAudioHandler.class
+            PlayAudioHandler.class,
+            ColorHandler.class
     );
 
     /**
-     * The handlers which have no exact handle and instead perform checks on the command directly.
+     * The handlers which have dont have specific triggers and instead perform checks on the command directly.
      */
     private static final ImmutableList<Class<?>> finalHandlers = ImmutableList.of(
             GeneralPrintHandler.class,
@@ -365,61 +362,6 @@ public class BaseInputHandler {
 
         if (commandIs("createuser")) {
             UserCreator.showGui();
-        } else if (commandIs("backgroundcolor")) {
-            if (checkArgsLength(1)) {
-                try {
-                    int w = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getWidth();
-                    int h = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getHeight();
-
-                    if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
-                        w = ScreenUtil.getScreenWidth();
-                        h = ScreenUtil.getScreenHeight();
-                    }
-
-                    BufferedImage saveImage = ImageUtil.bufferedImageFromColor(
-                            Color.decode("#" + getArg(0).replace("#", "")), w, h);
-
-                    String saveName = "Solid_" + getArg(0) + "Generated_Background.png";
-
-                    File saveFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH, "users",
-                            ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(), saveName);
-
-                    ImageIO.write(saveImage, "png", saveFile);
-
-                    println("Background generated, set, and saved as a separate background file.");
-
-                    ConsoleFrame.INSTANCE.setBackgroundFile(saveFile);
-                } catch (Exception e) {
-                    println("Background color command usage: backgroundcolor EC407A");
-                    ExceptionHandler.silentHandle(e);
-                }
-            } else {
-                println("Background color command usage: backgroundcolor EC407A");
-            }
-        } else if (commandIs("fixforeground")) {
-            Color backgroundDom = ColorUtil.getDominantColor(ImageIO.read(
-                    ConsoleFrame.INSTANCE.getCurrentBackground().getReferenceFile()));
-
-            if ((backgroundDom.getRed() * 0.299 + backgroundDom.getGreen()
-                    * 0.587 + backgroundDom.getBlue() * 0.114) > 186) {
-                ConsoleFrame.INSTANCE.getOutputArea().setForeground(CyderColors.defaultLightModeTextColor);
-                ConsoleFrame.INSTANCE.getInputField().setForeground(CyderColors.defaultLightModeTextColor);
-                ConsoleFrame.INSTANCE.getInputField().setCaretColor(CyderColors.defaultLightModeTextColor);
-                ConsoleFrame.INSTANCE.getInputField().setCaret(new CyderCaret(CyderColors.defaultLightModeTextColor));
-                UserUtil.getCyderUser().setForeground(ColorUtil.rgbToHexString(CyderColors.defaultLightModeTextColor));
-            } else {
-                ConsoleFrame.INSTANCE.getOutputArea().setForeground(CyderColors.defaultDarkModeTextColor);
-                ConsoleFrame.INSTANCE.getInputField().setForeground(CyderColors.defaultDarkModeTextColor);
-                ConsoleFrame.INSTANCE.getInputField().setCaretColor(CyderColors.defaultDarkModeTextColor);
-                ConsoleFrame.INSTANCE.getInputField().setCaret(new CyderCaret(CyderColors.defaultDarkModeTextColor));
-                UserUtil.getCyderUser().setForeground(ColorUtil.rgbToHexString(CyderColors.defaultDarkModeTextColor));
-            }
-
-            Preferences.invokeRefresh("foreground");
-            println("Foreground fixed");
-        } else if (commandIs("repaint")) {
-            ConsoleFrame.INSTANCE.revalidate(false, false);
-            println("ConsoleFrame repainted");
         } else if (commandIs("javaproperties")) {
             for (String prop : StatUtil.getJavaProperties()) {
                 println(prop);
@@ -603,10 +545,6 @@ public class BaseInputHandler {
             } else {
                 println("Hexdump usage: hexdump -f /path/to/binary/file");
             }
-        } else if (commandIs("barrelroll")) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().barrelRoll();
-        } else if (commandIs("askew")) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().rotateBackground(5);
         } else if (commandIs("logout")) {
             ConsoleFrame.INSTANCE.logout();
         } else if (commandIs("throw")) {
@@ -709,28 +647,6 @@ public class BaseInputHandler {
                     IOUtil.openFileOutsideProgram(logs[logs.length - 2].getAbsolutePath());
                 }
             }
-        } else if (commandIs("play")) {
-            if (StringUtil.isNull(argsToString())) {
-                println("Play command usage: Play [video_url/playlist_url/search query]");
-            }
-
-            CyderThreadRunner.submit(() -> {
-                String url = argsToString();
-
-                if (YoutubeUtil.isPlaylistUrl(url)) {
-                    YoutubeUtil.downloadPlaylist(url);
-                } else {
-                    String extractedUuid = argsToString().replace(CyderUrls.YOUTUBE_VIDEO_HEADER, "");
-
-                    if (extractedUuid.replace(" ", "").length() != 11) {
-                        println("Searching youtube for: " + url);
-                        String uuid = YoutubeUtil.getFirstUUID(url);
-                        url = CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
-                    }
-
-                    YoutubeUtil.downloadVideo(url);
-                }
-            }, "YouTube Download Initializer Thread");
         } else if (commandIs("pastebin")) {
             if (checkArgsLength(1)) {
                 String urlString;
@@ -872,36 +788,6 @@ public class BaseInputHandler {
         } else if (commandIs("jarmode")) {
             println(OSUtil.JAR_MODE ? "Cyder is currently running from a JAR"
                     : "Cyder is currently running from a non-JAR source");
-        } else if (commandIs("git")) {
-            if (!checkArgsLength(2)) {
-                println("Supported git commands: clone");
-            } else {
-                if (getArg(0).equalsIgnoreCase("clone")) {
-                    CyderThreadRunner.submit(() -> {
-                        try {
-                            Future<Optional<Boolean>> cloned = GitHubUtil.cloneRepoToDirectory(
-                                    getArg(1), UserUtil.getUserFile(UserFile.FILES.getName()));
-
-                            while (!cloned.isDone()) {
-                                Thread.onSpinWait();
-                            }
-
-                            if (cloned.get().isPresent()) {
-                                if (cloned.get().get() == Boolean.TRUE)
-                                    println("Clone finished");
-                                else
-                                    print("Clone failed");
-                            } else {
-                                println("Clone failed");
-                            }
-                        } catch (Exception e) {
-                            ExceptionHandler.handle(e);
-                        }
-                    }, "Git Cloner, repo: " + getArg(1));
-                } else {
-                    println("Supported git commands: clone");
-                }
-            }
         } else if (commandIs("wipe")) {
             if (checkArgsLength(1)) {
                 File requestedDeleteFile = new File(OSUtil.buildPath(

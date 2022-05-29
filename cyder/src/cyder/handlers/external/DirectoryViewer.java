@@ -1,5 +1,6 @@
 package cyder.handlers.external;
 
+import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -80,9 +81,25 @@ public class DirectoryViewer {
 
     @Widget(triggers = "dir", description = "A directory navigator widget")
     public static void showGui() {
-        // kill frame if active
-        if (dirFrame != null)
+        showGui(new File(OSUtil.USER_DIR));
+    }
+
+    /**
+     * Starts the directory viewer in the provided initial directory.
+     *
+     * @param initialDirectory the initial directory to start in
+     */
+    public static void showGui(File initialDirectory) {
+        Preconditions.checkNotNull(initialDirectory);
+        Preconditions.checkArgument(initialDirectory.exists());
+
+        if (initialDirectory.isFile()) {
+            initialDirectory = initialDirectory.getParentFile();
+        }
+
+        if (dirFrame != null) {
             dirFrame.dispose();
+        }
 
         boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
 
@@ -116,7 +133,7 @@ public class DirectoryViewer {
         last.setBorder(new LineBorder(CyderColors.navy, 5, false));
         last.addActionListener(e -> {
             //we may only go back if there's something in the back, and it's different from where we are now
-            if (backward != null && !backward.isEmpty() && !backward.peek().equals(currentDirectory)) {
+            if (!backward.isEmpty() && !backward.peek().equals(currentDirectory)) {
                 //traversing so push where we are to forward
                 forward.push(currentDirectory);
 
@@ -138,7 +155,7 @@ public class DirectoryViewer {
         next.setBorder(new LineBorder(CyderColors.navy, 5, false));
         next.addActionListener(e -> {
             //only traverse forward if the stack is not empty and forward is different from where we are
-            if (forward != null && !forward.isEmpty() && !forward.peek().equals(currentDirectory)) {
+            if (!forward.isEmpty() && !forward.peek().equals(currentDirectory)) {
                 //push where we are
                 backward.push(currentDirectory);
 
@@ -167,20 +184,26 @@ public class DirectoryViewer {
         dirFrame.finalizeAndShow();
         dirField.requestFocus();
 
+        File finalInitialDirectory = initialDirectory;
         CyderThreadRunner.submit(() -> {
-            currentDirectory = new File(OSUtil.USER_DIR);
+            currentDirectory = finalInitialDirectory;
             File chosenDir = currentDirectory;
 
             currentFileNames.clear();
             currentFiles.clear();
 
-            Collections.addAll(currentFiles, chosenDir.listFiles());
+            File[] chosenDirFiles = chosenDir.listFiles();
+
+            if (chosenDirFiles != null && chosenDirFiles.length > 0) {
+                Collections.addAll(currentFiles, chosenDirFiles);
+            }
 
             for (File file : currentFiles) {
                 currentFileNames.add(file.getName());
             }
 
-            cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE, darkMode);
+            cyderScrollList = new CyderScrollList(600, 400,
+                    CyderScrollList.SelectionPolicy.SINGLE, darkMode);
             cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
             cyderScrollList.removeAllElements();
 
@@ -198,6 +221,8 @@ public class DirectoryViewer {
             dirScrollLabel = cyderScrollList.generateScrollList();
             dirScrollLabel.setBounds(10, 90, 600, 400);
             dirFrame.getContentPane().add(dirScrollLabel);
+
+            dirFrame.remove(tempLabel);
 
             dirFrame.revokeAllNotifications();
         }, "Directory file loader");
@@ -236,8 +261,11 @@ public class DirectoryViewer {
         currentFiles.clear();
         currentFileNames.clear();
 
-        // init new files list
-        Collections.addAll(currentFiles, currentDirectory.listFiles());
+        File[] currentDirFiles = currentDirectory.listFiles();
+
+        if (currentDirFiles != null && currentDirFiles.length > 0) {
+            Collections.addAll(currentFiles, currentDirFiles);
+        }
 
         // regenerate names list
         for (File file : currentFiles) {
@@ -245,10 +273,10 @@ public class DirectoryViewer {
         }
 
         // remake scroll list object
-        cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE, cyderScrollList.isDarkMode());
+        cyderScrollList = new CyderScrollList(600, 400,
+                CyderScrollList.SelectionPolicy.SINGLE, cyderScrollList.isDarkMode());
         cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
 
-        // generate clickable components to add to the list
         for (int i = 0 ; i < currentFileNames.size() ; i++) {
             int eye = i;
 
@@ -264,7 +292,6 @@ public class DirectoryViewer {
         dirScrollLabel.setBounds(10, 90, 600, 400);
         dirFrame.getContentPane().add(dirScrollLabel);
 
-        // revalidate, set title, set pwd text
         dirFrame.revalidate();
         dirFrame.repaint();
         dirFrame.setTitle(currentDirectory.getName());

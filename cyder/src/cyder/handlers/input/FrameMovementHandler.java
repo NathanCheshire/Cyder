@@ -20,7 +20,8 @@ public class FrameMovementHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    @Handle({"top left", "top right", "bottom left", "bottom right", "consolidate windows", "dance", "hide"})
+    @Handle({"top left", "top right", "bottom left", "bottom right",
+            "consolidate windows", "dance", "hide", "askew", "barrelroll"})
     public static boolean handle() {
         boolean ret = true;
 
@@ -118,6 +119,10 @@ public class FrameMovementHandler extends InputHandler {
             ConsoleFrame.INSTANCE.dance();
         } else if (getInputHandler().commandIs("hide")) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().minimizeAnimation();
+        } else if (getInputHandler().inputWithoutSpacesIs("barrelroll")) {
+            ConsoleFrame.INSTANCE.getConsoleCyderFrame().barrelRoll();
+        } else if (getInputHandler().commandIs("askew")) {
+            ConsoleFrame.INSTANCE.getConsoleCyderFrame().rotateBackground(5);
         } else {
             ret = false;
         }
