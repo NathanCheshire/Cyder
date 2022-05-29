@@ -1,0 +1,146 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[00-02-19] [ENTRY]: Nathan
+[00-02-19] [PROP LOADED]: [key = map_quest_api_key]
+[00-02-19] [PROP LOADED]: [key = youtube_api_3_key]
+[00-02-19] [PROP LOADED]: [key = ip_key]
+[00-02-19] [PROP LOADED]: [key = weather_key]
+[00-02-19] [PROP LOADED]: [key = debug_hash_name]
+[00-02-19] [PROP LOADED]: [key = debug_hash_password]
+[00-02-19] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[00-02-19] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[00-02-19] [PROP LOADED]: [key = font_metric, value = 1]
+[00-02-19] [PROP LOADED]: [key = released, value = false]
+[00-02-19] [PROP LOADED]: [key = fast_test, value = false]
+[00-02-19] [PROP LOADED]: [key = version, value = Liminal]
+[00-02-19] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[00-02-19] [PROP LOADED]: [key = components_relocatable, value = false]
+[00-02-19] [PROP LOADED]: [key = testing_mode, value = true]
+[00-02-19] [PROP LOADED]: [key = autocypher, value = true]
+[00-02-19] [PROP LOADED]: [key = dispose_splash, value = true]
+[00-02-19] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[00-02-19] [PROP LOADED]: [key = activate_watchdog, value = false]
+[00-02-19] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[00-02-19] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[00-02-19] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[00-02-19] [PROP LOADED]: [key = ui_scale, value = 1.0]
+[00-02-19] [THREAD STARTED]: Object Creation Logger
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\11-36-03.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\11-38-49.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\11-42-39.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\11-43-40.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\11-58-16.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\12-31-30.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\12-32-25.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\13-03-55.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\13-32-39.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\13-34-49.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\13-35-57.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\13-40-58.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\13-43-11.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\13-44-14.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\13-58-04.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\14-53-54.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\14-59-21.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\18-31-04.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\18-33-37.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\18-33-56.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\18-45-26.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\18-48-29.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\19-00-39.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\19-36-45.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\19-38-14.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\20-28-56.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\20-29-17.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\20-38-36.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\20-40-10.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\20-44-32.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\23-06-46.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\23-17-59.log
+[00-02-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\23-28-28.log
+[00-02-20] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\23-29-11.log
+[00-02-20] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\23-34-18.log
+[00-02-20] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\23-34-56.log
+[00-02-20] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\23-37-28.log
+[00-02-20] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\23-55-46.log
+[00-02-20] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-05-28\23-56-48.log
+[00-02-20] [DEBUG]: Watchdog skipped
+[00-02-20] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[00-02-21] [FONT LOADED]: agency-fb
+[00-02-21] [FONT LOADED]: arial-black
+[00-02-21] [FONT LOADED]: beyno
+[00-02-21] [FONT LOADED]: condiment-regular
+[00-02-21] [FONT LOADED]: prompt-bold
+[00-02-21] [FONT LOADED]: segoe-ui-black
+[00-02-21] [FONT LOADED]: tahoma
+[00-02-21] [THREAD STARTED]: Splash Loader
+[00-02-21] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[00-02-21] [THREAD STARTED]: Splash Animation
+[00-02-21] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[00-02-22] [DEBUG]: Primary handler found with empty trigger: class = FileHandler
+[00-02-22] [DEBUG]: Final handler found containing triggers: class = FrameMovementHandler
+[00-02-22] [THREAD STARTED]: Secondary Subroutines Runner
+[00-02-22] [LOGIN]: AUTOCYPHER ATTEMPT
+[00-02-22] [THREAD STARTED]: JVM Args Logger
+[00-02-22] [OBJECT CREATION]: Objects created since last delta (5s): 61
+[00-02-22] [THREAD STARTED]: Cyder Splash Opacity Decrement Animator
+[00-02-22] [DEBUG]: Cyder Entry = AutoCypher
+[00-02-23] [THREAD STARTED]: Cyder Splash Opacity Increment Animator
+[00-02-24] [THREAD STARTED]: Console Printing Animation
+[00-02-24] [THREAD STARTED]: Hourly Chime Checker
+[00-02-24] [THREAD STARTED]: Console Clock Updater
+[00-02-24] [THREAD STARTED]: Cyder Busy Checker
+[00-02-24] [THREAD STARTED]: ConsoleFrame Stat Saver
+[00-02-24] [THREAD STARTED]: High Ping Checker
+[00-02-24] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[00-02-24] [THREAD STARTED]: Splash Loading Label Updater
+[00-02-24] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 643954021, bounds = (1536,
+           287, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[00-02-24] [CONSOLE OUT]: [STRING]: Console loaded in 5130ms
+[00-02-24] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[00-02-24] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[00-02-24] [THREAD STARTED]: Manual Tests Thread
+[00-02-24] [THREAD STARTED]: Katana Progress Label Thread
+[00-02-24] [THREAD STARTED]: Audio Progress Label Animator
+[00-02-25] [DEBUG]: Attempted to log a new or empty line
+[00-02-25] [THREAD STARTED]: [Katana] finalizeAndShow()
+[00-02-27] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[00-02-27] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1653800497183.json
+[00-02-27] [OBJECT CREATION]: Objects created since last delta (5s): 56
+[00-02-28] [UI]: Component = CyderDragLabel, hash = -14491413, bounds = (2, 2, 596, 28), parent frame = Katana
+[00-02-28] [THREAD STARTED]: [Katana] dispose() animation thread
+[00-02-28] [UI]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 934945312, bounds = (252,
+           367, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Katana
+[00-02-28] [THREAD STARTED]: [Katana] dispose() animation thread
+[00-02-32] [CLIENT]: opencurrentlog
+[00-02-42] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[00-02-42] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 1223240796, bounds
+           = (162, 284, 781, 767), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[00-02-42] [EXIT]: [RUNTIME] 23s
+[00-02-42] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown

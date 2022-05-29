@@ -1,12 +1,8 @@
 .idea/
 bin/
 out/
-dynamic/logs/*
 *.iml
 *.git
 .gradle/*
 build/
-Userdata.json
-dynamic/backup/*
-dynamic/tmp/*
 propkeys.ini
