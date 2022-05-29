@@ -162,4 +162,4 @@ of this for you via the method `finalizeAndShow()` which performs the required a
 cyderFrame.finalizeAndShow();
 ```
 
-To view the complete version of this widget, see `widgets/ExampleWidget.java`.
+To view the complete version of this widget, see [widgets/ExampleWidget.java](https://github.com/NathanCheshire/Cyder/blob/main/cyder/src/cyder/widgets/ExampleWidget.java).
