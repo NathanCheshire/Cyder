@@ -142,7 +142,9 @@ public class BaseInputHandler {
             PlayAudioHandler.class,
             ColorHandler.class,
             NetworkHandler.class,
-            StatHandler.class
+            StatHandler.class,
+            NumberHandler.class,
+            ThreadHandler.class
     );
 
     /**
@@ -362,31 +364,6 @@ public class BaseInputHandler {
             } else {
                 OSUtil.exit(ExitCondition.GenesisControlledExit);
             }
-        } else if (commandIs("binary")) {
-            if (checkArgsLength(1)
-                    && CyderRegexPatterns.numberPattern.matcher(getArg(0)).matches()) {
-                CyderThreadRunner.submit(() -> {
-                    try {
-                        println(getArg(0) + " converted to binary equals: "
-                                + Integer.toBinaryString(Integer.parseInt(getArg(0))));
-                    } catch (Exception ignored) {
-                    }
-                }, "Binary Converter");
-            } else {
-                println("Your value must only contain numbers.");
-            }
-        } else if (commandIs("prime")) {
-            if (checkArgsLength(1)) {
-                int num = Integer.parseInt(getArg(0));
-
-                if (NumberUtil.isPrime(num)) {
-                    println(num + " is a prime");
-                } else {
-                    println(num + " is not a prime because it is divisible by: " + NumberUtil.primeFactors(num));
-                }
-            } else {
-                println("Prime usage: prime NUMBER");
-            }
         } else if (commandIs("quit") ||
                 commandIs("exit") ||
                 commandIs("leave") ||
@@ -398,61 +375,6 @@ public class BaseInputHandler {
             }
         } else if (commandIs("monitors")) {
             println(OSUtil.getMonitorStatsString());
-        } else if (commandIs("bindump")) {
-            if (checkArgsLength(2)) {
-                if (!getArg(0).equals("-f")) {
-                    println("Bindump usage: bindump -f /path/to/binary/file");
-                } else {
-                    File f = new File(getArg(1));
-
-                    if (f.exists()) {
-                        printlnPriority("0b" + IOUtil.getBinaryString(f));
-                    } else {
-                        println("File: " + getArg(0) + " does not exist.");
-                    }
-                }
-            } else {
-                println("Bindump usage: bindump -f /path/to/binary/file");
-            }
-        } else if (commandIs("hexdump")) {
-            if (checkArgsLength(2)) {
-                if (!getArg(0).equals("-f")) {
-                    println("Hexdump usage: hexdump -f /path/to/binary/file");
-                } else {
-                    File f = new File(getArg(1));
-
-                    if (!f.exists())
-                        throw new IllegalArgumentException("File does not exist");
-
-                    if (FileUtil.getExtension(f).equalsIgnoreCase(".bin")) {
-                        if (f.exists()) {
-                            printlnPriority("0x" + IOUtil.getHexString(f).toUpperCase());
-                        } else {
-                            println("File: " + getArg(1) + " does not exist.");
-                        }
-                    } else {
-                        InputStream inputStream = new FileInputStream(f);
-                        int numberOfColumns = 10;
-
-                        StringBuilder sb = new StringBuilder();
-
-                        long streamPtr = 0;
-                        while (inputStream.available() > 0) {
-                            long col = streamPtr++ % numberOfColumns;
-                            sb.append(String.format("%02x ", inputStream.read()));
-                            if (col == (numberOfColumns - 1)) {
-                                sb.append("\n");
-                            }
-                        }
-
-                        inputStream.close();
-
-                        printlnPriority(sb.toString());
-                    }
-                }
-            } else {
-                println("Hexdump usage: hexdump -f /path/to/binary/file");
-            }
         } else if (commandIs("logout")) {
             ConsoleFrame.INSTANCE.logout();
         } else if (commandIs("throw")) {
@@ -462,11 +384,6 @@ public class BaseInputHandler {
             ConsoleFrame.INSTANCE.clearCommandHistory();
             Logger.log(Logger.Tag.HANDLE_METHOD, "User cleared command history");
             println("Command history reset");
-        } else if (commandIs("stopscript")) {
-            MasterYoutubeThread.killAll();
-            println("YouTube scripts have been killed.");
-        } else if (commandIs("stopmusic")) {
-            IOUtil.stopGeneralAudio();
         } else if (commandIs("anagram")) {
             if (checkArgsLength(2)) {
                 if (StringUtil.areAnagrams(getArg(0), getArg(1))) {
@@ -520,16 +437,6 @@ public class BaseInputHandler {
                 }
             } else {
                 println("Screenshot command usage: screenshot [FRAMES or FRAME_NAME]");
-            }
-        } else if (commandIs("number2string") || commandIs("number2word")) {
-            if (checkArgsLength(1)) {
-                if (CyderRegexPatterns.numberPattern.matcher(getArg(0)).matches()) {
-                    println(NumberUtil.toWords(getArg(0)));
-                } else {
-                    println("Could not parse input as number: " + getArg(0));
-                }
-            } else {
-                println("Command usage: number2string YOUR_INTEGER");
             }
         } else if (commandIs("wipe")) {
             if (checkArgsLength(1)) {
@@ -601,9 +508,7 @@ public class BaseInputHandler {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().toast("A toast to you, sir/madam");
         }
         //calls that will result in threads being spun off or thread operations
-        else if (commandIs("randomyoutube")) {
-            MasterYoutubeThread.start(1);
-        } else
+        else
             ret = false;
 
         return ret;
