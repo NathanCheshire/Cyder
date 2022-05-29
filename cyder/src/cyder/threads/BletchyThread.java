@@ -60,7 +60,7 @@ public class BletchyThread {
     }
 
     /**
-     * Invoke the bletchy decode animtion with the following parameters on the linked JTextPane.
+     * Invoke the bletchy decode animation with the following parameters on the linked JTextPane.
      *
      * @param decodeString the final string to decode and display after
      *                     the bletchy animation has finished
@@ -175,7 +175,7 @@ public class BletchyThread {
      */
     private static String[] getBletchyArray(String decodeString, boolean useNumbers, boolean useUnicode) {
         Preconditions.checkNotNull(decodeString);
-        Preconditions.checkNotNull(!decodeString.isEmpty());
+        Preconditions.checkArgument(!decodeString.isEmpty());
 
         LinkedList<String> retList = new LinkedList<>();
 
@@ -200,7 +200,7 @@ public class BletchyThread {
                 chars.add((char) index);
             }
 
-            lowercaseAlphabet = chars.toArray(new Character[chars.size()]);
+            lowercaseAlphabet = chars.toArray(new Character[0]);
         }
 
         int iterationsPerChar = 7;
@@ -208,11 +208,11 @@ public class BletchyThread {
         for (int i = 1 ; i < len ; i++) {
             for (int j = 0 ; j < iterationsPerChar ; j++) {
 
-                String current = "";
+                StringBuilder current = new StringBuilder();
 
                 for (int k = 0 ; k <= len ; k++) {
-                    current += lowercaseAlphabet[NumberUtil.randInt(0,
-                            lowercaseAlphabet.length - 1)];
+                    current.append(lowercaseAlphabet[NumberUtil.randInt(0,
+                            lowercaseAlphabet.length - 1)]);
                 }
 
                 retList.add((decodeUsage.substring(0, i) + current.substring(i, len)).toUpperCase());

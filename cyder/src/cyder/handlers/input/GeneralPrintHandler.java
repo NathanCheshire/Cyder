@@ -3,10 +3,10 @@ package cyder.handlers.input;
 import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.utilities.NumberUtil;
-import cyder.utilities.StringUtil;
-import cyder.utilities.TimeUtil;
-import cyder.utilities.UserUtil;
+import cyder.handlers.ConsoleFrame;
+import cyder.threads.BletchyThread;
+import cyder.threads.CyderThreadRunner;
+import cyder.utilities.*;
 
 import java.security.SecureRandom;
 import java.time.DayOfWeek;
@@ -159,6 +159,46 @@ public class GeneralPrintHandler extends InputHandler {
                     + " It was at this moment that Cyder knew its day had been ruined.");
         } else if (getInputHandler().commandIs("i hate you")) {
             getInputHandler().println("That's not very nice.");
+        } else if (getInputHandler().commandIs("easter")) {
+            getInputHandler().println("Easter Sunday is on " + TimeUtil.getEasterSundayString());
+        } else if (getInputHandler().commandIs("age")) {
+            BletchyThread.bletchy("I am somewhere between 69 and 420 years old.",
+                    true, 50, false);
+        } else if (getInputHandler().commandIs("scrub")) {
+            BletchyThread.bletchy("No you!", false, 50, true);
+        } else if (getInputHandler().commandIs("bletchy")) {
+            BletchyThread.bletchy(getInputHandler().argsToString(), false, 50, true);
+        } else if (getInputHandler().commandIs("dst")) {
+            CyderThreadRunner.submit(() -> {
+                String location = IPUtil.getIpdata().getCity() + ", "
+                        + IPUtil.getIpdata().getRegion() + ", "
+                        + IPUtil.getIpdata().getCountry_name();
+
+                if (IPUtil.getIpdata().getTime_zone().isIs_dst()) {
+                    getInputHandler().println("Yes, DST is underway in " + location + ".");
+                } else {
+                    getInputHandler().println("No, DST is not underway in " + location + ".");
+                }
+            }, "DST Checker");
+        } else if ((getInputHandler().commandAndArgsToString()
+                .replaceAll("\\s+", "").startsWith("longword"))) {
+            for (int i = 0 ; i < getInputHandler().getArgsSize() ; i++) {
+                getInputHandler().print("pneumonoultramicroscopicsilicovolcanoconiosis");
+            }
+
+            getInputHandler().println("");
+        } else if (getInputHandler().commandIs("pwd")) {
+            getInputHandler().println(OSUtil.USER_DIR);
+        } else if (getInputHandler().commandIs("whoami")) {
+            getInputHandler().println(OSUtil.getComputerName() + OSUtil.FILE_SEP
+                    + StringUtil.capsFirstWords(UserUtil.getCyderUser().getName()));
+        } else if (getInputHandler().commandIs("jarmode")) {
+            getInputHandler().println(OSUtil.JAR_MODE ? "Cyder is currently running from a JAR"
+                    : "Cyder is currently running from a non-JAR source");
+        } else if (getInputHandler().commandIs("clc") ||
+                getInputHandler().commandIs("cls") ||
+                getInputHandler().commandIs("clear")) {
+            ConsoleFrame.INSTANCE.getOutputArea().setText("");
         } else {
             ret = false;
         }

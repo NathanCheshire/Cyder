@@ -16,6 +16,7 @@ import org.jsoup.nodes.Document;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 
@@ -311,5 +312,20 @@ public class NetworkUtil {
         }
 
         return true;
+    }
+
+    /**
+     * Returns the ip of the user's computer if found.
+     *
+     * @return the ip of the user's computer if found
+     */
+    public static Optional<String> getIp() {
+        try {
+            return Optional.of(InetAddress.getLocalHost().getHostName());
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return Optional.empty();
     }
 }
