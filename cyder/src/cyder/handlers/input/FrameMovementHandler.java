@@ -21,21 +21,21 @@ public class FrameMovementHandler extends InputHandler {
     }
 
     @Handle({"top left", "top right", "bottom left", "bottom right",
-            "consolidate windows", "dance", "hide", "askew", "barrelroll"})
+            "consolidate windows", "dance", "hide", "askew", "barrelroll", "middle", "center"})
     public static boolean handle() {
         boolean ret = true;
 
-        if (getInputHandler().inputWithoutSpacesIs("top left")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ConsoleFrame.ScreenPosition.TOP_LEFT);
-        } else if (getInputHandler().inputWithoutSpacesIs("top right")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ConsoleFrame.ScreenPosition.TOP_RIGHT);
-        } else if (getInputHandler().inputWithoutSpacesIs("bottom left")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ConsoleFrame.ScreenPosition.BOTTOM_LEFT);
-        } else if (getInputHandler().inputWithoutSpacesIs("bottom right")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ConsoleFrame.ScreenPosition.BOTTOM_RIGHT);
+        if (getInputHandler().inputWithoutSpacesIs("topleft")) {
+            ConsoleFrame.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TOP_LEFT);
+        } else if (getInputHandler().inputWithoutSpacesIs("topright")) {
+            ConsoleFrame.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TOP_RIGHT);
+        } else if (getInputHandler().inputWithoutSpacesIs("bottomleft")) {
+            ConsoleFrame.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_LEFT);
+        } else if (getInputHandler().inputWithoutSpacesIs("bottomright")) {
+            ConsoleFrame.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_RIGHT);
         } else if (getInputHandler().inputWithoutSpacesIs("middle")
                 || getInputHandler().inputWithoutSpacesIs("center")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(ConsoleFrame.ScreenPosition.CENTER);
+            ConsoleFrame.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.CENTER);
         } else if (getInputHandler().inputWithoutSpacesIs("frametitles")) {
             Frame[] frames = Frame.getFrames();
             for (Frame f : frames)

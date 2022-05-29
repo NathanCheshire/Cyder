@@ -228,6 +228,8 @@ public class GeneralPrintHandler extends InputHandler {
                 getInputHandler().println(CyderStrings.bulletPoint + "\t" + suggestion.getCommand()
                         + "\n\tDescription: " + suggestion.getDescription());
             }
+        } else if (getInputHandler().commandAndArgsToString().matches(".*tell.*joke.*")) {
+            getInputHandler().println("Knock Knock\nRace condition\nWho's there?");
         } else {
             ret = false;
         }

@@ -1851,7 +1851,6 @@ public class CyderFrame extends JFrame {
 
                 // ensure title label doesn't start before maxX + gap
                 if (maxX + TITLE_BUTTONS_MIN_GAP >= titleLabel.getX()) {
-                    // todo need to cut off some title label
                     titleLabel.setBounds(maxX + TITLE_BUTTONS_MIN_GAP, titleLabel.getY(),
                             this.getWidth() - maxX + TITLE_BUTTONS_MIN_GAP - 4, titleLabel.getHeight());
                 }
@@ -3637,6 +3636,31 @@ public class CyderFrame extends JFrame {
         // other possibly dominant/stand-alone frame checks here
         else
             return null;
+    }
+
+    /**
+     * The valid screen positions for a frame object.
+     */
+    public enum ScreenPosition {
+        TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, CENTER
+    }
+
+    /**
+     * Sets the console frame to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
+     *
+     * @param screenPos the screen position to move the ConsoleFrame to
+     */
+    public void setLocationOnScreen(ScreenPosition screenPos) {
+        switch (screenPos) {
+            case CENTER -> setLocationRelativeTo(null);
+            case TOP_LEFT -> setLocation(0, 0);
+            case TOP_RIGHT -> setLocation(ScreenUtil.getScreenWidth()
+                    - getWidth(), 0);
+            case BOTTOM_LEFT -> setLocation(0, ScreenUtil.getScreenHeight()
+                    - getHeight());
+            case BOTTOM_RIGHT -> setLocation(ScreenUtil.getScreenWidth() - getWidth(),
+                    ScreenUtil.getScreenHeight() - getHeight());
+        }
     }
 
     /**

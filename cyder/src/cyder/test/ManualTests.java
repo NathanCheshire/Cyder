@@ -47,13 +47,6 @@ public class ManualTests {
         CyderThreadRunner.submit(() -> {
             try {
                 // AudioPlayer.showGui();
-                CyderFrame cyderFrame = new CyderFrame(600, 600);
-                cyderFrame.setTitle("Test");
-
-                cyderFrame.setButtonPosition(CyderFrame.ButtonPosition.LEFT);
-                cyderFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-
-                cyderFrame.finalizeAndShow();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

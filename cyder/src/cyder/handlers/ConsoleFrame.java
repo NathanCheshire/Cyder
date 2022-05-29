@@ -2917,19 +2917,10 @@ public enum ConsoleFrame {
      *
      * @param screenPos the screen position to move the ConsoleFrame to
      */
-    public void setLocationOnScreen(ScreenPosition screenPos) {
-        ArrayList<RelativeFrame> frames = getPinnedFrames();
+    public void setLocationOnScreen(CyderFrame.ScreenPosition screenPos) {
+        consoleCyderFrame.setLocationOnScreen(screenPos);
 
-        switch (screenPos) {
-            case CENTER -> consoleCyderFrame.setLocationRelativeTo(null);
-            case TOP_LEFT -> consoleCyderFrame.setLocation(0, 0);
-            case TOP_RIGHT -> consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth()
-                    - INSTANCE.getWidth(), 0);
-            case BOTTOM_LEFT -> consoleCyderFrame.setLocation(0, ScreenUtil.getScreenHeight()
-                    - INSTANCE.getHeight());
-            case BOTTOM_RIGHT -> consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth() - INSTANCE.getWidth(),
-                    ScreenUtil.getScreenHeight() - INSTANCE.getHeight());
-        }
+        ArrayList<RelativeFrame> frames = getPinnedFrames();
 
         for (RelativeFrame rf : frames) {
             rf.frame().setLocation(
@@ -3227,10 +3218,4 @@ public enum ConsoleFrame {
         return ((JLabel) (consoleCyderFrame.getContentPane()));
     }
 
-    /**
-     * The valid screen positions for a frame object.
-     */
-    public enum ScreenPosition {
-        TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, CENTER
-    }
 }

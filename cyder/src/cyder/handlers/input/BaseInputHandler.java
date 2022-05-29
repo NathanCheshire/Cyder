@@ -193,7 +193,7 @@ public class BaseInputHandler {
                     String[] triggers = method.getAnnotation(Handle.class).value();
 
                     for (String trigger : triggers) {
-                        if (trigger.equalsIgnoreCase(getCommand())) {
+                        if (commandAndArgsToString().startsWith(trigger)) {
                             try {
                                 if (method.getParameterCount() == 0) {
                                     if (method.invoke(handle) instanceof Boolean bool && bool) {
@@ -1003,6 +1003,7 @@ public class BaseInputHandler {
      * @return whether the provided string matched the command args with whitespace removed
      */
     protected boolean inputWithoutSpacesIs(String match) {
+        Preconditions.checkArgument(!match.contains("\\s+"));
         return match.equalsIgnoreCase(commandAndArgsToString().replaceAll("\\s+", ""));
     }
 
