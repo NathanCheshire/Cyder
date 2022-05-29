@@ -114,6 +114,9 @@ public class Cyder {
 
             setLoadingMessage("Validating Vanilla");
             ReflectionUtil.validateVanillaWidgets();
+
+            setLoadingMessage("Validating Handles");
+            ReflectionUtil.validateHandles();
         } catch (Exception e) {
             ExceptionHandler.exceptionExit("Exception thrown from subroutine runner, message = "
                     + e.getMessage(), "Subroutine Exception", ExitCondition.SubroutineException);

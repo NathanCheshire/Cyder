@@ -129,7 +129,7 @@ public class BaseInputHandler {
     /**
      * The handlers which contain specific triggers for commands.
      */
-    private static final ImmutableList<Class<?>> primaryHandlers = ImmutableList.of(
+    public static final ImmutableList<Class<?>> primaryHandlers = ImmutableList.of(
             PixelationHandler.class,
             GitHandler.class,
             PrintImageHandler.class,
@@ -146,7 +146,7 @@ public class BaseInputHandler {
     /**
      * The handlers which have dont have specific triggers and instead perform checks on the command directly.
      */
-    private static final ImmutableList<Class<?>> finalHandlers = ImmutableList.of(
+    public static final ImmutableList<Class<?>> finalHandlers = ImmutableList.of(
             GeneralPrintHandler.class,
             FrameMovementHandler.class,
             WidgetHandler.class,

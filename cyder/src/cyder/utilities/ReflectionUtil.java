@@ -9,6 +9,8 @@ import cyder.common.WidgetDescription;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
+import cyder.handlers.input.BaseInputHandler;
+import cyder.handlers.input.InputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
@@ -437,6 +439,87 @@ public class ReflectionUtil {
         }
 
         return ret;
+    }
+
+    /**
+     * Validates all handles throughout Cyder.
+     */
+    public static void validateHandles() {
+        for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
+            Class<?> classer = classInfo.load();
+
+            LinkedList<String> foundTriggers = new LinkedList<>();
+
+            // is a handler
+            if (InputHandler.class.isAssignableFrom(classer)) {
+                boolean alreadyFoundHandle = false;
+
+                for (Method m : classer.getMethods()) {
+                    if (m.isAnnotationPresent(Handle.class)) {
+                        // properly formed
+                        if (m.getName().equals("handle")) {
+                            // the only one that should exist
+                            if (!alreadyFoundHandle) {
+                                alreadyFoundHandle = true;
+
+                                if (BaseInputHandler.primaryHandlers.contains(classer)) {
+                                    String[] triggers = m.getAnnotation(Handle.class).value();
+
+                                    if (triggers.length > 0) {
+                                        for (String trigger : triggers) {
+                                            if (trigger.isEmpty()) {
+                                                Logger.log(Logger.Tag.DEBUG, "Primary handler "
+                                                        + "found with empty trigger: class = "
+                                                        + getBottomLevelClass(classer));
+                                            }
+
+                                            if (StringUtil.in(trigger, true, foundTriggers)) {
+                                                Logger.log(Logger.Tag.DEBUG, "Primary handler "
+                                                        + "found with duplicate trigger: class = "
+                                                        + getBottomLevelClass(classer) + ", trigger = \""
+                                                        + trigger + "\"");
+                                            } else {
+                                                foundTriggers.add(trigger);
+                                            }
+                                        }
+                                    } else {
+                                        Logger.log(Logger.Tag.DEBUG, "Primary handler "
+                                                + "found without triggers: class = " + getBottomLevelClass(classer));
+                                    }
+                                } else if (BaseInputHandler.finalHandlers.contains(classer)) {
+                                    String[] triggers = m.getAnnotation(Handle.class).value();
+
+                                    if (triggers.length > 1) {
+                                        Logger.log(Logger.Tag.DEBUG, "Final handler found containing"
+                                                + " triggers: class = " + getBottomLevelClass(classer));
+                                    }
+                                } else {
+                                    Logger.log(Logger.Tag.DEBUG, "Handler found which is not in"
+                                            + " primaryHandlers nor finalHandlers: class = "
+                                            + getBottomLevelClass(classer));
+                                }
+                            } else {
+                                Logger.log(Logger.Tag.DEBUG, "Handler with duplicate handle "
+                                        + "methods found: " + "class = " + getBottomLevelClass(classer)
+                                        + ", method = " + m.getName());
+                            }
+                        } else {
+                            Logger.log(Logger.Tag.DEBUG, "Found illegal @Handle annotation "
+                                    + "on method not named handle(): " + "class = "
+                                    + getBottomLevelClass(classer) + ", method = " + m.getName());
+                        }
+                    }
+                }
+            } else {
+                // ensure no methods exist with an @Handle annotation
+                for (Method m : classer.getMethods()) {
+                    if (m.isAnnotationPresent(Handle.class)) {
+                        Logger.log(Logger.Tag.DEBUG, "Found illegal @Handle annotation: "
+                                + "class = " + getBottomLevelClass(classer) + ", method = " + m.getName());
+                    }
+                }
+            }
+        }
     }
 
     /**

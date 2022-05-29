@@ -209,24 +209,28 @@ public class Logger {
                 logBuilder.append(constructLogTagPrepend(Tag.EXIT));
                 logBuilder.append("[RUNTIME] ");
                 logBuilder.append(getRuntime());
-                logBuilder.append("\n");
-                logBuilder.append(constructLogTagPrepend(TimeUtil.logTime()));
-                logBuilder.append("[EOL]: Log completed, exiting Cyder with exit code: ");
+
+                formatAndWriteLine(logBuilder.toString(), tag);
+
+                StringBuilder eolBuilder = new StringBuilder();
+                eolBuilder.append(getLogTime());
+                eolBuilder.append(constructLogTagPrepend("EOL"));
+                eolBuilder.append("Log completed, exiting Cyder with exit code: ");
 
                 if (representation instanceof ExitCondition condition) {
-                    logBuilder.append(condition.getCode());
+                    eolBuilder.append(condition.getCode());
 
-                    logBuilder.append(" [");
-                    logBuilder.append(condition.getDescription());
-                    logBuilder.append("], exceptions thrown: ");
+                    eolBuilder.append(" [");
+                    eolBuilder.append(condition.getDescription());
+                    eolBuilder.append("], exceptions thrown: ");
 
-                    logBuilder.append(exceptionsCounter.get() == 0
+                    eolBuilder.append(exceptionsCounter.get() == 0
                             ? "no exceptions thrown" : exceptionsCounter.get());
 
-                    formatAndWriteLine(logBuilder.toString(), tag);
+                    formatAndWriteLine(eolBuilder.toString(), tag);
                     logConcluded = true;
                 } else {
-                    logBuilder.append("ERROR PARSING EXIT CONDITION");
+                    throw new FatalException("Error parsing exit condition: " + representation);
                 }
 
                 return;
