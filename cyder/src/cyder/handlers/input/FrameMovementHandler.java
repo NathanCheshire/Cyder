@@ -12,7 +12,7 @@ import java.awt.*;
 /**
  * Handles CyderFrame and ConsoleFrame movement commands.
  */
-public class FrameMovementHandler extends InputHandlerBase {
+public class FrameMovementHandler extends InputHandler {
     /**
      * Suppress default constructor.
      */
@@ -20,7 +20,7 @@ public class FrameMovementHandler extends InputHandlerBase {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    @Handle({""})
+    @Handle({"top left", "top right", "bottom left", "bottom right", "consolidate windows", "dance", "hide"})
     public static boolean handle() {
         boolean ret = true;
 

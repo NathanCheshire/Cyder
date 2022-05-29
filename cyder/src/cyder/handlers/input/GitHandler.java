@@ -12,7 +12,7 @@ import cyder.utilities.OSUtil;
 /**
  * A handler for commands and inputs related to git/github/gitlab.
  */
-public class GitHandler extends InputHandlerBase {
+public class GitHandler extends InputHandler {
     /**
      * Suppress default constructor.
      */

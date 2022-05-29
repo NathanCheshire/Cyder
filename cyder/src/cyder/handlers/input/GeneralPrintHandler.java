@@ -17,7 +17,7 @@ import java.util.Calendar;
 /**
  * A handler for printing out general response strings.
  */
-public class GeneralPrintHandler extends InputHandlerBase {
+public class GeneralPrintHandler extends InputHandler {
     /**
      * Suppress default constructor.
      */
@@ -25,7 +25,7 @@ public class GeneralPrintHandler extends InputHandlerBase {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    @Handle("")
+    @Handle()
     public static boolean handle() {
         boolean ret = true;
 

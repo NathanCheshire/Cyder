@@ -9,7 +9,7 @@ import javax.swing.*;
 /**
  * A handler for printing images.
  */
-public class PrintImageHandler extends InputHandlerBase {
+public class PrintImageHandler extends InputHandler {
     /**
      * Suppress default constructor.
      */

@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
 /**
  * A handler for commands that play audio.
  */
-public class PlayAudioHandler extends InputHandlerBase {
+public class PlayAudioHandler extends InputHandler {
     /**
      * Suppress default constructor.
      */

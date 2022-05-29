@@ -5,7 +5,7 @@ import cyder.handlers.ConsoleFrame;
 /**
  * A base of protected static utility methods for handles.
  */
-public abstract class InputHandlerBase {
+public abstract class InputHandler {
     /**
      * Returns the ConsoleFrame's input handler.
      *

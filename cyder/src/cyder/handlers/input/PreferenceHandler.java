@@ -11,7 +11,7 @@ import cyder.utilities.UserUtil;
 /**
  * A handler for switching/toggling preferences.
  */
-public class PreferenceHandler extends InputHandlerBase {
+public class PreferenceHandler extends InputHandler {
     /**
      * Suppress default constructor.
      */
@@ -19,7 +19,7 @@ public class PreferenceHandler extends InputHandlerBase {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    @Handle("")
+    @Handle()
     public static boolean handle() {
         String targetedPreference = getInputHandler().getCommand();
         String parsedArgs = getInputHandler().argsToString().replaceAll("\\s+", "");

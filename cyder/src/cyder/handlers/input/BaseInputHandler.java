@@ -1,11 +1,8 @@
 package cyder.handlers.input;
 
-import com.fathzer.soft.javaluator.DoubleEvaluator;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.reflect.ClassPath;
 import cyder.annotations.Handle;
-import cyder.annotations.ManualTest;
 import cyder.common.Suggestion;
 import cyder.common.WidgetDescription;
 import cyder.constants.*;
@@ -163,8 +160,10 @@ public class BaseInputHandler {
     private static final ImmutableList<Class<?>> finalHandlers = ImmutableList.of(
             GeneralPrintHandler.class,
             FrameMovementHandler.class,
+            MathHandler.class,
             UrlHandler.class,
             PreferenceHandler.class,
+            ManualTestHandler.class,
             WrappedCommandHandler.class
     );
 
@@ -238,24 +237,9 @@ public class BaseInputHandler {
             }
         }
 
-        // handlers didn't work so now use final ones
-        try {
-            //noinspection StatementWithEmptyBody
-            if (ReflectionUtil.openWidget((commandAndArgsToString()))
-                    || generalCommandCheck()) {
-
-            } else //noinspection StatementWithEmptyBody
-                if (mathExpressionCheck(commandAndArgsToString())
-                        || manualTestCheck(commandAndArgsToString())) {
-
-                } else {
-                    unknownInput();
-                }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        } finally {
-            ConsoleFrame.INSTANCE.getInputField().setText("");
-        }
+        unknownInput();
+        // ReflectionUtil.openWidget((commandAndArgsToString())
+        // generalCommandCheck()
     }
 
     /**
@@ -995,9 +979,6 @@ public class BaseInputHandler {
                     File saveFile = new File(OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH, "users",
                             ConsoleFrame.INSTANCE.getUUID(), UserFile.FILES.getName(), saveName));
 
-                    // clear text as soon as possible
-                    ConsoleFrame.INSTANCE.getInputField().setText("");
-
                     println("Saving file: " + saveName + " to files directory");
 
                     CyderThreadRunner.submit(() -> {
@@ -1090,69 +1071,6 @@ public class BaseInputHandler {
             println("Easter Sunday is on " + TimeUtil.getEasterSundayString());
         } else
             ret = false;
-
-        if (ret) {
-            Logger.log(Logger.Tag.HANDLE_METHOD, "GENERAL COMMAND HANDLED");
-        }
-
-        return ret;
-    }
-
-    /**
-     * Determines if the provided command was a mathematical expression and if so, evaluates it.
-     *
-     * @param command the command to attempt to evaluate as a mathematical expression
-     * @return whether the command was a mathematical expression
-     */
-    private boolean mathExpressionCheck(String command) {
-        boolean ret = false;
-
-        try {
-            println(new DoubleEvaluator().evaluate(StringUtil.firstCharToLowerCase(command.trim())));
-            ret = true;
-        } catch (Exception ignored) {
-        }
-
-        if (ret) {
-            Logger.log(Logger.Tag.HANDLE_METHOD, "Console math handled");
-        }
-
-        return ret;
-    }
-
-
-    /**
-     * Determines if the command intended to invoke a manual test from manual tests.
-     *
-     * @param command the command to attempt to recognize as a manual test
-     * @return whether the command was handled as a manual test call
-     */
-    private boolean manualTestCheck(String command) {
-        boolean ret = false;
-
-        for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
-            Class<?> classer = classInfo.load();
-
-            for (Method m : classer.getMethods()) {
-                if (m.isAnnotationPresent(ManualTest.class)) {
-                    String trigger = m.getAnnotation(ManualTest.class).value();
-                    if (trigger.equalsIgnoreCase(command)) {
-                        try {
-                            println("Invoking manual test " + m.getName());
-                            m.invoke(classer);
-                            ret = true;
-                            break;
-                        } catch (Exception e) {
-                            ExceptionHandler.handle(e);
-                        }
-                    }
-                }
-            }
-        }
-
-        if (ret) {
-            Logger.log(Logger.Tag.HANDLE_METHOD, "Manual test fired");
-        }
 
         return ret;
     }

@@ -12,7 +12,7 @@ import java.net.URL;
 /**
  * A handler for opening urls.
  */
-public class UrlHandler extends InputHandlerBase {
+public class UrlHandler extends InputHandler {
     /**
      * Suppress default constructor.
      */
@@ -20,7 +20,7 @@ public class UrlHandler extends InputHandlerBase {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    @Handle("")
+    @Handle()
     public static boolean handle() {
         boolean ret = true;
 

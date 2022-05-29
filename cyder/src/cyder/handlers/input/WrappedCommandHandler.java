@@ -8,7 +8,7 @@ import cyder.handlers.internal.ExceptionHandler;
 /**
  * A handler for inner commands wrapped with arguments such as size(x), floor(x, y), etc.
  */
-public class WrappedCommandHandler extends InputHandlerBase {
+public class WrappedCommandHandler extends InputHandler {
     /**
      * Suppress default constructor.
      */
@@ -16,7 +16,7 @@ public class WrappedCommandHandler extends InputHandlerBase {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    @Handle("")
+    @Handle()
     public static boolean handle() {
         boolean ret = true;
 

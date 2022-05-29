@@ -21,7 +21,7 @@ import java.io.File;
 /**
  * A handler for handling when images or the console background should be pixelated.
  */
-public class PixelationHandler extends InputHandlerBase {
+public class PixelationHandler extends InputHandler {
     /**
      * Suppress default constructor.
      */
