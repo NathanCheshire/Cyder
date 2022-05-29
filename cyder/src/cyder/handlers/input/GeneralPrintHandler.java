@@ -1,9 +1,12 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
+import cyder.common.Suggestion;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.*;
@@ -199,6 +202,32 @@ public class GeneralPrintHandler extends InputHandler {
                 getInputHandler().commandIs("cls") ||
                 getInputHandler().commandIs("clear")) {
             ConsoleFrame.INSTANCE.getOutputArea().setText("");
+        } else if (getInputHandler().commandIs("throw")) {
+            ExceptionHandler.handle(new Exception("Big boi exceptions; " +
+                    "\"I chase your love around figure 8, I need you more than I can take\""));
+        } else if (getInputHandler().commandIs("clearops")) {
+            ConsoleFrame.INSTANCE.clearCommandHistory();
+            Logger.log(Logger.Tag.HANDLE_METHOD, "User cleared command history");
+            getInputHandler().println("Command history reset");
+        } else if (getInputHandler().commandIs("anagram")) {
+            if (getInputHandler().checkArgsLength(2)) {
+                if (StringUtil.areAnagrams(getInputHandler().getArg(0), getInputHandler().getArg(1))) {
+                    getInputHandler().println(getInputHandler().getArg(0) + " and "
+                            + getInputHandler().getArg(1) + " are anagrams of each other");
+                } else {
+                    getInputHandler().println(getInputHandler().getArg(0) + " and "
+                            + getInputHandler().getArg(1) + " are not anagrams of each other");
+                }
+            } else {
+                getInputHandler().println("Anagram usage: anagram word1 word2");
+            }
+        } else if (getInputHandler().commandIs("help")) {
+            getInputHandler().println("Try typing: ");
+
+            for (Suggestion suggestion : Suggestion.values()) {
+                getInputHandler().println(CyderStrings.bulletPoint + "\t" + suggestion.getCommand()
+                        + "\n\tDescription: " + suggestion.getDescription());
+            }
         } else {
             ret = false;
         }

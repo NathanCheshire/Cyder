@@ -3,13 +3,10 @@ package cyder.handlers.input;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.Handle;
-import cyder.common.Suggestion;
-import cyder.constants.CyderColors;
 import cyder.constants.CyderNumbers;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
-import cyder.enums.ExitCondition;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
@@ -20,16 +17,13 @@ import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.MasterYoutubeThread;
 import cyder.ui.CyderOutputPane;
-import cyder.ui.CyderSliderUI;
 import cyder.user.User;
-import cyder.user.UserCreator;
 import cyder.user.UserFile;
 import cyder.utilities.*;
 
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
-import java.awt.datatransfer.StringSelection;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -144,7 +138,9 @@ public class BaseInputHandler {
             NetworkHandler.class,
             StatHandler.class,
             NumberHandler.class,
-            ThreadHandler.class
+            ThreadHandler.class,
+            UiHandler.class,
+            FileHandler.class
     );
 
     /**
@@ -353,167 +349,6 @@ public class BaseInputHandler {
         println("Error: could not redirect output");
     }
 
-    private boolean generalCommandCheck() throws IOException {
-        boolean ret = true;
-
-        if (commandIs("createuser")) {
-            UserCreator.showGui();
-        } else if (commandIs("panic")) {
-            if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
-                FrameUtil.minimizeAllFrames();
-            } else {
-                OSUtil.exit(ExitCondition.GenesisControlledExit);
-            }
-        } else if (commandIs("quit") ||
-                commandIs("exit") ||
-                commandIs("leave") ||
-                commandIs("close")) {
-            if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
-                FrameUtil.minimizeAllFrames();
-            } else {
-                ConsoleFrame.INSTANCE.closeConsoleFrame(true, false);
-            }
-        } else if (commandIs("monitors")) {
-            println(OSUtil.getMonitorStatsString());
-        } else if (commandIs("logout")) {
-            ConsoleFrame.INSTANCE.logout();
-        } else if (commandIs("throw")) {
-            ExceptionHandler.handle(new Exception("Big boi exceptions; " +
-                    "\"I chase your love around figure 8, I need you more than I can take\""));
-        } else if (commandIs("clearops")) {
-            ConsoleFrame.INSTANCE.clearCommandHistory();
-            Logger.log(Logger.Tag.HANDLE_METHOD, "User cleared command history");
-            println("Command history reset");
-        } else if (commandIs("anagram")) {
-            if (checkArgsLength(2)) {
-                if (StringUtil.areAnagrams(getArg(0), getArg(1))) {
-                    println(getArg(0) + " and " + getArg(1) + " are anagrams of each other");
-                } else {
-                    println(getArg(0) + " and " + getArg(1) + " are not anagrams of each other");
-                }
-            } else {
-                println("Anagram usage: anagram word1 word2");
-            }
-        } else if (commandIs("mouse")) {
-            if (checkArgsLength(2)) {
-                OSUtil.setMouseLoc(Integer.parseInt(getArg(0)), Integer.parseInt(getArg(1)));
-            } else {
-                println("Mouse command usage: mouse X_PIXEL, Y_PIXEL");
-            }
-        } else if (commandIs("clearclip")) {
-            StringSelection selection = new StringSelection(null);
-            java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-            clipboard.setContents(selection, selection);
-            println("Clipboard has been reset.");
-        } else if (commandIs("help")) {
-            help();
-        } else if (commandIs("wipelogs")) {
-            OSUtil.deleteFile(OSUtil.buildFile(
-                    DynamicDirectory.DYNAMIC_PATH, DynamicDirectory.LOGS.getDirectoryName()));
-            println("Logs wiped");
-        } else if (commandIs("opencurrentlog")) {
-            IOUtil.openFileOutsideProgram(Logger.getCurrentLog().getAbsolutePath());
-        } else if (commandIs("openlastlog")) {
-            File[] logs = Logger.getCurrentLog().getParentFile().listFiles();
-
-            if (logs != null) {
-                if (logs.length == 1) {
-                    println("No previous logs found");
-                } else if (logs.length > 1) {
-                    IOUtil.openFileOutsideProgram(logs[logs.length - 2].getAbsolutePath());
-                }
-            }
-        } else if (commandIs("screenshot")) {
-            if (!args.isEmpty()) {
-                if (getArg(0).equalsIgnoreCase("frames")) {
-                    FrameUtil.screenshotCyderFrames();
-                    println("Successfully saved to your Files directory");
-                } else {
-                    if (!FrameUtil.screenshotCyderFrame(argsToString())) {
-                        println("CyderFrame not found");
-                    } else {
-                        println("Successfully saved to your Files directory");
-                    }
-                }
-            } else {
-                println("Screenshot command usage: screenshot [FRAMES or FRAME_NAME]");
-            }
-        } else if (commandIs("wipe")) {
-            if (checkArgsLength(1)) {
-                File requestedDeleteFile = new File(OSUtil.buildPath(
-                        DynamicDirectory.DYNAMIC_PATH, "users",
-                        ConsoleFrame.INSTANCE.getUUID(), getArg(0)));
-                if (requestedDeleteFile.exists()) {
-                    if (requestedDeleteFile.isDirectory()) {
-                        if (OSUtil.deleteFile(requestedDeleteFile)) {
-                            println("Successfully deleted: " + requestedDeleteFile.getAbsolutePath());
-                        } else {
-                            println("Could not delete folder at this time");
-                        }
-                    } else if (requestedDeleteFile.isFile()) {
-                        if (OSUtil.deleteFile(requestedDeleteFile)) {
-                            println("Successfully deleted " + requestedDeleteFile.getAbsolutePath());
-                        } else {
-                            println("Unable to delete file at this time");
-                        }
-                    } else {
-                        throw new IllegalStateException(
-                                "File is not a file nor directory. " + CyderStrings.europeanToymaker);
-                    }
-                } else {
-                    println("Requested file does not exist: " + requestedDeleteFile.getAbsolutePath());
-                }
-            } else {
-                print("Wipe command usage: wipe [directory/file within your user directory]");
-            }
-        } else if (commandIs("originalchams")) {
-            ConsoleFrame.INSTANCE.originalChams();
-        } else if (commandIs("opacity")) {
-            JSlider opacitySlider = new JSlider(SwingConstants.HORIZONTAL, 0, 100, 100);
-            opacitySlider.setBounds(0, 0, 300, 50);
-            CyderSliderUI UI = new CyderSliderUI(opacitySlider);
-            UI.setThumbStroke(new BasicStroke(2.0f));
-            UI.setSliderShape(CyderSliderUI.SliderShape.CIRCLE);
-            UI.setThumbDiameter(35);
-            UI.setFillColor(CyderColors.navy);
-            UI.setOutlineColor(CyderColors.vanila);
-            UI.setNewValColor(CyderColors.vanila);
-            UI.setOldValColor(CyderColors.regularPink);
-            UI.setTrackStroke(new BasicStroke(3.0f));
-            opacitySlider.setUI(UI);
-            opacitySlider.setMinimum(0);
-            opacitySlider.setMaximum(100);
-            opacitySlider.setPaintTicks(false);
-            opacitySlider.setPaintLabels(false);
-            opacitySlider.setVisible(true);
-            opacitySlider.setValue(100);
-            opacitySlider.addChangeListener(e -> {
-                ConsoleFrame.INSTANCE.getConsoleCyderFrame()
-                        .setOpacity(opacitySlider.getValue() / 100.0f);
-                opacitySlider.repaint();
-            });
-            opacitySlider.setOpaque(false);
-            opacitySlider.setToolTipText("Opacity");
-            opacitySlider.setFocusable(false);
-            opacitySlider.repaint();
-
-            println(opacitySlider);
-        } else if (commandIs("freeze")) {
-            //noinspection StatementWithEmptyBody
-            while (true) {
-            }
-        } else if (commandAndArgsToString().equalsIgnoreCase("wipe spotlights")) {
-            SpotlightUtil.wipeSpotlights();
-        } else if (commandIs("toast")) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().toast("A toast to you, sir/madam");
-        }
-        //calls that will result in threads being spun off or thread operations
-        else
-            ret = false;
-
-        return ret;
-    }
-
     /**
      * The final handle method for if all other handle methods failed.
      */
@@ -587,18 +422,6 @@ public class BaseInputHandler {
     }
 
     // end printing tests ----------------------------------
-
-    /**
-     * Prints the suggestions as recommendations to the user for what to use Cyder for.
-     */
-    private void help() {
-        println("Try typing: ");
-
-        for (Suggestion suggestion : Suggestion.values()) {
-            println(CyderStrings.bulletPoint + "\t" + suggestion.getCommand()
-                    + "\n\tDescription: " + suggestion.getDescription());
-        }
-    }
 
     /**
      * Standard getter for the currently linked JTextPane.
