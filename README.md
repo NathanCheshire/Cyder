@@ -75,7 +75,7 @@ To get started with Cyder, first download your favorite Java IDE such as Intelli
 want to make sure the IDE supports gradle operations. Next, clone Cyder via
 `git clone https://github.com/NathanCheshire/Cyder.git`. Now load the project in your IDE and allow the gradle setup
 task to run and the IDE to synchronize. Make sure that you have a Java 17 SDK installed and set as the project SDK (I
-use temurin as the vendor). Additionally, make sure your Java bytecode version is set to 17 and that the project
+use Eclipse Temurin from Adoptium). Additionally, make sure your Java bytecode version is set to 17 and that the project
 language level is set to `17 (Preview) - Pattern matching for switch`. Now you'll be able to run Cyder by a runtime
 configuration which invokes the main method inside of `Cyder.java` which is located in the `genesis` package. Once
 started, Cyder should recognize there are no users found and prompt for the creation of a user. Go ahead and create an
