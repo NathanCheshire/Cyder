@@ -53,10 +53,9 @@ Some examples of what you can do with Cyder include:
 
 <details>
 <summary><b>Code Statistics</b></summary>
-<img src="https://user-images.githubusercontent.com/60986919/160317468-6df0680f-8d49-413b-a09e-43d38839d441.png" alt="Code Statistics" width="300">
+<img src="https://user-images.githubusercontent.com/60986919/170853161-843ad135-33bd-462f-9352-d611195b9e65.png" alt="Code Statistics" width="300">
 <br>
 </details>
-
 <details>
 <summary><b>Pathfinding Visualizer</b></summary>
 <br>
@@ -75,7 +74,7 @@ To get started with Cyder, first download your favorite Java IDE such as Intelli
 want to make sure the IDE supports gradle operations. Next, clone Cyder via
 `git clone https://github.com/NathanCheshire/Cyder.git`. Now load the project in your IDE and allow the gradle setup
 task to run and the IDE to synchronize. Make sure that you have a Java 17 SDK installed and set as the project SDK (I
-use temurin as the vendor). Additionally, make sure your Java bytecode version is set to 17 and that the project
+use Eclipse Temurin from Adoptium). Additionally, make sure your Java bytecode version is set to 17 and that the project
 language level is set to `17 (Preview) - Pattern matching for switch`. Now you'll be able to run Cyder by a runtime
 configuration which invokes the main method inside of `Cyder.java` which is located in the `genesis` package. Once
 started, Cyder should recognize there are no users found and prompt for the creation of a user. Go ahead and create an
