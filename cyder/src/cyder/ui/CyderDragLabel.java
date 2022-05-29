@@ -514,14 +514,14 @@ public class CyderDragLabel extends JLabel {
             return;
 
         switch (buttonPosition) {
-            case RIGHT:
+            case RIGHT -> {
                 int addWidth = width - 26;
-
                 for (int i = buttonList.size() - 1 ; i >= 0 ; i--) {
                     int textWidth = 0;
 
                     if (!buttonList.get(i).getText().isEmpty()) {
-                        textWidth = StringUtil.getMinWidth(buttonList.get(i).getText().trim(), buttonList.get(i).getFont());
+                        textWidth =
+                                StringUtil.getMinWidth(buttonList.get(i).getText().trim(), buttonList.get(i).getFont());
                     }
 
                     //might have to fix this method here depending on how many more buttons with text you add
@@ -530,15 +530,15 @@ public class CyderDragLabel extends JLabel {
                     add(buttonList.get(i));
                     addWidth -= (26 + textWidth);
                 }
-                break;
-            case LEFT:
+            }
+            case LEFT -> {
                 int leftAddWidth = 26 * (buttonList.size() - 1) + 5;
-
                 for (int i = buttonList.size() - 1 ; i >= 0 ; i--) {
                     int textWidth = 0;
 
                     if (!buttonList.get(i).getText().isEmpty()) {
-                        textWidth = StringUtil.getMinWidth(buttonList.get(i).getText().trim(), buttonList.get(i).getFont());
+                        textWidth =
+                                StringUtil.getMinWidth(buttonList.get(i).getText().trim(), buttonList.get(i).getFont());
                     }
 
                     //might have to fix this method here depending on how many more buttons with text you add
@@ -547,7 +547,8 @@ public class CyderDragLabel extends JLabel {
                     add(buttonList.get(i));
                     leftAddWidth -= (26 + textWidth);
                 }
-                break;
+            }
+            default -> throw new IllegalArgumentException("Illegal button position: " + buttonPosition);
         }
 
         revalidate();
@@ -559,7 +560,7 @@ public class CyderDragLabel extends JLabel {
      *
      * @return the x offset of this drag label
      */
-    public int getxOffset() {
+    public int getXOffset() {
         return xOffset;
     }
 
@@ -568,7 +569,7 @@ public class CyderDragLabel extends JLabel {
      *
      * @return the y offset of this drag label
      */
-    public int getyOffset() {
+    public int getYOffset() {
         return yOffset;
     }
 
@@ -577,7 +578,7 @@ public class CyderDragLabel extends JLabel {
      *
      * @param xOffset the x offset of this drag label
      */
-    public void setxOffset(int xOffset) {
+    public void setXOffset(int xOffset) {
         this.xOffset = xOffset;
     }
 
@@ -586,7 +587,7 @@ public class CyderDragLabel extends JLabel {
      *
      * @param yOffset the y offset of this drag label
      */
-    public void setyOffset(int yOffset) {
+    public void setYOffset(int yOffset) {
         this.yOffset = yOffset;
     }
 

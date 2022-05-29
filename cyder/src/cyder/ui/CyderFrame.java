@@ -398,8 +398,8 @@ public class CyderFrame extends JFrame {
                 CyderDragLabel.DEFAULT_HEIGHT - 2, this);
         topDrag.setBounds(frameResizingLen, frameResizingLen,
                 width - 2 * frameResizingLen, CyderDragLabel.DEFAULT_HEIGHT - 2);
-        topDrag.setxOffset(frameResizingLen);
-        topDrag.setyOffset(frameResizingLen);
+        topDrag.setXOffset(frameResizingLen);
+        topDrag.setYOffset(frameResizingLen);
         contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
         topDrag.setFocusable(false);
 
@@ -414,8 +414,8 @@ public class CyderFrame extends JFrame {
                 height - frameResizingLen - CyderDragLabel.DEFAULT_HEIGHT, this);
         leftDrag.setBounds(frameResizingLen, CyderDragLabel.DEFAULT_HEIGHT,
                 5 - frameResizingLen, height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
-        leftDrag.setxOffset(frameResizingLen);
-        leftDrag.setyOffset(CyderDragLabel.DEFAULT_HEIGHT);
+        leftDrag.setXOffset(frameResizingLen);
+        leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
         contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
         leftDrag.setFocusable(false);
         leftDrag.setButtonList(null);
@@ -431,8 +431,8 @@ public class CyderFrame extends JFrame {
                 height - frameResizingLen - CyderDragLabel.DEFAULT_HEIGHT, this);
         rightDrag.setBounds(width - 5, CyderDragLabel.DEFAULT_HEIGHT,
                 5 - frameResizingLen, height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
-        rightDrag.setxOffset(width - 5);
-        rightDrag.setyOffset(CyderDragLabel.DEFAULT_HEIGHT);
+        rightDrag.setXOffset(width - 5);
+        rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
         contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
         rightDrag.setFocusable(false);
         rightDrag.setButtonList(null);
@@ -446,8 +446,8 @@ public class CyderFrame extends JFrame {
         //bottom frame drag  and cover
         bottomDrag = new CyderDragLabel(width - 2 * frameResizingLen, 5 - frameResizingLen, this);
         bottomDrag.setBounds(frameResizingLen, height - 5, width - 4, 5 - frameResizingLen);
-        bottomDrag.setxOffset(frameResizingLen);
-        bottomDrag.setyOffset(height - 5);
+        bottomDrag.setXOffset(frameResizingLen);
+        bottomDrag.setYOffset(height - 5);
         contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
         bottomDrag.setFocusable(false);
         bottomDrag.setButtonList(null);
@@ -1782,17 +1782,17 @@ public class CyderFrame extends JFrame {
                     5 - frameResizingLen, this.height - CyderDragLabel.DEFAULT_HEIGHT - 2);
             bottomDrag.setBounds(frameResizingLen, this.height - 5, this.width - 4, 5 - frameResizingLen);
 
-            topDrag.setxOffset(frameResizingLen);
-            topDrag.setyOffset(frameResizingLen);
+            topDrag.setXOffset(frameResizingLen);
+            topDrag.setYOffset(frameResizingLen);
 
-            leftDrag.setxOffset(frameResizingLen);
-            leftDrag.setyOffset(CyderDragLabel.DEFAULT_HEIGHT);
+            leftDrag.setXOffset(frameResizingLen);
+            leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
 
-            rightDrag.setxOffset(this.width - 5);
-            rightDrag.setyOffset(CyderDragLabel.DEFAULT_HEIGHT);
+            rightDrag.setXOffset(this.width - 5);
+            rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
 
-            bottomDrag.setxOffset(frameResizingLen);
-            bottomDrag.setyOffset(this.height - 5);
+            bottomDrag.setXOffset(frameResizingLen);
+            bottomDrag.setYOffset(this.height - 5);
 
             refreshLayout();
 
@@ -3000,7 +3000,7 @@ public class CyderFrame extends JFrame {
             }
 
             setOpacity(DRAG_OPACITY);
-        }, getTitle() + " Opacity Animater");
+        }, getTitle() + " Opacity Decrement Animator");
     }
 
     /**
@@ -3023,7 +3023,7 @@ public class CyderFrame extends JFrame {
             setOpacity(DEFAULT_OPACITY);
 
             animatingOut = false;
-        }, getTitle() + " Opacity Animater");
+        }, getTitle() + " Opacity Increment Animator");
     }
 
     /**

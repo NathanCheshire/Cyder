@@ -1184,7 +1184,7 @@ public class UserUtil {
                     saveDir.mkdir();
                 }
 
-                if (OSUtil.createFile(createFile)) {
+                if (OSUtil.createFile(createFile, true)) {
                     Logger.log(Logger.Tag.SYSTEM_IO, "Created file in userspace: " + name);
                     return createFile;
                 }

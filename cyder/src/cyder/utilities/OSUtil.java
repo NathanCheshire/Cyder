@@ -428,10 +428,11 @@ public class OSUtil {
     /**
      * Creates the provided file/folder if possible.
      *
-     * @param file the file/folder to attempt to create
+     * @param file   the file/folder to attempt to create
+     * @param isFile whether to treat the file as a directory or as a file
      * @return whether the file/folder could be created
      */
-    public static boolean createFile(File file) {
+    public static boolean createFile(File file, boolean isFile) {
         checkNotNull(file);
 
         try {
@@ -439,7 +440,7 @@ public class OSUtil {
             while (inc < MAX_CREATION_ATTEMPTS) {
                 boolean created;
 
-                if (file.isFile()) {
+                if (isFile) {
                     created = file.createNewFile();
                 } else {
                     created = file.mkdirs();
@@ -636,7 +637,7 @@ public class OSUtil {
                 deleteFile(currentDynamic);
             }
 
-            createFile(currentDynamic);
+            createFile(currentDynamic, false);
         }
     }
 

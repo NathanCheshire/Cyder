@@ -304,7 +304,7 @@ public class BaseInputHandler {
      * Checks for a requested redirection and attempts to create the file if valid.
      */
     private void redirectionCheck() {
-        if (args.size() <= 2)
+        if (args.size() < 2)
             return;
         if (!args.get(args.size() - 2).equalsIgnoreCase(">"))
             return;
@@ -322,14 +322,15 @@ public class BaseInputHandler {
             redirectionSem.acquire();
 
             redirectionFile = OSUtil.buildFile(
-                    DynamicDirectory.DYNAMIC_PATH, "users",
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.USERS.getDirectoryName(),
                     ConsoleFrame.INSTANCE.getUUID(),
-                    UserFile.FILES.getName(), requestedFilename);
+                    UserFile.FILES.getName(), requestedFilename).getAbsoluteFile();
 
             if (redirectionFile.exists())
                 OSUtil.deleteFile(redirectionFile);
 
-            if (!OSUtil.createFile(redirectionFile)) {
+            if (!OSUtil.createFile(redirectionFile, true)) {
                 failedRedirection();
             }
         } catch (Exception ignored) {
@@ -822,7 +823,14 @@ public class BaseInputHandler {
      */
     private void redirectionWrite(Object object) {
         Preconditions.checkNotNull(object);
-        Preconditions.checkArgument(redirectionFile.exists(), "Redirection file does not exist");
+
+        if (!redirectionFile.exists()) {
+            if (!OSUtil.createFile(redirectionFile, true)) {
+                println("Could not redirect output");
+                println(object);
+                return;
+            }
+        }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(redirectionFile, true))) {
             redirectionSem.acquire();
