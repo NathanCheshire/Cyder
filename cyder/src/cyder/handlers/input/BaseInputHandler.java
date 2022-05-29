@@ -160,6 +160,7 @@ public class BaseInputHandler {
     private static final ImmutableList<Class<?>> finalHandlers = ImmutableList.of(
             GeneralPrintHandler.class,
             FrameMovementHandler.class,
+            WidgetHandler.class,
             MathHandler.class,
             UrlHandler.class,
             PreferenceHandler.class,
@@ -238,7 +239,6 @@ public class BaseInputHandler {
         }
 
         unknownInput();
-        // ReflectionUtil.openWidget((commandAndArgsToString())
         // generalCommandCheck()
     }
 

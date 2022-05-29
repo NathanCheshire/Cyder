@@ -9,7 +9,6 @@ import cyder.common.WidgetDescription;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
@@ -438,52 +437,6 @@ public class ReflectionUtil {
         }
 
         return ret;
-    }
-
-    /**
-     * Opens the widget with the same trigger as the one provided.
-     * If for some reason someone was an idiot and put a duplicate trigger
-     * for a widget in Cyder, the first occurrence will be invoked.
-     *
-     * @param trigger the trigger for the widget to open
-     * @return whether a widget was opened
-     */
-    public static boolean openWidget(String trigger) {
-        Preconditions.checkNotNull(trigger);
-        Preconditions.checkArgument(!trigger.isEmpty());
-
-        for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
-            Class<?> clazz = classInfo.load();
-
-            for (Method m : clazz.getMethods()) {
-                if (m.isAnnotationPresent(Widget.class)) {
-                    String[] widgetTriggers = m.getAnnotation(Widget.class).triggers();
-
-                    for (String widgetTrigger : widgetTriggers) {
-                        if (widgetTrigger.equalsIgnoreCase(trigger)) {
-                            String shortWidgetName = getBottomLevelClass(clazz);
-                            ConsoleFrame.INSTANCE.getInputHandler().println("Opening widget: " + shortWidgetName);
-                            try {
-                                if (m.getParameterCount() == 0) {
-                                    m.invoke(clazz);
-
-                                    Logger.log(Logger.Tag.WIDGET_OPENED,
-                                            shortWidgetName + ", trigger = " + trigger);
-
-                                    return true;
-                                } else
-                                    throw new IllegalStateException("Found widget showGui()" +
-                                            " annotated method with parameters: " + m.getName() + ", class: " + clazz);
-                            } catch (Exception e) {
-                                ExceptionHandler.handle(e);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
     }
 
     /**

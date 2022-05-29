@@ -22,8 +22,9 @@ public class MathHandler extends InputHandler {
         boolean ret = false;
 
         try {
-            getInputHandler().println(new DoubleEvaluator().evaluate(StringUtil.firstCharToLowerCase(
-                    getInputHandler().commandAndArgsToString())));
+            double result = new DoubleEvaluator().evaluate(StringUtil.firstCharToLowerCase(
+                    getInputHandler().commandAndArgsToString()));
+            getInputHandler().println(String.valueOf(result));
             ret = true;
         } catch (Exception ignored) {
         }
