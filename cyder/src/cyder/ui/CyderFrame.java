@@ -464,6 +464,7 @@ public class CyderFrame extends JFrame {
         titleLabel.setForeground(CyderColors.vanila);
         titleLabel.setOpaque(false);
         titleLabel.setFocusable(false);
+        titleLabel.setVisible(true);
         topDrag.add(titleLabel);
 
         threadsKilled = false;
@@ -767,6 +768,8 @@ public class CyderFrame extends JFrame {
                 case CENTER -> titleLabel.setLocation((getTopDragLabel().getWidth() / 2)
                         - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2), 2);
             }
+
+            titleLabel.setVisible(true);
         }
     }
 
@@ -803,12 +806,10 @@ public class CyderFrame extends JFrame {
                 CyderDragLabel.ButtonPosition.LEFT : CyderDragLabel.ButtonPosition.RIGHT);
 
         if (buttonPosition == ButtonPosition.RIGHT && titlePosition == TitlePosition.RIGHT) {
-            titlePosition = TitlePosition.LEFT;
+            setTitlePosition(TitlePosition.LEFT);
             titleLabel.setLocation(4, 2);
         } else if (buttonPosition == ButtonPosition.LEFT && titlePosition == TitlePosition.LEFT) {
-            titlePosition = TitlePosition.RIGHT;
-            titleLabel.setLocation(width
-                    - StringUtil.getMinWidth(title, titleLabel.getFont()), 2);
+            setTitlePosition(TitlePosition.RIGHT);
         }
     }
 
@@ -943,6 +944,8 @@ public class CyderFrame extends JFrame {
                 case RIGHT -> titleLabel.setBounds(width - titleWidth, 2, titleWidth, 25);
                 case LEFT -> titleLabel.setBounds(5, 2, titleWidth, 25);
             }
+
+            titleLabel.setVisible(true);
         }
     }
 
@@ -1822,6 +1825,11 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * The minimum gap between the title label and the button list.
+     */
+    private static final int TITLE_BUTTONS_MIN_GAP = 10;
+
+    /**
      * Checks for the title label overflowing onto the drag
      * label buttons and clips the label if it does extend.
      */
@@ -1831,18 +1839,40 @@ public class CyderFrame extends JFrame {
 
         LinkedList<JButton> buttons = getTopDragLabel().getButtonList();
 
-        if (buttons.size() > 0) {
-            int minX = this.getWidth();
+        switch (buttonPosition) {
+            case LEFT -> {
+                // left buttons so find max x button plus width
 
-            for (JButton button : buttons) {
-                minX = Math.min(minX, button.getX());
-            }
+                int maxX = 0;
 
-            if (titleLabel.getX() + titleLabel.getWidth() >= minX) {
-                titleLabel.setSize(minX - titleLabel.getX(), titleLabel.getHeight());
+                for (JButton button : buttons) {
+                    maxX = Math.max(maxX, button.getX() + button.getWidth());
+                }
+
+                // ensure title label doesn't start before maxX + gap
+                if (maxX + TITLE_BUTTONS_MIN_GAP >= titleLabel.getX()) {
+                    // todo need to cut off some title label
+                    titleLabel.setBounds(maxX + TITLE_BUTTONS_MIN_GAP, titleLabel.getY(),
+                            this.getWidth() - maxX + TITLE_BUTTONS_MIN_GAP - 4, titleLabel.getHeight());
+                }
             }
-        } else if (titleLabel.getWidth() + titleLabel.getX() > this.getWidth()) {
-            titleLabel.setSize(this.getWidth() - titleLabel.getX(), titleLabel.getHeight());
+            case RIGHT -> {
+                // right buttons so find min x, easier
+
+                int minX = this.getWidth();
+
+                for (JButton button : buttons) {
+                    minX = Math.min(minX, button.getX());
+                }
+
+                // ensure title label doesn't end inside of button's area
+                if (titleLabel.getX() + titleLabel.getWidth() + TITLE_BUTTONS_MIN_GAP >= minX) {
+                    titleLabel.setBounds(titleLabel.getX(), titleLabel.getY(),
+                            this.getWidth() - minX - TITLE_BUTTONS_MIN_GAP - titleLabel.getX(),
+                            titleLabel.getHeight());
+                }
+            }
+            default -> throw new IllegalArgumentException("Invalid button position: " + buttonPosition);
         }
     }
 

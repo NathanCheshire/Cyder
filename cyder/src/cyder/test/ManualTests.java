@@ -13,7 +13,6 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.layouts.CyderFlowLayout;
@@ -47,7 +46,14 @@ public class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-              AudioPlayer.showGui();
+                // AudioPlayer.showGui();
+                CyderFrame cyderFrame = new CyderFrame(600, 600);
+                cyderFrame.setTitle("Test");
+
+                cyderFrame.setButtonPosition(CyderFrame.ButtonPosition.LEFT);
+                cyderFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+
+                cyderFrame.finalizeAndShow();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -144,7 +150,7 @@ public class ManualTests {
     public static void buttonAndTitlePosTest() {
         CyderFrame testFrame = new CyderFrame(600, 400, CyderIcons.defaultBackground);
         testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-        testFrame.setTitle("Testing Title");
+        testFrame.setTitle("Button Position Test");
 
         CyderButton setLeftTitle = new CyderButton("Left title");
         setLeftTitle.setBounds(100, 100, 140, 40);

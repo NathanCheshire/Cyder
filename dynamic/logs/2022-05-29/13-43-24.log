@@ -1,0 +1,184 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[13-43-24] [ENTRY]: Nathan
+[13-43-24] [PROP LOADED]: [key = map_quest_api_key]
+[13-43-24] [PROP LOADED]: [key = youtube_api_3_key]
+[13-43-24] [PROP LOADED]: [key = ip_key]
+[13-43-24] [PROP LOADED]: [key = weather_key]
+[13-43-24] [PROP LOADED]: [key = debug_hash_name]
+[13-43-24] [PROP LOADED]: [key = debug_hash_password]
+[13-43-24] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[13-43-24] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[13-43-24] [PROP LOADED]: [key = font_metric, value = 1]
+[13-43-24] [PROP LOADED]: [key = released, value = false]
+[13-43-24] [PROP LOADED]: [key = fast_test, value = false]
+[13-43-24] [PROP LOADED]: [key = version, value = Liminal]
+[13-43-24] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[13-43-24] [PROP LOADED]: [key = components_relocatable, value = false]
+[13-43-24] [PROP LOADED]: [key = testing_mode, value = true]
+[13-43-24] [PROP LOADED]: [key = autocypher, value = true]
+[13-43-24] [PROP LOADED]: [key = dispose_splash, value = true]
+[13-43-24] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[13-43-24] [PROP LOADED]: [key = activate_watchdog, value = false]
+[13-43-24] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[13-43-24] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[13-43-24] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[13-43-24] [PROP LOADED]: [key = ui_scale, value = 1.0]
+[13-43-24] [THREAD STARTED]: Object Creation Logger
+[13-43-25] [DEBUG]: Watchdog skipped
+[13-43-25] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[13-43-25] [FONT LOADED]: agency-fb
+[13-43-25] [FONT LOADED]: arial-black
+[13-43-25] [FONT LOADED]: beyno
+[13-43-25] [FONT LOADED]: condiment-regular
+[13-43-25] [FONT LOADED]: prompt-bold
+[13-43-25] [FONT LOADED]: segoe-ui-black
+[13-43-25] [FONT LOADED]: tahoma
+[13-43-25] [THREAD STARTED]: Splash Loader
+[13-43-25] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[13-43-26] [THREAD STARTED]: Splash Animation
+[13-43-26] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[13-43-26] [THREAD STARTED]: Secondary Subroutines Runner
+[13-43-26] [LOGIN]: AUTOCYPHER ATTEMPT
+[13-43-26] [THREAD STARTED]: JVM Args Logger
+[13-43-26] [DEBUG]: Cyder Entry = AutoCypher
+[13-43-27] [THREAD STARTED]: Console Printing Animation
+[13-43-27] [THREAD STARTED]: Hourly Chime Checker
+[13-43-27] [THREAD STARTED]: Console Clock Updater
+[13-43-27] [THREAD STARTED]: Cyder Busy Checker
+[13-43-27] [THREAD STARTED]: ConsoleFrame Stat Saver
+[13-43-27] [THREAD STARTED]: High Ping Checker
+[13-43-27] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[13-43-27] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 1834562183, bounds = (980,
+           396, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[13-43-27] [OBJECT CREATION]: Objects created since last delta (5s): 97
+[13-43-27] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[13-43-27] [THREAD STARTED]: Manual Tests Thread
+[13-43-27] [CONSOLE OUT]: [STRING]: Console loaded in 3166ms
+[13-43-27] [THREAD STARTED]: [Test] finalizeAndShow()
+[13-43-28] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[13-43-28] [DEBUG]: Attempted to log a new or empty line
+[13-43-28] [THREAD STARTED]: Splash Loading Label Updater
+[13-43-29] [THREAD STARTED]: Test Opacity Decrement Animator
+[13-43-29] [THREAD STARTED]: Test Opacity Increment Animator
+[13-43-30] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 7] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[13-43-30] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1653849545386.json
+[13-43-32] [CLIENT]: button position test
+[13-43-32] [THREAD STARTED]: [Testing Title] finalizeAndShow()
+[13-43-32] [CONSOLE OUT]: [STRING]: Invoking manual test buttonAndTitlePosTest
+[13-43-32] [OBJECT CREATION]: Objects created since last delta (5s): 47
+[13-43-32] [DEBUG]: Attempted to log a new or empty line
+[13-43-33] [UI]: Component = CyderButton, hash = 51740309, bounds = (300, 100, 150, 40), parent frame = Testing Title,
+           getText() = Left button
+[13-43-34] [UI]: Component = CyderButton, hash = 194532034, bounds = (300, 160, 150, 40), parent frame = Testing Title,
+           getText() = Right button
+[13-43-34] [THREAD STARTED]: title position animator
+[13-43-34] [UI]: Component = CyderButton, hash = 474477828, bounds = (100, 160, 140, 40), parent frame = Testing Title,
+           getText() = Center title
+[13-43-35] [THREAD STARTED]: title position animator
+[13-43-35] [UI]: Component = CyderButton, hash = 221089896, bounds = (100, 100, 140, 40), parent frame = Testing Title,
+           getText() = Left title
+[13-43-36] [THREAD STARTED]: title position animator
+[13-43-36] [UI]: Component = CyderButton, hash = 51740309, bounds = (300, 100, 150, 40), parent frame = Testing Title,
+           getText() = Left button
+[13-43-37] [UI]: Component = CyderButton, hash = 194532034, bounds = (300, 160, 150, 40), parent frame = Testing Title,
+           getText() = Right button
+[13-43-38] [UI]: Component = CyderButton, hash = 194532034, bounds = (300, 160, 150, 40), parent frame = Testing Title,
+           getText() = Right button
+[13-43-39] [UI]: Component = CyderButton, hash = 51740309, bounds = (300, 100, 150, 40), parent frame = Testing Title,
+           getText() = Left button
+[13-43-40] [THREAD STARTED]: title position animator
+[13-43-40] [UI]: Component = CyderButton, hash = 194532034, bounds = (300, 160, 150, 40), parent frame = Testing Title,
+           getText() = Right button
+[13-43-40] [THREAD STARTED]: title position animator
+[13-43-40] [UI]: Component = CyderButton, hash = 51740309, bounds = (300, 100, 150, 40), parent frame = Testing Title,
+           getText() = Left button
+[13-43-42] [THREAD STARTED]: title position animator
+[13-43-42] [UI]: Component = CyderButton, hash = 194532034, bounds = (300, 160, 150, 40), parent frame = Testing Title,
+           getText() = Right button
+[13-43-43] [THREAD STARTED]: title position animator
+[13-43-43] [UI]: Component = CyderButton, hash = 51740309, bounds = (300, 100, 150, 40), parent frame = Testing Title,
+           getText() = Left button
+[13-43-45] [THREAD STARTED]: title position animator
+[13-43-45] [UI]: Component = CyderButton, hash = 194532034, bounds = (300, 160, 150, 40), parent frame = Testing Title,
+           getText() = Right button
+[13-43-45] [THREAD STARTED]: title position animator
+[13-43-45] [UI]: Component = CyderButton, hash = 51740309, bounds = (300, 100, 150, 40), parent frame = Testing Title,
+           getText() = Left button
+[13-43-47] [THREAD STARTED]: title position animator
+[13-43-47] [UI]: Component = CyderButton, hash = 194532034, bounds = (300, 160, 150, 40), parent frame = Testing Title,
+           getText() = Right button
+[13-43-48] [THREAD STARTED]: title position animator
+[13-43-48] [UI]: Component = CyderButton, hash = 1255289463, bounds = (100, 220, 140, 40), parent frame = Testing Title,
+           getText() = Right title
+[13-43-51] [THREAD STARTED]: title position animator
+[13-43-51] [UI]: Component = CyderButton, hash = 221089896, bounds = (100, 100, 140, 40), parent frame = Testing Title,
+           getText() = Left title
+[13-43-53] [THREAD STARTED]: title position animator
+[13-43-53] [UI]: Component = CyderButton, hash = 474477828, bounds = (100, 160, 140, 40), parent frame = Testing Title,
+           getText() = Center title
+[13-43-55] [UI]: Component = CyderButton, hash = 51740309, bounds = (300, 100, 150, 40), parent frame = Testing Title,
+           getText() = Left button
+[13-43-55] [UI]: Component = CyderButton, hash = 194532034, bounds = (300, 160, 150, 40), parent frame = Testing Title,
+           getText() = Right button
+[13-43-57] [UI]: Component = CyderButton, hash = 51740309, bounds = (300, 100, 150, 40), parent frame = Testing Title,
+           getText() = Left button
+[13-43-57] [THREAD STARTED]: title position animator
+[13-43-57] [UI]: Component = CyderButton, hash = 221089896, bounds = (100, 100, 140, 40), parent frame = Testing Title,
+           getText() = Left title
+[13-43-58] [THREAD STARTED]: title position animator
+[13-43-58] [UI]: Component = CyderButton, hash = 474477828, bounds = (100, 160, 140, 40), parent frame = Testing Title,
+           getText() = Center title
+[13-43-59] [THREAD STARTED]: title position animator
+[13-43-59] [UI]: Component = CyderButton, hash = 51740309, bounds = (300, 100, 150, 40), parent frame = Testing Title,
+           getText() = Left button
+[13-44-00] [THREAD STARTED]: title position animator
+[13-44-00] [UI]: Component = CyderButton, hash = 474477828, bounds = (100, 160, 140, 40), parent frame = Testing Title,
+           getText() = Center title
+[13-44-01] [THREAD STARTED]: title position animator
+[13-44-01] [UI]: Component = CyderButton, hash = 1255289463, bounds = (100, 220, 140, 40), parent frame = Testing Title,
+           getText() = Right title
+[13-44-02] [THREAD STARTED]: title position animator
+[13-44-02] [UI]: Component = CyderButton, hash = 474477828, bounds = (100, 160, 140, 40), parent frame = Testing Title,
+           getText() = Center title
+[13-44-03] [UI]: Component = CyderButton, hash = 194532034, bounds = (300, 160, 150, 40), parent frame = Testing Title,
+           getText() = Right button
+[13-44-04] [UI]: Component = CyderButton, hash = 51740309, bounds = (300, 100, 150, 40), parent frame = Testing Title,
+           getText() = Left button
+[13-44-04] [THREAD STARTED]: title position animator
+[13-44-04] [UI]: Component = CyderButton, hash = 1255289463, bounds = (100, 220, 140, 40), parent frame = Testing Title,
+           getText() = Right title
+[13-44-05] [THREAD STARTED]: title position animator
+[13-44-05] [UI]: Component = CyderButton, hash = 474477828, bounds = (100, 160, 140, 40), parent frame = Testing Title,
+           getText() = Center title
+[13-44-09] [THREAD STARTED]: title position animator
+[13-44-09] [UI]: Component = CyderButton, hash = 1255289463, bounds = (100, 220, 140, 40), parent frame = Testing Title,
+           getText() = Right title
+[13-44-10] [THREAD STARTED]: title position animator
+[13-44-10] [UI]: Component = CyderButton, hash = 474477828, bounds = (100, 160, 140, 40), parent frame = Testing Title,
+           getText() = Center title
+[13-45-00] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

@@ -1,0 +1,213 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[12-18-37] [ENTRY]: Nathan
+[12-18-37] [PROP LOADED]: [key = map_quest_api_key]
+[12-18-37] [PROP LOADED]: [key = youtube_api_3_key]
+[12-18-37] [PROP LOADED]: [key = ip_key]
+[12-18-37] [PROP LOADED]: [key = weather_key]
+[12-18-37] [PROP LOADED]: [key = debug_hash_name]
+[12-18-37] [PROP LOADED]: [key = debug_hash_password]
+[12-18-37] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[12-18-37] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[12-18-37] [PROP LOADED]: [key = font_metric, value = 1]
+[12-18-37] [PROP LOADED]: [key = released, value = false]
+[12-18-37] [PROP LOADED]: [key = fast_test, value = false]
+[12-18-37] [PROP LOADED]: [key = version, value = Liminal]
+[12-18-37] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[12-18-37] [PROP LOADED]: [key = components_relocatable, value = false]
+[12-18-37] [PROP LOADED]: [key = testing_mode, value = true]
+[12-18-37] [PROP LOADED]: [key = autocypher, value = true]
+[12-18-37] [PROP LOADED]: [key = dispose_splash, value = true]
+[12-18-37] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[12-18-37] [PROP LOADED]: [key = activate_watchdog, value = false]
+[12-18-37] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[12-18-37] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[12-18-37] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[12-18-37] [PROP LOADED]: [key = ui_scale, value = 1.0]
+[12-18-37] [THREAD STARTED]: Object Creation Logger
+[12-18-37] [DEBUG]: Watchdog skipped
+[12-18-37] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[12-18-38] [FONT LOADED]: agency-fb
+[12-18-38] [FONT LOADED]: arial-black
+[12-18-38] [FONT LOADED]: beyno
+[12-18-38] [FONT LOADED]: condiment-regular
+[12-18-38] [FONT LOADED]: prompt-bold
+[12-18-38] [FONT LOADED]: segoe-ui-black
+[12-18-38] [FONT LOADED]: tahoma
+[12-18-38] [THREAD STARTED]: Splash Loader
+[12-18-38] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-18-38] [THREAD STARTED]: Splash Animation
+[12-18-38] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[12-18-39] [THREAD STARTED]: Secondary Subroutines Runner
+[12-18-39] [LOGIN]: AUTOCYPHER ATTEMPT
+[12-18-39] [THREAD STARTED]: JVM Args Logger
+[12-18-39] [DEBUG]: Cyder Entry = AutoCypher
+[12-18-40] [THREAD STARTED]: Console Printing Animation
+[12-18-40] [THREAD STARTED]: Hourly Chime Checker
+[12-18-40] [THREAD STARTED]: Console Clock Updater
+[12-18-40] [THREAD STARTED]: Cyder Busy Checker
+[12-18-40] [THREAD STARTED]: ConsoleFrame Stat Saver
+[12-18-40] [THREAD STARTED]: High Ping Checker
+[12-18-40] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[12-18-40] [OBJECT CREATION]: Objects created since last delta (5s): 97
+[12-18-40] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 981458504, bounds = (980, 396,
+           600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[12-18-40] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[12-18-40] [THREAD STARTED]: Manual Tests Thread
+[12-18-40] [CONSOLE OUT]: [STRING]: Console loaded in 3244ms
+[12-18-40] [THREAD STARTED]: Katana Progress Label Thread
+[12-18-40] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[12-18-40] [THREAD STARTED]: Audio Progress Label Animator
+[12-18-40] [THREAD STARTED]: [Katana] finalizeAndShow()
+[12-18-40] [DEBUG]: Attempted to log a new or empty line
+[12-18-41] [THREAD STARTED]: Splash Loading Label Updater
+[12-18-43] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 5] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[12-18-43] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1653844223335.json
+[12-18-45] [OBJECT CREATION]: Objects created since last delta (5s): 20
+[12-18-59] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[12-18-59] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[12-19-00] [UI]: Component = CyderDragLabel, hash = -14491413, bounds = (2, 2, 596, 28), parent frame = Katana
+[12-19-00] [THREAD STARTED]: [Katana] dispose() animation thread
+[12-19-00] [UI]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 539608027, bounds = (1617,
+           363, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Katana
+[12-19-00] [THREAD STARTED]: [Katana] dispose() animation thread
+[12-19-01] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[12-19-01] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1653844723147.json
+[12-19-05] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[12-19-05] [CLIENT]: example widget
+[12-19-05] [THREAD STARTED]: [Example Widget] finalizeAndShow()
+[12-19-05] [WIDGET]: ExampleWidget, trigger = example widget
+[12-19-05] [CONSOLE OUT]: [STRING]: Opening widget: ExampleWidget
+[12-19-06] [DEBUG]: Attempted to log a new or empty line
+[12-19-07] [THREAD STARTED]: Example Widget Opacity Decrement Animator
+[12-19-10] [THREAD STARTED]: Example Widget Opacity Increment Animator
+[12-19-10] [OBJECT CREATION]: Objects created since last delta (5s): 20
+[12-19-11] [THREAD STARTED]: Example Widget notification queue checker
+[12-19-11] [UI]: Component = CyderButton, hash = 247548135, bounds = (200, 295, 200, 40), parent frame = Example Widget,
+           getText() = Button
+[12-19-11] [UI]: [Example Widget] [NOTIFICATION] "<html>Hello Nathan!</html>"
+[12-19-11] [THREAD STARTED]: Notification Appear Animator
+[12-19-11] [THREAD STARTED]: Notification Vanish Animator
+[12-19-11] [THREAD STARTED]: Notification Vanish Animator
+[12-19-12] [THREAD STARTED]: Example Widget Opacity Decrement Animator
+[12-19-12] [THREAD STARTED]: Example Widget Opacity Increment Animator
+[12-19-12] [THREAD STARTED]: Example Widget Opacity Decrement Animator
+[12-19-12] [THREAD STARTED]: Example Widget Opacity Increment Animator
+[12-19-12] [THREAD STARTED]: Example Widget Opacity Decrement Animator
+[12-19-13] [THREAD STARTED]: Example Widget Opacity Increment Animator
+[12-19-14] [UI]: Component = CyderDragLabel, hash = -14491413, bounds = (2, 2, 596, 28), parent frame = Example Widget
+[12-19-15] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[12-19-16] [THREAD STARTED]: Example Widget Opacity Decrement Animator
+[12-19-17] [THREAD STARTED]: Example Widget Opacity Increment Animator
+[12-19-18] [THREAD STARTED]: Suggestion Getter Waiter Thread
+[12-19-18] [CONSOLE OUT]: [STRING]: Manual tests:
+[12-19-18] [DEBUG]: Attempted to log a new or empty line
+[12-19-18] [CONSOLE OUT]: [STRING]: test
+[12-19-18] [DEBUG]: Attempted to log a new or empty line
+[12-19-18] [CONSOLE OUT]: [STRING]: frame length test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: notify container test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: button position test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: grid layout test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: sliding icon label test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: drag label button test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: disable relative to test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: switcher test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: notification test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: askew test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: grid test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: flow layout test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: checkbox test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: ripple label test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: switch test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: slider test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: checkbox group test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: progress bar test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: inform test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: menu test
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [JCOMPONENT]: Component = CyderButton, hash = 614685987, bounds = (0, 0, 0, 0), parent frame =
+           No parent frame found, getText() =     Make a Suggestion
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-19] [CONSOLE OUT]: [STRING]: Escaped
+[12-19-19] [DEBUG]: Attempted to log a new or empty line
+[12-19-20] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[12-19-25] [CLIENT]: frame title test
+[12-19-25] [THREAD STARTED]: Unknown Input Handler
+[12-19-26] [CONSOLE OUT]: [STRING]: Unknown command
+[12-19-26] [DEBUG]: Attempted to log a new or empty line
+[12-19-40] [CLIENT]: drag label button test
+[12-19-40] [THREAD STARTED]: [Test Frame] finalizeAndShow()
+[12-19-40] [CONSOLE OUT]: [STRING]: Invoking manual test dragLabelButtonTest
+[12-19-40] [OBJECT CREATION]: Objects created since last delta (5s): 23
+[12-19-40] [DEBUG]: Attempted to log a new or empty line
+[12-19-42] [UI]: Component = CyderDragLabel, hash = -14491413, bounds = (2, 2, 596, 28), parent frame = Test Frame
+[12-19-42] [THREAD STARTED]: [Test Frame] dispose() animation thread
+[12-19-42] [UI]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 296016554, bounds = (841,
+           537, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Test Frame
+[12-19-55] [CLIENT]: button position test
+[12-19-55] [THREAD STARTED]: [Testing Title] finalizeAndShow()
+[12-19-55] [CONSOLE OUT]: [STRING]: Invoking manual test buttonAndTitlePosTest
+[12-19-55] [OBJECT CREATION]: Objects created since last delta (5s): 28
+[12-19-55] [DEBUG]: Attempted to log a new or empty line
+[12-19-56] [THREAD STARTED]: title position animator
+[12-19-56] [UI]: Component = CyderButton, hash = 1231587803, bounds = (100, 100, 140, 40), parent frame = Testing Title,
+           getText() = Left title
+[12-19-58] [THREAD STARTED]: title position animator
+[12-19-58] [UI]: Component = CyderButton, hash = 2116070283, bounds = (100, 160, 140, 40), parent frame = Testing Title,
+           getText() = Center title
+[12-19-59] [THREAD STARTED]: title position animator
+[12-19-59] [UI]: Component = CyderButton, hash = 76438008, bounds = (100, 220, 140, 40), parent frame = Testing Title,
+           getText() = Right title
+[12-20-02] [THREAD STARTED]: title position animator
+[12-20-02] [UI]: Component = CyderButton, hash = 2116070283, bounds = (100, 160, 140, 40), parent frame = Testing Title,
+           getText() = Center title
+[12-20-04] [THREAD STARTED]: Testing Title Opacity Decrement Animator
+[12-20-05] [THREAD STARTED]: Testing Title Opacity Increment Animator
+[12-20-05] [THREAD STARTED]: Example Widget Opacity Decrement Animator
+[12-20-05] [THREAD STARTED]: Example Widget Opacity Increment Animator
+[12-20-31] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

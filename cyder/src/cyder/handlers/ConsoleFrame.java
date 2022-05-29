@@ -1633,6 +1633,23 @@ public enum ConsoleFrame {
 
         @Override
         public void keyTyped(java.awt.event.KeyEvent e) {
+            // suppress backspaces that take away from bash string
+            if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+                String currentText = String.valueOf(inputField.getPassword());
+                if (currentText.startsWith(consoleBashString.trim())
+                        && currentText.trim().equals(consoleBashString.trim())) {
+                    e.consume();
+                    inputField.setText(consoleBashString);
+                    return;
+                }
+            }
+
+            // ensure starts with bash string
+            if (inputField.getPassword().length < consoleBashString.toCharArray().length) {
+                inputField.setText(consoleBashString + String.valueOf(inputField.getPassword()));
+                inputField.setCaretPosition(inputField.getPassword().length);
+            }
+
             // if the caret position is before start
             if (inputField.getCaretPosition() < consoleBashString.toCharArray().length) {
                 // if missing content, set to bash string and place cursor at end
@@ -1663,6 +1680,9 @@ public enum ConsoleFrame {
         }
     };
 
+    /**
+     * The list function key codes above the default 12 function keys which Windows is capable of handling.
+     */
     private final ImmutableList<Integer> specialFunctionKeyCodes = ImmutableList.of(
             KeyEvent.VK_F13,
             KeyEvent.VK_F14,
