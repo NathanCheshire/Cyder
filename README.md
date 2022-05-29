@@ -53,10 +53,9 @@ Some examples of what you can do with Cyder include:
 
 <details>
 <summary><b>Code Statistics</b></summary>
-<img src="https://user-images.githubusercontent.com/60986919/160317468-6df0680f-8d49-413b-a09e-43d38839d441.png" alt="Code Statistics" width="300">
+<img src="https://user-images.githubusercontent.com/60986919/170853161-843ad135-33bd-462f-9352-d611195b9e65.png" alt="Code Statistics" width="300">
 <br>
 </details>
-
 <details>
 <summary><b>Pathfinding Visualizer</b></summary>
 <br>
