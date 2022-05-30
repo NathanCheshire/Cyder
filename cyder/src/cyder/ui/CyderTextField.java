@@ -30,7 +30,7 @@ public class CyderTextField extends JTextField {
     /**
      * The background color of the field.
      */
-    private Color backgroundColor = CyderColors.vanila;
+    private Color backgroundColor = CyderColors.vanilla;
 
     /**
      * The regex to restrict entered text to.

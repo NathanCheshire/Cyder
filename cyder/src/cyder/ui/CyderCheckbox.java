@@ -156,7 +156,7 @@ public class CyderCheckbox extends JLabel {
                 graphics2D.setPaint(background);
                 graphics2D.setStroke(new BasicStroke(2.0f));
                 graphics2D.fill(new RoundRectangle2D.Double(0, 0, sideLength, sideLength, 20, 20));
-                graphics2D.setPaint(CyderColors.vanila);
+                graphics2D.setPaint(CyderColors.vanilla);
                 graphics2D.fill(new RoundRectangle2D.Double(3, 3, sideLength - 6, sideLength - 6, 20, 20));
             }
         } else {
@@ -204,7 +204,7 @@ public class CyderCheckbox extends JLabel {
                 outlinePath.closePath();
                 graphics2D.fill(outlinePath);
 
-                graphics2D.setPaint(CyderColors.vanila);
+                graphics2D.setPaint(CyderColors.vanilla);
                 GeneralPath fillPath = new GeneralPath();
                 fillPath.moveTo(borderWidth, borderWidth);
                 fillPath.lineTo(sideLength - borderWidth, borderWidth);

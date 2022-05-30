@@ -1,9 +1,9 @@
 package cyder.utilities;
 
-import cyder.common.TaggedString;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.records.TaggedString;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 

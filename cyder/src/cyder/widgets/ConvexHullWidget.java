@@ -58,7 +58,7 @@ public class ConvexHullWidget {
         hullFrame.getContentPane().add(gridComponent);
         gridComponent.setResizable(false);
         gridComponent.setNodeColor(CyderColors.navy);
-        gridComponent.setBackground(CyderColors.vanila);
+        gridComponent.setBackground(CyderColors.vanilla);
         gridComponent.installClickListener();
         gridComponent.installDragListener();
         gridComponent.setSaveStates(false);

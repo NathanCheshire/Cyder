@@ -208,7 +208,7 @@ public class GameOfLifeWidget {
         conwayGrid.setMinNodes(MIN_NODES);
         conwayGrid.setMaxNodes(150);
         conwayGrid.setDrawGridLines(false);
-        conwayGrid.setBackground(CyderColors.vanila);
+        conwayGrid.setBackground(CyderColors.vanilla);
         conwayGrid.setResizable(true);
         conwayGrid.setSmoothScrolling(true);
         conwayGrid.installClickAndDragPlacer();

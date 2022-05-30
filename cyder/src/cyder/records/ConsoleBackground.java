@@ -1,4 +1,4 @@
-package cyder.common;
+package cyder.records;
 
 import com.google.common.base.Preconditions;
 import cyder.handlers.internal.ExceptionHandler;

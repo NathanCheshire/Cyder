@@ -322,7 +322,7 @@ public class WeatherWidget {
         currentWeatherContainer.add(currentWeatherIconLabel);
 
         currentWeatherLabel = new JLabel("", SwingConstants.CENTER);
-        currentWeatherLabel.setForeground(CyderColors.vanila);
+        currentWeatherLabel.setForeground(CyderColors.vanilla);
         currentWeatherLabel.setFont(CyderFonts.segoe20.deriveFont(18f));
         currentWeatherLabel.setBounds(0, currentWeatherContainer.getHeight() / 2, currentWeatherContainer.getWidth(),
                 currentWeatherContainer.getHeight() / 2);
@@ -342,7 +342,7 @@ public class WeatherWidget {
         weatherFrame.getContentPane().add(sunriseLabelIcon);
 
         sunriseLabel = new JLabel(sunrise + "am", SwingConstants.CENTER);
-        sunriseLabel.setForeground(CyderColors.vanila);
+        sunriseLabel.setForeground(CyderColors.vanilla);
         sunriseLabel.setFont(CyderFonts.segoe20);
         sunriseLabel.setBounds(0, sunriseLabelIcon.getHeight() / 2, sunriseLabelIcon.getWidth(),
                 sunriseLabelIcon.getHeight() / 2);
@@ -362,7 +362,7 @@ public class WeatherWidget {
         weatherFrame.getContentPane().add(sunsetLabelIcon);
 
         sunsetLabel = new JLabel(sunset + "pm", SwingConstants.CENTER);
-        sunsetLabel.setForeground(CyderColors.vanila);
+        sunsetLabel.setForeground(CyderColors.vanilla);
         sunsetLabel.setFont(CyderFonts.segoe20);
         sunsetLabel.setBounds(0, sunsetLabelIcon.getHeight() / 2, sunsetLabelIcon.getWidth(),
                 sunsetLabelIcon.getHeight() / 2);
@@ -411,12 +411,12 @@ public class WeatherWidget {
         });
 
         minTempLabel = new JLabel();
-        minTempLabel.setForeground(CyderColors.vanila);
+        minTempLabel.setForeground(CyderColors.vanilla);
         minTempLabel.setFont(CyderFonts.defaultFontSmall);
         weatherFrame.getContentPane().add(minTempLabel);
 
         maxTempLabel = new JLabel();
-        maxTempLabel.setForeground(CyderColors.vanila);
+        maxTempLabel.setForeground(CyderColors.vanilla);
         maxTempLabel.setFont(CyderFonts.defaultFontSmall);
 
         currentTempLabel = new JLabel();

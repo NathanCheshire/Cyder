@@ -1,4 +1,4 @@
-package cyder.common;
+package cyder.messaging;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;

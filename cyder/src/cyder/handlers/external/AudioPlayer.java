@@ -608,7 +608,7 @@ public class AudioPlayer {
         audioTitleLabel.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioTitleLabel.setText(DEFAULT_AUDIO_TITLE);
         audioTitleLabel.setFont(CyderFonts.defaultFontSmall);
-        audioTitleLabel.setForeground(CyderColors.vanila);
+        audioTitleLabel.setForeground(CyderColors.vanilla);
 
         audioTitleLabelContainer.add(audioTitleLabel, SwingConstants.CENTER);
         audioPlayerFrame.getContentPane().add(audioTitleLabelContainer);
@@ -666,7 +666,7 @@ public class AudioPlayer {
 
         audioProgressLabel.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioProgressLabel.setText("");
-        audioProgressLabel.setForeground(CyderColors.vanila);
+        audioProgressLabel.setForeground(CyderColors.vanilla);
         audioProgressBar.add(audioProgressLabel);
         audioProgressLabel.setFocusable(false);
         audioProgressLabel.addMouseListener(new MouseAdapter() {
@@ -691,13 +691,13 @@ public class AudioPlayer {
         audioVolumeSliderUi.setThumbStroke(new BasicStroke(2.0f));
         audioVolumeSliderUi.setSliderShape(CyderSliderUI.SliderShape.CIRCLE);
         audioVolumeSliderUi.setThumbDiameter(25);
-        audioVolumeSliderUi.setFillColor(CyderColors.vanila);
-        audioVolumeSliderUi.setOutlineColor(CyderColors.vanila);
-        audioVolumeSliderUi.setNewValColor(CyderColors.vanila);
+        audioVolumeSliderUi.setFillColor(CyderColors.vanilla);
+        audioVolumeSliderUi.setOutlineColor(CyderColors.vanilla);
+        audioVolumeSliderUi.setNewValColor(CyderColors.vanilla);
         audioVolumeSliderUi.setOldValColor(CyderColors.regularRed);
         audioVolumeSliderUi.setTrackStroke(new BasicStroke(2.0f));
 
-        audioVolumePercentLabel.setForeground(CyderColors.vanila);
+        audioVolumePercentLabel.setForeground(CyderColors.vanilla);
         audioVolumePercentLabel.setSize(100, 40);
         audioPlayerFrame.getContentPane().add(audioVolumePercentLabel);
 

@@ -773,7 +773,7 @@ public class ManualTests {
         // needs to be opaque to fill background
         container.setOpaque(true);
         container.setBackground(CyderColors.notificationBackgroundColor);
-        container.setForeground(CyderColors.vanila);
+        container.setForeground(CyderColors.vanilla);
 
         CyderTextField ctf = new CyderTextField(0);
         ctf.setSize(200, 40);

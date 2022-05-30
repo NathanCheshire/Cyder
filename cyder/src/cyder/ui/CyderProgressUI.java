@@ -193,7 +193,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
      */
     @Override
     protected void paintDeterminate(Graphics g, JComponent c) {
-        c.setBackground(CyderColors.vanila);
+        c.setBackground(CyderColors.vanilla);
 
         BufferedImage barImage;
         if (progressBar.getOrientation() == JProgressBar.VERTICAL) {

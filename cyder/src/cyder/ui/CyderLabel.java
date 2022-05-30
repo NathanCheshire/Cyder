@@ -1,10 +1,10 @@
 package cyder.ui;
 
-import cyder.common.TaggedString;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.records.TaggedString;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;

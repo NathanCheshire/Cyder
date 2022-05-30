@@ -2,7 +2,6 @@ package cyder.user;
 
 import cyder.annotations.Widget;
 import cyder.builders.GetterBuilder;
-import cyder.common.ConsoleBackground;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -16,6 +15,7 @@ import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.DirectoryViewer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.records.ConsoleBackground;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.utilities.*;
@@ -99,9 +99,9 @@ public class UserEditor {
             editUserFrame.dispose();
 
         editUserFrame = new CyderFrame(720 + 2 * 5,
-                500 + 5 + CyderDragLabel.DEFAULT_HEIGHT + 25, CyderColors.vanila);
+                500 + 5 + CyderDragLabel.DEFAULT_HEIGHT + 25, CyderColors.vanilla);
         editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
-        editUserFrame.setBackground(CyderColors.vanila);
+        editUserFrame.setBackground(CyderColors.vanilla);
         editUserFrame.setTitle("Preferences");
 
         switchingLabel = new JLabel();
@@ -533,7 +533,7 @@ public class UserEditor {
         JLabel filesLabel;
         filesLabel = filesScroll.generateScrollList();
         filesLabel.setBounds(20, 60, 680, 360);
-        filesLabel.setBackground(CyderColors.vanila);
+        filesLabel.setBackground(CyderColors.vanilla);
         filesLabel.setBorder(new CompoundBorder(
                 new LineBorder(CyderColors.navy, 3),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
@@ -787,7 +787,7 @@ public class UserEditor {
         // label to show where fonts will be
         CyderLabel tempLabel = new CyderLabel("Loading...");
         tempLabel.setFont(CyderFonts.defaultFont);
-        tempLabel.setBackground(CyderColors.vanila);
+        tempLabel.setBackground(CyderColors.vanilla);
         tempLabel.setBorder(new LineBorder(CyderColors.navy, 5));
         tempLabel.setOpaque(true);
         tempLabel.setBounds(50, 100, 300, 300);
@@ -1049,7 +1049,7 @@ public class UserEditor {
         changeUsernameField.setHorizontalAlignment(JTextField.CENTER);
         changeUsernameField.addActionListener(e -> changeUsername(changeUsernameField));
         changeUsernameField.setToolTipText("Change account username to a valid alternative");
-        changeUsernameField.setBackground(CyderColors.vanila);
+        changeUsernameField.setBackground(CyderColors.vanilla);
         changeUsernameField.setSelectionColor(CyderColors.selectionColor);
         changeUsernameField.setFont(new Font("Agency FB", Font.BOLD, 26));
         changeUsernameField.setForeground(CyderColors.navy);
@@ -1128,7 +1128,7 @@ public class UserEditor {
         consoleDatePatternField.setHorizontalAlignment(JTextField.CENTER);
         consoleDatePatternField.addActionListener(e -> validateDatePattern(consoleDatePatternField));
         consoleDatePatternLabel.setToolTipText("Java date/time pattern to use for the console clock");
-        consoleDatePatternField.setBackground(CyderColors.vanila);
+        consoleDatePatternField.setBackground(CyderColors.vanilla);
         consoleDatePatternField.setSelectionColor(CyderColors.selectionColor);
         consoleDatePatternField.setFont(CyderFonts.segoe20);
         consoleDatePatternField.setForeground(CyderColors.navy);
@@ -1156,7 +1156,7 @@ public class UserEditor {
         addMapField.setHorizontalAlignment(JTextField.CENTER);
         addMapField.addActionListener(e -> addMap(addMapField));
         addMapField.setToolTipText("Add format: map_name, PATH/TO/EXE or FILE or URL");
-        addMapField.setBackground(CyderColors.vanila);
+        addMapField.setBackground(CyderColors.vanilla);
         addMapField.setSelectionColor(CyderColors.selectionColor);
         addMapField.setFont(CyderFonts.segoe20);
         addMapField.setForeground(CyderColors.navy);
@@ -1183,7 +1183,7 @@ public class UserEditor {
         removeMapField.setHorizontalAlignment(JTextField.CENTER);
         removeMapField.addActionListener(e -> removeMap(removeMapField));
         removeMapField.setToolTipText("Name of map to remove");
-        removeMapField.setBackground(CyderColors.vanila);
+        removeMapField.setBackground(CyderColors.vanilla);
         removeMapField.setSelectionColor(CyderColors.selectionColor);
         removeMapField.setFont(CyderFonts.segoe20);
         removeMapField.setForeground(CyderColors.navy);

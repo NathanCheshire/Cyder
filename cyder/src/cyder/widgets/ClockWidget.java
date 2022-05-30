@@ -124,7 +124,7 @@ public class ClockWidget {
 
             //spawn mini mode for current timezone button
             JButton spawnMini = new JButton("Mini");
-            spawnMini.setForeground(CyderColors.vanila);
+            spawnMini.setForeground(CyderColors.vanilla);
             spawnMini.setFont(CyderFonts.defaultFontSmall);
             spawnMini.setToolTipText("Spawn a mini clock for the current location");
             spawnMini.addActionListener(e -> spawnMiniClock());
@@ -136,7 +136,7 @@ public class ClockWidget {
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    spawnMini.setForeground(CyderColors.vanila);
+                    spawnMini.setForeground(CyderColors.vanilla);
                 }
             });
 

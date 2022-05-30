@@ -274,7 +274,7 @@ public class PathFinderWidget {
         pathfindingGrid.setMinNodes(DEFAULT_NODES);
         pathfindingGrid.setMaxNodes(MAX_NODES);
         pathfindingGrid.setDrawGridLines(true);
-        pathfindingGrid.setBackground(CyderColors.vanila);
+        pathfindingGrid.setBackground(CyderColors.vanilla);
         pathfindingGrid.setResizable(true);
         pathfindingGrid.setSmoothScrolling(true);
         pathFindingFrame.getContentPane().add(pathfindingGrid);

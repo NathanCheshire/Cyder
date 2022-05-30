@@ -79,9 +79,9 @@ public class TTTGame {
 
         ttt1 = new CyderButton("");
         ttt1.setPreferredSize(new Dimension(60, 60));
-        ttt1.setColors(CyderColors.vanila);
+        ttt1.setColors(CyderColors.vanilla);
         ttt1.setFocusPainted(false);
-        ttt1.setBackground(CyderColors.vanila);
+        ttt1.setBackground(CyderColors.vanilla);
         ttt1.setFont(CyderFonts.segoe30);
         ttt1.setBorder(new LineBorder(CyderColors.navy, 5, false));
         ttt1.addActionListener(e -> {
@@ -107,10 +107,10 @@ public class TTTGame {
         tttFrame.getContentPane().add(ttt1);
 
         ttt2 = new CyderButton("");
-        ttt2.setColors(CyderColors.vanila);
+        ttt2.setColors(CyderColors.vanilla);
         ttt2.setPreferredSize(new Dimension(60, 60));
         ttt2.setFocusPainted(false);
-        ttt2.setBackground(CyderColors.vanila);
+        ttt2.setBackground(CyderColors.vanilla);
         ttt2.setFont(CyderFonts.segoe30);
         ttt2.setBorder(new LineBorder(CyderColors.navy, 5, false));
         ttt2.addActionListener(e -> {
@@ -137,10 +137,10 @@ public class TTTGame {
         tttFrame.getContentPane().add(ttt2);
 
         ttt3 = new CyderButton("");
-        ttt3.setColors(CyderColors.vanila);
+        ttt3.setColors(CyderColors.vanilla);
         ttt3.setPreferredSize(new Dimension(60, 60));
         ttt3.setFocusPainted(false);
-        ttt3.setBackground(CyderColors.vanila);
+        ttt3.setBackground(CyderColors.vanilla);
         ttt3.setFont(CyderFonts.segoe30);
         ttt3.setBorder(new LineBorder(CyderColors.navy, 5, false));
         ttt3.addActionListener(e -> {
@@ -169,8 +169,8 @@ public class TTTGame {
         ttt4 = new CyderButton("");
         ttt4.setPreferredSize(new Dimension(60, 60));
         ttt4.setFocusPainted(false);
-        ttt4.setColors(CyderColors.vanila);
-        ttt4.setBackground(CyderColors.vanila);
+        ttt4.setColors(CyderColors.vanilla);
+        ttt4.setBackground(CyderColors.vanilla);
         ttt4.setBorder(new LineBorder(CyderColors.navy, 5, false));
         ttt4.setFont(CyderFonts.segoe30);
         ttt4.addActionListener(e -> {
@@ -195,10 +195,10 @@ public class TTTGame {
         tttFrame.getContentPane().add(ttt4);
 
         ttt5 = new CyderButton("");
-        ttt5.setColors(CyderColors.vanila);
+        ttt5.setColors(CyderColors.vanilla);
         ttt5.setPreferredSize(new Dimension(60, 60));
         ttt5.setFocusPainted(false);
-        ttt5.setBackground(CyderColors.vanila);
+        ttt5.setBackground(CyderColors.vanilla);
         ttt5.setBorder(new LineBorder(CyderColors.navy, 5, false));
         ttt5.setFont(CyderFonts.segoe30);
         ttt5.addActionListener(e -> {
@@ -225,8 +225,8 @@ public class TTTGame {
         ttt6 = new CyderButton("");
         ttt6.setPreferredSize(new Dimension(60, 60));
         ttt6.setFocusPainted(false);
-        ttt6.setBackground(CyderColors.vanila);
-        ttt6.setColors(CyderColors.vanila);
+        ttt6.setBackground(CyderColors.vanilla);
+        ttt6.setColors(CyderColors.vanilla);
         ttt6.setBorder(new LineBorder(CyderColors.navy, 5, false));
         ttt6.setFont(CyderFonts.segoe30);
         ttt6.addActionListener(e -> {
@@ -254,8 +254,8 @@ public class TTTGame {
         ttt7 = new CyderButton("");
         ttt7.setPreferredSize(new Dimension(60, 60));
         ttt7.setFocusPainted(false);
-        ttt7.setColors(CyderColors.vanila);
-        ttt7.setBackground(CyderColors.vanila);
+        ttt7.setColors(CyderColors.vanilla);
+        ttt7.setBackground(CyderColors.vanilla);
         ttt7.setBorder(new LineBorder(CyderColors.navy, 5, false));
         ttt7.setFont(CyderFonts.segoe30);
         ttt7.addActionListener(e -> {
@@ -282,8 +282,8 @@ public class TTTGame {
         ttt8 = new CyderButton("");
         ttt8.setPreferredSize(new Dimension(60, 60));
         ttt8.setFocusPainted(false);
-        ttt8.setBackground(CyderColors.vanila);
-        ttt8.setColors(CyderColors.vanila);
+        ttt8.setBackground(CyderColors.vanilla);
+        ttt8.setColors(CyderColors.vanilla);
         ttt8.setFont(CyderFonts.segoe30);
         ttt8.setBorder(new LineBorder(CyderColors.navy, 5, false));
         ttt8.addActionListener(e -> {
@@ -308,10 +308,10 @@ public class TTTGame {
         tttFrame.getContentPane().add(ttt8);
 
         ttt9 = new CyderButton("");
-        ttt9.setColors(CyderColors.vanila);
+        ttt9.setColors(CyderColors.vanilla);
         ttt9.setPreferredSize(new Dimension(60, 60));
         ttt9.setFocusPainted(false);
-        ttt9.setBackground(CyderColors.vanila);
+        ttt9.setBackground(CyderColors.vanilla);
         ttt9.setBorder(new LineBorder(CyderColors.navy, 5, false));
         ttt9.setFont(CyderFonts.segoe30);
         ttt9.addActionListener(e -> {

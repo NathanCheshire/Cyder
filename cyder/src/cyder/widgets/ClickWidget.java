@@ -38,7 +38,7 @@ public class ClickWidget {
             clickMeFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
             clickMeFrame.setTitle("Click Me");
             clickMeFrame.setFrameType(CyderFrame.FrameType.POPUP);
-            clickMeFrame.setBackground(CyderColors.vanila);
+            clickMeFrame.setBackground(CyderColors.vanilla);
 
             JLabel dismiss = new JLabel("Click Me!");
             dismiss.setHorizontalAlignment(JLabel.CENTER);

@@ -230,7 +230,7 @@ public class CyderScrollList {
 
         JLabel retLabel = new JLabel("");
         retLabel.setSize(width, height);
-        retLabel.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.vanila);
+        retLabel.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.vanilla);
         retLabel.setOpaque(true);
         retLabel.setVisible(true);
 
@@ -240,7 +240,7 @@ public class CyderScrollList {
         listPane.setBounds(0, 0, width, height);
         listPane.setFocusable(true);
         listPane.setOpaque(false);
-        listPane.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.vanila);
+        listPane.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.vanilla);
 
         SimpleAttributeSet simpleAttributeSet = new SimpleAttributeSet();
         StyleConstants.setAlignment(simpleAttributeSet, itemAlignment);
@@ -255,7 +255,7 @@ public class CyderScrollList {
         scrollPane.setFocusable(true);
         scrollPane.setOpaque(false);
         scrollPane.setThumbColor(CyderColors.regularPink);
-        scrollPane.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.vanila);
+        scrollPane.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.vanilla);
         scrollPane.setBorder(border);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);

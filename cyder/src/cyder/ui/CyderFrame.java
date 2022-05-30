@@ -333,7 +333,7 @@ public class CyderFrame extends JFrame {
         setSize(new Dimension(width, height));
         setResizable(false);
         setUndecorated(true);
-        setBackground(CyderColors.vanila);
+        setBackground(CyderColors.vanilla);
         setIconImage(CyderIcons.CYDER_ICON.getImage());
 
         //try and get preference for frame shape
@@ -461,7 +461,7 @@ public class CyderFrame extends JFrame {
         //title label on drag label
         titleLabel = new JLabel("");
         titleLabel.setFont(CyderFonts.frameTitleFont);
-        titleLabel.setForeground(CyderColors.vanila);
+        titleLabel.setForeground(CyderColors.vanilla);
         titleLabel.setOpaque(false);
         titleLabel.setFocusable(false);
         titleLabel.setVisible(true);
@@ -2725,7 +2725,7 @@ public class CyderFrame extends JFrame {
      */
     public static JLabel generateDefaultCompactTaskbarComponent(String title, Runnable clickAction) {
         JLabel ret = new JLabel(title.substring(0, Math.min(MAX_COMPACT_MENU_CHARS, title.length())));
-        ret.setForeground(CyderColors.vanila);
+        ret.setForeground(CyderColors.vanilla);
         ret.setFont(CyderFonts.defaultFontSmall);
         ret.setVerticalAlignment(SwingConstants.CENTER);
         ret.addMouseListener(new MouseAdapter() {
@@ -2741,7 +2741,7 @@ public class CyderFrame extends JFrame {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                ret.setForeground(CyderColors.vanila);
+                ret.setForeground(CyderColors.vanilla);
             }
         });
 
@@ -2794,14 +2794,14 @@ public class CyderFrame extends JFrame {
                 taskbarIconLength - taskbarBorderLength * 2,
                 taskbarIconLength - taskbarBorderLength * 2);
 
-        g2.setColor(CyderColors.vanila);
+        g2.setColor(CyderColors.vanilla);
         g2.setFont(labelFont);
-        g2.setColor(CyderColors.vanila);
+        g2.setColor(CyderColors.vanilla);
 
         String iconTitle = title.substring(0, Math.min(4, title.length())).trim();
         CyderLabel titleLabel = new CyderLabel(iconTitle);
         titleLabel.setFont(labelFont);
-        titleLabel.setForeground(CyderColors.vanila);
+        titleLabel.setForeground(CyderColors.vanilla);
         titleLabel.setBounds(0, 0, taskbarIconLength, taskbarIconLength);
         titleLabel.setFocusable(false);
         ret.add(titleLabel);
@@ -3181,7 +3181,7 @@ public class CyderFrame extends JFrame {
         @Override
         public void mouseExited(MouseEvent e) {
             if (menuEnabled) {
-                titleLabel.setForeground(CyderColors.vanila);
+                titleLabel.setForeground(CyderColors.vanilla);
             } else {
                 super.mouseExited(e);
             }
@@ -3306,7 +3306,7 @@ public class CyderFrame extends JFrame {
 
         JLabel newLabel = new JLabel(text);
         newLabel.setFont(CyderFonts.defaultFontSmall);
-        newLabel.setForeground(CyderColors.vanila);
+        newLabel.setForeground(CyderColors.vanilla);
         newLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -3315,12 +3315,12 @@ public class CyderFrame extends JFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                newLabel.setForeground(state != null && state.get() ? CyderColors.vanila : CyderColors.regularRed);
+                newLabel.setForeground(state != null && state.get() ? CyderColors.vanilla : CyderColors.regularRed);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                newLabel.setForeground(state != null && state.get() ? CyderColors.regularRed : CyderColors.vanila);
+                newLabel.setForeground(state != null && state.get() ? CyderColors.regularRed : CyderColors.vanilla);
             }
         });
         menuItems.add(new MenuItem(newLabel, state));
@@ -3560,7 +3560,7 @@ public class CyderFrame extends JFrame {
             if (menuItem.state() != null) {
                 menuItem.label().setForeground(menuItem.state().get()
                         ? CyderColors.regularRed
-                        : CyderColors.vanila);
+                        : CyderColors.vanilla);
             }
         }
 

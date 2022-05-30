@@ -1,12 +1,12 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
-import cyder.common.WidgetDescription;
 import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.records.WidgetDescription;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.*;
 

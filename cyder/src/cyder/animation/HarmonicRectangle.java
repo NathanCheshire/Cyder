@@ -58,7 +58,7 @@ public class HarmonicRectangle extends JLabel {
     /**
      * The background color of the drawn component.
      */
-    private Color backgroundColor = CyderColors.vanila;
+    private Color backgroundColor = CyderColors.vanilla;
 
     /**
      * The current direction of harmonic oscillation.

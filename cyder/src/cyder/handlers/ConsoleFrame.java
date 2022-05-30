@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import cyder.builders.GetterBuilder;
 import cyder.builders.InformBuilder;
 import cyder.builders.NotificationBuilder;
-import cyder.common.ConsoleBackground;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -21,6 +20,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
+import cyder.records.ConsoleBackground;
 import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
@@ -839,7 +839,7 @@ public enum ConsoleFrame {
         consoleClockLabel.setSize(0, StringUtil.getAbsoluteMinHeight("143 ;)",
                 CyderFonts.consoleClockLabelFont));
         consoleClockLabel.setFont(CyderFonts.consoleClockLabelFont);
-        consoleClockLabel.setForeground(CyderColors.vanila);
+        consoleClockLabel.setForeground(CyderColors.vanilla);
         consoleCyderFrame.getTopDragLabel().add(consoleClockLabel);
         consoleClockLabel.setFocusable(false);
         consoleClockLabel.setVisible(true);
@@ -1390,7 +1390,7 @@ public enum ConsoleFrame {
                             CyderFrame.generateDefaultTaskbarComponent(exe.getName(), () -> {
                                 IOUtil.openOutsideProgram(exe.getFilepath());
                                 consoleCyderFrame.notify("Opening: " + exe.getName());
-                            }, CyderColors.vanila));
+                            }, CyderColors.vanilla));
 
                     printingUtil.println("");
                 }
@@ -1546,7 +1546,7 @@ public enum ConsoleFrame {
                 g.dispose();
             }
         };
-        sepLabel.setForeground(CyderColors.vanila);
+        sepLabel.setForeground(CyderColors.vanilla);
         return sepLabel;
     }
 

@@ -61,7 +61,7 @@ public class CardWidget {
         christmas2020Frame.setMinimumSize(new Dimension(498, 490));
         christmas2020Frame.setMaximumSize(new Dimension(498 * 2, 498 * 2));
         christmas2020Frame.setSnapSize(new Dimension(1, 1));
-        christmas2020Frame.setBackground(CyderColors.vanila);
+        christmas2020Frame.setBackground(CyderColors.vanilla);
         christmas2020Frame.setFrameResizing(true);
 
         JLabel cardLabel = new JLabel("<html>Dear Mom and Dad,<br/>" +

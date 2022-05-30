@@ -117,8 +117,8 @@ public class UiHandler extends InputHandler {
         UI.setSliderShape(CyderSliderUI.SliderShape.CIRCLE);
         UI.setThumbDiameter(35);
         UI.setFillColor(CyderColors.navy);
-        UI.setOutlineColor(CyderColors.vanila);
-        UI.setNewValColor(CyderColors.vanila);
+        UI.setOutlineColor(CyderColors.vanilla);
+        UI.setNewValColor(CyderColors.vanilla);
         UI.setOldValColor(CyderColors.regularPink);
         UI.setTrackStroke(new BasicStroke(3.0f));
         opacitySlider.setUI(UI);

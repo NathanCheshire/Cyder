@@ -166,7 +166,7 @@ public class ImageAveragerWidget {
         imagesScroll.setItemAlignment(StyleConstants.ALIGN_LEFT);
         imagesScrollLabel = imagesScroll.generateScrollList();
         imagesScrollLabel.setBounds(10, 10, 400, 400);
-        imageScrollLabelHolder.setBackground(CyderColors.vanila);
+        imageScrollLabelHolder.setBackground(CyderColors.vanilla);
 
         imageScrollLabelHolder.add(imagesScrollLabel);
         imageScrollLabelHolder.revalidate();
@@ -211,7 +211,7 @@ public class ImageAveragerWidget {
                         previewImage.getIconHeight(), previewImage);
 
                 JButton save = new JButton("Save");
-                save.setForeground(CyderColors.vanila);
+                save.setForeground(CyderColors.vanilla);
                 save.setFont(CyderFonts.defaultFontSmall);
                 save.setToolTipText("Save image");
                 save.addActionListener(e -> {
@@ -236,7 +236,7 @@ public class ImageAveragerWidget {
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        save.setForeground(CyderColors.vanila);
+                        save.setForeground(CyderColors.vanilla);
                     }
                 });
 

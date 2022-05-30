@@ -386,7 +386,7 @@ public class PaintWidget {
                 g.translate(0, 10);
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, colorsPerRow * colorBlockLen + 2 * padding, 50);
-                g.setColor(CyderColors.vanila);
+                g.setColor(CyderColors.vanilla);
                 g.fillRect(padding, padding, colorsPerRow * colorBlockLen, 40);
 
                 int numColorsPainted = 0;

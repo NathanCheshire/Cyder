@@ -9,6 +9,7 @@ import java.awt.*;
 /**
  * Common colors used throughout Cyder
  */
+@SuppressWarnings("unused")
 public class CyderColors {
     /**
      * A common color used for selected text such as in CyderFields
@@ -124,7 +125,7 @@ public class CyderColors {
     /**
      * A common white color used throughout Cyder
      */
-    public static final Color vanila = new Color(252, 252, 252);
+    public static final Color vanilla = new Color(252, 252, 252);
 
     /**
      * The color to use for frame borders and other ui components throughout Cyder
@@ -139,7 +140,7 @@ public class CyderColors {
     /**
      * The background color for frames when dark mode is not active.
      */
-    public static final Color regularBackgroundColor = vanila;
+    public static final Color regularBackgroundColor = vanilla;
 
     /**
      * The primary badge svg color.

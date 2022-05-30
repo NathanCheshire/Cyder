@@ -237,7 +237,7 @@ public class CyderSplash {
 
                         CyderLabel creatorLabel = new CyderLabel("By Nathan Cheshire");
                         creatorLabel.setFont(developerSignatureFont);
-                        creatorLabel.setForeground(CyderColors.vanila);
+                        creatorLabel.setForeground(CyderColors.vanilla);
                         creatorLabel.setBounds(0, FRAME_LEN, FRAME_LEN,
                                 StringUtil.getMinHeight(creatorLabel.getText(), developerSignatureFont) + 10);
                         splashFrame.getContentPane().add(creatorLabel);
@@ -252,7 +252,7 @@ public class CyderSplash {
                         loadingLabel = new CyderLabel(CyderSplash.loadingMessage);
                         loadingLabel.setFocusable(false);
                         loadingLabel.setFont(loadingLabelFont);
-                        loadingLabel.setForeground(CyderColors.vanila);
+                        loadingLabel.setForeground(CyderColors.vanilla);
                         loadingLabel.setSize(FRAME_LEN,
                                 StringUtil.getMinHeight(CyderSplash.loadingMessage, loadingLabelFont));
                         loadingLabel.setLocation(0, FRAME_LEN - 100);
@@ -404,7 +404,7 @@ public class CyderSplash {
     private static ImageIcon generateCIcon() {
         BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
         Graphics g = drawMe.getGraphics();
-        g.setColor(CyderColors.vanila);
+        g.setColor(CyderColors.vanilla);
         g.fillRect(0, 0, 95, 25);
         g.fillRect(0, 125, 95, 25);
         g.fillRect(0, 0, LETTER_LEN, ICON_LEN);
@@ -420,7 +420,7 @@ public class CyderSplash {
     private static ImageIcon generateYIcon() {
         BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
         Graphics g = drawMe.getGraphics();
-        g.setColor(CyderColors.vanila);
+        g.setColor(CyderColors.vanilla);
         g.fillRect(ICON_LEN - LETTER_LEN, 0, LETTER_LEN, ICON_LEN);
         g.fillRect(60, 60, 95, LETTER_LEN);
 

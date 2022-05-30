@@ -1,7 +1,6 @@
 package cyder.messaging;
 
 import com.google.common.base.Preconditions;
-import cyder.common.WaveFile;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -58,7 +57,7 @@ public class MessagingUtils {
     /**
      * The default background color.
      */
-    private static final Color DEFAULT_BACKGROUND_COLOR = CyderColors.vanila;
+    private static final Color DEFAULT_BACKGROUND_COLOR = CyderColors.vanilla;
 
     /**
      * The default wave color.
