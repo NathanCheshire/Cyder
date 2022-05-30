@@ -2,7 +2,7 @@ package cyder.user;
 
 import cyder.annotations.Widget;
 import cyder.builders.GetterBuilder;
-import cyder.common.CyderBackground;
+import cyder.common.ConsoleBackground;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -240,8 +240,8 @@ public class UserEditor {
                             return;
                         }
 
-                        for (CyderBackground background : ConsoleFrame.INSTANCE.getBackgrounds()) {
-                            if (fileToAdd.getName().equals(background.getReferenceFile().getName())) {
+                        for (ConsoleBackground background : ConsoleFrame.INSTANCE.getBackgrounds()) {
+                            if (fileToAdd.getName().equals(background.referenceFile().getName())) {
                                 editUserFrame.notify("Cannot add a background with the same name as a current one");
                                 return;
                             }
@@ -322,7 +322,7 @@ public class UserEditor {
                             AudioPlayer.getCurrentAudio().getAbsoluteFile().toString()))
                             || selectedFile.getAbsoluteFile().toString().equals(
                             ConsoleFrame.INSTANCE.getCurrentBackground()
-                                    .getReferenceFile().getAbsoluteFile().toString())) {
+                                    .referenceFile().getAbsoluteFile().toString())) {
                         editUserFrame.notify("Cannot rename a file that is in use");
                     } else {
                         String oldName = FileUtil.getFilename(selectedFile);
@@ -432,7 +432,7 @@ public class UserEditor {
                 }
 
                 if (selectedFile.getAbsolutePath().equalsIgnoreCase(ConsoleFrame.INSTANCE
-                        .getCurrentBackground().getReferenceFile().getAbsolutePath())) {
+                        .getCurrentBackground().referenceFile().getAbsolutePath())) {
                     editUserFrame.notify("Unable to delete the background you are currently using");
                 } else if (AudioPlayer.getCurrentAudio() != null &&
                         selectedFile.getAbsolutePath().equalsIgnoreCase(AudioPlayer

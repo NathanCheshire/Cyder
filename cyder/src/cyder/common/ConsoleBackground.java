@@ -1,5 +1,6 @@
 package cyder.common;
 
+import com.google.common.base.Preconditions;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ImageUtil;
@@ -8,42 +9,24 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.nio.file.Files;
-import java.util.Arrays;
 
 /**
  * A background for the ConsoleFrame.
  */
-@SuppressWarnings("ClassCanBeRecord") // fine to be a class
-public class CyderBackground {
-    /**
-     * The file associated with this background.
-     */
-    private final File referenceFile;
-
+public record ConsoleBackground(File referenceFile) {
     /**
      * Constructs a new CyderBackground from the provided file if it can be read as an image.
      *
      * @param referenceFile the file to use as the background
-     * @throws IllegalArgumentException if the provided file is invalid
+     * @throws IllegalArgumentException if the provided file is invalid, null, or does not exist
      */
-    public CyderBackground(File referenceFile) {
-        if (!referenceFile.exists())
-            throw new IllegalArgumentException("Provided file is null");
-        if (!ImageUtil.isValidImage(referenceFile))
-            throw new IllegalArgumentException("Provided file is not a valid image file");
+    public ConsoleBackground(File referenceFile) {
+        Preconditions.checkNotNull(referenceFile);
+        Preconditions.checkArgument(referenceFile.exists());
+        Preconditions.checkArgument(ImageUtil.isValidImage(referenceFile));
 
         this.referenceFile = referenceFile;
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
-    }
-
-    /**
-     * Returns the reference file associated with this CyderBackground.
-     *
-     * @return the reference file associated with this CyderBackground
-     */
-    public File getReferenceFile() {
-        return referenceFile;
     }
 
     /**
@@ -77,22 +60,5 @@ public class CyderBackground {
      */
     public boolean validate() {
         return referenceFile.exists() && generateBufferedImage() != null;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        else if (!(o instanceof CyderBackground))
-            return false;
-        else {
-            try {
-                return Arrays.equals(Files.readAllBytes(getReferenceFile().toPath()),
-                        Files.readAllBytes(((CyderBackground) o).getReferenceFile().toPath()));
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-                return false;
-            }
-        }
     }
 }

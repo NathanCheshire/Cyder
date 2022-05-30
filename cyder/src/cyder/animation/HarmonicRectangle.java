@@ -1,4 +1,4 @@
-package cyder.common;
+package cyder.animation;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
@@ -93,6 +93,7 @@ public class HarmonicRectangle extends JLabel {
     /**
      * Suppress default constructor.
      */
+    @SuppressWarnings("unused")
     private HarmonicRectangle() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }

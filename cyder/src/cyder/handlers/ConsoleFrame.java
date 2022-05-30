@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableList;
 import cyder.builders.GetterBuilder;
 import cyder.builders.InformBuilder;
 import cyder.builders.NotificationBuilder;
-import cyder.common.CyderBackground;
+import cyder.common.ConsoleBackground;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -260,7 +260,7 @@ public enum ConsoleFrame {
     /**
      * The list of recognized backgrounds that the ConsoleFrame may switch to.
      */
-    private final ArrayList<CyderBackground> backgrounds = new ArrayList<>();
+    private final ArrayList<ConsoleBackground> backgrounds = new ArrayList<>();
 
     /**
      * The index of the background we are currently at in the backgrounds list.
@@ -423,7 +423,7 @@ public enum ConsoleFrame {
 
         consoleCyderFrame.addWindowListener(consoleFrameWindowAdapter);
 
-        getContentPane().setToolTipText(FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
+        getContentPane().setToolTipText(FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
 
         consoleCyderFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -461,16 +461,22 @@ public enum ConsoleFrame {
             width = ScreenUtil.getScreenWidth();
             height = ScreenUtil.getScreenHeight();
             icon = new ImageIcon(ImageUtil.resizeImage(width,
-                    height, getCurrentBackground().getReferenceFile()));
+                    height, getCurrentBackground().referenceFile()));
         } else {
-            width = getCurrentBackground().generateBufferedImage().getWidth();
-            height = getCurrentBackground().generateBufferedImage().getHeight();
+            BufferedImage bi = getCurrentBackground().generateBufferedImage();
+
+            if (bi == null) {
+                throw new FatalException("Generated buffered image is null");
+            }
+
+            width = bi.getWidth();
+            height = bi.getHeight();
             icon = new ImageIcon(ImageUtil.getRotatedImage(
-                    getCurrentBackground().getReferenceFile().toString(), getConsoleDirection()));
+                    getCurrentBackground().referenceFile().toString(), getConsoleDirection()));
         }
 
         if (width == 0 || height == 0)
-            throw new RuntimeException("Could not construct background dimension");
+            throw new FatalException("Could not construct background dimension");
 
         return new ConsoleIcon(icon, new Dimension(width, height));
     }
@@ -1190,7 +1196,7 @@ public enum ConsoleFrame {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
-                        Image icon = new ImageIcon(ImageIO.read(getCurrentBackground().getReferenceFile())).getImage();
+                        Image icon = new ImageIcon(ImageIO.read(getCurrentBackground().referenceFile())).getImage();
 
                         int w = icon.getWidth(null);
                         int h = icon.getHeight(null);
@@ -1852,10 +1858,10 @@ public enum ConsoleFrame {
             int maxWidth = ScreenUtil.getScreenWidth();
             int maxHeight = ScreenUtil.getScreenHeight();
 
-            for (CyderBackground currentBackground : backgrounds) {
-                File currentFile = currentBackground.getReferenceFile();
+            for (ConsoleBackground currentBackground : backgrounds) {
+                File currentFile = currentBackground.referenceFile();
 
-                if (!currentBackground.getReferenceFile().exists()) {
+                if (!currentBackground.referenceFile().exists()) {
                     backgrounds.remove(currentBackground);
                 }
 
@@ -1928,7 +1934,7 @@ public enum ConsoleFrame {
 
             for (File file : backgroundFiles) {
                 if (ImageUtil.isValidImage(file)) {
-                    backgrounds.add(new CyderBackground(file));
+                    backgrounds.add(new ConsoleBackground(file));
                 }
             }
 
@@ -1947,7 +1953,7 @@ public enum ConsoleFrame {
      *
      * @return list of found backgrounds
      */
-    public ArrayList<CyderBackground> getBackgrounds() {
+    public ArrayList<ConsoleBackground> getBackgrounds() {
         loadBackgrounds();
         return backgrounds;
     }
@@ -1969,7 +1975,7 @@ public enum ConsoleFrame {
                 }
 
                 for (int i = 0 ; i < backgrounds.size() ; i++) {
-                    if (FileUtil.getFilename(backgrounds.get(i).getReferenceFile()).equals(filename)) {
+                    if (FileUtil.getFilename(backgrounds.get(i).referenceFile()).equals(filename)) {
                         backgroundIndex = i;
                         return;
                     }
@@ -1992,7 +1998,7 @@ public enum ConsoleFrame {
         int index = -1;
 
         for (int i = 0 ; i < backgrounds.size() ; i++) {
-            if (backgrounds.get(i).getReferenceFile().getAbsolutePath()
+            if (backgrounds.get(i).referenceFile().getAbsolutePath()
                     .equals(backgroundFile.getAbsolutePath())) {
                 index = i;
                 break;
@@ -2057,7 +2063,7 @@ public enum ConsoleFrame {
                 (int) (center.getY() - (imageIcon.getIconHeight()) / 2));
 
         //tooltip based on image name
-        getContentPane().setToolTipText(FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
+        getContentPane().setToolTipText(FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
 
         revalidateInputAndOutputBounds();
 
@@ -2085,7 +2091,7 @@ public enum ConsoleFrame {
      *
      * @return the current background
      */
-    public CyderBackground getCurrentBackground() {
+    public ConsoleBackground getCurrentBackground() {
         return backgrounds.get(backgroundIndex);
     }
 
@@ -2149,7 +2155,7 @@ public enum ConsoleFrame {
             JLabel contentPane = ((JLabel) (consoleCyderFrame.getContentPane()));
 
             // tooltip based on image name
-            contentPane.setToolTipText(FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
+            contentPane.setToolTipText(FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
 
             // create final background that won't change
             ImageIcon nextBackFinal = nextBack;
@@ -2544,11 +2550,11 @@ public enum ConsoleFrame {
             background = switch (consoleDir) {
                 case TOP -> getCurrentBackground().generateImageIcon();
                 case LEFT -> new ImageIcon(ImageUtil.getRotatedImage(
-                        getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.LEFT));
+                        getCurrentBackground().referenceFile().getAbsolutePath(), Direction.LEFT));
                 case RIGHT -> new ImageIcon(ImageUtil.getRotatedImage(
-                        getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.RIGHT));
+                        getCurrentBackground().referenceFile().getAbsolutePath(), Direction.RIGHT));
                 case BOTTOM -> new ImageIcon(ImageUtil.getRotatedImage(
-                        getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.BOTTOM));
+                        getCurrentBackground().referenceFile().getAbsolutePath(), Direction.BOTTOM));
             };
 
             UserUtil.getCyderUser().setFullscreen("0");
@@ -2580,21 +2586,6 @@ public enum ConsoleFrame {
                     }
                     break;
             }
-        }
-
-        // no background somehow so create the default one in user space
-        if (background == null) {
-            File newlyCreatedBackground = UserUtil.createDefaultBackground(uuid);
-
-            try {
-                background = ImageUtil.toImageIcon(ImageIO.read(newlyCreatedBackground));
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }
-
-        if (background == null) {
-            throw new FatalException("Could not create a background");
         }
 
         int w = background.getIconWidth();
