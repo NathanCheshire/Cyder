@@ -81,7 +81,7 @@ def export_string_badge(alpha_string, beta_string, save_name):
     primary = (131, 83, 5)
     secondary = (199, 147, 85)
 
-    padding = 20
+    padding = 15
     font_size = 18
 
     local_font = ImageFont.truetype("roboto-bold.ttf", font_size)
