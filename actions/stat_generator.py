@@ -82,20 +82,20 @@ def export_string_badge(alpha_string, beta_string, save_name):
     secondary = (199, 147, 85)
 
     padding = 20
-    font_size = 22
+    font_size = 18
 
-    local_font = ImageFont.truetype("roboto-bold.ttf", 22)
+    local_font = ImageFont.truetype("roboto-bold.ttf", font_size)
 
     alpha_width = get_text_size(alpha_string, font_size, "roboto_bold.ttf")[0]
     beta_width = get_text_size(beta_string, font_size, "roboto_bold.ttf")[0]
     text_height = get_text_size(beta_string, font_size, "roboto_bold.ttf")[1]
 
-    full_width = padding + alpha_width + padding + beta_width + padding
-    full_height = padding * 2 + text_height
+    full_width = padding + alpha_width + padding + padding + beta_width + padding
+    full_height = padding + text_height + padding
 
     blank_image = np.zeros((full_height, full_width, 3), np.uint8)
     alpha_color_drawn = cv2.rectangle(blank_image, (0, 0),
-                                      (full_width, full_height), primary, -1)
+                                      (alpha_width + padding + padding, full_height), primary, -1)
     beta_color_drawn = cv2.rectangle(alpha_color_drawn, (alpha_width + padding, 0),
                                      (full_width, full_height), secondary, -1)
 
@@ -104,11 +104,13 @@ def export_string_badge(alpha_string, beta_string, save_name):
     base_colors_done = Image.fromarray(beta_color_drawn)
 
     draw = ImageDraw.Draw(base_colors_done)
-    draw.text((padding - text_height / 2, padding),  alpha_string,
+    start = (padding / 2, padding)
+    draw.text(start,  alpha_string,
               font=local_font, fill=text_color)
 
     draw = ImageDraw.Draw(base_colors_done)
-    draw.text((padding * 2 + alpha_width, full_height / 2 - text_height / 2),  beta_string,
+    start = (alpha_width + padding * 2, padding)
+    draw.text(start,  beta_string,
               font=local_font, fill=text_color)
 
     cv2.imwrite(save_name + '.png', np.array(base_colors_done))
@@ -117,7 +119,7 @@ def export_string_badge(alpha_string, beta_string, save_name):
 def get_text_size(text: str, font_size: int, font_name: str) -> Tuple:
     """ Returns a tuple of the size required to hold the provided string with the provided font and point size.
     """
-    font = ImageFont.truetype('roboto-bold.ttf', 34)
+    font = ImageFont.truetype('roboto-bold.ttf', font_size)
     return font.getsize(text)
 
 
