@@ -6,15 +6,11 @@ import cyder.builders.GetterBuilder;
 import cyder.builders.InformBuilder;
 import cyder.builders.NotificationBuilder;
 import cyder.common.CyderBackground;
-import cyder.common.CyderEntry;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
-import cyder.enums.Direction;
-import cyder.enums.DynamicDirectory;
-import cyder.enums.ExitCondition;
-import cyder.enums.IgnoreThread;
+import cyder.enums.*;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
@@ -2918,9 +2914,9 @@ public enum ConsoleFrame {
      * @param screenPos the screen position to move the ConsoleFrame to
      */
     public void setLocationOnScreen(CyderFrame.ScreenPosition screenPos) {
-        consoleCyderFrame.setLocationOnScreen(screenPos);
-
         ArrayList<RelativeFrame> frames = getPinnedFrames();
+
+        consoleCyderFrame.setLocationOnScreen(screenPos);
 
         for (RelativeFrame rf : frames) {
             rf.frame().setLocation(
@@ -2930,7 +2926,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * The record used for pinned frame logic.
+     * The record used for frames pinned to the console.
      */
     private record RelativeFrame(CyderFrame frame, int xOffset, int yOffset) {
     }
@@ -2943,16 +2939,11 @@ public enum ConsoleFrame {
     private ArrayList<RelativeFrame> getPinnedFrames() {
         ArrayList<RelativeFrame> frames = new ArrayList<>();
 
-        Rectangle consoleRect = new Rectangle(consoleCyderFrame.getX(), consoleCyderFrame.getY(),
-                consoleCyderFrame.getWidth(), consoleCyderFrame.getHeight());
-
         for (Frame f : Frame.getFrames()) {
             if (f instanceof CyderFrame) {
                 if (((CyderFrame) f).isConsolePinned() &&
                         !f.getTitle().equals(consoleCyderFrame.getTitle())) {
-                    Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
-
-                    if (MathUtil.overlaps(consoleRect, frameRect)) {
+                    if (MathUtil.overlaps(consoleCyderFrame.getBounds(), f.getBounds())) {
                         frames.add(new RelativeFrame((CyderFrame) f,
                                 f.getX() - consoleCyderFrame.getX(), f.getY() - consoleCyderFrame.getY()));
                     }

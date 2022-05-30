@@ -63,7 +63,7 @@ public class YoutubeUtil {
             Runtime rt = Runtime.getRuntime();
 
             String parsedAsciiSaveName =
-                    StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
+                    StringUtil.parseNonAscii(NetworkUtil.getUrlTitle(url))
                             .replace("- YouTube", "")
                             .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(),
                                     "").trim();
@@ -247,7 +247,7 @@ public class YoutubeUtil {
         }
 
         String parsedAsciiSaveName =
-                StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
+                StringUtil.parseNonAscii(NetworkUtil.getUrlTitle(url))
                         .replace("- YouTube", "")
                         .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(),
                                 "").trim();
@@ -362,7 +362,7 @@ public class YoutubeUtil {
                 }
 
                 String thumbnailURL = buildMaxResThumbnailUrl(uuid);
-                String videoTitle = NetworkUtil.getURLTitle(CyderUrls.YOUTUBE_VIDEO_HEADER + uuid);
+                String videoTitle = NetworkUtil.getUrlTitle(CyderUrls.YOUTUBE_VIDEO_HEADER + uuid);
 
                 BufferedImage thumbnail = null;
 

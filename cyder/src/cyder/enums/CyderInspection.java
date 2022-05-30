@@ -1,4 +1,4 @@
-package cyder.common;
+package cyder.enums;
 
 /**
  * Things Cyder inspects at runtime.

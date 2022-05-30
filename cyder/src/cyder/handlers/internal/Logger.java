@@ -52,7 +52,7 @@ public class Logger {
     /**
      * The rate at which to log the amount of objects created since the last log.
      */
-    private static final int deltaT = 5;
+    private static final int OBJECT_LOG_FREQUENCY = 5000;
 
     /**
      * The maximum number of chars per line of a log.
@@ -887,12 +887,12 @@ public class Logger {
                     if (objectCreationCounter.get() > 0) {
                         // a less elegant solution but necessary
                         formatAndWriteLine("[" + TimeUtil.logTime() + "] [OBJECT CREATION]: "
-                                + "Objects created since last delta (" + deltaT + "s): "
+                                + "Objects created since last delta (" + OBJECT_LOG_FREQUENCY + "ms): "
                                 + objectCreationCounter.getAndSet(0), Tag.OBJECT_CREATION);
                     }
 
                     // no need to check in small increments here
-                    Thread.sleep(deltaT * 1000);
+                    Thread.sleep(OBJECT_LOG_FREQUENCY);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

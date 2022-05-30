@@ -1,8 +1,8 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
-import cyder.common.Suggestion;
 import cyder.constants.CyderStrings;
+import cyder.enums.Suggestion;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;

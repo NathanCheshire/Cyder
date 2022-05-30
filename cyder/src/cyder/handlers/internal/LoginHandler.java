@@ -1,9 +1,9 @@
 package cyder.handlers.internal;
 
 import cyder.annotations.Widget;
-import cyder.common.CyderEntry;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
+import cyder.enums.CyderEntry;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;

@@ -153,13 +153,13 @@ public class NetworkUtil {
      * @return the latency of the local internet connection to google.com
      */
     public int latency() {
-        Socket Sock = new Socket();
+        Socket sock = new Socket();
         SocketAddress Address = new InetSocketAddress(CyderUrls.GOOGLE, 80);
-        int Timeout = 2000;
+        int timeout = 2000;
         long start = System.currentTimeMillis();
 
         try {
-            Sock.connect(Address, Timeout);
+            sock.connect(Address, timeout);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -168,7 +168,7 @@ public class NetworkUtil {
         int Latency = (int) (stop - start);
 
         try {
-            Sock.close();
+            sock.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -182,14 +182,11 @@ public class NetworkUtil {
      * @return if the connection to the internet is usable
      */
     public static boolean decentPing() {
-        Process Ping;
+        Process ping;
 
         try {
-            Ping = java.lang.Runtime.getRuntime().exec("ping -n 1 www.google.com");
-            int ReturnValue = Ping.waitFor();
-            if (ReturnValue == 0) {
-                return true;
-            }
+            ping = Runtime.getRuntime().exec("ping -n 1 " + CyderUrls.GOOGLE);
+            return ping.waitFor() == 0;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -233,7 +230,7 @@ public class NetworkUtil {
      * @param url the url to get the title of.
      * @return the title of the provided url
      */
-    public static String getURLTitle(String url) {
+    public static String getUrlTitle(String url) {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
 
@@ -255,7 +252,7 @@ public class NetworkUtil {
      * @param url the url to check for proper form
      * @return whether the provided url is of a valid form
      */
-    public static boolean isURL(String url) {
+    public static boolean isValidUrl(String url) {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
 
@@ -277,7 +274,7 @@ public class NetworkUtil {
      */
     public static boolean downloadResource(String urlResource, File referenceFile) throws IOException {
         Preconditions.checkNotNull(urlResource);
-        Preconditions.checkArgument(isURL(urlResource));
+        Preconditions.checkArgument(isValidUrl(urlResource));
         Preconditions.checkArgument(!urlResource.isEmpty());
         Preconditions.checkNotNull(referenceFile);
         Preconditions.checkArgument(!referenceFile.exists());

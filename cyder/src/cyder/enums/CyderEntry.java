@@ -1,4 +1,4 @@
-package cyder.common;
+package cyder.enums;
 
 /**
  * Possible ways to enter Cyder.

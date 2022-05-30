@@ -4,12 +4,11 @@ import cyder.annotations.ManualTest;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.builders.InformBuilder;
 import cyder.builders.NotificationBuilder;
-import cyder.common.CyderInspection;
-import cyder.common.SwitcherState;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.enums.CyderInspection;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
@@ -61,15 +60,15 @@ public class ManualTests {
         CyderFrame testFrame = new CyderFrame(280, 120);
         testFrame.setTitle("Switcher test");
 
-        ArrayList<SwitcherState> states = new ArrayList<>();
-        states.add(new SwitcherState("Uno", "uno long"));
-        states.add(new SwitcherState("Dos", "dos long"));
-        states.add(new SwitcherState("Tres", "tres long"));
-        states.add(new SwitcherState("Cuatro", "cuatro long"));
+        ArrayList<CyderComboBox.CyderComboItem> states = new ArrayList<>();
+        states.add(new CyderComboBox.CyderComboItem("Uno", "uno long"));
+        states.add(new CyderComboBox.CyderComboItem("Dos", "dos long"));
+        states.add(new CyderComboBox.CyderComboItem("Tres", "tres long"));
+        states.add(new CyderComboBox.CyderComboItem("Cuatro", "cuatro long"));
 
-        SwitcherState startingState = states.get(0);
+        CyderComboBox.CyderComboItem startingState = states.get(0);
 
-        CyderSwitcher switcher = new CyderSwitcher(200, 40, states, startingState);
+        CyderComboBox switcher = new CyderComboBox(200, 40, states, startingState);
         switcher.setBounds(40, 40, 200, 40);
         testFrame.getContentPane().add(switcher);
         switcher.addOnChangeListener((param) -> {

@@ -103,8 +103,8 @@ public class NetworkHandler extends InputHandler {
             }, "Usb Device Finder");
         } else if (getInputHandler().commandIs("download")) {
             if (getInputHandler().checkArgsLength(1)) {
-                if (NetworkUtil.isURL(getInputHandler().getArg(0))) {
-                    String responseName = NetworkUtil.getURLTitle(getInputHandler().getArg(0));
+                if (NetworkUtil.isValidUrl(getInputHandler().getArg(0))) {
+                    String responseName = NetworkUtil.getUrlTitle(getInputHandler().getArg(0));
                     String saveName = SecurityUtil.generateUUID();
 
                     if (responseName != null) {
@@ -137,7 +137,7 @@ public class NetworkHandler extends InputHandler {
             }
         } else if (getInputHandler().commandIs("curl")) {
             if (getInputHandler().checkArgsLength(1)) {
-                if (NetworkUtil.isURL(getInputHandler().getArg(0))) {
+                if (NetworkUtil.isValidUrl(getInputHandler().getArg(0))) {
                     try {
                         URL url = new URL(getInputHandler().getArg(0));
                         HttpURLConnection http = (HttpURLConnection) url.openConnection();

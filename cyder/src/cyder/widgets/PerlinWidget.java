@@ -3,7 +3,6 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.common.SwitcherState;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -48,12 +47,12 @@ public class PerlinWidget {
     private static CyderButton nextIteration;
 
     /**
-     * The frame used for aniamtion
+     * The frame used for animation
      */
     private static CyderFrame perlinFrame;
 
     /**
-     * The overriden label to paint the noise calculations on.
+     * The overridden label to paint the noise calculations on.
      */
     private static JLabel noiseLabel;
 
@@ -63,7 +62,7 @@ public class PerlinWidget {
     public static final double MINIMUM_FEATURE_SIZE = 24.0;
 
     /**
-     * The default feature size for open simplex nosie.
+     * The default feature size for open simplex noise.
      */
     public static final double DEFAULT_FEATURE_SIZE = 24.0;
 
@@ -83,7 +82,7 @@ public class PerlinWidget {
     private static SimplexNoiseUtil noise = new SimplexNoiseUtil(0);
 
     /**
-     * The timestep current at.
+     * The time step current at.
      */
     private static double timeStep;
 
@@ -93,21 +92,21 @@ public class PerlinWidget {
     private static JSlider featureSlider;
 
     /**
-     * The switcher used to change dimensions.
+     * The combo box used to change dimensions.
      */
-    private static CyderSwitcher switcher;
+    private static CyderComboBox comboBox;
 
     /**
      * The state used for two dimensions of noise.
      */
-    private static final SwitcherState twoDimensionState =
-            new SwitcherState("2D");
+    private static final CyderComboBox.CyderComboItem twoDimensionState =
+            new CyderComboBox.CyderComboItem("2D");
 
     /**
      * The state used for three dimensions of noise (technically 4).
      */
-    private static final SwitcherState threeDimensionState =
-            new SwitcherState("3D");
+    private static final CyderComboBox.CyderComboItem threeDimensionState =
+            new CyderComboBox.CyderComboItem("3D");
 
     /**
      * The slider used to determine the speed of the animation.
@@ -125,9 +124,9 @@ public class PerlinWidget {
     private static final int speedSliderMaxValue = 500;
 
     /**
-     * The maximum value for the speed slider.
+     * The minimum value for the speed slider.
      */
-    private static final int speedsliderMinValue = 0;
+    private static final int speedSliderMinValue = 0;
 
     /**
      * The resolution of open simplex noise.
@@ -160,12 +159,12 @@ public class PerlinWidget {
     private static float[][] instanceSeed;
 
     /**
-     * The number of octaves for open simplex (itereations).
+     * The number of octaves for open simplex (iterations).
      */
     private static int octaves = 1;
 
     /**
-     * The maximum number of octraves (iterations).
+     * The maximum number of octaves (iterations).
      */
     private static final int maxOctaves = 10;
 
@@ -247,10 +246,9 @@ public class PerlinWidget {
                 g2d.setStroke(new BasicStroke(2));
 
                 int labelWidth = noiseLabel.getWidth();
-                int labelHeight = noiseLabel.getHeight();
 
                 //draw noise
-                if (switcher.getCurrentState().equals(twoDimensionState)) {
+                if (comboBox.getCurrentState().equals(twoDimensionState)) {
                     g2d.setColor(Color.black);
 
                     for (int x = 0 ; x < resolution ; x++) {
@@ -335,13 +333,13 @@ public class PerlinWidget {
         nextIteration.setBounds(25 + 25 + 50 + 180 + 25, 630, 180, 40);
         perlinFrame.getContentPane().add(nextIteration);
 
-        ArrayList<SwitcherState> states = new ArrayList<>();
+        ArrayList<CyderComboBox.CyderComboItem> states = new ArrayList<>();
         states.add(twoDimensionState);
         states.add(threeDimensionState);
-        switcher = new CyderSwitcher(80, 40, states, twoDimensionState);
-        switcher.setBounds(25 + 25 + 50 + 180 + 25 + 180 + 25, 630, 80, 40);
-        perlinFrame.getContentPane().add(switcher);
-        switcher.getIterationButton().addActionListener(e -> {
+        comboBox = new CyderComboBox(80, 40, states, twoDimensionState);
+        comboBox.setBounds(25 + 25 + 50 + 180 + 25 + 180 + 25, 630, 80, 40);
+        perlinFrame.getContentPane().add(comboBox);
+        comboBox.getIterationButton().addActionListener(e -> {
             nextIteration();
 
             timeStep += 0.1;
@@ -356,7 +354,7 @@ public class PerlinWidget {
             noiseLabel.repaint();
         });
 
-        speedSlider = new JSlider(JSlider.HORIZONTAL, speedsliderMinValue, speedSliderMaxValue, speedSliderValue);
+        speedSlider = new JSlider(JSlider.HORIZONTAL, speedSliderMinValue, speedSliderMaxValue, speedSliderValue);
         CyderSliderUI UI = new CyderSliderUI(speedSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
         UI.setSliderShape(CyderSliderUI.SliderShape.RECT);
@@ -400,7 +398,7 @@ public class PerlinWidget {
             FEATURE_SIZE = (featureSlider.getValue() / 1000.0)
                     * (MAXIMUM_FEATURE_SIZE - MINIMUM_FEATURE_SIZE) + MINIMUM_FEATURE_SIZE;
 
-            if (switcher.getCurrentState().equals(threeDimensionState) && !timer.isRunning()) {
+            if (comboBox.getCurrentState().equals(threeDimensionState) && !timer.isRunning()) {
                 for (int y = 0 ; y < resolution ; y++) {
                     for (int x = 0 ; x < resolution ; x++) {
                         double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
@@ -423,7 +421,7 @@ public class PerlinWidget {
     }
 
     /**
-     * Generates new nosie based on the current random seed.
+     * Generates new noise based on the current random seed.
      */
     private static void generate() {
         if (closed)
@@ -440,7 +438,7 @@ public class PerlinWidget {
                 timer.start();
             }
         } else {
-            if (switcher.getCurrentState().equals(twoDimensionState)) {
+            if (comboBox.getCurrentState().equals(twoDimensionState)) {
                 if (timer.isRunning()) {
                     timer.stop();
                     unlockUI();
@@ -486,7 +484,7 @@ public class PerlinWidget {
         if (closed)
             return;
 
-        if (switcher.getCurrentState().equals(twoDimensionState)) {
+        if (comboBox.getCurrentState().equals(twoDimensionState)) {
             //serves no purpose during an animation
             if (timer != null && timer.isRunning())
                 return;
@@ -498,7 +496,24 @@ public class PerlinWidget {
 
             _2DNoise = generate2DNoise(instanceSeed[0], octaves);
         } else {
+            //serves no purpose during an animation
+            if (timer != null && timer.isRunning())
+                return;
 
+            timeStep += 0.1;
+
+            for (int y = 0 ; y < resolution ; y++) {
+                for (int x = 0 ; x < resolution ; x++) {
+                    // just to be safe
+                    if (closed)
+                        return;
+
+                    double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
+                    _3DNoise[x][y].setColor(generateGrayscaleColor(value));
+                    _3DNoise[x][y].setX(x);
+                    _3DNoise[x][y].setY(y);
+                }
+            }
         }
 
         //repaint
@@ -559,7 +574,7 @@ public class PerlinWidget {
         }
 
         //generate new noise based on random seed and update
-        if (switcher.getCurrentState().equals(twoDimensionState)) {
+        if (comboBox.getCurrentState().equals(twoDimensionState)) {
             _2DNoise = generate2DNoise(instanceSeed[0], octaves);
         } else {
             timeStep += 0.1;
@@ -598,7 +613,7 @@ public class PerlinWidget {
     private static void lockUI() {
         animateCheckBox.setEnabled(false);
         nextIteration.setEnabled(false);
-        switcher.setEnabled(false);
+        comboBox.setEnabled(false);
         featureSlider.setEnabled(false);
     }
 
@@ -608,17 +623,7 @@ public class PerlinWidget {
     private static void unlockUI() {
         animateCheckBox.setEnabled(true);
         nextIteration.setEnabled(true);
-        switcher.setEnabled(true);
+        comboBox.setEnabled(true);
         featureSlider.setEnabled(true);
-    }
-
-    /**
-     * Returns the color, grayscale, for the float value.
-     *
-     * @param val the value to determine the gray scale color for
-     * @return the gray scale color for the provided float
-     */
-    private static Color getColor(float val) {
-        return Color.decode(String.valueOf(0x010101 * (int) ((val + 1) * 127.5)));
     }
 }

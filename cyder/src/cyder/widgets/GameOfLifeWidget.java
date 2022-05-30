@@ -8,10 +8,9 @@ import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.builders.GetterBuilder;
-import cyder.common.CyderInspection;
-import cyder.common.SwitcherState;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
+import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -62,9 +61,9 @@ public class GameOfLifeWidget {
     private static CyderCheckbox drawGridLinesCheckbox;
 
     /**
-     * The switcher to cycle through the built-in presets.
+     * The combo box to cycle through the built-in presets.
      */
-    private static CyderSwitcher presetSwitcher;
+    private static CyderComboBox presetComboBox;
 
     /**
      * The slider to speed up/slow down the simulation.
@@ -159,7 +158,7 @@ public class GameOfLifeWidget {
     /**
      * The switcher states to cycle between the states loaded from static/json/conway.
      */
-    private static ArrayList<SwitcherState> switcherStates;
+    private static ArrayList<CyderComboBox.CyderComboItem> cyderComboItems;
 
     /**
      * Gson object used for converting to/from json files to save conway states.
@@ -249,12 +248,12 @@ public class GameOfLifeWidget {
 
         loadConwayStates();
 
-        presetSwitcher = new CyderSwitcher(160, 40, switcherStates, switcherStates.get(0));
-        presetSwitcher.getIterationButton().addActionListener(e -> {
-            SwitcherState nextState = presetSwitcher.getNextState();
+        presetComboBox = new CyderComboBox(160, 40, cyderComboItems, cyderComboItems.get(0));
+        presetComboBox.getIterationButton().addActionListener(e -> {
+            CyderComboBox.CyderComboItem nextState = presetComboBox.getNextState();
 
-            for (int i = 0 ; i < switcherStates.size() ; i++) {
-                if (switcherStates.get(i).equals(nextState)) {
+            for (int i = 0 ; i < cyderComboItems.size() ; i++) {
+                if (cyderComboItems.get(i).equals(nextState)) {
                     beforeStartingState = new LinkedList<>();
 
                     for (Point point : correspondingConwayStates.get(i).nodes()) {
@@ -270,9 +269,9 @@ public class GameOfLifeWidget {
 
             resetToPreviousState();
         });
-        presetSwitcher.setBounds(25 + 15,
+        presetComboBox.setBounds(25 + 15,
                 conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
-        conwayFrame.getContentPane().add(presetSwitcher);
+        conwayFrame.getContentPane().add(presetComboBox);
 
         CyderButton saveButton = new CyderButton("Save");
         saveButton.setBounds(25 + 15 + 160 + 20,
@@ -638,7 +637,7 @@ public class GameOfLifeWidget {
      * Loads the preset conway states from static/json/conway.
      */
     private static void loadConwayStates() {
-        switcherStates = new ArrayList<>();
+        cyderComboItems = new ArrayList<>();
         correspondingConwayStates = new ArrayList<>();
 
         File statesDir = new File(OSUtil.buildPath("static", "json", "conway"));
@@ -655,13 +654,13 @@ public class GameOfLifeWidget {
                             reader.close();
 
                             correspondingConwayStates.add(loadState);
-                            switcherStates.add(new SwitcherState(loadState.name()));
+                            cyderComboItems.add(new CyderComboBox.CyderComboItem(loadState.name()));
                         } catch (Exception ignored) {
                         }
                     }
                 }
             } else {
-                presetSwitcher.getIterationButton().setEnabled(false);
+                presetComboBox.getIterationButton().setEnabled(false);
             }
         }
     }

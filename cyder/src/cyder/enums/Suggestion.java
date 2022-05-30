@@ -1,4 +1,4 @@
-package cyder.common;
+package cyder.enums;
 
 public enum Suggestion {
     Pathfinder("pathfinder", "open an A* and Dijkstra's algorithm path finding visualizer"),

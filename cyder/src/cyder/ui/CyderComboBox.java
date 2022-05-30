@@ -1,7 +1,6 @@
 package cyder.ui;
 
 import com.google.common.base.Preconditions;
-import cyder.common.SwitcherState;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.Logger;
 
@@ -12,7 +11,7 @@ import java.util.function.Function;
 /**
  * A combo box which cycles through the possible values.
  */
-public class CyderSwitcher extends JLabel {
+public class CyderComboBox extends JLabel {
     /**
      * The field in which the current value is displayed in.
      */
@@ -26,12 +25,12 @@ public class CyderSwitcher extends JLabel {
     /**
      * The current switch state.
      */
-    private SwitcherState currentState;
+    private CyderComboItem currentState;
 
     /**
      * The list of valid states for this switcher.
      */
-    private final ArrayList<SwitcherState> states;
+    private final ArrayList<CyderComboItem> states;
 
     /**
      * The width of the whole switcher.
@@ -44,7 +43,7 @@ public class CyderSwitcher extends JLabel {
     private final int height;
 
     /**
-     * Constructs a new CyderSwitcher. Note, you will need to add an action listener
+     * Constructs a new CyderComboBox. Note, you will need to add an action listener
      * to the internal button if you wish to invoke actions whenever the
      * switch button is clicked. Use the getNextState() and getCurrentState() as needed.
      *
@@ -54,7 +53,7 @@ public class CyderSwitcher extends JLabel {
      * @param startingState the starting state
      */
     @SuppressWarnings("SuspiciousNameCombination") // incorrect
-    public CyderSwitcher(int width, int height, ArrayList<SwitcherState> states, SwitcherState startingState) {
+    public CyderComboBox(int width, int height, ArrayList<CyderComboItem> states, CyderComboItem startingState) {
         Preconditions.checkArgument(width > 0);
         Preconditions.checkArgument(height > 0);
         Preconditions.checkNotNull(states, "Provided states are null");
@@ -129,7 +128,7 @@ public class CyderSwitcher extends JLabel {
      *
      * @return the states of this switcher
      */
-    public ArrayList<SwitcherState> getStates() {
+    public ArrayList<CyderComboItem> getStates() {
         return states;
     }
 
@@ -138,7 +137,7 @@ public class CyderSwitcher extends JLabel {
      *
      * @return the current state of this switcher
      */
-    public SwitcherState getCurrentState() {
+    public CyderComboItem getCurrentState() {
         return currentState;
     }
 
@@ -147,7 +146,7 @@ public class CyderSwitcher extends JLabel {
      *
      * @return the state just after the current state
      */
-    public SwitcherState getNextState() {
+    public CyderComboItem getNextState() {
         int currentIndex = 0;
 
         for (int i = 0 ; i < states.size() ; i++) {
@@ -172,7 +171,7 @@ public class CyderSwitcher extends JLabel {
      *
      * @param currentState the current state of this switcher
      */
-    public void setCurrentState(SwitcherState currentState) {
+    public void setCurrentState(CyderComboItem currentState) {
         this.currentState = currentState;
         valueDisplayField.setText(currentState.displayValue());
     }
@@ -193,5 +192,35 @@ public class CyderSwitcher extends JLabel {
     public void setEnabled(boolean enabled) {
         valueDisplayField.setEnabled(enabled);
         iterationButton.setEnabled(enabled);
+    }
+
+    /**
+     * An enum used to map a preview value to the actual value to switch on.
+     */
+    public static record CyderComboItem(String displayValue, String mappedValue) {
+        /**
+         * Constructs a new switch state
+         *
+         * @param value the display value and underlying map value of the state
+         */
+        public CyderComboItem(String value) {
+            this(value, value);
+        }
+
+        /**
+         * Constructs a new switch state
+         *
+         * @param displayValue the display value of the state
+         * @param mappedValue  the underlying value of the state
+         */
+        public CyderComboItem(String displayValue, String mappedValue) {
+            Preconditions.checkNotNull(displayValue);
+            Preconditions.checkNotNull(mappedValue);
+
+            this.displayValue = displayValue;
+            this.mappedValue = mappedValue;
+
+            Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        }
     }
 }

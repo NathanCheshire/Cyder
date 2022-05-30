@@ -4,16 +4,15 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.builders.InformBuilder;
-import cyder.common.SwitcherState;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
+import cyder.ui.CyderComboBox;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderPasswordField;
-import cyder.ui.CyderSwitcher;
 import cyder.utilities.OSUtil;
 import cyder.utilities.SecurityUtil;
 
@@ -37,9 +36,9 @@ public class HashingWidget {
     private CyderPasswordField hashField;
 
     /**
-     * The hash algorithm switcher.
+     * The hash algorithm combo box.
      */
-    private CyderSwitcher switcher;
+    private CyderComboBox comboBox;
 
     /**
      * Constructs and returns a new hashing widget.
@@ -88,16 +87,16 @@ public class HashingWidget {
         hashButton.setBounds(50, 140, 180, 40);
         hashFrame.getContentPane().add(hashButton);
 
-        ArrayList<SwitcherState> states = new ArrayList<>();
-        states.add(new SwitcherState("SHA-256", "SHA256 Algorithm"));
-        states.add(new SwitcherState("SHA-1", "SHA-1 Algorithm"));
-        states.add(new SwitcherState("MD5", "MD5 Algorithm (Not secure)"));
+        ArrayList<CyderComboBox.CyderComboItem> states = new ArrayList<>();
+        states.add(new CyderComboBox.CyderComboItem("SHA-256", "SHA256 Algorithm"));
+        states.add(new CyderComboBox.CyderComboItem("SHA-1", "SHA-1 Algorithm"));
+        states.add(new CyderComboBox.CyderComboItem("MD5", "MD5 Algorithm (Not secure)"));
 
-        SwitcherState startingState = states.get(0);
+        CyderComboBox.CyderComboItem startingState = states.get(0);
 
-        switcher = new CyderSwitcher(210, 40, states, startingState);
-        switcher.setBounds(240, 140, 210, 40);
-        hashFrame.getContentPane().add(switcher);
+        comboBox = new CyderComboBox(210, 40, states, startingState);
+        comboBox.setBounds(240, 140, 210, 40);
+        hashFrame.getContentPane().add(comboBox);
 
         hashFrame.finalizeAndShow();
     }
@@ -110,7 +109,7 @@ public class HashingWidget {
             String inform;
             String algorithm;
 
-            algorithm = switcher.getCurrentState().displayValue();
+            algorithm = comboBox.getCurrentState().displayValue();
 
             if (algorithm.equals("SHA-256")) {
                 hashResult = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));

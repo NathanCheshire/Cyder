@@ -1,0 +1,151 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[22-04-38] [ENTRY]: Nathan
+[22-04-37] [PROP LOADED]: [key = map_quest_api_key]
+[22-04-37] [PROP LOADED]: [key = youtube_api_3_key]
+[22-04-37] [PROP LOADED]: [key = ip_key]
+[22-04-37] [PROP LOADED]: [key = weather_key]
+[22-04-37] [PROP LOADED]: [key = debug_hash_name]
+[22-04-37] [PROP LOADED]: [key = debug_hash_password]
+[22-04-37] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[22-04-37] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[22-04-37] [PROP LOADED]: [key = font_metric, value = 1]
+[22-04-37] [PROP LOADED]: [key = released, value = false]
+[22-04-37] [PROP LOADED]: [key = fast_test, value = false]
+[22-04-37] [PROP LOADED]: [key = version, value = Liminal]
+[22-04-37] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[22-04-37] [PROP LOADED]: [key = components_relocatable, value = false]
+[22-04-37] [PROP LOADED]: [key = testing_mode, value = true]
+[22-04-37] [PROP LOADED]: [key = autocypher, value = true]
+[22-04-37] [PROP LOADED]: [key = dispose_splash, value = true]
+[22-04-37] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[22-04-37] [PROP LOADED]: [key = activate_watchdog, value = false]
+[22-04-37] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[22-04-37] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[22-04-37] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[22-04-37] [PROP LOADED]: [key = ui_scale, value = 1.0]
+[22-04-38] [THREAD STARTED]: Object Creation Logger
+[22-04-38] [DEBUG]: Watchdog skipped
+[22-04-38] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-04-39] [FONT LOADED]: agency-fb
+[22-04-39] [FONT LOADED]: arial-black
+[22-04-39] [FONT LOADED]: beyno
+[22-04-39] [FONT LOADED]: condiment-regular
+[22-04-39] [FONT LOADED]: prompt-bold
+[22-04-39] [FONT LOADED]: segoe-ui-black
+[22-04-39] [FONT LOADED]: tahoma
+[22-04-39] [THREAD STARTED]: Splash Loader
+[22-04-39] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-04-39] [THREAD STARTED]: Splash Animation
+[22-04-40] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[22-04-40] [THREAD STARTED]: Secondary Subroutines Runner
+[22-04-40] [LOGIN]: AUTOCYPHER ATTEMPT
+[22-04-40] [THREAD STARTED]: JVM Args Logger
+[22-04-41] [OBJECT CREATION]: Objects created since last delta (5000ms): 61
+[22-04-41] [DEBUG]: Cyder Entry = AutoCypher
+[22-04-42] [THREAD STARTED]: Console Printing Animation
+[22-04-42] [THREAD STARTED]: Hourly Chime Checker
+[22-04-42] [THREAD STARTED]: Console Clock Updater
+[22-04-42] [THREAD STARTED]: Cyder Busy Checker
+[22-04-42] [THREAD STARTED]: ConsoleFrame Stat Saver
+[22-04-42] [THREAD STARTED]: High Ping Checker
+[22-04-42] [THREAD STARTED]: Splash Loading Label Updater
+[22-04-42] [THREAD STARTED]: Harmonic Rectangle Animator
+[22-04-42] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[22-04-42] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 1877874279, bounds = (980,
+           396, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[22-04-42] [CONSOLE OUT]: [STRING]: Console loaded in 4900ms
+[22-04-42] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[22-04-42] [THREAD STARTED]: Manual Tests Thread
+[22-04-43] [DEBUG]: Attempted to log a new or empty line
+[22-04-45] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 8] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[22-04-45] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1653855735642.json
+[22-04-45] [CLIENT]: perlin
+[22-04-45] [CONSOLE OUT]: [STRING]: Opening widget: PerlinWidget
+[22-04-46] [THREAD STARTED]: [Noise] finalizeAndShow()
+[22-04-46] [WIDGET]: PerlinWidget, trigger = perlin
+[22-04-46] [OBJECT CREATION]: Objects created since last delta (5000ms): 360072
+[22-04-46] [DEBUG]: Attempted to log a new or empty line
+[22-04-49] [UI]: Component = CyderButton, hash = 1018514100, bounds = (100, 630, 180, 40), parent frame = Noise,
+           getText() = Generate
+[22-04-50] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-04-50] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-04-50] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-04-50] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-04-50] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-04-51] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-04-51] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-04-51] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-04-51] [UI]: Component = CyderCheckbox, hash = 938963359, bounds = (25, 630, 50, 50), parent frame = Noise
+[22-04-54] [UI]: Component = CyderButton, hash = 1018514100, bounds = (100, 630, 180, 40), parent frame = Noise, getText() = Stop
+[22-05-03] [UI]: Component = CyderButton, hash = 1018514100, bounds = (100, 630, 180, 40), parent frame = Noise,
+           getText() = Generate
+[22-05-07] [UI]: Component = CyderButton, hash = 1749397594, bounds = (40, 0, 40, 40), parent frame = Noise, getText() = ▼
+[22-05-08] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[22-05-11] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-05-11] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-05-11] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-05-11] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-05-11] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-05-12] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-05-12] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-05-12] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-05-12] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-05-12] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-05-12] [UI]: Component = CyderButton, hash = 239304984, bounds = (305, 630, 180, 40), parent frame = Noise,
+           getText() = Next Iteration
+[22-05-13] [UI]: Component = CyderButton, hash = 1018514100, bounds = (100, 630, 180, 40), parent frame = Noise, getText() = Stop
+[22-05-13] [UI]: Component = CyderButton, hash = 1018514100, bounds = (100, 630, 180, 40), parent frame = Noise,
+           getText() = Generate
+[22-05-13] [UI]: Component = CyderButton, hash = 1018514100, bounds = (100, 630, 180, 40), parent frame = Noise, getText() = Stop
+[22-05-13] [UI]: Component = CyderButton, hash = 1018514100, bounds = (100, 630, 180, 40), parent frame = Noise,
+           getText() = Generate
+[22-05-14] [UI]: Component = CyderButton, hash = 1018514100, bounds = (100, 630, 180, 40), parent frame = Noise, getText() = Stop
+[22-05-25] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[22-05-25] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 1413730361, bounds
+           = (469, 362, 781, 767), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[22-05-26] [EXIT]: [RUNTIME] 48s
+[22-05-26] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown

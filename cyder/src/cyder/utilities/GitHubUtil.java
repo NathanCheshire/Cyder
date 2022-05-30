@@ -146,7 +146,7 @@ public class GitHubUtil {
         Preconditions.checkArgument(!url.isEmpty(), "Url is empty");
 
         // first test if it will even work as a url
-        if (!NetworkUtil.isURL(url))
+        if (!NetworkUtil.isValidUrl(url))
             return false;
 
         // make sure it ends with .git
@@ -231,7 +231,7 @@ public class GitHubUtil {
                 return Optional.of(Boolean.FALSE);
             }
 
-            ConsoleFrame.INSTANCE.getInputHandler().println("Cloning: \"" + NetworkUtil.getURLTitle(githubRepo)
+            ConsoleFrame.INSTANCE.getInputHandler().println("Cloning: \"" + NetworkUtil.getUrlTitle(githubRepo)
                     + "\" to \"" + saveDir.getName() + OSUtil.FILE_SEP + "\"");
 
             try {
