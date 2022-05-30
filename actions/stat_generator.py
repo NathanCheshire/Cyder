@@ -32,19 +32,19 @@ def export_stats(code_lines, comment_lines, blank_lines, width: str = 400, heigh
     image = cv2.rectangle(outlined_image, (border_thickness, border_thickness),
                           (width - border_thickness, code_height - border_thickness), code_color, -1)
 
-    comment_color = (243, 244, 255)
+    comment_color = (75, 71, 60)
     comment_height = int(height * (blank_percent / 100.0))
     image = cv2.rectangle(image, (border_thickness, code_height - border_thickness),
                           (width - border_thickness, code_height + comment_height), comment_color, -1)
 
-    blank_color = (119, 98, 42)
+    blank_color = (33, 37, 22)
     blank_height = int(height * (comment_percent / 100.0))
     image = cv2.rectangle(image, (border_thickness, code_height + comment_height - border_thickness),
                           (width - border_thickness, height), blank_color, -1)
 
     img_pil = Image.fromarray(image)
     draw = ImageDraw.Draw(img_pil)
-    code_string = "Code: " + str(code_percent) + \
+    code_string = "Java: " + str(code_percent) + \
         "% (" + get_compressed_number(code_lines) + ')'
     w, h = draw.textsize(code_string, font=export_font)
     code_area_center = (width / 2 - w / 2,
@@ -59,7 +59,7 @@ def export_stats(code_lines, comment_lines, blank_lines, width: str = 400, heigh
     blank_area_center = (width / 2 - w / 2,
                          border_thickness + code_height + comment_height / 2 - h / 2)
     draw.text(blank_area_center,  blank_string,
-              font=export_font, fill=(25, 25, 25))
+              font=export_font, fill=(245, 245, 245))
 
     draw = ImageDraw.Draw(img_pil)
     comment_string = "Comment lines: " + str(blank_percent) + \
@@ -79,7 +79,7 @@ def get_compressed_number(num: int) -> str:
     return str(round(num / 1000.0, 1)) + 'K'
 
 
-def export_code_comment_ratio_badge(alpha_string, beta_string, save_name):
+def export_string_badge(alpha_string, beta_string, save_name):
     primary = (131, 83, 5)
     secondary = (199, 147, 85)
 
@@ -232,13 +232,10 @@ if __name__ == '__main__':
         comment_lines = comment_lines + tuple[1]
         blank_lines = blank_lines + tuple[2]
 
-    ratio = code_lines / float(comment_lines)
-    last_updated = "2022-05-30 14:39"
-
     export_stats(code_lines=code_lines, comment_lines=comment_lines,
                  blank_lines=blank_lines, save_name="stats")
 
-    export_code_comment_ratio_badge(
-        "Code comment ratio", "{:.2f}".format(ratio), "code_comment")
-    export_code_comment_ratio_badge(
-        "Last updated", last_updated, "last_updated")
+    export_string_badge(
+        "Cyder", "A Programmer's Swiss Army Knife", "tagline")
+    export_string_badge(
+        "By", "Nate Cheshire", "author")
