@@ -1,3 +1,5 @@
+import os
+import re
 from typing import Tuple
 import cv2
 import numpy as np
@@ -119,14 +121,124 @@ def get_text_size(text: str, font_size: int, font_name: str) -> Tuple:
     return font.getsize(text)
 
 
+def find_files(starting_dir, extensions=[], recursive=False):
+    '''
+    Finds all files within the provided directory that 
+    end in one of the provided extensions.
+    '''
+
+    ret = []
+
+    if len(extensions) == 0:
+        raise Exception('Error: must provide valid extensions')
+
+    if os.path.isdir(starting_dir):
+        for subDir in os.listdir(starting_dir):
+            if recursive:
+                ret = ret + \
+                    find_files(os.path.join(starting_dir, subDir),
+                               extensions, recursive)
+            else:
+                ret.append(os.path.join(starting_dir, subDir))
+    else:
+        for extension in extensions:
+            if starting_dir.endswith(extension):
+                ret.append(starting_dir)
+
+    return ret
+
+
+def analyze_file(file):
+    """
+    Returns a tuple of the number of code lines, 
+    comments lines, and blank lines in that order
+    """
+
+    # don't change me
+    blockMode = False
+
+    num_comments = 0
+    num_code_lines = 0
+    num_blank_lines = 0
+
+    if not os.path.exists(file):
+        print('Error: provided file does not exist: ', file)
+        return
+
+    file_lines = open(file, 'r').readlines()
+
+    if file.endswith('.java') or file.endswith('.kt'):
+        num_code_lines = count_code_lines(file_lines)
+        num_comments = count_comment_lines(file_lines)
+        num_blank_lines = len(file_lines) - num_code_lines - num_comments
+
+    else:
+        raise Exception(
+            'Found file that does not end in .java or .kt: ' + file)
+
+    return (num_code_lines, num_comments, num_blank_lines)
+
+
+def count_code_lines(file_lines):
+    ret = 0
+
+    for line in file_lines:
+        line = line.strip()
+
+        if len(line) > 0 and not is_comment(line):
+            ret = ret + 1
+
+    return ret
+
+
+def count_comment_lines(file_lines):
+    ret = 0
+    block_comment = False
+
+    for line in file_lines:
+        if line.strip().startswith('/*') and line.strip().endswith('*/'):
+            ret = ret + 1
+            continue
+
+        if line.strip().startswith("/*"):
+            block_comment = True
+        elif line.strip().endswith("*/"):
+            block_comment = False
+
+        if block_comment:
+            ret = ret + 1
+        elif len(line.strip()) > 0 and is_comment(line):
+            ret = ret + 1
+
+    return ret
+
+
+def is_comment(line) -> bool:
+    return re.compile("\s*[/]{2}.*|\s*[/][*].*|\s*[*].*|\s*.*[*][/]\s*").match(line)
+
+
 if __name__ == '__main__':
-    code_lines = 35346
-    comment_lines = 8926
-    blank_lines = 11024
-    ratio = 2.50
+    files = find_files(starting_dir="../cyder",
+                       extensions=['.java'], recursive=True)
+
+    code_lines = 0
+    comment_lines = 0
+    blank_lines = 0
+
+    for file in files:
+        tuple = analyze_file(file)
+
+        code_lines = code_lines + tuple[0]
+        comment_lines = comment_lines + tuple[1]
+        blank_lines = blank_lines + tuple[2]
+
+    ratio = code_lines / float(comment_lines)
     last_updated = "2022-05-30 14:39"
 
-    export_stats(code_lines=code_lines,comment_lines=comment_lines,blank_lines=blank_lines,save_name="stats")
+    export_stats(code_lines=code_lines, comment_lines=comment_lines,
+                 blank_lines=blank_lines, save_name="stats")
 
-    export_code_comment_ratio_badge("Code comment ratio", "{:.2f}".format(ratio), "code_comment")
-    export_code_comment_ratio_badge("Last updated", last_updated, "last_updated")
+    export_code_comment_ratio_badge(
+        "Code comment ratio", "{:.2f}".format(ratio), "code_comment")
+    export_code_comment_ratio_badge(
+        "Last updated", last_updated, "last_updated")
