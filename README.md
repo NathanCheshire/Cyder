@@ -1,3 +1,6 @@
+
+<img src="https://user-images.githubusercontent.com/60986919/171057466-8197f0c7-f908-4cb0-8978-deab86a79eac.png" alt="Logo" width="150">
+
 ![](./static/svgs/Primary.svg)
 
 ![](./static/svgs/Secondary.svg)
