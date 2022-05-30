@@ -1,14 +1,16 @@
-[](./static/svgs/Primary.svg)
 
-[](./static/svgs/Secondary.svg)
+<img src="https://user-images.githubusercontent.com/60986919/171057466-8197f0c7-f908-4cb0-8978-deab86a79eac.png" alt="Logo" width="150">
+
+![](./static/svgs/Primary.svg)
+
+![](./static/svgs/Secondary.svg)
 
 ## What is Cyder
 
 Funny you should ask this question, I'm asked it quite a lot and usually fail to give a comprehensive and elegant
 answer. The best I can do is something along the lines of "Cyder is a multi-purpose, desktop manager, GUI tool." It is
 written using a custom Java UI library which was built on top of lightweight Swing components. No modern GUI
-dependencies such as Material or FXML were used and all Cyder components are closely related
-to [java/awt/Component.java](https://developer.classpath.org/doc/java/awt/Component-source.html).
+dependencies such as Material or FXML were used and all Cyder components are closely related to [java/awt/Component.java](https://developer.classpath.org/doc/java/awt/Component-source.html).
 
 Some examples of what you can do with Cyder include:
 
@@ -53,6 +55,11 @@ Some examples of what you can do with Cyder include:
 </details>
 
 <details>
+<summary><b>Code Statistics</b></summary>
+<img src="https://user-images.githubusercontent.com/60986919/170853161-843ad135-33bd-462f-9352-d611195b9e65.png" alt="Code Statistics" width="300">
+<br>
+</details>
+<details>
 <summary><b>Pathfinding Visualizer</b></summary>
 <br>
 https://user-images.githubusercontent.com/60986919/161394292-cb7bf459-d405-4efc-8ea1-33a127036a69.mp4
@@ -81,7 +88,7 @@ passwords, and other sensitive data. This file should NOT be tracked via your VC
 don't use the name propkeys.ini). Within this file, add two props: `debug_hash_name` with the value of your username
 and `debug_hash_password` with the value of your password hashed once using SHA256 (hint: you can hash your password
 inside of Cyder using the hashing widget). Follow the ini key-value format or copy from `props.ini` when creating your
-own props file. You may name your props file whatever you wish, just make sure you tell Cyder to load it by ensuring the
-filename starts with `prop` and is an `ini` file. One last thing, make sure that you annotate these key props and any
-other props whose values you do not want appearing in the log files with `@no_log`. This will prevent the logger from
-writing the value to the log file when props are loaded at runtime.
+own props file. You may name your props file whatever you wish, just make sure you tell Cyder to load it
+by ensuring the filename starts with `prop` and is an `ini` file. One last thing, make sure that you annotate these key props and any other props
+whose values you do not want appearing in the log files with `@no_log`. This will prevent the logger from writing the
+value to the log file when props are loaded at runtime.
