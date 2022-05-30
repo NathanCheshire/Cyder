@@ -5,11 +5,9 @@ import cv2
 import numpy as np
 from PIL import ImageFont, Image, ImageDraw
 
-global roboto_bold_font
-roboto_bold_font = ImageFont.truetype("roboto-bold.ttf", 34)
 
-
-def export_stats(code_lines, comment_lines, blank_lines, width: str = 400, height: str = 400, save_name: str = "CyderStats"):
+def export_stats(code_lines, comment_lines, blank_lines, width: str = 250,
+                 height: str = 250, save_name: str = "CyderStats"):
     total = code_lines + comment_lines + blank_lines
 
     comment_percent = round(comment_lines / float(total) * 100.0, 1)
@@ -19,7 +17,7 @@ def export_stats(code_lines, comment_lines, blank_lines, width: str = 400, heigh
     # for a border if needed
     border_thickness = 0
 
-    export_font = ImageFont.truetype("roboto-bold.ttf", 28)
+    export_font = ImageFont.truetype("roboto-bold.ttf", 16)
 
     blank_image = np.zeros((width, height, 3), np.uint8)
     black_image = cv2.rectangle(
@@ -83,8 +81,10 @@ def export_string_badge(alpha_string, beta_string, save_name):
     primary = (131, 83, 5)
     secondary = (199, 147, 85)
 
-    padding = 40
-    font_size = 28
+    padding = 20
+    font_size = 22
+
+    local_font = ImageFont.truetype("roboto-bold.ttf", 22)
 
     alpha_width = get_text_size(alpha_string, font_size, "roboto_bold.ttf")[0]
     beta_width = get_text_size(beta_string, font_size, "roboto_bold.ttf")[0]
@@ -105,11 +105,11 @@ def export_string_badge(alpha_string, beta_string, save_name):
 
     draw = ImageDraw.Draw(base_colors_done)
     draw.text((padding - text_height / 2, padding),  alpha_string,
-              font=roboto_bold_font, fill=text_color)
+              font=local_font, fill=text_color)
 
     draw = ImageDraw.Draw(base_colors_done)
     draw.text((padding * 2 + alpha_width, full_height / 2 - text_height / 2),  beta_string,
-              font=roboto_bold_font, fill=text_color)
+              font=local_font, fill=text_color)
 
     cv2.imwrite(save_name + '.png', np.array(base_colors_done))
 
