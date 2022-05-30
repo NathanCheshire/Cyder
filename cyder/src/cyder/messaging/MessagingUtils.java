@@ -385,7 +385,7 @@ public class MessagingUtils {
                 JLabel containerLabel = new JLabel(StringUtil.generateTextForCustomComponent(6)) {
                     @Override
                     protected void paintComponent(Graphics g) {
-                        g.setColor(CyderColors.nullus);
+                        g.setColor(CyderColors.zero);
                         g.fillRect(0, 0, containerWidth, containerHeight);
                         super.paintComponent(g);
                     }

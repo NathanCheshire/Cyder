@@ -7,7 +7,7 @@ import cyder.utilities.UserUtil;
 import java.awt.*;
 
 /**
- * Common colors used throughout Cyder
+ * Common colors used throughout Cyder.
  */
 @SuppressWarnings("unused")
 public class CyderColors {
@@ -58,8 +58,6 @@ public class CyderColors {
      */
     public static final Color tooltipBackgroundColor = new Color(0, 0, 0);
 
-    //begin color mode text vars
-
     /**
      * The default text color to use for text when dark mode is active
      */
@@ -73,7 +71,7 @@ public class CyderColors {
     /**
      * An empty color
      */
-    public static final Color nullus = new Color(0, 0, 0, 0);
+    public static final Color zero = new Color(0, 0, 0, 0);
 
     /**
      * A default navy color that is used extensively throughout Cyder
@@ -114,8 +112,6 @@ public class CyderColors {
      * The default button color
      */
     public static Color buttonColor = new Color(223, 85, 83);
-
-    //begin taskbar colors
 
     /**
      * The default taskbar border color for components that are always present in the taskbar

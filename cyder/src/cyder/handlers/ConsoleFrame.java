@@ -609,7 +609,7 @@ public enum ConsoleFrame {
         outputArea.setFocusable(true);
         outputArea.setSelectionColor(CyderColors.selectionColor);
         outputArea.setOpaque(false);
-        outputArea.setBackground(CyderColors.nullus);
+        outputArea.setBackground(CyderColors.zero);
         outputArea.setForeground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
         outputArea.setFont(INSTANCE.generateUserFont());
 
