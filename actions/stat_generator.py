@@ -227,7 +227,8 @@ if __name__ == '__main__':
     for file in files:
         print("Neighboring file:", file)
 
-    print("Can find font file at actions/roboto-bold.ttf:", os.path.exists('actions/roboto-bold.ttf'))
+    print("Can find font file at actions/roboto-bold.ttf:", 
+    os.path.exists(os.path.join('actions',"Roboto-Bold.ttf")))
 
     files = find_files(starting_dir="cyder",
                        extensions=['.java'], recursive=True)
