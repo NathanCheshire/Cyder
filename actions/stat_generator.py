@@ -17,7 +17,7 @@ def export_stats(code_lines, comment_lines, blank_lines, width: str = 250,
     # for a border if needed
     border_thickness = 0
 
-    export_font = ImageFont.truetype(os.path.join('actions',"roboto.ttf"), 16)
+    export_font = ImageFont.truetype(os.path.join('actions', "roboto.ttf"), 16)
 
     blank_image = np.zeros((width, height, 3), np.uint8)
     black_image = cv2.rectangle(
@@ -68,7 +68,7 @@ def export_stats(code_lines, comment_lines, blank_lines, width: str = 250,
     draw.text(comment_area_center,  comment_string,
               font=export_font, fill=(245, 245, 245))
 
-    cv2.imwrite(str(save_name) + '.png', np.array(img_pil))
+    cv2.imwrite('actions/' + str(save_name) + '.png', np.array(img_pil))
 
 
 def get_compressed_number(num: int) -> str:
@@ -84,11 +84,15 @@ def export_string_badge(alpha_string, beta_string, save_name):
     padding = 15
     font_size = 18
 
-    local_font = ImageFont.truetype(os.path.join('actions',"roboto.ttf"), font_size)
+    local_font = ImageFont.truetype(
+        os.path.join('actions', "roboto.ttf"), font_size)
 
-    alpha_width = get_text_size(alpha_string, font_size, os.path.join('actions',"roboto.ttf"))[0]
-    beta_width = get_text_size(beta_string, font_size, os.path.join('actions',"roboto.ttf"))[0]
-    text_height = get_text_size(beta_string, font_size, os.path.join('actions',"roboto.ttf"))[1]
+    alpha_width = get_text_size(
+        alpha_string, font_size, os.path.join('actions', "roboto.ttf"))[0]
+    beta_width = get_text_size(
+        beta_string, font_size, os.path.join('actions', "roboto.ttf"))[0]
+    text_height = get_text_size(
+        beta_string, font_size, os.path.join('actions', "roboto.ttf"))[1]
 
     full_width = padding + alpha_width + padding + padding + beta_width + padding
     full_height = padding + text_height + padding
@@ -113,7 +117,7 @@ def export_string_badge(alpha_string, beta_string, save_name):
     draw.text(start,  beta_string,
               font=local_font, fill=text_color)
 
-    cv2.imwrite(save_name + '.png', np.array(base_colors_done))
+    cv2.imwrite('actions/' + save_name + '.png', np.array(base_colors_done))
 
 
 def get_text_size(text: str, font_size: int, font_name: str) -> Tuple:
@@ -220,15 +224,15 @@ def is_comment(line) -> bool:
 
 
 if __name__ == '__main__':
-    print("Finding files from directory:",os.getcwd())
+    print("Finding files from directory:", os.getcwd())
 
     files = os.listdir(os.getcwd())
 
     for file in files:
         print("Neighboring file:", file)
 
-    print("Can find font file at actions/roboto.ttf:", 
-    os.path.exists(os.path.join('actions',"roboto.ttf")))
+    print("Can find font file at actions/roboto.ttf:",
+          os.path.exists(os.path.join('actions', "roboto.ttf")))
 
     files = find_files(starting_dir="cyder",
                        extensions=['.java'], recursive=True)
