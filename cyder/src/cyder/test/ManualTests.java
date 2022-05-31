@@ -47,9 +47,13 @@ public class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                // AudioPlayer.showGui();
-                ConsoleFrame.INSTANCE.titleNotify("<html>Greetings " + UserUtil.getCyderUser().getName()
+                ConsoleFrame.INSTANCE.titleNotify("<html>Greetings "
+                                + UserUtil.getCyderUser().getName()
                                 + "<br/>Welcome to Cyder</html>",
+                        CyderFonts.defaultFont.deriveFont(80f), 5000);
+
+                ConsoleFrame.INSTANCE.titleNotify("Some random other test to see how long " +
+                                "I can go on for before getting broken like a pleb",
                         CyderFonts.defaultFont.deriveFont(80f), 5000);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

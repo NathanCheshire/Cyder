@@ -1,9 +1,6 @@
 name: Cyder Statistics
 
 on:
-  push:
-    branches:
-    - main
   schedule: [{cron: "0 0 * * *"}]
 jobs:
   generate_images:
@@ -11,20 +8,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup dependencies
+      - name: Install dependencies
         run: pip install -r actions/requirements.txt
 
-      - name: run script
+      - name: Run statistic generator
         run: |
           python ./actions/stat_generator.py
-      
-      - name: commit generated files
+
+      - name: Commit generated files
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
           git add .
-          git commit -m "update statistics"
-          
-      - name: push changes
+          git commit -m "update README statistics"
+
+      - name: Push changes
         run: |
           git push -u origin main

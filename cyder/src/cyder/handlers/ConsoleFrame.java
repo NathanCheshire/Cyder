@@ -42,6 +42,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 
 /**
  * Singleton of components that represent the GUI way a user
@@ -3204,8 +3205,17 @@ public enum ConsoleFrame {
         return ((JLabel) (consoleCyderFrame.getContentPane()));
     }
 
-    // todo need an atomic boolean to block this while under way
     // todo need a way to rescale on resize events
+
+    /**
+     * The x,y padding value for title notifications.
+     */
+    private static final int padding = 20;
+
+    /**
+     * An semaphore to ensure only one title notification is ever visible
+     */
+    private static final Semaphore titleNotifySemaphore = new Semaphore(1);
 
     /**
      * Paints a label with the provided possibly html-formatted string over the
@@ -3217,48 +3227,51 @@ public enum ConsoleFrame {
      */
     public void titleNotify(String htmlString, Font labelFont, int visibleDuration) {
         Preconditions.checkNotNull(htmlString);
-        Preconditions.checkArgument(visibleDuration > 500, "A user probably won't see"
-                + " a message with that short of a duration");
-
-        BufferedImage bi = getCurrentBackground().generateBufferedImage();
-        CyderLabel textLabel = new CyderLabel(htmlString);
-
-        textLabel.setFont(labelFont);
-        textLabel.setOpaque(true);
-        textLabel.setBackground(ColorUtil.getDominantGrayscaleColor(bi));
-        textLabel.setForeground(ColorUtil.getTextColor(bi));
-
-        BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(htmlString,
-                textLabel.getFont(), consoleCyderFrame.getWidth());
-
-        int containerWidth = boundsString.width();
-        int containerHeight = boundsString.height();
-
-        int padding = 20;
-
-        if (containerHeight + 2 * padding > consoleCyderFrame.getHeight()
-                || containerWidth + 2 * padding > consoleCyderFrame.getWidth()) {
-            consoleCyderFrame.inform(htmlString, "");
-        }
-
-        Point center = consoleCyderFrame.getCenterPointOnFrame();
-
-        textLabel.setBounds(
-                (int) (center.getX() - padding - containerWidth / 2),
-                (int) (center.getY() - padding - containerHeight / 2),
-                containerWidth, containerHeight);
-        consoleCyderFrame.getContentPane().add(textLabel, JLayeredPane.POPUP_LAYER);
+        Preconditions.checkArgument(visibleDuration > 500,
+                "A user probably won't see a message with that short of a duration");
 
         CyderThreadRunner.submit(() -> {
             try {
+                titleNotifySemaphore.acquire();
+
+                BufferedImage bi = getCurrentBackground().generateBufferedImage();
+                CyderLabel textLabel = new CyderLabel(htmlString);
+
+                textLabel.setFont(labelFont);
+                textLabel.setOpaque(true);
+                textLabel.setBackground(ColorUtil.getDominantGrayscaleColor(bi));
+                textLabel.setForeground(ColorUtil.getTextColor(bi));
+
+                BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(htmlString,
+                        labelFont, consoleCyderFrame.getWidth());
+
+                int containerWidth = boundsString.width();
+                int containerHeight = boundsString.height();
+
+                if (containerHeight + 2 * padding > consoleCyderFrame.getHeight()
+                        || containerWidth + 2 * padding > consoleCyderFrame.getWidth()) {
+                    consoleCyderFrame.inform(htmlString, "Console Notification");
+                    return;
+                }
+
+                Point center = consoleCyderFrame.getCenterPointOnFrame();
+
+                textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.text()));
+                textLabel.setBounds(
+                        (int) (center.getX() - padding - containerWidth / 2),
+                        (int) (center.getY() - padding - containerHeight / 2),
+                        containerWidth, containerHeight);
+                consoleCyderFrame.getContentPane().add(textLabel, JLayeredPane.POPUP_LAYER);
+                consoleCyderFrame.repaint();
+
                 Thread.sleep(visibleDuration);
                 textLabel.setVisible(false);
                 consoleCyderFrame.remove(textLabel);
+
+                titleNotifySemaphore.release();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "ConsoleFrame Title Notify Waiter");
-
-        textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.text()));
+        }, "ConsoleFrame Title Notify: " + htmlString);
     }
 }
