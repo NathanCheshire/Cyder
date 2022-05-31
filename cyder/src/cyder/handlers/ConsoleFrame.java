@@ -1353,7 +1353,7 @@ public enum ConsoleFrame {
                 if (compactMode) {
                     printingUtil.printlnComponent(currentFrame.getCompactTaskbarButton());
                 } else {
-                    if (currentFrame.isUseCustomTaskbarIcon()) {
+                    if (currentFrame.shouldUseCustomTaskbarIcon()) {
                         printingUtil.printlnComponent(currentFrame.getCustomTaskbarIcon());
                     } else {
                         printingUtil.printlnComponent(currentFrame.getTaskbarButton());
@@ -1390,7 +1390,7 @@ public enum ConsoleFrame {
                             }));
                 } else {
                     printingUtil.printlnComponent(
-                            CyderFrame.generateDefaultTaskbarComponent(exe.getName(), () -> {
+                            CyderFrame.generateTaskbarComponent(exe.getName(), () -> {
                                 IOUtil.openOutsideProgram(exe.getFilepath());
                                 consoleCyderFrame.notify("Opening: " + exe.getName());
                             }, CyderColors.vanilla));

@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.builders.GetterBuilder;
 import cyder.builders.InformBuilder;
@@ -2513,18 +2514,11 @@ public class CyderFrame extends JFrame {
     /**
      * The possible border colors to use for the taskbar icon
      */
-    public static final ArrayList<Color> TASKBAR_BORDER_COLORS = new ArrayList<>() {
-        @Override
-        public ArrayList<Color> clone() throws AssertionError {
-            throw new AssertionError();
-        }
-
-        {
-            add(new Color(22, 124, 237));
-            add(new Color(254, 49, 93));
-            add(new Color(249, 122, 18));
-        }
-    };
+    public static final ImmutableList<Color> TASKBAR_BORDER_COLORS = ImmutableList.of(
+            new Color(22, 124, 237),
+            new Color(254, 49, 93),
+            new Color(249, 122, 18)
+    );
 
     /**
      * The index which determines which color to choose for the border color.
@@ -2551,7 +2545,7 @@ public class CyderFrame extends JFrame {
      *
      * @return whether to use the default taskbar component or the custom one
      */
-    public boolean isUseCustomTaskbarIcon() {
+    public boolean shouldUseCustomTaskbarIcon() {
         return useCustomTaskbarIcon;
     }
 
@@ -2650,17 +2644,6 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Increments the color index to use for border colors for CyderFrame objects.
-     */
-    @SuppressWarnings("unused")
-    public static void incrementColorIndex() {
-        colorIndex++;
-
-        if (colorIndex == 3)
-            colorIndex = 0;
-    }
-
-    /**
      * The length of the taskbar icons to be generated.
      */
     public static final int taskbarIconLength = 75;
@@ -2671,18 +2654,33 @@ public class CyderFrame extends JFrame {
     public static final int taskbarBorderLength = 5;
 
     /**
+     * The previous compact taskbar label.
+     */
+    private JLabel previousCompactTaskbarLabel = null;
+
+    /**
      * Returns a compact taskbar component for this CyderFrame instance.
      *
      * @return a compact taskbar component for this CyderFrame instance
      */
     public JLabel getCompactTaskbarButton() {
-        return generateDefaultCompactTaskbarComponent(getTitle(), () -> {
+        String currentTitle = getTitle();
+
+        if (previousCompactTaskbarLabel != null
+                && currentTitle.startsWith(previousCompactTaskbarLabel.getText()))
+            return previousCompactTaskbarLabel;
+
+        JLabel ret = generateDefaultCompactTaskbarComponent(currentTitle, () -> {
             if (getState() == 0) {
                 minimizeAnimation();
             } else {
                 setState(Frame.NORMAL);
             }
         });
+
+        previousCompactTaskbarLabel = ret;
+
+        return ret;
     }
 
     /**
@@ -2698,36 +2696,59 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Returns taskbar component with the specified border
+     * A cache of the previously generated taskbar button.
+     */
+    private JLabel previousTaskbarButton = null;
+    private String previousTaskbarText = null;
+
+    /**
+     * Returns a taskbar component with the specified border
      * color which minimizes the frame upon click actions.
      *
      * @param borderColor the color of the taskbar border
      * @return a taskbar component with the specified border color
      */
     public JLabel getTaskbarButton(Color borderColor) {
-        return generateDefaultTaskbarComponent(getTitle(), () -> {
+        String currentTitle = getTitle();
+
+        if (previousTaskbarButton != null && previousTaskbarText.equals(currentTitle)) {
+            return previousTaskbarButton;
+        }
+
+        JLabel ret = generateTaskbarComponent(currentTitle, () -> {
             if (getState() == 0) {
                 minimizeAnimation();
             } else {
                 setState(Frame.NORMAL);
             }
         }, borderColor);
+
+        previousTaskbarText = currentTitle;
+        previousTaskbarButton = ret;
+
+        return ret;
     }
 
+    /**
+     * The maximum number of chars to display when compact mode for taskbar icons is active.
+     */
     public static final int MAX_COMPACT_MENU_CHARS = 11;
 
     /**
-     * Generates a default taskbar component for compact mode.
+     * A factory method which generates a default taskbar component for compact mode.
      *
      * @param title       the title of the compact taskbar component
      * @param clickAction the action to invoke upon clicking the compact component
      * @return the compact taskbar component
      */
     public static JLabel generateDefaultCompactTaskbarComponent(String title, Runnable clickAction) {
-        JLabel ret = new JLabel(title.substring(0, Math.min(MAX_COMPACT_MENU_CHARS, title.length())));
+        String usageTitle = title.substring(0, Math.min(MAX_COMPACT_MENU_CHARS, title.length()));
+
+        JLabel ret = new JLabel(usageTitle);
         ret.setForeground(CyderColors.vanilla);
         ret.setFont(CyderFonts.defaultFontSmall);
         ret.setVerticalAlignment(SwingConstants.CENTER);
+
         ret.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -2745,22 +2766,24 @@ public class CyderFrame extends JFrame {
             }
         });
 
-        //if the label was too long even for compact text mode, set the tooltip to show the full name
-        if (!ret.getText().equalsIgnoreCase(title))
+        // if had to cut off text, make tooltip show full
+        if (!ret.getText().equalsIgnoreCase(usageTitle)) {
             ret.setToolTipText(title);
+        }
 
         return ret;
     }
 
     /**
-     * Generates a default taskbar component with the provided title, click action, and border color.
+     * A factory method which generates a default taskbar component with the provided title, click action, and border
+     * color.
      *
      * @param title       the title of the component
      * @param clickAction the action to invoke when the component is clicked
      * @param borderColor the color of the border around the component
      * @return the taskbar component
      */
-    public static JLabel generateDefaultTaskbarComponent(String title, Runnable clickAction, Color borderColor) {
+    public static JLabel generateTaskbarComponent(String title, Runnable clickAction, Color borderColor) {
         JLabel ret = new JLabel();
 
         BufferedImage bufferedImage =
@@ -2836,7 +2859,7 @@ public class CyderFrame extends JFrame {
      * @return the taskbar component
      */
     public static JLabel generateDefaultTaskbarComponent(String title, Runnable clickAction) {
-        return generateDefaultTaskbarComponent(title, clickAction, CyderColors.taskbarDefaultColor);
+        return generateTaskbarComponent(title, clickAction, CyderColors.taskbarDefaultColor);
     }
 
     /**
