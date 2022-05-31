@@ -44,7 +44,7 @@ public class CyderDragLabel extends JLabel {
     /**
      * The background color of this drag label.
      */
-    private Color backgroundColor = CyderColors.getGuiThemeColor();
+    private Color backgroundColor;
 
     /**
      * Whether dragging is currently enabled.
@@ -85,7 +85,7 @@ public class CyderDragLabel extends JLabel {
         setSize(this.width, this.height);
         setOpaque(true);
         setFocusable(false);
-        setBackground(backgroundColor);
+        setBackground(CyderColors.getGuiThemeColor());
 
         // this is clearer to me than a global variable
         int[] mousePoints = {0, 0};

@@ -129,6 +129,7 @@ public class CyderTextField extends JTextField {
      *
      * @return whether the current text matches the currently set pattern
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean currentTextMatchesPattern() {
         checkNotNull(getText());
         checkNotNull(keyEventRegexMatcher);
@@ -274,7 +275,7 @@ public class CyderTextField extends JTextField {
     /**
      * The key listener used to auto-capitalize the first letter of the field.
      */
-    private final KeyAdapter autoCapitalizerListener = new KeyAdapter() {
+    private final KeyAdapter autoCapitalizeListener = new KeyAdapter() {
         @Override
         public void keyTyped(KeyEvent e) {
             if (getText().length() == 1) {
@@ -309,9 +310,9 @@ public class CyderTextField extends JTextField {
      */
     public void setAutoCapitalization(boolean enable) {
         if (enable && !autoCapitalize) {
-            addKeyListener(autoCapitalizerListener);
+            addKeyListener(autoCapitalizeListener);
         } else {
-            removeKeyListener(autoCapitalizerListener);
+            removeKeyListener(autoCapitalizeListener);
         }
 
         autoCapitalize = enable;
@@ -348,7 +349,7 @@ public class CyderTextField extends JTextField {
     }
 
     /**
-     * Returns the text field text but trimmed and with multiple occurences
+     * Returns the text field text but trimmed and with multiple occurrences
      * of whitespace in the String replaced with one whitespace char.
      *
      * @return the text with trimming performed

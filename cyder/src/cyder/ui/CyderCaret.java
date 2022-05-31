@@ -1,7 +1,6 @@
 package cyder.ui;
 
 import cyder.handlers.internal.Logger;
-import cyder.utilities.ReflectionUtil;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
@@ -9,10 +8,20 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * A custom caret used for CyderTextFields and CyderPasswordFields.
+ */
 public class CyderCaret extends DefaultCaret {
-    private final String mark = "<";
+    /**
+     * The color of the caret.
+     */
     private final Color caretColor;
 
+    /**
+     * Constructs a new CyderCaret.
+     *
+     * @param caretColor the color for the caret.
+     */
     public CyderCaret(Color caretColor) {
         setBlinkRate(500);
         this.caretColor = caretColor;
@@ -20,6 +29,9 @@ public class CyderCaret extends DefaultCaret {
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected synchronized void damage(Rectangle r) {
         if (r == null) {
@@ -28,15 +40,22 @@ public class CyderCaret extends DefaultCaret {
 
         JTextComponent comp = getComponent();
         FontMetrics fm = comp.getFontMetrics(comp.getFont());
+
         int textWidth = fm.stringWidth(">");
         int textHeight = fm.getHeight();
+
         x = r.x;
         y = r.y;
+
         width = textWidth;
         height = textHeight;
-        repaint(); // calls getComponent().repaint(x, y, width, height)
+
+        repaint();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paint(Graphics g) {
         JTextComponent comp = getComponent();
@@ -45,7 +64,8 @@ public class CyderCaret extends DefaultCaret {
         }
 
         int dot = getDot();
-        Rectangle2D r = null;
+        Rectangle2D r;
+
         try {
             r = comp.modelToView2D(dot);
         } catch (BadLocationException e) {
@@ -56,23 +76,14 @@ public class CyderCaret extends DefaultCaret {
             return;
         }
 
-        if ((x != r.getX()) || (y != r.getY())) {
+        if (x != r.getX() || y != r.getY()) {
             repaint(); // erase previous location of caret
 
         }
 
         if (isVisible()) {
-            FontMetrics fm = comp.getFontMetrics(comp.getFont());
-            int textWidth = fm.stringWidth("WELCOME TO THE JUNGLE");
-            int textHeight = fm.getHeight();
-
             g.setColor(caretColor);
             g.fillRect(x, y, width, height);
         }
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
     }
 }
