@@ -1,6 +1,9 @@
 name: Cyder Statistics
 
 on:
+  push:
+    branches:
+      - main
   schedule: [{cron: "0 0 * * *"}]
 jobs:
   generate_images:
@@ -17,8 +20,8 @@ jobs:
 
       - name: Commit generated files
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "github-actions"
+          git config --local user.email "nate@nathancheshire.com"
+          git config --local user.name "NathanCheshire"
           git add .
           git commit -m "update README statistics"
 
