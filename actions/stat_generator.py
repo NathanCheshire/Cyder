@@ -17,7 +17,7 @@ def export_stats(code_lines, comment_lines, blank_lines, width: str = 250,
     # for a border if needed
     border_thickness = 0
 
-    export_font = ImageFont.truetype(os.path.join('actions',"Roboto-Bold.ttf"), 16)
+    export_font = ImageFont.truetype(os.path.join('actions',"roboto.ttf"), 16)
 
     blank_image = np.zeros((width, height, 3), np.uint8)
     black_image = cv2.rectangle(
@@ -84,11 +84,11 @@ def export_string_badge(alpha_string, beta_string, save_name):
     padding = 15
     font_size = 18
 
-    local_font = ImageFont.truetype("roboto-bold.ttf", font_size)
+    local_font = ImageFont.truetype(os.path.join('actions',"roboto.ttf"), font_size)
 
-    alpha_width = get_text_size(alpha_string, font_size, "roboto_bold.ttf")[0]
-    beta_width = get_text_size(beta_string, font_size, "roboto_bold.ttf")[0]
-    text_height = get_text_size(beta_string, font_size, "roboto_bold.ttf")[1]
+    alpha_width = get_text_size(alpha_string, font_size, os.path.join('actions',"roboto.ttf"))[0]
+    beta_width = get_text_size(beta_string, font_size, os.path.join('actions',"roboto.ttf"))[0]
+    text_height = get_text_size(beta_string, font_size, os.path.join('actions',"roboto.ttf"))[1]
 
     full_width = padding + alpha_width + padding + padding + beta_width + padding
     full_height = padding + text_height + padding
@@ -119,7 +119,7 @@ def export_string_badge(alpha_string, beta_string, save_name):
 def get_text_size(text: str, font_size: int, font_name: str) -> Tuple:
     """ Returns a tuple of the size required to hold the provided string with the provided font and point size.
     """
-    font = ImageFont.truetype('roboto-bold.ttf', font_size)
+    font = ImageFont.truetype(font_name, font_size)
     return font.getsize(text)
 
 
@@ -227,8 +227,8 @@ if __name__ == '__main__':
     for file in files:
         print("Neighboring file:", file)
 
-    print("Can find font file at actions/roboto-bold.ttf:", 
-    os.path.exists(os.path.join('actions',"Roboto-Bold.ttf")))
+    print("Can find font file at actions/roboto.ttf:", 
+    os.path.exists(os.path.join('actions',"roboto.ttf")))
 
     files = find_files(starting_dir="cyder",
                        extensions=['.java'], recursive=True)
