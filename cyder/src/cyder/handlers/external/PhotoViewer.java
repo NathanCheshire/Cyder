@@ -180,7 +180,7 @@ public class PhotoViewer {
             }
         }
 
-        Point center = pictureFrame.getCenterPoint();
+        Point center = pictureFrame.getCenterPointOnScreen();
 
         ImageIcon newImage = scaleImageIfNeeded(validDirectoryImages.get(currentIndex));
         pictureFrame.setSize(newImage.getIconWidth(), newImage.getIconHeight());
@@ -235,7 +235,7 @@ public class PhotoViewer {
     private void rename() {
         File currentRename = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
         File currentBackground = ConsoleFrame.INSTANCE
-                .getCurrentBackground().getReferenceFile().getAbsoluteFile();
+                .getCurrentBackground().referenceFile().getAbsoluteFile();
 
         if (currentRename.getAbsolutePath().equals(currentBackground.getAbsolutePath())) {
             pictureFrame.notify("Sorry, " + UserUtil.getCyderUser().getName()

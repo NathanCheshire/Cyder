@@ -423,7 +423,8 @@ public enum ConsoleFrame {
 
         consoleCyderFrame.addWindowListener(consoleFrameWindowAdapter);
 
-        getContentPane().setToolTipText(FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
+        getConsoleCyderFrameContentPane().setToolTipText(
+                FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
 
         consoleCyderFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -602,15 +603,15 @@ public enum ConsoleFrame {
         };
 
         outputArea.setEditable(false);
-        outputArea.setCaretColor(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
-        outputArea.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground())));
+        outputArea.setCaretColor(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
+        outputArea.setCaret(new CyderCaret(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground())));
         outputArea.setAutoscrolls(true);
 
         outputArea.setFocusable(true);
         outputArea.setSelectionColor(CyderColors.selectionColor);
         outputArea.setOpaque(false);
         outputArea.setBackground(CyderColors.zero);
-        outputArea.setForeground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
+        outputArea.setForeground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
         outputArea.setFont(INSTANCE.generateUserFont());
 
         installOutputAreaListeners();
@@ -634,13 +635,13 @@ public enum ConsoleFrame {
         outputScroll.setOpaque(false);
         outputScroll.setFocusable(true);
         outputScroll.setBorder(UserUtil.getCyderUser().getOutputborder().equals("1")
-                ? new LineBorder(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()),
+                ? new LineBorder(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
                 fieldBorderThickness, false)
                 : BorderFactory.createEmptyBorder());
 
         if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
             outputArea.setOpaque(true);
-            outputArea.setBackground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()));
+            outputArea.setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
             outputArea.repaint();
             outputArea.revalidate();
         }
@@ -657,23 +658,23 @@ public enum ConsoleFrame {
         inputField.setEchoChar((char) 0);
         inputField.setText(consoleBashString);
         inputField.setBorder(UserUtil.getCyderUser().getInputborder().equals("1")
-                ? new LineBorder(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()),
+                ? new LineBorder(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
                 fieldBorderThickness, false)
                 : BorderFactory.createEmptyBorder());
         inputField.setSelectionColor(CyderColors.selectionColor);
         inputField.setCaretPosition(inputField.getPassword().length);
 
         inputField.setOpaque(false);
-        inputField.setCaretColor(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
-        inputField.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground())));
-        inputField.setForeground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
+        inputField.setCaretColor(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
+        inputField.setCaret(new CyderCaret(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground())));
+        inputField.setForeground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
         inputField.setFont(INSTANCE.generateUserFont());
 
         installInputFieldListeners();
 
         if (UserUtil.getCyderUser().getInputfill().equals("1")) {
             inputField.setOpaque(true);
-            inputField.setBackground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()));
+            inputField.setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
             inputField.repaint();
             inputField.revalidate();
         }
@@ -1252,7 +1253,7 @@ public enum ConsoleFrame {
     private final FocusAdapter outputAreaFocusAdapter = new FocusAdapter() {
         @Override
         public void focusGained(FocusEvent e) {
-            outputScroll.setBorder(new LineBorder(ColorUtil.hexToRgb(
+            outputScroll.setBorder(new LineBorder(ColorUtil.hexStringToColor(
                     UserUtil.getCyderUser().getBackground()), 3));
         }
 
@@ -1964,7 +1965,7 @@ public enum ConsoleFrame {
      */
     private void revalidateBackgroundIndex() {
         if (consoleCyderFrame != null) {
-            JLabel contentLabel = getContentPane();
+            JLabel contentLabel = getConsoleCyderFrameContentPane();
 
             if (contentLabel != null) {
                 String filename = contentLabel.getToolTipText();
@@ -2040,7 +2041,7 @@ public enum ConsoleFrame {
             return;
         }
 
-        Point center = consoleCyderFrame.getCenterPoint();
+        Point center = consoleCyderFrame.getCenterPointOnScreen();
 
         revalidate(true, false);
 
@@ -2063,7 +2064,8 @@ public enum ConsoleFrame {
                 (int) (center.getY() - (imageIcon.getIconHeight()) / 2));
 
         //tooltip based on image name
-        getContentPane().setToolTipText(FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
+        getConsoleCyderFrameContentPane().setToolTipText(
+                FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
 
         revalidateInputAndOutputBounds();
 
@@ -2165,7 +2167,7 @@ public enum ConsoleFrame {
             oldBack = ImageUtil.resizeImage(oldBack, width, height);
 
             // change frame size and put the center in the same spot
-            Point originalCenter = consoleCyderFrame.getCenterPoint();
+            Point originalCenter = consoleCyderFrame.getCenterPointOnScreen();
             consoleCyderFrame.setSize(width, height);
 
             // bump frame into bounds if resize pushes it out
@@ -2541,7 +2543,7 @@ public enum ConsoleFrame {
      * @param maintainConsoleSize whether to maintain the currently set size of the console
      */
     public void revalidate(boolean maintainDirection, boolean maintainFullscreen, boolean maintainConsoleSize) {
-        Point originalCenter = consoleCyderFrame.getCenterPoint();
+        Point originalCenter = consoleCyderFrame.getCenterPointOnScreen();
 
         ImageIcon background;
 
@@ -3171,6 +3173,8 @@ public enum ConsoleFrame {
 
     /**
      * Sets the background of the console frame to whatever is behind it.
+     * This was the original implementation of frame chams functionality before
+     * the windows were actually set to be transparent.
      */
     public void originalChams() {
         try {
@@ -3196,8 +3200,65 @@ public enum ConsoleFrame {
      *
      * @return the console frame's content pane
      */
-    public JLabel getContentPane() {
+    public JLabel getConsoleCyderFrameContentPane() {
         return ((JLabel) (consoleCyderFrame.getContentPane()));
     }
 
+    // todo need an atomic boolean to block this while under way
+    // todo need a way to rescale on resize events
+
+    /**
+     * Paints a label with the provided possibly html-formatted string over the
+     * ConsoleFrame for the provided number of milliseconds
+     *
+     * @param htmlString      the string to display, may or may not be formatted using html
+     * @param labelFont       the font to use for the label
+     * @param visibleDuration the duration in ms the notification should be visible for
+     */
+    public void titleNotify(String htmlString, Font labelFont, int visibleDuration) {
+        Preconditions.checkNotNull(htmlString);
+        Preconditions.checkArgument(visibleDuration > 500, "A user probably won't see"
+                + " a message with that short of a duration");
+
+        BufferedImage bi = getCurrentBackground().generateBufferedImage();
+        CyderLabel textLabel = new CyderLabel(htmlString);
+
+        textLabel.setFont(labelFont);
+        textLabel.setOpaque(true);
+        textLabel.setBackground(ColorUtil.getDominantGrayscaleColor(bi));
+        textLabel.setForeground(ColorUtil.getTextColor(bi));
+
+        BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(htmlString,
+                textLabel.getFont(), consoleCyderFrame.getWidth());
+
+        int containerWidth = boundsString.width();
+        int containerHeight = boundsString.height();
+
+        int padding = 20;
+
+        if (containerHeight + 2 * padding > consoleCyderFrame.getHeight()
+                || containerWidth + 2 * padding > consoleCyderFrame.getWidth()) {
+            consoleCyderFrame.inform(htmlString, "");
+        }
+
+        Point center = consoleCyderFrame.getCenterPointOnFrame();
+
+        textLabel.setBounds(
+                (int) (center.getX() - padding - containerWidth / 2),
+                (int) (center.getY() - padding - containerHeight / 2),
+                containerWidth, containerHeight);
+        consoleCyderFrame.getContentPane().add(textLabel, JLayeredPane.POPUP_LAYER);
+
+        CyderThreadRunner.submit(() -> {
+            try {
+                Thread.sleep(visibleDuration);
+                textLabel.setVisible(false);
+                consoleCyderFrame.remove(textLabel);
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, "ConsoleFrame Title Notify Waiter");
+
+        textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.text()));
+    }
 }

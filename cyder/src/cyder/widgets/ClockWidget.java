@@ -376,7 +376,7 @@ public class ClockWidget {
                 String text = hexField.getText().trim();
 
                 try {
-                    clockColor = ColorUtil.hexToRgb(text);
+                    clockColor = ColorUtil.hexStringToColor(text);
                     hexField.setText(ColorUtil.rgbToHexString(clockColor));
                     clockLabel.repaint();
                 } catch (Exception ex) {

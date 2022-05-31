@@ -57,11 +57,6 @@ Some examples of what you can do with Cyder include:
 </details>
 
 <details>
-<summary><b>Code Statistics</b></summary>
-<img src="https://user-images.githubusercontent.com/60986919/170853161-843ad135-33bd-462f-9352-d611195b9e65.png" alt="Code Statistics" width="300">
-<br>
-</details>
-<details>
 <summary><b>Pathfinding Visualizer</b></summary>
 <br>
 https://user-images.githubusercontent.com/60986919/161394292-cb7bf459-d405-4efc-8ea1-33a127036a69.mp4

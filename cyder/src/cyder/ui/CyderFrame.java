@@ -2962,12 +2962,21 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Returns the center point of this frame on the current monitor.
+     *
+     * @return the center point of this frame on the current monitor
+     */
+    public Point getCenterPointOnScreen() {
+        return new Point(getX() + (getWidth() / 2), getY() + (getHeight() / 2));
+    }
+
+    /**
      * Returns the center point of this frame.
      *
      * @return the center point of this frame
      */
-    public Point getCenterPoint() {
-        return new Point(getX() + (getWidth() / 2), getY() + (getHeight() / 2));
+    public Point getCenterPointOnFrame() {
+        return new Point(getWidth() / 2, getHeight() / 2);
     }
 
     /**

@@ -12,6 +12,7 @@ import cyder.enums.CyderInspection;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.layouts.CyderFlowLayout;
@@ -19,6 +20,7 @@ import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,6 +48,9 @@ public class ManualTests {
         CyderThreadRunner.submit(() -> {
             try {
                 // AudioPlayer.showGui();
+                ConsoleFrame.INSTANCE.titleNotify("<html>Greetings " + UserUtil.getCyderUser().getName()
+                                + "<br/>Welcome to Cyder</html>",
+                        CyderFonts.defaultFont.deriveFont(80f), 5000);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

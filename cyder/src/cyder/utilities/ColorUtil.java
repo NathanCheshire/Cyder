@@ -13,7 +13,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Utilies for things pertaining to colors and color conversions.
+ * Utilities for things pertaining to colors and color conversions.
  */
 public class ColorUtil {
     /**
@@ -29,11 +29,11 @@ public class ColorUtil {
      * @param hex the hex string to convert to an object
      * @return the hex string converted to an object
      */
-    public static Color hexToRgb(String hex) {
+    public static Color hexStringToColor(String hex) {
         checkNotNull(hex);
         checkArgument(!hex.isEmpty());
 
-        // remove possible octothorpe
+        // remove possible octothorp
         hex = hex.replace("#", "");
 
         // if shorthand hex notation, expand to official notation
@@ -75,7 +75,7 @@ public class ColorUtil {
      * @param color the color to calculate the inverse of
      * @return the inverse of the provided color
      */
-    public static Color inverse(Color color) {
+    public static Color getInverseColor(Color color) {
         checkNotNull(color);
 
         return new Color(255 - color.getRed(),
@@ -92,7 +92,11 @@ public class ColorUtil {
      */
     public String hexToRgbString(String hex) {
         checkNotNull(hex);
-        checkArgument(hex.length() == 6);
+        checkArgument(hex.length() == 6 || hex.length() == 7);
+
+        if (hex.length() == 7) {
+            hex = hex.substring(0, 6);
+        }
 
         return Integer.valueOf(hex.substring(0, 2), 16)
                 + "," + Integer.valueOf(hex.substring(2, 4), 16)
@@ -184,24 +188,6 @@ public class ColorUtil {
     }
 
     /**
-     * Finds the dominant color of the provided color counter.
-     * Used for calcualting the dominant color of an image.
-     *
-     * @param colorCounter the color counter object to use to calculate the dominant rgb value
-     * @return the dominant color
-     */
-    private static Color getDominantColor(Map<Integer, Integer> colorCounter) {
-        checkNotNull(colorCounter);
-
-        int dominantRGB = colorCounter.entrySet().stream()
-                .max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1)
-                .get()
-                .getKey();
-
-        return new Color(dominantRGB);
-    }
-
-    /**
      * Calculates the opposite color of the provided color.
      *
      * @param c the color to calculate the opposite of
@@ -233,7 +219,7 @@ public class ColorUtil {
      * @param ratio the blend ratio
      * @return the blended color
      */
-    public static Color blend(int c1, int c2, float ratio) {
+    public static Color blendColors(int c1, int c2, float ratio) {
         if (ratio > 1f) {
             ratio = 1f;
         } else if (ratio < 0f) {
@@ -258,5 +244,47 @@ public class ColorUtil {
         int b = (int) ((b1 * iRatio) + (b2 * ratio));
 
         return new Color(a << 24 | r << 16 | g << 8 | b);
+    }
+
+    /**
+     * Returns the gray-scale text color which should be used when overlaying
+     * text on the provided buffered image.
+     *
+     * @param bi the buffered image
+     * @return the gray-scale text color to use
+     */
+    public static Color getTextColor(BufferedImage bi) {
+        return getInverseColor(getDominantGrayscaleColor(bi));
+    }
+
+    /**
+     * Returns the dominant color of the provided buffered image gray-scaled.
+     *
+     * @param bi the buffered image
+     * @return the closest gray-scale color the provided buffered image's dominant color
+     */
+    public static Color getDominantGrayscaleColor(BufferedImage bi) {
+        Color dominant = getDominantColor(bi);
+        int avg = (dominant.getRed() + dominant.getGreen() + dominant.getBlue()) / 3;
+        return new Color(avg, avg, avg);
+    }
+
+    /**
+     * Finds the dominant color of the provided color counter.
+     * Used for calculating the dominant color of an image.
+     *
+     * @param colorCounter the color counter object to use to calculate the dominant rgb value
+     * @return the dominant color
+     */
+    @SuppressWarnings({"ComparatorMethodParameterNotUsed", "OptionalGetWithoutIsPresent"})
+    private static Color getDominantColor(Map<Integer, Integer> colorCounter) {
+        checkNotNull(colorCounter);
+
+        int dominantRGB = colorCounter.entrySet().stream()
+                .max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1)
+                .get()
+                .getKey();
+
+        return new Color(dominantRGB);
     }
 }

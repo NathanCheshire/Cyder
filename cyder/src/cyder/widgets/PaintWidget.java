@@ -475,7 +475,7 @@ public class PaintWidget {
                 }
             } else {
                 try {
-                    Color newColor = ColorUtil.hexToRgb(colorHexField.getText());
+                    Color newColor = ColorUtil.hexStringToColor(colorHexField.getText());
                     setNewPaintColor(newColor);
                 } catch (Exception ignored) {
                     paintControlsFrame.notify("Could not parse color");

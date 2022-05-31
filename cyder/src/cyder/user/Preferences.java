@@ -77,7 +77,7 @@ public class Preferences {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = foreground");
 
             ConsoleFrame.INSTANCE.getInputField()
-                    .setForeground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
+                    .setForeground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
         }));
         ret.add(new Preference("background", "IGNORE",
                 "", "101010", () -> {
@@ -106,7 +106,7 @@ public class Preferences {
             if (UserUtil.getCyderUser().getOutputborder().equals("0")) {
                 ConsoleFrame.INSTANCE.getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
             } else {
-                ConsoleFrame.INSTANCE.getOutputScroll().setBorder(new LineBorder(ColorUtil.hexToRgb(
+                ConsoleFrame.INSTANCE.getOutputScroll().setBorder(new LineBorder(ColorUtil.hexStringToColor(
                         UserUtil.getCyderUser().getBackground()), 3, true));
             }
 
@@ -119,7 +119,7 @@ public class Preferences {
                 ConsoleFrame.INSTANCE.getInputField().setBorder(null);
             } else {
                 ConsoleFrame.INSTANCE.getInputField().setBorder(
-                        new LineBorder(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()),
+                        new LineBorder(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
                                 3, true));
             }
 
@@ -152,7 +152,7 @@ public class Preferences {
             } else {
                 ConsoleFrame.INSTANCE.getOutputArea().setOpaque(true);
                 ConsoleFrame.INSTANCE.getOutputArea().setBackground(
-                        ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()));
+                        ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
                 ConsoleFrame.INSTANCE.getOutputArea().repaint();
                 ConsoleFrame.INSTANCE.getOutputArea().revalidate();
             }
@@ -169,7 +169,7 @@ public class Preferences {
             } else {
                 ConsoleFrame.INSTANCE.getInputField().setOpaque(true);
                 ConsoleFrame.INSTANCE.getInputField().setBackground(
-                        ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()));
+                        ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
                 ConsoleFrame.INSTANCE.getInputField().repaint();
                 ConsoleFrame.INSTANCE.getInputField().revalidate();
             }

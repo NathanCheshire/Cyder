@@ -60,11 +60,6 @@ public class InformHandler {
     private static final int yPadding = 10;
 
     /**
-     * The offset to account for a discrepancy in the bounds calculation.
-     */
-    private static final int borderOffset = 2;
-
-    /**
      * Opens an information using the information provided by builder.
      *
      * @param builder the InformBuilder to use for the construction of the information pane
@@ -75,7 +70,7 @@ public class InformHandler {
     public static CyderFrame inform(InformBuilder builder) {
         Preconditions.checkNotNull(builder);
 
-        CyderFrame informFrame = null;
+        CyderFrame informFrame;
 
         // custom container
         if (builder.getContainer() != null) {
@@ -95,16 +90,8 @@ public class InformHandler {
             container.setBounds(xPadding, yTopPadding,
                     containerWidth, containerHeight);
             informFrame.getContentPane().add(container);
-
-            if (builder.getPreCloseAction() != null) {
-                informFrame.addPreCloseAction(builder.getPreCloseAction());
-            }
-
-            if (builder.getPostCloseAction() != null) {
-                informFrame.addPostCloseAction(builder.getPostCloseAction());
-            }
         }
-        // intended to genreate a text inform pane
+        // intended to generate a text inform pane
         else {
             boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
 
@@ -135,13 +122,13 @@ public class InformHandler {
             container.setBounds(containerX, containerY, containerWidth, containerHeight);
             informFrame.add(container);
 
-            if (builder.getPreCloseAction() != null) {
-                informFrame.addPreCloseAction(builder.getPreCloseAction());
-            }
+        }
 
-            if (builder.getPostCloseAction() != null) {
-                informFrame.addPostCloseAction(builder.getPostCloseAction());
-            }
+        if (builder.getPreCloseAction() != null) {
+            informFrame.addPreCloseAction(builder.getPreCloseAction());
+        }
+        if (builder.getPostCloseAction() != null) {
+            informFrame.addPostCloseAction(builder.getPostCloseAction());
         }
 
         Component relativeTo = builder.getRelativeTo();

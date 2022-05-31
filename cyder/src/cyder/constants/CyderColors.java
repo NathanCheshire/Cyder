@@ -182,6 +182,6 @@ public class CyderColors {
      * Instantiates the gui theme color based on the current user's data.
      */
     public static void refreshGuiThemeColor() {
-        setGuiThemeColor(ColorUtil.hexToRgb(UserUtil.getCyderUser().getWindowcolor()));
+        setGuiThemeColor(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getWindowcolor()));
     }
 }

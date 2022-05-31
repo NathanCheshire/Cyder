@@ -38,7 +38,7 @@ public class PixelationHandler extends InputHandler {
     public static boolean handle() {
         switch (getInputHandler().getHandleIterations()) {
             case 0 -> {
-                if (ImageUtil.solidColor(ConsoleFrame.INSTANCE.getCurrentBackground().getReferenceFile())) {
+                if (ImageUtil.solidColor(ConsoleFrame.INSTANCE.getCurrentBackground().referenceFile())) {
                     getInputHandler().println("Silly " + UserUtil.getCyderUser().getName()
                             + "; your background " + "is a solid color :P");
                 } else {
@@ -85,10 +85,10 @@ public class PixelationHandler extends InputHandler {
             CyderThreadRunner.submit(() -> {
                 try {
                     BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.INSTANCE.
-                            getCurrentBackground().getReferenceFile().getAbsoluteFile()), size);
+                            getCurrentBackground().referenceFile().getAbsoluteFile()), size);
 
                     String newName = FileUtil.getFilename(ConsoleFrame.INSTANCE
-                            .getCurrentBackground().getReferenceFile().getName())
+                            .getCurrentBackground().referenceFile().getName())
                             + "_Pixelated_Pixel_Size_" + size + ".png";
 
                     File saveFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH, "users",

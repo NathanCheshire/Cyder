@@ -100,7 +100,7 @@ public class ColorConverterWidget {
         hexField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
-                    Color c = ColorUtil.hexToRgb(hexField.getText());
+                    Color c = ColorUtil.hexStringToColor(hexField.getText());
                     rgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
                     colorBlock.setBackground(c);
                 } catch (Exception ignored) {
