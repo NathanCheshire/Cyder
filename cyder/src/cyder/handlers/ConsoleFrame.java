@@ -394,6 +394,7 @@ public enum ConsoleFrame {
 
                         revalidateMenu();
                         refreshClockText();
+                        revalidateTitleNotify();
                     }
 
                     /**
@@ -3205,8 +3206,6 @@ public enum ConsoleFrame {
         return ((JLabel) (consoleCyderFrame.getContentPane()));
     }
 
-    // todo need a way to rescale on resize events
-
     /**
      * The x,y padding value for title notifications.
      */
@@ -3216,6 +3215,11 @@ public enum ConsoleFrame {
      * An semaphore to ensure only one title notification is ever visible
      */
     private static final Semaphore titleNotifySemaphore = new Semaphore(1);
+
+    /**
+     * The label used for title notifications.
+     */
+    private static final CyderLabel titleNotifyLabel = new CyderLabel();
 
     /**
      * Paints a label with the provided possibly html-formatted string over the
@@ -3235,12 +3239,12 @@ public enum ConsoleFrame {
                 titleNotifySemaphore.acquire();
 
                 BufferedImage bi = getCurrentBackground().generateBufferedImage();
-                CyderLabel textLabel = new CyderLabel(htmlString);
 
-                textLabel.setFont(labelFont);
-                textLabel.setOpaque(true);
-                textLabel.setBackground(ColorUtil.getDominantGrayscaleColor(bi));
-                textLabel.setForeground(ColorUtil.getTextColor(bi));
+                titleNotifyLabel.setFont(labelFont);
+                titleNotifyLabel.setOpaque(true);
+                titleNotifyLabel.setVisible(true);
+                titleNotifyLabel.setBackground(ColorUtil.getDominantGrayscaleColor(bi));
+                titleNotifyLabel.setForeground(ColorUtil.getTextColor(bi));
 
                 BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(htmlString,
                         labelFont, consoleCyderFrame.getWidth());
@@ -3256,22 +3260,43 @@ public enum ConsoleFrame {
 
                 Point center = consoleCyderFrame.getCenterPointOnFrame();
 
-                textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.text()));
-                textLabel.setBounds(
+                titleNotifyLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.text()));
+                titleNotifyLabel.setBounds(
                         (int) (center.getX() - padding - containerWidth / 2),
                         (int) (center.getY() - padding - containerHeight / 2),
                         containerWidth, containerHeight);
-                consoleCyderFrame.getContentPane().add(textLabel, JLayeredPane.POPUP_LAYER);
+                consoleCyderFrame.getContentPane().add(titleNotifyLabel, JLayeredPane.POPUP_LAYER);
                 consoleCyderFrame.repaint();
 
                 Thread.sleep(visibleDuration);
-                textLabel.setVisible(false);
-                consoleCyderFrame.remove(textLabel);
+                titleNotifyLabel.setVisible(false);
+                consoleCyderFrame.remove(titleNotifyLabel);
+                titleNotifyLabel.setText("");
 
                 titleNotifySemaphore.release();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         }, "ConsoleFrame Title Notify: " + htmlString);
+    }
+
+    /**
+     * Revalidates the bounds of the title label notify if one is underway.
+     */
+    public void revalidateTitleNotify() {
+        if (consoleCyderFrame == null || titleNotifyLabel.getText().length() == 0) {
+            return;
+        }
+
+        int w = titleNotifyLabel.getWidth();
+        int h = titleNotifyLabel.getHeight();
+
+        Point center = consoleCyderFrame.getCenterPointOnFrame();
+
+        titleNotifyLabel.setLocation(
+                (int) (center.getX() - padding - w / 2),
+                (int) (center.getY() - padding - h / 2));
+
+        consoleCyderFrame.repaint();
     }
 }

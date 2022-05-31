@@ -362,7 +362,6 @@ public class UnitTests {
                 StringUtil.getWikipediaSummary("MGK").replace("\\s+", ""),
                 mgkWikiSum.replace("\\s+", ""));
         float difference = (float) lt / mgkWikiSum.length();
-        System.out.println(difference);
 
         assertTrue(difference <= wikiSumTol);
     }
