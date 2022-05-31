@@ -17,7 +17,7 @@ def export_stats(code_lines, comment_lines, blank_lines, width: str = 250,
     # for a border if needed
     border_thickness = 0
 
-    export_font = ImageFont.truetype("actions/roboto-bold.ttf", 16)
+    export_font = ImageFont.truetype(os.path.join('actions',"Roboto-Bold.ttf"), 16)
 
     blank_image = np.zeros((width, height, 3), np.uint8)
     black_image = cv2.rectangle(
