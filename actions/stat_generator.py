@@ -221,6 +221,12 @@ def is_comment(line) -> bool:
 
 if __name__ == '__main__':
     print("Finding files from directory:",os.getcwd())
+
+    files = os.listdir(os.getcwd())
+
+    for file in files:
+        print("Neighboring file:", file)
+
     print("Can find font file at actions/roboto-bold.ttf:", os.path.exists('actions/roboto-bold.ttf'))
 
     files = find_files(starting_dir="cyder",
