@@ -17,7 +17,7 @@ def export_stats(code_lines, comment_lines, blank_lines, width: str = 250,
     # for a border if needed
     border_thickness = 0
 
-    export_font = ImageFont.truetype("roboto-bold.ttf", 16)
+    export_font = ImageFont.truetype("actions/roboto-bold.ttf", 16)
 
     blank_image = np.zeros((width, height, 3), np.uint8)
     black_image = cv2.rectangle(
@@ -220,6 +220,9 @@ def is_comment(line) -> bool:
 
 
 if __name__ == '__main__':
+    print("Finding files from directory:",os.getcwd())
+    print("Can find font file at actions/roboto-bold.ttf:", os.path.exists('actions/roboto-bold.ttf'))
+
     files = find_files(starting_dir="cyder",
                        extensions=['.java'], recursive=True)
 
