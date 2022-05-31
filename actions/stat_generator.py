@@ -220,7 +220,7 @@ def is_comment(line) -> bool:
 
 
 if __name__ == '__main__':
-    files = find_files(starting_dir="../cyder",
+    files = find_files(starting_dir="cyder",
                        extensions=['.java'], recursive=True)
 
     code_lines = 0
@@ -233,6 +233,11 @@ if __name__ == '__main__':
         code_lines = code_lines + tuple[0]
         comment_lines = comment_lines + tuple[1]
         blank_lines = blank_lines + tuple[2]
+
+    print('Found code stats:')
+    print('Code lines:', code_lines)
+    print('Comment lines:', comment_lines)
+    print('Blank lines:', blank_lines)
 
     export_stats(code_lines=code_lines, comment_lines=comment_lines,
                  blank_lines=blank_lines, save_name="stats")
