@@ -1,8 +1,7 @@
 name: Cyder Statistics
 
 on:
-  push:
-  schedule: [{cron: "0 0 * * *"}]
+  schedule: [{cron: "0 5 * * *"}]
 jobs:
   generate_images:
     runs-on: ubuntu-latest
