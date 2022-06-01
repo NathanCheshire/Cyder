@@ -5,19 +5,36 @@ import cv2
 import numpy as np
 from PIL import ImageFont, Image, ImageDraw
 
+# a regex used to detect a comment line
+IS_COMMENT_REGEX = "\s*[/]{2}.*|\s*[/][*].*|\s*[*].*|\s*.*[*][/]\s*"
 
-def export_stats(code_lines, comment_lines, blank_lines, width: str = 250,
-                 height: str = 250, save_name: str = "CyderStats"):
+# the path to the font to use for all exported pngs
+FONT_PATH = os.path.join('actions', "roboto.ttf")
+
+
+def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
+                 width: str, height: str, save_name: str) -> None:
+    """ Exports a stats png using the provided informtion.
+
+        Parameters:
+            code_lines: the number of code lines in the project
+            comment_lines: the number of comment lines in the project
+            blank_lines: the number of blank lines in the project
+            width: the width of the png to export
+            height: the height of the png to export
+            save_name: the name of the png to export
+    """
+
     total = code_lines + comment_lines + blank_lines
 
     comment_percent = round(comment_lines / float(total) * 100.0, 1)
     code_percent = round(code_lines / float(total) * 100.0, 1)
     blank_percent = round(blank_lines / float(total) * 100.0, 1)
 
-    # for a border if needed
+    # currently no border for the exported png is rendered
     border_thickness = 0
 
-    export_font = ImageFont.truetype(os.path.join('actions', "roboto.ttf"), 16)
+    export_font = ImageFont.truetype(FONT_PATH, 16)
 
     blank_image = np.zeros((width, height, 3), np.uint8)
     black_image = cv2.rectangle(
@@ -72,66 +89,75 @@ def export_stats(code_lines, comment_lines, blank_lines, width: str = 250,
 
 
 def get_compressed_number(num: int) -> str:
-    """ Returns the number of thousands represented by the int with one decimal place.
+    """ Returns the number of thousands represented by the integer rounded to one decimal place.
     """
     return str(round(num / 1000.0, 1)) + 'K'
 
 
-def export_string_badge(alpha_string, beta_string, save_name):
-    primary = (131, 83, 5)
-    secondary = (199, 147, 85)
+def export_string_badge(alpha_string, beta_string, save_name, font_size=18, padding=15):
+    """ Exports a png to the root directory resembling a badge with the provided parameters.
 
-    padding = 15
-    font_size = 18
+        Parameters:
+            alpha_string: the string for the left of the badge
+            beta_string: the string for the right of the badge
+            save_name: the name to save the png as
+            font_size: the size for the font
+            padding: the top, right, bottom, and left padding values
+    """
+    
+    text_color = (245, 245, 245)
 
-    local_font = ImageFont.truetype(
-        os.path.join('actions', "roboto.ttf"), font_size)
+    left_background_color = (131, 83, 5)
+    right_background_color = (199, 147, 85)
 
-    alpha_width = get_text_size(
-        alpha_string, font_size, os.path.join('actions', "roboto.ttf"))[0]
-    beta_width = get_text_size(
-        beta_string, font_size, os.path.join('actions', "roboto.ttf"))[0]
-    text_height = get_text_size(
-        beta_string, font_size, os.path.join('actions', "roboto.ttf"))[1]
+    local_font = ImageFont.truetype(FONT_PATH, font_size)
+
+    alpha_width = get_text_size(alpha_string, font_size, FONT_PATH)[0]
+    beta_width = get_text_size(beta_string, font_size, FONT_PATH)[0]
+    text_height = get_text_size(beta_string, font_size, FONT_PATH)[1]
 
     full_width = padding + alpha_width + padding + padding + beta_width + padding
     full_height = padding + text_height + padding
 
     blank_image = np.zeros((full_height, full_width, 3), np.uint8)
     alpha_color_drawn = cv2.rectangle(blank_image, (0, 0),
-                                      (alpha_width + padding + padding, full_height), primary, -1)
+                                      (alpha_width + 2 * padding, full_height), left_background_color, -1)
     beta_color_drawn = cv2.rectangle(alpha_color_drawn, (alpha_width + padding, 0),
-                                     (full_width, full_height), secondary, -1)
-
-    text_color = (245, 245, 245)
+                                     (full_width, full_height), right_background_color, -1)
 
     base_colors_done = Image.fromarray(beta_color_drawn)
 
     draw = ImageDraw.Draw(base_colors_done)
-    start = (padding / 2, padding)
-    draw.text(start,  alpha_string,
-              font=local_font, fill=text_color)
+    left_anchor = (padding / 2, padding)
+    draw.text(left_anchor,  alpha_string, font=local_font, fill=text_color)
 
     draw = ImageDraw.Draw(base_colors_done)
-    start = (alpha_width + padding * 2, padding)
-    draw.text(start,  beta_string,
-              font=local_font, fill=text_color)
+    left_anchor = (alpha_width + padding * 2, padding)
+    draw.text(left_anchor,  beta_string, font=local_font, fill=text_color)
 
     cv2.imwrite('actions/' + save_name + '.png', np.array(base_colors_done))
 
 
 def get_text_size(text: str, font_size: int, font_name: str) -> Tuple:
-    """ Returns a tuple of the size required to hold the provided string with the provided font and point size.
+    """ Returns a tuple of the size required to hold the provided 
+        string with the provided font and point size.
     """
     font = ImageFont.truetype(font_name, font_size)
     return font.getsize(text)
 
 
-def find_files(starting_dir, extensions=[], recursive=False):
-    '''
-    Finds all files within the provided directory that 
-    end in one of the provided extensions.
-    '''
+def find_files(starting_dir: str, extensions: list = [], recursive: bool = False) -> list:
+    """ Finds all files within the provided directory that 
+        end in one of the provided extensions.
+
+        Parameters:
+            starting_dir: the directory to start recursing from
+            extensions: a list of valid extensions such as [".java"]
+            recursive: whether to recurse through found subdirectories
+
+        Returns:
+            a list of discovered files
+    """
 
     ret = []
 
@@ -154,14 +180,15 @@ def find_files(starting_dir, extensions=[], recursive=False):
     return ret
 
 
-def analyze_file(file):
-    """
-    Returns a tuple of the number of code lines, 
-    comments lines, and blank lines in that order
-    """
+def analyze_file(file: str) -> Tuple:
+    """ Analyzes the provided file for source code.
 
-    # don't change me
-    blockMode = False
+        Parameters:
+            a file to analyze
+
+        Returns:
+            a tuple in the following order (num+code_lines, num_comment_lines, num_blank_lines)
+    """
 
     num_comments = 0
     num_code_lines = 0
@@ -185,19 +212,36 @@ def analyze_file(file):
     return (num_code_lines, num_comments, num_blank_lines)
 
 
-def count_code_lines(file_lines):
+def count_code_lines(file_lines: list) -> int:
+    """ Counts the number of code lines of the provided file lines.
+        A line is a code line if it is not a comment and not empty.
+
+        Parameters:
+            file_lines: the lines of a file
+
+        Returns:
+            the number of code lines of the provided file lines
+    """
     ret = 0
 
     for line in file_lines:
         line = line.strip()
 
-        if len(line) > 0 and not is_comment(line):
+        if len(line) > 0 and not is_comment_line(line):
             ret = ret + 1
 
     return ret
 
 
-def count_comment_lines(file_lines):
+def count_comment_lines(file_lines: list) -> int:
+    """ Counts the number of comments of the provided file lines.
+
+        Parameters:
+            file_lines: the lines of a file
+
+        Returns:
+            the number of comment lines of the provided file lines
+    """
     ret = 0
     block_comment = False
 
@@ -213,50 +257,40 @@ def count_comment_lines(file_lines):
 
         if block_comment:
             ret = ret + 1
-        elif len(line.strip()) > 0 and is_comment(line):
+        elif len(line.strip()) > 0 and is_comment_line(line):
             ret = ret + 1
 
     return ret
 
 
-def is_comment(line) -> bool:
-    return re.compile("\s*[/]{2}.*|\s*[/][*].*|\s*[*].*|\s*.*[*][/]\s*").match(line)
+def is_comment_line(line: str) -> bool:
+    """ Returns whether the provided line is a comment line.
+    """
+    return re.compile(IS_COMMENT_REGEX).match(line)
+
+
+def main():
+    print("Finding files starting from cwd:", os.getcwd())
+
+    tuple = analyze_file(find_files(starting_dir="cyder",
+                         extensions=['.java'], recursive=True))
+
+    code_lines = tuple[0]
+    comment_lines = tuple[1]
+    blank_lines = tuple[2]
+
+    print('---- Found code stats ----')
+    print('Total code lines:', code_lines)
+    print('Total comment lines:', comment_lines)
+    print('Total blank lines:', blank_lines)
+
+    export_stats(code_lines=code_lines, comment_lines=comment_lines,
+                 blank_lines=blank_lines, width=250, height=250, save_name="stats")
+
+    # when regeneration is desired, uncomment these and manually run job
+    # export_string_badge("Cyder", "A Programmer's Swiss Army Knife", "tagline")
+    # export_string_badge("By", "Nate Cheshire", "author")
 
 
 if __name__ == '__main__':
-    print("Finding files from directory:", os.getcwd())
-
-    files = os.listdir(os.getcwd())
-
-    for file in files:
-        print("Neighboring file:", file)
-
-    print("Can find font file at actions/roboto.ttf:",
-          os.path.exists(os.path.join('actions', "roboto.ttf")))
-
-    files = find_files(starting_dir="cyder",
-                       extensions=['.java'], recursive=True)
-
-    code_lines = 0
-    comment_lines = 0
-    blank_lines = 0
-
-    for file in files:
-        tuple = analyze_file(file)
-
-        code_lines = code_lines + tuple[0]
-        comment_lines = comment_lines + tuple[1]
-        blank_lines = blank_lines + tuple[2]
-
-    print('Found code stats:')
-    print('Code lines:', code_lines)
-    print('Comment lines:', comment_lines)
-    print('Blank lines:', blank_lines)
-
-    export_stats(code_lines=code_lines, comment_lines=comment_lines,
-                 blank_lines=blank_lines, save_name="stats")
-
-    export_string_badge(
-        "Cyder", "A Programmer's Swiss Army Knife", "tagline")
-    export_string_badge(
-        "By", "Nate Cheshire", "author")
+    main()
