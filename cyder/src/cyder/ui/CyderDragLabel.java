@@ -86,6 +86,7 @@ public class CyderDragLabel extends JLabel {
         setOpaque(true);
         setFocusable(false);
         setBackground(CyderColors.getGuiThemeColor());
+        this.backgroundColor = CyderColors.getGuiThemeColor();
 
         // this is clearer to me than a global variable
         int[] mousePoints = {0, 0};

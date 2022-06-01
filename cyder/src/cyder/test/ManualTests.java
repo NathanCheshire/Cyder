@@ -45,11 +45,7 @@ public class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                // todo do this if user has never logged into Cyder before now
-                //                ConsoleFrame.INSTANCE.titleNotify("<html>Greetings "
-                //                                + UserUtil.getCyderUser().getName()
-                //                                + "<br/>Welcome to Cyder</html>",
-                //                        CyderFonts.defaultFont.deriveFont(80f), 5000);
+
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

@@ -1,0 +1,88 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[20-01-38] [ENTRY]: Nathan
+[20-01-38] [PROP LOADED]: [key = map_quest_api_key]
+[20-01-38] [PROP LOADED]: [key = youtube_api_3_key]
+[20-01-38] [PROP LOADED]: [key = ip_key]
+[20-01-38] [PROP LOADED]: [key = weather_key]
+[20-01-38] [PROP LOADED]: [key = debug_hash_name]
+[20-01-38] [PROP LOADED]: [key = debug_hash_password]
+[20-01-38] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[20-01-38] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[20-01-38] [PROP LOADED]: [key = font_metric, value = 1]
+[20-01-38] [PROP LOADED]: [key = released, value = false]
+[20-01-38] [PROP LOADED]: [key = fast_test, value = false]
+[20-01-38] [PROP LOADED]: [key = version, value = Liminal]
+[20-01-38] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[20-01-38] [PROP LOADED]: [key = components_relocatable, value = false]
+[20-01-38] [PROP LOADED]: [key = testing_mode, value = true]
+[20-01-38] [PROP LOADED]: [key = autocypher, value = true]
+[20-01-38] [PROP LOADED]: [key = dispose_splash, value = true]
+[20-01-38] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[20-01-38] [PROP LOADED]: [key = activate_watchdog, value = false]
+[20-01-38] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[20-01-38] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[20-01-38] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[20-01-38] [PROP LOADED]: [key = ui_scale, value = 1.0]
+[20-01-38] [THREAD STARTED]: Object Creation Logger
+[20-01-39] [DEBUG]: Watchdog skipped
+[20-01-39] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-01-40] [FONT LOADED]: agency-fb
+[20-01-40] [FONT LOADED]: arial-black
+[20-01-40] [FONT LOADED]: beyno
+[20-01-40] [FONT LOADED]: condiment-regular
+[20-01-40] [FONT LOADED]: prompt-bold
+[20-01-40] [FONT LOADED]: segoe-ui-black
+[20-01-40] [FONT LOADED]: tahoma
+[20-01-40] [THREAD STARTED]: Splash Loader
+[20-01-40] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-01-40] [THREAD STARTED]: Splash Animation
+[20-01-40] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[20-01-41] [THREAD STARTED]: Secondary Subroutines Runner
+[20-01-41] [LOGIN]: AUTOCYPHER ATTEMPT
+[20-01-41] [THREAD STARTED]: JVM Args Logger
+[20-01-41] [OBJECT CREATION]: Objects created since last delta (5000ms): 62
+[20-01-41] [THREAD STARTED]: Cyder Splash Opacity Decrement Animator
+[20-01-42] [DEBUG]: Cyder Entry = AutoCypher
+[20-01-42] [THREAD STARTED]: Cyder Splash Opacity Increment Animator
+[20-01-43] [THREAD STARTED]: High Ping Checker
+[20-01-43] [THREAD STARTED]: Console Printing Animation
+[20-01-43] [THREAD STARTED]: Splash Loading Label Updater
+[20-01-43] [THREAD STARTED]: Hourly Chime Checker
+[20-01-43] [THREAD STARTED]: Console Clock Updater
+[20-01-43] [THREAD STARTED]: Cyder Busy Checker
+[20-01-43] [THREAD STARTED]: ConsoleFrame Stat Saver
+[20-01-43] [THREAD STARTED]: Harmonic Rectangle Animator
+[20-01-43] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[20-01-43] [THREAD STARTED]: Harmonic Rectangle Animator
+[20-01-43] [THREAD STARTED]: Harmonic Rectangle Animator
+[20-01-43] [THREAD STARTED]: Harmonic Rectangle Animator
+[20-01-44] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[20-01-44] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 2045373135, bounds = (1438,
+           280, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[20-01-44] [CONSOLE OUT]: [STRING]: Console loaded in 5615ms
+[20-01-44] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[20-01-44] [THREAD STARTED]: Manual Tests Thread
+[20-01-44] [DEBUG]: Attempted to log a new or empty line
