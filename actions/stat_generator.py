@@ -94,7 +94,8 @@ def get_compressed_number(num: int) -> str:
     return str(round(num / 1000.0, 1)) + 'K'
 
 
-def export_string_badge(alpha_string, beta_string, save_name, font_size=18, padding=15):
+def export_string_badge(alpha_string: str, beta_string: str, save_name: str, font_size: int = 18,
+                        horizontal_padding: int = 15, vertical_padding: int = 10):
     """ Exports a png to the root directory resembling a badge with the provided parameters.
 
         Parameters:
@@ -102,7 +103,8 @@ def export_string_badge(alpha_string, beta_string, save_name, font_size=18, padd
             beta_string: the string for the right of the badge
             save_name: the name to save the png as
             font_size: the size for the font
-            padding: the top, right, bottom, and left padding values
+            horizontal_padding: the left/right padding between the image borders and words
+            vertical_padding: the top/bottom padding between the image borders and words
     """
 
     text_color = (245, 245, 245)
@@ -116,23 +118,26 @@ def export_string_badge(alpha_string, beta_string, save_name, font_size=18, padd
     beta_width = get_text_size(beta_string, font_size, FONT_PATH)[0]
     text_height = get_text_size(beta_string, font_size, FONT_PATH)[1]
 
-    full_width = padding + alpha_width + padding + padding + beta_width + padding
-    full_height = padding + text_height + padding
+    full_width = (horizontal_padding + alpha_width
+                  + 2 * horizontal_padding + beta_width + horizontal_padding)
+    full_height = vertical_padding + text_height + vertical_padding
 
     blank_image = np.zeros((full_height, full_width, 3), np.uint8)
     alpha_color_drawn = cv2.rectangle(blank_image, (0, 0),
-                                      (alpha_width + 2 * padding, full_height), left_background_color, -1)
-    beta_color_drawn = cv2.rectangle(alpha_color_drawn, (alpha_width + padding, 0),
+                                      (alpha_width + 2 *
+                                       horizontal_padding, full_height),
+                                      left_background_color, -1)
+    beta_color_drawn = cv2.rectangle(alpha_color_drawn, (alpha_width + horizontal_padding, 0),
                                      (full_width, full_height), right_background_color, -1)
 
     base_colors_done = Image.fromarray(beta_color_drawn)
 
     draw = ImageDraw.Draw(base_colors_done)
-    left_anchor = (padding / 2, padding)
+    left_anchor = (horizontal_padding / 2, vertical_padding)
     draw.text(left_anchor,  alpha_string, font=local_font, fill=text_color)
 
     draw = ImageDraw.Draw(base_colors_done)
-    left_anchor = (alpha_width + padding * 2, padding)
+    left_anchor = (alpha_width + horizontal_padding * 2, vertical_padding)
     draw.text(left_anchor,  beta_string, font=local_font, fill=text_color)
 
     cv2.imwrite('actions/' + save_name + '.png', np.array(base_colors_done))
@@ -273,7 +278,7 @@ def main():
     print("Finding files starting from cwd:", os.getcwd())
 
     files = find_files(starting_dir="cyder",
-                         extensions=['.java'], recursive=True)
+                       extensions=['.java'], recursive=True)
 
     code_lines = 0
     comment_lines = 0
