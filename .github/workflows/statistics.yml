@@ -20,9 +20,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
-          git add actions/author.png
-          git add actions/stats.png
-          git add actions/tagline.png
+          git add .
           git commit -m "update README statistics"
 
       - name: Push changes

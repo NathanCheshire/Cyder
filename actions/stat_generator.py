@@ -214,6 +214,11 @@ def analyze_file(file: str) -> Tuple:
         raise Exception(
             'Found file that does not end in .java or .kt: ' + file)
 
+    print('---- Found code stats of', file, '----')
+    print('Code lines:', num_code_lines)
+    print('Comment lines:', num_comments)
+    print('Blank lines:', num_blank_lines)
+
     return (num_code_lines, num_comments, num_blank_lines)
 
 
