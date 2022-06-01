@@ -104,7 +104,7 @@ def export_string_badge(alpha_string, beta_string, save_name, font_size=18, padd
             font_size: the size for the font
             padding: the top, right, bottom, and left padding values
     """
-    
+
     text_color = (245, 245, 245)
 
     left_background_color = (131, 83, 5)
@@ -272,12 +272,19 @@ def is_comment_line(line: str) -> bool:
 def main():
     print("Finding files starting from cwd:", os.getcwd())
 
-    tuple = analyze_file(find_files(starting_dir="cyder",
-                         extensions=['.java'], recursive=True))
+    files = find_files(starting_dir="cyder",
+                         extensions=['.java'], recursive=True)
 
-    code_lines = tuple[0]
-    comment_lines = tuple[1]
-    blank_lines = tuple[2]
+    code_lines = 0
+    comment_lines = 0
+    blank_lines = 0
+
+    for file in files:
+        tuple = analyze_file(file)
+
+        code_lines = code_lines + tuple[0]
+        comment_lines = comment_lines + tuple[1]
+        blank_lines = blank_lines + tuple[2]
 
     print('---- Found code stats ----')
     print('Total code lines:', code_lines)
