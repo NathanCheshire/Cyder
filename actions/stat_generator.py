@@ -305,8 +305,8 @@ def main():
                  blank_lines=blank_lines, width=250, height=250, save_name="stats")
 
     # when regeneration is desired, uncomment these and manually run job
-    # export_string_badge("Cyder", "A Programmer's Swiss Army Knife", "tagline")
-    # export_string_badge("By", "Nate Cheshire", "author")
+    export_string_badge("Cyder", "A Programmer's Swiss Army Knife", "tagline")
+    export_string_badge("By", "Nate Cheshire", "author")
 
 
 if __name__ == '__main__':
