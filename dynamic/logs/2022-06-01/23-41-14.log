@@ -116,3 +116,10 @@
 [23-41-37] [OBJECT CREATION]: Objects created since last delta (5000ms): 4
 [23-42-16] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
 [23-42-16] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[23-42-18] [CLIENT]: quit
+[23-42-18] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[23-42-18] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 1636291061, bounds
+           = (593, 321, 728, 735), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[23-42-19] [EXIT]: [RUNTIME] 1m 5s
+[23-42-19] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown

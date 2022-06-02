@@ -873,7 +873,7 @@ public class UserEditor {
                     new CyderCaret(ColorUtil.hexStringToColor(defaultUser.getForeground())));
 
             // reset font
-            UserUtil.getCyderUser().setForeground(defaultUser.getFont());
+            UserUtil.getCyderUser().setForeground(defaultUser.getForeground());
             Font ApplyFont = new Font(defaultUser.getFont(), Font.BOLD, 30);
             ConsoleFrame.INSTANCE.getOutputArea().setFont(ApplyFont);
             ConsoleFrame.INSTANCE.getInputField().setFont(ApplyFont);

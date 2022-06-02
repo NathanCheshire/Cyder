@@ -1,0 +1,109 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[23-58-13] [ENTRY]: Nathan
+[23-58-13] [PROP LOADED]: [key = map_quest_api_key]
+[23-58-13] [PROP LOADED]: [key = youtube_api_3_key]
+[23-58-13] [PROP LOADED]: [key = ip_key]
+[23-58-13] [PROP LOADED]: [key = weather_key]
+[23-58-13] [PROP LOADED]: [key = debug_hash_name]
+[23-58-13] [PROP LOADED]: [key = debug_hash_password]
+[23-58-13] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[23-58-13] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[23-58-13] [PROP LOADED]: [key = font_metric, value = 1]
+[23-58-13] [PROP LOADED]: [key = released, value = false]
+[23-58-13] [PROP LOADED]: [key = fast_test, value = false]
+[23-58-13] [PROP LOADED]: [key = version, value = Liminal]
+[23-58-13] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[23-58-13] [PROP LOADED]: [key = components_relocatable, value = false]
+[23-58-13] [PROP LOADED]: [key = testing_mode, value = true]
+[23-58-13] [PROP LOADED]: [key = autocypher, value = true]
+[23-58-13] [PROP LOADED]: [key = dispose_splash, value = true]
+[23-58-13] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[23-58-13] [PROP LOADED]: [key = activate_watchdog, value = false]
+[23-58-13] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[23-58-13] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[23-58-13] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[23-58-13] [PROP LOADED]: [key = ui_scale, value = 1.0]
+[23-58-13] [THREAD STARTED]: Object Creation Logger
+[23-58-13] [DEBUG]: Watchdog skipped
+[23-58-13] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[23-58-14] [FONT LOADED]: agency-fb
+[23-58-14] [FONT LOADED]: arial-black
+[23-58-14] [FONT LOADED]: beyno
+[23-58-14] [FONT LOADED]: condiment-regular
+[23-58-14] [FONT LOADED]: prompt-bold
+[23-58-14] [FONT LOADED]: segoe-ui-black
+[23-58-14] [FONT LOADED]: tahoma
+[23-58-14] [THREAD STARTED]: Splash Loader
+[23-58-14] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-58-14] [EXCEPTION]:
+           Exception origin: cyder.ui.CyderFrame.refreshLayout(CyderFrame.java:2042)
+           From line: 2042
+           Trace: java.lang.NullPointerException: Cannot invoke "javax.swing.JLabel.setBounds(int, int, int, int)" because "this.iconLabel" is null
+           at cyder.ui.CyderFrame.refreshLayout(CyderFrame.java:2042)
+           at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1799)
+           at java.desktop/java.awt.Component.resize(Component.java:2254)
+           at java.desktop/java.awt.Component.setSize(Component.java:2239)
+           at java.desktop/java.awt.Window.setSize(Window.java:930)
+           at cyder.ui.CyderFrame.setSize(CyderFrame.java:1721)
+           at java.desktop/java.awt.Component.resize(Component.java:2287)
+           at java.desktop/java.awt.Component.setSize(Component.java:2274)
+           at java.desktop/java.awt.Window.setSize(Window.java:908)
+           at cyder.ui.CyderFrame.<init>(CyderFrame.java:505)
+           at cyder.ui.CyderFrame.generateBorderlessFrame(CyderFrame.java:491)
+           at cyder.genesis.CyderSplash.lambda$showSplash$3(CyderSplash.java:137)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[23-58-15] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[23-58-15] [THREAD STARTED]: Secondary Subroutines Runner
+[23-58-15] [THREAD STARTED]: JVM Args Logger
+[23-58-15] [LOGIN]: AUTOCYPHER ATTEMPT
+[23-58-15] [DEBUG]: Cyder Entry = AutoCypher
+[23-58-16] [OBJECT CREATION]: Objects created since last delta (5000ms): 58
+[23-58-16] [EXCEPTION]:
+           Exception origin: cyder.ui.CyderFrame.refreshLayout(CyderFrame.java:2042)
+           From line: 2042
+           Trace: java.lang.NullPointerException: Cannot invoke "javax.swing.JLabel.setBounds(int, int, int, int)" because "this.iconLabel" is null
+           at cyder.ui.CyderFrame.refreshLayout(CyderFrame.java:2042)
+           at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1799)
+           at cyder.handlers.ConsoleFrame$5.setBounds(ConsoleFrame.java:379)
+           at java.desktop/java.awt.Component.resize(Component.java:2254)
+           at java.desktop/java.awt.Component.setSize(Component.java:2239)
+           at java.desktop/java.awt.Window.setSize(Window.java:930)
+           at cyder.ui.CyderFrame.setSize(CyderFrame.java:1721)
+           at java.desktop/java.awt.Component.resize(Component.java:2287)
+           at java.desktop/java.awt.Component.setSize(Component.java:2274)
+           at java.desktop/java.awt.Window.setSize(Window.java:908)
+           at cyder.ui.CyderFrame.<init>(CyderFrame.java:334)
+           at cyder.handlers.ConsoleFrame$5.<init>(ConsoleFrame.java:376)
+           at cyder.handlers.ConsoleFrame.setupConsoleCyderFrame(ConsoleFrame.java:376)
+           at cyder.handlers.ConsoleFrame.launch(ConsoleFrame.java:331)
+           at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:503)
+           at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:524)
+           at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:440)
+           at cyder.genesis.Cyder.main(Cyder.java:133)
+[23-58-16] [THREAD STARTED]: High Ping Checker
+[23-58-16] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[23-58-21] [OBJECT CREATION]: Objects created since last delta (5000ms): 1
+[23-58-43] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 2

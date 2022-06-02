@@ -1,0 +1,107 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[23-59-09] [ENTRY]: Nathan
+[23-59-09] [PROP LOADED]: [key = map_quest_api_key]
+[23-59-09] [PROP LOADED]: [key = youtube_api_3_key]
+[23-59-09] [PROP LOADED]: [key = ip_key]
+[23-59-09] [PROP LOADED]: [key = weather_key]
+[23-59-09] [PROP LOADED]: [key = debug_hash_name]
+[23-59-09] [PROP LOADED]: [key = debug_hash_password]
+[23-59-09] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[23-59-09] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[23-59-09] [PROP LOADED]: [key = font_metric, value = 1]
+[23-59-09] [PROP LOADED]: [key = released, value = false]
+[23-59-09] [PROP LOADED]: [key = fast_test, value = false]
+[23-59-09] [PROP LOADED]: [key = version, value = Liminal]
+[23-59-09] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[23-59-09] [PROP LOADED]: [key = components_relocatable, value = false]
+[23-59-09] [PROP LOADED]: [key = testing_mode, value = true]
+[23-59-09] [PROP LOADED]: [key = autocypher, value = true]
+[23-59-09] [PROP LOADED]: [key = dispose_splash, value = true]
+[23-59-09] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[23-59-09] [PROP LOADED]: [key = activate_watchdog, value = false]
+[23-59-09] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[23-59-09] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[23-59-09] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[23-59-09] [PROP LOADED]: [key = ui_scale, value = 1.0]
+[23-59-09] [THREAD STARTED]: Object Creation Logger
+[23-59-09] [DEBUG]: Watchdog skipped
+[23-59-09] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[23-59-11] [FONT LOADED]: agency-fb
+[23-59-11] [FONT LOADED]: arial-black
+[23-59-11] [FONT LOADED]: beyno
+[23-59-11] [FONT LOADED]: condiment-regular
+[23-59-11] [FONT LOADED]: prompt-bold
+[23-59-11] [FONT LOADED]: segoe-ui-black
+[23-59-11] [FONT LOADED]: tahoma
+[23-59-11] [THREAD STARTED]: Splash Loader
+[23-59-11] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-59-14] [THREAD STARTED]: Splash Animation
+[23-59-14] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[23-59-14] [THREAD STARTED]: Secondary Subroutines Runner
+[23-59-14] [LOGIN]: AUTOCYPHER ATTEMPT
+[23-59-14] [THREAD STARTED]: JVM Args Logger
+[23-59-15] [DEBUG]: Cyder Entry = AutoCypher
+[23-59-16] [THREAD STARTED]: High Ping Checker
+[23-59-16] [EXCEPTION]:
+           Exception origin: java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+           From line: 67
+           Trace: java.lang.NumberFormatException: For input string: "Ag" under radix 16
+           at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+           at java.base/java.lang.Integer.parseInt(Integer.java:668)
+           at java.base/java.lang.Integer.valueOf(Integer.java:973)
+           at cyder.utilities.ColorUtil.hexStringToColor(ColorUtil.java:67)
+           at cyder.handlers.ConsoleFrame.installOutputArea(ConsoleFrame.java:608)
+           at cyder.handlers.ConsoleFrame.launch(ConsoleFrame.java:337)
+           at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:503)
+           at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:524)
+           at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:440)
+           at cyder.genesis.Cyder.main(Cyder.java:133)
+[23-59-16] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[23-59-16] [THREAD STARTED]: Splash Loading Label Updater
+[23-59-16] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-16] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-16] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-17] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-17] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-17] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-17] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-17] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-17] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-17] [OBJECT CREATION]: Objects created since last delta (5000ms): 84
+[23-59-17] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-17] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-17] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-17] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-18] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-18] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-18] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-18] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-18] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-18] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-18] [THREAD STARTED]: Harmonic Rectangle Animator
+[23-59-24] [THREAD STARTED]: Cyder Splash Opacity Decrement Animator
+[23-59-24] [THREAD STARTED]: Cyder Splash Opacity Increment Animator
+[00-00-22] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 1
