@@ -1747,36 +1747,30 @@ public class CyderFrame extends JFrame {
 
         super.setBounds(x, y, width, height);
 
+        boolean dimensionsSame = this.width == width && this.height == height;
+
         this.width = width;
         this.height = height;
 
-        // drag labels if present
+        // todo okay lol menu wiggle is gone but the console frame buttons aren't there?
+
+        // todo lots of duplicate between here and setSize I assume
+
+        if (dimensionsSame)
+            return;
+
         if (getTopDragLabel() != null) {
-            topDrag.setWidth(this.width - 2 * frameResizingLen);
-            topDrag.setHeight(CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
+            topDragCover.setBounds(0, 0, width - 2 * frameResizingLen,
+                    CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
 
-            topDragCover.setBounds(0, 0, width, 2);
-            topDragCover.setBackground(CyderColors.getGuiThemeColor());
+            leftDragCover.setBounds(0, 0, 5 - frameResizingLen,
+                    height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
 
-            leftDrag.setWidth(5 - frameResizingLen);
-            leftDrag.setHeight(this.height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
+            rightDragCover.setBounds(5 - frameResizingLen, 0, 2,
+                    height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
 
-            leftDragCover.setBounds(0, 0, 2, height);
-            leftDragCover.setBackground(CyderColors.getGuiThemeColor());
-
-            rightDrag.setWidth(5 - frameResizingLen);
-            rightDrag.setHeight(this.height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
-
-            rightDragCover.setBounds(width - 2, 0, 2, height);
-            rightDragCover.setBackground(CyderColors.getGuiThemeColor());
-
-            bottomDrag.setWidth(this.width - frameResizingLen * 2);
-            bottomDrag.setHeight(5 - frameResizingLen);
-
-            bottomDragCover.setBounds(0, height - 2, width, 2);
-            bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
-
-            refreshTitleAndButtonPosition();
+            bottomDragCover.setBounds(0, 5 - frameResizingLen,
+                    width - frameResizingLen * 2, 2);
 
             topDrag.setBounds(frameResizingLen, frameResizingLen, this.width - 2 * frameResizingLen,
                     CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
@@ -1797,14 +1791,16 @@ public class CyderFrame extends JFrame {
 
             bottomDrag.setXOffset(frameResizingLen);
             bottomDrag.setYOffset(this.height - 5);
+        }
 
-            refreshLayout();
+        refreshTitleAndButtonPosition();
 
-            if (menuLabel != null && menuLabel.isVisible()) {
-                generateMenu();
-                menuLabel.setLocation(animateMenuToPoint);
-                menuLabel.setVisible(true);
-            }
+        refreshLayout();
+
+        if (menuLabel != null && menuLabel.isVisible()) {
+            generateMenu();
+            menuLabel.setLocation(animateMenuToPoint);
+            menuLabel.setVisible(true);
         }
 
         if (getCurrentNotification() != null) {
