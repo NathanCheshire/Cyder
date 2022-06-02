@@ -1706,8 +1706,26 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setSize(int width, int height) {
-        setBounds(getX(), getY(), width, height);
-        revalidateFrameUiElements();
+        if (width < MINIMUM_WIDTH) {
+            Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + getTitle()
+                    + "\" was attempted to be set to invalid width: " + width);
+            width = MINIMUM_WIDTH;
+        }
+
+        if (height < MINIMUM_HEIGHT) {
+            Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + getTitle()
+                    + "\" was attempted to be set to invalid height: " + height);
+            height = MINIMUM_HEIGHT;
+        }
+
+        super.setSize(width, height);
+
+        if (isVisible() && UserUtil.getCyderUser().getRoundedwindows().equals("1")) {
+            setShape(new RoundRectangle2D.Double(0, 0,
+                    getWidth(), getHeight(), 20, 20));
+        } else {
+            setShape(null);
+        }
     }
 
     /**
@@ -1732,7 +1750,79 @@ public class CyderFrame extends JFrame {
         this.width = width;
         this.height = height;
 
-        revalidateFrameUiElements();
+        // drag labels if present
+        if (getTopDragLabel() != null) {
+            topDrag.setWidth(this.width - 2 * frameResizingLen);
+            topDrag.setHeight(CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
+
+            topDragCover.setBounds(0, 0, width, 2);
+            topDragCover.setBackground(CyderColors.getGuiThemeColor());
+
+            leftDrag.setWidth(5 - frameResizingLen);
+            leftDrag.setHeight(this.height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
+
+            leftDragCover.setBounds(0, 0, 2, height);
+            leftDragCover.setBackground(CyderColors.getGuiThemeColor());
+
+            rightDrag.setWidth(5 - frameResizingLen);
+            rightDrag.setHeight(this.height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
+
+            rightDragCover.setBounds(width - 2, 0, 2, height);
+            rightDragCover.setBackground(CyderColors.getGuiThemeColor());
+
+            bottomDrag.setWidth(this.width - frameResizingLen * 2);
+            bottomDrag.setHeight(5 - frameResizingLen);
+
+            bottomDragCover.setBounds(0, height - 2, width, 2);
+            bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
+
+            refreshTitleAndButtonPosition();
+
+            topDrag.setBounds(frameResizingLen, frameResizingLen, this.width - 2 * frameResizingLen,
+                    CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
+            leftDrag.setBounds(frameResizingLen, CyderDragLabel.DEFAULT_HEIGHT, 5 - frameResizingLen,
+                    this.height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
+            rightDrag.setBounds(this.width - 5, CyderDragLabel.DEFAULT_HEIGHT,
+                    5 - frameResizingLen, this.height - CyderDragLabel.DEFAULT_HEIGHT - 2);
+            bottomDrag.setBounds(frameResizingLen, this.height - 5, this.width - 4, 5 - frameResizingLen);
+
+            topDrag.setXOffset(frameResizingLen);
+            topDrag.setYOffset(frameResizingLen);
+
+            leftDrag.setXOffset(frameResizingLen);
+            leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
+
+            rightDrag.setXOffset(this.width - 5);
+            rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
+
+            bottomDrag.setXOffset(frameResizingLen);
+            bottomDrag.setYOffset(this.height - 5);
+
+            refreshLayout();
+
+            if (menuLabel != null && menuLabel.isVisible()) {
+                generateMenu();
+                menuLabel.setLocation(animateMenuToPoint);
+                menuLabel.setVisible(true);
+            }
+        }
+
+        if (getCurrentNotification() != null) {
+            switch (getCurrentNotification().getBuilder().getArrowDir()) {
+                // center on frame
+                case TOP, BOTTOM -> currentNotification.setLocation(getWidth() / 2 - currentNotification.getWidth() / 2,
+                        currentNotification.getY());
+
+                // maintain right of frame
+                case RIGHT -> currentNotification.setLocation(getWidth() - currentNotification.getWidth() + 5,
+                        currentNotification.getY());
+
+                // maintain left of frame
+                case LEFT -> currentNotification.setLocation(5, currentNotification.getY());
+            }
+        }
+
+        checkTitleOverflow();
     }
 
     /**
@@ -2148,144 +2238,72 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * {@inheritDoc}
+     * Repaints the frame, associated shape, and objects using
+     * the {@link CyderColors#getGuiThemeColor()} attribute.
      */
     @Override
     public void repaint() {
-        revalidateFrameUiElements();
-        super.repaint();
-    }
-
-    /**
-     * Revalidates all frame ui elements based on the currently set size such as:
-     * Title and button labels and positions
-     * Content and true content panes
-     * Drag labels and drag area covers
-     * Drag label colors
-     * Menus
-     * Possible title overflow
-     * The current notification
-     * The frame shape
-     * The content label border
-     */
-    private void revalidateFrameUiElements() {
-        // borderless frames --------------------------
         if (topDrag == null) {
-            if (getContentPane() != null) {
+            //update content panes
+            if (getContentPane() != null)
                 getContentPane().repaint();
-            }
-
-            if (getTrueContentPane() != null) {
+            if (getTrueContentPane() != null)
                 getTrueContentPane().repaint();
-            }
 
+            //finally super call
             super.repaint();
-            System.out.println("Revalidating borderless frame");
             return;
         }
 
-        // now we're guaranteed to have all 4 drag labels unless the architecture changes
-        // 4-31-22
-
-        // fix shape
-        if (isVisible() && UserUtil.getCyderUser().getRoundedwindows().equals("1")) {
-            setShape(new RoundRectangle2D.Double(0, 0,
-                    getWidth(), getHeight(), 20, 20));
-        } else {
-            setShape(null);
+        try {
+            //fix shape
+            if (cr == null) {
+                if (ConsoleFrame.INSTANCE.getUUID() != null) {
+                    if (UserUtil.getCyderUser().getRoundedwindows().equals("1")) {
+                        setShape(new RoundRectangle2D.Double(0, 0,
+                                getWidth(), getHeight(), 20, 20));
+                    } else {
+                        setShape(null);
+                    }
+                }
+            } else {
+                setShape(null);
+            }
+        } catch (Exception e) {
+            ExceptionHandler.silentHandle(e);
         }
 
+        //update the border covering the resize area
+        contentLabel.setBorder(new LineBorder(
+                CyderColors.getGuiThemeColor(), 5 - frameResizingLen, false));
+
+        //update drag labels
+        topDrag.setBackground(CyderColors.getGuiThemeColor());
+        bottomDrag.setBackground(CyderColors.getGuiThemeColor());
+        leftDrag.setBackground(CyderColors.getGuiThemeColor());
+        rightDrag.setBackground(CyderColors.getGuiThemeColor());
+        topDragCover.setBackground(CyderColors.getGuiThemeColor());
+        bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
+        leftDragCover.setBackground(CyderColors.getGuiThemeColor());
+        rightDragCover.setBackground(CyderColors.getGuiThemeColor());
+
+        //repaint drag labels
+        topDrag.repaint();
+        leftDrag.repaint();
+        bottomDrag.repaint();
+        rightDrag.repaint();
+
+        //update content panes
         getContentPane().repaint();
         getTrueContentPane().repaint();
 
-        refreshTitleAndButtonPosition();
-
-        contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(),
-                5 - frameResizingLen, false));
-
-        if (topDrag != null) {
-            topDrag.setBounds(frameResizingLen, frameResizingLen, this.width - 2 * frameResizingLen,
-                    CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
-            topDrag.setBackground(CyderColors.getGuiThemeColor());
-
-            topDragCover.setBounds(0, 0, width, 2);
-            topDragCover.setBackground(CyderColors.getGuiThemeColor());
-
-            topDrag.setXOffset(frameResizingLen);
-            topDrag.setYOffset(frameResizingLen);
-
-            topDrag.repaint();
+        if (menuLabel != null) {
+            menuLabel.setBackground(CyderColors.getGuiThemeColor());
+            menuLabel.repaint();
         }
 
-        if (rightDrag != null) {
-            rightDrag.setBounds(this.width - 5, CyderDragLabel.DEFAULT_HEIGHT,
-                    5 - frameResizingLen, this.height - CyderDragLabel.DEFAULT_HEIGHT - 2);
-            rightDrag.setBackground(CyderColors.getGuiThemeColor());
-
-            rightDragCover.setBounds(width - 2, 0, 2, height);
-            rightDragCover.setBackground(CyderColors.getGuiThemeColor());
-
-            rightDrag.setXOffset(this.width - 5);
-            rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
-
-            rightDrag.repaint();
-        }
-
-        if (bottomDrag != null) {
-            bottomDrag.setBounds(frameResizingLen, this.height - 5,
-                    this.width - 2 * frameResizingLen, 5 - frameResizingLen);
-            bottomDrag.setBackground(CyderColors.getGuiThemeColor());
-
-            bottomDragCover.setBounds(0, height - 2, width, 2);
-            bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
-
-            bottomDrag.setXOffset(frameResizingLen);
-            bottomDrag.setYOffset(this.height - 5);
-
-            bottomDrag.repaint();
-        }
-
-        if (leftDrag != null) {
-            leftDrag.setBounds(frameResizingLen, CyderDragLabel.DEFAULT_HEIGHT, 5 - frameResizingLen,
-                    this.height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
-            leftDrag.setBackground(CyderColors.getGuiThemeColor());
-
-            leftDragCover.setBounds(0, 0, 2, height);
-            leftDragCover.setBackground(CyderColors.getGuiThemeColor());
-
-            leftDrag.setXOffset(frameResizingLen);
-            leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
-
-            leftDrag.repaint();
-        }
-
-
-        if (menuLabel != null && menuLabel.isVisible()) {
-            generateMenu();
-            menuLabel.setLocation(animateMenuToPoint);
-            menuLabel.setVisible(true);
-        }
-
-        if (getCurrentNotification() != null) {
-            switch (getCurrentNotification().getBuilder().getArrowDir()) {
-                // center on frame
-                case TOP, BOTTOM -> currentNotification.setLocation(
-                        getWidth() / 2 - currentNotification.getWidth() / 2,
-                        currentNotification.getY());
-
-                // maintain right of frame
-                case RIGHT -> currentNotification.setLocation(
-                        getWidth() - currentNotification.getWidth() + 5,
-                        currentNotification.getY());
-
-                // maintain left of frame
-                case LEFT -> currentNotification.setLocation(5, currentNotification.getY());
-            }
-        }
-
-        refreshLayout();
-
-        checkTitleOverflow();
+        //finally super call
+        super.repaint();
     }
 
     /**
@@ -2555,10 +2573,10 @@ public class CyderFrame extends JFrame {
      */
     public JLabel getCustomTaskbarIcon() {
         JLabel customLabel = new JLabel();
-        customLabel.setSize(CyderFrame.TASKBAR_ICON_LENGTH, CyderFrame.TASKBAR_ICON_LENGTH);
+        customLabel.setSize(CyderFrame.taskbarIconLength, CyderFrame.taskbarIconLength);
 
-        int len = CyderFrame.TASKBAR_ICON_LENGTH;
-        int borderLen = CyderFrame.TASKBAR_BORDER_LENGTH;
+        int len = CyderFrame.taskbarIconLength;
+        int borderLen = CyderFrame.taskbarBorderLength;
 
         BufferedImage resizedImage = ImageUtil.resizeImage(len, len, customTaskbarIcon);
 
@@ -2619,9 +2637,8 @@ public class CyderFrame extends JFrame {
         Color ret = TASKBAR_BORDER_COLORS.get(colorIndex);
         colorIndex++;
 
-        if (colorIndex > TASKBAR_BORDER_COLORS.size() - 1) {
+        if (colorIndex > TASKBAR_BORDER_COLORS.size() - 1)
             colorIndex = 0;
-        }
 
         return ret;
     }
@@ -2629,12 +2646,12 @@ public class CyderFrame extends JFrame {
     /**
      * The length of the taskbar icons to be generated.
      */
-    public static final int TASKBAR_ICON_LENGTH = 75;
+    public static final int taskbarIconLength = 75;
 
     /**
      * The border length of the taskbar icons to be generated.
      */
-    public static final int TASKBAR_BORDER_LENGTH = 5;
+    public static final int taskbarBorderLength = 5;
 
     /**
      * The previous compact taskbar label.
@@ -2770,35 +2787,35 @@ public class CyderFrame extends JFrame {
         JLabel ret = new JLabel();
 
         BufferedImage bufferedImage =
-                new BufferedImage(TASKBAR_ICON_LENGTH, TASKBAR_ICON_LENGTH, BufferedImage.TYPE_INT_RGB);
+                new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
         Graphics g = bufferedImage.getGraphics();
 
         //set border color
         g.setColor(borderColor);
-        g.fillRect(0, 0, TASKBAR_ICON_LENGTH, TASKBAR_ICON_LENGTH);
+        g.fillRect(0, 0, taskbarIconLength, taskbarIconLength);
 
         //draw center color
         g.setColor(Color.black);
-        g.fillRect(TASKBAR_BORDER_LENGTH, TASKBAR_BORDER_LENGTH,
-                TASKBAR_ICON_LENGTH - TASKBAR_BORDER_LENGTH * 2,
-                TASKBAR_ICON_LENGTH - TASKBAR_BORDER_LENGTH * 2);
+        g.fillRect(taskbarBorderLength, taskbarBorderLength,
+                taskbarIconLength - taskbarBorderLength * 2,
+                taskbarIconLength - taskbarBorderLength * 2);
 
         //draw darker image
         Font labelFont = new Font("Agency FB", Font.BOLD, 28);
 
         BufferedImage darkerBufferedImage =
-                new BufferedImage(TASKBAR_ICON_LENGTH, TASKBAR_ICON_LENGTH, BufferedImage.TYPE_INT_RGB);
+                new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
         Graphics g2 = darkerBufferedImage.getGraphics();
 
         //set border color
         g2.setColor(borderColor.darker());
-        g2.fillRect(0, 0, TASKBAR_ICON_LENGTH, TASKBAR_ICON_LENGTH);
+        g2.fillRect(0, 0, taskbarIconLength, taskbarIconLength);
 
         //draw center color
         g2.setColor(Color.black);
-        g2.fillRect(TASKBAR_BORDER_LENGTH, TASKBAR_BORDER_LENGTH,
-                TASKBAR_ICON_LENGTH - TASKBAR_BORDER_LENGTH * 2,
-                TASKBAR_ICON_LENGTH - TASKBAR_BORDER_LENGTH * 2);
+        g2.fillRect(taskbarBorderLength, taskbarBorderLength,
+                taskbarIconLength - taskbarBorderLength * 2,
+                taskbarIconLength - taskbarBorderLength * 2);
 
         g2.setColor(CyderColors.vanilla);
         g2.setFont(labelFont);
@@ -2808,7 +2825,7 @@ public class CyderFrame extends JFrame {
         CyderLabel titleLabel = new CyderLabel(iconTitle);
         titleLabel.setFont(labelFont);
         titleLabel.setForeground(CyderColors.vanilla);
-        titleLabel.setBounds(0, 0, TASKBAR_ICON_LENGTH, TASKBAR_ICON_LENGTH);
+        titleLabel.setBounds(0, 0, taskbarIconLength, taskbarIconLength);
         titleLabel.setFocusable(false);
         ret.add(titleLabel);
         titleLabel.setToolTipText(title);

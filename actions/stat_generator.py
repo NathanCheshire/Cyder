@@ -11,6 +11,10 @@ IS_COMMENT_REGEX = "\s*[/]{2}.*|\s*[/][*].*|\s*[*].*|\s*.*[*][/]\s*"
 # the path to the font to use for all exported pngs
 FONT_PATH = os.path.join('actions', "roboto.ttf")
 
+# the color used for java code
+JAVA_CODE_COLOR = (25, 114, 176)
+COMMENT_COLOR = (75, 71, 60)
+BLANK_COLOR = (33, 37, 22)
 
 def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
                  width: str, height: str, save_name: str) -> None:
@@ -41,21 +45,17 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
         blank_image, (0, 0), (width, height), (0, 0, 0), -1)
     outlined_image = cv2.rectangle(black_image, (border_thickness, border_thickness),
                                    (width - border_thickness, height - border_thickness), (255, 255, 255), -1)
-
-    code_color = (25, 114, 176)
     code_height = int(height * (code_percent / 100.0))
     image = cv2.rectangle(outlined_image, (border_thickness, border_thickness),
-                          (width - border_thickness, code_height - border_thickness), code_color, -1)
+                          (width - border_thickness, code_height - border_thickness), JAVA_CODE_COLOR, -1)
 
-    comment_color = (75, 71, 60)
     comment_height = int(height * (blank_percent / 100.0))
     image = cv2.rectangle(image, (border_thickness, code_height - border_thickness),
-                          (width - border_thickness, code_height + comment_height), comment_color, -1)
+                          (width - border_thickness, code_height + comment_height), COMMENT_COLOR, -1)
 
-    blank_color = (33, 37, 22)
     blank_height = int(height * (comment_percent / 100.0))
     image = cv2.rectangle(image, (border_thickness, code_height + comment_height - border_thickness),
-                          (width - border_thickness, height), blank_color, -1)
+                          (width - border_thickness, height), BLANK_COLOR, -1)
 
     img_pil = Image.fromarray(image)
     draw = ImageDraw.Draw(img_pil)
@@ -95,7 +95,10 @@ def get_compressed_number(num: int) -> str:
 
 
 def export_string_badge(alpha_string: str, beta_string: str, save_name: str, font_size: int = 18,
-                        horizontal_padding: int = 15, vertical_padding: int = 10):
+                        horizontal_padding: int = 15, vertical_padding: int = 10,
+                        text_color: tuple = (245, 245, 245),
+                        left_background_color: tuple = (131, 83, 5),
+                        right_background_color: tuple = (199, 147, 85)):
     """ Exports a png to the root directory resembling a badge with the provided parameters.
 
         Parameters:
@@ -105,12 +108,10 @@ def export_string_badge(alpha_string: str, beta_string: str, save_name: str, fon
             font_size: the size for the font
             horizontal_padding: the left/right padding between the image borders and words
             vertical_padding: the top/bottom padding between the image borders and words
+            text_color: the color for the text painted by alpha_string and beta_string
+            left_background_color: the color used for the badge's left background
+            right_background_color: the color used for the badge's right background
     """
-
-    text_color = (245, 245, 245)
-
-    left_background_color = (131, 83, 5)
-    right_background_color = (199, 147, 85)
 
     local_font = ImageFont.truetype(FONT_PATH, font_size)
 
@@ -144,11 +145,10 @@ def export_string_badge(alpha_string: str, beta_string: str, save_name: str, fon
 
 
 def get_text_size(text: str, font_size: int, font_name: str) -> Tuple:
-    """ Returns a tuple of the size required to hold the provided 
+    """ Returns a tuple of the size (width, height) required to hold the provided 
         string with the provided font and point size.
     """
-    font = ImageFont.truetype(font_name, font_size)
-    return font.getsize(text)
+    return ImageFont.truetype(font_name, font_size).getsize(text)
 
 
 def find_files(starting_dir: str, extensions: list = [], recursive: bool = False) -> list:
