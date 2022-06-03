@@ -1343,7 +1343,11 @@ public class CyderFrame extends JFrame {
                 // 25 frames to animate
                 int animationInc = (int) ((double) distanceToTravel / animationFrames);
 
-                for (int i = getY() ; i <= ScreenUtil.getScreenHeight() ; i += animationInc) {
+                int initialY = getY();
+
+                int end = ScreenUtil.getScreenHeight();
+
+                for (int i = initialY ; i <= end ; i += animationInc) {
                     Thread.sleep(1);
                     setLocation(getX(), i);
                 }
@@ -1481,7 +1485,12 @@ public class CyderFrame extends JFrame {
                     int distanceToTravel = Math.abs(y) + Math.abs(getHeight());
                     int animationInc = (int) ((double) distanceToTravel / animationFrames);
 
-                    for (int i = getY() ; i >= -getHeight() ; i -= animationInc) {
+                    disableDragging();
+
+                    int startY = getY();
+                    int height = getHeight();
+
+                    for (int i = startY ; i >= -height ; i -= animationInc) {
                         Thread.sleep(1);
                         setLocation(x, i);
                     }
@@ -1752,6 +1761,10 @@ public class CyderFrame extends JFrame {
         this.width = width;
         this.height = height;
 
+        // todo when on high dpi things, says resizing image but doesn't work, fix this,
+        // background/frame should NEVER be bigger than window
+
+        // todo surely not all of this needs to be re-rendered if the size doesn't change?
 
         // drag labels if present
         if (getTopDragLabel() != null) {
@@ -1788,11 +1801,11 @@ public class CyderFrame extends JFrame {
             leftDrag.setXOffset(frameResizingLen);
             leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
 
-            rightDrag.setXOffset(this.width - 5);
+            rightDrag.setXOffset(width - 5);
             rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
 
             bottomDrag.setXOffset(frameResizingLen);
-            bottomDrag.setYOffset(this.height - 5);
+            bottomDrag.setYOffset(height - 5);
         }
 
         if (iconLabel != null) {

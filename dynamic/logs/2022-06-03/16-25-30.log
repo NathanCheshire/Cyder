@@ -1,0 +1,89 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[16-25-30] [ENTRY]: Nathan
+[16-25-30] [PROP LOADED]: [key = map_quest_api_key]
+[16-25-30] [PROP LOADED]: [key = youtube_api_3_key]
+[16-25-30] [PROP LOADED]: [key = ip_key]
+[16-25-30] [PROP LOADED]: [key = weather_key]
+[16-25-30] [PROP LOADED]: [key = debug_hash_name]
+[16-25-30] [PROP LOADED]: [key = debug_hash_password]
+[16-25-30] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[16-25-30] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[16-25-30] [PROP LOADED]: [key = font_metric, value = 1]
+[16-25-30] [PROP LOADED]: [key = released, value = false]
+[16-25-30] [PROP LOADED]: [key = fast_test, value = false]
+[16-25-30] [PROP LOADED]: [key = version, value = Liminal]
+[16-25-30] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[16-25-30] [PROP LOADED]: [key = components_relocatable, value = false]
+[16-25-30] [PROP LOADED]: [key = testing_mode, value = true]
+[16-25-30] [PROP LOADED]: [key = autocypher, value = true]
+[16-25-30] [PROP LOADED]: [key = dispose_splash, value = true]
+[16-25-30] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[16-25-30] [PROP LOADED]: [key = activate_watchdog, value = false]
+[16-25-30] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[16-25-30] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[16-25-30] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[16-25-30] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[16-25-30] [THREAD STARTED]: Object Creation Logger
+[16-25-30] [DEBUG]: Watchdog skipped
+[16-25-30] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[16-25-31] [FONT LOADED]: agency-fb
+[16-25-31] [FONT LOADED]: arial-black
+[16-25-31] [FONT LOADED]: beyno
+[16-25-31] [FONT LOADED]: condiment-regular
+[16-25-31] [FONT LOADED]: prompt-bold
+[16-25-31] [FONT LOADED]: segoe-ui-black
+[16-25-31] [FONT LOADED]: tahoma
+[16-25-31] [THREAD STARTED]: Splash Loader
+[16-25-31] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[16-25-31] [THREAD STARTED]: Splash Animation
+[16-25-31] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[16-25-32] [THREAD STARTED]: Secondary Subroutines Runner
+[16-25-32] [LOGIN]: AUTOCYPHER ATTEMPT
+[16-25-32] [THREAD STARTED]: JVM Args Logger
+[16-25-32] [DEBUG]: Cyder Entry = AutoCypher
+[16-25-33] [DEBUG]: CyderFrame was attempted to be set to invalid height: 78
+[16-25-33] [UI]: [INFORMATION PANE] text = "Resizing the background image "Moodswings.jpg"", relativeTo = null
+[16-25-33] [OBJECT CREATION]: Objects created since last delta (5000ms): 83
+[16-25-33] [THREAD STARTED]: Console Printing Animation
+[16-25-33] [THREAD STARTED]: Hourly Chime Checker
+[16-25-33] [THREAD STARTED]: Console Clock Updater
+[16-25-33] [THREAD STARTED]: Cyder Busy Checker
+[16-25-33] [THREAD STARTED]: ConsoleFrame Stat Saver
+[16-25-33] [THREAD STARTED]: [System Action] dispose() animation thread
+[16-25-33] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 1594791957, bounds = (535,
+           337, 393, 100), parent frame = Component itself is a CyderFrame, getTitle() = System Action
+[16-25-34] [THREAD STARTED]: High Ping Checker
+[16-25-34] [THREAD STARTED]: Splash Loading Label Updater
+[16-25-34] [THREAD STARTED]: Harmonic Rectangle Animator
+[16-25-34] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[16-25-34] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 316990235, bounds = (431, 87,
+           600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[16-25-34] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[16-25-34] [THREAD STARTED]: Manual Tests Thread
+[16-25-34] [CONSOLE OUT]: [STRING]: Console loaded in 3983ms
+[16-25-34] [DEBUG]: Attempted to log a new or empty line
+[16-25-34] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[16-28-40] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
