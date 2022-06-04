@@ -305,17 +305,10 @@ public class CyderFrame extends JFrame {
         checkNotNull(background);
 
         // correct possibly too small width and heights
-        if (width < MINIMUM_WIDTH) {
-            Logger.log(Logger.Tag.DEBUG, "CyderFrame was"
-                    + " attempted to be set to invalid width: " + width);
-            width = MINIMUM_WIDTH;
-        }
+        Dimension dimension = validateRequestedSize(width, height);
 
-        if (height < MINIMUM_HEIGHT) {
-            Logger.log(Logger.Tag.DEBUG, "CyderFrame was"
-                    + " attempted to be set to invalid height: " + height);
-            height = MINIMUM_HEIGHT;
-        }
+        width = dimension.width;
+        height = dimension.height;
 
         this.width = width;
         this.height = height;
@@ -1707,14 +1700,14 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Sets the size of this frame ensuring that the sizing is not below
-     * {@link CyderFrame#MINIMUM_WIDTH} by {@link CyderFrame#MINIMUM_HEIGHT}
+     * Validates the provided width and height to ensure it meets the minimum criteria and returns
+     * the validated dimension.
      *
-     * @param width  width of frame
-     * @param height height of frame
+     * @param width  the requested width
+     * @param height the requested height
+     * @return the width and height to use for the frame
      */
-    @Override
-    public void setSize(int width, int height) {
+    private Dimension validateRequestedSize(int width, int height) {
         if (width < MINIMUM_WIDTH) {
             Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + getTitle()
                     + "\" was attempted to be set to invalid width: " + width);
@@ -1727,7 +1720,21 @@ public class CyderFrame extends JFrame {
             height = MINIMUM_HEIGHT;
         }
 
-        super.setSize(width, height);
+        return new Dimension(width, height);
+    }
+
+    /**
+     * Sets the size of this frame ensuring that the sizing is not below
+     * {@link CyderFrame#MINIMUM_WIDTH} by {@link CyderFrame#MINIMUM_HEIGHT}
+     *
+     * @param width  width of frame
+     * @param height height of frame
+     */
+    @Override
+    public void setSize(int width, int height) {
+        Dimension dimension = validateRequestedSize(width, height);
+
+        super.setSize(dimension.width, dimension.height);
 
         if (isVisible() && UserUtil.getCyderUser().getRoundedwindows().equals("1")) {
             setShape(new RoundRectangle2D.Double(0, 0,
@@ -1742,17 +1749,10 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setBounds(int x, int y, int width, int height) {
-        if (width < MINIMUM_WIDTH) {
-            Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + getTitle()
-                    + "\" was attempted to be set to invalid width: " + width);
-            width = MINIMUM_WIDTH;
-        }
+        Dimension dimension = validateRequestedSize(width, height);
 
-        if (height < MINIMUM_HEIGHT) {
-            Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + getTitle()
-                    + "\" was attempted to be set to invalid height: " + height);
-            height = MINIMUM_HEIGHT;
-        }
+        width = dimension.width;
+        height = dimension.height;
 
         boolean differentSizes = this.width == width && this.height == height;
 
