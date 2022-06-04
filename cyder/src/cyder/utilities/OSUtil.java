@@ -8,7 +8,6 @@ import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.Cyder;
-import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
@@ -493,15 +492,6 @@ public class OSUtil {
         }
 
         return ret;
-    }
-
-    /**
-     * Returns the UI scaling factor for the primary monitor.
-     *
-     * @return the UI scaling factor for the primary monitor
-     */
-    public static double getUiScale() {
-        return PropLoader.getDouble("ui_scale");
     }
 
     /**

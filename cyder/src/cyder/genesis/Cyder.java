@@ -160,9 +160,9 @@ public class Cyder {
      */
     private static void initSystemProps() {
         System.setProperty("sun.java2d.uiScale.enabled", "true");
-        System.setProperty("sun.java2d.uiScale", String.valueOf(OSUtil.getUiScale()));
+        System.setProperty("sun.java2d.uiScale", PropLoader.getString("ui_scale"));
         System.setProperty("sun.java2d.uiScale.enabled", "true");
-        System.setProperty("ide.ui.scale", String.valueOf(OSUtil.getUiScale()));
+        System.setProperty("ide.ui.scale", PropLoader.getString("ui_scale"));
     }
 
     /**
@@ -177,15 +177,6 @@ public class Cyder {
             File deleteDirectory = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                     DynamicDirectory.TEMPORARY.getDirectoryName());
             OSUtil.deleteFile(deleteDirectory, false);
-
-            if (deleteDirectory.exists()) {
-                try {
-                    Thread.sleep(1000);
-                } catch (Exception ignored) {
-                }
-            }
-
-            OSUtil.deleteFile(deleteDirectory, false);
         }, "common-exit-hook"));
     }
 
@@ -198,7 +189,7 @@ public class Cyder {
      * @return whether all the fonts were loaded properly
      */
     private static boolean registerFonts() {
-        File fontsDir = new File(OSUtil.buildPath("static", "fonts"));
+        File fontsDir = OSUtil.buildFile("static", "fonts");
 
         if (!fontsDir.exists()) {
             return false;
