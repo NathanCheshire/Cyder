@@ -70,9 +70,11 @@ def main():
                 originally_anchored = True
                 anchored = True
                 last_anchor = line
-                last_anchor_line_number = line_number
                 num_newlines = 0
             elif empty:
+                if num_newlines == 0:
+                    last_anchor_line_number = line_number - 1
+
                 anchored = False
                 num_newlines = num_newlines + 1
 
