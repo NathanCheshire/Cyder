@@ -1,7 +1,6 @@
 name: Cyder Statistics
 
 on:
-  push:
   schedule: [{cron: "0 5 * * *"}]
 jobs:
   generate_images:
@@ -16,13 +15,15 @@ jobs:
         run: |
           python ./actions/stat_generator.py
 
-      - name: Commit generated files
+      - name: Commit and Push generated files
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "github-actions"
-          git add .
-          git commit -m "update README statistics"
-
-      - name: Push changes
-        run: |
-          git push -u origin main
+          if [ -n "$(git status --porcelain)" ]; then
+            git config --local user.email "action@github.com"
+            git config --local user.name "github-actions"
+            git add .
+            git commit -m "update README statistics"
+            git push -u origin main
+          else
+            echo "No files changed; job complete"
+          fi
+          
