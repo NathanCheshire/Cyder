@@ -1,4 +1,4 @@
-from actions.stat_generator import find_files
+from stat_generator import find_files
 
 
 def main():
@@ -17,15 +17,13 @@ def main():
             if len(line) > 0:
                 # this means that we've found a gap
                 if not anchored and num_newlines > 1:
-                    print("Found",num_newlines,"new lines between:")
+                    print("Found", num_newlines, "new lines between:")
                     print(last_anchor)
                     print("and")
                     print(line)
                     print("-------------------------------")
 
                     num_newlines = 0
-                    
-
 
                 anchored = True
                 last_anchor = line
@@ -35,7 +33,6 @@ def main():
             # otherwise count it as a blank line
             else:
                 num_newlines = num_newlines + 1
-
 
 
 if __name__ == '__main__':

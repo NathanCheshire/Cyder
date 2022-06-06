@@ -1,4 +1,4 @@
-name: Detect new lines
+name: Detect New Lines
 
 on:
   push:
@@ -7,9 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: pip install -r actions/requirements.txt
 
       - name: Run new line detector
         run: |
