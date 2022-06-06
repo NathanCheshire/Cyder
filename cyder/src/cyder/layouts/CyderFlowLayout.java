@@ -630,7 +630,6 @@ public class CyderFlowLayout extends CyderLayout {
         return vpadding;
     }
 
-
     /**
      * Sets the vertical padding value to use for the top and bottom of the frame.
      *

@@ -1,6 +1,5 @@
 package cyder.widgets;
 
-
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;

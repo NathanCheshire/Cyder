@@ -176,7 +176,6 @@ public class CyderComboBox extends JLabel {
         valueDisplayField.setText(currentState.displayValue());
     }
 
-
     /**
      * Invokes the provided function before the state changes.
      *

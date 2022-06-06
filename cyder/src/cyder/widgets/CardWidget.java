@@ -47,8 +47,6 @@ public class CardWidget {
     @Widget(triggers = "Christmascard2020", description = "Christmas card for the year of 2020")
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     public static void Christmas2020() {
-
-
         if (christmas2020Frame != null)
             christmas2020Frame.dispose();
 
@@ -85,8 +83,6 @@ public class CardWidget {
     @Widget(triggers = "FathersDaycard2021", description = "Fathers day card for the year of 2021")
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     public static void FathersDay2021() {
-
-
         if (fathersDay2021Frame != null)
             fathersDay2021Frame.dispose();
 
@@ -112,8 +108,6 @@ public class CardWidget {
     @Widget(triggers = "Birthdaycard2021", description = "Birthday card for my dad for the year 2021")
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     public static void Birthday2021() {
-
-
         if (birthday2021Frame != null)
             birthday2021Frame.dispose();
 
@@ -151,8 +145,6 @@ public class CardWidget {
     @Widget(triggers = "Christmascard2021", description = "Christmas card for the year of 2021")
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     public static void Christmas2021() {
-
-
         if (christmas2021Frame != null)
             christmas2021Frame.dispose();
 

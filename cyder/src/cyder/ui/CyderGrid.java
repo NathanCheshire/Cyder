@@ -1101,7 +1101,6 @@ public class CyderGrid extends JLabel {
             double rotationY = (((gridComponentLength * centerOfRotation.y) / (float) nodes)
                     + centeringDrawOffset) + halfNodeLen;
 
-
             // subtract point of rotation
             newTopLeft.setLocation(newTopLeft.x - rotationX, newTopLeft.y - rotationY);
             newBottomRight.setLocation(newBottomRight.x - rotationX, newBottomRight.y - rotationY);

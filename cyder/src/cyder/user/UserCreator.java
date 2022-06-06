@@ -61,7 +61,9 @@ public class UserCreator {
      */
     private static CyderTextField newUserName;
 
-
+    /**
+     * The background chosen by the user as their initial background.
+     */
     private static File createUserBackground;
 
     /**

@@ -1966,10 +1966,9 @@ public enum ConsoleFrame {
                 }
             }
 
+            // now we have our wrapped files list
 
-            //now we have our wrapped files list
-
-            //find the index we are it if console frame has a content pane
+            // find the index we are it if console frame has a content pane
             revalidateBackgroundIndex();
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);

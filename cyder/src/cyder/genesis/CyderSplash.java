@@ -285,7 +285,6 @@ public class CyderSplash {
                         harmonicXPadding = (FRAME_LEN - rectLen * numHarmonicRectangles - harmonicXInnerPadding
                                 * (numHarmonicRectangles - 1)) / 2;
 
-
                         for (int i = 0 ; i < numHarmonicRectangles ; i++) {
                             int x = harmonicXPadding + i * rectLen + i * harmonicXInnerPadding;
                             HarmonicRectangle harmonicRectangle = new HarmonicRectangle(

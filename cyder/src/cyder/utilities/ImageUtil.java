@@ -649,7 +649,6 @@ public class ImageUtil {
 
                 p = (a << 24) | (avg << 16) | (avg << 8) | avg;
 
-
                 ret.setRGB(i, j, p);
             }
         }

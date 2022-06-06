@@ -354,7 +354,6 @@ public class CyderSwitch extends JLabel {
         setState(state);
     }
 
-
     /**
      * Sets whether the switch is enabled.
      *

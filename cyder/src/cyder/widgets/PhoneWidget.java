@@ -108,7 +108,6 @@ public class PhoneWidget {
         dialNumber.setBounds(220, 400, 80, 80);
         phoneFrame.getContentPane().add(dialNumber);
 
-
         one.setFocusPainted(false);
         two.setFocusPainted(false);
         three.setFocusPainted(false);
@@ -261,7 +260,7 @@ public class PhoneWidget {
 
         if (len == 0) {
             return "#";
-        } else if (len > 0 && len <= 4) {
+        } else if (len <= 4) {
             return num;
         } else if (len == 5) {
             return (num.charAt(0) + "-" + num.substring(1, 5));
@@ -275,7 +274,7 @@ public class PhoneWidget {
             return ("(" + num.substring(0, 2) + ") " + num.substring(2, 5) + " " + num.substring(5, 9));
         } else if (len == 10) {
             return ("(" + num.substring(0, 3) + ") " + num.substring(3, 6) + " " + num.substring(6, 10));
-        } else if (len > 10) {
+        } else {
             if (len > 15) {
                 phoneNum = numberLabel.getText();
                 return numberLabel.getText();
@@ -286,8 +285,6 @@ public class PhoneWidget {
 
             return (leadingDigits + " (" + num.substring(offset, 3 + offset) + ") "
                     + num.substring(3 + offset, 6 + offset) + " " + num.substring(6 + offset, len));
-        } else {
-            return null;
         }
     }
 

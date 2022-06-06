@@ -498,7 +498,6 @@ public class Logger {
         }
     }
 
-
     /**
      * Writes the lines to the current log file. The first one is not offset
      * whilst all lines after the first are offset by 11 spaces.
