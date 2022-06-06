@@ -55,6 +55,7 @@ def main():
                 continue
             elif not empty and not anchored:
                 if num_newlines > 1:
+                    print("File:", file)
                     print("Found", num_newlines, "new lines between:")
                     print(last_anchor.strip())
                     print("and")
