@@ -1,0 +1,134 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[17-25-59] [ENTRY]: Nathan
+[17-25-59] [PROP LOADED]: [key = map_quest_api_key]
+[17-25-59] [PROP LOADED]: [key = youtube_api_3_key]
+[17-25-59] [PROP LOADED]: [key = ip_key]
+[17-25-59] [PROP LOADED]: [key = weather_key]
+[17-25-59] [PROP LOADED]: [key = debug_hash_name]
+[17-25-59] [PROP LOADED]: [key = debug_hash_password]
+[17-25-59] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[17-25-59] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[17-25-59] [PROP LOADED]: [key = font_metric, value = 1]
+[17-25-59] [PROP LOADED]: [key = released, value = false]
+[17-25-59] [PROP LOADED]: [key = fast_test, value = false]
+[17-25-59] [PROP LOADED]: [key = version, value = Liminal]
+[17-25-59] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[17-25-59] [PROP LOADED]: [key = components_relocatable, value = false]
+[17-25-59] [PROP LOADED]: [key = testing_mode, value = true]
+[17-25-59] [PROP LOADED]: [key = autocypher, value = true]
+[17-25-59] [PROP LOADED]: [key = dispose_splash, value = true]
+[17-25-59] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[17-25-59] [PROP LOADED]: [key = activate_watchdog, value = false]
+[17-25-59] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[17-25-59] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[17-25-59] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[17-25-59] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[17-25-59] [THREAD STARTED]: Object Creation Logger
+[17-25-59] [DEBUG]: Watchdog skipped
+[17-25-59] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[17-26-00] [FONT LOADED]: agency-fb
+[17-26-00] [FONT LOADED]: arial-black
+[17-26-00] [FONT LOADED]: beyno
+[17-26-00] [FONT LOADED]: condiment-regular
+[17-26-00] [FONT LOADED]: prompt-bold
+[17-26-00] [FONT LOADED]: segoe-ui-black
+[17-26-00] [FONT LOADED]: tahoma
+[17-26-00] [THREAD STARTED]: Splash Loader
+[17-26-00] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[17-26-01] [THREAD STARTED]: Splash Animation
+[17-26-01] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[17-26-01] [THREAD STARTED]: Secondary Subroutines Runner
+[17-26-01] [LOGIN]: AUTOCYPHER ATTEMPT
+[17-26-01] [THREAD STARTED]: JVM Args Logger
+[17-26-02] [DEBUG]: Cyder Entry = AutoCypher
+[17-26-02] [OBJECT CREATION]: Objects created since last delta (5000ms): 62
+[17-27-37] [OBJECT CREATION]: Objects created since last delta (5000ms): 21
+[17-27-37] [EXCEPTION]:
+           Exception origin: org.jsoup.internal.ConstrainableInputStream.read(ConstrainableInputStream.java:58)
+           From line: 58
+           Trace: java.net.SocketTimeoutException: Read timeout
+           at org.jsoup.internal.ConstrainableInputStream.read(ConstrainableInputStream.java:58)
+           at java.base/sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:270)
+           at java.base/sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:313)
+           at java.base/sun.nio.cs.StreamDecoder.read(StreamDecoder.java:188)
+           at java.base/java.io.InputStreamReader.read(InputStreamReader.java:177)
+           at java.base/java.io.BufferedReader.fill(BufferedReader.java:162)
+           at java.base/java.io.BufferedReader.read1(BufferedReader.java:213)
+           at java.base/java.io.BufferedReader.read(BufferedReader.java:287)
+           at org.jsoup.parser.CharacterReader.bufferUp(CharacterReader.java:87)
+           at org.jsoup.parser.CharacterReader.current(CharacterReader.java:235)
+           at org.jsoup.parser.TokeniserState.readRawData(TokeniserState.java:1682)
+           at org.jsoup.parser.TokeniserState.access$200(TokeniserState.java:8)
+           at org.jsoup.parser.TokeniserState$5.read(TokeniserState.java:71)
+           at org.jsoup.parser.Tokeniser.read(Tokeniser.java:59)
+           at org.jsoup.parser.TreeBuilder.runParser(TreeBuilder.java:82)
+           at org.jsoup.parser.TreeBuilder.parse(TreeBuilder.java:57)
+           at org.jsoup.parser.Parser.parseInput(Parser.java:49)
+           at org.jsoup.helper.DataUtil.parseInputStream(DataUtil.java:216)
+           at org.jsoup.helper.HttpConnection$Response.parse(HttpConnection.java:962)
+           at org.jsoup.helper.HttpConnection.get(HttpConnection.java:355)
+           at cyder.utilities.IOUtil.lambda$logArgs$0(IOUtil.java:116)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[17-27-37] [THREAD STARTED]: Splash Loading Label Updater
+[17-27-37] [THREAD STARTED]: Harmonic Rectangle Animator
+[17-27-37] [THREAD STARTED]: Console Printing Animation
+[17-27-38] [THREAD STARTED]: Hourly Chime Checker
+[17-27-38] [THREAD STARTED]: Console Clock Updater
+[17-27-38] [THREAD STARTED]: Cyder Busy Checker
+[17-27-38] [THREAD STARTED]: ConsoleFrame Stat Saver
+[17-27-38] [THREAD STARTED]: Harmonic Rectangle Animator
+[17-27-38] [THREAD STARTED]: Harmonic Rectangle Animator
+[17-27-38] [THREAD STARTED]: Harmonic Rectangle Animator
+[17-27-38] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[17-27-38] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 1673241943, bounds = (980,
+           396, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[17-27-38] [CONSOLE OUT]: [STRING]: Console loaded in 99033ms
+[17-27-38] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[17-27-38] [THREAD STARTED]: Manual Tests Thread
+[17-27-38] [DEBUG]: Attempted to log a new or empty line
+[17-27-40] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[17-27-41] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 12] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-27-41] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654554338702.json
+[17-27-41] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[17-27-42] [OBJECT CREATION]: Objects created since last delta (5000ms): 17
+[17-27-44] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 3] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-27-44] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654554461068.json
+[17-27-47] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[17-27-47] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[17-27-47] [OBJECT CREATION]: Objects created since last delta (5000ms): 1
+[17-27-48] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 11] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-27-48] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654554464838.json
+[17-27-52] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[17-27-52] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 2049051802, bounds
+           = (696, 358, 983, 979), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[17-27-52] [EXIT]: [RUNTIME] 1m 52s
+[17-27-52] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 1

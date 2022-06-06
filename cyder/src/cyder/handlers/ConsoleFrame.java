@@ -917,7 +917,27 @@ public enum ConsoleFrame {
         consoleCyderFrame.setResizable(true);
         consoleCyderFrame.setBackgroundResizing(true);
         consoleCyderFrame.setMinimumSize(MINIMUM_SIZE);
-        consoleCyderFrame.setMaximumSize(consoleCyderFrame.getSize());
+
+        refreshConsoleFrameMaxSize();
+    }
+
+    /**
+     * Refreshes the maximum size of the console frame.
+     */
+    private void refreshConsoleFrameMaxSize() {
+        if (getCurrentBackground().referenceFile() != null) {
+            ImageIcon tmpImageIcon = getCurrentBackground().generateImageIcon();
+            int w = tmpImageIcon.getIconWidth();
+            int h = tmpImageIcon.getIconHeight();
+
+            if (getConsoleDirection() == Direction.RIGHT || getConsoleDirection() == Direction.LEFT) {
+                consoleCyderFrame.setMaximumSize(new Dimension(h, w));
+            } else {
+                consoleCyderFrame.setMaximumSize(new Dimension(w, h));
+            }
+        } else {
+            consoleCyderFrame.setMaximumSize(consoleCyderFrame.getSize());
+        }
     }
 
     private final WindowAdapter consoleFrameWindowAdapter = new WindowAdapter() {
@@ -1535,12 +1555,17 @@ public enum ConsoleFrame {
     }
 
     /**
+     * The text used to generate a menu separation label.
+     */
+    private static final String magicMenuSepText = "90210  90210";
+
+    /**
      * Returns a menu separation label.
      *
      * @return a menu separation label
      */
     private JLabel generateMenuSep() {
-        JLabel sepLabel = new JLabel("90210  90210") {
+        JLabel sepLabel = new JLabel(magicMenuSepText) {
             @Override
             public void paintComponent(Graphics g) {
                 //draw 5 high line 150 width across
@@ -2610,7 +2635,7 @@ public enum ConsoleFrame {
 
         revalidateInputAndOutputBounds();
 
-        consoleCyderFrame.setMaximumSize(new Dimension(w, h));
+        refreshConsoleFrameMaxSize();
 
         // this takes care of offset of input/output due to menu
         revalidateMenu();
