@@ -47,7 +47,7 @@ def main():
         last_anchor = None
         last_anchor_line_number = 0
         originally_anchored = False
-        line_number = -1
+        line_number = 0
 
         file_lines = open(file, 'r').readlines()
 

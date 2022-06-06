@@ -673,7 +673,6 @@ public class CyderGrid extends JLabel {
         repaint();
     }
 
-
     /**
      * Returns the minimum number of nodes for a dimension for this instance.
      *
