@@ -37,6 +37,8 @@ def find_files(starting_dir: str, extensions: list = [], recursive: bool = False
 
 
 def main():
+    failed = False
+
     files = find_files(starting_dir=".",
                        extensions=['.java'], recursive=True)
 
@@ -67,6 +69,8 @@ def main():
                     print(line_number, ":", line.strip())
                     print("-------------------------------")
 
+                    failed = True
+
                 originally_anchored = True
                 anchored = True
                 last_anchor = line
@@ -78,6 +82,7 @@ def main():
                 anchored = False
                 num_newlines = num_newlines + 1
 
+    return 1 if failed else 0
 
 if __name__ == '__main__':
-    main()
+    return main()

@@ -1,5 +1,6 @@
 package cyder.handlers;
 
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.builders.GetterBuilder;
@@ -3125,7 +3126,6 @@ public enum ConsoleFrame {
                 this.draggingWasEnabled = draggingWasEnabled;
             }
         }
-
 
         //list of frames for restoration purposes
         LinkedList<RestoreFrame> restoreFrames = new LinkedList<>();

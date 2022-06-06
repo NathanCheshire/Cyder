@@ -82,7 +82,6 @@ public class UserCreator {
         createUserFrame = new CyderFrame(356, 473, CyderIcons.defaultBackground);
         createUserFrame.setTitle("Create User");
 
-
         JLabel nameLabel = new JLabel("Username: ", SwingConstants.CENTER);
         nameLabel.setFont(CyderFonts.segoe20);
         nameLabel.setForeground(CyderColors.navy);

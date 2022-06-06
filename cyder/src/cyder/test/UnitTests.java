@@ -278,7 +278,6 @@ public class UnitTests {
         assertEquals(MathUtil.convertAngleToStdForm(359), 359);
         assertEquals(MathUtil.convertAngleToStdForm(360), 0);
 
-
         assertEquals(MathUtil.convertAngleToStdForm(361), 1);
         assertEquals(MathUtil.convertAngleToStdForm(370), 10);
         assertEquals(MathUtil.convertAngleToStdForm(400), 40);

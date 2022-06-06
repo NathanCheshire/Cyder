@@ -325,7 +325,6 @@ public class AudioUtil {
                 DynamicDirectory.EXES.getDirectoryName(), YOUTUBE_DL + ".exe");
     }
 
-
     /**
      * Returns the base ffprobe command.
      *

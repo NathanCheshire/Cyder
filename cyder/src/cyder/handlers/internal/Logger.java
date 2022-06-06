@@ -788,7 +788,6 @@ public class Logger {
         Preconditions.checkNotNull(logLine1);
         Preconditions.checkNotNull(logLine2);
 
-
         // if not full line tags, directly compare
         if (!logLine1.startsWith("[")
                 || !logLine1.contains("]")

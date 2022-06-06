@@ -188,7 +188,6 @@ public class GetterUtil {
         return returnString.get();
     }
 
-
     /**
      * The label which holds the scroll
      */
