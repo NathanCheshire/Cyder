@@ -1715,11 +1715,19 @@ public class CyderFrame extends JFrame {
         return new Dimension(width, height);
     }
 
+    /**
+     * Returns whether this frame is a borderless frame meaning
+     * there are no top/left/bottom/right drag labels.
+     *
+     * @return whether this frame is a borderless frame
+     */
+    public boolean isBorderlessFrame() {
+        return topDrag == null;
+    }
+
     // todo when on high dpi things, says resizing image but does not work, fix this,
     // background/frame should NEVER be bigger than window
     // todo moving frames between monitors break?
-
-    // todo make method for isBorderlessFrame
 
     /**
      * Performs repaint actions necessary for a borderless frame returned via
@@ -1743,7 +1751,7 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void repaint() {
-        if (topDrag == null) {
+        if (isBorderlessFrame()) {
             repaintBorderlessFrame();
             return;
         }
@@ -1865,7 +1873,7 @@ public class CyderFrame extends JFrame {
      * Revalidates the drag labels and their covers and offsets if present.
      */
     private void revalidateDragLabels() {
-        if (topDrag == null)
+        if (isBorderlessFrame())
             return;
 
         topDrag.setWidth(width - 2 * frameResizingLen);
@@ -1924,7 +1932,7 @@ public class CyderFrame extends JFrame {
 
         try {
             // borderless frames are by default rounded
-            if (topDrag == null || (cr == null && ConsoleFrame.INSTANCE.getUUID() != null
+            if (isBorderlessFrame() || (cr == null && ConsoleFrame.INSTANCE.getUUID() != null
                     && UserUtil.getCyderUser().getRoundedwindows().equals("1"))) {
                 shape = new RoundRectangle2D.Double(0, 0,
                         getWidth(), getHeight(), ROUNDED_ARC, ROUNDED_ARC);
@@ -1968,7 +1976,7 @@ public class CyderFrame extends JFrame {
      * label buttons and clips the label if it does extend.
      */
     private void checkTitleOverflow() {
-        if (topDrag == null || topDrag.getButtonList() == null)
+        if (isBorderlessFrame() || topDrag.getButtonList() == null)
             return;
 
         LinkedList<JButton> buttons = topDrag.getButtonList();
@@ -2327,7 +2335,7 @@ public class CyderFrame extends JFrame {
      * @return whether dragging is permitted for this frame
      */
     public boolean isDraggingEnabled() {
-        if (topDrag == null) {
+        if (isBorderlessFrame()) {
             return false;
         }
 
@@ -2341,7 +2349,7 @@ public class CyderFrame extends JFrame {
      * Disables dragging for this frame.
      */
     public void disableDragging() {
-        if (topDrag == null)
+        if (isBorderlessFrame())
             return;
 
         topDrag.disableDragging();
@@ -2354,7 +2362,7 @@ public class CyderFrame extends JFrame {
      * Enables dragging for this frame.
      */
     public void enableDragging() {
-        if (topDrag == null)
+        if (isBorderlessFrame())
             return;
 
         topDrag.enableDragging();
