@@ -5,4 +5,4 @@ out/
 *.git
 .gradle/*
 build/
-propkeys.ini
+props/propkeys.ini

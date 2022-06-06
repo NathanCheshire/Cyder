@@ -164,14 +164,14 @@ public class PropLoader {
 
         ArrayList<File> propFiles = new ArrayList<>();
 
-        File root = new File(".");
-        File[] rootFiles = root.listFiles();
+        File propsDirectory = new File("props");
+        File[] propFilesArray = propsDirectory.listFiles();
 
-        if (rootFiles == null || rootFiles.length < 2) {
+        if (propFilesArray == null || propFilesArray.length < 1) {
             throw new FatalException("Could not find any prop files");
         }
 
-        for (File f : rootFiles) {
+        for (File f : propFilesArray) {
             if (f.getName().startsWith("prop") && FileUtil.validateExtension(f, ".ini")) {
                 propFiles.add(f);
                 Logger.Debug("Found prop file: " + f);
