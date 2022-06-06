@@ -454,7 +454,7 @@ public class CyderFrame extends JFrame {
         threadsKilled = false;
         setFrameType(frameType);
 
-        refreshFrameShape();
+        revalidateFrameShape();
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
@@ -549,7 +549,7 @@ public class CyderFrame extends JFrame {
         //default boolean values
         threadsKilled = false;
 
-        refreshFrameShape();
+        revalidateFrameShape();
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
@@ -683,7 +683,7 @@ public class CyderFrame extends JFrame {
                 CyderThreadRunner.submit(() -> {
                     switch (oldPosition) {
                         case RIGHT:
-                            for (int i = titleLabel.getX() ; i > (getTopDragLabel().getWidth() / 2)
+                            for (int i = titleLabel.getX() ; i > (topDrag.getWidth() / 2)
                                     - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2) ; i--) {
                                 titleLabel.setLocation(i, 2);
 
@@ -695,7 +695,7 @@ public class CyderFrame extends JFrame {
                             }
                             break;
                         case LEFT:
-                            for (int i = titleLabel.getX() ; i < (getTopDragLabel().getWidth() / 2)
+                            for (int i = titleLabel.getX() ; i < (topDrag.getWidth() / 2)
                                     - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2) ; i++) {
                                 titleLabel.setLocation(i, 2);
 
@@ -707,7 +707,7 @@ public class CyderFrame extends JFrame {
                             }
                             break;
                     }
-                    titleLabel.setLocation((getTopDragLabel().getWidth() / 2)
+                    titleLabel.setLocation((topDrag.getWidth() / 2)
                             - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2), 2);
                     this.titlePosition = TitlePosition.CENTER;
                     //set final bounds
@@ -733,10 +733,10 @@ public class CyderFrame extends JFrame {
 
             if (buttonPosition == ButtonPosition.RIGHT && titlePosition == TitlePosition.RIGHT) {
                 buttonPosition = ButtonPosition.LEFT;
-                getTopDragLabel().setButtonPosition(CyderDragLabel.ButtonPosition.LEFT);
+                topDrag.setButtonPosition(CyderDragLabel.ButtonPosition.LEFT);
             } else if (buttonPosition == ButtonPosition.LEFT && titlePosition == TitlePosition.LEFT) {
                 buttonPosition = ButtonPosition.RIGHT;
-                getTopDragLabel().setButtonPosition(CyderDragLabel.ButtonPosition.RIGHT);
+                topDrag.setButtonPosition(CyderDragLabel.ButtonPosition.RIGHT);
             }
         } else {
             this.titlePosition = titlePosition;
@@ -751,7 +751,7 @@ public class CyderFrame extends JFrame {
                             - StringUtil.getMinWidth(title, titleLabel.getFont()), 2);
                     setButtonPosition(ButtonPosition.LEFT);
                 }
-                case CENTER -> titleLabel.setLocation((getTopDragLabel().getWidth() / 2)
+                case CENTER -> titleLabel.setLocation((topDrag.getWidth() / 2)
                         - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2), 2);
             }
 
@@ -925,7 +925,7 @@ public class CyderFrame extends JFrame {
             titleWidth = StringUtil.getMinWidth(this.title, titleLabel.getFont());
 
             switch (titlePosition) {
-                case CENTER -> titleLabel.setBounds((getTopDragLabel().getWidth() / 2) - (titleWidth / 2), 2,
+                case CENTER -> titleLabel.setBounds((topDrag.getWidth() / 2) - (titleWidth / 2), 2,
                         titleWidth, 25);
                 case RIGHT -> titleLabel.setBounds(width - titleWidth, 2, titleWidth, 25);
                 case LEFT -> titleLabel.setBounds(5, 2, titleWidth, 25);
@@ -1674,20 +1674,20 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Repaints the title position and button positions in the currently set enum locations.
+     * Revalidates the title and button positions by the currently set enum locations.
      */
-    public void refreshTitleAndButtonPosition() {
+    public void revalidateTitleAndButtonPosition() {
         switch (titlePosition) {
             case LEFT -> titleLabel.setLocation(4, 2);
             case RIGHT -> titleLabel.setLocation(width -
                     StringUtil.getMinWidth(title, titleLabel.getFont()), 2);
-            case CENTER -> titleLabel.setLocation((getTopDragLabel().getWidth() / 2)
+            case CENTER -> titleLabel.setLocation((topDrag.getWidth() / 2)
                     - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2), 2);
         }
 
         switch (buttonPosition) {
-            case LEFT -> getTopDragLabel().setButtonPosition(CyderDragLabel.ButtonPosition.LEFT);
-            case RIGHT -> getTopDragLabel().setButtonPosition(CyderDragLabel.ButtonPosition.RIGHT);
+            case LEFT -> topDrag.setButtonPosition(CyderDragLabel.ButtonPosition.LEFT);
+            case RIGHT -> topDrag.setButtonPosition(CyderDragLabel.ButtonPosition.RIGHT);
         }
     }
 
@@ -1719,17 +1719,17 @@ public class CyderFrame extends JFrame {
     // background/frame should NEVER be bigger than window
     // todo moving frames between monitors break?
 
+    // todo make method for isBorderlessFrame
+
     /**
      * Performs repaint actions necessary for a borderless frame returned via
      * {@link CyderFrame#generateBorderlessFrame(int, int, Color)}.
      */
     private void repaintBorderlessFrame() {
-        // todo method
         if (getContentPane() != null) {
             getContentPane().repaint();
         }
 
-        // todo method
         if (getTrueContentPane() != null) {
             getTrueContentPane().repaint();
         }
@@ -1748,7 +1748,7 @@ public class CyderFrame extends JFrame {
             return;
         }
 
-        refreshFrameShape();
+        revalidateFrameShape();
 
         //update the border covering the resize area
         contentLabel.setBorder(new LineBorder(
@@ -1804,15 +1804,15 @@ public class CyderFrame extends JFrame {
         this.width = width;
         this.height = height;
 
-        refreshDragLabels();
+        revalidateDragLabels();
 
-        refreshFrameShape();
+        revalidateFrameShape();
 
         if (sameSizes) {
             return;
         }
 
-        refreshLayout();
+        revalidateLayout();
 
         if (menuLabel != null && menuLabel.isVisible()) {
             generateMenu();
@@ -1820,7 +1820,7 @@ public class CyderFrame extends JFrame {
             menuLabel.setVisible(true);
         }
 
-        refreshNotificationPosition();
+        revalidateNotificationPosition();
         checkTitleOverflow();
     }
 
@@ -1841,15 +1841,15 @@ public class CyderFrame extends JFrame {
         this.width = width;
         this.height = height;
 
-        refreshDragLabels();
+        revalidateDragLabels();
 
-        refreshFrameShape();
+        revalidateFrameShape();
 
         if (sameSizes) {
             return;
         }
 
-        refreshLayout();
+        revalidateLayout();
 
         if (menuLabel != null && menuLabel.isVisible()) {
             generateMenu();
@@ -1857,15 +1857,15 @@ public class CyderFrame extends JFrame {
             menuLabel.setVisible(true);
         }
 
-        refreshNotificationPosition();
+        revalidateNotificationPosition();
         checkTitleOverflow();
     }
 
     /**
-     * Refreshes the drag labels and their covers and offsets if present.
+     * Revalidates the drag labels and their covers and offsets if present.
      */
-    private void refreshDragLabels() {
-        if (getTopDragLabel() == null)
+    private void revalidateDragLabels() {
+        if (topDrag == null)
             return;
 
         topDrag.setWidth(width - 2 * frameResizingLen);
@@ -1884,7 +1884,7 @@ public class CyderFrame extends JFrame {
         bottomDrag.setHeight(5 - frameResizingLen);
         bottomDragCover.setBounds(0, height - frameResizingLen, width, frameResizingLen);
 
-        refreshTitleAndButtonPosition();
+        revalidateTitleAndButtonPosition();
 
         topDrag.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen,
                 CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
@@ -1908,8 +1908,6 @@ public class CyderFrame extends JFrame {
         bottomDrag.setYOffset(height - 5);
     }
 
-    // todo rename everything to either refresh or validate....
-
     /**
      * The arc length of the arc for rounded window shapes.
      */
@@ -1918,7 +1916,7 @@ public class CyderFrame extends JFrame {
     /**
      * Revalidates and updates the frame's shape, that of being rounded or square.
      */
-    private void refreshFrameShape() {
+    private void revalidateFrameShape() {
         if (!isUndecorated())
             return;
 
@@ -1941,7 +1939,7 @@ public class CyderFrame extends JFrame {
     /**
      * Revalidates the current notification's position if existent.
      */
-    private void refreshNotificationPosition() {
+    private void revalidateNotificationPosition() {
         if (getCurrentNotification() != null) {
             switch (getCurrentNotification().getBuilder().getArrowDir()) {
                 // center on frame
@@ -1970,10 +1968,10 @@ public class CyderFrame extends JFrame {
      * label buttons and clips the label if it does extend.
      */
     private void checkTitleOverflow() {
-        if (getTopDragLabel() == null || getTopDragLabel().getButtonList() == null)
+        if (topDrag == null || topDrag.getButtonList() == null)
             return;
 
-        LinkedList<JButton> buttons = getTopDragLabel().getButtonList();
+        LinkedList<JButton> buttons = topDrag.getButtonList();
 
         switch (buttonPosition) {
             case LEFT -> {
@@ -2159,7 +2157,7 @@ public class CyderFrame extends JFrame {
                 return;
 
             // mainly needed for icon label and pane bounds, layout isn't usually expensive
-            refreshLayout();
+            revalidateLayout();
 
             if (cr != null && cr.backgroundResizingEnabled()) {
                 iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
@@ -2174,9 +2172,9 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Refreshes the iconLabel, iconPane, and associated CyderPanel if present.
+     * Revalidates the iconLabel, iconPane, and associated CyderPanel if present.
      */
-    public void refreshLayout() {
+    public void revalidateLayout() {
         if (iconLabel != null) {
             iconLabel.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen,
                     height - 2 * frameResizingLen);
@@ -2194,7 +2192,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Set the background to a new icon and refresh the frame.
+     * Set the background to a new icon and revalidates and repaints the frame.
      *
      * @param icon the ImageIcon of the frame's background
      */
@@ -2329,13 +2327,14 @@ public class CyderFrame extends JFrame {
      * @return whether dragging is permitted for this frame
      */
     public boolean isDraggingEnabled() {
-        if (getTopDragLabel() == null)
+        if (topDrag == null) {
             return false;
+        }
 
-        return getTopDragLabel().isDraggingEnabled() &&
-                getBottomDragLabel().isDraggingEnabled() &&
-                getLeftDragLabel().isDraggingEnabled() &&
-                getRightDragLabel().isDraggingEnabled();
+        return topDrag.isDraggingEnabled()
+                && bottomDrag.isDraggingEnabled()
+                && leftDrag.isDraggingEnabled()
+                && rightDrag.isDraggingEnabled();
     }
 
     /**
@@ -2345,10 +2344,10 @@ public class CyderFrame extends JFrame {
         if (topDrag == null)
             return;
 
-        getTopDragLabel().disableDragging();
-        getBottomDragLabel().disableDragging();
-        getRightDragLabel().disableDragging();
-        getLeftDragLabel().disableDragging();
+        topDrag.disableDragging();
+        bottomDrag.disableDragging();
+        rightDrag.disableDragging();
+        leftDrag.disableDragging();
     }
 
     /**
@@ -2358,10 +2357,10 @@ public class CyderFrame extends JFrame {
         if (topDrag == null)
             return;
 
-        getTopDragLabel().enableDragging();
-        getBottomDragLabel().enableDragging();
-        getRightDragLabel().enableDragging();
-        getLeftDragLabel().enableDragging();
+        topDrag.enableDragging();
+        bottomDrag.enableDragging();
+        rightDrag.enableDragging();
+        leftDrag.enableDragging();
     }
 
     /**
@@ -2953,8 +2952,9 @@ public class CyderFrame extends JFrame {
                 ConsoleFrame.INSTANCE.getConsoleCyderFrame().isAlwaysOnTop()) {
             setAlwaysOnTop(true);
 
-            if (topDrag != null)
+            if (topDrag != null) {
                 topDrag.refreshPinButton();
+            }
         }
     }
 

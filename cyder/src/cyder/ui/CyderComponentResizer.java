@@ -408,7 +408,7 @@ public class CyderComponentResizer extends MouseAdapter {
         // if a CyderFrame with a panel, refresh always
         if (source instanceof CyderFrame) {
             if (backgroundRefreshOnResize) {
-                ((CyderFrame) source).refreshLayout();
+                ((CyderFrame) source).revalidateLayout();
             }
         }
     }
