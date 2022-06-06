@@ -62,9 +62,9 @@ def main():
                 if num_newlines > 1:
                     print("File:", file)
                     print("Found", num_newlines, "new lines between:")
-                    print(last_anchor.strip())
+                    print(line_number, ":", last_anchor.strip())
                     print("and")
-                    print(line.strip())
+                    print(line_number, ":", line.strip())
                     print("-------------------------------")
 
                 originally_anchored = True
