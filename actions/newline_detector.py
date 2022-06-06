@@ -40,16 +40,21 @@ def main():
     files = find_files(starting_dir=".",
                        extensions=['.java'], recursive=True)
 
-    num_newlines = 0
-    anchored = False
-    last_anchor = None
-    originally_anchored = False
-
     for file in files:
+
+        num_newlines = 0
+        anchored = False
+        last_anchor = None
+        last_anchor_line_number = 0
+        originally_anchored = False
+        line_number = -1
+
         file_lines = open(file, 'r').readlines()
 
         for line in file_lines:
             empty = len(line.strip()) == 0
+
+            line_number = line_number + 1
 
             if empty and not originally_anchored:
                 continue
@@ -65,6 +70,7 @@ def main():
                 originally_anchored = True
                 anchored = True
                 last_anchor = line
+                last_anchor_line_number = line_number
                 num_newlines = 0
             elif empty:
                 anchored = False
