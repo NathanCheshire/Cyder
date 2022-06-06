@@ -363,7 +363,6 @@ public class HarmonicRectangle extends JLabel {
         return waveEquation;
     }
 
-
     /**
      * Sets the wave equation for this harmonic rectangle.
      * The standard form of a simple wave equation is as follows:
