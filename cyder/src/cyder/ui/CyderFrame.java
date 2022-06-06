@@ -330,16 +330,6 @@ public class CyderFrame extends JFrame {
         setBackground(CyderColors.vanilla);
         setIconImage(CyderIcons.CYDER_ICON.getImage());
 
-        //try and get preference for frame shape
-        if (ConsoleFrame.INSTANCE.getUUID() != null) {
-            if (UserUtil.getCyderUser().getRoundedwindows().equals("1")) {
-                setShape(new RoundRectangle2D.Double(0, 0,
-                        getWidth(), getHeight(), 20, 20));
-            } else {
-                setShape(null);
-            }
-        }
-
         //listener to ensure the close button was always pressed which ensures
         // things like closeAnimation are always performed
         addWindowListener(new WindowAdapter() {
@@ -464,6 +454,8 @@ public class CyderFrame extends JFrame {
         threadsKilled = false;
         setFrameType(frameType);
 
+        refreshFrameShape();
+
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
@@ -507,8 +499,6 @@ public class CyderFrame extends JFrame {
                 dispose();
             }
         });
-
-        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
 
         // master contentLabel
         contentLabel = new JLayeredPane() {
@@ -558,6 +548,8 @@ public class CyderFrame extends JFrame {
 
         //default boolean values
         threadsKilled = false;
+
+        refreshFrameShape();
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
@@ -1723,6 +1715,74 @@ public class CyderFrame extends JFrame {
         return new Dimension(width, height);
     }
 
+    // todo when on high dpi things, says resizing image but does not work, fix this,
+    // background/frame should NEVER be bigger than window
+    // todo moving frames between monitors break?
+
+    /**
+     * Performs repaint actions necessary for a borderless frame returned via
+     * {@link CyderFrame#generateBorderlessFrame(int, int, Color)}.
+     */
+    private void repaintBorderlessFrame() {
+        // todo method
+        if (getContentPane() != null) {
+            getContentPane().repaint();
+        }
+
+        // todo method
+        if (getTrueContentPane() != null) {
+            getTrueContentPane().repaint();
+        }
+
+        super.repaint();
+    }
+
+    /**
+     * Repaints the frame, associated shape, and objects using
+     * the {@link CyderColors#getGuiThemeColor()} attribute.
+     */
+    @Override
+    public void repaint() {
+        if (topDrag == null) {
+            repaintBorderlessFrame();
+            return;
+        }
+
+        refreshFrameShape();
+
+        //update the border covering the resize area
+        contentLabel.setBorder(new LineBorder(
+                CyderColors.getGuiThemeColor(), 5 - frameResizingLen, false));
+
+        if (topDrag != null) {
+            //update drag labels
+            topDrag.setBackground(CyderColors.getGuiThemeColor());
+            bottomDrag.setBackground(CyderColors.getGuiThemeColor());
+            leftDrag.setBackground(CyderColors.getGuiThemeColor());
+            rightDrag.setBackground(CyderColors.getGuiThemeColor());
+            topDragCover.setBackground(CyderColors.getGuiThemeColor());
+            bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
+            leftDragCover.setBackground(CyderColors.getGuiThemeColor());
+            rightDragCover.setBackground(CyderColors.getGuiThemeColor());
+
+            //repaint drag labels
+            topDrag.repaint();
+            leftDrag.repaint();
+            bottomDrag.repaint();
+            rightDrag.repaint();
+        }
+
+        // update content panes
+        getContentPane().repaint();
+        getTrueContentPane().repaint();
+
+        if (menuLabel != null) {
+            menuLabel.setBackground(CyderColors.getGuiThemeColor());
+        }
+
+        super.repaint();
+    }
+
     /**
      * Sets the size of this frame ensuring that the sizing is not below
      * {@link CyderFrame#MINIMUM_WIDTH} by {@link CyderFrame#MINIMUM_HEIGHT}
@@ -1734,16 +1794,34 @@ public class CyderFrame extends JFrame {
     public void setSize(int width, int height) {
         Dimension dimension = validateRequestedSize(width, height);
 
-        super.setSize(dimension.width, dimension.height);
+        width = dimension.width;
+        height = dimension.height;
 
-        if (isVisible() && UserUtil.getCyderUser().getRoundedwindows().equals("1")) {
-            setShape(new RoundRectangle2D.Double(0, 0,
-                    getWidth(), getHeight(), 20, 20));
-        } else {
-            setShape(null);
+        boolean sameSizes = this.width == width && this.height == height;
+
+        super.setSize(width, height);
+
+        this.width = width;
+        this.height = height;
+
+        refreshDragLabels();
+
+        refreshFrameShape();
+
+        if (sameSizes) {
+            return;
         }
 
-        // todo stuff from below too
+        refreshLayout();
+
+        if (menuLabel != null && menuLabel.isVisible()) {
+            generateMenu();
+            menuLabel.setLocation(animateMenuToPoint);
+            menuLabel.setVisible(true);
+        }
+
+        refreshNotificationPosition();
+        checkTitleOverflow();
     }
 
     /**
@@ -1763,60 +1841,15 @@ public class CyderFrame extends JFrame {
         this.width = width;
         this.height = height;
 
-        // todo when on high dpi things, says resizing image but doesn't work, fix this,
-        // background/frame should NEVER be bigger than window
+        refreshDragLabels();
 
-        // todo surely not all of this needs to be re-rendered if the size doesn't change?
-
-        // drag labels if present
-        if (getTopDragLabel() != null) {
-            topDrag.setWidth(width - 2 * frameResizingLen);
-            topDrag.setHeight(CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
-            topDragCover.setBounds(0, 0, width, 2);
-
-            leftDrag.setWidth(5 - frameResizingLen);
-            leftDrag.setHeight(height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
-            leftDragCover.setBounds(0, 0, frameResizingLen, height);
-
-            rightDrag.setWidth(5 - frameResizingLen);
-            rightDrag.setHeight(height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
-            rightDragCover.setBounds(width - frameResizingLen, 0, frameResizingLen, height);
-
-            bottomDrag.setWidth(width - frameResizingLen * 2);
-            bottomDrag.setHeight(5 - frameResizingLen);
-            bottomDragCover.setBounds(0, height - frameResizingLen, width, frameResizingLen);
-
-            refreshTitleAndButtonPosition();
-
-            topDrag.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen,
-                    CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
-            leftDrag.setBounds(frameResizingLen, CyderDragLabel.DEFAULT_HEIGHT, 5 - frameResizingLen,
-                    height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
-            rightDrag.setBounds(width - 5, CyderDragLabel.DEFAULT_HEIGHT,
-                    5 - frameResizingLen, height - CyderDragLabel.DEFAULT_HEIGHT - 2);
-            bottomDrag.setBounds(frameResizingLen, height - 5,
-                    width - 2 * frameResizingLen, 5 - frameResizingLen);
-
-            topDrag.setXOffset(frameResizingLen);
-            topDrag.setYOffset(frameResizingLen);
-
-            leftDrag.setXOffset(frameResizingLen);
-            leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
-
-            rightDrag.setXOffset(width - 5);
-            rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
-
-            bottomDrag.setXOffset(frameResizingLen);
-            bottomDrag.setYOffset(height - 5);
-        }
+        refreshFrameShape();
 
         if (sameSizes) {
             return;
         }
 
-        if (iconLabel != null) {
-            refreshLayout();
-        }
+        refreshLayout();
 
         if (menuLabel != null && menuLabel.isVisible()) {
             generateMenu();
@@ -1824,22 +1857,107 @@ public class CyderFrame extends JFrame {
             menuLabel.setVisible(true);
         }
 
+        refreshNotificationPosition();
+        checkTitleOverflow();
+    }
+
+    /**
+     * Refreshes the drag labels and their covers and offsets if present.
+     */
+    private void refreshDragLabels() {
+        if (getTopDragLabel() == null)
+            return;
+
+        topDrag.setWidth(width - 2 * frameResizingLen);
+        topDrag.setHeight(CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
+        topDragCover.setBounds(0, 0, width, 2);
+
+        leftDrag.setWidth(5 - frameResizingLen);
+        leftDrag.setHeight(height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
+        leftDragCover.setBounds(0, 0, frameResizingLen, height);
+
+        rightDrag.setWidth(5 - frameResizingLen);
+        rightDrag.setHeight(height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
+        rightDragCover.setBounds(width - frameResizingLen, 0, frameResizingLen, height);
+
+        bottomDrag.setWidth(width - frameResizingLen * 2);
+        bottomDrag.setHeight(5 - frameResizingLen);
+        bottomDragCover.setBounds(0, height - frameResizingLen, width, frameResizingLen);
+
+        refreshTitleAndButtonPosition();
+
+        topDrag.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen,
+                CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
+        leftDrag.setBounds(frameResizingLen, CyderDragLabel.DEFAULT_HEIGHT, 5 - frameResizingLen,
+                height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
+        rightDrag.setBounds(width - 5, CyderDragLabel.DEFAULT_HEIGHT,
+                5 - frameResizingLen, height - CyderDragLabel.DEFAULT_HEIGHT - 2);
+        bottomDrag.setBounds(frameResizingLen, height - 5,
+                width - 2 * frameResizingLen, 5 - frameResizingLen);
+
+        topDrag.setXOffset(frameResizingLen);
+        topDrag.setYOffset(frameResizingLen);
+
+        leftDrag.setXOffset(frameResizingLen);
+        leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
+
+        rightDrag.setXOffset(width - 5);
+        rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
+
+        bottomDrag.setXOffset(frameResizingLen);
+        bottomDrag.setYOffset(height - 5);
+    }
+
+    // todo rename everything to either refresh or validate....
+
+    /**
+     * The arc length of the arc for rounded window shapes.
+     */
+    private static final int ROUNDED_ARC = 20;
+
+    /**
+     * Revalidates and updates the frame's shape, that of being rounded or square.
+     */
+    private void refreshFrameShape() {
+        if (!isUndecorated())
+            return;
+
+        Shape shape = null;
+
+        try {
+            // borderless frames are by default rounded
+            if (topDrag == null || (cr == null && ConsoleFrame.INSTANCE.getUUID() != null
+                    && UserUtil.getCyderUser().getRoundedwindows().equals("1"))) {
+                shape = new RoundRectangle2D.Double(0, 0,
+                        getWidth(), getHeight(), ROUNDED_ARC, ROUNDED_ARC);
+            }
+        } catch (Exception e) {
+            ExceptionHandler.silentHandle(e);
+        } finally {
+            setShape(shape);
+        }
+    }
+
+    /**
+     * Revalidates the current notification's position if existent.
+     */
+    private void refreshNotificationPosition() {
         if (getCurrentNotification() != null) {
             switch (getCurrentNotification().getBuilder().getArrowDir()) {
                 // center on frame
-                case TOP, BOTTOM -> currentNotification.setLocation(getWidth() / 2 - currentNotification.getWidth() / 2,
+                case TOP, BOTTOM -> currentNotification.setLocation(
+                        getWidth() / 2 - currentNotification.getWidth() / 2,
                         currentNotification.getY());
 
                 // maintain right of frame
-                case RIGHT -> currentNotification.setLocation(getWidth() - currentNotification.getWidth() + 5,
+                case RIGHT -> currentNotification.setLocation(
+                        getWidth() - currentNotification.getWidth() + 5,
                         currentNotification.getY());
 
                 // maintain left of frame
                 case LEFT -> currentNotification.setLocation(5, currentNotification.getY());
             }
         }
-
-        checkTitleOverflow();
     }
 
     /**
@@ -2056,13 +2174,18 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Refreshes the icon label, icon pane, and associated CyderPanel if present.
+     * Refreshes the iconLabel, iconPane, and associated CyderPanel if present.
      */
     public void refreshLayout() {
-        iconLabel.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen,
-                height - 2 * frameResizingLen);
-        iconPane.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen,
-                height - 2 * frameResizingLen);
+        if (iconLabel != null) {
+            iconLabel.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen,
+                    height - 2 * frameResizingLen);
+        }
+
+        if (iconPane != null) {
+            iconPane.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen,
+                    height - 2 * frameResizingLen);
+        }
 
         if (cyderPanel != null) {
             cyderPanel.setBounds(borderLen, CyderDragLabel.DEFAULT_HEIGHT, getWidth() - 2 * borderLen,
@@ -2252,76 +2375,6 @@ public class CyderFrame extends JFrame {
         } else {
             disableDragging();
         }
-    }
-
-    /**
-     * Repaints the frame, associated shape, and objects using
-     * the {@link CyderColors#getGuiThemeColor()} attribute.
-     */
-    @Override
-    public void repaint() {
-        if (topDrag == null) {
-            // update content panes
-            if (getContentPane() != null)
-                getContentPane().repaint();
-            if (getTrueContentPane() != null)
-                getTrueContentPane().repaint();
-
-            // finally super call
-            super.repaint();
-            return;
-        }
-
-        try {
-            // fix shape
-            if (cr == null) {
-                if (ConsoleFrame.INSTANCE.getUUID() != null) {
-                    if (UserUtil.getCyderUser().getRoundedwindows().equals("1")) {
-                        setShape(new RoundRectangle2D.Double(0, 0,
-                                getWidth(), getHeight(), 20, 20));
-                    } else {
-                        setShape(null);
-                    }
-                }
-            } else {
-                setShape(null);
-            }
-        } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
-        }
-
-        //update the border covering the resize area
-        contentLabel.setBorder(new LineBorder(
-                CyderColors.getGuiThemeColor(), 5 - frameResizingLen, false));
-
-        if (topDrag != null) {
-            //update drag labels
-            topDrag.setBackground(CyderColors.getGuiThemeColor());
-            bottomDrag.setBackground(CyderColors.getGuiThemeColor());
-            leftDrag.setBackground(CyderColors.getGuiThemeColor());
-            rightDrag.setBackground(CyderColors.getGuiThemeColor());
-            topDragCover.setBackground(CyderColors.getGuiThemeColor());
-            bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
-            leftDragCover.setBackground(CyderColors.getGuiThemeColor());
-            rightDragCover.setBackground(CyderColors.getGuiThemeColor());
-
-            //repaint drag labels
-            topDrag.repaint();
-            leftDrag.repaint();
-            bottomDrag.repaint();
-            rightDrag.repaint();
-        }
-
-        // update content panes
-        getContentPane().repaint();
-        getTrueContentPane().repaint();
-
-        if (menuLabel != null) {
-            menuLabel.setBackground(CyderColors.getGuiThemeColor());
-        }
-
-        //finally super call
-        super.repaint();
     }
 
     /**

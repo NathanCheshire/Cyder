@@ -1,0 +1,143 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[21-37-09] [ENTRY]: Nathan
+[21-37-09] [PROP LOADED]: [key = map_quest_api_key]
+[21-37-09] [PROP LOADED]: [key = youtube_api_3_key]
+[21-37-09] [PROP LOADED]: [key = ip_key]
+[21-37-09] [PROP LOADED]: [key = weather_key]
+[21-37-09] [PROP LOADED]: [key = debug_hash_name]
+[21-37-09] [PROP LOADED]: [key = debug_hash_password]
+[21-37-09] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[21-37-09] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[21-37-09] [PROP LOADED]: [key = font_metric, value = 1]
+[21-37-09] [PROP LOADED]: [key = released, value = false]
+[21-37-09] [PROP LOADED]: [key = fast_test, value = false]
+[21-37-09] [PROP LOADED]: [key = version, value = Liminal]
+[21-37-09] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[21-37-09] [PROP LOADED]: [key = components_relocatable, value = false]
+[21-37-09] [PROP LOADED]: [key = testing_mode, value = true]
+[21-37-09] [PROP LOADED]: [key = autocypher, value = true]
+[21-37-09] [PROP LOADED]: [key = dispose_splash, value = true]
+[21-37-09] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[21-37-09] [PROP LOADED]: [key = activate_watchdog, value = false]
+[21-37-09] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[21-37-09] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[21-37-09] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[21-37-09] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[21-37-09] [THREAD STARTED]: Object Creation Logger
+[21-37-10] [DEBUG]: Watchdog skipped
+[21-37-10] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[21-37-11] [FONT LOADED]: agency-fb
+[21-37-11] [FONT LOADED]: arial-black
+[21-37-11] [FONT LOADED]: beyno
+[21-37-11] [FONT LOADED]: condiment-regular
+[21-37-11] [FONT LOADED]: prompt-bold
+[21-37-11] [FONT LOADED]: segoe-ui-black
+[21-37-11] [FONT LOADED]: tahoma
+[21-37-11] [THREAD STARTED]: Splash Loader
+[21-37-11] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[21-37-11] [THREAD STARTED]: Splash Animation
+[21-37-11] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[21-37-12] [THREAD STARTED]: Secondary Subroutines Runner
+[21-37-12] [LOGIN]: AUTOCYPHER ATTEMPT
+[21-37-12] [THREAD STARTED]: JVM Args Logger
+[21-37-12] [DEBUG]: Cyder Entry = AutoCypher
+[21-37-12] [THREAD STARTED]: Cyder Splash Opacity Decrement Animator
+[21-37-12] [OBJECT CREATION]: Objects created since last delta (5000ms): 66
+[21-37-13] [THREAD STARTED]: Cyder Splash Opacity Increment Animator
+[21-37-13] [EXCEPTION]:
+           Exception origin: java.desktop/java.awt.Frame.setShape(Frame.java:981)
+           From line: 981
+           Trace: java.awt.IllegalComponentStateException: The frame is decorated
+           at java.desktop/java.awt.Frame.setShape(Frame.java:981)
+           at cyder.ui.CyderFrame.refreshFrameShape(CyderFrame.java:1917)
+           at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1894)
+           at cyder.handlers.ConsoleFrame$5.setBounds(ConsoleFrame.java:379)
+           at java.desktop/java.awt.Component.resize(Component.java:2254)
+           at java.desktop/java.awt.Component.setSize(Component.java:2239)
+           at java.desktop/java.awt.Window.setSize(Window.java:930)
+           at cyder.ui.CyderFrame.setSize(CyderFrame.java:1810)
+           at java.desktop/java.awt.Component.resize(Component.java:2287)
+           at java.desktop/java.awt.Component.setSize(Component.java:2274)
+           at java.desktop/java.awt.Window.setSize(Window.java:908)
+           at cyder.ui.CyderFrame.<init>(CyderFrame.java:327)
+           at cyder.handlers.ConsoleFrame$5.<init>(ConsoleFrame.java:376)
+           at cyder.handlers.ConsoleFrame.setupConsoleCyderFrame(ConsoleFrame.java:376)
+           at cyder.handlers.ConsoleFrame.launch(ConsoleFrame.java:331)
+           at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:503)
+           at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:524)
+           at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:440)
+           at cyder.genesis.Cyder.main(Cyder.java:133)
+[21-37-13] [THREAD STARTED]: High Ping Checker
+[21-37-14] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[21-37-14] [THREAD STARTED]: Splash Loading Label Updater
+[21-37-14] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-14] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-14] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-14] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-14] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-14] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-14] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-15] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-15] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-15] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-15] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-15] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-15] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-15] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-15] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-15] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-15] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-16] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-16] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-16] [THREAD STARTED]: Harmonic Rectangle Animator
+[21-37-17] [THREAD STARTED]: Cyder Splash Opacity Decrement Animator
+[21-37-17] [THREAD STARTED]: Cyder Splash Opacity Increment Animator
+[21-37-17] [OBJECT CREATION]: Objects created since last delta (5000ms): 3
+[21-37-46] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[21-37-46] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 365072666, bounds = (675, 238,
+           600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[21-37-46] [DEBUG]: CyderFrame "" was attempted to be set to invalid height: 78
+[21-37-46] [EXCEPTION]:
+           Exception origin: java.desktop/java.awt.Frame.setShape(Frame.java:981)
+           From line: 981
+           Trace: java.awt.IllegalComponentStateException: The frame is decorated
+           at java.desktop/java.awt.Frame.setShape(Frame.java:981)
+           at cyder.ui.CyderFrame.refreshFrameShape(CyderFrame.java:1917)
+           at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1894)
+           at java.desktop/java.awt.Component.resize(Component.java:2254)
+           at java.desktop/java.awt.Component.setSize(Component.java:2239)
+           at java.desktop/java.awt.Window.setSize(Window.java:930)
+           at cyder.ui.CyderFrame.setSize(CyderFrame.java:1810)
+           at java.desktop/java.awt.Component.resize(Component.java:2287)
+           at java.desktop/java.awt.Component.setSize(Component.java:2274)
+           at java.desktop/java.awt.Window.setSize(Window.java:908)
+           at cyder.ui.CyderFrame.<init>(CyderFrame.java:327)
+           at cyder.ui.CyderFrame.<init>(CyderFrame.java:288)
+           at cyder.handlers.internal.InformHandler.inform(InformHandler.java:114)
+           at cyder.genesis.CyderSplash.lambda$showSplash$2(CyderSplash.java:326)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[21-37-48] [OBJECT CREATION]: Objects created since last delta (5000ms): 2
+[21-38-03] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 2
