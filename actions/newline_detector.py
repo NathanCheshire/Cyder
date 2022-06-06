@@ -1,5 +1,6 @@
 
 import os
+import sys
 
 
 def find_files(starting_dir: str, extensions: list = [], recursive: bool = False) -> list:
@@ -85,4 +86,5 @@ def main():
     return 1 if failed else 0
 
 if __name__ == '__main__':
-    return main()
+    failed = main()
+    sys.exit(failed)
