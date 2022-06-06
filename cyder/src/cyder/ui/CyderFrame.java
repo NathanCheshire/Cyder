@@ -1742,6 +1742,8 @@ public class CyderFrame extends JFrame {
         } else {
             setShape(null);
         }
+
+        // todo stuff from below too
     }
 
     /**
@@ -1754,7 +1756,7 @@ public class CyderFrame extends JFrame {
         width = dimension.width;
         height = dimension.height;
 
-        boolean differentSizes = this.width == width && this.height == height;
+        boolean sameSizes = this.width == width && this.height == height;
 
         super.setBounds(x, y, width, height);
 
@@ -1806,6 +1808,10 @@ public class CyderFrame extends JFrame {
 
             bottomDrag.setXOffset(frameResizingLen);
             bottomDrag.setYOffset(height - 5);
+        }
+
+        if (sameSizes) {
+            return;
         }
 
         if (iconLabel != null) {
@@ -2255,19 +2261,19 @@ public class CyderFrame extends JFrame {
     @Override
     public void repaint() {
         if (topDrag == null) {
-            //update content panes
+            // update content panes
             if (getContentPane() != null)
                 getContentPane().repaint();
             if (getTrueContentPane() != null)
                 getTrueContentPane().repaint();
 
-            //finally super call
+            // finally super call
             super.repaint();
             return;
         }
 
         try {
-            //fix shape
+            // fix shape
             if (cr == null) {
                 if (ConsoleFrame.INSTANCE.getUUID() != null) {
                     if (UserUtil.getCyderUser().getRoundedwindows().equals("1")) {
@@ -2288,29 +2294,30 @@ public class CyderFrame extends JFrame {
         contentLabel.setBorder(new LineBorder(
                 CyderColors.getGuiThemeColor(), 5 - frameResizingLen, false));
 
-        //update drag labels
-        topDrag.setBackground(CyderColors.getGuiThemeColor());
-        bottomDrag.setBackground(CyderColors.getGuiThemeColor());
-        leftDrag.setBackground(CyderColors.getGuiThemeColor());
-        rightDrag.setBackground(CyderColors.getGuiThemeColor());
-        topDragCover.setBackground(CyderColors.getGuiThemeColor());
-        bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
-        leftDragCover.setBackground(CyderColors.getGuiThemeColor());
-        rightDragCover.setBackground(CyderColors.getGuiThemeColor());
+        if (topDrag != null) {
+            //update drag labels
+            topDrag.setBackground(CyderColors.getGuiThemeColor());
+            bottomDrag.setBackground(CyderColors.getGuiThemeColor());
+            leftDrag.setBackground(CyderColors.getGuiThemeColor());
+            rightDrag.setBackground(CyderColors.getGuiThemeColor());
+            topDragCover.setBackground(CyderColors.getGuiThemeColor());
+            bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
+            leftDragCover.setBackground(CyderColors.getGuiThemeColor());
+            rightDragCover.setBackground(CyderColors.getGuiThemeColor());
 
-        //repaint drag labels
-        topDrag.repaint();
-        leftDrag.repaint();
-        bottomDrag.repaint();
-        rightDrag.repaint();
+            //repaint drag labels
+            topDrag.repaint();
+            leftDrag.repaint();
+            bottomDrag.repaint();
+            rightDrag.repaint();
+        }
 
-        //update content panes
+        // update content panes
         getContentPane().repaint();
         getTrueContentPane().repaint();
 
         if (menuLabel != null) {
             menuLabel.setBackground(CyderColors.getGuiThemeColor());
-            menuLabel.repaint();
         }
 
         //finally super call
