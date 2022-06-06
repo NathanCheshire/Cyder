@@ -1,37 +1,72 @@
-from stat_generator import find_files
+
+import os
+
+
+def find_files(starting_dir: str, extensions: list = [], recursive: bool = False) -> list:
+    """ Finds all files within the provided directory that
+        end in one of the provided extensions.
+
+        Parameters:
+            starting_dir: the directory to start recursing from
+            extensions: a list of valid extensions such as [".java"]
+            recursive: whether to recurse through found subdirectories
+
+        Returns:
+            a list of discovered files
+    """
+
+    ret = []
+
+    if len(extensions) == 0:
+        raise Exception('Error: must provide valid extensions')
+
+    if os.path.isdir(starting_dir):
+        for subDir in os.listdir(starting_dir):
+            if recursive:
+                ret = ret + \
+                    find_files(os.path.join(starting_dir, subDir),
+                               extensions, recursive)
+            else:
+                ret.append(os.path.join(starting_dir, subDir))
+    else:
+        for extension in extensions:
+            if starting_dir.endswith(extension):
+                ret.append(starting_dir)
+
+    return ret
 
 
 def main():
-    files = find_files(starting_dir="cyder",
+    files = find_files(starting_dir=".",
                        extensions=['.java'], recursive=True)
 
     num_newlines = 0
     anchored = False
     last_anchor = None
+    originally_anchored = False
 
     for file in files:
         file_lines = open(file, 'r').readlines()
 
         for line in file_lines:
-            # if line has stuff set anchored to True and let this be the last anchor
-            if len(line) > 0:
-                # this means that we've found a gap
-                if not anchored and num_newlines > 1:
+            empty = len(line.strip()) == 0
+
+            if empty and not originally_anchored:
+                continue
+            elif not empty and not anchored:
+                if num_newlines > 1:
                     print("Found", num_newlines, "new lines between:")
-                    print(last_anchor)
+                    print(last_anchor.strip())
                     print("and")
-                    print(line)
+                    print(line.strip())
                     print("-------------------------------")
 
-                    num_newlines = 0
-
+                originally_anchored = True
                 anchored = True
                 last_anchor = line
-            # if we haven't encountered a true line yet, continue
-            elif not anchored:
-                continue
-            # otherwise count it as a blank line
-            else:
+                num_newlines = 0
+            elif empty:
+                anchored = False
                 num_newlines = num_newlines + 1
 
 
