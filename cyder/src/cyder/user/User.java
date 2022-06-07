@@ -213,7 +213,7 @@ public class User {
      * The screen stat object which holds the console frame's position,
      * size, pinned, monitor, and rotation vars.
      */
-    private ScreenStat screenStat;
+    private ScreenStat screenStat = new ScreenStat();
 
     // --------------------------
     // data structures of objects
@@ -222,7 +222,7 @@ public class User {
     /**
      * List of mapped executables that map a string to a file path.
      */
-    private LinkedList<MappedExecutable> executables;
+    private LinkedList<MappedExecutable> executables = new LinkedList<>();
 
     // -------
     // getters

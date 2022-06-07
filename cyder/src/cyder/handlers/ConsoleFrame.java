@@ -268,11 +268,6 @@ public enum ConsoleFrame {
     private int backgroundIndex;
 
     /**
-     * The clickable taskbar icons.
-     */
-    private final LinkedList<CyderFrame> menuTaskbarFrames = new LinkedList<>();
-
-    /**
      * The absolute minimum size allowable for the ConsoleFrame.
      */
     private final Dimension MINIMUM_SIZE = new Dimension(600, 600);
@@ -321,7 +316,7 @@ public enum ConsoleFrame {
         consoleFrameClosed = false;
 
         commandList.clear();
-        menuTaskbarFrames.clear();
+        currentMenuIcons.clear();
 
         CyderColors.refreshGuiThemeColor();
 
@@ -1402,8 +1397,11 @@ public enum ConsoleFrame {
         public void focusLost(FocusEvent e) {
             menuButton.setIcon(CyderIcons.menuIcon);
 
-            if (menuLabel.isVisible()) {
+            if (menuLabel != null && menuLabel.isVisible()) {
                 // todo focus components in list, need to keep focused index and add focus icon
+                for (CyderFrame component : currentMenuIcons) {
+                    System.out.println(component.getTitle());
+                }
             }
         }
 
@@ -1414,29 +1412,68 @@ public enum ConsoleFrame {
     };
 
     /**
+     * The text used for the default preferences menu icon.
+     */
+    private final String prefs = "Prefs";
+
+    /**
+     * The text used for the default logout menu icons.
+     */
+    private final String logout = "Logout";
+
+    /**
+     * The clickable taskbar icons.
+     */
+    private final LinkedList<CyderFrame> currentMenuIcons = new LinkedList<>();
+
+    /**
+     * A cache of the previous menu taskbar frames
+     */
+    private final LinkedList<CyderFrame> previousMenuIcons = new LinkedList<>();
+
+    /**
+     * The default taskbar menu taskbar icons.
+     */
+    private final ImmutableList<JLabel> defaultMenuIcons = ImmutableList.of(
+            CyderFrame.generateDefaultTaskbarComponent(prefs, () -> UserEditor.showGui(0)),
+            CyderFrame.generateDefaultTaskbarComponent(logout, this::logout)
+    );
+
+    // todo probably need some kind of a data structure for a taskbar icon
+    //  so we can invoke a hover and easy caches and such
+
+    /**
+     * The default compact menu icons.
+     */
+    private final ImmutableList<JLabel> defaultCompactMenuIcons = ImmutableList.of(
+            CyderFrame.generateDefaultCompactTaskbarComponent(prefs, () -> UserEditor.showGui(0)),
+            CyderFrame.generateDefaultCompactTaskbarComponent(logout, this::logout)
+    );
+
+    /**
      * Refreshes the taskbar icons based on the frames currently in the frame list.
      */
-    private synchronized void installMenuTaskbarIcons() {
+    private synchronized void installMenuIcons() {
         boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
 
-        StyledDocument doc = menuPane.getStyledDocument();
         SimpleAttributeSet alignment = new SimpleAttributeSet();
 
-        if (compactMode) {
-            StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_LEFT);
-        } else {
-            StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_CENTER);
-        }
+        StyleConstants.setAlignment(alignment, compactMode
+                ? StyleConstants.ALIGN_LEFT : StyleConstants.ALIGN_CENTER);
 
+        StyledDocument doc = menuPane.getStyledDocument();
         doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
 
-        //adding components
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
         menuPane.setText("");
 
-        if (!menuTaskbarFrames.isEmpty()) {
-            for (int i = menuTaskbarFrames.size() - 1 ; i > -1 ; i--) {
-                CyderFrame currentFrame = menuTaskbarFrames.get(i);
+        // ----------------------
+        // frames / cached frames
+        // ----------------------
+
+        if (!currentMenuIcons.isEmpty()) {
+            for (int i = currentMenuIcons.size() - 1 ; i > -1 ; i--) {
+                CyderFrame currentFrame = currentMenuIcons.get(i);
 
                 if (compactMode) {
                     printingUtil.printlnComponent(currentFrame.getCompactTaskbarButton());
@@ -1447,26 +1484,32 @@ public enum ConsoleFrame {
                         printingUtil.printlnComponent(currentFrame.getTaskbarButton());
                     }
 
-                    printingUtil.println("");
+                    if (i != currentMenuIcons.size() - 1) {
+                        printingUtil.println("");
+                    }
                 }
             }
+
+            printingUtil.println("");
+            printingUtil.printlnComponent(generateMenuSep());
+            printingUtil.println("");
         }
+
+        // ----------------------------
+        // mapped executables and links
+        // ----------------------------
 
         LinkedList<MappedExecutable> exes = null;
 
-        //mapped executables
         try {
             exes = UserUtil.getCyderUser().getExecutables();
         } catch (Exception e) {
-            installMenuTaskbarIcons();
+            installMenuIcons();
         }
 
         if (exes != null && !exes.isEmpty()) {
-            if (!menuTaskbarFrames.isEmpty()) {
-                printingUtil.printlnComponent(generateMenuSep());
-
-                if (!compactMode)
-                    printingUtil.println("");
+            if (!currentMenuIcons.isEmpty() && !compactMode) {
+                printingUtil.println("");
             }
 
             for (MappedExecutable exe : exes) {
@@ -1491,36 +1534,41 @@ public enum ConsoleFrame {
 
             if (!compactMode) {
                 printingUtil.println("");
+
+                if (!currentMenuIcons.isEmpty()) {
+                    printingUtil.printlnComponent(generateMenuSep());
+                    printingUtil.println("");
+                }
             }
         }
 
-        if (exes != null && exes.isEmpty() && !menuTaskbarFrames.isEmpty() && !compactMode) {
-            printingUtil.printlnComponent(generateMenuSep());
-            printingUtil.println("");
-        }
+        installDefaultMenuItems(printingUtil, compactMode);
 
-        //default menu items
-        if (compactMode) {
-            printingUtil.printlnComponent(
-                    CyderFrame.generateDefaultCompactTaskbarComponent("Prefs", () -> UserEditor.showGui(0)));
-
-            printingUtil.printlnComponent(
-                    CyderFrame.generateDefaultCompactTaskbarComponent("Logout", this::logout));
-        } else {
-            printingUtil.printlnComponent(
-                    CyderFrame.generateDefaultTaskbarComponent("Prefs", () -> UserEditor.showGui(0)));
-            printingUtil.println("");
-
-            printingUtil.printlnComponent(
-                    CyderFrame.generateDefaultTaskbarComponent("Logout", this::logout));
-        }
-
-        //extracted common part from above if statement
+        // final calls
         printingUtil.println("");
-
-        //set menu location to top
         menuPane.setCaretPosition(0);
+    }
 
+    /**
+     * Installs the default menu items.
+     *
+     * @param printingUtil the printing util to print the components to the menu scroll pane
+     * @param compactMode  whether the menu should be layed out in compact mode
+     */
+    private void installDefaultMenuItems(StringUtil printingUtil, boolean compactMode) {
+        if (compactMode) {
+            for (JLabel component : defaultCompactMenuIcons) {
+                printingUtil.printlnComponent(component);
+            }
+        } else {
+            for (int i = 0 ; i < defaultMenuIcons.size() ; i++) {
+                printingUtil.printlnComponent(defaultMenuIcons.get(i));
+
+                if (i != defaultMenuIcons.size() - 1) {
+                    printingUtil.println("");
+                }
+            }
+        }
     }
 
     /**
@@ -1591,7 +1639,7 @@ public enum ConsoleFrame {
         menuScroll.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight - 20);
         menuLabel.add(menuScroll);
 
-        installMenuTaskbarIcons();
+        installMenuIcons();
     }
 
     /**
@@ -1600,8 +1648,8 @@ public enum ConsoleFrame {
      * @param associatedFrame the frame reference to remove from the taskbar frame list
      */
     public void removeTaskbarIcon(CyderFrame associatedFrame) {
-        if (menuTaskbarFrames.contains(associatedFrame)) {
-            menuTaskbarFrames.remove(associatedFrame);
+        if (currentMenuIcons.contains(associatedFrame)) {
+            currentMenuIcons.remove(associatedFrame);
             revalidateMenu();
         }
     }
@@ -1612,8 +1660,8 @@ public enum ConsoleFrame {
      * @param associatedFrame the frame reference to add to the taskbar list
      */
     public void addTaskbarIcon(CyderFrame associatedFrame) {
-        if (!menuTaskbarFrames.contains(associatedFrame)) {
-            menuTaskbarFrames.add(associatedFrame);
+        if (!currentMenuIcons.contains(associatedFrame)) {
+            currentMenuIcons.add(associatedFrame);
             revalidateMenu();
         }
     }
@@ -2745,7 +2793,7 @@ public enum ConsoleFrame {
         // revalidate bounds if needed and change icon
         if (menuLabel.isVisible()) {
             menuButton.setIcon(CyderIcons.menuIconHover);
-            installMenuTaskbarIcons();
+            installMenuIcons();
             menuLabel.setBounds(3, CyderDragLabel.DEFAULT_HEIGHT - 2,
                     menuLabel.getWidth(), consoleCyderFrame.getHeight()
                             - CyderDragLabel.DEFAULT_HEIGHT - 5);

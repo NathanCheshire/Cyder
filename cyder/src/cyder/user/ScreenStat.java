@@ -71,6 +71,14 @@ public class ScreenStat {
     }
 
     /**
+     * Constructs a default invalid screen stat object.
+     */
+    public ScreenStat() {
+        this(-Integer.MAX_VALUE, -Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE,
+                Integer.MAX_VALUE, false, Direction.TOP);
+    }
+
+    /**
      * Returns the x value of the console frame.
      *
      * @return the x value of the console frame
