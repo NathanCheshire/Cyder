@@ -566,6 +566,16 @@ public enum ConsoleFrame {
      * of the current console frame size and the menu state.
      */
     private void revalidateInputAndOutputBounds() {
+        revalidateInputAndOutputBounds(false);
+    }
+
+    /**
+     * Revalidates the bounds of the input field and output area based off
+     * of the current console frame size and the menu state.
+     *
+     * @param ignoreMenuLabel whether to ignore the menu label and treat it as invisible
+     */
+    private void revalidateInputAndOutputBounds(boolean ignoreMenuLabel) {
         int xPadding = 15;
         int yPadding = 15;
         int inputFieldHeight = 100;
@@ -576,7 +586,7 @@ public enum ConsoleFrame {
 
             int addX = 0;
 
-            if (menuLabel != null && menuLabel.isVisible()) {
+            if (menuLabel != null && menuLabel.isVisible() && !ignoreMenuLabel) {
                 addX = 2 + menuLabel.getWidth();
             }
 
@@ -733,7 +743,7 @@ public enum ConsoleFrame {
      * Sets up the drag label button lists for all the console frame's drag labels.
      */
     private void installDragLabelButtons() {
-        menuButton.addActionListener(menuButtonListener);
+        menuButton.addActionListener(menuButtonActionListener);
         menuButton.setBounds(4, 4, 22, 22);
         consoleCyderFrame.getTopDragLabel().add(menuButton);
 
@@ -1289,7 +1299,7 @@ public enum ConsoleFrame {
         }
     };
 
-    private final ActionListener menuButtonListener = e -> {
+    private final ActionListener menuButtonActionListener = e -> {
         if (menuLabel == null) {
             generateConsoleMenu();
         }
@@ -1481,20 +1491,16 @@ public enum ConsoleFrame {
     };
 
     /**
-     * Revalidates the taskbar bounds and revalidates the icons.
+     * Revalidates the menu bounds and icons.
      */
     private void generateConsoleMenu() {
         int menuHeight = consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5;
-
-        menuButton.setIcon(CyderIcons.menuIcon);
 
         if (menuLabel != null) {
             menuLabel.setVisible(false);
         }
 
         int menuWidth = 110;
-
-        menuLabel = new JLabel();
 
         menuLabel = new JLabel("");
         menuLabel.setBounds(-menuWidth, CyderDragLabel.DEFAULT_HEIGHT - 2,
@@ -1596,7 +1602,7 @@ public enum ConsoleFrame {
                     }
                 }
 
-                revalidateInputAndOutputBounds();
+                revalidateInputAndOutputBounds(true);
             }, "Console menu animator");
 
             CyderThreadRunner.submit(() -> {

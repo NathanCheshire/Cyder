@@ -52,7 +52,8 @@ public class CyderIconButton extends JButton {
      * @param hoverAndFocusIcon the hover icon
      * @param mouseListener     the custom mouse listener for when a mouse enters/exits the icon button's area
      */
-    public CyderIconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon, MouseListener mouseListener) {
+    public CyderIconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon,
+                           MouseListener mouseListener) {
         this(tooltipText, defaultIcon, hoverAndFocusIcon, mouseListener, new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {

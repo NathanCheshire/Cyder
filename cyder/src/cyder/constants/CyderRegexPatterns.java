@@ -4,7 +4,8 @@ import cyder.exceptions.IllegalMethodException;
 
 import java.util.regex.Pattern;
 
-public final class CyderRegexPatterns {
+@SuppressWarnings("unused")
+public class CyderRegexPatterns {
     /**
      * Pattern used to validate an ipv4 address
      */
