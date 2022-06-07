@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.StringUtil;
 
@@ -10,7 +11,7 @@ import java.util.concurrent.Semaphore;
  * Links a JTextPane, StringUtil, and Semaphore all
  * together into one thread-safe happy little entity.
  * <p>
- * Note that this does not make the provided objedcts immutable and make defensive copies.
+ * Note that this does not make the provided objects immutable and make defensive copies.
  * Instead this is merely a wrapper for these objects since they almost always exist together.
  */
 public class CyderOutputPane {
@@ -32,23 +33,22 @@ public class CyderOutputPane {
     /**
      * Instantiation not allowed unless all three arguments are provided
      */
+    @SuppressWarnings("unused")
     private CyderOutputPane() {
         throw new IllegalStateException("Instances of CyderOutputPane are not allowed " +
                 "unless all parameters are given at once");
     }
 
     /**
-     * Constructor for CyderOutputPane that takes in the JTextpane and StringUtil and
-     * creates its own Semahore.
+     * Constructor for CyderOutputPane that takes in the JTextPane and StringUtil and
+     * creates its own Semaphore.
      *
      * @param jTextPane  the JTextPane to link
      * @param stringUtil the StringUtil to use for the JTextPane
      */
     public CyderOutputPane(JTextPane jTextPane, StringUtil stringUtil) {
-        if (jTextPane == null)
-            throw new IllegalArgumentException("Provided JTextPane is null");
-        if (stringUtil == null)
-            throw new IllegalArgumentException("Provided StringUtil is null");
+        Preconditions.checkNotNull(jTextPane);
+        Preconditions.checkNotNull(stringUtil);
 
         this.jTextPane = jTextPane;
         this.stringUtil = stringUtil;
@@ -66,8 +66,7 @@ public class CyderOutputPane {
      * @param jTextPane the JTextPane to link to this instance of CyderOutputPane
      */
     public CyderOutputPane(JTextPane jTextPane) {
-        if (jTextPane == null)
-            throw new IllegalArgumentException("Provided JTextPane is null");
+        Preconditions.checkNotNull(jTextPane);
 
         this.jTextPane = jTextPane;
         stringUtil = new StringUtil(this);

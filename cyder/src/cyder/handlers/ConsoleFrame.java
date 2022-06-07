@@ -1451,12 +1451,23 @@ public enum ConsoleFrame {
     );
 
     /**
+     * The printing util for printing menu items to the console frame menu.
+     */
+    private StringUtil printingUtil;
+
+    /**
+     * The alignment object used for menu alignment.
+     */
+    private final SimpleAttributeSet alignment = new SimpleAttributeSet();
+
+    /**
      * Refreshes the taskbar icons based on the frames currently in the frame list.
      */
     private synchronized void installMenuIcons() {
-        boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
+        // ensure printing util is up to date with menuPane object
+        printingUtil = new StringUtil(new CyderOutputPane(menuPane));
 
-        SimpleAttributeSet alignment = new SimpleAttributeSet();
+        boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
 
         StyleConstants.setAlignment(alignment, compactMode
                 ? StyleConstants.ALIGN_LEFT : StyleConstants.ALIGN_CENTER);
@@ -1464,11 +1475,10 @@ public enum ConsoleFrame {
         StyledDocument doc = menuPane.getStyledDocument();
         doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
 
-        StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
         menuPane.setText("");
 
         // ----------------------
-        // frames / cached frames
+        // frames / cached frames todo
         // ----------------------
 
         if (!currentMenuIcons.isEmpty()) {
@@ -1490,36 +1500,48 @@ public enum ConsoleFrame {
                 }
             }
 
-            printingUtil.println("");
-            printingUtil.printlnComponent(generateMenuSep());
-            printingUtil.println("");
-        }
-
-        // ----------------------------
-        // mapped executables and links
-        // ----------------------------
-
-        LinkedList<MappedExecutable> exes = null;
-
-        try {
-            exes = UserUtil.getCyderUser().getExecutables();
-        } catch (Exception e) {
-            installMenuIcons();
-        }
-
-        if (exes != null && !exes.isEmpty()) {
-            if (!currentMenuIcons.isEmpty() && !compactMode) {
+            if (!compactMode) {
                 printingUtil.println("");
             }
 
-            for (MappedExecutable exe : exes) {
-                if (compactMode) {
+            printingUtil.printlnComponent(generateMenuSep());
+
+            if (!compactMode) {
+                printingUtil.println("");
+            }
+        }
+
+        installMappedExeMenuItems(compactMode);
+        installDefaultMenuItems(compactMode);
+
+        printingUtil.println("");
+        menuPane.setCaretPosition(0);
+    }
+
+    /**
+     * Installs the mapped exe menu items.
+     *
+     * @param compactMode whether the menu should be laid out in compact mode
+     */
+    private void installMappedExeMenuItems(boolean compactMode) {
+        LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
+
+        // todo test me
+        if (exes != null && !exes.isEmpty()) {
+            if (compactMode) {
+                for (MappedExecutable exe : exes) {
                     printingUtil.printlnComponent(
                             CyderFrame.generateDefaultCompactTaskbarComponent(exe.getName(), () -> {
                                 IOUtil.openOutsideProgram(exe.getFilepath());
                                 consoleCyderFrame.notify("Opening: " + exe.getName());
                             }));
-                } else {
+                }
+            } else {
+                if (!currentMenuIcons.isEmpty()) {
+                    printingUtil.println("");
+                }
+
+                for (MappedExecutable exe : exes) {
                     printingUtil.printlnComponent(
                             CyderFrame.generateTaskbarComponent(exe.getName(), () -> {
                                 IOUtil.openOutsideProgram(exe.getFilepath());
@@ -1528,34 +1550,20 @@ public enum ConsoleFrame {
 
                     printingUtil.println("");
                 }
-            }
 
-            printingUtil.printlnComponent(generateMenuSep());
-
-            if (!compactMode) {
                 printingUtil.println("");
-
-                if (!currentMenuIcons.isEmpty()) {
-                    printingUtil.printlnComponent(generateMenuSep());
-                    printingUtil.println("");
-                }
+                printingUtil.printlnComponent(generateMenuSep());
+                printingUtil.println("");
             }
         }
-
-        installDefaultMenuItems(printingUtil, compactMode);
-
-        // final calls
-        printingUtil.println("");
-        menuPane.setCaretPosition(0);
     }
 
     /**
      * Installs the default menu items.
      *
-     * @param printingUtil the printing util to print the components to the menu scroll pane
-     * @param compactMode  whether the menu should be layed out in compact mode
+     * @param compactMode whether the menu should be laid out in compact mode
      */
-    private void installDefaultMenuItems(StringUtil printingUtil, boolean compactMode) {
+    private void installDefaultMenuItems(boolean compactMode) {
         if (compactMode) {
             for (JLabel component : defaultCompactMenuIcons) {
                 printingUtil.printlnComponent(component);
