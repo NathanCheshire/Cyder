@@ -1,0 +1,130 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[20-24-00] [ENTRY]: Nathan
+[20-24-00] [PROP LOADED]: [key = map_quest_api_key]
+[20-24-00] [PROP LOADED]: [key = youtube_api_3_key]
+[20-24-00] [PROP LOADED]: [key = ip_key]
+[20-24-00] [PROP LOADED]: [key = weather_key]
+[20-24-00] [PROP LOADED]: [key = debug_hash_name]
+[20-24-00] [PROP LOADED]: [key = debug_hash_password]
+[20-24-00] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[20-24-00] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[20-24-00] [PROP LOADED]: [key = font_metric, value = 1]
+[20-24-00] [PROP LOADED]: [key = released, value = false]
+[20-24-00] [PROP LOADED]: [key = fast_test, value = false]
+[20-24-00] [PROP LOADED]: [key = version, value = Liminal]
+[20-24-00] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[20-24-00] [PROP LOADED]: [key = components_relocatable, value = false]
+[20-24-00] [PROP LOADED]: [key = testing_mode, value = true]
+[20-24-00] [PROP LOADED]: [key = autocypher, value = true]
+[20-24-00] [PROP LOADED]: [key = dispose_splash, value = true]
+[20-24-00] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[20-24-00] [PROP LOADED]: [key = activate_watchdog, value = false]
+[20-24-00] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[20-24-00] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[20-24-00] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[20-24-00] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[20-24-00] [THREAD STARTED]: Object Creation Logger
+[20-24-00] [DEBUG]: Watchdog skipped
+[20-24-00] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-24-01] [FONT LOADED]: agency-fb
+[20-24-01] [FONT LOADED]: arial-black
+[20-24-01] [FONT LOADED]: beyno
+[20-24-01] [FONT LOADED]: condiment-regular
+[20-24-01] [FONT LOADED]: prompt-bold
+[20-24-01] [FONT LOADED]: segoe-ui-black
+[20-24-01] [FONT LOADED]: tahoma
+[20-24-01] [THREAD STARTED]: Splash Loader
+[20-24-01] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-24-02] [THREAD STARTED]: Splash Animation
+[20-24-02] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[20-24-02] [THREAD STARTED]: Secondary Subroutines Runner
+[20-24-02] [LOGIN]: AUTOCYPHER ATTEMPT
+[20-24-02] [THREAD STARTED]: JVM Args Logger
+[20-24-03] [DEBUG]: Cyder Entry = AutoCypher
+[20-24-03] [OBJECT CREATION]: Objects created since last delta (5000ms): 61
+[20-24-04] [THREAD STARTED]: Console Printing Animation
+[20-24-04] [THREAD STARTED]: Hourly Chime Checker
+[20-24-04] [THREAD STARTED]: Console Clock Updater
+[20-24-04] [THREAD STARTED]: Cyder Busy Checker
+[20-24-04] [THREAD STARTED]: ConsoleFrame Stat Saver
+[20-24-04] [THREAD STARTED]: High Ping Checker
+[20-24-04] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[20-24-04] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 1995805150, bounds = (980,
+           396, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[20-24-04] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[20-24-04] [THREAD STARTED]: Manual Tests Thread
+[20-24-04] [CONSOLE OUT]: [STRING]: Console loaded in 4581ms
+[20-24-04] [THREAD STARTED]: Splash Loading Label Updater
+[20-24-05] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[20-24-05] [DEBUG]: Attempted to log a new or empty line
+[20-24-07] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 8] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[20-24-07] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654564774598.json
+[20-24-08] [OBJECT CREATION]: Objects created since last delta (5000ms): 39
+[20-24-13] [THREAD STARTED]: Suggestion Getter Waiter Thread
+[20-24-13] [CONSOLE OUT]: [STRING]: Manual tests:
+[20-24-13] [DEBUG]: Attempted to log a new or empty line
+[20-24-13] [CONSOLE OUT]: [STRING]: test
+[20-24-13] [OBJECT CREATION]: Objects created since last delta (5000ms): 2
+[20-24-13] [DEBUG]: Attempted to log a new or empty line
+[20-24-13] [CONSOLE OUT]: [STRING]: notification test
+[20-24-13] [DEBUG]: Attempted to log a new or empty line
+[20-24-14] [CONSOLE OUT]: [STRING]: grid test
+[20-24-14] [DEBUG]: Attempted to log a new or empty line
+[20-24-14] [CONSOLE OUT]: [STRING]: switcher test
+[20-24-14] [DEBUG]: Attempted to log a new or empty line
+[20-24-14] [CONSOLE OUT]: [STRING]: askew test
+[20-24-14] [DEBUG]: Attempted to log a new or empty line
+[20-24-15] [CONSOLE OUT]: [STRING]: progress bar test
+[20-24-15] [DEBUG]: Attempted to log a new or empty line
+[20-24-15] [CONSOLE OUT]: [STRING]: slider test
+[20-24-15] [DEBUG]: Attempted to log a new or empty line
+[20-24-15] [CONSOLE OUT]: [STRING]: switch test
+[20-24-15] [DEBUG]: Attempted to log a new or empty line
+[20-24-16] [CONSOLE OUT]: [STRING]: ripple label test
+[20-24-16] [DEBUG]: Attempted to log a new or empty line
+[20-24-16] [CONSOLE OUT]: [STRING]: checkbox group test
+[20-24-16] [DEBUG]: Attempted to log a new or empty line
+[20-24-16] [CONSOLE OUT]: [STRING]: checkbox test
+[20-24-17] [DEBUG]: Attempted to log a new or empty line
+[20-24-17] [CONSOLE OUT]: [STRING]: flow layout test
+[20-24-17] [DEBUG]: Attempted to log a new or empty line
+[20-24-17] [CONSOLE OUT]: [STRING]: inform test
+[20-24-17] [DEBUG]: Attempted to log a new or empty line
+[20-24-17] [CONSOLE OUT]: [STRING]: menu test
+[20-24-18] [DEBUG]: Attempted to log a new or empty line
+[20-24-18] [CONSOLE OUT]: [STRING]: frame length test
+[20-24-18] [DEBUG]: Attempted to log a new or empty line
+[20-24-18] [CONSOLE OUT]: [STRING]: button position test
+[20-24-18] [DEBUG]: Attempted to log a new or empty line
+[20-24-18] [CONSOLE OUT]: [STRING]: sliding icon label test
+[20-24-19] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[20-24-19] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 1668837760, bounds
+           = (1527, 327, 723, 730), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[20-24-19] [EXIT]: [RUNTIME] 18s
+[20-24-19] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown

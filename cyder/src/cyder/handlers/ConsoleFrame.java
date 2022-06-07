@@ -121,8 +121,7 @@ public enum ConsoleFrame {
     /**
      * The top drag label menu toggle button.
      */
-    private final JButton menuButton = new CyderIconButton(
-            "Menu", CyderIcons.menuIcon, CyderIcons.menuIconHover);
+    private JButton menuButton;
 
     /**
      * The top drag label pin button.
@@ -570,16 +569,30 @@ public enum ConsoleFrame {
     }
 
     /**
+     * The horizontal padding between the input/output fields and the frame bounds.
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int fieldXPadding = 15;
+
+    /**
+     * The vertical padding between the input and output fields and the frame bounds.
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int fieldYPadding = 15;
+
+    /**
+     * The height of the input field.
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int inputFieldHeight = 100;
+
+    /**
      * Revalidates the bounds of the input field and output area based off
      * of the current console frame size and the menu state.
      *
      * @param ignoreMenuLabel whether to ignore the menu label and treat it as invisible
      */
     private void revalidateInputAndOutputBounds(boolean ignoreMenuLabel) {
-        int xPadding = 15;
-        int yPadding = 15;
-        int inputFieldHeight = 100;
-
         if (outputScroll != null && inputField != null) {
             int w = consoleCyderFrame.getWidth();
             int h = consoleCyderFrame.getHeight();
@@ -590,12 +603,14 @@ public enum ConsoleFrame {
                 addX = 2 + menuLabel.getWidth();
             }
 
-            outputScroll.setBounds(addX + xPadding, CyderDragLabel.DEFAULT_HEIGHT + yPadding,
-                    w - addX - 2 * xPadding,
-                    h - inputFieldHeight - yPadding * 3 - CyderDragLabel.DEFAULT_HEIGHT);
+            outputScroll.setBounds(addX + fieldXPadding,
+                    CyderDragLabel.DEFAULT_HEIGHT + fieldYPadding,
+                    w - addX - 2 * fieldXPadding,
+                    h - inputFieldHeight - fieldYPadding * 3 - CyderDragLabel.DEFAULT_HEIGHT);
 
-            inputField.setBounds(addX + xPadding, outputScroll.getY() + yPadding + outputScroll.getHeight(),
-                    w - 2 * xPadding - addX, inputFieldHeight);
+            inputField.setBounds(addX + fieldXPadding,
+                    outputScroll.getY() + fieldYPadding + outputScroll.getHeight(),
+                    w - 2 * fieldXPadding - addX, inputFieldHeight);
         }
     }
 
@@ -743,6 +758,9 @@ public enum ConsoleFrame {
      * Sets up the drag label button lists for all the console frame's drag labels.
      */
     private void installDragLabelButtons() {
+        menuButton = new CyderIconButton(
+                "Menu", CyderIcons.menuIcon, CyderIcons.menuIconHover,
+                menuButtonMouseListener, menuButtonFocusAdapter);
         menuButton.addActionListener(menuButtonActionListener);
         menuButton.setBounds(4, 4, 22, 22);
         consoleCyderFrame.getTopDragLabel().add(menuButton);
@@ -1299,59 +1317,99 @@ public enum ConsoleFrame {
         }
     };
 
-    private final ActionListener menuButtonActionListener = e -> {
-        if (menuLabel == null) {
-            generateConsoleMenu();
+    /**
+     * The action listener for the menu button.
+     */
+    private final ActionListener menuButtonActionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (menuLabel == null) {
+                generateConsoleMenu();
+            }
+
+            if (!menuLabel.isVisible()) {
+                CyderThreadRunner.submit(() -> {
+                    menuLabel.setLocation(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
+                    int y = menuLabel.getY();
+
+                    for (int i = -150 ; i < 2 ; i += 8) {
+                        menuLabel.setLocation(i, y);
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException ex) {
+                            ExceptionHandler.handle(ex);
+                        }
+                    }
+
+                    menuLabel.setLocation(2, y);
+
+                    menuButton.setIcon(CyderIcons.menuIcon);
+
+                    revalidateInputAndOutputBounds();
+                }, "minimize menu thread");
+
+                CyderThreadRunner.submit(() -> {
+                    generateConsoleMenu();
+                    menuLabel.setLocation(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
+                    menuLabel.setVisible(true);
+
+                    int addX = 0;
+
+                    if (menuLabel.isVisible())
+                        addX = 2 + menuLabel.getWidth();
+
+                    int finalAddX = addX;
+
+                    for (int i = inputField.getX() ; i < finalAddX + 15 ; i += 8) {
+                        outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1,
+                                outputScroll.getHeight());
+                        inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
+                        try {
+                            Thread.sleep(10);
+                        } catch (Exception ex) {
+                            ExceptionHandler.handle(ex);
+                        }
+                    }
+
+                    revalidateInputAndOutputBounds();
+                }, "Console menu animator");
+            } else {
+                minimizeMenu();
+            }
+        }
+    };
+
+    /**
+     * The mouse listener for the menu button.
+     */
+    private final MouseListener menuButtonMouseListener = new MouseAdapter() {
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            menuButton.setIcon(CyderIcons.menuIconHover);
         }
 
-        if (!menuLabel.isVisible()) {
-            CyderThreadRunner.submit(() -> {
-                menuLabel.setLocation(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
-                int y = menuLabel.getY();
+        @Override
+        public void mouseExited(MouseEvent e) {
+            menuButton.setIcon(CyderIcons.menuIcon);
+        }
+    };
 
-                for (int i = -150 ; i < 2 ; i += 8) {
-                    menuLabel.setLocation(i, y);
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException ex) {
-                        ExceptionHandler.handle(ex);
-                    }
-                }
+    /**
+     * The focus adapter for the menu button.
+     */
+    private final FocusAdapter menuButtonFocusAdapter = new FocusAdapter() {
+        @Override
+        public void focusLost(FocusEvent e) {
+            menuButton.setIcon(CyderIcons.menuIcon);
 
-                menuLabel.setLocation(2, y);
+            if (menuLabel.isVisible()) {
+                // todo focus components in list, need to keep focused index and add focus icon
+            }
+        }
 
-                menuButton.setIcon(CyderIcons.menuIcon);
-
-                revalidateInputAndOutputBounds();
-            }, "minimize menu thread");
-
-            CyderThreadRunner.submit(() -> {
-                generateConsoleMenu();
-                menuLabel.setLocation(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
-                menuLabel.setVisible(true);
-
-                int addX = 0;
-
-                if (menuLabel.isVisible())
-                    addX = 2 + menuLabel.getWidth();
-
-                int finalAddX = addX;
-
-                for (int i = inputField.getX() ; i < finalAddX + 15 ; i += 8) {
-                    outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1,
-                            outputScroll.getHeight());
-                    inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
-                    try {
-                        Thread.sleep(10);
-                    } catch (Exception ex) {
-                        ExceptionHandler.handle(ex);
-                    }
-                }
-
-                revalidateInputAndOutputBounds();
-            }, "Console menu animator");
-        } else {
-            minimizeMenu();
+        @Override
+        public void focusGained(FocusEvent e) {
+            menuButton.setIcon(CyderIcons.menuIconHover);
         }
     };
 
