@@ -3059,14 +3059,7 @@ public class CyderFrame extends JFrame {
     public void setVisible(boolean visible) {
         super.setVisible(visible);
 
-        // todo this wasn't working because enums are lazily loaded I assume
-        // todo somehow initialize this once console is loaded? use a proxy for access to return a copy?
-
-
-        // add to console frame's taskbar as long as it's not an exception
-        if (visible && !ConsoleFrame.INSTANCE.isClosed()
-                && !FrameUtil.getFrameTaskbarExceptions().contains(this)) {
-            // todo maybe have console frame handle this?
+        if (visible) {
             ConsoleFrame.INSTANCE.addTaskbarIcon(this);
         }
 

@@ -1,9 +1,7 @@
 package cyder.utilities;
 
-import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderFrame;
 
@@ -291,30 +289,5 @@ public class FrameUtil {
                 f.setState(Frame.ICONIFIED);
             }
         }
-    }
-
-    /**
-     * An immutable list of the frames to ignore when placing a frame in the console taskbar menu.
-     */
-    private static ImmutableList<CyderFrame> frameTaskbarExceptions = ImmutableList.of();
-
-    /**
-     * Initializes the list of frames to ignore when constructing the console's taskbar menu.
-     */
-    public static synchronized void initializeFrameTaskbarExceptions() {
-        if (!frameTaskbarExceptions.isEmpty()) {
-            return;
-        }
-
-        frameTaskbarExceptions = ImmutableList.of(ConsoleFrame.INSTANCE.getConsoleCyderFrame());
-    }
-
-    /**
-     * Returns an immutable list of the frames to ignore when placing a frame in the console taskbar menu.
-     *
-     * @return an immutable list of the frames to ignore when placing a frame in the console taskbar menu
-     */
-    public static ImmutableList<CyderFrame> getFrameTaskbarExceptions() {
-        return frameTaskbarExceptions;
     }
 }

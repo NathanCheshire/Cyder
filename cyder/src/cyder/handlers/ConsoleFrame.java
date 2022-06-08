@@ -63,6 +63,11 @@ public enum ConsoleFrame {
     }
 
     /**
+     * An immutable list of the frames to ignore when placing a frame in the console taskbar menu.
+     */
+    private ImmutableList<CyderFrame> frameTaskbarExceptions;
+
+    /**
      * The UUID of the user currently associated with the ConsoleFrame.
      */
     private String uuid;
@@ -347,14 +352,9 @@ public enum ConsoleFrame {
 
         startExecutors();
 
-        FrameUtil.closeAllFrames(true, consoleCyderFrame, CyderSplash.getSplashFrame());
+        FrameUtil.closeAllFrames(true, consoleCyderFrame);
 
         restorePreviousFrameBounds(consoleIcon);
-
-        CyderSplash.fastDispose();
-
-        FrameUtil.initializeFrameTaskbarExceptions();
-        // todo this isn't working if we log out and back in again
 
         consoleCyderFrame.setVisible(true);
 
@@ -369,21 +369,23 @@ public enum ConsoleFrame {
      * @param consoleIcon the console icon record to use for the direct props
      */
     private void setupConsoleCyderFrame(ConsoleIcon consoleIcon) {
-        consoleCyderFrame =
-                new CyderFrame(consoleIcon.dimension().width, consoleIcon.dimension.height, consoleIcon.background) {
-                    @Override
-                    public void setBounds(int x, int y, int w, int h) {
-                        super.setBounds(x, y, w, h);
+        consoleCyderFrame = new CyderFrame(consoleIcon.dimension().width,
+                consoleIcon.dimension.height, consoleIcon.background) {
+            @Override
+            public void setBounds(int x, int y, int w, int h) {
+                super.setBounds(x, y, w, h);
 
-                        revalidateInputAndOutputBounds();
+                // now refresh custom console ui elements
 
-                        if (menuLabel != null && menuLabel.isVisible()) {
-                            menuLabel.setBounds(3, CyderDragLabel.DEFAULT_HEIGHT - 2,
-                                    menuLabel.getWidth(),
-                                    consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5);
-                        }
+                revalidateInputAndOutputBounds();
 
-                        if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
+                if (menuLabel != null && menuLabel.isVisible()) {
+                    menuLabel.setBounds(3, CyderDragLabel.DEFAULT_HEIGHT - 2,
+                            menuLabel.getWidth(),
+                            consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5);
+                }
+
+                if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
                             audioControlsLabel.setBounds(w - audioControlsLabel.getWidth() - 6,
                                     CyderDragLabel.DEFAULT_HEIGHT - 2,
                                     audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
@@ -405,14 +407,16 @@ public enum ConsoleFrame {
                         super.dispose();
                     }
 
-                    /**
-                     * Barrel roll not allowed for ConsoleFrame yet.
-                     */
-                    @Override
-                    public void barrelRoll() {
-                        throw new IllegalMethodException("Method is broken for ConsoleFrame; implementation pending");
-                    }
-                };
+            /**
+             * Barrel roll not allowed for ConsoleFrame yet.
+             */
+            @Override
+            public void barrelRoll() {
+                throw new IllegalMethodException("Method is broken for ConsoleFrame; implementation pending");
+            }
+        };
+
+        frameTaskbarExceptions = ImmutableList.of(consoleCyderFrame, CyderSplash.INSTANCE.getSplashFrame());
 
         consoleCyderFrame.setBackground(Color.black);
 
@@ -1459,6 +1463,7 @@ public enum ConsoleFrame {
      * The hash codes of the previous contents of the menu pane.
      */
     private final LinkedList<Integer> previousMenuState = new LinkedList<>();
+
     // todo use me, install sub methods need to return lists of components to print
     //  and the main method should figure out how to print and separators
 
@@ -1666,6 +1671,10 @@ public enum ConsoleFrame {
      * @param associatedFrame the frame reference to add to the taskbar list
      */
     public void addTaskbarIcon(CyderFrame associatedFrame) {
+        if (isClosed() || frameTaskbarExceptions.contains(associatedFrame)) {
+            return;
+        }
+
         if (!currentMenuIcons.contains(associatedFrame)) {
             currentMenuIcons.add(associatedFrame);
             revalidateMenu();

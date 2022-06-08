@@ -22,8 +22,6 @@ import java.io.File;
 import java.net.ServerSocket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static cyder.genesis.CyderSplash.setLoadingMessage;
-
 /**
  * The Cyder-base that performs checks on data and environment variables to ensure
  * a successful start can happen.
@@ -46,7 +44,6 @@ public class Cyder {
         // set start time, this should be the first call always
         TimeUtil.setAbsoluteStartTime(System.currentTimeMillis());
 
-        setLoadingMessage("Loading props");
         PropLoader.loadProps();
 
         addExitHook();
@@ -90,32 +87,31 @@ public class Cyder {
             return;
         }
 
-        CyderSplash.showSplash();
+        CyderSplash.INSTANCE.showSplash();
 
-        // necessary subroutines
         try {
-            setLoadingMessage("Creating dynamics");
+            CyderSplash.INSTANCE.setLoadingMessage("Creating dynamics");
             OSUtil.ensureDynamicsCreated();
 
-            setLoadingMessage("Validating users");
+            CyderSplash.INSTANCE.setLoadingMessage("Validating users");
             UserUtil.validateUsers();
 
-            setLoadingMessage("Cleaning users");
+            CyderSplash.INSTANCE.setLoadingMessage("Cleaning users");
             UserUtil.cleanUsers();
 
-            setLoadingMessage("Validating props");
+            CyderSplash.INSTANCE.setLoadingMessage("Validating props");
             ReflectionUtil.validateProps();
 
-            setLoadingMessage("Validating Widgets");
+            CyderSplash.INSTANCE.setLoadingMessage("Validating Widgets");
             ReflectionUtil.validateWidgets();
 
-            setLoadingMessage("Validating Test");
+            CyderSplash.INSTANCE.setLoadingMessage("Validating Test");
             ReflectionUtil.validateTests();
 
-            setLoadingMessage("Validating Vanilla");
+            CyderSplash.INSTANCE.setLoadingMessage("Validating Vanilla");
             ReflectionUtil.validateVanillaWidgets();
 
-            setLoadingMessage("Validating Handles");
+            CyderSplash.INSTANCE.setLoadingMessage("Validating Handles");
             ReflectionUtil.validateHandles();
         } catch (Exception e) {
             ExceptionHandler.exceptionExit("Exception thrown from subroutine runner, message = "
@@ -125,7 +121,7 @@ public class Cyder {
 
         // sufficient subroutines
         CyderThreadRunner.submit(() -> {
-            setLoadingMessage("Logging JVM args");
+            CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
             IOUtil.logArgs(arguments);
         }, "Secondary Subroutines Runner");
 

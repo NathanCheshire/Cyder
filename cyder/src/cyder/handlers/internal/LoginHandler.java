@@ -286,7 +286,7 @@ public class LoginHandler {
                 ? null : CyderFrame.getDominantFrame());
 
         //dispose the splash frame immediately
-        CyderSplash.fastDispose();
+        CyderSplash.INSTANCE.fastDispose();
 
         //if no users were found, prompt the user to create one
         if (UserUtil.getUserCount() == 0)
@@ -429,12 +429,12 @@ public class LoginHandler {
      * Begins the login sequence to figure out how to enter Cyder.
      */
     public static void determineCyderEntry() {
-        CyderSplash.setLoadingMessage("Checking for an AutoCypher");
+        CyderSplash.INSTANCE.setLoadingMessage("Checking for an AutoCypher");
 
         //if AutoCyphering is enabled, attempt all cyphers
         if (PropLoader.getBoolean("autocypher")) {
             Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
-            CyderSplash.setLoadingMessage("Auto Cyphering");
+            CyderSplash.INSTANCE.setLoadingMessage("Auto Cyphering");
 
             //if AutoCyphering fails, show the login gui
             if (!autoCypher()) {

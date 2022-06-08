@@ -32,12 +32,12 @@ public enum CyderSplash {
     /**
      * Whether the splash screen has been shown.
      */
-    private static boolean splashShown;
+    private boolean splashShown;
 
     /**
      * Whether the splash has been disposed this instance.
      */
-    private static boolean disposed;
+    private boolean disposed;
 
     /**
      * The splash screen CyderFrame.
@@ -47,82 +47,82 @@ public enum CyderSplash {
     /**
      * The label used to display what Cyder is currently doing in the startup routine.
      */
-    private static CyderLabel loadingLabel;
+    private CyderLabel loadingLabel;
 
     /**
      * The width and height for the borderless splash frame.
      */
-    private static final int FRAME_LEN = 600;
+    private final int FRAME_LEN = 600;
 
     /**
      * The length of the blue borders that animate in to surround the Cyder logo.
      */
-    private static final int LOGO_BORDER_LEN = 200;
+    private final int LOGO_BORDER_LEN = 200;
 
     /**
      * The padding from the borders to the Cyder logo.
      */
-    private static final int LOGO_BORDER_PADDING = 40;
+    private final int LOGO_BORDER_PADDING = 40;
 
     /**
      * The timeout between loading label updates.
      */
-    private static final int loadingLabelUpdateTimeout = 25;
+    private final int loadingLabelUpdateTimeout = 25;
 
     /**
      * The maximum seconds of the splash should be visible for.
      */
-    private static final int loadingLabelSeconds = 30;
+    private final int loadingLabelSeconds = 30;
 
     /**
      * The number of times to update the loading label.
      */
-    private static final int loadingLabelUpdateIterations = (loadingLabelSeconds * 1000) / loadingLabelUpdateTimeout;
+    private final int loadingLabelUpdateIterations = (loadingLabelSeconds * 1000) / loadingLabelUpdateTimeout;
 
     /**
      * The timeout before starting to display loading messages after finishing the splash animation.
      */
-    private static final int loadingMessageStartTimeout = 800;
+    private final int loadingMessageStartTimeout = 800;
 
     /**
      * The font used for the loading label messages.
      */
-    private static final Font loadingLabelFont = new Font("Agency FB", Font.BOLD, 40);
+    private final Font loadingLabelFont = new Font("Agency FB", Font.BOLD, 40);
 
     /**
      * The font used for the author signature.
      */
-    private static final Font developerSignatureFont = new Font("Condiment", Font.BOLD, 50);
+    private final Font developerSignatureFont = new Font("Condiment", Font.BOLD, 50);
 
     /**
      * The padding between the top/bottom of the frame and the harmonic rectangles.
      */
-    private static final int harmonicYPadding = 10;
+    private final int harmonicYPadding = 10;
 
     /**
      * The padding between the left/right of the frame and the harmonic rectangles.
      */
-    private static int harmonicXPadding = 20;
+    private int harmonicXPadding = 20;
 
     /**
      * The padding between harmonic rectangles themselves.
      */
-    private static final int harmonicXInnerPadding = 10;
+    private final int harmonicXInnerPadding = 10;
 
     /**
      * The number of harmonic rectangles to draw
      */
-    private static final int numHarmonicRectangles = 20;
+    private final int numHarmonicRectangles = 20;
 
     /**
      * The list of harmonic rectangles.
      */
-    private static final LinkedList<HarmonicRectangle> harmonicRectangles = new LinkedList<>();
+    private final LinkedList<HarmonicRectangle> harmonicRectangles = new LinkedList<>();
 
     /**
      * Shows the splash screen as long as it has not already been shown.
      */
-    public static void showSplash() {
+    public void showSplash() {
         if (splashShown)
             throw new IllegalStateException("Program has already been loaded");
 
@@ -245,12 +245,12 @@ public enum CyderSplash {
 
                         Thread.sleep(loadingMessageStartTimeout);
 
-                        loadingLabel = new CyderLabel(CyderSplash.loadingMessage);
+                        loadingLabel = new CyderLabel(loadingMessage);
                         loadingLabel.setFocusable(false);
                         loadingLabel.setFont(loadingLabelFont);
                         loadingLabel.setForeground(CyderColors.vanilla);
                         loadingLabel.setSize(FRAME_LEN,
-                                StringUtil.getMinHeight(CyderSplash.loadingMessage, loadingLabelFont));
+                                StringUtil.getMinHeight(loadingMessage, loadingLabelFont));
                         loadingLabel.setLocation(0, FRAME_LEN - 100);
 
                         splashFrame.getContentPane().add(loadingLabel);
@@ -258,7 +258,7 @@ public enum CyderSplash {
                         CyderThreadRunner.submit(() -> {
                             try {
                                 for (int i = 0 ; i < loadingLabelUpdateIterations ; i++) {
-                                    loadingLabel.setText(CyderSplash.loadingMessage);
+                                    loadingLabel.setText(loadingMessage);
                                     loadingLabel.repaint();
 
                                     Thread.sleep(loadingLabelUpdateTimeout);
@@ -305,7 +305,7 @@ public enum CyderSplash {
                         Thread.sleep(loadingLabelSeconds * 1000);
 
                         // to be safe always set message back to whatever it was
-                        loadingLabel.setText(CyderSplash.loadingMessage);
+                        loadingLabel.setText(loadingMessage);
                         loadingLabel.repaint();
 
                         // if frame is still active, and it should have been disposed
@@ -335,7 +335,7 @@ public enum CyderSplash {
     /**
      * Disposes the splashFrame using fast close.
      */
-    public static void fastDispose() {
+    public void fastDispose() {
         if (disposed) {
             return;
         }
@@ -353,50 +353,53 @@ public enum CyderSplash {
      *
      * @return the splash frame
      */
-    public static CyderFrame getSplashFrame() {
+    public CyderFrame getSplashFrame() {
         return splashFrame;
     }
 
     /**
      * The loading message to display on the loading label.
      */
-    private static String loadingMessage = "Loading Components";
+    private String loadingMessage = "Loading Components";
 
     /**
      * Sets the loading label and updates the splash frame.
      *
      * @param loadingMessage the message to set to the loading label
      */
-    public static void setLoadingMessage(String loadingMessage) {
+    public void setLoadingMessage(String loadingMessage) {
         if (splashFrame == null || splashFrame.isDisposed())
             return;
 
-        if (!loadingMessage.trim().isEmpty())
-            CyderSplash.loadingMessage = loadingMessage.trim();
+        if (!loadingMessage.trim().isEmpty()) {
+            loadingMessage = loadingMessage.trim();
+        }
 
         if (loadingLabel != null) {
             loadingLabel.setText(loadingMessage);
             loadingLabel.revalidate();
             loadingLabel.repaint();
         }
+
+        this.loadingMessage = loadingMessage;
     }
 
     /**
      * The length of the C and Y icons.
      */
-    private static final int ICON_LEN = 150;
+    private final int ICON_LEN = 150;
 
     /**
      * The length of the primary letter axis.
      */
-    private static final int LETTER_LEN = 30;
+    private final int LETTER_LEN = 30;
 
     /**
      * Generates and returns the C symbol for the splash animation.
      *
      * @return the C symbol for the splash
      */
-    private static ImageIcon generateCIcon() {
+    private ImageIcon generateCIcon() {
         BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
         Graphics g = drawMe.getGraphics();
         g.setColor(CyderColors.vanilla);
@@ -412,7 +415,7 @@ public enum CyderSplash {
      *
      * @return the Y symbol for the splash animation
      */
-    private static ImageIcon generateYIcon() {
+    private ImageIcon generateYIcon() {
         BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
         Graphics g = drawMe.getGraphics();
         g.setColor(CyderColors.vanilla);
