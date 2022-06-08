@@ -353,6 +353,9 @@ public enum ConsoleFrame {
 
         CyderSplash.fastDispose();
 
+        FrameUtil.initializeFrameTaskbarExceptions();
+        // todo this isn't working if we log out and back in again
+
         consoleCyderFrame.setVisible(true);
 
         TimeUtil.setConsoleStartTime(System.currentTimeMillis());

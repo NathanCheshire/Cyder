@@ -1,0 +1,170 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[13-18-43] [ENTRY]: Nathan
+[13-18-43] [PROP LOADED]: [key = map_quest_api_key]
+[13-18-43] [PROP LOADED]: [key = youtube_api_3_key]
+[13-18-43] [PROP LOADED]: [key = ip_key]
+[13-18-43] [PROP LOADED]: [key = weather_key]
+[13-18-43] [PROP LOADED]: [key = debug_hash_name]
+[13-18-43] [PROP LOADED]: [key = debug_hash_password]
+[13-18-43] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[13-18-43] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[13-18-43] [PROP LOADED]: [key = font_metric, value = 1]
+[13-18-43] [PROP LOADED]: [key = released, value = false]
+[13-18-43] [PROP LOADED]: [key = fast_test, value = false]
+[13-18-43] [PROP LOADED]: [key = version, value = Liminal]
+[13-18-43] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[13-18-43] [PROP LOADED]: [key = components_relocatable, value = false]
+[13-18-43] [PROP LOADED]: [key = testing_mode, value = true]
+[13-18-43] [PROP LOADED]: [key = autocypher, value = true]
+[13-18-43] [PROP LOADED]: [key = dispose_splash, value = true]
+[13-18-43] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[13-18-43] [PROP LOADED]: [key = activate_watchdog, value = false]
+[13-18-43] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[13-18-43] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[13-18-43] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[13-18-43] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[13-18-43] [THREAD STARTED]: Object Creation Logger
+[13-18-43] [DEBUG]: Watchdog skipped
+[13-18-43] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[13-18-44] [FONT LOADED]: agency-fb
+[13-18-44] [FONT LOADED]: arial-black
+[13-18-44] [FONT LOADED]: beyno
+[13-18-44] [FONT LOADED]: condiment-regular
+[13-18-44] [FONT LOADED]: prompt-bold
+[13-18-44] [FONT LOADED]: segoe-ui-black
+[13-18-44] [FONT LOADED]: tahoma
+[13-18-44] [THREAD STARTED]: Splash Loader
+[13-18-44] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[13-18-44] [THREAD STARTED]: Splash Animation
+[13-18-45] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[13-18-45] [THREAD STARTED]: Secondary Subroutines Runner
+[13-18-45] [LOGIN]: AUTOCYPHER ATTEMPT
+[13-18-45] [THREAD STARTED]: JVM Args Logger
+[13-18-45] [DEBUG]: Cyder Entry = AutoCypher
+[13-18-46] [OBJECT CREATION]: Objects created since last delta (5000ms): 80
+[13-18-46] [THREAD STARTED]: Console Printing Animation
+[13-18-46] [THREAD STARTED]: Hourly Chime Checker
+[13-18-46] [THREAD STARTED]: Console Clock Updater
+[13-18-46] [THREAD STARTED]: Cyder Busy Checker
+[13-18-46] [THREAD STARTED]: ConsoleFrame Stat Saver
+[13-18-46] [THREAD STARTED]: High Ping Checker
+[13-18-46] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[13-18-46] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 378404540, bounds = (980, 396,
+           600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[13-18-46] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[13-18-46] [THREAD STARTED]: Manual Tests Thread
+[13-18-46] [CONSOLE OUT]: [STRING]: Console loaded in 3753ms
+[13-18-47] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[13-18-47] [THREAD STARTED]: Splash Loading Label Updater
+[13-18-47] [DEBUG]: Attempted to log a new or empty line
+[13-18-48] [THREAD STARTED]: minimize menu thread
+[13-18-48] [THREAD STARTED]: Console menu animator
+[13-18-49] [UI]: Component = CyderLabel, hash = 1480677738, bounds = (0, 0, 75, 75), parent frame = Liminal Cyder
+           [Nathan], getText() = <html><div style='text-align: center;'>Pref</html>
+[13-18-49] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[13-18-49] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654712296264.json
+[13-18-49] [THREAD STARTED]: [Preferences] finalizeAndShow()
+[13-18-50] [THREAD STARTED]: Preferences Opacity Decrement Animator
+[13-18-50] [THREAD STARTED]: Preferences Opacity Increment Animator
+[13-18-51] [OBJECT CREATION]: Objects created since last delta (5000ms): 81
+[13-18-51] [UI]: Component = CyderDragLabel, hash = -14366483, bounds = (2, 2, 726, 28), parent frame = Preferences
+[13-18-51] [THREAD STARTED]: [Preferences] dispose() animation thread
+[13-18-51] [UI]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 1515914353, bounds = (563,
+           328, 730, 560), parent frame = Component itself is a CyderFrame, getTitle() = Preferences
+[13-18-53] [CLIENT]: logout
+[13-18-53] [LOGOUT]: [CyderUser = Nathan]
+[13-18-53] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[13-18-53] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[13-18-53] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[13-18-53] [THREAD STARTED]: [Preferences] dispose() animation thread
+[13-18-53] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 524223214, bounds =
+           (304, 364, 723, 730), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[13-18-53] [THREAD STARTED]: Login printing animation
+[13-18-53] [THREAD STARTED]: Login Input Caret Position Updater
+[13-18-54] [CLIENT]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[13-18-55] [CLIENT]: [LOGIN FRAME] Username: nathan
+[13-18-55] [DEBUG]: Cyder Entry = Login
+[13-18-56] [OBJECT CREATION]: Objects created since last delta (5000ms): 53
+[13-18-56] [THREAD STARTED]: Console Printing Animation
+[13-18-56] [THREAD STARTED]: Hourly Chime Checker
+[13-18-56] [THREAD STARTED]: Console Clock Updater
+[13-18-56] [THREAD STARTED]: Cyder Busy Checker
+[13-18-56] [THREAD STARTED]: ConsoleFrame Stat Saver
+[13-18-56] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[13-18-56] [THREAD STARTED]: [Preferences] dispose() animation thread
+[13-18-56] [THREAD STARTED]: [Cyder Login [Liminal Build]] dispose() animation thread
+[13-18-56] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 2109489170, bounds = (980,
+           496, 600, 400), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Login [Liminal Build]
+[13-18-56] [EXCEPTION]:
+           Exception origin: com.google.common.base.Preconditions.checkArgument(Preconditions.java:131)
+           From line: 131
+           Trace: java.lang.IllegalArgumentException
+           at com.google.common.base.Preconditions.checkArgument(Preconditions.java:131)
+           at cyder.utilities.FrameUtil.initializeFrameTaskbarExceptions(FrameUtil.java:306)
+           at cyder.handlers.ConsoleFrame.launch(ConsoleFrame.java:356)
+           at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:503)
+           at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:370)
+           at java.desktop/java.awt.Component.processKeyEvent(Component.java:6581)
+           at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2896)
+           at java.desktop/java.awt.Component.processEvent(Component.java:6403)
+           at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+           at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:5001)
+           at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+           at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+           at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1952)
+           at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:883)
+           at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1150)
+           at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:1020)
+           at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:848)
+           at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4882)
+           at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+           at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
+           at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+           at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+           at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:722)
+           at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:716)
+           at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:97)
+           at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:746)
+           at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:744)
+           at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+           at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:743)
+           at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+           at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+           at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+           at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+           at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+           at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-18-59] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[13-18-59] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654712329541.json
+[13-19-01] [OBJECT CREATION]: Objects created since last delta (5000ms): 11
+[13-19-33] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 1

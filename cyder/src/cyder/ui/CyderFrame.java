@@ -9,7 +9,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderNumbers;
-import cyder.genesis.CyderSplash;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
@@ -3062,13 +3061,12 @@ public class CyderFrame extends JFrame {
 
         // todo this wasn't working because enums are lazily loaded I assume
         // todo somehow initialize this once console is loaded? use a proxy for access to return a copy?
-        ImmutableList<CyderFrame> consoleTaskbarExceptions = ImmutableList.of(
-                ConsoleFrame.INSTANCE.getConsoleCyderFrame(),
-                CyderSplash.getSplashFrame()
-        );
+
 
         // add to console frame's taskbar as long as it's not an exception
-        if (visible && !ConsoleFrame.INSTANCE.isClosed() && !consoleTaskbarExceptions.contains(this)) {
+        if (visible && !ConsoleFrame.INSTANCE.isClosed()
+                && !FrameUtil.getFrameTaskbarExceptions().contains(this)) {
+            // todo maybe have console frame handle this?
             ConsoleFrame.INSTANCE.addTaskbarIcon(this);
         }
 
