@@ -2645,11 +2645,11 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Constructs the custom taskbar icon based on the currently set custom taskbar ImageIcon.
+     * Constructs the custom taskbar button based on the currently set custom taskbar ImageIcon.
      *
-     * @return the custom taskbar icon based on the currently set custom taskbar ImageIcon
+     * @return the custom taskbar button based on the currently set custom taskbar ImageIcon
      */
-    public JLabel getCustomTaskbarIcon() {
+    public JLabel getCustomTaskbarButton() {
         JLabel customLabel = new JLabel();
         customLabel.setSize(CyderFrame.taskbarIconLength, CyderFrame.taskbarIconLength);
 
@@ -2770,13 +2770,29 @@ public class CyderFrame extends JFrame {
         checkNotNull(getTitle(), "CyderFrame title not yet set");
         checkArgument(!getTitle().isEmpty(), "CyderFrame title is empty");
 
-        return getTaskbarButton(taskbarIconBorderColor);
+        return getTaskbarButton(taskbarIconBorderColor, false);
+    }
+
+    /**
+     * Returns a taskbar component with the currently set border color in a focused state.
+     *
+     * @return a taskbar component with the currently set border color in a focused state
+     */
+    public JLabel getFocusedTaskbarButton() {
+        checkNotNull(getTitle(), "CyderFrame title not yet set");
+        checkArgument(!getTitle().isEmpty(), "CyderFrame title is empty");
+
+        return getTaskbarButton(taskbarIconBorderColor, true);
     }
 
     /**
      * A cache of the previously generated taskbar button.
      */
     private JLabel previousTaskbarButton = null;
+
+    /**
+     * The previous text used for the taskbar button.
+     */
     private String previousTaskbarText = null;
 
     /**
@@ -2784,22 +2800,35 @@ public class CyderFrame extends JFrame {
      * color which minimizes the frame upon click actions.
      *
      * @param borderColor the color of the taskbar border
+     * @param focused     whether to generate the button in a focused state
      * @return a taskbar component with the specified border color
      */
-    public JLabel getTaskbarButton(Color borderColor) {
+    public JLabel getTaskbarButton(Color borderColor, boolean focused) {
         String currentTitle = getTitle();
 
         if (previousTaskbarButton != null && previousTaskbarText.equals(currentTitle)) {
             return previousTaskbarButton;
         }
 
-        JLabel ret = generateTaskbarComponent(currentTitle, () -> {
-            if (getState() == 0) {
-                minimizeAnimation();
-            } else {
-                setState(Frame.NORMAL);
-            }
-        }, borderColor);
+        JLabel ret;
+
+        if (focused) {
+            ret = generateTaskbarFocusedComponent(currentTitle, () -> {
+                if (getState() == 0) {
+                    minimizeAnimation();
+                } else {
+                    setState(Frame.NORMAL);
+                }
+            }, borderColor);
+        } else {
+            ret = generateTaskbarComponent(currentTitle, () -> {
+                if (getState() == 0) {
+                    minimizeAnimation();
+                } else {
+                    setState(Frame.NORMAL);
+                }
+            }, borderColor);
+        }
 
         previousTaskbarText = currentTitle;
         previousTaskbarButton = ret;
@@ -2848,6 +2877,87 @@ public class CyderFrame extends JFrame {
         if (!ret.getText().equalsIgnoreCase(usageTitle)) {
             ret.setToolTipText(title);
         }
+
+        return ret;
+    }
+
+    // todo util methods for icon generation
+    // todo lots of duplicate code and confusing names here
+
+    /**
+     * A factory method which generates a default focused/hovered taskbar component with the provided title, click
+     * action, and border
+     * color.
+     *
+     * @param title       the title of the component
+     * @param clickAction the action to invoke when the component is clicked
+     * @param borderColor the color of the border around the component
+     * @return the taskbar component
+     */
+    public static JLabel generateTaskbarFocusedComponent(String title, Runnable clickAction, Color borderColor) {
+        JLabel ret = new JLabel();
+
+        BufferedImage bufferedImage =
+                new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
+        Graphics g = bufferedImage.getGraphics();
+
+        //set border color
+        g.setColor(borderColor);
+        g.fillRect(0, 0, taskbarIconLength, taskbarIconLength);
+
+        //draw center color
+        g.setColor(Color.black);
+        g.fillRect(taskbarBorderLength, taskbarBorderLength,
+                taskbarIconLength - taskbarBorderLength * 2,
+                taskbarIconLength - taskbarBorderLength * 2);
+
+        //draw darker image
+        Font labelFont = new Font("Agency FB", Font.BOLD, 28);
+
+        BufferedImage darkerBufferedImage =
+                new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
+        Graphics g2 = darkerBufferedImage.getGraphics();
+
+        //set border color
+        g2.setColor(borderColor.darker());
+        g2.fillRect(0, 0, taskbarIconLength, taskbarIconLength);
+
+        //draw center color
+        g2.setColor(Color.black);
+        g2.fillRect(taskbarBorderLength, taskbarBorderLength,
+                taskbarIconLength - taskbarBorderLength * 2,
+                taskbarIconLength - taskbarBorderLength * 2);
+
+        g2.setColor(CyderColors.vanilla);
+        g2.setFont(labelFont);
+        g2.setColor(CyderColors.vanilla);
+
+        String iconTitle = title.substring(0, Math.min(4, title.length())).trim();
+        CyderLabel titleLabel = new CyderLabel(iconTitle);
+        titleLabel.setFont(labelFont);
+        titleLabel.setForeground(CyderColors.vanilla);
+        titleLabel.setBounds(0, 0, taskbarIconLength, taskbarIconLength);
+        titleLabel.setFocusable(false);
+        ret.add(titleLabel);
+        titleLabel.setToolTipText(title);
+        titleLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                clickAction.run();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                ret.setIcon(new ImageIcon(bufferedImage));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                ret.setIcon(new ImageIcon(darkerBufferedImage));
+            }
+        });
+
+        ret.setIcon(new ImageIcon(darkerBufferedImage));
 
         return ret;
     }

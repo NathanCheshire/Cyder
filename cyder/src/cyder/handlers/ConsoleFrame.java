@@ -1427,20 +1427,12 @@ public enum ConsoleFrame {
     private final LinkedList<CyderFrame> currentMenuIcons = new LinkedList<>();
 
     /**
-     * A cache of the previous menu taskbar frames
-     */
-    private final LinkedList<CyderFrame> previousMenuIcons = new LinkedList<>();
-
-    /**
      * The default taskbar menu taskbar icons.
      */
     private final ImmutableList<JLabel> defaultMenuIcons = ImmutableList.of(
             CyderFrame.generateDefaultTaskbarComponent(prefs, () -> UserEditor.showGui(0)),
             CyderFrame.generateDefaultTaskbarComponent(logout, this::logout)
     );
-
-    // todo probably need some kind of a data structure for a taskbar icon
-    //  so we can invoke a hover and easy caches and such
 
     /**
      * The default compact menu icons.
@@ -1461,9 +1453,21 @@ public enum ConsoleFrame {
     private final SimpleAttributeSet alignment = new SimpleAttributeSet();
 
     /**
+     * The hash codes of the previous contents of the menu pane.
+     */
+    private final LinkedList<Integer> previousMenuState = new LinkedList<>();
+    // todo use me, install sub methods need to return lists of components to print
+    //  and the main method should figure out how to print and separators
+
+    // todo need to ensure updated when state needs refreshing, store variable in that too?
+    // todo instance enum pattern for state?
+
+    /**
      * Refreshes the taskbar icons based on the frames currently in the frame list.
      */
     private synchronized void installMenuIcons() {
+        // todo if state same then return
+
         // ensure printing util is up to date with menuPane object
         printingUtil = new StringUtil(new CyderOutputPane(menuPane));
 
@@ -1477,10 +1481,20 @@ public enum ConsoleFrame {
 
         menuPane.setText("");
 
-        // ----------------------
-        // frames / cached frames todo
-        // ----------------------
+        installCurrentFrameItems(compactMode);
+        installMappedExeMenuItems(compactMode);
+        installDefaultMenuItems(compactMode);
 
+        printingUtil.println("");
+        menuPane.setCaretPosition(0);
+    }
+
+    /**
+     * Installs the current frame menu items.
+     *
+     * @param compactMode whether the menu should be laid out in compact mode
+     */
+    private void installCurrentFrameItems(boolean compactMode) {
         if (!currentMenuIcons.isEmpty()) {
             for (int i = currentMenuIcons.size() - 1 ; i > -1 ; i--) {
                 CyderFrame currentFrame = currentMenuIcons.get(i);
@@ -1489,7 +1503,7 @@ public enum ConsoleFrame {
                     printingUtil.printlnComponent(currentFrame.getCompactTaskbarButton());
                 } else {
                     if (currentFrame.shouldUseCustomTaskbarIcon()) {
-                        printingUtil.printlnComponent(currentFrame.getCustomTaskbarIcon());
+                        printingUtil.printlnComponent(currentFrame.getCustomTaskbarButton());
                     } else {
                         printingUtil.printlnComponent(currentFrame.getTaskbarButton());
                     }
@@ -1498,12 +1512,6 @@ public enum ConsoleFrame {
                 }
             }
         }
-
-        installMappedExeMenuItems(compactMode);
-        installDefaultMenuItems(compactMode);
-
-        printingUtil.println("");
-        menuPane.setCaretPosition(0);
     }
 
     /**
@@ -1514,13 +1522,13 @@ public enum ConsoleFrame {
     private void installMappedExeMenuItems(boolean compactMode) {
         LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
 
-        if (exes != null && !exes.isEmpty()) {
+        if (!exes.isEmpty()) {
             if (compactMode) {
                 for (MappedExecutable exe : exes) {
                     printingUtil.printlnComponent(
                             CyderFrame.generateDefaultCompactTaskbarComponent(exe.getName(), () -> {
                                 IOUtil.openOutsideProgram(exe.getFilepath());
-                                consoleCyderFrame.notify("Opening: " + exe.getName());
+                                exe.displayInvokedNotification();
                             }));
                 }
             } else {
@@ -1533,7 +1541,7 @@ public enum ConsoleFrame {
                     printingUtil.printlnComponent(
                             CyderFrame.generateTaskbarComponent(exe.getName(), () -> {
                                 IOUtil.openOutsideProgram(exe.getFilepath());
-                                consoleCyderFrame.notify("Opening: " + exe.getName());
+                                exe.displayInvokedNotification();
                             }, CyderColors.vanilla));
 
                     printingUtil.println("");

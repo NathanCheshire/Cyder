@@ -1,6 +1,7 @@
 package cyder.user;
 
 import com.google.errorprone.annotations.Immutable;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
@@ -8,6 +9,7 @@ import cyder.utilities.ReflectionUtil;
  * Class representing a name and a path to an executable/file/link to open.
  * Instances of this class are immutable.
  */
+@SuppressWarnings("ClassCanBeRecord") // gson complains
 @Immutable
 public class MappedExecutable {
     /**
@@ -49,6 +51,13 @@ public class MappedExecutable {
      */
     public String getFilepath() {
         return filepath;
+    }
+
+    /**
+     * Displays a notification on the console frame informing the user that this mapped exe was invoked.
+     */
+    public void displayInvokedNotification() {
+        ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Invoking mapped exe: " + name);
     }
 
     /**

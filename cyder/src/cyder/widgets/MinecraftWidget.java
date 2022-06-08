@@ -138,7 +138,8 @@ public class MinecraftWidget {
         minecraftFrame.finalizeAndShow();
         minecraftFrame.setIconImage(new ImageIcon("static/pictures/minecraft/Block.png").getImage());
 
-        //open minecraft if map exists
+        // todo should have some clever way to check if a path ends in a file with a certain name/extension
+        // open minecraft if possible map exists
         for (MappedExecutable exe : UserUtil.getCyderUser().getExecutables()) {
             if (exe.getName().equalsIgnoreCase("minecraft") ||
                     exe.getName().equalsIgnoreCase("lunar") ||

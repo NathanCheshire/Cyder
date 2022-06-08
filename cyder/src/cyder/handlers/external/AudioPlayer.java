@@ -1737,6 +1737,8 @@ public class AudioPlayer {
 
                 closePlayerObject();
 
+                // todo we come here when widget is closing which throws due to current audio being set to null
+
                 // invokes an audio file refresh and returns the possible new current index
                 int currentAudioIndex = getCurrentAudioIndex();
                 currentAudioFile = validAudioFiles.get(currentAudioIndex);
