@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class ExceptionHandler {
     /**
-     * Restrict default constructor.
+     * Suppress default constructor.
      */
     private ExceptionHandler() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);

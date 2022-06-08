@@ -358,9 +358,14 @@ public enum CyderSplash {
     }
 
     /**
+     * The default loading message for the splash to display.
+     */
+    public final String DEFAULT_LOADING_MESSAGE = "Loading Components";
+
+    /**
      * The loading message to display on the loading label.
      */
-    private String loadingMessage = "Loading Components";
+    private String loadingMessage = DEFAULT_LOADING_MESSAGE;
 
     /**
      * Sets the loading label and updates the splash frame.
@@ -368,8 +373,9 @@ public enum CyderSplash {
      * @param loadingMessage the message to set to the loading label
      */
     public void setLoadingMessage(String loadingMessage) {
-        if (splashFrame == null || splashFrame.isDisposed())
+        if (splashFrame == null || splashFrame.isDisposed()) {
             return;
+        }
 
         if (!loadingMessage.trim().isEmpty()) {
             loadingMessage = loadingMessage.trim();

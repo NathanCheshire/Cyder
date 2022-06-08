@@ -308,8 +308,7 @@ public enum ConsoleFrame {
 
         Logger.log(Logger.Tag.DEBUG, "Cyder Entry = " + entryPoint);
 
-        UserUtil.ensureUserFilesExist(uuid);
-        UserUtil.getCyderUser().setFullscreen("0");
+        UserUtil.getCyderUser().setFullscreen("0"); // todo huh
 
         loadBackgrounds();
         resizeBackgrounds();
@@ -319,6 +318,7 @@ public enum ConsoleFrame {
         consoleDir = Direction.TOP;
         commandIndex = 0;
         consoleFrameClosed = false;
+        menuLabel = null;
 
         commandList.clear();
         currentMenuIcons.clear();
@@ -3040,7 +3040,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Revalidates the background colors of the console menus that are active.
+     * Revalidates the background colors of the console menus (audio or taskbar) that are active.
      */
     public void revalidateMenuBackgrounds() {
         if (menuLabel != null && menuLabel.isVisible()) {
