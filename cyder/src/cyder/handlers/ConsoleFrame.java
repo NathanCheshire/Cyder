@@ -1494,20 +1494,8 @@ public enum ConsoleFrame {
                         printingUtil.printlnComponent(currentFrame.getTaskbarButton());
                     }
 
-                    if (i != currentMenuIcons.size() - 1) {
-                        printingUtil.println("");
-                    }
+                    printingUtil.println("");
                 }
-            }
-
-            if (!compactMode) {
-                printingUtil.println("");
-            }
-
-            printingUtil.printlnComponent(generateMenuSep());
-
-            if (!compactMode) {
-                printingUtil.println("");
             }
         }
 
@@ -1526,7 +1514,6 @@ public enum ConsoleFrame {
     private void installMappedExeMenuItems(boolean compactMode) {
         LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
 
-        // todo test me
         if (exes != null && !exes.isEmpty()) {
             if (compactMode) {
                 for (MappedExecutable exe : exes) {
@@ -1538,6 +1525,7 @@ public enum ConsoleFrame {
                 }
             } else {
                 if (!currentMenuIcons.isEmpty()) {
+                    printingUtil.printlnComponent(generateMenuSep());
                     printingUtil.println("");
                 }
 
@@ -1551,7 +1539,6 @@ public enum ConsoleFrame {
                     printingUtil.println("");
                 }
 
-                printingUtil.println("");
                 printingUtil.printlnComponent(generateMenuSep());
                 printingUtil.println("");
             }
