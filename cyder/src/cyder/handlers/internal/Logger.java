@@ -70,7 +70,7 @@ public class Logger {
     private static boolean logConcluded;
 
     /**
-     * Whether or not the logger has been initialized.
+     * Whether the logger has been initialized.
      */
     private static boolean logStarted;
 

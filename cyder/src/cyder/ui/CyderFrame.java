@@ -9,6 +9,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderNumbers;
+import cyder.genesis.CyderSplash;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
@@ -3051,22 +3052,29 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Sets the frame's visibility attribute and adds the frame to the ConsoleFrame taskbar list.
+     * Sets the frame's visibility attribute and adds the frame to the ConsoleFrame menu list.
      *
-     * @param b whether to set the frame to be visible
+     * @param visible whether to set the frame to be visible
      */
     @Override
-    public void setVisible(boolean b) {
-        super.setVisible(b);
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
 
-        //add to console frame's taskbar as long as it's not an exception
-        if (b && !ConsoleFrame.INSTANCE.isClosed() && this != ConsoleFrame.INSTANCE.getConsoleCyderFrame()) {
+        // todo this wasn't working because enums are lazily loaded I assume
+        // todo somehow initialize this once console is loaded? use a proxy for access to return a copy?
+        ImmutableList<CyderFrame> consoleTaskbarExceptions = ImmutableList.of(
+                ConsoleFrame.INSTANCE.getConsoleCyderFrame(),
+                CyderSplash.getSplashFrame()
+        );
+
+        // add to console frame's taskbar as long as it's not an exception
+        if (visible && !ConsoleFrame.INSTANCE.isClosed() && !consoleTaskbarExceptions.contains(this)) {
             ConsoleFrame.INSTANCE.addTaskbarIcon(this);
         }
 
-        //if the console is set to always on top, then we need this frame to be automatically set on top as well
-        // so that new frames are not behind the console
-        if (b && ConsoleFrame.INSTANCE.getConsoleCyderFrame() != null &&
+        // if the console is set to always on top, then we need this frame
+        // to be automatically set on top as well so that new frames are not behind the console
+        if (visible && ConsoleFrame.INSTANCE.getConsoleCyderFrame() != null &&
                 ConsoleFrame.INSTANCE.getConsoleCyderFrame().isAlwaysOnTop()) {
             setAlwaysOnTop(true);
 
@@ -3076,9 +3084,9 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    // ----------------
+    // -----------
     // debug lines
-    // ----------------
+    // -----------
 
     /**
      * Whether drawing debug lines should be performed.

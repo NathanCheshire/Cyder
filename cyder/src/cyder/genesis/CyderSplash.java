@@ -3,9 +3,7 @@ package cyder.genesis;
 import cyder.animation.HarmonicRectangle;
 import cyder.builders.InformBuilder;
 import cyder.constants.CyderColors;
-import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
-import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.threads.CyderThreadRunner;
@@ -25,7 +23,12 @@ import java.util.LinkedList;
 /**
  * The splash screen for Cyder when it is originally first launched.
  */
-public class CyderSplash {
+public enum CyderSplash {
+    /**
+     * The CyderSplash enum instance.
+     */
+    INSTANCE;
+
     /**
      * Whether the splash screen has been shown.
      */
@@ -90,13 +93,6 @@ public class CyderSplash {
      * The font used for the author signature.
      */
     private static final Font developerSignatureFont = new Font("Condiment", Font.BOLD, 50);
-
-    /**
-     * Instantiation of CyderSplash is not allowed
-     */
-    private CyderSplash() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
-    }
 
     /**
      * The padding between the top/bottom of the frame and the harmonic rectangles.
