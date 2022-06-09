@@ -131,13 +131,17 @@ public class TaskbarIcon {
             // paint border color
             Graphics g = paintedImage.getGraphics();
             g.setColor(builder.borderColor);
-            g.fillRect(0, 0, TASKBAR_ICON_LEN, TASKBAR_ICON_LEN);
+            g.fillRect(0, 0, TASKBAR_BORDER_LEN, TASKBAR_ICON_LEN);
+            g.fillRect(0, 0, TASKBAR_ICON_LEN, TASKBAR_BORDER_LEN);
+            g.fillRect(TASKBAR_ICON_LEN - 5, 0, TASKBAR_ICON_LEN, TASKBAR_ICON_LEN);
+            g.fillRect(0, TASKBAR_ICON_LEN - 5, TASKBAR_ICON_LEN, TASKBAR_ICON_LEN);
 
             ImageIcon defaultIcon = new ImageIcon(paintedImage);
             ImageIcon focusIcon = new ImageIcon(rescaleOp.filter(paintedImage, null));
 
             // image construction done so place on label
             newTaskbarIcon.setIcon(builder.focused ? focusIcon : defaultIcon);
+            newTaskbarIcon.setSize(TASKBAR_ICON_LEN, TASKBAR_ICON_LEN);
 
             // add name label and mouse listeners on top of background image
             String localName = builder.name.trim().substring(0, Math.min(4, builder.name.trim().length())).trim();

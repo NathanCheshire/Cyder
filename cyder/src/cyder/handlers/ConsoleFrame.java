@@ -1463,6 +1463,10 @@ public enum ConsoleFrame {
 
         menuPane.setText("");
 
+        for (TaskbarIcon taskbarIcon : defaultMenuItems) {
+            printingUtil.printlnComponent(taskbarIcon.getTaskbarIcon());
+        }
+
         // todo add items and separators here
 
         printingUtil.println("");
@@ -1484,6 +1488,7 @@ public enum ConsoleFrame {
                         .setName(currentFrame.getTitle())
                         .setCompact(compactMode)
                         .setFocused(false)
+                        .setBorderColor(currentFrame.getTaskbarIconBorderColor())
                         .setCustomIcon(currentFrame.getCustomTaskbarIcon())
                         .setRunnable(FrameUtil.generateCommonFrameTaskbarIconRunnable(currentFrame))
                         .build());
@@ -1531,19 +1536,18 @@ public enum ConsoleFrame {
      */
     private ImmutableList<TaskbarIcon> getDefaultTaskbarIcons(boolean compactMode) {
         return ImmutableList.of(
-                // todo make sure this list is printed in reverse order too
-                new TaskbarIcon.Builder()
-                        .setName("Logout")
-                        .setFocused(false)
-                        .setCompact(compactMode)
-                        .setRunnable(this::logout)
-                        .setBorderColor(CyderColors.taskbarDefaultColor)
-                        .build(),
                 new TaskbarIcon.Builder()
                         .setName("Prefs")
                         .setFocused(false)
                         .setCompact(compactMode)
                         .setRunnable(() -> UserEditor.showGui(0))
+                        .setBorderColor(CyderColors.taskbarDefaultColor)
+                        .build(),
+                new TaskbarIcon.Builder()
+                        .setName("Logout")
+                        .setFocused(false)
+                        .setCompact(compactMode)
+                        .setRunnable(this::logout)
                         .setBorderColor(CyderColors.taskbarDefaultColor)
                         .build());
     }

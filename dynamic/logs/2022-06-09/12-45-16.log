@@ -1,0 +1,122 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[12-45-16] [ENTRY]: Nathan
+[12-45-16] [PROP LOADED]: [key = map_quest_api_key]
+[12-45-16] [PROP LOADED]: [key = youtube_api_3_key]
+[12-45-16] [PROP LOADED]: [key = ip_key]
+[12-45-16] [PROP LOADED]: [key = weather_key]
+[12-45-16] [PROP LOADED]: [key = debug_hash_name]
+[12-45-16] [PROP LOADED]: [key = debug_hash_password]
+[12-45-16] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[12-45-16] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[12-45-16] [PROP LOADED]: [key = font_metric, value = 1]
+[12-45-16] [PROP LOADED]: [key = released, value = false]
+[12-45-16] [PROP LOADED]: [key = fast_test, value = false]
+[12-45-16] [PROP LOADED]: [key = version, value = Liminal]
+[12-45-16] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[12-45-16] [PROP LOADED]: [key = components_relocatable, value = false]
+[12-45-16] [PROP LOADED]: [key = testing_mode, value = true]
+[12-45-16] [PROP LOADED]: [key = autocypher, value = true]
+[12-45-16] [PROP LOADED]: [key = dispose_splash, value = true]
+[12-45-16] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[12-45-16] [PROP LOADED]: [key = activate_watchdog, value = false]
+[12-45-16] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[12-45-16] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[12-45-16] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[12-45-16] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[12-45-16] [THREAD STARTED]: Object Creation Logger
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\12-58-53.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\13-05-09.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\13-06-33.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\13-07-26.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\13-07-52.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\13-11-26.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\13-17-21.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\13-17-46.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\13-18-08.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\13-18-43.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\13-19-33.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\18-45-57.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\18-52-28.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\18-53-55.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\18-56-09.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\18-57-08.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\18-58-14.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\18-58-37.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\19-00-00.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\19-00-29.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\19-01-10.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\19-02-40.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\19-04-08.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\19-06-57.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\19-07-15.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\19-07-35.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\19-08-46.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\19-09-42.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\19-17-08.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\19-18-27.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\19-20-14.log
+[12-45-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-06-08\19-20-34.log
+[12-45-16] [DEBUG]: Watchdog skipped
+[12-45-16] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[12-45-17] [FONT LOADED]: agency-fb
+[12-45-17] [FONT LOADED]: arial-black
+[12-45-17] [FONT LOADED]: beyno
+[12-45-17] [FONT LOADED]: condiment-regular
+[12-45-17] [FONT LOADED]: prompt-bold
+[12-45-17] [FONT LOADED]: segoe-ui-black
+[12-45-17] [FONT LOADED]: tahoma
+[12-45-17] [THREAD STARTED]: Splash Loader
+[12-45-17] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-45-18] [THREAD STARTED]: Splash Animation
+[12-45-18] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[12-45-19] [THREAD STARTED]: Secondary Subroutines Runner
+[12-45-19] [LOGIN]: AUTOCYPHER ATTEMPT
+[12-45-19] [THREAD STARTED]: JVM Args Logger
+[12-45-19] [OBJECT CREATION]: Objects created since last delta (5000ms): 75
+[12-45-19] [DEBUG]: Cyder Entry = AutoCypher
+[12-45-20] [THREAD STARTED]: Console Printing Animation
+[12-45-20] [THREAD STARTED]: Hourly Chime Checker
+[12-45-20] [THREAD STARTED]: Console Clock Updater
+[12-45-20] [THREAD STARTED]: Cyder Busy Checker
+[12-45-20] [THREAD STARTED]: ConsoleFrame Stat Saver
+[12-45-20] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[12-45-20] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[12-45-20] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 1313549028, bounds = (980,
+           396, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[12-45-20] [THREAD STARTED]: High Ping Checker
+[12-45-21] [THREAD STARTED]: Splash Loading Label Updater
+[12-45-21] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[12-45-21] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[12-45-21] [THREAD STARTED]: Manual Tests Thread
+[12-45-21] [CONSOLE OUT]: [STRING]: Console loaded in 5571ms
+[12-45-21] [DEBUG]: Attempted to log a new or empty line
+[12-45-23] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-45-23] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 575715826, bounds =
+           (1391, 411, 722, 708), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[12-45-23] [EXIT]: [RUNTIME] 7s
+[12-45-23] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown
