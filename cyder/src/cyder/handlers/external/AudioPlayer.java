@@ -1472,8 +1472,6 @@ public class AudioPlayer {
 
         albumArtLabel.repaint();
 
-        audioPlayerFrame.setUseCustomTaskbarIcon(customAlbumArt != null);
-
         ConsoleFrame.INSTANCE.revalidateMenu();
     }
 

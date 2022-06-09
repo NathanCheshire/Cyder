@@ -1,5 +1,6 @@
 package cyder.constants;
 
+import com.google.common.collect.ImmutableList;
 import cyder.exceptions.IllegalMethodException;
 import cyder.utilities.ColorUtil;
 import cyder.utilities.UserUtil;
@@ -152,6 +153,15 @@ public class CyderColors {
      * The brown dirt color used for the perlin widget.
      */
     public static final Color brownDirt = new Color(131, 101, 57);
+
+    /**
+     * The possible border colors to use for the taskbar icon
+     */
+    public static final ImmutableList<Color> TASKBAR_BORDER_COLORS = ImmutableList.of(
+            new Color(22, 124, 237),
+            new Color(254, 49, 93),
+            new Color(249, 122, 18)
+    );
 
     /**
      * Instantiation of the CyderColors class is not allowed

@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -305,5 +306,26 @@ public class FrameUtil {
                 frame.setState(Frame.NORMAL);
             }
         };
+    }
+
+    /**
+     * The index which determines which color to choose for the border color.
+     */
+    private static int colorIndex;
+
+    /**
+     * Returns the color to be associated with a CyderFrame's TaskbarIcon border color.
+     *
+     * @return the color to be associated with a CyderFrame's TaskbarIcon border color
+     */
+    public static Color getTaskbarBorderColor() {
+        Color ret = CyderColors.TASKBAR_BORDER_COLORS.get(colorIndex);
+        colorIndex++;
+
+        if (colorIndex > CyderColors.TASKBAR_BORDER_COLORS.size() - 1) {
+            colorIndex = 0;
+        }
+
+        return ret;
     }
 }

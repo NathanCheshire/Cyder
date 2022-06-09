@@ -2,6 +2,7 @@ package cyder.handlers;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import cyder.builders.GetterBuilder;
 import cyder.builders.InformBuilder;
 import cyder.builders.NotificationBuilder;
@@ -1419,9 +1420,8 @@ public enum ConsoleFrame {
             menuButton.setIcon(CyderIcons.menuIcon);
 
             if (menuLabel != null && menuLabel.isVisible()) {
-                // todo focus components in list, need to keep focused index and add focus icon
-                // todo also a preference for whether bash string
-                // todo per account preference for staying logged in on cyder close
+                // todo focus components in list, need to keep focused index
+                //  and some way to hit enter to trigger the TaskbarIcon's runnable
             }
         }
 
@@ -1441,17 +1441,10 @@ public enum ConsoleFrame {
      */
     private final SimpleAttributeSet alignment = new SimpleAttributeSet();
 
-    // todo use me, install sub methods need to return lists of components to print
-    //  and the main method should figure out how to print and separators
-
-    // todo need to ensure updated when state needs refreshing, store variable in that too?
-
     /**
      * Refreshes the taskbar icons based on the frames currently in the frame list.
      */
     private synchronized void installMenuTaskbarIcons() {
-        // todo if state same then return
-
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
 
         boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
@@ -1462,14 +1455,16 @@ public enum ConsoleFrame {
         StyledDocument doc = menuPane.getStyledDocument();
         doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
 
-        menuPane.setText("");
-
-        // todo these should return immutable lists of taskbar items
-        // todo generates images from python script should be finer resolution
-
         ImmutableList<TaskbarIcon> frameMenuItems = getCurrentFrameTaskbarIcons(compactMode);
         ImmutableList<TaskbarIcon> mappedExeItems = getMappedExeTaskbarIcons(compactMode);
         ImmutableList<TaskbarIcon> defaultMenuItems = getDefaultTaskbarIcons(compactMode);
+
+        // todo if these are the same as last menu state then we don't need to actually wipe menu and use this
+
+
+        menuPane.setText("");
+
+        // todo add items and separators here
 
         printingUtil.println("");
         menuPane.setCaretPosition(0);
@@ -1485,16 +1480,13 @@ public enum ConsoleFrame {
         LinkedList<TaskbarIcon> ret = new LinkedList<>();
 
         if (!currentActiveFrames.isEmpty()) {
-            for (int i = currentActiveFrames.size() - 1 ; i > -1 ; i--) {
-                CyderFrame currentFrame = currentActiveFrames.get(i);
-                boolean customImageIcon = currentFrame.shouldUseCustomTaskbarIcon();
-
+            for (CyderFrame currentFrame : Lists.reverse(currentActiveFrames)) {
                 ret.add(new TaskbarIcon.Builder()
                         .setReferenceFrame(currentFrame)
                         .setName(currentFrame.getTitle())
                         .setCompact(compactMode)
                         .setFocused(false)
-                        .setCustomIcon(customImageIcon ? currentFrame.getCustomTaskbarIcon() : null)
+                        .setCustomIcon(currentFrame.getCustomTaskbarIcon())
                         .setRunnable(FrameUtil.generateCommonFrameTaskbarIconRunnable(currentFrame))
                         .build());
             }
@@ -1525,6 +1517,7 @@ public enum ConsoleFrame {
                         .setFocused(false)
                         .setCompact(compactMode)
                         .setRunnable(runnable)
+                        .setBorderColor(CyderColors.vanilla)
                         .build());
             }
         }
@@ -1540,17 +1533,20 @@ public enum ConsoleFrame {
      */
     private ImmutableList<TaskbarIcon> getDefaultTaskbarIcons(boolean compactMode) {
         return ImmutableList.of(
+                // todo make sure this list is printed in reverse order too
                 new TaskbarIcon.Builder()
                         .setName("Logout")
                         .setFocused(false)
                         .setCompact(compactMode)
                         .setRunnable(this::logout)
+                        .setBorderColor(CyderColors.taskbarDefaultColor)
                         .build(),
                 new TaskbarIcon.Builder()
                         .setName("Prefs")
                         .setFocused(false)
                         .setCompact(compactMode)
                         .setRunnable(() -> UserEditor.showGui(0))
+                        .setBorderColor(CyderColors.taskbarDefaultColor)
                         .build());
     }
 

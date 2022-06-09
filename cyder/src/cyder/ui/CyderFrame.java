@@ -1,7 +1,6 @@
 package cyder.ui;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.builders.GetterBuilder;
 import cyder.builders.InformBuilder;
@@ -322,8 +321,7 @@ public class CyderFrame extends JFrame {
         this.background = background;
         currentOrigIcon = background;
 
-        //border color for ConsoleFrame menu pane set in instantiation of object
-        taskbarIconBorderColor = getTaskbarBorderColor();
+        taskbarIconBorderColor = FrameUtil.getTaskbarBorderColor();
 
         setSize(new Dimension(width, height));
         setResizable(false);
@@ -2588,31 +2586,10 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    // ------------------------------------------------------------------------------------- todo remove me
-
-    /**
-     * The possible border colors to use for the taskbar icon
-     */
-    public static final ImmutableList<Color> TASKBAR_BORDER_COLORS = ImmutableList.of(
-            new Color(22, 124, 237),
-            new Color(254, 49, 93),
-            new Color(249, 122, 18)
-    );
-
-    /**
-     * The index which determines which color to choose for the border color.
-     */
-    private static int colorIndex;
-
     /**
      * The taskbar icon border color for this CyderFrame instance.
      */
     private Color taskbarIconBorderColor;
-
-    /**
-     * Whether to use the custom taskbar icon if it exists.
-     */
-    private boolean useCustomTaskbarIcon;
 
     /**
      * The custom ImageIcon to use for the taskbar icon if enabled.
@@ -2629,34 +2606,15 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Returns whether to use the default taskbar component or the custom one.
+     * Sets the taskbar image icon to use.
      *
-     * @return whether to use the default taskbar component or the custom one
+     * @param customTaskbarIcon the taskbar image icon to use
      */
-    public boolean shouldUseCustomTaskbarIcon() {
-        return useCustomTaskbarIcon;
+    public void setCustomTaskbarIcon(ImageIcon customTaskbarIcon) {
+        this.customTaskbarIcon = customTaskbarIcon;
     }
 
-    // todo could do away with this and just check for taskbar icon optional not empty
-
-    /**
-     * Sets whether to use a custom taskbar ImageIcon for the TaskbarIcon.
-     *
-     * @param useCustomTaskbarIcon whether to use a custom taskbar icon or the default one
-     */
-    public void setUseCustomTaskbarIcon(boolean useCustomTaskbarIcon) {
-        if (this.useCustomTaskbarIcon == useCustomTaskbarIcon) {
-            return;
-        }
-
-        this.useCustomTaskbarIcon = useCustomTaskbarIcon;
-
-        if (!useCustomTaskbarIcon) {
-            customTaskbarIcon = null;
-        }
-
-        ConsoleFrame.INSTANCE.revalidateMenu();
-    }
+    // todo extract logic
 
     /**
      * Constructs the custom taskbar button based on the currently set custom taskbar ImageIcon.
@@ -2712,30 +2670,6 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Sets the taskbar image icon to use.
-     *
-     * @param customTaskbarIcon the taskbar image icon to use
-     */
-    public void setCustomTaskbarIcon(ImageIcon customTaskbarIcon) {
-        this.customTaskbarIcon = customTaskbarIcon;
-    }
-
-    /**
-     * Returns the color to be associated with this CyderFrame's taskbar border color.
-     *
-     * @return the color to be associated with this CyderFrame's taskbar border color
-     */
-    private Color getTaskbarBorderColor() {
-        Color ret = TASKBAR_BORDER_COLORS.get(colorIndex);
-        colorIndex++;
-
-        if (colorIndex > TASKBAR_BORDER_COLORS.size() - 1)
-            colorIndex = 0;
-
-        return ret;
-    }
-
-    /**
      * The length of the taskbar icons to be generated.
      */
     public static final int taskbarIconLength = 75;
@@ -2752,13 +2686,8 @@ public class CyderFrame extends JFrame {
      * @return a compact taskbar component for this CyderFrame instance
      */
     public JLabel getCompactTaskbarButton(boolean focused) {
-        return generateDefaultCompactTaskbarComponent(getTitle(), () -> {
-            if (getState() == 0) {
-                minimizeAnimation();
-            } else {
-                setState(Frame.NORMAL);
-            }
-        }, focused);
+        return generateDefaultCompactTaskbarComponent(getTitle(),
+                FrameUtil.generateCommonFrameTaskbarIconRunnable(this), focused);
     }
 
     /**
@@ -2767,8 +2696,8 @@ public class CyderFrame extends JFrame {
      * @return a taskbar component with the currently set border color
      */
     public JLabel getTaskbarButton() {
-        checkNotNull(getTitle(), "CyderFrame title not yet set");
-        checkArgument(!getTitle().isEmpty(), "CyderFrame title is empty");
+        checkNotNull(getTitle());
+        checkArgument(!getTitle().isEmpty());
 
         return getTaskbarButton(taskbarIconBorderColor, false);
     }
@@ -2853,9 +2782,6 @@ public class CyderFrame extends JFrame {
 
         return ret;
     }
-
-    // todo util methods for icon generation
-    // todo lots of duplicate code and confusing names here
 
     /**
      * A factory method which generates a default focused/hovered taskbar component with the provided title, click
@@ -3016,17 +2942,6 @@ public class CyderFrame extends JFrame {
         ret.setIcon(new ImageIcon(bufferedImage));
 
         return ret;
-    }
-
-    /**
-     * Generates a default taskbar component for this frame based on its current title.
-     *
-     * @param title       the title of the component
-     * @param clickAction the action to invoke when the icon is clicked
-     * @return the taskbar component
-     */
-    public static JLabel generateDefaultTaskbarComponent(String title, Runnable clickAction) {
-        return generateTaskbarComponent(title, clickAction, CyderColors.taskbarDefaultColor);
     }
 
     // ------------------------------------------------------------------------------------- todo remove me
