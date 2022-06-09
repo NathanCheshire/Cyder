@@ -1461,7 +1461,6 @@ public enum ConsoleFrame {
 
         // todo if these are the same as last menu state then we don't need to actually wipe menu and use this
 
-
         menuPane.setText("");
 
         // todo add items and separators here
@@ -1482,7 +1481,6 @@ public enum ConsoleFrame {
         if (!currentActiveFrames.isEmpty()) {
             for (CyderFrame currentFrame : Lists.reverse(currentActiveFrames)) {
                 ret.add(new TaskbarIcon.Builder()
-                        .setReferenceFrame(currentFrame)
                         .setName(currentFrame.getTitle())
                         .setCompact(compactMode)
                         .setFocused(false)

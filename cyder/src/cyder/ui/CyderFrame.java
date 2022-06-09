@@ -2614,8 +2614,6 @@ public class CyderFrame extends JFrame {
         this.customTaskbarIcon = customTaskbarIcon;
     }
 
-    // todo extract logic
-
     /**
      * Constructs the custom taskbar button based on the currently set custom taskbar ImageIcon.
      *
