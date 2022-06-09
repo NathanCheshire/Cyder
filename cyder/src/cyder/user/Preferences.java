@@ -139,7 +139,6 @@ public class Preferences {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fullscreen");
 
             ConsoleFrame.INSTANCE.setFullscreen(UserUtil.getCyderUser().getFullscreen().equals("1"));
-
         }));
         ret.add(new Preference("outputfill", "Output Fill",
                 "Fill the output area with the color specified in the \"Fonts & Colors\" panel",

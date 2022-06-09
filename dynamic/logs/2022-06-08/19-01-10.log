@@ -1,0 +1,95 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[19-01-10] [ENTRY]: Nathan
+[19-01-10] [PROP LOADED]: [key = map_quest_api_key]
+[19-01-10] [PROP LOADED]: [key = youtube_api_3_key]
+[19-01-10] [PROP LOADED]: [key = ip_key]
+[19-01-10] [PROP LOADED]: [key = weather_key]
+[19-01-10] [PROP LOADED]: [key = debug_hash_name]
+[19-01-10] [PROP LOADED]: [key = debug_hash_password]
+[19-01-10] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[19-01-10] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[19-01-10] [PROP LOADED]: [key = font_metric, value = 1]
+[19-01-10] [PROP LOADED]: [key = released, value = false]
+[19-01-10] [PROP LOADED]: [key = fast_test, value = false]
+[19-01-10] [PROP LOADED]: [key = version, value = Liminal]
+[19-01-10] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[19-01-10] [PROP LOADED]: [key = components_relocatable, value = false]
+[19-01-10] [PROP LOADED]: [key = testing_mode, value = true]
+[19-01-10] [PROP LOADED]: [key = autocypher, value = true]
+[19-01-10] [PROP LOADED]: [key = dispose_splash, value = true]
+[19-01-10] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[19-01-10] [PROP LOADED]: [key = activate_watchdog, value = false]
+[19-01-10] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[19-01-10] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[19-01-10] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[19-01-10] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[19-01-10] [THREAD STARTED]: Object Creation Logger
+[19-01-10] [DEBUG]: Watchdog skipped
+[19-01-10] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-01-11] [FONT LOADED]: agency-fb
+[19-01-11] [FONT LOADED]: arial-black
+[19-01-11] [FONT LOADED]: beyno
+[19-01-11] [FONT LOADED]: condiment-regular
+[19-01-11] [FONT LOADED]: prompt-bold
+[19-01-11] [FONT LOADED]: segoe-ui-black
+[19-01-11] [FONT LOADED]: tahoma
+[19-01-11] [THREAD STARTED]: Splash Loader
+[19-01-11] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-01-12] [THREAD STARTED]: Splash Animation
+[19-01-12] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[19-01-12] [THREAD STARTED]: Secondary Subroutines Runner
+[19-01-12] [LOGIN]: AUTOCYPHER ATTEMPT
+[19-01-12] [THREAD STARTED]: JVM Args Logger
+[19-01-12] [DEBUG]: Cyder Entry = AutoCypher
+[19-01-58] [OBJECT CREATION]: Objects created since last delta (5000ms): 80
+[19-01-58] [EXCEPTION]:
+           Exception origin: org.jsoup.internal.ConstrainableInputStream.read(ConstrainableInputStream.java:58)
+           From line: 58
+           Trace: java.net.SocketTimeoutException: Read timeout
+           at org.jsoup.internal.ConstrainableInputStream.read(ConstrainableInputStream.java:58)
+           at java.base/sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:270)
+           at java.base/sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:313)
+           at java.base/sun.nio.cs.StreamDecoder.read(StreamDecoder.java:188)
+           at java.base/java.io.InputStreamReader.read(InputStreamReader.java:177)
+           at java.base/java.io.BufferedReader.fill(BufferedReader.java:162)
+           at java.base/java.io.BufferedReader.read1(BufferedReader.java:213)
+           at java.base/java.io.BufferedReader.read(BufferedReader.java:287)
+           at org.jsoup.parser.CharacterReader.bufferUp(CharacterReader.java:87)
+           at org.jsoup.parser.CharacterReader.current(CharacterReader.java:235)
+           at org.jsoup.parser.TokeniserState.readRawData(TokeniserState.java:1682)
+           at org.jsoup.parser.TokeniserState.access$200(TokeniserState.java:8)
+           at org.jsoup.parser.TokeniserState$5.read(TokeniserState.java:71)
+           at org.jsoup.parser.Tokeniser.read(Tokeniser.java:59)
+           at org.jsoup.parser.TreeBuilder.runParser(TreeBuilder.java:82)
+           at org.jsoup.parser.TreeBuilder.parse(TreeBuilder.java:57)
+           at org.jsoup.parser.Parser.parseInput(Parser.java:49)
+           at org.jsoup.helper.DataUtil.parseInputStream(DataUtil.java:216)
+           at org.jsoup.helper.HttpConnection$Response.parse(HttpConnection.java:962)
+           at org.jsoup.helper.HttpConnection.get(HttpConnection.java:355)
+           at cyder.utilities.IOUtil.lambda$logArgs$0(IOUtil.java:116)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[19-01-58] [THREAD STARTED]: Console Printing Animation
+[19-02-40] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 1

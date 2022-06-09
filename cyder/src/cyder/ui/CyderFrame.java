@@ -3206,6 +3206,11 @@ public class CyderFrame extends JFrame {
     // ---------------------------------
 
     /**
+     * Whether the opacity should be animated in and out on drag events.
+     */
+    private boolean shouldAnimateOpacity = true;
+
+    /**
      * The opacity value to set the frame to on drag events.
      */
     public static final float DRAG_OPACITY = 0.70f;
@@ -3234,6 +3239,10 @@ public class CyderFrame extends JFrame {
      * Sets the opacity of the frame to {@link CyderFrame#DRAG_OPACITY}.
      */
     protected void startDragEvent() {
+        if (!shouldAnimateOpacity) {
+            return;
+        }
+
         CyderThreadRunner.submit(() -> {
             for (float i = DEFAULT_OPACITY ; i >= DRAG_OPACITY ; i -= OPACITY_DELTA) {
                 if (animatingOut)
@@ -3256,6 +3265,12 @@ public class CyderFrame extends JFrame {
      * Sets the opacity of the frame to {@link CyderFrame#DEFAULT_OPACITY}.
      */
     protected void endDragEvent() {
+        if (!shouldAnimateOpacity) {
+            // just to be sure...
+            setOpacity(DEFAULT_OPACITY);
+            return;
+        }
+
         CyderThreadRunner.submit(() -> {
             animatingOut = true;
 
@@ -3273,6 +3288,24 @@ public class CyderFrame extends JFrame {
 
             animatingOut = false;
         }, getTitle() + " Opacity Increment Animator");
+    }
+
+    /**
+     * Returns whether the opacity should be animated on drag events.
+     *
+     * @return whether the opacity should be animated on drag events
+     */
+    public boolean shouldAnimateOpacity() {
+        return shouldAnimateOpacity;
+    }
+
+    /**
+     * Sets whether the opacity should be animated on drag events.
+     *
+     * @param shouldAnimateOpacity whether the opacity should be animated on drag events
+     */
+    public void setShouldAnimateOpacity(boolean shouldAnimateOpacity) {
+        this.shouldAnimateOpacity = shouldAnimateOpacity;
     }
 
     /**

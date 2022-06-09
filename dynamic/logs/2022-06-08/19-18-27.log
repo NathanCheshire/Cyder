@@ -1,0 +1,260 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[19-18-27] [ENTRY]: Nathan
+[19-18-27] [PROP LOADED]: [key = map_quest_api_key]
+[19-18-27] [PROP LOADED]: [key = youtube_api_3_key]
+[19-18-27] [PROP LOADED]: [key = ip_key]
+[19-18-27] [PROP LOADED]: [key = weather_key]
+[19-18-27] [PROP LOADED]: [key = debug_hash_name]
+[19-18-27] [PROP LOADED]: [key = debug_hash_password]
+[19-18-27] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[19-18-27] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[19-18-27] [PROP LOADED]: [key = font_metric, value = 1]
+[19-18-27] [PROP LOADED]: [key = released, value = false]
+[19-18-27] [PROP LOADED]: [key = fast_test, value = false]
+[19-18-27] [PROP LOADED]: [key = version, value = Liminal]
+[19-18-27] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[19-18-27] [PROP LOADED]: [key = components_relocatable, value = false]
+[19-18-27] [PROP LOADED]: [key = testing_mode, value = true]
+[19-18-27] [PROP LOADED]: [key = autocypher, value = true]
+[19-18-27] [PROP LOADED]: [key = dispose_splash, value = true]
+[19-18-27] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[19-18-27] [PROP LOADED]: [key = activate_watchdog, value = false]
+[19-18-27] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[19-18-27] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[19-18-27] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[19-18-27] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[19-18-27] [THREAD STARTED]: Object Creation Logger
+[19-18-27] [DEBUG]: Watchdog skipped
+[19-18-27] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-18-28] [FONT LOADED]: agency-fb
+[19-18-28] [FONT LOADED]: arial-black
+[19-18-28] [FONT LOADED]: beyno
+[19-18-28] [FONT LOADED]: condiment-regular
+[19-18-28] [FONT LOADED]: prompt-bold
+[19-18-28] [FONT LOADED]: segoe-ui-black
+[19-18-28] [FONT LOADED]: tahoma
+[19-18-28] [THREAD STARTED]: Splash Loader
+[19-18-28] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-18-29] [THREAD STARTED]: Splash Animation
+[19-18-29] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[19-18-29] [THREAD STARTED]: Secondary Subroutines Runner
+[19-18-29] [LOGIN]: AUTOCYPHER ATTEMPT
+[19-18-29] [THREAD STARTED]: JVM Args Logger
+[19-18-30] [DEBUG]: Cyder Entry = AutoCypher
+[19-18-30] [OBJECT CREATION]: Objects created since last delta (5000ms): 80
+[19-18-30] [THREAD STARTED]: High Ping Checker
+[19-18-31] [THREAD STARTED]: Console Printing Animation
+[19-18-31] [THREAD STARTED]: Hourly Chime Checker
+[19-18-31] [THREAD STARTED]: Console Clock Updater
+[19-18-31] [THREAD STARTED]: Cyder Busy Checker
+[19-18-31] [THREAD STARTED]: ConsoleFrame Stat Saver
+[19-18-31] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-18-31] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-18-31] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 813822921, bounds = (980, 396,
+           600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[19-18-31] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[19-18-31] [CONSOLE OUT]: [STRING]: Console loaded in 3575ms
+[19-18-31] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[19-18-31] [THREAD STARTED]: Manual Tests Thread
+[19-18-31] [THREAD STARTED]: Splash Loading Label Updater
+[19-18-31] [DEBUG]: Attempted to log a new or empty line
+[19-18-34] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[19-18-34] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654733851218.json
+[19-18-35] [OBJECT CREATION]: Objects created since last delta (5000ms): 38
+[19-18-47] [CLIENT]: fullscreen
+[19-18-47] [SYSTEM IO]: Userdata requested: fullscreen
+[19-18-47] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[19-18-47] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654733914154.json
+[19-18-47] [PREFERENCE REFRESH]: key = fullscreen
+[19-18-47] [CONSOLE OUT]: [STRING]: Fullscreen set to false
+[19-18-47] [DEBUG]: Attempted to log a new or empty line
+[19-18-48] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[19-18-48] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[19-18-48] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 14] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[19-18-48] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654733927193.json
+[19-18-49] [CLIENT]: fullscreen
+[19-18-49] [SYSTEM IO]: Userdata requested: fullscreen
+[19-18-49] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[19-18-49] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654733928996.json
+[19-18-49] [PREFERENCE REFRESH]: key = fullscreen
+[19-18-49] [CONSOLE OUT]: [STRING]: Fullscreen set to true
+[19-18-49] [DEBUG]: Attempted to log a new or empty line
+[19-18-50] [OBJECT CREATION]: Objects created since last delta (5000ms): 9
+[19-18-51] [CLIENT]: logout
+[19-18-51] [LOGOUT]: [CyderUser = Nathan]
+[19-18-51] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-18-51] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-18-51] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-18-51] [UI]: CyderFrame disposed with fastclose: true, Component = ConsoleFrame (inner), hash = 1223240796, bounds =
+           (0, 0, 2560, 1440), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[19-18-51] [THREAD STARTED]: Login printing animation
+[19-18-51] [THREAD STARTED]: Login Input Caret Position Updater
+[19-18-52] [CLIENT]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[19-18-53] [CLIENT]: [LOGIN FRAME] Username: nathan
+[19-18-53] [DEBUG]: Cyder Entry = Login
+[19-18-54] [THREAD STARTED]: Console Printing Animation
+[19-18-54] [THREAD STARTED]: Hourly Chime Checker
+[19-18-54] [THREAD STARTED]: Console Clock Updater
+[19-18-54] [THREAD STARTED]: Cyder Busy Checker
+[19-18-54] [THREAD STARTED]: ConsoleFrame Stat Saver
+[19-18-54] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-18-54] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-18-54] [THREAD STARTED]: [Cyder Login [Liminal Build]] dispose() animation thread
+[19-18-54] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 350554953, bounds = (980, 496,
+           600, 400), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Login [Liminal Build]
+[19-18-54] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[19-18-54] [THREAD STARTED]: Manual Tests Thread
+[19-18-54] [CONSOLE OUT]: [STRING]: Console loaded in 3575ms
+[19-18-54] [DEBUG]: Attempted to log a new or empty line
+[19-18-55] [OBJECT CREATION]: Objects created since last delta (5000ms): 57
+[19-18-57] [CLIENT]: fullscreen
+[19-18-57] [SYSTEM IO]: Userdata requested: fullscreen
+[19-18-57] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 7] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[19-18-57] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654733929263.json
+[19-18-57] [PREFERENCE REFRESH]: key = fullscreen
+[19-18-57] [CONSOLE OUT]: [STRING]: Fullscreen set to false
+[19-18-57] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[19-18-57] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654733937309.json
+[19-18-57] [DEBUG]: Attempted to log a new or empty line
+[19-18-59] [CLIENT]: logout
+[19-18-59] [LOGOUT]: [CyderUser = Nathan]
+[19-18-59] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-18-59] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-18-59] [THREAD STARTED]: [Cyder Login [Liminal Build]] dispose() animation thread
+[19-18-59] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-18-59] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 968273001, bounds =
+           (789, 231, 983, 979), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[19-18-59] [THREAD STARTED]: [Cyder Login [Liminal Build]] dispose() animation thread
+[19-18-59] [THREAD STARTED]: Login printing animation
+[19-18-59] [THREAD STARTED]: Login Input Caret Position Updater
+[19-18-59] [CLIENT]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[19-19-00] [CLIENT]: [LOGIN FRAME] Username: nathan
+[19-19-00] [OBJECT CREATION]: Objects created since last delta (5000ms): 25
+[19-19-01] [DEBUG]: Cyder Entry = Login
+[19-19-01] [THREAD STARTED]: Console Printing Animation
+[19-19-01] [THREAD STARTED]: Hourly Chime Checker
+[19-19-01] [THREAD STARTED]: Console Clock Updater
+[19-19-01] [THREAD STARTED]: Cyder Busy Checker
+[19-19-01] [THREAD STARTED]: ConsoleFrame Stat Saver
+[19-19-01] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-19-01] [THREAD STARTED]: [Cyder Login [Liminal Build]] dispose() animation thread
+[19-19-01] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-19-01] [THREAD STARTED]: [Cyder Login [Liminal Build]] dispose() animation thread
+[19-19-01] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 120434010, bounds = (980, 496,
+           600, 400), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Login [Liminal Build]
+[19-19-01] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[19-19-01] [THREAD STARTED]: Manual Tests Thread
+[19-19-01] [CONSOLE OUT]: [STRING]: Console loaded in 3575ms
+[19-19-02] [DEBUG]: Attempted to log a new or empty line
+[19-19-02] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[19-19-03] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[19-19-03] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[19-19-03] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[19-19-03] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[19-19-03] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[19-19-03] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[19-19-03] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[19-19-03] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[19-19-03] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[19-19-03] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[19-19-04] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[19-19-04] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 11] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[19-19-04] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654733937422.json
+[19-19-05] [CLIENT]: logout
+[19-19-05] [LOGOUT]: [CyderUser = Nathan]
+[19-19-05] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-19-05] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-19-05] [THREAD STARTED]: [Cyder Login [Liminal Build]] dispose() animation thread
+[19-19-05] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 1270523650, bounds
+           = (1070, 240, 983, 979), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[19-19-05] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-19-05] [THREAD STARTED]: [Cyder Login [Liminal Build]] dispose() animation thread
+[19-19-05] [THREAD STARTED]: Login printing animation
+[19-19-05] [THREAD STARTED]: Login Input Caret Position Updater
+[19-19-05] [OBJECT CREATION]: Objects created since last delta (5000ms): 60
+[19-19-06] [CLIENT]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[19-19-06] [CLIENT]: [LOGIN FRAME] Username: nathan
+[19-19-07] [DEBUG]: Cyder Entry = Login
+[19-19-07] [THREAD STARTED]: Console Printing Animation
+[19-19-07] [THREAD STARTED]: Hourly Chime Checker
+[19-19-07] [THREAD STARTED]: Console Clock Updater
+[19-19-07] [THREAD STARTED]: Cyder Busy Checker
+[19-19-07] [THREAD STARTED]: ConsoleFrame Stat Saver
+[19-19-07] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-19-07] [THREAD STARTED]: [Cyder Login [Liminal Build]] dispose() animation thread
+[19-19-07] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-19-07] [THREAD STARTED]: [Cyder Login [Liminal Build]] dispose() animation thread
+[19-19-07] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 484818875, bounds = (980, 496,
+           600, 400), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Login [Liminal Build]
+[19-19-08] [CONSOLE OUT]: [STRING]: Console loaded in 3575ms
+[19-19-08] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[19-19-08] [THREAD STARTED]: Manual Tests Thread
+[19-19-08] [DEBUG]: Attempted to log a new or empty line
+[19-19-09] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[19-19-09] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[19-19-10] [OBJECT CREATION]: Objects created since last delta (5000ms): 38
+[19-19-10] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 11] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[19-19-10] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654733944677.json
+[19-19-14] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[19-19-14] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[19-19-14] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 4] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[19-19-14] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654733950909.json
+[19-19-15] [OBJECT CREATION]: Objects created since last delta (5000ms): 6
+[19-19-19] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[19-19-19] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[19-19-21] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[19-19-21] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 10] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[19-19-21] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654733954572.json
+[19-19-22] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[19-19-22] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-19-22] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 1127128629, bounds
+           = (1287, 222, 871, 878), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[19-19-23] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-19-23] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-19-23] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-19-23] [EXIT]: [RUNTIME] 55s
+[19-19-23] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown

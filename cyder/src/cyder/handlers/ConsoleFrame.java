@@ -308,10 +308,12 @@ public enum ConsoleFrame {
 
         Logger.log(Logger.Tag.DEBUG, "Cyder Entry = " + entryPoint);
 
-        UserUtil.getCyderUser().setFullscreen("0"); // todo huh
-
         loadBackgrounds();
         resizeBackgrounds();
+
+        // todo reset members method
+        // todo also a preference for bash string would be cool
+        // todo per account preference for staying logged in on cyder close
 
         consoleBashString = UserUtil.getCyderUser().getName() + "@Cyder:~$ ";
         lastSlideDirection = Direction.LEFT;
@@ -319,7 +321,6 @@ public enum ConsoleFrame {
         commandIndex = 0;
         consoleFrameClosed = false;
         menuLabel = null;
-
         commandList.clear();
         currentMenuIcons.clear();
 
@@ -334,7 +335,6 @@ public enum ConsoleFrame {
         installConsoleResizing();
 
         installOutputArea();
-
         installInputField();
 
         baseInputHandler = new BaseInputHandler(outputArea);
@@ -353,8 +353,13 @@ public enum ConsoleFrame {
         startExecutors();
 
         FrameUtil.closeAllFrames(true, consoleCyderFrame);
+        CyderSplash.INSTANCE.fastDispose();
 
-        restorePreviousFrameBounds(consoleIcon);
+        if (!isFullscreen()) {
+            restorePreviousFrameBounds(consoleIcon);
+        }
+
+        revalidateInputAndOutputBounds(true);
 
         consoleCyderFrame.setVisible(true);
 
@@ -404,7 +409,8 @@ public enum ConsoleFrame {
                     public void dispose() {
                         outputArea.setFocusable(false);
                         outputScroll.setFocusable(false);
-                        super.dispose();
+
+                        super.dispose(isFullscreen());
                     }
 
             /**
@@ -433,6 +439,8 @@ public enum ConsoleFrame {
 
         consoleCyderFrame.setPaintCyderFrameTitle(false);
         consoleCyderFrame.setPaintSuperTitle(true);
+
+        consoleCyderFrame.setShouldAnimateOpacity(!isFullscreen());
     }
 
     /**
@@ -2504,8 +2512,10 @@ public enum ConsoleFrame {
 
             if (fullscreen) {
                 consoleDir = Direction.TOP;
+                consoleCyderFrame.setShouldAnimateOpacity(false);
                 revalidate(false, true);
             } else {
+                consoleCyderFrame.setShouldAnimateOpacity(true);
                 revalidate(true, false);
             }
         } catch (Exception e) {
@@ -2713,11 +2723,13 @@ public enum ConsoleFrame {
             };
 
             UserUtil.getCyderUser().setFullscreen("0");
+            consoleCyderFrame.setShouldAnimateOpacity(true);
         } else if (maintainFullscreen && UserUtil.getCyderUser().getFullscreen().equals("1")) {
             // have fullscreen on current monitor
             background = ImageUtil.resizeImage(getCurrentBackground().generateImageIcon(),
                     (int) consoleCyderFrame.getMonitorBounds().getWidth(),
                     (int) consoleCyderFrame.getMonitorBounds().getHeight());
+            consoleCyderFrame.setShouldAnimateOpacity(false);
         } else {
             background = getCurrentBackground().generateImageIcon();
         }
