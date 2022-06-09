@@ -36,12 +36,24 @@ public class TaskbarIcon {
         this.runnable = runnable;
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
+
+        generateTaskbarIcon();
     }
 
-    public void revalidateIcon() {
+    /**
+     * Generates the taskbar icon for the encapsulated {@link CyderFrame} based on the provided properties.
+     *
+     * @return the taskbar icon for the encapsulated {@link CyderFrame} based on the provided properties
+     */
+    public JLabel generateTaskbarIcon() {
         // todo this is what will call FrameUtil methods to construct the label
         //  based on the props, a singular method should accept like everything here
         //  and use those methods to handle mapped exes and default ones
+
+        // todo no painting logic should remain in cyder frame/ console frame and should be offshippped to frame util
+        //  and invoked here
+
+        return null;
     }
 
     /**
@@ -53,43 +65,42 @@ public class TaskbarIcon {
         return innerTaskbarIcon;
     }
 
-    // ---------------
-    // builder pattern
-    // ---------------
-
-    public final class TaskbarIconBuilder {
-        private CyderFrame referenceFrame;
+    /**
+     * A builder pattern for a TaskbarIcon.
+     */
+    public static final class Builder {
+        private final CyderFrame referenceFrame;
         private boolean compact;
         private boolean focused;
         private Color borderColor;
         private ImageIcon customIcon;
         private Runnable runnable;
 
-        public TaskbarIconBuilder(CyderFrame referenceFrame) {
+        public Builder(CyderFrame referenceFrame) {
             this.referenceFrame = referenceFrame;
         }
 
-        public TaskbarIconBuilder setCompact(boolean compact) {
+        public Builder setCompact(boolean compact) {
             this.compact = compact;
             return this;
         }
 
-        public TaskbarIconBuilder setFocused(boolean focused) {
+        public Builder setFocused(boolean focused) {
             this.focused = focused;
             return this;
         }
 
-        public TaskbarIconBuilder setBorderColor(Color borderColor) {
+        public Builder setBorderColor(Color borderColor) {
             this.borderColor = borderColor;
             return this;
         }
 
-        public TaskbarIconBuilder setCustomIcon(ImageIcon customIcon) {
+        public Builder setCustomIcon(ImageIcon customIcon) {
             this.customIcon = customIcon;
             return this;
         }
 
-        public TaskbarIconBuilder setRunnable(Runnable runnable) {
+        public Builder setRunnable(Runnable runnable) {
             this.runnable = runnable;
             return this;
         }

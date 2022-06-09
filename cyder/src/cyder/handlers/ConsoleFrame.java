@@ -397,27 +397,27 @@ public enum ConsoleFrame {
                 }
 
                 if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
-                            audioControlsLabel.setBounds(w - audioControlsLabel.getWidth() - 6,
-                                    CyderDragLabel.DEFAULT_HEIGHT - 2,
-                                    audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
-                        }
+                    audioControlsLabel.setBounds(w - audioControlsLabel.getWidth() - 6,
+                            CyderDragLabel.DEFAULT_HEIGHT - 2,
+                            audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
+                }
 
-                        revalidateMenu();
-                        refreshClockText();
-                        revalidateTitleNotify();
-                    }
+                revalidateMenu();
+                refreshClockText();
+                revalidateTitleNotify();
+            }
 
-                    /**
-                     * Disposes the console frame and ensures focus borders do not appear during
-                     * the possible close animation.
-                     */
-                    @Override
-                    public void dispose() {
-                        outputArea.setFocusable(false);
-                        outputScroll.setFocusable(false);
+            /**
+             * Disposes the console frame and ensures focus borders do not appear during
+             * the possible close animation.
+             */
+            @Override
+            public void dispose() {
+                outputArea.setFocusable(false);
+                outputScroll.setFocusable(false);
 
-                        super.dispose(isFullscreen());
-                    }
+                super.dispose(isFullscreen());
+            }
 
             /**
              * Barrel roll not allowed for ConsoleFrame yet.
@@ -1463,11 +1463,6 @@ public enum ConsoleFrame {
     );
 
     /**
-     * The printing util for printing menu items to the console frame menu.
-     */
-    private StringUtil printingUtil;
-
-    /**
      * The alignment object used for menu alignment.
      */
     private final SimpleAttributeSet alignment = new SimpleAttributeSet();
@@ -1488,8 +1483,7 @@ public enum ConsoleFrame {
     private synchronized void installMenuIcons() {
         // todo if state same then return
 
-        // ensure printing util is up to date with menuPane object
-        printingUtil = new StringUtil(new CyderOutputPane(menuPane));
+        StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
 
         boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
 
@@ -1502,9 +1496,12 @@ public enum ConsoleFrame {
         menuPane.setText("");
 
         // todo these should return immutable lists of taskbar items
+        // todo generates images from python script should be finer resolution
 
-        installCurrentFrameItems(compactMode);
+        ImmutableList<TaskbarIcon> frameMenuItems = getCurrentFrameTaskbarIcons(compactMode);
+        // ImmutableList<TaskbarIcon> mappedExeItems =
         installMappedExeMenuItems(compactMode);
+        // ImmutableList<TaskbarIcon> defaultMenuItems =
         installDefaultMenuItems(compactMode);
 
         printingUtil.println("");
@@ -1512,28 +1509,28 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Installs the current frame menu items.
+     * Returns the current frame taskbar icon items.
      *
      * @param compactMode whether the menu should be laid out in compact mode
+     * @return the current frame taskbar icon items
      */
-    private void installCurrentFrameItems(boolean compactMode) {
+    private ImmutableList<TaskbarIcon> getCurrentFrameTaskbarIcons(boolean compactMode) {
+        LinkedList<TaskbarIcon> ret = new LinkedList<>();
+
         if (!currentMenuIcons.isEmpty()) {
             for (int i = currentMenuIcons.size() - 1 ; i > -1 ; i--) {
                 CyderFrame currentFrame = currentMenuIcons.get(i);
+                boolean customImageIcon = currentFrame.shouldUseCustomTaskbarIcon();
 
-                if (compactMode) {
-                    printingUtil.printlnComponent(currentFrame.getCompactTaskbarButton(false));
-                } else {
-                    if (currentFrame.shouldUseCustomTaskbarIcon()) {
-                        printingUtil.printlnComponent(currentFrame.getCustomTaskbarButton());
-                    } else {
-                        printingUtil.printlnComponent(currentFrame.getTaskbarButton());
-                    }
-
-                    printingUtil.println("");
-                }
+                ret.add(new TaskbarIcon.Builder(currentFrame)
+                        .setCompact(compactMode)
+                        .setCustomIcon(customImageIcon ? currentFrame.getCustomTaskbarIcon() : null)
+                        .setRunnable(FrameUtil.generateCommonFrameTaskbarIconRunnable(currentFrame))
+                        .build());
             }
         }
+
+        return ImmutableList.copyOf(ret);
     }
 
     /**

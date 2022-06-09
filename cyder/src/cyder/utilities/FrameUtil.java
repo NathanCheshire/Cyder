@@ -290,4 +290,20 @@ public class FrameUtil {
             }
         }
     }
+
+    /**
+     * Generates the common runnable invoked when a CyderFrame TaskbarIcon is clicked in the Console menu.
+     *
+     * @param frame the CyderFrame to create the runnable for
+     * @return the common runnable invoked when a CyderFrame TaskbarIcon is clicked in the Console menu
+     */
+    public static Runnable generateCommonFrameTaskbarIconRunnable(CyderFrame frame) {
+        return () -> {
+            if (frame.getState() == Frame.NORMAL) {
+                frame.minimizeAnimation();
+            } else {
+                frame.setState(Frame.NORMAL);
+            }
+        };
+    }
 }

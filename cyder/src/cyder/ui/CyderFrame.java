@@ -1297,9 +1297,9 @@ public class CyderFrame extends JFrame {
         InformHandler.inform(builder);
     }
 
-    // -------------
+    // ----------
     // animations
-    // -------------
+    // ----------
 
     /**
      * The number of frames to use for animations.
@@ -1308,7 +1308,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Animates away this frame by moving it down until it is offscreen at which point the frame
-     * becomes iconified.
+     * is set to the {@link Frame#ICONIFIED} state.
      */
     public void minimizeAnimation() {
         try {
@@ -2262,10 +2262,11 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Kills all threads associated with this CyderFrame instance. This
-     * method is automatically called when {@link CyderFrame#dispose()} is invoked.
-     * As such, correct features should not be expected to function properly after this method
-     * or dispose() are called.
+     * Kills all threads associated with this CyderFrame instance.
+     * This method is automatically called when {@link CyderFrame#dispose()} is invoked.
+     * As such, features should not be expected to function properly after this method
+     * or {@link CyderFrame#dispose()} are invoked.
+     * Tl;dr, treat this method as a finalize method of sorts.
      */
     public void killThreads() {
         threadsKilled = true;
@@ -2285,7 +2286,7 @@ public class CyderFrame extends JFrame {
      * Set the background of {@code this} to the current ConsoleFrame background.
      */
     @SuppressWarnings("unused")
-    public void stealConsoleBackground() {
+    public void replicateConsoleBackground() {
         if (ConsoleFrame.INSTANCE.getCurrentBackground() == null)
             return;
 
@@ -2573,10 +2574,6 @@ public class CyderFrame extends JFrame {
         this.relativeY = relativeY;
     }
 
-    // -----------------
-    // taskbar logic
-    // -----------------
-
     /**
      * Sets the taskbar image of the CyderFrame to the provided image.
      * If the frame's dispose() method has been invoked, this will
@@ -2586,9 +2583,12 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setIconImage(Image image) {
-        if (!threadsKilled)
+        if (!disposed) {
             super.setIconImage(image);
+        }
     }
+
+    // ------------------------------------------------------------------------------------- todo remove me
 
     /**
      * The possible border colors to use for the taskbar icon
@@ -2620,6 +2620,15 @@ public class CyderFrame extends JFrame {
     private ImageIcon customTaskbarIcon;
 
     /**
+     * Returns the custom taskbar icon for this frame's taskbar icon.
+     *
+     * @return the custom taskbar icon for this frame's taskbar icon
+     */
+    public ImageIcon getCustomTaskbarIcon() {
+        return customTaskbarIcon;
+    }
+
+    /**
      * Returns whether to use the default taskbar component or the custom one.
      *
      * @return whether to use the default taskbar component or the custom one
@@ -2628,19 +2637,23 @@ public class CyderFrame extends JFrame {
         return useCustomTaskbarIcon;
     }
 
+    // todo could do away with this and just check for taskbar icon optional not empty
+
     /**
-     * Whether to use a custom taskbar icon or the default one.
+     * Sets whether to use a custom taskbar ImageIcon for the TaskbarIcon.
      *
      * @param useCustomTaskbarIcon whether to use a custom taskbar icon or the default one
      */
     public void setUseCustomTaskbarIcon(boolean useCustomTaskbarIcon) {
-        if (this.useCustomTaskbarIcon == useCustomTaskbarIcon)
+        if (this.useCustomTaskbarIcon == useCustomTaskbarIcon) {
             return;
+        }
 
         this.useCustomTaskbarIcon = useCustomTaskbarIcon;
 
-        if (!useCustomTaskbarIcon)
+        if (!useCustomTaskbarIcon) {
             customTaskbarIcon = null;
+        }
 
         ConsoleFrame.INSTANCE.revalidateMenu();
     }
@@ -2783,18 +2796,12 @@ public class CyderFrame extends JFrame {
     public JLabel getTaskbarButton(Color borderColor, boolean focused) {
         Preconditions.checkNotNull(borderColor);
 
-        Runnable runnable = () -> {
-            if (getState() == 0) {
-                minimizeAnimation();
-            } else {
-                setState(Frame.NORMAL);
-            }
-        };
-
         if (focused) {
-            return generateTaskbarFocusedComponent(getTitle(), runnable, borderColor);
+            return generateTaskbarFocusedComponent(getTitle(),
+                    FrameUtil.generateCommonFrameTaskbarIconRunnable(this), borderColor);
         } else {
-            return generateTaskbarComponent(getTitle(), runnable, borderColor);
+            return generateTaskbarComponent(getTitle(),
+                    FrameUtil.generateCommonFrameTaskbarIconRunnable(this), borderColor);
         }
     }
 
@@ -3021,6 +3028,8 @@ public class CyderFrame extends JFrame {
     public static JLabel generateDefaultTaskbarComponent(String title, Runnable clickAction) {
         return generateTaskbarComponent(title, clickAction, CyderColors.taskbarDefaultColor);
     }
+
+    // ------------------------------------------------------------------------------------- todo remove me
 
     /**
      * Sets the frame's visibility attribute and adds the frame to the ConsoleFrame menu list.
