@@ -2732,33 +2732,19 @@ public class CyderFrame extends JFrame {
     public static final int taskbarBorderLength = 5;
 
     /**
-     * The previous compact taskbar label.
-     */
-    private JLabel previousCompactTaskbarLabel = null;
-
-    /**
      * Returns a compact taskbar component for this CyderFrame instance.
      *
+     * @param focused whether the compact taskbar component should be in a focused state
      * @return a compact taskbar component for this CyderFrame instance
      */
-    public JLabel getCompactTaskbarButton() {
-        String currentTitle = getTitle();
-
-        if (previousCompactTaskbarLabel != null
-                && currentTitle.startsWith(previousCompactTaskbarLabel.getText()))
-            return previousCompactTaskbarLabel;
-
-        JLabel ret = generateDefaultCompactTaskbarComponent(currentTitle, () -> {
+    public JLabel getCompactTaskbarButton(boolean focused) {
+        return generateDefaultCompactTaskbarComponent(getTitle(), () -> {
             if (getState() == 0) {
                 minimizeAnimation();
             } else {
                 setState(Frame.NORMAL);
             }
-        });
-
-        previousCompactTaskbarLabel = ret;
-
-        return ret;
+        }, focused);
     }
 
     /**
@@ -2846,13 +2832,14 @@ public class CyderFrame extends JFrame {
      *
      * @param title       the title of the compact taskbar component
      * @param clickAction the action to invoke upon clicking the compact component
+     * @param focused     whether the label should be painted as focused/hovered
      * @return the compact taskbar component
      */
-    public static JLabel generateDefaultCompactTaskbarComponent(String title, Runnable clickAction) {
+    public static JLabel generateDefaultCompactTaskbarComponent(String title, Runnable clickAction, boolean focused) {
         String usageTitle = title.substring(0, Math.min(MAX_COMPACT_MENU_CHARS, title.length()));
 
         JLabel ret = new JLabel(usageTitle);
-        ret.setForeground(CyderColors.vanilla);
+        ret.setForeground(focused ? CyderColors.regularRed : CyderColors.vanilla);
         ret.setFont(CyderFonts.defaultFontSmall);
         ret.setVerticalAlignment(SwingConstants.CENTER);
 
@@ -2864,12 +2851,12 @@ public class CyderFrame extends JFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                ret.setForeground(CyderColors.regularRed);
+                ret.setForeground(focused ? CyderColors.vanilla : CyderColors.regularRed);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                ret.setForeground(CyderColors.vanilla);
+                ret.setForeground(focused ? CyderColors.regularRed : CyderColors.vanilla);
             }
         });
 
@@ -2897,8 +2884,8 @@ public class CyderFrame extends JFrame {
     public static JLabel generateTaskbarFocusedComponent(String title, Runnable clickAction, Color borderColor) {
         JLabel ret = new JLabel();
 
-        BufferedImage bufferedImage =
-                new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferedImage = new BufferedImage(taskbarIconLength,
+                taskbarIconLength, BufferedImage.TYPE_INT_RGB);
         Graphics g = bufferedImage.getGraphics();
 
         //set border color

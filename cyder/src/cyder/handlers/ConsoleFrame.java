@@ -303,26 +303,14 @@ public enum ConsoleFrame {
      * @throws FatalException if the ConsoleFrame was left open
      */
     public void launch(CyderEntry entryPoint) {
-        ExceptionHandler.checkFatalCondition(isClosed(),
-                "ConsoleFrame launch() invoked when not closed. Old uuid = " + previousUuid);
+        ExceptionHandler.checkFatalCondition(isClosed(), previousUuid);
 
         Logger.log(Logger.Tag.DEBUG, "Cyder Entry = " + entryPoint);
 
         loadBackgrounds();
         resizeBackgrounds();
 
-        // todo reset members method
-        // todo also a preference for bash string would be cool
-        // todo per account preference for staying logged in on cyder close
-
-        consoleBashString = UserUtil.getCyderUser().getName() + "@Cyder:~$ ";
-        lastSlideDirection = Direction.LEFT;
-        consoleDir = Direction.TOP;
-        commandIndex = 0;
-        consoleFrameClosed = false;
-        menuLabel = null;
-        commandList.clear();
-        currentMenuIcons.clear();
+        resetMembers();
 
         CyderColors.refreshGuiThemeColor();
 
@@ -366,6 +354,24 @@ public enum ConsoleFrame {
         TimeUtil.setConsoleStartTime(System.currentTimeMillis());
         baseInputHandler.println("Console loaded in " + (TimeUtil.getConsoleStartTime()
                 - TimeUtil.getAbsoluteStartTime()) + "ms");
+    }
+
+    /**
+     * Resets private variables to their default state.
+     */
+    private void resetMembers() {
+        consoleBashString = UserUtil.getCyderUser().getName() + "@Cyder:~$ ";
+
+        lastSlideDirection = Direction.LEFT;
+        consoleDir = Direction.TOP;
+
+        commandIndex = 0;
+
+        consoleFrameClosed = false;
+        menuLabel = null;
+
+        commandList.clear();
+        currentMenuIcons.clear();
     }
 
     /**
@@ -1414,9 +1420,8 @@ public enum ConsoleFrame {
 
             if (menuLabel != null && menuLabel.isVisible()) {
                 // todo focus components in list, need to keep focused index and add focus icon
-                for (CyderFrame component : currentMenuIcons) {
-                    System.out.println(component.getTitle());
-                }
+                // todo also a preference for whether bash string
+                // todo per account preference for staying logged in on cyder close
             }
         }
 
@@ -1453,8 +1458,8 @@ public enum ConsoleFrame {
      * The default compact menu icons.
      */
     private final ImmutableList<JLabel> defaultCompactMenuIcons = ImmutableList.of(
-            CyderFrame.generateDefaultCompactTaskbarComponent(prefs, () -> UserEditor.showGui(0)),
-            CyderFrame.generateDefaultCompactTaskbarComponent(logout, this::logout)
+            CyderFrame.generateDefaultCompactTaskbarComponent(prefs, () -> UserEditor.showGui(0), false),
+            CyderFrame.generateDefaultCompactTaskbarComponent(logout, this::logout, false)
     );
 
     /**
@@ -1476,7 +1481,6 @@ public enum ConsoleFrame {
     //  and the main method should figure out how to print and separators
 
     // todo need to ensure updated when state needs refreshing, store variable in that too?
-    // todo instance enum pattern for state?
 
     /**
      * Refreshes the taskbar icons based on the frames currently in the frame list.
@@ -1497,6 +1501,8 @@ public enum ConsoleFrame {
 
         menuPane.setText("");
 
+        // todo these should return immutable lists of taskbar items
+
         installCurrentFrameItems(compactMode);
         installMappedExeMenuItems(compactMode);
         installDefaultMenuItems(compactMode);
@@ -1516,7 +1522,7 @@ public enum ConsoleFrame {
                 CyderFrame currentFrame = currentMenuIcons.get(i);
 
                 if (compactMode) {
-                    printingUtil.printlnComponent(currentFrame.getCompactTaskbarButton());
+                    printingUtil.printlnComponent(currentFrame.getCompactTaskbarButton(false));
                 } else {
                     if (currentFrame.shouldUseCustomTaskbarIcon()) {
                         printingUtil.printlnComponent(currentFrame.getCustomTaskbarButton());
@@ -1545,7 +1551,7 @@ public enum ConsoleFrame {
                             CyderFrame.generateDefaultCompactTaskbarComponent(exe.getName(), () -> {
                                 IOUtil.openOutsideProgram(exe.getFilepath());
                                 exe.displayInvokedNotification();
-                            }));
+                            }, false));
                 }
             } else {
                 if (!currentMenuIcons.isEmpty()) {

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Utilities to control, update, modify, create, etc. CyderFrames.
+ * Utilities to control, update, modify, and create CyderFrames.
  */
 public class FrameUtil {
     /**
@@ -290,4 +290,6 @@ public class FrameUtil {
             }
         }
     }
+
+
 }
