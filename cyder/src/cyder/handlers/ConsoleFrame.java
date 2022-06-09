@@ -371,7 +371,7 @@ public enum ConsoleFrame {
         menuLabel = null;
 
         commandList.clear();
-        currentMenuIcons.clear();
+        currentActiveFrames.clear();
     }
 
     /**
@@ -1432,45 +1432,14 @@ public enum ConsoleFrame {
     };
 
     /**
-     * The text used for the default preferences menu icon.
+     * The current active frames to generate TaskbarIcons for the console's menu.
      */
-    private final String prefs = "Prefs";
-
-    /**
-     * The text used for the default logout menu icons.
-     */
-    private final String logout = "Logout";
-
-    /**
-     * The clickable taskbar icons.
-     */
-    private final LinkedList<CyderFrame> currentMenuIcons = new LinkedList<>();
-
-    /**
-     * The default taskbar menu taskbar icons.
-     */
-    private final ImmutableList<JLabel> defaultMenuIcons = ImmutableList.of(
-            CyderFrame.generateDefaultTaskbarComponent(prefs, () -> UserEditor.showGui(0)),
-            CyderFrame.generateDefaultTaskbarComponent(logout, this::logout)
-    );
-
-    /**
-     * The default compact menu icons.
-     */
-    private final ImmutableList<JLabel> defaultCompactMenuIcons = ImmutableList.of(
-            CyderFrame.generateDefaultCompactTaskbarComponent(prefs, () -> UserEditor.showGui(0), false),
-            CyderFrame.generateDefaultCompactTaskbarComponent(logout, this::logout, false)
-    );
+    private final LinkedList<CyderFrame> currentActiveFrames = new LinkedList<>();
 
     /**
      * The alignment object used for menu alignment.
      */
     private final SimpleAttributeSet alignment = new SimpleAttributeSet();
-
-    /**
-     * The hash codes of the previous contents of the menu pane.
-     */
-    private final LinkedList<Integer> previousMenuState = new LinkedList<>();
 
     // todo use me, install sub methods need to return lists of components to print
     //  and the main method should figure out how to print and separators
@@ -1480,7 +1449,7 @@ public enum ConsoleFrame {
     /**
      * Refreshes the taskbar icons based on the frames currently in the frame list.
      */
-    private synchronized void installMenuIcons() {
+    private synchronized void installMenuTaskbarIcons() {
         // todo if state same then return
 
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
@@ -1499,10 +1468,8 @@ public enum ConsoleFrame {
         // todo generates images from python script should be finer resolution
 
         ImmutableList<TaskbarIcon> frameMenuItems = getCurrentFrameTaskbarIcons(compactMode);
-        // ImmutableList<TaskbarIcon> mappedExeItems =
-        installMappedExeMenuItems(compactMode);
-        // ImmutableList<TaskbarIcon> defaultMenuItems =
-        installDefaultMenuItems(compactMode);
+        ImmutableList<TaskbarIcon> mappedExeItems = getMappedExeTaskbarIcons(compactMode);
+        ImmutableList<TaskbarIcon> defaultMenuItems = getDefaultTaskbarIcons(compactMode);
 
         printingUtil.println("");
         menuPane.setCaretPosition(0);
@@ -1517,13 +1484,16 @@ public enum ConsoleFrame {
     private ImmutableList<TaskbarIcon> getCurrentFrameTaskbarIcons(boolean compactMode) {
         LinkedList<TaskbarIcon> ret = new LinkedList<>();
 
-        if (!currentMenuIcons.isEmpty()) {
-            for (int i = currentMenuIcons.size() - 1 ; i > -1 ; i--) {
-                CyderFrame currentFrame = currentMenuIcons.get(i);
+        if (!currentActiveFrames.isEmpty()) {
+            for (int i = currentActiveFrames.size() - 1 ; i > -1 ; i--) {
+                CyderFrame currentFrame = currentActiveFrames.get(i);
                 boolean customImageIcon = currentFrame.shouldUseCustomTaskbarIcon();
 
-                ret.add(new TaskbarIcon.Builder(currentFrame)
+                ret.add(new TaskbarIcon.Builder()
+                        .setReferenceFrame(currentFrame)
+                        .setName(currentFrame.getTitle())
                         .setCompact(compactMode)
+                        .setFocused(false)
                         .setCustomIcon(customImageIcon ? currentFrame.getCustomTaskbarIcon() : null)
                         .setRunnable(FrameUtil.generateCommonFrameTaskbarIconRunnable(currentFrame))
                         .build());
@@ -1534,63 +1504,54 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Installs the mapped exe menu items.
+     * Returns the mapped exe taskbar icon items.
      *
      * @param compactMode whether the menu should be laid out in compact mode
+     * @return the current mapped exe taskbar icon items
      */
-    private void installMappedExeMenuItems(boolean compactMode) {
+    private ImmutableList<TaskbarIcon> getMappedExeTaskbarIcons(boolean compactMode) {
         LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
+        LinkedList<TaskbarIcon> ret = new LinkedList<>();
 
         if (!exes.isEmpty()) {
-            if (compactMode) {
-                for (MappedExecutable exe : exes) {
-                    printingUtil.printlnComponent(
-                            CyderFrame.generateDefaultCompactTaskbarComponent(exe.getName(), () -> {
-                                IOUtil.openOutsideProgram(exe.getFilepath());
-                                exe.displayInvokedNotification();
-                            }, false));
-                }
-            } else {
-                if (!currentMenuIcons.isEmpty()) {
-                    printingUtil.printlnComponent(generateMenuSep());
-                    printingUtil.println("");
-                }
+            for (MappedExecutable exe : exes) {
+                Runnable runnable = () -> {
+                    IOUtil.openOutsideProgram(exe.getFilepath());
+                    exe.displayInvokedNotification();
+                };
 
-                for (MappedExecutable exe : exes) {
-                    printingUtil.printlnComponent(
-                            CyderFrame.generateTaskbarComponent(exe.getName(), () -> {
-                                IOUtil.openOutsideProgram(exe.getFilepath());
-                                exe.displayInvokedNotification();
-                            }, CyderColors.vanilla));
-
-                    printingUtil.println("");
-                }
-
-                printingUtil.printlnComponent(generateMenuSep());
-                printingUtil.println("");
+                ret.add(new TaskbarIcon.Builder()
+                        .setName(exe.getName())
+                        .setFocused(false)
+                        .setCompact(compactMode)
+                        .setRunnable(runnable)
+                        .build());
             }
         }
+
+        return ImmutableList.copyOf(ret);
     }
 
     /**
-     * Installs the default menu items.
+     * Returns the default taskbar icon items.
      *
      * @param compactMode whether the menu should be laid out in compact mode
+     * @return the default taskbar icon items
      */
-    private void installDefaultMenuItems(boolean compactMode) {
-        if (compactMode) {
-            for (JLabel component : defaultCompactMenuIcons) {
-                printingUtil.printlnComponent(component);
-            }
-        } else {
-            for (int i = 0 ; i < defaultMenuIcons.size() ; i++) {
-                printingUtil.printlnComponent(defaultMenuIcons.get(i));
-
-                if (i != defaultMenuIcons.size() - 1) {
-                    printingUtil.println("");
-                }
-            }
-        }
+    private ImmutableList<TaskbarIcon> getDefaultTaskbarIcons(boolean compactMode) {
+        return ImmutableList.of(
+                new TaskbarIcon.Builder()
+                        .setName("Logout")
+                        .setFocused(false)
+                        .setCompact(compactMode)
+                        .setRunnable(this::logout)
+                        .build(),
+                new TaskbarIcon.Builder()
+                        .setName("Prefs")
+                        .setFocused(false)
+                        .setCompact(compactMode)
+                        .setRunnable(() -> UserEditor.showGui(0))
+                        .build());
     }
 
     /**
@@ -1619,6 +1580,12 @@ public enum ConsoleFrame {
     };
 
     /**
+     * The width of the taskbar menu label.
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int menuWidth = 110;
+
+    /**
      * Revalidates the menu bounds and icons.
      */
     private void generateConsoleMenu() {
@@ -1628,19 +1595,14 @@ public enum ConsoleFrame {
             menuLabel.setVisible(false);
         }
 
-        int menuWidth = 110;
-
-        menuLabel = new JLabel("");
-        menuLabel.setBounds(-menuWidth, CyderDragLabel.DEFAULT_HEIGHT - 2,
-                menuWidth, menuHeight);
+        menuLabel = new JLabel();
+        menuLabel.setBounds(-menuWidth, CyderDragLabel.DEFAULT_HEIGHT - 2, menuWidth, menuHeight);
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.getGuiThemeColor());
         menuLabel.setFocusable(false);
         menuLabel.setVisible(false);
         menuLabel.setBorder(new LineBorder(Color.black, 5));
         consoleCyderFrame.getIconPane().add(menuLabel, JLayeredPane.MODAL_LAYER);
-
-        Dimension menuSize = new Dimension(menuLabel.getWidth(), menuLabel.getHeight());
 
         menuPane = new JTextPane();
         menuPane.setEditable(false);
@@ -1658,10 +1620,10 @@ public enum ConsoleFrame {
         menuScroll.setBackground(CyderColors.getGuiThemeColor());
         menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        menuScroll.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight - 20);
+        menuScroll.setBounds(7, 10, menuLabel.getWidth() - 10, menuHeight - 20);
         menuLabel.add(menuScroll);
 
-        installMenuIcons();
+        installMenuTaskbarIcons();
     }
 
     /**
@@ -1670,8 +1632,8 @@ public enum ConsoleFrame {
      * @param associatedFrame the frame reference to remove from the taskbar frame list
      */
     public void removeTaskbarIcon(CyderFrame associatedFrame) {
-        if (currentMenuIcons.contains(associatedFrame)) {
-            currentMenuIcons.remove(associatedFrame);
+        if (currentActiveFrames.contains(associatedFrame)) {
+            currentActiveFrames.remove(associatedFrame);
             revalidateMenu();
         }
     }
@@ -1686,8 +1648,8 @@ public enum ConsoleFrame {
             return;
         }
 
-        if (!currentMenuIcons.contains(associatedFrame)) {
-            currentMenuIcons.add(associatedFrame);
+        if (!currentActiveFrames.contains(associatedFrame)) {
+            currentActiveFrames.add(associatedFrame);
             revalidateMenu();
         }
     }
@@ -1695,20 +1657,28 @@ public enum ConsoleFrame {
     /**
      * The text used to generate a menu separation label.
      */
-    private static final String magicMenuSepText = "90210  90210";
+    private static final String magicMenuSepText = "90210  90210"; // todo fix
 
     /**
-     * Returns a menu separation label.
-     *
-     * @return a menu separation label
+     * The bounds for a menu separation label.
      */
-    private JLabel generateMenuSep() {
+    private static final Rectangle menuSepBounds = new Rectangle(0, 7, 175, 5);
+
+    /**
+     * Returns a menu separator label.
+     *
+     * @return a menu separator label
+     */
+    private JLabel getMenuSeparator() {
         JLabel sepLabel = new JLabel(magicMenuSepText) {
             @Override
             public void paintComponent(Graphics g) {
-                //draw 5 high line 150 width across
                 g.setColor(getForeground());
-                g.fillRect(0, 7, 175, 5);
+                g.fillRect(
+                        (int) menuSepBounds.getX(),
+                        (int) menuSepBounds.getY(),
+                        (int) menuSepBounds.getWidth(),
+                        (int) menuSepBounds.getHeight());
                 g.dispose();
             }
         };
@@ -2823,7 +2793,7 @@ public enum ConsoleFrame {
         // revalidate bounds if needed and change icon
         if (menuLabel.isVisible()) {
             menuButton.setIcon(CyderIcons.menuIconHover);
-            installMenuIcons();
+            installMenuTaskbarIcons();
             menuLabel.setBounds(3, CyderDragLabel.DEFAULT_HEIGHT - 2,
                     menuLabel.getWidth(), consoleCyderFrame.getHeight()
                             - CyderDragLabel.DEFAULT_HEIGHT - 5);
