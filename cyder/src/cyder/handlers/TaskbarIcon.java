@@ -5,87 +5,43 @@ import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * A console taskbar icon.
  */
 public class TaskbarIcon {
-    /**
-     * The frame this taskbar icon is controlling
-     */
     private final CyderFrame referenceFrame;
-
-    /**
-     * Whether the current state of this icon is a focused/hovered state.
-     */
     private boolean isFocused;
-
-    /**
-     * Whether the current state of this icon is a compact state.
-     */
     private boolean isCompact;
+    private Color borderColor;
+    private ImageIcon customIcon;
+    private Runnable runnable;
 
     /**
      * The actual icon used for the console taskbar.
      */
     private JLabel innerTaskbarIcon;
 
-    public TaskbarIcon(CyderFrame referenceFrame, boolean isCompact) {
+    public TaskbarIcon(CyderFrame referenceFrame, boolean isCompact, boolean isFocused,
+                       Color borderColor, ImageIcon customIcon, Runnable runnable) {
         Preconditions.checkNotNull(referenceFrame);
+        Preconditions.checkNotNull(borderColor);
 
         this.referenceFrame = referenceFrame;
         this.isCompact = isCompact;
+        this.isFocused = isFocused;
+        this.borderColor = borderColor;
+        this.customIcon = customIcon;
+        this.runnable = runnable;
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
-    /**
-     * Returns the reference frame for this taskbar icon.
-     *
-     * @return the reference frame for this taskbar icon
-     */
-    public CyderFrame getReferenceFrame() {
-        return referenceFrame;
-    }
-
-    /**
-     * Returns whether the state of this taskbar icon is focused/hovered.
-     *
-     * @return whether the state of this taskbar icon is focused/hovered
-     */
-    public boolean isFocused() {
-        return isFocused;
-    }
-
-    /**
-     * Returns whether the state of this taskbar icon is compact.
-     *
-     * @return whether the state of this taskbar icon is compact
-     */
-    public boolean isCompact() {
-        return isCompact;
-    }
-
-    public void setFocused(boolean focused) {
-        if (focused == isFocused)
-            return;
-
-        isFocused = focused;
-
-        revalidateIcon();
-    }
-
-    public void setCompact(boolean compact) {
-        if (compact == isCompact)
-            return;
-
-        isCompact = compact;
-
-        revalidateIcon();
-    }
-
     public void revalidateIcon() {
-        // todo
+        // todo this is what will call FrameUtil methods to construct the label
+        //  based on the props, a singular method should accept like everything here
+        //  and use those methods to handle mapped exes and default ones
     }
 
     /**
@@ -95,5 +51,51 @@ public class TaskbarIcon {
      */
     public JLabel getTaskbarIcon() {
         return innerTaskbarIcon;
+    }
+
+    // ---------------
+    // builder pattern
+    // ---------------
+
+    public final class TaskbarIconBuilder {
+        private CyderFrame referenceFrame;
+        private boolean compact;
+        private boolean focused;
+        private Color borderColor;
+        private ImageIcon customIcon;
+        private Runnable runnable;
+
+        public TaskbarIconBuilder(CyderFrame referenceFrame) {
+            this.referenceFrame = referenceFrame;
+        }
+
+        public TaskbarIconBuilder setCompact(boolean compact) {
+            this.compact = compact;
+            return this;
+        }
+
+        public TaskbarIconBuilder setFocused(boolean focused) {
+            this.focused = focused;
+            return this;
+        }
+
+        public TaskbarIconBuilder setBorderColor(Color borderColor) {
+            this.borderColor = borderColor;
+            return this;
+        }
+
+        public TaskbarIconBuilder setCustomIcon(ImageIcon customIcon) {
+            this.customIcon = customIcon;
+            return this;
+        }
+
+        public TaskbarIconBuilder setRunnable(Runnable runnable) {
+            this.runnable = runnable;
+            return this;
+        }
+
+        public TaskbarIcon build() {
+            return new TaskbarIcon(referenceFrame, compact, focused, borderColor, customIcon, runnable);
+        }
     }
 }

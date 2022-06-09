@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.builders.GetterBuilder;
@@ -2765,21 +2766,11 @@ public class CyderFrame extends JFrame {
      * @return a taskbar component with the currently set border color in a focused state
      */
     public JLabel getFocusedTaskbarButton() {
-        checkNotNull(getTitle(), "CyderFrame title not yet set");
-        checkArgument(!getTitle().isEmpty(), "CyderFrame title is empty");
+        checkNotNull(getTitle());
+        checkArgument(!getTitle().isEmpty());
 
         return getTaskbarButton(taskbarIconBorderColor, true);
     }
-
-    /**
-     * A cache of the previously generated taskbar button.
-     */
-    private JLabel previousTaskbarButton = null;
-
-    /**
-     * The previous text used for the taskbar button.
-     */
-    private String previousTaskbarText = null;
 
     /**
      * Returns a taskbar component with the specified border
@@ -2790,36 +2781,21 @@ public class CyderFrame extends JFrame {
      * @return a taskbar component with the specified border color
      */
     public JLabel getTaskbarButton(Color borderColor, boolean focused) {
-        String currentTitle = getTitle();
+        Preconditions.checkNotNull(borderColor);
 
-        if (previousTaskbarButton != null && previousTaskbarText.equals(currentTitle)) {
-            return previousTaskbarButton;
-        }
-
-        JLabel ret;
+        Runnable runnable = () -> {
+            if (getState() == 0) {
+                minimizeAnimation();
+            } else {
+                setState(Frame.NORMAL);
+            }
+        };
 
         if (focused) {
-            ret = generateTaskbarFocusedComponent(currentTitle, () -> {
-                if (getState() == 0) {
-                    minimizeAnimation();
-                } else {
-                    setState(Frame.NORMAL);
-                }
-            }, borderColor);
+            return generateTaskbarFocusedComponent(getTitle(), runnable, borderColor);
         } else {
-            ret = generateTaskbarComponent(currentTitle, () -> {
-                if (getState() == 0) {
-                    minimizeAnimation();
-                } else {
-                    setState(Frame.NORMAL);
-                }
-            }, borderColor);
+            return generateTaskbarComponent(getTitle(), runnable, borderColor);
         }
-
-        previousTaskbarText = currentTitle;
-        previousTaskbarButton = ret;
-
-        return ret;
     }
 
     /**
@@ -2836,6 +2812,9 @@ public class CyderFrame extends JFrame {
      * @return the compact taskbar component
      */
     public static JLabel generateDefaultCompactTaskbarComponent(String title, Runnable clickAction, boolean focused) {
+        Preconditions.checkNotNull(title);
+        Preconditions.checkNotNull(clickAction);
+
         String usageTitle = title.substring(0, Math.min(MAX_COMPACT_MENU_CHARS, title.length()));
 
         JLabel ret = new JLabel(usageTitle);
@@ -2882,6 +2861,9 @@ public class CyderFrame extends JFrame {
      * @return the taskbar component
      */
     public static JLabel generateTaskbarFocusedComponent(String title, Runnable clickAction, Color borderColor) {
+        Preconditions.checkNotNull(title);
+        Preconditions.checkNotNull(clickAction);
+
         JLabel ret = new JLabel();
 
         BufferedImage bufferedImage = new BufferedImage(taskbarIconLength,
@@ -2959,6 +2941,9 @@ public class CyderFrame extends JFrame {
      * @return the taskbar component
      */
     public static JLabel generateTaskbarComponent(String title, Runnable clickAction, Color borderColor) {
+        Preconditions.checkNotNull(title);
+        Preconditions.checkNotNull(clickAction);
+
         JLabel ret = new JLabel();
 
         BufferedImage bufferedImage =
