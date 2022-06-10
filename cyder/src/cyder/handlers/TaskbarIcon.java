@@ -80,6 +80,13 @@ public class TaskbarIcon {
     }
 
     /**
+     * Regenerates the taskbar icon based on the current builder's properties.
+     */
+    public void generateTaskbarIcon() {
+        generateTaskbarIcon(builder);
+    }
+
+    /**
      * Generates the taskbar icon for a CyderFrame based on the provided properties.
      *
      * @param builder the TaskbarIcon builder to construct the TaskbarIcon from
