@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import cyder.builders.GetterBuilder;
-import cyder.builders.InformBuilder;
 import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -2165,10 +2164,9 @@ public enum ConsoleFrame {
                 boolean resizeNeeded = backgroundWidth > maxWidth || backgroundHeight > maxHeight ||
                         backgroundWidth < minWidth || backgroundHeight < minHeight;
                 if (resizeNeeded) {
-                    InformBuilder builder = new InformBuilder(
-                            "Resizing the background image \"" + currentFile.getName() + "\"");
-                    builder.setTitle("System Action");
-                    InformHandler.inform(builder);
+                    InformHandler.inform(new InformHandler.Builder(
+                            "Resizing the background image \"" + currentFile.getName() + "\"")
+                            .setTitle("System Action"));
                 }
 
                 Dimension resizeDimensions =

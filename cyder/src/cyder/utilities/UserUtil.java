@@ -2,7 +2,6 @@ package cyder.utilities;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
-import cyder.builders.InformBuilder;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -976,10 +975,7 @@ public class UserUtil {
                     informString += sb;
                 }
 
-                //inform of message
-                InformBuilder builder = new InformBuilder(informString);
-                builder.setTitle("Userdata Corruption");
-                InformHandler.inform(builder);
+                InformHandler.inform(new InformHandler.Builder(informString).setTitle("Userdata Corruption"));
 
                 //log the corruption
                 Logger.log(Logger.Tag.CORRUPTION, "[Resulting Popup]\n" + informString);

@@ -5,7 +5,6 @@ import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.builders.GetterBuilder;
-import cyder.builders.InformBuilder;
 import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -758,13 +757,11 @@ public class AudioPlayer {
                     if (!passedPreliminaries.get()) {
                         audioPlayerFrame.revokeAllNotifications();
 
-                        InformBuilder builder = new InformBuilder("Could not download necessary " +
-                                "binaries. Try to install both ffmpeg and youtube-dl and try again");
-                        builder.setTitle("Network Error");
-                        builder.setRelativeTo(audioPlayerFrame);
-                        builder.setPostCloseAction(AudioPlayer::killAndCloseWidget);
-
-                        InformHandler.inform(builder);
+                        InformHandler.inform(new InformHandler.Builder("Could not download necessary "
+                                + "binaries. Try to install both ffmpeg and youtube-dl and try again")
+                                .setTitle("Network Error")
+                                .setRelativeTo(audioPlayerFrame)
+                                .setPostCloseAction(AudioPlayer::killAndCloseWidget));
                     } else {
                         audioPlayerFrame.revokeAllNotifications();
                         unlockUi();

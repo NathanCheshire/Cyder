@@ -1,6 +1,5 @@
 package cyder.handlers.internal;
 
-import cyder.builders.InformBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -275,10 +274,9 @@ public class ExceptionHandler {
      * @param condition the exit condition to log when exiting
      */
     public static void exceptionExit(String message, String title, ExitCondition condition) {
-        InformBuilder builder = new InformBuilder(message);
-        builder.setTitle(title);
-        builder.setPostCloseAction(() -> OSUtil.exit(condition));
-        InformHandler.inform(builder);
+        InformHandler.inform(new InformHandler.Builder(message)
+                .setTitle(title)
+                .setPostCloseAction(() -> OSUtil.exit(condition)));
     }
 
     /**

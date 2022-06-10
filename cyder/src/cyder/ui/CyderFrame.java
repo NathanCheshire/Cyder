@@ -2,7 +2,6 @@ package cyder.ui;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.builders.GetterBuilder;
-import cyder.builders.InformBuilder;
 import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -1066,12 +1065,10 @@ public class CyderFrame extends JFrame {
                 // can't fit so we need to do a popup with the custom component
                 if (containerWidth > width * NOTIFICATION_TO_FRAME_RATIO
                         || containerHeight > height * NOTIFICATION_TO_FRAME_RATIO) {
-                    InformBuilder informBuilder = new InformBuilder("NULL");
-                    informBuilder.setContainer(currentBuilder.getContainer());
-                    informBuilder.setTitle(getTitle() + " Notification");
-                    informBuilder.setRelativeTo(this);
-
-                    InformHandler.inform(informBuilder);
+                    InformHandler.inform(new InformHandler.Builder("NULL")
+                            .setContainer(currentBuilder.getContainer())
+                            .setTitle(getTitle() + " Notification")
+                            .setRelativeTo(this));
 
                     // done with actions so release and continue
                     notificationConstructionLock.release();
@@ -1287,10 +1284,7 @@ public class CyderFrame extends JFrame {
      * @param title The title of the CyderFrame which will be opened to display the text
      */
     public void inform(String text, String title) {
-        InformBuilder builder = new InformBuilder(text);
-        builder.setTitle(title);
-        builder.setRelativeTo(this);
-        InformHandler.inform(builder);
+        InformHandler.inform(new InformHandler.Builder(text).setTitle(title).setRelativeTo(this));
     }
 
     // ----------

@@ -1,7 +1,6 @@
 package cyder.genesis;
 
 import cyder.animation.HarmonicRectangle;
-import cyder.builders.InformBuilder;
 import cyder.constants.CyderColors;
 import cyder.enums.ExitCondition;
 import cyder.handlers.internal.ExceptionHandler;
@@ -314,11 +313,10 @@ public enum CyderSplash {
 
                             // this has been going on for over a minute at this point if the program reaches here
                             // clearly something is wrong so exit
-                            InformBuilder builder = new InformBuilder(
-                                    "Splash failed to be disposed; Console failed to load");
-                            builder.setTitle("Startup Exception");
-                            builder.setPostCloseAction(() -> OSUtil.exit(ExitCondition.FatalTimeout));
-                            InformHandler.inform(builder);
+                            InformHandler.inform(new InformHandler.Builder(
+                                    "Splash failed to be disposed; Console failed to load")
+                                    .setTitle("Startup Exception")
+                                    .setPostCloseAction(() -> OSUtil.exit(ExitCondition.FatalTimeout)));
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);

@@ -5,7 +5,6 @@ import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.builders.GetterBuilder;
-import cyder.builders.InformBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -251,11 +250,9 @@ public class UserCreator {
                     } else {
                         createUserFrame.dispose();
 
-                        InformBuilder builder = new InformBuilder("The new user \"" + newUserName.getText().trim()
-                                + "\" has been created successfully.");
-                        builder.setTitle("Creation Success");
-                        builder.setRelativeTo(CyderFrame.getDominantFrame());
-                        InformHandler.inform(builder);
+                        InformHandler.inform(new InformHandler.Builder("The new user \"" + newUserName.getText().trim()
+                                + "\" has been created successfully.").setTitle("Creation Success")
+                                .setRelativeTo(CyderFrame.getDominantFrame()));
 
                         File[] userFiles = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                                 DynamicDirectory.USERS.getDirectoryName()).listFiles();

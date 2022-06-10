@@ -3,7 +3,6 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.builders.InformBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -122,10 +121,9 @@ public class HashingWidget {
             inform = "Your hashed password is:<br/>" + hashResult
                     + "<br/>It has also been copied to your clipboard.<br/>Provided by " + algorithm;
 
-            InformBuilder builder = new InformBuilder(inform);
-            builder.setTitle(algorithm + " Hash Result");
-            builder.setRelativeTo(hashFrame);
-            InformHandler.inform(builder);
+            InformHandler.inform(new InformHandler.Builder(inform)
+                    .setTitle(algorithm + " Hash Result")
+                    .setRelativeTo(hashField));
 
             OSUtil.setClipboard(hashResult);
 

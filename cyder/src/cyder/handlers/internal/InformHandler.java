@@ -2,7 +2,6 @@ package cyder.handlers.internal;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.builders.InformBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -10,6 +9,7 @@ import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.utilities.BoundsUtil;
+import cyder.utilities.StringUtil;
 import cyder.utilities.UserUtil;
 
 import javax.swing.*;
@@ -22,7 +22,7 @@ import java.awt.event.WindowEvent;
  */
 public class InformHandler {
     /**
-     * Prevent illegal instantiation.
+     * Suppress default constructor.
      */
     private InformHandler() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
@@ -39,9 +39,7 @@ public class InformHandler {
     public static CyderFrame inform(String text) {
         Preconditions.checkNotNull(text);
 
-        InformBuilder builder = new InformBuilder(text);
-        builder.setTitle(InformBuilder.DEFAULT_TITLE);
-        return inform(builder);
+        return inform(new Builder(text).setTitle(Builder.DEFAULT_TITLE));
     }
 
     /**
@@ -62,12 +60,12 @@ public class InformHandler {
     /**
      * Opens an information using the information provided by builder.
      *
-     * @param builder the InformBuilder to use for the construction of the information pane
+     * @param builder the builder to use for the construction of the information pane
      * @return a reference to the shown inform frame
      * @throws IllegalArgumentException if the provided builder is null
      */
     @CanIgnoreReturnValue /* calls don't always need the reference  */
-    public static CyderFrame inform(InformBuilder builder) {
+    public static CyderFrame inform(Builder builder) {
         Preconditions.checkNotNull(builder);
 
         CyderFrame informFrame;
@@ -152,5 +150,197 @@ public class InformHandler {
                 + builder.getHtmlText() + "\", relativeTo = " + builder.getRelativeTo());
 
         return informFrame;
+    }
+
+    /**
+     * A builder for an information pane.
+     */
+    public static class Builder {
+        /**
+         * The minimum allowable text length for an information pane.
+         */
+        public static final int MINIMUM_TEXT_LENGTH = 4;
+
+        /**
+         * The default title for an information pane which are provided no title.
+         */
+        public static final String DEFAULT_TITLE = "Information";
+
+        /**
+         * The text, possibly styled with html elements, to display on the information pane.
+         */
+        private final String htmlText;
+
+        /**
+         * The title of this information pane.
+         */
+        private String title = DEFAULT_TITLE;
+
+        /**
+         * The component to set this inform frame relative to before the call to setVisible().
+         */
+        private Component relativeTo;
+
+        /**
+         * The action to invoke before the frame is closed.
+         */
+        private Runnable preCloseAction;
+
+        /**
+         * The action to invoke after the frame is closed.
+         */
+        private Runnable postCloseAction;
+
+        /**
+         * The custom container component to layer on the CyderFrame content pane.
+         */
+        private JLabel container;
+
+        /**
+         * Whether to disable the relative to component.
+         */
+        private boolean disableRelativeTo;
+
+        /**
+         * Default constructor for an inform pane with the required parameters.
+         *
+         * @param htmlText the html styled text to display on the inform pane
+         */
+        public Builder(String htmlText) {
+            Preconditions.checkNotNull(htmlText);
+            Preconditions.checkArgument(StringUtil.getRawTextLength(htmlText) >= MINIMUM_TEXT_LENGTH);
+
+            this.htmlText = htmlText;
+            Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        }
+
+        /**
+         * Returns the text associated with this builder, possibly containing html style tags.
+         *
+         * @return the text associated with this builder, possibly containing html style tags
+         */
+        public String getHtmlText() {
+            return htmlText;
+        }
+
+        /**
+         * Returns the title for the frame.
+         *
+         * @return the title for the frame
+         */
+        public String getTitle() {
+            return title;
+        }
+
+        /**
+         * Sets the title for the frame.
+         *
+         * @param title the title for the frame
+         * @return this builder
+         */
+        public Builder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        /**
+         * Returns the component to set the frame relative to.
+         *
+         * @return the component to set the frame relative to
+         */
+        public Component getRelativeTo() {
+            return relativeTo;
+        }
+
+        /**
+         * Sets the component to set the frame relative to.
+         *
+         * @param relativeTo the component to set the frame relative to
+         * @return this builder
+         */
+        public Builder setRelativeTo(Component relativeTo) {
+            this.relativeTo = relativeTo;
+            return this;
+        }
+
+        /**
+         * Returns the pre close action to invoke before disposing the frame.
+         *
+         * @return the pre close action to invoke before disposing the frame
+         */
+        public Runnable getPreCloseAction() {
+            return preCloseAction;
+        }
+
+        /**
+         * Sets the pre close action to invoke before disposing the frame.
+         *
+         * @param preCloseAction the pre close action to invoke before disposing the frame
+         * @return this builder
+         */
+        public Builder setPreCloseAction(Runnable preCloseAction) {
+            this.preCloseAction = preCloseAction;
+            return this;
+        }
+
+        /**
+         * Returns the post close action to invoke before disposing the frame.
+         *
+         * @return the post close action to invoke before disposing the frame
+         */
+        public Runnable getPostCloseAction() {
+            return postCloseAction;
+        }
+
+        /**
+         * Sets the post close action to invoke before closing the frame.
+         *
+         * @param postCloseAction the post close action to invoke before closing the frame
+         * @return this builder
+         */
+        public Builder setPostCloseAction(Runnable postCloseAction) {
+            this.postCloseAction = postCloseAction;
+            return this;
+        }
+
+        /**
+         * Returns the container to use for the frame's pane.
+         *
+         * @return the container to use for the frame's pane
+         */
+        public JLabel getContainer() {
+            return container;
+        }
+
+        /**
+         * Sets the container to use for the frame's pane.
+         *
+         * @param container the container to use for the frame's pane
+         * @return this builder
+         */
+        public Builder setContainer(JLabel container) {
+            this.container = container;
+            return this;
+        }
+
+        /**
+         * Returns whether to disable the relative to component upon showing this dialog.
+         *
+         * @return whether to disable the relative to component upon showing this dialog
+         */
+        public boolean isDisableRelativeTo() {
+            return disableRelativeTo;
+        }
+
+        /**
+         * Sets whether to disable the relative to component upon showing this dialog.
+         *
+         * @param disableRelativeTo to disable the relative to component upon showing this dialog
+         * @return this builder
+         */
+        public Builder setDisableRelativeTo(boolean disableRelativeTo) {
+            this.disableRelativeTo = disableRelativeTo;
+            return this;
+        }
     }
 }

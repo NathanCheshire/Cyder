@@ -2,7 +2,6 @@ package cyder.test;
 
 import cyder.annotations.ManualTest;
 import cyder.annotations.SuppressCyderInspections;
-import cyder.builders.InformBuilder;
 import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -805,9 +804,8 @@ public class ManualTests {
 
         testFrame.finalizeAndShow();
 
-        InformBuilder builder = new InformBuilder("Hello");
-        builder.setDisableRelativeTo(true);
-        builder.setRelativeTo(testFrame);
-        InformHandler.inform(builder);
+        InformHandler.inform(new InformHandler.Builder("Hello")
+                .setDisableRelativeTo(true)
+                .setRelativeTo(testFrame));
     }
 }
