@@ -215,6 +215,13 @@ public class TaskbarIcon {
     }
 
     /**
+     * Runs the runnable associated with this taskbar icon.
+     */
+    public void runRunnable() {
+        this.builder.runnable.run();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

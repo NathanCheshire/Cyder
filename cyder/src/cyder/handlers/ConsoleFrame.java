@@ -784,6 +784,7 @@ public enum ConsoleFrame {
         menuButton.addActionListener(menuButtonActionListener);
         menuButton.setBounds(4, 4, 22, 22);
         consoleCyderFrame.getTopDragLabel().add(menuButton);
+        menuButton.addKeyListener(menuButtonKeyAdapter);
 
         helpButton.addActionListener(helpButtonActionListener);
         helpButton.setBounds(32, 4, 22, 22);
@@ -1351,9 +1352,60 @@ public enum ConsoleFrame {
         @Override
         public void focusLost(FocusEvent e) {
             super.focusLost(e);
+            currentFocusedMenuItemIndex = 0;
             menuButton.requestFocus();
         }
     };
+
+    /**
+     * The index of the current focused menu item index.
+     */
+    private int currentFocusedMenuItemIndex = -1;
+
+    /**
+     * Focuses the next menu item.
+     */
+    private void focusNextTaskbarMenuItem() {
+        focusTaskbarMenuItem(currentFocusedMenuItemIndex + 1);
+    }
+
+    /**
+     * Focuses the last last menu item
+     */
+    private void focusPreviousTaskbarMenuItem() {
+        focusTaskbarMenuItem(currentFocusedMenuItemIndex - 1);
+    }
+
+    /**
+     * Removes focus from the previous focused taskbar menu item and focuses the one at the requested index if valid.
+     *
+     * @param index the index of the taskbar menu item to focus
+     */
+    private void focusTaskbarMenuItem(int index) {
+        ImmutableList<TaskbarIcon> state = ImmutableList.copyOf(
+                Stream.of(currentFrameMenuItems, currentMappedExeItems, currentDefaultMenuItems)
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toList()));
+
+        if (currentFocusedMenuItemIndex == -1 && index < 0) {
+            return;
+        }
+
+        if (index < 0 || index >= state.size()) {
+            state.get(currentFocusedMenuItemIndex).getBuilder().setFocused(false);
+            currentFocusedMenuItemIndex = -1;
+            reinstallCurrentTaskbarIcons();
+            return;
+        }
+
+        if (currentFocusedMenuItemIndex >= 0 && currentFocusedMenuItemIndex < state.size()) {
+            state.get(currentFocusedMenuItemIndex).getBuilder().setFocused(false);
+        }
+
+        currentFocusedMenuItemIndex = index;
+        state.get(currentFocusedMenuItemIndex).getBuilder().setFocused(true);
+        reinstallCurrentTaskbarIcons();
+    }
 
     /**
      * The action listener for the menu button.
@@ -1361,6 +1413,15 @@ public enum ConsoleFrame {
     private final ActionListener menuButtonActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (currentFocusedMenuItemIndex != -1) {
+                ImmutableList<TaskbarIcon> state = ImmutableList.copyOf(
+                        Stream.of(currentFrameMenuItems, currentMappedExeItems, currentDefaultMenuItems)
+                                .flatMap(Collection::stream)
+                                .collect(Collectors.toList()));
+                state.get(currentFocusedMenuItemIndex).runRunnable();
+                return;
+            }
+
             if (menuLabel == null) {
                 generateConsoleMenu();
             }
@@ -1442,17 +1503,29 @@ public enum ConsoleFrame {
         @Override
         public void focusLost(FocusEvent e) {
             menuButton.setIcon(CyderIcons.menuIcon);
-
-            if (menuLabel != null && menuLabel.isVisible()) {
-                // todo
-                currentFrameMenuItems.get(0).getBuilder().setFocused(true);
-                reinstallCurrentTaskbarIcons(UserUtil.getCyderUser().getCompactTextMode().equals("1"));
-            }
+            currentFocusedMenuItemIndex = -1;
         }
 
         @Override
         public void focusGained(FocusEvent e) {
             menuButton.setIcon(CyderIcons.menuIconHover);
+            currentFocusedMenuItemIndex = -1;
+        }
+    };
+
+    /**
+     * The key adapter for the menu button to allow "focusing" taskbar items.
+     */
+    private final KeyAdapter menuButtonKeyAdapter = new KeyAdapter() {
+        @Override
+        public void keyReleased(KeyEvent e) {
+            int code = e.getKeyCode();
+
+            if (code == KeyEvent.VK_DOWN || code == KeyEvent.VK_RIGHT) {
+                focusNextTaskbarMenuItem();
+            } else if (code == KeyEvent.VK_UP || code == KeyEvent.VK_LEFT) {
+                focusPreviousTaskbarMenuItem();
+            }
         }
     };
 
@@ -1505,7 +1578,7 @@ public enum ConsoleFrame {
         currentMappedExeItems = mappedExeItems;
         currentDefaultMenuItems = defaultMenuItems;
 
-        reinstallCurrentTaskbarIcons(compactMode);
+        reinstallCurrentTaskbarIcons();
     }
 
     /**
@@ -1671,7 +1744,7 @@ public enum ConsoleFrame {
         menuLabel.setBounds(-menuWidth, CyderDragLabel.DEFAULT_HEIGHT - 2, menuWidth, menuHeight);
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.getGuiThemeColor());
-        menuLabel.setFocusable(false);
+        menuLabel.setFocusable(true);
         menuLabel.setVisible(false);
         menuLabel.setBorder(new LineBorder(Color.black, 5));
         consoleCyderFrame.getIconPane().add(menuLabel, JLayeredPane.MODAL_LAYER);
@@ -1679,7 +1752,7 @@ public enum ConsoleFrame {
         menuPane = new JTextPane();
         menuPane.setEditable(false);
         menuPane.setAutoscrolls(false);
-        menuPane.setFocusable(false);
+        menuPane.setFocusable(true);
         menuPane.setOpaque(false);
         menuPane.setBackground(CyderColors.getGuiThemeColor());
 
@@ -1700,10 +1773,9 @@ public enum ConsoleFrame {
 
     /**
      * Clears the taskbar menu pane and re-prints the current taskbar icons.
-     *
-     * @param compactMode whether the menu should be constructed in compact form
      */
-    private void reinstallCurrentTaskbarIcons(boolean compactMode) {
+    private void reinstallCurrentTaskbarIcons() {
+        boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
 
         menuPane.setText("");
@@ -1766,6 +1838,7 @@ public enum ConsoleFrame {
             revalidateMenu();
         }
     }
+
     /**
      * Slowly animates the taskbar away.
      */
