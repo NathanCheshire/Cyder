@@ -264,167 +264,37 @@ public class StringUtil {
         }
     }
 
-    public synchronized void print(String Usage) {
+    /**
+     * Prints the provided generic to the linked JTextPane.
+     *
+     * @param usage the provided generic to print to the linked JTextPane
+     * @param <T>   the type of the generic
+     */
+    public synchronized <T> void print(T usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Usage, null);
+            document.insertString(document.getLength(), usage.toString(), null);
             linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
 
-    public synchronized void print(int Usage) {
+    /**
+     * Prints the provided generic to the linked JTextPane followed by a newline.
+     *
+     * @param usage the provided generic to print to the linked JTextPane
+     * @param <T>   the type of the generic
+     */
+    public synchronized <T> void println(T usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Integer.toString(Usage), null);
+            document.insertString(document.getLength(), usage.toString() + "\n", null);
             linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
-
-    public synchronized void print(double Usage) {
-        try {
-            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Double.toString(Usage), null);
-            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    public synchronized void print(boolean Usage) {
-        try {
-            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Boolean.toString(Usage), null);
-            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    public synchronized void print(float Usage) {
-        try {
-            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Float.toString(Usage), null);
-            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    public synchronized void print(long Usage) {
-        try {
-            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Long.toString(Usage), null);
-            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    public synchronized void print(char Usage) {
-        try {
-            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), String.valueOf(Usage), null);
-            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    public synchronized void print(Object Usage) {
-        try {
-            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Usage.toString(), null);
-            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    public synchronized void println(String Usage) {
-        try {
-            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Usage + "\n", null);
-            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    public synchronized void println(int Usage) {
-        try {
-            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Usage + "\n", null);
-            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    public synchronized void println(double Usage) {
-        try {
-            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Usage + "\n", null);
-            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    public synchronized void println(boolean Usage) {
-        try {
-            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Usage + "\n", null);
-            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    public synchronized void println(float Usage) {
-        try {
-            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Usage + "\n", null);
-            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    public synchronized void println(long Usage) {
-        try {
-            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Usage + "\n", null);
-            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    public synchronized void println(char Usage) {
-        try {
-            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Usage + "\n", null);
-            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    public synchronized void println(Object Usage) {
-        try {
-            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), Usage.toString() + "\n", null);
-            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    // todo use templated methods in InputHandler
 
     /**
      * Prints the object array to {@link this} object's JTextPane.

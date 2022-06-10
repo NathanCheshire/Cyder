@@ -88,3 +88,4 @@
 [22-03-06] [THREAD STARTED]: minimize menu thread
 [22-03-06] [THREAD STARTED]: Console menu animator
 [22-03-07] [OBJECT CREATION]: Objects created since last delta (5000ms): 46
+[22-09-13] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

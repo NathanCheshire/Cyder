@@ -1722,10 +1722,6 @@ public class CyderFrame extends JFrame {
         return topDrag == null;
     }
 
-    // todo when on high dpi things, says resizing image but does not work, fix this,
-    // background/frame should NEVER be bigger than window
-    // todo moving frames between monitors break?
-
     /**
      * Performs repaint actions necessary for a borderless frame returned via
      * {@link CyderFrame#generateBorderlessFrame(int, int, Color)}.
