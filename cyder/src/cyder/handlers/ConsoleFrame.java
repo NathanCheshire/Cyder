@@ -916,6 +916,8 @@ public enum ConsoleFrame {
         inputField.addMouseWheelListener(fontSizerListener);
         inputField.addActionListener(inputFieldActionListener);
 
+        inputField.addFocusListener(inputFieldFocusAdapter);
+
         inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), debugLines);
         inputField.getActionMap().put(debugLines, debugLinesAbstractAction);
@@ -932,6 +934,8 @@ public enum ConsoleFrame {
     private void uninstallInputFieldListeners() {
         inputField.removeKeyListener(inputFieldKeyAdapter);
         inputField.removeKeyListener(commandScrolling);
+
+        inputField.removeFocusListener(inputFieldFocusAdapter);
 
         inputField.removeMouseWheelListener(fontSizerListener);
         inputField.removeActionListener(inputFieldActionListener);
@@ -1320,6 +1324,9 @@ public enum ConsoleFrame {
         }
     };
 
+    /**
+     * The focus adapter for the output area field.
+     */
     private final FocusAdapter outputAreaFocusAdapter = new FocusAdapter() {
         @Override
         public void focusGained(FocusEvent e) {
@@ -1334,6 +1341,17 @@ public enum ConsoleFrame {
 
             inputField.requestFocusInWindow();
             inputField.setCaretPosition(inputField.getPassword().length);
+        }
+    };
+
+    /**
+     * The focus adapter for the input field.
+     */
+    private final FocusAdapter inputFieldFocusAdapter = new FocusAdapter() {
+        @Override
+        public void focusLost(FocusEvent e) {
+            super.focusLost(e);
+            menuButton.requestFocus();
         }
     };
 
@@ -1426,8 +1444,7 @@ public enum ConsoleFrame {
             menuButton.setIcon(CyderIcons.menuIcon);
 
             if (menuLabel != null && menuLabel.isVisible()) {
-                // todo focus components in list, need to keep focused index
-                //  and some way to hit enter to trigger the TaskbarIcon's runnable
+                System.out.println("Request focus of " + previousMenuState.get(0).getTaskbarIcon());
             }
         }
 
