@@ -424,6 +424,8 @@ public class StringUtil {
         }
     }
 
+    // todo use templated methods in InputHandler
+
     /**
      * Prints the object array to {@link this} object's JTextPane.
      *
@@ -450,7 +452,6 @@ public class StringUtil {
      * Prints a separator surrounded by newlines to the linked JTextPane.
      */
     public synchronized void printSeparator() {
-        newline();
         printlnComponent(getMenuSeparator());
         newline();
     }
@@ -462,7 +463,7 @@ public class StringUtil {
     /**
      * The text used to generate a menu separation label.
      */
-    private static final String magicMenuSepText = "90210  90210"; // todo fix
+    private static final String magicMenuSepText = "NateCheshire";
 
     /**
      * The bounds for a menu separation label.

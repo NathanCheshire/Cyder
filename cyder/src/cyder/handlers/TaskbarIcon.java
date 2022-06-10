@@ -31,7 +31,7 @@ public class TaskbarIcon {
     /**
      * The maximum number of chars to display when compact mode for taskbar icons is active.
      */
-    private static final int MAX_COMPACT_MENU_CHARS = 11;
+    private static final int MAX_COMPACT_MENU_CHARS = 10;
 
     /**
      * The color for custom painted taskbar icon borders.
@@ -59,6 +59,11 @@ public class TaskbarIcon {
     private JLabel innerTaskbarIcon;
 
     /**
+     * The builder last used to construct the encapsulated taskbar icon.
+     */
+    private Builder builder;
+
+    /**
      * Constructs and generates a new taskbar icon.
      *
      * @param builder the builder to construct the taskbar icon from
@@ -69,6 +74,8 @@ public class TaskbarIcon {
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
 
+        this.builder = builder;
+
         generateTaskbarIcon(builder);
     }
 
@@ -78,7 +85,10 @@ public class TaskbarIcon {
      * @param builder the TaskbarIcon builder to construct the TaskbarIcon from
      */
     public void generateTaskbarIcon(Builder builder) {
-        JLabel newTaskbarIcon = new JLabel();
+        Preconditions.checkNotNull(builder.name);
+        Preconditions.checkArgument(!builder.name.isEmpty());
+
+        this.builder = builder;
 
         if (builder.compact) {
             String name = builder.name.substring(0, Math.min(MAX_COMPACT_MENU_CHARS, builder.name.length()));
@@ -107,9 +117,13 @@ public class TaskbarIcon {
 
             // if had to cut off text, make tooltip show full
             if (!builder.name.equalsIgnoreCase(name)) {
-                usage.setToolTipText(name);
+                usage.setToolTipText(builder.name);
             }
+
+            innerTaskbarIcon = usage;
         } else {
+            JLabel newTaskbarIcon = new JLabel();
+
             BufferedImage paintedImage;
 
             if (builder.customIcon != null) {
@@ -153,7 +167,7 @@ public class TaskbarIcon {
 
             newTaskbarIcon.add(titleLabel);
 
-            titleLabel.setToolTipText(localName);
+            titleLabel.setToolTipText(builder.name);
             titleLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -170,9 +184,9 @@ public class TaskbarIcon {
                     newTaskbarIcon.setIcon(builder.focused ? focusIcon : defaultIcon);
                 }
             });
-        }
 
-        innerTaskbarIcon = newTaskbarIcon;
+            innerTaskbarIcon = newTaskbarIcon;
+        }
     }
 
     /**
@@ -182,6 +196,31 @@ public class TaskbarIcon {
      */
     public JLabel getTaskbarIcon() {
         return innerTaskbarIcon;
+    }
+
+    /**
+     * Returns the builder last used to construct the encapsulated taskbar icon.
+     *
+     * @return the builder last used to construct the encapsulated taskbar icon
+     */
+    public Builder getBuilder() {
+        return this.builder;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        } else if (!(o instanceof TaskbarIcon)) {
+            return false;
+        }
+
+        TaskbarIcon other = (TaskbarIcon) o;
+
+        return other.builder.equals(builder);
     }
 
     /**
@@ -268,6 +307,38 @@ public class TaskbarIcon {
          */
         public TaskbarIcon build() {
             return new TaskbarIcon(this);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(Object o) {
+            if (o == this) {
+                return true;
+            } else if (!(o instanceof Builder)) {
+                return false;
+            }
+
+            Builder other = (Builder) o;
+
+            boolean ret = other.compact == compact
+                    && other.focused == focused
+                    && other.borderColor.equals(borderColor);
+
+            if (other.customIcon != null) {
+                ret &= other.customIcon.equals(customIcon);
+            }
+
+            if (other.runnable != null) {
+                ret &= other.runnable.equals(runnable);
+            }
+
+            if (other.name != null) {
+                ret &= other.name.equals(name);
+            }
+
+            return ret;
         }
     }
 }

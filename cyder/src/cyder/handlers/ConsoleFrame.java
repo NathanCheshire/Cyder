@@ -41,9 +41,12 @@ import java.awt.image.PixelGrabber;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Singleton of components that represent the GUI way a user
@@ -1366,7 +1369,10 @@ public enum ConsoleFrame {
                 }, "minimize menu thread");
 
                 CyderThreadRunner.submit(() -> {
-                    generateConsoleMenu();
+                    if (menuLabel == null) {
+                        generateConsoleMenu();
+                    }
+
                     menuLabel.setLocation(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
                     menuLabel.setVisible(true);
 
@@ -1442,6 +1448,11 @@ public enum ConsoleFrame {
     private final SimpleAttributeSet alignment = new SimpleAttributeSet();
 
     /**
+     * The previous taskbar menu state.
+     */
+    private ImmutableList<TaskbarIcon> previousMenuState = ImmutableList.of();
+
+    /**
      * Refreshes the taskbar icons based on the frames currently in the frame list.
      */
     private synchronized void installMenuTaskbarIcons() {
@@ -1459,32 +1470,55 @@ public enum ConsoleFrame {
         ImmutableList<TaskbarIcon> mappedExeItems = getMappedExeTaskbarIcons(compactMode);
         ImmutableList<TaskbarIcon> defaultMenuItems = getDefaultTaskbarIcons(compactMode);
 
-        // todo if these are the same as last menu state then we don't need to actually wipe menu and use this
+        ImmutableList<TaskbarIcon> newState = ImmutableList.copyOf(
+                Stream.of(frameMenuItems, mappedExeItems, defaultMenuItems)
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toList()));
+
+        if (!differentMenuState(newState)) {
+            // todo logic needs validating still
+            return;
+        }
+
+        previousMenuState = newState;
 
         menuPane.setText("");
-        printingUtil.newline();
 
-        for (TaskbarIcon frameItem : frameMenuItems) {
-            printingUtil.printlnComponent(frameItem.getTaskbarIcon());
+        // todo condition method for this
+        if (!compactMode) {
             printingUtil.newline();
         }
 
-        if (frameMenuItems.size() > 0) {
+        for (TaskbarIcon frameItem : frameMenuItems) {
+            printingUtil.printlnComponent(frameItem.getTaskbarIcon());
+
+            if (!compactMode) {
+                printingUtil.newline();
+            }
+        }
+
+        if (frameMenuItems.size() > 0 && !compactMode) {
             printingUtil.printSeparator();
         }
 
         for (TaskbarIcon mappedExe : mappedExeItems) {
             printingUtil.printlnComponent(mappedExe.getTaskbarIcon());
-            printingUtil.newline();
+
+            if (!compactMode) {
+                printingUtil.newline();
+            }
         }
 
-        if (mappedExeItems.size() + frameMenuItems.size() > 0) {
+        if (mappedExeItems.size() + frameMenuItems.size() > 0 && !compactMode) {
             printingUtil.printSeparator();
         }
 
         for (TaskbarIcon taskbarIcon : defaultMenuItems) {
             printingUtil.printlnComponent(taskbarIcon.getTaskbarIcon());
-            printingUtil.newline();
+
+            if (!compactMode) {
+                printingUtil.newline();
+            }
         }
 
         menuPane.setCaretPosition(0);
@@ -1496,7 +1530,7 @@ public enum ConsoleFrame {
      * @param compactMode whether the menu should be laid out in compact mode
      * @return the current frame taskbar icon items
      */
-    private ImmutableList<TaskbarIcon> getCurrentFrameTaskbarIcons(boolean compactMode) {
+    private synchronized ImmutableList<TaskbarIcon> getCurrentFrameTaskbarIcons(boolean compactMode) {
         LinkedList<TaskbarIcon> ret = new LinkedList<>();
 
         if (!currentActiveFrames.isEmpty()) {
@@ -1567,6 +1601,30 @@ public enum ConsoleFrame {
                         .setRunnable(this::logout)
                         .setBorderColor(CyderColors.taskbarDefaultColor)
                         .build());
+    }
+
+    /**
+     * Returns whether the provided new taskbar icons comprehensive list is different than the previous menu state.
+     *
+     * @param taskbarIcons the new proposed taskbar menu state
+     * @return whether the provided new taskbar icons comprehensive list is different than the previous menu state
+     */
+    private synchronized boolean differentMenuState(ImmutableList<TaskbarIcon> taskbarIcons) {
+        if (previousMenuState.size() == 0) {
+            return true;
+        }
+
+        if (taskbarIcons.size() != previousMenuState.size()) {
+            return true;
+        }
+
+        for (int i = 0 ; i < taskbarIcons.size() ; i++) {
+            if (!taskbarIcons.get(i).equals(previousMenuState.get(i))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

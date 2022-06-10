@@ -139,3 +139,9 @@
 [20-34-01] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1654824819017.json
 [20-34-01] [OBJECT CREATION]: Objects created since last delta (5000ms): 10
+[20-34-55] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[20-34-55] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 1668837760, bounds
+           = (448, 430, 722, 708), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[20-34-55] [EXIT]: [RUNTIME] 1m 52s
+[20-34-55] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown
