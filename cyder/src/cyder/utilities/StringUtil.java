@@ -319,6 +319,17 @@ public class StringUtil {
     }
 
     /**
+     * Prints a newline to the linked JTextPane if the condition is true.
+     *
+     * @param condition the condition which needs to evaluate to true before printing a newline
+     */
+    public synchronized void newline(boolean condition) {
+        if (condition) {
+            println("");
+        }
+    }
+
+    /**
      * Prints a separator surrounded by newlines to the linked JTextPane.
      */
     public synchronized void printSeparator() {

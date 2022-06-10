@@ -1493,7 +1493,6 @@ public enum ConsoleFrame {
                         .collect(Collectors.toList()));
 
         if (!differentMenuState(newState)) {
-            // todo logic needs validating still
             return;
         }
 
@@ -1501,17 +1500,11 @@ public enum ConsoleFrame {
 
         menuPane.setText("");
 
-        // todo condition method for this
-        if (!compactMode) {
-            printingUtil.newline();
-        }
+        printingUtil.newline(!compactMode);
 
         for (TaskbarIcon frameItem : frameMenuItems) {
             printingUtil.printlnComponent(frameItem.getTaskbarIcon());
-
-            if (!compactMode) {
-                printingUtil.newline();
-            }
+            printingUtil.newline(!compactMode);
         }
 
         if (frameMenuItems.size() > 0 && !compactMode) {
@@ -1520,10 +1513,7 @@ public enum ConsoleFrame {
 
         for (TaskbarIcon mappedExe : mappedExeItems) {
             printingUtil.printlnComponent(mappedExe.getTaskbarIcon());
-
-            if (!compactMode) {
-                printingUtil.newline();
-            }
+            printingUtil.newline(!compactMode);
         }
 
         if (mappedExeItems.size() + frameMenuItems.size() > 0 && !compactMode) {
@@ -1532,10 +1522,7 @@ public enum ConsoleFrame {
 
         for (TaskbarIcon taskbarIcon : defaultMenuItems) {
             printingUtil.printlnComponent(taskbarIcon.getTaskbarIcon());
-
-            if (!compactMode) {
-                printingUtil.newline();
-            }
+            printingUtil.newline(!compactMode);
         }
 
         menuPane.setCaretPosition(0);
@@ -1704,7 +1691,7 @@ public enum ConsoleFrame {
         menuScroll = new CyderScrollPane(menuPane);
         menuScroll.setThumbSize(5);
         menuScroll.getViewport().setOpaque(false);
-        menuScroll.setFocusable(true);
+        menuScroll.setFocusable(false);
         menuScroll.setOpaque(false);
         menuScroll.setThumbColor(CyderColors.regularPink);
         menuScroll.setBackground(CyderColors.getGuiThemeColor());
