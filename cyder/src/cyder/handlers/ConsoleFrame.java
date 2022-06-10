@@ -1620,11 +1620,11 @@ public enum ConsoleFrame {
 
         for (int i = 0 ; i < taskbarIcons.size() ; i++) {
             if (!taskbarIcons.get(i).equals(previousMenuState.get(i))) {
-                return false;
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     /**
