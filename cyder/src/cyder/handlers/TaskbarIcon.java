@@ -130,7 +130,7 @@ public class TaskbarIcon {
 
             // paint border color
             Graphics g = paintedImage.getGraphics();
-            g.setColor(builder.borderColor);
+            g.setColor(builder.customIcon == null ? builder.borderColor : TASKBAR_BORDER_COLOR);
             g.fillRect(0, 0, TASKBAR_BORDER_LEN, TASKBAR_ICON_LEN);
             g.fillRect(0, 0, TASKBAR_ICON_LEN, TASKBAR_BORDER_LEN);
             g.fillRect(TASKBAR_ICON_LEN - 5, 0, TASKBAR_ICON_LEN, TASKBAR_ICON_LEN);
@@ -145,7 +145,7 @@ public class TaskbarIcon {
 
             // add name label and mouse listeners on top of background image
             String localName = builder.name.trim().substring(0, Math.min(4, builder.name.trim().length())).trim();
-            CyderLabel titleLabel = new CyderLabel(localName);
+            CyderLabel titleLabel = new CyderLabel(builder.customIcon == null ? localName : "");
             titleLabel.setFont(labelFont);
             titleLabel.setForeground(CyderColors.vanilla);
             titleLabel.setBounds(0, 0, TASKBAR_ICON_LEN, TASKBAR_ICON_LEN);

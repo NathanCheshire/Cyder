@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
+import cyder.constants.CyderColors;
 import cyder.constants.CyderUrls;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.records.TaggedString;
@@ -10,6 +11,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -423,20 +425,71 @@ public class StringUtil {
     }
 
     /**
-     * Prints the object array to {@link this} object's connected output area
+     * Prints the object array to {@link this} object's JTextPane.
      *
      * @param arr the array of objects to print
      */
-    public synchronized void printArr(Object[] arr) {
+    public synchronized void printlns(Object[] arr) {
         try {
-            for (Object o : arr)
+            for (Object o : arr) {
                 println(o);
+            }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
 
-    //end methods which require instantiation/synchronization
+    /**
+     * Prints a newline to the linked JTextPane.
+     */
+    public synchronized void newline() {
+        println("");
+    }
+
+    /**
+     * Prints a separator surrounded by newlines to the linked JTextPane.
+     */
+    public synchronized void printSeparator() {
+        newline();
+        printlnComponent(getMenuSeparator());
+        newline();
+    }
+
+    // -----------------------------------------------------------
+    // end methods which require instantiation and synchronization
+    // -----------------------------------------------------------
+
+    /**
+     * The text used to generate a menu separation label.
+     */
+    private static final String magicMenuSepText = "90210  90210"; // todo fix
+
+    /**
+     * The bounds for a menu separation label.
+     */
+    private static final Rectangle menuSepBounds = new Rectangle(0, 7, 175, 5);
+
+    /**
+     * Returns a menu separator label.
+     *
+     * @return a menu separator label
+     */
+    private JLabel getMenuSeparator() {
+        JLabel sepLabel = new JLabel(magicMenuSepText) {
+            @Override
+            public void paintComponent(Graphics g) {
+                g.setColor(getForeground());
+                g.fillRect(
+                        (int) menuSepBounds.getX(),
+                        (int) menuSepBounds.getY(),
+                        (int) menuSepBounds.getWidth(),
+                        (int) menuSepBounds.getHeight());
+                g.dispose();
+            }
+        };
+        sepLabel.setForeground(CyderColors.vanilla);
+        return sepLabel;
+    }
 
     /**
      * Reverses the given array

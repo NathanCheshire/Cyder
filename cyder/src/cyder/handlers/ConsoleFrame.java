@@ -1462,14 +1462,31 @@ public enum ConsoleFrame {
         // todo if these are the same as last menu state then we don't need to actually wipe menu and use this
 
         menuPane.setText("");
+        printingUtil.newline();
+
+        for (TaskbarIcon frameItem : frameMenuItems) {
+            printingUtil.printlnComponent(frameItem.getTaskbarIcon());
+            printingUtil.newline();
+        }
+
+        if (frameMenuItems.size() > 0) {
+            printingUtil.printSeparator();
+        }
+
+        for (TaskbarIcon mappedExe : mappedExeItems) {
+            printingUtil.printlnComponent(mappedExe.getTaskbarIcon());
+            printingUtil.newline();
+        }
+
+        if (mappedExeItems.size() + frameMenuItems.size() > 0) {
+            printingUtil.printSeparator();
+        }
 
         for (TaskbarIcon taskbarIcon : defaultMenuItems) {
             printingUtil.printlnComponent(taskbarIcon.getTaskbarIcon());
+            printingUtil.newline();
         }
 
-        // todo add items and separators here
-
-        printingUtil.println("");
         menuPane.setCaretPosition(0);
     }
 
@@ -1651,39 +1668,6 @@ public enum ConsoleFrame {
             revalidateMenu();
         }
     }
-
-    /**
-     * The text used to generate a menu separation label.
-     */
-    private static final String magicMenuSepText = "90210  90210"; // todo fix
-
-    /**
-     * The bounds for a menu separation label.
-     */
-    private static final Rectangle menuSepBounds = new Rectangle(0, 7, 175, 5);
-
-    /**
-     * Returns a menu separator label.
-     *
-     * @return a menu separator label
-     */
-    private JLabel getMenuSeparator() {
-        JLabel sepLabel = new JLabel(magicMenuSepText) {
-            @Override
-            public void paintComponent(Graphics g) {
-                g.setColor(getForeground());
-                g.fillRect(
-                        (int) menuSepBounds.getX(),
-                        (int) menuSepBounds.getY(),
-                        (int) menuSepBounds.getWidth(),
-                        (int) menuSepBounds.getHeight());
-                g.dispose();
-            }
-        };
-        sepLabel.setForeground(CyderColors.vanilla);
-        return sepLabel;
-    }
-
     /**
      * Slowly animates the taskbar away.
      */
