@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderUrls;
@@ -682,11 +681,10 @@ public class WeatherWidget {
             }
 
             if (weatherFrame != null) {
-                NotificationBuilder builder = new NotificationBuilder("Refreshed");
-                builder.setViewDuration(2000);
-                builder.setNotificationDirection(NotificationDirection.BOTTOM_LEFT);
-                builder.setArrowDir(Direction.LEFT);
-                weatherFrame.notify(builder);
+                weatherFrame.notify(new CyderFrame.NotificationBuilder("Refreshed")
+                        .setViewDuration(2000)
+                        .setNotificationDirection(NotificationDirection.BOTTOM_LEFT)
+                        .setArrowDir(Direction.LEFT));
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);

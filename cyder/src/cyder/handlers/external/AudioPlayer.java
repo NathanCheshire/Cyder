@@ -4,7 +4,6 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -1051,10 +1050,9 @@ public class AudioPlayer {
 
                         try {
                             ImageIO.write(waveform.get(), WAVEFORM_EXPORT_FORMAT, saveFile.getAbsoluteFile());
-                            NotificationBuilder notifyBuilder = new NotificationBuilder
-                                    ("Saved waveform to your files directory");
-                            notifyBuilder.setOnKillAction(() -> PhotoViewer.getInstance(saveFile).showGui());
-                            audioPlayerFrame.notify(notifyBuilder);
+                            audioPlayerFrame.notify(new CyderFrame.NotificationBuilder
+                                    ("Saved waveform to your files directory")
+                                    .setOnKillAction(() -> PhotoViewer.getInstance(saveFile).showGui()));
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                             audioPlayerFrame.notify("Could not save waveform at this time");
@@ -1176,11 +1174,8 @@ public class AudioPlayer {
                 }
 
                 CyderThreadRunner.submit(() -> {
-                    NotificationBuilder dreamifyBuilder = new NotificationBuilder(
-                            "Dreamifying \"" + FileUtil.getFilename(currentAudioFile) + "\"");
-                    dreamifyBuilder.setViewDuration(0);
-
-                    audioPlayerFrame.notify(dreamifyBuilder);
+                    audioPlayerFrame.notify(new CyderFrame.NotificationBuilder(
+                            "Dreamifying \"" + FileUtil.getFilename(currentAudioFile) + "\"").setViewDuration(0));
 
                     dreamifierLocked.set(true);
 

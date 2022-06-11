@@ -2,7 +2,6 @@ package cyder.ui;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
@@ -70,7 +69,7 @@ public class CyderNotification extends JLabel {
     /**
      * The builder to construct this notification/toast.
      */
-    private final NotificationBuilder builder;
+    private final CyderFrame.NotificationBuilder builder;
 
     /**
      * Whether the notification is currently being hovered over by the user's mouse.
@@ -84,7 +83,7 @@ public class CyderNotification extends JLabel {
      *                when it is pulled from the notification queue for
      *                the frame it was notified from.
      */
-    public CyderNotification(NotificationBuilder builder) {
+    public CyderNotification(CyderFrame.NotificationBuilder builder) {
         Preconditions.checkNotNull(builder);
         this.builder = builder;
 
@@ -110,7 +109,7 @@ public class CyderNotification extends JLabel {
      *
      * @return the notification builder for this notification
      */
-    public NotificationBuilder getBuilder() {
+    public CyderFrame.NotificationBuilder getBuilder() {
         return builder;
     }
 

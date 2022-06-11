@@ -3,7 +3,6 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
@@ -155,11 +154,11 @@ public class PaintWidget {
                     File referenceFile = UserUtil.createFileInUserSpace(filename);
                     ImageIO.write(image, "png", referenceFile);
 
-                    NotificationBuilder notificationBuilder = new NotificationBuilder(
+
+                    paintFrame.notify(new CyderFrame.NotificationBuilder(
                             "Successfully saved grid as \"" + filename
-                                    + "\" to your Files/ directory. Click me to view it");
-                    notificationBuilder.setOnKillAction(() -> PhotoViewer.getInstance(referenceFile).showGui());
-                    paintFrame.notify(notificationBuilder);
+                                    + "\" to your Files/ directory. Click me to view it")
+                            .setOnKillAction(() -> PhotoViewer.getInstance(referenceFile).showGui()));
                 } catch (Exception exception) {
                     ExceptionHandler.handle(exception);
                     paintFrame.notify("Could not save image at this time");

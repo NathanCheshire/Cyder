@@ -3,7 +3,6 @@ package cyder.handlers;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -823,12 +822,10 @@ public enum ConsoleFrame {
                 if (canSwitchBackground()) {
                     switchBackground();
                 } else if (getBackgrounds().size() == 1) {
-                    NotificationBuilder builder = new NotificationBuilder(
-                            "You only have one background image. "
-                                    + "Try adding more via the user editor");
-                    builder.setViewDuration(5000);
-                    builder.setOnKillAction(() -> UserEditor.showGui(0));
-                    consoleCyderFrame.notify(builder);
+                    consoleCyderFrame.notify(new CyderFrame.NotificationBuilder(
+                            "You only have one background image. Try adding more via the user editor")
+                            .setViewDuration(5000)
+                            .setOnKillAction(() -> UserEditor.showGui(0)));
                 }
             } catch (Exception ex) {
                 consoleCyderFrame.notify("Error in parsing background; perhaps it was deleted.");
