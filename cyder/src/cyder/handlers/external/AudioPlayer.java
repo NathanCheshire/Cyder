@@ -28,7 +28,10 @@ import javax.sound.sampled.Port;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -47,23 +50,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-// todo views should slide in and out like StraightShot
-
 // todo progress bar needs to move smoothly even if 1s audio length
 
-// todo progress bar should be smoothly draggable and not resume audio until mouse released, click actions should
-//  be delayed by delay function of a max click rate
-// todo need a custom component for this
-
-// todo new audio slider custom component should not be used for location
-//  when dreamifying audio back and forth audio is not as seamless as it should be
+// todo need a custom component for progress bar that's easily draggable, throttle updating on drag events
 
 // todo dreamifying doesn't perfectly resume audio from where it was before dreamifying/un-dreamifying
 
 // todo there's just general bugs from determining how long an audio is too
 // todo revalidating audio menu doesn't work when dreamifying I guess
-
-// todo length of audio text is wrong sometimes and sometimes overflows, make it the width of the label always
 
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
@@ -114,20 +108,6 @@ public class AudioPlayer {
      * The container to hold the audioTitleLabel used for animations like Spotify if the text overflows.
      */
     private static final JLabel audioTitleLabelContainer = new JLabel();
-
-    /**
-     * The maximum value of the audio progress bar.
-     */
-    private static final int PROGRESS_BAR_MAX = 10000;
-
-    /**
-     * The audio progress bar with animated colors.
-     */
-    private static final CyderProgressBar audioProgressBar = new CyderProgressBar(0, PROGRESS_BAR_MAX);
-    /**
-     * The progress bar ui for the audio progress bar.
-     */
-    private static CyderProgressUI audioProgressBarUi;
 
     /**
      * The label placed over the audio progress bar displaying how many seconds into the current audio
@@ -648,42 +628,19 @@ public class AudioPlayer {
         repeatAudioButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(repeatAudioButton);
 
-        audioProgressBar.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
-        audioPlayerFrame.getContentPane().add(audioProgressBar);
-
-        audioProgressBarUi = new CyderProgressUI();
-        audioProgressBarUi.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
-        audioProgressBarUi.setColors(CyderColors.regularPink, CyderColors.notificationForegroundColor);
-        audioProgressBar.setUI(audioProgressBarUi);
-
-        audioProgressBar.setMinimum(0);
-        audioProgressBar.setMaximum(PROGRESS_BAR_MAX);
-        audioProgressBar.setOpaque(false);
-        audioProgressBar.setFocusable(false);
+        // todo audioProgressBar.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
 
         audioProgressLabel.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioProgressLabel.setText("");
         audioProgressLabel.setForeground(CyderColors.vanilla);
-        audioProgressBar.add(audioProgressLabel);
+        audioPlayerFrame.getContentPane().add(audioProgressLabel);
         audioProgressLabel.setFocusable(false);
-        audioProgressLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                handleAudioProgressLabelClick(e);
-            }
-        });
-        audioProgressLabel.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                handleAudioProgressLabelClick(e);
-            }
-        });
 
         if (audioLocationUpdater != null) {
             audioLocationUpdater.kill();
         }
 
-        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel, audioProgressBar);
+        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel);
 
         audioVolumeSliderUi.setThumbStroke(new BasicStroke(2.0f));
         audioVolumeSliderUi.setSliderShape(CyderSliderUI.SliderShape.CIRCLE);
@@ -773,38 +730,6 @@ public class AudioPlayer {
     }
 
     /**
-     * Handles a click from the audio progress label.
-     *
-     * @param e the mouse event
-     */
-    private static void handleAudioProgressLabelClick(MouseEvent e) {
-        if (uiLocked) {
-            return;
-        }
-
-        float audioPercent = e.getX() / (float) audioProgressLabel.getWidth();
-
-        if (totalAudioLength == 0) {
-            refreshAudioTotalLength();
-        }
-
-        long skipLocation = (long) (totalAudioLength * audioPercent);
-
-        boolean shouldPlay = isAudioPlaying();
-
-        if (shouldPlay) {
-            pauseAudio();
-        }
-
-        pauseLocation = skipLocation;
-
-        if (shouldPlay) {
-            lastAction = LastAction.Scrub;
-            playAudio();
-        }
-    }
-
-    /**
      * Sets the visibility of all phase 1 components to the value of visible.
      *
      * @param visible whether to set phase 1 components to visible
@@ -820,13 +745,6 @@ public class AudioPlayer {
         playPauseButton.setVisible(visible);
         nextAudioButton.setVisible(visible);
         repeatAudioButton.setVisible(visible);
-
-        audioProgressBar.setVisible(visible);
-        if (visible) {
-            audioProgressBar.setBorder(new LineBorder(Color.black, BORDER_WIDTH));
-        } else {
-            audioProgressBar.setBorder(null);
-        }
 
         audioProgressLabel.setVisible(visible);
 
@@ -1283,11 +1201,8 @@ public class AudioPlayer {
                 nextAudioButton.setLocation(xOff + primaryButtonSpacing * 4 + primaryButtonWidth * 3, yOff);
                 repeatAudioButton.setLocation(xOff + primaryButtonSpacing * 5 + primaryButtonWidth * 4, yOff);
                 yOff += 30 + yComponentPadding;
-                audioProgressBar.setLocation(xOff, yOff);
-                audioProgressBar.setValue(audioProgressBar.getMaximum());
-
-                // 0,0 since it is layered perfectly over audioProgressBar
-                audioProgressLabel.setLocation(0, 0);
+                // todo audioProgressBar.setLocation(xOff, yOff);
+                audioProgressLabel.setLocation(xOff, yOff);
                 audioVolumePercentLabel.setLocation(DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2,
                         yOff + 35);
                 yOff += 40 + yComponentPadding;
@@ -1315,13 +1230,11 @@ public class AudioPlayer {
                 nextAudioButton.setLocation(xOff + primaryButtonSpacing * 4 + primaryButtonWidth * 3, yOff);
                 repeatAudioButton.setLocation(xOff + primaryButtonSpacing * 5 + primaryButtonWidth * 4, yOff);
                 yOff += 30 + yComponentPadding;
-                audioProgressBar.setLocation(xOff, yOff);
-                audioProgressBar.setValue(audioProgressBar.getMaximum());
+                // todo audioProgressBar.setLocation(xOff, yOff);
+                audioProgressLabel.setLocation(xOff, yOff);
 
-                // 0,0 since it is layered perfectly over audioProgressBar
-                audioProgressLabel.setLocation(0, 0);
-                audioVolumePercentLabel.setLocation(DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2,
-                        yOff + 35);
+                audioVolumePercentLabel.setLocation(
+                        DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2, yOff + 35);
                 yOff += 40 + yComponentPadding;
                 audioVolumeSlider.setLocation(xOff, yOff);
                 currentFrameView = FrameView.HIDDEN_ART;
@@ -1347,9 +1260,9 @@ public class AudioPlayer {
                 playPauseButton.setLocation(xOff + primaryButtonSpacing * 3 + primaryButtonWidth * 2, yOff);
                 nextAudioButton.setLocation(xOff + primaryButtonSpacing * 4 + primaryButtonWidth * 3, yOff);
                 repeatAudioButton.setLocation(xOff + primaryButtonSpacing * 5 + primaryButtonWidth * 4, yOff);
-                audioProgressBar.setVisible(false);
                 audioProgressLabel.setVisible(false);
                 audioVolumeSlider.setVisible(false);
+                audioProgressLabel.setVisible(false);
                 if (audioLocationUpdater != null) {
                     audioLocationUpdater.kill();
                     audioLocationUpdater = null;
@@ -1518,7 +1431,7 @@ public class AudioPlayer {
             audioLocationUpdater.kill();
         }
 
-        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel, audioProgressBar);
+        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel);
     }
 
     /**
@@ -1723,7 +1636,10 @@ public class AudioPlayer {
 
                 closePlayerObject();
 
-                // todo we come here when widget is closing which throws due to current audio being set to null
+                // if the widget is closed
+                if (currentAudioFile == null) {
+                    return;
+                }
 
                 // invokes an audio file refresh and returns the possible new current index
                 int currentAudioIndex = getCurrentAudioIndex();
@@ -2021,10 +1937,7 @@ public class AudioPlayer {
             audioPlayerFrame = null;
         }
 
-        if (audioProgressBarUi != null) {
-            audioProgressBarUi.stopAnimationTimer();
-            audioProgressBarUi = null;
-        }
+        // todo audio progress bar component killing
 
         if (audioVolumeLabelAnimator != null) {
             audioVolumeLabelAnimator.kill();
@@ -2127,11 +2040,9 @@ public class AudioPlayer {
          * Constructs a new audio location label to update for the provided progress bar.
          *
          * @param effectLabel the label to update
-         * @param progressBar the progress bar to update
          */
-        public AudioLocationUpdater(JLabel effectLabel, CyderProgressBar progressBar) {
+        public AudioLocationUpdater(JLabel effectLabel) {
             checkNotNull(effectLabel);
-            checkNotNull(progressBar);
 
             if (currentFrameView == FrameView.MINI) {
                 return;
@@ -2139,7 +2050,21 @@ public class AudioPlayer {
 
             try {
                 CyderThreadRunner.submit(() -> {
-                    int totalMillis = AudioUtil.getMillisFast(currentAudioFile);
+                    effectLabel.setText("");
+
+                    Future<Integer> totalMillisFuture = AudioUtil.getMillis(currentAudioFile);
+
+                    while (!totalMillisFuture.isDone()) {
+                        Thread.onSpinWait();
+                    }
+
+                    int totalMillis = 0;
+
+                    try {
+                        totalMillis = totalMillisFuture.get();
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
 
                     if (totalMillis == 0) {
                         return;
@@ -2150,23 +2075,16 @@ public class AudioPlayer {
                     String formattedTotal = AudioUtil.formatSeconds(totalSeconds);
 
                     while (!killed) {
-                        float place = 0;
+                        float percentIn = 0;
 
                         try {
                             if (fis == null) {
-                                place = ((float) pauseLocation /
-                                        (float) totalAudioLength) * progressBar.getMaximum();
+                                percentIn = ((float) pauseLocation / (float) totalAudioLength);
                             } else {
-                                place = ((float) (totalAudioLength - fis.available()) /
-                                        (float) totalAudioLength) * progressBar.getMaximum();
+                                percentIn = ((float) (totalAudioLength - fis.available()) / (float) totalAudioLength);
                             }
                         } catch (Exception ignored) {
                         }
-
-                        progressBar.setValue((int) place);
-
-                        float percentIn = (((float) audioProgressBar.getValue()
-                                / (float) audioProgressBar.getMaximum()));
 
                         int secondsIn = (int) Math.ceil(percentIn * totalSeconds);
                         int secondsLeft = totalSeconds - secondsIn;

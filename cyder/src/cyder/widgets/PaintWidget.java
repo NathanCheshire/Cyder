@@ -154,7 +154,6 @@ public class PaintWidget {
                     File referenceFile = UserUtil.createFileInUserSpace(filename);
                     ImageIO.write(image, "png", referenceFile);
 
-
                     paintFrame.notify(new CyderFrame.NotificationBuilder(
                             "Successfully saved grid as \"" + filename
                                     + "\" to your Files/ directory. Click me to view it")
