@@ -1647,6 +1647,7 @@ public class AudioPlayer {
                     return;
                 }
 
+                // todo here we can check for if not killed in this thread worker class
 
                 // no user interaction so proceed naturally
                 if (lastAction == LastAction.Play) {

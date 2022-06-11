@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
@@ -10,7 +11,7 @@ import java.awt.*;
  */
 public class MathUtil {
     /**
-     * Restrict class instnatiation.
+     * Suppress default constructor.
      */
     private MathUtil() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
@@ -36,7 +37,7 @@ public class MathUtil {
      * Finds the least common multiple of the provided integers
      *
      * @param a the first integer
-     * @param b the second interger
+     * @param b the second integer
      * @return the least common multiple of the provided integers
      */
     public static int lcm(int a, int b) {
@@ -68,10 +69,6 @@ public class MathUtil {
             return lcm(arr[start], lcmArrayInner(arr, start + 1, end));
     }
 
-    //Precise method, which guarantees v = v1 when t = 1.
-    // This method is monotonic only when v0 * v1 < 0.
-    // Lerping between same values might not produce the same value
-
     /**
      * Linearly interpolates between v0 and v1 for the provided t value in the range [0,1]
      *
@@ -87,7 +84,7 @@ public class MathUtil {
     /**
      * Rotates the provided point by deg degrees in euclidean space.
      *
-     * @param point the point to ratate
+     * @param point the point to rotate
      * @param deg   the degrees to rotate the point by, counter-clockwise
      * @return the new point
      */
@@ -112,7 +109,7 @@ public class MathUtil {
     }
 
     /**
-     * Finds the minimum of the provided interger array.
+     * Finds the minimum of the provided integer array.
      *
      * @param ints the array of ints
      * @return the minimum integer value found
@@ -131,21 +128,21 @@ public class MathUtil {
     /**
      * The number of degrees in a circle.
      */
-    public static final int DEGREES_IN_CIRCLE = 360;
+    public static final float DEGREES_IN_CIRCLE = 360.0f;
 
     /**
      * Converts the angle in degrees to standard form of being in the range [0, 360).
      *
      * @param angle the angle in degrees
-     * @return the angle in standrad form with rotations removed
+     * @return the angle in standard form with rotations removed
      */
     public static int convertAngleToStdForm(int angle) {
         angle += 360;
 
         if (angle < 0) {
-            return angle + Math.abs((int) Math.floor(angle / DEGREES_IN_CIRCLE)) * DEGREES_IN_CIRCLE;
+            return (int) (angle + Math.abs((int) Math.floor(angle / DEGREES_IN_CIRCLE)) * DEGREES_IN_CIRCLE);
         } else {
-            return angle - ((int) Math.floor(angle / DEGREES_IN_CIRCLE)) * DEGREES_IN_CIRCLE;
+            return (int) (angle - ((int) Math.floor(angle / DEGREES_IN_CIRCLE)) * DEGREES_IN_CIRCLE);
         }
     }
 
@@ -153,7 +150,7 @@ public class MathUtil {
      * Converts the angle in degrees to standard form of being in the range [0, 360).
      *
      * @param angle the angle in degrees
-     * @return the angle in standrad form with rotations removed
+     * @return the angle in standard form with rotations removed
      */
     public static double convertAngleToStdForm(double angle) {
         angle += 360.0;
@@ -163,5 +160,20 @@ public class MathUtil {
         } else {
             return angle - ((int) Math.floor(angle / DEGREES_IN_CIRCLE)) * DEGREES_IN_CIRCLE;
         }
+    }
+
+    /**
+     * Returns whether the provided point is inside of or on the rectangle bounds.
+     *
+     * @param p      the point of interest
+     * @param bounds the bounds to test for the point being inside of or on
+     * @return whether the provided point is inside of or on the rectangle bounds
+     */
+    public static boolean pointInOrOnRectangle(Point p, Rectangle bounds) {
+        Preconditions.checkNotNull(p);
+        Preconditions.checkNotNull(bounds);
+
+        return (p.x >= bounds.getX() && p.x <= bounds.x + bounds.width)
+                && (p.y >= bounds.getY() && p.y <= bounds.y + bounds.height);
     }
 }

@@ -1423,18 +1423,26 @@ public enum ConsoleFrame {
         }
     }
 
+    // todo menu button still loses focus color when it shouldn't sometime
+
     /**
      * The action listener for the menu button.
      */
     private final ActionListener menuButtonActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (currentFocusedMenuItemIndex != -1) {
-                ImmutableList<TaskbarIcon> state = ImmutableList.copyOf(
-                        Stream.of(currentFrameMenuItems, currentMappedExeItems, currentDefaultMenuItems)
+            Point menuPoint = menuButton.getLocationOnScreen();
+            boolean mouseTriggered = MathUtil.pointInOrOnRectangle(MouseInfo.getPointerInfo().getLocation(),
+                    new Rectangle((int) menuPoint.getX(), (int) menuPoint.getY(), menuButton.getWidth(),
+                            menuButton.getHeight()));
+
+            // if there's a focused item and it wasn't a mouse click
+            if (currentFocusedMenuItemIndex != -1 && !mouseTriggered) {
+                ImmutableList.copyOf(Stream.of(currentFrameMenuItems,
+                                        currentMappedExeItems, currentDefaultMenuItems)
                                 .flatMap(Collection::stream)
-                                .collect(Collectors.toList()));
-                state.get(currentFocusedMenuItemIndex).runRunnable();
+                                .collect(Collectors.toList()))
+                        .get(currentFocusedMenuItemIndex).runRunnable();
                 return;
             }
 

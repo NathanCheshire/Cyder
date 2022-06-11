@@ -1,0 +1,141 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[12-40-20] [ENTRY]: Nathan
+[12-40-20] [PROP LOADED]: [key = map_quest_api_key]
+[12-40-20] [PROP LOADED]: [key = youtube_api_3_key]
+[12-40-20] [PROP LOADED]: [key = ip_key]
+[12-40-20] [PROP LOADED]: [key = weather_key]
+[12-40-20] [PROP LOADED]: [key = debug_hash_name]
+[12-40-20] [PROP LOADED]: [key = debug_hash_password]
+[12-40-20] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[12-40-20] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[12-40-20] [PROP LOADED]: [key = font_metric, value = 1]
+[12-40-20] [PROP LOADED]: [key = released, value = false]
+[12-40-20] [PROP LOADED]: [key = fast_test, value = false]
+[12-40-20] [PROP LOADED]: [key = version, value = Liminal]
+[12-40-20] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[12-40-20] [PROP LOADED]: [key = components_relocatable, value = false]
+[12-40-20] [PROP LOADED]: [key = testing_mode, value = true]
+[12-40-20] [PROP LOADED]: [key = autocypher, value = true]
+[12-40-20] [PROP LOADED]: [key = dispose_splash, value = true]
+[12-40-20] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[12-40-20] [PROP LOADED]: [key = activate_watchdog, value = false]
+[12-40-20] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[12-40-20] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[12-40-20] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[12-40-20] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[12-40-20] [THREAD STARTED]: Object Creation Logger
+[12-40-20] [DEBUG]: Watchdog skipped
+[12-40-20] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[12-40-21] [FONT LOADED]: agency-fb
+[12-40-21] [FONT LOADED]: arial-black
+[12-40-21] [FONT LOADED]: beyno
+[12-40-21] [FONT LOADED]: condiment-regular
+[12-40-21] [FONT LOADED]: prompt-bold
+[12-40-21] [FONT LOADED]: segoe-ui-black
+[12-40-21] [FONT LOADED]: tahoma
+[12-40-21] [THREAD STARTED]: Splash Loader
+[12-40-21] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-40-21] [THREAD STARTED]: Splash Animation
+[12-40-21] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[12-40-22] [THREAD STARTED]: Secondary Subroutines Runner
+[12-40-22] [LOGIN]: AUTOCYPHER ATTEMPT
+[12-40-22] [THREAD STARTED]: JVM Args Logger
+[12-40-22] [DEBUG]: Cyder Entry = AutoCypher
+[12-40-23] [THREAD STARTED]: Console Printing Animation
+[12-40-23] [THREAD STARTED]: Hourly Chime Checker
+[12-40-23] [THREAD STARTED]: Console Clock Updater
+[12-40-23] [THREAD STARTED]: Cyder Busy Checker
+[12-40-23] [THREAD STARTED]: ConsoleFrame Stat Saver
+[12-40-23] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[12-40-23] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[12-40-23] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 1994415286, bounds = (980,
+           396, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[12-40-23] [THREAD STARTED]: High Ping Checker
+[12-40-23] [OBJECT CREATION]: Objects created since last delta (5000ms): 111
+[12-40-23] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[12-40-23] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[12-40-23] [THREAD STARTED]: Manual Tests Thread
+[12-40-23] [CONSOLE OUT]: [STRING]: Console loaded in 3483ms
+[12-40-24] [THREAD STARTED]: Splash Loading Label Updater
+[12-40-24] [DEBUG]: Attempted to log a new or empty line
+[12-40-26] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 7] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[12-40-26] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654969120765.json
+[12-40-28] [OBJECT CREATION]: Objects created since last delta (5000ms): 4
+[12-41-08] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[12-41-08] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[12-41-09] [THREAD STARTED]: minimize menu thread
+[12-41-09] [THREAD STARTED]: Console menu animator
+[12-41-10] [UI]: Component = CyderLabel, hash = 994567935, bounds = (0, 0, 75, 75), parent frame = Liminal Cyder
+           [Nathan], getText() = <html><div style='text-align: center;'>Pref</html>
+[12-41-10] [THREAD STARTED]: [Preferences] finalizeAndShow()
+[12-41-11] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 4] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[12-41-11] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1654969226314.json
+[12-41-11] [UI]: Component = CyderDragLabel, hash = -14762802, bounds = (2, 2, 726, 28), parent frame = Preferences
+[12-41-11] [THREAD STARTED]: [Preferences] dispose() animation thread
+[12-41-11] [UI]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 761392883, bounds = (1371,
+           499, 730, 560), parent frame = Component itself is a CyderFrame, getTitle() = Preferences
+[12-41-13] [OBJECT CREATION]: Objects created since last delta (5000ms): 89
+[12-41-15] [THREAD STARTED]: Console menu animator
+[12-41-15] [THREAD STARTED]: minimize menu thread
+[12-41-16] [THREAD STARTED]: minimize menu thread
+[12-41-16] [THREAD STARTED]: Console menu animator
+[12-41-16] [THREAD STARTED]: Console menu animator
+[12-41-16] [THREAD STARTED]: minimize menu thread
+[12-41-17] [THREAD STARTED]: minimize menu thread
+[12-41-17] [THREAD STARTED]: Console menu animator
+[12-41-18] [OBJECT CREATION]: Objects created since last delta (5000ms): 12
+[12-41-21] [THREAD STARTED]: [Preferences] dispose() animation thread
+[12-41-21] [THREAD STARTED]: [Preferences] finalizeAndShow()
+[12-41-22] [UI]: Component = CyderDragLabel, hash = -14762802, bounds = (2, 2, 726, 28), parent frame = Preferences
+[12-41-22] [THREAD STARTED]: [Preferences] dispose() animation thread
+[12-41-22] [UI]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 1867742370, bounds = (1371,
+           499, 730, 560), parent frame = Component itself is a CyderFrame, getTitle() = Preferences
+[12-41-23] [OBJECT CREATION]: Objects created since last delta (5000ms): 87
+[12-41-28] [OBJECT CREATION]: Objects created since last delta (5000ms): 28
+[12-41-32] [THREAD STARTED]: Console menu animator
+[12-41-32] [THREAD STARTED]: minimize menu thread
+[12-41-32] [THREAD STARTED]: minimize menu thread
+[12-41-32] [THREAD STARTED]: Console menu animator
+[12-41-33] [OBJECT CREATION]: Objects created since last delta (5000ms): 4
+[12-41-36] [THREAD STARTED]: Console menu animator
+[12-41-36] [THREAD STARTED]: minimize menu thread
+[12-41-37] [THREAD STARTED]: minimize menu thread
+[12-41-37] [THREAD STARTED]: Console menu animator
+[12-41-37] [THREAD STARTED]: Console menu animator
+[12-41-37] [THREAD STARTED]: minimize menu thread
+[12-41-38] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[12-41-38] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[12-41-38] [OBJECT CREATION]: Objects created since last delta (5000ms): 8
+[12-41-38] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-41-38] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 661047965, bounds =
+           (1416, 441, 640, 676), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[12-41-38] [EXIT]: [RUNTIME] 1m 18s
+[12-41-38] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown
