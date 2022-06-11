@@ -28,14 +28,24 @@ public class AudioLocationUpdater {
     private final JLabel effectLabel;
 
     /**
-     * The total seconds of the audio file this location updater was given.
+     * The current frame view the audio player is in.
      */
-    private int totalSeconds;
+    private final AtomicReference<FrameView> currentFrameView;
 
     /**
-     * The number of seconds in to the audio file.
+     * The current audio file of the audio player.
      */
-    private int secondsIn;
+    private final AtomicReference<File> currentAudioFile;
+
+    /**
+     * The total milliseconds of the audio file this location updater was given.
+     */
+    private int totalMilliSeconds;
+
+    /**
+     * The number of milliseconds in to the audio file.
+     */
+    private int milliSecondsIn;
 
     /**
      * Constructs a new audio location label to update for the provided progress bar.
@@ -49,69 +59,74 @@ public class AudioLocationUpdater {
         checkNotNull(currentFrameView);
 
         this.effectLabel = effectLabel;
+        this.currentFrameView = currentFrameView;
+        this.currentAudioFile = currentAudioFile;
 
-        if (currentFrameView.get() == FrameView.MINI) {
-            return;
-        }
+        startUpdateThread();
+    }
 
-        try {
-            CyderThreadRunner.submit(() -> {
-                // maybe there could be some placeholder text while ffprobe is getting the correct length
-                effectLabel.setText("");
+    /**
+     * Starts the thread to update the inner label
+     */
+    private void startUpdateThread() {
+        CyderThreadRunner.submit(() -> {
+            // maybe there could be some placeholder text while ffprobe is getting the correct length
+            effectLabel.setText("");
 
-                Future<Integer> totalMillisFuture = AudioUtil.getMillis(currentAudioFile.get());
+            Future<Integer> totalMillisFuture = AudioUtil.getMillis(currentAudioFile.get());
 
-                File localAudioFile = currentAudioFile.get();
+            File localAudioFile = currentAudioFile.get();
 
-                while (!totalMillisFuture.isDone()) {
-                    Thread.onSpinWait();
-                }
+            while (!totalMillisFuture.isDone()) {
+                Thread.onSpinWait();
+            }
 
-                // if not the same file as when the future began, return
-                if (localAudioFile != currentAudioFile.get()) {
-                    return;
-                }
+            // if not the same file as when the future began, return
+            if (localAudioFile != currentAudioFile.get()) {
+                return;
+            }
 
-                int totalMillis = 0;
+            int totalMillis = 0;
 
+            try {
+                totalMillis = totalMillisFuture.get();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+
+            if (totalMillis == 0) {
+                return;
+            }
+
+            this.totalMilliSeconds = totalMillis;
+
+            while (!killed) {
                 try {
-                    totalMillis = totalMillisFuture.get();
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
+                    Thread.sleep(50);
+                    milliSecondsIn += 50;
+                } catch (Exception ignored) {
                 }
 
-                if (totalMillis == 0) {
-                    return;
+                if (!timerPaused && milliSecondsIn % 1000 == 0
+                        && currentFrameView.get() != FrameView.MINI) {
+                    updateEffectLabel();
                 }
-
-                this.totalSeconds = Math.round(totalMillis / 1000.0f);
-
-                while (!killed) {
-                    if (!timerPaused) {
-                        secondsIn++;
-                        updateEffectLabel();
-                    }
-
-                    try {
-                        Thread.sleep(1000);
-                    } catch (Exception ignored) {
-                    }
-                }
-            }, FileUtil.getFilename(currentAudioFile.get()) + " Progress Label Thread");
-        } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
-        }
+            }
+        }, FileUtil.getFilename(currentAudioFile.get()) + " Progress Label Thread");
     }
 
     /**
      * Updates the encapsulated label with the time in to the current audio file.
      */
     private void updateEffectLabel() {
-        int secondsLeft = totalSeconds - secondsIn;
+        int milliSecondsLeft = totalMilliSeconds - milliSecondsIn;
+
+        int secondsLeft = (int) (milliSecondsLeft / 1000.0);
+        int secondsIn = (int) (milliSecondsIn / 1000.0);
 
         if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
             effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
-                    + " played, " + AudioUtil.formatSeconds(totalSeconds) + " remaining");
+                    + " played, " + AudioUtil.formatSeconds((int) (totalMilliSeconds / 1000.0)) + " remaining");
         } else {
             effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
                     + " played, " + AudioUtil.formatSeconds(secondsLeft) + " remaining");
@@ -134,14 +149,14 @@ public class AudioLocationUpdater {
     }
 
     /**
-     * Stops incrementing the seconds in value.
+     * Stops incrementing the secondsIn value.
      */
     public void pauseTimer() {
         timerPaused = true;
     }
 
     /**
-     * Starts incrementing the seconds in value.
+     * Starts incrementing the secondsIn value.
      */
     public void resumeTimer() {
         timerPaused = false;
