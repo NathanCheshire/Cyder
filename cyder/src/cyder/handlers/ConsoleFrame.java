@@ -1423,8 +1423,6 @@ public enum ConsoleFrame {
         }
     }
 
-    // todo menu button still loses focus color when it shouldn't sometime
-
     /**
      * The action listener for the menu button.
      */

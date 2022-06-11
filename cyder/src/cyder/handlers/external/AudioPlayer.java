@@ -1,6 +1,5 @@
 package cyder.handlers.external;
 
-import com.google.common.base.Preconditions;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
@@ -12,6 +11,10 @@ import cyder.enums.CyderInspection;
 import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
+import cyder.handlers.external.audio.AudioLocationUpdater;
+import cyder.handlers.external.audio.AudioVolumeLabelAnimator;
+import cyder.handlers.external.audio.FrameView;
+import cyder.handlers.external.audio.ScrollingTitleLabel;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.messaging.MessagingUtils;
@@ -46,7 +49,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -313,35 +316,9 @@ public class AudioPlayer {
                     });
 
     /**
-     * The available frame views for both the audio player and YouTube downloader.
-     */
-    private enum FrameView {
-        /**
-         * All ui elements visible.
-         */
-        FULL,
-        /**
-         * Album art hidden.
-         */
-        HIDDEN_ART,
-        /**
-         * Mini audio player mode.
-         */
-        MINI,
-        /**
-         * Searching YouTube for a video's audio to download.
-         */
-        SEARCH,
-        /**
-         * Confirming/downloading a YouTube video's audio.
-         */
-        DOWNLOAD,
-    }
-
-    /**
      * The current frame view the audio player is in.
      */
-    private static FrameView currentFrameView;
+    private static final AtomicReference<FrameView> currentFrameView = new AtomicReference<>(FrameView.FULL);
 
     /**
      * The frame background color.
@@ -356,7 +333,7 @@ public class AudioPlayer {
     /**
      * The current audio file we are at.
      */
-    private static File currentAudioFile;
+    private static final AtomicReference<File> currentAudioFile = new AtomicReference<>();
 
     /**
      * The list of valid audio files within the current directory that the audio player may play.
@@ -429,7 +406,7 @@ public class AudioPlayer {
             new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    switch (currentFrameView) {
+                    switch (currentFrameView.get()) {
                         case FULL -> setupAndShowFrameView(FrameView.HIDDEN_ART);
                         case HIDDEN_ART -> setupAndShowFrameView(FrameView.MINI);
                         case MINI -> setupAndShowFrameView(FrameView.FULL);
@@ -521,7 +498,7 @@ public class AudioPlayer {
         checkNotNull(startPlaying);
         checkArgument(startPlaying.exists());
 
-        currentAudioFile = startPlaying;
+        currentAudioFile.set(startPlaying);
         refreshAudioFiles();
 
         audioDreamified.set(isCurrentAudioDreamy());
@@ -641,7 +618,7 @@ public class AudioPlayer {
             audioLocationUpdater.kill();
         }
 
-        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel);
+        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel, currentFrameView, currentAudioFile);
 
         audioVolumeSliderUi.setThumbStroke(new BasicStroke(2.0f));
         audioVolumeSliderUi.setSliderShape(CyderSliderUI.SliderShape.CIRCLE);
@@ -660,7 +637,7 @@ public class AudioPlayer {
             audioVolumeLabelAnimator.kill();
         }
 
-        audioVolumeLabelAnimator = new AudioVolumeLabelAnimator();
+        audioVolumeLabelAnimator = new AudioVolumeLabelAnimator(audioVolumePercentLabel);
 
         audioVolumeSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioPlayerFrame.getContentPane().add(audioVolumeSlider);
@@ -852,11 +829,11 @@ public class AudioPlayer {
                 return;
             }
 
-            if (FileUtil.validateExtension(currentAudioFile, ".wav")) {
+            if (FileUtil.validateExtension(currentAudioFile.get(), ".wav")) {
                 audioPlayerFrame.notify("This file is already a wav");
-            } else if (FileUtil.validateExtension(currentAudioFile, ".mp3")) {
+            } else if (FileUtil.validateExtension(currentAudioFile.get(), ".mp3")) {
                 CyderThreadRunner.submit(() -> {
-                    Future<Optional<File>> wavConvertedFile = AudioUtil.mp3ToWav(currentAudioFile);
+                    Future<Optional<File>> wavConvertedFile = AudioUtil.mp3ToWav(currentAudioFile.get());
 
                     wavExporterLocked.set(true);
 
@@ -882,14 +859,14 @@ public class AudioPlayer {
                                     + moveTo.getName() + "\" to your music directory");
                         } else {
                             audioPlayerFrame.notify("Could not convert \""
-                                    + currentAudioFile.getName() + "\" to a wav at this time");
+                                    + currentAudioFile.get().getName() + "\" to a wav at this time");
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
                     }
                 }, "Wav exporter");
             } else {
-                throw new IllegalArgumentException("Unsupported audio format: " + currentAudioFile.getName());
+                throw new IllegalArgumentException("Unsupported audio format: " + currentAudioFile.get().getName());
             }
         });
         audioPlayerFrame.addMenuItem("Export mp3", () -> {
@@ -897,11 +874,11 @@ public class AudioPlayer {
                 return;
             }
 
-            if (FileUtil.validateExtension(currentAudioFile, ".mp3")) {
+            if (FileUtil.validateExtension(currentAudioFile.get(), ".mp3")) {
                 audioPlayerFrame.notify("This file is already an mp3");
-            } else if (FileUtil.validateExtension(currentAudioFile, ".wav")) {
+            } else if (FileUtil.validateExtension(currentAudioFile.get(), ".wav")) {
                 CyderThreadRunner.submit(() -> {
-                    Future<Optional<File>> mp3ConvertedFile = AudioUtil.wavToMp3(currentAudioFile);
+                    Future<Optional<File>> mp3ConvertedFile = AudioUtil.wavToMp3(currentAudioFile.get());
 
                     mp3ExporterLocked.set(true);
 
@@ -927,14 +904,14 @@ public class AudioPlayer {
                                     + moveTo.getName() + "\" to your music directory");
                         } else {
                             audioPlayerFrame.notify("Could not convert \""
-                                    + currentAudioFile.getName() + "\" to an mp3 at this time");
+                                    + currentAudioFile.get().getName() + "\" to an mp3 at this time");
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
                     }
                 }, "Mp3 exporter");
             } else {
-                throw new IllegalArgumentException("Unsupported audio format: " + currentAudioFile.getName());
+                throw new IllegalArgumentException("Unsupported audio format: " + currentAudioFile.get().getName());
             }
         });
         audioPlayerFrame.addMenuItem("Waveform", () -> {
@@ -957,7 +934,7 @@ public class AudioPlayer {
                                 UserFile.FILES.getName(),
                                 saveName + "." + WAVEFORM_EXPORT_FORMAT);
 
-                        Future<BufferedImage> waveform = MessagingUtils.generateLargeWaveform(currentAudioFile);
+                        Future<BufferedImage> waveform = MessagingUtils.generateLargeWaveform(currentAudioFile.get());
 
                         waveformExporterLocked.set(true);
 
@@ -1003,7 +980,7 @@ public class AudioPlayer {
 
                     pauseAudio();
 
-                    currentAudioFile = chosenFile;
+                    currentAudioFile.set(chosenFile);
                     pauseLocation = 0;
                     totalAudioLength = 0;
 
@@ -1020,8 +997,8 @@ public class AudioPlayer {
                 return;
             }
 
-            if (currentAudioFile != null) {
-                String currentAudioFilename = FileUtil.getFilename(currentAudioFile);
+            if (currentAudioFile.get() != null) {
+                String currentAudioFilename = FileUtil.getFilename(currentAudioFile.get());
 
                 // already dreamified so attempt to find non-dreamy version
                 if (currentAudioFilename.endsWith(AudioUtil.DREAMY_SUFFIX)) {
@@ -1039,7 +1016,7 @@ public class AudioPlayer {
                             audioDreamified.set(false);
                             audioPlayerFrame.revalidateMenu();
 
-                            currentAudioFile = validAudioFile;
+                            currentAudioFile.set(validAudioFile);
 
                             boolean resume = isAudioPlaying();
                             pauseAudio();
@@ -1080,7 +1057,7 @@ public class AudioPlayer {
                                 audioDreamified.set(true);
                                 audioPlayerFrame.revalidateMenu();
 
-                                currentAudioFile = audioFile;
+                                currentAudioFile.set(audioFile);
 
                                 revalidateFromAudioFileChange();
 
@@ -1094,11 +1071,11 @@ public class AudioPlayer {
 
                 CyderThreadRunner.submit(() -> {
                     audioPlayerFrame.notify(new CyderFrame.NotificationBuilder(
-                            "Dreamifying \"" + FileUtil.getFilename(currentAudioFile) + "\"").setViewDuration(0));
+                            "Dreamifying \"" + FileUtil.getFilename(currentAudioFile.get()) + "\"").setViewDuration(0));
 
                     dreamifierLocked.set(true);
 
-                    Future<Optional<File>> dreamifiedAudio = AudioUtil.dreamifyAudio(currentAudioFile);
+                    Future<Optional<File>> dreamifiedAudio = AudioUtil.dreamifyAudio(currentAudioFile.get());
 
                     while (!dreamifiedAudio.isDone()) {
                         Thread.onSpinWait();
@@ -1131,7 +1108,7 @@ public class AudioPlayer {
                                 pauseAudio();
                             }
 
-                            currentAudioFile = destinationFile.getAbsoluteFile();
+                            currentAudioFile.set(destinationFile.getAbsoluteFile());
 
                             revalidateFromAudioFileChange();
 
@@ -1179,7 +1156,7 @@ public class AudioPlayer {
         switch (view) {
             case FULL -> {
                 setUiComponentsVisible(true);
-                currentFrameView = FrameView.FULL;
+                currentFrameView.set(FrameView.FULL);
                 audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN);
 
                 // set location of all components needed
@@ -1238,10 +1215,10 @@ public class AudioPlayer {
                         DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2, yOff + 35);
                 yOff += 40 + yComponentPadding;
                 audioVolumeSlider.setLocation(xOff, yOff);
-                currentFrameView = FrameView.HIDDEN_ART;
+                currentFrameView.set(FrameView.HIDDEN_ART);
             }
             case MINI -> {
-                currentFrameView = FrameView.MINI;
+                currentFrameView.set(FrameView.MINI);
                 setUiComponentsVisible(true);
                 audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN
                         - ALBUM_ART_LABEL_SIZE - MINI_FRAME_HEIGHT_OFFSET);
@@ -1289,8 +1266,8 @@ public class AudioPlayer {
     private static void refreshFrameTitle() {
         String title = DEFAULT_FRAME_TITLE;
 
-        if (currentAudioFile != null) {
-            title = StringUtil.capsFirst(StringUtil.getTrimmedText(FileUtil.getFilename(currentAudioFile)));
+        if (currentAudioFile.get() != null) {
+            title = StringUtil.capsFirst(StringUtil.getTrimmedText(FileUtil.getFilename(currentAudioFile.get())));
 
             if (title.length() > MAX_TITLE_LENGTH - 3) {
                 String[] parts = title.split("\\s+");
@@ -1321,12 +1298,12 @@ public class AudioPlayer {
      * default album art.
      */
     private static void refreshAlbumArt() {
-        if (currentFrameView != FrameView.FULL) {
+        if (currentFrameView.get() != FrameView.FULL) {
             albumArtLabel.setVisible(false);
             return;
         }
 
-        String name = FileUtil.getFilename(currentAudioFile);
+        String name = FileUtil.getFilename(currentAudioFile.get());
         boolean dreamy = isCurrentAudioDreamy();
 
         if (name.endsWith(AudioUtil.DREAMY_SUFFIX)) {
@@ -1383,7 +1360,7 @@ public class AudioPlayer {
      * @return whether the current audio file is a dreamy audio file
      */
     private static boolean isCurrentAudioDreamy() {
-        return FileUtil.getFilename(currentAudioFile).endsWith(AudioUtil.DREAMY_SUFFIX);
+        return FileUtil.getFilename(currentAudioFile.get()).endsWith(AudioUtil.DREAMY_SUFFIX);
     }
 
     /**
@@ -1391,7 +1368,7 @@ public class AudioPlayer {
      * in the title label container and creates a new instance based on the current audio file's title.
      */
     private static void refreshAudioTitleLabel() {
-        String text = StringUtil.capsFirst(FileUtil.getFilename(currentAudioFile.getName()));
+        String text = StringUtil.capsFirst(FileUtil.getFilename(currentAudioFile.get().getName()));
 
         // end old object
         if (scrollingTitleLabel != null) {
@@ -1424,7 +1401,7 @@ public class AudioPlayer {
      * Refreshes the audio progress label and total length.
      */
     private static void refreshAudioProgressLabel() {
-        if (currentFrameView == FrameView.MINI) {
+        if (currentFrameView.get() == FrameView.MINI) {
             return;
         }
 
@@ -1432,7 +1409,7 @@ public class AudioPlayer {
             audioLocationUpdater.kill();
         }
 
-        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel);
+        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel, currentFrameView, currentAudioFile);
     }
 
     /**
@@ -1444,7 +1421,7 @@ public class AudioPlayer {
 
         validAudioFiles.clear();
 
-        File parentDirectory = currentAudioFile.getParentFile();
+        File parentDirectory = currentAudioFile.get().getParentFile();
 
         if (parentDirectory.exists()) {
             File[] siblings = parentDirectory.listFiles();
@@ -1518,7 +1495,7 @@ public class AudioPlayer {
      */
     public static void refreshAudioTotalLength() {
         try {
-            FileInputStream fileInputStream = new FileInputStream(currentAudioFile);
+            FileInputStream fileInputStream = new FileInputStream(currentAudioFile.get());
             totalAudioLength = fileInputStream.available();
             fileInputStream.close();
         } catch (Exception e) {
@@ -1597,7 +1574,7 @@ public class AudioPlayer {
 
             refreshAudioTitleLabel();
 
-            fis = new FileInputStream(currentAudioFile);
+            fis = new FileInputStream(currentAudioFile.get());
             bis = new BufferedInputStream(fis);
 
             totalAudioLength = fis.available();
@@ -1653,7 +1630,7 @@ public class AudioPlayer {
                 if (lastAction == LastAction.Play) {
                     // in case audio files were added need to get index again
                     int currentAudioIndex = getCurrentAudioIndex();
-                    currentAudioFile = validAudioFiles.get(currentAudioIndex);
+                    currentAudioFile.set(validAudioFiles.get(currentAudioIndex));
 
                     pauseLocation = 0;
                     totalAudioLength = 0;
@@ -1664,7 +1641,7 @@ public class AudioPlayer {
                     }
                     // pull from queue next
                     else if (!audioFileQueue.isEmpty()) {
-                        currentAudioFile = audioFileQueue.remove(0);
+                        currentAudioFile.set(audioFileQueue.remove(0));
 
                         revalidateFromAudioFileChange();
 
@@ -1672,8 +1649,8 @@ public class AudioPlayer {
                     }
                     // shuffle audio takes next priority
                     else if (shuffleAudio) {
-                        currentAudioFile = audioFileQueue.get(
-                                NumberUtil.randInt(0, audioFileQueue.size() - 1));
+                        currentAudioFile.set(audioFileQueue.get(
+                                NumberUtil.randInt(0, audioFileQueue.size() - 1)));
 
                         revalidateFromAudioFileChange();
 
@@ -1685,7 +1662,7 @@ public class AudioPlayer {
 
                         for (int i = 0 ; i < validAudioFiles.size() ; i++) {
                             if (validAudioFiles.get(i).getAbsolutePath()
-                                    .equals(currentAudioFile.getAbsolutePath())) {
+                                    .equals(currentAudioFile.get().getAbsolutePath())) {
                                 currentIndex = i;
                                 break;
                             }
@@ -1695,14 +1672,14 @@ public class AudioPlayer {
                         int nextIndex = currentIndex + 1 == validAudioFiles.size()
                                 ? 0 : currentIndex + 1;
 
-                        currentAudioFile = validAudioFiles.get(nextIndex);
+                        currentAudioFile.set(validAudioFiles.get(nextIndex));
 
                         revalidateFromAudioFileChange();
 
                         playAudio();
                     }
                 }
-            }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(currentAudioFile) + "]");
+            }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(currentAudioFile.get()) + "]");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -1778,7 +1755,7 @@ public class AudioPlayer {
 
         pauseAudio();
 
-        float totalSeconds = AudioUtil.getMillisFast(currentAudioFile) / 1000.0f;
+        float totalSeconds = AudioUtil.getMillisFast(currentAudioFile.get()) / 1000.0f;
         int secondsIn = (int) Math.ceil(totalSeconds * pauseLocation / totalAudioLength);
 
         pauseLocation = 0;
@@ -1794,7 +1771,7 @@ public class AudioPlayer {
         int currentIndex = getCurrentAudioIndex();
         int lastIndex = currentIndex == 0 ? validAudioFiles.size() - 1 : currentIndex - 1;
 
-        currentAudioFile = validAudioFiles.get(lastIndex);
+        currentAudioFile.set(validAudioFiles.get(lastIndex));
 
         revalidateFromAudioFileChange();
 
@@ -1826,7 +1803,7 @@ public class AudioPlayer {
         int currentIndex = getCurrentAudioIndex();
         int nextIndex = currentIndex == validAudioFiles.size() - 1 ? 0 : currentIndex + 1;
 
-        currentAudioFile = validAudioFiles.get(nextIndex);
+        currentAudioFile.set(validAudioFiles.get(nextIndex));
 
         revalidateFromAudioFileChange();
 
@@ -1846,7 +1823,7 @@ public class AudioPlayer {
         int currentIndex = 0;
 
         for (int i = 0 ; i < validAudioFiles.size() ; i++) {
-            if (validAudioFiles.get(i).getAbsolutePath().equals(currentAudioFile.getAbsolutePath())) {
+            if (validAudioFiles.get(i).getAbsolutePath().equals(currentAudioFile.get().getAbsolutePath())) {
                 currentIndex = i;
                 break;
             }
@@ -1925,7 +1902,7 @@ public class AudioPlayer {
      * @return the current audio file open by the AudioPlayer
      */
     public static File getCurrentAudio() {
-        return currentAudioFile;
+        return currentAudioFile.get();
     }
 
     /**
@@ -1936,7 +1913,7 @@ public class AudioPlayer {
             pauseAudio();
         }
 
-        currentAudioFile = null;
+        currentAudioFile.set(null);
         pauseLocation = 0;
         totalAudioLength = 0;
 
@@ -2020,335 +1997,6 @@ public class AudioPlayer {
         }
 
         throw new IllegalArgumentException("Could not poll raw pause location");
-    }
-
-    /*
-    Inner class thread workers
-     */
-
-    // --------------------------------------------------
-    // Audio Location Text class (inside of progress bar)
-    // --------------------------------------------------
-
-    /**
-     * The class to update the audio location label and progress bar.
-     */
-    private static class AudioLocationUpdater {
-        /**
-         * The delay between update cycles for the audio location text.
-         */
-        private static final int audioLocationTextUpdateDelay = 1000;
-
-        /**
-         * Whether this AudioLocationUpdater has been killed.
-         */
-        private boolean killed;
-
-        /**
-         * The label this AudioLocationUpdater should update.
-         */
-        private final JLabel effectLabel;
-
-        /**
-         * Constructs a new audio location label to update for the provided progress bar.
-         *
-         * @param effectLabel the label to update
-         */
-        public AudioLocationUpdater(JLabel effectLabel) {
-            checkNotNull(effectLabel);
-
-            this.effectLabel = effectLabel;
-
-            if (currentFrameView == FrameView.MINI) {
-                return;
-            }
-
-            try {
-                CyderThreadRunner.submit(() -> {
-                    // maybe there could be some placeholder text while ffprobe is getting the correct length
-                    effectLabel.setText("");
-
-                    Future<Integer> totalMillisFuture = AudioUtil.getMillis(currentAudioFile);
-
-                    File localAudioFile = currentAudioFile;
-
-                    while (!totalMillisFuture.isDone()) {
-                        Thread.onSpinWait();
-                    }
-
-                    // if not the same file as when the future began, return
-                    if (localAudioFile != currentAudioFile) {
-                        return;
-                    }
-
-                    int totalMillis = 0;
-
-                    try {
-                        totalMillis = totalMillisFuture.get();
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-
-                    if (totalMillis == 0) {
-                        return;
-                    }
-
-                    int totalSeconds = Math.round(totalMillis / 1000.0f);
-
-                    String formattedTotal = AudioUtil.formatSeconds(totalSeconds);
-
-                    while (!killed) {
-                        updateEffectLabel(totalSeconds, formattedTotal);
-
-                        try {
-                            Thread.sleep(audioLocationTextUpdateDelay);
-                        } catch (Exception ignored) {
-                        }
-                    }
-                }, FileUtil.getFilename(currentAudioFile) + " Progress Label Thread");
-            } catch (Exception e) {
-                ExceptionHandler.silentHandle(e);
-            }
-        }
-
-        /**
-         * Updates the encapsulated label with the time in to the current audio file.
-         *
-         * @param totalSeconds   the total seconds of the audio file
-         * @param formattedTotal the formatted string of the total seconds
-         */
-        private void updateEffectLabel(int totalSeconds, String formattedTotal) {
-            float percentIn = 0;
-
-            try {
-                if (fis == null) {
-                    percentIn = ((float) pauseLocation / (float) totalAudioLength);
-                } else {
-                    percentIn = ((float) (totalAudioLength - fis.available()) / (float) totalAudioLength);
-                }
-            } catch (Exception ignored) {
-            }
-
-            int secondsIn = (int) Math.ceil(percentIn * totalSeconds);
-            int secondsLeft = totalSeconds - secondsIn;
-
-            if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
-                effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
-                        + " played, " + formattedTotal + " remaining");
-            } else {
-                effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
-                        + " played, " + AudioUtil.formatSeconds(secondsLeft) + " remaining");
-            }
-        }
-
-        /**
-         * Ends the updation of the label text.
-         */
-        public void kill() {
-            killed = true;
-        }
-    }
-
-    // ---------------------------
-    // Scrolling Title Label class
-    // ---------------------------
-
-    /**
-     * Private inner class for the scrolling audio label.
-     */
-    private static class ScrollingTitleLabel {
-        /**
-         * The minimum width of the title label.
-         */
-        public static final int MIN_WIDTH = 100;
-
-        /**
-         * Whether this scrolling title label object has been killed.
-         */
-        private final AtomicBoolean killed = new AtomicBoolean();
-
-        /**
-         * The timeout to sleep for before checking for title scroll label being terminated.
-         */
-        private static final int SLEEP_WITH_CHECKS_TIMEOUT = 50;
-
-        /**
-         * The timeout between moving the label from one side to the opposite side.
-         */
-        private static final int SIDE_TO_SIDE_TIMEOUT = 5000;
-
-        /**
-         * The timeout between starting the initial timeout.
-         */
-        private static final int INITIAL_TIMEOUT = 3000;
-
-        /**
-         * The timeout between movement increments of the title label.
-         */
-        private static final int MOVEMENT_TIMEOUT = 25;
-
-        /**
-         * The label this scrolling label is controlling.
-         */
-        private final JLabel effectLabel;
-
-        /**
-         * Constructs and begins the scrolling title label animation using the
-         * provided label, its parent, and the provided text as the title.
-         *
-         * @param effectLabel the label to move in its parent container.
-         * @param localTitle  the title of the label
-         */
-        public ScrollingTitleLabel(JLabel effectLabel, String localTitle) {
-            Preconditions.checkNotNull(effectLabel);
-            Preconditions.checkNotNull(localTitle);
-
-            this.effectLabel = effectLabel;
-
-            effectLabel.setText(localTitle);
-
-            startScrolling(localTitle);
-        }
-
-        /**
-         * Starts the scrolling animation if necessary.
-         * Otherwise, the label is centered in the parent container.
-         *
-         * @param localTitle the title to display
-         */
-        private void startScrolling(String localTitle) {
-            try {
-                int parentWidth = effectLabel.getParent().getWidth();
-                int parentHeight = effectLabel.getParent().getHeight();
-
-                int textWidth = StringUtil.getMinWidth(localTitle, effectLabel.getFont());
-                int textHeight = StringUtil.getMinHeight(localTitle, effectLabel.getFont());
-
-                effectLabel.setSize(Math.max(textWidth, MIN_WIDTH), parentHeight);
-
-                if (textWidth > parentWidth) {
-                    effectLabel.setLocation(0, 0);
-
-                    CyderThreadRunner.submit(() -> {
-                        try {
-                            TimeUtil.sleepWithChecks(INITIAL_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
-
-                            while (!killed.get()) {
-                                int translatedDistance = 0;
-
-                                while (translatedDistance < textWidth - parentWidth) {
-                                    if (killed.get()) {
-                                        break;
-                                    }
-
-                                    effectLabel.setLocation(effectLabel.getX() - 1, effectLabel.getY());
-                                    Thread.sleep(MOVEMENT_TIMEOUT);
-                                    translatedDistance++;
-                                }
-
-                                TimeUtil.sleepWithChecks(SIDE_TO_SIDE_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
-
-                                while (translatedDistance > 0) {
-                                    if (killed.get()) {
-                                        break;
-                                    }
-
-                                    effectLabel.setLocation(effectLabel.getX() + 1, effectLabel.getY());
-                                    Thread.sleep(MOVEMENT_TIMEOUT);
-                                    translatedDistance--;
-                                }
-
-                                TimeUtil.sleepWithChecks(SIDE_TO_SIDE_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
-                            }
-                        } catch (Exception e) {
-                            ExceptionHandler.handle(e);
-                        }
-                    }, "Scrolling title label animator [" + audioTitleLabel.getText() + "]");
-                } else {
-                    effectLabel.setLocation(
-                            parentWidth / 2 - Math.max(textWidth, MIN_WIDTH) / 2,
-                            parentHeight / 2 - textHeight / 2);
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }
-
-        /**
-         * Returns the text the label being controlled contains.
-         *
-         * @return the text the label being controlled contains
-         */
-        public String localTitle() {
-            return effectLabel.getText();
-        }
-
-        /**
-         * Kills the current scrolling title label.
-         */
-        public void kill() {
-            killed.set(true);
-        }
-    }
-
-    /**
-     * A class to control the visibility of the audio volume level label.
-     */
-    private static class AudioVolumeLabelAnimator {
-        /**
-         * Whether this object has been killed.
-         */
-        private boolean killed;
-
-        /**
-         * The time remaining before setting the visibility of the audio volume label to false.
-         */
-        public static final AtomicInteger audioVolumeLabelTimeout = new AtomicInteger();
-
-        /**
-         * The time in between checks when sleeping before the audio volume label is set to invisible.
-         */
-        public static final int AUDIO_VOLUME_LABEL_SLEEP_TIME = 50;
-
-        /**
-         * The total sleep time before setting the audio volume label to invisible.
-         */
-        public static final int MAX_AUDIO_VOLUME_LABEL_VISIBLE = 3000;
-
-        /**
-         * Constructs a new AudioVolumeLabelAnimator.
-         */
-        AudioVolumeLabelAnimator() {
-            CyderThreadRunner.submit(() -> {
-                try {
-                    while (!killed) {
-                        while (audioVolumeLabelTimeout.get() > 0) {
-                            audioVolumePercentLabel.setVisible(true);
-                            Thread.sleep(AUDIO_VOLUME_LABEL_SLEEP_TIME);
-                            audioVolumeLabelTimeout.getAndAdd(-AUDIO_VOLUME_LABEL_SLEEP_TIME);
-                        }
-
-                        audioVolumePercentLabel.setVisible(false);
-                    }
-                } catch (Exception ex) {
-                    ExceptionHandler.handle(ex);
-                }
-            }, "Audio Progress Label Animator");
-        }
-
-        /**
-         * Resets the timeout before the label is set to be invisible.
-         */
-        public void resetTimeout() {
-            audioVolumeLabelTimeout.set(MAX_AUDIO_VOLUME_LABEL_VISIBLE + AUDIO_VOLUME_LABEL_SLEEP_TIME);
-        }
-
-        /**
-         * Kills this object.
-         */
-        public void kill() {
-            killed = true;
-        }
     }
 
     // --------------------
