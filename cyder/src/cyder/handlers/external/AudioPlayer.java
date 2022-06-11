@@ -1,5 +1,6 @@
 package cyder.handlers.external;
 
+import com.google.common.base.Preconditions;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
@@ -1641,12 +1642,13 @@ public class AudioPlayer {
                     return;
                 }
 
-                // invokes an audio file refresh and returns the possible new current index
-                int currentAudioIndex = getCurrentAudioIndex();
-                currentAudioFile = validAudioFiles.get(currentAudioIndex);
 
                 // no user interaction so proceed naturally
                 if (lastAction == LastAction.Play) {
+                    // in case audio files were added need to get index again
+                    int currentAudioIndex = getCurrentAudioIndex();
+                    currentAudioFile = validAudioFiles.get(currentAudioIndex);
+
                     pauseLocation = 0;
                     totalAudioLength = 0;
 
@@ -2000,7 +2002,7 @@ public class AudioPlayer {
      * Returns the raw pause location of the exact number of bytes played by fis.
      *
      * @return the raw pause location of the exact number of bytes played by fis
-     * @throws IllegalArgumentException if the raw pause location cannot be calculated
+     * @throws IllegalArgumentException if the raw pause location could not be polled
      */
     private static long getRawPauseLocation() {
         try {
@@ -2011,16 +2013,16 @@ public class AudioPlayer {
             ExceptionHandler.handle(e);
         }
 
-        throw new IllegalArgumentException("Could not get raw pause location");
+        throw new IllegalArgumentException("Could not poll raw pause location");
     }
 
     /*
     Inner class thread workers
      */
 
-    // -----------------------------------------------------
-    // Audio Location Text class (layered over progress bar)
-    // -----------------------------------------------------
+    // --------------------------------------------------
+    // Audio Location Text class (inside of progress bar)
+    // --------------------------------------------------
 
     /**
      * The class to update the audio location label and progress bar.
@@ -2037,6 +2039,11 @@ public class AudioPlayer {
         private boolean killed;
 
         /**
+         * The label this AudioLocationUpdater should update.
+         */
+        private final JLabel effectLabel;
+
+        /**
          * Constructs a new audio location label to update for the provided progress bar.
          *
          * @param effectLabel the label to update
@@ -2044,18 +2051,28 @@ public class AudioPlayer {
         public AudioLocationUpdater(JLabel effectLabel) {
             checkNotNull(effectLabel);
 
+            this.effectLabel = effectLabel;
+
             if (currentFrameView == FrameView.MINI) {
                 return;
             }
 
             try {
                 CyderThreadRunner.submit(() -> {
+                    // maybe there could be some placeholder text while ffprobe is getting the correct length
                     effectLabel.setText("");
 
                     Future<Integer> totalMillisFuture = AudioUtil.getMillis(currentAudioFile);
 
+                    File localAudioFile = currentAudioFile;
+
                     while (!totalMillisFuture.isDone()) {
                         Thread.onSpinWait();
+                    }
+
+                    // if not the same file as when the future began, return
+                    if (localAudioFile != currentAudioFile) {
+                        return;
                     }
 
                     int totalMillis = 0;
@@ -2075,27 +2092,7 @@ public class AudioPlayer {
                     String formattedTotal = AudioUtil.formatSeconds(totalSeconds);
 
                     while (!killed) {
-                        float percentIn = 0;
-
-                        try {
-                            if (fis == null) {
-                                percentIn = ((float) pauseLocation / (float) totalAudioLength);
-                            } else {
-                                percentIn = ((float) (totalAudioLength - fis.available()) / (float) totalAudioLength);
-                            }
-                        } catch (Exception ignored) {
-                        }
-
-                        int secondsIn = (int) Math.ceil(percentIn * totalSeconds);
-                        int secondsLeft = totalSeconds - secondsIn;
-
-                        if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
-                            effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
-                                    + " played, " + formattedTotal + " remaining");
-                        } else {
-                            effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
-                                    + " played, " + AudioUtil.formatSeconds(secondsLeft) + " remaining");
-                        }
+                        updateEffectLabel(totalSeconds, formattedTotal);
 
                         try {
                             Thread.sleep(audioLocationTextUpdateDelay);
@@ -2105,6 +2102,36 @@ public class AudioPlayer {
                 }, FileUtil.getFilename(currentAudioFile) + " Progress Label Thread");
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
+            }
+        }
+
+        /**
+         * Updates the encapsulated label with the time in to the current audio file.
+         *
+         * @param totalSeconds   the total seconds of the audio file
+         * @param formattedTotal the formatted string of the total seconds
+         */
+        private void updateEffectLabel(int totalSeconds, String formattedTotal) {
+            float percentIn = 0;
+
+            try {
+                if (fis == null) {
+                    percentIn = ((float) pauseLocation / (float) totalAudioLength);
+                } else {
+                    percentIn = ((float) (totalAudioLength - fis.available()) / (float) totalAudioLength);
+                }
+            } catch (Exception ignored) {
+            }
+
+            int secondsIn = (int) Math.ceil(percentIn * totalSeconds);
+            int secondsLeft = totalSeconds - secondsIn;
+
+            if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
+                effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
+                        + " played, " + formattedTotal + " remaining");
+            } else {
+                effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
+                        + " played, " + AudioUtil.formatSeconds(secondsLeft) + " remaining");
             }
         }
 
@@ -2167,11 +2194,14 @@ public class AudioPlayer {
          * @param localTitle  the title of the label
          */
         public ScrollingTitleLabel(JLabel effectLabel, String localTitle) {
+            Preconditions.checkNotNull(effectLabel);
+            Preconditions.checkNotNull(localTitle);
+
             this.effectLabel = effectLabel;
 
             effectLabel.setText(localTitle);
 
-            start(localTitle);
+            startScrolling(localTitle);
         }
 
         /**
@@ -2180,9 +2210,8 @@ public class AudioPlayer {
          *
          * @param localTitle the title to display
          */
-        private void start(String localTitle) {
+        private void startScrolling(String localTitle) {
             try {
-
                 int parentWidth = effectLabel.getParent().getWidth();
                 int parentHeight = effectLabel.getParent().getHeight();
 
@@ -2199,28 +2228,28 @@ public class AudioPlayer {
                             TimeUtil.sleepWithChecks(INITIAL_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
 
                             while (!killed.get()) {
-                                int goBack = 0;
+                                int translatedDistance = 0;
 
-                                while (goBack < textWidth - parentWidth) {
+                                while (translatedDistance < textWidth - parentWidth) {
                                     if (killed.get()) {
                                         break;
                                     }
 
                                     effectLabel.setLocation(effectLabel.getX() - 1, effectLabel.getY());
                                     Thread.sleep(MOVEMENT_TIMEOUT);
-                                    goBack++;
+                                    translatedDistance++;
                                 }
 
                                 TimeUtil.sleepWithChecks(SIDE_TO_SIDE_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
 
-                                while (goBack > 0) {
+                                while (translatedDistance > 0) {
                                     if (killed.get()) {
                                         break;
                                     }
 
                                     effectLabel.setLocation(effectLabel.getX() + 1, effectLabel.getY());
                                     Thread.sleep(MOVEMENT_TIMEOUT);
-                                    goBack--;
+                                    translatedDistance--;
                                 }
 
                                 TimeUtil.sleepWithChecks(SIDE_TO_SIDE_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
