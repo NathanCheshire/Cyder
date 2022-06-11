@@ -4,7 +4,6 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.builders.GetterBuilder;
 import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -1026,12 +1025,10 @@ public class AudioPlayer {
             }
 
             CyderThreadRunner.submit(() -> {
-                GetterBuilder builder = new GetterBuilder("Export waveform");
-                builder.setRelativeTo(audioPlayerFrame);
-                builder.setLabelText("Enter a name to export the waveform as");
-                builder.setSubmitButtonText("Save to files");
-
-                String saveName = GetterUtil.getInstance().getString(builder);
+                String saveName = GetterUtil.getInstance().getString(new GetterUtil.Builder("Export Waveform")
+                        .setRelativeTo(audioPlayerFrame)
+                        .setLabelText("Enter a name to export the waveform as")
+                        .setSubmitButtonText("Save to files"));
 
                 if (!StringUtil.isNull(saveName)) {
                     if (OSUtil.isValidFilename(saveName)) {
@@ -1077,11 +1074,10 @@ public class AudioPlayer {
             }
 
             CyderThreadRunner.submit(() -> {
-                GetterBuilder builder = new GetterBuilder("Choose an mp3 or wav file");
-                builder.setRelativeTo(audioPlayerFrame);
-
                 chooseFileLocked.set(true);
-                File chosenFile = GetterUtil.getInstance().getFile(builder);
+                File chosenFile =
+                        GetterUtil.getInstance().getFile(new GetterUtil.Builder("Choose an mp3 or wav file")
+                                .setRelativeTo(audioPlayerFrame));
 
                 chooseFileLocked.set(false);
 

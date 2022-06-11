@@ -1,7 +1,6 @@
 package cyder.ui;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.builders.GetterBuilder;
 import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -1416,11 +1415,12 @@ public class CyderFrame extends JFrame {
                 }
 
                 if (closingConfirmationMessage != null) {
-                    GetterBuilder builder = new GetterBuilder("Confirmation");
-                    builder.setInitialString(closingConfirmationMessage);
-                    builder.setRelativeTo(this);
-                    builder.setDisableRelativeTo(true);
-                    boolean exit = GetterUtil.getInstance().getConfirmation(builder);
+                    boolean exit = GetterUtil.getInstance().getConfirmation(
+                            new GetterUtil.Builder("Confirmation")
+                                    .setInitialString(closingConfirmationMessage)
+                                    .setRelativeTo(this)
+                                    .setDisableRelativeTo(true)
+                    );
 
                     if (!exit) {
                         return;

@@ -4,7 +4,6 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.builders.GetterBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -294,9 +293,8 @@ public class UserCreator {
     private static void chooseBackground(CyderButton referenceButton) {
         CyderThreadRunner.submit(() -> {
             try {
-                GetterBuilder builder = new GetterBuilder("Choose new user's background file");
-                builder.setRelativeTo(CyderFrame.getDominantFrame());
-                File temp = GetterUtil.getInstance().getFile(builder);
+                File temp = GetterUtil.getInstance().getFile(new GetterUtil.Builder(
+                        "Choose new user's background file").setRelativeTo(CyderFrame.getDominantFrame()));
                 if (temp != null) {
                     createUserBackground = temp;
                     referenceButton.setText(createUserBackground.getName());

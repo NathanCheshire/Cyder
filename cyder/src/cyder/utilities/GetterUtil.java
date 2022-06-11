@@ -1,6 +1,5 @@
 package cyder.utilities;
 
-import cyder.builders.GetterBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -19,6 +18,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A getter utility for getting strings, confirmations, files, etc. from the user.
@@ -78,12 +80,12 @@ public class GetterUtil {
      *  }
      *  </pre>
      *
-     * @param builder the builder pattern to use
+     * @param builder the builder to use
      * @return the user entered input string. NOTE: if any improper
      * input is attempted to be returned, this function returns
      * the string literal of "NULL" instead of {@code null}
      */
-    public String getString(GetterBuilder builder) {
+    public String getString(Builder builder) {
         AtomicReference<String> returnString = new AtomicReference<>();
 
         CyderThreadRunner.submit(() -> {
@@ -270,7 +272,7 @@ public class GetterUtil {
      * @param builder the builder to use for the required params
      * @return the user-chosen file
      */
-    public File getFile(GetterBuilder builder) {
+    public File getFile(Builder builder) {
         boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
 
         CyderFrame referenceInitFrame = new CyderFrame(630, 510, darkMode
@@ -562,10 +564,10 @@ public class GetterUtil {
      *  }
      *  </pre>
      *
-     * @param builder the builder pattern to use
+     * @param builder the builder to use
      * @return whether the user confirmed the operation
      */
-    public boolean getConfirmation(GetterBuilder builder) {
+    public boolean getConfirmation(Builder builder) {
         AtomicReference<Boolean> ret = new AtomicReference<>();
         ret.set(null);
         AtomicReference<CyderFrame> frameReference = new AtomicReference<>();
@@ -640,5 +642,296 @@ public class GetterUtil {
         }
 
         return ret.get();
+    }
+
+    /**
+     * A builder for a getter frame.
+     */
+    public static class Builder {
+        /**
+         * The title of the frame.
+         */
+        private final String title;
+
+        /**
+         * The button text for the submit button for some getter frames.
+         */
+        private String submitButtonText = "Submit";
+
+        /**
+         * The field tooltip to display for getter frames which contain a text field.
+         */
+        private String fieldTooltip = "Input";
+
+        /**
+         * The text field regex to use for getter frames which contain a text field.
+         */
+        private String fieldRegex;
+
+        /**
+         * Te component to set the getter frame relative to.
+         */
+        private Component relativeTo;
+
+        /**
+         * The color of the submit button for most getter frames.
+         */
+        private Color submitButtonColor = CyderColors.regularRed;
+
+        /**
+         * The initial text of the field for getter frames which have a text field.
+         */
+        private String initialString = "";
+
+        /**
+         * The label text for getter frames which use a label.
+         */
+        private String labelText = "";
+
+        /**
+         * The text for confirming an operation.
+         */
+        private String yesButtonText = "Yes";
+
+        /**
+         * the text for denying an operation.
+         */
+        private String noButtonText = "No";
+
+        /**
+         * Whether to disable the component the getter frame was
+         * set relative to while the relative frame is open.
+         */
+        private boolean disableRelativeTo;
+
+        /**
+         * The minimum text length of a getter frame title.
+         */
+        public static final int MINIMUM_TITLE_LENGTH = 3;
+
+        /**
+         * Constructs a new GetterBuilder.
+         *
+         * @param title the frame title/the text for confirmations.
+         */
+        public Builder(String title) {
+            checkNotNull(title, "title is null");
+            checkArgument(title.length() >= MINIMUM_TITLE_LENGTH,
+                    "Title length is less than " + MINIMUM_TITLE_LENGTH);
+
+            this.title = title;
+
+            Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        }
+
+        /**
+         * Returns the title of the getter frame.
+         *
+         * @return the title of the getter frame
+         */
+        public String getTitle() {
+            return title;
+        }
+
+        /**
+         * Returns the submit button text for getter frames which get field input from the user.
+         *
+         * @return the submit button text for getter frames which get field input from the user
+         */
+        public String getSubmitButtonText() {
+            return submitButtonText;
+        }
+
+        /**
+         * Sets the submit button text for getter frames which get field input from the user.
+         *
+         * @param submitButtonText the submit button text for getter frames which get field input from the user
+         * @return this builder
+         */
+        public Builder setSubmitButtonText(String submitButtonText) {
+            this.submitButtonText = submitButtonText;
+            return this;
+        }
+
+        /**
+         * Returns the field tooltip text for getter frames which get field input from the user.
+         *
+         * @return the field tooltip text for getter frames which get field input from the user
+         */
+        public String getFieldTooltip() {
+            return fieldTooltip;
+        }
+
+        /**
+         * Sets the field tooltip text for getter frames which get field input from the user.
+         *
+         * @param fieldTooltip the field tooltip text for getter frames which get field input from the user
+         * @return this builder
+         */
+        public Builder setFieldTooltip(String fieldTooltip) {
+            this.fieldTooltip = fieldTooltip;
+            return this;
+        }
+
+        /**
+         * returns the field regex for getter frames which get field input from the user.
+         *
+         * @return the field regex for getter frames which get field input from the user
+         */
+        public String getFieldRegex() {
+            return fieldRegex;
+        }
+
+        /**
+         * Sets the field regex for getter frames which get field input from the user.
+         *
+         * @param fieldRegex the field regex for getter frames which get field input from the user
+         * @return this builder
+         */
+        public Builder setFieldRegex(String fieldRegex) {
+            this.fieldRegex = fieldRegex;
+            return this;
+        }
+
+        /**
+         * Returns the relative to component to set the getter frame relative to.
+         *
+         * @return the relative to component to set the getter frame relative to
+         */
+        public Component getRelativeTo() {
+            return relativeTo;
+        }
+
+        /**
+         * Sets the relative to component to set the getter frame relative to.
+         *
+         * @param relativeTo the relative to component to set the getter frame relative to
+         * @return this builder
+         */
+        public Builder setRelativeTo(Component relativeTo) {
+            this.relativeTo = relativeTo;
+            return this;
+        }
+
+        /**
+         * Returns the button background color for the submit button for getter frames which get input from a user.
+         *
+         * @return the button background color for the submit button for getter frames which get input from a user
+         */
+        public Color getSubmitButtonColor() {
+            return submitButtonColor;
+        }
+
+        /**
+         * Sets the button background color for the submit button for getter frames which get input from a user.
+         *
+         * @param submitButtonColor the button background color for the
+         *                          submit button for getter frames which get input from a user
+         * @return this builder
+         */
+        public Builder setSubmitButtonColor(Color submitButtonColor) {
+            this.submitButtonColor = submitButtonColor;
+            return this;
+        }
+
+        /**
+         * Returns the initial field text for getter frames which have an input field.
+         *
+         * @return the initial field text for getter frames which have an input field
+         */
+        public String getInitialString() {
+            return initialString;
+        }
+
+        /**
+         * Sets the initial field text for getter frames which have an input field.
+         *
+         * @param initialString the initial field text for getter frames which have an input field
+         * @return this builder
+         */
+        public Builder setInitialString(String initialString) {
+            this.initialString = initialString;
+            return this;
+        }
+
+        /**
+         * Returns the text to display on the button for approving a requested operation.
+         *
+         * @return the text to display on the button for approving a requested operation
+         */
+        public String getYesButtonText() {
+            return yesButtonText;
+        }
+
+        /**
+         * Sets the text to display on the button for approving a requested operation.
+         *
+         * @param yesButtonText the text to display on the button for approving a requested operation
+         * @return this builder
+         */
+        public Builder setYesButtonText(String yesButtonText) {
+            this.yesButtonText = yesButtonText;
+            return this;
+        }
+
+        /**
+         * Returns the text to display on the button for denying a requested operation.
+         *
+         * @return the text to display on the button for denying a requested operation
+         */
+        public String getNoButtonText() {
+            return noButtonText;
+        }
+
+        /**
+         * Sets the text to display on the button for denying a requested operation.
+         *
+         * @param noButtonText the text to display on the button for denying a requested operation
+         * @return this builder
+         */
+        public Builder setNoButtonText(String noButtonText) {
+            this.noButtonText = noButtonText;
+            return this;
+        }
+
+        /**
+         * Returns the label text for getter frames which have a primary information label.
+         *
+         * @return the label text for getter frames which have a primary information label
+         */
+        public String getLabelText() {
+            return labelText;
+        }
+
+        /**
+         * Sets the label text for getter frames which have a primary information label.
+         *
+         * @param labelText the label text for getter frames which have a primary information label
+         * @return this builder
+         */
+        public Builder setLabelText(String labelText) {
+            this.labelText = labelText;
+            return this;
+        }
+
+        /**
+         * Returns whether to disable the relativeTo component while the getter frame is active.
+         *
+         * @return whether to disable the relativeTo component while the getter frame is active
+         */
+        public boolean isDisableRelativeTo() {
+            return disableRelativeTo;
+        }
+
+        /**
+         * Sets whether to disable the relativeTo component while the getter frame is active.
+         *
+         * @param disableRelativeTo whether to disable the relativeTo component while the getter frame is active
+         * @return this builder
+         */
+        public Builder setDisableRelativeTo(boolean disableRelativeTo) {
+            this.disableRelativeTo = disableRelativeTo;
+            return this;
+        }
     }
 }

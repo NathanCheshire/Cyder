@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.builders.GetterBuilder;
 import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -369,46 +368,44 @@ public class WeatherWidget {
         sunsetLabelIcon.add(sunsetLabel);
 
         weatherFrame.setMenuEnabled(true);
-        weatherFrame.addMenuItem("Location", () -> {
-            GetterBuilder builder = new GetterBuilder("Change Location");
-            builder.setRelativeTo(weatherFrame);
-            builder.setSubmitButtonText("Change Location");
-            builder.setInitialString(currentLocationString);
-            builder.setSubmitButtonColor(CyderColors.notificationForegroundColor);
-            builder.setLabelText("<html>Enter your city, state, and country code separated by a comma. "
-                    + "Example:<p style=\"color:rgb(45, 100, 220)\">New Orleans, LA, US</p></html>");
+        weatherFrame.addMenuItem("Location", () -> CyderThreadRunner.submit(() -> {
+            String newLocation = GetterUtil.getInstance().getString(
+                    new GetterUtil.Builder("Change Location")
+                            .setRelativeTo(weatherFrame)
+                            .setSubmitButtonText("Change Location")
+                            .setInitialString(currentLocationString)
+                            .setSubmitButtonColor(CyderColors.notificationForegroundColor)
+                            .setLabelText("<html>Enter your city, state, and country code separated by a comma. "
+                                    + "Example:<p style=\"color:rgb(45, 100, 220)\""
+                                    + ">New Orleans, LA, US</p></html>"));
 
-            CyderThreadRunner.submit(() -> {
-                String newLocation = GetterUtil.getInstance().getString(builder);
+            try {
+                if (StringUtil.isNull(newLocation))
+                    return;
 
-                try {
-                    if (StringUtil.isNull(newLocation))
-                        return;
+                previousLocationString = currentLocationString;
+                String[] parts = newLocation.split(",");
 
-                    previousLocationString = currentLocationString;
-                    String[] parts = newLocation.split(",");
+                StringBuilder sb = new StringBuilder();
 
-                    StringBuilder sb = new StringBuilder();
+                for (int i = 0 ; i < parts.length ; i++) {
+                    sb.append(StringUtil.capsFirstWords(parts[i].trim()).trim());
 
-                    for (int i = 0 ; i < parts.length ; i++) {
-                        sb.append(StringUtil.capsFirstWords(parts[i].trim()).trim());
-
-                        if (i != parts.length - 1)
-                            sb.append(",");
-                    }
-
-                    currentLocationString = sb.toString();
-                    useCustomLoc = true;
-
-                    weatherFrame.notify("Attempting to refresh weather stats for location \""
-                            + currentLocationString + "\"");
-
-                    repullWeatherStats();
-                } catch (Exception ex) {
-                    ExceptionHandler.handle(ex);
+                    if (i != parts.length - 1)
+                        sb.append(",");
                 }
-            }, "Weather Location Changer");
-        });
+
+                currentLocationString = sb.toString();
+                useCustomLoc = true;
+
+                weatherFrame.notify("Attempting to refresh weather stats for location \""
+                        + currentLocationString + "\"");
+
+                repullWeatherStats();
+            } catch (Exception ex) {
+                ExceptionHandler.handle(ex);
+            }
+        }, "Weather Location Changer"));
 
         minTempLabel = new JLabel();
         minTempLabel.setForeground(CyderColors.vanilla);

@@ -3,7 +3,6 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.builders.GetterBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -71,9 +70,9 @@ public class ImagePixelatorWidget {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
-                        GetterBuilder builder = new GetterBuilder("Choose file to resize");
-                        builder.setRelativeTo(pixelFrame);
-                        File temp = GetterUtil.getInstance().getFile(builder);
+                        File temp = GetterUtil.getInstance().getFile(
+                                new GetterUtil.Builder("Choose file to resize")
+                                        .setRelativeTo(pixelFrame));
 
                         if (temp != null && FileUtil.isSupportedImageExtension(temp)) {
                             currentFile = temp;
@@ -108,7 +107,7 @@ public class ImagePixelatorWidget {
             @Override
             public void keyReleased(KeyEvent e) {
                 try {
-                    int pixelSize = 1;
+                    int pixelSize = -1;
 
                     if (integerField.getText() != null && !integerField.getText().isEmpty()) {
                         if (Integer.parseInt(integerField.getText()) == 0) {

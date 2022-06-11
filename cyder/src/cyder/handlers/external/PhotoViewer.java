@@ -1,7 +1,6 @@
 package cyder.handlers.external;
 
 import com.google.common.base.Preconditions;
-import cyder.builders.GetterBuilder;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -245,11 +244,10 @@ public class PhotoViewer {
 
         CyderThreadRunner.submit(() -> {
             try {
-                GetterBuilder builder = new GetterBuilder("Rename");
-                builder.setRelativeTo(pictureFrame);
-                builder.setFieldTooltip("Valid filename");
-                builder.setSubmitButtonText("Rename");
-                String name = GetterUtil.getInstance().getString(builder);
+                String name = GetterUtil.getInstance().getString(new GetterUtil.Builder("Rename")
+                        .setRelativeTo(pictureFrame)
+                        .setFieldTooltip("Valid filename")
+                        .setSubmitButtonText("Rename"));
 
                 if (!StringUtil.isNull(name)) {
                     File oldName = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());

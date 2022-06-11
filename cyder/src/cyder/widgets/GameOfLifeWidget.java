@@ -7,7 +7,6 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.builders.GetterBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
@@ -284,9 +283,8 @@ public class GameOfLifeWidget {
                 conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
         conwayFrame.getContentPane().add(loadButton);
         loadButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
-            GetterBuilder builder = new GetterBuilder("Load state");
-            builder.setRelativeTo(conwayFrame);
-            File loadFile = GetterUtil.getInstance().getFile(builder);
+            File loadFile = GetterUtil.getInstance().getFile(new GetterUtil.Builder("Load state")
+                    .setRelativeTo(conwayFrame));
 
             if (loadFile != null && loadFile.exists()
                     && FileUtil.validateExtension(loadFile, ".json")) {
@@ -539,11 +537,10 @@ public class GameOfLifeWidget {
                 return;
             }
 
-            GetterBuilder builder = new GetterBuilder("Save name");
-            builder.setRelativeTo(conwayFrame);
-            builder.setFieldTooltip("A valid filename");
-            builder.setSubmitButtonText("Save Conway State");
-            String saveName = GetterUtil.getInstance().getString(builder);
+            String saveName = GetterUtil.getInstance().getString(new GetterUtil.Builder("Save name")
+                    .setRelativeTo(conwayFrame)
+                    .setFieldTooltip("A valid filename")
+                    .setSubmitButtonText("Save Conway State"));
 
             if (StringUtil.isNull(saveName))
                 return;

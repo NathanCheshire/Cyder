@@ -1,7 +1,6 @@
 package cyder.user;
 
 import cyder.annotations.Widget;
-import cyder.builders.GetterBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -232,9 +231,8 @@ public class UserEditor {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
-                        GetterBuilder builder = new GetterBuilder("Add File");
-                        builder.setRelativeTo(editUserFrame);
-                        File fileToAdd = GetterUtil.getInstance().getFile(builder);
+                        File fileToAdd = GetterUtil.getInstance().getFile(new GetterUtil.Builder("Add File")
+                                .setRelativeTo(editUserFrame));
 
                         if (StringUtil.isNull(fileToAdd.getName())) {
                             return;
@@ -328,12 +326,11 @@ public class UserEditor {
                         String oldName = FileUtil.getFilename(selectedFile);
                         String extension = FileUtil.getExtension(selectedFile);
 
-                        GetterBuilder builder = new GetterBuilder("Rename");
-                        builder.setFieldTooltip("Enter any valid file name");
-                        builder.setRelativeTo(editUserFrame);
-                        builder.setSubmitButtonText("Submit");
-                        builder.setInitialString(oldName);
-                        String newName = GetterUtil.getInstance().getString(builder);
+                        String newName = GetterUtil.getInstance().getString(new GetterUtil.Builder("Rename")
+                                .setFieldTooltip("Enter a valid file name")
+                                .setRelativeTo(editUserFrame)
+                                .setSubmitButtonText("Submit")
+                                .setInitialString(oldName));
 
                         if (oldName.equals(newName) || StringUtil.isNull(newName)) {
                             return;
@@ -1309,6 +1306,10 @@ public class UserEditor {
         return false;
     }
 
+    private static final String confirmationString = "Final warning: you are about to"
+            + " delete your Cyder account. All files, pictures, downloaded music, notes," +
+            " etc. will be deleted. Are you ABSOLUTELY sure you wish to continue?";
+
     private static void deleteUser(CyderPasswordField deletePasswordField) {
         String hashed = SecurityUtil.toHexString(SecurityUtil.getSHA256(deletePasswordField.getPassword()));
 
@@ -1318,11 +1319,9 @@ public class UserEditor {
             deletePasswordField.setText("");
         } else {
             CyderThreadRunner.submit(() -> {
-                GetterBuilder builder = new GetterBuilder("Final warning: you are about to"
-                        + " delete your Cyder account. All files, pictures, downloaded music, notes," +
-                        " etc. will be deleted. Are you ABSOLUTELY sure you wish to continue?");
-                builder.setRelativeTo(editUserFrame);
-                boolean delete = GetterUtil.getInstance().getConfirmation(builder);
+                boolean delete = GetterUtil.getInstance().getConfirmation(
+                        new GetterUtil.Builder(confirmationString)
+                                .setRelativeTo(editUserFrame));
 
                 if (delete) {
                     ConsoleFrame.INSTANCE.closeConsoleFrame(false, true);

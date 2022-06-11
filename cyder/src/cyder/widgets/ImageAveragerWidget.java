@@ -3,7 +3,6 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.builders.GetterBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -35,6 +34,7 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 /**
  * A widget to average images together.
  */
+@SuppressWarnings("unused")
 @Vanilla
 @CyderAuthor
 public class ImageAveragerWidget {
@@ -106,9 +106,8 @@ public class ImageAveragerWidget {
         averagerFrame.getContentPane().add(addButton);
         addButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
-                GetterBuilder builder = new GetterBuilder("select any image file");
-                builder.setRelativeTo(averagerFrame);
-                File input = GetterUtil.getInstance().getFile(builder);
+                File input = GetterUtil.getInstance().getFile(
+                        new GetterUtil.Builder("Select any image file").setRelativeTo(averagerFrame));
 
                 if (FileUtil.isSupportedImageExtension(input)) {
                     files.add(input);

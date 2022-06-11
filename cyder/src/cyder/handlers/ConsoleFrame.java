@@ -3,7 +3,6 @@ package cyder.handlers;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import cyder.builders.GetterBuilder;
 import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -865,11 +864,10 @@ public enum ConsoleFrame {
                 CyderButton suggestionButton = new CyderButton("    Make a Suggestion   ");
                 suggestionButton.setColors(CyderColors.regularPink);
                 suggestionButton.addActionListener(ex -> CyderThreadRunner.submit(() -> {
-                    GetterBuilder builder = new GetterBuilder("Suggestion");
-                    builder.setRelativeTo(consoleCyderFrame);
-                    builder.setFieldTooltip("Suggestion");
-                    builder.setSubmitButtonColor(CyderColors.regularPink);
-                    String suggestion = GetterUtil.getInstance().getString(builder);
+                    String suggestion = GetterUtil.getInstance().getString(new GetterUtil.Builder("Suggestion")
+                            .setRelativeTo(consoleCyderFrame)
+                            .setFieldTooltip("Suggestion")
+                            .setSubmitButtonColor(CyderColors.regularPink));
 
                     if (!StringUtil.isNull(suggestion)) {
                         Logger.log(Logger.Tag.SUGGESTION, suggestion.trim());

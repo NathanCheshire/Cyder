@@ -3,7 +3,6 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.builders.GetterBuilder;
 import cyder.builders.NotificationBuilder;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
@@ -130,14 +129,12 @@ public class PaintWidget {
                 defaultFilename = base + increment + ".png";
             }
 
-            GetterBuilder builder = new GetterBuilder("Filename");
-            builder.setRelativeTo(paintFrame);
-            builder.setInitialString(defaultFilename);
-            builder.setSubmitButtonColor(CyderColors.regularPink);
-            builder.setSubmitButtonText("Save Image");
-            builder.setFieldTooltip("The filename to save the image");
-
-            String filename = GetterUtil.getInstance().getString(builder);
+            String filename = GetterUtil.getInstance().getString(new GetterUtil.Builder("Filename")
+                    .setRelativeTo(paintFrame)
+                    .setInitialString(defaultFilename)
+                    .setSubmitButtonColor(CyderColors.regularPink)
+                    .setSubmitButtonText("Save Image")
+                    .setFieldTooltip("The filename to save the image as"));
 
             if (!filename.endsWith(".png")) {
                 filename += ".png";
@@ -173,10 +170,9 @@ public class PaintWidget {
         }, "Paint Grid Exporter"));
         paintFrame.addMenuItem("Layer Image", () -> CyderThreadRunner.submit(() -> {
             try {
-                GetterBuilder builder = new GetterBuilder("Layer Image");
-                builder.setRelativeTo(paintFrame);
-                builder.setFieldTooltip("Choose a png or jpg");
-                File chosenImage = GetterUtil.getInstance().getFile(builder);
+                File chosenImage = GetterUtil.getInstance().getFile(new GetterUtil.Builder("Layer Image")
+                        .setRelativeTo(paintFrame)
+                        .setFieldTooltip("Choose a png or jpg"));
 
                 if (FileUtil.validateExtension(chosenImage, FileUtil.SUPPORTED_IMAGE_EXTENSIONS)) {
                     // todo implement after figuring out solution to large grids
@@ -194,12 +190,11 @@ public class PaintWidget {
         }, "Paint Grid Image Layerer"));
         paintFrame.addMenuItem("Pixelate", () -> CyderThreadRunner.submit(() -> {
             try {
-                GetterBuilder builder = new GetterBuilder("Enter pixel size");
-                builder.setFieldTooltip("Pixel size");
-                builder.setRelativeTo(paintFrame);
-                builder.setSubmitButtonText("Pixelate Grid");
-                builder.setInitialString(String.valueOf(1));
-                String pixelSizeString = GetterUtil.getInstance().getString(builder);
+                String pixelSizeString = GetterUtil.getInstance().getString(new GetterUtil.Builder("Enter Pixel Size")
+                        .setFieldTooltip("Pixel size")
+                        .setRelativeTo(paintFrame)
+                        .setSubmitButtonText("Pixelate Grid")
+                        .setInitialString(String.valueOf(1)));
 
                 int pixelSize = Integer.parseInt(pixelSizeString);
 
@@ -250,12 +245,11 @@ public class PaintWidget {
         }, "Paint Grid Pixelator"));
         paintFrame.addMenuItem("Scale", () -> CyderThreadRunner.submit(() -> {
             try {
-                GetterBuilder builder = new GetterBuilder("Enter length");
-                builder.setFieldTooltip("Grid length");
-                builder.setRelativeTo(paintFrame);
-                builder.setSubmitButtonText("Scale grid");
-                builder.setInitialString(String.valueOf(cyderGrid.getNodeDimensionLength()));
-                String dimension = GetterUtil.getInstance().getString(builder);
+                String dimension = GetterUtil.getInstance().getString(new GetterUtil.Builder("Enter length")
+                        .setFieldTooltip("Grid Length")
+                        .setRelativeTo(paintFrame)
+                        .setSubmitButtonText("Scale grid")
+                        .setInitialString(String.valueOf(cyderGrid.getNodeDimensionLength())));
 
                 int dimensionInt = Integer.parseInt(dimension);
 

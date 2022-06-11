@@ -3,7 +3,6 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.builders.GetterBuilder;
 import cyder.constants.*;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -94,9 +93,8 @@ public class FileSignatureWidget {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
-                        GetterBuilder builder = new GetterBuilder("Choose file to validate");
-                        builder.setRelativeTo(signatureFrame);
-                        File temp = GetterUtil.getInstance().getFile(builder);
+                        File temp = GetterUtil.getInstance().getFile(new GetterUtil.Builder("Choose file to validate")
+                                .setRelativeTo(signatureFrame));
 
                         if (temp != null) {
                             currentFile = temp;
