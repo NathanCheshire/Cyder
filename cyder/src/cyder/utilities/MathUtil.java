@@ -128,7 +128,7 @@ public class MathUtil {
     /**
      * The number of degrees in a circle.
      */
-    public static final float DEGREES_IN_CIRCLE = 360.0f;
+    public static final int DEGREES_IN_CIRCLE = 360;
 
     /**
      * Converts the angle in degrees to standard form of being in the range [0, 360).
@@ -137,29 +137,29 @@ public class MathUtil {
      * @return the angle in standard form with rotations removed
      */
     public static int convertAngleToStdForm(int angle) {
-        angle += 360;
+        angle = angle % DEGREES_IN_CIRCLE;
 
         if (angle < 0) {
-            return (int) (angle + Math.abs((int) Math.floor(angle / DEGREES_IN_CIRCLE)) * DEGREES_IN_CIRCLE);
-        } else {
-            return (int) (angle - ((int) Math.floor(angle / DEGREES_IN_CIRCLE)) * DEGREES_IN_CIRCLE);
+            angle += DEGREES_IN_CIRCLE;
         }
+
+        return angle;
     }
 
     /**
-     * Converts the angle in degrees to standard form of being in the range [0, 360).
+     * Converts the angle in degrees to standard form meaning in the range [0, 360).
      *
      * @param angle the angle in degrees
      * @return the angle in standard form with rotations removed
      */
     public static double convertAngleToStdForm(double angle) {
-        angle += 360.0;
+        angle = angle % DEGREES_IN_CIRCLE;
 
         if (angle < 0) {
-            return angle + Math.abs((int) Math.floor(angle / DEGREES_IN_CIRCLE)) * DEGREES_IN_CIRCLE;
-        } else {
-            return angle - ((int) Math.floor(angle / DEGREES_IN_CIRCLE)) * DEGREES_IN_CIRCLE;
+            angle += DEGREES_IN_CIRCLE;
         }
+
+        return angle;
     }
 
     /**

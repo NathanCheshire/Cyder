@@ -1466,8 +1466,6 @@ public enum ConsoleFrame {
 
                     menuLabel.setLocation(2, y);
 
-                    menuButton.setIcon(CyderIcons.menuIcon);
-
                     revalidateInputAndOutputBounds();
                 }, "minimize menu thread");
 
@@ -1900,7 +1898,6 @@ public enum ConsoleFrame {
                 menuLabel.setLocation(-150, y);
 
                 menuLabel.setVisible(false);
-                menuButton.setIcon(CyderIcons.menuIcon);
 
                 revalidateInputAndOutputBounds();
             }, "minimize menu thread");
