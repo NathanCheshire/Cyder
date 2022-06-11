@@ -1,4 +1,4 @@
-package cyder.handlers.external;
+package cyder.handlers.external.audio;
 
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
@@ -11,10 +11,7 @@ import cyder.enums.CyderInspection;
 import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
-import cyder.handlers.external.audio.AudioLocationUpdater;
-import cyder.handlers.external.audio.AudioVolumeLabelAnimator;
-import cyder.handlers.external.audio.FrameView;
-import cyder.handlers.external.audio.ScrollingTitleLabel;
+import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.messaging.MessagingUtils;

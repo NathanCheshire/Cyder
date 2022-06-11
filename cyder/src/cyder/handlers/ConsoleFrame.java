@@ -12,7 +12,7 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.PropLoader;
-import cyder.handlers.external.AudioPlayer;
+import cyder.handlers.external.audio.AudioPlayer;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
