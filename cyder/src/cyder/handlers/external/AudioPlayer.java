@@ -1580,6 +1580,11 @@ public class AudioPlayer {
      */
     private static final Semaphore audioPlayingSemaphore = new Semaphore(1);
 
+    // todo maybe a class for actually playing audio that we can kill too so that the previous audio not yet concluded
+    // bug goes away
+
+    // todo sub-package for inner classes to sep out
+
     /**
      * Starts playing the current audio file.
      */

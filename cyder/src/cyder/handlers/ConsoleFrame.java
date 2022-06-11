@@ -1381,24 +1381,46 @@ public enum ConsoleFrame {
                         .flatMap(Collection::stream)
                         .collect(Collectors.toList()));
 
-        if (currentFocusedMenuItemIndex == -1 && index < 0) {
-            return;
-        }
-
-        if (index < 0 || index >= state.size()) {
-            state.get(currentFocusedMenuItemIndex).getBuilder().setFocused(false);
-            currentFocusedMenuItemIndex = -1;
-            reinstallCurrentTaskbarIcons();
-            return;
-        }
-
-        if (currentFocusedMenuItemIndex >= 0 && currentFocusedMenuItemIndex < state.size()) {
+        // remove focus from previous item if possible
+        if (currentFocusedMenuItemIndex != -1) {
             state.get(currentFocusedMenuItemIndex).getBuilder().setFocused(false);
         }
 
+        // wrap around logic
+        if (index < 0) {
+            index = state.size() - 1;
+        } else if (index > state.size() - 1) {
+            index = 0;
+        }
+
+        // give focus to new item
         currentFocusedMenuItemIndex = index;
         state.get(currentFocusedMenuItemIndex).getBuilder().setFocused(true);
         reinstallCurrentTaskbarIcons();
+    }
+
+    /**
+     * Removes focus from any and task menu taskbar items
+     */
+    private void unfocusTaskbarMenuItems() {
+        currentFocusedMenuItemIndex = -1;
+
+        if (menuLabel == null) {
+            return;
+        }
+
+        ImmutableList<TaskbarIcon> state = ImmutableList.copyOf(
+                Stream.of(currentFrameMenuItems, currentMappedExeItems, currentDefaultMenuItems)
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toList()));
+
+        for (TaskbarIcon icon : state) {
+            icon.getBuilder().setFocused(false);
+        }
+
+        if (menuLabel.isVisible()) {
+            reinstallCurrentTaskbarIcons();
+        }
     }
 
     /**
@@ -1497,13 +1519,13 @@ public enum ConsoleFrame {
         @Override
         public void focusLost(FocusEvent e) {
             menuButton.setIcon(CyderIcons.menuIcon);
-            currentFocusedMenuItemIndex = -1;
+            unfocusTaskbarMenuItems();
         }
 
         @Override
         public void focusGained(FocusEvent e) {
             menuButton.setIcon(CyderIcons.menuIconHover);
-            currentFocusedMenuItemIndex = -1;
+            unfocusTaskbarMenuItems();
         }
     };
 
