@@ -18,11 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class AudioLocationUpdater {
     /**
-     * The delay between update cycles for the audio location text.
-     */
-    private static final int AUDIO_LOCATION_TEXT_UPDATE_DELAY = 1000;
-
-    /**
      * Whether this AudioLocationUpdater has been killed.
      */
     private boolean killed;
@@ -31,6 +26,16 @@ public class AudioLocationUpdater {
      * The label this AudioLocationUpdater should update.
      */
     private final JLabel effectLabel;
+
+    /**
+     * The total seconds of the audio file this location updater was given.
+     */
+    private int totalSeconds;
+
+    /**
+     * The number of seconds in to the audio file.
+     */
+    private int secondsIn;
 
     /**
      * Constructs a new audio location label to update for the provided progress bar.
@@ -79,15 +84,16 @@ public class AudioLocationUpdater {
                     return;
                 }
 
-                int totalSeconds = Math.round(totalMillis / 1000.0f);
-
-                String formattedTotal = AudioUtil.formatSeconds(totalSeconds);
+                this.totalSeconds = Math.round(totalMillis / 1000.0f);
 
                 while (!killed) {
-                    updateEffectLabel(totalSeconds, formattedTotal);
+                    if (!timerPaused) {
+                        secondsIn++;
+                        updateEffectLabel();
+                    }
 
                     try {
-                        Thread.sleep(AUDIO_LOCATION_TEXT_UPDATE_DELAY);
+                        Thread.sleep(1000);
                     } catch (Exception ignored) {
                     }
                 }
@@ -99,30 +105,45 @@ public class AudioLocationUpdater {
 
     /**
      * Updates the encapsulated label with the time in to the current audio file.
-     *
-     * @param totalSeconds   the total seconds of the audio file
-     * @param formattedTotal the formatted string of the total seconds
      */
-    private void updateEffectLabel(int totalSeconds, String formattedTotal) {
-        float percentIn = 0;
-        // todo figure this out and how to smoothly move up by a second at a time
-
-        int secondsIn = (int) Math.ceil(percentIn * totalSeconds);
+    private void updateEffectLabel() {
         int secondsLeft = totalSeconds - secondsIn;
 
         if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
             effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
-                    + " played, " + formattedTotal + " remaining");
+                    + " played, " + AudioUtil.formatSeconds(totalSeconds) + " remaining");
         } else {
             effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
                     + " played, " + AudioUtil.formatSeconds(secondsLeft) + " remaining");
         }
     }
 
+    // todo need to add pausing and resuming from audio player
+    // should also update every 50 ms
+
+    /**
+     * Whether the seconds in value should be updated.
+     */
+    private boolean timerPaused;
+
     /**
      * Ends the updation of the label text.
      */
     public void kill() {
         killed = true;
+    }
+
+    /**
+     * Stops incrementing the seconds in value.
+     */
+    public void pauseTimer() {
+        timerPaused = true;
+    }
+
+    /**
+     * Starts incrementing the seconds in value.
+     */
+    public void resumeTimer() {
+        timerPaused = false;
     }
 }
