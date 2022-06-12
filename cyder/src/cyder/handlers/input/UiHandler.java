@@ -114,12 +114,12 @@ public class UiHandler extends InputHandler {
         opacitySlider.setBounds(0, 0, 300, 50);
         CyderSliderUi UI = new CyderSliderUi(opacitySlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
-        UI.setSliderShape(CyderSliderUi.SliderShape.CIRCLE);
-        UI.setThumbDiameter(35);
-        UI.setFillColor(CyderColors.navy);
-        UI.setOutlineColor(CyderColors.vanilla);
-        UI.setNewValColor(CyderColors.vanilla);
-        UI.setOldValColor(CyderColors.regularPink);
+        UI.setThumbShape(CyderSliderUi.ThumbShape.CIRCLE);
+        UI.setThumbRadius(35);
+        UI.setThumbFillColor(CyderColors.navy);
+        UI.setThumbOutlineColor(CyderColors.vanilla);
+        UI.setRightThumbColor(CyderColors.vanilla);
+        UI.setLeftThumbColor(CyderColors.regularPink);
         UI.setTrackStroke(new BasicStroke(3.0f));
         opacitySlider.setUI(UI);
         opacitySlider.setMinimum(0);

@@ -579,11 +579,11 @@ public class PaintWidget {
                 MAX_BRUSH_WIDTH, brushWidth);
         CyderSliderUi UI = new CyderSliderUi(brushWidthSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
-        UI.setSliderShape(CyderSliderUi.SliderShape.RECT);
-        UI.setFillColor(Color.black);
-        UI.setOutlineColor(CyderColors.navy);
-        UI.setNewValColor(CyderColors.regularBlue);
-        UI.setOldValColor(CyderColors.regularPink);
+        UI.setThumbShape(CyderSliderUi.ThumbShape.RECT);
+        UI.setThumbFillColor(Color.black);
+        UI.setThumbOutlineColor(CyderColors.navy);
+        UI.setRightThumbColor(CyderColors.regularBlue);
+        UI.setLeftThumbColor(CyderColors.regularPink);
         UI.setTrackStroke(new BasicStroke(3.0f));
         brushWidthSlider.setUI(UI);
         brushWidthSlider.setSize(250, 40);

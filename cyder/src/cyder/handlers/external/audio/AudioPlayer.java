@@ -51,10 +51,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-// todo progress bar needs to move smoothly even if 1s audio length
-
-// todo need a custom component for progress bar that's easily draggable, throttle updating on drag events
-
 // todo dreamifying doesn't perfectly resume audio from where it was before dreamifying/un-dreamifying
 
 // todo there's just general bugs from determining how long an audio is too
@@ -656,12 +652,12 @@ public class AudioPlayer {
         audioPlayerFrame.getContentPane().add(repeatAudioButton);
 
         audioLocationSliderUi.setThumbStroke(new BasicStroke(2.0f));
-        audioLocationSliderUi.setSliderShape(CyderSliderUi.SliderShape.CIRCLE);
-        audioLocationSliderUi.setThumbDiameter(25);
-        audioLocationSliderUi.setFillColor(CyderColors.vanilla);
-        audioLocationSliderUi.setOutlineColor(CyderColors.vanilla);
-        audioLocationSliderUi.setNewValColor(trackNewColor);
-        audioLocationSliderUi.setOldValColor(CyderColors.vanilla);
+        audioLocationSliderUi.setThumbShape(CyderSliderUi.ThumbShape.CIRCLE);
+        audioLocationSliderUi.setThumbRadius(25);
+        audioLocationSliderUi.setThumbFillColor(CyderColors.vanilla);
+        audioLocationSliderUi.setThumbOutlineColor(CyderColors.vanilla);
+        audioLocationSliderUi.setRightThumbColor(trackNewColor);
+        audioLocationSliderUi.setLeftThumbColor(CyderColors.vanilla);
         audioLocationSliderUi.setTrackStroke(new BasicStroke(2.0f));
 
         audioLocationSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
@@ -680,7 +676,7 @@ public class AudioPlayer {
             public void mousePressed(MouseEvent e) {
                 audioLocationSliderPressed.set(true);
 
-                audioLocationSliderUi.setThumbDiameter(BIG_THUMB_SIZE);
+                audioLocationSliderUi.setThumbRadius(BIG_THUMB_SIZE);
                 audioLocationSlider.repaint();
             }
 
@@ -698,7 +694,7 @@ public class AudioPlayer {
                     playAudio();
                 }
 
-                audioLocationSliderUi.setThumbDiameter(THUMB_SIZE);
+                audioLocationSliderUi.setThumbRadius(THUMB_SIZE);
                 audioLocationSlider.repaint();
             }
         });
@@ -721,12 +717,12 @@ public class AudioPlayer {
                 currentAudioFile, audioLocationSliderPressed, audioLocationSlider);
 
         audioVolumeSliderUi.setThumbStroke(new BasicStroke(2.0f));
-        audioVolumeSliderUi.setSliderShape(CyderSliderUi.SliderShape.CIRCLE);
-        audioVolumeSliderUi.setThumbDiameter(25);
-        audioVolumeSliderUi.setFillColor(CyderColors.vanilla);
-        audioVolumeSliderUi.setOutlineColor(CyderColors.vanilla);
-        audioVolumeSliderUi.setNewValColor(trackNewColor);
-        audioVolumeSliderUi.setOldValColor(CyderColors.vanilla);
+        audioVolumeSliderUi.setThumbShape(CyderSliderUi.ThumbShape.CIRCLE);
+        audioVolumeSliderUi.setThumbRadius(25);
+        audioVolumeSliderUi.setThumbFillColor(CyderColors.vanilla);
+        audioVolumeSliderUi.setThumbOutlineColor(CyderColors.vanilla);
+        audioVolumeSliderUi.setRightThumbColor(trackNewColor);
+        audioVolumeSliderUi.setLeftThumbColor(CyderColors.vanilla);
         audioVolumeSliderUi.setTrackStroke(new BasicStroke(2.0f));
 
         audioVolumePercentLabel.setForeground(CyderColors.vanilla);
@@ -761,13 +757,13 @@ public class AudioPlayer {
         audioVolumeSlider.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                audioVolumeSliderUi.setThumbDiameter(BIG_THUMB_SIZE);
+                audioVolumeSliderUi.setThumbRadius(BIG_THUMB_SIZE);
                 audioVolumeSlider.repaint();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                audioVolumeSliderUi.setThumbDiameter(THUMB_SIZE);
+                audioVolumeSliderUi.setThumbRadius(THUMB_SIZE);
                 audioVolumeSlider.repaint();
             }
         });
@@ -1673,9 +1669,6 @@ public class AudioPlayer {
      */
     private static final Semaphore audioPlayingSemaphore = new Semaphore(1);
 
-    // todo maybe a class for actually playing audio that we can kill too so that the previous audio not yet concluded
-    //  bug goes away
-
     /**
      * Starts playing the current audio file.
      */
@@ -1738,8 +1731,6 @@ public class AudioPlayer {
                 if (currentAudioFile == null) {
                     return;
                 }
-
-                // todo here we can check for if not killed in this thread worker class
 
                 // no user interaction so proceed naturally
                 if (lastAction == LastAction.Play) {

@@ -472,11 +472,11 @@ public class PathFinderWidget {
                 MAX_SLIDER_VALUE, DEFAULT_SLIDER_VALUE);
         CyderSliderUi UI = new CyderSliderUi(speedSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
-        UI.setSliderShape(CyderSliderUi.SliderShape.RECT);
-        UI.setFillColor(Color.black);
-        UI.setOutlineColor(CyderColors.navy);
-        UI.setNewValColor(CyderColors.regularBlue);
-        UI.setOldValColor(CyderColors.regularPink);
+        UI.setThumbShape(CyderSliderUi.ThumbShape.RECT);
+        UI.setThumbFillColor(Color.black);
+        UI.setThumbOutlineColor(CyderColors.navy);
+        UI.setRightThumbColor(CyderColors.regularBlue);
+        UI.setLeftThumbColor(CyderColors.regularPink);
         UI.setTrackStroke(new BasicStroke(3.0f));
         speedSlider.setUI(UI);
         speedSlider.setBounds(350, startY + 40 + 35, 350 + 180 + 20, 40);

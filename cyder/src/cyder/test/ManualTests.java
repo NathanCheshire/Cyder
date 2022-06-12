@@ -441,12 +441,12 @@ public class ManualTests {
 
         JSlider audioVolumeSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 100, 50);
         CyderSliderUi UI = new CyderSliderUi(audioVolumeSlider);
-        UI.setThumbDiameter(25);
-        UI.setSliderShape(CyderSliderUi.SliderShape.CIRCLE);
-        UI.setFillColor(CyderColors.regularPink);
-        UI.setOutlineColor(CyderColors.regularPink);
-        UI.setNewValColor(CyderColors.navy);
-        UI.setOldValColor(CyderColors.regularBlue);
+        UI.setThumbRadius(25);
+        UI.setThumbShape(CyderSliderUi.ThumbShape.CIRCLE);
+        UI.setThumbFillColor(CyderColors.regularPink);
+        UI.setThumbOutlineColor(CyderColors.regularPink);
+        UI.setRightThumbColor(CyderColors.navy);
+        UI.setLeftThumbColor(CyderColors.regularBlue);
         UI.setTrackStroke(new BasicStroke(4.0f));
         audioVolumeSlider.setUI(UI);
         audioVolumeSlider.setBounds(50, 150, 300, 40);
