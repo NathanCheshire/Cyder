@@ -24,9 +24,14 @@ public class AudioLocationUpdater {
     private boolean killed;
 
     /**
-     * The label this AudioLocationUpdater should update.
+     * The label this AudioLocationUpdater should update to display the seconds in.
      */
-    private final JLabel effectLabel;
+    private final JLabel secondsInLabel;
+
+    /**
+     * The label this AudioLocationUpdater should update to display the seconds remaining.
+     */
+    private final JLabel secondsLeftLabel;
 
     /**
      * The current frame view the audio player is in.
@@ -71,20 +76,24 @@ public class AudioLocationUpdater {
     /**
      * Constructs a new audio location label to update for the provided progress bar.
      *
-     * @param effectLabel      the label to update
+     * @param secondsInLabel   the label to display how many seconds of the audio has played
+     * @param secondsLeftLabel the label to display how many seconds are remaining
      * @param currentFrameView the audio player's atomic reference to the current frame view
      * @param currentAudioFile the audio player's current audio file
      * @param sliderPressed    whether the provided slider is currently under a mouse pressed event
      */
-    public AudioLocationUpdater(JLabel effectLabel, AtomicReference<FrameView> currentFrameView,
+    public AudioLocationUpdater(JLabel secondsInLabel, JLabel secondsLeftLabel,
+                                AtomicReference<FrameView> currentFrameView,
                                 AtomicReference<File> currentAudioFile, AtomicBoolean sliderPressed,
                                 JSlider slider) {
-        checkNotNull(effectLabel);
+        checkNotNull(secondsInLabel);
+        checkNotNull(secondsLeftLabel);
         checkNotNull(currentFrameView);
         checkNotNull(sliderPressed);
         checkNotNull(slider);
 
-        this.effectLabel = effectLabel;
+        this.secondsInLabel = secondsInLabel;
+        this.secondsLeftLabel = secondsLeftLabel;
         this.currentFrameView = currentFrameView;
         this.currentAudioFile = currentAudioFile;
         this.sliderPressed = sliderPressed;
@@ -99,7 +108,8 @@ public class AudioLocationUpdater {
     private void startUpdateThread() {
         CyderThreadRunner.submit(() -> {
             // maybe there could be some placeholder text while ffprobe is getting the correct length
-            effectLabel.setText("");
+            secondsInLabel.setText("");
+            secondsLeftLabel.setText("");
 
             Future<Integer> totalMillisFuture = AudioUtil.getMillis(currentAudioFile.get());
 
@@ -182,12 +192,12 @@ public class AudioLocationUpdater {
         long milliSecondsLeft = totalMilliSeconds - secondsIn * 1000L;
         int secondsLeft = (int) (milliSecondsLeft / 1000);
 
+        secondsInLabel.setText(AudioUtil.formatSeconds(secondsIn));
+
         if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
-            effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
-                    + " played, " + AudioUtil.formatSeconds((int) (totalMilliSeconds / 1000.0)) + " remaining");
+            secondsLeftLabel.setText(AudioUtil.formatSeconds((int) Math.round(totalMilliSeconds / 1000.0)));
         } else {
-            effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
-                    + " played, " + AudioUtil.formatSeconds(secondsLeft) + " remaining");
+            secondsLeftLabel.setText(AudioUtil.formatSeconds(secondsLeft));
         }
     }
 

@@ -137,10 +137,14 @@ public class AudioPlayer {
     private static final JLabel audioTitleLabelContainer = new JLabel();
 
     /**
-     * The label placed over the audio progress bar displaying how many seconds into the current audio
-     * we are and how many seconds are remaining/how long the audio is in total.
+     * The label to display the seconds in.
      */
-    private static final CyderLabel audioProgressLabel = new CyderLabel();
+    private static final CyderLabel secondsInLabel = new CyderLabel();
+
+    /**
+     * The label to display the seconds remaining or total audio length.
+     */
+    private static final CyderLabel totalSecondsLabel = new CyderLabel();
 
     /**
      * The default value for the audio volume slider.
@@ -703,17 +707,25 @@ public class AudioPlayer {
         audioLocationSlider.repaint();
         audioPlayerFrame.getContentPane().add(audioLocationSlider);
 
-        audioProgressLabel.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
-        audioProgressLabel.setText("");
-        audioProgressLabel.setForeground(CyderColors.vanilla);
-        audioPlayerFrame.getContentPane().add(audioProgressLabel);
-        audioProgressLabel.setFocusable(false);
+        secondsInLabel.setSize(UI_ROW_WIDTH / 4, UI_ROW_HEIGHT);
+        secondsInLabel.setText("");
+        secondsInLabel.setHorizontalAlignment(JLabel.LEFT);
+        secondsInLabel.setForeground(CyderColors.vanilla);
+        audioPlayerFrame.getContentPane().add(secondsInLabel);
+        secondsInLabel.setFocusable(false);
+
+        totalSecondsLabel.setSize(UI_ROW_WIDTH / 4, UI_ROW_HEIGHT);
+        totalSecondsLabel.setText("");
+        totalSecondsLabel.setHorizontalAlignment(JLabel.RIGHT);
+        totalSecondsLabel.setForeground(CyderColors.vanilla);
+        audioPlayerFrame.getContentPane().add(totalSecondsLabel);
+        totalSecondsLabel.setFocusable(false);
 
         if (audioLocationUpdater != null) {
             audioLocationUpdater.kill();
         }
 
-        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel, currentFrameView,
+        audioLocationUpdater = new AudioLocationUpdater(secondsInLabel, totalSecondsLabel, currentFrameView,
                 currentAudioFile, audioLocationSliderPressed, audioLocationSlider);
 
         audioVolumeSliderUi.setThumbStroke(new BasicStroke(2.0f));
@@ -833,7 +845,8 @@ public class AudioPlayer {
         nextAudioButton.setVisible(visible);
         repeatAudioButton.setVisible(visible);
 
-        audioProgressLabel.setVisible(visible);
+        secondsInLabel.setVisible(visible);
+        totalSecondsLabel.setVisible(visible);
 
         audioVolumePercentLabel.setVisible(visible);
 
@@ -1290,7 +1303,8 @@ public class AudioPlayer {
                 repeatAudioButton.setLocation(xOff + primaryButtonSpacing * 5 + primaryButtonWidth * 4, yOff);
                 yOff += 30 + yComponentPadding;
                 audioLocationSlider.setLocation(xOff, yOff);
-                audioProgressLabel.setLocation(xOff, yOff);
+                secondsInLabel.setLocation(xOff, yOff + 20);
+                totalSecondsLabel.setLocation(xOff + UI_ROW_WIDTH - UI_ROW_WIDTH / 4, yOff + 20);
                 audioVolumePercentLabel.setLocation(DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2,
                         yOff + 35);
                 yOff += 40 + yComponentPadding;
@@ -1319,7 +1333,8 @@ public class AudioPlayer {
                 repeatAudioButton.setLocation(xOff + primaryButtonSpacing * 5 + primaryButtonWidth * 4, yOff);
                 yOff += 30 + yComponentPadding;
                 audioLocationSlider.setLocation(xOff, yOff);
-                audioProgressLabel.setLocation(xOff, yOff);
+                secondsInLabel.setLocation(xOff, yOff + 20);
+                totalSecondsLabel.setLocation(xOff + UI_ROW_WIDTH - UI_ROW_WIDTH / 4, yOff + 20);
 
                 audioVolumePercentLabel.setLocation(
                         DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2, yOff + 35);
@@ -1348,9 +1363,9 @@ public class AudioPlayer {
                 playPauseButton.setLocation(xOff + primaryButtonSpacing * 3 + primaryButtonWidth * 2, yOff);
                 nextAudioButton.setLocation(xOff + primaryButtonSpacing * 4 + primaryButtonWidth * 3, yOff);
                 repeatAudioButton.setLocation(xOff + primaryButtonSpacing * 5 + primaryButtonWidth * 4, yOff);
-                audioProgressLabel.setVisible(false);
+                secondsInLabel.setVisible(false);
                 audioVolumeSlider.setVisible(false);
-                audioProgressLabel.setVisible(false);
+                totalSecondsLabel.setVisible(false);
                 audioLocationSlider.setVisible(false);
                 if (audioLocationUpdater != null) {
                     audioLocationUpdater.kill();
@@ -1520,7 +1535,7 @@ public class AudioPlayer {
             audioLocationUpdater.kill();
         }
 
-        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel, currentFrameView,
+        audioLocationUpdater = new AudioLocationUpdater(secondsInLabel, totalSecondsLabel, currentFrameView,
                 currentAudioFile, audioLocationSliderPressed, audioLocationSlider);
     }
 
