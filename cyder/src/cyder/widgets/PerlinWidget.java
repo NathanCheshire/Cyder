@@ -355,9 +355,9 @@ public class PerlinWidget {
         });
 
         speedSlider = new JSlider(JSlider.HORIZONTAL, speedSliderMinValue, speedSliderMaxValue, speedSliderValue);
-        CyderSliderUI UI = new CyderSliderUI(speedSlider);
+        CyderSliderUi UI = new CyderSliderUi(speedSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
-        UI.setSliderShape(CyderSliderUI.SliderShape.RECT);
+        UI.setSliderShape(CyderSliderUi.SliderShape.RECT);
         UI.setFillColor(Color.black);
         UI.setOutlineColor(CyderColors.navy);
         UI.setNewValColor(CyderColors.regularBlue);
@@ -380,9 +380,9 @@ public class PerlinWidget {
         perlinFrame.getContentPane().add(speedSlider);
 
         featureSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 500);
-        CyderSliderUI UI2 = new CyderSliderUI(featureSlider);
+        CyderSliderUi UI2 = new CyderSliderUi(featureSlider);
         UI2.setThumbStroke(new BasicStroke(2.0f));
-        UI2.setSliderShape(CyderSliderUI.SliderShape.RECT);
+        UI2.setSliderShape(CyderSliderUi.SliderShape.RECT);
         UI2.setFillColor(Color.black);
         UI2.setOutlineColor(CyderColors.navy);
         UI2.setNewValColor(CyderColors.regularBlue);

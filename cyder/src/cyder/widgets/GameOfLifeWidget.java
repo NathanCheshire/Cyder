@@ -323,9 +323,9 @@ public class GameOfLifeWidget {
 
         iterationsPerSecondSlider = new JSlider(JSlider.HORIZONTAL, MIN_ITERATIONS_PER_SECOND,
                 MAX_ITERATIONS_PER_SECOND, DEFAULT_ITERATIONS_PER_SECOND);
-        CyderSliderUI UI = new CyderSliderUI(iterationsPerSecondSlider);
+        CyderSliderUi UI = new CyderSliderUi(iterationsPerSecondSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
-        UI.setSliderShape(CyderSliderUI.SliderShape.RECT);
+        UI.setSliderShape(CyderSliderUi.SliderShape.RECT);
         UI.setFillColor(Color.black);
         UI.setOutlineColor(CyderColors.navy);
         UI.setNewValColor(CyderColors.regularBlue);

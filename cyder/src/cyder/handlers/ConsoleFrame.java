@@ -1381,6 +1381,10 @@ public enum ConsoleFrame {
                         .flatMap(Collection::stream)
                         .collect(Collectors.toList()));
 
+        if (state.size() == 0) {
+            throw new FatalException("Nothing in taskbar menu");
+        }
+
         // remove focus from previous item if possible
         if (currentFocusedMenuItemIndex != -1) {
             state.get(currentFocusedMenuItemIndex).getBuilder().setFocused(false);
@@ -3387,9 +3391,9 @@ public enum ConsoleFrame {
         LoginHandler.showGui();
     }
 
-    // ---------------------------
-    // dancing stuff
-    // ---------------------------
+    // -------
+    // dancing
+    // -------
 
     /**
      * Invokes dance in a synchronous way on all CyderFrame instances.

@@ -6,7 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
-import cyder.ui.CyderSliderUI;
+import cyder.ui.CyderSliderUi;
 import cyder.user.UserCreator;
 import cyder.utilities.FrameUtil;
 import cyder.utilities.OSUtil;
@@ -112,9 +112,9 @@ public class UiHandler extends InputHandler {
     private static void initializeOpacitySlider() {
         opacitySlider = new JSlider(SwingConstants.HORIZONTAL, 0, 100, 100);
         opacitySlider.setBounds(0, 0, 300, 50);
-        CyderSliderUI UI = new CyderSliderUI(opacitySlider);
+        CyderSliderUi UI = new CyderSliderUi(opacitySlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
-        UI.setSliderShape(CyderSliderUI.SliderShape.CIRCLE);
+        UI.setSliderShape(CyderSliderUi.SliderShape.CIRCLE);
         UI.setThumbDiameter(35);
         UI.setFillColor(CyderColors.navy);
         UI.setOutlineColor(CyderColors.vanilla);

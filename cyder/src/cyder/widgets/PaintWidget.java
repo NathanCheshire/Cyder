@@ -577,9 +577,9 @@ public class PaintWidget {
 
         JSlider brushWidthSlider = new JSlider(JSlider.HORIZONTAL, MIN_BRUSH_WIDTH,
                 MAX_BRUSH_WIDTH, brushWidth);
-        CyderSliderUI UI = new CyderSliderUI(brushWidthSlider);
+        CyderSliderUi UI = new CyderSliderUi(brushWidthSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
-        UI.setSliderShape(CyderSliderUI.SliderShape.RECT);
+        UI.setSliderShape(CyderSliderUi.SliderShape.RECT);
         UI.setFillColor(Color.black);
         UI.setOutlineColor(CyderColors.navy);
         UI.setNewValColor(CyderColors.regularBlue);

@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import cyder.handlers.internal.Logger;
 
 import javax.swing.*;
@@ -7,9 +8,8 @@ import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
-public class CyderSliderUI extends BasicSliderUI {
+public class CyderSliderUi extends BasicSliderUI {
     private BasicStroke stroke = new BasicStroke(3.0f);
     private BasicStroke thumbStroke = new BasicStroke(3.0f);
 
@@ -17,6 +17,7 @@ public class CyderSliderUI extends BasicSliderUI {
     private Color newValColor;
     private Color fillColor;
     private Color outlineColor;
+
     private int thumbDiameter = 10;
 
     private final JSlider slider;
@@ -24,8 +25,8 @@ public class CyderSliderUI extends BasicSliderUI {
     private SliderShape sliderShape = SliderShape.RECT;
 
     public void setThumbDiameter(int radius) {
-        if (radius <= 0)
-            throw new IllegalArgumentException("Thumb radius must be greater than 0");
+        Preconditions.checkArgument(radius > 0);
+
         thumbDiameter = radius;
     }
 
@@ -63,9 +64,9 @@ public class CyderSliderUI extends BasicSliderUI {
         thumbStroke = s;
     }
 
-    public CyderSliderUI(JSlider b) {
-        super(b);
-        slider = b;
+    public CyderSliderUi(JSlider slider) {
+        super(slider);
+        this.slider = slider;
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
@@ -117,8 +118,7 @@ public class CyderSliderUI extends BasicSliderUI {
             }
         }
 
-        // Calculate upper thumb location.  The thumb is centered over its
-        // value on the track.
+        // Calculate upper thumb location. The thumb is centered over its value on the track.
         if (slider.getOrientation() == JSlider.HORIZONTAL) {
             int upperPosition = xPositionForValue(slider.getValue() + slider.getExtent());
             thumbRect.x = upperPosition - (thumbRect.width / 2);
@@ -145,18 +145,24 @@ public class CyderSliderUI extends BasicSliderUI {
     public void paintTrack(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         Stroke old = g2d.getStroke();
+
         g2d.setStroke(stroke);
         g2d.setPaint(newValColor);
+
         Rectangle trackBounds = trackRect;
+
         if (slider.getOrientation() == SwingConstants.HORIZONTAL) {
             g2d.drawLine(trackRect.x, trackRect.y + trackRect.height / 2,
                     trackRect.x + trackRect.width, trackRect.y + trackRect.height / 2);
+
             int lowerX = thumbRect.width / 2;
             int upperX = thumbRect.x + (thumbRect.width / 2);
             int cy = (trackBounds.height / 2) - 2;
+
             g2d.translate(trackBounds.x, trackBounds.y + cy);
             g2d.setColor(oldValColor);
-            //-10 is so that we can't see the line change in the middle if it's hollow
+            // -10 is so that we can't see the line change in the middle if using a hollow circle and old color
+            // different from new color
             g2d.drawLine(lowerX - trackBounds.x, 2, upperX - trackBounds.x -
                     (sliderShape == SliderShape.HOLLOW_CIRCLE ? 10 : 0), 2);
             g2d.translate(-trackBounds.x, -(trackBounds.y + cy));
@@ -164,51 +170,57 @@ public class CyderSliderUI extends BasicSliderUI {
         g2d.setStroke(old);
     }
 
-    @Override
-    public void paintThumb(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        if (sliderShape == SliderShape.CIRCLE) {
-            g2d = (Graphics2D) g;
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            Rectangle t = thumbRect;
-            g2d.setColor(fillColor);
-            int x = (int) (trackRect.getX() + trackRect.getWidth() * slider.getValue() / 100.0 - (thumbDiameter / 4));
-            int y = (int) (trackRect.getY() + trackRect.getHeight() / 2 - (thumbDiameter / 4));
-            g.fillOval(x, y, thumbDiameter / 2, thumbDiameter / 2);
-            g2d.dispose();
-        } else if (sliderShape == SliderShape.RECT) {
-            Rectangle knobBounds = thumbRect;
-            int w = knobBounds.width;
-            int h = knobBounds.height;
-            g2d = (Graphics2D) g.create();
-            Shape thumbShape = createThumbShape(w - 1, h - 1);
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.translate(knobBounds.x, knobBounds.y);
-            g2d.setColor(fillColor);
-            g2d.fill(thumbShape);
-
-            g2d.setColor(outlineColor);
-            g2d.draw(thumbShape);
-            g2d.dispose();
-        } else if (sliderShape == SliderShape.HOLLOW_CIRCLE) {
-            g2d = (Graphics2D) g;
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.setStroke(thumbStroke);
-            Rectangle t = thumbRect;
-            g2d.setColor(fillColor);
-            g2d.drawOval(t.x - 5, t.y, 20, 20);
-            g2d.dispose();
-        } else if (sliderShape == SliderShape.NONE) {
-            //no paint
-        }
+    public Point getThumbCenter() {
+        return new Point((int) (trackRect.getX() + trackRect.getWidth()
+                * ((float) slider.getValue() / slider.getMaximum())),
+                (int) (trackRect.getY() + trackRect.getHeight()
+                        * ((float) slider.getValue() / slider.getMaximum())));
     }
 
-    private BufferedImage customThumb;
+    @Override
+    public void paintThumb(Graphics g) {
+        Graphics2D g2d;
 
-    public void setCustomThumb(BufferedImage customThumb) {
-        this.customThumb = customThumb;
+        switch (sliderShape) {
+            case CIRCLE -> {
+                g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.setColor(fillColor);
+                int x = (int) (trackRect.getX() + trackRect.getWidth() * slider.getValue() / slider.getMaximum() -
+                        (thumbDiameter / 4));
+                int y = (int) (trackRect.getY() + trackRect.getHeight() / 2 - (thumbDiameter / 4));
+                g.fillOval(x, y, thumbDiameter / 2, thumbDiameter / 2);
+                g2d.dispose();
+            }
+            case RECT -> {
+                Rectangle knobBounds = thumbRect;
+                int w = knobBounds.width;
+                int h = knobBounds.height;
+                g2d = (Graphics2D) g.create();
+                Shape thumbShape = createThumbShape(w - 1, h - 1);
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.translate(knobBounds.x, knobBounds.y);
+                g2d.setColor(fillColor);
+                g2d.fill(thumbShape);
+
+                g2d.setColor(outlineColor);
+                g2d.draw(thumbShape);
+                g2d.dispose();
+            }
+            case HOLLOW_CIRCLE -> {
+                g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.setStroke(thumbStroke);
+                Rectangle t = thumbRect;
+                g2d.setColor(fillColor);
+                g2d.drawOval(t.x - 5, t.y, 20, 20);
+                g2d.dispose();
+            }
+            case NONE -> {
+            }
+            default -> throw new IllegalArgumentException("Invalid slider shape: " + sliderShape);
+        }
     }
 
     public class RangeTrackListener extends BasicSliderUI.TrackListener {
@@ -247,12 +259,8 @@ public class CyderSliderUI extends BasicSliderUI {
 
             if (upperPressed) {
                 switch (slider.getOrientation()) {
-                    case JSlider.VERTICAL:
-                        offset = currentMouseY - thumbRect.y;
-                        break;
-                    case JSlider.HORIZONTAL:
-                        offset = currentMouseX - thumbRect.x;
-                        break;
+                    case JSlider.VERTICAL -> offset = currentMouseY - thumbRect.y;
+                    case JSlider.HORIZONTAL -> offset = currentMouseX - thumbRect.x;
                 }
 
                 upperDragging = true;

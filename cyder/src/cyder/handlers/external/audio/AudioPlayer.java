@@ -68,6 +68,36 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @SuppressCyderInspections(CyderInspection.VanillaInspection)
 public class AudioPlayer {
     /**
+     * The width and height of the audio frame.
+     */
+    private static final int DEFAULT_FRAME_LEN = 600;
+
+    /**
+     * The width and height of the album art label.
+     */
+    private static final int ALBUM_ART_LABEL_SIZE = 300;
+
+    /**
+     * The number to subtract from the frame height when the frame is in mini mode.
+     */
+    private static final int MINI_FRAME_HEIGHT_OFFSET = 150;
+
+    /**
+     * The number to subtract from the frame height when the frame is in hidden art mode.
+     */
+    private static final int HIDDEN_ART_HEIGHT_OFFSET = 40;
+
+    /**
+     * The width of a primary ui control row.
+     */
+    private static final int UI_ROW_WIDTH = (int) (ALBUM_ART_LABEL_SIZE * 1.5);
+
+    /**
+     * The height of a primary ui control row.
+     */
+    private static final int UI_ROW_HEIGHT = 40;
+
+    /**
      * The audio player frame.
      */
     private static CyderFrame audioPlayerFrame;
@@ -124,13 +154,40 @@ public class AudioPlayer {
     /**
      * The audio volume slider.
      */
-    private static final JSlider audioVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0,
-            100, DEFAULT_AUDIO_SLIDER_VALUE);
+    private static final JSlider audioVolumeSlider = new JSlider(
+            JSlider.HORIZONTAL, 0, 100, DEFAULT_AUDIO_SLIDER_VALUE);
 
     /**
-     * The Ui for the audio volume slider.
+     * The default value for the audio location slider.
      */
-    private static final CyderSliderUI audioVolumeSliderUi = new CyderSliderUI(audioVolumeSlider);
+    private static final int DEFAULT_LOCATION_SLIDER_VALUE = 0;
+
+    /**
+     * The min value for the audio location slider.
+     */
+    private static final int DEFAULT_LOCATION_SLIDER_MIN_VALUE = 0;
+
+    /**
+     * The max value for the audio location slider.
+     */
+    private static final int DEFAULT_LOCATION_SLIDER_MAX_VALUE = 450;
+
+    /**
+     * The audio location slider.
+     */
+    private static final JSlider audioLocationSlider = new JSlider(
+            JSlider.HORIZONTAL, DEFAULT_LOCATION_SLIDER_MIN_VALUE,
+            DEFAULT_LOCATION_SLIDER_MAX_VALUE, DEFAULT_LOCATION_SLIDER_VALUE);
+
+    /**
+     * The ui for the audio volume slider.
+     */
+    private static final CyderSliderUi audioVolumeSliderUi = new CyderSliderUi(audioVolumeSlider);
+
+    /**
+     * the ui for the audio location slider.
+     */
+    private static final CyderSliderUi audioLocationSliderUi = new CyderSliderUi(audioLocationSlider);
 
     /**
      * The album art directory for the current Cyder user.
@@ -323,6 +380,11 @@ public class AudioPlayer {
     public static final Color BACKGROUND_COLOR = new Color(8, 23, 52);
 
     /**
+     * The background color of the track in front of the slider thumb.
+     */
+    private static final Color trackNewColor = new Color(45, 45, 45);
+
+    /**
      * The list of songs to play next before sequentially proceeding to the next valid audio file.
      */
     private static final ArrayList<File> audioFileQueue = new ArrayList<>();
@@ -336,36 +398,6 @@ public class AudioPlayer {
      * The list of valid audio files within the current directory that the audio player may play.
      */
     private static final ArrayList<File> validAudioFiles = new ArrayList<>();
-
-    /**
-     * The width and height of the audio frame.
-     */
-    private static final int DEFAULT_FRAME_LEN = 600;
-
-    /**
-     * The width and height of the album art label.
-     */
-    private static final int ALBUM_ART_LABEL_SIZE = 300;
-
-    /**
-     * The number to subtract from the frame height when the frame is in mini mode.
-     */
-    private static final int MINI_FRAME_HEIGHT_OFFSET = 150;
-
-    /**
-     * The number to subtract from the frame height when the frame is in hidden art mode.
-     */
-    private static final int HIDDEN_ART_HEIGHT_OFFSET = 40;
-
-    /**
-     * The width of a primary ui control row.
-     */
-    private static final int UI_ROW_WIDTH = (int) (ALBUM_ART_LABEL_SIZE * 1.5);
-
-    /**
-     * The height of a primary ui control row.
-     */
-    private static final int UI_ROW_HEIGHT = 40;
 
     /**
      * The animator object for the audio volume percent.
@@ -457,6 +489,26 @@ public class AudioPlayer {
      * The last action invoked by the user.
      */
     private static LastAction lastAction = LastAction.Unknown;
+
+    /**
+     * Whether the audio location slider is currently pressed.
+     */
+    private static boolean audioLocationSliderPressed;
+
+    /**
+     * The thumb size for the sliders.
+     */
+    private static final int THUMB_SIZE = 25;
+
+    /**
+     * The value to increment the radius of the sliders by on click events.
+     */
+    private static final int BIG_THUMB_INC = 5;
+
+    /**
+     * The thumb size for the sliders on click events.
+     */
+    private static final int BIG_THUMB_SIZE = THUMB_SIZE + 2 * BIG_THUMB_INC;
 
     /**
      * Suppress default constructor.
@@ -603,7 +655,53 @@ public class AudioPlayer {
         repeatAudioButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(repeatAudioButton);
 
-        // todo audioProgressBar.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
+        audioLocationSliderUi.setThumbStroke(new BasicStroke(2.0f));
+        audioLocationSliderUi.setSliderShape(CyderSliderUi.SliderShape.CIRCLE);
+        audioLocationSliderUi.setThumbDiameter(25);
+        audioLocationSliderUi.setFillColor(CyderColors.vanilla);
+        audioLocationSliderUi.setOutlineColor(CyderColors.vanilla);
+        audioLocationSliderUi.setNewValColor(trackNewColor);
+        audioLocationSliderUi.setOldValColor(CyderColors.vanilla);
+        audioLocationSliderUi.setTrackStroke(new BasicStroke(2.0f));
+
+        audioLocationSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
+        audioLocationSlider.setMinorTickSpacing(1);
+        audioLocationSlider.setValue(DEFAULT_LOCATION_SLIDER_VALUE);
+        audioLocationSlider.setMinimum(DEFAULT_LOCATION_SLIDER_MIN_VALUE);
+        audioLocationSlider.setMaximum(DEFAULT_LOCATION_SLIDER_MAX_VALUE);
+        audioLocationSlider.setUI(audioLocationSliderUi);
+        audioLocationSlider.setPaintTicks(false);
+        audioLocationSlider.setPaintLabels(false);
+        audioLocationSlider.setVisible(true);
+        audioLocationSlider.addChangeListener(e -> {
+        });
+        audioLocationSlider.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                audioLocationSliderPressed = true;
+
+                audioLocationSliderUi.setThumbDiameter(BIG_THUMB_SIZE);
+                audioLocationSlider.repaint();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (audioLocationSliderPressed) {
+                    audioLocationSliderPressed = false;
+
+                    System.out.println("Update audio location");
+                    // todo when pressed don't update location bar by thread
+                }
+
+                audioLocationSliderUi.setThumbDiameter(THUMB_SIZE);
+                audioLocationSlider.repaint();
+            }
+        });
+        audioLocationSlider.setOpaque(false);
+        audioLocationSlider.setToolTipText("todo update me based on value audio location updater");
+        audioLocationSlider.setFocusable(false);
+        audioLocationSlider.repaint();
+        audioPlayerFrame.getContentPane().add(audioLocationSlider);
 
         audioProgressLabel.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioProgressLabel.setText("");
@@ -618,12 +716,12 @@ public class AudioPlayer {
         audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel, currentFrameView, currentAudioFile);
 
         audioVolumeSliderUi.setThumbStroke(new BasicStroke(2.0f));
-        audioVolumeSliderUi.setSliderShape(CyderSliderUI.SliderShape.CIRCLE);
+        audioVolumeSliderUi.setSliderShape(CyderSliderUi.SliderShape.CIRCLE);
         audioVolumeSliderUi.setThumbDiameter(25);
         audioVolumeSliderUi.setFillColor(CyderColors.vanilla);
         audioVolumeSliderUi.setOutlineColor(CyderColors.vanilla);
-        audioVolumeSliderUi.setNewValColor(CyderColors.vanilla);
-        audioVolumeSliderUi.setOldValColor(CyderColors.regularRed);
+        audioVolumeSliderUi.setNewValColor(trackNewColor);
+        audioVolumeSliderUi.setOldValColor(CyderColors.vanilla);
         audioVolumeSliderUi.setTrackStroke(new BasicStroke(2.0f));
 
         audioVolumePercentLabel.setForeground(CyderColors.vanilla);
@@ -654,6 +752,19 @@ public class AudioPlayer {
             audioVolumePercentLabel.setVisible(true);
             audioVolumePercentLabel.setText(audioVolumeSlider.getValue() + "%");
             audioVolumeLabelAnimator.resetTimeout();
+        });
+        audioVolumeSlider.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                audioVolumeSliderUi.setThumbDiameter(BIG_THUMB_SIZE);
+                audioVolumeSlider.repaint();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                audioVolumeSliderUi.setThumbDiameter(THUMB_SIZE);
+                audioVolumeSlider.repaint();
+            }
         });
         audioVolumeSlider.setOpaque(false);
         audioVolumeSlider.setToolTipText("Volume");
@@ -726,6 +837,7 @@ public class AudioPlayer {
         audioVolumePercentLabel.setVisible(visible);
 
         audioVolumeSlider.setVisible(visible);
+        audioLocationSlider.setVisible(visible);
     }
 
     /**
@@ -1176,7 +1288,7 @@ public class AudioPlayer {
                 nextAudioButton.setLocation(xOff + primaryButtonSpacing * 4 + primaryButtonWidth * 3, yOff);
                 repeatAudioButton.setLocation(xOff + primaryButtonSpacing * 5 + primaryButtonWidth * 4, yOff);
                 yOff += 30 + yComponentPadding;
-                // todo audioProgressBar.setLocation(xOff, yOff);
+                audioLocationSlider.setLocation(xOff, yOff);
                 audioProgressLabel.setLocation(xOff, yOff);
                 audioVolumePercentLabel.setLocation(DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2,
                         yOff + 35);
@@ -1205,7 +1317,7 @@ public class AudioPlayer {
                 nextAudioButton.setLocation(xOff + primaryButtonSpacing * 4 + primaryButtonWidth * 3, yOff);
                 repeatAudioButton.setLocation(xOff + primaryButtonSpacing * 5 + primaryButtonWidth * 4, yOff);
                 yOff += 30 + yComponentPadding;
-                // todo audioProgressBar.setLocation(xOff, yOff);
+                audioLocationSlider.setLocation(xOff, yOff);
                 audioProgressLabel.setLocation(xOff, yOff);
 
                 audioVolumePercentLabel.setLocation(
@@ -1238,6 +1350,7 @@ public class AudioPlayer {
                 audioProgressLabel.setVisible(false);
                 audioVolumeSlider.setVisible(false);
                 audioProgressLabel.setVisible(false);
+                audioLocationSlider.setVisible(false);
                 if (audioLocationUpdater != null) {
                     audioLocationUpdater.kill();
                     audioLocationUpdater = null;
@@ -1555,9 +1668,7 @@ public class AudioPlayer {
     private static final Semaphore audioPlayingSemaphore = new Semaphore(1);
 
     // todo maybe a class for actually playing audio that we can kill too so that the previous audio not yet concluded
-    // bug goes away
-
-    // todo sub-package for inner classes to sep out
+    //  bug goes away
 
     /**
      * Starts playing the current audio file.

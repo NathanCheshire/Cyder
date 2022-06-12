@@ -440,9 +440,9 @@ public class ManualTests {
         testFrame.setTitle("Cyder Slider Test");
 
         JSlider audioVolumeSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 100, 50);
-        CyderSliderUI UI = new CyderSliderUI(audioVolumeSlider);
+        CyderSliderUi UI = new CyderSliderUi(audioVolumeSlider);
         UI.setThumbDiameter(25);
-        UI.setSliderShape(CyderSliderUI.SliderShape.CIRCLE);
+        UI.setSliderShape(CyderSliderUi.SliderShape.CIRCLE);
         UI.setFillColor(CyderColors.regularPink);
         UI.setOutlineColor(CyderColors.regularPink);
         UI.setNewValColor(CyderColors.navy);
