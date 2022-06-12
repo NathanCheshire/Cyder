@@ -493,7 +493,7 @@ public class AudioPlayer {
     /**
      * Whether the audio location slider is currently pressed.
      */
-    private static boolean audioLocationSliderPressed;
+    private static final AtomicBoolean audioLocationSliderPressed = new AtomicBoolean(false);
 
     /**
      * The thumb size for the sliders.
@@ -678,7 +678,7 @@ public class AudioPlayer {
         audioLocationSlider.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                audioLocationSliderPressed = true;
+                audioLocationSliderPressed.set(true);
 
                 audioLocationSliderUi.setThumbDiameter(BIG_THUMB_SIZE);
                 audioLocationSlider.repaint();
@@ -686,11 +686,16 @@ public class AudioPlayer {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (audioLocationSliderPressed) {
-                    audioLocationSliderPressed = false;
+                if (audioLocationSliderPressed.get()) {
+                    audioLocationSliderPressed.set(false);
 
-                    System.out.println("Update audio location");
-                    // todo when pressed don't update location bar by thread
+                    float newPercentIn = (float) audioLocationSlider.getValue() / audioLocationSlider.getMaximum();
+                    long resumeLocation = (long) (newPercentIn * totalAudioLength);
+
+                    pauseAudio();
+                    pauseLocation = resumeLocation;
+                    audioLocationUpdater.setPercentIn(newPercentIn);
+                    playAudio();
                 }
 
                 audioLocationSliderUi.setThumbDiameter(THUMB_SIZE);
@@ -698,7 +703,6 @@ public class AudioPlayer {
             }
         });
         audioLocationSlider.setOpaque(false);
-        audioLocationSlider.setToolTipText("todo update me based on value audio location updater");
         audioLocationSlider.setFocusable(false);
         audioLocationSlider.repaint();
         audioPlayerFrame.getContentPane().add(audioLocationSlider);
@@ -713,7 +717,8 @@ public class AudioPlayer {
             audioLocationUpdater.kill();
         }
 
-        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel, currentFrameView, currentAudioFile);
+        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel, currentFrameView,
+                currentAudioFile, audioLocationSliderPressed, audioLocationSlider);
 
         audioVolumeSliderUi.setThumbStroke(new BasicStroke(2.0f));
         audioVolumeSliderUi.setSliderShape(CyderSliderUi.SliderShape.CIRCLE);
@@ -1519,7 +1524,8 @@ public class AudioPlayer {
             audioLocationUpdater.kill();
         }
 
-        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel, currentFrameView, currentAudioFile);
+        audioLocationUpdater = new AudioLocationUpdater(audioProgressLabel, currentFrameView,
+                currentAudioFile, audioLocationSliderPressed, audioLocationSlider);
     }
 
     /**
@@ -2032,8 +2038,6 @@ public class AudioPlayer {
             audioPlayerFrame.dispose(true);
             audioPlayerFrame = null;
         }
-
-        // todo audio progress bar component killing
 
         if (audioVolumeLabelAnimator != null) {
             audioVolumeLabelAnimator.kill();

@@ -9,6 +9,7 @@ import cyder.utilities.UserUtil;
 import javax.swing.*;
 import java.io.File;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -38,14 +39,24 @@ public class AudioLocationUpdater {
     private final AtomicReference<File> currentAudioFile;
 
     /**
+     * Whether the slider is currently under a mouse pressed event.
+     */
+    private final AtomicBoolean sliderPressed;
+
+    /**
+     * The slider value to update.
+     */
+    private final JSlider slider;
+
+    /**
      * The total milliseconds of the audio file this location updater was given.
      */
-    private int totalMilliSeconds;
+    private long totalMilliSeconds;
 
     /**
      * The number of milliseconds in to the audio file.
      */
-    private int milliSecondsIn;
+    private long milliSecondsIn;
 
     /**
      * The number of times a second to update the audio progress label.
@@ -62,15 +73,22 @@ public class AudioLocationUpdater {
      *
      * @param effectLabel      the label to update
      * @param currentFrameView the audio player's atomic reference to the current frame view
+     * @param currentAudioFile the audio player's current audio file
+     * @param sliderPressed    whether the provided slider is currently under a mouse pressed event
      */
-    public AudioLocationUpdater(JLabel effectLabel,
-                                AtomicReference<FrameView> currentFrameView, AtomicReference<File> currentAudioFile) {
+    public AudioLocationUpdater(JLabel effectLabel, AtomicReference<FrameView> currentFrameView,
+                                AtomicReference<File> currentAudioFile, AtomicBoolean sliderPressed,
+                                JSlider slider) {
         checkNotNull(effectLabel);
         checkNotNull(currentFrameView);
+        checkNotNull(sliderPressed);
+        checkNotNull(slider);
 
         this.effectLabel = effectLabel;
         this.currentFrameView = currentFrameView;
         this.currentAudioFile = currentAudioFile;
+        this.sliderPressed = sliderPressed;
+        this.slider = slider;
 
         startUpdateThread();
     }
@@ -120,30 +138,15 @@ public class AudioLocationUpdater {
                 } catch (Exception ignored) {
                 }
 
-                if (!timerPaused && milliSecondsIn % 1000 == 0
-                        && currentFrameView.get() != FrameView.MINI) {
-                    updateEffectLabel();
+                if (!timerPaused && currentFrameView.get() != FrameView.MINI) {
+                    updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)));
+
+                    if (!sliderPressed.get()) {
+                        updateSlider();
+                    }
                 }
             }
         }, FileUtil.getFilename(currentAudioFile.get()) + " Progress Label Thread");
-    }
-
-    /**
-     * Updates the encapsulated label with the time in to the current audio file.
-     */
-    private void updateEffectLabel() {
-        int milliSecondsLeft = totalMilliSeconds - milliSecondsIn;
-
-        int secondsLeft = (int) (milliSecondsLeft / 1000.0);
-        int secondsIn = (int) (milliSecondsIn / 1000.0);
-
-        if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
-            effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
-                    + " played, " + AudioUtil.formatSeconds((int) (totalMilliSeconds / 1000.0)) + " remaining");
-        } else {
-            effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
-                    + " played, " + AudioUtil.formatSeconds(secondsLeft) + " remaining");
-        }
     }
 
     /**
@@ -170,5 +173,38 @@ public class AudioLocationUpdater {
      */
     public void resumeTimer() {
         timerPaused = false;
+    }
+
+    /**
+     * Updates the encapsulated label with the time in to the current audio file.
+     */
+    private void updateEffectLabel(int secondsIn) {
+        long milliSecondsLeft = totalMilliSeconds - secondsIn * 1000L;
+        int secondsLeft = (int) (milliSecondsLeft / 1000);
+
+        if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
+            effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
+                    + " played, " + AudioUtil.formatSeconds((int) (totalMilliSeconds / 1000.0)) + " remaining");
+        } else {
+            effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
+                    + " played, " + AudioUtil.formatSeconds(secondsLeft) + " remaining");
+        }
+    }
+
+    /**
+     * Updates the reference slider's value.
+     */
+    private void updateSlider() {
+        float percentIn = (float) milliSecondsIn / totalMilliSeconds;
+        slider.setValue(Math.round(percentIn * slider.getMaximum()));
+    }
+
+    /**
+     * Sets the percent in to the current audio.
+     *
+     * @param percentIn the percent in to the current audio
+     */
+    public void setPercentIn(float percentIn) {
+        this.milliSecondsIn = (int) (totalMilliSeconds * percentIn);
     }
 }
