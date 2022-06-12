@@ -48,6 +48,16 @@ public class AudioLocationUpdater {
     private int milliSecondsIn;
 
     /**
+     * The number of times a second to update the audio progress label.
+     */
+    private static final int UPDATES_PER_SECOND = 30;
+
+    /**
+     * The amount by which to sleep and increment for.
+     */
+    private static final int UPDATE_DELAY = 1000 / UPDATES_PER_SECOND;
+
+    /**
      * Constructs a new audio location label to update for the provided progress bar.
      *
      * @param effectLabel      the label to update
@@ -102,8 +112,11 @@ public class AudioLocationUpdater {
 
             while (!killed) {
                 try {
-                    Thread.sleep(50);
-                    milliSecondsIn += 50;
+                    Thread.sleep(UPDATE_DELAY);
+
+                    if (!timerPaused) {
+                        milliSecondsIn += UPDATE_DELAY;
+                    }
                 } catch (Exception ignored) {
                 }
 
@@ -133,13 +146,10 @@ public class AudioLocationUpdater {
         }
     }
 
-    // todo need to add pausing and resuming from audio player
-    // should also update every 50 ms
-
     /**
      * Whether the seconds in value should be updated.
      */
-    private boolean timerPaused;
+    private boolean timerPaused = true;
 
     /**
      * Ends the updation of the label text.

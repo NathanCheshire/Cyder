@@ -1589,6 +1589,7 @@ public class AudioPlayer {
 
                     lastAction = LastAction.Play;
                     audioPlayingSemaphore.acquire();
+                    audioLocationUpdater.resumeTimer();
 
                     audioPlayer.play();
 
@@ -1687,6 +1688,8 @@ public class AudioPlayer {
      */
     private static void pauseAudio() {
         lastAction = LastAction.Pause;
+
+        audioLocationUpdater.pauseTimer();
 
         try {
             if (fis != null) {
