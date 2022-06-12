@@ -795,37 +795,44 @@ public class AudioPlayer {
 
         // now that frame is shown, ensure binaries installed and restrict UI until proven
         if (!AudioUtil.ffmpegInstalled() || !AudioUtil.youtubeDlInstalled()) {
-            CyderThreadRunner.submit(() -> {
-                try {
-                    lockUi();
-
-                    audioPlayerFrame.notify("Attempting to download ffmpeg or youtube-dl");
-
-                    Future<Boolean> passedPreliminaries = handlePreliminaries();
-
-                    while (!passedPreliminaries.isDone()) {
-                        Thread.onSpinWait();
-                    }
-
-                    // wait to start playing if downloading
-                    if (!passedPreliminaries.get()) {
-                        audioPlayerFrame.revokeAllNotifications();
-
-                        InformHandler.inform(new InformHandler.Builder("Could not download necessary "
-                                + "binaries. Try to install both ffmpeg and youtube-dl and try again")
-                                .setTitle("Network Error")
-                                .setRelativeTo(audioPlayerFrame)
-                                .setPostCloseAction(AudioPlayer::killAndCloseWidget));
-                    } else {
-                        audioPlayerFrame.revokeAllNotifications();
-                        unlockUi();
-                        audioPlayerFrame.notify("Successfully downloaded necessary binaries");
-                    }
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-            }, "AudioPlayer Preliminary Handler");
+            downloadBinaries();
         }
+    }
+
+    /**
+     * Attempts to download ffmpeg and youtube-dl to reference locally for downloading and processing audio files.
+     */
+    private static void downloadBinaries() {
+        CyderThreadRunner.submit(() -> {
+            try {
+                lockUi();
+
+                audioPlayerFrame.notify("Attempting to download ffmpeg or youtube-dl");
+
+                Future<Boolean> passedPreliminaries = handlePreliminaries();
+
+                while (!passedPreliminaries.isDone()) {
+                    Thread.onSpinWait();
+                }
+
+                // wait to start playing if downloading
+                if (!passedPreliminaries.get()) {
+                    audioPlayerFrame.revokeAllNotifications();
+
+                    InformHandler.inform(new InformHandler.Builder("Could not download necessary "
+                            + "binaries. Try to install both ffmpeg and youtube-dl and try again")
+                            .setTitle("Network Error")
+                            .setRelativeTo(audioPlayerFrame)
+                            .setPostCloseAction(AudioPlayer::killAndCloseWidget));
+                } else {
+                    audioPlayerFrame.revokeAllNotifications();
+                    unlockUi();
+                    audioPlayerFrame.notify("Successfully downloaded necessary binaries");
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, "AudioPlayer Preliminary Handler");
     }
 
     /**
@@ -947,174 +954,11 @@ public class AudioPlayer {
     private static void installFrameMenuItems() {
         audioPlayerFrame.clearMenuItems();
 
-        audioPlayerFrame.addMenuItem("Export wav", () -> {
-            if (wavExporterLocked.get()) {
-                return;
-            }
-
-            if (FileUtil.validateExtension(currentAudioFile.get(), ".wav")) {
-                audioPlayerFrame.notify("This file is already a wav");
-            } else if (FileUtil.validateExtension(currentAudioFile.get(), ".mp3")) {
-                CyderThreadRunner.submit(() -> {
-                    Future<Optional<File>> wavConvertedFile = AudioUtil.mp3ToWav(currentAudioFile.get());
-
-                    wavExporterLocked.set(true);
-
-                    while (!wavConvertedFile.isDone()) {
-                        Thread.onSpinWait();
-                    }
-
-                    wavExporterLocked.set(false);
-
-                    try {
-                        if (wavConvertedFile.get().isPresent()) {
-                            File moveTo = OSUtil.buildFile(
-                                    DynamicDirectory.DYNAMIC_PATH,
-                                    DynamicDirectory.USERS.getDirectoryName(),
-                                    ConsoleFrame.INSTANCE.getUUID(),
-                                    UserFile.MUSIC.getName(),
-                                    FileUtil.getFilename(wavConvertedFile.get().get()) + ".wav");
-
-                            Files.copy(Paths.get(wavConvertedFile.get().get().getAbsolutePath()),
-                                    Paths.get(moveTo.getAbsolutePath()));
-
-                            audioPlayerFrame.notify("Saved \""
-                                    + moveTo.getName() + "\" to your music directory");
-                        } else {
-                            audioPlayerFrame.notify("Could not convert \""
-                                    + currentAudioFile.get().getName() + "\" to a wav at this time");
-                        }
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-                }, "Wav exporter");
-            } else {
-                throw new IllegalArgumentException("Unsupported audio format: " + currentAudioFile.get().getName());
-            }
-        });
-        audioPlayerFrame.addMenuItem("Export mp3", () -> {
-            if (mp3ExporterLocked.get()) {
-                return;
-            }
-
-            if (FileUtil.validateExtension(currentAudioFile.get(), ".mp3")) {
-                audioPlayerFrame.notify("This file is already an mp3");
-            } else if (FileUtil.validateExtension(currentAudioFile.get(), ".wav")) {
-                CyderThreadRunner.submit(() -> {
-                    Future<Optional<File>> mp3ConvertedFile = AudioUtil.wavToMp3(currentAudioFile.get());
-
-                    mp3ExporterLocked.set(true);
-
-                    while (!mp3ConvertedFile.isDone()) {
-                        Thread.onSpinWait();
-                    }
-
-                    mp3ExporterLocked.set(false);
-
-                    try {
-                        if (mp3ConvertedFile.get().isPresent()) {
-                            File moveTo = OSUtil.buildFile(
-                                    DynamicDirectory.DYNAMIC_PATH,
-                                    DynamicDirectory.USERS.getDirectoryName(),
-                                    ConsoleFrame.INSTANCE.getUUID(),
-                                    UserFile.MUSIC.getName(),
-                                    FileUtil.getFilename(mp3ConvertedFile.get().get()) + ".mp3");
-
-                            Files.copy(Paths.get(mp3ConvertedFile.get().get().getAbsolutePath()),
-                                    Paths.get(moveTo.getAbsolutePath()));
-
-                            audioPlayerFrame.notify("Saved \""
-                                    + moveTo.getName() + "\" to your music directory");
-                        } else {
-                            audioPlayerFrame.notify("Could not convert \""
-                                    + currentAudioFile.get().getName() + "\" to an mp3 at this time");
-                        }
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-                }, "Mp3 exporter");
-            } else {
-                throw new IllegalArgumentException("Unsupported audio format: " + currentAudioFile.get().getName());
-            }
-        });
-        audioPlayerFrame.addMenuItem("Waveform", () -> {
-            if (waveformExporterLocked.get()) {
-                return;
-            }
-
-            CyderThreadRunner.submit(() -> {
-                String saveName = GetterUtil.getInstance().getString(new GetterUtil.Builder("Export Waveform")
-                        .setRelativeTo(audioPlayerFrame)
-                        .setLabelText("Enter a name to export the waveform as")
-                        .setSubmitButtonText("Save to files"));
-
-                if (!StringUtil.isNull(saveName)) {
-                    if (OSUtil.isValidFilename(saveName)) {
-                        File saveFile = OSUtil.buildFile(
-                                DynamicDirectory.DYNAMIC_PATH,
-                                DynamicDirectory.USERS.getDirectoryName(),
-                                ConsoleFrame.INSTANCE.getUUID(),
-                                UserFile.FILES.getName(),
-                                saveName + "." + WAVEFORM_EXPORT_FORMAT);
-
-                        Future<BufferedImage> waveform = MessagingUtils.generateLargeWaveform(currentAudioFile.get());
-
-                        waveformExporterLocked.set(true);
-
-                        while (!waveform.isDone()) {
-                            Thread.onSpinWait();
-                        }
-
-                        waveformExporterLocked.set(false);
-
-                        try {
-                            ImageIO.write(waveform.get(), WAVEFORM_EXPORT_FORMAT, saveFile.getAbsoluteFile());
-                            audioPlayerFrame.notify(new CyderFrame.NotificationBuilder
-                                    ("Saved waveform to your files directory")
-                                    .setOnKillAction(() -> PhotoViewer.getInstance(saveFile).showGui()));
-                        } catch (Exception e) {
-                            ExceptionHandler.handle(e);
-                            audioPlayerFrame.notify("Could not save waveform at this time");
-                        }
-                    } else {
-                        audioPlayerFrame.notify("Invalid filename for " + OSUtil.OPERATING_SYSTEM_NAME);
-                    }
-                }
-            }, "AudioPlayer Waveform Exporter");
-        });
-        audioPlayerFrame.addMenuItem("Search", () -> {
-            // phase 2
-        });
-        audioPlayerFrame.addMenuItem("Choose File", () -> {
-            if (chooseFileLocked.get()) {
-                return;
-            }
-
-            CyderThreadRunner.submit(() -> {
-                chooseFileLocked.set(true);
-                File chosenFile =
-                        GetterUtil.getInstance().getFile(new GetterUtil.Builder("Choose an mp3 or wav file")
-                                .setRelativeTo(audioPlayerFrame));
-
-                chooseFileLocked.set(false);
-
-                if (chosenFile != null && FileUtil.isSupportedAudioExtension(chosenFile)) {
-                    lastAction = LastAction.FileChosen;
-
-                    pauseAudio();
-
-                    currentAudioFile.set(chosenFile);
-                    pauseLocation = 0;
-                    totalAudioLength = 0;
-
-                    revalidateFromAudioFileChange();
-
-                    playAudio();
-                } else {
-                    audioPlayerFrame.notify("Invalid file chosen");
-                }
-            }, "AudioPlayer File Chooser");
-        });
+        audioPlayerFrame.addMenuItem("Export wav", exportWavMenuItem);
+        audioPlayerFrame.addMenuItem("Export mp3", exportMp3MenuItem);
+        audioPlayerFrame.addMenuItem("Waveform", waveformExporterMenuItem);
+        audioPlayerFrame.addMenuItem("Search", searchMenuItem);
+        audioPlayerFrame.addMenuItem("Choose File", chooseFileMenuItem);
         audioPlayerFrame.addMenuItem("Dreamify", () -> {
             if (dreamifierLocked.get()) {
                 return;
@@ -1252,6 +1096,194 @@ public class AudioPlayer {
             }
         }, audioDreamified);
     }
+
+    /**
+     * The menu item to export the current audio as a wav.
+     */
+    private static final Runnable exportWavMenuItem = () -> {
+        if (wavExporterLocked.get()) {
+            return;
+        }
+
+        if (FileUtil.validateExtension(currentAudioFile.get(), ".wav")) {
+            audioPlayerFrame.notify("This file is already a wav");
+        } else if (FileUtil.validateExtension(currentAudioFile.get(), ".mp3")) {
+            CyderThreadRunner.submit(() -> {
+                Future<Optional<File>> wavConvertedFile = AudioUtil.mp3ToWav(currentAudioFile.get());
+
+                wavExporterLocked.set(true);
+
+                while (!wavConvertedFile.isDone()) {
+                    Thread.onSpinWait();
+                }
+
+                wavExporterLocked.set(false);
+
+                try {
+                    if (wavConvertedFile.get().isPresent()) {
+                        File moveTo = OSUtil.buildFile(
+                                DynamicDirectory.DYNAMIC_PATH,
+                                DynamicDirectory.USERS.getDirectoryName(),
+                                ConsoleFrame.INSTANCE.getUUID(),
+                                UserFile.MUSIC.getName(),
+                                FileUtil.getFilename(wavConvertedFile.get().get()) + ".wav");
+
+                        Files.copy(Paths.get(wavConvertedFile.get().get().getAbsolutePath()),
+                                Paths.get(moveTo.getAbsolutePath()));
+
+                        audioPlayerFrame.notify("Saved \""
+                                + moveTo.getName() + "\" to your music directory");
+                    } else {
+                        audioPlayerFrame.notify("Could not convert \""
+                                + currentAudioFile.get().getName() + "\" to a wav at this time");
+                    }
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+            }, "Wav exporter");
+        } else {
+            throw new IllegalArgumentException("Unsupported audio format: " + currentAudioFile.get().getName());
+        }
+    };
+
+    /**
+     * The menu item for exporting the current audio as an mp3.
+     */
+    private static final Runnable exportMp3MenuItem = () -> {
+        if (mp3ExporterLocked.get()) {
+            return;
+        }
+
+        if (FileUtil.validateExtension(currentAudioFile.get(), ".mp3")) {
+            audioPlayerFrame.notify("This file is already an mp3");
+        } else if (FileUtil.validateExtension(currentAudioFile.get(), ".wav")) {
+            CyderThreadRunner.submit(() -> {
+                Future<Optional<File>> mp3ConvertedFile = AudioUtil.wavToMp3(currentAudioFile.get());
+
+                mp3ExporterLocked.set(true);
+
+                while (!mp3ConvertedFile.isDone()) {
+                    Thread.onSpinWait();
+                }
+
+                mp3ExporterLocked.set(false);
+
+                try {
+                    if (mp3ConvertedFile.get().isPresent()) {
+                        File moveTo = OSUtil.buildFile(
+                                DynamicDirectory.DYNAMIC_PATH,
+                                DynamicDirectory.USERS.getDirectoryName(),
+                                ConsoleFrame.INSTANCE.getUUID(),
+                                UserFile.MUSIC.getName(),
+                                FileUtil.getFilename(mp3ConvertedFile.get().get()) + ".mp3");
+
+                        Files.copy(Paths.get(mp3ConvertedFile.get().get().getAbsolutePath()),
+                                Paths.get(moveTo.getAbsolutePath()));
+
+                        audioPlayerFrame.notify("Saved \""
+                                + moveTo.getName() + "\" to your music directory");
+                    } else {
+                        audioPlayerFrame.notify("Could not convert \""
+                                + currentAudioFile.get().getName() + "\" to an mp3 at this time");
+                    }
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+            }, "Mp3 exporter");
+        } else {
+            throw new IllegalArgumentException("Unsupported audio format: " + currentAudioFile.get().getName());
+        }
+    };
+
+    /**
+     * The logic for the export waveform menu option.
+     */
+    private static final Runnable waveformExporterMenuItem = () -> {
+        if (waveformExporterLocked.get()) {
+            return;
+        }
+
+        CyderThreadRunner.submit(() -> {
+            String saveName = GetterUtil.getInstance().getString(new GetterUtil.Builder("Export Waveform")
+                    .setRelativeTo(audioPlayerFrame)
+                    .setLabelText("Enter a name to export the waveform as")
+                    .setSubmitButtonText("Save to files"));
+
+            if (!StringUtil.isNull(saveName)) {
+                if (OSUtil.isValidFilename(saveName)) {
+                    File saveFile = OSUtil.buildFile(
+                            DynamicDirectory.DYNAMIC_PATH,
+                            DynamicDirectory.USERS.getDirectoryName(),
+                            ConsoleFrame.INSTANCE.getUUID(),
+                            UserFile.FILES.getName(),
+                            saveName + "." + WAVEFORM_EXPORT_FORMAT);
+
+                    Future<BufferedImage> waveform = MessagingUtils.generateLargeWaveform(currentAudioFile.get());
+
+                    waveformExporterLocked.set(true);
+
+                    while (!waveform.isDone()) {
+                        Thread.onSpinWait();
+                    }
+
+                    waveformExporterLocked.set(false);
+
+                    try {
+                        ImageIO.write(waveform.get(), WAVEFORM_EXPORT_FORMAT, saveFile.getAbsoluteFile());
+                        audioPlayerFrame.notify(new CyderFrame.NotificationBuilder
+                                ("Saved waveform to your files directory")
+                                .setOnKillAction(() -> PhotoViewer.getInstance(saveFile).showGui()));
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                        audioPlayerFrame.notify("Could not save waveform at this time");
+                    }
+                } else {
+                    audioPlayerFrame.notify("Invalid filename for " + OSUtil.OPERATING_SYSTEM_NAME);
+                }
+            }
+        }, "AudioPlayer Waveform Exporter");
+    };
+
+    /**
+     * The menu item for searching youtube for songs.
+     */
+    private static final Runnable searchMenuItem = () -> {
+        // todo phase 2
+    };
+
+    /**
+     * The menu item for choosing a local audio file.
+     */
+    private static final Runnable chooseFileMenuItem = () -> {
+        if (chooseFileLocked.get()) {
+            return;
+        }
+
+        CyderThreadRunner.submit(() -> {
+            chooseFileLocked.set(true);
+            File chosenFile =
+                    GetterUtil.getInstance().getFile(new GetterUtil.Builder("Choose an mp3 or wav file")
+                            .setRelativeTo(audioPlayerFrame));
+
+            chooseFileLocked.set(false);
+
+            if (chosenFile != null && FileUtil.isSupportedAudioExtension(chosenFile)) {
+                lastAction = LastAction.FileChosen;
+
+                pauseAudio();
+
+                currentAudioFile.set(chosenFile);
+                pauseLocation = 0;
+                totalAudioLength = 0;
+
+                revalidateFromAudioFileChange();
+
+                playAudio();
+            } else {
+                audioPlayerFrame.notify("Invalid file chosen");
+            }
+        }, "AudioPlayer File Chooser");
+    };
 
     /**
      * The padding used between component rows.

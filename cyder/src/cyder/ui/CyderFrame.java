@@ -3488,6 +3488,7 @@ public class CyderFrame extends JFrame {
     private static record MenuItem(JLabel label, AtomicBoolean state) {
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static final class NotificationBuilder {
         /**
          * The minimum allowable char length for a notification.
@@ -3724,7 +3725,6 @@ public class CyderFrame extends JFrame {
             return viewDuration == that.viewDuration
                     && notifyTime.equals(that.notifyTime)
                     && Objects.equal(htmlText, that.htmlText)
-                    && arrowDir == that.arrowDir
                     && Objects.equal(onKillAction, that.onKillAction)
                     && notificationDirection == that.notificationDirection
                     && notificationType == that.notificationType
