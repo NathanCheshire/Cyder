@@ -364,4 +364,21 @@ public class FileUtil {
 
         return true;
     }
+
+    /**
+     * Closes the provided input stream if not null and assigns the reference to null;
+     *
+     * @param is the input stream to close and assign to null
+     */
+    @SuppressWarnings("UnusedAssignment")
+    public static void closeIfNotNull(InputStream is) {
+        if (is != null) {
+            try {
+                is.close();
+                is = null;
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }
+    }
 }
