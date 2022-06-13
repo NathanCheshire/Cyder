@@ -1679,34 +1679,13 @@ public class AudioPlayer {
     /**
      * Starts playing the current audio file.
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void playAudio() {
         try {
             if (!innerAudioPlayer.isKilled()) {
                 throw new IllegalStateException("Previous audio player object not killed");
             }
 
-            audioPlayer = new Player(bis);
-
-            CyderThreadRunner.submit(() -> {
-                try {
-                    refreshPlayPauseButtonIcon();
-                    ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
-
-                    lastAction = LastAction.Play;
-                    audioPlayingSemaphore.acquire();
-                    audioLocationUpdater.resumeTimer();
-
-                    audioPlayer.play();
-
-                    refreshPlayPauseButtonIcon();
-                    ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-
-                playAudioCallback();
-            }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(currentAudioFile.get()) + "]");
+            // todo setup innerAudioPlayer
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -1736,11 +1715,6 @@ public class AudioPlayer {
         private FileInputStream fis;
 
         /**
-         * The buffered input stream for the file input stream.
-         */
-        private BufferedInputStream bis;
-
-        /**
          * The JLayer player used to play the audio.
          */
         private static Player audioPlayer;
@@ -1762,24 +1736,61 @@ public class AudioPlayer {
             refreshAudioTitleLabel();
         }
 
+        @SuppressWarnings("ResultOfMethodCallIgnored")
         public void start() {
             try {
                 fis = new FileInputStream(audioFile);
-                bis = new BufferedInputStream(fis);
+                fis.skip(Math.max(0, pauseLocation));
+
+                BufferedInputStream bis = new BufferedInputStream(fis);
 
                 totalAudioLength = fis.available();
 
-                // todo play here
+                ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
+                refreshPlayPauseButtonIcon();
 
-                closeIfNotNull(fis);
-                closeIfNotNull(bis);
+                lastAction = LastAction.Play;
+                audioPlayingSemaphore.acquire();
+                audioLocationUpdater.resumeTimer();
 
-                closePlayerObject();
+                audioPlayer = new Player(bis);
+
+                CyderThreadRunner.submit(() -> {
+                    try {
+                        audioPlayer.play();
+
+                        ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
+                        refreshPlayPauseButtonIcon();
+
+                        FileUtil.closeIfNotNull(fis);
+                        FileUtil.closeIfNotNull(bis);
+
+                        if (audioPlayer != null) {
+                            audioPlayer.close();
+                        }
+
+                        if (!killed) {
+                            playAudioCallback();
+                        }
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
+
+                    playAudioCallback();
+                }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(currentAudioFile.get()) + "]");
             } catch (Exception ignored) {}
         }
 
-        public void pause() {
+        public long pause() {
+            try {
+                pauseLocation = totalAudioLength - fis.available() - PAUSE_AUDIO_REACTION_OFFSET;
+                kill();
+                return pauseLocation;
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
 
+            return 0L;
         }
 
         public boolean isKilled() {
@@ -1788,6 +1799,7 @@ public class AudioPlayer {
 
         public void kill() {
             this.killed = true;
+            audioPlayer.close();
         }
 
         public long getTotalAudioLength() {
@@ -1869,29 +1881,12 @@ public class AudioPlayer {
         lastAction = LastAction.Pause;
 
         audioLocationUpdater.pauseTimer();
+        innerAudioPlayer.kill();
 
-        try {
-            if (fis != null) {
-                pauseLocation = totalAudioLength - fis.available() - PAUSE_AUDIO_REACTION_OFFSET;
-                fis.close();
-                fis = null;
-            }
-        } catch (Exception ignored) {
-        }
+        // todo
+        long pauseLocation = innerAudioPlayer.pause();
 
-        FileUtil.closeIfNotNull(bis);
-        closePlayerObject();
         refreshPlayPauseButtonIcon();
-    }
-
-    /**
-     * Ends and closes the audio player JLayer object if not null.
-     */
-    private static void closePlayerObject() {
-        if (audioPlayer != null) {
-            audioPlayer.close();
-            audioPlayer = null;
-        }
     }
 
     /**
