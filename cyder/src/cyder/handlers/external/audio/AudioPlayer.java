@@ -689,7 +689,7 @@ public class AudioPlayer {
                     boolean wasPlaying = isAudioPlaying();
 
                     pauseAudio();
-                    innerAudioPlayer.setPauseLocation(resumeLocation);
+                    innerAudioPlayer.setLocation(resumeLocation);
                     audioLocationUpdater.setPercentIn(newPercentIn);
 
                     if (wasPlaying) {
@@ -977,7 +977,7 @@ public class AudioPlayer {
                         String localFilename = FileUtil.getFilename(validAudioFile);
 
                         if (localFilename.equals(nonDreamyStdName)) {
-                            long unDreamifyPauseLoc = innerAudioPlayer.getRawPauseLocation();
+                            long unDreamifyPauseLoc = innerAudioPlayer.getRemainingBytes();
 
                             audioDreamified.set(false);
                             audioPlayerFrame.revalidateMenu();
@@ -991,7 +991,7 @@ public class AudioPlayer {
 
                             if (resume) {
                                 // todo this needs to be tested since I"m pretty sure it doesn't work
-                                innerAudioPlayer.setPauseLocation(unDreamifyPauseLoc);
+                                innerAudioPlayer.setLocation(unDreamifyPauseLoc);
                                 playAudio();
                             }
 
@@ -1681,11 +1681,15 @@ public class AudioPlayer {
      */
     private static void playAudio() {
         try {
-            if (!innerAudioPlayer.isKilled()) {
-                throw new IllegalStateException("Previous audio player object not killed");
+            if (innerAudioPlayer != null && !innerAudioPlayer.isKilled()) {
+                if (innerAudioPlayer.isPaused()) {
+                    innerAudioPlayer.resume();
+                } else {
+                    innerAudioPlayer.play();
+                }
+            } else {
+                // todo setup inner audio player ourselves based on audio file
             }
-
-            // todo setup innerAudioPlayer
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -1698,7 +1702,6 @@ public class AudioPlayer {
      */
     private static class InnerAudioPlayer {
         private final File audioFile;
-        private boolean killed;
 
         public InnerAudioPlayer(File audioFile) {
             Preconditions.checkNotNull(audioFile);
@@ -1708,6 +1711,9 @@ public class AudioPlayer {
 
             setup();
         }
+
+        private boolean killed;
+        private boolean isPaused;
 
         /**
          * The file input stream to grab the audio data.
@@ -1734,10 +1740,11 @@ public class AudioPlayer {
          */
         private void setup() {
             refreshAudioTitleLabel();
+            // todo maybe other actions here
         }
 
         @SuppressWarnings("ResultOfMethodCallIgnored")
-        public void start() {
+        public void play() {
             try {
                 fis = new FileInputStream(audioFile);
                 fis.skip(Math.max(0, pauseLocation));
@@ -1754,6 +1761,8 @@ public class AudioPlayer {
                 audioLocationUpdater.resumeTimer();
 
                 audioPlayer = new Player(bis);
+
+                isPaused = false;
 
                 CyderThreadRunner.submit(() -> {
                     try {
@@ -1781,16 +1790,25 @@ public class AudioPlayer {
             } catch (Exception ignored) {}
         }
 
-        public long pause() {
+        /**
+         * Pauses the audio player and remembers the pause location.
+         */
+        public void pause() {
             try {
                 pauseLocation = totalAudioLength - fis.available() - PAUSE_AUDIO_REACTION_OFFSET;
-                kill();
-                return pauseLocation;
+                audioPlayer.close();
+                isPaused = true;
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
+        }
 
-            return 0L;
+        public void resume() {
+            if (!isPaused) {
+                throw new IllegalMethodException("Audio is not paused");
+            }
+
+            play();
         }
 
         public boolean isKilled() {
@@ -1806,7 +1824,7 @@ public class AudioPlayer {
             return totalAudioLength;
         }
 
-        public void setPauseLocation(long pauseLocation) {
+        public void setLocation(long pauseLocation) {
             this.pauseLocation = pauseLocation;
         }
 
@@ -1825,7 +1843,7 @@ public class AudioPlayer {
          * @return the raw pause location of the exact number of bytes played by fis
          * @throws IllegalArgumentException if the raw pause location could not be polled
          */
-        private long getRawPauseLocation() {
+        private long getRemainingBytes() {
             try {
                 if (fis != null) {
                     return totalAudioLength - fis.available();
@@ -1839,6 +1857,10 @@ public class AudioPlayer {
 
         public long getMillisecondsIn() {
             return 0; // todo
+        }
+
+        public boolean isPaused() {
+            return isPaused;
         }
     }
 
@@ -1884,13 +1906,8 @@ public class AudioPlayer {
      */
     private static void pauseAudio() {
         lastAction = LastAction.Pause;
-
         audioLocationUpdater.pauseTimer();
-        innerAudioPlayer.kill();
-
-        // todo
-        long pauseLocation = innerAudioPlayer.pause();
-
+        innerAudioPlayer.pause();
         refreshPlayPauseButtonIcon();
     }
 
