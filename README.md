@@ -58,14 +58,22 @@ Some examples of what you can do with Cyder include:
 
 <details>
 <summary><b>Pathfinding Visualizer</b></summary>
+<p>
 <br>
-https://user-images.githubusercontent.com/60986919/161394292-cb7bf459-d405-4efc-8ea1-33a127036a69.mp4
+  
+https://user-images.githubusercontent.com/60986919/160253262-8b10844a-6385-4328-ab84-961d05777526.mp4
+  
+</p>
 </details>
 
 <details>
 <summary><b>Game of Life Widget</b></summary>
+<p>
 <br>
-https://user-images.githubusercontent.com/60986919/160253262-8b10844a-6385-4328-ab84-961d05777526.mp4
+  
+https://user-images.githubusercontent.com/60986919/161394292-cb7bf459-d405-4efc-8ea1-33a127036a69.mp4
+  
+</p>
 </details>
 
 ## Usage and Setup
