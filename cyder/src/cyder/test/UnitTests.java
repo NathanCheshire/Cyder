@@ -6,6 +6,7 @@ import cyder.utilities.*;
 import cyder.widgets.WeatherWidget;
 import org.junit.Test;
 
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -363,5 +364,11 @@ public class UnitTests {
         float difference = (float) lt / mgkWikiSum.length();
 
         assertTrue(difference <= wikiSumTol);
+    }
+
+    @Test
+    public void testElevationUtil() {
+        assertEquals(ElevationUtil.getElevation(
+                new Point(0, 0), ElevationUtil.LengthUnit.FEET), -1000000.0, 0);
     }
 }

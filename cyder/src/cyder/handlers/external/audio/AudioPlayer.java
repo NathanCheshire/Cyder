@@ -1874,6 +1874,11 @@ public class AudioPlayer {
         }
     }
 
+    // todo AudioPlayer calls should be wrappers for innerAudioPlayer methods
+    //  but should check for non null before trying to invoke the wrapped method call
+
+    // todo when an innerAudioPlayer is killed it should never be able to play audio again.
+
     /**
      * Pauses playback of the current audio file.
      */
