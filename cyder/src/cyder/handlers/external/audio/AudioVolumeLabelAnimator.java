@@ -71,7 +71,10 @@ public class AudioVolumeLabelAnimator {
                     while (audioVolumeLabelTimeout.get() > 0) {
                         audioVolumePercentLabel.setVisible(true);
                         Thread.sleep(AUDIO_VOLUME_LABEL_SLEEP_TIME);
-                        audioVolumeLabelTimeout.getAndAdd(-AUDIO_VOLUME_LABEL_SLEEP_TIME);
+
+                        if (!killed) {
+                            audioVolumeLabelTimeout.getAndAdd(-AUDIO_VOLUME_LABEL_SLEEP_TIME);
+                        }
                     }
 
                     audioVolumePercentLabel.setVisible(false);

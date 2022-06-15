@@ -1,6 +1,5 @@
 package cyder.handlers.external.audio;
 
-import com.google.common.base.Preconditions;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
@@ -21,7 +20,6 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.user.UserFile;
 import cyder.utilities.*;
-import javazoom.jl.player.Player;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
@@ -35,16 +33,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -720,10 +715,6 @@ public class AudioPlayer {
         audioPlayerFrame.getContentPane().add(totalSecondsLabel);
         totalSecondsLabel.setFocusable(false);
 
-        if (audioLocationUpdater != null) {
-            audioLocationUpdater.kill();
-        }
-
         audioLocationUpdater = new AudioLocationUpdater(secondsInLabel, totalSecondsLabel, currentFrameView,
                 currentAudioFile, audioLocationSliderPressed, audioLocationSlider);
 
@@ -977,7 +968,8 @@ public class AudioPlayer {
                         String localFilename = FileUtil.getFilename(validAudioFile);
 
                         if (localFilename.equals(nonDreamyStdName)) {
-                            long unDreamifyPauseLoc = innerAudioPlayer.getRemainingBytes();
+                            long unDreamifyPauseLoc = innerAudioPlayer != null
+                                    ? innerAudioPlayer.getRemainingBytes() : 0;
 
                             audioDreamified.set(false);
                             audioPlayerFrame.revalidateMenu();
@@ -987,17 +979,21 @@ public class AudioPlayer {
                             boolean resume = isAudioPlaying();
                             pauseAudio();
 
+                            innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+                            innerAudioPlayer.setLocation(unDreamifyPauseLoc);
+
                             revalidateFromAudioFileChange();
 
                             if (resume) {
-                                // todo this needs to be tested since I"m pretty sure it doesn't work
-                                innerAudioPlayer.setLocation(unDreamifyPauseLoc);
                                 playAudio();
                             }
 
                             return;
                         }
                     }
+
+                    // todo this shouldn't reset the audio volume label animator or the progress bar
+                    // we should bundle those with an inner audio player I think.
 
                     audioPlayerFrame.notify("Could not find audio's non-dreamy equivalent");
                     return;
@@ -1523,7 +1519,7 @@ public class AudioPlayer {
      * Terminates the current ScrollingTitleLabel object controlling the title label
      * in the title label container and creates a new instance based on the current audio file's title.
      */
-    private static void refreshAudioTitleLabel() {
+    static void refreshAudioTitleLabel() {
         String text = StringUtil.capsFirst(FileUtil.getFilename(currentAudioFile.get().getName()));
 
         // end old object
@@ -1596,7 +1592,7 @@ public class AudioPlayer {
     /**
      * Refreshes the icon of the play/pause button.
      */
-    private static void refreshPlayPauseButtonIcon() {
+    static void refreshPlayPauseButtonIcon() {
         if (isAudioPlaying()) {
             playPauseButton.setIcon(pauseIcon);
             playPauseButton.setToolTipText("Pause");
@@ -1666,21 +1662,14 @@ public class AudioPlayer {
     }
 
     /**
-     * The amount to offset a pause request by so that a sequential play
-     * request sounds like it was paused at that instant.
-     */
-    private static final int PAUSE_AUDIO_REACTION_OFFSET = 10000;
-
-    /**
-     * The semaphore used to ensure it is impossible for more than one audio to be playing at any one time.
-     */
-    private static final Semaphore audioPlayingSemaphore = new Semaphore(1);
-
-    /**
      * Starts playing the current audio file.
      */
     private static void playAudio() {
         try {
+            if (innerAudioPlayer != null && innerAudioPlayer.isPlaying()) {
+                throw new IllegalMethodException("Audio already playing");
+            }
+
             if (innerAudioPlayer != null && !innerAudioPlayer.isKilled()) {
                 if (innerAudioPlayer.isPaused()) {
                     innerAudioPlayer.resume();
@@ -1688,7 +1677,9 @@ public class AudioPlayer {
                     innerAudioPlayer.play();
                 }
             } else {
-                // todo setup inner audio player ourselves based on audio file
+                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+                innerAudioPlayer.play();
+                // no call backs needed since innerAudioPlayer handles that itself
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -1697,179 +1688,17 @@ public class AudioPlayer {
 
     private static InnerAudioPlayer innerAudioPlayer;
 
-    /**
-     * An inner class for easily playing a single audio file
-     */
-    private static class InnerAudioPlayer {
-        private final File audioFile;
-
-        public InnerAudioPlayer(File audioFile) {
-            Preconditions.checkNotNull(audioFile);
-            Preconditions.checkArgument(audioFile.exists());
-
-            this.audioFile = audioFile;
-
-            setup();
-        }
-
-        private boolean killed;
-        private boolean isPaused;
-
-        /**
-         * The file input stream to grab the audio data.
-         */
-        private FileInputStream fis;
-
-        /**
-         * The JLayer player used to play the audio.
-         */
-        private static Player audioPlayer;
-
-        /**
-         * The location the current audio file was paused/stopped at.
-         */
-        private long pauseLocation;
-
-        /**
-         * The total audio length of the current audio file.
-         */
-        private long totalAudioLength;
-
-        /**
-         * Performs necessary setup actions such as refreshing the title label.
-         */
-        private void setup() {
-            refreshAudioTitleLabel();
-            // todo maybe other actions here
-        }
-
-        @SuppressWarnings("ResultOfMethodCallIgnored")
-        public void play() {
-            try {
-                fis = new FileInputStream(audioFile);
-                fis.skip(Math.max(0, pauseLocation));
-
-                BufferedInputStream bis = new BufferedInputStream(fis);
-
-                totalAudioLength = fis.available();
-
-                ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
-                refreshPlayPauseButtonIcon();
-
-                lastAction = LastAction.Play;
-                audioPlayingSemaphore.acquire();
-                audioLocationUpdater.resumeTimer();
-
-                audioPlayer = new Player(bis);
-
-                isPaused = false;
-
-                CyderThreadRunner.submit(() -> {
-                    try {
-                        audioPlayer.play();
-
-                        ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
-                        refreshPlayPauseButtonIcon();
-
-                        FileUtil.closeIfNotNull(fis);
-                        FileUtil.closeIfNotNull(bis);
-
-                        if (audioPlayer != null) {
-                            audioPlayer.close();
-                        }
-
-                        if (!killed) {
-                            playAudioCallback();
-                        }
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-
-                    playAudioCallback();
-                }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(currentAudioFile.get()) + "]");
-            } catch (Exception ignored) {}
-        }
-
-        /**
-         * Pauses the audio player and remembers the pause location.
-         */
-        public void pause() {
-            try {
-                pauseLocation = totalAudioLength - fis.available() - PAUSE_AUDIO_REACTION_OFFSET;
-                audioPlayer.close();
-                isPaused = true;
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }
-
-        public void resume() {
-            if (!isPaused) {
-                throw new IllegalMethodException("Audio is not paused");
-            }
-
-            play();
-        }
-
-        public boolean isKilled() {
-            return killed;
-        }
-
-        public void kill() {
-            this.killed = true;
-            audioPlayer.close();
-        }
-
-        public long getTotalAudioLength() {
-            return totalAudioLength;
-        }
-
-        public void setLocation(long pauseLocation) {
-            this.pauseLocation = pauseLocation;
-        }
-
-        /**
-         * Returns whether audio is currently being played via this InnerAudioPlayer.
-         *
-         * @return whether audio is currently being played via this InnerAudioPlayer
-         */
-        public boolean isPlaying() {
-            return audioPlayer != null && !audioPlayer.isComplete();
-        }
-
-        /**
-         * Returns the raw pause location of the exact number of bytes played by fis.
-         *
-         * @return the raw pause location of the exact number of bytes played by fis
-         * @throws IllegalArgumentException if the raw pause location could not be polled
-         */
-        private long getRemainingBytes() {
-            try {
-                if (fis != null) {
-                    return totalAudioLength - fis.available();
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-
-            throw new IllegalArgumentException("Could not poll raw pause location");
-        }
-
-        public long getMillisecondsIn() {
-            return 0; // todo
-        }
-
-        public boolean isPaused() {
-            return isPaused;
-        }
-    }
-
     @SuppressWarnings("ConstantConditions")
-    private static void playAudioCallback() {
+    static void playAudioCallback() {
         // user didn't click any buttons so we should try and find the next audio
         if (lastAction == LastAction.Play) {
             int currentAudioIndex = getCurrentAudioIndex();
             currentAudioFile.set(validAudioFiles.get(currentAudioIndex));
+
+            if (innerAudioPlayer != null) {
+                innerAudioPlayer.kill();
+                innerAudioPlayer = null;
+            }
 
             if (repeatAudio) {
                 playAudio();
@@ -1905,10 +1734,12 @@ public class AudioPlayer {
      * Pauses playback of the current audio file.
      */
     private static void pauseAudio() {
-        lastAction = LastAction.Pause;
-        audioLocationUpdater.pauseTimer();
-        innerAudioPlayer.pause();
-        refreshPlayPauseButtonIcon();
+        if (innerAudioPlayer != null && innerAudioPlayer.isPlaying()) {
+            innerAudioPlayer.pause();
+            lastAction = LastAction.Pause;
+            audioLocationUpdater.pauseTimer();
+            refreshPlayPauseButtonIcon();
+        }
     }
 
     /**
@@ -1932,12 +1763,12 @@ public class AudioPlayer {
 
         boolean shouldPlay = isAudioPlaying();
 
-        pauseAudio();
-
         refreshAudioFiles();
 
         if (innerAudioPlayer.getMillisecondsIn() > SECONDS_IN_RESTART_TOL) {
-            playAudio();
+            pauseAudio();
+            innerAudioPlayer.kill();
+            innerAudioPlayer = null;
             return;
         }
 
@@ -1949,6 +1780,10 @@ public class AudioPlayer {
         revalidateFromAudioFileChange();
 
         if (shouldPlay) {
+            pauseAudio();
+            innerAudioPlayer.kill();
+            innerAudioPlayer = null;
+
             playAudio();
         }
     }
@@ -1969,6 +1804,8 @@ public class AudioPlayer {
         boolean shouldPlay = isAudioPlaying();
 
         pauseAudio();
+        innerAudioPlayer.kill();
+        innerAudioPlayer = null;
 
         int currentIndex = getCurrentAudioIndex();
         int nextIndex = currentIndex == validAudioFiles.size() - 1 ? 0 : currentIndex + 1;
