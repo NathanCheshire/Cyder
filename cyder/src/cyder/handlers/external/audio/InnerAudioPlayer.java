@@ -54,8 +54,6 @@ class InnerAudioPlayer {
      */
     private void setup() {
         AudioPlayer.refreshAudioTitleLabel();
-        // todo audio progress
-        // todo maybe other actions here
     }
 
     /**
@@ -103,13 +101,26 @@ class InnerAudioPlayer {
     }
 
     /**
+     * Returns whether this object is playing audio.
+     *
+     * @return whether this object is playing audio
+     */
+    public boolean isPlaying() {
+        return audioPlayer != null;
+    }
+
+    /**
      * Pauses the audio player.
      */
     public void stop() {
         audioPlayer.close();
     }
 
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    /**
+     * Returns whether this inner audio player has been killed.
+     *
+     * @return whether this inner audio player has been killed
+     */
     public boolean isKilled() {
         return killed;
     }

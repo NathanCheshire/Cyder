@@ -686,8 +686,6 @@ public class AudioPlayer {
                     pauseAudio();
                     innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
                     innerAudioPlayer.setLocation(resumeLocation);
-                    System.out.println(resumeLocation);
-                    System.out.println(resumeLocation);
                     audioLocationUpdater.setPercentIn(newPercentIn);
 
                     if (wasPlaying) {
@@ -994,9 +992,6 @@ public class AudioPlayer {
                             return;
                         }
                     }
-
-                    // todo this shouldn't reset the audio volume label animator or the progress bar
-                    //  we should bundle those with an inner audio player I think.
 
                     audioPlayerFrame.notify("Could not find audio's non-dreamy equivalent");
                     return;
@@ -1672,13 +1667,14 @@ public class AudioPlayer {
      */
     private static void playAudio() {
         try {
+            // object created outside of this todo lol should this even be a thing
             if (innerAudioPlayer != null && !innerAudioPlayer.isKilled()) {
-                innerAudioPlayer.kill();
-                innerAudioPlayer = null;
+                innerAudioPlayer.play();
+                lastAction = AudioPlayer.LastAction.Play;
+                audioLocationUpdater.resumeTimer();
             }
-
             // spin off object
-            if (innerAudioPlayer == null) {
+            else if (innerAudioPlayer == null) {
                 innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
                 lastAction = AudioPlayer.LastAction.Play;
                 innerAudioPlayer.play();
@@ -1743,11 +1739,9 @@ public class AudioPlayer {
         }
     }
 
-    // todo AudioPlayer calls should be wrappers for innerAudioPlayer methods
-    //  but should check for non null before trying to invoke the wrapped method call
-
-    // todo when an innerAudioPlayer is killed it should never be able to play audio again.
-
+    /*
+     * The location the previous InnerAudioPlayer was killed at, if available.
+     */
     private static long pauseLocation;
 
     /**
@@ -1756,7 +1750,6 @@ public class AudioPlayer {
     private static void pauseAudio() {
         if (innerAudioPlayer != null) {
             pauseLocation = innerAudioPlayer.kill();
-            innerAudioPlayer = null;
             lastAction = LastAction.Pause;
             audioLocationUpdater.pauseTimer();
             refreshPlayPauseButtonIcon();
@@ -1786,7 +1779,8 @@ public class AudioPlayer {
 
         refreshAudioFiles();
 
-        if (innerAudioPlayer != null && innerAudioPlayer.getMillisecondsIn() > SECONDS_IN_RESTART_TOL) {
+        if (innerAudioPlayer != null && innerAudioPlayer.isPlaying()
+                && innerAudioPlayer.getMillisecondsIn() > SECONDS_IN_RESTART_TOL) {
             pauseAudio();
             innerAudioPlayer.kill();
             innerAudioPlayer = null;
@@ -1826,13 +1820,12 @@ public class AudioPlayer {
         boolean shouldPlay = isAudioPlaying();
 
         pauseAudio();
-        innerAudioPlayer.kill();
-        innerAudioPlayer = null;
 
         int currentIndex = getCurrentAudioIndex();
         int nextIndex = currentIndex == validAudioFiles.size() - 1 ? 0 : currentIndex + 1;
 
         currentAudioFile.set(validAudioFiles.get(nextIndex));
+        innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
 
         revalidateFromAudioFileChange();
 
@@ -2010,10 +2003,4 @@ public class AudioPlayer {
 
         audioPlayerFrame.revalidateMenu();
     }
-
-    // --------------------
-    // Search YouTube View
-    // --------------------
-
-    // todo after audio player completely working and tested start with other views
 }

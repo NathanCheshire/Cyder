@@ -114,9 +114,9 @@ public class AudioLocationUpdater {
         setupInProgress.set(true);
 
         CyderThreadRunner.submit(() -> {
-            // maybe there could be some placeholder text while ffprobe is getting the correct length
             secondsInLabel.setText("");
             secondsLeftLabel.setText("");
+            slider.setValue(0);
 
             Future<Integer> totalMillisFuture = AudioUtil.getMillis(currentAudioFile.get());
 
@@ -181,11 +181,11 @@ public class AudioLocationUpdater {
                     if (!timerPaused) {
                         milliSecondsIn += UPDATE_DELAY;
                     }
-                } catch (Exception ignored) {
-                }
+                } catch (Exception ignored) {}
 
-                if (!timerPaused && currentFrameView.get() != FrameView.MINI
-                        && !setupInProgress.get()) {
+                // only updates ui layer, millisecond increments are still happening above
+
+                if (!timerPaused && currentFrameView.get() != FrameView.MINI) {
                     updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)));
 
                     if (!sliderPressed.get()) {
