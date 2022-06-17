@@ -99,13 +99,20 @@ public class AudioLocationUpdater {
         this.sliderPressed = sliderPressed;
         this.slider = slider;
 
-        startUpdateThread();
+        setupProps();
     }
 
     /**
-     * Starts the thread to update the inner label
+     * Ensures that starting the update thread does not interfere with the setup process.
      */
-    private void startUpdateThread() {
+    private final AtomicBoolean setupInProgress = new AtomicBoolean(false);
+
+    /**
+     * Determines the audio total length and updates the label in preparation for the update thread to start.
+     */
+    private void setupProps() {
+        setupInProgress.set(true);
+
         CyderThreadRunner.submit(() -> {
             // maybe there could be some placeholder text while ffprobe is getting the correct length
             secondsInLabel.setText("");
@@ -138,6 +145,35 @@ public class AudioLocationUpdater {
 
             this.totalMilliSeconds = totalMillis;
 
+            updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)));
+
+            if (!sliderPressed.get()) {
+                updateSlider();
+            }
+
+            setupInProgress.set(false);
+            startUpdateThread();
+        }, FileUtil.getFilename(currentAudioFile.get()) + " Progress Label Thread");
+    }
+
+    /**
+     * Whether the update thread has been started yet.
+     */
+    private boolean started;
+
+    /**
+     * Starts the thread to update the inner label
+     *
+     * @throws IllegalStateException if this method has already been invoked
+     */
+    public void startUpdateThread() {
+        if (started) {
+            throw new IllegalStateException("Update thread already started");
+        }
+
+        started = true;
+
+        CyderThreadRunner.submit(() -> {
             while (!killed) {
                 try {
                     Thread.sleep(UPDATE_DELAY);
@@ -148,7 +184,8 @@ public class AudioLocationUpdater {
                 } catch (Exception ignored) {
                 }
 
-                if (!timerPaused && currentFrameView.get() != FrameView.MINI) {
+                if (!timerPaused && currentFrameView.get() != FrameView.MINI
+                        && !setupInProgress.get()) {
                     updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)));
 
                     if (!sliderPressed.get()) {

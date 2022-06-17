@@ -684,7 +684,10 @@ public class AudioPlayer {
                     boolean wasPlaying = isAudioPlaying();
 
                     pauseAudio();
+                    innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
                     innerAudioPlayer.setLocation(resumeLocation);
+                    System.out.println(resumeLocation);
+                    System.out.println(resumeLocation);
                     audioLocationUpdater.setPercentIn(newPercentIn);
 
                     if (wasPlaying) {
@@ -1611,7 +1614,7 @@ public class AudioPlayer {
      * @return whether audio is playing
      */
     public static boolean isAudioPlaying() {
-        return innerAudioPlayer != null && innerAudioPlayer.isPlaying();
+        return innerAudioPlayer != null; // todo might not work rn but needs to work like this
     }
 
     /**
@@ -1669,25 +1672,32 @@ public class AudioPlayer {
      */
     private static void playAudio() {
         try {
-            if (innerAudioPlayer != null && innerAudioPlayer.isPlaying()) {
-                throw new IllegalMethodException("Audio already playing");
+            if (innerAudioPlayer != null && !innerAudioPlayer.isKilled()) {
+                innerAudioPlayer.kill();
+                innerAudioPlayer = null;
             }
 
-            if (innerAudioPlayer != null && !innerAudioPlayer.isKilled()) {
-                if (innerAudioPlayer.isPaused()) {
-                    lastAction = AudioPlayer.LastAction.Play;
-                    innerAudioPlayer.resume();
-                } else {
-                    lastAction = AudioPlayer.LastAction.Play;
-                    innerAudioPlayer.play();
-                    audioLocationUpdater.resumeTimer();
-                }
-            } else {
+            // spin off object
+            if (innerAudioPlayer == null) {
                 innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
                 lastAction = AudioPlayer.LastAction.Play;
                 innerAudioPlayer.play();
                 audioLocationUpdater.resumeTimer();
                 // no call backs needed since innerAudioPlayer handles that itself
+            }
+            // resume
+            else if (lastAction == LastAction.Pause) {
+                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+                lastAction = AudioPlayer.LastAction.Play;
+                innerAudioPlayer.setLocation(pauseLocation);
+                innerAudioPlayer.play();
+                audioLocationUpdater.resumeTimer();
+            }
+            // standard play
+            else {
+                lastAction = AudioPlayer.LastAction.Play;
+                innerAudioPlayer.play();
+                audioLocationUpdater.resumeTimer();
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -1738,12 +1748,15 @@ public class AudioPlayer {
 
     // todo when an innerAudioPlayer is killed it should never be able to play audio again.
 
+    private static long pauseLocation;
+
     /**
      * Pauses playback of the current audio file.
      */
     private static void pauseAudio() {
-        if (innerAudioPlayer != null && innerAudioPlayer.isPlaying()) {
-            innerAudioPlayer.pause();
+        if (innerAudioPlayer != null) {
+            pauseLocation = innerAudioPlayer.kill();
+            innerAudioPlayer = null;
             lastAction = LastAction.Pause;
             audioLocationUpdater.pauseTimer();
             refreshPlayPauseButtonIcon();
@@ -1773,7 +1786,7 @@ public class AudioPlayer {
 
         refreshAudioFiles();
 
-        if (innerAudioPlayer.getMillisecondsIn() > SECONDS_IN_RESTART_TOL) {
+        if (innerAudioPlayer != null && innerAudioPlayer.getMillisecondsIn() > SECONDS_IN_RESTART_TOL) {
             pauseAudio();
             innerAudioPlayer.kill();
             innerAudioPlayer = null;
@@ -1789,6 +1802,7 @@ public class AudioPlayer {
 
         if (shouldPlay) {
             pauseAudio();
+            innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
             innerAudioPlayer.kill();
             innerAudioPlayer = null;
 

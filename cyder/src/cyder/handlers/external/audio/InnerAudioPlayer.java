@@ -1,7 +1,6 @@
 package cyder.handlers.external.audio;
 
 import com.google.common.base.Preconditions;
-import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -16,8 +15,16 @@ import java.io.FileInputStream;
  * An inner class for easily playing a single audio file
  */
 class InnerAudioPlayer {
+    /**
+     * The one and only file this audio player can play.
+     */
     private final File audioFile;
 
+    /**
+     * Constructs a new InnerAudioPlay.
+     *
+     * @param audioFile the audio file for this object to handle
+     */
     public InnerAudioPlayer(File audioFile) {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
@@ -27,18 +34,10 @@ class InnerAudioPlayer {
         setup();
     }
 
+    /**
+     * Whether this object
+     */
     private boolean killed;
-    private boolean isPaused;
-
-    /**
-     * The file input stream to grab the audio data.
-     */
-    private FileInputStream fis;
-
-    /**
-     * The JLayer player used to play the audio.
-     */
-    private Player audioPlayer;
 
     /**
      * The location the current audio file was paused/stopped at.
@@ -54,26 +53,32 @@ class InnerAudioPlayer {
      * Performs necessary setup actions such as refreshing the title label.
      */
     private void setup() {
-        if (!killed) {
-            AudioPlayer.refreshAudioTitleLabel();
-            // todo maybe other actions here
-        }
+        AudioPlayer.refreshAudioTitleLabel();
+        // todo audio progress
+        // todo maybe other actions here
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
+    /**
+     * The audio player used to play audio.
+     */
+    private Player audioPlayer;
+    private FileInputStream fis;
+
     public void play() {
         try {
             fis = new FileInputStream(audioFile);
             totalAudioLength = fis.available();
-            fis.skip(Math.max(0, pauseLocation));
+            long bytesSkipped = fis.skip(Math.max(0, pauseLocation));
+
+            if (fis.available() != totalAudioLength - bytesSkipped) {
+                throw new IllegalStateException("Fis failed to skip requested bytes");
+            }
 
             BufferedInputStream bis = new BufferedInputStream(fis);
 
             ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
 
             audioPlayer = new Player(bis);
-
-            isPaused = false;
 
             CyderThreadRunner.submit(() -> {
                 try {
@@ -83,14 +88,9 @@ class InnerAudioPlayer {
 
                     FileUtil.closeIfNotNull(fis);
                     FileUtil.closeIfNotNull(bis);
+                    audioPlayer = null;
 
-                    if (audioPlayer != null) {
-                        audioPlayer.close();
-                        audioPlayer = null;
-                        fis = null;
-                    }
-
-                    if (!killed && !isPaused) {
+                    if (!killed) {
                         AudioPlayer.playAudioCallback();
                     }
                 } catch (Exception e) {
@@ -103,71 +103,62 @@ class InnerAudioPlayer {
     }
 
     /**
+     * Pauses the audio player.
+     */
+    public void stop() {
+        audioPlayer.close();
+    }
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public boolean isKilled() {
+        return killed;
+    }
+
+    /**
      * The amount to offset a pause request by so that a sequential play
      * request sounds like it was paused at that instant.
      */
     private static final int PAUSE_AUDIO_REACTION_OFFSET = 10000;
 
     /**
-     * Pauses the audio player.
+     * Kills the player if playing audio and returns the location to resume a new player object at.
+     *
+     * @return the location to resume a new player object at
      */
-    public void pause() {
-        if (isPaused) {
-            return;
-        }
+    public long kill() {
+        long resumeLocation = 0L;
 
         try {
-            pauseLocation = totalAudioLength - fis.available() - PAUSE_AUDIO_REACTION_OFFSET;
-            audioPlayer.close();
-            audioPlayer = null;
-            fis = null;
-            isPaused = true;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
+            resumeLocation = totalAudioLength - fis.available() - PAUSE_AUDIO_REACTION_OFFSET;
+        } catch (Exception ignored) {}
 
-    public void resume() {
-        if (!isPaused) {
-            throw new IllegalMethodException("Audio is not paused");
-        }
-
-        play();
-    }
-
-    public boolean isKilled() {
-        return killed;
-    }
-
-    // todo need to refresh button on actions
-    // todo slider needs to immediately reset position when audio changes
-
-    public void kill() {
         this.killed = true;
 
         if (audioPlayer != null) {
             audioPlayer.close();
         }
 
-        audioPlayer = null;
         fis = null;
+
+        return resumeLocation;
     }
 
+    /**
+     * Returns the total computed audio length (bytes).
+     *
+     * @return the total computed audio length (bytes)
+     */
     public long getTotalAudioLength() {
         return totalAudioLength;
     }
 
+    /**
+     * Sets the location this player should start playing at when {@link InnerAudioPlayer#play()} is invoked.
+     *
+     * @param pauseLocation the location this player should start from
+     */
     public void setLocation(long pauseLocation) {
         this.pauseLocation = pauseLocation;
-    }
-
-    /**
-     * Returns whether audio is currently being played via this InnerAudioPlayer.
-     *
-     * @return whether audio is currently being played via this InnerAudioPlayer
-     */
-    public boolean isPlaying() {
-        return audioPlayer != null && !audioPlayer.isComplete();
     }
 
     /**
@@ -190,9 +181,5 @@ class InnerAudioPlayer {
 
     public long getMillisecondsIn() {
         return 0; // todo implement me
-    }
-
-    public boolean isPaused() {
-        return isPaused;
     }
 }
