@@ -60,8 +60,15 @@ class InnerAudioPlayer {
      * The audio player used to play audio.
      */
     private Player audioPlayer;
+
+    /**
+     * The file input stream used to calculate byte values outside of the play method.
+     */
     private FileInputStream fis;
 
+    /**
+     * Starts playing the provided audio file at the optionally provided location.
+     */
     public void play() {
         try {
             fis = new FileInputStream(audioFile);
@@ -190,7 +197,21 @@ class InnerAudioPlayer {
         throw new IllegalArgumentException("Could not poll remaining bytes");
     }
 
+    /**
+     * Returns the milliseconds into the current audio this player object is.
+     *
+     * @return the milliseconds into the current audio this player object is
+     */
     public long getMillisecondsIn() {
-        return 0; // todo implement me
+        float percentIn = 0f;
+
+        try {
+            percentIn = (totalAudioLength - fis.available()) / (float) totalAudioLength;
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        int totalMillis = AudioUtil.getMillisFast(audioFile);
+        return (long) (totalMillis * percentIn);
     }
 }

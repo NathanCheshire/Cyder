@@ -2,7 +2,6 @@ package cyder.handlers.external.audio;
 
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
-import cyder.utilities.AudioUtil;
 import cyder.utilities.FileUtil;
 import cyder.utilities.UserUtil;
 
