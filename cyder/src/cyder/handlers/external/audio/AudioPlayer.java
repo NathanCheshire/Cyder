@@ -993,7 +993,7 @@ public class AudioPlayer {
                     }
 
                     // todo this shouldn't reset the audio volume label animator or the progress bar
-                    // we should bundle those with an inner audio player I think.
+                    //  we should bundle those with an inner audio player I think.
 
                     audioPlayerFrame.notify("Could not find audio's non-dreamy equivalent");
                     return;
@@ -1005,6 +1005,7 @@ public class AudioPlayer {
                         ConsoleFrame.INSTANCE.getUUID(),
                         UserFile.MUSIC.getName());
 
+                // dreamified audio already exists
                 if (userMusicDir.exists()) {
                     File[] audioFiles = userMusicDir.listFiles();
 
@@ -1013,18 +1014,20 @@ public class AudioPlayer {
                             if ((currentAudioFilename + AudioUtil.DREAMY_SUFFIX)
                                     .equalsIgnoreCase(FileUtil.getFilename(audioFile))) {
 
-                                if (isAudioPlaying()) {
-                                    pauseAudio();
-                                }
+                                boolean resume = isAudioPlaying();
+                                pauseAudio();
 
                                 audioDreamified.set(true);
                                 audioPlayerFrame.revalidateMenu();
 
                                 currentAudioFile.set(audioFile);
+                                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
 
                                 revalidateFromAudioFileChange();
 
-                                playAudio();
+                                if (resume) {
+                                    playAudio();
+                                }
 
                                 return;
                             }
@@ -1672,13 +1675,18 @@ public class AudioPlayer {
 
             if (innerAudioPlayer != null && !innerAudioPlayer.isKilled()) {
                 if (innerAudioPlayer.isPaused()) {
+                    lastAction = AudioPlayer.LastAction.Play;
                     innerAudioPlayer.resume();
                 } else {
+                    lastAction = AudioPlayer.LastAction.Play;
                     innerAudioPlayer.play();
+                    audioLocationUpdater.resumeTimer();
                 }
             } else {
                 innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+                lastAction = AudioPlayer.LastAction.Play;
                 innerAudioPlayer.play();
+                audioLocationUpdater.resumeTimer();
                 // no call backs needed since innerAudioPlayer handles that itself
             }
         } catch (Exception e) {

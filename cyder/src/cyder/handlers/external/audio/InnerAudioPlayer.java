@@ -71,10 +71,6 @@ class InnerAudioPlayer {
 
             ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
 
-            // todo how to handle these
-            lastAction = AudioPlayer.LastAction.Play;
-            audioLocationUpdater.resumeTimer();
-
             audioPlayer = new Player(bis);
 
             isPaused = false;
