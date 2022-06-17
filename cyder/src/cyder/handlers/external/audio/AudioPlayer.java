@@ -678,6 +678,8 @@ public class AudioPlayer {
                 if (audioLocationSliderPressed.get()) {
                     audioLocationSliderPressed.set(false);
 
+                    // todo wait to set inner audio player's location if still during setup
+
                     float newPercentIn = (float) audioLocationSlider.getValue() / audioLocationSlider.getMaximum();
                     long resumeLocation = (long) (newPercentIn * innerAudioPlayer.getTotalAudioLength());
 
@@ -1673,14 +1675,6 @@ public class AudioPlayer {
                 lastAction = AudioPlayer.LastAction.Play;
                 audioLocationUpdater.resumeTimer();
             }
-            // spin off object
-            else if (innerAudioPlayer == null) {
-                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-                lastAction = AudioPlayer.LastAction.Play;
-                innerAudioPlayer.play();
-                audioLocationUpdater.resumeTimer();
-                // no call backs needed since innerAudioPlayer handles that itself
-            }
             // resume
             else if (lastAction == LastAction.Pause) {
                 innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
@@ -1689,17 +1683,30 @@ public class AudioPlayer {
                 innerAudioPlayer.play();
                 audioLocationUpdater.resumeTimer();
             }
+            // spin off object
+            else if (innerAudioPlayer == null) {
+                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+                lastAction = AudioPlayer.LastAction.Play;
+                innerAudioPlayer.play();
+                audioLocationUpdater.resumeTimer();
+                // no call backs needed since innerAudioPlayer handles that itself
+            }
             // standard play
             else {
                 lastAction = AudioPlayer.LastAction.Play;
                 innerAudioPlayer.play();
                 audioLocationUpdater.resumeTimer();
             }
+
+            pauseLocation = 0;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
 
+    /**
+     * The actual object that plays audio.
+     */
     private static InnerAudioPlayer innerAudioPlayer;
 
     @SuppressWarnings("ConstantConditions")
@@ -1750,6 +1757,7 @@ public class AudioPlayer {
     private static void pauseAudio() {
         if (innerAudioPlayer != null) {
             pauseLocation = innerAudioPlayer.kill();
+            innerAudioPlayer = null;
             lastAction = LastAction.Pause;
             audioLocationUpdater.pauseTimer();
             refreshPlayPauseButtonIcon();

@@ -102,16 +102,9 @@ public class AudioLocationUpdater {
     }
 
     /**
-     * Ensures that starting the update thread does not interfere with the setup process.
-     */
-    private final AtomicBoolean setupInProgress = new AtomicBoolean(false);
-
-    /**
      * Determines the audio total length and updates the label in preparation for the update thread to start.
      */
     private void setupProps() {
-        setupInProgress.set(true);
-
         CyderThreadRunner.submit(() -> {
             secondsInLabel.setText("");
             secondsLeftLabel.setText("");
@@ -150,7 +143,6 @@ public class AudioLocationUpdater {
                 updateSlider();
             }
 
-            setupInProgress.set(false);
             startUpdateThread();
         }, FileUtil.getFilename(currentAudioFile.get()) + " Progress Label Thread");
     }
@@ -165,7 +157,7 @@ public class AudioLocationUpdater {
      *
      * @throws IllegalStateException if this method has already been invoked
      */
-    public void startUpdateThread() {
+    private void startUpdateThread() {
         if (started) {
             throw new IllegalStateException("Update thread already started");
         }
@@ -182,6 +174,8 @@ public class AudioLocationUpdater {
                     }
                 } catch (Exception ignored) {}
 
+                // todo make sure this is always in sync with the inner audio player's audio,
+                //  maybe this should be bundled with a player object
                 // only updates ui layer, millisecond increments are still happening above
 
                 if (!timerPaused && currentFrameView.get() != FrameView.MINI) {
@@ -243,6 +237,7 @@ public class AudioLocationUpdater {
     private void updateSlider() {
         float percentIn = (float) milliSecondsIn / totalMilliSeconds;
         slider.setValue(Math.round(percentIn * slider.getMaximum()));
+        slider.repaint();
     }
 
     /**

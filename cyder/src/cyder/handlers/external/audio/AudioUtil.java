@@ -147,6 +147,16 @@ public class AudioUtil {
     public static final String DREAMY_SUFFIX = "_Dreamy";
 
     /**
+     * The highpass value for dreamifying an audio file.
+     */
+    public static final int highpass = 2;
+
+    /**
+     * The lowpass value for dreamifying an audio file.
+     */
+    public static final int lowpass = 300;
+
+    /**
      * Dreamifies the provided wav or mp3 audio file.
      * The optional may be empty if the file could not
      * be converted if required and processed.
@@ -174,7 +184,7 @@ public class AudioUtil {
                     INPUT_FLAG,
                     safeFilename,
                     "-filter:a",
-                    "\"highpass=f=2, lowpass=f=300\"",
+                    "\"highpass=f=" + highpass + ", lowpass=f=" + lowpass + "\"",
                     "\"" + outputFile.getAbsolutePath() + "\"");
             pb.start();
 
