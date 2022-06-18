@@ -671,31 +671,36 @@ public class AudioPlayer {
                 audioLocationSlider.repaint();
             }
 
+            // todo dreamified audio thinks it is longer, cache size of non dreamy if found
+            //  or just use a different algorithm to find the length of an mp3 since neither work right now
+
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (audioLocationSliderPressed.get()) {
                     audioLocationSliderPressed.set(false);
 
-                    // todo skip back doesn't exactly work
-
-                    // todo dreamified audio thinks it is longer, cache size of non dreamy if found
-                    //  or just use a different algorithm to find the length of an mp3 since neither work right now
-
-                    audioLocationUpdater.pauseTimer();
-
-                    float newPercentIn = (float) audioLocationSlider.getValue() / audioLocationSlider.getMaximum();
-                    long resumeLocation = (long) (newPercentIn * innerAudioPlayer.getTotalAudioLength());
-
                     boolean wasPlaying = isAudioPlaying();
 
-                    pauseAudio();
-                    innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-                    innerAudioPlayer.setLocation(resumeLocation);
-                    audioLocationUpdater.setPercentIn(newPercentIn);
-
                     if (wasPlaying) {
+                        float newPercentIn = (float) audioLocationSlider.getValue() / audioLocationSlider.getMaximum();
+                        long resumeLocation = (long) (newPercentIn * innerAudioPlayer.getTotalAudioLength());
+
+                        audioLocationUpdater.pauseTimer();
+                        pauseAudio();
+
+                        innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+                        innerAudioPlayer.setLocation(resumeLocation);
+                        audioLocationUpdater.setPercentIn(newPercentIn);
+
                         playAudio();
-                        audioLocationUpdater.resumeTimer();
+                    } else {
+                        float newPercentIn = (float) audioLocationSlider.getValue() / audioLocationSlider.getMaximum();
+                        long resumeLocation = (long) (newPercentIn * audioTotalLength);
+
+                        innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+                        innerAudioPlayer.setLocation(resumeLocation);
+                        audioLocationUpdater.setPercentIn(newPercentIn);
+                        audioLocationUpdater.update();
                     }
                 }
 
@@ -1769,10 +1774,16 @@ public class AudioPlayer {
     private static long pauseLocationMillis;
 
     /**
+     * The total length of the current (paused or playing) audio.
+     */
+    private static long audioTotalLength;
+
+    /**
      * Pauses playback of the current audio file.
      */
     private static void pauseAudio() {
         if (innerAudioPlayer != null) {
+            audioTotalLength = innerAudioPlayer.getTotalAudioLength();
             pauseLocationMillis = innerAudioPlayer.getMillisecondsIn();
             pauseLocation = innerAudioPlayer.kill();
             innerAudioPlayer = null;
@@ -1822,8 +1833,6 @@ public class AudioPlayer {
 
             return;
         }
-
-        // todo value of labels should always reflect slider
 
         int currentIndex = getCurrentAudioIndex();
         int lastIndex = currentIndex == 0 ? validAudioFiles.size() - 1 : currentIndex - 1;
