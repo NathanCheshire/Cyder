@@ -676,10 +676,10 @@ public class AudioPlayer {
                 if (audioLocationSliderPressed.get()) {
                     audioLocationSliderPressed.set(false);
 
-                    // todo wait to set inner audio player's location if still during setup
                     // todo skip back doesn't exactly work
+
                     // todo dreamified audio thinks it is longer, cache size of non dreamy if found
-                    // todo slider skips for a brief second when moved by user
+                    //  or just use a different algorithm to find the length of an mp3 since neither work right now
 
                     audioLocationUpdater.pauseTimer();
 
@@ -1666,6 +1666,8 @@ public class AudioPlayer {
         } else {
             playAudio();
         }
+
+        ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
     }
 
     /**
@@ -2010,19 +2012,5 @@ public class AudioPlayer {
         audioDreamified.set(isCurrentAudioDreamy());
 
         audioPlayerFrame.revalidateMenu();
-    }
-
-    /**
-     * A magic number to signify an invalid milliseconds poll.
-     */
-    static long INVALID_SECONDS_IN = -1L;
-
-    /**
-     * Returns the number of milliseconds into the current audio the audio player is.
-     *
-     * @return the number of milliseconds into the current audio the audio player is
-     */
-    static long getMilliSecondsIn() {
-        return innerAudioPlayer != null ? innerAudioPlayer.getMillisecondsIn() : INVALID_SECONDS_IN;
     }
 }
