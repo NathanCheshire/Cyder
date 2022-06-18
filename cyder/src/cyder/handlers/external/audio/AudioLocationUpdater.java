@@ -1,15 +1,12 @@
 package cyder.handlers.external.audio;
 
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.FileUtil;
 import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 import java.io.File;
-import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -111,32 +108,7 @@ public class AudioLocationUpdater {
             secondsLeftLabel.setText("");
             slider.setValue(0);
 
-            Future<Integer> totalMillisFuture = AudioUtil.getMillis(currentAudioFile.get());
-
-            File localAudioFile = currentAudioFile.get();
-
-            while (!totalMillisFuture.isDone()) {
-                Thread.onSpinWait();
-            }
-
-            // if not the same file as when the future began, return
-            if (localAudioFile != currentAudioFile.get()) {
-                return;
-            }
-
-            int totalMillis = 0;
-
-            try {
-                totalMillis = totalMillisFuture.get();
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-
-            if (totalMillis == 0) {
-                return;
-            }
-
-            this.totalMilliSeconds = totalMillis;
+            this.totalMilliSeconds = AudioUtil.getMillisFast(currentAudioFile.get());
 
             updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)));
 
@@ -154,12 +126,6 @@ public class AudioLocationUpdater {
     private boolean started;
 
     /**
-     * The frequency to sync the slider and audio location labels with
-     * the audio player's inner audio player object's value.
-     */
-    private int AUDIO_PLAYER_SYNC_FREQUENCY = 100;
-
-    /**
      * Starts the thread to update the inner label
      *
      * @throws IllegalStateException if this method has already been invoked
@@ -171,8 +137,6 @@ public class AudioLocationUpdater {
 
         started = true;
 
-        AtomicInteger accumulator = new AtomicInteger();
-
         CyderThreadRunner.submit(() -> {
             while (!killed) {
                 try {
@@ -183,21 +147,6 @@ public class AudioLocationUpdater {
                     }
                 } catch (Exception ignored) {}
 
-                accumulator.getAndIncrement();
-
-                // sync with inner audio player's value
-                if (accumulator.get() % AUDIO_PLAYER_SYNC_FREQUENCY == 0) {
-                    accumulator.set(0);
-                    long newMillisIn = AudioPlayer.getMilliSecondsIn();
-
-                    if (newMillisIn != AudioPlayer.INVALID_SECONDS_IN) {
-                        milliSecondsIn = newMillisIn;
-                    }
-                }
-
-                // todo make sure this is always in sync with the inner audio player's audio,
-                //  maybe this should be bundled with a player object
-                // only updates ui layer, millisecond increments are still happening above
 
                 if (!timerPaused && currentFrameView.get() != FrameView.MINI) {
                     updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)));
@@ -257,8 +206,13 @@ public class AudioLocationUpdater {
      */
     private void updateSlider() {
         float percentIn = (float) milliSecondsIn / totalMilliSeconds;
-        slider.setValue(Math.round(percentIn * slider.getMaximum()));
-        slider.repaint();
+
+        // to be safe, check again
+        if (!killed) {
+            int value = Math.round(percentIn * slider.getMaximum());
+            slider.setValue(value);
+            slider.repaint();
+        }
     }
 
     /**

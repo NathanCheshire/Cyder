@@ -566,14 +566,14 @@ public class AudioPlayer {
         audioPlayerFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                // no other pre- / post-close window Runnables
+                // no other pre/post close window Runnables
                 // should be added or window listeners
                 killAndCloseWidget();
             }
 
             @Override
             public void windowClosed(WindowEvent e) {
-                // no other pre- / post-close window Runnables
+                // no other pre/post close window Runnables
                 // should be added or window listeners
                 killAndCloseWidget();
             }
@@ -662,8 +662,6 @@ public class AudioPlayer {
         audioLocationSlider.setPaintTicks(false);
         audioLocationSlider.setPaintLabels(false);
         audioLocationSlider.setVisible(true);
-        audioLocationSlider.addChangeListener(e -> {
-        });
         audioLocationSlider.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -679,6 +677,11 @@ public class AudioPlayer {
                     audioLocationSliderPressed.set(false);
 
                     // todo wait to set inner audio player's location if still during setup
+                    // todo skip back doesn't exactly work
+                    // todo dreamified audio thinks it is longer, cache size of non dreamy if found
+                    // todo slider skips for a brief second when moved by user
+
+                    audioLocationUpdater.pauseTimer();
 
                     float newPercentIn = (float) audioLocationSlider.getValue() / audioLocationSlider.getMaximum();
                     long resumeLocation = (long) (newPercentIn * innerAudioPlayer.getTotalAudioLength());
@@ -692,6 +695,7 @@ public class AudioPlayer {
 
                     if (wasPlaying) {
                         playAudio();
+                        audioLocationUpdater.resumeTimer();
                     }
                 }
 
@@ -1611,7 +1615,7 @@ public class AudioPlayer {
      * @return whether audio is playing
      */
     public static boolean isAudioPlaying() {
-        return innerAudioPlayer != null; // todo might not work rn but needs to work like this
+        return innerAudioPlayer != null && innerAudioPlayer.isPlaying();
     }
 
     /**
@@ -1669,7 +1673,7 @@ public class AudioPlayer {
      */
     private static void playAudio() {
         try {
-            // object created outside of this todo lol should this even be a thing
+            // object created outside
             if (innerAudioPlayer != null && !innerAudioPlayer.isKilled()) {
                 innerAudioPlayer.play();
                 lastAction = AudioPlayer.LastAction.Play;
@@ -1790,8 +1794,6 @@ public class AudioPlayer {
         if (innerAudioPlayer != null && innerAudioPlayer.isPlaying()
                 && innerAudioPlayer.getMillisecondsIn() > SECONDS_IN_RESTART_TOL) {
             pauseAudio();
-            innerAudioPlayer.kill();
-            innerAudioPlayer = null;
             return;
         }
 
@@ -1805,8 +1807,6 @@ public class AudioPlayer {
         if (shouldPlay) {
             pauseAudio();
             innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-            innerAudioPlayer.kill();
-            innerAudioPlayer = null;
 
             playAudio();
         }
@@ -2013,7 +2013,7 @@ public class AudioPlayer {
     }
 
     /**
-     * The invalid milliseconds in code.
+     * A magic number to signify an invalid milliseconds poll.
      */
     static long INVALID_SECONDS_IN = -1L;
 

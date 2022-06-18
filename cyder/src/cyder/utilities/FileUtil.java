@@ -352,7 +352,7 @@ public class FileUtil {
                 }
 
                 // clean up
-                fos.close();
+                closeIfNotNull(fos);
                 zis.closeEntry();
 
                 zentry = zis.getNextEntry();
@@ -360,8 +360,8 @@ public class FileUtil {
 
             // clean up
             zis.closeEntry();
-            zis.close();
-            fis.close();
+            closeIfNotNull(zis);
+            closeIfNotNull(fis);
         } catch (IOException e) {
             ExceptionHandler.handle(e);
             return false;
