@@ -229,6 +229,7 @@ public class FileUtil {
     /**
      * The metadata signature for a ttf file.
      */
+    @SuppressWarnings("unused")
     public static final int[] TTF_SIGNATURE = {0x00, 0x01, 0x00, 0x00, 0x00, 0x10, 0x01, 0x00, 0x00, 0x04, 0x00, 0x00};
 
     /**
@@ -336,7 +337,11 @@ public class FileUtil {
 
                 // ensure parents of zip entry exist
                 File zentryParent = new File(zippedFile.getParent());
-                zentryParent.mkdirs();
+                boolean made = zentryParent.mkdirs();
+
+                if (!made) {
+                    throw new IOException("Failed to create parent zip");
+                }
 
                 FileOutputStream fos = new FileOutputStream(zippedFile);
 
@@ -366,16 +371,16 @@ public class FileUtil {
     }
 
     /**
-     * Closes the provided input stream if not null and assigns the reference to null;
+     * Closes the provided object which implements {@link Closeable}.
      *
-     * @param is the input stream to close and assign to null
+     * @param closable the object to close and free
      */
     @SuppressWarnings("UnusedAssignment")
-    public static void closeIfNotNull(InputStream is) {
-        if (is != null) {
+    public static void closeIfNotNull(Closeable closable) {
+        if (closable != null) {
             try {
-                is.close();
-                is = null;
+                closable.close();
+                closable = null;
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

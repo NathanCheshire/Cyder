@@ -183,26 +183,27 @@ class InnerAudioPlayer {
      * Returns the raw pause location of the exact number of bytes played by fis.
      *
      * @return the raw pause location of the exact number of bytes played by fis
-     * @throws IllegalArgumentException if the raw pause location could not be polled
+     * @throws IllegalStateException if the raw pause location could not be polled or fis is null
      */
     public long getRemainingBytes() {
+        if (fis == null)
+            throw new IllegalStateException("Fis is null");
+
         try {
-            if (fis != null) {
-                return totalAudioLength - fis.available();
-            }
+            return totalAudioLength - fis.available();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        throw new IllegalArgumentException("Could not poll remaining bytes");
+        throw new IllegalStateException("Could not poll remaining bytes");
     }
 
     /**
-     * Returns the milliseconds into the current audio this player object is.
+     * Returns the percent into the current audio this player object is.
      *
-     * @return the milliseconds into the current audio this player object is
+     * @return the percent into the current audio this player object is
      */
-    public long getMillisecondsIn() {
+    public float getPercentIn() {
         float percentIn = 0f;
 
         try {
@@ -211,7 +212,16 @@ class InnerAudioPlayer {
             ExceptionHandler.handle(e);
         }
 
+        return percentIn;
+    }
+
+    /**
+     * Returns the milliseconds into the current audio this player object is.
+     *
+     * @return the milliseconds into the current audio this player object is
+     */
+    public long getMillisecondsIn() {
         int totalMillis = AudioUtil.getMillisFast(audioFile);
-        return (long) (totalMillis * percentIn);
+        return (long) (totalMillis * getPercentIn());
     }
 }

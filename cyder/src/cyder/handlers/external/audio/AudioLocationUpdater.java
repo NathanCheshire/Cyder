@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.io.File;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -65,7 +66,7 @@ public class AudioLocationUpdater {
     /**
      * The number of times a second to update the audio progress label.
      */
-    private static final int UPDATES_PER_SECOND = 30;
+    private static final int UPDATES_PER_SECOND = 40;
 
     /**
      * The amount by which to sleep and increment for.
@@ -153,6 +154,12 @@ public class AudioLocationUpdater {
     private boolean started;
 
     /**
+     * The frequency to sync the slider and audio location labels with
+     * the audio player's inner audio player object's value.
+     */
+    private int AUDIO_PLAYER_SYNC_FREQUENCY = 100;
+
+    /**
      * Starts the thread to update the inner label
      *
      * @throws IllegalStateException if this method has already been invoked
@@ -164,6 +171,8 @@ public class AudioLocationUpdater {
 
         started = true;
 
+        AtomicInteger accumulator = new AtomicInteger();
+
         CyderThreadRunner.submit(() -> {
             while (!killed) {
                 try {
@@ -173,6 +182,18 @@ public class AudioLocationUpdater {
                         milliSecondsIn += UPDATE_DELAY;
                     }
                 } catch (Exception ignored) {}
+
+                accumulator.getAndIncrement();
+
+                // sync with inner audio player's value
+                if (accumulator.get() % AUDIO_PLAYER_SYNC_FREQUENCY == 0) {
+                    accumulator.set(0);
+                    long newMillisIn = AudioPlayer.getMilliSecondsIn();
+
+                    if (newMillisIn != AudioPlayer.INVALID_SECONDS_IN) {
+                        milliSecondsIn = newMillisIn;
+                    }
+                }
 
                 // todo make sure this is always in sync with the inner audio player's audio,
                 //  maybe this should be bundled with a player object

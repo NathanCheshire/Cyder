@@ -2011,4 +2011,18 @@ public class AudioPlayer {
 
         audioPlayerFrame.revalidateMenu();
     }
+
+    /**
+     * The invalid milliseconds in code.
+     */
+    static long INVALID_SECONDS_IN = -1L;
+
+    /**
+     * Returns the number of milliseconds into the current audio the audio player is.
+     *
+     * @return the number of milliseconds into the current audio the audio player is
+     */
+    static long getMilliSecondsIn() {
+        return innerAudioPlayer != null ? innerAudioPlayer.getMillisecondsIn() : INVALID_SECONDS_IN;
+    }
 }
