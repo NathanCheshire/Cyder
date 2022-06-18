@@ -1,6 +1,7 @@
 
 from fastapi import FastAPI
 from pydantic import BaseModel
+import uvicorn
 from functions import get_unix_gmt_time, get_audio_length, find_best_color
 import numpy as np
 from PIL import Image
@@ -35,3 +36,6 @@ def post_audio_length(audio_length: AudioLengthPost):
         return {"length": get_audio_length(audio_length.audio_path)}
     else:
         return {"error": "file not found"}
+
+if __name__ == '__main__':
+    uvicorn.run("main:app", host="0.0.0.0", port=8080)

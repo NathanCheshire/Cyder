@@ -1,1 +1,0 @@
-# TODO about the backend manually hosting
