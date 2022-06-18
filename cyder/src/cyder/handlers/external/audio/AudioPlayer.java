@@ -662,6 +662,7 @@ public class AudioPlayer {
         audioLocationSlider.setPaintTicks(false);
         audioLocationSlider.setPaintLabels(false);
         audioLocationSlider.setVisible(true);
+        // todo would be nice to have an on change listener that also updates the labels
         audioLocationSlider.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -1680,7 +1681,6 @@ public class AudioPlayer {
      */
     private static void playAudio() {
         try {
-
             // object created outside
             if (innerAudioPlayer != null && !innerAudioPlayer.isKilled()) {
                 innerAudioPlayer.play();

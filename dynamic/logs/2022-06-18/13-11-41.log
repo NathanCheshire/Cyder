@@ -1,0 +1,179 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[13-11-41] [ENTRY]: Nathan
+[13-11-41] [PROP LOADED]: [key = map_quest_api_key]
+[13-11-41] [PROP LOADED]: [key = youtube_api_3_key]
+[13-11-41] [PROP LOADED]: [key = ip_key]
+[13-11-41] [PROP LOADED]: [key = weather_key]
+[13-11-41] [PROP LOADED]: [key = debug_hash_name]
+[13-11-41] [PROP LOADED]: [key = debug_hash_password]
+[13-11-41] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[13-11-41] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[13-11-41] [PROP LOADED]: [key = font_metric, value = 1]
+[13-11-41] [PROP LOADED]: [key = released, value = false]
+[13-11-41] [PROP LOADED]: [key = fast_test, value = false]
+[13-11-41] [PROP LOADED]: [key = version, value = Liminal]
+[13-11-41] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[13-11-41] [PROP LOADED]: [key = components_relocatable, value = false]
+[13-11-41] [PROP LOADED]: [key = testing_mode, value = true]
+[13-11-41] [PROP LOADED]: [key = autocypher, value = true]
+[13-11-41] [PROP LOADED]: [key = dispose_splash, value = true]
+[13-11-41] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[13-11-41] [PROP LOADED]: [key = activate_watchdog, value = false]
+[13-11-41] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[13-11-41] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[13-11-41] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[13-11-41] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[13-11-41] [THREAD STARTED]: Object Creation Logger
+[13-11-41] [DEBUG]: Watchdog skipped
+[13-11-41] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[13-11-42] [FONT LOADED]: agency-fb
+[13-11-42] [FONT LOADED]: arial-black
+[13-11-42] [FONT LOADED]: beyno
+[13-11-42] [FONT LOADED]: condiment-regular
+[13-11-42] [FONT LOADED]: prompt-bold
+[13-11-42] [FONT LOADED]: segoe-ui-black
+[13-11-42] [FONT LOADED]: tahoma
+[13-11-42] [THREAD STARTED]: Splash Loader
+[13-11-42] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[13-11-43] [THREAD STARTED]: Splash Animation
+[13-11-43] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[13-11-43] [THREAD STARTED]: Secondary Subroutines Runner
+[13-11-43] [LOGIN]: AUTOCYPHER ATTEMPT
+[13-11-43] [THREAD STARTED]: JVM Args Logger
+[13-11-44] [DEBUG]: Cyder Entry = AutoCypher
+[13-11-44] [OBJECT CREATION]: Objects created since last delta (5000ms): 78
+[13-11-44] [THREAD STARTED]: Console Printing Animation
+[13-11-45] [THREAD STARTED]: Hourly Chime Checker
+[13-11-45] [THREAD STARTED]: Console Clock Updater
+[13-11-45] [THREAD STARTED]: Cyder Busy Checker
+[13-11-45] [THREAD STARTED]: ConsoleFrame Stat Saver
+[13-11-45] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[13-11-45] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[13-11-45] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 2022427210, bounds = (980,
+           396, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[13-11-45] [THREAD STARTED]: High Ping Checker
+[13-11-45] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[13-11-45] [THREAD STARTED]: Manual Tests Thread
+[13-11-45] [THREAD STARTED]: Splash Loading Label Updater
+[13-11-45] [CONSOLE OUT]: [STRING]: Console loaded in 4052ms
+[13-11-46] [DEBUG]: Attempted to log a new or empty line
+[13-11-46] [BACKEND CRUD]: [PUT] Put of JVM args failed
+[13-11-48] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[13-11-48] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1655575613110.json
+[13-11-49] [CLIENT]: mp3
+[13-11-49] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down Progress Label Thread
+[13-11-49] [THREAD STARTED]: Audio Progress Label Animator
+[13-11-49] [CONSOLE OUT]: [STRING]: Opening widget: AudioPlayer
+[13-11-49] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down Progress Label Thread
+[13-11-49] [THREAD STARTED]: [Timeflies tuesday - burnin it down] finalizeAndShow()
+[13-11-49] [WIDGET]: AudioPlayer, trigger = mp3
+[13-11-49] [DEBUG]: Attempted to log a new or empty line
+[13-11-49] [OBJECT CREATION]: Objects created since last delta (5000ms): 56
+[13-11-54] [THREAD STARTED]: Timeflies tuesday - burnin it down Opacity Decrement Animator
+[13-11-54] [THREAD STARTED]: Timeflies tuesday - burnin it down Opacity Increment Animator
+[13-11-55] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down_Dreamy Progress Label Thread
+[13-11-55] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down_Dreamy Progress Label Thread
+[13-11-56] [EXCEPTION]:
+           Exception origin: java.desktop/javax.sound.sampled.AudioSystem.getAudioFileFormat(AudioSystem.java:980)
+           From line: 980
+           Trace: javax.sound.sampled.UnsupportedAudioFileException: File of unsupported format
+           at java.desktop/javax.sound.sampled.AudioSystem.getAudioFileFormat(AudioSystem.java:980)
+           at cyder.handlers.external.audio.AudioPlayer.playAudio(AudioPlayer.java:1683)
+           at cyder.handlers.external.audio.AudioPlayer.handlePlayPauseButtonClick(AudioPlayer.java:1672)
+           at cyder.handlers.external.audio.AudioPlayer$7.mouseClicked(AudioPlayer.java:624)
+           at java.desktop/java.awt.AWTEventMulticaster.mouseClicked(AWTEventMulticaster.java:278)
+           at java.desktop/java.awt.Component.processMouseEvent(Component.java:6629)
+           at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3389)
+           at java.desktop/java.awt.Component.processEvent(Component.java:6391)
+           at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+           at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:5001)
+           at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+           at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+           at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
+           at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4584)
+           at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
+           at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
+           at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
+           at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+           at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+           at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:722)
+           at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:716)
+           at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:97)
+           at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:746)
+           at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:744)
+           at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+           at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:743)
+           at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+           at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+           at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+           at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+           at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+           at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-11-59] [OBJECT CREATION]: Objects created since last delta (5000ms): 2
+[13-49-19] [EXCEPTION]:
+           Exception origin: java.desktop/javax.sound.sampled.AudioSystem.getAudioFileFormat(AudioSystem.java:980)
+           From line: 980
+           Trace: javax.sound.sampled.UnsupportedAudioFileException: File of unsupported format
+           at java.desktop/javax.sound.sampled.AudioSystem.getAudioFileFormat(AudioSystem.java:980)
+           at cyder.handlers.external.audio.AudioPlayer.playAudio(AudioPlayer.java:1683)
+           at cyder.handlers.external.audio.AudioPlayer.handlePlayPauseButtonClick(AudioPlayer.java:1672)
+           at cyder.handlers.external.audio.AudioPlayer$7.mouseClicked(AudioPlayer.java:624)
+           at java.desktop/java.awt.AWTEventMulticaster.mouseClicked(AWTEventMulticaster.java:278)
+           at java.desktop/java.awt.Component.processMouseEvent(Component.java:6629)
+           at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3389)
+           at java.desktop/java.awt.Component.processEvent(Component.java:6391)
+           at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+           at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:5001)
+           at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+           at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+           at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
+           at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4584)
+           at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
+           at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
+           at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
+           at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+           at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+           at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:722)
+           at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:716)
+           at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:97)
+           at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:746)
+           at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:744)
+           at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+           at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:743)
+           at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+           at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+           at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+           at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+           at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+           at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)

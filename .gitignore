@@ -6,3 +6,4 @@ out/
 .gradle/*
 build/
 props/propkeys.ini
+__pycache__/

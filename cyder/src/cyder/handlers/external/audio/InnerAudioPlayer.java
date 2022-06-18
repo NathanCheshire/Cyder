@@ -210,9 +210,7 @@ class InnerAudioPlayer {
 
         try {
             percentIn = (totalAudioLength - fis.available()) / (float) totalAudioLength;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+        } catch (Exception ignored) {}
 
         return percentIn;
     }
