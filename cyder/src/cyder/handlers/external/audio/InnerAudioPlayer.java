@@ -1,6 +1,7 @@
 package cyder.handlers.external.audio;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -141,8 +142,9 @@ class InnerAudioPlayer {
     /**
      * Kills the player if playing audio and returns the location to resume a new player object at.
      *
-     * @return the location to resume a new player object at
+     * @return the location in bytes to resume a new player object at if desired
      */
+    @CanIgnoreReturnValue
     public long kill() {
         long resumeLocation = 0L;
 

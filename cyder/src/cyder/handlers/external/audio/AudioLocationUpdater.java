@@ -186,6 +186,14 @@ public class AudioLocationUpdater {
     }
 
     /**
+     * Forces an update of both labels and the slider.
+     */
+    public void update() {
+        updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)));
+        updateSlider();
+    }
+
+    /**
      * Updates the encapsulated label with the time in to the current audio file.
      */
     private void updateEffectLabel(int secondsIn) {

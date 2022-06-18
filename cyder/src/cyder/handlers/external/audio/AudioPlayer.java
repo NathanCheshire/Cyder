@@ -1675,6 +1675,7 @@ public class AudioPlayer {
      */
     private static void playAudio() {
         try {
+
             // object created outside
             if (innerAudioPlayer != null && !innerAudioPlayer.isKilled()) {
                 innerAudioPlayer.play();
@@ -1695,7 +1696,6 @@ public class AudioPlayer {
                 lastAction = AudioPlayer.LastAction.Play;
                 innerAudioPlayer.play();
                 audioLocationUpdater.resumeTimer();
-                // no call backs needed since innerAudioPlayer handles that itself
             }
             // standard play
             else {
@@ -1704,7 +1704,8 @@ public class AudioPlayer {
                 audioLocationUpdater.resumeTimer();
             }
 
-            pauseLocation = 0;
+            pauseLocation = UNKNOWN_PAUSE_LOCATION;
+            pauseLocationMillis = UNKNOWN_PAUSE_LOCATION;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -1752,16 +1753,27 @@ public class AudioPlayer {
         }
     }
 
+    /**
+     * A magic number to denote an undefined pause location.
+     */
+    private static final long UNKNOWN_PAUSE_LOCATION = -1L;
+
     /*
      * The location the previous InnerAudioPlayer was killed at, if available.
      */
     private static long pauseLocation;
 
     /**
+     * The location in milliseconds the previous InnerAudioPlayer was paused at.
+     */
+    private static long pauseLocationMillis;
+
+    /**
      * Pauses playback of the current audio file.
      */
     private static void pauseAudio() {
         if (innerAudioPlayer != null) {
+            pauseLocationMillis = innerAudioPlayer.getMillisecondsIn();
             pauseLocation = innerAudioPlayer.kill();
             innerAudioPlayer = null;
             lastAction = LastAction.Pause;
@@ -1771,10 +1783,10 @@ public class AudioPlayer {
     }
 
     /**
-     * The number of seconds which will not trigger a song restart instead of previous audio skip action if
+     * The number of milliseconds which will not trigger a song restart instead of previous audio skip action if
      * the skip back button is pressed in the inclusive [0, SECONDS_IN_RESTART_TOL].
      */
-    private static final int SECONDS_IN_RESTART_TOL = 5;
+    private static final int MILLISECONDS_IN_RESTART_TOL = 5000;
 
     /**
      * Handles a click from the last button.
@@ -1791,13 +1803,27 @@ public class AudioPlayer {
 
         boolean shouldPlay = isAudioPlaying();
 
+        if (shouldPlay) {
+            pauseAudio();
+        }
+
         refreshAudioFiles();
 
-        if (innerAudioPlayer != null && innerAudioPlayer.isPlaying()
-                && innerAudioPlayer.getMillisecondsIn() > SECONDS_IN_RESTART_TOL) {
-            pauseAudio();
+        if (pauseLocationMillis > MILLISECONDS_IN_RESTART_TOL) {
+            audioLocationUpdater.pauseTimer();
+            audioLocationUpdater.setPercentIn(0);
+
+            innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+            audioLocationUpdater.update();
+
+            if (shouldPlay) {
+                playAudio();
+            }
+
             return;
         }
+
+        // todo value of labels should always reflect slider
 
         int currentIndex = getCurrentAudioIndex();
         int lastIndex = currentIndex == 0 ? validAudioFiles.size() - 1 : currentIndex - 1;
@@ -1806,10 +1832,10 @@ public class AudioPlayer {
 
         revalidateFromAudioFileChange();
 
-        if (shouldPlay) {
-            pauseAudio();
-            innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+        innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+        audioLocationUpdater.update();
 
+        if (shouldPlay) {
             playAudio();
         }
     }
