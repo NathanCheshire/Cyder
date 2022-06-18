@@ -206,7 +206,8 @@ public class OSUtil {
             return OperatingSystem.OSX;
         } else if (isUnix()) {
             return OperatingSystem.UNIX;
-        } else return OperatingSystem.UNKNOWN;
+        } else
+            return OperatingSystem.UNKNOWN;
     }
 
     /**

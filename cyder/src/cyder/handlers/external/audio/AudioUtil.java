@@ -11,12 +11,13 @@ import cyder.utilities.FileUtil;
 import cyder.utilities.NetworkUtil;
 import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
-import javazoom.jl.decoder.Bitstream;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.Executors;
@@ -498,17 +499,33 @@ public class AudioUtil {
 
     /**
      * Returns the number of milliseconds in an audio file faster than using the
-     * standard {@link AudioUtil#getMillis(File)} method which utilizes ffprobe.
+     * standard {@link AudioUtil#getMillis(File)} method.
      *
      * @param audioFile the audio file to return the duration of
-     * @return the duration of the provided audio file
+     * @return the duration of the provided audio file in milliseconds
      */
     public static int getMillisFast(File audioFile) {
         try {
-            FileInputStream fis = new FileInputStream(audioFile);
-            Bitstream bitstream = new Bitstream(fis);
-            long tn = fis.getChannel().size();
-            return (int) bitstream.readFrame().total_ms((int) tn);
+            URL url = new URL("localhost:8080");
+            System.out.println("Path: " + audioFile.getAbsolutePath());
+            String postData = "{\"audio_path\":" + audioFile.getAbsolutePath() + "}";
+
+            URLConnection conn = url.openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setRequestProperty("Content-Length", Integer.toString(postData.length()));
+
+            try (DataOutputStream dos = new DataOutputStream(conn.getOutputStream())) {
+                dos.writeBytes(postData);
+            }
+
+            try (BufferedReader bf = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                String line;
+
+                while ((line = bf.readLine()) != null) {
+                    System.out.println(line);
+                }
+            }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

@@ -143,12 +143,6 @@ public class IOUtil {
                 if (!PropLoader.getBoolean("autocypher")) {
                     Logger.log(Logger.Tag.JVM_ARGS, argBuilder);
                 }
-
-                boolean success = BackendUtil.PUT(String.valueOf(argBuilder), BackendUtil.JVM_PATH);
-
-                if (!success) {
-                    Logger.log(Logger.Tag.CRUD_OP, "[PUT] Put of JVM args failed");
-                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

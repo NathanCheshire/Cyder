@@ -41,7 +41,7 @@ public class Cyder {
      *                  but we shall log them regardless (just like Big Brother would want)
      */
     public static void main(String[] arguments) {
-        // set start time, this should be the first call always
+        // Never put calls before this
         TimeUtil.setAbsoluteStartTime(System.currentTimeMillis());
 
         PropLoader.loadProps();
@@ -166,9 +166,9 @@ public class Cyder {
      */
     private static void addExitHook() {
         Runtime.getRuntime().addShutdownHook(CyderThreadRunner.createThread(() -> {
-            // Currently all that's done here is delete the tmp directory.
+            // Currently, all that iss done here is delete the tmp directory.
             // Occasionally this fails due to file handles still being open
-            // on files inside of tmp.
+            // on files inside of tmp which is why we attempt to delete it on start.
 
             File deleteDirectory = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                     DynamicDirectory.TEMPORARY.getDirectoryName());
