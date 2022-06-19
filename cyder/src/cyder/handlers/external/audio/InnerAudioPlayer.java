@@ -182,25 +182,6 @@ class InnerAudioPlayer {
     }
 
     /**
-     * Returns the raw pause location of the exact number of bytes played by fis.
-     *
-     * @return the raw pause location of the exact number of bytes played by fis
-     * @throws IllegalStateException if the raw pause location could not be polled or fis is null
-     */
-    public long getRemainingBytes() {
-        if (fis == null)
-            throw new IllegalStateException("Fis is null");
-
-        try {
-            return totalAudioLength - fis.available();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        throw new IllegalStateException("Could not poll remaining bytes");
-    }
-
-    /**
      * Returns the percent into the current audio this player object is.
      *
      * @return the percent into the current audio this player object is

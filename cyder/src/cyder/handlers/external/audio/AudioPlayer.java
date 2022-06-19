@@ -1172,7 +1172,10 @@ public class AudioPlayer {
         }, "AudioPlayer File Chooser");
     };
 
+    // todo for animated progress bars when done, set to the first color passed
     // todo why does this freeze application?
+    // todo audio location updater labels need to work better
+
     /**
      * The runnable used to dreamify an audio file.
      */
@@ -1507,10 +1510,6 @@ public class AudioPlayer {
                 audioVolumeSlider.setVisible(false);
                 totalSecondsLabel.setVisible(false);
                 audioLocationSlider.setVisible(false);
-                if (audioLocationUpdater != null) {
-                    audioLocationUpdater.kill();
-                    audioLocationUpdater = null;
-                }
             }
             default -> throw new IllegalArgumentException("Unsupported frame view to switch to: " + view);
         }
@@ -1821,23 +1820,23 @@ public class AudioPlayer {
     static void playAudioCallback() {
         // user didn't click any buttons so we should try and find the next audio
         if (lastAction == LastAction.Play) {
-            int currentAudioIndex = getCurrentAudioIndex();
-            currentAudioFile.set(validAudioFiles.get(currentAudioIndex));
-
             if (innerAudioPlayer != null) {
                 innerAudioPlayer.kill();
                 innerAudioPlayer = null;
             }
 
             if (repeatAudio) {
+                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
                 playAudio();
             } else if (!audioFileQueue.isEmpty()) {
                 currentAudioFile.set(audioFileQueue.remove(0));
+                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
                 revalidateFromAudioFileChange();
                 playAudio();
             } else if (shuffleAudio) {
                 currentAudioFile.set(audioFileQueue.get(NumberUtil.randInt(
                         0, audioFileQueue.size() - 1)));
+                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
                 revalidateFromAudioFileChange();
                 playAudio();
             } else {
@@ -1846,6 +1845,8 @@ public class AudioPlayer {
                 int nextIndex = currentIndex + 1 == validAudioFiles.size() ? 0 : currentIndex + 1;
 
                 currentAudioFile.set(validAudioFiles.get(nextIndex));
+
+                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
 
                 revalidateFromAudioFileChange();
 

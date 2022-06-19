@@ -53,7 +53,7 @@ public class AudioLocationUpdater {
     /**
      * The total milliseconds of the audio file this location updater was given.
      */
-    private long totalMilliSeconds;
+    private final long totalMilliSeconds;
 
     /**
      * The number of milliseconds in to the audio file.
@@ -96,6 +96,8 @@ public class AudioLocationUpdater {
         this.sliderPressed = sliderPressed;
         this.slider = slider;
 
+        this.totalMilliSeconds = AudioUtil.getMillisFast(currentAudioFile.get());
+
         setupProps();
     }
 
@@ -103,21 +105,17 @@ public class AudioLocationUpdater {
      * Determines the audio total length and updates the label in preparation for the update thread to start.
      */
     private void setupProps() {
-        CyderThreadRunner.submit(() -> {
-            secondsInLabel.setText("");
-            secondsLeftLabel.setText("");
-            slider.setValue(0);
+        secondsInLabel.setText("");
+        secondsLeftLabel.setText("");
+        slider.setValue(0);
 
-            this.totalMilliSeconds = AudioUtil.getMillisFast(currentAudioFile.get());
+        updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)));
 
-            updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)));
+        if (!sliderPressed.get()) {
+            updateSlider();
+        }
 
-            if (!sliderPressed.get()) {
-                updateSlider();
-            }
-
-            startUpdateThread();
-        }, FileUtil.getFilename(currentAudioFile.get()) + " Progress Label Thread");
+        startUpdateThread();
     }
 
     /**
@@ -149,9 +147,8 @@ public class AudioLocationUpdater {
 
 
                 if (!timerPaused && currentFrameView.get() != FrameView.MINI) {
-                    updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)));
-
                     if (!sliderPressed.get()) {
+                        updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)));
                         updateSlider();
                     }
                 }
@@ -199,6 +196,10 @@ public class AudioLocationUpdater {
     private void updateEffectLabel(int secondsIn) {
         long milliSecondsLeft = totalMilliSeconds - secondsIn * 1000L;
         int secondsLeft = (int) (milliSecondsLeft / 1000);
+
+        if (secondsLeft < 0) {
+            return;
+        }
 
         secondsInLabel.setText(AudioUtil.formatSeconds(secondsIn));
 
