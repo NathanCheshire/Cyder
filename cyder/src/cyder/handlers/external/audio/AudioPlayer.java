@@ -14,6 +14,7 @@ import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
+import cyder.handlers.internal.Logger;
 import cyder.messaging.MessagingUtils;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
@@ -35,6 +36,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -1173,56 +1175,67 @@ public class AudioPlayer {
     };
 
     // todo for animated progress bars when done, set to the first color passed
-    // todo why does this freeze application?
     // todo audio location updater labels need to work better
+    // todo opening widget doesn't properly work if already open
+    // todo printed label for audio downloading should be left aligned and newlines for stats
 
     /**
      * The runnable used to dreamify an audio file.
      */
-    private static final Runnable getDreamifyRunnable = () -> {
+    private static final Runnable dreamifyRunnable = () -> {
         audioPlayerFrame.notify(new CyderFrame.NotificationBuilder("Dreamifying \""
-                + FileUtil.getFilename(currentAudioFile.get()) + "\"").setViewDuration(-1));
-
+                + FileUtil.getFilename(currentAudioFile.get()) + "\"").setViewDuration(10000));
         dreamifierLocked.set(true);
 
-        Future<Optional<File>> dreamifiedAudio = AudioUtil.dreamifyAudio(currentAudioFile.get());
+        Future<Optional<File>> dreamifiedAudioFuture = AudioUtil.dreamifyAudio(currentAudioFile.get());
 
-        while (!dreamifiedAudio.isDone()) {
+        while (!dreamifiedAudioFuture.isDone()) {
             Thread.onSpinWait();
         }
 
-        Optional<File> present;
-
-        dreamifierLocked.set(false);
+        Optional<File> dreamifiedAudio;
 
         try {
-            present = dreamifiedAudio.get();
+            dreamifiedAudio = dreamifiedAudioFuture.get();
         } catch (Exception ignored) {
             dreamifyFailed();
             return;
         }
 
-        if (present.isEmpty()) {
+        if (dreamifiedAudio.isEmpty()) {
             dreamifyFailed();
             return;
         }
 
-        File destinationFile = OSUtil.buildFile(
+        File dreamifiedFile = dreamifiedAudio.get();
+        File targetFile = OSUtil.buildFile(
                 DynamicDirectory.DYNAMIC_PATH,
                 DynamicDirectory.USERS.getDirectoryName(),
                 ConsoleFrame.INSTANCE.getUUID(),
                 UserFile.MUSIC.getName(),
-                present.get().getName());
+                dreamifiedFile.getName());
+
+        Logger.log(Logger.Tag.DEBUG, "Lock released on file: " + dreamifiedFile.getAbsolutePath());
 
         try {
-            // copy dreamified audio to user's music dir from tmp
-            Files.copy(Paths.get(present.get().getAbsolutePath()),
-                    Paths.get(destinationFile.getAbsolutePath()));
-        } catch (Exception e) {
+            Path source = dreamifiedFile.toPath();
+            Path targetDirectory = targetFile.toPath();
+
+            Files.copy(source, targetDirectory);
+        } catch (Exception ignored) {
             dreamifyFailed();
             return;
         }
 
+        dreamyAudioCallback(targetFile);
+    };
+
+    /**
+     * A callback used when dreamifying an audio file finishes.
+     *
+     * @param dreamyAudio the dreamified audio file to play
+     */
+    private static void dreamyAudioCallback(File dreamyAudio) {
         float percentIn = (float) audioLocationSlider.getValue()
                 / audioLocationSlider.getMaximum();
 
@@ -1232,13 +1245,13 @@ public class AudioPlayer {
             pauseAudio();
         }
 
-        currentAudioFile.set(destinationFile);
+        currentAudioFile.set(dreamyAudio);
 
         revalidateFromAudioFileChange();
 
-        innerAudioPlayer = new InnerAudioPlayer(destinationFile);
+        innerAudioPlayer = new InnerAudioPlayer(dreamyAudio);
         innerAudioPlayer.setLocation((long) (percentIn
-                * AudioUtil.getTotalBytes(destinationFile)));
+                * AudioUtil.getTotalBytes(dreamyAudio)));
         audioLocationUpdater.setPercentIn(percentIn);
         audioLocationUpdater.update();
 
@@ -1246,11 +1259,8 @@ public class AudioPlayer {
             playAudio();
         }
 
-        audioDreamified.set(true);
-        audioPlayerFrame.revalidateMenu();
         audioPlayerFrame.notify("Successfully dreamified audio");
-
-    };
+    }
 
     /**
      * The item menu to toggle between dreamify states of an audio file.
@@ -1294,7 +1304,7 @@ public class AudioPlayer {
             }
         }
 
-        CyderThreadRunner.submit(getDreamifyRunnable, "Audio Dreamifier");
+        CyderThreadRunner.submit(dreamifyRunnable, "Audio Dreamifier: " + currentAudioFilename);
     };
 
     /**
@@ -1376,7 +1386,7 @@ public class AudioPlayer {
                     playAudio();
                 }
 
-                audioDreamified.set(false);
+                audioDreamified.set(true);
                 audioPlayerFrame.revalidateMenu();
 
                 return true;

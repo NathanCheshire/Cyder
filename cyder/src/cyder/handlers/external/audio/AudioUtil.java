@@ -227,14 +227,11 @@ public class AudioUtil {
 
     /**
      * Uses ffprobe to get the length of the audio file in milliseconds.
-     * Note this method takes a second or two to finish so it should not be used
-     * repeatedly. You should not even need to, however, since unless you're some
-     * kind of European toy maker, the length of an audio file doesn't change during playback.
      *
      * @param audioFile the audio file to find the length of in milliseconds
      * @return the length of the audio file in milliseconds
      */
-    public static Future<Integer> getMillis(File audioFile) {
+    private static Future<Integer> getMillis(File audioFile) {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
 
@@ -513,8 +510,7 @@ public class AudioUtil {
     private static final Gson gson = new Gson();
 
     /**
-     * Returns the number of milliseconds in an audio file faster than using the
-     * standard {@link AudioUtil#getMillis(File)} method.
+     * Returns the number of milliseconds in an audio file.
      *
      * @param audioFile the audio file to return the duration of
      * @return the duration of the provided audio file in milliseconds
