@@ -692,6 +692,10 @@ public class AudioPlayer {
 
                         playAudio();
                     } else {
+                        if (audioTotalLength == UNKNOWN_AUDIO_LENGTH || audioTotalLength == 0) {
+                            audioTotalLength = AudioUtil.getTotalBytes(currentAudioFile.get());
+                        }
+
                         float newPercentIn = (float) audioLocationSlider.getValue() / audioLocationSlider.getMaximum();
                         long resumeLocation = (long) (newPercentIn * audioTotalLength);
 
@@ -963,6 +967,7 @@ public class AudioPlayer {
             // todo extract logic to simplify
             // todo un-dreamifying messes with slider location
             // todo need to resume at exact locations
+            // todo moving slider on start and then pressing play doesn't change location
 
             if (dreamifierLocked.get()) {
                 return;
@@ -1775,9 +1780,14 @@ public class AudioPlayer {
     private static long pauseLocationMillis;
 
     /**
+     * A magic number used to denote an unknown audio length;
+     */
+    private static final long UNKNOWN_AUDIO_LENGTH = -1;
+
+    /**
      * The total length of the current (paused or playing) audio.
      */
-    private static long audioTotalLength;
+    private static long audioTotalLength = UNKNOWN_AUDIO_LENGTH;
 
     /**
      * Pauses playback of the current audio file.

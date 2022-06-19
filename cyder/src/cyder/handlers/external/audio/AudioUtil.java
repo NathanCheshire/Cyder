@@ -556,4 +556,22 @@ public class AudioUtil {
 
         return 0;
     }
+
+    /**
+     * Returns the total bytes of the file.
+     *
+     * @param file the file to find the total bytes of
+     * @return the total bytes of the file
+     */
+    public static long getTotalBytes(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            return fis.available();
+        } catch (Exception ignored) {}
+
+        return 0L;
+    }
 }

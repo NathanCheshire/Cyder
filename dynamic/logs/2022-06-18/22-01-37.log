@@ -1,0 +1,122 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[22-01-37] [ENTRY]: Nathan
+[22-01-37] [PROP LOADED]: [key = map_quest_api_key]
+[22-01-37] [PROP LOADED]: [key = youtube_api_3_key]
+[22-01-37] [PROP LOADED]: [key = ip_key]
+[22-01-37] [PROP LOADED]: [key = weather_key]
+[22-01-37] [PROP LOADED]: [key = debug_hash_name]
+[22-01-37] [PROP LOADED]: [key = debug_hash_password]
+[22-01-37] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[22-01-37] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[22-01-37] [PROP LOADED]: [key = font_metric, value = 1]
+[22-01-37] [PROP LOADED]: [key = released, value = false]
+[22-01-37] [PROP LOADED]: [key = fast_test, value = false]
+[22-01-37] [PROP LOADED]: [key = version, value = Liminal]
+[22-01-37] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[22-01-37] [PROP LOADED]: [key = components_relocatable, value = false]
+[22-01-37] [PROP LOADED]: [key = testing_mode, value = true]
+[22-01-37] [PROP LOADED]: [key = autocypher, value = true]
+[22-01-37] [PROP LOADED]: [key = dispose_splash, value = true]
+[22-01-37] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[22-01-37] [PROP LOADED]: [key = activate_watchdog, value = false]
+[22-01-37] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[22-01-37] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[22-01-37] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[22-01-37] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[22-01-37] [THREAD STARTED]: Object Creation Logger
+[22-01-37] [DEBUG]: Watchdog skipped
+[22-01-37] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-01-38] [FONT LOADED]: agency-fb
+[22-01-38] [FONT LOADED]: arial-black
+[22-01-38] [FONT LOADED]: beyno
+[22-01-38] [FONT LOADED]: condiment-regular
+[22-01-38] [FONT LOADED]: prompt-bold
+[22-01-38] [FONT LOADED]: segoe-ui-black
+[22-01-38] [FONT LOADED]: tahoma
+[22-01-38] [THREAD STARTED]: Splash Loader
+[22-01-38] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-01-39] [THREAD STARTED]: Splash Animation
+[22-01-39] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[22-01-39] [THREAD STARTED]: Secondary Subroutines Runner
+[22-01-39] [LOGIN]: AUTOCYPHER ATTEMPT
+[22-01-39] [THREAD STARTED]: JVM Args Logger
+[22-01-40] [DEBUG]: Cyder Entry = AutoCypher
+[22-01-40] [OBJECT CREATION]: Objects created since last delta (5000ms): 78
+[22-01-40] [THREAD STARTED]: Console Printing Animation
+[22-01-41] [THREAD STARTED]: Hourly Chime Checker
+[22-01-41] [THREAD STARTED]: Console Clock Updater
+[22-01-41] [THREAD STARTED]: Cyder Busy Checker
+[22-01-41] [THREAD STARTED]: ConsoleFrame Stat Saver
+[22-01-41] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[22-01-41] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[22-01-41] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 1379684016, bounds = (980,
+           396, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[22-01-41] [THREAD STARTED]: High Ping Checker
+[22-01-41] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[22-01-41] [THREAD STARTED]: Manual Tests Thread
+[22-01-41] [CONSOLE OUT]: [STRING]: Console loaded in 3827ms
+[22-01-41] [THREAD STARTED]: Splash Loading Label Updater
+[22-01-41] [DEBUG]: Attempted to log a new or empty line
+[22-01-44] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 7] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[22-01-44] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1655607636671.json
+[22-01-45] [OBJECT CREATION]: Objects created since last delta (5000ms): 39
+[22-01-49] [CLIENT]: mp3
+[22-01-49] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down Progress Label Thread
+[22-01-49] [THREAD STARTED]: Audio Progress Label Animator
+[22-01-49] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down Progress Label Thread
+[22-01-49] [CONSOLE OUT]: [STRING]: Opening widget: AudioPlayer
+[22-01-49] [THREAD STARTED]: [Timeflies tuesday - burnin it down] finalizeAndShow()
+[22-01-49] [WIDGET]: AudioPlayer, trigger = mp3
+[22-01-50] [DEBUG]: Attempted to log a new or empty line
+[22-01-50] [OBJECT CREATION]: Objects created since last delta (5000ms): 17
+[22-01-55] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies Tuesday - Burnin It Down]
+[22-01-59] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down_Dreamy Progress Label Thread
+[22-01-59] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down_Dreamy Progress Label Thread
+[22-01-59] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies Tuesday - Burnin It Down_Dreamy]
+[22-02-00] [THREAD STARTED]: Timeflies - Glad You Came Progress Label Thread
+[22-02-00] [THREAD STARTED]: Timeflies - Glad You Came Progress Label Thread
+[22-02-00] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies - Glad You Came]
+[22-02-00] [OBJECT CREATION]: Objects created since last delta (5000ms): 4
+[22-02-01] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down_Dreamy Progress Label Thread
+[22-02-01] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down_Dreamy Progress Label Thread
+[22-02-01] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies Tuesday - Burnin It Down_Dreamy]
+[22-02-02] [THREAD STARTED]: Timeflies - Glad You Came Progress Label Thread
+[22-02-02] [THREAD STARTED]: Timeflies - Glad You Came Progress Label Thread
+[22-02-02] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies - Glad You Came]
+[22-02-05] [OBJECT CREATION]: Objects created since last delta (5000ms): 4
+[22-02-05] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down_Dreamy Progress Label Thread
+[22-02-05] [THREAD STARTED]: Timeflies Tuesday - Burnin It Down_Dreamy Progress Label Thread
+[22-02-06] [THREAD STARTED]: Timeflies - Glad You Came Progress Label Thread
+[22-02-07] [THREAD STARTED]: Timeflies - Glad You Came Progress Label Thread
+[22-02-09] [THREAD STARTED]: AudioPlayer Play Audio Thread [Timeflies - Glad You Came]
+[22-02-10] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[22-02-10] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 1904288897, bounds
+           = (1512, 406, 747, 748), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[22-02-10] [EXIT]: [RUNTIME] 32s
+[22-02-10] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown
