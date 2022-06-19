@@ -667,7 +667,16 @@ public class AudioPlayer {
         audioLocationSlider.setPaintTicks(false);
         audioLocationSlider.setPaintLabels(false);
         audioLocationSlider.setVisible(true);
-        // todo would be nice to have an on change listener that also updates the labels
+        audioLocationSlider.addChangeListener(e -> {
+            if (audioTotalLength == UNKNOWN_AUDIO_LENGTH || audioTotalLength == 0) {
+                audioTotalLength = AudioUtil.getTotalBytes(currentAudioFile.get());
+            }
+
+            audioLocationUpdater.setPercentIn((float) audioLocationSlider.getValue()
+                    / audioLocationSlider.getMaximum());
+
+            audioLocationUpdater.update();
+        });
         audioLocationSlider.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -1163,6 +1172,86 @@ public class AudioPlayer {
         }, "AudioPlayer File Chooser");
     };
 
+    // todo why does this freeze application?
+    /**
+     * The runnable used to dreamify an audio file.
+     */
+    private static final Runnable getDreamifyRunnable = () -> {
+        audioPlayerFrame.notify(new CyderFrame.NotificationBuilder("Dreamifying \""
+                + FileUtil.getFilename(currentAudioFile.get()) + "\"").setViewDuration(-1));
+
+        dreamifierLocked.set(true);
+
+        Future<Optional<File>> dreamifiedAudio = AudioUtil.dreamifyAudio(currentAudioFile.get());
+
+        while (!dreamifiedAudio.isDone()) {
+            Thread.onSpinWait();
+        }
+
+        Optional<File> present;
+
+        dreamifierLocked.set(false);
+
+        try {
+            present = dreamifiedAudio.get();
+        } catch (Exception ignored) {
+            dreamifyFailed();
+            return;
+        }
+
+        if (present.isEmpty()) {
+            dreamifyFailed();
+            return;
+        }
+
+        File destinationFile = OSUtil.buildFile(
+                DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName(),
+                ConsoleFrame.INSTANCE.getUUID(),
+                UserFile.MUSIC.getName(),
+                present.get().getName());
+
+        try {
+            // copy dreamified audio to user's music dir from tmp
+            Files.copy(Paths.get(present.get().getAbsolutePath()),
+                    Paths.get(destinationFile.getAbsolutePath()));
+        } catch (Exception e) {
+            dreamifyFailed();
+            return;
+        }
+
+        float percentIn = (float) audioLocationSlider.getValue()
+                / audioLocationSlider.getMaximum();
+
+        boolean audioPlaying = isAudioPlaying();
+
+        if (audioPlaying) {
+            pauseAudio();
+        }
+
+        currentAudioFile.set(destinationFile);
+
+        revalidateFromAudioFileChange();
+
+        innerAudioPlayer = new InnerAudioPlayer(destinationFile);
+        innerAudioPlayer.setLocation((long) (percentIn
+                * AudioUtil.getTotalBytes(destinationFile)));
+        audioLocationUpdater.setPercentIn(percentIn);
+        audioLocationUpdater.update();
+
+        if (audioPlaying) {
+            playAudio();
+        }
+
+        audioDreamified.set(true);
+        audioPlayerFrame.revalidateMenu();
+        audioPlayerFrame.notify("Successfully dreamified audio");
+
+    };
+
+    /**
+     * The item menu to toggle between dreamify states of an audio file.
+     */
     private static final Runnable dreamifyMenuItem = () -> {
         if (dreamifierLocked.get() || uiLocked) {
             return;
@@ -1202,66 +1291,7 @@ public class AudioPlayer {
             }
         }
 
-        // todo extract whole as a runnable, test me too both with playing and non-playing audio
-        CyderThreadRunner.submit(() -> {
-            audioPlayerFrame.notify(new CyderFrame.NotificationBuilder("Dreamifying \""
-                    + FileUtil.getFilename(currentAudioFile.get()) + "\"").setViewDuration(0));
-
-            dreamifierLocked.set(true);
-
-            Future<Optional<File>> dreamifiedAudio = AudioUtil.dreamifyAudio(currentAudioFile.get());
-
-            while (!dreamifiedAudio.isDone()) {
-                Thread.onSpinWait();
-            }
-
-            Optional<File> present;
-
-            dreamifierLocked.set(false);
-
-            try {
-                present = dreamifiedAudio.get();
-            } catch (Exception ignored) {
-                dreamifyFailed();
-                return;
-            }
-
-            if (present.isEmpty()) {
-                dreamifyFailed();
-                return;
-            }
-
-            File destinationFile = OSUtil.buildFile(
-                    DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.USERS.getDirectoryName(),
-                    ConsoleFrame.INSTANCE.getUUID(),
-                    UserFile.MUSIC.getName(),
-                    present.get().getName());
-
-            try {
-                // copy dreamified audio to user's music dir from tmp
-                Files.copy(Paths.get(present.get().getAbsolutePath()),
-                        Paths.get(destinationFile.getAbsolutePath()));
-            } catch (Exception e) {
-                dreamifyFailed();
-                return;
-            }
-
-            if (isAudioPlaying()) {
-                pauseAudio();
-            }
-
-            currentAudioFile.set(destinationFile.getAbsoluteFile());
-
-            revalidateFromAudioFileChange();
-
-            playAudio();
-
-            audioDreamified.set(true);
-            audioPlayerFrame.revalidateMenu();
-            audioPlayerFrame.notify("Successfully dreamified audio");
-
-        }, "Audio Dreamifier");
+        CyderThreadRunner.submit(getDreamifyRunnable, "Audio Dreamifier");
     };
 
     /**
