@@ -967,7 +967,9 @@ public class AudioPlayer {
             // todo extract logic to simplify
             // todo un-dreamifying messes with slider location
             // todo need to resume at exact locations
-            // todo moving slider on start and then pressing play doesn't change location
+
+            // todo make sure all menu items check for this but don't use google for this since it throws
+            checkArgument(!uiLocked);
 
             if (dreamifierLocked.get()) {
                 return;
@@ -983,28 +985,31 @@ public class AudioPlayer {
                     String nonDreamyStdName = currentAudioFilename.substring(0,
                             currentAudioFilename.length() - AudioUtil.DREAMY_SUFFIX.length());
 
+                    // todo convert to boolean method that we can return from if handled properly
                     for (File validAudioFile : validAudioFiles) {
                         String localFilename = FileUtil.getFilename(validAudioFile);
 
                         if (localFilename.equals(nonDreamyStdName)) {
-                            long unDreamifyPauseLoc = innerAudioPlayer != null
-                                    ? innerAudioPlayer.getRemainingBytes() : 0;
+                            System.out.println("Found non dreamified audio");
 
-                            audioDreamified.set(false);
-                            audioPlayerFrame.revalidateMenu();
+                            if (isAudioPlaying()) {
+                                float percentIn = (float) audioLocationSlider.getValue()
+                                        / audioLocationSlider.getMaximum();
 
-                            currentAudioFile.set(validAudioFile);
+                                pauseAudio();
 
-                            boolean resume = isAudioPlaying();
-                            pauseAudio();
+                                revalidateFromAudioFileChange();
 
-                            innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-                            innerAudioPlayer.setLocation(unDreamifyPauseLoc);
+                                currentAudioFile.set(validAudioFile);
+                                innerAudioPlayer = new InnerAudioPlayer(validAudioFile);
+                                innerAudioPlayer.setLocation((long) (percentIn
+                                        * AudioUtil.getTotalBytes(validAudioFile)));
+                                audioLocationUpdater.setPercentIn(percentIn);
+                                audioLocationUpdater.update();
 
-                            revalidateFromAudioFileChange();
-
-                            if (resume) {
                                 playAudio();
+                            } else {
+
                             }
 
                             return;
@@ -1015,10 +1020,8 @@ public class AudioPlayer {
                     return;
                 }
 
-                File userMusicDir = OSUtil.buildFile(
-                        DynamicDirectory.DYNAMIC_PATH,
-                        DynamicDirectory.USERS.getDirectoryName(),
-                        ConsoleFrame.INSTANCE.getUUID(),
+                File userMusicDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                        DynamicDirectory.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
                         UserFile.MUSIC.getName());
 
                 // dreamified audio already exists
@@ -1030,20 +1033,7 @@ public class AudioPlayer {
                             if ((currentAudioFilename + AudioUtil.DREAMY_SUFFIX)
                                     .equalsIgnoreCase(FileUtil.getFilename(audioFile))) {
 
-                                boolean resume = isAudioPlaying();
-                                pauseAudio();
-
-                                audioDreamified.set(true);
-                                audioPlayerFrame.revalidateMenu();
-
-                                currentAudioFile.set(audioFile);
-                                innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-
-                                revalidateFromAudioFileChange();
-
-                                if (resume) {
-                                    playAudio();
-                                }
+                                System.out.println("Found dreamified audio");
 
                                 return;
                             }
@@ -1052,8 +1042,8 @@ public class AudioPlayer {
                 }
 
                 CyderThreadRunner.submit(() -> {
-                    audioPlayerFrame.notify(new CyderFrame.NotificationBuilder(
-                            "Dreamifying \"" + FileUtil.getFilename(currentAudioFile.get()) + "\"").setViewDuration(0));
+                    audioPlayerFrame.notify(new CyderFrame.NotificationBuilder("Dreamifying \""
+                            + FileUtil.getFilename(currentAudioFile.get()) + "\"").setViewDuration(0));
 
                     dreamifierLocked.set(true);
 
@@ -1063,14 +1053,19 @@ public class AudioPlayer {
                         Thread.onSpinWait();
                     }
 
-                    Optional<File> present = Optional.empty();
+                    Optional<File> present;
 
                     dreamifierLocked.set(false);
 
                     try {
                         present = dreamifiedAudio.get();
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
+                    } catch (Exception ignored) {
+                        audioDreamified.set(false);
+                        audioPlayerFrame.revalidateMenu();
+                        audioPlayerFrame.revokeAllNotifications();
+                        audioPlayerFrame.notify("Could not dreamify audio at this time");
+
+                        return;
                     }
 
                     if (present.isPresent()) {
@@ -1082,7 +1077,7 @@ public class AudioPlayer {
                                     UserFile.MUSIC.getName(),
                                     present.get().getName());
 
-                            // copy dreamified audio to user's music dir
+                            // copy dreamified audio to user's music dir from tmp
                             Files.copy(Paths.get(present.get().getAbsolutePath()),
                                     Paths.get(destinationFile.getAbsolutePath()));
 
@@ -1105,6 +1100,7 @@ public class AudioPlayer {
                     } else {
                         audioDreamified.set(false);
                         audioPlayerFrame.revalidateMenu();
+                        audioPlayerFrame.revokeAllNotifications();
                         audioPlayerFrame.notify("Could not dreamify audio at this time");
                     }
                 }, "Audio Dreamifier");
