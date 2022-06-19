@@ -1,6 +1,7 @@
 package cyder.handlers.external.audio;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.DynamicDirectory;
@@ -12,12 +13,11 @@ import cyder.utilities.NetworkUtil;
 import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.Executors;
@@ -498,6 +498,21 @@ public class AudioUtil {
     }
 
     /**
+     * The location to post for an audio location post.
+     */
+    private static final String AUDIO_LENGTH_PATH = "http://0.0.0.0:8080/audio/length/";
+
+    /**
+     * The encoding used for a post.
+     */
+    private static final Charset ENCODING = StandardCharsets.UTF_8;
+
+    /**
+     * The gson object used to serialize audio length posts.
+     */
+    private static final Gson gson = new Gson();
+
+    /**
      * Returns the number of milliseconds in an audio file faster than using the
      * standard {@link AudioUtil#getMillis(File)} method.
      *
@@ -506,26 +521,35 @@ public class AudioUtil {
      */
     public static int getMillisFast(File audioFile) {
         try {
-            URL url = new URL("localhost:8080");
-            System.out.println("Path: " + audioFile.getAbsolutePath());
-            String postData = "{\"audio_path\":" + audioFile.getAbsolutePath() + "}";
+            URL url = new URL(AUDIO_LENGTH_PATH);
+            String path = audioFile.getAbsolutePath().replace("\\", "\\\\");
+            String data = "{\"audio_path\":\"" + path + "\"}";
 
-            URLConnection conn = url.openConnection();
-            conn.setDoOutput(true);
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            conn.setRequestProperty("Content-Length", Integer.toString(postData.length()));
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoOutput(true);
 
-            try (DataOutputStream dos = new DataOutputStream(conn.getOutputStream())) {
-                dos.writeBytes(postData);
+            try (OutputStream os = con.getOutputStream()) {
+                byte[] input = data.getBytes();
+                os.write(input, 0, input.length);
             }
 
-            try (BufferedReader bf = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-                String line;
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                    con.getInputStream(), ENCODING))) {
+                StringBuilder response = new StringBuilder();
+                String responseLine;
 
-                while ((line = bf.readLine()) != null) {
-                    System.out.println(line);
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
                 }
+
+                AudioLengthResponse audioLengthResponse = gson.fromJson(response.toString(), AudioLengthResponse.class);
+
+                return Math.round(audioLengthResponse.getLength() * 1000);
             }
+
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

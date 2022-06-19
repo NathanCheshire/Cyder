@@ -12,6 +12,7 @@ import cyder.threads.CyderThreadFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.LinkedList;
@@ -21,7 +22,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * Utililties involving Rest APIs for GitHub.
+ * Utilities involving Rest APIs for GitHub.
  */
 public class GitHubUtil {
     /**
@@ -30,6 +31,11 @@ public class GitHubUtil {
     private GitHubUtil() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
+
+    /**
+     * The gson object used to serialize issue github responses.
+     */
+    private static final Gson gson = new Gson();
 
     /**
      * Returns a list of issues for Cyder.
@@ -54,7 +60,7 @@ public class GitHubUtil {
             reader.close();
             String rawJSON = sb.toString();
 
-            ret = new Gson().fromJson(rawJSON, Issue[].class);
+            ret = gson.fromJson(rawJSON, Issue[].class);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -65,6 +71,7 @@ public class GitHubUtil {
     /**
      * A json object class for a GitHub Issue object.
      */
+    @SuppressWarnings("unused")
     public static class Issue {
         public String url;
         public String repository_url;
@@ -135,7 +142,7 @@ public class GitHubUtil {
     }
 
     /**
-     * Determines if the provided url is a valid and public github clonable repository.
+     * Determines if the provided url is a valid and public github cloneable repository.
      * Example: https://github.com/NathanCheshire/Cyder.git returns true
      *
      * @param url the url to clone locally
@@ -167,9 +174,8 @@ public class GitHubUtil {
 
         // at this point it should be one of the following
         // github.com/user/repo.git or www.github.com/user/repo.git
-        if (url.startsWith(CyderUrls.GITHUB_BASE) || url.startsWith(CyderUrls.GITHUB_BASE.substring(4))) {
-            return true; // valid url and starts with one of the above
-        } else return false;
+        return url.startsWith(CyderUrls.GITHUB_BASE)
+                || url.startsWith(CyderUrls.GITHUB_BASE.substring(4)); // valid url and starts with one of the above
     }
 
     /**
@@ -219,8 +225,10 @@ public class GitHubUtil {
             File saveDir = new File(directory.getAbsolutePath()
                     + OSUtil.FILE_SEP + repoName);
 
-            if (saveDir.exists()) {
-                saveDir.mkdir();
+            if (!saveDir.exists()) {
+                if (!saveDir.mkdirs()) {
+                    throw new IOException("Failed to create save directory: " + saveDir.getAbsolutePath());
+                }
             }
 
             ConsoleFrame.INSTANCE.getInputHandler().println("Checking for git");

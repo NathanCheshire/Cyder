@@ -7,10 +7,11 @@ if EXIST "\venv" (
     call .\venv\Scripts\Activate.bat
     echo installing requirements
     call pip install -r requirements.txt
+    echo starting backend
+    call python main.py
 ) else (
     @echo venv found, entering
     call .\venv\Scripts\Activate.bat
+    echo starting backend
+    call python main.py
 )
-
-echo starting backend
-call python main.py

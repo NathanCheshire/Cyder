@@ -672,9 +672,6 @@ public class AudioPlayer {
                 audioLocationSlider.repaint();
             }
 
-            // todo dreamified audio thinks it is longer, cache size of non dreamy if found
-            //  or just use a different algorithm to find the length of an mp3 since neither work right now
-
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (audioLocationSliderPressed.get()) {
@@ -963,6 +960,10 @@ public class AudioPlayer {
         audioPlayerFrame.addMenuItem("Search", searchMenuItem);
         audioPlayerFrame.addMenuItem("Choose File", chooseFileMenuItem);
         audioPlayerFrame.addMenuItem("Dreamify", () -> {
+            // todo extract logic to simplify
+            // todo un-dreamifying messes with slider location
+            // todo need to resume at exact locations
+
             if (dreamifierLocked.get()) {
                 return;
             }

@@ -30,6 +30,7 @@ def post_best_color(color: ColorPost):
 
 @app.post("/audio/length/")
 def post_audio_length(audio_length: AudioLengthPost):
+    print(audio_length)
     exists = os.path.exists(audio_length.audio_path)
 
     if exists:
