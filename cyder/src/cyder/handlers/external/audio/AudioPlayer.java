@@ -990,27 +990,31 @@ public class AudioPlayer {
                         String localFilename = FileUtil.getFilename(validAudioFile);
 
                         if (localFilename.equals(nonDreamyStdName)) {
-                            System.out.println("Found non dreamified audio");
+                            float percentIn = (float) audioLocationSlider.getValue()
+                                    / audioLocationSlider.getMaximum();
 
-                            if (isAudioPlaying()) {
-                                float percentIn = (float) audioLocationSlider.getValue()
-                                        / audioLocationSlider.getMaximum();
+                            boolean audioPlaying = isAudioPlaying();
 
+                            if (audioPlaying) {
                                 pauseAudio();
-
-                                revalidateFromAudioFileChange();
-
-                                currentAudioFile.set(validAudioFile);
-                                innerAudioPlayer = new InnerAudioPlayer(validAudioFile);
-                                innerAudioPlayer.setLocation((long) (percentIn
-                                        * AudioUtil.getTotalBytes(validAudioFile)));
-                                audioLocationUpdater.setPercentIn(percentIn);
-                                audioLocationUpdater.update();
-
-                                playAudio();
-                            } else {
-
                             }
+
+                            currentAudioFile.set(validAudioFile);
+
+                            revalidateFromAudioFileChange();
+
+                            innerAudioPlayer = new InnerAudioPlayer(validAudioFile);
+                            innerAudioPlayer.setLocation((long) (percentIn
+                                    * AudioUtil.getTotalBytes(validAudioFile)));
+                            audioLocationUpdater.setPercentIn(percentIn);
+                            audioLocationUpdater.update();
+
+                            if (audioPlaying) {
+                                playAudio();
+                            }
+
+                            audioDreamified.set(false);
+                            audioPlayerFrame.revalidateMenu();
 
                             return;
                         }
