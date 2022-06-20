@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Utililties revolving around animations, typically using threads.
+ * Utilities revolving around animations, typically using threads.
  */
 public class AnimationUtil {
     /**
@@ -49,35 +49,33 @@ public class AnimationUtil {
     }
 
     /**
-     * Moves the specified frame object down until it is no longer visible then sets the frame's state
+     * Moves the specified cyderFrame object down until it is no longer visible then sets the cyderFrame's state
      * to Frame.ICONIFIED. This method works for anything that inherits from JFrame
      *
-     * @param frame the frame object to minimize and iconify
+     * @param cyderFrame the CyderFrame object to minimize and iconify
      */
-    public static void minimizeAnimation(JFrame frame) {
-        boolean wasEnabled = ((CyderFrame) frame).isDraggingEnabled();
+    public static void minimizeAnimation(CyderFrame cyderFrame) {
+        boolean wasEnabled = cyderFrame.isDraggingEnabled();
 
-        if (frame instanceof CyderFrame) {
-            ((CyderFrame) frame).disableDragging();
-        }
+        cyderFrame.disableDragging();
 
-        Point point = frame.getLocationOnScreen();
+        Point point = cyderFrame.getLocationOnScreen();
         int x = (int) point.getX();
         int y = (int) point.getY();
 
         try {
             for (int i = y ; i <= ScreenUtil.getScreenHeight() ; i += 15) {
                 Thread.sleep(0, 250);
-                frame.setLocation(x, i);
+                cyderFrame.setLocation(x, i);
             }
 
-            frame.setState(JFrame.ICONIFIED);
+            cyderFrame.setState(JFrame.ICONIFIED);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        if (frame instanceof CyderFrame && wasEnabled) {
-            ((CyderFrame) frame).enableDragging();
+        if (wasEnabled) {
+            cyderFrame.enableDragging();
         }
     }
 
