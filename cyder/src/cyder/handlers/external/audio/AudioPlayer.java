@@ -1,5 +1,6 @@
 package cyder.handlers.external.audio;
 
+import com.google.gson.Gson;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
@@ -12,6 +13,7 @@ import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.PhotoViewer;
+import cyder.handlers.external.audio.youtube.YoutubeSearchResultPage;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
@@ -34,7 +36,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -1130,6 +1135,8 @@ public class AudioPlayer {
         searchField.setBackground(CyderColors.vanilla);
         searchField.setBorder(new LineBorder(CyderColors.vanilla, 3));
         searchField.setForeground(CyderColors.navy);
+
+        // todo setup
     };
 
     /**
@@ -2174,5 +2181,43 @@ public class AudioPlayer {
         }
 
         return ret;
+    }
+
+    // --------------------------------
+    // Phase Two Components and methods
+    // --------------------------------
+
+    /**
+     * The gson object used for queries from youtube.
+     */
+    private static final Gson gson = new Gson();
+
+    /**
+     * The number of search results to grab when searching youtube.
+     */
+    private static final int searchResults = 10;
+
+    private static void updateSearchResults(String fieldText) {
+        Optional<YoutubeSearchResultPage> youtubeSearchResultPage = getSearchResults(
+                YoutubeUtil.buildYouTubeApiV3SearchQuery(10, fieldText));
+
+        // todo
+    }
+
+    /**
+     * Returns the search results for a particular url query.
+     *
+     * @param url the constructed url to get youtube video results
+     * @return the YoutubeSearchResultPage object if present, empty optional else
+     */
+    private static Optional<YoutubeSearchResultPage> getSearchResults(String url) {
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(new URL(url).openStream()))) {
+            return Optional.of(gson.fromJson(reader, YoutubeSearchResultPage.class));
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return Optional.empty();
     }
 }

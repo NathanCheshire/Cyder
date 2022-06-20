@@ -1,20 +1,14 @@
 package cyder.test;
 
-import com.google.gson.Gson;
 import cyder.constants.CyderRegexPatterns;
 import cyder.handlers.external.audio.AudioUtil;
-import cyder.handlers.external.audio.youtube.YoutubeSearchResultPage;
-import cyder.handlers.external.audio.youtube.YoutubeVideo;
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.*;
 import cyder.widgets.WeatherWidget;
 import org.junit.Test;
 
 import java.awt.*;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -377,23 +371,5 @@ public class UnitTests {
     public void testElevationUtil() {
         assertEquals(ElevationUtil.getElevation(
                 new Point(0, 0), ElevationUtil.LengthUnit.FEET), -1000000.0, 0);
-    }
-
-    @Test
-    public void testParsingYoutubeSearchResult() {
-        try (BufferedReader reader = new BufferedReader(
-                new FileReader("C:\\Users\\Nathan\\Downloads\\Test.json"))) {
-
-            YoutubeSearchResultPage result = new Gson().fromJson(reader, YoutubeSearchResultPage.class);
-
-            for (YoutubeVideo video : result.getItems()) {
-                System.out.println(video.getSnippet().getTitle());
-                System.out.println(video.getSnippet().getChannelTitle());
-                System.out.println(video.getSnippet().getDescription());
-                System.out.println("-----------------------");
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
     }
 }
