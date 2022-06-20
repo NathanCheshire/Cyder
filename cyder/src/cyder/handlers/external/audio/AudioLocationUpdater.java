@@ -99,7 +99,7 @@ public class AudioLocationUpdater {
         secondsLeftLabel.setText("");
         slider.setValue(0);
 
-        updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)),false);
+        updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)), false);
 
         if (!sliderPressed.get()) {
             updateSlider();
@@ -113,6 +113,9 @@ public class AudioLocationUpdater {
      */
     private boolean started;
 
+    /**
+     * The timeout between progress label and slider updates.
+     */
     private static final int TIMEOUT = 1000;
 
     /**
@@ -133,11 +136,18 @@ public class AudioLocationUpdater {
                     Thread.sleep(TIMEOUT);
                 } catch (Exception ignored) {}
 
-                milliSecondsIn += 1000;
+                milliSecondsIn += TIMEOUT;
+
+                // every 10 seconds sync with audio player
+                if (milliSecondsIn % 10000 == 0) {
+                    milliSecondsIn = ((long) Math.floor(AudioPlayer.getMillisecondsIn() / 1000f)) * 1000L;
+                }
+
+                int newSecondsIn = (int) (Math.floor(milliSecondsIn / 1000.0));
 
                 if (!timerPaused && currentFrameView.get() != FrameView.MINI) {
                     if (!sliderPressed.get()) {
-                        updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)),false);
+                        updateEffectLabel(newSecondsIn, false);
                         updateSlider();
                     }
                 }
@@ -189,7 +199,7 @@ public class AudioLocationUpdater {
     /**
      * Updates the encapsulated label with the time in to the current audio file.
      *
-     * @param secondsIn the seconds into the current audio file
+     * @param secondsIn     the seconds into the current audio file
      * @param userTriggered whether this update was invoked by a user or automatically
      */
     private void updateEffectLabel(int secondsIn, boolean userTriggered) {

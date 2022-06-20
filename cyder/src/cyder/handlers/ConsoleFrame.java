@@ -2089,9 +2089,7 @@ public enum ConsoleFrame {
 
                     YoutubeUtil.refreshAllLabels();
                 }
-            } catch (Exception ignored) {
-            }
-            //sometimes this throws so ignore it
+            } catch (Exception ignored) {}
         } else {
             // don't disrupt original function
             outputArea.getParent().dispatchEvent(e);
@@ -2107,21 +2105,14 @@ public enum ConsoleFrame {
      *             information specific to this instance of the console frame
      */
     public void setUUID(String uuid) {
-        Preconditions.checkNotNull(uuid, "Provided UUID is null");
+        Preconditions.checkNotNull(uuid);
 
-        // set previous ID to the current one
         previousUuid = this.uuid;
-
-        // set the current uuid
         this.uuid = uuid;
 
-        // build file and pass to user util to set user and user file
         UserUtil.setCyderUser(uuid);
-
         UserUtil.logoutAllUsers();
-
         UserUtil.getCyderUser().setLoggedin("1");
-
         UserUtil.deleteInvalidBackgrounds(uuid);
     }
 
@@ -2238,7 +2229,7 @@ public enum ConsoleFrame {
             if (backgroundFiles.isEmpty()) {
                 // create and reload backgrounds since this shouldn't be empty now
                 UserUtil.createDefaultBackground(uuid);
-                loadBackgrounds();
+                loadBackgrounds(); // todo make sure this doesn't go deeper than two
             }
 
             backgrounds.clear();

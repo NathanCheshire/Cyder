@@ -1175,9 +1175,7 @@ public class AudioPlayer {
         }, "AudioPlayer File Chooser");
     };
 
-    // todo for animated progress bars when done, set to the first color passed
-    // todo printed label for audio downloading should be left aligned and newlines for stats
-
+    // todo bugs with transition when getting to the end of a song
     // todo opening widget doesn't properly work if already open
 
     /**
