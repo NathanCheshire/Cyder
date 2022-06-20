@@ -1121,7 +1121,15 @@ public class AudioPlayer {
 
         setUiComponentsVisible(false);
 
-        // todo phase 2 components layout
+        int yOff = 60;
+
+        CyderTextField searchField = new CyderTextField();
+        searchField.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2, yOff, UI_ROW_WIDTH, 40);
+        searchField.setToolTipText("Search");
+        audioPlayerFrame.getContentPane().add(searchField);
+        searchField.setBackground(CyderColors.vanilla);
+        searchField.setBorder(new LineBorder(CyderColors.vanilla, 3));
+        searchField.setForeground(CyderColors.navy);
     };
 
     /**
