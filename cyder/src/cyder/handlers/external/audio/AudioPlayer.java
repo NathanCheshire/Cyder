@@ -1156,8 +1156,6 @@ public class AudioPlayer {
         }, "AudioPlayer File Chooser");
     };
 
-    // todo bugs with transition when getting to the end of a song
-
     /**
      * The runnable used to dreamify an audio file.
      */
@@ -1807,7 +1805,6 @@ public class AudioPlayer {
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
     static void playAudioCallback() {
         // user didn't click any buttons so we should try and find the next audio
         if (lastAction == LastAction.Play) {
@@ -1818,6 +1815,8 @@ public class AudioPlayer {
 
             if (repeatAudio) {
                 innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+                audioLocationUpdater.setPercentIn(0);
+                audioLocationUpdater.update(false);
                 playAudio();
             } else if (!audioFileQueue.isEmpty()) {
                 currentAudioFile.set(audioFileQueue.remove(0));
@@ -1825,8 +1824,7 @@ public class AudioPlayer {
                 revalidateFromAudioFileChange();
                 playAudio();
             } else if (shuffleAudio) {
-                currentAudioFile.set(audioFileQueue.get(NumberUtil.randInt(
-                        0, audioFileQueue.size() - 1)));
+                currentAudioFile.set(validAudioFiles.get(getRandomIndex()));
                 innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
                 revalidateFromAudioFileChange();
                 playAudio();
@@ -1970,6 +1968,10 @@ public class AudioPlayer {
 
         int currentIndex = getCurrentAudioIndex();
         int nextIndex = currentIndex == validAudioFiles.size() - 1 ? 0 : currentIndex + 1;
+
+        if (shuffleAudio) {
+            nextIndex = getRandomIndex();
+        }
 
         currentAudioFile.set(validAudioFiles.get(nextIndex));
         innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
@@ -2149,5 +2151,20 @@ public class AudioPlayer {
         audioDreamified.set(isCurrentAudioDreamy());
 
         audioPlayerFrame.revalidateMenu();
+    }
+
+    /**
+     * Returns a random index of the validAudioFiles list.
+     *
+     * @return a random index of the validAudioFiles list
+     */
+    private static int getRandomIndex() {
+        int ret = NumberUtil.randInt(0, validAudioFiles.size() - 1);
+
+        while (ret == getCurrentAudioIndex()) {
+            ret = NumberUtil.randInt(0, validAudioFiles.size() - 1);
+        }
+
+        return ret;
     }
 }
