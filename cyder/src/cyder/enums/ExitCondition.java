@@ -1,6 +1,6 @@
 package cyder.enums;
 
-import cyder.utilities.OSUtil;
+import cyder.utils.OSUtil;
 
 /**
  * Cyder exit codes and their corresponding meanings.

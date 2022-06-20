@@ -16,7 +16,7 @@ import cyder.ui.CyderOutputPane;
 import cyder.ui.CyderScrollPane;
 import cyder.user.User;
 import cyder.user.UserCreator;
-import cyder.utilities.*;
+import cyder.utils.*;
 
 import javax.swing.*;
 import java.awt.*;

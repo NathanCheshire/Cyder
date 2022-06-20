@@ -3,9 +3,9 @@ package cyder.ui;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.FrameUtil;
-import cyder.utilities.ReflectionUtil;
-import cyder.utilities.StringUtil;
+import cyder.utils.FrameUtil;
+import cyder.utils.ReflectionUtil;
+import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;

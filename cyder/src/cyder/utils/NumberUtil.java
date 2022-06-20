@@ -1,4 +1,4 @@
-package cyder.utilities;
+package cyder.utils;
 
 import com.google.common.collect.Range;
 import cyder.constants.CyderStrings;

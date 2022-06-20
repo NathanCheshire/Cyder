@@ -15,7 +15,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
-import cyder.utilities.*;
+import cyder.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

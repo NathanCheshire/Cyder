@@ -9,7 +9,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
-import cyder.utilities.*;
+import cyder.utils.*;
 
 import java.security.SecureRandom;
 import java.time.DayOfWeek;

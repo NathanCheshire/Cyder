@@ -1,4 +1,4 @@
-package cyder.utilities;
+package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
@@ -29,9 +29,16 @@ public class SpotlightUtil {
     public static final String contentDeliveryManager = "Microsoft.Windows.ContentDeliveryManager_";
 
     /**
-     * Returns the windows spotlight directory. I'm not sure if it could chane since according to Google
-     * source it's staticly set at "Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy". To be safe,
-     * however this method exists.
+     * The default content delivery manager suffix
+     */
+    @SuppressWarnings("unused")
+    public static final String CONTENT_DELIVERY_MANAGER_SUFFIX = "cw5n1h2txyewy";
+
+    /**
+     * Returns the windows spotlight directory. I'm not sure if it could change since
+     * according to Google, it's statically set to "Microsoft.Windows.ContentDeliveryManager_"
+     * with {@link #CONTENT_DELIVERY_MANAGER_SUFFIX} tacked onto the end.
+     * To be safe however, this method exists.
      *
      * @return the name of the directory containing the Windows spotlight images
      */
@@ -42,7 +49,13 @@ public class SpotlightUtil {
                 OSUtil.C_COLON_SLASH, "users", OSUtil.getSystemUsername(),
                 "AppData", "Local", "Packages"));
 
-        for (File possibleSpotlightDir : spotlightParent.listFiles()) {
+        File[] files = spotlightParent.listFiles();
+
+        if (files == null || files.length == 0) {
+            return null;
+        }
+
+        for (File possibleSpotlightDir : files) {
             if (possibleSpotlightDir.getName().contains(contentDeliveryManager)) {
                 return possibleSpotlightDir.getName();
             }
@@ -61,23 +74,34 @@ public class SpotlightUtil {
             try {
                 File spotlightDirectory = getSpotlightsDirectory();
 
+                File[] files = spotlightDirectory.listFiles();
+                int length = files == null ? 0 : files.length;
+
                 ConsoleFrame.INSTANCE.getInputHandler().println("Windows spotlight images wiped from directory: "
                         + getWindowsContentDeliveryManagerDir());
-                ConsoleFrame.INSTANCE.getInputHandler().println("Spotights found: "
-                        + spotlightDirectory.listFiles().length);
+                ConsoleFrame.INSTANCE.getInputHandler().println("Spotights found: " + length);
 
-                for (File spotlight : spotlightDirectory.listFiles()) {
-                    OSUtil.deleteFile(spotlight);
+                if (files != null && files.length > 0) {
+                    for (File spotlight : files) {
+                        OSUtil.deleteFile(spotlight);
+                    }
                 }
 
-                ConsoleFrame.INSTANCE.getInputHandler().println("Spotights left: "
-                        + spotlightDirectory.listFiles().length);
+                files = spotlightDirectory.listFiles();
+                length = files == null ? 0 : files.length;
+
+                ConsoleFrame.INSTANCE.getInputHandler().println("Spotights left: " + length);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         }
     }
 
+    /**
+     * Returns the parent directory of the spotlight images.
+     *
+     * @return the parent directory of the spotlight images
+     */
     public static File getSpotlightsDirectory() {
         String local = getWindowsContentDeliveryManagerDir();
         Preconditions.checkNotNull(local);
@@ -90,7 +114,7 @@ public class SpotlightUtil {
     /**
      * Saves the Windows spotlights to the provided directory.
      *
-     * @param saveDir the directoryt o save the fiels to
+     * @param saveDir the directory o save the files to
      */
     public static void saveSpotlights(File saveDir) {
         Preconditions.checkNotNull(saveDir);
@@ -103,7 +127,13 @@ public class SpotlightUtil {
             if (getWindowsContentDeliveryManagerDir() != null) {
                 int acc = 0;
 
-                for (File spotlight : getSpotlightsDirectory().listFiles()) {
+                File[] files = getSpotlightsDirectory().listFiles();
+
+                if (files == null || files.length == 0) {
+                    return;
+                }
+
+                for (File spotlight : files) {
                     ImageIcon icon = new ImageIcon(spotlight.getAbsolutePath());
 
                     // skip small previews and the weird vertical ones

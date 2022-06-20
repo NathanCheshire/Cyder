@@ -15,7 +15,7 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
 import cyder.user.UserFile;
-import cyder.utilities.*;
+import cyder.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

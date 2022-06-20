@@ -2,8 +2,8 @@ package cyder.constants;
 
 import com.google.common.collect.ImmutableList;
 import cyder.exceptions.IllegalMethodException;
-import cyder.utilities.ColorUtil;
-import cyder.utilities.UserUtil;
+import cyder.utils.ColorUtil;
+import cyder.utils.UserUtil;
 
 import java.awt.*;
 

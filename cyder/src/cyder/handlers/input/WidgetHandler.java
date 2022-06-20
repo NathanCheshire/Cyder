@@ -8,7 +8,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.ReflectionUtil;
+import cyder.utils.ReflectionUtil;
 
 import java.lang.reflect.Method;
 

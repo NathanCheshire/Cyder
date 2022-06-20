@@ -6,8 +6,8 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.records.TaggedString;
 import cyder.threads.CyderThreadRunner;
-import cyder.utilities.ReflectionUtil;
-import cyder.utilities.StringUtil;
+import cyder.utils.ReflectionUtil;
+import cyder.utils.StringUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 

@@ -11,8 +11,8 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.ui.CyderTextField;
-import cyder.utilities.GetterUtil;
-import cyder.utilities.NetworkUtil;
+import cyder.utils.GetterUtil;
+import cyder.utils.NetworkUtil;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;

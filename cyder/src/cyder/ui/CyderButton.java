@@ -5,7 +5,7 @@ import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
-import cyder.utilities.ReflectionUtil;
+import cyder.utils.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

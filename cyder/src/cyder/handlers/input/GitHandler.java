@@ -7,10 +7,10 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserFile;
-import cyder.utilities.GitHubUtil;
-import cyder.utilities.NetworkUtil;
-import cyder.utilities.OSUtil;
-import cyder.utilities.UserUtil;
+import cyder.utils.GitHubUtil;
+import cyder.utils.NetworkUtil;
+import cyder.utils.OSUtil;
+import cyder.utils.UserUtil;
 
 import java.util.Optional;
 import java.util.concurrent.Future;

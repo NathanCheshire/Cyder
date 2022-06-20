@@ -19,7 +19,7 @@ import cyder.threads.MasterYoutubeThread;
 import cyder.ui.CyderOutputPane;
 import cyder.user.User;
 import cyder.user.UserFile;
-import cyder.utilities.*;
+import cyder.utils.*;
 
 import javax.swing.*;
 import javax.swing.text.*;

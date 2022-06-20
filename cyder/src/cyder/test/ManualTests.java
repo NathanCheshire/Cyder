@@ -16,7 +16,7 @@ import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
-import cyder.utilities.ImageUtil;
+import cyder.utils.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;

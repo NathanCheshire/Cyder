@@ -6,8 +6,8 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderOutputPane;
-import cyder.utilities.NumberUtil;
-import cyder.utilities.StringUtil;
+import cyder.utils.NumberUtil;
+import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.util.LinkedList;

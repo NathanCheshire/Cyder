@@ -6,7 +6,7 @@ import cyder.annotations.ManualTest;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.utilities.ReflectionUtil;
+import cyder.utils.ReflectionUtil;
 
 import java.lang.reflect.Method;
 

@@ -13,7 +13,7 @@ import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
 import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
-import cyder.utilities.*;
+import cyder.utils.*;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;

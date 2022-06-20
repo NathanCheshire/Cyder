@@ -1,4 +1,4 @@
-package cyder.utilities;
+package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;

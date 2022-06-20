@@ -3,7 +3,7 @@ package cyder.records;
 import com.google.common.base.Preconditions;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.ImageUtil;
+import cyder.utils.ImageUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

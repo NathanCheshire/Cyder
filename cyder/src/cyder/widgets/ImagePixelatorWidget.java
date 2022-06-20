@@ -17,7 +17,7 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.ui.CyderTextField;
 import cyder.user.UserFile;
-import cyder.utilities.*;
+import cyder.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

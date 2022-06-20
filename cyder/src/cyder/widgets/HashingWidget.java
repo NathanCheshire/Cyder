@@ -12,8 +12,8 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderComboBox;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderPasswordField;
-import cyder.utilities.OSUtil;
-import cyder.utilities.SecurityUtil;
+import cyder.utils.OSUtil;
+import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
 import java.util.ArrayList;

@@ -17,7 +17,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.records.ConsoleBackground;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
-import cyder.utilities.*;
+import cyder.utils.*;
 import cyder.widgets.ColorConverterWidget;
 
 import javax.swing.*;

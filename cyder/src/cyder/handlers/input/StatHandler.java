@@ -8,7 +8,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.records.WidgetDescription;
 import cyder.threads.CyderThreadRunner;
-import cyder.utilities.*;
+import cyder.utils.*;
 
 import java.io.File;
 import java.net.InetAddress;

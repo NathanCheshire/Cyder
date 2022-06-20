@@ -17,10 +17,10 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.ui.CyderSwitch;
 import cyder.ui.CyderTextField;
-import cyder.utilities.ColorUtil;
-import cyder.utilities.IPUtil;
-import cyder.utilities.StringUtil;
-import cyder.utilities.TimeUtil;
+import cyder.utils.ColorUtil;
+import cyder.utils.IPUtil;
+import cyder.utils.StringUtil;
+import cyder.utils.TimeUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

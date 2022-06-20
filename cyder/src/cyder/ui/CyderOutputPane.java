@@ -2,7 +2,7 @@ package cyder.ui;
 
 import com.google.common.base.Preconditions;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.StringUtil;
+import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.util.concurrent.Semaphore;

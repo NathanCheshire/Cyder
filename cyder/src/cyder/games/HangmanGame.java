@@ -10,8 +10,8 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
-import cyder.utilities.NumberUtil;
-import cyder.utilities.StringUtil;
+import cyder.utils.NumberUtil;
+import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

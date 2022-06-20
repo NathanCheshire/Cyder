@@ -1,8 +1,8 @@
 package cyder.handlers.external.audio;
 
 import cyder.threads.CyderThreadRunner;
-import cyder.utilities.FileUtil;
-import cyder.utilities.UserUtil;
+import cyder.utils.FileUtil;
+import cyder.utils.UserUtil;
 
 import javax.swing.*;
 import java.io.File;

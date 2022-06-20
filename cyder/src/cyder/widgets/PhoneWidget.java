@@ -10,7 +10,7 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
-import cyder.utilities.IOUtil;
+import cyder.utils.IOUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

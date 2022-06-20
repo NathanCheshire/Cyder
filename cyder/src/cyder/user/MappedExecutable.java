@@ -3,7 +3,7 @@ package cyder.user;
 import com.google.errorprone.annotations.Immutable;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.ReflectionUtil;
+import cyder.utils.ReflectionUtil;
 
 /**
  * Class representing a name and a path to an executable/file/link to open.

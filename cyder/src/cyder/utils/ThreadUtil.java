@@ -1,4 +1,4 @@
-package cyder.utilities;
+package cyder.utils;
 
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;

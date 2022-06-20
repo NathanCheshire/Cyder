@@ -23,7 +23,7 @@ import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.user.*;
-import cyder.utilities.*;
+import cyder.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

@@ -1,4 +1,4 @@
-package cyder.utilities;
+package cyder.utils;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderStrings;

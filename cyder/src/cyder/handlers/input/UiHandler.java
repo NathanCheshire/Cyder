@@ -8,9 +8,9 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.ui.CyderSliderUi;
 import cyder.user.UserCreator;
-import cyder.utilities.FrameUtil;
-import cyder.utilities.OSUtil;
-import cyder.utilities.UserUtil;
+import cyder.utils.FrameUtil;
+import cyder.utils.OSUtil;
+import cyder.utils.UserUtil;
 
 import javax.swing.*;
 import java.awt.*;

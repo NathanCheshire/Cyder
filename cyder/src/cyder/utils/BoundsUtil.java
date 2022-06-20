@@ -1,4 +1,4 @@
-package cyder.utilities;
+package cyder.utils;
 
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;

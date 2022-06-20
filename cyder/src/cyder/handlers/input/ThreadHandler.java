@@ -4,7 +4,7 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.threads.MasterYoutubeThread;
-import cyder.utilities.IOUtil;
+import cyder.utils.IOUtil;
 
 /**
  * A handler to handle things related to thread ops.

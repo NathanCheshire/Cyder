@@ -8,9 +8,9 @@ import cyder.handlers.external.audio.AudioUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.CyderButton;
-import cyder.utilities.FileUtil;
-import cyder.utilities.ImageUtil;
-import cyder.utilities.StringUtil;
+import cyder.utils.FileUtil;
+import cyder.utils.ImageUtil;
+import cyder.utils.StringUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

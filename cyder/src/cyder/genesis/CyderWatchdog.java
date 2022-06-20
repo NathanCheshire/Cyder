@@ -8,7 +8,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
-import cyder.utilities.OSUtil;
+import cyder.utils.OSUtil;
 
 import javax.swing.*;
 import java.util.concurrent.atomic.AtomicInteger;

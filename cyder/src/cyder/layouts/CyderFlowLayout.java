@@ -2,7 +2,7 @@ package cyder.layouts;
 
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderPanel;
-import cyder.utilities.ReflectionUtil;
+import cyder.utils.ReflectionUtil;
 
 import java.awt.*;
 import java.util.ArrayList;

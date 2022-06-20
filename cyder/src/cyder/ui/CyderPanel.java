@@ -4,7 +4,7 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
 import cyder.layouts.CyderLayout;
-import cyder.utilities.ReflectionUtil;
+import cyder.utils.ReflectionUtil;
 
 import javax.swing.*;
 import java.awt.*;

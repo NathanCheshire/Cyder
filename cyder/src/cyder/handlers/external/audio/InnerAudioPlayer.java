@@ -5,7 +5,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
-import cyder.utilities.FileUtil;
+import cyder.utils.FileUtil;
 import javazoom.jl.player.Player;
 
 import java.io.BufferedInputStream;

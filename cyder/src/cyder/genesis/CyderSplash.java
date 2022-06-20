@@ -8,9 +8,9 @@ import cyder.handlers.internal.InformHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
-import cyder.utilities.ImageUtil;
-import cyder.utilities.OSUtil;
-import cyder.utilities.StringUtil;
+import cyder.utils.ImageUtil;
+import cyder.utils.OSUtil;
+import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;

@@ -9,10 +9,10 @@ import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserFile;
-import cyder.utilities.FileUtil;
-import cyder.utilities.ImageUtil;
-import cyder.utilities.OSUtil;
-import cyder.utilities.UserUtil;
+import cyder.utils.FileUtil;
+import cyder.utils.ImageUtil;
+import cyder.utils.OSUtil;
+import cyder.utils.UserUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

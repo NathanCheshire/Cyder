@@ -15,7 +15,7 @@ import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
 import cyder.threads.CyderThreadRunner;
-import cyder.utilities.*;
+import cyder.utils.*;
 import org.jetbrains.annotations.Nullable;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;

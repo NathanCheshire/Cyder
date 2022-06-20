@@ -4,8 +4,8 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
-import cyder.utilities.NetworkUtil;
-import cyder.utilities.OSUtil;
+import cyder.utils.NetworkUtil;
+import cyder.utils.OSUtil;
 
 import java.net.URL;
 

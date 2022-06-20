@@ -2,7 +2,7 @@ package cyder.user;
 
 import cyder.enums.Direction;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.ReflectionUtil;
+import cyder.utils.ReflectionUtil;
 
 /**
  * A class to store statistics about the ConsoleFrame and where it is.

@@ -8,10 +8,10 @@ import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderOutputPane;
-import cyder.utilities.NetworkUtil;
-import cyder.utilities.StringUtil;
-import cyder.utilities.TimeUtil;
-import cyder.utilities.UserUtil;
+import cyder.utils.NetworkUtil;
+import cyder.utils.StringUtil;
+import cyder.utils.TimeUtil;
+import cyder.utils.UserUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

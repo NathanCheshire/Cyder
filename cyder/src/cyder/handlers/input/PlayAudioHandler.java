@@ -9,10 +9,10 @@ import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
-import cyder.utilities.IOUtil;
-import cyder.utilities.OSUtil;
-import cyder.utilities.StringUtil;
-import cyder.utilities.YoutubeUtil;
+import cyder.utils.IOUtil;
+import cyder.utils.OSUtil;
+import cyder.utils.StringUtil;
+import cyder.utils.YoutubeUtil;
 
 import javax.swing.*;
 import java.awt.*;

@@ -16,7 +16,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
-import cyder.utilities.*;
+import cyder.utils.*;
 
 import javax.swing.*;
 import java.awt.*;

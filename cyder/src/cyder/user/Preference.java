@@ -2,7 +2,7 @@ package cyder.user;
 
 import com.google.errorprone.annotations.Immutable;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.ReflectionUtil;
+import cyder.utils.ReflectionUtil;
 
 /**
  * Preference class used to hold user data in the form of strings.

@@ -5,9 +5,9 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderScrollList;
-import cyder.utilities.ColorUtil;
-import cyder.utilities.FrameUtil;
-import cyder.utilities.UserUtil;
+import cyder.utils.ColorUtil;
+import cyder.utils.FrameUtil;
+import cyder.utils.UserUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

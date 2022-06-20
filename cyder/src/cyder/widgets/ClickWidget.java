@@ -9,7 +9,7 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderFrame;
-import cyder.utilities.NumberUtil;
+import cyder.utils.NumberUtil;
 
 import javax.swing.*;
 import java.awt.*;

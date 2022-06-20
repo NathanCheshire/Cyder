@@ -6,9 +6,9 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
-import cyder.utilities.FileUtil;
-import cyder.utilities.IOUtil;
-import cyder.utilities.NumberUtil;
+import cyder.utils.FileUtil;
+import cyder.utils.IOUtil;
+import cyder.utils.NumberUtil;
 
 import java.io.File;
 import java.io.FileInputStream;

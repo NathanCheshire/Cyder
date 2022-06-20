@@ -4,7 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.utilities.StringUtil;
+import cyder.utils.StringUtil;
 
 /**
  * A handler for handling mathematical expressions.

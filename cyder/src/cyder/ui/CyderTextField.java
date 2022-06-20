@@ -3,7 +3,7 @@ package cyder.ui;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.StringUtil;
+import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;

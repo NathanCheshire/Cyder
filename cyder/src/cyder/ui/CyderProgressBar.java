@@ -1,7 +1,7 @@
 package cyder.ui;
 
 import cyder.handlers.internal.Logger;
-import cyder.utilities.ReflectionUtil;
+import cyder.utils.ReflectionUtil;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;

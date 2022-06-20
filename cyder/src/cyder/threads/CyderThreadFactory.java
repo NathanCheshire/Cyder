@@ -1,7 +1,7 @@
 package cyder.threads;
 
 import cyder.handlers.internal.Logger;
-import cyder.utilities.ReflectionUtil;
+import cyder.utils.ReflectionUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.ThreadFactory;
@@ -23,7 +23,7 @@ public class CyderThreadFactory implements ThreadFactory {
     /**
      * The name of this thread factory.
      */
-    private String name = "Void Named Service";
+    private String name;
 
     /**
      * Sets the name of this thread factory.

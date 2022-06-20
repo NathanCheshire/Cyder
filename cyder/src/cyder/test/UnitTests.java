@@ -3,7 +3,7 @@ package cyder.test;
 import cyder.constants.CyderRegexPatterns;
 import cyder.handlers.external.audio.AudioUtil;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.*;
+import cyder.utils.*;
 import cyder.widgets.WeatherWidget;
 import org.junit.Test;
 

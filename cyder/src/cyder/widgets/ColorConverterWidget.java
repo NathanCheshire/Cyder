@@ -12,7 +12,7 @@ import cyder.layouts.CyderGridLayout;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderPanel;
 import cyder.ui.CyderTextField;
-import cyder.utilities.ColorUtil;
+import cyder.utils.ColorUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

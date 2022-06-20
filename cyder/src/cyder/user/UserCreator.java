@@ -17,7 +17,7 @@ import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.LoginHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
-import cyder.utilities.*;
+import cyder.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

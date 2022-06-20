@@ -6,9 +6,9 @@ import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.IOUtil;
-import cyder.utilities.OSUtil;
-import cyder.utilities.SpotlightUtil;
+import cyder.utils.IOUtil;
+import cyder.utils.OSUtil;
+import cyder.utils.SpotlightUtil;
 
 import java.io.File;
 

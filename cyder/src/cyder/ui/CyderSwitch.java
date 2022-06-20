@@ -3,8 +3,8 @@ package cyder.ui;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.AnimationUtil;
-import cyder.utilities.ReflectionUtil;
+import cyder.utils.AnimationUtil;
+import cyder.utils.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

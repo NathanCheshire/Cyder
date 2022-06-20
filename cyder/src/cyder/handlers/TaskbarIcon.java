@@ -5,7 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderLabel;
-import cyder.utilities.ImageUtil;
+import cyder.utils.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;

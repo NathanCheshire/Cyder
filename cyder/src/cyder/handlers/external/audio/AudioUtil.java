@@ -8,10 +8,10 @@ import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
-import cyder.utilities.FileUtil;
-import cyder.utilities.NetworkUtil;
-import cyder.utilities.OSUtil;
-import cyder.utilities.StringUtil;
+import cyder.utils.FileUtil;
+import cyder.utils.NetworkUtil;
+import cyder.utils.OSUtil;
+import cyder.utils.StringUtil;
 
 import java.io.*;
 import java.net.HttpURLConnection;

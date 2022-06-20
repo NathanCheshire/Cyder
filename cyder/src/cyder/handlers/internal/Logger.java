@@ -9,10 +9,10 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.threads.CyderThreadRunner;
-import cyder.utilities.FileUtil;
-import cyder.utilities.OSUtil;
-import cyder.utilities.StringUtil;
-import cyder.utilities.TimeUtil;
+import cyder.utils.FileUtil;
+import cyder.utils.OSUtil;
+import cyder.utils.StringUtil;
+import cyder.utils.TimeUtil;
 
 import javax.swing.*;
 import java.io.*;
