@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,36 +53,111 @@ public class YoutubeUtil {
     }
 
     /**
+     * A list of youtube videos currently being downloaded.
+     */
+    private static final LinkedList<YoutubeDownload> currentDownloads = new LinkedList<>();
+
+    /**
      * Downloads the youtube video with the provided url.
      *
      * @param url the url of the video to download
      */
     public static void downloadVideo(String url) {
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
+            YoutubeDownload youtubeDownload = new YoutubeDownload(url);
+            currentDownloads.add(youtubeDownload);
+            youtubeDownload.download();
+        } else {
+            noFfmpegOrYoutubedl();
+        }
+    }
+
+    /**
+     * Refreshes the label font of all youtube download labels.
+     */
+    public static void refreshAllLabels() {
+        for (YoutubeDownload youtubeDownload : currentDownloads) {
+            youtubeDownload.refreshLabelFont();
+        }
+    }
+
+    /**
+     * A utility class for downloading a single video's audio from YouTube.
+     */
+    public static class YoutubeDownload {
+        /**
+         * The url of the youtube video to download.
+         */
+        private final String url;
+
+        /**
+         * Constructs a new YoutubeDownload object.
+         *
+         * @param url the url of the video to download
+         */
+        public YoutubeDownload(String url) {
+            Preconditions.checkNotNull(url);
+
+            this.url = url;
+        }
+
+        /**
+         * The label this class will print and update with statistics about the download.
+         */
+        private JLabel printLabel;
+
+        /**
+         * Updates the label with the provided props.
+         *
+         * @param name     the name of the download
+         * @param fileSize the size of the download
+         * @param progress the progress of the download
+         * @param rate     the rate of the download
+         * @param eta      the eta of the download
+         */
+        public void updateLabel(String name, String fileSize, float progress, String rate, String eta) {
+            String updateText = "<html>" + name + "<br/>File size: " + fileSize + "<br/>Progress: "
+                    + progress + "%<br/>Rate: " + rate + "<br/>Eta: " + eta + "</html>";
+
+            printLabel.setText(updateText);
+            printLabel.revalidate();
+            printLabel.repaint();
+            printLabel.setHorizontalAlignment(JLabel.LEFT);
+        }
+
+        /**
+         * Refreshes the label font.
+         */
+        public void refreshLabelFont() {
+            printLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
+        }
+
+        /**
+         * Downloads this object's youtube video.
+         */
+        public void download() {
             String saveDir = OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
                     "users", ConsoleFrame.INSTANCE.getUUID(), "Music");
+
             String extension = "." + PropLoader.getString("ffmpeg_audio_output_format");
 
-            Runtime rt = Runtime.getRuntime();
-
-            String parsedAsciiSaveName =
+            AtomicReference<String> parsedAsciiSaveName = new AtomicReference<>(
                     StringUtil.parseNonAscii(NetworkUtil.getUrlTitle(url))
                             .replace("- YouTube", "")
-                            .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(),
-                                    "").trim();
+                            .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim());
 
-            ConsoleFrame.INSTANCE.getInputHandler()
-                    .println("Downloading audio as: " + parsedAsciiSaveName + extension);
+            ConsoleFrame.INSTANCE.getInputHandler().println("Downloading audio as: "
+                    + parsedAsciiSaveName + extension);
 
             // remove trailing periods
-            while (parsedAsciiSaveName.endsWith("."))
-                parsedAsciiSaveName = parsedAsciiSaveName.substring(0, parsedAsciiSaveName.length() - 1);
+            while (parsedAsciiSaveName.get().endsWith(".")) {
+                parsedAsciiSaveName.set(parsedAsciiSaveName.get().substring(0, parsedAsciiSaveName.get().length() - 1));
+            }
 
             // if for some reason this case happens, account for it
-            if (parsedAsciiSaveName.isEmpty())
-                parsedAsciiSaveName = SecurityUtil.generateUUID();
-
-            String finalParsedAsciiSaveName = parsedAsciiSaveName;
+            if (parsedAsciiSaveName.get().isEmpty()) {
+                parsedAsciiSaveName.set(SecurityUtil.generateUUID());
+            }
 
             String[] commands = {
                     AudioUtil.getYoutubeDlCommand(),
@@ -88,13 +165,13 @@ public class YoutubeUtil {
                     "--extract-audio",
                     "--audio-format", PropLoader.getString("ffmpeg_audio_output_format"),
                     "--output", new File(saveDir).getAbsolutePath()
-                    + OSUtil.FILE_SEP + finalParsedAsciiSaveName + ".%(ext)s"
+                    + OSUtil.FILE_SEP + parsedAsciiSaveName + ".%(ext)s"
             };
 
             CyderProgressUI ui = new CyderProgressUI();
             CyderThreadRunner.submit(() -> {
                 try {
-                    Process proc = rt.exec(commands);
+                    Process proc = Runtime.getRuntime().exec(commands);
 
                     BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
@@ -114,7 +191,10 @@ public class YoutubeUtil {
                     audioProgress.setFocusable(false);
                     audioProgress.repaint();
 
-                    CyderLabel printLabel = new CyderLabel("\"" + finalParsedAsciiSaveName + "\" file size: ");
+                    printLabel = new JLabel("\"" + parsedAsciiSaveName + "\"");
+                    printLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
+                    printLabel.setForeground(CyderColors.vanilla);
+                    printLabel.setHorizontalAlignment(JLabel.LEFT);
                     printLabel.setForeground(ConsoleFrame.INSTANCE.getInputField().getForeground());
                     printLabel.setFont(ConsoleFrame.INSTANCE.getInputField().getFont());
 
@@ -135,37 +215,33 @@ public class YoutubeUtil {
                                     .replaceAll("[^0-9.]", ""));
                             audioProgress.setValue((int) ((progress / 100.0) * audioProgress.getMaximum()));
 
-                            if (fileSize == null) {
-                                fileSize = updateMatcher.group(2);
-                            }
+                            fileSize = fileSize == null ? updateMatcher.group(2) : fileSize;
 
-                            String updateText = "\"" + finalParsedAsciiSaveName
-                                    + "\" file size: " + fileSize + ", progress: " + progress + "%, rate: "
-                                    + updateMatcher.group(3) + ", eta: " + updateMatcher.group(4);
-
-                            printLabel.setText(updateText);
-                            printLabel.revalidate();
-                            printLabel.repaint();
+                            updateLabel(parsedAsciiSaveName.get(), fileSize, progress,
+                                    updateMatcher.group(3), updateMatcher.group(4));
                         }
                     }
 
                     downloadThumbnail(url);
-                    ConsoleFrame.INSTANCE.getInputHandler()
-                            .println("Download complete: saved as " + finalParsedAsciiSaveName + extension
-                                    + " and added to audio queue");
-                    AudioPlayer.addAudioNext(new File(OSUtil.buildPath(
-                            saveDir, finalParsedAsciiSaveName + extension)));
 
+                    ConsoleFrame.INSTANCE.getInputHandler().println("Download complete: saved as "
+                            + parsedAsciiSaveName + extension + " and added to audio queue");
+
+                    AudioPlayer.addAudioNext(new File(OSUtil.buildPath(
+                            saveDir, parsedAsciiSaveName + extension)));
+
+                    ui.setColors(CyderColors.regularBlue, CyderColors.regularBlue);
+                    audioProgress.repaint();
                     ui.stopAnimationTimer();
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
-                    ConsoleFrame.INSTANCE.getInputHandler()
-                            .println("An exception occurred while attempting to download: " + url);
+                    ConsoleFrame.INSTANCE.getInputHandler().println("An exception occurred while "
+                            + "attempting to download: " + url);
                     ui.stopAnimationTimer();
+                } finally {
+                    currentDownloads.remove(this);
                 }
-            }, "YouTube Download Progress Updater");
-        } else {
-            noFfmpegOrYoutubedl();
+            }, "YouTube Downloader: " + parsedAsciiSaveName.get());
         }
     }
 

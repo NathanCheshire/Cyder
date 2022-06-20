@@ -2070,25 +2070,25 @@ public enum ConsoleFrame {
     private final MouseWheelListener fontSizerListener = e -> {
         if (e.isControlDown()) {
             int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
+            size += e.getWheelRotation() == -1 ? 1 : -1;
 
-            if (e.getWheelRotation() == -1) {
-                size++;
-            } else {
-                size--;
+            if (size > Preferences.FONT_MAX_SIZE || size < Preferences.FONT_MIN_SIZE) {
+                return;
             }
 
-            if (size > Preferences.FONT_MAX_SIZE || size < Preferences.FONT_MIN_SIZE)
-                return;
             try {
                 String fontName = UserUtil.getCyderUser().getFont();
                 int fontMetric = Integer.parseInt(PropLoader.getString("font_metric"));
+                Font newFont = new Font(fontName, fontMetric, size);
 
                 if (NumberUtil.numberInFontMetricRange(fontMetric)) {
-                    inputField.setFont(new Font(fontName, fontMetric, size));
-                    outputArea.setFont(new Font(fontName, fontMetric, size));
-                }
+                    inputField.setFont(newFont);
+                    outputArea.setFont(newFont);
 
-                UserUtil.getCyderUser().setFontsize(String.valueOf(size));
+                    UserUtil.getCyderUser().setFontsize(String.valueOf(size));
+
+                    YoutubeUtil.refreshAllLabels();
+                }
             } catch (Exception ignored) {
             }
             //sometimes this throws so ignore it

@@ -677,7 +677,7 @@ public class AudioPlayer {
             audioLocationUpdater.setPercentIn((float) audioLocationSlider.getValue()
                     / audioLocationSlider.getMaximum());
 
-            audioLocationUpdater.update();
+            audioLocationUpdater.update(true);
         });
         audioLocationSlider.addMouseListener(new MouseAdapter() {
             @Override
@@ -718,7 +718,7 @@ public class AudioPlayer {
                         innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
                         innerAudioPlayer.setLocation(resumeLocation);
                         audioLocationUpdater.setPercentIn(newPercentIn);
-                        audioLocationUpdater.update();
+                        audioLocationUpdater.update(true);
                     }
                 }
 
@@ -1254,7 +1254,7 @@ public class AudioPlayer {
         innerAudioPlayer.setLocation((long) (percentIn
                 * AudioUtil.getTotalBytes(dreamyAudio)));
         audioLocationUpdater.setPercentIn(percentIn);
-        audioLocationUpdater.update();
+        audioLocationUpdater.update(false);
 
         if (audioPlaying) {
             playAudio();
@@ -1339,7 +1339,7 @@ public class AudioPlayer {
                 innerAudioPlayer.setLocation((long) (percentIn
                         * AudioUtil.getTotalBytes(validAudioFile)));
                 audioLocationUpdater.setPercentIn(percentIn);
-                audioLocationUpdater.update();
+                audioLocationUpdater.update(false);
 
                 if (audioPlaying) {
                     playAudio();
@@ -1382,7 +1382,7 @@ public class AudioPlayer {
                 innerAudioPlayer.setLocation((long) (percentIn
                         * AudioUtil.getTotalBytes(validAudioFile)));
                 audioLocationUpdater.setPercentIn(percentIn);
-                audioLocationUpdater.update();
+                audioLocationUpdater.update(false);
 
                 if (audioPlaying) {
                     playAudio();
@@ -1949,7 +1949,7 @@ public class AudioPlayer {
             audioLocationUpdater.setPercentIn(0);
 
             innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-            audioLocationUpdater.update();
+            audioLocationUpdater.update(false);
 
             if (shouldPlay) {
                 playAudio();
@@ -1966,7 +1966,7 @@ public class AudioPlayer {
         revalidateFromAudioFileChange();
 
         innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-        audioLocationUpdater.update();
+        audioLocationUpdater.update(false);
 
         if (shouldPlay) {
             playAudio();

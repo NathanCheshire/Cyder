@@ -61,16 +61,6 @@ public class AudioLocationUpdater {
     private long milliSecondsIn;
 
     /**
-     * The number of times to update the labels and slider per second.
-     */
-    private static final int UPDATES_PER_SECOND = 10;
-
-    /**
-     * The amount by which to sleep  for.
-     */
-    private static final int UPDATE_DELAY = 1000 / UPDATES_PER_SECOND;
-
-    /**
      * Constructs a new audio location label to update for the provided progress bar.
      *
      * @param secondsInLabel   the label to display how many seconds of the audio has played
@@ -109,7 +99,7 @@ public class AudioLocationUpdater {
         secondsLeftLabel.setText("");
         slider.setValue(0);
 
-        updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)));
+        updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)),false);
 
         if (!sliderPressed.get()) {
             updateSlider();
@@ -122,6 +112,8 @@ public class AudioLocationUpdater {
      * Whether the update thread has been started yet.
      */
     private boolean started;
+
+    private static final int TIMEOUT = 1000;
 
     /**
      * Starts the thread to update the inner label
@@ -138,14 +130,14 @@ public class AudioLocationUpdater {
         CyderThreadRunner.submit(() -> {
             while (!killed) {
                 try {
-                    Thread.sleep(UPDATE_DELAY);
+                    Thread.sleep(TIMEOUT);
                 } catch (Exception ignored) {}
 
-                this.milliSecondsIn = AudioPlayer.getMillisecondsIn();
+                milliSecondsIn += 1000;
 
                 if (!timerPaused && currentFrameView.get() != FrameView.MINI) {
                     if (!sliderPressed.get()) {
-                        updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)));
+                        updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)),false);
                         updateSlider();
                     }
                 }
@@ -181,9 +173,11 @@ public class AudioLocationUpdater {
 
     /**
      * Forces an update of both labels and the slider.
+     *
+     * @param userTriggered whether this even was triggered by a user or automatically
      */
-    public void update() {
-        updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)));
+    public void update(boolean userTriggered) {
+        updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)), userTriggered);
         updateSlider();
     }
 
@@ -194,12 +188,15 @@ public class AudioLocationUpdater {
 
     /**
      * Updates the encapsulated label with the time in to the current audio file.
+     *
+     * @param secondsIn the seconds into the current audio file
+     * @param userTriggered whether this update was invoked by a user or automatically
      */
-    private void updateEffectLabel(int secondsIn) {
+    private void updateEffectLabel(int secondsIn, boolean userTriggered) {
         long milliSecondsLeft = totalMilliSeconds - secondsIn * 1000L;
         int secondsLeft = (int) (milliSecondsLeft / 1000);
 
-        if (secondsLeft < 0 || secondsIn < lastSecondsIn) {
+        if (secondsLeft < 0 || (secondsIn < lastSecondsIn && !userTriggered)) {
             return;
         }
 
