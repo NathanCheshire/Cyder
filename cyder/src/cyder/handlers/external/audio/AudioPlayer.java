@@ -850,6 +850,7 @@ public class AudioPlayer {
                     audioPlayerFrame.notify("Successfully downloaded necessary binaries");
                 }
             } catch (Exception e) {
+                unlockUi();
                 ExceptionHandler.handle(e);
             }
         }, "AudioPlayer Preliminary Handler");
@@ -1175,9 +1176,9 @@ public class AudioPlayer {
     };
 
     // todo for animated progress bars when done, set to the first color passed
-    // todo audio location updater labels need to work better
-    // todo opening widget doesn't properly work if already open
     // todo printed label for audio downloading should be left aligned and newlines for stats
+
+    // todo opening widget doesn't properly work if already open
 
     /**
      * The runnable used to dreamify an audio file.
@@ -1259,6 +1260,7 @@ public class AudioPlayer {
             playAudio();
         }
 
+        dreamifierLocked.set(false);
         audioPlayerFrame.notify("Successfully dreamified audio");
     }
 
@@ -1401,6 +1403,7 @@ public class AudioPlayer {
      */
     private static void dreamifyFailed() {
         audioDreamified.set(false);
+        dreamifierLocked.set(false);
         audioPlayerFrame.revalidateMenu();
         audioPlayerFrame.revokeAllNotifications();
         audioPlayerFrame.notify("Could not dreamify audio at this time");
@@ -1889,6 +1892,15 @@ public class AudioPlayer {
      * The total length of the current (paused or playing) audio.
      */
     private static long audioTotalLength = UNKNOWN_AUDIO_LENGTH;
+
+    /**
+     * Returns the location in milliseconds into the current audio file.
+     *
+     * @return the location in milliseconds into the current audio file
+     */
+    public static long getMillisecondsIn() {
+        return innerAudioPlayer != null ? innerAudioPlayer.getMillisecondsIn() : pauseLocationMillis;
+    }
 
     /**
      * Pauses playback of the current audio file.

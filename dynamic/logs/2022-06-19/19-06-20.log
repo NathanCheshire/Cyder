@@ -1,0 +1,134 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[19-06-20] [ENTRY]: Nathan
+[19-06-20] [PROP LOADED]: [key = map_quest_api_key]
+[19-06-20] [PROP LOADED]: [key = youtube_api_3_key]
+[19-06-20] [PROP LOADED]: [key = ip_key]
+[19-06-20] [PROP LOADED]: [key = weather_key]
+[19-06-20] [PROP LOADED]: [key = debug_hash_name]
+[19-06-20] [PROP LOADED]: [key = debug_hash_password]
+[19-06-20] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[19-06-20] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[19-06-20] [PROP LOADED]: [key = font_metric, value = 1]
+[19-06-20] [PROP LOADED]: [key = released, value = false]
+[19-06-20] [PROP LOADED]: [key = fast_test, value = false]
+[19-06-20] [PROP LOADED]: [key = version, value = Liminal]
+[19-06-20] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[19-06-20] [PROP LOADED]: [key = components_relocatable, value = false]
+[19-06-20] [PROP LOADED]: [key = testing_mode, value = true]
+[19-06-20] [PROP LOADED]: [key = autocypher, value = true]
+[19-06-20] [PROP LOADED]: [key = dispose_splash, value = true]
+[19-06-20] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[19-06-20] [PROP LOADED]: [key = activate_watchdog, value = false]
+[19-06-20] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[19-06-20] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[19-06-20] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[19-06-20] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[19-06-20] [THREAD STARTED]: Object Creation Logger
+[19-06-21] [DEBUG]: Watchdog skipped
+[19-06-21] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-06-21] [FONT LOADED]: agency-fb
+[19-06-21] [FONT LOADED]: arial-black
+[19-06-22] [FONT LOADED]: beyno
+[19-06-22] [FONT LOADED]: condiment-regular
+[19-06-22] [FONT LOADED]: prompt-bold
+[19-06-22] [FONT LOADED]: segoe-ui-black
+[19-06-22] [FONT LOADED]: tahoma
+[19-06-22] [THREAD STARTED]: Splash Loader
+[19-06-22] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-06-22] [THREAD STARTED]: Splash Animation
+[19-06-22] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[19-06-23] [THREAD STARTED]: Secondary Subroutines Runner
+[19-06-23] [LOGIN]: AUTOCYPHER ATTEMPT
+[19-06-23] [THREAD STARTED]: JVM Args Logger
+[19-06-23] [OBJECT CREATION]: Objects created since last delta (5000ms): 75
+[19-06-23] [DEBUG]: Cyder Entry = AutoCypher
+[19-06-24] [THREAD STARTED]: Console Printing Animation
+[19-06-24] [THREAD STARTED]: High Ping Checker
+[19-06-24] [THREAD STARTED]: Hourly Chime Checker
+[19-06-24] [THREAD STARTED]: Console Clock Updater
+[19-06-24] [THREAD STARTED]: Cyder Busy Checker
+[19-06-24] [THREAD STARTED]: ConsoleFrame Stat Saver
+[19-06-24] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-06-24] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-06-24] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 2022427210, bounds = (980,
+           396, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[19-06-25] [THREAD STARTED]: Splash Loading Label Updater
+[19-06-25] [CONSOLE OUT]: [STRING]: Console loaded in 4837ms
+[19-06-25] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[19-06-25] [THREAD STARTED]: Manual Tests Thread
+[19-06-25] [DEBUG]: Attempted to log a new or empty line
+[19-06-27] [CLIENT]: mp3
+[19-06-27] [THREAD STARTED]: Everglow Progress Label Thread
+[19-06-27] [CONSOLE OUT]: [STRING]: Opening widget: AudioPlayer
+[19-06-27] [THREAD STARTED]: Audio Progress Label Animator
+[19-06-27] [THREAD STARTED]: [Everglow] finalizeAndShow()
+[19-06-27] [WIDGET]: AudioPlayer, trigger = mp3
+[19-06-27] [DEBUG]: Attempted to log a new or empty line
+[19-06-27] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[19-06-27] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1655683530094.json
+[19-06-28] [OBJECT CREATION]: Objects created since last delta (5000ms): 59
+[19-06-29] [THREAD STARTED]: AudioPlayer Play Audio Thread [Everglow]
+[19-06-36] [THREAD STARTED]: Everglow Opacity Decrement Animator
+[19-06-37] [THREAD STARTED]: Everglow Opacity Increment Animator
+[19-06-42] [CLIENT]: threads
+[19-06-42] [CONSOLE OUT]: [STRING]: Object Creation Logger
+[19-06-43] [DEBUG]: Attempted to log a new or empty line
+[19-06-43] [CONSOLE OUT]: [STRING]: Singular Cyder Instance Ensurer
+[19-06-43] [DEBUG]: Attempted to log a new or empty line
+[19-06-43] [CONSOLE OUT]: [STRING]: Splash Animation
+[19-06-43] [DEBUG]: Attempted to log a new or empty line
+[19-06-44] [CONSOLE OUT]: [STRING]: AWT-EventQueue-0
+[19-06-44] [DEBUG]: Attempted to log a new or empty line
+[19-06-44] [CONSOLE OUT]: [STRING]: Console Printing Animation
+[19-06-44] [DEBUG]: Attempted to log a new or empty line
+[19-06-44] [CONSOLE OUT]: [STRING]: High Ping Checker
+[19-06-45] [DEBUG]: Attempted to log a new or empty line
+[19-06-45] [CONSOLE OUT]: [STRING]: Hourly Chime Checker
+[19-06-45] [DEBUG]: Attempted to log a new or empty line
+[19-06-45] [CONSOLE OUT]: [STRING]: Console Clock Updater
+[19-06-45] [DEBUG]: Attempted to log a new or empty line
+[19-06-46] [CONSOLE OUT]: [STRING]: Cyder Busy Checker
+[19-06-46] [DEBUG]: Attempted to log a new or empty line
+[19-06-46] [CONSOLE OUT]: [STRING]: ConsoleFrame Stat Saver
+[19-06-46] [DEBUG]: Attempted to log a new or empty line
+[19-06-46] [CONSOLE OUT]: [STRING]: DestroyJavaVM
+[19-06-47] [DEBUG]: Attempted to log a new or empty line
+[19-06-47] [CONSOLE OUT]: [STRING]: Everglow Progress Label Thread
+[19-06-47] [DEBUG]: Attempted to log a new or empty line
+[19-06-47] [CONSOLE OUT]: [STRING]: Audio Progress Label Animator
+[19-06-48] [DEBUG]: Attempted to log a new or empty line
+[19-06-48] [CONSOLE OUT]: [STRING]: AudioPlayer Play Audio Thread [Everglow]
+[19-06-48] [DEBUG]: Attempted to log a new or empty line
+[19-06-55] [THREAD STARTED]: Everglow Opacity Decrement Animator
+[19-06-55] [THREAD STARTED]: Everglow Opacity Increment Animator
+[19-07-01] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-07-01] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 2090991873, bounds
+           = (1725, 290, 747, 748), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[19-07-01] [EXIT]: [RUNTIME] 41s
+[19-07-01] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown

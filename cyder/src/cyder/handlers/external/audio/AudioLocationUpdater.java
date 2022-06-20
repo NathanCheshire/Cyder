@@ -61,12 +61,12 @@ public class AudioLocationUpdater {
     private long milliSecondsIn;
 
     /**
-     * The number of times a second to update the audio progress label.
+     * The number of times to update the labels and slider per second.
      */
-    private static final int UPDATES_PER_SECOND = 40;
+    private static final int UPDATES_PER_SECOND = 10;
 
     /**
-     * The amount by which to sleep and increment for.
+     * The amount by which to sleep  for.
      */
     private static final int UPDATE_DELAY = 1000 / UPDATES_PER_SECOND;
 
@@ -139,12 +139,9 @@ public class AudioLocationUpdater {
             while (!killed) {
                 try {
                     Thread.sleep(UPDATE_DELAY);
-
-                    if (!timerPaused) {
-                        milliSecondsIn += UPDATE_DELAY;
-                    }
                 } catch (Exception ignored) {}
 
+                this.milliSecondsIn = AudioPlayer.getMillisecondsIn();
 
                 if (!timerPaused && currentFrameView.get() != FrameView.MINI) {
                     if (!sliderPressed.get()) {
@@ -191,15 +188,22 @@ public class AudioLocationUpdater {
     }
 
     /**
+     * The value passed to the updateEffectLabel method last.
+     */
+    private int lastSecondsIn;
+
+    /**
      * Updates the encapsulated label with the time in to the current audio file.
      */
     private void updateEffectLabel(int secondsIn) {
         long milliSecondsLeft = totalMilliSeconds - secondsIn * 1000L;
         int secondsLeft = (int) (milliSecondsLeft / 1000);
 
-        if (secondsLeft < 0) {
+        if (secondsLeft < 0 || secondsIn < lastSecondsIn) {
             return;
         }
+
+        lastSecondsIn = secondsIn;
 
         secondsInLabel.setText(AudioUtil.formatSeconds(secondsIn));
 
