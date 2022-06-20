@@ -3,7 +3,7 @@ package cyder.handlers.external.audio;
 /**
  * The available frame views for both the audio player and YouTube downloader.
  */
-public enum FrameView {
+enum FrameView {
     /**
      * All ui elements visible.
      */

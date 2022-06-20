@@ -448,36 +448,6 @@ public class AudioPlayer {
             });
 
     /**
-     * Possible ways a user can interact with the audio player.
-     */
-    private enum LastAction {
-        /**
-         * The user pressed play.
-         */
-        Play,
-        /**
-         * The user pressed skip back or skip forward.
-         */
-        Skip,
-        /**
-         * The audio was skipped
-         */
-        Pause,
-        /**
-         * The user changed the audio location.
-         */
-        Scrub,
-        /**
-         * An audio file was chosen using the file chooser menu option.
-         */
-        FileChosen,
-        /**
-         * Something else not yet handled.
-         */
-        Unknown,
-    }
-
-    /**
      * The last action invoked by the user.
      */
     private static LastAction lastAction = LastAction.Unknown;
@@ -552,11 +522,22 @@ public class AudioPlayer {
         // if frame is open, stop whatever audio is playing or
         // paused and begin playing the requested audio
         if (isWidgetOpen()) {
-            pauseAudio();
+            boolean audioPlaying = isAudioPlaying();
+
+            if (audioPlaying) {
+                pauseAudio();
+            }
 
             revalidateFromAudioFileChange();
 
-            playAudio();
+            innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+            innerAudioPlayer.setLocation(0);
+            audioLocationUpdater.setPercentIn(0f);
+            audioLocationUpdater.update(false);
+
+            if (audioPlaying) {
+                playAudio();
+            }
 
             return;
         }
@@ -1176,7 +1157,6 @@ public class AudioPlayer {
     };
 
     // todo bugs with transition when getting to the end of a song
-    // todo opening widget doesn't properly work if already open
 
     /**
      * The runnable used to dreamify an audio file.
@@ -1795,13 +1775,13 @@ public class AudioPlayer {
             // object created outside
             if (innerAudioPlayer != null && !innerAudioPlayer.isKilled()) {
                 innerAudioPlayer.play();
-                lastAction = AudioPlayer.LastAction.Play;
+                lastAction = LastAction.Play;
                 audioLocationUpdater.resumeTimer();
             }
             // resume
             else if (lastAction == LastAction.Pause) {
                 innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-                lastAction = AudioPlayer.LastAction.Play;
+                lastAction = LastAction.Play;
                 innerAudioPlayer.setLocation(pauseLocation);
                 innerAudioPlayer.play();
                 audioLocationUpdater.resumeTimer();
@@ -1809,13 +1789,13 @@ public class AudioPlayer {
             // spin off object
             else if (innerAudioPlayer == null) {
                 innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
-                lastAction = AudioPlayer.LastAction.Play;
+                lastAction = LastAction.Play;
                 innerAudioPlayer.play();
                 audioLocationUpdater.resumeTimer();
             }
             // standard play
             else {
-                lastAction = AudioPlayer.LastAction.Play;
+                lastAction = LastAction.Play;
                 innerAudioPlayer.play();
                 audioLocationUpdater.resumeTimer();
             }
