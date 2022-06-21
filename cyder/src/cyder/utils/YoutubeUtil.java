@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,7 +35,7 @@ import java.util.regex.Pattern;
 /**
  * Utility methods related to youtube videos.
  */
-public class YoutubeUtil {
+public final class YoutubeUtil {
     /**
      * The maximum number of chars that can be used for a filename from a youtube video's title.
      */
@@ -438,20 +439,10 @@ public class YoutubeUtil {
                     return;
                 }
 
-                String thumbnailURL = buildMaxResThumbnailUrl(uuid);
                 String videoTitle = NetworkUtil.getUrlTitle(CyderUrls.YOUTUBE_VIDEO_HEADER + uuid);
 
-                BufferedImage thumbnail = null;
-
-                try {
-                    thumbnail = ImageIO.read(new URL(thumbnailURL));
-                } catch (Exception ignored) {
-                    try {
-                        thumbnailURL = buildSdDefThumbnailUrl(uuid);
-                        thumbnail = ImageIO.read(new URL(thumbnailURL));
-                    } catch (Exception ignored1) {
-                    }
-                }
+                Optional<BufferedImage> optionalThumbnail = getMaxResolutionThumbnail(uuid);
+                BufferedImage thumbnail = optionalThumbnail.orElse(null);
 
                 if (thumbnail == null) {
                     uuidFrame.inform("No thumbnail found for provided youtube uuid", "Error");
@@ -470,7 +461,7 @@ public class YoutubeUtil {
                 CyderButton addToBackgrounds = new CyderButton("Set as background");
                 addToBackgrounds.setBounds(10, thumbnail.getHeight() + 10,
                         (thumbnail.getWidth() - 30) / 2, 40);
-                String finalThumbnailURL = thumbnailURL;
+                String finalThumbnailURL  = buildMaxResThumbnailUrl(uuid);
                 addToBackgrounds.addActionListener(e1 -> {
 
                     try {
@@ -682,5 +673,30 @@ public class YoutubeUtil {
 
         return CyderUrls.YOUTUBE_API_V3_SEARCH_BASE + "&maxResults=" + numResults + "&q="
                 + builder + "&type=video" + "&key=" + key;
+    }
+
+    /**
+     * Returns the maximum resolution thumbnail for the youtube video with the provided uuid.
+     *
+     * @param uuid the uuid of the video
+     * @return the maximum resolution thumbnail for the youtube video
+     */
+    public static Optional<BufferedImage> getMaxResolutionThumbnail(String uuid) {
+        String thumbnailURL = buildMaxResThumbnailUrl(uuid);
+
+        BufferedImage thumbnail;
+
+        try {
+            thumbnail = ImageIO.read(new URL(thumbnailURL));
+        } catch (Exception ignored) {
+            try {
+                thumbnailURL = buildSdDefThumbnailUrl(uuid);
+                thumbnail = ImageIO.read(new URL(thumbnailURL));
+            } catch (Exception ignored1) {
+                thumbnail = null;
+            }
+        }
+
+        return thumbnail == null ? Optional.empty() : Optional.of(thumbnail);
     }
 }

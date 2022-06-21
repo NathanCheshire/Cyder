@@ -14,6 +14,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.audio.youtube.YoutubeSearchResultPage;
+import cyder.handlers.external.audio.youtube.YoutubeVideo;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
@@ -44,6 +45,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -59,7 +61,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Vanilla
 @CyderAuthor
 @SuppressCyderInspections(CyderInspection.VanillaInspection)
-public class AudioPlayer {
+public final class AudioPlayer {
     /**
      * The width and height of the audio frame.
      */
@@ -1129,14 +1131,55 @@ public class AudioPlayer {
         int yOff = 60;
 
         CyderTextField searchField = new CyderTextField();
+        searchField.setHorizontalAlignment(JLabel.CENTER);
         searchField.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2, yOff, UI_ROW_WIDTH, 40);
         searchField.setToolTipText("Search");
         audioPlayerFrame.getContentPane().add(searchField);
-        searchField.setBackground(CyderColors.vanilla);
-        searchField.setBorder(new LineBorder(CyderColors.vanilla, 3));
         searchField.setForeground(CyderColors.navy);
 
-        // todo setup
+        yOff += 60;
+
+        CyderButton searchButton = new CyderButton("Search");
+        searchButton.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2, yOff, UI_ROW_WIDTH, 40);
+        audioPlayerFrame.getContentPane().add(searchButton);
+        searchField.addActionListener(e -> updateSearchResults(searchField.getText()));
+        searchButton.addActionListener(e -> updateSearchResults(searchField.getText()));
+
+        yOff += 60;
+
+        JTextPane searchResultsPane = new JTextPane();
+        searchResultsPane.setEditable(false);
+        searchResultsPane.setAutoscrolls(false);
+        searchResultsPane.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
+                yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
+        searchResultsPane.setFocusable(true);
+        searchResultsPane.setOpaque(false);
+        searchResultsPane.setBackground(Color.white);
+
+        CyderScrollPane searchResultsScroll = new CyderScrollPane(searchResultsPane);
+        searchResultsScroll.setThumbSize(8);
+        searchResultsScroll.getViewport().setOpaque(false);
+        searchResultsScroll.setFocusable(true);
+        searchResultsScroll.setOpaque(false);
+        searchResultsScroll.setThumbColor(CyderColors.regularPink);
+        searchResultsScroll.setBackground(Color.white);
+        searchResultsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        searchResultsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        searchResultsScroll.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
+                yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
+
+        searchResultsPane.setCaretPosition(0);
+        audioPlayerFrame.getContentPane().add(searchResultsScroll);
+        searchResultsPane.revalidate();
+
+        // adding components
+        StringUtil printingUtil = new StringUtil(new CyderOutputPane(searchResultsPane));
+
+        for (int i = 0 ; i < 100 ; i++) {
+            CyderLabel label = new CyderLabel("hello");
+            label.setForeground(CyderColors.vanilla);
+            printingUtil.printlnComponent(label);
+        }
     };
 
     /**
@@ -2174,13 +2217,21 @@ public class AudioPlayer {
      * @return a random index of the validAudioFiles list
      */
     private static int getRandomIndex() {
-        int ret = NumberUtil.randInt(0, validAudioFiles.size() - 1);
-
-        while (ret == getCurrentAudioIndex()) {
-            ret = NumberUtil.randInt(0, validAudioFiles.size() - 1);
+        if (validAudioFiles.size() == 1) {
+            return 0;
         }
 
-        return ret;
+        LinkedList<Integer> ints = new LinkedList<>();
+
+        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
+            if (i == getCurrentAudioIndex()) {
+                continue;
+            }
+
+            ints.add(i);
+        }
+
+        return ints.get(NumberUtil.randInt(0, ints.size() - 1));
     }
 
     // --------------------------------
@@ -2188,21 +2239,68 @@ public class AudioPlayer {
     // --------------------------------
 
     /**
+     * The number of search results to grab when searching youtube.
+     */
+    private static final int numSearchResults = 10;
+
+    /**
+     * A search result object to hold data in the results scroll pane.
+     */
+    private static record YoutubeSearchResult(String uuid, String title, String description,
+                                              String channel, BufferedImage bi) {}
+
+    /**
+     * The list of search results previously found.
+     */
+    private static final LinkedList<YoutubeSearchResult> searchResults = new LinkedList<>();
+
+    @SuppressWarnings({"SuspiciousNameCombination", "ConstantConditions"})
+    private static void updateSearchResults(String fieldText) {
+        if (StringUtil.isNull(fieldText)) {
+            return;
+        }
+
+        Optional<YoutubeSearchResultPage> youtubeSearchResultPage = getSearchResults(
+                YoutubeUtil.buildYouTubeApiV3SearchQuery(numSearchResults, fieldText));
+
+        if (youtubeSearchResultPage.isPresent()) {
+            searchResults.clear();
+
+            for (YoutubeVideo video : youtubeSearchResultPage.get().getItems()) {
+                BufferedImage bi = YoutubeUtil.getMaxResolutionThumbnail(YoutubeUtil.buildYoutubeVideoUrl(
+                        video.getId().getVideoId())).orElse(null);
+
+                if (bi == null) {
+                    try {
+                        bi = ImageIO.read(DEFAULT_ALBUM_ART);
+                    } catch (Exception ignored) {}
+                }
+
+                int width = bi.getWidth();
+                int height = bi.getHeight();
+
+                if (width < height) {
+                    bi = ImageUtil.getCroppedImage(bi, 0, (height - width) / 2, width, width);
+                } else if (height < width) {
+                    bi = ImageUtil.getCroppedImage(bi, (width - height) / 2, 0, height, height);
+                } else {
+                    bi = ImageUtil.getCroppedImage(bi ,0, 0, width, height);
+                }
+
+                // todo now square so crop to desired size
+
+                searchResults.add(new YoutubeSearchResult(video.getId().getVideoId(), video.getSnippet().getTitle(),
+                        video.getSnippet().getDescription(), video.getSnippet().getChannelTitle(), bi));
+            }
+        } else {
+            // todo no results label in middle of whole scroll pane
+        }
+    }
+
+    /**
      * The gson object used for queries from youtube.
      */
     private static final Gson gson = new Gson();
-
-    /**
-     * The number of search results to grab when searching youtube.
-     */
-    private static final int searchResults = 10;
-
-    private static void updateSearchResults(String fieldText) {
-        Optional<YoutubeSearchResultPage> youtubeSearchResultPage = getSearchResults(
-                YoutubeUtil.buildYouTubeApiV3SearchQuery(10, fieldText));
-
-        // todo
-    }
 
     /**
      * Returns the search results for a particular url query.
