@@ -29,15 +29,33 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @Vanilla
 @CyderAuthor
 public class NotesWidget {
-    //main frame
+    /**
+     * The notes selection and creation list frame.
+     */
     private static CyderFrame noteFrame;
+
+    /**
+     * The list of notes.
+     */
     private static CyderScrollList cyderScrollList;
-    private static CyderButton openNote;
+
+    /**
+     * The list of note names.
+     */
     private static List<String> noteNameList;
+
+    /**
+     * The list of the note files.
+     */
     private static List<File> noteList;
+
+    /**
+     * The generated label from the notes scroll list.
+     */
     private static JLabel noteScrollLabel;
 
     //note editor components
@@ -48,6 +66,9 @@ public class NotesWidget {
     private static CyderTextField newNoteField;
     private static JTextArea newNoteArea;
 
+    /**
+     * The list of currently active note editor frames.
+     */
     private static LinkedList<CyderFrame> noteFrames;
 
     /**
@@ -95,7 +116,7 @@ public class NotesWidget {
         addNote.setBounds(40, 560, 160, 40);
         noteFrame.getContentPane().add(addNote);
 
-        openNote = new CyderButton("Open Note");
+        CyderButton openNote = new CyderButton("Open Note");
         openNote.setFocusPainted(false);
         openNote.setBorder(new LineBorder(CyderColors.navy, 5, false));
         openNote.setBackground(CyderColors.regularRed);
@@ -255,21 +276,30 @@ public class NotesWidget {
         newNoteField.requestFocus();
     }
 
-    private static void initializeNotesList() {
+    /**
+     * Initializes the notes list.
+     *
+     * @throws IllegalStateException if the notes parent directory DNE
+     */
+    private static void initializeNotesList() throws IllegalStateException {
         File dir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                 "users", ConsoleFrame.INSTANCE.getUUID(), UserFile.NOTES.getName());
 
         if (!dir.exists()) {
-            dir.mkdir();
+            throw new IllegalStateException("Parent note directory not found");
         }
 
         noteList = new LinkedList<>();
         noteNameList = new LinkedList<>();
 
-        for (File file : dir.listFiles()) {
-            if (FileUtil.getExtension(file.getName()).equalsIgnoreCase((".txt"))) {
-                noteList.add(file.getAbsoluteFile());
-                noteNameList.add(FileUtil.getFilename(file.getName()));
+        File[] files = dir.listFiles();
+
+        if (files != null && files.length > 0) {
+            for (File file : files) {
+                if (FileUtil.getExtension(file.getName()).equalsIgnoreCase((".txt"))) {
+                    noteList.add(file.getAbsoluteFile());
+                    noteNameList.add(FileUtil.getFilename(file.getName()));
+                }
             }
         }
     }

@@ -15,11 +15,13 @@ public class CyderFlowLayout extends CyderLayout {
     /**
      * The default horizontal alignment.
      */
+    @SuppressWarnings("unused")
     public static final HorizontalAlignment DEFAULT_HORIZONTAL_ALIGNMENT = HorizontalAlignment.CENTER;
 
     /**
      * The default vertical alignment.
      */
+    @SuppressWarnings("unused")
     public static final VerticalAlignment DEFAULT_VERTICAL_ALIGNMENT = VerticalAlignment.TOP;
 
     /**
@@ -502,7 +504,7 @@ public class CyderFlowLayout extends CyderLayout {
             currentHeightCenteringInc += maxHeight / 2;
 
             // additionally increment by the vertical gap which may or may not be
-            // the one passed in depending on the horizontal alingment
+            // the one passed in depending on the horizontal alignment
             switch (verticalAlignment) {
                 // the default gap
                 case TOP:
@@ -588,14 +590,14 @@ public class CyderFlowLayout extends CyderLayout {
     /**
      * Returns the gap space between vertical components.
      *
-     * @return the verical gap to place between components
+     * @return the vertical gap to place between components
      */
     public int getVgap() {
         return vgap;
     }
 
     /**
-     * Sets the verical gap between components.
+     * Sets the vertical gap between components.
      *
      * @param vgap the vertical gap between components
      */
@@ -615,10 +617,10 @@ public class CyderFlowLayout extends CyderLayout {
     /**
      * Sets the horizontal padding value to use for the left and right of the frame.
      *
-     * @param hpadding the horizontal padding value to use for the left and right of the frame
+     * @param horizontalPadding the horizontal padding value to use for the left and right of the frame
      */
-    public void setHpadding(int hpadding) {
-        this.hpadding = hpadding;
+    public void setHorizontalPadding(int horizontalPadding) {
+        this.hpadding = horizontalPadding;
     }
 
     /**
@@ -626,16 +628,16 @@ public class CyderFlowLayout extends CyderLayout {
      *
      * @return the vertical padding value to use for the top and bottom of the frame
      */
-    public int getVpadding() {
+    public int getVerticalPadding() {
         return vpadding;
     }
 
     /**
      * Sets the vertical padding value to use for the top and bottom of the frame.
      *
-     * @param vpadding the vertical padding value to use for the top and bottom of the frame
+     * @param verticalPadding the vertical padding value to use for the top and bottom of the frame
      */
-    public void setVpadding(int vpadding) {
-        this.vpadding = vpadding;
+    public void setVerticalPadding(int verticalPadding) {
+        this.vpadding = verticalPadding;
     }
 }

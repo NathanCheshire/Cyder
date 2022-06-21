@@ -22,16 +22,17 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 /**
- * A java implementation of the clasic game hangman
+ * A java implementation of the classic game hangman
  */
-public class HangmanGame {
+@SuppressWarnings("unused")
+public final class HangmanGame {
     /**
      * The frame object.
      */
     private static CyderFrame hangmanFrame;
 
     /**
-     * The curent word.
+     * The current word.
      */
     private static String hangmanWord;
 
@@ -203,15 +204,15 @@ public class HangmanGame {
                     compArr[i] = wordArr[i];
             }
 
-            String newLabelText = "";
+            StringBuilder newLabelText = new StringBuilder();
 
             for (int i = 0 ; i < compArr.length ; i++) {
-                newLabelText += compArr[i];
+                newLabelText.append(compArr[i]);
                 if (i != compArr.length - 1)
-                    newLabelText += " ";
+                    newLabelText.append(" ");
             }
 
-            currentWordLabel.setText(newLabelText);
+            currentWordLabel.setText(newLabelText.toString());
 
             if (!currentWordLabel.getText().contains("_")) {
                 currentWordLabel.setFont(CyderFonts.segoe20);

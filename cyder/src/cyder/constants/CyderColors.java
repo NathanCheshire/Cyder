@@ -11,7 +11,7 @@ import java.awt.*;
  * Common colors used throughout Cyder.
  */
 @SuppressWarnings("unused")
-public class CyderColors {
+public final class CyderColors {
     /**
      * A common color used for selected text such as in CyderFields
      */

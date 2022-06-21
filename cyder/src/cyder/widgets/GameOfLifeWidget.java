@@ -230,7 +230,7 @@ public class GameOfLifeWidget {
                 if (conwayGrid.getNodeCount() > 0) {
                     simulationRunning = true;
                     simulateStopButton.setText("Stop");
-                    conwayGrid.uninstallClickAndDragPLacer();
+                    conwayGrid.uninstallClickAndDragPlacer();
                     conwayGrid.setResizable(false);
                     start();
                 } else {

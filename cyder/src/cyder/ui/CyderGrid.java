@@ -160,10 +160,8 @@ public class CyderGrid extends JLabel {
 
             @Override
             public boolean remove(Object o) {
-                if (!(o instanceof GridNode))
+                if (!(o instanceof GridNode other))
                     throw new IllegalArgumentException("Attempting to add non GridNode to grid");
-
-                GridNode other = (GridNode) o;
 
                 if (!grid.contains(other)) {
                     return false;
@@ -306,98 +304,96 @@ public class CyderGrid extends JLabel {
     public void paint(Graphics g) {
         super.paint(g);
 
-        if (this != null) {
-            //failsafe
-            if (nodes < minNodes || nodes > maxNodes)
-                return;
+        //failsafe
+        if (nodes < minNodes || nodes > maxNodes)
+            return;
 
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setStroke(new BasicStroke(2));
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(2));
 
-            //in order to fit this many nodes, we need to figure out the length
-            int squareLen = gridComponentLength / nodes;
+        //in order to fit this many nodes, we need to figure out the length
+        int squareLen = gridComponentLength / nodes;
 
-            //bounds of drawing that we cannot draw over since it may be less if we
-            // can't fit an even number of square on the grid
-            int drawTo = squareLen * nodes;
+        //bounds of drawing that we cannot draw over since it may be less if we
+        // can't fit an even number of square on the grid
+        int drawTo = squareLen * nodes;
 
-            // you can't split x 1's into y (y < x) places, pigeonhole principle isn't met
-            // this is why there might seem to be a lot of space left over sometimes when
-            // the number of nodes is relatively high
+        // you can't split x 1's into y (y < x) places, pigeonhole principle isn't met
+        // this is why there might seem to be a lot of space left over sometimes when
+        // the number of nodes is relatively high
 
-            //keep the grid centered on its parent
-            int offset = (gridComponentLength - drawTo) / 2;
-            g2d.translate(offset, offset);
-            centeringDrawOffset = offset;
+        //keep the grid centered on its parent
+        int offset = (gridComponentLength - drawTo) / 2;
+        g2d.translate(offset, offset);
+        centeringDrawOffset = offset;
 
-            //fill the background in if it is set
-            if (getBackground() != null) {
-                g2d.setColor(getBackground());
-                g2d.fillRect(0, 0, drawTo, drawTo);
-            }
-
-            g2d.setColor(CyderColors.navy);
-
-            if (drawGridLines) {
-                //draw vertical lines
-                for (int x = 1 ; x <= drawTo - 2 ; x += squareLen) {
-                    g2d.drawLine(x, 1, x, drawTo - 2);
-                }
-
-                //draw horizontal lines
-                for (int y = 1 ; y <= drawTo - 2 ; y += squareLen) {
-                    g2d.drawLine(1, y, drawTo - 2, y);
-                }
-            }
-
-            // try since concurrent modificaiton exceptions are sometimes thrown
-            // this will help debugging
-            try {
-                lock();
-                // draw all nodes on grid
-                for (GridNode node : grid) {
-                    // set color for this node
-                    g2d.setColor(node.getColor());
-
-                    // get the x and y of this node
-                    int trueX = node.getX();
-                    int trueY = node.getY();
-
-                    // fill it
-                    g2d.fillRect((drawGridLines ? 2 : 0) + trueX * squareLen,
-                            (drawGridLines ? 2 : 0) + trueY * squareLen,
-                            squareLen - (drawGridLines ? 2 : 0),
-                            squareLen - (drawGridLines ? 2 : 0));
-                }
-                unlock();
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-
-            // set color back to draw borders
-            g2d.setColor(CyderColors.navy);
-
-            // draw crop selection if specified
-            if (mode == Mode.SELECTION && point1Selection != null && point2Selection != null) {
-                int relX = 0;
-                int relY = 0;
-
-                g2d.drawLine((point1Selection.x + relX), point1Selection.y + relY,
-                        point1Selection.x + relX, point2Selection.y + relY);
-                g2d.drawLine(point1Selection.x + relX, point1Selection.y + relY,
-                        point2Selection.x + relX, point1Selection.y + relY);
-                g2d.drawLine(point1Selection.x + relX, point2Selection.y + relY,
-                        point2Selection.x + relX, point2Selection.y + relY);
-                g2d.drawLine(point2Selection.x + relX, point1Selection.y + relY,
-                        point2Selection.x + relX, point2Selection.y + relY);
-            }
-
-            // draw borders borders
-            g2d.drawLine(1, 1, 1, drawTo);
-            g2d.drawLine(1, 1, drawTo, 1);
-            g2d.drawLine(drawTo, 1, drawTo, drawTo);
-            g2d.drawLine(1, drawTo, drawTo, drawTo);
+        //fill the background in if it is set
+        if (getBackground() != null) {
+            g2d.setColor(getBackground());
+            g2d.fillRect(0, 0, drawTo, drawTo);
         }
+
+        g2d.setColor(CyderColors.navy);
+
+        if (drawGridLines) {
+            //draw vertical lines
+            for (int x = 1 ; x <= drawTo - 2 ; x += squareLen) {
+                g2d.drawLine(x, 1, x, drawTo - 2);
+            }
+
+            //draw horizontal lines
+            for (int y = 1 ; y <= drawTo - 2 ; y += squareLen) {
+                g2d.drawLine(1, y, drawTo - 2, y);
+            }
+        }
+
+        // try since concurrent modification exceptions are sometimes thrown
+        // this will help debugging
+        try {
+            lock();
+            // draw all nodes on grid
+            for (GridNode node : grid) {
+                // set color for this node
+                g2d.setColor(node.getColor());
+
+                // get the x and y of this node
+                int trueX = node.getX();
+                int trueY = node.getY();
+
+                // fill it
+                g2d.fillRect((drawGridLines ? 2 : 0) + trueX * squareLen,
+                        (drawGridLines ? 2 : 0) + trueY * squareLen,
+                        squareLen - (drawGridLines ? 2 : 0),
+                        squareLen - (drawGridLines ? 2 : 0));
+            }
+            unlock();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        // set color back to draw borders
+        g2d.setColor(CyderColors.navy);
+
+        // draw crop selection if specified
+        if (mode == Mode.SELECTION && point1Selection != null && point2Selection != null) {
+            int relX = 0;
+            int relY = 0;
+
+            g2d.drawLine((point1Selection.x + relX), point1Selection.y + relY,
+                    point1Selection.x + relX, point2Selection.y + relY);
+            g2d.drawLine(point1Selection.x + relX, point1Selection.y + relY,
+                    point2Selection.x + relX, point1Selection.y + relY);
+            g2d.drawLine(point1Selection.x + relX, point2Selection.y + relY,
+                    point2Selection.x + relX, point2Selection.y + relY);
+            g2d.drawLine(point2Selection.x + relX, point1Selection.y + relY,
+                    point2Selection.x + relX, point2Selection.y + relY);
+        }
+
+        // draw borders borders
+        g2d.drawLine(1, 1, 1, drawTo);
+        g2d.drawLine(1, 1, drawTo, 1);
+        g2d.drawLine(drawTo, 1, drawTo, drawTo);
+        g2d.drawLine(1, drawTo, drawTo, drawTo);
     }
 
     /**
@@ -446,7 +442,7 @@ public class CyderGrid extends JLabel {
     /**
      * Removes the click and drag placers from this grid.
      */
-    public void uninstallClickAndDragPLacer() {
+    public void uninstallClickAndDragPlacer() {
         removeMouseListener(clickListener);
         removeMouseMotionListener(dragListener);
     }
@@ -832,7 +828,7 @@ public class CyderGrid extends JLabel {
     }
 
     /**
-     * Puhses the provided state to the backward states list.
+     * Pushes the provided state to the backward states list.
      * This method exists so that state saving can be easily turned on or off.
      *
      * @param pushState the state to push to the backward states
@@ -886,7 +882,7 @@ public class CyderGrid extends JLabel {
     }
 
     // --------------
-    // croping logic
+    // Cropping logic
     // --------------
 
     private Point point1Selection;
@@ -981,8 +977,6 @@ public class CyderGrid extends JLabel {
             int maxX = Math.max(firstX, secondX);
             int maxY = Math.max(firstY, secondY);
 
-            Rectangle boundingRect = new Rectangle(minX, minY, maxX, maxY);
-
             LinkedList<GridNode> croppedNodes = new LinkedList<>();
 
             // for nodes in the current grid
@@ -1017,6 +1011,7 @@ public class CyderGrid extends JLabel {
     /**
      * Rotates the nodes in the selected region by 90 degrees to the left.
      */
+    @SuppressWarnings("SuspiciousNameCombination")  // rotations
     public void rotateRegion() {
         int firstX = 0;
         int firstY = 0;
@@ -1077,7 +1072,7 @@ public class CyderGrid extends JLabel {
                     newState.add(refNode);
                 }
             }
-            // otherwise add to new state reguarly
+            // otherwise add to new state regularly
             else {
                 newState.add(refNode);
             }
@@ -1179,7 +1174,7 @@ public class CyderGrid extends JLabel {
                     newState.add(refNode);
                 }
             }
-            // otherwise add to new state reguarly
+            // otherwise add to new state regularly
             else {
                 newState.add(refNode);
             }
@@ -1202,6 +1197,7 @@ public class CyderGrid extends JLabel {
      * @param mousePoint the mouse point of a dimension
      * @return the converted grid point of the dimension
      */
+    @SuppressWarnings("unused")
     private float mouseToGridSpace(int mousePoint) {
         checkNotNull(mousePoint);
 
@@ -1423,10 +1419,8 @@ public class CyderGrid extends JLabel {
         public boolean equals(Object node) {
             if (node == this)
                 return true;
-            if (!(node instanceof GridNode))
+            if (!(node instanceof GridNode other))
                 return false;
-
-            GridNode other = (GridNode) node;
 
             return (x == other.x && y == other.y);
         }

@@ -118,11 +118,6 @@ public class PathFinderWidget {
     private static CyderButton startPauseButton;
 
     /**
-     * The button to reset the widget state back to the default.
-     */
-    private static CyderButton reset;
-
-    /**
      * The slider to determine the speed of the animation.
      */
     private static JSlider speedSlider;
@@ -405,16 +400,12 @@ public class PathFinderWidget {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (drawGridLinesBox.isSelected()) {
-                    pathfindingGrid.setDrawGridLines(true);
-                } else {
-                    pathfindingGrid.setDrawGridLines(false);
-                }
+                pathfindingGrid.setDrawGridLines(drawGridLinesBox.isSelected());
             }
         });
         pathFindingFrame.getContentPane().add(drawGridLinesBox);
 
-        reset = new CyderButton("Reset");
+        CyderButton reset = new CyderButton("Reset");
         reset.setBounds(350, startY + 40 - 20, 180, 50);
         reset.addActionListener(e -> reset());
         pathFindingFrame.getContentPane().add(reset);
@@ -709,21 +700,14 @@ public class PathFinderWidget {
         private boolean killed;
 
         /**
-         * The list of points to animate.
-         */
-        private final ArrayList<Point> pathPoints;
-
-        /**
          * Constructs and starts a new path animator.
          *
          * @param pathPoints the list of points to animate.
          */
         public PathAnimator(ArrayList<Point> pathPoints) {
-            this.pathPoints = pathPoints;
-
             CyderThreadRunner.submit(() -> {
                 try {
-                    for (int i = 0 ; i < pathPoints.size() ; i++) {
+                    for (Point pathPoint : pathPoints) {
                         if (killed)
                             return;
 
@@ -733,17 +717,17 @@ public class PathFinderWidget {
                             if (killed)
                                 return;
 
-                            if (node.getX() == pathPoints.get(i).getX()
-                                    && node.getY() == pathPoints.get(i).getY()) {
+                            if (node.getX() == pathPoint.getX()
+                                    && node.getY() == pathPoint.getY()) {
                                 updateNode = node;
                                 break;
                             }
                         }
 
-                        if (updateNode.getColor().equals(PATH_ANIMATION_COLOR)
-                                || updateNode.getColor().equals(pathableClosedColor)) {
-                            lockingAddNode(
-                                    new CyderGrid.GridNode(PATH_ANIMATION_COLOR, updateNode.getX(), updateNode.getY()));
+                        Color c = updateNode != null ? updateNode.getColor() : null;
+                        if (c != null && (c.equals(PATH_ANIMATION_COLOR) || c.equals(pathableClosedColor))) {
+                            lockingAddNode(new CyderGrid.GridNode(PATH_ANIMATION_COLOR,
+                                    updateNode.getX(), updateNode.getY()));
                             lockingRepaintGrid();
                             Thread.sleep(PATH_TRICLE_TIMEOUT);
                         }
@@ -888,7 +872,7 @@ public class PathFinderWidget {
         heuristicSwitch.setEnabled(false);
         algorithmSwitch.setEnabled(false);
 
-        pathfindingGrid.uninstallClickAndDragPLacer();
+        pathfindingGrid.uninstallClickAndDragPlacer();
     }
 
     /**
@@ -920,23 +904,12 @@ public class PathFinderWidget {
      */
     private static void updateStateLabel() {
         switch (currentPathingState) {
-            case PAUSED:
-                currentStateLabel.setText("State: Paused");
-                break;
-            case RUNNING:
-                currentStateLabel.setText("State: Running...");
-                break;
-            case PATH_FOUND:
-                currentStateLabel.setText("State: Path found");
-                break;
-            case PATH_NOT_FOUND:
-                currentStateLabel.setText("State: No path found");
-                break;
-            case NOT_STARTED:
-                currentStateLabel.setText("State: Not Started");
-                break;
-            default:
-                throw new IllegalStateException("Invalid currentPathingState: " + currentPathingState);
+            case PAUSED -> currentStateLabel.setText("State: Paused");
+            case RUNNING -> currentStateLabel.setText("State: Running...");
+            case PATH_FOUND -> currentStateLabel.setText("State: Path found");
+            case PATH_NOT_FOUND -> currentStateLabel.setText("State: No path found");
+            case NOT_STARTED -> currentStateLabel.setText("State: Not Started");
+            default -> throw new IllegalStateException("Invalid currentPathingState: " + currentPathingState);
         }
     }
 
@@ -1091,23 +1064,24 @@ public class PathFinderWidget {
      * Calculates the heuristic from the provided node to the goal node
      * using the currently set heuristic.
      *
-     * @param n the node to calculate the heuristc of
+     * @param n the node to calculate the heuristic of
      * @return the cost to path from the provided node to the goal
      */
     private static double heuristic(PathNode n) {
-        // algorithm on corresponds to Dijkstras
+        // algorithm on corresponds to Dijkstra's
         return algorithmSwitch.getState() == CyderSwitch.State.ON
                 ? 1 : (heuristicSwitch.getState() == CyderSwitch.State.OFF
                 ? manhattanDistance(n, goalNode) : euclideanDistance(n, goalNode));
     }
 
     /**
-     * Calcualtes the g cost from the provided node to the start node.
+     * Calculates the g cost from the provided node to the start node.
      * This uses Euclidean distance by definition of g cost.
      *
      * @param n the node to calculate the g cost of
      * @return the g cost of the provided node
      */
+    @SuppressWarnings("unused")
     private static double calcGCost(PathNode n) {
         return euclideanDistance(n, startNode);
     }
@@ -1191,10 +1165,11 @@ public class PathFinderWidget {
         }
 
         /**
-         * Constructs a new path node with 0,0 as the x,y.
+         * Suppress default constructor.
          */
-        public PathNode() {
-            this(0, 0);
+        @SuppressWarnings("unused")
+        private PathNode() {
+            throw new IllegalMethodException("Cannot create " + getClass() + " with default constructor");
         }
 
         /**
@@ -1312,11 +1287,9 @@ public class PathFinderWidget {
         public boolean equals(Object o) {
             if (o == null)
                 return false;
-            if (!(o instanceof PathNode))
+            if (!(o instanceof PathNode other))
                 return false;
             else {
-                PathNode other = (PathNode) o;
-
                 return other.getX() == x && other.getY() == y;
             }
         }

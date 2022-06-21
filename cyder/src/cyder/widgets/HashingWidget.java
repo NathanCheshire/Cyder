@@ -21,14 +21,10 @@ import java.util.ArrayList;
 /**
  * A widget for computing the hash of strings.
  */
+@SuppressWarnings("unused")
 @Vanilla
 @CyderAuthor
 public class HashingWidget {
-    /**
-     * The hash frame.
-     */
-    private CyderFrame hashFrame;
-
     /**
      * The hash field.
      */
@@ -65,7 +61,7 @@ public class HashingWidget {
      * Shows the gui for this instance of the hashing widget.
      */
     public void innerShowGui() {
-        hashFrame = new CyderFrame(500, 200, CyderIcons.defaultBackgroundLarge);
+        CyderFrame hashFrame = new CyderFrame(500, 200, CyderIcons.defaultBackgroundLarge);
         hashFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         hashFrame.setTitle("Hasher");
 

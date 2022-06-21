@@ -16,9 +16,10 @@ import java.awt.*;
 /**
  * A tic tac toe game widget.
  */
-public class TTTGame {
+@SuppressWarnings("unused")
+public final class TTTGame {
     /**
-     * The CyderFrame instancer to use to ensure no other games exist with one Cyder instance.
+     * The CyderFrame instance to use to ensure no other games exist with one Cyder instance.
      */
     private static CyderFrame tttFrame;
 
@@ -31,12 +32,11 @@ public class TTTGame {
     private static CyderButton ttt3;
     private static CyderButton ttt2;
     private static CyderButton ttt1;
-    private static CyderButton tttReset;
 
     /**
      * The foreground color used for the buttons.
      */
-    public static final Color tttblue = new Color(71, 81, 117);
+    public static final Color blueForeground = new Color(71, 81, 117);
 
     /**
      * Player enums.
@@ -93,7 +93,7 @@ public class TTTGame {
 
                 } else {
                     ttt1.setText("O");
-                    ttt1.setForeground(tttblue);
+                    ttt1.setForeground(blueForeground);
                     ttt1.setFont(CyderFonts.segoe30);
                     currentPlayer = Player.X;
                 }
@@ -122,7 +122,7 @@ public class TTTGame {
 
                 } else {
                     ttt2.setText("O");
-                    ttt2.setForeground(tttblue);
+                    ttt2.setForeground(blueForeground);
                     ttt2.setFont(CyderFonts.segoe30);
                     currentPlayer = Player.X;
 
@@ -152,7 +152,7 @@ public class TTTGame {
 
                 } else {
                     ttt3.setText("O");
-                    ttt3.setForeground(tttblue);
+                    ttt3.setForeground(blueForeground);
                     ttt3.setFont(CyderFonts.segoe30);
                     currentPlayer = Player.X;
 
@@ -181,7 +181,7 @@ public class TTTGame {
                     currentPlayer = Player.O;
                 } else {
                     ttt4.setText("O");
-                    ttt4.setForeground(tttblue);
+                    ttt4.setForeground(blueForeground);
                     ttt4.setFont(CyderFonts.segoe30);
                     currentPlayer = Player.X;
                 }
@@ -209,7 +209,7 @@ public class TTTGame {
                     currentPlayer = Player.O;
                 } else {
                     ttt5.setText("O");
-                    ttt5.setForeground(tttblue);
+                    ttt5.setForeground(blueForeground);
                     ttt5.setFont(CyderFonts.segoe30);
                     currentPlayer = Player.X;
                 }
@@ -238,7 +238,7 @@ public class TTTGame {
 
                 } else {
                     ttt6.setText("O");
-                    ttt6.setForeground(tttblue);
+                    ttt6.setForeground(blueForeground);
                     ttt6.setFont(CyderFonts.segoe30);
                     currentPlayer = Player.X;
                 }
@@ -266,7 +266,7 @@ public class TTTGame {
                     currentPlayer = Player.O;
                 } else {
                     ttt7.setText("O");
-                    ttt7.setForeground(tttblue);
+                    ttt7.setForeground(blueForeground);
                     ttt7.setFont(CyderFonts.segoe30);
                     currentPlayer = Player.X;
                 }
@@ -294,7 +294,7 @@ public class TTTGame {
                     currentPlayer = Player.O;
                 } else {
                     ttt8.setText("O");
-                    ttt8.setForeground(tttblue);
+                    ttt8.setForeground(blueForeground);
                     ttt8.setFont(CyderFonts.segoe30);
                     currentPlayer = Player.X;
                 }
@@ -318,13 +318,13 @@ public class TTTGame {
             if (ttt9.getText().isEmpty()) {
                 if (currentPlayer == Player.X) {
                     ttt9.setText("X");
-                    currentPlayer = Player.O;
                 } else {
                     ttt9.setText("O");
-                    ttt9.setForeground(tttblue);
+                    ttt9.setForeground(blueForeground);
                     ttt9.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.O;
                 }
+
+                currentPlayer = Player.O;
 
                 updateTurnLabel();
                 checkForWin();
@@ -334,7 +334,7 @@ public class TTTGame {
         ttt9.setBounds(275, 325, 100, 100);
         tttFrame.getContentPane().add(ttt9);
 
-        tttReset = new CyderButton("Reset");
+        CyderButton tttReset = new CyderButton("Reset");
         tttReset.setFocusPainted(false);
         tttReset.setBackground(CyderColors.regularRed);
         tttReset.setFont(CyderFonts.segoe30);
