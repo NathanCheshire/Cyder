@@ -1,0 +1,114 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[22-26-59] [ENTRY]: Nathan
+[22-26-59] [PROP LOADED]: [key = map_quest_api_key]
+[22-26-59] [PROP LOADED]: [key = youtube_api_3_key]
+[22-26-59] [PROP LOADED]: [key = ip_key]
+[22-26-59] [PROP LOADED]: [key = weather_key]
+[22-26-59] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[22-26-59] [PROP LOADED]: [key = debug_hash_password]
+[22-26-59] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[22-26-59] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[22-26-59] [PROP LOADED]: [key = font_metric, value = 1]
+[22-26-59] [PROP LOADED]: [key = released, value = false]
+[22-26-59] [PROP LOADED]: [key = fast_test, value = false]
+[22-26-59] [PROP LOADED]: [key = version, value = Liminal]
+[22-26-59] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[22-26-59] [PROP LOADED]: [key = components_relocatable, value = false]
+[22-26-59] [PROP LOADED]: [key = testing_mode, value = true]
+[22-26-59] [PROP LOADED]: [key = autocypher, value = true]
+[22-26-59] [PROP LOADED]: [key = dispose_splash, value = true]
+[22-26-59] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[22-26-59] [PROP LOADED]: [key = activate_watchdog, value = false]
+[22-26-59] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[22-26-59] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[22-26-59] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[22-26-59] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[22-26-59] [THREAD STARTED]: Object Creation Logger
+[22-26-59] [DEBUG]: Watchdog skipped
+[22-26-59] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-27-00] [FONT LOADED]: agency-fb
+[22-27-00] [FONT LOADED]: arial-black
+[22-27-00] [FONT LOADED]: beyno
+[22-27-00] [FONT LOADED]: condiment-regular
+[22-27-00] [FONT LOADED]: prompt-bold
+[22-27-00] [FONT LOADED]: segoe-ui-black
+[22-27-00] [FONT LOADED]: tahoma
+[22-27-00] [THREAD STARTED]: Splash Loader
+[22-27-00] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-27-01] [THREAD STARTED]: Splash Animation
+[22-27-01] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[22-27-01] [THREAD STARTED]: Secondary Subroutines Runner
+[22-27-01] [LOGIN]: AUTOCYPHER ATTEMPT
+[22-27-01] [THREAD STARTED]: JVM Args Logger
+[22-27-02] [OBJECT CREATION]: Objects created since last delta (5000ms): 75
+[22-27-02] [DEBUG]: Cyder Entry = AutoCypher
+[22-27-03] [THREAD STARTED]: High Ping Checker
+[22-27-03] [THREAD STARTED]: Console Printing Animation
+[22-27-03] [THREAD STARTED]: Hourly Chime Checker
+[22-27-03] [THREAD STARTED]: Console Clock Updater
+[22-27-03] [THREAD STARTED]: Cyder Busy Checker
+[22-27-03] [THREAD STARTED]: ConsoleFrame Stat Saver
+[22-27-03] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[22-27-03] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[22-27-03] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 2022427210, bounds = (980,
+           396, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[22-27-03] [THREAD STARTED]: Splash Loading Label Updater
+[22-27-04] [CONSOLE OUT]: [STRING]: Console loaded in 4872ms
+[22-27-04] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[22-27-04] [THREAD STARTED]: Manual Tests Thread
+[22-27-04] [DEBUG]: Attempted to log a new or empty line
+[22-27-05] [CLIENT]: mp3
+[22-27-05] [CONSOLE OUT]: [STRING]: Opening widget: AudioPlayer
+[22-27-05] [THREAD STARTED]: John Wolf - Anymore (Official Video) Ok Guess We Doin Just Fine (Lyrics In Description)
+           Progress Label Thread
+[22-27-05] [THREAD STARTED]: Audio Progress Label Animator
+[22-27-06] [THREAD STARTED]: Scrolling title label animator [John wolf - anymore (official video) ok guess we doin just
+           fine (lyrics in description)]
+[22-27-06] [THREAD STARTED]: [John wolf - anymore (official video)...] finalizeAndShow()
+[22-27-06] [DEBUG]: Attempted to log a new or empty line
+[22-27-06] [WIDGET]: AudioPlayer, trigger = mp3
+[22-27-06] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 7] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[22-27-06] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1655781792066.json
+[22-27-07] [OBJECT CREATION]: Objects created since last delta (5000ms): 59
+[22-27-07] [THREAD STARTED]: John wolf - anymore (official video)... Menu Label Animator
+[22-27-09] [THREAD STARTED]: John wolf - anymore (official video)... menu label animator
+[22-27-09] [UI]: cyder.ui.CyderTextField[,75,60,450x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignment
+           X=0.0,alignmentY=0.0,border=javax.swing.border.LineBorder@11e63d2a,flags=16777512,maximumSize=,minimumSize=,preferredSiz
+           e=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edita
+           ble=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColorU
+           IResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,horiz
+           ontalAlignment=CENTER]
+[22-27-12] [OBJECT CREATION]: Objects created since last delta (5000ms): 10
+[22-27-13] [THREAD STARTED]: YouTube Search Updater
+[22-27-16] [THREAD STARTED]: John wolf - anymore (official video)... Opacity Decrement Animator
+[22-27-16] [THREAD STARTED]: John wolf - anymore (official video)... Opacity Increment Animator
+[22-27-17] [OBJECT CREATION]: Objects created since last delta (5000ms): 14
+[22-28-25] [THREAD STARTED]: John wolf - anymore (official video)... Opacity Decrement Animator
+[22-28-25] [THREAD STARTED]: John wolf - anymore (official video)... Opacity Increment Animator
+[22-28-30] [THREAD STARTED]: John wolf - anymore (official video)... Opacity Decrement Animator
+[22-28-30] [THREAD STARTED]: John wolf - anymore (official video)... Opacity Increment Animator

@@ -31,6 +31,9 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.Port;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -1119,6 +1122,21 @@ public final class AudioPlayer {
     };
 
     /**
+     * The text pane used to display youtube search results.
+     */
+    private static JTextPane searchResultsPane;
+
+    /**
+     * The printing util used for printing out search results to the scroll pane.
+     */
+    private static StringUtil printingUtil;
+
+    /**
+     * The alignment object used for menu alignment.
+     */
+    private static final SimpleAttributeSet alignment = new SimpleAttributeSet();
+
+    /**
      * The menu item for searching youtube for songs.
      */
     private static final Runnable searchMenuItem = () -> {
@@ -1147,7 +1165,7 @@ public final class AudioPlayer {
 
         yOff += 60;
 
-        JTextPane searchResultsPane = new JTextPane();
+        searchResultsPane = new JTextPane();
         searchResultsPane.setEditable(false);
         searchResultsPane.setAutoscrolls(false);
         searchResultsPane.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
@@ -1155,6 +1173,12 @@ public final class AudioPlayer {
         searchResultsPane.setFocusable(true);
         searchResultsPane.setOpaque(false);
         searchResultsPane.setBackground(Color.white);
+        searchResultsPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+        searchResultsPane.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+        StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_CENTER);
+        StyledDocument doc = searchResultsPane.getStyledDocument();
+        doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
 
         CyderScrollPane searchResultsScroll = new CyderScrollPane(searchResultsPane);
         searchResultsScroll.setThumbSize(8);
@@ -1172,14 +1196,7 @@ public final class AudioPlayer {
         audioPlayerFrame.getContentPane().add(searchResultsScroll);
         searchResultsPane.revalidate();
 
-        // adding components
-        StringUtil printingUtil = new StringUtil(new CyderOutputPane(searchResultsPane));
-
-        for (int i = 0 ; i < 100 ; i++) {
-            CyderLabel label = new CyderLabel("hello");
-            label.setForeground(CyderColors.vanilla);
-            printingUtil.printlnComponent(label);
-        }
+        printingUtil = new StringUtil(new CyderOutputPane(searchResultsPane));
     };
 
     /**
@@ -2254,47 +2271,98 @@ public final class AudioPlayer {
      */
     private static final LinkedList<YoutubeSearchResult> searchResults = new LinkedList<>();
 
+    /**
+     * The length of the thumbnails.
+     */
+    private static final int bufferedImageLen = 250;
+
     @SuppressWarnings({"SuspiciousNameCombination", "ConstantConditions"})
     private static void updateSearchResults(String fieldText) {
         if (StringUtil.isNull(fieldText)) {
             return;
         }
 
-        Optional<YoutubeSearchResultPage> youtubeSearchResultPage = getSearchResults(
-                YoutubeUtil.buildYouTubeApiV3SearchQuery(numSearchResults, fieldText));
+        // todo a results label would be nice that also shows the number of pages
+        // todo step buttons on side of field too
+        // todo field and search button needs to be smaller
+        // todo need a back button to go back to main audio frame view
+        // todo minimize menu when entering search
+        // todo need to lock this and unlock and be able to kill in case user searches for something else
+        // todo download button needed still
 
-        if (youtubeSearchResultPage.isPresent()) {
-            searchResults.clear();
+        CyderThreadRunner.submit(() -> {
+            Optional<YoutubeSearchResultPage> youtubeSearchResultPage = getSearchResults(
+                    YoutubeUtil.buildYouTubeApiV3SearchQuery(numSearchResults, fieldText));
 
-            for (YoutubeVideo video : youtubeSearchResultPage.get().getItems()) {
-                BufferedImage bi = YoutubeUtil.getMaxResolutionThumbnail(YoutubeUtil.buildYoutubeVideoUrl(
-                        video.getId().getVideoId())).orElse(null);
+            if (youtubeSearchResultPage.isPresent()) {
+                searchResults.clear();
 
-                if (bi == null) {
-                    try {
-                        bi = ImageIO.read(DEFAULT_ALBUM_ART);
-                    } catch (Exception ignored) {}
+                for (YoutubeVideo video : youtubeSearchResultPage.get().getItems()) {
+                    Optional<BufferedImage> optionalBi = YoutubeUtil.getMaxResolutionThumbnail(
+                            video.getId().getVideoId());
+
+                    BufferedImage bi = optionalBi.orElse(null);
+
+                    if (bi == null) {
+                        try {
+                            bi = ImageIO.read(DEFAULT_ALBUM_ART);
+                        } catch (Exception ignored) {}
+                    }
+
+                    int width = bi.getWidth();
+                    int height = bi.getHeight();
+
+                    if (width < height) {
+                        bi = ImageUtil.getCroppedImage(bi, 0, (height - width) / 2, width, width);
+                    } else if (height < width) {
+                        bi = ImageUtil.getCroppedImage(bi, (width - height) / 2, 0, height, height);
+                    } else {
+                        bi = ImageUtil.getCroppedImage(bi, 0, 0, width, height);
+                    }
+
+                    bi = ImageUtil.resizeImage(bi, bi.getType(), bufferedImageLen, bufferedImageLen);
+
+                    searchResults.add(new YoutubeSearchResult(video.getId().getVideoId(), video.getSnippet().getTitle(),
+                            video.getSnippet().getDescription(), video.getSnippet().getChannelTitle(), bi));
                 }
 
-                int width = bi.getWidth();
-                int height = bi.getHeight();
+                searchResultsPane.setText("");
 
-                if (width < height) {
-                    bi = ImageUtil.getCroppedImage(bi, 0, (height - width) / 2, width, width);
-                } else if (height < width) {
-                    bi = ImageUtil.getCroppedImage(bi, (width - height) / 2, 0, height, height);
-                } else {
-                    bi = ImageUtil.getCroppedImage(bi ,0, 0, width, height);
+                for (YoutubeSearchResult result : searchResults) {
+                    JLabel imageLabel = new JLabel(ImageUtil.toImageIcon(result.bi));
+                    imageLabel.setSize(bufferedImageLen, bufferedImageLen);
+                    imageLabel.setHorizontalAlignment(JLabel.CENTER);
+                    imageLabel.setBorder(new LineBorder(new Color(0, 0, 0), 3));
+                    imageLabel.setToolTipText(result.description);
+                    printingUtil.printlnComponent(imageLabel);
+
+                    printingUtil.println("\n");
+
+                    CyderLabel titleLabel = new CyderLabel(result.title);
+                    titleLabel.setForeground(CyderColors.vanilla);
+                    titleLabel.setHorizontalAlignment(JLabel.CENTER);
+                    printingUtil.printlnComponent(titleLabel);
+
+                    CyderLabel channelLabel = new CyderLabel(result.channel);
+                    channelLabel.setForeground(CyderColors.vanilla);
+                    channelLabel.setHorizontalAlignment(JLabel.CENTER);
+                    printingUtil.printlnComponent(channelLabel);
+
+                    printingUtil.println("\n");
+
+                    // todo create download button should also be able to cancel it
+
+                    printingUtil.println("\n");
                 }
 
-                // todo now square so crop to desired size
-
-                searchResults.add(new YoutubeSearchResult(video.getId().getVideoId(), video.getSnippet().getTitle(),
-                        video.getSnippet().getDescription(), video.getSnippet().getChannelTitle(), bi));
+                searchResultsPane.setCaretPosition(0);
+            } else {
+                CyderLabel label = new CyderLabel("No results");
+                label.setForeground(CyderColors.vanilla);
+                label.setFont(CyderFonts.defaultFont.deriveFont(40f));
+                printingUtil.printlnComponent(label);
             }
-        } else {
-            // todo no results label in middle of whole scroll pane
-        }
+        }, "YouTube Search Updater");
     }
 
     /**
