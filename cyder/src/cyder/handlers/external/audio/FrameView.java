@@ -20,8 +20,4 @@ enum FrameView {
      * Searching YouTube for a video's audio to download.
      */
     SEARCH,
-    /**
-     * Confirming/downloading a YouTube video's audio.
-     */
-    DOWNLOAD,
 }

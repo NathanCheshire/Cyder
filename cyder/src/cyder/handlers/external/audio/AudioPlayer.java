@@ -441,6 +441,10 @@ public final class AudioPlayer {
                         case FULL -> setupAndShowFrameView(FrameView.HIDDEN_ART);
                         case HIDDEN_ART -> setupAndShowFrameView(FrameView.MINI);
                         case MINI -> setupAndShowFrameView(FrameView.FULL);
+                        case SEARCH -> {
+                            setPhaseTwoComponentsVisible(false);
+                            setupAndShowFrameView(FrameView.FULL);
+                        }
                         default -> throw new IllegalArgumentException(
                                 "Illegal requested view to switch to via view switch frame button");
                     }
@@ -2205,6 +2209,16 @@ public final class AudioPlayer {
     private static StringUtil printingUtil;
 
     /**
+     * The scroll pane for the search results pane.
+     */
+    private static CyderScrollPane searchResultsScroll;
+
+    /**
+     * The search button for phase two.
+     */
+    private static CyderButton searchButton;
+
+    /**
      * The width of phase two components excluding the scroll pane.
      */
     private static final int phaseTwoWidth = 300;
@@ -2215,12 +2229,24 @@ public final class AudioPlayer {
     private static CyderLabel informationLabel;
 
     /**
+     * The search field for downloading audio.
+     */
+    private static CyderTextField searchField;
+
+    /**
+     * The previously searched text.
+     */
+    private static String previousSearch;
+
+    /**
      * Constructs the search view where a user can search for and download audio from youtube.
      */
     private static void constructPhaseTwoView() {
         if (uiLocked || phaseTwoViewLocked.get()) {
             return;
         }
+
+        currentFrameView.set(FrameView.SEARCH);
 
         phaseTwoViewLocked.set(true);
 
@@ -2230,7 +2256,9 @@ public final class AudioPlayer {
 
         int yOff = 50;
 
-        CyderTextField searchField = new CyderTextField();
+        audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN);
+
+        searchField = new CyderTextField();
         searchField.setFont(new Font("Agency FB", Font.BOLD, 26));
         searchField.setForeground(CyderColors.vanilla);
         searchField.setCaret(new CyderCaret(CyderColors.vanilla));
@@ -2242,7 +2270,7 @@ public final class AudioPlayer {
 
         yOff += 50;
 
-        CyderButton searchButton = new CyderButton("Search");
+        searchButton = new CyderButton("Search");
         searchButton.setBorder(new LineBorder(Color.black, 4));
         searchButton.setBackground(CyderColors.regularPurple);
         searchButton.setForeground(CyderColors.vanilla);
@@ -2269,13 +2297,14 @@ public final class AudioPlayer {
         StyledDocument doc = searchResultsPane.getStyledDocument();
         doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
 
-        CyderScrollPane searchResultsScroll = new CyderScrollPane(searchResultsPane);
+        searchResultsScroll = new CyderScrollPane(searchResultsPane);
         searchResultsScroll.setThumbSize(8);
         searchResultsScroll.getViewport().setOpaque(false);
         searchResultsScroll.setFocusable(true);
         searchResultsScroll.setOpaque(false);
         searchResultsScroll.setThumbColor(CyderColors.regularPink);
         searchResultsScroll.setBackground(Color.white);
+        searchResultsScroll.setBorder(new LineBorder(CyderColors.navy, 4));
         searchResultsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         searchResultsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         searchResultsScroll.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
@@ -2286,10 +2315,11 @@ public final class AudioPlayer {
         informationLabel.setFont(CyderFonts.defaultFont);
         informationLabel.setBackground(BACKGROUND_COLOR);
         informationLabel.setOpaque(true);
+        informationLabel.setBorder(new LineBorder(Color.black, 4));
         informationLabel.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
                 yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
         audioPlayerFrame.getContentPane().add(informationLabel);
-        hideInformationLabel();
+        showInformationLabel("Search YouTube using the above field");
 
         searchResultsPane.setCaretPosition(0);
         audioPlayerFrame.getContentPane().add(searchResultsScroll);
@@ -2300,11 +2330,33 @@ public final class AudioPlayer {
         phaseTwoViewLocked.set(false);
     }
 
+    /**
+     * Sets the phase two components to the visibility specified.
+     *
+     * @param visible whether the phase two components should be visible.
+     */
+    @SuppressWarnings("SameParameterValue")
+    private static void setPhaseTwoComponentsVisible(boolean visible) {
+        searchField.setVisible(visible);
+        searchButton.setVisible(visible);
+        informationLabel.setVisible(visible);
+        searchResultsPane.setVisible(visible);
+        searchResultsScroll.setVisible(visible);
+    }
+
+    /**
+     * Hides the information label.
+     */
     private static void hideInformationLabel() {
         informationLabel.setVisible(false);
         informationLabel.setText("");
     }
 
+    /**
+     * Shows the information label with the provided text.
+     *
+     * @param text the text for the information label
+     */
     private static void showInformationLabel(String text) {
         informationLabel.setVisible(true);
         informationLabel.setText(text);
@@ -2330,23 +2382,19 @@ public final class AudioPlayer {
     private static final SimpleAttributeSet alignment = new SimpleAttributeSet();
 
     private static void updateSearchResults(String fieldText) {
-        if (StringUtil.isNull(fieldText)) {
+        if (StringUtil.isNull(fieldText) || fieldText.equalsIgnoreCase(previousSearch)) {
             return;
         }
 
+        previousSearch = fieldText;
+
         // todo frame title needs to be updated for this too
+        // todo pause audio if playing as well when entering view
 
         // todo a results label would be nice that also shows the number of pages
-        // todo step buttons on side of field too
-
-        // todo need to lock this and unlock and be able to kill in case user
-        //  searches for something else, cache search for this
+        // todo step buttons on side of field too to navigate the pages of results
 
         // todo download button needed still
-        // todo hide all phase 2 components when selecting change size,
-        //  also need to reset frame size when search is chosen
-
-        // todo don't let a user search if the same stuff as last search
 
         CyderThreadRunner.submit(() -> {
             showInformationLabel("Searching...");
@@ -2365,6 +2413,12 @@ public final class AudioPlayer {
                             video.getSnippet().getDescription(),
                             video.getSnippet().getChannelTitle(),
                             getMaxResolutionSquareThumbnail(uuid)));
+                }
+
+                // if user has search for something else, don't update pane
+                if (!fieldText.equals(searchField.getText())) {
+                    hideInformationLabel();
+                    return;
                 }
 
                 searchResultsPane.setText("");
