@@ -8,19 +8,14 @@ import java.util.ArrayList;
 
 public class CyderGridLayout extends CyderLayout {
     /**
-     * The default amount of cells to use for each axis.
-     */
-    public static final int DEFAULT_CELLS = 1;
-
-    /**
      * The amount of horizontal cells allowable for this grid layout.
      */
     private final int horizontalCells;
 
     /**
-     * The amount of veritcal cells allowable for this grid layout.
+     * The amount of vertical cells allowable for this grid layout.
      */
-    private final int vertialCells;
+    private final int verticalCells;
 
     /**
      * Enum to use to figure out how to position components if/when overflow occurs
@@ -55,6 +50,7 @@ public class CyderGridLayout extends CyderLayout {
     /**
      * Constructs a new CyderGridLayout with a singular grid cell.
      */
+    @SuppressWarnings("unused")
     public CyderGridLayout() {
         this(1, 1);
     }
@@ -70,7 +66,7 @@ public class CyderGridLayout extends CyderLayout {
             throw new IllegalArgumentException("Provided cell length does not meet the minimum requirement");
 
         horizontalCells = xCells;
-        vertialCells = yCells;
+        verticalCells = yCells;
 
         components = new GridComponent[xCells][yCells];
     }
@@ -100,14 +96,14 @@ public class CyderGridLayout extends CyderLayout {
         //partition width into how many horizontal grid spaces we have
         int widthPartition = associatedPanel.getWidth() / horizontalCells;
         //partition height into how many vertical grid spaces we have
-        int heightPartition = associatedPanel.getHeight() / vertialCells;
+        int heightPartition = associatedPanel.getHeight() / verticalCells;
 
         // keep track of a possible focus owner
         Component focusOwner = null;
 
         //for all the cells in our grid
         for (int xCell = 0 ; xCell < horizontalCells ; xCell++) {
-            for (int yCell = 0 ; yCell < vertialCells ; yCell++) {
+            for (int yCell = 0; yCell < verticalCells; yCell++) {
                 //if no component exists at this location then continue
                 if (components[xCell][yCell] == null)
                     continue;
@@ -215,7 +211,7 @@ public class CyderGridLayout extends CyderLayout {
      */
     public void addComponent(Component component) {
         for (int x = 0 ; x < horizontalCells ; x++) {
-            for (int y = 0 ; y < vertialCells ; y++) {
+            for (int y = 0; y < verticalCells; y++) {
                 if (components[x][y] == null) {
                     components[x][y] = new GridComponent(component, //defaults here
                             component.getWidth(), component.getHeight(), Position.MIDDLE_CENTER);
@@ -237,7 +233,7 @@ public class CyderGridLayout extends CyderLayout {
      */
     public boolean addComponent(Component component, Position sectionPosition) {
         for (int x = 0 ; x < horizontalCells ; x++) {
-            for (int y = 0 ; y < vertialCells ; y++) {
+            for (int y = 0; y < verticalCells; y++) {
                 if (components[x][y] == null) {
                     components[x][y] = new GridComponent(component,
                             component.getWidth(), component.getHeight(), sectionPosition);
@@ -260,7 +256,7 @@ public class CyderGridLayout extends CyderLayout {
     public void addComponent(Component component, int x, int y) {
         if (components == null)
             throw new IllegalStateException("Components not yet initialized");
-        if (x < 0 || x > horizontalCells - 1 || y < 0 || y > vertialCells - 1)
+        if (x < 0 || x > horizontalCells - 1 || y < 0 || y > verticalCells - 1)
             throw new IllegalArgumentException("Provided grid location is invalid");
 
         if (components[x][y] != null) {
@@ -285,7 +281,7 @@ public class CyderGridLayout extends CyderLayout {
     public void addComponent(Component component, int x, int y, Position sectionPosition) {
         if (components == null)
             throw new IllegalStateException("Components not yet initialized");
-        if (x < 0 || x > horizontalCells - 1 || y < 0 || y > vertialCells - 1)
+        if (x < 0 || x > horizontalCells - 1 || y < 0 || y > verticalCells - 1)
             throw new IllegalArgumentException("Provided grid location is invalid");
 
         if (components[x][y] != null) {
@@ -308,7 +304,7 @@ public class CyderGridLayout extends CyderLayout {
             throw new IllegalStateException("Components not yet initialized");
 
         for (int x = 0 ; x < horizontalCells ; x++) {
-            for (int y = 0 ; y < vertialCells ; y++) {
+            for (int y = 0; y < verticalCells; y++) {
                 if (components[x][y].getComponent() == component) {
                     components[x][y] = null;
                     return;
@@ -327,7 +323,7 @@ public class CyderGridLayout extends CyderLayout {
     public boolean removeComponent(int x, int y) {
         if (components == null)
             throw new IllegalStateException("Components not yet initialized");
-        if (x < 0 || x > horizontalCells - 1 || y < 0 || y > vertialCells - 1)
+        if (x < 0 || x > horizontalCells - 1 || y < 0 || y > verticalCells - 1)
             throw new IllegalArgumentException("Provided grid location is invalid");
 
         //no component there
@@ -337,6 +333,47 @@ public class CyderGridLayout extends CyderLayout {
         //found component so remove and return true
         components[x][y] = null;
         return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Dimension getPackSize() {
+        int sumWidth = 0;
+        int sumHeight = 0;
+
+        for (GridComponent[] component : components) {
+            int val = 0;
+            int correspondingOtherLength = 0;
+            boolean isWidth = false;
+
+            for (int x = 0; x < components[0].length; x++) {
+                if (component[x].originalWidth > component[x].originalHeight) {
+                    val = component[x].originalWidth;
+                    correspondingOtherLength = component[x].originalHeight;
+                    isWidth = true;
+                } else if (component[x].originalWidth > component[x].originalHeight) {
+                    val = component[x].originalHeight;
+                    correspondingOtherLength = component[x].originalWidth;
+                    isWidth = false;
+                } else {
+                    val = component[x].originalWidth;
+                    correspondingOtherLength = component[x].originalHeight;
+                    isWidth = true;
+                }
+            }
+
+            if (isWidth) {
+                sumWidth += val;
+                sumHeight += correspondingOtherLength;
+            } else {
+                sumHeight += val;
+                sumWidth += correspondingOtherLength;
+            }
+        }
+
+        return new Dimension(sumWidth, sumHeight);
     }
 
     /**

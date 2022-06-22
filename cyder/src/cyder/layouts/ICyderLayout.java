@@ -41,7 +41,7 @@ public interface ICyderLayout {
     /**
      * Sets the CyderPanel for the LayoutManager to add to and manage the components of.
      *
-     * @param panel the panel for the LayoutManager to manaqge the components of
+     * @param panel the panel for the LayoutManager to manage the components of
      */
     default void setAssociatedPanel(CyderPanel panel) {
         throw new UnsupportedOperationException("Method not implemented");
@@ -62,7 +62,7 @@ public interface ICyderLayout {
      *
      * @return the minimum size necessary to allow all components to be visible
      */
-    default Dimension calculateMinSize() {
+    default Dimension getPackSize() {
         throw new UnsupportedOperationException("Method not implemented");
     }
 }
