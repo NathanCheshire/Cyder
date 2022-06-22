@@ -2377,6 +2377,8 @@ public final class AudioPlayer {
      */
     private static final SimpleAttributeSet alignment = new SimpleAttributeSet();
 
+    private static final String printButtonPadding = "    ";
+
     /**
      * Searches YouTube for the provided text and updates the results pane with videos found.
      *
@@ -2450,14 +2452,19 @@ public final class AudioPlayer {
 
                     printingUtil.println("\n");
 
-                    String space = "    ";
-
-                    YoutubeUtil.YoutubeDownload downloadable = new YoutubeUtil.YoutubeDownload(result.uuid);
+                    String videoUrl = YoutubeUtil.buildYoutubeVideoUrl(result.uuid);
+                    YoutubeUtil.YoutubeDownload downloadable = new YoutubeUtil.YoutubeDownload(videoUrl);
                     // todo start this and be able to kill it too
                     // todo need to not print stuff to console always
                     // todo make this it's own object
 
-                    CyderButton downloadButton = new CyderButton(space + "Download" + space);
+                    CyderButton downloadButton = new CyderButton() {
+                        @Override
+                        public void setText(String text) {
+                            super.setText(printButtonPadding + text + printButtonPadding);
+                        }
+                    };
+                    downloadButton.setText("Download");
                     downloadButton.setBorder(new LineBorder(Color.black, 4));
                     downloadButton.setBackground(CyderColors.regularPurple);
                     downloadButton.setForeground(CyderColors.vanilla);
@@ -2470,7 +2477,7 @@ public final class AudioPlayer {
                         @Override
                         public void mouseEntered(MouseEvent e) {
                             if (isDownloading.get()) {
-                                downloadButton.setText(space + "Cancel" + space);
+                                downloadButton.setText("Cancel");
                             }
                         }
 
@@ -2478,9 +2485,9 @@ public final class AudioPlayer {
                         public void mouseExited(MouseEvent e) {
                             if (isDownloading.get()) {
                                 // todo need to update this
-                                downloadButton.setText(space + downloadable.getDownloadableProgress() + "%" + space);
+                                downloadButton.setText(downloadable.getDownloadableProgress() + "%");
                             } else {
-                                downloadButton.setText(space + "Download" + space);
+                                downloadButton.setText("Download");
                             }
                         }
                     });

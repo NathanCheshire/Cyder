@@ -92,6 +92,14 @@ public final class YoutubeUtil {
         private final String url;
 
         /**
+         * Suppress default constructor.
+         */
+        @SuppressWarnings("unused")
+        private YoutubeDownload() {
+            throw new IllegalMethodException("Illegal use of constructor without download url");
+        }
+
+        /**
          * Constructs a new YoutubeDownload object.
          *
          * @param url the url of the video to download
@@ -214,6 +222,10 @@ public final class YoutubeUtil {
             return downloaded;
         }
 
+        public static final String EXTRACT_AUDIO_FLAG = "--extract-audio";
+        public static final String AUDIO_FORMAT_FLAG =  "--audio-format";
+        public static final String OUTPUT_FLAG =  "--output";
+
         /**
          * Downloads this object's youtube video.
          */
@@ -242,13 +254,12 @@ public final class YoutubeUtil {
                 parsedAsciiSaveName.set(SecurityUtil.generateUUID());
             }
 
-            String[] commands = {
-                    AudioUtil.getYoutubeDlCommand(),
-                    url,
-                    "--extract-audio",
-                    "--audio-format", PropLoader.getString("ffmpeg_audio_output_format"),
-                    "--output", new File(saveDir).getAbsolutePath()
-                    + OSUtil.FILE_SEP + parsedAsciiSaveName + ".%(ext)s"
+            String[] command = {
+                    AudioUtil.getYoutubeDlCommand(), url,
+                    EXTRACT_AUDIO_FLAG,
+                    AUDIO_FORMAT_FLAG, PropLoader.getString("ffmpeg_audio_output_format"),
+                    OUTPUT_FLAG, new File(saveDir).getAbsolutePath() + OSUtil.FILE_SEP
+                    + parsedAsciiSaveName + ".%(ext)s"
             };
 
             downloaded = false;
@@ -256,12 +267,13 @@ public final class YoutubeUtil {
             CyderProgressUI ui = new CyderProgressUI();
             CyderThreadRunner.submit(() -> {
                 try {
-                    Process proc = Runtime.getRuntime().exec(commands);
+                    Process proc = Runtime.getRuntime().exec(command);
 
                     BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
                     // progress label for this download to update
-                    CyderProgressBar audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
+                    CyderProgressBar audioProgress = new CyderProgressBar(
+                            CyderProgressBar.HORIZONTAL, 0, 10000);
 
                     ui.setColors(CyderColors.regularPink, CyderColors.regularBlue);
                     ui.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
@@ -283,10 +295,9 @@ public final class YoutubeUtil {
                     printLabel.setForeground(ConsoleFrame.INSTANCE.getInputField().getForeground());
                     printLabel.setFont(ConsoleFrame.INSTANCE.getInputField().getFont());
 
-                    ConsoleFrame.INSTANCE.getInputHandler()
-                            .println(audioProgress);
-                    ConsoleFrame.INSTANCE.getInputHandler()
-                            .println(printLabel);
+                    // todo not always, no need to construct if not printing too
+                    ConsoleFrame.INSTANCE.getInputHandler().println(audioProgress);
+                    ConsoleFrame.INSTANCE.getInputHandler().println(printLabel);
 
                     String fileSize = null;
 
@@ -313,14 +324,13 @@ public final class YoutubeUtil {
 
                     downloadThumbnail(url);
 
-                    ConsoleFrame.INSTANCE.getInputHandler().println("Download complete: saved as "
-                            + parsedAsciiSaveName + extension + " and added to audio queue");
-
                     downloaded = true;
 
+                    // todo not always
+                    ConsoleFrame.INSTANCE.getInputHandler().println("Download complete: saved as "
+                            + parsedAsciiSaveName + extension + " and added to audio queue");
                     AudioPlayer.addAudioNext(new File(OSUtil.buildPath(
                             saveDir, parsedAsciiSaveName + extension)));
-
                     ui.setColors(CyderColors.regularBlue, CyderColors.regularBlue);
                     audioProgress.repaint();
                     ui.stopAnimationTimer();
@@ -681,8 +691,7 @@ public final class YoutubeUtil {
      * @throws IllegalArgumentException if the provided uuid is not 11 chars long
      */
     public static String buildYoutubeVideoUrl(String uuid) {
-        if (uuid.length() != 11)
-            throw new IllegalArgumentException("Provided uuid is not 11 chars");
+        Preconditions.checkArgument(uuid.length() == 11);
         return CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
     }
 
