@@ -461,7 +461,7 @@ public final class YoutubeUtil {
                 CyderButton addToBackgrounds = new CyderButton("Set as background");
                 addToBackgrounds.setBounds(10, thumbnail.getHeight() + 10,
                         (thumbnail.getWidth() - 30) / 2, 40);
-                String finalThumbnailURL  = buildMaxResThumbnailUrl(uuid);
+                String finalThumbnailURL = buildMaxResThumbnailUrl(uuid);
                 addToBackgrounds.addActionListener(e1 -> {
 
                     try {

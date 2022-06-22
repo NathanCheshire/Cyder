@@ -3181,9 +3181,9 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Shows the menu label in the proper spot.
+     * Shows the menu in the currently set location as defined by {@link MenuType}.
      */
-    private void showMenu() {
+    public void showMenu() {
         if (menuLabel == null) {
             generateMenu();
         }
@@ -3193,9 +3193,9 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Hides the menu label.
+     * Hides the menu.
      */
-    private void hideMenu() {
+    public void hideMenu() {
         if (menuLabel != null && menuLabel.isVisible()) {
             menuLabel.setVisible(false);
         }

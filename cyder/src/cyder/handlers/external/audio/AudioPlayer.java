@@ -796,7 +796,7 @@ public final class AudioPlayer {
         audioVolumeSlider.repaint();
         refreshAudioLine();
 
-        setUiComponentsVisible(false);
+        setPhaseOneComponentsVisible(false);
 
         setupAndShowFrameView(FrameView.FULL);
 
@@ -852,7 +852,7 @@ public final class AudioPlayer {
      *
      * @param visible whether to set phase 1 components to visible
      */
-    public static void setUiComponentsVisible(boolean visible) {
+    public static void setPhaseOneComponentsVisible(boolean visible) {
         albumArtLabel.setVisible(visible);
 
         audioTitleLabel.setVisible(visible);
@@ -1122,82 +1122,9 @@ public final class AudioPlayer {
     };
 
     /**
-     * The text pane used to display youtube search results.
-     */
-    private static JTextPane searchResultsPane;
-
-    /**
-     * The printing util used for printing out search results to the scroll pane.
-     */
-    private static StringUtil printingUtil;
-
-    /**
-     * The alignment object used for menu alignment.
-     */
-    private static final SimpleAttributeSet alignment = new SimpleAttributeSet();
-
-    /**
      * The menu item for searching youtube for songs.
      */
-    private static final Runnable searchMenuItem = () -> {
-        if (uiLocked) {
-            return;
-        }
-
-        setUiComponentsVisible(false);
-
-        int yOff = 60;
-
-        CyderTextField searchField = new CyderTextField();
-        searchField.setHorizontalAlignment(JLabel.CENTER);
-        searchField.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2, yOff, UI_ROW_WIDTH, 40);
-        searchField.setToolTipText("Search");
-        audioPlayerFrame.getContentPane().add(searchField);
-        searchField.setForeground(CyderColors.navy);
-
-        yOff += 60;
-
-        CyderButton searchButton = new CyderButton("Search");
-        searchButton.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2, yOff, UI_ROW_WIDTH, 40);
-        audioPlayerFrame.getContentPane().add(searchButton);
-        searchField.addActionListener(e -> updateSearchResults(searchField.getText()));
-        searchButton.addActionListener(e -> updateSearchResults(searchField.getText()));
-
-        yOff += 60;
-
-        searchResultsPane = new JTextPane();
-        searchResultsPane.setEditable(false);
-        searchResultsPane.setAutoscrolls(false);
-        searchResultsPane.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
-                yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
-        searchResultsPane.setFocusable(true);
-        searchResultsPane.setOpaque(false);
-        searchResultsPane.setBackground(Color.white);
-        searchResultsPane.setAlignmentX(Component.CENTER_ALIGNMENT);
-        searchResultsPane.setAlignmentY(Component.CENTER_ALIGNMENT);
-
-        StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_CENTER);
-        StyledDocument doc = searchResultsPane.getStyledDocument();
-        doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
-
-        CyderScrollPane searchResultsScroll = new CyderScrollPane(searchResultsPane);
-        searchResultsScroll.setThumbSize(8);
-        searchResultsScroll.getViewport().setOpaque(false);
-        searchResultsScroll.setFocusable(true);
-        searchResultsScroll.setOpaque(false);
-        searchResultsScroll.setThumbColor(CyderColors.regularPink);
-        searchResultsScroll.setBackground(Color.white);
-        searchResultsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        searchResultsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        searchResultsScroll.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
-                yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
-
-        searchResultsPane.setCaretPosition(0);
-        audioPlayerFrame.getContentPane().add(searchResultsScroll);
-        searchResultsPane.revalidate();
-
-        printingUtil = new StringUtil(new CyderOutputPane(searchResultsPane));
-    };
+    private static final Runnable searchMenuItem = AudioPlayer::constructPhaseTwoView;
 
     /**
      * The menu item for choosing a local audio file.
@@ -1481,11 +1408,11 @@ public final class AudioPlayer {
      * @param view the requested frame view
      */
     private static void setupAndShowFrameView(FrameView view) {
-        setUiComponentsVisible(false);
+        setPhaseOneComponentsVisible(false);
 
         switch (view) {
             case FULL -> {
-                setUiComponentsVisible(true);
+                setPhaseOneComponentsVisible(true);
                 currentFrameView.set(FrameView.FULL);
                 audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN);
 
@@ -1518,7 +1445,7 @@ public final class AudioPlayer {
                 audioVolumeSlider.setLocation(xOff, yOff);
             }
             case HIDDEN_ART -> {
-                setUiComponentsVisible(true);
+                setPhaseOneComponentsVisible(true);
                 audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN
                         - ALBUM_ART_LABEL_SIZE - HIDDEN_ART_HEIGHT_OFFSET);
                 albumArtLabel.setVisible(false);
@@ -1551,7 +1478,7 @@ public final class AudioPlayer {
             }
             case MINI -> {
                 currentFrameView.set(FrameView.MINI);
-                setUiComponentsVisible(true);
+                setPhaseOneComponentsVisible(true);
                 audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN
                         - ALBUM_ART_LABEL_SIZE - MINI_FRAME_HEIGHT_OFFSET);
                 albumArtLabel.setVisible(false);
@@ -2255,16 +2182,7 @@ public final class AudioPlayer {
     // Phase Two Components and methods
     // --------------------------------
 
-    /**
-     * The number of search results to grab when searching youtube.
-     */
-    private static final int numSearchResults = 10;
-
-    /**
-     * A search result object to hold data in the results scroll pane.
-     */
-    private static record YoutubeSearchResult(String uuid, String title, String description,
-                                              String channel, BufferedImage bi) {}
+    private static final AtomicBoolean phaseTwoViewLocked = new AtomicBoolean(false);
 
     /**
      * The list of search results previously found.
@@ -2276,21 +2194,157 @@ public final class AudioPlayer {
      */
     private static final int bufferedImageLen = 250;
 
-    @SuppressWarnings({"SuspiciousNameCombination", "ConstantConditions"})
+    /**
+     * The text pane used to display youtube search results.
+     */
+    private static JTextPane searchResultsPane;
+
+    /**
+     * The printing util used for printing out search results to the scroll pane.
+     */
+    private static StringUtil printingUtil;
+
+    /**
+     * The width of phase two components excluding the scroll pane.
+     */
+    private static final int phaseTwoWidth = 300;
+
+    /**
+     * The information label for displaying progress when a search is underway.
+     */
+    private static CyderLabel informationLabel;
+
+    /**
+     * Constructs the search view where a user can search for and download audio from youtube.
+     */
+    private static void constructPhaseTwoView() {
+        if (uiLocked || phaseTwoViewLocked.get()) {
+            return;
+        }
+
+        phaseTwoViewLocked.set(true);
+
+        setPhaseOneComponentsVisible(false);
+
+        audioPlayerFrame.hideMenu();
+
+        int yOff = 60;
+
+        CyderTextField searchField = new CyderTextField();
+        searchField.setHorizontalAlignment(JLabel.CENTER);
+        searchField.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, phaseTwoWidth, 40);
+        searchField.setToolTipText("Search");
+        audioPlayerFrame.getContentPane().add(searchField);
+        searchField.setForeground(CyderColors.navy);
+
+        yOff += 40;
+
+        CyderButton searchButton = new CyderButton("Search");
+        searchButton.setBorder(new LineBorder(CyderColors.vanilla, 4));
+        searchButton.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, phaseTwoWidth, 40);
+        audioPlayerFrame.getContentPane().add(searchButton);
+        searchField.addActionListener(e -> updateSearchResults(searchField.getText()));
+        searchButton.addActionListener(e -> updateSearchResults(searchField.getText()));
+
+        yOff += 60;
+
+        searchResultsPane = new JTextPane();
+        searchResultsPane.setEditable(false);
+        searchResultsPane.setAutoscrolls(false);
+        searchResultsPane.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
+                yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
+        searchResultsPane.setFocusable(true);
+        searchResultsPane.setOpaque(false);
+        searchResultsPane.setBackground(Color.white);
+        searchResultsPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+        searchResultsPane.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+        StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_CENTER);
+        StyledDocument doc = searchResultsPane.getStyledDocument();
+        doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
+
+        CyderScrollPane searchResultsScroll = new CyderScrollPane(searchResultsPane);
+        searchResultsScroll.setThumbSize(8);
+        searchResultsScroll.getViewport().setOpaque(false);
+        searchResultsScroll.setFocusable(true);
+        searchResultsScroll.setOpaque(false);
+        searchResultsScroll.setThumbColor(CyderColors.regularPink);
+        searchResultsScroll.setBackground(Color.white);
+        searchResultsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        searchResultsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        searchResultsScroll.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
+                yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
+
+        informationLabel = new CyderLabel();
+        informationLabel.setForeground(CyderColors.vanilla);
+        informationLabel.setFont(CyderFonts.defaultFont);
+        informationLabel.setBackground(BACKGROUND_COLOR);
+        informationLabel.setOpaque(true);
+        informationLabel.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
+                yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
+        audioPlayerFrame.getContentPane().add(informationLabel);
+        hideInformationLabel();
+
+        searchResultsPane.setCaretPosition(0);
+        audioPlayerFrame.getContentPane().add(searchResultsScroll);
+        searchResultsPane.revalidate();
+
+        printingUtil = new StringUtil(new CyderOutputPane(searchResultsPane));
+
+        phaseTwoViewLocked.set(false);
+    }
+
+    private static void hideInformationLabel() {
+        informationLabel.setVisible(false);
+        informationLabel.setText("");
+    }
+
+    private static void showInformationLabel(String text) {
+        informationLabel.setVisible(true);
+        informationLabel.setText(text);
+    }
+
+    /**
+     * The number of search results to grab when searching youtube.
+     */
+    private static final int numSearchResults = 10;
+
+    /**
+     * A search result object to hold data in the results scroll pane.
+     */
+    private static record YoutubeSearchResult(String uuid,
+                                              String title,
+                                              String description,
+                                              String channel,
+                                              BufferedImage bi) {}
+
+    /**
+     * The alignment object used for menu alignment.
+     */
+    private static final SimpleAttributeSet alignment = new SimpleAttributeSet();
+
     private static void updateSearchResults(String fieldText) {
         if (StringUtil.isNull(fieldText)) {
             return;
         }
 
+        // todo frame title needs to be updated for this too
+
         // todo a results label would be nice that also shows the number of pages
         // todo step buttons on side of field too
-        // todo field and search button needs to be smaller
-        // todo need a back button to go back to main audio frame view
-        // todo minimize menu when entering search
-        // todo need to lock this and unlock and be able to kill in case user searches for something else
+
+        // todo need to lock this and unlock and be able to kill in case user
+        //  searches for something else, cache search for this
+
         // todo download button needed still
+        // todo hide all phase 2 components when selecting change size,
+        //  also need to reset frame size when search is chosen
+
+        // todo don't let a user search if the same stuff as last search
 
         CyderThreadRunner.submit(() -> {
+            showInformationLabel("Searching...");
+
             Optional<YoutubeSearchResultPage> youtubeSearchResultPage = getSearchResults(
                     YoutubeUtil.buildYouTubeApiV3SearchQuery(numSearchResults, fieldText));
 
@@ -2298,32 +2352,13 @@ public final class AudioPlayer {
                 searchResults.clear();
 
                 for (YoutubeVideo video : youtubeSearchResultPage.get().getItems()) {
-                    Optional<BufferedImage> optionalBi = YoutubeUtil.getMaxResolutionThumbnail(
-                            video.getId().getVideoId());
-
-                    BufferedImage bi = optionalBi.orElse(null);
-
-                    if (bi == null) {
-                        try {
-                            bi = ImageIO.read(DEFAULT_ALBUM_ART);
-                        } catch (Exception ignored) {}
-                    }
-
-                    int width = bi.getWidth();
-                    int height = bi.getHeight();
-
-                    if (width < height) {
-                        bi = ImageUtil.getCroppedImage(bi, 0, (height - width) / 2, width, width);
-                    } else if (height < width) {
-                        bi = ImageUtil.getCroppedImage(bi, (width - height) / 2, 0, height, height);
-                    } else {
-                        bi = ImageUtil.getCroppedImage(bi, 0, 0, width, height);
-                    }
-
-                    bi = ImageUtil.resizeImage(bi, bi.getType(), bufferedImageLen, bufferedImageLen);
-
-                    searchResults.add(new YoutubeSearchResult(video.getId().getVideoId(), video.getSnippet().getTitle(),
-                            video.getSnippet().getDescription(), video.getSnippet().getChannelTitle(), bi));
+                    String uuid = video.getId().getVideoId();
+                    searchResults.add(new YoutubeSearchResult(
+                            uuid,
+                            video.getSnippet().getTitle(),
+                            video.getSnippet().getDescription(),
+                            video.getSnippet().getChannelTitle(),
+                            getMaxResolutionSquareThumbnail(uuid)));
                 }
 
                 searchResultsPane.setText("");
@@ -2333,7 +2368,7 @@ public final class AudioPlayer {
                     imageLabel.setSize(bufferedImageLen, bufferedImageLen);
                     imageLabel.setHorizontalAlignment(JLabel.CENTER);
                     imageLabel.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-                    imageLabel.setToolTipText(result.description);
+                    // todo image label should have use the custom tooltip once implemented
                     printingUtil.printlnComponent(imageLabel);
 
                     printingUtil.println("\n");
@@ -2356,13 +2391,39 @@ public final class AudioPlayer {
                 }
 
                 searchResultsPane.setCaretPosition(0);
+                hideInformationLabel();
             } else {
-                CyderLabel label = new CyderLabel("No results");
-                label.setForeground(CyderColors.vanilla);
-                label.setFont(CyderFonts.defaultFont.deriveFont(40f));
-                printingUtil.printlnComponent(label);
+                showInformationLabel("No results found :(");
             }
         }, "YouTube Search Updater");
+    }
+
+    @SuppressWarnings({"SuspiciousNameCombination", "ConstantConditions"})
+    private static BufferedImage getMaxResolutionSquareThumbnail(String uuid) {
+        Optional<BufferedImage> optionalBi = YoutubeUtil.getMaxResolutionThumbnail(uuid);
+
+        BufferedImage bi = optionalBi.orElse(null);
+
+        if (bi == null) {
+            try {
+                bi = ImageIO.read(DEFAULT_ALBUM_ART);
+            } catch (Exception ignored) {}
+        }
+
+        int width = bi.getWidth();
+        int height = bi.getHeight();
+
+        if (width < height) {
+            bi = ImageUtil.getCroppedImage(bi, 0, (height - width) / 2, width, width);
+        } else if (height < width) {
+            bi = ImageUtil.getCroppedImage(bi, (width - height) / 2, 0, height, height);
+        } else {
+            bi = ImageUtil.getCroppedImage(bi, 0, 0, width, height);
+        }
+
+        bi = ImageUtil.resizeImage(bi, bi.getType(), bufferedImageLen, bufferedImageLen);
+
+        return bi;
     }
 
     /**

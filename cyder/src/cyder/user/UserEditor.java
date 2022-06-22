@@ -45,7 +45,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * An editor for user preferences, files, colors, fonts, and more.
  */
-public class UserEditor {
+public final class UserEditor {
     /**
      * The user editor frame.
      */
