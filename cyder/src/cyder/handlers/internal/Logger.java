@@ -2,7 +2,7 @@ package cyder.handlers.internal;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.FatalException;
@@ -335,8 +335,8 @@ public class Logger {
      */
     public static void initialize() {
         if (PropLoader.getBoolean("wipe_logs_on_start")) {
-            OSUtil.deleteFile(OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.LOGS.getDirectoryName()), false);
+            OSUtil.deleteFile(OSUtil.buildFile(Dynamic.PATH,
+                    Dynamic.LOGS.getDirectoryName()), false);
         }
 
         generateAndSetLogFile();
@@ -402,14 +402,14 @@ public class Logger {
     private static void generateAndSetLogFile() {
         try {
             // ensure logs dir exists
-            File logsDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.LOGS.getDirectoryName());
+            File logsDir = OSUtil.buildFile(Dynamic.PATH,
+                    Dynamic.LOGS.getDirectoryName());
             logsDir.mkdir();
 
             // if dir for today's logs doesn't exists, create
             String logSubDirName = TimeUtil.logSubDirTime();
-            File logSubDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.LOGS.getDirectoryName(), logSubDirName);
+            File logSubDir = OSUtil.buildFile(Dynamic.PATH,
+                    Dynamic.LOGS.getDirectoryName(), logSubDirName);
             logSubDir.mkdir();
 
             // actual log file
@@ -417,12 +417,12 @@ public class Logger {
 
             // ensure uniqueness
             int number = 1;
-            File logFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.LOGS.getDirectoryName(), logSubDirName, logFileName + ".log");
+            File logFile = OSUtil.buildFile(Dynamic.PATH,
+                    Dynamic.LOGS.getDirectoryName(), logSubDirName, logFileName + ".log");
             while (logFile.exists()) {
                 number++;
-                logFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                        DynamicDirectory.LOGS.getDirectoryName(),
+                logFile = OSUtil.buildFile(Dynamic.PATH,
+                        Dynamic.LOGS.getDirectoryName(),
                         logSubDirName, logFileName + "-" + number + ".log");
 
             }
@@ -630,8 +630,8 @@ public class Logger {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void zipPastLogs() {
-        File topLevelLogsDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.LOGS.getDirectoryName());
+        File topLevelLogsDir = OSUtil.buildFile(Dynamic.PATH,
+                Dynamic.LOGS.getDirectoryName());
 
         if (!topLevelLogsDir.exists()) {
             topLevelLogsDir.mkdir();
@@ -662,8 +662,8 @@ public class Logger {
      * Consolidates the lines of all non-zipped files within the logs/SubLogDir directory.
      */
     public static void consolidateLogLines() {
-        File logsDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.LOGS.getDirectoryName());
+        File logsDir = OSUtil.buildFile(Dynamic.PATH,
+                Dynamic.LOGS.getDirectoryName());
 
         if (!logsDir.exists())
             return;
@@ -811,8 +811,8 @@ public class Logger {
      */
     public static void concludeLogs() {
         try {
-            File logDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.LOGS.getDirectoryName());
+            File logDir = OSUtil.buildFile(Dynamic.PATH,
+                    Dynamic.LOGS.getDirectoryName());
 
             if (!logDir.exists())
                 return;
@@ -965,7 +965,7 @@ public class Logger {
          */
         SUGGESTION("SUGGESTION"),
         /**
-         * IO by Cyder typically to/from a json file but usually to files within DynamicDirectory.DYNAMIC_PATH
+         * IO by Cyder typically to/from a json file but usually to files within {@link Dynamic#PATH}
          */
         SYSTEM_IO("SYSTEM IO"),
         /**

@@ -7,7 +7,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -242,7 +242,7 @@ public class NotesWidget {
 
             try {
                 BufferedWriter NoteWriter = new BufferedWriter(
-                        new FileWriter(OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                        new FileWriter(OSUtil.buildFile(Dynamic.PATH,
                                 "users", ConsoleFrame.INSTANCE.getUUID(), UserFile.NOTES.getName(),
                                 newNoteField.getText().trim() + ".txt"), true));
                 newNoteArea.write(NoteWriter);
@@ -282,7 +282,7 @@ public class NotesWidget {
      * @throws IllegalStateException if the notes parent directory DNE
      */
     private static void initializeNotesList() throws IllegalStateException {
-        File dir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+        File dir = OSUtil.buildFile(Dynamic.PATH,
                 "users", ConsoleFrame.INSTANCE.getUUID(), UserFile.NOTES.getName());
 
         if (!dir.exists()) {

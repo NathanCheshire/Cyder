@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import cyder.annotations.Widget;
 import cyder.constants.*;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
@@ -230,8 +230,8 @@ public final class YoutubeUtil {
          * Downloads this object's youtube video.
          */
         public void download() {
-            String saveDir = OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
+            String saveDir = OSUtil.buildPath(Dynamic.PATH,
+                    Dynamic.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
                     UserFile.MUSIC.getName());
 
             String extension = "." + PropLoader.getString("ffmpeg_audio_output_format");
@@ -441,8 +441,8 @@ public final class YoutubeUtil {
         String finalParsedAsciiSaveName = parsedAsciiSaveName + ".png";
 
         // init album art dir
-        File albumArtDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
+        File albumArtDir = OSUtil.buildFile(Dynamic.PATH,
+                Dynamic.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
                 UserFile.MUSIC.getName(), "AlbumArt");
 
         // create if not there
@@ -451,8 +451,8 @@ public final class YoutubeUtil {
         }
 
         // create the reference file and save to it
-        File saveAlbumArt = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.USERS.getDirectoryName(),
+        File saveAlbumArt = OSUtil.buildFile(Dynamic.PATH,
+                Dynamic.USERS.getDirectoryName(),
                 ConsoleFrame.INSTANCE.getUUID(), UserFile.MUSIC.getName(),
                 "AlbumArt", finalParsedAsciiSaveName);
 
@@ -569,8 +569,8 @@ public final class YoutubeUtil {
 
                         String title = videoTitle.substring(Math.min(MAX_THUMBNAIL_CHARS, videoTitle.length()));
 
-                        File saveFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                                DynamicDirectory.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
+                        File saveFile = OSUtil.buildFile(Dynamic.PATH,
+                                Dynamic.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
                                 UserFile.BACKGROUNDS.getName(), title + ".png");
 
                         ImageIO.write(save, "png", saveFile);

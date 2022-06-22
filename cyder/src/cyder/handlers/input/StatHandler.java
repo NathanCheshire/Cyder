@@ -2,7 +2,7 @@ package cyder.handlers.input;
 
 import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -82,7 +82,7 @@ public class StatHandler extends InputHandler {
             }
         } else if (getInputHandler().commandIs("countlogs")) {
             File[] logDirs = new File(OSUtil.buildPath(
-                    DynamicDirectory.DYNAMIC_PATH, DynamicDirectory.LOGS.getDirectoryName())).listFiles();
+                    Dynamic.PATH, Dynamic.LOGS.getDirectoryName())).listFiles();
             int count = 0;
             int days = 0;
 

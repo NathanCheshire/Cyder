@@ -17,32 +17,56 @@ public class CyderLayout extends JLabel implements ICyderLayout {
     appearing on the CyderFrame.
      */
 
+    /**
+     * Illegal method for a CyderLayout.
+     */
     @Override
+    @Deprecated
     public Component add(Component c) {
         throw new IllegalMethodException("Unsupported");
     }
 
+    /**
+     * Illegal method for a CyderLayout.
+     */
     @Override
+    @Deprecated
     public void add(PopupMenu popup) {
         throw new IllegalMethodException("Unsupported");
     }
 
+    /**
+     * Illegal method for a CyderLayout.
+     */
     @Override
+    @Deprecated
     public Component add(Component comp, int index) {
         throw new IllegalMethodException("Unsupported");
     }
 
+    /**
+     * Illegal method for a CyderLayout.
+     */
     @Override
+    @Deprecated
     public Component add(String name, Component comp) {
         throw new IllegalMethodException("Unsupported");
     }
 
+    /**
+     * Illegal method for a CyderLayout.
+     */
     @Override
+    @Deprecated
     public void add(@NotNull Component comp, Object constraints) {
         throw new IllegalMethodException("Unsupported");
     }
 
+    /**
+     * Illegal method for a CyderLayout.
+     */
     @Override
+    @Deprecated
     public void add(Component comp, Object constraints, int index) {
         throw new IllegalMethodException("Unsupported");
     }
@@ -50,25 +74,41 @@ public class CyderLayout extends JLabel implements ICyderLayout {
     /*
     Override remove methods so that a user doesn't
     accidentally call them and wonder why their components aren't
-    appearing on the CyderFrame.
+    disappearing on the CyderFrame.
      */
 
+    /**
+     * Illegal method for a CyderLayout.
+     */
     @Override
+    @Deprecated
     public void removeAll() {
         throw new IllegalMethodException("Unsupported");
     }
 
+    /**
+     * Illegal method for a CyderLayout.
+     */
     @Override
+    @Deprecated
     public void remove(int index) {
         throw new IllegalMethodException("Unsupported");
     }
 
+    /**
+     * Illegal method for a CyderLayout.
+     */
     @Override
+    @Deprecated
     public void remove(Component comp) {
         throw new IllegalMethodException("Unsupported");
     }
 
+    /**
+     * Illegal method for a CyderLayout.
+     */
     @Override
+    @Deprecated
     public void remove(MenuComponent popup) {
         throw new IllegalMethodException("Unsupported");
     }

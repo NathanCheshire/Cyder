@@ -5,11 +5,11 @@ package cyder.enums;
  * Dynamic contains all the components which may be changed during runtime.
  * Anything outside of the dynamic directory should not be changed by Cyder.
  */
-public enum DynamicDirectory {
+public enum Dynamic {
     /**
      * The temporary directory.
      */
-    TEMPORARY("tmp"),
+    TEMP("tmp"),
 
     /**
      * The backup directory for user json backups.
@@ -34,7 +34,7 @@ public enum DynamicDirectory {
     /**
      * The path from the top level Cyder directory to the dynamic root.
      */
-    public static final String DYNAMIC_PATH = "dynamic";
+    public static final String PATH = "dynamic";
 
     /**
      * The actual name of the directory to create.
@@ -42,13 +42,12 @@ public enum DynamicDirectory {
     private final String directoryName;
 
     /**
-     * Construccts a new DynamicDirectory.
+     * Constructs a new directory.
      *
-     * @param directoryname the actual name of the
-     *                      directory the OS will display.
+     * @param directoryName the actual name of the directory the OS will display.
      */
-    DynamicDirectory(String directoryname) {
-        directoryName = directoryname;
+    Dynamic(String directoryName) {
+        this.directoryName = directoryName;
     }
 
     /**

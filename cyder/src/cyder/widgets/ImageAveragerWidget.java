@@ -6,7 +6,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -215,8 +215,8 @@ public class ImageAveragerWidget {
                 save.setToolTipText("Save image");
                 save.addActionListener(e -> {
                     try {
-                        File outFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                                DynamicDirectory.USERS.getDirectoryName(),
+                        File outFile = OSUtil.buildFile(Dynamic.PATH,
+                                Dynamic.USERS.getDirectoryName(),
                                 ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(),
                                 combineImageNames() + ".png");
 

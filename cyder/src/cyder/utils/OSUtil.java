@@ -3,7 +3,7 @@ package cyder.utils;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -605,10 +605,10 @@ public class OSUtil {
     }
 
     /**
-     * Ensures the dynamic directory and all DynamicDirectories are generated.
+     * Ensures the dynamic directory and all dynamics are generated.
      */
     public static void ensureDynamicsCreated() {
-        File dynamic = new File(DynamicDirectory.DYNAMIC_PATH);
+        File dynamic = new File(Dynamic.PATH);
 
         boolean dynamicExists = dynamic.exists();
 
@@ -620,11 +620,11 @@ public class OSUtil {
             throw new FatalException("Could nto create dynamic directory");
         }
 
-        for (DynamicDirectory dynamicDirectory : DynamicDirectory.values()) {
-            File currentDynamic = buildFile(DynamicDirectory.DYNAMIC_PATH,
+        for (Dynamic dynamicDirectory : Dynamic.values()) {
+            File currentDynamic = buildFile(Dynamic.PATH,
                     dynamicDirectory.getDirectoryName());
 
-            if (dynamicDirectory == DynamicDirectory.TEMPORARY) {
+            if (dynamicDirectory == Dynamic.TEMP) {
                 deleteFile(currentDynamic);
             }
 
@@ -662,8 +662,8 @@ public class OSUtil {
         checkNotNull(filename);
         checkArgument(!filename.isEmpty());
 
-        File exes = buildFile(DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.EXES.getDirectoryName());
+        File exes = buildFile(Dynamic.PATH,
+                Dynamic.EXES.getDirectoryName());
 
         if (exes.exists()) {
             File[] exeFiles = exes.listFiles();

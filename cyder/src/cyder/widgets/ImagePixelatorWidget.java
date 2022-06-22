@@ -7,7 +7,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -139,7 +139,7 @@ public class ImagePixelatorWidget {
                     try {
                         BufferedImage saveImage = ImageUtil.pixelate(ImageIO.read(currentFile), pixel);
                         File saveFile = new File(OSUtil.buildPath(
-                                DynamicDirectory.DYNAMIC_PATH, "users", ConsoleFrame.INSTANCE.getUUID(),
+                                Dynamic.PATH, "users", ConsoleFrame.INSTANCE.getUUID(),
                                 UserFile.FILES.getName(), FileUtil.getFilename(currentFile)
                                         + "_Pixelated_Pixel_Size_" + pixel + ".png"));
 
