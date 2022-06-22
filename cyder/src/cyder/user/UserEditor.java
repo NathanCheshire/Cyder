@@ -5,7 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
@@ -354,8 +354,8 @@ public final class UserEditor {
                             // was it a music file?
                             if (StringUtil.in(extension, true, ".mp3", ".wav")) {
                                 File albumArtDir = OSUtil.buildFile(
-                                        DynamicDirectory.DYNAMIC_PATH,
-                                        DynamicDirectory.USERS.getDirectoryName(),
+                                        Dynamic.PATH,
+                                        Dynamic.USERS.getDirectoryName(),
                                         ConsoleFrame.INSTANCE.getUUID(),
                                         UserFile.MUSIC.getName(),
                                         "AlbumArt");
@@ -378,8 +378,8 @@ public final class UserEditor {
                                     // found corresponding album art so rename it as well
                                     if (refFile != null) {
                                         File artRename = OSUtil.buildFile(
-                                                DynamicDirectory.DYNAMIC_PATH,
-                                                DynamicDirectory.USERS.getDirectoryName(),
+                                                Dynamic.PATH,
+                                                Dynamic.USERS.getDirectoryName(),
                                                 ConsoleFrame.INSTANCE.getUUID(),
                                                 UserFile.MUSIC.getName(),
                                                 "AlbumArt", newName + ".png");
@@ -455,8 +455,8 @@ public final class UserEditor {
                             //attempt to find album art to delete
                             String name = FileUtil.getFilename(selectedFile.getName());
 
-                            File albumArtDirectory = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                                    DynamicDirectory.USERS.getDirectoryName(),
+                            File albumArtDirectory = OSUtil.buildFile(Dynamic.PATH,
+                                    Dynamic.USERS.getDirectoryName(),
                                     ConsoleFrame.INSTANCE.getUUID(),
                                     UserFile.MUSIC.getName(), "AlbumArt");
 
@@ -1330,8 +1330,8 @@ public final class UserEditor {
                     FrameUtil.closeAllFrames(true);
 
                     // attempt to delete directory
-                    OSUtil.deleteFile(OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                            DynamicDirectory.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID()));
+                    OSUtil.deleteFile(OSUtil.buildFile(Dynamic.PATH,
+                            Dynamic.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID()));
 
                     // exit with proper condition
                     OSUtil.exit(ExitCondition.UserDeleted);

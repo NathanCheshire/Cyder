@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
@@ -76,7 +76,7 @@ public final class AudioUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Mp3 to wav converter")).submit(() -> {
             String builtPath = new File(OSUtil.buildPath(
-                    DynamicDirectory.DYNAMIC_PATH,
+                    Dynamic.PATH,
                     "tmp", FileUtil.getFilename(mp3File) + ".wav")).getAbsolutePath();
             String safePath = "\"" + builtPath + "\"";
 
@@ -117,7 +117,7 @@ public final class AudioUtil {
                 new CyderThreadFactory("Wav to mp3 converter")).submit(() -> {
 
             String builtPath = new File(OSUtil.buildPath(
-                    DynamicDirectory.DYNAMIC_PATH,
+                    Dynamic.PATH,
                     "tmp", FileUtil.getFilename(wavFile) + ".mp3")).getAbsolutePath();
             String safePath = "\"" + builtPath + "\"";
 
@@ -177,7 +177,7 @@ public final class AudioUtil {
             // in case the audio wav name contains spaces, surround with quotes
             String safeFilename = "\"" + wavOrMp3File.getAbsolutePath() + "\"";
 
-            File outputFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+            File outputFile = OSUtil.buildFile(Dynamic.PATH,
                     "tmp", FileUtil.getFilename(wavOrMp3File) + DREAMY_SUFFIX + ".mp3");
 
             ProcessBuilder pb = new ProcessBuilder(
@@ -319,8 +319,8 @@ public final class AudioUtil {
         Preconditions.checkArgument(ffmpegInstalled());
 
         return OSUtil.isBinaryInstalled(FFMPEG) ? FFMPEG
-                : OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.EXES.getDirectoryName(), FFMPEG + ".exe");
+                : OSUtil.buildPath(Dynamic.PATH,
+                Dynamic.EXES.getDirectoryName(), FFMPEG + ".exe");
     }
 
     /**
@@ -333,8 +333,8 @@ public final class AudioUtil {
         Preconditions.checkArgument(youtubeDlInstalled());
 
         return OSUtil.isBinaryInstalled(YOUTUBE_DL) ? YOUTUBE_DL
-                : OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.EXES.getDirectoryName(), YOUTUBE_DL + ".exe");
+                : OSUtil.buildPath(Dynamic.PATH,
+                Dynamic.EXES.getDirectoryName(), YOUTUBE_DL + ".exe");
     }
 
     /**
@@ -349,8 +349,8 @@ public final class AudioUtil {
             return "ffprobe";
         } else {
             return OSUtil.buildPath(
-                    DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.EXES.getDirectoryName(),
+                    Dynamic.PATH,
+                    Dynamic.EXES.getDirectoryName(),
                     "ffprobe.exe");
         }
     }
@@ -377,16 +377,16 @@ public final class AudioUtil {
 
             ArrayList<PairedFile> downloadZips = new ArrayList<>();
             downloadZips.add(new PairedFile(OSUtil.buildFile(
-                    DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.EXES.getDirectoryName(),
+                    Dynamic.PATH,
+                    Dynamic.EXES.getDirectoryName(),
                     FFMPEG + ".zip"), CyderUrls.DOWNLOAD_RESOURCE_FFMPEG));
             downloadZips.add(new PairedFile(OSUtil.buildFile(
-                    DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.EXES.getDirectoryName(),
+                    Dynamic.PATH,
+                    Dynamic.EXES.getDirectoryName(),
                     FFPROBE + ".zip"), CyderUrls.DOWNLOAD_RESOURCE_FFPROBE));
             downloadZips.add(new PairedFile(OSUtil.buildFile(
-                    DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.EXES.getDirectoryName(),
+                    Dynamic.PATH,
+                    Dynamic.EXES.getDirectoryName(),
                     FFPLAY + ".zip"), CyderUrls.DOWNLOAD_RESOURCE_FFPLAY));
 
             for (PairedFile pairedZipFile : downloadZips) {
@@ -397,8 +397,8 @@ public final class AudioUtil {
                 }
 
                 File extractFolder = OSUtil.buildFile(
-                        DynamicDirectory.DYNAMIC_PATH,
-                        DynamicDirectory.EXES.getDirectoryName());
+                        Dynamic.PATH,
+                        Dynamic.EXES.getDirectoryName());
 
                 FileUtil.unzip(pairedZipFile.file, extractFolder);
                 OSUtil.deleteFile(pairedZipFile.file);
@@ -406,14 +406,14 @@ public final class AudioUtil {
 
             ArrayList<File> resultingFiles = new ArrayList<>();
             resultingFiles.add(OSUtil.buildFile(
-                    DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.EXES.getDirectoryName(), FFMPEG + ".exe"));
+                    Dynamic.PATH,
+                    Dynamic.EXES.getDirectoryName(), FFMPEG + ".exe"));
             resultingFiles.add(OSUtil.buildFile(
-                    DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.EXES.getDirectoryName(), FFPROBE + ".exe"));
+                    Dynamic.PATH,
+                    Dynamic.EXES.getDirectoryName(), FFPROBE + ".exe"));
             resultingFiles.add(OSUtil.buildFile(
-                    DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.EXES.getDirectoryName(), FFPLAY + ".exe"));
+                    Dynamic.PATH,
+                    Dynamic.EXES.getDirectoryName(), FFPLAY + ".exe"));
 
             boolean ret = true;
 
@@ -435,8 +435,8 @@ public final class AudioUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("YouTubeDl Downloader")).submit(() -> {
             File downloadZip = OSUtil.buildFile(
-                    DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.EXES.getDirectoryName(),
+                    Dynamic.PATH,
+                    Dynamic.EXES.getDirectoryName(),
                     YOUTUBE_DL + ".zip");
 
             NetworkUtil.downloadResource(CyderUrls.DOWNLOAD_RESOURCE_YOUTUBE_DL, downloadZip);
@@ -446,15 +446,15 @@ public final class AudioUtil {
             }
 
             File extractFolder = OSUtil.buildFile(
-                    DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.EXES.getDirectoryName());
+                    Dynamic.PATH,
+                    Dynamic.EXES.getDirectoryName());
 
             FileUtil.unzip(downloadZip, extractFolder);
             OSUtil.deleteFile(downloadZip);
 
             return OSUtil.buildFile(
-                    DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.EXES.getDirectoryName(), YOUTUBE_DL + ".exe").exists();
+                    Dynamic.PATH,
+                    Dynamic.EXES.getDirectoryName(), YOUTUBE_DL + ".exe").exists();
         });
     }
 

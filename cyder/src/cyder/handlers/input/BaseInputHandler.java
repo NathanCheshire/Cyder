@@ -6,7 +6,7 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderNumbers;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
@@ -322,8 +322,8 @@ public class BaseInputHandler {
             redirectionSem.acquire();
 
             redirectionFile = OSUtil.buildFile(
-                    DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.USERS.getDirectoryName(),
+                    Dynamic.PATH,
+                    Dynamic.USERS.getDirectoryName(),
                     ConsoleFrame.INSTANCE.getUUID(),
                     UserFile.FILES.getName(), requestedFilename).getAbsoluteFile();
 

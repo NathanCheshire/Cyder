@@ -4,7 +4,7 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -113,7 +113,7 @@ public class NetworkHandler extends InputHandler {
                         }
                     }
 
-                    File saveFile = new File(OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH, "users",
+                    File saveFile = new File(OSUtil.buildPath(Dynamic.PATH, "users",
                             ConsoleFrame.INSTANCE.getUUID(), UserFile.FILES.getName(), saveName));
 
                     getInputHandler().println("Saving file: " + saveName + " to files directory");

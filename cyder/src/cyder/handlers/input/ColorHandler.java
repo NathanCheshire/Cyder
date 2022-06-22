@@ -3,7 +3,7 @@ package cyder.handlers.input;
 import cyder.annotations.Handle;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -49,7 +49,7 @@ public class ColorHandler extends InputHandler {
 
                     String saveName = "Solid_" + getInputHandler().getArg(0) + "Generated_Background.png";
 
-                    File saveFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH, "users",
+                    File saveFile = OSUtil.buildFile(Dynamic.PATH, "users",
                             ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(), saveName);
 
                     ImageIO.write(saveImage, "png", saveFile);
