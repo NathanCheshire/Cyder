@@ -77,7 +77,7 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
               font=export_font, fill=(245, 245, 245))
 
     draw = ImageDraw.Draw(img_pil)
-    comment_string = "Comment lines: " + str(blank_percent) + \
+    comment_string = "Comment lines: " + str(comment_percent) + \
         "% (" + get_compressed_number(comment_lines) + ")"
     w, h = draw.textsize(comment_string, font=export_font)
     comment_area_center = (width / 2 - w / 2,
