@@ -603,6 +603,7 @@ public final class YoutubeUtil {
         uuidFrame.finalizeAndShow();
     }
 
+    // todo not sure this works
     /**
      * Returns a square, 720x720 image of the provided youtube video's thumbnail.
      *
@@ -611,7 +612,7 @@ public final class YoutubeUtil {
      * @return a square image of the thumbnail
      */
     public static BufferedImage getSquareThumbnail(String videoURL, Dimension dimension) {
-        String uuid = getYoutubeUUID(videoURL);
+        String uuid = getUuid(videoURL);
 
         BufferedImage ret;
         BufferedImage save = null;
@@ -675,10 +676,8 @@ public final class YoutubeUtil {
      * @return the youtube playlist url
      */
     public static String extractPlaylistId(String url) {
-        if (StringUtil.isNull(url))
-            throw new IllegalArgumentException("Provided url is null");
-        else if (!isPlaylistUrl(url))
-            throw new IllegalArgumentException("Provided url is not a youtube playlist");
+        Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!isPlaylistUrl(url));
 
         return url.replace(CyderUrls.YOUTUBE_PLAYLIST_HEADER, "").trim();
     }
@@ -691,7 +690,9 @@ public final class YoutubeUtil {
      * @throws IllegalArgumentException if the provided uuid is not 11 chars long
      */
     public static String buildYoutubeVideoUrl(String uuid) {
+        Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(uuid.length() == 11);
+
         return CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
     }
 
@@ -702,6 +703,9 @@ public final class YoutubeUtil {
      * @return a URL for the maximum resolution version of the youtube video's thumbnail
      */
     public static String buildMaxResThumbnailUrl(String uuid) {
+        Preconditions.checkNotNull(uuid);
+        Preconditions.checkArgument(uuid.length() == 11);
+
         return CyderUrls.YOUTUBE_THUMBNAIL_BASE + uuid + "/maxresdefault.jpg";
     }
 
@@ -712,23 +716,27 @@ public final class YoutubeUtil {
      * @return a url for the default youtube video's thumbnail
      */
     public static String buildSdDefThumbnailUrl(String uuid) {
+        Preconditions.checkNotNull(uuid);
+        Preconditions.checkArgument(uuid.length() == 11);
+
         return CyderUrls.YOUTUBE_THUMBNAIL_BASE + uuid + "/sddefault.jpg";
     }
 
     /**
      * Extracts the uuid for the youtube video from the url
      *
-     * @param youtubeURL the youtube url to extract the uuid from
+     * @param url the youtube url to extract the uuid from
      * @return the extracted uuid
      */
-    public static String getYoutubeUUID(String youtubeURL) {
-        Preconditions.checkNotNull(youtubeURL);
-        Matcher matcher = CyderRegexPatterns.extractYoutubeUuidPattern.matcher(youtubeURL);
+    public static String getUuid(String url) {
+        Preconditions.checkNotNull(url);
+        Matcher matcher = CyderRegexPatterns.extractYoutubeUuidPattern.matcher(url);
 
         if (matcher.find()) {
             return matcher.group();
-        } else
-            throw new IllegalArgumentException("No UUID found in provided string: " + youtubeURL);
+        }
+
+        throw new IllegalArgumentException("No UUID found in provided string: " + url);
     }
 
     /**
@@ -740,14 +748,14 @@ public final class YoutubeUtil {
      * Constructs the url to query YouTube with a specific string for video results.
      *
      * @param numResults the number of results to return (max 20 results per page)
-     * @param rawQuery   the raw search query such as "blade parade"
+     * @param query   the search query such as "black parade"
      * @return the constructed url to match the provided parameters
      */
-    @SuppressWarnings("ConstantConditions") // unit test asserts throws for rawQuery of null
-    public static String buildYouTubeApiV3SearchQuery(int numResults, String rawQuery) {
-        Preconditions.checkNotNull(rawQuery);
+    @SuppressWarnings("ConstantConditions") // unit test asserts throws for query of null
+    public static String buildYouTubeApiV3SearchQuery(int numResults, String query) {
+        Preconditions.checkNotNull(query);
         Preconditions.checkArgument(searchQueryResultsRange.contains(numResults));
-        Preconditions.checkArgument(!rawQuery.isEmpty());
+        Preconditions.checkArgument(!query.isEmpty());
 
         // load props if not loaded (probably a Jenkins build)
         if (!PropLoader.arePropsLoaded()) {
@@ -757,7 +765,7 @@ public final class YoutubeUtil {
         String key = PropLoader.getString("youtube_api_3_key");
         Preconditions.checkArgument(!StringUtil.isNull(key));
 
-        String[] parts = rawQuery.split("\\s+");
+        String[] parts = query.split("\\s+");
 
         StringBuilder builder = new StringBuilder();
 
@@ -781,6 +789,9 @@ public final class YoutubeUtil {
      * @return the maximum resolution thumbnail for the youtube video
      */
     public static Optional<BufferedImage> getMaxResolutionThumbnail(String uuid) {
+        Preconditions.checkNotNull(uuid);
+        Preconditions.checkArgument(uuid.length() == 11);
+
         String thumbnailURL = buildMaxResThumbnailUrl(uuid);
 
         BufferedImage thumbnail;
