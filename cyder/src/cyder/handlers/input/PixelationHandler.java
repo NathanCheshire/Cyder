@@ -3,7 +3,7 @@ package cyder.handlers.input;
 import com.google.common.collect.Range;
 import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -91,7 +91,7 @@ public class PixelationHandler extends InputHandler {
                             .getCurrentBackground().referenceFile().getName())
                             + "_Pixelated_Pixel_Size_" + size + ".png";
 
-                    File saveFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH, "users",
+                    File saveFile = OSUtil.buildFile(Dynamic.PATH, "users",
                             ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(), newName);
 
                     ImageIO.write(img, "png", saveFile);

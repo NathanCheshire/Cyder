@@ -2,7 +2,7 @@ package cyder.handlers.input;
 
 import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.Logger;
@@ -29,7 +29,7 @@ public class FileHandler extends InputHandler {
 
         if (getInputHandler().commandIs("wipelogs")) {
             OSUtil.deleteFile(OSUtil.buildFile(
-                    DynamicDirectory.DYNAMIC_PATH, DynamicDirectory.LOGS.getDirectoryName()));
+                    Dynamic.PATH, Dynamic.LOGS.getDirectoryName()));
             getInputHandler().println("Logs wiped");
         } else if (getInputHandler().commandIs("opencurrentlog")) {
             IOUtil.openFileOutsideProgram(Logger.getCurrentLog().getAbsolutePath());
@@ -48,7 +48,7 @@ public class FileHandler extends InputHandler {
         } else if (getInputHandler().commandIs("wipe")) {
             if (getInputHandler().checkArgsLength(1)) {
                 File requestedDeleteFile = new File(OSUtil.buildPath(
-                        DynamicDirectory.DYNAMIC_PATH, "users",
+                        Dynamic.PATH, "users",
                         ConsoleFrame.INSTANCE.getUUID(), getInputHandler().getArg(0)));
                 if (requestedDeleteFile.exists()) {
                     if (requestedDeleteFile.isDirectory()) {

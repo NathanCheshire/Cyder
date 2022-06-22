@@ -1239,7 +1239,7 @@ public enum ConsoleFrame {
             ArrayList<File> musicList = new ArrayList<>();
 
             File userMusicDir = new File(OSUtil.buildPath(
-                    DynamicDirectory.DYNAMIC_PATH, "users",
+                    Dynamic.PATH, "users",
                     INSTANCE.getUUID(), UserFile.MUSIC.getName()));
 
             File[] files = userMusicDir.listFiles();
@@ -2211,8 +2211,8 @@ public enum ConsoleFrame {
      */
     public void loadBackgrounds() {
         try {
-            File backgroundsDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.USERS.getDirectoryName(), uuid, "Backgrounds");
+            File backgroundsDir = OSUtil.buildFile(Dynamic.PATH,
+                    Dynamic.USERS.getDirectoryName(), uuid, "Backgrounds");
 
             ArrayList<File> backgroundFiles = new ArrayList<>();
 

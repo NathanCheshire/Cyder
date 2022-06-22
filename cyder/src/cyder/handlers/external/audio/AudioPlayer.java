@@ -9,7 +9,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.PhotoViewer;
@@ -504,8 +504,8 @@ public final class AudioPlayer {
     @Widget(triggers = {"mp3", "wav", "music", "audio"}, description = "An advanced audio playing widget")
     public static void showGui() {
         File userMusicDir = OSUtil.buildFile(
-                DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.USERS.getDirectoryName(),
+                Dynamic.PATH,
+                Dynamic.USERS.getDirectoryName(),
                 ConsoleFrame.INSTANCE.getUUID(),
                 UserFile.MUSIC.getName());
 
@@ -556,8 +556,8 @@ public final class AudioPlayer {
             return;
         }
 
-        currentUserAlbumArtDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.USERS.getDirectoryName(),
+        currentUserAlbumArtDir = OSUtil.buildFile(Dynamic.PATH,
+                Dynamic.USERS.getDirectoryName(),
                 ConsoleFrame.INSTANCE.getUUID(), UserFile.MUSIC.getName(), "AlbumArt");
 
         audioPlayerFrame = new CyderFrame(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN, BACKGROUND_COLOR);
@@ -1003,8 +1003,8 @@ public final class AudioPlayer {
                 try {
                     if (wavConvertedFile.get().isPresent()) {
                         File moveTo = OSUtil.buildFile(
-                                DynamicDirectory.DYNAMIC_PATH,
-                                DynamicDirectory.USERS.getDirectoryName(),
+                                Dynamic.PATH,
+                                Dynamic.USERS.getDirectoryName(),
                                 ConsoleFrame.INSTANCE.getUUID(),
                                 UserFile.MUSIC.getName(),
                                 FileUtil.getFilename(wavConvertedFile.get().get()) + ".wav");
@@ -1052,8 +1052,8 @@ public final class AudioPlayer {
                 try {
                     if (mp3ConvertedFile.get().isPresent()) {
                         File moveTo = OSUtil.buildFile(
-                                DynamicDirectory.DYNAMIC_PATH,
-                                DynamicDirectory.USERS.getDirectoryName(),
+                                Dynamic.PATH,
+                                Dynamic.USERS.getDirectoryName(),
                                 ConsoleFrame.INSTANCE.getUUID(),
                                 UserFile.MUSIC.getName(),
                                 FileUtil.getFilename(mp3ConvertedFile.get().get()) + ".mp3");
@@ -1093,8 +1093,8 @@ public final class AudioPlayer {
             if (!StringUtil.isNull(saveName)) {
                 if (OSUtil.isValidFilename(saveName)) {
                     File saveFile = OSUtil.buildFile(
-                            DynamicDirectory.DYNAMIC_PATH,
-                            DynamicDirectory.USERS.getDirectoryName(),
+                            Dynamic.PATH,
+                            Dynamic.USERS.getDirectoryName(),
                             ConsoleFrame.INSTANCE.getUUID(),
                             UserFile.FILES.getName(),
                             saveName + "." + WAVEFORM_EXPORT_FORMAT);
@@ -1192,8 +1192,8 @@ public final class AudioPlayer {
 
         File dreamifiedFile = dreamifiedAudio.get();
         File targetFile = OSUtil.buildFile(
-                DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.USERS.getDirectoryName(),
+                Dynamic.PATH,
+                Dynamic.USERS.getDirectoryName(),
                 ConsoleFrame.INSTANCE.getUUID(),
                 UserFile.MUSIC.getName(),
                 dreamifiedFile.getName());
@@ -1275,8 +1275,8 @@ public final class AudioPlayer {
             return;
         }
 
-        File userMusicDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
+        File userMusicDir = OSUtil.buildFile(Dynamic.PATH,
+                Dynamic.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
                 UserFile.MUSIC.getName());
 
         // Not dreamified so attempt to find previously dreamified file if exists

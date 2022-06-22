@@ -7,7 +7,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.PhotoViewer;
@@ -120,7 +120,7 @@ public class PaintWidget {
             int increment = 0;
             String defaultFilename = base + increment + ".png";
 
-            String path = OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH, "users",
+            String path = OSUtil.buildPath(Dynamic.PATH, "users",
                     ConsoleFrame.INSTANCE.getUUID(), "Files");
 
             while (new File(path + OSUtil.FILE_SEP + defaultFilename).exists()) {

@@ -4,7 +4,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderNumbers;
 import cyder.constants.CyderStrings;
-import cyder.enums.DynamicDirectory;
+import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
@@ -170,8 +170,8 @@ public class Cyder {
             // Occasionally this fails due to file handles still being open
             // on files inside of tmp which is why we attempt to delete it on start.
 
-            File deleteDirectory = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.TEMPORARY.getDirectoryName());
+            File deleteDirectory = OSUtil.buildFile(Dynamic.PATH,
+                    Dynamic.TEMP.getDirectoryName());
             OSUtil.deleteFile(deleteDirectory, false);
         }, "common-exit-hook"));
     }
