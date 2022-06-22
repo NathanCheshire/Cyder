@@ -114,12 +114,12 @@ public class PizzaWidget {
 
         smallPizza = new CyderCheckbox();
         smallPizza.setHorizontalAlignment(SwingConstants.CENTER);
-        smallPizza.setNotSelected();
+        smallPizza.setNotChecked();
         smallPizza.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                mediumPizza.setNotSelected();
-                largePizza.setNotSelected();
+                mediumPizza.setNotChecked();
+                largePizza.setNotChecked();
             }
         });
         smallPizza.setBounds(185, 135, 50, 50);
@@ -127,12 +127,12 @@ public class PizzaWidget {
 
         mediumPizza = new CyderCheckbox();
         mediumPizza.setHorizontalAlignment(SwingConstants.CENTER);
-        mediumPizza.setSelected();
+        mediumPizza.setChecked();
         mediumPizza.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                smallPizza.setNotSelected();
-                largePizza.setNotSelected();
+                smallPizza.setNotChecked();
+                largePizza.setNotChecked();
             }
         });
         mediumPizza.setBounds(305, 135, 50, 50);
@@ -140,12 +140,12 @@ public class PizzaWidget {
 
         largePizza = new CyderCheckbox();
         largePizza.setHorizontalAlignment(SwingConstants.CENTER);
-        largePizza.setNotSelected();
+        largePizza.setNotChecked();
         largePizza.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                smallPizza.setNotSelected();
-                mediumPizza.setNotSelected();
+                smallPizza.setNotChecked();
+                mediumPizza.setNotChecked();
             }
         });
         largePizza.setBounds(425, 135, 50, 50);
@@ -201,7 +201,7 @@ public class PizzaWidget {
 
         breadSticks = new CyderCheckbox();
         breadSticks.setHorizontalAlignment(SwingConstants.CENTER);
-        breadSticks.setNotSelected();
+        breadSticks.setNotChecked();
         breadSticks.setBounds(165, 505, 50, 50);
         pizzaFrame.getContentPane().add(breadSticks);
 
@@ -213,7 +213,7 @@ public class PizzaWidget {
 
         salad = new CyderCheckbox();
         salad.setHorizontalAlignment(SwingConstants.CENTER);
-        salad.setNotSelected();
+        salad.setNotChecked();
         salad.setBounds(315, 505, 50, 50);
         pizzaFrame.getContentPane().add(salad);
 
@@ -225,7 +225,7 @@ public class PizzaWidget {
 
         soda = new CyderCheckbox();
         soda.setHorizontalAlignment(SwingConstants.CENTER);
-        soda.setNotSelected();
+        soda.setNotChecked();
         soda.setBounds(445, 505, 50, 50);
         pizzaFrame.getContentPane().add(soda);
 
@@ -265,10 +265,10 @@ public class PizzaWidget {
                 String Name = nameField.getText().substring(0, 1).toUpperCase() + nameField.getText().substring(1) + "<br/>";
                 String Size;
 
-                if (smallPizza.isSelected())
+                if (smallPizza.isChecked())
                     Size = "Small<br/>";
 
-                else if (mediumPizza.isSelected())
+                else if (mediumPizza.isChecked())
                     Size = "Medium<br/>";
 
                 else
@@ -295,13 +295,13 @@ public class PizzaWidget {
 
                 String Extras = "";
 
-                if (breadSticks.isSelected())
+                if (breadSticks.isChecked())
                     Extras += "Bread Sticks<br/>";
 
-                if (salad.isSelected())
+                if (salad.isChecked())
                     Extras += "Salad<br/>";
 
-                if (soda.isSelected())
+                if (soda.isChecked())
                     Extras += "Soda<br/>";
 
                 String Comments = orderComments.getText().trim();
@@ -327,14 +327,14 @@ public class PizzaWidget {
         resetPizza.setFont(CyderFonts.segoe20);
         resetPizza.addActionListener(e -> {
             nameField.setText("");
-            smallPizza.setNotSelected();
-            mediumPizza.setNotSelected();
-            largePizza.setNotSelected();
+            smallPizza.setNotChecked();
+            mediumPizza.setNotChecked();
+            largePizza.setNotChecked();
             crustTypeScroll.clearSelectedElements();
             pizzaToppingsScroll.clearSelectedElements();
-            breadSticks.setNotSelected();
-            salad.setNotSelected();
-            soda.setNotSelected();
+            breadSticks.setNotChecked();
+            salad.setNotChecked();
+            soda.setNotChecked();
             orderComments.setText("");
 
         });

@@ -11,7 +11,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 
 /**
- * A custom painted checkbox.
+ * A custom styled checkbox for use throughout Cyder.
  */
 public class CyderCheckbox extends JLabel {
     /**
@@ -20,9 +20,9 @@ public class CyderCheckbox extends JLabel {
     private int borderLen = 3;
 
     /**
-     * Whether the checkbox is selected.
+     * Whether the checkbox is checked.
      */
-    private boolean selected;
+    private boolean isChecked;
 
     /**
      * Whether the checkbox is enabled.
@@ -71,10 +71,10 @@ public class CyderCheckbox extends JLabel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (enabled) {
-                    if (selected) {
-                        setNotSelected();
+                    if (isChecked) {
+                        setNotChecked();
                     } else {
-                        setSelected();
+                        setChecked();
                     }
 
                     repaint();
@@ -87,7 +87,7 @@ public class CyderCheckbox extends JLabel {
         setBorder(null);
         repaint();
 
-        selected = initialValue;
+        isChecked = initialValue;
         repaint();
 
         addMouseMotionListener(new CyderDraggableComponent());
@@ -135,44 +135,44 @@ public class CyderCheckbox extends JLabel {
     }
 
     /**
-     * Returns whether the checkbox is selected.
+     * Returns whether the checkbox is checked.
      *
-     * @return whether the checkbox is selected
+     * @return whether the checkbox is checked
      */
-    public boolean isSelected() {
-        return selected;
+    public boolean isChecked() {
+        return isChecked;
     }
 
     /**
-     * Sets the checkbox to be selected.
+     * Sets the checkbox to be checked.
      */
-    public void setSelected() {
-        selected = true;
+    public void setChecked() {
+        isChecked = true;
         repaint();
 
         if (cyderCheckboxGroup != null)
-            cyderCheckboxGroup.setSelectedCheckbox(this);
+            cyderCheckboxGroup.setCheckedBox(this);
     }
 
     /**
-     * Sets the checkbox to not be selected
+     * Sets the checkbox to not be checked
      */
-    public void setNotSelected() {
-        selected = false;
+    public void setNotChecked() {
+        isChecked = false;
         repaint();
     }
 
     /**
-     * Sets whether the checkbox is selected.
+     * Sets whether the checkbox is checked.
      *
-     * @param b whether the checkbox is selected
+     * @param b whether the checkbox is checked
      */
-    public void setSelected(boolean b) {
-        selected = b;
+    public void setChecked(boolean b) {
+        isChecked = b;
         repaint();
 
         if (b && cyderCheckboxGroup != null) {
-            cyderCheckboxGroup.setSelectedCheckbox(this);
+            cyderCheckboxGroup.setCheckedBox(this);
         }
     }
 
@@ -181,7 +181,8 @@ public class CyderCheckbox extends JLabel {
      *
      * @return whether the checkbox has rounded corners
      */
-    public boolean getRoundedCorners() {
+    @SuppressWarnings("unused")
+    public boolean hasRoundedCorners() {
         return roundedCorners;
     }
 
@@ -224,7 +225,7 @@ public class CyderCheckbox extends JLabel {
         graphics2D.setRenderingHints(qualityHints);
 
         if (roundedCorners) {
-            if (isSelected()) {
+            if (isChecked()) {
                 graphics2D.setPaint(background);
                 graphics2D.setStroke(new BasicStroke(2.0f));
                 graphics2D.fill(new RoundRectangle2D.Double(0, 0, sideLength, sideLength, 20, 20));
@@ -260,7 +261,7 @@ public class CyderCheckbox extends JLabel {
                         sideLength - 6, sideLength - 6, 20, 20));
             }
         } else {
-            if (isSelected()) {
+            if (isChecked()) {
                 graphics2D.setPaint(background);
                 GeneralPath outlinePath = new GeneralPath();
                 outlinePath.moveTo(0, 0);
@@ -336,20 +337,20 @@ public class CyderCheckbox extends JLabel {
     }
 
     /**
-     * Returns the border width of the checkbox.
+     * Returns the border length of the checkbox.
      *
-     * @return the border width of the checkbox
+     * @return the border length of the checkbox
      */
-    public int getBorderLen() {
+    public int getBorderLength() {
         return borderLen;
     }
 
     /**
-     * Sets the border width of the checkbox.
+     * Sets the border length of the checkbox.
      *
-     * @param borderLen Sets the border width of the checkbox
+     * @param borderLen the border length of the checkbox
      */
-    public void setBorderLen(int borderLen) {
+    public void setBorderLength(int borderLen) {
         this.borderLen = borderLen;
     }
 
@@ -358,7 +359,7 @@ public class CyderCheckbox extends JLabel {
      *
      * @return the check color
      */
-    public Color getCheckColor() {
+    public Color getCheckedColor() {
         return checkColor;
     }
 
@@ -367,7 +368,17 @@ public class CyderCheckbox extends JLabel {
      *
      * @param checkColor the check color
      */
-    public void setCheckColor(Color checkColor) {
+    public void setCheckedColor(Color checkColor) {
         this.checkColor = checkColor;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "CyderCheckbox{[" + getX() + ", " + getY() + ","
+                + getWidth() + ", " + getHeight() + "], Color=" + checkColor
+                + ", isChecked=" + isChecked;
     }
 }

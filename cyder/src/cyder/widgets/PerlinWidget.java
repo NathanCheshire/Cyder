@@ -304,7 +304,7 @@ public class PerlinWidget {
         perlinFrame.getContentPane().add(noiseLabel);
 
         animateCheckBox = new CyderCheckbox();
-        animateCheckBox.setNotSelected();
+        animateCheckBox.setNotChecked();
         animateCheckBox.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -427,7 +427,7 @@ public class PerlinWidget {
         if (closed)
             return;
 
-        if (animateCheckBox.isSelected()) {
+        if (animateCheckBox.isChecked()) {
             if (timer.isRunning()) {
                 timer.stop();
                 unlockUI();

@@ -545,7 +545,7 @@ public class PaintWidget {
             }
         });
         group.addCheckbox(add);
-        add.setSelected();
+        add.setChecked();
         checkBoxLabel.add(add);
 
         CyderLabel deleteLabel = new CyderLabel("Delete");
@@ -862,7 +862,7 @@ public class PaintWidget {
      */
     private static void resetToAdding() {
         // refresh add/delete buttons
-        add.setSelected();
+        add.setChecked();
 
         // de-select toggle-able buttons
         selectColor.setIcon(new ImageIcon("static/pictures/paint/select_color.png"));
