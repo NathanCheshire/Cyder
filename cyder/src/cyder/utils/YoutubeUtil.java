@@ -108,17 +108,14 @@ public final class YoutubeUtil {
         private JLabel printLabel;
 
         /**
-         * Updates the label with the provided props.
-         *
-         * @param name     the name of the download
-         * @param fileSize the size of the download
-         * @param progress the progress of the download
-         * @param rate     the rate of the download
-         * @param eta      the eta of the download
+         * Updates the download progress labels.
          */
-        public void updateLabel(String name, String fileSize, float progress, String rate, String eta) {
-            String updateText = "<html>" + name + "<br/>File size: " + fileSize + "<br/>Progress: "
-                    + progress + "%<br/>Rate: " + rate + "<br/>Eta: " + eta + "</html>";
+        public void updateLabel() {
+            String updateText = "<html>" + downloadableName
+                    + "<br/>File size: " + downloadableFileSize
+                    + "<br/>Progress: " + downloadableProgress
+                    + "%<br/>Rate: " + downloadableRate
+                    + "<br/>Eta: " + downloadableEta + "</html>";
 
             printLabel.setText(updateText);
             printLabel.revalidate();
@@ -134,11 +131,96 @@ public final class YoutubeUtil {
         }
 
         /**
+         * The download name of this download object.
+         */
+        private String downloadableName;
+
+        /**
+         * The download file size of this download object.
+         */
+        private String downloadableFileSize;
+
+        /**
+         * The download progress of this download object.
+         */
+        private float downloadableProgress;
+
+        /**
+         * The download rate of this download object.
+         */
+        private String downloadableRate;
+
+        /**
+         * The download eta of this download object.
+         */
+        private String downloadableEta;
+
+        /**
+         * Whether this download has completed downloading.
+         */
+        private boolean downloaded;
+
+        /**
+         * Returns the download name of this download.
+         *
+         * @return the download name of this download
+         */
+        public String getDownloadableName() {
+            return downloadableName;
+        }
+
+        /**
+         * Returns the download file size of this download.
+         *
+         * @return the download file size of this download
+         */
+        public String getDownloadableFileSize() {
+            return downloadableFileSize;
+        }
+
+        /**
+         * Returns the download progress of this download.
+         *
+         * @return the download progress of this download
+         */
+        public float getDownloadableProgress() {
+            return downloadableProgress;
+        }
+
+        /**
+         * Returns the download rate of this download.
+         *
+         * @return the download rate of this download
+         */
+        public String getDownloadableRate() {
+            return downloadableRate;
+        }
+
+        /**
+         * Returns the download eta of this download.
+         *
+         * @return the download eta of this download
+         */
+        public String getDownloadableEta() {
+            return downloadableEta;
+        }
+
+        /**
+         * Returns whether this download has completed.
+         *
+         * @return whether this download has completed
+         */
+        public boolean isDownloaded() {
+            return downloaded;
+        }
+
+        /**
          * Downloads this object's youtube video.
          */
         public void download() {
             String saveDir = OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
-                    "users", ConsoleFrame.INSTANCE.getUUID(), "Music");
+                    DynamicDirectory.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
+                    UserFile.MUSIC.getName());
 
             String extension = "." + PropLoader.getString("ffmpeg_audio_output_format");
 
@@ -168,6 +250,8 @@ public final class YoutubeUtil {
                     "--output", new File(saveDir).getAbsolutePath()
                     + OSUtil.FILE_SEP + parsedAsciiSaveName + ".%(ext)s"
             };
+
+            downloaded = false;
 
             CyderProgressUI ui = new CyderProgressUI();
             CyderThreadRunner.submit(() -> {
@@ -218,8 +302,12 @@ public final class YoutubeUtil {
 
                             fileSize = fileSize == null ? updateMatcher.group(2) : fileSize;
 
-                            updateLabel(parsedAsciiSaveName.get(), fileSize, progress,
-                                    updateMatcher.group(3), updateMatcher.group(4));
+                            this.downloadableName = parsedAsciiSaveName.get();
+                            this.downloadableFileSize = fileSize;
+                            this.downloadableProgress = progress;
+                            this.downloadableRate = updateMatcher.group(3);
+                            this.downloadableEta = updateMatcher.group(4);
+                            updateLabel();
                         }
                     }
 
@@ -227,6 +315,8 @@ public final class YoutubeUtil {
 
                     ConsoleFrame.INSTANCE.getInputHandler().println("Download complete: saved as "
                             + parsedAsciiSaveName + extension + " and added to audio queue");
+
+                    downloaded = true;
 
                     AudioPlayer.addAudioNext(new File(OSUtil.buildPath(
                             saveDir, parsedAsciiSaveName + extension)));

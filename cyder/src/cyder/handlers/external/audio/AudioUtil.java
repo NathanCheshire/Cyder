@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 /**
  * Utilities related to audio files, typically mp3 and wav files.
  */
-public class AudioUtil {
+public final class AudioUtil {
     /**
      * The ffmpeg input flag.
      */

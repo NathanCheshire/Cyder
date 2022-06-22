@@ -2265,7 +2265,7 @@ public final class AudioPlayer {
         searchField.setBackground(BACKGROUND_COLOR);
         searchField.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, phaseTwoWidth, 40);
         searchField.setToolTipText("Search");
-        searchField.setBorder(BorderFactory.createMatteBorder(0,0,4,0, CyderColors.vanilla));
+        searchField.setBorder(BorderFactory.createMatteBorder(0, 0, 4, 0, CyderColors.vanilla));
         audioPlayerFrame.getContentPane().add(searchField);
 
         yOff += 50;
@@ -2277,8 +2277,8 @@ public final class AudioPlayer {
         searchButton.setBorder(new LineBorder(Color.black, 3));
         searchButton.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, phaseTwoWidth, 40);
         audioPlayerFrame.getContentPane().add(searchButton);
-        searchField.addActionListener(e -> updateSearchResults(searchField.getText()));
-        searchButton.addActionListener(e -> updateSearchResults(searchField.getText()));
+        searchField.addActionListener(e -> searchAndUpdate(searchField.getText()));
+        searchButton.addActionListener(e -> searchAndUpdate(searchField.getText()));
 
         yOff += 60;
 
@@ -2303,8 +2303,7 @@ public final class AudioPlayer {
         searchResultsScroll.setFocusable(true);
         searchResultsScroll.setOpaque(false);
         searchResultsScroll.setThumbColor(CyderColors.regularPink);
-        searchResultsScroll.setBackground(Color.white);
-        searchResultsScroll.setBorder(new LineBorder(CyderColors.navy, 4));
+        searchResultsScroll.setBorder(new LineBorder(Color.black, 4));
         searchResultsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         searchResultsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         searchResultsScroll.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
@@ -2370,31 +2369,34 @@ public final class AudioPlayer {
     /**
      * A search result object to hold data in the results scroll pane.
      */
-    private static record YoutubeSearchResult(String uuid,
-                                              String title,
-                                              String description,
-                                              String channel,
-                                              BufferedImage bi) {}
+    private static record YoutubeSearchResult(String uuid, String title, String description,
+                                              String channel, BufferedImage bi) {}
 
     /**
      * The alignment object used for menu alignment.
      */
     private static final SimpleAttributeSet alignment = new SimpleAttributeSet();
 
-    private static void updateSearchResults(String fieldText) {
+    /**
+     * Searches YouTube for the provided text and updates the results pane with videos found.
+     *
+     * @param fieldText the text to search youtube for
+     */
+    private static void searchAndUpdate(String fieldText) {
         if (StringUtil.isNull(fieldText) || fieldText.equalsIgnoreCase(previousSearch)) {
             return;
         }
 
         previousSearch = fieldText;
 
-        // todo frame title needs to be updated for this too
-        // todo pause audio if playing as well when entering view
-
         // todo a results label would be nice that also shows the number of pages
         // todo step buttons on side of field too to navigate the pages of results
 
-        // todo download button needed still
+        // todo back button for phase 2
+
+        // todo going to next audio doesn't work?
+
+        // todo similar command finder still broken?
 
         CyderThreadRunner.submit(() -> {
             showInformationLabel("Searching...");
@@ -2424,11 +2426,14 @@ public final class AudioPlayer {
                 searchResultsPane.setText("");
 
                 for (YoutubeSearchResult result : searchResults) {
-                    JLabel imageLabel = new JLabel(ImageUtil.toImageIcon(result.bi));
+                    AtomicBoolean isDownloading = new AtomicBoolean();
+
+                    ImageIcon defaultIcon = ImageUtil.toImageIcon(result.bi);
+
+                    JLabel imageLabel = new JLabel(defaultIcon);
                     imageLabel.setSize(bufferedImageLen, bufferedImageLen);
                     imageLabel.setHorizontalAlignment(JLabel.CENTER);
-                    imageLabel.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-                    // todo image label should have use the custom tooltip once implemented
+                    imageLabel.setBorder(new LineBorder(Color.black, 4));
                     printingUtil.printlnComponent(imageLabel);
 
                     printingUtil.println("\n");
@@ -2445,7 +2450,42 @@ public final class AudioPlayer {
 
                     printingUtil.println("\n");
 
-                    // todo create download button should also be able to cancel it
+                    String space = "    ";
+
+                    YoutubeUtil.YoutubeDownload downloadable = new YoutubeUtil.YoutubeDownload(result.uuid);
+                    // todo start this and be able to kill it too
+                    // todo need to not print stuff to console always
+                    // todo make this it's own object
+
+                    CyderButton downloadButton = new CyderButton(space + "Download" + space);
+                    downloadButton.setBorder(new LineBorder(Color.black, 4));
+                    downloadButton.setBackground(CyderColors.regularPurple);
+                    downloadButton.setForeground(CyderColors.vanilla);
+                    downloadButton.setBorder(new LineBorder(Color.black, 3));
+                    downloadButton.setSize(phaseTwoWidth, 40);
+                    downloadButton.addActionListener(e -> {
+                        // todo
+                    });
+                    downloadButton.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            if (isDownloading.get()) {
+                                downloadButton.setText(space + "Cancel" + space);
+                            }
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            if (isDownloading.get()) {
+                                // todo need to update this
+                                downloadButton.setText(space + downloadable.getDownloadableProgress() + "%" + space);
+                            } else {
+                                downloadButton.setText(space + "Download" + space);
+                            }
+                        }
+                    });
+
+                    printingUtil.printlnComponent(downloadButton);
 
                     printingUtil.println("\n");
                 }
