@@ -296,18 +296,18 @@ public class PathFinderWidget {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (placeStartBox.isSelected()) {
+                if (placeStartBox.isChecked()) {
                     pathfindingGrid.setNodeColor(startNodeColor);
 
                     pathfindingGrid.invokeWhenNodePlaced(() -> {
                         pathfindingGrid.removeNodesOfColor(startNodeColor);
 
-                        placeStartBox.setNotSelected();
+                        placeStartBox.setNotChecked();
                         pathfindingGrid.setNodeColor(wallsColor);
                     });
 
                     // other actions
-                    deleteWallsCheckBox.setNotSelected();
+                    deleteWallsCheckBox.setNotChecked();
                     pathfindingGrid.setMode(CyderGrid.Mode.ADD);
                 } else {
                     pathfindingGrid.setNodeColor(wallsColor);
@@ -327,18 +327,18 @@ public class PathFinderWidget {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (placeGoalBox.isSelected()) {
+                if (placeGoalBox.isChecked()) {
                     pathfindingGrid.setNodeColor(goalNodeColor);
 
                     pathfindingGrid.invokeWhenNodePlaced(() -> {
                         pathfindingGrid.removeNodesOfColor(goalNodeColor);
 
-                        placeGoalBox.setNotSelected();
+                        placeGoalBox.setNotChecked();
                         pathfindingGrid.setNodeColor(wallsColor);
                     });
 
                     // other actions
-                    deleteWallsCheckBox.setNotSelected();
+                    deleteWallsCheckBox.setNotChecked();
                     pathfindingGrid.setMode(CyderGrid.Mode.ADD);
                 } else {
                     pathfindingGrid.setNodeColor(wallsColor);
@@ -400,7 +400,7 @@ public class PathFinderWidget {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                pathfindingGrid.setDrawGridLines(drawGridLinesBox.isSelected());
+                pathfindingGrid.setDrawGridLines(drawGridLinesBox.isChecked());
             }
         });
         pathFindingFrame.getContentPane().add(drawGridLinesBox);
@@ -572,7 +572,7 @@ public class PathFinderWidget {
                 while (currentPathingState == PathingState.RUNNING) {
                     pathStep();
 
-                    if (showStepsBox.isSelected()) {
+                    if (showStepsBox.isChecked()) {
                         lockingRepaintGrid();
                         Thread.sleep(MAX_SLIDER_VALUE - speedSlider.getValue());
                     }
@@ -607,7 +607,7 @@ public class PathFinderWidget {
 
             for (PathNode possibleNeighbor : pathableNodes) {
                 if (areOrthogonalNeighbors(possibleNeighbor, min) ||
-                        (areDiagonalNeighbors(possibleNeighbor, min) && diagonalBox.isSelected())) {
+                        (areDiagonalNeighbors(possibleNeighbor, min) && diagonalBox.isChecked())) {
                     neighbors.add(possibleNeighbor);
                 }
             }
@@ -879,12 +879,12 @@ public class PathFinderWidget {
      * Resets all the checkboxes to their default state.
      */
     private static void resetCheckboxStates() {
-        deleteWallsCheckBox.setSelected(false);
-        showStepsBox.setSelected(false);
-        diagonalBox.setSelected(false);
-        placeStartBox.setSelected(false);
-        placeGoalBox.setSelected(false);
-        drawGridLinesBox.setSelected(true);
+        deleteWallsCheckBox.setChecked(false);
+        showStepsBox.setChecked(false);
+        diagonalBox.setChecked(false);
+        placeStartBox.setChecked(false);
+        placeGoalBox.setChecked(false);
+        drawGridLinesBox.setChecked(true);
         pathfindingGrid.setDrawGridLines(true);
     }
 

@@ -1,11 +1,12 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import cyder.handlers.internal.Logger;
 
 import java.util.LinkedList;
 
 /**
- * A group of {@link CyderCheckbox}s in which only one may be selected at a time.
+ * A group of {@link CyderCheckbox}s in which only one may be checked at a time.
  */
 public class CyderCheckboxGroup {
     /**
@@ -14,9 +15,9 @@ public class CyderCheckboxGroup {
     private final LinkedList<CyderCheckbox> checkboxes = new LinkedList<>();
 
     /**
-     * The currently selected checkbox.
+     * The currently checked checkbox.
      */
-    private CyderCheckbox currentlySelectedBox;
+    private CyderCheckbox currentlyCheckedBox;
 
     /**
      * Constructs a new CyderCheckboxGroup object.
@@ -26,12 +27,13 @@ public class CyderCheckboxGroup {
     }
 
     /**
-     * Clears all selected checkboxes in this group.
+     * Clears all checked checkboxes in this group.
      */
+    @SuppressWarnings("unused")
     public void clearSelection() {
-        if (checkboxes != null && currentlySelectedBox != null) {
-            currentlySelectedBox.setNotSelected();
-            currentlySelectedBox = null;
+        if (currentlyCheckedBox != null) {
+            currentlyCheckedBox.setNotChecked();
+            currentlyCheckedBox = null;
         }
     }
 
@@ -59,28 +61,31 @@ public class CyderCheckboxGroup {
     }
 
     /**
-     * Sets the provided checkbox within the group to be selected.
+     * Sets the provided checkbox within the group to be checked.
      *
-     * @param checkbox the checkbox to set as selected
+     * @param checkbox the checkbox to set as checked
      */
-    public void setSelectedCheckbox(CyderCheckbox checkbox) {
-        if (!checkboxes.contains(checkbox))
-            throw new IllegalArgumentException("Provided CyderCheckbox is not in this group");
+    public void setCheckedBox(CyderCheckbox checkbox) {
+        Preconditions.checkNotNull(checkbox);
+        Preconditions.checkArgument(checkboxes.contains(checkbox));
 
-        currentlySelectedBox = checkbox;
+        currentlyCheckedBox = checkbox;
 
-        for (CyderCheckbox cb : checkboxes)
-            if (cb != currentlySelectedBox)
-                cb.setNotSelected();
+        for (CyderCheckbox cb : checkboxes) {
+            if (cb != currentlyCheckedBox) {
+                cb.setNotChecked();
+            }
+        }
     }
 
     /**
-     * Finds the currently selected checkbox within this group.
+     * Finds the currently checked checkbox within this group.
      *
-     * @return the currently selected checkbox
+     * @return the currently checked checkbox
      */
-    public CyderCheckbox getSelectedCheckbox() {
-        return currentlySelectedBox;
+    @SuppressWarnings("unused")
+    public CyderCheckbox getCheckedCheckbox() {
+        return currentlyCheckedBox;
     }
 
     /**
@@ -89,11 +94,7 @@ public class CyderCheckboxGroup {
      * @return the number of checkboxes in this group
      */
     public int getCheckboxCount() {
-        if (checkboxes == null) {
-            return 0;
-        } else {
-            return checkboxes.size();
-        }
+        return checkboxes.size();
     }
 
     /**
@@ -101,8 +102,9 @@ public class CyderCheckboxGroup {
      */
     @Override
     public String toString() {
-        if (checkboxes == null || checkboxes.isEmpty())
+        if (checkboxes.isEmpty()) {
             return "Empty checkbox group";
+        }
 
         StringBuilder sb = new StringBuilder();
 

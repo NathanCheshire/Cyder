@@ -108,8 +108,8 @@ public class TemperatureWidget {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                oldCelsius.setNotSelected();
-                oldKelvin.setNotSelected();
+                oldCelsius.setNotChecked();
+                oldKelvin.setNotChecked();
             }
         });
 
@@ -117,8 +117,8 @@ public class TemperatureWidget {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                oldFahrenheit.setNotSelected();
-                oldKelvin.setNotSelected();
+                oldFahrenheit.setNotChecked();
+                oldKelvin.setNotChecked();
             }
         });
 
@@ -126,8 +126,8 @@ public class TemperatureWidget {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                oldCelsius.setNotSelected();
-                oldFahrenheit.setNotSelected();
+                oldCelsius.setNotChecked();
+                oldFahrenheit.setNotChecked();
             }
         });
 
@@ -171,8 +171,8 @@ public class TemperatureWidget {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                newCelsius.setNotSelected();
-                newKelvin.setNotSelected();
+                newCelsius.setNotChecked();
+                newKelvin.setNotChecked();
             }
         });
 
@@ -180,8 +180,8 @@ public class TemperatureWidget {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                newFahrenheit.setNotSelected();
-                newKelvin.setNotSelected();
+                newFahrenheit.setNotChecked();
+                newKelvin.setNotChecked();
             }
         });
 
@@ -189,8 +189,8 @@ public class TemperatureWidget {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                newCelsius.setNotSelected();
-                newFahrenheit.setNotSelected();
+                newCelsius.setNotChecked();
+                newFahrenheit.setNotChecked();
             }
         });
 
@@ -206,13 +206,13 @@ public class TemperatureWidget {
                 DecimalFormat tempFormat = new DecimalFormat("#.####");
                 double CalculationValue = Double.parseDouble(startingValue.getText());
 
-                if (oldKelvin.isSelected() && CalculationValue <= 0) {
+                if (oldKelvin.isChecked() && CalculationValue <= 0) {
                     temperatureFrame.notify("Temperatures below absolute zero are imposible.");
                 } else {
-                    if (oldFahrenheit.isSelected()) {
-                        if (newFahrenheit.isSelected()) {
+                    if (oldFahrenheit.isChecked()) {
+                        if (newFahrenheit.isChecked()) {
                             temperatureFrame.notify("Get out of here with that. Your value is already in Fahrenheit.");
-                        } else if (newCelsius.isSelected()) {
+                        } else if (newCelsius.isChecked()) {
                             double CelsiusFromFahrenheit;
 
                             CelsiusFromFahrenheit = (CalculationValue - 32.0) / 1.8;
@@ -221,7 +221,7 @@ public class TemperatureWidget {
                                     + tempFormat.format(CelsiusFromFahrenheit));
 
                             startingValue.setText("");
-                        } else if (newKelvin.isSelected()) {
+                        } else if (newKelvin.isChecked()) {
                             double KelvinFromFahrenheit;
                             KelvinFromFahrenheit = (CalculationValue + 459.67) * 5 / 9;
 
@@ -237,8 +237,8 @@ public class TemperatureWidget {
                         } else {
                             temperatureFrame.notify("Please select the unit to convert to.");
                         }
-                    } else if (oldCelsius.isSelected()) {
-                        if (newFahrenheit.isSelected()) {
+                    } else if (oldCelsius.isChecked()) {
+                        if (newFahrenheit.isChecked()) {
                             double FahrenheitFromCelsius;
 
                             FahrenheitFromCelsius = (CalculationValue * 1.8) + 32;
@@ -247,9 +247,9 @@ public class TemperatureWidget {
                                     + tempFormat.format(FahrenheitFromCelsius));
 
                             startingValue.setText("");
-                        } else if (newCelsius.isSelected()) {
+                        } else if (newCelsius.isChecked()) {
                             temperatureFrame.notify("Get out of here with that. Your value is already in Celsius.");
-                        } else if (newKelvin.isSelected()) {
+                        } else if (newKelvin.isChecked()) {
                             double KelvinFromCelsius;
                             KelvinFromCelsius = CalculationValue + 273.15;
 
@@ -264,8 +264,8 @@ public class TemperatureWidget {
                         } else {
                             temperatureFrame.notify("Please select the unit to convert to.");
                         }
-                    } else if (oldKelvin.isSelected()) {
-                        if (newFahrenheit.isSelected()) {
+                    } else if (oldKelvin.isChecked()) {
+                        if (newFahrenheit.isChecked()) {
                             double FahrenheitFromKelvin;
 
                             FahrenheitFromKelvin = CalculationValue * 1.8 - 459.67;
@@ -274,7 +274,7 @@ public class TemperatureWidget {
                                     + tempFormat.format(FahrenheitFromKelvin));
 
                             startingValue.setText("");
-                        } else if (newCelsius.isSelected()) {
+                        } else if (newCelsius.isChecked()) {
                             double CelsiusFromKelvin;
 
                             CelsiusFromKelvin = CalculationValue - 273.15;
@@ -283,7 +283,7 @@ public class TemperatureWidget {
                                     + tempFormat.format(CelsiusFromKelvin));
 
                             startingValue.setText("");
-                        } else if (newKelvin.isSelected()) {
+                        } else if (newKelvin.isChecked()) {
                             temperatureFrame.notify("Get out of here with that. Your value is already in Kelvin");
                         } else {
                             temperatureFrame.notify("Please select the unit to convert to.");
@@ -304,12 +304,12 @@ public class TemperatureWidget {
         resetValues.setBorder(new LineBorder(CyderColors.navy, 5, false));
         resetValues.addActionListener(e -> {
             startingValue.setText("");
-            oldCelsius.setNotSelected();
-            oldFahrenheit.setNotSelected();
-            oldKelvin.setNotSelected();
-            newCelsius.setNotSelected();
-            newFahrenheit.setNotSelected();
-            newKelvin.setNotSelected();
+            oldCelsius.setNotChecked();
+            oldFahrenheit.setNotChecked();
+            oldKelvin.setNotChecked();
+            newCelsius.setNotChecked();
+            newFahrenheit.setNotChecked();
+            newKelvin.setNotChecked();
         });
 
         calculate.setBackground(CyderColors.regularRed);

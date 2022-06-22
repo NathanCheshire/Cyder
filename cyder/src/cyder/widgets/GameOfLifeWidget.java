@@ -315,7 +315,7 @@ public class GameOfLifeWidget {
         drawGridLinesCheckbox.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                conwayGrid.setDrawGridLines(drawGridLinesCheckbox.isSelected());
+                conwayGrid.setDrawGridLines(drawGridLinesCheckbox.isChecked());
                 conwayGrid.repaint();
             }
         });
@@ -360,7 +360,7 @@ public class GameOfLifeWidget {
         conwayGrid.clearGrid();
         conwayGrid.repaint();
 
-        detectOscillationsCheckbox.setSelected();
+        detectOscillationsCheckbox.setChecked();
         iterationsPerSecondSlider.setValue(DEFAULT_ITERATIONS_PER_SECOND);
         iterationsPerSecond = DEFAULT_ITERATIONS_PER_SECOND;
 
@@ -450,7 +450,7 @@ public class GameOfLifeWidget {
                         conwayFrame.notify("Simulation stabilized at generation: " + generation);
                         stop();
                         return;
-                    } else if (detectOscillationsCheckbox.isSelected() && nextState.equals(lastState)) {
+                    } else if (detectOscillationsCheckbox.isChecked() && nextState.equals(lastState)) {
                         conwayFrame.revokeAllNotifications();
                         conwayFrame.notify("Detected oscillation at generation: " + generation);
                         stop();
