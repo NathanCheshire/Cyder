@@ -78,4 +78,18 @@ public class ThreadUtil {
 
         return ImmutableList.copyOf(ret);
     }
+
+    /**
+     * Sleeps on the currently executing thread for the provided amount of time in ms.
+     * This method is intended to be used as a static import so that a method can
+     * invoke this method without having to surround with a try/catch block or type
+     * out all of {@link Thread#sleep(long)}.
+     *
+     * @param sleepTime the time to sleep for in
+     */
+    public static void sleep(long sleepTime) {
+        try {
+            Thread.sleep(sleepTime);
+        } catch (Exception ignored) {}
+    }
 }
