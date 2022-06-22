@@ -36,6 +36,7 @@ public class CyderButton extends JButton {
         setColors(CyderColors.buttonColor);
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
+        setBorder(new LineBorder(CyderColors.navy, 5, false));
 
         setUI(new MetalButtonUI() {
             protected Color getDisabledTextColor() {
@@ -52,7 +53,6 @@ public class CyderButton extends JButton {
     @Override
     protected void paintComponent(Graphics g) {
         setFocusPainted(false);
-        setBorder(new LineBorder(CyderColors.navy, 5, false));
         if (getModel().isPressed()) {
             g.setColor(pressedBackgroundColor);
         } else if (getModel().isRollover()) {

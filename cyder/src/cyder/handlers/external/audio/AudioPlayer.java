@@ -2228,19 +2228,25 @@ public final class AudioPlayer {
 
         audioPlayerFrame.hideMenu();
 
-        int yOff = 60;
+        int yOff = 50;
 
         CyderTextField searchField = new CyderTextField();
-        searchField.setHorizontalAlignment(JLabel.CENTER);
+        searchField.setFont(new Font("Agency FB", Font.BOLD, 26));
+        searchField.setForeground(CyderColors.vanilla);
+        searchField.setCaret(new CyderCaret(CyderColors.vanilla));
+        searchField.setBackground(BACKGROUND_COLOR);
         searchField.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, phaseTwoWidth, 40);
         searchField.setToolTipText("Search");
+        searchField.setBorder(BorderFactory.createMatteBorder(0,0,4,0, CyderColors.vanilla));
         audioPlayerFrame.getContentPane().add(searchField);
-        searchField.setForeground(CyderColors.navy);
 
-        yOff += 40;
+        yOff += 50;
 
         CyderButton searchButton = new CyderButton("Search");
-        searchButton.setBorder(new LineBorder(CyderColors.vanilla, 4));
+        searchButton.setBorder(new LineBorder(Color.black, 4));
+        searchButton.setBackground(CyderColors.regularPurple);
+        searchButton.setForeground(CyderColors.vanilla);
+        searchButton.setBorder(new LineBorder(Color.black, 3));
         searchButton.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, phaseTwoWidth, 40);
         audioPlayerFrame.getContentPane().add(searchButton);
         searchField.addActionListener(e -> updateSearchResults(searchField.getText()));
