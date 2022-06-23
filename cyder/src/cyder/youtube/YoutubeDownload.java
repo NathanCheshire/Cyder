@@ -34,63 +34,6 @@ import static cyder.youtube.YoutubeConstants.*;
  */
 public class YoutubeDownload {
     /**
-     * The url of the youtube video to download.
-     */
-    private final String url;
-
-    /**
-     * Suppress default constructor.
-     */
-    @SuppressWarnings("unused")
-    private YoutubeDownload() {
-        throw new IllegalMethodException("Illegal use of constructor without download url");
-    }
-
-    /**
-     * Constructs a new YoutubeDownload object.
-     *
-     * @param url the url of the video to download
-     */
-    public YoutubeDownload(String url) {
-        Preconditions.checkNotNull(url);
-        Preconditions.checkArgument(!url.isEmpty());
-
-        this.url = url;
-    }
-
-    /**
-     * The label this class will print and update with statistics about the download.
-     */
-    private JLabel printLabel;
-
-    /**
-     * Updates the download progress labels.
-     */
-    public void updateLabel() {
-        String updateText = "<html>" + downloadableName
-                + "<br/>File size: " + downloadableFileSize
-                + "<br/>Progress: " + downloadableProgress
-                + "%<br/>Rate: " + downloadableRate
-                + "<br/>Eta: " + downloadableEta + "</html>";
-
-        printLabel.setText(updateText);
-        printLabel.revalidate();
-        printLabel.repaint();
-        printLabel.setHorizontalAlignment(JLabel.LEFT);
-    }
-
-    /**
-     * Refreshes the font of the label containing the download information.
-     */
-    public void refreshLabelFont() {
-        if (isDownloaded()) {
-            return;
-        }
-
-        printLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
-    }
-
-    /**
      * The download name of this download object.
      */
     private String downloadableName;
@@ -134,6 +77,62 @@ public class YoutubeDownload {
      * Whether this download was canceled externally.
      */
     private boolean canceled;
+
+    /**
+     * The label this class will print and update with statistics about the download.
+     */
+    private JLabel downloadProgressLabel;
+
+    /**
+     * The url of the youtube video to download.
+     */
+    private final String url;
+
+    /**
+     * Suppress default constructor.
+     */
+    @SuppressWarnings("unused")
+    private YoutubeDownload() {
+        throw new IllegalMethodException("Illegal use of constructor without download url");
+    }
+
+    /**
+     * Constructs a new YoutubeDownload object.
+     *
+     * @param url the url of the video to download
+     */
+    public YoutubeDownload(String url) {
+        Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!url.isEmpty());
+        Preconditions.checkArgument(AudioUtil.youtubeDlInstalled());
+
+        this.url = url;
+    }
+
+    /**
+     * Updates the download progress label.
+     */
+    public void updateProgressLabel() {
+        downloadProgressLabel.setText("<html>" + downloadableName
+                + "<br/>File size: " + downloadableFileSize
+                + "<br/>Progress: " + downloadableProgress
+                + "%<br/>Rate: " + downloadableRate
+                + "<br/>Eta: " + downloadableEta + "</html>");
+        downloadProgressLabel.revalidate();
+        downloadProgressLabel.repaint();
+        downloadProgressLabel.setHorizontalAlignment(JLabel.LEFT);
+    }
+
+    /**
+     * Refreshes the font of the label containing the download information.
+     */
+    public void refreshLabelFont() {
+        if (isDone()) {
+            return;
+        }
+
+        downloadProgressLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
+    }
 
     /**
      * Returns the download name of this download.
@@ -227,14 +226,14 @@ public class YoutubeDownload {
     }
 
     /**
-     * The audio progress bar to print and update if a valid input handler is provided.
+     * The download progress bar to print and update if a valid input handler is provided.
      */
-    private CyderProgressBar audioProgressBar;
+    private CyderProgressBar downloadProgressBar;
 
     /**
-     * The audio progress ui to use for the audio progress bar.
+     * The progress bar ui to use for the download progress bar.
      */
-    private CyderProgressUI audioProgressUi;
+    private CyderProgressUI downloadProgressBarUi;
 
     /**
      * The input handler to print updates to if not null;
@@ -264,11 +263,10 @@ public class YoutubeDownload {
      */
     public void download() {
         Preconditions.checkArgument(!done, "Object attempted to download previously");
-        Preconditions.checkArgument(AudioUtil.youtubeDlInstalled());
 
-        boolean shouldPrint = inputHandler != null;
+        boolean shouldUpdate = inputHandler != null;
 
-        String saveDir = OSUtil.buildPath(
+        String userMusicDir = OSUtil.buildPath(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
                 ConsoleFrame.INSTANCE.getUUID(),
@@ -280,10 +278,6 @@ public class YoutubeDownload {
                 StringUtil.parseNonAscii(NetworkUtil.getUrlTitle(url))
                         .replace("- YouTube", "")
                         .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim());
-
-        if (shouldPrint) {
-            inputHandler.println("Downloading audio as: " + parsedSaveName + extension);
-        }
 
         // remove trailing periods
         while (parsedSaveName.get().endsWith(".")) {
@@ -299,7 +293,7 @@ public class YoutubeDownload {
                 AudioUtil.getYoutubeDlCommand(), url,
                 FFMPEG_EXTRACT_AUDIO_FLAG,
                 FFMPEG_AUDIO_FORMAT_FLAG, PropLoader.getString("ffmpeg_audio_output_format"),
-                FFMPEG_OUTPUT_FLAG, new File(saveDir).getAbsolutePath() + OSUtil.FILE_SEP
+                FFMPEG_OUTPUT_FLAG, new File(userMusicDir).getAbsolutePath() + OSUtil.FILE_SEP
                 + parsedSaveName + ".%(ext)s"
         };
 
@@ -308,7 +302,8 @@ public class YoutubeDownload {
 
         CyderThreadRunner.submit(() -> {
             try {
-                if (shouldPrint) {
+                if (shouldUpdate) {
+                    inputHandler.println("Downloading audio as: " + parsedSaveName + extension);
                     constructAndPrintUiElements();
                 }
 
@@ -321,7 +316,7 @@ public class YoutubeDownload {
                 while ((outputString = stdInput.readLine()) != null) {
                     if (isCanceled()) {
                         proc.destroy();
-                        cleanUpFromCancel(new File(saveDir), parsedSaveName);
+                        cleanUpFromCancel(new File(userMusicDir), parsedSaveName);
                         break;
                     }
 
@@ -336,9 +331,9 @@ public class YoutubeDownload {
                         this.downloadableRate = updateMatcher.group(3);
                         this.downloadableEta = updateMatcher.group(4);
 
-                        if (shouldPrint && audioProgressBar != null) {
-                            audioProgressBar.setValue((int) ((progress / 100.0) * audioProgressBar.getMaximum()));
-                            updateLabel();
+                        if (shouldUpdate && downloadProgressBar != null) {
+                            downloadProgressBar.setValue((int) ((progress / 100.0f) * downloadProgressBar.getMaximum()));
+                            updateProgressLabel();
                         }
                     }
                 }
@@ -349,76 +344,75 @@ public class YoutubeDownload {
                     YoutubeUtil.downloadThumbnail(url);
 
                     AudioPlayer.addAudioNext(new File(OSUtil.buildPath(
-                            saveDir, parsedSaveName + extension)));
+                            userMusicDir, parsedSaveName + extension)));
                 }
 
-                if (shouldPrint) {
+                if (shouldUpdate) {
                     inputHandler.println("Download complete: saved as " + downloadableName
                             + " and added to audio queue");
 
-                    cleanUpUi();
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
 
-                if (shouldPrint) {
+                if (shouldUpdate) {
                     inputHandler.println("An exception occurred while attempting to download, url=" + url);
-                    cleanUpUi();
                 }
             } finally {
                 YoutubeUtil.removeActiveDownload(this);
                 done = true;
                 downloading = false;
+
+                if (shouldUpdate) {
+                    cleanUpUi();
+                }
             }
         }, "YouTube Downloader, saveName=" + parsedSaveName.get() + ", uuid=" + YoutubeUtil.getUuid(url));
     }
 
     /**
-     * Constructs and prints the progress bar and labels to the provided input handler.
+     * Constructs and prints the progress bar and label to the linked input handler.
      */
     private void constructAndPrintUiElements() {
-        audioProgressBar = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
+        downloadProgressBar = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
 
-        audioProgressUi = new CyderProgressUI();
-        audioProgressUi.setColors(CyderColors.regularPink, CyderColors.regularBlue);
-        audioProgressUi.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
-        audioProgressBar.setUI(audioProgressUi);
-        audioProgressBar.setMinimum(0);
-        audioProgressBar.setMaximum(10000);
-        audioProgressBar.setBorder(new LineBorder(Color.black, 2));
-        audioProgressBar.setBounds(0, 0, 400, 40);
-        audioProgressBar.setVisible(true);
-        audioProgressBar.setValue(0);
-        audioProgressBar.setOpaque(false);
-        audioProgressBar.setFocusable(false);
-        audioProgressBar.repaint();
+        downloadProgressBarUi = new CyderProgressUI();
+        downloadProgressBarUi.setColors(CyderColors.regularPink, CyderColors.regularBlue);
+        downloadProgressBarUi.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
+        downloadProgressBar.setUI(downloadProgressBarUi);
+        downloadProgressBar.setMinimum(0);
+        downloadProgressBar.setMaximum(10000);
+        downloadProgressBar.setBorder(new LineBorder(Color.black, 2));
+        downloadProgressBar.setBounds(0, 0, 400, 40);
+        downloadProgressBar.setVisible(true);
+        downloadProgressBar.setValue(0);
+        downloadProgressBar.setOpaque(false);
+        downloadProgressBar.setFocusable(false);
+        downloadProgressBar.repaint();
 
-        printLabel = new JLabel("\"" + this.downloadableName + "\"");
-        printLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
-        printLabel.setForeground(CyderColors.vanilla);
-        printLabel.setHorizontalAlignment(JLabel.LEFT);
-        printLabel.setForeground(ConsoleFrame.INSTANCE.getInputField().getForeground());
-        printLabel.setFont(ConsoleFrame.INSTANCE.getInputField().getFont());
+        downloadProgressLabel = new JLabel("\"" + this.downloadableName + "\"");
+        downloadProgressLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
+        downloadProgressLabel.setForeground(CyderColors.vanilla);
+        downloadProgressLabel.setHorizontalAlignment(JLabel.LEFT);
+        downloadProgressLabel.setForeground(ConsoleFrame.INSTANCE.getInputField().getForeground());
+        downloadProgressLabel.setFont(ConsoleFrame.INSTANCE.getInputField().getFont());
 
-        inputHandler.println(audioProgressBar);
-        inputHandler.println(printLabel);
+        inputHandler.println(downloadProgressBar);
+        inputHandler.println(downloadProgressLabel);
     }
 
     /**
      * Cleans up the printed ui elements.
      */
     private void cleanUpUi() {
-        Preconditions.checkNotNull(audioProgressUi);
-        Preconditions.checkNotNull(audioProgressBar);
+        downloadProgressBarUi.setColors(CyderColors.regularBlue, CyderColors.regularBlue);
+        downloadProgressBarUi.stopAnimationTimer();
 
-        audioProgressUi.setColors(CyderColors.regularBlue, CyderColors.regularBlue);
-        audioProgressUi.stopAnimationTimer();
-
-        audioProgressBar.repaint();
+        downloadProgressBar.repaint();
     }
 
     /**
-     * Cleans up the .part or any other files left over by youtube-dl after the user canceled the download.
+     * Cleans up .part or any other files left over by youtube-dl after the user canceled the download.
      *
      * @param parentDirectory      the directory the file would have been downloaded to
      * @param nameWithoutExtension the file name without the extension, anything that starts with this will be deleted

@@ -2480,7 +2480,7 @@ public final class AudioPlayer {
                     printingUtil.println("\n");
 
                     // vars for downloading logic
-                    String videoUrl = YoutubeUtil.buildYoutubeVideoUrl(result.uuid);
+                    String videoUrl = YoutubeUtil.buildVideoUrl(result.uuid);
                     final AtomicReference<YoutubeDownload> downloadable =
                             new AtomicReference<>(new YoutubeDownload(videoUrl));
                     AtomicBoolean mouseEntered = new AtomicBoolean(false);
