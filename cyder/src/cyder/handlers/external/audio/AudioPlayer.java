@@ -672,10 +672,12 @@ public final class AudioPlayer {
                 audioTotalLength = AudioUtil.getTotalBytes(currentAudioFile.get());
             }
 
-            audioLocationUpdater.setPercentIn((float) audioLocationSlider.getValue()
-                    / audioLocationSlider.getMaximum());
+            if (audioLocationUpdater != null) {
+                audioLocationUpdater.setPercentIn((float) audioLocationSlider.getValue()
+                        / audioLocationSlider.getMaximum());
 
-            audioLocationUpdater.update(true);
+                audioLocationUpdater.update(true);
+            }
         });
         audioLocationSlider.addMouseListener(new MouseAdapter() {
             @Override
@@ -2398,10 +2400,13 @@ public final class AudioPlayer {
         // todo step buttons on side of field too to navigate the pages of results
 
         // todo back button for phase 2
+        // todo use borderless, rounded, better font for button
 
-        // todo going to next audio doesn't work?
+        // todo going to next audio doesn't work automatically
 
         // todo similar command finder still broken?
+
+        // todo audio progress bar goes too fast like 3 seconds ahead at beginning of audio
 
         CyderThreadRunner.submit(() -> {
             showInformationLabel("Searching...");
@@ -2431,8 +2436,6 @@ public final class AudioPlayer {
                 searchResultsPane.setText("");
 
                 for (YoutubeSearchResult result : searchResults) {
-                    AtomicBoolean isDownloading = new AtomicBoolean();
-
                     ImageIcon defaultIcon = ImageUtil.toImageIcon(result.bi);
 
                     JLabel imageLabel = new JLabel(defaultIcon);
@@ -2457,7 +2460,8 @@ public final class AudioPlayer {
 
                     // vars for downloading logic
                     String videoUrl = YoutubeUtil.buildYoutubeVideoUrl(result.uuid);
-                    YoutubeDownload downloadable = new YoutubeDownload(videoUrl);
+                    final AtomicReference<YoutubeDownload> downloadable =
+                            new AtomicReference<>(new YoutubeDownload(videoUrl));
                     AtomicBoolean mouseEntered = new AtomicBoolean(false);
 
                     CyderButton downloadButton = new CyderButton() {
@@ -2473,15 +2477,25 @@ public final class AudioPlayer {
                     downloadButton.setBorder(new LineBorder(Color.black, 3));
                     downloadButton.setSize(phaseTwoWidth, 40);
                     downloadButton.addActionListener(e -> {
-                        if (downloadable.isDownloading()) {
-                            // todo need to somehow stop, end process, and delete part files
+                        if (downloadable.get().isDownloading()) {
+                            downloadable.get().cancel();
+                            downloadButton.setText("Download");
                         } else {
-                            downloadable.download();
+                            if (downloadable.get().isDownloaded()) {
+                                audioPlayerFrame.notify("Audio file already downloaded");
+                                return;
+                            }
+
+                            if (downloadable.get().isCanceled()) {
+                                downloadable.set(new YoutubeDownload(videoUrl));
+                            }
+
+                            downloadable.get().download();
 
                             CyderThreadRunner.submit(() -> {
-                                while (!downloadable.isDone()) {
+                                while (!downloadable.get().isDone()) {
                                     if (!mouseEntered.get()) {
-                                        downloadButton.setText(downloadable.getDownloadableProgress() + "%");
+                                        downloadButton.setText(downloadable.get().getDownloadableProgress() + "%");
                                     }
 
                                     ThreadUtil.sleep(YoutubeConstants.DOWNLOAD_UPDATE_DELAY);
@@ -2494,15 +2508,15 @@ public final class AudioPlayer {
                         public void mouseEntered(MouseEvent e) {
                             mouseEntered.set(true);
 
-                            if (isDownloading.get()) {
+                            if (downloadable.get().isDownloading()) {
                                 downloadButton.setText("Cancel");
                             }
                         }
 
                         @Override
                         public void mouseExited(MouseEvent e) {
-                            if (isDownloading.get()) {
-                                downloadButton.setText(downloadable.getDownloadableProgress() + "%");
+                            if (downloadable.get().isDownloading()) {
+                                downloadButton.setText(downloadable.get().getDownloadableProgress() + "%");
                             } else {
                                 downloadButton.setText("Download");
                             }

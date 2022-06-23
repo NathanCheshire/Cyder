@@ -320,6 +320,7 @@ public class YoutubeDownload {
                 while ((outputString = stdInput.readLine()) != null) {
                     // todo test canceling
                     if (isCanceled()) {
+                        proc.destroy();
                         cleanUpFromCancel(new File(saveDir), parsedSaveName);
                         break;
                     }
@@ -329,13 +330,16 @@ public class YoutubeDownload {
                     if (updateMatcher.find()) {
                         float progress = Float.parseFloat(updateMatcher.group(1)
                                 .replaceAll("[^0-9.]", ""));
-                        audioProgressBar.setValue((int) ((progress / 100.0) * audioProgressBar.getMaximum()));
+
                         this.downloadableFileSize = updateMatcher.group(2);
                         this.downloadableProgress = progress;
                         this.downloadableRate = updateMatcher.group(3);
                         this.downloadableEta = updateMatcher.group(4);
 
-                        updateLabel();
+                        if (shouldPrint && audioProgressBar != null) {
+                            audioProgressBar.setValue((int) ((progress / 100.0) * audioProgressBar.getMaximum()));
+                            updateLabel();
+                        }
                     }
                 }
 
