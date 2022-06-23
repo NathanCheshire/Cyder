@@ -1418,6 +1418,7 @@ public final class AudioPlayer {
      */
     private static void setupAndShowFrameView(FrameView view) {
         setPhaseOneComponentsVisible(false);
+        setPhaseTwoComponentsVisible(false);
 
         switch (view) {
             case FULL -> {
@@ -2224,6 +2225,11 @@ public final class AudioPlayer {
     private static CyderButton searchButton;
 
     /**
+     * The button used to go back to the main audio page.
+     */
+    private static CyderButton backButton;
+
+    /**
      * The width of phase two components excluding the scroll pane.
      */
     private static final int phaseTwoWidth = 300;
@@ -2280,10 +2286,21 @@ public final class AudioPlayer {
         searchButton.setBackground(CyderColors.regularPurple);
         searchButton.setForeground(CyderColors.vanilla);
         searchButton.setBorder(new LineBorder(Color.black, 3));
-        searchButton.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, phaseTwoWidth, 40);
+        searchButton.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2 + 50, yOff,
+                phaseTwoWidth - 50, 40);
         audioPlayerFrame.getContentPane().add(searchButton);
         searchField.addActionListener(e -> searchAndUpdate(searchField.getText()));
         searchButton.addActionListener(e -> searchAndUpdate(searchField.getText()));
+
+        backButton = new CyderButton(" < ");
+        backButton.setBorder(new LineBorder(Color.black, 4));
+        backButton.setBackground(CyderColors.regularPurple);
+        backButton.setToolTipText("Back");
+        backButton.setForeground(CyderColors.vanilla);
+        backButton.setBorder(new LineBorder(Color.black, 3));
+        backButton.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, 40, 40);
+        audioPlayerFrame.getContentPane().add(backButton);
+        backButton.addActionListener(e -> setupAndShowFrameView(FrameView.FULL));
 
         yOff += 60;
 
@@ -2341,8 +2358,13 @@ public final class AudioPlayer {
      */
     @SuppressWarnings("SameParameterValue")
     private static void setPhaseTwoComponentsVisible(boolean visible) {
+        if (searchField == null) {
+            return;
+        }
+
         searchField.setVisible(visible);
         searchButton.setVisible(visible);
+        backButton.setVisible(visible);
         informationLabel.setVisible(visible);
         searchResultsPane.setVisible(visible);
         searchResultsScroll.setVisible(visible);
@@ -2396,11 +2418,10 @@ public final class AudioPlayer {
 
         previousSearch = fieldText;
 
-        // todo a results label would be nice that also shows the number of pages
-        // todo step buttons on side of field too to navigate the pages of results
-
         // todo back button for phase 2
         // todo use borderless, rounded, better font for button
+
+        // todo retain last search objects in view if present. new audio player instance resets this
 
         // todo going to next audio doesn't work automatically
 

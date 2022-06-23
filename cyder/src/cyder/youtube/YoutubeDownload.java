@@ -264,6 +264,7 @@ public class YoutubeDownload {
      */
     public void download() {
         Preconditions.checkArgument(!done, "Object attempted to download previously");
+        Preconditions.checkArgument(AudioUtil.youtubeDlInstalled());
 
         boolean shouldPrint = inputHandler != null;
 
@@ -318,7 +319,6 @@ public class YoutubeDownload {
                 String outputString;
 
                 while ((outputString = stdInput.readLine()) != null) {
-                    // todo test canceling
                     if (isCanceled()) {
                         proc.destroy();
                         cleanUpFromCancel(new File(saveDir), parsedSaveName);
