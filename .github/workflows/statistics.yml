@@ -18,12 +18,11 @@ jobs:
 
       - name: Commit and Push generated files
         run: |
-          today = `date +%Y-%m-%d`
           if [ -n "$(git status --porcelain)" ]; then
             git config --local user.email "action@github.com"
             git config --local user.name "github-actions"
             git add .
-            git commit -m "update README statistics ${today}"
+            git commit -m "update README statistics ${date %Y-%m-%d}"
             git push -u origin main
           else
             echo "No files changed; job complete"
