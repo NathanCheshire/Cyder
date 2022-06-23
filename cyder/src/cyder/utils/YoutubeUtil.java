@@ -1,7 +1,6 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Range;
 import cyder.annotations.Widget;
 import cyder.constants.*;
 import cyder.enums.Dynamic;
@@ -31,22 +30,13 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static cyder.youtube.YoutubeConstants.*;
 
 /**
  * Utility methods related to youtube videos.
  */
 public final class YoutubeUtil {
-    /**
-     * The maximum number of chars that can be used for a filename from a youtube video's title.
-     */
-    public static final int MAX_THUMBNAIL_CHARS = 20;
-
-    /**
-     * The pattern to identify a valid YouTube UUID.
-     */
-    public static final Pattern uuidPattern = Pattern.compile("[A-Za-z0-9_\\-]{0,11}");
-
     /**
      * Restrict instantiation of class.
      */
@@ -57,7 +47,7 @@ public final class YoutubeUtil {
     /**
      * A list of youtube videos currently being downloaded.
      */
-    private static final LinkedList<YoutubeDownload> currentDownloads = new LinkedList<>();
+    private static final LinkedList<YoutubeDownload> activeDownloads = new LinkedList<>();
 
     /**
      * Downloads the youtube video with the provided url.
@@ -67,18 +57,18 @@ public final class YoutubeUtil {
     public static void downloadVideo(String url) {
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
             YoutubeDownload youtubeDownload = new YoutubeDownload(url);
-            currentDownloads.add(youtubeDownload);
+            activeDownloads.add(youtubeDownload);
             youtubeDownload.download();
         } else {
-            noFfmpegOrYoutubedl();
+            noFfmpegOrYoutubeDl();
         }
     }
 
     /**
      * Refreshes the label font of all youtube download labels.
      */
-    public static void refreshAllLabels() {
-        for (YoutubeDownload youtubeDownload : currentDownloads) {
+    public static void refreshAllDownloadLabels() {
+        for (YoutubeDownload youtubeDownload : activeDownloads) {
             youtubeDownload.refreshLabelFont();
         }
     }
@@ -107,6 +97,7 @@ public final class YoutubeUtil {
          */
         public YoutubeDownload(String url) {
             Preconditions.checkNotNull(url);
+            Preconditions.checkArgument(!url.isEmpty());
 
             this.url = url;
         }
@@ -133,9 +124,13 @@ public final class YoutubeUtil {
         }
 
         /**
-         * Refreshes the label font.
+         * Refreshes the font of the label containing the download information.
          */
         public void refreshLabelFont() {
+            if (isDownloaded()) {
+                return;
+            }
+
             printLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
         }
 
@@ -223,10 +218,6 @@ public final class YoutubeUtil {
             return downloaded;
         }
 
-        public static final String EXTRACT_AUDIO_FLAG = "--extract-audio";
-        public static final String AUDIO_FORMAT_FLAG = "--audio-format";
-        public static final String OUTPUT_FLAG = "--output";
-
         /**
          * Downloads this object's youtube video.
          */
@@ -257,9 +248,9 @@ public final class YoutubeUtil {
 
             String[] command = {
                     AudioUtil.getYoutubeDlCommand(), url,
-                    EXTRACT_AUDIO_FLAG,
-                    AUDIO_FORMAT_FLAG, PropLoader.getString("ffmpeg_audio_output_format"),
-                    OUTPUT_FLAG, new File(saveDir).getAbsolutePath() + OSUtil.FILE_SEP
+                    FFMPEG_EXTRACT_AUDIO_FLAG,
+                    FFMPEG_AUDIO_FORMAT_FLAG, PropLoader.getString("ffmpeg_audio_output_format"),
+                    FFMPEG_OUTPUT_FLAG, new File(saveDir).getAbsolutePath() + OSUtil.FILE_SEP
                     + parsedAsciiSaveName + ".%(ext)s"
             };
 
@@ -341,19 +332,11 @@ public final class YoutubeUtil {
                             + "attempting to download: " + url);
                     ui.stopAnimationTimer();
                 } finally {
-                    currentDownloads.remove(this);
+                    activeDownloads.remove(this);
                 }
             }, "YouTube Downloader: " + parsedAsciiSaveName.get());
         }
     }
-
-    /**
-     * The error message printed to the console if the YouTube api v3 key is not set.
-     */
-    private static final String KEY_NOT_SET_ERROR_MESSAGE = "Sorry, your YouTubeAPI3 key has not been set. "
-            + "Visit the user editor to learn how to set this in order to download whole playlists. "
-            + "In order to download individual videos, simply use the same play "
-            + "command followed by a video URL or query";
 
     /**
      * Downloads the youtube playlist provided the playlist exists.
@@ -361,6 +344,9 @@ public final class YoutubeUtil {
      * @param playlist the url of the playlist to download
      */
     public static void downloadPlaylist(String playlist) {
+        Preconditions.checkNotNull(playlist);
+        Preconditions.checkArgument(!playlist.isEmpty());
+
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
             String playlistID = extractPlaylistId(playlist);
 
@@ -391,14 +377,9 @@ public final class YoutubeUtil {
                 }
             }
         } else {
-            noFfmpegOrYoutubedl();
+            noFfmpegOrYoutubeDl();
         }
     }
-
-    /**
-     * The default resolution of thumbnails to download when the play command is invoked.
-     */
-    public static final Dimension DEFAULT_THUMBNAIL_DIMENSION = new Dimension(720, 720);
 
     /**
      * Downloads the youtube video's thumbnail with the provided
@@ -408,6 +389,7 @@ public final class YoutubeUtil {
      * @throws YoutubeException if an exception occurred while downloading or processing the thumbnail
      */
     public static void downloadThumbnail(String url) throws YoutubeException {
+        Preconditions.checkNotNull(url);
         downloadThumbnail(url, DEFAULT_THUMBNAIL_DIMENSION);
     }
 
@@ -420,6 +402,9 @@ public final class YoutubeUtil {
      * @throws YoutubeException if an error downloading or processing the thumbnail occurred
      */
     public static void downloadThumbnail(String url, Dimension dimension) throws YoutubeException {
+        Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!url.isEmpty());
+        Preconditions.checkNotNull(dimension);
         Preconditions.checkNotNull(ConsoleFrame.INSTANCE.getUUID());
 
         // get thumbnail url and file name to save it as
@@ -474,7 +459,9 @@ public final class YoutubeUtil {
      * @param youtubeQuery the user friendly query on youtube. Example: "Gryffin Digital Mirage"
      * @return the first UUID obtained from the raw html page youtube returns corresponding to the desired query
      */
-    public static String getFirstUUID(String youtubeQuery) {
+    public static String getFirstUuid(String youtubeQuery) {
+        Preconditions.checkNotNull(youtubeQuery);
+
         String ret = null;
 
         String query = CyderUrls.YOUTUBE_QUERY_BASE + youtubeQuery.replace(" ", "+");
@@ -491,7 +478,7 @@ public final class YoutubeUtil {
     /**
      * Outputs instructions to the ConsoleFrame due to youtube-dl or ffmpeg not being installed.
      */
-    private static void noFfmpegOrYoutubedl() {
+    private static void noFfmpegOrYoutubeDl() {
         ConsoleFrame.INSTANCE.getInputHandler().println("Sorry, but ffmpeg and/or youtube-dl " +
                 "couldn't be located. Please make sure they are both installed and added to your PATH Windows" +
                 " variable. Remember to also set the path to your youtube-dl executable in the user editor");
@@ -704,16 +691,6 @@ public final class YoutubeUtil {
     }
 
     /**
-     * The key used for a max resolution thumbnail.
-     */
-    public static final String MAX_RES_DEFAULT = "maxresdefault.jpg";
-
-    /**
-     * The key used for a standard definition thumbnail.
-     */
-    public static final String SD_DEFAULT = "sddefault.jpg";
-
-    /**
      * Returns a URL for the maximum resolution version of the youtube video's thumbnail.
      *
      * @param uuid the uuid of the video
@@ -757,16 +734,6 @@ public final class YoutubeUtil {
     }
 
     /**
-     * The range of valid values for the number of results a youtube api 3 search query.
-     */
-    private static final Range<Integer> searchQueryResultsRange = Range.closed(1, 20);
-
-    /**
-     * The string used to represent a space in a url.
-     */
-    private static final String URL_SPACE = "%20";
-
-    /**
      * Constructs the url to query YouTube with a specific string for video results.
      *
      * @param numResults the number of results to return (max 20 results per page)
@@ -776,7 +743,7 @@ public final class YoutubeUtil {
     @SuppressWarnings("ConstantConditions") // unit test asserts throws for query of null
     public static String buildYouTubeApiV3SearchQuery(int numResults, String query) {
         Preconditions.checkNotNull(query);
-        Preconditions.checkArgument(searchQueryResultsRange.contains(numResults));
+        Preconditions.checkArgument(SEARCH_QUERY_RESULTS_RANGE.contains(numResults));
         Preconditions.checkArgument(!query.isEmpty());
 
         String key = PropLoader.getString("youtube_api_3_key");

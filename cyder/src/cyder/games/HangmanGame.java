@@ -83,7 +83,7 @@ public final class HangmanGame {
         hangmanFrame.setTitle("Hangman");
 
         currentWordLabel = new JLabel("<html>Nathan Was Here</html>", SwingConstants.CENTER);
-        currentWordLabel.setFont(CyderFonts.segoe20.deriveFont(22f));
+        currentWordLabel.setFont(CyderFonts.SEGOE_20.deriveFont(22f));
         currentWordLabel.setForeground(CyderColors.navy);
         currentWordLabel.setBounds(60, 60, 600, 60);
         hangmanFrame.getContentPane().add(currentWordLabel);
@@ -151,7 +151,7 @@ public final class HangmanGame {
         restButton = new CyderButton("Reset");
         restButton.setFocusPainted(false);
         restButton.setBackground(CyderColors.regularRed);
-        restButton.setFont(CyderFonts.segoe20);
+        restButton.setFont(CyderFonts.SEGOE_20);
         restButton.addActionListener(e -> setup());
         restButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
         restButton.setBounds(80, 750, 712 - 80 - 80, 40);
@@ -164,7 +164,7 @@ public final class HangmanGame {
     }
 
     private static void setup() {
-        currentWordLabel.setFont(CyderFonts.segoe20);
+        currentWordLabel.setFont(CyderFonts.SEGOE_20);
         restButton.setText("Reset");
 
         letterField.setEnabled(true);
@@ -215,7 +215,7 @@ public final class HangmanGame {
             currentWordLabel.setText(newLabelText.toString());
 
             if (!currentWordLabel.getText().contains("_")) {
-                currentWordLabel.setFont(CyderFonts.segoe20);
+                currentWordLabel.setFont(CyderFonts.SEGOE_20);
                 currentWordLabel.setText("<html>Good job! You guessed the word \"" + hangmanWord
                         + "\" Would you like to start again?</html>");
                 letterField.setEnabled(false);
@@ -225,7 +225,7 @@ public final class HangmanGame {
         } else {
             if (numWrongGuesses == 7) {
                 imageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman8.png"));
-                currentWordLabel.setFont(CyderFonts.segoe20);
+                currentWordLabel.setFont(CyderFonts.SEGOE_20);
                 currentWordLabel.setText("<html>Game over! You were unable to guess \"" + hangmanWord
                         + "\" Would you like to start again?</html>");
 

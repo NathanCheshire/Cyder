@@ -63,13 +63,13 @@ public class ColorConverterWidget {
         CyderGridLayout layout = new CyderGridLayout(1, 5);
 
         JLabel hexLabel = new JLabel("Hex Value");
-        hexLabel.setFont(CyderFonts.segoe20);
+        hexLabel.setFont(CyderFonts.SEGOE_20);
         hexLabel.setForeground(CyderColors.navy);
         hexLabel.setSize(120, 30);
         layout.addComponent(hexLabel, 0, 0, CyderGridLayout.Position.MIDDLE_CENTER);
 
         JLabel rgbLabel = new JLabel("RGB Value");
-        rgbLabel.setFont(CyderFonts.segoe20);
+        rgbLabel.setFont(CyderFonts.SEGOE_20);
         rgbLabel.setForeground(CyderColors.navy);
         rgbLabel.setSize(120, 30);
         layout.addComponent(rgbLabel, 0, 3, CyderGridLayout.Position.MIDDLE_CENTER);

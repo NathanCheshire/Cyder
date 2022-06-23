@@ -110,7 +110,7 @@ public class ExceptionHandler {
 
             // find max width of lines
             int width = 0;
-            Font font = CyderFonts.defaultFontSmall;
+            Font font = CyderFonts.DEFAULT_FONT_SMALL;
 
             for (int i = 0 ; i < 10 ; i++) {
                 width = Math.max(width, StringUtil.getMinWidth(lines[i], font));
@@ -148,7 +148,7 @@ public class ExceptionHandler {
                 }
             });
             label.setForeground(CyderColors.navy);
-            label.setFont(CyderFonts.defaultFontSmall);
+            label.setFont(CyderFonts.DEFAULT_FONT_SMALL);
             label.setHorizontalAlignment(JLabel.CENTER);
             label.setVerticalAlignment(JLabel.CENTER);
             label.setBounds(offset, offset, width, height);

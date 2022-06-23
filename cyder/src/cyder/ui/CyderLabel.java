@@ -25,7 +25,7 @@ public class CyderLabel extends JLabel {
     public CyderLabel(String text) {
         setText(text);
         setForeground(CyderColors.navy);
-        setFont(CyderFonts.defaultFontSmall);
+        setFont(CyderFonts.DEFAULT_FONT_SMALL);
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
 
@@ -54,7 +54,7 @@ public class CyderLabel extends JLabel {
     public CyderLabel(String text, int horizontalAlignment) {
         setText(text);
         setForeground(CyderColors.navy);
-        setFont(CyderFonts.defaultFontSmall);
+        setFont(CyderFonts.DEFAULT_FONT_SMALL);
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
         setHorizontalAlignment(horizontalAlignment);

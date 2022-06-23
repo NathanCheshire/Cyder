@@ -84,7 +84,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorAdd);
         calculatorAdd.setFocusPainted(false);
         calculatorAdd.setBackground(CyderColors.regularOrange);
-        calculatorAdd.setFont(CyderFonts.segoe30);
+        calculatorAdd.setFont(CyderFonts.SEGOE_30);
         calculatorAdd.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "+"));
 
         CyderButton calculatorSubtract = new CyderButton("-");
@@ -94,7 +94,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorSubtract);
         calculatorSubtract.setFocusPainted(false);
         calculatorSubtract.setBackground(CyderColors.regularOrange);
-        calculatorSubtract.setFont(CyderFonts.segoe30);
+        calculatorSubtract.setFont(CyderFonts.SEGOE_30);
         calculatorSubtract.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "-"));
 
         CyderButton calculatorMultiply = new CyderButton("*");
@@ -104,7 +104,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorMultiply);
         calculatorMultiply.setFocusPainted(false);
         calculatorMultiply.setBackground(CyderColors.regularOrange);
-        calculatorMultiply.setFont(CyderFonts.segoe30);
+        calculatorMultiply.setFont(CyderFonts.SEGOE_30);
         calculatorMultiply.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "*"));
 
         CyderButton calculatorDivide = new CyderButton("/");
@@ -114,7 +114,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorDivide);
         calculatorDivide.setFocusPainted(false);
         calculatorDivide.setBackground(CyderColors.regularOrange);
-        calculatorDivide.setFont(CyderFonts.segoe30);
+        calculatorDivide.setFont(CyderFonts.SEGOE_30);
         calculatorDivide.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "/"));
 
         CyderButton calculatorSeven = new CyderButton("7");
@@ -124,7 +124,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorSeven);
         calculatorSeven.setFocusPainted(false);
         calculatorSeven.setBackground(CyderColors.regularOrange);
-        calculatorSeven.setFont(CyderFonts.segoe30);
+        calculatorSeven.setFont(CyderFonts.SEGOE_30);
         calculatorSeven.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "7"));
 
         CyderButton calculatorEight = new CyderButton("8");
@@ -134,7 +134,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorEight);
         calculatorEight.setFocusPainted(false);
         calculatorEight.setBackground(CyderColors.regularOrange);
-        calculatorEight.setFont(CyderFonts.segoe30);
+        calculatorEight.setFont(CyderFonts.SEGOE_30);
         calculatorEight.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "8"));
 
         CyderButton calculatorNine = new CyderButton("9");
@@ -144,7 +144,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorNine);
         calculatorNine.setFocusPainted(false);
         calculatorNine.setBackground(CyderColors.regularOrange);
-        calculatorNine.setFont(CyderFonts.segoe30);
+        calculatorNine.setFont(CyderFonts.SEGOE_30);
         calculatorNine.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "9"));
 
         CyderButton calculatorEquals = new CyderButton("=");
@@ -154,7 +154,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorEquals);
         calculatorEquals.setFocusPainted(false);
         calculatorEquals.setBackground(CyderColors.regularOrange);
-        calculatorEquals.setFont(CyderFonts.segoe30);
+        calculatorEquals.setFont(CyderFonts.SEGOE_30);
         calculatorEquals.addActionListener(e -> compute());
         calculatorField.addActionListener(e -> compute());
 
@@ -165,7 +165,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorFour);
         calculatorFour.setFocusPainted(false);
         calculatorFour.setBackground(CyderColors.regularOrange);
-        calculatorFour.setFont(CyderFonts.segoe30);
+        calculatorFour.setFont(CyderFonts.SEGOE_30);
         calculatorFour.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "4"));
 
         CyderButton calculatorFive = new CyderButton("5");
@@ -175,7 +175,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorFive);
         calculatorFive.setFocusPainted(false);
         calculatorFive.setBackground(CyderColors.regularOrange);
-        calculatorFive.setFont(CyderFonts.segoe30);
+        calculatorFive.setFont(CyderFonts.SEGOE_30);
         calculatorFive.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "5"));
 
         CyderButton calculatorSix = new CyderButton("6");
@@ -185,7 +185,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorSix);
         calculatorSix.setFocusPainted(false);
         calculatorSix.setBackground(CyderColors.regularOrange);
-        calculatorSix.setFont(CyderFonts.segoe30);
+        calculatorSix.setFont(CyderFonts.SEGOE_30);
         calculatorSix.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "6"));
 
         CyderButton calculatorClear = new CyderButton("CE");
@@ -195,7 +195,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorClear);
         calculatorClear.setFocusPainted(false);
         calculatorClear.setBackground(CyderColors.regularOrange);
-        calculatorClear.setFont(CyderFonts.segoe30);
+        calculatorClear.setFont(CyderFonts.SEGOE_30);
         calculatorClear.addActionListener(e -> {
             calculatorField.setText("");
             resultField.setText("");
@@ -208,7 +208,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorOne);
         calculatorOne.setFocusPainted(false);
         calculatorOne.setBackground(CyderColors.regularOrange);
-        calculatorOne.setFont(CyderFonts.segoe30);
+        calculatorOne.setFont(CyderFonts.SEGOE_30);
         calculatorOne.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "1"));
 
         CyderButton calculatorTwo = new CyderButton("2");
@@ -218,7 +218,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorTwo);
         calculatorTwo.setFocusPainted(false);
         calculatorTwo.setBackground(CyderColors.regularOrange);
-        calculatorTwo.setFont(CyderFonts.segoe30);
+        calculatorTwo.setFont(CyderFonts.SEGOE_30);
         calculatorTwo.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "2"));
 
         CyderButton calculatorThree = new CyderButton("3");
@@ -228,7 +228,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorThree);
         calculatorThree.setFocusPainted(false);
         calculatorThree.setBackground(CyderColors.regularOrange);
-        calculatorThree.setFont(CyderFonts.segoe30);
+        calculatorThree.setFont(CyderFonts.SEGOE_30);
         calculatorThree.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "3"));
 
         CyderButton calculatorUndo = new CyderButton("<<");
@@ -238,7 +238,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorUndo);
         calculatorUndo.setFocusPainted(false);
         calculatorUndo.setBackground(CyderColors.regularOrange);
-        calculatorUndo.setFont(CyderFonts.segoe30);
+        calculatorUndo.setFont(CyderFonts.SEGOE_30);
         calculatorUndo.addActionListener(e -> {
             String text = calculatorField.getText();
 
@@ -253,7 +253,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorZero);
         calculatorZero.setFocusPainted(false);
         calculatorZero.setBackground(CyderColors.regularOrange);
-        calculatorZero.setFont(CyderFonts.segoe30);
+        calculatorZero.setFont(CyderFonts.SEGOE_30);
         calculatorZero.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "0"));
 
         CyderButton calculatorDecimal = new CyderButton(".");
@@ -263,7 +263,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorDecimal);
         calculatorDecimal.setFocusPainted(false);
         calculatorDecimal.setBackground(CyderColors.regularOrange);
-        calculatorDecimal.setFont(CyderFonts.segoe30);
+        calculatorDecimal.setFont(CyderFonts.SEGOE_30);
         calculatorDecimal.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "."));
 
         CyderButton calculatorOpenP = new CyderButton("(");
@@ -273,7 +273,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorOpenP);
         calculatorOpenP.setFocusPainted(false);
         calculatorOpenP.setBackground(CyderColors.regularOrange);
-        calculatorOpenP.setFont(CyderFonts.segoe30);
+        calculatorOpenP.setFont(CyderFonts.SEGOE_30);
         calculatorOpenP.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "("));
 
         CyderButton calculatorCloseP = new CyderButton(")");
@@ -283,7 +283,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorCloseP);
         calculatorCloseP.setFocusPainted(false);
         calculatorCloseP.setBackground(CyderColors.regularOrange);
-        calculatorCloseP.setFont(CyderFonts.segoe30);
+        calculatorCloseP.setFont(CyderFonts.SEGOE_30);
         calculatorCloseP.addActionListener(e -> calculatorField.setText(calculatorField.getText() + ")"));
 
         calculatorFrame.finalizeAndShow();

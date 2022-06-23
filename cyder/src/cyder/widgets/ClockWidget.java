@@ -125,7 +125,7 @@ public class ClockWidget {
             //spawn mini mode for current timezone button
             JButton spawnMini = new JButton("Mini");
             spawnMini.setForeground(CyderColors.vanilla);
-            spawnMini.setFont(CyderFonts.defaultFontSmall);
+            spawnMini.setFont(CyderFonts.DEFAULT_FONT_SMALL);
             spawnMini.setToolTipText("Spawn a mini clock for the current location");
             spawnMini.addActionListener(e -> spawnMiniClock());
             spawnMini.addMouseListener(new MouseAdapter() {
@@ -146,7 +146,7 @@ public class ClockWidget {
             clockFrame.getTopDragLabel().addButton(spawnMini, 0);
 
             digitalTimeAndDateLabel = new CyderLabel(getTime(currentGMTOffset));
-            digitalTimeAndDateLabel.setFont(CyderFonts.defaultFont);
+            digitalTimeAndDateLabel.setFont(CyderFonts.DEFAULT_FONT);
             digitalTimeAndDateLabel.setBounds(10, 60, 780, 40);
             clockFrame.getContentPane().add(digitalTimeAndDateLabel);
 
@@ -192,7 +192,7 @@ public class ClockWidget {
 
                             String minText = numerals[i];
                             g.setColor(clockColor);
-                            g.setFont(CyderFonts.defaultFont);
+                            g.setFont(CyderFonts.DEFAULT_FONT);
                             g.drawString(minText, topLeftX - boxLen / 2, topleftY + boxLen / 2);
 
                             theta += thetaInc;
@@ -386,7 +386,7 @@ public class ClockWidget {
             clockFrame.getContentPane().add(hexField);
 
             CyderLabel hexLabel = new CyderLabel("Clock Color Hex:");
-            hexLabel.setFont(CyderFonts.defaultFont);
+            hexLabel.setFont(CyderFonts.DEFAULT_FONT);
             hexLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -487,7 +487,7 @@ public class ClockWidget {
 
         JLabel currentTimeLabel = new JLabel(getTime(currentGMTOffset), SwingConstants.CENTER);
         currentTimeLabel.setForeground(CyderColors.navy);
-        currentTimeLabel.setFont(CyderFonts.segoe20);
+        currentTimeLabel.setFont(CyderFonts.SEGOE_20);
         currentTimeLabel.setBounds(0, 50, 600, 30);
         miniFrame.getContentPane().add(currentTimeLabel);
 
@@ -498,7 +498,7 @@ public class ClockWidget {
 
             JLabel locationLabel = new JLabel(labelText, SwingConstants.CENTER);
             locationLabel.setForeground(CyderColors.navy);
-            locationLabel.setFont(CyderFonts.segoe20);
+            locationLabel.setFont(CyderFonts.SEGOE_20);
             locationLabel.setBounds(0, 80, 600, 30);
             miniFrame.getContentPane().add(locationLabel);
         }

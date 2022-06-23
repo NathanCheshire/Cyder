@@ -883,8 +883,8 @@ public enum ConsoleFrame {
     private void installConsoleClock() {
         consoleClockLabel = new JLabel(TimeUtil.userFormattedTime(), SwingConstants.CENTER);
         consoleClockLabel.setSize(0, StringUtil.getAbsoluteMinHeight("143 ;)",
-                CyderFonts.consoleClockLabelFont));
-        consoleClockLabel.setFont(CyderFonts.consoleClockLabelFont);
+                CyderFonts.CONSOLE_CLOCK_FONT));
+        consoleClockLabel.setFont(CyderFonts.CONSOLE_CLOCK_FONT);
         consoleClockLabel.setForeground(CyderColors.vanilla);
         consoleCyderFrame.getTopDragLabel().add(consoleClockLabel);
         consoleClockLabel.setFocusable(false);
@@ -2087,7 +2087,7 @@ public enum ConsoleFrame {
 
                     UserUtil.getCyderUser().setFontsize(String.valueOf(size));
 
-                    YoutubeUtil.refreshAllLabels();
+                    YoutubeUtil.refreshAllDownloadLabels();
                 }
             } catch (Exception ignored) {}
         } else {

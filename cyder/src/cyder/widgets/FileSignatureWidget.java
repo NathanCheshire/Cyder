@@ -66,7 +66,7 @@ public class FileSignatureWidget {
 
         CyderLabel referenceLabel = new CyderLabel("File Signature Sheet");
         referenceLabel.setBounds(50, 50, 300, 40);
-        referenceLabel.setFont(CyderFonts.defaultFontSmall.deriveFont(28f));
+        referenceLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL.deriveFont(28f));
         referenceLabel.setToolTipText("Click here to view a list of common file extensions");
         referenceLabel.addMouseListener(new MouseAdapter() {
             @Override

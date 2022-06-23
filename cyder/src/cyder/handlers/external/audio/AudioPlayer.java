@@ -602,7 +602,7 @@ public final class AudioPlayer {
         audioTitleLabelContainer.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioTitleLabel.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioTitleLabel.setText(DEFAULT_AUDIO_TITLE);
-        audioTitleLabel.setFont(CyderFonts.defaultFontSmall);
+        audioTitleLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
         audioTitleLabel.setForeground(CyderColors.vanilla);
 
         audioTitleLabelContainer.add(audioTitleLabel, SwingConstants.CENTER);
@@ -2311,7 +2311,7 @@ public final class AudioPlayer {
 
         informationLabel = new CyderLabel();
         informationLabel.setForeground(CyderColors.vanilla);
-        informationLabel.setFont(CyderFonts.defaultFont);
+        informationLabel.setFont(CyderFonts.DEFAULT_FONT);
         informationLabel.setBackground(BACKGROUND_COLOR);
         informationLabel.setOpaque(true);
         informationLabel.setBorder(new LineBorder(Color.black, 4));

@@ -114,7 +114,7 @@ public class CyderTextField extends JTextField {
 
         setBackground(backgroundColor);
         setSelectionColor(CyderColors.selectionColor);
-        setFont(CyderFonts.segoe20);
+        setFont(CyderFonts.SEGOE_20);
         setForeground(CyderColors.navy);
         setCaretColor(CyderColors.navy);
         setCaret(new CyderCaret(CyderColors.navy));

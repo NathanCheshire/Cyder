@@ -67,7 +67,7 @@ public class HashingWidget {
 
         JLabel Instructions = new JLabel("Enter your password to be hashed");
         Instructions.setForeground(CyderColors.navy);
-        Instructions.setFont(CyderFonts.segoe20);
+        Instructions.setFont(CyderFonts.SEGOE_20);
 
         Instructions.setBounds(65, 40, 400, 30);
         hashFrame.getContentPane().add(Instructions);

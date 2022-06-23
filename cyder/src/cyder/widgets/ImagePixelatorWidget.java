@@ -59,7 +59,7 @@ public class ImagePixelatorWidget {
         pixelFrame.setTitle("Image Pixelator");
 
         CyderLabel pixelSize = new CyderLabel("Pixel Size");
-        pixelSize.setFont(CyderFonts.defaultFontSmall.deriveFont(28f));
+        pixelSize.setFont(CyderFonts.DEFAULT_FONT_SMALL.deriveFont(28f));
         int w = StringUtil.getMinWidth(pixelSize.getText(), pixelSize.getFont());
         int h = StringUtil.getMinHeight(pixelSize.getText(), pixelSize.getFont());
         pixelSize.setBounds(400 - w / 2, 30 + 20, w, h);

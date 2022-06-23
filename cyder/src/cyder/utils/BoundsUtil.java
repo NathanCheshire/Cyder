@@ -41,7 +41,7 @@ public class BoundsUtil {
      * for the provided display string.
      */
     public static BoundsString widthHeightCalculation(String text) {
-        return widthHeightCalculation(text, CyderFonts.defaultFontSmall, ScreenUtil.getScreenWidth() / 2);
+        return widthHeightCalculation(text, CyderFonts.DEFAULT_FONT_SMALL, ScreenUtil.getScreenWidth() / 2);
     }
 
     public static BoundsString widthHeightCalculation(String text, Font font) {

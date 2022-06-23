@@ -442,7 +442,7 @@ public class CyderFrame extends JFrame {
 
         //title label on drag label
         titleLabel = new JLabel("");
-        titleLabel.setFont(CyderFonts.frameTitleFont);
+        titleLabel.setFont(CyderFonts.DEFAULT_FRAME_TITLE_FONT);
         titleLabel.setForeground(CyderColors.vanilla);
         titleLabel.setOpaque(false);
         titleLabel.setFocusable(false);
@@ -1042,7 +1042,7 @@ public class CyderFrame extends JFrame {
             // generate label for notification
             BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(
                     currentBuilder.getHtmlText(),
-                    CyderFonts.notificationFont, (int) Math.ceil(width * 0.8));
+                    CyderFonts.NOTIFICATION_FONT, (int) Math.ceil(width * 0.8));
             int notificationWidth = bs.width() + notificationExcessLen;
             int notificationHeight = bs.height() + notificationExcessLen;
             String brokenText = bs.text();
@@ -1104,7 +1104,7 @@ public class CyderFrame extends JFrame {
             else {
                 JLabel textContainerLabel = new JLabel(brokenText);
                 textContainerLabel.setSize(notificationWidth, notificationHeight);
-                textContainerLabel.setFont(CyderFonts.notificationFont);
+                textContainerLabel.setFont(CyderFonts.NOTIFICATION_FONT);
                 textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
 
                 JLabel interactionLabel = new JLabel();
@@ -3122,7 +3122,7 @@ public class CyderFrame extends JFrame {
         }
 
         JLabel newLabel = new JLabel(text);
-        newLabel.setFont(CyderFonts.defaultFontSmall);
+        newLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
         newLabel.setForeground(CyderColors.vanilla);
         newLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -3311,7 +3311,7 @@ public class CyderFrame extends JFrame {
 
         if (currentMenuType == MenuType.PANEL) {
             int menuHeight = 2 * paddingHeight + (menuItems.size() * (StringUtil.getAbsoluteMinHeight(
-                    String.valueOf(CyderNumbers.JENNY), CyderFonts.defaultFontSmall))) + 5;
+                    String.valueOf(CyderNumbers.JENNY), CyderFonts.DEFAULT_FONT_SMALL))) + 5;
 
             int sub = 5;
 
@@ -3322,7 +3322,7 @@ public class CyderFrame extends JFrame {
             menuLabel.setSize(menuWidth, menuHeight);
         } else {
             menuLabel.setSize(getWidth() - 10,
-                    (StringUtil.getMinHeight(String.valueOf(CyderNumbers.JENNY), CyderFonts.defaultFontSmall)));
+                    (StringUtil.getMinHeight(String.valueOf(CyderNumbers.JENNY), CyderFonts.DEFAULT_FONT_SMALL)));
         }
 
         menuLabel.setBorder(new LineBorder(Color.black, menuBorderThickness));

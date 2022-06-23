@@ -97,7 +97,7 @@ public class GetterUtil {
 
                 if (!StringUtil.isNull(builder.getLabelText())) {
                     bounds = BoundsUtil.widthHeightCalculation(builder.getLabelText(),
-                            CyderFonts.defaultFont, GET_STRING_MIN_WIDTH);
+                            CyderFonts.DEFAULT_FONT, GET_STRING_MIN_WIDTH);
 
                     height += bounds.height() + 2 * getStringYPadding;
                     width = bounds.width() + 2 * getStringXPadding;
@@ -145,7 +145,7 @@ public class GetterUtil {
                     inputFrame.dispose();
                 });
                 submit.setBorder(new LineBorder(CyderColors.navy, 5, false));
-                submit.setFont(CyderFonts.segoe20);
+                submit.setFont(CyderFonts.SEGOE_20);
                 submit.setForeground(CyderColors.navy);
                 submit.addActionListener(e12 -> {
                     returnString.set((inputField.getText() == null || inputField.getText().isEmpty() ?
@@ -328,7 +328,7 @@ public class GetterUtil {
                 last.setFocusPainted(false);
                 last.setForeground(CyderColors.navy);
                 last.setBackground(CyderColors.regularRed);
-                last.setFont(CyderFonts.segoe20);
+                last.setFont(CyderFonts.SEGOE_20);
                 last.setBorder(new LineBorder(CyderColors.navy, 5, false));
                 last.addActionListener(e -> {
                     //we may only go back if there's something in the back and it's different from where we are now
@@ -351,7 +351,7 @@ public class GetterUtil {
                 next.setFocusPainted(false);
                 next.setForeground(CyderColors.navy);
                 next.setBackground(CyderColors.regularRed);
-                next.setFont(CyderFonts.segoe20);
+                next.setFont(CyderFonts.SEGOE_20);
                 next.setBorder(new LineBorder(CyderColors.navy, 5, false));
                 next.addActionListener(e -> {
                     //only traverse forward if the stack is not empty and forward is different from where we are
@@ -375,7 +375,7 @@ public class GetterUtil {
                 tempLabel.setText("<html><div align=\"center\">Loading...</div></html>");
                 tempLabel.setHorizontalAlignment(JLabel.CENTER);
                 tempLabel.setVerticalAlignment(JLabel.CENTER);
-                tempLabel.setFont(CyderFonts.defaultFont);
+                tempLabel.setFont(CyderFonts.DEFAULT_FONT);
                 tempLabel.setForeground(darkMode
                         ? CyderColors.defaultDarkModeTextColor
                         : CyderColors.navy);
@@ -425,7 +425,7 @@ public class GetterUtil {
 
                     cyderScrollListRef.set(new CyderScrollList(600, 400,
                             CyderScrollList.SelectionPolicy.SINGLE, darkMode));
-                    cyderScrollListRef.get().setScrollFont(CyderFonts.segoe20.deriveFont(16f));
+                    cyderScrollListRef.get().setScrollFont(CyderFonts.SEGOE_20.deriveFont(16f));
 
                     //adding things to the list and setting up actions for what to do when an element is clicked
                     for (int i = 0 ; i < directoryNameList.size() ; i++) {
@@ -520,7 +520,7 @@ public class GetterUtil {
         // remake scroll list object
         cyderScrollListRef.set(new CyderScrollList(600, 400,
                 CyderScrollList.SelectionPolicy.SINGLE, cyderScrollListRef.get().isDarkMode()));
-        cyderScrollListRef.get().setScrollFont(CyderFonts.segoe20.deriveFont(16f));
+        cyderScrollListRef.get().setScrollFont(CyderFonts.SEGOE_20.deriveFont(16f));
 
         // generate clickable components to add to the list
         for (int i = 0 ; i < directoryNameList.size() ; i++) {

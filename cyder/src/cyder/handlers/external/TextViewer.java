@@ -57,7 +57,7 @@ public class TextViewer {
 
         textEditArea = new JTextArea(20, 20);
         textEditArea.setSelectionColor(CyderColors.selectionColor);
-        textEditArea.setFont(CyderFonts.segoe20);
+        textEditArea.setFont(CyderFonts.SEGOE_20);
         textEditArea.setForeground(CyderColors.navy);
         textEditArea.setEditable(true);
         textEditArea.setAutoscrolls(true);
@@ -90,7 +90,7 @@ public class TextViewer {
         saveText.setBorder(new LineBorder(CyderColors.navy, 5, false));
         saveText.setFocusPainted(false);
         saveText.setBackground(CyderColors.regularRed);
-        saveText.setFont(CyderFonts.segoe20);
+        saveText.setFont(CyderFonts.SEGOE_20);
         saveText.addActionListener(e -> {
             try {
                 BufferedWriter SaveWriter = new BufferedWriter(new FileWriter(file, false));
@@ -100,7 +100,8 @@ public class TextViewer {
                 File newName = null;
 
                 if (!textNameEditField.getText().isEmpty()) {
-                    newName = new File(file.getAbsolutePath().replace(file.getName(), textNameEditField.getText() + ".txt"));
+                    newName = new File(
+                            file.getAbsolutePath().replace(file.getName(), textNameEditField.getText() + ".txt"));
                     file.renameTo(newName);
                     textEditorFrame.notify(newName.getName().replace(".txt", "")
                             + " has been successfully saved");

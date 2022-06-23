@@ -97,7 +97,7 @@ public class PlayAudioHandler extends InputHandler {
 
                     if (extractedUuid.replace(" ", "").length() != 11) {
                         getInputHandler().println("Searching youtube for: " + url);
-                        String uuid = YoutubeUtil.getFirstUUID(url);
+                        String uuid = YoutubeUtil.getFirstUuid(url);
                         url = CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
                     }
 

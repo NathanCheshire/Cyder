@@ -143,7 +143,7 @@ public class CyderScrollList {
     /**
      * The font to use for the scroll list.
      */
-    private Font scrollFont = CyderFonts.segoe20;
+    private Font scrollFont = CyderFonts.SEGOE_20;
 
     /**
      * Returns the font for this scroll list

@@ -70,7 +70,7 @@ public class CardWidget {
                 "Love,<br/>" +
                 "Nathan</html>");
         cardLabel.setForeground(CyderColors.navy);
-        cardLabel.setFont(CyderFonts.segoe20.deriveFont(24f));
+        cardLabel.setFont(CyderFonts.SEGOE_20.deriveFont(24f));
         cardLabel.setHorizontalAlignment(JLabel.CENTER);
         cardLabel.setVerticalAlignment(JLabel.CENTER);
         cardLabel.setBounds(498 + 40, 40, christmas2020Frame.getWidth() - 40,
@@ -96,7 +96,7 @@ public class CardWidget {
                 "Thanks so much for helping me move out from college everytime I need it and for all you do, " +
                 "have done, continue to do, and will do.<br/><br/>Love,<br/>Nathan</html>");
         cardLabel.setForeground(CyderColors.navy);
-        cardLabel.setFont(CyderFonts.segoe20.deriveFont(24f));
+        cardLabel.setFont(CyderFonts.SEGOE_20.deriveFont(24f));
         cardLabel.setHorizontalAlignment(JLabel.CENTER);
         cardLabel.setVerticalAlignment(JLabel.CENTER);
         cardLabel.setBounds(5, 40, fathersDay2021Frame.getWidth() - 40, 240);
@@ -121,7 +121,7 @@ public class CardWidget {
                 "this year such as helping me move into BR and back home, the Destin and Kentucky " +
                 "trips, and for bringing my desk up next weekend :D<br/><br/>Love,<br/>Nathan</html>");
         cardLabel.setForeground(CyderColors.navy);
-        cardLabel.setFont(CyderFonts.segoe20.deriveFont(24f));
+        cardLabel.setFont(CyderFonts.SEGOE_20.deriveFont(24f));
         cardLabel.setHorizontalAlignment(JLabel.CENTER);
         cardLabel.setVerticalAlignment(JLabel.CENTER);
         cardLabel.setBounds(5, 40, birthday2021Frame.getWidth() - 40, 240);
@@ -164,7 +164,7 @@ public class CardWidget {
                 + "home this past spring semester."
                 + "<br/><br/>Love,<br/>"
                 + "Nathan</html>");
-        cardLabel.setFont(CyderFonts.segoe20.deriveFont(24f));
+        cardLabel.setFont(CyderFonts.SEGOE_20.deriveFont(24f));
         cardLabel.setBounds(40, 40, christmas2021Frame.getWidth() - 80,
                 christmas2021Frame.getHeight() - 80);
         christmas2021Frame.getContentPane().add(cardLabel);

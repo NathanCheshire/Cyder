@@ -77,7 +77,7 @@ public class CyderButton extends JButton {
         addMouseMotionListener(new CyderDraggableComponent());
         addActionListener(e -> Logger.log(Logger.Tag.UI_ACTION, this));
 
-        setFont(CyderFonts.segoe20);
+        setFont(CyderFonts.SEGOE_20);
         setColors(CyderColors.buttonColor);
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);

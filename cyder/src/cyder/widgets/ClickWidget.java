@@ -44,7 +44,7 @@ public class ClickWidget {
             dismiss.setHorizontalAlignment(JLabel.CENTER);
             dismiss.setVerticalAlignment(JLabel.CENTER);
             dismiss.setForeground(CyderColors.navy);
-            dismiss.setFont(CyderFonts.segoe30.deriveFont(22f));
+            dismiss.setFont(CyderFonts.SEGOE_30.deriveFont(22f));
             dismiss.setBounds(30, 40, 150, 40);
             dismiss.addMouseListener(new MouseAdapter() {
                 @Override

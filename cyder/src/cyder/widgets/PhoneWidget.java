@@ -41,7 +41,7 @@ public class PhoneWidget {
         phoneFrame.setTitle("Phone");
 
         numberLabel = new JLabel("#");
-        numberLabel.setFont(CyderFonts.segoe20);
+        numberLabel.setFont(CyderFonts.SEGOE_20);
         numberLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
 
         CyderButton zero = new CyderButton("0");
@@ -181,51 +181,51 @@ public class PhoneWidget {
         });
 
         one.setBackground(CyderColors.regularOrange);
-        one.setFont(CyderFonts.segoe30);
+        one.setFont(CyderFonts.SEGOE_30);
 
         two.setFocusPainted(false);
         two.setBackground(CyderColors.regularOrange);
-        two.setFont(CyderFonts.segoe30);
+        two.setFont(CyderFonts.SEGOE_30);
 
         three.setFocusPainted(false);
         three.setBackground(CyderColors.regularOrange);
-        three.setFont(CyderFonts.segoe30);
+        three.setFont(CyderFonts.SEGOE_30);
 
         four.setFocusPainted(false);
         four.setBackground(CyderColors.regularOrange);
-        four.setFont(CyderFonts.segoe30);
+        four.setFont(CyderFonts.SEGOE_30);
 
         five.setFocusPainted(false);
         five.setBackground(CyderColors.regularOrange);
-        five.setFont(CyderFonts.segoe30);
+        five.setFont(CyderFonts.SEGOE_30);
 
         six.setFocusPainted(false);
         six.setBackground(CyderColors.regularOrange);
-        six.setFont(CyderFonts.segoe30);
+        six.setFont(CyderFonts.SEGOE_30);
 
         seven.setFocusPainted(false);
         seven.setBackground(CyderColors.regularOrange);
-        seven.setFont(CyderFonts.segoe30);
+        seven.setFont(CyderFonts.SEGOE_30);
 
         eight.setFocusPainted(false);
         eight.setBackground(CyderColors.regularOrange);
-        eight.setFont(CyderFonts.segoe30);
+        eight.setFont(CyderFonts.SEGOE_30);
 
         nine.setFocusPainted(false);
         nine.setBackground(CyderColors.regularOrange);
-        nine.setFont(CyderFonts.segoe30);
+        nine.setFont(CyderFonts.SEGOE_30);
 
         zero.setFocusPainted(false);
         zero.setBackground(CyderColors.regularOrange);
-        zero.setFont(CyderFonts.segoe30);
+        zero.setFont(CyderFonts.SEGOE_30);
 
         back.setFocusPainted(false);
         back.setBackground(CyderColors.regularOrange);
-        back.setFont(CyderFonts.segoe30);
+        back.setFont(CyderFonts.SEGOE_30);
 
         dialNumber.setFocusPainted(false);
         dialNumber.setBackground(CyderColors.regularOrange);
-        dialNumber.setFont(CyderFonts.segoe30);
+        dialNumber.setFont(CyderFonts.SEGOE_30);
         dialNumber.addActionListener(e -> {
             if (!phoneNum.isEmpty()) {
                 // check for easter egg numbers

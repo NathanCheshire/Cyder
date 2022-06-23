@@ -81,7 +81,7 @@ public class UserCreator {
         createUserFrame.setTitle("Create User");
 
         JLabel nameLabel = new JLabel("Username: ", SwingConstants.CENTER);
-        nameLabel.setFont(CyderFonts.segoe20);
+        nameLabel.setFont(CyderFonts.SEGOE_20);
         nameLabel.setForeground(CyderColors.navy);
         nameLabel.setBounds(120, 30, 121, 30);
         createUserFrame.getContentPane().add(nameLabel);
@@ -92,7 +92,7 @@ public class UserCreator {
         newUserName = new CyderTextField(0);
         newUserName.setHorizontalAlignment(JTextField.CENTER);
         newUserName.setBackground(Color.white);
-        newUserName.setFont(CyderFonts.segoe20);
+        newUserName.setFont(CyderFonts.SEGOE_20);
         newUserName.setBorder(new LineBorder(new Color(0, 0, 0)));
         newUserName.addKeyListener(new KeyListener() {
             @Override
@@ -132,7 +132,7 @@ public class UserCreator {
         }
 
         JLabel passwordLabel = new JLabel("Password: ", SwingConstants.CENTER);
-        passwordLabel.setFont(CyderFonts.segoe20);
+        passwordLabel.setFont(CyderFonts.SEGOE_20);
         passwordLabel.setForeground(CyderColors.navy);
         passwordLabel.setBounds(60, 120, 240, 30);
         createUserFrame.getContentPane().add(passwordLabel);
@@ -159,7 +159,7 @@ public class UserCreator {
         createUserFrame.getContentPane().add(newUserPassword);
 
         JLabel passwordLabelConf = new JLabel("Confirm Password: ", SwingConstants.CENTER);
-        passwordLabelConf.setFont(CyderFonts.segoe20);
+        passwordLabelConf.setFont(CyderFonts.SEGOE_20);
         passwordLabelConf.setForeground(CyderColors.navy);
         passwordLabelConf.setBounds(60, 210, 240, 30);
         createUserFrame.getContentPane().add(passwordLabelConf);
@@ -180,14 +180,14 @@ public class UserCreator {
         newUserPasswordConf.setBounds(60, 250, 240, 40);
         createUserFrame.getContentPane().add(newUserPasswordConf);
 
-        matchPasswords.setFont(CyderFonts.segoe20);
+        matchPasswords.setFont(CyderFonts.SEGOE_20);
         matchPasswords.setForeground(CyderColors.regularGreen);
         matchPasswords.setBounds(32, 300, 300, 30);
         createUserFrame.getContentPane().add(matchPasswords);
 
         CyderButton chooseBackground = new CyderButton("Choose background");
         chooseBackground.setToolTipText("ClickMe me to choose a background");
-        chooseBackground.setFont(CyderFonts.segoe20);
+        chooseBackground.setFont(CyderFonts.SEGOE_20);
         chooseBackground.setBackground(CyderColors.regularRed);
         chooseBackground.addMouseListener(new MouseAdapter() {
             @Override
@@ -230,7 +230,7 @@ public class UserCreator {
         chooseBackground.setBounds(60, 340, 240, 40);
         createUserFrame.getContentPane().add(chooseBackground);
 
-        createNewUser.setFont(CyderFonts.segoe20);
+        createNewUser.setFont(CyderFonts.SEGOE_20);
         createNewUser.setBackground(CyderColors.regularRed);
         createNewUser.addMouseListener(new MouseAdapter() {
             @Override
@@ -271,7 +271,7 @@ public class UserCreator {
         });
 
         createNewUser.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        createNewUser.setFont(CyderFonts.segoe20);
+        createNewUser.setFont(CyderFonts.SEGOE_20);
         createNewUser.setBounds(60, 390, 240, 40);
         createUserFrame.getContentPane().add(createNewUser);
 

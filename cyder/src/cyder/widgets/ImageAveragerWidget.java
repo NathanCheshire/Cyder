@@ -214,7 +214,7 @@ public class ImageAveragerWidget {
 
                 JButton save = new JButton("Save");
                 save.setForeground(CyderColors.vanilla);
-                save.setFont(CyderFonts.defaultFontSmall);
+                save.setFont(CyderFonts.DEFAULT_FONT_SMALL);
                 save.setToolTipText("Save image");
                 save.addActionListener(e -> {
                     try {

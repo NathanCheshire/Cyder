@@ -136,7 +136,7 @@ public class Cyder {
         UIManager.put("ToolTip.background", CyderColors.tooltipBackgroundColor);
         UIManager.put("ToolTip.border", new BorderUIResource(
                 BorderFactory.createLineBorder(CyderColors.tooltipBorderColor, 2, true)));
-        UIManager.put("ToolTip.font", CyderFonts.javaTooltipFont);
+        UIManager.put("ToolTip.font", CyderFonts.TOOLTIP_FONT);
         UIManager.put("ToolTip.foreground", CyderColors.tooltipForegroundColor);
     }
 

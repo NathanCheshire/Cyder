@@ -56,7 +56,7 @@ public class CyderScrollPane extends JScrollPane {
         this(view, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         setThumbColor(CyderColors.regularPink);
-        setFont(CyderFonts.segoe20);
+        setFont(CyderFonts.SEGOE_20);
         setBackground(emptyColor);
         getViewport().setBackground(emptyColor);
 
@@ -81,7 +81,7 @@ public class CyderScrollPane extends JScrollPane {
         verticalScrollBarPolicy = vsbPolicy;
         horizontalScrollBarPolicy = hsbPolicy;
         setThumbColor(CyderColors.regularPink);
-        setFont(CyderFonts.segoe20);
+        setFont(CyderFonts.SEGOE_20);
         setBackground(new Color(0, 0, 0, 0));
         getViewport().setBackground(new Color(0, 0, 0, 0));
 

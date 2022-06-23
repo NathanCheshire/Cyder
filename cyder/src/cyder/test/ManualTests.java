@@ -515,7 +515,7 @@ public class ManualTests {
                 CyderStrings.QUICK_BROWN_FOX + "<br/><br/>" + CyderStrings.QUICK_BROWN_FOX + "<br/>" +
                 CyderStrings.QUICK_BROWN_FOX + "<br/>" + CyderStrings.QUICK_BROWN_FOX + "<br/>" +
                 CyderStrings.QUICK_BROWN_FOX + "<br/><br/>Love,<br/>Nathan Cheshire" + "</html>");
-        ripplingLabel.setFont(CyderFonts.segoe20);
+        ripplingLabel.setFont(CyderFonts.SEGOE_20);
 
         //fill content area with label
         ripplingLabel.setBounds(40, 40,
@@ -741,7 +741,7 @@ public class ManualTests {
         JLabel container = new JLabel("<html><div>Creatine water weight, yeah boi</div></html>",
                 SwingConstants.CENTER);
         container.setSize(500, 500);
-        container.setFont(CyderFonts.defaultFont);
+        container.setFont(CyderFonts.DEFAULT_FONT);
 
         // needs to be opaque to fill background
         container.setOpaque(true);

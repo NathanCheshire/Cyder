@@ -102,7 +102,7 @@ public class TaskbarIcon {
 
             JLabel usage = new JLabel(name);
             usage.setForeground(builder.focused ? CyderColors.regularRed : CyderColors.vanilla);
-            usage.setFont(CyderFonts.defaultFontSmall);
+            usage.setFont(CyderFonts.DEFAULT_FONT_SMALL);
             usage.setVerticalAlignment(SwingConstants.CENTER);
 
             usage.addMouseListener(new MouseAdapter() {

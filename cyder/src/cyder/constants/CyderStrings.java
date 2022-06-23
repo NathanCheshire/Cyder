@@ -19,7 +19,7 @@ public final class CyderStrings {
     /**
      * Error message for static classes upon attempted instantiation.
      */
-    public static final String ATTEMPTED_INSTANTIATION = "States are not available for static classes";
+    public static final String ATTEMPTED_INSTANTIATION = "Objects are not available for utility classes";
 
     /**
      * A statement I like using in code if something happens that shouldn't ever happen.

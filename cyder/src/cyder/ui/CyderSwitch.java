@@ -103,7 +103,7 @@ public class CyderSwitch extends JLabel {
 
         switchButton.setForeground(CyderColors.regularPink);
         switchButton.setColors(CyderColors.navy);
-        switchButton.setFont(CyderFonts.defaultFontSmall);
+        switchButton.setFont(CyderFonts.DEFAULT_FONT_SMALL);
         switchButton.setSize((int) (this.width * ((double) buttonPercent / 100)) - 10, this.height - 20);
         switchButton.setLocation(10, 10);
         add(switchButton);

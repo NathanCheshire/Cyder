@@ -111,7 +111,7 @@ public class NotesWidget {
         addNote.setBorder(new LineBorder(CyderColors.navy, 5, false));
         addNote.setFocusPainted(false);
         addNote.setBackground(CyderColors.regularRed);
-        addNote.setFont(CyderFonts.segoe20);
+        addNote.setFont(CyderFonts.SEGOE_20);
         addNote.addActionListener(e -> addNote());
         addNote.setBounds(40, 560, 160, 40);
         noteFrame.getContentPane().add(addNote);
@@ -120,7 +120,7 @@ public class NotesWidget {
         openNote.setFocusPainted(false);
         openNote.setBorder(new LineBorder(CyderColors.navy, 5, false));
         openNote.setBackground(CyderColors.regularRed);
-        openNote.setFont(CyderFonts.segoe20);
+        openNote.setFont(CyderFonts.SEGOE_20);
         openNote.addActionListener(e -> {
             LinkedList<String> selectedNames = cyderScrollList.getSelectedElements();
 
@@ -143,7 +143,7 @@ public class NotesWidget {
         deleteNote.setBorder(new LineBorder(CyderColors.navy, 5, false));
         deleteNote.setFocusPainted(false);
         deleteNote.setBackground(CyderColors.regularRed);
-        deleteNote.setFont(CyderFonts.segoe20);
+        deleteNote.setFont(CyderFonts.SEGOE_20);
         deleteNote.addActionListener(e -> {
             LinkedList<String> selectedNames = cyderScrollList.getSelectedElements();
 
@@ -207,7 +207,7 @@ public class NotesWidget {
         newNoteFrame.getContentPane().add(newNoteField);
 
         newNoteArea = new JTextArea(20, 20);
-        newNoteArea.setFont(CyderFonts.segoe20);
+        newNoteArea.setFont(CyderFonts.SEGOE_20);
         newNoteArea.setToolTipText("Note contents");
         newNoteArea.setAutoscrolls(false);
         newNoteArea.setLineWrap(true);
@@ -233,7 +233,7 @@ public class NotesWidget {
         submitNewNote.setBorder(new LineBorder(CyderColors.navy, 5, false));
         submitNewNote.setFocusPainted(false);
         submitNewNote.setBackground(CyderColors.regularRed);
-        submitNewNote.setFont(CyderFonts.segoe20);
+        submitNewNote.setFont(CyderFonts.SEGOE_20);
         submitNewNote.addActionListener(e -> {
             if (newNoteField.getText().trim().isEmpty() || newNoteArea.getText().trim().isEmpty()) {
                 newNoteFrame.notify("Please enter both a title and contents");
@@ -317,7 +317,7 @@ public class NotesWidget {
 
         noteEditArea = new JTextArea(20, 20);
         noteEditArea.setSelectionColor(CyderColors.selectionColor);
-        noteEditArea.setFont(CyderFonts.segoe20);
+        noteEditArea.setFont(CyderFonts.SEGOE_20);
         noteEditArea.setForeground(CyderColors.navy);
         noteEditArea.setEditable(true);
         noteEditArea.setAutoscrolls(true);
@@ -380,7 +380,7 @@ public class NotesWidget {
         saveNote.setBorder(new LineBorder(CyderColors.navy, 5, false));
         saveNote.setFocusPainted(false);
         saveNote.setBackground(CyderColors.regularRed);
-        saveNote.setFont(CyderFonts.segoe20);
+        saveNote.setFont(CyderFonts.SEGOE_20);
         saveNote.addActionListener(e -> {
             try {
                 BufferedReader sameReader = new BufferedReader(new FileReader(currentUserNote));
