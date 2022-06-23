@@ -8,34 +8,31 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.exceptions.YoutubeException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
-import cyder.handlers.external.audio.AudioPlayer;
 import cyder.handlers.external.audio.AudioUtil;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.threads.CyderThreadRunner;
-import cyder.ui.*;
+import cyder.ui.CyderButton;
+import cyder.ui.CyderFrame;
+import cyder.ui.CyderLabel;
+import cyder.ui.CyderTextField;
 import cyder.user.UserFile;
 import cyder.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 
 import static cyder.youtube.YoutubeConstants.*;
 
 /**
- * Utility methods related to youtube videos.
+ * Utility methods related to YouTube videos.
  */
 public final class YoutubeUtil {
     /**
@@ -46,12 +43,12 @@ public final class YoutubeUtil {
     }
 
     /**
-     * A list of youtube videos currently being downloaded.
+     * A list of YouTube videos currently being downloaded.
      */
     private static final LinkedList<YoutubeDownload> activeDownloads = new LinkedList<>();
 
     /**
-     * Downloads the youtube video with the provided url.
+     * Downloads the YouTube video with the provided url.
      *
      * @param url the url of the video to download
      */
@@ -66,7 +63,16 @@ public final class YoutubeUtil {
     }
 
     /**
-     * Refreshes the label font of all youtube download labels.
+     * Removes the provided YouTube download from the active downloads list.
+     *
+     * @param youtubeDownload the YouTube download to remove from the active downloads list
+     */
+    static void removeActiveDownload(YoutubeDownload youtubeDownload) {
+        activeDownloads.remove(youtubeDownload);
+    }
+
+    /**
+     * Refreshes the label font of all YouTube download labels.
      */
     public static void refreshAllDownloadLabels() {
         for (YoutubeDownload youtubeDownload : activeDownloads) {
@@ -75,272 +81,7 @@ public final class YoutubeUtil {
     }
 
     /**
-     * A utility class for downloading a single video's audio from YouTube.
-     */
-    public static class YoutubeDownload {
-        /**
-         * The url of the youtube video to download.
-         */
-        private final String url;
-
-        /**
-         * Suppress default constructor.
-         */
-        @SuppressWarnings("unused")
-        private YoutubeDownload() {
-            throw new IllegalMethodException("Illegal use of constructor without download url");
-        }
-
-        /**
-         * Constructs a new YoutubeDownload object.
-         *
-         * @param url the url of the video to download
-         */
-        public YoutubeDownload(String url) {
-            Preconditions.checkNotNull(url);
-            Preconditions.checkArgument(!url.isEmpty());
-
-            this.url = url;
-        }
-
-        /**
-         * The label this class will print and update with statistics about the download.
-         */
-        private JLabel printLabel;
-
-        /**
-         * Updates the download progress labels.
-         */
-        public void updateLabel() {
-            String updateText = "<html>" + downloadableName
-                    + "<br/>File size: " + downloadableFileSize
-                    + "<br/>Progress: " + downloadableProgress
-                    + "%<br/>Rate: " + downloadableRate
-                    + "<br/>Eta: " + downloadableEta + "</html>";
-
-            printLabel.setText(updateText);
-            printLabel.revalidate();
-            printLabel.repaint();
-            printLabel.setHorizontalAlignment(JLabel.LEFT);
-        }
-
-        /**
-         * Refreshes the font of the label containing the download information.
-         */
-        public void refreshLabelFont() {
-            if (isDownloaded()) {
-                return;
-            }
-
-            printLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
-        }
-
-        /**
-         * The download name of this download object.
-         */
-        private String downloadableName;
-
-        /**
-         * The download file size of this download object.
-         */
-        private String downloadableFileSize;
-
-        /**
-         * The download progress of this download object.
-         */
-        private float downloadableProgress;
-
-        /**
-         * The download rate of this download object.
-         */
-        private String downloadableRate;
-
-        /**
-         * The download eta of this download object.
-         */
-        private String downloadableEta;
-
-        /**
-         * Whether this download has completed downloading.
-         */
-        private boolean downloaded;
-
-        /**
-         * Returns the download name of this download.
-         *
-         * @return the download name of this download
-         */
-        public String getDownloadableName() {
-            return downloadableName;
-        }
-
-        /**
-         * Returns the download file size of this download.
-         *
-         * @return the download file size of this download
-         */
-        public String getDownloadableFileSize() {
-            return downloadableFileSize;
-        }
-
-        /**
-         * Returns the download progress of this download.
-         *
-         * @return the download progress of this download
-         */
-        public float getDownloadableProgress() {
-            return downloadableProgress;
-        }
-
-        /**
-         * Returns the download rate of this download.
-         *
-         * @return the download rate of this download
-         */
-        public String getDownloadableRate() {
-            return downloadableRate;
-        }
-
-        /**
-         * Returns the download eta of this download.
-         *
-         * @return the download eta of this download
-         */
-        public String getDownloadableEta() {
-            return downloadableEta;
-        }
-
-        /**
-         * Returns whether this download has completed.
-         *
-         * @return whether this download has completed
-         */
-        public boolean isDownloaded() {
-            return downloaded;
-        }
-
-        /**
-         * Downloads this object's youtube video.
-         */
-        public void download() {
-            String saveDir = OSUtil.buildPath(Dynamic.PATH,
-                    Dynamic.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
-                    UserFile.MUSIC.getName());
-
-            String extension = "." + PropLoader.getString("ffmpeg_audio_output_format");
-
-            AtomicReference<String> parsedAsciiSaveName = new AtomicReference<>(
-                    StringUtil.parseNonAscii(NetworkUtil.getUrlTitle(url))
-                            .replace("- YouTube", "")
-                            .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim());
-
-            ConsoleFrame.INSTANCE.getInputHandler().println("Downloading audio as: "
-                    + parsedAsciiSaveName + extension);
-
-            // remove trailing periods
-            while (parsedAsciiSaveName.get().endsWith(".")) {
-                parsedAsciiSaveName.set(parsedAsciiSaveName.get().substring(0, parsedAsciiSaveName.get().length() - 1));
-            }
-
-            // if for some reason this case happens, account for it
-            if (parsedAsciiSaveName.get().isEmpty()) {
-                parsedAsciiSaveName.set(SecurityUtil.generateUUID());
-            }
-
-            String[] command = {
-                    AudioUtil.getYoutubeDlCommand(), url,
-                    FFMPEG_EXTRACT_AUDIO_FLAG,
-                    FFMPEG_AUDIO_FORMAT_FLAG, PropLoader.getString("ffmpeg_audio_output_format"),
-                    FFMPEG_OUTPUT_FLAG, new File(saveDir).getAbsolutePath() + OSUtil.FILE_SEP
-                    + parsedAsciiSaveName + ".%(ext)s"
-            };
-
-            downloaded = false;
-
-            CyderProgressUI ui = new CyderProgressUI();
-            CyderThreadRunner.submit(() -> {
-                try {
-                    Process proc = Runtime.getRuntime().exec(command);
-
-                    BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-
-                    // progress label for this download to update
-                    CyderProgressBar audioProgress = new CyderProgressBar(
-                            CyderProgressBar.HORIZONTAL, 0, 10000);
-
-                    ui.setColors(CyderColors.regularPink, CyderColors.regularBlue);
-                    ui.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
-                    audioProgress.setUI(ui);
-                    audioProgress.setMinimum(0);
-                    audioProgress.setMaximum(10000);
-                    audioProgress.setBorder(new LineBorder(Color.black, 2));
-                    audioProgress.setBounds(0, 0, 400, 40);
-                    audioProgress.setVisible(true);
-                    audioProgress.setValue(0);
-                    audioProgress.setOpaque(false);
-                    audioProgress.setFocusable(false);
-                    audioProgress.repaint();
-
-                    printLabel = new JLabel("\"" + parsedAsciiSaveName + "\"");
-                    printLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
-                    printLabel.setForeground(CyderColors.vanilla);
-                    printLabel.setHorizontalAlignment(JLabel.LEFT);
-                    printLabel.setForeground(ConsoleFrame.INSTANCE.getInputField().getForeground());
-                    printLabel.setFont(ConsoleFrame.INSTANCE.getInputField().getFont());
-
-                    // todo not always, no need to construct if not printing too
-                    ConsoleFrame.INSTANCE.getInputHandler().println(audioProgress);
-                    ConsoleFrame.INSTANCE.getInputHandler().println(printLabel);
-
-                    String fileSize = null;
-
-                    String outputString;
-
-                    while ((outputString = stdInput.readLine()) != null) {
-                        Matcher updateMatcher = CyderRegexPatterns.updatePattern.matcher(outputString);
-
-                        if (updateMatcher.find()) {
-                            float progress = Float.parseFloat(updateMatcher.group(1)
-                                    .replaceAll("[^0-9.]", ""));
-                            audioProgress.setValue((int) ((progress / 100.0) * audioProgress.getMaximum()));
-
-                            fileSize = fileSize == null ? updateMatcher.group(2) : fileSize;
-
-                            this.downloadableName = parsedAsciiSaveName.get();
-                            this.downloadableFileSize = fileSize;
-                            this.downloadableProgress = progress;
-                            this.downloadableRate = updateMatcher.group(3);
-                            this.downloadableEta = updateMatcher.group(4);
-                            updateLabel();
-                        }
-                    }
-
-                    downloadThumbnail(url);
-
-                    downloaded = true;
-
-                    // todo not always
-                    ConsoleFrame.INSTANCE.getInputHandler().println("Download complete: saved as "
-                            + parsedAsciiSaveName + extension + " and added to audio queue");
-                    AudioPlayer.addAudioNext(new File(OSUtil.buildPath(
-                            saveDir, parsedAsciiSaveName + extension)));
-                    ui.setColors(CyderColors.regularBlue, CyderColors.regularBlue);
-                    audioProgress.repaint();
-                    ui.stopAnimationTimer();
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                    ConsoleFrame.INSTANCE.getInputHandler().println("An exception occurred while "
-                            + "attempting to download: " + url);
-                    ui.stopAnimationTimer();
-                } finally {
-                    activeDownloads.remove(this);
-                }
-            }, "YouTube Downloader: " + parsedAsciiSaveName.get());
-        }
-    }
-
-    /**
-     * Downloads the youtube playlist provided the playlist exists.
+     * Downloads the YouTube playlist provided the playlist exists.
      *
      * @param playlist the url of the playlist to download
      */
@@ -383,10 +124,10 @@ public final class YoutubeUtil {
     }
 
     /**
-     * Downloads the youtube video's thumbnail with the provided
+     * Downloads the YouTube video's thumbnail with the provided
      * url to the current user's album art directory.
      *
-     * @param url the url of the youtube video to download
+     * @param url the url of the YouTube video to download
      * @throws YoutubeException if an exception occurred while downloading or processing the thumbnail
      */
     public static void downloadThumbnail(String url) throws YoutubeException {
@@ -398,7 +139,7 @@ public final class YoutubeUtil {
      * Downloads the YouTube video's thumbnail with the provided
      * url to the current user's album aart directory.
      *
-     * @param url       the url of the youtube video to download
+     * @param url       the url of the YouTube video to download
      * @param dimension the dimensions to crop the image to
      * @throws YoutubeException if an error downloading or processing the thumbnail occurred
      */
@@ -457,8 +198,8 @@ public final class YoutubeUtil {
     /**
      * Retrieves the first valid UUID for the provided query (if one exists)
      *
-     * @param youtubeQuery the user friendly query on youtube. Example: "Gryffin Digital Mirage"
-     * @return the first UUID obtained from the raw html page youtube returns corresponding to the desired query
+     * @param youtubeQuery the user friendly query on YouTube. Example: "Gryffin Digital Mirage"
+     * @return the first UUID obtained from the raw html page YouTube returns corresponding to the desired query
      */
     public static String getFirstUuid(String youtubeQuery) {
         Preconditions.checkNotNull(youtubeQuery);
@@ -498,8 +239,10 @@ public final class YoutubeUtil {
         ConsoleFrame.INSTANCE.getInputHandler().println(downloadYoutubeDL);
     }
 
+    // todo improve and extract,
+
     /**
-     * A widget for downloading a youtube video's thumbnail.
+     * A widget for downloading a YouTube video's thumbnail.
      */
     @Widget(triggers = {"youtube", "thumbnail"}, description = "A widget to steal youtube thumbnails")
     public static void showGui() {
@@ -668,7 +411,7 @@ public final class YoutubeUtil {
      * Extracts the YouTube playlist id from the provided playlist url.
      *
      * @param url the url of the playlist
-     * @return the youtube playlist id
+     * @return the YouTube playlist id
      */
     public static String extractPlaylistId(String url) {
         Preconditions.checkNotNull(url);
@@ -678,10 +421,10 @@ public final class YoutubeUtil {
     }
 
     /**
-     * Returns a url for the youtube video with the provided uuid.
+     * Returns a url for the YouTube video with the provided uuid.
      *
      * @param uuid the uuid of the video
-     * @return a url for the youtube video with the provided uuid
+     * @return a url for the YouTube video with the provided uuid
      * @throws IllegalArgumentException if the provided uuid is not 11 chars long
      */
     public static String buildYoutubeVideoUrl(String uuid) {
@@ -692,10 +435,10 @@ public final class YoutubeUtil {
     }
 
     /**
-     * Returns a URL for the maximum resolution version of the youtube video's thumbnail.
+     * Returns a URL for the maximum resolution version of the YouTube video's thumbnail.
      *
      * @param uuid the uuid of the video
-     * @return a URL for the maximum resolution version of the youtube video's thumbnail
+     * @return a URL for the maximum resolution version of the YouTube video's thumbnail
      */
     public static String buildMaxResThumbnailUrl(String uuid) {
         Preconditions.checkNotNull(uuid);
@@ -705,10 +448,10 @@ public final class YoutubeUtil {
     }
 
     /**
-     * Returns a url for the default thumbnail of a youtube video.
+     * Returns a url for the default thumbnail of a YouTube video.
      *
      * @param uuid the uuid of the video
-     * @return a url for the default youtube video's thumbnail
+     * @return a url for the default YouTube video's thumbnail
      */
     public static String buildSdDefThumbnailUrl(String uuid) {
         Preconditions.checkNotNull(uuid);
@@ -718,9 +461,9 @@ public final class YoutubeUtil {
     }
 
     /**
-     * Extracts the uuid for the youtube video from the url
+     * Extracts the uuid for the YouTube video from the url
      *
-     * @param url the youtube url to extract the uuid from
+     * @param url the YouTube url to extract the uuid from
      * @return the extracted uuid
      */
     public static String getUuid(String url) {
@@ -768,10 +511,10 @@ public final class YoutubeUtil {
     }
 
     /**
-     * Returns the maximum resolution thumbnail for the youtube video with the provided uuid.
+     * Returns the maximum resolution thumbnail for the YouTube video with the provided uuid.
      *
      * @param uuid the uuid of the video
-     * @return the maximum resolution thumbnail for the youtube video
+     * @return the maximum resolution thumbnail for the YouTube video
      */
     public static Optional<BufferedImage> getMaxResolutionThumbnail(String uuid) {
         Preconditions.checkNotNull(uuid);

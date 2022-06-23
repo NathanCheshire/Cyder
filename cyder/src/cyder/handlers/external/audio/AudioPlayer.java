@@ -24,6 +24,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.user.UserFile;
 import cyder.utils.*;
+import cyder.youtube.YoutubeDownload;
 import cyder.youtube.YoutubeUtil;
 
 import javax.imageio.ImageIO;
@@ -2454,7 +2455,7 @@ public final class AudioPlayer {
                     printingUtil.println("\n");
 
                     String videoUrl = YoutubeUtil.buildYoutubeVideoUrl(result.uuid);
-                    YoutubeUtil.YoutubeDownload downloadable = new YoutubeUtil.YoutubeDownload(videoUrl);
+                    YoutubeDownload downloadable = new YoutubeDownload(videoUrl);
                     // todo start this and be able to kill it too
                     // todo need to not print stuff to console always
                     // todo make this it's own object
