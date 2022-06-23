@@ -1,4 +1,4 @@
-package cyder.handlers.external.audio.youtube;
+package cyder.youtube.parsing;
 
 /**
  * The actual content of a YoutubeVideo object we are usually interested in.

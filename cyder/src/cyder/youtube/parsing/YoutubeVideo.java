@@ -1,4 +1,4 @@
-package cyder.handlers.external.audio.youtube;
+package cyder.youtube.parsing;
 
 /**
  * A class used to serialize a YouTube API 3 search result.

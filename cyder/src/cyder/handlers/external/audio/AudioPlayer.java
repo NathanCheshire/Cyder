@@ -13,8 +13,6 @@ import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.PhotoViewer;
-import cyder.handlers.external.audio.youtube.YoutubeSearchResultPage;
-import cyder.handlers.external.audio.youtube.YoutubeVideo;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
@@ -24,8 +22,11 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.user.UserFile;
 import cyder.utils.*;
+import cyder.youtube.YoutubeConstants;
 import cyder.youtube.YoutubeDownload;
 import cyder.youtube.YoutubeUtil;
+import cyder.youtube.parsing.YoutubeSearchResultPage;
+import cyder.youtube.parsing.YoutubeVideo;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
@@ -2454,11 +2455,10 @@ public final class AudioPlayer {
 
                     printingUtil.println("\n");
 
+                    // vars for downloading logic
                     String videoUrl = YoutubeUtil.buildYoutubeVideoUrl(result.uuid);
                     YoutubeDownload downloadable = new YoutubeDownload(videoUrl);
-                    // todo start this and be able to kill it too
-                    // todo need to not print stuff to console always
-                    // todo make this it's own object
+                    AtomicBoolean mouseEntered = new AtomicBoolean(false);
 
                     CyderButton downloadButton = new CyderButton() {
                         @Override
@@ -2473,11 +2473,27 @@ public final class AudioPlayer {
                     downloadButton.setBorder(new LineBorder(Color.black, 3));
                     downloadButton.setSize(phaseTwoWidth, 40);
                     downloadButton.addActionListener(e -> {
-                        // todo
+                        if (downloadable.isDownloading()) {
+                            // todo need to somehow stop, end process, and delete part files
+                        } else {
+                            downloadable.download();
+
+                            CyderThreadRunner.submit(() -> {
+                                while (!downloadable.isDone()) {
+                                    if (!mouseEntered.get()) {
+                                        downloadButton.setText(downloadable.getDownloadableProgress() + "%");
+                                    }
+
+                                    ThreadUtil.sleep(YoutubeConstants.DOWNLOAD_UPDATE_DELAY);
+                                }
+                            }, "YouTube audio downloader, url=" + videoUrl);
+                        }
                     });
                     downloadButton.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseEntered(MouseEvent e) {
+                            mouseEntered.set(true);
+
                             if (isDownloading.get()) {
                                 downloadButton.setText("Cancel");
                             }
@@ -2486,11 +2502,12 @@ public final class AudioPlayer {
                         @Override
                         public void mouseExited(MouseEvent e) {
                             if (isDownloading.get()) {
-                                // todo need to update this
                                 downloadButton.setText(downloadable.getDownloadableProgress() + "%");
                             } else {
                                 downloadButton.setText("Download");
                             }
+
+                            mouseEntered.set(false);
                         }
                     });
 

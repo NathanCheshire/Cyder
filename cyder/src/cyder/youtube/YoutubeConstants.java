@@ -70,6 +70,11 @@ public final class YoutubeConstants {
     public static final Pattern uuidPattern = Pattern.compile("[A-Za-z0-9_\\-]{0,11}");
 
     /**
+     * The delay between download button updates.
+     */
+    public static final int DOWNLOAD_UPDATE_DELAY = 1000;
+
+    /**
      * Suppress default constructor.
      */
     private YoutubeConstants() {

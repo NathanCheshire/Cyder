@@ -1,4 +1,4 @@
-package cyder.handlers.external.audio.youtube;
+package cyder.youtube.parsing;
 
 /**
  * Information about the YoutubeSearchResultPage.

@@ -212,7 +212,6 @@ public final class YoutubeUtil {
             parsedAsciiSaveName = SecurityUtil.generateUUID();
         }
 
-
         File albumArtDir = OSUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
@@ -338,7 +337,6 @@ public final class YoutubeUtil {
                         (thumbnail.getWidth() - 30) / 2, 40);
                 String finalThumbnailURL = buildMaxResThumbnailUrl(uuid);
                 addToBackgrounds.addActionListener(e1 -> {
-
                     try {
                         BufferedImage save = ImageIO.read(new URL(finalThumbnailURL));
 
