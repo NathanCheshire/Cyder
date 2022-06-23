@@ -421,7 +421,6 @@ public final class YoutubeUtil {
             w = save.getWidth();
         }
 
-
         // if height is greater than requested height, crop to middle
         if (h > dimension.getHeight()) {
             int cropHeightStart = (int) ((h - dimension.getHeight()) / 2);

@@ -11,14 +11,12 @@ import cyder.handlers.external.audio.AudioPlayer;
 import cyder.handlers.external.audio.AudioUtil;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderProgressBar;
 import cyder.ui.CyderProgressUI;
 import cyder.user.UserFile;
-import cyder.utils.NetworkUtil;
-import cyder.utils.OSUtil;
-import cyder.utils.SecurityUtil;
-import cyder.utils.StringUtil;
+import cyder.utils.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -133,6 +131,11 @@ public class YoutubeDownload {
     private boolean downloading;
 
     /**
+     * Whether this download was canceled externally.
+     */
+    private boolean canceled;
+
+    /**
      * Returns the download name of this download.
      *
      * @return the download name of this download
@@ -203,6 +206,24 @@ public class YoutubeDownload {
      */
     public boolean isDownloading() {
         return downloading;
+    }
+
+    /**
+     * Returns whether this download was canceled.
+     *
+     * @return whether this download was canceled
+     */
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    /**
+     * Cancels this download if downloading.
+     */
+    public void cancel() {
+        if (isDownloading()) {
+            canceled = true;
+        }
     }
 
     /**
@@ -286,19 +307,23 @@ public class YoutubeDownload {
 
         CyderThreadRunner.submit(() -> {
             try {
-                downloading = true;
-
-                Process proc = Runtime.getRuntime().exec(command);
-
-                BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-
                 if (shouldPrint) {
                     constructAndPrintUiElements();
                 }
 
+                downloading = true;
+                Process proc = Runtime.getRuntime().exec(command);
+
+                BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
                 String outputString;
 
                 while ((outputString = stdInput.readLine()) != null) {
+                    // todo test canceling
+                    if (isCanceled()) {
+                        cleanUpFromCancel(new File(saveDir), parsedSaveName);
+                        break;
+                    }
+
                     Matcher updateMatcher = CyderRegexPatterns.updatePattern.matcher(outputString);
 
                     if (updateMatcher.find()) {
@@ -314,12 +339,14 @@ public class YoutubeDownload {
                     }
                 }
 
-                downloaded = true;
+                if (!isCanceled()) {
+                    downloaded = true;
 
-                YoutubeUtil.downloadThumbnail(url);
+                    YoutubeUtil.downloadThumbnail(url);
 
-                AudioPlayer.addAudioNext(new File(OSUtil.buildPath(
-                        saveDir, parsedSaveName + extension)));
+                    AudioPlayer.addAudioNext(new File(OSUtil.buildPath(
+                            saveDir, parsedSaveName + extension)));
+                }
 
                 if (shouldPrint) {
                     inputHandler.println("Download complete: saved as " + downloadableName
@@ -384,5 +411,31 @@ public class YoutubeDownload {
         audioProgressUi.stopAnimationTimer();
 
         audioProgressBar.repaint();
+    }
+
+    /**
+     * Cleans up the .part or any other files left over by youtube-dl after the user canceled the download.
+     *
+     * @param parentDirectory      the directory the file would have been downloaded to
+     * @param nameWithoutExtension the file name without the extension, anything that starts with this will be deleted
+     */
+    private void cleanUpFromCancel(File parentDirectory, AtomicReference<String> nameWithoutExtension) {
+        Preconditions.checkNotNull(parentDirectory);
+        Preconditions.checkNotNull(nameWithoutExtension);
+        Preconditions.checkNotNull(nameWithoutExtension.get());
+
+        File[] children = parentDirectory.listFiles();
+
+        if (children != null && children.length > 0) {
+            for (File child : children) {
+                if (FileUtil.getFilename(child).startsWith(nameWithoutExtension.get())) {
+                    if (!OSUtil.deleteFile(child)) {
+                        Logger.log(Logger.Tag.DEBUG, "Could not delete file resulting from youtube "
+                                + "download operation canceled, location=" + parentDirectory.getAbsolutePath()
+                                + ", name=" + nameWithoutExtension);
+                    }
+                }
+            }
+        }
     }
 }
