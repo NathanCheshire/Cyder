@@ -10,10 +10,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderCaret;
 import cyder.user.Preferences;
 import cyder.user.UserFile;
-import cyder.utils.ColorUtil;
-import cyder.utils.ImageUtil;
-import cyder.utils.ScreenUtil;
-import cyder.utils.UserUtil;
+import cyder.utils.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

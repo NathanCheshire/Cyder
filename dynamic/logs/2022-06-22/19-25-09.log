@@ -1,0 +1,135 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[19-25-09] [ENTRY]: Nathan
+[19-25-09] [PROP LOADED]: [key = map_quest_api_key]
+[19-25-09] [PROP LOADED]: [key = youtube_api_3_key]
+[19-25-09] [PROP LOADED]: [key = ip_key]
+[19-25-09] [PROP LOADED]: [key = weather_key]
+[19-25-09] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[19-25-09] [PROP LOADED]: [key = debug_hash_password]
+[19-25-09] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[19-25-09] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[19-25-09] [PROP LOADED]: [key = font_metric, value = 1]
+[19-25-09] [PROP LOADED]: [key = released, value = false]
+[19-25-09] [PROP LOADED]: [key = fast_test, value = false]
+[19-25-09] [PROP LOADED]: [key = version, value = Liminal]
+[19-25-09] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[19-25-09] [PROP LOADED]: [key = components_relocatable, value = false]
+[19-25-09] [PROP LOADED]: [key = testing_mode, value = true]
+[19-25-09] [PROP LOADED]: [key = autocypher, value = true]
+[19-25-09] [PROP LOADED]: [key = dispose_splash, value = true]
+[19-25-09] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[19-25-09] [PROP LOADED]: [key = activate_watchdog, value = false]
+[19-25-09] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[19-25-09] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[19-25-09] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[19-25-09] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[19-25-10] [THREAD STARTED]: Object Creation Logger
+[19-25-10] [DEBUG]: Watchdog skipped
+[19-25-10] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-25-11] [FONT LOADED]: agency-fb
+[19-25-11] [FONT LOADED]: arial-black
+[19-25-11] [FONT LOADED]: beyno
+[19-25-11] [FONT LOADED]: condiment-regular
+[19-25-11] [FONT LOADED]: prompt-bold
+[19-25-11] [FONT LOADED]: segoe-ui-black
+[19-25-11] [FONT LOADED]: tahoma
+[19-25-11] [THREAD STARTED]: Splash Loader
+[19-25-11] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-25-11] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\7d7ebb00-81fe-3
+           29f-8a78-62f463d0b7da\Music\AlbumArt\Everglow.png
+[19-25-11] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\7d7ebb00-81fe-3
+           29f-8a78-62f463d0b7da\Music\AlbumArt\John Wolf - Anymore (Official Video) Ok Guess We Doin Just Fine (Lyrics In Description).png
+[19-25-12] [THREAD STARTED]: Splash Animation
+[19-25-12] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[19-25-13] [OBJECT CREATION]: Objects created since last delta (5000ms): 63
+[19-25-13] [THREAD STARTED]: Secondary Subroutines Runner
+[19-25-13] [LOGIN]: AUTOCYPHER ATTEMPT
+[19-25-13] [THREAD STARTED]: JVM Args Logger
+[19-25-13] [DEBUG]: Cyder Entry = AutoCypher
+[19-25-14] [THREAD STARTED]: Splash Loading Label Updater
+[19-25-14] [THREAD STARTED]: Harmonic Rectangle Animator
+[19-25-14] [THREAD STARTED]: Harmonic Rectangle Animator
+[19-25-14] [THREAD STARTED]: Harmonic Rectangle Animator
+[19-25-14] [THREAD STARTED]: High Ping Checker
+[19-25-14] [THREAD STARTED]: Harmonic Rectangle Animator
+[19-25-14] [THREAD STARTED]: Console Printing Animation
+[19-25-14] [THREAD STARTED]: Harmonic Rectangle Animator
+[19-25-14] [THREAD STARTED]: Hourly Chime Checker
+[19-25-14] [THREAD STARTED]: Console Clock Updater
+[19-25-14] [THREAD STARTED]: Cyder Busy Checker
+[19-25-14] [THREAD STARTED]: ConsoleFrame Stat Saver
+[19-25-14] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-25-14] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-25-14] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 990590794, bounds = (980, 396,
+           600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[19-25-15] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[19-25-15] [THREAD STARTED]: Manual Tests Thread
+[19-25-15] [CONSOLE OUT]: [STRING]: Console loaded in 5932ms
+[19-25-15] [DEBUG]: Attempted to log a new or empty line
+[19-25-16] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[19-25-17] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[19-25-17] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 15] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[19-25-17] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1655866515573.json
+[19-25-18] [OBJECT CREATION]: Objects created since last delta (5000ms): 54
+[19-25-18] [CLIENT]: mp3
+[19-25-18] [THREAD STARTED]: Brayke - Moodswings (prod. Paryo) Progress Label Thread
+[19-25-18] [THREAD STARTED]: Audio Progress Label Animator
+[19-25-18] [CONSOLE OUT]: [STRING]: Opening widget: AudioPlayer
+[19-25-18] [THREAD STARTED]: [Brayke - moodswings (prod. paryo)] finalizeAndShow()
+[19-25-18] [WIDGET]: AudioPlayer, trigger = mp3
+[19-25-18] [DEBUG]: Attempted to log a new or empty line
+[19-25-20] [THREAD STARTED]: Brayke - moodswings (prod. paryo) Opacity Decrement Animator
+[19-25-20] [THREAD STARTED]: Brayke - moodswings (prod. paryo) Opacity Increment Animator
+[19-25-21] [THREAD STARTED]: AudioPlayer Play Audio Thread [Brayke - Moodswings (prod. Paryo)]
+[19-25-22] [THREAD STARTED]: AudioPlayer Play Audio Thread [Brayke - Moodswings (prod. Paryo)]
+[19-25-23] [OBJECT CREATION]: Objects created since last delta (5000ms): 17
+[19-25-23] [THREAD STARTED]: AudioPlayer Play Audio Thread [Brayke - Moodswings (prod. Paryo)]
+[19-25-29] [THREAD STARTED]: Brayke - moodswings (prod. paryo) Opacity Decrement Animator
+[19-25-29] [THREAD STARTED]: Brayke - moodswings (prod. paryo) Opacity Increment Animator
+[19-25-30] [THREAD STARTED]: Brayke - moodswings (prod. paryo) Menu Label Animator
+[19-25-32] [UI]: cyder.ui.CyderTextField[,150,50,300x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignmen
+           tX=0.0,alignmentY=0.0,border=javax.swing.border.MatteBorder@34553df1,flags=16777512,maximumSize=,minimumSize=,preferredS
+           ize=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edi
+           table=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColo
+           rUIResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,hor
+           izontalAlignment=LEADING]
+[19-25-33] [OBJECT CREATION]: Objects created since last delta (5000ms): 12
+[19-25-35] [THREAD STARTED]: YouTube Search Updater
+[19-25-38] [OBJECT CREATION]: Objects created since last delta (5000ms): 40
+[19-25-55] [UI]: Component = CyderDragLabel, hash = -14491413, bounds = (2, 2, 596, 28), parent frame = Brayke -
+           moodswings (prod. paryo)
+[19-25-55] [THREAD STARTED]: [Brayke - moodswings (prod. paryo)] dispose() animation thread
+[19-25-55] [UI]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 437969713, bounds = (1607,
+           389, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Brayke - moodswings (prod. paryo)
+[19-25-55] [THREAD STARTED]: [Brayke - moodswings (prod. paryo)] dispose() animation thread
+[19-25-56] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-25-56] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 90045638, bounds =
+           (1440, 266, 747, 748), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[19-25-56] [EXIT]: [RUNTIME] 47s
+[19-25-56] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown

@@ -14,10 +14,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
-import cyder.utils.FileUtil;
-import cyder.utils.GetterUtil;
-import cyder.utils.StringUtil;
-import cyder.utils.UserUtil;
+import cyder.utils.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +33,7 @@ import java.util.LinkedList;
 @SuppressWarnings("unused")
 @Vanilla
 @CyderAuthor
-public class GameOfLifeWidget {
+public final class GameOfLifeWidget {
     /**
      * The game of life frame.
      */

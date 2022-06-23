@@ -11,7 +11,7 @@ import javax.swing.*;
 /**
  * Common ImageIcons used throughout Cyder for buttons
  */
-public class CyderIcons {
+public final class CyderIcons {
     /**
      * The Cyder logo.
      */
@@ -45,7 +45,7 @@ public class CyderIcons {
 
     /**
      * Change Size icons used for occasional frames to change the size of
-     * the frame or in ConsoleFrame's case, switch the backgroune
+     * the frame or in ConsoleFrame's case, switch the background.
      */
     public static final ImageIcon changeSizeIcon = new ImageIcon(
             OSUtil.buildPath("static", "pictures", "icons", "changesize1.png"));
@@ -93,7 +93,7 @@ public class CyderIcons {
     public static final ImageIcon defaultBackground = generateDefaultBackground(1000, 1000);
 
     /**
-     * A default image that spans the size of the primar display
+     * A default image that spans the size of the primary display
      */
     public static final ImageIcon defaultBackgroundLarge = generateDefaultBackground(
             Math.max(ScreenUtil.getScreenWidth(), ScreenUtil.getScreenHeight()),
@@ -124,10 +124,20 @@ public class CyderIcons {
         }
     }
 
+    /**
+     * Returns the currently set Cyder icon.
+     *
+     * @return the currently set Cyder icon
+     */
     public static ImageIcon getCurrentCyderIcon() {
         return currentCyderIcon;
     }
 
+    /**
+     * Sets the current Cyder icon.
+     *
+     * @param currentCyderIcon the Cyder icon
+     */
     public static void setCurrentCyderIcon(ImageIcon currentCyderIcon) {
         CyderIcons.currentCyderIcon = currentCyderIcon;
     }

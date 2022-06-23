@@ -15,10 +15,7 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
 import cyder.user.UserFile;
-import cyder.utils.FileUtil;
-import cyder.utils.GetterUtil;
-import cyder.utils.IOUtil;
-import cyder.utils.ImageUtil;
+import cyder.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -40,7 +37,7 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 @SuppressWarnings("unused")
 @Vanilla
 @CyderAuthor
-public class ImageAveragerWidget {
+public final class ImageAveragerWidget {
     /**
      * The list of selected files to average together.
      */
@@ -260,7 +257,7 @@ public class ImageAveragerWidget {
 
     /**
      * Computes the average of the images inside of the files array list and
-     * modifies saveImage to have the reuslting calcualted pixel average.
+     * modifies saveImage to have the resulting calculated pixel average.
      *
      * @param width     the width of the resulting image
      * @param height    the height of the resulting image
@@ -286,7 +283,7 @@ public class ImageAveragerWidget {
                 BufferedImage bufferImage = ImageIO.read(file);
 
                 //get pixel data
-                int[][] currentPixels = get2DRGBArr(bufferImage);
+                int[][] currentPixels = get2DRgbArray(bufferImage);
 
                 //get current dimensions and offsets
                 int currentHeight = bufferImage.getHeight();
@@ -331,7 +328,7 @@ public class ImageAveragerWidget {
      * @param image the image to find the pixel data of
      * @return an array of pixel data
      */
-    private static int[][] get2DRGBArr(BufferedImage image) {
+    private static int[][] get2DRgbArray(BufferedImage image) {
         byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         int width = image.getWidth();
         int height = image.getHeight();

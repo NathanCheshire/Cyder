@@ -5,7 +5,7 @@ import cyder.exceptions.IllegalMethodException;
 /**
  * Urls used throughout Cyder.
  */
-public class CyderUrls {
+public final class CyderUrls {
     /**
      * Restrict default constructor.
      */
@@ -222,11 +222,6 @@ public class CyderUrls {
      * The default github url.
      */
     public static final String GITHUB_BASE = "www.github.com";
-
-    /**
-     * The backend path.
-     */
-    public static final String CYDER_BACKEND_URL = "http://127.0.0.1:8000";
 
     /**
      * The url of the default background to give to newly created users provided a

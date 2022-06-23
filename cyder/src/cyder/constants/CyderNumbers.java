@@ -5,7 +5,10 @@ import cyder.exceptions.IllegalMethodException;
 /**
  * A class of commonly used integers throughout Cyder
  */
-public class CyderNumbers {
+public final class CyderNumbers {
+    /**
+     * Don't change your number.
+     */
     public static final int JENNY = 8675309;
 
     /**

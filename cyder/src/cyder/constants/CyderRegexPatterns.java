@@ -4,23 +4,18 @@ import cyder.exceptions.IllegalMethodException;
 
 import java.util.regex.Pattern;
 
-@SuppressWarnings("unused")
-public class CyderRegexPatterns {
+public final class CyderRegexPatterns {
     /**
      * Pattern used to validate an ipv4 address
      */
-    public static final Pattern ipv4Pattern = Pattern.compile("\\s*[0-9]{1,3}(\\s*|\\.[0-9]{1,3}\\s*" +
-            "|\\.[0-9]{1,3}\\.[0-9]{1,3}\\s*|\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\s*)");
+    public static final Pattern ipv4Pattern =
+            Pattern.compile("\\s*[0-9]{1,3}(\\s*|\\.[0-9]{1,3}\\s*" +
+                    "|\\.[0-9]{1,3}\\.[0-9]{1,3}\\s*|\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\s*)");
 
     /**
      * Pattern used to identify 1 or more numbers
      */
     public static final Pattern numberPattern = Pattern.compile("[0-9]+");
-
-    /**
-     * Pattern to identify 0 or more letters
-     */
-    public static final String lettersPattern = "[A-Za-z]*";
 
     /**
      * Pattern to identify common phone number patterns
@@ -34,15 +29,10 @@ public class CyderRegexPatterns {
      * extended region code (+1 is american and the numbers range
      * from 1-9 but if they were extended, this pattern would match those new numbers)
      */
+    @SuppressWarnings("unused")
     public static final Pattern phoneNumberRegionCodeExtendedPattern =
             Pattern.compile("\\s*[0-9]{0,2}\\s*[\\-]?\\s*[(]?\\s*[0-9]{0,3}\\s*" +
                     "[)]?\\s*[\\-]?\\s*[0-9]{3}\\s*[\\-]?\\s*[0-9]{4}\\s*");
-
-    /**
-     * Pattern to match zero or more numbers and letters
-     */
-    public static final Pattern numbersAndLettersPattern = Pattern.compile("\\s*[/]{2}.*" +
-            "|\\s*[/][*].*|\\s*[*].*|\\s*.*[*][/]\\s*");
 
     /**
      * Regex pattern to determine if a line is a comment.
@@ -58,8 +48,9 @@ public class CyderRegexPatterns {
     /**
      * Regex for rgb color or hex color such as 00FF00 or 0,255,0.
      */
-    public static final Pattern rgbOrHex = Pattern.compile("((\\d{1,3})|(\\d{1,3},)|(\\d{1,3},\\d{1,3})|(\\d{1,3}," +
-            "\\d{1,3},)|(\\d{1,3},\\d{1,3},\\d{1,3}))|([0-9A-Fa-f]{0,6})");
+    public static final Pattern rgbOrHex = Pattern.compile(
+            "((\\d{1,3})|(\\d{1,3},)|(\\d{1,3},\\d{1,3})|(\\d{1,3}," +
+                    "\\d{1,3},)|(\\d{1,3},\\d{1,3},\\d{1,3}))|([0-9A-Fa-f]{0,6})");
 
     /**
      * Regex for a hex color value.
@@ -69,14 +60,8 @@ public class CyderRegexPatterns {
     /**
      * Regex for a rgb color value.
      */
-    public static final Pattern rgbPattern =
-            Pattern.compile("((\\d{1,3})|(\\d{1,3},)|(\\d{1,3},\\d{1,3})|(\\d{1,3},\\d{1,3},)" +
-                    "|(\\d{1,3},\\d{1,3},\\d{1,3}))");
-
-    /**
-     * The pattern for matching carriage returns.
-     */
-    public static final Pattern newLinePattern = Pattern.compile("\\R");
+    public static final Pattern rgbPattern = Pattern.compile(
+            "((\\d{1,3})|(\\d{1,3},)|(\\d{1,3},\\d{1,3})|(\\d{1,3},\\d{1,3},)|(\\d{1,3},\\d{1,3},\\d{1,3}))");
 
     /**
      * Prevent illegal class instantiation.
@@ -117,15 +102,10 @@ public class CyderRegexPatterns {
     /**
      * The pattern used to validate whether a Url is constructed properly.
      */
-    public static final Pattern urlFormationPattern = Pattern.compile("\\b(?:(https?|ftp|file)://" +
-                    "|www\\.)?[-A-Z0-9+&#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$]\\." +
-                    "[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$]",
+    public static final Pattern urlFormationPattern = Pattern.compile(
+            "\\b(?:(https?|ftp|file)://|www\\.)?[-A-Z0-9+&#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$]\\."
+                    + "[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$]",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-
-    /**
-     * The pattern used to detect one or more whitespace characters.
-     */
-    public static final Pattern whiteSpace = Pattern.compile("\\s+");
 
     /**
      * The regex used to match 1-n whitespace.

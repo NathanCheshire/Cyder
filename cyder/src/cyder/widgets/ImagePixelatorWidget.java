@@ -17,10 +17,7 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.ui.CyderTextField;
 import cyder.user.UserFile;
-import cyder.utils.FileUtil;
-import cyder.utils.GetterUtil;
-import cyder.utils.ImageUtil;
-import cyder.utils.StringUtil;
+import cyder.utils.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -31,9 +28,10 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+@SuppressWarnings("unused")
 @Vanilla
 @CyderAuthor
-public class ImagePixelatorWidget {
+public final class ImagePixelatorWidget {
     private static ImageIcon displayIcon;
     private static ImageIcon originalIcon;
     private static File currentFile;
@@ -222,9 +220,5 @@ public class ImagePixelatorWidget {
         }
 
         return ret;
-    }
-
-    private double getAspectRatio(ImageIcon im) {
-        return ((double) im.getIconWidth() / (double) im.getIconHeight());
     }
 }
