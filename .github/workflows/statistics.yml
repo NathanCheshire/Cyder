@@ -22,7 +22,7 @@ jobs:
             git config --local user.email "action@github.com"
             git config --local user.name "github-actions"
             git add .
-            git commit -m "update README statistics ${date %Y-%m-%d}"
+            git commit -m "update README statistics" -m "`date`"
             git push -u origin main
           else
             echo "No files changed; job complete"
