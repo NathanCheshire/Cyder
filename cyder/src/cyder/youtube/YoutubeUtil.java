@@ -1,7 +1,6 @@
 package cyder.youtube;
 
 import com.google.common.base.Preconditions;
-import cyder.annotations.Widget;
 import cyder.constants.*;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
@@ -12,14 +11,10 @@ import cyder.handlers.external.audio.AudioUtil;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderButton;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderLabel;
-import cyder.ui.CyderTextField;
 import cyder.user.UserFile;
 import cyder.utils.*;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -148,7 +143,7 @@ public final class YoutubeUtil {
                     }
 
                     for (String uuid : uuids) {
-                        downloadVideo(buildYoutubeVideoUrl(uuid), baseInputHandler);
+                        downloadVideo(buildVideoUrl(uuid), baseInputHandler);
                     }
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
@@ -278,102 +273,53 @@ public final class YoutubeUtil {
         ConsoleFrame.INSTANCE.getInputHandler().println(downloadYoutubeDL);
     }
 
-    // todo improve and extract
     /**
-     * A widget for downloading a YouTube video's thumbnail.
+     * Attempts to set the console background to the provided YouTube video's thumbnail
+     *
+     * @param url the url of the youtube video
+     * @throws YoutubeException if an exception occurred while downloading/processing the thumbnail
      */
-    @Widget(triggers = {"youtube", "thumbnail"}, description = "A widget to steal youtube thumbnails")
-    public static void showGui() {
-        CyderFrame uuidFrame = new CyderFrame(400, 240, CyderIcons.defaultBackground);
-        uuidFrame.setTitle("Thumbnail Stealer");
-        uuidFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
+    public static void setAsConsoleBackground(String url) throws YoutubeException {
+        Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(NetworkUtil.isValidUrl(url));
 
-        CyderLabel label = new CyderLabel("Enter any valid YouTube UUID");
-        label.setFont(label.getFont().deriveFont(22f));
-        int labelWidth = StringUtil.getMinWidth("Enter any valid YouTube UUID", label.getFont());
-        label.setBounds(400 / 2 - labelWidth / 2, 60, labelWidth, 30);
-        uuidFrame.add(label);
+        Dimension consoleDimension = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getSize();
 
-        CyderTextField inputField = new CyderTextField(30);
-        inputField.setHorizontalAlignment(JTextField.CENTER);
-        inputField.setBounds(200 - labelWidth / 2, 100, labelWidth, 40);
-        inputField.setToolTipText("Must be a valid UUID");
-        uuidFrame.add(inputField);
+        Optional<BufferedImage> maxThumbnailOptional = getMaxResolutionThumbnail(getUuid(url));
 
-        CyderButton stealButton = new CyderButton("Submit");
-        stealButton.setBounds(200 - labelWidth / 2, 160, labelWidth, 40);
-        uuidFrame.add(stealButton);
-        stealButton.setToolTipText("Save image");
-        stealButton.addActionListener(e -> {
-            try {
-                String uuid = inputField.getText().trim();
+        if (maxThumbnailOptional.isEmpty()) {
+            throw new YoutubeException("Could not get max resolution thumbnail");
+        }
 
-                if (!uuidPattern.matcher(uuid).matches()) {
-                    uuidFrame.notify("Invalid UUID");
-                    return;
-                }
+        BufferedImage maxThumbnail = maxThumbnailOptional.get();
 
-                String videoTitle = NetworkUtil.getUrlTitle(CyderUrls.YOUTUBE_VIDEO_HEADER + uuid);
+        int newConsoleWidth = (int) consoleDimension.getWidth();
+        int newConsoleHeight = (int) consoleDimension.getHeight();
 
-                Optional<BufferedImage> optionalThumbnail = getMaxResolutionThumbnail(uuid);
-                BufferedImage thumbnail = optionalThumbnail.orElse(null);
+        // if console is bigger than a dimension of the thumbnail, use thumbnail dimensions
+        if (consoleDimension.getWidth() > maxThumbnail.getWidth()
+                || consoleDimension.getHeight() > maxThumbnail.getHeight()) {
+            newConsoleWidth = maxThumbnail.getWidth();
+            newConsoleHeight = maxThumbnail.getHeight();
+        }
 
-                if (thumbnail == null) {
-                    uuidFrame.inform("No thumbnail found for provided youtube uuid", "Error");
-                    return;
-                }
+        maxThumbnail = ImageUtil.resizeImage(maxThumbnail, maxThumbnail.getType(), newConsoleWidth, newConsoleHeight);
 
-                thumbnail = ImageUtil.resizeImage(thumbnail, thumbnail.getType(),
-                        thumbnail.getWidth(), thumbnail.getHeight());
+        File fullSaveFile = OSUtil.buildFile(
+                Dynamic.PATH,
+                Dynamic.USERS.getDirectoryName(),
+                ConsoleFrame.INSTANCE.getUUID(),
+                UserFile.BACKGROUNDS.getName(),
+                NetworkUtil.getUrlTitle(url) + "." + IMAGE_FORMAT);
 
-                CyderFrame thumbnailFrame = new CyderFrame(thumbnail.getWidth() + 10,
-                        thumbnail.getHeight() + 60, new ImageIcon(thumbnail));
-                thumbnailFrame.setBackground(CyderColors.navy);
-                thumbnailFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-                thumbnailFrame.setTitle(videoTitle);
-
-                CyderButton addToBackgrounds = new CyderButton("Set as background");
-                addToBackgrounds.setBounds(10, thumbnail.getHeight() + 10,
-                        (thumbnail.getWidth() - 30) / 2, 40);
-                String finalThumbnailURL = buildMaxResThumbnailUrl(uuid);
-                addToBackgrounds.addActionListener(e1 -> {
-                    try {
-                        BufferedImage save = ImageIO.read(new URL(finalThumbnailURL));
-
-                        String title = videoTitle.substring(Math.min(MAX_THUMBNAIL_CHARS, videoTitle.length()));
-
-                        File saveFile = OSUtil.buildFile(Dynamic.PATH,
-                                Dynamic.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
-                                UserFile.BACKGROUNDS.getName(), title + ".png");
-
-                        ImageIO.write(save, "png", saveFile);
-
-                        thumbnailFrame.notify("Successfully saved as a background file." +
-                                " You may view this by switching the background or by typing \"prefs\" " +
-                                "to view your profile settings.");
-                    } catch (IOException ex) {
-                        ExceptionHandler.handle(ex);
-                    }
-                });
-                thumbnailFrame.add(addToBackgrounds);
-
-                // open the video, I'm not sure why the user would want to do this but it's here
-                CyderButton openVideo = new CyderButton("Open Video");
-                openVideo.setBounds(20 + addToBackgrounds.getWidth(),
-                        thumbnail.getHeight() + 10, (thumbnail.getWidth() - 30) / 2, 40);
-                openVideo.addActionListener(e1 -> NetworkUtil.openUrl("youtube.com/watch?v=" + uuid));
-                thumbnailFrame.add(openVideo);
-
-                thumbnailFrame.setVisible(true);
-                thumbnailFrame.setLocationRelativeTo(uuidFrame);
-
-                uuidFrame.dispose();
-            } catch (Exception exc) {
-                uuidFrame.notify("Invalid YouTube UUID");
-            }
-        });
-
-        uuidFrame.finalizeAndShow();
+        try {
+            ImageIO.write(maxThumbnail, IMAGE_FORMAT, fullSaveFile);
+            ConsoleFrame.INSTANCE.setBackgroundFile(fullSaveFile);
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
+            throw new YoutubeException("Failed to write image to user background directory as: "
+                    + fullSaveFile.getAbsolutePath());
+        }
     }
 
     /**
@@ -463,7 +409,7 @@ public final class YoutubeUtil {
      * @return a url for the YouTube video with the provided uuid
      * @throws IllegalArgumentException if the provided uuid is not 11 chars long
      */
-    public static String buildYoutubeVideoUrl(String uuid) {
+    public static String buildVideoUrl(String uuid) {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(uuid.length() == 11);
 
