@@ -90,7 +90,7 @@ public class PlayAudioHandler extends InputHandler {
                 String url = getInputHandler().argsToString();
 
                 if (YoutubeUtil.isPlaylistUrl(url)) {
-                    YoutubeUtil.downloadPlaylist(url);
+                    YoutubeUtil.downloadPlaylist(url, ConsoleFrame.INSTANCE.getInputHandler());
                 } else {
                     String extractedUuid = getInputHandler().argsToString()
                             .replace(CyderUrls.YOUTUBE_VIDEO_HEADER, "");
@@ -101,7 +101,7 @@ public class PlayAudioHandler extends InputHandler {
                         url = CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
                     }
 
-                    YoutubeUtil.downloadVideo(url);
+                    YoutubeUtil.downloadVideo(url, ConsoleFrame.INSTANCE.getInputHandler());
                 }
             }, "YouTube Download Initializer");
         } else {

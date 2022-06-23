@@ -177,25 +177,49 @@ public class YoutubeDownload {
     }
 
     /**
-     * Downloads this object's YouTube video.
-     *
-     * @param inputHandler the base input handler to output updates to. Pass null for no updates
+     * The audio progress bar to print and update if a valid input handler is provided.
      */
-    public void download(BaseInputHandler inputHandler) {
-        boolean shouldPrint = inputHandler != null;
+    private CyderProgressBar audioProgressBar;
 
-        // todo extract logic to smaller methods, need boolean to not interact with consoleFrame
-        //  should also be given an input handler if desired to print
+    /**
+     * The audio progress ui to use for the audio progress bar.
+     */
+    private CyderProgressUI audioProgressUi;
+
+    /**
+     * The input handler to print updates to if not null;
+     */
+    private BaseInputHandler inputHandler;
+
+    /**
+     * Returns the input handler set for this YouTube download.
+     *
+     * @return the input handler set for this YouTube download
+     */
+    public BaseInputHandler getInputHandler() {
+        return inputHandler;
     }
 
     /**
-     * Downloads this object's youtube video without any output to the Console.
+     * Sets the input handler set for this YouTube download.
+     *
+     * @param inputHandler the input handler set for this YouTube download
+     */
+    public void setInputHandler(BaseInputHandler inputHandler) {
+        this.inputHandler = inputHandler;
+    }
+
+    /**
+     * Downloads this object's YouTube video.
      */
     public void download() {
-        download(null);
 
-        String saveDir = OSUtil.buildPath(Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
+        boolean shouldPrint = inputHandler != null;
+
+        String saveDir = OSUtil.buildPath(
+                Dynamic.PATH,
+                Dynamic.USERS.getDirectoryName(),
+                ConsoleFrame.INSTANCE.getUUID(),
                 UserFile.MUSIC.getName());
 
         String extension = "." + PropLoader.getString("ffmpeg_audio_output_format");
@@ -205,8 +229,9 @@ public class YoutubeDownload {
                         .replace("- YouTube", "")
                         .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim());
 
-        ConsoleFrame.INSTANCE.getInputHandler().println("Downloading audio as: "
-                + parsedAsciiSaveName + extension);
+        if (shouldPrint) {
+            inputHandler.println("Downloading audio as: " + parsedAsciiSaveName + extension);
+        }
 
         // remove trailing periods
         while (parsedAsciiSaveName.get().endsWith(".")) {
@@ -227,43 +252,20 @@ public class YoutubeDownload {
         };
 
         downloaded = false;
+        YoutubeUtil.addActiveDownload(this);
+        this.downloadableName = parsedAsciiSaveName.get();
 
-        CyderProgressUI ui = new CyderProgressUI();
         CyderThreadRunner.submit(() -> {
+            audioProgressUi = new CyderProgressUI();
+
             try {
                 Process proc = Runtime.getRuntime().exec(command);
 
                 BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
-                // progress label for this download to update
-                CyderProgressBar audioProgress = new CyderProgressBar(
-                        CyderProgressBar.HORIZONTAL, 0, 10000);
-
-                ui.setColors(CyderColors.regularPink, CyderColors.regularBlue);
-                ui.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
-                audioProgress.setUI(ui);
-                audioProgress.setMinimum(0);
-                audioProgress.setMaximum(10000);
-                audioProgress.setBorder(new LineBorder(Color.black, 2));
-                audioProgress.setBounds(0, 0, 400, 40);
-                audioProgress.setVisible(true);
-                audioProgress.setValue(0);
-                audioProgress.setOpaque(false);
-                audioProgress.setFocusable(false);
-                audioProgress.repaint();
-
-                printLabel = new JLabel("\"" + parsedAsciiSaveName + "\"");
-                printLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
-                printLabel.setForeground(CyderColors.vanilla);
-                printLabel.setHorizontalAlignment(JLabel.LEFT);
-                printLabel.setForeground(ConsoleFrame.INSTANCE.getInputField().getForeground());
-                printLabel.setFont(ConsoleFrame.INSTANCE.getInputField().getFont());
-
-                // todo not always, no need to construct if not printing too
-                ConsoleFrame.INSTANCE.getInputHandler().println(audioProgress);
-                ConsoleFrame.INSTANCE.getInputHandler().println(printLabel);
-
-                String fileSize = null;
+                if (shouldPrint) {
+                    constructAndPrintUiElements();
+                }
 
                 String outputString;
 
@@ -273,15 +275,12 @@ public class YoutubeDownload {
                     if (updateMatcher.find()) {
                         float progress = Float.parseFloat(updateMatcher.group(1)
                                 .replaceAll("[^0-9.]", ""));
-                        audioProgress.setValue((int) ((progress / 100.0) * audioProgress.getMaximum()));
-
-                        fileSize = fileSize == null ? updateMatcher.group(2) : fileSize;
-
-                        this.downloadableName = parsedAsciiSaveName.get();
-                        this.downloadableFileSize = fileSize;
+                        audioProgressBar.setValue((int) ((progress / 100.0) * audioProgressBar.getMaximum()));
+                        this.downloadableFileSize = updateMatcher.group(2);
                         this.downloadableProgress = progress;
                         this.downloadableRate = updateMatcher.group(3);
                         this.downloadableEta = updateMatcher.group(4);
+
                         updateLabel();
                     }
                 }
@@ -290,22 +289,64 @@ public class YoutubeDownload {
 
                 downloaded = true;
 
-                // todo not always
-                ConsoleFrame.INSTANCE.getInputHandler().println("Download complete: saved as "
-                        + parsedAsciiSaveName + extension + " and added to audio queue");
                 AudioPlayer.addAudioNext(new File(OSUtil.buildPath(
                         saveDir, parsedAsciiSaveName + extension)));
-                ui.setColors(CyderColors.regularBlue, CyderColors.regularBlue);
-                audioProgress.repaint();
-                ui.stopAnimationTimer();
+
+                if (shouldPrint) {
+                    inputHandler.println("Download complete: saved as "
+                            + downloadableName + " and added to audio queue");
+
+                    cleanUpUi();
+                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
-                ConsoleFrame.INSTANCE.getInputHandler().println("An exception occurred while "
-                        + "attempting to download: " + url);
-                ui.stopAnimationTimer();
+
+                if (shouldPrint) {
+                    inputHandler.println("An exception occurred while " + "attempting to download: " + url);
+                    cleanUpUi();
+                }
             } finally {
                 YoutubeUtil.removeActiveDownload(this);
             }
-        }, "YouTube Downloader: " + parsedAsciiSaveName.get());
+        }, "YouTube Downloader, saveName=" + parsedAsciiSaveName.get() + ", uuid=" + YoutubeUtil.getUuid(url));
+    }
+
+    /**
+     * Constructs and prints the progress bar and labels to the provided input handler.
+     */
+    private void constructAndPrintUiElements() {
+        audioProgressBar = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
+
+        audioProgressUi.setColors(CyderColors.regularPink, CyderColors.regularBlue);
+        audioProgressUi.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
+        audioProgressBar.setUI(audioProgressUi);
+        audioProgressBar.setMinimum(0);
+        audioProgressBar.setMaximum(10000);
+        audioProgressBar.setBorder(new LineBorder(Color.black, 2));
+        audioProgressBar.setBounds(0, 0, 400, 40);
+        audioProgressBar.setVisible(true);
+        audioProgressBar.setValue(0);
+        audioProgressBar.setOpaque(false);
+        audioProgressBar.setFocusable(false);
+        audioProgressBar.repaint();
+
+        printLabel = new JLabel("\"" + this.downloadableName + "\"");
+        printLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
+        printLabel.setForeground(CyderColors.vanilla);
+        printLabel.setHorizontalAlignment(JLabel.LEFT);
+        printLabel.setForeground(ConsoleFrame.INSTANCE.getInputField().getForeground());
+        printLabel.setFont(ConsoleFrame.INSTANCE.getInputField().getFont());
+
+        inputHandler.println(audioProgressBar);
+        inputHandler.println(printLabel);
+    }
+
+    /**
+     * Cleans up the printed ui elements.
+     */
+    private void cleanUpUi() {
+        audioProgressUi.setColors(CyderColors.regularBlue, CyderColors.regularBlue);
+        audioProgressBar.repaint();
+        audioProgressUi.stopAnimationTimer();
     }
 }

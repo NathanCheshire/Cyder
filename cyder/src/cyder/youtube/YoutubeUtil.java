@@ -9,6 +9,7 @@ import cyder.exceptions.YoutubeException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.audio.AudioUtil;
+import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -63,12 +64,39 @@ public final class YoutubeUtil {
     }
 
     /**
+     * Downloads the YouTube video with the provided url.
+     *
+     * @param url              the url of the video to download
+     * @param baseInputHandler the handler to use to print updates about the download to
+     */
+    public static void downloadVideo(String url, BaseInputHandler baseInputHandler) {
+        if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
+            YoutubeDownload youtubeDownload = new YoutubeDownload(url);
+            youtubeDownload.setInputHandler(baseInputHandler);
+            youtubeDownload.download();
+        } else {
+            noFfmpegOrYoutubeDl();
+        }
+    }
+
+    /**
      * Removes the provided YouTube download from the active downloads list.
      *
      * @param youtubeDownload the YouTube download to remove from the active downloads list
      */
     static void removeActiveDownload(YoutubeDownload youtubeDownload) {
         activeDownloads.remove(youtubeDownload);
+    }
+
+    /**
+     * Adds the provided YouTube download to the downloads list.
+     *
+     * @param youtubeDownload the youtube download to add to the list
+     */
+    static void addActiveDownload(YoutubeDownload youtubeDownload) {
+        Preconditions.checkNotNull(youtubeDownload);
+
+        activeDownloads.add(youtubeDownload);
     }
 
     /**
@@ -86,14 +114,24 @@ public final class YoutubeUtil {
      * @param playlist the url of the playlist to download
      */
     public static void downloadPlaylist(String playlist) {
+        downloadPlaylist(playlist, null);
+    }
+
+    /**
+     * Downloads the YouTube playlist provided the playlist exists.
+     *
+     * @param playlist         the url of the playlist to download
+     * @param baseInputHandler the input handler to print updates to
+     */
+    public static void downloadPlaylist(String playlist, BaseInputHandler baseInputHandler) {
         Preconditions.checkNotNull(playlist);
         Preconditions.checkArgument(!playlist.isEmpty());
 
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
             String playlistID = extractPlaylistId(playlist);
 
-            if (StringUtil.isNull(PropLoader.getString("youtube_api_3_key"))) {
-                ConsoleFrame.INSTANCE.getInputHandler().println(KEY_NOT_SET_ERROR_MESSAGE);
+            if (StringUtil.isNull(PropLoader.getString("youtube_api_3_key")) && baseInputHandler != null) {
+                baseInputHandler.println(KEY_NOT_SET_ERROR_MESSAGE);
             } else {
                 try {
                     String link = CyderUrls.YOUTUBE_API_V3_PLAYLIST_ITEMS +
@@ -110,12 +148,14 @@ public final class YoutubeUtil {
                     }
 
                     for (String uuid : uuids) {
-                        downloadVideo(buildYoutubeVideoUrl(uuid));
+                        downloadVideo(buildYoutubeVideoUrl(uuid), baseInputHandler);
                     }
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
-                    ConsoleFrame.INSTANCE.getInputHandler().println(
-                            "An exception occurred while downloading playlist: " + playlistID);
+
+                    if (baseInputHandler != null) {
+                        baseInputHandler.println("An exception occurred while downloading playlist: " + playlistID);
+                    }
                 }
             }
         } else {
@@ -239,8 +279,7 @@ public final class YoutubeUtil {
         ConsoleFrame.INSTANCE.getInputHandler().println(downloadYoutubeDL);
     }
 
-    // todo improve and extract,
-
+    // todo improve and extract
     /**
      * A widget for downloading a YouTube video's thumbnail.
      */
