@@ -22,7 +22,7 @@ public class NumberHandler extends InputHandler {
      * Suppress default constructor.
      */
     private NumberHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle({"binary", "prime", "bindump", "hexdump", "number2string"})

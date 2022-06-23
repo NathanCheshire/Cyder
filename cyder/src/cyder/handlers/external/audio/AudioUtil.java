@@ -57,7 +57,7 @@ public final class AudioUtil {
      * Suppress default constructor.
      */
     private AudioUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

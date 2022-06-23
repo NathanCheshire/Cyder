@@ -16,7 +16,7 @@ public class PreferenceHandler extends InputHandler {
      * Suppress default constructor.
      */
     private PreferenceHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle()

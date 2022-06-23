@@ -14,7 +14,7 @@ public class ScreenUtil {
      * Suppress default constructor.
      */
     private ScreenUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

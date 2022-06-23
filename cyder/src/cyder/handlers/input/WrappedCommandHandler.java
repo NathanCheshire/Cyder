@@ -13,7 +13,7 @@ public class WrappedCommandHandler extends InputHandler {
      * Suppress default constructor.
      */
     private WrappedCommandHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle()

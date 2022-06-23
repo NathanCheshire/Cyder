@@ -28,7 +28,7 @@ public class NetworkUtil {
      * Suppress default constructor.
      */
     private NetworkUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

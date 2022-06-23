@@ -8,7 +8,10 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.records.WidgetDescription;
 import cyder.threads.CyderThreadRunner;
-import cyder.utils.*;
+import cyder.utils.FileUtil;
+import cyder.utils.ReflectionUtil;
+import cyder.utils.StatUtil;
+import cyder.utils.ThreadUtil;
 
 import java.io.File;
 import java.net.InetAddress;
@@ -27,7 +30,7 @@ public class StatHandler extends InputHandler {
      * Suppress default constructor.
      */
     private StatHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle({"debug", "countlogs", "computerproperties", "systemproperties", "tests",

@@ -26,7 +26,7 @@ public class PlayAudioHandler extends InputHandler {
      * Suppress default constructor.
      */
     private PlayAudioHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle({"heyya", "windows", "lightsaber", "xbox", "startrek", "toystory",

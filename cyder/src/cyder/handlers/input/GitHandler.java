@@ -23,7 +23,7 @@ public class GitHandler extends InputHandler {
      * Suppress default constructor.
      */
     private GitHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle({"gitme", "github", "issues", "git"})

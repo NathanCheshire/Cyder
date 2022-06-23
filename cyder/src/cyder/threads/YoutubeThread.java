@@ -49,7 +49,7 @@ public class YoutubeThread {
      * Suppress default constructor. Requires two parameters for instantiation.D
      */
     private YoutubeThread() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

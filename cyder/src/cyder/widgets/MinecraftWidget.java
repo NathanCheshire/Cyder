@@ -26,7 +26,7 @@ public class MinecraftWidget {
     private static JLabel blockLabel;
 
     private MinecraftWidget() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Widget(triggers = "minecraft", description = "A minecraft widget that copies from the Mojang home page")

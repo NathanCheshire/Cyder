@@ -20,7 +20,7 @@ public class FrameUtil {
      * Instantiation of frame util not allowed.
      */
     private FrameUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**
@@ -166,7 +166,7 @@ public class FrameUtil {
         } else if (screenDevices.length > 0) {
             requestedScreenBounds = screenDevices[0].getDefaultConfiguration().getBounds();
         } else {
-            throw new IllegalStateException("No monitors were found. " + CyderStrings.europeanToymaker);
+            throw new IllegalStateException("No monitors were found. " + CyderStrings.EUROPEAN_TOY_MAKER);
         }
 
         int monitorX = requestedScreenBounds.x;

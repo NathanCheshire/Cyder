@@ -21,7 +21,7 @@ public class CyderWatchdog {
      * Suppress default constructor.
      */
     private CyderWatchdog() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

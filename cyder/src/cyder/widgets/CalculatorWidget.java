@@ -37,7 +37,7 @@ public class CalculatorWidget {
      * Suppress default constructor.
      */
     private CalculatorWidget() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

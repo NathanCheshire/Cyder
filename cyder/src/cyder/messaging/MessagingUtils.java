@@ -30,7 +30,7 @@ public class MessagingUtils {
      * Suppress default constructor.
      */
     private MessagingUtils() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**
@@ -256,7 +256,7 @@ public class MessagingUtils {
         Preconditions.checkArgument(width <= numFrames,
                 "Samples to take is greater than num frames: "
                         + "samples = " + width + ", frames = " + numFrames
-                        + "\n" + CyderStrings.europeanToymaker);
+                        + "\n" + CyderStrings.EUROPEAN_TOY_MAKER);
 
         int sampleLocIncrementer = (int) Math.ceil(numFrames / (double) width);
         int currentSampleLoc = 0;

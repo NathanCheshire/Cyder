@@ -14,7 +14,10 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
-import cyder.utils.*;
+import cyder.utils.FileUtil;
+import cyder.utils.GetterUtil;
+import cyder.utils.StringUtil;
+import cyder.utils.UserUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -173,7 +176,7 @@ public class GameOfLifeWidget {
      * Suppress default constructor.
      */
     private GameOfLifeWidget() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @SuppressCyderInspections(CyderInspection.WidgetInspection)

@@ -17,7 +17,7 @@ public class UrlHandler extends InputHandler {
      * Suppress default constructor.
      */
     private UrlHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle()

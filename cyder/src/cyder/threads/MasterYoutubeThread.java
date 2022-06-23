@@ -29,7 +29,7 @@ public class MasterYoutubeThread {
      * Suppress default constructor.
      */
     private MasterYoutubeThread() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

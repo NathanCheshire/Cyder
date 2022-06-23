@@ -20,7 +20,7 @@ public class SpotlightUtil {
      * Suppress default constructor.
      */
     private SpotlightUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**
@@ -46,7 +46,7 @@ public class SpotlightUtil {
         Preconditions.checkArgument(OSUtil.isWindows(), "Host OS is not an instance of Windows");
 
         File spotlightParent = new File(OSUtil.buildPath(
-                OSUtil.C_COLON_SLASH, "users", OSUtil.getSystemUsername(),
+                OSUtil.WINDOWS_ROOT, "users", OSUtil.getSystemUsername(),
                 "AppData", "Local", "Packages"));
 
         File[] files = spotlightParent.listFiles();
@@ -107,7 +107,7 @@ public class SpotlightUtil {
         Preconditions.checkNotNull(local);
 
         return new File(OSUtil.buildPath(
-                OSUtil.C_COLON_SLASH, "users", OSUtil.getSystemUsername(),
+                OSUtil.WINDOWS_ROOT, "users", OSUtil.getSystemUsername(),
                 "AppData", "Local", "Packages", local, "LocalState", "Assets"));
     }
 

@@ -15,7 +15,10 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
 import cyder.user.UserFile;
-import cyder.utils.*;
+import cyder.utils.FileUtil;
+import cyder.utils.GetterUtil;
+import cyder.utils.IOUtil;
+import cyder.utils.ImageUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -67,7 +70,7 @@ public class ImageAveragerWidget {
      * Instantiation of class not permitted.
      */
     private ImageAveragerWidget() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

@@ -21,7 +21,7 @@ public class BletchyThread {
      * Suppress default constructor..
      */
     private BletchyThread() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

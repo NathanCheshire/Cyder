@@ -34,7 +34,7 @@ public class ImageUtil {
      * Prevent class instantiation.
      */
     private ImageUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

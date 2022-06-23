@@ -18,7 +18,7 @@ public class ManualTestHandler extends InputHandler {
      * Suppress default constructor
      */
     private ManualTestHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle()

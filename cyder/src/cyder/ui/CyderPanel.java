@@ -23,7 +23,7 @@ public class CyderPanel extends JLabel {
      * Restict class instnatiation without a valid cyder layout.
      */
     private CyderPanel() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

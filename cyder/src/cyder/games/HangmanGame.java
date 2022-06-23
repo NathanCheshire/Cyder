@@ -70,7 +70,7 @@ public final class HangmanGame {
      * Restrict default instantiation.
      */
     private HangmanGame() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Widget(triggers = "hangman", description = "A hangman game")

@@ -30,7 +30,7 @@ public class ManualTests {
      * Restricts default instantiation.
      */
     private ManualTests() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

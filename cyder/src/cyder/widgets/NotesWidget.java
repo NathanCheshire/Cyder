@@ -75,7 +75,7 @@ public class NotesWidget {
      * Suppress default constructor.
      */
     private NotesWidget() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Widget(triggers = {"note", "notes"}, description

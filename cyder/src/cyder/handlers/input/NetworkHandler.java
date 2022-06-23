@@ -10,7 +10,10 @@ import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserFile;
-import cyder.utils.*;
+import cyder.utils.IOUtil;
+import cyder.utils.NetworkUtil;
+import cyder.utils.SecurityUtil;
+import cyder.utils.StringUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -32,7 +35,7 @@ public class NetworkHandler extends InputHandler {
      * Suppress default constructor.
      */
     private NetworkHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle({"define", "wikisum", "ip", "pastebin"})

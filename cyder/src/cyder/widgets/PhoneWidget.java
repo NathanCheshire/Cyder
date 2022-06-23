@@ -32,7 +32,7 @@ public class PhoneWidget {
      * Suppress default constructor.
      */
     private PhoneWidget() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Widget(triggers = "phone", description = "A phone emulating widget")

@@ -95,7 +95,7 @@ public class HarmonicRectangle extends JLabel {
      */
     @SuppressWarnings("unused")
     private HarmonicRectangle() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

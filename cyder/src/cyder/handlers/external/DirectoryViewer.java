@@ -76,7 +76,7 @@ public class DirectoryViewer {
      * Restrict default constructor.
      */
     private DirectoryViewer() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Widget(triggers = "dir", description = "A directory navigator widget")

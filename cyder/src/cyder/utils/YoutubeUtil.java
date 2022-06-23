@@ -6,6 +6,7 @@ import cyder.annotations.Widget;
 import cyder.constants.*;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
+import cyder.exceptions.YoutubeException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.audio.AudioPlayer;
@@ -50,7 +51,7 @@ public final class YoutubeUtil {
      * Restrict instantiation of class.
      */
     private YoutubeUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**
@@ -223,8 +224,8 @@ public final class YoutubeUtil {
         }
 
         public static final String EXTRACT_AUDIO_FLAG = "--extract-audio";
-        public static final String AUDIO_FORMAT_FLAG =  "--audio-format";
-        public static final String OUTPUT_FLAG =  "--output";
+        public static final String AUDIO_FORMAT_FLAG = "--audio-format";
+        public static final String OUTPUT_FLAG = "--output";
 
         /**
          * Downloads this object's youtube video.
@@ -347,6 +348,14 @@ public final class YoutubeUtil {
     }
 
     /**
+     * The error message printed to the console if the YouTube api v3 key is not set.
+     */
+    private static final String KEY_NOT_SET_ERROR_MESSAGE = "Sorry, your YouTubeAPI3 key has not been set. "
+            + "Visit the user editor to learn how to set this in order to download whole playlists. "
+            + "In order to download individual videos, simply use the same play "
+            + "command followed by a video URL or query";
+
+    /**
      * Downloads the youtube playlist provided the playlist exists.
      *
      * @param playlist the url of the playlist to download
@@ -356,11 +365,7 @@ public final class YoutubeUtil {
             String playlistID = extractPlaylistId(playlist);
 
             if (StringUtil.isNull(PropLoader.getString("youtube_api_3_key"))) {
-                ConsoleFrame.INSTANCE.getInputHandler().println(
-                        "Sorry, your YouTubeAPI3 key has not been set. Visit the user editor " +
-                                "to learn how to set this in order to download whole playlists. " +
-                                "In order to download individual videos, simply use the same play " +
-                                "command followed by a video URL or query");
+                ConsoleFrame.INSTANCE.getInputHandler().println(KEY_NOT_SET_ERROR_MESSAGE);
             } else {
                 try {
                     String link = CyderUrls.YOUTUBE_API_V3_PLAYLIST_ITEMS +
@@ -400,66 +405,66 @@ public final class YoutubeUtil {
      * url to the current user's album art directory.
      *
      * @param url the url of the youtube video to download
+     * @throws YoutubeException if an exception occurred while downloading or processing the thumbnail
      */
-    public static void downloadThumbnail(String url) {
+    public static void downloadThumbnail(String url) throws YoutubeException {
         downloadThumbnail(url, DEFAULT_THUMBNAIL_DIMENSION);
     }
 
     /**
-     * Downloads the youtube video's thumbnail with the provided
+     * Downloads the YouTube video's thumbnail with the provided
      * url to the current user's album aart directory.
      *
      * @param url       the url of the youtube video to download
      * @param dimension the dimensions to crop the image to
+     * @throws YoutubeException if an error downloading or processing the thumbnail occurred
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static void downloadThumbnail(String url, Dimension dimension) {
+    public static void downloadThumbnail(String url, Dimension dimension) throws YoutubeException {
         Preconditions.checkNotNull(ConsoleFrame.INSTANCE.getUUID());
 
         // get thumbnail url and file name to save it as
-        BufferedImage save = getSquareThumbnail(url, dimension);
+        Optional<BufferedImage> optionalBi = getThumbnail(url, dimension);
 
         // could not download thumbnail for some reason
-        if (save == null) {
-            return;
+        if (optionalBi.isEmpty()) {
+            throw new YoutubeException("Could not get raw thumbnail");
         }
 
-        String parsedAsciiSaveName =
-                StringUtil.parseNonAscii(NetworkUtil.getUrlTitle(url))
-                        .replace("- YouTube", "")
-                        .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(),
-                                "").trim();
+        String parsedAsciiSaveName = StringUtil.parseNonAscii(NetworkUtil.getUrlTitle(url))
+                .replace("- YouTube", "")
+                .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim();
 
-        // remove trailing periods
-        while (parsedAsciiSaveName.endsWith("."))
-            parsedAsciiSaveName = parsedAsciiSaveName.substring(0, parsedAsciiSaveName.length() - 1);
+        // Remove trailing periods if present
+        while (parsedAsciiSaveName.endsWith(".")) {
+            parsedAsciiSaveName = parsedAsciiSaveName
+                    .substring(0, parsedAsciiSaveName.length() - 1);
+        }
 
-        // if for some reason this case happens, account for it
-        if (parsedAsciiSaveName.isEmpty())
+        // if for some reason title was only periods and all were removed, assign a random title
+        if (parsedAsciiSaveName.isEmpty()) {
             parsedAsciiSaveName = SecurityUtil.generateUUID();
-
-        String finalParsedAsciiSaveName = parsedAsciiSaveName + ".png";
-
-        // init album art dir
-        File albumArtDir = OSUtil.buildFile(Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
-                UserFile.MUSIC.getName(), "AlbumArt");
-
-        // create if not there
-        if (!albumArtDir.exists()) {
-            albumArtDir.mkdirs();
         }
 
-        // create the reference file and save to it
-        File saveAlbumArt = OSUtil.buildFile(Dynamic.PATH,
+
+        File albumArtDir = OSUtil.buildFile(
+                Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                ConsoleFrame.INSTANCE.getUUID(), UserFile.MUSIC.getName(),
-                "AlbumArt", finalParsedAsciiSaveName);
+                ConsoleFrame.INSTANCE.getUUID(),
+                UserFile.MUSIC.getName(),
+                "AlbumArt");
+
+        if (!albumArtDir.exists()) {
+            if (!albumArtDir.mkdirs()) {
+                throw new YoutubeException("Could not create album art directory");
+            }
+        }
+
+        File saveAlbumArt = OSUtil.buildFile(albumArtDir.getAbsolutePath(), parsedAsciiSaveName + ".png");
 
         try {
-            ImageIO.write(save, "png", saveAlbumArt);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+            ImageIO.write(optionalBi.get(), "png", saveAlbumArt);
+        } catch (IOException e) {
+            throw new YoutubeException("Could not write thumbnail to: " + saveAlbumArt.getAbsolutePath());
         }
     }
 
@@ -603,18 +608,21 @@ public final class YoutubeUtil {
         uuidFrame.finalizeAndShow();
     }
 
-    // todo not sure this works
     /**
-     * Returns a square, 720x720 image of the provided youtube video's thumbnail.
+     * Returns a BufferedImage of the provided YouTube video's thumbnail.
      *
-     * @param videoURL  the url of the youtube video to query
-     * @param dimension the dimension of the resulting image
-     * @return a square image of the thumbnail
+     * @param url       the url of the YouTube video to query
+     * @param dimension the dimension of the image to return. If the raw image is not big enough
+     *                  the maximum square size image will be returned
+     * @return a squared off version of the thumbnail if possible and. Empty optional else
      */
-    public static BufferedImage getSquareThumbnail(String videoURL, Dimension dimension) {
-        String uuid = getUuid(videoURL);
+    public static Optional<BufferedImage> getThumbnail(String url, Dimension dimension) {
+        Preconditions.checkNotNull(url);
+        Preconditions.checkNotNull(dimension);
+        Preconditions.checkArgument(!isPlaylistUrl(url));
 
-        BufferedImage ret;
+        String uuid = getUuid(url);
+
         BufferedImage save = null;
 
         try {
@@ -629,31 +637,33 @@ public final class YoutubeUtil {
             }
         }
 
+        // Murphy's law so return failsafe
         if (save == null) {
-            return null;
+            return Optional.empty();
         }
 
+        // initialize size
         int w = save.getWidth();
         int h = save.getHeight();
 
+        // if width is greater than requested width, crop to middle
         if (w > dimension.getWidth()) {
-            //crop to middle of w
-            int cropWStart = (int) ((w - dimension.getWidth()) / 2.0);
-            save = save.getSubimage(cropWStart, 0, (int) dimension.getWidth(), h);
+            int cropWidthStart = (int) ((w - dimension.getWidth()) / 2.0);
+            save = save.getSubimage(cropWidthStart, 0, (int) dimension.getWidth(), h);
+            w = save.getWidth();
         }
 
-        w = save.getWidth();
-        h = save.getHeight();
 
+        // if height is greater than requested height, crop to middle
         if (h > dimension.getHeight()) {
-            //crop to middle of h
-            int cropHStart = (int) ((h - dimension.getHeight()) / 2);
-            save = save.getSubimage(0, cropHStart, w, (int) dimension.getHeight());
+            int cropHeightStart = (int) ((h - dimension.getHeight()) / 2);
+            save = save.getSubimage(0, cropHeightStart, w, (int) dimension.getHeight());
         }
 
-        ret = save;
+        // now width and height are guaranteed to be less than or equal the provided dimension
+        // We can't really increase the resolution of the image from what was provided.
 
-        return ret;
+        return Optional.of(save);
     }
 
     /**
@@ -663,21 +673,18 @@ public final class YoutubeUtil {
      * @return whether the provided url references a YouTube playlist
      */
     public static boolean isPlaylistUrl(String url) {
-        if (StringUtil.isNull(url))
-            throw new IllegalArgumentException("Provided url is null");
-
-        return url.startsWith(CyderUrls.YOUTUBE_PLAYLIST_HEADER);
+        return Preconditions.checkNotNull(url).startsWith(CyderUrls.YOUTUBE_PLAYLIST_HEADER);
     }
 
     /**
      * Extracts the YouTube playlist id from the provided playlist url.
      *
-     * @param url the url
-     * @return the youtube playlist url
+     * @param url the url of the playlist
+     * @return the youtube playlist id
      */
     public static String extractPlaylistId(String url) {
         Preconditions.checkNotNull(url);
-        Preconditions.checkArgument(!isPlaylistUrl(url));
+        Preconditions.checkArgument(isPlaylistUrl(url));
 
         return url.replace(CyderUrls.YOUTUBE_PLAYLIST_HEADER, "").trim();
     }
@@ -697,6 +704,16 @@ public final class YoutubeUtil {
     }
 
     /**
+     * The key used for a max resolution thumbnail.
+     */
+    public static final String MAX_RES_DEFAULT = "maxresdefault.jpg";
+
+    /**
+     * The key used for a standard definition thumbnail.
+     */
+    public static final String SD_DEFAULT = "sddefault.jpg";
+
+    /**
      * Returns a URL for the maximum resolution version of the youtube video's thumbnail.
      *
      * @param uuid the uuid of the video
@@ -706,7 +723,7 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(uuid.length() == 11);
 
-        return CyderUrls.YOUTUBE_THUMBNAIL_BASE + uuid + "/maxresdefault.jpg";
+        return CyderUrls.YOUTUBE_THUMBNAIL_BASE + uuid + "/" + MAX_RES_DEFAULT;
     }
 
     /**
@@ -719,7 +736,7 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(uuid.length() == 11);
 
-        return CyderUrls.YOUTUBE_THUMBNAIL_BASE + uuid + "/sddefault.jpg";
+        return CyderUrls.YOUTUBE_THUMBNAIL_BASE + uuid + "/" + SD_DEFAULT;
     }
 
     /**
@@ -736,7 +753,7 @@ public final class YoutubeUtil {
             return matcher.group();
         }
 
-        throw new IllegalArgumentException("No UUID found in provided string: " + url);
+        throw new IllegalArgumentException("No uuid found from provided url: " + url);
     }
 
     /**
@@ -745,10 +762,15 @@ public final class YoutubeUtil {
     private static final Range<Integer> searchQueryResultsRange = Range.closed(1, 20);
 
     /**
+     * The string used to represent a space in a url.
+     */
+    private static final String URL_SPACE = "%20";
+
+    /**
      * Constructs the url to query YouTube with a specific string for video results.
      *
      * @param numResults the number of results to return (max 20 results per page)
-     * @param query   the search query such as "black parade"
+     * @param query      the search query such as "black parade"
      * @return the constructed url to match the provided parameters
      */
     @SuppressWarnings("ConstantConditions") // unit test asserts throws for query of null
@@ -756,11 +778,6 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(query);
         Preconditions.checkArgument(searchQueryResultsRange.contains(numResults));
         Preconditions.checkArgument(!query.isEmpty());
-
-        // load props if not loaded (probably a Jenkins build)
-        if (!PropLoader.arePropsLoaded()) {
-            throw new IllegalMethodException("Cannot build search query because props are not loaded");
-        }
 
         String key = PropLoader.getString("youtube_api_3_key");
         Preconditions.checkArgument(!StringUtil.isNull(key));
@@ -774,12 +791,12 @@ public final class YoutubeUtil {
             builder.append(append.trim());
 
             if (i != parts.length - 1 && !append.isEmpty()) {
-                builder.append("%20");
+                builder.append(URL_SPACE);
             }
         }
 
-        return CyderUrls.YOUTUBE_API_V3_SEARCH_BASE + "&maxResults=" + numResults + "&q="
-                + builder + "&type=video" + "&key=" + key;
+        return CyderUrls.YOUTUBE_API_V3_SEARCH_BASE + "&maxResults="
+                + numResults + "&q=" + builder + "&type=video" + "&key=" + key;
     }
 
     /**

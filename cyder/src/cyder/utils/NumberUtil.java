@@ -18,7 +18,7 @@ public class NumberUtil {
      * Suppress default constructor.
      */
     private NumberUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

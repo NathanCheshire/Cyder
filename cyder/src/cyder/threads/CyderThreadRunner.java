@@ -12,7 +12,7 @@ public final class CyderThreadRunner {
      * Restrict default instantiation.
      */
     private CyderThreadRunner() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

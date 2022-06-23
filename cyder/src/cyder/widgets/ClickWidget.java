@@ -23,7 +23,7 @@ public class ClickWidget {
      * Restrict default instantiation.
      */
     private ClickWidget() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Widget(triggers = "clickme", description = "A troll widget that pops open a new window every time it is clicked")

@@ -17,7 +17,7 @@ public class FrameMovementHandler extends InputHandler {
      * Suppress default constructor.
      */
     private FrameMovementHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle({"top left", "top right", "bottom left", "bottom right",

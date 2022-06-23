@@ -41,7 +41,7 @@ public class CardWidget {
      * Restrict default constructor.
      */
     public CardWidget() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Widget(triggers = "Christmascard2020", description = "Christmas card for the year of 2020")

@@ -39,7 +39,7 @@ public class IOUtil {
      * No objects of util methods allowed.
      */
     private IOUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

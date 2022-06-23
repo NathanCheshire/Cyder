@@ -495,7 +495,7 @@ public final class AudioPlayer {
      * Suppress default constructor.
      */
     private AudioPlayer() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

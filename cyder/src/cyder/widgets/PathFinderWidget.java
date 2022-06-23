@@ -252,7 +252,7 @@ public class PathFinderWidget {
      * Suppress default constructor.
      */
     private PathFinderWidget() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Widget(triggers = {"path", "pathfinder", "A*"},

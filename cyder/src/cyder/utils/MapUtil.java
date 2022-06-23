@@ -19,7 +19,7 @@ public class MapUtil {
      * Suppress default constructor.
      */
     private MapUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

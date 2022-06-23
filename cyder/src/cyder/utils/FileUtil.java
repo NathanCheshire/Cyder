@@ -55,7 +55,7 @@ public class FileUtil {
      * Suppress default constructor.
      */
     private FileUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

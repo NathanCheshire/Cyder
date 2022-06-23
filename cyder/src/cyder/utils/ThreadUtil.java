@@ -14,7 +14,7 @@ public class ThreadUtil {
      * Suppress default constructor.
      */
     private ThreadUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

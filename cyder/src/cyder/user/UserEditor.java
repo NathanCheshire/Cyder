@@ -85,7 +85,7 @@ public final class UserEditor {
      * Suppress default constructor.
      */
     private UserEditor() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Widget(triggers = {"prefs", "edituser"}, description = "A widget to edit your user preferences and files")

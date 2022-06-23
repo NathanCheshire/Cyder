@@ -17,7 +17,10 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.ui.CyderTextField;
 import cyder.user.UserFile;
-import cyder.utils.*;
+import cyder.utils.FileUtil;
+import cyder.utils.GetterUtil;
+import cyder.utils.ImageUtil;
+import cyder.utils.StringUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -41,7 +44,7 @@ public class ImagePixelatorWidget {
      * Suppress default constructor.
      */
     private ImagePixelatorWidget() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Widget(triggers = {"pixelatepicture", "pixelateimage", "pixelator"},

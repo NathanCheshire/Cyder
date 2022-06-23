@@ -31,7 +31,7 @@ public class Cyder {
      * Instantiation of top level program genesis not permitted.
      */
     private Cyder() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

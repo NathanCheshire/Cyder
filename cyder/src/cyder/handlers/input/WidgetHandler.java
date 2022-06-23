@@ -20,7 +20,7 @@ public class WidgetHandler extends InputHandler {
      * Suppress default constructor.
      */
     private WidgetHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle()

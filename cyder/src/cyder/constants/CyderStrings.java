@@ -5,7 +5,7 @@ import javax.swing.*;
 /**
  * Common strings used throughout Cyder.
  */
-public class CyderStrings {
+public final class CyderStrings {
     /**
      * General renowned sentence in English for using all 26 latin chars.
      */
@@ -19,32 +19,32 @@ public class CyderStrings {
     /**
      * Error message for static classes upon attempted instantiation.
      */
-    public static final String attemptedInstantiation = "States are not available for static classes";
-
-    /**
-     * The standard separator string used for printing within the standard output area.
-     */
-    public static final String commentSepString = "----------------------------------------";
+    public static final String ATTEMPTED_INSTANTIATION = "States are not available for static classes";
 
     /**
      * A statement I like using in code if something happens that shouldn't ever happen.
      */
-    public static final String europeanToymaker = "What are you, some kind of European toy maker?";
+    public static final String EUROPEAN_TOY_MAKER = "What are you, some kind of European toy maker?";
 
     /**
-     * A bulletpoint character used for numerous purposes.
+     * A bullet point character used for numerous purposes.
      */
-    public static final String bulletPoint = "\u2022";
+    public static final String BULLET_POINT = "\u2022";
 
     /**
      * The downward pointing triangle character (▼).
      */
-    public static final String downArrow = "\u25BC";
+    public static final String DOWN_ARROW = "\u25BC";
+
+    /**
+     * A string used to denote something is not available.
+     */
+    public static final String NOT_AVAILABLE = "N/A";
 
     /**
      * Instantiation of constants class not allowed.
      */
     private CyderStrings() {
-        throw new IllegalStateException(attemptedInstantiation);
+        throw new IllegalStateException(ATTEMPTED_INSTANTIATION);
     }
 }

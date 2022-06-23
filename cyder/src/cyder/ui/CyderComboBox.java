@@ -80,7 +80,7 @@ public class CyderComboBox extends JLabel {
         valueDisplayField.setText(currentState.displayValue());
         valueDisplayField.setToolTipText(currentState.mappedValue());
 
-        iterationButton = new CyderButton(CyderStrings.downArrow);
+        iterationButton = new CyderButton(CyderStrings.DOWN_ARROW);
         iterationButton.setSize(height, height);
         iterationButton.setLocation(width - height, 0);
         add(iterationButton);

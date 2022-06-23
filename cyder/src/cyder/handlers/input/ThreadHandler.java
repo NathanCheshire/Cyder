@@ -14,7 +14,7 @@ public class ThreadHandler extends InputHandler {
      * Suppress default constructor.
      */
     private ThreadHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle({"randomyoutube", "stopscript", "stopmusic"})

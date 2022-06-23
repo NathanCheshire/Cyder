@@ -36,7 +36,7 @@ public class ConvexHullWidget {
      * Instantiation of convex hull not allowed.
      */
     private ConvexHullWidget() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

@@ -20,7 +20,7 @@ public class ElevationUtil {
      * Suppress default constructor.
      */
     private ElevationUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

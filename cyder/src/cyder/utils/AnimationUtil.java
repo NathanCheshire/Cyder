@@ -17,7 +17,7 @@ public class AnimationUtil {
      * Suppress default constructor.
      */
     private AnimationUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

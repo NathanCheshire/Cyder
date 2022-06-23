@@ -10,7 +10,7 @@ public class CyderUrls {
      * Restrict default constructor.
      */
     private CyderUrls() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

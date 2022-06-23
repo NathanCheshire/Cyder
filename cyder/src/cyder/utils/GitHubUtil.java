@@ -29,7 +29,7 @@ public class GitHubUtil {
      * Suppress default constructor.
      */
     private GitHubUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

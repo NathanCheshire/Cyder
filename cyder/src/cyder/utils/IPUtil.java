@@ -17,7 +17,7 @@ import java.util.LinkedList;
 
 public class IPUtil {
     private IPUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     private static IPData ipdata;

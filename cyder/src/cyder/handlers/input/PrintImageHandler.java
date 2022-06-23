@@ -14,7 +14,7 @@ public class PrintImageHandler extends InputHandler {
      * Suppress default constructor.
      */
     private PrintImageHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle({"java", "msu", "nathan", "html", "css", "docker", "redis"})

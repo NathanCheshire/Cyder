@@ -10,7 +10,10 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderCaret;
 import cyder.user.Preferences;
 import cyder.user.UserFile;
-import cyder.utils.*;
+import cyder.utils.ColorUtil;
+import cyder.utils.ImageUtil;
+import cyder.utils.ScreenUtil;
+import cyder.utils.UserUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -25,7 +28,7 @@ public class ColorHandler extends InputHandler {
      * Suppress default constructor
      */
     private ColorHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle({"backgroundcolor", "fixforeground", "foreground", "repaint"})

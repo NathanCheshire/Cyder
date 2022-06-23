@@ -69,7 +69,7 @@ public class BaseInputHandler {
      */
     @SuppressWarnings("unused")
     private BaseInputHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

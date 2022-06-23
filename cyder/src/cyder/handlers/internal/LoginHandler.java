@@ -37,7 +37,7 @@ public class LoginHandler {
      * Instances of LoginHandler not permitted.
      */
     private LoginHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

@@ -59,7 +59,7 @@ public final class TTTGame {
      * Prevent instantiation of class.
      */
     private TTTGame() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Widget(triggers = {"ttt", "tictactoe"}, description = "A TicTacToe widget")

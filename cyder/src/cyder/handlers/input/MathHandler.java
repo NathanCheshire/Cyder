@@ -14,7 +14,7 @@ public class MathHandler extends InputHandler {
      * Suppress default constructor.
      */
     private MathHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle()

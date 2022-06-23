@@ -20,7 +20,7 @@ public class FileHandler extends InputHandler {
      * Suppress default constructor.
      */
     private FileHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle({"wipelogs", "opencurrentlog", "openlastlog", "wipe"})
@@ -67,7 +67,7 @@ public class FileHandler extends InputHandler {
                         }
                     } else {
                         throw new IllegalStateException(
-                                "File is not a file nor directory. " + CyderStrings.europeanToymaker);
+                                "File is not a file nor directory. " + CyderStrings.EUROPEAN_TOY_MAKER);
                     }
                 } else {
                     getInputHandler().println("Requested file does not exist: "

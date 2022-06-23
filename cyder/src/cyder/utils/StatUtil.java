@@ -31,7 +31,7 @@ public class StatUtil {
      * Suppress default constructor.
      */
     private StatUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

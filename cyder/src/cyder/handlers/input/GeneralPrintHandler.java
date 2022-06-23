@@ -25,7 +25,7 @@ public class GeneralPrintHandler extends InputHandler {
      * Suppress default constructor.
      */
     private GeneralPrintHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle()
@@ -225,7 +225,7 @@ public class GeneralPrintHandler extends InputHandler {
             getInputHandler().println("Try typing: ");
 
             for (Suggestion suggestion : Suggestion.values()) {
-                getInputHandler().println(CyderStrings.bulletPoint + "\t" + suggestion.getCommand()
+                getInputHandler().println(CyderStrings.BULLET_POINT + "\t" + suggestion.getCommand()
                         + "\n\tDescription: " + suggestion.getDescription());
             }
         } else if (getInputHandler().commandAndArgsToString().matches(".*tell.*joke.*")) {

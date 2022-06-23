@@ -2900,7 +2900,7 @@ public enum ConsoleFrame {
         // this shouldn't ever happen
         if (w == -1 || h == -1) {
             throw new IllegalStateException("Resulting width or height was found to " +
-                    "not have been set in ConsoleFrame refresh method. " + CyderStrings.europeanToymaker);
+                    "not have been set in ConsoleFrame refresh method. " + CyderStrings.EUROPEAN_TOY_MAKER);
         }
 
         consoleCyderFrame.setSize(w, h);

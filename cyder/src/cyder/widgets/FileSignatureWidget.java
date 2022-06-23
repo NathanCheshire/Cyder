@@ -48,7 +48,7 @@ public class FileSignatureWidget {
      * Suppress default constructor.
      */
     private FileSignatureWidget() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Widget(triggers = "filesignature", description = "A widget to read the raw file " +

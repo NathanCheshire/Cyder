@@ -28,7 +28,7 @@ public class PerlinWidget {
      * Prevent illegal class instantiation.
      */
     private PerlinWidget() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

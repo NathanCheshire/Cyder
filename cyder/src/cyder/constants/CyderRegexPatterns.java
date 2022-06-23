@@ -82,7 +82,7 @@ public class CyderRegexPatterns {
      * Prevent illegal class instantiation.
      */
     private CyderRegexPatterns() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

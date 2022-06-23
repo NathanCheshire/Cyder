@@ -24,7 +24,7 @@ public class UiHandler extends InputHandler {
      * Suppress default constructor.
      */
     private UiHandler() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Handle({"toast", "opacity", "originalchams", "screenshot", "monitors",

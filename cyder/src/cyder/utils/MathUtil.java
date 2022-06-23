@@ -14,7 +14,7 @@ public class MathUtil {
      * Suppress default constructor.
      */
     private MathUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

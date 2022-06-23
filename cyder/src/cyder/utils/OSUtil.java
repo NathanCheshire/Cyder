@@ -1,5 +1,6 @@
 package cyder.utils;
 
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
@@ -7,6 +8,7 @@ import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
+import cyder.exceptions.UnsupportedOsException;
 import cyder.genesis.Cyder;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.input.BaseInputHandler;
@@ -33,35 +35,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Helper methods to sort out differences between operating systems Cyder might be running on.
  */
-public class OSUtil {
+public final class OSUtil {
     /**
      * A list of the restricted windows filenames due to backwards compatibility
      * and the nature of "APIs are forever".
      */
-    public static final ArrayList<String> invalidWindowsFilenames = new ArrayList<>() {{
-        add("CON");
-        add("PRN");
-        add("AUX");
-        add("NUL");
-        add("COM1");
-        add("COM2");
-        add("COM3");
-        add("COM4");
-        add("COM5");
-        add("COM6");
-        add("COM7");
-        add("COM8");
-        add("COM9");
-        add("LPT1");
-        add("LPT2");
-        add("LPT3");
-        add("LPT4");
-        add("LPT5");
-        add("LPT6");
-        add("LPT7");
-        add("LPT8");
-        add("LPT9");
-    }};
+    public static final ImmutableList<String> invalidWindowsFilenames = ImmutableList.of(
+            "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8",
+            "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+    );
 
     /**
      * Whether Cyder is being run as a compiled JAR file.
@@ -70,10 +52,10 @@ public class OSUtil {
             Cyder.class.getResource("Cyder.class")).toString().startsWith("jar:");
 
     /**
-     * Prevent illegal class instantiation.
+     * Suppress default constructor.
      */
-    public OSUtil() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    private OSUtil() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**
@@ -95,7 +77,7 @@ public class OSUtil {
                 if (filename.matches(CyderRegexPatterns.windowsInvalidFilenameChars.pattern()))
                     return false;
 
-                //invalid filenames for windows, reserved names for backwards compatibility reasons
+                // invalid filenames for windows, reserved names for backwards compatibility reasons
                 for (String invalidName : invalidWindowsFilenames) {
                     if (filename.equalsIgnoreCase(invalidName)) {
                         return false;
@@ -123,7 +105,7 @@ public class OSUtil {
 
                 break;
             case UNKNOWN:
-                throw new IllegalStateException("Unknown operating system: " + OPERATING_SYSTEM_NAME);
+                throw new UnsupportedOsException("Unknown operating system: " + OPERATING_SYSTEM_NAME);
         }
 
         return false;
@@ -164,7 +146,19 @@ public class OSUtil {
     /**
      * The standard operating system enum.
      */
-    public static final OperatingSystem OPERATING_SYSTEM = initializeOperatingSystem();
+    public static final OperatingSystem OPERATING_SYSTEM;
+
+    static {
+        if (isWindows()) {
+            OPERATING_SYSTEM = OperatingSystem.WINDOWS;
+        } else if (isOSX()) {
+            OPERATING_SYSTEM = OperatingSystem.OSX;
+        } else if (isUnix()) {
+            OPERATING_SYSTEM = OperatingSystem.UNIX;
+        } else {
+            OPERATING_SYSTEM = OperatingSystem.UNKNOWN;
+        }
+    }
 
     /**
      * The file separator character used for this operating system.
@@ -174,12 +168,12 @@ public class OSUtil {
     /**
      * The maximum number of times something should be attempted to be deleted.
      */
-    public static final int MAX_DELETION_ATTEMPTS = 500;
+    public static final int MAX_FILE_DELETION_ATTEMPTS = 500;
 
     /**
      * The maximum number of times something should be attempted to be created.
      */
-    public static final int MAX_CREATION_ATTEMPTS = 500;
+    public static final int MAX_FILE_CREATION_ATTEMPTS = 500;
 
     /**
      * The default user directory.
@@ -189,26 +183,12 @@ public class OSUtil {
     /**
      * The root of the Windows file system.
      */
-    public static final String C_COLON_SLASH = "c:/";
+    public static final String WINDOWS_ROOT = "c:/";
 
     /**
-     * Initializes the operating system enum type.
-     *
-     * @return the operating system Cyder was started, compiled, and ran on.
+     * The prefix to determine if an operating system is Windows based.
      */
-    private static OperatingSystem initializeOperatingSystem() {
-        if (OPERATING_SYSTEM != null)
-            throw new IllegalStateException("Operating System already set");
-
-        if (isWindows()) {
-            return OperatingSystem.WINDOWS;
-        } else if (isOSX()) {
-            return OperatingSystem.OSX;
-        } else if (isUnix()) {
-            return OperatingSystem.UNIX;
-        } else
-            return OperatingSystem.UNKNOWN;
-    }
+    private static final String WINDOWS_PREFIX = "win";
 
     /**
      * Returns whether the operating system is windows.
@@ -216,7 +196,7 @@ public class OSUtil {
      * @return whether the operating system is windows
      */
     public static boolean isWindows() {
-        return OPERATING_SYSTEM_NAME.toLowerCase().contains("win");
+        return OPERATING_SYSTEM_NAME.toLowerCase().contains(WINDOWS_PREFIX);
     }
 
     /**
@@ -236,10 +216,15 @@ public class OSUtil {
      * @return whether the operating system is unix based
      */
     public static boolean isUnix() {
-        return (OPERATING_SYSTEM_NAME.toLowerCase().contains("nix")
+        return OPERATING_SYSTEM_NAME.toLowerCase().contains("nix")
                 || OPERATING_SYSTEM_NAME.toLowerCase().contains("nux")
-                || OPERATING_SYSTEM_NAME.toLowerCase().contains("aix"));
+                || OPERATING_SYSTEM_NAME.toLowerCase().contains("aix");
     }
+
+    /**
+     * The prefix used to determine if an operating system is Solaris.
+     */
+    private static final String SOLARIS_PREFIX = "sunos";
 
     /**
      * Returns whether the operating system is Solaris.
@@ -247,7 +232,7 @@ public class OSUtil {
      * @return whether the operating system is Solaris
      */
     public static boolean isSolaris() {
-        return OPERATING_SYSTEM_NAME.toLowerCase().contains("sunos");
+        return OPERATING_SYSTEM_NAME.toLowerCase().contains(SOLARIS_PREFIX);
     }
 
     //end base operating system name/type setup logic
@@ -263,7 +248,8 @@ public class OSUtil {
                     String[] args = {"/bin/bash", "-c"};
                     new ProcessBuilder(args).start();
                 }
-                case UNKNOWN, default -> throw new FatalException("Unknown operating system type: " + OPERATING_SYSTEM);
+                case UNKNOWN, default -> throw new UnsupportedOsException(
+                        "Unknown operating system type: " + OPERATING_SYSTEM);
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -287,8 +273,9 @@ public class OSUtil {
         for (int i = 0 ; i < directories.length ; i++) {
             ret.append(directories[i]);
 
-            if (i != directories.length - 1)
+            if (i != directories.length - 1) {
                 ret.append(FILE_SEP);
+            }
         }
 
         return ret.toString();
@@ -322,7 +309,7 @@ public class OSUtil {
      * @return the name of the computer Cyder is currently running on
      */
     public static String getComputerName() {
-        String name = "N/A";
+        String name = CyderStrings.NOT_AVAILABLE;
 
         try {
             InetAddress address = InetAddress.getLocalHost();
@@ -409,7 +396,7 @@ public class OSUtil {
 
         // contents deleted so now can delete as if it was a file if it isn't
         int inc = 0;
-        while (inc < MAX_DELETION_ATTEMPTS) {
+        while (inc < MAX_FILE_DELETION_ATTEMPTS) {
             if (fileOrFolder.delete()) {
                 return true;
             }
@@ -437,7 +424,7 @@ public class OSUtil {
 
         try {
             int inc = 0;
-            while (inc < MAX_CREATION_ATTEMPTS) {
+            while (inc < MAX_FILE_CREATION_ATTEMPTS) {
                 boolean created;
 
                 if (isFile) {

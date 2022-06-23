@@ -44,7 +44,7 @@ public class ClockWidget {
      * Suppress default constructor.
      */
     private ClockWidget() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**

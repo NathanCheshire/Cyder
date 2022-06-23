@@ -68,7 +68,7 @@ public class UserCreator {
      * No instances of user creator allowed.
      */
     private UserCreator() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Widget(triggers = {"createuser", "create"}, description = "A user creating widget")
