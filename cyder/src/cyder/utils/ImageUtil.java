@@ -1,14 +1,11 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
-import com.google.common.util.concurrent.Futures;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
-import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 
 import javax.annotation.Nullable;
@@ -19,9 +16,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.PixelGrabber;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -29,7 +25,7 @@ import java.util.concurrent.Future;
 /**
  * Static utility methods revolving around Image manipulation.
  */
-public class ImageUtil {
+public final class ImageUtil {
     /**
      * Prevent class instantiation.
      */
@@ -44,7 +40,7 @@ public class ImageUtil {
      * @param pixelSize       the number of old pixels to represent a single new "pixel"
      * @return a buffered image in the same size as the original with new, bigger pixel blocks
      */
-    public static BufferedImage pixelate(BufferedImage imageToPixelate, int pixelSize) {
+    public static BufferedImage pixelateImage(BufferedImage imageToPixelate, int pixelSize) {
         BufferedImage pixelateImage = new BufferedImage(
                 imageToPixelate.getWidth(),
                 imageToPixelate.getHeight(),
@@ -52,7 +48,7 @@ public class ImageUtil {
 
         for (int y = 0 ; y < imageToPixelate.getHeight() ; y += pixelSize) {
             for (int x = 0 ; x < imageToPixelate.getWidth() ; x += pixelSize) {
-                BufferedImage croppedImage = getCroppedImage(imageToPixelate, x, y, pixelSize, pixelSize);
+                BufferedImage croppedImage = cropImage(imageToPixelate, x, y, pixelSize, pixelSize);
                 Color dominantColor = ColorUtil.getDominantColor(croppedImage);
 
                 for (int yd = y ; (yd < y + pixelSize) && (yd < pixelateImage.getHeight()) ; yd++) {
@@ -77,8 +73,8 @@ public class ImageUtil {
      * @param height the height of the new image
      * @return the requested cropped image
      */
-    public static BufferedImage getCroppedImage(BufferedImage image,
-                                                int x, int y, int width, int height) {
+    public static BufferedImage cropImage(BufferedImage image,
+                                          int x, int y, int width, int height) {
         Preconditions.checkNotNull(image);
         Preconditions.checkArgument(x >= 0);
         Preconditions.checkArgument(y >= 0);
@@ -211,7 +207,7 @@ public class ImageUtil {
      * @return the buffered image
      */
     @Nullable
-    public static BufferedImage getBi(File imageFile) {
+    public static BufferedImage getBufferedImage(File imageFile) {
         Preconditions.checkNotNull(imageFile);
         Preconditions.checkArgument(imageFile.exists());
 
@@ -230,7 +226,7 @@ public class ImageUtil {
      * @param im the image icon to convert to a buffered image.
      * @return the buffered image drawn from the provided image icon
      */
-    public static BufferedImage getBi(ImageIcon im) {
+    public static BufferedImage getBufferedImage(ImageIcon im) {
         Preconditions.checkNotNull(im);
 
         BufferedImage bi = new BufferedImage(im.getIconWidth(), im.getIconHeight(), BufferedImage.TYPE_INT_RGB);
@@ -252,16 +248,17 @@ public class ImageUtil {
     }
 
     /**
-     * Returns a buffered image by attempting to read the provided path.
+     * Returns a buffered image by attempting to read from
+     * a file constructed from the provided path.
      *
      * @param filename the path to read
      * @return the buffered image
      */
-    public static BufferedImage getBi(String filename) {
+    public static BufferedImage getBufferedImage(String filename) {
         Preconditions.checkNotNull(filename);
         Preconditions.checkArgument(!filename.isEmpty());
 
-        return getBi(new File(filename));
+        return getBufferedImage(new File(filename));
     }
 
     /**
@@ -278,10 +275,10 @@ public class ImageUtil {
         Preconditions.checkNotNull(direction);
 
         return switch (direction) {
-            case TOP -> getBi(filepath);
-            case RIGHT -> rotateImageByDegrees(getBi(filepath), 90);
-            case BOTTOM -> rotateImageByDegrees(getBi(filepath), 180);
-            case LEFT -> rotateImageByDegrees(getBi(filepath), -90);
+            case TOP -> getBufferedImage(filepath);
+            case RIGHT -> rotateImage(getBufferedImage(filepath), 90);
+            case BOTTOM -> rotateImage(getBufferedImage(filepath), 180);
+            case LEFT -> rotateImage(getBufferedImage(filepath), -90);
             default -> throw new IllegalArgumentException("Invalid direction: " + direction);
         };
     }
@@ -293,7 +290,7 @@ public class ImageUtil {
      * @param degrees the angle to rotate by in degrees
      * @return the rotated image
      */
-    public static BufferedImage rotateImageByDegrees(BufferedImage img, double degrees) {
+    public static BufferedImage rotateImage(BufferedImage img, double degrees) {
         Preconditions.checkNotNull(img);
 
         degrees = MathUtil.convertAngleToStdForm(degrees);
@@ -329,8 +326,8 @@ public class ImageUtil {
      * @param degrees   the angle to rotate by in degrees
      * @return the rotated image
      */
-    public static ImageIcon rotateImageByDegrees(ImageIcon imageIcon, double degrees) {
-        BufferedImage img = getBi(imageIcon);
+    public static ImageIcon rotateImage(ImageIcon imageIcon, double degrees) {
+        BufferedImage img = getBufferedImage(imageIcon);
 
         degrees = MathUtil.convertAngleToStdForm(degrees);
 
@@ -598,35 +595,56 @@ public class ImageUtil {
      *
      * @param file the path to the image file
      * @return whether the image is gray scale
+     * @throws IOException if the provided file could not be read
      */
-    public static boolean isImageGrayScale(File file) {
+    public static boolean isGrayscale(File file) throws IOException {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
 
-        try {
-            Image icon = new ImageIcon(ImageIO.read(file)).getImage();
-            int w = icon.getWidth(null);
-            int h = icon.getHeight(null);
-            int[] pixels = new int[w * h];
-            PixelGrabber pg = new PixelGrabber(icon, 0, 0, w, h, pixels, 0, w);
-            pg.grabPixels();
-            boolean allBlack = true;
-            for (int pixel : pixels) {
-                Color color = new Color(pixel);
-                if (color.getRed() != color.getGreen() || color.getRed() != color.getBlue()) {
-                    allBlack = false;
-                    break;
-                }
-            }
+        return isGrayscale(ImageIO.read(file));
+    }
 
-            return allBlack;
+    /**
+     * Returns whether the provided image is a gray scale image.
+     * This is determined if the for all pixels, the red, green, and blue bits are equal.
+     *
+     * @param bi the image to determine grayscale from
+     * @return whether the image is gray scale
+     */
+    public static boolean isGrayscale(BufferedImage bi) {
+        Image icon = new ImageIcon(bi).getImage();
+
+        int w = icon.getWidth(null);
+        int h = icon.getHeight(null);
+        int[] pixels = new int[w * h];
+
+        PixelGrabber pg = new PixelGrabber(icon, 0, 0, w, h, pixels, 0, w);
+
+        try {
+            pg.grabPixels();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        return false;
+        boolean allBlack = true;
+
+        for (int pixel : pixels) {
+            Color color = new Color(pixel);
+            if (color.getRed() != color.getGreen() || color.getRed() != color.getBlue()) {
+                allBlack = false;
+                break;
+            }
+        }
+
+        return allBlack;
     }
 
+    /**
+     * Returns the provided image converted to grayscale.
+     *
+     * @param bi the image to convert to grayscale
+     * @return the image converted to grayscale
+     */
     public static BufferedImage grayscaleImage(BufferedImage bi) {
         Preconditions.checkNotNull(bi);
 
@@ -657,19 +675,32 @@ public class ImageUtil {
     }
 
     /**
-     * Returns whether the image represented by the provided path is a solid color.
+     * Returns whether the image represented by the provided file is a solid color.
      *
      * @param file the path to the file
-     * @return whether the image represented by the provided path is a solid color
+     * @return whether the image is a solid color
+     * @throws IOException if the provided file could nto be read from
      */
-    public static boolean solidColor(File file) {
+    public static boolean isSolidColor(File file) throws IOException {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
+
+        return isSolidColor(ImageIO.read(file));
+    }
+
+    /**
+     * Returns whether the image is a solid color.
+     *
+     * @param bi the buffered image
+     * @return whether the image is a solid color
+     */
+    public static boolean isSolidColor(BufferedImage bi) {
+        Preconditions.checkNotNull(bi);
 
         boolean ret = true;
 
         try {
-            Image icon = new ImageIcon(ImageIO.read(file)).getImage();
+            Image icon = new ImageIcon(bi).getImage();
             int w = icon.getWidth(null);
             int h = icon.getHeight(null);
             int[] pixels = new int[w * h];
@@ -696,7 +727,7 @@ public class ImageUtil {
      * @param second the second image icon
      * @return whether the provided ImageIcons are equal
      */
-    public static boolean imageIconsEqual(ImageIcon first, ImageIcon second) {
+    public static boolean areImagesEqual(ImageIcon first, ImageIcon second) {
         return areImagesEqual(first.getImage(), second.getImage());
     }
 
@@ -819,12 +850,12 @@ public class ImageUtil {
     }
 
     /**
-     * Returns a buffered image object for the provided component.
+     * Returns a buffered image for the provided component.
      *
      * @param component the component to take a picture of
      * @return the buffered image representing the provided component
      */
-    public static BufferedImage getScreenShot(Component component) {
+    public static BufferedImage screenshotComponent(Component component) {
         Preconditions.checkNotNull(component);
 
         BufferedImage image = new BufferedImage(
@@ -839,11 +870,11 @@ public class ImageUtil {
     }
 
     /**
-     * Returns whether the two images from the provided file are equal.
+     * Returns whether the two images from the provided files are equal in content.
      *
      * @param file1 the first file
      * @param file2 the second file
-     * @return whether the two images from the provided file are equal
+     * @return whether the two images from the provided files are equal in content
      */
     public static boolean compareImage(File file1, File file2) {
         Preconditions.checkNotNull(file1);
@@ -885,19 +916,18 @@ public class ImageUtil {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
 
-        if (!file.exists())
+        if (!file.exists() || file.isDirectory()) {
             return false;
+        }
 
-        boolean ret = true;
+        boolean readable = false;
 
         try {
             ImageIO.read(file);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-            ret = false;
-        }
+            readable = true;
+        } catch (Exception ignored) {}
 
-        return ret;
+        return readable;
     }
 
     /**
@@ -910,49 +940,12 @@ public class ImageUtil {
         Preconditions.checkNotNull(imagePath);
         Preconditions.checkArgument(!imagePath.isEmpty());
         Preconditions.checkArgument(new File(imagePath).exists());
-
-        if (!OSUtil.isBinaryInstalled("python")) {
-            ConsoleFrame.INSTANCE.getInputHandler()
-                    .println("Python was not found; please install Python and add it" +
-                            " to the windows PATH environment variable");
-
-            CyderButton installPython = new CyderButton("Download Python");
-            installPython.addActionListener(e -> NetworkUtil.openUrl("https://www.python.org/downloads/"));
-            ConsoleFrame.INSTANCE.getInputHandler().println(installPython);
-
-            return Futures.immediateFuture(Optional.empty());
-        }
+        Preconditions.checkArgument(OSUtil.isBinaryInstalled("python"));
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Python Script Executor")).submit(() -> {
             try {
-                String[] commands = {"python",
-                        OSUtil.buildFile("static", "python", "k_means_color.py").getAbsolutePath(),
-                        "--image", imagePath};
-                Process proc = Runtime.getRuntime().exec(commands);
-
-                BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-                String line;
-                String lastLine = "";
-
-                proc.waitFor();
-
-                while ((line = stdInput.readLine()) != null) {
-                    lastLine = line;
-                }
-
-                if (lastLine.contains(",")) {
-                    String[] parts = lastLine.split(",");
-
-                    if (parts.length == 3) {
-                        Color color = new Color(
-                                Integer.parseInt(parts[0]),
-                                Integer.parseInt(parts[1]),
-                                Integer.parseInt(parts[2]));
-
-                        return Optional.of(color);
-                    }
-                }
+               // todo POST to backend for color using k means algorithm
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

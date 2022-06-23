@@ -2349,12 +2349,12 @@ public enum ConsoleFrame {
         backgroundIndex = index;
 
         ImageIcon imageIcon = switch (consoleDir) {
-            case LEFT -> new ImageIcon(ImageUtil.rotateImageByDegrees(
+            case LEFT -> new ImageIcon(ImageUtil.rotateImage(
                     backgrounds.get(backgroundIndex).generateBufferedImage(), -90));
-            case RIGHT -> new ImageIcon(ImageUtil.rotateImageByDegrees(
+            case RIGHT -> new ImageIcon(ImageUtil.rotateImage(
                     backgrounds.get(backgroundIndex).generateBufferedImage(), 90));
             case TOP -> getCurrentBackground().generateImageIcon();
-            case BOTTOM -> new ImageIcon(ImageUtil.rotateImageByDegrees(
+            case BOTTOM -> new ImageIcon(ImageUtil.rotateImage(
                     backgrounds.get(backgroundIndex).generateBufferedImage(), 180));
         };
 
@@ -2436,18 +2436,18 @@ public enum ConsoleFrame {
                 width = nextBack.getIconHeight();
                 height = nextBack.getIconWidth();
 
-                nextBack = ImageUtil.rotateImageByDegrees(nextBack, -90);
+                nextBack = ImageUtil.rotateImage(nextBack, -90);
             } else if (consoleDir == Direction.RIGHT) {
                 // not a typo
                 width = nextBack.getIconHeight();
                 height = nextBack.getIconWidth();
 
-                nextBack = ImageUtil.rotateImageByDegrees(nextBack, 90);
+                nextBack = ImageUtil.rotateImage(nextBack, 90);
             } else if (consoleDir == Direction.BOTTOM) {
                 width = nextBack.getIconWidth();
                 height = nextBack.getIconHeight();
 
-                nextBack = ImageUtil.rotateImageByDegrees(nextBack, 180);
+                nextBack = ImageUtil.rotateImage(nextBack, 180);
             } else {
                 // orientation is UP so dimensions
                 width = nextBack.getIconWidth();
@@ -3490,7 +3490,7 @@ public enum ConsoleFrame {
                     .getInputHandler().getRobot().createScreenCapture(monitorBounds);
             INSTANCE.getConsoleCyderFrame().setVisible(true);
 
-            capture = ImageUtil.getCroppedImage(capture, (int) (Math.abs(monitorBounds.getX()) + ref.getX()),
+            capture = ImageUtil.cropImage(capture, (int) (Math.abs(monitorBounds.getX()) + ref.getX()),
                     (int) (Math.abs(monitorBounds.getY()) + ref.getY()), ref.getWidth(), ref.getHeight());
 
             INSTANCE.setBackground(ImageUtil.toImageIcon(capture));

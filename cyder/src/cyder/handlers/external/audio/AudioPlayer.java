@@ -2575,11 +2575,11 @@ public final class AudioPlayer {
         int height = bi.getHeight();
 
         if (width < height) {
-            bi = ImageUtil.getCroppedImage(bi, 0, (height - width) / 2, width, width);
+            bi = ImageUtil.cropImage(bi, 0, (height - width) / 2, width, width);
         } else if (height < width) {
-            bi = ImageUtil.getCroppedImage(bi, (width - height) / 2, 0, height, height);
+            bi = ImageUtil.cropImage(bi, (width - height) / 2, 0, height, height);
         } else {
-            bi = ImageUtil.getCroppedImage(bi, 0, 0, width, height);
+            bi = ImageUtil.cropImage(bi, 0, 0, width, height);
         }
 
         bi = ImageUtil.resizeImage(bi, bi.getType(), bufferedImageLen, bufferedImageLen);

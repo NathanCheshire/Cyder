@@ -397,7 +397,7 @@ public final class ImageAveragerWidget {
      */
     private static ImageIcon checkImage(ImageIcon originalIcon) {
         try {
-            BufferedImage bi = ImageUtil.getBi(originalIcon);
+            BufferedImage bi = ImageUtil.getBufferedImage(originalIcon);
             int width = originalIcon.getIconWidth();
             int height = originalIcon.getIconHeight();
 

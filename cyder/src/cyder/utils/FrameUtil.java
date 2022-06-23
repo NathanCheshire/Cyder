@@ -136,7 +136,7 @@ public class FrameUtil {
         boolean ret = false;
 
         try {
-            ret = ImageIO.write(ImageUtil.getScreenShot(frame), "png", saveFile);
+            ret = ImageIO.write(ImageUtil.screenshotComponent(frame), "png", saveFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

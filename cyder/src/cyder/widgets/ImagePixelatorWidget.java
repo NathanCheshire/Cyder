@@ -118,7 +118,7 @@ public final class ImagePixelatorWidget {
                         }
                     }
 
-                    displayIcon = new ImageIcon(ImageUtil.pixelate(checkImageBi(currentFile), pixelSize));
+                    displayIcon = new ImageIcon(ImageUtil.pixelateImage(checkImageBi(currentFile), pixelSize));
                     previewLabel.setIcon(displayIcon);
                     previewLabel.revalidate();
                     pixelFrame.revalidate();
@@ -138,7 +138,7 @@ public final class ImagePixelatorWidget {
 
                 if (pixel > 1) {
                     try {
-                        BufferedImage saveImage = ImageUtil.pixelate(ImageIO.read(currentFile), pixel);
+                        BufferedImage saveImage = ImageUtil.pixelateImage(ImageIO.read(currentFile), pixel);
                         File saveFile = new File(OSUtil.buildPath(
                                 Dynamic.PATH, "users", ConsoleFrame.INSTANCE.getUUID(),
                                 UserFile.FILES.getName(), FileUtil.getFilename(currentFile)
