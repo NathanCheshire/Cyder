@@ -979,4 +979,55 @@ public final class ImageUtil {
 
         return ret;
     }
+
+    // todo following this https://blog.demofox.org/2015/08/19/gaussian-blur/#:~:text=At%20a%20high%20level%2C%20Gaussian,value%20for%20the%20blurred%20pixel.
+    // todo also see https://stackoverflow.com/questions/43743998/how-to-make-smooth-blur-effect-in-java
+
+    /**
+     * Returns the provided image blurred using a Gaussian blur technique.
+     *
+     * @param bi the buffered image to blur
+     * @param blurRadius the radius (sigma) of the blur algorithm to apply
+     * @return the blurred image
+     */
+    public static BufferedImage gaussianBlur(BufferedImage bi, int blurRadius) {
+        Preconditions.checkNotNull(bi);
+        Preconditions.checkArgument(bi.getWidth() > 0);
+        Preconditions.checkArgument(bi.getHeight() > 0);
+        Preconditions.checkArgument(blurRadius > 1);
+        Preconditions.checkArgument(blurRadius < bi.getWidth());
+        Preconditions.checkArgument(blurRadius < bi.getHeight());
+
+        double[] kernel = create1DGaussianKernel(blurRadius);
+
+        BufferedImage ret = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
+
+        return ret;
+    }
+
+    /**
+     * Returns a one-dimensional gaussian blur kernel to use for the provided sigma.
+     *
+     * @param sigma the sigma value to use when generating the kernel
+     * @return the one-dimensional gaussian blur kernel to use for the provided sigma
+     */
+    private static double[] create1DGaussianKernel(int sigma) {
+        Preconditions.checkArgument(sigma > 2);
+        Preconditions.checkArgument(sigma % 2 != 0);
+
+        double[] ret = new double[sigma];
+        double sum = 0.0;
+
+        for (int i = - sigma / 2 ; i < sigma / 2 ; i++) {
+            double val = Math.exp((-(i) ^ 2) / (double) (2 * (sigma ^ 2)));
+            ret[i + sigma / 2] = val;
+            sum += val;
+        }
+
+        for (int i = 0 ; i < ret.length ; i++) {
+            ret[i] /= sum;
+        }
+
+        return ret;
+    }
 }
