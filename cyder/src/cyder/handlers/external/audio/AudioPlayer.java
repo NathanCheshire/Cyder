@@ -24,6 +24,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.user.UserFile;
 import cyder.utils.*;
+import cyder.youtube.YoutubeUtil;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;

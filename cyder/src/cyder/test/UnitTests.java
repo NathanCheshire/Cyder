@@ -5,6 +5,7 @@ import cyder.handlers.external.audio.AudioUtil;
 import cyder.handlers.internal.Logger;
 import cyder.utils.*;
 import cyder.widgets.WeatherWidget;
+import cyder.youtube.YoutubeUtil;
 import org.junit.Test;
 
 import java.awt.*;

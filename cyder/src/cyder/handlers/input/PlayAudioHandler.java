@@ -12,7 +12,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.utils.IOUtil;
 import cyder.utils.OSUtil;
 import cyder.utils.StringUtil;
-import cyder.utils.YoutubeUtil;
+import cyder.youtube.YoutubeUtil;
 
 import javax.swing.*;
 import java.awt.*;
