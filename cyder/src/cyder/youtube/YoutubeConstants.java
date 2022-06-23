@@ -75,7 +75,7 @@ public final class YoutubeConstants {
     public static final int DOWNLOAD_UPDATE_DELAY = 1000;
 
     /**
-     * The format used to save pngs as.
+     * The image format used to save thumbnails as.
      */
     public static final String IMAGE_FORMAT = "png";
 
