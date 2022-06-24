@@ -945,7 +945,7 @@ public final class ImageUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Python Script Executor")).submit(() -> {
             try {
-               // todo POST to backend for color using k means algorithm
+                // todo POST to backend for color using k means algorithm
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -980,13 +980,14 @@ public final class ImageUtil {
         return ret;
     }
 
-    // todo following this https://blog.demofox.org/2015/08/19/gaussian-blur/#:~:text=At%20a%20high%20level%2C%20Gaussian,value%20for%20the%20blurred%20pixel.
-    // todo also see https://stackoverflow.com/questions/43743998/how-to-make-smooth-blur-effect-in-java
+    public static void main(String[] args) {
+
+    }
 
     /**
      * Returns the provided image blurred using a Gaussian blur technique.
      *
-     * @param bi the buffered image to blur
+     * @param bi         the buffered image to blur
      * @param blurRadius the radius (sigma) of the blur algorithm to apply
      * @return the blurred image
      */
@@ -998,36 +999,62 @@ public final class ImageUtil {
         Preconditions.checkArgument(blurRadius < bi.getWidth());
         Preconditions.checkArgument(blurRadius < bi.getHeight());
 
-        double[] kernel = create1DGaussianKernel(blurRadius);
+        double[][] kernel2d = create2DGaussianKernel(7);
+        for (double[] doubles : kernel2d) {
+            for (double aDouble : doubles) {
+                System.out.print(aDouble + " ");
+            }
 
-        BufferedImage ret = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
+            System.out.println();
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns a two-dimensional gaussian blur kernel to use for the provided radius
+     *
+     * @param radius the radius of the gaussian blur
+     * @return the two-dimensional gaussian blur kernel to use for the provided radius
+     */
+    private static double[][] create2DGaussianKernel(int radius) {
+        Preconditions.checkArgument(radius > 2);
+        Preconditions.checkArgument(radius % 2 != 0);
+
+        double[][] ret = new double[radius][radius];
+        int sigma = radius / 2;
+        double sum = 0;
+
+        // Compute
+        for (int row = 0 ; row < ret.length ; row++) {
+            for (int col = 0 ; col < ret[row].length ; col++) {
+                double gaussian = computeGaussian(row, radius, sigma);
+                gaussian *= gaussian;
+                ret[row][col] = gaussian;
+                sum += gaussian;
+            }
+        }
+
+        // Normalize
+        for (int row = 0 ; row < ret.length ; row++) {
+            for (int col = 0 ; col < ret[row].length ; col++) {
+                ret[row][col] /= sum;
+            }
+        }
 
         return ret;
     }
 
     /**
-     * Returns a one-dimensional gaussian blur kernel to use for the provided sigma.
+     * Computes the Gaussian using the provided values.
      *
-     * @param sigma the sigma value to use when generating the kernel
-     * @return the one-dimensional gaussian blur kernel to use for the provided sigma
+     * @param x     the sample value
+     * @param mu    the mean value
+     * @param sigma the standard deviation value
+     * @return the Gaussian at the provided point
      */
-    private static double[] create1DGaussianKernel(int sigma) {
-        Preconditions.checkArgument(sigma > 2);
-        Preconditions.checkArgument(sigma % 2 != 0);
-
-        double[] ret = new double[sigma];
-        double sum = 0.0;
-
-        for (int i = - sigma / 2 ; i < sigma / 2 ; i++) {
-            double val = Math.exp((-(i) ^ 2) / (double) (2 * (sigma ^ 2)));
-            ret[i + sigma / 2] = val;
-            sum += val;
-        }
-
-        for (int i = 0 ; i < ret.length ; i++) {
-            ret[i] /= sum;
-        }
-
-        return ret;
+    private static double computeGaussian(double x, double mu, double sigma) {
+        double a = (x - mu) / sigma;
+        return Math.exp(-0.5 * a * a);
     }
 }
