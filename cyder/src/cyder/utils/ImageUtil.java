@@ -1,10 +1,12 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.parsers.ColorResponse;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.CyderFrame;
 
@@ -16,9 +18,13 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.PixelGrabber;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
@@ -930,22 +936,75 @@ public final class ImageUtil {
         return readable;
     }
 
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        Future<Optional<Color>> color = getComplementaryBackgroundColor(
+                new File("C:\\users\\nathan\\downloads\\elon.png"));
+
+        while (!color.isDone()) {
+            Thread.onSpinWait();
+        }
+
+        System.out.println(color.get());
+    }
+
+    /**
+     * The POST path for finding the complementary color of an image.
+     */
+    private static final String COLOR_PATH = "http://0.0.0.0:8080/image/find-color/";
+
+    /**
+     * The encoding used for a post.
+     */
+    private static final Charset ENCODING = StandardCharsets.UTF_8;
+
+    /**
+     * The gson object used to serialize audio length posts.
+     */
+    private static final Gson gson = new Gson();
+
     /**
      * Returns a good background color for the provided image file.
      *
-     * @param imagePath the path to the image file
+     * @param imageFile the image file
      * @return a good background color for the provided image file
      */
-    public static Future<Optional<Color>> getComplementaryBackgroundColor(String imagePath) {
-        Preconditions.checkNotNull(imagePath);
-        Preconditions.checkArgument(!imagePath.isEmpty());
-        Preconditions.checkArgument(new File(imagePath).exists());
+    public static Future<Optional<Color>> getComplementaryBackgroundColor(File imageFile) {
+        Preconditions.checkNotNull(imageFile);
+        Preconditions.checkArgument(imageFile.exists());
         Preconditions.checkArgument(OSUtil.isBinaryInstalled("python"));
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Python Script Executor")).submit(() -> {
             try {
-                // todo POST to backend for color using k means algorithm
+                URL url = new URL(COLOR_PATH);
+                String path = imageFile.getAbsolutePath().replace("\\", "\\\\");
+                String data = "{\"image\":\"" + path + "\"}";
+
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("POST");
+                con.setRequestProperty("Content-Type", "application/json");
+                con.setRequestProperty("Accept", "application/json");
+                con.setDoOutput(true);
+
+                try (OutputStream os = con.getOutputStream()) {
+                    byte[] input = data.getBytes();
+                    os.write(input, 0, input.length);
+                }
+
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                        con.getInputStream(), ENCODING))) {
+                    StringBuilder response = new StringBuilder();
+                    String responseLine;
+
+                    while ((responseLine = br.readLine()) != null) {
+                        response.append(responseLine.trim());
+                    }
+
+                    ColorResponse colorResponse = gson.fromJson(response.toString(), ColorResponse.class);
+
+                    return Optional.of(colorResponse.generateColor());
+                }
+
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -974,78 +1033,6 @@ public final class ImageUtil {
                 int mc = (alpha << 24) | 0x00ffffff;
 
                 ret.setRGB(x, y, (byte) (rgb & mc));
-            }
-        }
-
-        return ret;
-    }
-
-    public static void main(String[] args) throws Exception {
-        drawImage(gaussianBlur(ImageIO.read(
-                new File("C:\\users\\nathan\\downloads\\Elon.png")), 3));
-    }
-
-    /**
-     * Returns the provided image blurred using a Gaussian blur technique.
-     *
-     * @param bi         the buffered image to blur
-     * @param blurRadius the radius (sigma) of the blur algorithm to apply
-     * @return the blurred image
-     */
-    public static BufferedImage gaussianBlur(BufferedImage bi, int blurRadius) {
-        Preconditions.checkNotNull(bi);
-        Preconditions.checkArgument(bi.getWidth() > 0);
-        Preconditions.checkArgument(bi.getHeight() > 0);
-        Preconditions.checkArgument(blurRadius > 1);
-        Preconditions.checkArgument(blurRadius < bi.getWidth());
-        Preconditions.checkArgument(blurRadius < bi.getHeight());
-
-        double[][] kernel2d = create2DGaussianKernel(blurRadius * 2 + 1);
-
-        BufferedImage ret = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
-
-        for (int y = 0 ; y < bi.getHeight() ; y++) {
-            for (int x = 0 ; x < bi.getWidth() ; x++) {
-                int currentTotalRed = 0;
-                int currentTotalGreen = 0;
-                int currentTotalBlue = 0;
-
-                // this might not always be the full sub grid length if we're out of bounds partially
-                double dividend = 0;
-
-                for (int gaussianX = 0 ; gaussianX < blurRadius * 2 ; gaussianX++) {
-                    for (int gaussianY = 0 ; gaussianY < blurRadius * 2 ; gaussianY++) {
-                        int masterX = x + gaussianX - (blurRadius * 2);
-                        int masterY = y + gaussianY - (blurRadius * 2);
-
-                        // Can't take into account for blurring of this pixel
-                        if (masterX < 0 || masterY < 0 || masterX > bi.getWidth() || masterY > bi.getHeight()) {
-                            continue;
-                        }
-
-                        int pixel = bi.getRGB(x, y);
-
-                        int red = (pixel >> 16) & 0xff;
-                        int green = (pixel >> 8) & 0xff;
-                        int blue = (pixel) & 0xff;
-
-                        double normalizer = kernel2d[gaussianX][gaussianY];
-
-                        currentTotalRed += (red * normalizer);
-                        currentTotalGreen += (green * normalizer);
-                        currentTotalBlue += (blue * normalizer);
-
-                        dividend++;
-                    }
-                }
-
-                int avgRed = (int) (currentTotalRed / dividend);
-                int avgGreen = (int) (currentTotalGreen / dividend);
-                int avgBlue = (int) (currentTotalBlue / dividend);
-
-                //System.out.println(avgRed  + "," + avgGreen + "," + avgBlue);
-
-                ret.setRGB(x, y, new Color(avgRed, avgGreen, avgBlue).getRGB());
             }
         }
 
