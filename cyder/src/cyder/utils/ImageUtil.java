@@ -980,8 +980,9 @@ public final class ImageUtil {
         return ret;
     }
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws Exception {
+        drawImage(gaussianBlur(ImageIO.read(
+                new File("C:\\users\\nathan\\downloads\\Elon.png")), 3));
     }
 
     /**
@@ -999,16 +1000,56 @@ public final class ImageUtil {
         Preconditions.checkArgument(blurRadius < bi.getWidth());
         Preconditions.checkArgument(blurRadius < bi.getHeight());
 
-        double[][] kernel2d = create2DGaussianKernel(7);
-        for (double[] doubles : kernel2d) {
-            for (double aDouble : doubles) {
-                System.out.print(aDouble + " ");
-            }
+        double[][] kernel2d = create2DGaussianKernel(blurRadius * 2 + 1);
 
-            System.out.println();
+        BufferedImage ret = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
+
+        for (int y = 0 ; y < bi.getHeight() ; y++) {
+            for (int x = 0 ; x < bi.getWidth() ; x++) {
+                int currentTotalRed = 0;
+                int currentTotalGreen = 0;
+                int currentTotalBlue = 0;
+
+                // this might not always be the full sub grid length if we're out of bounds partially
+                double dividend = 0;
+
+                for (int gaussianX = 0 ; gaussianX < blurRadius * 2 ; gaussianX++) {
+                    for (int gaussianY = 0 ; gaussianY < blurRadius * 2 ; gaussianY++) {
+                        int masterX = x + gaussianX - (blurRadius * 2);
+                        int masterY = y + gaussianY - (blurRadius * 2);
+
+                        // Can't take into account for blurring of this pixel
+                        if (masterX < 0 || masterY < 0 || masterX > bi.getWidth() || masterY > bi.getHeight()) {
+                            continue;
+                        }
+
+                        int pixel = bi.getRGB(x, y);
+
+                        int red = (pixel >> 16) & 0xff;
+                        int green = (pixel >> 8) & 0xff;
+                        int blue = (pixel) & 0xff;
+
+                        double normalizer = kernel2d[gaussianX][gaussianY];
+
+                        currentTotalRed += (red * normalizer);
+                        currentTotalGreen += (green * normalizer);
+                        currentTotalBlue += (blue * normalizer);
+
+                        dividend++;
+                    }
+                }
+
+                int avgRed = (int) (currentTotalRed / dividend);
+                int avgGreen = (int) (currentTotalGreen / dividend);
+                int avgBlue = (int) (currentTotalBlue / dividend);
+
+                //System.out.println(avgRed  + "," + avgGreen + "," + avgBlue);
+
+                ret.setRGB(x, y, new Color(avgRed, avgGreen, avgBlue).getRGB());
+            }
         }
 
-        return null;
+        return ret;
     }
 
     /**
