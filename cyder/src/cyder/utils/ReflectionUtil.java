@@ -28,7 +28,7 @@ import java.util.Optional;
 /**
  * Utilities for methods regarding reflection.
  */
-public class ReflectionUtil {
+public final class ReflectionUtil {
     /**
      * Prevent illegal class instantiation.
      */
@@ -616,7 +616,7 @@ public class ReflectionUtil {
         Preconditions.checkArgument(!command.isEmpty());
 
         String mostSimilarTrigger = "";
-        double tol = 100.0f;
+        float mostSimilarRatio = 0.0f;
 
         for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
             Class<?> clazz = classInfo.load();
@@ -628,8 +628,8 @@ public class ReflectionUtil {
                     for (String trigger : triggers) {
                         double ratio = new JaroWinklerDistance().apply(trigger, command);
 
-                        if (ratio < tol) {
-                            tol = ratio;
+                        if (ratio > mostSimilarRatio) {
+                            mostSimilarRatio = (float) ratio;
                             mostSimilarTrigger = trigger;
                         }
                     }
@@ -638,7 +638,7 @@ public class ReflectionUtil {
         }
 
         return new SimilarCommand(StringUtil.isNull(mostSimilarTrigger)
-                ? Optional.empty() : Optional.of(mostSimilarTrigger), tol);
+                ? Optional.empty() : Optional.of(mostSimilarTrigger), mostSimilarRatio);
     }
 
     /**
@@ -649,8 +649,6 @@ public class ReflectionUtil {
      */
     public static ImmutableList<String> getManualTests() {
         LinkedList<String> ret = new LinkedList<>();
-
-        ret.add("Manual tests:");
 
         for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
             Class<?> classer = classInfo.load();

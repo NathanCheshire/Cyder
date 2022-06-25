@@ -2424,7 +2424,8 @@ public final class AudioPlayer {
 
         // todo going to next audio doesn't work automatically
 
-        // todo similar command finder still broken?
+        // todo similar command finder needs to scan widget triggers too
+        // todo similar command needs to auto invoke based on configurable auto-tol such as 95%
 
         // todo audio progress bar goes too fast like 3 seconds ahead at beginning of audio
 

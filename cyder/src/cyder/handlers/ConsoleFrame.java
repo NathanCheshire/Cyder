@@ -857,9 +857,8 @@ public enum ConsoleFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             CyderThreadRunner.submit(() -> {
-                baseInputHandler.printlns(ReflectionUtil.getManualTests());
-
-                CyderButton suggestionButton = new CyderButton("    Make a Suggestion   ");
+                String space = StringUtil.generateNSpaces(4);
+                CyderButton suggestionButton = new CyderButton(space + "Make a Suggestion" + space);
                 suggestionButton.setColors(CyderColors.regularPink);
                 suggestionButton.addActionListener(ex -> CyderThreadRunner.submit(() -> {
                     String suggestion = GetterUtil.getInstance().getString(new GetterUtil.Builder("Suggestion")
