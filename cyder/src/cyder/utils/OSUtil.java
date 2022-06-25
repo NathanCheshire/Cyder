@@ -73,7 +73,7 @@ public final class OSUtil {
             case OSX:
                 return filename.contains("/") || filename.contains("\0");
             case WINDOWS:
-                //invalid chars for Windows in a filename
+                // invalid chars for Windows in a filename
                 if (filename.matches(CyderRegexPatterns.windowsInvalidFilenameChars.pattern()))
                     return false;
 

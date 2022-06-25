@@ -20,8 +20,6 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 
 /**
@@ -79,28 +77,12 @@ public class NetworkHandler extends InputHandler {
                 getInputHandler().println("pastebin usage: pastebin [URL/UUID]\nExample: pastebin xa7sJvNm");
             }
         } else if (getInputHandler().commandIs("usb")) {
-            CyderThreadRunner.submit(() -> {
-                try {
-                    getInputHandler().println("Finding connected USB devices");
-                    Future<ArrayList<String>> futureLines = IOUtil.getUsbDevices();
+            getInputHandler().println("Finding connected USB devices");
+            getInputHandler().println("Devices connected to " + OSUtil.getComputerName() + " via USB protocol:");
 
-                    while (futureLines != null && !futureLines.isDone()) {
-                        Thread.onSpinWait();
-                    }
-
-                    if (futureLines != null && futureLines.get() != null) {
-                        ArrayList<String> lines = futureLines.get();
-
-                        getInputHandler().println("Devices connected to "
-                                + OSUtil.getComputerName() + " via USB protocol:");
-                        for (String line : lines) {
-                            getInputHandler().println(line);
-                        }
-                    }
-                } catch (Exception ex) {
-                    ExceptionHandler.handle(ex);
-                }
-            }, "Usb Device Finder");
+            for (String line : IOUtil.getUsbDevices()) {
+                getInputHandler().println(line);
+            }
         } else if (getInputHandler().commandIs("download")) {
             if (getInputHandler().checkArgsLength(1)) {
                 if (NetworkUtil.isValidUrl(getInputHandler().getArg(0))) {

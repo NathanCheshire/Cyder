@@ -13,9 +13,7 @@ import cyder.handlers.external.TextViewer;
 import cyder.handlers.external.audio.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.CyderButton;
 import javazoom.jl.player.Player;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,18 +21,18 @@ import org.jsoup.select.Elements;
 
 import java.awt.*;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.DosFileAttributes;
 import java.util.ArrayList;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 
-public class IOUtil {
+public final class IOUtil {
     /**
      * No objects of util methods allowed.
      */
@@ -434,53 +432,38 @@ public class IOUtil {
         return ret;
     }
 
+    public static void main(String[] args) {
+        getUsbDevices();
+    }
+
     /**
      * Executes the usb_q.py script to find the devices connected to the PC via a USB protocol.
      */
-    public static Future<ArrayList<String>> getUsbDevices() {
-        if (!OSUtil.isBinaryInstalled("python")) {
-            ConsoleFrame.INSTANCE.getInputHandler()
-                    .println("Python was not found; please install Python and add it" +
-                            " to the windows PATH environment variable");
+    public static ArrayList<String> getUsbDevices() {
+        ArrayList<String> ret = new ArrayList<>();
 
-            CyderButton installPython = new CyderButton("Download Python");
-            installPython.addActionListener(e -> NetworkUtil.openUrl("https://www.python.org/downloads/"));
-            ConsoleFrame.INSTANCE.getInputHandler().println(installPython);
+        try {
+            URL url = new URL("http://127.0.0.1:8080/usb/devices/");
 
-            return null;
-        }
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
 
-        return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory("Python Script Executor")).submit(() -> {
-            ArrayList<String> ret = new ArrayList<>();
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                    con.getInputStream(), StandardCharsets.UTF_8))) {
+                StringBuilder response = new StringBuilder();
+                String responseLine;
 
-            try {
-                String[] commands = {"python", OSUtil.buildPath("static", "python", "usb_q.py")};
-                Process proc = Runtime.getRuntime().exec(commands);
-
-                BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-                String line;
-
-                boolean start = false;
-                String PYTHON_START_INDICATOR = "START";
-
-                while ((line = stdInput.readLine()) != null) {
-                    if (line.equals(PYTHON_START_INDICATOR)) {
-                        start = true;
-
-                        // don't add start indicator to ret
-                        continue;
-                    }
-
-                    if (start) {
-                        ret.add(line);
-                    }
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
                 }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+
+                System.out.println(response);
             }
 
-            return ret;
-        });
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return ret;
     }
 }
