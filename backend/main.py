@@ -1,8 +1,9 @@
 
+from random import gauss
 from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
-from functions import get_unix_gmt_time, get_audio_length
+from functions import gaussian_blur, get_unix_gmt_time, get_audio_length
 import os
 
 app = FastAPI()
@@ -24,7 +25,7 @@ class GaussianBlurPost(BaseModel):
 
 @app.post("/image/blur/")
 def post_blur_image(gaussian_blur_post: GaussianBlurPost):
-    return {"image": str(gaussian_blur_post(gaussian_blur_post.image, gaussian_blur_post.radius))}
+    return {"image": str(gaussian_blur(gaussian_blur_post.image, gaussian_blur_post.radius))}
 
 
 @app.post("/audio/length/")

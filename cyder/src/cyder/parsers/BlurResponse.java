@@ -1,5 +1,6 @@
 package cyder.parsers;
 
+import com.google.gson.annotations.SerializedName;
 import cyder.handlers.internal.ExceptionHandler;
 
 import javax.imageio.ImageIO;
@@ -14,6 +15,7 @@ public class BlurResponse {
     /**
      * The path to the blurred image.
      */
+    @SerializedName("image")
     private String imagePath;
 
     /**

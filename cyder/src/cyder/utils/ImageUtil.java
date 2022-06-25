@@ -950,7 +950,7 @@ public final class ImageUtil {
     /**
      * The POST path for blurring an image.
      */
-    private static final String IMAGE_BLUR_PATH = "http://0.0.0.0:8080/image/blur";
+    private static final String IMAGE_BLUR_PATH = "http://127.0.0.1:8080/image/blur/";
 
     /**
      * The encoding used for a post to the backend.
@@ -981,7 +981,7 @@ public final class ImageUtil {
             try {
                 URL url = new URL(IMAGE_BLUR_PATH);
                 String path = imageFile.getAbsolutePath().replace("\\", "\\\\");
-                String data = "{\"image\":\"" + path + "\",\"radius\":" + radius + "\"" + "}";
+                String data = "{\"image\":\"" + path + "\",\"radius\":" + radius + "}";
 
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("POST");
