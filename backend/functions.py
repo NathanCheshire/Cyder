@@ -6,7 +6,6 @@ from PIL import Image
 from PIL import ImageFilter
 from mutagen.mp3 import MP3
 import os
-import wmi
 
 
 def gaussian_blur(image_path: str, radius: int, save_directory: str = None) -> str:
@@ -93,21 +92,17 @@ def get_audio_length(path: str) -> float:
     """
     return MP3(path).info.length
 
-import win32com.client
+import libusb_package
 
 def get_usb_devices() -> List:
-    import re
-    import subprocess
-    device_re = re.compile(b"Bus\s+(?P<bus>\d+)\s+Device\s+(?P<device>\d+).+ID\s(?P<id>\w+:\w+)\s(?P<tag>.+)$", re.I)
-    df = subprocess.check_output("lsusb")
-    devices = []
-    for i in df.split(b'\n'):
-        if i:
-            info = device_re.match(i)
-            if info:
-                dinfo = info.groupdict()
-                dinfo['device'] = '/dev/bus/usb/%s/%s' % (dinfo.pop('bus'), dinfo.pop('device'))
-                devices.append(dinfo)
-                
-    print(devices)
-    return []
+    ret = []
+
+    devices = libusb_package.find(find_all=True)
+    
+    for dev in devices:
+        lines = str(dev).split('\n')
+
+        for line in lines:
+            ret.append(line.strip())
+        
+    return ret

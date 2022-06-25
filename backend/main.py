@@ -42,8 +42,7 @@ def post_audio_length(audio_length: AudioLengthPost):
 
 @app.get("/usb/devices/")
 def get_usb():
-    print(get_usb_devices())
-    return {"usbs": str(get_usb_devices())}
+    return {"usb": str(get_usb_devices())}
 
 if __name__ == '__main__':
     uvicorn.run("main:app", host="0.0.0.0", port=8080)

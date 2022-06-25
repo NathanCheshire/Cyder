@@ -33,7 +33,7 @@ public class NetworkHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"define", "wikisum", "ip", "pastebin"})
+    @Handle({"define", "wikisum", "ip", "pastebin", "download", "usb", "curl", "whereami", "networkdevices"})
     public static boolean handle() {
         boolean ret = true;
 
@@ -77,7 +77,6 @@ public class NetworkHandler extends InputHandler {
                 getInputHandler().println("pastebin usage: pastebin [URL/UUID]\nExample: pastebin xa7sJvNm");
             }
         } else if (getInputHandler().commandIs("usb")) {
-            getInputHandler().println("Finding connected USB devices");
             getInputHandler().println("Devices connected to " + OSUtil.getComputerName() + " via USB protocol:");
 
             for (String line : IOUtil.getUsbDevices()) {

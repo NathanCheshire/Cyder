@@ -937,9 +937,9 @@ public final class ImageUtil {
     }
 
     /**
-     * The POST path for blurring an image.
+     * The POST location for blurring an image.
      */
-    private static final String IMAGE_BLUR_PATH = "http://127.0.0.1:8080/image/blur/";
+    private static final String IMAGE_BLUR_LOCATION = "http://127.0.0.1:8080/image/blur/";
 
     /**
      * The encoding used for a post to the backend.
@@ -1075,7 +1075,7 @@ public final class ImageUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Python Script Executor")).submit(() -> {
             try {
-                URL url = new URL(IMAGE_BLUR_PATH);
+                URL url = new URL(IMAGE_BLUR_LOCATION);
 
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("POST");

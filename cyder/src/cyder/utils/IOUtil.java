@@ -2,6 +2,7 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.gson.Gson;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -13,6 +14,7 @@ import cyder.handlers.external.TextViewer;
 import cyder.handlers.external.audio.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.parsers.UsbGetResponse;
 import cyder.threads.CyderThreadRunner;
 import javazoom.jl.player.Player;
 import org.jsoup.Jsoup;
@@ -25,6 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -432,9 +435,20 @@ public final class IOUtil {
         return ret;
     }
 
-    public static void main(String[] args) {
-        getUsbDevices();
-    }
+    /**
+     * The location for a usb get request.
+     */
+    private static final String USB_GET_LOCATION = "http://127.0.0.1:8080/usb/devices/";
+
+    /**
+     * The encoding used for a usb get request.
+     */
+    private static final Charset ENCODING = StandardCharsets.UTF_8;
+
+    /**
+     * The gson object used to serialize a usb get response.
+     */
+    private static final Gson gson = new Gson();
 
     /**
      * Executes the usb_q.py script to find the devices connected to the PC via a USB protocol.
@@ -443,13 +457,13 @@ public final class IOUtil {
         ArrayList<String> ret = new ArrayList<>();
 
         try {
-            URL url = new URL("http://127.0.0.1:8080/usb/devices/");
+            URL url = new URL(USB_GET_LOCATION);
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
             try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                    con.getInputStream(), StandardCharsets.UTF_8))) {
+                    con.getInputStream(), ENCODING))) {
                 StringBuilder response = new StringBuilder();
                 String responseLine;
 
@@ -457,7 +471,11 @@ public final class IOUtil {
                     response.append(responseLine.trim());
                 }
 
-                System.out.println(response);
+                responseLine = response.toString().replace("'", "");
+
+                UsbGetResponse usbGetResponse = gson.fromJson(responseLine, UsbGetResponse.class);
+
+                ret = usbGetResponse.parse();
             }
 
         } catch (Exception e) {
