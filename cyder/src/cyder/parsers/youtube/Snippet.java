@@ -1,4 +1,4 @@
-package cyder.youtube.parsing;
+package cyder.parsers.youtube;
 
 /**
  * The actual content of a YoutubeVideo object we are usually interested in.

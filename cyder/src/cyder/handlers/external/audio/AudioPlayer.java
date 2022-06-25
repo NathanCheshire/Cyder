@@ -17,6 +17,8 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
 import cyder.messaging.MessagingUtils;
+import cyder.parsers.youtube.YoutubeSearchResultPage;
+import cyder.parsers.youtube.YoutubeVideo;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
@@ -25,8 +27,6 @@ import cyder.utils.*;
 import cyder.youtube.YoutubeConstants;
 import cyder.youtube.YoutubeDownload;
 import cyder.youtube.YoutubeUtil;
-import cyder.youtube.parsing.YoutubeSearchResultPage;
-import cyder.youtube.parsing.YoutubeVideo;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;

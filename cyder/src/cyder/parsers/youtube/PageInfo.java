@@ -1,4 +1,4 @@
-package cyder.youtube.parsing;
+package cyder.parsers.youtube;
 
 /**
  * Information about the YoutubeSearchResultPage.

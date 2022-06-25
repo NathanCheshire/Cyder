@@ -14,7 +14,7 @@ import cyder.handlers.external.TextViewer;
 import cyder.handlers.external.audio.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.parsers.UsbGetResponse;
+import cyder.parsers.UsbResponse;
 import cyder.threads.CyderThreadRunner;
 import javazoom.jl.player.Player;
 import org.jsoup.Jsoup;
@@ -473,9 +473,9 @@ public final class IOUtil {
 
                 responseLine = response.toString().replace("'", "");
 
-                UsbGetResponse usbGetResponse = gson.fromJson(responseLine, UsbGetResponse.class);
+                UsbResponse usbResponse = gson.fromJson(responseLine, UsbResponse.class);
 
-                ret = usbGetResponse.parse();
+                ret = usbResponse.parse();
             }
 
         } catch (Exception e) {

@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * A serialize class for a local backend USB GET request.
  */
 @SuppressWarnings("unused")
-public class UsbGetResponse {
+public class UsbResponse {
     /**
      * The PyUsb master string containing all devices connected via usb to this computer.
      */
@@ -17,7 +17,7 @@ public class UsbGetResponse {
      *
      * @param usb the PyUsb master string containing all devices connected via usb to this computer
      */
-    public UsbGetResponse(String usb) {
+    public UsbResponse(String usb) {
         this.usb = usb;
     }
 

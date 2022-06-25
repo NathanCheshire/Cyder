@@ -1,4 +1,4 @@
-package cyder.youtube.parsing;
+package cyder.parsers.youtube;
 
 /**
  * An id of a YouTube video.

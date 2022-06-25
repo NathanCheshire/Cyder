@@ -1,0 +1,133 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[18-02-34] [ENTRY]: Nathan
+[18-02-34] [PROP LOADED]: [key = map_quest_api_key]
+[18-02-34] [PROP LOADED]: [key = youtube_api_3_key]
+[18-02-34] [PROP LOADED]: [key = ip_key]
+[18-02-34] [PROP LOADED]: [key = weather_key]
+[18-02-34] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[18-02-34] [PROP LOADED]: [key = debug_hash_password]
+[18-02-34] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[18-02-34] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[18-02-34] [PROP LOADED]: [key = font_metric, value = 1]
+[18-02-34] [PROP LOADED]: [key = released, value = false]
+[18-02-34] [PROP LOADED]: [key = fast_test, value = false]
+[18-02-34] [PROP LOADED]: [key = version, value = Liminal]
+[18-02-34] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[18-02-34] [PROP LOADED]: [key = components_relocatable, value = false]
+[18-02-34] [PROP LOADED]: [key = testing_mode, value = true]
+[18-02-34] [PROP LOADED]: [key = autocypher, value = true]
+[18-02-34] [PROP LOADED]: [key = dispose_splash, value = true]
+[18-02-34] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[18-02-34] [PROP LOADED]: [key = activate_watchdog, value = false]
+[18-02-34] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[18-02-34] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[18-02-34] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[18-02-34] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[18-02-34] [THREAD STARTED]: Object Creation Logger
+[18-02-35] [DEBUG]: Watchdog skipped
+[18-02-35] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[18-02-36] [FONT LOADED]: agency-fb
+[18-02-36] [FONT LOADED]: arial-black
+[18-02-36] [FONT LOADED]: beyno
+[18-02-36] [FONT LOADED]: condiment-regular
+[18-02-36] [FONT LOADED]: prompt-bold
+[18-02-36] [FONT LOADED]: segoe-ui-black
+[18-02-36] [FONT LOADED]: tahoma
+[18-02-36] [THREAD STARTED]: Splash Loader
+[18-02-36] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[18-02-36] [THREAD STARTED]: Splash Animation
+[18-02-36] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[18-02-37] [THREAD STARTED]: Secondary Subroutines Runner
+[18-02-37] [LOGIN]: AUTOCYPHER ATTEMPT
+[18-02-37] [THREAD STARTED]: JVM Args Logger
+[18-02-37] [DEBUG]: Cyder Entry = AutoCypher
+[18-02-37] [OBJECT CREATION]: Objects created since last delta (5000ms): 78
+[18-02-37] [THREAD STARTED]: Console Printing Animation
+[18-02-38] [THREAD STARTED]: Hourly Chime Checker
+[18-02-38] [THREAD STARTED]: Console Clock Updater
+[18-02-38] [THREAD STARTED]: Cyder Busy Checker
+[18-02-38] [THREAD STARTED]: ConsoleFrame Stat Saver
+[18-02-38] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[18-02-38] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[18-02-38] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 50351616, bounds = (980, 396,
+           600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[18-02-38] [THREAD STARTED]: High Ping Checker
+[18-02-38] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[18-02-38] [THREAD STARTED]: Manual Tests Thread
+[18-02-38] [CONSOLE OUT]: [STRING]: Console loaded in 3650ms
+[18-02-38] [DEBUG]: Attempted to log a new or empty line
+[18-02-38] [THREAD STARTED]: Splash Loading Label Updater
+[18-02-39] [CLIENT]: mp3
+[18-02-39] [CONSOLE OUT]: [STRING]: Opening widget: AudioPlayer
+[18-02-39] [THREAD STARTED]: Twillzzz - Lord Please Progress Label Thread
+[18-02-39] [THREAD STARTED]: Audio Progress Label Animator
+[18-02-39] [THREAD STARTED]: [Twillzzz - lord please] finalizeAndShow()
+[18-02-39] [DEBUG]: Attempted to log a new or empty line
+[18-02-39] [WIDGET]: AudioPlayer, trigger = mp3
+[18-02-40] [THREAD STARTED]: Twillzzz - lord please Menu Label Animator
+[18-02-41] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 7] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[18-02-41] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1656198008744.json
+[18-02-42] [OBJECT CREATION]: Objects created since last delta (5000ms): 70
+[18-02-43] [UI]: cyder.ui.CyderTextField[,150,50,300x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignmen
+           tX=0.0,alignmentY=0.0,border=javax.swing.border.MatteBorder@3f871efe,flags=16777512,maximumSize=,minimumSize=,preferredS
+           ize=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edi
+           table=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColo
+           rUIResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,hor
+           izontalAlignment=LEADING]
+[18-02-47] [THREAD STARTED]: YouTube Search Updater
+[18-02-47] [UI]: Component = CyderButton, hash = 1274027357, bounds = (200, 100, 250, 40), parent frame = Twillzzz -
+           lord please, getText() = Search
+[18-02-52] [OBJECT CREATION]: Objects created since last delta (5000ms): 40
+[18-03-04] [UI]: Component = CyderDragLabel, hash = -14690353, bounds = (2, 2, 596, 28), parent frame = Twillzzz - lord please
+[18-03-04] [THREAD STARTED]: [Twillzzz - lord please] dispose() animation thread
+[18-03-04] [UI]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 1948726338, bounds = (1502,
+           317, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Twillzzz - lord please
+[18-03-04] [THREAD STARTED]: [Twillzzz - lord please] dispose() animation thread
+[18-03-05] [THREAD STARTED]: Liminal Cyder [Nathan] notification queue checker
+[18-03-05] [UI]: [Liminal Cyder [Nathan]] [NOTIFICATION] "<html>You only have one background image. Try adding more via
+           the user editor</html>"
+[18-03-05] [THREAD STARTED]: Notification Appear Animator
+[18-03-05] [THREAD STARTED]: Notification Vanish Animator
+[18-03-07] [THREAD STARTED]: [Preferences] finalizeAndShow()
+[18-03-07] [OBJECT CREATION]: Objects created since last delta (5000ms): 36
+[18-03-08] [UI]: Component = CyderDragLabel, hash = -14565423, bounds = (2, 2, 726, 28), parent frame = Preferences
+[18-03-08] [THREAD STARTED]: [Preferences] dispose() animation thread
+[18-03-08] [UI]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 1048874907, bounds = (1437,
+           337, 730, 560), parent frame = Component itself is a CyderFrame, getTitle() = Preferences
+[18-03-08] [THREAD STARTED]: Liminal Cyder [Nathan] notification queue checker
+[18-03-08] [UI]: [Liminal Cyder [Nathan]] [NOTIFICATION] "<html>You only have one background image. Try adding more via
+           the user editor</html>"
+[18-03-08] [THREAD STARTED]: Notification Appear Animator
+[18-03-08] [THREAD STARTED]: Notification Vanish Animator
+[18-03-12] [OBJECT CREATION]: Objects created since last delta (5000ms): 4
+[18-03-15] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[18-03-15] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 861623840, bounds =
+           (1319, 311, 967, 613), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[18-03-15] [EXIT]: [RUNTIME] 40s
+[18-03-15] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown
