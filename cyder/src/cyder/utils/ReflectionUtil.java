@@ -622,16 +622,20 @@ public final class ReflectionUtil {
             Class<?> clazz = classInfo.load();
 
             for (Method m : clazz.getMethods()) {
+                ImmutableList<String> triggers = ImmutableList.of();
+
                 if (m.isAnnotationPresent(Handle.class)) {
-                    String[] triggers = m.getAnnotation(Handle.class).value();
+                    triggers = ImmutableList.copyOf(m.getAnnotation(Handle.class).value());
+                } else if (m.isAnnotationPresent(Widget.class)) {
+                    triggers = ImmutableList.copyOf(m.getAnnotation(Widget.class).triggers());
+                }
 
-                    for (String trigger : triggers) {
-                        double ratio = new JaroWinklerDistance().apply(trigger, command);
+                for (String trigger : triggers) {
+                    double ratio = new JaroWinklerDistance().apply(trigger, command);
 
-                        if (ratio > mostSimilarRatio) {
-                            mostSimilarRatio = (float) ratio;
-                            mostSimilarTrigger = trigger;
-                        }
+                    if (ratio > mostSimilarRatio) {
+                        mostSimilarRatio = (float) ratio;
+                        mostSimilarTrigger = trigger;
                     }
                 }
             }
