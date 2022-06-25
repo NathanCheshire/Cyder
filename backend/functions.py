@@ -1,12 +1,16 @@
 
 from datetime import datetime
 import calendar
+from typing import Tuple
 from PIL import Image
 from PIL import ImageFilter
 from mutagen.mp3 import MP3
+import os
+
+from numpy import full
 
 
-def gaussian_blur(image_path: str, radius: int = 7) -> str:
+def gaussian_blur(image_path: str, radius: int, save_directory: str = None) -> str:
     """ Returns the path to the blurred and saved image
     :param image_path: the path to the image to blur
     :type image_path: str
@@ -15,15 +19,62 @@ def gaussian_blur(image_path: str, radius: int = 7) -> str:
     :return: the path to the blurred image
     :rtype: str
     """
-    name, extension = image_path.rsplit('.', 1)
-    save_name = name + "_blurred_radius_" + str(radius) + "." + extension
-    print("save name:",save_name)
+
+    save_filename = __get_filename(image_path) + "_blurred_radius_" + str(radius) \
+        + "." + __get_extension(image_path)
+
+    save_as = os.path.join(save_directory if save_directory is not None
+                           else os.path.split(os.path.abspath(image_path))[0], save_filename)
+
+    print("save name:", save_as)
+
     gaussImage = Image.open(image_path).filter(
         ImageFilter.GaussianBlur(radius))
-    
-    gaussImage.save(save_name)
 
-    return save_name
+    gaussImage.save(save_as)
+
+    return save_as
+
+
+def __get_filename(full_path: str) -> str:
+    """ Returns the filename (without the extension) of the provided file path.
+    For example, providing "c:\\users\\nathan\\downloads\\something.png" will return "something"
+    :param full_path: the full, absolute path of the file
+    :type full_path: str
+    :return: the filename
+    :rtype: str
+    """
+    name_and_extension = os.path.basename(full_path)
+
+    name, extension = __separate_name_from_extension(name_and_extension)
+
+    return name
+
+
+def __get_extension(full_path: str) -> str:
+    """ Returns the extension of the provided file path.
+    For example, providing "c:\\users\\nathan\\downloads\\something.png" will return "png"
+    :param full_path: the full, absolute path of the file
+    :type full_path: str
+    :return: the extension
+    :rtype: str
+    """
+    name_and_extension = os.path.basename(full_path)
+
+    name, extension = __separate_name_from_extension(name_and_extension)
+
+    return extension
+
+
+def __separate_name_from_extension(file_name: str) -> Tuple:
+    """ Returns the filename separated from the extension.
+    :param file_name: the filename and extension. For example, "something.png"
+    :type file_name: str
+    :return: a tuple consisting of the name and extension
+    :rtype: tuple
+    """
+
+    return file_name.rsplit('.', 1)
 
 
 def get_unix_gmt_time() -> int:

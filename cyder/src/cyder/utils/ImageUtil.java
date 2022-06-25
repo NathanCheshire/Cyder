@@ -24,9 +24,9 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Static utility methods revolving around Image manipulation.
@@ -936,17 +936,6 @@ public final class ImageUtil {
         return readable;
     }
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
-        Future<Optional<BufferedImage>> blurredImage = gaussianBlur(
-                new File("C:\\users\\nathan\\downloads\\elon.png"), 5);
-
-        while (!blurredImage.isDone()) {
-            Thread.onSpinWait();
-        }
-
-        System.out.println(blurredImage.get());
-    }
-
     /**
      * The POST path for blurring an image.
      */
@@ -963,25 +952,130 @@ public final class ImageUtil {
     private static final Gson GSON = new Gson();
 
     /**
-     * Computes the gaussian blur of the provided image.
+     * A builder for a gaussian blur POST to the backend.
+     */
+    public static class GaussianBlurBuilder {
+        /**
+         * The image file to blur.
+         */
+        private File imageFile;
+
+        /**
+         * The radius of the gaussian blur to apply
+         */
+        private int radius;
+
+        /**
+         * The directory to save the blurred image to.
+         */
+        private File saveDirectory;
+
+        /**
+         * Constructs a new GaussianBlurBuilder object.
+         *
+         * @param imageFile the image file to blur
+         * @param radius    the radius of the gaussian blur to apply
+         */
+        public GaussianBlurBuilder(File imageFile, int radius) {
+            this.imageFile = imageFile;
+            this.radius = radius;
+        }
+
+        /**
+         * Returns the image file to blur.
+         *
+         * @return the image file to blur
+         */
+        public File getImageFile() {
+            return imageFile;
+        }
+
+        /**
+         * Sets the image file to blur.
+         *
+         * @param imageFile the image file to blur
+         * @return this builder
+         */
+        public GaussianBlurBuilder setImageFile(File imageFile) {
+            this.imageFile = imageFile;
+            return this;
+        }
+
+        /**
+         * Returns the radius of the gaussian blur to apply.
+         *
+         * @return the radius of the gaussian blur to apply
+         */
+        public int getRadius() {
+            return radius;
+        }
+
+        /**
+         * Sets the radius of the gaussian blur to apply.
+         *
+         * @param radius the radius of the gaussian blur to apply
+         * @return this builder
+         */
+        public GaussianBlurBuilder setRadius(int radius) {
+            this.radius = radius;
+            return this;
+        }
+
+        /**
+         * Returns the directory to save the blurred image to.
+         *
+         * @return the directory to save the blurred image to
+         */
+        public File getSaveDirectory() {
+            return saveDirectory;
+        }
+
+        /**
+         * Sets the directory to save the blurred image to.
+         *
+         * @param saveDirectory the directory to save the blurred image to
+         * @return this builder
+         */
+        public GaussianBlurBuilder setSaveDirectory(File saveDirectory) {
+            this.saveDirectory = saveDirectory;
+            return this;
+        }
+    }
+
+    /**
+     * Returns the provided image after applying a gaussian blur to it.
      *
-     * @param imageFile the image file
-     * @param radius    the radius of the gaussian blur
+     * @param gaussianBlurBuilder the builder for the gaussian blur POST
      * @return the provided image after applying a gaussian blur
      */
-    public static Future<Optional<BufferedImage>> gaussianBlur(File imageFile, int radius) {
-        Preconditions.checkNotNull(imageFile);
-        Preconditions.checkArgument(imageFile.exists());
-        Preconditions.checkArgument(radius > 2);
-        Preconditions.checkArgument(radius % 2 != 0);
+    public static Future<Optional<BufferedImage>> gaussianBlur(GaussianBlurBuilder gaussianBlurBuilder) {
+        Preconditions.checkNotNull(gaussianBlurBuilder.getImageFile());
+        Preconditions.checkArgument(gaussianBlurBuilder.getImageFile().exists());
+        Preconditions.checkArgument(gaussianBlurBuilder.getRadius() > 2);
+        Preconditions.checkArgument(gaussianBlurBuilder.getRadius() % 2 != 0);
         Preconditions.checkArgument(OSUtil.isBinaryInstalled("python"));
+
+        String path = gaussianBlurBuilder.getImageFile()
+                .getAbsolutePath().replace("\\", "\\\\");
+
+        AtomicReference<String> data = new AtomicReference<>();
+
+        if (gaussianBlurBuilder.getSaveDirectory() != null) {
+            Preconditions.checkArgument(gaussianBlurBuilder.getSaveDirectory().exists());
+            Preconditions.checkArgument(gaussianBlurBuilder.getSaveDirectory().isDirectory());
+
+            data.set("{\"image\":\"" + path + "\",\"radius\":"
+                    + gaussianBlurBuilder.getRadius() + ",\"save_directory\":\""
+                    + gaussianBlurBuilder.getSaveDirectory().getAbsolutePath()
+                    .replace("\\", "\\\\") + "\"}");
+        } else {
+            data.set("{\"image\":\"" + path + "\",\"radius\":" + gaussianBlurBuilder.getRadius() + "}");
+        }
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Python Script Executor")).submit(() -> {
             try {
                 URL url = new URL(IMAGE_BLUR_PATH);
-                String path = imageFile.getAbsolutePath().replace("\\", "\\\\");
-                String data = "{\"image\":\"" + path + "\",\"radius\":" + radius + "}";
 
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("POST");
@@ -990,7 +1084,7 @@ public final class ImageUtil {
                 con.setDoOutput(true);
 
                 try (OutputStream os = con.getOutputStream()) {
-                    byte[] input = data.getBytes();
+                    byte[] input = data.get().getBytes();
                     os.write(input, 0, input.length);
                 }
 
