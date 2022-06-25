@@ -146,7 +146,7 @@ public class ColorUtil {
     public static Color getDominantColor(ImageIcon imageIcon) {
         checkNotNull(imageIcon);
 
-        BufferedImage bi = ImageUtil.getBi(imageIcon);
+        BufferedImage bi = ImageUtil.getBufferedImage(imageIcon);
 
         Map<Integer, Integer> colorCounter = new HashMap<>(100);
 

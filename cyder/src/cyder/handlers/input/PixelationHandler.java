@@ -36,9 +36,17 @@ public class PixelationHandler extends InputHandler {
 
     @Handle({"pixelate", "pixelation"})
     public static boolean handle() {
+        boolean isSolidColor = false;
+
+        try {
+            isSolidColor = ImageUtil.isSolidColor(ConsoleFrame.INSTANCE.getCurrentBackground().referenceFile());
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
         switch (getInputHandler().getHandleIterations()) {
             case 0 -> {
-                if (ImageUtil.solidColor(ConsoleFrame.INSTANCE.getCurrentBackground().referenceFile())) {
+                if (isSolidColor) {
                     getInputHandler().println("Silly " + UserUtil.getCyderUser().getName()
                             + "; your background " + "is a solid color :P");
                 } else {
@@ -84,7 +92,7 @@ public class PixelationHandler extends InputHandler {
         if (pixelRange.contains(size)) {
             CyderThreadRunner.submit(() -> {
                 try {
-                    BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.INSTANCE.
+                    BufferedImage img = ImageUtil.pixelateImage(ImageIO.read(ConsoleFrame.INSTANCE.
                             getCurrentBackground().referenceFile().getAbsoluteFile()), size);
 
                     String newName = FileUtil.getFilename(ConsoleFrame.INSTANCE

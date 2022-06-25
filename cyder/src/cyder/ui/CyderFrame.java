@@ -1630,8 +1630,8 @@ public class CyderFrame extends JFrame {
      */
     public void rotateBackground(int degrees) {
         ImageIcon masterIcon = currentOrigIcon;
-        BufferedImage master = ImageUtil.getBi(masterIcon);
-        BufferedImage rotated = ImageUtil.rotateImageByDegrees(master, degrees);
+        BufferedImage master = ImageUtil.getBufferedImage(masterIcon);
+        BufferedImage rotated = ImageUtil.rotateImage(master, degrees);
         ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
     }
 
@@ -1641,7 +1641,7 @@ public class CyderFrame extends JFrame {
      */
     public void barrelRoll() {
         ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
-        BufferedImage master = ImageUtil.getBi(masterIcon);
+        BufferedImage master = ImageUtil.getBufferedImage(masterIcon);
 
         new Timer(10, new ActionListener() {
             private double angle;
@@ -1661,7 +1661,7 @@ public class CyderFrame extends JFrame {
                     return;
                 }
 
-                rotated = ImageUtil.rotateImageByDegrees(master, angle);
+                rotated = ImageUtil.rotateImage(master, angle);
                 ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
             }
         }).start();

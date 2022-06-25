@@ -1,63 +1,80 @@
 
-import numpy as np
-from sklearn.cluster import KMeans
 from datetime import datetime
 import calendar
+from typing import Tuple
+from PIL import Image
+from PIL import ImageFilter
 from mutagen.mp3 import MP3
+import os
+
+from numpy import full
 
 
-def get_colorfulness(r: int, g: int, b: int):
-    """Returns a colorfulness index of given RGB combination.
-
-        Parameters:
-            r: Red component.
-            g: Green component.
-            b: Blue component.
-
-        Returns:
-            float: a colorfulness metric.
+def gaussian_blur(image_path: str, radius: int, save_directory: str = None) -> str:
+    """ Returns the path to the blurred and saved image
+    :param image_path: the path to the image to blur
+    :type image_path: str
+    :param radius: the radius of the gaussian blur to apply
+    :type radius: int
+    :return: the path to the blurred image
+    :rtype: str
     """
 
-    rg = np.absolute(r - g)
-    yb = np.absolute(0.5 * (r + g) - b)
+    save_filename = __get_filename(image_path) + "_blurred_radius_" + str(radius) \
+        + "." + __get_extension(image_path)
 
-    rg_mean, rg_std = (np.mean(rg), np.std(rg))
-    yb_mean, yb_std = (np.mean(yb), np.std(yb))
+    save_as = os.path.join(save_directory if save_directory is not None
+                           else os.path.split(os.path.abspath(image_path))[0], save_filename)
 
-    std_root = np.sqrt((rg_std ** 2) + (yb_std ** 2))
-    mean_root = np.sqrt((rg_mean ** 2) + (yb_mean ** 2))
+    print("save name:", save_as)
 
-    return std_root + (0.3 * mean_root)
+    gaussImage = Image.open(image_path).filter(
+        ImageFilter.GaussianBlur(radius))
+
+    gaussImage.save(save_as)
+
+    return save_as
 
 
-def find_best_color(img, k: int = 8, color_tol: int = 10) -> str:
-    """Returns a suitable background color for the given image.
+def __get_filename(full_path: str) -> str:
+    """ Returns the filename (without the extension) of the provided file path.
+    For example, providing "c:\\users\\nathan\\downloads\\something.png" will return "something"
+    :param full_path: the full, absolute path of the file
+    :type full_path: str
+    :return: the filename
+    :rtype: str
+    """
+    name_and_extension = os.path.basename(full_path)
 
-        Parameter:
-            k: Number of clusters to form.
-            color_tol: Tolerance for a colorful color.
-            plot: Plot the original image, k-means result and
-                calculated background color. Only used for testing.
-        Returns:
-            tuple: (R, G, B). The calculated background color.
+    name, extension = __separate_name_from_extension(name_and_extension)
+
+    return name
+
+
+def __get_extension(full_path: str) -> str:
+    """ Returns the extension of the provided file path.
+    For example, providing "c:\\users\\nathan\\downloads\\something.png" will return "png"
+    :param full_path: the full, absolute path of the file
+    :type full_path: str
+    :return: the extension
+    :rtype: str
+    """
+    name_and_extension = os.path.basename(full_path)
+
+    name, extension = __separate_name_from_extension(name_and_extension)
+
+    return extension
+
+
+def __separate_name_from_extension(file_name: str) -> Tuple:
+    """ Returns the filename separated from the extension.
+    :param file_name: the filename and extension. For example, "something.png"
+    :type file_name: str
+    :return: a tuple consisting of the name and extension
+    :rtype: tuple
     """
 
-    img = img.reshape((img.shape[0]*img.shape[1], 3))
-
-    clt = KMeans(n_clusters=k)
-    clt.fit(img)
-    centroids = clt.cluster_centers_
-
-    colorfulness_res = [get_colorfulness(
-        color[0], color[1], color[2]) for color in centroids]
-    max_colorful = np.max(colorfulness_res)
-
-    if max_colorful < color_tol:
-        best_color = [230, 230, 230]
-    else:
-        best_color = centroids[np.argmax(colorfulness_res)]
-
-    return f"({round(best_color[0])},{round(best_color[1])},{round(best_color[2])})"
+    return file_name.rsplit('.', 1)
 
 
 def get_unix_gmt_time() -> int:

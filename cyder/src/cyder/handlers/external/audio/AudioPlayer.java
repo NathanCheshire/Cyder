@@ -2282,10 +2282,10 @@ public final class AudioPlayer {
         yOff += 50;
 
         searchButton = new CyderButton("Search");
-        searchButton.setBorder(new LineBorder(Color.black, 4));
+        searchButton.setBorder(BorderFactory.createEmptyBorder());
         searchButton.setBackground(CyderColors.regularPurple);
         searchButton.setForeground(CyderColors.vanilla);
-        searchButton.setBorder(new LineBorder(Color.black, 3));
+        searchButton.setFont(CyderFonts.DEFAULT_FONT);
         searchButton.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2 + 50, yOff,
                 phaseTwoWidth - 50, 40);
         audioPlayerFrame.getContentPane().add(searchButton);
@@ -2293,11 +2293,11 @@ public final class AudioPlayer {
         searchButton.addActionListener(e -> searchAndUpdate(searchField.getText()));
 
         backButton = new CyderButton(" < ");
-        backButton.setBorder(new LineBorder(Color.black, 4));
+        backButton.setBorder(BorderFactory.createEmptyBorder());
         backButton.setBackground(CyderColors.regularPurple);
         backButton.setToolTipText("Back");
         backButton.setForeground(CyderColors.vanilla);
-        backButton.setBorder(new LineBorder(Color.black, 3));
+        backButton.setFont(CyderFonts.DEFAULT_FONT);
         backButton.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, 40, 40);
         audioPlayerFrame.getContentPane().add(backButton);
         backButton.addActionListener(e -> setupAndShowFrameView(FrameView.FULL));
@@ -2404,7 +2404,7 @@ public final class AudioPlayer {
      */
     private static final SimpleAttributeSet alignment = new SimpleAttributeSet();
 
-    private static final String printButtonPadding = "    ";
+    private static final String printButtonPadding = StringUtil.generateNSpaces(4);
 
     /**
      * Searches YouTube for the provided text and updates the results pane with videos found.
@@ -2418,7 +2418,6 @@ public final class AudioPlayer {
 
         previousSearch = fieldText;
 
-        // todo back button for phase 2
         // todo use borderless, rounded, better font for button
 
         // todo retain last search objects in view if present. new audio player instance resets this
@@ -2428,6 +2427,11 @@ public final class AudioPlayer {
         // todo similar command finder still broken?
 
         // todo audio progress bar goes too fast like 3 seconds ahead at beginning of audio
+
+        // todo buttons here should have a border radius to them without any black borders
+
+        // todo make checkbox able to be checked with a circle, fill or hollow and make a drawing animation
+        //  for all "checks" 
 
         CyderThreadRunner.submit(() -> {
             showInformationLabel("Searching...");
@@ -2575,11 +2579,11 @@ public final class AudioPlayer {
         int height = bi.getHeight();
 
         if (width < height) {
-            bi = ImageUtil.getCroppedImage(bi, 0, (height - width) / 2, width, width);
+            bi = ImageUtil.cropImage(bi, 0, (height - width) / 2, width, width);
         } else if (height < width) {
-            bi = ImageUtil.getCroppedImage(bi, (width - height) / 2, 0, height, height);
+            bi = ImageUtil.cropImage(bi, (width - height) / 2, 0, height, height);
         } else {
-            bi = ImageUtil.getCroppedImage(bi, 0, 0, width, height);
+            bi = ImageUtil.cropImage(bi, 0, 0, width, height);
         }
 
         bi = ImageUtil.resizeImage(bi, bi.getType(), bufferedImageLen, bufferedImageLen);

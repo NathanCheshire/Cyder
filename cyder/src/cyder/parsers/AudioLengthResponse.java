@@ -1,4 +1,4 @@
-package cyder.handlers.external.audio;
+package cyder.parsers;
 
 /**
  * A serialization class for GSON to serialize a response resulting from an audio length post.

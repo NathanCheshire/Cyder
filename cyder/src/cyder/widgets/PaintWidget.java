@@ -212,7 +212,7 @@ public class PaintWidget {
                     g2d.fillRect(node.getX(), node.getY(), 1, 1);
                 }
 
-                BufferedImage newStateImage = ImageUtil.pixelate(image, pixelSize);
+                BufferedImage newStateImage = ImageUtil.pixelateImage(image, pixelSize);
 
                 LinkedList<CyderGrid.GridNode> newState = new LinkedList<>();
 
