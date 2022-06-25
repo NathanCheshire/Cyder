@@ -6,7 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.parsers.ColorResponse;
+import cyder.parsers.BlurResponse;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.CyderFrame;
 
@@ -937,48 +937,51 @@ public final class ImageUtil {
     }
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        Future<Optional<Color>> color = getComplementaryBackgroundColor(
-                new File("C:\\users\\nathan\\downloads\\elon.png"));
+        Future<Optional<BufferedImage>> blurredImage = gaussianBlur(
+                new File("C:\\users\\nathan\\downloads\\elon.png"), 5);
 
-        while (!color.isDone()) {
+        while (!blurredImage.isDone()) {
             Thread.onSpinWait();
         }
 
-        System.out.println(color.get());
+        System.out.println(blurredImage.get());
     }
 
     /**
-     * The POST path for finding the complementary color of an image.
+     * The POST path for blurring an image.
      */
-    private static final String COLOR_PATH = "http://0.0.0.0:8080/image/find-color/";
+    private static final String IMAGE_BLUR_PATH = "http://0.0.0.0:8080/image/blur";
 
     /**
-     * The encoding used for a post.
+     * The encoding used for a post to the backend.
      */
     private static final Charset ENCODING = StandardCharsets.UTF_8;
 
     /**
-     * The gson object used to serialize audio length posts.
+     * The gson object used to serialize image posts.
      */
-    private static final Gson gson = new Gson();
+    private static final Gson GSON = new Gson();
 
     /**
-     * Returns a good background color for the provided image file.
+     * Computes the gaussian blur of the provided image.
      *
      * @param imageFile the image file
-     * @return a good background color for the provided image file
+     * @param radius    the radius of the gaussian blur
+     * @return the provided image after applying a gaussian blur
      */
-    public static Future<Optional<Color>> getComplementaryBackgroundColor(File imageFile) {
+    public static Future<Optional<BufferedImage>> gaussianBlur(File imageFile, int radius) {
         Preconditions.checkNotNull(imageFile);
         Preconditions.checkArgument(imageFile.exists());
+        Preconditions.checkArgument(radius > 2);
+        Preconditions.checkArgument(radius % 2 != 0);
         Preconditions.checkArgument(OSUtil.isBinaryInstalled("python"));
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Python Script Executor")).submit(() -> {
             try {
-                URL url = new URL(COLOR_PATH);
+                URL url = new URL(IMAGE_BLUR_PATH);
                 String path = imageFile.getAbsolutePath().replace("\\", "\\\\");
-                String data = "{\"image\":\"" + path + "\"}";
+                String data = "{\"image\":\"" + path + "\",\"radius\":" + radius + "\"" + "}";
 
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("POST");
@@ -1000,9 +1003,7 @@ public final class ImageUtil {
                         response.append(responseLine.trim());
                     }
 
-                    ColorResponse colorResponse = gson.fromJson(response.toString(), ColorResponse.class);
-
-                    return Optional.of(colorResponse.generateColor());
+                    return GSON.fromJson(response.toString(), BlurResponse.class).generateImage();
                 }
 
             } catch (Exception e) {
@@ -1037,52 +1038,5 @@ public final class ImageUtil {
         }
 
         return ret;
-    }
-
-    /**
-     * Returns a two-dimensional gaussian blur kernel to use for the provided radius
-     *
-     * @param radius the radius of the gaussian blur
-     * @return the two-dimensional gaussian blur kernel to use for the provided radius
-     */
-    private static double[][] create2DGaussianKernel(int radius) {
-        Preconditions.checkArgument(radius > 2);
-        Preconditions.checkArgument(radius % 2 != 0);
-
-        double[][] ret = new double[radius][radius];
-        int sigma = radius / 2;
-        double sum = 0;
-
-        // Compute
-        for (int row = 0 ; row < ret.length ; row++) {
-            for (int col = 0 ; col < ret[row].length ; col++) {
-                double gaussian = computeGaussian(row, radius, sigma);
-                gaussian *= gaussian;
-                ret[row][col] = gaussian;
-                sum += gaussian;
-            }
-        }
-
-        // Normalize
-        for (int row = 0 ; row < ret.length ; row++) {
-            for (int col = 0 ; col < ret[row].length ; col++) {
-                ret[row][col] /= sum;
-            }
-        }
-
-        return ret;
-    }
-
-    /**
-     * Computes the Gaussian using the provided values.
-     *
-     * @param x     the sample value
-     * @param mu    the mean value
-     * @param sigma the standard deviation value
-     * @return the Gaussian at the provided point
-     */
-    private static double computeGaussian(double x, double mu, double sigma) {
-        double a = (x - mu) / sigma;
-        return Math.exp(-0.5 * a * a);
     }
 }

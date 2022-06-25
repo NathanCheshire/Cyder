@@ -2,9 +2,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
-from functions import get_unix_gmt_time, get_audio_length, find_best_color
-import numpy as np
-from PIL import Image
+from functions import get_unix_gmt_time, get_audio_length
 import os
 
 app = FastAPI()
@@ -19,13 +17,14 @@ def read_root():
     return {"ping_time": get_unix_gmt_time()}
 
 
-class ColorPost(BaseModel):
+class GaussianBlurPost(BaseModel):
     image: str
+    radius: int
 
 
-@app.post("/image/find-color")
-def post_best_color(color: ColorPost):
-    return {"color": str(find_best_color(np.array(Image.open(color.image))))}
+@app.post("/image/blur/")
+def post_blur_image(gaussian_blur_post: GaussianBlurPost):
+    return {"image": str(gaussian_blur_post(gaussian_blur_post.image, gaussian_blur_post.radius))}
 
 
 @app.post("/audio/length/")
