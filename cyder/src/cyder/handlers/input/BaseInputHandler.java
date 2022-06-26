@@ -940,6 +940,8 @@ public class BaseInputHandler {
 
     /**
      * Returns whether the arguments array contains the expected number of arguments.
+     * For example, if the user entered "consolidate windows middle" the command is "consolidate"
+     * and the args are "windows" and "middle".
      *
      * @param expectedSize the expected size of the command arguments
      * @return whether the arguments array contains the expected number of arguments

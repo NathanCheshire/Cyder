@@ -111,6 +111,31 @@ public class FrameMovementHandler extends InputHandler {
                         f.setRestoreY(anchorY);
                         f.setLocation(anchorX, anchorY);
                     }
+                } else {
+                    getInputHandler().println("Command usage: consolidate windows top left");
+                }
+            } else if (getInputHandler().checkArgsLength(2)
+                    && (getInputHandler().getArg(1).equalsIgnoreCase("center")
+                    || getInputHandler().getArg(1).equalsIgnoreCase("middle"))) {
+                Point consoleFrameCenter = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getCenterPointOnScreen();
+                int x = (int) consoleFrameCenter.getX();
+                int y = (int) consoleFrameCenter.getY();
+
+                for (CyderFrame f : FrameUtil.getCyderFrames()) {
+                    if (f == ConsoleFrame.INSTANCE.getConsoleCyderFrame()) {
+                        continue;
+                    }
+
+                    if (f.getState() == Frame.ICONIFIED) {
+                        f.setState(Frame.NORMAL);
+                    }
+
+                    int anchorX = x - f.getWidth() / 2;
+                    int anchorY = y - f.getHeight() / 2;
+
+                    f.setRestoreX(anchorX);
+                    f.setRestoreY(anchorY);
+                    f.setLocation(anchorX, anchorY);
                 }
             } else {
                 getInputHandler().println("Command usage: consolidate windows top left");

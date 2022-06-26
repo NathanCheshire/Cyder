@@ -34,6 +34,7 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.Port;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -974,6 +975,11 @@ public final class AudioPlayer {
     private static final AtomicBoolean audioDreamified = new AtomicBoolean();
 
     /**
+     * Whether the current frame view is the search view.
+     */
+    private static final AtomicBoolean onSearchView = new AtomicBoolean();
+
+    /**
      * Installs all the menu options on the AudioPlayer frame.
      */
     private static void installFrameMenuItems() {
@@ -982,7 +988,7 @@ public final class AudioPlayer {
         audioPlayerFrame.addMenuItem("Export wav", exportWavMenuItem);
         audioPlayerFrame.addMenuItem("Export mp3", exportMp3MenuItem);
         audioPlayerFrame.addMenuItem("Waveform", waveformExporterMenuItem);
-        audioPlayerFrame.addMenuItem("Search", searchMenuItem);
+        audioPlayerFrame.addMenuItem("Search", searchMenuItem, onSearchView);
         audioPlayerFrame.addMenuItem("Choose File", chooseFileMenuItem);
         audioPlayerFrame.addMenuItem("Dreamify", dreamifyMenuItem, audioDreamified);
     }
@@ -1137,7 +1143,16 @@ public final class AudioPlayer {
     /**
      * The menu item for searching youtube for songs.
      */
-    private static final Runnable searchMenuItem = AudioPlayer::constructPhaseTwoView;
+    private static final Runnable searchMenuItem = () -> {
+        if (onSearchView.get()) {
+            onSearchView.set(false);
+            audioPlayerFrame.hideMenu();
+            setupAndShowFrameView(FrameView.FULL);
+        } else {
+            onSearchView.set(true);
+            constructPhaseTwoView();
+        }
+    };
 
     /**
      * The menu item for choosing a local audio file.
@@ -2257,6 +2272,11 @@ public final class AudioPlayer {
     private static String previousSearch;
 
     /**
+     * The default information label text.
+     */
+    private static final String DEFAULT_INFORMATION_LABEL_TEXT = "Search YouTube using the above field";
+
+    /**
      * Constructs the search view where a user can search for and download audio from youtube.
      */
     private static void constructPhaseTwoView() {
@@ -2308,6 +2328,7 @@ public final class AudioPlayer {
         backButton.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, 40, 40);
         audioPlayerFrame.getContentPane().add(backButton);
         backButton.addActionListener(e -> {
+            onSearchView.set(false);
             audioPlayerFrame.hideMenu();
             setupAndShowFrameView(FrameView.FULL);
         });
@@ -2350,9 +2371,17 @@ public final class AudioPlayer {
         informationLabel.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
                 yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
         audioPlayerFrame.getContentPane().add(informationLabel);
-        showInformationLabel("Search YouTube using the above field");
 
-        searchResultsPane.setCaretPosition(0);
+        if (lastSearchResultsPage != null) {
+            searchResultsPane.setDocument(lastSearchResultsPage);
+            searchField.setText(previousSearch);
+            hideInformationLabel();
+            searchResultsPane.setCaretPosition(50);
+        } else {
+            showInformationLabel(DEFAULT_INFORMATION_LABEL_TEXT);
+            searchResultsPane.setCaretPosition(0);
+        }
+
         audioPlayerFrame.getContentPane().add(searchResultsScroll);
         searchResultsPane.revalidate();
 
@@ -2435,6 +2464,11 @@ public final class AudioPlayer {
     private static final String CANCEL = "Cancel";
 
     /**
+     * The last search result output.
+     */
+    private static Document lastSearchResultsPage;
+
+    /**
      * Searches YouTube for the provided text and updates the results pane with videos found.
      *
      * @param fieldText the text to search youtube for
@@ -2448,15 +2482,15 @@ public final class AudioPlayer {
 
         // todo search clicked when already in search, bug with field
 
-        // todo search page needs to be toggleable like dreamify so that user can go back using it and back button
-
         // todo console audio menu audio button icon not updating properly
 
         // todo use borderless, rounded, better font for button
 
-        // todo retain last search objects in view if present. new audio player instance resets this
+        // todo audio progress bar doesn't actually line up with current
+        //  audio location, rethink whole of AudioProgressLocation tracker
 
-        // todo audio progress bar goes too fast like 3 seconds ahead at beginning of audio
+        // todo playing dreamified audio after just finished freezes
+        // todo transitioning audio still freezes sometimes
 
         // todo buttons here should have a border radius to them without any black borders
 
@@ -2583,13 +2617,21 @@ public final class AudioPlayer {
 
                 searchResultsPane.setCaretPosition(0);
                 hideInformationLabel();
+
+                lastSearchResultsPage = searchResultsPane.getDocument();
             } else {
                 showInformationLabel("No results found :(");
             }
         }, "YouTube Search Updater");
     }
 
-    @SuppressWarnings({"SuspiciousNameCombination", "ConstantConditions"})
+    /**
+     * Returns the maximum resolution square thumbnail possible for the YouTube video with the provided uuid.
+     *
+     * @param uuid the uuid of the video
+     * @return the maximum resolution square thumbnail
+     */
+    @SuppressWarnings("SuspiciousNameCombination")
     private static BufferedImage getMaxResolutionSquareThumbnail(String uuid) {
         Optional<BufferedImage> optionalBi = YoutubeUtil.getMaxResolutionThumbnail(uuid);
 
@@ -2601,18 +2643,20 @@ public final class AudioPlayer {
             } catch (Exception ignored) {}
         }
 
-        int width = bi.getWidth();
-        int height = bi.getHeight();
+        if (bi != null) {
+            int width = bi.getWidth();
+            int height = bi.getHeight();
 
-        if (width < height) {
-            bi = ImageUtil.cropImage(bi, 0, (height - width) / 2, width, width);
-        } else if (height < width) {
-            bi = ImageUtil.cropImage(bi, (width - height) / 2, 0, height, height);
-        } else {
-            bi = ImageUtil.cropImage(bi, 0, 0, width, height);
+            if (width < height) {
+                bi = ImageUtil.cropImage(bi, 0, (height - width) / 2, width, width);
+            } else if (height < width) {
+                bi = ImageUtil.cropImage(bi, (width - height) / 2, 0, height, height);
+            } else {
+                bi = ImageUtil.cropImage(bi, 0, 0, width, height);
+            }
+
+            bi = ImageUtil.resizeImage(bi, bi.getType(), bufferedImageLen, bufferedImageLen);
         }
-
-        bi = ImageUtil.resizeImage(bi, bi.getType(), bufferedImageLen, bufferedImageLen);
 
         return bi;
     }
