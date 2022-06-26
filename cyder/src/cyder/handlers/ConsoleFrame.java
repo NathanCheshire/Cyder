@@ -2211,12 +2211,13 @@ public enum ConsoleFrame {
      */
     public void loadBackgrounds() {
         try {
-            File backgroundsDir = OSUtil.buildFile(Dynamic.PATH,
-                    Dynamic.USERS.getDirectoryName(), uuid, "Backgrounds");
-
             ArrayList<File> backgroundFiles = new ArrayList<>();
 
-            File[] backgroundFilesArr = backgroundsDir.listFiles();
+            File[] backgroundFilesArr = OSUtil.buildFile(
+                    Dynamic.PATH,
+                    Dynamic.USERS.getDirectoryName(),
+                    getUUID(),
+                    UserFile.BACKGROUNDS.getName()).listFiles();
             if (backgroundFilesArr != null && backgroundFilesArr.length > 0) {
                 for (File file : backgroundFilesArr) {
                     if (StringUtil.in(FileUtil.getExtension(file),
@@ -2227,9 +2228,7 @@ public enum ConsoleFrame {
             }
 
             if (backgroundFiles.isEmpty()) {
-                // create and reload backgrounds since this shouldn't be empty now
-                UserUtil.createDefaultBackground(uuid);
-                loadBackgrounds(); // todo make sure this doesn't go deeper than two
+                backgroundFiles.add(UserUtil.createDefaultBackground(uuid));
             }
 
             backgrounds.clear();

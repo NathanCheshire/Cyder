@@ -1,5 +1,5 @@
 
-from webbrowser import get
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import Optional
@@ -10,16 +10,16 @@ import os
 app = FastAPI()
 
 
-class AudioLengthPost(BaseModel):
-    audio_path: str
-
-
 @app.get("/")
 def read_root():
+    """ The local backend root.
+    """
     return {"ping_time": get_unix_gmt_time()}
 
 
 class GaussianBlurPost(BaseModel):
+    """ The expected schema for a gaussian blur post request.
+    """
     image: str
     radius: int
     save_directory: Optional[str] = None
@@ -27,12 +27,22 @@ class GaussianBlurPost(BaseModel):
 
 @app.post("/image/blur/")
 def post_blur_image(gaussian_blur_post: GaussianBlurPost):
-    return {"image": str(gaussian_blur(gaussian_blur_post.image, gaussian_blur_post.radius, 
-    save_directory = gaussian_blur_post.save_directory))}
+    """ The post location for applying a gaussian blur to a local image file.
+    """
+    return {"image": str(gaussian_blur(gaussian_blur_post.image, gaussian_blur_post.radius,
+                                       save_directory=gaussian_blur_post.save_directory))}
+
+
+class AudioLengthPost(BaseModel):
+    """ The expected schema for an audio length post request.
+    """
+    audio_path: str
 
 
 @app.post("/audio/length/")
 def post_audio_length(audio_length: AudioLengthPost):
+    """ The post location for determing the length in seconds of a local audio file.
+    """
     exists = os.path.exists(audio_length.audio_path)
 
     if exists:
@@ -40,9 +50,14 @@ def post_audio_length(audio_length: AudioLengthPost):
     else:
         return {"error": "file not found"}
 
+
 @app.get("/usb/devices/")
 def get_usb():
+    """ The get location for usb devices.
+    """
     return {"usb": str(get_usb_devices())}
 
+
 if __name__ == '__main__':
+    # TODO make port configurable from props file?
     uvicorn.run("main:app", host="0.0.0.0", port=8080)

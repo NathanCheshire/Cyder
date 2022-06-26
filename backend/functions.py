@@ -6,6 +6,7 @@ from PIL import Image
 from PIL import ImageFilter
 from mutagen.mp3 import MP3
 import os
+import libusb_package
 
 
 def gaussian_blur(image_path: str, radius: int, save_directory: str = None) -> str:
@@ -92,17 +93,20 @@ def get_audio_length(path: str) -> float:
     """
     return MP3(path).info.length
 
-import libusb_package
 
 def get_usb_devices() -> List:
+    """ Returns a list of the devices connected to this comuter via USB.
+    :return: a list of the devices connected to this computer via USB.
+    :rtype: list
+    """
     ret = []
 
     devices = libusb_package.find(find_all=True)
-    
+
     for dev in devices:
         lines = str(dev).split('\n')
 
         for line in lines:
             ret.append(line.strip())
-        
+
     return ret
