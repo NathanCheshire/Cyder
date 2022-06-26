@@ -939,7 +939,7 @@ public final class ImageUtil {
     /**
      * The POST location for blurring an image.
      */
-    private static final String IMAGE_BLUR_LOCATION = "http://127.0.0.1:8080/image/blur/";
+    private static final String IMAGE_BLUR_LOCATION = BackendUtil.constructPath("image", "blur");
 
     /**
      * The encoding used for a post to the backend.

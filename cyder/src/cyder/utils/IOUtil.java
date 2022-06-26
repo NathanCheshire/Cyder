@@ -436,7 +436,7 @@ public final class IOUtil {
     /**
      * The location for a usb get request.
      */
-    private static final String USB_GET_LOCATION = "http://127.0.0.1:8080/usb/devices/";
+    private static final String USB_GET_LOCATION = BackendUtil.constructPath("usb", "devices");
 
     /**
      * The encoding used for a usb get request.

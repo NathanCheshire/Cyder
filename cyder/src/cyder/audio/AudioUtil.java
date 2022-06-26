@@ -9,10 +9,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.AudioLengthResponse;
 import cyder.threads.CyderThreadFactory;
-import cyder.utils.FileUtil;
-import cyder.utils.NetworkUtil;
-import cyder.utils.OSUtil;
-import cyder.utils.StringUtil;
+import cyder.utils.*;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -498,7 +495,7 @@ public final class AudioUtil {
     /**
      * The location to post for an audio location post.
      */
-    private static final String AUDIO_LENGTH_PATH = "http://0.0.0.0:8080/audio/length/";
+    private static final String AUDIO_LENGTH_PATH = BackendUtil.constructPath("audio", "length");
 
     /**
      * The encoding used for a post.
