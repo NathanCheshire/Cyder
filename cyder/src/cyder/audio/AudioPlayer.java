@@ -2398,6 +2398,11 @@ public final class AudioPlayer {
     private static final String PLAY = "Play";
 
     /**
+     * The button text for when a download is concluding and would typically say 100%.
+     */
+    private static final String FINISHING = "Finishing";
+
+    /**
      * The last search result output.
      */
     private static Document lastSearchResultsPage;
@@ -2430,9 +2435,7 @@ public final class AudioPlayer {
         // todo should also check to see if any music exist with the
         //  exact name and auto-link the button to play and not download
 
-        // todo fix bug with frames and console not appearing on top
-
-        // todo instead of 100% say "finishing"
+        // todo fix menu button focus bug
 
         CyderThreadRunner.submit(() -> {
             showInformationLabel(SEARCHING);
@@ -2528,10 +2531,19 @@ public final class AudioPlayer {
 
                             downloadable.get().download();
 
+                            // todo schedule at fixed rate with exit condition checker for CTR?
+                            // todo need to be able to exit fixed rate runnables in CTR anyway
+
                             CyderThreadRunner.submit(() -> {
                                 while (!downloadable.get().isDone()) {
                                     if (!mouseEntered.get()) {
-                                        downloadButton.setText(downloadable.get().getDownloadableProgress() + "%");
+                                        float progress = downloadable.get().getDownloadableProgress();
+
+                                        if (progress == 100.0f) {
+                                            downloadButton.setText(FINISHING);
+                                        } else {
+                                            downloadButton.setText(progress + "%");
+                                        }
                                     }
 
                                     ThreadUtil.sleep(YoutubeConstants.DOWNLOAD_UPDATE_DELAY);

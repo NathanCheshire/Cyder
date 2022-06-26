@@ -1296,7 +1296,12 @@ public class CyderFrame extends JFrame {
     /**
      * The number of frames to use for animations.
      */
-    private static final double animationFrames = 15.0;
+    private static final int ANIMATION_FRAMES = 15;
+
+    /**
+     * The animation delay for minimize and close animations.
+     */
+    private static final int MOVEMENT_ANIMATION_DELAY = 5;
 
     /**
      * Animates away this frame by moving it down until it is offscreen at which point the frame
@@ -1315,34 +1320,29 @@ public class CyderFrame extends JFrame {
             if (UserUtil.getCyderUser().getDoAnimations().equals("1")) {
                 setDisableContentRepainting(true);
 
-                // figure out increment for frame num
-                int distanceToTravel = ScreenUtil.getScreenHeight() - getY();
+                int animationInc = (int) ((double) (ScreenUtil.getScreenHeight() - getY()) / ANIMATION_FRAMES);
 
-                // 25 frames to animate
-                int animationInc = (int) ((double) distanceToTravel / animationFrames);
-
-                int initialY = getY();
-
-                int end = ScreenUtil.getScreenHeight();
-
-                for (int i = initialY ; i <= end ; i += animationInc) {
-                    Thread.sleep(1);
+                for (int i = getY() ; i <= ScreenUtil.getScreenHeight() + getHeight() ; i += animationInc) {
+                    Thread.sleep(MOVEMENT_ANIMATION_DELAY);
                     setLocation(getX(), i);
+
+                    if (i >= ScreenUtil.getScreenHeight()) {
+                        setVisible(false);
+                    }
                 }
             }
 
+            setVisible(true);
             setState(Frame.ICONIFIED);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
 
-    // overridden to disable/enable content area repainting for optimization.
-
     /**
      * {@inheritDoc}
      */
-    @Override
+    @Override // disable/enable content area repainting for optimization
     public void setState(int state) {
         if (state == JFrame.ICONIFIED) {
             setDisableContentRepainting(true);
@@ -1462,7 +1462,7 @@ public class CyderFrame extends JFrame {
                     int y = (int) point.getY();
 
                     int distanceToTravel = Math.abs(y) + Math.abs(getHeight());
-                    int animationInc = (int) ((double) distanceToTravel / animationFrames);
+                    int animationInc = (int) ((double) distanceToTravel / ANIMATION_FRAMES);
 
                     disableDragging();
 
@@ -1470,7 +1470,7 @@ public class CyderFrame extends JFrame {
                     int height = getHeight();
 
                     for (int i = startY ; i >= -height ; i -= animationInc) {
-                        Thread.sleep(1);
+                        Thread.sleep(MOVEMENT_ANIMATION_DELAY);
                         setLocation(x, i);
                     }
                 }
@@ -3418,7 +3418,7 @@ public class CyderFrame extends JFrame {
      * The delay before setting the always on top mode to
      * the original value after invoking finalizeAndShow();
      */
-    private static final int FINALIZE_AND_SHOW_DELAY = 500;
+    private static final int FINALIZE_AND_SHOW_DELAY = 1000;
 
     /**
      * Sets the frame's location relative to the dominant frame,

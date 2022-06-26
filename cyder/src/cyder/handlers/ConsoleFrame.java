@@ -988,6 +988,9 @@ public enum ConsoleFrame {
         }
     }
 
+    /**
+     * The window adapter for window iconification/de-iconification actions.
+     */
     private final WindowAdapter consoleFrameWindowAdapter = new WindowAdapter() {
         @Override
         public void windowDeiconified(WindowEvent e) {
@@ -1383,7 +1386,7 @@ public enum ConsoleFrame {
                         .collect(Collectors.toList()));
 
         if (state.size() == 0) {
-            throw new FatalException("Nothing in taskbar menu");
+            return;
         }
 
         // remove focus from previous item if possible
@@ -1823,7 +1826,7 @@ public enum ConsoleFrame {
             printingUtil.newline(!compactMode);
         }
 
-        if (currentMappedExeItems.size() + currentFrameMenuItems.size() > 0 && !compactMode) {
+        if (currentMappedExeItems.size() > 0 && currentFrameMenuItems.size() > 0 && !compactMode) {
             printingUtil.printSeparator();
         }
 
@@ -3355,8 +3358,15 @@ public enum ConsoleFrame {
             screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
             screenStat.setMonitor(Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration()
                     .getDevice().getIDstring().replaceAll("[^0-9]", "")));
-            screenStat.setConsoleX(consoleCyderFrame.getX());
-            screenStat.setConsoleY(consoleCyderFrame.getY());
+
+            if (consoleCyderFrame.getState() == JFrame.ICONIFIED) {
+                screenStat.setConsoleX(consoleCyderFrame.getRestoreX());
+                screenStat.setConsoleY(consoleCyderFrame.getRelativeY());
+            } else {
+                screenStat.setConsoleX(consoleCyderFrame.getX());
+                screenStat.setConsoleY(consoleCyderFrame.getY());
+            }
+
             screenStat.setConsoleFrameDirection(consoleDir);
 
             // just to be safe
