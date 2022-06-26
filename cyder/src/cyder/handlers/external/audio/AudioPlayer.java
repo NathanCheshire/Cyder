@@ -2430,9 +2430,6 @@ public final class AudioPlayer {
 
         // todo buttons here should have a border radius to them without any black borders
 
-        // todo make checkbox able to be checked with a circle, fill or hollow and make a drawing animation
-        //  for all "checks" 
-
         CyderThreadRunner.submit(() -> {
             showInformationLabel("Searching...");
 

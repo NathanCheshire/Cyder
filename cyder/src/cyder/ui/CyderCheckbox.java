@@ -15,6 +15,41 @@ import java.awt.geom.RoundRectangle2D;
  */
 public class CyderCheckbox extends JLabel {
     /**
+     * The arc length for rounded corners.
+     */
+    public static final int ARC_LEN = 20;
+
+    /**
+     * The stroke width for a hollow circle check mark.
+     */
+    private float hollowCircleCheckStrokeWidth = 4.0f;
+
+    /**
+     * The possible shapes to indicate a checkbox is selected.
+     */
+    public enum CheckShape {
+        /**
+         * The standard check mark.
+         */
+        CHECK,
+
+        /**
+         * A fill circle check mark.
+         */
+        FILLED_CIRCLE,
+
+        /**
+         * A hollow circle check mark.
+         */
+        HOLLOW_CIRCLE
+    }
+
+    /**
+     * The check shape of this checkbox.
+     */
+    private CheckShape checkShape = CheckShape.CHECK;
+
+    /**
      * The length of the border for the checkbox.
      */
     private int borderLen = 3;
@@ -224,100 +259,85 @@ public class CyderCheckbox extends JLabel {
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHints(qualityHints);
 
+        // draw background
         if (roundedCorners) {
-            if (isChecked()) {
-                graphics2D.setPaint(background);
-                graphics2D.setStroke(new BasicStroke(2.0f));
-                graphics2D.fill(new RoundRectangle2D.Double(0, 0, sideLength, sideLength, 20, 20));
-
-                //move enter check down
-                int yTranslate = 4;
-
-                graphics2D.setColor(checkColor);
-
-                //thickness of line drawn
-                graphics2D.setStroke(new BasicStroke(5));
-
-                int cornerOffset = 5;
-                graphics2D.drawLine(sideLength - borderLen - cornerOffset, borderLen + cornerOffset + yTranslate,
-                        sideLength / 2, sideLength / 2 + yTranslate);
-
-                //length from center to bottom most check point
-                int secondaryDip = 5;
-                graphics2D.drawLine(sideLength / 2, sideLength / 2 + yTranslate,
-                        sideLength / 2 - secondaryDip, sideLength / 2 + secondaryDip + yTranslate);
-
-                //length from bottom most part back up
-                int lengthUp = 9;
-                graphics2D.drawLine(sideLength / 2 - secondaryDip, sideLength / 2 + secondaryDip + yTranslate,
-                        sideLength / 2 - secondaryDip - lengthUp, sideLength / 2 + secondaryDip - lengthUp + yTranslate);
-
-            } else {
-                graphics2D.setPaint(background);
-                graphics2D.setStroke(new BasicStroke(2.0f));
-                graphics2D.fill(new RoundRectangle2D.Double(0, 0, sideLength, sideLength, 20, 20));
-                graphics2D.setPaint(CyderColors.vanilla);
-                graphics2D.fill(new RoundRectangle2D.Double(borderLen, borderLen,
-                        sideLength - 6, sideLength - 6, 20, 20));
-            }
+            graphics2D.setPaint(background);
+            graphics2D.setStroke(new BasicStroke(2.0f));
+            graphics2D.fill(new RoundRectangle2D.Double(0, 0, sideLength, sideLength, ARC_LEN, ARC_LEN));
+            graphics2D.setPaint(CyderColors.vanilla);
+            graphics2D.fill(new RoundRectangle2D.Double(borderLen, borderLen,
+                    sideLength - 2 * borderLen, sideLength - 2 * borderLen, ARC_LEN, ARC_LEN));
         } else {
-            if (isChecked()) {
-                graphics2D.setPaint(background);
-                GeneralPath outlinePath = new GeneralPath();
-                outlinePath.moveTo(0, 0);
-                outlinePath.lineTo(sideLength, 0);
-                outlinePath.lineTo(sideLength, sideLength);
-                outlinePath.lineTo(0, sideLength);
-                outlinePath.lineTo(0, 0);
-                outlinePath.closePath();
-                graphics2D.fill(outlinePath);
+            graphics2D.setPaint(background);
+            GeneralPath outlinePath = new GeneralPath();
+            outlinePath.moveTo(0, 0);
+            outlinePath.lineTo(sideLength, 0);
+            outlinePath.lineTo(sideLength, sideLength);
+            outlinePath.lineTo(0, sideLength);
+            outlinePath.lineTo(0, 0);
+            outlinePath.closePath();
+            graphics2D.fill(outlinePath);
 
-                //move enter check down
-                int yTranslate = 4;
-
-                graphics2D.setColor(checkColor);
-
-                //thickness of line drawn
-                graphics2D.setStroke(new BasicStroke(5));
-
-                int cornerOffset = 5;
-                graphics2D.drawLine(sideLength - borderLen - cornerOffset, borderLen + cornerOffset + yTranslate,
-                        sideLength / 2, sideLength / 2 + yTranslate);
-
-                //length from center to bottom most check point
-                int secondaryDip = 5;
-                graphics2D.drawLine(sideLength / 2, sideLength / 2 + yTranslate,
-                        sideLength / 2 - secondaryDip, sideLength / 2 + secondaryDip + yTranslate);
-
-                //length from bottom most part back up
-                int lengthUp = 9;
-                graphics2D.drawLine(sideLength / 2 - secondaryDip, sideLength / 2 + secondaryDip + yTranslate,
-                        sideLength / 2 - secondaryDip - lengthUp, sideLength / 2 + secondaryDip - lengthUp + yTranslate);
-
-            } else {
-                graphics2D.setPaint(background);
-                GeneralPath outlinePath = new GeneralPath();
-                outlinePath.moveTo(0, 0);
-                outlinePath.lineTo(sideLength, 0);
-                outlinePath.lineTo(sideLength, sideLength);
-                outlinePath.lineTo(0, sideLength);
-                outlinePath.lineTo(0, 0);
-                outlinePath.closePath();
-                graphics2D.fill(outlinePath);
-
-                graphics2D.setPaint(CyderColors.vanilla);
-                GeneralPath fillPath = new GeneralPath();
-                fillPath.moveTo(borderLen, borderLen);
-                fillPath.lineTo(sideLength - borderLen, borderLen);
-                fillPath.lineTo(sideLength - borderLen, sideLength - borderLen);
-                fillPath.lineTo(borderLen, sideLength - borderLen);
-                fillPath.lineTo(borderLen, borderLen);
-                fillPath.closePath();
-                graphics2D.fill(fillPath);
-            }
+            graphics2D.setPaint(CyderColors.vanilla);
+            GeneralPath fillPath = new GeneralPath();
+            fillPath.moveTo(borderLen, borderLen);
+            fillPath.lineTo(sideLength - borderLen, borderLen);
+            fillPath.lineTo(sideLength - borderLen, sideLength - borderLen);
+            fillPath.lineTo(borderLen, sideLength - borderLen);
+            fillPath.lineTo(borderLen, borderLen);
+            fillPath.closePath();
+            graphics2D.fill(fillPath);
         }
 
-        graphics2D.dispose();
+        if (isChecked) {
+            // fill the shape
+            graphics2D.setPaint(background);
+            graphics2D.setStroke(new BasicStroke(2.0f));
+            graphics2D.fill(new RoundRectangle2D.Double(0, 0, sideLength, sideLength, ARC_LEN, ARC_LEN));
+
+            graphics2D.setColor(checkColor);
+
+            switch (checkShape) {
+                case CHECK -> {
+                    graphics2D.setColor(checkColor);
+                    //move enter check down
+                    int yTranslate = 4;
+
+                    //thickness of line drawn
+                    graphics2D.setStroke(new BasicStroke(5));
+
+                    int cornerOffset = 5;
+                    graphics2D.drawLine(sideLength - borderLen - cornerOffset, borderLen + cornerOffset + yTranslate,
+                            sideLength / 2, sideLength / 2 + yTranslate);
+
+                    // length from center to bottom most check point
+                    int secondaryDip = 5;
+                    graphics2D.drawLine(sideLength / 2, sideLength / 2 + yTranslate,
+                            sideLength / 2 - secondaryDip, sideLength / 2 + secondaryDip + yTranslate);
+
+                    // length from bottom most part back up
+                    int lengthUp = 9;
+                    graphics2D.drawLine(sideLength / 2 - secondaryDip, sideLength / 2 + secondaryDip + yTranslate,
+                            sideLength / 2 - secondaryDip - lengthUp,
+                            sideLength / 2 + secondaryDip - lengthUp + yTranslate);
+                }
+                case FILLED_CIRCLE -> {
+                    int diameter = sideLength / 2;
+                    int x = sideLength / 2 - diameter / 2;
+                    int y = sideLength / 2 - diameter / 2;
+                    g.fillOval(x, y, diameter, diameter);
+                }
+                case HOLLOW_CIRCLE -> {
+                    graphics2D.setStroke(new BasicStroke(hollowCircleCheckStrokeWidth));
+
+                    int diameter = sideLength / 2;
+                    int x = sideLength / 2 - diameter / 2;
+                    int y = sideLength / 2 - diameter / 2;
+                    g.drawOval(x, y, diameter, diameter);
+                }
+                default -> throw new IllegalArgumentException("Invalid check shape: " + checkShape);
+            }
+        }
     }
 
     /**
@@ -359,7 +379,7 @@ public class CyderCheckbox extends JLabel {
      *
      * @return the check color
      */
-    public Color getCheckedColor() {
+    public Color getCheckColor() {
         return checkColor;
     }
 
@@ -368,8 +388,60 @@ public class CyderCheckbox extends JLabel {
      *
      * @param checkColor the check color
      */
-    public void setCheckedColor(Color checkColor) {
+    public void setCheckColor(Color checkColor) {
         this.checkColor = checkColor;
+    }
+
+    /**
+     * Returns the check shape.
+     *
+     * @return the check shape
+     */
+    public CheckShape getCheckShape() {
+        return checkShape;
+    }
+
+    /**
+     * Sets the check shape.
+     *
+     * @param checkShape the check shape
+     */
+    public void setCheckShape(CheckShape checkShape) {
+        this.checkShape = checkShape;
+    }
+
+    /**
+     * Returns the stroke width for a hollow circle check mark.
+     *
+     * @return the stroke width for a hollow circle check mark
+     */
+    public float getHollowCircleCheckStrokeWidth() {
+        return hollowCircleCheckStrokeWidth;
+    }
+
+    /**
+     * Sets the stroke width for a hollow circle check mark.
+     *
+     * @param hollowCircleCheckStrokeWidth the stroke width for a hollow circle check mark
+     */
+    public void setHollowCircleCheckStrokeWidth(float hollowCircleCheckStrokeWidth) {
+        this.hollowCircleCheckStrokeWidth = hollowCircleCheckStrokeWidth;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override // to ensure setLocation calls work same as set bounds
+    public void setLocation(int x, int y) {
+        super.setBounds(x, y, getWidth(), getHeight());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override // to ensure length is not changed, todo remove when side length needs to change
+    public void setBounds(int x, int y, int width, int height) {
+        super.setBounds(x, y, sideLength, sideLength);
     }
 
     /**

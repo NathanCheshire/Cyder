@@ -25,7 +25,7 @@ import java.util.ArrayList;
 /**
  * Manual widgets used to test certain aspects/implementations of Cyder.
  */
-public class ManualTests {
+public final class ManualTests {
     /**
      * Restricts default instantiation.
      */
@@ -778,5 +778,62 @@ public class ManualTests {
         InformHandler.inform(new InformHandler.Builder("Hello")
                 .setDisableRelativeTo(true)
                 .setRelativeTo(testFrame));
+    }
+
+    /**
+     * Tests for the shape of the checkbox check.
+     */
+    @ManualTest("checkbox check")
+    public static void checkboxCheckTest() {
+        CyderFrame checkboxFrame = new CyderFrame(220, 350);
+        checkboxFrame.setTitle("Checkbox Test");
+
+        CyderCheckbox squareRegular = new CyderCheckbox();
+        squareRegular.setLocation(50, 50);
+        squareRegular.setRoundedCorners(false);
+        checkboxFrame.getContentPane().add(squareRegular);
+
+        CyderCheckbox roundedRegular = new CyderCheckbox();
+        roundedRegular.setLocation(110, 50);
+        roundedRegular.setRoundedCorners(true);
+        checkboxFrame.getContentPane().add(roundedRegular);
+
+        CyderCheckbox squareCheckColor = new CyderCheckbox();
+        squareCheckColor.setLocation(50, 110);
+        squareCheckColor.setRoundedCorners(false);
+        squareCheckColor.setCheckColor(CyderColors.regularBlue);
+        checkboxFrame.getContentPane().add(squareCheckColor);
+
+        CyderCheckbox roundedCheckColor = new CyderCheckbox();
+        roundedCheckColor.setLocation(110, 110);
+        roundedCheckColor.setRoundedCorners(true);
+        roundedCheckColor.setCheckColor(CyderColors.regularBlue);
+        checkboxFrame.getContentPane().add(roundedCheckColor);
+
+        CyderCheckbox squareDifferentShape = new CyderCheckbox();
+        squareDifferentShape.setLocation(50, 170);
+        squareDifferentShape.setCheckShape(CyderCheckbox.CheckShape.FILLED_CIRCLE);
+        squareDifferentShape.setRoundedCorners(false);
+        checkboxFrame.getContentPane().add(squareDifferentShape);
+
+        CyderCheckbox roundedDifferentShape = new CyderCheckbox();
+        roundedDifferentShape.setLocation(110, 170);
+        roundedDifferentShape.setCheckShape(CyderCheckbox.CheckShape.FILLED_CIRCLE);
+        roundedDifferentShape.setRoundedCorners(true);
+        checkboxFrame.getContentPane().add(roundedDifferentShape);
+
+        CyderCheckbox squareHollowCheck = new CyderCheckbox();
+        squareHollowCheck.setLocation(50, 230);
+        squareHollowCheck.setCheckShape(CyderCheckbox.CheckShape.HOLLOW_CIRCLE);
+        squareHollowCheck.setRoundedCorners(false);
+        checkboxFrame.getContentPane().add(squareHollowCheck);
+
+        CyderCheckbox roundedHollowCheck = new CyderCheckbox();
+        roundedHollowCheck.setLocation(110, 230);
+        roundedHollowCheck.setCheckShape(CyderCheckbox.CheckShape.HOLLOW_CIRCLE);
+        roundedHollowCheck.setRoundedCorners(true);
+        checkboxFrame.getContentPane().add(roundedHollowCheck);
+
+        checkboxFrame.finalizeAndShow();
     }
 }
