@@ -344,8 +344,7 @@ public final class YoutubeUtil {
         try {
             save = ImageIO.read(new URL(buildMaxResThumbnailUrl(uuid)));
         } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
-
+            // exception here means no max res default was found
             try {
                 save = ImageIO.read(new URL(buildSdDefThumbnailUrl(uuid)));
             } catch (Exception ex) {

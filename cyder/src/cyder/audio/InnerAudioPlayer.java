@@ -68,6 +68,17 @@ class InnerAudioPlayer {
     private FileInputStream fis;
 
     /**
+     * The maximum number of times a replay can be invoked.
+     */
+    private static final int MAX_REPLAYS = 10;
+
+    /**
+     * The number of times this audio player has attempted to invoke {@link #play()}
+     * from within play after an exception was thrown.
+     */
+    private int replays = 0;
+
+    /**
      * Starts playing the provided audio file at the optionally provided location.
      */
     public void play() {
@@ -77,7 +88,7 @@ class InnerAudioPlayer {
             long bytesSkipped = fis.skip(Math.max(0, pauseLocation));
 
             if (fis.available() != totalAudioLength - bytesSkipped) {
-                throw new IllegalStateException("Fis failed to skip requested bytes");
+                throw new IllegalStateException("FileInputStream failed to skip requested bytes: " + bytesSkipped);
             }
 
             BufferedInputStream bis = new BufferedInputStream(fis);
@@ -99,8 +110,13 @@ class InnerAudioPlayer {
                     if (!killed) {
                         AudioPlayer.playAudioCallback();
                     }
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
+                } catch (Exception possibleIgnored) {
+                    if (replays < MAX_REPLAYS) {
+                        replays++;
+                        play();
+                    } else {
+                        ExceptionHandler.handle(possibleIgnored);
+                    }
                 }
             }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(audioFile) + "]");
 

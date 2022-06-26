@@ -3205,7 +3205,7 @@ public class CyderFrame extends JFrame {
      * Hides the menu.
      */
     public void hideMenu() {
-        if (menuLabel != null && menuLabel.isVisible()) {
+        if (menuLabel != null) {
             menuLabel.setVisible(false);
         }
     }

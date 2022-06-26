@@ -360,10 +360,7 @@ public final class AudioPlayer {
                         case FULL -> setupAndShowFrameView(FrameView.HIDDEN_ART);
                         case HIDDEN_ART -> setupAndShowFrameView(FrameView.MINI);
                         case MINI -> setupAndShowFrameView(FrameView.FULL);
-                        case SEARCH -> {
-                            setPhaseTwoComponentsVisible(false);
-                            setupAndShowFrameView(FrameView.FULL);
-                        }
+                        case SEARCH -> goBackFromSearchView();
                         default -> throw new IllegalArgumentException(
                                 "Illegal requested view to switch to via view switch frame button");
                     }
@@ -2203,6 +2200,7 @@ public final class AudioPlayer {
     private static void goBackFromSearchView() {
         previousScrollLocation = searchResultsScroll.getVerticalScrollBar().getValue();
         onSearchView.set(false);
+        setPhaseTwoComponentsVisible(false);
         audioPlayerFrame.hideMenu();
         setupAndShowFrameView(FrameView.FULL);
     }
@@ -2210,7 +2208,7 @@ public final class AudioPlayer {
     /**
      * The color used as the background for the search results scroll and information label.
      */
-    private static final Color SCROLL_COLOR = new Color(38, 38, 38);
+    private static final Color SCROLL_COLOR = new Color(30, 30, 30);
 
     /**
      * Constructs the search view where a user can search for and download audio from youtube.
@@ -2429,10 +2427,12 @@ public final class AudioPlayer {
 
         // todo make port configurable in props
 
-        // todo at 100% downloaded add play button to start playing audio and take to FULL view
-
         // todo should also check to see if any music exist with the
         //  exact name and auto-link the button to play and not download
+
+        // todo fix bug with frames and console not appearing on top
+
+        // todo instead of 100% say "finishing"
 
         CyderThreadRunner.submit(() -> {
             showInformationLabel(SEARCHING);
@@ -2506,8 +2506,10 @@ public final class AudioPlayer {
                         if (downloadable.get().isDownloading()) {
                             downloadable.get().cancel();
                         } else {
+                            // this case shouldn't even be possible
                             if (downloadable.get().isDownloaded()) {
-                                // todo play the audio and go to the frame view
+                                showGui(downloadable.get().getDownloadFile());
+                                playAudio();
                                 return;
                             }
 
@@ -2516,9 +2518,10 @@ public final class AudioPlayer {
                                 downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
                                 downloadable.get().setOnDownloadedCallback(() -> {
                                     downloadButton.setText(PLAY);
-                                    // todo remove old action listener?
                                     downloadButton.addActionListener(event -> {
-                                        // todo play audio
+                                        currentAudioFile.set(downloadable.get().getDownloadFile());
+                                        revalidateFromAudioFileChange();
+                                        playAudio();
                                     });
                                 });
                             }
@@ -2562,9 +2565,10 @@ public final class AudioPlayer {
                     downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
                     downloadable.get().setOnDownloadedCallback(() -> {
                         downloadButton.setText(PLAY);
-                        // todo remove old action listener?
                         downloadButton.addActionListener(event -> {
-
+                            currentAudioFile.set(downloadable.get().getDownloadFile());
+                            revalidateFromAudioFileChange();
+                            playAudio();
                         });
                     });
 

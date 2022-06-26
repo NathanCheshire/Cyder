@@ -1,0 +1,279 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[00-53-28] [ENTRY]: Nathan
+[00-53-27] [PROP LOADED]: [key = map_quest_api_key]
+[00-53-27] [PROP LOADED]: [key = youtube_api_3_key]
+[00-53-27] [PROP LOADED]: [key = ip_key]
+[00-53-27] [PROP LOADED]: [key = weather_key]
+[00-53-27] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[00-53-27] [PROP LOADED]: [key = debug_hash_password]
+[00-53-27] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[00-53-27] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[00-53-27] [PROP LOADED]: [key = font_metric, value = 1]
+[00-53-27] [PROP LOADED]: [key = released, value = false]
+[00-53-27] [PROP LOADED]: [key = fast_test, value = false]
+[00-53-27] [PROP LOADED]: [key = version, value = Liminal]
+[00-53-27] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[00-53-27] [PROP LOADED]: [key = components_relocatable, value = false]
+[00-53-27] [PROP LOADED]: [key = testing_mode, value = true]
+[00-53-27] [PROP LOADED]: [key = autocypher, value = true]
+[00-53-27] [PROP LOADED]: [key = dispose_splash, value = true]
+[00-53-27] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[00-53-27] [PROP LOADED]: [key = activate_watchdog, value = false]
+[00-53-27] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[00-53-27] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[00-53-27] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[00-53-27] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[00-53-27] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[00-53-27] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[00-53-28] [THREAD STARTED]: Object Creation Logger
+[00-53-28] [DEBUG]: Watchdog skipped
+[00-53-28] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[00-53-30] [FONT LOADED]: agency-fb
+[00-53-30] [FONT LOADED]: arial-black
+[00-53-30] [FONT LOADED]: beyno
+[00-53-30] [FONT LOADED]: condiment-regular
+[00-53-30] [FONT LOADED]: prompt-bold
+[00-53-30] [FONT LOADED]: segoe-ui-black
+[00-53-30] [FONT LOADED]: tahoma
+[00-53-30] [THREAD STARTED]: Splash Loader
+[00-53-30] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[00-53-31] [OBJECT CREATION]: Objects created since last delta (5000ms): 44
+[00-53-31] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\7d7ebb00-81fe-3
+           29f-8a78-62f463d0b7da\Music\AlbumArt\Dua Lipa - Levitating Feat. DaBaby (Audio).png
+[00-53-31] [THREAD STARTED]: Splash Animation
+[00-53-31] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[00-53-31] [THREAD STARTED]: Secondary Subroutines Runner
+[00-53-31] [LOGIN]: AUTOCYPHER ATTEMPT
+[00-53-31] [THREAD STARTED]: JVM Args Logger
+[00-53-32] [DEBUG]: Cyder Entry = AutoCypher
+[00-53-33] [THREAD STARTED]: Console Printing Animation
+[00-53-33] [THREAD STARTED]: Hourly Chime Checker
+[00-53-33] [THREAD STARTED]: Console Clock Updater
+[00-53-33] [THREAD STARTED]: Cyder Busy Checker
+[00-53-33] [THREAD STARTED]: ConsoleFrame Stat Saver
+[00-53-33] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[00-53-33] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[00-53-33] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 388673637, bounds = (980, 396,
+           600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[00-53-33] [THREAD STARTED]: High Ping Checker
+[00-53-33] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[00-53-33] [THREAD STARTED]: Manual Tests Thread
+[00-53-33] [CONSOLE OUT]: [STRING]: Console loaded in 6046ms
+[00-53-34] [DEBUG]: Attempted to log a new or empty line
+[00-53-34] [THREAD STARTED]: Splash Loading Label Updater
+[00-53-36] [OBJECT CREATION]: Objects created since last delta (5000ms): 70
+[00-53-36] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 7] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[00-53-36] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1656222703148.json
+[00-53-41] [OBJECT CREATION]: Objects created since last delta (5000ms): 3
+[00-53-58] [CLIENT]: mp3
+[00-53-58] [CONSOLE OUT]: [STRING]: Opening widget: AudioPlayer
+[00-53-58] [THREAD STARTED]: Vexento - Pixel Party Progress Label Thread
+[00-53-58] [THREAD STARTED]: Audio Progress Label Animator
+[00-53-58] [THREAD STARTED]: [Vexento - pixel party] finalizeAndShow()
+[00-53-58] [WIDGET]: AudioPlayer, trigger = mp3
+[00-53-58] [DEBUG]: Attempted to log a new or empty line
+[00-53-59] [THREAD STARTED]: Vexento - pixel party Menu Label Animator
+[00-54-00] [THREAD STARTED]: AudioPlayer File Chooser
+[00-54-00] [THREAD STARTED]:  getFile() thread, title = [Choose an mp3 or wav file]
+[00-54-00] [THREAD STARTED]: File Getter Loader
+[00-54-01] [UI]: Component = CyderDragLabel, hash = -14661523, bounds = (2, 2, 626, 28), parent frame = Cyder
+[00-54-01] [THREAD STARTED]: [Cyder] dispose() animation thread
+[00-54-01] [UI]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 1610882584, bounds = (1309,
+           354, 630, 510), parent frame = Component itself is a CyderFrame, getTitle() = Cyder
+[00-54-01] [OBJECT CREATION]: Objects created since last delta (5000ms): 70
+[00-54-01] [THREAD STARTED]: [Cyder] dispose() animation thread
+[00-54-01] [THREAD STARTED]: Vexento - pixel party notification queue checker
+[00-54-01] [UI]: [Vexento - pixel party] [NOTIFICATION] "<html>Invalid file chosen</html>"
+[00-54-01] [THREAD STARTED]: Notification Appear Animator
+[00-54-01] [THREAD STARTED]: Notification Vanish Animator
+[00-54-01] [THREAD STARTED]: Vexento - pixel party menu label animator
+[00-54-02] [THREAD STARTED]: Vexento - pixel party Menu Label Animator
+[00-54-05] [UI]: cyder.ui.CyderTextField[,150,50,300x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignmen
+           tX=0.0,alignmentY=0.0,border=javax.swing.border.MatteBorder@3da2868f,flags=16777512,maximumSize=,minimumSize=,preferredS
+           ize=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edi
+           table=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColo
+           rUIResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,hor
+           izontalAlignment=LEADING]
+[00-54-06] [OBJECT CREATION]: Objects created since last delta (5000ms): 14
+[00-54-09] [THREAD STARTED]: YouTube Search Updater
+[00-54-11] [OBJECT CREATION]: Objects created since last delta (5000ms): 40
+[00-54-14] [UI]: cyder.ui.CyderTextField[,150,50,300x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignmen
+           tX=0.0,alignmentY=0.0,border=javax.swing.border.MatteBorder@3da2868f,flags=16777512,maximumSize=,minimumSize=,preferredS
+           ize=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edi
+           table=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColo
+           rUIResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,hor
+           izontalAlignment=LEADING]
+[00-54-14] [UI]: cyder.ui.CyderTextField[,150,50,300x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignmen
+           tX=0.0,alignmentY=0.0,border=javax.swing.border.MatteBorder@3da2868f,flags=16777512,maximumSize=,minimumSize=,preferredS
+           ize=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edi
+           table=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColo
+           rUIResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,hor
+           izontalAlignment=LEADING]
+[00-54-15] [THREAD STARTED]: YouTube Search Updater
+[00-54-21] [OBJECT CREATION]: Objects created since last delta (5000ms): 40
+[00-54-23] [THREAD STARTED]: YouTube Downloader, saveName=Dua Lipa - Levitating Feat. DaBaby (Audio), uuid=jeiPmdVm-zA
+[00-54-23] [THREAD STARTED]: YouTube audio downloader, url=https://www.youtube.com/watch?v=jeiPmdVm-zA
+[00-54-23] [UI]: Component = AudioPlayer (inner), hash = 931181753, bounds = (0, 0, 127, 32), parent frame = Vexento -
+           pixel party, getText() =      Download
+[00-55-33] [THREAD STARTED]: Dua Lipa - Levitating Feat. DaBaby (Audio) Progress Label Thread
+[00-55-33] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-33] [THREAD STARTED]: Dua Lipa - Levitating Feat. DaBaby (Audio) Progress Label Thread
+[00-55-33] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-33] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-33] [UI]: Component = AudioPlayer (inner), hash = 931181753, bounds = (0, 0, 81, 32), parent frame = Dua lipa -
+           levitating feat. dababy (..., getText() =      Play
+[00-55-33] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-33] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-33] [EXCEPTION]:
+           Exception origin: javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           From line: 228
+           Trace: javazoom.jl.decoder.JavaLayerException: Exception decoding audio frame
+           at javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           at javazoom.jl.player.Player.play(Player.java:120)
+           at javazoom.jl.player.Player.play(Player.java:104)
+           at cyder.audio.InnerAudioPlayer.lambda$play$0(InnerAudioPlayer.java:91)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[00-55-33] [EXCEPTION]:
+           Exception origin: javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           From line: 228
+           Trace: javazoom.jl.decoder.JavaLayerException: Exception decoding audio frame
+           at javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           at javazoom.jl.player.Player.play(Player.java:120)
+           at javazoom.jl.player.Player.play(Player.java:104)
+           at cyder.audio.InnerAudioPlayer.lambda$play$0(InnerAudioPlayer.java:91)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[00-55-34] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-34] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-34] [EXCEPTION]:
+           Exception origin: javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           From line: 228
+           Trace: javazoom.jl.decoder.JavaLayerException: Exception decoding audio frame
+           at javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           at javazoom.jl.player.Player.play(Player.java:120)
+           at javazoom.jl.player.Player.play(Player.java:104)
+           at cyder.audio.InnerAudioPlayer.lambda$play$0(InnerAudioPlayer.java:91)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[00-55-34] [EXCEPTION]:
+           Exception origin: javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           From line: 228
+           Trace: javazoom.jl.decoder.JavaLayerException: Exception decoding audio frame
+           at javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           at javazoom.jl.player.Player.play(Player.java:120)
+           at javazoom.jl.player.Player.play(Player.java:104)
+           at cyder.audio.InnerAudioPlayer.lambda$play$0(InnerAudioPlayer.java:91)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[00-55-34] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-34] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-34] [EXCEPTION]:
+           Exception origin: javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           From line: 228
+           Trace: javazoom.jl.decoder.JavaLayerException: Exception decoding audio frame
+           at javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           at javazoom.jl.player.Player.play(Player.java:120)
+           at javazoom.jl.player.Player.play(Player.java:104)
+           at cyder.audio.InnerAudioPlayer.lambda$play$0(InnerAudioPlayer.java:91)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[00-55-34] [EXCEPTION]:
+           Exception origin: javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           From line: 228
+           Trace: javazoom.jl.decoder.JavaLayerException: Exception decoding audio frame
+           at javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           at javazoom.jl.player.Player.play(Player.java:120)
+           at javazoom.jl.player.Player.play(Player.java:104)
+           at cyder.audio.InnerAudioPlayer.lambda$play$0(InnerAudioPlayer.java:91)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[00-55-34] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-34] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-34] [EXCEPTION]:
+           Exception origin: javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           From line: 228
+           Trace: javazoom.jl.decoder.JavaLayerException: Exception decoding audio frame
+           at javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           at javazoom.jl.player.Player.play(Player.java:120)
+           at javazoom.jl.player.Player.play(Player.java:104)
+           at cyder.audio.InnerAudioPlayer.lambda$play$0(InnerAudioPlayer.java:91)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[00-55-34] [EXCEPTION]:
+           Exception origin: javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           From line: 228
+           Trace: javazoom.jl.decoder.JavaLayerException: Exception decoding audio frame
+           at javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           at javazoom.jl.player.Player.play(Player.java:120)
+           at javazoom.jl.player.Player.play(Player.java:104)
+           at cyder.audio.InnerAudioPlayer.lambda$play$0(InnerAudioPlayer.java:91)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[00-55-34] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-34] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-34] [EXCEPTION]:
+           Exception origin: javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           From line: 228
+           Trace: javazoom.jl.decoder.JavaLayerException: Exception decoding audio frame
+           at javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           at javazoom.jl.player.Player.play(Player.java:120)
+           at javazoom.jl.player.Player.play(Player.java:104)
+           at cyder.audio.InnerAudioPlayer.lambda$play$0(InnerAudioPlayer.java:91)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[00-55-34] [EXCEPTION]:
+           Exception origin: javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           From line: 228
+           Trace: javazoom.jl.decoder.JavaLayerException: Exception decoding audio frame
+           at javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           at javazoom.jl.player.Player.play(Player.java:120)
+           at javazoom.jl.player.Player.play(Player.java:104)
+           at cyder.audio.InnerAudioPlayer.lambda$play$0(InnerAudioPlayer.java:91)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[00-55-34] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-34] [EXCEPTION]:
+           Exception origin: javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           From line: 228
+           Trace: javazoom.jl.decoder.JavaLayerException: Exception decoding audio frame
+           at javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           at javazoom.jl.player.Player.play(Player.java:120)
+           at javazoom.jl.player.Player.play(Player.java:104)
+           at cyder.audio.InnerAudioPlayer.lambda$play$0(InnerAudioPlayer.java:91)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[00-55-34] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-34] [EXCEPTION]:
+           Exception origin: javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           From line: 228
+           Trace: javazoom.jl.decoder.JavaLayerException: Exception decoding audio frame
+           at javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           at javazoom.jl.player.Player.play(Player.java:120)
+           at javazoom.jl.player.Player.play(Player.java:104)
+           at cyder.audio.InnerAudioPlayer.lambda$play$0(InnerAudioPlayer.java:91)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[00-55-34] [THREAD STARTED]: AudioPlayer Play Audio Thread [Dua Lipa - Levitating Feat. DaBaby (Audio)]
+[00-55-34] [EXCEPTION]:
+           Exception origin: javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           From line: 228
+           Trace: javazoom.jl.decoder.JavaLayerException: Exception decoding audio frame
+           at javazoom.jl.player.Player.decodeFrame(Player.java:228)
+           at javazoom.jl.player.Player.play(Player.java:120)
+           at javazoom.jl.player.Player.play(Player.java:104)
+           at cyder.audio.InnerAudioPlayer.lambda$play$0(InnerAudioPlayer.java:91)
+           at java.base/java.lang.Thread.run(Thread.java:833)

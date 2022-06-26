@@ -88,8 +88,20 @@ public class YoutubeDownload {
      */
     private final String url;
 
+    /**
+     * The runnable to invoke when the download is canceled.
+     */
     private Runnable onCanceledCallback;
+
+    /**
+     * The runnable to invoke when the download completes successfully.
+     */
     private Runnable onDownloadedCallback;
+
+    /**
+     * The file this object downloaded from YouTube.
+     */
+    private File downloadFile;
 
     /**
      * Suppress default constructor.
@@ -110,31 +122,6 @@ public class YoutubeDownload {
         Preconditions.checkArgument(AudioUtil.youtubeDlInstalled());
 
         this.url = url;
-    }
-
-    /**
-     * Updates the download progress label.
-     */
-    public void updateProgressLabel() {
-        downloadProgressLabel.setText("<html>" + downloadableName
-                + "<br/>File size: " + downloadableFileSize
-                + "<br/>Progress: " + downloadableProgress
-                + "%<br/>Rate: " + downloadableRate
-                + "<br/>Eta: " + downloadableEta + "</html>");
-        downloadProgressLabel.revalidate();
-        downloadProgressLabel.repaint();
-        downloadProgressLabel.setHorizontalAlignment(JLabel.LEFT);
-    }
-
-    /**
-     * Refreshes the font of the label containing the download information.
-     */
-    public void refreshLabelFont() {
-        if (isDone()) {
-            return;
-        }
-
-        downloadProgressLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
     }
 
     /**
@@ -265,6 +252,45 @@ public class YoutubeDownload {
     }
 
     /**
+     * Returns the file this object downloaded from YouTube.
+     *
+     * @return the file this object downloaded from YouTube
+     */
+    public File getDownloadFile() {
+        Preconditions.checkArgument(!isCanceled());
+        Preconditions.checkArgument(isDone());
+        Preconditions.checkArgument(isDownloaded());
+        Preconditions.checkNotNull(downloadFile);
+
+        return downloadFile;
+    }
+
+    /**
+     * Updates the download progress label.
+     */
+    public void updateProgressLabel() {
+        downloadProgressLabel.setText("<html>" + downloadableName
+                + "<br/>File size: " + downloadableFileSize
+                + "<br/>Progress: " + downloadableProgress
+                + "%<br/>Rate: " + downloadableRate
+                + "<br/>Eta: " + downloadableEta + "</html>");
+        downloadProgressLabel.revalidate();
+        downloadProgressLabel.repaint();
+        downloadProgressLabel.setHorizontalAlignment(JLabel.LEFT);
+    }
+
+    /**
+     * Refreshes the font of the label containing the download information.
+     */
+    public void refreshLabelFont() {
+        if (isDone()) {
+            return;
+        }
+
+        downloadProgressLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
+    }
+
+    /**
      * The download progress bar to print and update if a valid input handler is provided.
      */
     private CyderProgressBar downloadProgressBar;
@@ -298,9 +324,6 @@ public class YoutubeDownload {
     }
 
     // todo method is a little messy
-    // todo add downloaded file to get once download is complete,
-    //  throw null pointer exception if not exists or canceled and whatnot
-
     /**
      * Downloads this object's YouTube video.
      */
@@ -385,21 +408,21 @@ public class YoutubeDownload {
                     }
                 }
 
+                // todo if exception thrown this still executes
                 if (!isCanceled()) {
+                    downloadFile = new File(OSUtil.buildFile(
+                            userMusicDir, parsedSaveName + extension).getAbsolutePath());
                     downloaded = true;
 
                     YoutubeUtil.downloadThumbnail(url);
-
-                    AudioPlayer.addAudioNext(new File(OSUtil.buildPath(
-                            userMusicDir, parsedSaveName + extension)));
+                    AudioPlayer.addAudioNext(downloadFile);
 
                     onDownloadedCallback.run();
-                }
 
-                if (shouldUpdate) {
-                    inputHandler.println("Download complete: saved as " + downloadableName
-                            + " and added to audio queue");
-
+                    if (shouldUpdate) {
+                        inputHandler.println("Download complete: saved as "
+                                + downloadableName + " and added to audio queue");
+                    }
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
