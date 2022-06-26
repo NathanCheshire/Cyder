@@ -88,6 +88,9 @@ public class YoutubeDownload {
      */
     private final String url;
 
+    private Runnable onCanceledCallback;
+    private Runnable onDownloadedCallback;
+
     /**
      * Suppress default constructor.
      */
@@ -226,6 +229,42 @@ public class YoutubeDownload {
     }
 
     /**
+     * Returns the on cancel callback.
+     *
+     * @return the on cancel callback
+     */
+    public Runnable getOnCanceledCallback() {
+        return onCanceledCallback;
+    }
+
+    /**
+     * Sets the callback to invoke when/if a cancel action is invoked.
+     *
+     * @param onCanceledCallback the callback to invoke when/if a cancel action is invoked
+     */
+    public void setOnCanceledCallback(Runnable onCanceledCallback) {
+        this.onCanceledCallback = onCanceledCallback;
+    }
+
+    /**
+     * Returns the on download callback.
+     *
+     * @return the on download callback
+     */
+    public Runnable getOnDownloadedCallback() {
+        return onDownloadedCallback;
+    }
+
+    /**
+     * Sets the callback to invoke when a download completes.
+     *
+     * @param onDownloadedCallback the callback to invoke when a download completes
+     */
+    public void setOnDownloadedCallback(Runnable onDownloadedCallback) {
+        this.onDownloadedCallback = onDownloadedCallback;
+    }
+
+    /**
      * The download progress bar to print and update if a valid input handler is provided.
      */
     private CyderProgressBar downloadProgressBar;
@@ -257,6 +296,10 @@ public class YoutubeDownload {
     public void setInputHandler(BaseInputHandler inputHandler) {
         this.inputHandler = inputHandler;
     }
+
+    // todo method is a little messy
+    // todo add downloaded file to get once download is complete,
+    //  throw null pointer exception if not exists or canceled and whatnot
 
     /**
      * Downloads this object's YouTube video.
@@ -316,7 +359,11 @@ public class YoutubeDownload {
                 while ((outputString = stdInput.readLine()) != null) {
                     if (isCanceled()) {
                         proc.destroy();
+
                         cleanUpFromCancel(new File(userMusicDir), parsedSaveName);
+
+                        onCanceledCallback.run();
+
                         break;
                     }
 
@@ -345,6 +392,8 @@ public class YoutubeDownload {
 
                     AudioPlayer.addAudioNext(new File(OSUtil.buildPath(
                             userMusicDir, parsedSaveName + extension)));
+
+                    onDownloadedCallback.run();
                 }
 
                 if (shouldUpdate) {

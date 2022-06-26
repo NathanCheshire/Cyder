@@ -2,6 +2,7 @@ package cyder.utils;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderUrls;
 import cyder.handlers.internal.ExceptionHandler;
@@ -19,8 +20,8 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -785,21 +786,24 @@ public class StringUtil {
     }
 
     /**
+     * The list of strings which are counted as null for comparisons.
+     */
+    public static final ImmutableList<String> NULL_STRINGS = ImmutableList.of("NULL", "NUL");
+
+    /**
      * Determines if the provided String is null meaning literally null,
-     * empty (length 0), equal to NULL, or equal to NUL.
+     * empty (length 0), or contained in {@link #NULL_STRINGS}.
      *
-     * @param nullCheck the String to test for
+     * @param string the String to test for
      * @return whether the provided String was null
      */
-    public static boolean isNull(String nullCheck) {
-        if (nullCheck == null)
+    public static boolean isNull(String string) {
+        if (string == null) {
             return true;
+        }
 
-        nullCheck = nullCheck.trim();
-
-        return nullCheck.isEmpty() ||
-                nullCheck.equalsIgnoreCase("NUL") ||
-                nullCheck.equalsIgnoreCase("NULL");
+        string = string.replaceAll("\\s+", "");
+        return string.isEmpty() || in(string, true, NULL_STRINGS);
     }
 
     /**
@@ -873,25 +877,7 @@ public class StringUtil {
      * @param ignoreCase whether to ignore the case of the words
      * @return whether the provided string is in the list of strings
      */
-    public static boolean in(String lookFor, boolean ignoreCase, ArrayList<String> strings) {
-        for (String look : strings) {
-            if ((ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Returns whether the provided string is in the listed strings.
-     *
-     * @param lookFor    the string to look for
-     * @param strings    the list of strings
-     * @param ignoreCase whether to ignore the case of the words
-     * @return whether the provided string is in the list of strings
-     */
-    public static boolean in(String lookFor, boolean ignoreCase, LinkedList<String> strings) {
+    public static boolean in(String lookFor, boolean ignoreCase, Collection<String> strings) {
         for (String look : strings) {
             if ((ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look)) {
                 return true;

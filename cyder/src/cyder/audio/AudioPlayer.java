@@ -1,5 +1,6 @@
 package cyder.audio;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
@@ -330,11 +331,6 @@ public final class AudioPlayer {
     private static final AtomicReference<File> currentAudioFile = new AtomicReference<>();
 
     /**
-     * The list of valid audio files within the current directory that the audio player may play.
-     */
-    private static final ArrayList<File> validAudioFiles = new ArrayList<>();
-
-    /**
      * The animator object for the audio volume percent.
      * This is set upon the frame appearing and is only killed when the widget is killed.
      */
@@ -452,7 +448,6 @@ public final class AudioPlayer {
         checkArgument(startPlaying.exists());
 
         currentAudioFile.set(startPlaying);
-        refreshAudioFiles();
 
         audioDreamified.set(isCurrentAudioDreamy());
 
@@ -460,7 +455,7 @@ public final class AudioPlayer {
         // paused and begin playing the requested audio
         if (isWidgetOpen()) {
             if (currentFrameView.get() == FrameView.SEARCH) {
-                setupAndShowFrameView(FrameView.FULL);
+                goBackFromSearchView();
             }
 
             boolean audioPlaying = isAudioPlaying();
@@ -1019,10 +1014,12 @@ public final class AudioPlayer {
         }
 
         CyderThreadRunner.submit(() -> {
-            String saveName = GetterUtil.getInstance().getString(new GetterUtil.Builder("Export Waveform")
-                    .setRelativeTo(audioPlayerFrame)
-                    .setLabelText("Enter a name to export the waveform as")
-                    .setSubmitButtonText("Save to files"));
+            String saveName = GetterUtil.getInstance().getString(
+                    new GetterUtil.Builder("Export Waveform")
+                            .setRelativeTo(audioPlayerFrame)
+                            .setLabelText("Enter a name to export the waveform as")
+                            .setSubmitButtonText("Save to files")
+                            .setInitialString(FileUtil.getFilename(getCurrentAudio()) + "_waveform"));
 
             if (!StringUtil.isNull(saveName)) {
                 if (OSUtil.isValidFilename(saveName)) {
@@ -1089,6 +1086,10 @@ public final class AudioPlayer {
 
             if (chosenFile != null && FileUtil.isSupportedAudioExtension(chosenFile)) {
                 lastAction = LastAction.FileChosen;
+
+                if (currentFrameView.get() == FrameView.SEARCH) {
+                    goBackFromSearchView();
+                }
 
                 pauseAudio();
 
@@ -1203,8 +1204,6 @@ public final class AudioPlayer {
 
         // Already dreamified so attempt to find non-dreamy version
         if (currentAudioFilename.endsWith(AudioUtil.DREAMY_SUFFIX)) {
-            refreshAudioFiles();
-
             String nonDreamyName = currentAudioFilename.substring(0,
                     currentAudioFilename.length() - AudioUtil.DREAMY_SUFFIX.length());
 
@@ -1222,8 +1221,6 @@ public final class AudioPlayer {
 
         // Not dreamified so attempt to find previously dreamified file if exists
         if (userMusicDir.exists()) {
-            refreshAudioFiles();
-
             if (attemptFindDreamyAudio(currentAudioFilename)) {
                 return;
             }
@@ -1241,7 +1238,7 @@ public final class AudioPlayer {
      * @return whether the non dreamy audio file was located
      */
     private static boolean attemptFindNonDreamyAudio(String nonDreamyName) {
-        for (File validAudioFile : validAudioFiles) {
+        for (File validAudioFile : getValidAudioFiles()) {
             String localFilename = FileUtil.getFilename(validAudioFile);
 
             if (localFilename.equals(nonDreamyName)) {
@@ -1285,7 +1282,7 @@ public final class AudioPlayer {
      * @return whether the dreamy audio file was found and handled
      */
     private static boolean attemptFindDreamyAudio(String currentAudioFilename) {
-        for (File validAudioFile : validAudioFiles) {
+        for (File validAudioFile : getValidAudioFiles()) {
             if ((currentAudioFilename + AudioUtil.DREAMY_SUFFIX)
                     .equalsIgnoreCase(FileUtil.getFilename(validAudioFile))) {
                 float percentIn = (float) audioLocationSlider.getValue()
@@ -1616,13 +1613,12 @@ public final class AudioPlayer {
     }
 
     /**
-     * Refreshes the list of valid audio files based on the files
-     * within the same directory as the current audio file
+     * Returns a list of valid audio files within the current directory.
      */
-    private static void refreshAudioFiles() {
+    private static ImmutableList<File> getValidAudioFiles() {
         checkNotNull(currentAudioFile);
 
-        validAudioFiles.clear();
+        ArrayList<File> ret = new ArrayList<>();
 
         File parentDirectory = currentAudioFile.get().getParentFile();
 
@@ -1632,11 +1628,13 @@ public final class AudioPlayer {
             if (siblings != null && siblings.length > 0) {
                 for (File sibling : siblings) {
                     if (FileUtil.isSupportedAudioExtension(sibling)) {
-                        validAudioFiles.add(sibling);
+                        ret.add(sibling);
                     }
                 }
             }
         }
+
+        return ImmutableList.copyOf(ret);
     }
 
     /**
@@ -1777,16 +1775,16 @@ public final class AudioPlayer {
                 revalidateFromAudioFileChange();
                 playAudio();
             } else if (shuffleAudio) {
-                currentAudioFile.set(validAudioFiles.get(getRandomIndex()));
+                currentAudioFile.set(getValidAudioFiles().get(getRandomIndex()));
                 innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
                 revalidateFromAudioFileChange();
                 playAudio();
             } else {
                 int currentIndex = getCurrentAudioIndex();
 
-                int nextIndex = currentIndex + 1 == validAudioFiles.size() ? 0 : currentIndex + 1;
+                int nextIndex = currentIndex + 1 == getValidAudioFiles().size() ? 0 : currentIndex + 1;
 
-                currentAudioFile.set(validAudioFiles.get(nextIndex));
+                currentAudioFile.set(getValidAudioFiles().get(nextIndex));
 
                 innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
 
@@ -1871,8 +1869,6 @@ public final class AudioPlayer {
             pauseAudio();
         }
 
-        refreshAudioFiles();
-
         if (pauseLocationMillis > MILLISECONDS_IN_RESTART_TOL) {
             audioLocationUpdater.pauseTimer();
             audioLocationUpdater.setPercentIn(0);
@@ -1888,9 +1884,9 @@ public final class AudioPlayer {
         }
 
         int currentIndex = getCurrentAudioIndex();
-        int lastIndex = currentIndex == 0 ? validAudioFiles.size() - 1 : currentIndex - 1;
+        int lastIndex = currentIndex == 0 ? getValidAudioFiles().size() - 1 : currentIndex - 1;
 
-        currentAudioFile.set(validAudioFiles.get(lastIndex));
+        currentAudioFile.set(getValidAudioFiles().get(lastIndex));
 
         revalidateFromAudioFileChange();
 
@@ -1920,13 +1916,13 @@ public final class AudioPlayer {
         pauseAudio();
 
         int currentIndex = getCurrentAudioIndex();
-        int nextIndex = currentIndex == validAudioFiles.size() - 1 ? 0 : currentIndex + 1;
+        int nextIndex = currentIndex == getValidAudioFiles().size() - 1 ? 0 : currentIndex + 1;
 
         if (shuffleAudio) {
             nextIndex = getRandomIndex();
         }
 
-        currentAudioFile.set(validAudioFiles.get(nextIndex));
+        currentAudioFile.set(getValidAudioFiles().get(nextIndex));
         innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
 
         revalidateFromAudioFileChange();
@@ -1942,7 +1938,7 @@ public final class AudioPlayer {
      * @return the index of the current audio file
      */
     private static int getCurrentAudioIndex() {
-        refreshAudioFiles();
+        ImmutableList<File> validAudioFiles = getValidAudioFiles();
 
         int currentIndex = 0;
 
@@ -2098,7 +2094,6 @@ public final class AudioPlayer {
         refreshFrameTitle();
         refreshAudioTitleLabel();
         refreshAlbumArt();
-        refreshAudioFiles();
         refreshAudioProgressLabel();
 
         audioDreamified.set(isCurrentAudioDreamy());
@@ -2112,6 +2107,8 @@ public final class AudioPlayer {
      * @return a random index of the validAudioFiles list
      */
     private static int getRandomIndex() {
+        ImmutableList<File> validAudioFiles = getValidAudioFiles();
+
         if (validAudioFiles.size() == 1) {
             return 0;
         }
@@ -2211,6 +2208,11 @@ public final class AudioPlayer {
     }
 
     /**
+     * The color used as the background for the search results scroll and information label.
+     */
+    private static final Color SCROLL_COLOR = new Color(38, 38, 38);
+
+    /**
      * Constructs the search view where a user can search for and download audio from youtube.
      */
     private static void constructPhaseTwoView() {
@@ -2284,18 +2286,19 @@ public final class AudioPlayer {
         searchResultsScroll.setThumbSize(8);
         searchResultsScroll.getViewport().setOpaque(false);
         searchResultsScroll.setFocusable(true);
-        searchResultsScroll.setOpaque(false);
+        searchResultsScroll.setOpaque(true);
         searchResultsScroll.setThumbColor(CyderColors.regularPink);
         searchResultsScroll.setBorder(new LineBorder(Color.black, 4));
         searchResultsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         searchResultsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         searchResultsScroll.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
                 yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
+        searchResultsScroll.setBackground(SCROLL_COLOR);
 
         informationLabel = new CyderLabel();
         informationLabel.setForeground(CyderColors.vanilla);
         informationLabel.setFont(CyderFonts.DEFAULT_FONT);
-        informationLabel.setBackground(BACKGROUND_COLOR);
+        informationLabel.setBackground(SCROLL_COLOR);
         informationLabel.setOpaque(true);
         informationLabel.setBorder(new LineBorder(Color.black, 4));
         informationLabel.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
@@ -2377,11 +2380,6 @@ public final class AudioPlayer {
     private static final SimpleAttributeSet alignment = new SimpleAttributeSet();
 
     /**
-     * The spacing between the start/end of the button label and the button boundaries for download buttons.
-     */
-    private static final String printButtonPadding = StringUtil.generateNSpaces(4);
-
-    /**
      * The string used for the information label when a youtube query is triggered.
      */
     private static final String SEARCHING = "Searching...";
@@ -2395,6 +2393,11 @@ public final class AudioPlayer {
      * The string use for download buttons during a mouse over event when the download is in progress.
      */
     private static final String CANCEL = "Cancel";
+
+    /**
+     * The button text for when a button should trigger an audio play event.
+     */
+    private static final String PLAY = "Play";
 
     /**
      * The last search result output.
@@ -2413,8 +2416,6 @@ public final class AudioPlayer {
 
         previousSearch = fieldText;
 
-        // todo search clicked when already in search, bug with field
-
         // todo audio progress bar doesn't actually line up with current
         //  audio location, rethink whole of AudioProgressLocation tracker
 
@@ -2423,6 +2424,15 @@ public final class AudioPlayer {
 
         // todo use borderless, rounded, better font for button
         // todo buttons here should have a border radius to them without any black borders
+
+        // todo perform handshake with local backend after setting up and log debug calls
+
+        // todo make port configurable in props
+
+        // todo at 100% downloaded add play button to start playing audio and take to FULL view
+
+        // todo should also check to see if any music exist with the
+        //  exact name and auto-link the button to play and not download
 
         CyderThreadRunner.submit(() -> {
             showInformationLabel(SEARCHING);
@@ -2473,36 +2483,44 @@ public final class AudioPlayer {
 
                     printingUtil.println("\n");
 
-                    // vars for downloading logic
-                    String videoUrl = YoutubeUtil.buildVideoUrl(result.uuid);
-                    final AtomicReference<YoutubeDownload> downloadable =
-                            new AtomicReference<>(new YoutubeDownload(videoUrl));
+                    String url = YoutubeUtil.buildVideoUrl(result.uuid);
+
+                    AtomicReference<YoutubeDownload> downloadable = new AtomicReference<>(new YoutubeDownload(url));
                     AtomicBoolean mouseEntered = new AtomicBoolean(false);
 
                     CyderButton downloadButton = new CyderButton() {
                         @Override
                         public void setText(String text) {
-                            super.setText(printButtonPadding + text + printButtonPadding);
+                            super.setText(StringUtil.generateNSpaces(5)
+                                    + text + StringUtil.generateNSpaces(4));
                         }
                     };
                     downloadButton.setText(DOWNLOAD);
                     downloadButton.setBorder(new LineBorder(Color.black, 4));
                     downloadButton.setBackground(CyderColors.regularPurple);
                     downloadButton.setForeground(CyderColors.vanilla);
-                    downloadButton.setBorder(new LineBorder(Color.black, 3));
+                    downloadButton.setFont(CyderFonts.DEFAULT_FONT.deriveFont(26f));
+                    downloadButton.setBorder(BorderFactory.createEmptyBorder());
                     downloadButton.setSize(phaseTwoWidth, 40);
                     downloadButton.addActionListener(e -> {
                         if (downloadable.get().isDownloading()) {
                             downloadable.get().cancel();
-                            downloadButton.setText(DOWNLOAD);
                         } else {
                             if (downloadable.get().isDownloaded()) {
-                                audioPlayerFrame.notify("Audio download already concluded");
+                                // todo play the audio and go to the frame view
                                 return;
                             }
 
                             if (downloadable.get().isCanceled()) {
-                                downloadable.set(new YoutubeDownload(videoUrl));
+                                downloadable.set(new YoutubeDownload(url));
+                                downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
+                                downloadable.get().setOnDownloadedCallback(() -> {
+                                    downloadButton.setText(PLAY);
+                                    // todo remove old action listener?
+                                    downloadButton.addActionListener(event -> {
+                                        // todo play audio
+                                    });
+                                });
                             }
 
                             downloadable.get().download();
@@ -2515,7 +2533,7 @@ public final class AudioPlayer {
 
                                     ThreadUtil.sleep(YoutubeConstants.DOWNLOAD_UPDATE_DELAY);
                                 }
-                            }, "YouTube audio downloader, url=" + videoUrl);
+                            }, "YouTube audio downloader, url=" + url);
                         }
                     });
                     downloadButton.addMouseListener(new MouseAdapter() {
@@ -2530,8 +2548,10 @@ public final class AudioPlayer {
 
                         @Override
                         public void mouseExited(MouseEvent e) {
-                            if (downloadable.get().isDownloading()) {
+                            if (downloadable.get().isDownloading() && !downloadable.get().isCanceled()) {
                                 downloadButton.setText(downloadable.get().getDownloadableProgress() + "%");
+                            } else if (downloadable.get().isDownloaded()) {
+                                downloadButton.setText(PLAY);
                             } else {
                                 downloadButton.setText(DOWNLOAD);
                             }
@@ -2539,9 +2559,16 @@ public final class AudioPlayer {
                             mouseEntered.set(false);
                         }
                     });
+                    downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
+                    downloadable.get().setOnDownloadedCallback(() -> {
+                        downloadButton.setText(PLAY);
+                        // todo remove old action listener?
+                        downloadButton.addActionListener(event -> {
+
+                        });
+                    });
 
                     printingUtil.printlnComponent(downloadButton);
-
                     printingUtil.println("\n");
                 }
 

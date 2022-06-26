@@ -157,7 +157,8 @@ public class GetterUtil {
                 inputFrame.getContentPane().add(submit);
 
                 inputFrame.addPreCloseAction(() -> returnString.set((inputField.getText() == null
-                        || inputField.getText().isEmpty() ? "NULL" : inputField.getText())));
+                        || inputField.getText().isEmpty()
+                        || inputField.getText().equals(builder.getInitialString()) ? "NULL" : inputField.getText())));
 
                 Component relativeTo = builder.getRelativeTo();
 

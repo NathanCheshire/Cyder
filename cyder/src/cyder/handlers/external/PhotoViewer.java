@@ -272,7 +272,6 @@ public class PhotoViewer {
 
                         revalidateTitle(name);
 
-                        // invoke callback
                         if (onRenameCallback != null) {
                             onRenameCallback.run();
                         }
