@@ -2403,6 +2403,11 @@ public final class AudioPlayer {
     private static final String FINISHING = "Finishing";
 
     /**
+     * The information label text used for when no search results are found.
+     */
+    private static final String NO_RESULTS = "No results found";
+
+    /**
      * The last search result output.
      */
     private static Document lastSearchResultsPage;
@@ -2410,13 +2415,15 @@ public final class AudioPlayer {
     /**
      * Searches YouTube for the provided text and updates the results pane with videos found.
      *
-     * @param fieldText the text to search youtube for
+     * @param rawFieldText the raw text from the search field
      */
-    private static void searchAndUpdate(String fieldText) {
-        if (StringUtil.isNull(fieldText) || fieldText.equalsIgnoreCase(previousSearch)) {
+    private static void searchAndUpdate(String rawFieldText) {
+        if (StringUtil.isNull(rawFieldText) || rawFieldText.equalsIgnoreCase(previousSearch)) {
             return;
         }
 
+        // Trim and replace multiple spaces with one
+        String fieldText = rawFieldText.trim().replaceAll("\\s+", " ");
         previousSearch = fieldText;
 
         // todo audio progress bar doesn't actually line up with current
@@ -2437,165 +2444,177 @@ public final class AudioPlayer {
 
         // todo fix menu button focus bug
 
+        // todo convert to backend processes: open shell, dreamify, wrap shell, gitme
+
         CyderThreadRunner.submit(() -> {
             showInformationLabel(SEARCHING);
 
-            Optional<YoutubeSearchResultPage> youtubeSearchResultPage = getSearchResults(
-                    YoutubeUtil.buildYouTubeApiV3SearchQuery(numSearchResults, fieldText));
+            Optional<YoutubeSearchResultPage> youtubeSearchResultPage =
+                    getSearchResults(YoutubeUtil.buildYouTubeApiV3SearchQuery(numSearchResults, fieldText));
 
-            if (youtubeSearchResultPage.isPresent()) {
-                searchResults.clear();
+            if (youtubeSearchResultPage.isEmpty()) {
+                showInformationLabel(NO_RESULTS);
+                return;
+            }
 
-                for (YoutubeVideo video : youtubeSearchResultPage.get().getItems()) {
-                    searchResults.add(new YoutubeSearchResult(
-                            video.getId().getVideoId(),
-                            video.getSnippet().getTitle(),
-                            video.getSnippet().getDescription(),
-                            video.getSnippet().getChannelTitle(),
-                            getMaxResolutionSquareThumbnail(video.getId().getVideoId())));
-                }
+            searchResults.clear();
 
-                // if user has search for something else, don't update pane
-                if (!fieldText.equals(searchField.getText())) {
-                    hideInformationLabel();
-                    return;
-                }
+            for (YoutubeVideo video : youtubeSearchResultPage.get().getItems()) {
+                searchResults.add(new YoutubeSearchResult(
+                        video.getId().getVideoId(),
+                        video.getSnippet().getTitle(),
+                        video.getSnippet().getDescription(),
+                        video.getSnippet().getChannelTitle(),
+                        getMaxResolutionSquareThumbnail(video.getId().getVideoId())));
+            }
 
-                searchResultsPane.setText("");
+            // if user has search for something else, don't update pane
+            if (!fieldText.equals(searchField.getText())) {
+                hideInformationLabel();
+                return;
+            }
 
-                for (YoutubeSearchResult result : searchResults) {
-                    ImageIcon defaultIcon = ImageUtil.toImageIcon(result.bi);
+            // todo pause audio if playing before playing something else
+            // todo have a method to print stuff and generate things
+            searchResultsPane.setText("");
+            for (YoutubeSearchResult result : searchResults) {
+                Optional<File> alreadyExistsOptional = AudioUtil.getMusicFileWithName(result.title);
+                boolean alreadyExists = alreadyExistsOptional.isPresent();
 
-                    JLabel imageLabel = new JLabel(defaultIcon);
-                    imageLabel.setSize(bufferedImageLen, bufferedImageLen);
-                    imageLabel.setHorizontalAlignment(JLabel.CENTER);
-                    imageLabel.setBorder(new LineBorder(Color.black, 4));
-                    printingUtil.printlnComponent(imageLabel);
+                JLabel imageLabel = new JLabel(ImageUtil.toImageIcon(result.bi));
+                imageLabel.setSize(bufferedImageLen, bufferedImageLen);
+                imageLabel.setHorizontalAlignment(JLabel.CENTER);
+                imageLabel.setBorder(new LineBorder(Color.black, 4));
+                printingUtil.printlnComponent(imageLabel);
 
-                    printingUtil.println("\n");
+                printingUtil.println("\n");
 
-                    CyderLabel titleLabel = new CyderLabel(result.title);
-                    titleLabel.setForeground(CyderColors.vanilla);
-                    titleLabel.setHorizontalAlignment(JLabel.CENTER);
-                    printingUtil.printlnComponent(titleLabel);
+                CyderLabel titleLabel = new CyderLabel(result.title);
+                titleLabel.setForeground(CyderColors.vanilla);
+                titleLabel.setHorizontalAlignment(JLabel.CENTER);
+                printingUtil.printlnComponent(titleLabel);
 
-                    CyderLabel channelLabel = new CyderLabel(result.channel);
-                    channelLabel.setForeground(CyderColors.vanilla);
-                    channelLabel.setHorizontalAlignment(JLabel.CENTER);
-                    printingUtil.printlnComponent(channelLabel);
+                CyderLabel channelLabel = new CyderLabel(result.channel);
+                channelLabel.setForeground(CyderColors.vanilla);
+                channelLabel.setHorizontalAlignment(JLabel.CENTER);
+                printingUtil.printlnComponent(channelLabel);
 
-                    printingUtil.println("\n");
+                printingUtil.println("\n");
 
-                    String url = YoutubeUtil.buildVideoUrl(result.uuid);
+                String url = YoutubeUtil.buildVideoUrl(result.uuid);
 
-                    AtomicReference<YoutubeDownload> downloadable = new AtomicReference<>(new YoutubeDownload(url));
-                    AtomicBoolean mouseEntered = new AtomicBoolean(false);
+                AtomicReference<YoutubeDownload> downloadable = new AtomicReference<>(new YoutubeDownload(url));
+                AtomicBoolean mouseEntered = new AtomicBoolean(false);
 
-                    CyderButton downloadButton = new CyderButton() {
-                        @Override
-                        public void setText(String text) {
-                            super.setText(StringUtil.generateNSpaces(5)
-                                    + text + StringUtil.generateNSpaces(4));
-                        }
-                    };
-                    downloadButton.setText(DOWNLOAD);
-                    downloadButton.setBorder(new LineBorder(Color.black, 4));
-                    downloadButton.setBackground(CyderColors.regularPurple);
-                    downloadButton.setForeground(CyderColors.vanilla);
-                    downloadButton.setFont(CyderFonts.DEFAULT_FONT.deriveFont(26f));
-                    downloadButton.setBorder(BorderFactory.createEmptyBorder());
-                    downloadButton.setSize(phaseTwoWidth, 40);
-                    downloadButton.addActionListener(e -> {
-                        if (downloadable.get().isDownloading()) {
-                            downloadable.get().cancel();
-                        } else {
-                            // this case shouldn't even be possible
-                            if (downloadable.get().isDownloaded()) {
-                                showGui(downloadable.get().getDownloadFile());
-                                playAudio();
-                                return;
-                            }
-
-                            if (downloadable.get().isCanceled()) {
-                                downloadable.set(new YoutubeDownload(url));
-                                downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
-                                downloadable.get().setOnDownloadedCallback(() -> {
-                                    downloadButton.setText(PLAY);
-                                    downloadButton.addActionListener(event -> {
-                                        currentAudioFile.set(downloadable.get().getDownloadFile());
-                                        revalidateFromAudioFileChange();
-                                        playAudio();
-                                    });
-                                });
-                            }
-
-                            downloadable.get().download();
-
-                            // todo schedule at fixed rate with exit condition checker for CTR?
-                            // todo need to be able to exit fixed rate runnables in CTR anyway
-
-                            CyderThreadRunner.submit(() -> {
-                                while (!downloadable.get().isDone()) {
-                                    if (!mouseEntered.get()) {
-                                        float progress = downloadable.get().getDownloadableProgress();
-
-                                        if (progress == 100.0f) {
-                                            downloadButton.setText(FINISHING);
-                                        } else {
-                                            downloadButton.setText(progress + "%");
-                                        }
-                                    }
-
-                                    ThreadUtil.sleep(YoutubeConstants.DOWNLOAD_UPDATE_DELAY);
-                                }
-                            }, "YouTube audio downloader, url=" + url);
-                        }
-                    });
-                    downloadButton.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                            mouseEntered.set(true);
-
-                            if (downloadable.get().isDownloading()) {
-                                downloadButton.setText(CANCEL);
-                            }
-                        }
-
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                            if (downloadable.get().isDownloading() && !downloadable.get().isCanceled()) {
-                                downloadButton.setText(downloadable.get().getDownloadableProgress() + "%");
-                            } else if (downloadable.get().isDownloaded()) {
-                                downloadButton.setText(PLAY);
-                            } else {
-                                downloadButton.setText(DOWNLOAD);
-                            }
-
-                            mouseEntered.set(false);
-                        }
-                    });
-                    downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
-                    downloadable.get().setOnDownloadedCallback(() -> {
-                        downloadButton.setText(PLAY);
-                        downloadButton.addActionListener(event -> {
+                CyderButton downloadButton = new CyderButton();
+                downloadButton.setLeftTextPadding(StringUtil.generateNSpaces(5));
+                downloadButton.setRightTextPadding(StringUtil.generateNSpaces(4));
+                downloadButton.setText(alreadyExists ? PLAY : DOWNLOAD);
+                downloadButton.setBackground(CyderColors.regularPurple);
+                downloadButton.setForeground(CyderColors.vanilla);
+                downloadButton.setBorder(BorderFactory.createEmptyBorder());
+                downloadButton.setFont(CyderFonts.DEFAULT_FONT.deriveFont(26f));
+                downloadButton.setSize(phaseTwoWidth, 40);
+                downloadButton.addActionListener(e -> {
+                    if (downloadable.get().isDownloading()) {
+                        downloadable.get().cancel();
+                    } else {
+                        if (alreadyExists) {
+                            currentAudioFile.set(alreadyExistsOptional.get());
+                            revalidateFromAudioFileChange();
+                            goBackFromSearchView();
+                            playAudio();
+                            return;
+                        } else if (downloadable.get().isDownloaded()) {
                             currentAudioFile.set(downloadable.get().getDownloadFile());
                             revalidateFromAudioFileChange();
+                            goBackFromSearchView();
                             playAudio();
-                        });
+                            return;
+                        }
+
+                        if (downloadable.get().isCanceled()) {
+                            downloadable.set(new YoutubeDownload(url));
+                            downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
+                            downloadable.get().setOnDownloadedCallback(() -> {
+                                downloadButton.setText(PLAY);
+                                downloadButton.addActionListener(event -> {
+                                    currentAudioFile.set(downloadable.get().getDownloadFile());
+                                    revalidateFromAudioFileChange();
+                                    goBackFromSearchView();
+                                    playAudio();
+                                });
+                            });
+                        }
+
+                        downloadable.get().download();
+
+                        // todo schedule at fixed rate with exit condition checker for CTR?
+                        // todo need to be able to exit fixed rate runnables in CTR anyway
+
+                        CyderThreadRunner.submit(() -> {
+                            while (!downloadable.get().isDone()) {
+                                if (!mouseEntered.get()) {
+                                    float progress = downloadable.get().getDownloadableProgress();
+
+                                    if (progress == 100.0f) {
+                                        downloadButton.setText(FINISHING);
+                                    } else {
+                                        downloadButton.setText(progress + "%");
+                                    }
+                                }
+
+                                ThreadUtil.sleep(YoutubeConstants.DOWNLOAD_UPDATE_DELAY);
+                            }
+                        }, "YouTube audio downloader, url=" + url);
+                    }
+                });
+                downloadButton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        mouseEntered.set(true);
+
+                        if (downloadable.get().isDownloading()) {
+                            downloadButton.setText(CANCEL);
+                        }
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        if (alreadyExists) {
+                            return;
+                        } else if (downloadable.get().isDownloading() && !downloadable.get().isCanceled()) {
+                            downloadButton.setText(downloadable.get().getDownloadableProgress() + "%");
+                        } else if (downloadable.get().isDownloaded()) {
+                            downloadButton.setText(PLAY);
+                        } else {
+                            downloadButton.setText(DOWNLOAD);
+                        }
+
+                        mouseEntered.set(false);
+                    }
+                });
+                downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
+                downloadable.get().setOnDownloadedCallback(() -> {
+                    downloadButton.setText(PLAY);
+                    downloadButton.addActionListener(event -> {
+                        currentAudioFile.set(downloadable.get().getDownloadFile());
+                        revalidateFromAudioFileChange();
+                        goBackFromSearchView();
+                        playAudio();
                     });
+                });
 
-                    printingUtil.printlnComponent(downloadButton);
-                    printingUtil.println("\n");
-                }
-
-                searchResultsPane.setCaretPosition(0);
-                hideInformationLabel();
-
-                lastSearchResultsPage = searchResultsPane.getDocument();
-            } else {
-                showInformationLabel("No results found :(");
+                printingUtil.printlnComponent(downloadButton);
+                printingUtil.println("\n");
             }
-        }, "YouTube Search Updater");
+
+            searchResultsPane.setCaretPosition(0);
+            hideInformationLabel();
+
+            lastSearchResultsPage = searchResultsPane.getDocument();
+
+        }, "YouTube Searcher, search=" + fieldText);
     }
 
     /**

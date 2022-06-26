@@ -6,9 +6,11 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.AudioLengthResponse;
 import cyder.threads.CyderThreadFactory;
+import cyder.user.UserFile;
 import cyder.utils.*;
 
 import java.io.*;
@@ -567,5 +569,29 @@ public final class AudioUtil {
         } catch (Exception ignored) {}
 
         return 0L;
+    }
+
+    /**
+     * Returns a reference to the current user's music file with the provided name if found, empty optional else.
+     *
+     * @param title the title of the music file to search for
+     * @return an optional reference to the requested music file
+     */
+    public static Optional<File> getMusicFileWithName(String title) {
+        File[] files = OSUtil.buildFile(
+                Dynamic.PATH,
+                Dynamic.USERS.getDirectoryName(),
+                ConsoleFrame.INSTANCE.getUUID(),
+                UserFile.MUSIC.getName()).listFiles();
+
+        if (files != null && files.length > 0) {
+            for (File file : files) {
+                if (FileUtil.getFilename(file).equalsIgnoreCase(title)) {
+                    return Optional.of(file);
+                }
+            }
+        }
+
+        return Optional.empty();
     }
 }

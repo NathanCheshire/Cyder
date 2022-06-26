@@ -56,6 +56,16 @@ public class CyderButton extends JButton {
     public static final int ALERT_ITERATIONS = 8;
 
     /**
+     * The text to place to the left of the text on {@link #setText(String)} calls.
+     */
+    private String leftTextPadding = "";
+
+    /**
+     * The text to place to the right of the text on {@link #setText(String)} calls.
+     */
+    private String rightTextPadding = "";
+
+    /**
      * Constructs a new CyderButton
      */
     public CyderButton() {
@@ -107,7 +117,19 @@ public class CyderButton extends JButton {
         }
 
         g.fillRect(0, 0, getWidth(), getHeight());
+
         super.paintComponent(g);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setText(String text) {
+        Preconditions.checkNotNull(text);
+
+        super.setText((leftTextPadding != null ? leftTextPadding : "")
+                + text + (rightTextPadding != null ? rightTextPadding : ""));
     }
 
     /**
@@ -147,7 +169,6 @@ public class CyderButton extends JButton {
      *
      * @return the hover background color
      */
-    @SuppressWarnings("unused")
     public Color getHoverBackgroundColor() {
         return hoverBackgroundColor;
     }
@@ -157,7 +178,6 @@ public class CyderButton extends JButton {
      *
      * @param hoverBackgroundColor the hover background color
      */
-    @SuppressWarnings("unused")
     public void setHoverBackgroundColor(Color hoverBackgroundColor) {
         this.hoverBackgroundColor = hoverBackgroundColor;
     }
@@ -167,7 +187,6 @@ public class CyderButton extends JButton {
      *
      * @return the pressed background color
      */
-    @SuppressWarnings("unused")
     public Color getPressedBackgroundColor() {
         return pressedBackgroundColor;
     }
@@ -177,10 +196,10 @@ public class CyderButton extends JButton {
      *
      * @param pressedBackgroundColor  the pressed background color
      */
-    @SuppressWarnings("unused")
     public void setPressedBackgroundColor(Color pressedBackgroundColor) {
         this.pressedBackgroundColor = pressedBackgroundColor;
     }
+
 
     /**
      * Invokes an alert using {@link #ALERT_ITERATIONS}
@@ -264,8 +283,43 @@ public class CyderButton extends JButton {
     /**
      * Adds the default focus listener to this CyderButton.
      */
-    @SuppressWarnings("unused") // currently color scheme makes this not look pleasant
     public void addDefaultFocusListener() {
         addFocusListener(defaultFocusListener);
+    }
+
+    /**
+     * Returns the left text padding.
+     *
+     * @return the left text padding
+     */
+    public String getLeftTextPadding() {
+        return leftTextPadding;
+    }
+
+    /**
+     * Sets the left text padding.
+     *
+     * @param leftTextPadding the left text padding
+     */
+    public void setLeftTextPadding(String leftTextPadding) {
+        this.leftTextPadding = leftTextPadding;
+    }
+
+    /**
+     * Returns the right text padding.
+     *
+     * @return the right text padding
+     */
+    public String getRightTextPadding() {
+        return rightTextPadding;
+    }
+
+    /**
+     * Sets the right text padding.
+     *
+     * @param rightTextPadding the right text padding
+     */
+    public void setRightTextPadding(String rightTextPadding) {
+        this.rightTextPadding = rightTextPadding;
     }
 }

@@ -234,7 +234,7 @@ public final class UserEditor {
                         File fileToAdd = GetterUtil.getInstance().getFile(new GetterUtil.Builder("Add File")
                                 .setRelativeTo(editUserFrame));
 
-                        if (StringUtil.isNull(fileToAdd.getName())) {
+                        if (fileToAdd == null || StringUtil.isNull(fileToAdd.getName())) {
                             return;
                         }
 
