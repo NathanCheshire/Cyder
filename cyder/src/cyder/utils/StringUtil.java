@@ -7,6 +7,7 @@ import cyder.constants.CyderUrls;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.records.TaggedString;
 import cyder.ui.CyderOutputPane;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -691,6 +692,8 @@ public class StringUtil {
 
             Document docParsed = Jsoup.parse(String.valueOf(htmlDescription));
             ret = capsFirstWords(docParsed.text());
+        } catch (HttpStatusException e) {
+            ret = "Word not found; check your spelling";
         } catch (Exception e) {
             ret = "Definition not found";
             ExceptionHandler.silentHandle(e);

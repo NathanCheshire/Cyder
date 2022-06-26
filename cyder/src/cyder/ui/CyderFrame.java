@@ -2929,7 +2929,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Regenerates the menu and shows it if it was visible.
+     * Regenerates the menu and sets the visibility to the state before this method was invoked.
      */
     public void revalidateMenu() {
         if (menuEnabled) {
@@ -2939,6 +2939,15 @@ public class CyderFrame extends JFrame {
             if (wasVisible) {
                 showMenu();
             }
+        }
+    }
+
+    /**
+     * Revalidates the menu and shows it only if it was visible.
+     */
+    public void revalidateMenuIfVisible() {
+        if (menuLabel != null && menuLabel.isVisible()) {
+            revalidateMenu();
         }
     }
 

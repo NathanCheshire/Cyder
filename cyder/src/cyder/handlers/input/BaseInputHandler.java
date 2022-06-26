@@ -31,7 +31,10 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
-/* some methods have yet to be utilized, arg lengths are always checked before accessing*/
+/**
+ * The base input handler used for linked JTextPane printing
+ * operations and raw user input command triggering.
+ */
 @SuppressWarnings("SpellCheckingInspection")
 public class BaseInputHandler {
     /**
@@ -107,11 +110,9 @@ public class BaseInputHandler {
      * @param outputArea the JTextPane object to append content to
      */
     public BaseInputHandler(JTextPane outputArea) {
-        Preconditions.checkNotNull(outputArea);
+        this.outputArea = new CyderOutputPane(Preconditions.checkNotNull(outputArea));
 
-        this.outputArea = new CyderOutputPane(outputArea);
-
-        initializeThreads();
+        initializeSpecialThreads();
 
         startConsolePrintingAnimation();
 
@@ -119,15 +120,15 @@ public class BaseInputHandler {
     }
 
     /**
-     * Sets up the custom thread objects managed by this base.
+     * Sets up the custom thread objects to be managed by this {@link BaseInputHandler}.
      */
-    private void initializeThreads() {
+    private void initializeSpecialThreads() {
         MasterYoutubeThread.initialize(outputArea.getJTextPane(), printingListLock);
         BletchyThread.initialize(outputArea.getJTextPane(), printingListLock);
     }
 
     /**
-     * The handlers which contain specific triggers for commands.
+     * The handles which contain specific triggers for pre-determined commands.
      */
     public static final ImmutableList<Class<?>> primaryHandlers = ImmutableList.of(
             PixelationHandler.class,
@@ -145,7 +146,8 @@ public class BaseInputHandler {
     );
 
     /**
-     * The handlers which have dont have specific triggers and instead perform checks on the command directly.
+     * The handles which have do not have specific triggers
+     * and instead perform checks and operations on the raw command.
      */
     public static final ImmutableList<Class<?>> finalHandlers = ImmutableList.of(
             GeneralPrintHandler.class,

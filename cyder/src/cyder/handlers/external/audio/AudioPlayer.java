@@ -539,6 +539,10 @@ public final class AudioPlayer {
         // if frame is open, stop whatever audio is playing or
         // paused and begin playing the requested audio
         if (isWidgetOpen()) {
+            if (currentFrameView.get() == FrameView.SEARCH) {
+                setupAndShowFrameView(FrameView.FULL);
+            }
+
             boolean audioPlaying = isAudioPlaying();
 
             if (audioPlaying) {
@@ -1817,6 +1821,9 @@ public final class AudioPlayer {
         }
     }
 
+    /**
+     * A call back for InnerAudioPlayers to invoke when they are killed.
+     */
     static void playAudioCallback() {
         // user didn't click any buttons so we should try and find the next audio
         if (lastAction == LastAction.Play) {
@@ -2162,7 +2169,7 @@ public final class AudioPlayer {
 
         audioDreamified.set(isCurrentAudioDreamy());
 
-        audioPlayerFrame.revalidateMenu();
+        audioPlayerFrame.revalidateMenuIfVisible();
     }
 
     /**
@@ -2300,7 +2307,10 @@ public final class AudioPlayer {
         backButton.setFont(CyderFonts.DEFAULT_FONT);
         backButton.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, 40, 40);
         audioPlayerFrame.getContentPane().add(backButton);
-        backButton.addActionListener(e -> setupAndShowFrameView(FrameView.FULL));
+        backButton.addActionListener(e -> {
+            audioPlayerFrame.hideMenu();
+            setupAndShowFrameView(FrameView.FULL);
+        });
 
         yOff += 60;
 
@@ -2384,8 +2394,8 @@ public final class AudioPlayer {
      * @param text the text for the information label
      */
     private static void showInformationLabel(String text) {
-        informationLabel.setVisible(true);
         informationLabel.setText(text);
+        informationLabel.setVisible(true);
     }
 
     /**
@@ -2404,7 +2414,25 @@ public final class AudioPlayer {
      */
     private static final SimpleAttributeSet alignment = new SimpleAttributeSet();
 
+    /**
+     * The spacing between the start/end of the button label and the button boundaries for download buttons.
+     */
     private static final String printButtonPadding = StringUtil.generateNSpaces(4);
+
+    /**
+     * The string used for the information label when a youtube query is triggered.
+     */
+    private static final String SEARCHING = "Searching...";
+
+    /**
+     * The string use for download buttons.
+     */
+    private static final String DOWNLOAD = "Download";
+
+    /**
+     * The string use for download buttons during a mouse over event when the download is in progress.
+     */
+    private static final String CANCEL = "Cancel";
 
     /**
      * Searches YouTube for the provided text and updates the results pane with videos found.
@@ -2418,18 +2446,22 @@ public final class AudioPlayer {
 
         previousSearch = fieldText;
 
+        // todo search clicked when already in search, bug with field
+
+        // todo search page needs to be toggleable like dreamify so that user can go back using it and back button
+
+        // todo console audio menu audio button icon not updating properly
+
         // todo use borderless, rounded, better font for button
 
         // todo retain last search objects in view if present. new audio player instance resets this
-
-        // todo going to next audio doesn't work automatically
 
         // todo audio progress bar goes too fast like 3 seconds ahead at beginning of audio
 
         // todo buttons here should have a border radius to them without any black borders
 
         CyderThreadRunner.submit(() -> {
-            showInformationLabel("Searching...");
+            showInformationLabel(SEARCHING);
 
             Optional<YoutubeSearchResultPage> youtubeSearchResultPage = getSearchResults(
                     YoutubeUtil.buildYouTubeApiV3SearchQuery(numSearchResults, fieldText));
@@ -2438,13 +2470,12 @@ public final class AudioPlayer {
                 searchResults.clear();
 
                 for (YoutubeVideo video : youtubeSearchResultPage.get().getItems()) {
-                    String uuid = video.getId().getVideoId();
                     searchResults.add(new YoutubeSearchResult(
-                            uuid,
+                            video.getId().getVideoId(),
                             video.getSnippet().getTitle(),
                             video.getSnippet().getDescription(),
                             video.getSnippet().getChannelTitle(),
-                            getMaxResolutionSquareThumbnail(uuid)));
+                            getMaxResolutionSquareThumbnail(video.getId().getVideoId())));
                 }
 
                 // if user has search for something else, don't update pane
@@ -2490,7 +2521,7 @@ public final class AudioPlayer {
                             super.setText(printButtonPadding + text + printButtonPadding);
                         }
                     };
-                    downloadButton.setText("Download");
+                    downloadButton.setText(DOWNLOAD);
                     downloadButton.setBorder(new LineBorder(Color.black, 4));
                     downloadButton.setBackground(CyderColors.regularPurple);
                     downloadButton.setForeground(CyderColors.vanilla);
@@ -2499,10 +2530,10 @@ public final class AudioPlayer {
                     downloadButton.addActionListener(e -> {
                         if (downloadable.get().isDownloading()) {
                             downloadable.get().cancel();
-                            downloadButton.setText("Download");
+                            downloadButton.setText(DOWNLOAD);
                         } else {
                             if (downloadable.get().isDownloaded()) {
-                                audioPlayerFrame.notify("Audio file already downloaded");
+                                audioPlayerFrame.notify("Audio download already concluded");
                                 return;
                             }
 
@@ -2529,7 +2560,7 @@ public final class AudioPlayer {
                             mouseEntered.set(true);
 
                             if (downloadable.get().isDownloading()) {
-                                downloadButton.setText("Cancel");
+                                downloadButton.setText(CANCEL);
                             }
                         }
 
@@ -2538,7 +2569,7 @@ public final class AudioPlayer {
                             if (downloadable.get().isDownloading()) {
                                 downloadButton.setText(downloadable.get().getDownloadableProgress() + "%");
                             } else {
-                                downloadButton.setText("Download");
+                                downloadButton.setText(DOWNLOAD);
                             }
 
                             mouseEntered.set(false);
