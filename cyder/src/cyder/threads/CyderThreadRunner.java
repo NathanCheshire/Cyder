@@ -7,6 +7,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 
 import java.time.Duration;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A class used to submit runnables and executors.
@@ -58,15 +59,37 @@ public final class CyderThreadRunner {
      * @param frequency the frequency to execute the runnable
      */
     public static void scheduleAtFixedRate(Runnable runnable, String name, Duration frequency) {
+        scheduleAtFixedRate(runnable, name, frequency, null);
+    }
+
+    /**
+     * Constructs a new thread to run the provided runnable at the provided fixed rate.
+     *
+     * @param runnable   the runnable to execute at the specified frequency
+     * @param name       the name of the thread
+     * @param frequency  the frequency to execute the runnable
+     * @param shouldExit the condition to check to stop executing at the fixed rate
+     */
+    public static void scheduleAtFixedRate(Runnable runnable, String name, Duration frequency,
+                                           AtomicBoolean shouldExit) {
+        Preconditions.checkNotNull(runnable);
+        Preconditions.checkNotNull(name);
+        Preconditions.checkArgument(!name.isEmpty());
+        Preconditions.checkNotNull(frequency);
+
         submit(() -> {
             try {
                 while (true) {
+                    if (shouldExit.get()) {
+                        return;
+                    }
+
                     submit(runnable, name);
                     Thread.sleep(frequency.toMillis());
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Fixed Rate Scheduler, task=[" + name + "], rate=" + frequency.toString());
+        }, "Fixed Rate Scheduler, task=[" + name + "], rate=" + frequency);
     }
 }

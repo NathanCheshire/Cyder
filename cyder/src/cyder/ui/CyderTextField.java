@@ -349,7 +349,7 @@ public class CyderTextField extends JTextField {
     }
 
     /**
-     * Returns the text field text but trimmed and with multiple occurrences
+     * Returns the field text but trimmed and with multiple occurrences
      * of whitespace in the String replaced with one whitespace char.
      *
      * @return the text with trimming performed

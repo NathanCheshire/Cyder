@@ -502,7 +502,7 @@ public final class AudioPlayer {
         installFrameMenuItems();
 
         /*
-         All components which will ever be on the frame for phase 1 are added now and their sizes set.
+         All components which will ever be on the frame for the audio player are added now and their sizes set.
          The bounds are set in the view switcher.
          The sizes are almost never set outside the construction below.
          */
@@ -2208,7 +2208,7 @@ public final class AudioPlayer {
     /**
      * The color used as the background for the search results scroll and information label.
      */
-    private static final Color SCROLL_COLOR = new Color(30, 30, 30);
+    private static final Color SCROLL_BACKGROUND_COLOR = new Color(30, 30, 30);
 
     /**
      * Constructs the search view where a user can search for and download audio from youtube.
@@ -2250,8 +2250,8 @@ public final class AudioPlayer {
         searchButton.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2 + 50, yOff,
                 phaseTwoWidth - 50, 40);
         audioPlayerFrame.getContentPane().add(searchButton);
-        searchField.addActionListener(e -> searchAndUpdate(searchField.getText()));
-        searchButton.addActionListener(e -> searchAndUpdate(searchField.getText()));
+        searchField.addActionListener(e -> searchAndUpdate());
+        searchButton.addActionListener(e -> searchAndUpdate());
 
         backButton = new CyderButton(" < ");
         backButton.setBorder(BorderFactory.createEmptyBorder());
@@ -2291,12 +2291,12 @@ public final class AudioPlayer {
         searchResultsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         searchResultsScroll.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
                 yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
-        searchResultsScroll.setBackground(SCROLL_COLOR);
+        searchResultsScroll.setBackground(SCROLL_BACKGROUND_COLOR);
 
         informationLabel = new CyderLabel();
         informationLabel.setForeground(CyderColors.vanilla);
         informationLabel.setFont(CyderFonts.DEFAULT_FONT);
-        informationLabel.setBackground(SCROLL_COLOR);
+        informationLabel.setBackground(SCROLL_BACKGROUND_COLOR);
         informationLabel.setOpaque(true);
         informationLabel.setBorder(new LineBorder(Color.black, 4));
         informationLabel.setBounds((audioPlayerFrame.getWidth() - UI_ROW_WIDTH) / 2,
@@ -2414,10 +2414,10 @@ public final class AudioPlayer {
 
     /**
      * Searches YouTube for the provided text and updates the results pane with videos found.
-     *
-     * @param rawFieldText the raw text from the search field
      */
-    private static void searchAndUpdate(String rawFieldText) {
+    private static void searchAndUpdate() {
+        String rawFieldText = searchField.getText();
+
         if (StringUtil.isNull(rawFieldText) || rawFieldText.equalsIgnoreCase(previousSearch)) {
             return;
         }
@@ -2432,15 +2432,9 @@ public final class AudioPlayer {
         // todo playing dreamified audio after just finished freezes
         // todo transitioning audio still freezes sometimes
 
-        // todo use borderless, rounded, better font for button
-        // todo buttons here should have a border radius to them without any black borders
-
         // todo perform handshake with local backend after setting up and log debug calls
 
         // todo make port configurable in props
-
-        // todo should also check to see if any music exist with the
-        //  exact name and auto-link the button to play and not download
 
         // todo fix menu button focus bug
 
@@ -2474,35 +2468,15 @@ public final class AudioPlayer {
                 return;
             }
 
-            // todo pause audio if playing before playing something else
-            // todo have a method to print stuff and generate things
             searchResultsPane.setText("");
+
             for (YoutubeSearchResult result : searchResults) {
                 Optional<File> alreadyExistsOptional = AudioUtil.getMusicFileWithName(result.title);
                 boolean alreadyExists = alreadyExistsOptional.isPresent();
 
-                JLabel imageLabel = new JLabel(ImageUtil.toImageIcon(result.bi));
-                imageLabel.setSize(bufferedImageLen, bufferedImageLen);
-                imageLabel.setHorizontalAlignment(JLabel.CENTER);
-                imageLabel.setBorder(new LineBorder(Color.black, 4));
-                printingUtil.printlnComponent(imageLabel);
-
-                printingUtil.println("\n");
-
-                CyderLabel titleLabel = new CyderLabel(result.title);
-                titleLabel.setForeground(CyderColors.vanilla);
-                titleLabel.setHorizontalAlignment(JLabel.CENTER);
-                printingUtil.printlnComponent(titleLabel);
-
-                CyderLabel channelLabel = new CyderLabel(result.channel);
-                channelLabel.setForeground(CyderColors.vanilla);
-                channelLabel.setHorizontalAlignment(JLabel.CENTER);
-                printingUtil.printlnComponent(channelLabel);
-
-                printingUtil.println("\n");
+                printSearchResultLabels(result);
 
                 String url = YoutubeUtil.buildVideoUrl(result.uuid);
-
                 AtomicReference<YoutubeDownload> downloadable = new AtomicReference<>(new YoutubeDownload(url));
                 AtomicBoolean mouseEntered = new AtomicBoolean(false);
 
@@ -2518,91 +2492,36 @@ public final class AudioPlayer {
                 downloadButton.addActionListener(e -> {
                     if (downloadable.get().isDownloading()) {
                         downloadable.get().cancel();
-                    } else {
-                        if (alreadyExists) {
-                            currentAudioFile.set(alreadyExistsOptional.get());
-                            revalidateFromAudioFileChange();
-                            goBackFromSearchView();
-                            playAudio();
-                            return;
-                        } else if (downloadable.get().isDownloaded()) {
-                            currentAudioFile.set(downloadable.get().getDownloadFile());
-                            revalidateFromAudioFileChange();
-                            goBackFromSearchView();
-                            playAudio();
-                            return;
-                        }
-
-                        if (downloadable.get().isCanceled()) {
-                            downloadable.set(new YoutubeDownload(url));
-                            downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
-                            downloadable.get().setOnDownloadedCallback(() -> {
-                                downloadButton.setText(PLAY);
-                                downloadButton.addActionListener(event -> {
-                                    currentAudioFile.set(downloadable.get().getDownloadFile());
-                                    revalidateFromAudioFileChange();
-                                    goBackFromSearchView();
-                                    playAudio();
-                                });
-                            });
-                        }
-
-                        downloadable.get().download();
-
-                        // todo schedule at fixed rate with exit condition checker for CTR?
-                        // todo need to be able to exit fixed rate runnables in CTR anyway
-
-                        CyderThreadRunner.submit(() -> {
-                            while (!downloadable.get().isDone()) {
-                                if (!mouseEntered.get()) {
-                                    float progress = downloadable.get().getDownloadableProgress();
-
-                                    if (progress == 100.0f) {
-                                        downloadButton.setText(FINISHING);
-                                    } else {
-                                        downloadButton.setText(progress + "%");
-                                    }
-                                }
-
-                                ThreadUtil.sleep(YoutubeConstants.DOWNLOAD_UPDATE_DELAY);
-                            }
-                        }, "YouTube audio downloader, url=" + url);
-                    }
-                });
-                downloadButton.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        mouseEntered.set(true);
-
-                        if (downloadable.get().isDownloading()) {
-                            downloadButton.setText(CANCEL);
-                        }
+                        return;
+                    } else if (alreadyExists) {
+                        playAudioFromSearchView(alreadyExistsOptional.get());
+                        return;
+                    } else if (downloadable.get().isDownloaded()) {
+                        playAudioFromSearchView(downloadable.get().getDownloadFile());
+                        return;
                     }
 
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        if (alreadyExists) {
-                            return;
-                        } else if (downloadable.get().isDownloading() && !downloadable.get().isCanceled()) {
-                            downloadButton.setText(downloadable.get().getDownloadableProgress() + "%");
-                        } else if (downloadable.get().isDownloaded()) {
+                    if (downloadable.get().isCanceled()) {
+                        downloadable.set(new YoutubeDownload(url));
+                        downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
+                        downloadable.get().setOnDownloadedCallback(() -> {
                             downloadButton.setText(PLAY);
-                        } else {
-                            downloadButton.setText(DOWNLOAD);
-                        }
-
-                        mouseEntered.set(false);
+                            downloadButton.addActionListener(event ->
+                                    playAudioFromSearchView(downloadable.get().getDownloadFile()));
+                        });
                     }
+
+                    downloadable.get().download();
+
+                    startDownloadUpdater(downloadable, downloadButton, mouseEntered);
                 });
+                downloadButton.addMouseListener(generateDownloadButtonMouseListener(
+                        downloadable, mouseEntered, downloadButton, alreadyExists));
                 downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
                 downloadable.get().setOnDownloadedCallback(() -> {
                     downloadButton.setText(PLAY);
-                    downloadButton.addActionListener(event -> {
-                        currentAudioFile.set(downloadable.get().getDownloadFile());
-                        revalidateFromAudioFileChange();
-                        goBackFromSearchView();
-                        playAudio();
-                    });
+                    downloadButton.addActionListener(event ->
+                            playAudioFromSearchView(downloadable.get().getDownloadFile()));
                 });
 
                 printingUtil.printlnComponent(downloadButton);
@@ -2615,6 +2534,124 @@ public final class AudioPlayer {
             lastSearchResultsPage = searchResultsPane.getDocument();
 
         }, "YouTube Searcher, search=" + fieldText);
+    }
+
+    /**
+     * Switches to the main audio player view and plays the provided audio.
+     *
+     * @param audio the audio file to play after switching to the main view
+     */
+    private static void playAudioFromSearchView(File audio) {
+        if (isAudioPlaying()) {
+            pauseAudio();
+        }
+
+        currentAudioFile.set(audio);
+        innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+        revalidateFromAudioFileChange();
+        goBackFromSearchView();
+
+        playAudio();
+    }
+
+    /**
+     * Constructs and prints the title and channel labels for the provided youtube search result.
+     *
+     * @param result the youtube search result record
+     */
+    private static void printSearchResultLabels(YoutubeSearchResult result) {
+        JLabel imageLabel = new JLabel(ImageUtil.toImageIcon(result.bi));
+        imageLabel.setSize(bufferedImageLen, bufferedImageLen);
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        imageLabel.setBorder(new LineBorder(Color.black, 4));
+        printingUtil.printlnComponent(imageLabel);
+
+        printingUtil.println("\n");
+
+        CyderLabel titleLabel = new CyderLabel(result.title);
+        titleLabel.setForeground(CyderColors.vanilla);
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        printingUtil.printlnComponent(titleLabel);
+
+        CyderLabel channelLabel = new CyderLabel(result.channel);
+        channelLabel.setForeground(CyderColors.vanilla);
+        channelLabel.setHorizontalAlignment(JLabel.CENTER);
+        printingUtil.printlnComponent(channelLabel);
+
+        printingUtil.println("\n");
+    }
+
+    /**
+     * Constructs a download button mouse listener using the provided props.
+     *
+     * @param downloadable   a reference to the download button's linked downloadable
+     * @param mouseEntered   an atomic boolean to determine when the mouse is inside of the button
+     * @param downloadButton the download button itself
+     * @param alreadyExists  whether the audio this button is linked to has already been downloaded
+     * @return a download button mouse listener
+     */
+    private static MouseAdapter generateDownloadButtonMouseListener(
+            AtomicReference<YoutubeDownload> downloadable, AtomicBoolean mouseEntered,
+            CyderButton downloadButton, boolean alreadyExists) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                mouseEntered.set(true);
+
+                if (downloadable.get().isDownloading()) {
+                    downloadButton.setText(CANCEL);
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                mouseEntered.set(false);
+
+                if (alreadyExists) {
+                    return;
+                }
+
+                if (downloadable.get().isDownloading() && !downloadable.get().isCanceled()) {
+                    float progress = downloadable.get().getDownloadableProgress();
+
+                    if (progress == 100.0f) {
+                        downloadButton.setText(FINISHING);
+                    } else {
+                        downloadButton.setText(progress + "%");
+                    }
+                } else if (downloadable.get().isDownloaded()) {
+                    downloadButton.setText(PLAY);
+                } else {
+                    downloadButton.setText(DOWNLOAD);
+                }
+            }
+        };
+    }
+
+    /**
+     * Starts the download updater to update the download button based on the current progress.
+     *
+     * @param downloadable   the youtube download
+     * @param downloadButton the download button
+     * @param mouseEntered   whether the mouse is currently in the button
+     */
+    private static void startDownloadUpdater(AtomicReference<YoutubeDownload> downloadable,
+                                             CyderButton downloadButton, AtomicBoolean mouseEntered) {
+        CyderThreadRunner.submit(() -> {
+            while (!downloadable.get().isDone()) {
+                if (!mouseEntered.get()) {
+                    float progress = downloadable.get().getDownloadableProgress();
+
+                    if (progress == 100.0f) {
+                        downloadButton.setText(FINISHING);
+                    } else {
+                        downloadButton.setText(progress + "%");
+                    }
+                }
+
+                ThreadUtil.sleep(YoutubeConstants.DOWNLOAD_UPDATE_DELAY);
+            }
+        }, "YouTube audio downloader, name=" + downloadable.get().getDownloadableName());
     }
 
     /**
