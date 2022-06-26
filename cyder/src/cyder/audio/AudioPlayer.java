@@ -1452,11 +1452,6 @@ public final class AudioPlayer {
     private static final String DEFAULT_FRAME_TITLE = "Audio Player";
 
     /**
-     * The maximum allowable characters on the title label.
-     */
-    private static final int MAX_TITLE_LENGTH = 40;
-
-    /**
      * Refreshes the audio frame title.
      */
     private static void refreshFrameTitle() {
@@ -1464,23 +1459,6 @@ public final class AudioPlayer {
 
         if (currentAudioFile.get() != null) {
             title = StringUtil.capsFirst(StringUtil.getTrimmedText(FileUtil.getFilename(currentAudioFile.get())));
-
-            if (title.length() > MAX_TITLE_LENGTH - 3) {
-                String[] parts = title.split("\\s+");
-
-                StringBuilder builder = new StringBuilder();
-
-                for (String part : parts) {
-                    if (builder.length() + part.length() <= MAX_TITLE_LENGTH) {
-                        builder.append(part).append(" ");
-                    } else {
-                        builder.append("...");
-                        break;
-                    }
-                }
-
-                title = title.substring(0, MAX_TITLE_LENGTH - 4) + "...";
-            }
         }
 
         audioPlayerFrame.setTitle(title);

@@ -1,0 +1,148 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[17-34-28] [ENTRY]: Nathan
+[17-34-28] [PROP LOADED]: [key = map_quest_api_key]
+[17-34-28] [PROP LOADED]: [key = youtube_api_3_key]
+[17-34-28] [PROP LOADED]: [key = ip_key]
+[17-34-28] [PROP LOADED]: [key = weather_key]
+[17-34-28] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[17-34-28] [PROP LOADED]: [key = debug_hash_password]
+[17-34-28] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[17-34-28] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[17-34-28] [PROP LOADED]: [key = font_metric, value = 1]
+[17-34-28] [PROP LOADED]: [key = released, value = false]
+[17-34-28] [PROP LOADED]: [key = fast_test, value = false]
+[17-34-28] [PROP LOADED]: [key = version, value = Liminal]
+[17-34-28] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[17-34-28] [PROP LOADED]: [key = components_relocatable, value = false]
+[17-34-28] [PROP LOADED]: [key = testing_mode, value = true]
+[17-34-28] [PROP LOADED]: [key = autocypher, value = true]
+[17-34-28] [PROP LOADED]: [key = dispose_splash, value = true]
+[17-34-28] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[17-34-28] [PROP LOADED]: [key = activate_watchdog, value = false]
+[17-34-28] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[17-34-28] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[17-34-28] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[17-34-28] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[17-34-28] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[17-34-28] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[17-34-28] [THREAD STARTED]: Object Creation Logger
+[17-34-28] [DEBUG]: Watchdog skipped
+[17-34-28] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[17-34-29] [FONT LOADED]: agency-fb
+[17-34-29] [FONT LOADED]: arial-black
+[17-34-29] [FONT LOADED]: beyno
+[17-34-29] [FONT LOADED]: condiment-regular
+[17-34-29] [FONT LOADED]: prompt-bold
+[17-34-29] [FONT LOADED]: segoe-ui-black
+[17-34-29] [FONT LOADED]: tahoma
+[17-34-29] [THREAD STARTED]: Splash Loader
+[17-34-29] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[17-34-30] [THREAD STARTED]: Splash Animation
+[17-34-30] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[17-34-30] [THREAD STARTED]: Secondary Subroutines Runner
+[17-34-30] [LOGIN]: AUTOCYPHER ATTEMPT
+[17-34-30] [THREAD STARTED]: JVM Args Logger
+[17-34-31] [DEBUG]: Cyder Entry = AutoCypher
+[17-34-31] [OBJECT CREATION]: Objects created since last delta (5000ms): 76
+[17-34-31] [THREAD STARTED]: Console Printing Animation
+[17-34-31] [THREAD STARTED]: Hourly Chime Checker
+[17-34-31] [THREAD STARTED]: Console Clock Updater
+[17-34-31] [THREAD STARTED]: Cyder Busy Checker
+[17-34-31] [THREAD STARTED]: ConsoleFrame Stat Saver
+[17-34-31] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[17-34-31] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[17-34-31] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 1200993680, bounds = (980,
+           396, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[17-34-32] [THREAD STARTED]: High Ping Checker
+[17-34-32] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[17-34-32] [THREAD STARTED]: Manual Tests Thread
+[17-34-32] [CONSOLE OUT]: [STRING]: Console loaded in 4219ms
+[17-34-32] [THREAD STARTED]: Splash Loading Label Updater
+[17-34-32] [DEBUG]: Attempted to log a new or empty line
+[17-34-34] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[17-34-34] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[17-34-34] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 13] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-34-35] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1656282660203.json
+[17-34-36] [OBJECT CREATION]: Objects created since last delta (5000ms): 41
+[17-34-38] [THREAD STARTED]: minimize menu thread
+[17-34-38] [THREAD STARTED]: Console menu animator
+[17-34-39] [UI]: Component = CyderLabel, hash = 1616788506, bounds = (0, 0, 75, 75), parent frame = Liminal Cyder
+           [Nathan], getText() = <html><div style='text-align: center;'>Pref</html>
+[17-34-39] [THREAD STARTED]: [Preferences] finalizeAndShow()
+[17-34-40] [THREAD STARTED]: Preferences Opacity Decrement Animator
+[17-34-40] [THREAD STARTED]: Preferences Opacity Increment Animator
+[17-34-41] [OBJECT CREATION]: Objects created since last delta (5000ms): 54
+[17-34-41] [THREAD STARTED]: Cash Cash - How To Love feat. Sofia Reyes (Boombox Cartel Remix) [Official Audio] Progress
+           Label Thread
+[17-34-41] [THREAD STARTED]: Audio Progress Label Animator
+[17-34-41] [THREAD STARTED]: Scrolling title label animator [Cash cash - how to love feat. sofia reyes (boombox cartel
+           remix) [official audio]]
+[17-34-42] [THREAD STARTED]: [Cash cash - how to love feat. sofia reyes (boombox cartel remix) [official audio]] finalizeAndShow()
+[17-34-45] [THREAD STARTED]: Cash cash - how to love feat. sofia reyes (boombox cartel remix) [official audio] Opacity
+           Decrement Animator
+[17-34-46] [THREAD STARTED]: Cash cash - how to love feat. sofia reyes (boombox cartel remix) [official audio] Opacity
+           Increment Animator
+[17-34-46] [OBJECT CREATION]: Objects created since last delta (5000ms): 40
+[17-34-48] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[17-34-48] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[17-34-51] [OBJECT CREATION]: Objects created since last delta (5000ms): 5
+[17-34-54] [THREAD STARTED]: Cash cash - how to love feat. sofia reyes (boombox cartel remix) [official audio] Opacity
+           Decrement Animator
+[17-34-55] [THREAD STARTED]: Cash cash - how to love feat. sofia reyes (boombox cartel remix) [official audio] Opacity
+           Increment Animator
+[17-34-55] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[17-34-56] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[17-34-56] [OBJECT CREATION]: Objects created since last delta (5000ms): 10
+[17-34-56] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 5] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-34-56] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1656282875023.json
+[17-34-58] [CLIENT]: screenshot
+[17-34-58] [CONSOLE OUT]: [STRING]: Screenshot command usage: screenshot [FRAMES or FRAME_NAME]
+[17-34-59] [DEBUG]: Attempted to log a new or empty line
+[17-35-01] [CLIENT]: screenshot frames
+[17-35-01] [SYSTEM IO]: Created file in userspace: Liminal Cyder [_17-35-01.png
+[17-35-01] [OBJECT CREATION]: Objects created since last delta (5000ms): 8
+[17-35-01] [SYSTEM IO]: Created file in userspace: Preferences_17-35-01.png
+[17-35-01] [SYSTEM IO]: Created file in userspace: Cash cash - how_17-35-01.png
+[17-35-01] [CONSOLE OUT]: [STRING]: Successfully saved to your Files directory
+[17-35-02] [DEBUG]: Attempted to log a new or empty line
+[17-35-06] [OBJECT CREATION]: Objects created since last delta (5000ms): 15
+[17-37-48] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[17-37-48] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[17-37-50] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[17-37-50] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[17-37-51] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[17-37-51] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[17-37-51] [OBJECT CREATION]: Objects created since last delta (5000ms): 20
+[17-37-52] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[17-37-52] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 1346292516, bounds
+           = (561, 420, 967, 613), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[17-37-52] [EXIT]: [RUNTIME] 3m 24s
+[17-37-52] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown

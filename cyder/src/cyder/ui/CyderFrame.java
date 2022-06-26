@@ -856,7 +856,6 @@ public class CyderFrame extends JFrame {
      *
      * @return whether the title label will be painted
      */
-    @SuppressWarnings("unused")
     public boolean getPaintCyderFrameTitle() {
         return paintCyderFrameTitle;
     }
@@ -880,7 +879,6 @@ public class CyderFrame extends JFrame {
      *
      * @return whether the window title will be set
      */
-    @SuppressWarnings("unused")
     public boolean getPaintSuperTitle() {
         return paintSuperTitle;
     }
@@ -2870,18 +2868,6 @@ public class CyderFrame extends JFrame {
      */
     public void setShouldAnimateOpacity(boolean shouldAnimateOpacity) {
         this.shouldAnimateOpacity = shouldAnimateOpacity;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getTitle() {
-        if (titleLabel != null && !titleLabel.getText().isEmpty()) {
-            return titleLabel.getText();
-        } else {
-            return super.getTitle();
-        }
     }
 
     // ----------------

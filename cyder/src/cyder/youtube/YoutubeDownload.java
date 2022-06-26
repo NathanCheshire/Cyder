@@ -104,6 +104,11 @@ public class YoutubeDownload {
     private File downloadFile;
 
     /**
+     * The exit code for the internal download process.
+     */
+    private int processExitCode = Integer.MIN_VALUE;
+
+    /**
      * Suppress default constructor.
      */
     @SuppressWarnings("unused")
@@ -266,6 +271,18 @@ public class YoutubeDownload {
     }
 
     /**
+     * Returns the exit code of the internal download process if completed.
+     *
+     * @return the exit code of the internal download process if completed
+     */
+    public int getProcessExitCode() {
+        Preconditions.checkArgument(processExitCode != Integer.MIN_VALUE,
+                "Process not yet finished");
+
+        return processExitCode;
+    }
+
+    /**
      * Updates the download progress label.
      */
     public void updateProgressLabel() {
@@ -323,14 +340,13 @@ public class YoutubeDownload {
         this.inputHandler = inputHandler;
     }
 
-    // todo method is a little messy
     /**
      * Downloads this object's YouTube video.
      */
     public void download() {
         Preconditions.checkArgument(!done, "Object attempted to download previously");
 
-        boolean shouldUpdate = inputHandler != null;
+        boolean shouldPrintUpdates = inputHandler != null;
 
         String userMusicDir = OSUtil.buildPath(
                 Dynamic.PATH,
@@ -368,7 +384,7 @@ public class YoutubeDownload {
 
         CyderThreadRunner.submit(() -> {
             try {
-                if (shouldUpdate) {
+                if (shouldPrintUpdates) {
                     inputHandler.println("Downloading audio as: " + parsedSaveName + extension);
                     constructAndPrintUiElements();
                 }
@@ -401,17 +417,22 @@ public class YoutubeDownload {
                         this.downloadableRate = updateMatcher.group(3);
                         this.downloadableEta = updateMatcher.group(4);
 
-                        if (shouldUpdate && downloadProgressBar != null) {
-                            downloadProgressBar.setValue((int) ((progress / 100.0f) * downloadProgressBar.getMaximum()));
+                        if (shouldPrintUpdates && downloadProgressBar != null) {
+                            downloadProgressBar.setValue(
+                                    (int) ((progress / 100.0f) * downloadProgressBar.getMaximum()));
                             updateProgressLabel();
                         }
                     }
                 }
 
-                // todo if exception thrown this still executes
-                if (!isCanceled()) {
-                    downloadFile = new File(OSUtil.buildFile(
-                            userMusicDir, parsedSaveName + extension).getAbsolutePath());
+                this.processExitCode = proc.waitFor();
+
+                if (processExitCode != 0) {
+                    if (shouldPrintUpdates) {
+                        inputHandler.println("Canceled download due to user request or an exception");
+                    }
+                } else if (!isCanceled()) {
+                    downloadFile = OSUtil.buildFile(userMusicDir, parsedSaveName + extension);
                     downloaded = true;
 
                     YoutubeUtil.downloadThumbnail(url);
@@ -419,7 +440,7 @@ public class YoutubeDownload {
 
                     onDownloadedCallback.run();
 
-                    if (shouldUpdate) {
+                    if (shouldPrintUpdates) {
                         inputHandler.println("Download complete: saved as "
                                 + downloadableName + " and added to audio queue");
                     }
@@ -427,7 +448,7 @@ public class YoutubeDownload {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
 
-                if (shouldUpdate) {
+                if (shouldPrintUpdates) {
                     inputHandler.println("An exception occurred while attempting to download, url=" + url);
                 }
             } finally {
@@ -435,7 +456,7 @@ public class YoutubeDownload {
                 done = true;
                 downloading = false;
 
-                if (shouldUpdate) {
+                if (shouldPrintUpdates) {
                     cleanUpUi();
                 }
             }
