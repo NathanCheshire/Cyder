@@ -1,8 +1,12 @@
 package cyder.threads;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+
+import java.time.Duration;
 
 /**
  * A class used to submit runnables and executors.
@@ -16,13 +20,17 @@ public final class CyderThreadRunner {
     }
 
     /**
-     * Immediately starts a thread with the provided
+     * Creates and immediately executes a thread with the provided
      * runnable named with the provided name.
      *
      * @param runnable the runnable to attach to the created thread
      * @param name     the name of the created thread
      */
     public static void submit(Runnable runnable, String name) {
+        Preconditions.checkNotNull(runnable);
+        Preconditions.checkNotNull(name);
+        Preconditions.checkArgument(!name.isEmpty());
+
         Logger.log(Logger.Tag.THREAD, name);
         new Thread(runnable, name).start();
     }
@@ -35,6 +43,30 @@ public final class CyderThreadRunner {
      * @return the thread with the provided properties
      */
     public static Thread createThread(Runnable runnable, String name) {
+        Preconditions.checkNotNull(runnable);
+        Preconditions.checkNotNull(name);
+        Preconditions.checkArgument(!name.isEmpty());
+
         return new Thread(runnable, name);
+    }
+
+    /**
+     * Constructs a new thread to run the provided runnable at the provided fixed rate.
+     *
+     * @param runnable  the runnable to execute at the specified frequency
+     * @param name      the name of the thread
+     * @param frequency the frequency to execute the runnable
+     */
+    public static void scheduleAtFixedRate(Runnable runnable, String name, Duration frequency) {
+        submit(() -> {
+            try {
+                while (true) {
+                    submit(runnable, name);
+                    Thread.sleep(frequency.toMillis());
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, "Fixed Rate Scheduler, task=[" + name + "], rate=" + frequency.toString());
     }
 }

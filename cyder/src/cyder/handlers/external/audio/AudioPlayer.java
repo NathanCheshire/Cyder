@@ -1145,9 +1145,7 @@ public final class AudioPlayer {
      */
     private static final Runnable searchMenuItem = () -> {
         if (onSearchView.get()) {
-            onSearchView.set(false);
-            audioPlayerFrame.hideMenu();
-            setupAndShowFrameView(FrameView.FULL);
+            goBackFromSearchView();
         } else {
             onSearchView.set(true);
             constructPhaseTwoView();
@@ -2272,9 +2270,24 @@ public final class AudioPlayer {
     private static String previousSearch;
 
     /**
+     * The previous location of the search scroll pane.
+     */
+    private static int previousScrollLocation;
+
+    /**
      * The default information label text.
      */
     private static final String DEFAULT_INFORMATION_LABEL_TEXT = "Search YouTube using the above field";
+
+    /**
+     * Performs operations necessary to transitioning from the search view to the {@link FrameView#FULL} view.
+     */
+    private static void goBackFromSearchView() {
+        previousScrollLocation = searchResultsScroll.getVerticalScrollBar().getValue();
+        onSearchView.set(false);
+        audioPlayerFrame.hideMenu();
+        setupAndShowFrameView(FrameView.FULL);
+    }
 
     /**
      * Constructs the search view where a user can search for and download audio from youtube.
@@ -2327,11 +2340,7 @@ public final class AudioPlayer {
         backButton.setFont(CyderFonts.DEFAULT_FONT);
         backButton.setBounds((audioPlayerFrame.getWidth() - phaseTwoWidth) / 2, yOff, 40, 40);
         audioPlayerFrame.getContentPane().add(backButton);
-        backButton.addActionListener(e -> {
-            onSearchView.set(false);
-            audioPlayerFrame.hideMenu();
-            setupAndShowFrameView(FrameView.FULL);
-        });
+        backButton.addActionListener(e -> goBackFromSearchView());
 
         yOff += 60;
 
@@ -2372,18 +2381,21 @@ public final class AudioPlayer {
                 yOff, UI_ROW_WIDTH, audioPlayerFrame.getWidth() - 20 - yOff);
         audioPlayerFrame.getContentPane().add(informationLabel);
 
+        audioPlayerFrame.getContentPane().add(searchResultsScroll);
+        searchResultsPane.revalidate();
+
         if (lastSearchResultsPage != null) {
             searchResultsPane.setDocument(lastSearchResultsPage);
             searchField.setText(previousSearch);
             hideInformationLabel();
-            searchResultsPane.setCaretPosition(50);
+
+            // yes there are two here, no I don't know why it works like this
+            searchResultsScroll.getVerticalScrollBar().setValue(previousScrollLocation);
+            searchResultsScroll.getVerticalScrollBar().setValue(previousScrollLocation);
         } else {
             showInformationLabel(DEFAULT_INFORMATION_LABEL_TEXT);
-            searchResultsPane.setCaretPosition(0);
+            searchResultsScroll.getVerticalScrollBar().setValue(0);
         }
-
-        audioPlayerFrame.getContentPane().add(searchResultsScroll);
-        searchResultsPane.revalidate();
 
         printingUtil = new StringUtil(new CyderOutputPane(searchResultsPane));
 

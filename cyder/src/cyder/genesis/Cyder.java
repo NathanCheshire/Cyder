@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * The Cyder-base that performs checks on data and environment variables to ensure
  * a successful start can happen.
  */
-public class Cyder {
+public final class Cyder {
     /**
      * Instantiation of top level program genesis not permitted.
      */

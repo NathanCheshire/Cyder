@@ -1,0 +1,128 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[21-46-23] [ENTRY]: Nathan
+[21-46-23] [PROP LOADED]: [key = map_quest_api_key]
+[21-46-23] [PROP LOADED]: [key = youtube_api_3_key]
+[21-46-23] [PROP LOADED]: [key = ip_key]
+[21-46-23] [PROP LOADED]: [key = weather_key]
+[21-46-23] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[21-46-23] [PROP LOADED]: [key = debug_hash_password]
+[21-46-23] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[21-46-23] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[21-46-23] [PROP LOADED]: [key = font_metric, value = 1]
+[21-46-23] [PROP LOADED]: [key = released, value = false]
+[21-46-23] [PROP LOADED]: [key = fast_test, value = false]
+[21-46-23] [PROP LOADED]: [key = version, value = Liminal]
+[21-46-23] [PROP LOADED]: [key = release_date, value = 22.6.2]
+[21-46-23] [PROP LOADED]: [key = components_relocatable, value = false]
+[21-46-23] [PROP LOADED]: [key = testing_mode, value = true]
+[21-46-23] [PROP LOADED]: [key = autocypher, value = true]
+[21-46-23] [PROP LOADED]: [key = dispose_splash, value = true]
+[21-46-23] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[21-46-23] [PROP LOADED]: [key = activate_watchdog, value = false]
+[21-46-23] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[21-46-23] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[21-46-23] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[21-46-23] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[21-46-23] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[21-46-23] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[21-46-23] [THREAD STARTED]: Object Creation Logger
+[21-46-23] [DEBUG]: Watchdog skipped
+[21-46-23] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[21-46-24] [FONT LOADED]: agency-fb
+[21-46-24] [FONT LOADED]: arial-black
+[21-46-24] [FONT LOADED]: beyno
+[21-46-24] [FONT LOADED]: condiment-regular
+[21-46-24] [FONT LOADED]: prompt-bold
+[21-46-24] [FONT LOADED]: segoe-ui-black
+[21-46-24] [FONT LOADED]: tahoma
+[21-46-24] [THREAD STARTED]: Splash Loader
+[21-46-24] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[21-46-25] [THREAD STARTED]: Splash Animation
+[21-46-25] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[21-46-26] [THREAD STARTED]: Secondary Subroutines Runner
+[21-46-26] [LOGIN]: AUTOCYPHER ATTEMPT
+[21-46-26] [THREAD STARTED]: JVM Args Logger
+[21-46-26] [DEBUG]: Cyder Entry = AutoCypher
+[21-46-26] [OBJECT CREATION]: Objects created since last delta (5000ms): 77
+[21-46-27] [THREAD STARTED]: Console Printing Animation
+[21-46-27] [THREAD STARTED]: Hourly Chime Checker
+[21-46-27] [THREAD STARTED]: Console Clock Updater
+[21-46-27] [THREAD STARTED]: Cyder Busy Checker
+[21-46-27] [THREAD STARTED]: ConsoleFrame Stat Saver
+[21-46-27] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[21-46-27] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[21-46-27] [UI]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 22312290, bounds = (980, 396,
+           600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Cyder Splash
+[21-46-27] [THREAD STARTED]: High Ping Checker
+[21-46-27] [CONSOLE OUT]: [STRING]: Console loaded in 4063ms
+[21-46-27] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[21-46-27] [THREAD STARTED]: Manual Tests Thread
+[21-46-27] [THREAD STARTED]: Splash Loading Label Updater
+[21-46-28] [DEBUG]: Attempted to log a new or empty line
+[21-46-30] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[21-46-30] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1656211479675.json
+[21-46-31] [OBJECT CREATION]: Objects created since last delta (5000ms): 40
+[21-46-42] [CLIENT]: mp3
+[21-46-42] [CONSOLE OUT]: [STRING]: Opening widget: AudioPlayer
+[21-46-42] [THREAD STARTED]: Vexento - Pixel Party Progress Label Thread
+[21-46-42] [THREAD STARTED]: Audio Progress Label Animator
+[21-46-42] [THREAD STARTED]: [Vexento - pixel party] finalizeAndShow()
+[21-46-42] [WIDGET]: AudioPlayer, trigger = mp3
+[21-46-42] [DEBUG]: Attempted to log a new or empty line
+[21-46-43] [THREAD STARTED]: Vexento - pixel party Menu Label Animator
+[21-46-45] [UI]: cyder.ui.CyderTextField[,150,50,300x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignmen
+           tX=0.0,alignmentY=0.0,border=javax.swing.border.MatteBorder@a760c97,flags=16777512,maximumSize=,minimumSize=,preferredSi
+           ze=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edit
+           able=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColor
+           UIResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,hori
+           zontalAlignment=LEADING]
+[21-46-46] [OBJECT CREATION]: Objects created since last delta (5000ms): 31
+[21-46-50] [THREAD STARTED]: YouTube Search Updater
+[21-46-51] [OBJECT CREATION]: Objects created since last delta (5000ms): 21
+[21-46-56] [UI]: Component = CyderButton, hash = 885502312, bounds = (150, 100, 40, 40), parent frame = Vexento - pixel
+           party, getText() =  <
+[21-46-56] [OBJECT CREATION]: Objects created since last delta (5000ms): 19
+[21-46-57] [THREAD STARTED]: Vexento - pixel party Menu Label Animator
+[21-47-01] [THREAD STARTED]: Vexento - pixel party Menu Label Animator
+[21-47-01] [OBJECT CREATION]: Objects created since last delta (5000ms): 14
+[21-47-02] [THREAD STARTED]: Vexento - pixel party Menu Label Animator
+[21-47-06] [OBJECT CREATION]: Objects created since last delta (5000ms): 12
+[21-47-07] [UI]: Component = CyderButton, hash = 2137893564, bounds = (150, 100, 40, 40), parent frame = Vexento - pixel
+           party, getText() =  <
+[21-47-07] [THREAD STARTED]: Vexento - pixel party Menu Label Animator
+[21-47-09] [UI]: Component = CyderDragLabel, hash = -14690353, bounds = (2, 2, 596, 28), parent frame = Vexento - pixel party
+[21-47-09] [THREAD STARTED]: [Vexento - pixel party] dispose() animation thread
+[21-47-09] [UI]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 183537156, bounds = (1425,
+           360, 600, 600), parent frame = Component itself is a CyderFrame, getTitle() = Vexento - pixel party
+[21-47-10] [THREAD STARTED]: [Vexento - pixel party] dispose() animation thread
+[21-47-10] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[21-47-10] [UI]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 1320388319, bounds
+           = (1242, 354, 967, 613), parent frame = Component itself is a CyderFrame, getTitle() = Liminal Cyder [Nathan]
+[21-47-10] [EXIT]: [RUNTIME] 47s
+[21-47-10] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown
