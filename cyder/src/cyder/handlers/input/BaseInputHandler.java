@@ -356,18 +356,25 @@ public class BaseInputHandler {
     private void unknownInput() {
         CyderThreadRunner.submit(() -> {
             try {
-                ReflectionUtil.SimilarCommand similarCommand = ReflectionUtil.getSimilarCommand(command);
+                ReflectionUtil.SimilarCommand similarCommandObj = ReflectionUtil.getSimilarCommand(command);
 
-                if (similarCommand.command().isPresent()) {
-                    String simCom = similarCommand.command().get();
-                    double tol = similarCommand.tolerance();
+                if (similarCommandObj.command().isPresent()) {
+                    String similarCommand = similarCommandObj.command().get();
+                    double tolerance = similarCommandObj.tolerance();
 
-                    if (!StringUtil.isNull(simCom)) {
+                    if (!StringUtil.isNull(similarCommand)) {
                         Logger.log(Logger.Tag.DEBUG, "Similar command to \""
-                                + command + "\" found with tol of " + tol + ", command = \"" + simCom + "\"");
+                                + command + "\" found with tolerance of " + tolerance + ", command = \"" +
+                                similarCommand + "\"");
 
-                        if (tol >= CyderNumbers.SIMILAR_COMMAND_TOL) {
-                            println("Unknown command; Most similar command: \"" + simCom + "\"");
+                        if (tolerance >= CyderNumbers.SIMILAR_COMMAND_TOL) {
+                            if (PropLoader.getBoolean("auto_trigger_similar_commands")
+                                    && tolerance >= PropLoader.getFloat("auto_trigger_similar_command_tolerance")) {
+                                println("Unknown command; Invoking similar command: \"" + similarCommand + "\"");
+                                handle(similarCommand, false);
+                            } else {
+                                println("Unknown command; Most similar command: \"" + similarCommand + "\"");
+                            }
                         } else {
                             wrapShellCheck();
                         }
