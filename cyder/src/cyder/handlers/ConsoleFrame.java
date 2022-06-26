@@ -3012,6 +3012,7 @@ public enum ConsoleFrame {
      */
     private void animateInAudioControls() {
         CyderThreadRunner.submit(() -> {
+            generateAudioMenu();
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
                     - audioControlsLabel.getWidth() - 6, -40);
             audioControlsLabel.setVisible(true);
@@ -3029,9 +3030,9 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Revalidates the visibility audio menu based on if audio is playing.
+     * Revalidates the visibility audio menu and the play/pause button based on if audio is playing.
      */
-    public void revalidateAudioMenuVisibility() {
+    public void revalidateAudioMenu() {
         if (!AudioPlayer.isWidgetOpen() && !IOUtil.generalAudioPlaying()) {
             if (audioControlsLabel.isVisible()) {
                 animateOutAndRemoveAudioControls();
@@ -3151,10 +3152,10 @@ public enum ConsoleFrame {
         playPauseAudioLabel.setOpaque(false);
         audioControlsLabel.add(playPauseAudioLabel);
 
-        if (!IOUtil.generalAudioPlaying() && !AudioPlayer.isAudioPlaying()) {
-            playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
-        } else {
+        if (IOUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
             playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
+        } else {
+            playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
         }
 
         audioControlsLabel.add(playPauseAudioLabel);

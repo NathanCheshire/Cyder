@@ -82,7 +82,7 @@ class InnerAudioPlayer {
 
             BufferedInputStream bis = new BufferedInputStream(fis);
 
-            ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
+            ConsoleFrame.INSTANCE.revalidateAudioMenu();
 
             audioPlayer = new Player(bis);
 
@@ -90,7 +90,7 @@ class InnerAudioPlayer {
                 try {
                     audioPlayer.play();
 
-                    ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
+                    ConsoleFrame.INSTANCE.revalidateAudioMenu();
 
                     FileUtil.closeIfNotNull(fis);
                     FileUtil.closeIfNotNull(bis);

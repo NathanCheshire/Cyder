@@ -816,7 +816,7 @@ public final class AudioPlayer {
 
         audioPlayerFrame.finalizeAndShow();
 
-        ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
+        ConsoleFrame.INSTANCE.revalidateAudioMenu();
 
         // now that frame is shown, ensure binaries installed and restrict UI until proven
         if (!AudioUtil.ffmpegInstalled() || !AudioUtil.youtubeDlInstalled()) {
@@ -1731,6 +1731,8 @@ public final class AudioPlayer {
             playPauseButton.setIcon(playIcon);
             playPauseButton.setToolTipText("Play");
         }
+
+        ConsoleFrame.INSTANCE.revalidateAudioMenu();
     }
 
     /**
@@ -1791,7 +1793,7 @@ public final class AudioPlayer {
             playAudio();
         }
 
-        ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
+        ConsoleFrame.INSTANCE.revalidateAudioMenu();
     }
 
     /**
@@ -2143,7 +2145,7 @@ public final class AudioPlayer {
             innerAudioPlayer = null;
         }
 
-        ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
+        ConsoleFrame.INSTANCE.revalidateAudioMenu();
     }
 
     /**
@@ -2492,11 +2494,9 @@ public final class AudioPlayer {
 
         previousSearch = fieldText;
 
+        // todo extract all icons to AudioIcons class that can be referenced else where
+
         // todo search clicked when already in search, bug with field
-
-        // todo console audio menu audio button icon not updating properly
-
-        // todo use borderless, rounded, better font for button
 
         // todo audio progress bar doesn't actually line up with current
         //  audio location, rethink whole of AudioProgressLocation tracker
@@ -2504,6 +2504,7 @@ public final class AudioPlayer {
         // todo playing dreamified audio after just finished freezes
         // todo transitioning audio still freezes sometimes
 
+        // todo use borderless, rounded, better font for button
         // todo buttons here should have a border radius to them without any black borders
 
         CyderThreadRunner.submit(() -> {

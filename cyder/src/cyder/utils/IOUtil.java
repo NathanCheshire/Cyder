@@ -205,11 +205,9 @@ public final class IOUtil {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 } finally {
-                    ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
+                    ConsoleFrame.INSTANCE.revalidateAudioMenu();
                 }
             }, "IOUtil audio thread");
-
-            ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -275,9 +273,9 @@ public final class IOUtil {
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+        } finally {
+            ConsoleFrame.INSTANCE.revalidateAudioMenu();
         }
-
-        ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
     }
 
     /**
