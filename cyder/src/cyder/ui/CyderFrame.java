@@ -3,10 +3,7 @@ package cyder.ui;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
-import cyder.constants.CyderNumbers;
+import cyder.constants.*;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.ConsoleFrame;
@@ -771,7 +768,6 @@ public class CyderFrame extends JFrame {
      *
      * @return the button position of this frame
      */
-    @SuppressWarnings("unused")
     public ButtonPosition getButtonPosition() {
         return buttonPosition;
     }
@@ -802,7 +798,6 @@ public class CyderFrame extends JFrame {
      *
      * @return the frame type of this CyderFrame. See {@link CyderFrame#frameType}
      */
-    @SuppressWarnings("unused")
     public FrameType getFrameType() {
         return frameType;
     }
@@ -1214,7 +1209,6 @@ public class CyderFrame extends JFrame {
      *
      * @param expectedText the text of the notification to revoke.
      */
-    @SuppressWarnings("unused")
     public void revokeNotification(String expectedText) {
         if (currentNotification.getBuilder().getHtmlText().equals(expectedText)) {
             revokeCurrentNotification();
@@ -1388,7 +1382,6 @@ public class CyderFrame extends JFrame {
      *
      * @return this frame should fast close when the default dispose is invoked
      */
-    @SuppressWarnings("unused")
     public boolean isShouldFastClose() {
         return shouldFastClose;
     }
@@ -1408,7 +1401,6 @@ public class CyderFrame extends JFrame {
      * @param fastClose whether to animate the frame away or immediately dispose the frame
      */
     public void dispose(boolean fastClose) {
-        // thread since possible confirmation
         CyderThreadRunner.submit(() -> {
             try {
                 if (disposed) {
@@ -1420,8 +1412,7 @@ public class CyderFrame extends JFrame {
                             new GetterUtil.Builder("Confirmation")
                                     .setInitialString(closingConfirmationMessage)
                                     .setRelativeTo(this)
-                                    .setDisableRelativeTo(true)
-                    );
+                                    .setDisableRelativeTo(true));
 
                     if (!exit) {
                         return;
@@ -1430,12 +1421,9 @@ public class CyderFrame extends JFrame {
 
                 disposed = true;
 
-                // confirmation passed so log
-                Logger.log(Logger.Tag.UI_ACTION, "CyderFrame disposed with fastclose: "
-                        + fastClose + ", " + this);
+                Logger.log(Logger.Tag.UI_ACTION, "CyderFrame disposed with fastclose="
+                        + fastClose + ", frame=" + getTitle());
 
-                //run all preCloseActions if any exists, this is performed after the confirmation check
-                // since now we are sure that we wish to close the frame
                 for (Runnable action : preCloseActions) {
                     action.run();
                 }
@@ -1499,23 +1487,10 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Fast disposes the frame if active and returned if the frame was indeed active before disposing.
-     *
-     * @return whether the frame was active before disposing
-     */
-    @CanIgnoreReturnValue
-    public boolean disposeIfActive() {
-        boolean ret = !disposed;
-        dispose(true);
-        return ret;
-    }
-
-    /**
      * Whether to allow the frame to be relocated via dragging.
      *
      * @param relocatable whether to allow the frame to be relocated via dragging.
      */
-    @SuppressWarnings("unused")
     public void setRelocatable(boolean relocatable) {
         if (relocatable) {
             enableDragging();
@@ -2249,13 +2224,10 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Kills all threads associated with this CyderFrame instance.
-     * This method is automatically called when {@link CyderFrame#dispose()} is invoked.
-     * As such, features should not be expected to function properly after this method
-     * or {@link CyderFrame#dispose()} are invoked.
-     * Tl;dr, treat this method as a finalize method of sorts.
+     * Kills all threads associated with this instance.
+     * Features should not be expected to function properly after this method is invoked.
      */
-    public void killThreads() {
+    private void killThreads() {
         threadsKilled = true;
     }
 
@@ -2264,7 +2236,6 @@ public class CyderFrame extends JFrame {
      *
      * @return whether threads have been killed
      */
-    @SuppressWarnings("unused")
     public boolean threadsKilled() {
         return threadsKilled;
     }
@@ -2272,14 +2243,15 @@ public class CyderFrame extends JFrame {
     /**
      * Set the background of {@code this} to the current ConsoleFrame background.
      */
-    @SuppressWarnings("unused")
     public void replicateConsoleBackground() {
-        if (ConsoleFrame.INSTANCE.getCurrentBackground() == null)
+        if (ConsoleFrame.INSTANCE.getCurrentBackground() == null) {
             return;
+        }
 
         iconLabel.setIcon(new ImageIcon(ConsoleFrame.INSTANCE.getCurrentBackground()
-                .generateImageIcon().getImage().getScaledInstance(
-                        getWidth(), getHeight(), Image.SCALE_DEFAULT)));
+                .generateImageIcon()
+                .getImage()
+                .getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT)));
     }
 
     /**
@@ -2338,8 +2310,9 @@ public class CyderFrame extends JFrame {
      * Disables dragging for this frame.
      */
     public void disableDragging() {
-        if (isBorderlessFrame())
+        if (isBorderlessFrame()) {
             return;
+        }
 
         topDrag.disableDragging();
         bottomDrag.disableDragging();
@@ -2351,8 +2324,9 @@ public class CyderFrame extends JFrame {
      * Enables dragging for this frame.
      */
     public void enableDragging() {
-        if (isBorderlessFrame())
+        if (isBorderlessFrame()) {
             return;
+        }
 
         topDrag.enableDragging();
         bottomDrag.enableDragging();
@@ -2458,13 +2432,13 @@ public class CyderFrame extends JFrame {
     /**
      * Adds any {@link MouseListener}s to the drag labels.
      *
-     * @param ml the listener to add to the drag labels
+     * @param mouseListener the listener to add to the drag labels
      */
-    public void addDragLabelMouseListener(MouseListener ml) {
-        topDrag.addMouseListener(ml);
-        bottomDrag.addMouseListener(ml);
-        leftDrag.addMouseListener(ml);
-        rightDrag.addMouseListener(ml);
+    public void addDragLabelMouseListener(MouseListener mouseListener) {
+        topDrag.addMouseListener(mouseListener);
+        bottomDrag.addMouseListener(mouseListener);
+        leftDrag.addMouseListener(mouseListener);
+        rightDrag.addMouseListener(mouseListener);
     }
 
     /**
@@ -2757,7 +2731,6 @@ public class CyderFrame extends JFrame {
      *
      * @param p the center point of the frame
      */
-    @SuppressWarnings("unused")
     public void setCenterPoint(Point p) {
         checkNotNull(p);
         setLocation(p.x - getWidth() / 2, p.y - getHeight() / 2);
@@ -2958,7 +2931,6 @@ public class CyderFrame extends JFrame {
     /**
      * Ensures the menu isn't visible and cannot be triggered.
      */
-    @SuppressWarnings("unused")
     public void lockMenuIn() {
         hideMenu();
         setMenuEnabled(false);
@@ -3062,7 +3034,6 @@ public class CyderFrame extends JFrame {
      *
      * @param text the text of the menu item to remove
      */
-    @SuppressWarnings("unused")
     public void removeMenuItem(String text) {
         for (int i = 0 ; i < menuItems.size() ; i++) {
             if (menuItems.get(i).label().getText().equals(text)) {
@@ -3099,7 +3070,7 @@ public class CyderFrame extends JFrame {
     /**
      * Adds a new menu item to the menu and revalidates the menu.
      *
-     * @param text    the label text
+     * @param text    the text for the menu label
      * @param onClick the function to run upon clicking
      * @param state   the atomic boolean used to dictate the toggled/not toggled state of the menu item if necessary
      */
@@ -3155,7 +3126,6 @@ public class CyderFrame extends JFrame {
      *
      * @return whether the menu is accessible
      */
-    @SuppressWarnings("unused")
     public boolean isMenuEnabled() {
         return menuEnabled;
     }
@@ -3210,8 +3180,9 @@ public class CyderFrame extends JFrame {
      * Animates the menu label in.
      */
     private void animateMenuIn() {
-        if (!menuLabel.isVisible())
+        if (!menuLabel.isVisible()) {
             generateMenu();
+        }
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -3245,8 +3216,10 @@ public class CyderFrame extends JFrame {
     private void animateMenuOut() {
         checkNotNull(menuLabel);
 
-        if (menuLabel.getY() + menuLabel.getWidth() < 0)
+        if (menuLabel.getX() + menuLabel.getWidth() < 0
+                && menuLabel.getY() + menuLabel.getHeight() < 0) {
             return;
+        }
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -3292,6 +3265,11 @@ public class CyderFrame extends JFrame {
     private static final int menuBorderThickness = 4;
 
     /**
+     * The offset value for setting the menu label y value.
+     */
+    private static final int menuYOffset = 5;
+
+    /**
      * Generates the menu based off of the current menu components
      * and sets the location to the starting point for inward animation.
      */
@@ -3308,16 +3286,14 @@ public class CyderFrame extends JFrame {
             int menuHeight = 2 * paddingHeight + (menuItems.size() * (StringUtil.getAbsoluteMinHeight(
                     String.valueOf(CyderNumbers.JENNY), CyderFonts.DEFAULT_FONT_SMALL))) + 5;
 
-            int sub = 5;
-
-            if (menuHeight > getHeight() - topDrag.getHeight() - sub) {
-                menuHeight = getHeight() - topDrag.getHeight() - sub;
+            if (menuHeight > getHeight() - topDrag.getHeight() - menuYOffset) {
+                menuHeight = getHeight() - topDrag.getHeight() - menuYOffset;
             }
 
             menuLabel.setSize(menuWidth, menuHeight);
         } else {
-            menuLabel.setSize(getWidth() - 10,
-                    (StringUtil.getMinHeight(String.valueOf(CyderNumbers.JENNY), CyderFonts.DEFAULT_FONT_SMALL)));
+            menuLabel.setSize(getWidth() - 10, StringUtil.getMinHeight(CyderStrings.JENNY,
+                    CyderFonts.DEFAULT_FONT_SMALL));
         }
 
         menuLabel.setBorder(new LineBorder(Color.black, menuBorderThickness));
@@ -3416,11 +3392,10 @@ public class CyderFrame extends JFrame {
         setVisible(true);
 
         boolean wasOnTop = isAlwaysOnTop();
-        setAlwaysOnTop(true);
-
         if (!wasOnTop) {
             CyderThreadRunner.submit(() -> {
                 try {
+                    setAlwaysOnTop(true);
                     Thread.sleep(FINALIZE_AND_SHOW_DELAY);
                     setAlwaysOnTop(false);
                 } catch (Exception e) {
@@ -3438,23 +3413,27 @@ public class CyderFrame extends JFrame {
     @Nullable
     public static CyderFrame getDominantFrame() {
         if (!ConsoleFrame.INSTANCE.isClosed()) {
-            if (ConsoleFrame.INSTANCE.getConsoleCyderFrame().getState() == ICONIFIED) {
-                return null;
-            } else
-                return ConsoleFrame.INSTANCE.getConsoleCyderFrame();
+            CyderFrame referenceFrame = ConsoleFrame.INSTANCE.getConsoleCyderFrame();
+            return referenceFrame.getState() == ICONIFIED ? null : referenceFrame;
         } else if (!LoginHandler.isLoginFrameClosed() && LoginHandler.getLoginFrame() != null) {
             return LoginHandler.getLoginFrame();
         }
         // other possibly dominant/stand-alone frame checks here
-        else
+        else {
             return null;
+        }
     }
 
     /**
      * The valid screen positions for a frame object.
      */
     public enum ScreenPosition {
-        TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, CENTER
+        TOP_LEFT,
+        TOP_RIGHT,
+        BOTTOM_LEFT,
+        BOTTOM_RIGHT,
+        CENTER,
+        MIDDLE
     }
 
     /**
@@ -3464,12 +3443,10 @@ public class CyderFrame extends JFrame {
      */
     public void setLocationOnScreen(ScreenPosition screenPos) {
         switch (screenPos) {
-            case CENTER -> setLocationRelativeTo(null);
+            case CENTER, MIDDLE -> setLocationRelativeTo(null);
             case TOP_LEFT -> setLocation(0, 0);
-            case TOP_RIGHT -> setLocation(ScreenUtil.getScreenWidth()
-                    - getWidth(), 0);
-            case BOTTOM_LEFT -> setLocation(0, ScreenUtil.getScreenHeight()
-                    - getHeight());
+            case TOP_RIGHT -> setLocation(ScreenUtil.getScreenWidth() - getWidth(), 0);
+            case BOTTOM_LEFT -> setLocation(0, ScreenUtil.getScreenHeight() - getHeight());
             case BOTTOM_RIGHT -> setLocation(ScreenUtil.getScreenWidth() - getWidth(),
                     ScreenUtil.getScreenHeight() - getHeight());
         }
@@ -3480,10 +3457,12 @@ public class CyderFrame extends JFrame {
      * This record is to associate a label with a possible
      * AtomicBoolean which dictates the state of the menu item.
      */
-    private static record MenuItem(JLabel label, AtomicBoolean state) {
-    }
+    private static record MenuItem(JLabel label, AtomicBoolean state) {}
 
-    @SuppressWarnings("UnusedReturnValue")
+    /**
+     * A builder for a CyderFrame notification.
+     */
+    @CanIgnoreReturnValue
     public static final class NotificationBuilder {
         /**
          * The minimum allowable char length for a notification.

@@ -179,8 +179,9 @@ public final class GameOfLifeWidget {
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     @Widget(triggers = {"conway", "conways", "game of life"}, description = "Conway's game of life visualizer")
     public static void showGui() {
-        if (conwayFrame != null)
-            conwayFrame.disposeIfActive();
+        if (conwayFrame != null) {
+            conwayFrame.dispose();
+        }
 
         conwayFrame = new CyderFrame(600, 860);
         conwayFrame.setTitle("Conway's Game of Life");

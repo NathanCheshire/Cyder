@@ -42,6 +42,11 @@ public final class CyderStrings {
     public static final String NOT_AVAILABLE = "N/A";
 
     /**
+     * Don't change your number.
+     */
+    public static final String JENNY = "8675309";
+
+    /**
      * Instantiation of constants class not allowed.
      */
     private CyderStrings() {
