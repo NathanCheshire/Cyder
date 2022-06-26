@@ -61,6 +61,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static cyder.audio.AudioIcons.*;
 
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
@@ -204,78 +205,6 @@ public final class AudioPlayer {
      * The audio volume percent label which appears on change of the audio volume.
      */
     private static final CyderLabel audioVolumePercentLabel = new CyderLabel();
-
-    /**
-     * The play icon.
-     */
-    private static final ImageIcon playIcon = new ImageIcon(
-            "static/pictures/music/Play.png");
-
-    /**
-     * The play icon for hover events.
-     */
-    private static final ImageIcon playIconHover = new ImageIcon(
-            "static/pictures/music/PlayHover.png");
-
-    /**
-     * The pause icon.
-     */
-    private static final ImageIcon pauseIcon = new ImageIcon(
-            "static/pictures/music/Pause.png");
-
-    /**
-     * The pause icon for hover events.
-     */
-    private static final ImageIcon pauseIconHover = new ImageIcon(
-            "static/pictures/music/PauseHover.png");
-
-    /**
-     * The next icon.
-     */
-    private static final ImageIcon nextIcon = new ImageIcon(
-            "static/pictures/music/Skip.png");
-
-    /**
-     * The next icon for hover events.
-     */
-    private static final ImageIcon nextIconHover = new ImageIcon(
-            "static/pictures/music/SkipHover.png");
-
-    /**
-     * The last icon.
-     */
-    private static final ImageIcon lastIcon = new ImageIcon(
-            "static/pictures/music/SkipBack.png");
-
-    /**
-     * The last icon for hover events.
-     */
-    private static final ImageIcon lastIconHover = new ImageIcon(
-            "static/pictures/music/SkipBackHover.png");
-
-    /**
-     * The repeat icon.
-     */
-    private static final ImageIcon repeatIcon = new ImageIcon(
-            "static/pictures/music/Repeat.png");
-
-    /**
-     * The repeat icon for hover events.
-     */
-    private static final ImageIcon repeatIconHover = new ImageIcon(
-            "static/pictures/music/RepeatHover.png");
-
-    /**
-     * The shuffle icon.
-     */
-    private static final ImageIcon shuffleIcon = new ImageIcon(
-            "static/pictures/music/Shuffle.png");
-
-    /**
-     * The shuffle icon for hover events.
-     */
-    private static final ImageIcon shuffleIconHover = new ImageIcon(
-            "static/pictures/music/ShuffleHover.png");
 
     /**
      * The size of the primary audio control buttons.
@@ -422,16 +351,6 @@ public final class AudioPlayer {
      * audio title if it exceeds the parent container's bounds.
      */
     private static ScrollingTitleLabel scrollingTitleLabel;
-
-    /**
-     * The alternate view icon.
-     */
-    private static final ImageIcon alternateView = new ImageIcon("static/pictures/icons/ChangeSize1.png");
-
-    /**
-     * The alternate view hover icon.
-     */
-    private static final ImageIcon alternateViewHover = new ImageIcon("static/pictures/icons/ChangeSize2.png");
 
     /**
      * The button to be placed in the audio player drag label button list to switch frame views.
@@ -2151,7 +2070,7 @@ public final class AudioPlayer {
     /**
      * The time in ms to delay possible ui interactions.
      */
-    private static final int ACTION_TIMEOUT_MS = 600;
+    private static final int ACTION_TIMEOUT_MS = 50;
 
     /**
      * The last time a ui action was permitted.
@@ -2493,8 +2412,6 @@ public final class AudioPlayer {
         }
 
         previousSearch = fieldText;
-
-        // todo extract all icons to AudioIcons class that can be referenced else where
 
         // todo search clicked when already in search, bug with field
 

@@ -3,6 +3,7 @@ package cyder.handlers;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import cyder.audio.AudioIcons;
 import cyder.audio.AudioPlayer;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -3045,9 +3046,9 @@ public enum ConsoleFrame {
             }
 
             if (IOUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
-                playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
+                playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
             } else {
-                playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
+                playPauseAudioLabel.setIcon(AudioIcons.playIcon);
             }
         }
     }
@@ -3088,7 +3089,7 @@ public enum ConsoleFrame {
 
         JLabel lastMusicLabel = new JLabel();
         lastMusicLabel.setBounds(currentX, yPadding, buttonSize, buttonSize);
-        lastMusicLabel.setIcon(new ImageIcon("static/pictures/music/SkipBack.png"));
+        lastMusicLabel.setIcon(AudioIcons.lastIcon);
         lastMusicLabel.setToolTipText("Previous");
         lastMusicLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -3100,12 +3101,12 @@ public enum ConsoleFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                lastMusicLabel.setIcon(new ImageIcon("static/pictures/music/SkipBackHover.png"));
+                lastMusicLabel.setIcon(AudioIcons.lastIconHover);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                lastMusicLabel.setIcon(new ImageIcon("static/pictures/music/SkipBack.png"));
+                lastMusicLabel.setIcon(AudioIcons.lastIcon);
             }
         });
         lastMusicLabel.setVisible(true);
@@ -3131,19 +3132,19 @@ public enum ConsoleFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (!IOUtil.generalAudioPlaying() && !AudioPlayer.isAudioPlaying()) {
-                    playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/PlayHover.png"));
+                if (IOUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
+                    playPauseAudioLabel.setIcon(AudioIcons.pauseIconHover);
                 } else {
-                    playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/PauseHover.png"));
+                    playPauseAudioLabel.setIcon(AudioIcons.playIconHover);
                 }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (!IOUtil.generalAudioPlaying() && !AudioPlayer.isAudioPlaying()) {
-                    playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
+                if (IOUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
+                    playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
                 } else {
-                    playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
+                    playPauseAudioLabel.setIcon(AudioIcons.playIcon);
                 }
             }
         });
@@ -3152,9 +3153,9 @@ public enum ConsoleFrame {
         audioControlsLabel.add(playPauseAudioLabel);
 
         if (IOUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
-            playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
+            playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
         } else {
-            playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
+            playPauseAudioLabel.setIcon(AudioIcons.playIcon);
         }
 
         audioControlsLabel.add(playPauseAudioLabel);
@@ -3163,7 +3164,7 @@ public enum ConsoleFrame {
 
         JLabel nextMusicLabel = new JLabel();
         nextMusicLabel.setBounds(currentX, yPadding, buttonSize, buttonSize);
-        nextMusicLabel.setIcon(new ImageIcon("static/pictures/music/Skip.png"));
+        nextMusicLabel.setIcon(AudioIcons.nextIcon);
         audioControlsLabel.add(nextMusicLabel);
         nextMusicLabel.setToolTipText("Skip");
         nextMusicLabel.addMouseListener(new MouseAdapter() {
@@ -3176,12 +3177,12 @@ public enum ConsoleFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                nextMusicLabel.setIcon(new ImageIcon("static/pictures/music/SkipHover.png"));
+                nextMusicLabel.setIcon(AudioIcons.nextIconHover);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                nextMusicLabel.setIcon(new ImageIcon("static/pictures/music/Skip.png"));
+                nextMusicLabel.setIcon(AudioIcons.nextIcon);
             }
         });
         nextMusicLabel.setVisible(true);
