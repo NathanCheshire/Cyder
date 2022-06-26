@@ -1,6 +1,7 @@
 package cyder.user;
 
 import cyder.annotations.Widget;
+import cyder.audio.AudioPlayer;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -12,7 +13,6 @@ import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.DirectoryViewer;
 import cyder.handlers.external.PhotoViewer;
-import cyder.handlers.external.audio.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.records.ConsoleBackground;
 import cyder.threads.CyderThreadRunner;

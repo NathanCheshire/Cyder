@@ -1,4 +1,4 @@
-package cyder.handlers.external.audio;
+package cyder.audio;
 
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.FileUtil;

@@ -1,4 +1,4 @@
-package cyder.handlers.external.audio;
+package cyder.audio;
 
 import com.google.gson.Gson;
 import cyder.annotations.CyderAuthor;

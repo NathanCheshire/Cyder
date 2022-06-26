@@ -1,7 +1,7 @@
 package cyder.test;
 
+import cyder.audio.AudioUtil;
 import cyder.constants.CyderRegexPatterns;
-import cyder.handlers.external.audio.AudioUtil;
 import cyder.handlers.internal.Logger;
 import cyder.utils.*;
 import cyder.widgets.WeatherWidget;

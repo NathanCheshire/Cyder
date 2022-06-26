@@ -1,14 +1,14 @@
 package cyder.youtube;
 
 import com.google.common.base.Preconditions;
+import cyder.audio.AudioPlayer;
+import cyder.audio.AudioUtil;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
-import cyder.handlers.external.audio.AudioPlayer;
-import cyder.handlers.external.audio.AudioUtil;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;

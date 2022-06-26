@@ -1,4 +1,4 @@
-package cyder.handlers.external.audio;
+package cyder.audio;
 
 import com.google.common.base.Preconditions;
 import cyder.handlers.internal.ExceptionHandler;

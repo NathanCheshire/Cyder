@@ -1,4 +1,4 @@
-package cyder.handlers.external.audio;
+package cyder.audio;
 
 /**
  * The available frame views for both the audio player and YouTube downloader.
