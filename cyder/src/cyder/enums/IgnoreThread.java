@@ -15,7 +15,8 @@ public enum IgnoreThread {
     SingularInstanceEnsurer("Singular Cyder Instance Ensurer"),
     ObjectCreationLogger("Object Creation Logger"),
     CyderWatchdog("Cyder Watchdog"),
-    WatchdogInitializer("Watchdog Initializer");
+    WatchdogInitializer("Watchdog Initializer"),
+    Backend("Backend");
 
     /**
      * The name associated with the thread to ignore.

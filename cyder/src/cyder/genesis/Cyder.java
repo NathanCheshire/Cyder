@@ -86,8 +86,6 @@ public final class Cyder {
             return;
         }
 
-        BackendUtil.setupBackend(PropLoader.getInteger("local_backend_port"));
-
         CyderSplash.INSTANCE.showSplash();
 
         // Necessary subroutines

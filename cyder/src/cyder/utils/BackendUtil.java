@@ -2,12 +2,7 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
-import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.ExceptionHandler;
-import cyder.threads.CyderThreadRunner;
-
-import java.io.File;
 
 /**
  * Util methods for common local backend requests.
@@ -38,30 +33,6 @@ public final class BackendUtil {
      */
     private BackendUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
-     * Sets up the backend environment if possible.
-     *
-     * @throws FatalException if python is not installed
-     */
-    public static void setupBackend(int port) throws FatalException {
-        try {
-            CyderThreadRunner.submit(() -> {
-                try {
-                    Preconditions.checkArgument(OSUtil.isBinaryInstalled("python"));
-
-                    File setupFile = OSUtil.buildFile("backend", "setup.bat");
-
-                    String[] command = {"Backend\\setup.bat", "--port", String.valueOf(port)};
-                    Runtime.getRuntime().exec(command);
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-            }, "Backend Hoster"); // todo ignore thread probably
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
     }
 
     /**

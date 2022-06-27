@@ -1,0 +1,64 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[21-05-34] [ENTRY]: Nathan
+[21-05-34] [PROP LOADED]: [key = map_quest_api_key]
+[21-05-34] [PROP LOADED]: [key = youtube_api_3_key]
+[21-05-34] [PROP LOADED]: [key = ip_key]
+[21-05-34] [PROP LOADED]: [key = weather_key]
+[21-05-34] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[21-05-34] [PROP LOADED]: [key = debug_hash_password]
+[21-05-34] [PROP LOADED]: [key = local_backend_port, value = 8080]
+[21-05-34] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[21-05-34] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[21-05-34] [PROP LOADED]: [key = font_metric, value = 1]
+[21-05-34] [PROP LOADED]: [key = released, value = false]
+[21-05-34] [PROP LOADED]: [key = fast_test, value = false]
+[21-05-34] [PROP LOADED]: [key = version, value = Liminal]
+[21-05-34] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[21-05-34] [PROP LOADED]: [key = components_relocatable, value = false]
+[21-05-34] [PROP LOADED]: [key = testing_mode, value = true]
+[21-05-34] [PROP LOADED]: [key = autocypher, value = true]
+[21-05-34] [PROP LOADED]: [key = dispose_splash, value = true]
+[21-05-34] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[21-05-34] [PROP LOADED]: [key = activate_watchdog, value = false]
+[21-05-34] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[21-05-34] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[21-05-34] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[21-05-34] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[21-05-34] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[21-05-34] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[21-05-34] [THREAD STARTED]: Object Creation Logger
+[21-05-34] [DEBUG]: Watchdog skipped
+[21-05-34] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[21-05-35] [FONT LOADED]: agency-fb
+[21-05-35] [FONT LOADED]: arial-black
+[21-05-35] [FONT LOADED]: beyno
+[21-05-35] [FONT LOADED]: condiment-regular
+[21-05-35] [FONT LOADED]: prompt-bold
+[21-05-35] [FONT LOADED]: segoe-ui-black
+[21-05-35] [FONT LOADED]: tahoma
+[21-05-35] [THREAD STARTED]: Backend
+[21-05-35] [THREAD STARTED]: Splash Loader
+[21-05-35] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
