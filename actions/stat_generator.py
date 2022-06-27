@@ -16,6 +16,7 @@ JAVA_CODE_COLOR = (25, 114, 176)
 COMMENT_COLOR = (75, 71, 60)
 BLANK_COLOR = (33, 37, 22)
 
+
 def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
                  width: str, height: str, save_name: str) -> None:
     """ Exports a stats png using the provided informtion.
@@ -301,12 +302,17 @@ def main():
     print('Total comment lines:', comment_lines)
     print('Total blank lines:', blank_lines)
 
+    total = code_lines + comment_lines + blank_lines
+
+    print('Total:', total)
+
     export_stats(code_lines=code_lines, comment_lines=comment_lines,
                  blank_lines=blank_lines, width=250, height=250, save_name="stats")
 
     # attempt to regenerate in case one was removed
     export_string_badge("Cyder", "A Programmer's Swiss Army Knife", "tagline")
     export_string_badge("By", "Nate Cheshire", "author")
+    export_string_badge("Total lines", get_compressed_number(total), "total")
 
 
 if __name__ == '__main__':

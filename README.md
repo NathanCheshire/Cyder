@@ -6,6 +6,8 @@
 
 ![](./actions/stats.png)
 
+![](./actions/total.png)
+
 ## What is Cyder
 
 Funny you should ask this question, I'm asked it quite a lot and usually fail to give a comprehensive and elegant
