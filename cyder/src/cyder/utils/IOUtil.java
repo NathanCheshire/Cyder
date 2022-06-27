@@ -96,6 +96,16 @@ public final class IOUtil {
     }
 
     /**
+     * The element class when scraping the user's primary location from Google.
+     */
+    private static final String PRIMARY_LOCATION_CLASS = "desktop-title-content";
+
+    /**
+     * The element class when scraping the user's secondary location from Google.
+     */
+    private static final String SECONDARY_LOCATION_CLASS = "desktop-title-subcontent";
+
+    /**
      * Logs any possible command line arguments passed in to Cyder upon starting.
      * Appends JVM Command Line Arguments along with the start location to the log.
      *
@@ -108,15 +118,16 @@ public final class IOUtil {
                 StringBuilder argBuilder = new StringBuilder();
 
                 for (int i = 0 ; i < cyderArgs.length ; i++) {
-                    if (i != 0)
+                    if (i != 0) {
                         argBuilder.append(",");
+                    }
 
                     argBuilder.append(cyderArgs[i]);
                 }
 
                 Document locationDocument = Jsoup.connect(CyderUrls.LOCATION_URL).get();
-                Elements primaryLocation = locationDocument.getElementsByClass("desktop-title-content");
-                Elements secondaryLocation = locationDocument.getElementsByClass("desktop-title-subcontent");
+                Elements primaryLocation = locationDocument.getElementsByClass(PRIMARY_LOCATION_CLASS);
+                Elements secondaryLocation = locationDocument.getElementsByClass(SECONDARY_LOCATION_CLASS);
 
                 String isp = "NOT FOUND";
 
@@ -124,6 +135,7 @@ public final class IOUtil {
 
                 for (String line : lines) {
                     Matcher matcher = CyderRegexPatterns.whereAmIPattern.matcher(line);
+
                     if (matcher.find()) {
                         isp = matcher.group(1);
                     }
@@ -133,8 +145,10 @@ public final class IOUtil {
                     argBuilder.append("; ");
                 }
 
-                argBuilder.append("primary location = ").append(primaryLocation.text())
-                        .append(", secondary location = ").append(secondaryLocation.text());
+                argBuilder.append("primary location = ")
+                        .append(primaryLocation.text())
+                        .append(", secondary location = ")
+                        .append(secondaryLocation.text());
 
                 if (!isp.isEmpty()) {
                     argBuilder.append(", isp = ").append(StringUtil.capsFirstWords(isp));

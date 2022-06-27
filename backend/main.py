@@ -1,11 +1,13 @@
 
 
 from fastapi import FastAPI
+from numpy import require
 from pydantic import BaseModel
 from typing import Optional
 import uvicorn
 from functions import gaussian_blur, get_unix_gmt_time, get_audio_length, get_usb_devices
 import os
+import argparse
 
 app = FastAPI()
 
@@ -59,5 +61,8 @@ def get_usb():
 
 
 if __name__ == '__main__':
-    # TODO make port configurable from props file?
-    uvicorn.run("main:app", host="0.0.0.0", port=8080)
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument("--port", "-p", required=True,
+                    help='an integer for the FastAPI port')
+    args = parser.parse_args()
+    uvicorn.run("main:app", host="0.0.0.0", port=int(args.port))

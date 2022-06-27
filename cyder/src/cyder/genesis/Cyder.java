@@ -41,7 +41,6 @@ public final class Cyder {
      *                  but we shall log them regardless (just like Big Brother would want)
      */
     public static void main(String[] arguments) {
-        // Never put calls before this
         TimeUtil.setAbsoluteStartTime(System.currentTimeMillis());
 
         PropLoader.loadProps();
@@ -82,13 +81,16 @@ public final class Cyder {
 
         if (PropLoader.getBoolean("fast_test")) {
             ManualTests.launchTests();
-            ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit", "Fast Testing",
-                    ExitCondition.TestingModeExit);
+            ExceptionHandler.exceptionExit("Fast Testing launched; dispose this frame to exit",
+                    "Fast Testing", ExitCondition.TestingModeExit);
             return;
         }
 
+        BackendUtil.setupBackend(PropLoader.getInteger("local_backend_port"));
+
         CyderSplash.INSTANCE.showSplash();
 
+        // Necessary subroutines
         try {
             CyderSplash.INSTANCE.setLoadingMessage("Creating dynamics");
             OSUtil.ensureDynamicsCreated();
@@ -119,7 +121,7 @@ public final class Cyder {
             return;
         }
 
-        // sufficient subroutines
+        // Sufficient subroutines
         CyderThreadRunner.submit(() -> {
             CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
             IOUtil.logArgs(arguments);
@@ -134,8 +136,8 @@ public final class Cyder {
      */
     private static void initUiManagerTooltipProps() {
         UIManager.put("ToolTip.background", CyderColors.tooltipBackgroundColor);
-        UIManager.put("ToolTip.border", new BorderUIResource(
-                BorderFactory.createLineBorder(CyderColors.tooltipBorderColor, 2, true)));
+        UIManager.put("ToolTip.border", new BorderUIResource(BorderFactory.createLineBorder(
+                CyderColors.tooltipBorderColor, 2, true)));
         UIManager.put("ToolTip.font", CyderFonts.TOOLTIP_FONT);
         UIManager.put("ToolTip.foreground", CyderColors.tooltipForegroundColor);
     }
