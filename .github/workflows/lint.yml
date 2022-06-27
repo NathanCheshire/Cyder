@@ -4,6 +4,7 @@ on:
   push:
 jobs:
   error_prone:
+    if: ${{ false }}  # disable until needed
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
