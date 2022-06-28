@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * A watchdog timer for Cyder to detect a freeze on the GUI and kill the application.
  */
-public class CyderWatchdog {
+public final class CyderWatchdog {
     /**
      * Suppress default constructor.
      */
@@ -54,8 +54,15 @@ public class CyderWatchdog {
      * Waits for the AWT-EventQueue-0 thread to spawn and then polls the thread's state
      * every {@link CyderWatchdog#POLL_TIMEOUT} checking to ensure the thread is not frozen.
      * Upon a possible freeze event, the user will be informed and prompted to exit or restart Cyder.
+     * <p>
+     * Note: the watchdog will only start if the prop value <b>activate_watchdog</b> exists and is set to true.
      */
     public static void initializeWatchDog() {
+        if (!PropLoader.getBoolean("activate_watchdog")) {
+            Logger.log(Logger.Tag.DEBUG, "Watchdog skipped");
+            return;
+        }
+
         CyderThreadRunner.submit(() -> {
             OUTER:
             while (true) {

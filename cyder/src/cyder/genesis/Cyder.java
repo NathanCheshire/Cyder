@@ -23,8 +23,8 @@ import java.net.ServerSocket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * The Cyder-base that performs checks on data and environment variables to ensure
- * a successful start can happen.
+ * The main Cyder entry point that performs checks on data and
+ * environment variables to ensure a successful start can happen.
  */
 public final class Cyder {
     /**
@@ -34,11 +34,13 @@ public final class Cyder {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
+    // todo simplify further, move methods to util class in this package, move strings to constants/utils class
+
     /**
      * Setup and start the best program ever made :D
      *
-     * @param arguments possible command line args passed in. They serve no purpose yet,
-     *                  but we shall log them regardless (just like Big Brother would want)
+     * @param arguments possible command line args passed in. Currently, these serve no purpose,
+     *                  but we'll log them anyway (just like Big Brother would want)
      */
     public static void main(String[] arguments) {
         TimeUtil.setAbsoluteStartTime(System.currentTimeMillis());
@@ -50,45 +52,80 @@ public final class Cyder {
 
         initUiAndSystemProps();
 
-        if (PropLoader.getBoolean("activate_watchdog")) {
-            CyderWatchdog.initializeWatchDog();
-        } else {
-            Logger.log(Logger.Tag.DEBUG, "Watchdog skipped");
-        }
+        CyderWatchdog.initializeWatchDog();
 
         if (!isSingularInstance()) {
             Logger.log(Logger.Tag.DEBUG, "ATTEMPTED MULTIPLE CYDER INSTANCES");
             ExceptionHandler.exceptionExit("Multiple instances of Cyder are not allowed. " +
-                            "Terminate other instances before launching a new one.", "Instance Exception",
-                    ExitCondition.MultipleInstancesExit);
+                            "Terminate other instances before launching a new one.",
+                    "Instance Exception", ExitCondition.MultipleInstancesExit);
             return;
         }
 
         if (!registerFonts()) {
             Logger.log(Logger.Tag.EXCEPTION, "SYSTEM FAILURE");
-            ExceptionHandler.exceptionExit("Font required by system could not be loaded", "Font failure",
-                    ExitCondition.CorruptedSystemFiles);
+            ExceptionHandler.exceptionExit("Font required by system could not be loaded",
+                    "Font failure", ExitCondition.CorruptedSystemFiles);
             return;
         }
 
-        if (OSUtil.isOSX()) {
-            Logger.log(Logger.Tag.EXCEPTION, "IMPROPER OS");
-            ExceptionHandler.exceptionExit("System OS not intended for Cyder use. You should" +
-                            " install a dual boot or a VM or something :/", "OS Exception",
-                    ExitCondition.CorruptedSystemFiles);
+        if (!isSupportedOperatingSystem()) {
             return;
         }
 
-        if (PropLoader.getBoolean("fast_test")) {
-            ManualTests.launchTests();
-            ExceptionHandler.exceptionExit("Fast Testing launched; dispose this frame to exit",
-                    "Fast Testing", ExitCondition.TestingModeExit);
+        if (fastTestingCheck()) {
             return;
         }
 
         CyderSplash.INSTANCE.showSplash();
 
-        // Necessary subroutines
+        if (completeNecessarySubroutines()) {
+            spinOffSufficientSubroutines(arguments);
+
+            LoginHandler.determineCyderEntry();
+        }
+    }
+
+    /**
+     * Checks for the proper operating system.
+     *
+     * @return whether Cyder is currently running on a valid and supported operating system
+     */
+    private static boolean isSupportedOperatingSystem() {
+        if (OSUtil.isOSX()) {
+            Logger.log(Logger.Tag.EXCEPTION, "IMPROPER OS");
+            ExceptionHandler.exceptionExit("System OS not intended for Cyder use. You should" +
+                            " install a dual boot or a VM or something :/", "OS Exception",
+                    ExitCondition.CorruptedSystemFiles);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks for the prop <b><fast_test/b> being enabled and skips most of Cyder setup and instead invokes
+     * the ManualTests method {@link ManualTests#launchTests()}.
+     *
+     * @return whether fast testing was found to be enabled
+     */
+    private static boolean fastTestingCheck() {
+        if (PropLoader.getBoolean("fast_test")) {
+            ManualTests.launchTests();
+            ExceptionHandler.exceptionExit("Fast Testing launched; dispose this frame to exit",
+                    "Fast Testing", ExitCondition.TestingModeExit);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Sequentially runs the subroutines whose completion is necessary prior to Cyder starting.
+     *
+     * @return whether all subroutines completed successfully.
+     */
+    private static boolean completeNecessarySubroutines() {
         try {
             CyderSplash.INSTANCE.setLoadingMessage("Creating dynamics");
             OSUtil.ensureDynamicsCreated();
@@ -113,20 +150,26 @@ public final class Cyder {
 
             CyderSplash.INSTANCE.setLoadingMessage("Validating Handles");
             ReflectionUtil.validateHandles();
+
+            return true;
         } catch (Exception e) {
-            ExceptionHandler.exceptionExit("Exception thrown from subroutine runner, message = "
+            ExceptionHandler.exceptionExit("Exception thrown from necessary subroutine runner, message = "
                     + e.getMessage(), "Subroutine Exception", ExitCondition.SubroutineException);
-            return;
         }
 
-        // Sufficient subroutines
+        return false;
+    }
+
+    /**
+     * Starts a thread for subroutines who's successful completion are not necessary for Cyder use.
+     *
+     * @param arguments the Jvm provided arguments
+     */
+    private static void spinOffSufficientSubroutines(String[] arguments) {
         CyderThreadRunner.submit(() -> {
             CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
             IOUtil.logArgs(arguments);
         }, "Secondary Subroutines Runner");
-
-        // off-ship how to login to the LoginHandler since all subroutines finished
-        LoginHandler.determineCyderEntry();
     }
 
     /**
@@ -162,18 +205,18 @@ public final class Cyder {
     }
 
     /**
-     * Adds the exiting hook to the JVM.
+     * The name to use for the exit hook thread.
+     */
+    public static final String EXIT_HOOK = "exit-hook";
+
+    /**
+     * Adds the exit hook to this Jvm.
      */
     private static void addExitHook() {
         Runtime.getRuntime().addShutdownHook(CyderThreadRunner.createThread(() -> {
-            // Currently, all that iss done here is delete the tmp directory.
-            // Occasionally this fails due to file handles still being open
-            // on files inside of tmp which is why we attempt to delete it on start.
-
-            File deleteDirectory = OSUtil.buildFile(Dynamic.PATH,
-                    Dynamic.TEMP.getDirectoryName());
+            File deleteDirectory = OSUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName());
             OSUtil.deleteFile(deleteDirectory, false);
-        }, "common-exit-hook"));
+        }, EXIT_HOOK));
     }
 
     /**
@@ -185,37 +228,29 @@ public final class Cyder {
      * @return whether all the fonts were loaded properly
      */
     private static boolean registerFonts() {
-        File fontsDir = OSUtil.buildFile("static", "fonts");
-
-        if (!fontsDir.exists()) {
-            return false;
-        }
-
-        File[] fontFiles = fontsDir.listFiles();
+        File[] fontFiles = OSUtil.buildFile("static", "fonts").listFiles();
 
         if (fontFiles == null || fontFiles.length == 0) {
             return false;
         }
 
-        boolean ret = true;
-
         for (File fontFile : fontFiles) {
-            // if it's a valid font file
             if (FileUtil.isSupportedFontExtension(fontFile)) {
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 try {
-                    // register the font so we can use it throughout Cyder
-                    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, fontFile));
+                    if (!ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, fontFile))) {
+                        return false;
+                    }
+
                     Logger.log(Logger.Tag.FONT_LOADED, FileUtil.getFilename(fontFile));
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
-                    ret = false;
-                    break;
+                    return false;
                 }
             }
         }
 
-        return ret;
+        return true;
     }
 
     /**
