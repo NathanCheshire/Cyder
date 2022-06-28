@@ -34,7 +34,7 @@ import java.util.LinkedList;
  */
 @Vanilla
 @CyderAuthor
-public class PaintWidget {
+public final class PaintWidget {
     /**
      * The length of the frame.
      */

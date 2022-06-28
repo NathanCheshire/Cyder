@@ -1,5 +1,6 @@
 package cyder.utils;
 
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -9,6 +10,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -22,34 +24,41 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public final class FileUtil {
     /**
-     * The image formats Cyder supports.
-     */
-    public static final String[] SUPPORTED_IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg"};
-
-    /**
      * The metadata signature for a png file.
      */
-    public static final int[] PNG_SIGNATURE = {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
+    public static final ImmutableList<Integer> PNG_SIGNATURE =
+            ImmutableList.of(0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A);
 
     /**
      * The metadata signature for a jpg file.
      */
-    public static final int[] JPG_SIGNATURE = {0xFF, 0xD8, 0xFF};
-
-    /**
-     * The audio formats Cyder supports.
-     */
-    public static final String[] SUPPORTED_AUDIO_EXTENSIONS = {".wav", ".mp3"};
+    public static final ImmutableList<Integer> JPG_SIGNATURE = ImmutableList.of(0xFF, 0xD8, 0xFF);
 
     /**
      * The metadata signature for a wav file (RIFF).
      */
-    public static final int[] WAV_SIGNATURE = {0x52, 0x49, 0x46, 0x46};
+    public static final ImmutableList<Integer> WAV_SIGNATURE = ImmutableList.of(0x52, 0x49, 0x46, 0x46);
 
     /**
      * The metadata signature for an mp3 file.
      */
-    public static final int[] MP3_SIGNATURE = {0x49, 0x44, 0x33};
+    public static final ImmutableList<Integer> MP3_SIGNATURE = ImmutableList.of(0x49, 0x44, 0x33);
+
+    /**
+     * The audio formats Cyder supports.
+     */
+    public static final ImmutableList<String> SUPPORTED_AUDIO_EXTENSIONS = ImmutableList.of(".wav", ".mp3");
+
+    /**
+     * The image formats Cyder supports.
+     */
+    public static final ImmutableList<String> SUPPORTED_IMAGE_EXTENSIONS = ImmutableList.of(".png", ".jpg", ".jpeg");
+
+    /**
+     * Supported font types that are loaded upon Cyder's start.
+     */
+    public static final ImmutableList<String> SUPPORTED_FONT_EXTENSIONS = ImmutableList.of(".ttf");
+
 
     /**
      * Suppress default constructor.
@@ -69,21 +78,21 @@ public final class FileUtil {
         checkNotNull(f);
 
         return StringUtil.in(getExtension(f.getName()), true, SUPPORTED_IMAGE_EXTENSIONS)
-                && (matchesSignature(f, PNG_SIGNATURE) || matchesSignature(f, JPG_SIGNATURE));
+                && (fileMatchesSignature(f, PNG_SIGNATURE) || fileMatchesSignature(f, JPG_SIGNATURE));
     }
 
     /**
      * Returns whether the provided file is a supported audio file by validating
      * the file extension and the file byte signature.
      *
-     * @param f the file to determine if it is a supported audio type
+     * @param file the filename to determine if it is a supported audio type
      * @return whether the provided file is a supported audio file
      */
-    public static boolean isSupportedAudioExtension(File f) {
-        checkNotNull(f);
+    public static boolean isSupportedAudioExtension(File file) {
+        checkNotNull(file);
 
-        return StringUtil.in(getExtension(f.getName()), true, SUPPORTED_AUDIO_EXTENSIONS)
-                && (matchesSignature(f, WAV_SIGNATURE) || matchesSignature(f, MP3_SIGNATURE));
+        return StringUtil.in(getExtension(file.getName()), true, SUPPORTED_AUDIO_EXTENSIONS)
+                && (fileMatchesSignature(file, WAV_SIGNATURE) || fileMatchesSignature(file, MP3_SIGNATURE));
     }
 
     /**
@@ -101,6 +110,19 @@ public final class FileUtil {
     }
 
     /**
+     * Returns whether the provided file is a supported font file.
+     *
+     * @param file the file to validate
+     * @return whether the provided file is a supported font file
+     */
+    public static boolean isSupportedFontExtension(File file) {
+        checkNotNull(file);
+        checkArgument(file.exists());
+
+        return StringUtil.in(getExtension(file.getName()), true, SUPPORTED_FONT_EXTENSIONS);
+    }
+
+    /**
      * Returns whether the given file matches the provided signature.
      * Example: passing a png image and an integer array of "89 50 4E 47 0D 0A 1A 0A"
      * should return true
@@ -109,20 +131,20 @@ public final class FileUtil {
      * @param expectedSignature the expected file signature bytes
      * @return whether the given file matches the provided signature
      */
-    public static boolean matchesSignature(File file, int[] expectedSignature) {
-        if (file == null || expectedSignature == null || expectedSignature.length == 0)
+    public static boolean fileMatchesSignature(File file, ImmutableList<Integer> expectedSignature) {
+        if (file == null || expectedSignature == null || expectedSignature.size() == 0)
             return false;
         if (!file.exists())
             return false;
 
         try {
             BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-            int[] headerBytes = new int[expectedSignature.length];
+            int[] headerBytes = new int[expectedSignature.size()];
 
-            for (int i = 0 ; i < expectedSignature.length ; i++) {
+            for (int i = 0 ; i < expectedSignature.size() ; i++) {
                 headerBytes[i] = inputStream.read();
 
-                if (headerBytes[i] != expectedSignature[i]) {
+                if (headerBytes[i] != expectedSignature.get(i)) {
                     return false;
                 }
             }
@@ -207,6 +229,21 @@ public final class FileUtil {
     }
 
     /**
+     * Returns whether the provided file ends in one of the expected extensions.
+     *
+     * @param file               the file to validate the extension again
+     * @param expectedExtensions the expected extensions such as ".json", ".mp3", ".png", etc.
+     * @return whether the provided file ends in one of the expected extension
+     */
+    public static boolean validateExtension(File file, Collection<String> expectedExtensions) {
+        checkNotNull(file);
+        checkNotNull(expectedExtensions);
+        checkArgument(expectedExtensions.size() > 0);
+
+        return StringUtil.in(getExtension(file), false, expectedExtensions);
+    }
+
+    /**
      * Returns whether the file's name without the extension matches the expected name.
      *
      * @param file         the file
@@ -220,16 +257,6 @@ public final class FileUtil {
 
         return getFilename(file).equals(expectedName);
     }
-
-    /**
-     * Supported font types that are loaded upon Cyder's start.
-     */
-    public static final String[] SUPPORTED_FONT_EXTENSIONS = {".ttf"};
-    // todo arrays should be immutable lists
-    /**
-     * The metadata signature for a ttf file.
-     */
-    public static final int[] TTF_SIGNATURE = {0x00, 0x01, 0x00, 0x00, 0x00, 0x10, 0x01, 0x00, 0x00, 0x04, 0x00, 0x00};
 
     /**
      * Returns whether the contents of the two files are equal.
