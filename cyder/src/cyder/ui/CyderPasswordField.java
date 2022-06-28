@@ -15,7 +15,6 @@ import java.awt.event.MouseEvent;
 /**
  * A Cyder password field.
  */
-@SuppressWarnings("unused") // suppressing default constructors
 public class CyderPasswordField extends JPasswordField {
     /**
      * The default font for the password field.
@@ -51,6 +50,8 @@ public class CyderPasswordField extends JPasswordField {
     /**
      * Suppress a default constructor.
      */
+    @Deprecated
+    @SuppressWarnings("unused")
     private CyderPasswordField(int col) {
         throw new IllegalMethodException("Illegal constructor");
     }
@@ -58,6 +59,8 @@ public class CyderPasswordField extends JPasswordField {
     /**
      * Suppress a default constructor.
      */
+    @Deprecated
+    @SuppressWarnings("unused")
     private CyderPasswordField(String text) {
         throw new IllegalMethodException("Illegal constructor");
     }
@@ -65,6 +68,8 @@ public class CyderPasswordField extends JPasswordField {
     /**
      * Suppress a default constructor.
      */
+    @Deprecated
+    @SuppressWarnings("unused")
     private CyderPasswordField(String text, int col) {
         throw new IllegalMethodException("Illegal constructor");
     }
@@ -72,6 +77,8 @@ public class CyderPasswordField extends JPasswordField {
     /**
      * Suppress a default constructor.
      */
+    @Deprecated
+    @SuppressWarnings("unused")
     private CyderPasswordField(Document doc, String text, int col) {
         throw new IllegalMethodException("Illegal constructor");
     }

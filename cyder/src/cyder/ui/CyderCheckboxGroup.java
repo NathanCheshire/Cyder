@@ -29,7 +29,6 @@ public class CyderCheckboxGroup {
     /**
      * Clears all checked checkboxes in this group.
      */
-    @SuppressWarnings("unused")
     public void clearSelection() {
         if (currentlyCheckedBox != null) {
             currentlyCheckedBox.setNotChecked();
@@ -83,7 +82,6 @@ public class CyderCheckboxGroup {
      *
      * @return the currently checked checkbox
      */
-    @SuppressWarnings("unused")
     public CyderCheckbox getCheckedCheckbox() {
         return currentlyCheckedBox;
     }

@@ -9,7 +9,6 @@ import java.awt.*;
  * <p>
  * Format for new fonts: NAME_SIZE unless there is a rare exception that applies.
  */
-@SuppressWarnings("unused")
 public final class CyderFonts {
     /**
      * Segoe font at size 20.
@@ -40,16 +39,6 @@ public final class CyderFonts {
      * The default font.
      */
     public static final Font DEFAULT_FONT = AGENCY_FB_30;
-
-    /**
-     * Tahoma font at size 20.
-     */
-    public static final Font TAHOMA_20 = new Font("tahoma", Font.BOLD, 20);
-
-    /**
-     * Tahoma font at size 30.
-     */
-    public static final Font TAHOMA_30 = new Font("tahoma", Font.BOLD, 30);
 
     /**
      * The font used for CyderFrame title labels (typically equivalent to agencyFB22).

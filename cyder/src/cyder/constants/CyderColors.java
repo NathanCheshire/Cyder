@@ -10,7 +10,6 @@ import java.awt.*;
 /**
  * Common colors used throughout Cyder.
  */
-@SuppressWarnings("unused")
 public final class CyderColors {
     /**
      * A common color used for selected text such as in CyderFields
@@ -40,6 +39,7 @@ public final class CyderColors {
     /**
      * An alternative red color
      */
+    @SuppressWarnings("unused")
     public static final Color snapchatRed = new Color(242, 59, 87);
 
     /**
@@ -82,6 +82,7 @@ public final class CyderColors {
     /**
      * A complementary color to navy to be used in conjunction with {@code CyderColors.navy}
      */
+    @SuppressWarnings("unused")
     public static final Color navyComplementary = new Color(39, 40, 34);
 
     /**
@@ -138,16 +139,6 @@ public final class CyderColors {
      * The background color for frames when dark mode is not active.
      */
     public static final Color regularBackgroundColor = vanilla;
-
-    /**
-     * The primary badge svg color.
-     */
-    public static final Color svgPrimary = Color.decode("#055383");
-
-    /**
-     * The secondary badge svg color.
-     */
-    public static final Color svgSecondary = Color.decode("#5593C7");
 
     /**
      * The brown dirt color used for the perlin widget.

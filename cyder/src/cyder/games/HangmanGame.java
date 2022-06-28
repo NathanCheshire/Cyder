@@ -1,5 +1,7 @@
 package cyder.games;
 
+import cyder.annotations.CyderAuthor;
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -24,7 +26,8 @@ import java.io.FileReader;
 /**
  * A java implementation of the classic game hangman
  */
-@SuppressWarnings("unused")
+@CyderAuthor
+@Vanilla
 public final class HangmanGame {
     /**
      * The frame object.

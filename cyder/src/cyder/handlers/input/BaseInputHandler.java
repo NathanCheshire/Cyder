@@ -70,7 +70,6 @@ public class BaseInputHandler {
     /**
      * Suppress default constructor.
      */
-    @SuppressWarnings("unused")
     private BaseInputHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
@@ -800,8 +799,7 @@ public class BaseInputHandler {
      *
      * @return the last line of text on the linked JTextPane
      */
-    @SuppressWarnings("unused")
-    private final String getLastTextLine() {
+    public final String getLastTextLine() {
         return outputArea.getStringUtil().getLastTextLine();
     }
 

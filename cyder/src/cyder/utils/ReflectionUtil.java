@@ -76,7 +76,6 @@ public final class ReflectionUtil {
      * @param clazz the class to find all getters of
      * @return a list of strings resulting from the get calls on the provided class
      */
-    @SuppressWarnings("unused")
     public static LinkedList<String> getGetters(Class<?> clazz) {
         Preconditions.checkNotNull(clazz);
 

@@ -33,7 +33,6 @@ public class CyderOutputPane {
     /**
      * Instantiation not allowed unless all three arguments are provided
      */
-    @SuppressWarnings("unused")
     private CyderOutputPane() {
         throw new IllegalStateException("Instances of CyderOutputPane are not allowed " +
                 "unless all parameters are given at once");

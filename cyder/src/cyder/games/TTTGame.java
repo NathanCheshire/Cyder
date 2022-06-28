@@ -1,10 +1,14 @@
 package cyder.games;
 
+import cyder.annotations.CyderAuthor;
+import cyder.annotations.SuppressCyderInspections;
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -16,7 +20,8 @@ import java.awt.*;
 /**
  * A tic tac toe game widget.
  */
-@SuppressWarnings("unused")
+@CyderAuthor
+@Vanilla
 public final class TTTGame {
     /**
      * The CyderFrame instance to use to ensure no other games exist with one Cyder instance.
@@ -62,7 +67,8 @@ public final class TTTGame {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Widget(triggers = {"ttt", "tictactoe"}, description = "A TicTacToe widget")
+    @SuppressCyderInspections(CyderInspection.WidgetInspection)
+    @Widget(triggers = {"ttt", "tic tac toe"}, description = "A TicTacToe widget")
     public static void showGui() {
         if (tttFrame != null)
             tttFrame.dispose();

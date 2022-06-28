@@ -215,7 +215,6 @@ public class CyderCheckbox extends JLabel {
      *
      * @return whether the checkbox has rounded corners
      */
-    @SuppressWarnings("unused")
     public boolean hasRoundedCorners() {
         return roundedCorners;
     }

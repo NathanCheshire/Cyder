@@ -50,7 +50,6 @@ public class CyderGridLayout extends CyderLayout {
     /**
      * Constructs a new CyderGridLayout with a singular grid cell.
      */
-    @SuppressWarnings("unused")
     public CyderGridLayout() {
         this(1, 1);
     }
