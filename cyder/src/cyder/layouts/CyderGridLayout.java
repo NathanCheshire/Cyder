@@ -18,15 +18,6 @@ public class CyderGridLayout extends CyderLayout {
     private final int verticalCells;
 
     /**
-     * Enum to use to figure out how to position components if/when overflow occurs
-     */
-    public enum Position {
-        TOP_LEFT, TOP_CENTER, TOP_RIGHT,
-        MIDDLE_LEFT, MIDDLE_CENTER, MIDDLE_RIGHT,
-        BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT
-    }
-
-    /**
      * The list of components to be linked to the CyderPanel this LayoutManager is managing.
      */
     private final GridComponent[][] components;
@@ -34,6 +25,7 @@ public class CyderGridLayout extends CyderLayout {
     /**
      * {@inheritDoc}
      */
+    @Override
     public ArrayList<Component> getLayoutComponents() {
         ArrayList<Component> ret = new ArrayList<>();
 
@@ -213,7 +205,7 @@ public class CyderGridLayout extends CyderLayout {
             for (int y = 0; y < verticalCells; y++) {
                 if (components[x][y] == null) {
                     components[x][y] = new GridComponent(component, //defaults here
-                            component.getWidth(), component.getHeight(), Position.MIDDLE_CENTER);
+                            component.getWidth(), component.getHeight(), GridPosition.MIDDLE_CENTER);
                     repaint();
                     return;
                 }
@@ -230,7 +222,7 @@ public class CyderGridLayout extends CyderLayout {
      *                        in the partitioned space or how to position the component should it overflow the partitioned space
      * @return whether the component was added successfully
      */
-    public boolean addComponent(Component component, Position sectionPosition) {
+    public boolean addComponent(Component component, GridPosition sectionPosition) {
         for (int x = 0 ; x < horizontalCells ; x++) {
             for (int y = 0; y < verticalCells; y++) {
                 if (components[x][y] == null) {
@@ -264,7 +256,7 @@ public class CyderGridLayout extends CyderLayout {
         }
 
         components[x][y] = new GridComponent(component, component.getWidth(),
-                component.getHeight(), Position.MIDDLE_CENTER);
+                component.getHeight(), GridPosition.MIDDLE_CENTER);
         repaint();
     }
 
@@ -277,7 +269,7 @@ public class CyderGridLayout extends CyderLayout {
      * @param sectionPosition the position value to use to
      *                        figure out how to place the component in its cell
      */
-    public void addComponent(Component component, int x, int y, Position sectionPosition) {
+    public void addComponent(Component component, int x, int y, GridPosition sectionPosition) {
         if (components == null)
             throw new IllegalStateException("Components not yet initialized");
         if (x < 0 || x > horizontalCells - 1 || y < 0 || y > verticalCells - 1)
@@ -342,35 +334,7 @@ public class CyderGridLayout extends CyderLayout {
         int sumWidth = 0;
         int sumHeight = 0;
 
-        for (GridComponent[] component : components) {
-            int val = 0;
-            int correspondingOtherLength = 0;
-            boolean isWidth = false;
-
-            for (int x = 0; x < components[0].length; x++) {
-                if (component[x].originalWidth > component[x].originalHeight) {
-                    val = component[x].originalWidth;
-                    correspondingOtherLength = component[x].originalHeight;
-                    isWidth = true;
-                } else if (component[x].originalWidth > component[x].originalHeight) {
-                    val = component[x].originalHeight;
-                    correspondingOtherLength = component[x].originalWidth;
-                    isWidth = false;
-                } else {
-                    val = component[x].originalWidth;
-                    correspondingOtherLength = component[x].originalHeight;
-                    isWidth = true;
-                }
-            }
-
-            if (isWidth) {
-                sumWidth += val;
-                sumHeight += correspondingOtherLength;
-            } else {
-                sumHeight += val;
-                sumWidth += correspondingOtherLength;
-            }
-        }
+        // todo
 
         return new Dimension(sumWidth, sumHeight);
     }
@@ -385,53 +349,4 @@ public class CyderGridLayout extends CyderLayout {
         return ReflectionUtil.commonCyderUIReflection(this);
     }
 
-    /**
-     * A class to use to keep track of the original sizes of
-     * components as well as their linked Position values
-     */
-    private static class GridComponent {
-        private Component component;
-        private int originalWidth;
-        private int originalHeight;
-        private Position position;
-
-        public GridComponent(Component component, int originalWidth, int originalHeight, Position position) {
-            this.component = component;
-            this.originalWidth = originalWidth;
-            this.originalHeight = originalHeight;
-            this.position = position;
-        }
-
-        public Component getComponent() {
-            return component;
-        }
-
-        public void setComponent(Component component) {
-            this.component = component;
-        }
-
-        public int getOriginalWidth() {
-            return originalWidth;
-        }
-
-        public void setOriginalWidth(int originalWidth) {
-            this.originalWidth = originalWidth;
-        }
-
-        public int getOriginalHeight() {
-            return originalHeight;
-        }
-
-        public void setOriginalHeight(int originalHeight) {
-            this.originalHeight = originalHeight;
-        }
-
-        public Position getPosition() {
-            return position;
-        }
-
-        public void setPosition(Position position) {
-            this.position = position;
-        }
-    }
 }

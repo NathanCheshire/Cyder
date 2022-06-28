@@ -13,18 +13,6 @@ import java.util.ArrayList;
  */
 public class CyderFlowLayout extends CyderLayout {
     /**
-     * The default horizontal alignment.
-     */
-    @SuppressWarnings("unused")
-    public static final HorizontalAlignment DEFAULT_HORIZONTAL_ALIGNMENT = HorizontalAlignment.CENTER;
-
-    /**
-     * The default vertical alignment.
-     */
-    @SuppressWarnings("unused")
-    public static final VerticalAlignment DEFAULT_VERTICAL_ALIGNMENT = VerticalAlignment.TOP;
-
-    /**
      * The horizontal alignment of this layout.
      */
     private final HorizontalAlignment horizontalAlignment;
@@ -37,110 +25,61 @@ public class CyderFlowLayout extends CyderLayout {
     /**
      * The default horizontal gap between components.
      */
-    private static final int DEFAULT_HGAP = 5;
+    private static final int DEFAULT_HORIZONTAL_GAP = 5;
 
     /**
      * The default vertical gap between components.
      */
-    private static final int DEFAULT_VGAP = 5;
+    private static final int DEFAULT_VERTICAL_GAP = 5;
 
     /**
      * The horizontal gap of this layout between components.
      */
-    private int hgap;
+    private int horizontalGap;
 
     /**
      * The vertical gap of this layout between components.
      */
-    private int vgap;
+    private int verticalGap;
 
     /**
      * The default horizontal padding between the frame left and right.
      */
-    private static final int DEFAULT_HPADDING = 5;
+    private static final int DEFAULT_HORIZONTAL_PADDING = 5;
 
     /**
      * The default vertical padding between the frame top and bottom.
      */
-    private static final int DEFAULT_VPADDING = 5;
+    private static final int DEFAULT_VERTICAL_PADDING = 5;
 
     /**
      * The horizontal padding of this layout.
      */
-    private int hpadding = DEFAULT_HPADDING;
+    private int horizontalPadding = DEFAULT_HORIZONTAL_PADDING;
 
     /**
      * The vertical padding of this layout.
      */
-    private int vpadding = DEFAULT_VPADDING;
-
-    /**
-     * An alignment property to determine how components are layed out
-     * on a specific axis and what to do with excess space.
-     */
-    public enum HorizontalAlignment {
-        /**
-         * Components are aligned on the left with minimum spacing in between.
-         */
-        LEFT,
-        /**
-         * Components are centered and excess space is placed in between components.
-         */
-        CENTER,
-        /**
-         * Components are aligned on the right with minimum spacing in between.
-         */
-        RIGHT,
-        /**
-         * Components are centered absolutely with the excess space placed evenly
-         * on on the left of the left most component and the right of the right most
-         * component.
-         */
-        CENTER_STATIC
-    }
-
-    /**
-     * An alignment property to determine how components are layed out
-     * on a specific axis and what to do with excess space.
-     */
-    public enum VerticalAlignment {
-        /**
-         * Components are aligned on the top with minimum spacing in between.
-         */
-        TOP,
-        /**
-         * Components are centered and excess space is placed in between components.
-         */
-        CENTER,
-        /**
-         * Components are aligned on the bottom with minimum spacing in between.
-         */
-        BOTTOM,
-        /**
-         * Components are centered absolutely with the excess space placed evenly
-         * on the absolute top of the top most component and bottom of the bottom
-         * most component.
-         */
-        CENTER_STATIC
-    }
+    private int verticalPadding = DEFAULT_VERTICAL_PADDING;
 
     /**
      * Constructs a new FlowLayout with horizontal alignment CENTER,
      * vertical alignment of TOP, and component gaps of 5 pixels.
      */
     public CyderFlowLayout() {
-        this(HorizontalAlignment.CENTER, VerticalAlignment.TOP, DEFAULT_HGAP, DEFAULT_VGAP);
+        this(HorizontalAlignment.CENTER, VerticalAlignment.TOP, DEFAULT_HORIZONTAL_GAP, DEFAULT_VERTICAL_GAP);
     }
 
     /**
-     * Construcsts a new Flowlayout with CENTER horizontal alignment,
+     * Constructs a new Flowlayout with CENTER horizontal alignment,
      * a vertical alignment of TOP, and component gaps of 5 pixels.
      *
-     * @param hgap the horizontal gap value to use
-     * @param vgap the vertical gap value to use
+     * @param horizontalGap the horizontal gap value to use
+     * @param verticalGap   the vertical gap value to use
      */
-    public CyderFlowLayout(int hgap, int vgap) {
-        this(HorizontalAlignment.CENTER, VerticalAlignment.TOP, hgap, vgap);
+    public CyderFlowLayout(int horizontalGap, int verticalGap)
+    {
+        this(HorizontalAlignment.CENTER, VerticalAlignment.TOP, horizontalGap, verticalGap);
     }
 
     /**
@@ -150,26 +89,27 @@ public class CyderFlowLayout extends CyderLayout {
      * @param verticalAlignment   the vertical alignment to use
      */
     public CyderFlowLayout(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment) {
-        this(horizontalAlignment, verticalAlignment, DEFAULT_HGAP, DEFAULT_VGAP);
+        this(horizontalAlignment, verticalAlignment, DEFAULT_HORIZONTAL_GAP, DEFAULT_VERTICAL_GAP);
     }
 
     /**
      * Constructs a new CyderFlowLayout with the provided alignment and gaps
-     * between the components of "hgap" pixels and "vgap" pixels.
+     * between the components of "horizontalGap" pixels and "verticalGap" pixels.
      *
      * @param horizontalAlignment the alignment to use to determine what
      *                            to do with excess space on the horizontal axis
      * @param verticalAlignment   the alignment to use to determine what
      *                            to do with excess space on the vertical axis
-     * @param hgap                the horizontal spacing value
-     * @param vgap                the vertical spacing value
+     * @param horizontalGap       the horizontal spacing value
+     * @param verticalGap         the vertical spacing value
      */
     public CyderFlowLayout(HorizontalAlignment horizontalAlignment,
-                           VerticalAlignment verticalAlignment, int hgap, int vgap) {
+                           VerticalAlignment verticalAlignment, int horizontalGap, int verticalGap)
+    {
         this.horizontalAlignment = horizontalAlignment;
         this.verticalAlignment = verticalAlignment;
-        this.hgap = hgap;
-        this.vgap = vgap;
+        this.horizontalGap = horizontalGap;
+        this.verticalGap = verticalGap;
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
@@ -198,7 +138,8 @@ public class CyderFlowLayout extends CyderLayout {
         boolean contains = false;
 
         for (Component flowComponent : flowComponents) {
-            if (flowComponent == component) {
+            if (flowComponent == component)
+            {
                 contains = true;
                 break;
             }
@@ -249,7 +190,7 @@ public class CyderFlowLayout extends CyderLayout {
         int currentWidthAcc = 0;
 
         // max allowable width per row is the panel width minus the horizontal padding
-        int maxWidth = associatedPanel.getWidth() - 2 * hpadding;
+        int maxWidth = associatedPanel.getWidth() - 2 * horizontalPadding;
 
         // validate all rows and figure out if we can display some/all rows
         for (Component flowComponent : flowComponents) {
@@ -259,7 +200,7 @@ public class CyderFlowLayout extends CyderLayout {
             }
 
             // if this component cannot start on this row, then wrap it to a new row
-            if (currentWidthAcc + flowComponent.getWidth() + hgap > maxWidth) {
+            if (currentWidthAcc + flowComponent.getWidth() + horizontalGap > maxWidth) {
                 // if nothing is on the current row
                 if (currentRow.size() < 1) {
                     // add the component to this row
@@ -279,14 +220,14 @@ public class CyderFlowLayout extends CyderLayout {
 
                     // reset row vars for new row
                     currentRow = new ArrayList<>();
-                    currentWidthAcc = flowComponent.getWidth() + hgap;
+                    currentWidthAcc = flowComponent.getWidth() + horizontalGap;
                     currentRow.add(flowComponent);
                 }
             }
             // component can fit on this row
             else {
                 // increment width acc
-                currentWidthAcc += flowComponent.getWidth() + hgap;
+                currentWidthAcc += flowComponent.getWidth() + horizontalGap;
 
                 // add component to row list
                 currentRow.add(flowComponent);
@@ -323,7 +264,9 @@ public class CyderFlowLayout extends CyderLayout {
             if (heightAcc + maxRowHeight < associatedPanel.getHeight()) {
                 heightAcc += maxRowHeight;
                 numRows++;
-            } else break;
+            } else {
+                break;
+            }
         }
 
         // ensure that we always do at least 1 row, less than 1 should be impossible
@@ -340,12 +283,12 @@ public class CyderFlowLayout extends CyderLayout {
             // this is the default, components are layered down
             // with the minimum spacing in between them (vertical padding)
             case TOP:
-                currentHeightCenteringInc += vgap;
+                currentHeightCenteringInc += verticalGap;
                 break;
             // component rows are spaced evenly to take up the whole space available
             case CENTER:
                 int rowHeightsOfVisibleRows = 0;
-                for (int i = 0 ; i < numRows ; i++) {
+                for (int i = 0; i < numRows; i++) {
                     rowHeightsOfVisibleRows += maxRowHeights.get(i);
                 }
 
@@ -365,18 +308,18 @@ public class CyderFlowLayout extends CyderLayout {
                 }
 
                 currentHeightCenteringInc = associatedPanel.getHeight()
-                        - vgap * rows.size() - rowHeights;
+                        - verticalGap * rows.size() - rowHeights;
                 break;
-            // compoent rows are spaced with the minimum gap and placed at the center
+            // component rows are spaced with the minimum gap and placed at the center
             case CENTER_STATIC:
                 int sumRowHeights = 0;
 
                 for (int aMaxHeight : maxRowHeights) {
-                    sumRowHeights += aMaxHeight + vgap;
+                    sumRowHeights += aMaxHeight + verticalGap;
                 }
 
                 // one less than num components always
-                sumRowHeights -= vgap;
+                sumRowHeights -= verticalGap;
 
                 currentHeightCenteringInc = associatedPanel.getHeight() / 2 - sumRowHeights / 2;
 
@@ -386,7 +329,7 @@ public class CyderFlowLayout extends CyderLayout {
         }
 
         // for all the rows we can show
-        for (int i = 0 ; i < numRows ; i++) {
+        for (int i = 0; i < numRows; i++) {
             currentRow = rows.remove(0);
 
             // the current max height for the row from the above computed list
@@ -397,11 +340,11 @@ public class CyderFlowLayout extends CyderLayout {
             currentHeightCenteringInc += (maxHeight / 2);
 
             // now figure out how much width this row really requires (we know it will fit).
-            // the initial value is -hgap to offset the last component having an hgap after it
-            int necessaryWidth = -hgap;
+            // the initial value is -horizontalGap to offset the last component having a horizontalGap after it
+            int necessaryWidth = -horizontalGap;
             int componentCount = 0;
             for (Component flowComponent : currentRow) {
-                necessaryWidth += flowComponent.getWidth() + hgap;
+                necessaryWidth += flowComponent.getWidth() + horizontalGap;
                 componentCount++;
             }
 
@@ -411,11 +354,12 @@ public class CyderFlowLayout extends CyderLayout {
                 // left means all components on left with the minimum spacing in between
                 case LEFT:
                     // the left most point we can go
-                    int currentLeftX = hpadding;
+                    int currentLeftX = horizontalPadding;
 
                     // for all components on this row, set their locations
                     // on the center line and the currentLeftX
-                    for (Component flowComponent : currentRow) {
+                    for (Component flowComponent : currentRow)
+                    {
                         // this is guaranteed to work since
                         // currentHeightCenteringInc >= currentFlowComp.height / 2 is always true
                         flowComponent.setLocation(currentLeftX,
@@ -425,7 +369,7 @@ public class CyderFlowLayout extends CyderLayout {
                         associatedPanel.add(flowComponent);
 
                         // increment by the width and gap needed
-                        currentLeftX += flowComponent.getWidth() + hgap;
+                        currentLeftX += flowComponent.getWidth() + horizontalGap;
                     }
 
                     break;
@@ -437,7 +381,7 @@ public class CyderFlowLayout extends CyderLayout {
                     int partitionedRemainingWidth = (maxWidth - necessaryWidth) / (componentCount + 1);
 
                     // the current x incrementer based off of the minimum x and a partitioned width value
-                    int currentCenterX = hpadding + partitionedRemainingWidth;
+                    int currentCenterX = horizontalPadding + partitionedRemainingWidth;
 
                     // for all the components
                     for (Component flowComponent : currentRow) {
@@ -450,7 +394,7 @@ public class CyderFlowLayout extends CyderLayout {
                         associatedPanel.add(flowComponent);
 
                         // increment by the width, gap, and a partition width
-                        currentCenterX += flowComponent.getWidth() + hgap + partitionedRemainingWidth;
+                        currentCenterX += flowComponent.getWidth() + horizontalGap + partitionedRemainingWidth;
                     }
 
                     break;
@@ -459,7 +403,7 @@ public class CyderFlowLayout extends CyderLayout {
                 // and placed in the center, excess space is placed on the left and right
                 case CENTER_STATIC:
                     // find the starting x
-                    int centeringXAcc = hpadding + (maxWidth - necessaryWidth) / 2;
+                    int centeringXAcc = horizontalPadding + (maxWidth - necessaryWidth) / 2;
 
                     // for all components on this row
                     for (Component flowComponent : currentRow) {
@@ -472,7 +416,7 @@ public class CyderFlowLayout extends CyderLayout {
                         associatedPanel.add(flowComponent);
 
                         // increment by width and a gap
-                        centeringXAcc += flowComponent.getWidth() + hgap;
+                        centeringXAcc += flowComponent.getWidth() + horizontalGap;
                     }
 
                     break;
@@ -481,7 +425,7 @@ public class CyderFlowLayout extends CyderLayout {
                 // with the rightward component bordering the frame
                 case RIGHT:
                     // the start of the row
-                    int currentRightX = hpadding + (maxWidth - necessaryWidth);
+                    int currentRightX = horizontalPadding + (maxWidth - necessaryWidth);
 
                     //set component locations based on centering line and currentX
                     for (Component flowComponent : currentRow) {
@@ -494,7 +438,7 @@ public class CyderFlowLayout extends CyderLayout {
                         associatedPanel.add(flowComponent);
 
                         // increment by width and a gap
-                        currentRightX += flowComponent.getWidth() + hgap;
+                        currentRightX += flowComponent.getWidth() + horizontalGap;
                     }
 
                     break;
@@ -506,21 +450,15 @@ public class CyderFlowLayout extends CyderLayout {
             // additionally increment by the vertical gap which may or may not be
             // the one passed in depending on the horizontal alignment
             switch (verticalAlignment) {
-                // the default gap
-                case TOP:
-                    currentHeightCenteringInc += vgap;
-                    break;
                 // component rows are spaced evenly to take up the whole space available
                 case CENTER:
                     currentHeightCenteringInc += centerPartition;
                     break;
                 // the default gap since we've already translated down by a proper starting amount
+                case TOP:
                 case BOTTOM:
-                    currentHeightCenteringInc += vgap;
-                    break;
-                // the default gap since we've already translated down by a proper starting amount
                 case CENTER_STATIC:
-                    currentHeightCenteringInc += vgap;
+                    currentHeightCenteringInc += verticalGap;
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid vertical alignment: " + verticalAlignment);
@@ -574,17 +512,17 @@ public class CyderFlowLayout extends CyderLayout {
      *
      * @return the horizontal gape to place between components
      */
-    public int getHgap() {
-        return hgap;
+    public int getHorizontalGap() {
+        return horizontalGap;
     }
 
     /**
      * Sets the horizontal gap between components.
      *
-     * @param hgap the horizontal gap between components
+     * @param horizontalGap the horizontal gap between components
      */
-    public void setHgap(int hgap) {
-        this.hgap = hgap;
+    public void setHorizontalGap(int horizontalGap) {
+        this.horizontalGap = horizontalGap;
     }
 
     /**
@@ -592,17 +530,17 @@ public class CyderFlowLayout extends CyderLayout {
      *
      * @return the vertical gap to place between components
      */
-    public int getVgap() {
-        return vgap;
+    public int getVerticalGap() {
+        return verticalGap;
     }
 
     /**
      * Sets the vertical gap between components.
      *
-     * @param vgap the vertical gap between components
+     * @param verticalGap the vertical gap between components
      */
-    public void setVgap(int vgap) {
-        this.vgap = vgap;
+    public void setVerticalGap(int verticalGap) {
+        this.verticalGap = verticalGap;
     }
 
     /**
@@ -610,8 +548,8 @@ public class CyderFlowLayout extends CyderLayout {
      *
      * @return the horizontal padding value to use for the left and right of the frame
      */
-    public int getHpadding() {
-        return hpadding;
+    public int getHorizontalPadding() {
+        return horizontalPadding;
     }
 
     /**
@@ -620,7 +558,7 @@ public class CyderFlowLayout extends CyderLayout {
      * @param horizontalPadding the horizontal padding value to use for the left and right of the frame
      */
     public void setHorizontalPadding(int horizontalPadding) {
-        this.hpadding = horizontalPadding;
+        this.horizontalPadding = horizontalPadding;
     }
 
     /**
@@ -629,7 +567,7 @@ public class CyderFlowLayout extends CyderLayout {
      * @return the vertical padding value to use for the top and bottom of the frame
      */
     public int getVerticalPadding() {
-        return vpadding;
+        return verticalPadding;
     }
 
     /**
@@ -638,6 +576,6 @@ public class CyderFlowLayout extends CyderLayout {
      * @param verticalPadding the vertical padding value to use for the top and bottom of the frame
      */
     public void setVerticalPadding(int verticalPadding) {
-        this.vpadding = verticalPadding;
+        this.verticalPadding = verticalPadding;
     }
 }

@@ -12,8 +12,7 @@ import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
-import cyder.layouts.CyderFlowLayout;
-import cyder.layouts.CyderGridLayout;
+import cyder.layouts.*;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.utils.ImageUtil;
@@ -573,7 +572,7 @@ public final class ManualTests {
         testButton.setSize(100, 100);
         testButton.addActionListener(e -> gridTestFrame.notify(
                 new CyderFrame.NotificationBuilder("Notified button clicked")));
-        layout.addComponent(testButton, 0, 0, CyderGridLayout.Position.MIDDLE_RIGHT);
+        layout.addComponent(testButton, 0, 0, GridPosition.MIDDLE_RIGHT);
 
         CyderLabel testLabel2 = new CyderLabel("A");
         testLabel2.setSize(50, 50);
@@ -621,8 +620,8 @@ public final class ManualTests {
         testFrame.setTitle("Flow Layout Test");
 
         // make layout
-        CyderFlowLayout layout = new CyderFlowLayout(CyderFlowLayout.HorizontalAlignment.CENTER,
-                CyderFlowLayout.VerticalAlignment.CENTER, 25, 15);
+        CyderFlowLayout layout = new CyderFlowLayout(HorizontalAlignment.CENTER,
+                VerticalAlignment.CENTER, 25, 15);
 
         //add 10 buttons to layout
         for (int i = 1 ; i < 11 ; i++) {
@@ -754,8 +753,8 @@ public final class ManualTests {
                 e -> testFrame.notify(new CyderFrame.NotificationBuilder("NULL").setContainer(container)));
 
         CyderFlowLayout cyderFlow = new CyderFlowLayout(
-                CyderFlowLayout.HorizontalAlignment.CENTER_STATIC,
-                CyderFlowLayout.VerticalAlignment.CENTER_STATIC);
+                HorizontalAlignment.CENTER_STATIC,
+                VerticalAlignment.CENTER_STATIC);
         cyderFlow.addComponent(ctf);
 
         CyderPanel panel = new CyderPanel(cyderFlow);
