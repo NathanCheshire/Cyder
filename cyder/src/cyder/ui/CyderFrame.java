@@ -1422,7 +1422,7 @@ public class CyderFrame extends JFrame {
                 disposed = true;
 
                 Logger.log(Logger.Tag.UI_ACTION, "CyderFrame disposed with fastclose="
-                        + fastClose + ", frame=" + getTitle());
+                        + fastClose + ", getTitle=" + getTitle());
 
                 for (Runnable action : preCloseActions) {
                     action.run();

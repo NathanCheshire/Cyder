@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * A class to handle and log exceptions thrown throughout Cyder.
  */
-public class ExceptionHandler {
+public final class ExceptionHandler {
     /**
      * Suppress default constructor.
      */

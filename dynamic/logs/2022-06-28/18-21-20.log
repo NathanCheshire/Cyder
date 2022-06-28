@@ -1,0 +1,65 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[18-21-20] [ENTRY]: Nathan
+[18-21-20] [PROP LOADED]: [key = map_quest_api_key]
+[18-21-20] [PROP LOADED]: [key = youtube_api_3_key]
+[18-21-20] [PROP LOADED]: [key = ip_key]
+[18-21-20] [PROP LOADED]: [key = weather_key]
+[18-21-20] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[18-21-20] [PROP LOADED]: [key = debug_hash_password]
+[18-21-20] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[18-21-20] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[18-21-20] [PROP LOADED]: [key = font_metric, value = 1]
+[18-21-20] [PROP LOADED]: [key = released, value = false]
+[18-21-20] [PROP LOADED]: [key = fast_test, value = false]
+[18-21-20] [PROP LOADED]: [key = version, value = Liminal]
+[18-21-20] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[18-21-20] [PROP LOADED]: [key = components_relocatable, value = false]
+[18-21-20] [PROP LOADED]: [key = testing_mode, value = true]
+[18-21-20] [PROP LOADED]: [key = autocypher, value = true]
+[18-21-20] [PROP LOADED]: [key = dispose_splash, value = true]
+[18-21-20] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[18-21-20] [PROP LOADED]: [key = activate_watchdog, value = false]
+[18-21-20] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[18-21-20] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[18-21-20] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[18-21-20] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[18-21-20] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[18-21-20] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[18-21-20] [THREAD STARTED]: Object Creation Logger
+[18-21-21] [DEBUG]: Watchdog skipped
+[18-21-21] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[18-21-21] [DEBUG]: ATTEMPTED MULTIPLE CYDER INSTANCES
+[18-21-22] [DEBUG]: CyderFrame "" was attempted to be set to invalid height: 78
+[18-21-23] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[18-21-23] [UI]: [INFORMATION PANE] text = "Multiple instances of Cyder are not allowed. Terminate other instances
+           before launching a new one.", relativeTo = null
+[18-21-23] [OBJECT CREATION]: Objects created since last delta (5000ms): 76
+[18-21-34] [UI]: Component = CyderDragLabel, hash = -14331887, bounds = (2, 2, 762, 28), parent frame = Instance Exception
+[18-21-34] [THREAD STARTED]: [Instance Exception] dispose() animation thread
+[18-21-34] [UI]: CyderFrame disposed with fastclose=false, frame=Instance Exception
+[18-21-34] [EXIT]: [RUNTIME] 13s
+[18-21-34] [EOL]: Log completed, exiting Cyder with exit code: -10 [Multiple Instances Exit], exceptions thrown: no
+           exceptions thrown
