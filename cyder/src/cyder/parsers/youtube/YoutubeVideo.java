@@ -3,7 +3,6 @@ package cyder.parsers.youtube;
 /**
  * A class used to serialize a YouTube API 3 search result.
  */
-@SuppressWarnings("unused")
 public class YoutubeVideo {
     private String kind;
     private String etag;

@@ -5,7 +5,6 @@ import java.util.LinkedList;
 /**
  * The master serialization class for a youtube api 3 search query returned result.
  */
-@SuppressWarnings("unused")
 public class YoutubeSearchResultPage {
     private String kind;
     private String etag;

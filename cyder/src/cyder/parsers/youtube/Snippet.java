@@ -3,7 +3,6 @@ package cyder.parsers.youtube;
 /**
  * The actual content of a YoutubeVideo object we are usually interested in.
  */
-@SuppressWarnings("unused")
 public class Snippet {
     private String publishedAt;
     private String channelId;

@@ -111,7 +111,6 @@ public class YoutubeDownload {
     /**
      * Suppress default constructor.
      */
-    @SuppressWarnings("unused")
     private YoutubeDownload() {
         throw new IllegalMethodException("Illegal use of constructor without download url");
     }

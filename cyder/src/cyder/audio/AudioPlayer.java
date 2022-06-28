@@ -64,6 +64,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static cyder.audio.AudioIcons.*;
 
+// todo audio progress bar doesn't actually line up with current
+//  audio location, rethink whole of AudioProgressLocation tracker
+
+// todo playing dreamified audio after just finished freezes
+// todo transitioning audio still freezes sometimes
+
+// todo remove most annotations suppressing "unused" warnings
+
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
@@ -1979,7 +1987,6 @@ public final class AudioPlayer {
      *
      * @param audioFile the audio file to add to the end of the queue
      */
-    @SuppressWarnings("unused")
     public static void addAudioLast(File audioFile) {
         checkNotNull(audioFile);
         checkArgument(audioFile.exists());
@@ -2403,12 +2410,6 @@ public final class AudioPlayer {
         // Trim and replace multiple spaces with one
         String fieldText = rawFieldText.trim().replaceAll("\\s+", " ");
         previousSearch = fieldText;
-
-        // todo audio progress bar doesn't actually line up with current
-        //  audio location, rethink whole of AudioProgressLocation tracker
-
-        // todo playing dreamified audio after just finished freezes
-        // todo transitioning audio still freezes sometimes
 
         CyderThreadRunner.submit(() -> {
             showInformationLabel(SEARCHING);

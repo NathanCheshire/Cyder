@@ -3,7 +3,6 @@ package cyder.parsers.youtube;
 /**
  * An id of a YouTube video.
  */
-@SuppressWarnings("unused")
 public class Id {
     private String kind;
     private String videoId;

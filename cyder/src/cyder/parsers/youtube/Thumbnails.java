@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Holds the thumbnails linking to a youtube video.
  */
-@SuppressWarnings("unused")
 public class Thumbnails {
     @SerializedName("default")
     private Thumbnail _default;

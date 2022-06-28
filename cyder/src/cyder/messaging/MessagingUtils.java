@@ -25,7 +25,7 @@ import java.util.concurrent.Future;
 /**
  * Utilities related to the messaging client.
  */
-public class MessagingUtils {
+public final class MessagingUtils {
     /**
      * Suppress default constructor.
      */

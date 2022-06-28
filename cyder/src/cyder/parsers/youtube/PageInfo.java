@@ -3,7 +3,6 @@ package cyder.parsers.youtube;
 /**
  * Information about the YoutubeSearchResultPage.
  */
-@SuppressWarnings("unused")
 public class PageInfo {
     private long totalResults;
     private int resultsPerPage;

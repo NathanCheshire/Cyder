@@ -1,10 +1,12 @@
 package cyder.handlers.input;
 
+import com.google.common.collect.ImmutableList;
 import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.parsers.github.Issue;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserFile;
 import cyder.utils.GitHubUtil;
@@ -81,10 +83,12 @@ public class GitHandler extends InputHandler {
     }
 
     /**
-     * Performs the following git commands:
-     * 1. git add .
-     * 2. git commit -m getArg(0)
-     * 3. git push -u origin main
+     * Performs the following git commands at the repo level:
+     * <ul>
+     *     <li>git add .</li>
+     *     <li>git commit -m getArg(0)</li>
+     *     <li>git push -u origin main</li>
+     * </ul>
      */
     private static void gitme() {
         if (!getInputHandler().checkArgsLength(1)) {
@@ -105,16 +109,16 @@ public class GitHandler extends InputHandler {
      */
     private static void printIssues() {
         CyderThreadRunner.submit(() -> {
-            GitHubUtil.Issue[] issues = GitHubUtil.getIssues();
-            getInputHandler().println(issues.length + " issue" + (issues.length == 1 ? "" : "s") + " found:\n");
+            ImmutableList<Issue> issues = GitHubUtil.getIssues();
+            getInputHandler().println(issues.size() + " issue" + (issues.size() == 1 ? "" : "s") + " found:\n");
             getInputHandler().println("----------------------------------------");
 
-            for (GitHubUtil.Issue issue : issues) {
+            for (Issue issue : issues) {
                 getInputHandler().println("Issue #" + issue.number);
                 getInputHandler().println(issue.title);
                 getInputHandler().println(issue.body);
                 getInputHandler().println("----------------------------------------");
             }
-        }, "GitHub Issue Getter");
+        }, "Cyder GitHub issue getter");
     }
 }
