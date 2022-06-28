@@ -26,7 +26,7 @@ import java.util.concurrent.Future;
 /**
  * Utilities around general statistics gathering.
  */
-public class StatUtil {
+public final class StatUtil {
     /**
      * Suppress default constructor.
      */

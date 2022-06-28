@@ -1247,7 +1247,6 @@ public final class UserEditor {
      *
      * @return whether the weather key was valid
      */
-    @SuppressWarnings("unused")
     private static boolean validateWeatherKey() {
         String openString = CyderUrls.OPEN_WEATHER_BASE
                 + PropLoader.getString("default_weather_location")
@@ -1269,7 +1268,6 @@ public final class UserEditor {
      *
      * @return whether the ip key was valid
      */
-    @SuppressWarnings("unused")
     private static boolean validateIpKey() {
         try {
             BufferedReader reader = new BufferedReader(
@@ -1289,7 +1287,6 @@ public final class UserEditor {
      *
      * @return whether the youtube key was valid
      */
-    @SuppressWarnings("unused")
     private static boolean validateYoutubeApiKey() {
         String text = PropLoader.getString("youtube_api_3_key");
 

@@ -6,6 +6,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
+import cyder.constants.CyderStrings;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
@@ -16,12 +17,13 @@ import cyder.utils.OSUtil;
 import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 /**
  * A widget for computing the hash of strings.
  */
-@SuppressWarnings("unused")
 @Vanilla
 @CyderAuthor
 public class HashingWidget {
@@ -73,8 +75,10 @@ public class HashingWidget {
         hashFrame.getContentPane().add(Instructions);
 
         hashField = new CyderPasswordField();
+        hashField.setToolTipText("Hold shift to reveal");
         hashField.addActionListener(e -> hash());
         hashField.setBounds(50, 90, 400, 40);
+        hashField.addKeyListener(hashFieldKeyAdapter);
         hashFrame.getContentPane().add(hashField);
 
         CyderButton hashButton = new CyderButton("Hash");
@@ -96,6 +100,28 @@ public class HashingWidget {
         hashFrame.finalizeAndShow();
     }
 
+    /**
+     * The KeyAdapter used to reveal/hide the field input.
+     */
+    private final KeyAdapter hashFieldKeyAdapter = new KeyAdapter() {
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                hashField.setEchoChar((char) 0);
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                hashField.setEchoChar(CyderStrings.ECHO_CHAR);
+            }
+        }
+    };
+
+    /**
+     * Computes the hash of the contents of the hash field and informs the user of the hash.
+     */
     private void hash() {
         char[] Hash = hashField.getPassword();
 

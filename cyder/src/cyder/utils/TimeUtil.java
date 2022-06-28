@@ -19,8 +19,7 @@ import java.util.function.Function;
 /**
  * Static utility class for things related to time/date queries and conversions.
  */
-@SuppressWarnings("SpellCheckingInspection") // date time patterns
-public class TimeUtil {
+public final class TimeUtil {
     /**
      * The calendar instance to use for calculations.
      */
@@ -29,15 +28,16 @@ public class TimeUtil {
     /**
      * Instantiation of TimeUtil class is not allowed.
      */
-    public TimeUtil() {
+    private TimeUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**
      * The date formatter to use when the weather time is requested.
      */
-    public static final SimpleDateFormat weatherFormat = new SimpleDateFormat(
-            "h:mm:ss aa EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
+    @SuppressWarnings("SpellCheckingInspection")
+    public static final SimpleDateFormat weatherFormat =
+            new SimpleDateFormat("h:mm:ss aa EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
 
     /**
      * Returns the time used for the weather widget.
@@ -79,7 +79,7 @@ public class TimeUtil {
     /**
      * The date formatter to use when the log line time is requested.
      */
-    public static final SimpleDateFormat logTimeForamt = new SimpleDateFormat("HH-mm-ss");
+    public static final SimpleDateFormat LOG_TIME_FORMAT = new SimpleDateFormat("HH-mm-ss");
 
     /**
      * Returns the time used for log files.
@@ -87,7 +87,7 @@ public class TimeUtil {
      * @return the time used for log files
      */
     public static String logTime() {
-        return getFormattedTime(logTimeForamt);
+        return getFormattedTime(LOG_TIME_FORMAT);
     }
 
     /**
@@ -107,6 +107,7 @@ public class TimeUtil {
     /**
      * The date formatter to use when formatting a date object to the console clock time format.
      */
+    @SuppressWarnings("SpellCheckingInspection")
     public static final SimpleDateFormat userFormat = new SimpleDateFormat("EEEEEEEEE, MM/dd/yyyy hh:mmaa zzz");
 
     /**
@@ -135,6 +136,7 @@ public class TimeUtil {
     /**
      * The date formatter to use when formatting a date object to the console clock time format.
      */
+    @SuppressWarnings("SpellCheckingInspection")
     public static final SimpleDateFormat consoleSecondFormat = new SimpleDateFormat("EEEEEEEEE h:mm:ssaa");
 
     /**
@@ -149,6 +151,7 @@ public class TimeUtil {
     /**
      * The date formatter to use when formatting a date object to the console clock time format without seconds.
      */
+    @SuppressWarnings("SpellCheckingInspection")
     public static final SimpleDateFormat consoleNoSecondFormat = new SimpleDateFormat("EEEEEEEEE h:mmaa");
 
     /**
@@ -389,7 +392,6 @@ public class TimeUtil {
      *
      * @return whether the current time is between 12:00pm and 6:00pm
      */
-    @SuppressWarnings("unused")
     public static boolean isAfterNoon() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         return hour > 11 && hour < 17;
@@ -536,7 +538,6 @@ public class TimeUtil {
      * @param msTime the time represented in milliseconds
      * @return the provided milliseconds to years
      */
-    @SuppressWarnings("unused")
     public static double millisToYears(long msTime) {
         return millisToMonths(msTime) / 12.0;
     }

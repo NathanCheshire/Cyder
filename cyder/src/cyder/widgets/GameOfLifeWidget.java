@@ -30,7 +30,6 @@ import java.util.LinkedList;
 /**
  * Conway's game of life visualizer.
  */
-@SuppressWarnings("unused")
 @Vanilla
 @CyderAuthor
 public final class GameOfLifeWidget {

@@ -16,7 +16,6 @@ import cyder.utils.UserUtil;
  */
 @Vanilla
 @CyderAuthor
-@SuppressWarnings("unused")
 public class ExampleWidget {
     /**
      * Suppress default constructor from access outside of this class and log

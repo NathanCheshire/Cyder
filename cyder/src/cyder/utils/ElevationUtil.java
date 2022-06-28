@@ -1,11 +1,12 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.parsers.elevation.ElevationData;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -15,7 +16,7 @@ import java.net.URL;
 /**
  * A utility class for elevation queries.
  */
-public class ElevationUtil {
+public final class ElevationUtil {
     /**
      * Suppress default constructor.
      */
@@ -31,15 +32,18 @@ public class ElevationUtil {
     /**
      * The base string for queries.
      */
-    private static final String base = "https://nationalmap.gov/epqs/pqs.php?";
+    private static final String BASE = "https://nationalmap.gov/epqs/pqs.php?";
 
     /**
      * Returns the elevation of the provided point.
      *
      * @param latLonPoint the lat/lon point
      * @param unit        whether the elevation should be in feet or meters
-     * @return the elevation in meters or feet
+     * @return the elevation in meters or feet depending on the requested unit.
+     * This return value should be checked to ensure it is not {@link Double#MIN_VALUE}
+     * which indicates and invalid return
      */
+    @CheckReturnValue
     @SuppressWarnings("UnnecessaryDefault")
     public static double getElevation(Point latLonPoint, LengthUnit unit) {
         Preconditions.checkNotNull(latLonPoint);
@@ -48,8 +52,8 @@ public class ElevationUtil {
         double lon = latLonPoint.getX();
 
         String queryString = switch (unit) {
-            case FEET -> base + "output=json&x=" + lon + "&y=" + lat + "&units=Feet";
-            case METERS -> base + "output=json&x=" + lon + "&y=" + lat + "&units=METERS";
+            case FEET -> BASE + "output=json&x=" + lon + "&y=" + lat + "&units=" + LengthUnit.FEET.getName();
+            case METERS -> BASE + "output=json&x=" + lon + "&y=" + lat + "&units=" + LengthUnit.METERS.getName();
             default -> throw new IllegalArgumentException("Invalid requested distance unit: " + unit);
         };
 
@@ -61,7 +65,7 @@ public class ElevationUtil {
             ExceptionHandler.handle(e);
         }
 
-        return -Double.MAX_VALUE;
+        return Double.MIN_VALUE;
     }
 
     /**
@@ -71,38 +75,33 @@ public class ElevationUtil {
         /**
          * The SI unit for length.
          */
-        METERS,
+        METERS("METERS"),
         /*
          * The English unit for length.
          */
-        FEET
-    }
+        FEET("FEET");
 
-    /**
-     * A class to serialize the elevation data from <a href="https://nationalmap.gov/">NationalMap</a>.
-     */
-    private static class ElevationData {
-        @SerializedName("USGS_Elevation_Point_Query_Service")
-        public UEPQS uepqs;
+        /**
+         * The name of the length unit
+         */
+        private final String name;
 
-        public static class UEPQS {
-            @SerializedName("Elevation_Query")
-            public ElevationQuery elevationQuery;
+        /**
+         * Constructs a new length UnitEnum
+         *
+         * @param name the name of the length unit
+         */
+        LengthUnit(String name) {
+            this.name = name;
+        }
 
-            @SuppressWarnings("unused")
-            public static class ElevationQuery {
-                public double x;
-                public double y;
-
-                @SerializedName("Data_source")
-                public String dataSource;
-
-                @SerializedName("Elevation")
-                public String elevation;
-
-                @SerializedName("Units")
-                public String units;
-            }
+        /**
+         * Returns the name of this length unit.
+         *
+         * @return the name of this length unit
+         */
+        public String getName() {
+            return name;
         }
     }
 }

@@ -28,7 +28,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-@SuppressWarnings("unused")
 @Vanilla
 @CyderAuthor
 public final class ImagePixelatorWidget {

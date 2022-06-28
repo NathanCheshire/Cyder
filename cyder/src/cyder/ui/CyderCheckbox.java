@@ -134,7 +134,6 @@ public class CyderCheckbox extends JLabel {
      *
      * @return the associated check box group
      */
-    @SuppressWarnings("unused")
     protected CyderCheckboxGroup getCyderCheckboxGroup() {
         return cyderCheckboxGroup;
     }

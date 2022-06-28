@@ -32,7 +32,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Utilities regarding a user, their json file, and IO to/from that json file.
  */
-public class UserUtil {
+public final class UserUtil {
     /**
      * Instantiation of util method not allowed.
      */
@@ -220,12 +220,15 @@ public class UserUtil {
      * to the uuid are deleted.
      *
      * @param jsonFile the current user json file to backup
+     * @throws FatalException if the backup directory cannot be created
      */
     public static void backupUserJsonFile(File jsonFile) {
         try {
             // ensure save directory exists
             if (!backupDirectory.exists()) {
-                backupDirectory.mkdir();
+                if (!backupDirectory.mkdir()) {
+                    throw new FatalException("Failed to create backup directory");
+                }
             }
 
             // timestamp to mark this backup
@@ -439,7 +442,6 @@ public class UserUtil {
      * @return whether the file could be handled correctly as a user
      * and was fixed if it was incorrect at first
      */
-    @SuppressWarnings("UnusedAssignment")
     public static boolean getterSetterValidator(File userJson) {
         Preconditions.checkArgument(userJson != null);
 
@@ -524,19 +526,16 @@ public class UserUtil {
                 LinkedList<MappedExecutable> exes = user.getExecutables();
                 LinkedList<MappedExecutable> nonDuplicates = new LinkedList<>();
 
-                if (exes != null && !exes.isEmpty()) {
+                if (exes == null) {
+                    user.setExecutables(new LinkedList<>());
+                } else if (!exes.isEmpty()) {
                     for (MappedExecutable me : exes) {
                         if (!nonDuplicates.contains(me)) {
                             nonDuplicates.add(me);
                         }
                     }
 
-                    // set exes
                     user.setExecutables(nonDuplicates);
-                }
-                // somehow null so just make an empty list
-                else if (exes == null) {
-                    exes = new LinkedList<>();
                 }
 
                 if (user.getScreenStat() == null) {

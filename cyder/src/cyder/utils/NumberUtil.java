@@ -13,7 +13,7 @@ import java.util.Random;
  * A common Number methods class such as generating random
  * numbers or converting integers to their String representations
  */
-public class NumberUtil {
+public final class NumberUtil {
     /**
      * Suppress default constructor.
      */
@@ -115,7 +115,6 @@ public class NumberUtil {
      * @param num the number of find a string representation for
      * @return the string representation for the provided integer
      */
-    @SuppressWarnings("unused")
     public static String toWords(int num) {
         return toWords(String.valueOf(num));
     }
@@ -232,7 +231,6 @@ public class NumberUtil {
      * @param num the number to get a word representation for
      * @return the word representation for any digit in the inclusive range [0, 9]
      */
-    @SuppressWarnings("unused")
     private static String wordForOnes(int num) {
         return onesPlace[num];
     }
@@ -250,7 +248,6 @@ public class NumberUtil {
      * @param num the number to get a word representation for provided the number is in the ten's place
      * @return the word representation for the number in the ten's place in base 10
      */
-    @SuppressWarnings("unused")
     private static String wordForTens(int num) {
         return tensPlace[num];
     }
@@ -267,7 +264,6 @@ public class NumberUtil {
      * @param num the number to find a word representation of
      * @return the word representation for a number in the inclusive range [10, 19]
      */
-    @SuppressWarnings("unused")
     private static String wordForTeenNums(int num) {
         return teens[num - 10];
     }
@@ -336,7 +332,6 @@ public class NumberUtil {
      * @param b the second integer to add
      * @return the result of adding a to b guaranteed to not overflow
      */
-    @SuppressWarnings("unused")
     public static int addWithoutOverflow(int a, int b) {
         //convert to longs so that addition is guaranteed to work for integers
         long sum = (long) a + (long) b;
@@ -353,7 +348,6 @@ public class NumberUtil {
      * @param b the subtrahend (value to subtract from a)
      * @return the result of subtracting b from a guaranteed to not underflow
      */
-    @SuppressWarnings("unused")
     public static int subtractWithoutUnderflow(int a, int b) {
         //convert to longs so that subtraction is guaranteed to work for integers
         long difference = (long) a - (long) b;

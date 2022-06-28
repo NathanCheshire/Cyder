@@ -15,7 +15,7 @@ import java.nio.file.StandardCopyOption;
 /**
  * Utility methods revolving around stealing the spotlight images for on the Windows file system.
  */
-public class SpotlightUtil {
+public final class SpotlightUtil {
     /**
      * Suppress default constructor.
      */
@@ -26,43 +26,12 @@ public class SpotlightUtil {
     /**
      * The prefix for the content deliver manager folder which contains the spotlight image files.
      */
-    public static final String contentDeliveryManager = "Microsoft.Windows.ContentDeliveryManager_";
+    public static final String CONTENT_DELIVERY_MANAGER_PREFIX = "Microsoft.Windows.ContentDeliveryManager_";
 
     /**
      * The default content delivery manager suffix
      */
-    @SuppressWarnings("unused")
     public static final String CONTENT_DELIVERY_MANAGER_SUFFIX = "cw5n1h2txyewy";
-
-    /**
-     * Returns the windows spotlight directory. I'm not sure if it could change since
-     * according to Google, it's statically set to "Microsoft.Windows.ContentDeliveryManager_"
-     * with {@link #CONTENT_DELIVERY_MANAGER_SUFFIX} tacked onto the end.
-     * To be safe however, this method exists.
-     *
-     * @return the name of the directory containing the Windows spotlight images
-     */
-    public static String getWindowsContentDeliveryManagerDir() {
-        Preconditions.checkArgument(OSUtil.isWindows(), "Host OS is not an instance of Windows");
-
-        File spotlightParent = new File(OSUtil.buildPath(
-                OSUtil.WINDOWS_ROOT, "users", OSUtil.getSystemUsername(),
-                "AppData", "Local", "Packages"));
-
-        File[] files = spotlightParent.listFiles();
-
-        if (files == null || files.length == 0) {
-            return null;
-        }
-
-        for (File possibleSpotlightDir : files) {
-            if (possibleSpotlightDir.getName().contains(contentDeliveryManager)) {
-                return possibleSpotlightDir.getName();
-            }
-        }
-
-        return null;
-    }
 
     /**
      * Wipes the windows spotlight directory. Windows will download new ones eventually.
@@ -70,15 +39,17 @@ public class SpotlightUtil {
     public static void wipeSpotlights() {
         Preconditions.checkArgument(OSUtil.isWindows(), "Host OS is not Windows");
 
-        if (getWindowsContentDeliveryManagerDir() != null) {
+        File spotlightsDir = getSpotlightsDirectory();
+
+        if (spotlightsDir.exists()) {
             try {
                 File spotlightDirectory = getSpotlightsDirectory();
 
                 File[] files = spotlightDirectory.listFiles();
                 int length = files == null ? 0 : files.length;
 
-                ConsoleFrame.INSTANCE.getInputHandler().println("Windows spotlight images wiped from directory: "
-                        + getWindowsContentDeliveryManagerDir());
+                ConsoleFrame.INSTANCE.getInputHandler().println("Windows spotlight images wiped from directory:\n\""
+                        + spotlightsDir.getAbsolutePath() + "\"");
                 ConsoleFrame.INSTANCE.getInputHandler().println("Spotights found: " + length);
 
                 if (files != null && files.length > 0) {
@@ -103,13 +74,16 @@ public class SpotlightUtil {
      * @return the parent directory of the spotlight images
      */
     public static File getSpotlightsDirectory() {
-        String local = getWindowsContentDeliveryManagerDir();
-        Preconditions.checkNotNull(local);
-
         return new File(OSUtil.buildPath(
                 OSUtil.WINDOWS_ROOT, "users", OSUtil.getSystemUsername(),
-                "AppData", "Local", "Packages", local, "LocalState", "Assets"));
+                "AppData", "Local", "Packages", CONTENT_DELIVERY_MANAGER_PREFIX
+                        + CONTENT_DELIVERY_MANAGER_SUFFIX, "LocalState", "Assets"));
     }
+
+    /**
+     * The minimum savable size of a spotlight.
+     */
+    public static final int MINIMUM_SIZE = 600;
 
     /**
      * Saves the Windows spotlights to the provided directory.
@@ -123,32 +97,41 @@ public class SpotlightUtil {
         Preconditions.checkArgument(OSUtil.isWindows(), "Host OS is not Windows");
 
         try {
+            int acc = 0;
 
-            if (getWindowsContentDeliveryManagerDir() != null) {
-                int acc = 0;
+            File[] files = getSpotlightsDirectory().listFiles();
 
-                File[] files = getSpotlightsDirectory().listFiles();
+            if (files == null || files.length == 0) {
+                return;
+            }
 
-                if (files == null || files.length == 0) {
-                    return;
+            for (File spotlight : files) {
+                ImageIcon icon = new ImageIcon(spotlight.getAbsolutePath());
+
+                // skip small previews and the weird vertical ones
+                if (isPortrait(icon) || icon.getIconWidth() < MINIMUM_SIZE
+                        || icon.getIconHeight() < MINIMUM_SIZE) {
+                    continue;
                 }
 
-                for (File spotlight : files) {
-                    ImageIcon icon = new ImageIcon(spotlight.getAbsolutePath());
-
-                    // skip small previews and the weird vertical ones
-                    if (icon.getIconHeight() > icon.getIconWidth()
-                            || icon.getIconWidth() < 600 || icon.getIconHeight() < 600) {
-                        continue;
-                    }
-
-                    Files.copy(spotlight.toPath(), Paths.get(saveDir + OSUtil.FILE_SEP + acc + ".png"),
-                            StandardCopyOption.REPLACE_EXISTING);
-                    acc++;
-                }
+                Files.copy(spotlight.toPath(), Paths.get(saveDir + OSUtil.FILE_SEP + acc + ".png"),
+                        StandardCopyOption.REPLACE_EXISTING);
+                acc++;
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+    }
+
+    /**
+     * Returns whether the provided icon is a portrait photo.
+     *
+     * @param icon the icon to test
+     * @return whether the provided icon is a portrait photo
+     */
+    private static boolean isPortrait(ImageIcon icon) {
+        Preconditions.checkNotNull(icon);
+
+        return icon.getIconWidth() < icon.getIconHeight();
     }
 }

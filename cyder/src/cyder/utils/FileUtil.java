@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Static utilities having to do with files, their names, properties, and attributes.
  */
-public class FileUtil {
+public final class FileUtil {
     /**
      * The image formats Cyder supports.
      */
@@ -225,11 +225,10 @@ public class FileUtil {
      * Supported font types that are loaded upon Cyder's start.
      */
     public static final String[] SUPPORTED_FONT_EXTENSIONS = {".ttf"};
-
+    // todo arrays should be immutable lists
     /**
      * The metadata signature for a ttf file.
      */
-    @SuppressWarnings("unused")
     public static final int[] TTF_SIGNATURE = {0x00, 0x01, 0x00, 0x00, 0x00, 0x10, 0x01, 0x00, 0x00, 0x04, 0x00, 0x00};
 
     /**
@@ -240,22 +239,21 @@ public class FileUtil {
      * @return whether the contents of the two file are equal
      */
     public static boolean fileContentsEqual(File fileOne, File fileTwo) {
-        if (fileOne == null || fileTwo == null)
+        if (fileOne == null || fileTwo == null) {
             return false;
-
-        if (!fileOne.exists() || !fileTwo.exists())
-            return false;
-
-        boolean ret;
-
-        try {
-            ret = com.google.common.io.Files.equal(fileOne, fileTwo);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-            ret = false;
         }
 
-        return ret;
+        if (!fileOne.exists() || !fileTwo.exists()) {
+            return false;
+        }
+
+        try {
+            return com.google.common.io.Files.equal(fileOne, fileTwo);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return false;
     }
 
     /**

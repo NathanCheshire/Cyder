@@ -34,7 +34,6 @@ import java.util.regex.Pattern;
  * to achieve thread safety. Typically, in Cyder, this is performed via using a {@link CyderOutputPane}
  * which bundles a JTextPane, StringUtil, and Semaphore.
  */
-@SuppressWarnings("SpellCheckingInspection") // html elements
 public class StringUtil {
     /**
      * The output pane to print to in the case an object is created.
@@ -44,7 +43,6 @@ public class StringUtil {
     /**
      * Suppress default constructor.
      */
-    @SuppressWarnings("unused")
     private StringUtil() {
         throw new IllegalStateException("Instantiation of StringUtil is not permitted without a CyderOutputPane");
     }
@@ -303,13 +301,9 @@ public class StringUtil {
      *
      * @param arr the array of objects to print
      */
-    public synchronized void printlns(Object[] arr) {
-        try {
-            for (Object o : arr) {
-                println(o);
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+    public synchronized void printLines(Object[] arr) {
+        for (Object o : arr) {
+            println(o);
         }
     }
 
@@ -674,6 +668,7 @@ public class StringUtil {
     /**
      * The name for the element to grab from the DOM returned when getting a Dictionary.com html document.
      */
+    @SuppressWarnings("SpellCheckingInspection")
     private static final String DEFINITION_ELEMENT_NAME = "one-click-content css-nnyc96 e1q3nk1v1";
 
     /**
@@ -704,6 +699,12 @@ public class StringUtil {
     }
 
     /**
+     * The additional part for a wikipedia summary scrape.
+     */
+    @SuppressWarnings("SpellCheckingInspection")
+    private static final String WIKI_SUM_PROP = "&prop=extracts&exintro&explaintext&redirects=1&titles=";
+
+    /**
      * Web scrapes Wikipedia for the appropriate article and returns the body of the wiki article.
      *
      * @param query the query to search wikipedia for
@@ -713,9 +714,8 @@ public class StringUtil {
         String ret;
 
         try {
-            String urlString = CyderUrls.WIKIPEDIA_SUMMARY_BASE +
-                    "&prop=extracts&exintro&explaintext&redirects=1&titles=" +
-                    query.replace(" ", "%20");
+            String urlString = CyderUrls.WIKIPEDIA_SUMMARY_BASE
+                    + WIKI_SUM_PROP + query.replace(" ", "%20");
             String jsonString = NetworkUtil.readUrl(urlString);
 
             String[] serializedPageNumber = jsonString.split("\"extract\":\"");

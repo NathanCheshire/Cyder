@@ -1,11 +1,13 @@
 package cyder.widgets;
 
 import cyder.annotations.CyderAuthor;
+import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
+import cyder.enums.CyderInspection;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
@@ -34,7 +36,6 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 /**
  * A widget to average images together.
  */
-@SuppressWarnings("unused")
 @Vanilla
 @CyderAuthor
 public final class ImageAveragerWidget {
@@ -73,7 +74,8 @@ public final class ImageAveragerWidget {
     /**
      * Shows the image averaging widget.
      */
-    @Widget(triggers = {"averageimages", "averagepictures"}, description = "A widget that adds multiple images " +
+    @SuppressCyderInspections(CyderInspection.WidgetInspection)
+    @Widget(triggers = {"average images", "average pictures"}, description = "A widget that adds multiple images " +
             "together and divides by the total to obtain an average base image")
     public static void showGui() {
         files = new ArrayList<>();
@@ -206,8 +208,10 @@ public final class ImageAveragerWidget {
 
                 ImageIcon previewImage = checkImage(new ImageIcon(saveImage));
 
-                CyderFrame drawFrame = new CyderFrame(previewImage.getIconWidth(),
-                        previewImage.getIconHeight(), previewImage);
+                CyderFrame drawFrame = new CyderFrame(
+                        previewImage.getIconWidth(),
+                        previewImage.getIconHeight(),
+                        previewImage);
 
                 JButton save = new JButton("Save");
                 save.setForeground(CyderColors.vanilla);

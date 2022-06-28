@@ -295,7 +295,6 @@ public final class IOUtil {
     /**
      * Stops any and all audio playing either through the audio player or the general player.
      */
-    @SuppressWarnings("unused")
     public static void stopAllAudio() {
         if (generalAudioPlaying()) {
             stopGeneralAudio();
@@ -309,7 +308,6 @@ public final class IOUtil {
     /**
      * Pause audio if playing via AudioPlayer.
      */
-    @SuppressWarnings("unused")
     public static void pauseAudio() {
         if (AudioPlayer.isAudioPlaying()) {
             AudioPlayer.handlePlayPauseButtonClick();

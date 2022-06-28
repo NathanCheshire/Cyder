@@ -19,17 +19,12 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 /**
- * A pathfinding widget to visualize Dijkstras path finding algorithm and the A* algorithm
+ * A pathfinding widget to visualize Dijkstra's path finding algorithm and the A* algorithm
  * with Euclidean distance and Manhattan distance as valid A* heuristics.
  */
 @Vanilla
 @CyderAuthor
-public class PathFinderWidget {
-    /**
-     * Whether the animation is currently running.
-     */
-    private static boolean animationRunning;
-
+public final class PathFinderWidget {
     /**
      * The pathfinding frame.
      */
@@ -98,7 +93,7 @@ public class PathFinderWidget {
     private static final String HEURISTIC_ON = "Euclidean";
 
     /**
-     * The algorithm switcher to swith beteween A* and Dijkstras.
+     * The algorithm switcher to switch between A* and Dijkstra's.
      */
     private static CyderSwitch algorithmSwitch;
 
@@ -140,7 +135,7 @@ public class PathFinderWidget {
     /**
      * The timeout in ms between the path animation refresh.
      */
-    private static final int PATH_TRICLE_TIMEOUT = 30;
+    private static final int PATH_TRICKLE_TIMEOUT = 30;
 
     /**
      * The current state of the A* algorithm.
@@ -160,7 +155,7 @@ public class PathFinderWidget {
          */
         PATH_NOT_FOUND,
         /**
-         * The algorithm is imcomplete and may be resumed.
+         * The algorithm is incomplete and may be resumed.
          */
         PAUSED,
         /**
@@ -185,7 +180,7 @@ public class PathFinderWidget {
     private static final Color pathableOpenColor = new Color(254, 104, 88);
 
     /**
-     * The color usdd for pathable nodes that have been removed from the open list.
+     * The color used for pathable nodes that have been removed from the open list.
      */
     private static final Color pathableClosedColor = new Color(121, 236, 135);
 
@@ -212,7 +207,7 @@ public class PathFinderWidget {
 
     /**
      * The node which A* attempts to path to.
-     * By default this is the bottom rigth corner (DEFAULT_NODES - 1, DEFAULT_NODES - 1).
+     * By default this is the bottom right corner (DEFAULT_NODES - 1, DEFAULT_NODES - 1).
      */
     private static PathNode goalNode;
 
@@ -242,7 +237,7 @@ public class PathFinderWidget {
     private static final PriorityQueue<PathNode> openNodes = new PriorityQueue<>(new NodeComparator());
 
     /**
-     * The currnet path animation object.
+     * The current path animation object.
      * This is always killed before being set to a new object,
      * similar to how things are handled in AudioPlayer.
      */
@@ -602,7 +597,7 @@ public class PathFinderWidget {
                 return;
             }
 
-            //generate neihbors of this current node
+            //generate neighbors of this current node
             LinkedList<PathNode> neighbors = new LinkedList<>();
 
             for (PathNode possibleNeighbor : pathableNodes) {
@@ -674,7 +669,7 @@ public class PathFinderWidget {
             pathReversed.add(pathForward.get(i));
         }
 
-        // start path tricle animation thread
+        // start path trickle animation thread
         // this simply changes the color of the actual grid nodes based on the
         // nodes within the found path
         currentPathAnimator = new PathAnimator(pathReversed);
@@ -685,7 +680,7 @@ public class PathFinderWidget {
      */
     private static class PathAnimator {
         /**
-         * The dcolor used for the found path.
+         * The color used for the found path.
          */
         private static final Color PATH_COLOR = CyderColors.regularBlue;
 
@@ -729,7 +724,7 @@ public class PathFinderWidget {
                             lockingAddNode(new CyderGrid.GridNode(PATH_ANIMATION_COLOR,
                                     updateNode.getX(), updateNode.getY()));
                             lockingRepaintGrid();
-                            Thread.sleep(PATH_TRICLE_TIMEOUT);
+                            Thread.sleep(PATH_TRICKLE_TIMEOUT);
                         }
                     }
 
@@ -750,7 +745,7 @@ public class PathFinderWidget {
                             if (killed)
                                 return;
 
-                            Thread.sleep(PATH_TRICLE_TIMEOUT);
+                            Thread.sleep(PATH_TRICKLE_TIMEOUT);
 
                             if (killed)
                                 return;
@@ -770,9 +765,6 @@ public class PathFinderWidget {
 
                         // moving path dot from goal to start
                         for (int i = pathPoints.size() - 1 ; i >= 0 ; i--) {
-                            if (killed)
-                                return;
-
                             Optional<CyderGrid.GridNode> overridePoint =
                                     pathfindingGrid.getNodeAtPoint(pathPoints.get(i));
                             if (overridePoint.isPresent()
@@ -787,7 +779,7 @@ public class PathFinderWidget {
                             if (killed)
                                 return;
 
-                            Thread.sleep(PATH_TRICLE_TIMEOUT);
+                            Thread.sleep(PATH_TRICKLE_TIMEOUT);
 
                             if (killed)
                                 return;
@@ -1081,7 +1073,6 @@ public class PathFinderWidget {
      * @param n the node to calculate the g cost of
      * @return the g cost of the provided node
      */
-    @SuppressWarnings("unused")
     private static double calcGCost(PathNode n) {
         return euclideanDistance(n, startNode);
     }
@@ -1167,9 +1158,8 @@ public class PathFinderWidget {
         /**
          * Suppress default constructor.
          */
-        @SuppressWarnings("unused")
         private PathNode() {
-            throw new IllegalMethodException("Cannot create " + getClass() + " with default constructor");
+            throw new IllegalMethodException("Cannot create PathNode with default constructor");
         }
 
         /**

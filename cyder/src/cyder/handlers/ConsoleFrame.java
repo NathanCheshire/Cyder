@@ -926,7 +926,6 @@ public enum ConsoleFrame {
     /**
      * Removes all the input field listeners
      */
-    @SuppressWarnings("unused")
     private void uninstallInputFieldListeners() {
         inputField.removeKeyListener(inputFieldKeyAdapter);
         inputField.removeKeyListener(commandScrolling);
@@ -951,7 +950,6 @@ public enum ConsoleFrame {
     /**
      * Removes all the output area listeners.
      */
-    @SuppressWarnings("unused")
     private void uninstallOutputAreaListeners() {
         outputArea.removeFocusListener(outputAreaFocusAdapter);
         outputArea.removeMouseWheelListener(fontSizerListener);
@@ -2678,7 +2676,6 @@ public enum ConsoleFrame {
      *
      * @return the index in the command history we are currently at
      */
-    @SuppressWarnings("unused")
     public int getCommandIndex() {
         return commandIndex;
     }
@@ -2688,7 +2685,6 @@ public enum ConsoleFrame {
      *
      * @param downs the index in the command history we are at
      */
-    @SuppressWarnings("unused")
     public void setCommandIndex(int downs) {
         commandIndex = downs;
     }
@@ -2696,7 +2692,6 @@ public enum ConsoleFrame {
     /**
      * Increments the command index by 1.
      */
-    @SuppressWarnings("unused")
     public void incrementCommandIndex() {
         commandIndex += 1;
     }
@@ -2704,7 +2699,6 @@ public enum ConsoleFrame {
     /**
      * Decreases the command index by 1.
      */
-    @SuppressWarnings("unused")
     public void decrementCommandIndex() {
         commandIndex -= 1;
     }
@@ -2714,7 +2708,6 @@ public enum ConsoleFrame {
      *
      * @return whether the current background index is the maximum index
      */
-    @SuppressWarnings("unused")
     public boolean onLastBackground() {
         loadBackgrounds();
         return backgrounds.size() == backgroundIndex + 1;
@@ -2791,7 +2784,6 @@ public enum ConsoleFrame {
      *
      * @return the command history
      */
-    @SuppressWarnings("unused")
     public ArrayList<String> getCommandHistory() {
         return commandList;
     }

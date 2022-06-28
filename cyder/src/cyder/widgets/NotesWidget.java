@@ -29,7 +29,6 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
-@SuppressWarnings("unused")
 @Vanilla
 @CyderAuthor
 public class NotesWidget {

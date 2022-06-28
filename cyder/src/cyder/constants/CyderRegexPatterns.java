@@ -25,16 +25,6 @@ public final class CyderRegexPatterns {
                     "[\\-]?\\s*[0-9]{3}\\s*[\\-]?\\s*[0-9]{4}\\s*");
 
     /**
-     * Pattern to identify common phone number patterns with an
-     * extended region code (+1 is american and the numbers range
-     * from 1-9 but if they were extended, this pattern would match those new numbers)
-     */
-    @SuppressWarnings("unused")
-    public static final Pattern phoneNumberRegionCodeExtendedPattern =
-            Pattern.compile("\\s*[0-9]{0,2}\\s*[\\-]?\\s*[(]?\\s*[0-9]{0,3}\\s*" +
-                    "[)]?\\s*[\\-]?\\s*[0-9]{3}\\s*[\\-]?\\s*[0-9]{4}\\s*");
-
-    /**
      * Regex pattern to determine if a line is a comment.
      */
     public static final Pattern commentPattern = Pattern.compile(
