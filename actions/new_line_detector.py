@@ -1,50 +1,15 @@
 
-import os
+
 import sys
-
-
-def find_files(starting_dir: str, extensions: list = [], recursive: bool = False) -> list:
-    """ Finds all files within the provided directory that
-        end in one of the provided extensions.
-
-        Parameters:
-            starting_dir: the directory to start recursing from
-            extensions: a list of valid extensions such as [".java"]
-            recursive: whether to recurse through found subdirectories
-
-        Returns:
-            a list of discovered files
-    """
-
-    ret = []
-
-    if len(extensions) == 0:
-        raise Exception('Error: must provide valid extensions')
-
-    if os.path.isdir(starting_dir):
-        for subDir in os.listdir(starting_dir):
-            if recursive:
-                ret = ret + \
-                    find_files(os.path.join(starting_dir, subDir),
-                               extensions, recursive)
-            else:
-                ret.append(os.path.join(starting_dir, subDir))
-    else:
-        for extension in extensions:
-            if starting_dir.endswith(extension):
-                ret.append(starting_dir)
-
-    return ret
+from stat_generator import find_files
 
 
 def main():
     failed = False
 
-    files = find_files(starting_dir=".",
-                       extensions=['.java'], recursive=True)
+    files = find_files(starting_dir=".", extensions=['.java'], recursive=True)
 
     for file in files:
-
         num_newlines = 0
         anchored = False
         last_anchor = None
@@ -85,6 +50,6 @@ def main():
 
     return 1 if failed else 0
 
+
 if __name__ == '__main__':
-    failed = main()
-    sys.exit(failed)
+    sys.exit(main())

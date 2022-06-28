@@ -59,7 +59,6 @@ public final class FileUtil {
      */
     public static final ImmutableList<String> SUPPORTED_FONT_EXTENSIONS = ImmutableList.of(".ttf");
 
-
     /**
      * Suppress default constructor.
      */
