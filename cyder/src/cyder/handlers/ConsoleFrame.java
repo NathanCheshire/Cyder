@@ -1351,7 +1351,6 @@ public enum ConsoleFrame {
         public void focusLost(FocusEvent e) {
             super.focusLost(e);
             currentFocusedMenuItemIndex = 0;
-            menuButton.requestFocus();
         }
     };
 
@@ -1772,7 +1771,7 @@ public enum ConsoleFrame {
         menuLabel.setBounds(-menuWidth, CyderDragLabel.DEFAULT_HEIGHT - 2, menuWidth, menuHeight);
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.getGuiThemeColor());
-        menuLabel.setFocusable(true);
+        menuLabel.setFocusable(false);
         menuLabel.setVisible(false);
         menuLabel.setBorder(new LineBorder(Color.black, 5));
         consoleCyderFrame.getIconPane().add(menuLabel, JLayeredPane.MODAL_LAYER);
@@ -1780,7 +1779,7 @@ public enum ConsoleFrame {
         menuPane = new JTextPane();
         menuPane.setEditable(false);
         menuPane.setAutoscrolls(false);
-        menuPane.setFocusable(true);
+        menuPane.setFocusable(false);
         menuPane.setOpaque(false);
         menuPane.setBackground(CyderColors.getGuiThemeColor());
 

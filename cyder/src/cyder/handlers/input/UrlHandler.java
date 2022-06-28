@@ -5,7 +5,6 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.utils.NetworkUtil;
-import cyder.utils.OSUtil;
 
 import java.net.URL;
 
@@ -33,12 +32,6 @@ public class UrlHandler extends InputHandler {
             } else {
                 getInputHandler().println("YoutubeWordSearch usage: YoutubeWordSearch WORD_TO_FIND");
             }
-        } else if (getInputHandler().commandIs("echo")
-                || getInputHandler().commandIs("print")
-                || getInputHandler().commandIs("println")) {
-            getInputHandler().println(getInputHandler().argsToString());
-        } else if (getInputHandler().commandIs("cmd")) {
-            OSUtil.openShell();
         } else if (getInputHandler().commandIs("desmos")) {
             NetworkUtil.openUrl(CyderUrls.DESMOS);
         } else if (getInputHandler().commandIs("404")) {

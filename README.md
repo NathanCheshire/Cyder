@@ -62,9 +62,9 @@ Some examples of what you can do with Cyder include:
 <summary><b>Pathfinding Visualizer</b></summary>
 <p>
 <br>
-  
+
 https://user-images.githubusercontent.com/60986919/160253262-8b10844a-6385-4328-ab84-961d05777526.mp4
-  
+
 </p>
 </details>
 
@@ -72,9 +72,9 @@ https://user-images.githubusercontent.com/60986919/160253262-8b10844a-6385-4328-
 <summary><b>Game of Life Widget</b></summary>
 <p>
 <br>
-  
+
 https://user-images.githubusercontent.com/60986919/161394292-cb7bf459-d405-4efc-8ea1-33a127036a69.mp4
-  
+
 </p>
 </details>
 
@@ -90,12 +90,11 @@ configuration which invokes the main method inside of `Cyder.java` which is loca
 started, Cyder should recognize there are no users found and prompt for the creation of a user. Go ahead and create an
 account now.
 
-For development purposes, you may want to initialize another props file within the root directory to store your keys,
-passwords, and other sensitive data. This file should NOT be tracked via your VCS (add it to to your .gitignore if you
-don't use the name propkeys.ini). Within this file, add two props: `debug_hash_name` with the value of your username
-and `debug_hash_password` with the value of your password hashed once using SHA256 (hint: you can hash your password
-inside of Cyder using the hashing widget). Follow the ini key-value format or copy from `props.ini` when creating your
-own props file. You may name your props file whatever you wish, just make sure you tell Cyder to load it by ensuring the
-filename starts with `prop` and is an `ini` file located inside of the `props` directory. One last thing, make sure that
-you annotate these key props and any other props whose values you do not want appearing in the log files with `@no_log`.
-This will prevent the logger from writing the value to the log file when props are loaded at runtime.
+For development purposes, you may want to add two props within a props file (you may create your own if you choose).
+Within the chosen props file, set `debug_hash_name` to the value of your username and `debug_hash_password` to the value
+of your password, hashed once using SHA256 (hint: you can hash your password inside of Cyder using the hashing widget).
+Follow the ini key-value format or copy from `props.ini` if creating your own props file. You may name your props file
+whatever you wish, just make sure you tell Cyder to load it by ensuring the filename starts with `prop` and is an `ini`
+file located inside of the `props` directory. One last thing, make sure that you annotate these key props and any other
+props whose values you do not want appearing in the log files with `@no_log`. This will prevent the logger from writing
+the value to the log file when props are loaded at runtime.

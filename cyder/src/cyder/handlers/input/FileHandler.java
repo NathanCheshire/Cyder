@@ -76,6 +76,8 @@ public class FileHandler extends InputHandler {
             } else {
                 getInputHandler().print("Wipe command usage: wipe [directory/file within your user directory]");
             }
+        } else if (getInputHandler().commandIs("cmd")) {
+            OSUtil.openShell();
         } else {
             ret = false;
         }

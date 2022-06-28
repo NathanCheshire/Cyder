@@ -2410,14 +2410,6 @@ public final class AudioPlayer {
         // todo playing dreamified audio after just finished freezes
         // todo transitioning audio still freezes sometimes
 
-        // todo perform handshake with local backend after setting up and log debug calls
-
-        // todo make port configurable in props
-
-        // todo fix menu button focus bug
-
-        // todo convert to backend processes: open shell, dreamify, wrap shell, gitme
-
         CyderThreadRunner.submit(() -> {
             showInformationLabel(SEARCHING);
 

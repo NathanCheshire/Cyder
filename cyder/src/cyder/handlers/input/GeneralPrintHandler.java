@@ -230,6 +230,10 @@ public class GeneralPrintHandler extends InputHandler {
             }
         } else if (getInputHandler().commandAndArgsToString().matches(".*tell.*joke.*")) {
             getInputHandler().println("Knock Knock\nRace condition\nWho's there?");
+        } else if (getInputHandler().commandIs("echo")
+                || getInputHandler().commandIs("print")
+                || getInputHandler().commandIs("println")) {
+            getInputHandler().println(getInputHandler().argsToString());
         } else {
             ret = false;
         }

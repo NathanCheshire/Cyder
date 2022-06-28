@@ -200,7 +200,6 @@ public class CyderButton extends JButton {
         this.pressedBackgroundColor = pressedBackgroundColor;
     }
 
-
     /**
      * Invokes an alert using {@link #ALERT_ITERATIONS}
      */
