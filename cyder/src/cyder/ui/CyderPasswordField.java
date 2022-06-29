@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -9,7 +10,11 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.text.Document;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A Cyder password field.
@@ -50,31 +55,6 @@ public class CyderPasswordField extends JPasswordField {
         @Override
         public void mouseClicked(MouseEvent e) {
             Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
-        }
-    };
-
-    /**
-     * The key listener for showing/hiding the password.
-     */
-    private final KeyListener shiftShowsPasswordKeyListener = new KeyAdapter() {
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                setEchoChar((char) 0);
-                int pos = getCaretPosition();
-                setCaret(getCaret());
-                setCaretPosition(pos);
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                setEchoChar(CyderStrings.ECHO_CHAR);
-                int pos = getCaretPosition();
-                setCaret(getCaret());
-                setCaretPosition(pos);
-            }
         }
     };
 
@@ -120,6 +100,11 @@ public class CyderPasswordField extends JPasswordField {
     private boolean shiftShowsPassword;
 
     /**
+     * The atomic boolean which manages the state of shiftShowsPassword
+     */
+    private AtomicBoolean existingShiftShowsPassword;
+
+    /**
      * Sets whether holding shift shows the password.
      *
      * @param shiftShowsPassword whether holding shift shows the password
@@ -127,10 +112,10 @@ public class CyderPasswordField extends JPasswordField {
     public void setShiftShowsPassword(boolean shiftShowsPassword) {
         this.shiftShowsPassword = shiftShowsPassword;
 
-        if (shiftShowsPassword) {
-            addKeyListener(shiftShowsPasswordKeyListener);
-        } else {
-            removeKeyListener(shiftShowsPasswordKeyListener);
+        if (existingShiftShowsPassword != null) {
+            existingShiftShowsPassword.set(shiftShowsPassword);
+        } else if (shiftShowsPassword) {
+            existingShiftShowsPassword = addShiftShowsPasswordListener(this);
         }
     }
 
@@ -141,5 +126,40 @@ public class CyderPasswordField extends JPasswordField {
      */
     public boolean isShiftShowsPassword() {
         return shiftShowsPassword;
+    }
+
+    /**
+     * Adds the shift shows password listener to the provided password field.
+     *
+     * @param passwordField the password field to add the listener too
+     * @return an atomic boolean to toggle the state of the password listener.
+     */
+    @CanIgnoreReturnValue
+    public static AtomicBoolean addShiftShowsPasswordListener(JPasswordField passwordField) {
+        AtomicBoolean shiftShowsPasswordEnabled = new AtomicBoolean(true);
+
+        passwordField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_SHIFT && shiftShowsPasswordEnabled.get()) {
+                    passwordField.setEchoChar((char) 0);
+                    int pos = passwordField.getCaretPosition();
+                    passwordField.setCaret(passwordField.getCaret());
+                    passwordField.setCaretPosition(pos);
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_SHIFT && shiftShowsPasswordEnabled.get()) {
+                    passwordField.setEchoChar(CyderStrings.ECHO_CHAR);
+                    int pos = passwordField.getCaretPosition();
+                    passwordField.setCaret(passwordField.getCaret());
+                    passwordField.setCaretPosition(pos);
+                }
+            }
+        });
+
+        return shiftShowsPasswordEnabled;
     }
 }

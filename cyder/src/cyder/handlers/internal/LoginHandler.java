@@ -10,10 +10,7 @@ import cyder.genesis.CyderSplash;
 import cyder.genesis.PropLoader;
 import cyder.handlers.ConsoleFrame;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.CyderCaret;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderOutputPane;
-import cyder.ui.CyderScrollPane;
+import cyder.ui.*;
 import cyder.user.User;
 import cyder.user.UserCreator;
 import cyder.utils.*;
@@ -28,6 +25,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A widget to log into Cyder or any other way that the ConsoleFrame might be invoked.
@@ -91,7 +89,15 @@ public final class LoginHandler {
      */
     private static boolean loginFrameClosed = true;
 
+    /**
+     * The background color of the login frame.
+     */
     public static final Color backgroundColor = new Color(21, 23, 24);
+
+    /**
+     * The atomic boolean to control whether shift shows the password of the password field.
+     */
+    private static AtomicBoolean shiftShowsPassword;
 
     /**
      * The regular non-priority printing list for the login frame.
@@ -269,6 +275,10 @@ public final class LoginHandler {
         loginField.setCaretColor(new Color(85, 181, 219));
         loginField.addActionListener(e -> loginField.requestFocusInWindow());
         loginField.addKeyListener(loginFieldAdapter);
+
+        shiftShowsPassword = CyderPasswordField.addShiftShowsPasswordListener(loginField);
+        shiftShowsPassword.set(false);
+
         loginField.setCaretPosition(currentBashString.length());
         loginFrame.getContentPane().add(loginField);
 
@@ -278,21 +288,14 @@ public final class LoginHandler {
                 loginField.requestFocus();
             }
         });
+        loginFrame.finalizeAndShow(); // todo ensure this works
 
-        //set visibility and location
-        loginFrame.setVisible(true);
-
-        loginFrame.setLocationRelativeTo(CyderFrame.getDominantFrame() == loginFrame
-                ? null : CyderFrame.getDominantFrame());
-
-        //dispose the splash frame immediately
         CyderSplash.INSTANCE.fastDispose();
 
-        //if no users were found, prompt the user to create one
-        if (UserUtil.getUserCount() == 0)
+        if (UserUtil.getUserCount() == 0) {
             priorityPrintingList.add("No users found; please type \"create\"\n");
+        }
 
-        //begin typing animations
         startTypingAnimation(new CyderOutputPane(loginArea));
     }
 
@@ -359,11 +362,13 @@ public final class LoginHandler {
                         loginField.setText("");
                         priorityPrintingList.add("Awaiting Password (hold shift to reveal password)\n");
                         currentBashString = defaultBashString;
+                        shiftShowsPassword.set(true);
 
                         break;
                     //expecting a password
                     case 2:
                         loginField.setEchoChar((char) 0);
+                        shiftShowsPassword.set(false);
                         loginField.setText("");
                         priorityPrintingList.add("Attempting validation\n");
 
@@ -388,21 +393,6 @@ public final class LoginHandler {
                         loginField.setText(currentBashString);
                         throw new IllegalArgumentException("Error resulting from login shell default case trigger");
                 }
-            }
-        }
-
-        //holding shift allows the user to see their password
-        public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                loginField.setEchoChar((char) 0);
-            }
-        }
-
-        //releasing shift sets the echo char back to the
-        // obfuscated one if we are expecting a password
-        public void keyReleased(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_SHIFT && loginMode == 2) {
-                loginField.setEchoChar(CyderStrings.ECHO_CHAR);
             }
         }
     };
@@ -433,12 +423,12 @@ public final class LoginHandler {
 
         //if AutoCyphering is enabled, attempt all cyphers
         if (PropLoader.getBoolean("autocypher")) {
-            Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
+            Logger.log(Logger.Tag.LOGIN, "AutoCypher Attempt");
             CyderSplash.INSTANCE.setLoadingMessage("Auto Cyphering");
 
             //if AutoCyphering fails, show the login gui
             if (!autoCypher()) {
-                Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
+                Logger.log(Logger.Tag.LOGIN, "AutoCypher Fail");
                 showGui();
             }
         }

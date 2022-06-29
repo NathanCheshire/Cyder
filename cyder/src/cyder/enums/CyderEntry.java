@@ -12,7 +12,7 @@ public enum CyderEntry {
     /**
      * The official login frame.
      */
-    Login("Login", "STD Login Success", "STD Login FAIL"),
+    Login("Login", "STD Login Success", "STD Login Fail"),
 
     /**
      * If the previous session was terminated without a logout.
