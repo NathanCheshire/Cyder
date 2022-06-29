@@ -55,7 +55,7 @@ def find_bad_words(starting_dir: str, filter_path: str, extensions: list) -> Lis
     ret = []
 
     for file in files:
-        if file is filter_path:
+        if file == filter_path:
             continue
 
         print("On file:", file)
