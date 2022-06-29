@@ -58,6 +58,8 @@ def find_bad_words(starting_dir: str, filter_path: str, extensions: list) -> Lis
         if file is filter_path:
             continue
 
+        print("On file:", file)
+
         file_lines = get_stripped_lines(file)
 
         for line_number, line in enumerate(file_lines):
@@ -119,7 +121,7 @@ def main():
 
     for bad_word in bad_words:
         if isinstance(bad_word, BadWord):
-            print("Found \"" + bad_word.get_word() + "\" from \"" + bad_word.get_class() + "\"" +
+            print("Found \"" + bad_word.get_words() + "\" from \"" + bad_word.get_class() + "\"" +
                   " on line " + bad_word.get_line_number() + ".\nFull line: \"" + bad_word.get_line() + "\"")
             print(linesep)
 
