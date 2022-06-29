@@ -132,7 +132,7 @@ public class BaseInputHandler {
     public static final ImmutableList<Class<?>> primaryHandlers = ImmutableList.of(
             PixelationHandler.class,
             GitHandler.class,
-            PrintImageHandler.class,
+            ImageHandler.class,
             PlayAudioHandler.class,
             ColorHandler.class,
             NetworkHandler.class,

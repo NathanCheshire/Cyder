@@ -1013,18 +1013,20 @@ public enum ConsoleFrame {
                 int lastChimeHour = -1;
 
                 while (true) {
-                    int min = LocalDateTime.now().getMinute();
-                    int sec = LocalDateTime.now().getSecond();
+                    if (!isClosed()) {
+                        int min = LocalDateTime.now().getMinute();
+                        int sec = LocalDateTime.now().getSecond();
 
-                    // if at hh:00:00 and we haven't chimed for this hour yet
-                    if (min == 0 && sec == 0 && lastChimeHour != LocalDateTime.now().getHour()) {
-                        if (!isClosed() && UserUtil.getCyderUser().getHourlychimes().equals("1")) {
-                            IOUtil.playSystemAudio("static/audio/chime.mp3");
-                            lastChimeHour = LocalDateTime.now().getHour();
+                        // if at hh:00:00 and we haven't chimed for this hour yet
+                        if (min == 0 && sec == 0 && lastChimeHour != LocalDateTime.now().getHour()) {
+                            if (UserUtil.getCyderUser().getHourlychimes().equals("1")) {
+                                IOUtil.playSystemAudio("static/audio/chime.mp3");
+                                lastChimeHour = LocalDateTime.now().getHour();
+                            }
                         }
-                    }
 
-                    Thread.sleep(50);
+                        Thread.sleep(50);
+                    }
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -1407,7 +1409,7 @@ public enum ConsoleFrame {
     /**
      * Removes focus from any and task menu taskbar items
      */
-    private void unfocusTaskbarMenuItems() {
+    private void removeFocusFromTaskbarMenuIcons() {
         currentFocusedMenuItemIndex = -1;
 
         if (menuLabel == null) {
@@ -1528,13 +1530,13 @@ public enum ConsoleFrame {
         @Override
         public void focusLost(FocusEvent e) {
             menuButton.setIcon(CyderIcons.menuIcon);
-            unfocusTaskbarMenuItems();
+            removeFocusFromTaskbarMenuIcons();
         }
 
         @Override
         public void focusGained(FocusEvent e) {
             menuButton.setIcon(CyderIcons.menuIconHover);
-            unfocusTaskbarMenuItems();
+            removeFocusFromTaskbarMenuIcons();
         }
     };
 
@@ -2250,7 +2252,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Reinitializes the background files and returns the resulting list of found backgrounds.
+     * Reloads the background files and returns the resulting list of found backgrounds.
      *
      * @return list of found backgrounds
      */
@@ -2299,18 +2301,18 @@ public enum ConsoleFrame {
         int index = -1;
 
         for (int i = 0 ; i < backgrounds.size() ; i++) {
-            if (backgrounds.get(i).referenceFile().getAbsolutePath()
-                    .equals(backgroundFile.getAbsolutePath())) {
+            if (backgrounds.get(i).referenceFile().getAbsolutePath().equals(backgroundFile.getAbsolutePath())) {
                 index = i;
                 break;
             }
         }
 
-        if (index != -1)
+        if (index != -1) {
             setBackgroundIndex(index);
-        else
+        } else {
             throw new IllegalArgumentException("Provided file not found in user's backgrounds directory: "
                     + backgroundFile.getAbsolutePath());
+        }
     }
 
     /**

@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import cyder.handlers.internal.ExceptionHandler;
 
 import javax.imageio.ImageIO;
+import javax.swing.text.html.Option;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Optional;
@@ -60,5 +61,18 @@ public class BlurResponse {
         }
 
         return ret;
+    }
+
+    /**
+     * Generates a reference to the blurred file.
+     *
+     * @return a reference to the blurred file
+     */
+    public Optional<File> generateFileReference() {
+        if (imagePath != null) {
+            return Optional.of(new File(imagePath));
+        } else {
+            return Optional.empty();
+        }
     }
 }
