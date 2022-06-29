@@ -18,7 +18,7 @@ class BadWord:
     def get_class(self) -> str:
         """ Returns the Java class this bad word was found from.
         """
-        return self._class
+        return self._clazz
 
     def get_line_number(self) -> int:
         """ Returns the line number this bad word was found at.
