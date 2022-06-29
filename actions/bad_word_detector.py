@@ -122,7 +122,7 @@ def main():
     for bad_word in bad_words:
         if isinstance(bad_word, BadWord):
             print("Found \"" + str(bad_word.get_words()) + "\" from \"" + bad_word.get_class() + "\"" +
-                  " on line " + bad_word.get_line_number() + ".\nFull line: \"" + bad_word.get_line() + "\"")
+                  " on line " + str(bad_word.get_line_number()) + ".\nFull line: \"" + bad_word.get_line() + "\"")
             print(linesep)
 
     sys.exit(0 if len_bad_words == 0 else 1)
