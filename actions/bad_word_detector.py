@@ -115,13 +115,13 @@ def main():
     len_bad_words = len(bad_words)
 
     if len_bad_words > 0:
-        print(len_bad_words, " found:")
+        print("Found", len_bad_words, "matches")
     else:
         print("No bad words found, good job I guess")
 
     for bad_word in bad_words:
         if isinstance(bad_word, BadWord):
-            print("Found \"" + bad_word.get_words() + "\" from \"" + bad_word.get_class() + "\"" +
+            print("Found \"" + str(bad_word.get_words()) + "\" from \"" + bad_word.get_class() + "\"" +
                   " on line " + bad_word.get_line_number() + ".\nFull line: \"" + bad_word.get_line() + "\"")
             print(linesep)
 
