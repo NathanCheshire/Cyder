@@ -1,20 +1,18 @@
 package cyder.genesis;
 
+import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
-import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.subroutines.RegisterFonts;
-import cyder.genesis.subroutines.SingularInstance;
-import cyder.genesis.subroutines.SupportedOs;
-import cyder.handlers.internal.ExceptionHandler;
+import cyder.genesis.subroutines.SubroutinePriority;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
-import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
-import cyder.utils.*;
+import cyder.utils.OSUtil;
+import cyder.utils.ReflectionUtil;
+import cyder.utils.TimeUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
@@ -33,6 +31,20 @@ public final class Cyder {
     }
 
     /**
+     * The Jvm arguments provided when Cyder was started.
+     */
+    private static ImmutableList<String> jvmArguments;
+
+    /**
+     * Returns the Jvm arguments provided when Cyder was started.
+     *
+     * @return the Jvm arguments provided when Cyder was started
+     */
+    public static ImmutableList<String> getJvmArguments() {
+        return jvmArguments;
+    }
+
+    /**
      * Setup and start the best program ever made :D
      *
      * @param arguments possible command line args passed in. Currently, these serve no purpose,
@@ -40,6 +52,8 @@ public final class Cyder {
      */
     public static void main(String[] arguments) {
         TimeUtil.setAbsoluteStartTime(System.currentTimeMillis());
+
+        jvmArguments = ImmutableList.copyOf(arguments);
 
         PropLoader.loadProps();
 
@@ -51,92 +65,13 @@ public final class Cyder {
 
         CyderWatchdog.initializeWatchDog();
 
-        // todo make use reflection to find all classes which implement the interface and call them
-        //  if failure and necessary, call the exit
-        // Necessary subroutines
-        new SingularInstance().ensure();
-        new RegisterFonts().ensure();
-        new SupportedOs().ensure();
-
-        if (fastTestingCheck()) return;
+        ReflectionUtil.executeSubroutines(SubroutinePriority.NECESSARY);
 
         CyderSplash.INSTANCE.showSplash();
 
-        if (completeNecessarySubroutines()) {
-            spinOffSufficientSubroutines(arguments);
+        ReflectionUtil.executeSubroutines(SubroutinePriority.SUFFICIENT);
 
-            LoginHandler.determineCyderEntry();
-        }
-    }
-
-    /**
-     * Checks for the prop <b><fast_test/b> being enabled and skips most of Cyder setup and instead invokes
-     * the ManualTests method {@link ManualTests#launchTests()}.
-     *
-     * @return whether fast testing was found to be enabled
-     */
-    private static boolean fastTestingCheck() {
-        if (PropLoader.getBoolean("fast_test")) {
-            ManualTests.launchTests();
-            ExceptionHandler.exceptionExit("Fast Testing launched; dispose this frame to exit",
-                    "Fast Testing", ExitCondition.TestingModeExit);
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Sequentially runs the subroutines whose completion is necessary prior to Cyder starting.
-     *
-     * @return whether all subroutines completed successfully.
-     */
-    // todo necessary subroutines too
-    private static boolean completeNecessarySubroutines() {
-        try {
-            CyderSplash.INSTANCE.setLoadingMessage("Creating dynamics");
-            OSUtil.ensureDynamicsCreated();
-
-            CyderSplash.INSTANCE.setLoadingMessage("Validating users");
-            UserUtil.validateUsers();
-
-            CyderSplash.INSTANCE.setLoadingMessage("Cleaning users");
-            UserUtil.cleanUsers();
-
-            CyderSplash.INSTANCE.setLoadingMessage("Validating props");
-            ReflectionUtil.validateProps();
-
-            CyderSplash.INSTANCE.setLoadingMessage("Validating Widgets");
-            ReflectionUtil.validateWidgets();
-
-            CyderSplash.INSTANCE.setLoadingMessage("Validating Test");
-            ReflectionUtil.validateTests();
-
-            CyderSplash.INSTANCE.setLoadingMessage("Validating Vanilla");
-            ReflectionUtil.validateVanillaWidgets();
-
-            CyderSplash.INSTANCE.setLoadingMessage("Validating Handles");
-            ReflectionUtil.validateHandles();
-
-            return true;
-        } catch (Exception e) {
-            ExceptionHandler.exceptionExit("Exception thrown from necessary subroutine runner, message = "
-                    + e.getMessage(), "Subroutine Exception", ExitCondition.SubroutineException);
-        }
-
-        return false;
-    }
-
-    /**
-     * Starts a thread for subroutines who's successful completion are not necessary for Cyder use.
-     *
-     * @param arguments the Jvm provided arguments
-     */
-    private static void spinOffSufficientSubroutines(String[] arguments) {
-        CyderThreadRunner.submit(() -> {
-            CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
-            IOUtil.logArgs(arguments);
-        }, "Secondary Subroutines Runner");
+        LoginHandler.determineCyderEntry();
     }
 
     /**
@@ -157,7 +92,6 @@ public final class Cyder {
         initUiManagerTooltipProps();
         initSystemProps();
 
-        // calls which have no method
         UIManager.put("Slider.onlyLeftMouseButtonDrag", Boolean.TRUE);
     }
 
@@ -174,7 +108,7 @@ public final class Cyder {
     /**
      * The name to use for the exit hook thread.
      */
-    public static final String EXIT_HOOK = "exit-hook";
+    public static final String EXIT_HOOK_NAME = "exit-hook";
 
     /**
      * Adds the exit hook to this Jvm.
@@ -183,6 +117,6 @@ public final class Cyder {
         Runtime.getRuntime().addShutdownHook(CyderThreadRunner.createThread(() -> {
             File deleteDirectory = OSUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName());
             OSUtil.deleteFile(deleteDirectory, false);
-        }, EXIT_HOOK));
+        }, EXIT_HOOK_NAME));
     }
 }

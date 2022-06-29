@@ -7,8 +7,11 @@ import com.google.common.reflect.ClassPath;
 import cyder.annotations.*;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
+import cyder.genesis.subroutines.StartupSubroutine;
+import cyder.genesis.subroutines.SubroutinePriority;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.input.InputHandler;
 import cyder.handlers.internal.ExceptionHandler;
@@ -26,7 +29,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 /**
- * Utilities for methods regarding reflection.
+ * Utilities for Jvm reflection.
  */
 public final class ReflectionUtil {
     /**
@@ -34,6 +37,40 @@ public final class ReflectionUtil {
      */
     private ReflectionUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
+
+    /**
+     * Executes all necessary and sufficient subroutines found within Cyder.
+     *
+     * @param requestedPriority the priority of the subroutines to execute
+     */
+    public static void executeSubroutines(SubroutinePriority requestedPriority) {
+        try {
+            for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
+                Class<?> classer = classInfo.load();
+
+                if (StartupSubroutine.class.isAssignableFrom(classer)) {
+                    Method getSubroutinePriority = classer.getMethod("getPriority");
+                    SubroutinePriority priority = (SubroutinePriority) getSubroutinePriority.invoke(classer);
+
+                    if (priority != requestedPriority) {
+                        continue;
+                    }
+
+                    Method ensureMethod = classer.getMethod("ensure");
+                    boolean success = (boolean) ensureMethod.invoke(classer);
+
+                    if (!success) {
+                        if (priority == SubroutinePriority.NECESSARY) {
+                            Method exit = classer.getMethod("exit");
+                            exit.invoke(classer);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new FatalException("Subroutine executor failed: error=" + e.getMessage());
+        }
     }
 
     /**
@@ -299,8 +336,8 @@ public final class ReflectionUtil {
                             }
                         }
 
-                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @Widget is not named " +
-                                STANDARD_WIDGET_SHOW_METHOD_NAME + "(); name: " + m.getName());
+                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @Widget is not named "
+                                + STANDARD_WIDGET_SHOW_METHOD_NAME + "(); name: " + m.getName());
                     }
 
                     if (StringUtil.isNull(description)) {
@@ -391,8 +428,8 @@ public final class ReflectionUtil {
                             }
                         }
 
-                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @ManualTest does not end" +
-                                " with \"test\"; name: " + m.getName());
+                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @ManualTest does not end"
+                                + " with \"test\"; name: " + m.getName());
                     }
 
                     if (StringUtil.isNull(trigger)) {
@@ -400,8 +437,8 @@ public final class ReflectionUtil {
                     }
 
                     if (StringUtil.in(trigger, true, foundTriggers)) {
-                        throw new IllegalArgumentException("Method annotation with @ManualTest " +
-                                "has a trigger which has already been used; method: " + m.getName()
+                        throw new IllegalArgumentException("Method annotation with @ManualTest "
+                                + "has a trigger which has already been used; method: " + m.getName()
                                 + ", trigger: " + trigger);
                     }
 
@@ -445,14 +482,14 @@ public final class ReflectionUtil {
                 }
 
                 if (!clazz.isAnnotationPresent(CyderAuthor.class)) {
-                    Logger.log(Logger.Tag.DEBUG, "Method annotated with @Vanilla does not contain" +
-                            " a @CyderAuthor annotation");
+                    Logger.log(Logger.Tag.DEBUG, "Method annotated with @Vanilla does not contain"
+                            + " a @CyderAuthor annotation");
                 } else {
                     String author = clazz.getAnnotation(CyderAuthor.class).author();
 
                     if (!StringUtil.in(author, true, "Nathan Cheshire", "Natche", "Cypher")) {
-                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @Vanilla does not contain" +
-                                " Nathan Cheshire as an author");
+                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @Vanilla does not contain"
+                                + " Nathan Cheshire as an author");
                     }
                 }
             }
@@ -601,8 +638,7 @@ public final class ReflectionUtil {
      * A record representing a found similar command how close the
      * found command is to the original string.
      */
-    public static record SimilarCommand(Optional<String> command, double tolerance) {
-    }
+    public static record SimilarCommand(Optional<String> command, double tolerance) {}
 
     /**
      * Finds the most similar command to the unrecognized one provided.

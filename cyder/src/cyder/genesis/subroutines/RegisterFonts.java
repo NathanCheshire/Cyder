@@ -65,7 +65,6 @@ public class RegisterFonts implements StartupSubroutine {
      */
     @Override
     public void exit() {
-        Logger.log(Logger.Tag.EXCEPTION, "Font Exception");
         ExceptionHandler.exceptionExit(getErrorMessage(), "Font failure", ExitCondition.CorruptedSystemFiles);
         throw new FatalException(getErrorMessage());
     }

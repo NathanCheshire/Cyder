@@ -35,6 +35,9 @@ import java.nio.file.attribute.DosFileAttributes;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
+/**
+ * Utilities related to local computer IO.
+ */
 public final class IOUtil {
     /**
      * No objects of util methods allowed.
@@ -111,18 +114,18 @@ public final class IOUtil {
      *
      * @param cyderArgs command line arguments passed in
      */
-    public static void logArgs(String[] cyderArgs) {
+    public static void logArgs(ImmutableList<String> cyderArgs) {
         CyderThreadRunner.submit(() -> {
             try {
                 // build string of all JVM args
                 StringBuilder argBuilder = new StringBuilder();
 
-                for (int i = 0 ; i < cyderArgs.length ; i++) {
+                for (int i = 0 ; i < cyderArgs.size() ; i++) {
                     if (i != 0) {
                         argBuilder.append(",");
                     }
 
-                    argBuilder.append(cyderArgs[i]);
+                    argBuilder.append(cyderArgs.get(i));
                 }
 
                 Document locationDocument = Jsoup.connect(CyderUrls.LOCATION_URL).get();

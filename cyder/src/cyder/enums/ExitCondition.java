@@ -6,7 +6,7 @@ import cyder.utils.OSUtil;
  * Cyder exit codes and their corresponding meanings.
  */
 public enum ExitCondition {
-    // exception exits
+    SufficientSubroutineExit(-14, "A sufficient subroutine failed"),
     WatchdogTimeout(-13, "Watchdog Timeout"),
     NotReleased(-12, "Cyder Not Released"),
     SubroutineException(-11, "Subroutine Exception"),
@@ -20,22 +20,24 @@ public enum ExitCondition {
     UserDeleted(-3, "User Deleted"),
     ForcedImmediateExit(-2, "Forced Immediate Exit"),
 
-    // reserved as this indicates something specific to JVM exits
-    TrueExternalStop(-1, "THIS SHOULD NOT BE USED"),
+    /**
+     * Reserved as this indicates something specific to JVM exits
+     */
+    TrueExternalStop(-1, "DO NOT OVERRIDE"),
 
     /**
      * The standard Cyder exit.
      */
     GenesisControlledExit(0, "Genesis Controlled Exit"),
 
-    // other standard exits
-    ScheduledExit(1, "Genesis Controlled Exit"),
-    TestingModeExit(3, "Testing Mode Exit");
+    /**
+     * The exit was schedule via the user or Cyder.
+     */
+    ScheduledExit(1, "Genesis Controlled Exit");
 
     /**
      * The code associated with this ExitCondition.
-     * {@link OSUtil#exit(ExitCondition)} will invoke
-     * {@link System#exit(int)} using this code.
+     * The method {@link OSUtil#exit(ExitCondition)} will invoke {@link System#exit(int)} using this code.
      */
     private final int code;
 
