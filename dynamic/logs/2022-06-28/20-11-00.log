@@ -1,0 +1,113 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[20-11-00] [ENTRY]: Nathan
+[20-11-00] [PROP LOADED]: [key = map_quest_api_key]
+[20-11-00] [PROP LOADED]: [key = youtube_api_3_key]
+[20-11-00] [PROP LOADED]: [key = ip_key]
+[20-11-00] [PROP LOADED]: [key = weather_key]
+[20-11-00] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[20-11-00] [PROP LOADED]: [key = debug_hash_password]
+[20-11-00] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[20-11-00] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[20-11-00] [PROP LOADED]: [key = font_metric, value = 1]
+[20-11-00] [PROP LOADED]: [key = released, value = false]
+[20-11-00] [PROP LOADED]: [key = version, value = Liminal]
+[20-11-00] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[20-11-00] [PROP LOADED]: [key = components_relocatable, value = false]
+[20-11-00] [PROP LOADED]: [key = testing_mode, value = true]
+[20-11-00] [PROP LOADED]: [key = autocypher, value = true]
+[20-11-00] [PROP LOADED]: [key = dispose_splash, value = true]
+[20-11-00] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[20-11-00] [PROP LOADED]: [key = activate_watchdog, value = false]
+[20-11-00] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[20-11-00] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[20-11-00] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[20-11-00] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[20-11-00] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[20-11-00] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[20-11-00] [THREAD STARTED]: Object Creation Logger
+[20-11-00] [DEBUG]: Watchdog skipped
+[20-11-01] [FONT LOADED]: agency-fb
+[20-11-01] [FONT LOADED]: arial-black
+[20-11-01] [FONT LOADED]: beyno
+[20-11-01] [FONT LOADED]: condiment-regular
+[20-11-01] [FONT LOADED]: prompt-bold
+[20-11-01] [FONT LOADED]: segoe-ui-black
+[20-11-01] [FONT LOADED]: tahoma
+[20-11-01] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-11-01] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-11-02] [DEBUG]: Class annotated with @Vanilla does not end with Widget; name: cyder.games.HangmanGame
+[20-11-02] [DEBUG]: Class annotated with @Vanilla does not end with Widget; name: cyder.games.TTTGame
+[20-11-02] [THREAD STARTED]: Splash Loader
+[20-11-02] [THREAD STARTED]: JVM Args Logger
+[20-11-02] [LOGIN]: AUTOCYPHER ATTEMPT
+[20-11-02] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[20-11-02] [THREAD STARTED]: Splash Animation
+[20-11-03] [DEBUG]: Cyder Entry = AutoCypher
+[20-11-03] [THREAD STARTED]: Console Printing Animation
+[20-11-03] [OBJECT CREATION]: Objects created since last delta (5000ms): 101
+[20-11-03] [THREAD STARTED]: Hourly Chime Checker
+[20-11-03] [THREAD STARTED]: Console Clock Updater
+[20-11-03] [THREAD STARTED]: Cyder Busy Checker
+[20-11-03] [THREAD STARTED]: ConsoleFrame Stat Saver
+[20-11-03] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[20-11-03] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[20-11-03] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[20-11-03] [CONSOLE OUT]: [STRING]: Console loaded in 3417ms
+[20-11-03] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[20-11-03] [THREAD STARTED]: Manual Tests Thread
+[20-11-04] [THREAD STARTED]: High Ping Checker
+[20-11-04] [DEBUG]: Attempted to log a new or empty line
+[20-11-05] [THREAD STARTED]: Splash Loading Label Updater
+[20-11-06] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 9] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[20-11-06] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1656385678338.json
+[20-11-08] [OBJECT CREATION]: Objects created since last delta (5000ms): 16
+[20-11-20] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[20-11-21] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[20-11-21] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[20-11-21] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1656465066757.json
+[20-11-21] [THREAD STARTED]: Liminal Cyder [Nathan] notification queue checker
+[20-11-21] [UI]: [Liminal Cyder [Nathan]] [NOTIFICATION] "<html>You only have one background image. Try adding more via
+           the user editor</html>"
+[20-11-21] [THREAD STARTED]: Notification Appear Animator
+[20-11-22] [THREAD STARTED]: Notification Vanish Animator
+[20-11-22] [UI]: Component = CyderNotification, hash = -1745472528, bounds = (83, 29, 796, 68), parent frame = Liminal
+           Cyder [Nathan]
+[20-11-23] [THREAD STARTED]: [Preferences] finalizeAndShow()
+[20-11-23] [OBJECT CREATION]: Objects created since last delta (5000ms): 39
+[20-11-24] [THREAD STARTED]: Preferences Opacity Decrement Animator
+[20-11-24] [THREAD STARTED]: Preferences Opacity Increment Animator
+[20-11-25] [UI]: Component = CyderDragLabel, hash = -14565423, bounds = (2, 2, 726, 28), parent frame = Preferences
+[20-11-25] [THREAD STARTED]: [Preferences] dispose() animation thread
+[20-11-25] [UI]: CyderFrame disposed with fastclose=false, getTitle=Preferences
+[20-11-26] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[20-11-26] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[20-11-26] [EXIT]: [RUNTIME] 25s
+[20-11-26] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown

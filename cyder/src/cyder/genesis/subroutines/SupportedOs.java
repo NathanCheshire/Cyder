@@ -14,7 +14,7 @@ public class SupportedOs implements StartupSubroutine {
      */
     @Override
     public boolean ensure() {
-        return OSUtil.isOSX();
+        return !OSUtil.isOSX();
     }
 
     /**

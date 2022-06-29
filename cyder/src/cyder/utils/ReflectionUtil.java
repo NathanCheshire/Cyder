@@ -50,25 +50,44 @@ public final class ReflectionUtil {
                 Class<?> classer = classInfo.load();
 
                 if (StartupSubroutine.class.isAssignableFrom(classer)) {
-                    Method getSubroutinePriority = classer.getMethod("getPriority");
-                    SubroutinePriority priority = (SubroutinePriority) getSubroutinePriority.invoke(classer);
+                    if (classer.isInterface()) {
+                        continue;
+                    }
+
+                    Method[] methods = classer.getMethods();
+
+                    Method getSubroutinePriorityMethod = null;
+                    Method ensureMethod = null;
+                    Method exitMethod = null;
+
+                    for (Method method : methods) {
+                        switch (method.getName()) {
+                            case "getPriority" -> getSubroutinePriorityMethod = method;
+                            case "ensure" -> ensureMethod = method;
+                            case "exit" -> exitMethod = method;
+                        }
+                    }
+
+                    SubroutinePriority priority = (SubroutinePriority)
+                            getSubroutinePriorityMethod.invoke(classer.getConstructor().newInstance());
+
+                    System.out.println("on: " + classer.getName());
 
                     if (priority != requestedPriority) {
                         continue;
                     }
 
-                    Method ensureMethod = classer.getMethod("ensure");
-                    boolean success = (boolean) ensureMethod.invoke(classer);
+                    boolean success = (boolean) ensureMethod.invoke(classer.getConstructor().newInstance());
 
                     if (!success) {
                         if (priority == SubroutinePriority.NECESSARY) {
-                            Method exit = classer.getMethod("exit");
-                            exit.invoke(classer);
+                            exitMethod.invoke(classer.getConstructor().newInstance());
                         }
                     }
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new FatalException("Subroutine executor failed: error=" + e.getMessage());
         }
     }

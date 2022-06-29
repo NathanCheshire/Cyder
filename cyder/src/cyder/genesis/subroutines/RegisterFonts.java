@@ -29,10 +29,7 @@ public class RegisterFonts implements StartupSubroutine {
             if (FileUtil.isSupportedFontExtension(fontFile)) {
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 try {
-                    if (!ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, fontFile))) {
-                        return false;
-                    }
-
+                    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, fontFile));
                     Logger.log(Logger.Tag.FONT_LOADED, FileUtil.getFilename(fontFile));
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
