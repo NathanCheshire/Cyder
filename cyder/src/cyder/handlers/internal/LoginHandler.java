@@ -32,7 +32,7 @@ import java.util.Optional;
 /**
  * A widget to log into Cyder or any other way that the ConsoleFrame might be invoked.
  */
-public class LoginHandler {
+public final class LoginHandler {
     /**
      * Instances of LoginHandler not permitted.
      */

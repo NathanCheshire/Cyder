@@ -44,6 +44,7 @@ public final class ReflectionUtil {
      *
      * @param requestedPriority the priority of the subroutines to execute
      */
+    @SuppressWarnings("ConstantConditions") // methods are ensured not be null when invocations are called
     public static void executeSubroutines(SubroutinePriority requestedPriority) {
         try {
             for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
@@ -68,8 +69,12 @@ public final class ReflectionUtil {
                         }
                     }
 
-                    SubroutinePriority priority = (SubroutinePriority)
-                            getSubroutinePriorityMethod.invoke(classer.getConstructor().newInstance());
+                    if (someAreNull(getSubroutinePriorityMethod, ensureMethod, exitMethod)) {
+                        throw new FatalException("Failed to locate a subroutine method");
+                    }
+
+                    SubroutinePriority priority = (SubroutinePriority) getSubroutinePriorityMethod
+                            .invoke(classer.getConstructor().newInstance());
 
                     System.out.println("on: " + classer.getName());
 
@@ -86,10 +91,31 @@ public final class ReflectionUtil {
                     }
                 }
             }
+        } catch (FatalException e) {
+            throw e;
         } catch (Exception e) {
             e.printStackTrace();
             throw new FatalException("Subroutine executor failed: error=" + e.getMessage());
         }
+    }
+
+    /**
+     * Returns whether one or more of the provided objects are null.
+     *
+     * @param object  the first object
+     * @param objects the additional objects (optional)
+     * @return whether one or more of the provided objects were found to be null
+     */
+    public static boolean someAreNull(Object object, Object... objects) {
+        if (object == null) return true;
+
+        for (Object obj : objects) {
+            if (obj == null) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
