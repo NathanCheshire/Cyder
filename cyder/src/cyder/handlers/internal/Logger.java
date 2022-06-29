@@ -30,7 +30,7 @@ import static java.lang.System.out;
  * Logger class used to log useful information about any Cyder instance from beginning at
  * runtime to exit at JVM termination.
  */
-public class Logger {
+public final class Logger {
     /**
      * Instances of Logger not allowed.
      */

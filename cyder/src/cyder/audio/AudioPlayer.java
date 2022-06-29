@@ -64,8 +64,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static cyder.audio.AudioIcons.*;
 
-// todo add a method for password field to make shifting show/hide and fix caret position
-
 // todo audio progress bar doesn't actually line up with current
 //  audio location, rethink whole of AudioProgressLocation tracker
 

@@ -288,7 +288,7 @@ public final class LoginHandler {
                 loginField.requestFocus();
             }
         });
-        loginFrame.finalizeAndShow(); // todo ensure this works
+        loginFrame.finalizeAndShow();
 
         CyderSplash.INSTANCE.fastDispose();
 
