@@ -76,7 +76,7 @@ public final class ReflectionUtil {
                     SubroutinePriority priority = (SubroutinePriority) getSubroutinePriorityMethod
                             .invoke(classer.getConstructor().newInstance());
 
-                    System.out.println("on: " + classer.getName());
+                    Logger.log(Logger.Tag.DEBUG, "Executing subroutine: " + classer.getName());
 
                     if (priority != requestedPriority) {
                         continue;

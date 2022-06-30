@@ -578,6 +578,20 @@ public final class AudioPlayer {
         audioLocationSliderUi.setRightThumbColor(trackNewColor);
         audioLocationSliderUi.setLeftThumbColor(CyderColors.vanilla);
         audioLocationSliderUi.setTrackStroke(new BasicStroke(2.0f));
+        audioLocationSliderUi.setAnimationEnabled(true);
+        audioLocationSliderUi.setAnimationLen(75);
+
+        CyderThreadRunner.submit(() -> {
+            try {
+                while (true) {
+                    audioLocationSliderUi.incrementAnimation();
+                    audioLocationSlider.repaint();
+                    Thread.sleep(2);
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, "Audio Location Slider Animation Updater");
 
         audioLocationSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioLocationSlider.setMinorTickSpacing(1);

@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import com.google.common.base.Preconditions;
+import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A ui layer for {@link JSlider}s utilized by Cyder.
@@ -231,8 +233,66 @@ public class CyderSliderUi extends BasicSliderUI {
         return super.getThumbSize();
     }
 
-    private Shape createThumbShape(int width, int height) {
+    /**
+     * Creates a rectangular thumb shape with the provided dimensions.
+     *
+     * @param width  the width of the thumb
+     * @param height the height of the thumb
+     * @return a rectangular thumb shape with the provided dimensions
+     */
+    private Shape createRectangularThumbShape(int width, int height) {
         return new Rectangle2D.Double(0, 0, width, height);
+    }
+
+    /**
+     * The atomic holder for the current x value start of the animated color line to be drawn if enabled.
+     */
+    private final AtomicInteger animationStart = new AtomicInteger(Integer.MIN_VALUE);
+
+    /**
+     * The length of the animation bar to draw if enabled.
+     */
+    private int animationLen = 0;
+
+    /**
+     * Whether the animation bar should be drawn and animated.
+     */
+    private boolean animationEnabled;
+
+    /**
+     * Returns the length of the animation bar.
+     *
+     * @return the length of the animation bar
+     */
+    public int getAnimationLen() {
+        return animationLen;
+    }
+
+    /**
+     * Sets the length of the animation bar.
+     *
+     * @param animationLen the length of the animation bar
+     */
+    public void setAnimationLen(int animationLen) {
+        this.animationLen = animationLen;
+    }
+
+    /**
+     * Returns whether the animation is enabled.
+     *
+     * @return whether the animation is enabled
+     */
+    public boolean isAnimationEnabled() {
+        return animationEnabled;
+    }
+
+    /**
+     * Sets whether the animation is enabled.
+     *
+     * @param animationEnabled whether the animation is enabled
+     */
+    public void setAnimationEnabled(boolean animationEnabled) {
+        this.animationEnabled = animationEnabled;
     }
 
     /**
@@ -246,23 +306,71 @@ public class CyderSliderUi extends BasicSliderUI {
         g2d.setStroke(sliderStroke);
         g2d.setPaint(rightThumbColor);
 
-        Rectangle trackBounds = trackRect;
-
+        // TODO: this won't work for vertical sliders but I'm not sure
+        //  I've seen a ui recently that uses horizontal sliders
         if (slider.getOrientation() == SwingConstants.HORIZONTAL) {
-            g2d.drawLine(trackRect.x, trackRect.y + trackRect.height / 2,
-                    trackRect.x + trackRect.width, trackRect.y + trackRect.height / 2);
+            if (animationStart.get() == Integer.MIN_VALUE) {
+                animationStart.set(trackRect.x - animationLen);
+            }
 
-            int lowerX = thumbRect.width / 2;
-            int upperX = thumbRect.x + (thumbRect.width / 2);
-            int cy = (trackBounds.height / 2) - 2;
+            int rightXStart = trackRect.x;
+            int rightXEnd = trackRect.x + trackRect.width;
+            int y = trackRect.y + trackRect.height / 2;
 
-            g2d.translate(trackBounds.x, trackBounds.y + cy);
+            // Draw right track (new value)
+            g2d.setColor(rightThumbColor);
+            g2d.drawLine(rightXStart, y, rightXEnd, y);
+
+            int leftXStart = thumbRect.width / 2 - trackRect.x;
+            int upperX = thumbRect.x + (thumbRect.width / 2) - trackRect.x
+                    - (thumbShape == ThumbShape.HOLLOW_CIRCLE ? 10 : 0);
+            int yAdd = 2;
+            int cy = (trackRect.height / 2) - yAdd;
+
+            // Draw left track (old value)
+
+            g2d.translate(trackRect.x, trackRect.y + cy);
+            // starting segment
             g2d.setColor(leftThumbColor);
-            g2d.drawLine(lowerX - trackBounds.x, 2,
-                    upperX - trackBounds.x - (thumbShape == ThumbShape.HOLLOW_CIRCLE ? 10 : 0), 2);
-            g2d.translate(-trackBounds.x, -(trackBounds.y + cy));
+            g2d.drawLine(leftXStart, yAdd, leftXStart + animationStart.get(), yAdd);
+            // animation segment
+            g2d.setColor(CyderColors.regularPink);
+            int animationSegmentEnd = Math.min(animationStart.get() + animationLen, upperX);
+            g2d.drawLine(animationStart.get(), yAdd, animationSegmentEnd, yAdd);
+            // ending segment
+            g2d.setColor(leftThumbColor);
+            g2d.drawLine(animationSegmentEnd, yAdd, upperX, yAdd);
+
+            // Translate back so thumb is painted in correct spot
+            g2d.translate(-trackRect.x, -(trackRect.y + cy));
         }
+
         g2d.setStroke(old);
+    }
+
+    /**
+     * Increments the animation start value. If the value exceeds the bounds of the left color,
+     * the value is wrapped around to the starting value.
+     */
+    public void incrementAnimation() {
+        Preconditions.checkArgument(animationEnabled);
+
+        if (thumbRect == null) {
+            return;
+        }
+
+        int upperX = thumbRect.x + (thumbRect.width / 2) - trackRect.x
+                - (thumbShape == ThumbShape.HOLLOW_CIRCLE ? 10 : 0);
+
+        if (animationStart.get() == Integer.MIN_VALUE) {
+            animationStart.set(trackRect.x - animationLen);
+        }
+
+        if (animationStart.get() + 1 > upperX) {
+            animationStart.set(trackRect.x - animationLen);
+        } else {
+            animationStart.getAndIncrement();
+        }
     }
 
     /**
@@ -300,7 +408,7 @@ public class CyderSliderUi extends BasicSliderUI {
                 int w = knobBounds.width;
                 int h = knobBounds.height;
                 g2d = (Graphics2D) g.create();
-                Shape thumbShape = createThumbShape(w - 1, h - 1);
+                Shape thumbShape = createRectangularThumbShape(w - 1, h - 1);
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                         RenderingHints.VALUE_ANTIALIAS_ON);
                 g2d.translate(knobBounds.x, knobBounds.y);
@@ -320,12 +428,14 @@ public class CyderSliderUi extends BasicSliderUI {
                 g2d.drawOval(t.x - 5, t.y, 20, 20);
                 g2d.dispose();
             }
-            case NONE -> {
-            }
+            case NONE -> {}
             default -> throw new IllegalArgumentException("Invalid slider shape: " + thumbShape);
         }
     }
 
+    /**
+     * Whether the slider is currently under a drag event.
+     */
     private boolean upperDragging;
 
     /**
@@ -410,27 +520,31 @@ public class CyderSliderUi extends BasicSliderUI {
             return false;
         }
 
+        /**
+         * Moves the painted thumb to the necessary location based on the current slider value.
+         */
         public void moveUpperThumb() {
             int thumbMiddle;
+
             if (slider.getOrientation() == JSlider.HORIZONTAL) {
-                int halfThumbWidth = thumbRect.width / 2;
                 int thumbLeft = currentMouseX - offset;
                 int trackLeft = trackRect.x;
                 int trackRight = trackRect.x + (trackRect.width - 1);
-                int hMax = xPositionForValue(slider.getMaximum() -
-                        slider.getExtent());
+                int hMax = xPositionForValue(slider.getMaximum() - slider.getExtent());
 
                 if (drawInverted()) {
                     trackLeft = hMax;
                 } else {
                     trackRight = hMax;
                 }
-                thumbLeft = Math.max(thumbLeft, trackLeft - halfThumbWidth);
-                thumbLeft = Math.min(thumbLeft, trackRight - halfThumbWidth);
+
+                thumbLeft = Math.max(thumbLeft, trackLeft - thumbRect.width / 2);
+                thumbLeft = Math.min(thumbLeft, trackRight - thumbRect.width / 2);
 
                 setThumbLocation(thumbLeft, thumbRect.y);
 
-                thumbMiddle = thumbLeft + halfThumbWidth;
+                thumbMiddle = thumbLeft + (thumbRect.width / 2);
+
                 slider.setValue(valueForXPosition(thumbMiddle));
             }
         }
