@@ -19,7 +19,7 @@ def gaussian_blur(image_path: str, radius: int, save_directory: str = None) -> s
     :rtype: str
     """
 
-    save_filename = __get_filename(image_path) + "_blurred_radius_" + str(radius) \
+    save_filename = __get_filename(image_path) + "_blurred_" + str(radius) \
         + "." + __get_extension(image_path)
 
     save_as = os.path.join(save_directory if save_directory is not None

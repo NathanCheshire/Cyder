@@ -608,11 +608,10 @@ public final class UserUtil {
                 for (File f : files) {
                     boolean valid = true;
 
-                    try (FileInputStream fi = new FileInputStream(f)) {
-                        ImageIO.read(fi).getWidth();
+                    try (FileInputStream fis = new FileInputStream(f)) {
+                        ImageIO.read(fis).getWidth();
                     } catch (Exception e) {
                         valid = false;
-                        ExceptionHandler.silentHandle(e);
                     }
 
                     if (!valid) {

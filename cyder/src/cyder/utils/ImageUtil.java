@@ -1,9 +1,11 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gson.Gson;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
+import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.BlurResponse;
@@ -32,6 +34,11 @@ import java.util.concurrent.atomic.AtomicReference;
  * Static utility methods revolving around Image manipulation.
  */
 public final class ImageUtil {
+    /**
+     * The extension for png format images.
+     */
+    public static final String PNG_FORMAT = "png";
+
     /**
      * Prevent class instantiation.
      */
@@ -1043,12 +1050,12 @@ public final class ImageUtil {
     }
 
     /**
-     * Returns the provided image after applying a gaussian blur to it.
+     * Returns the provided image file after applying a gaussian blur to it.
      *
      * @param gaussianBlurBuilder the builder for the gaussian blur POST
-     * @return the provided image after applying a gaussian blur
+     * @return the provided image file after applying a gaussian blur
      */
-    public static Future<Optional<BufferedImage>> gaussianBlur(GaussianBlurBuilder gaussianBlurBuilder) {
+    public static Future<Optional<File>> gaussianBlur(GaussianBlurBuilder gaussianBlurBuilder) {
         Preconditions.checkNotNull(gaussianBlurBuilder.getImageFile());
         Preconditions.checkArgument(gaussianBlurBuilder.getImageFile().exists());
         Preconditions.checkArgument(gaussianBlurBuilder.getRadius() > 2);
@@ -1097,7 +1104,7 @@ public final class ImageUtil {
                         response.append(responseLine.trim());
                     }
 
-                    return GSON.fromJson(response.toString(), BlurResponse.class).generateImage();
+                    return GSON.fromJson(response.toString(), BlurResponse.class).generateFileReference();
                 }
 
             } catch (Exception e) {
@@ -1132,5 +1139,27 @@ public final class ImageUtil {
         }
 
         return ret;
+    }
+
+    /**
+     * Saves the provided buffered image to the tmp directory.
+     *
+     * @param bi the buffered image to save
+     * @return whether the image was successfully saved
+     */
+    @CanIgnoreReturnValue
+    public static boolean saveImageToTmp(BufferedImage bi, String saveName) {
+        Preconditions.checkNotNull(bi);
+
+        try {
+            File tmpDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName(),
+                    saveName + "." + PNG_FORMAT);
+            ImageIO.write(bi, PNG_FORMAT, tmpDir);
+            return true;
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return false;
     }
 }

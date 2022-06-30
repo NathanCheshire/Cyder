@@ -15,6 +15,8 @@ import cyder.utils.UserUtil;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
@@ -31,7 +33,7 @@ public class PhotoViewer {
     /**
      * The starting directory/file.
      */
-    private final File startDir;
+    private final File photoDirectory;
 
     /**
      * The current index of the valid directory images list.
@@ -42,6 +44,21 @@ public class PhotoViewer {
      * The image frame.
      */
     private CyderFrame pictureFrame;
+
+    /**
+     * Whether this photo viewer object has been killed. This is used for the directory poller thread to exit.
+     */
+    private boolean killed;
+
+    /**
+     * The icon button to transition to the next photo in the directory.
+     */
+    private CyderIconButton next;
+
+    /**
+     * The icon button to transition to the last photo in the directory.
+     */
+    private CyderIconButton last;
 
     /**
      * Returns a new instance of photo viewer with the provided starting directory.
@@ -56,18 +73,18 @@ public class PhotoViewer {
     /**
      * Creates a new photo viewer object.
      *
-     * @param startDir the starting directory of the photo viewer.
-     *                 If a file is provided, the file's parent is
-     *                 used as the starting directory
+     * @param photoDirectory the photo directory of the photo viewer.
+     *                       If a file is provided, the file's parent is
+     *                       used as the photo directory
      */
-    private PhotoViewer(File startDir) {
-        Preconditions.checkNotNull(startDir);
-        Preconditions.checkArgument(startDir.exists());
+    private PhotoViewer(File photoDirectory) {
+        Preconditions.checkNotNull(photoDirectory);
+        Preconditions.checkArgument(photoDirectory.exists());
 
-        if (startDir.isFile()) {
-            this.startDir = startDir;
+        if (photoDirectory.isFile()) {
+            this.photoDirectory = photoDirectory.getParentFile();
         } else {
-            this.startDir = startDir.getParentFile();
+            this.photoDirectory = photoDirectory;
         }
     }
 
@@ -81,9 +98,9 @@ public class PhotoViewer {
 
         File currentImage = validDirectoryImages.get(0);
 
-        if (startDir.isFile()) {
+        if (photoDirectory.isFile()) {
             for (File validDirectoryImage : validDirectoryImages) {
-                if (validDirectoryImage.equals(startDir)) {
+                if (validDirectoryImage.equals(photoDirectory)) {
                     currentImage = validDirectoryImage;
                     break;
                 }
@@ -97,6 +114,17 @@ public class PhotoViewer {
         pictureFrame.setBackground(Color.BLACK);
         revalidateTitle(FileUtil.getFilename(currentImage.getName()));
         pictureFrame.setVisible(true);
+        pictureFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                killed = false;
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                killed = true;
+            }
+        });
 
         pictureFrame.finalizeAndShow();
 
@@ -105,17 +133,19 @@ public class PhotoViewer {
 
         ImageIcon nextIcon = new ImageIcon("static/pictures/icons/nextPicture1.png");
         ImageIcon nextIconHover = new ImageIcon("static/pictures/icons/nextPicture2.png");
-        CyderIconButton next = new CyderIconButton("Next", nextIcon, nextIconHover, null);
+        next = new CyderIconButton("Next", nextIcon, nextIconHover, null);
         next.setSize(nextIcon.getIconWidth(), nextIconHover.getIconHeight());
         next.addActionListener(e -> transition(true));
         pictureFrame.getTopDragLabel().addButton(next, 0);
 
         ImageIcon lastIcon = new ImageIcon("static/pictures/icons/lastPicture1.png");
         ImageIcon lastIconHover = new ImageIcon("static/pictures/icons/lastPicture2.png");
-        CyderIconButton last = new CyderIconButton("Last", lastIcon, lastIconHover, null);
+        last = new CyderIconButton("Last", lastIcon, lastIconHover, null);
         last.setSize(lastIcon.getIconWidth(), lastIcon.getIconHeight());
         last.addActionListener(e -> transition(false));
         pictureFrame.getTopDragLabel().addButton(last, 0);
+
+        startDirectoryWatcherThread();
     }
 
     /**
@@ -124,8 +154,8 @@ public class PhotoViewer {
     private void refreshValidFiles() {
         validDirectoryImages.clear();
 
-        if (startDir.isDirectory()) {
-            File[] files = startDir.listFiles();
+        if (photoDirectory.isDirectory()) {
+            File[] files = photoDirectory.listFiles();
 
             if (files == null || files.length == 0) {
                 return;
@@ -137,7 +167,7 @@ public class PhotoViewer {
                 }
             }
         } else {
-            File parent = startDir.getParentFile();
+            File parent = photoDirectory.getParentFile();
             File[] neighbors = parent.listFiles();
 
             if (neighbors == null || neighbors.length == 0) {
@@ -161,8 +191,7 @@ public class PhotoViewer {
     private void transition(boolean forward) {
         refreshValidFiles();
 
-        if (validDirectoryImages.size() <= 1)
-            return;
+        if (validDirectoryImages.size() <= 1) return;
 
         // change the index
         if (forward) {
@@ -249,36 +278,36 @@ public class PhotoViewer {
                         .setFieldTooltip("Valid filename")
                         .setSubmitButtonText("Rename"));
 
-                if (!StringUtil.isNull(name)) {
-                    File oldName = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
-
-                    String replaceOldName = FileUtil.getFilename(oldName);
-
-                    File newName = new File(oldName.getAbsolutePath()
-                            .replace(replaceOldName, name));
-                    boolean renamed = oldName.renameTo(newName);
-
-                    if (renamed) {
-                        pictureFrame.notify("Successfully renamed to " + name);
-
-                        refreshValidFiles();
-
-                        // update index based on new name
-                        for (int i = 0 ; i < validDirectoryImages.size() ; i++) {
-                            if (FileUtil.getFilename(validDirectoryImages.get(i)).equals(name)) {
-                                currentIndex = i;
-                            }
-                        }
-
-                        revalidateTitle(name);
-
-                        if (onRenameCallback != null) {
-                            onRenameCallback.run();
-                        }
-                    } else {
-                        pictureFrame.notify("Could not rename at this time");
-                    }
+                if (StringUtil.isNull(name)) {
+                    pictureFrame.notify("File not renamed");
+                    return;
                 }
+
+                File oldName = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
+                String replaceOldName = FileUtil.getFilename(oldName);
+                File newName = new File(oldName.getAbsolutePath().replace(replaceOldName, name));
+
+                if (oldName.renameTo(newName)) {
+                    pictureFrame.notify("Successfully renamed to \"" + name + "\"");
+
+                    refreshValidFiles();
+
+                    // update index based on new name
+                    for (int i = 0 ; i < validDirectoryImages.size() ; i++) {
+                        if (FileUtil.getFilename(validDirectoryImages.get(i)).equals(name)) {
+                            currentIndex = i;
+                        }
+                    }
+
+                    revalidateTitle(name);
+
+                    if (onRenameCallback != null) {
+                        onRenameCallback.run();
+                    }
+                } else {
+                    pictureFrame.notify("Could not rename at this time");
+                }
+
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -313,5 +342,39 @@ public class PhotoViewer {
             ExceptionHandler.handle(e);
             pictureFrame.setTitle(title);
         }
+    }
+
+    /**
+     * The timeout between polling for the number of files from the image directory.
+     */
+    private static final int DIRECTORY_POLL_DELAY = 5000;
+
+    /**
+     * Watches the provided directory and updates the navigation button visibilities
+     * depending on the number of files in the watch directory.
+     */
+    private void startDirectoryWatcherThread() {
+        CyderThreadRunner.submit(() -> {
+            try {
+                while (!killed) {
+                    refreshValidFiles();
+                    setNavigationButtonsVisible(validDirectoryImages.size() >= 2);
+
+                    Thread.sleep(DIRECTORY_POLL_DELAY);
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, "Photo viewer directory watcher, directory=\"" + photoDirectory.getAbsolutePath() + "\"");
+    }
+
+    /**
+     * Sets the visibility of the navigation buttons.
+     *
+     * @param visible the visibility of the navigation buttons
+     */
+    private void setNavigationButtonsVisible(boolean visible) {
+        next.setVisible(visible);
+        last.setVisible(visible);
     }
 }

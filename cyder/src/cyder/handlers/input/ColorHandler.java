@@ -28,11 +28,11 @@ public class ColorHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"backgroundcolor", "fixforeground", "foreground", "repaint"})
+    @Handle({"background color", "fix foreground", "foreground", "repaint"})
     public static boolean handle() {
         boolean ret = true;
 
-        if (getInputHandler().commandIs("backgroundcolor")) {
+        if (getInputHandler().inputWithoutSpacesIs("backgroundcolor")) {
             if (getInputHandler().checkArgsLength(1)) {
                 try {
                     int w = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getWidth();
@@ -64,7 +64,7 @@ public class ColorHandler extends InputHandler {
             } else {
                 getInputHandler().println("Background color command usage: backgroundcolor EC407A");
             }
-        } else if (getInputHandler().commandIs("fixforeground")) {
+        } else if (getInputHandler().inputWithoutSpacesIs("fixforeground")) {
             try {
                 Color backgroundDominantColor = ColorUtil.getDominantColor(ImageIO.read(
                         ConsoleFrame.INSTANCE.getCurrentBackground().referenceFile()));

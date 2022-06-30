@@ -61,4 +61,17 @@ public class BlurResponse {
 
         return ret;
     }
+
+    /**
+     * Generates a reference to the blurred file.
+     *
+     * @return a reference to the blurred file
+     */
+    public Optional<File> generateFileReference() {
+        if (imagePath != null) {
+            return Optional.of(new File(imagePath));
+        } else {
+            return Optional.empty();
+        }
+    }
 }
