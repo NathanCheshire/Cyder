@@ -6,21 +6,18 @@ import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.user.UserFile;
 import cyder.utils.ImageUtil;
 import cyder.utils.OSUtil;
 import cyder.utils.SecurityUtil;
 import cyder.utils.UserUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Optional;
 import java.util.concurrent.Future;
 
 /**
- * A handler for printing images and changing the background image.
+ * A handler for images and console background manipulation
  */
 public class ImageHandler extends InputHandler {
     /**
@@ -55,40 +52,7 @@ public class ImageHandler extends InputHandler {
                             + ". Your background is a solid color, bluing that won't do anything :P");
                 }
 
-                try {
-                    int radius = Integer.parseInt(getInputHandler().getArg(0));
-
-                    File currentBackgroundFile = ConsoleFrame.INSTANCE.getCurrentBackground().referenceFile();
-
-                    if (currentBackgroundFile == null || !currentBackgroundFile.exists()) {
-                        String name = SecurityUtil.generateUUID();
-                        ImageUtil.saveImageToTmp(ConsoleFrame.INSTANCE.getCurrentBackground()
-                                .generateBufferedImage(), name);
-
-                        currentBackgroundFile = OSUtil.buildFile(Dynamic.PATH,
-                                Dynamic.TEMP.getDirectoryName(), name + "." + ImageUtil.PNG_FORMAT);
-                    }
-
-                    Future<Optional<File>> futureImage = ImageUtil.gaussianBlur(
-                            new ImageUtil.GaussianBlurBuilder(currentBackgroundFile, radius));
-
-                    while (!futureImage.isDone()) {
-                        Thread.onSpinWait();
-                    }
-
-                    if (futureImage.get().isPresent()) {
-                        ConsoleFrame.INSTANCE.setBackgroundFile(futureImage.get().get());
-                        getInputHandler().println("Background blurred, set, and saved as a separate background file.");
-                    } else {
-                        getInputHandler().println("Could not blur background at this time");
-                    }
-                } catch (NumberFormatException e) {
-                    getInputHandler().println("Invalid input for radius: " + getInputHandler().getArg(0));
-                    ExceptionHandler.silentHandle(e);
-                } catch (Exception e) {
-                    getInputHandler().println("Blur command usage: blur [GAUSSIAN BLUR RADIUS]");
-                    ExceptionHandler.silentHandle(e);
-                }
+                attemptToBlurBackground();
             } else {
                 getInputHandler().println("Blur command usage: blur [GAUSSIAN BLUR RADIUS]");
             }
@@ -97,5 +61,58 @@ public class ImageHandler extends InputHandler {
         }
 
         return ret;
+    }
+
+    /**
+     * Attempts to validate a blur command and if valid, blur the current console background.
+     */
+    private static void attemptToBlurBackground() {
+        try {
+            int radius = Integer.parseInt(getInputHandler().getArg(0));
+
+            if (radius % 2 == 0) {
+                getInputHandler().println("Blur radius must be an odd number");
+            } else if (radius < 3) {
+                getInputHandler().println("Minimum blur radius is 3");
+            }
+
+            File currentBackgroundFile = ConsoleFrame.INSTANCE.getCurrentBackground().referenceFile();
+
+            if (currentBackgroundFile == null || !currentBackgroundFile.exists()) {
+                String name = SecurityUtil.generateUUID();
+                boolean saved = ImageUtil.saveImageToTmp(ConsoleFrame.INSTANCE
+                        .getCurrentBackground().generateBufferedImage(), name);
+
+                if (!saved) {
+                    getInputHandler().println("Could not blur background at this time");
+                    return;
+                }
+
+                currentBackgroundFile = OSUtil.buildFile(
+                        Dynamic.PATH,
+                        Dynamic.TEMP.getDirectoryName(),
+                        name + "." + ImageUtil.PNG_FORMAT);
+            }
+
+            Future<Optional<File>> futureImage = ImageUtil.gaussianBlur(
+                    new ImageUtil.GaussianBlurBuilder(currentBackgroundFile, radius));
+
+            while (!futureImage.isDone()) {
+                Thread.onSpinWait();
+            }
+
+            if (futureImage.get().isPresent()) {
+                ConsoleFrame.INSTANCE.setBackgroundFile(futureImage.get().get());
+                getInputHandler().println("Background blurred, set, and saved as a separate background file.");
+            } else {
+                getInputHandler().println("Could not blur background at this time");
+            }
+        } catch (NumberFormatException e) {
+            getInputHandler().println("Invalid input for radius: " + getInputHandler().getArg(0));
+            ExceptionHandler.silentHandle(e);
+        } catch (Exception e) {
+            getInputHandler().println("Blur command usage: blur [GAUSSIAN BLUR RADIUS]");
+            ExceptionHandler.silentHandle(e);
+        }
     }
 }

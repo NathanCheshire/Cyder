@@ -1,6 +1,7 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gson.Gson;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
@@ -1146,6 +1147,7 @@ public final class ImageUtil {
      * @param bi the buffered image to save
      * @return whether the image was successfully saved
      */
+    @CanIgnoreReturnValue
     public static boolean saveImageToTmp(BufferedImage bi, String saveName) {
         Preconditions.checkNotNull(bi);
 
