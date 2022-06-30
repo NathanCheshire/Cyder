@@ -413,7 +413,7 @@ public final class YoutubeUtil {
      */
     public static String buildVideoUrl(String uuid) {
         Preconditions.checkNotNull(uuid);
-        Preconditions.checkArgument(uuid.length() == 11);
+        Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
         return CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
     }
@@ -426,7 +426,7 @@ public final class YoutubeUtil {
      */
     public static String buildMaxResThumbnailUrl(String uuid) {
         Preconditions.checkNotNull(uuid);
-        Preconditions.checkArgument(uuid.length() == 11);
+        Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
         return CyderUrls.YOUTUBE_THUMBNAIL_BASE + uuid + "/" + MAX_RES_DEFAULT;
     }
@@ -439,7 +439,7 @@ public final class YoutubeUtil {
      */
     public static String buildSdDefThumbnailUrl(String uuid) {
         Preconditions.checkNotNull(uuid);
-        Preconditions.checkArgument(uuid.length() == 11);
+        Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
         return CyderUrls.YOUTUBE_THUMBNAIL_BASE + uuid + "/" + SD_DEFAULT;
     }
@@ -490,7 +490,7 @@ public final class YoutubeUtil {
             }
         }
 
-        return CyderUrls.YOUTUBE_API_V3_SEARCH_BASE + "&maxResults="
+        return CyderUrls.YOUTUBE_API_V3_SEARCH_BASE + YoutubeConstants.MAX_RESULTS_PARAMETER
                 + numResults + "&q=" + builder + "&type=video" + "&key=" + key;
     }
 
@@ -502,7 +502,7 @@ public final class YoutubeUtil {
      */
     public static Optional<BufferedImage> getMaxResolutionThumbnail(String uuid) {
         Preconditions.checkNotNull(uuid);
-        Preconditions.checkArgument(uuid.length() == 11);
+        Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
         String thumbnailURL = buildMaxResThumbnailUrl(uuid);
 

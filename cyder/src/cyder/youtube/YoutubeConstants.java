@@ -67,12 +67,17 @@ public final class YoutubeConstants {
     /**
      * The pattern to identify a valid YouTube UUID.
      */
-    public static final Pattern UUID_PATTERN = Pattern.compile("[A-Za-z0-9_\\-]{11}");
+    public static final Pattern UUID_PATTERN = Pattern.compile("[-_A-Za-z0-9]{11}");
 
     /**
      * The delay between download button updates.
      */
     public static final int DOWNLOAD_UPDATE_DELAY = 1000;
+
+    /**
+     * The max results parameter for searching youtube.
+     */
+    public static final String MAX_RESULTS_PARAMETER = "&maxResults=";
 
     /**
      * Suppress default constructor.
