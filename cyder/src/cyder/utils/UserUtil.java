@@ -1134,7 +1134,8 @@ public final class UserUtil {
         File backgroundFile = OSUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                uuid, UserFile.BACKGROUNDS.getName(), "Default.png");
+                uuid, UserFile.BACKGROUNDS.getName(),
+                "Default." + ImageUtil.PNG_FORMAT);
 
         File backgroundFolder = OSUtil.buildFile(
                 Dynamic.PATH,
@@ -1149,7 +1150,7 @@ public final class UserUtil {
                 }
             }
 
-            ImageIO.write(bi, "png", backgroundFile);
+            ImageIO.write(bi, ImageUtil.PNG_FORMAT, backgroundFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

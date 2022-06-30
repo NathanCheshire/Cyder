@@ -47,12 +47,13 @@ public class ColorHandler extends InputHandler {
                             Color.decode("#" + getInputHandler().getArg(0)
                                     .replace("#", "")), w, h);
 
-                    String saveName = "Solid_" + getInputHandler().getArg(0) + "Generated_Background.png";
+                    String saveName = "Solid_" + getInputHandler().getArg(0)
+                            + "Generated_Background." + ImageUtil.PNG_FORMAT;
 
                     File saveFile = OSUtil.buildFile(Dynamic.PATH, "users",
                             ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(), saveName);
 
-                    ImageIO.write(saveImage, "png", saveFile);
+                    ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, saveFile);
 
                     getInputHandler().println("Background generated, set, and saved as a separate background file.");
 

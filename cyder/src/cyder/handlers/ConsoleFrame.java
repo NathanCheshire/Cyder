@@ -1243,7 +1243,7 @@ public enum ConsoleFrame {
             ArrayList<File> musicList = new ArrayList<>();
 
             File userMusicDir = new File(OSUtil.buildPath(
-                    Dynamic.PATH, "users",
+                    Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                     INSTANCE.getUUID(), UserFile.MUSIC.getName()));
 
             File[] files = userMusicDir.listFiles();

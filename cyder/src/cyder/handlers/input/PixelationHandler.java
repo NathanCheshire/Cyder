@@ -97,12 +97,16 @@ public class PixelationHandler extends InputHandler {
 
                     String newName = FileUtil.getFilename(ConsoleFrame.INSTANCE
                             .getCurrentBackground().referenceFile().getName())
-                            + "_Pixelated_Pixel_Size_" + size + ".png";
+                            + "_Pixelated_Pixel_Size_" + size + "." + ImageUtil.PNG_FORMAT;
 
-                    File saveFile = OSUtil.buildFile(Dynamic.PATH, "users",
-                            ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(), newName);
+                    File saveFile = OSUtil.buildFile(
+                            Dynamic.PATH,
+                            Dynamic.USERS.getDirectoryName(),
+                            ConsoleFrame.INSTANCE.getUUID(),
+                            UserFile.BACKGROUNDS.getName(),
+                            newName);
 
-                    ImageIO.write(img, "png", saveFile);
+                    ImageIO.write(img, ImageUtil.PNG_FORMAT, saveFile);
 
                     getInputHandler().println("Background pixelated and saved as a separate background file.");
 

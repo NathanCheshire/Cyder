@@ -241,8 +241,11 @@ public class NotesWidget {
 
             try {
                 BufferedWriter NoteWriter = new BufferedWriter(
-                        new FileWriter(OSUtil.buildFile(Dynamic.PATH,
-                                "users", ConsoleFrame.INSTANCE.getUUID(), UserFile.NOTES.getName(),
+                        new FileWriter(OSUtil.buildFile(
+                                Dynamic.PATH,
+                                Dynamic.USERS.getDirectoryName(),
+                                ConsoleFrame.INSTANCE.getUUID(),
+                                UserFile.NOTES.getName(),
                                 newNoteField.getText().trim() + ".txt"), true));
                 newNoteArea.write(NoteWriter);
                 NoteWriter.close();
@@ -281,8 +284,11 @@ public class NotesWidget {
      * @throws IllegalStateException if the notes parent directory DNE
      */
     private static void initializeNotesList() throws IllegalStateException {
-        File dir = OSUtil.buildFile(Dynamic.PATH,
-                "users", ConsoleFrame.INSTANCE.getUUID(), UserFile.NOTES.getName());
+        File dir = OSUtil.buildFile(
+                Dynamic.PATH,
+                Dynamic.USERS.getDirectoryName(),
+                ConsoleFrame.INSTANCE.getUUID(),
+                UserFile.NOTES.getName());
 
         if (!dir.exists()) {
             throw new IllegalStateException("Parent note directory not found");

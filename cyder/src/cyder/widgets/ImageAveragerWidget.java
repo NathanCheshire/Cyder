@@ -222,9 +222,9 @@ public final class ImageAveragerWidget {
                         File outFile = OSUtil.buildFile(Dynamic.PATH,
                                 Dynamic.USERS.getDirectoryName(),
                                 ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(),
-                                combineImageNames() + ".png");
+                                combineImageNames() + "." + ImageUtil.PNG_FORMAT);
 
-                        ImageIO.write(saveImage, "png", outFile);
+                        ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, outFile);
                         averagerFrame.notify("Average computed and saved to your user's backgrounds/ directory");
                         drawFrame.dispose();
                     } catch (Exception ex) {

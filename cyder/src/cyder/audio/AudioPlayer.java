@@ -132,7 +132,7 @@ public final class AudioPlayer {
     /**
      * The format of the waveform image to export.
      */
-    private static final String WAVEFORM_EXPORT_FORMAT = "png";
+    private static final String WAVEFORM_EXPORT_FORMAT = ImageUtil.PNG_FORMAT;
 
     /**
      * The default text to display for the audio title label.

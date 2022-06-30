@@ -120,7 +120,7 @@ public final class PaintWidget {
             int increment = 0;
             String defaultFilename = base + increment + ".png";
 
-            String path = OSUtil.buildPath(Dynamic.PATH, "users",
+            String path = OSUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                     ConsoleFrame.INSTANCE.getUUID(), "Files");
 
             while (new File(path + OSUtil.FILE_SEP + defaultFilename).exists()) {
@@ -152,7 +152,7 @@ public final class PaintWidget {
 
                 try {
                     File referenceFile = UserUtil.createFileInUserSpace(filename);
-                    ImageIO.write(image, "png", referenceFile);
+                    ImageIO.write(image, ImageUtil.PNG_FORMAT, referenceFile);
 
                     paintFrame.notify(new CyderFrame.NotificationBuilder(
                             "Successfully saved grid as \"" + filename

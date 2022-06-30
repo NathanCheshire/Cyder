@@ -40,9 +40,14 @@ public final class YoutubeConstants {
     public static final String FFMPEG_OUTPUT_FLAG = "--output";
 
     /**
+     * The maximum number of chars that can be used for a filename from a youtube video's title.
+     */
+    public static final int MAX_THUMBNAIL_CHARS = 20;
+
+    /**
      * The range of valid values for the number of results a youtube api 3 search query.
      */
-    public static final Range<Integer> SEARCH_QUERY_RESULTS_RANGE = Range.closed(1, 20);
+    public static final Range<Integer> SEARCH_QUERY_RESULTS_RANGE = Range.closed(1, MAX_THUMBNAIL_CHARS);
 
     /**
      * The string used to represent a space in a url.
@@ -60,24 +65,14 @@ public final class YoutubeConstants {
     public static final String SD_DEFAULT = "sddefault.jpg";
 
     /**
-     * The maximum number of chars that can be used for a filename from a youtube video's title.
-     */
-    public static final int MAX_THUMBNAIL_CHARS = 20;
-
-    /**
      * The pattern to identify a valid YouTube UUID.
      */
-    public static final Pattern uuidPattern = Pattern.compile("[A-Za-z0-9_\\-]{0,11}");
+    public static final Pattern UUID_PATTERN = Pattern.compile("[A-Za-z0-9_\\-]{11}");
 
     /**
      * The delay between download button updates.
      */
     public static final int DOWNLOAD_UPDATE_DELAY = 1000;
-
-    /**
-     * The image format used to save thumbnails as.
-     */
-    public static final String IMAGE_FORMAT = "png";
 
     /**
      * Suppress default constructor.

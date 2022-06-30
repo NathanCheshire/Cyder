@@ -15,7 +15,7 @@ import java.util.Arrays;
 /**
  * Utilities to control, update, modify, and create CyderFrames.
  */
-public class FrameUtil {
+public final class FrameUtil {
     /**
      * Instantiation of frame util not allowed.
      */
@@ -136,7 +136,7 @@ public class FrameUtil {
         boolean ret = false;
 
         try {
-            ret = ImageIO.write(ImageUtil.screenshotComponent(frame), "png", saveFile);
+            ret = ImageIO.write(ImageUtil.screenshotComponent(frame), ImageUtil.PNG_FORMAT, saveFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

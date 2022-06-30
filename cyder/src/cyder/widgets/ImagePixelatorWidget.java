@@ -141,9 +141,9 @@ public final class ImagePixelatorWidget {
                         File saveFile = new File(OSUtil.buildPath(
                                 Dynamic.PATH, "users", ConsoleFrame.INSTANCE.getUUID(),
                                 UserFile.FILES.getName(), FileUtil.getFilename(currentFile)
-                                        + "_Pixelated_Pixel_Size_" + pixel + ".png"));
+                                        + "_Pixelated_Pixel_Size_" + pixel + "." + ImageUtil.PNG_FORMAT));
 
-                        ImageIO.write(saveImage, "png", saveFile);
+                        ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, saveFile);
 
                         displayIcon = null;
                         originalIcon = null;

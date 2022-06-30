@@ -222,10 +222,11 @@ public final class YoutubeUtil {
             }
         }
 
-        File saveAlbumArt = OSUtil.buildFile(albumArtDir.getAbsolutePath(), parsedAsciiSaveName + ".png");
+        File saveAlbumArt = OSUtil.buildFile(albumArtDir.getAbsolutePath(),
+                parsedAsciiSaveName + "." + ImageUtil.PNG_FORMAT);
 
         try {
-            ImageIO.write(optionalBi.get(), "png", saveAlbumArt);
+            ImageIO.write(optionalBi.get(), ImageUtil.PNG_FORMAT, saveAlbumArt);
         } catch (IOException e) {
             throw new YoutubeException("Could not write thumbnail to: " + saveAlbumArt.getAbsolutePath());
         }
@@ -312,10 +313,10 @@ public final class YoutubeUtil {
                 Dynamic.USERS.getDirectoryName(),
                 ConsoleFrame.INSTANCE.getUUID(),
                 UserFile.BACKGROUNDS.getName(),
-                NetworkUtil.getUrlTitle(url) + "." + IMAGE_FORMAT);
+                NetworkUtil.getUrlTitle(url) + "." + ImageUtil.PNG_FORMAT);
 
         try {
-            ImageIO.write(maxThumbnail, IMAGE_FORMAT, fullSaveFile);
+            ImageIO.write(maxThumbnail, ImageUtil.PNG_FORMAT, fullSaveFile);
             ConsoleFrame.INSTANCE.setBackgroundFile(fullSaveFile);
         } catch (IOException e) {
             ExceptionHandler.handle(e);
