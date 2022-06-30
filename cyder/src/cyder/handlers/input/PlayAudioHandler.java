@@ -35,33 +35,33 @@ public class PlayAudioHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().inputWithoutSpacesIs("heyya")) {
-            IOUtil.playAudio("static/audio/hey.mp3");
+            IOUtil.playGeneralAudio("static/audio/hey.mp3");
         } else if (getInputHandler().commandIs("windows")) {
-            IOUtil.playAudio("static/audio/windows.mp3");
+            IOUtil.playGeneralAudio("static/audio/windows.mp3");
         } else if (getInputHandler().commandIs("lightsaber")) {
-            IOUtil.playAudio("static/audio/Lightsaber.mp3");
+            IOUtil.playGeneralAudio("static/audio/Lightsaber.mp3");
         } else if (getInputHandler().commandIs("xbox")) {
-            IOUtil.playAudio("static/audio/xbox.mp3");
+            IOUtil.playGeneralAudio("static/audio/xbox.mp3");
         } else if (getInputHandler().commandIs("startrek")) {
-            IOUtil.playAudio("static/audio/StarTrek.mp3");
+            IOUtil.playGeneralAudio("static/audio/StarTrek.mp3");
         } else if (getInputHandler().commandIs("toystory")) {
-            IOUtil.playAudio("static/audio/theclaw.mp3");
+            IOUtil.playGeneralAudio("static/audio/theclaw.mp3");
         } else if (getInputHandler().commandIs("logic")) {
-            IOUtil.playAudio("static/audio/commando.mp3");
+            IOUtil.playGeneralAudio("static/audio/commando.mp3");
         } else if (getInputHandler().getCommand()
                 .replace("-", "").equals("18002738255")) {
-            IOUtil.playAudio("static/audio/1800.mp3");
+            IOUtil.playGeneralAudio("static/audio/1800.mp3");
         } else if (getInputHandler().commandIs("xxx")) {
             CyderIcons.setCurrentCyderIcon(CyderIcons.xxxIcon);
             ConsoleFrame.INSTANCE.getConsoleCyderFrame()
                     .setIconImage(new ImageIcon("static/pictures/print/x.png").getImage());
-            IOUtil.playAudio(OSUtil.buildPath("static", "audio", "x.mp3"));
+            IOUtil.playGeneralAudio(OSUtil.buildPath("static", "audio", "x.mp3"));
         } else if (getInputHandler().inputWithoutSpacesIs("blackpanther")
                 || getInputHandler().inputWithoutSpacesIs("chadwickboseman")) {
             CyderThreadRunner.submit(() -> {
                 getInputHandler().getOutputArea().setText("");
 
-                IOUtil.playAudio(OSUtil.buildPath("static", "audio", "allthestars.mp3"));
+                IOUtil.playGeneralAudio(OSUtil.buildPath("static", "audio", "allthestars.mp3"));
                 getInputHandler().getOutputArea().setFont(new Font("BEYNO",
                         Font.BOLD, getInputHandler().getOutputArea().getFont().getSize()));
                 BletchyThread.bletchy("RIP CHADWICK BOSEMAN",

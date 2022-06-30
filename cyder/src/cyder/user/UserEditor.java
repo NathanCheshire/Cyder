@@ -1,5 +1,6 @@
 package cyder.user;
 
+import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
 import cyder.audio.AudioPlayer;
 import cyder.constants.CyderColors;
@@ -1369,7 +1370,7 @@ public final class UserEditor {
                 changePasswordField.setText("");
                 changePasswordConfField.setText("");
             } else {
-                IOUtil.changePassword(newPassword);
+                changePassword(newPassword);
                 editUserFrame.notify("Password successfully changed");
             }
         }
@@ -1384,7 +1385,7 @@ public final class UserEditor {
     private static void changeUsername(JTextField changeUsernameField) {
         String newUsername = changeUsernameField.getText();
         if (!StringUtil.isNull(newUsername) && !newUsername.equalsIgnoreCase(UserUtil.getCyderUser().getName())) {
-            IOUtil.changeUsername(newUsername);
+            changeUsername(newUsername);
             editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
             ConsoleFrame.INSTANCE.getConsoleCyderFrame()
                     .setTitle(PropLoader.getString("version") + " Cyder [" + newUsername + "]");
@@ -1469,6 +1470,34 @@ public final class UserEditor {
         }
     }
 
+    /**
+     * Changes the current user from console frame's name to the provided name.
+     *
+     * @param newName the new name of the user
+     */
+    public static void changeUsername(String newName) {
+        Preconditions.checkNotNull(newName);
+        Preconditions.checkArgument(!newName.isEmpty());
+        UserUtil.getCyderUser().setName(newName);
+    }
+
+    /**
+     * Changes the current user from console frame's password to the provided password.
+     *
+     * @param newPassword the raw char[] new password to hash and store
+     */
+    public static void changePassword(char[] newPassword) {
+        Preconditions.checkNotNull(newPassword);
+        Preconditions.checkArgument(newPassword.length > 0);
+        UserUtil.getCyderUser().setPass(SecurityUtil.toHexString(SecurityUtil.getSHA256(
+                SecurityUtil.toHexString(SecurityUtil.getSHA256(newPassword)).toCharArray())));
+    }
+
+    /**
+     * Removes the map from the user's list of maps.
+     *
+     * @param removeMapField the map to remove
+     */
     private static void removeMap(JTextField removeMapField) {
         String text = removeMapField.getText().trim();
 

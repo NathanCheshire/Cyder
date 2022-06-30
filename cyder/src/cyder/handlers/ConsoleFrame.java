@@ -558,7 +558,7 @@ public enum ConsoleFrame {
                             && !f.getTitle().equals(consoleCyderFrame.getTitle())) {
                         Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
 
-                        if (MathUtil.overlaps(consoleRect, frameRect)) {
+                        if (MathUtil.rectanglesOverlap(consoleRect, frameRect)) {
                             ((CyderFrame) f).setRelativeX(-consoleCyderFrame.getX() + f.getX());
                             ((CyderFrame) f).setRelativeY(-consoleCyderFrame.getY() + f.getY());
                         } else {
@@ -1258,11 +1258,11 @@ public enum ConsoleFrame {
 
             //if they have music then play their own
             if (!musicList.isEmpty()) {
-                IOUtil.playAudio(files[NumberUtil.randInt(0, files.length - 1)].getAbsolutePath());
+                IOUtil.playGeneralAudio(files[NumberUtil.randInt(0, files.length - 1)].getAbsolutePath());
             }
             // otherwise, play our own
             else {
-                IOUtil.playAudio(OSUtil.buildPath("static", "audio", "ride.mp3"));
+                IOUtil.playGeneralAudio(OSUtil.buildPath("static", "audio", "ride.mp3"));
             }
         }
         // intro music not on, check for grayscale image
@@ -1290,10 +1290,10 @@ public enum ConsoleFrame {
 
                         //Bad Apple / Beetlejuice / Michael Jackson reference for a grayscale image
                         if (correct) {
-                            IOUtil.playAudio(grayscaleAudioPaths.get(
+                            IOUtil.playGeneralAudio(grayscaleAudioPaths.get(
                                     NumberUtil.randInt(0, grayscaleAudioPaths.size() - 1)));
                         } else if (PropLoader.getBoolean("released")) {
-                            IOUtil.playAudio("static/audio/introtheme.mp3");
+                            IOUtil.playGeneralAudio("static/audio/introtheme.mp3");
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
@@ -2054,7 +2054,7 @@ public enum ConsoleFrame {
                             baseInputHandler.println("Interesting F" + functionKey + " key");
 
                             if (functionKey == 17) {
-                                IOUtil.playAudio("static/audio/f17.mp3");
+                                IOUtil.playGeneralAudio("static/audio/f17.mp3");
                             }
                         }
                     }
@@ -3237,7 +3237,7 @@ public enum ConsoleFrame {
             if (f instanceof CyderFrame) {
                 if (((CyderFrame) f).isConsolePinned() &&
                         !f.getTitle().equals(consoleCyderFrame.getTitle())) {
-                    if (MathUtil.overlaps(consoleCyderFrame.getBounds(), f.getBounds())) {
+                    if (MathUtil.rectanglesOverlap(consoleCyderFrame.getBounds(), f.getBounds())) {
                         frames.add(new RelativeFrame((CyderFrame) f,
                                 f.getX() - consoleCyderFrame.getX(), f.getY() - consoleCyderFrame.getY()));
                     }

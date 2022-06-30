@@ -109,8 +109,8 @@ public class ClockWidget {
             showSecondHand = true;
             paintHourLabels = true;
 
-            currentLocation = IPUtil.getIpdata().getCity() + "," + IPUtil.getIpdata().getRegion() + ","
-                    + IPUtil.getIpdata().getCountry_name();
+            currentLocation = IPUtil.getIpData().getCity() + "," + IPUtil.getIpData().getRegion() + ","
+                    + IPUtil.getIpData().getCountry_name();
             currentGMTOffset = getGmtFromUserLocation();
 
             clockFrame = new CyderFrame(800, 900) {

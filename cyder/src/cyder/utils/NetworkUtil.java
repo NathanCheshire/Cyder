@@ -59,6 +59,7 @@ public class NetworkUtil {
      */
     private static final Function<Void, Boolean> exit = ignored -> ConsoleFrame.INSTANCE.isClosed();
 
+    // todo be able to start and stop this with other console executors
     static {
         CyderThreadRunner.submit(() -> {
             try {
@@ -94,29 +95,42 @@ public class NetworkUtil {
     }
 
     /**
-     * Attempts to ping the provided url until it responds.
+     * The timeout value when determining if a site is reachable.
+     */
+    public static final int SITE_PING_TIMEOUT = 5000;
+
+    /**
+     * Pings a HTTP URL. This effectively sends a HEAD request and returns <code>true</code>
+     * if the response code is in the 200-399 range.
      *
-     * @param url the url to ping
-     * @return whether the url responded
+     * @param url The HTTP URL to be pinged.
+     * @return whether the given HTTP URL has returned response code 200-399 on a HEAD request within the
+     *         given timeout
      */
     public static boolean siteReachable(String url) {
-        Preconditions.checkNotNull(url);
-        Preconditions.checkArgument(!url.isEmpty());
-
-        Process Ping;
+        url = url.replaceFirst("^https", "http");
 
         try {
-            Ping = java.lang.Runtime.getRuntime().exec("ping -n 1 " + url);
-            int ReturnValue = Ping.waitFor();
-            if (ReturnValue == 0) {
-                return false;
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setConnectTimeout(SITE_PING_TIMEOUT);
+            connection.setReadTimeout(SITE_PING_TIMEOUT);
+            connection.setRequestMethod("HEAD");
+            int responseCode = connection.getResponseCode();
+            return (200 <= responseCode && responseCode <= 399);
+        } catch (Exception ignored) {}
 
-        return true;
+        return false;
     }
+
+    /**
+     * The port to use when pinging google to determine a user's latency.
+     */
+    public static final int LATENCY_GOOGLE_PORT = 80;
+
+    /**
+     * The default timeout to use when pinging google to determine a user's latency.
+     */
+    public static final int DEFAULT_LATENCY_TIMEOUT = 2000;
 
     /**
      * Returns the latency of the host system to google.com.
@@ -126,7 +140,7 @@ public class NetworkUtil {
      */
     public static int latency(int timeout) {
         Socket Sock = new Socket();
-        SocketAddress Address = new InetSocketAddress(CyderUrls.GOOGLE, 80);
+        SocketAddress Address = new InetSocketAddress(CyderUrls.GOOGLE, LATENCY_GOOGLE_PORT);
         long start = System.currentTimeMillis();
 
         try {
@@ -153,28 +167,13 @@ public class NetworkUtil {
      * @return the latency of the local internet connection to google.com
      */
     public int latency() {
-        Socket sock = new Socket();
-        SocketAddress Address = new InetSocketAddress(CyderUrls.GOOGLE, 80);
-        int timeout = 2000;
-        long start = System.currentTimeMillis();
-
-        try {
-            sock.connect(Address, timeout);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        long stop = System.currentTimeMillis();
-        int Latency = (int) (stop - start);
-
-        try {
-            sock.close();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return Latency;
+        return latency(DEFAULT_LATENCY_TIMEOUT);
     }
+
+    /**
+     * The maximum possible ping for Cyder to consider a user's connection "decent."
+     */
+    public static final int DECENT_PING_MAXIMUM_LATENCY = 5000;
 
     /**
      * Determines if the connection to the internet is usable by pinging google.com.
@@ -182,16 +181,7 @@ public class NetworkUtil {
      * @return if the connection to the internet is usable
      */
     public static boolean decentPing() {
-        Process ping;
-
-        try {
-            ping = Runtime.getRuntime().exec("ping -n 1 " + CyderUrls.GOOGLE);
-            return ping.waitFor() == 0;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return false;
+        return latency(DECENT_PING_MAXIMUM_LATENCY) < DECENT_PING_MAXIMUM_LATENCY;
     }
 
     /**
@@ -209,7 +199,7 @@ public class NetworkUtil {
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             StringBuilder sb = new StringBuilder();
             int read;
-            char[] chars = new char[BUFFER_SIZE];
+            char[] chars = new char[DOWNLOAD_RESOURCE_BUFFER_SIZE];
 
             while ((read = reader.read(chars)) != -1) {
                 sb.append(chars, 0, read);
@@ -263,7 +253,7 @@ public class NetworkUtil {
     /**
      * The size of the buffer when downloading resources from a Url or reading a Url.
      */
-    public static final int BUFFER_SIZE = 1024;
+    public static final int DOWNLOAD_RESOURCE_BUFFER_SIZE = 1024;
 
     /**
      * Downloads the resource at the provided link and save it to the provided file.
@@ -297,10 +287,10 @@ public class NetworkUtil {
         try (BufferedInputStream in = new BufferedInputStream(new URL(urlResource).openStream()) ;
              FileOutputStream fileOutputStream = new FileOutputStream(referenceFile)) {
 
-            byte[] dataBuffer = new byte[BUFFER_SIZE];
+            byte[] dataBuffer = new byte[DOWNLOAD_RESOURCE_BUFFER_SIZE];
             int bytesRead;
 
-            while ((bytesRead = in.read(dataBuffer, 0, BUFFER_SIZE)) != -1) {
+            while ((bytesRead = in.read(dataBuffer, 0, DOWNLOAD_RESOURCE_BUFFER_SIZE)) != -1) {
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
             }
         } catch (IOException e) {
