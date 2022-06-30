@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 import cyder.handlers.internal.ExceptionHandler;
 
 import javax.imageio.ImageIO;
-import javax.swing.text.html.Option;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Optional;
