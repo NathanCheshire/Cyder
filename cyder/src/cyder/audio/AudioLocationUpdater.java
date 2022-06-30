@@ -116,7 +116,7 @@ public class AudioLocationUpdater {
     /**
      * The timeout between progress label and slider updates.
      */
-    private static final int TIMEOUT = 1000;
+    private static final int TIMEOUT = 100;
 
     /**
      * Starts the thread to update the inner label
@@ -136,14 +136,8 @@ public class AudioLocationUpdater {
                     Thread.sleep(TIMEOUT);
                 } catch (Exception ignored) {}
 
-                milliSecondsIn += TIMEOUT;
-
-                // every 10 seconds sync with audio player
-                if (milliSecondsIn % 10000 == 0) {
-                    milliSecondsIn = ((long) Math.floor(AudioPlayer.getMillisecondsIn() / 1000f)) * 1000L;
-                }
-
-                int newSecondsIn = (int) (Math.floor(milliSecondsIn / 1000.0));
+                milliSecondsIn = AudioPlayer.getMillisecondsIn();
+                int newSecondsIn = (int) (milliSecondsIn / 1000.0);
 
                 if (!timerPaused && currentFrameView.get() != FrameView.MINI) {
                     if (!sliderPressed.get()) {
