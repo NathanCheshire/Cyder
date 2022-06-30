@@ -70,14 +70,14 @@ public final class FileUtil {
      * Returns whether the provided file is a supported image file by validating
      * the file extension and the file byte signature.
      *
-     * @param f the file to determine if it is a supported image type
+     * @param file the file to determine if it is a supported image type
      * @return whether the provided file is a supported image file
      */
-    public static boolean isSupportedImageExtension(File f) {
-        checkNotNull(f);
+    public static boolean isSupportedImageExtension(File file) {
+        checkNotNull(file);
 
-        return StringUtil.in(getExtension(f.getName()), true, SUPPORTED_IMAGE_EXTENSIONS)
-                && (fileMatchesSignature(f, PNG_SIGNATURE) || fileMatchesSignature(f, JPG_SIGNATURE));
+        return StringUtil.in(getExtension(file.getName()), true, SUPPORTED_IMAGE_EXTENSIONS)
+                && (fileMatchesSignature(file, PNG_SIGNATURE) || fileMatchesSignature(file, JPG_SIGNATURE));
     }
 
     /**
@@ -131,10 +131,9 @@ public final class FileUtil {
      * @return whether the given file matches the provided signature
      */
     public static boolean fileMatchesSignature(File file, ImmutableList<Integer> expectedSignature) {
-        if (file == null || expectedSignature == null || expectedSignature.size() == 0)
-            return false;
-        if (!file.exists())
-            return false;
+        checkNotNull(file);
+        checkNotNull(expectedSignature);
+        checkArgument(!expectedSignature.isEmpty());
 
         try {
             BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
@@ -163,6 +162,9 @@ public final class FileUtil {
      * @return the file name requested
      */
     public static String getFilename(String file) {
+        checkNotNull(file);
+        checkArgument(!file.isEmpty());
+
         return file.replaceAll("\\.([^.]+)$", "");
     }
 
@@ -173,6 +175,9 @@ public final class FileUtil {
      * @return the file extension requested
      */
     public static String getExtension(String file) {
+        checkNotNull(file);
+        checkArgument(!file.isEmpty());
+
         return file.replace(getFilename(file), "");
     }
 
@@ -184,6 +189,8 @@ public final class FileUtil {
      * @return the file name requested
      */
     public static String getFilename(File file) {
+        checkNotNull(file);
+
         return file.getName().replaceAll("\\.([^.]+)$", "");
     }
 
@@ -194,6 +201,8 @@ public final class FileUtil {
      * @return the file extension requested
      */
     public static String getExtension(File file) {
+        checkNotNull(file);
+
         return file.getName().replace(getFilename(file), "");
     }
 
@@ -265,9 +274,8 @@ public final class FileUtil {
      * @return whether the contents of the two file are equal
      */
     public static boolean fileContentsEqual(File fileOne, File fileTwo) {
-        if (fileOne == null || fileTwo == null) {
-            return false;
-        }
+        checkNotNull(fileOne);
+        checkNotNull(fileTwo);
 
         if (!fileOne.exists() || !fileTwo.exists()) {
             return false;
@@ -295,7 +303,6 @@ public final class FileUtil {
         String usedFileName;
 
         try {
-
             if (new File(destination).exists()) {
                 int incrementer = 1;
                 usedFileName = destination.replace(".zip", "") + "_" + incrementer + ".zip";
@@ -332,7 +339,7 @@ public final class FileUtil {
     /**
      * The buffer sized used for zip file extraction.
      */
-    public static final int BUFFER_SIZE = 1024;
+    public static final int ZIP_BUFFER_SIZE = 1024;
 
     /**
      * Unzips the provided zip directory to the provided directory.
@@ -348,20 +355,20 @@ public final class FileUtil {
         checkArgument(sourceZip.exists());
         checkArgument(destinationFolder.exists());
 
-        byte[] buffer = new byte[BUFFER_SIZE];
+        byte[] buffer = new byte[ZIP_BUFFER_SIZE];
 
         try {
             FileInputStream fis = new FileInputStream(sourceZip);
             ZipInputStream zis = new ZipInputStream(fis);
-            ZipEntry zentry = zis.getNextEntry();
+            ZipEntry zipEntry = zis.getNextEntry();
 
             // for all zip entries
-            while (zentry != null) {
-                File zippedFile = OSUtil.buildFile(destinationFolder.getAbsolutePath(), zentry.getName());
+            while (zipEntry != null) {
+                File zippedFile = OSUtil.buildFile(destinationFolder.getAbsolutePath(), zipEntry.getName());
 
                 // ensure parents of zip entry exist
-                File zentryParent = new File(zippedFile.getParent());
-                boolean made = zentryParent.mkdirs();
+                File zipEntryParent = new File(zippedFile.getParent());
+                boolean made = zipEntryParent.mkdirs();
 
                 if (!made) {
                     throw new IOException("Failed to create parent zip");
@@ -379,10 +386,9 @@ public final class FileUtil {
                 closeIfNotNull(fos);
                 zis.closeEntry();
 
-                zentry = zis.getNextEntry();
+                zipEntry = zis.getNextEntry();
             }
 
-            // clean up
             zis.closeEntry();
             closeIfNotNull(zis);
             closeIfNotNull(fis);
@@ -399,7 +405,7 @@ public final class FileUtil {
      *
      * @param closable the object to close and free
      */
-    @SuppressWarnings("UnusedAssignment")
+    @SuppressWarnings("UnusedAssignment") // freeing up resource
     public static void closeIfNotNull(Closeable closable) {
         if (closable != null) {
             try {

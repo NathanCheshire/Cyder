@@ -6,7 +6,6 @@ import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderUrls;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.records.TaggedString;
 import cyder.ui.CyderOutputPane;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
@@ -753,9 +752,9 @@ public class StringUtil {
      * @param htmlText the text containing html tags
      * @return a linked list where each object represents either a complete tag or raw text
      */
-    public static LinkedList<TaggedString> getTaggedStrings(String htmlText) {
+    public static LinkedList<BoundsUtil.TaggedString> getTaggedStrings(String htmlText) {
         //init list for strings by tag
-        LinkedList<TaggedString> taggedStrings = new LinkedList<>();
+        LinkedList<BoundsUtil.TaggedString> taggedStrings = new LinkedList<>();
 
         //figure out tags
         String textCopy = htmlText;
@@ -771,16 +770,16 @@ public class StringUtil {
             String firstHtml = textCopy.substring(firstOpeningTag, firstClosingTag + 1);
 
             if (!regularText.isEmpty())
-                taggedStrings.add(new TaggedString(regularText, TaggedString.Type.TEXT));
+                taggedStrings.add(new BoundsUtil.TaggedString(regularText, BoundsUtil.TaggedString.Type.TEXT));
             if (!firstHtml.isEmpty())
-                taggedStrings.add(new TaggedString(firstHtml, TaggedString.Type.HTML));
+                taggedStrings.add(new BoundsUtil.TaggedString(firstHtml, BoundsUtil.TaggedString.Type.HTML));
 
             textCopy = textCopy.substring(firstClosingTag + 1);
         }
 
         //if there's remaining text, it's just non-html
         if (!textCopy.isEmpty())
-            taggedStrings.add(new TaggedString(textCopy, TaggedString.Type.TEXT));
+            taggedStrings.add(new BoundsUtil.TaggedString(textCopy, BoundsUtil.TaggedString.Type.TEXT));
 
         return taggedStrings;
     }
@@ -815,13 +814,13 @@ public class StringUtil {
     public static int getRawTextLength(String htmlText) {
         int length = 0;
 
-        LinkedList<TaggedString> taggedStrings = getTaggedStrings(htmlText);
+        LinkedList<BoundsUtil.TaggedString> taggedStrings = getTaggedStrings(htmlText);
 
         if (taggedStrings.isEmpty()) {
             length = htmlText.length();
         } else {
-            for (TaggedString ts : taggedStrings) {
-                if (ts.type() == TaggedString.Type.TEXT)
+            for (BoundsUtil.TaggedString ts : taggedStrings) {
+                if (ts.type() == BoundsUtil.TaggedString.Type.TEXT)
                     length += ts.text().length();
             }
         }

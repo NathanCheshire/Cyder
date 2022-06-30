@@ -35,12 +35,22 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public final class ImageUtil {
     /**
-     * The extension for png format images.
+     * The extension for png images.
      */
     public static final String PNG_FORMAT = "png";
 
     /**
-     * Prevent class instantiation.
+     * The extension for jpg images.
+     */
+    public static final String JPG_FORMAT = "jpg";
+
+    /**
+     * The extension for jpeg images.
+     */
+    public static final String JPEG_FORMAT = "jpeg";
+
+    /**
+     * Suppress default constructor.
      */
     private ImageUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
@@ -54,6 +64,9 @@ public final class ImageUtil {
      * @return a buffered image in the same size as the original with new, bigger pixel blocks
      */
     public static BufferedImage pixelateImage(BufferedImage imageToPixelate, int pixelSize) {
+        Preconditions.checkNotNull(imageToPixelate);
+        Preconditions.checkArgument(pixelSize > 1);
+
         BufferedImage pixelateImage = new BufferedImage(
                 imageToPixelate.getWidth(),
                 imageToPixelate.getHeight(),
@@ -110,20 +123,20 @@ public final class ImageUtil {
     /**
      * Returns a buffered image of the specified color.
      *
-     * @param c      the color of the requested image
+     * @param color      the color of the requested image
      * @param width  the width of the requested image
      * @param height the height of the requested image
      * @return the buffered image of the provided color and dimensions
      */
-    public static BufferedImage bufferedImageFromColor(Color c, int width, int height) {
-        Preconditions.checkNotNull(c);
+    public static BufferedImage bufferedImageFromColor(Color color, int width, int height) {
+        Preconditions.checkNotNull(color);
         Preconditions.checkArgument(width > 0);
         Preconditions.checkArgument(height > 0);
 
         BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = bi.createGraphics();
 
-        graphics.setPaint(c);
+        graphics.setPaint(color);
         graphics.fillRect(0, 0, width, height);
 
         return bi;
@@ -132,19 +145,19 @@ public final class ImageUtil {
     /**
      * Returns an ImageIcon of the requested color.
      *
-     * @param c      the color of the requested image
+     * @param color      the color of the requested image
      * @param width  the width of the requested image
      * @param height the height of the requested image
      * @return the image of the requested color and dimensions
      */
-    public static ImageIcon imageIconFromColor(Color c, int width, int height) {
-        Preconditions.checkNotNull(c);
+    public static ImageIcon imageIconFromColor(Color color, int width, int height) {
+        Preconditions.checkNotNull(color);
         Preconditions.checkArgument(width > 0);
         Preconditions.checkArgument(height > 0);
 
         BufferedImage im = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = im.createGraphics();
-        g.setPaint(c);
+        g.setPaint(color);
         g.fillRect(0, 0, width, height);
         return new ImageIcon(im);
     }
@@ -219,18 +232,17 @@ public final class ImageUtil {
      * @param imageFile the file to convert to a buffered image
      * @return the buffered image
      */
-    @Nullable
-    public static BufferedImage getBufferedImage(File imageFile) {
+    public static Optional<BufferedImage> getBufferedImage(File imageFile) {
         Preconditions.checkNotNull(imageFile);
         Preconditions.checkArgument(imageFile.exists());
 
         try {
-            return ImageIO.read(imageFile);
+            return Optional.of(ImageIO.read(imageFile));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     /**
@@ -267,12 +279,27 @@ public final class ImageUtil {
      * @param filename the path to read
      * @return the buffered image
      */
-    public static BufferedImage getBufferedImage(String filename) {
+    public static Optional<BufferedImage> getBufferedImage(String filename) {
         Preconditions.checkNotNull(filename);
         Preconditions.checkArgument(!filename.isEmpty());
 
         return getBufferedImage(new File(filename));
     }
+
+    /**
+     * The degrees representing a default image.
+     */
+    private static final int ZERO_DEGREES = 0;
+
+    /**
+     * The degrees representing a singular right rotation.
+     */
+    private static final int NINETY_DEGREES = 90;
+
+    /**
+     * The degrees representing a double right or left rotation.
+     */
+    private static final int ONE_EIGHTY_DEGREES = 180;
 
     /**
      * Returns the rotated background file.
@@ -288,12 +315,26 @@ public final class ImageUtil {
         Preconditions.checkNotNull(direction);
 
         return switch (direction) {
-            case TOP -> getBufferedImage(filepath);
-            case RIGHT -> rotateImage(getBufferedImage(filepath), 90);
-            case BOTTOM -> rotateImage(getBufferedImage(filepath), 180);
-            case LEFT -> rotateImage(getBufferedImage(filepath), -90);
+            case TOP -> rotateImage(getBufferedImage(filepath), ZERO_DEGREES);
+            case RIGHT -> rotateImage(getBufferedImage(filepath), NINETY_DEGREES);
+            case BOTTOM -> rotateImage(getBufferedImage(filepath), ONE_EIGHTY_DEGREES);
+            case LEFT -> rotateImage(getBufferedImage(filepath), -NINETY_DEGREES);
             default -> throw new IllegalArgumentException("Invalid direction: " + direction);
         };
+    }
+
+    /**
+     * Rotates the provided buffered image by the specified degrees.
+     *
+     * @param img the image to rotate
+     * @param degrees the degrees to rotate by
+     * @return the rotated image
+     */
+    public static BufferedImage rotateImage(Optional<BufferedImage> img, double degrees) {
+        Preconditions.checkNotNull(img);
+        Preconditions.checkArgument(img.isPresent());
+
+        return rotateImage(img.get(), degrees);
     }
 
     /**
@@ -639,17 +680,17 @@ public final class ImageUtil {
             ExceptionHandler.handle(e);
         }
 
-        boolean allBlack = true;
+        boolean allGrayscale = true;
 
         for (int pixel : pixels) {
             Color color = new Color(pixel);
             if (color.getRed() != color.getGreen() || color.getRed() != color.getBlue()) {
-                allBlack = false;
+                allGrayscale = false;
                 break;
             }
         }
 
-        return allBlack;
+        return allGrayscale;
     }
 
     /**
@@ -741,6 +782,9 @@ public final class ImageUtil {
      * @return whether the provided ImageIcons are equal
      */
     public static boolean areImagesEqual(ImageIcon first, ImageIcon second) {
+        Preconditions.checkNotNull(first);
+        Preconditions.checkNotNull(second);
+
         return areImagesEqual(first.getImage(), second.getImage());
     }
 
@@ -751,11 +795,9 @@ public final class ImageUtil {
      * @param secondImage the second image
      * @return whether the two images represent the same pixel data
      */
-    @SuppressWarnings("ConstantConditions") // throw nullptr handled
     public static boolean areImagesEqual(Image firstImage, Image secondImage) {
-        if (firstImage == null && secondImage == null) {
-            return true;
-        }
+        Preconditions.checkNotNull(firstImage);
+        Preconditions.checkNotNull(secondImage);
 
         boolean ret = true;
 
@@ -820,8 +862,10 @@ public final class ImageUtil {
         int backgroundHeight = image.getHeight();
 
         //inform the user we are changing the size of the image
-        boolean resizeNeeded = backgroundWidth > maxWidth || backgroundHeight > maxHeight ||
-                backgroundWidth < minWidth || backgroundHeight < minHeight;
+        boolean resizeNeeded = backgroundWidth > maxWidth
+                || backgroundHeight > maxHeight
+                || backgroundWidth < minWidth
+                || backgroundHeight < minHeight;
 
         double widthToHeightRatio = ((double) backgroundWidth / (double) backgroundHeight);
         double heightToWidthRatio = ((double) backgroundHeight / (double) backgroundWidth);
@@ -928,19 +972,14 @@ public final class ImageUtil {
     public static boolean isValidImage(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
-
-        if (!file.exists() || file.isDirectory()) {
-            return false;
-        }
-
-        boolean readable = false;
+        Preconditions.checkArgument(!file.isDirectory());
 
         try {
             ImageIO.read(file);
-            readable = true;
+            return true;
         } catch (Exception ignored) {}
 
-        return readable;
+        return false;
     }
 
     /**

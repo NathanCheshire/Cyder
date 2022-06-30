@@ -3549,7 +3549,7 @@ public enum ConsoleFrame {
                 titleNotifyLabel.setOpaque(true);
                 titleNotifyLabel.setVisible(true);
                 titleNotifyLabel.setBackground(ColorUtil.getDominantGrayscaleColor(bi));
-                titleNotifyLabel.setForeground(ColorUtil.getTextColor(bi));
+                titleNotifyLabel.setForeground(ColorUtil.getSuitableOverlayTextColor(bi));
 
                 BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(htmlString,
                         labelFont, consoleCyderFrame.getWidth());
@@ -3565,7 +3565,7 @@ public enum ConsoleFrame {
 
                 Point center = consoleCyderFrame.getCenterPointOnFrame();
 
-                titleNotifyLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.text()));
+                titleNotifyLabel.setText(BoundsUtil.addCenteringToHtml(boundsString.text()));
                 titleNotifyLabel.setBounds(
                         (int) (center.getX() - padding - containerWidth / 2),
                         (int) (center.getY() - padding - containerHeight / 2),

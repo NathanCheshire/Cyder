@@ -1,5 +1,7 @@
 package cyder.utils;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -17,19 +19,19 @@ import java.util.Arrays;
  */
 public final class FrameUtil {
     /**
-     * Instantiation of frame util not allowed.
+     * Suppress default constructor.
      */
     private FrameUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**
-     * Returns a list of frames currently opened by this instance.
+     * Returns a list of frames currently opened by this Jvm instance.
      *
-     * @return a list of frames currently opened by this instance
+     * @return a list of frames currently opened by this Jvm instance
      */
-    public static ArrayList<Frame> getFrames() {
-        return new ArrayList<>(Arrays.asList(Frame.getFrames()));
+    public static ImmutableList<Frame> getFrames() {
+        return ImmutableList.copyOf(Frame.getFrames());
     }
 
     /**
@@ -37,14 +39,16 @@ public final class FrameUtil {
      *
      * @return a list of CyderFrames currently opened by this instance
      */
-    public static ArrayList<CyderFrame> getCyderFrames() {
+    public static ImmutableList<CyderFrame> getCyderFrames() {
         ArrayList<CyderFrame> ret = new ArrayList<>();
 
-        for (Frame f : Frame.getFrames())
-            if (f instanceof CyderFrame)
+        for (Frame f : Frame.getFrames()) {
+            if (f instanceof CyderFrame) {
                 ret.add((CyderFrame) f);
+            }
+        }
 
-        return ret;
+        return ImmutableList.copyOf(ret);
     }
 
     /**
@@ -52,14 +56,16 @@ public final class FrameUtil {
      *
      * @return a list of non CyderFrame frame objects opened by this instance
      */
-    public static ArrayList<Frame> getNonCyderFrames() {
+    public static ImmutableList<Frame> getNonCyderFrames() {
         ArrayList<Frame> ret = new ArrayList<>();
 
-        for (Frame f : Frame.getFrames())
-            if (!(f instanceof CyderFrame))
+        for (Frame f : Frame.getFrames()) {
+            if (!(f instanceof CyderFrame)) {
                 ret.add(f);
+            }
+        }
 
-        return ret;
+        return ImmutableList.copyOf(ret);
     }
 
     /**
@@ -67,8 +73,7 @@ public final class FrameUtil {
      */
     public static void screenshotCyderFrames() {
         for (CyderFrame frame : getCyderFrames()) {
-            if (frame.isVisible()
-                    && frame.getWidth() >= CyderFrame.MINIMUM_WIDTH
+            if (frame.isVisible() && frame.getWidth() >= CyderFrame.MINIMUM_WIDTH
                     && frame.getHeight() >= CyderFrame.MINIMUM_HEIGHT) {
                 screenshotCyderFrame(frame);
             }
@@ -91,8 +96,9 @@ public final class FrameUtil {
             }
         }
 
-        if (refFrame == null)
+        if (refFrame == null) {
             return false;
+        }
 
         String saveName = refFrame.getTitle().substring(0, Math.min(15, refFrame.getTitle().length()));
         File refFile = UserUtil.createFileInUserSpace(saveName + "_" + TimeUtil.logTime()
@@ -111,8 +117,7 @@ public final class FrameUtil {
      * @param cyderFrame the CyderFrame to screenshot
      */
     public static void screenshotCyderFrame(CyderFrame cyderFrame) {
-        if (cyderFrame == null)
-            throw new IllegalArgumentException("Valid CyderFrame with provided name does not exist");
+        Preconditions.checkNotNull(cyderFrame);
 
         String saveName = cyderFrame.getTitle().substring(0,
                 Math.min(MAX_FRAME_TITLE_FILE_LENGTH, cyderFrame.getTitle().length()));
@@ -128,10 +133,8 @@ public final class FrameUtil {
      * @return whether the screenshot was successfully saved
      */
     public static boolean screenshotCyderFrame(CyderFrame frame, File saveFile) {
-        if (frame == null)
-            throw new IllegalArgumentException("Provided frame is null");
-        if (saveFile == null)
-            throw new IllegalArgumentException("Provided file is null");
+        Preconditions.checkNotNull(frame);
+        Preconditions.checkNotNull(saveFile);
 
         boolean ret = false;
 
@@ -199,7 +202,7 @@ public final class FrameUtil {
     }
 
     /**
-     * Closes all instances of Frame.
+     * Closes all instances of {@link Frame} by invoking {@link Frame#dispose()} on all instances.
      */
     public static void closeAllFrames() {
         for (Frame frame : Frame.getFrames()) {
@@ -227,8 +230,9 @@ public final class FrameUtil {
                 }
             }
 
-            if (skip)
+            if (skip) {
                 continue;
+            }
 
             if (frame instanceof CyderFrame) {
                 ((CyderFrame) frame).dispose(fastClose);
@@ -236,29 +240,6 @@ public final class FrameUtil {
                 frame.dispose();
             }
         }
-    }
-
-    /**
-     * Closes all instances of Frame. If a frame is an instance of CyderFrame,
-     * fastClose follows the value provided.
-     *
-     * @param fastClose whether to fastClose any instances of CyderFrame
-     */
-    public static void closeAllFrames(boolean fastClose) {
-        for (Frame frame : Frame.getFrames()) {
-            if (frame instanceof CyderFrame) {
-                ((CyderFrame) frame).dispose(fastClose);
-            } else {
-                frame.dispose();
-            }
-        }
-    }
-
-    /**
-     * Closes all instances of CyderFrame.
-     */
-    public static void closeAllCyderFrames() {
-        closeAllCyderFrames(false);
     }
 
     /**
@@ -267,20 +248,23 @@ public final class FrameUtil {
      * @param fastClose whether to invoke fast close on all CyderFrames found
      */
     public static void closeAllCyderFrames(boolean fastClose) {
-        for (CyderFrame f : getCyderFrames())
+        for (CyderFrame f : getCyderFrames()) {
             f.dispose(fastClose);
+        }
     }
 
     /**
      * Repaints all valid instances of CyderFrame.
      */
     public static void repaintCyderFrames() {
-        for (CyderFrame frame : getCyderFrames())
+        for (CyderFrame frame : getCyderFrames()) {
             frame.repaint();
+        }
     }
 
     /**
-     * Minimizes all Frames.
+     * Minimizes all {@link Frame} instances by setting their state to {@link Frame#ICONIFIED}.
+     * Found {@link CyderFrame}s have their {@link CyderFrame#minimizeAnimation()} invoked instead.
      */
     public static void minimizeAllFrames() {
         for (Frame f : getFrames()) {
@@ -299,6 +283,8 @@ public final class FrameUtil {
      * @return the common runnable invoked when a CyderFrame TaskbarIcon is clicked in the Console menu
      */
     public static Runnable generateCommonFrameTaskbarIconRunnable(CyderFrame frame) {
+        Preconditions.checkNotNull(frame);
+
         return () -> {
             if (frame.getState() == Frame.NORMAL) {
                 frame.minimizeAnimation();

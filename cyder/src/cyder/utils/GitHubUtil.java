@@ -33,7 +33,7 @@ public final class GitHubUtil {
     }
 
     /**
-     * The gson object used to serialize issue github responses.
+     * The gson object used to serialize github issue responses.
      */
     private static final Gson gson = new Gson();
 
@@ -80,20 +80,23 @@ public final class GitHubUtil {
         Preconditions.checkArgument(!url.isEmpty(), "Url is empty");
 
         // first test if it will even work as a url
-        if (!NetworkUtil.isValidUrl(url))
+        if (!NetworkUtil.isValidUrl(url)) {
             return false;
+        }
 
         // make sure it ends with .git
-        if (!url.endsWith(".git"))
+        if (!url.endsWith(".git")) {
             return false;
+        }
 
         // http://url or https://
         if (url.contains("://")) {
             String[] parts = url.split("://");
 
-            // malformed Url so this shouldn't even be possible
-            if (parts.length != 2)
+            // malformed url so this shouldn't even be possible
+            if (parts.length != 2) {
                 return false;
+            }
 
             // remove protocol from url
             url = parts[1];
@@ -135,16 +138,18 @@ public final class GitHubUtil {
             }
 
             //this shouldn't be possible
-            if (!githubRepo.contains("/"))
+            if (!githubRepo.contains("/")) {
                 return Optional.of(Boolean.FALSE);
+            }
 
             String[] parts = githubRepo.split("/");
 
             String repoName = parts[parts.length - 1];
 
             //shouldn't be possible
-            if (!repoName.endsWith(".git"))
+            if (!repoName.endsWith(".git")) {
                 return Optional.of(Boolean.FALSE);
+            }
 
             repoName = repoName.replace(".git", "");
 

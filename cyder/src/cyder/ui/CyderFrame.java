@@ -2644,10 +2644,10 @@ public class CyderFrame extends JFrame {
         drawDebugLines = b;
 
         if (b) {
-            Color lineColor = ColorUtil.getOppositeColor(backgroundColor);
+            Color lineColor = ColorUtil.getInverseColor(backgroundColor);
 
             if (background != null) {
-                lineColor = ColorUtil.getDominantColorOpposite(background);
+                lineColor = ColorUtil.getDominantColorInverse(background);
             }
 
             ImageIcon neffex = new ImageIcon("static/pictures/print/neffex.png");
