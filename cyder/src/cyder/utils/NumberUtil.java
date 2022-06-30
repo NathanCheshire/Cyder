@@ -1,5 +1,7 @@
 package cyder.utils;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -22,6 +24,11 @@ public final class NumberUtil {
     }
 
     /**
+     * The random instance used for inner methods.
+     */
+    private static final Random RANDOM = new Random();
+
+    /**
      * Returns a random integer in the range [min, upperBound].
      *
      * @param lowerBound the minimum possible value to return (must be at least 0)
@@ -29,7 +36,7 @@ public final class NumberUtil {
      * @return a random integer in the provided range [0, upperBound]
      */
     public static int randInt(int lowerBound, int upperBound) {
-        return new Random().nextInt((upperBound - lowerBound) + 1) + lowerBound;
+        return RANDOM.nextInt((upperBound - lowerBound) + 1) + lowerBound;
     }
 
     /**
@@ -39,7 +46,7 @@ public final class NumberUtil {
      * @return a random integer in the range [0, upperBound)
      */
     public static int randInt(int upperBound) {
-        return new Random().nextInt((upperBound) + 1);
+        return RANDOM.nextInt((upperBound) + 1);
     }
 
     /**
@@ -76,6 +83,9 @@ public final class NumberUtil {
         } else {
             ArrayList<Integer> numbers = new ArrayList<>();
 
+            // If n is not prime it can be factored into a and b
+            // Since a * b = n, this will not be greater than
+            // sqrt(n) since sqrt(n)^2 = n and neither a nor b can be greater than n
             for (int i = 2 ; i < Math.ceil(Math.sqrt(num)) ; i += 1) {
                 if (num % i == 0) {
                     numbers.add(i);
@@ -87,7 +97,7 @@ public final class NumberUtil {
     }
 
     /**
-     * Calculates the fibonacci sequence given the initial values.
+     * Calculates the fibonacci sequence using the initial values.
      *
      * @param a       the first fibonacci number to use
      * @param b       the second fibonacci number to use
@@ -122,16 +132,15 @@ public final class NumberUtil {
     /**
      * Returns the string representation for the provided raw text field input straight from a user.
      *
-     * @param wordRep the result of calling textField.getText() on (an integer in the form of a String)
+     * @param word the result of calling textField.getText() on (an integer in the form of a String)
      * @return the string representation for the provided raw text field input
      */
-    public static String toWords(String wordRep) {
-        //check for invalid input
-        if (wordRep == null || wordRep.isEmpty())
-            return "ERROR";
+    public static String toWords(String word) {
+        Preconditions.checkNotNull(word);
+        Preconditions.checkArgument(!word.isEmpty());
 
         //convert to a big integer
-        BigInteger num = new BigInteger(wordRep);
+        BigInteger num = new BigInteger(word);
 
         //check for zero
         if (num.compareTo(BigInteger.ZERO) == 0) {
@@ -142,13 +151,13 @@ public final class NumberUtil {
         boolean negative = num.compareTo(BigInteger.ZERO) < 0;
 
         //pad with 0's so that we have all trios
-        StringBuilder wordRepBuilder = new StringBuilder(wordRep.replace("-", ""));
+        StringBuilder wordRepBuilder = new StringBuilder(word.replace("-", ""));
         while (wordRepBuilder.length() % 3 != 0)
             wordRepBuilder.insert(0, "0");
-        wordRep = wordRepBuilder.toString();
+        word = wordRepBuilder.toString();
 
         //now split into trios array
-        String[] baseTrios = java.util.Arrays.toString(wordRep.split("(?<=\\G...)"))
+        String[] baseTrios = java.util.Arrays.toString(word.split("(?<=\\G...)"))
                 .replace("[", "").replace("]", "")
                 .replace(" ", "").split(",");
 
@@ -197,8 +206,8 @@ public final class NumberUtil {
      * @return the word representation for the provided trio of base 10 digits.
      */
     private static String trioToWords(int num) {
-        if (num < 0 || num > 999)
-            throw new IllegalArgumentException("Provided number is not in the required range of [0, 999]");
+        Preconditions.checkArgument(num >= 0);
+        Preconditions.checkArgument(num <= 999);
 
         int ones = num % 10;
         int tens = (num % 100) / 10;
@@ -207,23 +216,23 @@ public final class NumberUtil {
 
         int hundreds = num / 100;
 
-        String hundredsStr = (onesPlace[hundreds].equals("") ? "" : onesPlace[hundreds] + " hundred");
+        String hundredsStr = (onesPlace.get(hundreds).equals("") ? "" : onesPlace.get(hundreds) + " hundred");
         String below100Str;
 
         if (below100 < 20 && below100 > 9) {
-            below100Str = teens[below100 - 10].trim();
+            below100Str = teens.get(below100 - 10);
         } else {
-            below100Str = (tensPlace[tens].trim() + " " + onesPlace[ones].trim()).trim();
+            below100Str = (tensPlace.get(tens) + " " + onesPlace.get(ones));
         }
 
-        return (hundredsStr + " " + below100Str).trim();
+        return (hundredsStr + " " + below100Str).trim().replaceAll("\\s+", "");
     }
 
     /**
-     * String representations for all digits in the one's place
+     * String representations for all digits in the one's place.
      */
-    private static final String[] onesPlace = {"", "one", "two", "three", "four",
-            "five", "six", "seven", "eight", "nine"};
+    private static final ImmutableList<String> onesPlace
+            = ImmutableList.of("", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine");
 
     /**
      * Returns the word representation for any digit in the inclusive range [0, 9].
@@ -232,14 +241,14 @@ public final class NumberUtil {
      * @return the word representation for any digit in the inclusive range [0, 9]
      */
     private static String wordForOnes(int num) {
-        return onesPlace[num];
+        return onesPlace.get(num);
     }
 
     /**
-     * String representations for all digits in the ten's place in base 10
+     * String representations for all digits in the ten's place in base 10.
      */
-    private static final String[] tensPlace = {"", "", "twenty", "thirty", "forty",
-            "fifty", "sixty", "seventy", "eighty", "ninety"};
+    private static final ImmutableList<String> tensPlace = ImmutableList.of("", "", "twenty",
+            "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety");
 
     /**
      * Returns the word representation for any digit in the ten's place in base 10.
@@ -249,14 +258,14 @@ public final class NumberUtil {
      * @return the word representation for the number in the ten's place in base 10
      */
     private static String wordForTens(int num) {
-        return tensPlace[num];
+        return tensPlace.get(num);
     }
 
     /**
-     * String representations for numbers in the range [10, 19]
+     * String representations for numbers in the range [10, 19].
      */
-    private static final String[] teens = {"ten", "eleven", "twelve", "thirteen",
-            "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
+    private static final ImmutableList<String> teens = ImmutableList.of("ten", "eleven",
+            "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen");
 
     /**
      * Returns the word representation for a number in the inclusive range [10, 19].
@@ -265,17 +274,17 @@ public final class NumberUtil {
      * @return the word representation for a number in the inclusive range [10, 19]
      */
     private static String wordForTeenNums(int num) {
-        return teens[num - 10];
+        return teens.get(num - 10);
     }
 
     /**
-     * String prefixes for digit trios in base 10
+     * String prefixes for digit trios in base 10.
      */
-    private static final String[] thousandPrefixes = {"", "-thousand", "-million", "-billion",
-            "-trillion", "-quadrillion", "-quintillion", "-sextillion", "-septillion", "-octillion",
-            "-nonillion", "-decillion", "-undecillion", "-duodecillion", "-tredecillion",
-            "-quattuordecillion", "-quindecillion", "-sexdexillion", "-septendecillion",
-            "-octodecillion", "-novemdecillion", "-vigintillion", "-centillion"};
+    private static final ImmutableList<String> thousandPrefixes = ImmutableList.of(
+            "", "-thousand", "-million", "-billion", "-trillion", "-quadrillion", "-quintillion",
+            "-sextillion", "-septillion", "-octillion", "-nonillion", "-decillion", "-undecillion",
+            "-duodecillion", "-tredecillion", "-quattuordecillion", "-quindecillion", "-sexdexillion",
+            "-septendecillion", "-octodecillion", "-novemdecillion", "-vigintillion", "-centillion");
 
     /**
      * Returns the prefix associated with the place of a trio of digits in base 10.
@@ -285,7 +294,7 @@ public final class NumberUtil {
      * @return the prefix associated with the palace of a trio of digits in base 10
      */
     private static String getThousandsPrefix(int trioPlace) {
-        return thousandPrefixes[trioPlace];
+        return thousandPrefixes.get(trioPlace);
     }
 
     /**
@@ -298,8 +307,8 @@ public final class NumberUtil {
      * @return an array of ints of the desired size of random elements from min to max
      */
     public static int[] randInt(int min, int max, int number, boolean allowDuplicates) {
-        if (max - min < number && !allowDuplicates)
-            throw new IllegalArgumentException("Desired number of random elements cannot be met with provided range.");
+        Preconditions.checkArgument(!(max - min < number && !allowDuplicates),
+                "Desired number of random elements cannot be met with provided range.");
         int[] ret = new int[number];
 
         if (!allowDuplicates) {
@@ -368,7 +377,7 @@ public final class NumberUtil {
      * @param metric the font metric
      * @return whether the provided metric is in the allowable bounds
      */
-    public static boolean numberInFontMetricRange(int metric) {
+    public static boolean validateFontMetric(int metric) {
         return fontMetricRange.contains(metric);
     }
 }

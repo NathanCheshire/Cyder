@@ -79,7 +79,7 @@ public class ImageHandler extends InputHandler {
             File currentBackgroundFile = ConsoleFrame.INSTANCE.getCurrentBackground().referenceFile();
 
             if (currentBackgroundFile == null || !currentBackgroundFile.exists()) {
-                String name = SecurityUtil.generateUUID();
+                String name = SecurityUtil.generateUuid();
                 boolean saved = ImageUtil.saveImageToTmp(ConsoleFrame.INSTANCE
                         .getCurrentBackground().generateBufferedImage(), name);
 

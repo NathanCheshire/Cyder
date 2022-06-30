@@ -33,7 +33,7 @@ import java.util.Optional;
  */
 public final class ReflectionUtil {
     /**
-     * Prevent illegal class instantiation.
+     * Suppress default constructor.
      */
     private ReflectionUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
@@ -48,14 +48,14 @@ public final class ReflectionUtil {
     public static void executeSubroutines(SubroutinePriority requestedPriority) {
         try {
             for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
-                Class<?> classer = classInfo.load();
+                Class<?> clazz = classInfo.load();
 
-                if (StartupSubroutine.class.isAssignableFrom(classer)) {
-                    if (classer.isInterface()) {
+                if (StartupSubroutine.class.isAssignableFrom(clazz)) {
+                    if (clazz.isInterface()) {
                         continue;
                     }
 
-                    Method[] methods = classer.getMethods();
+                    Method[] methods = clazz.getMethods();
 
                     Method getSubroutinePriorityMethod = null;
                     Method ensureMethod = null;
@@ -74,19 +74,19 @@ public final class ReflectionUtil {
                     }
 
                     SubroutinePriority priority = (SubroutinePriority) getSubroutinePriorityMethod
-                            .invoke(classer.getConstructor().newInstance());
+                            .invoke(clazz.getConstructor().newInstance());
 
-                    Logger.log(Logger.Tag.DEBUG, "Executing subroutine: " + classer.getName());
+                    Logger.log(Logger.Tag.DEBUG, "Executing subroutine: " + clazz.getName());
 
                     if (priority != requestedPriority) {
                         continue;
                     }
 
-                    boolean success = (boolean) ensureMethod.invoke(classer.getConstructor().newInstance());
+                    boolean success = (boolean) ensureMethod.invoke(clazz.getConstructor().newInstance());
 
                     if (!success) {
                         if (priority == SubroutinePriority.NECESSARY) {
-                            exitMethod.invoke(classer.getConstructor().newInstance());
+                            exitMethod.invoke(clazz.getConstructor().newInstance());
                         }
                     }
                 }
@@ -185,6 +185,8 @@ public final class ReflectionUtil {
      * detailing the classname, hashcode, and reflected data
      */
     public static String commonCyderToString(Object obj) {
+        Preconditions.checkNotNull(obj);
+
         String reflectedFields = buildGetterString(obj);
 
         if (reflectedFields.isEmpty()) {
@@ -231,7 +233,7 @@ public final class ReflectionUtil {
      * @param obj the object to invoke toString() on
      * @return a custom toString() representation of the provided object
      */
-    public static String commonCyderUIReflection(Component obj) {
+    public static String commonCyderUiToString(Component obj) {
         CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(obj);
 
         String parentFrame = topFrame != null
@@ -290,8 +292,8 @@ public final class ReflectionUtil {
     /**
      * Returns the name of the class without all the package info.
      * Example: if {@link CyderFrame} was provided, typically invoking
-     * getClass() on CyderFrame would return "cyder.ui.CyderFrame" but
-     * this method will simply return CyderFrame.
+     * {@link CyderFrame#toString()} would return "cyder.ui.CyderFrame"
+     * (with its hashcode appended of course). This method will simply return "CyderFrame."
      *
      * @param clazz the class to find the name of
      * @return the bottom level class name
@@ -319,7 +321,16 @@ public final class ReflectionUtil {
     /**
      * The top level package for Cyder.
      */
-    public static final String TOP_LEVEL_PACKAGE = "cyder";
+    private static final String TOP_LEVEL_PACKAGE = "cyder";
+
+    /**
+     * Returns the top level package name for Cyder.
+     *
+     * @return the top level package name for Cyder
+     */
+    public static String getTopLevelPackage() {
+        return TOP_LEVEL_PACKAGE;
+    }
 
     /**
      * A set of all classes contained within Cyder starting at {@link ReflectionUtil#TOP_LEVEL_PACKAGE}.
@@ -329,8 +340,7 @@ public final class ReflectionUtil {
     // load cyder classes at runtime
     static {
         try {
-            CYDER_CLASSES = ClassPath
-                    .from(Thread.currentThread().getContextClassLoader())
+            CYDER_CLASSES = ClassPath.from(Thread.currentThread().getContextClassLoader())
                     .getTopLevelClassesRecursive(TOP_LEVEL_PACKAGE);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -352,9 +362,9 @@ public final class ReflectionUtil {
      */
     public static void validateWidgets() {
         for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
-            Class<?> classer = classInfo.load();
+            Class<?> clazz = classInfo.load();
 
-            for (Method m : classer.getMethods()) {
+            for (Method m : clazz.getMethods()) {
                 if (m.isAnnotationPresent(Widget.class)) {
                     String[] triggers = m.getAnnotation(Widget.class).triggers();
                     String description = m.getAnnotation(Widget.class).description();
@@ -446,9 +456,9 @@ public final class ReflectionUtil {
         LinkedList<String> foundTriggers = new LinkedList<>();
 
         for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
-            Class<?> classer = classInfo.load();
+            Class<?> clazz = classInfo.load();
 
-            for (Method m : classer.getMethods()) {
+            for (Method m : clazz.getMethods()) {
                 if (m.isAnnotationPresent(ManualTest.class)) {
                     String trigger = m.getAnnotation(ManualTest.class).value();
 
@@ -521,20 +531,19 @@ public final class ReflectionUtil {
                 }
 
                 if (!clazz.getName().toLowerCase().endsWith("widget")) {
-                    Logger.log(Logger.Tag.DEBUG,
-                            "Class annotated with @Vanilla does not end" +
-                                    " with Widget; name: " + clazz.getName());
+                    Logger.log(Logger.Tag.DEBUG, "Class annotated with @Vanilla does not end"
+                            + " with Widget; name: " + clazz.getName());
                 }
 
                 if (!clazz.isAnnotationPresent(CyderAuthor.class)) {
-                    Logger.log(Logger.Tag.DEBUG, "Method annotated with @Vanilla does not contain"
-                            + " a @CyderAuthor annotation");
+                    Logger.log(Logger.Tag.DEBUG, "Method annotated with @Vanilla"
+                            + " does not contain a @CyderAuthor annotation");
                 } else {
                     String author = clazz.getAnnotation(CyderAuthor.class).author();
 
                     if (!StringUtil.in(author, true, "Nathan Cheshire", "Natche", "Cypher")) {
-                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @Vanilla does not contain"
-                                + " Nathan Cheshire as an author");
+                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @Vanilla"
+                                + " does not contain Nathan Cheshire as an author");
                     }
                 }
             }
@@ -542,9 +551,9 @@ public final class ReflectionUtil {
     }
 
     /**
-     * Validates all the props within props.ini.
+     * Ensures there are no duplicate props within the loaded props.
      */
-    public static void validateProps() {
+    public static void ensureNoDuplicateProps() {
         ArrayList<String> discoveredKeys = new ArrayList<>();
 
         for (PropLoader.Prop prop : PropLoader.getProps()) {
@@ -565,13 +574,13 @@ public final class ReflectionUtil {
         ArrayList<WidgetDescription> ret = new ArrayList<>();
 
         for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
-            Class<?> classer = classInfo.load();
+            Class<?> clazz = classInfo.load();
 
-            for (Method m : classer.getMethods()) {
+            for (Method m : clazz.getMethods()) {
                 if (m.isAnnotationPresent(Widget.class)) {
                     String[] triggers = m.getAnnotation(Widget.class).triggers();
                     String description = m.getAnnotation(Widget.class).description();
-                    ret.add(new WidgetDescription(classer.getName(), description, triggers));
+                    ret.add(new WidgetDescription(clazz.getName(), description, triggers));
                 }
             }
         }
@@ -584,15 +593,15 @@ public final class ReflectionUtil {
      */
     public static void validateHandles() {
         for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
-            Class<?> classer = classInfo.load();
+            Class<?> clazz = classInfo.load();
 
             LinkedList<String> foundTriggers = new LinkedList<>();
 
             // is a handler
-            if (InputHandler.class.isAssignableFrom(classer)) {
+            if (InputHandler.class.isAssignableFrom(clazz)) {
                 boolean alreadyFoundHandle = false;
 
-                for (Method m : classer.getMethods()) {
+                for (Method m : clazz.getMethods()) {
                     if (m.isAnnotationPresent(Handle.class)) {
                         // properly formed
                         if (m.getName().equals("handle")) {
@@ -600,7 +609,7 @@ public final class ReflectionUtil {
                             if (!alreadyFoundHandle) {
                                 alreadyFoundHandle = true;
 
-                                if (BaseInputHandler.primaryHandlers.contains(classer)) {
+                                if (BaseInputHandler.primaryHandlers.contains(clazz)) {
                                     String[] triggers = m.getAnnotation(Handle.class).value();
 
                                     if (triggers.length > 0) {
@@ -608,13 +617,13 @@ public final class ReflectionUtil {
                                             if (trigger.isEmpty()) {
                                                 Logger.log(Logger.Tag.DEBUG, "Primary handler "
                                                         + "found with empty trigger: class = "
-                                                        + getBottomLevelClass(classer));
+                                                        + getBottomLevelClass(clazz));
                                             }
 
                                             if (StringUtil.in(trigger, true, foundTriggers)) {
                                                 Logger.log(Logger.Tag.DEBUG, "Primary handler "
                                                         + "found with duplicate trigger: class = "
-                                                        + getBottomLevelClass(classer) + ", trigger = \""
+                                                        + getBottomLevelClass(clazz) + ", trigger = \""
                                                         + trigger + "\"");
                                             } else {
                                                 foundTriggers.add(trigger);
@@ -622,38 +631,38 @@ public final class ReflectionUtil {
                                         }
                                     } else {
                                         Logger.log(Logger.Tag.DEBUG, "Primary handler "
-                                                + "found without triggers: class = " + getBottomLevelClass(classer));
+                                                + "found without triggers: class = " + getBottomLevelClass(clazz));
                                     }
-                                } else if (BaseInputHandler.finalHandlers.contains(classer)) {
+                                } else if (BaseInputHandler.finalHandlers.contains(clazz)) {
                                     String[] triggers = m.getAnnotation(Handle.class).value();
 
                                     if (triggers.length > 1) {
                                         Logger.log(Logger.Tag.DEBUG, "Final handler found containing"
-                                                + " triggers: class = " + getBottomLevelClass(classer));
+                                                + " triggers: class = " + getBottomLevelClass(clazz));
                                     }
                                 } else {
                                     Logger.log(Logger.Tag.DEBUG, "Handler found which is not in"
                                             + " primaryHandlers nor finalHandlers: class = "
-                                            + getBottomLevelClass(classer));
+                                            + getBottomLevelClass(clazz));
                                 }
                             } else {
                                 Logger.log(Logger.Tag.DEBUG, "Handler with duplicate handle "
-                                        + "methods found: " + "class = " + getBottomLevelClass(classer)
+                                        + "methods found: " + "class = " + getBottomLevelClass(clazz)
                                         + ", method = " + m.getName());
                             }
                         } else {
                             Logger.log(Logger.Tag.DEBUG, "Found illegal @Handle annotation "
                                     + "on method not named handle(): " + "class = "
-                                    + getBottomLevelClass(classer) + ", method = " + m.getName());
+                                    + getBottomLevelClass(clazz) + ", method = " + m.getName());
                         }
                     }
                 }
             } else {
                 // ensure no methods exist with an @Handle annotation
-                for (Method m : classer.getMethods()) {
+                for (Method m : clazz.getMethods()) {
                     if (m.isAnnotationPresent(Handle.class)) {
                         Logger.log(Logger.Tag.DEBUG, "Found illegal @Handle annotation: "
-                                + "class = " + getBottomLevelClass(classer) + ", method = " + m.getName());
+                                + "class = " + getBottomLevelClass(clazz) + ", method = " + m.getName());
                     }
                 }
             }
@@ -666,7 +675,7 @@ public final class ReflectionUtil {
      * @param holiday the holiday name such as Christmas
      * @param year    the year of the holiday such as 2021
      */
-    public static void cardInvoker(String holiday, int year) {
+    public static void invokeCardWidget(String holiday, int year) {
         try {
             for (Method m : CardWidget.class.getMethods()) {
                 if (m.getName().toLowerCase().contains(holiday.toLowerCase())
@@ -683,7 +692,7 @@ public final class ReflectionUtil {
      * A record representing a found similar command how close the
      * found command is to the original string.
      */
-    public static record SimilarCommand(Optional<String> command, double tolerance) {}
+    public record SimilarCommand(Optional<String> command, double tolerance) {}
 
     /**
      * Finds the most similar command to the unrecognized one provided.
@@ -735,9 +744,9 @@ public final class ReflectionUtil {
         LinkedList<String> ret = new LinkedList<>();
 
         for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
-            Class<?> classer = classInfo.load();
+            Class<?> clazz = classInfo.load();
 
-            for (Method m : classer.getMethods()) {
+            for (Method m : clazz.getMethods()) {
                 if (m.isAnnotationPresent(ManualTest.class)) {
                     String trigger = m.getAnnotation(ManualTest.class).value();
                     ret.add(trigger);

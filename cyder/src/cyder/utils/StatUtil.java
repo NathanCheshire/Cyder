@@ -164,7 +164,7 @@ public final class StatUtil {
                             "YouTube Reachable: " + NetworkUtil.siteReachable(CyderUrls.YOUTUBE),
                             "Apple Reachable: " + NetworkUtil.siteReachable(CyderUrls.APPLE),
                             "Microsoft Reachable: " + NetworkUtil.siteReachable(CyderUrls.MICROSOFT),
-                            "User Name: " + OSUtil.getSystemUsername(),
+                            "User Name: " + OSUtil.getOsUsername(),
                             "Computer Name: " + OSUtil.getComputerName(),
                             "Available Cores: " + Runtime.getRuntime().availableProcessors(),
                             "Available Memory: " + gBytes + " GigaBytes",
@@ -194,7 +194,7 @@ public final class StatUtil {
         StringBuilder ret = new StringBuilder(
                 "Numbers in order represent: code lines, comment lines, and blank lines respectively\n");
 
-        ArrayList<File> javaFiles = OSUtil.getFiles(startDir, ".java");
+        ImmutableList<File> javaFiles = OSUtil.getFiles(startDir, ".java");
 
         for (File f : javaFiles) {
             ret.append(f.getName().replace(".java", ""))

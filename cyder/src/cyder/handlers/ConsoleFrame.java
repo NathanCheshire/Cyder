@@ -1146,27 +1146,27 @@ public enum ConsoleFrame {
     private void onLaunch() {
         if (TimeUtil.isChristmas()) {
             consoleCyderFrame.notify("Merry Christmas!");
-            ReflectionUtil.cardInvoker("Christmas", TimeUtil.getYear());
+            ReflectionUtil.invokeCardWidget("Christmas", TimeUtil.getYear());
         }
 
         if (TimeUtil.isHalloween()) {
             consoleCyderFrame.notify("Happy Halloween!");
-            ReflectionUtil.cardInvoker("Halloween", TimeUtil.getYear());
+            ReflectionUtil.invokeCardWidget("Halloween", TimeUtil.getYear());
         }
 
         if (TimeUtil.isIndependenceDay()) {
             consoleCyderFrame.notify("Happy 4th of July!");
-            ReflectionUtil.cardInvoker("Independence", TimeUtil.getYear());
+            ReflectionUtil.invokeCardWidget("Independence", TimeUtil.getYear());
         }
 
         if (TimeUtil.isThanksgiving()) {
             consoleCyderFrame.notify("Happy Thanksgiving!");
-            ReflectionUtil.cardInvoker("Thanksgiving", TimeUtil.getYear());
+            ReflectionUtil.invokeCardWidget("Thanksgiving", TimeUtil.getYear());
         }
 
         if (TimeUtil.isAprilFoolsDay()) {
             consoleCyderFrame.notify("Happy April Fools Day!");
-            ReflectionUtil.cardInvoker("AprilFools", TimeUtil.getYear());
+            ReflectionUtil.invokeCardWidget("AprilFools", TimeUtil.getYear());
         }
 
         if (TimeUtil.isValentinesDay()) {
@@ -1220,7 +1220,7 @@ public enum ConsoleFrame {
         }
 
         if (PropLoader.getBoolean("testing_mode")) {
-            Logger.log(Logger.Tag.CONSOLE_LOAD, "[" + OSUtil.getSystemUsername() + "] [TESTING MODE]");
+            Logger.log(Logger.Tag.CONSOLE_LOAD, "[" + OSUtil.getOsUsername() + "] [TESTING MODE]");
             ManualTests.launchTests();
         }
 
@@ -2084,7 +2084,7 @@ public enum ConsoleFrame {
                 int fontMetric = Integer.parseInt(PropLoader.getString("font_metric"));
                 Font newFont = new Font(fontName, fontMetric, size);
 
-                if (NumberUtil.numberInFontMetricRange(fontMetric)) {
+                if (NumberUtil.validateFontMetric(fontMetric)) {
                     inputField.setFont(newFont);
                     outputArea.setFont(newFont);
 
@@ -2137,7 +2137,7 @@ public enum ConsoleFrame {
     public Font generateUserFont() {
         int metric = Integer.parseInt(PropLoader.getString("font_metric"));
 
-        if (NumberUtil.numberInFontMetricRange(metric)) {
+        if (NumberUtil.validateFontMetric(metric)) {
             return new Font(UserUtil.getCyderUser().getFont(), metric,
                     Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
         } else {

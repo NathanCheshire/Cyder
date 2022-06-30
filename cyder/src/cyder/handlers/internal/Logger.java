@@ -94,7 +94,7 @@ public final class Logger {
      * A record to hold a log call which cannot be written due to the logger
      * not being initialized yet.
      */
-    private static record AwaitingLog(String line, Tag tag) {
+    private record AwaitingLog(String line, Tag tag) {
     }
 
     /**
@@ -344,7 +344,7 @@ public final class Logger {
         writeCyderAsciiArt();
 
         // first log tag call should always be a JVM_ENTRY tag
-        log(Tag.JVM_ENTRY, OSUtil.getSystemUsername());
+        log(Tag.JVM_ENTRY, OSUtil.getOsUsername());
 
         startObjectCreationLogger();
         concludeLogs();

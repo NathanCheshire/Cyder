@@ -50,7 +50,7 @@ public final class SpotlightUtil {
 
                 ConsoleFrame.INSTANCE.getInputHandler().println("Windows spotlight images wiped from directory:\n\""
                         + spotlightsDir.getAbsolutePath() + "\"");
-                ConsoleFrame.INSTANCE.getInputHandler().println("Spotights found: " + length);
+                ConsoleFrame.INSTANCE.getInputHandler().println("Spotlights found: " + length);
 
                 if (files != null && files.length > 0) {
                     for (File spotlight : files) {
@@ -61,7 +61,7 @@ public final class SpotlightUtil {
                 files = spotlightDirectory.listFiles();
                 length = files == null ? 0 : files.length;
 
-                ConsoleFrame.INSTANCE.getInputHandler().println("Spotights left: " + length);
+                ConsoleFrame.INSTANCE.getInputHandler().println("Spotlights left: " + length);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -75,7 +75,7 @@ public final class SpotlightUtil {
      */
     public static File getSpotlightsDirectory() {
         return new File(OSUtil.buildPath(
-                OSUtil.WINDOWS_ROOT, "users", OSUtil.getSystemUsername(),
+                OSUtil.WINDOWS_ROOT, "users", OSUtil.getOsUsername(),
                 "AppData", "Local", "Packages", CONTENT_DELIVERY_MANAGER_PREFIX
                         + CONTENT_DELIVERY_MANAGER_SUFFIX, "LocalState", "Assets"));
     }

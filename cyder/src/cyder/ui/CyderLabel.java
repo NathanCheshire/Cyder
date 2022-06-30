@@ -82,7 +82,7 @@ public class CyderLabel extends JLabel {
 
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderUIReflection(this);
+        return ReflectionUtil.commonCyderUiToString(this);
     }
 
     //rippling

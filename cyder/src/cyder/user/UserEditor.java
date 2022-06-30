@@ -801,7 +801,7 @@ public final class UserEditor {
             int metric = Integer.parseInt(PropLoader.getString("font_metric"));
             int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
 
-            if (NumberUtil.numberInFontMetricRange(metric)) {
+            if (NumberUtil.validateFontMetric(metric)) {
                 for (String fontName : fontList) {
                     Font font = new Font(fontName, metric, size);
 

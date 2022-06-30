@@ -29,7 +29,7 @@ public class Validations implements StartupSubroutine {
             UserUtil.cleanUsers();
 
             CyderSplash.INSTANCE.setLoadingMessage("Validating props");
-            ReflectionUtil.validateProps();
+            ReflectionUtil.ensureNoDuplicateProps();
 
             CyderSplash.INSTANCE.setLoadingMessage("Validating Widgets");
             ReflectionUtil.validateWidgets();

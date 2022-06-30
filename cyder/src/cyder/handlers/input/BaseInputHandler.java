@@ -276,7 +276,7 @@ public class BaseInputHandler {
         if (parts.length > 1) {
             Arrays.stream(parts).map(String::trim).toArray(i -> parts);
 
-            args.addAll(Arrays.stream(parts).filter(i -> !Objects.equals(i, parts[0])).collect(Collectors.toList()));
+            args.addAll(Arrays.stream(parts).filter(i -> !Objects.equals(i, parts[0])).toList());
 
             command = parts[0];
         }
@@ -645,7 +645,7 @@ public class BaseInputHandler {
         Preconditions.checkNotNull(component);
         Preconditions.checkNotNull(outputArea.getJTextPane());
 
-        String componentUUID = SecurityUtil.generateUUID();
+        String componentUUID = SecurityUtil.generateUuid();
 
         Style cs = outputArea.getJTextPane()
                 .getStyledDocument().addStyle(componentUUID, null);

@@ -3,7 +3,7 @@ package cyder.utils;
 import cyder.handlers.internal.Logger;
 
 /**
- * Class for generated OpenSimplexNoise. I obviouly didn't write this since I
+ * Class for generated OpenSimplexNoise. I obviously didn't write this since I
  * have somewhat of a life (as much as a full-time employed software engineer with
  * massive passion projects can have).
  *

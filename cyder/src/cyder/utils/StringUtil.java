@@ -7,6 +7,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderUrls;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderOutputPane;
+import cyder.youtube.YoutubeConstants;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -188,8 +189,10 @@ public class StringUtil {
         }
     }
 
-    //start generic print methods for the linked JTextPane, these are not thread safe by default
-    // See ConsoleFrame's outputArea and implementation there for thread safety
+    /*
+    Start generic print methods for the linked JTextPane, these are not thread safe by default.
+    See ConsoleFrame's outputArea and implementation there for thread safety.
+     */
 
     /**
      * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
@@ -218,7 +221,7 @@ public class StringUtil {
      */
     public synchronized void printComponent(Component c) {
         try {
-            String componentUUID = SecurityUtil.generateUUID();
+            String componentUUID = SecurityUtil.generateUuid();
             Style cs = linkedCyderPane.getJTextPane().getStyledDocument().addStyle(componentUUID, null);
             StyleConstants.setComponent(cs, c);
             linkedCyderPane.getJTextPane().getStyledDocument()
@@ -237,7 +240,7 @@ public class StringUtil {
      */
     public synchronized void printlnComponent(Component c) {
         try {
-            String componentUUID = SecurityUtil.generateUUID();
+            String componentUUID = SecurityUtil.generateUuid();
             printComponent(c, componentUUID, componentUUID);
             println("");
         } catch (Exception e) {
@@ -393,6 +396,8 @@ public class StringUtil {
             return "'s";
     }
 
+    // todo for shits and giggles lets implement these rules
+    //  https://www.grammarly.com/blog/plural-nouns/
     /**
      * Returns the plural form of the word. A singular item doesn't need to be made plural
      * whilst any number of objects other than 1 should be converted to plural using English Language rules.
@@ -503,8 +508,10 @@ public class StringUtil {
         for (int i = 0 ; i < chars.length ; i++) {
             char c = chars[i];
 
-            //someone pls make this better and PR a method for this, make it work for permutations
-            //from this table: https://cleanspeak.com/images/blog/leet-wiki-table.png
+            /*
+            Someone pls make this better and PR a method for this, make it work for
+             permutations from this table: https://cleanspeak.com/images/blog/leet-wiki-table.png
+             */
 
             if (c == '4' || c == '@' || c == '^' || c == 'z')
                 chars[i] = 'a';
@@ -582,10 +589,15 @@ public class StringUtil {
         userInput = userInput.toLowerCase();
         findWord = findWord.toLowerCase();
 
-        return userInput.startsWith(findWord + ' ') || //first word
-                userInput.endsWith(' ' + findWord) || //last word
-                userInput.contains(' ' + findWord + ' ') || //middle word
-                userInput.equalsIgnoreCase(findWord); //literal
+        String[] words = userInput.split("\\s+");
+
+        for (String word : words) {
+            if (word.equalsIgnoreCase(findWord)) {
+                return true;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -714,7 +726,7 @@ public class StringUtil {
 
         try {
             String urlString = CyderUrls.WIKIPEDIA_SUMMARY_BASE
-                    + WIKI_SUM_PROP + query.replace(" ", "%20");
+                    + WIKI_SUM_PROP + query.replace(" ", YoutubeConstants.URL_SPACE);
             String jsonString = NetworkUtil.readUrl(urlString);
 
             String[] serializedPageNumber = jsonString.split("\"extract\":\"");
@@ -744,8 +756,6 @@ public class StringUtil {
         return Arrays.equals(W1C, W2C);
     }
 
-    //tagged strings for HTML methods
-
     /**
      * Finds the rawtext and html tags of a string and returns a linked list representing the parts.
      *
@@ -753,6 +763,9 @@ public class StringUtil {
      * @return a linked list where each object represents either a complete tag or raw text
      */
     public static LinkedList<BoundsUtil.TaggedString> getTaggedStrings(String htmlText) {
+        Preconditions.checkNotNull(htmlText);
+        Preconditions.checkArgument(!htmlText.isEmpty());
+
         //init list for strings by tag
         LinkedList<BoundsUtil.TaggedString> taggedStrings = new LinkedList<>();
 
@@ -887,43 +900,50 @@ public class StringUtil {
     }
 
     /**
+     * The amount added to {@link #getMinWidth(String, Font)} and
+     * {@link #getMinHeight(String, Font)} to account for possible weird bugs.
+     */
+    public static final int SIZE_ADDITIVE = 10;
+
+    /**
      * Returns the minimum width required for the given String using the given font.
      *
      * @param title the text you want to determine the width of
-     * @param f     the font for the text
+     * @param font     the font for the text
      * @return an integer value determining the minimum width of
      * a string of text (10 is added to avoid ... bug)
      */
-    public static int getMinWidth(String title, Font f) {
+    public static int getMinWidth(String title, Font font) {
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) f.getStringBounds(title, frc).getWidth() + 10;
+        return (int) font.getStringBounds(title, frc).getWidth() + SIZE_ADDITIVE;
     }
 
     /**
      * Returns the minimum width required for the given String using the given font.
      *
      * @param title the text you want to determine the width of
-     * @param f     the font for the text
+     * @param font     the font for the text
      * @return an integer value determining the minimum width of a string of text
      */
-    public static int getAbsoluteMinWidth(String title, Font f) {
+    public static int getAbsoluteMinWidth(String title, Font font) {
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) f.getStringBounds(title, frc).getWidth();
+        return (int) font.getStringBounds(title, frc).getWidth();
     }
 
     /**
      * Returns the minimum height required for the given String using the given font.
      *
      * @param title the text you want to determine the height of
+     * @param font the font to use to determine the min height
      * @return an integer value determining the minimum height
      * of a string of text (10 is added to avoid ... bug)
      */
-    public static int getMinHeight(String title, Font f) {
+    public static int getMinHeight(String title, Font font) {
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) f.getStringBounds(title, frc).getHeight() + 10;
+        return (int) font.getStringBounds(title, frc).getHeight() + SIZE_ADDITIVE;
     }
 
     /**
@@ -931,12 +951,13 @@ public class StringUtil {
      * using the given font without adding 10.
      *
      * @param title the text you want to determine the height of
+     * @param font the font to use to determine the min height
      * @return an integer value determining the minimum height of a string of text
      */
-    public static int getAbsoluteMinHeight(String title, Font f) {
+    public static int getAbsoluteMinHeight(String title, Font font) {
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) f.getStringBounds(title, frc).getHeight();
+        return (int) font.getStringBounds(title, frc).getHeight();
     }
 
     /**
@@ -966,8 +987,7 @@ public class StringUtil {
      * @return the whitespace string with n spaces
      */
     public static String generateNSpaces(int n) {
-        Preconditions.checkArgument(n > 0, "Provided number of spaces is less than 1");
-
+        Preconditions.checkArgument(n > 0);
         return " ".repeat(n);
     }
 
@@ -984,7 +1004,6 @@ public class StringUtil {
         LinkedList<String> ret = new LinkedList<>();
 
         while (m.find()) {
-            // group 0 is the entire match
             ret.add(m.group(0));
         }
 
@@ -1046,9 +1065,7 @@ public class StringUtil {
      * string alpha into string beta
      */
     private static int distance(String alpha, String beta) {
-        // note: -1 is what max prop used to be
-
-        if (Objects.equals(alpha, beta)) {
+      if (Objects.equals(alpha, beta)) {
             return 0;
         }
 
@@ -1108,12 +1125,12 @@ public class StringUtil {
         Preconditions.checkArgument(numLines > 0);
 
         StringBuilder ret = new StringBuilder();
-        ret.append("<html>");
+        ret.append(BoundsUtil.OPENING_HTML_TAG);
 
         for (int i = 0 ; i < numLines ; i++) {
-            ret.append(" ").append("<br/>");
+            ret.append(" ").append(BoundsUtil.BREAK_TAG);
         }
 
-        return ret + " </html>";
+        return ret + " " + BoundsUtil.CLOSING_HTML_TAG;
     }
 }

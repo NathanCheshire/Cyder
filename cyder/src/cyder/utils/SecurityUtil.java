@@ -41,13 +41,29 @@ public class SecurityUtil {
         ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(charBuffer);
         byte[] bytes = Arrays.copyOfRange(byteBuffer.array(),
                 byteBuffer.position(), byteBuffer.limit());
-        //clear possible sensitive data
+
+        // Clear possible sensitive data
         Arrays.fill(byteBuffer.array(), (byte) 0);
         return bytes;
     }
 
     /**
-     * Returns a byte array of the provided char array after hasing via the SHA256 algorithm.
+     * The string used for a SHA256 digest.
+     */
+    private static final String SHA256 = "SHA-256";
+
+    /**
+     * The string used for a SHA1 digest.
+     */
+    private static final String SHA1 = "SHA-1";
+
+    /**
+     * The string used for an MD5 digest.
+     */
+    private static final String MD5 = "MD5";
+
+    /**
+     * Returns a byte array of the provided char array after hashing via the SHA256 algorithm.
      *
      * @param input the input char array
      * @return the hashed character array converted to bytes
@@ -57,7 +73,7 @@ public class SecurityUtil {
         Preconditions.checkArgument(input.length > 0);
 
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            MessageDigest md = MessageDigest.getInstance(SHA256);
             return md.digest(toBytes(input));
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
@@ -67,7 +83,7 @@ public class SecurityUtil {
     }
 
     /**
-     * Returns a byte array of the provided char array after hasing via the SHA1 algorithm.
+     * Returns a byte array of the provided char array after hashing via the SHA1 algorithm.
      *
      * @param input the input char array
      * @return the hashed character array converted to bytes
@@ -77,7 +93,7 @@ public class SecurityUtil {
         Preconditions.checkArgument(input.length > 0);
 
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            MessageDigest md = MessageDigest.getInstance(SHA1);
             return md.digest(toBytes(input));
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
@@ -87,7 +103,7 @@ public class SecurityUtil {
     }
 
     /**
-     * Returns a byte array of the provided char array after hasing via the MD5 algorithm.
+     * Returns a byte array of the provided char array after hashing via the MD5 algorithm.
      *
      * @param input the input char array
      * @return the hashed character array converted to bytes
@@ -97,7 +113,7 @@ public class SecurityUtil {
         Preconditions.checkArgument(input.length > 0);
 
         try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            MessageDigest md = MessageDigest.getInstance(MD5);
             return md.digest(toBytes(input));
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
@@ -107,7 +123,7 @@ public class SecurityUtil {
     }
 
     /**
-     * Returns a byte array of the provided byte array after hasing via the SHA256 algorithm.
+     * Returns a byte array of the provided byte array after hashing via the SHA256 algorithm.
      *
      * @param input the input char array
      * @return the hashed character array converted to bytes
@@ -117,7 +133,7 @@ public class SecurityUtil {
         Preconditions.checkArgument(input.length > 0);
 
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            MessageDigest md = MessageDigest.getInstance(SHA256);
             return md.digest(input);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
@@ -152,9 +168,9 @@ public class SecurityUtil {
      *
      * @return a unique uuid
      */
-    public static String generateUUID() {
+    public static String generateUuid() {
         try {
-            MessageDigest salt = MessageDigest.getInstance("SHA-256");
+            MessageDigest salt = MessageDigest.getInstance(SHA256);
             salt.update(UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8));
             return UUID.nameUUIDFromBytes(salt.digest()).toString();
         } catch (Exception e) {

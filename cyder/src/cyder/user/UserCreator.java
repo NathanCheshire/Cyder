@@ -116,7 +116,7 @@ public class UserCreator {
         createUserFrame.getContentPane().add(newUserName);
 
         // set with windows username if not already used
-        String osUserName = OSUtil.getSystemUsername();
+        String osUserName = OSUtil.getOsUsername();
         boolean exists = false;
 
         for (File userJson : UserUtil.getUserJsons()) {
@@ -371,12 +371,12 @@ public class UserCreator {
         }
 
         // generate the user uuid and ensure it is unique
-        String uuid = SecurityUtil.generateUUID();
+        String uuid = SecurityUtil.generateUuid();
         File folder = OSUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(), uuid);
 
         while (folder.exists()) {
-            uuid = SecurityUtil.generateUUID();
+            uuid = SecurityUtil.generateUuid();
             folder = OSUtil.buildFile(Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(), uuid);
         }

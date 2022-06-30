@@ -2220,7 +2220,7 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderUIReflection(this);
+        return ReflectionUtil.commonCyderUiToString(this);
     }
 
     /**
@@ -3457,7 +3457,7 @@ public class CyderFrame extends JFrame {
      * This record is to associate a label with a possible
      * AtomicBoolean which dictates the state of the menu item.
      */
-    private static record MenuItem(JLabel label, AtomicBoolean state) {}
+    private record MenuItem(JLabel label, AtomicBoolean state) {}
 
     /**
      * A builder for a CyderFrame notification.
