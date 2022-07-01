@@ -44,6 +44,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -2384,18 +2385,6 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Increments the background index.
-     * Wraps back to 0 if it exceeds the background size.
-     */
-    private void incBackgroundIndex() {
-        if (backgroundIndex + 1 == backgrounds.size()) {
-            backgroundIndex = 0;
-        } else {
-            backgroundIndex += 1;
-        }
-    }
-
-    /**
      * Returns the current background.
      *
      * @return the current background
@@ -2405,112 +2394,102 @@ public enum ConsoleFrame {
     }
 
     /**
+     * Whether the background switching is locked meaning an animation is currently underway.
+     */
+    private final AtomicBoolean backgroundSwitchingLocked = new AtomicBoolean(false);
+
+    /**
      * Switches backgrounds to the next background in the list via a sliding animation.
      * The ConsoleFrame will remain in fullscreen mode if in fullscreen mode as well as maintain
      * whatever size it was at before a background switch was requested.
      */
     @SuppressWarnings("UnnecessaryDefault")
     private void switchBackground() {
-        // always load first to ensure we're up-to-date with the valid backgrounds
-        loadBackgrounds();
-
+        // todo narrow scope
         try {
-            // find the next background to use and rotate current background accordingly
-            ImageIcon nextBack;
-
-            if (backgroundIndex + 1 == backgrounds.size()) {
-                nextBack = backgrounds.get(0).generateImageIcon();
-            } else {
-                nextBack = backgrounds.get(backgroundIndex + 1).generateImageIcon();
+            if (backgroundSwitchingLocked.get()) {
+                return;
             }
 
-            // increment background index accordingly
-            incBackgroundIndex();
+            backgroundSwitchingLocked.set(true);
 
-            // find the dimensions of the image after transforming it as needed
-            int width;
-            int height;
+            ImageIcon nextBackground = (backgroundIndex + 1 == backgrounds.size()
+                    ? backgrounds.get(0).generateImageIcon()
+                    : backgrounds.get(backgroundIndex + 1).generateImageIcon());
 
-            // full screen trumps all else
+            backgroundIndex = backgroundIndex + 1 == backgrounds.size()
+                     ? 0 : backgroundIndex + 1;
+
+            int width = nextBackground.getIconWidth();
+            int height = nextBackground.getIconHeight();
+
             if (isFullscreen()) {
                 width = (int) consoleCyderFrame.getMonitorBounds().getWidth();
                 height = (int) consoleCyderFrame.getMonitorBounds().getHeight();
-
-                nextBack = ImageUtil.resizeImage(nextBack, width, height);
+                nextBackground = ImageUtil.resizeImage(nextBackground, width, height);
             } else if (consoleDir == Direction.LEFT) {
-                // not a typo
-                width = nextBack.getIconHeight();
-                height = nextBack.getIconWidth();
-
-                nextBack = ImageUtil.rotateImage(nextBack, -90);
+                width = nextBackground.getIconHeight();
+                height = nextBackground.getIconWidth();
+                nextBackground = ImageUtil.rotateImage(nextBackground, -90);
             } else if (consoleDir == Direction.RIGHT) {
-                // not a typo
-                width = nextBack.getIconHeight();
-                height = nextBack.getIconWidth();
-
-                nextBack = ImageUtil.rotateImage(nextBack, 90);
+                width = nextBackground.getIconHeight();
+                height = nextBackground.getIconWidth();
+                nextBackground = ImageUtil.rotateImage(nextBackground, 90);
             } else if (consoleDir == Direction.BOTTOM) {
-                width = nextBack.getIconWidth();
-                height = nextBack.getIconHeight();
-
-                nextBack = ImageUtil.rotateImage(nextBack, 180);
-            } else {
-                // orientation is UP so dimensions
-                width = nextBack.getIconWidth();
-                height = nextBack.getIconHeight();
+                width = nextBackground.getIconWidth();
+                height = nextBackground.getIconHeight();
+                nextBackground = ImageUtil.rotateImage(nextBackground, 180);
             }
 
             // get console frame's content pane
-            JLabel contentPane = ((JLabel) (consoleCyderFrame.getContentPane()));
+            JLabel contentPane = getConsoleCyderFrameContentPane();
 
             // tooltip based on image name
             contentPane.setToolTipText(FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
 
             // create final background that won't change
-            ImageIcon nextBackFinal = nextBack;
+            ImageIcon nextBackFinal = nextBackground;
 
-            // get the original background and resize it as needed
-            ImageIcon oldBack = (ImageIcon) contentPane.getIcon();
-            oldBack = ImageUtil.resizeImage(oldBack, width, height);
+            // Get the original background and resize it as needed
+            ImageIcon oldBack = ImageUtil.resizeImage((ImageIcon) contentPane.getIcon(), width, height);
 
-            // change frame size and put the center in the same spot
+            // Change frame size and put the center in the same spot
             Point originalCenter = consoleCyderFrame.getCenterPointOnScreen();
             consoleCyderFrame.setSize(width, height);
 
-            // bump frame into bounds if resize pushes it out
+            // Bump frame into bounds if new size pushed part out of bounds
             FrameUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
                     (int) originalCenter.getX() - width / 2,
                     (int) originalCenter.getY() - height / 2, consoleCyderFrame);
 
-            // stitch images
             ImageIcon combinedIcon = switch (lastSlideDirection) {
-                case LEFT -> ImageUtil.combineImages(oldBack, nextBack, Direction.BOTTOM);
-                case RIGHT -> ImageUtil.combineImages(oldBack, nextBack, Direction.TOP);
-                case TOP -> ImageUtil.combineImages(oldBack, nextBack, Direction.LEFT);
-                case BOTTOM -> ImageUtil.combineImages(oldBack, nextBack, Direction.RIGHT);
+                case LEFT -> ImageUtil.combineImages(oldBack, nextBackground, Direction.BOTTOM);
+                case RIGHT -> ImageUtil.combineImages(oldBack, nextBackground, Direction.TOP);
+                case TOP -> ImageUtil.combineImages(oldBack, nextBackground, Direction.LEFT);
+                case BOTTOM -> ImageUtil.combineImages(oldBack, nextBackground, Direction.RIGHT);
                 default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
             };
 
-            // revalidate bounds for icon label and icon pane
+            // Revalidate bounds for icon label and icon pane
             consoleCyderFrame.refreshBackground();
 
-            // set dimensions
+            // Set dimensions
             switch (lastSlideDirection) {
                 case LEFT ->
                         // will be sliding up
-                        contentPane.setBounds(2, 2,
+                        contentPane.setBounds(CyderFrame.FRAME_RESIZING_LEN, CyderFrame.FRAME_RESIZING_LEN,
                                 combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
                 case RIGHT ->
                         // will be sliding down
-                        contentPane.setBounds(2, -combinedIcon.getIconHeight() / 2,
+                        contentPane.setBounds(CyderFrame.FRAME_RESIZING_LEN, -combinedIcon.getIconHeight() / 2,
                                 combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
                 case TOP ->
                         // will be sliding right
-                        contentPane.setBounds(-combinedIcon.getIconWidth() / 2, 2,
+                        contentPane.setBounds(-combinedIcon.getIconWidth() / 2, CyderFrame.FRAME_RESIZING_LEN,
                                 combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
                 case BOTTOM ->
                         // will be sliding left
-                        contentPane.setBounds(combinedIcon.getIconWidth() / 2, 2,
+                        contentPane.setBounds(combinedIcon.getIconWidth() / 2, CyderFrame.FRAME_RESIZING_LEN,
                                 combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
                 default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
             }
@@ -2518,27 +2497,29 @@ public enum ConsoleFrame {
             // set to combined icon
             contentPane.setIcon(combinedIcon);
 
-            // disable dragging
+            boolean wasDraggable = consoleCyderFrame.isDraggingEnabled();
             consoleCyderFrame.disableDragging();
 
-            // restrict focus
+            boolean outputAreaWasFocusable = outputArea.isFocusable();
             outputArea.setFocusable(false);
 
-            // create and submit job for animation
-            Runnable backgroundSwitcher = () -> {
-                // set delay and increment for the animation
-                int delay = isFullscreen() ? 1 : 5;
-                int increment = isFullscreen() ? 20 : 8;
+            // todo constants package for console?
+            int FULLSCREEN_TIMEOUT = 1;
+            int FULLSCREEN_INCREMENT = 20;
+            int DEFAULT_TIMEOUT = 5;
+            int DEFAULT_INCREMENT = 8;
 
-                // animate the old image away and set last slide direction
+            CyderThreadRunner.submit(() -> {
+                int timeout = isFullscreen() ? FULLSCREEN_TIMEOUT : DEFAULT_TIMEOUT;
+                int increment = isFullscreen() ? FULLSCREEN_INCREMENT : DEFAULT_INCREMENT;
+
                 switch (lastSlideDirection) {
                     case LEFT -> {
-                        // sliding up
+                        // Sliding up
                         for (int i = 0 ; i >= -consoleCyderFrame.getHeight() ; i -= increment) {
                             try {
-                                Thread.sleep(delay);
-                                consoleCyderFrame.getContentPane().setLocation(
-                                        consoleCyderFrame.getContentPane().getX(), i);
+                                Thread.sleep(timeout);
+                                contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
                             } catch (InterruptedException e) {
                                 ExceptionHandler.handle(e);
                             }
@@ -2546,12 +2527,11 @@ public enum ConsoleFrame {
                         lastSlideDirection = Direction.TOP;
                     }
                     case RIGHT -> {
-                        // sliding down
+                        // Sliding down
                         for (int i = -consoleCyderFrame.getHeight() ; i <= 0 ; i += increment) {
                             try {
-                                Thread.sleep(delay);
-                                consoleCyderFrame.getContentPane().setLocation(
-                                        consoleCyderFrame.getContentPane().getX(), i);
+                                Thread.sleep(timeout);
+                                contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
                             } catch (InterruptedException e) {
                                 ExceptionHandler.handle(e);
                             }
@@ -2559,11 +2539,11 @@ public enum ConsoleFrame {
                         lastSlideDirection = Direction.BOTTOM;
                     }
                     case TOP -> {
-                        // sliding right
+                        // Sliding right
                         for (int i = -consoleCyderFrame.getWidth() ; i <= 0 ; i += increment) {
                             try {
-                                Thread.sleep(delay);
-                                consoleCyderFrame.getContentPane().setLocation(i,
+                                Thread.sleep(timeout);
+                                contentPane.setLocation(i,
                                         consoleCyderFrame.getContentPane().getY());
                             } catch (InterruptedException e) {
                                 ExceptionHandler.handle(e);
@@ -2572,12 +2552,11 @@ public enum ConsoleFrame {
                         lastSlideDirection = Direction.RIGHT;
                     }
                     case BOTTOM -> {
-                        // sliding left
+                        // Sliding left
                         for (int i = 0 ; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
                             try {
-                                Thread.sleep(delay);
-                                consoleCyderFrame.getContentPane().setLocation(i,
-                                        consoleCyderFrame.getContentPane().getY());
+                                Thread.sleep(timeout);
+                                contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
                             } catch (InterruptedException e) {
                                 ExceptionHandler.handle(e);
                             }
@@ -2587,36 +2566,28 @@ public enum ConsoleFrame {
                     default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
                 }
 
-                // set the new image since the animation has concluded
                 consoleCyderFrame.setBackground(nextBackFinal);
                 contentPane.setIcon(nextBackFinal);
 
-                // call refresh background on the CyderFrame object
                 consoleCyderFrame.refreshBackground();
                 consoleCyderFrame.getContentPane().revalidate();
 
-                // set new max resizing size
+                // todo use this possibly: refreshConsoleFrameMaxSize();
                 consoleCyderFrame.setMaximumSize(new Dimension(
                         nextBackFinal.getIconWidth(), nextBackFinal.getIconHeight()));
 
-                // enable dragging
-                consoleCyderFrame.enableDragging();
+                consoleCyderFrame.setDraggingEnabled(wasDraggable);
+                outputArea.setFocusable(outputAreaWasFocusable);
 
-                // allow focus
-                outputArea.setFocusable(false);
+                // Revalidate bounds to be safe
+                boolean fullscreen = isFullscreen();
+                revalidate(!fullscreen, fullscreen);
 
-                // revalidate bounds to be safe
-                if (isFullscreen()) {
-                    revalidate(false, true);
-                } else {
-                    revalidate(true, false);
-                }
-
-                // give focus back to original owner
+                // Default focus owner
                 inputField.requestFocus();
-            };
 
-            CyderThreadRunner.submit(backgroundSwitcher, "Background Switcher");
+                backgroundSwitchingLocked.set(false);
+            },"Background Switcher");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -3519,17 +3490,17 @@ public enum ConsoleFrame {
     /**
      * The x,y padding value for title notifications.
      */
-    private static final int padding = 20;
+    private final int padding = 20;
 
     /**
      * An semaphore to ensure only one title notification is ever visible
      */
-    private static final Semaphore titleNotifySemaphore = new Semaphore(1);
+    private final Semaphore titleNotifySemaphore = new Semaphore(1);
 
     /**
      * The label used for title notifications.
      */
-    private static final CyderLabel titleNotifyLabel = new CyderLabel();
+    private final CyderLabel titleNotifyLabel = new CyderLabel();
 
     /**
      * Paints a label with the provided possibly html-formatted string over the
