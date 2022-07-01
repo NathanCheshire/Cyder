@@ -597,11 +597,8 @@ public final class AudioPlayer {
         // todo preferences page should use checkboxes and labels but have checkboxes on the right and labels in the left
         //  align in center with spacing of course
 
-        // todo need a way to start, stop, resume, and reset
-        //  (stop used when audio not playing and then resume from place)
-
         // todo start/stop/pause me
-        audioProgressBarAnimator.setState(AudioProgressBarAnimator.State.RUNNING);
+        audioProgressBarAnimator.setState(AudioProgressBarAnimator.State.STOPPED);
 
         audioLocationSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioLocationSlider.setMinorTickSpacing(1);
@@ -1761,6 +1758,7 @@ public final class AudioPlayer {
         }
     }
 
+    // todo this might freeze the ui thread for some reason and I still don't know why
     /**
      * A call back for InnerAudioPlayers to invoke when they are killed.
      */
@@ -1897,10 +1895,11 @@ public final class AudioPlayer {
 
         currentAudioFile.set(getValidAudioFiles().get(lastIndex));
 
-        revalidateFromAudioFileChange();
-
         innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
         audioLocationUpdater.update(false);
+        audioLocationSliderUi.resetAnimation();
+
+        revalidateFromAudioFileChange();
 
         if (shouldPlay) {
             playAudio();
@@ -1933,6 +1932,7 @@ public final class AudioPlayer {
 
         currentAudioFile.set(getValidAudioFiles().get(nextIndex));
         innerAudioPlayer = new InnerAudioPlayer(currentAudioFile.get());
+        audioLocationSliderUi.resetAnimation();
 
         revalidateFromAudioFileChange();
 

@@ -1,0 +1,133 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[19-19-43] [ENTRY]: Nathan
+[19-19-43] [DEBUG]: Found prop file: props\propkeys.ini
+[19-19-43] [DEBUG]: Found prop file: props\props.ini
+[19-19-43] [PROP LOADED]: [key = map_quest_api_key]
+[19-19-43] [PROP LOADED]: [key = youtube_api_3_key]
+[19-19-43] [PROP LOADED]: [key = ip_key]
+[19-19-43] [PROP LOADED]: [key = weather_key]
+[19-19-43] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[19-19-43] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7ca733d0a7f6]
+[19-19-43] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[19-19-43] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[19-19-43] [PROP LOADED]: [key = font_metric, value = 1]
+[19-19-43] [PROP LOADED]: [key = released, value = false]
+[19-19-43] [PROP LOADED]: [key = version, value = Liminal]
+[19-19-43] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[19-19-43] [PROP LOADED]: [key = components_relocatable, value = false]
+[19-19-43] [PROP LOADED]: [key = testing_mode, value = true]
+[19-19-43] [PROP LOADED]: [key = autocypher, value = true]
+[19-19-43] [PROP LOADED]: [key = dispose_splash, value = true]
+[19-19-43] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[19-19-43] [PROP LOADED]: [key = activate_watchdog, value = false]
+[19-19-43] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[19-19-43] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[19-19-43] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[19-19-43] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[19-19-43] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[19-19-43] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[19-19-43] [THREAD STARTED]: Object Creation Logger
+[19-19-43] [DEBUG]: Watchdog skipped
+[19-19-43] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.RegisterFonts
+[19-19-44] [FONT LOADED]: agency-fb
+[19-19-44] [FONT LOADED]: arial-black
+[19-19-44] [FONT LOADED]: beyno
+[19-19-44] [FONT LOADED]: condiment-regular
+[19-19-44] [FONT LOADED]: prompt-bold
+[19-19-44] [FONT LOADED]: segoe-ui-black
+[19-19-44] [FONT LOADED]: tahoma
+[19-19-44] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.SingularInstance
+[19-19-44] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-19-44] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.SufficientSubroutines
+[19-19-44] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.SupportedOs
+[19-19-44] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.Validations
+[19-19-44] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-19-45] [DEBUG]: Class annotated with @Vanilla does not end with Widget; name: cyder.games.HangmanGame
+[19-19-45] [DEBUG]: Class annotated with @Vanilla does not end with Widget; name: cyder.games.TTTGame
+[19-19-45] [THREAD STARTED]: Splash Loader
+[19-19-45] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.RegisterFonts
+[19-19-45] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.SingularInstance
+[19-19-45] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.SufficientSubroutines
+[19-19-45] [THREAD STARTED]: JVM Args Logger
+[19-19-45] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.SupportedOs
+[19-19-45] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.Validations
+[19-19-45] [LOGIN]: AutoCypher Attempt
+[19-19-45] [THREAD STARTED]: Splash Animation
+[19-19-45] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[19-19-45] [DEBUG]: Cyder Entry = AutoCypher
+[19-19-46] [OBJECT CREATION]: Objects created since last delta (5000ms): 95
+[19-19-46] [THREAD STARTED]: Console Printing Animation
+[19-19-46] [THREAD STARTED]: Hourly Chime Checker
+[19-19-46] [THREAD STARTED]: Console Clock Updater
+[19-19-46] [THREAD STARTED]: Cyder Busy Checker
+[19-19-46] [THREAD STARTED]: ConsoleFrame Stat Saver
+[19-19-46] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-19-46] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-19-46] [THREAD STARTED]: High Ping Checker
+[19-19-46] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[19-19-46] [CONSOLE OUT]: [STRING]: Console loaded in 3731ms
+[19-19-46] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[19-19-46] [THREAD STARTED]: Manual Tests Thread
+[19-19-47] [DEBUG]: Attempted to log a new or empty line
+[19-19-48] [THREAD STARTED]: Splash Loading Label Updater
+[19-19-48] [CLIENT]: mp3
+[19-19-48] [CONSOLE OUT]: [STRING]: Opening widget: AudioPlayer
+[19-19-48] [THREAD STARTED]: Cash Cash - How To Love feat. Sofia Reyes (Boombox Cartel Remix) [Official Audio] Progress
+           Label Thread
+[19-19-48] [THREAD STARTED]: Audio Progress Label Animator
+[19-19-48] [THREAD STARTED]: Scrolling title label animator [Cash cash - how to love feat. sofia reyes (boombox cartel
+           remix) [official audio]]
+[19-19-48] [THREAD STARTED]: [Cash cash - how to love feat. sofia reyes (boombox cartel remix) [official audio]] finalizeAndShow()
+[19-19-48] [WIDGET]: AudioPlayer, trigger = mp3
+[19-19-48] [DEBUG]: Attempted to log a new or empty line
+[19-19-49] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[19-19-49] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1656634756697.json
+[19-19-51] [OBJECT CREATION]: Objects created since last delta (5000ms): 39
+[19-19-57] [THREAD STARTED]: AudioPlayer Play Audio Thread [Cash Cash - How To Love feat. Sofia Reyes (Boombox Cartel
+           Remix) [Official Audio]]
+[19-19-57] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@5c08bf50
+[19-19-59] [THREAD STARTED]: AudioPlayer Play Audio Thread [Cash Cash - How To Love feat. Sofia Reyes (Boombox Cartel
+           Remix) [Official Audio]]
+[19-19-59] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@5c08bf50
+[19-20-04] [THREAD STARTED]: AudioPlayer Play Audio Thread [Cash Cash - How To Love feat. Sofia Reyes (Boombox Cartel
+           Remix) [Official Audio]]
+[19-20-04] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@5c08bf50
+[19-20-22] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-20-22] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[19-20-22] [EXIT]: [RUNTIME] 39s
+[19-20-22] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown
