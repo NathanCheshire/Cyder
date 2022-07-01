@@ -306,8 +306,6 @@ public class CyderSliderUi extends BasicSliderUI {
         g2d.setStroke(sliderStroke);
         g2d.setPaint(rightThumbColor);
 
-        // TODO: this won't work for vertical sliders but I'm not sure
-        //  I've seen a ui recently that uses horizontal sliders
         if (slider.getOrientation() == SwingConstants.HORIZONTAL) {
             if (animationStart.get() == Integer.MIN_VALUE) {
                 animationStart.set(trackRect.x - animationLen);
@@ -322,8 +320,6 @@ public class CyderSliderUi extends BasicSliderUI {
             g2d.drawLine(rightXStart, y, rightXEnd, y);
 
             int leftXStart = thumbRect.width / 2 - trackRect.x;
-            int upperX = thumbRect.x + (thumbRect.width / 2) - trackRect.x
-                    - (thumbShape == ThumbShape.HOLLOW_CIRCLE ? 10 : 0);
             int yAdd = 2;
             int cy = (trackRect.height / 2) - yAdd;
 
@@ -335,17 +331,26 @@ public class CyderSliderUi extends BasicSliderUI {
             g2d.drawLine(leftXStart, yAdd, leftXStart + animationStart.get(), yAdd);
             // animation segment
             g2d.setColor(CyderColors.regularPink);
-            int animationSegmentEnd = Math.min(animationStart.get() + animationLen, upperX);
+            int animationSegmentEnd = Math.min(animationStart.get() + animationLen, getThumbCenterX());
             g2d.drawLine(animationStart.get(), yAdd, animationSegmentEnd, yAdd);
             // ending segment
             g2d.setColor(leftThumbColor);
-            g2d.drawLine(animationSegmentEnd, yAdd, upperX, yAdd);
+            g2d.drawLine(animationSegmentEnd, yAdd, getThumbCenterX(), yAdd);
 
             // Translate back so thumb is painted in correct spot
             g2d.translate(-trackRect.x, -(trackRect.y + cy));
         }
 
         g2d.setStroke(old);
+    }
+
+    /**
+     * Returns the relative x value of the thumb's center x value.
+     *
+     * @return the relative x value of the thumb's center x value
+     */
+    public int getThumbCenterX() {
+        return thumbRect.x + (thumbRect.width / 2) - trackRect.x - (thumbShape == ThumbShape.HOLLOW_CIRCLE ? 10 : 0);
     }
 
     /**
@@ -359,18 +364,23 @@ public class CyderSliderUi extends BasicSliderUI {
             return;
         }
 
-        int upperX = thumbRect.x + (thumbRect.width / 2) - trackRect.x
-                - (thumbShape == ThumbShape.HOLLOW_CIRCLE ? 10 : 0);
 
         if (animationStart.get() == Integer.MIN_VALUE) {
             animationStart.set(trackRect.x - animationLen);
         }
 
-        if (animationStart.get() + 1 > upperX) {
+        if (animationStart.get() + 1 > getThumbCenterX()) {
             animationStart.set(trackRect.x - animationLen);
         } else {
             animationStart.getAndIncrement();
         }
+    }
+
+    /**
+     * Resets the animation start value to the reset value.
+     */
+    public void resetAnimation() {
+        animationStart.set(trackRect.x - animationLen);
     }
 
     /**

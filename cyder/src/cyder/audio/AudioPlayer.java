@@ -413,6 +413,12 @@ public final class AudioPlayer {
     private static InnerAudioPlayer innerAudioPlayer;
 
     /**
+     * The audio progress bar animation controller.
+     */
+    private static final AudioProgressBarAnimator audioProgressBarAnimator
+            = new AudioProgressBarAnimator(audioLocationSlider, audioLocationSliderUi);
+
+    /**
      * Suppress default constructor.
      */
     private AudioPlayer() {
@@ -581,17 +587,21 @@ public final class AudioPlayer {
         audioLocationSliderUi.setAnimationEnabled(true);
         audioLocationSliderUi.setAnimationLen(75);
 
-        CyderThreadRunner.submit(() -> {
-            try {
-                while (true) {
-                    audioLocationSliderUi.incrementAnimation();
-                    audioLocationSlider.repaint();
-                    Thread.sleep(2);
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }, "Audio Location Slider Animation Updater");
+        // todo only show the animation if the entire length can fit on the bar
+
+        // todo fix console not appearing on top
+        // todo add back in appear animation for console
+
+        // todo put video demo of new audio player on readme
+
+        // todo preferences page should use checkboxes and labels but have checkboxes on the right and labels in the left
+        //  align in center with spacing of course
+
+        // todo need a way to start, stop, resume, and reset
+        //  (stop used when audio not playing and then resume from place)
+
+        // todo start/stop/pause me
+        audioProgressBarAnimator.setState(AudioProgressBarAnimator.State.RUNNING);
 
         audioLocationSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioLocationSlider.setMinorTickSpacing(1);
@@ -1717,6 +1727,7 @@ public final class AudioPlayer {
                 innerAudioPlayer.play();
                 lastAction = LastAction.Play;
                 audioLocationUpdater.resumeTimer();
+                audioProgressBarAnimator.setState(AudioProgressBarAnimator.State.RUNNING);
             }
             // resume
             else if (lastAction == LastAction.Pause) {
@@ -1725,6 +1736,7 @@ public final class AudioPlayer {
                 innerAudioPlayer.setLocation(pauseLocation);
                 innerAudioPlayer.play();
                 audioLocationUpdater.resumeTimer();
+                audioProgressBarAnimator.setState(AudioProgressBarAnimator.State.RUNNING);
             }
             // spin off object
             else if (innerAudioPlayer == null) {
@@ -1732,12 +1744,14 @@ public final class AudioPlayer {
                 lastAction = LastAction.Play;
                 innerAudioPlayer.play();
                 audioLocationUpdater.resumeTimer();
+                audioProgressBarAnimator.setState(AudioProgressBarAnimator.State.RUNNING);
             }
             // standard play
             else {
                 lastAction = LastAction.Play;
                 innerAudioPlayer.play();
                 audioLocationUpdater.resumeTimer();
+                audioProgressBarAnimator.setState(AudioProgressBarAnimator.State.RUNNING);
             }
 
             pauseLocation = UNKNOWN_PAUSE_LOCATION;
@@ -1830,6 +1844,7 @@ public final class AudioPlayer {
         if (innerAudioPlayer != null) {
             audioTotalLength = innerAudioPlayer.getTotalAudioLength();
             pauseLocationMillis = innerAudioPlayer.getMillisecondsIn();
+            audioProgressBarAnimator.setState(AudioProgressBarAnimator.State.PAUSED);
             pauseLocation = innerAudioPlayer.kill();
             innerAudioPlayer = null;
             lastAction = LastAction.Pause;
