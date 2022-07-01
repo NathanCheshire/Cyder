@@ -47,8 +47,12 @@ Some examples of what you can do with Cyder include:
 
 <details>
 <summary><b>Music Widget</b></summary>
+<p>
 <br>
-<img src="https://user-images.githubusercontent.com/60986919/170841148-997aefce-6e8f-4423-9e44-94e4539c3441.png" alt="Music" width="400">
+
+https://user-images.githubusercontent.com/60986919/176815977-b50fb247-7ae8-4f6f-acc6-c4198502407c.mp4
+
+</p>
 </details>
 
 <details>
