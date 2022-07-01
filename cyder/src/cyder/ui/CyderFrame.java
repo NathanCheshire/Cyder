@@ -3401,6 +3401,16 @@ public class CyderFrame extends JFrame {
     private static final int FINALIZE_AND_SHOW_DELAY = 2500;
 
     /**
+     * The increment between y values for the enter animation.
+     */
+    private static final int ENTER_ANIMATION_INC = 20;
+
+    /**
+     * The delay in nanoseconds between enter animation increments.
+     */
+    private static final int ENTER_ANIMATION_DELAY = 150;
+
+    /**
      * Sets the frame's location relative to the dominant frame,
      * the visibility to true, and sets always on top mode to true
      * temporarily to ensure the frame is placed on top of other possible frames.
@@ -3417,51 +3427,53 @@ public class CyderFrame extends JFrame {
      * @param enterAnimation whether to perform an enter animation on the frame
      */
     public void finalizeAndShow(boolean enterAnimation) {
-        boolean wasOnTop = isAlwaysOnTop();
-        setAlwaysOnTop(true);
+        CyderThreadRunner.submit(() -> {
+            boolean wasOnTop = isAlwaysOnTop();
+            setAlwaysOnTop(true);
 
-        if (enterAnimation) {
-            CyderFrame dominantFrame = getDominantFrame();
+            if (enterAnimation) {
+                CyderFrame dominantFrame = getDominantFrame();
 
-            if (dominantFrame == null) {
-                setLocation(ScreenUtil.getScreenWidth() / 2 - getWidth() / 2, -getHeight());
-            } else {
-                setLocation(dominantFrame.getX() + dominantFrame.getWidth() / 2 - getWidth() / 2, -getHeight());
-            }
-
-            setVisible(true);
-
-            int toY;
-            if (dominantFrame == null) {
-                toY = ScreenUtil.getScreenHeight() / 2 - getHeight() / 2;
-            } else {
-                toY = dominantFrame.getY() + dominantFrame.getHeight() / 2 - getHeight() / 2;
-            }
-
-            for (int i = -getHeight() ; i < toY ; i += 20) {
-                setLocation(getX(), i);
-                ThreadUtil.sleep(0, 150);
-            }
-
-            setLocationRelativeTo(dominantFrame);
-        } else {
-            setLocationRelativeTo(getDominantFrame());
-            setVisible(true);
-        }
-
-        if (!wasOnTop) {
-            CyderThreadRunner.submit(() -> {
-                try {
-                    Thread.sleep(FINALIZE_AND_SHOW_DELAY);
-
-                    if (!pinned) {
-                        setAlwaysOnTop(false);
-                    }
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
+                if (dominantFrame == null) {
+                    setLocation(ScreenUtil.getScreenWidth() / 2 - getWidth() / 2, -getHeight());
+                } else {
+                    setLocation(dominantFrame.getX() + dominantFrame.getWidth() / 2 - getWidth() / 2, -getHeight());
                 }
-            }, "[" + getTitle() + "] finalizeAndShow()");
-        }
+
+                setVisible(true);
+
+                int toY;
+                if (dominantFrame == null) {
+                    toY = ScreenUtil.getScreenHeight() / 2 - getHeight() / 2;
+                } else {
+                    toY = dominantFrame.getY() + dominantFrame.getHeight() / 2 - getHeight() / 2;
+                }
+
+                for (int i = -getHeight() ; i < toY ; i += ENTER_ANIMATION_INC) {
+                    setLocation(getX(), i);
+                    ThreadUtil.sleep(0, ENTER_ANIMATION_DELAY);
+                }
+
+                setLocationRelativeTo(dominantFrame);
+            } else {
+                setLocationRelativeTo(getDominantFrame());
+                setVisible(true);
+            }
+
+            if (!wasOnTop) {
+                CyderThreadRunner.submit(() -> {
+                    try {
+                        Thread.sleep(FINALIZE_AND_SHOW_DELAY);
+
+                        if (!pinned) {
+                            setAlwaysOnTop(false);
+                        }
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
+                }, "[" + getTitle() + "] finalizeAndShow()");
+            }
+        }, "Enter animation, frame=" + getTitle());
     }
 
     /**

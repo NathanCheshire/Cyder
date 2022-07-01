@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;
 
@@ -67,7 +68,7 @@ public class CyderCheckbox extends JLabel {
     /**
      * The side length of checkbox.
      */
-    public static final int sideLength = 50;
+    public int sideLength = 50;
 
     /**
      * The background color of the checkbox.
@@ -304,18 +305,27 @@ public class CyderCheckbox extends JLabel {
                     //thickness of line drawn
                     graphics2D.setStroke(new BasicStroke(5));
 
-                    int cornerOffset = 5;
-                    graphics2D.drawLine(sideLength - borderLen - cornerOffset, borderLen + cornerOffset + yTranslate,
-                            sideLength / 2, sideLength / 2 + yTranslate);
+                    // initial top right corner to center
+                    int cornerOffset = sideLength / 5;
+                    graphics2D.drawLine(
+                            sideLength - borderLen - cornerOffset,
+                            borderLen + cornerOffset + yTranslate,
+                            sideLength / 2,
+                            sideLength / 2 + yTranslate);
 
                     // length from center to bottom most check point
                     int secondaryDip = 5;
-                    graphics2D.drawLine(sideLength / 2, sideLength / 2 + yTranslate,
-                            sideLength / 2 - secondaryDip, sideLength / 2 + secondaryDip + yTranslate);
+                    graphics2D.drawLine(
+                            sideLength / 2,
+                            sideLength / 2 + yTranslate,
+                            sideLength / 2 - secondaryDip,
+                            sideLength / 2 + secondaryDip + yTranslate);
 
                     // length from bottom most part back up
-                    int lengthUp = 9;
-                    graphics2D.drawLine(sideLength / 2 - secondaryDip, sideLength / 2 + secondaryDip + yTranslate,
+                    int lengthUp = 8;
+                    graphics2D.drawLine(
+                            sideLength / 2 - secondaryDip,
+                            sideLength / 2 + secondaryDip + yTranslate,
                             sideLength / 2 - secondaryDip - lengthUp,
                             sideLength / 2 + secondaryDip - lengthUp + yTranslate);
                 }
@@ -437,9 +447,29 @@ public class CyderCheckbox extends JLabel {
     /**
      * {@inheritDoc}
      */
-    @Override // to ensure length is not changed, todo remove when side length needs to change
+    @Override // to ensure length is not changed via get bounds
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, sideLength, sideLength);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override // to ensure same len
+    public void setSize(int width, int height) {
+        Preconditions.checkArgument(width == height);
+        sideLength = width;
+        super.setSize(width, height);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override // to ensure same len
+    public void setSize(Dimension dimension) {
+        Preconditions.checkArgument(dimension.width == dimension.height);
+        sideLength = dimension.width;
+        super.setSize(dimension);
     }
 
     /**

@@ -584,13 +584,7 @@ public final class AudioPlayer {
         audioLocationSliderUi.setAnimationEnabled(true);
         audioLocationSliderUi.setAnimationLen(75);
 
-        // todo fix console not appearing on top
-        // todo add back in appear animation for console
-
         // todo put video demo of new audio player on readme
-
-        // todo preferences page should use checkboxes and labels but have checkboxes
-        //  on the right and labels in the left align in center with spacing of course
 
         audioLocationSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioLocationSlider.setMinorTickSpacing(1);
