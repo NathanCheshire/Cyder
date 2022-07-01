@@ -367,17 +367,24 @@ public final class NumberUtil {
 
     /**
      * The allowable range for font metrics.
+     * These consist of the following and their additions:
+     * <ul>
+     *     <li>{@link java.awt.Font#PLAIN}</li>
+     *     <li>{@link java.awt.Font#BOLD}</li>
+     *     <li>{@link java.awt.Font#ITALIC}</li>
+     * </ul>
      */
-    private static final Range<Integer> fontMetricRange = Range.closed(0, 3);
+    public static final Range<Integer> fontMetricRange = Range.closed(0, 3);
 
     /**
      * Returns whether the provided font metric is within the allowable range,
-     * that of Font.PLAIN, Font.BOLD, Font.ITALIC or a combination.
+     * that of Font.PLAIN, Font.BOLD, Font.ITALIC or a combination of these.
+     * In other words, the provided metric must be contained in {@link #fontMetricRange}.
      *
      * @param metric the font metric
      * @return whether the provided metric is in the allowable bounds
      */
-    public static boolean validateFontMetric(int metric) {
+    public static boolean isValidFontMetric(int metric) {
         return fontMetricRange.contains(metric);
     }
 }

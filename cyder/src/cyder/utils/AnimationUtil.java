@@ -1,6 +1,8 @@
 package cyder.utils;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
+import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -103,6 +105,30 @@ public class AnimationUtil {
     }
 
     /**
+     * Animates the provided component from the starting value to the ending value
+     * using the provided direction, delay, and increment.
+     *
+     * @param direction the direction of animation (to)
+     * @param start the starting value
+     * @param end the ending value
+     * @param delay the delay in ms
+     * @param increment the increment in px
+     * @param component the component
+     */
+    public static void animationComponent(Direction direction, int start, int end,
+                                          int delay, int increment, Component component) {
+        Preconditions.checkNotNull(component);
+
+        switch (direction) {
+            case LEFT -> componentLeft(start, end, delay, increment, component);
+            case RIGHT -> componentRight(start, end, delay, increment, component);
+            case TOP -> componentUp(start, end, delay, increment, component);
+            case BOTTOM -> componentDown(start, end, delay, increment, component);
+            default -> throw new IllegalArgumentException("Invalid direction provided: " + direction);
+        }
+    }
+
+    /**
      * Moves the provided component from the starting value to the
      * ending value by the increment amount, sleeping for the specified millisecond delay
      * in between increments.
@@ -113,7 +139,9 @@ public class AnimationUtil {
      * @param increment the increment value
      * @param comp      the component to move
      */
-    public static void moveComponentUp(int startY, int endY, int delay, int increment, Component comp) {
+    public static void componentUp(int startY, int endY, int delay, int increment, Component comp) {
+        Preconditions.checkNotNull(comp);
+
         if (comp.getY() == startY)
             CyderThreadRunner.submit(() -> {
                 for (int i = startY ; i >= endY ; i -= increment) {
@@ -139,7 +167,9 @@ public class AnimationUtil {
      * @param increment the increment value
      * @param comp      the component to move
      */
-    public static void moveComponentDown(int startY, int stopY, int delay, int increment, Component comp) {
+    public static void componentDown(int startY, int stopY, int delay, int increment, Component comp) {
+        Preconditions.checkNotNull(comp);
+
         if (comp.getY() == startY)
             CyderThreadRunner.submit(() -> {
                 for (int i = startY ; i <= stopY ; i += increment) {
@@ -165,7 +195,9 @@ public class AnimationUtil {
      * @param increment the increment value
      * @param comp      the component to move
      */
-    public static void moveComponentLeft(int startX, int stopX, int delay, int increment, Component comp) {
+    public static void componentLeft(int startX, int stopX, int delay, int increment, Component comp) {
+        Preconditions.checkNotNull(comp);
+
         if (comp.getX() == startX)
             CyderThreadRunner.submit(() -> {
                 for (int i = startX ; i >= stopX ; i -= increment) {
@@ -191,7 +223,9 @@ public class AnimationUtil {
      * @param increment the increment value
      * @param comp      the component to move
      */
-    public static void moveComponentRight(int startX, int stopX, int delay, int increment, Component comp) {
+    public static void componentRight(int startX, int stopX, int delay, int increment, Component comp) {
+        Preconditions.checkNotNull(comp);
+
         if (comp.getX() == startX)
             CyderThreadRunner.submit(() -> {
                 for (int i = startX ; i <= stopX ; i += increment) {

@@ -194,7 +194,7 @@ public final class StatUtil {
         StringBuilder ret = new StringBuilder(
                 "Numbers in order represent: code lines, comment lines, and blank lines respectively\n");
 
-        ImmutableList<File> javaFiles = OSUtil.getFiles(startDir, ".java");
+        ImmutableList<File> javaFiles = FileUtil.getFiles(startDir, ".java");
 
         for (File f : javaFiles) {
             ret.append(f.getName().replace(".java", ""))

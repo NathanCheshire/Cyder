@@ -24,7 +24,6 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Objects;
@@ -445,41 +444,6 @@ public final class OSUtil {
         }
 
         return false;
-    }
-
-    /**
-     * Returns a list of all files contained within the startDir and subdirectories
-     * that have the specified extension.
-     *
-     * @param startDir  the starting directory
-     * @param extension the specified extension. Ex. ".java" (Pass null to ignore file extensions)
-     * @return an ArrayList of all files with the given extension found within the startDir and
-     * subdirectories
-     */
-    public static ImmutableList<File> getFiles(File startDir, String extension) {
-        checkNotNull(startDir);
-        checkArgument(startDir.exists());
-        checkNotNull(extension);
-        checkArgument(!extension.isEmpty());
-
-        // init return set
-        ArrayList<File> ret = new ArrayList<>();
-
-        // should be directory but test anyway
-        if (startDir.isDirectory()) {
-            File[] files = startDir.listFiles();
-
-            if (files == null)
-                return ImmutableList.copyOf(ret);
-
-            for (File f : files)
-                ret.addAll(getFiles(f, extension));
-
-        } else if (FileUtil.getExtension(startDir).equals(extension)) {
-            ret.add(startDir);
-        }
-
-        return ImmutableList.copyOf(ret);
     }
 
     /**

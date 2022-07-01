@@ -10,6 +10,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
@@ -415,5 +416,40 @@ public final class FileUtil {
                 ExceptionHandler.handle(e);
             }
         }
+    }
+
+    /**
+     * Returns a list of all files contained within the startDir and subdirectories
+     * that have the specified extension.
+     *
+     * @param startDir  the starting directory
+     * @param extension the specified extension. Ex. ".java" (Pass null to ignore file extensions)
+     * @return an ArrayList of all files with the given extension found within the startDir and
+     * subdirectories
+     */
+    public static ImmutableList<File> getFiles(File startDir, String extension) {
+        checkNotNull(startDir);
+        checkArgument(startDir.exists());
+        checkNotNull(extension);
+        checkArgument(!extension.isEmpty());
+
+        // init return set
+        ArrayList<File> ret = new ArrayList<>();
+
+        // should be directory but test anyway
+        if (startDir.isDirectory()) {
+            File[] files = startDir.listFiles();
+
+            if (files == null)
+                return ImmutableList.copyOf(ret);
+
+            for (File f : files)
+                ret.addAll(getFiles(f, extension));
+
+        } else if (getExtension(startDir).equals(extension)) {
+            ret.add(startDir);
+        }
+
+        return ImmutableList.copyOf(ret);
     }
 }

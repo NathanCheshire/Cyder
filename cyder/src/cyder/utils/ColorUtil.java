@@ -63,9 +63,10 @@ public class ColorUtil {
     }
 
     /**
-     * The maximum integer value a color can hold in any one of r, g, or b values.
+     * The maximum integer value a color can hold in any one of its red, green,
+     * or blue values (the unsigned 8-bit integer limit).
      */
-    public static final int MAX_COLOR_INT = 255;
+    public static final int BASE_8_LIMIT = 255;
 
     /**
      * Computes and returns the inverse of the provided color.
@@ -78,9 +79,9 @@ public class ColorUtil {
     public static Color getInverseColor(Color color) {
         checkNotNull(color);
 
-        return new Color(MAX_COLOR_INT - color.getRed(),
-                MAX_COLOR_INT - color.getGreen(),
-                MAX_COLOR_INT - color.getBlue());
+        return new Color(BASE_8_LIMIT - color.getRed(),
+                BASE_8_LIMIT - color.getGreen(),
+                BASE_8_LIMIT - color.getBlue());
     }
 
     /**

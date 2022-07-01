@@ -339,7 +339,7 @@ public final class IOUtil {
      * @param file the file to obtain the attributes of
      * @return the DOS attributes of the file
      */
-    public static ImmutableList<DosAttribute> getDOSAttributes(File file) {
+    public static ImmutableList<DosAttribute> getDosAttributes(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
 

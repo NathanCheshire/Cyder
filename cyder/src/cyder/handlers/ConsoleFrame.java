@@ -2084,7 +2084,7 @@ public enum ConsoleFrame {
                 int fontMetric = Integer.parseInt(PropLoader.getString("font_metric"));
                 Font newFont = new Font(fontName, fontMetric, size);
 
-                if (NumberUtil.validateFontMetric(fontMetric)) {
+                if (NumberUtil.isValidFontMetric(fontMetric)) {
                     inputField.setFont(newFont);
                     outputArea.setFont(newFont);
 
@@ -2137,7 +2137,7 @@ public enum ConsoleFrame {
     public Font generateUserFont() {
         int metric = Integer.parseInt(PropLoader.getString("font_metric"));
 
-        if (NumberUtil.validateFontMetric(metric)) {
+        if (NumberUtil.isValidFontMetric(metric)) {
             return new Font(UserUtil.getCyderUser().getFont(), metric,
                     Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
         } else {
