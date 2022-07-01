@@ -24,7 +24,6 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Objects;
@@ -151,7 +150,7 @@ public final class OSUtil {
     static {
         if (isWindows()) {
             OPERATING_SYSTEM = OperatingSystem.WINDOWS;
-        } else if (isOSX()) {
+        } else if (isOsx()) {
             OPERATING_SYSTEM = OperatingSystem.OSX;
         } else if (isUnix()) {
             OPERATING_SYSTEM = OperatingSystem.UNIX;
@@ -204,14 +203,14 @@ public final class OSUtil {
      *
      * @return whether the operating system is OSX
      */
-    public static boolean isOSX() {
+    public static boolean isOsx() {
         return OPERATING_SYSTEM_NAME.toLowerCase().contains("mac");
     }
 
     /**
      * Returns whether the operating system is unix based.
      * (yes this includes OSX systems too. If you need to test for
-     * OSX specifically then call {@link OSUtil#isOSX()})
+     * OSX specifically then call {@link OSUtil#isOsx()})
      *
      * @return whether the operating system is unix based
      */
@@ -299,7 +298,7 @@ public final class OSUtil {
      *
      * @return the username of the operating system user
      */
-    public static String getSystemUsername() {
+    public static String getOsUsername() {
         return System.getProperty("user.name");
     }
 
@@ -448,41 +447,6 @@ public final class OSUtil {
     }
 
     /**
-     * Returns a list of all files contained within the startDir and subdirectories
-     * that have the specified extension.
-     *
-     * @param startDir  the starting directory
-     * @param extension the specified extension. Ex. ".java" (Pass null to ignore file extensions)
-     * @return an ArrayList of all files with the given extension found within the startDir and
-     * subdirectories
-     */
-    public static ArrayList<File> getFiles(File startDir, String extension) {
-        checkNotNull(startDir);
-        checkArgument(startDir.exists());
-        checkNotNull(extension);
-        checkArgument(!extension.isEmpty());
-
-        // init return set
-        ArrayList<File> ret = new ArrayList<>();
-
-        // should be directory but test anyway
-        if (startDir.isDirectory()) {
-            File[] files = startDir.listFiles();
-
-            if (files == null)
-                return ret;
-
-            for (File f : files)
-                ret.addAll(getFiles(f, extension));
-
-        } else if (FileUtil.getExtension(startDir).equals(extension)) {
-            ret.add(startDir);
-        }
-
-        return ret;
-    }
-
-    /**
      * Returns a string representation of all the network devices connected to the host.
      *
      * @return a string representation of all the network devices connected to the host
@@ -615,6 +579,8 @@ public final class OSUtil {
                 deleteFile(currentDynamic);
             }
 
+            // todo check if not created before attempting creation
+            //  if fail throw fatal exception
             createFile(currentDynamic, false);
         }
     }
@@ -668,6 +634,41 @@ public final class OSUtil {
     }
 
     /**
+     * The decimal formatter used to format file byte numbers.
+     */
+    private static final DecimalFormat BYTE_FORMATTER = new DecimalFormat("##.###");
+
+    /**
+     * The amount necessary to turn said many lower units into the next unit up.
+     */
+    public static final float coalesceSpace = 1024.0f;
+
+    /**
+     * The prefix for a terabyte.
+     */
+    public static final String TERABYTE_PREFIX = "TB";
+
+    /**
+     * The prefix for a gigabyte.
+     */
+    public static final String GIGABYTE_PREFIX = "GB";
+
+    /**
+     * The prefix for a megabyte.
+     */
+    public static final String MEGABYTE_PREFIX = "MB";
+
+    /**
+     * The prefix for a kilobyte.
+     */
+    public static final String KILOBYTE_PREFIX = "KB";
+
+    /**
+     * The bytes word.
+     */
+    public static final String BYTES = "bytes";
+
+    /**
      * Formats the provided number of bytes in a human-readable format.
      * Example: passing 1024MB would return 1GB.
      *
@@ -675,10 +676,6 @@ public final class OSUtil {
      * @return a formatted string detailing the number of bytes provided
      */
     public static String formatBytes(float bytes) {
-        DecimalFormat formatter = new DecimalFormat("##.###");
-
-        float coalesceSpace = 1024.0f;
-
         if (bytes >= coalesceSpace) {
             float kilo = bytes / coalesceSpace;
 
@@ -690,14 +687,15 @@ public final class OSUtil {
 
                     if (giga >= coalesceSpace) {
                         float tera = giga / coalesceSpace;
-                        return (formatter.format(tera) + "TB");
+                        return (BYTE_FORMATTER.format(tera) + TERABYTE_PREFIX);
                     } else
-                        return (formatter.format(giga) + "GB");
+                        return (BYTE_FORMATTER.format(giga) + GIGABYTE_PREFIX);
                 } else
-                    return (formatter.format(mega) + "MB");
+                    return (BYTE_FORMATTER.format(mega) + MEGABYTE_PREFIX);
             } else
-                return (formatter.format(kilo) + "KB");
-        } else
-            return (bytes + " bytes");
+                return (BYTE_FORMATTER.format(kilo) + KILOBYTE_PREFIX);
+        } else {
+            return (bytes + " " + bytes);
+        }
     }
 }

@@ -173,11 +173,11 @@ public class GeneralPrintHandler extends InputHandler {
             BletchyThread.bletchy(getInputHandler().argsToString(), false, 50, true);
         } else if (getInputHandler().commandIs("dst")) {
             CyderThreadRunner.submit(() -> {
-                String location = IPUtil.getIpdata().getCity() + ", "
-                        + IPUtil.getIpdata().getRegion() + ", "
-                        + IPUtil.getIpdata().getCountry_name();
+                String location = IPUtil.getIpData().getCity() + ", "
+                        + IPUtil.getIpData().getRegion() + ", "
+                        + IPUtil.getIpData().getCountry_name();
 
-                if (IPUtil.getIpdata().getTime_zone().isIs_dst()) {
+                if (IPUtil.getIpData().getTime_zone().isIs_dst()) {
                     getInputHandler().println("Yes, DST is underway in " + location + ".");
                 } else {
                     getInputHandler().println("No, DST is not underway in " + location + ".");

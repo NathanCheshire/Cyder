@@ -223,6 +223,8 @@ public final class UserUtil {
      * @throws FatalException if the backup directory cannot be created
      */
     public static void backupUserJsonFile(File jsonFile) {
+        Preconditions.checkNotNull(jsonFile);
+
         try {
             // ensure save directory exists
             if (!backupDirectory.exists()) {

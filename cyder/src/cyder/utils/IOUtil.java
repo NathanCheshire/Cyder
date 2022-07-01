@@ -58,12 +58,15 @@ public final class IOUtil {
      * @param filePath the path to the file to open
      */
     public static void openFileOutsideProgram(String filePath) {
-        Desktop OpenFile = Desktop.getDesktop();
+        Preconditions.checkNotNull(filePath);
+        Preconditions.checkArgument(!filePath.isEmpty());
+
+        Desktop desktop = Desktop.getDesktop();
 
         try {
             File FileToOpen = new File(filePath);
             URI FileURI = FileToOpen.toURI();
-            OpenFile.browse(FileURI);
+            desktop.browse(FileURI);
         } catch (Exception e) {
             try {
                 Runtime.getRuntime().exec("explorer.exe /select," + filePath);
@@ -80,6 +83,9 @@ public final class IOUtil {
      * @param fileOrLink the link/file to open
      */
     public static void openOutsideProgram(String fileOrLink) {
+        Preconditions.checkNotNull(fileOrLink);
+        Preconditions.checkArgument(!fileOrLink.isEmpty());
+
         boolean validLink;
 
         try {
@@ -115,6 +121,8 @@ public final class IOUtil {
      * @param cyderArgs command line arguments passed in
      */
     public static void logArgs(ImmutableList<String> cyderArgs) {
+        Preconditions.checkNotNull(cyderArgs);
+
         CyderThreadRunner.submit(() -> {
             try {
                 // build string of all JVM args
@@ -173,6 +181,9 @@ public final class IOUtil {
      * @param filePath the path to the file to open
      */
     public static void openFile(String filePath) {
+        Preconditions.checkNotNull(filePath);
+        Preconditions.checkArgument(!filePath.isEmpty());
+
         // create file object
         File file = new File(filePath);
 
@@ -188,33 +199,23 @@ public final class IOUtil {
             return;
         }
 
-        // in the end, just open it on the host OS
-
-        Desktop OpenFile = Desktop.getDesktop();
-
-        try {
-            OpenFile.browse(file.toURI());
-            Logger.log(Logger.Tag.LINK, file.getAbsoluteFile());
-        } catch (Exception e) {
-            try {
-                Runtime.getRuntime().exec("explorer.exe /select," + filePath);
-            } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
-            }
-        }
+        openFileOutsideProgram(filePath);
     }
 
     /**
      * Plays the requested audio file using the general IOUtil JLayer player which can be terminated by the user.
      *
-     * @param FilePath the path to the audio file to play
+     * @param filePath the path to the audio file to play
      */
-    public static void playAudio(String FilePath) {
+    public static void playGeneralAudio(String filePath) {
+        Preconditions.checkNotNull(filePath);
+        Preconditions.checkArgument(!filePath.isEmpty());
+
         try {
             stopGeneralAudio();
-            FileInputStream FileInputStream = new FileInputStream(FilePath);
+            FileInputStream FileInputStream = new FileInputStream(filePath);
             player = new Player(FileInputStream);
-            Logger.log(Logger.Tag.AUDIO, FilePath);
+            Logger.log(Logger.Tag.AUDIO, filePath);
 
             CyderThreadRunner.submit(() -> {
                 try {
@@ -246,6 +247,9 @@ public final class IOUtil {
      * @param filePath the path to the audio file to play
      */
     public static void playSystemAudio(String filePath) {
+        Preconditions.checkNotNull(filePath);
+        Preconditions.checkArgument(!filePath.isEmpty());
+
         playSystemAudio(filePath, true);
     }
 
@@ -257,9 +261,13 @@ public final class IOUtil {
      * @param log      whether to log the system audio play request
      */
     public static void playSystemAudio(String filePath, boolean log) {
+        Preconditions.checkNotNull(filePath);
+        Preconditions.checkArgument(!filePath.isEmpty());
+
         try {
-            FileInputStream FileInputStream = new FileInputStream(filePath);
-            Player systemPlayer = new Player(FileInputStream);
+            FileInputStream fis = new FileInputStream(filePath);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            Player systemPlayer = new Player(bis);
 
             if (log) {
                 Logger.log(Logger.Tag.AUDIO, "[SYSTEM AUDIO] " + filePath);
@@ -268,6 +276,9 @@ public final class IOUtil {
             CyderThreadRunner.submit(() -> {
                 try {
                     systemPlayer.play();
+                    systemPlayer.close();
+                    FileUtil.closeIfNotNull(fis);
+                    FileUtil.closeIfNotNull(bis);
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
@@ -286,7 +297,6 @@ public final class IOUtil {
             if (player != null && !player.isComplete()) {
                 player.close();
                 player = null;
-                //set to null so that generalAudioPlaying works as intended
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -309,41 +319,19 @@ public final class IOUtil {
     }
 
     /**
-     * Pause audio if playing via AudioPlayer.
+     * Pause audio if playing via AudioPlayer. If general audio is playing then that audio is stopped.
      */
     public static void pauseAudio() {
         if (AudioPlayer.isAudioPlaying()) {
             AudioPlayer.handlePlayPauseButtonClick();
-        } else if (generalAudioPlaying()) {
+        }
+
+        if (generalAudioPlaying()) {
             stopGeneralAudio();
         }
     }
 
-    /**
-     * Changes the current user from console frame's name to the provided name.
-     *
-     * @param newName the new name of the user
-     */
-    public static void changeUsername(String newName) {
-        Preconditions.checkNotNull(newName);
-        Preconditions.checkArgument(!newName.isEmpty());
-        UserUtil.getCyderUser().setName(newName);
-    }
-
-    /**
-     * Changes the current user from console frame's password to the provided password.
-     *
-     * @param newPassword the raw char[] new password to hash and store
-     */
-    public static void changePassword(char[] newPassword) {
-        Preconditions.checkNotNull(newPassword);
-        Preconditions.checkArgument(newPassword.length > 0);
-        UserUtil.getCyderUser().setPass(SecurityUtil.toHexString(SecurityUtil.getSHA256(
-                SecurityUtil.toHexString(SecurityUtil.getSHA256(newPassword)).toCharArray())));
-    }
-
-    private static record DosAttribute(String name, String value) {
-    }
+    private record DosAttribute(String name, String value) { }
 
     /**
      * Gets DOS attributes of the provided file.
@@ -351,7 +339,10 @@ public final class IOUtil {
      * @param file the file to obtain the attributes of
      * @return the DOS attributes of the file
      */
-    public static ImmutableList<DosAttribute> getDOSAttributes(File file) {
+    public static ImmutableList<DosAttribute> getDosAttributes(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+
         try {
             DosFileAttributes attr = Files.readAttributes(Paths.get(file.getPath()), DosFileAttributes.class);
             return ImmutableList.of(
@@ -375,13 +366,16 @@ public final class IOUtil {
     /**
      * Returns the size of the provided file in bytes.
      *
-     * @param f the file to calculate the size of
+     * @param file the file to calculate the size of
      * @return the size in bytes of the file
      */
-    public static long getFileSize(File f) {
+    public static long getFileSize(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+
         long ret = 0;
         try {
-            ret = Files.readAttributes(Paths.get(f.getPath()), DosFileAttributes.class).size();
+            ret = Files.readAttributes(Paths.get(file.getPath()), DosFileAttributes.class).size();
         } catch (IOException e) {
             ExceptionHandler.handle(e);
         }
@@ -392,19 +386,18 @@ public final class IOUtil {
     /**
      * Returns a binary string for the provided binary file.
      *
-     * @param f the binary file of pure binary contents
+     * @param file the binary file of pure binary contents
      * @return the String of binary data from the file
      */
-    public static String getBinaryString(File f) {
-        if (!f.exists())
-            throw new IllegalArgumentException("bin does not exist");
-        if (!FileUtil.getExtension(f).equalsIgnoreCase(".bin"))
-            throw new IllegalArgumentException("File is not a binary");
+    public static String getBinaryString(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(".bin"));
 
         String ret = null;
 
         try {
-            BufferedReader fis = new BufferedReader(new FileReader(f));
+            BufferedReader fis = new BufferedReader(new FileReader(file));
             String stringBytes = fis.readLine();
             fis.close();
             ret = stringBytes;
@@ -419,19 +412,18 @@ public final class IOUtil {
     /**
      * Returns a hex string for the provided binary file.
      *
-     * @param f the binary file of pure binary contents
+     * @param file the binary file of pure binary contents
      * @return the String of hex data from the file
      */
-    public static String getHexString(File f) {
-        if (!f.exists())
-            throw new IllegalArgumentException("bin does not exist");
-        if (!FileUtil.getExtension(f).equalsIgnoreCase(".bin"))
-            throw new IllegalArgumentException("File is not a binary");
+    public static String getHexString(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(".bin"));
 
         String ret = null;
 
         try {
-            BufferedReader fis = new BufferedReader(new FileReader(f));
+            BufferedReader fis = new BufferedReader(new FileReader(file));
             String[] stringBytes = fis.readLine().split("(?<=\\G........)");
             StringBuilder sb = new StringBuilder();
 

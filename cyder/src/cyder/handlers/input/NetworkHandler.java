@@ -86,7 +86,7 @@ public class NetworkHandler extends InputHandler {
             if (getInputHandler().checkArgsLength(1)) {
                 if (NetworkUtil.isValidUrl(getInputHandler().getArg(0))) {
                     String responseName = NetworkUtil.getUrlTitle(getInputHandler().getArg(0));
-                    String saveName = SecurityUtil.generateUUID();
+                    String saveName = SecurityUtil.generateUuid();
 
                     if (responseName != null) {
                         if (!responseName.isEmpty()) {

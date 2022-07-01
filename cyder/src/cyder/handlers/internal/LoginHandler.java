@@ -77,7 +77,7 @@ public final class LoginHandler {
      * The string at the beginning of the input field.
      */
     private static final String defaultBashString =
-            OSUtil.getSystemUsername() + "@" + OSUtil.getComputerName() + ":~$ ";
+            OSUtil.getOsUsername() + "@" + OSUtil.getComputerName() + ":~$ ";
 
     /**
      * The BashString currently being used.

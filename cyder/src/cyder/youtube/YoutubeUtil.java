@@ -206,7 +206,7 @@ public final class YoutubeUtil {
 
         // if for some reason title was only periods and all were removed, assign a random title
         if (parsedAsciiSaveName.isEmpty()) {
-            parsedAsciiSaveName = SecurityUtil.generateUUID();
+            parsedAsciiSaveName = SecurityUtil.generateUuid();
         }
 
         File albumArtDir = OSUtil.buildFile(

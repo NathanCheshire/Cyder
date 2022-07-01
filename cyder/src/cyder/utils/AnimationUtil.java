@@ -1,6 +1,8 @@
 package cyder.utils;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
+import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -10,7 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Utilities revolving around animations, typically using threads.
+ * Utilities to animate components.
  */
 public final class AnimationUtil {
     /**
@@ -19,6 +21,17 @@ public final class AnimationUtil {
     private AnimationUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
+
+    /**
+     * The amount of nanoseconds to sleep by when performing a close
+     * animation on a {@link Frame} via {@link #closeAnimation(Frame)}.
+     */
+    public static final int CLOSE_ANIMATION_NANO_TIMEOUT = 500;
+
+    /**
+     * The amount of display pixels to decrement by when performing a close animation.
+     */
+    public static final int CLOSE_ANIMATION_INC = 15;
 
     /**
      * Moves the specified frame object up until it is no longer visible then invokes dispose
@@ -36,8 +49,8 @@ public final class AnimationUtil {
                 int x = (int) point.getX();
                 int y = (int) point.getY();
 
-                for (int i = y ; i >= -frame.getHeight() ; i -= 15) {
-                    Thread.sleep(0, 500);
+                for (int i = y ; i >= -frame.getHeight() ; i -= CLOSE_ANIMATION_INC) {
+                    Thread.sleep(0, CLOSE_ANIMATION_NANO_TIMEOUT);
                     frame.setLocation(x, i);
                 }
 
@@ -49,8 +62,20 @@ public final class AnimationUtil {
     }
 
     /**
-     * Moves the specified cyderFrame object down until it is no longer visible then sets the cyderFrame's state
-     * to Frame.ICONIFIED. This method works for anything that inherits from JFrame
+     * The amount of nanoseconds to sleep by when performing a minimize
+     * animation on a {@link CyderFrame} via {@link #minimizeAnimation(CyderFrame)}.
+     */
+    public static final int MINIMIZE_ANIMATION_NANO_TIMEOUT = 250;
+
+    /**
+     * The amount of display pixels to increment by when performing a minimize animation.
+     */
+    public static final int MINIMIZE_ANIMATION_INC = 15;
+
+    /**
+     * Moves the specified cyderFrame object down until it is no longer
+     * visible then sets the cyderFrame's state to Frame.ICONIFIED.
+     * This method works for anything that inherits from JFrame
      *
      * @param cyderFrame the CyderFrame object to minimize and iconify
      */
@@ -64,8 +89,8 @@ public final class AnimationUtil {
         int y = (int) point.getY();
 
         try {
-            for (int i = y ; i <= ScreenUtil.getScreenHeight() ; i += 15) {
-                Thread.sleep(0, 250);
+            for (int i = y ; i <= ScreenUtil.getScreenHeight() ; i += MINIMIZE_ANIMATION_INC) {
+                Thread.sleep(0, MINIMIZE_ANIMATION_NANO_TIMEOUT);
                 cyderFrame.setLocation(x, i);
             }
 
@@ -80,18 +105,46 @@ public final class AnimationUtil {
     }
 
     /**
-     * Master method to animate any component up in a separate thread
+     * Animates the provided component from the starting value to the ending value
+     * using the provided direction, delay, and increment.
      *
-     * @param start     the starting y value
-     * @param stop      the ending y value
+     * @param direction the direction of animation (to)
+     * @param start the starting value
+     * @param end the ending value
+     * @param delay the delay in ms
+     * @param increment the increment in px
+     * @param component the component
+     */
+    public static void animationComponent(Direction direction, int start, int end,
+                                          int delay, int increment, Component component) {
+        Preconditions.checkNotNull(component);
+
+        switch (direction) {
+            case LEFT -> componentLeft(start, end, delay, increment, component);
+            case RIGHT -> componentRight(start, end, delay, increment, component);
+            case TOP -> componentUp(start, end, delay, increment, component);
+            case BOTTOM -> componentDown(start, end, delay, increment, component);
+            default -> throw new IllegalArgumentException("Invalid direction provided: " + direction);
+        }
+    }
+
+    /**
+     * Moves the provided component from the starting value to the
+     * ending value by the increment amount, sleeping for the specified millisecond delay
+     * in between increments.
+     *
+     * @param startY     the starting y value
+     * @param endY      the ending y value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
      * @param comp      the component to move
      */
-    public static void componentUpSepThread(int start, int stop, int delay, int increment, Component comp) {
-        if (comp.getY() == start)
+    public static void componentUp(int startY, int endY, int delay, int increment, Component comp) {
+        Preconditions.checkNotNull(comp);
+
+        if (comp.getY() == startY)
             CyderThreadRunner.submit(() -> {
-                for (int i = start ; i >= stop ; i -= increment) {
+                for (int i = startY ; i >= endY ; i -= increment) {
                     try {
                         Thread.sleep(delay);
                         comp.setLocation(comp.getX(), i);
@@ -99,23 +152,27 @@ public final class AnimationUtil {
                         ExceptionHandler.handle(e);
                     }
                 }
-                comp.setLocation(comp.getX(), stop);
-            }, "component up thread");
+                comp.setLocation(comp.getX(), endY);
+            }, "Component Up Animator, comp=" + comp);
     }
 
     /**
-     * Master method to animate any component down in a separate thread
+     * Moves the provided component from the starting value to the
+     * ending value by the increment amount, sleeping for the specified millisecond delay
+     * in between increments.
      *
-     * @param start     the starting y value
-     * @param stop      the ending y value
+     * @param startY     the starting y value
+     * @param stopY      the ending y value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
      * @param comp      the component to move
      */
-    public static void componentDownSepThread(int start, int stop, int delay, int increment, Component comp) {
-        if (comp.getY() == start)
+    public static void componentDown(int startY, int stopY, int delay, int increment, Component comp) {
+        Preconditions.checkNotNull(comp);
+
+        if (comp.getY() == startY)
             CyderThreadRunner.submit(() -> {
-                for (int i = start ; i <= stop ; i += increment) {
+                for (int i = startY ; i <= stopY ; i += increment) {
                     try {
                         Thread.sleep(delay);
                         comp.setLocation(comp.getX(), i);
@@ -123,23 +180,27 @@ public final class AnimationUtil {
                         ExceptionHandler.handle(e);
                     }
                 }
-                comp.setLocation(comp.getX(), stop);
-            }, "component down thread");
+                comp.setLocation(comp.getX(), stopY);
+            }, "Component Down Animator, comp=" + comp);
     }
 
     /**
-     * Master method to animate any component left in a separate thread
+     * Moves the provided component from the starting value to the
+     * ending value by the increment amount, sleeping for the specified millisecond delay
+     * in between increments.
      *
-     * @param start     the starting x value
-     * @param stop      the ending x value
+     * @param startX     the starting x value
+     * @param stopX      the ending x value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
      * @param comp      the component to move
      */
-    public static void componentLeftSepThread(int start, int stop, int delay, int increment, Component comp) {
-        if (comp.getX() == start)
+    public static void componentLeft(int startX, int stopX, int delay, int increment, Component comp) {
+        Preconditions.checkNotNull(comp);
+
+        if (comp.getX() == startX)
             CyderThreadRunner.submit(() -> {
-                for (int i = start ; i >= stop ; i -= increment) {
+                for (int i = startX ; i >= stopX ; i -= increment) {
                     try {
                         Thread.sleep(delay);
                         comp.setLocation(i, comp.getY());
@@ -147,23 +208,27 @@ public final class AnimationUtil {
                         ExceptionHandler.handle(e);
                     }
                 }
-                comp.setLocation(stop, comp.getY());
-            }, "component left thread");
+                comp.setLocation(stopX, comp.getY());
+            }, "Component Left Animator, comp=" + comp);
     }
 
     /**
-     * Master method to animate any component right in a separate thread
+     * Moves the provided component from the starting value to the
+     * ending value by the increment amount, sleeping for the specified millisecond delay
+     * in between increments.
      *
-     * @param start     the starting x value
-     * @param stop      the ending x value
+     * @param startX     the starting x value
+     * @param stopX      the ending x value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
      * @param comp      the component to move
      */
-    public static void componentRightSepThread(int start, int stop, int delay, int increment, Component comp) {
-        if (comp.getX() == start)
+    public static void componentRight(int startX, int stopX, int delay, int increment, Component comp) {
+        Preconditions.checkNotNull(comp);
+
+        if (comp.getX() == startX)
             CyderThreadRunner.submit(() -> {
-                for (int i = start ; i <= stop ; i += increment) {
+                for (int i = startX ; i <= stopX ; i += increment) {
                     try {
                         Thread.sleep(delay);
                         comp.setLocation(i, comp.getY());
@@ -171,7 +236,7 @@ public final class AnimationUtil {
                         ExceptionHandler.handle(e);
                     }
                 }
-                comp.setLocation(stop, comp.getY());
-            }, "component right thread");
+                comp.setLocation(stopX, comp.getY());
+            }, "Component Right Animator, comp=" + comp);
     }
 }

@@ -151,14 +151,14 @@ public class CyderSwitch extends JLabel {
             case ON -> {
                 switchButton.setText(onText);
                 if (shouldAnimate)
-                    AnimationUtil.componentRightSepThread(switchButton.getX(), width - switchButton.getWidth() - 10,
+                    AnimationUtil.componentRight(switchButton.getX(), width - switchButton.getWidth() - 10,
                             animationDelay, 8, switchButton);
                 switchButton.setLocation(width - switchButton.getWidth() - 10, switchButton.getY());
             }
             case OFF -> {
                 switchButton.setText(offText);
                 if (shouldAnimate)
-                    AnimationUtil.componentLeftSepThread(switchButton.getX(), 10, animationDelay, 8, switchButton);
+                    AnimationUtil.componentLeft(switchButton.getX(), 10, animationDelay, 8, switchButton);
                 switchButton.setLocation(10, switchButton.getY());
             }
             case INDETERMINATE -> {
@@ -166,14 +166,14 @@ public class CyderSwitch extends JLabel {
                 if (switchButton.getX() > 10) {
                     if (shouldAnimate) {
                         switchButton.setLocation(width - switchButton.getWidth() - 10, 10);
-                        AnimationUtil.componentLeftSepThread(switchButton.getX(),
+                        AnimationUtil.componentLeft(switchButton.getX(),
                                 width / 2 - switchButton.getWidth() / 2, animationDelay, 8, switchButton);
                     }
                     switchButton.setLocation(width / 2 - switchButton.getWidth() / 2, 10);
                 } else {
                     if (shouldAnimate) {
                         switchButton.setLocation(10, 10);
-                        AnimationUtil.componentRightSepThread(10, width / 2 - switchButton.getWidth() / 2,
+                        AnimationUtil.componentRight(10, width / 2 - switchButton.getWidth() / 2,
                                 animationDelay, 8, switchButton);
                     }
                     switchButton.setLocation(10, 10);
@@ -370,6 +370,6 @@ public class CyderSwitch extends JLabel {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderUIReflection(this);
+        return ReflectionUtil.commonCyderUiToString(this);
     }
 }

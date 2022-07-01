@@ -367,7 +367,7 @@ public class YoutubeDownload {
 
         // if for some reason this case happens, account for it
         if (parsedSaveName.get().isEmpty()) {
-            parsedSaveName.set(SecurityUtil.generateUUID());
+            parsedSaveName.set(SecurityUtil.generateUuid());
         }
 
         String[] command = {

@@ -140,7 +140,7 @@ public final class StatUtil {
             InetAddress address = InetAddress.getLocalHost();
             NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
 
-            BufferedImage flag = ImageIO.read(new URL(IPUtil.getIpdata().getFlag()));
+            BufferedImage flag = ImageIO.read(new URL(IPUtil.getIpData().getFlag()));
 
             double x = flag.getWidth();
             double y = flag.getHeight();
@@ -150,21 +150,21 @@ public final class StatUtil {
             return new DebugStats(
                     ImmutableList.of(
                             "Time requested: " + TimeUtil.weatherTime(),
-                            "ISP: " + IPUtil.getIpdata().getAsn().getName(),
-                            "IP: " + IPUtil.getIpdata().getIp(),
-                            "Postal Code: " + IPUtil.getIpdata().getPostal(),
-                            "City: " + IPUtil.getIpdata().getCity(),
-                            "State: " + IPUtil.getIpdata().getRegion(),
-                            "Country: " + IPUtil.getIpdata().getCountry_name() + " ("
-                                    + IPUtil.getIpdata().getCountry_code() + ")",
-                            "Latitude: " + IPUtil.getIpdata().getLatitude() + " Degrees N",
-                            "Longitude: " + IPUtil.getIpdata().getLongitude() + " Degrees W",
+                            "ISP: " + IPUtil.getIpData().getAsn().getName(),
+                            "IP: " + IPUtil.getIpData().getIp(),
+                            "Postal Code: " + IPUtil.getIpData().getPostal(),
+                            "City: " + IPUtil.getIpData().getCity(),
+                            "State: " + IPUtil.getIpData().getRegion(),
+                            "Country: " + IPUtil.getIpData().getCountry_name() + " ("
+                                    + IPUtil.getIpData().getCountry_code() + ")",
+                            "Latitude: " + IPUtil.getIpData().getLatitude() + " Degrees N",
+                            "Longitude: " + IPUtil.getIpData().getLongitude() + " Degrees W",
                             "latency: " + NetworkUtil.latency(10000) + " ms",
                             "Google Reachable: " + NetworkUtil.siteReachable(CyderUrls.GOOGLE),
                             "YouTube Reachable: " + NetworkUtil.siteReachable(CyderUrls.YOUTUBE),
                             "Apple Reachable: " + NetworkUtil.siteReachable(CyderUrls.APPLE),
                             "Microsoft Reachable: " + NetworkUtil.siteReachable(CyderUrls.MICROSOFT),
-                            "User Name: " + OSUtil.getSystemUsername(),
+                            "User Name: " + OSUtil.getOsUsername(),
                             "Computer Name: " + OSUtil.getComputerName(),
                             "Available Cores: " + Runtime.getRuntime().availableProcessors(),
                             "Available Memory: " + gBytes + " GigaBytes",
@@ -194,7 +194,7 @@ public final class StatUtil {
         StringBuilder ret = new StringBuilder(
                 "Numbers in order represent: code lines, comment lines, and blank lines respectively\n");
 
-        ArrayList<File> javaFiles = OSUtil.getFiles(startDir, ".java");
+        ImmutableList<File> javaFiles = FileUtil.getFiles(startDir, ".java");
 
         for (File f : javaFiles) {
             ret.append(f.getName().replace(".java", ""))

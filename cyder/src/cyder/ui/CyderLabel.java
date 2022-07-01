@@ -4,8 +4,8 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.records.TaggedString;
 import cyder.threads.CyderThreadRunner;
+import cyder.utils.BoundsUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;
 import org.jsoup.Jsoup;
@@ -82,7 +82,7 @@ public class CyderLabel extends JLabel {
 
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderUIReflection(this);
+        return ReflectionUtil.commonCyderUiToString(this);
     }
 
     //rippling
@@ -145,7 +145,7 @@ public class CyderLabel extends JLabel {
                 String parsedChars = Jsoup.clean(getText(), Safelist.none());
 
                 //init list for strings by tag
-                LinkedList<TaggedString> taggedStrings = StringUtil.getTaggedStrings(originalText);
+                LinkedList<BoundsUtil.TaggedString> taggedStrings = StringUtil.getTaggedStrings(originalText);
 
                 //init ripple iterations list
                 LinkedList<String> rippleTextIterations = new LinkedList<>();
@@ -165,9 +165,9 @@ public class CyderLabel extends JLabel {
                     int rippled = 0;
 
                     //loop through all our tagged string
-                    for (TaggedString ts : taggedStrings) {
+                    for (BoundsUtil.TaggedString ts : taggedStrings) {
                         //if it's html simply add it to the builder
-                        if (ts.type() == TaggedString.Type.HTML) {
+                        if (ts.type() == BoundsUtil.TaggedString.Type.HTML) {
                             builder.append(ts.text());
                         }
                         //otherwise we might need to ripple some  chars
@@ -224,11 +224,19 @@ public class CyderLabel extends JLabel {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "CyderLabel Rippler, text = " + this.getText());
+        }, "CyderLabel Ripple Animator, text = " + this.getText());
     }
 
-    private String getColoredText(String text, Color c) {
-        return "<font color = rgb(" + c.getRed() + "," + c.getGreen() + "," + c.getBlue() + ")>" + text + "</font>";
+    /**
+     * Styles the provided text using html to be the color provided.
+     *
+     * @param text the text to style
+     * @param color the color of the text
+     * @return the color styled text
+     */
+    private String getColoredText(String text, Color color) {
+        return "<font color = rgb(" + color.getRed() + "," + color.getGreen()
+                + "," + color.getBlue() + ")>" + text + "</font>";
     }
 
     /**

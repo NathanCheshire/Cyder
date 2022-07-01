@@ -36,8 +36,8 @@ public final class TimeUtil {
      * The date formatter to use when the weather time is requested.
      */
     @SuppressWarnings("SpellCheckingInspection")
-    public static final SimpleDateFormat weatherFormat =
-            new SimpleDateFormat("h:mm:ss aa EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
+    public static final SimpleDateFormat weatherFormat
+            = new SimpleDateFormat("h:mm:ss aa EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
 
     /**
      * Returns the time used for the weather widget.
@@ -108,7 +108,8 @@ public final class TimeUtil {
      * The date formatter to use when formatting a date object to the console clock time format.
      */
     @SuppressWarnings("SpellCheckingInspection")
-    public static final SimpleDateFormat userFormat = new SimpleDateFormat("EEEEEEEEE, MM/dd/yyyy hh:mmaa zzz");
+    public static final SimpleDateFormat userFormat
+            = new SimpleDateFormat("EEEEEEEEE, MM/dd/yyyy hh:mmaa zzz");
 
     /**
      * Returns a nice, common, easy to read time.
@@ -270,11 +271,11 @@ public final class TimeUtil {
      * @return whether the current day is Easter
      */
     public static boolean isEaster() {
-        int Month = calendarInstance.get(Calendar.MONTH) + 1;
-        int Date = calendarInstance.get(Calendar.DATE);
-        int[] sundayDate = getEasterSundayDate(calendarInstance.get(Calendar.YEAR));
+        int m = calendarInstance.get(Calendar.MONTH) + 1;
+        int d = calendarInstance.get(Calendar.DATE);
+        MonthDay sundayDate = getEasterSundayDate(calendarInstance.get(Calendar.YEAR));
 
-        return (Month == sundayDate[0] && Date == sundayDate[1]);
+        return (m == sundayDate.month && d == sundayDate.date);
     }
 
     public static boolean isDeveloperBirthday() {
@@ -284,12 +285,17 @@ public final class TimeUtil {
     }
 
     /**
+     * A record used to represent a month and date such as June 2nd.
+     */
+    public record MonthDay(int month, int date) {}
+
+    /**
      * Returns an int array representing the date easter is on for the given year.
      *
      * @param year the year to find the date of easter sunday
      * @return the easter sunday date; 4,13 would correspond to April 13th
      */
-    public static int[] getEasterSundayDate(int year) {
+    public static MonthDay getEasterSundayDate(int year) {
         int a = year % 19;
         int b = year / 100;
         int c = year % 100;
@@ -304,7 +310,7 @@ public final class TimeUtil {
         int n = (h - m + r + 90) / 25;
         int p = (h - m + r + n + 19) % 32;
 
-        return new int[]{n, p};
+        return new MonthDay(n, p);
     }
 
     /**
@@ -313,11 +319,8 @@ public final class TimeUtil {
      * @return a string representing the date easter is on for the current year
      */
     public static String getEasterSundayString() {
-        int[] sundayDate = getEasterSundayDate(Calendar.getInstance().get(Calendar.YEAR));
-        String month = monthFromNumber(sundayDate[0]);
-        String day = formatNumberSuffix(sundayDate[1]);
-
-        return month + " " + day;
+        MonthDay sundayDate = getEasterSundayDate(Calendar.getInstance().get(Calendar.YEAR));
+        return monthFromNumber(sundayDate.month) + " " + formatNumberSuffix(sundayDate.date);
     }
 
     /**
@@ -338,8 +341,9 @@ public final class TimeUtil {
             return dateInMonth + "nd";
         } else if (j == 3 && k != 13) {
             return dateInMonth + "rd";
-        } else
+        } else {
             return dateInMonth + "th";
+        }
     }
 
     /**
@@ -607,7 +611,8 @@ public final class TimeUtil {
      * @param checkConditionFrequency the frequency to check the escapeCondition
      * @param escapeCondition         the condition to stop sleeping if true
      */
-    public static void sleepWithChecks(long sleepTime, long checkConditionFrequency, AtomicBoolean escapeCondition) {
+    public static void sleepWithChecks(long sleepTime,
+                                       long checkConditionFrequency, AtomicBoolean escapeCondition) {
         Preconditions.checkNotNull(escapeCondition);
         Preconditions.checkArgument(sleepTime > 0);
         Preconditions.checkArgument(checkConditionFrequency > 0);

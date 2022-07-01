@@ -63,10 +63,11 @@ public class MathUtil {
      * @return the lcm of the provided array
      */
     private static int lcmArrayInner(int[] arr, int start, int end) {
-        if ((end - start) == 1)
+        if ((end - start) == 1) {
             return lcm(arr[start], arr[end - 1]);
-        else
+        } else {
             return lcm(arr[start], lcmArrayInner(arr, start + 1, end));
+        }
     }
 
     /**
@@ -77,7 +78,7 @@ public class MathUtil {
      * @param t  the t value in the range [0,1]
      * @return the linearly interpolated value
      */
-    public static float lerp(float v0, float v1, float t) {
+    public static float linearInterpolate(float v0, float v1, float t) {
         return (1 - t) * v0 + t * v1;
     }
 
@@ -90,8 +91,9 @@ public class MathUtil {
      */
     public static Point rotatePoint(Point point, double deg) {
         double rad = Math.toRadians(deg);
-        return new Point((int) (point.x * Math.cos(rad) - point.y * Math.sin(rad)),
-                (int) (point.x * Math.sin(rad) + point.y * Math.cos(rad)));
+        double sinRad = Math.sin(rad);
+        double cosRad = Math.cos(rad);
+        return new Point((int) (point.x * cosRad - point.y * sinRad), (int) (point.x * sinRad + point.y * cosRad));
     }
 
     /**
@@ -101,7 +103,7 @@ public class MathUtil {
      * @param r2 the second rectangle
      * @return whether the rectangles intersect each other
      */
-    public static boolean overlaps(Rectangle r1, Rectangle r2) {
+    public static boolean rectanglesOverlap(Rectangle r1, Rectangle r2) {
         return r2.x < r1.x + r1.width
                 && r2.x + r2.width > r1.x
                 && r2.y < r1.y + r1.height
@@ -163,17 +165,112 @@ public class MathUtil {
     }
 
     /**
-     * Returns whether the provided point is inside of or on the rectangle bounds.
+     * Returns whether the provided point is inside of or on the rectangle.
      *
-     * @param p      the point of interest
+     * @param point      the point of interest
      * @param bounds the bounds to test for the point being inside of or on
-     * @return whether the provided point is inside of or on the rectangle bounds
+     * @return whether the provided point is inside of or on the rectangle
      */
-    public static boolean pointInOrOnRectangle(Point p, Rectangle bounds) {
-        Preconditions.checkNotNull(p);
+    public static boolean pointInOrOnRectangle(Point point, Rectangle bounds) {
+        Preconditions.checkNotNull(point);
         Preconditions.checkNotNull(bounds);
 
-        return (p.x >= bounds.getX() && p.x <= bounds.x + bounds.width)
-                && (p.y >= bounds.getY() && p.y <= bounds.y + bounds.height);
+        return pointInRectangle(point, bounds) || pointOnRectangle(point, bounds);
+    }
+
+    /**
+     * Returns whether the provided point is inside of the rectangle.
+     *
+     * @param point      the point of interest
+     * @param bounds the rectangle to test for the point being inside of
+     * @return whether the provided point is inside of the rectangle
+     */
+    public static boolean pointInRectangle(Point point, Rectangle bounds) {
+        Preconditions.checkNotNull(point);
+        Preconditions.checkNotNull(bounds);
+
+        return (point.x > bounds.getX() && point.x < bounds.x + bounds.width)
+                && (point.y > bounds.getY() && point.y < bounds.y + bounds.height);
+    }
+
+    /**
+     * Returns whether the provided point is on the rectangle.
+     *
+     * @param point the point of interest
+     * @param bounds the rectangle to test for the point being on
+     * @return whether the provided point is on the rectangle
+     */
+    public static boolean pointOnRectangle(Point point, Rectangle bounds) {
+        Preconditions.checkNotNull(point);
+        Preconditions.checkNotNull(bounds);
+
+       return pointOnTopOfRectangle(point,bounds)
+               || pointOnBottomOfRectangle(point,bounds)
+               || pointOnLeftOfRectangle(point,bounds)
+               || pointOnRightOfRectangle(point,bounds);
+    }
+
+    /**
+     * Returns whether the provided point is on the top line of the rectangle.
+     *
+     * @param point the point of interest
+     * @param bounds the rectangle to test for the point being on the top line of
+     * @return whether the provided point is on the top line of the rectangle
+     */
+    public static boolean pointOnTopOfRectangle(Point point, Rectangle bounds) {
+        Preconditions.checkNotNull(point);
+        Preconditions.checkNotNull(bounds);
+
+        return point.y == bounds.y  // same y value as top line
+                && point.x >= bounds.x // left most point or greater
+                && point.x <= bounds.x + bounds.width;  // right most point or less
+    }
+
+    /**
+     * Returns whether the provided point is on the right line of the rectangle.
+     *
+     * @param point the point of interest
+     * @param bounds the rectangle to test for the point being on the right line of
+     * @return whether the provided point is on the right line of the rectangle
+     */
+    public static boolean pointOnRightOfRectangle(Point point, Rectangle bounds) {
+        Preconditions.checkNotNull(point);
+        Preconditions.checkNotNull(bounds);
+
+        return point.x == bounds.x + bounds.width // same x value as right line
+                && point.y >= bounds.y // top most point
+                && point.y <= bounds.y + bounds.height; // bottom most point
+    }
+
+    /**
+     * Returns whether the provided point is on the left line of the rectangle.
+     *
+     * @param point the point of interest
+     * @param bounds the rectangle to test for the point being on the left line of
+     * @return whether the provided point is on the left line of the rectangle
+     */
+    public static boolean pointOnLeftOfRectangle(Point point, Rectangle bounds) {
+        Preconditions.checkNotNull(point);
+        Preconditions.checkNotNull(bounds);
+
+        return point.x == bounds.x // same x value as left line
+            && point.y >= bounds.y // top most point
+            && point.y <= bounds.y + bounds.height;  // bottom most point
+    }
+
+    /**
+     * Returns whether the provided point is on the bottom line of the rectangle.
+     *
+     * @param point the point of interest
+     * @param bounds the rectangle to test for the point being on the bottom line of
+     * @return whether the provided point is on the left bottom of the rectangle
+     */
+    public static boolean pointOnBottomOfRectangle(Point point, Rectangle bounds) {
+        Preconditions.checkNotNull(point);
+        Preconditions.checkNotNull(bounds);
+
+        return point.y == bounds.y + bounds.height  // same y value as bottom line
+                && point.x >= bounds.x // left most point or greater
+                && point.x <= bounds.x + bounds.width;  // right most point or less
     }
 }

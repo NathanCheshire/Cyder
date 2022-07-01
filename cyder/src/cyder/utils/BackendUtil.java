@@ -37,7 +37,7 @@ public final class BackendUtil {
 
     /**
      * Constructs and returns a backend path.
-     * For example, passing "usb","keyboards will return {@link #FULL_BACKEND_PATH} + "/usb/keyboards/"
+     * For example, passing "usb","keyboards will return: {@link #FULL_BACKEND_PATH} + "/usb/keyboards/"
      *
      * @param part  the first part of the path to construct
      * @param parts the additional (optional) parts of the path to construct
@@ -52,7 +52,7 @@ public final class BackendUtil {
 
         for (String partsPart : parts) {
             if (partsPart.isEmpty()) {
-                throw new IllegalArgumentException("Provided additional part is empty");
+                throw new IllegalArgumentException("Provided additional empty part");
             }
 
             ret.append(partsPart);

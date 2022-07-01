@@ -1,5 +1,6 @@
 package cyder.utils;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
@@ -13,30 +14,38 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Utilities for things pertaining to colors and color conversions.
+ * Utilities to color operations and conversions.
  */
 public class ColorUtil {
     /**
-     * Instantiation of util class not allowed.
+     * Suppress default constructor.
      */
     private ColorUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**
-     * Converts the provided hex string to a Color object.
+     * The base for hexadecimal numbers.
+     */
+    public static final int HEX_BASE = 16;
+
+    /**
+     * Converts the provided hex string to a {@link Color} object.
+     * Shorthand hex notation may be used. For example, passing "#345", "345", "334455",
+     * or "#334455" will all return the same result.
      *
      * @param hex the hex string to convert to an object
      * @return the hex string converted to an object
+     * @throws IllegalArgumentException if the provided string is null, empty, or not of length three or six
      */
     public static Color hexStringToColor(String hex) {
         checkNotNull(hex);
         checkArgument(!hex.isEmpty());
 
-        // remove possible octothorp
         hex = hex.replace("#", "");
+        Preconditions.checkArgument(hex.length() == 3 || hex.length() == 6);
 
-        // if shorthand hex notation, expand to official notation
+        // If shorthand notation, expand to full
         if (hex.length() == 3) {
             StringBuilder hexBuilder = new StringBuilder();
 
@@ -44,33 +53,25 @@ public class ColorUtil {
                 hexBuilder.append(c).append(c);
             }
 
-            // if provided hex was "#3F5" it is now "33FF55"
             hex = hexBuilder.toString();
         }
 
-        if (hex.length() < 6) {
-            if (hex.isEmpty()) {
-                hex = "000000";
-            }
-
-            hex = String.valueOf(hex.charAt(0));
-        }
-
-        StringBuilder hexBuilder = new StringBuilder(hex);
-
-        while (hexBuilder.length() < 6) {
-            hexBuilder.append(hexBuilder.charAt(0));
-        }
-
-        hex = hexBuilder.toString();
-
-        return new Color(Integer.valueOf(hex.substring(0, 2), 16),
-                Integer.valueOf(hex.substring(2, 4), 16),
-                Integer.valueOf(hex.substring(4, 6), 16));
+        return new Color(
+                Integer.valueOf(hex.substring(0, 2), HEX_BASE),
+                Integer.valueOf(hex.substring(2, 4), HEX_BASE),
+                Integer.valueOf(hex.substring(4, 6), HEX_BASE));
     }
 
     /**
+     * The maximum integer value a color can hold in any one of its red, green,
+     * or blue values (the unsigned 8-bit integer limit).
+     */
+    public static final int BASE_8_LIMIT = 255;
+
+    /**
      * Computes and returns the inverse of the provided color.
+     * This is done by subtracting the provided red, green, and blue colors
+     * from 255 and using the resulting numbers to form the new color.
      *
      * @param color the color to calculate the inverse of
      * @return the inverse of the provided color
@@ -78,9 +79,9 @@ public class ColorUtil {
     public static Color getInverseColor(Color color) {
         checkNotNull(color);
 
-        return new Color(255 - color.getRed(),
-                255 - color.getGreen(),
-                255 - color.getBlue());
+        return new Color(BASE_8_LIMIT - color.getRed(),
+                BASE_8_LIMIT - color.getGreen(),
+                BASE_8_LIMIT - color.getBlue());
     }
 
     /**
@@ -92,31 +93,35 @@ public class ColorUtil {
      */
     public String hexToRgbString(String hex) {
         checkNotNull(hex);
-        checkArgument(hex.length() == 6 || hex.length() == 7);
 
-        if (hex.length() == 7) {
-            hex = hex.substring(0, 6);
-        }
+        hex = hex.replace("#","");
 
-        return Integer.valueOf(hex.substring(0, 2), 16)
-                + "," + Integer.valueOf(hex.substring(2, 4), 16)
-                + "," + Integer.valueOf(hex.substring(4, 6), 16);
+        checkArgument(hex.length() == 6);
+
+        return Integer.valueOf(hex.substring(0, 2), HEX_BASE)
+                + "," + Integer.valueOf(hex.substring(2, 4), HEX_BASE)
+                + "," + Integer.valueOf(hex.substring(4, 6), HEX_BASE);
     }
+
+    /**
+     * The string formatter used to convert a {@link Color} to a hex string.
+     */
+    private static final String RGB_TO_HEX_FORMAT = "%02X%02X%02X";
 
     /**
      * Converts the provided color object into hex string representation.
      *
-     * @param c the color to convert to a hex string
+     * @param color the color to convert to a hex string
      * @return the hex string of the provided color
      */
-    public static String rgbToHexString(Color c) {
-        checkNotNull(c);
+    public static String rgbToHexString(Color color) {
+        checkNotNull(color);
 
-        return String.format("%02X%02X%02X", c.getRed(), c.getGreen(), c.getBlue());
+        return String.format(RGB_TO_HEX_FORMAT, color.getRed(), color.getGreen(), color.getBlue());
     }
 
     /**
-     * Determines the dominant color of the provided BufferedImage.
+     * Returns the dominant color of the provided BufferedImage.
      *
      * @param image the image to find the dominant color of
      * @return the dominant color of the provided image
@@ -145,20 +150,7 @@ public class ColorUtil {
      */
     public static Color getDominantColor(ImageIcon imageIcon) {
         checkNotNull(imageIcon);
-
-        BufferedImage bi = ImageUtil.getBufferedImage(imageIcon);
-
-        Map<Integer, Integer> colorCounter = new HashMap<>(100);
-
-        for (int x = 0 ; x < bi.getWidth() ; x++) {
-            for (int y = 0 ; y < bi.getHeight() ; y++) {
-                int currentRGB = bi.getRGB(x, y);
-                int count = colorCounter.getOrDefault(currentRGB, 0);
-                colorCounter.put(currentRGB, count + 1);
-            }
-        }
-
-        return getDominantColor(colorCounter);
+        return getDominantColor(ImageUtil.getBufferedImage(imageIcon));
     }
 
     /**
@@ -167,52 +159,24 @@ public class ColorUtil {
      * @param image the provided image to calculate the dominant color inverse of
      * @return the opposite of the dominant color of the provided image
      */
-    public static Color getDominantColorOpposite(BufferedImage image) {
+    public static Color getDominantColorInverse(BufferedImage image) {
         checkNotNull(image);
-
-        Color c = getDominantColor(image);
-        return new Color(255 - c.getRed(), 255 - c.getGreen(), 255 - c.getBlue(), c.getAlpha());
+        return getInverseColor(getDominantColor(image));
     }
 
     /**
      * Calculates the opposite dominant color of the provided image.
      *
-     * @param image the image to calculate the dominant opposite color of
-     * @return the opposite dominant color of the provided image
+     * @param image the provided image to calculate the dominant color inverse of
+     * @return the opposite of the dominant color of the provided image
      */
-    public static Color getDominantColorOpposite(ImageIcon image) {
+    public static Color getDominantColorInverse(ImageIcon image) {
         checkNotNull(image);
-
-        Color c = getDominantColor(image);
-        return new Color(255 - c.getRed(), 255 - c.getGreen(), 255 - c.getBlue(), c.getAlpha());
+        return getInverseColor(getDominantColor(ImageUtil.toBufferedImage(image)));
     }
 
     /**
-     * Calculates the opposite color of the provided color.
-     *
-     * @param c the color to calculate the opposite of
-     * @return the opposite of the provided color
-     */
-    public static Color getOppositeColor(Color c) {
-        checkNotNull(c);
-
-        return new Color(255 - c.getRed(), 255 - c.getGreen(), 255 - c.getBlue(), c.getAlpha());
-    }
-
-    /**
-     * Returns a nice string form of the provided color.
-     *
-     * @param color the color to obtain a string representation of
-     * @return a nice string form of the provided color
-     */
-    public static String getPrintableColor(Color color) {
-        checkNotNull(color);
-
-        return "[" + color.getRed() + ", " + color.getGreen() + ", " + color.getBlue() + "]";
-    }
-
-    /**
-     * Blends the two colors together.
+     * Blends the two colors together using the provided ratio of c1 to c2.
      *
      * @param c1    the first color to blend
      * @param c2    the second color to blend
@@ -253,7 +217,7 @@ public class ColorUtil {
      * @param bi the buffered image
      * @return the gray-scale text color to use
      */
-    public static Color getTextColor(BufferedImage bi) {
+    public static Color getSuitableOverlayTextColor(BufferedImage bi) {
         return getInverseColor(getDominantGrayscaleColor(bi));
     }
 

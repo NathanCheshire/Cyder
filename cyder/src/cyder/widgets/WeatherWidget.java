@@ -698,7 +698,7 @@ public class WeatherWidget {
      */
     private String getTimezoneLabel() {
         return "GMT" + (Integer.parseInt(weatherDataGmtOffset) / 3600)
-                + (IPUtil.getIpdata().getTime_zone().isIs_dst() ? " [DST Active]" : "");
+                + (IPUtil.getIpData().getTime_zone().isIs_dst() ? " [DST Active]" : "");
     }
 
     /**
@@ -737,9 +737,9 @@ public class WeatherWidget {
     protected void repullWeatherStats() {
         CyderThreadRunner.submit(() -> {
             try {
-                userCity = IPUtil.getIpdata().getCity();
-                userState = IPUtil.getIpdata().getRegion();
-                userCountry = IPUtil.getIpdata().getCountry_name();
+                userCity = IPUtil.getIpData().getCity();
+                userState = IPUtil.getIpData().getRegion();
+                userCountry = IPUtil.getIpData().getCountry_name();
 
                 if (!useCustomLoc)
                     currentLocationString = userCity + ", " + userState + ", " + userCountry;

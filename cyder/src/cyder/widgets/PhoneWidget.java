@@ -230,10 +230,10 @@ public class PhoneWidget {
             if (!phoneNum.isEmpty()) {
                 // check for easter egg numbers
                 if (checkForSuicideHotline()) {
-                    IOUtil.playAudio("static/audio/1800.mp3");
+                    IOUtil.playGeneralAudio("static/audio/1800.mp3");
                     return;
                 } else if (checkForNumber("223")) {
-                    IOUtil.playAudio("static/audio/223.mp3");
+                    IOUtil.playGeneralAudio("static/audio/223.mp3");
                     return;
                 }
 

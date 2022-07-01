@@ -1,5 +1,6 @@
 package cyder.utils;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -86,6 +87,8 @@ public class GetterUtil {
      * the string literal of "NULL" instead of {@code null}
      */
     public String getString(Builder builder) {
+        checkNotNull(builder);
+
         AtomicReference<String> returnString = new AtomicReference<>();
 
         CyderThreadRunner.submit(() -> {
@@ -274,6 +277,8 @@ public class GetterUtil {
      * @return the user-chosen file
      */
     public File getFile(Builder builder) {
+        checkNotNull(builder);
+
         boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
 
         CyderFrame referenceInitFrame = new CyderFrame(630, 510, darkMode
@@ -481,6 +486,8 @@ public class GetterUtil {
      * @param wipeForward whether to clear the forward traversal stack
      */
     private void refreshBasedOnDir(File directory, boolean wipeForward) {
+        checkNotNull(directory);
+
         // clear the forward list
         if (wipeForward) {
             forward.clear();
@@ -569,6 +576,8 @@ public class GetterUtil {
      * @return whether the user confirmed the operation
      */
     public boolean getConfirmation(Builder builder) {
+        checkNotNull(builder);
+
         AtomicReference<Boolean> ret = new AtomicReference<>();
         ret.set(null);
         AtomicReference<CyderFrame> frameReference = new AtomicReference<>();
@@ -716,11 +725,8 @@ public class GetterUtil {
          * @param title the frame title/the text for confirmations.
          */
         public Builder(String title) {
-            checkNotNull(title, "title is null");
-            checkArgument(title.length() >= MINIMUM_TITLE_LENGTH,
-                    "Title length is less than " + MINIMUM_TITLE_LENGTH);
-
-            this.title = title;
+            this.title = checkNotNull(title);
+            checkArgument(title.length() >= MINIMUM_TITLE_LENGTH);
 
             Logger.log(Logger.Tag.OBJECT_CREATION, this);
         }
