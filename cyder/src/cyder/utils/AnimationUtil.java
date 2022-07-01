@@ -12,7 +12,7 @@ import java.awt.*;
 /**
  * Utilities revolving around animations, typically using threads.
  */
-public class AnimationUtil {
+public final class AnimationUtil {
     /**
      * Suppress default constructor.
      */

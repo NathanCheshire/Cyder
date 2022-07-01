@@ -298,7 +298,25 @@ public class CyderSliderUi extends BasicSliderUI {
     /**
      * The color used for the animation segment.
      */
-    private static final Color ANIMATION_COLOR = CyderColors.regularPink;
+    private Color animationColor = CyderColors.regularPink;
+
+    /**
+     * Returns the color used for the animation if enabled.
+     *
+     * @return the color used for the animation if enabled
+     */
+    public Color getAnimationColor() {
+        return animationColor;
+    }
+
+    /**
+     * Sets the color used for the animation if enabled.
+     *
+     * @param animationColor the color used for the animation if enabled
+     */
+    public void setAnimationColor(Color animationColor) {
+        this.animationColor = animationColor;
+    }
 
     /**
      * {@inheritDoc}
@@ -314,14 +332,6 @@ public class CyderSliderUi extends BasicSliderUI {
             if (animationStart.get() == Integer.MIN_VALUE) {
                 animationStart.set(trackRect.x - animationLen);
             }
-
-            /*
-            Four parts:
-                - Starting old track part (possible)
-                - Animation track part if enabled (possible)
-                - Ending old track part (possible)
-                - New track part (unchanged)
-             */
 
             int leftX = trackRect.x;
             int rightX = trackRect.x + trackRect.width;
@@ -343,7 +353,7 @@ public class CyderSliderUi extends BasicSliderUI {
 
                 // If the animation has enough room
                 if (animationLen <= leftToThumbLen) {
-                    g2d.setColor(ANIMATION_COLOR);
+                    g2d.setColor(animationColor);
                     g2d.drawLine(animationStartX, centeringY, animationEndX, centeringY);
                 }
             }

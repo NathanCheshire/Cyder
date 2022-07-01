@@ -85,11 +85,26 @@ public class ThreadUtil {
      * invoke this method without having to surround with a try/catch block or type
      * out all of {@link Thread#sleep(long)}.
      *
-     * @param sleepTime the time to sleep for in
+     * @param sleepTimeMs the time to sleep for in ms
      */
-    public static void sleep(long sleepTime) {
+    public static void sleep(long sleepTimeMs) {
         try {
-            Thread.sleep(sleepTime);
+            Thread.sleep(sleepTimeMs);
+        } catch (Exception ignored) {}
+    }
+
+    /**
+     * Sleeps on the currently executing thread for the provided amount of time in ms.
+     * This method is intended to be used as a static import so that a method can
+     * invoke this method without having to surround with a try/catch block or type
+     * out all of {@link Thread#sleep(long)}.
+     *
+     * @param sleepTimeMs   the time to sleep for in ms
+     * @param sleepTimeNano the time to sleep for in nano seconds
+     */
+    public static void sleep(long sleepTimeMs, int sleepTimeNano) {
+        try {
+            Thread.sleep(sleepTimeMs, sleepTimeNano);
         } catch (Exception ignored) {}
     }
 }

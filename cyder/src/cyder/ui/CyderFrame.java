@@ -3398,7 +3398,7 @@ public class CyderFrame extends JFrame {
      * The delay before setting the always on top mode to
      * the original value after invoking finalizeAndShow();
      */
-    private static final int FINALIZE_AND_SHOW_DELAY = 1000;
+    private static final int FINALIZE_AND_SHOW_DELAY = 2500;
 
     /**
      * Sets the frame's location relative to the dominant frame,
@@ -3406,16 +3406,57 @@ public class CyderFrame extends JFrame {
      * temporarily to ensure the frame is placed on top of other possible frames.
      */
     public void finalizeAndShow() {
-        setLocationRelativeTo(getDominantFrame());
-        setVisible(true);
+        finalizeAndShow(false);
+    }
 
+    /**
+     * Sets the frame's location relative to the dominant frame,
+     * the visibility to true, and sets always on top mode to true
+     * temporarily to ensure the frame is placed on top of other possible frames.
+     *
+     * @param enterAnimation whether to perform an enter animation on the frame
+     */
+    public void finalizeAndShow(boolean enterAnimation) {
         boolean wasOnTop = isAlwaysOnTop();
+        setAlwaysOnTop(true);
+
+        if (enterAnimation) {
+            CyderFrame dominantFrame = getDominantFrame();
+
+            if (dominantFrame == null) {
+                setLocation(ScreenUtil.getScreenWidth() / 2 - getWidth() / 2, -getHeight());
+            } else {
+                setLocation(dominantFrame.getX() + dominantFrame.getWidth() / 2 - getWidth() / 2, -getHeight());
+            }
+
+            setVisible(true);
+
+            int toY;
+            if (dominantFrame == null) {
+                toY = ScreenUtil.getScreenHeight() / 2 - getHeight() / 2;
+            } else {
+                toY = dominantFrame.getY() + dominantFrame.getHeight() / 2 - getHeight() / 2;
+            }
+
+            for (int i = -getHeight() ; i < toY ; i += 20) {
+                setLocation(getX(), i);
+                ThreadUtil.sleep(0, 150);
+            }
+
+            setLocationRelativeTo(dominantFrame);
+        } else {
+            setLocationRelativeTo(getDominantFrame());
+            setVisible(true);
+        }
+
         if (!wasOnTop) {
             CyderThreadRunner.submit(() -> {
                 try {
-                    setAlwaysOnTop(true);
                     Thread.sleep(FINALIZE_AND_SHOW_DELAY);
-                    setAlwaysOnTop(false);
+
+                    if (!pinned) {
+                        setAlwaysOnTop(false);
+                    }
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }

@@ -1,0 +1,271 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[21-11-38] [ENTRY]: Nathan
+[21-11-38] [DEBUG]: Found prop file: props\propkeys.ini
+[21-11-38] [DEBUG]: Found prop file: props\props.ini
+[21-11-38] [PROP LOADED]: [key = map_quest_api_key]
+[21-11-38] [PROP LOADED]: [key = youtube_api_3_key]
+[21-11-38] [PROP LOADED]: [key = ip_key]
+[21-11-38] [PROP LOADED]: [key = weather_key]
+[21-11-38] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[21-11-38] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7ca733d0a7f6]
+[21-11-38] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[21-11-38] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[21-11-38] [PROP LOADED]: [key = font_metric, value = 1]
+[21-11-38] [PROP LOADED]: [key = released, value = false]
+[21-11-38] [PROP LOADED]: [key = version, value = Liminal]
+[21-11-38] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[21-11-38] [PROP LOADED]: [key = components_relocatable, value = false]
+[21-11-38] [PROP LOADED]: [key = testing_mode, value = true]
+[21-11-38] [PROP LOADED]: [key = autocypher, value = true]
+[21-11-38] [PROP LOADED]: [key = dispose_splash, value = true]
+[21-11-38] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[21-11-38] [PROP LOADED]: [key = activate_watchdog, value = false]
+[21-11-38] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[21-11-38] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[21-11-38] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[21-11-38] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[21-11-38] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[21-11-38] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[21-11-38] [THREAD STARTED]: Object Creation Logger
+[21-11-39] [DEBUG]: Watchdog skipped
+[21-11-39] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.RegisterFonts
+[21-11-40] [FONT LOADED]: agency-fb
+[21-11-40] [FONT LOADED]: arial-black
+[21-11-40] [FONT LOADED]: beyno
+[21-11-40] [FONT LOADED]: condiment-regular
+[21-11-40] [FONT LOADED]: prompt-bold
+[21-11-40] [FONT LOADED]: segoe-ui-black
+[21-11-40] [FONT LOADED]: tahoma
+[21-11-40] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.SingularInstance
+[21-11-40] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[21-11-40] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.SufficientSubroutines
+[21-11-40] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.SupportedOs
+[21-11-40] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.Validations
+[21-11-40] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[21-11-41] [DEBUG]: Class annotated with @Vanilla does not end with Widget; name: cyder.games.HangmanGame
+[21-11-41] [DEBUG]: Class annotated with @Vanilla does not end with Widget; name: cyder.games.TTTGame
+[21-11-41] [THREAD STARTED]: Splash Loader
+[21-11-41] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.RegisterFonts
+[21-11-41] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.SingularInstance
+[21-11-41] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.SufficientSubroutines
+[21-11-41] [THREAD STARTED]: JVM Args Logger
+[21-11-41] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.SupportedOs
+[21-11-41] [DEBUG]: Executing subroutine: cyder.genesis.subroutines.Validations
+[21-11-41] [LOGIN]: AutoCypher Attempt
+[21-11-41] [THREAD STARTED]: Splash Animation
+[21-11-41] [UNIQUE OBJECT CREATED]: ConsoleFrame singleton constructed
+[21-11-41] [DEBUG]: Cyder Entry = AutoCypher
+[21-11-41] [OBJECT CREATION]: Objects created since last delta (5000ms): 75
+[21-11-42] [THREAD STARTED]: Console Printing Animation
+[21-11-42] [THREAD STARTED]: High Ping Checker
+[21-11-42] [THREAD STARTED]: Hourly Chime Checker
+[21-11-42] [THREAD STARTED]: Console Clock Updater
+[21-11-42] [THREAD STARTED]: Cyder Busy Checker
+[21-11-42] [THREAD STARTED]: ConsoleFrame Stat Saver
+[21-11-42] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[21-11-42] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[21-11-42] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[21-11-43] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[21-11-43] [THREAD STARTED]: Manual Tests Thread
+[21-11-43] [CONSOLE OUT]: [STRING]: Console loaded in 4491ms
+[21-11-43] [DEBUG]: Attempted to log a new or empty line
+[21-11-43] [THREAD STARTED]: [Animation Test] finalizeAndShow()
+[21-11-44] [THREAD STARTED]: Splash Loading Label Updater
+[21-11-45] [UI]: Component = CyderDragLabel, hash = -14882553, bounds = (2, 2, 396, 28), parent frame = Animation Test
+[21-11-45] [THREAD STARTED]: [Animation Test] dispose() animation thread
+[21-11-45] [UI]: CyderFrame disposed with fastclose=false, getTitle=Animation Test
+[21-11-45] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 7] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[21-11-45] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1656641492822.json
+[21-11-46] [CLIENT]: test
+[21-11-46] [THREAD STARTED]: Manual Tests Thread
+[21-11-46] [CONSOLE OUT]: [STRING]: Invoking manual test launchTests
+[21-11-46] [THREAD STARTED]: [Animation Test] finalizeAndShow()
+[21-11-46] [DEBUG]: Attempted to log a new or empty line
+[21-11-46] [OBJECT CREATION]: Objects created since last delta (5000ms): 76
+[21-11-47] [UI]: Component = CyderDragLabel, hash = -14882553, bounds = (2, 2, 396, 28), parent frame = Animation Test
+[21-11-47] [THREAD STARTED]: [Animation Test] dispose() animation thread
+[21-11-47] [UI]: CyderFrame disposed with fastclose=false, getTitle=Animation Test
+[21-11-48] [CLIENT]: est
+[21-11-48] [THREAD STARTED]: Unknown Input Handler
+[21-11-48] [DEBUG]: Similar command to "est" found with tolerance of 0.8666666746139526, command = "tests"
+[21-11-48] [CONSOLE OUT]: [STRING]: Unknown command; Most similar command: "tests"
+[21-11-48] [DEBUG]: Attempted to log a new or empty line
+[21-11-49] [CLIENT]: test
+[21-11-49] [THREAD STARTED]: Manual Tests Thread
+[21-11-49] [CONSOLE OUT]: [STRING]: Invoking manual test launchTests
+[21-11-49] [THREAD STARTED]: [Animation Test] finalizeAndShow()
+[21-11-49] [DEBUG]: Attempted to log a new or empty line
+[21-11-50] [UI]: Component = CyderDragLabel, hash = -14882553, bounds = (2, 2, 396, 28), parent frame = Animation Test
+[21-11-50] [THREAD STARTED]: [Animation Test] dispose() animation thread
+[21-11-50] [UI]: CyderFrame disposed with fastclose=false, getTitle=Animation Test
+[21-11-51] [CLIENT]: tests
+[21-11-51] [CONSOLE OUT]: [STRING]: Valid tests to call:
+[21-11-51] [DEBUG]: Attempted to log a new or empty line
+[21-11-51] [OBJECT CREATION]: Objects created since last delta (5000ms): 17
+[21-11-52] [CONSOLE OUT]: [STRING]: switcher test
+[21-11-52] [DEBUG]: Attempted to log a new or empty line
+[21-11-52] [CONSOLE OUT]: [STRING]: grid test
+[21-11-52] [DEBUG]: Attempted to log a new or empty line
+[21-11-52] [CONSOLE OUT]: [STRING]: notification test
+[21-11-52] [DEBUG]: Attempted to log a new or empty line
+[21-11-53] [CONSOLE OUT]: [STRING]: askew test
+[21-11-53] [DEBUG]: Attempted to log a new or empty line
+[21-11-53] [CONSOLE OUT]: [STRING]: progress bar test
+[21-11-53] [DEBUG]: Attempted to log a new or empty line
+[21-11-53] [CONSOLE OUT]: [STRING]: checkbox test
+[21-11-53] [DEBUG]: Attempted to log a new or empty line
+[21-11-54] [CONSOLE OUT]: [STRING]: checkbox group test
+[21-11-54] [DEBUG]: Attempted to log a new or empty line
+[21-11-54] [CONSOLE OUT]: [STRING]: flow layout test
+[21-11-54] [DEBUG]: Attempted to log a new or empty line
+[21-11-54] [CONSOLE OUT]: [STRING]: inform test
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-55] [CONSOLE OUT]: [STRING]: menu test
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-55] [CONSOLE OUT]: [STRING]: slider test
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-55] [CONSOLE OUT]: [STRING]: switch test
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-55] [CONSOLE OUT]: [STRING]: ripple label test
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-55] [CONSOLE OUT]: [STRING]: checkbox check
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-55] [CONSOLE OUT]: [STRING]: drag label button test
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-55] [CONSOLE OUT]: [STRING]: frame length test
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-55] [CONSOLE OUT]: [STRING]: sliding icon label test
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-55] [CONSOLE OUT]: [STRING]: grid layout test
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-55] [CONSOLE OUT]: [STRING]: notify container test
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-55] [CONSOLE OUT]: [STRING]: disable relative to test
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-55] [CONSOLE OUT]: [STRING]: button position test
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-55] [CONSOLE OUT]: [STRING]: test
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-55] [CONSOLE OUT]: [STRING]: Escaped
+[21-11-55] [DEBUG]: Attempted to log a new or empty line
+[21-11-56] [CLIENT]: tests
+[21-11-56] [CONSOLE OUT]: [STRING]: Valid tests to call:
+[21-11-56] [DEBUG]: Attempted to log a new or empty line
+[21-11-56] [CONSOLE OUT]: [STRING]: switcher test
+[21-11-56] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: grid test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: notification test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: askew test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: progress bar test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: checkbox test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: checkbox group test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: flow layout test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: inform test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: menu test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: slider test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: switch test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: ripple label test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: checkbox check
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: drag label button test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: frame length test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: sliding icon label test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: grid layout test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: notify container test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: disable relative to test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: button position test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: test
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-57] [CONSOLE OUT]: [STRING]: Escaped
+[21-11-57] [DEBUG]: Attempted to log a new or empty line
+[21-11-58] [CLIENT]: test
+[21-11-58] [THREAD STARTED]: Manual Tests Thread
+[21-11-58] [CONSOLE OUT]: [STRING]: Invoking manual test launchTests
+[21-11-58] [THREAD STARTED]: [Animation Test] finalizeAndShow()
+[21-11-58] [DEBUG]: Attempted to log a new or empty line
+[21-11-59] [UI]: Component = CyderDragLabel, hash = -14882553, bounds = (2, 2, 396, 28), parent frame = Animation Test
+[21-11-59] [THREAD STARTED]: [Animation Test] dispose() animation thread
+[21-11-59] [UI]: CyderFrame disposed with fastclose=false, getTitle=Animation Test
+[21-12-00] [CLIENT]: test
+[21-12-00] [THREAD STARTED]: Manual Tests Thread
+[21-12-00] [CONSOLE OUT]: [STRING]: Invoking manual test launchTests
+[21-12-00] [THREAD STARTED]: [Animation Test] finalizeAndShow()
+[21-12-00] [DEBUG]: Attempted to log a new or empty line
+[21-12-01] [UI]: Component = CyderDragLabel, hash = -14882553, bounds = (2, 2, 396, 28), parent frame = Animation Test
+[21-12-01] [THREAD STARTED]: [Animation Test] dispose() animation thread
+[21-12-01] [UI]: CyderFrame disposed with fastclose=false, getTitle=Animation Test
+[21-12-01] [CLIENT]: test
+[21-12-01] [THREAD STARTED]: Manual Tests Thread
+[21-12-01] [CONSOLE OUT]: [STRING]: Invoking manual test launchTests
+[21-12-01] [OBJECT CREATION]: Objects created since last delta (5000ms): 51
+[21-12-02] [THREAD STARTED]: [Animation Test] finalizeAndShow()
+[21-12-02] [DEBUG]: Attempted to log a new or empty line
+[21-12-02] [UI]: Component = CyderDragLabel, hash = -14882553, bounds = (2, 2, 396, 28), parent frame = Animation Test
+[21-12-02] [THREAD STARTED]: [Animation Test] dispose() animation thread
+[21-12-02] [UI]: CyderFrame disposed with fastclose=false, getTitle=Animation Test
+[21-12-03] [CLIENT]: test
+[21-12-03] [THREAD STARTED]: Manual Tests Thread
+[21-12-03] [CONSOLE OUT]: [STRING]: Invoking manual test launchTests
+[21-12-03] [THREAD STARTED]: [Animation Test] finalizeAndShow()
+[21-12-03] [DEBUG]: Attempted to log a new or empty line
+[21-12-04] [UI]: Component = CyderDragLabel, hash = -14882553, bounds = (2, 2, 396, 28), parent frame = Animation Test
+[21-12-04] [THREAD STARTED]: [Animation Test] dispose() animation thread
+[21-12-04] [UI]: CyderFrame disposed with fastclose=false, getTitle=Animation Test
+[21-12-04] [CLIENT]: test
+[21-12-04] [THREAD STARTED]: Manual Tests Thread
+[21-12-05] [CONSOLE OUT]: [STRING]: Invoking manual test launchTests
+[21-12-05] [THREAD STARTED]: [Animation Test] finalizeAndShow()
+[21-12-05] [DEBUG]: Attempted to log a new or empty line
+[21-12-06] [UI]: Component = CyderDragLabel, hash = -14882553, bounds = (2, 2, 396, 28), parent frame = Animation Test
+[21-12-06] [THREAD STARTED]: [Animation Test] dispose() animation thread
+[21-12-06] [UI]: CyderFrame disposed with fastclose=false, getTitle=Animation Test
+[21-12-06] [OBJECT CREATION]: Objects created since last delta (5000ms): 34
+[21-12-07] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[21-12-07] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[21-12-07] [EXIT]: [RUNTIME] 29s
+[21-12-07] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown

@@ -64,11 +64,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static cyder.audio.AudioIcons.*;
 
-// todo track color of audio player animated if possible
-
-// todo playing dreamified audio after just finished freezes
-// todo transitioning audio still freezes sometimes
-
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
@@ -418,6 +413,8 @@ public final class AudioPlayer {
     private static final AudioProgressBarAnimator audioProgressBarAnimator
             = new AudioProgressBarAnimator(audioLocationSlider, audioLocationSliderUi);
 
+    private static final BasicStroke SLIDER_STROKE = new BasicStroke(2.0f);
+
     /**
      * Suppress default constructor.
      */
@@ -576,26 +573,24 @@ public final class AudioPlayer {
         repeatAudioButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(repeatAudioButton);
 
-        audioLocationSliderUi.setThumbStroke(new BasicStroke(2.0f));
+        audioLocationSliderUi.setThumbStroke(SLIDER_STROKE);
         audioLocationSliderUi.setThumbShape(CyderSliderUi.ThumbShape.CIRCLE);
         audioLocationSliderUi.setThumbRadius(25);
         audioLocationSliderUi.setThumbFillColor(CyderColors.vanilla);
         audioLocationSliderUi.setThumbOutlineColor(CyderColors.vanilla);
         audioLocationSliderUi.setRightThumbColor(trackNewColor);
         audioLocationSliderUi.setLeftThumbColor(CyderColors.vanilla);
-        audioLocationSliderUi.setTrackStroke(new BasicStroke(2.0f));
+        audioLocationSliderUi.setTrackStroke(SLIDER_STROKE);
         audioLocationSliderUi.setAnimationEnabled(true);
         audioLocationSliderUi.setAnimationLen(75);
-
-        // todo only show the animation if the entire length can fit on the bar
 
         // todo fix console not appearing on top
         // todo add back in appear animation for console
 
         // todo put video demo of new audio player on readme
 
-        // todo preferences page should use checkboxes and labels but have checkboxes on the right and labels in the left
-        //  align in center with spacing of course
+        // todo preferences page should use checkboxes and labels but have checkboxes
+        //  on the right and labels in the left align in center with spacing of course
 
         audioLocationSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioLocationSlider.setMinorTickSpacing(1);
@@ -687,14 +682,14 @@ public final class AudioPlayer {
         audioLocationUpdater = new AudioLocationUpdater(secondsInLabel, totalSecondsLabel, currentFrameView,
                 currentAudioFile, audioLocationSliderPressed, audioLocationSlider);
 
-        audioVolumeSliderUi.setThumbStroke(new BasicStroke(2.0f));
+        audioVolumeSliderUi.setThumbStroke(SLIDER_STROKE);
         audioVolumeSliderUi.setThumbShape(CyderSliderUi.ThumbShape.CIRCLE);
         audioVolumeSliderUi.setThumbRadius(25);
         audioVolumeSliderUi.setThumbFillColor(CyderColors.vanilla);
         audioVolumeSliderUi.setThumbOutlineColor(CyderColors.vanilla);
         audioVolumeSliderUi.setRightThumbColor(trackNewColor);
         audioVolumeSliderUi.setLeftThumbColor(CyderColors.vanilla);
-        audioVolumeSliderUi.setTrackStroke(new BasicStroke(2.0f));
+        audioVolumeSliderUi.setTrackStroke(SLIDER_STROKE);
 
         audioVolumePercentLabel.setForeground(CyderColors.vanilla);
         audioVolumePercentLabel.setSize(100, 40);
@@ -1756,6 +1751,7 @@ public final class AudioPlayer {
     }
 
     // todo this might freeze the ui thread for some reason and I still don't know why
+
     /**
      * A call back for InnerAudioPlayers to invoke when they are killed.
      */
