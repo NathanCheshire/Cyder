@@ -597,9 +597,6 @@ public final class AudioPlayer {
         // todo preferences page should use checkboxes and labels but have checkboxes on the right and labels in the left
         //  align in center with spacing of course
 
-        // todo start/stop/pause me
-        audioProgressBarAnimator.setState(AudioProgressBarAnimator.State.STOPPED);
-
         audioLocationSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioLocationSlider.setMinorTickSpacing(1);
         audioLocationSlider.setValue(DEFAULT_LOCATION_SLIDER_VALUE);

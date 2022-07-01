@@ -296,12 +296,16 @@ public class CyderSliderUi extends BasicSliderUI {
     }
 
     /**
+     * The color used for the animation segment.
+     */
+    private static final Color ANIMATION_COLOR = CyderColors.regularPink;
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public void paintTrack(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        Stroke old = g2d.getStroke();
 
         g2d.setStroke(sliderStroke);
         g2d.setPaint(rightThumbColor);
@@ -311,37 +315,39 @@ public class CyderSliderUi extends BasicSliderUI {
                 animationStart.set(trackRect.x - animationLen);
             }
 
-            int rightXStart = trackRect.x;
-            int rightXEnd = trackRect.x + trackRect.width;
-            int y = trackRect.y + trackRect.height / 2;
+            /*
+            Four parts:
+                - Starting old track part (possible)
+                - Animation track part if enabled (possible)
+                - Ending old track part (possible)
+                - New track part (unchanged)
+             */
 
-            // Draw right track (new value)
+            int leftX = trackRect.x;
+            int rightX = trackRect.x + trackRect.width;
+            int centeringY = trackRect.y + trackRect.height / 2;
+
+            // Fill whole track with old color first
             g2d.setColor(rightThumbColor);
-            g2d.drawLine(rightXStart, y, rightXEnd, y);
+            g2d.drawLine(leftX, centeringY, rightX, centeringY);
 
-            int leftXStart = thumbRect.width / 2 - trackRect.x;
-            int yAdd = 2;
-            int cy = (trackRect.height / 2) - yAdd;
-
-            // Draw left track (old value)
-
-            g2d.translate(trackRect.x, trackRect.y + cy);
-            // starting segment
+            // Fill left with left track color
             g2d.setColor(leftThumbColor);
-            g2d.drawLine(leftXStart, yAdd, leftXStart + animationStart.get(), yAdd);
-            // animation segment
-            g2d.setColor(CyderColors.regularPink);
-            int animationSegmentEnd = Math.min(animationStart.get() + animationLen, getThumbCenterX());
-            g2d.drawLine(animationStart.get(), yAdd, animationSegmentEnd, yAdd);
-            // ending segment
-            g2d.setColor(leftThumbColor);
-            g2d.drawLine(animationSegmentEnd, yAdd, getThumbCenterX(), yAdd);
+            g2d.drawLine(leftX, centeringY, getThumbCenterX(), centeringY);
 
-            // Translate back so thumb is painted in correct spot
-            g2d.translate(-trackRect.x, -(trackRect.y + cy));
+            // Draw animation if enabled and possible
+            if (animationEnabled) {
+                int animationStartX = animationStart.get();
+                int animationEndX = Math.min(getThumbCenterX(), animationStartX + animationLen);
+                int leftToThumbLen = (int) (trackRect.width * ((float) slider.getValue() / slider.getMaximum()));
+
+                // If the animation has enough room
+                if (animationLen <= leftToThumbLen) {
+                    g2d.setColor(ANIMATION_COLOR);
+                    g2d.drawLine(animationStartX, centeringY, animationEndX, centeringY);
+                }
+            }
         }
-
-        g2d.setStroke(old);
     }
 
     /**
