@@ -348,11 +348,11 @@ public enum ConsoleFrame {
 
         if (!isFullscreen()) {
             restorePreviousFrameBounds(consoleIcon);
+        } else {
+            consoleCyderFrame.setVisible(true);
         }
 
         revalidateInputAndOutputBounds(true);
-
-        consoleCyderFrame.setVisible(true);
 
         TimeUtil.setConsoleStartTime(System.currentTimeMillis());
         baseInputHandler.println("Console loaded in " + (TimeUtil.getConsoleStartTime()
@@ -766,11 +766,16 @@ public enum ConsoleFrame {
 
         revalidate(true, false, true);
 
+        consoleCyderFrame.setVisible(false);
+
         FrameUtil.requestFramePosition(
                 requestedConsoleStats.getMonitor(),
                 requestedConsoleStats.getConsoleX(),
                 requestedConsoleStats.getConsoleY(),
                 consoleCyderFrame);
+
+        CyderThreadRunner.submit(() -> consoleCyderFrame.enterAnimation(
+                new Point(consoleCyderFrame.getX(), consoleCyderFrame.getY())), "ConsoleFrame Enter Animation");
     }
 
     /**

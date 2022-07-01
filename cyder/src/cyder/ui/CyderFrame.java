@@ -3403,12 +3403,12 @@ public class CyderFrame extends JFrame {
     /**
      * The increment between y values for the enter animation.
      */
-    private static final int ENTER_ANIMATION_INC = 20;
+    public static final int ENTER_ANIMATION_INC = 25;
 
     /**
      * The delay in nanoseconds between enter animation increments.
      */
-    private static final int ENTER_ANIMATION_DELAY = 150;
+    public static final int ENTER_ANIMATION_DELAY = 75;
 
     /**
      * Sets the frame's location relative to the dominant frame,
@@ -3449,10 +3449,7 @@ public class CyderFrame extends JFrame {
                     toY = dominantFrame.getY() + dominantFrame.getHeight() / 2 - getHeight() / 2;
                 }
 
-                for (int i = -getHeight() ; i < toY ; i += ENTER_ANIMATION_INC) {
-                    setLocation(getX(), i);
-                    ThreadUtil.sleep(0, ENTER_ANIMATION_DELAY);
-                }
+                enterAnimation(new Point(getX(), toY));
 
                 setLocationRelativeTo(dominantFrame);
             } else {
@@ -3474,6 +3471,24 @@ public class CyderFrame extends JFrame {
                 }, "[" + getTitle() + "] finalizeAndShow()");
             }
         }, "Enter animation, frame=" + getTitle());
+    }
+
+    /**
+     * Performs an enter animation to the point.
+     *
+     * @param point the point to position the frame at after performing the enter animation
+     */
+    public void enterAnimation(Point point) {
+        Preconditions.checkNotNull(point);
+        setLocation(point.x, -getHeight());
+
+        setLocation(getX(), -getHeight());
+        setVisible(true);
+
+        for (int i = -getHeight() ; i < point.getY() ; i += ENTER_ANIMATION_INC) {
+            setLocation(point.x, i);
+            ThreadUtil.sleep(0, ENTER_ANIMATION_DELAY);
+        }
     }
 
     /**

@@ -584,8 +584,6 @@ public final class AudioPlayer {
         audioLocationSliderUi.setAnimationEnabled(true);
         audioLocationSliderUi.setAnimationLen(75);
 
-        // todo put video demo of new audio player on readme
-
         audioLocationSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioLocationSlider.setMinorTickSpacing(1);
         audioLocationSlider.setValue(DEFAULT_LOCATION_SLIDER_VALUE);
