@@ -1,7 +1,7 @@
 package cyder.handlers.external;
 
 import com.google.common.base.Preconditions;
-import cyder.handlers.ConsoleFrame;
+import cyder.console.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;

@@ -102,3 +102,9 @@
 [15-30-47] [OBJECT CREATION]: Objects created since last delta (5000ms): 44
 [15-32-43] [DEBUG]: Latency of Google found to be 69ms
 [15-34-44] [DEBUG]: Latency of Google found to be 56ms
+[15-36-44] [DEBUG]: Latency of Google found to be 60ms
+[15-38-20] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[15-38-20] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[15-38-21] [EXIT]: [RUNTIME] 7m 41s
+[15-38-21] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown

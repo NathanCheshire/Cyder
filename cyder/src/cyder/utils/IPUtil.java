@@ -1,12 +1,11 @@
 package cyder.utils;
 
 import com.google.gson.Gson;
-
+import cyder.console.ConsoleFrame;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.ip.IPData;
 

@@ -1,11 +1,11 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import cyder.console.ConsoleFrame;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;

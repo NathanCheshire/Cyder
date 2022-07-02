@@ -1,12 +1,12 @@
 package cyder.handlers.internal;
 
+import cyder.console.ConsoleFrame;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
 import cyder.utils.OSUtil;

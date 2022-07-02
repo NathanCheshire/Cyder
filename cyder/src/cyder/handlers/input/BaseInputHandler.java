@@ -3,6 +3,7 @@ package cyder.handlers.input;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.Handle;
+import cyder.console.ConsoleFrame;
 import cyder.constants.CyderNumbers;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
@@ -10,7 +11,6 @@ import cyder.enums.Dynamic;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.BletchyThread;
@@ -29,7 +29,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.Semaphore;
-import java.util.stream.Collectors;
 
 /**
  * The base input handler used for linked JTextPane printing

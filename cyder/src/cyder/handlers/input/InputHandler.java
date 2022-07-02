@@ -1,6 +1,6 @@
 package cyder.handlers.input;
 
-import cyder.handlers.ConsoleFrame;
+import cyder.console.ConsoleFrame;
 
 /**
  * A base of protected static utility methods for handles.

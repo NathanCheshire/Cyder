@@ -2,11 +2,11 @@ package cyder.audio;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
+import cyder.console.ConsoleFrame;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.AudioLengthResponse;
 import cyder.threads.CyderThreadFactory;

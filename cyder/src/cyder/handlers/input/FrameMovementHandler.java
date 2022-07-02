@@ -1,9 +1,9 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
+import cyder.console.ConsoleFrame;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utils.FrameUtil;
 

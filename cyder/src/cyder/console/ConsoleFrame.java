@@ -1,4 +1,4 @@
-package cyder.handlers;
+package cyder.console;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -47,6 +47,8 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static cyder.console.ConsoleConstants.*;
 
 /**
  * Singleton of components that represent the GUI way a user
@@ -277,27 +279,9 @@ public enum ConsoleFrame {
     private int backgroundIndex;
 
     /**
-     * The absolute minimum size allowable for the ConsoleFrame.
-     */
-    private final Dimension MINIMUM_SIZE = new Dimension(600, 600);
-
-    /**
-     * The possible audio files to play if the starting user background is grayscale.
-     */
-    private final ImmutableList<String> grayscaleAudioPaths = ImmutableList.of(
-            OSUtil.buildPath("static", "audio", "badapple.mp3"),
-            OSUtil.buildPath("static", "audio", "beetlejuice.mp3"),
-            OSUtil.buildPath("static", "audio", "blackorwhite.mp3"));
-
-    /**
      * Whether dancing is currently active.
      */
     private boolean currentlyDancing;
-
-    /**
-     * The thickness of the border around the input field and output area when enabled.
-     */
-    private final int fieldBorderThickness = 3;
 
     /**
      * Performs ConsoleFrame setup routines before constructing
@@ -364,10 +348,10 @@ public enum ConsoleFrame {
      * Resets private variables to their default state.
      */
     private void resetMembers() {
-        consoleBashString = UserUtil.getCyderUser().getName() + "@Cyder:~$ ";
+        consoleBashString = UserUtil.getCyderUser().getName() + BASH_STRING_PREFIX;
 
-        lastSlideDirection = Direction.LEFT;
-        consoleDir = Direction.TOP;
+        lastSlideDirection = DEFAULT_CONSOLE_DIRECTION;
+        consoleDir = DEFAULT_CONSOLE_DIRECTION;
 
         commandIndex = 0;
 
@@ -428,6 +412,7 @@ public enum ConsoleFrame {
              */
             @Override
             public void barrelRoll() {
+                // todo
                 throw new IllegalMethodException("Method is broken for ConsoleFrame; implementation pending");
             }
         };
@@ -456,8 +441,7 @@ public enum ConsoleFrame {
     /**
      * The record used for determining the console background icon and the corresponding width and height.
      */
-    private record ConsoleIcon(ImageIcon background, Dimension dimension) {
-    }
+    private record ConsoleIcon(ImageIcon background, Dimension dimension) {}
 
     /**
      * Determines the initial console frame background icon.
@@ -589,24 +573,6 @@ public enum ConsoleFrame {
     }
 
     /**
-     * The horizontal padding between the input/output fields and the frame bounds.
-     */
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int fieldXPadding = 15;
-
-    /**
-     * The vertical padding between the input and output fields and the frame bounds.
-     */
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int fieldYPadding = 15;
-
-    /**
-     * The height of the input field.
-     */
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int inputFieldHeight = 100;
-
-    /**
      * Revalidates the bounds of the input field and output area based off
      * of the current console frame size and the menu state.
      *
@@ -623,14 +589,14 @@ public enum ConsoleFrame {
                 addX = 2 + menuLabel.getWidth();
             }
 
-            outputScroll.setBounds(addX + fieldXPadding,
-                    CyderDragLabel.DEFAULT_HEIGHT + fieldYPadding,
-                    w - addX - 2 * fieldXPadding,
-                    h - inputFieldHeight - fieldYPadding * 3 - CyderDragLabel.DEFAULT_HEIGHT);
+            outputScroll.setBounds(addX + FIELD_X_PADDING,
+                    CyderDragLabel.DEFAULT_HEIGHT + FIELD_Y_PADDING,
+                    w - addX - 2 * FIELD_X_PADDING,
+                    h - INPUT_FIELD_HEIGHT - FIELD_Y_PADDING * 3 - CyderDragLabel.DEFAULT_HEIGHT);
 
-            inputField.setBounds(addX + fieldXPadding,
-                    outputScroll.getY() + fieldYPadding + outputScroll.getHeight(),
-                    w - 2 * fieldXPadding - addX, inputFieldHeight);
+            inputField.setBounds(addX + FIELD_X_PADDING,
+                    outputScroll.getY() + FIELD_Y_PADDING + outputScroll.getHeight(),
+                    w - 2 * FIELD_X_PADDING - addX, INPUT_FIELD_HEIGHT);
         }
     }
 
@@ -683,7 +649,7 @@ public enum ConsoleFrame {
         outputScroll.setFocusable(true);
         outputScroll.setBorder(UserUtil.getCyderUser().getOutputborder().equals("1")
                 ? new LineBorder(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
-                fieldBorderThickness, false)
+                FIELD_BORDER_THICKNESS, false)
                 : BorderFactory.createEmptyBorder());
 
         if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
@@ -706,7 +672,7 @@ public enum ConsoleFrame {
         inputField.setText(consoleBashString);
         inputField.setBorder(UserUtil.getCyderUser().getInputborder().equals("1")
                 ? new LineBorder(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
-                fieldBorderThickness, false)
+                FIELD_BORDER_THICKNESS, false)
                 : BorderFactory.createEmptyBorder());
         inputField.setSelectionColor(CyderColors.selectionColor);
         inputField.setCaretPosition(inputField.getPassword().length);
@@ -728,15 +694,6 @@ public enum ConsoleFrame {
 
         consoleCyderFrame.getContentPane().add(inputField);
     }
-
-    /**
-     *
-     */
-    public static final String BUTTON_INPUT_FOCUS_MAP_KEY = "Button.focusInputMap";
-    public static final String PRESSED = "pressed";
-    public static final String RELEASED = "released";
-    public static final String ENTER = "ENTER";
-    public static final String RELEASED_ENTER = RELEASED + " " + ENTER;
 
     /**
      * Sets up the input map to allow the drag label buttons to be triggered via the enter key.
@@ -1298,8 +1255,8 @@ public enum ConsoleFrame {
 
                         //Bad Apple / Beetlejuice / Michael Jackson reference for a grayscale image
                         if (correct) {
-                            IOUtil.playGeneralAudio(grayscaleAudioPaths.get(
-                                    NumberUtil.randInt(0, grayscaleAudioPaths.size() - 1)));
+                            IOUtil.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(
+                                    NumberUtil.randInt(0, GRAYSCALE_AUDIO_PATHS.size() - 1)));
                         } else if (PropLoader.getBoolean("released")) {
                             IOUtil.playGeneralAudio("static/audio/introtheme.mp3");
                         }
@@ -1313,17 +1270,21 @@ public enum ConsoleFrame {
         }
     }
 
+    /**
+     * The action to allow debug lines to be drawn across all frames via the console frame.
+     */
     private final AbstractAction debugLinesAbstractAction = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            boolean drawLines = !consoleCyderFrame.isDrawDebugLines();
-
             for (CyderFrame frame : FrameUtil.getCyderFrames()) {
-                frame.drawDebugLines(drawLines);
+                frame.drawDebugLines(!consoleCyderFrame.isDrawDebugLines());
             }
         }
     };
 
+    /**
+     * The action to allow Cyder to close when alt + F4 are pressed in combination.
+     */
     private final AbstractAction forcedExitAbstractAction = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -1760,12 +1721,6 @@ public enum ConsoleFrame {
     };
 
     /**
-     * The width of the taskbar menu label.
-     */
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int menuWidth = 110;
-
-    /**
      * Revalidates the taskbar menu bounds and re-installs the icons.
      */
     private void generateConsoleMenu() {
@@ -1776,7 +1731,7 @@ public enum ConsoleFrame {
         }
 
         menuLabel = new JLabel();
-        menuLabel.setBounds(-menuWidth, CyderDragLabel.DEFAULT_HEIGHT - 2, menuWidth, menuHeight);
+        menuLabel.setBounds(-TASKBAR_MENU_WIDTH, CyderDragLabel.DEFAULT_HEIGHT - 2, TASKBAR_MENU_WIDTH, menuHeight);
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.getGuiThemeColor());
         menuLabel.setFocusable(false);
@@ -1917,6 +1872,9 @@ public enum ConsoleFrame {
         }
     }
 
+    /**
+     * The input field key adapter used for thread escaping and console rotation.
+     */
     private final KeyAdapter inputFieldKeyAdapter = new KeyAdapter() {
         @Override
         public void keyPressed(java.awt.event.KeyEvent e) {
@@ -2006,23 +1964,6 @@ public enum ConsoleFrame {
     };
 
     /**
-     * The list function key codes above the default 12 function keys which Windows is capable of handling.
-     */
-    private final ImmutableList<Integer> specialFunctionKeyCodes = ImmutableList.of(
-            KeyEvent.VK_F13,
-            KeyEvent.VK_F14,
-            KeyEvent.VK_F15,
-            KeyEvent.VK_F16,
-            KeyEvent.VK_F17,
-            KeyEvent.VK_F18,
-            KeyEvent.VK_F19,
-            KeyEvent.VK_F20,
-            KeyEvent.VK_F21,
-            KeyEvent.VK_F22,
-            KeyEvent.VK_F23,
-            KeyEvent.VK_F24);
-
-    /**
      * The key listener for input field to control command scrolling.
      */
     private final KeyListener commandScrolling = new KeyAdapter() {
@@ -2054,15 +1995,13 @@ public enum ConsoleFrame {
                         }
                     }
 
-                    // function key easter egg
-
-                    for (int specialCode : specialFunctionKeyCodes) {
+                    for (int specialCode : SPECIAL_FUNCTION_KEY_CODES) {
                         if (code == specialCode) {
-                            int functionKey = (code - KeyEvent.VK_F13 + 13);
+                            int functionKey = (code - KeyEvent.VK_F13 + SPECIAL_FUNCTION_KEY_CODE_OFFSET);
                             baseInputHandler.println("Interesting F" + functionKey + " key");
 
-                            if (functionKey == 17) {
-                                IOUtil.playGeneralAudio("static/audio/f17.mp3");
+                            if (functionKey == F_17_KEY_CODE) {
+                                IOUtil.playGeneralAudio(OSUtil.buildPath("static", "audio", "f17.mp3"));
                             }
                         }
                     }
@@ -2399,26 +2338,6 @@ public enum ConsoleFrame {
      * Whether the background switching is locked meaning an animation is currently underway.
      */
     private final AtomicBoolean backgroundSwitchingLocked = new AtomicBoolean(false);
-
-    /**
-     * The fullscreen timeout between background animation increments.
-     */
-    private final int FULLSCREEN_TIMEOUT = 1;
-
-    /**
-     * The fullscreen increment for background animations.
-     */
-    private final int FULLSCREEN_INCREMENT = 20;
-
-    /**
-     * The default timeout between background animation increments.
-     */
-    private final int DEFAULT_TIMEOUT = 5;
-
-    /**
-     * The default increment for background animations.
-     */
-    private final int DEFAULT_INCREMENT = 8;
 
     /**
      * Switches backgrounds to the next background in the list via a sliding animation.
@@ -3501,11 +3420,6 @@ public enum ConsoleFrame {
     }
 
     /**
-     * The x,y padding value for title notifications.
-     */
-    private final int padding = 20;
-
-    /**
      * An semaphore to ensure only one title notification is ever visible
      */
     private final Semaphore titleNotifySemaphore = new Semaphore(1);
@@ -3546,8 +3460,8 @@ public enum ConsoleFrame {
                 int containerWidth = boundsString.width();
                 int containerHeight = boundsString.height();
 
-                if (containerHeight + 2 * padding > consoleCyderFrame.getHeight()
-                        || containerWidth + 2 * padding > consoleCyderFrame.getWidth()) {
+                if (containerHeight + 2 * NOTIFICATION_PADDING > consoleCyderFrame.getHeight()
+                        || containerWidth + 2 * NOTIFICATION_PADDING > consoleCyderFrame.getWidth()) {
                     consoleCyderFrame.inform(htmlString, "Console Notification");
                     return;
                 }
@@ -3556,8 +3470,8 @@ public enum ConsoleFrame {
 
                 titleNotifyLabel.setText(BoundsUtil.addCenteringToHtml(boundsString.text()));
                 titleNotifyLabel.setBounds(
-                        (int) (center.getX() - padding - containerWidth / 2),
-                        (int) (center.getY() - padding - containerHeight / 2),
+                        (int) (center.getX() - NOTIFICATION_PADDING - containerWidth / 2),
+                        (int) (center.getY() - NOTIFICATION_PADDING - containerHeight / 2),
                         containerWidth, containerHeight);
                 consoleCyderFrame.getContentPane().add(titleNotifyLabel, JLayeredPane.POPUP_LAYER);
                 consoleCyderFrame.repaint();
@@ -3578,7 +3492,7 @@ public enum ConsoleFrame {
      * Revalidates the bounds of the title label notify if one is underway.
      */
     public void revalidateTitleNotify() {
-        if (consoleCyderFrame == null || titleNotifyLabel.getText().length() == 0) {
+        if (consoleCyderFrame == null || titleNotifyLabel.getText().isEmpty()) {
             return;
         }
 
@@ -3588,8 +3502,8 @@ public enum ConsoleFrame {
         Point center = consoleCyderFrame.getCenterPointOnFrame();
 
         titleNotifyLabel.setLocation(
-                (int) (center.getX() - padding - w / 2),
-                (int) (center.getY() - padding - h / 2));
+                (int) (center.getX() - NOTIFICATION_PADDING - w / 2),
+                (int) (center.getY() - NOTIFICATION_PADDING - h / 2));
 
         consoleCyderFrame.repaint();
     }
