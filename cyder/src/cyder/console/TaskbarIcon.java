@@ -1,4 +1,4 @@
-package cyder.handlers;
+package cyder.console;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 
 /**
- * A console taskbar icon.
+ * A {@link ConsoleFrame} taskbar icon.
  */
 public class TaskbarIcon {
     /**

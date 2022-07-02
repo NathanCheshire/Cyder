@@ -1,6 +1,7 @@
 package cyder.handlers.internal;
 
 import cyder.annotations.Widget;
+import cyder.console.ConsoleFrame;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderEntry;
@@ -8,7 +9,6 @@ import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.PropLoader;
-import cyder.handlers.ConsoleFrame;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.user.User;

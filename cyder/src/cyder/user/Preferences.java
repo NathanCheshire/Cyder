@@ -1,8 +1,8 @@
 package cyder.user;
 
+import cyder.console.ConsoleFrame;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderScrollList;
 import cyder.utils.ColorUtil;

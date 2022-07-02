@@ -1,7 +1,7 @@
 package cyder.user;
 
 import com.google.errorprone.annotations.Immutable;
-import cyder.handlers.ConsoleFrame;
+import cyder.console.ConsoleFrame;
 import cyder.handlers.internal.Logger;
 import cyder.utils.ReflectionUtil;
 

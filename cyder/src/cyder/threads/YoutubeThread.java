@@ -1,10 +1,10 @@
 package cyder.threads;
 
 import com.google.common.base.Preconditions;
+import cyder.console.ConsoleFrame;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderOutputPane;

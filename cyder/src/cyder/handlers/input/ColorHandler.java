@@ -1,11 +1,11 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
+import cyder.console.ConsoleFrame;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderCaret;
 import cyder.user.Preferences;

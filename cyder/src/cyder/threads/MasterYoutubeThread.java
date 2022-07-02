@@ -1,9 +1,9 @@
 package cyder.threads;
 
 import com.google.common.base.Preconditions;
+import cyder.console.ConsoleFrame;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 
 import javax.swing.*;
 import java.util.ArrayList;
