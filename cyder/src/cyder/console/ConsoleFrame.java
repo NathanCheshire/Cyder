@@ -2506,10 +2506,7 @@ public enum ConsoleFrame {
             consoleCyderFrame.refreshBackground();
             consoleCyderFrame.getContentPane().revalidate();
 
-            // todo test to ensure same functionality
             refreshConsoleFrameMaxSize();
-            //                consoleCyderFrame.setMaximumSize(new Dimension(
-            //                        nextBackFinal.getIconWidth(), nextBackFinal.getIconHeight()));
 
             consoleCyderFrame.setDraggingEnabled(wasDraggable);
             outputArea.setFocusable(outputAreaWasFocusable);

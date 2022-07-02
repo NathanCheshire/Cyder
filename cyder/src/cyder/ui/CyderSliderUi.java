@@ -380,7 +380,6 @@ public class CyderSliderUi extends BasicSliderUI {
             return;
         }
 
-
         if (animationStart.get() == Integer.MIN_VALUE) {
             animationStart.set(trackRect.x - animationLen);
         }

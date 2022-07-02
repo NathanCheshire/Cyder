@@ -396,8 +396,7 @@ public class StringUtil {
             return "'s";
     }
 
-    // todo for shits and giggles lets implement these rules
-    //  https://www.grammarly.com/blog/plural-nouns/
+    // todo lets implement these rules https://www.grammarly.com/blog/plural-nouns/
     /**
      * Returns the plural form of the word. A singular item doesn't need to be made plural
      * whilst any number of objects other than 1 should be converted to plural using English Language rules.
