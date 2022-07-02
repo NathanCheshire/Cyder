@@ -3,7 +3,6 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
-import cyder.constants.CyderUrls;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
@@ -59,7 +58,7 @@ public class NetworkUtil {
      */
     private static final Function<Void, Boolean> exit = ignored -> ConsoleFrame.INSTANCE.isClosed();
 
-    // todo be able to start and stop this with other console executors
+    // todo be able to start and stop this along with other console executors
     static {
         CyderThreadRunner.submit(() -> {
             try {
@@ -105,7 +104,7 @@ public class NetworkUtil {
      *
      * @param url The HTTP URL to be pinged.
      * @return whether the given HTTP URL has returned response code 200-399 on a HEAD request within the
-     *         given timeout
+     * given timeout
      */
     public static boolean siteReachable(String url) {
         url = url.replaceFirst("^https", "http");
@@ -128,6 +127,11 @@ public class NetworkUtil {
     public static final int LATENCY_GOOGLE_PORT = 80;
 
     /**
+     * The ip to use when pinging google to determine a user's latency.
+     */
+    public static final String LATENCY_GOOGLE_IP = "172.217.4.78"; // todo what if DNS changes
+
+    /**
      * The default timeout to use when pinging google to determine a user's latency.
      */
     public static final int DEFAULT_LATENCY_TIMEOUT = 2000;
@@ -140,17 +144,17 @@ public class NetworkUtil {
      */
     public static int latency(int timeout) {
         Socket Sock = new Socket();
-        SocketAddress Address = new InetSocketAddress(CyderUrls.GOOGLE, LATENCY_GOOGLE_PORT);
+        SocketAddress address = new InetSocketAddress(LATENCY_GOOGLE_IP, LATENCY_GOOGLE_PORT);
         long start = System.currentTimeMillis();
 
         try {
-            Sock.connect(Address, timeout);
+            Sock.connect(address, timeout);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
         long stop = System.currentTimeMillis();
-        int Latency = (int) (stop - start);
+        int latency = (int) (stop - start);
 
         try {
             Sock.close();
@@ -158,7 +162,9 @@ public class NetworkUtil {
             ExceptionHandler.handle(e);
         }
 
-        return Latency;
+        Logger.log(Logger.Tag.DEBUG, "Latency of Google found to be " + latency + "ms");
+
+        return latency;
     }
 
     /**

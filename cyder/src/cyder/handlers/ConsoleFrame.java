@@ -730,15 +730,19 @@ public enum ConsoleFrame {
     }
 
     /**
+     *
+     */
+    public static final String BUTTON_INPUT_FOCUS_MAP_KEY = "Button.focusInputMap";
+    public static final String PRESSED = "pressed";
+    public static final String RELEASED = "released";
+    public static final String ENTER = "ENTER";
+    public static final String RELEASED_ENTER = RELEASED + " " + ENTER;
+
+    /**
      * Sets up the input map to allow the drag label buttons to be triggered via the enter key.
      */
     private void setupButtonEnterInputMap() {
-        // todo constants
-        String PRESSED = "pressed";
-        String RELEASED = "released";
-        String ENTER = "ENTER";
-        String RELEASED_ENTER = "released ENTER";
-        InputMap inputMap = (InputMap) UIManager.get("Button.focusInputMap");
+        InputMap inputMap = (InputMap) UIManager.get(BUTTON_INPUT_FOCUS_MAP_KEY);
         inputMap.put(KeyStroke.getKeyStroke(ENTER), PRESSED);
         inputMap.put(KeyStroke.getKeyStroke(RELEASED_ENTER), RELEASED);
     }
@@ -768,16 +772,13 @@ public enum ConsoleFrame {
 
         revalidate(true, false, true);
 
-        consoleCyderFrame.setVisible(false);
-
         FrameUtil.requestFramePosition(
                 requestedConsoleStats.getMonitor(),
                 requestedConsoleStats.getConsoleX(),
                 requestedConsoleStats.getConsoleY(),
                 consoleCyderFrame);
 
-        CyderThreadRunner.submit(() -> consoleCyderFrame.enterAnimation(
-                new Point(consoleCyderFrame.getX(), consoleCyderFrame.getY())), "ConsoleFrame Enter Animation");
+        consoleCyderFrame.setVisible(true);
     }
 
     /**
