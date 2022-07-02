@@ -733,13 +733,14 @@ public enum ConsoleFrame {
      * Sets up the input map to allow the drag label buttons to be triggered via the enter key.
      */
     private void setupButtonEnterInputMap() {
-        String pressed = "pressed";
-        String released = "released";
-        String enter = "ENTER";
-        String releasedEnter = "released ENTER";
-        InputMap im = (InputMap) UIManager.get("Button.focusInputMap");
-        im.put(KeyStroke.getKeyStroke(enter), pressed);
-        im.put(KeyStroke.getKeyStroke(releasedEnter), released);
+        // todo constants
+        String PRESSED = "pressed";
+        String RELEASED = "released";
+        String ENTER = "ENTER";
+        String RELEASED_ENTER = "released ENTER";
+        InputMap inputMap = (InputMap) UIManager.get("Button.focusInputMap");
+        inputMap.put(KeyStroke.getKeyStroke(ENTER), PRESSED);
+        inputMap.put(KeyStroke.getKeyStroke(RELEASED_ENTER), RELEASED);
     }
 
     /**
@@ -2399,198 +2400,209 @@ public enum ConsoleFrame {
     private final AtomicBoolean backgroundSwitchingLocked = new AtomicBoolean(false);
 
     /**
+     * The fullscreen timeout between background animation increments.
+     */
+    private final int FULLSCREEN_TIMEOUT = 1;
+
+    /**
+     * The fullscreen increment for background animations.
+     */
+    private final int FULLSCREEN_INCREMENT = 20;
+
+    /**
+     * The default timeout between background animation increments.
+     */
+    private final int DEFAULT_TIMEOUT = 5;
+
+    /**
+     * The default increment for background animations.
+     */
+    private final int DEFAULT_INCREMENT = 8;
+
+    /**
      * Switches backgrounds to the next background in the list via a sliding animation.
      * The ConsoleFrame will remain in fullscreen mode if in fullscreen mode as well as maintain
      * whatever size it was at before a background switch was requested.
      */
     @SuppressWarnings("UnnecessaryDefault")
     private void switchBackground() {
-        // todo narrow scope
-        try {
-            if (backgroundSwitchingLocked.get()) {
-                return;
-            }
 
-            backgroundSwitchingLocked.set(true);
-
-            ImageIcon nextBackground = (backgroundIndex + 1 == backgrounds.size()
-                    ? backgrounds.get(0).generateImageIcon()
-                    : backgrounds.get(backgroundIndex + 1).generateImageIcon());
-
-            backgroundIndex = backgroundIndex + 1 == backgrounds.size()
-                     ? 0 : backgroundIndex + 1;
-
-            int width = nextBackground.getIconWidth();
-            int height = nextBackground.getIconHeight();
-
-            if (isFullscreen()) {
-                width = (int) consoleCyderFrame.getMonitorBounds().getWidth();
-                height = (int) consoleCyderFrame.getMonitorBounds().getHeight();
-                nextBackground = ImageUtil.resizeImage(nextBackground, width, height);
-            } else if (consoleDir == Direction.LEFT) {
-                width = nextBackground.getIconHeight();
-                height = nextBackground.getIconWidth();
-                nextBackground = ImageUtil.rotateImage(nextBackground, -90);
-            } else if (consoleDir == Direction.RIGHT) {
-                width = nextBackground.getIconHeight();
-                height = nextBackground.getIconWidth();
-                nextBackground = ImageUtil.rotateImage(nextBackground, 90);
-            } else if (consoleDir == Direction.BOTTOM) {
-                width = nextBackground.getIconWidth();
-                height = nextBackground.getIconHeight();
-                nextBackground = ImageUtil.rotateImage(nextBackground, 180);
-            }
-
-            // get console frame's content pane
-            JLabel contentPane = getConsoleCyderFrameContentPane();
-
-            // tooltip based on image name
-            contentPane.setToolTipText(FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
-
-            // create final background that won't change
-            ImageIcon nextBackFinal = nextBackground;
-
-            // Get the original background and resize it as needed
-            ImageIcon oldBack = ImageUtil.resizeImage((ImageIcon) contentPane.getIcon(), width, height);
-
-            // Change frame size and put the center in the same spot
-            Point originalCenter = consoleCyderFrame.getCenterPointOnScreen();
-            consoleCyderFrame.setSize(width, height);
-
-            // Bump frame into bounds if new size pushed part out of bounds
-            FrameUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
-                    (int) originalCenter.getX() - width / 2,
-                    (int) originalCenter.getY() - height / 2, consoleCyderFrame);
-
-            ImageIcon combinedIcon = switch (lastSlideDirection) {
-                case LEFT -> ImageUtil.combineImages(oldBack, nextBackground, Direction.BOTTOM);
-                case RIGHT -> ImageUtil.combineImages(oldBack, nextBackground, Direction.TOP);
-                case TOP -> ImageUtil.combineImages(oldBack, nextBackground, Direction.LEFT);
-                case BOTTOM -> ImageUtil.combineImages(oldBack, nextBackground, Direction.RIGHT);
-                default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
-            };
-
-            // Revalidate bounds for icon label and icon pane
-            consoleCyderFrame.refreshBackground();
-
-            // Set dimensions
-            switch (lastSlideDirection) {
-                case LEFT ->
-                        // will be sliding up
-                        contentPane.setBounds(CyderFrame.FRAME_RESIZING_LEN, CyderFrame.FRAME_RESIZING_LEN,
-                                combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
-                case RIGHT ->
-                        // will be sliding down
-                        contentPane.setBounds(CyderFrame.FRAME_RESIZING_LEN, -combinedIcon.getIconHeight() / 2,
-                                combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
-                case TOP ->
-                        // will be sliding right
-                        contentPane.setBounds(-combinedIcon.getIconWidth() / 2, CyderFrame.FRAME_RESIZING_LEN,
-                                combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
-                case BOTTOM ->
-                        // will be sliding left
-                        contentPane.setBounds(combinedIcon.getIconWidth() / 2, CyderFrame.FRAME_RESIZING_LEN,
-                                combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
-                default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
-            }
-
-            // set to combined icon
-            contentPane.setIcon(combinedIcon);
-
-            boolean wasDraggable = consoleCyderFrame.isDraggingEnabled();
-            consoleCyderFrame.disableDragging();
-
-            boolean outputAreaWasFocusable = outputArea.isFocusable();
-            outputArea.setFocusable(false);
-
-            // todo constants package for console?
-            int FULLSCREEN_TIMEOUT = 1;
-            int FULLSCREEN_INCREMENT = 20;
-            int DEFAULT_TIMEOUT = 5;
-            int DEFAULT_INCREMENT = 8;
-
-            CyderThreadRunner.submit(() -> {
-                int timeout = isFullscreen() ? FULLSCREEN_TIMEOUT : DEFAULT_TIMEOUT;
-                int increment = isFullscreen() ? FULLSCREEN_INCREMENT : DEFAULT_INCREMENT;
-
-                switch (lastSlideDirection) {
-                    case LEFT -> {
-                        // Sliding up
-                        for (int i = 0 ; i >= -consoleCyderFrame.getHeight() ; i -= increment) {
-                            try {
-                                Thread.sleep(timeout);
-                                contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
-                            } catch (InterruptedException e) {
-                                ExceptionHandler.handle(e);
-                            }
-                        }
-                        lastSlideDirection = Direction.TOP;
-                    }
-                    case RIGHT -> {
-                        // Sliding down
-                        for (int i = -consoleCyderFrame.getHeight() ; i <= 0 ; i += increment) {
-                            try {
-                                Thread.sleep(timeout);
-                                contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
-                            } catch (InterruptedException e) {
-                                ExceptionHandler.handle(e);
-                            }
-                        }
-                        lastSlideDirection = Direction.BOTTOM;
-                    }
-                    case TOP -> {
-                        // Sliding right
-                        for (int i = -consoleCyderFrame.getWidth() ; i <= 0 ; i += increment) {
-                            try {
-                                Thread.sleep(timeout);
-                                contentPane.setLocation(i,
-                                        consoleCyderFrame.getContentPane().getY());
-                            } catch (InterruptedException e) {
-                                ExceptionHandler.handle(e);
-                            }
-                        }
-                        lastSlideDirection = Direction.RIGHT;
-                    }
-                    case BOTTOM -> {
-                        // Sliding left
-                        for (int i = 0 ; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
-                            try {
-                                Thread.sleep(timeout);
-                                contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
-                            } catch (InterruptedException e) {
-                                ExceptionHandler.handle(e);
-                            }
-                        }
-                        lastSlideDirection = Direction.LEFT;
-                    }
-                    default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
-                }
-
-                consoleCyderFrame.setBackground(nextBackFinal);
-                contentPane.setIcon(nextBackFinal);
-
-                consoleCyderFrame.refreshBackground();
-                consoleCyderFrame.getContentPane().revalidate();
-
-                // todo use this possibly: refreshConsoleFrameMaxSize();
-                consoleCyderFrame.setMaximumSize(new Dimension(
-                        nextBackFinal.getIconWidth(), nextBackFinal.getIconHeight()));
-
-                consoleCyderFrame.setDraggingEnabled(wasDraggable);
-                outputArea.setFocusable(outputAreaWasFocusable);
-
-                // Revalidate bounds to be safe
-                boolean fullscreen = isFullscreen();
-                revalidate(!fullscreen, fullscreen);
-
-                // Default focus owner
-                inputField.requestFocus();
-
-                backgroundSwitchingLocked.set(false);
-            },"Background Switcher");
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+        if (backgroundSwitchingLocked.get()) {
+            return;
         }
+
+        backgroundSwitchingLocked.set(true);
+
+        ImageIcon nextBackground = (backgroundIndex + 1 == backgrounds.size()
+                ? backgrounds.get(0).generateImageIcon()
+                : backgrounds.get(backgroundIndex + 1).generateImageIcon());
+
+        backgroundIndex = backgroundIndex + 1 == backgrounds.size()
+                ? 0 : backgroundIndex + 1;
+
+        int width = nextBackground.getIconWidth();
+        int height = nextBackground.getIconHeight();
+
+        if (isFullscreen()) {
+            width = (int) consoleCyderFrame.getMonitorBounds().getWidth();
+            height = (int) consoleCyderFrame.getMonitorBounds().getHeight();
+            nextBackground = ImageUtil.resizeImage(nextBackground, width, height);
+        } else if (consoleDir == Direction.LEFT) {
+            width = nextBackground.getIconHeight();
+            height = nextBackground.getIconWidth();
+            nextBackground = ImageUtil.rotateImage(nextBackground, -90);
+        } else if (consoleDir == Direction.RIGHT) {
+            width = nextBackground.getIconHeight();
+            height = nextBackground.getIconWidth();
+            nextBackground = ImageUtil.rotateImage(nextBackground, 90);
+        } else if (consoleDir == Direction.BOTTOM) {
+            width = nextBackground.getIconWidth();
+            height = nextBackground.getIconHeight();
+            nextBackground = ImageUtil.rotateImage(nextBackground, 180);
+        }
+
+        // get console frame's content pane
+        JLabel contentPane = getConsoleCyderFrameContentPane();
+
+        // tooltip based on image name
+        contentPane.setToolTipText(FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
+
+        // create final background that won't change
+        ImageIcon nextBackFinal = nextBackground;
+
+        // Get the original background and resize it as needed
+        ImageIcon oldBack = ImageUtil.resizeImage((ImageIcon) contentPane.getIcon(), width, height);
+
+        // Change frame size and put the center in the same spot
+        Point originalCenter = consoleCyderFrame.getCenterPointOnScreen();
+        consoleCyderFrame.setSize(width, height);
+
+        // Bump frame into bounds if new size pushed part out of bounds
+        FrameUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
+                (int) originalCenter.getX() - width / 2,
+                (int) originalCenter.getY() - height / 2, consoleCyderFrame);
+
+        ImageIcon combinedIcon = switch (lastSlideDirection) {
+            case LEFT -> ImageUtil.combineImages(oldBack, nextBackground, Direction.BOTTOM);
+            case RIGHT -> ImageUtil.combineImages(oldBack, nextBackground, Direction.TOP);
+            case TOP -> ImageUtil.combineImages(oldBack, nextBackground, Direction.LEFT);
+            case BOTTOM -> ImageUtil.combineImages(oldBack, nextBackground, Direction.RIGHT);
+            default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
+        };
+
+        // Revalidate bounds for icon label and icon pane
+        consoleCyderFrame.refreshBackground();
+
+        // Set dimensions
+        switch (lastSlideDirection) {
+            case LEFT ->
+                    // will be sliding up
+                    contentPane.setBounds(CyderFrame.FRAME_RESIZING_LEN, CyderFrame.FRAME_RESIZING_LEN,
+                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
+            case RIGHT ->
+                    // will be sliding down
+                    contentPane.setBounds(CyderFrame.FRAME_RESIZING_LEN, -combinedIcon.getIconHeight() / 2,
+                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
+            case TOP ->
+                    // will be sliding right
+                    contentPane.setBounds(-combinedIcon.getIconWidth() / 2, CyderFrame.FRAME_RESIZING_LEN,
+                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
+            case BOTTOM ->
+                    // will be sliding left
+                    contentPane.setBounds(combinedIcon.getIconWidth() / 2, CyderFrame.FRAME_RESIZING_LEN,
+                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
+            default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
+        }
+
+        // set to combined icon
+        contentPane.setIcon(combinedIcon);
+
+        boolean wasDraggable = consoleCyderFrame.isDraggingEnabled();
+        consoleCyderFrame.disableDragging();
+
+        boolean outputAreaWasFocusable = outputArea.isFocusable();
+        outputArea.setFocusable(false);
+
+        CyderThreadRunner.submit(() -> {
+            int timeout = isFullscreen() ? FULLSCREEN_TIMEOUT : DEFAULT_TIMEOUT;
+            int increment = isFullscreen() ? FULLSCREEN_INCREMENT : DEFAULT_INCREMENT;
+
+            switch (lastSlideDirection) {
+                case LEFT -> {
+                    // Sliding up
+                    for (int i = 0 ; i >= -consoleCyderFrame.getHeight() ; i -= increment) {
+                        try {
+                            Thread.sleep(timeout);
+                            contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
+                        } catch (InterruptedException e) {
+                            ExceptionHandler.handle(e);
+                        }
+                    }
+                    lastSlideDirection = Direction.TOP;
+                }
+                case RIGHT -> {
+                    // Sliding down
+                    for (int i = -consoleCyderFrame.getHeight() ; i <= 0 ; i += increment) {
+                        try {
+                            Thread.sleep(timeout);
+                            contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
+                        } catch (InterruptedException e) {
+                            ExceptionHandler.handle(e);
+                        }
+                    }
+                    lastSlideDirection = Direction.BOTTOM;
+                }
+                case TOP -> {
+                    // Sliding right
+                    for (int i = -consoleCyderFrame.getWidth() ; i <= 0 ; i += increment) {
+                        try {
+                            Thread.sleep(timeout);
+                            contentPane.setLocation(i,
+                                    consoleCyderFrame.getContentPane().getY());
+                        } catch (InterruptedException e) {
+                            ExceptionHandler.handle(e);
+                        }
+                    }
+                    lastSlideDirection = Direction.RIGHT;
+                }
+                case BOTTOM -> {
+                    // Sliding left
+                    for (int i = 0 ; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
+                        try {
+                            Thread.sleep(timeout);
+                            contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
+                        } catch (InterruptedException e) {
+                            ExceptionHandler.handle(e);
+                        }
+                    }
+                    lastSlideDirection = Direction.LEFT;
+                }
+                default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
+            }
+
+            consoleCyderFrame.setBackground(nextBackFinal);
+            contentPane.setIcon(nextBackFinal);
+
+            consoleCyderFrame.refreshBackground();
+            consoleCyderFrame.getContentPane().revalidate();
+
+            // todo test to ensure same functionality
+            refreshConsoleFrameMaxSize();
+            //                consoleCyderFrame.setMaximumSize(new Dimension(
+            //                        nextBackFinal.getIconWidth(), nextBackFinal.getIconHeight()));
+
+            consoleCyderFrame.setDraggingEnabled(wasDraggable);
+            outputArea.setFocusable(outputAreaWasFocusable);
+
+            // Revalidate bounds to be safe
+            boolean fullscreen = isFullscreen();
+            revalidate(!fullscreen, fullscreen);
+
+            // Default focus owner
+            inputField.requestFocus();
+
+            backgroundSwitchingLocked.set(false);
+        }, "Background Switcher");
     }
 
     /**
