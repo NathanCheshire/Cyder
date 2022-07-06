@@ -383,23 +383,37 @@ public class StringUtil {
     }
 
     /**
-     * Determines the proper english grammar when attempting to use possession on a string that typically
-     * represents a noun.
+     * Determines the proper english grammar when attempting to use possession
+     * on a string that represents a noun.
      *
-     * @param name the proper name of the noun
+     * @param name the proper singular form of the noun
      * @return the string to be appended to the proper noun ('s or simply ')
      */
     public static String getApostrophe(String name) {
-        if (name.endsWith("s"))
+        if (name.endsWith("s")) {
             return "'";
-        else
+        } else {
             return "'s";
+        }
     }
 
-    // todo lets implement these rules https://www.grammarly.com/blog/plural-nouns/
     /**
-     * Returns the plural form of the word. A singular item doesn't need to be made plural
-     * whilst any number of objects other than 1 should be converted to plural using English Language rules.
+     * Returns the most probable plural form of the provided noun.
+     *
+     * @param singularNoun the singular form of the noun
+     * @return the most probable plural form of the noun
+     */
+    public static String getPluralForm(String singularNoun) {
+        // todo Wolfram Alpha API link here
+        // todo maybe make a unit test as well
+
+        return "";
+    }
+
+    /**
+     * Returns the form of the word depending on the number of items.
+     * A singular item doesn't need to be made plural whilst any number of objects other
+     * than one should be converted to plural using standard English Language rules.
      *
      * @param num  the number of items associated with the word
      * @param word the word to be converted to plural
@@ -408,8 +422,10 @@ public class StringUtil {
     public static String getPlural(int num, String word) {
         if (num == 1) {
             return word;
+        } else if (word.endsWith("s")) {
+            return word + "es";
         } else {
-            return word.endsWith("s") ? word + "es" : word + "s";
+            return word + "s";
         }
     }
 
@@ -908,7 +924,7 @@ public class StringUtil {
      * Returns the minimum width required for the given String using the given font.
      *
      * @param title the text you want to determine the width of
-     * @param font     the font for the text
+     * @param font  the font for the text
      * @return an integer value determining the minimum width of
      * a string of text (10 is added to avoid ... bug)
      */
@@ -922,7 +938,7 @@ public class StringUtil {
      * Returns the minimum width required for the given String using the given font.
      *
      * @param title the text you want to determine the width of
-     * @param font     the font for the text
+     * @param font  the font for the text
      * @return an integer value determining the minimum width of a string of text
      */
     public static int getAbsoluteMinWidth(String title, Font font) {
@@ -935,7 +951,7 @@ public class StringUtil {
      * Returns the minimum height required for the given String using the given font.
      *
      * @param title the text you want to determine the height of
-     * @param font the font to use to determine the min height
+     * @param font  the font to use to determine the min height
      * @return an integer value determining the minimum height
      * of a string of text (10 is added to avoid ... bug)
      */
@@ -950,7 +966,7 @@ public class StringUtil {
      * using the given font without adding 10.
      *
      * @param title the text you want to determine the height of
-     * @param font the font to use to determine the min height
+     * @param font  the font to use to determine the min height
      * @return an integer value determining the minimum height of a string of text
      */
     public static int getAbsoluteMinHeight(String title, Font font) {
@@ -1064,7 +1080,7 @@ public class StringUtil {
      * string alpha into string beta
      */
     private static int distance(String alpha, String beta) {
-      if (Objects.equals(alpha, beta)) {
+        if (Objects.equals(alpha, beta)) {
             return 0;
         }
 
