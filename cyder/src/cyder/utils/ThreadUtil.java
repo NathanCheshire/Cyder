@@ -9,7 +9,7 @@ import java.util.LinkedList;
 /**
  * A utility class for getting thread names and counts.
  */
-public class ThreadUtil {
+public final class ThreadUtil {
     /**
      * Suppress default constructor.
      */

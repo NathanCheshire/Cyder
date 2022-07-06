@@ -819,11 +819,10 @@ public class StringUtil {
      * @param htmlText the text containing html tags
      * @return a linked list where each object represents either a complete tag or raw text
      */
-    public static LinkedList<BoundsUtil.TaggedString> getTaggedStrings(String htmlText) {
+    public static ImmutableList<BoundsUtil.TaggedString> getTaggedStrings(String htmlText) {
         Preconditions.checkNotNull(htmlText);
         Preconditions.checkArgument(!htmlText.isEmpty());
 
-        //init list for strings by tag
         LinkedList<BoundsUtil.TaggedString> taggedStrings = new LinkedList<>();
 
         //figure out tags
@@ -851,7 +850,7 @@ public class StringUtil {
         if (!textCopy.isEmpty())
             taggedStrings.add(new BoundsUtil.TaggedString(textCopy, BoundsUtil.TaggedString.Type.TEXT));
 
-        return taggedStrings;
+        return ImmutableList.copyOf(taggedStrings);
     }
 
     /**
@@ -887,14 +886,15 @@ public class StringUtil {
 
         int length = 0;
 
-        LinkedList<BoundsUtil.TaggedString> taggedStrings = getTaggedStrings(htmlText);
+        ImmutableList<BoundsUtil.TaggedString> taggedStrings = getTaggedStrings(htmlText);
 
         if (taggedStrings.isEmpty()) {
             length = htmlText.length();
         } else {
             for (BoundsUtil.TaggedString ts : taggedStrings) {
-                if (ts.type() == BoundsUtil.TaggedString.Type.TEXT)
+                if (ts.type() == BoundsUtil.TaggedString.Type.TEXT) {
                     length += ts.text().length();
+                }
             }
         }
 

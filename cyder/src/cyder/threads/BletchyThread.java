@@ -1,6 +1,7 @@
 package cyder.threads;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.console.ConsoleFrame;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -16,16 +17,16 @@ import java.util.concurrent.Semaphore;
 /**
  * A class used to perform bletchy animations on a specific JTextPane.
  */
-public class BletchyThread {
+public final class BletchyThread {
     /**
-     * Suppress default constructor..
+     * Suppress default constructor.
      */
     private BletchyThread() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**
-     * Inner animator class.
+     * The inner animator class.
      */
     private static BletchyAnimator bletchyAnimator;
 
@@ -151,19 +152,66 @@ public class BletchyThread {
     }
 
     /**
-     * Character array of all lowercase latin characters.
+     * Character list of all lowercase latin characters.
      */
-    private static Character[] lowercaseAlphabet =
-            {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-                    'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    private static final ImmutableList<Character> lowercaseAlphabet
+            = ImmutableList.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+            'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
 
     /**
-     * Character array of all lowercase latin characters and the base 10 numbers.
+     * Character list of all lowercase latin characters and the base 10 numbers.
      */
-    private static final Character[] lowercaseAlphabetAndBase10 =
-            {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-                    'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    private static final ImmutableList<Character> lowercaseAlphabetAndBase10
+            = ImmutableList.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+            'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+
+    /**
+     * Character list of all unicode card suit characters.
+     */
+    private static final ImmutableList<Character> cardSuits = ImmutableList.of(
+            (char) 9824,
+            (char) 9825,
+            (char) 9826,
+            (char) 9827,
+            (char) 9828,
+            (char) 9829,
+            (char) 9830,
+            (char) 9831,
+            (char) 9832,
+            (char) 9833,
+            (char) 9834,
+            (char) 9835);
+
+    /**
+     * Character list of unicode chars used for bletchy animations.
+     */
+    private static final ImmutableList<Character> unicodeChars;
+
+    /**
+     * The starting index of the unicode chars to use for bletchy animations.
+     */
+    private static final int UNICODE_START_INDEX = 880;
+
+    /**
+     * The ending index of the unicode chars to use for bletchy animations.
+     */
+    private static final int UNICODE_END_INDEX = 1023;
+
+    static {
+        LinkedList<Character> ret = new LinkedList<>();
+
+        for (int index = UNICODE_START_INDEX ; index <= UNICODE_END_INDEX ; index++) {
+            ret.add((char) index);
+        }
+
+        unicodeChars = ImmutableList.copyOf(ret);
+    }
+
+    /**
+     * The number of bletchy animation iterations per decode character.
+     */
+    private static final int iterationsPerChar = 7;
 
     /**
      * Returns an array of Strings abiding by the parameters for a bletchy thread to print.
@@ -180,30 +228,20 @@ public class BletchyThread {
         LinkedList<String> retList = new LinkedList<>();
 
         String decodeUsage = decodeString.toLowerCase().trim();
-
         int len = decodeUsage.length();
 
+        LinkedList<Character> charsToUse = new LinkedList<>();
+
         if (useNumbers) {
-            lowercaseAlphabet = lowercaseAlphabetAndBase10;
+            charsToUse.addAll(lowercaseAlphabetAndBase10);
+        } else {
+            charsToUse.addAll(lowercaseAlphabet);
         }
 
         if (useUnicode) {
-            LinkedList<Character> chars = new LinkedList<>();
-
-            // card suites
-            for (int index = 9824 ; index <= 9835 ; index++) {
-                chars.add((char) index);
-            }
-
-            //cool looking unicode chars
-            for (int index = 880 ; index <= 1023 ; index++) {
-                chars.add((char) index);
-            }
-
-            lowercaseAlphabet = chars.toArray(new Character[0]);
+            charsToUse.addAll(cardSuits);
+            charsToUse.addAll(unicodeChars);
         }
-
-        int iterationsPerChar = 7;
 
         for (int i = 1 ; i < len ; i++) {
             for (int j = 0 ; j < iterationsPerChar ; j++) {
@@ -211,8 +249,7 @@ public class BletchyThread {
                 StringBuilder current = new StringBuilder();
 
                 for (int k = 0 ; k <= len ; k++) {
-                    current.append(lowercaseAlphabet[NumberUtil.randInt(0,
-                            lowercaseAlphabet.length - 1)]);
+                    current.append(charsToUse.get(NumberUtil.randInt(0, charsToUse.size() - 1)));
                 }
 
                 retList.add((decodeUsage.substring(0, i) + current.substring(i, len)).toUpperCase());

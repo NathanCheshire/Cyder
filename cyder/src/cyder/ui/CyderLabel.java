@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
@@ -145,7 +146,7 @@ public class CyderLabel extends JLabel {
                 String parsedChars = Jsoup.clean(getText(), Safelist.none());
 
                 //init list for strings by tag
-                LinkedList<BoundsUtil.TaggedString> taggedStrings = StringUtil.getTaggedStrings(originalText);
+                ImmutableList<BoundsUtil.TaggedString> taggedStrings = StringUtil.getTaggedStrings(originalText);
 
                 //init ripple iterations list
                 LinkedList<String> rippleTextIterations = new LinkedList<>();
