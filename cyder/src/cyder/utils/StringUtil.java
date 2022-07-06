@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderUrls;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderOutputPane;
 import cyder.youtube.YoutubeConstants;
@@ -41,10 +42,16 @@ public class StringUtil {
     private final CyderOutputPane linkedCyderPane;
 
     /**
+     * The error message if the private constructor is invoked via reflection.
+     */
+    private static final String INSTANTIATION_MESSAGE
+            = "Instantiation of StringUtil is not permitted without a CyderOutputPane";
+
+    /**
      * Suppress default constructor.
      */
     private StringUtil() {
-        throw new IllegalStateException("Instantiation of StringUtil is not permitted without a CyderOutputPane");
+        throw new IllegalMethodException(INSTANTIATION_MESSAGE);
     }
 
     /**
@@ -53,8 +60,7 @@ public class StringUtil {
      * @param cyderOutputPane the CyderOutputPane to link
      */
     public StringUtil(CyderOutputPane cyderOutputPane) {
-        if (cyderOutputPane == null)
-            throw new IllegalArgumentException("Provided output pane is null");
+        Preconditions.checkNotNull(cyderOutputPane);
 
         linkedCyderPane = cyderOutputPane;
     }
@@ -160,6 +166,7 @@ public class StringUtil {
             LinkedList<Element> elements = new LinkedList<>();
             ElementIterator iterator = new ElementIterator(linkedCyderPane.getJTextPane().getStyledDocument());
             Element element;
+
             while ((element = iterator.next()) != null) {
                 elements.add(element);
             }
@@ -183,8 +190,7 @@ public class StringUtil {
                             value.getEndOffset() - value.getStartOffset());
                 }
             }
-        } catch (BadLocationException ignored) {
-        } catch (Exception e) {
+        } catch (BadLocationException ignored) {} catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
@@ -198,16 +204,20 @@ public class StringUtil {
      * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
      * modifiers, etc. have been set before printing the component.
      *
-     * @param c   the component to append to the pane
-     * @param nm  the name identifier for the style
-     * @param str the string identifier for the underlying insert string call
+     * @param component the component to append to the pane
+     * @param name      the name identifier for the style
+     * @param stringId  the string identifier for the underlying insert string call
      */
-    public synchronized void printComponent(Component c, String nm, String str) {
+    public synchronized void printComponent(Component component, String name, String stringId) {
+        Preconditions.checkNotNull(component);
+        Preconditions.checkNotNull(name);
+        Preconditions.checkNotNull(stringId);
+
         try {
-            Style cs = linkedCyderPane.getJTextPane().getStyledDocument().addStyle(nm, null);
-            StyleConstants.setComponent(cs, c);
+            Style cs = linkedCyderPane.getJTextPane().getStyledDocument().addStyle(name, null);
+            StyleConstants.setComponent(cs, component);
             linkedCyderPane.getJTextPane().getStyledDocument()
-                    .insertString(linkedCyderPane.getJTextPane().getStyledDocument().getLength(), str, cs);
+                    .insertString(linkedCyderPane.getJTextPane().getStyledDocument().getLength(), stringId, cs);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -217,13 +227,15 @@ public class StringUtil {
      * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
      * modifiers, etc. have been set before printing the component.
      *
-     * @param c the component to append to the pane
+     * @param component the component to append to the pane
      */
-    public synchronized void printComponent(Component c) {
+    public synchronized void printComponent(Component component) {
+        Preconditions.checkNotNull(component);
+
         try {
             String componentUUID = SecurityUtil.generateUuid();
             Style cs = linkedCyderPane.getJTextPane().getStyledDocument().addStyle(componentUUID, null);
-            StyleConstants.setComponent(cs, c);
+            StyleConstants.setComponent(cs, component);
             linkedCyderPane.getJTextPane().getStyledDocument()
                     .insertString(linkedCyderPane.getJTextPane().getStyledDocument().getLength(), componentUUID, cs);
         } catch (Exception e) {
@@ -236,12 +248,14 @@ public class StringUtil {
      * modifiers, etc. have been set before printing the component. Following the component print,
      * a new line is appended to the pane.
      *
-     * @param c the component to append to the pane
+     * @param component the component to append to the pane
      */
-    public synchronized void printlnComponent(Component c) {
+    public synchronized void printlnComponent(Component component) {
+        Preconditions.checkNotNull(component);
+
         try {
             String componentUUID = SecurityUtil.generateUuid();
-            printComponent(c, componentUUID, componentUUID);
+            printComponent(component, componentUUID, componentUUID);
             println("");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -253,13 +267,17 @@ public class StringUtil {
      * modifiers, etc. have been set before printing the component. Following the component print,
      * a new line is appended to the pane.
      *
-     * @param c   the component to append to the pane
-     * @param nm  the name identifier for the style
-     * @param str the string identifier for the underlying insert string call
+     * @param component the component to append to the pane
+     * @param name      the name identifier for the style
+     * @param stringId  the string identifier for the underlying insert string call
      */
-    public synchronized void printlnComponent(Component c, String nm, String str) {
+    public synchronized void printlnComponent(Component component, String name, String stringId) {
+        Preconditions.checkNotNull(component);
+        Preconditions.checkNotNull(name);
+        Preconditions.checkNotNull(stringId);
+
         try {
-            printComponent(c, nm, str);
+            printComponent(component, name, stringId);
             println("");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -269,13 +287,13 @@ public class StringUtil {
     /**
      * Prints the provided generic to the linked JTextPane.
      *
-     * @param usage the provided generic to print to the linked JTextPane
+     * @param print the provided generic to print to the linked JTextPane
      * @param <T>   the type of the generic
      */
-    public synchronized <T> void print(T usage) {
+    public synchronized <T> void print(T print) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), usage.toString(), null);
+            document.insertString(document.getLength(), print.toString(), null);
             linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -285,13 +303,13 @@ public class StringUtil {
     /**
      * Prints the provided generic to the linked JTextPane followed by a newline.
      *
-     * @param usage the provided generic to print to the linked JTextPane
+     * @param print the provided generic to print to the linked JTextPane
      * @param <T>   the type of the generic
      */
-    public synchronized <T> void println(T usage) {
+    public synchronized <T> void println(T print) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), usage.toString() + "\n", null);
+            document.insertString(document.getLength(), print.toString() + "\n", null);
             linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -344,10 +362,15 @@ public class StringUtil {
      */
     private static final String magicMenuSepText = "NateCheshire";
 
+    private static final int menuSepX = 0;
+    private static final int menuSepY = 7;
+    private static final int menuSepWidth = 175;
+    private static final int menuSepHeight = 5;
+
     /**
      * The bounds for a menu separation label.
      */
-    private static final Rectangle menuSepBounds = new Rectangle(0, 7, 175, 5);
+    private static final Rectangle menuSepBounds = new Rectangle(menuSepX, menuSepY, menuSepWidth, menuSepHeight);
 
     /**
      * Returns a menu separator label.
@@ -420,6 +443,8 @@ public class StringUtil {
      * @return the plural form of the word
      */
     public static String getPlural(int num, String word) {
+        Preconditions.checkNotNull(word);
+
         if (num == 1) {
             return word;
         } else if (word.endsWith("s")) {
@@ -432,12 +457,14 @@ public class StringUtil {
     /**
      * Fills a string with the provided character to result in a string of the specified length.
      *
-     * @param count the length of the resultant string
-     * @param c     the character to fill the string with
+     * @param count     the length of the resultant string
+     * @param character the character to fill the string with
      * @return the resultant filled array
      */
-    public static String fillString(int count, String c) {
-        return String.valueOf(c).repeat(Math.max(0, count));
+    public static String fillString(int count, String character) {
+        Preconditions.checkNotNull(character);
+
+        return character.repeat(Math.max(0, count));
     }
 
     /**
@@ -447,6 +474,8 @@ public class StringUtil {
      * @return the result of the comparison
      */
     public static boolean isPalindrome(String word) {
+        Preconditions.checkNotNull(word);
+
         return Arrays.equals(word.toLowerCase().toCharArray(), reverseArray(word.toLowerCase().toCharArray()));
     }
 
@@ -458,15 +487,13 @@ public class StringUtil {
      * @return the resultant string
      */
     public static String capsFirstWords(String word) {
-        Preconditions.checkNotNull(word, "Provided word is null");
-        Preconditions.checkArgument(!word.isEmpty(), "Provided string is empty");
+        Preconditions.checkNotNull(word);
+        Preconditions.checkArgument(!word.isEmpty());
 
-        // split at spaces
         StringBuilder sb = new StringBuilder(word.length());
         String[] words = word.split("\\s+");
 
         for (String wordy : words) {
-            // capitalize first char and append rest
             sb.append(Character.toUpperCase(wordy.charAt(0)));
             sb.append(wordy.substring(1).toLowerCase()).append(" ");
         }
@@ -590,9 +617,10 @@ public class StringUtil {
      * @return a boolean depicting whether the given string contains the test word
      */
     public static boolean hasWord(String userInput, String findWord, boolean removeComments) {
-        if (userInput == null || findWord == null)
-            throw new IllegalArgumentException("Provided input is null: userInput = "
-                    + userInput + ", word = " + findWord);
+        Preconditions.checkNotNull(userInput);
+        Preconditions.checkArgument(!userInput.isEmpty());
+        Preconditions.checkNotNull(findWord);
+        Preconditions.checkArgument(!findWord.isEmpty());
 
         if (removeComments) {
             userInput = userInput.replace("//", "")
@@ -623,6 +651,9 @@ public class StringUtil {
      * @return a boolean describing whether the filter was triggered by the input
      */
     public static boolean containsBlockedWords(String input, boolean filterLeet) {
+        Preconditions.checkNotNull(input);
+        Preconditions.checkArgument(!input.isEmpty());
+
         boolean ret = false;
 
         if (filterLeet)
@@ -652,13 +683,15 @@ public class StringUtil {
      * @return the resultant string
      */
     public static String firstCharToLowerCase(String str) {
-        if (str == null || str.isEmpty())
+        if (isNull(str)) {
             return "";
+        }
 
-        if (str.length() == 1)
+        if (str.length() == 1) {
             return str.toLowerCase();
-        else
+        } else {
             return str.substring(0, 1).toLowerCase() + str.substring(1);
+        }
     }
 
     /**
@@ -678,17 +711,22 @@ public class StringUtil {
      * @return the corrected string
      */
     public static String formatCommas(String input) {
-        if (!input.contains(","))
-            throw new IllegalArgumentException("Input does not contain a comma");
-        else {
-            String[] parts = input.split(",");
-            StringBuilder sb = new StringBuilder();
+        Preconditions.checkNotNull(input);
+        Preconditions.checkArgument(!input.isEmpty());
 
-            for (String s : parts)
-                sb.append(s).append(", ");
+        String[] parts = input.split(",");
+        StringBuilder sb = new StringBuilder();
 
-            return sb.substring(0, sb.toString().length() - 2);
+        for (int i = 0 ; i < parts.length ; i++) {
+            sb.append(parts[i]);
+
+            if (i != parts.length - 1) {
+                sb.append(", ");
+            }
         }
+
+        return sb.toString();
+
     }
 
     /**
@@ -763,12 +801,16 @@ public class StringUtil {
      * @return a boolean describing whether these words are anagrams
      */
     public static boolean areAnagrams(String wordOne, String wordTwo) {
-        char[] W1C = wordOne.toLowerCase().toCharArray();
-        char[] W2C = wordTwo.toLowerCase().toCharArray();
-        Arrays.sort(W1C);
-        Arrays.sort(W2C);
+        Preconditions.checkNotNull(wordOne);
+        Preconditions.checkNotNull(wordTwo);
 
-        return Arrays.equals(W1C, W2C);
+        char[] wordOneArr = wordOne.toLowerCase().toCharArray();
+        char[] wordTwoArr = wordTwo.toLowerCase().toCharArray();
+
+        Arrays.sort(wordOneArr);
+        Arrays.sort(wordTwoArr);
+
+        return Arrays.equals(wordOneArr, wordTwoArr);
     }
 
     /**
@@ -840,6 +882,9 @@ public class StringUtil {
      * @return the length of the non-html text
      */
     public static int getRawTextLength(String htmlText) {
+        Preconditions.checkNotNull(htmlText);
+        Preconditions.checkArgument(!htmlText.isEmpty());
+
         int length = 0;
 
         LinkedList<BoundsUtil.TaggedString> taggedStrings = getTaggedStrings(htmlText);
@@ -864,6 +909,9 @@ public class StringUtil {
      * @return the text after trimming operations have been performed
      */
     public static String getTrimmedText(String text) {
+        Preconditions.checkNotNull(text);
+        Preconditions.checkArgument(!text.isEmpty());
+
         return text.trim().replaceAll("\\s+", " ");
     }
 
@@ -875,6 +923,9 @@ public class StringUtil {
      * @return whether the provided string is in the list of strings
      */
     public static boolean in(String lookFor, String... strings) {
+        Preconditions.checkNotNull(lookFor);
+        Preconditions.checkArgument(!lookFor.isEmpty());
+
         return in(lookFor, false, strings);
     }
 
@@ -887,6 +938,9 @@ public class StringUtil {
      * @return whether the provided string is in the list of strings
      */
     public static boolean in(String lookFor, boolean ignoreCase, String... strings) {
+        Preconditions.checkNotNull(lookFor);
+        Preconditions.checkArgument(!lookFor.isEmpty());
+
         for (String look : strings) {
             if ((ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look)) {
                 return true;
@@ -905,6 +959,9 @@ public class StringUtil {
      * @return whether the provided string is in the list of strings
      */
     public static boolean in(String lookFor, boolean ignoreCase, Collection<String> strings) {
+        Preconditions.checkNotNull(lookFor);
+        Preconditions.checkArgument(!lookFor.isEmpty());
+
         for (String look : strings) {
             if ((ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look)) {
                 return true;
@@ -929,6 +986,10 @@ public class StringUtil {
      * a string of text (10 is added to avoid ... bug)
      */
     public static int getMinWidth(String title, Font font) {
+        Preconditions.checkNotNull(title);
+        Preconditions.checkArgument(!title.isEmpty());
+        Preconditions.checkNotNull(font);
+
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
         return (int) font.getStringBounds(title, frc).getWidth() + SIZE_ADDITIVE;
@@ -942,6 +1003,10 @@ public class StringUtil {
      * @return an integer value determining the minimum width of a string of text
      */
     public static int getAbsoluteMinWidth(String title, Font font) {
+        Preconditions.checkNotNull(title);
+        Preconditions.checkArgument(!title.isEmpty());
+        Preconditions.checkNotNull(font);
+
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
         return (int) font.getStringBounds(title, frc).getWidth();
@@ -956,6 +1021,10 @@ public class StringUtil {
      * of a string of text (10 is added to avoid ... bug)
      */
     public static int getMinHeight(String title, Font font) {
+        Preconditions.checkNotNull(title);
+        Preconditions.checkArgument(!title.isEmpty());
+        Preconditions.checkNotNull(font);
+
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
         return (int) font.getStringBounds(title, frc).getHeight() + SIZE_ADDITIVE;
@@ -970,6 +1039,10 @@ public class StringUtil {
      * @return an integer value determining the minimum height of a string of text
      */
     public static int getAbsoluteMinHeight(String title, Font font) {
+        Preconditions.checkNotNull(title);
+        Preconditions.checkArgument(!title.isEmpty());
+        Preconditions.checkNotNull(font);
+
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
         return (int) font.getStringBounds(title, frc).getHeight();
@@ -982,6 +1055,9 @@ public class StringUtil {
      * @return the string with the non-ascii characters removed
      */
     public static String parseNonAscii(String nonAsciiContaining) {
+        Preconditions.checkNotNull(nonAsciiContaining);
+        Preconditions.checkArgument(!nonAsciiContaining.isEmpty());
+
         return getTrimmedText(nonAsciiContaining.replaceAll("[^\\x00-\\x7F]", " "));
     }
 
@@ -992,8 +1068,16 @@ public class StringUtil {
      * @return whether the provided string contains non-ascii characters
      */
     public static boolean containsNonAscii(String nonAsciiContaining) {
+        Preconditions.checkNotNull(nonAsciiContaining);
+        Preconditions.checkArgument(!nonAsciiContaining.isEmpty());
+
         return CharMatcher.ascii().matchesAllOf(nonAsciiContaining);
     }
+
+    /**
+     * A space char.
+     */
+    private static final String SPACE = " ";
 
     /**
      * Returns a whitespace string of n spaces.
@@ -1003,7 +1087,7 @@ public class StringUtil {
      */
     public static String generateNSpaces(int n) {
         Preconditions.checkArgument(n > 0);
-        return " ".repeat(n);
+        return SPACE.repeat(n);
     }
 
     /**
@@ -1015,6 +1099,10 @@ public class StringUtil {
      * @return a list of the split parts
      */
     public static LinkedList<String> split(String string, Pattern pattern) {
+        Preconditions.checkNotNull(string);
+        Preconditions.checkArgument(!string.isEmpty());
+        Preconditions.checkNotNull(pattern);
+
         Matcher m = pattern.matcher(string);
         LinkedList<String> ret = new LinkedList<>();
 
@@ -1033,6 +1121,9 @@ public class StringUtil {
      * @return the line stripped of new line characters and trimmed
      */
     public static String stripNewLinesAndTrim(String line) {
+        Preconditions.checkNotNull(line);
+        Preconditions.checkArgument(!line.isEmpty());
+
         return line.replace("\n", " ").replace("\r", " ").trim();
     }
 
@@ -1066,6 +1157,9 @@ public class StringUtil {
      * @return the levenshtein distance between alpha and beta
      */
     public static int levenshteinDistance(String alpha, String beta) {
+        Preconditions.checkNotNull(alpha);
+        Preconditions.checkNotNull(beta);
+
         return distance(alpha, beta);
     }
 
@@ -1131,7 +1225,7 @@ public class StringUtil {
     /**
      * Generates the text to use for a custom component that extends JLabel to
      * for the component to paint with the necessary size for the component
-     * to be visible.
+     * to be visible. This is a Cyder specific method.
      *
      * @param numLines the number of lines of text to return
      * @return the text to use for the JLabel's text

@@ -12,6 +12,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
+import cyder.utils.BoundsUtil;
 import cyder.utils.NumberUtil;
 import cyder.utils.StringUtil;
 
@@ -24,7 +25,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 /**
- * A java implementation of the classic game hangman
+ * A java implementation of the classic Hangman game.
  */
 @CyderAuthor
 @Vanilla
@@ -166,6 +167,14 @@ public final class HangmanGame {
         setup();
     }
 
+    /**
+     * The underscore used for the current word label.
+     */
+    private static final String UNDERSCORE = " _ ";
+
+    /**
+     * Sets up the hangman game.
+     */
     private static void setup() {
         currentWordLabel.setFont(CyderFonts.SEGOE_20);
         restButton.setText("Reset");
@@ -182,13 +191,20 @@ public final class HangmanGame {
             ExceptionHandler.handle(e);
         }
 
-        currentWordLabel.setText("<html>" + StringUtil.fillString(hangmanWord.length(), " _ ") + "</html>");
+        currentWordLabel.setText(BoundsUtil.OPENING_HTML_TAG
+                + StringUtil.fillString(hangmanWord.length(), UNDERSCORE)
+                + BoundsUtil.CLOSING_HTML_TAG);
 
         imageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman.png"));
 
         numWrongGuesses = 0;
     }
 
+    /**
+     * Performs the actions necessary when a letter is chosen.
+     *
+     * @param letter the chosen letter
+     */
     private static void letterChosen(char letter) {
         if (chosenLetters.contains(String.valueOf(letter)))
             return;
