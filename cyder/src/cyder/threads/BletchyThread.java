@@ -10,7 +10,6 @@ import cyder.ui.CyderOutputPane;
 import cyder.utils.NumberUtil;
 import cyder.utils.StringUtil;
 
-import javax.swing.*;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
@@ -49,15 +48,13 @@ public final class BletchyThread {
      * Printing utility thread that prints a decoding animation to the linked JTextPane, blocking any
      * other print calls while underway.
      *
-     * @param outputArea the JTextPane belonging to a ConsoleFrame to print to
-     * @param semaphore  the semaphore to use to block other text being added to the linked JTextPane
+     * @param outputArea the output pane belonging to a ConsoleFrame to print to
      */
-    public static void initialize(JTextPane outputArea, Semaphore semaphore) {
+    public static void initialize(CyderOutputPane outputArea) {
         Preconditions.checkNotNull(outputArea);
-        Preconditions.checkNotNull(semaphore);
 
-        stringUtil = new StringUtil(new CyderOutputPane(outputArea));
-        printingSemaphore = semaphore;
+        stringUtil = new StringUtil(outputArea);
+        printingSemaphore = outputArea.getSemaphore();
     }
 
     /**
@@ -83,7 +80,9 @@ public final class BletchyThread {
             return;
         }
 
+        kill();
         bletchyAnimator = new BletchyAnimator(getBletchyArray(decodeString, useNumbers, useUnicode), milliDelay);
+        bletchyAnimator.start();
     }
 
     /**
@@ -91,39 +90,59 @@ public final class BletchyThread {
      */
     private static class BletchyAnimator {
         /**
-         * Constructs and starts a new BletchyAnimator thread.
+         * The sequential strings to print between delays.
+         */
+        private final String[] prints;
+
+        /**
+         * The delay in ms between prints.
+         */
+        private final int milliDelay;
+
+        /**
+         * Constructs and a new BletchyAnimator thread.
          *
          * @param print      the string array to print and remove the last
          *                   line of until the final index is printed
          * @param milliDelay the delay in ms between prints
          */
         BletchyAnimator(String[] print, int milliDelay) {
+            Preconditions.checkNotNull(print);
+
+            this.prints = print;
+            this.milliDelay = milliDelay;
+        }
+
+        /**
+         * Starts the bletchy animation this animator is setup to perform.
+         */
+        public void start() {
             CyderThreadRunner.submit(() -> {
                 try {
                     isActive = true;
 
                     printingSemaphore.acquire();
 
-                    for (int i = 1 ; i < print.length ; i++) {
+                    for (int i = 1 ; i < prints.length ; i++) {
                         if (!isActive) {
                             printingSemaphore.release();
                             return;
                         }
 
-                        stringUtil.println(print[i]);
+                        stringUtil.println(prints[i]);
                         Thread.sleep(milliDelay);
                         stringUtil.removeLastLine();
                     }
 
                     // print final string
-                    stringUtil.println(print[print.length - 1]);
+                    stringUtil.println(prints[prints.length - 1]);
                     printingSemaphore.release();
                     kill();
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                     kill();
                 }
-            }, "Bletchy printing thread, finalString = " + print[print.length - 1]);
+            }, "Bletchy printing thread, finalString = " + prints[prints.length - 1]);
         }
 
         /**
@@ -131,6 +150,15 @@ public final class BletchyThread {
          */
         public void kill() {
             isActive = false;
+        }
+
+        /**
+         * Returns whether this animator is active.
+         *
+         * @return whether this animator is active
+         */
+        public boolean isActive() {
+            return isActive;
         }
     }
 
@@ -147,21 +175,22 @@ public final class BletchyThread {
      * Kills any and all bletchy printing threads
      */
     public static void kill() {
-        if (bletchyAnimator != null)
+        if (bletchyAnimator != null) {
             bletchyAnimator.kill();
+        }
     }
 
     /**
      * Character list of all lowercase latin characters.
      */
-    private static final ImmutableList<Character> lowercaseAlphabet
+    private static final ImmutableList<Character> LOWERCASE_ALPHABET
             = ImmutableList.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
             'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
 
     /**
      * Character list of all lowercase latin characters and the base 10 numbers.
      */
-    private static final ImmutableList<Character> lowercaseAlphabetAndBase10
+    private static final ImmutableList<Character> LOWERCASE_ALPHABET_AND_NUMBERS
             = ImmutableList.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
             'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
@@ -169,7 +198,7 @@ public final class BletchyThread {
     /**
      * Character list of all unicode card suit characters.
      */
-    private static final ImmutableList<Character> cardSuits = ImmutableList.of(
+    private static final ImmutableList<Character> CARD_SUITS = ImmutableList.of(
             (char) 9824,
             (char) 9825,
             (char) 9826,
@@ -186,7 +215,7 @@ public final class BletchyThread {
     /**
      * Character list of unicode chars used for bletchy animations.
      */
-    private static final ImmutableList<Character> unicodeChars;
+    private static final ImmutableList<Character> UNICODE_CHARS;
 
     /**
      * The starting index of the unicode chars to use for bletchy animations.
@@ -205,13 +234,13 @@ public final class BletchyThread {
             ret.add((char) index);
         }
 
-        unicodeChars = ImmutableList.copyOf(ret);
+        UNICODE_CHARS = ImmutableList.copyOf(ret);
     }
 
     /**
      * The number of bletchy animation iterations per decode character.
      */
-    private static final int iterationsPerChar = 7;
+    private static final int ITERATIONS_PER_CHAR = 7;
 
     /**
      * Returns an array of Strings abiding by the parameters for a bletchy thread to print.
@@ -233,18 +262,18 @@ public final class BletchyThread {
         LinkedList<Character> charsToUse = new LinkedList<>();
 
         if (useNumbers) {
-            charsToUse.addAll(lowercaseAlphabetAndBase10);
+            charsToUse.addAll(LOWERCASE_ALPHABET_AND_NUMBERS);
         } else {
-            charsToUse.addAll(lowercaseAlphabet);
+            charsToUse.addAll(LOWERCASE_ALPHABET);
         }
 
         if (useUnicode) {
-            charsToUse.addAll(cardSuits);
-            charsToUse.addAll(unicodeChars);
+            charsToUse.addAll(CARD_SUITS);
+            charsToUse.addAll(UNICODE_CHARS);
         }
 
         for (int i = 1 ; i < len ; i++) {
-            for (int j = 0 ; j < iterationsPerChar ; j++) {
+            for (int j = 0 ; j < ITERATIONS_PER_CHAR ; j++) {
 
                 StringBuilder current = new StringBuilder();
 

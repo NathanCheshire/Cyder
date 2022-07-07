@@ -4,12 +4,13 @@ import com.google.common.base.Preconditions;
 import cyder.console.ConsoleFrame;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.ui.CyderOutputPane;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
-public class MasterYoutubeThread {
+public final class MasterYoutubeThread {
     /**
      * The linked JTextPane to output YouTube UUIDs to.
      */
@@ -49,12 +50,13 @@ public class MasterYoutubeThread {
     /**
      * Sets the master YouTube JTextPane, and its linked semaphore.
      *
-     * @param outputArea the JTextPane to use for appending text to
-     * @param semaphore  the semaphore to use to block other text from being appended while thread is underway
+     * @param outputPane the output pane to use for appending text to and to acquire the locking semaphore
      */
-    public static void initialize(JTextPane outputArea, Semaphore semaphore) {
-        MasterYoutubeThread.outputArea = outputArea;
-        MasterYoutubeThread.semaphore = semaphore;
+    public static void initialize(CyderOutputPane outputPane) {
+        Preconditions.checkNotNull(outputPane);
+
+        MasterYoutubeThread.outputArea = outputPane.getJTextPane();
+        MasterYoutubeThread.semaphore = outputPane.getSemaphore();
     }
 
     /**

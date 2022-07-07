@@ -427,6 +427,9 @@ public class StringUtil {
      * @return the most probable plural form of the noun
      */
     public static String getPluralForm(String singularNoun) {
+        Preconditions.checkNotNull(singularNoun);
+        Preconditions.checkArgument(!singularNoun.isEmpty());
+
         // todo Wolfram Alpha API link here
         // todo maybe make a unit test as well
 

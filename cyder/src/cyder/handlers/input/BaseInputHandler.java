@@ -121,8 +121,8 @@ public class BaseInputHandler {
      * Sets up the custom thread objects to be managed by this {@link BaseInputHandler}.
      */
     private void initializeSpecialThreads() {
-        MasterYoutubeThread.initialize(outputArea.getJTextPane(), printingListLock);
-        BletchyThread.initialize(outputArea.getJTextPane(), printingListLock);
+        MasterYoutubeThread.initialize(outputArea);
+        BletchyThread.initialize(outputArea);
     }
 
     /**
