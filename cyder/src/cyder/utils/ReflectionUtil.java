@@ -94,7 +94,6 @@ public final class ReflectionUtil {
         } catch (FatalException e) {
             throw e;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new FatalException("Subroutine executor failed: error=" + e.getMessage());
         }
     }

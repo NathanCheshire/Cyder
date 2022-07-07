@@ -11,7 +11,6 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.*;
 import cyder.exceptions.FatalException;
-import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.PropLoader;
 import cyder.handlers.input.BaseInputHandler;
@@ -374,8 +373,6 @@ public enum ConsoleFrame {
             public void setBounds(int x, int y, int w, int h) {
                 super.setBounds(x, y, w, h);
 
-                // now refresh custom console ui elements
-
                 revalidateInputAndOutputBounds();
 
                 if (menuLabel != null && menuLabel.isVisible()) {
@@ -407,13 +404,32 @@ public enum ConsoleFrame {
                 super.dispose(isFullscreen());
             }
 
+            private final int DEGREE_LIMIT = 360;
+            private final int DEGREE_INCREMENT = 2;
+            private final int DEGREE_DELAY = 2;
+            private boolean consoleBarrelRollLocked = false;
+
             /**
              * Barrel roll not allowed for ConsoleFrame yet.
              */
             @Override
             public void barrelRoll() {
-                // todo
-                throw new IllegalMethodException("Method is broken for ConsoleFrame; implementation pending");
+                if (consoleBarrelRollLocked)
+                    return;
+
+                consoleBarrelRollLocked = true;
+
+                CyderThreadRunner.submit(() -> {
+                    BufferedImage masterImage = getCurrentBackground().generateBufferedImage();
+                    for (int i = 0 ; i <= DEGREE_LIMIT ; i += DEGREE_INCREMENT) {
+                        BufferedImage rotated = ImageUtil.rotateImage(masterImage, i);
+                        getConsoleCyderFrameContentPane().setIcon(new ImageIcon(rotated));
+                        ThreadUtil.sleep(DEGREE_DELAY);
+                    }
+
+                    getConsoleCyderFrameContentPane().setIcon(getCurrentBackground().generateImageIcon());
+                    consoleBarrelRollLocked = false;
+                }, "ConsoleFrame Barrel roll");
             }
         };
 

@@ -1618,6 +1618,11 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * The delay in ms between barrel roll increments.
+     */
+    private static final int BARREL_ROLL_DELAY = 10;
+
+    /**
      * transforms the content pane by an incremental angle of 2 degrees
      * emulating Google's barrel roll easter egg.
      */
@@ -1625,7 +1630,7 @@ public class CyderFrame extends JFrame {
         ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
         BufferedImage master = ImageUtil.getBufferedImage(masterIcon);
 
-        new Timer(10, new ActionListener() {
+        new Timer(BARREL_ROLL_DELAY, new ActionListener() {
             private double angle;
 
             BufferedImage rotated;

@@ -963,7 +963,6 @@ public class StringUtil {
      */
     public static boolean in(String lookFor, boolean ignoreCase, Collection<String> strings) {
         Preconditions.checkNotNull(lookFor);
-        Preconditions.checkArgument(!lookFor.isEmpty());
 
         for (String look : strings) {
             if ((ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look)) {
