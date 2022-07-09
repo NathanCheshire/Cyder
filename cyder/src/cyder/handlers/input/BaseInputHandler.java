@@ -76,21 +76,14 @@ public class BaseInputHandler {
     /**
      * The robot used for screen operations.
      */
-    private static final Robot robot = initializeRobot();
+    private static Robot robot;
 
-    /**
-     * Constructs and returns the base input handler robot.
-     *
-     * @return the base input handler robot
-     */
-    private static Robot initializeRobot() {
+    static {
         try {
-            return new Robot();
+            robot = new Robot();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
-
-        return null;
     }
 
     /**

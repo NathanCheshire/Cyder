@@ -1,6 +1,7 @@
 package cyder.records;
 
 import com.google.common.base.Preconditions;
+import cyder.exceptions.FatalException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.utils.ImageUtil;
@@ -41,7 +42,8 @@ public record ConsoleBackground(File referenceFile) {
             ExceptionHandler.handle(e);
         }
 
-        return null;
+        throw new FatalException("Could not general buffered image from reference file: "
+                + referenceFile.getAbsolutePath());
     }
 
     /**

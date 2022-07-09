@@ -369,61 +369,55 @@ public final class MessagingUtils {
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Audio file preview generator")).submit(() -> {
-            try {
-                Future<BufferedImage> image = generateSmallWaveform(mp3OrWavFile);
+            Future<BufferedImage> image = generateSmallWaveform(mp3OrWavFile);
 
-                while (!image.isDone()) {
-                    Thread.onSpinWait();
-                }
-
-                int borderLen = 5;
-                int buttonHeight = 40;
-
-                int containerWidth = 150;
-                int containerHeight = DEFAULT_SMALL_WAVEFORM_HEIGHT + buttonHeight + 2 * borderLen;
-
-                JLabel containerLabel = new JLabel(StringUtil.generateTextForCustomComponent(6)) {
-                    @Override
-                    protected void paintComponent(Graphics g) {
-                        g.setColor(CyderColors.zero);
-                        g.fillRect(0, 0, containerWidth, containerHeight);
-                        super.paintComponent(g);
-                    }
-                };
-                containerLabel.setSize(containerWidth, containerHeight);
-
-                JLabel imageLabel = new JLabel();
-                imageLabel.setBounds(borderLen, borderLen, 140, DEFAULT_SMALL_WAVEFORM_HEIGHT);
-                imageLabel.setIcon(ImageUtil.toImageIcon(image.get()));
-
-                JLabel imageContainerLabel = new JLabel();
-                imageContainerLabel.setBorder(new LineBorder(CyderColors.navy, borderLen));
-                imageContainerLabel.setBounds(0, 0, 150, DEFAULT_SMALL_WAVEFORM_HEIGHT + 5);
-                imageContainerLabel.add(imageLabel);
-                containerLabel.add(imageContainerLabel);
-
-                CyderButton saveButton = new CyderButton("Save");
-                saveButton.setBounds(0, DEFAULT_SMALL_WAVEFORM_HEIGHT + borderLen,
-                        150, buttonHeight);
-                containerLabel.add(saveButton);
-                saveButton.setBackground(CyderColors.regularPurple);
-                saveButton.setForeground(CyderColors.defaultDarkModeTextColor);
-                saveButton.addActionListener(e -> onSaveRunnable.run());
-
-                BufferedImage preview = new BufferedImage(
-                        containerLabel.getWidth(),
-                        containerLabel.getHeight(),
-                        BufferedImage.TYPE_INT_RGB
-                );
-
-                containerLabel.paint(preview.getGraphics());
-
-                return containerLabel;
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+            while (!image.isDone()) {
+                Thread.onSpinWait();
             }
 
-            return null;
+            int borderLen = 5;
+            int buttonHeight = 40;
+
+            int containerWidth = 150;
+            int containerHeight = DEFAULT_SMALL_WAVEFORM_HEIGHT + buttonHeight + 2 * borderLen;
+
+            JLabel containerLabel = new JLabel(StringUtil.generateTextForCustomComponent(6)) {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    g.setColor(CyderColors.zero);
+                    g.fillRect(0, 0, containerWidth, containerHeight);
+                    super.paintComponent(g);
+                }
+            };
+            containerLabel.setSize(containerWidth, containerHeight);
+
+            JLabel imageLabel = new JLabel();
+            imageLabel.setBounds(borderLen, borderLen, 140, DEFAULT_SMALL_WAVEFORM_HEIGHT);
+            imageLabel.setIcon(ImageUtil.toImageIcon(image.get()));
+
+            JLabel imageContainerLabel = new JLabel();
+            imageContainerLabel.setBorder(new LineBorder(CyderColors.navy, borderLen));
+            imageContainerLabel.setBounds(0, 0, 150, DEFAULT_SMALL_WAVEFORM_HEIGHT + 5);
+            imageContainerLabel.add(imageLabel);
+            containerLabel.add(imageContainerLabel);
+
+            CyderButton saveButton = new CyderButton("Save");
+            saveButton.setBounds(0, DEFAULT_SMALL_WAVEFORM_HEIGHT + borderLen,
+                    150, buttonHeight);
+            containerLabel.add(saveButton);
+            saveButton.setBackground(CyderColors.regularPurple);
+            saveButton.setForeground(CyderColors.defaultDarkModeTextColor);
+            saveButton.addActionListener(e -> onSaveRunnable.run());
+
+            BufferedImage preview = new BufferedImage(
+                    containerLabel.getWidth(),
+                    containerLabel.getHeight(),
+                    BufferedImage.TYPE_INT_RGB
+            );
+
+            containerLabel.paint(preview.getGraphics());
+
+            return containerLabel;
         });
     }
 

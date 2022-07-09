@@ -473,14 +473,11 @@ public final class LoginHandler {
     public static boolean recognize(String name, String hashedPass, boolean autoCypherAttempt) {
         boolean ret = false;
 
-        // master try block to ensure something is always returned
         try {
-            // attempt to validate the name and password
-            // and obtain the resulting uuid if checkPassword() succeeded
-            String uuid = checkPassword(name, hashedPass);
+            Optional<String> optionalUuid = checkPassword(name, hashedPass);
 
-            if (uuid != null) {
-                ConsoleFrame.INSTANCE.setUUID(uuid);
+            if (optionalUuid.isPresent()) {
+                ConsoleFrame.INSTANCE.setUUID(optionalUuid.get());
 
                 ret = true;
 
@@ -524,13 +521,13 @@ public final class LoginHandler {
 
     /**
      * Checks whether the given name/pass combo is valid and if so, returns the UUID matched.
-     * Otherwise, null is returned to represent that no user was found.
+     * Otherwise, an empty optional is returned to represent that no user was found.
      *
      * @param name       the username given
      * @param hashedPass the already once SHA256 hashed password
      * @return the uuid found associated with the name, password combo
      */
-    public static String checkPassword(String name, String hashedPass) {
+    public static Optional<String> checkPassword(String name, String hashedPass) {
         try {
             LinkedList<String> userNames = new LinkedList<>();
 
@@ -540,7 +537,7 @@ public final class LoginHandler {
 
             if (!StringUtil.in(name, true, userNames)) {
                 priorityPrintingList.add("Username not found\n");
-                return null;
+                return Optional.empty();
             }
 
             for (File userJsonFile : UserUtil.getUserJsons()) {
@@ -549,7 +546,7 @@ public final class LoginHandler {
                 //we always hash again here
                 if (name.equalsIgnoreCase(user.getName()) && SecurityUtil.toHexString(SecurityUtil.getSHA256(
                         hashedPass.toCharArray())).equals(user.getPass())) {
-                    return FileUtil.getFilename(userJsonFile.getParentFile().getName());
+                    return Optional.of(FileUtil.getFilename(userJsonFile.getParentFile().getName()));
                 }
             }
 
@@ -558,7 +555,7 @@ public final class LoginHandler {
             ExceptionHandler.handle(e);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     /**

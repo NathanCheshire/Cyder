@@ -2,6 +2,7 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 
@@ -16,9 +17,9 @@ import java.util.UUID;
 /**
  * Static utility class containing methods related to security.
  */
-public class SecurityUtil {
+public final class SecurityUtil {
     /**
-     * Prevent illegal class instantiation.
+     * Suppress default constructor.
      */
     private SecurityUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
@@ -79,7 +80,7 @@ public class SecurityUtil {
             ExceptionHandler.handle(ex);
         }
 
-        return null;
+        throw new FatalException("Unable to compute SHA256 of input");
     }
 
     /**
@@ -99,7 +100,7 @@ public class SecurityUtil {
             ExceptionHandler.handle(ex);
         }
 
-        return null;
+        throw new FatalException("Unable to compute SHA1 of input");
     }
 
     /**
@@ -119,7 +120,7 @@ public class SecurityUtil {
             ExceptionHandler.handle(ex);
         }
 
-        return null;
+        throw new FatalException("Unable to compute MD5 of input");
     }
 
     /**
@@ -139,7 +140,7 @@ public class SecurityUtil {
             ExceptionHandler.handle(ex);
         }
 
-        return null;
+        throw new FatalException("Unable to compute SHA256 of input");
     }
 
     /**
@@ -177,6 +178,6 @@ public class SecurityUtil {
             ExceptionHandler.handle(e);
         }
 
-        return null;
+        throw new FatalException("Unable to compute SHA256 of input");
     }
 }

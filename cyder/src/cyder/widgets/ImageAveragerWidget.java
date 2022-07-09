@@ -400,24 +400,18 @@ public final class ImageAveragerWidget {
      * @return a new icon that is guaranteed to be at most 800x800
      */
     private static ImageIcon checkImage(ImageIcon originalIcon) {
-        try {
-            BufferedImage bi = ImageUtil.getBufferedImage(originalIcon);
-            int width = originalIcon.getIconWidth();
-            int height = originalIcon.getIconHeight();
+        BufferedImage bi = ImageUtil.getBufferedImage(originalIcon);
+        int width = originalIcon.getIconWidth();
+        int height = originalIcon.getIconHeight();
 
-            if (width > height) {
-                int scaledHeight = 800 * height / width;
-                return new ImageIcon(bi.getScaledInstance(800, scaledHeight, Image.SCALE_SMOOTH));
-            } else if (height > width) {
-                int scaledWidth = 800 * width / height;
-                return new ImageIcon(bi.getScaledInstance(scaledWidth, 800, Image.SCALE_SMOOTH));
-            } else {
-                return new ImageIcon(bi.getScaledInstance(800, 800, Image.SCALE_SMOOTH));
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+        if (width > height) {
+            int scaledHeight = 800 * height / width;
+            return new ImageIcon(bi.getScaledInstance(800, scaledHeight, Image.SCALE_SMOOTH));
+        } else if (height > width) {
+            int scaledWidth = 800 * width / height;
+            return new ImageIcon(bi.getScaledInstance(scaledWidth, 800, Image.SCALE_SMOOTH));
+        } else {
+            return new ImageIcon(bi.getScaledInstance(800, 800, Image.SCALE_SMOOTH));
         }
-
-        return null;
     }
 }

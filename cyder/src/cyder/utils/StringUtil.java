@@ -523,8 +523,11 @@ public class StringUtil {
      * @return the resultant string after filtering
      */
     public static String filterLeet(String filter) {
-        if (filter == null || filter.isEmpty())
-            return null;
+        Preconditions.checkNotNull(filter);
+
+        if (filter.isEmpty()) {
+            return filter;
+        }
 
         //split at spaces and run leet in each of those
         String[] words = filter.split("\\s+");
