@@ -230,12 +230,61 @@ public final class TttGame {
         return false;
     }
 
+    /**
+     * Returns whether the provided player has won via a vertical win.
+     *
+     * @param player the player to test for a vertical win
+     * @return whether the provided player has won via a vertical win
+     */
     private static boolean isVerticalWin(String player) {
+        BoardButton[][] rotated = new BoardButton[boardLength][boardLength];
+
+        for (int i = 0 ; i < boardButtons[0].length ; i++) {
+            for (int j = boardButtons.length - 1 ; j >= 0 ; j--) {
+                rotated[i][j] = boardButtons[j][i];
+            }
+        }
+
+        for (int y = 0 ; y < boardLength ; y++) {
+            boolean line = true;
+
+            for (int x = 0 ; x < boardLength ; x++) {
+                line = line && rotated[y][x].getButton().getText().equals(player);
+            }
+
+            if (line) {
+                return true;
+            }
+        }
+
         return false;
     }
 
+    /**
+     * Returns whether the provided player has won via a diagonal win.
+     *
+     * @param player the player to test for a diagonal win
+     * @return whether the provided player has won via a diagonal win
+     */
     private static boolean isDiagonalWin(String player) {
-        return false;
+        boolean topLeftBottomRight = true;
+
+        for (int i = 0 ; i < boardLength ; i++) {
+            topLeftBottomRight = topLeftBottomRight && boardButtons[i][i].getButton().getText().equals(player);
+        }
+
+        if (topLeftBottomRight) {
+            return true;
+        }
+
+        boolean topRightBottomLeft = true;
+
+        for (int i = 0 ; i < boardLength ; i++) {
+            topRightBottomLeft =
+                    topRightBottomLeft && boardButtons[boardLength - i - 1][i].getButton().getText().equals(player);
+        }
+
+        return topRightBottomLeft;
     }
 
     /**
