@@ -1,5 +1,6 @@
 package cyder.games;
 
+import com.google.common.collect.Range;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
@@ -34,7 +35,7 @@ public final class TttGame {
     /**
      * The buttons for the board.
      */
-    private static BoardButton[][] boardButtons;
+    private static CyderButton[][] boardButtons;
 
     /**
      * The foreground color used for the buttons.
@@ -57,6 +58,11 @@ public final class TttGame {
      * The information label.
      */
     private static JLabel infoLabel;
+
+    /**
+     * The range of allowable values for tic tac toe.
+     */
+    private static final Range<Integer> GRID_SIZE_RANGE = Range.closed(3, 11);
 
     /**
      * Prevent instantiation of class.
@@ -90,8 +96,15 @@ public final class TttGame {
                                 .setRelativeTo(tttFrame));
 
                 try {
-                    boardLength = Integer.parseInt(sizeString);
-                    showGui();
+                    int newBoardLength = Integer.parseInt(sizeString);
+
+                    if (GRID_SIZE_RANGE.contains(newBoardLength)) {
+                        boardLength = newBoardLength;
+                        showGui();
+                    } else {
+                        tttFrame.notify("Sorry, but " + newBoardLength + " is not in the allowable range of ["
+                                + GRID_SIZE_RANGE.lowerEndpoint() + ", " + GRID_SIZE_RANGE.upperEndpoint() + "]");
+                    }
                 } catch (Exception ignored) {
                     tttFrame.notify("Unable to parse input as an integer");
                 }
@@ -113,7 +126,7 @@ public final class TttGame {
         int startingX = buttonPadding;
         int startingY = buttonPadding + 100;
 
-        boardButtons = new BoardButton[boardLength][boardLength];
+        boardButtons = new CyderButton[boardLength][boardLength];
 
         for (int y = 0 ; y < boardLength ; y++) {
             for (int x = 0 ; x < boardLength ; x++) {
@@ -148,7 +161,7 @@ public final class TttGame {
                 startingX += buttonPadding + buttonSize.width;
 
                 tttFrame.getContentPane().add(button);
-                boardButtons[y][x] = new BoardButton(x, y, button);
+                boardButtons[y][x] = button;
             }
 
             startingY += buttonPadding + buttonSize.height;
@@ -175,9 +188,9 @@ public final class TttGame {
         currentPlayer = Player.X;
         updateTurnLabel();
 
-        for (BoardButton[] buttonRow : boardButtons) {
-            for (BoardButton button : buttonRow) {
-                button.getButton().setText("");
+        for (CyderButton[] buttonRow : boardButtons) {
+            for (CyderButton button : buttonRow) {
+                button.setText("");
             }
         }
     }
@@ -219,7 +232,7 @@ public final class TttGame {
             boolean line = true;
 
             for (int x = 0 ; x < boardLength ; x++) {
-                line = line && boardButtons[y][x].getButton().getText().equals(player);
+                line = line && boardButtons[y][x].getText().equals(player);
             }
 
             if (line) {
@@ -237,7 +250,7 @@ public final class TttGame {
      * @return whether the provided player has won via a vertical win
      */
     private static boolean isVerticalWin(String player) {
-        BoardButton[][] rotated = new BoardButton[boardLength][boardLength];
+        CyderButton[][] rotated = new CyderButton[boardLength][boardLength];
 
         for (int i = 0 ; i < boardButtons[0].length ; i++) {
             for (int j = boardButtons.length - 1 ; j >= 0 ; j--) {
@@ -249,7 +262,7 @@ public final class TttGame {
             boolean line = true;
 
             for (int x = 0 ; x < boardLength ; x++) {
-                line = line && rotated[y][x].getButton().getText().equals(player);
+                line = line && rotated[y][x].getText().equals(player);
             }
 
             if (line) {
@@ -270,7 +283,7 @@ public final class TttGame {
         boolean topLeftBottomRight = true;
 
         for (int i = 0 ; i < boardLength ; i++) {
-            topLeftBottomRight = topLeftBottomRight && boardButtons[i][i].getButton().getText().equals(player);
+            topLeftBottomRight = topLeftBottomRight && boardButtons[i][i].getText().equals(player);
         }
 
         if (topLeftBottomRight) {
@@ -281,7 +294,7 @@ public final class TttGame {
 
         for (int i = 0 ; i < boardLength ; i++) {
             topRightBottomLeft =
-                    topRightBottomLeft && boardButtons[boardLength - i - 1][i].getButton().getText().equals(player);
+                    topRightBottomLeft && boardButtons[boardLength - i - 1][i].getText().equals(player);
         }
 
         return topRightBottomLeft;
@@ -293,50 +306,14 @@ public final class TttGame {
      * @return whether the board is full
      */
     private static boolean isBoardFull() {
-        for (BoardButton[] buttonRow : boardButtons) {
-            for (BoardButton button : buttonRow) {
-                if (button.getButton().getText().isEmpty()) {
+        for (CyderButton[] buttonRow : boardButtons) {
+            for (CyderButton button : buttonRow) {
+                if (button.getText().isEmpty()) {
                     return false;
                 }
             }
         }
 
         return true;
-    }
-
-    private static final class BoardButton {
-        private int x;
-        private int y;
-        private CyderButton button;
-
-        public BoardButton(int x, int y, CyderButton button) {
-            this.x = x;
-            this.y = y;
-            this.button = button;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public void setX(int x) {
-            this.x = x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
-
-        public CyderButton getButton() {
-            return button;
-        }
-
-        public void setButton(CyderButton button) {
-            this.button = button;
-        }
     }
 }
