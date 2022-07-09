@@ -678,7 +678,7 @@ public final class ManualTests {
         testFrame.setTitle("Menu Test");
 
         testFrame.setMenuEnabled(true);
-        testFrame.setCurrentMenuType(CyderFrame.MenuType.RIBBON);
+        testFrame.setMenuType(CyderFrame.MenuType.RIBBON);
 
         testFrame.initializeResizing();
         testFrame.setResizable(true);
@@ -702,10 +702,10 @@ public final class ManualTests {
         CyderButton switchMenuType = new CyderButton("Switch Menu");
         switchMenuType.setSize(200, 40);
         switchMenuType.addActionListener(e -> {
-            if (testFrame.getCurrentMenuType() == CyderFrame.MenuType.PANEL) {
-                testFrame.setCurrentMenuType(CyderFrame.MenuType.RIBBON);
+            if (testFrame.getMenuType() == CyderFrame.MenuType.PANEL) {
+                testFrame.setMenuType(CyderFrame.MenuType.RIBBON);
             } else {
-                testFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
+                testFrame.setMenuType(CyderFrame.MenuType.PANEL);
             }
         });
 

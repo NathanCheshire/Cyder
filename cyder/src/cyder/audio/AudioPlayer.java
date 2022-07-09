@@ -490,7 +490,7 @@ public final class AudioPlayer {
         audioPlayerFrame = new CyderFrame(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN, BACKGROUND_COLOR);
         refreshFrameTitle();
         audioPlayerFrame.getTopDragLabel().addButton(switchFrameAudioView, 1);
-        audioPlayerFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
+        audioPlayerFrame.setMenuType(CyderFrame.MenuType.PANEL);
         audioPlayerFrame.setMenuEnabled(true);
         audioPlayerFrame.addWindowListener(new WindowAdapter() {
             @Override

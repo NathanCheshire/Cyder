@@ -146,7 +146,7 @@ public final class UserEditor {
             prefsPanelIndex = 3;
         });
 
-        editUserFrame.setCurrentMenuType(CyderFrame.MenuType.RIBBON);
+        editUserFrame.setMenuType(CyderFrame.MenuType.RIBBON);
         editUserFrame.lockMenuOut();
 
         revalidateOnMenuItemClicked();

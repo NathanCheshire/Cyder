@@ -2887,18 +2887,18 @@ public class CyderFrame extends JFrame {
     /**
      * The menu type for the frame's menu.
      */
-    private MenuType currentMenuType = MenuType.PANEL;
+    private MenuType menuType = MenuType.PANEL;
 
     /**
      * Sets the menu type to the provided and revalidates the menu depending on the old state.
      *
      * @param currentMenuType the new menu type
      */
-    public void setCurrentMenuType(MenuType currentMenuType) {
-        if (currentMenuType == this.currentMenuType)
+    public void setMenuType(MenuType currentMenuType) {
+        if (currentMenuType == this.menuType)
             return;
 
-        this.currentMenuType = currentMenuType;
+        this.menuType = currentMenuType;
 
         if (menuEnabled) {
             boolean wasVisible = menuLabel != null && menuLabel.isVisible();
@@ -2938,8 +2938,8 @@ public class CyderFrame extends JFrame {
      *
      * @return the frame's current menu type
      */
-    public MenuType getCurrentMenuType() {
-        return currentMenuType;
+    public MenuType getMenuType() {
+        return menuType;
     }
 
     /**
@@ -3209,7 +3209,7 @@ public class CyderFrame extends JFrame {
 
         CyderThreadRunner.submit(() -> {
             try {
-                if (currentMenuType == MenuType.PANEL) {
+                if (menuType == MenuType.PANEL) {
                     menuLabel.setLocation(-menuLabel.getWidth(), animateMenuToPoint.getLocation().y);
                     menuLabel.setVisible(true);
                     for (int x = menuLabel.getX() ; x < animateMenuToPoint.x ; x += menuAnimationInc) {
@@ -3246,7 +3246,7 @@ public class CyderFrame extends JFrame {
 
         CyderThreadRunner.submit(() -> {
             try {
-                if (currentMenuType == MenuType.PANEL) {
+                if (menuType == MenuType.PANEL) {
                     for (int x = menuLabel.getX() ; x > -menuLabel.getWidth() ; x -= menuAnimationInc) {
                         menuLabel.setLocation(x, menuLabel.getY());
                         Thread.sleep(menuAnimationDelay);
@@ -3305,7 +3305,7 @@ public class CyderFrame extends JFrame {
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.getGuiThemeColor());
 
-        if (currentMenuType == MenuType.PANEL) {
+        if (menuType == MenuType.PANEL) {
             int menuHeight = 2 * paddingHeight + (menuItems.size() * (StringUtil.getAbsoluteMinHeight(
                     String.valueOf(CyderNumbers.JENNY), CyderFonts.DEFAULT_FONT_SMALL))) + 5;
 
@@ -3342,7 +3342,7 @@ public class CyderFrame extends JFrame {
         menuScroll.setThumbColor(CyderColors.regularPink);
         menuScroll.setBackground(CyderColors.getGuiThemeColor());
 
-        if (currentMenuType == MenuType.PANEL) {
+        if (menuType == MenuType.PANEL) {
             menuScroll.setBounds(menuPadding, menuPadding, menuWidth - 2 * menuPadding,
                     menuLabel.getHeight() - 2 * menuPadding);
 
@@ -3375,7 +3375,7 @@ public class CyderFrame extends JFrame {
             }
         }
 
-        if (currentMenuType == MenuType.PANEL) {
+        if (menuType == MenuType.PANEL) {
             for (int i = 0 ; i < menuItems.size() ; i++) {
                 printingUtil.printComponent(menuItems.get(i).label());
 
