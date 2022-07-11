@@ -22,7 +22,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * Manual widgets used to test certain aspects/implementations of Cyder.
+ * Manual widgets used to test certain aspects of Cyder.
  */
 public final class ManualTests {
     /**
@@ -57,13 +57,13 @@ public final class ManualTests {
         CyderFrame testFrame = new CyderFrame(280, 120);
         testFrame.setTitle("Switcher test");
 
-        ArrayList<CyderComboBox.CyderComboItem> states = new ArrayList<>();
-        states.add(new CyderComboBox.CyderComboItem("Uno", "uno long"));
-        states.add(new CyderComboBox.CyderComboItem("Dos", "dos long"));
-        states.add(new CyderComboBox.CyderComboItem("Tres", "tres long"));
-        states.add(new CyderComboBox.CyderComboItem("Cuatro", "cuatro long"));
+        ArrayList<CyderComboBox.ComboItem> states = new ArrayList<>();
+        states.add(new CyderComboBox.ComboItem("Uno", "uno long"));
+        states.add(new CyderComboBox.ComboItem("Dos", "dos long"));
+        states.add(new CyderComboBox.ComboItem("Tres", "tres long"));
+        states.add(new CyderComboBox.ComboItem("Cuatro", "cuatro long"));
 
-        CyderComboBox.CyderComboItem startingState = states.get(0);
+        CyderComboBox.ComboItem startingState = states.get(0);
 
         CyderComboBox switcher = new CyderComboBox(200, 40, states, startingState);
         switcher.setBounds(40, 40, 200, 40);

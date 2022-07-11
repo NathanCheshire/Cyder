@@ -99,14 +99,14 @@ public class PerlinWidget {
     /**
      * The state used for two dimensions of noise.
      */
-    private static final CyderComboBox.CyderComboItem twoDimensionState =
-            new CyderComboBox.CyderComboItem("2D");
+    private static final CyderComboBox.ComboItem twoDimensionState =
+            new CyderComboBox.ComboItem("2D");
 
     /**
      * The state used for three dimensions of noise (technically 4).
      */
-    private static final CyderComboBox.CyderComboItem threeDimensionState =
-            new CyderComboBox.CyderComboItem("3D");
+    private static final CyderComboBox.ComboItem threeDimensionState =
+            new CyderComboBox.ComboItem("3D");
 
     /**
      * The slider used to determine the speed of the animation.
@@ -333,7 +333,7 @@ public class PerlinWidget {
         nextIteration.setBounds(25 + 25 + 50 + 180 + 25, 630, 180, 40);
         perlinFrame.getContentPane().add(nextIteration);
 
-        ArrayList<CyderComboBox.CyderComboItem> states = new ArrayList<>();
+        ArrayList<CyderComboBox.ComboItem> states = new ArrayList<>();
         states.add(twoDimensionState);
         states.add(threeDimensionState);
         comboBox = new CyderComboBox(80, 40, states, twoDimensionState);

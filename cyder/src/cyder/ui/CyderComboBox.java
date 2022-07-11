@@ -25,12 +25,12 @@ public class CyderComboBox extends JLabel {
     /**
      * The current switch state.
      */
-    private CyderComboItem currentState;
+    private ComboItem currentState;
 
     /**
      * The list of valid states for this switcher.
      */
-    private final ArrayList<CyderComboItem> states;
+    private final ArrayList<ComboItem> states;
 
     /**
      * The width of the whole switcher.
@@ -53,7 +53,7 @@ public class CyderComboBox extends JLabel {
      * @param startingState the starting state
      */
     @SuppressWarnings("SuspiciousNameCombination") // incorrect
-    public CyderComboBox(int width, int height, ArrayList<CyderComboItem> states, CyderComboItem startingState) {
+    public CyderComboBox(int width, int height, ArrayList<ComboItem> states, ComboItem startingState) {
         Preconditions.checkArgument(width > 0);
         Preconditions.checkArgument(height > 0);
         Preconditions.checkNotNull(states, "Provided states are null");
@@ -128,7 +128,7 @@ public class CyderComboBox extends JLabel {
      *
      * @return the states of this switcher
      */
-    public ArrayList<CyderComboItem> getStates() {
+    public ArrayList<ComboItem> getStates() {
         return states;
     }
 
@@ -137,7 +137,7 @@ public class CyderComboBox extends JLabel {
      *
      * @return the current state of this switcher
      */
-    public CyderComboItem getCurrentState() {
+    public ComboItem getCurrentState() {
         return currentState;
     }
 
@@ -146,7 +146,7 @@ public class CyderComboBox extends JLabel {
      *
      * @return the state just after the current state
      */
-    public CyderComboItem getNextState() {
+    public ComboItem getNextState() {
         int currentIndex = 0;
 
         for (int i = 0 ; i < states.size() ; i++) {
@@ -171,7 +171,7 @@ public class CyderComboBox extends JLabel {
      *
      * @param currentState the current state of this switcher
      */
-    public void setCurrentState(CyderComboItem currentState) {
+    public void setCurrentState(ComboItem currentState) {
         this.currentState = currentState;
         valueDisplayField.setText(currentState.displayValue());
     }
@@ -196,13 +196,13 @@ public class CyderComboBox extends JLabel {
     /**
      * An enum used to map a preview value to the actual value to switch on.
      */
-    public static record CyderComboItem(String displayValue, String mappedValue) {
+    public record ComboItem(String displayValue, String mappedValue) {
         /**
          * Constructs a new switch state
          *
          * @param value the display value and underlying map value of the state
          */
-        public CyderComboItem(String value) {
+        public ComboItem(String value) {
             this(value, value);
         }
 
@@ -212,7 +212,7 @@ public class CyderComboBox extends JLabel {
          * @param displayValue the display value of the state
          * @param mappedValue  the underlying value of the state
          */
-        public CyderComboItem(String displayValue, String mappedValue) {
+        public ComboItem(String displayValue, String mappedValue) {
             Preconditions.checkNotNull(displayValue);
             Preconditions.checkNotNull(mappedValue);
 

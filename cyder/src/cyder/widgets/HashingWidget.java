@@ -82,12 +82,12 @@ public class HashingWidget {
         hashButton.setBounds(50, 140, 180, 40);
         hashFrame.getContentPane().add(hashButton);
 
-        ArrayList<CyderComboBox.CyderComboItem> states = new ArrayList<>();
-        states.add(new CyderComboBox.CyderComboItem("SHA-256", "SHA256 Algorithm"));
-        states.add(new CyderComboBox.CyderComboItem("SHA-1", "SHA-1 Algorithm"));
-        states.add(new CyderComboBox.CyderComboItem("MD5", "MD5 Algorithm (Not secure)"));
+        ArrayList<CyderComboBox.ComboItem> states = new ArrayList<>();
+        states.add(new CyderComboBox.ComboItem("SHA-256", "SHA256 Algorithm"));
+        states.add(new CyderComboBox.ComboItem("SHA-1", "SHA-1 Algorithm"));
+        states.add(new CyderComboBox.ComboItem("MD5", "MD5 Algorithm (Not secure)"));
 
-        CyderComboBox.CyderComboItem startingState = states.get(0);
+        CyderComboBox.ComboItem startingState = states.get(0);
 
         comboBox = new CyderComboBox(210, 40, states, startingState);
         comboBox.setBounds(240, 140, 210, 40);

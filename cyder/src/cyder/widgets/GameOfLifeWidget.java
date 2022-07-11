@@ -156,7 +156,7 @@ public final class GameOfLifeWidget {
     /**
      * The switcher states to cycle between the states loaded from static/json/conway.
      */
-    private static ArrayList<CyderComboBox.CyderComboItem> cyderComboItems;
+    private static ArrayList<CyderComboBox.ComboItem> comboItems;
 
     /**
      * Gson object used for converting to/from json files to save conway states.
@@ -247,12 +247,12 @@ public final class GameOfLifeWidget {
 
         loadConwayStates();
 
-        presetComboBox = new CyderComboBox(160, 40, cyderComboItems, cyderComboItems.get(0));
+        presetComboBox = new CyderComboBox(160, 40, comboItems, comboItems.get(0));
         presetComboBox.getIterationButton().addActionListener(e -> {
-            CyderComboBox.CyderComboItem nextState = presetComboBox.getNextState();
+            CyderComboBox.ComboItem nextState = presetComboBox.getNextState();
 
-            for (int i = 0 ; i < cyderComboItems.size() ; i++) {
-                if (cyderComboItems.get(i).equals(nextState)) {
+            for (int i = 0 ; i < comboItems.size() ; i++) {
+                if (comboItems.get(i).equals(nextState)) {
                     beforeStartingState = new LinkedList<>();
 
                     for (Point point : correspondingConwayStates.get(i).nodes()) {
@@ -634,7 +634,7 @@ public final class GameOfLifeWidget {
      * Loads the preset conway states from static/json/conway.
      */
     private static void loadConwayStates() {
-        cyderComboItems = new ArrayList<>();
+        comboItems = new ArrayList<>();
         correspondingConwayStates = new ArrayList<>();
 
         File statesDir = new File(OSUtil.buildPath("static", "json", "conway"));
@@ -651,7 +651,7 @@ public final class GameOfLifeWidget {
                             reader.close();
 
                             correspondingConwayStates.add(loadState);
-                            cyderComboItems.add(new CyderComboBox.CyderComboItem(loadState.name()));
+                            comboItems.add(new CyderComboBox.ComboItem(loadState.name()));
                         } catch (Exception ignored) {
                         }
                     }
