@@ -3,7 +3,7 @@ package cyder.handlers.input;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.Handle;
 import cyder.annotations.Widget;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -35,7 +35,7 @@ public class WidgetHandler extends InputHandler {
                     for (String widgetTrigger : widgetTriggers) {
                         if (widgetTrigger.equalsIgnoreCase(getInputHandler().commandAndArgsToString())) {
                             String shortWidgetName = ReflectionUtil.getBottomLevelClass(clazz);
-                            ConsoleFrame.INSTANCE.getInputHandler().println("Opening widget: " + shortWidgetName);
+                            Console.INSTANCE.getInputHandler().println("Opening widget: " + shortWidgetName);
                             try {
                                 if (m.getParameterCount() == 0) {
                                     m.invoke(clazz);

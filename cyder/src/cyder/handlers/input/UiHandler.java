@@ -1,7 +1,7 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
@@ -33,7 +33,7 @@ public class UiHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().commandIs("toast")) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().toast("A toast to you, sir/madam");
+            Console.INSTANCE.getConsoleCyderFrame().toast("A toast to you, sir/madam");
         } else if (getInputHandler().commandIs("freeze")) {
             //noinspection StatementWithEmptyBody
             while (true) {
@@ -45,7 +45,7 @@ public class UiHandler extends InputHandler {
 
             getInputHandler().println(opacitySlider);
         } else if (getInputHandler().commandIs("originalchams")) {
-            ConsoleFrame.INSTANCE.originalChams();
+            Console.INSTANCE.originalChams();
         } else if (getInputHandler().commandIs("screenshot")) {
             if (getInputHandler().getArgsSize() != 0) {
                 if (getInputHandler().getArg(0).equalsIgnoreCase("frames")) {
@@ -78,10 +78,10 @@ public class UiHandler extends InputHandler {
             if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
                 FrameUtil.minimizeAllFrames();
             } else {
-                ConsoleFrame.INSTANCE.closeConsoleFrame(true, false);
+                Console.INSTANCE.closeFrame(true, false);
             }
         } else if (getInputHandler().commandIs("logout")) {
-            ConsoleFrame.INSTANCE.logout();
+            Console.INSTANCE.logout();
         } else if (getInputHandler().commandIs("mouse")) {
             if (getInputHandler().checkArgsLength(2)) {
                 OSUtil.setMouseLoc(Integer.parseInt(getInputHandler().getArg(0)),
@@ -102,7 +102,7 @@ public class UiHandler extends InputHandler {
     }
 
     /**
-     * The slider used to change the opacity of the ConsoleFrame.
+     * The slider used to change the opacity of the Console.
      */
     private static JSlider opacitySlider;
 
@@ -129,7 +129,7 @@ public class UiHandler extends InputHandler {
         opacitySlider.setVisible(true);
         opacitySlider.setValue(100);
         opacitySlider.addChangeListener(e -> {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame()
+            Console.INSTANCE.getConsoleCyderFrame()
                     .setOpacity(opacitySlider.getValue() / 100.0f);
             opacitySlider.repaint();
         });

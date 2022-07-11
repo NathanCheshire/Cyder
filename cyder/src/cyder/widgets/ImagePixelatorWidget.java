@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -139,7 +139,7 @@ public final class ImagePixelatorWidget {
                     try {
                         BufferedImage saveImage = ImageUtil.pixelateImage(ImageIO.read(currentFile), pixel);
                         File saveFile = new File(OSUtil.buildPath(
-                                Dynamic.PATH, "users", ConsoleFrame.INSTANCE.getUUID(),
+                                Dynamic.PATH, "users", Console.INSTANCE.getUUID(),
                                 UserFile.FILES.getName(), FileUtil.getFilename(currentFile)
                                         + "_Pixelated_Pixel_Size_" + pixel + "." + ImageUtil.PNG_FORMAT));
 

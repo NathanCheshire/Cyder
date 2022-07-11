@@ -3,7 +3,7 @@ package cyder.ui;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.*;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
@@ -567,7 +567,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Returns the icon pane of this CyderFrame.
-     * Currently, this is necessary for ConsoleFrame's audio menu and taskbar menu.
+     * Currently, this is necessary for Console's audio menu and taskbar menu.
      *
      * @return the icon pane of this CyderFrame
      */
@@ -1312,9 +1312,9 @@ public class CyderFrame extends JFrame {
      */
     public void minimizeAnimation() {
         try {
-            // if we are the ConsoleFrame, save position vars
-            if (this == ConsoleFrame.INSTANCE.getConsoleCyderFrame())
-                ConsoleFrame.INSTANCE.saveScreenStat();
+            // if we are the Console, save position vars
+            if (this == Console.INSTANCE.getConsoleCyderFrame())
+                Console.INSTANCE.saveScreenStat();
 
             //set restore vars here
             setRestoreX(getX());
@@ -1472,8 +1472,8 @@ public class CyderFrame extends JFrame {
                     }
                 }
 
-                //remove from ConsoleFrame
-                ConsoleFrame.INSTANCE.removeTaskbarIcon(this);
+                //remove from Console
+                Console.INSTANCE.removeTaskbarIcon(this);
 
                 super.dispose();
 
@@ -1599,7 +1599,7 @@ public class CyderFrame extends JFrame {
                 if (getY() < 0) {
                     setLocation(getX(), 0);
 
-                    // now dancing is done, will be reset to false in ConsoleFrame method
+                    // now dancing is done, will be reset to false in Console method
                     dancingFinished = true;
                     dancingDirection = DancingDirection.LEFT;
                 }
@@ -1913,7 +1913,7 @@ public class CyderFrame extends JFrame {
 
         try {
             // borderless frames are by default rounded
-            if (isBorderlessFrame() || (cr == null && ConsoleFrame.INSTANCE.getUUID() != null
+            if (isBorderlessFrame() || (cr == null && Console.INSTANCE.getUUID() != null
                     && UserUtil.getCyderUser().getRoundedwindows().equals("1"))) {
                 shape = new RoundRectangle2D.Double(0, 0,
                         getWidth(), getHeight(), ROUNDED_ARC, ROUNDED_ARC);
@@ -2268,14 +2268,14 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Set the background of {@code this} to the current ConsoleFrame background.
+     * Set the background of {@code this} to the current Console background.
      */
     public void replicateConsoleBackground() {
-        if (ConsoleFrame.INSTANCE.getCurrentBackground() == null) {
+        if (Console.INSTANCE.getCurrentBackground() == null) {
             return;
         }
 
-        iconLabel.setIcon(new ImageIcon(ConsoleFrame.INSTANCE.getCurrentBackground()
+        iconLabel.setIcon(new ImageIcon(Console.INSTANCE.getCurrentBackground()
                 .generateImageIcon()
                 .getImage()
                 .getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT)));
@@ -2493,23 +2493,23 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Whether the frame is pinned on top AND pinned to the console frame.
+     * Whether the frame is pinned on top AND pinned to the console.
      */
     private boolean consolePinned;
 
     /**
-     * Returns whether the frame should be pinned to the console frame.
+     * Returns whether the frame should be pinned to the console.
      *
-     * @return whether the frame should be pinned to the console frame
+     * @return whether the frame should be pinned to the console
      */
     public boolean isConsolePinned() {
         return consolePinned;
     }
 
     /**
-     * Sets whether the frame should be pinned to the console frame.
+     * Sets whether the frame should be pinned to the console.
      *
-     * @param consolePinned whether the frame should be pinned to the console frame
+     * @param consolePinned whether the frame should be pinned to the console
      */
     public void setConsolePinned(boolean consolePinned) {
         this.consolePinned = consolePinned;
@@ -2517,46 +2517,46 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * The relative x value of this frame to the console frame, used for console pin dragging actions.
+     * The relative x value of this frame to the console, used for console pin dragging actions.
      */
     private int relativeX;
 
     /**
-     * The relative y value of this frame to the console frame, used for console pin dragging actions.
+     * The relative y value of this frame to the console, used for console pin dragging actions.
      */
     private int relativeY;
 
     /**
-     * Returns the relative x of this frame to the console frame.
+     * Returns the relative x of this frame to the console.
      *
-     * @return the relative x of this frame to the console frame
+     * @return the relative x of this frame to the console
      */
     public int getRelativeX() {
         return relativeX;
     }
 
     /**
-     * Returns the relative y of this frame to the console frame.
+     * Returns the relative y of this frame to the console.
      *
-     * @return the relative y of this frame to the console frame
+     * @return the relative y of this frame to the console
      */
     public int getRelativeY() {
         return relativeY;
     }
 
     /**
-     * Sets the relative x of this frame to the console frame.
+     * Sets the relative x of this frame to the console.
      *
-     * @param relativeX the relative x of this frame to the console frame
+     * @param relativeX the relative x of this frame to the console
      */
     public void setRelativeX(int relativeX) {
         this.relativeX = relativeX;
     }
 
     /**
-     * Sets the relative y of this frame to the console frame.
+     * Sets the relative y of this frame to the console.
      *
-     * @param relativeY the relative y of this frame to the console frame
+     * @param relativeY the relative y of this frame to the console
      */
     public void setRelativeY(int relativeY) {
         this.relativeY = relativeY;
@@ -2614,7 +2614,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Sets the frame's visibility attribute and adds the frame to the ConsoleFrame menu list.
+     * Sets the frame's visibility attribute and adds the frame to the Console menu list.
      *
      * @param visible whether to set the frame to be visible
      */
@@ -2623,13 +2623,13 @@ public class CyderFrame extends JFrame {
         super.setVisible(visible);
 
         if (visible) {
-            ConsoleFrame.INSTANCE.addTaskbarIcon(this);
+            Console.INSTANCE.addTaskbarIcon(this);
         }
 
         // if the console is set to always on top, then we need this frame
         // to be automatically set on top as well so that new frames are not behind the console
-        if (visible && ConsoleFrame.INSTANCE.getConsoleCyderFrame() != null &&
-                ConsoleFrame.INSTANCE.getConsoleCyderFrame().isAlwaysOnTop()) {
+        if (visible && Console.INSTANCE.getConsoleCyderFrame() != null &&
+                Console.INSTANCE.getConsoleCyderFrame().isAlwaysOnTop()) {
             setAlwaysOnTop(true);
 
             if (topDrag != null) {
@@ -2879,7 +2879,7 @@ public class CyderFrame extends JFrame {
      */
     public enum MenuType {
         /**
-         * The default which mimics the console frame.
+         * The default which mimics the console.
          */
         PANEL,
         /**
@@ -3507,8 +3507,8 @@ public class CyderFrame extends JFrame {
      */
     @Nullable
     public static CyderFrame getDominantFrame() {
-        if (!ConsoleFrame.INSTANCE.isClosed()) {
-            CyderFrame referenceFrame = ConsoleFrame.INSTANCE.getConsoleCyderFrame();
+        if (!Console.INSTANCE.isClosed()) {
+            CyderFrame referenceFrame = Console.INSTANCE.getConsoleCyderFrame();
             return referenceFrame.getState() == ICONIFIED ? null : referenceFrame;
         } else if (!LoginHandler.isLoginFrameClosed() && LoginHandler.getLoginFrame() != null) {
             return LoginHandler.getLoginFrame();
@@ -3532,9 +3532,9 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Sets the console frame to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
+     * Sets the console to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
      *
-     * @param screenPos the screen position to move the ConsoleFrame to
+     * @param screenPos the screen position to move the Console to
      */
     public void setLocationOnScreen(ScreenPosition screenPos) {
         switch (screenPos) {

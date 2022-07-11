@@ -3,7 +3,7 @@ package cyder.user;
 import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
 import cyder.audio.AudioPlayer;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -239,7 +239,7 @@ public final class UserEditor {
                             return;
                         }
 
-                        for (ConsoleBackground background : ConsoleFrame.INSTANCE.getBackgrounds()) {
+                        for (ConsoleBackground background : Console.INSTANCE.getBackgrounds()) {
                             if (fileToAdd.getName().equals(background.referenceFile().getName())) {
                                 editUserFrame.notify("Cannot add a background with the same name as a current one");
                                 return;
@@ -264,7 +264,7 @@ public final class UserEditor {
                         revalidateFilesScroll();
 
                         if (folderName.equalsIgnoreCase(UserFile.BACKGROUNDS.getName()))
-                            ConsoleFrame.INSTANCE.resizeBackgrounds();
+                            Console.INSTANCE.resizeBackgrounds();
 
                     } catch (Exception ex) {
                         ExceptionHandler.handle(ex);
@@ -320,7 +320,7 @@ public final class UserEditor {
                             && absoluteSelectedFile.toString().equals(
                             AudioPlayer.getCurrentAudio().getAbsoluteFile().toString()))
                             || selectedFile.getAbsoluteFile().toString().equals(
-                            ConsoleFrame.INSTANCE.getCurrentBackground()
+                            Console.INSTANCE.getCurrentBackground()
                                     .referenceFile().getAbsoluteFile().toString())) {
                         editUserFrame.notify("Cannot rename a file that is in use");
                     } else {
@@ -357,7 +357,7 @@ public final class UserEditor {
                                 File albumArtDir = OSUtil.buildFile(
                                         Dynamic.PATH,
                                         Dynamic.USERS.getDirectoryName(),
-                                        ConsoleFrame.INSTANCE.getUUID(),
+                                        Console.INSTANCE.getUUID(),
                                         UserFile.MUSIC.getName(),
                                         "AlbumArt");
 
@@ -381,7 +381,7 @@ public final class UserEditor {
                                         File artRename = OSUtil.buildFile(
                                                 Dynamic.PATH,
                                                 Dynamic.USERS.getDirectoryName(),
-                                                ConsoleFrame.INSTANCE.getUUID(),
+                                                Console.INSTANCE.getUUID(),
                                                 UserFile.MUSIC.getName(),
                                                 "AlbumArt", newName + ".png");
 
@@ -429,7 +429,7 @@ public final class UserEditor {
                     return;
                 }
 
-                if (selectedFile.getAbsolutePath().equalsIgnoreCase(ConsoleFrame.INSTANCE
+                if (selectedFile.getAbsolutePath().equalsIgnoreCase(Console.INSTANCE
                         .getCurrentBackground().referenceFile().getAbsolutePath())) {
                     editUserFrame.notify("Unable to delete the background you are currently using");
                 } else if (AudioPlayer.getCurrentAudio() != null &&
@@ -439,15 +439,15 @@ public final class UserEditor {
                 } else {
                     if (OSUtil.deleteFile(selectedFile)) {
                         if (FileUtil.isSupportedAudioExtension(selectedFile)) {
-                            ConsoleFrame.INSTANCE.getInputHandler()
+                            Console.INSTANCE.getInputHandler()
                                     .println("Music: " + FileUtil.getFilename(selectedFile)
                                             + " successfully deleted.");
                         } else if (FileUtil.isSupportedImageExtension(selectedFile)) {
-                            ConsoleFrame.INSTANCE.getInputHandler()
+                            Console.INSTANCE.getInputHandler()
                                     .println("Background: " + FileUtil.getFilename(selectedFile)
                                             + " successfully deleted.");
                         } else {
-                            ConsoleFrame.INSTANCE.getInputHandler()
+                            Console.INSTANCE.getInputHandler()
                                     .println("File: " + FileUtil.getFilename(selectedFile)
                                             + " successfully deleted.");
                         }
@@ -458,7 +458,7 @@ public final class UserEditor {
 
                             File albumArtDirectory = OSUtil.buildFile(Dynamic.PATH,
                                     Dynamic.USERS.getDirectoryName(),
-                                    ConsoleFrame.INSTANCE.getUUID(),
+                                    Console.INSTANCE.getUUID(),
                                     UserFile.MUSIC.getName(), "AlbumArt");
 
                             File[] albumArtFiles = albumArtDirectory.listFiles();
@@ -606,10 +606,10 @@ public final class UserEditor {
                     UserUtil.getCyderUser().setForeground(foregroundField.getText());
                     Color updateC = ColorUtil.hexStringToColor(foregroundField.getText());
 
-                    ConsoleFrame.INSTANCE.getOutputArea().setForeground(updateC);
-                    ConsoleFrame.INSTANCE.getInputField().setForeground(updateC);
-                    ConsoleFrame.INSTANCE.getInputField().setCaretColor(updateC);
-                    ConsoleFrame.INSTANCE.getInputField().setCaret(new CyderCaret(updateC));
+                    Console.INSTANCE.getOutputArea().setForeground(updateC);
+                    Console.INSTANCE.getInputField().setForeground(updateC);
+                    Console.INSTANCE.getInputField().setCaretColor(updateC);
+                    Console.INSTANCE.getInputField().setCaret(new CyderCaret(updateC));
                 } catch (Exception ignored) {
                 }
             }
@@ -733,38 +733,38 @@ public final class UserEditor {
                     UserUtil.getCyderUser().setBackground(fillField.getText());
 
                     if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
-                        ConsoleFrame.INSTANCE.getOutputArea().setOpaque(true);
-                        ConsoleFrame.INSTANCE.getOutputArea()
+                        Console.INSTANCE.getOutputArea().setOpaque(true);
+                        Console.INSTANCE.getOutputArea()
                                 .setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
-                        ConsoleFrame.INSTANCE.getOutputArea().repaint();
-                        ConsoleFrame.INSTANCE.getOutputArea().revalidate();
+                        Console.INSTANCE.getOutputArea().repaint();
+                        Console.INSTANCE.getOutputArea().revalidate();
                     }
                     if (UserUtil.getCyderUser().getInputfill().equals("1")) {
-                        ConsoleFrame.INSTANCE.getInputField().setOpaque(true);
-                        ConsoleFrame.INSTANCE.getInputField()
+                        Console.INSTANCE.getInputField().setOpaque(true);
+                        Console.INSTANCE.getInputField()
                                 .setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
-                        ConsoleFrame.INSTANCE.getInputField().repaint();
-                        ConsoleFrame.INSTANCE.getInputField().revalidate();
+                        Console.INSTANCE.getInputField().repaint();
+                        Console.INSTANCE.getInputField().revalidate();
                     }
                     if (UserUtil.getCyderUser().getOutputborder().equals("1")) {
-                        ConsoleFrame.INSTANCE.getOutputScroll()
+                        Console.INSTANCE.getOutputScroll()
                                 .setBorder(UserUtil.getCyderUser().getOutputborder().equals("1")
                                         ? new LineBorder(
                                         ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
                                         3, false)
                                         : BorderFactory.createEmptyBorder());
-                        ConsoleFrame.INSTANCE.getOutputScroll().repaint();
-                        ConsoleFrame.INSTANCE.getOutputScroll().revalidate();
+                        Console.INSTANCE.getOutputScroll().repaint();
+                        Console.INSTANCE.getOutputScroll().revalidate();
                     }
                     if (UserUtil.getCyderUser().getInputborder().equals("1")) {
-                        ConsoleFrame.INSTANCE.getInputField()
+                        Console.INSTANCE.getInputField()
                                 .setBorder(UserUtil.getCyderUser().getInputborder().equals("1")
                                         ? new LineBorder(
                                         ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
                                         3, false)
                                         : BorderFactory.createEmptyBorder());
-                        ConsoleFrame.INSTANCE.getInputField().repaint();
-                        ConsoleFrame.INSTANCE.getInputField().revalidate();
+                        Console.INSTANCE.getInputField().repaint();
+                        Console.INSTANCE.getInputField().revalidate();
                     }
                 } catch (Exception ignored) {
                 }
@@ -837,9 +837,9 @@ public final class UserEditor {
                 Font ApplyFont = new Font(selectedFont,
                         Integer.parseInt(PropLoader.getString("font_metric")),
                         Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
-                ConsoleFrame.INSTANCE.getOutputArea().setFont(ApplyFont);
-                ConsoleFrame.INSTANCE.getInputField().setFont(ApplyFont);
-                ConsoleFrame.INSTANCE.getInputHandler().println("The font \"" + selectedFont + "\" has been applied.");
+                Console.INSTANCE.getOutputArea().setFont(ApplyFont);
+                Console.INSTANCE.getInputField().setFont(ApplyFont);
+                Console.INSTANCE.getInputHandler().println("The font \"" + selectedFont + "\" has been applied.");
             }
         });
         applyFont.setBounds(50, 410, 140, 40);
@@ -859,20 +859,20 @@ public final class UserEditor {
             foregroundField.setText(defaultUser.getForeground());
 
             // apply to input field, output area, and carets
-            ConsoleFrame.INSTANCE.getOutputArea().setForeground(
+            Console.INSTANCE.getOutputArea().setForeground(
                     ColorUtil.hexStringToColor(defaultUser.getForeground()));
-            ConsoleFrame.INSTANCE.getInputField().setForeground(
+            Console.INSTANCE.getInputField().setForeground(
                     ColorUtil.hexStringToColor(defaultUser.getForeground()));
-            ConsoleFrame.INSTANCE.getInputField().setCaretColor(
+            Console.INSTANCE.getInputField().setCaretColor(
                     ColorUtil.hexStringToColor(defaultUser.getForeground()));
-            ConsoleFrame.INSTANCE.getInputField().setCaret(
+            Console.INSTANCE.getInputField().setCaret(
                     new CyderCaret(ColorUtil.hexStringToColor(defaultUser.getForeground())));
 
             // reset font
             UserUtil.getCyderUser().setForeground(defaultUser.getForeground());
             Font ApplyFont = new Font(defaultUser.getFont(), Font.BOLD, 30);
-            ConsoleFrame.INSTANCE.getOutputArea().setFont(ApplyFont);
-            ConsoleFrame.INSTANCE.getInputField().setFont(ApplyFont);
+            Console.INSTANCE.getOutputArea().setFont(ApplyFont);
+            Console.INSTANCE.getInputField().setFont(ApplyFont);
 
             // reset the font on preference editor
             if (fontScrollRef.get() != null) {
@@ -888,20 +888,20 @@ public final class UserEditor {
 
             // reset output fill if active
             if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
-                ConsoleFrame.INSTANCE.getOutputArea().setOpaque(true);
-                ConsoleFrame.INSTANCE.getOutputArea()
+                Console.INSTANCE.getOutputArea().setOpaque(true);
+                Console.INSTANCE.getOutputArea()
                         .setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
-                ConsoleFrame.INSTANCE.getOutputArea().repaint();
-                ConsoleFrame.INSTANCE.getOutputArea().revalidate();
+                Console.INSTANCE.getOutputArea().repaint();
+                Console.INSTANCE.getOutputArea().revalidate();
             }
 
             // reset input fill if active
             if (UserUtil.getCyderUser().getInputfill().equals("1")) {
-                ConsoleFrame.INSTANCE.getInputField().setOpaque(true);
-                ConsoleFrame.INSTANCE.getInputField()
+                Console.INSTANCE.getInputField().setOpaque(true);
+                Console.INSTANCE.getInputField()
                         .setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
-                ConsoleFrame.INSTANCE.getInputField().repaint();
-                ConsoleFrame.INSTANCE.getInputField().revalidate();
+                Console.INSTANCE.getInputField().repaint();
+                Console.INSTANCE.getInputField().revalidate();
             }
 
             // window color
@@ -1316,14 +1316,14 @@ public final class UserEditor {
                                 .setRelativeTo(editUserFrame));
 
                 if (delete) {
-                    ConsoleFrame.INSTANCE.closeConsoleFrame(false, true);
+                    Console.INSTANCE.closeFrame(false, true);
 
-                    // close all frames, console frame is already closed
+                    // close all frames, console is already closed
                     FrameUtil.closeAllFrames(true);
 
                     // attempt to delete directory
                     OSUtil.deleteFile(OSUtil.buildFile(Dynamic.PATH,
-                            Dynamic.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID()));
+                            Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUUID()));
 
                     // exit with proper condition
                     OSUtil.exit(ExitCondition.UserDeleted);
@@ -1381,7 +1381,7 @@ public final class UserEditor {
         if (!StringUtil.isNull(newUsername) && !newUsername.equalsIgnoreCase(UserUtil.getCyderUser().getName())) {
             changeUsername(newUsername);
             editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame()
+            Console.INSTANCE.getConsoleCyderFrame()
                     .setTitle(PropLoader.getString("version") + " Cyder [" + newUsername + "]");
             changeUsernameField.setText(UserUtil.getCyderUser().getName());
         }
@@ -1396,7 +1396,7 @@ public final class UserEditor {
 
             //valid so write and refresh ConsoleClock
             UserUtil.getCyderUser().setConsoleclockformat(fieldText);
-            ConsoleFrame.INSTANCE.refreshClockText();
+            Console.INSTANCE.refreshClockText();
             consoleDatePatternField.setText(fieldText);
         } catch (Exception ex) {
             ExceptionHandler.silentHandle(ex);
@@ -1451,7 +1451,7 @@ public final class UserEditor {
                                 UserUtil.getCyderUser().setExecutables(newExes);
 
                                 editUserFrame.notify("Mapped exe successfully added");
-                                ConsoleFrame.INSTANCE.revalidateMenu();
+                                Console.INSTANCE.revalidateMenu();
                             }
                         } else {
                             editUserFrame.notify("Invalid map name");
@@ -1465,7 +1465,7 @@ public final class UserEditor {
     }
 
     /**
-     * Changes the current user from console frame's name to the provided name.
+     * Changes the current user from console's name to the provided name.
      *
      * @param newName the new name of the user
      */
@@ -1476,7 +1476,7 @@ public final class UserEditor {
     }
 
     /**
-     * Changes the current user from console frame's password to the provided password.
+     * Changes the current user from console's password to the provided password.
      *
      * @param newPassword the raw char[] new password to hash and store
      */
@@ -1510,7 +1510,7 @@ public final class UserEditor {
             if (found) {
                 UserUtil.getCyderUser().setExecutables(exes);
                 editUserFrame.notify("Map successfully removed");
-                ConsoleFrame.INSTANCE.revalidateMenu();
+                Console.INSTANCE.revalidateMenu();
             } else {
                 editUserFrame.notify("Could not locate specified map");
             }

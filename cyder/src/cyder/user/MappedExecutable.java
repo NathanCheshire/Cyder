@@ -1,7 +1,7 @@
 package cyder.user;
 
 import com.google.errorprone.annotations.Immutable;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.handlers.internal.Logger;
 import cyder.utils.ReflectionUtil;
 
@@ -54,10 +54,10 @@ public class MappedExecutable {
     }
 
     /**
-     * Displays a notification on the console frame informing the user that this mapped exe was invoked.
+     * Displays a notification on the console informing the user that this mapped exe was invoked.
      */
     public void displayInvokedNotification() {
-        ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Invoking mapped exe: " + name);
+        Console.INSTANCE.getConsoleCyderFrame().notify("Invoking mapped exe: " + name);
     }
 
     /**

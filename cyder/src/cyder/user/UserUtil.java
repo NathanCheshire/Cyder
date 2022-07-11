@@ -2,7 +2,7 @@ package cyder.user;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -997,8 +997,8 @@ public final class UserUtil {
      * @return the provided user file
      */
     public static File getUserFile(String fileName) {
-        Preconditions.checkArgument(ConsoleFrame.INSTANCE.getUUID() != null,
-                "ConsoleFrame uuid is not yet set");
+        Preconditions.checkArgument(Console.INSTANCE.getUUID() != null,
+                "Console uuid is not yet set");
 
         boolean in = false;
 
@@ -1015,7 +1015,7 @@ public final class UserUtil {
 
         File ret = OSUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                ConsoleFrame.INSTANCE.getUUID(), fileName);
+                Console.INSTANCE.getUUID(), fileName);
 
         if (!ret.exists()) {
             if (ret.mkdir()) {
@@ -1172,10 +1172,10 @@ public final class UserUtil {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static File createFileInUserSpace(String name) {
-        if (!StringUtil.isNull(ConsoleFrame.INSTANCE.getUUID())) {
+        if (!StringUtil.isNull(Console.INSTANCE.getUUID())) {
             File saveDir = OSUtil.buildFile(Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(),
-                    ConsoleFrame.INSTANCE.getUUID(), UserFile.FILES.getName());
+                    Console.INSTANCE.getUUID(), UserFile.FILES.getName());
             File createFile = new File(saveDir, name);
 
             if (createFile.exists()) {

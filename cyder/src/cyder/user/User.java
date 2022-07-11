@@ -90,7 +90,7 @@ public class User {
     private String silenceerrors;
 
     /**
-     * Whether to draw the console frame as a fullscreen frame.
+     * Whether to draw the console as a fullscreen frame.
      */
     private String fullscreen;
 
@@ -210,7 +210,7 @@ public class User {
     // -------------------
 
     /**
-     * The screen stat object which holds the console frame's position,
+     * The screen stat object which holds the console's position,
      * size, pinned, monitor, and rotation vars.
      */
     private ScreenStat screenStat = new ScreenStat();
@@ -755,9 +755,9 @@ public class User {
     }
 
     /**
-     * Sets whether to minimize instead of close when the console frame close button is pressed.
+     * Sets whether to minimize instead of close when the console close button is pressed.
      *
-     * @param minimizeonclose whether to minimize instead of close when the console frame close button is pressed
+     * @param minimizeonclose whether to minimize instead of close when the console close button is pressed
      */
     public void setMinimizeonclose(String minimizeonclose) {
         this.minimizeonclose = minimizeonclose;

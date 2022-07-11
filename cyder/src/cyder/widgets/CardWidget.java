@@ -23,7 +23,7 @@ import java.awt.*;
  * <p>
  * Example: Christmas2022() or Halloween2020() could be a method.
  * These methods will then be automatically invoked on that particular day
- * See special day events in ConsoleFrame for an example on how these
+ * See special day events in Console for an example on how these
  * methods are invoked and why.
  * <p>
  * Additionally, make sure to tag your card with an @Widget annotation as well as a
@@ -31,7 +31,7 @@ import java.awt.*;
  */
 @Vanilla
 @CyderAuthor
-public class CardWidget {
+public final class CardWidget {
     private static CyderFrame christmas2020Frame;
     private static CyderFrame christmas2021Frame;
     private static CyderFrame fathersDay2021Frame;

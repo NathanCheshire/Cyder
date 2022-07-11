@@ -2,7 +2,7 @@ package cyder.threads;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -48,7 +48,7 @@ public final class BletchyThread {
      * Printing utility thread that prints a decoding animation to the linked JTextPane, blocking any
      * other print calls while underway.
      *
-     * @param outputArea the output pane belonging to a ConsoleFrame to print to
+     * @param outputArea the output pane belonging to a Console to print to
      */
     public static void initialize(CyderOutputPane outputArea) {
         Preconditions.checkNotNull(outputArea);
@@ -74,7 +74,7 @@ public final class BletchyThread {
         Preconditions.checkArgument(milliDelay > 0);
 
         if (isActive() || MasterYoutubeThread.isActive()) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify(
+            Console.INSTANCE.getConsoleCyderFrame().notify(
                     "Cannot start bletchy/youtube thread" +
                             " at the same time as another instance.");
             return;

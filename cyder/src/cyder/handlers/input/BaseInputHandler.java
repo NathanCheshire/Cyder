@@ -3,7 +3,7 @@ package cyder.handlers.input;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.Handle;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderNumbers;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
@@ -318,7 +318,7 @@ public class BaseInputHandler {
             redirectionFile = OSUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(),
-                    ConsoleFrame.INSTANCE.getUUID(),
+                    Console.INSTANCE.getUUID(),
                     UserFile.FILES.getName(), requestedFilename).getAbsoluteFile();
 
             if (redirectionFile.exists())
@@ -505,7 +505,7 @@ public class BaseInputHandler {
     private boolean printingAnimationInvoked;
 
     /**
-     * Begins the typing animation for the ConsoleFrame.
+     * Begins the typing animation for the Console.
      * The typing animation is only used if the user preference is enabled.
      */
     public final void startConsolePrintingAnimation() {
@@ -531,7 +531,7 @@ public class BaseInputHandler {
                 long dataPullTimeout = 3000;
                 int lineTimeout = PropLoader.getInteger("printing_animation_line_timeout");
 
-                while (!ConsoleFrame.INSTANCE.isClosed()) {
+                while (!Console.INSTANCE.isClosed()) {
                     // update typingAnimationLocal every 3 seconds to reduce resource usage
                     if (System.currentTimeMillis() - lastPull > dataPullTimeout) {
                         lastPull = System.currentTimeMillis();
@@ -850,7 +850,7 @@ public class BaseInputHandler {
         killThreads();
         escapeWrapShell = true;
         IOUtil.stopGeneralAudio();
-        ConsoleFrame.INSTANCE.stopDancing();
+        Console.INSTANCE.stopDancing();
         shouldFinishPrinting = true;
         println("Escaped");
         resetHandlers();

@@ -4,7 +4,7 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -221,7 +221,7 @@ public final class ImageAveragerWidget {
                     try {
                         File outFile = OSUtil.buildFile(Dynamic.PATH,
                                 Dynamic.USERS.getDirectoryName(),
-                                ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(),
+                                Console.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(),
                                 combineImageNames() + "." + ImageUtil.PNG_FORMAT);
 
                         ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, outFile);

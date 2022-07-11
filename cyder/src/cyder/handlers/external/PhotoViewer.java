@@ -1,7 +1,7 @@
 package cyder.handlers.external;
 
 import com.google.common.base.Preconditions;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
@@ -258,11 +258,11 @@ public class PhotoViewer {
     }
 
     /**
-     * Attempts to rename the current image file if not in use by the ConsoleFrame.
+     * Attempts to rename the current image file if not in use by the Console.
      */
     private void rename() {
         File currentRename = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
-        File currentBackground = ConsoleFrame.INSTANCE
+        File currentBackground = Console.INSTANCE
                 .getCurrentBackground().referenceFile().getAbsoluteFile();
 
         if (currentRename.getAbsolutePath().equals(currentBackground.getAbsolutePath())) {

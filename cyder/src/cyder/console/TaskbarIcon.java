@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 
 /**
- * A {@link ConsoleFrame} taskbar icon.
+ * A {@link Console} taskbar icon.
  */
 public class TaskbarIcon {
     /**

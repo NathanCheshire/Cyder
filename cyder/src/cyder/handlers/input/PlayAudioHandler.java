@@ -1,7 +1,7 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -53,7 +53,7 @@ public class PlayAudioHandler extends InputHandler {
             IOUtil.playGeneralAudio("static/audio/1800.mp3");
         } else if (getInputHandler().commandIs("xxx")) {
             CyderIcons.setCurrentCyderIcon(CyderIcons.xxxIcon);
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame()
+            Console.INSTANCE.getConsoleCyderFrame()
                     .setIconImage(new ImageIcon("static/pictures/print/x.png").getImage());
             IOUtil.playGeneralAudio(OSUtil.buildPath("static", "audio", "x.mp3"));
         } else if (getInputHandler().inputWithoutSpacesIs("blackpanther")
@@ -73,7 +73,7 @@ public class PlayAudioHandler extends InputHandler {
                     ExceptionHandler.silentHandle(e);
                 }
 
-                getInputHandler().getOutputArea().setFont(ConsoleFrame.INSTANCE.generateUserFont());
+                getInputHandler().getOutputArea().setFont(Console.INSTANCE.generateUserFont());
             }, "Chadwick Boseman");
         } else if (getInputHandler().commandIs("f17")) {
             if (getInputHandler().getRobot() != null) {
@@ -90,7 +90,7 @@ public class PlayAudioHandler extends InputHandler {
                 String url = getInputHandler().argsToString();
 
                 if (YoutubeUtil.isPlaylistUrl(url)) {
-                    YoutubeUtil.downloadPlaylist(url, ConsoleFrame.INSTANCE.getInputHandler());
+                    YoutubeUtil.downloadPlaylist(url, Console.INSTANCE.getInputHandler());
                 } else {
                     String extractedUuid = getInputHandler().argsToString()
                             .replace(CyderUrls.YOUTUBE_VIDEO_HEADER, "");
@@ -101,7 +101,7 @@ public class PlayAudioHandler extends InputHandler {
                         url = CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
                     }
 
-                    YoutubeUtil.downloadVideo(url, ConsoleFrame.INSTANCE.getInputHandler());
+                    YoutubeUtil.downloadVideo(url, Console.INSTANCE.getInputHandler());
                 }
             }, "YouTube Download Initializer");
         } else {

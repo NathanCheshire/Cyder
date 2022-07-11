@@ -10,11 +10,11 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
- * Constants used for the {@link ConsoleFrame}.
+ * Constants used for the {@link Console}.
  */
 public final class ConsoleConstants {
     /**
-     * The absolute minimum size allowable for the ConsoleFrame.
+     * The absolute minimum size allowable for the Console.
      */
     public static final Dimension MINIMUM_SIZE = new Dimension(600, 600);
 

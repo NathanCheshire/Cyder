@@ -3,7 +3,7 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
@@ -130,10 +130,10 @@ public final class GitHubUtil {
         Preconditions.checkArgument(directory.isDirectory());
 
         return cloningExecutor.submit(() -> {
-            ConsoleFrame.INSTANCE.getInputHandler().println("Validating github link: " + githubRepo);
+            Console.INSTANCE.getInputHandler().println("Validating github link: " + githubRepo);
 
             if (!validateGitHubRepoCloneUrl(githubRepo)) {
-                ConsoleFrame.INSTANCE.getInputHandler().println("Provided repo link is invalid");
+                Console.INSTANCE.getInputHandler().println("Provided repo link is invalid");
                 return Optional.of(Boolean.FALSE);
             }
 
@@ -163,15 +163,15 @@ public final class GitHubUtil {
                 }
             }
 
-            ConsoleFrame.INSTANCE.getInputHandler().println("Checking for git");
+            Console.INSTANCE.getInputHandler().println("Checking for git");
 
             if (!OSUtil.isBinaryInstalled("git")) {
-                ConsoleFrame.INSTANCE.getInputHandler()
+                Console.INSTANCE.getInputHandler()
                         .println("Git not installed. Please install it at: " + CyderUrls.GIT_DOWNLOAD);
                 return Optional.of(Boolean.FALSE);
             }
 
-            ConsoleFrame.INSTANCE.getInputHandler().println("Cloning: \"" + NetworkUtil.getUrlTitle(githubRepo)
+            Console.INSTANCE.getInputHandler().println("Cloning: \"" + NetworkUtil.getUrlTitle(githubRepo)
                     + "\" to \"" + saveDir.getName() + OSUtil.FILE_SEP + "\"");
 
             try {

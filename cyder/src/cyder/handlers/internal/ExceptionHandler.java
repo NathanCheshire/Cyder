@@ -1,6 +1,6 @@
 package cyder.handlers.internal;
 
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -53,8 +53,8 @@ public final class ExceptionHandler {
             }
 
             // if user wants to be informed of exceptions
-            if (ConsoleFrame.INSTANCE.getUUID() != null &&
-                    !ConsoleFrame.INSTANCE.isClosed() &&
+            if (Console.INSTANCE.getUUID() != null &&
+                    !Console.INSTANCE.isClosed() &&
                     UserUtil.getCyderUser().getSilenceerrors().equals("0")) {
 
                 showExceptionPane(e);

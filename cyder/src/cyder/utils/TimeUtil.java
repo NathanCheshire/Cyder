@@ -1,7 +1,7 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -129,8 +129,8 @@ public final class TimeUtil {
      * clock format as set by the currently logged-in user
      */
     public static String userFormattedTime() {
-        if (ConsoleFrame.INSTANCE.getUUID() == null)
-            throw new IllegalStateException("The console frame uuid is not set");
+        if (Console.INSTANCE.getUUID() == null)
+            throw new IllegalStateException("The console uuid is not set");
 
         return getTime(UserUtil.getCyderUser().getConsoleclockformat());
     }
@@ -557,7 +557,7 @@ public final class TimeUtil {
     private static long absoluteStartTime;
 
     /**
-     * The time at which the console frame first appeared.
+     * The time at which the console first appeared.
      */
     private static long consoleStartTime;
 
@@ -583,19 +583,19 @@ public final class TimeUtil {
     }
 
     /**
-     * Returns the time at which the console frame first appeared visible.
+     * Returns the time at which the console first appeared visible.
      * This is not affected by a user logout and successive login.
      *
-     * @return the time at which the console frame first appeared visible
+     * @return the time at which the console first appeared visible
      */
     public static long getConsoleStartTime() {
         return consoleStartTime;
     }
 
     /**
-     * Sets the time the console frame was shown.
+     * Sets the time the console was shown.
      *
-     * @param consoleStartTime the time the console frame was shown
+     * @param consoleStartTime the time the console was shown
      */
     public static void setConsoleStartTime(long consoleStartTime) {
         if (TimeUtil.consoleStartTime != 0)

@@ -937,7 +937,7 @@ public final class Logger {
          */
         CLIENT("CLIENT"),
         /**
-         * Whatever is printed/appended to the CyderTextPane from the console frame.
+         * Whatever is printed/appended to the CyderTextPane from the console.
          */
         CONSOLE_OUT("CONSOLE OUT"),
         /**
@@ -969,7 +969,7 @@ public final class Logger {
          */
         SYSTEM_IO("SYSTEM IO"),
         /**
-         * A user starts Cyder or enters the main program, that of the ConsoleFrame.
+         * A user starts Cyder or enters the main program, that of the Console.
          */
         LOGIN("LOGIN"),
         /**

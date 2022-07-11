@@ -1,7 +1,7 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderFrame;
@@ -10,7 +10,7 @@ import cyder.utils.FrameUtil;
 import java.awt.*;
 
 /**
- * Handles CyderFrame and ConsoleFrame movement commands.
+ * Handles CyderFrame and Console movement commands.
  */
 public class FrameMovementHandler extends InputHandler {
     /**
@@ -26,16 +26,16 @@ public class FrameMovementHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().inputWithoutSpacesIs("topleft")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TOP_LEFT);
+            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TOP_LEFT);
         } else if (getInputHandler().inputWithoutSpacesIs("topright")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TOP_RIGHT);
+            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TOP_RIGHT);
         } else if (getInputHandler().inputWithoutSpacesIs("bottomleft")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_LEFT);
+            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_LEFT);
         } else if (getInputHandler().inputWithoutSpacesIs("bottomright")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_RIGHT);
+            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_RIGHT);
         } else if (getInputHandler().inputWithoutSpacesIs("middle")
                 || getInputHandler().inputWithoutSpacesIs("center")) {
-            ConsoleFrame.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.CENTER);
+            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.CENTER);
         } else if (getInputHandler().inputWithoutSpacesIs("frametitles")) {
             Frame[] frames = Frame.getFrames();
             for (Frame f : frames)
@@ -54,10 +54,10 @@ public class FrameMovementHandler extends InputHandler {
                             f.setState(Frame.NORMAL);
                         }
 
-                        int anchorX = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getX()
-                                + ConsoleFrame.INSTANCE.getConsoleCyderFrame().getWidth()
+                        int anchorX = Console.INSTANCE.getConsoleCyderFrame().getX()
+                                + Console.INSTANCE.getConsoleCyderFrame().getWidth()
                                 - f.getWidth();
-                        int anchorY = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getY();
+                        int anchorY = Console.INSTANCE.getConsoleCyderFrame().getY();
 
                         f.setRestoreX(anchorX);
                         f.setRestoreY(anchorY);
@@ -70,11 +70,11 @@ public class FrameMovementHandler extends InputHandler {
                             f.setState(Frame.NORMAL);
                         }
 
-                        int anchorX = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getX()
-                                + ConsoleFrame.INSTANCE.getConsoleCyderFrame().getWidth()
+                        int anchorX = Console.INSTANCE.getConsoleCyderFrame().getX()
+                                + Console.INSTANCE.getConsoleCyderFrame().getWidth()
                                 - f.getWidth();
-                        int anchorY = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getY()
-                                + ConsoleFrame.INSTANCE.getConsoleCyderFrame().getHeight()
+                        int anchorY = Console.INSTANCE.getConsoleCyderFrame().getY()
+                                + Console.INSTANCE.getConsoleCyderFrame().getHeight()
                                 - f.getHeight();
 
                         f.setRestoreX(anchorX);
@@ -88,9 +88,9 @@ public class FrameMovementHandler extends InputHandler {
                             f.setState(Frame.NORMAL);
                         }
 
-                        int anchorX = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getX();
-                        int anchorY = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getY()
-                                + ConsoleFrame.INSTANCE.getConsoleCyderFrame().getHeight()
+                        int anchorX = Console.INSTANCE.getConsoleCyderFrame().getX();
+                        int anchorY = Console.INSTANCE.getConsoleCyderFrame().getY()
+                                + Console.INSTANCE.getConsoleCyderFrame().getHeight()
                                 - f.getHeight();
 
                         f.setRestoreX(anchorX);
@@ -104,8 +104,8 @@ public class FrameMovementHandler extends InputHandler {
                             f.setState(Frame.NORMAL);
                         }
 
-                        int anchorX = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getX();
-                        int anchorY = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getY();
+                        int anchorX = Console.INSTANCE.getConsoleCyderFrame().getX();
+                        int anchorY = Console.INSTANCE.getConsoleCyderFrame().getY();
 
                         f.setRestoreX(anchorX);
                         f.setRestoreY(anchorY);
@@ -117,12 +117,12 @@ public class FrameMovementHandler extends InputHandler {
             } else if (getInputHandler().checkArgsLength(2)
                     && (getInputHandler().getArg(1).equalsIgnoreCase("center")
                     || getInputHandler().getArg(1).equalsIgnoreCase("middle"))) {
-                Point consoleFrameCenter = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getCenterPointOnScreen();
-                int x = (int) consoleFrameCenter.getX();
-                int y = (int) consoleFrameCenter.getY();
+                Point consoleCenter = Console.INSTANCE.getConsoleCyderFrame().getCenterPointOnScreen();
+                int x = (int) consoleCenter.getX();
+                int y = (int) consoleCenter.getY();
 
                 for (CyderFrame f : FrameUtil.getCyderFrames()) {
-                    if (f == ConsoleFrame.INSTANCE.getConsoleCyderFrame()) {
+                    if (f == Console.INSTANCE.getConsoleCyderFrame()) {
                         continue;
                     }
 
@@ -141,13 +141,13 @@ public class FrameMovementHandler extends InputHandler {
                 getInputHandler().println("Command usage: consolidate windows top left");
             }
         } else if (getInputHandler().commandIs("dance")) {
-            ConsoleFrame.INSTANCE.dance();
+            Console.INSTANCE.dance();
         } else if (getInputHandler().commandIs("hide")) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().minimizeAnimation();
+            Console.INSTANCE.getConsoleCyderFrame().minimizeAnimation();
         } else if (getInputHandler().inputWithoutSpacesIs("barrelroll")) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().barrelRoll();
+            Console.INSTANCE.getConsoleCyderFrame().barrelRoll();
         } else if (getInputHandler().commandIs("askew")) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().rotateBackground(5);
+            Console.INSTANCE.getConsoleCyderFrame().rotateBackground(5);
         } else {
             ret = false;
         }

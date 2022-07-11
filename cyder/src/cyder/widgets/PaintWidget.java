@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
@@ -122,7 +122,7 @@ public final class PaintWidget {
             String defaultFilename = base + increment + ".png";
 
             String path = OSUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
-                    ConsoleFrame.INSTANCE.getUUID(), "Files");
+                    Console.INSTANCE.getUUID(), "Files");
 
             while (new File(path + OSUtil.FILE_SEP + defaultFilename).exists()) {
                 increment++;
@@ -712,7 +712,7 @@ public final class PaintWidget {
 
         // 40 is a taskbar offset estimate
         int y = ScreenUtil.getScreenHeight() - paintControlsFrame.getHeight() - 40;
-        Rectangle screen = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getMonitorBounds();
+        Rectangle screen = Console.INSTANCE.getConsoleCyderFrame().getMonitorBounds();
         int x = screen.x + (screen.width - paintControlsFrame.getWidth()) / 2;
 
         paintControlsFrame.setLocation(x, y);

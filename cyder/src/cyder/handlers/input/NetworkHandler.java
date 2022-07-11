@@ -1,7 +1,7 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -95,7 +95,7 @@ public class NetworkHandler extends InputHandler {
                     }
 
                     File saveFile = new File(OSUtil.buildPath(Dynamic.PATH, "users",
-                            ConsoleFrame.INSTANCE.getUUID(), UserFile.FILES.getName(), saveName));
+                            Console.INSTANCE.getUUID(), UserFile.FILES.getName(), saveName));
 
                     getInputHandler().println("Saving file: " + saveName + " to files directory");
 

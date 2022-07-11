@@ -3,7 +3,7 @@ package cyder.youtube;
 import com.google.common.base.Preconditions;
 import cyder.audio.AudioPlayer;
 import cyder.audio.AudioUtil;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
 import cyder.enums.Dynamic;
@@ -303,7 +303,7 @@ public class YoutubeDownload {
             return;
         }
 
-        downloadProgressLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
+        downloadProgressLabel.setFont(Console.INSTANCE.generateUserFont());
     }
 
     /**
@@ -350,7 +350,7 @@ public class YoutubeDownload {
         String userMusicDir = OSUtil.buildPath(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                ConsoleFrame.INSTANCE.getUUID(),
+                Console.INSTANCE.getUUID(),
                 UserFile.MUSIC.getName());
 
         String extension = "." + PropLoader.getString("ffmpeg_audio_output_format");
@@ -483,11 +483,11 @@ public class YoutubeDownload {
         downloadProgressBar.repaint();
 
         downloadProgressLabel = new JLabel("\"" + this.downloadableName + "\"");
-        downloadProgressLabel.setFont(ConsoleFrame.INSTANCE.generateUserFont());
+        downloadProgressLabel.setFont(Console.INSTANCE.generateUserFont());
         downloadProgressLabel.setForeground(CyderColors.vanilla);
         downloadProgressLabel.setHorizontalAlignment(JLabel.LEFT);
-        downloadProgressLabel.setForeground(ConsoleFrame.INSTANCE.getInputField().getForeground());
-        downloadProgressLabel.setFont(ConsoleFrame.INSTANCE.getInputField().getFont());
+        downloadProgressLabel.setForeground(Console.INSTANCE.getInputField().getForeground());
+        downloadProgressLabel.setFont(Console.INSTANCE.getInputField().getFont());
 
         inputHandler.println(downloadProgressBar);
         inputHandler.println(downloadProgressLabel);

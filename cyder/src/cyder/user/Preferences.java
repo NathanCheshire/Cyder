@@ -1,6 +1,6 @@
 package cyder.user;
 
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
@@ -75,7 +75,7 @@ public class Preferences {
                 "", "f0f0f0", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = foreground");
 
-            ConsoleFrame.INSTANCE.getInputField()
+            Console.INSTANCE.getInputField()
                     .setForeground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
         }));
         ret.add(new Preference("background", "IGNORE",
@@ -103,9 +103,9 @@ public class Preferences {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = outputborder");
 
             if (UserUtil.getCyderUser().getOutputborder().equals("0")) {
-                ConsoleFrame.INSTANCE.getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
+                Console.INSTANCE.getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
             } else {
-                ConsoleFrame.INSTANCE.getOutputScroll().setBorder(new LineBorder(ColorUtil.hexStringToColor(
+                Console.INSTANCE.getOutputScroll().setBorder(new LineBorder(ColorUtil.hexStringToColor(
                         UserUtil.getCyderUser().getBackground()), 3, true));
             }
 
@@ -115,9 +115,9 @@ public class Preferences {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = inputborder");
 
             if (UserUtil.getCyderUser().getInputborder().equals("0")) {
-                ConsoleFrame.INSTANCE.getInputField().setBorder(null);
+                Console.INSTANCE.getInputField().setBorder(null);
             } else {
-                ConsoleFrame.INSTANCE.getInputField().setBorder(
+                Console.INSTANCE.getInputField().setBorder(
                         new LineBorder(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
                                 3, true));
             }
@@ -137,7 +137,7 @@ public class Preferences {
                 "Fullscreen Cyder (this will also cover the Windows taskbar)", "0", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fullscreen");
 
-            ConsoleFrame.INSTANCE.setFullscreen(UserUtil.getCyderUser().getFullscreen().equals("1"));
+            Console.INSTANCE.setFullscreen(UserUtil.getCyderUser().getFullscreen().equals("1"));
         }));
         ret.add(new Preference("outputfill", "Output Fill",
                 "Fill the output area with the color specified in the \"Fonts & Colors\" panel",
@@ -145,14 +145,14 @@ public class Preferences {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = outputfill");
 
             if (UserUtil.getCyderUser().getOutputfill().equals("0")) {
-                ConsoleFrame.INSTANCE.getOutputArea().setBackground(null);
-                ConsoleFrame.INSTANCE.getOutputArea().setOpaque(false);
+                Console.INSTANCE.getOutputArea().setBackground(null);
+                Console.INSTANCE.getOutputArea().setOpaque(false);
             } else {
-                ConsoleFrame.INSTANCE.getOutputArea().setOpaque(true);
-                ConsoleFrame.INSTANCE.getOutputArea().setBackground(
+                Console.INSTANCE.getOutputArea().setOpaque(true);
+                Console.INSTANCE.getOutputArea().setBackground(
                         ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
-                ConsoleFrame.INSTANCE.getOutputArea().repaint();
-                ConsoleFrame.INSTANCE.getOutputArea().revalidate();
+                Console.INSTANCE.getOutputArea().repaint();
+                Console.INSTANCE.getOutputArea().revalidate();
             }
 
         }));
@@ -162,26 +162,26 @@ public class Preferences {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = inputfill");
 
             if (UserUtil.getCyderUser().getInputfill().equals("0")) {
-                ConsoleFrame.INSTANCE.getInputField().setBackground(null);
-                ConsoleFrame.INSTANCE.getInputField().setOpaque(false);
+                Console.INSTANCE.getInputField().setBackground(null);
+                Console.INSTANCE.getInputField().setOpaque(false);
             } else {
-                ConsoleFrame.INSTANCE.getInputField().setOpaque(true);
-                ConsoleFrame.INSTANCE.getInputField().setBackground(
+                Console.INSTANCE.getInputField().setOpaque(true);
+                Console.INSTANCE.getInputField().setBackground(
                         ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
-                ConsoleFrame.INSTANCE.getInputField().repaint();
-                ConsoleFrame.INSTANCE.getInputField().revalidate();
+                Console.INSTANCE.getInputField().repaint();
+                Console.INSTANCE.getInputField().revalidate();
             }
 
         }));
         ret.add(new Preference("clockonconsole", "Clock On Console",
                 "Show a clock at the top of the console", "1", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = clockonconsole");
-            ConsoleFrame.INSTANCE.refreshClockText();
+            Console.INSTANCE.refreshClockText();
         }));
         ret.add(new Preference("showseconds", "Show Seconds",
                 "Show seconds on the console clock if enabled", "1", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = showseconds");
-            ConsoleFrame.INSTANCE.refreshClockText();
+            Console.INSTANCE.refreshClockText();
         }));
         ret.add(new Preference("filterchat", "Filter Chat",
                 "Filter foul language", "1", () -> {
@@ -225,12 +225,12 @@ public class Preferences {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = windowcolor");
 
             FrameUtil.repaintCyderFrames();
-            ConsoleFrame.INSTANCE.revalidateMenuBackgrounds();
+            Console.INSTANCE.revalidateMenuBackgrounds();
         }));
         ret.add(new Preference("consoleclockformat", "IGNORE",
                 "", "EEEEEEEEE h:mmaa", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key =  consoleclockformat");
-            ConsoleFrame.INSTANCE.refreshClockText();
+            Console.INSTANCE.refreshClockText();
         }));
         ret.add(new Preference("youtubeuuid", "IGNORE",
                 "", "aaaaaaaaaaa", () -> {
@@ -282,7 +282,7 @@ public class Preferences {
                 "Compact the text/components in supported text panes", "0", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = compacttextmode");
 
-            ConsoleFrame.INSTANCE.revalidateMenu();
+            Console.INSTANCE.revalidateMenu();
             CyderScrollList.refreshAllLists();
 
         }));
@@ -290,16 +290,16 @@ public class Preferences {
                 "1", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fontmetric");
 
-            ConsoleFrame.INSTANCE.getInputField().setFont(ConsoleFrame.INSTANCE.generateUserFont());
-            ConsoleFrame.INSTANCE.getOutputArea().setFont(ConsoleFrame.INSTANCE.generateUserFont());
+            Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
+            Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
 
         }));
         ret.add(new Preference("fontsize", "IGNORE", "",
                 "30", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fontsize");
 
-            ConsoleFrame.INSTANCE.getInputField().setFont(ConsoleFrame.INSTANCE.generateUserFont());
-            ConsoleFrame.INSTANCE.getOutputArea().setFont(ConsoleFrame.INSTANCE.generateUserFont());
+            Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
+            Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
 
         }));
         ret.add(new Preference("wrapshell", "Wrap Shell",

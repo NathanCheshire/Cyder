@@ -2,7 +2,7 @@ package cyder.youtube;
 
 import com.google.common.base.Preconditions;
 import cyder.audio.AudioUtil;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -184,7 +184,7 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
         Preconditions.checkNotNull(dimension);
-        Preconditions.checkNotNull(ConsoleFrame.INSTANCE.getUUID());
+        Preconditions.checkNotNull(Console.INSTANCE.getUUID());
 
         // get thumbnail url and file name to save it as
         Optional<BufferedImage> optionalBi = getThumbnail(url, dimension);
@@ -212,7 +212,7 @@ public final class YoutubeUtil {
         File albumArtDir = OSUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                ConsoleFrame.INSTANCE.getUUID(),
+                Console.INSTANCE.getUUID(),
                 UserFile.MUSIC.getName(),
                 "AlbumArt");
 
@@ -255,25 +255,25 @@ public final class YoutubeUtil {
     }
 
     /**
-     * Outputs instructions to the ConsoleFrame due to youtube-dl or ffmpeg not being installed.
+     * Outputs instructions to the console due to youtube-dl or ffmpeg not being installed.
      */
     private static void noFfmpegOrYoutubeDl() {
-        ConsoleFrame.INSTANCE.getInputHandler().println("Sorry, but ffmpeg and/or youtube-dl " +
+        Console.INSTANCE.getInputHandler().println("Sorry, but ffmpeg and/or youtube-dl " +
                 "couldn't be located. Please make sure they are both installed and added to your PATH Windows" +
                 " variable. Remember to also set the path to your youtube-dl executable in the user editor");
 
         CyderButton environmentVariableHelp = new CyderButton("Learn how to add environment variables");
         environmentVariableHelp.addActionListener(e -> NetworkUtil.openUrl(CyderUrls.environmentVariables));
-        ConsoleFrame.INSTANCE.getInputHandler().println(environmentVariableHelp);
+        Console.INSTANCE.getInputHandler().println(environmentVariableHelp);
 
         CyderButton downloadFFMPEG = new CyderButton("Learn how to download ffmpeg");
         downloadFFMPEG.addActionListener(e -> NetworkUtil.openUrl(CyderUrls.FFMPEG_INSTALLATION));
-        ConsoleFrame.INSTANCE.getInputHandler().println(downloadFFMPEG);
+        Console.INSTANCE.getInputHandler().println(downloadFFMPEG);
 
         CyderButton downloadYoutubeDL = new CyderButton("Learn how to download youtube-dl");
         downloadYoutubeDL.addActionListener(e ->
                 NetworkUtil.openUrl(CyderUrls.YOUTUBE_DL_INSTALLATION));
-        ConsoleFrame.INSTANCE.getInputHandler().println(downloadYoutubeDL);
+        Console.INSTANCE.getInputHandler().println(downloadYoutubeDL);
     }
 
     /**
@@ -286,7 +286,7 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(NetworkUtil.isValidUrl(url));
 
-        Dimension consoleDimension = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getSize();
+        Dimension consoleDimension = Console.INSTANCE.getConsoleCyderFrame().getSize();
 
         Optional<BufferedImage> maxThumbnailOptional = getMaxResolutionThumbnail(getUuid(url));
 
@@ -311,13 +311,13 @@ public final class YoutubeUtil {
         File fullSaveFile = OSUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                ConsoleFrame.INSTANCE.getUUID(),
+                Console.INSTANCE.getUUID(),
                 UserFile.BACKGROUNDS.getName(),
                 NetworkUtil.getUrlTitle(url) + "." + ImageUtil.PNG_FORMAT);
 
         try {
             ImageIO.write(maxThumbnail, ImageUtil.PNG_FORMAT, fullSaveFile);
-            ConsoleFrame.INSTANCE.setBackgroundFile(fullSaveFile);
+            Console.INSTANCE.setBackgroundFile(fullSaveFile);
         } catch (IOException e) {
             ExceptionHandler.handle(e);
             throw new YoutubeException("Failed to write image to user background directory as: "

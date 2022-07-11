@@ -2,7 +2,7 @@ package cyder.handlers.input;
 
 import com.google.common.collect.Range;
 import cyder.annotations.Handle;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
@@ -39,7 +39,7 @@ public class PixelationHandler extends InputHandler {
         boolean isSolidColor = false;
 
         try {
-            isSolidColor = ImageUtil.isSolidColor(ConsoleFrame.INSTANCE.getCurrentBackground().referenceFile());
+            isSolidColor = ImageUtil.isSolidColor(Console.INSTANCE.getCurrentBackground().referenceFile());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -84,7 +84,7 @@ public class PixelationHandler extends InputHandler {
     }
 
     /**
-     * Attempts to pixelate the ConsoleFrame background if the provided size is within the allowable range.
+     * Attempts to pixelate the Console background if the provided size is within the allowable range.
      *
      * @param size the requested pixel size
      */
@@ -92,17 +92,17 @@ public class PixelationHandler extends InputHandler {
         if (pixelRange.contains(size)) {
             CyderThreadRunner.submit(() -> {
                 try {
-                    BufferedImage img = ImageUtil.pixelateImage(ImageIO.read(ConsoleFrame.INSTANCE.
+                    BufferedImage img = ImageUtil.pixelateImage(ImageIO.read(Console.INSTANCE.
                             getCurrentBackground().referenceFile().getAbsoluteFile()), size);
 
-                    String newName = FileUtil.getFilename(ConsoleFrame.INSTANCE
+                    String newName = FileUtil.getFilename(Console.INSTANCE
                             .getCurrentBackground().referenceFile().getName())
                             + "_Pixelated_Pixel_Size_" + size + "." + ImageUtil.PNG_FORMAT;
 
                     File saveFile = OSUtil.buildFile(
                             Dynamic.PATH,
                             Dynamic.USERS.getDirectoryName(),
-                            ConsoleFrame.INSTANCE.getUUID(),
+                            Console.INSTANCE.getUUID(),
                             UserFile.BACKGROUNDS.getName(),
                             newName);
 
@@ -110,7 +110,7 @@ public class PixelationHandler extends InputHandler {
 
                     getInputHandler().println("Background pixelated and saved as a separate background file.");
 
-                    ConsoleFrame.INSTANCE.setBackgroundFile(saveFile);
+                    Console.INSTANCE.setBackgroundFile(saveFile);
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }

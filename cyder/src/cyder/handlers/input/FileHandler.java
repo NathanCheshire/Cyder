@@ -1,7 +1,7 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
@@ -49,7 +49,7 @@ public class FileHandler extends InputHandler {
             if (getInputHandler().checkArgsLength(1)) {
                 File requestedDeleteFile = new File(OSUtil.buildPath(
                         Dynamic.PATH, "users",
-                        ConsoleFrame.INSTANCE.getUUID(), getInputHandler().getArg(0)));
+                        Console.INSTANCE.getUUID(), getInputHandler().getArg(0)));
                 if (requestedDeleteFile.exists()) {
                     if (requestedDeleteFile.isDirectory()) {
                         if (OSUtil.deleteFile(requestedDeleteFile)) {

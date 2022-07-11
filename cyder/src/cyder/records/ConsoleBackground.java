@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 /**
- * A background for the ConsoleFrame.
+ * A background for the Console.
  */
 public record ConsoleBackground(File referenceFile) {
     /**

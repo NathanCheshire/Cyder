@@ -6,7 +6,7 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -431,7 +431,7 @@ public final class AudioPlayer {
         File userMusicDir = OSUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                ConsoleFrame.INSTANCE.getUUID(),
+                Console.INSTANCE.getUUID(),
                 UserFile.MUSIC.getName());
 
         File[] userMusicFiles = userMusicDir.listFiles((dir, name) -> FileUtil.isSupportedAudioExtension(name));
@@ -486,7 +486,7 @@ public final class AudioPlayer {
 
         currentUserAlbumArtDir = OSUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                ConsoleFrame.INSTANCE.getUUID(), UserFile.MUSIC.getName(), "AlbumArt");
+                Console.INSTANCE.getUUID(), UserFile.MUSIC.getName(), "AlbumArt");
 
         audioPlayerFrame = new CyderFrame(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN, BACKGROUND_COLOR);
         refreshFrameTitle();
@@ -738,7 +738,7 @@ public final class AudioPlayer {
 
         audioPlayerFrame.finalizeAndShow();
 
-        ConsoleFrame.INSTANCE.revalidateAudioMenu();
+        Console.INSTANCE.revalidateAudioMenu();
 
         // now that frame is shown, ensure binaries installed and restrict UI until proven
         if (!AudioUtil.ffmpegInstalled() || !AudioUtil.youtubeDlInstalled()) {
@@ -942,7 +942,7 @@ public final class AudioPlayer {
                         File moveTo = OSUtil.buildFile(
                                 Dynamic.PATH,
                                 Dynamic.USERS.getDirectoryName(),
-                                ConsoleFrame.INSTANCE.getUUID(),
+                                Console.INSTANCE.getUUID(),
                                 UserFile.MUSIC.getName(),
                                 FileUtil.getFilename(wavConvertedFile.get().get()) + ".wav");
 
@@ -991,7 +991,7 @@ public final class AudioPlayer {
                         File moveTo = OSUtil.buildFile(
                                 Dynamic.PATH,
                                 Dynamic.USERS.getDirectoryName(),
-                                ConsoleFrame.INSTANCE.getUUID(),
+                                Console.INSTANCE.getUUID(),
                                 UserFile.MUSIC.getName(),
                                 FileUtil.getFilename(mp3ConvertedFile.get().get()) + ".mp3");
 
@@ -1034,7 +1034,7 @@ public final class AudioPlayer {
                     File saveFile = OSUtil.buildFile(
                             Dynamic.PATH,
                             Dynamic.USERS.getDirectoryName(),
-                            ConsoleFrame.INSTANCE.getUUID(),
+                            Console.INSTANCE.getUUID(),
                             UserFile.FILES.getName(),
                             saveName + "." + WAVEFORM_EXPORT_FORMAT);
 
@@ -1144,7 +1144,7 @@ public final class AudioPlayer {
         File targetFile = OSUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                ConsoleFrame.INSTANCE.getUUID(),
+                Console.INSTANCE.getUUID(),
                 UserFile.MUSIC.getName(),
                 dreamifiedFile.getName());
 
@@ -1224,7 +1224,7 @@ public final class AudioPlayer {
         }
 
         File userMusicDir = OSUtil.buildFile(Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
+                Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUUID(),
                 UserFile.MUSIC.getName());
 
         // Not dreamified so attempt to find previously dreamified file if exists
@@ -1536,7 +1536,7 @@ public final class AudioPlayer {
 
         albumArtLabel.repaint();
 
-        ConsoleFrame.INSTANCE.revalidateMenu();
+        Console.INSTANCE.revalidateMenu();
     }
 
     /**
@@ -1635,7 +1635,7 @@ public final class AudioPlayer {
             playPauseButton.setToolTipText("Play");
         }
 
-        ConsoleFrame.INSTANCE.revalidateAudioMenu();
+        Console.INSTANCE.revalidateAudioMenu();
     }
 
     /**
@@ -1696,7 +1696,7 @@ public final class AudioPlayer {
             playAudio();
         }
 
-        ConsoleFrame.INSTANCE.revalidateAudioMenu();
+        Console.INSTANCE.revalidateAudioMenu();
     }
 
     /**
@@ -2054,7 +2054,7 @@ public final class AudioPlayer {
             innerAudioPlayer = null;
         }
 
-        ConsoleFrame.INSTANCE.revalidateAudioMenu();
+        Console.INSTANCE.revalidateAudioMenu();
     }
 
     /**

@@ -54,18 +54,18 @@ import static cyder.console.ConsoleConstants.*;
  * Singleton of components that represent the GUI way a user
  * interacts with Cyder and its functions.
  */
-public enum ConsoleFrame {
+public enum Console {
     /**
-     * The ConsoleFrame singleton.
+     * The Console singleton.
      */
     INSTANCE;
 
     /**
-     * Log when the console frame singleton is constructed
+     * Log when the console singleton is constructed
      * (enums are constructed when they are first referenced).
      */
-    ConsoleFrame() {
-        Logger.log(Logger.Tag.OBJECT_CREATION, "ConsoleFrame singleton constructed");
+    Console() {
+        Logger.log(Logger.Tag.OBJECT_CREATION, "Console singleton constructed");
     }
 
     /**
@@ -74,7 +74,7 @@ public enum ConsoleFrame {
     private ImmutableList<CyderFrame> frameTaskbarExceptions;
 
     /**
-     * The UUID of the user currently associated with the ConsoleFrame.
+     * The UUID of the user currently associated with the Console.
      */
     private String uuid;
 
@@ -84,22 +84,22 @@ public enum ConsoleFrame {
     private String previousUuid;
 
     /**
-     * The ConsoleFrame's CyderFrame instance.
+     * The Console's CyderFrame instance.
      */
     private CyderFrame consoleCyderFrame;
 
     /**
-     * The input handler linked to the ConsoleFrame's IO.
+     * The input handler linked to the Console's IO.
      */
     private BaseInputHandler baseInputHandler;
 
     /**
-     * The ConsoleFrame output scroll pane.
+     * The Console output scroll pane.
      */
     private CyderScrollPane outputScroll;
 
     /**
-     * The ConsoleFrame output TextPane controlled by the scroll pane.
+     * The Console output TextPane controlled by the scroll pane.
      */
     private JTextPane outputArea;
 
@@ -109,7 +109,7 @@ public enum ConsoleFrame {
     private JTextPane menuPane;
 
     /**
-     * The input field for the ConsoleFrame. This is a password field
+     * The input field for the Console. This is a password field
      * in case we ever want to obfuscate the text in the future.
      */
     private JPasswordField inputField;
@@ -234,9 +234,9 @@ public enum ConsoleFrame {
     private JLabel playPauseAudioLabel;
 
     /**
-     * Whether the console frame is closed.
+     * Whether the console is closed.
      */
-    private boolean consoleFrameClosed = true;
+    private boolean consoleClosed = true;
 
     /**
      * The current bash string to use for the start of the input field.
@@ -259,17 +259,17 @@ public enum ConsoleFrame {
     private Direction lastSlideDirection = Direction.LEFT;
 
     /**
-     * The current orientation of the ConsoleFrame.
+     * The current orientation of the Console.
      */
     private Direction consoleDir = Direction.TOP;
 
     /**
-     * The last direction the console frame was oriented in.
+     * The last direction the console was oriented in.
      */
     private Direction lastConsoleDir = consoleDir;
 
     /**
-     * The list of recognized backgrounds that the ConsoleFrame may switch to.
+     * The list of recognized backgrounds that the Console may switch to.
      */
     private final ArrayList<ConsoleBackground> backgrounds = new ArrayList<>();
 
@@ -284,11 +284,11 @@ public enum ConsoleFrame {
     private boolean currentlyDancing;
 
     /**
-     * Performs ConsoleFrame setup routines before constructing
+     * Performs Console setup routines before constructing
      * the frame and setting its visibility, location, and size.
      *
      * @param entryPoint where the launch call originated from
-     * @throws FatalException if the ConsoleFrame was left open
+     * @throws FatalException if the Console was left open
      */
     public void launch(CyderEntry entryPoint) {
         ExceptionHandler.checkFatalCondition(isClosed(), previousUuid);
@@ -306,7 +306,7 @@ public enum ConsoleFrame {
 
         setupConsoleCyderFrame(consoleIcon);
 
-        refreshConsoleFrameTitle();
+        refreshConsoleTitle();
 
         installConsoleResizing();
 
@@ -355,7 +355,7 @@ public enum ConsoleFrame {
 
         commandIndex = 0;
 
-        consoleFrameClosed = false;
+        consoleClosed = false;
         menuLabel = null;
 
         commandList.clear();
@@ -394,7 +394,7 @@ public enum ConsoleFrame {
             }
 
             /**
-             * Disposes the console frame and ensures focus borders do not appear during
+             * Disposes the console and ensures focus borders do not appear during
              * the possible close animation.
              */
             @Override
@@ -410,9 +410,6 @@ public enum ConsoleFrame {
             private final int DEGREE_DELAY = 2;
             private boolean consoleBarrelRollLocked = false;
 
-            /**
-             * Barrel roll not allowed for ConsoleFrame yet.
-             */
             @Override
             public void barrelRoll() {
                 if (consoleBarrelRollLocked)
@@ -430,7 +427,7 @@ public enum ConsoleFrame {
 
                     getConsoleCyderFrameContentPane().setIcon(getCurrentBackground().generateImageIcon());
                     consoleBarrelRollLocked = false;
-                }, "ConsoleFrame Barrel roll");
+                }, "Console Barrel roll");
             }
         };
 
@@ -442,7 +439,7 @@ public enum ConsoleFrame {
 
         consoleCyderFrame.setDraggingEnabled(!UserUtil.getCyderUser().getFullscreen().equals("1"));
 
-        consoleCyderFrame.addWindowListener(consoleFrameWindowAdapter);
+        consoleCyderFrame.addWindowListener(consoleWindowAdapter);
 
         getConsoleCyderFrameContentPane().setToolTipText(
                 FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
@@ -461,9 +458,9 @@ public enum ConsoleFrame {
     private record ConsoleIcon(ImageIcon background, Dimension dimension) {}
 
     /**
-     * Determines the initial console frame background icon.
+     * Determines the initial console background icon.
      *
-     * @return a record containing the initial console frame background icon and the dimensions of the icon
+     * @return a record containing the initial console background icon and the dimensions of the icon
      */
     private ConsoleIcon determineConsoleIconAndDimensions() {
         int width;
@@ -505,15 +502,15 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Refreshes the console frame title.
+     * Refreshes the console title.
      */
-    private void refreshConsoleFrameTitle() {
+    private void refreshConsoleTitle() {
         consoleCyderFrame.setTitle(PropLoader.getString("version") +
                 " Cyder [" + UserUtil.getCyderUser().getName() + "]");
     }
 
     /**
-     * The mouse motion adapter to add to the console frame used for pinned window logic.
+     * The mouse motion adapter to add to the console used for pinned window logic.
      */
     private final MouseMotionAdapter consolePinnedWindowMouseMotionAdapter = new MouseMotionAdapter() {
         @Override
@@ -539,7 +536,7 @@ public enum ConsoleFrame {
     };
 
     /**
-     * The mouse adapter to add to all the console frame drag labels.
+     * The mouse adapter to add to all the console drag labels.
      */
     private final MouseAdapter consolePinnedWindowMouseAdapter = new MouseAdapter() {
         @Override
@@ -574,7 +571,7 @@ public enum ConsoleFrame {
     };
 
     /**
-     * Adds the pinned window logic listeners to the console frame.
+     * Adds the pinned window logic listeners to the console.
      */
     private void installConsolePinnedWindowListeners() {
         consoleCyderFrame.addDragListener(consolePinnedWindowMouseMotionAdapter);
@@ -583,7 +580,7 @@ public enum ConsoleFrame {
 
     /**
      * Revalidates the bounds of the input field and output area based off
-     * of the current console frame size and the menu state.
+     * of the current console size and the menu state.
      */
     private void revalidateInputAndOutputBounds() {
         revalidateInputAndOutputBounds(false);
@@ -591,7 +588,7 @@ public enum ConsoleFrame {
 
     /**
      * Revalidates the bounds of the input field and output area based off
-     * of the current console frame size and the menu state.
+     * of the current console size and the menu state.
      *
      * @param ignoreMenuLabel whether to ignore the menu label and treat it as invisible
      */
@@ -618,7 +615,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Sets up the output area and output scroll and adds it to the console frame.
+     * Sets up the output area and output scroll and adds it to the console.
      */
     private void installOutputArea() {
         outputArea = new JTextPane() {
@@ -680,7 +677,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Sets up the input field and adds it to the console frame.
+     * Sets up the input field and adds it to the console.
      */
     private void installInputField() {
         inputField = new JPasswordField(40);
@@ -722,7 +719,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Sets up the console frame position based on the saved stats from the previous session.
+     * Sets up the console position based on the saved stats from the previous session.
      *
      * @param consoleIcon the console icon record to get the size from
      */
@@ -742,7 +739,7 @@ public enum ConsoleFrame {
             consoleCyderFrame.refreshBackground();
         }
 
-        consoleDir = requestedConsoleStats.getConsoleFrameDirection();
+        consoleDir = requestedConsoleStats.getConsoleDirection();
 
         revalidate(true, false, true);
 
@@ -756,7 +753,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Sets up the drag label button lists for all the console frame's drag labels.
+     * Sets up the drag label button lists for all the console's drag labels.
      */
     private void installDragLabelButtons() {
         menuButton = new CyderIconButton(
@@ -822,7 +819,7 @@ public enum ConsoleFrame {
             if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
                 FrameUtil.minimizeAllFrames();
             } else {
-                closeConsoleFrame(true, false);
+                closeFrame(true, false);
             }
         });
         consoleDragButtonList.add(closeButton);
@@ -938,7 +935,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Sets up resizing for the console frame.
+     * Sets up resizing for the console.
      */
     private void installConsoleResizing() {
         consoleCyderFrame.initializeResizing();
@@ -946,13 +943,13 @@ public enum ConsoleFrame {
         consoleCyderFrame.setBackgroundResizing(true);
         consoleCyderFrame.setMinimumSize(MINIMUM_SIZE);
 
-        refreshConsoleFrameMaxSize();
+        refreshConsoleMaxSize();
     }
 
     /**
-     * Refreshes the maximum size of the console frame.
+     * Refreshes the maximum size of the console.
      */
-    private void refreshConsoleFrameMaxSize() {
+    private void refreshConsoleMaxSize() {
         if (getCurrentBackground().referenceFile() != null) {
             ImageIcon tmpImageIcon = getCurrentBackground().generateImageIcon();
             int w = tmpImageIcon.getIconWidth();
@@ -971,7 +968,7 @@ public enum ConsoleFrame {
     /**
      * The window adapter for window iconification/de-iconification actions.
      */
-    private final WindowAdapter consoleFrameWindowAdapter = new WindowAdapter() {
+    private final WindowAdapter consoleWindowAdapter = new WindowAdapter() {
         @Override
         public void windowDeiconified(WindowEvent e) {
             inputField.requestFocus();
@@ -987,7 +984,7 @@ public enum ConsoleFrame {
     };
 
     /**
-     * Begins the console frame checker executors/threads.
+     * Begins the console checker executors/threads.
      */
     private void startExecutors() {
         CyderThreadRunner.submit(() -> {
@@ -1026,7 +1023,7 @@ public enum ConsoleFrame {
                         int i = 0;
                         while (i < 200) {
                             Thread.sleep(50);
-                            if (consoleFrameClosed) {
+                            if (consoleClosed) {
                                 break OUTER;
                             }
                             i += 50;
@@ -1081,7 +1078,7 @@ public enum ConsoleFrame {
                     int i = 0;
                     while (i < 3000) {
                         Thread.sleep(50);
-                        if (consoleFrameClosed) {
+                        if (consoleClosed) {
                             break OUTER;
                         }
                         i += 50;
@@ -1109,7 +1106,7 @@ public enum ConsoleFrame {
                     int i = 0;
                     while (i < setDelay) {
                         Thread.sleep(50);
-                        if (consoleFrameClosed) {
+                        if (consoleClosed) {
                             break OUTER;
                         }
                         i += 50;
@@ -1164,7 +1161,7 @@ public enum ConsoleFrame {
         }
 
         if (TimeUtil.isDeveloperBirthday()) {
-            ConsoleFrame.INSTANCE.getInputHandler().println("Thanks for creating me Nate :,)");
+            Console.INSTANCE.getInputHandler().println("Thanks for creating me Nate :,)");
         }
 
         if (UserUtil.getCyderUser().getDebugwindows().equals("1")) {
@@ -1217,7 +1214,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Determines what audio to play at the beginning of the ConsoleFrame startup.
+     * Determines what audio to play at the beginning of the Console startup.
      */
     private void introMusicCheck() {
         //if the user wants some custom intro music
@@ -1288,7 +1285,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * The action to allow debug lines to be drawn across all frames via the console frame.
+     * The action to allow debug lines to be drawn across all frames via the console.
      */
     private final AbstractAction debugLinesAbstractAction = new AbstractAction() {
         @Override
@@ -2069,7 +2066,7 @@ public enum ConsoleFrame {
      * Once set, a one time check is performed to fix any possibly corrupted userdata.
      *
      * @param uuid the user uuid that we will use to determine our output dir and other
-     *             information specific to this instance of the console frame
+     *             information specific to this instance of the console
      */
     public void setUUID(String uuid) {
         Preconditions.checkNotNull(uuid);
@@ -2174,7 +2171,7 @@ public enum ConsoleFrame {
 
     /**
      * Initializes the backgrounds associated with the current user.
-     * Also attempts to find the background index of the ConsoleFrame current background if it exists.
+     * Also attempts to find the background index of the Console current background if it exists.
      */
     public void loadBackgrounds() {
         try {
@@ -2208,7 +2205,7 @@ public enum ConsoleFrame {
 
             // now we have our wrapped files list
 
-            // find the index we are it if console frame has a content pane
+            // find the index we are it if console has a content pane
             revalidateBackgroundIndex();
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
@@ -2257,7 +2254,7 @@ public enum ConsoleFrame {
     /**
      * Sets the background to the provided file in the user's backgrounds directory provided it exists.
      *
-     * @param backgroundFile the background file to set the console frame to
+     * @param backgroundFile the background file to set the console to
      */
     public void setBackgroundFile(File backgroundFile) {
         loadBackgrounds();
@@ -2283,7 +2280,7 @@ public enum ConsoleFrame {
      * Simply sets the background to the provided icon without having a reference file.
      * Please ensure the icon size is the same as the current background's.
      *
-     * @param icon the icon to set to the background of the console frame
+     * @param icon the icon to set to the background of the console
      */
     public void setBackground(ImageIcon icon) {
         if (icon.getIconWidth() != consoleCyderFrame.getWidth()
@@ -2297,7 +2294,7 @@ public enum ConsoleFrame {
      * Sets the background index to the provided index
      * if valid and switches to that background.
      *
-     * @param index the index to switch the console frame background to
+     * @param index the index to switch the console background to
      */
     private void setBackgroundIndex(int index) {
         loadBackgrounds();
@@ -2358,7 +2355,7 @@ public enum ConsoleFrame {
 
     /**
      * Switches backgrounds to the next background in the list via a sliding animation.
-     * The ConsoleFrame will remain in fullscreen mode if in fullscreen mode as well as maintain
+     * The Console will remain in fullscreen mode if in fullscreen mode as well as maintain
      * whatever size it was at before a background switch was requested.
      */
     @SuppressWarnings("UnnecessaryDefault")
@@ -2398,7 +2395,7 @@ public enum ConsoleFrame {
             nextBackground = ImageUtil.rotateImage(nextBackground, 180);
         }
 
-        // get console frame's content pane
+        // get console's content pane
         JLabel contentPane = getConsoleCyderFrameContentPane();
 
         // tooltip based on image name
@@ -2523,7 +2520,7 @@ public enum ConsoleFrame {
             consoleCyderFrame.refreshBackground();
             consoleCyderFrame.getContentPane().revalidate();
 
-            refreshConsoleFrameMaxSize();
+            refreshConsoleMaxSize();
 
             consoleCyderFrame.setDraggingEnabled(wasDraggable);
             outputArea.setFocusable(outputAreaWasFocusable);
@@ -2565,7 +2562,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Refreshes the console frame, bounds, orientation, and fullscreen mode.
+     * Refreshes the console, bounds, orientation, and fullscreen mode.
      *
      * @param fullscreen whether to set the frame to fullscreen mode.
      */
@@ -2647,45 +2644,45 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Returns the input handler associated with the ConsoleFrame.
+     * Returns the input handler associated with the Console.
      *
-     * @return the input handler associated with the ConsoleFrame
+     * @return the input handler associated with the Console
      */
     public BaseInputHandler getInputHandler() {
         return baseInputHandler;
     }
 
     /**
-     * Returns the x value of the ConsoleFrame.
+     * Returns the x value of the Console.
      *
-     * @return the x value of the ConsoleFrame
+     * @return the x value of the Console
      */
     public int getX() {
         return consoleCyderFrame.getX();
     }
 
     /**
-     * Returns the y value of the ConsoleFrame.
+     * Returns the y value of the Console.
      *
-     * @return the y value of the ConsoleFrame
+     * @return the y value of the Console
      */
     public int getY() {
         return consoleCyderFrame.getY();
     }
 
     /**
-     * Returns the width of the ConsoleFrame.
+     * Returns the width of the Console.
      *
-     * @return the width of the ConsoleFrame
+     * @return the width of the Console
      */
     public int getWidth() {
         return consoleCyderFrame.getWidth();
     }
 
     /**
-     * Returns the height of the ConsoleFrame.
+     * Returns the height of the Console.
      *
-     * @return the height of the ConsoleFrame
+     * @return the height of the Console
      */
     public int getHeight() {
         return consoleCyderFrame.getHeight();
@@ -2717,34 +2714,34 @@ public enum ConsoleFrame {
     // -----------------
 
     /**
-     * Returns the JTextPane associated with the ConsoleFrame.
+     * Returns the JTextPane associated with the Console.
      *
-     * @return the JTextPane associated with the ConsoleFrame
+     * @return the JTextPane associated with the Console
      */
     public JTextPane getOutputArea() {
         return outputArea;
     }
 
     /**
-     * Returns the JScrollPane associated with the ConsoleFrame.
+     * Returns the JScrollPane associated with the Console.
      *
-     * @return the JScrollPane associated with the ConsoleFrame
+     * @return the JScrollPane associated with the Console
      */
     public CyderScrollPane getOutputScroll() {
         return outputScroll;
     }
 
     /**
-     * Returns the input JTextField associated with the ConsoleFrame.
+     * Returns the input JTextField associated with the Console.
      *
-     * @return the input JTextField associated with the ConsoleFrame
+     * @return the input JTextField associated with the Console
      */
     public JTextField getInputField() {
         return inputField;
     }
 
     /**
-     * Revalidates the ConsoleFrame size, bounds, background, menu, clock, audio menu, draggable property, etc.
+     * Revalidates the Console size, bounds, background, menu, clock, audio menu, draggable property, etc.
      * based on the current background. Note that maintainDirection trumps maintainFullscreen.
      *
      * @param maintainDirection  whether to maintain the console direction
@@ -2755,7 +2752,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Revalidates the ConsoleFrame size, bounds, background, menu, clock, audio menu, draggable property, etc.
+     * Revalidates the Console size, bounds, background, menu, clock, audio menu, draggable property, etc.
      * based on the current background. Note that maintainDirection trumps maintainFullscreen.
      *
      * @param maintainDirection   whether to maintain the console direction
@@ -2818,7 +2815,7 @@ public enum ConsoleFrame {
         // this shouldn't ever happen
         if (w == -1 || h == -1) {
             throw new IllegalStateException("Resulting width or height was found to " +
-                    "not have been set in ConsoleFrame refresh method. " + CyderStrings.EUROPEAN_TOY_MAKER);
+                    "not have been set in Console refresh method. " + CyderStrings.EUROPEAN_TOY_MAKER);
         }
 
         consoleCyderFrame.setSize(w, h);
@@ -2830,7 +2827,7 @@ public enum ConsoleFrame {
 
         revalidateInputAndOutputBounds();
 
-        refreshConsoleFrameMaxSize();
+        refreshConsoleMaxSize();
 
         // this takes care of offset of input/output due to menu
         revalidateMenu();
@@ -2854,9 +2851,9 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Returns the CyderFrame used for the ConsoleFrame.
+     * Returns the CyderFrame used for the Console.
      *
-     * @return the CyderFrame used for the ConsoleFrame
+     * @return the CyderFrame used for the Console
      */
     public CyderFrame getConsoleCyderFrame() {
         return consoleCyderFrame;
@@ -2871,7 +2868,7 @@ public enum ConsoleFrame {
      * it where it in the proper spot depending on if it is shown.
      */
     public void revalidateMenu() {
-        if (consoleFrameClosed || menuLabel == null)
+        if (consoleClosed || menuLabel == null)
             return;
 
         // revalidate bounds if needed and change icon
@@ -3125,9 +3122,9 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Sets the console frame to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
+     * Sets the console to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
      *
-     * @param screenPos the screen position to move the ConsoleFrame to
+     * @param screenPos the screen position to move the Console to
      */
     public void setLocationOnScreen(CyderFrame.ScreenPosition screenPos) {
         ArrayList<RelativeFrame> frames = getPinnedFrames();
@@ -3148,9 +3145,9 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Returns a list of all frames that are pinned to the ConsoleFrame.
+     * Returns a list of all frames that are pinned to the Console.
      *
-     * @return a list of all frames that are pinned to the ConsoleFrame
+     * @return a list of all frames that are pinned to the Console
      */
     private ArrayList<RelativeFrame> getPinnedFrames() {
         ArrayList<RelativeFrame> frames = new ArrayList<>();
@@ -3215,13 +3212,13 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Simply closes the console frame due to a user logout.
+     * Simply closes the console due to a user logout.
      *
-     * @param exit       whether to exit Cyder upon closing the ConsoleFrame
+     * @param exit       whether to exit Cyder upon closing the Console
      * @param logoutUser whether to log out the currently logged-in user.
      */
-    public void closeConsoleFrame(boolean exit, boolean logoutUser) {
-        consoleFrameClosed = true;
+    public void closeFrame(boolean exit, boolean logoutUser) {
+        consoleClosed = true;
         saveScreenStat();
 
         //stop any audio
@@ -3250,16 +3247,16 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Returns whether the ConsoleFrame is closed.
+     * Returns whether the Console is closed.
      *
-     * @return whether the ConsoleFrame is closed
+     * @return whether the Console is closed
      */
     public boolean isClosed() {
-        return consoleFrameClosed;
+        return consoleClosed;
     }
 
     /**
-     * Saves the console frame's position and window stats to the currently logged-in user's json file.
+     * Saves the console's position and window stats to the currently logged-in user's json file.
      */
     public void saveScreenStat() {
         if (getUUID() == null)
@@ -3282,7 +3279,7 @@ public enum ConsoleFrame {
                 screenStat.setConsoleY(consoleCyderFrame.getY());
             }
 
-            screenStat.setConsoleFrameDirection(consoleDir);
+            screenStat.setConsoleDirection(consoleDir);
 
             // just to be safe
             if (!isClosed()) {
@@ -3297,10 +3294,10 @@ public enum ConsoleFrame {
 
     /**
      * Closes the CyderFrame and shows the LoginFrame
-     * relative to where ConsoleFrame was closed.
+     * relative to where Console was closed.
      */
     public void logout() {
-        closeConsoleFrame(false, true);
+        closeFrame(false, true);
         FrameUtil.closeAllFrames(true);
 
         IOUtil.stopAllAudio();
@@ -3401,7 +3398,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Sets the background of the console frame to whatever is behind it.
+     * Sets the background of the console to whatever is behind it.
      * This was the original implementation of frame chams functionality before
      * the windows were actually set to be transparent.
      */
@@ -3411,7 +3408,7 @@ public enum ConsoleFrame {
             Rectangle monitorBounds = ref.getMonitorBounds();
 
             INSTANCE.getConsoleCyderFrame().setVisible(false);
-            BufferedImage capture = ConsoleFrame.INSTANCE
+            BufferedImage capture = Console.INSTANCE
                     .getInputHandler().getRobot().createScreenCapture(monitorBounds);
             INSTANCE.getConsoleCyderFrame().setVisible(true);
 
@@ -3425,9 +3422,9 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Returns the console frame's content pane.
+     * Returns the console's content pane.
      *
-     * @return the console frame's content pane
+     * @return the console's content pane
      */
     public JLabel getConsoleCyderFrameContentPane() {
         return ((JLabel) (consoleCyderFrame.getContentPane()));
@@ -3445,7 +3442,7 @@ public enum ConsoleFrame {
 
     /**
      * Paints a label with the provided possibly html-formatted string over the
-     * ConsoleFrame for the provided number of milliseconds
+     * Console for the provided number of milliseconds
      *
      * @param htmlString      the string to display, may or may not be formatted using html
      * @param labelFont       the font to use for the label
@@ -3499,7 +3496,7 @@ public enum ConsoleFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "ConsoleFrame Title Notify: " + htmlString);
+        }, "Console Title Notify: " + htmlString);
     }
 
     /**

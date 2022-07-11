@@ -1,7 +1,7 @@
 package cyder.handlers.internal;
 
 import cyder.annotations.Widget;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderEntry;
@@ -29,7 +29,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * A widget to log into Cyder or any other way that the ConsoleFrame might be invoked.
+ * A widget to log into Cyder or any other way that the Console might be invoked.
  */
 public final class LoginHandler {
     /**
@@ -235,7 +235,7 @@ public final class LoginHandler {
                 loginFrameClosed = true;
                 doLoginAnimations = false;
 
-                if (ConsoleFrame.INSTANCE.isClosed()) {
+                if (Console.INSTANCE.isClosed()) {
                     OSUtil.exit(ExitCondition.GenesisControlledExit);
                 }
             }
@@ -340,7 +340,7 @@ public final class LoginHandler {
                                 loginMode = 1;
                             } else if (inputString.equalsIgnoreCase("quit")) {
                                 loginFrame.dispose();
-                                if (ConsoleFrame.INSTANCE.isClosed())
+                                if (Console.INSTANCE.isClosed())
                                     OSUtil.exit(ExitCondition.GenesisControlledExit);
 
                             } else if (inputString.equalsIgnoreCase("help")) {
@@ -450,13 +450,13 @@ public final class LoginHandler {
 
                 UserUtil.logoutAllUsers();
 
-                ConsoleFrame.INSTANCE.setUUID(loggedInUUID);
+                Console.INSTANCE.setUUID(loggedInUUID);
 
                 Logger.log(Logger.Tag.LOGIN,
                         CyderEntry.PreviouslyLoggedIn.getName().toUpperCase()
                                 + ", " + loggedInUUID);
 
-                ConsoleFrame.INSTANCE.launch(CyderEntry.PreviouslyLoggedIn);
+                Console.INSTANCE.launch(CyderEntry.PreviouslyLoggedIn);
             } else {
                 showGui();
             }
@@ -478,17 +478,17 @@ public final class LoginHandler {
             Optional<String> optionalUuid = checkPassword(name, hashedPass);
 
             if (optionalUuid.isPresent()) {
-                ConsoleFrame.INSTANCE.setUUID(optionalUuid.get());
+                Console.INSTANCE.setUUID(optionalUuid.get());
 
                 ret = true;
 
                 doLoginAnimations = false;
 
-                if (!ConsoleFrame.INSTANCE.isClosed()) {
-                    ConsoleFrame.INSTANCE.closeConsoleFrame(false, true);
+                if (!Console.INSTANCE.isClosed()) {
+                    Console.INSTANCE.closeFrame(false, true);
                 }
 
-                ConsoleFrame.INSTANCE.launch(autoCypherAttempt
+                Console.INSTANCE.launch(autoCypherAttempt
                         ? CyderEntry.AutoCypher : CyderEntry.Login);
             } else if (autoCypherAttempt) {
                 Logger.log(Logger.Tag.LOGIN, CyderEntry.AutoCypher.getFailMessage());

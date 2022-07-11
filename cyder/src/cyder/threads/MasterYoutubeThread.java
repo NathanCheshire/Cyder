@@ -1,7 +1,7 @@
 package cyder.threads;
 
 import com.google.common.base.Preconditions;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderOutputPane;
@@ -81,7 +81,7 @@ public final class MasterYoutubeThread {
         Preconditions.checkNotNull(semaphore);
 
         if (BletchyThread.isActive() || isActive()) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Cannot start bletchy/youtube thread" +
+            Console.INSTANCE.getConsoleCyderFrame().notify("Cannot start bletchy/youtube thread" +
                     " at the same time as another instance.");
             return;
         }
@@ -91,7 +91,7 @@ public final class MasterYoutubeThread {
             youtubeThreads.add(current);
         }
 
-        ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify(
+        Console.INSTANCE.getConsoleCyderFrame().notify(
                 "Type \"stopscript\" or press ctrl + c to stop the YouTube thread.");
         isActive = true;
     }

@@ -2,7 +2,7 @@ package cyder.utils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
@@ -334,7 +334,7 @@ public final class OSUtil {
      */
     public static void setMouseLoc(int x, int y) {
         try {
-            ConsoleFrame.INSTANCE.getInputHandler().getRobot().mouseMove(x, y);
+            Console.INSTANCE.getInputHandler().getRobot().mouseMove(x, y);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }

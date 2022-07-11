@@ -1,7 +1,7 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.enums.Suggestion;
 import cyder.exceptions.IllegalMethodException;
@@ -202,12 +202,12 @@ public class GeneralPrintHandler extends InputHandler {
         } else if (getInputHandler().commandIs("clc") ||
                 getInputHandler().commandIs("cls") ||
                 getInputHandler().commandIs("clear")) {
-            ConsoleFrame.INSTANCE.getOutputArea().setText("");
+            Console.INSTANCE.getOutputArea().setText("");
         } else if (getInputHandler().commandIs("throw")) {
             ExceptionHandler.handle(new Exception("Big boi exceptions; " +
                     "\"I chase your love around figure 8, I need you more than I can take\""));
         } else if (getInputHandler().commandIs("clearops")) {
-            ConsoleFrame.INSTANCE.clearCommandHistory();
+            Console.INSTANCE.clearCommandHistory();
             Logger.log(Logger.Tag.HANDLE_METHOD, "User cleared command history");
             getInputHandler().println("Command history reset");
         } else if (getInputHandler().commandIs("anagram")) {

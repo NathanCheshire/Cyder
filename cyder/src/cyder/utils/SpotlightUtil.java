@@ -1,7 +1,7 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -48,9 +48,9 @@ public final class SpotlightUtil {
                 File[] files = spotlightDirectory.listFiles();
                 int length = files == null ? 0 : files.length;
 
-                ConsoleFrame.INSTANCE.getInputHandler().println("Windows spotlight images wiped from directory:\n\""
+                Console.INSTANCE.getInputHandler().println("Windows spotlight images wiped from directory:\n\""
                         + spotlightsDir.getAbsolutePath() + "\"");
-                ConsoleFrame.INSTANCE.getInputHandler().println("Spotlights found: " + length);
+                Console.INSTANCE.getInputHandler().println("Spotlights found: " + length);
 
                 if (files != null && files.length > 0) {
                     for (File spotlight : files) {
@@ -61,7 +61,7 @@ public final class SpotlightUtil {
                 files = spotlightDirectory.listFiles();
                 length = files == null ? 0 : files.length;
 
-                ConsoleFrame.INSTANCE.getInputHandler().println("Spotlights left: " + length);
+                Console.INSTANCE.getInputHandler().println("Spotlights left: " + length);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

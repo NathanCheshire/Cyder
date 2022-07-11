@@ -197,7 +197,7 @@ public class StringUtil {
 
     /*
     Start generic print methods for the linked JTextPane, these are not thread safe by default.
-    See ConsoleFrame's outputArea and implementation there for thread safety.
+    See Console's outputArea and implementation there for thread safety.
      */
 
     /**

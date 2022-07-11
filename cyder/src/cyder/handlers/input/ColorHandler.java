@@ -1,7 +1,7 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
@@ -39,8 +39,8 @@ public class ColorHandler extends InputHandler {
         if (getInputHandler().inputWithoutSpacesIs("backgroundcolor")) {
             if (getInputHandler().checkArgsLength(1)) {
                 try {
-                    int w = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getWidth();
-                    int h = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getHeight();
+                    int w = Console.INSTANCE.getConsoleCyderFrame().getWidth();
+                    int h = Console.INSTANCE.getConsoleCyderFrame().getHeight();
 
                     if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
                         w = ScreenUtil.getScreenWidth();
@@ -55,13 +55,13 @@ public class ColorHandler extends InputHandler {
                             + "Generated_Background." + ImageUtil.PNG_FORMAT;
 
                     File saveFile = OSUtil.buildFile(Dynamic.PATH, "users",
-                            ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(), saveName);
+                            Console.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(), saveName);
 
                     ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, saveFile);
 
                     getInputHandler().println("Background generated, set, and saved as a separate background file.");
 
-                    ConsoleFrame.INSTANCE.setBackgroundFile(saveFile);
+                    Console.INSTANCE.setBackgroundFile(saveFile);
                 } catch (Exception e) {
                     getInputHandler().println("Background color command usage: backgroundcolor EC407A");
                     ExceptionHandler.silentHandle(e);
@@ -72,21 +72,21 @@ public class ColorHandler extends InputHandler {
         } else if (getInputHandler().inputWithoutSpacesIs("fixforeground")) {
             try {
                 Color backgroundDominantColor = ColorUtil.getDominantColor(ImageIO.read(
-                        ConsoleFrame.INSTANCE.getCurrentBackground().referenceFile()));
+                        Console.INSTANCE.getCurrentBackground().referenceFile()));
 
                 if (shouldUseLightColor(backgroundDominantColor)) {
-                    ConsoleFrame.INSTANCE.getOutputArea().setForeground(CyderColors.defaultLightModeTextColor);
-                    ConsoleFrame.INSTANCE.getInputField().setForeground(CyderColors.defaultLightModeTextColor);
-                    ConsoleFrame.INSTANCE.getInputField().setCaretColor(CyderColors.defaultLightModeTextColor);
-                    ConsoleFrame.INSTANCE.getInputField()
+                    Console.INSTANCE.getOutputArea().setForeground(CyderColors.defaultLightModeTextColor);
+                    Console.INSTANCE.getInputField().setForeground(CyderColors.defaultLightModeTextColor);
+                    Console.INSTANCE.getInputField().setCaretColor(CyderColors.defaultLightModeTextColor);
+                    Console.INSTANCE.getInputField()
                             .setCaret(new CyderCaret(CyderColors.defaultLightModeTextColor));
                     UserUtil.getCyderUser()
                             .setForeground(ColorUtil.rgbToHexString(CyderColors.defaultLightModeTextColor));
                 } else {
-                    ConsoleFrame.INSTANCE.getOutputArea().setForeground(CyderColors.defaultDarkModeTextColor);
-                    ConsoleFrame.INSTANCE.getInputField().setForeground(CyderColors.defaultDarkModeTextColor);
-                    ConsoleFrame.INSTANCE.getInputField().setCaretColor(CyderColors.defaultDarkModeTextColor);
-                    ConsoleFrame.INSTANCE.getInputField()
+                    Console.INSTANCE.getOutputArea().setForeground(CyderColors.defaultDarkModeTextColor);
+                    Console.INSTANCE.getInputField().setForeground(CyderColors.defaultDarkModeTextColor);
+                    Console.INSTANCE.getInputField().setCaretColor(CyderColors.defaultDarkModeTextColor);
+                    Console.INSTANCE.getInputField()
                             .setCaret(new CyderCaret(CyderColors.defaultDarkModeTextColor));
                     UserUtil.getCyderUser()
                             .setForeground(ColorUtil.rgbToHexString(CyderColors.defaultDarkModeTextColor));
@@ -99,8 +99,8 @@ public class ColorHandler extends InputHandler {
                 ret = false;
             }
         } else if (getInputHandler().commandIs("repaint")) {
-            ConsoleFrame.INSTANCE.revalidate(false, false);
-            getInputHandler().println("ConsoleFrame repainted");
+            Console.INSTANCE.revalidate(false, false);
+            getInputHandler().println("Console repainted");
         } else {
             ret = false;
         }

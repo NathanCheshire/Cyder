@@ -11,7 +11,7 @@ public enum IgnoreThread {
     HighPingChecker("High Ping Checker"),
     DestroyJavaVm("DestroyJavaVM"),
     ConsolePrintingAnimation("Console Printing Animation"),
-    ConsoleDataSaver("ConsoleFrame Stat Saver"),
+    ConsoleDataSaver("Console Stat Saver"),
     SingularInstanceEnsurer("Singular Cyder Instance Ensurer"),
     ObjectCreationLogger("Object Creation Logger"),
     CyderWatchdog("Cyder Watchdog"),

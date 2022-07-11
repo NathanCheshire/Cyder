@@ -45,7 +45,7 @@ public final class CyderIcons {
 
     /**
      * Change Size icons used for occasional frames to change the size of
-     * the frame or in ConsoleFrame's case, switch the background.
+     * the frame or in Console's case, switch the background.
      */
     public static final ImageIcon changeSizeIcon = new ImageIcon(
             OSUtil.buildPath("static", "pictures", "icons", "changesize1.png"));
@@ -54,7 +54,7 @@ public final class CyderIcons {
 
     /**
      * Pin icons used for setting a frame to always on top,
-     * pin3.png is used to indicate a frame is pinned to the ConsoleFrame
+     * pin3.png is used to indicate a frame is pinned to the Console
      */
     public static final ImageIcon pinIcon = new ImageIcon(
             OSUtil.buildPath("static", "pictures", "icons", "pin1.png"));
@@ -72,7 +72,7 @@ public final class CyderIcons {
             OSUtil.buildPath("static", "pictures", "windowicons", "Close2.png"));
 
     /**
-     * Help icons used for ConsoleFrame
+     * Help icons used for Console.
      */
     public static final ImageIcon helpIcon = new ImageIcon(
             OSUtil.buildPath("static", "pictures", "icons", "help1.png"));

@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderUrls;
@@ -264,12 +264,12 @@ public class WeatherWidget {
      */
     private void innerShowGui() {
         if (NetworkUtil.isHighLatency()) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Sorry, "
+            Console.INSTANCE.getConsoleCyderFrame().notify("Sorry, "
                     + UserUtil.getCyderUser().getName() + ", but"
                     + " this feature is suspended until a stable internet connection can be established");
             return;
         } else if (StringUtil.isNull(PropLoader.getString("weather_key"))) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has "
+            Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has "
                     + "not been set or is invalid, as a result, many features of Cyder will not work as"
                     + " intended. Please see the fields panel of the user editor to learn how to acquire "
                     + "a key and set it.", "Weather Key Not Set");
@@ -809,7 +809,7 @@ public class WeatherWidget {
                     }
 
                     // needed to change the title on the menu
-                    ConsoleFrame.INSTANCE.revalidateMenu();
+                    Console.INSTANCE.revalidateMenu();
                 }
             } catch (FileNotFoundException e) {
                 //invalid custom location so go back to the old one

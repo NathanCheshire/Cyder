@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -80,7 +80,7 @@ public class NotesWidget {
     @Widget(triggers = {"note", "notes"}, description
             = "A note taking widget that can save and display multiple notes")
     public static void showGui() {
-        if (ConsoleFrame.INSTANCE.getUUID() == null)
+        if (Console.INSTANCE.getUUID() == null)
             return;
 
         if (noteFrame != null)
@@ -244,7 +244,7 @@ public class NotesWidget {
                         new FileWriter(OSUtil.buildFile(
                                 Dynamic.PATH,
                                 Dynamic.USERS.getDirectoryName(),
-                                ConsoleFrame.INSTANCE.getUUID(),
+                                Console.INSTANCE.getUUID(),
                                 UserFile.NOTES.getName(),
                                 newNoteField.getText().trim() + ".txt"), true));
                 newNoteArea.write(NoteWriter);
@@ -287,7 +287,7 @@ public class NotesWidget {
         File dir = OSUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                ConsoleFrame.INSTANCE.getUUID(),
+                Console.INSTANCE.getUUID(),
                 UserFile.NOTES.getName());
 
         if (!dir.exists()) {

@@ -1,7 +1,7 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
@@ -47,7 +47,7 @@ public class ImageHandler extends InputHandler {
             getInputHandler().println(new ImageIcon("static/pictures/print/Redis.png"));
         } else if (getInputHandler().commandIs("blur")) {
             if (getInputHandler().checkArgsLength(1)) {
-                if (ImageUtil.isSolidColor(ConsoleFrame.INSTANCE.getCurrentBackground().generateBufferedImage())) {
+                if (ImageUtil.isSolidColor(Console.INSTANCE.getCurrentBackground().generateBufferedImage())) {
                     getInputHandler().println("Silly " + UserUtil.getCyderUser().getName()
                             + ". Your background is a solid color, bluing that won't do anything :P");
                 }
@@ -76,11 +76,11 @@ public class ImageHandler extends InputHandler {
                 getInputHandler().println("Minimum blur radius is 3");
             }
 
-            File currentBackgroundFile = ConsoleFrame.INSTANCE.getCurrentBackground().referenceFile();
+            File currentBackgroundFile = Console.INSTANCE.getCurrentBackground().referenceFile();
 
             if (currentBackgroundFile == null || !currentBackgroundFile.exists()) {
                 String name = SecurityUtil.generateUuid();
-                boolean saved = ImageUtil.saveImageToTmp(ConsoleFrame.INSTANCE
+                boolean saved = ImageUtil.saveImageToTmp(Console.INSTANCE
                         .getCurrentBackground().generateBufferedImage(), name);
 
                 if (!saved) {
@@ -102,7 +102,7 @@ public class ImageHandler extends InputHandler {
             }
 
             if (futureImage.get().isPresent()) {
-                ConsoleFrame.INSTANCE.setBackgroundFile(futureImage.get().get());
+                Console.INSTANCE.setBackgroundFile(futureImage.get().get());
                 getInputHandler().println("Background blurred, set, and saved as a separate background file.");
             } else {
                 getInputHandler().println("Could not blur background at this time");

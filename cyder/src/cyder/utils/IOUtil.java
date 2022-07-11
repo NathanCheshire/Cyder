@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import cyder.audio.AudioPlayer;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -223,7 +223,7 @@ public final class IOUtil {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 } finally {
-                    ConsoleFrame.INSTANCE.revalidateAudioMenu();
+                    Console.INSTANCE.revalidateAudioMenu();
                 }
             }, "IOUtil audio thread");
         } catch (Exception e) {
@@ -301,7 +301,7 @@ public final class IOUtil {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
-            ConsoleFrame.INSTANCE.revalidateAudioMenu();
+            Console.INSTANCE.revalidateAudioMenu();
         }
     }
 

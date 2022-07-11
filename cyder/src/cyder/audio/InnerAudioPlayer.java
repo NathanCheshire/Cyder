@@ -2,7 +2,7 @@ package cyder.audio;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.FileUtil;
@@ -93,7 +93,7 @@ class InnerAudioPlayer {
 
             BufferedInputStream bis = new BufferedInputStream(fis);
 
-            ConsoleFrame.INSTANCE.revalidateAudioMenu();
+            Console.INSTANCE.revalidateAudioMenu();
 
             audioPlayer = new Player(bis);
 
@@ -101,7 +101,7 @@ class InnerAudioPlayer {
                 try {
                     audioPlayer.play();
 
-                    ConsoleFrame.INSTANCE.revalidateAudioMenu();
+                    Console.INSTANCE.revalidateAudioMenu();
 
                     FileUtil.closeIfNotNull(fis);
                     FileUtil.closeIfNotNull(bis);

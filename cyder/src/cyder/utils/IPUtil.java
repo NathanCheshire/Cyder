@@ -1,7 +1,7 @@
 package cyder.utils;
 
 import com.google.gson.Gson;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
@@ -61,7 +61,7 @@ public class IPUtil {
         String key = PropLoader.getString("ip_key");
 
         if (key.trim().isEmpty()) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the IP Key has "
+            Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the IP Key has "
                     + "not been set or is invalid, as a result, many features of Cyder will not "
                     + "work as intended. Please see the fields panel of the user editor to learn"
                     + " how to acquire a key and set it.", "IP Key Not Set");

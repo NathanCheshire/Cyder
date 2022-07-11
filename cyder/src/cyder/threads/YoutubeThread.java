@@ -1,7 +1,7 @@
 package cyder.threads;
 
 import com.google.common.base.Preconditions;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
@@ -147,7 +147,7 @@ public class YoutubeThread {
                         double avgMsPerCheck = time / 10.0;
                         long msTimeLeft = (long) ((totalUUIDs - completedUUIDs) / avgMsPerCheck);
 
-                        ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Time left: "
+                        Console.INSTANCE.getConsoleCyderFrame().notify("Time left: "
                                 + TimeUtil.millisToFormattedString(msTimeLeft));
                     }
                 }

@@ -2,7 +2,7 @@ package cyder.audio;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Dynamic;
@@ -581,7 +581,7 @@ public final class AudioUtil {
         File[] files = OSUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                ConsoleFrame.INSTANCE.getUUID(),
+                Console.INSTANCE.getUUID(),
                 UserFile.MUSIC.getName()).listFiles();
 
         if (files != null && files.length > 0) {

@@ -1,7 +1,7 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.IgnoreThread;
@@ -56,7 +56,7 @@ public class NetworkUtil {
     /**
      * The function used by the high ping checker to provide to TimeUtil.
      */
-    private static final Function<Void, Boolean> exit = ignored -> ConsoleFrame.INSTANCE.isClosed();
+    private static final Function<Void, Boolean> exit = ignored -> Console.INSTANCE.isClosed();
 
     // todo be able to start and stop this along with other console executors
     static {

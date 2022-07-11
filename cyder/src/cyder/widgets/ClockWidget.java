@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.console.ConsoleFrame;
+import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -419,7 +419,7 @@ public class ClockWidget {
                         String key = PropLoader.getString("weather_key");
 
                         if (key.trim().isEmpty()) {
-                            ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, " +
+                            Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, " +
                                     "but the Weather Key has not been set or is invalid" +
                                     ", as a result, many features of Cyder will not work as intended. " +
                                     "Please see the fields panel of the user editor to learn how to acquire " +
@@ -568,7 +568,7 @@ public class ClockWidget {
         String key = PropLoader.getString("weather_key");
 
         if (key.trim().isEmpty()) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, "
+            Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, "
                     + "but the Weather Key has not been set or is invalid"
                     + ", as a result, many features of Cyder will not work as intended. "
                     + "Please see the fields panel of the user editor to learn how to acquire a key"
