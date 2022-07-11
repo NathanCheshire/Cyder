@@ -5,6 +5,7 @@ import cyder.console.Console;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderIconButton;
 import cyder.user.UserUtil;
@@ -355,15 +356,10 @@ public class PhotoViewer {
      */
     private void startDirectoryWatcherThread() {
         CyderThreadRunner.submit(() -> {
-            try {
-                while (!killed) {
-                    refreshValidFiles();
-                    setNavigationButtonsVisible(validDirectoryImages.size() >= 2);
-
-                    Thread.sleep(DIRECTORY_POLL_DELAY);
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+            while (!killed) {
+                refreshValidFiles();
+                setNavigationButtonsVisible(validDirectoryImages.size() >= 2);
+                ThreadUtil.sleep(DIRECTORY_POLL_DELAY);
             }
         }, "Photo viewer directory watcher, directory=\"" + photoDirectory.getAbsolutePath() + "\"");
     }

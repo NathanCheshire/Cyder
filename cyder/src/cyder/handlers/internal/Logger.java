@@ -9,6 +9,7 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.utils.FileUtil;
 import cyder.utils.OSUtil;
 import cyder.utils.StringUtil;
@@ -114,9 +115,14 @@ public final class Logger {
      * @param representation the object to debug print
      */
     public static <T> void Debug(T representation) {
-        println(getLogTime() + "[" + Tag.DEBUG.logName + "]: " + representation);
+        println(getLogTimeTag() + "[" + Tag.DEBUG.logName + "]: " + representation);
     }
 
+    /**
+     * Prints the provided string to {@link System}s output stream.
+     *
+     * @param string the string to print
+     */
     public static void println(String string) {
         out.println(string);
     }
@@ -128,10 +134,9 @@ public final class Logger {
      * @param representation the representation of the object
      * @param <T>            the object instance of representation
      */
-    @SuppressWarnings("IfCanBeSwitch") // intelliJ being stupid
     public static <T> void log(Tag tag, T representation) {
         if (logConcluded) {
-            println(getLogTime() + "[LOG CALL AFTER LOG CONCLUDED]: " + representation);
+            println(getLogTimeTag() + "[LOG CALL AFTER LOG CONCLUDED]: " + representation);
             return;
         } else if (representation instanceof String && (((String) representation).trim().isEmpty()
                 || representation.equals("\n"))) {
@@ -143,11 +148,10 @@ public final class Logger {
             logAwaitingLogCalls();
         }
 
-        StringBuilder logBuilder = new StringBuilder(getLogTime());
+        StringBuilder logBuilder = new StringBuilder(getLogTimeTag());
 
         switch (tag) {
             case CLIENT:
-                //user inputs to the console
                 logBuilder.append(constructLogTagPrepend(Tag.CLIENT));
                 logBuilder.append(representation);
                 break;
@@ -160,10 +164,10 @@ public final class Logger {
                     logBuilder.append(constructLogTagPrepend("IMAGE"));
                     logBuilder.append(representation);
                 } else if (representation instanceof JComponent) {
-                    logBuilder.append(constructLogTagPrepend("JCOMPONENT"));
+                    logBuilder.append(constructLogTagPrepend("J_COMPONENT"));
                     logBuilder.append(representation);
                 } else {
-                    logBuilder.append(constructLogTagPrepend("UNKNOWN CONSOLE OUT "));
+                    logBuilder.append(constructLogTagPrepend("UNKNOWN CONSOLE OUT"));
                     logBuilder.append(representation);
                 }
                 break;
@@ -213,7 +217,7 @@ public final class Logger {
                 formatAndWriteLine(logBuilder.toString(), tag);
 
                 StringBuilder eolBuilder = new StringBuilder();
-                eolBuilder.append(getLogTime());
+                eolBuilder.append(getLogTimeTag());
                 eolBuilder.append(constructLogTagPrepend("EOL"));
                 eolBuilder.append("Log completed, exiting Cyder with exit code: ");
 
@@ -314,12 +318,12 @@ public final class Logger {
                 //this is here and not UNKNOWN as the default so that we can detect if
                 // a log tag was added but not implemented
                 throw new IllegalArgumentException("Handle case not found; you're probably an " +
-                        "idiot and added an enum to LoggerTag but forgot to handle it Logger.log, Tag = " + tag);
+                        "idiot and added an enum to LoggerTag but forgot to handle it Logger.log(), Tag = " + tag);
         }
 
         String logLine = logBuilder.toString().trim();
 
-        if (logLine.length() <= getLogTime().trim().length()) {
+        if (logLine.length() <= getLogTimeTag().trim().length()) {
             log(Tag.EXCEPTION, "Log call resulted in nothing build; tag = " + tag);
         } else if (!logStarted) {
             awaitingLogCalls.add(new AwaitingLog(logLine, tag));
@@ -452,7 +456,7 @@ public final class Logger {
         if (!getCurrentLog().exists()) {
             generateAndSetLogFile();
 
-            writeLines(lengthCheck(getLogTime() + "[DEBUG]: [Log was deleted during runtime," +
+            writeLines(lengthCheck(getLogTimeTag() + "[DEBUG]: [Log was deleted during runtime," +
                     " recreating and restarting log at: " + TimeUtil.userTime() + "]"));
         } else {
             // if not an exception, break up line if too long
@@ -592,37 +596,7 @@ public final class Logger {
      */
     private static String getRuntime() {
         long millis = System.currentTimeMillis() - start;
-        int seconds = 0;
-        int hours = 0;
-        int minutes = 0;
-
-        while (millis > 1000) {
-            seconds++;
-            millis -= 1000;
-        }
-
-        while (seconds > 60) {
-            minutes++;
-            seconds -= 60;
-        }
-
-        while (minutes > 60) {
-            hours++;
-            minutes -= 60;
-        }
-
-        StringBuilder ret = new StringBuilder();
-
-        if (hours != 0)
-            ret.append(hours).append("h ");
-        if (minutes != 0)
-            ret.append(minutes).append("m ");
-        if (seconds != 0)
-            ret.append(seconds).append("s ");
-
-        String retString = ret.toString().trim();
-
-        return retString.isEmpty() ? "s" : retString;
+        return TimeUtil.millisToFormattedString(millis);
     }
 
     /**
@@ -687,6 +661,9 @@ public final class Logger {
         }
     }
 
+    /**
+     * A pattern for the start of a standard log line used to find the time of the log call.
+     */
     private static final Pattern standardLogLine =
             Pattern.compile("\\s+\\[(\\d+-\\d+-\\d+)|(\\d+-\\d+-\\d+-\\d+)]\\s+.*");
 
@@ -852,7 +829,7 @@ public final class Logger {
                         br.close();
 
                         if (!containsEOL) {
-                            //usually an IDE stop but sometimes the program exits,
+                            // usually an IDE stop but sometimes the program exits,
                             // with exit condition 1 due to something failing on startup
                             // which is why this says "crashed unexpectedly"
                             String logBuilder = "[" + TimeUtil.logTime() + "] [EOL]: " +
@@ -890,7 +867,7 @@ public final class Logger {
                     }
 
                     // no need to check in small increments here
-                    Thread.sleep(OBJECT_LOG_FREQUENCY);
+                    ThreadUtil.sleep(OBJECT_LOG_FREQUENCY);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -904,7 +881,7 @@ public final class Logger {
      *
      * @return the time tag placed at the beginning of all log statements
      */
-    private static String getLogTime() {
+    private static String getLogTimeTag() {
         return "[" + TimeUtil.logTime() + "] ";
     }
 
@@ -915,7 +892,7 @@ public final class Logger {
      * @return the string to prepend to the log line
      */
     private static String constructLogTagPrepend(Tag logTag) {
-        return "[" + logTag.logName + "]: ";
+        return constructLogTagPrepend(logTag.logName);
     }
 
     /**

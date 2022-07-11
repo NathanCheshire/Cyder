@@ -15,10 +15,28 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.io.*;
 
+/**
+ * A handler for viewing raw text.
+ */
 public class TextViewer {
+    /**
+     * The text viewing frame.
+     */
     private CyderFrame textEditorFrame;
+
+    /**
+     * The field to change the name of the file.
+     */
     private CyderTextField textNameEditField;
+
+    /**
+     * The area to edit and view the contents of the file in.
+     */
     private JTextArea textEditArea;
+
+    /**
+     * The file currently being displayed.
+     */
     private final File file;
 
     /**
@@ -97,14 +115,17 @@ public class TextViewer {
                 SaveWriter.write(textEditArea.getText());
                 SaveWriter.close();
 
-                File newName = null;
+                File newName;
 
                 if (!textNameEditField.getText().isEmpty()) {
                     newName = new File(
                             file.getAbsolutePath().replace(file.getName(), textNameEditField.getText() + ".txt"));
-                    file.renameTo(newName);
-                    textEditorFrame.notify(newName.getName().replace(".txt", "")
-                            + " has been successfully saved");
+                    if (file.renameTo(newName)) {
+                        textEditorFrame.notify(newName.getName().replace(".txt", "")
+                                + " has been successfully saved");
+                    } else {
+                        textEditorFrame.notify("Could not rename file at this time");
+                    }
                 } else {
                     textEditorFrame.notify(file.getName().replace(".txt", "")
                             + " has been successfully saved");

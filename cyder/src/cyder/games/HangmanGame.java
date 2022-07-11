@@ -1,5 +1,6 @@
 package cyder.games;
 
+import com.google.common.collect.ImmutableList;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
@@ -79,8 +80,9 @@ public final class HangmanGame {
 
     @Widget(triggers = "hangman", description = "A hangman game")
     public static void showGui() {
-        if (hangmanFrame != null)
-            hangmanFrame.dispose();
+        if (hangmanFrame != null) {
+            hangmanFrame.dispose(true);
+        }
 
         hangmanFrame = new CyderFrame(712, 812, CyderIcons.defaultBackground);
         hangmanFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
@@ -173,6 +175,20 @@ public final class HangmanGame {
     private static final String UNDERSCORE = " _ ";
 
     /**
+     * The list of words used for hangman.
+     */
+    private static ImmutableList<String> words;
+
+    static {
+        try (BufferedReader br = new BufferedReader(new FileReader("static/csv/hangman.csv"))) {
+            String[] wordsArr = br.readLine().split(",");
+            words = ImmutableList.copyOf(wordsArr);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
      * Sets up the hangman game.
      */
     private static void setup() {
@@ -183,13 +199,7 @@ public final class HangmanGame {
 
         chosenLetters = "";
 
-        try (BufferedReader br = new BufferedReader(new FileReader("static/csv/hangman.csv"))) {
-            String[] doc = br.readLine().split(",");
-            hangmanWord = doc[NumberUtil.randInt(0, doc.length - 1)].toLowerCase().trim();
-
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+        hangmanWord = words.get(NumberUtil.randInt(0, words.size() - 1)).toLowerCase().trim();
 
         currentWordLabel.setText(BoundsUtil.OPENING_HTML_TAG
                 + StringUtil.fillString(hangmanWord.length(), UNDERSCORE)

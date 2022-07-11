@@ -10,6 +10,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.PropLoader;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.ui.*;
 import cyder.user.User;
 import cyder.user.UserCreator;
@@ -65,11 +66,6 @@ public final class LoginHandler {
     private static boolean doLoginAnimations;
 
     /**
-     * The current login mode used to determine what stage the user is at such as username, password, etc.
-     */
-    private static int loginMode;
-
-    /**
      * The username of the user trying to log in.
      */
     private static String username;
@@ -96,6 +92,11 @@ public final class LoginHandler {
     public static final Color backgroundColor = new Color(21, 23, 24);
 
     /**
+     * The color used for the output area text.
+     */
+    public static final Color textColor = new Color(85, 181, 219);
+
+    /**
      * The atomic boolean to control whether shift shows the password of the password field.
      */
     private static AtomicBoolean shiftShowsPassword;
@@ -109,6 +110,28 @@ public final class LoginHandler {
      * The priority printing list for the login frame.
      */
     private static final LinkedList<String> priorityPrintingList = new LinkedList<>();
+
+    /**
+     * The valid login modes.
+     */
+    private enum LoginMode {
+        /**
+         * Expecting general input.
+         */
+        INPUT,
+
+        /**
+         * Expecting a username.
+         */
+        USERNAME,
+
+        /**
+         * Expecting a password.
+         */
+        PASSWORD
+    }
+
+    private static LoginMode loginMode = LoginMode.INPUT;
 
     /**
      * Begins the login typing animation and printing thread.
@@ -150,7 +173,7 @@ public final class LoginHandler {
 
                         for (char c : line.toCharArray()) {
                             referencePane.getStringUtil().print(String.valueOf(c));
-                            Thread.sleep(charTimeout);
+                            ThreadUtil.sleep(charTimeout);
                         }
 
                         referencePane.getSemaphore().release();
@@ -165,13 +188,13 @@ public final class LoginHandler {
 
                         for (char c : line.toCharArray()) {
                             referencePane.getStringUtil().print(String.valueOf(c));
-                            Thread.sleep(charTimeout);
+                            ThreadUtil.sleep(charTimeout);
                         }
 
                         referencePane.getSemaphore().release();
                     }
 
-                    Thread.sleep(lineTimeout);
+                    ThreadUtil.sleep(lineTimeout);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -188,13 +211,13 @@ public final class LoginHandler {
                     }
 
                     //if it doesn't start with bash string, reset it to start with bashString if it's not mode 2
-                    if (loginMode != 2 && !String.valueOf(loginField.getPassword()).startsWith(currentBashString)) {
+                    if (loginMode != LoginMode.PASSWORD && !String.valueOf(loginField.getPassword()).startsWith(currentBashString)) {
                         loginField.setText(currentBashString + String.valueOf(
                                 loginField.getPassword()).replace(currentBashString, "").trim());
                         loginField.setCaretPosition(loginField.getPassword().length);
                     }
 
-                    Thread.sleep(50);
+                    ThreadUtil.sleep(50);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -212,7 +235,7 @@ public final class LoginHandler {
         printingList.clear();
 
         //reset login mode
-        loginMode = 0;
+        loginMode = LoginMode.INPUT;
 
         //if the frame is still active, remove the program exit
         // post close action and dispose the frame immediately
@@ -223,7 +246,7 @@ public final class LoginHandler {
 
         //new anonymous CyderFrame so that we can control the login animation var
         loginFrame = new CyderFrame(LOGIN_FRAME_WIDTH, LOGIN_FRAME_HEIGHT,
-                ImageUtil.imageIconFromColor(new Color(21, 23, 24), 1, 1));
+                ImageUtil.imageIconFromColor(backgroundColor, 1, 1));
         loginFrame.setTitle(generateLoginFrameTitle());
         loginFrame.setBackground(backgroundColor);
 
@@ -249,7 +272,7 @@ public final class LoginHandler {
         loginArea.setFocusable(false);
         loginArea.setEditable(false);
         loginArea.setFont(new Font("Agency FB", Font.BOLD, 26));
-        loginArea.setForeground(new Color(85, 181, 219));
+        loginArea.setForeground(textColor);
         loginArea.setCaretColor(loginArea.getForeground());
         CyderScrollPane loginScroll = new CyderScrollPane(loginArea,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,
@@ -305,7 +328,7 @@ public final class LoginHandler {
      */
     private static final KeyAdapter loginFieldAdapter = new KeyAdapter() {
         public void keyTyped(java.awt.event.KeyEvent evt) {
-            if (evt.getKeyChar() == KeyEvent.VK_BACK_SPACE && loginMode != 2) {
+            if (evt.getKeyChar() == KeyEvent.VK_BACK_SPACE && loginMode != LoginMode.PASSWORD) {
                 if (loginField.getPassword().length < currentBashString.toCharArray().length) {
                     evt.consume();
                     loginField.setText(currentBashString);
@@ -319,25 +342,24 @@ public final class LoginHandler {
                 String inputString = null;
 
                 //if the login mode is not expecting a password
-                if (loginMode != 2) {
+                if (loginMode != LoginMode.PASSWORD) {
                     inputString = new String(input).replace(currentBashString, "");
 
                     Logger.log(Logger.Tag.CLIENT, "[LOGIN FRAME] " + String.valueOf(input));
                 }
 
                 switch (loginMode) {
-                    //if not login mode, user could enter anything
-                    case 0:
+                    case INPUT:
                         try {
                             if (inputString.equalsIgnoreCase("create")) {
                                 UserCreator.showGui();
                                 loginField.setText(currentBashString);
-                                loginMode = 0;
+                                loginMode = LoginMode.INPUT;
                             } else if (inputString.equalsIgnoreCase("login")) {
                                 currentBashString = "Username: ";
                                 loginField.setText(currentBashString);
                                 priorityPrintingList.add("Awaiting Username\n");
-                                loginMode = 1;
+                                loginMode = LoginMode.USERNAME;
                             } else if (inputString.equalsIgnoreCase("quit")) {
                                 loginFrame.dispose();
                                 if (Console.INSTANCE.isClosed())
@@ -355,10 +377,9 @@ public final class LoginHandler {
                         }
 
                         break;
-                    //expecting a username
-                    case 1:
+                    case USERNAME:
                         username = inputString;
-                        loginMode = 2;
+                        loginMode = LoginMode.PASSWORD;
                         loginField.setEchoChar(CyderStrings.ECHO_CHAR);
                         loginField.setText("");
                         priorityPrintingList.add("Awaiting Password (hold shift to reveal password)\n");
@@ -366,8 +387,7 @@ public final class LoginHandler {
                         shiftShowsPassword.set(true);
 
                         break;
-                    //expecting a password
-                    case 2:
+                    case PASSWORD:
                         loginField.setEchoChar((char) 0);
                         shiftShowsPassword.set(false);
                         loginField.setText("");
@@ -381,12 +401,11 @@ public final class LoginHandler {
                             loginField.setCaretPosition(loginField.getPassword().length);
 
                             priorityPrintingList.add("Login failed\n");
-                            loginMode = 0;
+                            loginMode = LoginMode.INPUT;
                             username = "";
 
                         }
 
-                        // password security
                         Arrays.fill(input, '\0');
 
                         break;
@@ -452,8 +471,7 @@ public final class LoginHandler {
 
                 Console.INSTANCE.setUUID(loggedInUUID);
 
-                Logger.log(Logger.Tag.LOGIN,
-                        CyderEntry.PreviouslyLoggedIn.getName().toUpperCase()
+                Logger.log(Logger.Tag.LOGIN, CyderEntry.PreviouslyLoggedIn.getName().toUpperCase()
                                 + ", " + loggedInUUID);
 
                 Console.INSTANCE.launch(CyderEntry.PreviouslyLoggedIn);

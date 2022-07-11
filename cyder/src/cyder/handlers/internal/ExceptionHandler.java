@@ -253,11 +253,12 @@ public final class ExceptionHandler {
             exceptionPrintBuilder.append("\nException origin not found");
         }
 
-        //line number
-        if (lineNumber != 0)
+        // line number
+        if (lineNumber != 0) {
             exceptionPrintBuilder.append("\nFrom line: ").append(lineNumber);
-        else
+        } else {
             exceptionPrintBuilder.append("\nThrowing line not found");
+        }
 
         //trace
         exceptionPrintBuilder.append("\nTrace: ").append(stackTrace);

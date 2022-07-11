@@ -36,6 +36,9 @@ public final class ConsoleConstants {
      */
     public static final Direction DEFAULT_CONSOLE_DIRECTION = Direction.TOP;
 
+    /**
+     * The prefix for the input field bash string.
+     */
     public static final String BASH_STRING_PREFIX = "@Cyder:~$ ";
 
     /**

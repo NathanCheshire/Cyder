@@ -85,6 +85,16 @@ public class DirectoryViewer {
     }
 
     /**
+     * The width of the scroll view.
+     */
+    private static final int SCROLL_WIDTH = 600;
+
+    /**
+     * The height of the scroll view.
+     */
+    private static final int SCROLL_HEIGHT = 400;
+
+    /**
      * Starts the directory viewer in the provided initial directory.
      *
      * @param initialDirectory the initial directory to start in
@@ -134,13 +144,11 @@ public class DirectoryViewer {
         last.addActionListener(e -> {
             //we may only go back if there's something in the back, and it's different from where we are now
             if (!backward.isEmpty() && !backward.peek().equals(currentDirectory)) {
-                //traversing so push where we are to forward
+                // Traversing so push where we are to forward
                 forward.push(currentDirectory);
-
-                //get where we're going
+                // Get where we're going
                 currentDirectory = backward.pop();
-
-                //now simply refresh based on currentDir
+                // Now simply refresh based on currentDir
                 refreshBasedOnDir(currentDirectory, false);
             }
         });
@@ -154,22 +162,19 @@ public class DirectoryViewer {
         next.setFont(CyderFonts.SEGOE_20);
         next.setBorder(new LineBorder(CyderColors.navy, 5, false));
         next.addActionListener(e -> {
-            //only traverse forward if the stack is not empty and forward is different from where we are
+            // Only traverse forward if the stack is not empty and forward is different from where we are
             if (!forward.isEmpty() && !forward.peek().equals(currentDirectory)) {
-                //push where we are
+                // Push where we are
                 backward.push(currentDirectory);
-
-                //figure out where we need to go
+                // Figure out where we need to go
                 currentDirectory = forward.pop();
-
-                //refresh based on where we should go
+                // Refresh based on where we should go
                 refreshBasedOnDir(currentDirectory, false);
             }
         });
         next.setBounds(620 - 50, 40, 40, 40);
         dirFrame.getContentPane().add(next);
 
-        // label to show where files will be
         JLabel tempLabel = new JLabel();
         tempLabel.setText("<html><div align=\"center\">Loading files...</div></html>");
         tempLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -178,7 +183,7 @@ public class DirectoryViewer {
         tempLabel.setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
                 : CyderColors.navy, 5, false));
         tempLabel.setOpaque(false);
-        tempLabel.setBounds(10, 90, 600, 400);
+        tempLabel.setBounds(10, 90, SCROLL_WIDTH, SCROLL_HEIGHT);
         dirFrame.getContentPane().add(tempLabel);
 
         dirFrame.finalizeAndShow();
@@ -202,7 +207,7 @@ public class DirectoryViewer {
                 currentFileNames.add(file.getName());
             }
 
-            cyderScrollList = new CyderScrollList(600, 400,
+            cyderScrollList = new CyderScrollList(SCROLL_WIDTH, SCROLL_HEIGHT,
                     CyderScrollList.SelectionPolicy.SINGLE, darkMode);
             cyderScrollList.setScrollFont(CyderFonts.SEGOE_20.deriveFont(16f));
             cyderScrollList.removeAllElements();
@@ -219,7 +224,7 @@ public class DirectoryViewer {
             }
 
             dirScrollLabel = cyderScrollList.generateScrollList();
-            dirScrollLabel.setBounds(10, 90, 600, 400);
+            dirScrollLabel.setBounds(10, 90, SCROLL_WIDTH, SCROLL_HEIGHT);
             dirFrame.getContentPane().add(dirScrollLabel);
 
             dirFrame.remove(tempLabel);
@@ -235,29 +240,24 @@ public class DirectoryViewer {
      * @param wipeForward whether to clear the forward traversal stack
      */
     private static void refreshBasedOnDir(File directory, boolean wipeForward) {
-        // clear the forward list
         if (wipeForward) {
             forward.clear();
 
-            // if not last thing pushed
+            // If not last thing pushed
             if (backward.isEmpty() || !backward.peek().equals(currentDirectory)) {
                 backward.push(currentDirectory);
             }
         }
 
-        // remove old scroll
         cyderScrollList.removeAllElements();
         dirFrame.remove(dirScrollLabel);
 
-        // if given a file, use its parent
         if (directory.isFile()) {
             directory = directory.getParentFile();
         }
 
-        // set to new directory
         currentDirectory = directory;
 
-        // wipe lists
         currentFiles.clear();
         currentFileNames.clear();
 
@@ -267,13 +267,13 @@ public class DirectoryViewer {
             Collections.addAll(currentFiles, currentDirFiles);
         }
 
-        // regenerate names list
+        // Regenerate names list
         for (File file : currentFiles) {
             currentFileNames.add(file.getName());
         }
 
-        // remake scroll list object
-        cyderScrollList = new CyderScrollList(600, 400,
+        // Remake scroll list object
+        cyderScrollList = new CyderScrollList(SCROLL_WIDTH, SCROLL_HEIGHT,
                 CyderScrollList.SelectionPolicy.SINGLE, cyderScrollList.isDarkMode());
         cyderScrollList.setScrollFont(CyderFonts.SEGOE_20.deriveFont(16f));
 
@@ -289,7 +289,7 @@ public class DirectoryViewer {
             });
         }
         dirScrollLabel = cyderScrollList.generateScrollList();
-        dirScrollLabel.setBounds(10, 90, 600, 400);
+        dirScrollLabel.setBounds(10, 90, SCROLL_WIDTH, SCROLL_HEIGHT);
         dirFrame.getContentPane().add(dirScrollLabel);
 
         dirFrame.revalidate();
