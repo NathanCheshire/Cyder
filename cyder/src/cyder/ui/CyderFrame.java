@@ -1681,14 +1681,16 @@ public class CyderFrame extends JFrame {
      * @return the width and height to use for the frame
      */
     private Dimension validateRequestedSize(int width, int height) {
+        String title = getTitle().length() < 1 ? "No title found" : getTitle();
+
         if (width < MINIMUM_WIDTH) {
-            Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + getTitle()
+            Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + title
                     + "\" was attempted to be set to invalid width: " + width);
             width = MINIMUM_WIDTH;
         }
 
         if (height < MINIMUM_HEIGHT) {
-            Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + getTitle()
+            Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + title
                     + "\" was attempted to be set to invalid height: " + height);
             height = MINIMUM_HEIGHT;
         }

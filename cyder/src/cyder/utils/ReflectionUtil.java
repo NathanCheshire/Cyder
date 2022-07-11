@@ -76,7 +76,7 @@ public final class ReflectionUtil {
                     SubroutinePriority priority = (SubroutinePriority) getSubroutinePriorityMethod
                             .invoke(clazz.getConstructor().newInstance());
 
-                    Logger.log(Logger.Tag.DEBUG, "Executing subroutine: " + clazz.getName());
+                    Logger.log(Logger.Tag.DEBUG, "Executing subroutine: " + getBottomLevelClass(clazz));
 
                     if (priority != requestedPriority) {
                         continue;
@@ -94,7 +94,7 @@ public final class ReflectionUtil {
         } catch (FatalException e) {
             throw e;
         } catch (Exception e) {
-            throw new FatalException("Subroutine executor failed: error=" + e.getMessage());
+            throw new FatalException("Subroutine executor failed.\n" + ExceptionHandler.getPrintableException(e));
         }
     }
 
@@ -503,6 +503,17 @@ public final class ReflectionUtil {
     }
 
     /**
+     * The vanilla developer names.
+     */
+    private static final ImmutableList<String> DEVELOPER_NAMES
+            = ImmutableList.of("Nathan Cheshire", "Natche", "Cypher");
+
+    /**
+     * The key word to look for a class to end with it if contains a method annotated with {@link Widget}.
+     */
+    private static final String WIDGET = "widget";
+
+    /**
      * Validates all widget classes annotated with with {@link cyder.annotations.Vanilla} annotation.
      */
     public static void validateVanillaWidgets() {
@@ -529,7 +540,16 @@ public final class ReflectionUtil {
                     }
                 }
 
-                if (!clazz.getName().toLowerCase().endsWith("widget")) {
+                boolean widgetAnnotationFound = false;
+
+                for (Method method : clazz.getMethods()) {
+                    if (method.getName().toLowerCase().endsWith(WIDGET)) {
+                        widgetAnnotationFound = true;
+                        break;
+                    }
+                }
+
+                if (!clazz.getName().toLowerCase().endsWith(WIDGET) && !widgetAnnotationFound) {
                     Logger.log(Logger.Tag.DEBUG, "Class annotated with @Vanilla does not end"
                             + " with Widget; name: " + clazz.getName());
                 }
@@ -540,7 +560,7 @@ public final class ReflectionUtil {
                 } else {
                     String author = clazz.getAnnotation(CyderAuthor.class).author();
 
-                    if (!StringUtil.in(author, true, "Nathan Cheshire", "Natche", "Cypher")) {
+                    if (!StringUtil.in(author, true, DEVELOPER_NAMES)) {
                         Logger.log(Logger.Tag.DEBUG, "Method annotated with @Vanilla"
                                 + " does not contain Nathan Cheshire as an author");
                     }

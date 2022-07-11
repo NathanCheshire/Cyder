@@ -97,7 +97,7 @@ public class GitHandler extends InputHandler {
                     "git", "commit", "-m", "\"" + getInputHandler().argsToString() + "\"");
             ProcessBuilder processBuilderPush = new ProcessBuilder("git", "push", "-u", "origin", "main");
 
-            OSUtil.runAndPrintProcessesSuccessive(getInputHandler(), processBuilderAdd,
+            OSUtil.runAndPrintProcessesSequential(getInputHandler(), processBuilderAdd,
                     processBuilderCommit, processBuilderPush);
         } else {
             getInputHandler().println("gitme usage: gitme [commit message without quotes]");

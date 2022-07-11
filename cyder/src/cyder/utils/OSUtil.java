@@ -47,8 +47,14 @@ public final class OSUtil {
     /**
      * Whether Cyder is being run as a compiled JAR file.
      */
-    public static final boolean JAR_MODE = Objects.requireNonNull(
-            Cyder.class.getResource("Cyder.class")).toString().startsWith("jar:");
+    public static final boolean JAR_MODE;
+
+    static {
+        JAR_MODE = Objects.requireNonNull(
+                Cyder.class.getResource("Cyder.class")).toString().startsWith("jar:");
+
+        Logger.log(Logger.Tag.DEBUG, "Jar mode set as: " + String.valueOf(JAR_MODE).toUpperCase());
+    }
 
     /**
      * Suppress default constructor.
@@ -543,7 +549,7 @@ public final class OSUtil {
      * @param pipeTo   the input handle to print the output to
      * @param builders the process builders to run
      */
-    public static void runAndPrintProcessesSuccessive(BaseInputHandler pipeTo, ProcessBuilder... builders) {
+    public static void runAndPrintProcessesSequential(BaseInputHandler pipeTo, ProcessBuilder... builders) {
         checkNotNull(pipeTo, "pipeTo is null");
         checkNotNull(builders, "builders are null");
         checkArgument(builders.length > 0, "must be at least one builder");
@@ -556,7 +562,7 @@ public final class OSUtil {
     }
 
     /**
-     * Ensures the dynamic directory and all dynamics are generated.
+     * Ensures the dynamic directory and all subdirectories are created.
      */
     public static void ensureDynamicsCreated() {
         File dynamic = new File(Dynamic.PATH);
@@ -572,16 +578,16 @@ public final class OSUtil {
         }
 
         for (Dynamic dynamicDirectory : Dynamic.values()) {
-            File currentDynamic = buildFile(Dynamic.PATH,
-                    dynamicDirectory.getDirectoryName());
+            File currentDynamic = buildFile(Dynamic.PATH, dynamicDirectory.getDirectoryName());
 
             if (dynamicDirectory == Dynamic.TEMP) {
                 deleteFile(currentDynamic);
             }
 
-            // todo check if not created before attempting creation
-            //  if fail throw fatal exception
-            createFile(currentDynamic, false);
+            if (!currentDynamic.exists() && !createFile(currentDynamic, false)) {
+                throw new FatalException("Failed to create dynamic directory: "
+                        + currentDynamic.getName() + " at location: " + currentDynamic.getAbsolutePath());
+            }
         }
     }
 
@@ -615,8 +621,7 @@ public final class OSUtil {
         checkNotNull(filename);
         checkArgument(!filename.isEmpty());
 
-        File exes = buildFile(Dynamic.PATH,
-                Dynamic.EXES.getDirectoryName());
+        File exes = buildFile(Dynamic.PATH, Dynamic.EXES.getDirectoryName());
 
         if (exes.exists()) {
             File[] exeFiles = exes.listFiles();
@@ -695,7 +700,7 @@ public final class OSUtil {
             } else
                 return (BYTE_FORMATTER.format(kilo) + KILOBYTE_PREFIX);
         } else {
-            return (bytes + " " + bytes);
+            return (bytes + " " + BYTES);
         }
     }
 }
