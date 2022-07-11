@@ -13,10 +13,10 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.*;
 import cyder.user.UserFile;
+import cyder.user.UserUtil;
 import cyder.utils.FileUtil;
 import cyder.utils.OSUtil;
 import cyder.utils.StringUtil;
-import cyder.utils.UserUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

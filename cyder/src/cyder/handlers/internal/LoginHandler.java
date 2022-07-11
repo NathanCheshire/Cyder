@@ -13,6 +13,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.user.User;
 import cyder.user.UserCreator;
+import cyder.user.UserUtil;
 import cyder.utils.*;
 
 import javax.swing.*;

@@ -5,6 +5,7 @@ import cyder.console.ConsoleFrame;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.user.UserUtil;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;

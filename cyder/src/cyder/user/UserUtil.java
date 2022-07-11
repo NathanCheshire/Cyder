@@ -1,4 +1,4 @@
-package cyder.utils;
+package cyder.user;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
@@ -14,7 +14,10 @@ import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
-import cyder.user.*;
+import cyder.utils.FileUtil;
+import cyder.utils.ImageUtil;
+import cyder.utils.OSUtil;
+import cyder.utils.StringUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

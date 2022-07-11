@@ -8,9 +8,9 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
+import cyder.user.UserUtil;
 import cyder.utils.BoundsUtil;
 import cyder.utils.StringUtil;
-import cyder.utils.UserUtil;
 
 import javax.swing.*;
 import java.awt.*;

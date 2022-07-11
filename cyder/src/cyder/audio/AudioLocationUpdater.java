@@ -1,8 +1,8 @@
 package cyder.audio;
 
 import cyder.threads.CyderThreadRunner;
+import cyder.user.UserUtil;
 import cyder.utils.FileUtil;
-import cyder.utils.UserUtil;
 
 import javax.swing.*;
 import java.io.File;

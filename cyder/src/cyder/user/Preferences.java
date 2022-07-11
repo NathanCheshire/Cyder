@@ -7,7 +7,6 @@ import cyder.handlers.internal.Logger;
 import cyder.ui.CyderScrollList;
 import cyder.utils.ColorUtil;
 import cyder.utils.FrameUtil;
-import cyder.utils.UserUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

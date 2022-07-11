@@ -11,9 +11,9 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
 import cyder.ui.CyderTextField;
+import cyder.user.UserUtil;
 import cyder.utils.IOUtil;
 import cyder.utils.OSUtil;
-import cyder.utils.UserUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

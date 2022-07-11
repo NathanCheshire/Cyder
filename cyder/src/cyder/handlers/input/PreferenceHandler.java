@@ -5,8 +5,8 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.user.Preference;
 import cyder.user.Preferences;
+import cyder.user.UserUtil;
 import cyder.utils.StringUtil;
-import cyder.utils.UserUtil;
 
 /**
  * A handler for switching/toggling preferences.

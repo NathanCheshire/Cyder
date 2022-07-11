@@ -9,7 +9,11 @@ import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderFrame;
 import cyder.user.MappedExecutable;
-import cyder.utils.*;
+import cyder.user.UserUtil;
+import cyder.utils.FileUtil;
+import cyder.utils.IOUtil;
+import cyder.utils.NetworkUtil;
+import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;

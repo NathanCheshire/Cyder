@@ -8,9 +8,9 @@ import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderSliderUi;
 import cyder.user.UserCreator;
+import cyder.user.UserUtil;
 import cyder.utils.FrameUtil;
 import cyder.utils.OSUtil;
-import cyder.utils.UserUtil;
 
 import javax.swing.*;
 import java.awt.*;

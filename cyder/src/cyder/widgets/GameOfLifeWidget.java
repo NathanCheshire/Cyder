@@ -14,7 +14,11 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
-import cyder.utils.*;
+import cyder.user.UserUtil;
+import cyder.utils.FileUtil;
+import cyder.utils.GetterUtil;
+import cyder.utils.OSUtil;
+import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;

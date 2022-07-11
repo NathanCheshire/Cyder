@@ -4,9 +4,9 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
+import cyder.user.UserUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;
-import cyder.utils.UserUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;

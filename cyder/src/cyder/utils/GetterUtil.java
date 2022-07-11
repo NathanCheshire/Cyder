@@ -1,6 +1,5 @@
 package cyder.utils;
 
-import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -8,6 +7,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
+import cyder.user.UserUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

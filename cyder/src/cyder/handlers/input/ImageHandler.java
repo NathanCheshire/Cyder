@@ -6,10 +6,10 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.OSUtil;
 import cyder.utils.SecurityUtil;
-import cyder.utils.UserUtil;
 
 import javax.swing.*;
 import java.io.File;

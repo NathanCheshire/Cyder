@@ -7,10 +7,10 @@ import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderIconButton;
+import cyder.user.UserUtil;
 import cyder.utils.FileUtil;
 import cyder.utils.GetterUtil;
 import cyder.utils.StringUtil;
-import cyder.utils.UserUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

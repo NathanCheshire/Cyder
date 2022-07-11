@@ -15,6 +15,7 @@ import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
+import cyder.user.UserUtil;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;

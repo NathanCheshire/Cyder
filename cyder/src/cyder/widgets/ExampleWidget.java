@@ -9,7 +9,7 @@ import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
-import cyder.utils.UserUtil;
+import cyder.user.UserUtil;
 
 /**
  * An example widget for new Cyder developers to learn the standard widget construction.

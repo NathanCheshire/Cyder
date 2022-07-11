@@ -1,4 +1,4 @@
-package cyder.utils;
+package cyder.animation;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
@@ -7,6 +7,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
+import cyder.utils.ScreenUtil;
 
 import javax.swing.*;
 import java.awt.*;

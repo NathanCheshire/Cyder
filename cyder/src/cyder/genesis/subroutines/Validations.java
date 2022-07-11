@@ -4,9 +4,9 @@ import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.user.UserUtil;
 import cyder.utils.OSUtil;
 import cyder.utils.ReflectionUtil;
-import cyder.utils.UserUtil;
 
 /**
  * A subroutine for performing necessary validations such as ensuring files are created
