@@ -581,7 +581,7 @@ public final class AudioUtil {
         File[] files = OSUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                Console.INSTANCE.getUUID(),
+                Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName()).listFiles();
 
         if (files != null && files.length > 0) {

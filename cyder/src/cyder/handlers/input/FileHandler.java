@@ -49,7 +49,7 @@ public class FileHandler extends InputHandler {
             if (getInputHandler().checkArgsLength(1)) {
                 File requestedDeleteFile = new File(OSUtil.buildPath(
                         Dynamic.PATH, "users",
-                        Console.INSTANCE.getUUID(), getInputHandler().getArg(0)));
+                        Console.INSTANCE.getUuid(), getInputHandler().getArg(0)));
                 if (requestedDeleteFile.exists()) {
                     if (requestedDeleteFile.isDirectory()) {
                         if (OSUtil.deleteFile(requestedDeleteFile)) {

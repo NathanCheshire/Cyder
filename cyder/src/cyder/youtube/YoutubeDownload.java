@@ -350,7 +350,7 @@ public class YoutubeDownload {
         String userMusicDir = OSUtil.buildPath(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                Console.INSTANCE.getUUID(),
+                Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName());
 
         String extension = "." + PropLoader.getString("ffmpeg_audio_output_format");

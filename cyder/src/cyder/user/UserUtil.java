@@ -997,7 +997,7 @@ public final class UserUtil {
      * @return the provided user file
      */
     public static File getUserFile(String fileName) {
-        Preconditions.checkArgument(Console.INSTANCE.getUUID() != null,
+        Preconditions.checkArgument(Console.INSTANCE.getUuid() != null,
                 "Console uuid is not yet set");
 
         boolean in = false;
@@ -1015,7 +1015,7 @@ public final class UserUtil {
 
         File ret = OSUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                Console.INSTANCE.getUUID(), fileName);
+                Console.INSTANCE.getUuid(), fileName);
 
         if (!ret.exists()) {
             if (ret.mkdir()) {
@@ -1172,10 +1172,10 @@ public final class UserUtil {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static File createFileInUserSpace(String name) {
-        if (!StringUtil.isNull(Console.INSTANCE.getUUID())) {
+        if (!StringUtil.isNull(Console.INSTANCE.getUuid())) {
             File saveDir = OSUtil.buildFile(Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(),
-                    Console.INSTANCE.getUUID(), UserFile.FILES.getName());
+                    Console.INSTANCE.getUuid(), UserFile.FILES.getName());
             File createFile = new File(saveDir, name);
 
             if (createFile.exists()) {

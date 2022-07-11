@@ -55,7 +55,7 @@ public class ColorHandler extends InputHandler {
                             + "Generated_Background." + ImageUtil.PNG_FORMAT;
 
                     File saveFile = OSUtil.buildFile(Dynamic.PATH, "users",
-                            Console.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(), saveName);
+                            Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(), saveName);
 
                     ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, saveFile);
 

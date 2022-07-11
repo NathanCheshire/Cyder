@@ -80,7 +80,7 @@ public class NotesWidget {
     @Widget(triggers = {"note", "notes"}, description
             = "A note taking widget that can save and display multiple notes")
     public static void showGui() {
-        if (Console.INSTANCE.getUUID() == null)
+        if (Console.INSTANCE.getUuid() == null)
             return;
 
         if (noteFrame != null)
@@ -244,7 +244,7 @@ public class NotesWidget {
                         new FileWriter(OSUtil.buildFile(
                                 Dynamic.PATH,
                                 Dynamic.USERS.getDirectoryName(),
-                                Console.INSTANCE.getUUID(),
+                                Console.INSTANCE.getUuid(),
                                 UserFile.NOTES.getName(),
                                 newNoteField.getText().trim() + ".txt"), true));
                 newNoteArea.write(NoteWriter);
@@ -287,7 +287,7 @@ public class NotesWidget {
         File dir = OSUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                Console.INSTANCE.getUUID(),
+                Console.INSTANCE.getUuid(),
                 UserFile.NOTES.getName());
 
         if (!dir.exists()) {

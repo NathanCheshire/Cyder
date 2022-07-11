@@ -139,7 +139,7 @@ public final class ImagePixelatorWidget {
                     try {
                         BufferedImage saveImage = ImageUtil.pixelateImage(ImageIO.read(currentFile), pixel);
                         File saveFile = new File(OSUtil.buildPath(
-                                Dynamic.PATH, "users", Console.INSTANCE.getUUID(),
+                                Dynamic.PATH, "users", Console.INSTANCE.getUuid(),
                                 UserFile.FILES.getName(), FileUtil.getFilename(currentFile)
                                         + "_Pixelated_Pixel_Size_" + pixel + "." + ImageUtil.PNG_FORMAT));
 

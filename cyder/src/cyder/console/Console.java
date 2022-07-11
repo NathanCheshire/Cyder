@@ -874,12 +874,12 @@ public enum Console {
     /**
      * The key used for the debug lines abstract action.
      */
-    private final String debugLines = "debuglines";
+    private final String DEBUG_LINES = "debug_lines";
 
     /**
      * The key used for the forced exit abstract action.
      */
-    private final String forcedExit = "forcedexit";
+    private final String FORCED_EXIT = "forced_exit";
 
     /**
      * Installs all the input field listeners.
@@ -894,12 +894,12 @@ public enum Console {
         inputField.addFocusListener(inputFieldFocusAdapter);
 
         inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), debugLines);
-        inputField.getActionMap().put(debugLines, debugLinesAbstractAction);
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), DEBUG_LINES);
+        inputField.getActionMap().put(DEBUG_LINES, debugLinesAbstractAction);
 
         inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK), forcedExit);
-        inputField.getActionMap().put(forcedExit, forcedExitAbstractAction);
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK), FORCED_EXIT);
+        inputField.getActionMap().put(FORCED_EXIT, forcedExitAbstractAction);
     }
 
     /**
@@ -914,8 +914,8 @@ public enum Console {
         inputField.removeMouseWheelListener(fontSizerListener);
         inputField.removeActionListener(inputFieldActionListener);
 
-        inputField.getActionMap().remove(debugLines);
-        inputField.getActionMap().remove(forcedExit);
+        inputField.getActionMap().remove(DEBUG_LINES);
+        inputField.getActionMap().remove(FORCED_EXIT);
     }
 
     /**
@@ -1223,7 +1223,7 @@ public enum Console {
 
             File userMusicDir = new File(OSUtil.buildPath(
                     Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
-                    INSTANCE.getUUID(), UserFile.MUSIC.getName()));
+                    INSTANCE.getUuid(), UserFile.MUSIC.getName()));
 
             File[] files = userMusicDir.listFiles();
 
@@ -1258,21 +1258,20 @@ public enum Console {
                         PixelGrabber pg = new PixelGrabber(icon, 0, 0, w, h, pixels, 0, w);
                         pg.grabPixels();
 
-                        boolean correct = true;
+                        boolean grayscale = true;
                         for (int pixel : pixels) {
                             Color color = new Color(pixel);
                             if (color.getRed() != color.getGreen() || color.getRed() != color.getBlue()) {
-                                correct = false;
+                                grayscale = false;
                                 break;
                             }
                         }
 
-                        //Bad Apple / Beetlejuice / Michael Jackson reference for a grayscale image
-                        if (correct) {
+                        if (grayscale) {
                             IOUtil.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(
                                     NumberUtil.randInt(0, GRAYSCALE_AUDIO_PATHS.size() - 1)));
-                        } else if (PropLoader.getBoolean("released")) {
-                            IOUtil.playGeneralAudio("static/audio/introtheme.mp3");
+                        } else {
+                            IOUtil.playGeneralAudio(OSUtil.buildPath("static","audio","introtheme.mp3"));
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
@@ -1646,6 +1645,7 @@ public enum Console {
         return ImmutableList.copyOf(ret);
     }
 
+    // todo can this list be class level?
     /**
      * Returns the default taskbar icon items.
      *
@@ -1894,37 +1894,32 @@ public enum Console {
         public void keyPressed(java.awt.event.KeyEvent e) {
             //escaping
             if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)) {
-                try {
-                    baseInputHandler.escapeThreads();
-                } catch (Exception exception) {
-                    ExceptionHandler.handle(exception);
-                }
+                baseInputHandler.escapeThreads();
             }
 
+            int caretPosition = outputArea.getCaretPosition();
+
             // direction switching
-            if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+            if ((e.getKeyCode() == KeyEvent.VK_DOWN)
+                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
                     && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
-                int pos = outputArea.getCaretPosition();
                 setConsoleDirection(Direction.BOTTOM);
-                outputArea.setCaretPosition(pos);
+                outputArea.setCaretPosition(caretPosition);
             } else if ((e.getKeyCode() == KeyEvent.VK_RIGHT)
                     && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
                     && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
-                int pos = outputArea.getCaretPosition();
                 setConsoleDirection(Direction.RIGHT);
-                outputArea.setCaretPosition(pos);
+                outputArea.setCaretPosition(caretPosition);
             } else if ((e.getKeyCode() == KeyEvent.VK_UP)
                     && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
                     && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
-                int pos = outputArea.getCaretPosition();
                 setConsoleDirection(Direction.TOP);
-                outputArea.setCaretPosition(pos);
+                outputArea.setCaretPosition(caretPosition);
             } else if ((e.getKeyCode() == KeyEvent.VK_LEFT)
                     && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
                     && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
-                int pos = outputArea.getCaretPosition();
                 setConsoleDirection(Direction.LEFT);
-                outputArea.setCaretPosition(pos);
+                outputArea.setCaretPosition(caretPosition);
             }
         }
 
@@ -2062,7 +2057,7 @@ public enum Console {
     };
 
     /**
-     * Set the UUID for this Cyder session. Everything else relies on this being set and not null.
+     * Sets the UUID for this Cyder session. Everything else relies on this being set and not null.
      * Once set, a one time check is performed to fix any possibly corrupted userdata.
      *
      * @param uuid the user uuid that we will use to determine our output dir and other
@@ -2085,7 +2080,7 @@ public enum Console {
      *
      * @return the uuid of the current user
      */
-    public String getUUID() {
+    public String getUuid() {
         return uuid;
     }
 
@@ -2111,6 +2106,9 @@ public enum Console {
     // background logic
     // -----------------
 
+    public final int MINIMUM_BACKGROUND_WIDTH = 400;
+    public final int MINIMUM_BACKGROUND_HEIGHT= 400;
+
     /**
      * Takes into account the dpi scaling value and checks all the backgrounds in the user's
      * directory against the current monitor's resolution. If any width or height of a background file
@@ -2120,8 +2118,8 @@ public enum Console {
      */
     public void resizeBackgrounds() {
         try {
-            int minWidth = 400;
-            int minHeight = 400;
+            int minWidth = MINIMUM_BACKGROUND_WIDTH;
+            int minHeight = MINIMUM_BACKGROUND_HEIGHT;
             int maxWidth = ScreenUtil.getScreenWidth();
             int maxHeight = ScreenUtil.getScreenHeight();
 
@@ -2136,33 +2134,35 @@ public enum Console {
 
                 int backgroundWidth = currentImage.getWidth();
                 int backgroundHeight = currentImage.getHeight();
-
                 int imageType = currentImage.getType();
 
-                //inform the user we are changing the size of the image
-                boolean resizeNeeded = backgroundWidth > maxWidth || backgroundHeight > maxHeight ||
-                        backgroundWidth < minWidth || backgroundHeight < minHeight;
+                // Inform the user we are changing the size of the image
+                boolean resizeNeeded = backgroundWidth > maxWidth
+                        || backgroundHeight > maxHeight
+                        || backgroundWidth < minWidth
+                        || backgroundHeight < minHeight;
+
                 if (resizeNeeded) {
                     InformHandler.inform(new InformHandler.Builder(
                             "Resizing the background image \"" + currentFile.getName() + "\"")
                             .setTitle("System Action"));
                 }
 
-                Dimension resizeDimensions =
-                        ImageUtil.getImageResizeDimensions(minWidth, minHeight, maxWidth, maxHeight, currentImage);
+                Dimension resizeDimensions = ImageUtil.getImageResizeDimensions(minWidth, minHeight,
+                        maxWidth, maxHeight, currentImage);
+
                 int deltaWidth = (int) resizeDimensions.getWidth();
                 int deltaHeight = (int) resizeDimensions.getHeight();
 
                 //if the image doesn't need a resize then continue to the next image
-                if (deltaWidth == 0 || deltaHeight == 0)
+                if (deltaWidth == 0 || deltaHeight == 0) {
                     continue;
+                }
 
-                //save the modified image
-                BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, deltaWidth, deltaHeight);
-                ImageIO.write(saveImage, FileUtil.getExtension(currentFile), currentFile);
+                ImageIO.write(ImageUtil.resizeImage(currentImage, imageType, deltaWidth, deltaHeight),
+                        FileUtil.getExtension(currentFile), currentFile);
             }
 
-            //reload backgrounds
             loadBackgrounds();
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
@@ -2180,7 +2180,7 @@ public enum Console {
             File[] backgroundFilesArr = OSUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(),
-                    getUUID(),
+                    getUuid(),
                     UserFile.BACKGROUNDS.getName()).listFiles();
             if (backgroundFilesArr != null && backgroundFilesArr.length > 0) {
                 for (File file : backgroundFilesArr) {
@@ -2283,12 +2283,22 @@ public enum Console {
      * @param icon the icon to set to the background of the console
      */
     public void setBackground(ImageIcon icon) {
-        if (icon.getIconWidth() != consoleCyderFrame.getWidth()
-                || icon.getIconHeight() != consoleCyderFrame.getHeight())
-            throw new IllegalArgumentException("Provided icon is not the same size as the current frame dimensions");
+        Preconditions.checkNotNull(icon);
+        Preconditions.checkArgument(icon.getIconWidth() == consoleCyderFrame.getWidth());
+        Preconditions.checkArgument(icon.getIconHeight() == consoleCyderFrame.getHeight());
 
         consoleCyderFrame.setBackground(icon);
     }
+
+    /**
+     * The degree amount used for console directions requiring one rotation.
+     */
+    private final int NINETY_DEGREES = 90;
+
+    /**
+     * The degree amount used for console directions requiring two rotations.
+     */
+    private final int ONE_EIGHTY_DEGREES = 180;
 
     /**
      * Sets the background index to the provided index
@@ -2299,7 +2309,6 @@ public enum Console {
     private void setBackgroundIndex(int index) {
         loadBackgrounds();
 
-        //don't do anything
         if (index < 0 || index > backgrounds.size() - 1) {
             return;
         }
@@ -2312,12 +2321,12 @@ public enum Console {
 
         ImageIcon imageIcon = switch (consoleDir) {
             case LEFT -> new ImageIcon(ImageUtil.rotateImage(
-                    backgrounds.get(backgroundIndex).generateBufferedImage(), -90));
+                    backgrounds.get(backgroundIndex).generateBufferedImage(), -NINETY_DEGREES));
             case RIGHT -> new ImageIcon(ImageUtil.rotateImage(
-                    backgrounds.get(backgroundIndex).generateBufferedImage(), 90));
+                    backgrounds.get(backgroundIndex).generateBufferedImage(), NINETY_DEGREES));
             case TOP -> getCurrentBackground().generateImageIcon();
             case BOTTOM -> new ImageIcon(ImageUtil.rotateImage(
-                    backgrounds.get(backgroundIndex).generateBufferedImage(), 180));
+                    backgrounds.get(backgroundIndex).generateBufferedImage(), ONE_EIGHTY_DEGREES));
         };
 
         consoleCyderFrame.setBackground(imageIcon);
@@ -2371,8 +2380,7 @@ public enum Console {
                 ? backgrounds.get(0).generateImageIcon()
                 : backgrounds.get(backgroundIndex + 1).generateImageIcon());
 
-        backgroundIndex = backgroundIndex + 1 == backgrounds.size()
-                ? 0 : backgroundIndex + 1;
+        backgroundIndex = backgroundIndex + 1 == backgrounds.size() ? 0 : backgroundIndex + 1;
 
         int width = nextBackground.getIconWidth();
         int height = nextBackground.getIconHeight();
@@ -2384,15 +2392,15 @@ public enum Console {
         } else if (consoleDir == Direction.LEFT) {
             width = nextBackground.getIconHeight();
             height = nextBackground.getIconWidth();
-            nextBackground = ImageUtil.rotateImage(nextBackground, -90);
+            nextBackground = ImageUtil.rotateImage(nextBackground, -NINETY_DEGREES);
         } else if (consoleDir == Direction.RIGHT) {
             width = nextBackground.getIconHeight();
             height = nextBackground.getIconWidth();
-            nextBackground = ImageUtil.rotateImage(nextBackground, 90);
+            nextBackground = ImageUtil.rotateImage(nextBackground, NINETY_DEGREES);
         } else if (consoleDir == Direction.BOTTOM) {
             width = nextBackground.getIconWidth();
             height = nextBackground.getIconHeight();
-            nextBackground = ImageUtil.rotateImage(nextBackground, 180);
+            nextBackground = ImageUtil.rotateImage(nextBackground, ONE_EIGHTY_DEGREES);
         }
 
         // get console's content pane
@@ -2709,9 +2717,9 @@ public enum Console {
         return commandList;
     }
 
-    // -----------------
+    // ----------
     // ui getters
-    // -----------------
+    // ----------
 
     /**
      * Returns the JTextPane associated with the Console.
@@ -2814,7 +2822,7 @@ public enum Console {
 
         // this shouldn't ever happen
         if (w == -1 || h == -1) {
-            throw new IllegalStateException("Resulting width or height was found to " +
+            throw new FatalException("Resulting width or height was found to " +
                     "not have been set in Console refresh method. " + CyderStrings.EUROPEAN_TOY_MAKER);
         }
 
@@ -2978,22 +2986,36 @@ public enum Console {
     }
 
     /**
+     * The number of audio menu buttons.
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int AUDIO_MENU_BUTTONS = 3;
+
+    /**
+     * The size of an audio menu button.
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int AUDIO_MENU_BUTTON_SIZE = 30;
+
+    /**
+     * The height of the audio menu label.
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int AUDIO_MENU_LABEL_HEIGHT = 40;
+
+    /**
      * Generates the audio menu label and the button components.
      */
     private void generateAudioMenu() {
-        int numButtons = 3;
-        int buttonSize = 30;
-
         int xPadding = 10;
 
-        int labelWidth = buttonSize * numButtons + xPadding * (numButtons + 1);
-        int labelHeight = 40;
+        int labelWidth = AUDIO_MENU_BUTTON_SIZE * AUDIO_MENU_BUTTONS + xPadding * (AUDIO_MENU_BUTTONS + 1);
 
-        int yPadding = (labelHeight - buttonSize) / 2;
+        int yPadding = (AUDIO_MENU_LABEL_HEIGHT - AUDIO_MENU_BUTTON_SIZE) / 2;
 
         audioControlsLabel = new JLabel();
         audioControlsLabel.setBounds(consoleCyderFrame.getWidth() - labelWidth - 6,
-                -labelHeight, labelWidth, labelHeight);
+                -AUDIO_MENU_LABEL_HEIGHT, labelWidth, AUDIO_MENU_LABEL_HEIGHT);
         audioControlsLabel.setOpaque(true);
         audioControlsLabel.setBackground(CyderColors.getGuiThemeColor());
         audioControlsLabel.setBorder(new LineBorder(Color.black, 5));
@@ -3003,7 +3025,7 @@ public enum Console {
         int currentX = xPadding;
 
         JLabel lastMusicLabel = new JLabel();
-        lastMusicLabel.setBounds(currentX, yPadding, buttonSize, buttonSize);
+        lastMusicLabel.setBounds(currentX, yPadding, AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
         lastMusicLabel.setIcon(AudioIcons.lastIcon);
         lastMusicLabel.setToolTipText("Previous");
         lastMusicLabel.addMouseListener(new MouseAdapter() {
@@ -3028,10 +3050,10 @@ public enum Console {
         lastMusicLabel.setOpaque(false);
         audioControlsLabel.add(lastMusicLabel);
 
-        currentX += xPadding + buttonSize;
+        currentX += xPadding + AUDIO_MENU_BUTTON_SIZE;
 
         playPauseAudioLabel = new JLabel();
-        playPauseAudioLabel.setBounds(currentX, yPadding, buttonSize, buttonSize);
+        playPauseAudioLabel.setBounds(currentX, yPadding, AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
         playPauseAudioLabel.setToolTipText("Play/Pause");
         playPauseAudioLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -3075,10 +3097,10 @@ public enum Console {
 
         audioControlsLabel.add(playPauseAudioLabel);
 
-        currentX += xPadding + buttonSize;
+        currentX += xPadding + AUDIO_MENU_BUTTON_SIZE;
 
         JLabel nextMusicLabel = new JLabel();
-        nextMusicLabel.setBounds(currentX, yPadding, buttonSize, buttonSize);
+        nextMusicLabel.setBounds(currentX, yPadding, AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
         nextMusicLabel.setIcon(AudioIcons.nextIcon);
         audioControlsLabel.add(nextMusicLabel);
         nextMusicLabel.setToolTipText("Skip");
@@ -3259,7 +3281,7 @@ public enum Console {
      * Saves the console's position and window stats to the currently logged-in user's json file.
      */
     public void saveScreenStat() {
-        if (getUUID() == null)
+        if (getUuid() == null)
             return;
 
         if (consoleCyderFrame != null) {
@@ -3281,12 +3303,8 @@ public enum Console {
 
             screenStat.setConsoleDirection(consoleDir);
 
-            // just to be safe
             if (!isClosed()) {
-                // set new screen stat
                 UserUtil.getCyderUser().setScreenStat(screenStat);
-
-                // this also saves the user every time the screen stats are saved
                 UserUtil.writeUser();
             }
         }

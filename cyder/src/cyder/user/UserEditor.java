@@ -357,7 +357,7 @@ public final class UserEditor {
                                 File albumArtDir = OSUtil.buildFile(
                                         Dynamic.PATH,
                                         Dynamic.USERS.getDirectoryName(),
-                                        Console.INSTANCE.getUUID(),
+                                        Console.INSTANCE.getUuid(),
                                         UserFile.MUSIC.getName(),
                                         "AlbumArt");
 
@@ -381,7 +381,7 @@ public final class UserEditor {
                                         File artRename = OSUtil.buildFile(
                                                 Dynamic.PATH,
                                                 Dynamic.USERS.getDirectoryName(),
-                                                Console.INSTANCE.getUUID(),
+                                                Console.INSTANCE.getUuid(),
                                                 UserFile.MUSIC.getName(),
                                                 "AlbumArt", newName + ".png");
 
@@ -458,7 +458,7 @@ public final class UserEditor {
 
                             File albumArtDirectory = OSUtil.buildFile(Dynamic.PATH,
                                     Dynamic.USERS.getDirectoryName(),
-                                    Console.INSTANCE.getUUID(),
+                                    Console.INSTANCE.getUuid(),
                                     UserFile.MUSIC.getName(), "AlbumArt");
 
                             File[] albumArtFiles = albumArtDirectory.listFiles();
@@ -1323,7 +1323,7 @@ public final class UserEditor {
 
                     // attempt to delete directory
                     OSUtil.deleteFile(OSUtil.buildFile(Dynamic.PATH,
-                            Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUUID()));
+                            Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid()));
 
                     // exit with proper condition
                     OSUtil.exit(ExitCondition.UserDeleted);

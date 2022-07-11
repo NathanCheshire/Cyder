@@ -1913,7 +1913,7 @@ public class CyderFrame extends JFrame {
 
         try {
             // borderless frames are by default rounded
-            if (isBorderlessFrame() || (cr == null && Console.INSTANCE.getUUID() != null
+            if (isBorderlessFrame() || (cr == null && Console.INSTANCE.getUuid() != null
                     && UserUtil.getCyderUser().getRoundedwindows().equals("1"))) {
                 shape = new RoundRectangle2D.Double(0, 0,
                         getWidth(), getHeight(), ROUNDED_ARC, ROUNDED_ARC);

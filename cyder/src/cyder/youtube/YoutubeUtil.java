@@ -184,7 +184,7 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
         Preconditions.checkNotNull(dimension);
-        Preconditions.checkNotNull(Console.INSTANCE.getUUID());
+        Preconditions.checkNotNull(Console.INSTANCE.getUuid());
 
         // get thumbnail url and file name to save it as
         Optional<BufferedImage> optionalBi = getThumbnail(url, dimension);
@@ -212,7 +212,7 @@ public final class YoutubeUtil {
         File albumArtDir = OSUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                Console.INSTANCE.getUUID(),
+                Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName(),
                 "AlbumArt");
 
@@ -311,7 +311,7 @@ public final class YoutubeUtil {
         File fullSaveFile = OSUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                Console.INSTANCE.getUUID(),
+                Console.INSTANCE.getUuid(),
                 UserFile.BACKGROUNDS.getName(),
                 NetworkUtil.getUrlTitle(url) + "." + ImageUtil.PNG_FORMAT);
 

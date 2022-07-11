@@ -221,7 +221,7 @@ public final class ImageAveragerWidget {
                     try {
                         File outFile = OSUtil.buildFile(Dynamic.PATH,
                                 Dynamic.USERS.getDirectoryName(),
-                                Console.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(),
+                                Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(),
                                 combineImageNames() + "." + ImageUtil.PNG_FORMAT);
 
                         ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, outFile);

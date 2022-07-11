@@ -53,7 +53,7 @@ public final class ExceptionHandler {
             }
 
             // if user wants to be informed of exceptions
-            if (Console.INSTANCE.getUUID() != null &&
+            if (Console.INSTANCE.getUuid() != null &&
                     !Console.INSTANCE.isClosed() &&
                     UserUtil.getCyderUser().getSilenceerrors().equals("0")) {
 

@@ -318,7 +318,7 @@ public class BaseInputHandler {
             redirectionFile = OSUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(),
-                    Console.INSTANCE.getUUID(),
+                    Console.INSTANCE.getUuid(),
                     UserFile.FILES.getName(), requestedFilename).getAbsoluteFile();
 
             if (redirectionFile.exists())

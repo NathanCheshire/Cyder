@@ -129,7 +129,7 @@ public final class TimeUtil {
      * clock format as set by the currently logged-in user
      */
     public static String userFormattedTime() {
-        if (Console.INSTANCE.getUUID() == null)
+        if (Console.INSTANCE.getUuid() == null)
             throw new IllegalStateException("The console uuid is not set");
 
         return getTime(UserUtil.getCyderUser().getConsoleclockformat());

@@ -122,7 +122,7 @@ public final class PaintWidget {
             String defaultFilename = base + increment + ".png";
 
             String path = OSUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
-                    Console.INSTANCE.getUUID(), "Files");
+                    Console.INSTANCE.getUuid(), "Files");
 
             while (new File(path + OSUtil.FILE_SEP + defaultFilename).exists()) {
                 increment++;
