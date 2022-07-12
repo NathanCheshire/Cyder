@@ -8,6 +8,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.utils.OSUtil;
 
 import javax.swing.*;
@@ -67,8 +68,7 @@ public final class CyderWatchdog {
             OUTER:
             while (true) {
                 try {
-                    // timeout first
-                    Thread.sleep(INITIALIZE_TIMEOUT);
+                    ThreadUtil.sleep(INITIALIZE_TIMEOUT);
 
                     // get thread group and enumerate over threads
                     ThreadGroup group = Thread.currentThread().getThreadGroup();
@@ -103,7 +103,7 @@ public final class CyderWatchdog {
         CyderThreadRunner.submit(() -> {
             while (true) {
                 try {
-                    Thread.sleep(POLL_TIMEOUT);
+                    ThreadUtil.sleep(POLL_TIMEOUT);
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }

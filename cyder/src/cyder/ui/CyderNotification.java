@@ -9,6 +9,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.user.UserUtil;
 import cyder.utils.ReflectionUtil;
 
@@ -398,8 +399,8 @@ public class CyderNotification extends JLabel {
                     fillPath.moveTo(len + borderLen, 2 * 2 + borderLen + halfCompHeight - len);
                 }
                 case RIGHT -> {
-                    // right so we know that the x needs to be offset by 2 * 2 * 2 + componentWidth + borderlen
-                    // and the height by 2 * 2 + componentHeight / 2 - len + borderlen
+                    // right so we know that the x needs to be offset by 2 * 2 * 2 + componentWidth + borderLen
+                    // and the height by 2 * 2 + componentHeight / 2 - len + borderLen
                     fillPath.moveTo(2 * 2 * 2 + borderLen + componentWidth,
                             2 * 2 + halfCompHeight - len + borderLen);
                     fillPath.lineTo(2 * 2 * 2 + borderLen + componentWidth + len,
@@ -507,7 +508,7 @@ public class CyderNotification extends JLabel {
 
                         opacity = i;
                         repaint();
-                        Thread.sleep(2);
+                        ThreadUtil.sleep(2);
                     }
 
                     opacity = 255;
@@ -526,7 +527,7 @@ public class CyderNotification extends JLabel {
                                 }
 
                                 setLocation(getX(), i);
-                                Thread.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(ANIMATION_DELAY);
                             }
                             setLocation(getX(), CyderDragLabel.DEFAULT_HEIGHT - 1);
                         }
@@ -540,7 +541,7 @@ public class CyderNotification extends JLabel {
                                 }
 
                                 setLocation(i, getY());
-                                Thread.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(ANIMATION_DELAY);
                             }
                             setLocation(parent.getWidth() - getWidth() + 5, getY());
                         }
@@ -553,7 +554,7 @@ public class CyderNotification extends JLabel {
                                 }
 
                                 setLocation(i, getY());
-                                Thread.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(ANIMATION_DELAY);
                             }
                             setLocation(2, getY());
                         }
@@ -568,7 +569,7 @@ public class CyderNotification extends JLabel {
                                 }
 
                                 setLocation(i, getY());
-                                Thread.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(ANIMATION_DELAY);
                             }
                             setLocation(2, CyderDragLabel.DEFAULT_HEIGHT
                                     + parent.getHeight() / 2 - getHeight() / 2);
@@ -584,7 +585,7 @@ public class CyderNotification extends JLabel {
                                 }
 
                                 setLocation(i, getY());
-                                Thread.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(ANIMATION_DELAY);
                             }
                             setLocation(parent.getWidth() - getWidth() + 5,
                                     CyderDragLabel.DEFAULT_HEIGHT + parent.getHeight() / 2 - getHeight() / 2);
@@ -599,7 +600,7 @@ public class CyderNotification extends JLabel {
                                 }
 
                                 setLocation(getX(), i);
-                                Thread.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(ANIMATION_DELAY);
                             }
                             setBounds(parent.getWidth() / 2 - getWidth() / 2,
                                     parent.getHeight() - getHeight() + arrowLen, getWidth(), getHeight());
@@ -614,7 +615,7 @@ public class CyderNotification extends JLabel {
                                 }
 
                                 setLocation(i, getY());
-                                Thread.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(ANIMATION_DELAY);
                             }
                             setLocation(2, parent.getHeight() - getHeight() - bottomOffset);
                         }
@@ -628,7 +629,7 @@ public class CyderNotification extends JLabel {
                                 }
 
                                 setLocation(i, getY());
-                                Thread.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(ANIMATION_DELAY);
                             }
                             setLocation(parent.getWidth() - getWidth() + 5,
                                     parent.getHeight() - getHeight() - bottomOffset);
@@ -689,7 +690,7 @@ public class CyderNotification extends JLabel {
         CyderThreadRunner.submit(() -> {
             try {
                 // delay before vanishing
-                Thread.sleep(delay);
+                ThreadUtil.sleep(delay);
 
                 if (builder.getNotificationType() == NotificationType.TOAST) {
                     for (int i = 255 ; i >= 0 ; i -= 2) {
@@ -699,7 +700,7 @@ public class CyderNotification extends JLabel {
 
                         opacity = i;
                         repaint();
-                        Thread.sleep(2);
+                        ThreadUtil.sleep(2);
                     }
 
                     Container parentComponent = getParent();
@@ -718,7 +719,7 @@ public class CyderNotification extends JLabel {
                                 }
 
                                 setBounds(getX(), i, getWidth(), getHeight());
-                                Thread.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(ANIMATION_DELAY);
                             }
                             break;
                         case BOTTOM:
@@ -728,7 +729,7 @@ public class CyderNotification extends JLabel {
                                 }
 
                                 setBounds(getX(), i, getWidth(), getHeight());
-                                Thread.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(ANIMATION_DELAY);
                             }
                             break;
                         case TOP_LEFT:
@@ -740,7 +741,7 @@ public class CyderNotification extends JLabel {
                                 }
 
                                 setBounds(i, getY(), getWidth(), getHeight());
-                                Thread.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(ANIMATION_DELAY);
                             }
                             break;
                         case RIGHT:
@@ -752,7 +753,7 @@ public class CyderNotification extends JLabel {
                                 }
 
                                 setBounds(i, getY(), getWidth(), getHeight());
-                                Thread.sleep(ANIMATION_DELAY);
+                                ThreadUtil.sleep(ANIMATION_DELAY);
                             }
                             break;
                     }

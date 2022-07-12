@@ -1,8 +1,8 @@
 package cyder.audio;
 
 import com.google.common.base.Preconditions;
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 
 import javax.swing.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -66,21 +66,17 @@ public class AudioVolumeLabelAnimator {
      */
     private void startThread() {
         CyderThreadRunner.submit(() -> {
-            try {
-                while (!killed) {
-                    while (audioVolumeLabelTimeout.get() > 0) {
-                        audioVolumePercentLabel.setVisible(true);
-                        Thread.sleep(AUDIO_VOLUME_LABEL_SLEEP_TIME);
+            while (!killed) {
+                while (audioVolumeLabelTimeout.get() > 0) {
+                    audioVolumePercentLabel.setVisible(true);
+                    ThreadUtil.sleep(AUDIO_VOLUME_LABEL_SLEEP_TIME);
 
-                        if (!killed) {
-                            audioVolumeLabelTimeout.getAndAdd(-AUDIO_VOLUME_LABEL_SLEEP_TIME);
-                        }
+                    if (!killed) {
+                        audioVolumeLabelTimeout.getAndAdd(-AUDIO_VOLUME_LABEL_SLEEP_TIME);
                     }
-
-                    audioVolumePercentLabel.setVisible(false);
                 }
-            } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
+
+                audioVolumePercentLabel.setVisible(false);
             }
         }, "Audio Progress Label Animator");
     }

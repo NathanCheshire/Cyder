@@ -14,6 +14,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.layouts.*;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.ui.*;
 import cyder.utils.ImageUtil;
 
@@ -297,72 +298,56 @@ public final class ManualTests {
             testFrame.getContentPane().setSize(600, 1200);
             ((JLabel) testFrame.getContentPane()).setIcon(theImage);
 
-            try {
-                int x = testFrame.getContentPane().getX();
-                for (int i = testFrame.getContentPane().getY() ; i > -testFrame.getHeight() ; i--) {
-                    testFrame.getContentPane().setLocation(x, i);
-                    Thread.sleep(1);
-                }
-                testFrame.getContentPane().setLocation(0, 0);
-                testFrame.refreshBackground();
-                testFrame.getContentPane().revalidate();
-            } catch (InterruptedException interruptedException) {
-                ExceptionHandler.handle(interruptedException);
+            int x = testFrame.getContentPane().getX();
+            for (int i = testFrame.getContentPane().getY() ; i > -testFrame.getHeight() ; i--) {
+                testFrame.getContentPane().setLocation(x, i);
+                ThreadUtil.sleep(1);
             }
+            testFrame.getContentPane().setLocation(0, 0);
+            testFrame.refreshBackground();
+            testFrame.getContentPane().revalidate();
         }, ""));
         testFrame.getContentPane().add(slideUp);
 
         CyderButton slideLeft = new CyderButton("LEFT");
         slideLeft.setBounds(225, 200, 150, 40);
         slideLeft.addActionListener(e -> CyderThreadRunner.submit(() -> {
-            try {
-                int y = testFrame.getContentPane().getY();
-                for (int i = 0 ; i > -testFrame.getWidth() ; i--) {
-                    testFrame.getContentPane().setLocation(i, y);
-                    Thread.sleep(1);
-                }
-                testFrame.getContentPane().setLocation(0, 0);
-                testFrame.refreshBackground();
-                testFrame.getContentPane().revalidate();
-            } catch (InterruptedException interruptedException) {
-                ExceptionHandler.handle(interruptedException);
+            int y = testFrame.getContentPane().getY();
+            for (int i = 0 ; i > -testFrame.getWidth() ; i--) {
+                testFrame.getContentPane().setLocation(i, y);
+                ThreadUtil.sleep(1);
             }
+            testFrame.getContentPane().setLocation(0, 0);
+            testFrame.refreshBackground();
+            testFrame.getContentPane().revalidate();
         }, ""));
         testFrame.getContentPane().add(slideLeft);
 
         CyderButton slideDown = new CyderButton("DOWN");
         slideDown.setBounds(225, 250, 150, 40);
         slideDown.addActionListener(e -> CyderThreadRunner.submit(() -> {
-            try {
-                int x = testFrame.getContentPane().getX();
-                for (int i = 0 ; i < testFrame.getHeight() ; i++) {
-                    testFrame.getContentPane().setLocation(x, i);
-                    Thread.sleep(1);
-                }
-                testFrame.getContentPane().setLocation(0, 0);
-                testFrame.refreshBackground();
-                testFrame.getContentPane().revalidate();
-            } catch (InterruptedException interruptedException) {
-                ExceptionHandler.handle(interruptedException);
+            int x = testFrame.getContentPane().getX();
+            for (int i = 0 ; i < testFrame.getHeight() ; i++) {
+                testFrame.getContentPane().setLocation(x, i);
+                ThreadUtil.sleep(1);
             }
+            testFrame.getContentPane().setLocation(0, 0);
+            testFrame.refreshBackground();
+            testFrame.getContentPane().revalidate();
         }, ""));
         testFrame.getContentPane().add(slideDown);
 
         CyderButton slideRight = new CyderButton("RIGHT");
         slideRight.setBounds(225, 300, 150, 40);
         slideRight.addActionListener(e -> CyderThreadRunner.submit(() -> {
-            try {
-                int y = testFrame.getContentPane().getY();
-                for (int i = 0 ; i < testFrame.getWidth() ; i++) {
-                    testFrame.getContentPane().setLocation(i, y);
-                    Thread.sleep(1);
-                }
-                testFrame.getContentPane().setLocation(0, 0);
-                testFrame.refreshBackground();
-                testFrame.getContentPane().revalidate();
-            } catch (InterruptedException interruptedException) {
-                ExceptionHandler.handle(interruptedException);
+            int y = testFrame.getContentPane().getY();
+            for (int i = 0 ; i < testFrame.getWidth() ; i++) {
+                testFrame.getContentPane().setLocation(i, y);
+                ThreadUtil.sleep(1);
             }
+            testFrame.getContentPane().setLocation(0, 0);
+            testFrame.refreshBackground();
+            testFrame.getContentPane().revalidate();
         }, ""));
         testFrame.getContentPane().add(slideRight);
 
@@ -412,20 +397,12 @@ public final class ManualTests {
         CyderThreadRunner.submit(() -> {
             for (int i = 0 ; i <= jpb.getMaximum() / 2 ; i++) {
                 jpb.setValue(i);
-                try {
-                    Thread.sleep(2000 / jpb.getMaximum());
-                } catch (InterruptedException e) {
-                    ExceptionHandler.handle(e);
-                }
+                ThreadUtil.sleep(2000 / jpb.getMaximum());
             }
 
             for (int i = jpb.getMaximum() / 2 ; i <= jpb.getMaximum() ; i++) {
                 jpb.setValue(i);
-                try {
-                    Thread.sleep(500 / jpb.getMaximum());
-                } catch (InterruptedException e) {
-                    ExceptionHandler.handle(e);
-                }
+                ThreadUtil.sleep(500 / jpb.getMaximum());
             }
         }, "ProgressBar Animator");
     }

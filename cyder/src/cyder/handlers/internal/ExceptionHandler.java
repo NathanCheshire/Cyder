@@ -8,6 +8,7 @@ import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.ui.CyderFrame;
 import cyder.user.UserUtil;
 import cyder.utils.OSUtil;
@@ -171,13 +172,13 @@ public final class ExceptionHandler {
 
                         borderlessFrame.setOpacity(i);
                         borderlessFrame.repaint();
-                        Thread.sleep(opacityTimeout);
+                        ThreadUtil.sleep(opacityTimeout);
                     }
 
                     borderlessFrame.setOpacity(1.0f);
                     borderlessFrame.repaint();
 
-                    Thread.sleep(5000);
+                    ThreadUtil.sleep(5000);
 
                     if (escapeOpacityThread.get())
                         return;
@@ -188,7 +189,7 @@ public final class ExceptionHandler {
 
                         borderlessFrame.setOpacity(i);
                         borderlessFrame.repaint();
-                        Thread.sleep(opacityTimeout);
+                        ThreadUtil.sleep(opacityTimeout);
                     }
 
                     if (escapeOpacityThread.get())

@@ -4,8 +4,8 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.ui.CyderFrame;
 import cyder.utils.ScreenUtil;
 
@@ -44,21 +44,17 @@ public final class AnimationUtil {
             ((CyderFrame) frame).disableDragging();
         }
 
-        try {
-            if (frame != null && frame.isVisible()) {
-                Point point = frame.getLocationOnScreen();
-                int x = (int) point.getX();
-                int y = (int) point.getY();
+        if (frame != null && frame.isVisible()) {
+            Point point = frame.getLocationOnScreen();
+            int x = (int) point.getX();
+            int y = (int) point.getY();
 
-                for (int i = y ; i >= -frame.getHeight() ; i -= CLOSE_ANIMATION_INC) {
-                    Thread.sleep(0, CLOSE_ANIMATION_NANO_TIMEOUT);
-                    frame.setLocation(x, i);
-                }
-
-                frame.dispose();
+            for (int i = y ; i >= -frame.getHeight() ; i -= CLOSE_ANIMATION_INC) {
+                ThreadUtil.sleep(0, CLOSE_ANIMATION_NANO_TIMEOUT);
+                frame.setLocation(x, i);
             }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+
+            frame.dispose();
         }
     }
 
@@ -89,16 +85,12 @@ public final class AnimationUtil {
         int x = (int) point.getX();
         int y = (int) point.getY();
 
-        try {
-            for (int i = y ; i <= ScreenUtil.getScreenHeight() ; i += MINIMIZE_ANIMATION_INC) {
-                Thread.sleep(0, MINIMIZE_ANIMATION_NANO_TIMEOUT);
-                cyderFrame.setLocation(x, i);
-            }
-
-            cyderFrame.setState(JFrame.ICONIFIED);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+        for (int i = y ; i <= ScreenUtil.getScreenHeight() ; i += MINIMIZE_ANIMATION_INC) {
+            ThreadUtil.sleep(0, MINIMIZE_ANIMATION_NANO_TIMEOUT);
+            cyderFrame.setLocation(x, i);
         }
+
+        cyderFrame.setState(JFrame.ICONIFIED);
 
         if (wasEnabled) {
             cyderFrame.enableDragging();
@@ -146,12 +138,8 @@ public final class AnimationUtil {
         if (comp.getY() == startY)
             CyderThreadRunner.submit(() -> {
                 for (int i = startY ; i >= endY ; i -= increment) {
-                    try {
-                        Thread.sleep(delay);
-                        comp.setLocation(comp.getX(), i);
-                    } catch (InterruptedException e) {
-                        ExceptionHandler.handle(e);
-                    }
+                    ThreadUtil.sleep(delay);
+                    comp.setLocation(comp.getX(), i);
                 }
                 comp.setLocation(comp.getX(), endY);
             }, "Component Up Animator, comp=" + comp);
@@ -174,12 +162,8 @@ public final class AnimationUtil {
         if (comp.getY() == startY)
             CyderThreadRunner.submit(() -> {
                 for (int i = startY ; i <= stopY ; i += increment) {
-                    try {
-                        Thread.sleep(delay);
-                        comp.setLocation(comp.getX(), i);
-                    } catch (InterruptedException e) {
-                        ExceptionHandler.handle(e);
-                    }
+                    ThreadUtil.sleep(delay);
+                    comp.setLocation(comp.getX(), i);
                 }
                 comp.setLocation(comp.getX(), stopY);
             }, "Component Down Animator, comp=" + comp);
@@ -202,12 +186,8 @@ public final class AnimationUtil {
         if (comp.getX() == startX)
             CyderThreadRunner.submit(() -> {
                 for (int i = startX ; i >= stopX ; i -= increment) {
-                    try {
-                        Thread.sleep(delay);
-                        comp.setLocation(i, comp.getY());
-                    } catch (InterruptedException e) {
-                        ExceptionHandler.handle(e);
-                    }
+                    ThreadUtil.sleep(delay);
+                    comp.setLocation(i, comp.getY());
                 }
                 comp.setLocation(stopX, comp.getY());
             }, "Component Left Animator, comp=" + comp);
@@ -230,12 +210,8 @@ public final class AnimationUtil {
         if (comp.getX() == startX)
             CyderThreadRunner.submit(() -> {
                 for (int i = startX ; i <= stopX ; i += increment) {
-                    try {
-                        Thread.sleep(delay);
-                        comp.setLocation(i, comp.getY());
-                    } catch (InterruptedException e) {
-                        ExceptionHandler.handle(e);
-                    }
+                    ThreadUtil.sleep(delay);
+                    comp.setLocation(i, comp.getY());
                 }
                 comp.setLocation(stopX, comp.getY());
             }, "Component Right Animator, comp=" + comp);

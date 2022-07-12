@@ -3,7 +3,6 @@ package cyder.threads;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 
 import java.time.Duration;
@@ -78,17 +77,13 @@ public final class CyderThreadRunner {
         Preconditions.checkNotNull(frequency);
 
         submit(() -> {
-            try {
-                while (true) {
-                    if (shouldExit.get()) {
-                        return;
-                    }
-
-                    submit(runnable, name);
-                    Thread.sleep(frequency.toMillis());
+            while (true) {
+                if (shouldExit.get()) {
+                    return;
                 }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+
+                submit(runnable, name);
+                ThreadUtil.sleep(frequency.toMillis());
             }
         }, "Fixed Rate Scheduler, task=[" + name + "], rate=" + frequency);
     }

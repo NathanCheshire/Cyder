@@ -6,6 +6,7 @@ import cyder.enums.IgnoreThread;
 import cyder.exceptions.FatalException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 
 import java.net.ServerSocket;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -30,12 +31,8 @@ public class SingularInstance implements StartupSubroutine {
             }
         }, IgnoreThread.SingularInstanceEnsurer.getName());
 
-        try {
-            // started blocking method in above thread but need to wait for it to either bind or fail
-            Thread.sleep(CyderNumbers.singleInstanceEnsurerTimeout);
-        } catch (InterruptedException e) {
-            ExceptionHandler.handle(e);
-        }
+        // started blocking method in above thread but need to wait for it to either bind or fail
+        ThreadUtil.sleep(CyderNumbers.singleInstanceEnsurerTimeout);
 
         return singularInstance.get();
     }

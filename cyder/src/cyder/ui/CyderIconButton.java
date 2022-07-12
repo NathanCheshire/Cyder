@@ -5,6 +5,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.utils.StringUtil;
 
 import javax.swing.*;
@@ -184,20 +185,16 @@ public class CyderIconButton extends JButton {
                 "Cannot flash when both icons are not present");
 
         CyderThreadRunner.submit(() -> {
-            try {
-                Icon originalIcon = getIcon();
+            Icon originalIcon = getIcon();
 
-                for (int i = 0 ; i < iterations ; i++) {
-                    setIcon(hoverAndFocusIcon);
-                    Thread.sleep(msDelay);
-                    setIcon(defaultIcon);
-                    Thread.sleep(msDelay);
-                }
-
-                setIcon(originalIcon);
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+            for (int i = 0 ; i < iterations ; i++) {
+                setIcon(hoverAndFocusIcon);
+                ThreadUtil.sleep(msDelay);
+                setIcon(defaultIcon);
+                ThreadUtil.sleep(msDelay);
             }
+
+            setIcon(originalIcon);
         }, "CyderIconButton Flash Thread");
     }
 }

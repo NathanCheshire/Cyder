@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.ExceptionHandler;
+import cyder.threads.ThreadUtil;
 import cyder.user.UserUtil;
 
 import java.text.DecimalFormat;
@@ -619,19 +619,15 @@ public final class TimeUtil {
         Preconditions.checkArgument(checkConditionFrequency > 0);
         Preconditions.checkArgument(sleepTime > checkConditionFrequency);
 
-        try {
-            long acc = 0;
+        long acc = 0;
 
-            while (acc < sleepTime) {
-                Thread.sleep(checkConditionFrequency);
-                acc += checkConditionFrequency;
+        while (acc < sleepTime) {
+            ThreadUtil.sleep(checkConditionFrequency);
+            acc += checkConditionFrequency;
 
-                if (escapeCondition.get()) {
-                    break;
-                }
+            if (escapeCondition.get()) {
+                break;
             }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
         }
     }
 
@@ -650,19 +646,15 @@ public final class TimeUtil {
         Preconditions.checkArgument(checkConditionFrequency > 0);
         Preconditions.checkArgument(sleepTime > checkConditionFrequency);
 
-        try {
-            long acc = 0;
+        long acc = 0;
 
-            while (acc < sleepTime) {
-                Thread.sleep(checkConditionFrequency);
-                acc += checkConditionFrequency;
+        while (acc < sleepTime) {
+            ThreadUtil.sleep(checkConditionFrequency);
+            acc += checkConditionFrequency;
 
-                if (shouldExit.apply(null)) {
-                    break;
-                }
+            if (shouldExit.apply(null)) {
+                break;
             }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
         }
     }
 }

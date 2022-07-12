@@ -6,9 +6,9 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.utils.IOUtil;
 import cyder.utils.OSUtil;
 import cyder.utils.StringUtil;
@@ -67,11 +67,7 @@ public class PlayAudioHandler extends InputHandler {
                 BletchyThread.bletchy("RIP CHADWICK BOSEMAN",
                         false, 15, false);
 
-                try {
-                    Thread.sleep(4000);
-                } catch (Exception e) {
-                    ExceptionHandler.silentHandle(e);
-                }
+                ThreadUtil.sleep(4000);
 
                 getInputHandler().getOutputArea().setFont(Console.INSTANCE.generateUserFont());
             }, "Chadwick Boseman");

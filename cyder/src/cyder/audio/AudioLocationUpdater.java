@@ -1,6 +1,7 @@
 package cyder.audio;
 
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.user.UserUtil;
 import cyder.utils.FileUtil;
 
@@ -132,9 +133,7 @@ public class AudioLocationUpdater {
 
         CyderThreadRunner.submit(() -> {
             while (!killed) {
-                try {
-                    Thread.sleep(TIMEOUT);
-                } catch (Exception ignored) {}
+                ThreadUtil.sleep(TIMEOUT);
 
                 milliSecondsIn = AudioPlayer.getMillisecondsIn();
                 int newSecondsIn = (int) (milliSecondsIn / 1000.0);

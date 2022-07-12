@@ -1004,7 +1004,7 @@ public enum Console {
                             }
                         }
 
-                        Thread.sleep(50);
+                        ThreadUtil.sleep(50);
                     }
                 }
             } catch (Exception e) {
@@ -1022,7 +1022,7 @@ public enum Console {
                         // sleep 200 ms
                         int i = 0;
                         while (i < 200) {
-                            Thread.sleep(50);
+                            ThreadUtil.sleep(50);
                             if (consoleClosed) {
                                 break OUTER;
                             }
@@ -1077,7 +1077,7 @@ public enum Console {
                     //sleep 3 seconds
                     int i = 0;
                     while (i < 3000) {
-                        Thread.sleep(50);
+                        ThreadUtil.sleep(50);
                         if (consoleClosed) {
                             break OUTER;
                         }
@@ -1097,7 +1097,7 @@ public enum Console {
 
             try {
                 // initial delay
-                Thread.sleep(setDelay);
+                ThreadUtil.sleep(setDelay);
 
                 OUTER:
                 while (true) {
@@ -1105,7 +1105,7 @@ public enum Console {
 
                     int i = 0;
                     while (i < setDelay) {
-                        Thread.sleep(50);
+                        ThreadUtil.sleep(50);
                         if (consoleClosed) {
                             break OUTER;
                         }
@@ -1444,11 +1444,7 @@ public enum Console {
 
                     for (int i = -150 ; i < 2 ; i += 8) {
                         menuLabel.setLocation(i, y);
-                        try {
-                            Thread.sleep(10);
-                        } catch (InterruptedException ex) {
-                            ExceptionHandler.handle(ex);
-                        }
+                        ThreadUtil.sleep(10);
                     }
 
                     menuLabel.setLocation(2, y);
@@ -1475,11 +1471,8 @@ public enum Console {
                         outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1,
                                 outputScroll.getHeight());
                         inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
-                        try {
-                            Thread.sleep(10);
-                        } catch (Exception ex) {
-                            ExceptionHandler.handle(ex);
-                        }
+
+                        ThreadUtil.sleep(10);
                     }
 
                     revalidateInputAndOutputBounds();
@@ -1854,11 +1847,7 @@ public enum Console {
                             outputScroll.getHeight());
                     inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
 
-                    try {
-                        Thread.sleep(10);
-                    } catch (Exception ex) {
-                        ExceptionHandler.handle(ex);
-                    }
+                    ThreadUtil.sleep(10);
                 }
 
                 revalidateInputAndOutputBounds(true);
@@ -1870,11 +1859,7 @@ public enum Console {
 
                 for (int i = 0 ; i > -150 ; i -= 8) {
                     menuLabel.setLocation(i, y);
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        ExceptionHandler.handle(e);
-                    }
+                    ThreadUtil.sleep(10);
                 }
 
                 menuLabel.setLocation(-150, y);
@@ -2473,49 +2458,32 @@ public enum Console {
                 case LEFT -> {
                     // Sliding up
                     for (int i = 0 ; i >= -consoleCyderFrame.getHeight() ; i -= increment) {
-                        try {
-                            Thread.sleep(timeout);
-                            contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
-                        } catch (InterruptedException e) {
-                            ExceptionHandler.handle(e);
-                        }
+                        ThreadUtil.sleep(timeout);
+                        contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
                     }
                     lastSlideDirection = Direction.TOP;
                 }
                 case RIGHT -> {
                     // Sliding down
                     for (int i = -consoleCyderFrame.getHeight() ; i <= 0 ; i += increment) {
-                        try {
-                            Thread.sleep(timeout);
-                            contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
-                        } catch (InterruptedException e) {
-                            ExceptionHandler.handle(e);
-                        }
+                        ThreadUtil.sleep(timeout);
+                        contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
                     }
                     lastSlideDirection = Direction.BOTTOM;
                 }
                 case TOP -> {
                     // Sliding right
                     for (int i = -consoleCyderFrame.getWidth() ; i <= 0 ; i += increment) {
-                        try {
-                            Thread.sleep(timeout);
-                            contentPane.setLocation(i,
-                                    consoleCyderFrame.getContentPane().getY());
-                        } catch (InterruptedException e) {
-                            ExceptionHandler.handle(e);
-                        }
+                        ThreadUtil.sleep(timeout);
+                        contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
                     }
                     lastSlideDirection = Direction.RIGHT;
                 }
                 case BOTTOM -> {
                     // Sliding left
                     for (int i = 0 ; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
-                        try {
-                            Thread.sleep(timeout);
-                            contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
-                        } catch (InterruptedException e) {
-                            ExceptionHandler.handle(e);
-                        }
+                        ThreadUtil.sleep(timeout);
+                        contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
                     }
                     lastSlideDirection = Direction.LEFT;
                 }
@@ -2903,10 +2871,7 @@ public enum Console {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
                         - audioControlsLabel.getWidth() - 6, i);
-                try {
-                    Thread.sleep(10);
-                } catch (Exception ignored) {
-                }
+                ThreadUtil.sleep(10);
             }
             audioControlsLabel.setVisible(false);
         }, "Console Audio Menu Minimizer");
@@ -2920,10 +2885,7 @@ public enum Console {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
                         - audioControlsLabel.getWidth() - 6, i);
-                try {
-                    Thread.sleep(10);
-                } catch (Exception ignored) {
-                }
+                ThreadUtil.sleep(10);
             }
             audioControlsLabel.setVisible(false);
             removeAudioControls();
@@ -2942,10 +2904,7 @@ public enum Console {
             for (int i = -40 ; i < CyderDragLabel.DEFAULT_HEIGHT - 2 ; i += 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
                         - audioControlsLabel.getWidth() - 6, i);
-                try {
-                    Thread.sleep(10);
-                } catch (Exception ignored) {
-                }
+                ThreadUtil.sleep(10);
             }
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
                     - audioControlsLabel.getWidth() - 6, CyderDragLabel.DEFAULT_HEIGHT - 2);
@@ -3505,7 +3464,7 @@ public enum Console {
                 consoleCyderFrame.getContentPane().add(titleNotifyLabel, JLayeredPane.POPUP_LAYER);
                 consoleCyderFrame.repaint();
 
-                Thread.sleep(visibleDuration);
+                ThreadUtil.sleep(visibleDuration);
                 titleNotifyLabel.setVisible(false);
                 consoleCyderFrame.remove(titleNotifyLabel);
                 titleNotifyLabel.setText("");

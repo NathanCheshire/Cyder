@@ -13,6 +13,7 @@ import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.ui.*;
 import cyder.user.UserUtil;
 import cyder.utils.FileUtil;
@@ -489,7 +490,7 @@ public final class GameOfLifeWidget {
                     updateLabels();
 
                     // timeout based on current iterations per second
-                    Thread.sleep(1000 / iterationsPerSecond);
+                    ThreadUtil.sleep(1000 / iterationsPerSecond);
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }

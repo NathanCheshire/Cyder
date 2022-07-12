@@ -10,6 +10,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.AudioLengthResponse;
 import cyder.threads.CyderThreadFactory;
+import cyder.threads.ThreadUtil;
 import cyder.user.UserFile;
 import cyder.utils.*;
 
@@ -212,7 +213,7 @@ public final class AudioUtil {
                     break;
                 }
 
-                Thread.sleep(500);
+                ThreadUtil.sleep(500);
             }
 
             // return dreamified
