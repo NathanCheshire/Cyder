@@ -1651,7 +1651,13 @@ public enum Console {
                         .setName("Prefs")
                         .setFocused(false)
                         .setCompact(compactMode)
-                        .setRunnable(() -> UserEditor.showGui(0))
+                        .setRunnable(() -> {
+                            if (UserEditor.isOpen()) {
+                                UserEditor.toggleMinimizedState();
+                            } else {
+                                UserEditor.showGui(0);
+                            }
+                        })
                         .setBorderColor(CyderColors.taskbarDefaultColor)
                         .build(),
                 new TaskbarIcon.Builder()

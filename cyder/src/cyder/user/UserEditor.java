@@ -1518,4 +1518,24 @@ public final class UserEditor {
             removeMapField.setText("");
         }
     }
+
+    /**
+     * Returns whether the edit user frame is open and active.
+     *
+     * @return whether the edit user frame is open and active
+     */
+    public static boolean isOpen() {
+        return editUserFrame != null && editUserFrame.isVisible();
+    }
+
+    /**
+     * Toggles the frame state from minimized to regular or vice versa.
+     */
+    public static void toggleMinimizedState() {
+        if (editUserFrame.getState() == JFrame.NORMAL) {
+            editUserFrame.minimizeAnimation();
+        } else {
+            editUserFrame.setState(Frame.NORMAL);
+        }
+    }
 }
