@@ -112,6 +112,11 @@ public final class LoginHandler {
     private static final LinkedList<String> priorityPrintingList = new LinkedList<>();
 
     /**
+     * The font for the login field.
+     */
+    private static final Font loginFieldFont = new Font("Agency FB", Font.BOLD, 26);
+
+    /**
      * The valid login modes.
      */
     private enum LoginMode {
@@ -230,48 +235,30 @@ public final class LoginHandler {
      */
     @Widget(triggers = {"login", "pin"}, description = "A widget to switch between Cyder users")
     public static void showGui() {
-        //clear lists
         priorityPrintingList.clear();
         printingList.clear();
-
-        //reset login mode
         loginMode = LoginMode.INPUT;
 
-        //if the frame is still active, remove the program exit
-        // post close action and dispose the frame immediately
         if (loginFrame != null) {
             loginFrame.removePostCloseActions();
             loginFrame.dispose(true);
         }
 
-        //new anonymous CyderFrame so that we can control the login animation var
-        loginFrame = new CyderFrame(LOGIN_FRAME_WIDTH, LOGIN_FRAME_HEIGHT,
-                ImageUtil.imageIconFromColor(backgroundColor, 1, 1));
+        loginFrame = new CyderFrame(
+                LOGIN_FRAME_WIDTH, LOGIN_FRAME_HEIGHT,
+                ImageUtil.imageIconFromColor(backgroundColor));
         loginFrame.setTitle(generateLoginFrameTitle());
         loginFrame.setBackground(backgroundColor);
-
-        //whether the frame is open or closed handling
+        loginFrame.addWindowListener(loginFrameWindowAdapter);
         loginFrameClosed = false;
-        loginFrame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                loginFrameClosed = true;
-                doLoginAnimations = false;
 
-                if (Console.INSTANCE.isClosed()) {
-                    OSUtil.exit(ExitCondition.GenesisControlledExit);
-                }
-            }
-        });
-
-        //printing animation output
         JTextPane loginArea = new JTextPane();
         loginArea.setBounds(20, 40, 560, 280);
-        loginArea.setBackground(new Color(21, 23, 24));
+        loginArea.setBackground(backgroundColor);
         loginArea.setBorder(null);
         loginArea.setFocusable(false);
         loginArea.setEditable(false);
-        loginArea.setFont(new Font("Agency FB", Font.BOLD, 26));
+        loginArea.setFont(loginFieldFont);
         loginArea.setForeground(textColor);
         loginArea.setCaretColor(loginArea.getForeground());
         CyderScrollPane loginScroll = new CyderScrollPane(loginArea,
@@ -285,18 +272,17 @@ public final class LoginHandler {
         loginArea.setAutoscrolls(true);
         loginFrame.getContentPane().add(loginScroll);
 
-        //field input
         loginField = new JPasswordField(20);
         loginField.setEchoChar((char) 0);
         loginField.setText(currentBashString);
         loginField.setBounds(20, 340, 560, 40);
-        loginField.setBackground(new Color(21, 23, 24));
+        loginField.setBackground(backgroundColor);
         loginField.setBorder(null);
         loginField.setCaret(new CyderCaret(loginArea.getForeground()));
         loginField.setSelectionColor(CyderColors.selectionColor);
-        loginField.setFont(new Font("Agency FB", Font.BOLD, 26));
-        loginField.setForeground(new Color(85, 181, 219));
-        loginField.setCaretColor(new Color(85, 181, 219));
+        loginField.setFont(loginFieldFont);
+        loginField.setForeground(textColor);
+        loginField.setCaretColor(textColor);
         loginField.addActionListener(e -> loginField.requestFocusInWindow());
         loginField.addKeyListener(loginFieldAdapter);
 
@@ -305,13 +291,6 @@ public final class LoginHandler {
 
         loginField.setCaretPosition(currentBashString.length());
         loginFrame.getContentPane().add(loginField);
-
-        //give focus to the login field
-        loginFrame.addWindowListener(new WindowAdapter() {
-            public void windowOpened(WindowEvent e) {
-                loginField.requestFocus();
-            }
-        });
         loginFrame.finalizeAndShow();
 
         CyderSplash.INSTANCE.fastDispose();
@@ -324,6 +303,25 @@ public final class LoginHandler {
     }
 
     /**
+     * The window adapter for the login frame to exit Cyder if the login frame is the only program frame open.
+     */
+    private static final WindowAdapter loginFrameWindowAdapter = new WindowAdapter() {
+        @Override
+        public void windowClosed(WindowEvent e) {
+            loginFrameClosed = true;
+            doLoginAnimations = false;
+
+            if (Console.INSTANCE.isClosed()) {
+                OSUtil.exit(ExitCondition.GenesisControlledExit);
+            }
+        }
+
+        public void windowOpened(WindowEvent e) {
+            loginField.requestFocus();
+        }
+    };
+
+    /**
      * The handler used to determine how to handle user input from the login field.
      */
     private static final KeyAdapter loginFieldAdapter = new KeyAdapter() {
@@ -333,15 +331,10 @@ public final class LoginHandler {
                     evt.consume();
                     loginField.setText(currentBashString);
                 }
-            }
-
-            //if enter was pressed
-            else if (evt.getKeyChar() == '\n') {
-                //get the input text
+            } else if (evt.getKeyChar() == '\n') { // Enter key
                 char[] input = loginField.getPassword();
                 String inputString = null;
 
-                //if the login mode is not expecting a password
                 if (loginMode != LoginMode.PASSWORD) {
                     inputString = new String(input).replace(currentBashString, "");
 
@@ -403,7 +396,6 @@ public final class LoginHandler {
                             priorityPrintingList.add("Login failed\n");
                             loginMode = LoginMode.INPUT;
                             username = "";
-
                         }
 
                         Arrays.fill(input, '\0');
@@ -436,30 +428,33 @@ public final class LoginHandler {
     }
 
     /**
+     * The key used to obtain the value of the auto cypher prop.
+     */
+    private static final String AUTOCYPHER = "autocypher";
+
+    /**
+     * The key used to obtain the value of the released prop.
+     */
+    private static final String RELEASED = "released";
+
+    /**
      * Begins the login sequence to figure out how to enter Cyder.
      */
     public static void determineCyderEntry() {
         CyderSplash.INSTANCE.setLoadingMessage("Checking for an AutoCypher");
 
-        //if AutoCyphering is enabled, attempt all cyphers
-        if (PropLoader.getBoolean("autocypher")) {
+        if (PropLoader.getBoolean(AUTOCYPHER)) {
             Logger.log(Logger.Tag.LOGIN, "AutoCypher Attempt");
             CyderSplash.INSTANCE.setLoadingMessage("Auto Cyphering");
 
-            //if AutoCyphering fails, show the login gui
             if (!autoCypher()) {
                 Logger.log(Logger.Tag.LOGIN, "AutoCypher Fail");
                 showGui();
             }
-        }
-        // otherwise, unreleased exit
-        else if (!PropLoader.getBoolean("released")) {
+        } else if (!PropLoader.getBoolean(RELEASED)) {
             ExceptionHandler.exceptionExit("Unreleased build of Cyder",
                     "Exception", ExitCondition.NotReleased);
-        }
-        // otherwise, if Cyder is released/usage is permitted
-        else {
-            //log the start and show the login frame
+        } else {
             Logger.log(Logger.Tag.LOGIN, "CYDER STARTING IN RELEASED MODE");
 
             Optional<String> optionalUUID = UserUtil.getFirstLoggedInUser();
@@ -482,6 +477,25 @@ public final class LoginHandler {
     }
 
     /**
+     * The status returned by an {@link CheckPasswordStatus} call.
+     */
+    private enum CheckPasswordStatus {
+        /**
+         * The login failed due to invalid credentials.
+         */
+        FAILED,
+        /**
+         * The login failed due to not being able to locate the username.
+         */
+        UNKNOWN_USER,
+        /**
+         * The login succeeded and the {@link #findUuid(String)} method should be invoked
+         * to find the uuid and load the other user files.
+         */
+        SUCCESS
+    }
+
+    /**
      * Attempts to log in a user based on the provided
      * name and an already hashed password.
      *
@@ -490,15 +504,22 @@ public final class LoginHandler {
      * @return whether the name and pass combo was authenticated and logged in
      */
     public static boolean recognize(String name, String hashedPass, boolean autoCypherAttempt) {
-        boolean ret = false;
+        switch (checkPassword(name, hashedPass)) {
+            case FAILED -> {
+                if (autoCypherAttempt) {
+                    priorityPrintingList.add("Autocypher failed");
+                    Logger.log(Logger.Tag.LOGIN, CyderEntry.AutoCypher.getFailMessage());
+                } else if (loginFrame != null && loginFrame.isVisible()) {
+                    priorityPrintingList.add("Incorrect password\n");
+                    Logger.log(Logger.Tag.LOGIN, CyderEntry.Login.getFailMessage());
+                    loginField.requestFocusInWindow();
+                }
+            }
+            case UNKNOWN_USER -> priorityPrintingList.add("Unknown user\n");
+            case SUCCESS -> {
+                String uuid = findUuid(name);
 
-        try {
-            Optional<String> optionalUuid = checkPassword(name, hashedPass);
-
-            if (optionalUuid.isPresent()) {
-                Console.INSTANCE.setUUID(optionalUuid.get());
-
-                ret = true;
+                Console.INSTANCE.setUUID(uuid);
 
                 doLoginAnimations = false;
 
@@ -506,36 +527,31 @@ public final class LoginHandler {
                     Console.INSTANCE.closeFrame(false, true);
                 }
 
-                Console.INSTANCE.launch(autoCypherAttempt
-                        ? CyderEntry.AutoCypher : CyderEntry.Login);
-            } else if (autoCypherAttempt) {
-                Logger.log(Logger.Tag.LOGIN, CyderEntry.AutoCypher.getFailMessage());
-            } else if (loginFrame != null && loginFrame.isVisible()) {
-                Logger.log(Logger.Tag.LOGIN, CyderEntry.Login.getFailMessage());
-                loginField.requestFocusInWindow();
-            }
-        } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
-        }
-
-        return ret;
-    }
-
-    /**
-     * Used for debugging, automatically logs the developer
-     * in if their account exists, otherwise the program proceeds as normal.
-     */
-    public static boolean autoCypher() {
-        try {
-            if (recognize(PropLoader.getString("debug_hash_name"),
-                    PropLoader.getString("debug_hash_password"), true)) {
+                Console.INSTANCE.launch(autoCypherAttempt ? CyderEntry.AutoCypher : CyderEntry.Login);
                 return true;
             }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
         }
 
         return false;
+    }
+
+    /**
+     * The key used to pull the auto cypher username from the props.
+     */
+    private static final String DEBUG_HASH_NAME = "debug_hash_name";
+
+    /**
+     * The key used to pull the auto cypher password from the props (already SHA256 singly hashed).
+     */
+    private static final String DEBUG_HASH_PASSWORD = "debug_hash_name";
+
+    /**
+     * Attempts to automatically log in the developer if {@link #DEBUG_HASH_NAME}
+     * and {@link #DEBUG_HASH_PASSWORD} exists within props.
+     */
+    public static boolean autoCypher() {
+        return recognize(PropLoader.getString(DEBUG_HASH_NAME),
+                PropLoader.getString(DEBUG_HASH_PASSWORD), true);
     }
 
     /**
@@ -544,37 +560,47 @@ public final class LoginHandler {
      *
      * @param name       the username given
      * @param hashedPass the already once SHA256 hashed password
-     * @return the uuid found associated with the name, password combo
+     * @return the result of checking for the a user with the provided name and password
      */
-    public static Optional<String> checkPassword(String name, String hashedPass) {
-        try {
-            LinkedList<String> userNames = new LinkedList<>();
+    public static CheckPasswordStatus checkPassword(String name, String hashedPass) {
+        LinkedList<String> names = new LinkedList<>();
 
-            for (File userJsonFile : UserUtil.getUserJsons()) {
-                userNames.add(UserUtil.extractUser(userJsonFile).getName());
-            }
-
-            if (!StringUtil.in(name, true, userNames)) {
-                priorityPrintingList.add("Username not found\n");
-                return Optional.empty();
-            }
-
-            for (File userJsonFile : UserUtil.getUserJsons()) {
-                User user = UserUtil.extractUser(userJsonFile);
-
-                //we always hash again here
-                if (name.equalsIgnoreCase(user.getName()) && SecurityUtil.toHexString(SecurityUtil.getSHA256(
-                        hashedPass.toCharArray())).equals(user.getPass())) {
-                    return Optional.of(FileUtil.getFilename(userJsonFile.getParentFile().getName()));
-                }
-            }
-
-            priorityPrintingList.add("Incorrect password\n");
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+        for (File userJsonFile : UserUtil.getUserJsons()) {
+            names.add(UserUtil.extractUser(userJsonFile).getName());
         }
 
-        return Optional.empty();
+        if (!StringUtil.in(name, true, names)) {
+            return CheckPasswordStatus.UNKNOWN_USER;
+        }
+
+        for (File userJsonFile : UserUtil.getUserJsons()) {
+            User user = UserUtil.extractUser(userJsonFile);
+
+            if (name.equalsIgnoreCase(user.getName()) && SecurityUtil.toHexString(
+                    SecurityUtil.getSHA256(hashedPass.toCharArray())).equals(user.getPass())) {
+                return CheckPasswordStatus.SUCCESS;
+            }
+        }
+
+        return CheckPasswordStatus.FAILED;
+    }
+
+    /**
+     * Finds and returns the uuid for the user with the provided name.
+     *
+     * @return the uuid for the user with the provided name
+     * @throws IllegalArgumentException if a user with the provided name cannot be found
+     */
+    public static String findUuid(String name) {
+        for (File userJsonFile : UserUtil.getUserJsons()) {
+            User user = UserUtil.extractUser(userJsonFile);
+
+            if (name.equalsIgnoreCase(user.getName())) {
+                return FileUtil.getFilename(userJsonFile);
+            }
+        }
+
+        throw new IllegalArgumentException("User folder not found for name: " + name);
     }
 
     /**

@@ -163,6 +163,16 @@ public final class ImageUtil {
     }
 
     /**
+     * Returns an ImageIcon of the requested color of the size 1x1.
+     *
+     * @param color      the color of the requested image
+     * @return the image of the requested color and dimensions
+     */
+    public static ImageIcon imageIconFromColor(Color color) {
+        return imageIconFromColor(color, 1, 1);
+    }
+
+    /**
      * Resizes the provided ImageIcon to the requested dimensions.
      *
      * @param width  the width of the requested image
