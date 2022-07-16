@@ -69,7 +69,7 @@ public final class SecurityUtil {
      * @param input the input char array
      * @return the hashed character array converted to bytes
      */
-    public static byte[] getSHA256(char[] input) {
+    public static byte[] getSha256(char[] input) {
         Preconditions.checkNotNull(input);
         Preconditions.checkArgument(input.length > 0);
 
@@ -89,7 +89,7 @@ public final class SecurityUtil {
      * @param input the input char array
      * @return the hashed character array converted to bytes
      */
-    public static byte[] getSHA1(char[] input) {
+    public static byte[] getSha1(char[] input) {
         Preconditions.checkNotNull(input);
         Preconditions.checkArgument(input.length > 0);
 
@@ -109,7 +109,7 @@ public final class SecurityUtil {
      * @param input the input char array
      * @return the hashed character array converted to bytes
      */
-    public static byte[] getMD5(char[] input) {
+    public static byte[] getMd5(char[] input) {
         Preconditions.checkNotNull(input);
         Preconditions.checkArgument(input.length > 0);
 
@@ -129,7 +129,7 @@ public final class SecurityUtil {
      * @param input the input char array
      * @return the hashed character array converted to bytes
      */
-    public static byte[] getSHA256(byte[] input) {
+    public static byte[] getSha256(byte[] input) {
         Preconditions.checkNotNull(input);
         Preconditions.checkArgument(input.length > 0);
 

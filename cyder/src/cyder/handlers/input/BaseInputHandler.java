@@ -16,6 +16,7 @@ import cyder.handlers.internal.Logger;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.MasterYoutubeThread;
+import cyder.threads.ThreadUtil;
 import cyder.ui.CyderOutputPane;
 import cyder.user.User;
 import cyder.user.UserFile;
@@ -584,7 +585,7 @@ public class BaseInputHandler {
                     }
 
                     if (!shouldFinishPrinting && typingAnimationLocal) {
-                        Thread.sleep(lineTimeout);
+                        ThreadUtil.sleep(lineTimeout);
                     }
                 }
             } catch (Exception e) {
@@ -718,7 +719,7 @@ public class BaseInputHandler {
                 }
 
                 if (!shouldFinishPrinting) {
-                    Thread.sleep(PropLoader.getInteger("printing_animation_char_timeout"));
+                    ThreadUtil.sleep(PropLoader.getInteger("printing_animation_char_timeout"));
                 }
             }
         } catch (Exception e) {

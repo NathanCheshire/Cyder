@@ -9,7 +9,10 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
-import cyder.enums.*;
+import cyder.enums.Direction;
+import cyder.enums.Dynamic;
+import cyder.enums.ExitCondition;
+import cyder.enums.IgnoreThread;
 import cyder.exceptions.FatalException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.PropLoader;
@@ -287,13 +290,10 @@ public enum Console {
      * Performs Console setup routines before constructing
      * the frame and setting its visibility, location, and size.
      *
-     * @param entryPoint where the launch call originated from
      * @throws FatalException if the Console was left open
      */
-    public void launch(CyderEntry entryPoint) {
+    public void launch() {
         ExceptionHandler.checkFatalCondition(isClosed(), previousUuid);
-
-        Logger.log(Logger.Tag.DEBUG, "Cyder Entry = " + entryPoint);
 
         loadBackgrounds();
         resizeBackgrounds();
@@ -1004,7 +1004,7 @@ public enum Console {
                             }
                         }
 
-                        Thread.sleep(50);
+                        ThreadUtil.sleep(50);
                     }
                 }
             } catch (Exception e) {
@@ -1022,7 +1022,7 @@ public enum Console {
                         // sleep 200 ms
                         int i = 0;
                         while (i < 200) {
-                            Thread.sleep(50);
+                            ThreadUtil.sleep(50);
                             if (consoleClosed) {
                                 break OUTER;
                             }
@@ -1077,7 +1077,7 @@ public enum Console {
                     //sleep 3 seconds
                     int i = 0;
                     while (i < 3000) {
-                        Thread.sleep(50);
+                        ThreadUtil.sleep(50);
                         if (consoleClosed) {
                             break OUTER;
                         }
@@ -1097,7 +1097,7 @@ public enum Console {
 
             try {
                 // initial delay
-                Thread.sleep(setDelay);
+                ThreadUtil.sleep(setDelay);
 
                 OUTER:
                 while (true) {
@@ -1105,7 +1105,7 @@ public enum Console {
 
                     int i = 0;
                     while (i < setDelay) {
-                        Thread.sleep(50);
+                        ThreadUtil.sleep(50);
                         if (consoleClosed) {
                             break OUTER;
                         }
@@ -1284,13 +1284,20 @@ public enum Console {
     }
 
     /**
+     * Whether debug lines should be drawn.
+     */
+    private boolean debugLines = false;
+
+    /**
      * The action to allow debug lines to be drawn across all frames via the console.
      */
     private final AbstractAction debugLinesAbstractAction = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            debugLines = !debugLines;
+
             for (CyderFrame frame : FrameUtil.getCyderFrames()) {
-                frame.drawDebugLines(!consoleCyderFrame.isDrawDebugLines());
+                frame.drawDebugLines(debugLines);
             }
         }
     };
@@ -1444,11 +1451,7 @@ public enum Console {
 
                     for (int i = -150 ; i < 2 ; i += 8) {
                         menuLabel.setLocation(i, y);
-                        try {
-                            Thread.sleep(10);
-                        } catch (InterruptedException ex) {
-                            ExceptionHandler.handle(ex);
-                        }
+                        ThreadUtil.sleep(10);
                     }
 
                     menuLabel.setLocation(2, y);
@@ -1475,11 +1478,8 @@ public enum Console {
                         outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1,
                                 outputScroll.getHeight());
                         inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
-                        try {
-                            Thread.sleep(10);
-                        } catch (Exception ex) {
-                            ExceptionHandler.handle(ex);
-                        }
+
+                        ThreadUtil.sleep(10);
                     }
 
                     revalidateInputAndOutputBounds();
@@ -1645,7 +1645,44 @@ public enum Console {
         return ImmutableList.copyOf(ret);
     }
 
-    // todo can this list be class level?
+    /**
+     * The default compact taskbar icons.
+     */
+    private final ImmutableList<TaskbarIcon> compactDefaultTaskbarIcons = ImmutableList.of(
+            new TaskbarIcon.Builder()
+                    .setName("Prefs")
+                    .setFocused(false)
+                    .setCompact(true)
+                    .setRunnable(() -> UserEditor.showGui(0))
+                    .setBorderColor(CyderColors.taskbarDefaultColor)
+                    .build(),
+            new TaskbarIcon.Builder()
+                    .setName("Logout")
+                    .setFocused(false)
+                    .setCompact(true)
+                    .setRunnable(this::logout)
+                    .setBorderColor(CyderColors.taskbarDefaultColor)
+                    .build());
+
+    /**
+     * The default non compact taskbar icons.
+     */
+    private final ImmutableList<TaskbarIcon> nonCompactDefaultTaskbarIcons = ImmutableList.of(
+            new TaskbarIcon.Builder()
+                    .setName("Prefs")
+                    .setFocused(false)
+                    .setCompact(false)
+                    .setRunnable(() -> UserEditor.showGui(0))
+                    .setBorderColor(CyderColors.taskbarDefaultColor)
+                    .build(),
+            new TaskbarIcon.Builder()
+                    .setName("Logout")
+                    .setFocused(false)
+                    .setCompact(false)
+                    .setRunnable(this::logout)
+                    .setBorderColor(CyderColors.taskbarDefaultColor)
+                    .build());
+
     /**
      * Returns the default taskbar icon items.
      *
@@ -1653,21 +1690,7 @@ public enum Console {
      * @return the default taskbar icon items
      */
     private ImmutableList<TaskbarIcon> getDefaultTaskbarIcons(boolean compactMode) {
-        return ImmutableList.of(
-                new TaskbarIcon.Builder()
-                        .setName("Prefs")
-                        .setFocused(false)
-                        .setCompact(compactMode)
-                        .setRunnable(() -> UserEditor.showGui(0))
-                        .setBorderColor(CyderColors.taskbarDefaultColor)
-                        .build(),
-                new TaskbarIcon.Builder()
-                        .setName("Logout")
-                        .setFocused(false)
-                        .setCompact(compactMode)
-                        .setRunnable(this::logout)
-                        .setBorderColor(CyderColors.taskbarDefaultColor)
-                        .build());
+        return compactMode ? compactDefaultTaskbarIcons : nonCompactDefaultTaskbarIcons;
     }
 
     /**
@@ -1854,11 +1877,7 @@ public enum Console {
                             outputScroll.getHeight());
                     inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
 
-                    try {
-                        Thread.sleep(10);
-                    } catch (Exception ex) {
-                        ExceptionHandler.handle(ex);
-                    }
+                    ThreadUtil.sleep(10);
                 }
 
                 revalidateInputAndOutputBounds(true);
@@ -1870,11 +1889,7 @@ public enum Console {
 
                 for (int i = 0 ; i > -150 ; i -= 8) {
                     menuLabel.setLocation(i, y);
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        ExceptionHandler.handle(e);
-                    }
+                    ThreadUtil.sleep(10);
                 }
 
                 menuLabel.setLocation(-150, y);
@@ -2063,7 +2078,7 @@ public enum Console {
      * @param uuid the user uuid that we will use to determine our output dir and other
      *             information specific to this instance of the console
      */
-    public void setUUID(String uuid) {
+    public void setUuid(String uuid) {
         Preconditions.checkNotNull(uuid);
 
         previousUuid = this.uuid;
@@ -2473,49 +2488,32 @@ public enum Console {
                 case LEFT -> {
                     // Sliding up
                     for (int i = 0 ; i >= -consoleCyderFrame.getHeight() ; i -= increment) {
-                        try {
-                            Thread.sleep(timeout);
-                            contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
-                        } catch (InterruptedException e) {
-                            ExceptionHandler.handle(e);
-                        }
+                        ThreadUtil.sleep(timeout);
+                        contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
                     }
                     lastSlideDirection = Direction.TOP;
                 }
                 case RIGHT -> {
                     // Sliding down
                     for (int i = -consoleCyderFrame.getHeight() ; i <= 0 ; i += increment) {
-                        try {
-                            Thread.sleep(timeout);
-                            contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
-                        } catch (InterruptedException e) {
-                            ExceptionHandler.handle(e);
-                        }
+                        ThreadUtil.sleep(timeout);
+                        contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
                     }
                     lastSlideDirection = Direction.BOTTOM;
                 }
                 case TOP -> {
                     // Sliding right
                     for (int i = -consoleCyderFrame.getWidth() ; i <= 0 ; i += increment) {
-                        try {
-                            Thread.sleep(timeout);
-                            contentPane.setLocation(i,
-                                    consoleCyderFrame.getContentPane().getY());
-                        } catch (InterruptedException e) {
-                            ExceptionHandler.handle(e);
-                        }
+                        ThreadUtil.sleep(timeout);
+                        contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
                     }
                     lastSlideDirection = Direction.RIGHT;
                 }
                 case BOTTOM -> {
                     // Sliding left
                     for (int i = 0 ; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
-                        try {
-                            Thread.sleep(timeout);
-                            contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
-                        } catch (InterruptedException e) {
-                            ExceptionHandler.handle(e);
-                        }
+                        ThreadUtil.sleep(timeout);
+                        contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
                     }
                     lastSlideDirection = Direction.LEFT;
                 }
@@ -2903,10 +2901,7 @@ public enum Console {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
                         - audioControlsLabel.getWidth() - 6, i);
-                try {
-                    Thread.sleep(10);
-                } catch (Exception ignored) {
-                }
+                ThreadUtil.sleep(10);
             }
             audioControlsLabel.setVisible(false);
         }, "Console Audio Menu Minimizer");
@@ -2920,10 +2915,7 @@ public enum Console {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
                         - audioControlsLabel.getWidth() - 6, i);
-                try {
-                    Thread.sleep(10);
-                } catch (Exception ignored) {
-                }
+                ThreadUtil.sleep(10);
             }
             audioControlsLabel.setVisible(false);
             removeAudioControls();
@@ -2942,10 +2934,7 @@ public enum Console {
             for (int i = -40 ; i < CyderDragLabel.DEFAULT_HEIGHT - 2 ; i += 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
                         - audioControlsLabel.getWidth() - 6, i);
-                try {
-                    Thread.sleep(10);
-                } catch (Exception ignored) {
-                }
+                ThreadUtil.sleep(10);
             }
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
                     - audioControlsLabel.getWidth() - 6, CyderDragLabel.DEFAULT_HEIGHT - 2);
@@ -3505,7 +3494,7 @@ public enum Console {
                 consoleCyderFrame.getContentPane().add(titleNotifyLabel, JLayeredPane.POPUP_LAYER);
                 consoleCyderFrame.repaint();
 
-                Thread.sleep(visibleDuration);
+                ThreadUtil.sleep(visibleDuration);
                 titleNotifyLabel.setVisible(false);
                 consoleCyderFrame.remove(titleNotifyLabel);
                 titleNotifyLabel.setText("");

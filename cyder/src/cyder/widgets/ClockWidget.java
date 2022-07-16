@@ -13,6 +13,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.ui.CyderSwitch;
@@ -315,32 +316,28 @@ public class ClockWidget {
             currentSecond[0] = second;
 
             CyderThreadRunner.submit(() -> {
-                try {
-                    while (update) {
-                        Thread.sleep(1000);
+                while (update) {
+                    ThreadUtil.sleep(1000);
 
-                        //increment seconds
-                        currentSecond[0] += 1;
+                    //increment seconds
+                    currentSecond[0] += 1;
 
-                        if (currentSecond[0] == 60) {
-                            currentSecond[0] -= 60;
-                            currentMinute[0] += 1;
+                    if (currentSecond[0] == 60) {
+                        currentSecond[0] -= 60;
+                        currentMinute[0] += 1;
 
-                            if (currentMinute[0] == 60) {
-                                currentMinute[0] -= 60;
-                                currentHour[0] += 1;
+                        if (currentMinute[0] == 60) {
+                            currentMinute[0] -= 60;
+                            currentHour[0] += 1;
 
-                                if (currentHour[0] == 60) {
-                                    currentHour[0] -= 60;
-                                }
+                            if (currentHour[0] == 60) {
+                                currentHour[0] -= 60;
                             }
                         }
-
-                        digitalTimeAndDateLabel.setText(getTime(currentGMTOffset));
-                        clockLabel.repaint();
                     }
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
+
+                    digitalTimeAndDateLabel.setText(getTime(currentGMTOffset));
+                    clockLabel.repaint();
                 }
             }, "Clock Widget Updater");
 
@@ -504,14 +501,10 @@ public class ClockWidget {
         }
 
         CyderThreadRunner.submit(() -> {
-            try {
-                int effectivelyFinal = currentGMTOffset;
-                while (updateMiniClock[0]) {
-                    Thread.sleep(500);
-                    currentTimeLabel.setText(getTime(effectivelyFinal));
-                }
-            } catch (Exception e) {
-                ExceptionHandler.silentHandle(e);
+            int effectivelyFinal = currentGMTOffset;
+            while (updateMiniClock[0]) {
+                ThreadUtil.sleep(500);
+                currentTimeLabel.setText(getTime(effectivelyFinal));
             }
         }, "Mini Clock Updater [GMT" + currentGMTOffset + "]");
 

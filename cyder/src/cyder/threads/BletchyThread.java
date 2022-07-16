@@ -130,7 +130,7 @@ public final class BletchyThread {
                         }
 
                         stringUtil.println(prints[i]);
-                        Thread.sleep(milliDelay);
+                        ThreadUtil.sleep(milliDelay);
                         stringUtil.removeLastLine();
                     }
 

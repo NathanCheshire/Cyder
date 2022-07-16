@@ -11,6 +11,7 @@ import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 
@@ -130,13 +131,8 @@ public final class CardWidget {
         birthday2021Frame.finalizeAndShow();
 
         try {
-            CyderThreadRunner.submit(() -> {
-                try {
-                    Thread.sleep(10000);
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-            }, "Birthday card 2021 notification wait thread");
+            CyderThreadRunner.submit(() -> ThreadUtil.sleep(10000),
+                    "Birthday card 2021 notification wait thread");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

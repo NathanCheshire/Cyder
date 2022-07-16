@@ -15,6 +15,7 @@ import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.ui.CyderFrame;
 import cyder.user.UserUtil;
 import cyder.utils.*;
@@ -234,6 +235,11 @@ public class WeatherWidget {
      * Whether the gmt offset has been set.
      */
     private boolean gmtSet;
+
+    /**
+     * The amount in ms to delay between clock updates.
+     */
+    private static final int ONE_SECOND = 1000;
 
     /**
      * Returns a new instance of weather widget.
@@ -556,13 +562,9 @@ public class WeatherWidget {
         }, "Weather Stats Updater");
 
         CyderThreadRunner.submit(() -> {
-            try {
-                while (stopUpdating.get()) {
-                    Thread.sleep(1000);
-                    currentTimeLabel.setText(getWeatherTime());
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+            while (stopUpdating.get()) {
+                ThreadUtil.sleep(ONE_SECOND);
+                currentTimeLabel.setText(getWeatherTime());
             }
         }, "Weather Clock Updater");
     }

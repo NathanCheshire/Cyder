@@ -9,6 +9,7 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.ui.*;
 
 import javax.swing.*;
@@ -563,17 +564,13 @@ public final class PathFinderWidget {
         updateStateLabel();
 
         CyderThreadRunner.submit(() -> {
-            try {
-                while (currentPathingState == PathingState.RUNNING) {
-                    pathStep();
+            while (currentPathingState == PathingState.RUNNING) {
+                pathStep();
 
-                    if (showStepsBox.isChecked()) {
-                        lockingRepaintGrid();
-                        Thread.sleep(MAX_SLIDER_VALUE - speedSlider.getValue());
-                    }
+                if (showStepsBox.isChecked()) {
+                    lockingRepaintGrid();
+                    ThreadUtil.sleep(MAX_SLIDER_VALUE - speedSlider.getValue());
                 }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
             }
         }, "Path Solver");
     }
@@ -724,7 +721,7 @@ public final class PathFinderWidget {
                             lockingAddNode(new CyderGrid.GridNode(PATH_ANIMATION_COLOR,
                                     updateNode.getX(), updateNode.getY()));
                             lockingRepaintGrid();
-                            Thread.sleep(PATH_TRICKLE_TIMEOUT);
+                            ThreadUtil.sleep(PATH_TRICKLE_TIMEOUT);
                         }
                     }
 
@@ -742,13 +739,15 @@ public final class PathFinderWidget {
                                 lockingRepaintGrid();
                             }
 
-                            if (killed)
+                            if (killed) {
                                 return;
+                            }
 
-                            Thread.sleep(PATH_TRICKLE_TIMEOUT);
+                            ThreadUtil.sleep(PATH_TRICKLE_TIMEOUT);
 
-                            if (killed)
+                            if (killed) {
                                 return;
+                            }
 
                             overridePoint = pathfindingGrid.getNodeAtPoint(p);
                             if (overridePoint.isPresent()
@@ -760,8 +759,9 @@ public final class PathFinderWidget {
                             }
                         }
 
-                        if (killed)
+                        if (killed) {
                             return;
+                        }
 
                         // moving path dot from goal to start
                         for (int i = pathPoints.size() - 1 ; i >= 0 ; i--) {
@@ -776,13 +776,15 @@ public final class PathFinderWidget {
                                 lockingRepaintGrid();
                             }
 
-                            if (killed)
+                            if (killed) {
                                 return;
+                            }
 
-                            Thread.sleep(PATH_TRICKLE_TIMEOUT);
+                            ThreadUtil.sleep(PATH_TRICKLE_TIMEOUT);
 
-                            if (killed)
+                            if (killed) {
                                 return;
+                            }
 
                             overridePoint = pathfindingGrid.getNodeAtPoint(pathPoints.get(i));
                             if (overridePoint.isPresent()
@@ -794,8 +796,9 @@ public final class PathFinderWidget {
                                 lockingRepaintGrid();
                             }
 
-                            if (killed)
+                            if (killed) {
                                 return;
+                            }
                         }
                     }
                 } catch (Exception e) {

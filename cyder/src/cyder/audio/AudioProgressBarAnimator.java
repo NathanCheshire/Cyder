@@ -1,8 +1,8 @@
 package cyder.audio;
 
 import com.google.common.base.Preconditions;
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.ui.CyderSliderUi;
 
 import javax.swing.*;
@@ -133,14 +133,10 @@ public class AudioProgressBarAnimator {
      */
     private void startAnimation() {
         CyderThreadRunner.submit(() -> {
-            try {
-                while (state == State.RUNNING) {
-                    sliderUi.incrementAnimation();
-                    slider.repaint();
-                    Thread.sleep(delay);
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+            while (state == State.RUNNING) {
+                sliderUi.incrementAnimation();
+                slider.repaint();
+                ThreadUtil.sleep(delay);
             }
         }, "Audio Location Slider Animation Updater, slider=" + slider + ", ui" + sliderUi);
     }

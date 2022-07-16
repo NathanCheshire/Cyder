@@ -3,6 +3,7 @@ package cyder.audio;
 import com.google.common.base.Preconditions;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.utils.StringUtil;
 import cyder.utils.TimeUtil;
 
@@ -133,7 +134,7 @@ public class ScrollingTitleLabel {
                         }
 
                         effectLabel.setLocation(effectLabel.getX() - 1, effectLabel.getY());
-                        Thread.sleep(MOVEMENT_TIMEOUT);
+                        ThreadUtil.sleep(MOVEMENT_TIMEOUT);
                         translatedDistance++;
                     }
 
@@ -145,7 +146,7 @@ public class ScrollingTitleLabel {
                         }
 
                         effectLabel.setLocation(effectLabel.getX() + 1, effectLabel.getY());
-                        Thread.sleep(MOVEMENT_TIMEOUT);
+                        ThreadUtil.sleep(MOVEMENT_TIMEOUT);
                         translatedDistance--;
                     }
 

@@ -6,6 +6,7 @@ import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.utils.BoundsUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;
@@ -208,7 +209,7 @@ public class CyderLabel extends JLabel {
                         setText(rippleText);
 
                         repaint();
-                        Thread.sleep(rippleMsTimeout);
+                        ThreadUtil.sleep(rippleMsTimeout);
 
                         //check for break to free resources quickly
                         if (!isRippling)

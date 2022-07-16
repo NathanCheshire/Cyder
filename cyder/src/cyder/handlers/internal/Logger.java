@@ -856,7 +856,7 @@ public final class Logger {
         CyderThreadRunner.submit(() -> {
             try {
                 // initial timeout from program initialization
-                Thread.sleep(3000);
+                ThreadUtil.sleep(3000);
 
                 while (true) {
                     if (objectCreationCounter.get() > 0) {

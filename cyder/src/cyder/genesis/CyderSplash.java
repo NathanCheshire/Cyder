@@ -6,6 +6,7 @@ import cyder.enums.ExitCondition;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.utils.ImageUtil;
@@ -164,7 +165,7 @@ public enum CyderSplash {
                         while (cBlock.getX() < FRAME_LEN / 2 - cBlock.getWidth() / 2) {
                             cBlock.setLocation(cBlock.getX() + 5, cBlock.getY());
                             yBlock.setLocation(yBlock.getX() - 5, yBlock.getY());
-                            Thread.sleep(6);
+                            ThreadUtil.sleep(6);
                         }
 
                         JLabel topBorder = new JLabel() {
@@ -179,7 +180,7 @@ public enum CyderSplash {
 
                         while (topBorder.getY() < FRAME_LEN / 2 - (LOGO_BORDER_LEN - LOGO_BORDER_PADDING) / 2 - 20) {
                             topBorder.setLocation(topBorder.getX(), topBorder.getY() + 5);
-                            Thread.sleep(5);
+                            ThreadUtil.sleep(5);
                         }
 
                         JLabel rightBorder = new JLabel() {
@@ -195,7 +196,7 @@ public enum CyderSplash {
 
                         while (rightBorder.getX() > FRAME_LEN / 2 + (LOGO_BORDER_LEN - LOGO_BORDER_PADDING) / 2 + 10) {
                             rightBorder.setLocation(rightBorder.getX() - 5, rightBorder.getY());
-                            Thread.sleep(3);
+                            ThreadUtil.sleep(3);
                         }
 
                         JLabel bottomBorder = new JLabel() {
@@ -211,7 +212,7 @@ public enum CyderSplash {
 
                         while (bottomBorder.getY() > FRAME_LEN / 2 + (LOGO_BORDER_LEN - LOGO_BORDER_PADDING) / 2 + 10) {
                             bottomBorder.setLocation(bottomBorder.getX(), bottomBorder.getY() - 5);
-                            Thread.sleep(3);
+                            ThreadUtil.sleep(3);
                         }
 
                         JLabel leftBorder = new JLabel() {
@@ -227,7 +228,7 @@ public enum CyderSplash {
 
                         while (leftBorder.getX() < FRAME_LEN / 2 - (LOGO_BORDER_LEN - LOGO_BORDER_PADDING) / 2 - 20) {
                             leftBorder.setLocation(leftBorder.getX() + 5, leftBorder.getY());
-                            Thread.sleep(3);
+                            ThreadUtil.sleep(3);
                         }
 
                         CyderLabel creatorLabel = new CyderLabel("By Nathan Cheshire");
@@ -239,10 +240,10 @@ public enum CyderSplash {
 
                         while (creatorLabel.getY() > FRAME_LEN / 2 + ICON_LEN / 2 + 40) {
                             creatorLabel.setLocation(creatorLabel.getX(), creatorLabel.getY() - 5);
-                            Thread.sleep(5);
+                            ThreadUtil.sleep(5);
                         }
 
-                        Thread.sleep(loadingMessageStartTimeout);
+                        ThreadUtil.sleep(loadingMessageStartTimeout);
 
                         loadingLabel = new CyderLabel(loadingMessage);
                         loadingLabel.setFocusable(false);
@@ -260,7 +261,7 @@ public enum CyderSplash {
                                     loadingLabel.setText(loadingMessage);
                                     loadingLabel.repaint();
 
-                                    Thread.sleep(loadingLabelUpdateTimeout);
+                                    ThreadUtil.sleep(loadingLabelUpdateTimeout);
 
                                     // if disposed, exit thread
                                     if (splashFrame.isDisposed()) {
@@ -297,11 +298,11 @@ public enum CyderSplash {
                                 break;
 
                             rectangle.startAnimation();
-                            Thread.sleep(100);
+                            ThreadUtil.sleep(100);
                         }
 
                         // wait for disposal or show error message
-                        Thread.sleep(loadingLabelSeconds * 1000);
+                        ThreadUtil.sleep(loadingLabelSeconds * 1000);
 
                         // to be safe always set message back to whatever it was
                         loadingLabel.setText(loadingMessage);

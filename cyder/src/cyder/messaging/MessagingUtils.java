@@ -99,7 +99,7 @@ public final class MessagingUtils {
             // init effectively final var for usage
             File usageWav = wavOrMp3File;
 
-            // if it's an mp3, convert o wav before passing off
+            // if it's an mp3, convert to wav before passing off
             if (FileUtil.validateExtension(usageWav, ".mp3")) {
                 Future<Optional<File>> waitFor = AudioUtil.mp3ToWav(usageWav);
 
@@ -113,11 +113,15 @@ public final class MessagingUtils {
                 }
             }
 
-            return generateWaveform(usageWav, width, height,
-                    DEFAULT_BACKGROUND_COLOR, DEFAULT_WAVE_COLOR);
+            return generateWaveform(usageWav, width, height, DEFAULT_BACKGROUND_COLOR, DEFAULT_WAVE_COLOR);
 
         });
     }
+
+    /**
+     * The number denoting a value should be interpolated.
+     */
+    private static final int interpolationNeededValue = -69;
 
     /**
      * Generates a buffered image depicting the local waveform of the provided wav file.
@@ -158,7 +162,6 @@ public final class MessagingUtils {
         }
 
         int[] normalizedSamples = new int[nonNormalizedSamples.length];
-        int interpolationNeededValue = -69;
 
         // normalize values and skip ones which exceeding tol
         for (int i = 0 ; i < normalizedSamples.length ; i++) {
@@ -292,7 +295,7 @@ public final class MessagingUtils {
 
             // if extending beyond bounds of our image, paint as zero and don't interpolate
             if (normalizedValue > height / 2)
-                normalizedValue = -69;
+                normalizedValue = interpolationNeededValue;
 
             normalizedSamples[i] = normalizedValue;
         }
@@ -304,11 +307,11 @@ public final class MessagingUtils {
                 continue;
 
                 // at a value that needs interpolation
-            else if (normalizedSamples[i] == -69) {
+            else if (normalizedSamples[i] == interpolationNeededValue) {
                 // find the next value that isn't a 0 or an amp that has yet to be interpolated
                 int nextNonZeroIndex = 0;
                 for (int j = i ; j < normalizedSamples.length ; j++) {
-                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != -69) {
+                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationNeededValue) {
                         nextNonZeroIndex = j;
                         break;
                     }
@@ -317,7 +320,7 @@ public final class MessagingUtils {
                 // find the previous value that isn't 0 or an amp that has yet to be interpolated
                 int lastNonZeroIndex = 0;
                 for (int j = i ; j >= 0 ; j--) {
-                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != -69) {
+                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationNeededValue) {
                         lastNonZeroIndex = j;
                         break;
                     }
@@ -353,6 +356,32 @@ public final class MessagingUtils {
     }
 
     /**
+     * The text used for the audio preview label component.
+     */
+    private static final String AUDIO_PREVIEW_LABEL_MAGIC_TEXT = StringUtil.generateTextForCustomComponent(6);
+
+    /**
+     * The border length for generated audio preview.
+     */
+    private static final int AUDIO_PREVIEW_BORDER_LEN = 5;
+
+    /**
+     * The button height for generated audio previews.
+     */
+    private static final int AUDIO_PREVIEW_BUTTON_HEIGHT = 40;
+
+    /**
+     * The container width for generated audio previews.
+     */
+    private static final int AUDIO_PREVIEW_CONTAINER_WIDTH = 150;
+
+    /**
+     * The container height for generated audio previews.
+     */
+    private static final int AUDIO_PREVIEW_CONTAINER_HEIGHT = DEFAULT_SMALL_WAVEFORM_HEIGHT
+            + AUDIO_PREVIEW_BUTTON_HEIGHT + 2 * AUDIO_PREVIEW_BORDER_LEN;
+
+    /**
      * Generates and returns a file preview for the provided audio file.
      *
      * @param mp3OrWavFile   the wav or mp3 file
@@ -375,35 +404,31 @@ public final class MessagingUtils {
                 Thread.onSpinWait();
             }
 
-            int borderLen = 5;
-            int buttonHeight = 40;
-
-            int containerWidth = 150;
-            int containerHeight = DEFAULT_SMALL_WAVEFORM_HEIGHT + buttonHeight + 2 * borderLen;
-
-            JLabel containerLabel = new JLabel(StringUtil.generateTextForCustomComponent(6)) {
+            JLabel containerLabel = new JLabel(AUDIO_PREVIEW_LABEL_MAGIC_TEXT) {
                 @Override
                 protected void paintComponent(Graphics g) {
                     g.setColor(CyderColors.zero);
-                    g.fillRect(0, 0, containerWidth, containerHeight);
+                    g.fillRect(0, 0, AUDIO_PREVIEW_CONTAINER_WIDTH, AUDIO_PREVIEW_CONTAINER_HEIGHT);
                     super.paintComponent(g);
                 }
             };
-            containerLabel.setSize(containerWidth, containerHeight);
+            containerLabel.setSize(AUDIO_PREVIEW_CONTAINER_WIDTH, AUDIO_PREVIEW_CONTAINER_HEIGHT);
 
             JLabel imageLabel = new JLabel();
-            imageLabel.setBounds(borderLen, borderLen, 140, DEFAULT_SMALL_WAVEFORM_HEIGHT);
+            imageLabel.setBounds(AUDIO_PREVIEW_BORDER_LEN, AUDIO_PREVIEW_BORDER_LEN,
+                    AUDIO_PREVIEW_CONTAINER_WIDTH - 2 * AUDIO_PREVIEW_BORDER_LEN , DEFAULT_SMALL_WAVEFORM_HEIGHT);
             imageLabel.setIcon(ImageUtil.toImageIcon(image.get()));
 
             JLabel imageContainerLabel = new JLabel();
-            imageContainerLabel.setBorder(new LineBorder(CyderColors.navy, borderLen));
-            imageContainerLabel.setBounds(0, 0, 150, DEFAULT_SMALL_WAVEFORM_HEIGHT + 5);
+            imageContainerLabel.setBorder(new LineBorder(CyderColors.navy, AUDIO_PREVIEW_BORDER_LEN));
+            imageContainerLabel.setBounds(0, 0, AUDIO_PREVIEW_CONTAINER_WIDTH,
+                    DEFAULT_SMALL_WAVEFORM_HEIGHT + 5);
             imageContainerLabel.add(imageLabel);
             containerLabel.add(imageContainerLabel);
 
-            CyderButton saveButton = new CyderButton("Save");
-            saveButton.setBounds(0, DEFAULT_SMALL_WAVEFORM_HEIGHT + borderLen,
-                    150, buttonHeight);
+            CyderButton saveButton = new CyderButton(SAVE);
+            saveButton.setBounds(0, DEFAULT_SMALL_WAVEFORM_HEIGHT + AUDIO_PREVIEW_BORDER_LEN,
+                    AUDIO_PREVIEW_CONTAINER_WIDTH, AUDIO_PREVIEW_BUTTON_HEIGHT);
             containerLabel.add(saveButton);
             saveButton.setBackground(CyderColors.regularPurple);
             saveButton.setForeground(CyderColors.defaultDarkModeTextColor);
@@ -424,7 +449,22 @@ public final class MessagingUtils {
     /**
      * The length of the image for the generated image previews.
      */
-    public static final int IMAGE_PREVIEW_LEN = 150;
+    private static final int IMAGE_PREVIEW_LEN = 150;
+
+    /**
+     * The height for the image preview save button.
+     */
+    private static final int IMAGE_PREVIEW_BUTTON_HEIGHT = 40;
+
+    /**
+     * The text used for generated image preview labels.
+     */
+    private static final String IMAGE_PREVIEW_LABEL_TEXT = StringUtil.generateTextForCustomComponent(12);
+
+    /**
+     * The save text for generated image and audio preview labels.
+     */
+    private static final String SAVE = "Save";
 
     /**
      * Generates and returns a file preview for the provided image file.
@@ -451,12 +491,12 @@ public final class MessagingUtils {
             imagePreviewLabel.setIcon(resized);
             imagePreviewLabel.setBorder(new LineBorder(CyderColors.navy, 5));
 
-            CyderButton saveButton = new CyderButton("Save");
-            saveButton.setSize(IMAGE_PREVIEW_LEN, 40);
+            CyderButton saveButton = new CyderButton(SAVE);
+            saveButton.setSize(IMAGE_PREVIEW_LEN, IMAGE_PREVIEW_BUTTON_HEIGHT);
             saveButton.setBackground(CyderColors.regularPurple);
             saveButton.setForeground(CyderColors.defaultDarkModeTextColor);
 
-            ret = new JLabel(StringUtil.generateTextForCustomComponent(12));
+            ret = new JLabel(IMAGE_PREVIEW_LABEL_TEXT);
             imagePreviewLabel.setLocation(0, 0);
             ret.add(imagePreviewLabel);
 

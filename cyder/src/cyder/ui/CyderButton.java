@@ -6,6 +6,7 @@ import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.utils.ReflectionUtil;
 
 import javax.swing.*;
@@ -222,10 +223,10 @@ public class CyderButton extends JButton {
 
                 for (int i = 0 ; i < iterations ; i++) {
                     setBackground(darkerBackground);
-                    Thread.sleep(ALERT_DELAY);
+                    ThreadUtil.sleep(ALERT_DELAY);
 
                     setBackground(background);
-                    Thread.sleep(ALERT_DELAY);
+                    ThreadUtil.sleep(ALERT_DELAY);
 
                     if (getParent() == null) {
                         killThreads();

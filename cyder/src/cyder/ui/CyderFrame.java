@@ -668,7 +668,7 @@ public class CyderFrame extends JFrame {
                         titleLabel.setLocation(i, 2);
 
                         try {
-                            Thread.sleep(timeout);
+                            ThreadUtil.sleep(timeout);
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                         }
@@ -684,11 +684,7 @@ public class CyderFrame extends JFrame {
                                     - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2) ; i--) {
                                 titleLabel.setLocation(i, 2);
 
-                                try {
-                                    Thread.sleep(timeout);
-                                } catch (Exception e) {
-                                    ExceptionHandler.handle(e);
-                                }
+                                ThreadUtil.sleep(timeout);
                             }
                             break;
                         case LEFT:
@@ -696,11 +692,7 @@ public class CyderFrame extends JFrame {
                                     - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2) ; i++) {
                                 titleLabel.setLocation(i, 2);
 
-                                try {
-                                    Thread.sleep(timeout);
-                                } catch (Exception e) {
-                                    ExceptionHandler.handle(e);
-                                }
+                                ThreadUtil.sleep(timeout);
                             }
                             break;
                     }
@@ -716,11 +708,7 @@ public class CyderFrame extends JFrame {
                             - StringUtil.getMinWidth(title, titleLabel.getFont()) - 8 ; i++) {
                         titleLabel.setLocation(i, 2);
 
-                        try {
-                            Thread.sleep(timeout);
-                        } catch (Exception e) {
-                            ExceptionHandler.handle(e);
-                        }
+                        ThreadUtil.sleep(timeout);
                     }
                     titleLabel.setLocation(width
                             - StringUtil.getMinWidth(title, titleLabel.getFont()), 2);
@@ -1326,7 +1314,7 @@ public class CyderFrame extends JFrame {
                 int animationInc = (int) ((double) (ScreenUtil.getScreenHeight() - getY()) / ANIMATION_FRAMES);
 
                 for (int i = getY() ; i <= ScreenUtil.getScreenHeight() + getHeight() ; i += animationInc) {
-                    Thread.sleep(MOVEMENT_ANIMATION_DELAY);
+                    ThreadUtil.sleep(MOVEMENT_ANIMATION_DELAY);
                     setLocation(getX(), i);
 
                     if (i >= ScreenUtil.getScreenHeight()) {
@@ -1467,7 +1455,7 @@ public class CyderFrame extends JFrame {
                     int height = getHeight();
 
                     for (int i = startY ; i >= -height ; i -= animationInc) {
-                        Thread.sleep(MOVEMENT_ANIMATION_DELAY);
+                        ThreadUtil.sleep(MOVEMENT_ANIMATION_DELAY);
                         setLocation(x, i);
                     }
                 }
@@ -2665,12 +2653,12 @@ public class CyderFrame extends JFrame {
     /**
      * Sets whether debug lines should be drawn for this frame.
      *
-     * @param b whether debug lines should be drawn for this frame
+     * @param draw whether debug lines should be drawn for this frame
      */
-    public void drawDebugLines(boolean b) {
-        drawDebugLines = b;
+    public void drawDebugLines(boolean draw) {
+        drawDebugLines = draw;
 
-        if (b) {
+        if (draw) {
             Color lineColor = ColorUtil.getInverseColor(backgroundColor);
 
             if (background != null) {
@@ -2813,10 +2801,7 @@ public class CyderFrame extends JFrame {
                 setOpacity(i);
                 repaint();
 
-                try {
-                    Thread.sleep(DRAG_OPACITY_ANIMATION_DELAY);
-                } catch (InterruptedException ignored) {
-                }
+                ThreadUtil.sleep(DRAG_OPACITY_ANIMATION_DELAY);
             }
 
             setOpacity(DRAG_OPACITY);
@@ -2840,10 +2825,7 @@ public class CyderFrame extends JFrame {
                 setOpacity(i);
                 repaint();
 
-                try {
-                    Thread.sleep(DRAG_OPACITY_ANIMATION_DELAY);
-                } catch (InterruptedException ignored) {
-                }
+                ThreadUtil.sleep(DRAG_OPACITY_ANIMATION_DELAY);
             }
 
             setOpacity(DEFAULT_OPACITY);
@@ -3218,7 +3200,7 @@ public class CyderFrame extends JFrame {
                     menuLabel.setVisible(true);
                     for (int x = menuLabel.getX() ; x < animateMenuToPoint.x ; x += menuAnimationInc) {
                         menuLabel.setLocation(x, menuLabel.getY());
-                        Thread.sleep(menuAnimationDelay);
+                        ThreadUtil.sleep(menuAnimationDelay);
                     }
                 } else {
                     menuLabel.setLocation(animateMenuToPoint.x,
@@ -3226,7 +3208,7 @@ public class CyderFrame extends JFrame {
                     menuLabel.setVisible(true);
                     for (int y = menuLabel.getY() ; y <= animateMenuToPoint.y ; y += menuAnimationInc) {
                         menuLabel.setLocation(animateMenuToPoint.x, y);
-                        Thread.sleep(menuAnimationDelay);
+                        ThreadUtil.sleep(menuAnimationDelay);
                     }
                 }
 
@@ -3253,14 +3235,14 @@ public class CyderFrame extends JFrame {
                 if (menuType == MenuType.PANEL) {
                     for (int x = menuLabel.getX() ; x > -menuLabel.getWidth() ; x -= menuAnimationInc) {
                         menuLabel.setLocation(x, menuLabel.getY());
-                        Thread.sleep(menuAnimationDelay);
+                        ThreadUtil.sleep(menuAnimationDelay);
                     }
                 } else {
                     menuLabel.setLocation(animateMenuToPoint.x, animateMenuToPoint.y);
                     for (int y = menuLabel.getY() ; y >= animateMenuToPoint.y - menuLabel.getHeight()
                             ; y -= menuAnimationInc) {
                         menuLabel.setLocation(animateMenuToPoint.x, y);
-                        Thread.sleep(menuAnimationDelay);
+                        ThreadUtil.sleep(menuAnimationDelay);
                     }
                 }
 
@@ -3469,7 +3451,7 @@ public class CyderFrame extends JFrame {
             if (!wasOnTop) {
                 CyderThreadRunner.submit(() -> {
                     try {
-                        Thread.sleep(FINALIZE_AND_SHOW_DELAY);
+                        ThreadUtil.sleep(FINALIZE_AND_SHOW_DELAY);
 
                         if (!pinned) {
                             setAlwaysOnTop(false);

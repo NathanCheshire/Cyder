@@ -7,6 +7,11 @@ import javax.swing.*;
  */
 public final class CyderStrings {
     /**
+     * A string used as a an error message for when a method has failed to be overridden and implemented.
+     */
+    public static final String NOT_IMPLEMENTED = "Method not implemented";
+
+    /**
      * General renowned sentence in English for using all 26 latin chars.
      */
     public static final String QUICK_BROWN_FOX = "The quick brown fox jumps over the lazy dog";

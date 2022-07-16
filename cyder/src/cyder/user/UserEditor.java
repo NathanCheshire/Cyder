@@ -96,7 +96,7 @@ public final class UserEditor {
 
     public static void showGui(int startingIndex) {
         if (editUserFrame != null)
-            editUserFrame.dispose();
+            editUserFrame.dispose(true);
 
         editUserFrame = new CyderFrame(720 + 2 * 5,
                 500 + 5 + CyderDragLabel.DEFAULT_HEIGHT + 25, CyderColors.vanilla);
@@ -149,7 +149,6 @@ public final class UserEditor {
         editUserFrame.setMenuType(CyderFrame.MenuType.RIBBON);
         editUserFrame.lockMenuOut();
 
-        revalidateOnMenuItemClicked();
         switchToUserFiles();
 
         editUserFrame.finalizeAndShow();
@@ -1303,9 +1302,9 @@ public final class UserEditor {
             " etc. will be deleted. Are you ABSOLUTELY sure you wish to continue?";
 
     private static void deleteUser(CyderPasswordField deletePasswordField) {
-        String hashed = SecurityUtil.toHexString(SecurityUtil.getSHA256(deletePasswordField.getPassword()));
+        String hashed = SecurityUtil.toHexString(SecurityUtil.getSha256(deletePasswordField.getPassword()));
 
-        if (!SecurityUtil.toHexString(SecurityUtil.getSHA256(hashed.toCharArray()))
+        if (!SecurityUtil.toHexString(SecurityUtil.getSha256(hashed.toCharArray()))
                 .equals(UserUtil.getCyderUser().getPass())) {
             editUserFrame.notify("Invalid password; user not deleted");
             deletePasswordField.setText("");
@@ -1483,8 +1482,8 @@ public final class UserEditor {
     public static void changePassword(char[] newPassword) {
         Preconditions.checkNotNull(newPassword);
         Preconditions.checkArgument(newPassword.length > 0);
-        UserUtil.getCyderUser().setPass(SecurityUtil.toHexString(SecurityUtil.getSHA256(
-                SecurityUtil.toHexString(SecurityUtil.getSHA256(newPassword)).toCharArray())));
+        UserUtil.getCyderUser().setPass(SecurityUtil.toHexString(SecurityUtil.getSha256(
+                SecurityUtil.toHexString(SecurityUtil.getSha256(newPassword)).toCharArray())));
     }
 
     /**
@@ -1516,6 +1515,26 @@ public final class UserEditor {
             }
 
             removeMapField.setText("");
+        }
+    }
+
+    /**
+     * Returns whether the edit user frame is open and active.
+     *
+     * @return whether the edit user frame is open and active
+     */
+    public static boolean isOpen() {
+        return editUserFrame != null && editUserFrame.isVisible();
+    }
+
+    /**
+     * Toggles the frame state from minimized to regular or vice versa.
+     */
+    public static void toggleMinimizedState() {
+        if (editUserFrame.getState() == JFrame.NORMAL) {
+            editUserFrame.minimizeAnimation();
+        } else {
+            editUserFrame.setState(Frame.NORMAL);
         }
     }
 }
