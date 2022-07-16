@@ -12,9 +12,12 @@ import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderButton;
+import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderPanel;
 import cyder.utils.GetterUtil;
 
 import javax.swing.*;
@@ -83,9 +86,9 @@ public final class TttGame {
             tttFrame.dispose(true);
         }
 
-        int frameLen = buttonSize.width * boardLength + buttonPadding * (boardLength + 2);
+        int frameLen = buttonSize.width * boardLength + buttonPadding * (boardLength + 2) + 100;
 
-        tttFrame = new CyderFrame(frameLen, frameLen + 100, CyderIcons.defaultBackground);
+        tttFrame = new CyderFrame(frameLen, frameLen, CyderIcons.defaultBackground);
         tttFrame.setTitle("TicTacToe");
         tttFrame.addMenuItem("Board Size", () -> CyderThreadRunner.submit(() -> {
             try {
@@ -102,8 +105,10 @@ public final class TttGame {
                         boardLength = newBoardLength;
                         showGui();
                     } else {
-                        tttFrame.notify("Sorry, but " + newBoardLength + " is not in the allowable range of ["
-                                + GRID_SIZE_RANGE.lowerEndpoint() + ", " + GRID_SIZE_RANGE.upperEndpoint() + "]");
+                        tttFrame.notify("Sorry, but " + newBoardLength
+                                + " is not in the allowable range of ["
+                                + GRID_SIZE_RANGE.lowerEndpoint() + ", "
+                                + GRID_SIZE_RANGE.upperEndpoint() + "]");
                     }
                 } catch (Exception ignored) {
                     tttFrame.notify("Unable to parse input as an integer");
@@ -113,20 +118,18 @@ public final class TttGame {
             }
         }, "Board Size Changer"));
         tttFrame.addMenuItem("Reset Board", TttGame::resetBoard);
-        tttFrame.setMenuType(CyderFrame.MenuType.RIBBON);
-        tttFrame.lockMenuOut();
+        tttFrame.setMenuEnabled(true);
 
         infoLabel = new JLabel();
         infoLabel.setHorizontalAlignment(JLabel.CENTER);
         infoLabel.setFont(CyderFonts.DEFAULT_FONT);
         infoLabel.setForeground(CyderColors.navy);
-        infoLabel.setBounds(0, 60, frameLen, 50);
+        infoLabel.setBounds(0, CyderDragLabel.DEFAULT_HEIGHT, frameLen, 50);
         tttFrame.getContentPane().add(infoLabel);
 
-        int startingX = buttonPadding;
-        int startingY = buttonPadding + 100;
-
         boardButtons = new CyderButton[boardLength][boardLength];
+
+        CyderGridLayout buttonGridLayout = new CyderGridLayout(boardLength, boardLength);
 
         for (int y = 0 ; y < boardLength ; y++) {
             for (int x = 0 ; x < boardLength ; x++) {
@@ -156,17 +159,16 @@ public final class TttGame {
                     }
                 });
 
-                button.setBounds(startingX, startingY, buttonSize.width, buttonSize.height);
-
-                startingX += buttonPadding + buttonSize.width;
-
-                tttFrame.getContentPane().add(button);
+                button.setSize(buttonSize.width, buttonSize.height);
+                buttonGridLayout.addComponent(button, x, y);
                 boardButtons[y][x] = button;
             }
-
-            startingY += buttonPadding + buttonSize.height;
-            startingX = buttonPadding;
         }
+
+        CyderPanel panel = new CyderPanel(buttonGridLayout);
+        panel.setBounds(0, CyderDragLabel.DEFAULT_HEIGHT + 100,
+                frameLen, frameLen - (CyderDragLabel.DEFAULT_HEIGHT + 100));
+        tttFrame.getContentPane().add(panel);
 
         tttFrame.finalizeAndShow();
         currentPlayer = Player.X;

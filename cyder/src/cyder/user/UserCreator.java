@@ -38,7 +38,7 @@ import java.util.LinkedList;
 @Vanilla
 @CyderAuthor
 @SuppressCyderInspections(CyderInspection.VanillaInspection)
-public class UserCreator {
+public final class UserCreator {
     /**
      * The user creator frame.
      */
@@ -260,7 +260,7 @@ public class UserCreator {
                         if (userFiles != null && userFiles.length == 1) {
                             LoginHandler.getLoginFrame().dispose();
                             LoginHandler.recognize(newUserName.getText().trim(),
-                                    SecurityUtil.toHexString(SecurityUtil.getSHA256(
+                                    SecurityUtil.toHexString(SecurityUtil.getSha256(
                                             newUserPassword.getPassword())), false);
                         }
                     }
@@ -466,8 +466,8 @@ public class UserCreator {
 
         //name and password
         user.setName(newUserName.getText().trim());
-        user.setPass(SecurityUtil.toHexString(SecurityUtil.getSHA256(
-                SecurityUtil.toHexString(SecurityUtil.getSHA256(password)).toCharArray())));
+        user.setPass(SecurityUtil.toHexString(SecurityUtil.getSha256(
+                SecurityUtil.toHexString(SecurityUtil.getSha256(password)).toCharArray())));
 
         // default preferences
         for (Preference pref : Preferences.getPreferences()) {

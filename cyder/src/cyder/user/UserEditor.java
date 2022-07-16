@@ -1303,9 +1303,9 @@ public final class UserEditor {
             " etc. will be deleted. Are you ABSOLUTELY sure you wish to continue?";
 
     private static void deleteUser(CyderPasswordField deletePasswordField) {
-        String hashed = SecurityUtil.toHexString(SecurityUtil.getSHA256(deletePasswordField.getPassword()));
+        String hashed = SecurityUtil.toHexString(SecurityUtil.getSha256(deletePasswordField.getPassword()));
 
-        if (!SecurityUtil.toHexString(SecurityUtil.getSHA256(hashed.toCharArray()))
+        if (!SecurityUtil.toHexString(SecurityUtil.getSha256(hashed.toCharArray()))
                 .equals(UserUtil.getCyderUser().getPass())) {
             editUserFrame.notify("Invalid password; user not deleted");
             deletePasswordField.setText("");
@@ -1483,8 +1483,8 @@ public final class UserEditor {
     public static void changePassword(char[] newPassword) {
         Preconditions.checkNotNull(newPassword);
         Preconditions.checkArgument(newPassword.length > 0);
-        UserUtil.getCyderUser().setPass(SecurityUtil.toHexString(SecurityUtil.getSHA256(
-                SecurityUtil.toHexString(SecurityUtil.getSHA256(newPassword)).toCharArray())));
+        UserUtil.getCyderUser().setPass(SecurityUtil.toHexString(SecurityUtil.getSha256(
+                SecurityUtil.toHexString(SecurityUtil.getSha256(newPassword)).toCharArray())));
     }
 
     /**

@@ -9,7 +9,10 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
-import cyder.enums.*;
+import cyder.enums.Direction;
+import cyder.enums.Dynamic;
+import cyder.enums.ExitCondition;
+import cyder.enums.IgnoreThread;
 import cyder.exceptions.FatalException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.PropLoader;
@@ -287,13 +290,10 @@ public enum Console {
      * Performs Console setup routines before constructing
      * the frame and setting its visibility, location, and size.
      *
-     * @param entryPoint where the launch call originated from
      * @throws FatalException if the Console was left open
      */
-    public void launch(CyderEntry entryPoint) {
+    public void launch() {
         ExceptionHandler.checkFatalCondition(isClosed(), previousUuid);
-
-        Logger.log(Logger.Tag.DEBUG, "Cyder Entry = " + entryPoint);
 
         loadBackgrounds();
         resizeBackgrounds();
@@ -1284,13 +1284,20 @@ public enum Console {
     }
 
     /**
+     * Whether debug lines should be drawn.
+     */
+    private boolean debugLines = false;
+
+    /**
      * The action to allow debug lines to be drawn across all frames via the console.
      */
     private final AbstractAction debugLinesAbstractAction = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            debugLines = !debugLines;
+
             for (CyderFrame frame : FrameUtil.getCyderFrames()) {
-                frame.drawDebugLines(!consoleCyderFrame.isDrawDebugLines());
+                frame.drawDebugLines(debugLines);
             }
         }
     };
@@ -1638,7 +1645,7 @@ public enum Console {
         return ImmutableList.copyOf(ret);
     }
 
-    // todo can this list be class level?
+    // todo can this list be class level and immutable?
     /**
      * Returns the default taskbar icon items.
      *
@@ -2054,7 +2061,7 @@ public enum Console {
      * @param uuid the user uuid that we will use to determine our output dir and other
      *             information specific to this instance of the console
      */
-    public void setUUID(String uuid) {
+    public void setUuid(String uuid) {
         Preconditions.checkNotNull(uuid);
 
         previousUuid = this.uuid;

@@ -2653,12 +2653,12 @@ public class CyderFrame extends JFrame {
     /**
      * Sets whether debug lines should be drawn for this frame.
      *
-     * @param b whether debug lines should be drawn for this frame
+     * @param draw whether debug lines should be drawn for this frame
      */
-    public void drawDebugLines(boolean b) {
-        drawDebugLines = b;
+    public void drawDebugLines(boolean draw) {
+        drawDebugLines = draw;
 
-        if (b) {
+        if (draw) {
             Color lineColor = ColorUtil.getInverseColor(backgroundColor);
 
             if (background != null) {

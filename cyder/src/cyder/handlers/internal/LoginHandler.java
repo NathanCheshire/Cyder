@@ -15,7 +15,10 @@ import cyder.ui.*;
 import cyder.user.User;
 import cyder.user.UserCreator;
 import cyder.user.UserUtil;
-import cyder.utils.*;
+import cyder.utils.ImageUtil;
+import cyder.utils.OSUtil;
+import cyder.utils.SecurityUtil;
+import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,6 +62,11 @@ public final class LoginHandler {
      * The input field for the login frame.
      */
     private static JPasswordField loginField;
+
+    /**
+     * The text area for the login outputs.
+     */
+    private static JTextPane loginArea;
 
     /**
      * Whether to perform the login frame typing animation.
@@ -140,10 +148,8 @@ public final class LoginHandler {
 
     /**
      * Begins the login typing animation and printing thread.
-     *
-     * @param referencePane the CyderOutputPane to use for appending and concurrency
      */
-    private static void startTypingAnimation(CyderOutputPane referencePane) {
+    private static void startTypingAnimation() {
         //set the status of whether login animations are currently being performed
         doLoginAnimations = true;
 
@@ -162,6 +168,8 @@ public final class LoginHandler {
         //timeouts for printing animation
         final int charTimeout = 25;
         final int lineTimeout = 400;
+
+        CyderOutputPane referencePane = new CyderOutputPane(loginArea);
 
         //the actual thread that performs the printing animation
         CyderThreadRunner.submit(() -> {
@@ -252,7 +260,7 @@ public final class LoginHandler {
         loginFrame.addWindowListener(loginFrameWindowAdapter);
         loginFrameClosed = false;
 
-        JTextPane loginArea = new JTextPane();
+        loginArea = new JTextPane();
         loginArea.setBounds(20, 40, 560, 280);
         loginArea.setBackground(backgroundColor);
         loginArea.setBorder(null);
@@ -299,7 +307,7 @@ public final class LoginHandler {
             priorityPrintingList.add("No users found; please type \"create\"\n");
         }
 
-        startTypingAnimation(new CyderOutputPane(loginArea));
+        startTypingAnimation();
     }
 
     /**
@@ -387,7 +395,7 @@ public final class LoginHandler {
                         priorityPrintingList.add("Attempting validation\n");
 
                         if (!recognize(username, SecurityUtil.toHexString(
-                                SecurityUtil.getSHA256(input)), false)) {
+                                SecurityUtil.getSha256(input)), false)) {
 
                             loginField.setEchoChar((char) 0);
                             loginField.setText(currentBashString);
@@ -448,7 +456,6 @@ public final class LoginHandler {
             CyderSplash.INSTANCE.setLoadingMessage("Auto Cyphering");
 
             if (!autoCypher()) {
-                Logger.log(Logger.Tag.LOGIN, "AutoCypher Fail");
                 showGui();
             }
         } else if (!PropLoader.getBoolean(RELEASED)) {
@@ -464,12 +471,13 @@ public final class LoginHandler {
 
                 UserUtil.logoutAllUsers();
 
-                Console.INSTANCE.setUUID(loggedInUUID);
+                Console.INSTANCE.setUuid(loggedInUUID);
 
                 Logger.log(Logger.Tag.LOGIN, CyderEntry.PreviouslyLoggedIn.getName().toUpperCase()
-                                + ", " + loggedInUUID);
+                        + ", " + loggedInUUID);
 
-                Console.INSTANCE.launch(CyderEntry.PreviouslyLoggedIn);
+                Logger.log(Logger.Tag.DEBUG, "Cyder Entry = " + CyderEntry.PreviouslyLoggedIn);
+                Console.INSTANCE.launch();
             } else {
                 showGui();
             }
@@ -504,7 +512,9 @@ public final class LoginHandler {
      * @return whether the name and pass combo was authenticated and logged in
      */
     public static boolean recognize(String name, String hashedPass, boolean autoCypherAttempt) {
-        switch (checkPassword(name, hashedPass)) {
+        CheckPasswordStatus status = checkPassword(name, hashedPass);
+
+        switch (status) {
             case FAILED -> {
                 if (autoCypherAttempt) {
                     priorityPrintingList.add("Autocypher failed");
@@ -517,9 +527,7 @@ public final class LoginHandler {
             }
             case UNKNOWN_USER -> priorityPrintingList.add("Unknown user\n");
             case SUCCESS -> {
-                String uuid = findUuid(name);
-
-                Console.INSTANCE.setUUID(uuid);
+                Console.INSTANCE.setUuid(findUuid(name));
 
                 doLoginAnimations = false;
 
@@ -527,9 +535,12 @@ public final class LoginHandler {
                     Console.INSTANCE.closeFrame(false, true);
                 }
 
-                Console.INSTANCE.launch(autoCypherAttempt ? CyderEntry.AutoCypher : CyderEntry.Login);
+                Logger.log(Logger.Tag.DEBUG, "Cyder Entry = "
+                        + (autoCypherAttempt ? CyderEntry.AutoCypher : CyderEntry.Login));
+                Console.INSTANCE.launch();
                 return true;
             }
+            default -> throw new IllegalArgumentException("Invalid password status: " + status);
         }
 
         return false;
@@ -543,7 +554,7 @@ public final class LoginHandler {
     /**
      * The key used to pull the auto cypher password from the props (already SHA256 singly hashed).
      */
-    private static final String DEBUG_HASH_PASSWORD = "debug_hash_name";
+    private static final String DEBUG_HASH_PASSWORD = "debug_hash_password";
 
     /**
      * Attempts to automatically log in the developer if {@link #DEBUG_HASH_NAME}
@@ -576,8 +587,8 @@ public final class LoginHandler {
         for (File userJsonFile : UserUtil.getUserJsons()) {
             User user = UserUtil.extractUser(userJsonFile);
 
-            if (name.equalsIgnoreCase(user.getName()) && SecurityUtil.toHexString(
-                    SecurityUtil.getSHA256(hashedPass.toCharArray())).equals(user.getPass())) {
+            if (name.equalsIgnoreCase(user.getName()) && SecurityUtil.toHexString(SecurityUtil.getSha256(
+                    hashedPass.toCharArray())).equals(user.getPass())) {
                 return CheckPasswordStatus.SUCCESS;
             }
         }
@@ -596,7 +607,7 @@ public final class LoginHandler {
             User user = UserUtil.extractUser(userJsonFile);
 
             if (name.equalsIgnoreCase(user.getName())) {
-                return FileUtil.getFilename(userJsonFile);
+                return userJsonFile.getParentFile().getName();
             }
         }
 

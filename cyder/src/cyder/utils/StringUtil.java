@@ -214,10 +214,10 @@ public class StringUtil {
         Preconditions.checkNotNull(stringId);
 
         try {
-            Style cs = linkedCyderPane.getJTextPane().getStyledDocument().addStyle(name, null);
-            StyleConstants.setComponent(cs, component);
+            Style style = linkedCyderPane.getJTextPane().getStyledDocument().addStyle(name, null);
+            StyleConstants.setComponent(style, component);
             linkedCyderPane.getJTextPane().getStyledDocument()
-                    .insertString(linkedCyderPane.getJTextPane().getStyledDocument().getLength(), stringId, cs);
+                    .insertString(linkedCyderPane.getJTextPane().getStyledDocument().getLength(), stringId, style);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -233,11 +233,11 @@ public class StringUtil {
         Preconditions.checkNotNull(component);
 
         try {
-            String componentUUID = SecurityUtil.generateUuid();
-            Style cs = linkedCyderPane.getJTextPane().getStyledDocument().addStyle(componentUUID, null);
+            String componentUuid = SecurityUtil.generateUuid();
+            Style cs = linkedCyderPane.getJTextPane().getStyledDocument().addStyle(componentUuid, null);
             StyleConstants.setComponent(cs, component);
             linkedCyderPane.getJTextPane().getStyledDocument()
-                    .insertString(linkedCyderPane.getJTextPane().getStyledDocument().getLength(), componentUUID, cs);
+                    .insertString(linkedCyderPane.getJTextPane().getStyledDocument().getLength(), componentUuid, cs);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -254,8 +254,8 @@ public class StringUtil {
         Preconditions.checkNotNull(component);
 
         try {
-            String componentUUID = SecurityUtil.generateUuid();
-            printComponent(component, componentUUID, componentUUID);
+            String componentUuid = SecurityUtil.generateUuid();
+            printComponent(component, componentUuid, componentUuid);
             println("");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -945,7 +945,6 @@ public class StringUtil {
      */
     public static boolean in(String lookFor, boolean ignoreCase, String... strings) {
         Preconditions.checkNotNull(lookFor);
-        Preconditions.checkArgument(!lookFor.isEmpty());
 
         for (String look : strings) {
             if ((ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look)) {
@@ -992,7 +991,6 @@ public class StringUtil {
      */
     public static int getMinWidth(String title, Font font) {
         Preconditions.checkNotNull(title);
-        Preconditions.checkArgument(!title.isEmpty());
         Preconditions.checkNotNull(font);
 
         AffineTransform affinetransform = new AffineTransform();
@@ -1009,7 +1007,6 @@ public class StringUtil {
      */
     public static int getAbsoluteMinWidth(String title, Font font) {
         Preconditions.checkNotNull(title);
-        Preconditions.checkArgument(!title.isEmpty());
         Preconditions.checkNotNull(font);
 
         AffineTransform affinetransform = new AffineTransform();
@@ -1027,7 +1024,6 @@ public class StringUtil {
      */
     public static int getMinHeight(String title, Font font) {
         Preconditions.checkNotNull(title);
-        Preconditions.checkArgument(!title.isEmpty());
         Preconditions.checkNotNull(font);
 
         AffineTransform affinetransform = new AffineTransform();
@@ -1045,7 +1041,6 @@ public class StringUtil {
      */
     public static int getAbsoluteMinHeight(String title, Font font) {
         Preconditions.checkNotNull(title);
-        Preconditions.checkArgument(!title.isEmpty());
         Preconditions.checkNotNull(font);
 
         AffineTransform affinetransform = new AffineTransform();

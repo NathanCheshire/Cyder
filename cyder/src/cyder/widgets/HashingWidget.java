@@ -110,11 +110,11 @@ public class HashingWidget {
             algorithm = comboBox.getCurrentState().displayValue();
 
             if (algorithm.equals("SHA-256")) {
-                hashResult = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));
+                hashResult = SecurityUtil.toHexString(SecurityUtil.getSha256(hashField.getPassword()));
             } else if (algorithm.equals("SHA-1")) {
-                hashResult = SecurityUtil.toHexString(SecurityUtil.getSHA1(hashField.getPassword()));
+                hashResult = SecurityUtil.toHexString(SecurityUtil.getSha1(hashField.getPassword()));
             } else {
-                hashResult = SecurityUtil.toHexString(SecurityUtil.getMD5(hashField.getPassword()));
+                hashResult = SecurityUtil.toHexString(SecurityUtil.getMd5(hashField.getPassword()));
             }
 
             inform = "Your hashed password is:<br/>" + hashResult
