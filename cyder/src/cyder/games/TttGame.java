@@ -86,7 +86,8 @@ public final class TttGame {
             tttFrame.dispose(true);
         }
 
-        int frameLen = buttonSize.width * boardLength + buttonPadding * (boardLength + 2) + 100;
+        int labelOffset = 60;
+        int frameLen = buttonSize.width * boardLength + buttonPadding * (boardLength + 2) + labelOffset;
 
         tttFrame = new CyderFrame(frameLen, frameLen, CyderIcons.defaultBackground);
         tttFrame.setTitle("TicTacToe");
@@ -124,7 +125,7 @@ public final class TttGame {
         infoLabel.setHorizontalAlignment(JLabel.CENTER);
         infoLabel.setFont(CyderFonts.DEFAULT_FONT);
         infoLabel.setForeground(CyderColors.navy);
-        infoLabel.setBounds(0, CyderDragLabel.DEFAULT_HEIGHT, frameLen, 50);
+        infoLabel.setBounds(0, CyderDragLabel.DEFAULT_HEIGHT, frameLen, labelOffset);
         tttFrame.getContentPane().add(infoLabel);
 
         boardButtons = new CyderButton[boardLength][boardLength];
@@ -166,11 +167,13 @@ public final class TttGame {
         }
 
         CyderPanel panel = new CyderPanel(buttonGridLayout);
-        panel.setBounds(0, CyderDragLabel.DEFAULT_HEIGHT + 100,
-                frameLen, frameLen - (CyderDragLabel.DEFAULT_HEIGHT + 100));
+        panel.setBounds(0, CyderDragLabel.DEFAULT_HEIGHT + labelOffset - 10,
+                frameLen, frameLen - (CyderDragLabel.DEFAULT_HEIGHT + labelOffset));
         tttFrame.getContentPane().add(panel);
 
         tttFrame.finalizeAndShow();
+        panel.revalidateComponents();
+
         currentPlayer = Player.X;
 
         updateTurnLabel();

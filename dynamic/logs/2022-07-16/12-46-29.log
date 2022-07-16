@@ -1,0 +1,205 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[12-46-29] [ENTRY]: Nathan
+[12-46-29] [DEBUG]: Found prop file: props\propkeys.ini
+[12-46-29] [DEBUG]: Found prop file: props\props.ini
+[12-46-29] [PROP LOADED]: [key = map_quest_api_key]
+[12-46-29] [PROP LOADED]: [key = youtube_api_3_key]
+[12-46-29] [PROP LOADED]: [key = ip_key]
+[12-46-29] [PROP LOADED]: [key = weather_key]
+[12-46-29] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[12-46-29] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7ca733d0a7f6]
+[12-46-29] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[12-46-29] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[12-46-29] [PROP LOADED]: [key = font_metric, value = 1]
+[12-46-29] [PROP LOADED]: [key = released, value = false]
+[12-46-29] [PROP LOADED]: [key = version, value = Liminal]
+[12-46-29] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[12-46-29] [PROP LOADED]: [key = components_relocatable, value = false]
+[12-46-29] [PROP LOADED]: [key = testing_mode, value = true]
+[12-46-29] [PROP LOADED]: [key = autocypher, value = true]
+[12-46-29] [PROP LOADED]: [key = dispose_splash, value = true]
+[12-46-29] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[12-46-29] [PROP LOADED]: [key = activate_watchdog, value = false]
+[12-46-29] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[12-46-29] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[12-46-29] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[12-46-29] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[12-46-29] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[12-46-29] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[12-46-29] [DEBUG]: Jar mode set as: FALSE
+[12-46-29] [THREAD STARTED]: Object Creation Logger
+[12-46-30] [DEBUG]: Watchdog skipped
+[12-46-30] [DEBUG]: Executing subroutine: RegisterFonts
+[12-46-30] [FONT LOADED]: agency-fb
+[12-46-30] [FONT LOADED]: arial-black
+[12-46-30] [FONT LOADED]: beyno
+[12-46-30] [FONT LOADED]: condiment-regular
+[12-46-30] [FONT LOADED]: prompt-bold
+[12-46-30] [FONT LOADED]: segoe-ui-black
+[12-46-30] [FONT LOADED]: tahoma
+[12-46-30] [DEBUG]: Executing subroutine: SingularInstance
+[12-46-30] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[12-46-31] [DEBUG]: Executing subroutine: SufficientSubroutines
+[12-46-31] [DEBUG]: Executing subroutine: SupportedOs
+[12-46-31] [DEBUG]: Executing subroutine: Validations
+[12-46-31] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-46-31] [DEBUG]: Class annotated with @Vanilla does not end with Widget; name: cyder.games.HangmanGame
+[12-46-31] [DEBUG]: Class annotated with @Vanilla does not end with Widget; name: cyder.games.TttGame
+[12-46-31] [THREAD STARTED]: Splash Loader
+[12-46-31] [DEBUG]: Executing subroutine: RegisterFonts
+[12-46-31] [DEBUG]: Executing subroutine: SingularInstance
+[12-46-31] [DEBUG]: Executing subroutine: SufficientSubroutines
+[12-46-31] [THREAD STARTED]: JVM Args Logger
+[12-46-31] [DEBUG]: Executing subroutine: SupportedOs
+[12-46-31] [DEBUG]: Executing subroutine: Validations
+[12-46-31] [LOGIN]: AutoCypher Attempt
+[12-46-31] [THREAD STARTED]: Splash Animation
+[12-46-31] [THREAD STARTED]: Enter animation, frame=Cyder Splash
+[12-46-31] [UNIQUE OBJECT CREATED]: Console singleton constructed
+[12-46-32] [DEBUG]: Cyder Entry = AutoCypher
+[12-46-32] [THREAD STARTED]: High Ping Checker
+[12-46-32] [THREAD STARTED]: Console Printing Animation
+[12-46-32] [DEBUG]: Latency of Google found to be 45ms
+[12-46-32] [THREAD STARTED]: Hourly Chime Checker
+[12-46-32] [THREAD STARTED]: Console Clock Updater
+[12-46-32] [THREAD STARTED]: Cyder Busy Checker
+[12-46-32] [THREAD STARTED]: Console Stat Saver
+[12-46-32] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[12-46-32] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[12-46-32] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[12-46-32] [OBJECT CREATION]: Objects created since last delta (5000ms): 123
+[12-46-33] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[12-46-33] [THREAD STARTED]: Manual Tests Thread
+[12-46-33] [CONSOLE OUT]: [STRING]: Console loaded in 3220ms
+[12-46-33] [DEBUG]: Attempted to log a new or empty line
+[12-46-34] [THREAD STARTED]: Splash Loading Label Updater
+[12-46-34] [CLIENT]: ttt
+[12-46-34] [THREAD STARTED]: Enter animation, frame=TicTacToe
+[12-46-34] [THREAD STARTED]: [TicTacToe] finalizeAndShow()
+[12-46-34] [WIDGET]: TttGame, trigger = ttt
+[12-46-34] [CONSOLE OUT]: [STRING]: Opening widget: TttGame
+[12-46-34] [DEBUG]: Attempted to log a new or empty line
+[12-46-35] [THREAD STARTED]: TicTacToe Menu Label Animator
+[12-46-35] [THREAD STARTED]: TicTacToe Menu Label Animator
+[12-46-35] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[12-46-35] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1657993573199.json
+[12-46-36] [THREAD STARTED]: Board Size Changer
+[12-46-36] [THREAD STARTED]: getString() thread, title = [Board Size]
+[12-46-36] [UI]: cyder.ui.CyderTextField[,40,40,320x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignment
+           X=0.0,alignmentY=0.0,border=javax.swing.border.LineBorder@660ea349,flags=16777512,maximumSize=,minimumSize=,preferredSiz
+           e=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edita
+           ble=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColorU
+           IResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,horiz
+           ontalAlignment=CENTER]
+[12-46-37] [UI]: cyder.ui.CyderTextField[,40,40,320x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignment
+           X=0.0,alignmentY=0.0,border=javax.swing.border.LineBorder@660ea349,flags=16777512,maximumSize=,minimumSize=,preferredSiz
+           e=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edita
+           ble=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColorU
+           IResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,horiz
+           ontalAlignment=CENTER]
+[12-46-37] [THREAD STARTED]: [Board Size] dispose() animation thread
+[12-46-37] [THREAD STARTED]: [TicTacToe] dispose() animation thread
+[12-46-37] [UI]: CyderFrame disposed with fastclose=false, getTitle=Board Size
+[12-46-37] [UI]: CyderFrame disposed with fastclose=true, getTitle=TicTacToe
+[12-46-37] [THREAD STARTED]: Enter animation, frame=TicTacToe
+[12-46-37] [THREAD STARTED]: [TicTacToe] finalizeAndShow()
+[12-46-37] [OBJECT CREATION]: Objects created since last delta (5000ms): 137
+[12-46-38] [THREAD STARTED]: TicTacToe Menu Label Animator
+[12-46-38] [THREAD STARTED]: TicTacToe Menu Label Animator
+[12-46-38] [THREAD STARTED]: Board Size Changer
+[12-46-38] [THREAD STARTED]: getString() thread, title = [Board Size]
+[12-46-39] [UI]: cyder.ui.CyderTextField[,40,40,320x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignment
+           X=0.0,alignmentY=0.0,border=javax.swing.border.LineBorder@46d01bde,flags=16777512,maximumSize=,minimumSize=,preferredSiz
+           e=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edita
+           ble=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColorU
+           IResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,horiz
+           ontalAlignment=CENTER]
+[12-46-41] [UI]: cyder.ui.CyderTextField[,40,40,320x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignment
+           X=0.0,alignmentY=0.0,border=javax.swing.border.LineBorder@46d01bde,flags=16777512,maximumSize=,minimumSize=,preferredSiz
+           e=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edita
+           ble=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColorU
+           IResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,horiz
+           ontalAlignment=CENTER]
+[12-46-41] [UI]: cyder.ui.CyderTextField[,40,40,320x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignment
+           X=0.0,alignmentY=0.0,border=javax.swing.border.LineBorder@46d01bde,flags=16777512,maximumSize=,minimumSize=,preferredSiz
+           e=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edita
+           ble=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColorU
+           IResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,horiz
+           ontalAlignment=CENTER]
+[12-46-42] [THREAD STARTED]: [Board Size] dispose() animation thread
+[12-46-42] [THREAD STARTED]: [TicTacToe] dispose() animation thread
+[12-46-42] [UI]: CyderFrame disposed with fastclose=false, getTitle=Board Size
+[12-46-42] [UI]: CyderFrame disposed with fastclose=true, getTitle=TicTacToe
+[12-46-42] [THREAD STARTED]: Enter animation, frame=TicTacToe
+[12-46-42] [THREAD STARTED]: [TicTacToe] finalizeAndShow()
+[12-46-42] [OBJECT CREATION]: Objects created since last delta (5000ms): 289
+[12-46-44] [UI]: Component = CyderButton, hash = 917879710, bounds = (8, 4, 60, 60), parent frame = TicTacToe, getText() = X
+[12-46-45] [UI]: Component = CyderButton, hash = 1411877178, bounds = (85, 73, 60, 60), parent frame = TicTacToe, getText() = O
+[12-46-45] [UI]: Component = CyderButton, hash = 1089702106, bounds = (162, 73, 60, 60), parent frame = TicTacToe, getText() = X
+[12-46-45] [UI]: Component = CyderButton, hash = 944022394, bounds = (162, 142, 60, 60), parent frame = TicTacToe, getText() = O
+[12-46-46] [UI]: Component = CyderButton, hash = 181810840, bounds = (239, 142, 60, 60), parent frame = TicTacToe, getText() = X
+[12-46-46] [UI]: Component = CyderButton, hash = 1394988037, bounds = (239, 211, 60, 60), parent frame = TicTacToe, getText() = O
+[12-46-48] [UI]: Component = CyderButton, hash = 2066488910, bounds = (85, 4, 60, 60), parent frame = TicTacToe, getText() = X
+[12-46-52] [UI]: Component = CyderButton, hash = 1244991474, bounds = (316, 4, 60, 60), parent frame = TicTacToe, getText() = O
+[12-46-53] [UI]: Component = CyderButton, hash = 562488777, bounds = (393, 4, 60, 60), parent frame = TicTacToe, getText() = X
+[12-46-53] [UI]: Component = CyderButton, hash = 1626619215, bounds = (316, 73, 60, 60), parent frame = TicTacToe, getText() = O
+[12-46-53] [UI]: Component = CyderButton, hash = 116125073, bounds = (393, 73, 60, 60), parent frame = TicTacToe, getText() = X
+[12-46-53] [UI]: Component = CyderButton, hash = 665623518, bounds = (316, 142, 60, 60), parent frame = TicTacToe, getText() = O
+[12-46-54] [UI]: Component = CyderButton, hash = 734425243, bounds = (393, 142, 60, 60), parent frame = TicTacToe, getText() = X
+[12-46-54] [UI]: Component = CyderButton, hash = 444865097, bounds = (316, 211, 60, 60), parent frame = TicTacToe, getText() = O
+[12-46-54] [UI]: Component = CyderButton, hash = 925184907, bounds = (393, 211, 60, 60), parent frame = TicTacToe, getText() = X
+[12-46-55] [UI]: Component = CyderButton, hash = 2016205940, bounds = (316, 280, 60, 60), parent frame = TicTacToe, getText() = O
+[12-46-55] [UI]: Component = CyderButton, hash = 555429899, bounds = (393, 280, 60, 60), parent frame = TicTacToe, getText() = X
+[12-46-55] [UI]: Component = CyderButton, hash = 972261499, bounds = (316, 349, 60, 60), parent frame = TicTacToe, getText() = O
+[12-46-56] [UI]: Component = CyderButton, hash = 2026227420, bounds = (393, 349, 60, 60), parent frame = TicTacToe, getText() = X
+[12-46-56] [UI]: Component = CyderButton, hash = 2059568880, bounds = (316, 418, 60, 60), parent frame = TicTacToe, getText() = O
+[12-46-56] [UI]: Component = CyderButton, hash = 1621046263, bounds = (393, 418, 60, 60), parent frame = TicTacToe, getText() = X
+[12-46-56] [UI]: Component = CyderButton, hash = 1076796851, bounds = (316, 487, 60, 60), parent frame = TicTacToe, getText() = O
+[12-46-57] [UI]: Component = CyderButton, hash = 2117664004, bounds = (393, 487, 60, 60), parent frame = TicTacToe, getText() = X
+[12-46-57] [UI]: Component = CyderButton, hash = 1593779902, bounds = (316, 556, 60, 60), parent frame = TicTacToe, getText() = O
+[12-46-57] [UI]: Component = CyderButton, hash = 115020192, bounds = (393, 556, 60, 60), parent frame = TicTacToe, getText() = X
+[12-46-58] [UI]: Component = CyderButton, hash = 1358877825, bounds = (393, 625, 60, 60), parent frame = TicTacToe, getText() = O
+[12-46-59] [UI]: Component = CyderButton, hash = 958701742, bounds = (470, 625, 60, 60), parent frame = TicTacToe, getText() = X
+[12-47-00] [UI]: Component = CyderButton, hash = 2070596938, bounds = (316, 625, 60, 60), parent frame = TicTacToe, getText() = O
+[12-47-01] [UI]: Component = CyderButton, hash = 1239897570, bounds = (393, 694, 60, 60), parent frame = TicTacToe, getText() = X
+[12-47-01] [THREAD STARTED]: TicTacToe notification queue checker
+[12-47-01] [UI]: Component = CyderButton, hash = 359739857, bounds = (316, 694, 60, 60), parent frame = TicTacToe
+[12-47-01] [UI]: [TicTacToe] [NOTIFICATION] "<html>O's have won the game! Congratulations!</html>"
+[12-47-01] [THREAD STARTED]: Notification Appear Animator
+[12-47-02] [THREAD STARTED]: Notification Vanish Animator
+[12-47-02] [UI]: Component = CyderNotification, hash = 1157281742, bounds = (195, 29, 456, 68), parent frame = TicTacToe
+[12-47-03] [OBJECT CREATION]: Objects created since last delta (5000ms): 2
+[12-47-03] [THREAD STARTED]: Notification Vanish Animator
+[12-47-04] [UI]: Component = CyderDragLabel, hash = -14450103, bounds = (2, 2, 846, 28), parent frame = TicTacToe
+[12-47-04] [THREAD STARTED]: [TicTacToe] dispose() animation thread
+[12-47-04] [UI]: CyderFrame disposed with fastclose=false, getTitle=TicTacToe
+[12-47-04] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-47-04] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[12-47-05] [EXIT]: [RUNTIME] 35.32s
+[12-47-05] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown
