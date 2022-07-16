@@ -96,7 +96,7 @@ public final class UserEditor {
 
     public static void showGui(int startingIndex) {
         if (editUserFrame != null)
-            editUserFrame.dispose();
+            editUserFrame.dispose(true);
 
         editUserFrame = new CyderFrame(720 + 2 * 5,
                 500 + 5 + CyderDragLabel.DEFAULT_HEIGHT + 25, CyderColors.vanilla);
@@ -149,7 +149,6 @@ public final class UserEditor {
         editUserFrame.setMenuType(CyderFrame.MenuType.RIBBON);
         editUserFrame.lockMenuOut();
 
-        revalidateOnMenuItemClicked();
         switchToUserFiles();
 
         editUserFrame.finalizeAndShow();

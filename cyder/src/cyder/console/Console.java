@@ -1645,7 +1645,44 @@ public enum Console {
         return ImmutableList.copyOf(ret);
     }
 
-    // todo can this list be class level and immutable?
+    /**
+     * The default compact taskbar icons.
+     */
+    private final ImmutableList<TaskbarIcon> compactDefaultTaskbarIcons = ImmutableList.of(
+            new TaskbarIcon.Builder()
+                    .setName("Prefs")
+                    .setFocused(false)
+                    .setCompact(true)
+                    .setRunnable(() -> UserEditor.showGui(0))
+                    .setBorderColor(CyderColors.taskbarDefaultColor)
+                    .build(),
+            new TaskbarIcon.Builder()
+                    .setName("Logout")
+                    .setFocused(false)
+                    .setCompact(true)
+                    .setRunnable(this::logout)
+                    .setBorderColor(CyderColors.taskbarDefaultColor)
+                    .build());
+
+    /**
+     * The default non compact taskbar icons.
+     */
+    private final ImmutableList<TaskbarIcon> nonCompactDefaultTaskbarIcons = ImmutableList.of(
+            new TaskbarIcon.Builder()
+                    .setName("Prefs")
+                    .setFocused(false)
+                    .setCompact(false)
+                    .setRunnable(() -> UserEditor.showGui(0))
+                    .setBorderColor(CyderColors.taskbarDefaultColor)
+                    .build(),
+            new TaskbarIcon.Builder()
+                    .setName("Logout")
+                    .setFocused(false)
+                    .setCompact(false)
+                    .setRunnable(this::logout)
+                    .setBorderColor(CyderColors.taskbarDefaultColor)
+                    .build());
+
     /**
      * Returns the default taskbar icon items.
      *
@@ -1653,27 +1690,7 @@ public enum Console {
      * @return the default taskbar icon items
      */
     private ImmutableList<TaskbarIcon> getDefaultTaskbarIcons(boolean compactMode) {
-        return ImmutableList.of(
-                new TaskbarIcon.Builder()
-                        .setName("Prefs")
-                        .setFocused(false)
-                        .setCompact(compactMode)
-                        .setRunnable(() -> {
-                            if (UserEditor.isOpen()) {
-                                UserEditor.toggleMinimizedState();
-                            } else {
-                                UserEditor.showGui(0);
-                            }
-                        })
-                        .setBorderColor(CyderColors.taskbarDefaultColor)
-                        .build(),
-                new TaskbarIcon.Builder()
-                        .setName("Logout")
-                        .setFocused(false)
-                        .setCompact(compactMode)
-                        .setRunnable(this::logout)
-                        .setBorderColor(CyderColors.taskbarDefaultColor)
-                        .build());
+        return compactMode ? compactDefaultTaskbarIcons : nonCompactDefaultTaskbarIcons;
     }
 
     /**

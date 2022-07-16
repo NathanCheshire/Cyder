@@ -1,5 +1,6 @@
 package cyder.layouts;
 
+import cyder.constants.CyderStrings;
 import cyder.ui.CyderPanel;
 
 import java.awt.*;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
  * An interface for Cyder layouts to implement.
  */
 public interface ICyderLayout {
+
+
     /**
      * Adds the specified component to the layout.
      * The layout will figure out how add the component to the panel successfully.
@@ -17,7 +20,7 @@ public interface ICyderLayout {
      * @param component the component to add to the layout
      */
     default void addComponent(Component component) {
-        throw new UnsupportedOperationException("Method not implemented");
+        throw new UnsupportedOperationException(CyderStrings.NOT_IMPLEMENTED);
     }
 
     /**
@@ -28,14 +31,14 @@ public interface ICyderLayout {
      * @param component the component to remove from the panel
      */
     default void removeComponent(Component component) {
-        throw new UnsupportedOperationException("Method not implemented");
+        throw new UnsupportedOperationException(CyderStrings.NOT_IMPLEMENTED);
     }
 
     /**
      * Recalculates the bounds of all components currently managed by the layout.
      */
     default void revalidateComponents() {
-        throw new UnsupportedOperationException("Method not implemented");
+        throw new UnsupportedOperationException(CyderStrings.NOT_IMPLEMENTED);
     }
 
     /**
@@ -44,7 +47,7 @@ public interface ICyderLayout {
      * @param panel the panel for the LayoutManager to manage the components of
      */
     default void setAssociatedPanel(CyderPanel panel) {
-        throw new UnsupportedOperationException("Method not implemented");
+        throw new UnsupportedOperationException(CyderStrings.NOT_IMPLEMENTED);
     }
 
     /**
@@ -53,7 +56,7 @@ public interface ICyderLayout {
      * @return all components managed by this layout
      */
     default ArrayList<Component> getLayoutComponents() {
-        throw new UnsupportedOperationException("Method not implemented");
+        throw new UnsupportedOperationException(CyderStrings.NOT_IMPLEMENTED);
     }
 
     /**
@@ -63,6 +66,6 @@ public interface ICyderLayout {
      * @return the minimum size necessary to allow all components to be visible
      */
     default Dimension getPackSize() {
-        throw new UnsupportedOperationException("Method not implemented");
+        throw new UnsupportedOperationException(CyderStrings.NOT_IMPLEMENTED);
     }
 }
