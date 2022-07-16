@@ -10,8 +10,6 @@ import java.util.ArrayList;
  * An interface for Cyder layouts to implement.
  */
 public interface ICyderLayout {
-
-
     /**
      * Adds the specified component to the layout.
      * The layout will figure out how add the component to the panel successfully.
