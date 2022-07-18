@@ -111,6 +111,8 @@ public final class AnimationUtil {
     public static void animationComponent(Direction direction, int start, int end,
                                           int delay, int increment, Component component) {
         Preconditions.checkNotNull(component);
+        Preconditions.checkNotNull(direction);
+        Preconditions.checkArgument(increment > 0);
 
         switch (direction) {
             case LEFT -> componentLeft(start, end, delay, increment, component);

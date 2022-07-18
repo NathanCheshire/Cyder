@@ -37,7 +37,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public final class UserUtil {
     /**
-     * Instantiation of util method not allowed.
+     * Suppress default constructor.
      */
     private UserUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
@@ -46,7 +46,7 @@ public final class UserUtil {
     /**
      * The semaphore to use when reading or writing user data.
      */
-    private static final Semaphore userIOSemaphore = new Semaphore(1);
+    private static final Semaphore userIoSemaphore = new Semaphore(1);
 
     /**
      * The current Cyder user stored in memory and written to the
@@ -64,17 +64,17 @@ public final class UserUtil {
      *
      * @return the semaphore used for IO to/from the user's JSON file
      */
-    public static Semaphore getUserIOSemaphore() {
-        return userIOSemaphore;
+    public static Semaphore getUserIoSemaphore() {
+        return userIoSemaphore;
     }
 
     /**
      * Blocks any future user IO by acquiring the semaphore and never releasing it.
      * This method blocks until the IO semaphore can be acquired.
      */
-    public static synchronized void blockFutureIO() {
+    public static synchronized void blockFutureIo() {
         try {
-            userIOSemaphore.acquire();
+            userIoSemaphore.acquire();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -172,25 +172,28 @@ public final class UserUtil {
     }
 
     /**
+     * The gson object used for serializing users.
+     */
+    private static final Gson gson = new Gson();
+
+    /**
      * Writes the provided user to the provided file.
      *
-     * @param f the file to write to
-     * @param u the user object to write to the file
+     * @param file the file to write to
+     * @param user the user object to serialize and write to the file
      */
-    public static void setUserData(File f, User u) {
-        if (!f.exists())
-            throw new IllegalArgumentException("File does not exist");
-        if (!FileUtil.getExtension(f).equals(".json"))
-            throw new IllegalArgumentException("File is not a json type");
-
-        Gson gson = new Gson();
+    public static void setUserData(File file, User user) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkNotNull(user);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(FileUtil.validateExtension(file, ".json"));
 
         try {
-            FileWriter writer = new FileWriter(f);
-            userIOSemaphore.acquire();
-            gson.toJson(u, writer);
+            FileWriter writer = new FileWriter(file);
+            userIoSemaphore.acquire();
+            gson.toJson(user, writer);
 
-            String currentSerializedUser = gson.toJson(u);
+            String currentSerializedUser = gson.toJson(user);
 
             if (previousSerializedUser.isEmpty()) {
                 currentLevenshteinDistance = currentSerializedUser.length();
@@ -205,16 +208,15 @@ public final class UserUtil {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
-            userIOSemaphore.release();
+            userIoSemaphore.release();
         }
     }
 
     /**
      * The backup directory.
      */
-    public static final File backupDirectory =
-            new File(OSUtil.buildPath(Dynamic.PATH,
-                    Dynamic.BACKUP.getDirectoryName()));
+    public static final File backupDirectory = new File(
+            OSUtil.buildPath(Dynamic.PATH, Dynamic.BACKUP.getDirectoryName()));
 
     /**
      * Saves the provided jsonFile to the backup directory in case
@@ -280,8 +282,7 @@ public final class UserUtil {
             // if no files in directory or current is different from previous
             if (mostRecentFile == null || !FileUtil.fileContentsEqual(jsonFile, mostRecentFile)) {
                 // copy file contents from jsonFile to newBackup
-                File newBackup = OSUtil.buildFile(Dynamic.PATH,
-                        Dynamic.BACKUP.getDirectoryName(), newFilename);
+                File newBackup = OSUtil.buildFile(Dynamic.PATH, Dynamic.BACKUP.getDirectoryName(), newFilename);
                 if (!newBackup.createNewFile()) {
                     Logger.log(Logger.Tag.DEBUG, "Failed to create backup file: "
                             + newBackup.getAbsolutePath() + ", for user: " + uuid);
@@ -597,7 +598,7 @@ public final class UserUtil {
     public static void deleteInvalidBackgrounds(String uuid) {
         try {
             //acquire sem so that any user requested exit will not corrupt the background
-            getUserIOSemaphore().acquire();
+            getUserIoSemaphore().acquire();
 
             File currentUserBackgrounds = OSUtil.buildFile(
                     Dynamic.PATH,
@@ -615,7 +616,7 @@ public final class UserUtil {
 
                     try (FileInputStream fis = new FileInputStream(f)) {
                         ImageIO.read(fis).getWidth();
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
                         valid = false;
                     }
 
@@ -627,26 +628,25 @@ public final class UserUtil {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
-            getUserIOSemaphore().release();
+            getUserIoSemaphore().release();
         }
     }
 
     /**
      * Extracts the user from the provided json file.
      *
-     * @param f the json file to extract a user object from
+     * @param file the json file to extract a user object from
      * @return the resulting user object
      */
-    public static User extractUser(File f) {
-        Preconditions.checkArgument(f.exists(), "Provided file does not exist");
-        Preconditions.checkArgument(FileUtil.validateExtension(f, ".json"),
-                "Provided file is not a json");
+    public static User extractUser(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(FileUtil.validateExtension(file, ".json"));
 
         User ret = null;
-        Gson gson = new Gson();
 
         try {
-            Reader reader = new FileReader(f);
+            Reader reader = new FileReader(file);
             ret = gson.fromJson(reader, User.class);
             reader.close();
         } catch (Exception e) {
@@ -689,8 +689,7 @@ public final class UserUtil {
      * @return the resulting data
      */
     public static String getUserDataById(String id) {
-        Preconditions.checkArgument(!StringUtil.isNull(id),
-                "Invalid id argument: " + id);
+        Preconditions.checkArgument(!StringUtil.isNull(id));
 
         String ret = null;
 
@@ -755,7 +754,6 @@ public final class UserUtil {
                             //we've invoked this setter with the preference so next preference
                             break;
                         } catch (Exception e) {
-                            // :/ not sure what happened here
                             ExceptionHandler.silentHandle(e);
                         }
                     }
@@ -885,8 +883,6 @@ public final class UserUtil {
                     if (!userJson.exists())
                         userJson.createNewFile();
 
-                    Gson gson = new Gson();
-
                     // ensure the backup is parsable as a user object
                     Reader reader = new FileReader(restore);
                     User backupUser = gson.fromJson(reader, User.class);
@@ -945,8 +941,7 @@ public final class UserUtil {
                 String informString = "Unfortunately a user's data file was corrupted and had to be deleted. "
                         + "The following files still exists and are associated with the user at the following "
                         + "path:<br/><b>"
-                        + OSUtil.buildPath(Dynamic.PATH,
-                        Dynamic.USERS.getDirectoryName(), uuid) + "</b><br/>Files:";
+                        + OSUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid) + "</b><br/>Files:";
 
                 LinkedList<String> filenames = new LinkedList<>();
 
@@ -981,8 +976,6 @@ public final class UserUtil {
                 }
 
                 InformHandler.inform(new InformHandler.Builder(informString).setTitle("Userdata Corruption"));
-
-                //log the corruption
                 Logger.log(Logger.Tag.CORRUPTION, "[Resulting Popup]\n" + informString);
             }
         } catch (Exception e) {
@@ -997,8 +990,9 @@ public final class UserUtil {
      * @return the provided user file
      */
     public static File getUserFile(String fileName) {
-        Preconditions.checkArgument(Console.INSTANCE.getUuid() != null,
-                "Console uuid is not yet set");
+        Preconditions.checkNotNull(fileName);
+        Preconditions.checkArgument(!fileName.isEmpty());
+        Preconditions.checkArgument(Console.INSTANCE.getUuid() != null);
 
         boolean in = false;
 
@@ -1034,7 +1028,7 @@ public final class UserUtil {
      * @return the number of valid users associated with Cyder
      */
     public static int getUserCount() {
-        return getUserUUIDs().size();
+        return getUserUuids().size();
     }
 
     /**
@@ -1042,7 +1036,7 @@ public final class UserUtil {
      *
      * @return a list of valid uuids associated with Cyder users
      */
-    public static ArrayList<String> getUserUUIDs() {
+    public static ArrayList<String> getUserUuids() {
         ArrayList<String> uuids = new ArrayList<>();
 
         File usersDir = OSUtil.buildFile(Dynamic.PATH,
@@ -1164,7 +1158,7 @@ public final class UserUtil {
     }
 
     /**
-     * Saves the provided file in the current user's files/ directory.
+     * Creates a file with the provided name in the current user's files/ directory.
      *
      * @param name the filename + extension to create in the files/ directory
      * @return a File object representing the file that was created

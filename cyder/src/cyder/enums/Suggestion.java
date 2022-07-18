@@ -7,7 +7,8 @@ public enum Suggestion {
     Prefs("prefs", "open up the preference editor"),
     Weather("weather", "open up the weather widget"),
     Curl("curl", "curl a url just like linux"),
-    Play("play", "downloads a youtube video's audio and plays it using the audio player");
+    Play("play", "downloads a youtube video's audio and plays it using the audio player"),
+    Conway("Conway's Game of Life", "Conway's game of life re-created in Cyder");
 
     /**
      * The trigger for the command for this suggestion.

@@ -52,7 +52,7 @@ public class PlayAudioHandler extends InputHandler {
                 .replace("-", "").equals("18002738255")) {
             IOUtil.playGeneralAudio("static/audio/1800.mp3");
         } else if (getInputHandler().commandIs("xxx")) {
-            CyderIcons.setCurrentCyderIcon(CyderIcons.xxxIcon);
+            CyderIcons.setCurrentCyderIcon(CyderIcons.X_ICON);
             Console.INSTANCE.getConsoleCyderFrame()
                     .setIconImage(new ImageIcon("static/pictures/print/x.png").getImage());
             IOUtil.playGeneralAudio(OSUtil.buildPath("static", "audio", "x.mp3"));

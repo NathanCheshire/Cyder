@@ -79,7 +79,7 @@ public final class CyderRegexPatterns {
                     \\s*},""");
 
     /**
-     * The pattern sued to webscrape the isp from a google search.
+     * The pattern sued to web scrape the isp from a google search.
      */
     public static final Pattern whereAmIPattern = Pattern.compile("^\\s*<p class=\"isp\">(.*)</p>\\s*$");
 

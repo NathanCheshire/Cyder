@@ -80,12 +80,6 @@ public final class CyderColors {
     public static final Color navy = new Color(26, 32, 51);
 
     /**
-     * A complementary color to navy to be used in conjunction with {@code CyderColors.navy}
-     */
-    @SuppressWarnings("unused")
-    public static final Color navyComplementary = new Color(39, 40, 34);
-
-    /**
      * The color used for notification borders
      */
     public static final Color notificationBorderColor = new Color(26, 32, 51);
@@ -126,11 +120,6 @@ public final class CyderColors {
     public static final Color vanilla = new Color(252, 252, 252);
 
     /**
-     * The color to use for frame borders and other ui components throughout Cyder
-     */
-    private static Color guiThemeColor = navy;
-
-    /**
      * The background color for frames when dark mode is active.
      */
     public static final Color darkModeBackgroundColor = new Color(30, 30, 30);
@@ -160,6 +149,11 @@ public final class CyderColors {
     private CyderColors() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
+
+    /**
+     * The color to use for frame borders and other ui components throughout Cyder
+     */
+    private static Color guiThemeColor = navy;
 
     /**
      * Sets the current window border color/UI color

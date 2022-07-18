@@ -32,7 +32,7 @@ public class SingularInstance implements StartupSubroutine {
         }, IgnoreThread.SingularInstanceEnsurer.getName());
 
         // started blocking method in above thread but need to wait for it to either bind or fail
-        ThreadUtil.sleep(CyderNumbers.singleInstanceEnsurerTimeout);
+        ThreadUtil.sleep(CyderNumbers.SINGLE_INSTANCE_ENSURER_TIMEOUT);
 
         return singularInstance.get();
     }

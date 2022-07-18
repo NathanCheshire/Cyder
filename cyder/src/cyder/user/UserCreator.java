@@ -293,8 +293,9 @@ public final class UserCreator {
     private static void chooseBackground(CyderButton referenceButton) {
         CyderThreadRunner.submit(() -> {
             try {
-                File temp = GetterUtil.getInstance().getFile(new GetterUtil.Builder(
-                        "Choose new user's background file").setRelativeTo(CyderFrame.getDominantFrame()));
+                File temp = GetterUtil.getInstance().getFile(
+                        new GetterUtil.Builder("Choose new user's background file")
+                                .setRelativeTo(CyderFrame.getDominantFrame()));
                 if (temp != null) {
                     createUserBackground = temp;
                     referenceButton.setText(createUserBackground.getName());
@@ -313,8 +314,9 @@ public final class UserCreator {
      * Closes the createUserFrame if open.
      */
     public static void close() {
-        if (createUserFrame != null)
+        if (createUserFrame != null) {
             createUserFrame.dispose();
+        }
     }
 
     /**
@@ -353,13 +355,15 @@ public final class UserCreator {
         boolean number = false;
 
         for (char c : password) {
-            if (Character.isDigit(c))
+            if (Character.isDigit(c)) {
                 number = true;
-            else if (Character.isAlphabetic(c))
+            } else if (Character.isAlphabetic(c)) {
                 alphabet = true;
+            }
 
-            if (number && alphabet)
+            if (number && alphabet) {
                 break;
+            }
         }
 
         if (!number || !alphabet) {
@@ -412,8 +416,8 @@ public final class UserCreator {
         }
 
         if (userNameExists) {
-            createUserFrame.inform("Sorry, but that username is already in use. " +
-                    "Please choose a different one.", "");
+            createUserFrame.inform("Sorry, but that username is already in use. "
+                    + "Please choose a different one.", "");
             newUserName.setText("");
             return false;
         }
@@ -519,33 +523,26 @@ public final class UserCreator {
                 x = monitorX + (monitorWidth - background.getWidth()) / 2;
                 y = monitorY + (monitorHeight - background.getHeight()) / 2;
             } catch (Exception e) {
-                ExceptionHandler.silentHandle(e);
+                ExceptionHandler.handle(e);
 
                 // error so default the screen stats
                 x = (ScreenUtil.getScreenWidth() - background.getWidth()) / 2;
                 y = (ScreenUtil.getScreenHeight() - background.getHeight()) / 2;
             }
-        }
-        // otherwise, default monitor stats
-        else {
+        } else {
             x = (ScreenUtil.getScreenWidth() - background.getWidth()) / 2;
             y = (ScreenUtil.getScreenHeight() - background.getHeight()) / 2;
         }
 
         user.setScreenStat(new ScreenStat(x, y, background.getWidth(),
                 background.getHeight(), monitorNum, false, Direction.TOP));
-
-        // executables
         user.setExecutables(new LinkedList<>());
 
-        // write all data
         UserUtil.setUserData(OSUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                uuid, UserFile.USERDATA.getName()
-        ), user);
+                uuid, UserFile.USERDATA.getName()), user);
 
-        // password security
         Arrays.fill(password, '\0');
         Arrays.fill(passwordConf, '\0');
 

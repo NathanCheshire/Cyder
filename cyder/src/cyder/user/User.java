@@ -916,10 +916,6 @@ public class User {
         this.darkmode = darkmode;
     }
 
-    // ----------------------------------------
-    // Override according to Effective Java v3
-    // ----------------------------------------
-
     /**
      * {@inheritDoc}
      */

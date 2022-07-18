@@ -19,12 +19,12 @@ public class Preferences {
     /**
      * The maximum allowable size for the input field and output area font.
      */
-    public static final int FONT_MAX_SIZE = 50;
+    public static final int MAX_FONT_SIZE = 50;
 
     /**
      * The minimum allowable size for the input field and output area font.
      */
-    public static final int FONT_MIN_SIZE = 25;
+    public static final int MIN_FONT_SIZE = 25;
 
     /**
      * Instantiation of Preferences not allowed.
@@ -48,6 +48,11 @@ public class Preferences {
     }
 
     /**
+     * The ignore keyword.
+     */
+    private static final String IGNORE = "IGNORE";
+
+    /**
      * Initializes the preferences collection.
      *
      * @return the immutable collection
@@ -55,31 +60,26 @@ public class Preferences {
     private static ArrayList<Preference> initialize() {
         ArrayList<Preference> ret = new ArrayList<>();
 
-        ret.add(new Preference("name", "IGNORE",
-                "IGNORE", "IGNORE", () -> {
+        ret.add(new Preference("name", IGNORE, IGNORE, IGNORE, () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = name");
             //no action required
         }));
-        ret.add(new Preference("pass", "IGNORE",
-                "IGNORE", "IGNORE", () -> {
+        ret.add(new Preference("pass", IGNORE, IGNORE, IGNORE, () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = pass");
             //no action required
         }));
-        ret.add(new Preference("font", "IGNORE",
-                "", "Agency FB", () -> {
+        ret.add(new Preference("font", IGNORE, "", "Agency FB", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = font");
             //no action required, updates are done via font chooser field, font metric field, and scroll wheel
             // for the respective font params
         }));
-        ret.add(new Preference("foreground", "IGNORE",
-                "", "f0f0f0", () -> {
+        ret.add(new Preference("foreground", IGNORE, "", "f0f0f0", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = foreground");
 
             Console.INSTANCE.getInputField()
                     .setForeground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
         }));
-        ret.add(new Preference("background", "IGNORE",
-                "", "101010", () -> {
+        ret.add(new Preference("background", IGNORE, "", "101010", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = background");
             //no action needed
         }));
@@ -188,7 +188,7 @@ public class Preferences {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = filterchat");
             //no action required
         }));
-        ret.add(new Preference("laststart", "IGNORE",
+        ret.add(new Preference("laststart", IGNORE,
                 "", String.valueOf(System.currentTimeMillis()), () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = laststart");
             //no action required, this is set once on Cyder start
@@ -220,34 +220,34 @@ public class Preferences {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = roundedwindows");
             FrameUtil.repaintCyderFrames();
         }));
-        ret.add(new Preference("windowcolor", "IGNORE",
+        ret.add(new Preference("windowcolor", IGNORE,
                 "", "1A2033", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = windowcolor");
 
             FrameUtil.repaintCyderFrames();
             Console.INSTANCE.revalidateMenuBackgrounds();
         }));
-        ret.add(new Preference("consoleclockformat", "IGNORE",
+        ret.add(new Preference("consoleclockformat", IGNORE,
                 "", "EEEEEEEEE h:mmaa", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key =  consoleclockformat");
             Console.INSTANCE.refreshClockText();
         }));
-        ret.add(new Preference("youtubeuuid", "IGNORE",
+        ret.add(new Preference("youtubeuuid", IGNORE,
                 "", "aaaaaaaaaaa", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = youtubeuuid");
             //no action required
         }));
-        ret.add(new Preference("ipkey", "IGNORE",
+        ret.add(new Preference("ipkey", IGNORE,
                 "", "", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = ipkey");
             //no action required
         }));
-        ret.add(new Preference("weatherkey", "IGNORE",
+        ret.add(new Preference("weatherkey", IGNORE,
                 "", "", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = weatherkey");
             //no action required
         }));
-        ret.add(new Preference("youtubeapi3key", "IGNORE",
+        ret.add(new Preference("youtubeapi3key", IGNORE,
                 "", "", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = youtubeapi3key");
             //no update required
@@ -257,7 +257,7 @@ public class Preferences {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = capsmode");
             //no action required
         }));
-        ret.add(new Preference("loggedin", "IGNORE",
+        ret.add(new Preference("loggedin", IGNORE,
                 "", "0", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = loggedin");
             //no action required
@@ -286,7 +286,7 @@ public class Preferences {
             CyderScrollList.refreshAllLists();
 
         }));
-        ret.add(new Preference("fontmetric", "IGNORE", "",
+        ret.add(new Preference("fontmetric", IGNORE, "",
                 "1", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fontmetric");
 
@@ -294,7 +294,7 @@ public class Preferences {
             Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
 
         }));
-        ret.add(new Preference("fontsize", "IGNORE", "",
+        ret.add(new Preference("fontsize", IGNORE, "",
                 "30", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fontsize");
 

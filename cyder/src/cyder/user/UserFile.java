@@ -7,17 +7,17 @@ public enum UserFile {
     /**
      * The Music directory.
      */
-    MUSIC("Music", false),
+    MUSIC("Music"),
 
     /**
      * The Backgrounds directory
      */
-    BACKGROUNDS("Backgrounds", false),
+    BACKGROUNDS("Backgrounds"),
 
     /**
      * The Notes directory.
      */
-    NOTES("Notes", false),
+    NOTES("Notes"),
 
     /**
      * The Userdata json file.
@@ -27,7 +27,7 @@ public enum UserFile {
     /**
      * The Files directory.
      */
-    FILES("Files", false);
+    FILES("Files");
 
     /**
      * The name of the file/directory.
@@ -66,5 +66,15 @@ public enum UserFile {
     UserFile(String name, boolean isFile) {
         this.name = name;
         this.isFile = isFile;
+    }
+
+    /**
+     * Enum type representing a file that should exist within the user's directory
+     *
+     * @param name   the name of the file/directory
+     */
+    UserFile(String name) {
+        this.name = name;
+        this.isFile = false;
     }
 }

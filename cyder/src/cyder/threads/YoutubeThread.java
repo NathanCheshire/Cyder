@@ -1,6 +1,7 @@
 package cyder.threads;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -39,11 +40,11 @@ public class YoutubeThread {
     /**
      * YouTube's base 64 system used for UUID construction.
      */
-    public static final char[] validChars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+    public static final ImmutableList<Character> validChars = ImmutableList.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
             'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
             'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2',
-            '3', '4', '5', '6', '7', '8', '9', '-', '_'};
+            '3', '4', '5', '6', '7', '8', '9', '-', '_');
 
     /**
      * Suppress default constructor. Requires two parameters for instantiation.D
@@ -113,7 +114,7 @@ public class YoutubeThread {
                 } catch (Exception ignored) {
                     //invalid UUID, so we ignore the exception and increment the UUID here to ensure we checked it
                     try {
-                        youtubeUuid = String.valueOf(incrementUUID(youtubeUuid.toCharArray(), 10));
+                        youtubeUuid = String.valueOf(incrementUuid(youtubeUuid.toCharArray(), 10));
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
                     }
@@ -136,7 +137,7 @@ public class YoutubeThread {
                             char currentDigit = uuidArr[i];
 
                             for (int j = 0 ; j < 64 ; j++) {
-                                if (validChars[j] == currentDigit) {
+                                if (validChars.get(j) == currentDigit) {
                                     completedUUIDs += j * Math.pow(64, weight);
                                     break;
                                 }
@@ -163,34 +164,25 @@ public class YoutubeThread {
      * @return the provided uuid incremented starting at the provided position
      * (ripples down the array if overflow)
      */
-    private char[] incrementUUID(char[] uuid, int pos) {
-        //init ret array
+    private char[] incrementUuid(char[] uuid, int pos) {
         char[] ret;
 
-        //get the character at the position we want
-        char charizard = uuid[pos];
+        char positionChar = uuid[pos];
 
-        //is it equal to the last in the master list of chars?
-        if (charizard == validChars[validChars.length - 1]) {
-            //use recursion to add to next column
-            if (pos - 1 < 0)
+        if (positionChar == validChars.get(validChars.size()) - 1) {
+            // use recursion to add to next column
+            if (pos - 1 < 0) {
                 throw new IllegalArgumentException("YouTube thread overflow");
-            else
-                ret = incrementUUID(uuid, pos - 1);
-        } else { //otherwise, we just add to it and return
-            //find the char's position in the master list of chars
-            int index = findIndex(charizard);
-            //add to index
-            index++;
-            //set charizard equal to new char
-            charizard = validChars[index];
-            //sub in charizard in array
+            } else {
+                ret = incrementUuid(uuid, pos - 1);
+            }
+        } else {
+            positionChar = validChars.get(findIndex(positionChar) + 1);
             char[] cp = uuid.clone();
-            cp[pos] = charizard;
+            cp[pos] = positionChar;
 
-            //if rolling to new column, reset this column
             if (pos + 1 <= 10) {
-                cp[pos + 1] = validChars[0];
+                cp[pos + 1] = validChars.get(0);
             }
 
             ret = cp;
@@ -206,18 +198,15 @@ public class YoutubeThread {
      * @return the index of the provided char in the provided array
      */
     private int findIndex(char c) {
-        if (validChars == null) {
-            return -1;
-        }
-
         int i = 0;
 
-        while (i < validChars.length)
-            if (validChars[i] == c) {
+        while (i < validChars.size()) {
+            if (validChars.get(i) == c) {
                 return i;
             } else {
                 i = i + 1;
             }
+        }
 
         return -1;
     }
