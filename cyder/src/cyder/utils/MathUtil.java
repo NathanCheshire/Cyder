@@ -9,7 +9,7 @@ import java.awt.*;
 /**
  * General mathematical functions and methods.
  */
-public class MathUtil {
+public final class MathUtil {
     /**
      * Suppress default constructor.
      */
@@ -272,5 +272,31 @@ public class MathUtil {
         return point.y == bounds.y + bounds.height  // same y value as bottom line
                 && point.x >= bounds.x // left most point or greater
                 && point.x <= bounds.x + bounds.width;  // right most point or less
+    }
+
+    /**
+     * Maps the provided value in the original range to the second range.
+     *
+     * @param value the value to map
+     * @param low1  the min value of the original range
+     * @param high1 the max value of the original range
+     * @param low2  the min value of the new range
+     * @param high2 the max value of the new range
+     * @return the mapped value
+     */
+    public static double rangeMap(double value, double low1, double high1, double low2, double high2) {
+        return linearlyInterpolate(low2, high2, (value - low1) / (high1 - low1));
+    }
+
+    /**
+     * Linearly interpolates between val1 and val2 where amt is the amount to interpolate between the two values.
+     *
+     * @param value1 the first value
+     * @param value2 the second value
+     * @param amt    the alpha value
+     * @return the linear interpolation
+     */
+    public static double linearlyInterpolate(double value1, double value2, double amt) {
+        return ((value2 - value1) * amt) + value1;
     }
 }

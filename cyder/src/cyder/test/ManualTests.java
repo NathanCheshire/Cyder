@@ -388,7 +388,7 @@ public final class ManualTests {
         jpb.setOrientation(SwingConstants.HORIZONTAL);
         CyderProgressUI ui = new CyderProgressUI();
         ui.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
-        ui.setColors(CyderColors.regularBlue, CyderColors.regularPink);
+        ui.setAnimationColors(CyderColors.regularBlue, CyderColors.regularPink);
         jpb.setUI(ui);
         jpb.setValue(50);
         cf.getContentPane().add(jpb);

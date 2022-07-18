@@ -2650,6 +2650,8 @@ public class CyderFrame extends JFrame {
      */
     private JLabel debugImageLabel;
 
+    private static final ImageIcon neffexIcon = new ImageIcon("static/pictures/print/neffex.png");
+
     /**
      * Sets whether debug lines should be drawn for this frame.
      *
@@ -2665,13 +2667,12 @@ public class CyderFrame extends JFrame {
                 lineColor = ColorUtil.getDominantColorInverse(background);
             }
 
-            ImageIcon neffex = new ImageIcon("static/pictures/print/neffex.png");
             debugImageLabel = new JLabel();
-            debugImageLabel.setIcon(neffex);
+            debugImageLabel.setIcon(neffexIcon);
             debugImageLabel.setBounds(
-                    getWidth() / 2 - neffex.getIconWidth() / 2,
-                    getHeight() / 2 - neffex.getIconHeight() / 2,
-                    neffex.getIconWidth(), neffex.getIconHeight());
+                    getWidth() / 2 - neffexIcon.getIconWidth() / 2,
+                    getHeight() / 2 - neffexIcon.getIconHeight() / 2,
+                    neffexIcon.getIconWidth(), neffexIcon.getIconHeight());
             add(debugImageLabel);
 
             debugXLabel = new JLabel();
@@ -2686,9 +2687,17 @@ public class CyderFrame extends JFrame {
             debugYLabel.setBackground(lineColor);
             add(debugYLabel);
         } else {
-            remove(debugXLabel);
-            remove(debugYLabel);
-            remove(debugImageLabel);
+            if (this.equals(SwingUtilities.getRoot(debugXLabel))) {
+                remove(debugXLabel);
+            }
+
+            if (this.equals(SwingUtilities.getRoot(debugYLabel))) {
+                remove(debugYLabel);
+            }
+
+            if (this.equals(SwingUtilities.getRoot(debugImageLabel))) {
+                remove(debugImageLabel);
+            }
         }
 
         revalidate();

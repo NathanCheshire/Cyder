@@ -16,18 +16,19 @@ import java.util.ArrayList;
  */
 public class CyderPanel extends JLabel {
     /*
-     * This class extends JLabel to allow it to be a content pane for a CyderFrame.
+     * This class extends JLabel to allow it to be a content pane
+     * for a CyderFrame or act like a regular component.
      */
 
     /**
-     * Restict class instnatiation without a valid cyder layout.
+     * Restrict class instantiation without a valid cyder layout.
      */
     private CyderPanel() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**
-     * Constrcuts a new cyder panel with the provided layout.
+     * Constructs a new cyder panel with the provided layout.
      *
      * @param cyderLayout the layout that manages components
      */
@@ -82,7 +83,6 @@ public class CyderPanel extends JLabel {
      */
     @Override
     public void repaint() {
-        //as long as we should repaint, repaint it
         if (!disableContentRepainting) {
             super.repaint();
             revalidateComponents();

@@ -904,7 +904,7 @@ public class CyderGrid extends JLabel {
     /**
      * Crop the grid to the currently selected region.
      */
-    public void cropToRegion() {
+    public void cropToSelectedRegion() {
         if (point1Selection != null && point2Selection != null
                 && point1Selection != point2Selection) {
 
@@ -961,7 +961,7 @@ public class CyderGrid extends JLabel {
     /**
      * Delete the nodes in the selected region.
      */
-    public void deleteRegion() {
+    public void deleteSelectedRegion() {
         if (point1Selection != null && point2Selection != null
                 && point1Selection != point2Selection) {
 
@@ -1011,7 +1011,7 @@ public class CyderGrid extends JLabel {
     /**
      * Rotates the nodes in the selected region by 90 degrees to the left.
      */
-    @SuppressWarnings("SuspiciousNameCombination")  // rotations
+    @SuppressWarnings("SuspiciousNameCombination")  // Rotations
     public void rotateRegion() {
         int firstX = 0;
         int firstY = 0;
@@ -1118,7 +1118,7 @@ public class CyderGrid extends JLabel {
     }
 
     /**
-     * Reflects the selected region horizontally
+     * Reflects the selected region horizontally.
      */
     public void reflectRegionHorizontally() {
         int firstX = 0;
@@ -1187,8 +1187,6 @@ public class CyderGrid extends JLabel {
         // repaint
         repaint();
     }
-
-    //todo utilize for relative zooming, shouldn't break any grids like conway or paint etc.
 
     /**
      * Converts the provided point in mouse space to the equivalent

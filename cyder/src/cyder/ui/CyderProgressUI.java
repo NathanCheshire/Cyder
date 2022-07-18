@@ -3,6 +3,7 @@ package cyder.ui;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;
+import cyder.utils.MathUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicProgressBarUI;
@@ -11,7 +12,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 /**
- * A progress bar ui with a dual color animation.
+ * A progress bar ui with a color animation.
  */
 public class CyderProgressUI extends BasicProgressBarUI {
     /**
@@ -65,24 +66,21 @@ public class CyderProgressUI extends BasicProgressBarUI {
         return framesPerSecond;
     }
 
-    /**
-     * The colors for the progress ui.
-     */
-    private Color primaryColor;
-    private Color secondaryColor;
+    private Color primaryAnimationColor;
+    private Color secondaryAnimationColor;
 
     /**
-     * Sets the colors of the progress ui.
+     * Sets the animation colors of the progress ui.
      *
      * @param primaryColor   the colors for the progress ui
      * @param secondaryColor the second color for the progress ui
      */
-    public void setColors(Color primaryColor, Color secondaryColor) {
+    public void setAnimationColors(Color primaryColor, Color secondaryColor) {
         Preconditions.checkNotNull(primaryColor);
         Preconditions.checkNotNull(secondaryColor);
 
-        this.primaryColor = primaryColor;
-        this.secondaryColor = secondaryColor;
+        this.primaryAnimationColor = primaryColor;
+        this.secondaryAnimationColor = secondaryColor;
     }
 
     /**
@@ -90,8 +88,8 @@ public class CyderProgressUI extends BasicProgressBarUI {
      *
      * @return the primary animation color
      */
-    public Color getPrimaryColor() {
-        return primaryColor;
+    public Color getPrimaryAnimationColor() {
+        return primaryAnimationColor;
     }
 
     /**
@@ -99,8 +97,8 @@ public class CyderProgressUI extends BasicProgressBarUI {
      *
      * @return the secondary animation color
      */
-    public Color getSecondaryColor() {
-        return secondaryColor;
+    public Color getSecondaryAnimationColor() {
+        return secondaryAnimationColor;
     }
 
     /**
@@ -112,7 +110,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
      * @param height     the height of the image
      * @return a rippled image between the two provided colors
      */
-    public static BufferedImage createRippleImageHorizontal(Color darkColor, Color lightColor, int width, int height) {
+    private static BufferedImage createRippleImageHorizontal(Color darkColor, Color lightColor, int width, int height) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
 
@@ -137,7 +135,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
      * @param height     the height of the image
      * @return a rippled image between the two provided colors
      */
-    public static BufferedImage createRippleImageVertical(Color darkColor, Color lightColor, int width, int height) {
+    private static BufferedImage createRippleImageVertical(Color darkColor, Color lightColor, int width, int height) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
 
@@ -153,10 +151,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
         return image;
     }
 
-    /**
-     * The animation direction.
-     */
-    private AnimationDirection direction = AnimationDirection.LEFT_TO_RIGHT;
+    private AnimationDirection animationDirection = AnimationDirection.LEFT_TO_RIGHT;
 
     /**
      * Returns the animation direction.
@@ -164,7 +159,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
      * @return the animation direction
      */
     public AnimationDirection getAnimationDirection() {
-        return direction;
+        return animationDirection;
     }
 
     /**
@@ -173,7 +168,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
      * @param direction the animation direction
      */
     public void setAnimationDirection(AnimationDirection direction) {
-        this.direction = direction;
+        this.animationDirection = direction;
     }
 
     /**
@@ -197,7 +192,8 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
         BufferedImage barImage;
         if (progressBar.getOrientation() == JProgressBar.VERTICAL) {
-            barImage = createRippleImageVertical(primaryColor, secondaryColor, c.getWidth(), c.getHeight());
+            barImage = createRippleImageVertical(primaryAnimationColor, secondaryAnimationColor,
+                    c.getWidth(), c.getHeight());
 
             //get proper width and height accounting for insets as well
             Insets b = progressBar.getInsets();
@@ -216,10 +212,12 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
             int offset;
             //image drawing offset for completed percent
-            if (direction == AnimationDirection.TOP_TO_BOTTOM) {
-                offset = (int) (rangeMap(getAnimationIndex(), 0, framesPerSecond, 0, barImage.getHeight()));
+            if (animationDirection == AnimationDirection.TOP_TO_BOTTOM) {
+                offset = (int) (MathUtil.rangeMap(getAnimationIndex(), 0,
+                        framesPerSecond, 0, barImage.getHeight()));
             } else {
-                offset = (int) (rangeMap(getAnimationIndex(), 0, framesPerSecond, barImage.getHeight(), 0));
+                offset = (int) (MathUtil.rangeMap(getAnimationIndex(), 0,
+                        framesPerSecond, barImage.getHeight(), 0));
             }
 
             int numRepetitions = (progressBar.getHeight() / barImage.getHeight()) + 2;
@@ -229,7 +227,8 @@ public class CyderProgressUI extends BasicProgressBarUI {
             }
         } else {
             //get the image with the colors of proper width and height
-            barImage = createRippleImageHorizontal(primaryColor, secondaryColor, c.getWidth() * 2, c.getHeight());
+            barImage = createRippleImageHorizontal(primaryAnimationColor, secondaryAnimationColor,
+                    c.getWidth() * 2, c.getHeight());
 
             //get proper width and height accounting for insets as well
             Insets b = progressBar.getInsets();
@@ -248,10 +247,12 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
             int offset;
             //right to left otherwise left to right, offset for progress image drawing
-            if (direction == AnimationDirection.RIGHT_TO_LEFT) {
-                offset = (int) (rangeMap(getAnimationIndex(), 0, framesPerSecond, barImage.getWidth(), 0));
+            if (animationDirection == AnimationDirection.RIGHT_TO_LEFT) {
+                offset = (int) (MathUtil.rangeMap(getAnimationIndex(), 0,
+                        framesPerSecond, barImage.getWidth(), 0));
             } else {
-                offset = (int) (rangeMap(getAnimationIndex(), 0, framesPerSecond, 0, barImage.getWidth()));
+                offset = (int) (MathUtil.rangeMap(getAnimationIndex(), 0,
+                        framesPerSecond, 0, barImage.getWidth()));
             }
 
             int numRepetitions = (progressBar.getWidth() / barImage.getWidth()) + 2;
@@ -260,33 +261,6 @@ public class CyderProgressUI extends BasicProgressBarUI {
                 g.drawImage(barImage, (i - 1) * barImage.getWidth() + offset, 0, null);
             }
         }
-    }
-
-    /**
-     * Maps the provided value in the original range to the second range.
-     *
-     * @param value the value to map
-     * @param low1  the min value of the orignal range
-     * @param high1 the max value of the original range
-     * @param low2  the min value of the new range
-     * @param high2 the max value of the new range
-     * @return the mapped value
-     */
-    @SuppressWarnings("SameParameterValue")
-    private static double rangeMap(double value, double low1, double high1, double low2, double high2) {
-        return linearlyInterpolate(low2, high2, (value - low1) / (high1 - low1));
-    }
-
-    /**
-     * Linearly interpolates between val1 and val2 where amt is the amount to interpolate between the two values.
-     *
-     * @param value1 the first value
-     * @param value2 the second value
-     * @param amt    the alpha value
-     * @return the linear interpolation
-     */
-    private static double linearlyInterpolate(double value1, double value2, double amt) {
-        return ((value2 - value1) * amt) + value1;
     }
 
     /**

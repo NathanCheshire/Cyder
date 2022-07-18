@@ -17,7 +17,7 @@ import java.awt.event.MouseEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * A Cyder password field.
+ * A password field customized for Cyder.
  */
 public class CyderPasswordField extends JPasswordField {
     /**
@@ -30,14 +30,10 @@ public class CyderPasswordField extends JPasswordField {
      */
     public CyderPasswordField() {
         setEchoChar(CyderStrings.ECHO_CHAR);
-
         setForeground(CyderColors.navy);
         setSelectionColor(CyderColors.selectionColor);
-
         setFont(DEFAULT_FONT);
-
         setBorder(new LineBorder(CyderColors.navy, 5, false));
-
         setCaret(new CyderCaret(CyderColors.navy));
         setCaretColor(CyderColors.navy);
 
@@ -58,13 +54,15 @@ public class CyderPasswordField extends JPasswordField {
         }
     };
 
+    private static final String ILLEGAL_CONSTRUCTOR = "Illegal constructor";
+
     /**
      * Suppress a default constructor.
      */
     @Deprecated
     @SuppressWarnings("unused")
     private CyderPasswordField(int col) {
-        throw new IllegalMethodException("Illegal constructor");
+        throw new IllegalMethodException(ILLEGAL_CONSTRUCTOR);
     }
 
     /**
@@ -73,7 +71,7 @@ public class CyderPasswordField extends JPasswordField {
     @Deprecated
     @SuppressWarnings("unused")
     private CyderPasswordField(String text) {
-        throw new IllegalMethodException("Illegal constructor");
+        throw new IllegalMethodException(ILLEGAL_CONSTRUCTOR);
     }
 
     /**
@@ -82,7 +80,7 @@ public class CyderPasswordField extends JPasswordField {
     @Deprecated
     @SuppressWarnings("unused")
     private CyderPasswordField(String text, int col) {
-        throw new IllegalMethodException("Illegal constructor");
+        throw new IllegalMethodException(ILLEGAL_CONSTRUCTOR);
     }
 
     /**
@@ -91,7 +89,7 @@ public class CyderPasswordField extends JPasswordField {
     @Deprecated
     @SuppressWarnings("unused")
     private CyderPasswordField(Document doc, String text, int col) {
-        throw new IllegalMethodException("Illegal constructor");
+        throw new IllegalMethodException(ILLEGAL_CONSTRUCTOR);
     }
 
     /**

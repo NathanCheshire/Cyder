@@ -295,7 +295,6 @@ public final class PaintWidget {
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
-                paintFrame.notify("Could not resize at this time");
             }
         }, "Paint Grid Scaler"));
         paintFrame.addMenuItem("Controls", PaintWidget::installControlFrames);
@@ -637,7 +636,7 @@ public final class PaintWidget {
                 new ImageIcon("static/pictures/paint/crop.png"),
                 new ImageIcon("static/pictures/paint/crop_hover.png"), null);
         cropToRegion.setSize(50, 50);
-        cropToRegion.addActionListener(e -> cyderGrid.cropToRegion());
+        cropToRegion.addActionListener(e -> cyderGrid.cropToSelectedRegion());
         bottomLayout.addComponent(cropToRegion, 1, 0);
 
         CyderIconButton deleteRegion = new CyderIconButton("Delete Region",
@@ -645,7 +644,7 @@ public final class PaintWidget {
                 new ImageIcon("static/pictures/paint/cut_hover.png"), null);
         deleteRegion.setSize(66, 50);
         deleteRegion.setToolTipText("Cut region");
-        deleteRegion.addActionListener(e -> cyderGrid.deleteRegion());
+        deleteRegion.addActionListener(e -> cyderGrid.deleteSelectedRegion());
         bottomLayout.addComponent(deleteRegion, 2, 0);
 
         selectColor = new CyderIconButton("Select Color",

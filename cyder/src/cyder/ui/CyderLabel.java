@@ -19,11 +19,24 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
+/**
+ * A label styled for Cyder.
+ */
 public class CyderLabel extends JLabel {
+    public static final String DEFAULT_TEXT = "I miss you";
+
+    /**
+     * Constructs a new CyderLabel.
+     */
     public CyderLabel() {
-        this("CyderLabel default text");
+        this(DEFAULT_TEXT);
     }
 
+    /**
+     * Constructs a new CyderLabel.
+     *
+     * @param text the initial text
+     */
     public CyderLabel(String text) {
         setText(text);
         setForeground(CyderColors.navy);
@@ -53,89 +66,144 @@ public class CyderLabel extends JLabel {
         return "<div style=\"width:" + width + "px; height:" + height + "px; background:#000000\">" + text + "</div>";
     }
 
-    public CyderLabel(String text, int horizontalAlignment) {
-        setText(text);
-        setForeground(CyderColors.navy);
-        setFont(CyderFonts.DEFAULT_FONT_SMALL);
-        setHorizontalAlignment(JLabel.CENTER);
-        setVerticalAlignment(JLabel.CENTER);
-        setHorizontalAlignment(horizontalAlignment);
+    private static final String alignTextTagLeft = "<html><div style='text-align: center;'>";
+    private static final String alignTextTagRight = "</html>";
 
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
-            }
-        });
-
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setText(String text) {
         if (text == null || text.isEmpty()) {
             super.setText(text);
         } else if (!text.startsWith("<html>")) {
-            super.setText("<html><div style='text-align: center;'>" + text + "</html>");
+            super.setText(alignTextTagLeft + text + alignTextTagRight);
         } else {
             super.setText(text);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUiToString(this);
     }
 
-    //rippling
+    /**
+     * The color used for the rippling text animation.
+     */
     private Color rippleColor = CyderColors.regularRed;
+
+    /**
+     * The delay between ripple animation increments in milliseconds.
+     */
     private long rippleMsTimeout = 100;
+
+    /**
+     * The number of chars during any singular frame of the ripple animation.
+     */
     private int rippleChars = 1;
+
+    /**
+     * Whether the ripple animation is currently active.
+     */
     private boolean isRippling;
 
+    /**
+     * Returns the raw, non-html styled text length of this component's current text.
+     *
+     * @return the raw, non-html styled text length of this component's current text
+     */
     public int getRawTextLength() {
         return Jsoup.clean(getText(), Safelist.none()).length();
     }
 
+    /**
+     * Returns the number of chars active during the ripple animation.
+     *
+     * @return the number of chars active during the ripple animation
+     */
     public int getRippleChars() {
         return rippleChars;
     }
 
+    /**
+     * Sets the number of chars to ripple at any one time.
+     *
+     * @param rippleChars the number of chars to ripple at any one time
+     */
     public void setRippleChars(int rippleChars) {
-        if (getText() != null && rippleChars > getRawTextLength() / 2)
+        if (getText() != null && rippleChars > getRawTextLength() / 2) {
             this.rippleChars = getRawTextLength() / 2;
-        else
+        } else {
             this.rippleChars = rippleChars;
+        }
     }
 
+    /**
+     * Returns the color used for the ripple animation.
+     *
+     * @return the color used for the ripple animation
+     */
     public Color getRippleColor() {
         return rippleColor;
     }
 
+    /**
+     * Sets the color used for the ripple animation.
+     *
+     * @param rippleColor the color used for the ripple animation
+     */
     public void setRippleColor(Color rippleColor) {
         this.rippleColor = rippleColor;
     }
 
+    /**
+     * Returns the timeout between ripple animation frames.
+     *
+     * @return the timeout between ripple animation frames
+     */
     public long getRippleMsTimeout() {
         return rippleMsTimeout;
     }
 
+    /**
+     * Sets the timeout between ripple animation frames.
+     *
+     * @param rippleMsTimeout the timeout between ripple animation frames
+     */
     public void setRippleMsTimeout(long rippleMsTimeout) {
         this.rippleMsTimeout = rippleMsTimeout;
     }
 
+    /**
+     * Returns whether the ripple animation is currently active.
+     *
+     * @return whether the ripple animation is currently active
+     */
     public boolean isRippling() {
         return isRippling;
     }
 
+    /**
+     * Sets whether the ripple animation is currently active.
+     *
+     * @param rippling whether the ripple animation is currently active
+     */
     public void setRippling(boolean rippling) {
         isRippling = rippling;
 
-        if (rippling)
-            beginRippleSequence();
+        if (rippling) {
+            startRippleAnimation();
+        }
     }
 
-    private void beginRippleSequence() {
+    /**
+     * Starts the ripple animation.
+     */
+    private void startRippleAnimation() {
         CyderThreadRunner.submit(() -> {
             try {
                 //restore color so everything goes back to original foreground

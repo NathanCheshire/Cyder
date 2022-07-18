@@ -469,7 +469,7 @@ public class YoutubeDownload {
         downloadProgressBar = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
 
         downloadProgressBarUi = new CyderProgressUI();
-        downloadProgressBarUi.setColors(CyderColors.regularPink, CyderColors.regularBlue);
+        downloadProgressBarUi.setAnimationColors(CyderColors.regularPink, CyderColors.regularBlue);
         downloadProgressBarUi.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
         downloadProgressBar.setUI(downloadProgressBarUi);
         downloadProgressBar.setMinimum(0);
@@ -497,7 +497,7 @@ public class YoutubeDownload {
      * Cleans up the printed ui elements.
      */
     private void cleanUpUi() {
-        downloadProgressBarUi.setColors(CyderColors.regularBlue, CyderColors.regularBlue);
+        downloadProgressBarUi.setAnimationColors(CyderColors.regularBlue, CyderColors.regularBlue);
         downloadProgressBarUi.stopAnimationTimer();
 
         downloadProgressBar.repaint();

@@ -8,11 +8,10 @@ import javax.swing.*;
 import java.util.concurrent.Semaphore;
 
 /**
- * Links a JTextPane, StringUtil, and Semaphore all
- * together into one thread-safe happy little entity.
+ * A wrapper to associated a JTextPane, StringUtil, and Semaphore
+ * into a thread-safe happy little entity.
  * <p>
  * Note that this does not make the provided objects immutable and make defensive copies.
- * Instead this is merely a wrapper for these objects since they almost always exist together.
  */
 public class CyderOutputPane {
     /**
@@ -30,17 +29,18 @@ public class CyderOutputPane {
      */
     private final Semaphore semaphore;
 
+    private static final String INSTANTIATION_MESSAGE = "Instances of CyderOutputPane are not allowed "
+            + "unless all parameters are given at once";
+
     /**
      * Instantiation not allowed unless all three arguments are provided
      */
     private CyderOutputPane() {
-        throw new IllegalStateException("Instances of CyderOutputPane are not allowed " +
-                "unless all parameters are given at once");
+        throw new IllegalStateException(INSTANTIATION_MESSAGE);
     }
 
     /**
-     * Constructor for CyderOutputPane that takes in the JTextPane and StringUtil and
-     * creates its own Semaphore.
+     * Constructs a new CyderOutputPane.
      *
      * @param jTextPane  the JTextPane to link
      * @param stringUtil the StringUtil to use for the JTextPane
@@ -51,16 +51,13 @@ public class CyderOutputPane {
 
         this.jTextPane = jTextPane;
         this.stringUtil = stringUtil;
-
-        //ensure only one permit is granted at a time
         semaphore = new Semaphore(1);
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
-     * Constructor for CyderOutputPane that takes in the JTextPane and creates its own
-     * StringUtil and Semaphore.
+     * Constructs a new CyderOutputPane.
      *
      * @param jTextPane the JTextPane to link to this instance of CyderOutputPane
      */
@@ -69,8 +66,6 @@ public class CyderOutputPane {
 
         this.jTextPane = jTextPane;
         stringUtil = new StringUtil(this);
-
-        //ensure only one permit is granted at a time
         semaphore = new Semaphore(1);
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);

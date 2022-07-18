@@ -8,7 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * A wrapper for JProgressBar to Cyder-fy it.
+ * A progress bar styled and configured for Cyder.
  */
 public class CyderProgressBar extends JProgressBar {
     /**

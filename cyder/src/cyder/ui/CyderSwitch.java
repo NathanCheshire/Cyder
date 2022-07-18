@@ -357,12 +357,12 @@ public class CyderSwitch extends JLabel {
     /**
      * Sets whether the switch is enabled.
      *
-     * @param b whether the switch is enabled
+     * @param enabled whether the switch is enabled
      */
     @Override
-    public void setEnabled(boolean b) {
-        switchButton.setEnabled(b);
-        super.setEnabled(b);
+    public void setEnabled(boolean enabled) {
+        switchButton.setEnabled(enabled);
+        super.setEnabled(enabled);
     }
 
     /**

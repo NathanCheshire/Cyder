@@ -1,0 +1,221 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[21-39-05] [ENTRY]: Nathan
+[21-39-05] [DEBUG]: Found prop file: props\propkeys.ini
+[21-39-05] [DEBUG]: Found prop file: props\props.ini
+[21-39-05] [PROP LOADED]: [key = map_quest_api_key]
+[21-39-05] [PROP LOADED]: [key = youtube_api_3_key]
+[21-39-05] [PROP LOADED]: [key = ip_key]
+[21-39-05] [PROP LOADED]: [key = weather_key]
+[21-39-05] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[21-39-05] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7ca733d0a7f6]
+[21-39-05] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[21-39-05] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[21-39-05] [PROP LOADED]: [key = font_metric, value = 1]
+[21-39-05] [PROP LOADED]: [key = released, value = false]
+[21-39-05] [PROP LOADED]: [key = version, value = Liminal]
+[21-39-05] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[21-39-05] [PROP LOADED]: [key = components_relocatable, value = false]
+[21-39-05] [PROP LOADED]: [key = testing_mode, value = true]
+[21-39-05] [PROP LOADED]: [key = autocypher, value = true]
+[21-39-05] [PROP LOADED]: [key = dispose_splash, value = true]
+[21-39-05] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[21-39-05] [PROP LOADED]: [key = activate_watchdog, value = false]
+[21-39-05] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[21-39-05] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[21-39-05] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[21-39-05] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[21-39-05] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[21-39-05] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[21-39-05] [DEBUG]: Jar mode set as: FALSE
+[21-39-05] [THREAD STARTED]: Object Creation Logger
+[21-39-05] [DEBUG]: Watchdog skipped
+[21-39-06] [DEBUG]: Executing subroutine: RegisterFonts
+[21-39-07] [FONT LOADED]: agency-fb
+[21-39-07] [FONT LOADED]: arial-black
+[21-39-07] [FONT LOADED]: beyno
+[21-39-07] [FONT LOADED]: condiment-regular
+[21-39-07] [FONT LOADED]: prompt-bold
+[21-39-07] [FONT LOADED]: segoe-ui-black
+[21-39-07] [FONT LOADED]: tahoma
+[21-39-07] [DEBUG]: Executing subroutine: SingularInstance
+[21-39-07] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[21-39-07] [DEBUG]: Executing subroutine: SufficientSubroutines
+[21-39-07] [DEBUG]: Executing subroutine: SupportedOs
+[21-39-07] [DEBUG]: Executing subroutine: Validations
+[21-39-07] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[21-39-08] [OBJECT CREATION]: Objects created since last delta (5000ms): 43
+[21-39-09] [DEBUG]: Class annotated with @Vanilla does not end with Widget; name: cyder.games.HangmanGame
+[21-39-09] [DEBUG]: Class annotated with @Vanilla does not end with Widget; name: cyder.games.TttGame
+[21-39-09] [THREAD STARTED]: Splash Loader
+[21-39-09] [DEBUG]: Executing subroutine: RegisterFonts
+[21-39-09] [DEBUG]: Executing subroutine: SingularInstance
+[21-39-09] [DEBUG]: Executing subroutine: SufficientSubroutines
+[21-39-09] [THREAD STARTED]: JVM Args Logger
+[21-39-09] [DEBUG]: Executing subroutine: SupportedOs
+[21-39-09] [DEBUG]: Executing subroutine: Validations
+[21-39-09] [LOGIN]: AutoCypher Attempt
+[21-39-09] [THREAD STARTED]: Splash Animation
+[21-39-09] [THREAD STARTED]: Enter animation, frame=Cyder Splash
+[21-39-10] [UNIQUE OBJECT CREATED]: Console singleton constructed
+[21-39-10] [DEBUG]: Cyder Entry = AutoCypher
+[21-39-10] [THREAD STARTED]: High Ping Checker
+[21-39-10] [DEBUG]: Latency of Google found to be 45ms
+[21-39-11] [THREAD STARTED]: Console Printing Animation
+[21-39-11] [THREAD STARTED]: Hourly Chime Checker
+[21-39-11] [THREAD STARTED]: Console Clock Updater
+[21-39-11] [THREAD STARTED]: Cyder Busy Checker
+[21-39-11] [THREAD STARTED]: Console Stat Saver
+[21-39-11] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[21-39-11] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[21-39-11] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[21-39-11] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[21-39-11] [THREAD STARTED]: Manual Tests Thread
+[21-39-11] [CONSOLE OUT]: [STRING]: Console loaded in 6496ms
+[21-39-11] [THREAD STARTED]: Liminal Cyder [Nathan] notification queue checker
+[21-39-11] [UI]: [Liminal Cyder [Nathan]] [NOTIFICATION] "<html>Welcome back, Nathan!</html>"
+[21-39-11] [THREAD STARTED]: Notification Appear Animator
+[21-39-11] [THREAD STARTED]: Notification Vanish Animator
+[21-39-12] [THREAD STARTED]: Splash Loading Label Updater
+[21-39-12] [DEBUG]: Attempted to log a new or empty line
+[21-39-13] [OBJECT CREATION]: Objects created since last delta (5000ms): 83
+[21-39-13] [THREAD STARTED]: Notification Vanish Animator
+[21-39-14] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 10] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[21-39-14] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1657993595869.json
+[21-39-18] [CLIENT]: paint
+[21-39-18] [CONSOLE OUT]: [STRING]: Opening widget: PaintWidget
+[21-39-18] [OBJECT CREATION]: Objects created since last delta (5000ms): 49
+[21-39-18] [WIDGET]: PaintWidget, trigger = paint
+[21-39-18] [DEBUG]: Attempted to log a new or empty line
+[21-39-23] [OBJECT CREATION]: Objects created since last delta (5000ms): 16
+[21-39-29] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 3] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[21-39-29] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1658111954519.json
+[21-39-31] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 3] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[21-39-31] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1658111969625.json
+[21-39-33] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 3] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[21-39-33] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1658111971807.json
+[21-39-33] [OBJECT CREATION]: Objects created since last delta (5000ms): 9
+[21-39-35] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 3] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[21-39-35] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1658111973410.json
+[21-39-37] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 3] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[21-39-37] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1658111975949.json
+[21-39-37] [THREAD STARTED]: Paint Opacity Decrement Animator
+[21-39-38] [THREAD STARTED]: Paint Opacity Increment Animator
+[21-39-38] [OBJECT CREATION]: Objects created since last delta (5000ms): 6
+[21-39-38] [THREAD STARTED]: Paint Controls Opacity Decrement Animator
+[21-39-39] [THREAD STARTED]: Paint Controls Opacity Increment Animator
+[21-39-43] [OBJECT CREATION]: Objects created since last delta (5000ms): 1240
+[21-39-48] [UI]: CyderCheckbox{[65, 45,50, 50], Color=java.awt.Color[r=236,g=64,b=122], isChecked=true
+[21-39-48] [OBJECT CREATION]: Objects created since last delta (5000ms): 1210
+[21-39-51] [UI]: CyderCheckbox{[5, 45,50, 50], Color=java.awt.Color[r=236,g=64,b=122], isChecked=true
+[21-39-53] [OBJECT CREATION]: Objects created since last delta (5000ms): 5760
+[21-40-03] [OBJECT CREATION]: Objects created since last delta (5000ms): 220
+[21-40-08] [OBJECT CREATION]: Objects created since last delta (5000ms): 4070
+[21-40-13] [OBJECT CREATION]: Objects created since last delta (5000ms): 3080
+[21-40-18] [OBJECT CREATION]: Objects created since last delta (5000ms): 4180
+[21-40-23] [OBJECT CREATION]: Objects created since last delta (5000ms): 440
+[21-40-28] [OBJECT CREATION]: Objects created since last delta (5000ms): 550
+[21-40-33] [OBJECT CREATION]: Objects created since last delta (5000ms): 3740
+[21-40-38] [OBJECT CREATION]: Objects created since last delta (5000ms): 5500
+[21-40-43] [OBJECT CREATION]: Objects created since last delta (5000ms): 5280
+[21-40-48] [OBJECT CREATION]: Objects created since last delta (5000ms): 110
+[21-40-53] [OBJECT CREATION]: Objects created since last delta (5000ms): 6490
+[21-40-58] [OBJECT CREATION]: Objects created since last delta (5000ms): 10230
+[21-41-03] [OBJECT CREATION]: Objects created since last delta (5000ms): 36894
+[21-41-08] [OBJECT CREATION]: Objects created since last delta (5000ms): 273834
+[21-41-10] [DEBUG]: Latency of Google found to be 46ms
+[21-41-13] [OBJECT CREATION]: Objects created since last delta (5000ms): 289201
+[21-41-18] [OBJECT CREATION]: Objects created since last delta (5000ms): 349921
+[21-41-23] [THREAD STARTED]: Paint Controls Opacity Decrement Animator
+[21-41-23] [THREAD STARTED]: Paint Controls Opacity Increment Animator
+[21-41-24] [THREAD STARTED]: Paint Menu Label Animator
+[21-41-24] [THREAD STARTED]: Paint Menu Label Animator
+[21-41-28] [THREAD STARTED]: [Paint Controls] dispose() animation thread
+[21-41-28] [UI]: CyderFrame disposed with fastclose=false, getTitle=Paint Controls
+[21-41-28] [OBJECT CREATION]: Objects created since last delta (5000ms): 50
+[21-41-30] [THREAD STARTED]: Paint Grid Scaler
+[21-41-30] [THREAD STARTED]: getString() thread, title = [Enter length]
+[21-41-31] [UI]: Component = CyderDragLabel, hash = -14882553, bounds = (2, 2, 396, 28), parent frame = Enter length
+[21-41-31] [THREAD STARTED]: [Enter length] dispose() animation thread
+[21-41-31] [UI]: CyderFrame disposed with fastclose=false, getTitle=Enter length
+[21-41-31] [EXCEPTION]:
+           Exception origin: java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+           From line: 67
+           Trace: java.lang.NumberFormatException: For input string: "NULL"
+           at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+           at java.base/java.lang.Integer.parseInt(Integer.java:668)
+           at java.base/java.lang.Integer.parseInt(Integer.java:786)
+           at cyder.widgets.PaintWidget.lambda$showGui$8(PaintWidget.java:253)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[21-41-31] [THREAD STARTED]: Paint notification queue checker
+[21-41-31] [UI]: [Paint] [NOTIFICATION] "<html>Could not resize at this time</html>"
+[21-41-31] [THREAD STARTED]: Notification Appear Animator
+[21-41-31] [THREAD STARTED]: Notification Vanish Animator
+[21-41-33] [THREAD STARTED]: Notification Vanish Animator
+[21-41-33] [OBJECT CREATION]: Objects created since last delta (5000ms): 25
+[21-41-35] [UI]: Component = CyderDragLabel, hash = -14498153, bounds = (2, 2, 796, 28), parent frame = Paint Controls
+[21-41-35] [THREAD STARTED]: [Paint Controls] dispose() animation thread
+[21-41-35] [UI]: CyderFrame disposed with fastclose=false, getTitle=Paint Controls
+[21-41-58] [OBJECT CREATION]: Objects created since last delta (5000ms): 110
+[21-41-59] [UI]: Component = CyderDragLabel, hash = -14498153, bounds = (2, 2, 796, 28), parent frame = Paint
+[21-41-59] [THREAD STARTED]: [Paint] dispose() animation thread
+[21-41-59] [UI]: CyderFrame disposed with fastclose=false, getTitle=Paint
+[21-41-59] [THREAD STARTED]: [Paint Controls] dispose() animation thread
+[21-41-59] [THREAD STARTED]: [Paint Controls] dispose() animation thread
+[21-42-03] [THREAD STARTED]: minimize menu thread
+[21-42-03] [THREAD STARTED]: Console menu animator
+[21-42-03] [OBJECT CREATION]: Objects created since last delta (5000ms): 4
+[21-42-04] [UI]: Component = CyderLabel, hash = 635008897, bounds = (0, 0, 75, 75), parent frame = Liminal Cyder
+           [Nathan], getText() = <html><div style='text-align: center;'>Logo</html>
+[21-42-04] [LOGOUT]: [CyderUser = Nathan]
+[21-42-04] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[21-42-04] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[21-42-04] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[21-42-04] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[21-42-04] [THREAD STARTED]: [Paint] dispose() animation thread
+[21-42-04] [THREAD STARTED]: [Paint Controls] dispose() animation thread
+[21-42-04] [THREAD STARTED]: [Paint Controls] dispose() animation thread
+[21-42-04] [THREAD STARTED]: Enter animation, frame=Cyder Login [Liminal Build]
+[21-42-04] [THREAD STARTED]: Login printing animation
+[21-42-04] [THREAD STARTED]: Login Input Caret Position Updater
+[21-42-04] [THREAD STARTED]: [Cyder Login [Liminal Build]] finalizeAndShow()
+[21-42-05] [UI]: Component = CyderDragLabel, hash = -14690353, bounds = (2, 2, 596, 28), parent frame = Cyder Login
+           [Liminal Build], getText() = <html><div style='text-align: center;'>Logo</html>
+[21-42-05] [THREAD STARTED]: [Cyder Login [Liminal Build]] dispose() animation thread
+[21-42-05] [UI]: CyderFrame disposed with fastclose=false, getTitle=Cyder Login [Liminal Build]
+[21-42-05] [EXIT]: [RUNTIME] 3m 0.53s
+[21-42-05] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 1

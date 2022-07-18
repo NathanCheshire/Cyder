@@ -227,32 +227,35 @@ public final class ReflectionUtil {
     }
 
     /**
+     * Special methods which should be found and invoked if found when reflecting on a ui component.
+     */
+    private static final ImmutableList<SpecialMethod> specialMethods = ImmutableList.of(
+            new SpecialMethod("getText", ", getText() = "),
+            new SpecialMethod("getTooltipText", ", getTooltipText() = "),
+            new SpecialMethod("getTitle", ", getTitle() = ")
+    );
+
+    /**
      * A toString() replacement method used by most Cyder ui classes.
      *
-     * @param obj the object to invoke toString() on
+     * @param comp the object to invoke toString() on
      * @return a custom toString() representation of the provided object
      */
-    public static String commonCyderUiToString(Component obj) {
-        CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(obj);
+    public static String commonCyderUiToString(Component comp) {
+        CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(comp);
 
         String parentFrame = topFrame != null
                 ? topFrame.getTitle()
-                : obj instanceof CyderFrame
+                : comp instanceof CyderFrame
                 ? "Component itself is a CyderFrame"
                 : "No parent frame found";
 
-        ImmutableList<SpecialMethod> specialMethods = ImmutableList.of(
-                new SpecialMethod("getText", ", getText() = "),
-                new SpecialMethod("getTooltipText", ", getTooltipText() = "),
-                new SpecialMethod("getTitle", ", getTitle() = ")
-        );
-
         try {
-            for (Method method : obj.getClass().getMethods()) {
+            for (Method method : comp.getClass().getMethods()) {
                 for (SpecialMethod specialMethod : specialMethods) {
                     if (method.getName().startsWith(specialMethod.startsWith)
                             && method.getParameterCount() == 0) {
-                        Object localInvokeResult = method.invoke(obj);
+                        Object localInvokeResult = method.invoke(comp);
 
                         if (localInvokeResult instanceof String localInvokeResultString) {
                             if (!localInvokeResultString.isEmpty()
@@ -271,11 +274,11 @@ public final class ReflectionUtil {
         StringBuilder ret = new StringBuilder();
 
         ret.append("Component = ")
-                .append(getBottomLevelClass(obj.getClass()))
+                .append(getBottomLevelClass(comp.getClass()))
                 .append(", hash = ")
-                .append(obj.hashCode())
-                .append(", bounds = (").append(obj.getX()).append(", ").append(obj.getY())
-                .append(", ").append(obj.getWidth()).append(", ").append(obj.getHeight()).append(")");
+                .append(comp.hashCode())
+                .append(", bounds = (").append(comp.getX()).append(", ").append(comp.getY())
+                .append(", ").append(comp.getWidth()).append(", ").append(comp.getHeight()).append(")");
 
         ret.append(", parent frame = ").append(parentFrame);
 
@@ -320,23 +323,13 @@ public final class ReflectionUtil {
     /**
      * The top level package for Cyder.
      */
-    private static final String TOP_LEVEL_PACKAGE = "cyder";
-
-    /**
-     * Returns the top level package name for Cyder.
-     *
-     * @return the top level package name for Cyder
-     */
-    public static String getTopLevelPackage() {
-        return TOP_LEVEL_PACKAGE;
-    }
+    public static final String TOP_LEVEL_PACKAGE = "cyder";
 
     /**
      * A set of all classes contained within Cyder starting at {@link ReflectionUtil#TOP_LEVEL_PACKAGE}.
      */
     public static ImmutableSet<ClassPath.ClassInfo> CYDER_CLASSES;
 
-    // load cyder classes at runtime
     static {
         try {
             CYDER_CLASSES = ClassPath.from(Thread.currentThread().getContextClassLoader())

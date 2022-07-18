@@ -20,17 +20,17 @@ public class CyderScrollPane extends JScrollPane {
     /**
      * The alpha value for mouse over events.
      */
-    private static int SCROLL_BAR_ALPHA_ROLLOVER = 100;
+    private static int scrollBarAlphaRollover = 100;
 
     /**
      * The default alpha of the scroll bar.
      */
-    private static int SCROLL_BAR_ALPHA = 60;
+    private static int scrollBarAlpha = 60;
 
     /**
      * The size of the thumb by default.
      */
-    private static int THUMB_SIZE = 8;
+    private static int thumbSize = 8;
 
     /**
      * The size of the scrollbar.
@@ -40,7 +40,7 @@ public class CyderScrollPane extends JScrollPane {
     /**
      * The color the scroll bar.
      */
-    private static Color THUMB_COLOR = CyderColors.regularPink;
+    private static Color thumbColor = CyderColors.regularPink;
 
     /**
      * An empty color used for the background and viewport background color.
@@ -101,7 +101,7 @@ public class CyderScrollPane extends JScrollPane {
      * @param alpha the alpha rollover color
      */
     public void setScrollBarAlphaRollover(int alpha) {
-        SCROLL_BAR_ALPHA_ROLLOVER = alpha;
+        scrollBarAlphaRollover = alpha;
     }
 
     /**
@@ -110,7 +110,7 @@ public class CyderScrollPane extends JScrollPane {
      * @param alpha the alpha color
      */
     public void setScrollBarAlpha(int alpha) {
-        SCROLL_BAR_ALPHA = alpha;
+        scrollBarAlpha = alpha;
     }
 
     /**
@@ -119,7 +119,7 @@ public class CyderScrollPane extends JScrollPane {
      * @param size the thumb size
      */
     public void setThumbSize(int size) {
-        THUMB_SIZE = size;
+        thumbSize = size;
     }
 
     /**
@@ -137,7 +137,7 @@ public class CyderScrollPane extends JScrollPane {
      * @param c the thumb color
      */
     public void setThumbColor(Color c) {
-        THUMB_COLOR = c;
+        thumbColor = c;
     }
 
     /**
@@ -295,19 +295,20 @@ public class CyderScrollPane extends JScrollPane {
          */
         @Override
         protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-            int alpha = isThumbRollover() ? SCROLL_BAR_ALPHA_ROLLOVER : SCROLL_BAR_ALPHA;
+            int alpha = isThumbRollover() ? scrollBarAlphaRollover : scrollBarAlpha;
             int orientation = scrollbar.getOrientation();
             int x = thumbBounds.x;
             int y = thumbBounds.y;
 
-            int width = orientation == JScrollBar.VERTICAL ? THUMB_SIZE : thumbBounds.width;
-            width = Math.max(width, THUMB_SIZE);
+            int width = orientation == JScrollBar.VERTICAL ? thumbSize : thumbBounds.width;
+            width = Math.max(width, thumbSize);
 
-            int height = orientation == JScrollBar.VERTICAL ? thumbBounds.height : THUMB_SIZE;
-            height = Math.max(height, THUMB_SIZE);
+            int height = orientation == JScrollBar.VERTICAL ? thumbBounds.height : thumbSize;
+            height = Math.max(height, thumbSize);
 
             Graphics2D graphics2D = (Graphics2D) g.create();
-            graphics2D.setColor(new Color(THUMB_COLOR.getRed(), THUMB_COLOR.getGreen(), THUMB_COLOR.getBlue(), alpha));
+            graphics2D.setColor(new Color(CyderScrollPane.thumbColor.getRed(), CyderScrollPane.thumbColor.getGreen(),
+                    CyderScrollPane.thumbColor.getBlue(), alpha));
             graphics2D.fillRect(x, y, width, height);
             graphics2D.dispose();
         }

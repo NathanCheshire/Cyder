@@ -6,7 +6,6 @@ import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
 import cyder.user.UserUtil;
 import cyder.utils.ReflectionUtil;
-import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -21,9 +20,8 @@ import java.util.LinkedList;
 
 /**
  * A scroll list with clickable elements.
- * The elements may be separated by a bar or, when in compact mode, simply a new line.
+ * The elements may be separated by a bar or simply a new line.
  * Each element may have a single click and double click action.
- * The value of compact mode is refreshed whenever the preference is toggled by the user.
  */
 public class CyderScrollList {
     /**
@@ -189,10 +187,8 @@ public class CyderScrollList {
         for (CyderScrollList list : scrollLists) {
             Component parent = SwingUtilities.getRoot(list.getScrollPane());
 
-            if (parent instanceof CyderFrame) {
-                CyderFrame parentFrame = (CyderFrame) parent;
-
-                if (list != null && !parentFrame.isDisposed()) {
+            if (parent instanceof CyderFrame parentFrame) {
+                if (!parentFrame.isDisposed()) {
                     list.refreshList();
                 }
             }
@@ -225,9 +221,6 @@ public class CyderScrollList {
      * @return the CyderScrollList component based on the constructed and set properties
      */
     public final JLabel generateScrollList() {
-        Font menuFont = scrollFont;
-        int fontHeight = StringUtil.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
-
         JLabel retLabel = new JLabel("");
         retLabel.setSize(width, height);
         retLabel.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.vanilla);
@@ -288,6 +281,7 @@ public class CyderScrollList {
      * @param text the element to search for
      * @return whether the element exists in the the scroll list
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean elementInList(String text) {
         for (JLabel element : elements) {
             if (element.getText().equals(text))
@@ -305,8 +299,7 @@ public class CyderScrollList {
      */
     public final void addElement(String labelText, Runnable action) {
         Preconditions.checkNotNull(labelText);
-        Preconditions.checkArgument(!labelText.isEmpty(), "Label text is empty");
-        Preconditions.checkNotNull(action);
+        Preconditions.checkArgument(!labelText.isEmpty());
         Preconditions.checkArgument(!elementInList(labelText),
                 "Element already exists in scroll list: " + labelText);
 
@@ -337,8 +330,7 @@ public class CyderScrollList {
      */
     public final void addElementWithSingleCLickAction(String labelText, Runnable action) {
         Preconditions.checkNotNull(labelText);
-        Preconditions.checkArgument(!labelText.isEmpty(), "Label text is empty");
-        Preconditions.checkNotNull(action);
+        Preconditions.checkArgument(!labelText.isEmpty());
         Preconditions.checkArgument(!elementInList(labelText),
                 "Element already exists in scroll list: " + labelText);
 
@@ -349,8 +341,10 @@ public class CyderScrollList {
         add.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                action.run();
-                handleElementClick(add.getText());
+                if (action != null) {
+                    action.run();
+                    handleElementClick(add.getText());
+                }
             }
         });
 
@@ -442,8 +436,10 @@ public class CyderScrollList {
 
         String retString = "null";
 
-        if (!ret.isEmpty() && ret.get(0) != null)
+        if (!ret.isEmpty() && ret.get(0) != null) {
             retString = ret.get(0);
+        }
+
         return retString;
     }
 
