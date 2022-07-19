@@ -2,6 +2,7 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
@@ -15,7 +16,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -46,8 +49,7 @@ public final class GitHubUtil {
         Issue[] ret = null;
 
         try {
-            String urlString = CyderUrls.CYDER_ISSUES;
-            URL url = new URL(urlString);
+            URL url = new URL(CyderUrls.CYDER_ISSUES);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             StringBuilder sb = new StringBuilder();
@@ -58,14 +60,51 @@ public final class GitHubUtil {
             }
 
             reader.close();
-            String rawJSON = sb.toString();
+            String rawJson = sb.toString();
 
-            ret = gson.fromJson(rawJSON, Issue[].class);
+            ret = gson.fromJson(rawJson, Issue[].class);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
         return ret == null ? ImmutableList.of() : ImmutableList.copyOf(ret);
+    }
+
+    /**
+     * The url to get the languages used throughout Cyder from.
+     */
+    private static final String LANGUAGES_URL = "https://api.github.com/repos/nathancheshire/cyder/languages";
+
+    /**
+     * Returns the languages used to code Cyder along with the raw number of bytes of the respective language.
+     *
+     * @return the languages used to code Cyder along with the raw number of bytes of the respective language
+     */
+    public static HashMap<String, Integer> getLanguages() {
+        HashMap<String, Integer> ret = new HashMap<>();
+
+        try {
+            URL url = new URL(LANGUAGES_URL);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            StringBuilder sb = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+
+            reader.close();
+            String rawJson = sb.toString();
+
+            Type type = new TypeToken<HashMap<String, Integer>>() {}.getType();
+
+            ret = gson.fromJson(rawJson, type);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return ret;
     }
 
     /**
