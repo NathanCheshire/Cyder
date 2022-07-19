@@ -112,7 +112,7 @@ public class YoutubeDownload {
      * Suppress default constructor.
      */
     private YoutubeDownload() {
-        throw new IllegalMethodException("Illegal use of constructor without download url");
+        throw new IllegalMethodException("Illegal use of constructor without url");
     }
 
     /**
@@ -285,11 +285,13 @@ public class YoutubeDownload {
      * Updates the download progress label.
      */
     public void updateProgressLabel() {
-        downloadProgressLabel.setText("<html>" + downloadableName
+        downloadProgressLabel.setText(
+                BoundsUtil.OPENING_HTML_TAG + downloadableName
                 + "<br/>File size: " + downloadableFileSize
-                + "<br/>Progress: " + downloadableProgress
-                + "%<br/>Rate: " + downloadableRate
-                + "<br/>Eta: " + downloadableEta + "</html>");
+                + "<br/>Progress: " + downloadableProgress + "%"
+                + "<br/>Rate: " + downloadableRate
+                + "<br/>Eta: " + downloadableEta
+                + BoundsUtil.CLOSING_HTML_TAG);
         downloadProgressLabel.revalidate();
         downloadProgressLabel.repaint();
         downloadProgressLabel.setHorizontalAlignment(JLabel.LEFT);

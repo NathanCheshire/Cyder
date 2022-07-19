@@ -105,10 +105,10 @@ public final class UserEditor {
         editUserFrame.setTitle("Preferences");
 
         switchingLabel = new JLabel();
-        switchingLabel.setForeground(new Color(255, 255, 255));
+        switchingLabel.setForeground(Color.white);
         switchingLabel.setBounds(5, CyderDragLabel.DEFAULT_HEIGHT + 30, 720, 500);
         switchingLabel.setOpaque(true);
-        switchingLabel.setBackground(new Color(255, 255, 255));
+        switchingLabel.setBackground(Color.white);
         editUserFrame.getContentPane().add(switchingLabel);
 
         prefsPanelIndex = startingIndex;
@@ -933,6 +933,16 @@ public final class UserEditor {
     private static final int PREF_WIDTH = 400;
 
     /**
+     * The size of the preference checkboxes.
+     */
+    private static final int checkboxSize = 60;
+
+    /**
+     * The text used for preference labels.
+     */
+    private static final String PRINT_LABEL_MAGIC_TEXT = StringUtil.generateTextForCustomComponent(4);
+
+    /**
      * Switches to the preferences preference page.
      */
     private static void switchToPreferences() {
@@ -980,9 +990,8 @@ public final class UserEditor {
                 }
             });
 
-            int checkboxSize = 60;
             checkbox.setSize(checkboxSize, checkboxSize);
-            JLabel printLabel = new JLabel(StringUtil.generateTextForCustomComponent(4));
+            JLabel printLabel = new JLabel(PRINT_LABEL_MAGIC_TEXT);
             printLabel.setSize(checkboxSize, checkboxSize);
             checkbox.setBounds(0, 0, checkboxSize, checkboxSize);
             printLabel.add(checkbox);
@@ -1037,7 +1046,8 @@ public final class UserEditor {
 
         printingUtil.print("\n");
 
-        CyderButton changeUsernameButton = new CyderButton("   Change Username   ");
+        String space = StringUtil.generateNSpaces(3);
+        CyderButton changeUsernameButton = new CyderButton(space + "Change Username" + space);
         JTextField changeUsernameField = new JTextField(0);
         changeUsernameField.setHorizontalAlignment(JTextField.CENTER);
         changeUsernameField.addActionListener(e -> changeUsername(changeUsernameField));
@@ -1116,7 +1126,7 @@ public final class UserEditor {
 
         printingUtil.print("\n");
 
-        CyderButton validateDatePatternButton = new CyderButton("   Validate   ");
+        CyderButton validateDatePatternButton = new CyderButton(space + "Validate" + space);
         JTextField consoleDatePatternField = new JTextField(0);
         consoleDatePatternField.setHorizontalAlignment(JTextField.CENTER);
         consoleDatePatternField.addActionListener(e -> validateDatePattern(consoleDatePatternField));
@@ -1144,7 +1154,7 @@ public final class UserEditor {
 
         printingUtil.print("\n");
 
-        CyderButton addMapButton = new CyderButton("    Add Map    ");
+        CyderButton addMapButton = new CyderButton(space + "Add Map" + space);
         JTextField addMapField = new JTextField(0);
         addMapField.setHorizontalAlignment(JTextField.CENTER);
         addMapField.addActionListener(e -> addMap(addMapField));
@@ -1171,7 +1181,7 @@ public final class UserEditor {
 
         printingUtil.print("\n");
 
-        CyderButton removeMapButton = new CyderButton("    Remove Map   ");
+        CyderButton removeMapButton = new CyderButton(space + "Remove Map" + space);
         JTextField removeMapField = new JTextField(0);
         removeMapField.setHorizontalAlignment(JTextField.CENTER);
         removeMapField.addActionListener(e -> removeMap(removeMapField));
@@ -1196,7 +1206,7 @@ public final class UserEditor {
         CyderLabel deleteUserLabel = new CyderLabel("Delete User");
         printingUtil.printlnComponent(deleteUserLabel);
 
-        CyderButton deleteUserButton = new CyderButton("    Delete user    ");
+        CyderButton deleteUserButton = new CyderButton(space + "Delete user" + space);
         CyderPasswordField deletePasswordField = new CyderPasswordField();
         deletePasswordField.setToolTipText("Enter password to confirm account deletion");
         deletePasswordField.addActionListener(e -> deleteUser(deletePasswordField));
@@ -1244,7 +1254,8 @@ public final class UserEditor {
     private static boolean validateWeatherKey() {
         String openString = CyderUrls.OPEN_WEATHER_BASE
                 + PropLoader.getString("default_weather_location")
-                + "&appid=" + PropLoader.getString("2d790dd0766f1da62af488f101380c75" + "&units=imperial");
+                + "&appid=" + PropLoader.getString("weather_key")
+                + "&units=imperial";
 
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(new URL(openString).openStream()))) {
@@ -1282,12 +1293,13 @@ public final class UserEditor {
      * @return whether the youtube key was valid
      */
     private static boolean validateYoutubeApiKey() {
-        String text = PropLoader.getString("youtube_api_3_key");
+        String key = PropLoader.getString("youtube_api_3_key");
 
-        if (!text.isEmpty()) {
+        if (!key.isEmpty()) {
             try {
-                NetworkUtil.readUrl(CyderUrls.YOUTUBE_API_V3_SEARCH +
-                        "?part=snippet&q=gift+and+a+curse+skizzy+mars&type=video&key=" + text);
+                NetworkUtil.readUrl(CyderUrls.YOUTUBE_API_V3_SEARCH
+                        + "?part=snippet&q=" + "gift+and+a+curse+skizzy+mars"
+                        + "&type=video&key=" + key);
                 return true;
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
@@ -1298,8 +1310,8 @@ public final class UserEditor {
     }
 
     private static final String confirmationString = "Final warning: you are about to"
-            + " delete your Cyder account. All files, pictures, downloaded music, notes," +
-            " etc. will be deleted. Are you ABSOLUTELY sure you wish to continue?";
+            + " delete your Cyder account. All files, pictures, downloaded music, notes,"
+            + " etc. will be deleted. Are you ABSOLUTELY sure you wish to continue?";
 
     private static void deleteUser(CyderPasswordField deletePasswordField) {
         String hashed = SecurityUtil.toHexString(SecurityUtil.getSha256(deletePasswordField.getPassword()));
@@ -1363,7 +1375,8 @@ public final class UserEditor {
                 changePasswordField.setText("");
                 changePasswordConfField.setText("");
             } else {
-                changePassword(newPassword);
+                UserUtil.getCyderUser().setPass(SecurityUtil.toHexString(SecurityUtil.getSha256(
+                        SecurityUtil.toHexString(SecurityUtil.getSha256(newPassword)).toCharArray())));
                 editUserFrame.notify("Password successfully changed");
             }
         }
@@ -1378,7 +1391,7 @@ public final class UserEditor {
     private static void changeUsername(JTextField changeUsernameField) {
         String newUsername = changeUsernameField.getText();
         if (!StringUtil.isNull(newUsername) && !newUsername.equalsIgnoreCase(UserUtil.getCyderUser().getName())) {
-            changeUsername(newUsername);
+            UserUtil.getCyderUser().setName(newUsername);
             editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
             Console.INSTANCE.getConsoleCyderFrame()
                     .setTitle(PropLoader.getString("version") + " Cyder [" + newUsername + "]");
@@ -1461,29 +1474,6 @@ public final class UserEditor {
                 addMapField.setText("");
             }
         }
-    }
-
-    /**
-     * Changes the current user from console's name to the provided name.
-     *
-     * @param newName the new name of the user
-     */
-    public static void changeUsername(String newName) {
-        Preconditions.checkNotNull(newName);
-        Preconditions.checkArgument(!newName.isEmpty());
-        UserUtil.getCyderUser().setName(newName);
-    }
-
-    /**
-     * Changes the current user from console's password to the provided password.
-     *
-     * @param newPassword the raw char[] new password to hash and store
-     */
-    public static void changePassword(char[] newPassword) {
-        Preconditions.checkNotNull(newPassword);
-        Preconditions.checkArgument(newPassword.length > 0);
-        UserUtil.getCyderUser().setPass(SecurityUtil.toHexString(SecurityUtil.getSha256(
-                SecurityUtil.toHexString(SecurityUtil.getSha256(newPassword)).toCharArray())));
     }
 
     /**

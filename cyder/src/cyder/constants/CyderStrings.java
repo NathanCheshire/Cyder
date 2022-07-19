@@ -20,6 +20,7 @@ public final class CyderStrings {
      * The echo char to use for any instance of CyderPasswordField.
      */
     public static final char ECHO_CHAR = new JPasswordField().getEchoChar();
+    // todo use unicode char
 
     /**
      * Error message for static classes upon attempted instantiation.

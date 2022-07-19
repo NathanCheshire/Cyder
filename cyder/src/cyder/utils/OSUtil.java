@@ -131,7 +131,7 @@ public final class OSUtil {
     public static void exit(ExitCondition exitCondition) {
         try {
             //ensures IO finishes and is not invoked again
-            UserUtil.blockFutureIO();
+            UserUtil.blockFutureIo();
 
             //log exit
             Logger.log(Logger.Tag.EXIT, exitCondition);

@@ -21,12 +21,12 @@ public class TaskbarIcon {
     /**
      * The length of the taskbar icons generated.
      */
-    private static final int TASKBAR_ICON_LEN = 75;
+    private static final int ICON_LEN = 75;
 
     /**
      * The border length of the taskbar icons generated.
      */
-    private static final int TASKBAR_BORDER_LEN = 5;
+    private static final int BORDER_LEN = 5;
 
     /**
      * The maximum number of chars to display when compact mode for taskbar icons is active.
@@ -36,7 +36,7 @@ public class TaskbarIcon {
     /**
      * The color for custom painted taskbar icon borders.
      */
-    private static final Color TASKBAR_BORDER_COLOR = Color.black;
+    private static final Color BORDER_COLOR = Color.black;
 
     /**
      * The font used for taskbar icon painted names.
@@ -51,7 +51,7 @@ public class TaskbarIcon {
     /**
      * The rescale operator used to darken buffered images.
      */
-    private static final RescaleOp rescaleOp = new RescaleOp(DARK_FACTOR, 0, null);
+    private final RescaleOp rescaleOp = new RescaleOp(DARK_FACTOR, 0, null);
 
     /**
      * The actual icon used for the console taskbar.
@@ -134,42 +134,42 @@ public class TaskbarIcon {
             BufferedImage paintedImage;
 
             if (builder.customIcon != null) {
-                paintedImage = ImageUtil.resizeImage(TASKBAR_ICON_LEN,
-                        TASKBAR_ICON_LEN, builder.customIcon);
+                paintedImage = ImageUtil.resizeImage(ICON_LEN,
+                        ICON_LEN, builder.customIcon);
             } else {
-                paintedImage = new BufferedImage(TASKBAR_ICON_LEN,
-                        TASKBAR_ICON_LEN, BufferedImage.TYPE_INT_RGB);
+                paintedImage = new BufferedImage(ICON_LEN,
+                        ICON_LEN, BufferedImage.TYPE_INT_RGB);
                 Graphics g = paintedImage.getGraphics();
 
                 // paint center
-                g.setColor(TASKBAR_BORDER_COLOR);
-                g.fillRect(0, 0, TASKBAR_ICON_LEN, TASKBAR_BORDER_LEN);
-                g.fillRect(0, 0, TASKBAR_BORDER_LEN, TASKBAR_ICON_LEN);
-                g.fillRect(TASKBAR_ICON_LEN - TASKBAR_BORDER_LEN, 0, TASKBAR_ICON_LEN, TASKBAR_ICON_LEN);
-                g.fillRect(0, TASKBAR_ICON_LEN - TASKBAR_BORDER_LEN, TASKBAR_ICON_LEN, TASKBAR_ICON_LEN);
+                g.setColor(BORDER_COLOR);
+                g.fillRect(0, 0, ICON_LEN, BORDER_LEN);
+                g.fillRect(0, 0, BORDER_LEN, ICON_LEN);
+                g.fillRect(ICON_LEN - BORDER_LEN, 0, ICON_LEN, ICON_LEN);
+                g.fillRect(0, ICON_LEN - BORDER_LEN, ICON_LEN, ICON_LEN);
             }
 
             // paint border color
             Graphics g = paintedImage.getGraphics();
-            g.setColor(builder.customIcon == null ? builder.borderColor : TASKBAR_BORDER_COLOR);
-            g.fillRect(0, 0, TASKBAR_BORDER_LEN, TASKBAR_ICON_LEN);
-            g.fillRect(0, 0, TASKBAR_ICON_LEN, TASKBAR_BORDER_LEN);
-            g.fillRect(TASKBAR_ICON_LEN - 5, 0, TASKBAR_ICON_LEN, TASKBAR_ICON_LEN);
-            g.fillRect(0, TASKBAR_ICON_LEN - 5, TASKBAR_ICON_LEN, TASKBAR_ICON_LEN);
+            g.setColor(builder.customIcon == null ? builder.borderColor : BORDER_COLOR);
+            g.fillRect(0, 0, BORDER_LEN, ICON_LEN);
+            g.fillRect(0, 0, ICON_LEN, BORDER_LEN);
+            g.fillRect(ICON_LEN - 5, 0, ICON_LEN, ICON_LEN);
+            g.fillRect(0, ICON_LEN - 5, ICON_LEN, ICON_LEN);
 
             ImageIcon defaultIcon = new ImageIcon(paintedImage);
             ImageIcon focusIcon = new ImageIcon(rescaleOp.filter(paintedImage, null));
 
             // image construction done so place on label
             newTaskbarIcon.setIcon(builder.focused ? focusIcon : defaultIcon);
-            newTaskbarIcon.setSize(TASKBAR_ICON_LEN, TASKBAR_ICON_LEN);
+            newTaskbarIcon.setSize(ICON_LEN, ICON_LEN);
 
             // add name label and mouse listeners on top of background image
             String localName = builder.name.trim().substring(0, Math.min(4, builder.name.trim().length())).trim();
             CyderLabel titleLabel = new CyderLabel(builder.customIcon == null ? localName : "");
             titleLabel.setFont(labelFont);
             titleLabel.setForeground(CyderColors.vanilla);
-            titleLabel.setBounds(0, 0, TASKBAR_ICON_LEN, TASKBAR_ICON_LEN);
+            titleLabel.setBounds(0, 0, ICON_LEN, ICON_LEN);
             titleLabel.setFocusable(false);
 
             newTaskbarIcon.add(titleLabel);

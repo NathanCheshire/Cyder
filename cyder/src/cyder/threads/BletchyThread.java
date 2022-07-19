@@ -30,7 +30,7 @@ public final class BletchyThread {
     private static BletchyAnimator bletchyAnimator;
 
     /**
-     * Whether bletchyAnimator is active.
+     * Whether this animator is active.
      */
     private static boolean isActive;
 
@@ -74,15 +74,13 @@ public final class BletchyThread {
         Preconditions.checkArgument(milliDelay > 0);
 
         if (isActive() || MasterYoutubeThread.isActive()) {
-            Console.INSTANCE.getConsoleCyderFrame().notify(
-                    "Cannot start bletchy/youtube thread" +
-                            " at the same time as another instance.");
-            return;
+            Console.INSTANCE.getConsoleCyderFrame().notify("Cannot start bletchy/youtube thread"
+                    + " at the same time as another instance.");
+        } else {
+            kill();
+            bletchyAnimator = new BletchyAnimator(getBletchyArray(decodeString, useNumbers, useUnicode), milliDelay);
+            bletchyAnimator.start();
         }
-
-        kill();
-        bletchyAnimator = new BletchyAnimator(getBletchyArray(decodeString, useNumbers, useUnicode), milliDelay);
-        bletchyAnimator.start();
     }
 
     /**
@@ -163,9 +161,9 @@ public final class BletchyThread {
     }
 
     /**
-     * Returns whether this BletchyThread has a BletchyAnimation thread underway.
+     * Returns whether this BletchyThread has an animation thread underway.
      *
-     * @return whether this BletchyThread has a BletchyAnimation thread underway
+     * @return whether this BletchyThread has an animation thread underway
      */
     public static boolean isActive() {
         return isActive;
@@ -198,19 +196,17 @@ public final class BletchyThread {
     /**
      * Character list of all unicode card suit characters.
      */
-    private static final ImmutableList<Character> CARD_SUITS = ImmutableList.of(
-            (char) 9824,
-            (char) 9825,
-            (char) 9826,
-            (char) 9827,
-            (char) 9828,
-            (char) 9829,
-            (char) 9830,
-            (char) 9831,
-            (char) 9832,
-            (char) 9833,
-            (char) 9834,
-            (char) 9835);
+    private static final ImmutableList<Character> CARD_SUITS;
+
+    static {
+        LinkedList<Character> ret = new LinkedList<>();
+
+        for (int i = 9824 ; i < 9836 ; i++) {
+            ret.add((char) i);
+        }
+
+        CARD_SUITS = ImmutableList.copyOf(ret);
+    }
 
     /**
      * Character list of unicode chars used for bletchy animations.

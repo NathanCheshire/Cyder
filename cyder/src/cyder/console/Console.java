@@ -1063,12 +1063,12 @@ public enum Console {
                             }
                         }
 
-                        if (busyThreads == 0 && CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon) {
+                        if (busyThreads == 0 && CyderIcons.getCurrentCyderIcon() != CyderIcons.X_ICON) {
                             CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON);
-                        } else if (CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon) {
+                        } else if (CyderIcons.getCurrentCyderIcon() != CyderIcons.X_ICON) {
                             CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_BUSY_ICON);
                         }
-                    } else if (CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon) {
+                    } else if (CyderIcons.getCurrentCyderIcon() != CyderIcons.X_ICON) {
                         CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON);
                     }
 
@@ -2046,7 +2046,7 @@ public enum Console {
             int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
             size += e.getWheelRotation() == -1 ? 1 : -1;
 
-            if (size > Preferences.FONT_MAX_SIZE || size < Preferences.FONT_MIN_SIZE) {
+            if (size > Preferences.MAX_FONT_SIZE || size < Preferences.MIN_FONT_SIZE) {
                 return;
             }
 
