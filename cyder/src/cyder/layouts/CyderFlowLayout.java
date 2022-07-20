@@ -498,9 +498,49 @@ public class CyderFlowLayout extends CyderLayout {
     }
 
     /**
-     * Returns the default UI reflected String representation of this object.
-     *
-     * @return The default UI reflected String representation of this object
+     * {@inheritDoc}
+     */
+    public Dimension getPackSize() {
+        int maxRowWidth = 0;
+        int height = 2 * verticalGap;
+
+        int currentRowWidth = 2 * horizontalGap;
+        int currentRowMaxComponentHeight = 0;
+        int currentRowComponentCount = 0;
+
+        for (Component component : flowComponents) {
+            int componentWidth = component.getWidth();
+            int componentHeight = component.getHeight();
+
+            // If component will cause row to overflow
+            if (currentRowWidth + componentWidth + horizontalGap > associatedPanel.getWidth()) {
+                if (currentRowComponentCount == 0) {
+                    currentRowWidth += componentWidth;
+                    maxRowWidth = Math.max(maxRowWidth, currentRowWidth);
+                    height += componentHeight;
+
+                    currentRowWidth = 2 * horizontalGap;
+                    currentRowMaxComponentHeight = 0;
+                } else {
+                    maxRowWidth = Math.max(maxRowWidth, currentRowWidth);
+                    height += currentRowMaxComponentHeight;
+                    currentRowWidth = 2 * horizontalGap + componentWidth;
+                    currentRowMaxComponentHeight = componentHeight;
+                }
+
+                currentRowComponentCount = 0;
+            } else {
+                currentRowWidth += componentWidth + horizontalGap;
+                currentRowMaxComponentHeight = Math.max(currentRowMaxComponentHeight, componentHeight);
+                currentRowComponentCount++;
+            }
+        }
+
+        return new Dimension(maxRowWidth, height);
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public String toString() {
