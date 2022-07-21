@@ -14,6 +14,7 @@ import cyder.utils.GitHubUtil;
 import cyder.utils.NetworkUtil;
 import cyder.utils.OSUtil;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Future;
 
@@ -28,7 +29,7 @@ public class GitHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"gitme", "github", "issues", "git"})
+    @Handle({"gitme", "github", "issues", "git", "languages"})
     public static boolean handle() {
         switch (getInputHandler().getCommand()) {
             case "gitme" -> {
@@ -74,6 +75,16 @@ public class GitHandler extends InputHandler {
                     } else {
                         getInputHandler().println("Supported git commands: clone");
                     }
+                }
+
+                return true;
+            }
+            case "languages" -> {
+                Map<String, Integer> map = GitHubUtil.getLanguages();
+
+                getInputHandler().println("Cyder uses the following languages:");
+                for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                    getInputHandler().println(entry.getKey() + " takes up " + OSUtil.formatBytes(entry.getValue()));
                 }
 
                 return true;
