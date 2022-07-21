@@ -1,6 +1,7 @@
 package cyder.audio;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.AtomicDouble;
 import com.google.gson.Gson;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
@@ -59,6 +60,7 @@ import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -414,7 +416,26 @@ public final class AudioPlayer {
     private static final AudioProgressBarAnimator audioProgressBarAnimator
             = new AudioProgressBarAnimator(audioLocationSlider, audioLocationSliderUi);
 
+    /**
+     * The stroke for the audio volume and location sliders.
+     */
     private static final BasicStroke SLIDER_STROKE = new BasicStroke(2.0f);
+
+    /**
+     * The location of a quick single click audio location request.
+     */
+    private static final AtomicDouble possiblePercentRequest = new AtomicDouble(Long.MAX_VALUE);
+
+    /**
+     * The time of a quick single click audio location request mouse initial press event.
+     */
+    private static final AtomicLong possiblePercentRequestTime = new AtomicLong(Long.MAX_VALUE);
+
+    /**
+     * The window of time between the possible percent request initial
+     * press and release to perform the percent request.
+     */
+    private static final int POSSIBLE_PERCENT_REQUEST_WINDOW = 100;
 
     /**
      * Suppress default constructor.
@@ -613,6 +634,9 @@ public final class AudioPlayer {
 
                 audioLocationSliderUi.setThumbRadius(BIG_THUMB_SIZE);
                 audioLocationSlider.repaint();
+
+                possiblePercentRequest.set(e.getX() / (float) audioLocationSlider.getWidth());
+                possiblePercentRequestTime.set(System.currentTimeMillis());
             }
 
             @Override
@@ -624,6 +648,14 @@ public final class AudioPlayer {
 
                     if (wasPlaying) {
                         float newPercentIn = (float) audioLocationSlider.getValue() / audioLocationSlider.getMaximum();
+
+                        if (System.currentTimeMillis() - possiblePercentRequestTime.get()
+                                < POSSIBLE_PERCENT_REQUEST_WINDOW) {
+                            newPercentIn = (float) possiblePercentRequest.get();
+                            possiblePercentRequest.set(Long.MAX_VALUE);
+                            possiblePercentRequestTime.set(Long.MAX_VALUE);
+                        }
+
                         long resumeLocation = (long) (newPercentIn * innerAudioPlayer.getTotalAudioLength());
 
                         audioLocationUpdater.pauseTimer();
@@ -1742,8 +1774,6 @@ public final class AudioPlayer {
             ExceptionHandler.handle(e);
         }
     }
-
-    // todo this might freeze the ui thread for some reason and I still don't know why
 
     /**
      * A call back for InnerAudioPlayers to invoke when they are killed.

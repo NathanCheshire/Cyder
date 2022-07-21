@@ -1,0 +1,176 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[20-19-03] [ENTRY]: Nathan
+[20-19-03] [DEBUG]: Found prop file: props\propkeys.ini
+[20-19-03] [DEBUG]: Found prop file: props\props.ini
+[20-19-03] [PROP LOADED]: [key = map_quest_api_key]
+[20-19-03] [PROP LOADED]: [key = youtube_api_3_key]
+[20-19-03] [PROP LOADED]: [key = ip_key]
+[20-19-03] [PROP LOADED]: [key = weather_key]
+[20-19-03] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[20-19-03] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7ca733d0a7f6]
+[20-19-03] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[20-19-03] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[20-19-03] [PROP LOADED]: [key = font_metric, value = 1]
+[20-19-03] [PROP LOADED]: [key = released, value = false]
+[20-19-03] [PROP LOADED]: [key = version, value = Liminal]
+[20-19-03] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[20-19-03] [PROP LOADED]: [key = components_relocatable, value = false]
+[20-19-03] [PROP LOADED]: [key = testing_mode, value = true]
+[20-19-03] [PROP LOADED]: [key = autocypher, value = true]
+[20-19-03] [PROP LOADED]: [key = dispose_splash, value = true]
+[20-19-03] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[20-19-03] [PROP LOADED]: [key = activate_watchdog, value = false]
+[20-19-03] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[20-19-03] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[20-19-03] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[20-19-03] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[20-19-03] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[20-19-03] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[20-19-03] [DEBUG]: Jar mode set as: FALSE
+[20-19-03] [THREAD STARTED]: Object Creation Logger
+[20-19-03] [DEBUG]: Watchdog skipped
+[20-19-03] [DEBUG]: Executing subroutine: RegisterFonts
+[20-19-03] [FONT LOADED]: agency-fb
+[20-19-03] [FONT LOADED]: arial-black
+[20-19-03] [FONT LOADED]: beyno
+[20-19-03] [FONT LOADED]: condiment-regular
+[20-19-03] [FONT LOADED]: prompt-bold
+[20-19-03] [FONT LOADED]: segoe-ui-black
+[20-19-03] [FONT LOADED]: tahoma
+[20-19-03] [DEBUG]: Executing subroutine: SingularInstance
+[20-19-03] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-19-04] [DEBUG]: Executing subroutine: SufficientSubroutines
+[20-19-04] [DEBUG]: Executing subroutine: SupportedOs
+[20-19-04] [DEBUG]: Executing subroutine: Validations
+[20-19-04] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-19-04] [DEBUG]: Class annotated with @Vanilla does not end with Widget; name: cyder.games.HangmanGame
+[20-19-04] [DEBUG]: Class annotated with @Vanilla does not end with Widget; name: cyder.games.TttGame
+[20-19-04] [THREAD STARTED]: Splash Loader
+[20-19-04] [DEBUG]: Executing subroutine: RegisterFonts
+[20-19-04] [DEBUG]: Executing subroutine: SingularInstance
+[20-19-04] [DEBUG]: Executing subroutine: SufficientSubroutines
+[20-19-04] [THREAD STARTED]: JVM Args Logger
+[20-19-04] [DEBUG]: Executing subroutine: SupportedOs
+[20-19-04] [DEBUG]: Executing subroutine: Validations
+[20-19-04] [LOGIN]: AutoCypher Attempt
+[20-19-05] [THREAD STARTED]: Splash Animation
+[20-19-05] [THREAD STARTED]: Enter animation, frame=Cyder Splash
+[20-19-05] [UNIQUE OBJECT CREATED]: Console singleton constructed
+[20-19-05] [DEBUG]: Cyder Entry = AutoCypher
+[20-19-06] [OBJECT CREATION]: Objects created since last delta (5000ms): 88
+[20-19-06] [THREAD STARTED]: High Ping Checker
+[20-19-06] [THREAD STARTED]: Console Printing Animation
+[20-19-06] [DEBUG]: Latency of Google found to be 49ms
+[20-19-06] [THREAD STARTED]: Hourly Chime Checker
+[20-19-06] [THREAD STARTED]: Console Clock Updater
+[20-19-06] [THREAD STARTED]: Cyder Busy Checker
+[20-19-06] [THREAD STARTED]: Console Stat Saver
+[20-19-06] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[20-19-06] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[20-19-06] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[20-19-06] [CONSOLE OUT]: [STRING]: Console loaded in 3615ms
+[20-19-06] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[20-19-06] [THREAD STARTED]: Manual Tests Thread
+[20-19-06] [DEBUG]: Attempted to log a new or empty line
+[20-19-07] [THREAD STARTED]: Splash Loading Label Updater
+[20-19-09] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 7] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[20-19-09] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1658366177850.json
+[20-19-10] [CLIENT]: mp3
+[20-19-10] [CONSOLE OUT]: [STRING]: Opening widget: AudioPlayer
+[20-19-10] [THREAD STARTED]: Vexento - Pixel Party Progress Label Thread
+[20-19-10] [THREAD STARTED]: Audio Progress Label Animator
+[20-19-10] [THREAD STARTED]: Enter animation, frame=Vexento - pixel party
+[20-19-10] [THREAD STARTED]: [Vexento - pixel party] finalizeAndShow()
+[20-19-10] [WIDGET]: AudioPlayer, trigger = mp3
+[20-19-10] [DEBUG]: Attempted to log a new or empty line
+[20-19-11] [OBJECT CREATION]: Objects created since last delta (5000ms): 56
+[20-19-11] [THREAD STARTED]: AudioPlayer Play Audio Thread [Vexento - Pixel Party]
+[20-19-12] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@25b6d8da
+[20-19-12] [THREAD STARTED]: AudioPlayer Play Audio Thread [Vexento - Pixel Party]
+[20-19-12] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@25b6d8da
+[20-19-13] [THREAD STARTED]: AudioPlayer Play Audio Thread [Vexento - Pixel Party]
+[20-19-13] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@25b6d8da
+[20-19-17] [THREAD STARTED]: AudioPlayer Play Audio Thread [Vexento - Pixel Party]
+[20-19-17] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@25b6d8da
+[20-19-20] [THREAD STARTED]: AudioPlayer Play Audio Thread [Vexento - Pixel Party]
+[20-19-20] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@25b6d8da
+[20-19-24] [THREAD STARTED]: AudioPlayer Play Audio Thread [Vexento - Pixel Party]
+[20-19-24] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@25b6d8da
+[20-19-25] [THREAD STARTED]: AudioPlayer Play Audio Thread [Vexento - Pixel Party]
+[20-19-25] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@25b6d8da
+[20-19-26] [THREAD STARTED]: AudioPlayer Play Audio Thread [Vexento - Pixel Party]
+[20-19-26] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@25b6d8da
+[20-19-26] [THREAD STARTED]: AudioPlayer Play Audio Thread [Vexento - Pixel Party]
+[20-19-26] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@25b6d8da
+[20-19-27] [THREAD STARTED]: AudioPlayer Play Audio Thread [Vexento - Pixel Party]
+[20-19-27] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@25b6d8da
+[20-19-29] [THREAD STARTED]: AudioPlayer Play Audio Thread [Vexento - Pixel Party]
+[20-19-29] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@25b6d8da
+[20-19-30] [THREAD STARTED]: AudioPlayer Play Audio Thread [Vexento - Pixel Party]
+[20-19-30] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alignmen
+           tX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=
+           0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToV
+           alue=true], uicyder.ui.CyderSliderUi@25b6d8da
+[20-19-31] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[20-19-31] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[20-19-31] [EXIT]: [RUNTIME] 28.28s
+[20-19-31] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: no
+           exceptions thrown
