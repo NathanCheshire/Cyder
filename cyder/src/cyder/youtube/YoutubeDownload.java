@@ -13,6 +13,7 @@ import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
+import cyder.ui.CyderButton;
 import cyder.ui.CyderProgressBar;
 import cyder.ui.CyderProgressUI;
 import cyder.user.UserFile;
@@ -82,6 +83,11 @@ public class YoutubeDownload {
      * The label this class will print and update with statistics about the download.
      */
     private JLabel downloadProgressLabel;
+
+    /**
+     * The button used to cancel the download.
+     */
+    private CyderButton cancelButton;
 
     /**
      * The url of the youtube video to download.
@@ -306,6 +312,7 @@ public class YoutubeDownload {
         }
 
         downloadProgressLabel.setFont(Console.INSTANCE.generateUserFont());
+        cancelButton.setFont(Console.INSTANCE.getInputField().getFont());
     }
 
     /**
@@ -447,10 +454,14 @@ public class YoutubeDownload {
                     }
                 }
             } catch (Exception e) {
-                ExceptionHandler.handle(e);
+                if (isCanceled()) {
+                    inputHandler.println("Canceled download");
+                } else {
+                    ExceptionHandler.handle(e);
 
-                if (shouldPrintUpdates) {
-                    inputHandler.println("An exception occurred while attempting to download, url=" + url);
+                    if (shouldPrintUpdates) {
+                        inputHandler.println("An exception occurred while attempting to download, url=" + url);
+                    }
                 }
             } finally {
                 YoutubeUtil.removeActiveDownload(this);
@@ -493,6 +504,31 @@ public class YoutubeDownload {
 
         inputHandler.println(downloadProgressBar);
         inputHandler.println(downloadProgressLabel);
+        inputHandler.println(getCancelDownloadButton());
+    }
+
+    private static final String CANCEL = "Cancel";
+    private static final String CANCELED = "Canceled";
+
+    /**
+     * Returns a button which can be used to cancel and clean up the download.
+     *
+     * @return a button which can be used to cancel and clean up the download
+     */
+    private CyderButton getCancelDownloadButton() {
+        cancelButton = new CyderButton();
+        cancelButton.setLeftTextPadding(StringUtil.generateNSpaces(5));
+        cancelButton.setRightTextPadding(StringUtil.generateNSpaces(4));
+        cancelButton.setText(CANCEL);
+        cancelButton.setFont(Console.INSTANCE.getInputField().getFont());
+        cancelButton.addActionListener(e -> {
+            if (!isCanceled()) {
+                cancel();
+                cancelButton.setText(CANCELED);
+            }
+        });
+
+        return cancelButton;
     }
 
     /**
