@@ -12,7 +12,6 @@ import cyder.parsers.BlurResponse;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.CyderFrame;
 
-import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -123,7 +122,7 @@ public final class ImageUtil {
     /**
      * Returns a buffered image of the specified color.
      *
-     * @param color      the color of the requested image
+     * @param color  the color of the requested image
      * @param width  the width of the requested image
      * @param height the height of the requested image
      * @return the buffered image of the provided color and dimensions
@@ -145,7 +144,7 @@ public final class ImageUtil {
     /**
      * Returns an ImageIcon of the requested color.
      *
-     * @param color      the color of the requested image
+     * @param color  the color of the requested image
      * @param width  the width of the requested image
      * @param height the height of the requested image
      * @return the image of the requested color and dimensions
@@ -165,7 +164,7 @@ public final class ImageUtil {
     /**
      * Returns an ImageIcon of the requested color of the size 1x1.
      *
-     * @param color      the color of the requested image
+     * @param color the color of the requested image
      * @return the image of the requested color and dimensions
      */
     public static ImageIcon imageIconFromColor(Color color) {
@@ -317,6 +316,7 @@ public final class ImageUtil {
      * @param filepath  the path to the file
      * @param direction the direction of rotation
      * @return the rotated image
+     * @throws IllegalArgumentException if the buffered image cannot be loaded from the provided path
      */
     @SuppressWarnings("UnnecessaryDefault")
     public static BufferedImage getRotatedImage(String filepath, Direction direction) {
@@ -324,27 +324,21 @@ public final class ImageUtil {
         Preconditions.checkArgument(!filepath.isEmpty());
         Preconditions.checkNotNull(direction);
 
+        Optional<BufferedImage> optionalBufferedImage = getBufferedImage(filepath);
+
+        if (optionalBufferedImage.isEmpty()) {
+            throw new IllegalArgumentException("Could not get buffered image from path: " + filepath);
+        }
+
+        BufferedImage bi = optionalBufferedImage.get();
+
         return switch (direction) {
-            case TOP -> rotateImage(getBufferedImage(filepath), ZERO_DEGREES);
-            case RIGHT -> rotateImage(getBufferedImage(filepath), NINETY_DEGREES);
-            case BOTTOM -> rotateImage(getBufferedImage(filepath), ONE_EIGHTY_DEGREES);
-            case LEFT -> rotateImage(getBufferedImage(filepath), -NINETY_DEGREES);
+            case TOP -> rotateImage(bi, ZERO_DEGREES);
+            case RIGHT -> rotateImage(bi, NINETY_DEGREES);
+            case BOTTOM -> rotateImage(bi, ONE_EIGHTY_DEGREES);
+            case LEFT -> rotateImage(bi, -NINETY_DEGREES);
             default -> throw new IllegalArgumentException("Invalid direction: " + direction);
         };
-    }
-
-    /**
-     * Rotates the provided buffered image by the specified degrees.
-     *
-     * @param img the image to rotate
-     * @param degrees the degrees to rotate by
-     * @return the rotated image
-     */
-    public static BufferedImage rotateImage(Optional<BufferedImage> img, double degrees) {
-        Preconditions.checkNotNull(img);
-        Preconditions.checkArgument(img.isPresent());
-
-        return rotateImage(img.get(), degrees);
     }
 
     /**
@@ -1210,5 +1204,20 @@ public final class ImageUtil {
         }
 
         return false;
+    }
+
+    /**
+     * Returns the buffered image read from the provided url.
+     *
+     * @param url the url to read a buffered image from
+     * @return the buffered image read from the provided url
+     * @throws IOException if the provided resource cannot be loaded
+     */
+    public static BufferedImage getImageFromUrl(String url) throws IOException {
+        Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!url.isEmpty());
+        Preconditions.checkArgument(NetworkUtil.isValidUrl(url));
+
+        return ImageIO.read(new URL(url));
     }
 }

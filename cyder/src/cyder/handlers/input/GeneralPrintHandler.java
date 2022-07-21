@@ -12,11 +12,14 @@ import cyder.threads.CyderThreadRunner;
 import cyder.user.UserUtil;
 import cyder.utils.*;
 
+import javax.swing.*;
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
+import java.util.Optional;
 
 /**
  * A handler for printing out general response strings.
@@ -235,6 +238,24 @@ public class GeneralPrintHandler extends InputHandler {
                 || getInputHandler().commandIs("print")
                 || getInputHandler().commandIs("println")) {
             getInputHandler().println(getInputHandler().argsToString());
+        } else if (getInputHandler().commandIs("moon")) {
+            Optional<TimeUtil.MoonPhase> currentMoonPhaseOptional = TimeUtil.getCurrentMoonPhase();
+
+            if (currentMoonPhaseOptional.isPresent()) {
+                TimeUtil.MoonPhase currentMoonPhase = currentMoonPhaseOptional.get();
+
+                try {
+                    getInputHandler().println(new ImageIcon(ImageUtil.getImageFromUrl(currentMoonPhase.urlImage())));
+                } catch (IOException e) {
+                    ExceptionHandler.handle(e);
+                }
+
+                getInputHandler().println("Moon phase for " + currentMoonPhase.date()
+                        + ": " + currentMoonPhase.phase());
+                getInputHandler().println("Illumination: " + currentMoonPhase.illumination() + "%");
+            } else {
+                getInputHandler().print("Could not find current moon phase");
+            }
         } else {
             ret = false;
         }
