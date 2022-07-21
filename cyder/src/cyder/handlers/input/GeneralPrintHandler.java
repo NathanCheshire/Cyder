@@ -250,8 +250,7 @@ public class GeneralPrintHandler extends InputHandler {
                     ExceptionHandler.handle(e);
                 }
 
-                getInputHandler().println("Moon phase for " + currentMoonPhase.date()
-                        + ": " + currentMoonPhase.phase());
+                getInputHandler().println("Moon phase: " + currentMoonPhase.phase());
                 getInputHandler().println("Illumination: " + currentMoonPhase.illumination() + "%");
             } else {
                 getInputHandler().print("Could not find current moon phase");

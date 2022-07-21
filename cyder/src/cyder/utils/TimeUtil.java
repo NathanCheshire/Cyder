@@ -665,45 +665,41 @@ public final class TimeUtil {
         }
     }
 
-    private static final String MOON_PHASE_URL = "https://www.moongiant.com/phase/today/";
-    private static final String TODAY_MOON_CONTAINER_ID = "todayMoonContainer";
-    private static final String TODAY_CONTAINER_ID = "today_";
+    private static final String MOON_PHASE_URL = "https://www.timeanddate.com/moon/phases/";
+    private static final String CURRENT_MOON_ID = "cur-moon";
+    private static final String CURRENT_MOON_PERCENT_ID = "cur-moon-percent";
+    private static final String PHASE_ID = "qlook";
+    private static final String SRC = "SRC";
     private static final String IMG = "img";
-    private static final String SRC = "src";
-    private static final String BOLD = "b";
-    private static final String SPAN = "span";
-    private static final String ILLUMINATION = "Illumination";
+    private static final String A_TAG = "a";
 
     /**
      * A record representing a moon phase as defined by stats from
      * <a href="https://www.moongiant.com/phase/today/">moongiant</a>
      */
-    public record MoonPhase(String date, String phase, int illumination, String urlImage) {}
+    public record MoonPhase(String phase, double illumination, String urlImage) {}
 
     /**
      * Returns the current moon phase.
      *
      * @return the current moon phase if present. Empty optional else
-     * @throws IllegalCallerException if any of the following cannot be found: date, phase, illumination, url image
+     * @throws IllegalCallerException if any of the following cannot be found: phase, illumination, url image
      */
     public static Optional<MoonPhase> getCurrentMoonPhase() {
-        String date = null;
         String phase = null;
-        int illumination = -1;
+        double illumination = -1;
         String urlImage = null;
 
         try {
             Document doc = Jsoup.connect(MOON_PHASE_URL).get();
 
-            Element todayMoonContainer = doc.getElementById(TODAY_MOON_CONTAINER_ID);
-            Element informationContainer = doc.getElementById(TODAY_CONTAINER_ID);
-
             // Getting image
-            if (todayMoonContainer != null) {
-                Elements todayMoonContainerElements = todayMoonContainer.getAllElements();
+            Element moonImageContainer = doc.getElementById(CURRENT_MOON_ID);
+            if (moonImageContainer != null) {
+                Elements moonImageElements = moonImageContainer.getAllElements();
 
-                if (todayMoonContainerElements.size() > 0) {
-                    Element imageElement = todayMoonContainerElements.get(0).select(IMG).first();
+                if (moonImageElements.size() > 0) {
+                    Element imageElement = moonImageElements.get(0).select(IMG).first();
 
                     if (imageElement != null) {
                         urlImage = imageElement.absUrl(SRC);
@@ -711,20 +707,16 @@ public final class TimeUtil {
                 }
             }
 
-            // Getting date
-            if (informationContainer != null) {
-                date = informationContainer.select(BOLD).get(0).text();
-            }
-
             // Getting illumination
-            if (informationContainer != null) {
-                illumination = Integer.parseInt(informationContainer.select(SPAN).get(0)
-                        .text().replace("%", ""));
+            Element moonPercentElement = doc.getElementById(CURRENT_MOON_PERCENT_ID);
+            if (moonPercentElement != null) {
+                illumination = Double.parseDouble(moonPercentElement.text().replace("%", ""));
             }
 
             // Getting phase
-            if (date != null) {
-                phase = informationContainer.text().replace(date, "").split(ILLUMINATION)[0];
+            Element phaseElement = doc.getElementById(PHASE_ID);
+            if (phaseElement != null) {
+                phase = phaseElement.select(A_TAG).text();
             }
         } catch (HttpStatusException e) {
             return Optional.empty();
@@ -733,9 +725,7 @@ public final class TimeUtil {
             return Optional.empty();
         }
 
-        if (date == null) {
-            throw new IllegalCallerException("Could not find date");
-        } else if (phase == null) {
+        if (phase == null) {
             throw new IllegalCallerException("Could not find phase");
         } else if (illumination == -1) {
             throw new IllegalCallerException("Could not find illumination");
@@ -743,6 +733,6 @@ public final class TimeUtil {
             throw new IllegalCallerException("Could not find url image");
         }
 
-        return Optional.of(new MoonPhase(date, phase, illumination, urlImage));
+        return Optional.of(new MoonPhase(phase, illumination, urlImage));
     }
 }
