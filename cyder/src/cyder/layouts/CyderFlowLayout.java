@@ -526,9 +526,8 @@ public class CyderFlowLayout extends CyderLayout {
                     height += currentRowMaxComponentHeight;
                     currentRowWidth = 2 * horizontalGap + componentWidth;
                     currentRowMaxComponentHeight = componentHeight;
+                    currentRowComponentCount = 1;
                 }
-
-                currentRowComponentCount = 0;
             } else {
                 currentRowWidth += componentWidth + horizontalGap;
                 currentRowMaxComponentHeight = Math.max(currentRowMaxComponentHeight, componentHeight);
