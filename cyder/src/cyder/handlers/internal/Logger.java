@@ -45,6 +45,11 @@ public final class Logger {
     private static final AtomicInteger objectCreationCounter = new AtomicInteger();
 
     /**
+     * The total number of objects created for an instance of Cyder.
+     */
+    private static int totalObjectsCreated = 0;
+
+    /**
      * The counter used to log the number of exceptions thrown
      * and handled during this session of Cyder.
      */
@@ -95,8 +100,7 @@ public final class Logger {
      * A record to hold a log call which cannot be written due to the logger
      * not being initialized yet.
      */
-    private record AwaitingLog(String line, Tag tag) {
-    }
+    private record AwaitingLog(String line, Tag tag) {}
 
     /**
      * Returns whether the log has started.
@@ -134,6 +138,7 @@ public final class Logger {
      * @param representation the representation of the object
      * @param <T>            the object instance of representation
      */
+    @SuppressWarnings("IfCanBeSwitch")
     public static <T> void log(Tag tag, T representation) {
         if (logConcluded) {
             println(getLogTimeTag() + "[LOG CALL AFTER LOG CONCLUDED]: " + representation);
@@ -226,10 +231,12 @@ public final class Logger {
 
                     eolBuilder.append(" [");
                     eolBuilder.append(condition.getDescription());
-                    eolBuilder.append("], exceptions thrown: ");
+                    eolBuilder.append("], ");
 
                     eolBuilder.append(exceptionsCounter.get() == 0
-                            ? "no exceptions thrown" : exceptionsCounter.get());
+                            ? "no exceptions thrown" : "exceptions thrown: " + exceptionsCounter.get());
+
+                    eolBuilder.append(", total objects created: ").append(totalObjectsCreated);
 
                     formatAndWriteLine(eolBuilder.toString(), tag);
                     logConcluded = true;
@@ -333,12 +340,18 @@ public final class Logger {
     }
 
     /**
+     * The key used to obtain the prop value for whether past
+     * logs should be deleted on the start of a new Cyder session.
+     */
+    private static final String WIPE_LOGS_ON_START = "wipe_logs_on_start";
+
+    /**
      * Initializes the logger for logging by generating the log file, starts
      * the object creation logger, concludes un-concluded logs, consolidates past log lines,
      * and zips the past logs.
      */
     public static void initialize() {
-        if (PropLoader.getBoolean("wipe_logs_on_start")) {
+        if (PropLoader.getBoolean(WIPE_LOGS_ON_START)) {
             OSUtil.deleteFile(OSUtil.buildFile(Dynamic.PATH,
                     Dynamic.LOGS.getDirectoryName()), false);
         }
@@ -382,7 +395,7 @@ public final class Logger {
     private static void writeCyderAsciiArt() {
         // log file created so write Cyder Ascii art first
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(
-                OSUtil.buildFile(OSUtil.buildPath("static", "txt", "cyder.txt")))) ;
+                OSUtil.buildFile("static", "txt", "cyder.txt"))) ;
              BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentLog, true))) {
             String line;
 
@@ -860,13 +873,14 @@ public final class Logger {
 
                 while (true) {
                     if (objectCreationCounter.get() > 0) {
-                        // a less elegant solution but necessary
+                        int objectsCreated = objectCreationCounter.getAndSet(0);
+                        totalObjectsCreated += objectsCreated;
+
                         formatAndWriteLine("[" + TimeUtil.logTime() + "] [OBJECT CREATION]: "
                                 + "Objects created since last delta (" + OBJECT_LOG_FREQUENCY + "ms): "
-                                + objectCreationCounter.getAndSet(0), Tag.OBJECT_CREATION);
+                                + objectsCreated, Tag.OBJECT_CREATION);
                     }
 
-                    // no need to check in small increments here
                     ThreadUtil.sleep(OBJECT_LOG_FREQUENCY);
                 }
             } catch (Exception e) {
