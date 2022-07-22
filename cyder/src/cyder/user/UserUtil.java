@@ -566,6 +566,7 @@ public final class UserUtil {
      * Attempts getter/setter validation for all users.
      * If this fails for a user, they become corrupted
      * for the current session meaning it is not usable.
+     * Also ensures no users with a duplicate name exist.
      */
     public static void validateUsers() {
         // we use all user files here since we are determining if they are corrupted or not
@@ -586,6 +587,20 @@ public final class UserUtil {
                     }
                 }
             }
+        }
+
+        LinkedList<String> usernames = new LinkedList<>();
+
+        for (File userFile : getUserJsons()) {
+            User user = extractUser(userFile);
+            String username = user.getName();
+
+            if (StringUtil.in(username, true, usernames)) {
+                throw new FatalException("Duplicate username found: " + username
+                        + ", second uuid: " + userFile.getParentFile().getName());
+            }
+
+            usernames.add(username);
         }
     }
 
