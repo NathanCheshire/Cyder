@@ -76,11 +76,11 @@ public final class ReflectionUtil {
                     SubroutinePriority priority = (SubroutinePriority) getSubroutinePriorityMethod
                             .invoke(clazz.getConstructor().newInstance());
 
-                    Logger.log(Logger.Tag.DEBUG, "Executing subroutine: " + getBottomLevelClass(clazz));
-
                     if (priority != requestedPriority) {
                         continue;
                     }
+
+                    Logger.log(Logger.Tag.DEBUG, "Executing subroutine: " + getBottomLevelClass(clazz));
 
                     boolean success = (boolean) ensureMethod.invoke(clazz.getConstructor().newInstance());
 
