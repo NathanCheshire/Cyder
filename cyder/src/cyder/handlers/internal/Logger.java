@@ -131,6 +131,12 @@ public final class Logger {
         out.println(string);
     }
 
+    private static final String STRING = "STRING";
+    private static final String IMAGE = "IMAGE";
+    private static final String J_COMPONENT = "J_COMPONENT";
+    private static final String UNKNOWN_CONSOLE_OUT = "UNKNOWN CONSOLE OUT";
+    private static final String LOG_CONCLUDED = "LOG CALL AFTER LOG CONCLUDED";
+
     /**
      * The main log method to log an action associated with a type tag.
      *
@@ -141,7 +147,7 @@ public final class Logger {
     @SuppressWarnings("IfCanBeSwitch")
     public static <T> void log(Tag tag, T representation) {
         if (logConcluded) {
-            println(getLogTimeTag() + "[LOG CALL AFTER LOG CONCLUDED]: " + representation);
+            println(getLogTimeTag() + Tag.constructLogTagPrepend(LOG_CONCLUDED) + representation);
             return;
         } else if (representation instanceof String && (((String) representation).trim().isEmpty()
                 || representation.equals("\n"))) {
@@ -157,65 +163,65 @@ public final class Logger {
 
         switch (tag) {
             case CLIENT:
-                logBuilder.append(constructLogTagPrepend(Tag.CLIENT));
+                logBuilder.append(Tag.CLIENT.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case CONSOLE_OUT:
-                logBuilder.append(constructLogTagPrepend(Tag.CONSOLE_OUT));
+                logBuilder.append(Tag.CONSOLE_OUT.constructLogTagPrepend());
                 if (representation instanceof String) {
-                    logBuilder.append(constructLogTagPrepend("STRING"));
+                    logBuilder.append(Tag.constructLogTagPrepend(STRING));
                     logBuilder.append(representation);
                 } else if (representation instanceof ImageIcon) {
-                    logBuilder.append(constructLogTagPrepend("IMAGE"));
+                    logBuilder.append(Tag.constructLogTagPrepend(IMAGE));
                     logBuilder.append(representation);
                 } else if (representation instanceof JComponent) {
-                    logBuilder.append(constructLogTagPrepend("J_COMPONENT"));
+                    logBuilder.append(Tag.constructLogTagPrepend(J_COMPONENT));
                     logBuilder.append(representation);
                 } else {
-                    logBuilder.append(constructLogTagPrepend("UNKNOWN CONSOLE OUT"));
+                    logBuilder.append(Tag.constructLogTagPrepend(UNKNOWN_CONSOLE_OUT));
                     logBuilder.append(representation);
                 }
                 break;
             case EXCEPTION:
-                logBuilder.append(constructLogTagPrepend(Tag.EXCEPTION));
+                logBuilder.append(Tag.EXCEPTION.constructLogTagPrepend());
                 logBuilder.append(representation);
                 exceptionsCounter.getAndIncrement();
                 break;
             case LINK:
-                logBuilder.append(constructLogTagPrepend(Tag.LINK));
+                logBuilder.append(Tag.LINK.constructLogTagPrepend());
                 if (representation instanceof File) {
                     logBuilder.append("[").append(FileUtil.getExtension((File) representation)).append("] ");
                 }
                 logBuilder.append(representation);
                 break;
             case SUGGESTION:
-                logBuilder.append(constructLogTagPrepend(Tag.SUGGESTION)).append(representation);
+                logBuilder.append(Tag.SUGGESTION.constructLogTagPrepend()).append(representation);
                 break;
             case SYSTEM_IO:
-                logBuilder.append(constructLogTagPrepend(Tag.SYSTEM_IO));
+                logBuilder.append(Tag.SYSTEM_IO.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case LOGIN:
-                logBuilder.append(constructLogTagPrepend(Tag.LOGIN));
+                logBuilder.append(Tag.LOGIN.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case LOGOUT:
-                logBuilder.append(constructLogTagPrepend(Tag.LOGOUT));
+                logBuilder.append(Tag.LOGOUT.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case JVM_ARGS:
-                logBuilder.append(constructLogTagPrepend(Tag.JVM_ARGS));
+                logBuilder.append(Tag.JVM_ARGS.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case JVM_ENTRY:
-                logBuilder.append(constructLogTagPrepend(Tag.JVM_ENTRY));
+                logBuilder.append(Tag.JVM_ENTRY.constructLogTagPrepend());
                 logBuilder.append(representation);
 
                 logStarted = true;
 
                 break;
             case EXIT:
-                logBuilder.append(constructLogTagPrepend(Tag.EXIT));
+                logBuilder.append(Tag.EXIT.constructLogTagPrepend());
                 logBuilder.append("[RUNTIME] ");
                 logBuilder.append(getRuntime());
 
@@ -223,7 +229,7 @@ public final class Logger {
 
                 StringBuilder eolBuilder = new StringBuilder();
                 eolBuilder.append(getLogTimeTag());
-                eolBuilder.append(constructLogTagPrepend("EOL"));
+                eolBuilder.append("EOL");
                 eolBuilder.append("Log completed, exiting Cyder with exit code: ");
 
                 if (representation instanceof ExitCondition condition) {
@@ -246,27 +252,27 @@ public final class Logger {
 
                 return;
             case CORRUPTION:
-                logBuilder.append(constructLogTagPrepend(Tag.CORRUPTION));
+                logBuilder.append(Tag.CORRUPTION.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case DEBUG:
-                logBuilder.append(constructLogTagPrepend(Tag.DEBUG));
+                logBuilder.append(Tag.DEBUG.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case HANDLE_METHOD:
-                logBuilder.append(constructLogTagPrepend(Tag.HANDLE_METHOD));
+                logBuilder.append(Tag.HANDLE_METHOD.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case WIDGET_OPENED:
-                logBuilder.append(constructLogTagPrepend(Tag.WIDGET_OPENED));
+                logBuilder.append(Tag.WIDGET_OPENED.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case PREFERENCE_REFRESH:
-                logBuilder.append(constructLogTagPrepend(Tag.PREFERENCE_REFRESH));
+                logBuilder.append(Tag.PREFERENCE_REFRESH.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case THREAD:
-                logBuilder.append(constructLogTagPrepend(Tag.THREAD));
+                logBuilder.append(Tag.THREAD.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case OBJECT_CREATION:
@@ -274,51 +280,51 @@ public final class Logger {
                     objectCreationCounter.incrementAndGet();
                     return;
                 } else {
-                    logBuilder.append(constructLogTagPrepend("UNIQUE OBJECT CREATED"));
+                    logBuilder.append("UNIQUE OBJECT CREATED");
                     logBuilder.append(representation);
                 }
 
                 break;
             case AUDIO:
-                logBuilder.append(constructLogTagPrepend(Tag.AUDIO));
+                logBuilder.append(Tag.AUDIO.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case UI_ACTION:
-                logBuilder.append(constructLogTagPrepend(Tag.UI_ACTION));
+                logBuilder.append(Tag.UI_ACTION.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case CONSOLE_LOAD:
-                logBuilder.append(constructLogTagPrepend(Tag.CONSOLE_LOAD));
+                logBuilder.append(Tag.CONSOLE_LOAD.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case FONT_LOADED:
-                logBuilder.append(constructLogTagPrepend(Tag.FONT_LOADED));
+                logBuilder.append(Tag.FONT_LOADED);
                 logBuilder.append(representation);
                 break;
             case THREAD_STATUS:
                 if (representation instanceof String) {
-                    logBuilder.append(constructLogTagPrepend("THREAD STATUS POLLED"));
+                    logBuilder.append("THREAD STATUS POLLED");
                     logBuilder.append(representation);
                 } else if (representation instanceof Thread) {
                     logBuilder.append(Tag.THREAD_STATUS);
                     logBuilder.append("name = ").append(((Thread) representation).getName()).append(", state = ")
                             .append(((Thread) representation).getState());
                 } else {
-                    logBuilder.append(constructLogTagPrepend("THREAD"));
+                    logBuilder.append("THREAD");
                     logBuilder.append(representation);
                 }
 
                 break;
             case CONSOLE_REDIRECTION:
-                logBuilder.append(constructLogTagPrepend(Tag.CONSOLE_REDIRECTION));
+                logBuilder.append(Tag.CONSOLE_REDIRECTION.constructLogTagPrepend());
                 logBuilder.append("console output was redirected to files/").append(representation);
                 break;
             case CRUD_OP:
-                logBuilder.append(constructLogTagPrepend(Tag.CRUD_OP));
+                logBuilder.append(Tag.CRUD_OP.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case PROP_LOADED:
-                logBuilder.append(constructLogTagPrepend(Tag.PROP_LOADED));
+                logBuilder.append(Tag.PROP_LOADED.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             default:
@@ -900,26 +906,6 @@ public final class Logger {
     }
 
     /**
-     * Constructs the string value prepended to the log line before the representation.
-     *
-     * @param logTag the log tag
-     * @return the string to prepend to the log line
-     */
-    private static String constructLogTagPrepend(Tag logTag) {
-        return constructLogTagPrepend(logTag.logName);
-    }
-
-    /**
-     * Constructs the string value prepended to the log line before the representation.
-     *
-     * @param tagString the string representation of an exclusive log tag
-     * @return the string to prepend to the log line
-     */
-    private static String constructLogTagPrepend(String tagString) {
-        return "[" + tagString + "]: ";
-    }
-
-    /**
      * Supported tags for log entries
      */
     public enum Tag {
@@ -1051,6 +1037,30 @@ public final class Logger {
          */
         public String getLogName() {
             return logName;
+        }
+
+        /**
+         * Constructs a log tag prepend for this log tag.
+         *
+         * @return a log tag prepend for this log tag
+         */
+        public String constructLogTagPrepend() {
+            return "[" + this.logName + "]: ";
+        }
+
+        /**
+         * Constructs the string value prepended to the log line before the representation.
+         *
+         * @param tagString the string representation of an exclusive log tag
+         * @return the string to prepend to the log line
+         */
+        public static String constructLogTagPrepend(String tagString) {
+            return "[" + tagString + "]: ";
+        }
+
+        @Override
+        public String toString() {
+            return constructLogTagPrepend(logName);
         }
     }
 }
