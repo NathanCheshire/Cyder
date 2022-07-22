@@ -1,1 +1,0 @@
-# TODO the Cyder architecture and flowchart
