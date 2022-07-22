@@ -286,6 +286,8 @@ public class CyderComponentResizer extends MouseAdapter {
         if (dragDirection == 0)
             return;
 
+        System.out.println(minimumSize);
+
         currentlyResizing = true;
 
         Component source = e.getComponent();

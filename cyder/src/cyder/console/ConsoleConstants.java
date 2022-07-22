@@ -13,10 +13,12 @@ import java.awt.event.KeyEvent;
  * Constants used for the {@link Console}.
  */
 public final class ConsoleConstants {
+    public static final int MIN_LEN = 600;
+
     /**
      * The absolute minimum size allowable for the Console.
      */
-    public static final Dimension MINIMUM_SIZE = new Dimension(600, 600);
+    public static final Dimension MINIMUM_SIZE = new Dimension(MIN_LEN, MIN_LEN);
 
     /**
      * The possible audio files to play if the starting user background is grayscale.

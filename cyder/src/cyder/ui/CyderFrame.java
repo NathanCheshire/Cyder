@@ -328,7 +328,7 @@ public class CyderFrame extends JFrame {
      */
     public CyderFrame(int width, int height, Color c) {
         this(width, height, ImageUtil.imageIconFromColor(c,
-                Math.max(MINIMUM_WIDTH, width), Math.max(MINIMUM_HEIGHT, height)));
+                Math.max(MINIMUM_LEN, width), Math.max(MINIMUM_LEN, height)));
     }
 
     /**
@@ -1722,16 +1722,16 @@ public class CyderFrame extends JFrame {
     private Dimension validateRequestedSize(int width, int height) {
         String title = getTitle().length() < 1 ? "No title found" : getTitle();
 
-        if (width < MINIMUM_WIDTH) {
+        if (width < MINIMUM_LEN) {
             Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + title
                     + "\" was attempted to be set to invalid width: " + width);
-            width = MINIMUM_WIDTH;
+            width = MINIMUM_LEN;
         }
 
-        if (height < MINIMUM_HEIGHT) {
+        if (height < MINIMUM_LEN) {
             Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + title
                     + "\" was attempted to be set to invalid height: " + height);
-            height = MINIMUM_HEIGHT;
+            height = MINIMUM_LEN;
         }
 
         return new Dimension(width, height);
@@ -1811,7 +1811,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Sets the size of this frame ensuring that the sizing is not below
-     * {@link CyderFrame#MINIMUM_WIDTH} by {@link CyderFrame#MINIMUM_HEIGHT}
+     * {@link CyderFrame#MINIMUM_LEN} by {@link CyderFrame#MINIMUM_LEN}
      *
      * @param width  width of frame
      * @param height height of frame
@@ -2045,19 +2045,14 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * The minimum allowable width for a CyderFrame.
-     */
-    public static final int MINIMUM_WIDTH = 100;
-
-    /**
      * The maximum allowable height for a CyderFrame.
      */
-    public static final int MINIMUM_HEIGHT = 100;
+    public static final int MINIMUM_LEN = 100;
 
     /**
      * The default minimum size of a CyderFrame.
      */
-    public static final Dimension DEFAULT_MIN_SIZE = new Dimension(MINIMUM_WIDTH, MINIMUM_HEIGHT);
+    public static final Dimension DEFAULT_MIN_SIZE = new Dimension(MINIMUM_LEN, MINIMUM_LEN);
 
     /**
      * The minimum size dimension.
@@ -2274,7 +2269,7 @@ public class CyderFrame extends JFrame {
                     height - 2 * FRAME_RESIZING_LEN);
 
             if (cr != null) {
-                cr.setMinimumSize(DEFAULT_MIN_SIZE);
+                cr.setMinimumSize(minimumSize);
                 cr.setMaximumSize(new Dimension(background.getIconWidth(), background.getIconHeight()));
             }
 

@@ -73,8 +73,8 @@ public final class FrameUtil {
      */
     public static void screenshotCyderFrames() {
         for (CyderFrame frame : getCyderFrames()) {
-            if (frame.isVisible() && frame.getWidth() >= CyderFrame.MINIMUM_WIDTH
-                    && frame.getHeight() >= CyderFrame.MINIMUM_HEIGHT) {
+            if (frame.isVisible() && frame.getWidth() >= CyderFrame.MINIMUM_LEN
+                    && frame.getHeight() >= CyderFrame.MINIMUM_LEN) {
                 screenshotCyderFrame(frame);
             }
         }
