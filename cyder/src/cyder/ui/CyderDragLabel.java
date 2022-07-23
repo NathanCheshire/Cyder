@@ -98,10 +98,13 @@ public class CyderDragLabel extends JLabel {
                 int y = e.getYOnScreen();
 
                 if (effectFrame != null && effectFrame.isFocused() && draggingEnabled) {
-                    effectFrame.setLocation(x - mouseX.get() - xOffset,
-                            y - mouseY.get() - yOffset);
-                    effectFrame.setRestoreX(effectFrame.getX());
-                    effectFrame.setRestoreY(effectFrame.getY());
+                    int setToX = x - mouseX.get() - xOffset;
+                    int setToY = y - mouseY.get() - yOffset;
+
+                    effectFrame.setLocation(setToX, setToY);
+
+                    effectFrame.setRestoreX(setToX);
+                    effectFrame.setRestoreY(setToY);
                 }
             }
 
