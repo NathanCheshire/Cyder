@@ -79,7 +79,10 @@ public class CyderPartitionedLayout extends CyderLayout {
         this(0);
     }
 
-    private final ArrayList<Component> components;
+    /**
+     * The direct components managed by this layout.
+     */
+    private final ArrayList<PartitionedComponent> components;
 
     /**
      * Constructs a new partitioned layout.
@@ -202,7 +205,13 @@ public class CyderPartitionedLayout extends CyderLayout {
      * {@inheritDoc}
      */
     public ArrayList<Component> getLayoutComponents() {
-        return components;
+        ArrayList<Component> ret = new ArrayList<>(components.size());
+
+        for (PartitionedComponent component : components) {
+            ret.add(component.getComponent());
+        }
+
+        return ret;
     }
 
     /**
@@ -261,8 +270,7 @@ public class CyderPartitionedLayout extends CyderLayout {
      *
      * @param newComponentPartitionAlignment the partition alignment for new components
      */
-    public void setNewComponentPartitionAlignment(
-            PartitionAlignment newComponentPartitionAlignment) {
+    public void setNewComponentPartitionAlignment(PartitionAlignment newComponentPartitionAlignment) {
         this.newComponentPartitionAlignment = newComponentPartitionAlignment;
     }
 
@@ -292,7 +300,15 @@ public class CyderPartitionedLayout extends CyderLayout {
      */
     public void addComponent(Component component) {
         Preconditions.checkNotNull(component);
-        Preconditions.checkArgument(!components.contains(component));
+
+        boolean in = false;
+        for (PartitionedComponent partitionedComponent : components) {
+            if (partitionedComponent.getComponent().equals(component)) {
+                in = true;
+                break;
+            }
+        }
+        Preconditions.checkArgument(!in, "Layout already contains component");
 
         addComponent(component, newComponentPartitionSpace);
     }
@@ -326,6 +342,6 @@ public class CyderPartitionedLayout extends CyderLayout {
         Preconditions.checkArgument(PARTITION_RANGE.contains(partitionSpace));
         Preconditions.checkArgument(partitionSpace + partitionsSum < MAX_PARTITION);
 
-
+        // todo
     }
 }
