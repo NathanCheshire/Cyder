@@ -7,8 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * A base layout class to allow Cyder layouts to have the necessary component properties
- * while suppressing possibly confusing methods.
+ * A base layout class to suppress confusing, leftover
+ * methods resulting from extending {@link JLabel}.
  */
 public class CyderLayout extends JLabel implements ICyderLayout {
     /*
@@ -24,7 +24,7 @@ public class CyderLayout extends JLabel implements ICyderLayout {
      */
     @Override
     @Deprecated
-    public Component add(Component c) {
+    public Component add(Component component) {
         throw new IllegalMethodException(UNSUPPORTED);
     }
 

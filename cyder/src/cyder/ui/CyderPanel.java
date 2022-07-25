@@ -1,6 +1,6 @@
 package cyder.ui;
 
-import cyder.constants.CyderStrings;
+import com.google.common.base.Preconditions;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
 import cyder.layouts.CyderLayout;
@@ -20,11 +20,13 @@ public class CyderPanel extends JLabel {
      * for a CyderFrame or act like a regular component.
      */
 
+    private static final String INSTANTIATION_ERROR_MESSAGE = "Cannot instantiate cyder panel without a valid layout";
+
     /**
      * Restrict class instantiation without a valid cyder layout.
      */
     private CyderPanel() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+        throw new IllegalMethodException(INSTANTIATION_ERROR_MESSAGE);
     }
 
     /**
@@ -33,7 +35,7 @@ public class CyderPanel extends JLabel {
      * @param cyderLayout the layout that manages components
      */
     public CyderPanel(CyderLayout cyderLayout) {
-        this.cyderLayout = cyderLayout;
+        this.cyderLayout = Preconditions.checkNotNull(cyderLayout);
         cyderLayout.setAssociatedPanel(this);
         revalidateComponents();
 
@@ -51,7 +53,8 @@ public class CyderPanel extends JLabel {
      * and then set the panel to a {@link CyderFrame}'s content pane to use layouts with Cyder.
      */
     @Override
-    public void setLayout(LayoutManager lay) {
+    @Deprecated
+    public void setLayout(LayoutManager layout) {
         super.setLayout(null);
     }
 
@@ -65,7 +68,7 @@ public class CyderPanel extends JLabel {
      *
      * @return whether content pane painting is disabled
      */
-    public boolean contentRepaintingDisabled() {
+    public boolean isContentRepaintingDisabled() {
         return disableContentRepainting;
     }
 
