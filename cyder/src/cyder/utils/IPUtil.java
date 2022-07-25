@@ -18,7 +18,7 @@ import java.net.URL;
 /**
  * Utility methods for ip data queries.
  */
-public class IPUtil {
+public final class IPUtil {
     /**
      * Suppress default constructor.
      */

@@ -8,6 +8,7 @@ import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.external.PhotoViewer;
@@ -69,7 +70,12 @@ public final class IOUtil {
             desktop.browse(FileURI);
         } catch (Exception e) {
             try {
-                Runtime.getRuntime().exec("explorer.exe /select," + filePath);
+                if (OSUtil.OPERATING_SYSTEM == OSUtil.OperatingSystem.WINDOWS) {
+                    Runtime.getRuntime().exec("explorer.exe /select," + filePath);
+                } else {
+                    throw new FatalException("Could not open file; tell Nathan to fix me");
+                }
+
                 Logger.log(Logger.Tag.LINK, filePath);
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
@@ -90,8 +96,8 @@ public final class IOUtil {
 
         try {
             URL url = new URL(fileOrLink);
-            URLConnection conn = url.openConnection();
-            conn.connect();
+            URLConnection connection = url.openConnection();
+            connection.connect();
             validLink = true;
         } catch (Exception ex) {
             validLink = false;
@@ -184,23 +190,21 @@ public final class IOUtil {
         Preconditions.checkNotNull(filePath);
         Preconditions.checkArgument(!filePath.isEmpty());
 
-        // create file object
         File file = new File(filePath);
+        Preconditions.checkArgument(file.exists());
 
-        // check for Cyder support
         if (filePath.endsWith(".txt")) {
             TextViewer.getInstance(file).showGui();
-            return;
         } else if (FileUtil.isSupportedImageExtension(new File(filePath))) {
             PhotoViewer.getInstance(file).showGui();
-            return;
         } else if (FileUtil.isSupportedAudioExtension(new File(filePath))) {
             AudioPlayer.showGui(file);
-            return;
+        } else {
+            openFileOutsideProgram(filePath);
         }
-
-        openFileOutsideProgram(filePath);
     }
+
+    private static final String IO_UTIL_GENERAL_AUDIO_THREAD_NAME = "IOUtil General Audio";
 
     /**
      * Plays the requested audio file using the general IOUtil JLayer player which can be terminated by the user.
@@ -210,6 +214,7 @@ public final class IOUtil {
     public static void playGeneralAudio(String filePath) {
         Preconditions.checkNotNull(filePath);
         Preconditions.checkArgument(!filePath.isEmpty());
+        Preconditions.checkArgument(new File(filePath).exists());
 
         try {
             stopGeneralAudio();
@@ -225,7 +230,7 @@ public final class IOUtil {
                 } finally {
                     Console.INSTANCE.revalidateAudioMenu();
                 }
-            }, "IOUtil audio thread");
+            }, IO_UTIL_GENERAL_AUDIO_THREAD_NAME);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -252,6 +257,8 @@ public final class IOUtil {
 
         playSystemAudio(filePath, true);
     }
+
+    private static final String SYSTEM_AUDIO_PLAYER_THREAD_NAME = "System Audio Player";
 
     /**
      * Plays the requested audio file using a new JLayer Player object.
@@ -282,7 +289,7 @@ public final class IOUtil {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-            }, "System Audio Player");
+            }, SYSTEM_AUDIO_PLAYER_THREAD_NAME);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -331,7 +338,18 @@ public final class IOUtil {
         }
     }
 
-    private record DosAttribute(String name, String value) { }
+    private record DosAttribute(String name, String value) {}
+
+    private static final String IS_ARCHIVE = "isArchive";
+    private static final String IS_HIDDEN = "isHidden";
+    private static final String IS_READ_ONLY = "isReadOnly";
+    private static final String IS_SYSTEM = "isSystem";
+    private static final String CREATION_TIME = "creationTime";
+    private static final String IS_DIRECTORY = "isDirectory";
+    private static final String IS_OTHER = "isOther";
+    private static final String IS_SYMBOLIC_LINK = "isSymbolicLink";
+    private static final String LAST_ACCESS_TIME = "lastAccessTime";
+    private static final String LAST_MODIFIED_TIME = "lastModifiedTime";
 
     /**
      * Gets DOS attributes of the provided file.
@@ -346,16 +364,16 @@ public final class IOUtil {
         try {
             DosFileAttributes attr = Files.readAttributes(Paths.get(file.getPath()), DosFileAttributes.class);
             return ImmutableList.of(
-                    new DosAttribute("isArchive", String.valueOf(attr.isArchive())),
-                    new DosAttribute("isHidden", String.valueOf(attr.isHidden())),
-                    new DosAttribute("isReadOnly", String.valueOf(attr.isReadOnly())),
-                    new DosAttribute("isSystem", String.valueOf(attr.isSystem())),
-                    new DosAttribute("creationTime", String.valueOf(attr.creationTime())),
-                    new DosAttribute("isDirectory", String.valueOf(attr.isDirectory())),
-                    new DosAttribute("isOther", String.valueOf(attr.isOther())),
-                    new DosAttribute("isSymbolicLink", String.valueOf(attr.isSymbolicLink())),
-                    new DosAttribute("lastAccessTime", String.valueOf(attr.lastAccessTime())),
-                    new DosAttribute("lastModifiedTime", String.valueOf(attr.lastModifiedTime())));
+                    new DosAttribute(IS_ARCHIVE, String.valueOf(attr.isArchive())),
+                    new DosAttribute(IS_HIDDEN, String.valueOf(attr.isHidden())),
+                    new DosAttribute(IS_READ_ONLY, String.valueOf(attr.isReadOnly())),
+                    new DosAttribute(IS_SYSTEM, String.valueOf(attr.isSystem())),
+                    new DosAttribute(CREATION_TIME, String.valueOf(attr.creationTime())),
+                    new DosAttribute(IS_DIRECTORY, String.valueOf(attr.isDirectory())),
+                    new DosAttribute(IS_OTHER, String.valueOf(attr.isOther())),
+                    new DosAttribute(IS_SYMBOLIC_LINK, String.valueOf(attr.isSymbolicLink())),
+                    new DosAttribute(LAST_ACCESS_TIME, String.valueOf(attr.lastAccessTime())),
+                    new DosAttribute(LAST_MODIFIED_TIME, String.valueOf(attr.lastModifiedTime())));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

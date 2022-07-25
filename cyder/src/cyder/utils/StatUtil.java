@@ -19,7 +19,10 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
@@ -122,8 +125,7 @@ public final class StatUtil {
     /**
      * A record type to hold the stats returned by {@link StatUtil#getDebugProps()}.
      */
-    public record DebugStats(ImmutableList<String> lines, ImageIcon countryFlag) {
-    }
+    public record DebugStats(ImmutableList<String> lines, ImageIcon countryFlag) {}
 
     /**
      * Returns a debug object containing the found user flag and some common debug details.
@@ -499,6 +501,5 @@ public final class StatUtil {
     /**
      * A record to associate a file name with its size.
      */
-    public record FileSize(String name, long size) {
-    }
+    public record FileSize(String name, long size) {}
 }

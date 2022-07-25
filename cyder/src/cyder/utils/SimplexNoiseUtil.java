@@ -32,19 +32,14 @@ public class SimplexNoiseUtil {
     private static final double SQUISH_CONSTANT_3D = 1.0 / 3;
 
     /**
-     * (1 / Math.sqrt(4 + 1) - 1) / 4;
-     */
-    private static final double STRETCH_CONSTANT_4D = -0.138196601125011;
-
-    /**
      * (Math.sqrt(4 + 1) - 1) / 4;
      */
     private static final double SQUISH_CONSTANT_4D = 0.309016994374947;
 
     private static final long DEFAULT_SEED = 25;
 
-    private static final int PSIZE = 2048;
-    private static final int PMASK = 2047;
+    private static final int P_SIZE = 2048;
+    private static final int P_MASK = 2047;
 
     private final short[] perm;
     private final Grad2[] permGrad2;
@@ -58,11 +53,11 @@ public class SimplexNoiseUtil {
 
     public SimplexNoiseUtil(short[] perm) {
         this.perm = perm;
-        permGrad2 = new Grad2[PSIZE];
-        permGrad3 = new Grad3[PSIZE];
-        permGrad4 = new Grad4[PSIZE];
+        permGrad2 = new Grad2[P_SIZE];
+        permGrad3 = new Grad3[P_SIZE];
+        permGrad4 = new Grad4[P_SIZE];
 
-        for (int i = 0 ; i < PSIZE ; i++) {
+        for (int i = 0 ; i < P_SIZE ; i++) {
             permGrad2[i] = GRADIENTS_2D[perm[i]];
             permGrad3[i] = GRADIENTS_3D[perm[i]];
             permGrad4[i] = GRADIENTS_4D[perm[i]];
@@ -72,14 +67,14 @@ public class SimplexNoiseUtil {
     }
 
     public SimplexNoiseUtil(long seed) {
-        perm = new short[PSIZE];
-        permGrad2 = new Grad2[PSIZE];
-        permGrad3 = new Grad3[PSIZE];
-        permGrad4 = new Grad4[PSIZE];
-        short[] source = new short[PSIZE];
-        for (short i = 0 ; i < PSIZE ; i++)
+        perm = new short[P_SIZE];
+        permGrad2 = new Grad2[P_SIZE];
+        permGrad3 = new Grad3[P_SIZE];
+        permGrad4 = new Grad4[P_SIZE];
+        short[] source = new short[P_SIZE];
+        for (short i = 0 ; i < P_SIZE ; i++)
             source[i] = i;
-        for (int i = PSIZE - 1 ; i >= 0 ; i--) {
+        for (int i = P_SIZE - 1 ; i >= 0 ; i--) {
             seed = seed * 6364136223846793005L + 1442695040888963407L;
             int r = (int) ((seed + 31) % (i + 1));
             if (r < 0)
@@ -106,16 +101,16 @@ public class SimplexNoiseUtil {
         int ysb = fastFloor(ys);
 
         // Compute grid coordinates relative to rhombus origin.
-        double xins = xs - xsb;
-        double yins = ys - ysb;
+        double xIns = xs - xsb;
+        double yIns = ys - ysb;
 
         // Sum those together to get a value that determines which region we're in.
-        double inSum = xins + yins;
+        double inSum = xIns + yIns;
 
         // Positions relative to origin point.
         double squishOffsetIns = inSum * SQUISH_CONSTANT_2D;
-        double dx0 = xins + squishOffsetIns;
-        double dy0 = yins + squishOffsetIns;
+        double dx0 = xIns + squishOffsetIns;
+        double dy0 = yIns + squishOffsetIns;
 
         // We'll be defining these inside the next block and using them afterwards.
         double dx_ext, dy_ext;
@@ -142,9 +137,9 @@ public class SimplexNoiseUtil {
         }
 
         if (inSum <= 1) { // We're inside the triangle (2-Simplex) at (0,0)
-            double zins = 1 - inSum;
-            if (zins > xins || zins > yins) { // (0,0) is one of the closest two triangular vertices
-                if (xins > yins) {
+            double zIns = 1 - inSum;
+            if (zIns > xIns || zIns > yIns) { // (0,0) is one of the closest two triangular vertices
+                if (xIns > yIns) {
                     xsv_ext = xsb + 1;
                     ysv_ext = ysb - 1;
                     dx_ext = dx0 - 1;
@@ -162,9 +157,9 @@ public class SimplexNoiseUtil {
                 dy_ext = dy0 - 1 - 2 * SQUISH_CONSTANT_2D;
             }
         } else { // We're inside the triangle (2-Simplex) at (1,1)
-            double zins = 2 - inSum;
-            if (zins < xins || zins < yins) { // (0,0) is one of the closest two triangular vertices
-                if (xins > yins) {
+            double zIns = 2 - inSum;
+            if (zIns < xIns || zIns < yIns) { // (0,0) is one of the closest two triangular vertices
+                if (xIns > yIns) {
                     xsv_ext = xsb + 2;
                     ysv_ext = ysb;
                     dx_ext = dx0 - 2 - 2 * SQUISH_CONSTANT_2D;
@@ -206,19 +201,18 @@ public class SimplexNoiseUtil {
 
     // 3D OpenSimplex Noise.
     public double eval(double x, double y, double z) {
-
-        // Place input coordinates on simplectic honeycomb.
+        // Place input coordinates on simplistic honeycomb.
         double stretchOffset = (x + y + z) * STRETCH_CONSTANT_3D;
         double xs = x + stretchOffset;
         double ys = y + stretchOffset;
         double zs = z + stretchOffset;
 
-        return eval3_Base(xs, ys, zs);
+        return eval3Base(xs, ys, zs);
     }
 
     // Not as good as in SuperSimplex/OpenSimplex2S, since there are more visible differences between different slices.
     // The Z coordinate should always be the "different" coordinate in your use case.
-    public double eval3_XYBeforeZ(double x, double y, double z) {
+    public double eval3XYBeforeZ(double x, double y, double z) {
         // Combine rotation with skew transform.
         double xy = x + y;
         double s2 = xy * 0.211324865405187;
@@ -226,11 +220,11 @@ public class SimplexNoiseUtil {
         double xs = s2 - x + zz, ys = s2 - y + zz;
         double zs = xy * 0.577350269189626 + zz;
 
-        return eval3_Base(xs, ys, zs);
+        return eval3Base(xs, ys, zs);
     }
 
     // Similar to the above, except the Y coordinate should always be the "different" coordinate in your use case.
-    public double eval3_XZBeforeY(double x, double y, double z) {
+    public double eval3XZBeforeY(double x, double y, double z) {
         // Combine rotation with skew transform.
         double xz = x + z;
         double s2 = xz * 0.211324865405187;
@@ -238,30 +232,29 @@ public class SimplexNoiseUtil {
         double xs = s2 - x + yy, zs = s2 - z + yy;
         double ys = xz * 0.577350269189626 + yy;
 
-        return eval3_Base(xs, ys, zs);
+        return eval3Base(xs, ys, zs);
     }
 
     // 3D OpenSimplex Noise (base which takes skewed coordinates directly).
-    private double eval3_Base(double xs, double ys, double zs) {
-
+    private double eval3Base(double xs, double ys, double zs) {
         // Floor to get simplectic honeycomb coordinates of rhombohedron (stretched cube) super-cell origin.
         int xsb = fastFloor(xs);
         int ysb = fastFloor(ys);
         int zsb = fastFloor(zs);
 
         // Compute simplectic honeycomb coordinates relative to rhombohedral origin.
-        double xins = xs - xsb;
-        double yins = ys - ysb;
-        double zins = zs - zsb;
+        double xIns = xs - xsb;
+        double yIns = ys - ysb;
+        double zIns = zs - zsb;
 
         // Sum those together to get a value that determines which region we're in.
-        double inSum = xins + yins + zins;
+        double inSum = xIns + yIns + zIns;
 
         // Positions relative to origin point.
         double squishOffsetIns = inSum * SQUISH_CONSTANT_3D;
-        double dx0 = xins + squishOffsetIns;
-        double dy0 = yins + squishOffsetIns;
-        double dz0 = zins + squishOffsetIns;
+        double dx0 = xIns + squishOffsetIns;
+        double dy0 = yIns + squishOffsetIns;
+        double dz0 = zIns + squishOffsetIns;
 
         // We'll be defining these inside the next block and using them afterwards.
         double dx_ext0, dy_ext0, dz_ext0;
@@ -274,14 +267,14 @@ public class SimplexNoiseUtil {
 
             // Determine which two of (0,0,1), (0,1,0), (1,0,0) are closest.
             byte aPoint = 0x01;
-            double aScore = xins;
+            double aScore = xIns;
             byte bPoint = 0x02;
-            double bScore = yins;
-            if (aScore >= bScore && zins > bScore) {
-                bScore = zins;
+            double bScore = yIns;
+            if (aScore >= bScore && zIns > bScore) {
+                bScore = zIns;
                 bPoint = 0x04;
-            } else if (aScore < bScore && zins > aScore) {
-                aScore = zins;
+            } else if (aScore < bScore && zIns > aScore) {
+                aScore = zIns;
                 aPoint = 0x04;
             }
 
@@ -399,14 +392,14 @@ public class SimplexNoiseUtil {
 
             // Determine which two tetrahedral vertices are the closest, out of (1,1,0), (1,0,1), (0,1,1) but not (1,1,1).
             byte aPoint = 0x06;
-            double aScore = xins;
+            double aScore = xIns;
             byte bPoint = 0x05;
-            double bScore = yins;
-            if (aScore <= bScore && zins < bScore) {
-                bScore = zins;
+            double bScore = yIns;
+            if (aScore <= bScore && zIns < bScore) {
+                bScore = zIns;
                 bPoint = 0x03;
-            } else if (aScore > bScore && zins < aScore) {
-                aScore = zins;
+            } else if (aScore > bScore && zIns < aScore) {
+                aScore = zIns;
                 aPoint = 0x03;
             }
 
@@ -532,7 +525,7 @@ public class SimplexNoiseUtil {
             boolean bIsFurtherSide;
 
             // Decide between point (0,0,1) and (1,1,0) as closest
-            double p1 = xins + yins;
+            double p1 = xIns + yIns;
             if (p1 > 1) {
                 aScore = p1 - 1;
                 aPoint = 0x03;
@@ -544,7 +537,7 @@ public class SimplexNoiseUtil {
             }
 
             // Decide between point (0,1,0) and (1,0,1) as closest
-            double p2 = xins + zins;
+            double p2 = xIns + zIns;
             if (p2 > 1) {
                 bScore = p2 - 1;
                 bPoint = 0x05;
@@ -556,26 +549,22 @@ public class SimplexNoiseUtil {
             }
 
             // The closest out of the two (1,0,0) and (0,1,1) will replace the furthest out of the two decided above, if closer.
-            double p3 = yins + zins;
+            double p3 = yIns + zIns;
             if (p3 > 1) {
                 double score = p3 - 1;
                 if (aScore <= bScore && aScore < score) {
-                    aScore = score;
                     aPoint = 0x06;
                     aIsFurtherSide = true;
                 } else if (aScore > bScore && bScore < score) {
-                    bScore = score;
                     bPoint = 0x06;
                     bIsFurtherSide = true;
                 }
             } else {
                 double score = 1 - p3;
                 if (aScore <= bScore && aScore < score) {
-                    aScore = score;
                     aPoint = 0x01;
                     aIsFurtherSide = false;
                 } else if (aScore > bScore && bScore < score) {
-                    bScore = score;
                     bPoint = 0x01;
                     bIsFurtherSide = false;
                 }
@@ -778,65 +767,61 @@ public class SimplexNoiseUtil {
     }
 
     public double eval(double x, double y, double z, double w) {
-
         // Get points for A4 lattice
         double s = -0.138196601125011 * (x + y + z + w);
         double xs = x + s, ys = y + s, zs = z + s, ws = w + s;
 
-        return eval4_Base(xs, ys, zs, ws);
+        return eval4Base(xs, ys, zs, ws);
     }
 
-    public double eval4_XYBeforeZW(double x, double y, double z, double w) {
-
+    public double eval4XYBeforeZW(double x, double y, double z, double w) {
         double s2 = (x + y) * -0.178275657951399372 + (z + w) * 0.215623393288842828;
         double t2 = (z + w) * -0.403949762580207112 + (x + y) * -0.375199083010075342;
         double xs = x + s2, ys = y + s2, zs = z + t2, ws = w + t2;
 
-        return eval4_Base(xs, ys, zs, ws);
+        return eval4Base(xs, ys, zs, ws);
     }
 
-    public double eval4_XZBeforeYW(double x, double y, double z, double w) {
-
+    public double eval4XZBeforeYW(double x, double y, double z, double w) {
         double s2 = (x + z) * -0.178275657951399372 + (y + w) * 0.215623393288842828;
         double t2 = (y + w) * -0.403949762580207112 + (x + z) * -0.375199083010075342;
         double xs = x + s2, ys = y + t2, zs = z + s2, ws = w + t2;
 
-        return eval4_Base(xs, ys, zs, ws);
+        return eval4Base(xs, ys, zs, ws);
     }
 
-    public double eval4_XYZBeforeW(double x, double y, double z, double w) {
-
+    public double eval4XYZBeforeW(double x, double y, double z, double w) {
         double xyz = x + y + z;
         double ww = w * 0.2236067977499788;
         double s2 = xyz * -0.16666666666666666 + ww;
         double xs = x + s2, ys = y + s2, zs = z + s2, ws = -0.5 * xyz + ww;
 
-        return eval4_Base(xs, ys, zs, ws);
+        return eval4Base(xs, ys, zs, ws);
     }
 
     // 4D OpenSimplex Noise.
-    private double eval4_Base(double xs, double ys, double zs, double ws) {
-
-        // Floor to get simplectic honeycomb coordinates of rhombo-hypercube super-cell origin.
+    @SuppressWarnings("ConstantConditions")
+    private double eval4Base(double xs, double ys, double zs, double ws) {
+        // Floor to get simplistic honeycomb coordinates of rhomboid-hypercube super-cell origin.
         int xsb = fastFloor(xs);
         int ysb = fastFloor(ys);
         int zsb = fastFloor(zs);
         int wsb = fastFloor(ws);
 
-        // Compute simplectic honeycomb coordinates relative to rhombo-hypercube origin.
-        double xins = xs - xsb;
-        double yins = ys - ysb;
-        double zins = zs - zsb;
+        /* Compute simplistic honeycomb coordinates relative to rhombo-hypercube origin. */
+        double xIns = xs - xsb;
+        double yIns = ys - ysb;
+        double zIns = zs - zsb;
         double wins = ws - wsb;
 
         // Sum those together to get a value that determines which region we're in.
-        double inSum = xins + yins + zins + wins;
+        double inSum = xIns + yIns + zIns + wins;
 
         // Positions relative to origin point.
         double squishOffsetIns = inSum * SQUISH_CONSTANT_4D;
-        double dx0 = xins + squishOffsetIns;
-        double dy0 = yins + squishOffsetIns;
-        double dz0 = zins + squishOffsetIns;
+        double dx0 = xIns + squishOffsetIns;
+        double dy0 = yIns + squishOffsetIns;
+        double dz0 = zIns + squishOffsetIns;
         double dw0 = wins + squishOffsetIns;
 
         // We'll be defining these inside the next block and using them afterwards.
@@ -852,14 +837,14 @@ public class SimplexNoiseUtil {
 
             // Determine which two of (0,0,0,1), (0,0,1,0), (0,1,0,0), (1,0,0,0) are closest.
             byte aPoint = 0x01;
-            double aScore = xins;
+            double aScore = xIns;
             byte bPoint = 0x02;
-            double bScore = yins;
-            if (aScore >= bScore && zins > bScore) {
-                bScore = zins;
+            double bScore = yIns;
+            if (aScore >= bScore && zIns > bScore) {
+                bScore = zIns;
                 bPoint = 0x04;
-            } else if (aScore < bScore && zins > aScore) {
-                aScore = zins;
+            } else if (aScore < bScore && zIns > aScore) {
+                aScore = zIns;
                 aPoint = 0x04;
             }
             if (aScore >= bScore && wins > bScore) {
@@ -872,8 +857,8 @@ public class SimplexNoiseUtil {
 
             // Now we determine the three lattice points not part of the pentachoron that may contribute.
             // This depends on the closest two pentachoron vertices, including (0,0,0,0)
-            double uins = 1 - inSum;
-            if (uins > aScore || uins > bScore) { // (0,0,0,0) is one of the closest two pentachoron vertices.
+            double uIns = 1 - inSum;
+            if (uIns > aScore || uIns > bScore) { // (0,0,0,0) is one of the closest two pentachoron vertices.
                 byte c = (bScore > aScore ? bPoint : aPoint); // Our other closest vertex is the closest out of a and b.
                 if ((c & 0x01) == 0) {
                     xsv_ext0 = xsb - 1;
@@ -1036,14 +1021,14 @@ public class SimplexNoiseUtil {
         } else if (inSum >= 3) { // We're inside the pentachoron (4-Simplex) at (1,1,1,1)
             // Determine which two of (1,1,1,0), (1,1,0,1), (1,0,1,1), (0,1,1,1) are closest.
             byte aPoint = 0x0E;
-            double aScore = xins;
+            double aScore = xIns;
             byte bPoint = 0x0D;
-            double bScore = yins;
-            if (aScore <= bScore && zins < bScore) {
-                bScore = zins;
+            double bScore = yIns;
+            if (aScore <= bScore && zIns < bScore) {
+                bScore = zIns;
                 bPoint = 0x0B;
-            } else if (aScore > bScore && zins < aScore) {
-                aScore = zins;
+            } else if (aScore > bScore && zIns < aScore) {
+                aScore = zIns;
                 aPoint = 0x0B;
             }
             if (aScore <= bScore && wins < bScore) {
@@ -1056,8 +1041,8 @@ public class SimplexNoiseUtil {
 
             // Now we determine the three lattice points not part of the pentachoron that may contribute.
             // This depends on the closest two pentachoron vertices, including (0,0,0,0)
-            double uins = 4 - inSum;
-            if (uins < aScore || uins < bScore) { // (1,1,1,1) is one of the closest two pentachoron vertices.
+            double uIns = 4 - inSum;
+            if (uIns < aScore || uIns < bScore) { // (1,1,1,1) is one of the closest two pentachoron vertices.
                 byte c = (bScore < aScore ? bPoint : aPoint); // Our other closest vertex is the closest out of a and b.
 
                 if ((c & 0x01) != 0) {
@@ -1231,26 +1216,26 @@ public class SimplexNoiseUtil {
             boolean bIsBiggerSide = true;
 
             // Decide between (1,1,0,0) and (0,0,1,1)
-            if (xins + yins > zins + wins) {
-                aScore = xins + yins;
+            if (xIns + yIns > zIns + wins) {
+                aScore = xIns + yIns;
                 aPoint = 0x03;
             } else {
-                aScore = zins + wins;
+                aScore = zIns + wins;
                 aPoint = 0x0C;
             }
 
             // Decide between (1,0,1,0) and (0,1,0,1)
-            if (xins + zins > yins + wins) {
-                bScore = xins + zins;
+            if (xIns + zIns > yIns + wins) {
+                bScore = xIns + zIns;
                 bPoint = 0x05;
             } else {
-                bScore = yins + wins;
+                bScore = yIns + wins;
                 bPoint = 0x0A;
             }
 
             // Closer between (1,0,0,1) and (0,1,1,0) will replace the further of a and b, if closer.
-            if (xins + wins > yins + zins) {
-                double score = xins + wins;
+            if (xIns + wins > yIns + zIns) {
+                double score = xIns + wins;
                 if (aScore >= bScore && score > bScore) {
                     bScore = score;
                     bPoint = 0x09;
@@ -1259,7 +1244,7 @@ public class SimplexNoiseUtil {
                     aPoint = 0x09;
                 }
             } else {
-                double score = yins + zins;
+                double score = yIns + zIns;
                 if (aScore >= bScore && score > bScore) {
                     bScore = score;
                     bPoint = 0x06;
@@ -1270,7 +1255,7 @@ public class SimplexNoiseUtil {
             }
 
             // Decide if (1,0,0,0) is closer.
-            double p1 = 2 - inSum + xins;
+            double p1 = 2 - inSum + xIns;
             if (aScore >= bScore && p1 > bScore) {
                 bScore = p1;
                 bPoint = 0x01;
@@ -1282,7 +1267,7 @@ public class SimplexNoiseUtil {
             }
 
             // Decide if (0,1,0,0) is closer.
-            double p2 = 2 - inSum + yins;
+            double p2 = 2 - inSum + yIns;
             if (aScore >= bScore && p2 > bScore) {
                 bScore = p2;
                 bPoint = 0x02;
@@ -1294,7 +1279,7 @@ public class SimplexNoiseUtil {
             }
 
             // Decide if (0,0,1,0) is closer.
-            double p3 = 2 - inSum + zins;
+            double p3 = 2 - inSum + zIns;
             if (aScore >= bScore && p3 > bScore) {
                 bScore = p3;
                 bPoint = 0x04;
@@ -1308,11 +1293,9 @@ public class SimplexNoiseUtil {
             // Decide if (0,0,0,1) is closer.
             double p4 = 2 - inSum + wins;
             if (aScore >= bScore && p4 > bScore) {
-                bScore = p4;
                 bPoint = 0x08;
                 bIsBiggerSide = false;
             } else if (aScore < bScore && p4 > aScore) {
-                aScore = p4;
                 aPoint = 0x08;
                 aIsBiggerSide = false;
             }
@@ -1649,26 +1632,26 @@ public class SimplexNoiseUtil {
             boolean bIsBiggerSide = true;
 
             // Decide between (0,0,1,1) and (1,1,0,0)
-            if (xins + yins < zins + wins) {
-                aScore = xins + yins;
+            if (xIns + yIns < zIns + wins) {
+                aScore = xIns + yIns;
                 aPoint = 0x0C;
             } else {
-                aScore = zins + wins;
+                aScore = zIns + wins;
                 aPoint = 0x03;
             }
 
             // Decide between (0,1,0,1) and (1,0,1,0)
-            if (xins + zins < yins + wins) {
-                bScore = xins + zins;
+            if (xIns + zIns < yIns + wins) {
+                bScore = xIns + zIns;
                 bPoint = 0x0A;
             } else {
-                bScore = yins + wins;
+                bScore = yIns + wins;
                 bPoint = 0x05;
             }
 
             // Closer between (0,1,1,0) and (1,0,0,1) will replace the further of a and b, if closer.
-            if (xins + wins < yins + zins) {
-                double score = xins + wins;
+            if (xIns + wins < yIns + zIns) {
+                double score = xIns + wins;
                 if (aScore <= bScore && score < bScore) {
                     bScore = score;
                     bPoint = 0x06;
@@ -1677,7 +1660,7 @@ public class SimplexNoiseUtil {
                     aPoint = 0x06;
                 }
             } else {
-                double score = yins + zins;
+                double score = yIns + zIns;
                 if (aScore <= bScore && score < bScore) {
                     bScore = score;
                     bPoint = 0x09;
@@ -1688,7 +1671,7 @@ public class SimplexNoiseUtil {
             }
 
             // Decide if (0,1,1,1) is closer.
-            double p1 = 3 - inSum + xins;
+            double p1 = 3 - inSum + xIns;
             if (aScore <= bScore && p1 < bScore) {
                 bScore = p1;
                 bPoint = 0x0E;
@@ -1700,7 +1683,7 @@ public class SimplexNoiseUtil {
             }
 
             // Decide if (1,0,1,1) is closer.
-            double p2 = 3 - inSum + yins;
+            double p2 = 3 - inSum + yIns;
             if (aScore <= bScore && p2 < bScore) {
                 bScore = p2;
                 bPoint = 0x0D;
@@ -1712,7 +1695,7 @@ public class SimplexNoiseUtil {
             }
 
             // Decide if (1,1,0,1) is closer.
-            double p3 = 3 - inSum + zins;
+            double p3 = 3 - inSum + zIns;
             if (aScore <= bScore && p3 < bScore) {
                 bScore = p3;
                 bPoint = 0x0B;
@@ -1726,11 +1709,9 @@ public class SimplexNoiseUtil {
             // Decide if (1,1,1,0) is closer.
             double p4 = 3 - inSum + wins;
             if (aScore <= bScore && p4 < bScore) {
-                bScore = p4;
                 bPoint = 0x07;
                 bIsBiggerSide = false;
             } else if (aScore > bScore && p4 < aScore) {
-                aScore = p4;
                 aPoint = 0x07;
                 aIsBiggerSide = false;
             }
@@ -2075,17 +2056,17 @@ public class SimplexNoiseUtil {
     }
 
     private double extrapolate(int xsb, int ysb, double dx, double dy) {
-        Grad2 grad = permGrad2[perm[xsb & PMASK] ^ (ysb & PMASK)];
+        Grad2 grad = permGrad2[perm[xsb & P_MASK] ^ (ysb & P_MASK)];
         return grad.dx * dx + grad.dy * dy;
     }
 
     private double extrapolate(int xsb, int ysb, int zsb, double dx, double dy, double dz) {
-        Grad3 grad = permGrad3[perm[perm[xsb & PMASK] ^ (ysb & PMASK)] ^ (zsb & PMASK)];
+        Grad3 grad = permGrad3[perm[perm[xsb & P_MASK] ^ (ysb & P_MASK)] ^ (zsb & P_MASK)];
         return grad.dx * dx + grad.dy * dy + grad.dz * dz;
     }
 
     private double extrapolate(int xsb, int ysb, int zsb, int wsb, double dx, double dy, double dz, double dw) {
-        Grad4 grad = permGrad4[perm[perm[perm[xsb & PMASK] ^ (ysb & PMASK)] ^ (zsb & PMASK)] ^ (wsb & PMASK)];
+        Grad4 grad = permGrad4[perm[perm[perm[xsb & P_MASK] ^ (ysb & P_MASK)] ^ (zsb & P_MASK)] ^ (wsb & P_MASK)];
         return grad.dx * dx + grad.dy * dy + grad.dz * dz + grad.dw * dw;
     }
 
@@ -2100,6 +2081,8 @@ public class SimplexNoiseUtil {
         public Grad2(double dx, double dy) {
             this.dx = dx;
             this.dy = dy;
+
+            Logger.log(Logger.Tag.OBJECT_CREATION, this);
         }
     }
 
@@ -2110,6 +2093,8 @@ public class SimplexNoiseUtil {
             this.dx = dx;
             this.dy = dy;
             this.dz = dz;
+
+            Logger.log(Logger.Tag.OBJECT_CREATION, this);
         }
     }
 
@@ -2121,6 +2106,8 @@ public class SimplexNoiseUtil {
             this.dy = dy;
             this.dz = dz;
             this.dw = dw;
+
+            Logger.log(Logger.Tag.OBJECT_CREATION, this);
         }
     }
 
@@ -2128,9 +2115,9 @@ public class SimplexNoiseUtil {
     private static final double N3 = 26.92263139946168;
     private static final double N4 = 8.881759591352166;
 
-    private static final Grad2[] GRADIENTS_2D = new Grad2[PSIZE];
-    private static final Grad3[] GRADIENTS_3D = new Grad3[PSIZE];
-    private static final Grad4[] GRADIENTS_4D = new Grad4[PSIZE];
+    private static final Grad2[] GRADIENTS_2D = new Grad2[P_SIZE];
+    private static final Grad3[] GRADIENTS_3D = new Grad3[P_SIZE];
+    private static final Grad4[] GRADIENTS_4D = new Grad4[P_SIZE];
 
     static {
         Grad2[] grad2 = {
@@ -2163,7 +2150,7 @@ public class SimplexNoiseUtil {
             value.dx /= N2;
             value.dy /= N2;
         }
-        for (int i = 0 ; i < PSIZE ; i++) {
+        for (int i = 0 ; i < P_SIZE ; i++) {
             GRADIENTS_2D[i] = grad2[i % grad2.length];
         }
 
@@ -2222,7 +2209,7 @@ public class SimplexNoiseUtil {
             value.dy /= N3;
             value.dz /= N3;
         }
-        for (int i = 0 ; i < PSIZE ; i++) {
+        for (int i = 0 ; i < P_SIZE ; i++) {
             GRADIENTS_3D[i] = grad3[i % grad3.length];
         }
 
@@ -2394,7 +2381,7 @@ public class SimplexNoiseUtil {
             value.dz /= N4;
             value.dw /= N4;
         }
-        for (int i = 0 ; i < PSIZE ; i++) {
+        for (int i = 0 ; i < P_SIZE ; i++) {
             GRADIENTS_4D[i] = grad4[i % grad4.length];
         }
     }
