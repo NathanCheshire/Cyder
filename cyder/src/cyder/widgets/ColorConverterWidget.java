@@ -67,13 +67,13 @@ public class ColorConverterWidget {
         hexLabel.setFont(CyderFonts.SEGOE_20);
         hexLabel.setForeground(CyderColors.navy);
         hexLabel.setSize(120, 30);
-        layout.addComponent(hexLabel, 0, 0, GridPosition.MIDDLE_CENTER);
+        layout.addComponent(hexLabel, 0, 0, GridPosition.MIDDLE);
 
         JLabel rgbLabel = new JLabel("RGB Value");
         rgbLabel.setFont(CyderFonts.SEGOE_20);
         rgbLabel.setForeground(CyderColors.navy);
         rgbLabel.setSize(120, 30);
-        layout.addComponent(rgbLabel, 0, 3, GridPosition.MIDDLE_CENTER);
+        layout.addComponent(rgbLabel, 0, 3, GridPosition.MIDDLE);
 
         JTextField colorBlock = new JTextField();
         colorBlock.setBackground(CyderColors.navy);
@@ -82,7 +82,7 @@ public class ColorConverterWidget {
         colorBlock.setToolTipText("Color Preview");
         colorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
         colorBlock.setSize(220, 50);
-        layout.addComponent(colorBlock, 0, 2, GridPosition.MIDDLE_CENTER);
+        layout.addComponent(colorBlock, 0, 2, GridPosition.MIDDLE);
 
         CyderTextField rgbField = new CyderTextField(11);
         rgbField.setHorizontalAlignment(JTextField.CENTER);
@@ -110,7 +110,7 @@ public class ColorConverterWidget {
         });
         hexField.setSize(220, 50);
         hexField.setOpaque(false);
-        layout.addComponent(hexField, 0, 1, GridPosition.MIDDLE_CENTER);
+        layout.addComponent(hexField, 0, 1, GridPosition.MIDDLE);
 
         rgbField.setBackground(new Color(0, 0, 0, 0));
         rgbField.setKeyEventRegexMatcher(CyderRegexPatterns.rgbPattern.pattern());
@@ -129,7 +129,7 @@ public class ColorConverterWidget {
         });
         rgbField.setSize(220, 50);
         rgbField.setOpaque(false);
-        layout.addComponent(rgbField, 0, 4, GridPosition.MIDDLE_CENTER);
+        layout.addComponent(rgbField, 0, 4, GridPosition.MIDDLE);
 
         CyderPanel panel = new CyderPanel(layout);
         colorFrame.setLayoutPanel(panel);

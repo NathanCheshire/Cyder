@@ -39,7 +39,7 @@ public class CyderPartitionedLayout extends CyderLayout {
     /**
      * The sum of all partitions from {@link #partitions}.
      */
-    private int partitionsSum = 0;
+    private int partitionsSum;
 
     /**
      * The list of all added partitions.
@@ -76,48 +76,15 @@ public class CyderPartitionedLayout extends CyderLayout {
      * Constructs a new partitioned layout.
      */
     public CyderPartitionedLayout() {
-        this(0);
+        partitions = new LinkedList<>();
+        components = new ArrayList<>();
+        partitionsSum = 0;
     }
 
     /**
      * The direct components managed by this layout.
      */
     private final ArrayList<PartitionedComponent> components;
-
-    /**
-     * Constructs a new partitioned layout.
-     *
-     * @param firstPartition the partition for the first component
-     */
-    public CyderPartitionedLayout(int firstPartition) {
-        Preconditions.checkArgument(PARTITION_RANGE.contains(firstPartition));
-
-        partitions = new LinkedList<>();
-        components = new ArrayList<>();
-
-        partitions.add(firstPartition);
-        partitionsSum += firstPartition;
-    }
-
-    /**
-     * Constructs a new partitioned layout.
-     *
-     * @param firstPartition  the partition for the first component
-     * @param otherPartitions the partitions for any other components
-     */
-    public CyderPartitionedLayout(int firstPartition, int... otherPartitions) {
-        this(firstPartition);
-
-        for (int partition : otherPartitions) {
-            if (PARTITION_RANGE.contains(partition + partitionsSum)) {
-                partitions.add(partition);
-                partitionsSum += partition;
-            } else {
-                throw new IllegalArgumentException("Could not add partition as will cause overflow. Partition: "
-                        + partition + ", totalPercent: " + partitionsSum);
-            }
-        }
-    }
 
     /**
      * Returns a list of all the partitions.
@@ -207,9 +174,7 @@ public class CyderPartitionedLayout extends CyderLayout {
     public ArrayList<Component> getLayoutComponents() {
         ArrayList<Component> ret = new ArrayList<>(components.size());
 
-        for (PartitionedComponent component : components) {
-            ret.add(component.getComponent());
-        }
+        components.forEach(component -> ret.add(component.getComponent()));
 
         return ret;
     }
@@ -278,21 +243,128 @@ public class CyderPartitionedLayout extends CyderLayout {
      * {@inheritDoc}
      */
     public void revalidateComponents() {
-        // todo
+        if (associatedPanel == null) {
+            return;
+        }
+
+        Component focusOwner = null;
+
+        int currentComponentStart = 0;
+
+        for (int i = 0 ; i < components.size() ; i++) {
+            PartitionedComponent partitionedComponent = components.get(i);
+
+            Component component = partitionedComponent.getComponent();
+            PartitionAlignment alignment = partitionedComponent.getAlignment();
+
+            int parentWidth = associatedPanel.getWidth();
+            int parentHeight = associatedPanel.getHeight();
+
+            int componentPartitionedLen = (int) switch (partitionDirection) {
+                case ROW -> ((float) partitions.get(i) / MAX_PARTITION) * parentWidth;
+                case COLUMN -> ((float) partitions.get(i) / MAX_PARTITION) * parentHeight;
+            };
+
+            // indicates a spacer in the layout
+            if (component == null) {
+                currentComponentStart += componentPartitionedLen;
+                continue;
+            }
+
+            if (component.isFocusOwner() && focusOwner == null) {
+                focusOwner = component;
+            }
+
+            switch (partitionDirection) {
+                case ROW -> {
+                    switch (alignment) {
+                        case TOP_LEFT -> component.setLocation(currentComponentStart, 0);
+                        case TOP -> component.setLocation(currentComponentStart
+                                + componentPartitionedLen / 2 - component.getWidth() / 2, 0);
+                        case TOP_RIGHT -> component.setLocation(currentComponentStart
+                                + componentPartitionedLen - component.getWidth(), 0);
+                        case LEFT -> component.setLocation(currentComponentStart,
+                                parentHeight / 2 - component.getWidth() / 2);
+                        case CENTER -> component.setLocation(currentComponentStart
+                                        + componentPartitionedLen / 2 - component.getWidth() / 2,
+                                parentHeight / 2 - component.getHeight() / 2);
+                        case RIGHT -> component.setLocation(currentComponentStart
+                                        + componentPartitionedLen / 2 - component.getWidth() / 2,
+                                parentHeight / 2 - component.getWidth() / 2);
+                        case BOTTOM_LEFT -> component.setLocation(currentComponentStart,
+                                parentHeight - component.getHeight());
+                        case BOTTOM -> component.setLocation(currentComponentStart
+                                        + componentPartitionedLen / 2 - component.getWidth() / 2,
+                                parentHeight - component.getHeight());
+                        case BOTTOM_RIGHT -> component.setLocation(currentComponentStart
+                                        + componentPartitionedLen - component.getWidth(),
+                                parentHeight - component.getHeight());
+                        default -> throw new IllegalArgumentException("Invalid alignment direction: " + alignment);
+                    }
+                }
+                case COLUMN -> {
+                    switch (alignment) {
+                        case TOP_LEFT -> component.setLocation(0, currentComponentStart);
+                        case TOP -> component.setLocation(parentWidth / 2 - component.getWidth(),
+                                currentComponentStart);
+                        case TOP_RIGHT -> component.setLocation(parentWidth - component.getWidth(),
+                                currentComponentStart);
+                        case LEFT -> component.setLocation(0,
+                                currentComponentStart + componentPartitionedLen / 2 - component.getHeight() / 2);
+                        case CENTER -> component.setLocation(parentWidth / 2 - component.getWidth() / 2,
+                                currentComponentStart + componentPartitionedLen / 2 - component.getHeight() / 2);
+                        case RIGHT -> component.setLocation(parentWidth - component.getWidth(),
+                                currentComponentStart + componentPartitionedLen / 2 - component.getHeight() / 2);
+                        case BOTTOM_LEFT -> component.setLocation(0,
+                                currentComponentStart + componentPartitionedLen - component.getHeight());
+                        case BOTTOM -> component.setLocation(parentWidth / 2 - component.getWidth() / 2,
+                                currentComponentStart + componentPartitionedLen - component.getHeight());
+                        case BOTTOM_RIGHT -> component.setLocation(parentWidth - component.getWidth(),
+                                currentComponentStart + componentPartitionedLen - component.getHeight());
+                        default -> throw new IllegalArgumentException("Invalid alignment direction: " + alignment);
+                    }
+                }
+                default -> throw new IllegalArgumentException("Invalid partition direction: " + partitionDirection);
+            }
+
+            currentComponentStart += componentPartitionedLen;
+
+            associatedPanel.add(component);
+        }
+
+        if (focusOwner != null) {
+            focusOwner.requestFocus();
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     public void removeComponent(Component component) {
-        // todo add and give default partition space which can be set
+        Preconditions.checkNotNull(component);
+
+        int index = -1;
+
+        for (int i = 0 ; i < components.size() ; i++) {
+            if (components.get(i).getComponent().equals(component)) {
+                index = i;
+                break;
+            }
+        }
+
+        Preconditions.checkArgument(index != -1);
+        removeComponent(index);
     }
 
     public void removeComponent(int index) {
         Preconditions.checkArgument(index >= 0);
-        Preconditions.checkArgument(index < components.size());
+        Preconditions.checkArgument(index < partitions.size());
 
-        // todo remove component but also partition area
+        int addBack = partitions.get(index);
+        partitionsSum += addBack;
+
+        partitions.remove(index);
+        components.remove(index);
     }
 
     /**
@@ -300,15 +372,6 @@ public class CyderPartitionedLayout extends CyderLayout {
      */
     public void addComponent(Component component) {
         Preconditions.checkNotNull(component);
-
-        boolean in = false;
-        for (PartitionedComponent partitionedComponent : components) {
-            if (partitionedComponent.getComponent().equals(component)) {
-                in = true;
-                break;
-            }
-        }
-        Preconditions.checkArgument(!in, "Layout already contains component");
 
         addComponent(component, newComponentPartitionSpace);
     }
@@ -340,8 +403,32 @@ public class CyderPartitionedLayout extends CyderLayout {
     public void addComponent(Component component, int partitionSpace, PartitionAlignment partitionAlignment) {
         Preconditions.checkNotNull(component);
         Preconditions.checkArgument(PARTITION_RANGE.contains(partitionSpace));
-        Preconditions.checkArgument(partitionSpace + partitionsSum < MAX_PARTITION);
+        Preconditions.checkArgument(partitionSpace + partitionsSum <= MAX_PARTITION);
+        Preconditions.checkNotNull(partitionAlignment);
 
-        // todo
+        boolean in = false;
+        for (PartitionedComponent partitionedComponent : components) {
+            if (partitionedComponent.getComponent().equals(component)) {
+                in = true;
+                break;
+            }
+        }
+        Preconditions.checkArgument(!in, "Layout already contains component");
+
+        components.add(new PartitionedComponent(component, partitionAlignment));
+        partitions.add(partitionSpace);
+        partitionsSum += partitionSpace;
+
+        revalidateComponents();
+    }
+
+    /**
+     * Clears all the partitions and components associated with this layout.
+     */
+    public void clearComponents() {
+        components.clear();
+        partitions.clear();
+
+        partitionsSum = 0;
     }
 }

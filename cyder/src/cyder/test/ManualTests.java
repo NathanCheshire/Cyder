@@ -549,7 +549,7 @@ public final class ManualTests {
         testButton.setSize(100, 100);
         testButton.addActionListener(e -> gridTestFrame.notify(
                 new CyderFrame.NotificationBuilder("Notified button clicked")));
-        layout.addComponent(testButton, 0, 0, GridPosition.MIDDLE_RIGHT);
+        layout.addComponent(testButton, 0, 0, GridPosition.RIGHT);
 
         CyderLabel testLabel2 = new CyderLabel("A");
         testLabel2.setSize(50, 50);

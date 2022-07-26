@@ -144,26 +144,26 @@ public class CyderGridLayout extends CyderLayout {
                             adjustX = -(widthPartition - refComponent.getOriginalWidth()) / 2;
                             adjustY = -(heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
-                        case TOP_CENTER:
+                        case TOP:
                             adjustY = -(heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
                         case TOP_RIGHT:
                             adjustX = (widthPartition - refComponent.getOriginalWidth()) / 2;
                             adjustY = -(heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
-                        case MIDDLE_LEFT:
+                        case LEFT:
                             adjustX = -(widthPartition - refComponent.getOriginalWidth()) / 2;
                             break;
-                        case MIDDLE_CENTER:
+                        case MIDDLE:
                             break;
-                        case MIDDLE_RIGHT:
+                        case RIGHT:
                             adjustX = (widthPartition - refComponent.getOriginalWidth()) / 2;
                             break;
                         case BOTTOM_LEFT:
                             adjustX = -(widthPartition - refComponent.getOriginalWidth()) / 2;
                             adjustY = (heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
-                        case BOTTOM_CENTER:
+                        case BOTTOM:
                             adjustY = (heightPartition - refComponent.getOriginalHeight()) / 2;
                             break;
                         case BOTTOM_RIGHT:
@@ -198,7 +198,7 @@ public class CyderGridLayout extends CyderLayout {
             for (int y = 0 ; y < verticalCells ; y++) {
                 if (components[x][y] == null) {
                     components[x][y] = new GridComponent(component, //defaults here
-                            component.getWidth(), component.getHeight(), GridPosition.MIDDLE_CENTER);
+                            component.getWidth(), component.getHeight(), GridPosition.MIDDLE);
                     repaint();
                     return;
                 }
@@ -253,7 +253,7 @@ public class CyderGridLayout extends CyderLayout {
         }
 
         components[x][y] = new GridComponent(component, component.getWidth(),
-                component.getHeight(), GridPosition.MIDDLE_CENTER);
+                component.getHeight(), GridPosition.MIDDLE);
         repaint();
 
         return true;
