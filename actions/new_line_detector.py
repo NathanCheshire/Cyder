@@ -7,9 +7,7 @@ from stat_generator import find_files
 def main():
     failed = False
 
-    files = find_files(starting_dir=".", extensions=['.java'], recursive=True)
-
-    for file in files:
+    for file in find_files(starting_dir=".", extensions=['.java'], recursive=True):
         num_newlines = 0
         anchored = False
         last_anchor = None
@@ -20,7 +18,8 @@ def main():
         file_lines = open(file, 'r').readlines()
 
         for line in file_lines:
-            empty = len(line.strip()) == 0
+            line = line.strip()
+            empty = len(line) == 0
 
             line_number = line_number + 1
 
@@ -30,9 +29,9 @@ def main():
                 if num_newlines > 1:
                     print("File:", file)
                     print("Found", num_newlines, "new lines between:")
-                    print(last_anchor_line_number, ":", last_anchor.strip())
+                    print(last_anchor_line_number, ":", last_anchor)
                     print("and")
-                    print(line_number, ":", line.strip())
+                    print(line_number, ":", line)
                     print("-------------------------------")
 
                     failed = True
@@ -47,9 +46,9 @@ def main():
 
                 anchored = False
                 num_newlines = num_newlines + 1
-
-    return 1 if failed else 0
+                
+    sys.exit(1 if failed else 0)
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    main()

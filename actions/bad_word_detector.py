@@ -1,4 +1,3 @@
-from typing import List
 import sys
 
 
@@ -6,7 +5,8 @@ from new_line_detector import find_files
 
 
 class BadWord:
-    """ A record class for holding a bad word and information about its origin.
+    """ 
+    A record class for holding a bad word and information about its origin.
     """
 
     def __init__(self, clazz: str, line_number: int, line: str, words: list) -> None:
@@ -16,29 +16,35 @@ class BadWord:
         self._words = words
 
     def get_class(self) -> str:
-        """ Returns the Java class this bad word was found from.
+        """ 
+        Returns the Java class this bad word was found from.
         """
         return self._clazz
 
     def get_line_number(self) -> int:
-        """ Returns the line number this bad word was found at.
+        """ 
+        Returns the line number this bad word was found at.
         """
         return self._line_number
 
     def get_line(self) -> str:
-        """ Returns the full text line this bad word was found from.
+        """ 
+        Returns the full text line this bad word was found from.
         """
         return self._line
 
     def get_words(self) -> list:
-        """ Returns the list of bad words which triggered a bad word match.
+        """
+         Returns the list of bad words which triggered a bad word match.
         """
         return self._words
 
 
-def find_bad_words(starting_dir: str, filter_path: str, extensions: list) -> List:
-    """ Finds bad words in files matching the extensions list starting from the
+def find_bad_words(starting_dir: str, filter_path: str, extensions: list) -> list:
+    """ 
+    Finds bad words in files matching the extensions list starting from the
     starting directory and recursively discovering files.
+
     :param starting_dir: the path to the directory to start recursing from
     :type starting_dir: str
     :param filter_path: the path to the txt containing blocked words
@@ -72,7 +78,9 @@ def find_bad_words(starting_dir: str, filter_path: str, extensions: list) -> Lis
 
 
 def get_stripped_lines(path: str) -> list:
-    """ Returns a list of lines contained in the found file pointed to by the provided path.
+    """ 
+    Returns a list of lines contained in the found file pointed to by the provided path.
+
     :param path: the path to the file
     :type path: str
     :return: a list of lines found, after removing trailing and leading whitespace
@@ -83,8 +91,10 @@ def get_stripped_lines(path: str) -> list:
 
 
 def contains_blocked_word(line: str, blocked_words: list) -> list:
-    """ Returns whether the provided line containeds words from the list of blocked words.
-    A list of the bad word(s) found is/are returned if found, otherwise None
+    """ 
+    Returns whether the provided line containeds words from the list of blocked words.
+    A list of the bad word(s) found is/are returned if found, otherwise None.
+
     :param input: the line to search through
     :type input: str
     :param blocked_words: the list of blocked words
@@ -102,7 +112,8 @@ def contains_blocked_word(line: str, blocked_words: list) -> list:
 
 
 def main():
-    """ Spins off the bad_word_detector script and outputs the results.
+    """ 
+    Spins off the bad_word_detector script and outputs the results.
     """
 
     linesep = '-------------------------------------------------------'
@@ -125,7 +136,7 @@ def main():
                   " on line " + str(bad_word.get_line_number()) + ".\nFull line: \"" + bad_word.get_line() + "\"")
             print(linesep)
 
-    sys.exit(0 if len_bad_words == 0 else 1)
+    sys.exit(len_bad_words)
 
 
 if __name__ == '__main__':
