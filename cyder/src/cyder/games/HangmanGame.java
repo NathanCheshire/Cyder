@@ -2,12 +2,14 @@ package cyder.games;
 
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.CyderAuthor;
+import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderButton;
@@ -30,6 +32,7 @@ import java.io.FileReader;
  */
 @CyderAuthor
 @Vanilla
+@SuppressCyderInspections(CyderInspection.VanillaInspection)
 public final class HangmanGame {
     /**
      * The frame object.

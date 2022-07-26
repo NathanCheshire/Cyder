@@ -33,7 +33,11 @@ public class WidgetHandler extends InputHandler {
                     String[] widgetTriggers = m.getAnnotation(Widget.class).triggers();
 
                     for (String widgetTrigger : widgetTriggers) {
-                        if (widgetTrigger.equalsIgnoreCase(getInputHandler().commandAndArgsToString())) {
+                        widgetTrigger = widgetTrigger.replaceAll("\\s+", "");
+                        String userInput = getInputHandler().commandAndArgsToString()
+                                .replaceAll("\\s+", "");
+
+                        if (widgetTrigger.equalsIgnoreCase(userInput)) {
                             String shortWidgetName = ReflectionUtil.getBottomLevelClass(clazz);
                             Console.INSTANCE.getInputHandler().println("Opening widget: " + shortWidgetName);
                             try {

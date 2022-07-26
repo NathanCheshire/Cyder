@@ -29,6 +29,7 @@ import java.awt.*;
  */
 @CyderAuthor
 @Vanilla
+@SuppressCyderInspections(CyderInspection.VanillaInspection)
 public final class TttGame {
     /**
      * The CyderFrame instance to use to ensure no other games exist with one Cyder instance.

@@ -3437,12 +3437,6 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * The delay before setting the always on top mode to
-     * the original value after invoking finalizeAndShow();
-     */
-    private static final int FINALIZE_AND_SHOW_DELAY = 2500;
-
-    /**
      * The increment between y values for the enter animation.
      */
     public static final int ENTER_ANIMATION_INC = 25;
@@ -3500,17 +3494,7 @@ public class CyderFrame extends JFrame {
             }
 
             if (!wasOnTop) {
-                CyderThreadRunner.submit(() -> {
-                    try {
-                        ThreadUtil.sleep(FINALIZE_AND_SHOW_DELAY);
-
-                        if (!pinned) {
-                            setAlwaysOnTop(false);
-                        }
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-                }, "[" + getTitle() + "] finalizeAndShow()");
+                setAlwaysOnTop(false);
             }
         }, "Enter animation, frame=" + getTitle());
     }

@@ -429,7 +429,7 @@ public final class ReflectionUtil {
                                 }
                             }
 
-                            throw new IllegalMethodException("Method annotated with " +
+                            Logger.log(Logger.Tag.DEBUG, "Method annotated with " +
                                     "@Widget has triggers which contain spaces: \"" + trigger + "\"");
                         }
                     }

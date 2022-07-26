@@ -1,12 +1,14 @@
 package cyder.widgets;
 
 import cyder.annotations.CyderAuthor;
+import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
+import cyder.enums.CyderInspection;
 import cyder.handlers.internal.Logger;
 import cyder.layouts.CyderPartitionedLayout;
 import cyder.ui.CyderFrame;
@@ -45,7 +47,8 @@ public class ColorConverterWidget {
     /**
      * A widget for converting between rgb and hex colors.
      */
-    @Widget(triggers = {"colorconverter", "color"},
+    @SuppressCyderInspections(CyderInspection.WidgetInspection)
+    @Widget(triggers = {"color converter", "color"},
             description = "A color converter widget to convert from rgb to hex and vice versa")
     public static void showGui() {
         getInstance().innerShowGui();
