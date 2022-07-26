@@ -386,7 +386,7 @@ public class CyderPartitionedLayout extends CyderLayout {
     public void addComponent(Component component, int partitionSpace) {
         Preconditions.checkNotNull(component);
         Preconditions.checkArgument(PARTITION_RANGE.contains(partitionSpace));
-        Preconditions.checkArgument(partitionSpace + partitionsSum < MAX_PARTITION);
+        Preconditions.checkArgument(partitionSpace + partitionsSum <= MAX_PARTITION);
 
         addComponent(component, partitionSpace, newComponentPartitionAlignment);
     }

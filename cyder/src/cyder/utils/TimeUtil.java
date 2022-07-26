@@ -1,6 +1,7 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Range;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -386,8 +387,10 @@ public final class TimeUtil {
      */
     public static boolean isEvening() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        return hour > 17;
+        return hour >= 18;
     }
+
+    private static final Range<Integer> MORNING_RANGE = Range.openClosed(0, 12);
 
     /**
      * Returns whether the local time is before 12:00pm.
@@ -395,9 +398,10 @@ public final class TimeUtil {
      * @return whether the local time is before 12:00pm
      */
     public static boolean isMorning() {
-        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        return hour > 0 && hour < 11;
+        return MORNING_RANGE.contains(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
     }
+
+    private static final Range<Integer> AFTERNOON_RANGE = Range.openClosed(12, 18);
 
     /**
      * Returns whether the current time is between 12:00pm and 6:00pm.
@@ -405,19 +409,25 @@ public final class TimeUtil {
      * @return whether the current time is between 12:00pm and 6:00pm
      */
     public static boolean isAfterNoon() {
-        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        return hour > 11 && hour < 17;
+        return AFTERNOON_RANGE.contains(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
     }
+
+    public static final double MILLISECONDS_IN_SECOND = 1000;
+    public static final double SECONDS_IN_MINUTE = 60.0;
+    public static final double MINUTES_IN_HOUR = 60.0;
+    public static final double HOURS_IN_DAY = 24.0;
+    public static final double DAYS_IN_MONTH = 30.0;
+    public static final double MONTHS_IN_YEAR = 12.0;
 
     /**
      * Returns a string detailing how many years/months/days/hours/minutes/seconds
      * are represented by the given input parameter.
      *
-     * @param msTime the raw long of ms
+     * @param milliseconds the number of milliseconds to convert
      * @return a String detailing how many years/months/days...
      * are represented by the provided milliseconds.
      */
-    public static String millisToFormattedString(long msTime) {
+    public static String millisToFormattedString(long milliseconds) {
         StringBuilder sb = new StringBuilder();
 
         double years = 0;
@@ -425,50 +435,55 @@ public final class TimeUtil {
         double days = 0;
         double hours = 0;
         double minutes = 0;
-        double seconds;
+        double seconds = 0;
 
-        // seconds
-        seconds = msTime / 1000.0;
+        // convert milliseconds to seconds
+        if (milliseconds >= MILLISECONDS_IN_SECOND) {
+            seconds = Math.floor(milliseconds / MILLISECONDS_IN_SECOND);
+        }
+
+        // take away milliseconds that were converted
+        milliseconds -= seconds * MILLISECONDS_IN_SECOND;
 
         // convert seconds to minutes
-        if (seconds >= 60) {
-            minutes = Math.floor(seconds / 60.0);
+        if (seconds >= SECONDS_IN_MINUTE) {
+            minutes = Math.floor(seconds / SECONDS_IN_MINUTE);
         }
 
         // take away seconds that were converted
-        seconds -= minutes * 60;
+        seconds -= minutes * SECONDS_IN_MINUTE;
 
         // convert minutes to hours
-        if (minutes >= 60) {
-            hours = Math.floor(minutes / 60.0);
+        if (minutes >= MINUTES_IN_HOUR) {
+            hours = Math.floor(minutes / MINUTES_IN_HOUR);
         }
 
         // take a way minutes that were converted
-        minutes -= hours * 60;
+        minutes -= hours * MINUTES_IN_HOUR;
 
         // convert hours to days
-        if (hours >= 24) {
-            days = Math.floor(hours / 24.0);
+        if (hours >= HOURS_IN_DAY) {
+            days = Math.floor(hours / HOURS_IN_DAY);
         }
 
         // take away hours that were converted
-        hours -= days * 24;
+        hours -= days * HOURS_IN_DAY;
 
         // convert days to months
-        if (days >= 30) {
-            months = Math.floor(days / 30.0);
+        if (days >= DAYS_IN_MONTH) {
+            months = Math.floor(days / DAYS_IN_MONTH);
         }
 
         // take away days that were converted
-        days -= months * 30;
+        days -= months * DAYS_IN_MONTH;
 
         // convert months to years
-        if (months >= 12) {
-            years = Math.floor(months / 12.0);
+        if (months >= MONTHS_IN_YEAR) {
+            years = Math.floor(months / MONTHS_IN_YEAR);
         }
 
         // take away months that were converted
-        months -= years * 12;
+        months -= years * MONTHS_IN_YEAR;
 
         DecimalFormat format = new DecimalFormat("#.##");
 
@@ -484,6 +499,8 @@ public final class TimeUtil {
             sb.append(format.format(minutes)).append("m ");
         if (seconds != 0)
             sb.append(format.format(seconds)).append("s ");
+        if (milliseconds != 0)
+            sb.append(format.format(milliseconds)).append("ms ");
 
         String ret = sb.toString();
 
@@ -501,7 +518,7 @@ public final class TimeUtil {
      * @return the provided milliseconds to seconds
      */
     public static double millisToSeconds(long msTime) {
-        return msTime / 1000.0;
+        return msTime / MILLISECONDS_IN_SECOND;
     }
 
     /**
@@ -511,7 +528,7 @@ public final class TimeUtil {
      * @return the provided milliseconds to minutes
      */
     public static double millisToMinutes(long msTime) {
-        return millisToSeconds(msTime) / 60.0;
+        return millisToSeconds(msTime) / SECONDS_IN_MINUTE;
     }
 
     /**
@@ -521,7 +538,7 @@ public final class TimeUtil {
      * @return the provided milliseconds to hours
      */
     public static double millisToHours(long msTime) {
-        return millisToMinutes(msTime) / 60.0;
+        return millisToMinutes(msTime) / MINUTES_IN_HOUR;
     }
 
     /**
@@ -531,7 +548,7 @@ public final class TimeUtil {
      * @return the provided milliseconds to days
      */
     public static double millisToDays(long msTime) {
-        return millisToHours(msTime) / 24.0;
+        return millisToHours(msTime) / HOURS_IN_DAY;
     }
 
     /**
@@ -541,7 +558,7 @@ public final class TimeUtil {
      * @return the provided milliseconds to months
      */
     public static double millisToMonths(long msTime) {
-        return millisToDays(msTime) / 30.0;
+        return millisToDays(msTime) / DAYS_IN_MONTH;
     }
 
     /**
@@ -551,7 +568,7 @@ public final class TimeUtil {
      * @return the provided milliseconds to years
      */
     public static double millisToYears(long msTime) {
-        return millisToMonths(msTime) / 12.0;
+        return millisToMonths(msTime) / MONTHS_IN_YEAR;
     }
 
     // -----------------------------------

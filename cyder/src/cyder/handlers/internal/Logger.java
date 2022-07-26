@@ -94,7 +94,7 @@ public final class Logger {
     /**
      * The absolute start time of Cyder, initialized at runtime.
      */
-    public static final long start = System.currentTimeMillis();
+    public static final long START_TIME = System.currentTimeMillis();
 
     /**
      * A record to hold a log call which cannot be written due to the logger
@@ -614,8 +614,7 @@ public final class Logger {
      * @return the run time of Cyder
      */
     private static String getRuntime() {
-        long millis = System.currentTimeMillis() - start;
-        return TimeUtil.millisToFormattedString(millis);
+        return TimeUtil.millisToFormattedString(System.currentTimeMillis() - START_TIME);
     }
 
     /**

@@ -2031,6 +2031,16 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Sets the minimum window size if resizing is allowed.
+     *
+     * @param width  the minimum width of the frame
+     * @param height the minimum height of the frame
+     */
+    public void setMinimumSize(int width, int height) {
+        setMinimumSize(new Dimension(width, height));
+    }
+
+    /**
      * Sets the maximum window size if resizing is allowed.
      *
      * @param maxSize the Dimension of the minimum allowed size
@@ -2041,6 +2051,16 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Sets the maximum window size if resizing is allowed.
+     *
+     * @param width  the minimum width of the frame
+     * @param height the minimum height of the frame
+     */
+    public void setMaximumSize(int width, int height) {
+        setMaximumSize(new Dimension(width, height));
+    }
+
+    /**
      * Sets the snap size for the window if resizing is allowed.
      *
      * @param snap the dimension of the snap size
@@ -2048,6 +2068,16 @@ public class CyderFrame extends JFrame {
     public void setSnapSize(Dimension snap) {
         snapSize = snap;
         cr.setSnapSize(snapSize);
+    }
+
+    /**
+     * Sets the snap size for the window if resizing is allowed.
+     *
+     * @param xLen the snap size in pixels for the x dimension
+     * @param yLen the snap size in pixels for the y dimension
+     */
+    public void setSnapSize(int xLen, int yLen) {
+        setSnapSize(new Dimension(xLen, yLen));
     }
 
     /**

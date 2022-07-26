@@ -812,4 +812,37 @@ public final class ManualTests {
 
         checkboxFrame.finalizeAndShow();
     }
+
+    @ManualTest("partitioned layout test")
+    public static void partitionedLayoutTest() {
+        CyderFrame horizontalFrame = new CyderFrame(500, 100);
+        horizontalFrame.setTitle("Partitioned layout");
+
+        CyderPartitionedLayout layout = new CyderPartitionedLayout();
+        layout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.ROW);
+        layout.setNewComponentPartitionAlignment(CyderPartitionedLayout.PartitionAlignment.BOTTOM_RIGHT);
+
+        // todo test spacer and column
+
+        int components = 6;
+        layout.setNewComponentPartitionSpace(CyderPartitionedLayout.MAX_PARTITION / components);
+
+        for (int i = 0 ; i < components ; i++) {
+            CyderButton button = new CyderButton(String.valueOf(i));
+            button.setSize(50, 50);
+            int finalI = i;
+            button.addActionListener(e -> horizontalFrame.notify("Clicked button: " + finalI));
+
+            layout.addComponent(button);
+        }
+
+        CyderPanel contentPanel = new CyderPanel(layout);
+
+        horizontalFrame.initializeResizing();
+        horizontalFrame.setMaximumSize(1000, 100);
+        horizontalFrame.setMinimumSize(200, 100);
+
+        horizontalFrame.setLayoutPanel(contentPanel);
+        horizontalFrame.finalizeAndShow();
+    }
 }
