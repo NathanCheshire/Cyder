@@ -330,6 +330,10 @@ public class CyderPartitionedLayout extends CyderLayout {
             currentComponentStart += componentPartitionedLen;
 
             associatedPanel.add(component);
+
+            if (component instanceof CyderPanel panel) {
+                panel.revalidateComponents();
+            }
         }
 
         if (focusOwner != null) {

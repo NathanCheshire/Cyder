@@ -815,23 +815,27 @@ public final class ManualTests {
 
     @ManualTest("partitioned layout test")
     public static void partitionedLayoutTest() {
-        CyderFrame horizontalFrame = new CyderFrame(500, 100);
+        CyderFrame horizontalFrame = new CyderFrame(200, 500);
         horizontalFrame.setTitle("Partitioned layout");
 
         CyderPartitionedLayout layout = new CyderPartitionedLayout();
-        layout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.ROW);
-        layout.setNewComponentPartitionAlignment(CyderPartitionedLayout.PartitionAlignment.BOTTOM_RIGHT);
+        layout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.COLUMN);
+        layout.setNewComponentPartitionAlignment(CyderPartitionedLayout.PartitionAlignment.CENTER);
 
-        // todo test spacer and column
-
-        int components = 6;
+        int components = 5;
+        Dimension buttonSize = new Dimension(80, 80);
         layout.setNewComponentPartitionSpace(CyderPartitionedLayout.MAX_PARTITION / components);
 
         for (int i = 0 ; i < components ; i++) {
             CyderButton button = new CyderButton(String.valueOf(i));
-            button.setSize(50, 50);
+            button.setSize(buttonSize);
             int finalI = i;
-            button.addActionListener(e -> horizontalFrame.notify("Clicked button: " + finalI));
+            button.addActionListener(e -> horizontalFrame.notify("Clicked: " + finalI));
+
+            if (i == 2) {
+                layout.addComponent(new JLabel());
+                continue;
+            }
 
             layout.addComponent(button);
         }
@@ -839,8 +843,8 @@ public final class ManualTests {
         CyderPanel contentPanel = new CyderPanel(layout);
 
         horizontalFrame.initializeResizing();
-        horizontalFrame.setMaximumSize(1000, 100);
-        horizontalFrame.setMinimumSize(200, 100);
+        horizontalFrame.setMaximumSize(200, 1000);
+        horizontalFrame.setMinimumSize(200, 400);
 
         horizontalFrame.setLayoutPanel(contentPanel);
         horizontalFrame.finalizeAndShow();

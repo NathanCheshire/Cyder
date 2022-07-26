@@ -358,8 +358,7 @@ public class CyderFlowLayout extends CyderLayout {
 
                     // for all components on this row, set their locations
                     // on the center line and the currentLeftX
-                    for (Component flowComponent : currentRow)
-                    {
+                    for (Component flowComponent : currentRow) {
                         // this is guaranteed to work since
                         // currentHeightCenteringInc >= currentFlowComp.height / 2 is always true
                         flowComponent.setLocation(currentLeftX,
@@ -370,6 +369,10 @@ public class CyderFlowLayout extends CyderLayout {
 
                         // increment by the width and gap needed
                         currentLeftX += flowComponent.getWidth() + horizontalGap;
+
+                        if (flowComponent instanceof CyderPanel panel) {
+                            panel.revalidateComponents();
+                        }
                     }
 
                     break;
@@ -395,6 +398,10 @@ public class CyderFlowLayout extends CyderLayout {
 
                         // increment by the width, gap, and a partition width
                         currentCenterX += flowComponent.getWidth() + horizontalGap + partitionedRemainingWidth;
+
+                        if (flowComponent instanceof CyderPanel panel) {
+                            panel.revalidateComponents();
+                        }
                     }
 
                     break;
@@ -417,6 +424,10 @@ public class CyderFlowLayout extends CyderLayout {
 
                         // increment by width and a gap
                         centeringXAcc += flowComponent.getWidth() + horizontalGap;
+
+                        if (flowComponent instanceof CyderPanel panel) {
+                            panel.revalidateComponents();
+                        }
                     }
 
                     break;
@@ -439,6 +450,10 @@ public class CyderFlowLayout extends CyderLayout {
 
                         // increment by width and a gap
                         currentRightX += flowComponent.getWidth() + horizontalGap;
+
+                        if (flowComponent instanceof CyderPanel panel) {
+                            panel.revalidateComponents();
+                        }
                     }
 
                     break;
@@ -466,8 +481,8 @@ public class CyderFlowLayout extends CyderLayout {
 
             // if the next row's starting y value is not visible at
             // all (exceeds the panel's height), then we can stop rendering rows
-            if (!maxRowHeights.isEmpty() &&
-                    (currentHeightCenteringInc - maxRowHeights.get(0) / 2) > associatedPanel.getHeight()) {
+            if (!maxRowHeights.isEmpty()
+                    && (currentHeightCenteringInc - maxRowHeights.get(0) / 2) > associatedPanel.getHeight()) {
                 break;
             }
         }
