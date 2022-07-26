@@ -8,7 +8,7 @@ Last updated: 7-22-22
 
 <br/>
 
-![](./images/architecture.png)
+![](./images/StartupArchitecture.png)
 
 ## Notes
 
