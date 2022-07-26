@@ -19,15 +19,15 @@ BLANK_COLOR = (33, 37, 22)
 
 def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
                  width: str, height: str, save_name: str) -> None:
-    """ Exports a stats png using the provided informtion.
+    """ 
+    Exports a stats png using the provided informtion.
 
-        Parameters:
-            code_lines: the number of code lines in the project
-            comment_lines: the number of comment lines in the project
-            blank_lines: the number of blank lines in the project
-            width: the width of the png to export
-            height: the height of the png to export
-            save_name: the name of the png to export
+    :param code_lines: the number of code lines in the project
+    :param comment_lines: the number of comment lines in the project
+    :param blank_lines: the number of blank lines in the project
+    :param width: the width of the png to export
+    :param height: the height of the png to export
+    :param save_name: the name of the png to export
     """
 
     total = code_lines + comment_lines + blank_lines
@@ -90,7 +90,8 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
 
 
 def get_compressed_number(num: int) -> str:
-    """ Returns the number of thousands represented by the integer rounded to one decimal place.
+    """ 
+    Returns the number of thousands represented by the integer rounded to one decimal place.
     """
     return str(round(num / 1000.0, 1)) + 'K'
 
@@ -100,18 +101,18 @@ def export_string_badge(alpha_string: str, beta_string: str, save_name: str, fon
                         text_color: tuple = (245, 245, 245),
                         left_background_color: tuple = (131, 83, 5),
                         right_background_color: tuple = (199, 147, 85)):
-    """ Exports a png to the root directory resembling a badge with the provided parameters.
+    """ 
+    Exports a png to the root directory resembling a badge with the provided parameters.
 
-        Parameters:
-            alpha_string: the string for the left of the badge
-            beta_string: the string for the right of the badge
-            save_name: the name to save the png as
-            font_size: the size for the font
-            horizontal_padding: the left/right padding between the image borders and words
-            vertical_padding: the top/bottom padding between the image borders and words
-            text_color: the color for the text painted by alpha_string and beta_string
-            left_background_color: the color used for the badge's left background
-            right_background_color: the color used for the badge's right background
+    :param alpha_string: the string for the left of the badge
+    :param beta_string: the string for the right of the badge
+    :param save_name: the name to save the png as
+    :param font_size: the size for the font
+    :param horizontal_padding: the left/right padding between the image borders and words
+    :param vertical_padding: the top/bottom padding between the image borders and words
+    :param text_color: the color for the text painted by alpha_string and beta_string
+    :param left_background_color: the color used for the badge's left background
+    :param right_background_color: the color used for the badge's right background
     """
 
     local_font = ImageFont.truetype(FONT_PATH, font_size)
@@ -146,23 +147,21 @@ def export_string_badge(alpha_string: str, beta_string: str, save_name: str, fon
 
 
 def get_text_size(text: str, font_size: int, font_name: str) -> Tuple:
-    """ Returns a tuple of the size (width, height) required to hold the provided 
-        string with the provided font and point size.
+    """ 
+    Returns a tuple of the size (width, height) required to hold the provided 
+    string with the provided font and point size.
     """
     return ImageFont.truetype(font_name, font_size).getsize(text)
 
 
 def find_files(starting_dir: str, extensions: list = [], recursive: bool = False) -> list:
-    """ Finds all files within the provided directory that 
-        end in one of the provided extensions.
+    """ 
+    Finds all files within the provided directory that end in one of the provided extensions.
 
-        Parameters:
-            starting_dir: the directory to start recursing from
-            extensions: a list of valid extensions such as [".java"]
-            recursive: whether to recurse through found subdirectories
-
-        Returns:
-            a list of discovered files
+    :param starting_dir: the directory to start recursing from
+    :param extensions: a list of valid extensions such as [".java"]
+    :param recursive: whether to recurse through found subdirectories
+    :return: a list of discovered files
     """
 
     ret = []
@@ -187,13 +186,11 @@ def find_files(starting_dir: str, extensions: list = [], recursive: bool = False
 
 
 def analyze_file(file: str) -> Tuple:
-    """ Analyzes the provided file for source code.
+    """ 
+    Analyzes the provided file for source code.
 
-        Parameters:
-            a file to analyze
-
-        Returns:
-            a tuple in the following order (num+code_lines, num_comment_lines, num_blank_lines)
+    :param file: the file to analyze
+    :return: a tuple in the following order (num+code_lines, num_comment_lines, num_blank_lines)
     """
 
     num_comments = 0
@@ -224,14 +221,12 @@ def analyze_file(file: str) -> Tuple:
 
 
 def count_code_lines(file_lines: list) -> int:
-    """ Counts the number of code lines of the provided file lines.
-        A line is a code line if it is not a comment and not empty.
+    """ 
+    Counts the number of code lines of the provided file lines. 
+    A line is a code line if it is not a comment and not empty.
 
-        Parameters:
-            file_lines: the lines of a file
-
-        Returns:
-            the number of code lines of the provided file lines
+    :param file_lines: the lines of a file
+    :return: the number of code lines of the provided file lines
     """
     ret = 0
 
@@ -245,13 +240,11 @@ def count_code_lines(file_lines: list) -> int:
 
 
 def count_comment_lines(file_lines: list) -> int:
-    """ Counts the number of comments of the provided file lines.
+    """ 
+    Counts the number of comments of the provided file lines.
 
-        Parameters:
-            file_lines: the lines of a file
-
-        Returns:
-            the number of comment lines of the provided file lines
+    :param file_lines: the lines of a file
+    :return: the number of comment lines of the provided file lines
     """
     ret = 0
     block_comment = False
@@ -275,13 +268,14 @@ def count_comment_lines(file_lines: list) -> int:
 
 
 def is_comment_line(line: str) -> bool:
-    """ Returns whether the provided line is a comment line.
+    """ 
+    Returns whether the provided line is a comment line.
     """
     return re.compile(IS_COMMENT_REGEX).match(line)
 
 
 def main():
-    print("Finding files starting from cwd:", os.getcwd())
+    print("Finding files starting from:", os.getcwd())
 
     files = find_files(starting_dir="cyder",
                        extensions=['.java'], recursive=True)
