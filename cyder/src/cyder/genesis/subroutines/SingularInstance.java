@@ -5,16 +5,32 @@ import cyder.enums.ExitCondition;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.FatalException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A startup subroutine to ensure only one instance of Cyder exists.
  */
 public class SingularInstance implements StartupSubroutine {
+    /**
+     * The socket used to ensure only one instance of Cyder ever exists.
+     */
+    private Socket serverSocket;
+
+    /**
+     * Returns the server socket used to ensure only one instance of Cyder exists.
+     *
+     * @return the server socket used to ensure only one instance of Cyder exists
+     */
+    public Socket getServerSocket() {
+        return serverSocket;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -24,10 +40,12 @@ public class SingularInstance implements StartupSubroutine {
 
         CyderThreadRunner.submit(() -> {
             try {
-                // Blocking method
-                new ServerSocket(CyderNumbers.INSTANCE_SOCKET_PORT).accept();
+                Logger.log(Logger.Tag.DEBUG, "Starting instance socket on port "
+                        + CyderNumbers.INSTANCE_SOCKET_PORT);
+                serverSocket = new ServerSocket(CyderNumbers.INSTANCE_SOCKET_PORT).accept();
             } catch (Exception ignored) {
                 singularInstance.set(false);
+                Logger.log(Logger.Tag.DEBUG, "Failed to start singular instance socket");
             }
         }, IgnoreThread.SingularInstanceEnsurer.getName());
 

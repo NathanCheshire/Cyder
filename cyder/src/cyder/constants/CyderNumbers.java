@@ -13,9 +13,8 @@ public final class CyderNumbers {
 
     /**
      * The port to ensure one instance of Cyder is ever active.
-     * 143 does have a hidden meaning ;)
      */
-    public static final int INSTANCE_SOCKET_PORT = 143;
+    public static final int INSTANCE_SOCKET_PORT = 5150;
 
     /**
      * The timeout to wait for the server socket to connect/fail.

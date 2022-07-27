@@ -862,7 +862,7 @@ public enum Console {
      */
     private void installConsoleClock() {
         consoleClockLabel = new JLabel(TimeUtil.userFormattedTime(), SwingConstants.CENTER);
-        consoleClockLabel.setSize(0, StringUtil.getAbsoluteMinHeight("143 ;)",
+        consoleClockLabel.setSize(0, StringUtil.getAbsoluteMinHeight("143",
                 CyderFonts.CONSOLE_CLOCK_FONT));
         consoleClockLabel.setFont(CyderFonts.CONSOLE_CLOCK_FONT);
         consoleClockLabel.setForeground(CyderColors.vanilla);
