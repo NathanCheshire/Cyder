@@ -153,7 +153,7 @@ public class CyderPartitionedLayout extends CyderLayout {
     }
 
     /**
-     * Returns the {@link PartitionDirection}, that of {@link PartitionDirection#COLUMN}
+     * Sets the {@link PartitionDirection}, that of {@link PartitionDirection#COLUMN}
      * or {@link PartitionDirection#ROW}
      *
      * @param partitionDirection the new partition direction
@@ -360,6 +360,13 @@ public class CyderPartitionedLayout extends CyderLayout {
         removeComponent(index);
     }
 
+    /**
+     * Removes the component at the specified index from the components list.
+     * This also removes the partition and returns the new space to the list of available space.
+     * Components will slide from the right to fill the gap.
+     *
+     * @param index the component at the specified index from the components list
+     */
     public void removeComponent(int index) {
         Preconditions.checkArgument(index >= 0);
         Preconditions.checkArgument(index < partitions.size());

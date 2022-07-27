@@ -68,8 +68,6 @@ public class ColorConverterWidget {
         colorFrame.setMaximumSize(new Dimension(width, 2 * height));
 
         CyderPartitionedLayout layout = new CyderPartitionedLayout();
-        layout.setNewComponentPartitionAlignment(CyderPartitionedLayout.PartitionAlignment.CENTER);
-        layout.setNewComponentPartitionSpace((int) (100 / 8.0));
 
         JLabel colorLabel = new JLabel("Color preview");
         colorLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -143,14 +141,14 @@ public class ColorConverterWidget {
         rgbField.setSize(220, 50);
         rgbField.setOpaque(false);
 
-        layout.addComponent(new JLabel());
-        layout.addComponent(hexLabel);
-        layout.addComponent(hexField);
-        layout.addComponent(rgbLabel);
-        layout.addComponent(rgbField);
-        layout.addComponent(colorLabel);
-        layout.addComponent(colorBlock);
-        layout.addComponent(new JLabel());
+        layout.addComponent(new JLabel(), 10);
+        layout.addComponent(hexLabel, 15);
+        layout.addComponent(hexField, 10);
+        layout.addComponent(rgbLabel, 15);
+        layout.addComponent(rgbField, 10);
+        layout.addComponent(colorLabel, 15);
+        layout.addComponent(colorBlock, 15);
+        layout.addComponent(new JLabel(), 10);
 
         CyderPanel panel = new CyderPanel(layout);
         colorFrame.setLayoutPanel(panel);
