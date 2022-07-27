@@ -3464,12 +3464,9 @@ public class CyderFrame extends JFrame {
      */
     public void finalizeAndShow(boolean enterAnimation) {
         CyderThreadRunner.submit(() -> {
-            boolean wasOnTop = isAlwaysOnTop();
-            setAlwaysOnTop(true);
+            CyderFrame dominantFrame = getDominantFrame();
 
             if (enterAnimation) {
-                CyderFrame dominantFrame = getDominantFrame();
-
                 if (dominantFrame == null) {
                     setLocation(ScreenUtil.getScreenWidth() / 2 - getWidth() / 2, -getHeight());
                 } else {
@@ -3486,18 +3483,16 @@ public class CyderFrame extends JFrame {
                 }
 
                 enterAnimation(new Point(getX(), toY));
-
-                setLocationRelativeTo(dominantFrame);
             } else {
-                setLocationRelativeTo(getDominantFrame());
                 setVisible(true);
             }
 
-            if (!wasOnTop) {
-                setAlwaysOnTop(false);
-            }
+            setLocationRelativeTo(dominantFrame);
+
         }, "Enter animation, frame=" + getTitle());
     }
+
+    // todo console location saving doesn't work and sometimes messes up still, only save is not being disposed too
 
     /**
      * Performs an enter animation to the point.
@@ -3527,7 +3522,9 @@ public class CyderFrame extends JFrame {
         if (!Console.INSTANCE.isClosed()) {
             CyderFrame referenceFrame = Console.INSTANCE.getConsoleCyderFrame();
             return referenceFrame.getState() == ICONIFIED ? null : referenceFrame;
-        } else if (!LoginHandler.isLoginFrameClosed() && LoginHandler.getLoginFrame() != null) {
+        } else if (!LoginHandler.isLoginFrameClosed()
+                && LoginHandler.getLoginFrame() != null
+                && LoginHandler.getLoginFrame().isVisible()) {
             return LoginHandler.getLoginFrame();
         }
         // other possibly dominant/stand-alone frame checks here
