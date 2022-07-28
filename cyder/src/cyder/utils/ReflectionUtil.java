@@ -413,24 +413,6 @@ public final class ReflectionUtil {
                     for (String trigger : triggers) {
                         if (StringUtil.isNull(trigger)) {
                             throw new IllegalMethodException("Method annotated with @Widget has an empty trigger");
-                        } else if (trigger.contains(" ")) {
-                            if (suppressionValues != null) {
-                                boolean in = false;
-
-                                for (CyderInspection inspection : suppressionValues) {
-                                    if (inspection == CyderInspection.WidgetInspection) {
-                                        in = true;
-                                        break;
-                                    }
-                                }
-
-                                if (in) {
-                                    continue;
-                                }
-                            }
-
-                            Logger.log(Logger.Tag.DEBUG, "Method annotated with " +
-                                    "@Widget has triggers which contain spaces: \"" + trigger + "\"");
                         }
                     }
                 }

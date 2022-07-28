@@ -19,6 +19,12 @@ public class UrlHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
+    /**
+     * The youtube base url for searching for specific words within a youtube url.
+     */
+    public static final String YOUTUBE_WORD_SEARCH_BASE =
+            "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
+
     @Handle()
     public static boolean handle() {
         boolean ret = true;
@@ -26,7 +32,7 @@ public class UrlHandler extends InputHandler {
         if (getInputHandler().commandIs("YoutubeWordSearch")) {
             if (getInputHandler().checkArgsLength(1)) {
                 String input = getInputHandler().getArg(0);
-                String browse = CyderUrls.YOUTUBE_WORD_SEARCH_BASE
+                String browse = YOUTUBE_WORD_SEARCH_BASE
                         .replace("REPLACE", input).replace(" ", "+");
                 NetworkUtil.openUrl(browse);
             } else {

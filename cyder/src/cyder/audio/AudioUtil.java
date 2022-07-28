@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
-import cyder.constants.CyderUrls;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -29,6 +28,30 @@ import java.util.regex.Pattern;
  * Utilities related to audio files, typically mp3 and wav files.
  */
 public final class AudioUtil {
+    /**
+     * The resource link to download the ffmpeg binary.
+     */
+    public static final String DOWNLOAD_RESOURCE_FFMPEG
+            = "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffmpeg.zip";
+
+    /**
+     * The resource link to download the ffplay binary.
+     */
+    public static final String DOWNLOAD_RESOURCE_FFPLAY
+            = "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffplay.zip";
+
+    /**
+     * The resource link to download the ffprobe binary.
+     */
+    public static final String DOWNLOAD_RESOURCE_FFPROBE
+            = "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffprobe.zip";
+
+    /**
+     * The resource link to download the youtube-dl binary.
+     */
+    public static final String DOWNLOAD_RESOURCE_YOUTUBE_DL
+            = "https://github.com/NathanCheshire/Cyder/raw/main/resources/youtube-dl.zip";
+
     /**
      * The ffmpeg input flag.
      */
@@ -380,15 +403,15 @@ public final class AudioUtil {
             downloadZips.add(new PairedFile(OSUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.EXES.getDirectoryName(),
-                    FFMPEG + ".zip"), CyderUrls.DOWNLOAD_RESOURCE_FFMPEG));
+                    FFMPEG + ".zip"), DOWNLOAD_RESOURCE_FFMPEG));
             downloadZips.add(new PairedFile(OSUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.EXES.getDirectoryName(),
-                    FFPROBE + ".zip"), CyderUrls.DOWNLOAD_RESOURCE_FFPROBE));
+                    FFPROBE + ".zip"), DOWNLOAD_RESOURCE_FFPROBE));
             downloadZips.add(new PairedFile(OSUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.EXES.getDirectoryName(),
-                    FFPLAY + ".zip"), CyderUrls.DOWNLOAD_RESOURCE_FFPLAY));
+                    FFPLAY + ".zip"), DOWNLOAD_RESOURCE_FFPLAY));
 
             for (PairedFile pairedZipFile : downloadZips) {
                 NetworkUtil.downloadResource(pairedZipFile.url, pairedZipFile.file);
@@ -440,7 +463,7 @@ public final class AudioUtil {
                     Dynamic.EXES.getDirectoryName(),
                     YOUTUBE_DL + ".zip");
 
-            NetworkUtil.downloadResource(CyderUrls.DOWNLOAD_RESOURCE_YOUTUBE_DL, downloadZip);
+            NetworkUtil.downloadResource(DOWNLOAD_RESOURCE_YOUTUBE_DL, downloadZip);
 
             while (!downloadZip.exists()) {
                 Thread.onSpinWait();

@@ -407,7 +407,7 @@ public final class MessagingUtils {
             JLabel containerLabel = new JLabel(AUDIO_PREVIEW_LABEL_MAGIC_TEXT) {
                 @Override
                 protected void paintComponent(Graphics g) {
-                    g.setColor(CyderColors.zero);
+                    g.setColor(CyderColors.empty);
                     g.fillRect(0, 0, AUDIO_PREVIEW_CONTAINER_WIDTH, AUDIO_PREVIEW_CONTAINER_HEIGHT);
                     super.paintComponent(g);
                 }

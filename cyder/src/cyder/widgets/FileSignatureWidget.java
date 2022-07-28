@@ -3,7 +3,10 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.constants.*;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -23,7 +26,7 @@ import java.io.InputStream;
 
 @Vanilla
 @CyderAuthor
-public class FileSignatureWidget {
+public final class FileSignatureWidget {
     /**
      * The file to validate.
      */
@@ -45,13 +48,18 @@ public class FileSignatureWidget {
     private static CyderLabel resultLabel;
 
     /**
+     * A link for common file signatures.
+     */
+    public static final String WIKIPEDIA_FILE_SIGNATURES = "https://en.wikipedia.org/wiki/List_of_file_signatures";
+
+    /**
      * Suppress default constructor.
      */
     private FileSignatureWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Widget(triggers = "filesignature", description = "A widget to read the raw file " +
+    @Widget(triggers = "file signature", description = "A widget to read the raw file " +
             "hex data and determine if the file signature matches the provided extension")
     public static void showGui() {
         signatureFrame = new CyderFrame(400, 420, CyderIcons.defaultBackground);
@@ -71,7 +79,7 @@ public class FileSignatureWidget {
         referenceLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.WIKIPEDIA_FILE_SIGNATURES);
+                NetworkUtil.openUrl(WIKIPEDIA_FILE_SIGNATURES);
             }
 
             @Override

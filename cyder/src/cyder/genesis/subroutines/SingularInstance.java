@@ -1,6 +1,5 @@
 package cyder.genesis.subroutines;
 
-import cyder.constants.CyderNumbers;
 import cyder.enums.ExitCondition;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.FatalException;
@@ -23,6 +22,16 @@ public class SingularInstance implements StartupSubroutine {
     private Socket serverSocket;
 
     /**
+     * The timeout to wait for the server socket to connect/fail.
+     */
+    private static final long SINGLE_INSTANCE_ENSURER_TIMEOUT = 500;
+
+    /**
+     * The port to ensure one instance of Cyder is ever active.
+     */
+    private static final int INSTANCE_SOCKET_PORT = 5150;
+
+    /**
      * Returns the server socket used to ensure only one instance of Cyder exists.
      *
      * @return the server socket used to ensure only one instance of Cyder exists
@@ -40,9 +49,8 @@ public class SingularInstance implements StartupSubroutine {
 
         CyderThreadRunner.submit(() -> {
             try {
-                Logger.log(Logger.Tag.DEBUG, "Starting instance socket on port "
-                        + CyderNumbers.INSTANCE_SOCKET_PORT);
-                serverSocket = new ServerSocket(CyderNumbers.INSTANCE_SOCKET_PORT).accept();
+                Logger.log(Logger.Tag.DEBUG, "Starting instance socket on port " + INSTANCE_SOCKET_PORT);
+                serverSocket = new ServerSocket(INSTANCE_SOCKET_PORT).accept();
             } catch (Exception ignored) {
                 singularInstance.set(false);
                 Logger.log(Logger.Tag.DEBUG, "Failed to start singular instance socket");
@@ -50,7 +58,7 @@ public class SingularInstance implements StartupSubroutine {
         }, IgnoreThread.SingularInstanceEnsurer.getName());
 
         // started blocking method in above thread but need to wait for it to either bind or fail
-        ThreadUtil.sleep(CyderNumbers.SINGLE_INSTANCE_ENSURER_TIMEOUT);
+        ThreadUtil.sleep(SINGLE_INSTANCE_ENSURER_TIMEOUT);
 
         return singularInstance.get();
     }

@@ -742,6 +742,11 @@ public class StringUtil {
     private static final String DEFINITION_ELEMENT_NAME = "one-click-content css-nnyc96 e1q3nk1v1";
 
     /**
+     * The dictionary base url.
+     */
+    private static final String DICTIONARY_BASE = "https://www.dictionary.com/browse/";
+
+    /**
      * Searches Dictionary.com for the provided word.
      *
      * @param word the word to find a definition for
@@ -751,7 +756,7 @@ public class StringUtil {
         String ret;
 
         try {
-            Document doc = Jsoup.connect(CyderUrls.DICTIONARY_BASE + word).get();
+            Document doc = Jsoup.connect(DICTIONARY_BASE + word).get();
             Elements els = doc.getElementsByClass(DEFINITION_ELEMENT_NAME)
                     .not(".pad_10").not(".pad_20");
             org.jsoup.nodes.Element htmlDescription = els.get(0);

@@ -43,7 +43,10 @@ public final class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                partitionedLayoutTest();
+                // todo pin icon is broken for console?
+                // todo use partitioned layout for create user widget
+                // todo architecture for startup subroutines needs to be like input handlers
+                // todo audio constants file?
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

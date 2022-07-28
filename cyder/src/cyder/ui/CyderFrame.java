@@ -41,6 +41,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class CyderFrame extends JFrame {
     /**
+     * The font used for the title label (typically equivalent to agencyFB22).
+     */
+    public static final Font DEFAULT_FRAME_TITLE_FONT = new Font("Agency FB", Font.BOLD, 22);
+
+    /**
+     * The font used for CyderFrame notifications (typically equivalent to segoe20)
+     */
+    public static final Font NOTIFICATION_FONT = new Font("Segoe UI Black", Font.BOLD, 20);
+
+    /**
      * The maximum allowable frame dimension to notification dimension before
      * the notification is turned into a popup pane.
      */
@@ -441,7 +451,7 @@ public class CyderFrame extends JFrame {
 
         //title label on drag label
         titleLabel = new JLabel("");
-        titleLabel.setFont(CyderFonts.DEFAULT_FRAME_TITLE_FONT);
+        titleLabel.setFont(DEFAULT_FRAME_TITLE_FONT);
         titleLabel.setForeground(CyderColors.vanilla);
         titleLabel.setOpaque(false);
         titleLabel.setFocusable(false);
@@ -1047,7 +1057,7 @@ public class CyderFrame extends JFrame {
             // generate label for notification
             BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(
                     currentBuilder.getHtmlText(),
-                    CyderFonts.NOTIFICATION_FONT, (int) Math.ceil(width * 0.8));
+                    NOTIFICATION_FONT, (int) Math.ceil(width * 0.8));
             int notificationWidth = bs.width() + notificationExcessLen;
             int notificationHeight = bs.height() + notificationExcessLen;
             String brokenText = bs.text();
@@ -1109,7 +1119,7 @@ public class CyderFrame extends JFrame {
             else {
                 JLabel textContainerLabel = new JLabel(brokenText);
                 textContainerLabel.setSize(notificationWidth, notificationHeight);
-                textContainerLabel.setFont(CyderFonts.NOTIFICATION_FONT);
+                textContainerLabel.setFont(NOTIFICATION_FONT);
                 textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
 
                 JLabel interactionLabel = new JLabel();

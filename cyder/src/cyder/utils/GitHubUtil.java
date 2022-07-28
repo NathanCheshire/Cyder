@@ -6,7 +6,6 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
-import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.github.Issue;
@@ -41,6 +40,16 @@ public final class GitHubUtil {
     private static final Gson gson = new Gson();
 
     /**
+     * The link for the github api to return a json of currently open issues for Cyder.
+     */
+    private static final String CYDER_ISSUES = "https://api.github.com/repos/nathancheshire/cyder/issues";
+
+    /**
+     * The link to download git from.
+     */
+    private static final String GIT_DOWNLOAD = "https://git-scm.com/downloads";
+
+    /**
      * Returns a list of issues for Cyder.
      *
      * @return the list of currently open issues for Cyder.
@@ -49,7 +58,7 @@ public final class GitHubUtil {
         Issue[] ret = null;
 
         try {
-            URL url = new URL(CyderUrls.CYDER_ISSUES);
+            URL url = new URL(CYDER_ISSUES);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             StringBuilder sb = new StringBuilder();
@@ -108,6 +117,11 @@ public final class GitHubUtil {
     }
 
     /**
+     * The default github url.
+     */
+    private static final String GITHUB_BASE = "www.github.com";
+
+    /**
      * Determines if the provided url is a valid and public github cloneable repository.
      * Example: https://github.com/NathanCheshire/Cyder.git returns true
      *
@@ -143,8 +157,8 @@ public final class GitHubUtil {
 
         // at this point it should be one of the following
         // github.com/user/repo.git or www.github.com/user/repo.git
-        return url.startsWith(CyderUrls.GITHUB_BASE)
-                || url.startsWith(CyderUrls.GITHUB_BASE.substring(4)); // valid url and starts with one of the above
+        return url.startsWith(GITHUB_BASE)
+                || url.startsWith(GITHUB_BASE.substring(4)); // valid url and starts with one of the above
     }
 
     /**
@@ -206,7 +220,7 @@ public final class GitHubUtil {
 
             if (!OSUtil.isBinaryInstalled("git")) {
                 Console.INSTANCE.getInputHandler()
-                        .println("Git not installed. Please install it at: " + CyderUrls.GIT_DOWNLOAD);
+                        .println("Git not installed. Please install it at: " + GIT_DOWNLOAD);
                 return Optional.of(Boolean.FALSE);
             }
 

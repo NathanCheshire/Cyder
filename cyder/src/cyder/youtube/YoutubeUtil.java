@@ -131,7 +131,7 @@ public final class YoutubeUtil {
                 baseInputHandler.println(KEY_NOT_SET_ERROR_MESSAGE);
             } else {
                 try {
-                    String link = CyderUrls.YOUTUBE_API_V3_PLAYLIST_ITEMS +
+                    String link = YOUTUBE_API_V3_PLAYLIST_ITEMS +
                             "part=snippet%2C+id&playlistId=" + playlistID + "&key="
                             + PropLoader.getString("youtube_api_3_key");
 
@@ -243,7 +243,7 @@ public final class YoutubeUtil {
 
         String ret = null;
 
-        String query = CyderUrls.YOUTUBE_QUERY_BASE + youtubeQuery.replace(" ", "+");
+        String query = YOUTUBE_QUERY_BASE + youtubeQuery.replace(" ", "+");
         String jsonString = NetworkUtil.readUrl(query);
 
         if (jsonString.contains("\"videoId\":\"")) {
@@ -263,16 +263,16 @@ public final class YoutubeUtil {
                 " variable. Remember to also set the path to your youtube-dl executable in the user editor");
 
         CyderButton environmentVariableHelp = new CyderButton("Learn how to add environment variables");
-        environmentVariableHelp.addActionListener(e -> NetworkUtil.openUrl(CyderUrls.environmentVariables));
+        environmentVariableHelp.addActionListener(e -> NetworkUtil.openUrl(environmentVariables));
         Console.INSTANCE.getInputHandler().println(environmentVariableHelp);
 
         CyderButton downloadFFMPEG = new CyderButton("Learn how to download ffmpeg");
-        downloadFFMPEG.addActionListener(e -> NetworkUtil.openUrl(CyderUrls.FFMPEG_INSTALLATION));
+        downloadFFMPEG.addActionListener(e -> NetworkUtil.openUrl(FFMPEG_INSTALLATION));
         Console.INSTANCE.getInputHandler().println(downloadFFMPEG);
 
         CyderButton downloadYoutubeDL = new CyderButton("Learn how to download youtube-dl");
         downloadYoutubeDL.addActionListener(e ->
-                NetworkUtil.openUrl(CyderUrls.YOUTUBE_DL_INSTALLATION));
+                NetworkUtil.openUrl(YOUTUBE_DL_INSTALLATION));
         Console.INSTANCE.getInputHandler().println(downloadYoutubeDL);
     }
 
@@ -388,7 +388,7 @@ public final class YoutubeUtil {
      * @return whether the provided url references a YouTube playlist
      */
     public static boolean isPlaylistUrl(String url) {
-        return Preconditions.checkNotNull(url).startsWith(CyderUrls.YOUTUBE_PLAYLIST_HEADER);
+        return Preconditions.checkNotNull(url).startsWith(YOUTUBE_PLAYLIST_HEADER);
     }
 
     /**
@@ -401,7 +401,7 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(isPlaylistUrl(url));
 
-        return url.replace(CyderUrls.YOUTUBE_PLAYLIST_HEADER, "").trim();
+        return url.replace(YOUTUBE_PLAYLIST_HEADER, "").trim();
     }
 
     /**
@@ -428,7 +428,7 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
-        return CyderUrls.YOUTUBE_THUMBNAIL_BASE + uuid + "/" + MAX_RES_DEFAULT;
+        return YOUTUBE_THUMBNAIL_BASE + uuid + "/" + MAX_RES_DEFAULT;
     }
 
     /**
@@ -441,7 +441,7 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
-        return CyderUrls.YOUTUBE_THUMBNAIL_BASE + uuid + "/" + SD_DEFAULT;
+        return YOUTUBE_THUMBNAIL_BASE + uuid + "/" + SD_DEFAULT;
     }
 
     /**
@@ -490,7 +490,7 @@ public final class YoutubeUtil {
             }
         }
 
-        return CyderUrls.YOUTUBE_API_V3_SEARCH_BASE + YoutubeConstants.MAX_RESULTS_PARAMETER
+        return YOUTUBE_API_V3_SEARCH_BASE + YoutubeConstants.MAX_RESULTS_PARAMETER
                 + numResults + "&q=" + builder + "&type=video" + "&key=" + key;
     }
 

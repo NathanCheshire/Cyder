@@ -6,7 +6,6 @@ import com.google.common.collect.Lists;
 import cyder.audio.AudioIcons;
 import cyder.audio.AudioPlayer;
 import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
@@ -70,6 +69,11 @@ public enum Console {
     Console() {
         Logger.log(Logger.Tag.OBJECT_CREATION, "Console singleton constructed");
     }
+
+    /**
+     * The font used for the clock label.
+     */
+    public static final Font CONSOLE_CLOCK_FONT = new Font("Segoe UI Black", Font.BOLD, 21);
 
     /**
      * An immutable list of the frames to ignore when placing a frame in the console taskbar menu.
@@ -637,7 +641,7 @@ public enum Console {
         outputArea.setFocusable(true);
         outputArea.setSelectionColor(CyderColors.selectionColor);
         outputArea.setOpaque(false);
-        outputArea.setBackground(CyderColors.zero);
+        outputArea.setBackground(CyderColors.empty);
         outputArea.setForeground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
         outputArea.setFont(INSTANCE.generateUserFont());
 
@@ -862,9 +866,8 @@ public enum Console {
      */
     private void installConsoleClock() {
         consoleClockLabel = new JLabel(TimeUtil.userFormattedTime(), SwingConstants.CENTER);
-        consoleClockLabel.setSize(0, StringUtil.getAbsoluteMinHeight("143",
-                CyderFonts.CONSOLE_CLOCK_FONT));
-        consoleClockLabel.setFont(CyderFonts.CONSOLE_CLOCK_FONT);
+        consoleClockLabel.setSize(0, StringUtil.getAbsoluteMinHeight("143", CONSOLE_CLOCK_FONT));
+        consoleClockLabel.setFont(CONSOLE_CLOCK_FONT);
         consoleClockLabel.setForeground(CyderColors.vanilla);
         consoleCyderFrame.getTopDragLabel().add(consoleClockLabel);
         consoleClockLabel.setFocusable(false);

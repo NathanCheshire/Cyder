@@ -41,24 +41,9 @@ public final class CyderFonts {
     public static final Font DEFAULT_FONT = AGENCY_FB_30;
 
     /**
-     * The font used for CyderFrame title labels (typically equivalent to agencyFB22).
-     */
-    public static final Font DEFAULT_FRAME_TITLE_FONT = new Font("Agency FB", Font.BOLD, 22);
-
-    /**
-     * The font used for CyderFrame notifications (typically equivalent to segoe20)
-     */
-    public static final Font NOTIFICATION_FONT = new Font("Segoe UI Black", Font.BOLD, 20);
-
-    /**
      * The font used for default Java tooltips
      */
     public static final Font TOOLTIP_FONT = new Font("tahoma", Font.BOLD, 20);
-
-    /**
-     * The font used for the console clock label.
-     */
-    public static final Font CONSOLE_CLOCK_FONT = new Font("Segoe UI Black", Font.BOLD, 21);
 
     /**
      * No class instantiation allowed for CyderFonts

@@ -5,7 +5,6 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
-import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderFrame;
 import cyder.user.MappedExecutable;
@@ -47,6 +46,26 @@ public final class MinecraftWidget {
      * The label to use for the minecraft block.
      */
     private static JLabel blockLabel;
+
+    /**
+     * The minecraft.net link that redirects to the hamburger icon's result.
+     */
+    public static final String MINECRAFT_HAMBURGER = "https://minecraft.net/en-us/?ref=m";
+
+    /**
+     * The minecraft.net link that redirects to the store icon's result.
+     */
+    public static final String MINECRAFT_CHEST = "https://minecraft.net/en-us/store/?ref=m";
+
+    /**
+     * The minecraft.net link that redirects to the realm icon's result.
+     */
+    public static final String MINECRAFT_REALMS = "https://minecraft.net/en-us/realms/?ref=m";
+
+    /**
+     * The minecraft.net link that redirects to the block icon's result.
+     */
+    public static final String MINECRAFT_BLOCK = "https://my.minecraft.net/en-us/store/minecraft/";
 
     /**
      * Suppress default constructor.
@@ -130,7 +149,7 @@ public final class MinecraftWidget {
         blockLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.MINECRAFT_BLOCK);
+                NetworkUtil.openUrl(MINECRAFT_BLOCK);
             }
 
             @Override
@@ -153,7 +172,7 @@ public final class MinecraftWidget {
         realmsLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.MINECRAFT_REALMS);
+                NetworkUtil.openUrl(MINECRAFT_REALMS);
             }
 
             @Override
@@ -175,7 +194,7 @@ public final class MinecraftWidget {
         chestLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.MINECRAFT_CHEST);
+                NetworkUtil.openUrl(MINECRAFT_CHEST);
             }
 
             @Override
@@ -197,7 +216,7 @@ public final class MinecraftWidget {
         hamLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.MINECRAFT_HAMBURGER);
+                NetworkUtil.openUrl(MINECRAFT_HAMBURGER);
             }
 
             @Override

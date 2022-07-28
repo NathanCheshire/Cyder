@@ -12,6 +12,47 @@ import java.util.regex.Pattern;
  */
 public final class YoutubeConstants {
     /**
+     * The youtube query base url.
+     */
+    public static final String YOUTUBE_QUERY_BASE = "https://www.youtube.com/results?search_query=";
+
+    /**
+     * A link to set environment variables for Windows.
+     */
+    public static final String environmentVariables =
+            "https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/";
+
+    /**
+     * The header that all youtube playlists start with.
+     */
+    public static final String YOUTUBE_PLAYLIST_HEADER = "https://www.youtube.com/playlist?list=";
+
+    /**
+     * The header used for obtaining a youtube video's highest resolution thumbnail.
+     */
+    public static final String YOUTUBE_THUMBNAIL_BASE = "https://img.youtube.com/vi/";
+
+    /**
+     * The google youtube api v3 for getting a playlist's items
+     */
+    public static final String YOUTUBE_API_V3_PLAYLIST_ITEMS = "https://www.googleapis.com/youtube/v3/playlistItems?";
+
+    /**
+     * The base for youtube api v3 search queries.
+     */
+    public static final String YOUTUBE_API_V3_SEARCH_BASE = "https://www.googleapis.com/youtube/v3/search?part=snippet";
+
+    /**
+     * A link for how to install ffmpeg.
+     */
+    public static final String FFMPEG_INSTALLATION = "https://www.wikihow.com/Install-FFmpeg-on-Windows";
+
+    /**
+     * A link for how to install youtube-dl.
+     */
+    public static final String YOUTUBE_DL_INSTALLATION = "https://github.com/ytdl-org/youtube-dl#installation";
+
+    /**
      * The error message printed to the console if the YouTube api v3 key is not set.
      */
     public static final String KEY_NOT_SET_ERROR_MESSAGE = "Sorry, your YouTubeAPI3 key has not been set. "

@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.Handle;
 import cyder.console.Console;
-import cyder.constants.CyderNumbers;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
@@ -346,6 +345,12 @@ public class BaseInputHandler {
     }
 
     /**
+     * The tolerance value that the similar command function must be at or above
+     * to be passed off as a legit recommendation.
+     */
+    private static final float SIMILAR_COMMAND_TOL = 0.80f;
+
+    /**
      * The final handle method for if all other handle methods failed.
      */
     private void unknownInput() {
@@ -362,7 +367,7 @@ public class BaseInputHandler {
                                 + command + "\" found with tolerance of " + tolerance + ", command = \"" +
                                 similarCommand + "\"");
 
-                        if (tolerance >= CyderNumbers.SIMILAR_COMMAND_TOL) {
+                        if (tolerance >= SIMILAR_COMMAND_TOL) {
                             if (PropLoader.getBoolean("auto_trigger_similar_commands")
                                     && tolerance >= PropLoader.getFloat("auto_trigger_similar_command_tolerance")) {
                                 println("Unknown command; Invoking similar command: \"" + similarCommand + "\"");

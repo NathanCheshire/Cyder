@@ -10,6 +10,7 @@ import java.awt.*;
 /**
  * Common colors used throughout Cyder.
  */
+@SuppressWarnings("unused")
 public final class CyderColors {
     /**
      * A common color used for selected text such as in CyderFields
@@ -39,15 +40,12 @@ public final class CyderColors {
     /**
      * An alternative red color
      */
-    @SuppressWarnings("unused")
     public static final Color snapchatRed = new Color(242, 59, 87);
 
     /**
      * A default orange color, never to be changed
      */
     public static final Color regularOrange = new Color(255, 140, 0);
-
-    //begin console colors
 
     /**
      * The default color for the background of tooltips throughout Cyder
@@ -72,7 +70,7 @@ public final class CyderColors {
     /**
      * An empty color
      */
-    public static final Color zero = new Color(0, 0, 0, 0);
+    public static final Color empty = new Color(0, 0, 0, 0);
 
     /**
      * A default navy color that is used extensively throughout Cyder
