@@ -794,10 +794,11 @@ public enum Console {
         pinButton.addActionListener(e -> {
             consoleCyderFrame.setAlwaysOnTop(!consoleCyderFrame.isAlwaysOnTop());
             pinButton.setIcon(consoleCyderFrame.isAlwaysOnTop() ? CyderIcons.pinIconHover : CyderIcons.pinIcon);
+            pinButton.setToolTipText(consoleCyderFrame.isAlwaysOnTop() ? "Unpin" : "Pin");
             saveScreenStat();
         });
-        pinButton.setIcon(UserUtil.getCyderUser().getScreenStat().isConsoleOnTop() ?
-                CyderIcons.pinIconHover : CyderIcons.pinIcon);
+        pinButton.setIcon(UserUtil.getCyderUser().getScreenStat().isConsoleOnTop()
+                ? CyderIcons.pinIconHover : CyderIcons.pinIcon);
         consoleDragButtonList.add(pinButton);
 
         alternateBackgroundButton.addActionListener(e -> {

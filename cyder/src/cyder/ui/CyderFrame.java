@@ -2521,6 +2521,10 @@ public class CyderFrame extends JFrame {
     public void setPinned(boolean pinWindow) {
         pinned = pinWindow;
         setAlwaysOnTop(pinned);
+
+        if (topDrag != null) {
+            topDrag.refreshPinIcon();
+        }
     }
 
     /**
@@ -2673,7 +2677,7 @@ public class CyderFrame extends JFrame {
             setAlwaysOnTop(true);
 
             if (topDrag != null) {
-                topDrag.refreshPinButton();
+                topDrag.refreshPinIconAndTooltip();
             }
         }
     }
@@ -3501,8 +3505,6 @@ public class CyderFrame extends JFrame {
 
         }, "Enter animation, frame=" + getTitle());
     }
-
-    // todo console location saving doesn't work and sometimes messes up still, only save is not being disposed too
 
     /**
      * Performs an enter animation to the point.

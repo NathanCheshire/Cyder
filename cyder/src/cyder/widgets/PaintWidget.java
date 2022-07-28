@@ -718,7 +718,6 @@ public final class PaintWidget {
         paintControlsFrame.setVisible(true);
 
         paintControlsFrame.setPinned(true);
-        paintControlsFrame.getTopDragLabel().refreshPinIcon();
 
         if (paintFrame.isVisible())
             return;

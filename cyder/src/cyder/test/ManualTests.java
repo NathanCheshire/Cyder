@@ -43,10 +43,11 @@ public final class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                // todo pin icon is broken for console?
+                // todo console location saving doesn't work and sometimes
+                //  messes up still, only save is not being disposed too
+
                 // todo use partitioned layout for create user widget
                 // todo architecture for startup subroutines needs to be like input handlers
-                // todo audio constants file?
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
