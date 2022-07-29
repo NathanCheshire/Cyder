@@ -636,6 +636,7 @@ public class CyderFrame extends JFrame {
     // frame positions based on enums
     // ------------------------------------
 
+    // todo to test make a method to set the title and also add/remove buttons from left / right labels
     /**
      * Sets the title position of the title label. If the frame is visible, and the location
      * can be accommodated, the label is animated to its destination.
@@ -670,16 +671,47 @@ public class CyderFrame extends JFrame {
         int titleWidth = StringUtil.getAbsoluteMinWidth(title, titleFont);
         int titleHeight = StringUtil.getAbsoluteMinHeight(title, titleFont);
 
+        int animationDelay = 5;
+        int y = Math.max(dragHeight / 2 - titleHeight / 2, 0);
+
         if (isVisible()) {
-            // todo need to animate title label to position
+            int animateFrom = titleLabel.getX();
+            int animateTo = switch (newPosition) {
+                case LEFT -> titleLabelPadding;
+                case RIGHT -> dragWidth - titleWidth - titleLabelPadding;
+                case CENTER -> dragWidth / 2 - titleWidth / 2;
+            };
 
-            titlePosition = newPosition;
+            if (animateFrom < animateTo) {
+                CyderThreadRunner.submit(() -> {
+                    for (int x = animateFrom ; x <= animateTo ; x++) {
+                        titleLabel.setBounds(x, y, titleWidth, titleHeight);
+                        ThreadUtil.sleep(animationDelay);
+                    }
 
-            revalidateTitlePositionLocation();
+                    titlePosition = newPosition;
+
+                    revalidateTitlePositionLocation();
+                    correctTitleLength();
+                }, "Title Position Animator");
+            } else {
+                CyderThreadRunner.submit(() -> {
+                    for (int x = animateFrom ; x >= animateTo ; x--) {
+                        titleLabel.setBounds(x, y, titleWidth, titleHeight);
+                        ThreadUtil.sleep(animationDelay);
+                    }
+
+                    titlePosition = newPosition;
+
+                    revalidateTitlePositionLocation();
+                    correctTitleLength();
+                }, "Title Position Animator");
+            }
         } else {
             titlePosition = newPosition;
 
             revalidateTitlePositionLocation();
+            correctTitleLength();
 
             titleLabel.setVisible(true);
         }
@@ -1897,55 +1929,39 @@ public class CyderFrame extends JFrame {
      * most is shown but the title does not overlap any buttons.
      */
     private void correctTitleLength() {
-        if (isBorderlessFrame() || topDrag.getRightButtonList() == null) {
+        if (isBorderlessFrame() || topDrag.getRightButtonList() == null || isBorderlessFrame()) {
             return;
         }
 
-        // todo need logic here in the ifs that check the sizes of the button lists
-        // todo there could also be buttons on both ends so need to shrink in between now if necessary
+        LinkedList<JButton> leftButtons = topDrag.getLeftButtonList();
+        LinkedList<JButton> rightButtons = topDrag.getRightButtonList();
 
-        LinkedList<JButton> buttons = topDrag.getRightButtonList();
+        int leftButtonsStart = 0;
+        int leftButtonsEnd = 0;
 
-        int buttonRightBoundsEnd = 0;
-        int buttonLeftBoundsStart = 0;
+        int rightButtonsStart = 0;
+        int rightButtonsEnd = 0;
 
-        for (JButton button : buttons) {
-            buttonLeftBoundsStart = Math.min(buttonLeftBoundsStart, button.getX());
-            buttonRightBoundsEnd = Math.max(buttonRightBoundsEnd, button.getX() + button.getWidth());
+        for (JButton leftButton : leftButtons) {
+            leftButtonsStart = Math.min(leftButtonsStart, leftButton.getX());
+            leftButtonsEnd = Math.max(leftButtonsEnd, leftButton.getX() + leftButton.getWidth());
         }
 
-        if (isBorderlessFrame()) {
-            return;
+        for (JButton rightButton : rightButtons) {
+            rightButtonsStart = Math.min(rightButtonsStart, rightButton.getX());
+            rightButtonsEnd = Math.max(rightButtonsEnd, rightButton.getX() + rightButton.getWidth());
         }
 
-        int leftSize = topDrag.getLeftButtonList().size();
-        int rightSize = topDrag.getRightButtonList().size();
+        int leftSize = leftButtons.size();
+        int rightSize = rightButtons.size();
 
         if (leftSize > 0 && rightSize > 0) {
-            titlePosition = TitlePosition.CENTER;
+            // todo center
         } else if (leftSize > 0) {
-
+            // todo center or right
         } else if (rightSize > 0) {
-
+            // todo center or left
         }
-
-        // todo make this method better and not need to call setTitle()
-        //        // Ensure title label doesn't start before buttonRightBoundsEnd + gap
-        //        if (buttonRightBoundsEnd + TITLE_BUTTONS_MIN_GAP >= titleLabel.getX()) {
-        //            int x = buttonRightBoundsEnd + TITLE_BUTTONS_MIN_GAP;
-        //            int width = this.getWidth() - buttonRightBoundsEnd + TITLE_BUTTONS_MIN_GAP - 4;
-        //
-        //            titleLabel.setBounds(x, titleLabel.getY(), width, titleLabel.getHeight());
-        //        }
-        //
-        //        // Ensure title label doesn't end inside of button's area
-        //        if (titleLabel.getX() + titleLabel.getWidth() + TITLE_BUTTONS_MIN_GAP >= buttonLeftBoundsStart) {
-        //            int width = this.getWidth() - buttonLeftBoundsStart - TITLE_BUTTONS_MIN_GAP - titleLabel.getX();
-        //            titleLabel.setBounds(titleLabel.getX(), titleLabel.getY(), width, titleLabel.getHeight());
-        //        }
-
-
-        setTitle(this.title);
     }
 
     /**
