@@ -560,72 +560,59 @@ public class CyderDragLabel extends JLabel {
      * Refreshes and repaints the button list.
      */
     public void refreshButtons() {
+        refreshRightButtons();
+        refreshLeftButtons();
+    }
+
+    /**
+     * Refreshes all right buttons and their positions.
+     */
+    public void refreshRightButtons() {
         if (rightButtonList == null) {
             return;
         }
 
         removeRightButtons();
 
-        //        // todo method or even common method since duplicated throughout cyder
-        //        LinkedList<JButton> reversedButtonList = new LinkedList<>();
-        //        for (int i = buttonList.size() - 1 ; i >= 0 ; i--) {
-        //            reversedButtonList.add(buttonList.get(i));
-        //        }
-        //
-        //        for (JButton button : reversedButtonList) {
-        //            switch (buttonPosition) {
-        //                case LEFT -> {
-        //
-        //                }
-        //                case RIGHT -> {
-        //
-        //                }
-        //                default -> throw new IllegalArgumentException("Invalid button position: " + buttonPosition);
-        //            }
-        //        }
+        LinkedList<JButton> reversedRightButtons = new LinkedList<>();
+        for (int i = rightButtonList.size() - 1 ; i >= 0 ; i--) {
+            reversedRightButtons.add(rightButtonList.get(i));
+        }
 
-        switch (buttonPosition) {
-            case RIGHT -> {
-                int addWidth = width - 26;
-                for (int i = rightButtonList.size() - 1 ; i >= 0 ; i--) {
-                    int textWidth = 0;
+        int buttonSpacing = 2;
+        int textButtonSpacing = 10;
+        int padding = 5;
+        int currentXStart = width - padding;
 
-                    if (!rightButtonList.get(i).getText().isEmpty()) {
-                        textWidth =
-                                StringUtil.getMinWidth(rightButtonList.get(i).getText().trim(),
-                                        rightButtonList.get(i).getFont());
-                    }
+        for (JButton rightButton : reversedRightButtons) {
+            boolean isTextButton = isTextButton(rightButton);
+            int spacing = isTextButton ? textButtonSpacing : buttonSpacing;
 
-                    //might have to fix this method here depending on how many more buttons with text you add
-                    rightButtonList.get(i).setBounds(addWidth - textWidth,
-                            0, textWidth == 0 ? 22 : textWidth + 26, 28);
-                    add(rightButtonList.get(i));
-                    addWidth -= (26 + textWidth);
-                }
-            }
-            case LEFT -> {
-                int leftAddWidth = 26 * (rightButtonList.size() - 1) + 5;
-                for (int i = rightButtonList.size() - 1 ; i >= 0 ; i--) {
-                    int textWidth = 0;
+            int buttonWidth = isTextButton
+                    ? StringUtil.getAbsoluteMinWidth(rightButton.getText().trim(), rightButton.getFont()) : 22;
+            int buttonHeight = isTextButton
+                    ? StringUtil.getAbsoluteMinHeight(rightButton.getText().trim(), rightButton.getFont()) : 20;
 
-                    if (!rightButtonList.get(i).getText().isEmpty()) {
-                        textWidth =
-                                StringUtil.getMinWidth(rightButtonList.get(i).getText().trim(),
-                                        rightButtonList.get(i).getFont());
-                    }
+            int y = rightButton.getHeight() > DEFAULT_HEIGHT ? 0 : DEFAULT_HEIGHT / 2 - rightButton.getHeight() / 2;
 
-                    //might have to fix this method here depending on how many more buttons with text you add
-                    rightButtonList.get(i).setBounds(leftAddWidth - textWidth, 0,
-                            textWidth == 0 ? 22 : textWidth + 26, 28);
-                    add(rightButtonList.get(i));
-                    leftAddWidth -= (26 + textWidth);
-                }
-            }
-            default -> throw new IllegalArgumentException("Illegal button position: " + buttonPosition);
+            currentXStart -= (buttonWidth + spacing);
+            rightButton.setBounds(currentXStart, y, buttonWidth, buttonHeight);
+            add(rightButton);
         }
 
         revalidate();
         repaint();
+    }
+
+    /**
+     * Refreshes all left buttons and their positions.
+     */
+    public void refreshLeftButtons() {
+
+    }
+
+    private boolean isTextButton(JButton button) {
+        return !button.getText().isEmpty();
     }
 
     /**
