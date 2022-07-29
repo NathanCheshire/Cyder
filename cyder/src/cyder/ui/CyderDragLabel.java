@@ -13,11 +13,24 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Class to be used for CyderFrames, the parent is expected to be an instance of CyderFrame.
  */
 public class CyderDragLabel extends JLabel {
+    /**
+     * The default height for drag labels. The Cyder standard for top labels is 30 pixels.
+     */
+    public static final int DEFAULT_HEIGHT = 30;
+
+    private static final String MINIMIZE = "Minimize";
+    private static final String PIN = "Pin";
+    private static final String UNPIN_FROM_CONSOLE = "Unpin from console";
+    private static final String PIN_TO_CONSOLE = "Pin to console";
+    private static final String CLOSE = "Close";
+
     /**
      * The width of this DragLabel.
      */
@@ -36,12 +49,12 @@ public class CyderDragLabel extends JLabel {
     /**
      * The x offset used for dragging.
      */
-    private int xOffset;
+    private final AtomicInteger xOffset;
 
     /**
      * The y offset used for dragging.
      */
-    private int yOffset;
+    private final AtomicInteger yOffset;
 
     /**
      * The background color of this drag label.
@@ -51,7 +64,7 @@ public class CyderDragLabel extends JLabel {
     /**
      * Whether dragging is currently enabled.
      */
-    private boolean draggingEnabled = true;
+    private final AtomicBoolean draggingEnabled;
 
     /**
      * The possible positions for buttons.
@@ -63,12 +76,24 @@ public class CyderDragLabel extends JLabel {
     /**
      * The current button position.
      */
-    private ButtonPosition buttonPosition = DEFAULT_BUTTON_POSITION;
+    private ButtonPosition buttonPosition = ButtonPosition.RIGHT;
 
     /**
-     * The default button position.
+     * The current x location of the mouse relative to this label.
      */
-    public static final ButtonPosition DEFAULT_BUTTON_POSITION = ButtonPosition.RIGHT;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final AtomicInteger mouseX;
+
+    /**
+     * The current y location of the mouse relative to this label.
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private final AtomicInteger mouseY;
+
+    /**
+     * The list of buttons to paint on the right of the drag label.
+     */
+    private LinkedList<JButton> rightButtonList = buildRightButtonList();
 
     /**
      * Constructs a new drag label with the provided bounds and frame to effect.
@@ -81,27 +106,56 @@ public class CyderDragLabel extends JLabel {
         this.width = width;
         this.height = height;
         this.effectFrame = effectFrame;
-
-        setSize(this.width, this.height);
-        setOpaque(true);
-        setFocusable(false);
-        setBackground(CyderColors.getGuiThemeColor());
-
         this.backgroundColor = CyderColors.getGuiThemeColor();
 
-        // todo use atomic ints
-        int[] mousePoints = {0, 0};
+        setSize(width, height);
+        setOpaque(true);
+        setFocusable(false);
+        setBackground(backgroundColor);
 
-        addMouseMotionListener(new MouseMotionListener() {
+        xOffset = new AtomicInteger();
+        yOffset = new AtomicInteger();
+        mouseX = new AtomicInteger();
+        mouseY = new AtomicInteger();
+
+        draggingEnabled = new AtomicBoolean(true);
+
+        addMouseMotionListener(createDraggingMouseMotionListener(effectFrame, draggingEnabled,
+                mouseX, mouseY, xOffset, yOffset));
+        addMouseListener(createOpacityAnimationMouseListener(effectFrame));
+
+        effectFrame.addWindowListener(createWindowListener(effectFrame));
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * Creates a mouse motion listener to allow the provided frame to be dragged.
+     *
+     * @param effectFrame     the frame the motion listener will be applied to
+     * @param draggingEnabled whether dragging should be allowed
+     * @param mouseX          the current x location relative to the component
+     * @param mouseY          the current y location relative to the component
+     * @param xOffset         the current frame x offset
+     * @param yOffset         the current frame y offset
+     * @return a mouse motion listener to allow the provided frame to be dragged
+     */
+    private static MouseMotionListener createDraggingMouseMotionListener(
+            CyderFrame effectFrame, AtomicBoolean draggingEnabled,
+            AtomicInteger mouseX, AtomicInteger mouseY,
+            AtomicInteger xOffset, AtomicInteger yOffset) {
+        return new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
                 int x = e.getXOnScreen();
                 int y = e.getYOnScreen();
 
-                if (effectFrame != null && effectFrame.isFocused() && draggingEnabled) {
-                    effectFrame.setLocation(
-                            x - mousePoints[0] - xOffset,
-                            y - mousePoints[1] - yOffset);
+                if (effectFrame != null && effectFrame.isFocused() && draggingEnabled.get()) {
+                    int setX = x - mouseX.get() - xOffset.get();
+                    int setY = y - mouseY.get() - yOffset.get();
+
+                    effectFrame.setLocation(setX, setY);
+
                     effectFrame.setRestoreX(effectFrame.getX());
                     effectFrame.setRestoreY(effectFrame.getY());
                 }
@@ -109,12 +163,20 @@ public class CyderDragLabel extends JLabel {
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                mousePoints[0] = e.getX();
-                mousePoints[1] = e.getY();
+                mouseX.set(e.getX());
+                mouseY.set(e.getY());
             }
-        });
+        };
+    }
 
-        addMouseListener(new MouseAdapter() {
+    /**
+     * Creates the opacity animation mouse listener for the provided frame.
+     *
+     * @param effectFrame the frame to be used for the opacity animation
+     * @return the mouse listener for the opacity animation
+     */
+    private static MouseListener createOpacityAnimationMouseListener(CyderFrame effectFrame) {
+        return new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 effectFrame.startDragEvent();
@@ -124,9 +186,17 @@ public class CyderDragLabel extends JLabel {
             public void mouseReleased(MouseEvent e) {
                 effectFrame.endDragEvent();
             }
-        });
+        };
+    }
 
-        effectFrame.addWindowListener(new WindowAdapter() {
+    /**
+     * Create the common window listener for drag labels to handle minimizing and restoring frame positions.
+     *
+     * @param effectFrame the frame  the window listener will be applied to
+     * @return the constructed window listener
+     */
+    private static WindowListener createWindowListener(CyderFrame effectFrame) {
+        return new WindowAdapter() {
             @Override
             public void windowDeiconified(WindowEvent e) {
                 int restoreX = effectFrame.getRestoreX();
@@ -145,9 +215,7 @@ public class CyderDragLabel extends JLabel {
                     effectFrame.setRestoreY(effectFrame.getY());
                 }
             }
-        });
-
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        };
     }
 
     /**
@@ -235,14 +303,14 @@ public class CyderDragLabel extends JLabel {
      * Disables dragging.
      */
     public void disableDragging() {
-        draggingEnabled = false;
+        draggingEnabled.set(false);
     }
 
     /**
      * Enables dragging.
      */
     public void enableDragging() {
-        draggingEnabled = true;
+        draggingEnabled.set(true);
     }
 
     /**
@@ -251,14 +319,8 @@ public class CyderDragLabel extends JLabel {
      * @return whether dragging is enabled
      */
     public boolean isDraggingEnabled() {
-        return draggingEnabled;
+        return draggingEnabled.get();
     }
-
-    /**
-     * The default height for drag labels.
-     * The Cyder standard is 30 pixels.
-     */
-    public static final int DEFAULT_HEIGHT = 30;
 
     /**
      * {@inheritDoc}
@@ -276,7 +338,7 @@ public class CyderDragLabel extends JLabel {
         int ret = Integer.hashCode(width);
         ret = 31 * ret + Integer.hashCode(height);
         ret = 31 * ret + backgroundColor.hashCode();
-        ret = 31 * ret + Objects.hashCode(buttonList);
+        ret = 31 * ret + Objects.hashCode(rightButtonList);
         return ret;
     }
 
@@ -298,28 +360,17 @@ public class CyderDragLabel extends JLabel {
     }
 
     /**
-     * The list of buttons to paint for the drag label.
-     */
-    private LinkedList<JButton> buttonList = buildDefaultButtons();
-
-    /**
      * The pin button used for the default drag label.
      */
     private JButton pinButton;
 
-    private static final String MINIMIZE = "Minimize";
-    private static final String PIN = "Pin";
-    private static final String UNPIN_FROM_CONSOLE = "Unpin from console";
-    private static final String PIN_TO_CONSOLE = "Pin to console";
-    private static final String CLOSE = "Close";
-
     /**
-     * Returns the default button list which contains the buttons
+     * Builds and returns the default right button list which contains the buttons
      * in the following order: minimize, pin window, close.
      *
-     * @return the default button list
+     * @return the default right button list
      */
-    private LinkedList<JButton> buildDefaultButtons() {
+    private LinkedList<JButton> buildRightButtonList() {
         LinkedList<JButton> ret = new LinkedList<>();
 
         CyderIconButton minimize = new CyderIconButton(
@@ -376,92 +427,72 @@ public class CyderDragLabel extends JLabel {
     }
 
     /**
-     * Returns the button from the button list at the provided index.
+     * Returns the button from the right button list at the provided index.
      *
      * @param index the index of the button to be returned
      * @return the button at the provided index
      */
-    public JButton getButton(int index) {
+    public JButton getRightButton(int index) {
         Preconditions.checkArgument(index >= 0);
-        Preconditions.checkArgument(index < buttonList.size());
+        Preconditions.checkArgument(index < rightButtonList.size());
 
-        return buttonList.get(index);
+        return rightButtonList.get(index);
     }
 
     /**
-     * Adds the button at the given index, 0 means add to the start
-     * and {@link CyderDragLabel#getButton(int)#getSize()} means add to the end.
+     * Adds the button to the right drag label at the given index.
      *
      * @param button   the JButton with all the properties already set such as listeners,
      *                 visuals, etc. to add to the button list
      * @param addIndex the index to append the button to in the button list
      */
-    public void addButton(JButton button, int addIndex) {
-        Preconditions.checkArgument(!buttonList.contains(button));
-        Preconditions.checkArgument(!labelContainsButton(button));
+    public void addRightButton(JButton button, int addIndex) {
+        Preconditions.checkArgument(!rightButtonList.contains(button));
 
-        buttonList.add(addIndex, button);
+        rightButtonList.add(addIndex, button);
         refreshButtons();
     }
 
     /**
-     * Returns whether this drag label contains the provided button.
-     *
-     * @param button the button
-     * @return whether this drag label contains the provided button
-     */
-    private boolean labelContainsButton(JButton button) {
-        for (Component c : getComponents()) {
-            if (c instanceof JButton) {
-                if (c == button) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Moves the provided button to the specified index.
+     * Moves the provided button from the right list to the specified index.
      *
      * @param button   the button to move to the specified index
      * @param newIndex the index to move the specified button to
      */
-    public void setButtonIndex(JButton button, int newIndex) {
-        Preconditions.checkArgument(buttonList.contains(button));
-        Preconditions.checkArgument(newIndex < buttonList.size());
+    public void setRightButtonIndex(JButton button, int newIndex) {
+        Preconditions.checkArgument(rightButtonList.contains(button));
+        Preconditions.checkArgument(newIndex < rightButtonList.size());
 
         int oldIndex = -1;
 
-        for (int i = 0 ; i < buttonList.size() ; i++) {
-            if (button == buttonList.get(i)) {
+        for (int i = 0 ; i < rightButtonList.size() ; i++) {
+            if (button == rightButtonList.get(i)) {
                 oldIndex = i;
                 break;
             }
         }
 
-        JButton popButton = buttonList.remove(oldIndex);
-        buttonList.add(newIndex, popButton);
+        JButton popButton = rightButtonList.remove(oldIndex);
+        rightButtonList.add(newIndex, popButton);
 
         refreshButtons();
     }
 
     /**
-     * Moves the button at the oldIndex to the new Index and
-     * pushes any other buttons out of the way.
+     * Moves the button at the oldIndex from the right button list
+     * to the new index and pushes any other buttons out of the way.
      *
-     * @param oldIndex the position of the button to target
-     * @param newIndex the index to move the targeted button to
+     * @param oldIndex the old position of the right button
+     * @param newIndex the index to move the targeted right button to
      */
-    public void setButtonIndex(int oldIndex, int newIndex) {
+    public void setRightButtonIndex(int oldIndex, int newIndex) {
         Preconditions.checkArgument(oldIndex >= 0);
-        Preconditions.checkArgument(oldIndex < buttonList.size());
+        Preconditions.checkArgument(oldIndex < rightButtonList.size());
         Preconditions.checkArgument(newIndex >= 0);
-        Preconditions.checkArgument(newIndex < buttonList.size());
+        Preconditions.checkArgument(newIndex < rightButtonList.size());
 
-        JButton popButton = buttonList.remove(oldIndex);
-        buttonList.add(newIndex, popButton);
+        JButton popButton = rightButtonList.remove(oldIndex);
+        rightButtonList.add(newIndex, popButton);
         refreshButtons();
     }
 
@@ -470,101 +501,123 @@ public class CyderDragLabel extends JLabel {
      *
      * @param removeIndex index of button to remove
      */
-    public void removeButton(int removeIndex) {
+    public void removeRightButton(int removeIndex) {
         Preconditions.checkArgument(removeIndex >= 0);
-        Preconditions.checkArgument(removeIndex < buttonList.size());
+        Preconditions.checkArgument(removeIndex < rightButtonList.size());
 
-        // todo should this loop through components?
-        for (Component component : getComponents()) {
-            if (component instanceof JButton button && buttonList.contains(button)) {
-                remove(component);
-                revalidate();
-                repaint();
-            }
-        }
-
-        buttonList.remove(removeIndex);
-
+        rightButtonList.remove(removeIndex);
         refreshButtons();
     }
 
     /**
-     * Returns the current button list.
+     * Returns the current right button list.
      *
-     * @return the current button list
+     * @return the current right button list
      */
-    public LinkedList<JButton> getButtonList() {
-        return buttonList;
+    public LinkedList<JButton> getRightButtonList() {
+        return rightButtonList;
     }
 
     /**
-     * Sets the button list to the one provided.
+     * Sets the right button list to the one provided.
      *
-     * @param list the button list to use for this drag label
+     * @param rightButtonList the button list to use for this drag label's right list
      */
-    public void setButtonList(LinkedList<JButton> list) {
-        // todo should this loop through components?
-        for (Component component : getComponents()) {
-            if (component instanceof JButton button && buttonList.contains(button)) {
-                remove(component);
-                revalidate();
-                repaint();
-            }
-        }
-
-        buttonList = list;
+    public void setRightButtonList(LinkedList<JButton> rightButtonList) {
+        removeRightButtons();
+        this.rightButtonList = rightButtonList;
         refreshButtons();
     }
+
+    /**
+     * Removes all buttons from the button list from this drag label.
+     */
+    public void removeRightButtons() {
+        if (rightButtonList == null) {
+            return;
+        }
+
+        for (JButton button : rightButtonList) {
+            remove(button);
+        }
+    }
+
+    // todo focus after background transition goes to area temporarily
+
+    // todo console location saving doesn't work and sometimes
+    //  messes up still, only save is not being disposed too
+
+    // todo use partitioned layout for create user widget
+    // todo architecture for startup subroutines needs to be like input handlers
+
+    // todo factory to create label button with runnable too
+
+    // todo add left button list
 
     // todo this method is hideous
+
     /**
      * Refreshes and repaints the button list.
      */
     public void refreshButtons() {
-        for (Component component : getComponents()) {
-            if (component instanceof JButton button && buttonList.contains(button)) {
-                remove(component);
-                revalidate();
-                repaint();
-            }
-        }
-
-        if (buttonList == null) {
+        if (rightButtonList == null) {
             return;
         }
+
+        removeRightButtons();
+
+        //        // todo method or even common method since duplicated throughout cyder
+        //        LinkedList<JButton> reversedButtonList = new LinkedList<>();
+        //        for (int i = buttonList.size() - 1 ; i >= 0 ; i--) {
+        //            reversedButtonList.add(buttonList.get(i));
+        //        }
+        //
+        //        for (JButton button : reversedButtonList) {
+        //            switch (buttonPosition) {
+        //                case LEFT -> {
+        //
+        //                }
+        //                case RIGHT -> {
+        //
+        //                }
+        //                default -> throw new IllegalArgumentException("Invalid button position: " + buttonPosition);
+        //            }
+        //        }
 
         switch (buttonPosition) {
             case RIGHT -> {
                 int addWidth = width - 26;
-                for (int i = buttonList.size() - 1 ; i >= 0 ; i--) {
+                for (int i = rightButtonList.size() - 1 ; i >= 0 ; i--) {
                     int textWidth = 0;
 
-                    if (!buttonList.get(i).getText().isEmpty()) {
+                    if (!rightButtonList.get(i).getText().isEmpty()) {
                         textWidth =
-                                StringUtil.getMinWidth(buttonList.get(i).getText().trim(), buttonList.get(i).getFont());
+                                StringUtil.getMinWidth(rightButtonList.get(i).getText().trim(),
+                                        rightButtonList.get(i).getFont());
                     }
 
                     //might have to fix this method here depending on how many more buttons with text you add
-                    buttonList.get(i).setBounds(addWidth - textWidth,
+                    rightButtonList.get(i).setBounds(addWidth - textWidth,
                             0, textWidth == 0 ? 22 : textWidth + 26, 28);
-                    add(buttonList.get(i));
+                    add(rightButtonList.get(i));
                     addWidth -= (26 + textWidth);
                 }
             }
             case LEFT -> {
-                int leftAddWidth = 26 * (buttonList.size() - 1) + 5;
-                for (int i = buttonList.size() - 1 ; i >= 0 ; i--) {
+                int leftAddWidth = 26 * (rightButtonList.size() - 1) + 5;
+                for (int i = rightButtonList.size() - 1 ; i >= 0 ; i--) {
                     int textWidth = 0;
 
-                    if (!buttonList.get(i).getText().isEmpty()) {
+                    if (!rightButtonList.get(i).getText().isEmpty()) {
                         textWidth =
-                                StringUtil.getMinWidth(buttonList.get(i).getText().trim(), buttonList.get(i).getFont());
+                                StringUtil.getMinWidth(rightButtonList.get(i).getText().trim(),
+                                        rightButtonList.get(i).getFont());
                     }
 
                     //might have to fix this method here depending on how many more buttons with text you add
-                    buttonList.get(i).setBounds(leftAddWidth - textWidth, 0,
+                    rightButtonList.get(i).setBounds(leftAddWidth - textWidth, 0,
                             textWidth == 0 ? 22 : textWidth + 26, 28);
-                    add(buttonList.get(i));
+                    add(rightButtonList.get(i));
                     leftAddWidth -= (26 + textWidth);
                 }
             }
@@ -581,7 +634,7 @@ public class CyderDragLabel extends JLabel {
      * @return the x offset of this drag label
      */
     public int getXOffset() {
-        return xOffset;
+        return xOffset.get();
     }
 
     /**
@@ -590,7 +643,7 @@ public class CyderDragLabel extends JLabel {
      * @return the y offset of this drag label
      */
     public int getYOffset() {
-        return yOffset;
+        return yOffset.get();
     }
 
     /**
@@ -599,7 +652,7 @@ public class CyderDragLabel extends JLabel {
      * @param xOffset the x offset of this drag label
      */
     public void setXOffset(int xOffset) {
-        this.xOffset = xOffset;
+        this.xOffset.set(xOffset);
     }
 
     /**
@@ -608,7 +661,7 @@ public class CyderDragLabel extends JLabel {
      * @param yOffset the y offset of this drag label
      */
     public void setYOffset(int yOffset) {
-        this.yOffset = yOffset;
+        this.yOffset.set(yOffset);
     }
 
     /**

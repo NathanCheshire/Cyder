@@ -43,11 +43,7 @@ public final class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                // todo console location saving doesn't work and sometimes
-                //  messes up still, only save is not being disposed too
 
-                // todo use partitioned layout for create user widget
-                // todo architecture for startup subroutines needs to be like input handlers
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -116,22 +112,22 @@ public final class ManualTests {
         pinButton.setContentAreaFilled(false);
         pinButton.setBorderPainted(false);
         pinButton.setFocusPainted(false);
-        testFrame.getTopDragLabel().addButton(pinButton, 1);
+        testFrame.getTopDragLabel().addRightButton(pinButton, 1);
 
         CyderButton cb = new CyderButton("Remove first");
         cb.setBounds(100, 100, 150, 40);
-        cb.addActionListener(e -> testFrame.getTopDragLabel().removeButton(0));
+        cb.addActionListener(e -> testFrame.getTopDragLabel().removeRightButton(0));
         testFrame.getContentPane().add(cb);
 
         CyderButton cb1 = new CyderButton("Remove last");
         cb1.setBounds(100, 180, 150, 40);
-        cb1.addActionListener(e -> testFrame.getTopDragLabel().removeButton(
-                testFrame.getTopDragLabel().getButtonList().size() - 1));
+        cb1.addActionListener(e -> testFrame.getTopDragLabel().removeRightButton(
+                testFrame.getTopDragLabel().getRightButtonList().size() - 1));
         testFrame.getContentPane().add(cb1);
 
         CyderButton addPinFirst = new CyderButton("Add Random Butter first");
         addPinFirst.setBounds(100, 250, 150, 40);
-        addPinFirst.addActionListener(e -> testFrame.getTopDragLabel().addButton(pinButton, 0));
+        addPinFirst.addActionListener(e -> testFrame.getTopDragLabel().addRightButton(pinButton, 0));
         testFrame.getContentPane().add(addPinFirst);
 
         testFrame.finalizeAndShow();

@@ -144,7 +144,7 @@ public class ClockWidget {
             spawnMini.setContentAreaFilled(false);
             spawnMini.setBorderPainted(false);
             spawnMini.setFocusPainted(false);
-            clockFrame.getTopDragLabel().addButton(spawnMini, 0);
+            clockFrame.getTopDragLabel().addRightButton(spawnMini, 0);
 
             digitalTimeAndDateLabel = new CyderLabel(getTime(currentGMTOffset));
             digitalTimeAndDateLabel.setFont(CyderFonts.DEFAULT_FONT);

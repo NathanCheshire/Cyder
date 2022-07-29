@@ -409,7 +409,7 @@ public class CyderFrame extends JFrame {
         leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
         contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
         leftDrag.setFocusable(false);
-        leftDrag.setButtonList(null);
+        leftDrag.setRightButtonList(null);
 
         leftDragCover = new JLabel();
         leftDragCover.setBounds(0, 0, 2, height);
@@ -426,7 +426,7 @@ public class CyderFrame extends JFrame {
         rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
         contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
         rightDrag.setFocusable(false);
-        rightDrag.setButtonList(null);
+        rightDrag.setRightButtonList(null);
 
         rightDragCover = new JLabel();
         rightDragCover.setBounds(width - 2, 0, 2, height);
@@ -441,7 +441,7 @@ public class CyderFrame extends JFrame {
         bottomDrag.setYOffset(height - 5);
         contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
         bottomDrag.setFocusable(false);
-        bottomDrag.setButtonList(null);
+        bottomDrag.setRightButtonList(null);
 
         bottomDragCover = new JLabel();
         bottomDragCover.setBounds(0, height - 2, width, 2);
@@ -507,7 +507,6 @@ public class CyderFrame extends JFrame {
             }
         });
 
-        // master contentLabel
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
@@ -526,7 +525,6 @@ public class CyderFrame extends JFrame {
         iconLabel = new JLabel() {
             @Override
             public void repaint() {
-                //as long as we should repaint, repaint it
                 if (!disableContentRepainting) {
                     super.repaint();
                 }
@@ -545,7 +543,7 @@ public class CyderFrame extends JFrame {
         setContentPane(contentLabel);
 
         CyderDragLabel masterDrag = new CyderDragLabel(width, height, this);
-        masterDrag.setButtonList(null);
+        masterDrag.setRightButtonList(null);
         masterDrag.setBackground(background);
         masterDrag.setBounds(0, 0, width, height);
         contentLabel.add(masterDrag, JLayeredPane.DRAG_LAYER);
@@ -553,7 +551,6 @@ public class CyderFrame extends JFrame {
 
         contentLabel.add(masterDrag);
 
-        //default boolean values
         threadsKilled = false;
 
         revalidateFrameShape();
@@ -815,14 +812,14 @@ public class CyderFrame extends JFrame {
             case POPUP -> {
                 setAlwaysOnTop(true);
                 //remove minimize
-                topDrag.removeButton(0);
+                topDrag.removeRightButton(0);
                 //remove pin
-                topDrag.removeButton(0);
+                topDrag.removeRightButton(0);
             }
             case INPUT_GETTER -> {
                 setAlwaysOnTop(true);
                 //remove pin
-                topDrag.removeButton(1);
+                topDrag.removeRightButton(1);
             }
             default -> throw new IllegalStateException("Unimplemented state");
         }
@@ -933,7 +930,7 @@ public class CyderFrame extends JFrame {
                     int leftMostButtonX = Integer.MAX_VALUE;
 
                     if (topDrag != null) {
-                        leftMostButtonX = topDrag.getButton(0).getX();
+                        leftMostButtonX = topDrag.getRightButton(0).getX();
                     }
 
                     while (start + titleWidth + offset > leftMostButtonX) {
@@ -1969,11 +1966,11 @@ public class CyderFrame extends JFrame {
      * not shown on the title label, an attempt is made to fit more of the set title on the title label.
      */
     private void correctTitleLength() {
-        if (isBorderlessFrame() || topDrag.getButtonList() == null) {
+        if (isBorderlessFrame() || topDrag.getRightButtonList() == null) {
             return;
         }
 
-        LinkedList<JButton> buttons = topDrag.getButtonList();
+        LinkedList<JButton> buttons = topDrag.getRightButtonList();
 
         int buttonRightBoundsEnd = 0;
         int buttonLeftBoundsStart = 0;

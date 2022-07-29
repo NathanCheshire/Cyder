@@ -76,15 +76,6 @@ public final class CyderIcons {
             OSUtil.buildPath("static", "pictures", "windowicons", "Close2.png"));
 
     /*
-     * Help icons used for Console.
-     */
-
-    public static final ImageIcon helpIcon = new ImageIcon(
-            OSUtil.buildPath("static", "pictures", "icons", "help1.png"));
-    public static final ImageIcon helpIconHover = new ImageIcon(
-            OSUtil.buildPath("static", "pictures", "icons", "help2.png"));
-
-    /*
      * Menu icons used for console menus.
      */
 

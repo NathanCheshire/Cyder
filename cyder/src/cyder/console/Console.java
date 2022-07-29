@@ -180,12 +180,6 @@ public enum Console {
     });
 
     /**
-     * The top drag label help button.
-     */
-    private final JButton helpButton = new CyderIconButton(
-            "Help", CyderIcons.helpIcon, CyderIcons.helpIconHover);
-
-    /**
      * The top drag label audio menu toggle button.
      */
     private final JButton toggleAudioControls = new CyderIconButton(
@@ -768,10 +762,6 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().add(menuButton);
         menuButton.addKeyListener(menuButtonKeyAdapter);
 
-        helpButton.addActionListener(helpButtonActionListener);
-        helpButton.setBounds(32, 4, 22, 22);
-        consoleCyderFrame.getTopDragLabel().add(helpButton);
-
         LinkedList<JButton> consoleDragButtonList = new LinkedList<>();
 
         toggleAudioControls.addActionListener(e -> {
@@ -829,43 +819,16 @@ public enum Console {
         });
         consoleDragButtonList.add(closeButton);
 
-        consoleCyderFrame.getTopDragLabel().setButtonList(consoleDragButtonList);
-        consoleCyderFrame.getBottomDragLabel().setButtonList(null);
-        consoleCyderFrame.getLeftDragLabel().setButtonList(null);
-        consoleCyderFrame.getRightDragLabel().setButtonList(null);
+        consoleCyderFrame.getTopDragLabel().setRightButtonList(consoleDragButtonList);
     }
-
-    /**
-     * The action listener for the drag label help button.
-     */
-    private final ActionListener helpButtonActionListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            CyderThreadRunner.submit(() -> {
-                String space = StringUtil.generateNSpaces(4);
-                CyderButton suggestionButton = new CyderButton(space + "Make a Suggestion" + space);
-                suggestionButton.setColors(CyderColors.regularPink);
-                suggestionButton.addActionListener(ex -> CyderThreadRunner.submit(() -> {
-                    String suggestion = GetterUtil.getInstance().getString(new GetterUtil.Builder("Suggestion")
-                            .setRelativeTo(consoleCyderFrame)
-                            .setFieldTooltip("Suggestion")
-                            .setSubmitButtonColor(CyderColors.regularPink));
-
-                    if (!StringUtil.isNull(suggestion)) {
-                        Logger.log(Logger.Tag.SUGGESTION, suggestion.trim());
-                        baseInputHandler.println("Suggestion logged");
-                    }
-                }, "Suggestion Getter Waiter Thread"));
-
-                baseInputHandler.println(suggestionButton);
-            }, "Suggestion Getter Waiter Thread");
-        }
-    };
 
     /**
      * Sets up and adds the console clock to the top drag label.
      */
     private void installConsoleClock() {
+        // todo this won't be needed eventually and we'll have a separate super title from the
+        //  centered title label. Need a setTitleLabelFont method too
+
         consoleClockLabel = new JLabel(TimeUtil.userFormattedTime(), SwingConstants.CENTER);
         consoleClockLabel.setSize(0, StringUtil.getAbsoluteMinHeight("143", CONSOLE_CLOCK_FONT));
         consoleClockLabel.setFont(CONSOLE_CLOCK_FONT);

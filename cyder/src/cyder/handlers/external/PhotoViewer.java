@@ -137,14 +137,14 @@ public class PhotoViewer {
         next = new CyderIconButton("Next", nextIcon, nextIconHover, null);
         next.setSize(nextIcon.getIconWidth(), nextIconHover.getIconHeight());
         next.addActionListener(e -> transition(true));
-        pictureFrame.getTopDragLabel().addButton(next, 0);
+        pictureFrame.getTopDragLabel().addRightButton(next, 0);
 
         ImageIcon lastIcon = new ImageIcon("static/pictures/icons/lastPicture1.png");
         ImageIcon lastIconHover = new ImageIcon("static/pictures/icons/lastPicture2.png");
         last = new CyderIconButton("Last", lastIcon, lastIconHover, null);
         last.setSize(lastIcon.getIconWidth(), lastIcon.getIconHeight());
         last.addActionListener(e -> transition(false));
-        pictureFrame.getTopDragLabel().addButton(last, 0);
+        pictureFrame.getTopDragLabel().addRightButton(last, 0);
 
         startDirectoryWatcherThread();
     }

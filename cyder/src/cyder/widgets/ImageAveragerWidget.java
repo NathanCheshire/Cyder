@@ -246,7 +246,7 @@ public final class ImageAveragerWidget {
                 save.setContentAreaFilled(false);
                 save.setBorderPainted(false);
                 save.setFocusPainted(false);
-                drawFrame.getTopDragLabel().addButton(save, 0);
+                drawFrame.getTopDragLabel().addRightButton(save, 0);
 
                 drawFrame.getTopDragLabel().add(save, 1);
                 drawFrame.setVisible(true);
