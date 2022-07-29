@@ -66,14 +66,6 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * The possible button positions for a CyderFrame.
-     */
-    public enum ButtonPosition {
-        LEFT,
-        RIGHT,
-    }
-
-    /**
      * The possible frame types for a CyderFrame.
      */
     public enum FrameType {
@@ -91,11 +83,6 @@ public class CyderFrame extends JFrame {
      * This CyderFrame's title position.
      */
     private TitlePosition titlePosition = TitlePosition.LEFT;
-
-    /**
-     * This CyderFrame's button position.
-     */
-    private ButtonPosition buttonPosition = ButtonPosition.RIGHT;
 
     /**
      * This CyderFrame's width.
@@ -246,7 +233,7 @@ public class CyderFrame extends JFrame {
     public static final ArrayList<Integer> allowableContentLabelIndices = new ArrayList<>() {{
         // Drag labels
         add(JLayeredPane.DRAG_LAYER);
-        // notifications
+        // Notifications
         add(JLayeredPane.POPUP_LAYER);
     }};
 
@@ -290,10 +277,10 @@ public class CyderFrame extends JFrame {
      *
      * @param width  the width of the CyderFrame
      * @param height the height of the CyderFrame
-     * @param c      the color of the content pane background
+     * @param color  the color of the content pane background
      */
-    public CyderFrame(int width, int height, Color c) {
-        this(width, height, ImageUtil.imageIconFromColor(c,
+    public CyderFrame(int width, int height, Color color) {
+        this(width, height, ImageUtil.imageIconFromColor(color,
                 Math.max(MINIMUM_WIDTH, width), Math.max(MINIMUM_HEIGHT, height)));
     }
 
@@ -337,7 +324,7 @@ public class CyderFrame extends JFrame {
         setBackground(CyderColors.vanilla);
         setIconImage(CyderIcons.CYDER_ICON.getImage());
 
-        //listener to ensure the close button was always pressed which ensures
+        // listener to ensure the close button was always pressed which ensures
         // things like closeAnimation are always performed
         addWindowListener(new WindowAdapter() {
             @Override
@@ -359,11 +346,10 @@ public class CyderFrame extends JFrame {
         };
         contentLabel.setFocusable(false);
 
-        //adding pane, this is what is returned when getContentPane() is called
+        // This is what is returned when getContentPane() is called
         iconLabel = new JLabel() {
             @Override
             public void repaint() {
-                //as long as we should repaint, repaint it
                 if (!disableContentRepainting) {
                     super.repaint();
                 }
@@ -384,7 +370,6 @@ public class CyderFrame extends JFrame {
         contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(), 3, false));
         setContentPane(contentLabel);
 
-        //top frame drag and cover
         topDrag = new CyderDragLabel(width - 2 * FRAME_RESIZING_LEN,
                 CyderDragLabel.DEFAULT_HEIGHT - 2, this);
         topDrag.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
@@ -400,7 +385,6 @@ public class CyderFrame extends JFrame {
         topDragCover.setOpaque(true);
         contentLabel.add(topDragCover, JLayeredPane.DRAG_LAYER);
 
-        //left frame drag  and cover
         leftDrag = new CyderDragLabel(5 - FRAME_RESIZING_LEN,
                 height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT, this);
         leftDrag.setBounds(FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT,
@@ -417,7 +401,6 @@ public class CyderFrame extends JFrame {
         leftDragCover.setOpaque(true);
         contentLabel.add(leftDragCover, JLayeredPane.DRAG_LAYER);
 
-        //right frame drag and cover
         rightDrag = new CyderDragLabel(5 - FRAME_RESIZING_LEN,
                 height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT, this);
         rightDrag.setBounds(width - 5, CyderDragLabel.DEFAULT_HEIGHT,
@@ -434,7 +417,6 @@ public class CyderFrame extends JFrame {
         rightDragCover.setOpaque(true);
         contentLabel.add(rightDragCover, JLayeredPane.DRAG_LAYER);
 
-        //bottom frame drag  and cover
         bottomDrag = new CyderDragLabel(width - 2 * FRAME_RESIZING_LEN, 5 - FRAME_RESIZING_LEN, this);
         bottomDrag.setBounds(FRAME_RESIZING_LEN, height - 5, width - 4, 5 - FRAME_RESIZING_LEN);
         bottomDrag.setXOffset(FRAME_RESIZING_LEN);
@@ -449,7 +431,6 @@ public class CyderFrame extends JFrame {
         bottomDragCover.setOpaque(true);
         contentLabel.add(bottomDragCover, JLayeredPane.DRAG_LAYER);
 
-        //title label on drag label
         titleLabel = new JLabel("");
         titleLabel.setFont(DEFAULT_FRAME_TITLE_FONT);
         titleLabel.setForeground(CyderColors.vanilla);
@@ -459,6 +440,7 @@ public class CyderFrame extends JFrame {
         topDrag.add(titleLabel);
 
         threadsKilled = false;
+
         setFrameType(frameType);
 
         revalidateFrameShape();
@@ -655,99 +637,80 @@ public class CyderFrame extends JFrame {
     // ------------------------------------
 
     /**
-     * Sets the title position of the title label.
-     * If the frame is visible, the label is animated to its destination.
+     * Sets the title position of the title label. If the frame is visible, and the location
+     * can be accommodated, the label is animated to its destination.
      *
-     * @param titlePosition the position for the title. See {@link CyderFrame#titlePosition}
+     * @param newPosition the new position for the title
+     * @throws IllegalStateException if the requested title position cannot be accommodated
+     * @see CyderFrame#titlePosition
      */
-    public void setTitlePosition(TitlePosition titlePosition) {
-        if (titlePosition == null || this.titlePosition == null)
+    public void setTitlePosition(TitlePosition newPosition) {
+        if (newPosition == null || this.titlePosition == null
+                || this.titlePosition == newPosition || isBorderlessFrame()) {
             return;
+        }
 
-        TitlePosition oldPosition = this.titlePosition;
-        long timeout = 2;
+        boolean leftButtons = topDrag.getLeftButtonList().size() > 0;
+        boolean rightButtons = topDrag.getRightButtonList().size() > 0;
+
+        if (newPosition == TitlePosition.LEFT && leftButtons) {
+            throw new IllegalStateException("Cannot place title position to the left"
+                    + " as the left button list contains buttons");
+        }
+
+        if (newPosition == TitlePosition.RIGHT && rightButtons) {
+            throw new IllegalStateException("Cannot place title position to the right"
+                    + " as the right button list contains buttons");
+        }
+
+        int dragWidth = topDrag.getWidth();
+        int dragHeight = topDrag.getHeight();
+
+        Font titleFont = titleLabel.getFont();
+        int titleWidth = StringUtil.getAbsoluteMinWidth(title, titleFont);
+        int titleHeight = StringUtil.getAbsoluteMinHeight(title, titleFont);
 
         if (isVisible()) {
-            if (titlePosition == CyderFrame.TitlePosition.LEFT) {
-                CyderThreadRunner.submit(() -> {
-                    //left
-                    for (int i = titleLabel.getX() ; i > 4 ; i--) {
-                        titleLabel.setLocation(i, 2);
+            // todo need to animate title label to position
 
-                        try {
-                            ThreadUtil.sleep(timeout);
-                        } catch (Exception e) {
-                            ExceptionHandler.handle(e);
-                        }
-                    }
-                    titleLabel.setLocation(4, 2);
-                    this.titlePosition = TitlePosition.LEFT;
-                }, "title position animator");
-            } else if (titlePosition == TitlePosition.CENTER) {
-                CyderThreadRunner.submit(() -> {
-                    switch (oldPosition) {
-                        case RIGHT:
-                            for (int i = titleLabel.getX() ; i > (topDrag.getWidth() / 2)
-                                    - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2) ; i--) {
-                                titleLabel.setLocation(i, 2);
+            titlePosition = newPosition;
 
-                                ThreadUtil.sleep(timeout);
-                            }
-                            break;
-                        case LEFT:
-                            for (int i = titleLabel.getX() ; i < (topDrag.getWidth() / 2)
-                                    - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2) ; i++) {
-                                titleLabel.setLocation(i, 2);
-
-                                ThreadUtil.sleep(timeout);
-                            }
-                            break;
-                    }
-                    titleLabel.setLocation((topDrag.getWidth() / 2)
-                            - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2), 2);
-                    this.titlePosition = TitlePosition.CENTER;
-                    //set final bounds
-                }, "title position animator");
-            } else {
-                //right
-                CyderThreadRunner.submit(() -> {
-                    for (int i = titleLabel.getX() ; i < width
-                            - StringUtil.getMinWidth(title, titleLabel.getFont()) - 8 ; i++) {
-                        titleLabel.setLocation(i, 2);
-
-                        ThreadUtil.sleep(timeout);
-                    }
-                    titleLabel.setLocation(width
-                            - StringUtil.getMinWidth(title, titleLabel.getFont()), 2);
-                    this.titlePosition = TitlePosition.RIGHT;
-                }, "title position animator");
-            }
-
-            if (buttonPosition == ButtonPosition.RIGHT && titlePosition == TitlePosition.RIGHT) {
-                buttonPosition = ButtonPosition.LEFT;
-                topDrag.setButtonPosition(CyderDragLabel.ButtonPosition.LEFT);
-            } else if (buttonPosition == ButtonPosition.LEFT && titlePosition == TitlePosition.LEFT) {
-                buttonPosition = ButtonPosition.RIGHT;
-                topDrag.setButtonPosition(CyderDragLabel.ButtonPosition.RIGHT);
-            }
+            revalidateTitlePositionLocation();
         } else {
-            this.titlePosition = titlePosition;
+            titlePosition = newPosition;
 
-            switch (titlePosition) {
-                case LEFT -> {
-                    titleLabel.setLocation(4, 2);
-                    setButtonPosition(ButtonPosition.RIGHT);
-                }
-                case RIGHT -> {
-                    titleLabel.setLocation(width
-                            - StringUtil.getMinWidth(title, titleLabel.getFont()), 2);
-                    setButtonPosition(ButtonPosition.LEFT);
-                }
-                case CENTER -> titleLabel.setLocation((topDrag.getWidth() / 2)
-                        - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2), 2);
-            }
+            revalidateTitlePositionLocation();
 
             titleLabel.setVisible(true);
+        }
+    }
+
+    /**
+     * The value to separate the start/end of the title label from the start/end of the drag label.
+     */
+    private static final int titleLabelPadding = 5;
+
+    /**
+     * Revalidates the location the title label is anchored to based off of the currently set title position.
+     */
+    private void revalidateTitlePositionLocation() {
+        if (topDrag == null) {
+            return;
+        }
+
+        int dragWidth = topDrag.getWidth();
+        int dragHeight = topDrag.getHeight();
+
+        Font titleFont = titleLabel.getFont();
+        int titleWidth = StringUtil.getAbsoluteMinWidth(title, titleFont);
+        int titleHeight = StringUtil.getAbsoluteMinHeight(title, titleFont);
+
+        int y = Math.max(dragHeight / 2 - titleHeight / 2, 0);
+
+        switch (titlePosition) {
+            case LEFT -> titleLabel.setLocation(titleLabelPadding, y);
+            case RIGHT -> titleLabel.setLocation(width - titleWidth - titleLabelPadding, y);
+            case CENTER -> titleLabel.setLocation(dragWidth / 2 - titleWidth / 2, y);
         }
     }
 
@@ -758,36 +721,6 @@ public class CyderFrame extends JFrame {
      */
     public TitlePosition getTitlePosition() {
         return titlePosition;
-    }
-
-    /**
-     * Returns the button position of this frame.
-     *
-     * @return the button position of this frame
-     */
-    public ButtonPosition getButtonPosition() {
-        return buttonPosition;
-    }
-
-    /**
-     * Sets the button position of this frame.
-     *
-     * @param pos the position to set the button list to. See {@link CyderFrame#buttonPosition}
-     */
-    public void setButtonPosition(ButtonPosition pos) {
-        if (pos == buttonPosition)
-            return;
-
-        buttonPosition = pos;
-        topDrag.setButtonPosition(pos == ButtonPosition.LEFT ?
-                CyderDragLabel.ButtonPosition.LEFT : CyderDragLabel.ButtonPosition.RIGHT);
-
-        if (buttonPosition == ButtonPosition.RIGHT && titlePosition == TitlePosition.RIGHT) {
-            setTitlePosition(TitlePosition.LEFT);
-            titleLabel.setLocation(4, 2);
-        } else if (buttonPosition == ButtonPosition.LEFT && titlePosition == TitlePosition.LEFT) {
-            setTitlePosition(TitlePosition.RIGHT);
-        }
     }
 
     /**
@@ -1668,6 +1601,14 @@ public class CyderFrame extends JFrame {
      * Revalidates the title and button positions by the currently set enum locations.
      */
     public void revalidateTitleAndButtonPosition() {
+        if (isBorderlessFrame())
+            return;
+
+        if (topDrag.getRightButtonList().size() > 0
+                && topDrag.getLeftButtonList().size() > 0) {
+            titlePosition = TitlePosition.CENTER;
+        }
+
         switch (titlePosition) {
             case LEFT -> titleLabel.setLocation(4, 2);
             case RIGHT -> titleLabel.setLocation(width -
@@ -1676,10 +1617,6 @@ public class CyderFrame extends JFrame {
                     - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2), 2);
         }
 
-        switch (buttonPosition) {
-            case LEFT -> topDrag.setButtonPosition(CyderDragLabel.ButtonPosition.LEFT);
-            case RIGHT -> topDrag.setButtonPosition(CyderDragLabel.ButtonPosition.RIGHT);
-        }
     }
 
     /**
@@ -1956,19 +1893,16 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * The minimum gap between the title label and the button list.
-     */
-    private static final int TITLE_BUTTONS_MIN_GAP = 10;
-
-    /**
-     * Checks for the title label overflowing onto the drag label buttons and clips the label
-     * if the width is too long. If the label does not overflow and the entire title is
-     * not shown on the title label, an attempt is made to fit more of the set title on the title label.
+     * Revalidates the title label width based to ensure that the
+     * most is shown but the title does not overlap any buttons.
      */
     private void correctTitleLength() {
         if (isBorderlessFrame() || topDrag.getRightButtonList() == null) {
             return;
         }
+
+        // todo need logic here in the ifs that check the sizes of the button lists
+        // todo there could also be buttons on both ends so need to shrink in between now if necessary
 
         LinkedList<JButton> buttons = topDrag.getRightButtonList();
 
@@ -1980,25 +1914,36 @@ public class CyderFrame extends JFrame {
             buttonRightBoundsEnd = Math.max(buttonRightBoundsEnd, button.getX() + button.getWidth());
         }
 
-        switch (buttonPosition) {
-            case LEFT -> {
-                // Ensure title label doesn't start before buttonRightBoundsEnd + gap
-                if (buttonRightBoundsEnd + TITLE_BUTTONS_MIN_GAP >= titleLabel.getX()) {
-                    int x = buttonRightBoundsEnd + TITLE_BUTTONS_MIN_GAP;
-                    int width = this.getWidth() - buttonRightBoundsEnd + TITLE_BUTTONS_MIN_GAP - 4;
-
-                    titleLabel.setBounds(x, titleLabel.getY(), width, titleLabel.getHeight());
-                }
-            }
-            case RIGHT -> {
-                // Ensure title label doesn't end inside of button's area
-                if (titleLabel.getX() + titleLabel.getWidth() + TITLE_BUTTONS_MIN_GAP >= buttonLeftBoundsStart) {
-                    int width = this.getWidth() - buttonLeftBoundsStart - TITLE_BUTTONS_MIN_GAP - titleLabel.getX();
-                    titleLabel.setBounds(titleLabel.getX(), titleLabel.getY(), width, titleLabel.getHeight());
-                }
-            }
-            default -> throw new IllegalArgumentException("Invalid button position: " + buttonPosition);
+        if (isBorderlessFrame()) {
+            return;
         }
+
+        int leftSize = topDrag.getLeftButtonList().size();
+        int rightSize = topDrag.getRightButtonList().size();
+
+        if (leftSize > 0 && rightSize > 0) {
+            titlePosition = TitlePosition.CENTER;
+        } else if (leftSize > 0) {
+
+        } else if (rightSize > 0) {
+
+        }
+
+        // todo make this method better and not need to call setTitle()
+        //        // Ensure title label doesn't start before buttonRightBoundsEnd + gap
+        //        if (buttonRightBoundsEnd + TITLE_BUTTONS_MIN_GAP >= titleLabel.getX()) {
+        //            int x = buttonRightBoundsEnd + TITLE_BUTTONS_MIN_GAP;
+        //            int width = this.getWidth() - buttonRightBoundsEnd + TITLE_BUTTONS_MIN_GAP - 4;
+        //
+        //            titleLabel.setBounds(x, titleLabel.getY(), width, titleLabel.getHeight());
+        //        }
+        //
+        //        // Ensure title label doesn't end inside of button's area
+        //        if (titleLabel.getX() + titleLabel.getWidth() + TITLE_BUTTONS_MIN_GAP >= buttonLeftBoundsStart) {
+        //            int width = this.getWidth() - buttonLeftBoundsStart - TITLE_BUTTONS_MIN_GAP - titleLabel.getX();
+        //            titleLabel.setBounds(titleLabel.getX(), titleLabel.getY(), width, titleLabel.getHeight());
+        //        }
+
 
         setTitle(this.title);
     }
