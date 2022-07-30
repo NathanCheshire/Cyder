@@ -758,8 +758,8 @@ public enum Console {
                 "Menu", CyderIcons.menuIcon, CyderIcons.menuIconHover,
                 menuButtonMouseListener, menuButtonFocusAdapter);
         menuButton.addActionListener(menuButtonActionListener);
-        menuButton.setBounds(4, 4, 22, 22);
-        consoleCyderFrame.getTopDragLabel().add(menuButton);
+        menuButton.setSize(22, 22);
+        consoleCyderFrame.getTopDragLabel().addLeftButton(menuButton, 0);
         menuButton.addKeyListener(menuButtonKeyAdapter);
 
         LinkedList<JButton> consoleDragButtonList = new LinkedList<>();
@@ -2938,7 +2938,7 @@ public enum Console {
     private void removeAudioControls() {
         audioControlsLabel.setVisible(false);
         toggleAudioControls.setVisible(false);
-        consoleCyderFrame.getTopDragLabel().refreshButtons();
+        consoleCyderFrame.getTopDragLabel().refreshRightButtons();
     }
 
     /**

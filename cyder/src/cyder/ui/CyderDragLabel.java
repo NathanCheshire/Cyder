@@ -425,6 +425,7 @@ public class CyderDragLabel extends JLabel {
     }
 
     // todo use me for all
+    // todo for all components add to a drag label use methods and test
 
     /**
      * Generates and returns a mouse listener for a drag label text button.
@@ -704,6 +705,7 @@ public class CyderDragLabel extends JLabel {
     // todo use partitioned layout for create user widget
 
     // todo architecture for startup subroutines needs to be like input handlers
+    // todo after this update the design doc
 
     /**
      * Refreshes and repaints the button list.
@@ -712,6 +714,10 @@ public class CyderDragLabel extends JLabel {
         refreshRightButtons();
         refreshLeftButtons();
     }
+
+    private static final int BUTTON_SPACING = 2;
+    private static final int TEXT_BUTTON_SPACING = 10;
+    private static final int buttonPadding = 5;
 
     /**
      * Refreshes all right buttons and their positions.
@@ -729,15 +735,11 @@ public class CyderDragLabel extends JLabel {
             reversedRightButtons.add(rightButtonList.get(i));
         }
 
-        // todo technical debt
-        int buttonSpacing = 2;
-        int textButtonSpacing = 10;
-        int framePadding = 5;
-        int currentXStart = width - framePadding;
+        int currentXStart = width - buttonPadding;
 
         for (JButton rightButton : reversedRightButtons) {
             boolean isTextButton = isTextButton(rightButton);
-            int spacing = isTextButton ? textButtonSpacing : buttonSpacing;
+            int spacing = isTextButton ? TEXT_BUTTON_SPACING : BUTTON_SPACING;
 
             int buttonWidth = isTextButton
                     ? StringUtil.getAbsoluteMinWidth(rightButton.getText().trim(), rightButton.getFont()) : 22;
@@ -766,16 +768,11 @@ public class CyderDragLabel extends JLabel {
         removeLeftButtons();
         effectFrame.revalidateTitlePosition();
 
-        // todo technical debt
-        int buttonSpacing = 2;
-        int textButtonSpacing = 10;
-        @SuppressWarnings("UnnecessaryLocalVariable")
-        int framePadding = 5;
-        int currentXStart = framePadding;
+        int currentXStart = buttonPadding;
 
         for (JButton leftButton : leftButtonList) {
             boolean isTextButton = isTextButton(leftButton);
-            int spacing = isTextButton ? textButtonSpacing : buttonSpacing;
+            int spacing = isTextButton ? TEXT_BUTTON_SPACING : BUTTON_SPACING;
 
             int buttonWidth = isTextButton
                     ? StringUtil.getAbsoluteMinWidth(leftButton.getText().trim(), leftButton.getFont()) : 22;
