@@ -697,7 +697,8 @@ public class CyderDragLabel extends JLabel {
         }
     }
 
-    // todo focus after background transition goes to area temporarily
+    // todo I think prefs freeze sometimes because of loading files?
+    //  need to redo it anyway since apparently handles are left open and we have difficulties removing files
 
     // todo console location saving doesn't work and sometimes
     //  messes up still, only save is not being disposed too

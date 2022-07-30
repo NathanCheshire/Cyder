@@ -122,6 +122,11 @@ public enum Console {
     private JPasswordField inputField;
 
     /**
+     * The default focus owner for focus to default to when no focused components can be found.
+     */
+    private Component defaultFocusOwner;
+
+    /**
      * The label added to the top drag label to show the time.
      */
     private JLabel consoleClockLabel;
@@ -705,6 +710,8 @@ public enum Console {
         }
 
         consoleCyderFrame.getContentPane().add(inputField);
+
+        defaultFocusOwner = inputField;
     }
 
     /**
@@ -2385,19 +2392,12 @@ public enum Console {
             nextBackground = ImageUtil.rotateImage(nextBackground, ONE_EIGHTY_DEGREES);
         }
 
-        // get console's content pane
         JLabel contentPane = getConsoleCyderFrameContentPane();
-
-        // tooltip based on image name
         contentPane.setToolTipText(FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
 
-        // create final background that won't change
         ImageIcon nextBackFinal = nextBackground;
-
-        // Get the original background and resize it as needed
         ImageIcon oldBack = ImageUtil.resizeImage((ImageIcon) contentPane.getIcon(), width, height);
 
-        // Change frame size and put the center in the same spot
         Point originalCenter = consoleCyderFrame.getCenterPointOnScreen();
         consoleCyderFrame.setSize(width, height);
 
@@ -2496,14 +2496,14 @@ public enum Console {
             refreshConsoleMaxSize();
 
             consoleCyderFrame.setDraggingEnabled(wasDraggable);
-            outputArea.setFocusable(outputAreaWasFocusable);
 
             // Revalidate bounds to be safe
             boolean fullscreen = isFullscreen();
             revalidate(!fullscreen, fullscreen);
 
-            // Default focus owner
-            inputField.requestFocus();
+            defaultFocusOwner.requestFocus();
+
+            outputArea.setFocusable(outputAreaWasFocusable);
 
             backgroundSwitchingLocked.set(false);
         }, "Background Switcher");
