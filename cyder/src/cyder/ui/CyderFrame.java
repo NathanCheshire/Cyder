@@ -2,6 +2,7 @@ package cyder.ui;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Range;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.console.Console;
 import cyder.constants.*;
@@ -379,19 +380,19 @@ public class CyderFrame extends JFrame {
         topDrag = new CyderDragLabel(width - 2 * FRAME_RESIZING_LEN,
                 CyderDragLabel.DEFAULT_HEIGHT - 2, this);
         topDrag.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
-                width - 2 * FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT - 2);
+                width - 2 * FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
         topDrag.setXOffset(FRAME_RESIZING_LEN);
         topDrag.setYOffset(FRAME_RESIZING_LEN);
         contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
         topDrag.setFocusable(false);
 
         topDragCover = new JLabel();
-        topDragCover.setBounds(0, 0, width, 2);
+        topDragCover.setBounds(0, 0, width, FRAME_RESIZING_LEN);
         topDragCover.setBackground(CyderColors.getGuiThemeColor());
         topDragCover.setOpaque(true);
         contentLabel.add(topDragCover, JLayeredPane.DRAG_LAYER);
 
-        leftDrag = new CyderDragLabel(5 - FRAME_RESIZING_LEN,
+        leftDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
                 height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT, this);
         leftDrag.setBounds(FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT,
                 5 - FRAME_RESIZING_LEN, height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
@@ -402,37 +403,40 @@ public class CyderFrame extends JFrame {
         leftDrag.setRightButtonList(null);
 
         leftDragCover = new JLabel();
-        leftDragCover.setBounds(0, 0, 2, height);
+        leftDragCover.setBounds(0, 0, FRAME_RESIZING_LEN, height);
         leftDragCover.setBackground(CyderColors.getGuiThemeColor());
         leftDragCover.setOpaque(true);
         contentLabel.add(leftDragCover, JLayeredPane.DRAG_LAYER);
 
-        rightDrag = new CyderDragLabel(5 - FRAME_RESIZING_LEN,
+        rightDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
                 height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT, this);
-        rightDrag.setBounds(width - 5, CyderDragLabel.DEFAULT_HEIGHT,
-                5 - FRAME_RESIZING_LEN, height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
-        rightDrag.setXOffset(width - 5);
+        rightDrag.setBounds(width - BORDER_LEN, CyderDragLabel.DEFAULT_HEIGHT,
+                BORDER_LEN - FRAME_RESIZING_LEN,
+                height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
+        rightDrag.setXOffset(width - BORDER_LEN);
         rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
         contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
         rightDrag.setFocusable(false);
         rightDrag.setRightButtonList(null);
 
         rightDragCover = new JLabel();
-        rightDragCover.setBounds(width - 2, 0, 2, height);
+        rightDragCover.setBounds(width - FRAME_RESIZING_LEN, 0, FRAME_RESIZING_LEN, height);
         rightDragCover.setBackground(CyderColors.getGuiThemeColor());
         rightDragCover.setOpaque(true);
         contentLabel.add(rightDragCover, JLayeredPane.DRAG_LAYER);
 
-        bottomDrag = new CyderDragLabel(width - 2 * FRAME_RESIZING_LEN, 5 - FRAME_RESIZING_LEN, this);
-        bottomDrag.setBounds(FRAME_RESIZING_LEN, height - 5, width - 4, 5 - FRAME_RESIZING_LEN);
+        bottomDrag = new CyderDragLabel(width - FRAME_RESIZING_LEN * FRAME_RESIZING_LEN,
+                5 - FRAME_RESIZING_LEN, this);
+        bottomDrag.setBounds(FRAME_RESIZING_LEN, height - BORDER_LEN,
+                width - 2 * FRAME_RESIZING_LEN, BORDER_LEN - FRAME_RESIZING_LEN);
         bottomDrag.setXOffset(FRAME_RESIZING_LEN);
-        bottomDrag.setYOffset(height - 5);
+        bottomDrag.setYOffset(height - BORDER_LEN);
         contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
         bottomDrag.setFocusable(false);
         bottomDrag.setRightButtonList(null);
 
         bottomDragCover = new JLabel();
-        bottomDragCover.setBounds(0, height - 2, width, 2);
+        bottomDragCover.setBounds(0, height - FRAME_RESIZING_LEN, width, FRAME_RESIZING_LEN);
         bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
         bottomDragCover.setOpaque(true);
         contentLabel.add(bottomDragCover, JLayeredPane.DRAG_LAYER);
@@ -509,7 +513,7 @@ public class CyderFrame extends JFrame {
         };
         contentLabel.setFocusable(false);
 
-        //adding pane (getContentPane().add(component))
+        // this.getContentPane() will return this
         iconLabel = new JLabel() {
             @Override
             public void repaint() {
@@ -1940,15 +1944,20 @@ public class CyderFrame extends JFrame {
         LinkedList<JButton> leftButtons = topDrag.getLeftButtonList();
         LinkedList<JButton> rightButtons = topDrag.getRightButtonList();
 
+        int leftButtonsStart = Integer.MAX_VALUE;
         int leftButtonsEnd = Integer.MIN_VALUE;
+
         int rightButtonsStart = Integer.MAX_VALUE;
+        int rightButtonsEnd = Integer.MIN_VALUE;
 
         for (JButton leftButton : leftButtons) {
+            leftButtonsStart = Math.min(leftButtonsStart, leftButton.getX());
             leftButtonsEnd = Math.max(leftButtonsEnd, leftButton.getX() + leftButton.getWidth());
         }
 
         for (JButton rightButton : rightButtons) {
             rightButtonsStart = Math.min(rightButtonsStart, rightButton.getX());
+            rightButtonsEnd = Math.max(rightButtonsEnd, rightButton.getX() + rightButton.getWidth());
         }
 
         int necessaryTitleWidth = StringUtil.getAbsoluteMinWidth(title, titleLabel.getFont());
@@ -1979,7 +1988,7 @@ public class CyderFrame extends JFrame {
         } else if (areLeftButtons) {
             if (titlePosition == TitlePosition.CENTER) {
                 if (width / 2 - necessaryTitleWidth / 2 - necessaryGap < leftButtonsEnd) {
-                    int w = width / 2 - leftButtonsEnd;
+                    int w = 2 * (width / 2 - leftButtonsEnd - necessaryGap);
                     titleLabel.setBounds(width / 2 - w / 2, y, w, necessaryTitleHeight);
                 }
             } else {
@@ -2006,6 +2015,24 @@ public class CyderFrame extends JFrame {
         if (titleLabel.getWidth() > width - 2 * titleLabelPadding) {
             titleLabel.setBounds(titleLabelPadding, titleLabel.getY(),
                     width - 2 * titleLabelPadding, titleLabel.getHeight());
+        }
+
+        if (leftButtonsStart == Integer.MAX_VALUE
+                || leftButtonsEnd == Integer.MIN_VALUE
+                || rightButtonsStart == Integer.MAX_VALUE
+                || rightButtonsEnd == Integer.MIN_VALUE) {
+            return;
+        }
+
+        // Super rare cases the title label will still be over the buttons
+        int titleLabelStart = titleLabel.getX();
+        int titleLabelEnd = titleLabel.getY();
+
+        Range<Integer> leftButtonRange = Range.closed(leftButtonsStart, leftButtonsEnd);
+        Range<Integer> rightButtonRange = Range.closed(rightButtonsStart, rightButtonsEnd);
+
+        if (leftButtonRange.contains(titleLabelStart) || rightButtonRange.contains(titleLabelEnd)) {
+            titleLabel.setVisible(false);
         }
     }
 
