@@ -648,8 +648,6 @@ public class CyderFrame extends JFrame {
     // frame positions based on enums
     // ------------------------------------
 
-    // todo to test make a method to set the title and also add/remove buttons from left / right labels
-
     /**
      * Sets the title position of the title label. If the frame is visible, and the location
      * can be accommodated, the label is animated to its destination.
@@ -1643,10 +1641,23 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Revalidates the title and button positions by the currently set enum locations.
+     * Revalidates the title position.
      */
-    public void revalidateTitleAndButtonPosition() {
-        // todo implement me
+    public void revalidateTitlePosition() {
+        if (topDrag == null) {
+            return;
+        }
+
+        int leftButtonSize = topDrag.getLeftButtonList().size();
+        int rightButtonSize = topDrag.getRightButtonList().size();
+
+        if (titlePosition == TitlePosition.LEFT && leftButtonSize > 0) {
+            setTitlePosition(TitlePosition.CENTER);
+        }
+
+        if (titlePosition == TitlePosition.RIGHT && rightButtonSize > 0) {
+            setTitlePosition(TitlePosition.CENTER);
+        }
     }
 
     /**
@@ -1848,7 +1859,7 @@ public class CyderFrame extends JFrame {
         bottomDrag.setHeight(5 - FRAME_RESIZING_LEN);
         bottomDragCover.setBounds(0, height - FRAME_RESIZING_LEN, width, FRAME_RESIZING_LEN);
 
-        revalidateTitleAndButtonPosition();
+        revalidateTitlePositionLocation();
 
         topDrag.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, width - 2 * FRAME_RESIZING_LEN,
                 CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
@@ -1918,10 +1929,13 @@ public class CyderFrame extends JFrame {
 
                 // maintain left of frame
                 case LEFT -> currentNotification.setLocation(5, currentNotification.getY());
+
+                // todo do toasts work with this?
             }
         }
     }
 
+    // todo enlarging case when we have room again
     /**
      * Revalidates the title label width based to ensure that the
      * most is shown but the title does not overlap any buttons.

@@ -424,7 +424,7 @@ public class CyderDragLabel extends JLabel {
         return ret;
     }
 
-    // todo use me
+    // todo use me for all
 
     /**
      * Generates and returns a mouse listener for a drag label text button.
@@ -722,12 +722,14 @@ public class CyderDragLabel extends JLabel {
         }
 
         removeRightButtons();
+        effectFrame.revalidateTitlePosition();
 
         LinkedList<JButton> reversedRightButtons = new LinkedList<>();
         for (int i = rightButtonList.size() - 1 ; i >= 0 ; i--) {
             reversedRightButtons.add(rightButtonList.get(i));
         }
 
+        // todo technical debt
         int buttonSpacing = 2;
         int textButtonSpacing = 10;
         int framePadding = 5;
@@ -753,6 +755,9 @@ public class CyderDragLabel extends JLabel {
         repaint();
     }
 
+    // todo when adding a button to a list and it's the first one,
+    //  need to revalidate title since it might be over a button
+
     /**
      * Refreshes all left buttons and their positions.
      */
@@ -762,8 +767,33 @@ public class CyderDragLabel extends JLabel {
         }
 
         removeLeftButtons();
+        effectFrame.revalidateTitlePosition();
 
-        // todo logic to place buttons on left
+        // todo technical debt
+        int buttonSpacing = 2;
+        int textButtonSpacing = 10;
+        @SuppressWarnings("UnnecessaryLocalVariable")
+        int framePadding = 5;
+        int currentXStart = framePadding;
+
+        for (JButton leftButton : leftButtonList) {
+            boolean isTextButton = isTextButton(leftButton);
+            int spacing = isTextButton ? textButtonSpacing : buttonSpacing;
+
+            int buttonWidth = isTextButton
+                    ? StringUtil.getAbsoluteMinWidth(leftButton.getText().trim(), leftButton.getFont()) : 22;
+            int buttonHeight = isTextButton
+                    ? StringUtil.getAbsoluteMinHeight(leftButton.getText().trim(), leftButton.getFont()) : 20;
+
+            int y = buttonHeight > DEFAULT_HEIGHT ? 0 : DEFAULT_HEIGHT / 2 - buttonHeight / 2;
+
+            leftButton.setBounds(currentXStart, y, buttonWidth, buttonHeight);
+            currentXStart += buttonWidth + spacing;
+            add(leftButton);
+        }
+
+        revalidate();
+        repaint();
     }
 
     /**
