@@ -637,6 +637,7 @@ public class CyderFrame extends JFrame {
     // ------------------------------------
 
     // todo to test make a method to set the title and also add/remove buttons from left / right labels
+
     /**
      * Sets the title position of the title label. If the frame is visible, and the location
      * can be accommodated, the label is animated to its destination.
@@ -1942,6 +1943,8 @@ public class CyderFrame extends JFrame {
         int rightButtonsStart = 0;
         int rightButtonsEnd = 0;
 
+        int necessaryGap = 10;
+
         for (JButton leftButton : leftButtons) {
             leftButtonsStart = Math.min(leftButtonsStart, leftButton.getX());
             leftButtonsEnd = Math.max(leftButtonsEnd, leftButton.getX() + leftButton.getWidth());
@@ -1955,13 +1958,79 @@ public class CyderFrame extends JFrame {
         int leftSize = leftButtons.size();
         int rightSize = rightButtons.size();
 
+        // Both left and right buttons
         if (leftSize > 0 && rightSize > 0) {
-            // todo center
-        } else if (leftSize > 0) {
-            // todo center or right
-        } else if (rightSize > 0) {
-            // todo center or left
+            if (titlePosition != TitlePosition.CENTER) {
+                throw new IllegalStateException("Title position was not at center when left and right "
+                        + "buttons are present in the top drag label");
+            }
+
+            while (titleLabel.getX() < leftButtonsEnd + necessaryGap
+                    || titleLabel.getX() + titleLabel.getWidth() > rightButtonsStart - necessaryGap) {
+                shrinkCenterTitle();
+            }
         }
+        // Only left buttons
+        else if (leftSize > 0) {
+            while (titleLabel.getX() < leftButtonsEnd + necessaryGap) {
+                if (titlePosition == TitlePosition.CENTER) {
+                    shrinkCenterTitle();
+                } else {
+                    shrinkRightTitle();
+                }
+            }
+        }
+        // Only right buttons
+        else if (rightSize > 0) {
+            while (titleLabel.getX() + titleLabel.getWidth() > rightButtonsStart - necessaryGap) {
+                if (titlePosition == TitlePosition.CENTER) {
+                    shrinkCenterTitle();
+                } else {
+                    shrinkLeftTitle();
+                }
+
+            }
+        }
+
+        while (titleLabel.getWidth() > this.width - 2 * necessaryGap) {
+            // This method will work for this case since it shrinks from left and right equally
+            shrinkCenterTitle();
+        }
+    }
+
+    /**
+     * The amount to reduce a label's width by when {@link #correctTitleLength()} is invoked.
+     */
+    private static final int shrinkLength = 10;
+
+    /**
+     * Shrinks the centered title position by {@link #shrinkLength}.
+     */
+    private void shrinkCenterTitle() {
+        Preconditions.checkArgument(titlePosition == TitlePosition.CENTER);
+
+        titleLabel.setBounds(titleLabel.getX() + shrinkLength / 2, titleLabel.getY(),
+                titleLabel.getWidth() - shrinkLength / 2, titleLabel.getHeight());
+    }
+
+    /**
+     * Shrinks the left title position by {@link #shrinkLength}.
+     */
+    private void shrinkLeftTitle() {
+        Preconditions.checkArgument(titlePosition == TitlePosition.LEFT);
+
+        titleLabel.setBounds(titleLabel.getX(), titleLabel.getY(),
+                titleLabel.getWidth() - shrinkLength, titleLabel.getHeight());
+    }
+
+    /**
+     * Shrinks the right title position by {@link #shrinkLength}.
+     */
+    private void shrinkRightTitle() {
+        Preconditions.checkArgument(titlePosition == TitlePosition.RIGHT);
+
+        titleLabel.setBounds(titleLabel.getX() + shrinkLength, titleLabel.getY(),
+                titleLabel.getWidth() - shrinkLength, titleLabel.getHeight());
     }
 
     /**
