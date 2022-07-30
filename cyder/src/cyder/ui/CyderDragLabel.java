@@ -755,9 +755,6 @@ public class CyderDragLabel extends JLabel {
         repaint();
     }
 
-    // todo when adding a button to a list and it's the first one,
-    //  need to revalidate title since it might be over a button
-
     /**
      * Refreshes all left buttons and their positions.
      */

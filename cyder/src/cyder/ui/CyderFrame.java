@@ -1911,22 +1911,14 @@ public class CyderFrame extends JFrame {
      * Revalidates the current notification's position if existent.
      */
     private void revalidateNotificationPosition() {
-        if (getCurrentNotification() != null) {
-            switch (getCurrentNotification().getBuilder().getArrowDir()) {
-                // center on frame
-                case TOP, BOTTOM -> currentNotification.setLocation(
-                        getWidth() / 2 - currentNotification.getWidth() / 2,
-                        currentNotification.getY());
+        if (currentNotification != null) {
+            int y = currentNotification.getY();
+            int w = currentNotification.getWidth();
 
-                // maintain right of frame
-                case RIGHT -> currentNotification.setLocation(
-                        getWidth() - currentNotification.getWidth() + 5,
-                        currentNotification.getY());
-
-                // maintain left of frame
-                case LEFT -> currentNotification.setLocation(5, currentNotification.getY());
-
-                // todo do toasts work with this?
+            switch (currentNotification.getBuilder().getArrowDir()) {
+                case TOP, BOTTOM -> currentNotification.setLocation(width / 2 - w / 2, y);
+                case RIGHT -> currentNotification.setLocation(width - w + titleLabelPadding, y);
+                case LEFT -> currentNotification.setLocation(titleLabelPadding, y);
             }
         }
     }
