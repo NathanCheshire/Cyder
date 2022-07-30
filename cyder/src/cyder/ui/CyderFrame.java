@@ -228,11 +228,6 @@ public class CyderFrame extends JFrame {
     public static final double BARREL_ROLL_DELTA = 2.0;
 
     /**
-     * The maximum width of the title label ratio to the CyderFrame width.
-     */
-    public static final float MAX_TITLE_LENGTH_RATIO = 0.75f;
-
-    /**
      * The default CyderFrame dimension.
      */
     public static final Dimension DEFAULT_DIMENSION = new Dimension(400, 400);
@@ -667,6 +662,19 @@ public class CyderFrame extends JFrame {
      * @see CyderFrame#titlePosition
      */
     public void setTitlePosition(TitlePosition newPosition) {
+        setTitlePosition(newPosition, true);
+    }
+
+    /**
+     * Sets the title position of the title label. If the frame is visible, and the location
+     * can be accommodated, the label is animated to its destination if requested.
+     *
+     * @param newPosition the new position for the title
+     * @param animate     whether the animation should be performed
+     * @throws IllegalStateException if the requested title position cannot be accommodated
+     * @see CyderFrame#titlePosition
+     */
+    public void setTitlePosition(TitlePosition newPosition, boolean animate) {
         if (newPosition == null || this.titlePosition == null
                 || this.titlePosition == newPosition || isBorderlessFrame()) {
             return;
@@ -696,45 +704,67 @@ public class CyderFrame extends JFrame {
         int y = Math.max(dragHeight / 2 - titleHeight / 2, 0);
 
         if (isVisible()) {
-            int animateFrom = titleLabel.getX();
-            int animateTo = switch (newPosition) {
-                case LEFT -> titleLabelPadding;
-                case RIGHT -> dragWidth - titleWidth - titleLabelPadding;
-                case CENTER -> dragWidth / 2 - titleWidth / 2;
-            };
+            if (animate) {
+                int animateFrom = titleLabel.getX();
+                int animateTo = switch (newPosition) {
+                    case LEFT -> titleLabelPadding;
+                    case RIGHT -> dragWidth - titleWidth - titleLabelPadding;
+                    case CENTER -> dragWidth / 2 - titleWidth / 2;
+                };
 
-            if (animateFrom < animateTo) {
-                CyderThreadRunner.submit(() -> {
-                    for (int x = animateFrom ; x <= animateTo ; x++) {
-                        titleLabel.setBounds(x, y, titleWidth, titleHeight);
-                        ThreadUtil.sleep(animationDelay);
-                    }
+                if (animateFrom < animateTo) {
+                    CyderThreadRunner.submit(() -> {
+                        for (int x = animateFrom ; x <= animateTo ; x++) {
+                            titleLabel.setBounds(x, y, titleWidth, titleHeight);
+                            ThreadUtil.sleep(animationDelay);
+                        }
 
-                    titlePosition = newPosition;
+                        titlePosition = newPosition;
 
-                    revalidateTitlePositionLocation();
-                    correctTitleLength();
-                }, "Title Position Animator");
+                        revalidateTitlePositionLocation();
+                        correctTitleLabelAlignment();
+                        correctTitleLength();
+                    }, "Title Position Animator");
+                } else {
+                    CyderThreadRunner.submit(() -> {
+                        for (int x = animateFrom ; x >= animateTo ; x--) {
+                            titleLabel.setBounds(x, y, titleWidth, titleHeight);
+                            ThreadUtil.sleep(animationDelay);
+                        }
+
+                        titlePosition = newPosition;
+
+                        revalidateTitlePositionLocation();
+                        correctTitleLabelAlignment();
+                        correctTitleLength();
+                    }, "Title Position Animator");
+                }
             } else {
-                CyderThreadRunner.submit(() -> {
-                    for (int x = animateFrom ; x >= animateTo ; x--) {
-                        titleLabel.setBounds(x, y, titleWidth, titleHeight);
-                        ThreadUtil.sleep(animationDelay);
-                    }
+                titlePosition = newPosition;
 
-                    titlePosition = newPosition;
-
-                    revalidateTitlePositionLocation();
-                    correctTitleLength();
-                }, "Title Position Animator");
+                revalidateTitlePositionLocation();
+                correctTitleLabelAlignment();
+                correctTitleLength();
             }
         } else {
             titlePosition = newPosition;
 
             revalidateTitlePositionLocation();
+            correctTitleLabelAlignment();
             correctTitleLength();
 
             titleLabel.setVisible(true);
+        }
+    }
+
+    /**
+     * Sets the alignment of the title label based on the currently set alignment.
+     */
+    private void correctTitleLabelAlignment() {
+        switch (titlePosition) {
+            case LEFT -> titleLabel.setHorizontalAlignment(JLabel.LEFT);
+            case CENTER -> titleLabel.setHorizontalAlignment(JLabel.CENTER);
+            case RIGHT -> titleLabel.setHorizontalAlignment(JLabel.RIGHT);
         }
     }
 
@@ -862,11 +892,6 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * A triple dot to use for the title if it overflows
-     */
-    private static final String DOTS = "...";
-
-    /**
      * Set the title of the label painted on the top drag label of the CyderFrame instance.
      * You can also configure the frame to paint/not paint both
      * the windowed title, and the title label title via {@link #setPaintSuperTitle(boolean)}
@@ -884,48 +909,9 @@ public class CyderFrame extends JFrame {
         if (paintCyderFrameTitle) {
             String parsedTitle = StringUtil.getTrimmedText(StringUtil.parseNonAscii(title));
             this.title = parsedTitle;
+            titleLabel.setText(parsedTitle);
 
-            Font titleLabelFont = titleLabel.getFont();
-
-            int requestedWidth = StringUtil.getAbsoluteMinWidth(parsedTitle, titleLabelFont);
-            int titleWidth = requestedWidth;
-            String shortenedTitle = parsedTitle;
-
-            while (titleWidth > width * MAX_TITLE_LENGTH_RATIO) {
-                shortenedTitle = shortenedTitle.substring(0, shortenedTitle.length() - 1);
-                titleWidth = StringUtil.getAbsoluteMinWidth(shortenedTitle + DOTS, titleLabelFont);
-            }
-
-            if (requestedWidth != titleWidth && !shortenedTitle.equals(parsedTitle)) {
-                shortenedTitle = shortenedTitle.trim() + DOTS;
-                titleWidth = StringUtil.getAbsoluteMinWidth(shortenedTitle, titleLabelFont);
-            }
-
-            titleLabel.setText(shortenedTitle);
-
-            int titleLabelHeight = StringUtil.getAbsoluteMinHeight(shortenedTitle, titleLabelFont);
-
-            switch (titlePosition) {
-                case CENTER -> titleLabel.setBounds((topDrag.getWidth() / 2) - (titleWidth / 2),
-                        2, titleWidth, titleLabelHeight);
-                case RIGHT -> titleLabel.setBounds(width - titleWidth, 2, titleWidth, titleLabelHeight);
-                case LEFT -> {
-                    int start = 5;
-                    int offset = 10;
-
-                    int leftMostButtonX = Integer.MAX_VALUE;
-
-                    if (topDrag != null) {
-                        leftMostButtonX = topDrag.getRightButton(0).getX();
-                    }
-
-                    while (start + titleWidth + offset > leftMostButtonX) {
-                        titleWidth -= offset;
-                    }
-
-                    titleLabel.setBounds(start, 2, titleWidth, titleLabelHeight);
-                }
-            }
+            correctTitleLength();
 
             titleLabel.setVisible(true);
         }
@@ -1951,11 +1937,6 @@ public class CyderFrame extends JFrame {
     private static final int necessaryGap = 10;
 
     /**
-     * The amount to reduce a label's width by if necessary when {@link #correctTitleLength()} is invoked.
-     */
-    private static final int shrinkLength = 10;
-
-    /**
      * Revalidates the title label width based to ensure that the
      * most is shown but the title does not overlap any buttons.
      */
@@ -1978,38 +1959,61 @@ public class CyderFrame extends JFrame {
             rightButtonsStart = Math.min(rightButtonsStart, rightButton.getX());
         }
 
+        int necessaryTitleWidth = StringUtil.getAbsoluteMinWidth(title, titleLabel.getFont());
+        int necessaryTitleHeight = StringUtil.getAbsoluteMinHeight(title, titleLabel.getFont());
+        int y = Math.min(topDrag.getHeight() / 2 - necessaryTitleHeight / 2, 0);
+
+        // Reset default bounds, will be trimmed away below
+        switch (titlePosition) {
+            case LEFT -> titleLabel.setBounds(titleLabelPadding, y, necessaryTitleWidth, necessaryTitleHeight);
+            case CENTER -> titleLabel.setBounds(width / 2 - necessaryTitleWidth / 2, y,
+                    necessaryTitleWidth, necessaryTitleHeight);
+            case RIGHT -> titleLabel.setBounds(width - titleLabelPadding - necessaryTitleWidth, y,
+                    necessaryTitleWidth, necessaryTitleHeight);
+        }
+
         boolean areLeftButtons = leftButtons.size() > 0;
         boolean areRightButtons = rightButtons.size() > 0;
 
         if (areLeftButtons && areRightButtons) {
             if (titlePosition != TitlePosition.CENTER) {
-                throw new IllegalStateException("Title position was not at center when left and right "
-                        + "buttons are present in the top drag label");
+                setTitlePosition(TitlePosition.CENTER, false);
             }
 
-            // todo ensure doesn't clip left or right buttons by shrinking both sides
+            if (leftButtonsEnd + necessaryTitleWidth + 2 * necessaryGap > rightButtonsStart) {
+                int w = rightButtonsStart - leftButtonsEnd - 2 * necessaryGap;
+                titleLabel.setBounds(width / 2 - w / 2, y, w, necessaryTitleHeight);
+            }
         } else if (areLeftButtons) {
-            if (titleLabel.getX() < leftButtonsEnd + necessaryGap) {
-                if (titlePosition == TitlePosition.CENTER) {
-                    // todo ensure doesn't clip left buttons by shrinking both sides
-                } else {
-                    // todo ensure doesn't clip left buttons by shrinking width and moving to the right
+            if (titlePosition == TitlePosition.CENTER) {
+                if (width / 2 - necessaryTitleWidth / 2 - necessaryGap < leftButtonsEnd) {
+                    int w = width / 2 - leftButtonsEnd;
+                    titleLabel.setBounds(width / 2 - w / 2, y, w, necessaryTitleHeight);
+                }
+            } else {
+                if (width - titleLabelPadding - necessaryTitleWidth - necessaryGap < leftButtonsEnd) {
+                    int w = width - necessaryGap - leftButtonsEnd - titleLabelPadding;
+                    titleLabel.setBounds(width - titleLabelPadding - w, y, w, necessaryTitleHeight);
                 }
             }
         } else if (areRightButtons) {
-            if (titleLabel.getX() + titleLabel.getWidth() > rightButtonsStart - necessaryGap) {
-                if (titlePosition == TitlePosition.CENTER) {
-
-                } else {
-
+            if (titlePosition == TitlePosition.CENTER) {
+                if (width / 2 + necessaryTitleWidth / 2 + necessaryGap > rightButtonsStart) {
+                    int w = 2 * (rightButtonsStart - necessaryGap - width / 2);
+                    titleLabel.setBounds(width / 2 - w / 2, y, w, necessaryTitleHeight);
                 }
-
+            } else {
+                if (titleLabelPadding + necessaryTitleWidth + necessaryGap > rightButtonsStart) {
+                    int w = rightButtonsStart - titleLabelPadding - necessaryGap;
+                    titleLabel.setBounds(titleLabelPadding, y, w, necessaryTitleHeight);
+                }
             }
         }
 
-        // double check to ensure title isn't bigger than it should ever be
-        while (titleLabel.getWidth() > this.width - 2 * necessaryGap) {
-
+        // double check to ensure title isn't bigger than the frame
+        if (titleLabel.getWidth() > width - 2 * titleLabelPadding) {
+            titleLabel.setBounds(titleLabelPadding, titleLabel.getY(),
+                    width - 2 * titleLabelPadding, titleLabel.getHeight());
         }
     }
 
