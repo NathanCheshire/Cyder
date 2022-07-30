@@ -42,6 +42,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class CyderFrame extends JFrame {
     /**
+     * The minimum allowable width for a CyderFrame.
+     */
+    public static final int MINIMUM_WIDTH = 200;
+
+    /**
+     * The maximum allowable height for a CyderFrame.
+     */
+    public static final int MINIMUM_HEIGHT = 100;
+
+    /**
      * The font used for the title label (typically equivalent to agencyFB22).
      */
     public static final Font DEFAULT_FRAME_TITLE_FONT = new Font("Agency FB", Font.BOLD, 22);
@@ -1935,7 +1945,16 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    // todo enlarging case when we have room again
+    /**
+     * The gap to keep between the drag label buttons and the start/end of the title label.
+     */
+    private static final int necessaryGap = 10;
+
+    /**
+     * The amount to reduce a label's width by if necessary when {@link #correctTitleLength()} is invoked.
+     */
+    private static final int shrinkLength = 10;
+
     /**
      * Revalidates the title label width based to ensure that the
      * most is shown but the title does not overlap any buttons.
@@ -1951,8 +1970,6 @@ public class CyderFrame extends JFrame {
         int leftButtonsEnd = Integer.MIN_VALUE;
         int rightButtonsStart = Integer.MAX_VALUE;
 
-        int necessaryGap = 10;
-
         for (JButton leftButton : leftButtons) {
             leftButtonsEnd = Math.max(leftButtonsEnd, leftButton.getX() + leftButton.getWidth());
         }
@@ -1961,82 +1978,39 @@ public class CyderFrame extends JFrame {
             rightButtonsStart = Math.min(rightButtonsStart, rightButton.getX());
         }
 
-        int leftSize = leftButtons.size();
-        int rightSize = rightButtons.size();
+        boolean areLeftButtons = leftButtons.size() > 0;
+        boolean areRightButtons = rightButtons.size() > 0;
 
-        // Both left and right buttons
-        if (leftSize > 0 && rightSize > 0) {
+        if (areLeftButtons && areRightButtons) {
             if (titlePosition != TitlePosition.CENTER) {
                 throw new IllegalStateException("Title position was not at center when left and right "
                         + "buttons are present in the top drag label");
             }
 
-            while (titleLabel.getX() < leftButtonsEnd + necessaryGap
-                    || titleLabel.getX() + titleLabel.getWidth() > rightButtonsStart - necessaryGap) {
-                shrinkCenterTitle();
-            }
-        }
-        // Only left buttons
-        else if (leftSize > 0) {
-            while (titleLabel.getX() < leftButtonsEnd + necessaryGap) {
+            // todo ensure doesn't clip left or right buttons by shrinking both sides
+        } else if (areLeftButtons) {
+            if (titleLabel.getX() < leftButtonsEnd + necessaryGap) {
                 if (titlePosition == TitlePosition.CENTER) {
-                    shrinkCenterTitle();
+                    // todo ensure doesn't clip left buttons by shrinking both sides
                 } else {
-                    shrinkRightTitle();
+                    // todo ensure doesn't clip left buttons by shrinking width and moving to the right
                 }
             }
-        }
-        // Only right buttons
-        else if (rightSize > 0) {
-            while (titleLabel.getX() + titleLabel.getWidth() > rightButtonsStart - necessaryGap) {
+        } else if (areRightButtons) {
+            if (titleLabel.getX() + titleLabel.getWidth() > rightButtonsStart - necessaryGap) {
                 if (titlePosition == TitlePosition.CENTER) {
-                    shrinkCenterTitle();
+
                 } else {
-                    shrinkLeftTitle();
+
                 }
 
             }
         }
 
+        // double check to ensure title isn't bigger than it should ever be
         while (titleLabel.getWidth() > this.width - 2 * necessaryGap) {
-            // This method will work for this case since it shrinks from left and right equally
-            shrinkCenterTitle();
+
         }
-    }
-
-    /**
-     * The amount to reduce a label's width by when {@link #correctTitleLength()} is invoked.
-     */
-    private static final int shrinkLength = 10;
-
-    /**
-     * Shrinks the centered title position by {@link #shrinkLength}.
-     */
-    private void shrinkCenterTitle() {
-        Preconditions.checkArgument(titlePosition == TitlePosition.CENTER);
-
-        titleLabel.setBounds(titleLabel.getX() + shrinkLength / 2, titleLabel.getY(),
-                titleLabel.getWidth() - shrinkLength / 2, titleLabel.getHeight());
-    }
-
-    /**
-     * Shrinks the left title position by {@link #shrinkLength}.
-     */
-    private void shrinkLeftTitle() {
-        Preconditions.checkArgument(titlePosition == TitlePosition.LEFT);
-
-        titleLabel.setBounds(titleLabel.getX(), titleLabel.getY(),
-                titleLabel.getWidth() - shrinkLength, titleLabel.getHeight());
-    }
-
-    /**
-     * Shrinks the right title position by {@link #shrinkLength}.
-     */
-    private void shrinkRightTitle() {
-        Preconditions.checkArgument(titlePosition == TitlePosition.RIGHT);
-
-        titleLabel.setBounds(titleLabel.getX() + shrinkLength, titleLabel.getY(),
-                titleLabel.getWidth() - shrinkLength, titleLabel.getHeight());
     }
 
     /**
@@ -2049,16 +2023,6 @@ public class CyderFrame extends JFrame {
         Font font = titleLabel.getFont();
         return new Dimension(StringUtil.getAbsoluteMinWidth(text, font), StringUtil.getAbsoluteMinHeight(title, font));
     }
-
-    /**
-     * The minimum allowable width for a CyderFrame.
-     */
-    public static final int MINIMUM_WIDTH = 200;
-
-    /**
-     * The maximum allowable height for a CyderFrame.
-     */
-    public static final int MINIMUM_HEIGHT = 100;
 
     /**
      * The minimum size dimension.
