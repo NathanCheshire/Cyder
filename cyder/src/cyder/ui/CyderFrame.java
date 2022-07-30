@@ -11,6 +11,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
+import cyder.layouts.CyderLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.user.UserUtil;
@@ -595,12 +596,23 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Adds the provided CyderPanel on top of the content pane which is also resized on
-     * CyderFrame resize events.
+     * Creates a {@link CyderPanel} with the provided layout and sets that as the content pane.
+     *
+     * @param layout the layout to manage the components
+     */
+    public void setCyderLayout(CyderLayout layout) {
+        Preconditions.checkNotNull(layout);
+
+        setCyderLayoutPanel(new CyderPanel(layout));
+    }
+
+    /**
+     * Adds the provided CyderPanel on top of the content pane which
+     * is also resized on CyderFrame resize events.
      *
      * @param cyderPanel the CyderPanel with an appropriate CyderLayout
      */
-    public void setLayoutPanel(CyderPanel cyderPanel) {
+    public void setCyderLayoutPanel(CyderPanel cyderPanel) {
         //removing a panel and setting it to null
         if (cyderPanel == null) {
             if (this.cyderPanel != null) {
@@ -672,7 +684,7 @@ public class CyderFrame extends JFrame {
         int titleWidth = StringUtil.getAbsoluteMinWidth(title, titleFont);
         int titleHeight = StringUtil.getAbsoluteMinHeight(title, titleFont);
 
-        int animationDelay = 5;
+        int animationDelay = 1;
         int y = Math.max(dragHeight / 2 - titleHeight / 2, 0);
 
         if (isVisible()) {
@@ -1634,22 +1646,7 @@ public class CyderFrame extends JFrame {
      * Revalidates the title and button positions by the currently set enum locations.
      */
     public void revalidateTitleAndButtonPosition() {
-        if (isBorderlessFrame())
-            return;
-
-        if (topDrag.getRightButtonList().size() > 0
-                && topDrag.getLeftButtonList().size() > 0) {
-            titlePosition = TitlePosition.CENTER;
-        }
-
-        switch (titlePosition) {
-            case LEFT -> titleLabel.setLocation(4, 2);
-            case RIGHT -> titleLabel.setLocation(width -
-                    StringUtil.getMinWidth(title, titleLabel.getFont()), 2);
-            case CENTER -> titleLabel.setLocation((topDrag.getWidth() / 2)
-                    - (StringUtil.getMinWidth(title, titleLabel.getFont()) / 2), 2);
-        }
-
+        // todo implement me
     }
 
     /**
@@ -1937,22 +1934,17 @@ public class CyderFrame extends JFrame {
         LinkedList<JButton> leftButtons = topDrag.getLeftButtonList();
         LinkedList<JButton> rightButtons = topDrag.getRightButtonList();
 
-        int leftButtonsStart = 0;
-        int leftButtonsEnd = 0;
-
-        int rightButtonsStart = 0;
-        int rightButtonsEnd = 0;
+        int leftButtonsEnd = Integer.MIN_VALUE;
+        int rightButtonsStart = Integer.MAX_VALUE;
 
         int necessaryGap = 10;
 
         for (JButton leftButton : leftButtons) {
-            leftButtonsStart = Math.min(leftButtonsStart, leftButton.getX());
             leftButtonsEnd = Math.max(leftButtonsEnd, leftButton.getX() + leftButton.getWidth());
         }
 
         for (JButton rightButton : rightButtons) {
             rightButtonsStart = Math.min(rightButtonsStart, rightButton.getX());
-            rightButtonsEnd = Math.max(rightButtonsEnd, rightButton.getX() + rightButton.getWidth());
         }
 
         int leftSize = leftButtons.size();

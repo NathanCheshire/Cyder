@@ -43,7 +43,7 @@ public final class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-
+                dragLabelButtonTest();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -103,32 +103,80 @@ public final class ManualTests {
     @ManualTest("drag label button test")
     public static void dragLabelButtonTest() {
         CyderFrame testFrame = new CyderFrame(600, 600, CyderIcons.defaultBackground);
-        testFrame.setTitle("Test Frame");
-        testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+        testFrame.setTitle("Drag label test");
 
-        JButton pinButton = new JButton("");
-        pinButton.setToolTipText("Random button");
-        pinButton.setIcon(CyderIcons.changeSizeIcon);
-        pinButton.setContentAreaFilled(false);
-        pinButton.setBorderPainted(false);
-        pinButton.setFocusPainted(false);
-        testFrame.getTopDragLabel().addRightButton(pinButton, 1);
+        CyderButton addLeftButton = new CyderButton("Add left");
+        addLeftButton.addActionListener(e -> {
+            JButton button = new JButton("");
+            button.setToolTipText("drag label button");
+            button.setIcon(CyderIcons.pinIconHoverPink);
+            button.setContentAreaFilled(false);
+            button.setBorderPainted(false);
+            button.setFocusPainted(false);
 
-        CyderButton cb = new CyderButton("Remove first");
-        cb.setBounds(100, 100, 150, 40);
-        cb.addActionListener(e -> testFrame.getTopDragLabel().removeRightButton(0));
-        testFrame.getContentPane().add(cb);
+            testFrame.getTopDragLabel().addLeftButton(button, 0);
+        });
+        addLeftButton.setSize(200, 40);
 
-        CyderButton cb1 = new CyderButton("Remove last");
-        cb1.setBounds(100, 180, 150, 40);
-        cb1.addActionListener(e -> testFrame.getTopDragLabel().removeRightButton(
-                testFrame.getTopDragLabel().getRightButtonList().size() - 1));
-        testFrame.getContentPane().add(cb1);
+        CyderButton removeLeftButton = new CyderButton("Remove left");
+        removeLeftButton.addActionListener(e -> testFrame.getTopDragLabel().removeLeftButton(0));
+        removeLeftButton.setSize(200, 40);
 
-        CyderButton addPinFirst = new CyderButton("Add Random Butter first");
-        addPinFirst.setBounds(100, 250, 150, 40);
-        addPinFirst.addActionListener(e -> testFrame.getTopDragLabel().addRightButton(pinButton, 0));
-        testFrame.getContentPane().add(addPinFirst);
+        CyderButton addRightButton = new CyderButton("Add right");
+        addRightButton.addActionListener(e -> {
+            JButton button = new JButton("");
+            button.setToolTipText("drag label button");
+            button.setIcon(CyderIcons.pinIconHoverPink);
+            button.setContentAreaFilled(false);
+            button.setBorderPainted(false);
+            button.setFocusPainted(false);
+
+            testFrame.getTopDragLabel().addRightButton(button, 0);
+        });
+        addRightButton.setSize(200, 40);
+
+        CyderButton removeRightButton = new CyderButton("Remove right");
+        removeRightButton.addActionListener(e -> testFrame.getTopDragLabel().removeRightButton(0));
+        removeRightButton.setSize(200, 40);
+
+        CyderButton leftTitle = new CyderButton("Left title");
+        leftTitle.addActionListener(e -> testFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT));
+        leftTitle.setSize(200, 40);
+
+        CyderButton centerTitle = new CyderButton("Center title");
+        centerTitle.addActionListener(e -> testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER));
+        centerTitle.setSize(200, 40);
+
+        CyderButton rightTitle = new CyderButton("Right title");
+        rightTitle.addActionListener(e -> testFrame.setTitlePosition(CyderFrame.TitlePosition.RIGHT));
+        rightTitle.setSize(200, 40);
+
+        CyderTextField titleField = new CyderTextField();
+        titleField.setSize(200, 40);
+        titleField.addActionListener(e -> {
+            if (!titleField.getText().isEmpty()) {
+                testFrame.setTitle(titleField.getText().trim());
+            }
+        });
+
+        testFrame.initializeResizing();
+        testFrame.setMaximumSize(1200, 1200);
+        testFrame.setMinimumSize(200, 200);
+
+        CyderGridLayout cyderGridLayout = new CyderGridLayout(1, 8);
+
+        cyderGridLayout.addComponent(addLeftButton);
+        cyderGridLayout.addComponent(removeLeftButton);
+        cyderGridLayout.addComponent(addRightButton);
+        cyderGridLayout.addComponent(removeRightButton);
+
+        cyderGridLayout.addComponent(leftTitle);
+        cyderGridLayout.addComponent(centerTitle);
+        cyderGridLayout.addComponent(rightTitle);
+
+        cyderGridLayout.addComponent(titleField);
+
+        testFrame.setCyderLayout(cyderGridLayout);
 
         testFrame.finalizeAndShow();
     }
@@ -216,7 +264,7 @@ public final class ManualTests {
         layout.addComponent(bottomRightNotify, 2, 2);
 
         CyderPanel panel = new CyderPanel(layout);
-        testFrame.setLayoutPanel(panel);
+        testFrame.setCyderLayoutPanel(panel);
 
         testFrame.initializeResizing();
         testFrame.setResizable(true);
@@ -537,7 +585,7 @@ public final class ManualTests {
         //create master panel with the layout we have added components to
         CyderPanel panel = new CyderPanel(layout);
         //set the frame's content panel
-        gridTestFrame.setLayoutPanel(panel);
+        gridTestFrame.setCyderLayoutPanel(panel);
 
         //resizing on
         gridTestFrame.initializeResizing();
@@ -573,7 +621,7 @@ public final class ManualTests {
 
         //make panel and set as frame's content panel
         CyderPanel panel = new CyderPanel(layout);
-        testFrame.setLayoutPanel(panel);
+        testFrame.setCyderLayoutPanel(panel);
 
         //resizing on
         testFrame.initializeResizing();
@@ -661,7 +709,7 @@ public final class ManualTests {
         gridLayout.addComponent(addMenuItem);
 
         CyderPanel panel = new CyderPanel(gridLayout);
-        testFrame.setLayoutPanel(panel);
+        testFrame.setCyderLayoutPanel(panel);
 
         testFrame.finalizeAndShow();
     }
@@ -696,7 +744,7 @@ public final class ManualTests {
         cyderFlow.addComponent(ctf);
 
         CyderPanel panel = new CyderPanel(cyderFlow);
-        testFrame.setLayoutPanel(panel);
+        testFrame.setCyderLayoutPanel(panel);
 
         testFrame.finalizeAndShow();
     }
@@ -807,7 +855,7 @@ public final class ManualTests {
         horizontalFrame.setMaximumSize(200, 1000);
         horizontalFrame.setMinimumSize(200, 400);
 
-        horizontalFrame.setLayoutPanel(contentPanel);
+        horizontalFrame.setCyderLayoutPanel(contentPanel);
         horizontalFrame.finalizeAndShow();
     }
 }

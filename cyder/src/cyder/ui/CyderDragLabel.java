@@ -611,6 +611,7 @@ public class CyderDragLabel extends JLabel {
         Preconditions.checkArgument(removeIndex >= 0);
         Preconditions.checkArgument(removeIndex < rightButtonList.size());
 
+        remove(rightButtonList.get(removeIndex));
         rightButtonList.remove(removeIndex);
         refreshRightButtons();
     }
@@ -624,6 +625,7 @@ public class CyderDragLabel extends JLabel {
         Preconditions.checkArgument(removeIndex >= 0);
         Preconditions.checkArgument(removeIndex < leftButtonList.size());
 
+        remove(leftButtonList.get(removeIndex));
         leftButtonList.remove(removeIndex);
         refreshLeftButtons();
     }
@@ -700,6 +702,7 @@ public class CyderDragLabel extends JLabel {
     //  messes up still, only save is not being disposed too
 
     // todo use partitioned layout for create user widget
+
     // todo architecture for startup subroutines needs to be like input handlers
 
     /**
@@ -739,7 +742,7 @@ public class CyderDragLabel extends JLabel {
             int buttonHeight = isTextButton
                     ? StringUtil.getAbsoluteMinHeight(rightButton.getText().trim(), rightButton.getFont()) : 20;
 
-            int y = rightButton.getHeight() > DEFAULT_HEIGHT ? 0 : DEFAULT_HEIGHT / 2 - rightButton.getHeight() / 2;
+            int y = buttonHeight > DEFAULT_HEIGHT ? 0 : DEFAULT_HEIGHT / 2 - buttonHeight / 2;
 
             currentXStart -= (buttonWidth + spacing);
             rightButton.setBounds(currentXStart, y, buttonWidth, buttonHeight);
@@ -760,7 +763,7 @@ public class CyderDragLabel extends JLabel {
 
         removeLeftButtons();
 
-        // todo here with logic
+        // todo logic to place buttons on left
     }
 
     /**

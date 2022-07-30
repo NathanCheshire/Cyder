@@ -151,7 +151,7 @@ public class ColorConverterWidget {
         layout.addComponent(new JLabel(), 10);
 
         CyderPanel panel = new CyderPanel(layout);
-        colorFrame.setLayoutPanel(panel);
+        colorFrame.setCyderLayoutPanel(panel);
 
         colorFrame.finalizeAndShow();
     }
