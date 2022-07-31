@@ -72,7 +72,7 @@ public class ColorHandler extends InputHandler {
         } else if (getInputHandler().inputWithoutSpacesIs("fixforeground")) {
             try {
                 Color backgroundDominantColor = ColorUtil.getDominantColor(ImageIO.read(
-                        Console.INSTANCE.getCurrentBackground().referenceFile()));
+                        Console.INSTANCE.getCurrentBackground().getReferenceFile()));
 
                 if (shouldUseLightColor(backgroundDominantColor)) {
                     Console.INSTANCE.getOutputArea().setForeground(CyderColors.defaultLightModeTextColor);

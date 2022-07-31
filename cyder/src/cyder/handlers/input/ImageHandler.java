@@ -76,7 +76,7 @@ public class ImageHandler extends InputHandler {
                 getInputHandler().println("Minimum blur radius is 3");
             }
 
-            File currentBackgroundFile = Console.INSTANCE.getCurrentBackground().referenceFile();
+            File currentBackgroundFile = Console.INSTANCE.getCurrentBackground().getReferenceFile();
 
             if (currentBackgroundFile == null || !currentBackgroundFile.exists()) {
                 String name = SecurityUtil.generateUuid();

@@ -444,7 +444,7 @@ public enum Console {
         consoleCyderFrame.addWindowListener(consoleWindowAdapter);
 
         getConsoleCyderFrameContentPane().setToolTipText(
-                FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
+                FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
 
         consoleCyderFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -483,7 +483,7 @@ public enum Console {
             width = ScreenUtil.getScreenWidth();
             height = ScreenUtil.getScreenHeight();
             icon = new ImageIcon(ImageUtil.resizeImage(width,
-                    height, getCurrentBackground().referenceFile()));
+                    height, getCurrentBackground().getReferenceFile()));
         } else {
             BufferedImage bi = getCurrentBackground().generateBufferedImage();
 
@@ -494,7 +494,7 @@ public enum Console {
             width = bi.getWidth();
             height = bi.getHeight();
             icon = new ImageIcon(ImageUtil.getRotatedImage(
-                    getCurrentBackground().referenceFile().toString(), getConsoleDirection()));
+                    getCurrentBackground().getReferenceFile().toString(), getConsoleDirection()));
         }
 
         if (width == 0 || height == 0)
@@ -923,7 +923,7 @@ public enum Console {
      * Refreshes the maximum size of the console.
      */
     private void refreshConsoleMaxSize() {
-        if (getCurrentBackground().referenceFile() != null) {
+        if (getCurrentBackground().getReferenceFile() != null) {
             ImageIcon tmpImageIcon = getCurrentBackground().generateImageIcon();
             int w = tmpImageIcon.getIconWidth();
             int h = tmpImageIcon.getIconHeight();
@@ -1222,7 +1222,7 @@ public enum Console {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
-                        Image icon = new ImageIcon(ImageIO.read(getCurrentBackground().referenceFile())).getImage();
+                        Image icon = new ImageIcon(ImageIO.read(getCurrentBackground().getReferenceFile())).getImage();
 
                         int w = icon.getWidth(null);
                         int h = icon.getHeight(null);
@@ -2117,9 +2117,9 @@ public enum Console {
             int maxHeight = ScreenUtil.getScreenHeight();
 
             for (ConsoleBackground currentBackground : backgrounds) {
-                File currentFile = currentBackground.referenceFile();
+                File currentFile = currentBackground.getReferenceFile();
 
-                if (!currentBackground.referenceFile().exists()) {
+                if (!currentBackground.getReferenceFile().exists()) {
                     backgrounds.remove(currentBackground);
                 }
 
@@ -2233,7 +2233,7 @@ public enum Console {
                 }
 
                 for (int i = 0 ; i < backgrounds.size() ; i++) {
-                    if (FileUtil.getFilename(backgrounds.get(i).referenceFile()).equals(filename)) {
+                    if (FileUtil.getFilename(backgrounds.get(i).getReferenceFile()).equals(filename)) {
                         backgroundIndex = i;
                         return;
                     }
@@ -2256,7 +2256,7 @@ public enum Console {
         int index = -1;
 
         for (int i = 0 ; i < backgrounds.size() ; i++) {
-            if (backgrounds.get(i).referenceFile().getAbsolutePath().equals(backgroundFile.getAbsolutePath())) {
+            if (backgrounds.get(i).getReferenceFile().getAbsolutePath().equals(backgroundFile.getAbsolutePath())) {
                 index = i;
                 break;
             }
@@ -2331,7 +2331,7 @@ public enum Console {
 
         //tooltip based on image name
         getConsoleCyderFrameContentPane().setToolTipText(
-                FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
+                FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
 
         revalidateInputAndOutputBounds();
 
@@ -2398,7 +2398,7 @@ public enum Console {
         }
 
         JLabel contentPane = getConsoleCyderFrameContentPane();
-        contentPane.setToolTipText(FileUtil.getFilename(getCurrentBackground().referenceFile().getName()));
+        contentPane.setToolTipText(FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
 
         ImageIcon nextBackFinal = nextBackground;
         ImageIcon oldBack = ImageUtil.resizeImage((ImageIcon) contentPane.getIcon(), width, height);
@@ -2747,11 +2747,11 @@ public enum Console {
             background = switch (consoleDir) {
                 case TOP -> getCurrentBackground().generateImageIcon();
                 case LEFT -> new ImageIcon(ImageUtil.getRotatedImage(
-                        getCurrentBackground().referenceFile().getAbsolutePath(), Direction.LEFT));
+                        getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.LEFT));
                 case RIGHT -> new ImageIcon(ImageUtil.getRotatedImage(
-                        getCurrentBackground().referenceFile().getAbsolutePath(), Direction.RIGHT));
+                        getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.RIGHT));
                 case BOTTOM -> new ImageIcon(ImageUtil.getRotatedImage(
-                        getCurrentBackground().referenceFile().getAbsolutePath(), Direction.BOTTOM));
+                        getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.BOTTOM));
             };
 
             UserUtil.getCyderUser().setFullscreen("0");

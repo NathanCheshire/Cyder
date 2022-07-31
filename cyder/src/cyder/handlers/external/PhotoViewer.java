@@ -264,7 +264,7 @@ public class PhotoViewer {
     private void rename() {
         File currentRename = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
         File currentBackground = Console.INSTANCE
-                .getCurrentBackground().referenceFile().getAbsoluteFile();
+                .getCurrentBackground().getReferenceFile().getAbsoluteFile();
 
         if (currentRename.getAbsolutePath().equals(currentBackground.getAbsolutePath())) {
             pictureFrame.notify("Sorry, " + UserUtil.getCyderUser().getName()

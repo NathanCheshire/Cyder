@@ -238,7 +238,7 @@ public final class UserEditor {
                         }
 
                         for (ConsoleBackground background : Console.INSTANCE.reloadAndGetBackgrounds()) {
-                            if (fileToAdd.getName().equals(background.referenceFile().getName())) {
+                            if (fileToAdd.getName().equals(background.getReferenceFile().getName())) {
                                 editUserFrame.notify("Cannot add a background with the same name as a current one");
                                 return;
                             }
@@ -319,7 +319,7 @@ public final class UserEditor {
                             AudioPlayer.getCurrentAudio().getAbsoluteFile().toString()))
                             || selectedFile.getAbsoluteFile().toString().equals(
                             Console.INSTANCE.getCurrentBackground()
-                                    .referenceFile().getAbsoluteFile().toString())) {
+                                    .getReferenceFile().getAbsoluteFile().toString())) {
                         editUserFrame.notify("Cannot rename a file that is in use");
                     } else {
                         String oldName = FileUtil.getFilename(selectedFile);
@@ -428,7 +428,7 @@ public final class UserEditor {
                 }
 
                 if (selectedFile.getAbsolutePath().equalsIgnoreCase(Console.INSTANCE
-                        .getCurrentBackground().referenceFile().getAbsolutePath())) {
+                        .getCurrentBackground().getReferenceFile().getAbsolutePath())) {
                     editUserFrame.notify("Unable to delete the background you are currently using");
                 } else if (AudioPlayer.getCurrentAudio() != null &&
                         selectedFile.getAbsolutePath().equalsIgnoreCase(AudioPlayer

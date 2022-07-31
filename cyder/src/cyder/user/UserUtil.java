@@ -785,13 +785,16 @@ public final class UserUtil {
 
     /**
      * Clean the user directories meaning the following actions are taken:
-     * Deleting non audio files from the Music/ directory
-     * Removing album art not linked to an audio file
+     *
+     * <ul>
+     *     <li>Deleting non audio files from the Music/ directory</li>
+     *     <li>Removing album art not linked to an audio file</li>
+     *     <li>Removing backup json files which are not linked to any users</li>
+     * </ul>
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void cleanUsers() {
-        File users = OSUtil.buildFile(Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName());
+        File users = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName());
 
         if (!users.exists()) {
             users.mkdir();
@@ -845,6 +848,35 @@ public final class UserUtil {
                         }
                     }
                 }
+            }
+        }
+
+        cleanBackupJsons();
+    }
+
+    /**
+     * Removes any backup jsons from dynamic/backup not liked to current Cyder users.
+     */
+    private static void cleanBackupJsons() {
+        File backupDirectory = OSUtil.buildFile(Dynamic.PATH, Dynamic.BACKUP.getDirectoryName());
+
+        if (!backupDirectory.exists()) {
+            return;
+        }
+
+        File[] backupFiles = backupDirectory.listFiles();
+
+        if (backupFiles == null || backupFiles.length == 0) {
+            return;
+        }
+
+        for (File backupFile : backupFiles) {
+            String name = backupFile.getName();
+            String uuid = name.split("_")[0];
+
+            if (!StringUtil.in(uuid, false, getUserUuids())) {
+                Logger.log(Logger.Tag.DEBUG, "Deleting backup file not linked to user: " + name);
+                OSUtil.deleteFile(backupFile);
             }
         }
     }

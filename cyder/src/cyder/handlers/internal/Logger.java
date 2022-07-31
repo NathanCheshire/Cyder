@@ -330,6 +330,7 @@ public final class Logger {
             case LOADING_MESSAGE:
                 logBuilder.append(Tag.LOADING_MESSAGE.constructLogTagPrepend());
                 logBuilder.append(representation);
+                break;
             default:
                 //this is here and not UNKNOWN as the default so that we can detect if
                 // a log tag was added but not implemented

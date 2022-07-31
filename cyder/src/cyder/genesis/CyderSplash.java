@@ -378,6 +378,7 @@ public enum CyderSplash {
         Preconditions.checkArgument(!loadingMessage.isEmpty());
 
         loadingMessage = StringUtil.getTrimmedText(loadingMessage);
+        Logger.log(Logger.Tag.LOADING_MESSAGE, loadingMessage);
 
         if (splashFrame == null || splashFrame.isDisposed()) {
             return;
@@ -390,19 +391,32 @@ public enum CyderSplash {
         }
 
         this.loadingMessage = loadingMessage;
-
-        Logger.log(Logger.Tag.LOADING_MESSAGE, loadingMessage);
     }
 
     /**
      * The length of the C and Y icons.
      */
-    private final int ICON_LEN = 150;
+    private static final int ICON_LEN = 150;
 
     /**
      * The length of the primary letter axis.
      */
-    private final int LETTER_LEN = 30;
+    private static final int LETTER_LEN = 30;
+
+    /**
+     * The width of the C icon lines.
+     */
+    private static final int C_BLOCK_WIDTH = 95;
+
+    /**
+     * The height of the C icon lines.
+     */
+    private static final int C_BLOCK_HEIGHT = 25;
+
+    /**
+     * The C icon.
+     */
+    private static ImageIcon C_ICON = null;
 
     /**
      * Generates and returns the C symbol for the splash animation.
@@ -410,15 +424,25 @@ public enum CyderSplash {
      * @return the C symbol for the splash
      */
     private ImageIcon generateCIcon() {
-        BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = drawMe.getGraphics();
-        g.setColor(CyderColors.vanilla);
-        g.fillRect(0, 0, 95, 25);
-        g.fillRect(0, 125, 95, 25);
-        g.fillRect(0, 0, LETTER_LEN, ICON_LEN);
+        if (C_ICON == null) {
+            BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
 
-        return ImageUtil.toImageIcon(drawMe);
+            Graphics g = drawMe.getGraphics();
+            g.setColor(CyderColors.vanilla);
+            g.fillRect(0, 0, C_BLOCK_WIDTH, C_BLOCK_HEIGHT);
+            g.fillRect(0, ICON_LEN - C_BLOCK_HEIGHT, C_BLOCK_WIDTH, C_BLOCK_HEIGHT);
+            g.fillRect(0, 0, LETTER_LEN, ICON_LEN);
+
+            C_ICON = ImageUtil.toImageIcon(drawMe);
+        }
+
+        return C_ICON;
     }
+
+    /**
+     * The Y icon.
+     */
+    private static ImageIcon Y_ICON = null;
 
     /**
      * Generates and returns the Y symbol for the splash animation.
@@ -426,12 +450,17 @@ public enum CyderSplash {
      * @return the Y symbol for the splash animation
      */
     private ImageIcon generateYIcon() {
-        BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = drawMe.getGraphics();
-        g.setColor(CyderColors.vanilla);
-        g.fillRect(ICON_LEN - LETTER_LEN, 0, LETTER_LEN, ICON_LEN);
-        g.fillRect(60, 60, 95, LETTER_LEN);
+        if (Y_ICON == null) {
+            BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
 
-        return ImageUtil.toImageIcon(drawMe);
+            Graphics g = drawMe.getGraphics();
+            g.setColor(CyderColors.vanilla);
+            g.fillRect(ICON_LEN - LETTER_LEN, 0, LETTER_LEN, ICON_LEN);
+            g.fillRect(60, 60, 95, LETTER_LEN);
+
+            Y_ICON = ImageUtil.toImageIcon(drawMe);
+        }
+
+        return Y_ICON;
     }
 }

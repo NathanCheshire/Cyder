@@ -39,7 +39,7 @@ public class PixelationHandler extends InputHandler {
         boolean isSolidColor = false;
 
         try {
-            isSolidColor = ImageUtil.isSolidColor(Console.INSTANCE.getCurrentBackground().referenceFile());
+            isSolidColor = ImageUtil.isSolidColor(Console.INSTANCE.getCurrentBackground().getReferenceFile());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -93,10 +93,10 @@ public class PixelationHandler extends InputHandler {
             CyderThreadRunner.submit(() -> {
                 try {
                     BufferedImage img = ImageUtil.pixelateImage(ImageIO.read(Console.INSTANCE.
-                            getCurrentBackground().referenceFile().getAbsoluteFile()), size);
+                            getCurrentBackground().getReferenceFile().getAbsoluteFile()), size);
 
                     String newName = FileUtil.getFilename(Console.INSTANCE
-                            .getCurrentBackground().referenceFile().getName())
+                            .getCurrentBackground().getReferenceFile().getName())
                             + "_Pixelated_Pixel_Size_" + size + "." + ImageUtil.PNG_FORMAT;
 
                     File saveFile = OSUtil.buildFile(
