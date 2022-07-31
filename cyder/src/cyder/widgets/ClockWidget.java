@@ -14,10 +14,7 @@ import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderLabel;
-import cyder.ui.CyderSwitch;
-import cyder.ui.CyderTextField;
+import cyder.ui.*;
 import cyder.utils.ColorUtil;
 import cyder.utils.IPUtil;
 import cyder.utils.StringUtil;
@@ -40,7 +37,7 @@ import java.util.TimeZone;
  */
 @Vanilla
 @CyderAuthor
-public class ClockWidget {
+public final class ClockWidget {
     /**
      * Suppress default constructor.
      */
@@ -81,16 +78,21 @@ public class ClockWidget {
     /**
      * Whether to update the clock.
      */
-    private static boolean update;
+    private static boolean shouldUpdate;
 
     private static final int[] currentSecond = {0};
     private static final int[] currentMinute = {0};
     private static final int[] currentHour = {0};
 
     /**
+     * The default location for the clock.
+     */
+    private static final String DEFAULT_LOCATION = "Greenwich, London";
+
+    /**
      * The GMT location string.
      */
-    private static String currentLocation = "Greenwich, London";
+    private static String currentLocation = DEFAULT_LOCATION;
 
     /**
      * The GMT offset for the current timezone.
@@ -106,45 +108,27 @@ public class ClockWidget {
 
             clockColor = CyderColors.getGuiThemeColor();
 
-            update = true;
+            shouldUpdate = true;
             showSecondHand = true;
             paintHourLabels = true;
 
-            currentLocation = IPUtil.getIpData().getCity() + "," + IPUtil.getIpData().getRegion() + ","
+            currentLocation = IPUtil.getIpData().getCity() + ","
+                    + IPUtil.getIpData().getRegion() + ","
                     + IPUtil.getIpData().getCountry_name();
             currentGMTOffset = getGmtFromUserLocation();
 
             clockFrame = new CyderFrame(800, 900) {
                 @Override
                 public void dispose() {
-                    update = false;
+                    shouldUpdate = false;
                     super.dispose();
                 }
             };
             clockFrame.setTitle("Clock");
 
-            //spawn mini mode for current timezone button
-            JButton spawnMini = new JButton("Mini");
-            spawnMini.setForeground(CyderColors.vanilla);
-            spawnMini.setFont(CyderFonts.DEFAULT_FONT_SMALL);
-            spawnMini.setToolTipText("Spawn a mini clock for the current location");
-            spawnMini.addActionListener(e -> spawnMiniClock());
-            spawnMini.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    spawnMini.setForeground(CyderColors.regularRed);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    spawnMini.setForeground(CyderColors.vanilla);
-                }
-            });
-
-            spawnMini.setContentAreaFilled(false);
-            spawnMini.setBorderPainted(false);
-            spawnMini.setFocusPainted(false);
-            clockFrame.getTopDragLabel().addRightButton(spawnMini, 0);
+            JButton miniClock = CyderDragLabel.generateTextButton("Mini",
+                    "Spawn a mini clock for the current location", ClockWidget::spawnMiniClock);
+            clockFrame.getTopDragLabel().addRightButton(miniClock, 0);
 
             digitalTimeAndDateLabel = new CyderLabel(getTime(currentGMTOffset));
             digitalTimeAndDateLabel.setFont(CyderFonts.DEFAULT_FONT);
@@ -160,7 +144,6 @@ public class ClockWidget {
                     int inset = 20;
                     int boxLen = 20;
 
-                    //entonces our radius is as follows
                     int r = (labelLen - inset * 2 - boxLen * 2) / 2;
                     int originalR = r;
 
@@ -316,7 +299,7 @@ public class ClockWidget {
             currentSecond[0] = second;
 
             CyderThreadRunner.submit(() -> {
-                while (update) {
+                while (shouldUpdate) {
                     ThreadUtil.sleep(1000);
 
                     //increment seconds

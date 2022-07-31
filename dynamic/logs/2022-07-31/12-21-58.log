@@ -1,0 +1,241 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[12-21-58] [ENTRY]: Nathan
+[12-21-57] [DEBUG]: Found prop file: props\propkeys.ini
+[12-21-57] [DEBUG]: Found prop file: props\props.ini
+[12-21-58] [PROP LOADED]: [key = map_quest_api_key]
+[12-21-58] [PROP LOADED]: [key = youtube_api_3_key]
+[12-21-58] [PROP LOADED]: [key = ip_key]
+[12-21-58] [PROP LOADED]: [key = weather_key]
+[12-21-58] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[12-21-58] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7ca733d0a7f6]
+[12-21-58] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[12-21-58] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[12-21-58] [PROP LOADED]: [key = font_metric, value = 1]
+[12-21-58] [PROP LOADED]: [key = released, value = false]
+[12-21-58] [PROP LOADED]: [key = version, value = Liminal]
+[12-21-58] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[12-21-58] [PROP LOADED]: [key = components_relocatable, value = false]
+[12-21-58] [PROP LOADED]: [key = testing_mode, value = true]
+[12-21-58] [PROP LOADED]: [key = autocypher, value = true]
+[12-21-58] [PROP LOADED]: [key = dispose_splash, value = true]
+[12-21-58] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[12-21-58] [PROP LOADED]: [key = activate_watchdog, value = false]
+[12-21-58] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[12-21-58] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[12-21-58] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[12-21-58] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[12-21-58] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[12-21-58] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[12-21-58] [DEBUG]: Jar mode set as: FALSE
+[12-21-58] [THREAD STARTED]: Object Creation Logger
+[12-21-58] [DEBUG]: Watchdog skipped
+[12-21-58] [DEBUG]: Executing subroutine: RegisterFonts
+[12-21-59] [FONT LOADED]: agency-fb
+[12-21-59] [FONT LOADED]: arial-black
+[12-21-59] [FONT LOADED]: beyno
+[12-21-59] [FONT LOADED]: condiment-regular
+[12-21-59] [FONT LOADED]: prompt-bold
+[12-21-59] [FONT LOADED]: segoe-ui-black
+[12-21-59] [FONT LOADED]: tahoma
+[12-21-59] [DEBUG]: Executing subroutine: SingularInstance
+[12-21-59] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[12-21-59] [DEBUG]: Starting instance socket on port 5150
+[12-21-59] [DEBUG]: Executing subroutine: SupportedOs
+[12-21-59] [DEBUG]: Executing subroutine: Validations
+[12-21-59] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-22-00] [THREAD STARTED]: Splash Loader
+[12-22-00] [DEBUG]: Executing subroutine: SufficientSubroutines
+[12-22-00] [THREAD STARTED]: JVM Args Logger
+[12-22-00] [LOGIN]: AutoCypher Attempt
+[12-22-00] [THREAD STARTED]: Splash Animation
+[12-22-00] [THREAD STARTED]: Enter animation, frame=Cyder Splash
+[12-22-00] UNIQUE OBJECT CREATEDConsole singleton constructed
+[12-22-01] [OBJECT CREATION]: Objects created since last delta (5000ms): 86
+[12-22-01] [DEBUG]: Cyder Entry = AutoCypher
+[12-22-01] [THREAD STARTED]: High Ping Checker
+[12-22-01] [DEBUG]: Latency of Google found to be 54ms
+[12-22-01] [THREAD STARTED]: Console Printing Animation
+[12-22-02] [THREAD STARTED]: Hourly Chime Checker
+[12-22-02] [THREAD STARTED]: Console Clock Updater
+[12-22-02] [THREAD STARTED]: Cyder Busy Checker
+[12-22-02] [THREAD STARTED]: Console Stat Saver
+[12-22-02] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[12-22-02] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[12-22-02] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[12-22-02] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[12-22-02] [THREAD STARTED]: Manual Tests Thread
+[12-22-02] [CONSOLE OUT]: [STRING]: Console loaded in 4561ms
+[12-22-02] [THREAD STARTED]: Splash Loading Label Updater
+[12-22-02] [DEBUG]: Attempted to log a new or empty line
+[12-22-03] [CLIENT]: clock
+[12-22-03] [THREAD STARTED]: Clock Widget Initializer
+[12-22-03] [WIDGET]: ClockWidget, trigger = clock
+[12-22-03] [CONSOLE OUT]: [STRING]: Opening widget: ClockWidget
+[12-22-04] [DEBUG]: Attempted to log a new or empty line
+[12-22-04] [THREAD STARTED]: Clock Widget Updater
+[12-22-04] [THREAD STARTED]: Enter animation, frame=Clock
+[12-22-05] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 8] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[12-22-05] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659287963434.json
+[12-22-06] [OBJECT CREATION]: Objects created since last delta (5000ms): 72
+[12-22-07] [THREAD STARTED]: Clock Opacity Decrement Animator
+[12-22-07] [THREAD STARTED]: Clock Opacity Increment Animator
+[12-22-10] [THREAD STARTED]: Component Left Animator, comp=Component = CyderButton, hash = 400985701, bounds = (160, 10,
+           150, 30), parent frame = Clock, getText() = No Labels
+[12-22-10] [UI]: Component = CyderButton, hash = 400985701, bounds = (10, 10, 150, 30), parent frame = Clock, getText()
+           = No Labels
+[12-22-12] [THREAD STARTED]: Component Left Animator, comp=Component = CyderButton, hash = 856691918, bounds = (160, 10,
+           150, 30), parent frame = Clock, getText() = No Seconds
+[12-22-12] [UI]: Component = CyderButton, hash = 856691918, bounds = (10, 10, 150, 30), parent frame = Clock, getText()
+           = No Seconds
+[12-22-13] [THREAD STARTED]: Component Right Animator, comp=Component = CyderButton, hash = 856691918, bounds = (10, 10,
+           150, 30), parent frame = Clock, getText() = Seconds
+[12-22-13] [UI]: Component = CyderButton, hash = 856691918, bounds = (160, 10, 150, 30), parent frame = Clock, getText() = Seconds
+[12-22-16] [THREAD STARTED]: Mini Clock Updater [GMT-5]
+[12-22-21] [OBJECT CREATION]: Objects created since last delta (5000ms): 17
+[12-22-30] [THREAD STARTED]: Timezone: (GMT-5) Opacity Decrement Animator
+[12-22-31] [THREAD STARTED]: Timezone: (GMT-5) Opacity Increment Animator
+[12-22-31] [UI]: Component = CyderDragLabel, hash = 1618169141, bounds = (2, 2, 596, 28), parent frame = Timezone:
+           (GMT-5), getText() = Seconds
+[12-22-32] [UI]: cyder.ui.CyderTextField[,420,830,320x50,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignme
+           ntX=0.0,alignmentY=0.0,border=javax.swing.border.LineBorder@582e4367,flags=16777512,maximumSize=,minimumSize=,preferredS
+           ize=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edi
+           table=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColo
+           rUIResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,hor
+           izontalAlignment=CENTER]
+[12-22-32] [UI]: cyder.ui.CyderTextField[,420,830,320x50,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignme
+           ntX=0.0,alignmentY=0.0,border=javax.swing.border.LineBorder@582e4367,flags=16777512,maximumSize=,minimumSize=,preferredS
+           ize=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edi
+           table=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColo
+           rUIResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,hor
+           izontalAlignment=CENTER]
+[12-22-41] [EXCEPTION]:
+           Exception origin: java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1993)
+           From line: 1993
+           Trace: java.io.FileNotFoundException: https://api.openweathermap.org/data/2.5/weather?q=deutschland, germany&appid=2d790dd0766f1da62af488f101380c75&units=imperial
+           at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1993)
+           at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1589)
+           at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:224)
+           at java.base/java.net.URL.openStream(URL.java:1161)
+           at cyder.widgets.ClockWidget.lambda$showGui$4(ClockWidget.java:417)
+           at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:525)
+           at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:740)
+           at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:856)
+           at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1810)
+           at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2947)
+           at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2995)
+           at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2909)
+           at java.desktop/java.awt.Component.processEvent(Component.java:6403)
+           at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+           at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:5001)
+           at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+           at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+           at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1952)
+           at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:883)
+           at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1150)
+           at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:1020)
+           at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:848)
+           at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4882)
+           at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+           at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
+           at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+           at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+           at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:722)
+           at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:716)
+           at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:97)
+           at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:746)
+           at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:744)
+           at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+           at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:743)
+           at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+           at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+           at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+           at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+           at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+           at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[12-22-41] [THREAD STARTED]: Clock notification queue checker
+[12-22-41] [UI]: [Clock] [NOTIFICATION] "<html>Failed to update loation</html>"
+[12-22-41] [THREAD STARTED]: Notification Appear Animator
+[12-22-41] [THREAD STARTED]: Notification Vanish Animator
+[12-22-46] [OBJECT CREATION]: Objects created since last delta (5000ms): 2
+[12-22-53] [THREAD STARTED]: Clock notification queue checker
+[12-22-53] [UI]: [Clock] [NOTIFICATION] "<html>Successfully updated location to Blaustein<br/>GMT: 2<br/>[48.4159,9.9188]</html>"
+[12-22-53] [THREAD STARTED]: Notification Appear Animator
+[12-22-53] [THREAD STARTED]: Notification Vanish Animator
+[12-22-55] [THREAD STARTED]: Notification Vanish Animator
+[12-22-56] [OBJECT CREATION]: Objects created since last delta (5000ms): 2
+[12-23-00] [THREAD STARTED]: Mini Clock Updater [GMT2]
+[12-23-01] [OBJECT CREATION]: Objects created since last delta (5000ms): 17
+[12-23-01] [THREAD STARTED]: Timezone: (GMT2) Opacity Decrement Animator
+[12-23-02] [THREAD STARTED]: Timezone: (GMT2) Opacity Increment Animator
+[12-23-02] [UI]: Component = CyderDragLabel, hash = -1516527980, bounds = (2, 2, 596, 28), parent frame = Timezone:
+           (GMT2), getText() = Seconds
+[12-23-05] [UI]: Component = CyderDragLabel, hash = 1891279771, bounds = (2, 2, 796, 28), parent frame = Clock,
+           getText() = Seconds
+[12-23-05] [THREAD STARTED]: [Clock] dispose() animation thread
+[12-23-05] [UI]: CyderFrame disposed with fastclose=false, getTitle=Clock
+[12-23-06] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[12-23-06] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[12-23-08] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 3] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[12-23-08] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659288125060.json
+[12-23-08] [UI]: Component = CyderDragLabel, hash = 1618169141, bounds = (2, 2, 596, 28), parent frame = Timezone:
+           (GMT-5), getText() = Seconds
+[12-23-08] [THREAD STARTED]: [Timezone: (GMT-5)] dispose() animation thread
+[12-23-08] [UI]: CyderFrame disposed with fastclose=false, getTitle=Timezone: (GMT-5)
+[12-23-09] [THREAD STARTED]: Timezone: (GMT2) Opacity Decrement Animator
+[12-23-11] [OBJECT CREATION]: Objects created since last delta (5000ms): 3
+[12-23-11] [THREAD STARTED]: Timezone: (GMT2) Opacity Increment Animator
+[12-23-19] [THREAD STARTED]: Timezone: (GMT2) Opacity Decrement Animator
+[12-23-19] [THREAD STARTED]: Timezone: (GMT2) Opacity Increment Animator
+[12-23-20] [THREAD STARTED]: Timezone: (GMT2) Opacity Decrement Animator
+[12-23-20] [THREAD STARTED]: Timezone: (GMT2) Opacity Increment Animator
+[12-23-22] [THREAD STARTED]: Timezone: (GMT2) Opacity Decrement Animator
+[12-23-22] [THREAD STARTED]: Timezone: (GMT2) Opacity Increment Animator
+[12-23-30] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[12-23-30] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[12-23-30] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[12-23-30] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[12-23-30] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 3] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[12-23-30] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659288188540.json
+[12-23-31] [OBJECT CREATION]: Objects created since last delta (5000ms): 3
+[12-23-34] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 3] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[12-23-34] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659288210790.json
+[12-23-36] [OBJECT CREATION]: Objects created since last delta (5000ms): 3
+[12-23-56] [UI]: Component = CyderDragLabel, hash = -1516527980, bounds = (2, 2, 596, 28), parent frame = Timezone:
+           (GMT2), getText() = Seconds
+[12-23-56] [THREAD STARTED]: [Timezone: (GMT2)] dispose() animation thread
+[12-23-56] [UI]: CyderFrame disposed with fastclose=false, getTitle=Timezone: (GMT2)
+[12-24-01] [DEBUG]: Latency of Google found to be 47ms

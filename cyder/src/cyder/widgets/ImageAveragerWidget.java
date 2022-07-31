@@ -6,7 +6,6 @@ import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.enums.Dynamic;
@@ -14,6 +13,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderButton;
+import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
 import cyder.user.UserFile;
@@ -24,8 +24,6 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.text.StyleConstants;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
@@ -213,11 +211,7 @@ public final class ImageAveragerWidget {
                         previewImage.getIconHeight(),
                         previewImage);
 
-                JButton save = new JButton("Save");
-                save.setForeground(CyderColors.vanilla);
-                save.setFont(CyderFonts.DEFAULT_FONT_SMALL);
-                save.setToolTipText("Save image");
-                save.addActionListener(e -> {
+                JButton save = CyderDragLabel.generateTextButton("Save", "Save Image", () -> {
                     try {
                         File outFile = OSUtil.buildFile(Dynamic.PATH,
                                 Dynamic.USERS.getDirectoryName(),
@@ -231,21 +225,6 @@ public final class ImageAveragerWidget {
                         ExceptionHandler.handle(ex);
                     }
                 });
-                save.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        save.setForeground(CyderColors.regularRed);
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        save.setForeground(CyderColors.vanilla);
-                    }
-                });
-
-                save.setContentAreaFilled(false);
-                save.setBorderPainted(false);
-                save.setFocusPainted(false);
                 drawFrame.getTopDragLabel().addRightButton(save, 0);
 
                 drawFrame.getTopDragLabel().add(save, 1);

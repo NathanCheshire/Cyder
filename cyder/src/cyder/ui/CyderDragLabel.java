@@ -2,6 +2,7 @@ package cyder.ui;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.handlers.internal.Logger;
 import cyder.utils.FrameUtil;
@@ -424,42 +425,44 @@ public class CyderDragLabel extends JLabel {
         return ret;
     }
 
-    // todo use me for all
-    // todo for all components add to a drag label use methods and test
-
     /**
-     * Generates and returns a mouse listener for a drag label text button.
-     * Note that this button must already contain the text to be used.
+     * Generates a drag label text button.
      *
-     * @param textButton the button to place on the drag label
-     * @param runnable   the mouse listener to handle mouse events
-     * @return the mouse listener for mouse events
+     * @param text        the text of the button
+     * @param tooltip     the tooltip of the button
+     * @param clickAction the action to invoke when the button is clicked
+     * @return the text button
      */
-    public static MouseListener generateTextButtonMouseAdapter(JLabel textButton, Runnable runnable) {
-        Preconditions.checkNotNull(textButton);
-
-        String text = textButton.getText();
+    public static JButton generateTextButton(String text, String tooltip, Runnable clickAction) {
         Preconditions.checkNotNull(text);
+        text = StringUtil.getTrimmedText(text);
+
         Preconditions.checkArgument(!text.isEmpty());
+        Preconditions.checkNotNull(tooltip);
+        Preconditions.checkArgument(!tooltip.isEmpty());
+        Preconditions.checkNotNull(clickAction);
 
-        Preconditions.checkNotNull(runnable);
-
-        return new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                runnable.run();
-            }
-
+        JButton ret = new JButton(text);
+        ret.setForeground(CyderColors.vanilla);
+        ret.setFont(CyderFonts.DEFAULT_FONT_SMALL);
+        ret.setToolTipText(tooltip);
+        ret.addActionListener(e -> clickAction.run());
+        ret.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                textButton.setForeground(CyderColors.regularRed);
+                ret.setForeground(CyderColors.regularRed);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                textButton.setForeground(CyderColors.vanilla);
+                ret.setForeground(CyderColors.vanilla);
             }
-        };
+        });
+        ret.setContentAreaFilled(false);
+        ret.setBorderPainted(false);
+        ret.setFocusPainted(false);
+
+        return ret;
     }
 
     /**
@@ -720,8 +723,8 @@ public class CyderDragLabel extends JLabel {
     }
 
     private static final int BUTTON_SPACING = 2;
-    private static final int TEXT_BUTTON_SPACING = 10;
-    private static final int buttonPadding = 5;
+    private static final int BUTTON_PADDING = 5;
+    private static final int TEXT_BUTTON_ADDITIVE = 20;
 
     /**
      * Refreshes all right buttons and their positions.
@@ -739,20 +742,20 @@ public class CyderDragLabel extends JLabel {
             reversedRightButtons.add(rightButtonList.get(i));
         }
 
-        int currentXStart = width - buttonPadding;
+        int currentXStart = width - BUTTON_PADDING;
 
         for (JButton rightButton : reversedRightButtons) {
             boolean isTextButton = isTextButton(rightButton);
-            int spacing = isTextButton ? TEXT_BUTTON_SPACING : BUTTON_SPACING;
 
             int buttonWidth = isTextButton
-                    ? StringUtil.getAbsoluteMinWidth(rightButton.getText().trim(), rightButton.getFont()) : 22;
+                    ? 2 * TEXT_BUTTON_ADDITIVE
+                    + StringUtil.getAbsoluteMinWidth(rightButton.getText().trim(), rightButton.getFont()) : 22;
             int buttonHeight = isTextButton
                     ? StringUtil.getAbsoluteMinHeight(rightButton.getText().trim(), rightButton.getFont()) : 20;
 
             int y = buttonHeight > DEFAULT_HEIGHT ? 0 : DEFAULT_HEIGHT / 2 - buttonHeight / 2;
 
-            currentXStart -= (buttonWidth + spacing);
+            currentXStart -= (buttonWidth + 2 * BUTTON_SPACING);
             rightButton.setBounds(currentXStart, y, buttonWidth, buttonHeight);
             add(rightButton);
         }
@@ -772,21 +775,21 @@ public class CyderDragLabel extends JLabel {
         removeLeftButtons();
         effectFrame.revalidateTitlePosition();
 
-        int currentXStart = buttonPadding;
+        int currentXStart = BUTTON_PADDING;
 
         for (JButton leftButton : leftButtonList) {
             boolean isTextButton = isTextButton(leftButton);
-            int spacing = isTextButton ? TEXT_BUTTON_SPACING : BUTTON_SPACING;
 
             int buttonWidth = isTextButton
-                    ? StringUtil.getAbsoluteMinWidth(leftButton.getText().trim(), leftButton.getFont()) : 22;
+                    ? 2 * TEXT_BUTTON_ADDITIVE
+                    + StringUtil.getAbsoluteMinWidth(leftButton.getText().trim(), leftButton.getFont()) : 22;
             int buttonHeight = isTextButton
                     ? StringUtil.getAbsoluteMinHeight(leftButton.getText().trim(), leftButton.getFont()) : 20;
 
             int y = buttonHeight > DEFAULT_HEIGHT ? 0 : DEFAULT_HEIGHT / 2 - buttonHeight / 2;
 
             leftButton.setBounds(currentXStart, y, buttonWidth, buttonHeight);
-            currentXStart += buttonWidth + spacing;
+            currentXStart += buttonWidth + BUTTON_SPACING;
             add(leftButton);
         }
 
