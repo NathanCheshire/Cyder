@@ -699,8 +699,6 @@ public class CyderDragLabel extends JLabel {
         }
     }
 
-    // todo make max font size and min prop configurable
-
     // todo separate out prop files to files that make sense
 
     // todo need a startup routine for cleaning up users that also removes backups not linked to any user

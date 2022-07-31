@@ -17,16 +17,6 @@ import javax.swing.border.LineBorder;
  */
 @SuppressWarnings("SpellCheckingInspection") /* key names */
 public class Preference {
-    /**
-     * The maximum allowable size for the input field and output area font.
-     */
-    public static final int MAX_FONT_SIZE = 50;
-
-    /**
-     * The minimum allowable size for the input field and output area font.
-     */
-    public static final int MIN_FONT_SIZE = 25;
-
     // Preference keys
     public static final String NAME = "name";
     public static final String PASS = "pass";

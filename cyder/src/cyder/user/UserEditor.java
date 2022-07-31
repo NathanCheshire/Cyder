@@ -237,7 +237,7 @@ public final class UserEditor {
                             return;
                         }
 
-                        for (ConsoleBackground background : Console.INSTANCE.getBackgrounds()) {
+                        for (ConsoleBackground background : Console.INSTANCE.reloadAndGetBackgrounds()) {
                             if (fileToAdd.getName().equals(background.referenceFile().getName())) {
                                 editUserFrame.notify("Cannot add a background with the same name as a current one");
                                 return;

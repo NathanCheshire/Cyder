@@ -471,7 +471,7 @@ public enum Console {
         ImageIcon icon;
 
         if (UserUtil.getCyderUser().getRandombackground().equals("1")) {
-            if (getBackgrounds().size() <= 1) {
+            if (reloadAndGetBackgrounds().size() <= 1) {
                 consoleCyderFrame.notify("Sorry, " + UserUtil.getCyderUser().getName()
                         + ", but you only have one background file "
                         + "so there's no random element to be chosen.");
@@ -804,7 +804,7 @@ public enum Console {
             try {
                 if (canSwitchBackground()) {
                     switchBackground();
-                } else if (getBackgrounds().size() == 1) {
+                } else if (reloadAndGetBackgrounds().size() == 1) {
                     consoleCyderFrame.notify(new CyderFrame.NotificationBuilder(
                             "You only have one background image. Try adding more via the user editor")
                             .setViewDuration(5000)
@@ -2010,6 +2010,15 @@ public enum Console {
         }
     };
 
+    private static final String MAX_FONT_SIZE = "max_font_size";
+    private static final String MIN_FONT_SIZE = "min_font_size";
+    private static final String FONT_METRIC = "font_metric";
+
+    /**
+     * Some kind of a magic number that denotes the mouse wheel is being scrolled up.
+     */
+    private static final int WHEEL_UP = -1;
+
     /**
      * The MouseWheelListener used for increasing/decreasing the
      * font size for input field and output area.
@@ -2018,15 +2027,16 @@ public enum Console {
     private final MouseWheelListener fontSizerListener = e -> {
         if (e.isControlDown()) {
             int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
-            size += e.getWheelRotation() == -1 ? 1 : -1;
+            size += e.getWheelRotation() == WHEEL_UP ? 1 : -1;
 
-            if (size > Preference.MAX_FONT_SIZE || size < Preference.MIN_FONT_SIZE) {
+            if (size > PropLoader.getInteger(MAX_FONT_SIZE)
+                    || size < PropLoader.getInteger(MIN_FONT_SIZE)) {
                 return;
             }
 
             try {
                 String fontName = UserUtil.getCyderUser().getFont();
-                int fontMetric = Integer.parseInt(PropLoader.getString("font_metric"));
+                int fontMetric = Integer.parseInt(PropLoader.getString(FONT_METRIC));
                 Font newFont = new Font(fontName, fontMetric, size);
 
                 if (NumberUtil.isValidFontMetric(fontMetric)) {
@@ -2095,9 +2105,6 @@ public enum Console {
     // background logic
     // -----------------
 
-    public final int MINIMUM_BACKGROUND_WIDTH = 400;
-    public final int MINIMUM_BACKGROUND_HEIGHT= 400;
-
     /**
      * Takes into account the dpi scaling value and checks all the backgrounds in the user's
      * directory against the current monitor's resolution. If any width or height of a background file
@@ -2107,8 +2114,6 @@ public enum Console {
      */
     public void resizeBackgrounds() {
         try {
-            int minWidth = MINIMUM_BACKGROUND_WIDTH;
-            int minHeight = MINIMUM_BACKGROUND_HEIGHT;
             int maxWidth = ScreenUtil.getScreenWidth();
             int maxHeight = ScreenUtil.getScreenHeight();
 
@@ -2128,8 +2133,8 @@ public enum Console {
                 // Inform the user we are changing the size of the image
                 boolean resizeNeeded = backgroundWidth > maxWidth
                         || backgroundHeight > maxHeight
-                        || backgroundWidth < minWidth
-                        || backgroundHeight < minHeight;
+                        || backgroundWidth < MINIMUM_SIZE.width
+                        || backgroundHeight < MINIMUM_SIZE.height;
 
                 if (resizeNeeded) {
                     InformHandler.inform(new InformHandler.Builder(
@@ -2137,7 +2142,8 @@ public enum Console {
                             .setTitle("System Action"));
                 }
 
-                Dimension resizeDimensions = ImageUtil.getImageResizeDimensions(minWidth, minHeight,
+                Dimension resizeDimensions = ImageUtil.getImageResizeDimensions(
+                        MINIMUM_SIZE.width, MINIMUM_SIZE.height,
                         maxWidth, maxHeight, currentImage);
 
                 int deltaWidth = (int) resizeDimensions.getWidth();
@@ -2206,7 +2212,7 @@ public enum Console {
      *
      * @return list of found backgrounds
      */
-    public ArrayList<ConsoleBackground> getBackgrounds() {
+    public ArrayList<ConsoleBackground> reloadAndGetBackgrounds() {
         loadBackgrounds();
         return backgrounds;
     }
