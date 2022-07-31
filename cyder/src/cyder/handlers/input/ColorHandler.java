@@ -92,7 +92,7 @@ public class ColorHandler extends InputHandler {
                             .setForeground(ColorUtil.rgbToHexString(CyderColors.defaultDarkModeTextColor));
                 }
 
-                Preference.invokeRefresh("foreground");
+                Preference.invokeRefresh(Preference.FOREGROUND);
                 getInputHandler().println("Foreground fixed");
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

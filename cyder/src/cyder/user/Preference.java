@@ -1,8 +1,7 @@
 package cyder.user;
 
-import com.google.errorprone.annotations.Immutable;
+import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
-import cyder.constants.CyderStrings;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderScrollList;
 import cyder.utils.ColorUtil;
@@ -11,14 +10,12 @@ import cyder.utils.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import java.util.ArrayList;
 
 /**
  * Preference class used to hold user data in the form of strings.
  * Instances of this class are immutable and thus thread safe.
  */
-@SuppressWarnings("ClassCanBeRecord") /* GSON serialization */
-@Immutable
+@SuppressWarnings("SpellCheckingInspection") /* key names */
 public class Preference {
     /**
      * The maximum allowable size for the input field and output area font.
@@ -30,260 +27,293 @@ public class Preference {
      */
     public static final int MIN_FONT_SIZE = 25;
 
+    // Preference keys
+    public static final String NAME = "name";
+    public static final String PASS = "pass";
+    public static final String FONT = "Font";
+    public static final String FOREGROUND = "foreground";
+    public static final String BACKGROUND = "background";
+    public static final String INTRO_MUSIC = "intromusic";
+    public static final String DEBUG_WINDOWS = "debugwindows";
+    public static final String RANDOM_BACKGROUND = "randombackground";
+    public static final String OUTPUT_BORDER = "outputborder";
+    public static final String INPUT_BORDER = "inputborder";
+    public static final String HOURLY_CHIMES = "hourlychimes";
+    public static final String SILENCE_ERRORS = "silenceerrors";
+    public static final String FULLSCREEN = "fullscreen";
+    public static final String OUTPUT_FILL = "outputfill";
+    public static final String INPUT_FILL = "inputfill";
+    public static final String CLOCK_ON_CONSOLE = "clockonconsole";
+    public static final String SHOW_SECONDS = "showseconds";
+    public static final String FILTER_CHAT = "filterchat";
+    public static final String LAST_START = "laststart";
+    public static final String MINIMIZE_ON_CLOSE = "minimizeonclose";
+    public static final String TYPING_ANIMATION = "typinganimation";
+    public static final String TYPING_SOUND = "typingsound";
+    public static final String SHOW_BUSY_ICON = "showbusyicon";
+    public static final String ROUNDED_WINDOWS = "roundedwindows";
+    public static final String WINDOW_COLOR = "windowcolor";
+    public static final String CONSOLE_CLOCK_FORMAT = "consoleclockformat";
+    public static final String YOUTUBE_UUID = "youtubeuuid";
+    public static final String IP_KEY = "ipkey";
+    public static final String WEATHER_KEY = "weatherkey";
+    public static final String YOUTUBE_API_3_KEY = "youtubeapi3key";
+    public static final String CAPS_MODE = "capsmode";
+    public static final String LOGGED_IN = "loggedin";
+    public static final String AUDIO_LENGTH = "audiolength";
+    public static final String PERSISTENT_NOTIFICATIONS = "persistentnotifications";
+    public static final String DO_ANIMATIONS = "doanimations";
+    public static final String COMPACT_TEXT_MODE = "compacttextmode";
+    public static final String FONT_METRIC = "fontmetric";
+    public static final String FONT_SIZE = "fontsize";
+    public static final String WRAP_SHELL = "wrapshell";
+    public static final String DARK_MODE = "darkmode";
+
+    private static final String IGNORE = "IGNORE";
+    private static final String EMPTY = "";
+
     /**
      * The immutable collection of preference objects.
      */
-    private static final ArrayList<Preference> preferences = initialize();
+    private static final ImmutableList<Preference> preferences = ImmutableList.of(
+            new Preference(NAME, IGNORE, IGNORE, IGNORE,
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, NAME))
+                    .setIgnoreForToggleSwitches(true)
+                    .setIgnoreForUserCreation(true),
+
+            new Preference(PASS, IGNORE, IGNORE, IGNORE,
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, PASS))
+                    .setIgnoreForToggleSwitches(true)
+                    .setIgnoreForUserCreation(true),
+
+            new Preference(FONT, IGNORE, EMPTY, "Agency FB",
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, FONT))
+                    .setIgnoreForToggleSwitches(true),
+
+            new Preference(FOREGROUND, IGNORE, EMPTY, "f0f0f0", () -> {
+                Logger.log(Logger.Tag.PREFERENCE_REFRESH, FOREGROUND);
+                Console.INSTANCE.getInputField().setForeground(
+                        ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
+            }).setIgnoreForToggleSwitches(true),
+
+            new Preference(BACKGROUND, IGNORE, EMPTY, "101010",
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, BACKGROUND))
+                    .setIgnoreForToggleSwitches(true),
+
+            new Preference(INTRO_MUSIC, "Intro Music", "Play intro music on start",
+                    "0", () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, INTRO_MUSIC)),
+
+            new Preference(DEBUG_WINDOWS, "Debug Windows",
+                    "Show debug menus on startup", "0",
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "DEBUG_WINDOWS")),
+
+            new Preference(RANDOM_BACKGROUND, "Random Background",
+                    "Choose a random background on startup", "0",
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, RANDOM_BACKGROUND)),
+
+            new Preference(OUTPUT_BORDER, "Output Border",
+                    "Draw a border around the output area", "0", () -> {
+                Logger.log(Logger.Tag.PREFERENCE_REFRESH, OUTPUT_BORDER);
+
+                if (UserUtil.getCyderUser().getOutputborder().equals("0")) {
+                    Console.INSTANCE.getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
+                } else {
+                    Console.INSTANCE.getOutputScroll().setBorder(new LineBorder(ColorUtil.hexStringToColor(
+                            UserUtil.getCyderUser().getBackground()), 3, true));
+                }
+            }),
+
+            new Preference(INPUT_BORDER, "Input Border", "Draw a border around the input area",
+                    "0", () -> {
+                Logger.log(Logger.Tag.PREFERENCE_REFRESH, INPUT_BORDER);
+
+                if (UserUtil.getCyderUser().getInputborder().equals("0")) {
+                    Console.INSTANCE.getInputField().setBorder(null);
+                } else {
+                    Console.INSTANCE.getInputField().setBorder(new LineBorder(ColorUtil.hexStringToColor(
+                            UserUtil.getCyderUser().getBackground()), 3, true));
+                }
+            }),
+
+            new Preference(HOURLY_CHIMES, "Hourly Chimes", "Chime every hour", "1",
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, HOURLY_CHIMES)),
+
+            new Preference(SILENCE_ERRORS, "Silence Errors", "Don't open errors externally",
+                    "1", () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, SILENCE_ERRORS)),
+
+            new Preference(FULLSCREEN, "Fullscreen",
+                    "Fullscreen Cyder (this will also cover the Windows taskbar)", "0", () -> {
+                Logger.log(Logger.Tag.PREFERENCE_REFRESH, FULLSCREEN);
+                Console.INSTANCE.setFullscreen(UserUtil.getCyderUser().getFullscreen().equals("1"));
+            }),
+
+            new Preference(OUTPUT_FILL, "Output Fill",
+                    "Fill the output area with the color specified in the \"Fonts & Colors\" panel",
+                    "0", () -> {
+                Logger.log(Logger.Tag.PREFERENCE_REFRESH, OUTPUT_FILL);
+
+                if (UserUtil.getCyderUser().getOutputfill().equals("0")) {
+                    Console.INSTANCE.getOutputArea().setBackground(null);
+                    Console.INSTANCE.getOutputArea().setOpaque(false);
+                } else {
+                    Console.INSTANCE.getOutputArea().setOpaque(true);
+                    Console.INSTANCE.getOutputArea().setBackground(
+                            ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
+                    Console.INSTANCE.getOutputArea().repaint();
+                    Console.INSTANCE.getOutputArea().revalidate();
+                }
+            }),
+
+            new Preference(INPUT_FILL, "Input Fill",
+                    "Fill the input area with the color specified in the \"Fonts & Colors\" panel",
+                    "0", () -> {
+                Logger.log(Logger.Tag.PREFERENCE_REFRESH, INPUT_FILL);
+
+                if (UserUtil.getCyderUser().getInputfill().equals("0")) {
+                    Console.INSTANCE.getInputField().setBackground(null);
+                    Console.INSTANCE.getInputField().setOpaque(false);
+                } else {
+                    Console.INSTANCE.getInputField().setOpaque(true);
+                    Console.INSTANCE.getInputField().setBackground(
+                            ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
+                    Console.INSTANCE.getInputField().repaint();
+                    Console.INSTANCE.getInputField().revalidate();
+                }
+            }),
+
+            new Preference(CLOCK_ON_CONSOLE, "Clock On Console",
+                    "Show a clock at the top of the console", "1", () -> {
+                Logger.log(Logger.Tag.PREFERENCE_REFRESH, CLOCK_ON_CONSOLE);
+                Console.INSTANCE.refreshClockText();
+            }),
+
+            new Preference(SHOW_SECONDS, "Show Seconds",
+                    "Show seconds on the console clock if enabled", "1", () -> {
+                Logger.log(Logger.Tag.PREFERENCE_REFRESH, SHOW_SECONDS);
+                Console.INSTANCE.refreshClockText();
+            }),
+
+            new Preference(FILTER_CHAT, "Filter Chat", "Filter foul language", "1",
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, FILTER_CHAT)),
+
+            new Preference(LAST_START, IGNORE, EMPTY, String.valueOf(System.currentTimeMillis()),
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, LAST_START))
+                    .setIgnoreForToggleSwitches(true),
+
+            new Preference(MINIMIZE_ON_CLOSE, "Minimize On Close",
+                    "Minimize the application instead of exiting whenever a close action is requested",
+                    "0", () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, MINIMIZE_ON_CLOSE)),
+
+            new Preference(TYPING_ANIMATION, "Typing Animation",
+                    "Typing animation on console for non-vital outputs", "1",
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, TYPING_ANIMATION)),
+
+            new Preference(TYPING_SOUND, "Typing Animation Sound",
+                    "Typing animation sound effect to play if typing animation is enabled",
+                    "1", () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, TYPING_SOUND)),
+
+            new Preference(SHOW_BUSY_ICON, "Show Cyder Busy Icon",
+                    "Show when Cyder is busy by changing the tray icon", "0",
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, SHOW_BUSY_ICON)),
+
+            new Preference(ROUNDED_WINDOWS, "Rounded Windows", "Make certain windows rounded",
+                    "0", () -> {
+                Logger.log(Logger.Tag.PREFERENCE_REFRESH, ROUNDED_WINDOWS);
+                FrameUtil.repaintCyderFrames();
+            }),
+
+            new Preference(WINDOW_COLOR, IGNORE, EMPTY, "1A2033", () -> {
+                Logger.log(Logger.Tag.PREFERENCE_REFRESH, WINDOW_COLOR);
+
+                FrameUtil.repaintCyderFrames();
+                Console.INSTANCE.revalidateMenuBackgrounds();
+            }).setIgnoreForToggleSwitches(true),
+
+            new Preference(CONSOLE_CLOCK_FORMAT, IGNORE, EMPTY, "EEEEEEEEE h:mmaa", () -> {
+                Logger.log(Logger.Tag.PREFERENCE_REFRESH, CONSOLE_CLOCK_FORMAT);
+                Console.INSTANCE.refreshClockText();
+            }).setIgnoreForToggleSwitches(true),
+
+            new Preference(YOUTUBE_UUID, IGNORE, EMPTY, "aaaaaaaaaaa",
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, YOUTUBE_UUID))
+                    .setIgnoreForToggleSwitches(true),
+
+            new Preference(IP_KEY, IGNORE, EMPTY, EMPTY,
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, IP_KEY))
+                    .setIgnoreForToggleSwitches(true),
+
+            new Preference(WEATHER_KEY, IGNORE, EMPTY, EMPTY,
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, WEATHER_KEY))
+                    .setIgnoreForToggleSwitches(true),
+
+            new Preference(YOUTUBE_API_3_KEY, IGNORE, EMPTY, EMPTY,
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, YOUTUBE_API_3_KEY))
+                    .setIgnoreForToggleSwitches(true),
+
+            new Preference(CAPS_MODE, "Capital Letters Mode", "Capitalize all console output",
+                    "0", () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, CAPS_MODE)),
+
+            new Preference(LOGGED_IN, IGNORE, EMPTY, "0",
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, LOGGED_IN))
+                    .setIgnoreForToggleSwitches(true),
+
+            new Preference(AUDIO_LENGTH, "Show Audio Total Length",
+                    "For the audio player, show the total audio time instead of the time remaining",
+                    "1", () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, AUDIO_LENGTH)),
+
+            new Preference(PERSISTENT_NOTIFICATIONS, "Persistent Notifications",
+                    "Notifications stay on screen until manually dismissed", "0",
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, PERSISTENT_NOTIFICATIONS)),
+
+            new Preference(DO_ANIMATIONS, "Do Animations",
+                    "Use animations for things such as frame movement and notifications", "1",
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, DO_ANIMATIONS)),
+
+            new Preference(COMPACT_TEXT_MODE, "Compact Text",
+                    "Compact the text/components in supported text panes", "0", () -> {
+                Logger.log(Logger.Tag.PREFERENCE_REFRESH, COMPACT_TEXT_MODE);
+
+                Console.INSTANCE.revalidateMenu();
+                CyderScrollList.refreshAllLists();
+            }),
+
+            new Preference(FONT_METRIC, IGNORE, EMPTY, "1", () -> {
+                Logger.log(Logger.Tag.PREFERENCE_REFRESH, FONT_METRIC);
+
+                Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
+                Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
+            }).setIgnoreForToggleSwitches(true),
+
+            new Preference(FONT_SIZE, IGNORE, EMPTY, "30", () -> {
+                Logger.log(Logger.Tag.PREFERENCE_REFRESH, FONT_SIZE);
+
+                Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
+                Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
+            }).setIgnoreForToggleSwitches(true),
+
+            new Preference(WRAP_SHELL, "Wrap Shell", "Wrap the native shell by"
+                    + " passing unrecognized commands to it and allowing it to process them", "0",
+                    () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, WRAP_SHELL)),
+
+            new Preference(DARK_MODE, "Dark Mode", "Activate a pleasant dark mode for Cyder",
+                    "0", () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, DARK_MODE))
+
+            // To add: create object in User.java with a getter/setter and add a new Preference here
+
+            // Everything in userdata must be in this list in some way,
+            // perhaps this hints at this class being called something different
+
+            // Note: non primitive types such as ScreenStat need to be set by
+            // using the object reference returned by the getter, UserUtil.getCyderUser().getScreenStat().setX(0);
+    );
 
     /**
      * Returns the preferences collection.
      *
      * @return the preferences collection
      */
-    public static ArrayList<Preference> getPreferences() {
+    public static ImmutableList<Preference> getPreferences() {
         return preferences;
-    }
-
-    /**
-     * Initializes the preferences collection.
-     *
-     * @return the immutable collection
-     */
-    @SuppressWarnings("SpellCheckingInspection")
-    private static ArrayList<Preference> initialize() {
-        ArrayList<Preference> ret = new ArrayList<>();
-
-        ret.add(new Preference("name", CyderStrings.IGNORE, CyderStrings.IGNORE, CyderStrings.IGNORE,
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = name")));
-
-        ret.add(new Preference("pass", CyderStrings.IGNORE, CyderStrings.IGNORE, CyderStrings.IGNORE,
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = pass")));
-
-        ret.add(new Preference("font", CyderStrings.IGNORE, "", "Agency FB",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = font")));
-
-        ret.add(new Preference("foreground", CyderStrings.IGNORE, "", "f0f0f0", () -> {
-            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = foreground");
-            Console.INSTANCE.getInputField().setForeground(
-                    ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
-        }));
-
-        ret.add(new Preference("background", CyderStrings.IGNORE, "", "101010",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = background")));
-
-        ret.add(new Preference("intromusic", "Intro Music",
-                "Play intro music on start", "0",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = intromusic")));
-
-        ret.add(new Preference("debugwindows", "Debug Windows",
-                "Show debug menus on startup", "0",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = debugwindows")));
-
-        ret.add(new Preference("randombackground", "Random Background",
-                "Choose a random background on startup", "0",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = randombackground")));
-
-        ret.add(new Preference("outputborder", "Output Border",
-                "Draw a border around the output area", "0", () -> {
-            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = outputborder");
-
-            if (UserUtil.getCyderUser().getOutputborder().equals("0")) {
-                Console.INSTANCE.getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
-            } else {
-                Console.INSTANCE.getOutputScroll().setBorder(new LineBorder(ColorUtil.hexStringToColor(
-                        UserUtil.getCyderUser().getBackground()), 3, true));
-            }
-        }));
-
-        ret.add(new Preference("inputborder", "Input Border",
-                "Draw a border around the input area", "0", () -> {
-            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = inputborder");
-
-            if (UserUtil.getCyderUser().getInputborder().equals("0")) {
-                Console.INSTANCE.getInputField().setBorder(null);
-            } else {
-                Console.INSTANCE.getInputField().setBorder(new LineBorder(
-                        ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()), 3, true));
-            }
-        }));
-
-        ret.add(new Preference("hourlychimes", "Hourly Chimes",
-                "Chime every hour", "1",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = hourlychimes")));
-
-        ret.add(new Preference("silenceerrors", "Silence Errors",
-                "Don't open errors externally", "1",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = silenceerrors")));
-
-        ret.add(new Preference("fullscreen", "Fullscreen",
-                "Fullscreen Cyder (this will also cover the Windows taskbar)", "0", () -> {
-            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fullscreen");
-            Console.INSTANCE.setFullscreen(UserUtil.getCyderUser().getFullscreen().equals("1"));
-        }));
-
-        ret.add(new Preference("outputfill", "Output Fill",
-                "Fill the output area with the color specified in the \"Fonts & Colors\" panel",
-                "0", () -> {
-            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = outputfill");
-
-            if (UserUtil.getCyderUser().getOutputfill().equals("0")) {
-                Console.INSTANCE.getOutputArea().setBackground(null);
-                Console.INSTANCE.getOutputArea().setOpaque(false);
-            } else {
-                Console.INSTANCE.getOutputArea().setOpaque(true);
-                Console.INSTANCE.getOutputArea().setBackground(
-                        ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
-                Console.INSTANCE.getOutputArea().repaint();
-                Console.INSTANCE.getOutputArea().revalidate();
-            }
-        }));
-
-        ret.add(new Preference("inputfill", "Input Fill",
-                "Fill the input area with the color specified in the \"Fonts & Colors\" panel",
-                "0", () -> {
-            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = inputfill");
-
-            if (UserUtil.getCyderUser().getInputfill().equals("0")) {
-                Console.INSTANCE.getInputField().setBackground(null);
-                Console.INSTANCE.getInputField().setOpaque(false);
-            } else {
-                Console.INSTANCE.getInputField().setOpaque(true);
-                Console.INSTANCE.getInputField().setBackground(
-                        ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
-                Console.INSTANCE.getInputField().repaint();
-                Console.INSTANCE.getInputField().revalidate();
-            }
-
-        }));
-
-        ret.add(new Preference("clockonconsole", "Clock On Console",
-                "Show a clock at the top of the console", "1", () -> {
-            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = clockonconsole");
-            Console.INSTANCE.refreshClockText();
-        }));
-
-        ret.add(new Preference("showseconds", "Show Seconds",
-                "Show seconds on the console clock if enabled", "1", () -> {
-            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = showseconds");
-            Console.INSTANCE.refreshClockText();
-        }));
-
-        ret.add(new Preference("filterchat", "Filter Chat",
-                "Filter foul language", "1",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = filterchat")));
-
-        ret.add(new Preference("laststart", CyderStrings.IGNORE,
-                "", String.valueOf(System.currentTimeMillis()),
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = laststart")));
-
-        ret.add(new Preference("minimizeonclose", "Minimize On Close",
-                "Minimize the application instead of exiting whenever a close action is requested",
-                "0", () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = minimizeonclose")));
-
-        ret.add(new Preference("typinganimation", "Typing Animation",
-                "Typing animation on console for non-vital outputs", "1",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = typinganimation")));
-
-        ret.add(new Preference("typingsound", "Typing Animation Sound",
-                "Typing animation sound effect to play if typing animation is enabled",
-                "1", () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = typingsound")));
-
-        ret.add(new Preference("showbusyicon", "Show Cyder Busy Icon",
-                "Show when Cyder is busy by changing the tray icon", "0",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = showbusyicon")));
-
-        ret.add(new Preference("roundedwindows", "Rounded Windows",
-                "Make certain windows rounded", "0", () -> {
-            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = roundedwindows");
-            FrameUtil.repaintCyderFrames();
-        }));
-
-        ret.add(new Preference("windowcolor", CyderStrings.IGNORE,
-                "", "1A2033", () -> {
-            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = windowcolor");
-
-            FrameUtil.repaintCyderFrames();
-            Console.INSTANCE.revalidateMenuBackgrounds();
-        }));
-
-        ret.add(new Preference("consoleclockformat", CyderStrings.IGNORE,
-                "", "EEEEEEEEE h:mmaa", () -> {
-            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key =  consoleclockformat");
-            Console.INSTANCE.refreshClockText();
-        }));
-
-        ret.add(new Preference("youtubeuuid", CyderStrings.IGNORE,
-                "", "aaaaaaaaaaa",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = youtubeuuid")));
-
-        ret.add(new Preference("ipkey", CyderStrings.IGNORE, "", "",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = ipkey")));
-        ret.add(new Preference("weatherkey", CyderStrings.IGNORE, "", "",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = weatherkey")));
-        ret.add(new Preference("youtubeapi3key", CyderStrings.IGNORE, "", "",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = youtubeapi3key")));
-
-        ret.add(new Preference("capsmode", "Capital Letters Mode",
-                "Capitalize all console output", "0",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = capsmode")));
-
-        ret.add(new Preference("loggedin", CyderStrings.IGNORE, "", "0",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = loggedin")));
-
-        ret.add(new Preference("audiolength", "Show Audio Total Length",
-                "For the audio player, show the total audio time instead of the time remaining",
-                "1", () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = audiolength")));
-
-        ret.add(new Preference("persistentnotifications", "Persistent Notifications",
-                "Notifications stay on screen until manually dismissed", "0",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = persistentnotifications")));
-
-        ret.add(new Preference("doanimations", "Do Animations",
-                "Use animations for things such as frame movement and notifications", "1",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = doanimations")));
-
-        ret.add(new Preference("compacttextmode", "Compact Text",
-                "Compact the text/components in supported text panes", "0", () -> {
-            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = compacttextmode");
-
-            Console.INSTANCE.revalidateMenu();
-            CyderScrollList.refreshAllLists();
-        }));
-
-        ret.add(new Preference("fontmetric", CyderStrings.IGNORE, "", "1", () -> {
-            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fontmetric");
-
-            Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
-            Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
-        }));
-
-        ret.add(new Preference("fontsize", CyderStrings.IGNORE, "", "30", () -> {
-            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fontsize");
-
-            Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
-            Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
-        }));
-
-        ret.add(new Preference("wrapshell", "Wrap Shell", "Wrap the native shell by"
-                + " passing unrecognized commands to it and allowing it to process them", "0",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = wrapshell")));
-
-        ret.add(new Preference("darkmode", "Dark Mode",
-                "Activate a pleasant dark mode for Cyder", "0",
-                () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = darkmode")));
-
-        // display name IGNORE -> ignore for UserEditor switches
-        // tooltip IGNORE -> don't write default value when creating a user (username, password)
-
-        // to add: create object in User.java with getter/setter and add new Preference here
-
-        // EVERYTHING that is in userdata must be in this list
-
-        // non primitive types/Strings need to be set via their own object via
-        // UserUtil.getCyderUser().getMyObject().setMyMember(myValue);
-        // this works because objects are references in ya boi Java, not sure about JVM languages in general
-
-        return ret;
     }
 
     /**
@@ -292,10 +322,17 @@ public class Preference {
      * @param preferenceID the onChangeFunction() of the preference with the provided ID
      */
     public static void invokeRefresh(String preferenceID) {
-        for (Preference pref : preferences) {
-            if (pref.getID().equalsIgnoreCase(preferenceID)) {
-                pref.getOnChangeFunction().run();
+        boolean invoked = false;
+
+        for (Preference preference : preferences) {
+            if (preference.getID().equals(preferenceID)) {
+                preference.getOnChangeFunction().run();
+                invoked = true;
             }
+        }
+
+        if (!invoked) {
+            Logger.log(Logger.Tag.DEBUG, "Failed to invoke preference refresh. Provided id: " + preferenceID);
         }
     }
 
@@ -317,7 +354,7 @@ public class Preference {
     /**
      * The default value for the preference.
      */
-    private final String defaultValue;
+    private final Object defaultValue;
 
     /**
      * The method to run when a change of the preference occurs.
@@ -334,7 +371,7 @@ public class Preference {
      * @param onChangeFunction the method to run when a change of the preference occurs.
      */
     public Preference(String id, String displayName,
-                      String tooltip, String defaultValue,
+                      String tooltip, Object defaultValue,
                       Runnable onChangeFunction) {
         this.id = id;
         this.displayName = displayName;
@@ -377,7 +414,7 @@ public class Preference {
      *
      * @return the default value
      */
-    public String getDefaultValue() {
+    public Object getDefaultValue() {
         return defaultValue;
     }
 
@@ -391,13 +428,35 @@ public class Preference {
     }
 
     /**
+     * Whether this preference should be ignored when creating the user preference toggle switches.
+     */
+    private boolean ignoreForToggleSwitches = false;
+
+    /**
      * Returns whether this preference should be ignored when setting up the toggle switches for the user editor.
      *
      * @return whether this preference should be ignored when setting up the toggle switches for the user editor
      */
-    public boolean ignoreForToggleSwitches() {
-        return displayName.equals(CyderStrings.IGNORE);
+    public boolean getIgnoreForToggleSwitches() {
+        return ignoreForToggleSwitches;
     }
+
+    /**
+     * Sets whether this preference should be ignored when setting up the toggle switches for the user editor.
+     *
+     * @param ignore whether this preference should be ignored when setting up the toggle switches for the user editor
+     * @return this preference
+     */
+    public Preference setIgnoreForToggleSwitches(boolean ignore) {
+        this.ignoreForToggleSwitches = ignore;
+        return this;
+    }
+
+    /**
+     * Whether this preference should be ignored when creating a new user.
+     * Typically this is only username and password.
+     */
+    private boolean ignoreForUserCreation = false;
 
     /**
      * Returns whether this preference should be ignored when building a default/new user.
@@ -405,8 +464,19 @@ public class Preference {
      *
      * @return whether this preference should be ignored when building a default/new user
      */
-    public boolean ignoreForUserCreation() {
-        return displayName.equals(CyderStrings.IGNORE);
+    public boolean getIgnoreForUserCreation() {
+        return ignoreForUserCreation;
+    }
+
+    /**
+     * Sets whether this preference should be ignored when building a new user.
+     *
+     * @param ignore whether this preference should be ignored when building a new user
+     * @return this preference
+     */
+    public Preference setIgnoreForUserCreation(boolean ignore) {
+        this.ignoreForUserCreation = ignore;
+        return this;
     }
 
     /**
@@ -440,6 +510,7 @@ public class Preference {
         result = 31 * result + displayName.hashCode();
         result = 31 * result + tooltip.hashCode();
         result = 31 * result + defaultValue.hashCode();
+        result = 31 * result + onChangeFunction.hashCode();
         return result;
     }
 }

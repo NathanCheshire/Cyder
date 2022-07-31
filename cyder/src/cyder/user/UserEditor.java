@@ -670,7 +670,7 @@ public final class UserEditor {
 
                     CyderColors.setGuiThemeColor(c);
 
-                    Preference.invokeRefresh("windowcolor");
+                    Preference.invokeRefresh(Preference.WINDOW_COLOR);
                 } catch (Exception ignored) {
                 }
             }
@@ -908,7 +908,7 @@ public final class UserEditor {
             windowField.setText(defaultUser.getWindowcolor());
             windowColorBlock.setBackground((ColorUtil.hexStringToColor(defaultUser.getWindowcolor())));
             CyderColors.setGuiThemeColor((ColorUtil.hexStringToColor(defaultUser.getWindowcolor())));
-            Preference.invokeRefresh("windowcolor");
+            Preference.invokeRefresh(Preference.WINDOW_COLOR);
 
             // set scroll list position to top
             if (fontScrollRef.get() != null) {

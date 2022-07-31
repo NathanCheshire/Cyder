@@ -269,7 +269,7 @@ public final class Logger {
                 break;
             case PREFERENCE_REFRESH:
                 logBuilder.append(Tag.PREFERENCE_REFRESH.constructLogTagPrepend());
-                logBuilder.append(representation);
+                logBuilder.append("Key = ").append(representation);
                 break;
             case THREAD:
                 logBuilder.append(Tag.THREAD.constructLogTagPrepend());

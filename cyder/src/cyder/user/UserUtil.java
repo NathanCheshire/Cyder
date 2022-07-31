@@ -1207,14 +1207,14 @@ public final class UserUtil {
     private static final String SET = "set";
 
     /**
-     * Resets all data/preferences (preferences for which {@link Preference#ignoreForUserCreation()} returns true)
+     * Resets all data/preferences (preferences for which {@link Preference#getIgnoreForUserCreation()} returns true)
      * to their default values.
      *
      * @param user the user to reset to a default state
      */
     public static void resetUser(User user) {
         for (Preference pref : Preference.getPreferences()) {
-            if (!pref.ignoreForUserCreation()) {
+            if (!pref.getIgnoreForUserCreation()) {
                 for (Method m : user.getClass().getMethods()) {
                     if (m.getName().startsWith(SET)
                             && m.getParameterTypes().length == 1
