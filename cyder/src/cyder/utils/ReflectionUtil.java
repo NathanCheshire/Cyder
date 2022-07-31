@@ -7,11 +7,8 @@ import com.google.common.reflect.ClassPath;
 import cyder.annotations.*;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
-import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
-import cyder.genesis.subroutines.StartupSubroutine;
-import cyder.genesis.subroutines.SubroutinePriority;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.input.InputHandler;
 import cyder.handlers.internal.ExceptionHandler;
@@ -36,65 +33,6 @@ public final class ReflectionUtil {
      */
     private ReflectionUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
-     * Executes all necessary and sufficient subroutines found within Cyder.
-     *
-     * @param requestedPriority the priority of the subroutines to execute
-     */
-    @SuppressWarnings("ConstantConditions") // methods are ensured not be null when invocations are called
-    public static void executeSubroutines(SubroutinePriority requestedPriority) {
-        try {
-            for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
-                Class<?> clazz = classInfo.load();
-
-                if (StartupSubroutine.class.isAssignableFrom(clazz)) {
-                    if (clazz.isInterface()) {
-                        continue;
-                    }
-
-                    Method[] methods = clazz.getMethods();
-
-                    Method getSubroutinePriorityMethod = null;
-                    Method ensureMethod = null;
-                    Method exitMethod = null;
-
-                    for (Method method : methods) {
-                        switch (method.getName()) {
-                            case "getPriority" -> getSubroutinePriorityMethod = method;
-                            case "ensure" -> ensureMethod = method;
-                            case "exit" -> exitMethod = method;
-                        }
-                    }
-
-                    if (someAreNull(getSubroutinePriorityMethod, ensureMethod, exitMethod)) {
-                        throw new FatalException("Failed to locate a subroutine method");
-                    }
-
-                    SubroutinePriority priority = (SubroutinePriority) getSubroutinePriorityMethod
-                            .invoke(clazz.getConstructor().newInstance());
-
-                    if (priority != requestedPriority) {
-                        continue;
-                    }
-
-                    Logger.log(Logger.Tag.DEBUG, "Executing subroutine: " + getBottomLevelClass(clazz));
-
-                    boolean success = (boolean) ensureMethod.invoke(clazz.getConstructor().newInstance());
-
-                    if (!success) {
-                        if (priority == SubroutinePriority.NECESSARY) {
-                            exitMethod.invoke(clazz.getConstructor().newInstance());
-                        }
-                    }
-                }
-            }
-        } catch (FatalException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new FatalException("Subroutine executor failed.\n" + ExceptionHandler.getPrintableException(e));
-        }
     }
 
     /**

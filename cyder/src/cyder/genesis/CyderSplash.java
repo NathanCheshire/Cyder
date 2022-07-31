@@ -1,10 +1,12 @@
 package cyder.genesis;
 
+import com.google.common.base.Preconditions;
 import cyder.animation.HarmonicRectangle;
 import cyder.constants.CyderColors;
 import cyder.enums.ExitCondition;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
+import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.CyderFrame;
@@ -372,12 +374,13 @@ public enum CyderSplash {
      * @param loadingMessage the message to set to the loading label
      */
     public void setLoadingMessage(String loadingMessage) {
+        Preconditions.checkNotNull(loadingMessage);
+        Preconditions.checkArgument(!loadingMessage.isEmpty());
+
+        loadingMessage = StringUtil.getTrimmedText(loadingMessage);
+
         if (splashFrame == null || splashFrame.isDisposed()) {
             return;
-        }
-
-        if (!loadingMessage.trim().isEmpty()) {
-            loadingMessage = loadingMessage.trim();
         }
 
         if (loadingLabel != null) {
@@ -387,6 +390,8 @@ public enum CyderSplash {
         }
 
         this.loadingMessage = loadingMessage;
+
+        Logger.log(Logger.Tag.LOADING_MESSAGE, loadingMessage);
     }
 
     /**

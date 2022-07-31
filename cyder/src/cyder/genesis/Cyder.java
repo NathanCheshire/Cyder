@@ -6,12 +6,12 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.subroutines.SubroutinePriority;
+import cyder.genesis.subroutines.NecessarySubroutines;
+import cyder.genesis.subroutines.SufficientSubroutines;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.OSUtil;
-import cyder.utils.ReflectionUtil;
 import cyder.utils.TimeUtil;
 
 import javax.swing.*;
@@ -65,11 +65,11 @@ public final class Cyder {
 
         CyderWatchdog.initializeWatchDog();
 
-        ReflectionUtil.executeSubroutines(SubroutinePriority.NECESSARY);
+        NecessarySubroutines.execute();
 
         CyderSplash.INSTANCE.showSplash();
 
-        ReflectionUtil.executeSubroutines(SubroutinePriority.SUFFICIENT);
+        SufficientSubroutines.execute();
 
         LoginHandler.determineCyderEntry();
     }

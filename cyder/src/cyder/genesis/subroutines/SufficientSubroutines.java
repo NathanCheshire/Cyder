@@ -1,53 +1,30 @@
 package cyder.genesis.subroutines;
 
-import cyder.enums.ExitCondition;
-import cyder.exceptions.FatalException;
+import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.Cyder;
 import cyder.genesis.CyderSplash;
-import cyder.handlers.internal.ExceptionHandler;
+import cyder.threads.CyderThreadRunner;
 import cyder.utils.IOUtil;
 
 /**
  * A subroutine for completing startup subroutines which are not necessary for Cyder to run properly.
  */
-public class SufficientSubroutines implements StartupSubroutine {
+public final class SufficientSubroutines {
     /**
-     * {@inheritDoc}
+     * Suppress default constructor.
      */
-    @Override
-    public boolean ensure() {
-        try {
+    private SufficientSubroutines() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
+
+    /**
+     * Executes the sufficient subroutines in a separate thread.
+     */
+    public static void execute() {
+        CyderThreadRunner.submit(() -> {
             CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
             IOUtil.logArgs(Cyder.getJvmArguments());
-        } catch (Exception ignored) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public SubroutinePriority getPriority() {
-        return SubroutinePriority.SUFFICIENT;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getErrorMessage() {
-        return "An exception occurred while running sufficient subroutines.";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void exit() {
-        ExceptionHandler.exceptionExit(getErrorMessage(), "OS Exception", ExitCondition.SufficientSubroutineExit);
-        throw new FatalException(getErrorMessage());
+        }, "Sufficient Subroutine Executor");
     }
 }
