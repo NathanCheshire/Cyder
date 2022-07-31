@@ -31,7 +31,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -189,9 +188,9 @@ public final class UserCreator {
 
         createUserFrame.setCyderLayout(cyderPartitionedLayout);
         createUserFrame.finalizeAndShow();
-        newUserNameField.requestFocus();
-
         updateInformationLabel();
+
+        newUserNameField.requestFocus();
     }
 
     /**
@@ -221,7 +220,7 @@ public final class UserCreator {
      * Whether the currently entered new user credentials are valid
      * and can be used for construction of a new user.
      */
-    private static boolean validCredentails = false;
+    private static boolean validCredentials = false;
 
     // Error messages
     private static final String NO_USERNAME = "No username";
@@ -242,7 +241,7 @@ public final class UserCreator {
      */
     private static void updateInformationLabel() {
         informationLabel.setForeground(CyderColors.regularRed);
-        validCredentails = false;
+        validCredentials = false;
 
         String name = newUserNameField.getText().trim();
         char[] password = newUserPasswordField.getPassword();
@@ -270,7 +269,7 @@ public final class UserCreator {
             informationLabel.setText(VALID);
             informationLabel.setForeground(CyderColors.regularGreen);
 
-            validCredentails = true;
+            validCredentials = true;
         }
 
         Arrays.fill(password, '\0');
@@ -505,7 +504,7 @@ public final class UserCreator {
      * @return whether the user was created
      */
     private static boolean attemptToCreateUser(String name, char[] password) {
-        if (!validCredentails) {
+        if (!validCredentials) {
             createUserFrame.toast(informationLabel.getText());
             return false;
         }
@@ -555,35 +554,15 @@ public final class UserCreator {
         }
 
         User user = new User();
+        UserUtil.resetUser(user);
         user.setName(name);
         user.setPass(SecurityUtil.doubleHashToHex(password));
-
-        // default preferences
-        for (Preference pref : Preferences.getPreferences()) {
-            // as per convention, IGNORE for tooltip means ignore when creating user
-            // whilst IGNORE for default value means ignore for edit user
-            if (!pref.getTooltip().equals("IGNORE")) {
-                for (Method m : user.getClass().getMethods()) {
-                    if (m.getName().startsWith("set")
-                            && m.getParameterTypes().length == 1
-                            && m.getName().replace("set", "").equalsIgnoreCase(pref.getID())) {
-                        try {
-                            m.invoke(user, pref.getDefaultValue());
-                        } catch (Exception e) {
-                            ExceptionHandler.handle(e);
-                        }
-
-                        break;
-                    }
-                }
-            }
-        }
 
         BufferedImage background;
         try {
             background = ImageIO.read(newUserBackgroundFile);
         } catch (Exception e) {
-            background = ImageUtil.toBufferedImage(ImageUtil.imageIconFromColor(Color.black, 800, 800));
+            background = UserUtil.DEFAULT_USER_SOLID_COLOR_BACKGROUND;
         }
 
         user.setScreenStat(createDefaultScreenStat(background));

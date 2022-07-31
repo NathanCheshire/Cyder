@@ -12,8 +12,6 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.util.ArrayList;
 
-// todo class should be static method access through Preference
-
 /**
  * Preferences class to hold and allow access to the default CyderUser preferences.
  */
@@ -50,11 +48,6 @@ public final class Preferences {
     }
 
     /**
-     * The ignore keyword.
-     */
-    private static final String IGNORE = "IGNORE";
-
-    /**
      * Initializes the preferences collection.
      *
      * @return the immutable collection
@@ -63,22 +56,22 @@ public final class Preferences {
     private static ArrayList<Preference> initialize() {
         ArrayList<Preference> ret = new ArrayList<>();
 
-        ret.add(new Preference("name", IGNORE, IGNORE, IGNORE,
+        ret.add(new Preference("name", CyderStrings.IGNORE, CyderStrings.IGNORE, CyderStrings.IGNORE,
                 () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = name")));
 
-        ret.add(new Preference("pass", IGNORE, IGNORE, IGNORE,
+        ret.add(new Preference("pass", CyderStrings.IGNORE, CyderStrings.IGNORE, CyderStrings.IGNORE,
                 () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = pass")));
 
-        ret.add(new Preference("font", IGNORE, "", "Agency FB",
+        ret.add(new Preference("font", CyderStrings.IGNORE, "", "Agency FB",
                 () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = font")));
 
-        ret.add(new Preference("foreground", IGNORE, "", "f0f0f0", () -> {
+        ret.add(new Preference("foreground", CyderStrings.IGNORE, "", "f0f0f0", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = foreground");
             Console.INSTANCE.getInputField().setForeground(
                     ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
         }));
 
-        ret.add(new Preference("background", IGNORE, "", "101010",
+        ret.add(new Preference("background", CyderStrings.IGNORE, "", "101010",
                 () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = background")));
 
         ret.add(new Preference("intromusic", "Intro Music",
@@ -182,7 +175,7 @@ public final class Preferences {
                 "Filter foul language", "1",
                 () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = filterchat")));
 
-        ret.add(new Preference("laststart", IGNORE,
+        ret.add(new Preference("laststart", CyderStrings.IGNORE,
                 "", String.valueOf(System.currentTimeMillis()),
                 () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = laststart")));
 
@@ -208,7 +201,7 @@ public final class Preferences {
             FrameUtil.repaintCyderFrames();
         }));
 
-        ret.add(new Preference("windowcolor", IGNORE,
+        ret.add(new Preference("windowcolor", CyderStrings.IGNORE,
                 "", "1A2033", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = windowcolor");
 
@@ -216,28 +209,28 @@ public final class Preferences {
             Console.INSTANCE.revalidateMenuBackgrounds();
         }));
 
-        ret.add(new Preference("consoleclockformat", IGNORE,
+        ret.add(new Preference("consoleclockformat", CyderStrings.IGNORE,
                 "", "EEEEEEEEE h:mmaa", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key =  consoleclockformat");
             Console.INSTANCE.refreshClockText();
         }));
 
-        ret.add(new Preference("youtubeuuid", IGNORE,
+        ret.add(new Preference("youtubeuuid", CyderStrings.IGNORE,
                 "", "aaaaaaaaaaa",
                 () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = youtubeuuid")));
 
-        ret.add(new Preference("ipkey", IGNORE, "", "",
+        ret.add(new Preference("ipkey", CyderStrings.IGNORE, "", "",
                 () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = ipkey")));
-        ret.add(new Preference("weatherkey", IGNORE, "", "",
+        ret.add(new Preference("weatherkey", CyderStrings.IGNORE, "", "",
                 () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = weatherkey")));
-        ret.add(new Preference("youtubeapi3key", IGNORE, "", "",
+        ret.add(new Preference("youtubeapi3key", CyderStrings.IGNORE, "", "",
                 () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = youtubeapi3key")));
 
         ret.add(new Preference("capsmode", "Capital Letters Mode",
                 "Capitalize all console output", "0",
                 () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = capsmode")));
 
-        ret.add(new Preference("loggedin", IGNORE, "", "0",
+        ret.add(new Preference("loggedin", CyderStrings.IGNORE, "", "0",
                 () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = loggedin")));
 
         ret.add(new Preference("audiolength", "Show Audio Total Length",
@@ -260,14 +253,14 @@ public final class Preferences {
             CyderScrollList.refreshAllLists();
         }));
 
-        ret.add(new Preference("fontmetric", IGNORE, "", "1", () -> {
+        ret.add(new Preference("fontmetric", CyderStrings.IGNORE, "", "1", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fontmetric");
 
             Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
             Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
         }));
 
-        ret.add(new Preference("fontsize", IGNORE, "", "30", () -> {
+        ret.add(new Preference("fontsize", CyderStrings.IGNORE, "", "30", () -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fontsize");
 
             Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());

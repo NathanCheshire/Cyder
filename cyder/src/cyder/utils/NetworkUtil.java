@@ -58,7 +58,7 @@ public class NetworkUtil {
      */
     private static final Function<Void, Boolean> exit = ignored -> Console.INSTANCE.isClosed();
 
-    // todo be able to start and stop this along with other console executors
+    // todo be able to start and stop this
     static {
         CyderThreadRunner.submit(() -> {
             try {

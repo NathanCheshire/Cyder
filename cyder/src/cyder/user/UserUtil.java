@@ -3,7 +3,6 @@ package cyder.user;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import cyder.console.Console;
-import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Direction;
@@ -14,10 +13,7 @@ import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
-import cyder.utils.FileUtil;
-import cyder.utils.ImageUtil;
-import cyder.utils.OSUtil;
-import cyder.utils.StringUtil;
+import cyder.utils.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -36,6 +32,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Utilities regarding a user, their json file, and IO to/from that json file.
  */
 public final class UserUtil {
+    /**
+     * The default background to use for account creation when a network connection is unavailable.
+     */
+    public static final BufferedImage DEFAULT_USER_SOLID_COLOR_BACKGROUND
+            = ImageUtil.toBufferedImage(ImageUtil.imageIconFromColor(Color.black, 800, 800));
+
     /**
      * Suppress default constructor.
      */
@@ -1121,39 +1123,34 @@ public final class UserUtil {
     }
 
     /**
+     * The maximum latency to allow when attempting to download the default user background.
+     */
+    private static final int MAX_LATENCY = 2000;
+
+    /**
      * Creates the default background inside the user's Backgrounds/ directory.
      *
      * @param uuid the user's uuid to save the default background to
      * @return a reference to the file created
      */
     public static File createDefaultBackground(String uuid) {
-        //default background is creating an image gradient
-        Image img = CyderIcons.defaultBackground.getImage();
+        Preconditions.checkNotNull(uuid);
+        Preconditions.checkArgument(!uuid.isEmpty());
 
-        BufferedImage bi;
+        BufferedImage createMe = DEFAULT_USER_SOLID_COLOR_BACKGROUND;
 
-        //try to get default image that isn't bundled with Cyder
-        try {
-            bi = ImageIO.read(new URL(CyderUrls.DEFAULT_BACKGROUND_URL));
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-
-            bi = new BufferedImage(img.getWidth(null),
-                    img.getHeight(null), BufferedImage.TYPE_INT_RGB);
-            Graphics2D g2 = bi.createGraphics();
-            g2.drawImage(img, 0, 0, null);
-            g2.dispose();
+        int latency = NetworkUtil.latency(MAX_LATENCY);
+        if (latency < MAX_LATENCY) {
+            try {
+                createMe = ImageIO.read(new URL(CyderUrls.DEFAULT_BACKGROUND_URL));
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
         }
 
-        File backgroundFile = OSUtil.buildFile(
-                Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(),
-                uuid, UserFile.BACKGROUNDS.getName(),
-                "Default." + ImageUtil.PNG_FORMAT);
-
-        File backgroundFolder = OSUtil.buildFile(
-                Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(),
+        File backgroundFile = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+                uuid, UserFile.BACKGROUNDS.getName(), "Default." + ImageUtil.PNG_FORMAT);
+        File backgroundFolder = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                 uuid, UserFile.BACKGROUNDS.getName());
 
         try {
@@ -1164,7 +1161,7 @@ public final class UserUtil {
                 }
             }
 
-            ImageIO.write(bi, ImageUtil.PNG_FORMAT, backgroundFile);
+            ImageIO.write(createMe, ImageUtil.PNG_FORMAT, backgroundFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -1206,5 +1203,33 @@ public final class UserUtil {
         }
 
         throw new IllegalStateException("File could not be created at this time: " + name);
+    }
+
+    private static final String SET = "set";
+
+    /**
+     * Resets all data/preferences (preferences for which {@link Preference#ignoreForUserCreation()} returns true)
+     * to their default values.
+     *
+     * @param user the user to reset to a default state
+     */
+    public static void resetUser(User user) {
+        for (Preference pref : Preferences.getPreferences()) {
+            if (!pref.ignoreForUserCreation()) {
+                for (Method m : user.getClass().getMethods()) {
+                    if (m.getName().startsWith(SET)
+                            && m.getParameterTypes().length == 1
+                            && m.getName().replace(SET, "").equalsIgnoreCase(pref.getID())) {
+                        try {
+                            m.invoke(user, pref.getDefaultValue());
+                        } catch (Exception e) {
+                            ExceptionHandler.handle(e);
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

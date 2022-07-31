@@ -53,6 +53,10 @@ public final class CyderStrings {
      * Don't change your number.
      */
     public static final String JENNY = "8675309";
+    /**
+     * The ignore keyword.
+     */
+    public static final String IGNORE = "IGNORE";
 
     /**
      * Instantiation of constants class not allowed.

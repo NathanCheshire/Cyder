@@ -1,6 +1,7 @@
 package cyder.user;
 
 import com.google.errorprone.annotations.Immutable;
+import cyder.constants.CyderStrings;
 import cyder.handlers.internal.Logger;
 import cyder.utils.ReflectionUtil;
 
@@ -22,7 +23,7 @@ public class Preference {
     private final String displayName;
 
     /**
-     * The tooltip for the toggle button.
+     * The tooltip for the toggle/change button/field.
      */
     private final String tooltip;
 
@@ -100,6 +101,25 @@ public class Preference {
      */
     public Runnable getOnChangeFunction() {
         return onChangeFunction;
+    }
+
+    /**
+     * Returns whether this preference should be ignored when setting up the toggle switches for the user editor.
+     *
+     * @return whether this preference should be ignored when setting up the toggle switches for the user editor
+     */
+    public boolean ignoreForToggleSwitches() {
+        return displayName.equals(CyderStrings.IGNORE);
+    }
+
+    /**
+     * Returns whether this preference should be ignored when building a default/new user.
+     * Typically this is only username and password.
+     *
+     * @return whether this preference should be ignored when building a default/new user
+     */
+    public boolean ignoreForUserCreation() {
+        return displayName.equals(CyderStrings.IGNORE);
     }
 
     /**
