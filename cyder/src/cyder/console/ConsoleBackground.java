@@ -1,4 +1,4 @@
-package cyder.records;
+package cyder.console;
 
 import com.google.common.base.Preconditions;
 import cyder.exceptions.FatalException;
@@ -14,7 +14,12 @@ import java.io.File;
 /**
  * A background for the Console.
  */
-public record ConsoleBackground(File referenceFile) {
+public class ConsoleBackground {
+    /**
+     * the file referenced by this object.
+     */
+    private File referenceFile;
+
     /**
      * Constructs a new CyderBackground from the provided file if it can be read as an image.
      *
@@ -28,6 +33,28 @@ public record ConsoleBackground(File referenceFile) {
 
         this.referenceFile = referenceFile;
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * Returns the file referenced by this object.
+     *
+     * @return the file referenced by this object
+     */
+    public File getReferenceFile() {
+        return referenceFile;
+    }
+
+    /**
+     * Sets the file referenced by this object.
+     *
+     * @param referenceFile the file referenced by this object
+     */
+    public void setReferenceFile(File referenceFile) {
+        Preconditions.checkNotNull(referenceFile);
+        Preconditions.checkArgument(referenceFile.exists());
+        Preconditions.checkArgument(ImageUtil.isValidImage(referenceFile));
+
+        this.referenceFile = referenceFile;
     }
 
     /**

@@ -16,7 +16,6 @@ import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.input.InputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.records.WidgetDescription;
 import cyder.ui.CyderFrame;
 import cyder.widgets.CardWidget;
 import org.apache.commons.text.similarity.JaroWinklerDistance;
@@ -558,6 +557,11 @@ public final class ReflectionUtil {
             }
         }
     }
+
+    /**
+     * A widget and it's name and triggers.
+     */
+    public record WidgetDescription(String name, String description, String[] triggers) {}
 
     /**
      * Returns a list of names, descriptions, and triggers of all the widgets found within Cyder.

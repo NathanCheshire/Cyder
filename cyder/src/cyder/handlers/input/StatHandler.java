@@ -6,7 +6,6 @@ import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.records.WidgetDescription;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.utils.FileUtil;
@@ -147,12 +146,12 @@ public class StatHandler extends InputHandler {
                 }, "Bad Word Finder");
             }
         } else if (getInputHandler().commandIs("widgets")) {
-            ArrayList<WidgetDescription> descriptions = ReflectionUtil.getWidgetDescriptions();
+            ArrayList<ReflectionUtil.WidgetDescription> descriptions = ReflectionUtil.getWidgetDescriptions();
 
             getInputHandler().println("Found " + descriptions.size() + " widgets:");
             getInputHandler().println("-------------------------------------");
 
-            for (WidgetDescription description : descriptions) {
+            for (ReflectionUtil.WidgetDescription description : descriptions) {
                 StringBuilder triggers = new StringBuilder();
 
                 for (int i = 0 ; i < description.triggers().length ; i++) {
