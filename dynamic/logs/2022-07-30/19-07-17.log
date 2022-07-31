@@ -1,0 +1,131 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[19-07-17] [ENTRY]: Nathan
+[19-07-17] [DEBUG]: Found prop file: props\propkeys.ini
+[19-07-17] [DEBUG]: Found prop file: props\props.ini
+[19-07-17] [PROP LOADED]: [key = map_quest_api_key]
+[19-07-17] [PROP LOADED]: [key = youtube_api_3_key]
+[19-07-17] [PROP LOADED]: [key = ip_key]
+[19-07-17] [PROP LOADED]: [key = weather_key]
+[19-07-17] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[19-07-17] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7ca733d0a7f6]
+[19-07-17] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[19-07-17] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[19-07-17] [PROP LOADED]: [key = font_metric, value = 1]
+[19-07-17] [PROP LOADED]: [key = released, value = false]
+[19-07-17] [PROP LOADED]: [key = version, value = Liminal]
+[19-07-17] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[19-07-17] [PROP LOADED]: [key = components_relocatable, value = false]
+[19-07-17] [PROP LOADED]: [key = testing_mode, value = true]
+[19-07-17] [PROP LOADED]: [key = autocypher, value = true]
+[19-07-17] [PROP LOADED]: [key = dispose_splash, value = true]
+[19-07-17] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[19-07-17] [PROP LOADED]: [key = activate_watchdog, value = false]
+[19-07-17] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[19-07-17] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[19-07-17] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[19-07-17] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[19-07-17] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[19-07-17] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[19-07-17] [DEBUG]: Jar mode set as: FALSE
+[19-07-17] [THREAD STARTED]: Object Creation Logger
+[19-07-18] [DEBUG]: Watchdog skipped
+[19-07-18] [DEBUG]: Executing subroutine: RegisterFonts
+[19-07-18] [FONT LOADED]: agency-fb
+[19-07-18] [FONT LOADED]: arial-black
+[19-07-18] [FONT LOADED]: beyno
+[19-07-18] [FONT LOADED]: condiment-regular
+[19-07-18] [FONT LOADED]: prompt-bold
+[19-07-18] [FONT LOADED]: segoe-ui-black
+[19-07-18] [FONT LOADED]: tahoma
+[19-07-18] [DEBUG]: Executing subroutine: SingularInstance
+[19-07-18] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-07-18] [DEBUG]: Starting instance socket on port 5150
+[19-07-19] [DEBUG]: Executing subroutine: SupportedOs
+[19-07-19] [DEBUG]: Executing subroutine: Validations
+[19-07-19] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-07-19] [THREAD STARTED]: Splash Loader
+[19-07-19] [DEBUG]: Executing subroutine: SufficientSubroutines
+[19-07-19] [THREAD STARTED]: JVM Args Logger
+[19-07-19] [LOGIN]: AutoCypher Attempt
+[19-07-19] [THREAD STARTED]: Splash Animation
+[19-07-19] [THREAD STARTED]: Enter animation, frame=Cyder Splash
+[19-07-19] UNIQUE OBJECT CREATEDConsole singleton constructed
+[19-07-19] [DEBUG]: Cyder Entry = AutoCypher
+[19-07-20] [THREAD STARTED]: Console Printing Animation
+[19-07-20] [THREAD STARTED]: Hourly Chime Checker
+[19-07-20] [THREAD STARTED]: Console Clock Updater
+[19-07-20] [THREAD STARTED]: Cyder Busy Checker
+[19-07-20] [THREAD STARTED]: Console Stat Saver
+[19-07-20] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-07-20] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[19-07-20] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[19-07-20] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[19-07-20] [THREAD STARTED]: Manual Tests Thread
+[19-07-20] [CONSOLE OUT]: [STRING]: Console loaded in 3069ms
+[19-07-20] [OBJECT CREATION]: Objects created since last delta (5000ms): 125
+[19-07-21] [THREAD STARTED]: High Ping Checker
+[19-07-21] [DEBUG]: Latency of Google found to be 50ms
+[19-07-21] [DEBUG]: Attempted to log a new or empty line
+[19-07-21] [THREAD STARTED]: Splash Loading Label Updater
+[19-07-22] [CLIENT]: create
+[19-07-22] [THREAD STARTED]: Enter animation, frame=Create User
+[19-07-22] [WIDGET]: UserCreator, trigger = create
+[19-07-22] [CONSOLE OUT]: [STRING]: Opening widget: UserCreator
+[19-07-22] [DEBUG]: Attempted to log a new or empty line
+[19-07-23] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[19-07-23] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659226016758.json
+[19-07-24] [THREAD STARTED]: Create User Opacity Decrement Animator
+[19-07-24] [THREAD STARTED]: Create User Opacity Increment Animator
+[19-07-25] [OBJECT CREATION]: Objects created since last delta (5000ms): 36
+[19-07-34] [UI]: Component = CyderButton, hash = 998050901, bounds = (50, 390, 240, 40), parent frame = Create User,
+           getText() = Create User
+[19-07-34] [THREAD STARTED]: Create User notification queue checker
+[19-07-34] [DEBUG]: CyderFrame "No title found" was attempted to be set to invalid height: 78
+[19-07-34] [UI]: [INFORMATION PANE] text = "Password must contain at least one number, one letter, and be 5 characters
+           long", relativeTo = Component = CyderFrame, hash = 1035646988, bounds = (1009, 591, 350, 500), parent frame = Component
+           itself is a CyderFrame, getText() = Create User, getTitle() = Create User
+[19-07-34] [UI]: [Create User] [NOTIFICATION] "<html>Failed to create user</html>"
+[19-07-34] [THREAD STARTED]: Notification Appear Animator
+[19-07-34] [THREAD STARTED]: Notification Vanish Animator
+[19-07-35] [OBJECT CREATION]: Objects created since last delta (5000ms): 23
+[19-07-37] [UI]: Component = CyderDragLabel, hash = 469837503, bounds = (2, 2, 628, 28), parent frame = Notification
+           (19:07:34), getText() = Create User, getTitle() = Create User
+[19-07-37] [THREAD STARTED]: [Notification (19:07:34)] dispose() animation thread
+[19-07-37] [UI]: CyderFrame disposed with fastclose=false, getTitle=Notification (19:07:34)
+[19-07-37] [THREAD STARTED]: Notification Vanish Animator
+[19-07-38] [THREAD STARTED]: Create User Opacity Decrement Animator
+[19-07-38] [THREAD STARTED]: Create User Opacity Increment Animator
+[19-07-41] [UI]: Component = CyderDragLabel, hash = -1035261394, bounds = (2, 2, 346, 28), parent frame = Create User,
+           getText() = Create User, getTitle() = Create User
+[19-07-41] [THREAD STARTED]: [Create User] dispose() animation thread
+[19-07-41] [UI]: CyderFrame disposed with fastclose=false, getTitle=Create User
+[19-09-21] [DEBUG]: Latency of Google found to be 53ms
+[19-11-21] [DEBUG]: Latency of Google found to be 237ms
+[19-13-21] [DEBUG]: Latency of Google found to be 49ms
+[19-15-21] [DEBUG]: Latency of Google found to be 48ms
+[19-17-21] [DEBUG]: Latency of Google found to be 50ms

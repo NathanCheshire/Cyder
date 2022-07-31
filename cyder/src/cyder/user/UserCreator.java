@@ -15,6 +15,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.LoginHandler;
+import cyder.layouts.CyderPartitionedLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.utils.*;
@@ -45,238 +46,285 @@ public final class UserCreator {
     private static CyderFrame createUserFrame;
 
     /**
-     * The password field to confirm the new user's password.
-     */
-    private static CyderPasswordField newUserPasswordConf;
-
-    /**
      * The password field for the user's password.
      */
-    private static CyderPasswordField newUserPassword;
+    private static CyderPasswordField newUserPasswordField;
+
+    /**
+     * The password field to confirm the new user's password.
+     */
+    private static CyderPasswordField newUserPasswordConfirmationField;
 
     /**
      * The field for the new user's name.
      */
-    private static CyderTextField newUserName;
+    private static CyderTextField newUserNameField;
 
     /**
      * The background chosen by the user as their initial background.
      */
-    private static File createUserBackground;
+    private static File newUserBackgroundFile;
 
     /**
-     * No instances of user creator allowed.
+     * The button to finalize the creation of a new user.
+     */
+    private static CyderButton createNewUserButton;
+
+    /**
+     * The label to display information on to help the user with their account creation.
+     */
+    private static JLabel informationLabel;
+
+    /**
+     * The button to choose a background file for the proposed user.
+     */
+    private static CyderButton chooseBackgroundButton;
+
+    /**
+     * Suppress default constructor.
      */
     private UserCreator() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Widget(triggers = {"createuser", "create"}, description = "A user creating widget")
-    public static void showGui() {
-        if (createUserFrame != null)
-            createUserFrame.dispose();
-        createUserBackground = null;
+    // todo at some point the passwords match label should just be a general
+    //  information label for if the username of password is invalid
 
-        createUserFrame = new CyderFrame(356, 473, CyderIcons.defaultBackground);
+    @Widget(triggers = {"create user", "create"}, description = "A widget for creating new users")
+    public static void showGui() {
+        if (createUserFrame != null) {
+            createUserFrame.dispose();
+        }
+
+        newUserBackgroundFile = null;
+
+        createUserFrame = new CyderFrame(350, 500, CyderIcons.defaultBackground);
         createUserFrame.setTitle("Create User");
 
         JLabel nameLabel = new JLabel("Username: ", SwingConstants.CENTER);
         nameLabel.setFont(CyderFonts.SEGOE_20);
         nameLabel.setForeground(CyderColors.navy);
-        nameLabel.setBounds(120, 30, 121, 30);
-        createUserFrame.getContentPane().add(nameLabel);
+        nameLabel.setSize(120, 30);
 
-        // initialize here since we need to update its tooltip
-        CyderButton createNewUser = new CyderButton("Create User");
+        createNewUserButton = new CyderButton("Create User");
 
-        newUserName = new CyderTextField(0);
-        newUserName.setHorizontalAlignment(JTextField.CENTER);
-        newUserName.setBackground(Color.white);
-        newUserName.setFont(CyderFonts.SEGOE_20);
-        newUserName.setBorder(new LineBorder(new Color(0, 0, 0)));
-        newUserName.addKeyListener(new KeyListener() {
-            @Override
-            public void keyPressed(java.awt.event.KeyEvent e) {
-                createNewUser.setToolTipText("Finalize the user \"" + newUserName.getText() + "\"");
-            }
+        newUserNameField = new CyderTextField(0);
+        newUserNameField.setHorizontalAlignment(JTextField.CENTER);
+        newUserNameField.setBackground(Color.white);
+        newUserNameField.setFont(CyderFonts.SEGOE_20);
+        newUserNameField.setBorder(new LineBorder(Color.black));
+        newUserNameField.addKeyListener(newUserNameFieldListener);
 
-            @Override
-            public void keyReleased(java.awt.event.KeyEvent e) {
-                createNewUser.setToolTipText("Finalize the user \"" + newUserName.getText() + "\"");
-            }
+        newUserNameField.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        newUserNameField.setSize(240, 40);
 
-            @Override
-            public void keyTyped(java.awt.event.KeyEvent e) {
-                createNewUser.setToolTipText("Finalize the user \"" + newUserName.getText() + "\"");
-            }
-        });
-
-        newUserName.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        newUserName.setBounds(60, 70, 240, 40);
-        createUserFrame.getContentPane().add(newUserName);
-
-        // set with windows username if not already used
-        String osUserName = OSUtil.getOsUsername();
-        boolean exists = false;
-
-        for (File userJson : UserUtil.getUserJsons()) {
-            User u = UserUtil.extractUser(userJson);
-            if (u.getName().equalsIgnoreCase(osUserName)) {
-                exists = true;
-                break;
-            }
-        }
-
-        if (!exists) {
-            newUserName.setText(osUserName);
+        if (!defaultCyderUserAlreadyExists()) {
+            newUserNameField.setText(OSUtil.getOsUsername());
         }
 
         JLabel passwordLabel = new JLabel("Password: ", SwingConstants.CENTER);
         passwordLabel.setFont(CyderFonts.SEGOE_20);
         passwordLabel.setForeground(CyderColors.navy);
-        passwordLabel.setBounds(60, 120, 240, 30);
-        createUserFrame.getContentPane().add(passwordLabel);
+        passwordLabel.setSize(240, 30);
 
-        // initialize here since we need to update it for both fields
-        JLabel matchPasswords = new JLabel("Passwords match", SwingConstants.CENTER);
+        informationLabel = new JLabel("Passwords match", SwingConstants.CENTER);
 
-        newUserPassword = new CyderPasswordField();
-        newUserPassword.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordConf.getPassword())) {
-                    matchPasswords.setText("Passwords match");
-                    matchPasswords.setForeground(CyderColors.regularGreen);
-                } else {
-                    matchPasswords.setText("Passwords do not match");
-                    matchPasswords.setForeground(CyderColors.regularRed);
-                }
-            }
-        });
-        newUserPassword.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        newUserPassword.setBounds(60, 160, 240, 40);
-        newUserPassword.setCaret(new CyderCaret(CyderColors.navy));
-        createUserFrame.getContentPane().add(newUserPassword);
+        newUserPasswordField = new CyderPasswordField();
+        newUserPasswordField.addKeyListener(newUserNamePasswordFieldKeyListener);
+        newUserPasswordField.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        newUserPasswordField.setSize(240, 40);
+        newUserPasswordField.setCaret(new CyderCaret(CyderColors.navy));
 
         JLabel passwordLabelConf = new JLabel("Confirm Password: ", SwingConstants.CENTER);
         passwordLabelConf.setFont(CyderFonts.SEGOE_20);
         passwordLabelConf.setForeground(CyderColors.navy);
-        passwordLabelConf.setBounds(60, 210, 240, 30);
-        createUserFrame.getContentPane().add(passwordLabelConf);
+        passwordLabelConf.setSize(240, 30);
 
-        newUserPasswordConf = new CyderPasswordField();
-        newUserPasswordConf.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordConf.getPassword())) {
-                    matchPasswords.setText("Passwords match");
-                    matchPasswords.setForeground(CyderColors.regularGreen);
-                } else {
-                    matchPasswords.setText("Passwords do not match");
-                    matchPasswords.setForeground(CyderColors.regularRed);
-                }
-            }
-        });
-        newUserPasswordConf.setBounds(60, 250, 240, 40);
-        createUserFrame.getContentPane().add(newUserPasswordConf);
+        newUserPasswordConfirmationField = new CyderPasswordField();
+        newUserPasswordConfirmationField.addKeyListener(newUserPasswordConfirmationKeyListener);
+        newUserPasswordConfirmationField.setSize(240, 40);
 
-        matchPasswords.setFont(CyderFonts.SEGOE_20);
-        matchPasswords.setForeground(CyderColors.regularGreen);
-        matchPasswords.setBounds(32, 300, 300, 30);
-        createUserFrame.getContentPane().add(matchPasswords);
+        informationLabel.setFont(CyderFonts.SEGOE_20);
+        informationLabel.setForeground(CyderColors.regularGreen);
+        informationLabel.setSize(300, 30);
 
-        CyderButton chooseBackground = new CyderButton("Choose background");
-        chooseBackground.setToolTipText("ClickMe me to choose a background");
-        chooseBackground.setFont(CyderFonts.SEGOE_20);
-        chooseBackground.setBackground(CyderColors.regularRed);
-        chooseBackground.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                try {
-                    chooseBackground(chooseBackground);
-                } catch (Exception exc) {
-                    ExceptionHandler.handle(exc);
-                }
-            }
+        chooseBackgroundButton = new CyderButton("Choose background");
+        chooseBackgroundButton.setToolTipText("Choose a background for the console");
+        chooseBackgroundButton.setFont(CyderFonts.SEGOE_20);
+        chooseBackgroundButton.setBackground(CyderColors.regularRed);
+        chooseBackgroundButton.addMouseListener(chooseBackgroundButtonMouseListener);
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                try {
-                    if (createUserBackground != null) {
-                        chooseBackground.setText(createUserBackground.getName());
-                    } else {
-                        chooseBackground.setText("No File Chosen");
-                    }
-                } catch (Exception ex) {
-                    ExceptionHandler.handle(ex);
-                }
-            }
+        chooseBackgroundButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        chooseBackgroundButton.setSize(240, 40);
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                try {
-                    if (createUserBackground != null) {
-                        chooseBackground.setText(createUserBackground.getName());
-                    } else {
-                        chooseBackground.setText("Choose Background");
-                    }
-                } catch (Exception ex) {
-                    ExceptionHandler.handle(ex);
-                }
-            }
-        });
+        createNewUserButton.setFont(CyderFonts.SEGOE_20);
+        createNewUserButton.setBackground(CyderColors.regularRed);
+        createNewUserButton.setToolTipText("Create");
+        createNewUserButton.addMouseListener(createNewUserButtonActionListener);
+        createNewUserButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        createNewUserButton.setFont(CyderFonts.SEGOE_20);
+        createNewUserButton.setSize(240, 40);
 
-        chooseBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        chooseBackground.setBounds(60, 340, 240, 40);
-        createUserFrame.getContentPane().add(chooseBackground);
+        CyderPartitionedLayout cyderPartitionedLayout = new CyderPartitionedLayout();
 
-        createNewUser.setFont(CyderFonts.SEGOE_20);
-        createNewUser.setBackground(CyderColors.regularRed);
-        createNewUser.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                try {
-                    if (!createUser(newUserName.getText(), newUserPassword.getPassword(),
-                            newUserPasswordConf.getPassword())) {
-                        createUserFrame.notify("Failed to create user");
+        cyderPartitionedLayout.addComponent(new JLabel(), 10);
+        cyderPartitionedLayout.addComponent(nameLabel, 5);
+        cyderPartitionedLayout.addComponent(newUserNameField, 8);
+        cyderPartitionedLayout.addComponent(new JLabel(), 5);
+        cyderPartitionedLayout.addComponent(passwordLabel, 5);
+        cyderPartitionedLayout.addComponent(newUserPasswordField, 8);
+        cyderPartitionedLayout.addComponent(new JLabel(), 5);
+        cyderPartitionedLayout.addComponent(passwordLabelConf, 5);
+        cyderPartitionedLayout.addComponent(newUserPasswordConfirmationField, 8);
+        cyderPartitionedLayout.addComponent(new JLabel(), 5);
+        cyderPartitionedLayout.addComponent(informationLabel, 5);
+        cyderPartitionedLayout.addComponent(new JLabel(), 5);
+        cyderPartitionedLayout.addComponent(chooseBackgroundButton, 10);
+        cyderPartitionedLayout.addComponent(createNewUserButton, 10);
 
-                        if (lastGeneratedUUID != null) {
-                            File deleteMe = OSUtil.buildFile(Dynamic.PATH,
-                                    Dynamic.USERS.getDirectoryName(), lastGeneratedUUID);
-
-                            OSUtil.deleteFile(deleteMe);
-                        }
-                    } else {
-                        createUserFrame.dispose();
-
-                        InformHandler.inform(new InformHandler.Builder("The new user \"" + newUserName.getText().trim()
-                                + "\" has been created successfully.").setTitle("Creation Success")
-                                .setRelativeTo(CyderFrame.getDominantFrame()));
-
-                        File[] userFiles = OSUtil.buildFile(Dynamic.PATH,
-                                Dynamic.USERS.getDirectoryName()).listFiles();
-
-                        // attempt to log in new user if it's the only user
-                        if (userFiles != null && userFiles.length == 1) {
-                            LoginHandler.getLoginFrame().dispose();
-                            LoginHandler.recognize(newUserName.getText().trim(),
-                                    SecurityUtil.toHexString(SecurityUtil.getSha256(
-                                            newUserPassword.getPassword())), false);
-                        }
-                    }
-                } catch (Exception ex) {
-                    ExceptionHandler.silentHandle(ex);
-                }
-            }
-        });
-
-        createNewUser.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        createNewUser.setFont(CyderFonts.SEGOE_20);
-        createNewUser.setBounds(60, 390, 240, 40);
-        createUserFrame.getContentPane().add(createNewUser);
-
+        createUserFrame.setCyderLayout(cyderPartitionedLayout);
         createUserFrame.finalizeAndShow();
-        newUserName.requestFocus();
+        newUserNameField.requestFocus();
+    }
+
+    /**
+     * The key listener for the create user button.
+     */
+    private static final KeyListener newUserNameFieldListener = new KeyListener() {
+        @Override
+        public void keyPressed(java.awt.event.KeyEvent e) {
+            createNewUserButton.setText("Create \"" + newUserNameField.getText().trim() + "\"");
+        }
+
+        @Override
+        public void keyReleased(java.awt.event.KeyEvent e) {
+            createNewUserButton.setText("Create \"" + newUserNameField.getText().trim() + "\"");
+        }
+
+        @Override
+        public void keyTyped(java.awt.event.KeyEvent e) {
+            createNewUserButton.setText("Create \"" + newUserNameField.getText().trim() + "\"");
+        }
+    };
+
+    private static final KeyListener newUserNamePasswordFieldKeyListener = new KeyAdapter() {
+        @Override
+        public void keyReleased(KeyEvent e) {
+            if (Arrays.equals(newUserPasswordField.getPassword(), newUserPasswordConfirmationField.getPassword())) {
+                informationLabel.setText("Passwords match");
+                informationLabel.setForeground(CyderColors.regularGreen);
+            } else {
+                informationLabel.setText("Passwords do not match");
+                informationLabel.setForeground(CyderColors.regularRed);
+            }
+        }
+    };
+
+    private static final KeyListener newUserPasswordConfirmationKeyListener = new KeyAdapter() {
+        @Override
+        public void keyReleased(KeyEvent e) {
+            if (Arrays.equals(newUserPasswordField.getPassword(), newUserPasswordConfirmationField.getPassword())) {
+                informationLabel.setText("Passwords match");
+                informationLabel.setForeground(CyderColors.regularGreen);
+            } else {
+                informationLabel.setText("Passwords do not match");
+                informationLabel.setForeground(CyderColors.regularRed);
+            }
+        }
+    };
+
+    private static final MouseAdapter createNewUserButtonActionListener = new MouseAdapter() {
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            try {
+                if (!createUser(newUserNameField.getText(), newUserPasswordField.getPassword(),
+                        newUserPasswordConfirmationField.getPassword())) {
+                    createUserFrame.notify("Failed to create user");
+
+                    if (lastGeneratedUUID != null) {
+                        File deleteMe = OSUtil.buildFile(Dynamic.PATH,
+                                Dynamic.USERS.getDirectoryName(), lastGeneratedUUID);
+
+                        OSUtil.deleteFile(deleteMe);
+                    }
+                } else {
+                    createUserFrame.dispose();
+
+                    InformHandler.inform(new InformHandler.Builder("The new user \""
+                            + newUserNameField.getText().trim()
+                            + "\" has been created successfully.").setTitle("Creation Success")
+                            .setRelativeTo(CyderFrame.getDominantFrame()));
+
+                    File[] userFiles = OSUtil.buildFile(Dynamic.PATH,
+                            Dynamic.USERS.getDirectoryName()).listFiles();
+
+                    // attempt to log in new user if it's the only user
+                    if (userFiles != null && userFiles.length == 1) {
+                        LoginHandler.getLoginFrame().dispose();
+                        LoginHandler.recognize(newUserNameField.getText().trim(),
+                                SecurityUtil.toHexString(SecurityUtil.getSha256(
+                                        newUserPasswordField.getPassword())), false);
+                    }
+                }
+            } catch (Exception ex) {
+                ExceptionHandler.silentHandle(ex);
+            }
+        }
+    };
+
+    private static final MouseAdapter chooseBackgroundButtonMouseListener = new MouseAdapter() {
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            try {
+                chooseBackground();
+            } catch (Exception exc) {
+                ExceptionHandler.handle(exc);
+            }
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            try {
+                if (newUserBackgroundFile != null) {
+                    chooseBackgroundButton.setText(newUserBackgroundFile.getName());
+                } else {
+                    chooseBackgroundButton.setText("No File Chosen");
+                }
+            } catch (Exception ex) {
+                ExceptionHandler.handle(ex);
+            }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            try {
+                if (newUserBackgroundFile != null) {
+                    chooseBackgroundButton.setText(newUserBackgroundFile.getName());
+                } else {
+                    chooseBackgroundButton.setText("Choose Background");
+                }
+            } catch (Exception ex) {
+                ExceptionHandler.handle(ex);
+            }
+        }
+    };
+
+    /**
+     * Returns whether the user with the user name of {@link  OSUtil#getOsUsername()} exists.
+     *
+     * @return whether the user with the user name of {@link  OSUtil#getOsUsername()} exists
+     */
+    private static boolean defaultCyderUserAlreadyExists() {
+        String osUsername = OSUtil.getOsUsername();
+
+        for (File userJson : UserUtil.getUserJsons()) {
+            User user = UserUtil.extractUser(userJson);
+            if (user.getName().equalsIgnoreCase(osUsername)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -286,23 +334,20 @@ public final class UserCreator {
 
     /**
      * Initializes the new user's background.
-     *
-     * @param referenceButton the button to set to the tooltip
-     *                        of the chosen background if a valid one is chosen
      */
-    private static void chooseBackground(CyderButton referenceButton) {
+    private static void chooseBackground() {
         CyderThreadRunner.submit(() -> {
             try {
                 File temp = GetterUtil.getInstance().getFile(
                         new GetterUtil.Builder("Choose new user's background file")
                                 .setRelativeTo(CyderFrame.getDominantFrame()));
                 if (temp != null) {
-                    createUserBackground = temp;
-                    referenceButton.setText(createUserBackground.getName());
+                    newUserBackgroundFile = temp;
+                    chooseBackgroundButton.setText(newUserBackgroundFile.getName());
                 }
 
                 if (temp == null || !FileUtil.isSupportedImageExtension(temp)) {
-                    createUserBackground = null;
+                    newUserBackgroundFile = null;
                 }
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
@@ -339,15 +384,15 @@ public final class UserCreator {
 
         if (!Arrays.equals(password, passwordConf)) {
             createUserFrame.notify("Passwords are not equal");
-            newUserPassword.setText("");
-            newUserPasswordConf.setText("");
+            newUserPasswordField.setText("");
+            newUserPasswordConfirmationField.setText("");
             return false;
         }
 
         if (password.length < 5 || passwordConf.length < 5) {
             createUserFrame.notify("Password length must be at least 5 characters");
-            newUserPassword.setText("");
-            newUserPasswordConf.setText("");
+            newUserPasswordField.setText("");
+            newUserPasswordConfirmationField.setText("");
             return false;
         }
 
@@ -369,8 +414,8 @@ public final class UserCreator {
         if (!number || !alphabet) {
             createUserFrame.notify("Password must contain at least one number," +
                     " one letter, and be 5 characters long");
-            newUserPassword.setText("");
-            newUserPasswordConf.setText("");
+            newUserPasswordField.setText("");
+            newUserPasswordConfirmationField.setText("");
             return false;
         }
 
@@ -407,7 +452,7 @@ public final class UserCreator {
             if (!f.isDirectory())
                 continue;
             try {
-                if (UserUtil.extractUser(f).getName().equalsIgnoreCase(newUserName.getText().trim())) {
+                if (UserUtil.extractUser(f).getName().equalsIgnoreCase(newUserNameField.getText().trim())) {
                     userNameExists = true;
                     break;
                 }
@@ -418,7 +463,7 @@ public final class UserCreator {
         if (userNameExists) {
             createUserFrame.inform("Sorry, but that username is already in use. "
                     + "Please choose a different one.", "");
-            newUserName.setText("");
+            newUserNameField.setText("");
             return false;
         }
 
@@ -450,16 +495,16 @@ public final class UserCreator {
             }
         }
 
-        if (createUserBackground == null) {
-            createUserBackground = UserUtil.createDefaultBackground(uuid);
+        if (newUserBackgroundFile == null) {
+            newUserBackgroundFile = UserUtil.createDefaultBackground(uuid);
         }
 
         // create the user background in the directory
         try {
             File destination = OSUtil.buildFile(Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(),
-                    uuid, UserFile.BACKGROUNDS.getName(), createUserBackground.getName());
-            Files.copy(Paths.get(createUserBackground.getAbsolutePath()), destination.toPath());
+                    uuid, UserFile.BACKGROUNDS.getName(), newUserBackgroundFile.getName());
+            Files.copy(Paths.get(newUserBackgroundFile.getAbsolutePath()), destination.toPath());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             return false;
@@ -469,7 +514,7 @@ public final class UserCreator {
         User user = new User();
 
         //name and password
-        user.setName(newUserName.getText().trim());
+        user.setName(newUserNameField.getText().trim());
         user.setPass(SecurityUtil.toHexString(SecurityUtil.getSha256(
                 SecurityUtil.toHexString(SecurityUtil.getSha256(password)).toCharArray())));
 
@@ -498,7 +543,7 @@ public final class UserCreator {
 
         // screen stat initializing
         try {
-            background = ImageIO.read(createUserBackground);
+            background = ImageIO.read(newUserBackgroundFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             return false;

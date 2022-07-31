@@ -703,8 +703,6 @@ public class CyderDragLabel extends JLabel {
     // todo console location saving doesn't work and sometimes
     //  messes up still, only save is not being disposed too
 
-    // todo use partitioned layout for create user widget
-
     // todo architecture for startup subroutines needs to be like input handlers
     // todo after this update the design doc
 
