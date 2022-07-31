@@ -2,10 +2,12 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
+import cyder.enums.Dynamic;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -179,5 +181,35 @@ public final class SecurityUtil {
         }
 
         throw new FatalException("Unable to compute SHA256 of input");
+    }
+
+    /**
+     * Returns a unique uuid that does not exist for all current Cyder users.
+     *
+     * @return a unique uuid that does not exist for all current Cyder users
+     */
+    public static String generateUuidForUser() {
+        String uuid = SecurityUtil.generateUuid();
+        File userFolder = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid);
+
+        while (userFolder.exists()) {
+            uuid = SecurityUtil.generateUuid();
+            userFolder = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid);
+        }
+
+        return uuid;
+    }
+
+    /**
+     * Double hashes the provided password using sha256 and returns the hex string representing the password.
+     *
+     * @param password the password to double hash
+     * @return the double hashed password
+     */
+    public static String doubleHashToHex(char[] password) {
+        Preconditions.checkNotNull(password);
+
+        return SecurityUtil.toHexString(SecurityUtil.getSha256(
+                SecurityUtil.toHexString(SecurityUtil.getSha256(password)).toCharArray()));
     }
 }

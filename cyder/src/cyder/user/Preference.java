@@ -8,7 +8,7 @@ import cyder.utils.ReflectionUtil;
  * Preference class used to hold user data in the form of strings.
  * Instances of this class are immutable and thus thread safe.
  */
-@SuppressWarnings("ClassCanBeRecord") // gson
+@SuppressWarnings("ClassCanBeRecord") /* GSON serialization */
 @Immutable
 public class Preference {
     /**

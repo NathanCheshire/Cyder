@@ -43,6 +43,42 @@ public class CyderPasswordField extends JPasswordField {
     }
 
     /**
+     * Suppress a default constructor.
+     */
+    @Deprecated
+    @SuppressWarnings("unused")
+    private CyderPasswordField(int col) {
+        throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
+    }
+
+    /**
+     * Suppress a default constructor.
+     */
+    @Deprecated
+    @SuppressWarnings("unused")
+    private CyderPasswordField(String text) {
+        throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
+    }
+
+    /**
+     * Suppress a default constructor.
+     */
+    @Deprecated
+    @SuppressWarnings("unused")
+    private CyderPasswordField(String text, int col) {
+        throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
+    }
+
+    /**
+     * Suppress a default constructor.
+     */
+    @Deprecated
+    @SuppressWarnings("unused")
+    private CyderPasswordField(Document doc, String text, int col) {
+        throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
+    }
+
+    /**
      * The mouse adapter to log field actions.
      */
     private static final MouseAdapter loggingMouseAdapter = new MouseAdapter() {
@@ -72,48 +108,13 @@ public class CyderPasswordField extends JPasswordField {
         };
     }
 
+    /**
+     * Refreshes the caret position, caret, and echo character of this password field.
+     */
     public void refresh() {
         setEchoChar(CyderStrings.ECHO_CHAR);
         setCaret(getCaret());
         setCaretPosition(getPassword().length);
-    }
-
-    private static final String ILLEGAL_CONSTRUCTOR = "Illegal constructor";
-
-    /**
-     * Suppress a default constructor.
-     */
-    @Deprecated
-    @SuppressWarnings("unused")
-    private CyderPasswordField(int col) {
-        throw new IllegalMethodException(ILLEGAL_CONSTRUCTOR);
-    }
-
-    /**
-     * Suppress a default constructor.
-     */
-    @Deprecated
-    @SuppressWarnings("unused")
-    private CyderPasswordField(String text) {
-        throw new IllegalMethodException(ILLEGAL_CONSTRUCTOR);
-    }
-
-    /**
-     * Suppress a default constructor.
-     */
-    @Deprecated
-    @SuppressWarnings("unused")
-    private CyderPasswordField(String text, int col) {
-        throw new IllegalMethodException(ILLEGAL_CONSTRUCTOR);
-    }
-
-    /**
-     * Suppress a default constructor.
-     */
-    @Deprecated
-    @SuppressWarnings("unused")
-    private CyderPasswordField(Document doc, String text, int col) {
-        throw new IllegalMethodException(ILLEGAL_CONSTRUCTOR);
     }
 
     /**

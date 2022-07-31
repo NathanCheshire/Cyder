@@ -488,7 +488,6 @@ public class CyderDragLabel extends JLabel {
         return leftButtonList.get(index);
     }
 
-
     /**
      * Adds the button to the right drag label at the given index.
      *
@@ -696,6 +695,8 @@ public class CyderDragLabel extends JLabel {
             remove(button);
         }
     }
+
+    // todo need a startup routine for cleaning up users that also removes backups not linked to any user
 
     // todo I think prefs freeze sometimes because of loading files?
     //  need to redo it anyway since apparently handles are left open and we have difficulties removing files

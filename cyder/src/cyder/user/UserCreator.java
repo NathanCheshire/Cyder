@@ -217,6 +217,12 @@ public final class UserCreator {
         }
     };
 
+    /**
+     * Whether the currently entered new user credentials are valid
+     * and can be used for construction of a new user.
+     */
+    private static boolean validCredentails = false;
+
     // Error messages
     private static final String NO_USERNAME = "No username";
     private static final String INVALID_NAME = "Invalid name";
@@ -236,6 +242,7 @@ public final class UserCreator {
      */
     private static void updateInformationLabel() {
         informationLabel.setForeground(CyderColors.regularRed);
+        validCredentails = false;
 
         String name = newUserNameField.getText().trim();
         char[] password = newUserPasswordField.getPassword();
@@ -262,7 +269,12 @@ public final class UserCreator {
         } else {
             informationLabel.setText(VALID);
             informationLabel.setForeground(CyderColors.regularGreen);
+
+            validCredentails = true;
         }
+
+        Arrays.fill(password, '\0');
+        Arrays.fill(passwordConfirmation, '\0');
     }
 
     /**
@@ -296,39 +308,44 @@ public final class UserCreator {
      */
     private static final ActionListener createNewUserActionListener = e -> {
         try {
-            if (!attemptToCreateUser(newUserNameField.getText(), newUserPasswordField.getPassword(),
-                    newUserPasswordConfirmationField.getPassword())) {
-                createUserFrame.notify("Failed to create user");
+            String name = newUserNameField.getText().trim();
+            char[] password = newUserPasswordField.getPassword();
 
+            if (!attemptToCreateUser(name, password)) {
                 if (lastGeneratedUuid != null) {
-                    File deleteMe = OSUtil.buildFile(Dynamic.PATH,
-                            Dynamic.USERS.getDirectoryName(), lastGeneratedUuid);
-
-                    OSUtil.deleteFile(deleteMe);
+                    OSUtil.deleteFile(OSUtil.buildFile(
+                            Dynamic.PATH, Dynamic.USERS.getDirectoryName(), lastGeneratedUuid));
                 }
             } else {
                 createUserFrame.dispose();
 
-                InformHandler.inform(new InformHandler.Builder("The new user \""
-                        + newUserNameField.getText().trim()
-                        + "\" has been created successfully.").setTitle("Creation Success")
+                InformHandler.inform(new InformHandler.Builder("The new user \"" + name
+                        + "\" has been created successfully.").setTitle("User Created")
                         .setRelativeTo(CyderFrame.getDominantFrame()));
 
-                File[] userFiles = OSUtil.buildFile(Dynamic.PATH,
-                        Dynamic.USERS.getDirectoryName()).listFiles();
-
-                // attempt to log in new user if it's the only user
-                if (userFiles != null && userFiles.length == 1) {
+                if (onlyOneUser()) {
                     LoginHandler.getLoginFrame().dispose();
-                    LoginHandler.recognize(newUserNameField.getText().trim(),
-                            SecurityUtil.toHexString(SecurityUtil.getSha256(
-                                    newUserPasswordField.getPassword())), false);
+                    LoginHandler.recognize(name, SecurityUtil.toHexString(SecurityUtil.getSha256(password)), false);
                 }
             }
+
+            Arrays.fill(password, '\0');
         } catch (Exception ex) {
             ExceptionHandler.silentHandle(ex);
         }
     };
+
+    /**
+     * Returns whether only one valid user exists within Cyder.
+     *
+     * @return whether only one valid user exists within Cyder
+     */
+    private static boolean onlyOneUser() {
+        File[] userFiles = OSUtil.buildFile(
+                Dynamic.PATH, Dynamic.USERS.getDirectoryName()).listFiles();
+
+        return userFiles != null && userFiles.length == 1;
+    }
 
     /**
      * The action listener for the choose background button.
@@ -440,94 +457,84 @@ public final class UserCreator {
     }
 
     /**
+     * Creates the default screen stat object based on the current monitor and the provided default background.
+     *
+     * @param background the default background the user will be using
+     * @return the default screen stat
+     */
+    private static ScreenStat createDefaultScreenStat(BufferedImage background) {
+        int monitorNum = -1;
+        int w = background.getWidth();
+        int h = background.getHeight();
+        int x;
+        int y;
+
+        int screenWidth = ScreenUtil.getScreenWidth();
+        int screenHeight = ScreenUtil.getScreenHeight();
+
+        if (createUserFrame != null) {
+            GraphicsConfiguration gc = createUserFrame.getGraphicsConfiguration();
+            String monitorID = gc.getDevice().getIDstring().replaceAll("[^0-9]", "");
+
+            try {
+                monitorNum = Integer.parseInt(monitorID);
+                int monitorWidth = (int) gc.getBounds().getWidth();
+                int monitorHeight = (int) gc.getBounds().getHeight();
+                int monitorX = (int) gc.getBounds().getX();
+                int monitorY = (int) gc.getBounds().getY();
+
+                x = monitorX + (monitorWidth - w) / 2;
+                y = monitorY + (monitorHeight - h) / 2;
+            } catch (Exception e) {
+                x = (screenWidth - w) / 2;
+                y = (screenHeight - h) / 2;
+            }
+        } else {
+            x = (screenWidth - w) / 2;
+            y = (screenHeight - h) / 2;
+        }
+
+        return new ScreenStat(x, y, w, h, monitorNum, false, Direction.TOP);
+    }
+
+    /**
      * Attempts to create a user based off of the provided necessary initial data.
      *
-     * @param name         the requested name of the new user
-     * @param password     the password of the new user
-     * @param passwordConf the password confirmation of the new user
+     * @param name     the requested name of the new user
+     * @param password the password of the new user
      * @return whether the user was created
      */
-    public static boolean attemptToCreateUser(String name, char[] password, char[] passwordConf) {
-        if (StringUtil.isNull(name)) {
+    private static boolean attemptToCreateUser(String name, char[] password) {
+        if (!validCredentails) {
+            createUserFrame.toast(informationLabel.getText());
             return false;
         }
 
-        if (password == null || passwordConf == null) {
-            return false;
-        }
-
-        if (!Arrays.equals(password, passwordConf)) {
-            createUserFrame.notify("Passwords are not equal");
-            newUserPasswordField.setText("");
-            newUserPasswordConfirmationField.setText("");
-            return false;
-        }
-
-        if (password.length < 5 || passwordConf.length < 5) {
-            createUserFrame.notify("Password length must be at least 5 characters");
-            newUserPasswordField.setText("");
-            newUserPasswordConfirmationField.setText("");
-            return false;
-        }
-
-        boolean alphabet = StringUtil.containsLetter(password);
-        boolean number = StringUtil.containsNumber(password);
-
-        if (!number || !alphabet) {
-            createUserFrame.notify("Password must contain at least one number," +
-                    " one letter, and be 5 characters long");
-            newUserPasswordField.setText("");
-            newUserPasswordConfirmationField.setText("");
-            return false;
-        }
-
-        // generate the user uuid and ensure it is unique
-        String uuid = SecurityUtil.generateUuid();
-        File folder = OSUtil.buildFile(Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(), uuid);
-
-        while (folder.exists()) {
-            uuid = SecurityUtil.generateUuid();
-            folder = OSUtil.buildFile(Dynamic.PATH,
-                    Dynamic.USERS.getDirectoryName(), uuid);
-        }
-
-        // set the uuid so that we can delete the folder if something fails later
+        String uuid = SecurityUtil.generateUuidForUser();
         lastGeneratedUuid = uuid;
 
-        // ensure that the username doesn't already exist
-        boolean userNameExists = usernameInUse(newUserNameField.getText().trim());
-
-        if (userNameExists) {
-            createUserFrame.inform("Sorry, but that username is already in use. "
-                    + "Please choose a different one.", "");
-            newUserNameField.setText("");
+        if (!OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid).mkdir()) {
+            createUserFrame.toast("Failed to create user folder");
             return false;
         }
 
-        // create the user folder
-        File userFolder = OSUtil.buildFile(Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(), uuid);
+        for (UserFile userFile : UserFile.values()) {
+            File makeMe = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid, userFile.getName());
 
-        if (!userFolder.mkdir()) {
-            return false;
-        }
-
-        // create the default user files
-        for (UserFile f : UserFile.values()) {
-            File makeMe = OSUtil.buildFile(Dynamic.PATH,
-                    Dynamic.USERS.getDirectoryName(), uuid, f.getName());
-
-            if (f.isFile()) {
+            if (userFile.isFile()) {
                 try {
-                    if (!makeMe.createNewFile())
+                    if (!makeMe.createNewFile()) {
+                        createUserFrame.toast("Failed to create file: " + userFile.getName());
                         return false;
+                    }
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
+                    createUserFrame.toast("Failed to create file");
                     return false;
                 }
             } else {
                 if (!makeMe.mkdir()) {
+                    createUserFrame.toast("Failed to create folder: " + userFile.getName());
                     return false;
                 }
             }
@@ -537,24 +544,19 @@ public final class UserCreator {
             newUserBackgroundFile = UserUtil.createDefaultBackground(uuid);
         }
 
-        // create the user background in the directory
         try {
-            File destination = OSUtil.buildFile(Dynamic.PATH,
-                    Dynamic.USERS.getDirectoryName(),
+            File destination = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                     uuid, UserFile.BACKGROUNDS.getName(), newUserBackgroundFile.getName());
             Files.copy(Paths.get(newUserBackgroundFile.getAbsolutePath()), destination.toPath());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+            createUserFrame.toast("Failed to create default background");
             return false;
         }
 
-        // build the user
         User user = new User();
-
-        //name and password
-        user.setName(newUserNameField.getText().trim());
-        user.setPass(SecurityUtil.toHexString(SecurityUtil.getSha256(
-                SecurityUtil.toHexString(SecurityUtil.getSha256(password)).toCharArray())));
+        user.setName(name);
+        user.setPass(SecurityUtil.doubleHashToHex(password));
 
         // default preferences
         for (Preference pref : Preferences.getPreferences()) {
@@ -578,56 +580,17 @@ public final class UserCreator {
         }
 
         BufferedImage background;
-
-        // screen stat initializing
         try {
             background = ImageIO.read(newUserBackgroundFile);
         } catch (Exception e) {
-            ExceptionHandler.handle(e);
-            return false;
+            background = ImageUtil.toBufferedImage(ImageUtil.imageIconFromColor(Color.black, 800, 800));
         }
 
-        int monitorNum = -1;
-        int x;
-        int y;
-
-        // figure out the monitor we should be using for the user's screen stats
-        if (createUserFrame != null) {
-            GraphicsConfiguration gc = createUserFrame.getGraphicsConfiguration();
-            String monitorID = gc.getDevice().getIDstring().replaceAll("[^0-9]", "");
-
-            try {
-                monitorNum = Integer.parseInt(monitorID);
-                int monitorWidth = (int) gc.getBounds().getWidth();
-                int monitorHeight = (int) gc.getBounds().getHeight();
-                int monitorX = (int) gc.getBounds().getX();
-                int monitorY = (int) gc.getBounds().getY();
-
-                x = monitorX + (monitorWidth - background.getWidth()) / 2;
-                y = monitorY + (monitorHeight - background.getHeight()) / 2;
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-
-                // error so default the screen stats
-                x = (ScreenUtil.getScreenWidth() - background.getWidth()) / 2;
-                y = (ScreenUtil.getScreenHeight() - background.getHeight()) / 2;
-            }
-        } else {
-            x = (ScreenUtil.getScreenWidth() - background.getWidth()) / 2;
-            y = (ScreenUtil.getScreenHeight() - background.getHeight()) / 2;
-        }
-
-        user.setScreenStat(new ScreenStat(x, y, background.getWidth(),
-                background.getHeight(), monitorNum, false, Direction.TOP));
+        user.setScreenStat(createDefaultScreenStat(background));
         user.setExecutables(new LinkedList<>());
 
-        UserUtil.setUserData(OSUtil.buildFile(
-                Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(),
-                uuid, UserFile.USERDATA.getName()), user);
-
-        Arrays.fill(password, '\0');
-        Arrays.fill(passwordConf, '\0');
+        UserUtil.setUserData(OSUtil.buildFile(Dynamic.PATH,
+                Dynamic.USERS.getDirectoryName(), uuid, UserFile.USERDATA.getName()), user);
 
         return true;
     }

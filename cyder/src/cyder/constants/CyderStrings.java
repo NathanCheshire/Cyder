@@ -5,6 +5,11 @@ package cyder.constants;
  */
 public final class CyderStrings {
     /**
+     * A string to be displayed when an illegal/{@link Deprecated} constructor is invoked.
+     */
+    public static final String ILLEGAL_CONSTRUCTOR = "Illegal constructor";
+
+    /**
      * A string used as a an error message for when a method has failed to be overridden and implemented.
      */
     public static final String NOT_IMPLEMENTED = "Method not implemented";
