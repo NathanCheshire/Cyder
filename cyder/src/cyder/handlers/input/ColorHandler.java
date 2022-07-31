@@ -8,7 +8,7 @@ import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderCaret;
-import cyder.user.Preferences;
+import cyder.user.Preference;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.ColorUtil;
@@ -92,7 +92,7 @@ public class ColorHandler extends InputHandler {
                             .setForeground(ColorUtil.rgbToHexString(CyderColors.defaultDarkModeTextColor));
                 }
 
-                Preferences.invokeRefresh("foreground");
+                Preference.invokeRefresh("foreground");
                 getInputHandler().println("Foreground fixed");
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

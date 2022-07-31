@@ -1,6 +1,5 @@
 package cyder.user;
 
-import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
 import cyder.audio.AudioPlayer;
 import cyder.console.Console;
@@ -671,7 +670,7 @@ public final class UserEditor {
 
                     CyderColors.setGuiThemeColor(c);
 
-                    Preferences.invokeRefresh("windowcolor");
+                    Preference.invokeRefresh("windowcolor");
                 } catch (Exception ignored) {
                 }
             }
@@ -909,7 +908,7 @@ public final class UserEditor {
             windowField.setText(defaultUser.getWindowcolor());
             windowColorBlock.setBackground((ColorUtil.hexStringToColor(defaultUser.getWindowcolor())));
             CyderColors.setGuiThemeColor((ColorUtil.hexStringToColor(defaultUser.getWindowcolor())));
-            Preferences.invokeRefresh("windowcolor");
+            Preference.invokeRefresh("windowcolor");
 
             // set scroll list position to top
             if (fontScrollRef.get() != null) {
@@ -964,29 +963,29 @@ public final class UserEditor {
         printingUtil.printlnComponent(prefsTitle);
 
         // print boolean userdata, i.e. (preferences)
-        for (int i = 0 ; i < Preferences.getPreferences().size() ; i++) {
-            if (Preferences.getPreferences().get(i).getDisplayName().equals("IGNORE"))
+        for (int i = 0 ; i < Preference.getPreferences().size() ; i++) {
+            if (Preference.getPreferences().get(i).getDisplayName().equals("IGNORE"))
                 continue;
 
             // label for information
-            CyderLabel preferenceLabel = new CyderLabel(Preferences.getPreferences().get(i).getDisplayName());
+            CyderLabel preferenceLabel = new CyderLabel(Preference.getPreferences().get(i).getDisplayName());
             preferenceLabel.setForeground(CyderColors.navy);
             preferenceLabel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
             preferenceLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
             printingUtil.printComponent(preferenceLabel);
             printingUtil.print(StringUtil.generateNSpaces(20));
 
-            Preference localPref = Preferences.getPreferences().get(i);
+            Preference localPref = Preference.getPreferences().get(i);
             boolean selected = UserUtil.getUserDataById(localPref.getID()).equalsIgnoreCase("1");
 
             CyderCheckbox checkbox = new CyderCheckbox(selected);
-            checkbox.setToolTipText(Preferences.getPreferences().get(i).getTooltip());
+            checkbox.setToolTipText(Preference.getPreferences().get(i).getTooltip());
             checkbox.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     UserUtil.setUserDataById(localPref.getID(), checkbox.isChecked() ? "1" : "0");
 
-                    Preferences.invokeRefresh(localPref.getID());
+                    Preference.invokeRefresh(localPref.getID());
                 }
             });
 

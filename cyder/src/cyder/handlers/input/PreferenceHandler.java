@@ -4,7 +4,6 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.user.Preference;
-import cyder.user.Preferences;
 import cyder.user.UserUtil;
 import cyder.utils.StringUtil;
 
@@ -24,7 +23,7 @@ public class PreferenceHandler extends InputHandler {
         String targetedPreference = getInputHandler().getCommand();
         String parsedArgs = getInputHandler().argsToString().replaceAll("\\s+", "");
 
-        for (Preference pref : Preferences.getPreferences()) {
+        for (Preference pref : Preference.getPreferences()) {
             if (targetedPreference.equalsIgnoreCase(pref.getID().trim())) {
                 if (!pref.getDisplayName().equals("IGNORE")) {
                     boolean oldVal = UserUtil.getUserDataById(pref.getID()).equals("1");
@@ -44,7 +43,7 @@ public class PreferenceHandler extends InputHandler {
                     getInputHandler().println(pref.getDisplayName()
                             + " set to " + (newVal.equals("1") ? "true" : "false"));
 
-                    Preferences.invokeRefresh(pref.getID());
+                    Preference.invokeRefresh(pref.getID());
 
                     return true;
                 }

@@ -493,7 +493,7 @@ public final class UserUtil {
 
                             // find the preference associated with this getter
                             Preference preference = null;
-                            for (Preference pref : Preferences.getPreferences()) {
+                            for (Preference pref : Preference.getPreferences()) {
                                 if (pref.getID().equalsIgnoreCase(getterMethod.getName()
                                         .replace("get", ""))) {
                                     preference = pref;
@@ -743,14 +743,13 @@ public final class UserUtil {
      * a brand new object with default values each time as a static final
      * user cannot be created and returned safely.
      *
-     * @return a user object with all the default
-     * {@link Preferences} found in {@code GenesisShare}.
+     * @return a user object with all the default {@link Preference}s.
      */
     public static User buildDefaultUser() {
         User ret = new User();
 
         //for all the preferences
-        for (Preference pref : Preferences.getPreferences()) {
+        for (Preference pref : Preference.getPreferences()) {
             //get all methods of user
             for (Method m : ret.getClass().getMethods()) {
                 //make sure it's a setter with one parameter
@@ -1214,7 +1213,7 @@ public final class UserUtil {
      * @param user the user to reset to a default state
      */
     public static void resetUser(User user) {
-        for (Preference pref : Preferences.getPreferences()) {
+        for (Preference pref : Preference.getPreferences()) {
             if (!pref.ignoreForUserCreation()) {
                 for (Method m : user.getClass().getMethods()) {
                     if (m.getName().startsWith(SET)

@@ -696,8 +696,6 @@ public class CyderDragLabel extends JLabel {
         }
     }
 
-    // todo consolidate preferences class to Preference.java
-
     // todo make max font size and min prop configurable
 
     // todo separate out prop files to files that make sense

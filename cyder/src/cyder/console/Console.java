@@ -2020,7 +2020,7 @@ public enum Console {
             int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
             size += e.getWheelRotation() == -1 ? 1 : -1;
 
-            if (size > Preferences.MAX_FONT_SIZE || size < Preferences.MIN_FONT_SIZE) {
+            if (size > Preference.MAX_FONT_SIZE || size < Preference.MIN_FONT_SIZE) {
                 return;
             }
 

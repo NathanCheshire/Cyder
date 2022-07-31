@@ -1,5 +1,6 @@
 package cyder.user;
 
+import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
 import cyder.console.Console;
 import cyder.handlers.internal.Logger;
@@ -9,7 +10,7 @@ import cyder.utils.ReflectionUtil;
  * Class representing a name and a path to an executable/file/link to open.
  * Instances of this class are immutable.
  */
-@SuppressWarnings("ClassCanBeRecord") // gson complains
+@SuppressWarnings("ClassCanBeRecord") /* GSON serialization */
 @Immutable
 public class MappedExecutable {
     /**
@@ -29,8 +30,8 @@ public class MappedExecutable {
      * @param filepath the path to the file to open
      */
     public MappedExecutable(String name, String filepath) {
-        this.name = name;
-        this.filepath = filepath;
+        this.name = Preconditions.checkNotNull(name);
+        this.filepath = Preconditions.checkNotNull(filepath);
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }

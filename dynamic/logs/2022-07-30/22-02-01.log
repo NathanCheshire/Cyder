@@ -1,0 +1,303 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[22-02-01] [ENTRY]: Nathan
+[22-02-01] [DEBUG]: Found prop file: props\propkeys.ini
+[22-02-01] [DEBUG]: Found prop file: props\props.ini
+[22-02-01] [PROP LOADED]: [key = map_quest_api_key]
+[22-02-01] [PROP LOADED]: [key = youtube_api_3_key]
+[22-02-01] [PROP LOADED]: [key = ip_key]
+[22-02-01] [PROP LOADED]: [key = weather_key]
+[22-02-01] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[22-02-01] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7ca733d0a7f6]
+[22-02-01] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[22-02-01] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[22-02-01] [PROP LOADED]: [key = font_metric, value = 1]
+[22-02-01] [PROP LOADED]: [key = released, value = false]
+[22-02-01] [PROP LOADED]: [key = version, value = Liminal]
+[22-02-01] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[22-02-01] [PROP LOADED]: [key = components_relocatable, value = false]
+[22-02-01] [PROP LOADED]: [key = testing_mode, value = true]
+[22-02-01] [PROP LOADED]: [key = autocypher, value = true]
+[22-02-01] [PROP LOADED]: [key = dispose_splash, value = true]
+[22-02-01] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[22-02-01] [PROP LOADED]: [key = activate_watchdog, value = false]
+[22-02-01] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[22-02-01] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[22-02-01] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[22-02-01] [PROP LOADED]: [key = ui_scale, value = 0.25]
+[22-02-01] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[22-02-01] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[22-02-01] [DEBUG]: Jar mode set as: FALSE
+[22-02-01] [THREAD STARTED]: Object Creation Logger
+[22-02-02] [DEBUG]: Watchdog skipped
+[22-02-02] [DEBUG]: Executing subroutine: RegisterFonts
+[22-02-03] [FONT LOADED]: agency-fb
+[22-02-03] [FONT LOADED]: arial-black
+[22-02-03] [FONT LOADED]: beyno
+[22-02-03] [FONT LOADED]: condiment-regular
+[22-02-03] [FONT LOADED]: prompt-bold
+[22-02-03] [FONT LOADED]: segoe-ui-black
+[22-02-03] [FONT LOADED]: tahoma
+[22-02-03] [DEBUG]: Executing subroutine: SingularInstance
+[22-02-03] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-02-03] [DEBUG]: Starting instance socket on port 5150
+[22-02-03] [DEBUG]: Executing subroutine: SupportedOs
+[22-02-03] [DEBUG]: Executing subroutine: Validations
+[22-02-03] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-02-04] [THREAD STARTED]: Splash Loader
+[22-02-04] [DEBUG]: Executing subroutine: SufficientSubroutines
+[22-02-04] [THREAD STARTED]: JVM Args Logger
+[22-02-04] [LOGIN]: AutoCypher Attempt
+[22-02-04] [THREAD STARTED]: Splash Animation
+[22-02-04] [THREAD STARTED]: Enter animation, frame=Cyder Splash
+[22-02-04] [OBJECT CREATION]: Objects created since last delta (5000ms): 73
+[22-02-05] UNIQUE OBJECT CREATEDConsole singleton constructed
+[22-02-05] [DEBUG]: Cyder Entry = AutoCypher
+[22-02-06] [THREAD STARTED]: Console Printing Animation
+[22-02-06] [THREAD STARTED]: Hourly Chime Checker
+[22-02-06] [THREAD STARTED]: Console Clock Updater
+[22-02-06] [THREAD STARTED]: Cyder Busy Checker
+[22-02-06] [THREAD STARTED]: Console Stat Saver
+[22-02-06] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[22-02-06] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[22-02-06] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[22-02-06] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[22-02-06] [THREAD STARTED]: Manual Tests Thread
+[22-02-06] [CONSOLE OUT]: [STRING]: Console loaded in 5173ms
+[22-02-07] [DEBUG]: Attempted to log a new or empty line
+[22-02-07] [THREAD STARTED]: Splash Loading Label Updater
+[22-02-09] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 7] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[22-02-09] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659235109165.json
+[22-02-09] [OBJECT CREATION]: Objects created since last delta (5000ms): 56
+[22-02-10] [THREAD STARTED]: High Ping Checker
+[22-02-12] [DEBUG]: Latency of Google found to be 1618ms
+[22-02-17] [CLIENT]: prefs
+[22-02-17] [CONSOLE OUT]: [STRING]: Opening widget: UserEditor
+[22-02-17] [THREAD STARTED]: Enter animation, frame=Preferences
+[22-02-17] [WIDGET]: UserEditor, trigger = prefs
+[22-02-18] [DEBUG]: Attempted to log a new or empty line
+[22-02-19] [THREAD STARTED]: Preferences Opacity Decrement Animator
+[22-02-19] [THREAD STARTED]: Preferences Opacity Increment Animator
+[22-02-19] [OBJECT CREATION]: Objects created since last delta (5000ms): 36
+[22-02-20] [SYSTEM IO]: Userdata requested: intromusic
+[22-02-20] [SYSTEM IO]: Userdata requested: debugwindows
+[22-02-20] [SYSTEM IO]: Userdata requested: randombackground
+[22-02-21] [SYSTEM IO]: Userdata requested: outputborder
+[22-02-21] [SYSTEM IO]: Userdata requested: inputborder
+[22-02-21] [SYSTEM IO]: Userdata requested: hourlychimes
+[22-02-21] [SYSTEM IO]: Userdata requested: silenceerrors
+[22-02-21] [SYSTEM IO]: Userdata requested: fullscreen
+[22-02-21] [SYSTEM IO]: Userdata requested: outputfill
+[22-02-21] [SYSTEM IO]: Userdata requested: inputfill
+[22-02-21] [SYSTEM IO]: Userdata requested: clockonconsole
+[22-02-21] [SYSTEM IO]: Userdata requested: filterchat
+[22-02-21] [SYSTEM IO]: Userdata requested: minimizeonclose
+[22-02-21] [SYSTEM IO]: Userdata requested: persistentnotifications
+[22-02-21] [SYSTEM IO]: Userdata requested: doanimations
+[22-02-21] [SYSTEM IO]: Userdata requested: compacttextmode
+[22-02-21] [SYSTEM IO]: Userdata requested: wrapshell
+[22-02-21] [SYSTEM IO]: Userdata requested: darkmode
+[22-02-24] [OBJECT CREATION]: Objects created since last delta (5000ms): 78
+[22-02-27] [UI]: CyderCheckbox{[0, 0,60, 60], Color=java.awt.Color[r=236,g=64,b=122], isChecked=false
+[22-02-27] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[22-02-27] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659236529305.json
+[22-02-27] [PREFERENCE REFRESH]: key = showseconds
+[22-02-27] [UI]: CyderCheckbox{[0, 0,60, 60], Color=java.awt.Color[r=236,g=64,b=122], isChecked=true
+[22-02-27] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[22-02-27] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659236547170.json
+[22-02-27] [PREFERENCE REFRESH]: key = showseconds
+[22-02-29] [OBJECT CREATION]: Objects created since last delta (5000ms): 6
+[22-02-30] [UI]: CyderCheckbox{[0, 0,60, 60], Color=java.awt.Color[r=236,g=64,b=122], isChecked=true
+[22-02-30] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[22-02-30] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659236547701.json
+[22-02-30] [PREFERENCE REFRESH]: key = showbusyicon
+[22-02-32] [UI]: CyderCheckbox{[0, 0,60, 60], Color=java.awt.Color[r=236,g=64,b=122], isChecked=false
+[22-02-32] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[22-02-32] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659236550838.json
+[22-02-32] [PREFERENCE REFRESH]: key = showbusyicon
+[22-02-34] [OBJECT CREATION]: Objects created since last delta (5000ms): 6
+[22-02-40] [UI]: CyderCheckbox{[0, 0,60, 60], Color=java.awt.Color[r=236,g=64,b=122], isChecked=true
+[22-02-40] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[22-02-40] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659236552723.json
+[22-02-40] [PREFERENCE REFRESH]: key = compacttextmode
+[22-02-41] [UI]: CyderCheckbox{[0, 0,60, 60], Color=java.awt.Color[r=236,g=64,b=122], isChecked=false
+[22-02-41] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[22-02-41] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659236560368.json
+[22-02-41] [PREFERENCE REFRESH]: key = compacttextmode
+[22-02-44] [OBJECT CREATION]: Objects created since last delta (5000ms): 6
+[22-02-45] [UI]: CyderCheckbox{[0, 0,60, 60], Color=java.awt.Color[r=236,g=64,b=122], isChecked=true
+[22-02-45] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[22-02-45] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659236561180.json
+[22-02-45] [PREFERENCE REFRESH]: key = persistentnotifications
+[22-02-46] [UI]: CyderCheckbox{[0, 0,60, 60], Color=java.awt.Color[r=236,g=64,b=122], isChecked=false
+[22-02-46] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[22-02-46] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659236565279.json
+[22-02-46] [PREFERENCE REFRESH]: key = persistentnotifications
+[22-02-49] [OBJECT CREATION]: Objects created since last delta (5000ms): 6
+[22-02-54] [THREAD STARTED]: Preference Font Loader
+[22-02-54] [OBJECT CREATION]: Objects created since last delta (5000ms): 203
+[22-02-59] [OBJECT CREATION]: Objects created since last delta (5000ms): 81
+[22-03-00] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\7d7ebb00-81fe-3
+           29f-8a78-62f463d0b7da\Files\21 Questions_waveform.png
+[22-03-00] [EXCEPTION]:
+           Exception origin: java.base/java.io.FileInputStream.open0(Native Method)
+           From line: -2
+           Trace: java.io.FileNotFoundException: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\7d7ebb00-81fe-329f-8a78-62f463d0b7da\Files\21 Questions_waveform.png (The system cannot find the file specified)
+           at java.base/java.io.FileInputStream.open0(Native Method)
+           at java.base/java.io.FileInputStream.open(FileInputStream.java:216)
+           at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
+           at cyder.utils.FileUtil.fileMatchesSignature(FileUtil.java:140)
+           at cyder.utils.FileUtil.isSupportedImageExtension(FileUtil.java:81)
+           at cyder.user.UserEditor.lambda$switchToUserFiles$9(UserEditor.java:443)
+           at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
+           at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2313)
+           at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:405)
+           at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
+           at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279)
+           at java.desktop/java.awt.Component.processMouseEvent(Component.java:6626)
+           at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3389)
+           at java.desktop/java.awt.Component.processEvent(Component.java:6391)
+           at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+           at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:5001)
+           at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+           at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+           at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
+           at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4575)
+           at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
+           at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
+           at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
+           at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+           at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+           at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:722)
+           at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:716)
+           at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:97)
+           at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:746)
+           at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:744)
+           at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+           at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:743)
+           at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+           at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+           at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+           at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+           at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+           at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[22-03-00] [EXCEPTION]:
+           Exception origin: java.base/java.io.FileInputStream.open0(Native Method)
+           From line: -2
+           Trace: java.io.FileNotFoundException: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\7d7ebb00-81fe-329f-8a78-62f463d0b7da\Files\21 Questions_waveform.png (The system cannot find the file specified)
+           at java.base/java.io.FileInputStream.open0(Native Method)
+           at java.base/java.io.FileInputStream.open(FileInputStream.java:216)
+           at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
+           at cyder.utils.FileUtil.fileMatchesSignature(FileUtil.java:140)
+           at cyder.utils.FileUtil.isSupportedImageExtension(FileUtil.java:81)
+           at cyder.user.UserEditor.lambda$switchToUserFiles$9(UserEditor.java:443)
+           at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
+           at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2313)
+           at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:405)
+           at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
+           at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279)
+           at java.desktop/java.awt.Component.processMouseEvent(Component.java:6626)
+           at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3389)
+           at java.desktop/java.awt.Component.processEvent(Component.java:6391)
+           at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+           at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:5001)
+           at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+           at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+           at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
+           at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4575)
+           at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
+           at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
+           at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
+           at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+           at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+           at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:722)
+           at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:716)
+           at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:97)
+           at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:746)
+           at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:744)
+           at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+           at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:743)
+           at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+           at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+           at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+           at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+           at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+           at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[22-03-00] [UI]: Component = CyderButton, hash = 1990937146, bounds = (545, 440, 155, 40), parent frame = Preferences,
+           getText() = Delete
+[22-03-00] [CONSOLE OUT]: [STRING]: File: 21 Questions_waveform successfully deleted.
+[22-03-00] [DEBUG]: Attempted to log a new or empty line
+[22-03-04] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\7d7ebb00-81fe-3
+           29f-8a78-62f463d0b7da\Music\21 Questions.mp3
+[22-03-04] [SYSTEM IO]: [DELETION FAILED] file: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da\Music\21 Questions.mp3
+[22-03-04] [THREAD STARTED]: Preferences notification queue checker
+[22-03-04] [UI]: Component = CyderButton, hash = 1990937146, bounds = (545, 440, 155, 40), parent frame = Preferences,
+           getText() = Delete
+[22-03-04] [UI]: [Preferences] [NOTIFICATION] "<html>Could not delete at this time</html>"
+[22-03-04] [THREAD STARTED]: Notification Appear Animator
+[22-03-04] [THREAD STARTED]: Notification Vanish Animator
+[22-03-04] [OBJECT CREATION]: Objects created since last delta (5000ms): 10
+[22-03-05] [THREAD STARTED]: Notification Vanish Animator
+[22-03-09] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\7d7ebb00-81fe-3
+           29f-8a78-62f463d0b7da\Music\Cash Cash - How To Love feat. Sofia Reyes (Boombox Cartel Remix) [Official Audio].mp3
+[22-03-09] [SYSTEM IO]: [DELETION FAILED] file: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da\Music\Cash Cash - How To Love feat. Sofia Reyes (Boombox Cartel Remix) [Official Audio].mp3
+[22-03-09] [THREAD STARTED]: Preferences notification queue checker
+[22-03-09] [UI]: Component = CyderButton, hash = 1990937146, bounds = (545, 440, 155, 40), parent frame = Preferences,
+           getText() = Delete
+[22-03-09] [UI]: [Preferences] [NOTIFICATION] "<html>Could not delete at this time</html>"
+[22-03-09] [THREAD STARTED]: Notification Appear Animator
+[22-03-09] [THREAD STARTED]: Notification Vanish Animator
+[22-03-09] [OBJECT CREATION]: Objects created since last delta (5000ms): 2
+[22-03-10] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[22-03-10] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[22-03-10] [EXIT]: [RUNTIME] 1m 9s 117ms
+[22-03-10] EOLLog completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 2, total
+           objects created: 563
