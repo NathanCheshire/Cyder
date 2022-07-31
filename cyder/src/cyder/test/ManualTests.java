@@ -43,7 +43,7 @@ public final class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-
+                dragLabelTextButtonTest();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -857,5 +857,52 @@ public final class ManualTests {
 
         horizontalFrame.setCyderLayoutPanel(contentPanel);
         horizontalFrame.finalizeAndShow();
+    }
+
+    @ManualTest("drag label text button test")
+    public static void dragLabelTextButtonTest() {
+        CyderFrame testFrame = new CyderFrame(800, 800);
+        testFrame.setTitle("Drag Label Text Button Test");
+
+        CyderGridLayout cyderGridLayout = new CyderGridLayout(1, 4);
+
+        CyderLabel leftLabel = new CyderLabel("Add left text button");
+        leftLabel.setSize(400, 40);
+        cyderGridLayout.addComponent(leftLabel);
+
+        CyderTextField leftField = new CyderTextField();
+        leftField.setSize(200, 40);
+        leftField.addActionListener(e -> {
+            String text = leftField.getTrimmedText();
+
+            if (!text.isEmpty()) {
+                JLabel textButton = CyderDragLabel.generateTextButton(text, text, () -> testFrame.notify(text));
+                testFrame.getTopDragLabel().addLeftButton(textButton, 0);
+            }
+        });
+        cyderGridLayout.addComponent(leftField);
+
+        CyderLabel rightLabel = new CyderLabel("Add right text button");
+        rightLabel.setSize(400, 40);
+        cyderGridLayout.addComponent(rightLabel);
+
+        CyderTextField rightField = new CyderTextField();
+        rightField.setSize(200, 40);
+        rightField.addActionListener(e -> {
+            String text = rightField.getTrimmedText();
+
+            if (!text.isEmpty()) {
+                JLabel textButton = CyderDragLabel.generateTextButton(text, text, () -> testFrame.notify(text));
+                testFrame.getTopDragLabel().addRightButton(textButton, 0);
+            }
+        });
+        cyderGridLayout.addComponent(rightField);
+
+        testFrame.initializeResizing();
+        testFrame.setMaximumSize(1000, 1000);
+        testFrame.setMinimumSize(400, 400);
+
+        testFrame.setCyderLayout(cyderGridLayout);
+        testFrame.finalizeAndShow();
     }
 }

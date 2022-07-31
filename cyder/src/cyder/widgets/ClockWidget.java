@@ -126,7 +126,7 @@ public final class ClockWidget {
             };
             clockFrame.setTitle("Clock");
 
-            JButton miniClock = CyderDragLabel.generateTextButton("Mini",
+            JLabel miniClock = CyderDragLabel.generateTextButton("Mini",
                     "Spawn a mini clock for the current location", ClockWidget::spawnMiniClock);
             clockFrame.getTopDragLabel().addRightButton(miniClock, 0);
 

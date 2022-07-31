@@ -211,7 +211,7 @@ public final class ImageAveragerWidget {
                         previewImage.getIconHeight(),
                         previewImage);
 
-                JButton save = CyderDragLabel.generateTextButton("Save", "Save Image", () -> {
+                JLabel save = CyderDragLabel.generateTextButton("Save", "Save Image", () -> {
                     try {
                         File outFile = OSUtil.buildFile(Dynamic.PATH,
                                 Dynamic.USERS.getDirectoryName(),

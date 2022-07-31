@@ -768,7 +768,7 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().addLeftButton(menuButton, 0);
         menuButton.addKeyListener(menuButtonKeyAdapter);
 
-        LinkedList<JButton> consoleDragButtonList = new LinkedList<>();
+        LinkedList<Component> consoleDragButtonList = new LinkedList<>();
 
         toggleAudioControls.addActionListener(e -> {
             if (audioControlsLabel.isVisible()) {

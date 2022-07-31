@@ -962,7 +962,8 @@ public class CyderFrame extends JFrame {
      */
     public void notify(NotificationBuilder notificationBuilder) {
         checkArgument(StringUtil.getRawTextLength(notificationBuilder.getHtmlText())
-                > NotificationBuilder.MINIMUM_TEXT_LENGTH, "Raw text must be 3 characters or greater");
+                >= NotificationBuilder.MINIMUM_TEXT_LENGTH, "Raw text must be "
+                + NotificationBuilder.MINIMUM_TEXT_LENGTH + " characters or greater");
 
         notificationList.add(notificationBuilder);
 
@@ -979,7 +980,8 @@ public class CyderFrame extends JFrame {
      */
     public void toast(String htmlText) {
         checkArgument(StringUtil.getRawTextLength(htmlText)
-                > NotificationBuilder.MINIMUM_TEXT_LENGTH, "Raw text must be 3 characters or greater");
+                >= NotificationBuilder.MINIMUM_TEXT_LENGTH, "Raw text must be "
+                + NotificationBuilder.MINIMUM_TEXT_LENGTH + " characters or greater");
 
         NotificationBuilder toastBuilder = new NotificationBuilder(htmlText);
         toastBuilder.setNotificationType(CyderNotification.NotificationType.TOAST);
@@ -1941,8 +1943,8 @@ public class CyderFrame extends JFrame {
             return;
         }
 
-        LinkedList<JButton> leftButtons = topDrag.getLeftButtonList();
-        LinkedList<JButton> rightButtons = topDrag.getRightButtonList();
+        LinkedList<Component> leftButtons = topDrag.getLeftButtonList();
+        LinkedList<Component> rightButtons = topDrag.getRightButtonList();
 
         int leftButtonsStart = Integer.MAX_VALUE;
         int leftButtonsEnd = Integer.MIN_VALUE;
@@ -1950,12 +1952,12 @@ public class CyderFrame extends JFrame {
         int rightButtonsStart = Integer.MAX_VALUE;
         int rightButtonsEnd = Integer.MIN_VALUE;
 
-        for (JButton leftButton : leftButtons) {
+        for (Component leftButton : leftButtons) {
             leftButtonsStart = Math.min(leftButtonsStart, leftButton.getX());
             leftButtonsEnd = Math.max(leftButtonsEnd, leftButton.getX() + leftButton.getWidth());
         }
 
-        for (JButton rightButton : rightButtons) {
+        for (Component rightButton : rightButtons) {
             rightButtonsStart = Math.min(rightButtonsStart, rightButton.getX());
             rightButtonsEnd = Math.max(rightButtonsEnd, rightButton.getX() + rightButton.getWidth());
         }
