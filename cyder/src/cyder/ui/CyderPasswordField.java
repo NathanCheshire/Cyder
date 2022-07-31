@@ -10,10 +10,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.text.Document;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -38,6 +35,7 @@ public class CyderPasswordField extends JPasswordField {
         setCaretColor(CyderColors.navy);
 
         addMouseListener(loggingMouseAdapter);
+        addFocusListener(generateSecurityFocusAdapter(this));
 
         setShiftShowsPassword(true);
 
@@ -53,6 +51,32 @@ public class CyderPasswordField extends JPasswordField {
             Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
         }
     };
+
+    /**
+     * Generates and returns the security focus adapter for password fields.
+     *
+     * @param passwordField the field the focus adapter will be applied to
+     * @return the security focus adapter for password fields
+     */
+    private static FocusAdapter generateSecurityFocusAdapter(CyderPasswordField passwordField) {
+        return new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                passwordField.refresh();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                passwordField.refresh();
+            }
+        };
+    }
+
+    public void refresh() {
+        setEchoChar(CyderStrings.ECHO_CHAR);
+        setCaret(getCaret());
+        setCaretPosition(getPassword().length);
+    }
 
     private static final String ILLEGAL_CONSTRUCTOR = "Illegal constructor";
 

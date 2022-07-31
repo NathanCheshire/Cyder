@@ -1247,4 +1247,40 @@ public class StringUtil {
 
         return ret + " " + BoundsUtil.CLOSING_HTML_TAG;
     }
+
+    /**
+     * Returns whether the provided array contains at least one letter.
+     *
+     * @param chars the list of characters
+     * @return whether the provided array contains at least one letter
+     */
+    public static boolean containsLetter(char[] chars) {
+        Preconditions.checkNotNull(chars);
+
+        for (char c : chars) {
+            if (Character.isAlphabetic(c)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns whether the provided array contains at least one number.
+     *
+     * @param chars the list of characters
+     * @return whether the provided array contains at least one number
+     */
+    public static boolean containsNumber(char[] chars) {
+        Preconditions.checkNotNull(chars);
+
+        for (char c : chars) {
+            if (Character.isDigit(c)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
