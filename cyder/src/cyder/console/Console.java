@@ -807,7 +807,7 @@ public enum Console {
                     consoleCyderFrame.notify(new CyderFrame.NotificationBuilder(
                             "You only have one background image. Try adding more via the user editor")
                             .setViewDuration(5000)
-                            .setOnKillAction(() -> UserEditor.showGui(0)));
+                            .setOnKillAction(() -> UserEditor.showGui(UserEditor.Page.FILES)));
                 }
             } catch (Exception ex) {
                 consoleCyderFrame.notify("Error in parsing background; perhaps it was deleted.");
@@ -1626,7 +1626,7 @@ public enum Console {
                     .setName("Prefs")
                     .setFocused(false)
                     .setCompact(true)
-                    .setRunnable(() -> UserEditor.showGui(0))
+                    .setRunnable(() -> UserEditor.showGui(UserEditor.Page.FILES))
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build(),
             new TaskbarIcon.Builder()
@@ -1645,7 +1645,7 @@ public enum Console {
                     .setName("Prefs")
                     .setFocused(false)
                     .setCompact(false)
-                    .setRunnable(() -> UserEditor.showGui(0))
+                    .setRunnable(() -> UserEditor.showGui(UserEditor.Page.FILES))
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build(),
             new TaskbarIcon.Builder()

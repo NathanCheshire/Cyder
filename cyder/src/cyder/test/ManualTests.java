@@ -43,7 +43,7 @@ public final class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                dragLabelTextButtonTest();
+
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

@@ -3483,48 +3483,29 @@ public class CyderFrame extends JFrame {
     public static final int ENTER_ANIMATION_DELAY = 75;
 
     /**
-     * Sets the frame's location relative to the dominant frame,
-     * the visibility to true, and sets always on top mode to true
-     * temporarily to ensure the frame is placed on top of other possible frames.
+     * The delay between setting a frame's alwaysOnTop mode back to false after a {@link #finalizeAndShow()} call.
      */
-    public void finalizeAndShow() {
-        finalizeAndShow(false);
-    }
+    public static final int ALWAYS_ON_TOP_RESTORER_DELAY = 1000;
 
     /**
      * Sets the frame's location relative to the dominant frame,
      * the visibility to true, and sets always on top mode to true
      * temporarily to ensure the frame is placed on top of other possible frames.
-     *
-     * @param enterAnimation whether to perform an enter animation on the frame
      */
-    public void finalizeAndShow(boolean enterAnimation) {
+    public void finalizeAndShow() {
         CyderThreadRunner.submit(() -> {
-            CyderFrame dominantFrame = getDominantFrame();
+            boolean onTop = isAlwaysOnTop();
 
-            if (enterAnimation) {
-                if (dominantFrame == null) {
-                    setLocation(ScreenUtil.getScreenWidth() / 2 - getWidth() / 2, -getHeight());
-                } else {
-                    setLocation(dominantFrame.getX() + dominantFrame.getWidth() / 2 - getWidth() / 2, -getHeight());
-                }
+            setAlwaysOnTop(true);
+            setLocationRelativeTo(getDominantFrame());
+            setVisible(true);
 
-                setVisible(true);
-
-                int toY;
-                if (dominantFrame == null) {
-                    toY = ScreenUtil.getScreenHeight() / 2 - getHeight() / 2;
-                } else {
-                    toY = dominantFrame.getY() + dominantFrame.getHeight() / 2 - getHeight() / 2;
-                }
-
-                enterAnimation(new Point(getX(), toY));
-            } else {
-                setVisible(true);
+            if (!onTop) {
+                CyderThreadRunner.submit(() -> {
+                    ThreadUtil.sleep(ALWAYS_ON_TOP_RESTORER_DELAY);
+                    setAlwaysOnTop(false);
+                }, "CyderFrame alwaysOnTop restorer: frame = " + this.title);
             }
-
-            setLocationRelativeTo(dominantFrame);
-
         }, "Enter animation, frame=" + getTitle());
     }
 

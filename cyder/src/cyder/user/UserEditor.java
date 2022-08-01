@@ -77,9 +77,34 @@ public final class UserEditor {
     private static final AtomicReference<CyderScrollList> filesScrollListRef = new AtomicReference<>();
 
     /**
-     * The index the user editor is at.
+     * The height of the ribbon menu for the edit user frame.
      */
-    private static int prefsPanelIndex;
+    private static final int MENU_HEIGHT = 30;
+
+    /**
+     * The frame size of the user editor.
+     */
+    private static final int FRAME_WIDTH = 800;
+
+    /**
+     * The height of the user editor.
+     */
+    private static final int FRAME_HEIGHT = 600;
+
+    /**
+     * The possible pages of the user editor.
+     */
+    public enum Page {
+        FILES,
+        FONT_AND_COLOR,
+        PREFERENCES,
+        FIELDS
+    }
+
+    /**
+     * The current page of the user editor.
+     */
+    private static Page currentPage = Page.FILES;
 
     /**
      * Suppress default constructor.
@@ -90,67 +115,102 @@ public final class UserEditor {
 
     @Widget(triggers = {"prefs", "edituser"}, description = "A widget to edit your user preferences and files")
     public static void showGui() {
-        showGui(0);
+        showGui(Page.FILES);
     }
 
-    public static void showGui(int startingIndex) {
-        if (editUserFrame != null)
-            editUserFrame.dispose(true);
+    // todo console location saving doesn't work and sometimes
+    //  messes up still, only save is not being disposed too
 
-        editUserFrame = new CyderFrame(720 + 2 * 5,
-                500 + 5 + CyderDragLabel.DEFAULT_HEIGHT + 25, CyderColors.vanilla);
-        editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
+    // todo update design doc for startup
+
+    /**
+     * Shows the user editor with the provided page.
+     *
+     * @param page the page to show on the user editor
+     */
+    public static void showGui(Page page) {
+        closeIfOpen();
+
+        editUserFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderColors.vanilla);
         editUserFrame.setBackground(CyderColors.vanilla);
         editUserFrame.setTitle("Preferences");
 
         switchingLabel = new JLabel();
         switchingLabel.setForeground(Color.white);
-        switchingLabel.setBounds(5, CyderDragLabel.DEFAULT_HEIGHT + 30, 720, 500);
+        switchingLabel.setBounds(CyderFrame.BORDER_LEN,
+                CyderDragLabel.DEFAULT_HEIGHT + MENU_HEIGHT,
+                FRAME_WIDTH - 2 * CyderFrame.BORDER_LEN,
+                FRAME_HEIGHT - 2 * CyderFrame.BORDER_LEN - CyderDragLabel.DEFAULT_HEIGHT - MENU_HEIGHT);
         switchingLabel.setOpaque(true);
-        switchingLabel.setBackground(Color.white);
+        switchingLabel.setBackground(CyderColors.vanilla);
         editUserFrame.getContentPane().add(switchingLabel);
 
-        prefsPanelIndex = startingIndex;
+        installMenu();
+        editUserFrame.setVisible(true);
+        editUserFrame.setLocationRelativeTo(null);
 
+        currentPage = page;
+
+        switch (page) {
+            case FILES -> switchToUserFiles();
+            case FONT_AND_COLOR -> switchToFontAndColor();
+            case PREFERENCES -> switchToPreferences();
+            case FIELDS -> switchToFieldInputs();
+        }
+    }
+
+    /**
+     * Installs the menu items to the edit user frame.
+     */
+    private static void installMenu() {
         editUserFrame.addMenuItem("Files", () -> {
-            if (prefsPanelIndex == 0)
+            if (currentPage == Page.FILES)
                 return;
+
+            currentPage = Page.FILES;
 
             revalidateOnMenuItemClicked();
             switchToUserFiles();
-            prefsPanelIndex = 0;
         });
         editUserFrame.addMenuItem("Font & Color", () -> {
-            if (prefsPanelIndex == 1)
+            if (currentPage == Page.FONT_AND_COLOR)
                 return;
+
+            currentPage = Page.FONT_AND_COLOR;
 
             revalidateOnMenuItemClicked();
             switchToFontAndColor();
-            prefsPanelIndex = 1;
         });
         editUserFrame.addMenuItem("Preferences", () -> {
-            if (prefsPanelIndex == 2)
+            if (currentPage == Page.PREFERENCES)
                 return;
+
+            currentPage = Page.PREFERENCES;
 
             revalidateOnMenuItemClicked();
             switchToPreferences();
-            prefsPanelIndex = 2;
         });
         editUserFrame.addMenuItem("Fields", () -> {
-            if (prefsPanelIndex == 3)
+            if (currentPage == Page.FIELDS)
                 return;
+
+            currentPage = Page.FIELDS;
 
             revalidateOnMenuItemClicked();
             switchToFieldInputs();
-            prefsPanelIndex = 3;
         });
 
         editUserFrame.setMenuType(CyderFrame.MenuType.RIBBON);
         editUserFrame.lockMenuOut();
+    }
 
-        switchToUserFiles();
-
-        editUserFrame.finalizeAndShow();
+    /**
+     * Closes the frame if open.
+     */
+    private static void closeIfOpen() {
+        if (editUserFrame != null) {
+            editUserFrame.dispose(true);
+        }
     }
 
     /**
@@ -808,12 +868,12 @@ public final class UserEditor {
                 }
             }
 
-            if (prefsPanelIndex == 1) {
+            if (currentPage == Page.FONT_AND_COLOR) {
                 JLabel fontLabel = fontScrollRef.get().generateScrollList();
                 fontLabel.setBounds(50, 100, 300, 300);
                 switchingLabel.remove(tempLabel);
 
-                if (prefsPanelIndex == 1) {
+                if (currentPage == Page.FONT_AND_COLOR) {
                     switchingLabel.add(fontLabel);
                 }
             }
@@ -1504,26 +1564,6 @@ public final class UserEditor {
             }
 
             removeMapField.setText("");
-        }
-    }
-
-    /**
-     * Returns whether the edit user frame is open and active.
-     *
-     * @return whether the edit user frame is open and active
-     */
-    public static boolean isOpen() {
-        return editUserFrame != null && editUserFrame.isVisible();
-    }
-
-    /**
-     * Toggles the frame state from minimized to regular or vice versa.
-     */
-    public static void toggleMinimizedState() {
-        if (editUserFrame.getState() == JFrame.NORMAL) {
-            editUserFrame.minimizeAnimation();
-        } else {
-            editUserFrame.setState(Frame.NORMAL);
         }
     }
 }

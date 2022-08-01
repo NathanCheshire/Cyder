@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 
 /**
- * A {@link Console} taskbar icon.
+ * A {@link Console} taskbar icon for the console menu.
  */
 public class TaskbarIcon {
     /**
@@ -178,7 +178,9 @@ public class TaskbarIcon {
             titleLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    builder.runnable.run();
+                    if (builder.runnable != null) {
+                        builder.runnable.run();
+                    }
                 }
 
                 @Override
