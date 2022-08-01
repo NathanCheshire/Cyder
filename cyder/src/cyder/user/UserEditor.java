@@ -1,5 +1,6 @@
 package cyder.user;
 
+import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
 import cyder.audio.AudioPlayer;
 import cyder.console.Console;
@@ -36,7 +37,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -84,6 +84,17 @@ public final class UserEditor {
      * The height of the user editor.
      */
     private static final int FRAME_HEIGHT = 600;
+
+    /**
+     * The remaining width of the frame that the content pane may encompass.
+     */
+    private static final int CONTENT_PANE_WIDTH = FRAME_WIDTH - 2 * CyderFrame.BORDER_LEN;
+
+    /**
+     * The remaining height of the frame that the content pane may encompass.
+     */
+    private static final int CONTENT_PANE_HEIGHT = FRAME_HEIGHT - 2 * CyderFrame.BORDER_LEN
+            - CyderDragLabel.DEFAULT_HEIGHT - MENU_HEIGHT;
 
     /**
      * The possible pages of the user editor.
@@ -151,10 +162,8 @@ public final class UserEditor {
 
         switchingLabel = new JLabel();
         switchingLabel.setForeground(Color.white);
-        switchingLabel.setBounds(CyderFrame.BORDER_LEN,
-                CyderDragLabel.DEFAULT_HEIGHT + MENU_HEIGHT,
-                FRAME_WIDTH - 2 * CyderFrame.BORDER_LEN,
-                FRAME_HEIGHT - 2 * CyderFrame.BORDER_LEN - CyderDragLabel.DEFAULT_HEIGHT - MENU_HEIGHT);
+        switchingLabel.setBounds(CyderFrame.BORDER_LEN, CyderDragLabel.DEFAULT_HEIGHT + MENU_HEIGHT,
+                CONTENT_PANE_WIDTH, CONTENT_PANE_HEIGHT);
         switchingLabel.setOpaque(true);
         switchingLabel.setBackground(CyderColors.vanilla);
         editUserFrame.getContentPane().add(switchingLabel);
@@ -277,11 +286,9 @@ public final class UserEditor {
      * Switches to the user files preference page.
      */
     private static void switchToUserFiles() {
-        JLabel titleLabel = new JLabel("Files", SwingConstants.CENTER);
-        titleLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
+        JLabel titleLabel = new JLabel(Page.FILES.getTitle(), SwingConstants.CENTER);
         titleLabel.setFont(CyderFonts.SEGOE_30);
         titleLabel.setForeground(CyderColors.navy);
-        switchingLabel.add(titleLabel);
 
         revalidateFilesScroll();
 
@@ -293,8 +300,8 @@ public final class UserEditor {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
-                        File fileToAdd = GetterUtil.getInstance().getFile(new GetterUtil.Builder("Add File")
-                                .setRelativeTo(editUserFrame));
+                        File fileToAdd = GetterUtil.getInstance().getFile(
+                                new GetterUtil.Builder("Add File").setRelativeTo(editUserFrame));
 
                         if (fileToAdd == null || StringUtil.isNull(fileToAdd.getName())) {
                             return;
@@ -302,42 +309,34 @@ public final class UserEditor {
 
                         for (ConsoleBackground background : Console.INSTANCE.reloadAndGetBackgrounds()) {
                             if (fileToAdd.getName().equals(background.getReferenceFile().getName())) {
-                                editUserFrame.notify("Cannot add a background with the same name as a current one");
-                                return;
+                                // todo change the name to a unique form by adding _n to it.
+                                // make a fileutil method for this I guess
                             }
                         }
 
-                        Path copyPath = new File(fileToAdd.getAbsolutePath()).toPath();
-                        String folderName;
+                        String folderName = FileUtil.isSupportedImageExtension(fileToAdd)
+                                ? UserFile.BACKGROUNDS.getName()
+                                : FileUtil.isSupportedAudioExtension(fileToAdd)
+                                ? UserFile.MUSIC.getName()
+                                : UserFile.FILES.getName();
 
-                        if (FileUtil.isSupportedImageExtension(fileToAdd)) {
-                            folderName = UserFile.BACKGROUNDS.getName();
-                        } else if (FileUtil.isSupportedAudioExtension(fileToAdd)) {
-                            folderName = UserFile.MUSIC.getName();
-                        } else {
-                            folderName = UserFile.FILES.getName();
-                        }
-
-                        File destination = new File(UserUtil.getUserFile(
-                                folderName).getAbsolutePath() + OSUtil.FILE_SEP + fileToAdd.getName());
-                        Files.copy(copyPath, destination.toPath());
+                        Files.copy(fileToAdd.toPath(), OSUtil.buildFile(UserUtil.getUserFile(folderName)
+                                .getAbsolutePath(), fileToAdd.getName()).toPath());
 
                         revalidateFilesScroll();
 
-                        if (folderName.equalsIgnoreCase(UserFile.BACKGROUNDS.getName()))
+                        if (folderName.equals(UserFile.BACKGROUNDS.getName())) {
                             Console.INSTANCE.resizeBackgrounds();
-
+                        }
                     } catch (Exception ex) {
                         ExceptionHandler.handle(ex);
                     }
-                }, "wait thread for GetterUtil().getFile()");
+                }, "User Editor File Adder");
             } catch (Exception exc) {
                 ExceptionHandler.handle(exc);
             }
         });
         addFileButton.setFont(CyderFonts.SEGOE_20);
-        addFileButton.setBounds(20, 440, 155, 40);
-        switchingLabel.add(addFileButton);
 
         CyderButton openFile = new CyderButton("Open");
         openFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
@@ -354,8 +353,6 @@ public final class UserEditor {
                 }
             }
         });
-        openFile.setBounds(20 + 155 + 20, 440, 155, 40);
-        switchingLabel.add(openFile);
 
         CyderButton renameFile = new CyderButton("Rename");
         renameFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
@@ -365,9 +362,9 @@ public final class UserEditor {
                     String clickedSelection = filesScrollListRef.get().getSelectedElements().get(0);
                     File selectedFile = null;
 
-                    for (int i = 0 ; i < filesNameList.size() ; i++) {
-                        if (clickedSelection.equals(filesNameList.get(i))) {
-                            // todo selectedFile = filesList.get(i);
+                    for (String s : filesNameList) {
+                        if (clickedSelection.equals(s)) {
+                            selectedFile = getFile(s);
                             break;
                         }
                     }
@@ -466,11 +463,8 @@ public final class UserEditor {
                 ExceptionHandler.handle(ex);
             }
         }, "Rename File Getter Waiter"));
-
         renameFile.setBackground(CyderColors.regularRed);
         renameFile.setFont(CyderFonts.SEGOE_20);
-        renameFile.setBounds(20 + 155 + 20 + 155 + 20, 440, 155, 40);
-        switchingLabel.add(renameFile);
 
         CyderButton deleteFile = new CyderButton("Delete");
         deleteFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
@@ -479,9 +473,9 @@ public final class UserEditor {
                 String clickedSelection = filesScrollListRef.get().getSelectedElements().get(0);
                 File selectedFile = null;
 
-                for (int i = 0 ; i < filesNameList.size() ; i++) {
-                    if (clickedSelection.equals(filesNameList.get(i))) {
-                        // todo selectedFile = filesList.get(i);
+                for (String filename : filesNameList) {
+                    if (clickedSelection.equals(filename)) {
+                        selectedFile = getFile(filename);
                         break;
                     }
                 }
@@ -542,13 +536,69 @@ public final class UserEditor {
                 }
             }
         });
-
         deleteFile.setBackground(CyderColors.regularRed);
         deleteFile.setFont(CyderFonts.SEGOE_20);
-        deleteFile.setBounds(20 + 155 + 20 + 155 + 20 + 155 + 20, 440, 155, 40);
-        switchingLabel.add(deleteFile);
+
 
         switchingLabel.revalidate();
+    }
+
+    // todo test me
+
+    /**
+     * Returns the user file represented by the provided name from the files list.
+     *
+     * @param name the file name such as "Backgrounds/img.jpg"
+     * @return the user file represented by the provided name from the files list
+     * @throws NoSuchElementException if the provided file cannot be found
+     */
+    private static File getFile(String name) {
+        Preconditions.checkNotNull(name);
+        Preconditions.checkArgument(!name.isEmpty());
+
+        String[] parts = name.split("/");
+        String folderName = parts[0];
+        String fileName = parts[1];
+
+        Optional<File> file;
+
+        if (folderName.equals(UserFile.BACKGROUNDS.getName())) {
+            file = attemptToFindInUserFiles(fileName, UserFile.BACKGROUNDS);
+        } else if (folderName.equals(UserFile.MUSIC.getName())) {
+            file = attemptToFindInUserFiles(fileName, UserFile.MUSIC);
+        } else {
+            file = attemptToFindInUserFiles(fileName, UserFile.FILES);
+        }
+
+        return file.orElseThrow();
+    }
+
+    /**
+     * Returns the file reference to the file in the provided user file directory if found. Empty optional else.
+     *
+     * @param name     the name of the file such as myFile.png
+     * @param userFile the user file directory to search through
+     * @return the file reference to the file in the provided user file directory if found. Empty optional else
+     */
+    private static Optional<File> attemptToFindInUserFiles(String name, UserFile userFile) {
+        Preconditions.checkNotNull(name);
+        Preconditions.checkArgument(!name.isEmpty());
+        Preconditions.checkNotNull(userFile);
+
+        File userFilesDirectory = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+                Console.INSTANCE.getUuid(), userFile.getName());
+
+        File[] files = userFilesDirectory.listFiles();
+
+        if (files != null && files.length > 0) {
+            for (File file : files) {
+                if (file.getName().equals(name)) {
+                    return Optional.of(file);
+                }
+            }
+        }
+
+        return Optional.empty();
     }
 
     /**
@@ -607,7 +657,7 @@ public final class UserEditor {
      */
     @SuppressWarnings("MagicConstant") /* check font metric */
     private static void switchToFontAndColor() {
-        JLabel titleLabel = new JLabel("Colors & Font", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel(Page.FONT_AND_COLOR.getTitle(), SwingConstants.CENTER);
         titleLabel.setFont(CyderFonts.SEGOE_30);
         titleLabel.setForeground(CyderColors.navy);
 
@@ -618,6 +668,7 @@ public final class UserEditor {
         JLabel hexLabel = new JLabel("HEX:");
         hexLabel.setFont(CyderFonts.SEGOE_20);
         hexLabel.setForeground(CyderColors.navy);
+        // todo there should be a static utility method of CyderLabel to generate this common mouse listener
         hexLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -702,10 +753,12 @@ public final class UserEditor {
 
         CyderTextField windowField = new CyderTextField(6);
         windowField.setHorizontalAlignment(JTextField.CENTER);
+        // todo this regex is common there should be a set method of the text field to set the regex to this
         windowField.setKeyEventRegexMatcher("[A-Fa-f0-9]{0,6}");
         windowField.setText(UserUtil.getCyderUser().getWindowcolor());
         windowField.setFont(CyderFonts.SEGOE_30);
         windowField.setToolTipText("Window border color");
+        // todo extract
         windowField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
@@ -725,7 +778,7 @@ public final class UserEditor {
         FillLabel.setFont(CyderFonts.SEGOE_30);
         FillLabel.setForeground(CyderColors.navy);
 
-        JLabel hexLabelFill = new JLabel("HEX:");
+        JLabel hexLabelFill = new JLabel("Hex: ");
         hexLabelFill.setFont(CyderFonts.SEGOE_20);
         hexLabelFill.setForeground(CyderColors.navy);
         hexLabelFill.addMouseListener(new MouseAdapter() {
@@ -809,16 +862,19 @@ public final class UserEditor {
         FontLabel.setFont(new Font(UserUtil.getCyderUser().getFont(), Font.BOLD, 30));
         FontLabel.setForeground(CyderColors.navy);
 
+        // todo size
         AtomicReference<CyderScrollList> fontScrollRef = new AtomicReference<>(
                 new CyderScrollList(300, 300, CyderScrollList.SelectionPolicy.SINGLE));
         fontScrollRef.get().setItemAlignment(StyleConstants.ALIGN_LEFT);
 
+        // todo text string in CyderStrings that others use too
         CyderLabel tempLabel = new CyderLabel("Loading...");
         tempLabel.setFont(CyderFonts.DEFAULT_FONT);
         tempLabel.setBackground(CyderColors.vanilla);
         tempLabel.setBorder(new LineBorder(CyderColors.navy, 5));
         tempLabel.setOpaque(true);
 
+        // todo load method
         CyderThreadRunner.submit(() -> {
             LinkedList<String> fontList = new LinkedList<>();
             Collections.addAll(fontList, GraphicsEnvironment.getLocalGraphicsEnvironment()
@@ -844,14 +900,14 @@ public final class UserEditor {
                     switchingLabel.add(fontLabel);
                 }
             }
-        }, "Preference Font Loader");
+        }, "Preferences Frame Font Loader");
 
-        CyderButton applyFont = new CyderButton("Apply Font");
-        applyFont.setToolTipText("Apply");
-        applyFont.setFont(CyderFonts.SEGOE_20);
-        applyFont.setFocusPainted(false);
-        applyFont.setBackground(CyderColors.regularRed);
-        applyFont.addActionListener(e -> {
+        CyderButton applyFontButton = new CyderButton("Apply Font");
+        applyFontButton.setToolTipText("Apply"); // todo update this tooltip with the currently selected font name?
+        applyFontButton.setFont(CyderFonts.SEGOE_20);
+        applyFontButton.setFocusPainted(false);
+        applyFontButton.setBackground(CyderColors.regularRed);
+        applyFontButton.addActionListener(e -> {
             if (fontScrollRef.get() == null || fontScrollRef.get().getSelectedElements().isEmpty())
                 return;
 
@@ -859,29 +915,30 @@ public final class UserEditor {
 
             if (selectedFont != null) {
                 UserUtil.getCyderUser().setFont(selectedFont);
-                Font ApplyFont = new Font(selectedFont,
+                Font applyFont = new Font(selectedFont,
                         Integer.parseInt(PropLoader.getString("font_metric")),
                         Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
-                Console.INSTANCE.getOutputArea().setFont(ApplyFont);
-                Console.INSTANCE.getInputField().setFont(ApplyFont);
+                Console.INSTANCE.getOutputArea().setFont(applyFont);
+                Console.INSTANCE.getInputField().setFont(applyFont);
                 Console.INSTANCE.getInputHandler().println("The font \"" + selectedFont + "\" has been applied.");
             }
         });
 
-        CyderButton resetValues = new CyderButton("Reset ALL");
-        resetValues.setToolTipText("Reset font and all colors");
+        CyderButton resetValues = new CyderButton("Reset all");
+        resetValues.setToolTipText("Reset font and colors");
         resetValues.setFont(CyderFonts.SEGOE_20);
         resetValues.setFocusPainted(false);
         resetValues.setBackground(CyderColors.regularRed);
         resetValues.addActionListener(e -> {
+            // todo we can probably get away without building a default user
             User defaultUser = UserUtil.buildDefaultUser();
 
-            // reset foreground
+            // Foreground here
             UserUtil.getCyderUser().setForeground(defaultUser.getForeground());
             foregroundColorBlock.setBackground(ColorUtil.hexStringToColor(defaultUser.getForeground()));
             foregroundField.setText(defaultUser.getForeground());
 
-            // apply to input field, output area, and carets
+            // Apply foreground to console fields and carets
             Console.INSTANCE.getOutputArea().setForeground(
                     ColorUtil.hexStringToColor(defaultUser.getForeground()));
             Console.INSTANCE.getInputField().setForeground(
@@ -891,25 +948,26 @@ public final class UserEditor {
             Console.INSTANCE.getInputField().setCaret(
                     new CyderCaret(ColorUtil.hexStringToColor(defaultUser.getForeground())));
 
-            // reset font
+            // Font preference
             UserUtil.getCyderUser().setForeground(defaultUser.getForeground());
-            Font ApplyFont = new Font(defaultUser.getFont(), Font.BOLD, 30);
-            Console.INSTANCE.getOutputArea().setFont(ApplyFont);
-            Console.INSTANCE.getInputField().setFont(ApplyFont);
+            Font applyFont = new Font(defaultUser.getFont(), Font.BOLD, 30);
 
-            // reset the font on preference editor
+            // Font console
+            Console.INSTANCE.getOutputArea().setFont(applyFont);
+            Console.INSTANCE.getInputField().setFont(applyFont);
+
+            // Font here
             if (fontScrollRef.get() != null) {
                 fontScrollRef.get().clearSelectedElements();
             }
+            FontLabel.setFont(applyFont);
 
-            FontLabel.setFont(ApplyFont);
-
-            // reset background color
+            // Background color preference and here
             UserUtil.getCyderUser().setBackground(defaultUser.getBackground());
             fillColorBlock.setBackground(ColorUtil.hexStringToColor(defaultUser.getBackground()));
             fillField.setText(defaultUser.getBackground());
 
-            // reset output fill if active
+            // Background if enabled
             if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
                 Console.INSTANCE.getOutputArea().setOpaque(true);
                 Console.INSTANCE.getOutputArea()
@@ -917,8 +975,6 @@ public final class UserEditor {
                 Console.INSTANCE.getOutputArea().repaint();
                 Console.INSTANCE.getOutputArea().revalidate();
             }
-
-            // reset input fill if active
             if (UserUtil.getCyderUser().getInputfill().equals("1")) {
                 Console.INSTANCE.getInputField().setOpaque(true);
                 Console.INSTANCE.getInputField()
@@ -927,26 +983,24 @@ public final class UserEditor {
                 Console.INSTANCE.getInputField().revalidate();
             }
 
-            // window color
+            // Window color preference and here
             UserUtil.getCyderUser().setWindowcolor(defaultUser.getWindowcolor());
             windowColorBlock.setBackground(ColorUtil.hexStringToColor(defaultUser.getWindowcolor()));
             windowField.setText(defaultUser.getWindowcolor());
             windowColorBlock.setBackground((ColorUtil.hexStringToColor(defaultUser.getWindowcolor())));
+
+            // Window color elsewhere
             CyderColors.setGuiThemeColor((ColorUtil.hexStringToColor(defaultUser.getWindowcolor())));
             Preference.invokeRefresh(Preference.WINDOW_COLOR);
 
-            // set scroll list position to top
             if (fontScrollRef.get() != null) {
-                fontScrollRef.get().getScrollPane().getVerticalScrollBar().setValue(
-                        fontScrollRef.get().getScrollPane().getVerticalScrollBar().getMinimum());
+                JScrollBar scrollBar = fontScrollRef.get().getScrollPane().getVerticalScrollBar();
+                scrollBar.setValue(scrollBar.getMinimum());
             }
 
-            // other defaults colors below
             switchingLabel.revalidate();
             editUserFrame.notify("Default fonts and colors set");
         });
-        resetValues.setBounds(50 + 160, 410, 140, 40);
-        switchingLabel.add(resetValues);
 
         switchingLabel.revalidate();
     }
@@ -965,7 +1019,7 @@ public final class UserEditor {
     /**
      * The text used for preference labels.
      */
-    private static final String PRINT_LABEL_MAGIC_TEXT = StringUtil.generateTextForCustomComponent(4);
+    private static final String PRINT_LABEL_CHECKBOX_MAGIC_TEXT = StringUtil.generateTextForCustomComponent(4);
 
     /**
      * Switches to the preferences preference page.
@@ -1016,7 +1070,7 @@ public final class UserEditor {
             });
 
             checkbox.setSize(checkboxSize, checkboxSize);
-            JLabel printLabel = new JLabel(PRINT_LABEL_MAGIC_TEXT);
+            JLabel printLabel = new JLabel(PRINT_LABEL_CHECKBOX_MAGIC_TEXT);
             printLabel.setSize(checkboxSize, checkboxSize);
             checkbox.setBounds(0, 0, checkboxSize, checkboxSize);
             printLabel.add(checkbox);
