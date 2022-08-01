@@ -474,9 +474,6 @@ public final class FileUtil {
         Preconditions.checkArgument(file.isFile());
         Preconditions.checkArgument(directory.isDirectory());
 
-        String filename = file.getName();
-        String ret = filename;
-
         File[] files = directory.listFiles();
 
         if (files != null && files.length > 0) {
@@ -486,19 +483,22 @@ public final class FileUtil {
                 filenames.add(neighboringFile.getName());
             }
 
-            if (StringUtil.in(filename, true, filenames)) {
-                String temporaryRet = ret;
-                int number = 1;
+            String filenameAndExtension = file.getName();
+            String[] filenameAndExtensionArr = filenameAndExtension.split("\\.");
+            String name = filenameAndExtensionArr[0];
+            String extension = filenameAndExtensionArr[1];
 
-                while (StringUtil.in(temporaryRet, true, filenames)) {
-                    temporaryRet = ret + "_" + number;
-                    number++;
-                }
+            String ret = filenameAndExtension;
 
-                ret = temporaryRet;
+            int number = 1;
+            while (StringUtil.in(ret, true, filenames)) {
+                ret = name + "_" + number + "." + extension;
+                number++;
             }
-        }
 
-        return ret;
+            return ret;
+        } else {
+            return file.getName();
+        }
     }
 }

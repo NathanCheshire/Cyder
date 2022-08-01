@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
 import cyder.audio.AudioPlayer;
 import cyder.console.Console;
-import cyder.console.ConsoleBackground;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -307,26 +306,31 @@ public final class UserEditor {
                             return;
                         }
 
-                        for (ConsoleBackground background : Console.INSTANCE.reloadAndGetBackgrounds()) {
-                            if (fileToAdd.getName().equals(background.getReferenceFile().getName())) {
-                                // todo change the name to a unique form by adding _n to it.
-                                // make a fileutil method for this I guess
-                            }
+                        UserFile copyLocation = FileUtil.isSupportedImageExtension(fileToAdd)
+                                ? UserFile.BACKGROUNDS
+                                : FileUtil.isSupportedAudioExtension(fileToAdd)
+                                ? UserFile.MUSIC
+                                : UserFile.FILES;
+
+                        String uniqueNameAndExtension = fileToAdd.getName();
+                        File parentFolder = UserUtil.getUserFile(copyLocation.getName());
+                        if (parentFolder.exists() && parentFolder.isDirectory()) {
+                            uniqueNameAndExtension = FileUtil.findUniqueName(fileToAdd, parentFolder);
                         }
 
-                        String folderName = FileUtil.isSupportedImageExtension(fileToAdd)
-                                ? UserFile.BACKGROUNDS.getName()
-                                : FileUtil.isSupportedAudioExtension(fileToAdd)
-                                ? UserFile.MUSIC.getName()
-                                : UserFile.FILES.getName();
+                        try {
+                            String copyFolderPath = UserUtil.getUserFile(copyLocation.getName()).getAbsolutePath();
+                            File copyFile = OSUtil.buildFile(copyFolderPath, uniqueNameAndExtension);
+                            Files.copy(fileToAdd.toPath(), copyFile.toPath());
 
-                        Files.copy(fileToAdd.toPath(), OSUtil.buildFile(UserUtil.getUserFile(folderName)
-                                .getAbsolutePath(), fileToAdd.getName()).toPath());
+                            revalidateFilesScroll();
 
-                        revalidateFilesScroll();
-
-                        if (folderName.equals(UserFile.BACKGROUNDS.getName())) {
-                            Console.INSTANCE.resizeBackgrounds();
+                            if (copyLocation.getName().equals(UserFile.BACKGROUNDS.getName())) {
+                                Console.INSTANCE.resizeBackgrounds();
+                            }
+                        } catch (Exception exception) {
+                            editUserFrame.notify("Could not add file at this time");
+                            ExceptionHandler.handle(exception);
                         }
                     } catch (Exception ex) {
                         ExceptionHandler.handle(ex);

@@ -1031,6 +1031,7 @@ public final class UserUtil {
         }
     }
 
+    // todo this should take an actual UserFile
     /**
      * Returns the provided user file after creating it if it did not exist.
      *
