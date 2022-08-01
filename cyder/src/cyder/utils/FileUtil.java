@@ -1,5 +1,6 @@
 package cyder.utils;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderStrings;
@@ -132,9 +133,12 @@ public final class FileUtil {
      * @return whether the given file matches the provided signature
      */
     public static boolean fileMatchesSignature(File file, ImmutableList<Integer> expectedSignature) {
-        checkNotNull(file);
         checkNotNull(expectedSignature);
         checkArgument(!expectedSignature.isEmpty());
+
+        if (file == null) {
+            return false;
+        }
 
         try {
             BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
@@ -451,5 +455,50 @@ public final class FileUtil {
         }
 
         return ImmutableList.copyOf(ret);
+    }
+
+    /**
+     * Determines a unique name for the provided file so that it may be placed in the provided directory
+     * with no collisions. Note that this returns the filename as well
+     *
+     * @param file      the file to find a unique name for
+     * @param directory the directory to place the file in
+     * @return a unique name for the file. Note this may or may not equal
+     * the original file name including the extension
+     */
+    public static String findUniqueName(File file, File directory) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkNotNull(directory);
+        Preconditions.checkArgument(file.exists());
+        Preconditions.checkArgument(directory.exists());
+        Preconditions.checkArgument(file.isFile());
+        Preconditions.checkArgument(directory.isDirectory());
+
+        String filename = file.getName();
+        String ret = filename;
+
+        File[] files = directory.listFiles();
+
+        if (files != null && files.length > 0) {
+            ArrayList<String> filenames = new ArrayList<>(files.length);
+
+            for (File neighboringFile : files) {
+                filenames.add(neighboringFile.getName());
+            }
+
+            if (StringUtil.in(filename, true, filenames)) {
+                String temporaryRet = ret;
+                int number = 1;
+
+                while (StringUtil.in(temporaryRet, true, filenames)) {
+                    temporaryRet = ret + "_" + number;
+                    number++;
+                }
+
+                ret = temporaryRet;
+            }
+        }
+
+        return ret;
     }
 }
