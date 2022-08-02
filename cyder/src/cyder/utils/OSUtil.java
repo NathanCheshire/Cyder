@@ -114,7 +114,7 @@ public final class OSUtil {
                 throw new UnsupportedOsException("Unknown operating system: " + OPERATING_SYSTEM_NAME);
         }
 
-        return false;
+        return true;
     }
 
     /**

@@ -14,6 +14,8 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.layouts.CyderGridLayout;
+import cyder.layouts.CyderPartitionedLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.utils.*;
@@ -70,11 +72,6 @@ public final class UserEditor {
     private static final AtomicReference<CyderScrollList> filesScrollListRef = new AtomicReference<>();
 
     /**
-     * The height of the ribbon menu for the edit user frame.
-     */
-    private static final int MENU_HEIGHT = 30;
-
-    /**
      * The frame size of the user editor.
      */
     private static final int FRAME_WIDTH = 800;
@@ -92,17 +89,18 @@ public final class UserEditor {
     /**
      * The remaining height of the frame that the content pane may encompass.
      */
-    private static final int CONTENT_PANE_HEIGHT = FRAME_HEIGHT - 2 * CyderFrame.BORDER_LEN
-            - CyderDragLabel.DEFAULT_HEIGHT - MENU_HEIGHT;
+    private static final int CONTENT_PANE_HEIGHT = FRAME_HEIGHT
+            - 2 * CyderFrame.BORDER_LEN - CyderDragLabel.DEFAULT_HEIGHT;
 
     /**
      * The possible pages of the user editor.
      */
     public enum Page {
-        FILES("Files", UserEditor::switchToUserFiles),
-        FONT_AND_COLOR("Font & Color", UserEditor::switchToFontAndColor),
+        FIELDS("Fields", UserEditor::switchToFieldInputs),
         PREFERENCES("Preferences", UserEditor::switchToPreferences),
-        FIELDS("Fields", UserEditor::switchToFieldInputs);
+        FONT_AND_COLOR("Font & Color", UserEditor::switchToFontAndColor),
+        FILES("Files", UserEditor::switchToUserFiles);
+
 
         /**
          * The frame title and id of this page.
@@ -174,15 +172,7 @@ public final class UserEditor {
         editUserFrame.setBackground(CyderColors.vanilla);
         editUserFrame.setTitle("Preferences");
 
-        switchingLabel = new JLabel();
-        switchingLabel.setForeground(Color.white);
-        switchingLabel.setBounds(CyderFrame.BORDER_LEN, CyderDragLabel.DEFAULT_HEIGHT + MENU_HEIGHT,
-                CONTENT_PANE_WIDTH, CONTENT_PANE_HEIGHT);
-        switchingLabel.setOpaque(true);
-        switchingLabel.setBackground(CyderColors.vanilla);
-        editUserFrame.getContentPane().add(switchingLabel);
-
-        installMenu();
+        installDragLabelButtons();
         editUserFrame.finalizeAndShow();
 
         currentPage = page;
@@ -190,11 +180,11 @@ public final class UserEditor {
     }
 
     /**
-     * Installs the menu items to the edit user frame.
+     * Installs the drag label items to the edit user frame.
      */
-    private static void installMenu() {
+    private static void installDragLabelButtons() {
         for (Page page : Page.values()) {
-            editUserFrame.addMenuItem(page.getTitle(), () -> {
+            JLabel textButton = CyderDragLabel.generateTextButton(page.getTitle(), page.getTitle(), () -> {
                 if (currentPage != page) {
                     currentPage = page;
 
@@ -202,10 +192,8 @@ public final class UserEditor {
                     page.getSwitchRunnable().run();
                 }
             });
+            editUserFrame.getTopDragLabel().addRightButton(textButton, 0);
         }
-
-        editUserFrame.setMenuType(CyderFrame.MenuType.RIBBON);
-        editUserFrame.lockMenuOut();
     }
 
     /**
@@ -266,42 +254,48 @@ public final class UserEditor {
         editUserFrame.repaint();
     }
 
+    private static final int FILE_SCROLL_PARTITION = 85;
+    private static final int FILE_BUTTON_PARTITION = 100 - FILE_SCROLL_PARTITION;
+
+    private static final int buttonWidth = 175;
+    private static final int buttonHeight = 40;
+
     /**
      * Switches to the user files preference page.
      */
     private static void switchToUserFiles() {
-        JLabel titleLabel = new JLabel(Page.FILES.getTitle(), SwingConstants.CENTER);
-        titleLabel.setFont(CyderFonts.SEGOE_30);
-        titleLabel.setForeground(CyderColors.navy);
-
         revalidateFilesScroll();
 
+        CyderGridLayout buttonGridLayout = new CyderGridLayout(4, 1);
+
         CyderButton addFileButton = new CyderButton("Add");
-        addFileButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        addFileButton.setFocusPainted(false);
-        addFileButton.setBackground(CyderColors.regularRed);
         addFileButton.addActionListener(addFileButtonActionListener);
-        addFileButton.setFont(CyderFonts.SEGOE_20);
+        addFileButton.setSize(buttonWidth, buttonHeight);
 
         CyderButton openFileButton = new CyderButton("Open");
-        openFileButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        openFileButton.setFocusPainted(false);
-        openFileButton.setBackground(CyderColors.regularRed);
-        openFileButton.setFont(CyderFonts.SEGOE_20);
         openFileButton.addActionListener(openFileButtonActionListener);
+        openFileButton.setSize(buttonWidth, buttonHeight);
 
         CyderButton renameFileButton = new CyderButton("Rename");
-        renameFileButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
         renameFileButton.addActionListener(renameFileButtonActionListener);
-        renameFileButton.setFont(CyderFonts.SEGOE_20);
+        renameFileButton.setSize(buttonWidth, buttonHeight);
 
         CyderButton deleteFileButton = new CyderButton("Delete");
-        deleteFileButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
         deleteFileButton.addActionListener(deleteFileButtonActionListener);
-        deleteFileButton.setBackground(CyderColors.regularRed);
-        deleteFileButton.setFont(CyderFonts.SEGOE_20);
+        deleteFileButton.setSize(buttonWidth, buttonHeight);
 
-        switchingLabel.revalidate();
+        buttonGridLayout.addComponent(addFileButton);
+        buttonGridLayout.addComponent(openFileButton);
+        buttonGridLayout.addComponent(renameFileButton);
+        buttonGridLayout.addComponent(deleteFileButton);
+
+        CyderPartitionedLayout partitionedLayout = new CyderPartitionedLayout();
+        partitionedLayout.addComponent(filesLabelRef.get(), FILE_SCROLL_PARTITION);
+        CyderPanel panel = new CyderPanel(buttonGridLayout);
+        panel.setSize(CONTENT_PANE_WIDTH, FILE_BUTTON_PARTITION * CONTENT_PANE_HEIGHT);
+        partitionedLayout.addComponent(panel, FILE_BUTTON_PARTITION);
+
+        editUserFrame.setCyderLayout(partitionedLayout);
     }
 
     /**
@@ -356,7 +350,13 @@ public final class UserEditor {
     /**
      * The action listener for the open file button.
      */
-    private static final ActionListener openFileButtonActionListener = e -> {
+    private static final ActionListener openFileButtonActionListener = e -> openFile();
+
+    /**
+     * The action to open a file when an element in the files scroll is double clicked or
+     * an element is selected when the open file button is pressed.
+     */
+    private static void openFile() {
         String selectedScrollElement = filesScrollListRef.get().getSelectedElement();
 
         for (String fileName : filesNameList) {
@@ -370,7 +370,7 @@ public final class UserEditor {
                 break;
             }
         }
-    };
+    }
 
     /**
      * The action listener for the rename file button.
@@ -397,35 +397,37 @@ public final class UserEditor {
                     return;
                 }
 
-                String newName = GetterUtil.getInstance().getString(
-                        new GetterUtil.Builder("Rename " + filename)
-                                .setFieldTooltip("Enter a valid file name (extension will be handled)")
-                                .setRelativeTo(editUserFrame)
-                                .setSubmitButtonText("Rename")
-                                .setInitialString(filename));
+                CyderThreadRunner.submit(() -> {
+                    String newName = GetterUtil.getInstance().getString(
+                            new GetterUtil.Builder("Rename " + filename)
+                                    .setFieldTooltip("Enter a valid file name (extension will be handled)")
+                                    .setRelativeTo(editUserFrame)
+                                    .setSubmitButtonText("Rename")
+                                    .setInitialString(FileUtil.getFilename(selectedFile)));
 
-                if (StringUtil.isNull(newName)) {
-                    return;
-                }
-
-                String newFilenameAndExtension = newName + FileUtil.getExtension(selectedFile);
-
-                if (OSUtil.isValidFilename(newFilenameAndExtension)) {
-                    editUserFrame.notify("Invalid filename; file not renamed");
-                    return;
-                }
-
-                if (renameRequestedFile(selectedFile, newFilenameAndExtension)) {
-                    switch (userDirectory) {
-                        case "Backgrounds" -> editUserFrame.notify("Renamed background file");
-                        case "Music" -> editUserFrame.notify("Renamed music file");
-                        default -> editUserFrame.notify("Renamed file");
+                    if (StringUtil.isNull(newName)) {
+                        return;
                     }
 
-                    revalidateFilesScroll();
-                } else {
-                    editUserFrame.notify("Failed to rename file");
-                }
+                    String newFilenameAndExtension = newName + FileUtil.getExtension(selectedFile);
+
+                    if (!OSUtil.isValidFilename(newFilenameAndExtension)) {
+                        editUserFrame.notify("Invalid filename; file not renamed");
+                        return;
+                    }
+
+                    if (renameRequestedFile(selectedFile, newFilenameAndExtension)) {
+                        switch (userDirectory) {
+                            case "Backgrounds" -> editUserFrame.notify("Renamed background file");
+                            case "Music" -> editUserFrame.notify("Renamed music file");
+                            default -> editUserFrame.notify("Renamed file");
+                        }
+
+                        revalidateFilesScroll();
+                    } else {
+                        editUserFrame.notify("Failed to rename file");
+                    }
+                }, "User Editor File Renamer");
             }
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
@@ -457,6 +459,7 @@ public final class UserEditor {
         File albumArtDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
 
+        // todo broken
         if (albumArtDir.exists()) {
             File[] albumArtFiles = albumArtDir.listFiles();
 
@@ -474,9 +477,7 @@ public final class UserEditor {
                     String namePart = proposedName.split("\\.")[0];
                     File newAlbumArtFile = OSUtil.buildFile(referenceFile.getParentFile().getAbsolutePath(),
                             namePart + "." + ImageUtil.PNG_FORMAT);
-                    if (renameMe.renameTo(newAlbumArtFile)) {
-                        editUserFrame.notify("Renamed file");
-                    } else {
+                    if (!renameMe.renameTo(newAlbumArtFile)) {
                         Console.INSTANCE.getInputHandler().println("Failed to rename album art: "
                                 + FileUtil.getFilename(renameMe));
                     }
@@ -530,7 +531,8 @@ public final class UserEditor {
      * @return whether the provided file is the currently open file in the audio player
      */
     private static boolean isOpenInAudioPlayer(File file) {
-        return AudioPlayer.getCurrentAudio().getAbsolutePath().equals(file.getAbsolutePath());
+        File refFile = AudioPlayer.getCurrentAudio();
+        return refFile != null && refFile.getAbsolutePath().equals(file.getAbsolutePath());
     }
 
     /**
@@ -602,57 +604,49 @@ public final class UserEditor {
         return Optional.empty();
     }
 
-    // todo redo
+    private static final int filesLabelPadding = 10;
 
     /**
-     * Revalidates the user files scroll.
+     * The border for the files label (the generated files scroll).
+     */
+    private static final CompoundBorder filesLabelBorder = new CompoundBorder(
+            new LineBorder(CyderColors.navy, 3), BorderFactory.createEmptyBorder(filesLabelPadding,
+            filesLabelPadding, filesLabelPadding, filesLabelPadding));
+
+    /**
+     * Revalidates the user files scroll and updates {@link #filesLabelRef}.
      */
     private static void revalidateFilesScroll() {
-        if (filesLabelRef.get() != null) {
-            switchingLabel.remove(filesLabelRef.get());
+        JLabel filesLabel = filesLabelRef.get();
+        if (filesLabel != null) {
             filesLabelRef.set(null);
         }
 
-        if (filesScrollListRef.get() != null) {
-            filesScrollListRef.get().removeAllElements();
+        CyderScrollList filesScrollList = filesScrollListRef.get();
+        if (filesScrollList != null) {
+            filesScrollList.removeAllElements();
             filesScrollListRef.set(null);
         }
 
-        // ensure lists are updated
         refreshFileLists();
 
-        // todo size
-        CyderScrollList filesScroll = new CyderScrollList(680, 360, CyderScrollList.SelectionPolicy.SINGLE);
+        int w = CONTENT_PANE_WIDTH - 2 * filesLabelPadding;
+        int h = (int) ((FILE_SCROLL_PARTITION / 100.0f) * CONTENT_PANE_HEIGHT - 2 * filesLabelPadding);
+
+        // todo look into multiple selection policy
+        CyderScrollList filesScroll = new CyderScrollList(w, h, CyderScrollList.SelectionPolicy.SINGLE);
         filesScroll.setBorder(null);
         filesScrollListRef.set(filesScroll);
 
-        for (int i = 0 ; i < filesNameList.size() ; i++) {
-            int finalI = i;
-            // todo method for runnable
-            filesScroll.addElement(filesNameList.get(i),
-                    () -> {
-                        //                        // if photo viewer can handle
-                        //                        if (FileUtil.isSupportedImageExtension(filesList.get(finalI))) {
-                        //                            PhotoViewer pv = PhotoViewer.getInstance(filesList.get(finalI));
-                        //                            pv.setRenameCallback(UserEditor::revalidateFilesScroll);
-                        //                            pv.showGui();
-                        //                        } else if (filesList.get(finalI).isDirectory()) {
-                        //                            DirectoryViewer.showGui(filesList.get(finalI));
-                        //                        } else {
-                        //                            IOUtil.openFile(filesList.get(finalI).getAbsolutePath());
-                        //                        }
-                    });
+        for (String element : filesNameList) {
+            filesScroll.addElement(element, UserEditor::openFile);
         }
 
-        JLabel filesLabel;
         filesLabel = filesScroll.generateScrollList();
-        filesLabel.setBounds(20, 60, 680, 360);
+        filesLabel.setBounds(filesLabelPadding, filesLabelPadding, w, h);
         filesLabel.setBackground(CyderColors.vanilla);
-        filesLabel.setBorder(new CompoundBorder(
-                new LineBorder(CyderColors.navy, 3),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+        filesLabel.setBorder(filesLabelBorder);
         filesLabelRef.set(filesLabel);
-        switchingLabel.add(filesLabel);
     }
 
     /**
