@@ -214,7 +214,7 @@ public final class YoutubeUtil {
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName(),
-                "AlbumArt");
+                UserFile.ALBUM_ART);
 
         if (!albumArtDir.exists()) {
             if (!albumArtDir.mkdirs()) {

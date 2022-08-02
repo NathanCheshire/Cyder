@@ -507,7 +507,7 @@ public final class AudioPlayer {
 
         currentUserAlbumArtDir = OSUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), "AlbumArt");
+                Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
 
         audioPlayerFrame = new CyderFrame(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN, BACKGROUND_COLOR);
         refreshFrameTitle();

@@ -226,7 +226,7 @@ public final class UserEditor {
 
         // todo surely an optimization can be made here, enum of user file which needs
         //  to be a dir linked to a function to determine if it should be added
-        File backgroundDir = UserUtil.getUserFile(UserFile.BACKGROUNDS.getName());
+        File backgroundDir = UserUtil.getUserFile(UserFile.BACKGROUNDS);
         File[] backgroundFiles = backgroundDir.listFiles();
         if (backgroundFiles != null && backgroundFiles.length > 0) {
             for (File file : backgroundFiles) {
@@ -236,7 +236,7 @@ public final class UserEditor {
             }
         }
 
-        File musicDir = UserUtil.getUserFile(UserFile.MUSIC.getName());
+        File musicDir = UserUtil.getUserFile(UserFile.MUSIC);
         File[] musicFiles = musicDir.listFiles();
         if (musicFiles != null && musicFiles.length > 0) {
             for (File file : musicFiles) {
@@ -246,7 +246,7 @@ public final class UserEditor {
             }
         }
 
-        File filesDir = UserUtil.getUserFile(UserFile.FILES.getName());
+        File filesDir = UserUtil.getUserFile(UserFile.FILES);
         File[] fileFiles = filesDir.listFiles();
         if (fileFiles != null && fileFiles.length > 0) {
             for (File file : fileFiles) {
@@ -325,13 +325,13 @@ public final class UserEditor {
                             : UserFile.FILES;
 
                     String uniqueNameAndExtension = fileToAdd.getName();
-                    File parentFolder = UserUtil.getUserFile(copyLocation.getName());
+                    File parentFolder = UserUtil.getUserFile(copyLocation);
                     if (parentFolder.exists() && parentFolder.isDirectory()) {
                         uniqueNameAndExtension = FileUtil.findUniqueName(fileToAdd, parentFolder);
                     }
 
                     try {
-                        String copyFolderPath = UserUtil.getUserFile(copyLocation.getName()).getAbsolutePath();
+                        String copyFolderPath = UserUtil.getUserFile(copyLocation).getAbsolutePath();
                         File copyFile = OSUtil.buildFile(copyFolderPath, uniqueNameAndExtension);
                         Files.copy(fileToAdd.toPath(), copyFile.toPath());
 
@@ -455,14 +455,32 @@ public final class UserEditor {
 
         // Attempt to find album art file to rename
         File albumArtDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
-                Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(),
-                "AlbumArt"); // todo album art needs to be extract to user file somehow
+                Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
 
         if (albumArtDir.exists()) {
             File[] albumArtFiles = albumArtDir.listFiles();
 
             if (albumArtFiles != null && albumArtFiles.length > 0) {
+                File renameMe = null;
 
+                for (File targetFile : albumArtFiles) {
+                    if (FileUtil.getFilename(targetFile).equals(oldAlbumArtName)) {
+                        renameMe = targetFile;
+                        break;
+                    }
+                }
+
+                if (renameMe != null) {
+                    String namePart = proposedName.split("\\.")[0];
+                    File newAlbumArtFile = OSUtil.buildFile(referenceFile.getParentFile().getAbsolutePath(),
+                            namePart + "." + ImageUtil.PNG_FORMAT);
+                    if (renameMe.renameTo(newAlbumArtFile)) {
+                        editUserFrame.notify("Renamed file");
+                    } else {
+                        Console.INSTANCE.getInputHandler().println("Failed to rename album art: "
+                                + FileUtil.getFilename(renameMe));
+                    }
+                }
             }
         }
 

@@ -828,8 +828,8 @@ public final class UserUtil {
                             }
                         }
 
-                        File albumArtDirectory = new File
-                                (OSUtil.buildPath(user.getAbsolutePath(), "Music", "AlbumArt"));
+                        File albumArtDirectory = new File(OSUtil.buildPath(user.getAbsolutePath(),
+                                UserFile.MUSIC.getName(), UserFile.ALBUM_ART));
 
                         if (!albumArtDirectory.exists())
                             continue;
@@ -1031,40 +1031,25 @@ public final class UserUtil {
         }
     }
 
-    // todo this should take an actual UserFile
     /**
      * Returns the provided user file after creating it if it did not exist.
      *
-     * @param fileName the file name of the user file to return a reference to
-     * @return the provided user file
+     * @param userFile the user file to return the file reference of
+     * @return the provided user file reference
      */
-    public static File getUserFile(String fileName) {
-        Preconditions.checkNotNull(fileName);
-        Preconditions.checkArgument(!fileName.isEmpty());
+    public static File getUserFile(UserFile userFile) {
+        Preconditions.checkNotNull(userFile);
         Preconditions.checkArgument(Console.INSTANCE.getUuid() != null);
-
-        boolean in = false;
-
-        for (UserFile f : UserFile.values()) {
-            if (fileName.equalsIgnoreCase(f.getName())) {
-                in = true;
-                break;
-            }
-        }
-
-        if (!in) {
-            throw new IllegalArgumentException("Provided user file does not exists as standard enum type");
-        }
 
         File ret = OSUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
-                Console.INSTANCE.getUuid(), fileName);
+                Console.INSTANCE.getUuid(), userFile.getName());
 
         if (!ret.exists()) {
-            if (ret.mkdir()) {
+            if (OSUtil.createFile(ret, false)) {
                 return ret;
             } else {
-                throw new FatalException("Failed to create user file: " + fileName);
+                throw new FatalException("Failed to create user file: " + userFile);
             }
         }
 

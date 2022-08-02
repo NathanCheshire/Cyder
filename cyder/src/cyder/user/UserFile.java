@@ -30,6 +30,11 @@ public enum UserFile {
     FILES("Files");
 
     /**
+     * The album art directory within {@link #MUSIC}.
+     */
+    public static final String ALBUM_ART = "AlbumArt";
+
+    /**
      * The name of the file/directory.
      */
     private final String name;

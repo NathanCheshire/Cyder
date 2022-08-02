@@ -53,7 +53,7 @@ public class GitHandler extends InputHandler {
                             try {
                                 Future<Optional<Boolean>> cloned = GitHubUtil.cloneRepoToDirectory(
                                         getInputHandler().getArg(1),
-                                        UserUtil.getUserFile(UserFile.FILES.getName()));
+                                        UserUtil.getUserFile(UserFile.FILES));
 
                                 while (!cloned.isDone()) {
                                     Thread.onSpinWait();
