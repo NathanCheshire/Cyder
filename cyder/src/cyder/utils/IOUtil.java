@@ -56,31 +56,45 @@ public final class IOUtil {
      * Opens the provided file outside of the program regardless of whether a
      * handler exists for the file (e.g.: TextHandler, AudioPlayer, etc.).
      *
+     * @param file the file to open
+     */
+    public static void openFileOutsideProgram(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+
+        Desktop desktop = Desktop.getDesktop();
+
+        try {
+            URI uri = file.toURI();
+            desktop.browse(uri);
+        } catch (Exception e) {
+            try {
+                String path = file.getAbsolutePath();
+
+                if (OSUtil.OPERATING_SYSTEM == OSUtil.OperatingSystem.WINDOWS) {
+                    Runtime.getRuntime().exec("explorer.exe /select," + path);
+                } else {
+                    throw new FatalException("Could not open file; tell Nathan to fix me");
+                }
+
+                Logger.log(Logger.Tag.LINK, path);
+            } catch (Exception ex) {
+                ExceptionHandler.handle(ex);
+            }
+        }
+    }
+
+    /**
+     * Opens the provided file outside of the program regardless of whether a
+     * handler exists for the file (e.g.: TextHandler, AudioPlayer, etc.).
+     *
      * @param filePath the path to the file to open
      */
     public static void openFileOutsideProgram(String filePath) {
         Preconditions.checkNotNull(filePath);
         Preconditions.checkArgument(!filePath.isEmpty());
 
-        Desktop desktop = Desktop.getDesktop();
-
-        try {
-            File FileToOpen = new File(filePath);
-            URI FileURI = FileToOpen.toURI();
-            desktop.browse(FileURI);
-        } catch (Exception e) {
-            try {
-                if (OSUtil.OPERATING_SYSTEM == OSUtil.OperatingSystem.WINDOWS) {
-                    Runtime.getRuntime().exec("explorer.exe /select," + filePath);
-                } else {
-                    throw new FatalException("Could not open file; tell Nathan to fix me");
-                }
-
-                Logger.log(Logger.Tag.LINK, filePath);
-            } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
-            }
-        }
+        openFileOutsideProgram(new File(filePath));
     }
 
     /**
@@ -184,24 +198,35 @@ public final class IOUtil {
     /**
      * Opens the provided file, possibly inside of the program if a handler exists for it.
      *
+     * @param file the file to open
+     */
+    public static void openFile(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+
+        String extension = FileUtil.getExtension(file);
+
+        if (extension.equals(".txt")) {
+            TextViewer.getInstance(file).showGui();
+        } else if (FileUtil.isSupportedImageExtension(file)) {
+            PhotoViewer.getInstance(file).showGui();
+        } else if (FileUtil.isSupportedAudioExtension(file)) {
+            AudioPlayer.showGui(file);
+        } else {
+            openFileOutsideProgram(file);
+        }
+    }
+
+    /**
+     * Opens the provided file, possibly inside of the program if a handler exists for it.
+     *
      * @param filePath the path to the file to open
      */
     public static void openFile(String filePath) {
         Preconditions.checkNotNull(filePath);
         Preconditions.checkArgument(!filePath.isEmpty());
 
-        File file = new File(filePath);
-        Preconditions.checkArgument(file.exists());
-
-        if (filePath.endsWith(".txt")) {
-            TextViewer.getInstance(file).showGui();
-        } else if (FileUtil.isSupportedImageExtension(new File(filePath))) {
-            PhotoViewer.getInstance(file).showGui();
-        } else if (FileUtil.isSupportedAudioExtension(new File(filePath))) {
-            AudioPlayer.showGui(file);
-        } else {
-            openFileOutsideProgram(filePath);
-        }
+        openFile(new File(filePath));
     }
 
     private static final String IO_UTIL_GENERAL_AUDIO_THREAD_NAME = "IOUtil General Audio";

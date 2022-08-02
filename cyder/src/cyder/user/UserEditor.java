@@ -26,12 +26,12 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -99,18 +99,24 @@ public final class UserEditor {
      * The possible pages of the user editor.
      */
     public enum Page {
-        FILES("Files"),
-        FONT_AND_COLOR("Font & Color"),
-        PREFERENCES("Preferences"),
-        FIELDS("Fields");
+        FILES("Files", UserEditor::switchToUserFiles),
+        FONT_AND_COLOR("Font & Color", UserEditor::switchToFontAndColor),
+        PREFERENCES("Preferences", UserEditor::switchToPreferences),
+        FIELDS("Fields", UserEditor::switchToFieldInputs);
 
         /**
          * The frame title and id of this page.
          */
         private final String title;
 
-        Page(String title) {
+        /**
+         * The runnable to invoke to load the page when the menu item is clicked.
+         */
+        private final Runnable switchRunnable;
+
+        Page(String title, Runnable runnable) {
             this.title = title;
+            this.switchRunnable = runnable;
 
             Logger.log(Logger.Tag.OBJECT_CREATION, this);
         }
@@ -122,6 +128,15 @@ public final class UserEditor {
          */
         public String getTitle() {
             return title;
+        }
+
+        /**
+         * Returns the runnable to invoke when this page is clicked.
+         *
+         * @return the runnable to invoke when this page is clicked
+         */
+        public Runnable getSwitchRunnable() {
+            return switchRunnable;
         }
     }
 
@@ -168,59 +183,26 @@ public final class UserEditor {
         editUserFrame.getContentPane().add(switchingLabel);
 
         installMenu();
-        editUserFrame.setVisible(true);
-        editUserFrame.setLocationRelativeTo(null);
+        editUserFrame.finalizeAndShow();
 
         currentPage = page;
-
-        switch (page) {
-            case FILES -> switchToUserFiles();
-            case FONT_AND_COLOR -> switchToFontAndColor();
-            case PREFERENCES -> switchToPreferences();
-            case FIELDS -> switchToFieldInputs();
-        }
+        page.getSwitchRunnable().run();
     }
 
     /**
      * Installs the menu items to the edit user frame.
      */
     private static void installMenu() {
-        editUserFrame.addMenuItem(Page.FILES.getTitle(), () -> {
-            if (currentPage == Page.FILES)
-                return;
+        for (Page page : Page.values()) {
+            editUserFrame.addMenuItem(page.getTitle(), () -> {
+                if (currentPage != page) {
+                    currentPage = page;
 
-            currentPage = Page.FILES;
-
-            revalidateOnMenuItemClicked();
-            switchToUserFiles();
-        });
-        editUserFrame.addMenuItem(Page.FONT_AND_COLOR.getTitle(), () -> {
-            if (currentPage == Page.FONT_AND_COLOR)
-                return;
-
-            currentPage = Page.FONT_AND_COLOR;
-
-            revalidateOnMenuItemClicked();
-            switchToFontAndColor();
-        });
-        editUserFrame.addMenuItem(Page.PREFERENCES.getTitle(), () -> {
-            if (currentPage == Page.PREFERENCES)
-                return;
-
-            currentPage = Page.PREFERENCES;
-
-            revalidateOnMenuItemClicked();
-            switchToPreferences();
-        });
-        editUserFrame.addMenuItem(Page.FIELDS.getTitle(), () -> {
-            if (currentPage == Page.FIELDS)
-                return;
-
-            currentPage = Page.FIELDS;
-
-            revalidateOnMenuItemClicked();
-            switchToFieldInputs();
-        });
+                    revalidateOnMenuItemClicked();
+                    page.getSwitchRunnable().run();
+                }
+            });
+        }
 
         editUserFrame.setMenuType(CyderFrame.MenuType.RIBBON);
         editUserFrame.lockMenuOut();
@@ -237,16 +219,19 @@ public final class UserEditor {
 
     /**
      * Refreshes the contents of {@link #filesNameList}.
+     * Note this method does not update the ui based on the updated contents.
      */
     private static void refreshFileLists() {
         filesNameList.clear();
 
+        // todo surely an optimization can be made here, enum of user file which needs
+        //  to be a dir linked to a function to determine if it should be added
         File backgroundDir = UserUtil.getUserFile(UserFile.BACKGROUNDS.getName());
         File[] backgroundFiles = backgroundDir.listFiles();
         if (backgroundFiles != null && backgroundFiles.length > 0) {
             for (File file : backgroundFiles) {
                 if (FileUtil.isSupportedImageExtension(file)) {
-                    filesNameList.add(OSUtil.buildPath(UserFile.BACKGROUNDS.getName(), file.getName()));
+                    filesNameList.add(UserFile.BACKGROUNDS.getName() + "/" + file.getName());
                 }
             }
         }
@@ -256,7 +241,7 @@ public final class UserEditor {
         if (musicFiles != null && musicFiles.length > 0) {
             for (File file : musicFiles) {
                 if (FileUtil.isSupportedAudioExtension(file)) {
-                    filesNameList.add(OSUtil.buildPath(UserFile.MUSIC.getName(), file.getName()));
+                    filesNameList.add(UserFile.MUSIC.getName() + "/" + file.getName());
                 }
             }
         }
@@ -265,7 +250,7 @@ public final class UserEditor {
         File[] fileFiles = filesDir.listFiles();
         if (fileFiles != null && fileFiles.length > 0) {
             for (File file : fileFiles) {
-                filesNameList.add(OSUtil.buildPath(UserFile.FILES.getName(), file.getName()));
+                filesNameList.add(UserFile.FILES.getName() + "/" + file.getName());
             }
         }
     }
@@ -295,262 +280,256 @@ public final class UserEditor {
         addFileButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
         addFileButton.setFocusPainted(false);
         addFileButton.setBackground(CyderColors.regularRed);
-        addFileButton.addActionListener(e -> {
-            try {
-                CyderThreadRunner.submit(() -> {
-                    try {
-                        File fileToAdd = GetterUtil.getInstance().getFile(
-                                new GetterUtil.Builder("Add File").setRelativeTo(editUserFrame));
-
-                        if (fileToAdd == null || StringUtil.isNull(fileToAdd.getName())) {
-                            return;
-                        }
-
-                        UserFile copyLocation = FileUtil.isSupportedImageExtension(fileToAdd)
-                                ? UserFile.BACKGROUNDS
-                                : FileUtil.isSupportedAudioExtension(fileToAdd)
-                                ? UserFile.MUSIC
-                                : UserFile.FILES;
-
-                        String uniqueNameAndExtension = fileToAdd.getName();
-                        File parentFolder = UserUtil.getUserFile(copyLocation.getName());
-                        if (parentFolder.exists() && parentFolder.isDirectory()) {
-                            uniqueNameAndExtension = FileUtil.findUniqueName(fileToAdd, parentFolder);
-                        }
-
-                        try {
-                            String copyFolderPath = UserUtil.getUserFile(copyLocation.getName()).getAbsolutePath();
-                            File copyFile = OSUtil.buildFile(copyFolderPath, uniqueNameAndExtension);
-                            Files.copy(fileToAdd.toPath(), copyFile.toPath());
-
-                            revalidateFilesScroll();
-
-                            if (copyLocation.getName().equals(UserFile.BACKGROUNDS.getName())) {
-                                Console.INSTANCE.resizeBackgrounds();
-                            }
-                        } catch (Exception exception) {
-                            editUserFrame.notify("Could not add file at this time");
-                            ExceptionHandler.handle(exception);
-                        }
-                    } catch (Exception ex) {
-                        ExceptionHandler.handle(ex);
-                    }
-                }, "User Editor File Adder");
-            } catch (Exception exc) {
-                ExceptionHandler.handle(exc);
-            }
-        });
+        addFileButton.addActionListener(addFileButtonActionListener);
         addFileButton.setFont(CyderFonts.SEGOE_20);
 
-        CyderButton openFile = new CyderButton("Open");
-        openFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        openFile.setFocusPainted(false);
-        openFile.setBackground(CyderColors.regularRed);
-        openFile.setFont(CyderFonts.SEGOE_20);
-        openFile.addActionListener(e -> {
-            String element = filesScrollListRef.get().getSelectedElement();
+        CyderButton openFileButton = new CyderButton("Open");
+        openFileButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        openFileButton.setFocusPainted(false);
+        openFileButton.setBackground(CyderColors.regularRed);
+        openFileButton.setFont(CyderFonts.SEGOE_20);
+        openFileButton.addActionListener(openFileButtonActionListener);
 
-            for (int i = 0 ; i < filesNameList.size() ; i++) {
-                if (element.equalsIgnoreCase(filesNameList.get(i))) {
-                    // todo IOUtil.openFile(filesList.get(i).getAbsolutePath());
-                    break;
-                }
-            }
-        });
+        CyderButton renameFileButton = new CyderButton("Rename");
+        renameFileButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        renameFileButton.addActionListener(renameFileButtonActionListener);
+        renameFileButton.setFont(CyderFonts.SEGOE_20);
 
-        CyderButton renameFile = new CyderButton("Rename");
-        renameFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        renameFile.addActionListener(e -> CyderThreadRunner.submit(() -> {
-            try {
-                if (!filesScrollListRef.get().getSelectedElements().isEmpty()) {
-                    String clickedSelection = filesScrollListRef.get().getSelectedElements().get(0);
-                    File selectedFile = null;
-
-                    for (String s : filesNameList) {
-                        if (clickedSelection.equals(s)) {
-                            selectedFile = getFile(s);
-                            break;
-                        }
-                    }
-
-                    if (selectedFile == null)
-                        return;
-
-                    File absoluteSelectedFile = selectedFile.getAbsoluteFile();
-
-                    if ((AudioPlayer.getCurrentAudio() != null
-                            && absoluteSelectedFile.toString().equals(
-                            AudioPlayer.getCurrentAudio().getAbsoluteFile().toString()))
-                            || selectedFile.getAbsoluteFile().toString().equals(
-                            Console.INSTANCE.getCurrentBackground()
-                                    .getReferenceFile().getAbsoluteFile().toString())) {
-                        editUserFrame.notify("Cannot rename a file that is in use");
-                    } else {
-                        String oldName = FileUtil.getFilename(selectedFile);
-                        String extension = FileUtil.getExtension(selectedFile);
-
-                        String newName = GetterUtil.getInstance().getString(new GetterUtil.Builder("Rename")
-                                .setFieldTooltip("Enter a valid file name")
-                                .setRelativeTo(editUserFrame)
-                                .setSubmitButtonText("Submit")
-                                .setInitialString(oldName));
-
-                        if (oldName.equals(newName) || StringUtil.isNull(newName)) {
-                            return;
-                        }
-
-                        File renameTo = new File(selectedFile.getParent() + "/" + newName + extension);
-
-                        if (renameTo.exists()) {
-                            throw new IOException("file exists");
-                        }
-
-                        //rename file to new name
-                        boolean success = selectedFile.renameTo(renameTo);
-
-                        if (!success) {
-                            editUserFrame.notify("Could not rename file at this time");
-                        } else {
-                            editUserFrame.notify(selectedFile.getName() +
-                                    " was successfully renamed to " + renameTo.getName());
-
-                            // was it a music file?
-                            if (StringUtil.in(extension, true, ".mp3", ".wav")) {
-                                File albumArtDir = OSUtil.buildFile(
-                                        Dynamic.PATH,
-                                        Dynamic.USERS.getDirectoryName(),
-                                        Console.INSTANCE.getUuid(),
-                                        UserFile.MUSIC.getName(),
-                                        "AlbumArt");
-
-                                if (albumArtDir.exists()) {
-                                    // try to find a file with the same name as oldName
-                                    File refFile = null;
-
-                                    File[] albumArtFiles = albumArtDir.listFiles();
-
-                                    if (albumArtFiles != null && albumArtFiles.length > 0) {
-                                        for (File f : albumArtFiles) {
-                                            if (FileUtil.getFilename(f).equals(oldName)) {
-                                                refFile = f;
-                                                break;
-                                            }
-                                        }
-                                    }
-
-                                    // found corresponding album art so rename it as well
-                                    if (refFile != null) {
-                                        File artRename = OSUtil.buildFile(
-                                                Dynamic.PATH,
-                                                Dynamic.USERS.getDirectoryName(),
-                                                Console.INSTANCE.getUuid(),
-                                                UserFile.MUSIC.getName(),
-                                                "AlbumArt", newName + ".png");
-
-                                        if (artRename.exists()) {
-                                            throw new IOException("album art file exists: " + artRename);
-                                        }
-
-                                        if (!refFile.renameTo(artRename)) {
-                                            throw new IOException(
-                                                    "Could not rename music's corresponding album art");
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        revalidateFilesScroll();
-                    }
-                }
-            } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
-            }
-        }, "Rename File Getter Waiter"));
-        renameFile.setBackground(CyderColors.regularRed);
-        renameFile.setFont(CyderFonts.SEGOE_20);
-
-        CyderButton deleteFile = new CyderButton("Delete");
-        deleteFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        deleteFile.addActionListener(e -> {
-            if (!filesScrollListRef.get().getSelectedElements().isEmpty()) {
-                String clickedSelection = filesScrollListRef.get().getSelectedElements().get(0);
-                File selectedFile = null;
-
-                for (String filename : filesNameList) {
-                    if (clickedSelection.equals(filename)) {
-                        selectedFile = getFile(filename);
-                        break;
-                    }
-                }
-
-                if (selectedFile == null) {
-                    return;
-                }
-
-                if (selectedFile.getAbsolutePath().equalsIgnoreCase(Console.INSTANCE
-                        .getCurrentBackground().getReferenceFile().getAbsolutePath())) {
-                    editUserFrame.notify("Unable to delete the background you are currently using");
-                } else if (AudioPlayer.getCurrentAudio() != null &&
-                        selectedFile.getAbsolutePath().equalsIgnoreCase(AudioPlayer
-                                .getCurrentAudio().getAbsolutePath())) {
-                    editUserFrame.notify("Unable to delete the audio you are currently playing");
-                } else {
-                    if (OSUtil.deleteFile(selectedFile)) {
-                        if (FileUtil.isSupportedAudioExtension(selectedFile)) {
-                            Console.INSTANCE.getInputHandler()
-                                    .println("Music: " + FileUtil.getFilename(selectedFile)
-                                            + " successfully deleted.");
-                        } else if (FileUtil.isSupportedImageExtension(selectedFile)) {
-                            Console.INSTANCE.getInputHandler()
-                                    .println("Background: " + FileUtil.getFilename(selectedFile)
-                                            + " successfully deleted.");
-                        } else {
-                            Console.INSTANCE.getInputHandler()
-                                    .println("File: " + FileUtil.getFilename(selectedFile)
-                                            + " successfully deleted.");
-                        }
-
-                        if (FileUtil.isSupportedAudioExtension(selectedFile)) {
-                            //attempt to find album art to delete
-                            String name = FileUtil.getFilename(selectedFile.getName());
-
-                            File albumArtDirectory = OSUtil.buildFile(Dynamic.PATH,
-                                    Dynamic.USERS.getDirectoryName(),
-                                    Console.INSTANCE.getUuid(),
-                                    UserFile.MUSIC.getName(), "AlbumArt");
-
-                            File[] albumArtFiles = albumArtDirectory.listFiles();
-
-                            if (albumArtFiles != null && albumArtFiles.length > 0) {
-                                // find corresponding album art and delete
-                                for (File f : albumArtFiles) {
-                                    if (FileUtil.getFilename(f).equals(name)) {
-                                        OSUtil.deleteFile(f);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-
-                        revalidateFilesScroll();
-                    } else {
-                        editUserFrame.notify("Could not delete at this time");
-                    }
-                }
-            }
-        });
-        deleteFile.setBackground(CyderColors.regularRed);
-        deleteFile.setFont(CyderFonts.SEGOE_20);
-
+        CyderButton deleteFileButton = new CyderButton("Delete");
+        deleteFileButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        deleteFileButton.addActionListener(deleteFileButtonActionListener);
+        deleteFileButton.setBackground(CyderColors.regularRed);
+        deleteFileButton.setFont(CyderFonts.SEGOE_20);
 
         switchingLabel.revalidate();
     }
 
-    // todo test me
+    /**
+     * The action listener for the add file button.
+     */
+    private static final ActionListener addFileButtonActionListener = e -> {
+        try {
+            CyderThreadRunner.submit(() -> {
+                try {
+                    File fileToAdd = GetterUtil.getInstance().getFile(
+                            new GetterUtil.Builder("Add File").setRelativeTo(editUserFrame));
+
+                    if (fileToAdd == null || StringUtil.isNull(fileToAdd.getName())) {
+                        return;
+                    }
+
+                    UserFile copyLocation = FileUtil.isSupportedImageExtension(fileToAdd)
+                            ? UserFile.BACKGROUNDS
+                            : FileUtil.isSupportedAudioExtension(fileToAdd)
+                            ? UserFile.MUSIC
+                            : UserFile.FILES;
+
+                    String uniqueNameAndExtension = fileToAdd.getName();
+                    File parentFolder = UserUtil.getUserFile(copyLocation.getName());
+                    if (parentFolder.exists() && parentFolder.isDirectory()) {
+                        uniqueNameAndExtension = FileUtil.findUniqueName(fileToAdd, parentFolder);
+                    }
+
+                    try {
+                        String copyFolderPath = UserUtil.getUserFile(copyLocation.getName()).getAbsolutePath();
+                        File copyFile = OSUtil.buildFile(copyFolderPath, uniqueNameAndExtension);
+                        Files.copy(fileToAdd.toPath(), copyFile.toPath());
+
+                        revalidateFilesScroll();
+
+                        if (copyLocation.getName().equals(UserFile.BACKGROUNDS.getName())) {
+                            Console.INSTANCE.resizeBackgrounds();
+                        }
+                    } catch (Exception exception) {
+                        editUserFrame.notify("Could not add file at this time");
+                        ExceptionHandler.handle(exception);
+                    }
+                } catch (Exception ex) {
+                    ExceptionHandler.handle(ex);
+                }
+            }, "User Editor File Adder");
+        } catch (Exception exc) {
+            ExceptionHandler.handle(exc);
+        }
+    };
+
+    /**
+     * The action listener for the open file button.
+     */
+    private static final ActionListener openFileButtonActionListener = e -> {
+        String selectedScrollElement = filesScrollListRef.get().getSelectedElement();
+
+        for (String fileName : filesNameList) {
+            if (selectedScrollElement.equals(fileName)) {
+                File file = getFile(selectedScrollElement);
+
+                if (file.exists()) {
+                    IOUtil.openFile(file);
+                }
+
+                break;
+            }
+        }
+    };
+
+    /**
+     * The action listener for the rename file button.
+     */
+    private static final ActionListener renameFileButtonActionListener = e -> {
+        try {
+            if (!filesScrollListRef.get().getSelectedElements().isEmpty()) {
+                String selectedElement = filesScrollListRef.get().getSelectedElements().get(0);
+                File selectedFile = getFile(selectedElement);
+
+                if (selectedFile == null || !selectedFile.exists()) {
+                    return;
+                }
+
+                String[] parts = selectedElement.split("/");
+                String userDirectory = parts[0];
+                String filename = parts[1];
+
+                if (isOpenInAudioPlayer(selectedFile)) {
+                    editUserFrame.notify("Cannot rename file open in audio player");
+                    return;
+                } else if (isConsoleBackground(selectedFile)) {
+                    editUserFrame.notify("Cannot rename current console background");
+                    return;
+                }
+
+                String newName = GetterUtil.getInstance().getString(
+                        new GetterUtil.Builder("Rename " + filename)
+                                .setFieldTooltip("Enter a valid file name (extension will be handled)")
+                                .setRelativeTo(editUserFrame)
+                                .setSubmitButtonText("Rename")
+                                .setInitialString(filename));
+
+                if (StringUtil.isNull(newName)) {
+                    return;
+                }
+
+                String newFilenameAndExtension = newName + FileUtil.getExtension(selectedFile);
+
+                if (OSUtil.isValidFilename(newFilenameAndExtension)) {
+                    editUserFrame.notify("Invalid filename; file not renamed");
+                    return;
+                }
+
+                if (renameRequestedFile(selectedFile, newFilenameAndExtension)) {
+                    switch (userDirectory) {
+                        case "Backgrounds" -> editUserFrame.notify("Renamed background file");
+                        case "Music" -> editUserFrame.notify("Renamed music file");
+                        default -> editUserFrame.notify("Renamed file");
+                    }
+
+                    revalidateFilesScroll();
+                } else {
+                    editUserFrame.notify("Failed to rename file");
+                }
+            }
+        } catch (Exception ex) {
+            ExceptionHandler.handle(ex);
+        }
+    };
+
+    /**
+     * Attempts to rename the provided file to the new proposed name + old extension.
+     * If the file was successfully renamed and it was a music file, the album art is also renamed
+     * to match the new name if present.
+     *
+     * @param referenceFile the file to rename
+     * @param proposedName  the requested name and extension to rename the file to, such as "Hello.txt"
+     */
+    private static boolean renameRequestedFile(File referenceFile, String proposedName) {
+        Preconditions.checkNotNull(referenceFile);
+        Preconditions.checkArgument(referenceFile.exists());
+        Preconditions.checkNotNull(proposedName);
+        Preconditions.checkArgument(!proposedName.isEmpty());
+        Preconditions.checkArgument(OSUtil.isValidFilename(proposedName));
+
+        String oldAlbumArtName = FileUtil.getFilename(referenceFile);
+        File newReferenceFile = OSUtil.buildFile(referenceFile.getParentFile().getAbsolutePath(), proposedName);
+        if (!referenceFile.renameTo(newReferenceFile)) {
+            return false;
+        }
+
+        // Attempt to find album art file to rename
+        File albumArtDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+                Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(),
+                "AlbumArt"); // todo album art needs to be extract to user file somehow
+
+        if (albumArtDir.exists()) {
+            File[] albumArtFiles = albumArtDir.listFiles();
+
+            if (albumArtFiles != null && albumArtFiles.length > 0) {
+
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * The action listener for the delete file button.
+     */
+    private static final ActionListener deleteFileButtonActionListener = e -> {
+        if (!filesScrollListRef.get().getSelectedElements().isEmpty()) {
+            String selectedElement = filesScrollListRef.get().getSelectedElements().get(0);
+            File selectedFile = getFile(selectedElement);
+
+            if (selectedFile == null || !selectedFile.exists()) {
+                return;
+            }
+
+            String[] parts = selectedElement.split("/");
+            String userDirectory = parts[0];
+            String filename = parts[1];
+
+            if (isOpenInAudioPlayer(selectedFile)) {
+                editUserFrame.notify("Cannot delete audio file open in audio player");
+                return;
+            } else if (isConsoleBackground(selectedFile)) {
+                editUserFrame.notify("Cannot delete current console background");
+                return;
+            }
+
+            if (OSUtil.deleteFile(selectedFile)) {
+                switch (userDirectory) {
+                    case "Backgrounds" -> editUserFrame.notify("Deleted background file: " + filename);
+                    case "Music" -> editUserFrame.notify("Deleted music file: " + filename);
+                    default -> editUserFrame.notify("Deleted file: " + filename);
+                }
+            } else {
+                editUserFrame.notify("Could not delete file at this time");
+            }
+        }
+    };
+
+    /**
+     * Returns whether the provided file is the currently open file in the audio player.
+     *
+     * @param file the file
+     * @return whether the provided file is the currently open file in the audio player
+     */
+    private static boolean isOpenInAudioPlayer(File file) {
+        return AudioPlayer.getCurrentAudio().getAbsolutePath().equals(file.getAbsolutePath());
+    }
+
+    /**
+     * Returns whether the provided file is the current set background.
+     *
+     * @param file the file
+     * @return whether the provided file is the current set background
+     */
+    private static boolean isConsoleBackground(File file) {
+        return Console.INSTANCE.getCurrentBackground().getReferenceFile()
+                .getAbsolutePath().equals(file.getAbsolutePath());
+    }
 
     /**
      * Returns the user file represented by the provided name from the files list.
+     * For example: backgrounds/Img.png would open Img.png if that file was present
+     * in the current user's Backgrounds/ folder
      *
      * @param name the file name such as "Backgrounds/img.jpg"
      * @return the user file represented by the provided name from the files list
@@ -566,9 +545,9 @@ public final class UserEditor {
 
         Optional<File> file;
 
-        if (folderName.equals(UserFile.BACKGROUNDS.getName())) {
+        if (folderName.equalsIgnoreCase(UserFile.BACKGROUNDS.getName())) {
             file = attemptToFindInUserFiles(fileName, UserFile.BACKGROUNDS);
-        } else if (folderName.equals(UserFile.MUSIC.getName())) {
+        } else if (folderName.equalsIgnoreCase(UserFile.MUSIC.getName())) {
             file = attemptToFindInUserFiles(fileName, UserFile.MUSIC);
         } else {
             file = attemptToFindInUserFiles(fileName, UserFile.FILES);
@@ -604,6 +583,8 @@ public final class UserEditor {
 
         return Optional.empty();
     }
+
+    // todo redo
 
     /**
      * Revalidates the user files scroll.
@@ -924,7 +905,8 @@ public final class UserEditor {
                         Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
                 Console.INSTANCE.getOutputArea().setFont(applyFont);
                 Console.INSTANCE.getInputField().setFont(applyFont);
-                Console.INSTANCE.getInputHandler().println("The font \"" + selectedFont + "\" has been applied.");
+
+                editUserFrame.notify("Applied font: " + selectedFont);
             }
         });
 
@@ -1437,6 +1419,7 @@ public final class UserEditor {
         boolean alphabet = false;
         boolean number = false;
 
+        // todo need a method to validate a username/password extract from UserCreator I assume and ad to userUtil
         for (char c : newPassword) {
             if (Character.isDigit(c))
                 number = true;
@@ -1471,6 +1454,7 @@ public final class UserEditor {
         Arrays.fill(newPassword, '\0');
     }
 
+    // todo should just be simple as changing property, maybe need some callback architecture as well
     private static void changeUsername(JTextField changeUsernameField) {
         String newUsername = changeUsernameField.getText();
         if (!StringUtil.isNull(newUsername) && !newUsername.equalsIgnoreCase(UserUtil.getCyderUser().getName())) {
@@ -1486,10 +1470,7 @@ public final class UserEditor {
         String fieldText = StringUtil.getTrimmedText(consoleDatePatternField.getText());
 
         try {
-            // if success, valid date pattern
             new SimpleDateFormat(fieldText).format(new Date());
-
-            //valid so write and refresh ConsoleClock
             UserUtil.getCyderUser().setConsoleclockformat(fieldText);
             Console.INSTANCE.refreshClockText();
             consoleDatePatternField.setText(fieldText);
