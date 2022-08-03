@@ -1,0 +1,151 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[16-45-36] [ENTRY]: Nathan
+[16-45-36] [DEBUG]: Found prop file: props\propkeys.ini
+[16-45-36] [DEBUG]: Found prop file: props\props.ini
+[16-45-36] [PROP LOADED]: [key = map_quest_api_key]
+[16-45-36] [PROP LOADED]: [key = youtube_api_3_key]
+[16-45-36] [PROP LOADED]: [key = ip_key]
+[16-45-36] [PROP LOADED]: [key = weather_key]
+[16-45-36] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[16-45-36] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7ca733d0a7f6]
+[16-45-36] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[16-45-36] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[16-45-36] [PROP LOADED]: [key = font_metric, value = 1]
+[16-45-36] [PROP LOADED]: [key = max_font_size, value = 50]
+[16-45-36] [PROP LOADED]: [key = min_font_size, value = 25]
+[16-45-36] [PROP LOADED]: [key = released, value = false]
+[16-45-36] [PROP LOADED]: [key = version, value = Liminal]
+[16-45-36] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[16-45-36] [PROP LOADED]: [key = components_relocatable, value = false]
+[16-45-36] [PROP LOADED]: [key = testing_mode, value = true]
+[16-45-36] [PROP LOADED]: [key = autocypher, value = true]
+[16-45-36] [PROP LOADED]: [key = dispose_splash, value = true]
+[16-45-36] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[16-45-36] [PROP LOADED]: [key = activate_watchdog, value = false]
+[16-45-36] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[16-45-36] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[16-45-36] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[16-45-36] [PROP LOADED]: [key = ui_scale, value = 1]
+[16-45-36] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[16-45-36] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[16-45-36] [DEBUG]: Jar mode set as: FALSE
+[16-45-36] [THREAD STARTED]: Object Creation Logger
+[16-45-37] [DEBUG]: Watchdog skipped
+[16-45-37] [LOADING MESSAGE]: Registering fonts
+[16-45-37] [FONT LOADED]: agency-fb
+[16-45-37] [FONT LOADED]: arial-black
+[16-45-37] [FONT LOADED]: beyno
+[16-45-37] [FONT LOADED]: condiment-regular
+[16-45-37] [FONT LOADED]: prompt-bold
+[16-45-37] [FONT LOADED]: segoe-ui-black
+[16-45-37] [FONT LOADED]: tahoma
+[16-45-37] [LOADING MESSAGE]: Ensuring singular instance
+[16-45-37] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[16-45-37] [DEBUG]: Starting instance socket on port 5150
+[16-45-38] [LOADING MESSAGE]: Ensuring OS is supported
+[16-45-38] [LOADING MESSAGE]: Creating dynamics
+[16-45-38] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[16-45-38] [LOADING MESSAGE]: Validating users
+[16-45-38] [LOADING MESSAGE]: Cleaning users
+[16-45-38] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\7d7ebb00-81fe-3
+           29f-8a78-62f463d0b7da\Music\AlbumArt\Flume - Say It feat.png
+[16-45-38] [LOADING MESSAGE]: Validating props
+[16-45-38] [LOADING MESSAGE]: Validating Widgets
+[16-45-38] [LOADING MESSAGE]: Validating Tests
+[16-45-38] [LOADING MESSAGE]: Validating Vanilla annotations
+[16-45-38] [LOADING MESSAGE]: Validating Handles
+[16-45-38] [THREAD STARTED]: Splash Loader
+[16-45-38] [THREAD STARTED]: Sufficient Subroutine Executor
+[16-45-38] [LOADING MESSAGE]: Logging JVM args
+[16-45-38] [THREAD STARTED]: JVM Args Logger
+[16-45-38] [LOADING MESSAGE]: Checking for an AutoCypher
+[16-45-38] [LOGIN]: AutoCypher Attempt
+[16-45-38] [LOADING MESSAGE]: Auto Cyphering
+[16-45-39] [THREAD STARTED]: Splash Animation
+[16-45-39] [THREAD STARTED]: Enter animation, frame=Cyder Splash
+[16-45-39] UNIQUE OBJECT CREATEDConsole singleton constructed
+[16-45-39] [EXCEPTION]:
+           Exception origin: java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:567)
+           From line: 567
+           Trace: java.net.UnknownHostException: www.google.com
+           at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:567)
+           at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+           at java.base/java.net.Socket.connect(Socket.java:633)
+           at java.base/sun.security.ssl.SSLSocketImpl.connect(SSLSocketImpl.java:304)
+           at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:178)
+           at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:498)
+           at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:603)
+           at java.base/sun.net.www.protocol.https.HttpsClient.<init>(HttpsClient.java:266)
+           at java.base/sun.net.www.protocol.https.HttpsClient.New(HttpsClient.java:380)
+           at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.getNewHttpClient(AbstractDelegateHttpsURLConnection.java:189)
+           at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1242)
+           at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1128)
+           at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(AbstractDelegateHttpsURLConnection.java:175)
+           at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.connect(HttpsURLConnectionImpl.java:142)
+           at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:859)
+           at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:829)
+           at org.jsoup.helper.HttpConnection.execute(HttpConnection.java:366)
+           at org.jsoup.helper.HttpConnection.get(HttpConnection.java:353)
+           at cyder.utils.IOUtil.lambda$logArgs$0(IOUtil.java:159)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+[16-45-39] [DEBUG]: Cyder Entry = AutoCypher
+[16-45-39] [OBJECT CREATION]: Objects created since last delta (5000ms): 108
+[16-45-40] [THREAD STARTED]: Console Printing Animation
+[16-45-40] [THREAD STARTED]: Hourly Chime Checker
+[16-45-40] [THREAD STARTED]: Console Clock Updater
+[16-45-40] [THREAD STARTED]: Cyder Busy Checker
+[16-45-40] [THREAD STARTED]: Console Stat Saver
+[16-45-40] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[16-45-40] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[16-45-40] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[16-45-40] [CONSOLE OUT]: [STRING]: Console loaded in 3552ms
+[16-45-40] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[16-45-40] [THREAD STARTED]: Manual Tests Thread
+[16-45-40] [DEBUG]: Attempted to log a new or empty line
+[16-45-41] [THREAD STARTED]: Splash Loading Label Updater
+[16-45-41] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[16-45-42] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[16-45-43] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 12] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[16-45-43] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659410412323.json
+[16-45-44] [OBJECT CREATION]: Objects created since last delta (5000ms): 21
+[16-45-45] [CLIENT]: prefs
+[16-45-45] [THREAD STARTED]: Enter animation, frame=Preferences
+[16-45-45] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[16-45-45] [CONSOLE OUT]: [STRING]: Opening widget: UserEditor
+[16-45-45] [WIDGET]: UserEditor, trigger = prefs
+[16-45-45] [DEBUG]: Attempted to log a new or empty line
+[16-45-47] [THREAD STARTED]: Preferences Opacity Decrement Animator
+[16-45-47] [THREAD STARTED]: Preferences Opacity Increment Animator
+[16-45-47] [UI]: Component = CyderDragLabel, hash = 1041229231, bounds = (2, 2, 796, 28), parent frame = Preferences
+[16-45-47] [THREAD STARTED]: [Preferences] dispose() animation thread
+[16-45-47] [UI]: CyderFrame disposed with fastclose=false, getTitle=Preferences
+[16-45-48] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[16-45-48] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[16-45-48] [EXIT]: [RUNTIME] 12s 143ms
+[16-45-48] EOLLog completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 1, total
+           objects created: 129

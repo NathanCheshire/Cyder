@@ -505,8 +505,13 @@ public final class UserEditor {
      * The action listener for the delete file button.
      */
     private static final ActionListener deleteFileButtonActionListener = e -> {
-        if (!filesScrollListRef.get().getSelectedElements().isEmpty()) {
-            String selectedElement = filesScrollListRef.get().getSelectedElements().get(0);
+        LinkedList<String> selectedElements = filesScrollListRef.get().getSelectedElements();
+
+        if (selectedElements.isEmpty()) {
+            return;
+        }
+
+        for (String selectedElement : selectedElements) {
             File selectedFile = getFile(selectedElement);
 
             if (selectedFile == null || !selectedFile.exists()) {
@@ -518,10 +523,10 @@ public final class UserEditor {
             String filename = parts[1];
 
             if (isOpenInAudioPlayer(selectedFile)) {
-                editUserFrame.notify("Cannot delete audio file open in audio player");
+                editUserFrame.notify("Cannot delete " + filename + " as it is open in audio player");
                 return;
             } else if (isConsoleBackground(selectedFile)) {
-                editUserFrame.notify("Cannot delete current console background");
+                editUserFrame.notify("Cannot delete current console background: " + filename);
                 return;
             }
 
@@ -532,7 +537,7 @@ public final class UserEditor {
                     default -> editUserFrame.notify("Deleted file: " + filename);
                 }
             } else {
-                editUserFrame.notify("Could not delete file at this time");
+                editUserFrame.notify("Could not delete " + filename + " at this time");
             }
         }
     };
