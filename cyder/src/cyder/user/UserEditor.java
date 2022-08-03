@@ -357,17 +357,19 @@ public final class UserEditor {
      * an element is selected when the open file button is pressed.
      */
     private static void openFile() {
-        String selectedScrollElement = filesScrollListRef.get().getSelectedElement();
+        LinkedList<String> selectedScrollElements = filesScrollListRef.get().getSelectedElements();
 
-        for (String fileName : filesNameList) {
-            if (selectedScrollElement.equals(fileName)) {
-                File file = getFile(selectedScrollElement);
+        for (String selectedScrollElement : selectedScrollElements) {
+            for (String fileName : filesNameList) {
+                if (selectedScrollElement.equals(fileName)) {
+                    File file = getFile(selectedScrollElement);
 
-                if (file.exists()) {
-                    IOUtil.openFile(file);
+                    if (file.exists()) {
+                        IOUtil.openFile(file);
+                    }
+
+                    break;
                 }
-
-                break;
             }
         }
     }
@@ -377,58 +379,67 @@ public final class UserEditor {
      */
     private static final ActionListener renameFileButtonActionListener = e -> {
         try {
-            if (!filesScrollListRef.get().getSelectedElements().isEmpty()) {
-                String selectedElement = filesScrollListRef.get().getSelectedElements().get(0);
-                File selectedFile = getFile(selectedElement);
+            LinkedList<String> selectedElements = filesScrollListRef.get().getSelectedElements();
 
-                if (selectedFile == null || !selectedFile.exists()) {
-                    return;
-                }
-
-                String[] parts = selectedElement.split("/");
-                String userDirectory = parts[0];
-                String filename = parts[1];
-
-                if (isOpenInAudioPlayer(selectedFile)) {
-                    editUserFrame.notify("Cannot rename file open in audio player");
-                    return;
-                } else if (isConsoleBackground(selectedFile)) {
-                    editUserFrame.notify("Cannot rename current console background");
-                    return;
-                }
-
-                CyderThreadRunner.submit(() -> {
-                    String newName = GetterUtil.getInstance().getString(
-                            new GetterUtil.Builder("Rename " + filename)
-                                    .setFieldTooltip("Enter a valid file name (extension will be handled)")
-                                    .setRelativeTo(editUserFrame)
-                                    .setSubmitButtonText("Rename")
-                                    .setInitialString(FileUtil.getFilename(selectedFile)));
-
-                    if (StringUtil.isNull(newName)) {
-                        return;
-                    }
-
-                    String newFilenameAndExtension = newName + FileUtil.getExtension(selectedFile);
-
-                    if (!OSUtil.isValidFilename(newFilenameAndExtension)) {
-                        editUserFrame.notify("Invalid filename; file not renamed");
-                        return;
-                    }
-
-                    if (renameRequestedFile(selectedFile, newFilenameAndExtension)) {
-                        switch (userDirectory) {
-                            case "Backgrounds" -> editUserFrame.notify("Renamed background file");
-                            case "Music" -> editUserFrame.notify("Renamed music file");
-                            default -> editUserFrame.notify("Renamed file");
-                        }
-
-                        revalidateFilesScroll();
-                    } else {
-                        editUserFrame.notify("Failed to rename file");
-                    }
-                }, "User Editor File Renamer");
+            if (selectedElements.isEmpty()) {
+                return;
             }
+
+            if (selectedElements.size() > 1) {
+                editUserFrame.notify("Sorry, but you can only rename one file at a time");
+                return;
+            }
+
+            String selectedElement = selectedElements.get(0);
+            File selectedFile = getFile(selectedElement);
+
+            if (selectedFile == null || !selectedFile.exists()) {
+                return;
+            }
+
+            String[] parts = selectedElement.split("/");
+            String userDirectory = parts[0];
+            String filename = parts[1];
+
+            if (isOpenInAudioPlayer(selectedFile)) {
+                editUserFrame.notify("Cannot rename file open in audio player");
+                return;
+            } else if (isConsoleBackground(selectedFile)) {
+                editUserFrame.notify("Cannot rename current console background");
+                return;
+            }
+
+            CyderThreadRunner.submit(() -> {
+                String newName = GetterUtil.getInstance().getString(
+                        new GetterUtil.Builder("Rename " + filename)
+                                .setFieldTooltip("Enter a valid file name (extension will be handled)")
+                                .setRelativeTo(editUserFrame)
+                                .setSubmitButtonText("Rename")
+                                .setInitialString(FileUtil.getFilename(selectedFile)));
+
+                if (StringUtil.isNull(newName)) {
+                    return;
+                }
+
+                String newFilenameAndExtension = newName + FileUtil.getExtension(selectedFile);
+
+                if (!OSUtil.isValidFilename(newFilenameAndExtension)) {
+                    editUserFrame.notify("Invalid filename; file not renamed");
+                    return;
+                }
+
+                if (renameRequestedFile(selectedFile, newFilenameAndExtension)) {
+                    switch (userDirectory) {
+                        case "Backgrounds" -> editUserFrame.notify("Renamed background file");
+                        case "Music" -> editUserFrame.notify("Renamed music file");
+                        default -> editUserFrame.notify("Renamed file");
+                    }
+
+                    revalidateFilesScroll();
+                } else {
+                    editUserFrame.notify("Failed to rename file");
+                }
+            }, "User Editor File Renamer");
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
@@ -459,7 +470,6 @@ public final class UserEditor {
         File albumArtDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
 
-        // todo broken
         if (albumArtDir.exists()) {
             File[] albumArtFiles = albumArtDir.listFiles();
 
@@ -475,11 +485,14 @@ public final class UserEditor {
 
                 if (renameMe != null) {
                     String namePart = proposedName.split("\\.")[0];
-                    File newAlbumArtFile = OSUtil.buildFile(referenceFile.getParentFile().getAbsolutePath(),
+                    File newAlbumArtFile = OSUtil.buildFile(renameMe.getParentFile().getAbsolutePath(),
                             namePart + "." + ImageUtil.PNG_FORMAT);
                     if (!renameMe.renameTo(newAlbumArtFile)) {
                         Console.INSTANCE.getInputHandler().println("Failed to rename album art: "
                                 + FileUtil.getFilename(renameMe));
+                    } else {
+                        Logger.log(Logger.Tag.DEBUG, "Renamed album art file for reference file: "
+                                + oldAlbumArtName + ", renamed to: " + namePart);
                     }
                 }
             }
@@ -633,8 +646,7 @@ public final class UserEditor {
         int w = CONTENT_PANE_WIDTH - 2 * filesLabelPadding;
         int h = (int) ((FILE_SCROLL_PARTITION / 100.0f) * CONTENT_PANE_HEIGHT - 2 * filesLabelPadding);
 
-        // todo look into multiple selection policy
-        CyderScrollList filesScroll = new CyderScrollList(w, h, CyderScrollList.SelectionPolicy.SINGLE);
+        CyderScrollList filesScroll = new CyderScrollList(w, h, CyderScrollList.SelectionPolicy.MULTIPLE);
         filesScroll.setBorder(null);
         filesScrollListRef.set(filesScroll);
 
