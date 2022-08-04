@@ -1,5 +1,6 @@
 package cyder.user;
 
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
 import cyder.audio.AudioPlayer;
@@ -206,39 +207,62 @@ public final class UserEditor {
     }
 
     /**
+     * The separator between user folders and user files.
+     */
+    private static final String FILES_SCROLL_SEPARATOR = "/";
+
+    /**
+     * UserFile folders to show in the files scroll list.
+     */
+    @SuppressWarnings("Guava") /* Guava being dumb */
+    private enum ScrollListFolder {
+        BACKGROUNDS(UserFile.BACKGROUNDS, FileUtil::isSupportedImageExtension),
+        MUSIC(UserFile.MUSIC, FileUtil::isSupportedAudioExtension),
+        FILES(UserFile.FILES, (ignored) -> true);
+
+        private final UserFile userFile;
+        private final Function<File, Boolean> shouldShowFunction;
+
+        ScrollListFolder(UserFile userFile, Function<File, Boolean> shouldShowFunction) {
+            this.userFile = userFile;
+            this.shouldShowFunction = shouldShowFunction;
+        }
+
+        /**
+         * Returns the user file for this scroll list folder.
+         *
+         * @return the user file for this scroll list folder
+         */
+        public UserFile getUserFile() {
+            return userFile;
+        }
+
+        /**
+         * Returns the function which determines ifa given file is shown on the scroll.
+         *
+         * @return the function which determines ifa given file is shown on the scroll
+         */
+        public Function<File, Boolean> getShouldShowFunction() {
+            return shouldShowFunction;
+        }
+    }
+
+    /**
      * Refreshes the contents of {@link #filesNameList}.
      * Note this method does not update the ui based on the updated contents.
      */
     private static void refreshFileLists() {
         filesNameList.clear();
 
-        // todo surely an optimization can be made here, enum of user file which needs
-        //  to be a dir linked to a function to determine if it should be added
-        File backgroundDir = UserUtil.getUserFile(UserFile.BACKGROUNDS);
-        File[] backgroundFiles = backgroundDir.listFiles();
-        if (backgroundFiles != null && backgroundFiles.length > 0) {
-            for (File file : backgroundFiles) {
-                if (FileUtil.isSupportedImageExtension(file)) {
-                    filesNameList.add(UserFile.BACKGROUNDS.getName() + "/" + file.getName());
+        for (ScrollListFolder folder : ScrollListFolder.values()) {
+            File directoryReference = UserUtil.getUserFile(folder.getUserFile());
+            File[] directoryFiles = directoryReference.listFiles();
+            if (directoryFiles != null && directoryFiles.length > 0) {
+                for (File file : directoryFiles) {
+                    if (Boolean.TRUE.equals(folder.getShouldShowFunction().apply(file))) {
+                        filesNameList.add(folder.getUserFile().getName() + FILES_SCROLL_SEPARATOR + file.getName());
+                    }
                 }
-            }
-        }
-
-        File musicDir = UserUtil.getUserFile(UserFile.MUSIC);
-        File[] musicFiles = musicDir.listFiles();
-        if (musicFiles != null && musicFiles.length > 0) {
-            for (File file : musicFiles) {
-                if (FileUtil.isSupportedAudioExtension(file)) {
-                    filesNameList.add(UserFile.MUSIC.getName() + "/" + file.getName());
-                }
-            }
-        }
-
-        File filesDir = UserUtil.getUserFile(UserFile.FILES);
-        File[] fileFiles = filesDir.listFiles();
-        if (fileFiles != null && fileFiles.length > 0) {
-            for (File file : fileFiles) {
-                filesNameList.add(UserFile.FILES.getName() + "/" + file.getName());
             }
         }
     }
@@ -397,7 +421,7 @@ public final class UserEditor {
                 return;
             }
 
-            String[] parts = selectedElement.split("/");
+            String[] parts = selectedElement.split(FILES_SCROLL_SEPARATOR);
             String userDirectory = parts[0];
             String filename = parts[1];
 
@@ -518,7 +542,7 @@ public final class UserEditor {
                 return;
             }
 
-            String[] parts = selectedElement.split("/");
+            String[] parts = selectedElement.split(FILES_SCROLL_SEPARATOR);
             String userDirectory = parts[0];
             String filename = parts[1];
 
@@ -577,7 +601,7 @@ public final class UserEditor {
         Preconditions.checkNotNull(name);
         Preconditions.checkArgument(!name.isEmpty());
 
-        String[] parts = name.split("/");
+        String[] parts = name.split(FILES_SCROLL_SEPARATOR);
         String folderName = parts[0];
         String fileName = parts[1];
 
