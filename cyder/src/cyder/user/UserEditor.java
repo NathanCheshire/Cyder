@@ -65,12 +65,12 @@ public final class UserEditor {
     /**
      * The reference used for the files scroll list label.
      */
-    private static final AtomicReference<JLabel> filesLabelRef = new AtomicReference<>();
+    private static final AtomicReference<JLabel> filesLabelReference = new AtomicReference<>();
 
     /**
      * The reference used for the cyder scroll list.
      */
-    private static final AtomicReference<CyderScrollList> filesScrollListRef = new AtomicReference<>();
+    private static final AtomicReference<CyderScrollList> filesScrollListReference = new AtomicReference<>();
 
     /**
      * The frame size of the user editor.
@@ -90,8 +90,8 @@ public final class UserEditor {
     /**
      * The remaining height of the frame that the content pane may encompass.
      */
-    private static final int CONTENT_PANE_HEIGHT = FRAME_HEIGHT
-            - 2 * CyderFrame.BORDER_LEN - CyderDragLabel.DEFAULT_HEIGHT;
+    private static final int CONTENT_PANE_HEIGHT = FRAME_HEIGHT - 2 * CyderFrame.BORDER_LEN
+            - CyderDragLabel.DEFAULT_HEIGHT;
 
     /**
      * The possible pages of the user editor.
@@ -101,7 +101,6 @@ public final class UserEditor {
         PREFERENCES("Preferences", UserEditor::switchToPreferences),
         FONT_AND_COLOR("Font & Color", UserEditor::switchToFontAndColor),
         FILES("Files", UserEditor::switchToUserFiles);
-
 
         /**
          * The frame title and id of this page.
@@ -214,7 +213,7 @@ public final class UserEditor {
     /**
      * UserFile folders to show in the files scroll list.
      */
-    @SuppressWarnings("Guava") /* Guava being dumb */
+    @SuppressWarnings("Guava") /* Java being dumb */
     private enum ScrollListFolder {
         BACKGROUNDS(UserFile.BACKGROUNDS, FileUtil::isSupportedImageExtension),
         MUSIC(UserFile.MUSIC, FileUtil::isSupportedAudioExtension),
@@ -248,8 +247,9 @@ public final class UserEditor {
     }
 
     /**
-     * Refreshes the contents of {@link #filesNameList}.
-     * Note this method does not update the ui based on the updated contents.
+     * Refreshes the contents of {@link #filesNameList}. Note this method does not update the
+     * ui based on the updated contents, {@link #revalidateFilesScroll()} should be used to
+     * regenerate the scroll list with the new contents.
      */
     private static void refreshFileLists() {
         filesNameList.clear();
@@ -278,10 +278,24 @@ public final class UserEditor {
         editUserFrame.repaint();
     }
 
+    /**
+     * The partition height for the files scroll on the files page.
+     */
     private static final int FILE_SCROLL_PARTITION = 85;
+
+    /**
+     * The partition height for the files scroll buttons for the files page.
+     */
     private static final int FILE_BUTTON_PARTITION = 100 - FILE_SCROLL_PARTITION;
 
+    /**
+     * The width of the the files scroll buttons.
+     */
     private static final int buttonWidth = 175;
+
+    /**
+     * The height of the files scroll buttons.
+     */
     private static final int buttonHeight = 40;
 
     /**
@@ -314,7 +328,7 @@ public final class UserEditor {
         buttonGridLayout.addComponent(deleteFileButton);
 
         CyderPartitionedLayout partitionedLayout = new CyderPartitionedLayout();
-        partitionedLayout.addComponent(filesLabelRef.get(), FILE_SCROLL_PARTITION);
+        partitionedLayout.addComponent(filesLabelReference.get(), FILE_SCROLL_PARTITION);
         CyderPanel panel = new CyderPanel(buttonGridLayout);
         panel.setSize(CONTENT_PANE_WIDTH, FILE_BUTTON_PARTITION * CONTENT_PANE_HEIGHT);
         partitionedLayout.addComponent(panel, FILE_BUTTON_PARTITION);
@@ -381,7 +395,7 @@ public final class UserEditor {
      * an element is selected when the open file button is pressed.
      */
     private static void openFile() {
-        LinkedList<String> selectedScrollElements = filesScrollListRef.get().getSelectedElements();
+        LinkedList<String> selectedScrollElements = filesScrollListReference.get().getSelectedElements();
 
         for (String selectedScrollElement : selectedScrollElements) {
             for (String fileName : filesNameList) {
@@ -403,7 +417,7 @@ public final class UserEditor {
      */
     private static final ActionListener renameFileButtonActionListener = e -> {
         try {
-            LinkedList<String> selectedElements = filesScrollListRef.get().getSelectedElements();
+            LinkedList<String> selectedElements = filesScrollListReference.get().getSelectedElements();
 
             if (selectedElements.isEmpty()) {
                 return;
@@ -529,7 +543,7 @@ public final class UserEditor {
      * The action listener for the delete file button.
      */
     private static final ActionListener deleteFileButtonActionListener = e -> {
-        LinkedList<String> selectedElements = filesScrollListRef.get().getSelectedElements();
+        LinkedList<String> selectedElements = filesScrollListReference.get().getSelectedElements();
 
         if (selectedElements.isEmpty()) {
             return;
@@ -656,18 +670,21 @@ public final class UserEditor {
             filesLabelPadding, filesLabelPadding, filesLabelPadding));
 
     /**
-     * Revalidates the user files scroll and updates {@link #filesLabelRef}.
+     * Revalidates the user files scroll and updates {@link #filesLabelReference}.
      */
     private static void revalidateFilesScroll() {
-        JLabel filesLabel = filesLabelRef.get();
+        // todo disable buttons
+        // todo show loading label
+
+        JLabel filesLabel = filesLabelReference.get();
         if (filesLabel != null) {
-            filesLabelRef.set(null);
+            filesLabelReference.set(null);
         }
 
-        CyderScrollList filesScrollList = filesScrollListRef.get();
+        CyderScrollList filesScrollList = filesScrollListReference.get();
         if (filesScrollList != null) {
             filesScrollList.removeAllElements();
-            filesScrollListRef.set(null);
+            filesScrollListReference.set(null);
         }
 
         refreshFileLists();
@@ -677,7 +694,7 @@ public final class UserEditor {
 
         CyderScrollList filesScroll = new CyderScrollList(w, h, CyderScrollList.SelectionPolicy.MULTIPLE);
         filesScroll.setBorder(null);
-        filesScrollListRef.set(filesScroll);
+        filesScrollListReference.set(filesScroll);
 
         for (String element : filesNameList) {
             filesScroll.addElement(element, UserEditor::openFile);
@@ -687,7 +704,13 @@ public final class UserEditor {
         filesLabel.setBounds(filesLabelPadding, filesLabelPadding, w, h);
         filesLabel.setBackground(CyderColors.vanilla);
         filesLabel.setBorder(filesLabelBorder);
-        filesLabelRef.set(filesLabel);
+        filesLabelReference.set(filesLabel);
+
+        // todo need to update the content pane layout now too with the new filesLabelRef
+        //  are the atomic references still needed?
+
+        // todo enable buttons
+        // todo hide loading label
     }
 
     /**

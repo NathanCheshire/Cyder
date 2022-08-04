@@ -77,10 +77,15 @@ public class CyderScrollList {
     private SelectionPolicy selectionPolicy;
 
     /**
+     * The default length of the scroll list.
+     */
+    public static final int DEFAULT_LEN = 400;
+
+    /**
      * Constructs a new scroll list object.
      */
     public CyderScrollList() {
-        this(400, 400);
+        this(DEFAULT_LEN, DEFAULT_LEN);
     }
 
     /**
@@ -115,8 +120,9 @@ public class CyderScrollList {
     public CyderScrollList(int width, int height, SelectionPolicy selectionPolicy, boolean darkMode) {
         this.width = width;
         this.height = height;
-        this.selectionPolicy = selectionPolicy;
+        this.selectionPolicy = Preconditions.checkNotNull(selectionPolicy);
         this.darkMode = darkMode;
+
         elements = new LinkedList<>();
 
         if (darkMode) {
@@ -200,7 +206,6 @@ public class CyderScrollList {
      * Currently this entails revalidating based on compact mode.
      */
     public final void refreshList() {
-        // compact mode refreshing
         boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
 
         CyderOutputPane cop = new CyderOutputPane(listPane);
@@ -209,8 +214,9 @@ public class CyderScrollList {
         for (int i = 0 ; i < elements.size() ; i++) {
             cop.getStringUtil().printlnComponent(elements.get(i));
 
-            if (i != elements.size() - 1 && !compactMode)
+            if (i != elements.size() - 1 && !compactMode) {
                 cop.getStringUtil().printlnComponent(generateSepLabel());
+            }
         }
 
     }
@@ -255,7 +261,6 @@ public class CyderScrollList {
         scrollPane.setBounds(0, 0, width, height);
         retLabel.add(scrollPane);
 
-        // set location of scroll to top
         listPane.setCaretPosition(0);
 
         return retLabel;
@@ -284,8 +289,9 @@ public class CyderScrollList {
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean elementInList(String text) {
         for (JLabel element : elements) {
-            if (element.getText().equals(text))
+            if (element.getText().equals(text)) {
                 return true;
+            }
         }
 
         return false;
@@ -434,13 +440,7 @@ public class CyderScrollList {
             }
         }
 
-        String retString = "null";
-
-        if (!ret.isEmpty() && ret.get(0) != null) {
-            retString = ret.get(0);
-        }
-
-        return retString;
+        return ret.isEmpty() || ret.get(0) == null ? "null" : ret.get(0);
     }
 
     /**
@@ -515,17 +515,21 @@ public class CyderScrollList {
         this.selectionPolicy = selectionPolicy;
     }
 
+    private static final String SEP_LABEL = ";)";
+    private static final int SEP_LABEL_Y = 10;
+    private static final int SEP_LABEL_HEIGHT = 5;
+
     /**
      * Generates a separation label to use for the scroll list when compact mode is not active.
      *
      * @return a separation label to use for the scroll list
      */
     private final JLabel generateSepLabel() {
-        CyderLabel sepLabel = new CyderLabel(";)") {
+        CyderLabel sepLabel = new CyderLabel(SEP_LABEL) {
             @Override
             public void paintComponent(Graphics g) {
                 g.setColor(darkMode ? CyderColors.defaultDarkModeTextColor : nonSelectedColor);
-                g.fillRect(0, 10, getWidth(), 5);
+                g.fillRect(0, SEP_LABEL_Y, getWidth(), SEP_LABEL_HEIGHT);
                 g.dispose();
             }
         };
