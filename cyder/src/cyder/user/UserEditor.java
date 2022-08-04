@@ -299,26 +299,37 @@ public final class UserEditor {
     private static final int buttonHeight = 40;
 
     /**
+     * The number of horizontal cells for the buttons layout.
+     */
+    private static final int BUTTON_X_CELLS = 4;
+
+    /**
+     * The number of vertical cells for the buttons layout.
+     */
+    private static final int BUTTON_Y_CELLS = 1;
+
+    private static final CyderButton addFileButton = new CyderButton("Add");
+    private static final CyderButton openFileButton = new CyderButton("Open");
+    private static final CyderButton renameFileButton = new CyderButton("Rename");
+    private static final CyderButton deleteFileButton = new CyderButton("Delete");
+
+    /**
      * Switches to the user files preference page.
      */
     private static void switchToUserFiles() {
         revalidateFilesScroll();
 
-        CyderGridLayout buttonGridLayout = new CyderGridLayout(4, 1);
+        CyderGridLayout buttonGridLayout = new CyderGridLayout(BUTTON_X_CELLS, BUTTON_Y_CELLS);
 
-        CyderButton addFileButton = new CyderButton("Add");
         addFileButton.addActionListener(addFileButtonActionListener);
         addFileButton.setSize(buttonWidth, buttonHeight);
 
-        CyderButton openFileButton = new CyderButton("Open");
         openFileButton.addActionListener(openFileButtonActionListener);
         openFileButton.setSize(buttonWidth, buttonHeight);
 
-        CyderButton renameFileButton = new CyderButton("Rename");
         renameFileButton.addActionListener(renameFileButtonActionListener);
         renameFileButton.setSize(buttonWidth, buttonHeight);
 
-        CyderButton deleteFileButton = new CyderButton("Delete");
         deleteFileButton.addActionListener(deleteFileButtonActionListener);
         deleteFileButton.setSize(buttonWidth, buttonHeight);
 
@@ -334,6 +345,26 @@ public final class UserEditor {
         partitionedLayout.addComponent(panel, FILE_BUTTON_PARTITION);
 
         editUserFrame.setCyderLayout(partitionedLayout);
+    }
+
+    /**
+     * Disables the files scroll buttons.
+     */
+    private static void disableFilesScrollButtons() {
+        addFileButton.setEnabled(false);
+        openFileButton.setEnabled(false);
+        renameFileButton.setEnabled(false);
+        deleteFileButton.setEnabled(false);
+    }
+
+    /**
+     * Enables the files scroll buttons.
+     */
+    private static void enableFilesScrollButtons() {
+        addFileButton.setEnabled(true);
+        openFileButton.setEnabled(true);
+        renameFileButton.setEnabled(true);
+        deleteFileButton.setEnabled(true);
     }
 
     /**
@@ -673,13 +704,10 @@ public final class UserEditor {
      * Revalidates the user files scroll and updates {@link #filesLabelReference}.
      */
     private static void revalidateFilesScroll() {
-        // todo disable buttons
+        disableFilesScrollButtons();
         // todo show loading label
 
-        JLabel filesLabel = filesLabelReference.get();
-        if (filesLabel != null) {
-            filesLabelReference.set(null);
-        }
+        filesLabelReference.set(null);
 
         CyderScrollList filesScrollList = filesScrollListReference.get();
         if (filesScrollList != null) {
@@ -700,7 +728,7 @@ public final class UserEditor {
             filesScroll.addElement(element, UserEditor::openFile);
         }
 
-        filesLabel = filesScroll.generateScrollList();
+        JLabel filesLabel = filesScroll.generateScrollList();
         filesLabel.setBounds(filesLabelPadding, filesLabelPadding, w, h);
         filesLabel.setBackground(CyderColors.vanilla);
         filesLabel.setBorder(filesLabelBorder);
@@ -709,7 +737,7 @@ public final class UserEditor {
         // todo need to update the content pane layout now too with the new filesLabelRef
         //  are the atomic references still needed?
 
-        // todo enable buttons
+        enableFilesScrollButtons();
         // todo hide loading label
     }
 
