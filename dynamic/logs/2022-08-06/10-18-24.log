@@ -1,0 +1,970 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[10-18-24] [ENTRY]: Nathan
+[10-18-24] [DEBUG]: Found prop file: props\propkeys.ini
+[10-18-24] [DEBUG]: Found prop file: props\props.ini
+[10-18-24] [PROP LOADED]: [key = map_quest_api_key]
+[10-18-24] [PROP LOADED]: [key = youtube_api_3_key]
+[10-18-24] [PROP LOADED]: [key = ip_key]
+[10-18-24] [PROP LOADED]: [key = weather_key]
+[10-18-24] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[10-18-24] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7ca733d0a7f6]
+[10-18-24] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[10-18-24] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[10-18-24] [PROP LOADED]: [key = font_metric, value = 1]
+[10-18-24] [PROP LOADED]: [key = max_font_size, value = 50]
+[10-18-24] [PROP LOADED]: [key = min_font_size, value = 25]
+[10-18-24] [PROP LOADED]: [key = released, value = false]
+[10-18-24] [PROP LOADED]: [key = version, value = Liminal]
+[10-18-24] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[10-18-24] [PROP LOADED]: [key = components_relocatable, value = false]
+[10-18-24] [PROP LOADED]: [key = testing_mode, value = true]
+[10-18-24] [PROP LOADED]: [key = autocypher, value = true]
+[10-18-24] [PROP LOADED]: [key = dispose_splash, value = true]
+[10-18-24] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[10-18-24] [PROP LOADED]: [key = activate_watchdog, value = false]
+[10-18-24] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[10-18-24] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[10-18-24] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[10-18-24] [PROP LOADED]: [key = ui_scale, value = 1]
+[10-18-24] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[10-18-24] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[10-18-24] [DEBUG]: Jar mode set as: FALSE
+[10-18-24] [THREAD STARTED]: Object Creation Logger
+[10-18-24] [DEBUG]: Watchdog skipped
+[10-18-24] [LOADING MESSAGE]: Registering fonts
+[10-18-25] [FONT LOADED]: agency-fb
+[10-18-25] [FONT LOADED]: arial-black
+[10-18-25] [FONT LOADED]: beyno
+[10-18-25] [FONT LOADED]: condiment-regular
+[10-18-25] [FONT LOADED]: prompt-bold
+[10-18-25] [FONT LOADED]: segoe-ui-black
+[10-18-25] [FONT LOADED]: tahoma
+[10-18-25] [LOADING MESSAGE]: Ensuring singular instance
+[10-18-25] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[10-18-25] [DEBUG]: Starting instance socket on port 5150
+[10-18-26] [LOADING MESSAGE]: Ensuring OS is supported
+[10-18-26] [LOADING MESSAGE]: Creating dynamics
+[10-18-26] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[10-18-26] [LOADING MESSAGE]: Validating users
+[10-18-26] [LOADING MESSAGE]: Cleaning users
+[10-18-26] [LOADING MESSAGE]: Validating props
+[10-18-26] [LOADING MESSAGE]: Validating Widgets
+[10-18-27] [OBJECT CREATION]: Objects created since last delta (5000ms): 46
+[10-18-30] [LOADING MESSAGE]: Validating Tests
+[10-18-30] [LOADING MESSAGE]: Validating Vanilla annotations
+[10-18-30] [LOADING MESSAGE]: Validating Handles
+[10-18-30] [THREAD STARTED]: Splash Loader
+[10-18-30] [THREAD STARTED]: Sufficient Subroutine Executor
+[10-18-30] [LOADING MESSAGE]: Logging JVM args
+[10-18-30] [THREAD STARTED]: JVM Args Logger
+[10-18-30] [LOADING MESSAGE]: Checking for an AutoCypher
+[10-18-30] [LOGIN]: AutoCypher Attempt
+[10-18-30] [LOADING MESSAGE]: Auto Cyphering
+[10-18-30] [THREAD STARTED]: Splash Animation
+[10-18-30] [THREAD STARTED]: Enter animation, frame=Cyder Splash
+[10-18-30] UNIQUE OBJECT CREATEDConsole singleton constructed
+[10-18-31] [DEBUG]: Cyder Entry = AutoCypher
+[10-18-32] [THREAD STARTED]: Console Printing Animation
+[10-18-32] [THREAD STARTED]: Hourly Chime Checker
+[10-18-32] [THREAD STARTED]: Console Clock Updater
+[10-18-32] [THREAD STARTED]: Cyder Busy Checker
+[10-18-32] [THREAD STARTED]: Console Stat Saver
+[10-18-32] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[10-18-32] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[10-18-32] [THREAD STARTED]: High Ping Checker
+[10-18-32] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[10-18-32] [OBJECT CREATION]: Objects created since last delta (5000ms): 79
+[10-18-32] [DEBUG]: Latency of Google found to be 33ms
+[10-18-32] [CONSOLE OUT]: [STRING]: Console loaded in 8743ms
+[10-18-32] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[10-18-32] [THREAD STARTED]: Manual Tests Thread
+[10-18-32] [THREAD STARTED]: Splash Loading Label Updater
+[10-18-33] [DEBUG]: Attempted to log a new or empty line
+[10-18-33] [CLIENT]: prefs
+[10-18-33] [CONSOLE OUT]: [STRING]: Opening widget: UserEditor
+[10-18-33] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-33] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.console.Console$19.actionPerformed(Console.java:1725)
+           at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:525)
+           at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:740)
+           at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:856)
+           at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1810)
+           at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2947)
+           at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2995)
+           at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2909)
+           at java.desktop/java.awt.Component.processEvent(Component.java:6403)
+           at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+           at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:5001)
+           at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+           at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+           at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1952)
+           at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:883)
+           at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1150)
+           at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:1020)
+           at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:848)
+           at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4882)
+           at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+           at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
+           at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+           at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+           at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:722)
+           at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:716)
+           at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:97)
+           at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:746)
+           at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:744)
+           at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+           at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+           at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:743)
+           at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+           at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+           at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+           at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+           at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+           at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 49 more
+[10-18-33] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-33] [THREAD STARTED]: Unknown Input Handler
+[10-18-33] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-33] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-33] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-33] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-33] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-33] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-33] [THREAD STARTED]: Unknown Input Handler
+[10-18-33] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-33] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-33] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-33] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-33] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-33] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-33] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-33] [THREAD STARTED]: Unknown Input Handler
+[10-18-33] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-33] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-33] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-33] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-33] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-33] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-33] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-33] [THREAD STARTED]: Unknown Input Handler
+[10-18-33] [DEBUG]: Attempted to log a new or empty line
+[10-18-33] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-33] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-33] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-33] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-33] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-33] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-34] [THREAD STARTED]: Unknown Input Handler
+[10-18-34] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-34] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-34] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-34] [CONSOLE OUT]: [STRING]: Unknown command; Invoking similar command: "prefs"
+[10-18-34] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-34] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-34] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-34] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-34] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-34] [THREAD STARTED]: Unknown Input Handler
+[10-18-34] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-34] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-34] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-34] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-34] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-34] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-34] [THREAD STARTED]: Unknown Input Handler
+[10-18-34] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-34] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-34] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-34] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-34] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-34] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-34] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-34] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-34] [THREAD STARTED]: Unknown Input Handler
+[10-18-34] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-34] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-34] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-34] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-34] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-34] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-34] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-34] [THREAD STARTED]: Unknown Input Handler
+[10-18-34] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-34] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-34] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-34] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-34] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-34] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-34] [THREAD STARTED]: Unknown Input Handler
+[10-18-34] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-34] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-34] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-34] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-34] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-34] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-34] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-34] [THREAD STARTED]: Unknown Input Handler
+[10-18-34] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-34] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-34] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-34] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-34] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-34] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-34] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-34] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-34] [THREAD STARTED]: Unknown Input Handler
+[10-18-34] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-34] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-34] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-34] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-34] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-34] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-34] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-34] [THREAD STARTED]: Unknown Input Handler
+[10-18-34] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-34] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-34] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-34] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-34] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-34] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-34] [DEBUG]: Attempted to log a new or empty line
+[10-18-34] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-34] [THREAD STARTED]: Unknown Input Handler
+[10-18-34] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-34] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-34] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-34] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-34] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-34] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-34] [THREAD STARTED]: Unknown Input Handler
+[10-18-34] [CONSOLE OUT]: [STRING]: Opening widget: UserEditor
+[10-18-34] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-34] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-34] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-34] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-34] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-34] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-34] [EXCEPTION]:
+           Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           From line: -2
+           Trace: java.lang.reflect.InvocationTargetException
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 12 more
+[10-18-34] [THREAD STARTED]: Unknown Input Handler
+[10-18-34] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-34] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-34] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-35] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-35] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-35] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-35] [EXCEPTION]:
+           Exception origin: jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           From line: -1
+           Trace: java.lang.reflect.InvocationTargetException
+           at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at jdk.internal.reflect.GeneratedMethodAccessor6.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 10 more
+[10-18-35] [THREAD STARTED]: Unknown Input Handler
+[10-18-35] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-35] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-35] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-35] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-35] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-35] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-35] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-35] [EXCEPTION]:
+           Exception origin: jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           From line: -1
+           Trace: java.lang.reflect.InvocationTargetException
+           at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at jdk.internal.reflect.GeneratedMethodAccessor6.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 10 more
+[10-18-35] [THREAD STARTED]: Unknown Input Handler
+[10-18-35] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-35] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-35] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-35] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-35] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-35] [DEBUG]: Attempted to log a new or empty line
+[10-18-35] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-35] [EXCEPTION]:
+           Exception origin: jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           From line: -1
+           Trace: java.lang.reflect.InvocationTargetException
+           at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at jdk.internal.reflect.GeneratedMethodAccessor6.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 10 more
+[10-18-35] [THREAD STARTED]: Unknown Input Handler
+[10-18-35] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-35] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-35] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-35] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-35] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-35] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-35] [EXCEPTION]:
+           Exception origin: jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           From line: -1
+           Trace: java.lang.reflect.InvocationTargetException
+           at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at jdk.internal.reflect.GeneratedMethodAccessor6.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 10 more
+[10-18-35] [CONSOLE OUT]: [STRING]: Unknown command; Invoking similar command: "prefs"
+[10-18-35] [THREAD STARTED]: Unknown Input Handler
+[10-18-35] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-35] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-35] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-35] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-35] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-35] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-35] [EXCEPTION]:
+           Exception origin: jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           From line: -1
+           Trace: java.lang.reflect.InvocationTargetException
+           at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at jdk.internal.reflect.GeneratedMethodAccessor6.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 10 more
+[10-18-35] [THREAD STARTED]: Unknown Input Handler
+[10-18-35] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 8] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[10-18-35] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-35] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-35] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-35] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-35] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-35] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659720226840.json
+[10-18-35] [EXCEPTION]:
+           Exception origin: jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           From line: -1
+           Trace: java.lang.reflect.InvocationTargetException
+           at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at jdk.internal.reflect.GeneratedMethodAccessor6.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 10 more
+[10-18-35] [THREAD STARTED]: Unknown Input Handler
+[10-18-35] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-35] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-35] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-35] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-35] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-35] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-35] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-35] [EXCEPTION]:
+           Exception origin: jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           From line: -1
+           Trace: java.lang.reflect.InvocationTargetException
+           at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at jdk.internal.reflect.GeneratedMethodAccessor6.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 10 more
+[10-18-35] [THREAD STARTED]: Unknown Input Handler
+[10-18-35] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-35] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-35] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-35] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-35] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-35] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-35] [EXCEPTION]:
+           Exception origin: jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           From line: -1
+           Trace: java.lang.reflect.InvocationTargetException
+           at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at jdk.internal.reflect.GeneratedMethodAccessor6.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 10 more
+[10-18-35] [THREAD STARTED]: Unknown Input Handler
+[10-18-35] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-35] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-35] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-35] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-35] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-35] [DEBUG]: Attempted to log a new or empty line
+[10-18-35] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-35] [EXCEPTION]:
+           Exception origin: jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           From line: -1
+           Trace: java.lang.reflect.InvocationTargetException
+           at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at jdk.internal.reflect.GeneratedMethodAccessor6.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 10 more
+[10-18-35] [THREAD STARTED]: Unknown Input Handler
+[10-18-36] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-36] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-36] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-36] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-36] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-36] [CONSOLE OUT]: [STRING]: Opening widget: UserEditor
+[10-18-36] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-36] [EXCEPTION]:
+           Exception origin: jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           From line: -1
+           Trace: java.lang.reflect.InvocationTargetException
+           at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at jdk.internal.reflect.GeneratedMethodAccessor6.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 10 more
+[10-18-36] [THREAD STARTED]: Unknown Input Handler
+[10-18-36] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-36] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-36] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-36] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-36] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-36] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-36] [EXCEPTION]:
+           Exception origin: jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           From line: -1
+           Trace: java.lang.reflect.InvocationTargetException
+           at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at jdk.internal.reflect.GeneratedMethodAccessor6.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 10 more
+[10-18-36] [THREAD STARTED]: Unknown Input Handler
+[10-18-36] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-36] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-36] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-36] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-36] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-36] [EXCEPTION]:
+           Exception origin: jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           From line: -1
+           Trace: java.lang.reflect.InvocationTargetException
+           at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at jdk.internal.reflect.GeneratedMethodAccessor6.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 10 more
+[10-18-36] [THREAD STARTED]: Unknown Input Handler
+[10-18-37] [DEBUG]: Attempted to log a new or empty line
+[10-18-37] [DEBUG]: Similar command to "prefs" found with tolerance of 1.0, command = "prefs"
+[10-18-37] [CLIENT]: [SIMULATED INPUT] "prefs"
+[10-18-37] [THREAD STARTED]: [Preferences] dispose() animation thread
+[10-18-37] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-37] [OBJECT CREATION]: Objects created since last delta (5000ms): 492
+[10-18-37] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-37] [THREAD STARTED]: Enter animation, frame=Preferences
+[10-18-37] [UI]: CyderFrame disposed with fastclose=true, getTitle=Preferences
+[10-18-37] [EXCEPTION]:
+           Exception origin: jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           From line: -1
+           Trace: java.lang.reflect.InvocationTargetException
+           at jdk.internal.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.WidgetHandler.handle(WidgetHandler.java:45)
+           at jdk.internal.reflect.GeneratedMethodAccessor6.invoke(Unknown Source)
+           at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+           at cyder.handlers.input.BaseInputHandler.handle(BaseInputHandler.java:213)
+           at cyder.handlers.input.BaseInputHandler.lambda$unknownInput$2(BaseInputHandler.java:374)
+           at java.base/java.lang.Thread.run(Thread.java:833)
+           Caused by: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderScrollList.removeAllElements()" because "scrollList" is null
+           at cyder.user.UserEditor.revalidateFilesScroll(UserEditor.java:744)
+           at cyder.user.UserEditor.switchToUserFiles(UserEditor.java:711)
+           at cyder.user.UserEditor.showGui(UserEditor.java:180)
+           at cyder.user.UserEditor.showGui(UserEditor.java:156)
+           ... 10 more
+[10-18-38] [THREAD STARTED]: Unknown Input Handler
+[10-18-38] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[10-18-38] [CONSOLE OUT]: [STRING]: Unknown command; Invoking similar command: "prefs"

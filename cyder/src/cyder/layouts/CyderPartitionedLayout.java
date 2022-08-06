@@ -363,7 +363,6 @@ public class CyderPartitionedLayout extends CyderLayout {
     /**
      * Removes the component at the specified index from the components list.
      * This also removes the partition and returns the new space to the list of available space.
-     * Components will slide from the right to fill the gap.
      *
      * @param index the component at the specified index from the components list
      */

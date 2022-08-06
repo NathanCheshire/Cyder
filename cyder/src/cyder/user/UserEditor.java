@@ -23,6 +23,7 @@ import cyder.utils.*;
 import cyder.widgets.ColorConverterWidget;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.text.SimpleAttributeSet;
@@ -279,79 +280,10 @@ public final class UserEditor {
     }
 
     /**
-     * The partition height for the files scroll on the files page.
-     */
-    private static final int FILE_SCROLL_PARTITION = 85;
-
-    /**
-     * The partition height for the files scroll buttons for the files page.
-     */
-    private static final int FILE_BUTTON_PARTITION = 100 - FILE_SCROLL_PARTITION;
-
-    /**
-     * The width of the the files scroll buttons.
-     */
-    private static final int buttonWidth = 175;
-
-    /**
-     * The height of the files scroll buttons.
-     */
-    private static final int buttonHeight = 40;
-
-    /**
-     * The number of horizontal cells for the buttons layout.
-     */
-    private static final int BUTTON_X_CELLS = 4;
-
-    /**
-     * The number of vertical cells for the buttons layout.
-     */
-    private static final int BUTTON_Y_CELLS = 1;
-
-    private static final CyderButton addFileButton = new CyderButton("Add");
-    private static final CyderButton openFileButton = new CyderButton("Open");
-    private static final CyderButton renameFileButton = new CyderButton("Rename");
-    private static final CyderButton deleteFileButton = new CyderButton("Delete");
-
-    /**
-     * Switches to the user files preference page.
-     */
-    private static void switchToUserFiles() {
-        revalidateFilesScroll();
-
-        CyderGridLayout buttonGridLayout = new CyderGridLayout(BUTTON_X_CELLS, BUTTON_Y_CELLS);
-
-        addFileButton.addActionListener(addFileButtonActionListener);
-        addFileButton.setSize(buttonWidth, buttonHeight);
-
-        openFileButton.addActionListener(openFileButtonActionListener);
-        openFileButton.setSize(buttonWidth, buttonHeight);
-
-        renameFileButton.addActionListener(renameFileButtonActionListener);
-        renameFileButton.setSize(buttonWidth, buttonHeight);
-
-        deleteFileButton.addActionListener(deleteFileButtonActionListener);
-        deleteFileButton.setSize(buttonWidth, buttonHeight);
-
-        buttonGridLayout.addComponent(addFileButton);
-        buttonGridLayout.addComponent(openFileButton);
-        buttonGridLayout.addComponent(renameFileButton);
-        buttonGridLayout.addComponent(deleteFileButton);
-
-        CyderPartitionedLayout partitionedLayout = new CyderPartitionedLayout();
-        partitionedLayout.addComponent(filesLabelReference.get(), FILE_SCROLL_PARTITION);
-        CyderPanel panel = new CyderPanel(buttonGridLayout);
-        panel.setSize(CONTENT_PANE_WIDTH, FILE_BUTTON_PARTITION * CONTENT_PANE_HEIGHT);
-        partitionedLayout.addComponent(panel, FILE_BUTTON_PARTITION);
-
-        editUserFrame.setCyderLayout(partitionedLayout);
-    }
-
-    /**
      * Disables the files scroll buttons.
      */
     private static void disableFilesScrollButtons() {
-        addFileButton.setEnabled(false);
+        Preconditions.checkNotNull(addFileButton).setEnabled(false);
         openFileButton.setEnabled(false);
         renameFileButton.setEnabled(false);
         deleteFileButton.setEnabled(false);
@@ -361,7 +293,7 @@ public final class UserEditor {
      * Enables the files scroll buttons.
      */
     private static void enableFilesScrollButtons() {
-        addFileButton.setEnabled(true);
+        Preconditions.checkNotNull(addFileButton).setEnabled(true);
         openFileButton.setEnabled(true);
         renameFileButton.setEnabled(true);
         deleteFileButton.setEnabled(true);
@@ -691,21 +623,131 @@ public final class UserEditor {
         return Optional.empty();
     }
 
+    /**
+     * The partition height for the files scroll on the files page.
+     */
+    private static final int FILE_SCROLL_PARTITION = 85;
+
+    /**
+     * The partition height for the files scroll buttons for the files page.
+     */
+    private static final int FILE_BUTTON_PARTITION = 100 - FILE_SCROLL_PARTITION;
+
+    /**
+     * The width of the the files scroll buttons.
+     */
+    private static final int buttonWidth = 175;
+
+    /**
+     * The height of the files scroll buttons.
+     */
+    private static final int buttonHeight = 40;
+
+    /**
+     * The number of horizontal cells for the buttons layout.
+     */
+    private static final int BUTTON_X_CELLS = 4;
+
+    /**
+     * The number of vertical cells for the buttons layout.
+     */
+    private static final int BUTTON_Y_CELLS = 1;
+
+    /**
+     * The add file button for user files.
+     */
+    private static final CyderButton addFileButton = new CyderButton("Add");
+
+    /**
+     * The open file button for user files.
+     */
+    private static final CyderButton openFileButton = new CyderButton("Open");
+
+    /**
+     * The rename file button for user files.
+     */
+    private static final CyderButton renameFileButton = new CyderButton("Rename");
+
+    /**
+     * The delete file button for user files.
+     */
+    private static final CyderButton deleteFileButton = new CyderButton("Delete");
+
+    /**
+     * The grid layout for the file action buttons.
+     */
+    private static final CyderGridLayout buttonGridLayout;
+
+    static {
+        buttonGridLayout = new CyderGridLayout(BUTTON_X_CELLS, BUTTON_Y_CELLS);
+
+        addFileButton.addActionListener(addFileButtonActionListener);
+        addFileButton.setSize(buttonWidth, buttonHeight);
+
+        openFileButton.addActionListener(openFileButtonActionListener);
+        openFileButton.setSize(buttonWidth, buttonHeight);
+
+        renameFileButton.addActionListener(renameFileButtonActionListener);
+        renameFileButton.setSize(buttonWidth, buttonHeight);
+
+        deleteFileButton.addActionListener(deleteFileButtonActionListener);
+        deleteFileButton.setSize(buttonWidth, buttonHeight);
+
+        buttonGridLayout.addComponent(addFileButton);
+        buttonGridLayout.addComponent(openFileButton);
+        buttonGridLayout.addComponent(renameFileButton);
+        buttonGridLayout.addComponent(deleteFileButton);
+    }
+
+    /**
+     * The partitioned layout for the files page.
+     */
+    private static final CyderPartitionedLayout filesPartitionedLayout = new CyderPartitionedLayout();
+
+    /**
+     * Switches to the user files preference page, wiping past components
+     * and regenerating the files scroll label in the process.
+     */
+    private static void switchToUserFiles() {
+        revalidateFilesScroll();
+
+        CyderPanel buttonPanel = new CyderPanel(buttonGridLayout);
+        buttonPanel.setSize(CONTENT_PANE_WIDTH, FILE_BUTTON_PARTITION * CONTENT_PANE_HEIGHT);
+
+        filesPartitionedLayout.clearComponents();
+
+        filesPartitionedLayout.addComponent(filesLabelReference.get(), FILE_SCROLL_PARTITION);
+        filesPartitionedLayout.addComponent(buttonPanel, FILE_BUTTON_PARTITION);
+
+        editUserFrame.setCyderLayout(filesPartitionedLayout);
+    }
+
+    /**
+     * The padding between the partitioned area and the files scroll generated label.
+     */
     private static final int filesLabelPadding = 10;
 
+    private static final LineBorder LINE_BORDER = new LineBorder(CyderColors.navy, 3);
+    private static final Border EMPTY_BORDER = BorderFactory.createEmptyBorder(
+            filesLabelPadding, filesLabelPadding, filesLabelPadding, filesLabelPadding);
     /**
      * The border for the files label (the generated files scroll).
      */
-    private static final CompoundBorder filesLabelBorder = new CompoundBorder(
-            new LineBorder(CyderColors.navy, 3), BorderFactory.createEmptyBorder(filesLabelPadding,
-            filesLabelPadding, filesLabelPadding, filesLabelPadding));
+    private static final CompoundBorder filesLabelBorder = new CompoundBorder(LINE_BORDER, EMPTY_BORDER);
 
     /**
-     * Revalidates the user files scroll and updates {@link #filesLabelReference}.
+     * Revalidates the contents of the user files scroll, regenerates the label,
+     * and updates the corresponding atomic references. Note that this does not update
+     * the old UI todo make a method for this
      */
     private static void revalidateFilesScroll() {
         disableFilesScrollButtons();
-        // todo show loading label
+
+        filesPartitionedLayout.addComponent(filesLabelReference.get(), FILE_SCROLL_PARTITION);
+        filesPartitionedLayout.removeComponent(0);
+        // todo set component 0,0 to loading label
+
+        // todo use same generated label just add/take away buttons there
 
         filesLabelReference.set(null);
 
@@ -733,6 +775,8 @@ public final class UserEditor {
         filesLabel.setBackground(CyderColors.vanilla);
         filesLabel.setBorder(filesLabelBorder);
         filesLabelReference.set(filesLabel);
+
+        // todo set component at 0,0 on grid layout
 
         // todo need to update the content pane layout now too with the new filesLabelRef
         //  are the atomic references still needed?

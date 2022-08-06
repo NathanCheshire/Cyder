@@ -276,8 +276,8 @@ public class CyderGridLayout extends CyderLayout {
         Preconditions.checkNotNull(sectionPosition);
         Preconditions.checkArgument(x >= 0);
         Preconditions.checkArgument(y >= 0);
-        Preconditions.checkArgument(x <= horizontalCells - 1);
-        Preconditions.checkArgument(y <= verticalCells - 1);
+        Preconditions.checkArgument(x < horizontalCells);
+        Preconditions.checkArgument(y < verticalCells);
 
         if (components[x][y] != null) {
             return false;
