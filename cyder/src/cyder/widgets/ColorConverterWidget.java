@@ -141,14 +141,14 @@ public class ColorConverterWidget {
         rgbField.setSize(220, 50);
         rgbField.setOpaque(false);
 
-        layout.addComponent(new JLabel(), 10);
+        layout.spacer(10);
         layout.addComponent(hexLabel, 15);
         layout.addComponent(hexField, 10);
         layout.addComponent(rgbLabel, 15);
         layout.addComponent(rgbField, 10);
         layout.addComponent(colorLabel, 15);
         layout.addComponent(colorBlock, 15);
-        layout.addComponent(new JLabel(), 10);
+        layout.spacer(10);
 
         CyderPanel panel = new CyderPanel(layout);
         colorFrame.setCyderLayoutPanel(panel);

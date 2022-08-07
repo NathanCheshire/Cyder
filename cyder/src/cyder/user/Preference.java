@@ -327,6 +327,23 @@ public class Preference {
     }
 
     /**
+     * Returns the preference with the provided id.
+     *
+     * @param preferenceID the provided id to get
+     * @return the preference with the provided id
+     * @throws IllegalArgumentException if a preference with the provided id cannot be found
+     */
+    public static Preference get(String preferenceID) {
+        for (Preference preference : preferences) {
+            if (preference.getID().equals(preferenceID)) {
+                return preference;
+            }
+        }
+
+        throw new IllegalArgumentException("Preference with id not found: " + preferenceID);
+    }
+
+    /**
      * The id of the preference.
      */
     private final String id;

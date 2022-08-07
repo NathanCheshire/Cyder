@@ -780,50 +780,91 @@ public final class UserEditor {
     }
 
     /**
+     * The width of the font scroll list.
+     */
+    private static final int FONT_SCROLL_WIDTH = CONTENT_PANE_WIDTH / 2 - 2 * 50;
+
+    /**
+     * The height of the font scroll list.
+     */
+    private static final int FONT_SCROLL_HEIGHT = CONTENT_PANE_HEIGHT - 2 * 100;
+
+    /**
+     * The reference to the font scroll list.
+     */
+    private static final AtomicReference<CyderScrollList> fontScrollReference = new AtomicReference<>();
+
+    static {
+        CyderScrollList scrollList = new CyderScrollList(FONT_SCROLL_WIDTH, FONT_SCROLL_HEIGHT,
+                CyderScrollList.SelectionPolicy.SINGLE);
+        scrollList.setItemAlignment(StyleConstants.ALIGN_LEFT);
+        fontScrollReference.set(scrollList);
+    }
+
+    private static final int fontButtonWidth = 130;
+    private static final int fontButtonHeight = 40;
+
+    private static final int paddingPartition = 5;
+    private static final int surroundingPanelPartition = 5;
+    private static final int fontLabelPartition = 80;
+
+    private static final int fontLabelSize = 40;
+
+    private static CyderLabel fontLabel;
+    private static CyderButton applyFontButton;
+    private static CyderPartitionedLayout fontPartitionedLayout;
+
+    private static CyderTextField foregroundField;
+    private static JTextField foregroundColorBlock;
+
+    private static CyderTextField windowField;
+    private static JTextField windowColorBlock;
+
+    private static CyderTextField backgroundField;
+    private static JTextField fillColorBlock;
+
+    /**
      * Switches to the fonts and colors page.
      */
     private static void switchToFontAndColor() {
         CyderPartitionedLayout fontAndColorPartitionedLayout = new CyderPartitionedLayout();
         fontAndColorPartitionedLayout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.ROW);
 
-        // todo extract out
-        int w = CONTENT_PANE_WIDTH / 2 - 2 * 50;
-        int h = CONTENT_PANE_HEIGHT - 2 * 100;
-
-        AtomicReference<CyderScrollList> fontScrollRef = new AtomicReference<>(
-                new CyderScrollList(w, h, CyderScrollList.SelectionPolicy.SINGLE));
-        fontScrollRef.get().setItemAlignment(StyleConstants.ALIGN_LEFT);
-
-        CyderLabel fontLabel = new CyderLabel("Fonts");
-        fontLabel.setFont(new Font(UserUtil.getCyderUser().getFont(), Font.BOLD, 50));
-        fontLabel.setSize(w, 40);
+        fontLabel = new CyderLabel("Fonts");
+        fontLabel.setFont(new Font(UserUtil.getCyderUser().getFont(), Font.BOLD, fontLabelSize));
+        fontLabel.setSize(FONT_SCROLL_WIDTH, 60);
 
         CyderLabel loadingLabel = new CyderLabel(CyderStrings.LOADING);
         loadingLabel.setFont(CyderFonts.DEFAULT_FONT);
-        loadingLabel.setSize(w, h);
+        loadingLabel.setSize(FONT_SCROLL_WIDTH, FONT_SCROLL_HEIGHT);
         loadingLabel.setBackground(CyderColors.vanilla);
         loadingLabel.setBorder(new LineBorder(CyderColors.navy, 5));
         loadingLabel.setOpaque(true);
 
         CyderGridLayout gridLayout = new CyderGridLayout(2, 1);
 
-        CyderButton button1 = new CyderButton("Apply Font");
-        button1.setSize(130, 40);
-        gridLayout.addComponent(button1);
+        applyFontButton = new CyderButton("Apply Font");
+        applyFontButton.setSize(fontButtonWidth, fontButtonHeight);
+        applyFontButton.addActionListener(applyFontButtonActionListener);
+        gridLayout.addComponent(applyFontButton);
 
-        CyderButton button2 = new CyderButton("Reset All");
-        button2.setSize(130, 40);
-        gridLayout.addComponent(button2);
+        CyderButton resetFontAndColorButton = new CyderButton("Reset All");
+        resetFontAndColorButton.setSize(fontButtonWidth, fontButtonHeight);
+        resetFontAndColorButton.setToolTipText("Reset font and colors");
+        resetFontAndColorButton.addActionListener(resetFontAndColorButtonActionListener);
+        gridLayout.addComponent(resetFontAndColorButton);
 
         CyderPanel fontButtonGridPanel = new CyderPanel(gridLayout);
-        fontButtonGridPanel.setSize(w, 60);
+        fontButtonGridPanel.setSize(FONT_SCROLL_WIDTH, 60);
 
-        CyderPartitionedLayout fontPartitionedLayout = new CyderPartitionedLayout();
-        fontPartitionedLayout.addComponent(new JLabel(), 5);
-        fontPartitionedLayout.addComponent(fontLabel, 5);
-        fontPartitionedLayout.addComponent(loadingLabel, 80);
-        fontPartitionedLayout.addComponent(fontButtonGridPanel, 5);
-        fontPartitionedLayout.addComponent(new JLabel(), 5);
+        fontPartitionedLayout = new CyderPartitionedLayout();
+        fontPartitionedLayout.spacer(paddingPartition);
+        fontPartitionedLayout.addComponent(fontLabel, surroundingPanelPartition);
+        fontPartitionedLayout.addComponent(loadingLabel, fontLabelPartition);
+        fontPartitionedLayout.addComponent(fontButtonGridPanel, surroundingPanelPartition);
+        fontPartitionedLayout.spacer(paddingPartition);
+
+        loadFonts();
 
         CyderPanel fontPanel = new CyderPanel(fontPartitionedLayout);
         fontPanel.setSize(CONTENT_PANE_WIDTH / 2, CONTENT_PANE_HEIGHT); // todo this shouldn't be necessary
@@ -834,7 +875,7 @@ public final class UserEditor {
         colorLabel.setFont(CyderFonts.SEGOE_30);
         colorLabel.setForeground(CyderColors.navy);
 
-        JTextField foregroundColorBlock = new JTextField();
+        foregroundColorBlock = new JTextField();
         foregroundColorBlock.setHorizontalAlignment(JTextField.CENTER);
         foregroundColorBlock.setBackground(CyderColors.navy);
         foregroundColorBlock.setFocusable(false);
@@ -843,7 +884,7 @@ public final class UserEditor {
         foregroundColorBlock.setToolTipText("Color Preview");
         foregroundColorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
 
-        CyderTextField foregroundField = new CyderTextField(6);
+        foregroundField = new CyderTextField(6);
         foregroundField.setHorizontalAlignment(JTextField.CENTER);
         foregroundField.setHexColorRegexMatcher();
         foregroundField.setText(UserUtil.getCyderUser().getForeground());
@@ -852,15 +893,14 @@ public final class UserEditor {
         foregroundField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
-                    Color c = ColorUtil.hexStringToColor(foregroundField.getText());
-                    foregroundColorBlock.setBackground(c);
+                    Color foregroundColor = ColorUtil.hexStringToColor(foregroundField.getText());
+                    foregroundColorBlock.setBackground(foregroundColor);
                     UserUtil.getCyderUser().setForeground(foregroundField.getText());
-                    Color updateC = ColorUtil.hexStringToColor(foregroundField.getText());
-
-                    Console.INSTANCE.getOutputArea().setForeground(updateC);
-                    Console.INSTANCE.getInputField().setForeground(updateC);
-                    Console.INSTANCE.getInputField().setCaretColor(updateC);
-                    Console.INSTANCE.getInputField().setCaret(new CyderCaret(updateC));
+                    Console.INSTANCE.getOutputArea().setForeground(foregroundColor);
+                    Console.INSTANCE.getInputField().setForeground(foregroundColor);
+                    Console.INSTANCE.getInputField().setCaretColor(foregroundColor);
+                    Console.INSTANCE.getInputField().setCaret(new CyderCaret(foregroundColor));
+                    Preference.invokeRefresh(Preference.FOREGROUND);
                 } catch (Exception ignored) {}
             }
         });
@@ -870,27 +910,7 @@ public final class UserEditor {
         windowThemeColorLabel.setFont(CyderFonts.SEGOE_30);
         windowThemeColorLabel.setForeground(CyderColors.navy);
 
-        JLabel hexWindowLabel = new JLabel("Hex");
-        hexWindowLabel.setFont(CyderFonts.SEGOE_20);
-        hexWindowLabel.setForeground(CyderColors.navy);
-        hexWindowLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                ColorConverterWidget.getInstance().innerShowGui();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                hexWindowLabel.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                hexWindowLabel.setForeground(CyderColors.navy);
-            }
-        });
-
-        JTextField windowColorBlock = new JTextField();
+        windowColorBlock = new JTextField();
         windowColorBlock.setHorizontalAlignment(JTextField.CENTER);
         windowColorBlock.setBackground(CyderColors.navy);
         windowColorBlock.setFocusable(false);
@@ -899,23 +919,20 @@ public final class UserEditor {
         windowColorBlock.setToolTipText("Color Preview");
         windowColorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
 
-        CyderTextField windowField = new CyderTextField(6);
+        windowField = new CyderTextField(6);
         windowField.setHorizontalAlignment(JTextField.CENTER);
-        // todo this regex is common there should be a set method of the text field to set the regex to this
         windowField.setHexColorRegexMatcher();
         windowField.setText(UserUtil.getCyderUser().getWindowcolor());
         windowField.setFont(CyderFonts.SEGOE_30);
         windowField.setToolTipText("Window border color");
-        // todo extract
+        // todo extract util method to call a runnable on key pressed/released/ whatever
         windowField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent evt) {
                 try {
-                    Color c = ColorUtil.hexStringToColor(windowField.getText());
-                    windowColorBlock.setBackground(c);
+                    Color requestedWindowColor = ColorUtil.hexStringToColor(windowField.getText());
+                    windowColorBlock.setBackground(requestedWindowColor);
                     UserUtil.getCyderUser().setWindowcolor(windowField.getText());
-
-                    CyderColors.setGuiThemeColor(c);
-
+                    CyderColors.setGuiThemeColor(requestedWindowColor);
                     Preference.invokeRefresh(Preference.WINDOW_COLOR);
                 } catch (Exception ignored) {}
             }
@@ -926,7 +943,7 @@ public final class UserEditor {
         FillLabel.setFont(CyderFonts.SEGOE_30);
         FillLabel.setForeground(CyderColors.navy);
 
-        JTextField fillColorBlock = new JTextField();
+        fillColorBlock = new JTextField();
         fillColorBlock.setHorizontalAlignment(JTextField.CENTER);
         fillColorBlock.setBackground(CyderColors.navy);
         fillColorBlock.setFocusable(false);
@@ -935,182 +952,182 @@ public final class UserEditor {
         fillColorBlock.setToolTipText("Color Preview");
         fillColorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
 
-        CyderTextField fillField = new CyderTextField(6);
-        fillField.setHorizontalAlignment(JTextField.CENTER);
-        fillField.setHexColorRegexMatcher();
-        fillField.setText(UserUtil.getCyderUser().getBackground());
-        fillField.setFont(CyderFonts.SEGOE_30);
-        fillField.setToolTipText("Input field and output area fill color if enabled");
-        fillField.addKeyListener(new KeyAdapter() {
+        backgroundField = new CyderTextField(6);
+        backgroundField.setHorizontalAlignment(JTextField.CENTER);
+        backgroundField.setHexColorRegexMatcher();
+        backgroundField.setText(UserUtil.getCyderUser().getBackground());
+        backgroundField.setFont(CyderFonts.SEGOE_30);
+        backgroundField.setToolTipText("Input field and output area fill color if enabled");
+        backgroundField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
-                    fillColorBlock.setBackground(ColorUtil.hexStringToColor(fillField.getText()));
-                    UserUtil.getCyderUser().setBackground(fillField.getText());
+                    String backgroundColorString = backgroundField.getText();
+                    Color backgroundColor = ColorUtil.hexStringToColor(backgroundColorString);
+                    fillColorBlock.setBackground(backgroundColor);
+                    UserUtil.getCyderUser().setBackground(backgroundColorString);
 
-                    if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
+                    boolean outputFill = UserUtil.getCyderUser().getOutputfill().equals("1");
+                    boolean inputFill = UserUtil.getCyderUser().getInputfill().equals("1");
+                    boolean outputBorder = UserUtil.getCyderUser().getOutputborder().equals("1");
+                    boolean inputBorder = UserUtil.getCyderUser().getInputborder().equals("1");
+
+                    if (outputFill) {
                         Console.INSTANCE.getOutputArea().setOpaque(true);
-                        Console.INSTANCE.getOutputArea()
-                                .setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
+                        Console.INSTANCE.getOutputArea().setBackground(backgroundColor);
                         Console.INSTANCE.getOutputArea().repaint();
                         Console.INSTANCE.getOutputArea().revalidate();
                     }
-                    if (UserUtil.getCyderUser().getInputfill().equals("1")) {
+                    if (inputFill) {
                         Console.INSTANCE.getInputField().setOpaque(true);
-                        Console.INSTANCE.getInputField()
-                                .setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
+                        Console.INSTANCE.getInputField().setBackground(backgroundColor);
                         Console.INSTANCE.getInputField().repaint();
                         Console.INSTANCE.getInputField().revalidate();
                     }
-                    if (UserUtil.getCyderUser().getOutputborder().equals("1")) {
-                        Console.INSTANCE.getOutputScroll()
-                                .setBorder(UserUtil.getCyderUser().getOutputborder().equals("1")
-                                        ? new LineBorder(
-                                        ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
-                                        3, false)
-                                        : BorderFactory.createEmptyBorder());
+                    if (outputBorder) {
+                        Console.INSTANCE.getOutputScroll().setBorder(new LineBorder(backgroundColor, 3, false));
                         Console.INSTANCE.getOutputScroll().repaint();
                         Console.INSTANCE.getOutputScroll().revalidate();
                     }
-                    if (UserUtil.getCyderUser().getInputborder().equals("1")) {
-                        Console.INSTANCE.getInputField()
-                                .setBorder(UserUtil.getCyderUser().getInputborder().equals("1")
-                                        ? new LineBorder(
-                                        ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
-                                        3, false)
-                                        : BorderFactory.createEmptyBorder());
+                    if (inputBorder) {
+                        Console.INSTANCE.getInputField().setBorder(new LineBorder(backgroundColor, 3, false));
                         Console.INSTANCE.getInputField().repaint();
                         Console.INSTANCE.getInputField().revalidate();
                     }
                 } catch (Exception ignored) {}
             }
         });
-        fillField.setOpaque(false);
+        backgroundField.setOpaque(false);
+    }
 
-        // todo load method?
+    /**
+     * Loads the fonts from the local {@link GraphicsEnvironment} and updates the fonts scroll list.
+     */
+    private static void loadFonts() {
         CyderThreadRunner.submit(() -> {
+            fontScrollReference.get().removeAllElements();
+
             LinkedList<String> fontList = new LinkedList<>();
             Collections.addAll(fontList, GraphicsEnvironment.getLocalGraphicsEnvironment()
                     .getAvailableFontFamilyNames());
 
-            int metric = Integer.parseInt(PropLoader.getString("font_metric"));
-            int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
-
-            if (NumberUtil.isValidFontMetric(metric)) {
-                for (String fontName : fontList) {
-                    Font font = new Font(fontName, metric, size);
-
-                    fontScrollRef.get().addElementWithSingleCLickAction(fontName, () -> fontLabel.setFont(font));
-                }
+            CyderScrollList reference = fontScrollReference.get();
+            for (String fontName : fontList) {
+                reference.addElementWithSingleCLickAction(fontName,
+                        () -> {
+                            applyFontButton.setToolTipText("Apply font: " + fontName);
+                            fontLabel.setFont(new Font(fontName, Font.BOLD, fontLabelSize));
+                        });
             }
 
             if (currentPage == Page.FONT_AND_COLOR) {
-                // todo
-                //                JLabel fontLabel = fontScrollRef.get().generateScrollList();
-                //                fontLabel.setBounds(50, 100, 300, 300);
-                //                switchingLabel.remove(tempLabel);
-                //
-                //                if (currentPage == Page.FONT_AND_COLOR) {
-                //                    switchingLabel.add(fontLabel);
-                //                }
+                JLabel fontLabel = fontScrollReference.get().generateScrollList();
+                fontLabel.setSize(FONT_SCROLL_WIDTH, FONT_SCROLL_HEIGHT);
+                fontPartitionedLayout.setComponent(fontLabel, 2);
             }
-        }, "Preferences Frame Font Loader");
+        }, "Preferences Font Loader");
+    }
 
-        CyderButton applyFontButton = new CyderButton("Apply font");
-        applyFontButton.setToolTipText("Apply"); // todo update this tooltip with the currently selected font name?
-        applyFontButton.addActionListener(e -> {
-            if (fontScrollRef.get() == null || fontScrollRef.get().getSelectedElements().isEmpty())
-                return;
+    /**
+     * The key for retrieving the font metric from the props.
+     */
+    private static final String FONT_METRIC = "font_metric";
 
-            String selectedFont = fontScrollRef.get().getSelectedElements().get(0);
+    /**
+     * The action listener for the apply font button.
+     */
+    @SuppressWarnings("MagicConstant") /* font metrics are always checked */
+    private static final ActionListener applyFontButtonActionListener = e -> {
+        CyderScrollList reference = fontScrollReference.get();
+        if (reference == null || reference.getSelectedElements().isEmpty()) {
+            return;
+        }
 
-            if (selectedFont != null) {
-                UserUtil.getCyderUser().setFont(selectedFont);
-                Font applyFont = new Font(selectedFont,
-                        Integer.parseInt(PropLoader.getString("font_metric")),
-                        Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
-                Console.INSTANCE.getOutputArea().setFont(applyFont);
-                Console.INSTANCE.getInputField().setFont(applyFont);
+        String selectedFont = reference.getSelectedElements().get(0);
 
-                editUserFrame.notify("Applied font: " + selectedFont);
+        if (selectedFont != null) {
+            UserUtil.getCyderUser().setFont(selectedFont);
+
+            int requestedFontMetric = Integer.parseInt(PropLoader.getString(FONT_METRIC));
+            if (!NumberUtil.isValidFontMetric(requestedFontMetric)) {
+                requestedFontMetric = Font.BOLD;
             }
-        });
 
-        CyderButton resetValuesButton = new CyderButton("Reset all");
-        resetValuesButton.setToolTipText("Reset font and colors");
-        resetValuesButton.addActionListener(e -> {
-            // todo we can probably get away without building a default user
-            User defaultUser = UserUtil.buildDefaultUser();
+            int requestedFontSize = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
 
-            // Foreground here
-            UserUtil.getCyderUser().setForeground(defaultUser.getForeground());
-            foregroundColorBlock.setBackground(ColorUtil.hexStringToColor(defaultUser.getForeground()));
-            foregroundField.setText(defaultUser.getForeground());
-
-            // Apply foreground to console fields and carets
-            Console.INSTANCE.getOutputArea().setForeground(
-                    ColorUtil.hexStringToColor(defaultUser.getForeground()));
-            Console.INSTANCE.getInputField().setForeground(
-                    ColorUtil.hexStringToColor(defaultUser.getForeground()));
-            Console.INSTANCE.getInputField().setCaretColor(
-                    ColorUtil.hexStringToColor(defaultUser.getForeground()));
-            Console.INSTANCE.getInputField().setCaret(
-                    new CyderCaret(ColorUtil.hexStringToColor(defaultUser.getForeground())));
-
-            // Font preference
-            UserUtil.getCyderUser().setForeground(defaultUser.getForeground());
-            Font applyFont = new Font(defaultUser.getFont(), Font.BOLD, 30);
-
-            // Font console
+            Font applyFont = new Font(selectedFont, requestedFontMetric, requestedFontSize);
             Console.INSTANCE.getOutputArea().setFont(applyFont);
             Console.INSTANCE.getInputField().setFont(applyFont);
 
-            // Font here
-            if (fontScrollRef.get() != null) {
-                fontScrollRef.get().clearSelectedElements();
-            }
-            fontLabel.setFont(applyFont);
+            editUserFrame.notify("Applied font: " + selectedFont);
+        }
+    };
 
-            // Background color preference and here
-            UserUtil.getCyderUser().setBackground(defaultUser.getBackground());
-            fillColorBlock.setBackground(ColorUtil.hexStringToColor(defaultUser.getBackground()));
-            fillField.setText(defaultUser.getBackground());
+    @SuppressWarnings("MagicConstant") /* font metrics are always checked */
+    private static final ActionListener resetFontAndColorButtonActionListener = e -> {
+        String defaultForeground = Preference.get(Preference.FOREGROUND).getDefaultValue().toString();
+        Color defaultForegroundColor = ColorUtil.hexStringToColor(defaultForeground);
 
-            // Background if enabled
-            if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
-                Console.INSTANCE.getOutputArea().setOpaque(true);
-                Console.INSTANCE.getOutputArea()
-                        .setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
-                Console.INSTANCE.getOutputArea().repaint();
-                Console.INSTANCE.getOutputArea().revalidate();
-            }
-            if (UserUtil.getCyderUser().getInputfill().equals("1")) {
-                Console.INSTANCE.getInputField().setOpaque(true);
-                Console.INSTANCE.getInputField()
-                        .setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
-                Console.INSTANCE.getInputField().repaint();
-                Console.INSTANCE.getInputField().revalidate();
-            }
+        String defaultBackground = Preference.get(Preference.BACKGROUND).getDefaultValue().toString();
+        Color defaultBackgroundColor = ColorUtil.hexStringToColor(defaultBackground);
 
-            // Window color preference and here
-            UserUtil.getCyderUser().setWindowcolor(defaultUser.getWindowcolor());
-            windowColorBlock.setBackground(ColorUtil.hexStringToColor(defaultUser.getWindowcolor()));
-            windowField.setText(defaultUser.getWindowcolor());
-            windowColorBlock.setBackground((ColorUtil.hexStringToColor(defaultUser.getWindowcolor())));
+        String defaultWindow = Preference.get(Preference.WINDOW_COLOR).getDefaultValue().toString();
+        Color defaultWindowColor = ColorUtil.hexStringToColor(defaultWindow);
 
-            // Window color elsewhere
-            CyderColors.setGuiThemeColor((ColorUtil.hexStringToColor(defaultUser.getWindowcolor())));
-            Preference.invokeRefresh(Preference.WINDOW_COLOR);
+        String defaultFontName = Preference.get(Preference.FONT).getDefaultValue().toString();
+        int defaultFontMetric = Integer.parseInt(Preference.get(Preference.FONT_METRIC).getDefaultValue().toString());
+        int defaultFontSize = Integer.parseInt(Preference.get(Preference.FONT_SIZE).getDefaultValue().toString());
 
-            if (fontScrollRef.get() != null) {
-                JScrollBar scrollBar = fontScrollRef.get().getScrollPane().getVerticalScrollBar();
-                scrollBar.setValue(scrollBar.getMinimum());
-            }
+        UserUtil.getCyderUser().setForeground(defaultForeground);
+        foregroundColorBlock.setBackground(defaultForegroundColor);
+        foregroundField.setText(defaultForeground);
+        Console.INSTANCE.getOutputArea().setForeground(defaultForegroundColor);
+        Console.INSTANCE.getInputField().setForeground(defaultForegroundColor);
+        Console.INSTANCE.getInputField().setCaretColor(defaultForegroundColor);
+        Console.INSTANCE.getInputField().setCaret(new CyderCaret(defaultForegroundColor));
+        Preference.invokeRefresh(Preference.FOREGROUND);
 
-            editUserFrame.notify("Default fonts and colors reset");
-        });
-    }
+        Font applyFont = new Font(defaultFontName, defaultFontMetric, defaultFontSize);
+        Console.INSTANCE.getOutputArea().setFont(applyFont);
+        Console.INSTANCE.getInputField().setFont(applyFont);
+        if (fontScrollReference.get() != null) {
+            fontScrollReference.get().clearSelectedElements();
+        }
+        fontLabel.setFont(applyFont);
+        if (fontScrollReference.get() != null) {
+            JScrollBar scrollBar = fontScrollReference.get().getScrollPane().getVerticalScrollBar();
+            scrollBar.setValue(scrollBar.getMinimum());
+        }
+        Preference.invokeRefresh(Preference.FONT);
 
-    private static final int HEX_LABEL_WIDTH = 50;
+        UserUtil.getCyderUser().setBackground(defaultBackground);
+        fillColorBlock.setBackground(defaultBackgroundColor);
+        backgroundField.setText(defaultBackground);
+        if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
+            Console.INSTANCE.getOutputArea().setOpaque(true);
+            Console.INSTANCE.getOutputArea().setBackground(defaultBackgroundColor);
+            Console.INSTANCE.getOutputArea().repaint();
+            Console.INSTANCE.getOutputArea().revalidate();
+        }
+        if (UserUtil.getCyderUser().getInputfill().equals("1")) {
+            Console.INSTANCE.getInputField().setOpaque(true);
+            Console.INSTANCE.getInputField().setBackground(defaultBackgroundColor);
+            Console.INSTANCE.getInputField().repaint();
+            Console.INSTANCE.getInputField().revalidate();
+        }
+        Preference.invokeRefresh(Preference.BACKGROUND);
+
+        UserUtil.getCyderUser().setWindowcolor(defaultWindow);
+        windowColorBlock.setBackground(defaultWindowColor);
+        windowField.setText(defaultWindow);
+        windowColorBlock.setBackground((defaultWindowColor));
+        CyderColors.setGuiThemeColor((defaultWindowColor));
+        Preference.invokeRefresh(Preference.WINDOW_COLOR);
+        Preference.invokeRefresh(Preference.WINDOW_COLOR);
+
+        editUserFrame.notify("Default fonts and colors reset");
+    };
+
+    private static final int HEX_LABEL_WIDTH = 80;
     private static final int HEX_LABEL_HEIGHT = 40;
 
     /**
@@ -1120,6 +1137,7 @@ public final class UserEditor {
      */
     private static CyderLabel generateHexInformationLabel() {
         CyderLabel hexLabel = new CyderLabel("Hex");
+        hexLabel.setFont(CyderFonts.DEFAULT_FONT);
         hexLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

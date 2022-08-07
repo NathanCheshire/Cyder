@@ -171,18 +171,18 @@ public final class UserCreator {
 
         CyderPartitionedLayout cyderPartitionedLayout = new CyderPartitionedLayout();
 
-        cyderPartitionedLayout.addComponent(new JLabel(), 10);
+        cyderPartitionedLayout.spacer(10);
         cyderPartitionedLayout.addComponent(nameLabel, 5);
         cyderPartitionedLayout.addComponent(newUserNameField, 8);
-        cyderPartitionedLayout.addComponent(new JLabel(), 5);
+        cyderPartitionedLayout.spacer(5);
         cyderPartitionedLayout.addComponent(passwordLabel, 5);
         cyderPartitionedLayout.addComponent(newUserPasswordField, 8);
-        cyderPartitionedLayout.addComponent(new JLabel(), 5);
+        cyderPartitionedLayout.spacer(5);
         cyderPartitionedLayout.addComponent(passwordLabelConf, 5);
         cyderPartitionedLayout.addComponent(newUserPasswordConfirmationField, 8);
-        cyderPartitionedLayout.addComponent(new JLabel(), 5);
+        cyderPartitionedLayout.spacer(5);
         cyderPartitionedLayout.addComponent(informationLabel, 5);
-        cyderPartitionedLayout.addComponent(new JLabel(), 5);
+        cyderPartitionedLayout.spacer(5);
         cyderPartitionedLayout.addComponent(chooseBackgroundButton, 10);
         cyderPartitionedLayout.addComponent(createNewUserButton, 10);
 

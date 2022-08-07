@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
 import cyder.ui.CyderPanel;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -433,6 +434,15 @@ public class CyderPartitionedLayout extends CyderLayout {
     }
 
     /**
+     * Adds a spacer as the next component with the provided partition.
+     *
+     * @param partition the partition the spacer should take up
+     */
+    public void spacer(int partition) {
+        addComponent(new JLabel(), partition);
+    }
+
+    /**
      * Replaces the component at the provided index with the new component.
      *
      * @param component the component to replace the old component with
@@ -443,7 +453,13 @@ public class CyderPartitionedLayout extends CyderLayout {
         Preconditions.checkArgument(index >= 0);
         Preconditions.checkArgument(index < components.size());
 
+        if (associatedPanel != null) {
+            associatedPanel.remove(components.get(index).getComponent());
+        }
+
         components.set(index, new PartitionedComponent(component, components.get(index).getAlignment()));
+
+        revalidateComponents();
     }
 
     /**
