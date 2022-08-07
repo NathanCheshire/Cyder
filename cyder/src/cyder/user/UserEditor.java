@@ -794,8 +794,9 @@ public final class UserEditor {
                 new CyderScrollList(w, h, CyderScrollList.SelectionPolicy.SINGLE));
         fontScrollRef.get().setItemAlignment(StyleConstants.ALIGN_LEFT);
 
-        CyderLabel fontLabel = new CyderLabel("FONTS");
-        fontLabel.setFont(new Font(UserUtil.getCyderUser().getFont(), Font.BOLD, 30));
+        CyderLabel fontLabel = new CyderLabel("Fonts");
+        fontLabel.setFont(new Font(UserUtil.getCyderUser().getFont(), Font.BOLD, 50));
+        fontLabel.setSize(w, 40);
 
         CyderLabel loadingLabel = new CyderLabel(CyderStrings.LOADING);
         loadingLabel.setFont(CyderFonts.DEFAULT_FONT);
@@ -804,11 +805,29 @@ public final class UserEditor {
         loadingLabel.setBorder(new LineBorder(CyderColors.navy, 5));
         loadingLabel.setOpaque(true);
 
-        CyderPartitionedLayout fontPartitionedLayout = new CyderPartitionedLayout();
-        fontPartitionedLayout.addComponent(fontLabel, 20);
-        fontPartitionedLayout.addComponent(loadingLabel, 80);
+        CyderGridLayout gridLayout = new CyderGridLayout(2, 1);
 
-        fontAndColorPartitionedLayout.addComponent(fontPartitionedLayout, 50);
+        CyderButton button1 = new CyderButton("Apply Font");
+        button1.setSize(130, 40);
+        gridLayout.addComponent(button1);
+
+        CyderButton button2 = new CyderButton("Reset All");
+        button2.setSize(130, 40);
+        gridLayout.addComponent(button2);
+
+        CyderPanel fontButtonGridPanel = new CyderPanel(gridLayout);
+        fontButtonGridPanel.setSize(w, 60);
+
+        CyderPartitionedLayout fontPartitionedLayout = new CyderPartitionedLayout();
+        fontPartitionedLayout.addComponent(new JLabel(), 5);
+        fontPartitionedLayout.addComponent(fontLabel, 5);
+        fontPartitionedLayout.addComponent(loadingLabel, 80);
+        fontPartitionedLayout.addComponent(fontButtonGridPanel, 5);
+        fontPartitionedLayout.addComponent(new JLabel(), 5);
+
+        CyderPanel fontPanel = new CyderPanel(fontPartitionedLayout);
+        fontPanel.setSize(CONTENT_PANE_WIDTH / 2, CONTENT_PANE_HEIGHT); // todo this shouldn't be necessary
+        fontAndColorPartitionedLayout.addComponent(fontPanel, 50);
         editUserFrame.setCyderLayout(fontAndColorPartitionedLayout);
 
         JLabel colorLabel = new JLabel("Text Color");
@@ -996,7 +1015,7 @@ public final class UserEditor {
             }
         }, "Preferences Frame Font Loader");
 
-        CyderButton applyFontButton = new CyderButton("Apply Font");
+        CyderButton applyFontButton = new CyderButton("Apply font");
         applyFontButton.setToolTipText("Apply"); // todo update this tooltip with the currently selected font name?
         applyFontButton.addActionListener(e -> {
             if (fontScrollRef.get() == null || fontScrollRef.get().getSelectedElements().isEmpty())
@@ -1016,9 +1035,9 @@ public final class UserEditor {
             }
         });
 
-        CyderButton resetValues = new CyderButton("Reset all");
-        resetValues.setToolTipText("Reset font and colors");
-        resetValues.addActionListener(e -> {
+        CyderButton resetValuesButton = new CyderButton("Reset all");
+        resetValuesButton.setToolTipText("Reset font and colors");
+        resetValuesButton.addActionListener(e -> {
             // todo we can probably get away without building a default user
             User defaultUser = UserUtil.buildDefaultUser();
 
@@ -1091,6 +1110,9 @@ public final class UserEditor {
         });
     }
 
+    private static final int HEX_LABEL_WIDTH = 50;
+    private static final int HEX_LABEL_HEIGHT = 40;
+
     /**
      * Returns a {@link CyderLabel} to indicate a text field accepts a hex value.
      *
@@ -1114,6 +1136,7 @@ public final class UserEditor {
                 hexLabel.setForeground(CyderColors.navy);
             }
         });
+        hexLabel.setSize(HEX_LABEL_WIDTH, HEX_LABEL_HEIGHT);
 
         return hexLabel;
     }

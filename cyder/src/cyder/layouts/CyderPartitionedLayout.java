@@ -243,7 +243,7 @@ public class CyderPartitionedLayout extends CyderLayout {
      * {@inheritDoc}
      */
     public void revalidateComponents() {
-        if (associatedPanel == null) {
+        if (associatedPanel == null || associatedPanel.getWidth() == 0 || associatedPanel.getHeight() == 0) {
             return;
         }
 
