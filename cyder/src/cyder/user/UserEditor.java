@@ -49,6 +49,53 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public final class UserEditor {
     /**
+     * The frame size of the user editor.
+     */
+    private static final int FRAME_WIDTH = 800;
+
+    /**
+     * The height of the user editor.
+     */
+    private static final int FRAME_HEIGHT = 600;
+
+    /**
+     * The remaining width of the frame that the content pane may encompass.
+     */
+    private static final int CONTENT_PANE_WIDTH = FRAME_WIDTH - 2 * CyderFrame.BORDER_LEN;
+
+    /**
+     * The remaining height of the frame that the content pane may encompass.
+     */
+    private static final int CONTENT_PANE_HEIGHT = FRAME_HEIGHT - 2 * CyderFrame.BORDER_LEN
+            - CyderDragLabel.DEFAULT_HEIGHT;
+
+    /**
+     * The padding between the partitioned area and the files scroll generated label.
+     */
+    private static final int filesLabelPadding = 10;
+
+    /**
+     * The partition height for the files scroll on the files page.
+     */
+    private static final int FILE_SCROLL_PARTITION = 85;
+
+    /**
+     * The partition height for the files scroll buttons for the files page.
+     */
+    private static final int FILE_BUTTON_PARTITION = 100 - FILE_SCROLL_PARTITION;
+
+    /**
+     * The width of the files scroll.
+     */
+    private static final int FILES_SCROLL_WIDTH = CONTENT_PANE_WIDTH - 2 * filesLabelPadding;
+
+    /**
+     * The height of the files scroll.
+     */
+    private static final int FILES_SCROLL_HEIGHT =
+            (int) ((FILE_SCROLL_PARTITION / 100.0f) * CONTENT_PANE_HEIGHT - 2 * filesLabelPadding);
+
+    /**
      * The user editor frame.
      */
     private static CyderFrame editUserFrame;
@@ -73,26 +120,12 @@ public final class UserEditor {
      */
     private static final AtomicReference<CyderScrollList> filesScrollListReference = new AtomicReference<>();
 
-    /**
-     * The frame size of the user editor.
-     */
-    private static final int FRAME_WIDTH = 800;
-
-    /**
-     * The height of the user editor.
-     */
-    private static final int FRAME_HEIGHT = 600;
-
-    /**
-     * The remaining width of the frame that the content pane may encompass.
-     */
-    private static final int CONTENT_PANE_WIDTH = FRAME_WIDTH - 2 * CyderFrame.BORDER_LEN;
-
-    /**
-     * The remaining height of the frame that the content pane may encompass.
-     */
-    private static final int CONTENT_PANE_HEIGHT = FRAME_HEIGHT - 2 * CyderFrame.BORDER_LEN
-            - CyderDragLabel.DEFAULT_HEIGHT;
+    static {
+        CyderScrollList filesScrollList = new CyderScrollList(
+                FILES_SCROLL_WIDTH, FILES_SCROLL_HEIGHT, CyderScrollList.SelectionPolicy.MULTIPLE);
+        filesScrollList.setBorder(null);
+        filesScrollListReference.set(filesScrollList);
+    }
 
     /**
      * The possible pages of the user editor.
@@ -354,8 +387,7 @@ public final class UserEditor {
     private static final ActionListener openFileButtonActionListener = e -> openFile();
 
     /**
-     * The action to open a file when an element in the files scroll is double clicked or
-     * an element is selected when the open file button is pressed.
+     * The action to open a file when the open file button is clicked.
      */
     private static void openFile() {
         LinkedList<String> selectedScrollElements = filesScrollListReference.get().getSelectedElements();
@@ -624,16 +656,6 @@ public final class UserEditor {
     }
 
     /**
-     * The partition height for the files scroll on the files page.
-     */
-    private static final int FILE_SCROLL_PARTITION = 85;
-
-    /**
-     * The partition height for the files scroll buttons for the files page.
-     */
-    private static final int FILE_BUTTON_PARTITION = 100 - FILE_SCROLL_PARTITION;
-
-    /**
      * The width of the the files scroll buttons.
      */
     private static final int buttonWidth = 175;
@@ -709,80 +731,67 @@ public final class UserEditor {
      * and regenerating the files scroll label in the process.
      */
     private static void switchToUserFiles() {
-        revalidateFilesScroll();
-
         CyderPanel buttonPanel = new CyderPanel(buttonGridLayout);
         buttonPanel.setSize(CONTENT_PANE_WIDTH, FILE_BUTTON_PARTITION * CONTENT_PANE_HEIGHT);
 
         filesPartitionedLayout.clearComponents();
 
-        filesPartitionedLayout.addComponent(filesLabelReference.get(), FILE_SCROLL_PARTITION);
+        JLabel filesLabelRef = filesLabelReference.get();
+        filesPartitionedLayout.addComponent(filesLabelRef == null
+                ? loadingLabel
+                : filesLabelRef, FILE_SCROLL_PARTITION);
         filesPartitionedLayout.addComponent(buttonPanel, FILE_BUTTON_PARTITION);
+
+        revalidateFilesScroll();
 
         editUserFrame.setCyderLayout(filesPartitionedLayout);
     }
 
     /**
-     * The padding between the partitioned area and the files scroll generated label.
+     * The inner border of the files label border.
      */
-    private static final int filesLabelPadding = 10;
-
     private static final LineBorder LINE_BORDER = new LineBorder(CyderColors.navy, 3);
+
+    /**
+     * The outer border (padding) of the files label border.
+     */
     private static final Border EMPTY_BORDER = BorderFactory.createEmptyBorder(
             filesLabelPadding, filesLabelPadding, filesLabelPadding, filesLabelPadding);
+
     /**
      * The border for the files label (the generated files scroll).
      */
     private static final CompoundBorder filesLabelBorder = new CompoundBorder(LINE_BORDER, EMPTY_BORDER);
 
     /**
+     * The label to display when updating the files scroll list.
+     */
+    private static final CyderLabel loadingLabel = new CyderLabel(CyderStrings.LOADING);
+
+    /**
      * Revalidates the contents of the user files scroll, regenerates the label,
-     * and updates the corresponding atomic references. Note that this does not update
-     * the old UI todo make a method for this
+     * updates the corresponding atomic references, and updates the UI based on the new
+     * atomic reference values.
      */
     private static void revalidateFilesScroll() {
-        disableFilesScrollButtons();
-
-        filesPartitionedLayout.addComponent(filesLabelReference.get(), FILE_SCROLL_PARTITION);
-        filesPartitionedLayout.removeComponent(0);
-        // todo set component 0,0 to loading label
-
-        // todo use same generated label just add/take away buttons there
-
-        filesLabelReference.set(null);
+        filesPartitionedLayout.setComponent(loadingLabel, 0);
 
         CyderScrollList filesScrollList = filesScrollListReference.get();
-        if (filesScrollList != null) {
-            filesScrollList.removeAllElements();
-            filesScrollListReference.set(null);
-        }
+        filesScrollList.removeAllElements();
 
         refreshFileLists();
 
-        int w = CONTENT_PANE_WIDTH - 2 * filesLabelPadding;
-        int h = (int) ((FILE_SCROLL_PARTITION / 100.0f) * CONTENT_PANE_HEIGHT - 2 * filesLabelPadding);
-
-        CyderScrollList filesScroll = new CyderScrollList(w, h, CyderScrollList.SelectionPolicy.MULTIPLE);
-        filesScroll.setBorder(null);
-        filesScrollListReference.set(filesScroll);
-
         for (String element : filesNameList) {
-            filesScroll.addElement(element, UserEditor::openFile);
+            filesScrollList.addElement(element, () -> IOUtil.openFile(getFile(element)));
         }
 
-        JLabel filesLabel = filesScroll.generateScrollList();
-        filesLabel.setBounds(filesLabelPadding, filesLabelPadding, w, h);
+        JLabel filesLabel = filesScrollList.generateScrollList();
+        filesLabelReference.set(filesLabel);
+        filesLabel.setSize(FILES_SCROLL_WIDTH, FILES_SCROLL_HEIGHT);
         filesLabel.setBackground(CyderColors.vanilla);
         filesLabel.setBorder(filesLabelBorder);
-        filesLabelReference.set(filesLabel);
 
-        // todo set component at 0,0 on grid layout
-
-        // todo need to update the content pane layout now too with the new filesLabelRef
-        //  are the atomic references still needed?
-
-        enableFilesScrollButtons();
-        // todo hide loading label
+        filesPartitionedLayout.setComponent(filesLabel, 0);
     }
 
     /**
@@ -1000,14 +1009,13 @@ public final class UserEditor {
                 new CyderScrollList(300, 300, CyderScrollList.SelectionPolicy.SINGLE));
         fontScrollRef.get().setItemAlignment(StyleConstants.ALIGN_LEFT);
 
-        // todo text string in CyderStrings that others use too
-        CyderLabel tempLabel = new CyderLabel("Loading...");
+        CyderLabel tempLabel = new CyderLabel(CyderStrings.LOADING);
         tempLabel.setFont(CyderFonts.DEFAULT_FONT);
         tempLabel.setBackground(CyderColors.vanilla);
         tempLabel.setBorder(new LineBorder(CyderColors.navy, 5));
         tempLabel.setOpaque(true);
 
-        // todo load method
+        // todo load method?
         CyderThreadRunner.submit(() -> {
             LinkedList<String> fontList = new LinkedList<>();
             Collections.addAll(fontList, GraphicsEnvironment.getLocalGraphicsEnvironment()

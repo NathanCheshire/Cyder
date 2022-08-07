@@ -433,6 +433,20 @@ public class CyderPartitionedLayout extends CyderLayout {
     }
 
     /**
+     * Replaces the component at the provided index with the new component.
+     *
+     * @param component the component to replace the old component with
+     * @param index     the index of the component to replace
+     */
+    public void setComponent(Component component, int index) {
+        Preconditions.checkNotNull(component);
+        Preconditions.checkArgument(index >= 0);
+        Preconditions.checkArgument(index < components.size());
+
+        components.set(index, new PartitionedComponent(component, components.get(index).getAlignment()));
+    }
+
+    /**
      * Clears all the partitions and components associated with this layout.
      */
     public void clearComponents() {

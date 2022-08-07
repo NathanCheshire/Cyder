@@ -129,7 +129,8 @@ public class CyderScrollList {
             nonSelectedColor = CyderColors.defaultDarkModeTextColor;
         }
 
-        border = new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
+        border = new LineBorder(darkMode
+                ? CyderColors.defaultDarkModeTextColor
                 : CyderColors.navy, 5, false);
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
@@ -203,19 +204,22 @@ public class CyderScrollList {
 
     /**
      * Refreshes this instance of scroll list.
-     * Currently this entails revalidating based on compact mode.
+     * Actions performed:
+     * <ul>
+     *     <li>Revalidating based on compact mode</li>
+     * </ul>
      */
     public final void refreshList() {
         boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
 
-        CyderOutputPane cop = new CyderOutputPane(listPane);
-        cop.getJTextPane().setText("");
+        CyderOutputPane outputPane = new CyderOutputPane(listPane);
+        outputPane.getJTextPane().setText("");
 
         for (int i = 0 ; i < elements.size() ; i++) {
-            cop.getStringUtil().printlnComponent(elements.get(i));
+            outputPane.getStringUtil().printlnComponent(elements.get(i));
 
             if (i != elements.size() - 1 && !compactMode) {
-                cop.getStringUtil().printlnComponent(generateSepLabel());
+                outputPane.getStringUtil().printlnComponent(generateSepLabel());
             }
         }
 

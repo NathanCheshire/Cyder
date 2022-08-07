@@ -55,6 +55,11 @@ public final class CyderStrings {
     public static final String JENNY = "8675309";
 
     /**
+     * The string used for loading labels when waiting for future processes to complete.
+     */
+    public static final String LOADING = "Loading...";
+
+    /**
      * Instantiation of constants class not allowed.
      */
     private CyderStrings() {
