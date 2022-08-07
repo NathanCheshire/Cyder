@@ -57,20 +57,18 @@ public class CyderTextField extends JTextField {
     public CyderTextField(int charLimit) {
         super(charLimit == 0 ? Integer.MAX_VALUE : charLimit);
 
-        if (charLimit == 0) {
-            charLimit = Integer.MAX_VALUE;
-        }
-
-        limit = charLimit;
-        keyEventRegexMatcher = null;
+        this.limit = charLimit == 0 ? Integer.MAX_VALUE : charLimit;
+        this.keyEventRegexMatcher = null;
 
         addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent evt) {
                 if (getText().length() > limit) {
                     setText(getText().substring(0, getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
-                } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty()
-                        && getText() != null && !getText().isEmpty()) {
+                } else if (keyEventRegexMatcher != null
+                        && !keyEventRegexMatcher.isEmpty()
+                        && getText() != null
+                        && !getText().isEmpty()) {
                     if (!currentTextMatchesPattern()) {
                         setText(getText().substring(0, getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
@@ -82,8 +80,10 @@ public class CyderTextField extends JTextField {
                 if (getText().length() > limit) {
                     setText(getText().substring(0, getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
-                } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty()
-                        && getText() != null && !getText().isEmpty()) {
+                } else if (keyEventRegexMatcher != null
+                        && !keyEventRegexMatcher.isEmpty()
+                        && getText() != null
+                        && !getText().isEmpty()) {
                     if (!currentTextMatchesPattern()) {
                         setText(getText().substring(0, getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
@@ -95,8 +95,10 @@ public class CyderTextField extends JTextField {
                 if (getText().length() > limit) {
                     setText(getText().substring(0, getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
-                } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty()
-                        && getText() != null && !getText().isEmpty()) {
+                } else if (keyEventRegexMatcher != null
+                        && !keyEventRegexMatcher.isEmpty()
+                        && getText() != null
+                        && !getText().isEmpty()) {
                     if (!currentTextMatchesPattern()) {
                         setText(getText().substring(0, getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
@@ -105,6 +107,7 @@ public class CyderTextField extends JTextField {
             }
         });
 
+        // todo there should be a generate method for this in some util class
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -169,6 +172,19 @@ public class CyderTextField extends JTextField {
     public void setKeyEventRegexMatcher(String regex) {
         keyEventRegexMatcher = regex;
         keyEventRegexPattern = Pattern.compile(keyEventRegexMatcher);
+    }
+
+    /**
+     * The hex color matcher compiled pattern.
+     */
+    private static final Pattern HEX_COLOR_PATTERN = Pattern.compile("[A-Fa-f0-9]{0,6}");
+
+    /**
+     * Sets the regex matcher to only accept hex color codes
+     */
+    public void setHexColorRegexMatcher() {
+        keyEventRegexMatcher = HEX_COLOR_PATTERN.pattern();
+        keyEventRegexPattern = HEX_COLOR_PATTERN;
     }
 
     /**

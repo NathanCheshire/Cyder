@@ -30,10 +30,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -222,7 +219,6 @@ public final class UserEditor {
                 if (currentPage != page) {
                     currentPage = page;
 
-                    revalidateOnMenuItemClicked();
                     page.getSwitchRunnable().run();
                 }
             });
@@ -299,17 +295,6 @@ public final class UserEditor {
                 }
             }
         }
-    }
-
-    /**
-     * Revalidates the necessary items before switching to a new preferences page.
-     */
-    private static void revalidateOnMenuItemClicked() {
-        switchingLabel.removeAll();
-        switchingLabel.revalidate();
-        switchingLabel.repaint();
-        editUserFrame.revalidate();
-        editUserFrame.repaint();
     }
 
     /**
@@ -795,38 +780,40 @@ public final class UserEditor {
     }
 
     /**
-     * Switches to the fonts and colors preference page.
+     * Switches to the fonts and colors page.
      */
-    @SuppressWarnings("MagicConstant") /* check font metric */
     private static void switchToFontAndColor() {
-        JLabel titleLabel = new JLabel(Page.FONT_AND_COLOR.getTitle(), SwingConstants.CENTER);
-        titleLabel.setFont(CyderFonts.SEGOE_30);
-        titleLabel.setForeground(CyderColors.navy);
+        CyderPartitionedLayout fontAndColorPartitionedLayout = new CyderPartitionedLayout();
+        fontAndColorPartitionedLayout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.ROW);
+
+        // todo extract out
+        int w = CONTENT_PANE_WIDTH / 2 - 2 * 50;
+        int h = CONTENT_PANE_HEIGHT - 2 * 100;
+
+        AtomicReference<CyderScrollList> fontScrollRef = new AtomicReference<>(
+                new CyderScrollList(w, h, CyderScrollList.SelectionPolicy.SINGLE));
+        fontScrollRef.get().setItemAlignment(StyleConstants.ALIGN_LEFT);
+
+        CyderLabel fontLabel = new CyderLabel("FONTS");
+        fontLabel.setFont(new Font(UserUtil.getCyderUser().getFont(), Font.BOLD, 30));
+
+        CyderLabel loadingLabel = new CyderLabel(CyderStrings.LOADING);
+        loadingLabel.setFont(CyderFonts.DEFAULT_FONT);
+        loadingLabel.setSize(w, h);
+        loadingLabel.setBackground(CyderColors.vanilla);
+        loadingLabel.setBorder(new LineBorder(CyderColors.navy, 5));
+        loadingLabel.setOpaque(true);
+
+        CyderPartitionedLayout fontPartitionedLayout = new CyderPartitionedLayout();
+        fontPartitionedLayout.addComponent(fontLabel, 20);
+        fontPartitionedLayout.addComponent(loadingLabel, 80);
+
+        fontAndColorPartitionedLayout.addComponent(fontPartitionedLayout, 50);
+        editUserFrame.setCyderLayout(fontAndColorPartitionedLayout);
 
         JLabel colorLabel = new JLabel("Text Color");
         colorLabel.setFont(CyderFonts.SEGOE_30);
         colorLabel.setForeground(CyderColors.navy);
-
-        JLabel hexLabel = new JLabel("HEX:");
-        hexLabel.setFont(CyderFonts.SEGOE_20);
-        hexLabel.setForeground(CyderColors.navy);
-        // todo there should be a static utility method of CyderLabel to generate this common mouse listener
-        hexLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                ColorConverterWidget.getInstance().innerShowGui();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                hexLabel.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                hexLabel.setForeground(CyderColors.navy);
-            }
-        });
 
         JTextField foregroundColorBlock = new JTextField();
         foregroundColorBlock.setHorizontalAlignment(JTextField.CENTER);
@@ -839,7 +826,7 @@ public final class UserEditor {
 
         CyderTextField foregroundField = new CyderTextField(6);
         foregroundField.setHorizontalAlignment(JTextField.CENTER);
-        foregroundField.setKeyEventRegexMatcher("[A-Fa-f0-9]{0,6}");
+        foregroundField.setHexColorRegexMatcher();
         foregroundField.setText(UserUtil.getCyderUser().getForeground());
         foregroundField.setFont(CyderFonts.SEGOE_30);
         foregroundField.setToolTipText("Console input/output text color");
@@ -864,7 +851,7 @@ public final class UserEditor {
         windowThemeColorLabel.setFont(CyderFonts.SEGOE_30);
         windowThemeColorLabel.setForeground(CyderColors.navy);
 
-        JLabel hexWindowLabel = new JLabel("HEX:");
+        JLabel hexWindowLabel = new JLabel("Hex");
         hexWindowLabel.setFont(CyderFonts.SEGOE_20);
         hexWindowLabel.setForeground(CyderColors.navy);
         hexWindowLabel.addMouseListener(new MouseAdapter() {
@@ -896,13 +883,13 @@ public final class UserEditor {
         CyderTextField windowField = new CyderTextField(6);
         windowField.setHorizontalAlignment(JTextField.CENTER);
         // todo this regex is common there should be a set method of the text field to set the regex to this
-        windowField.setKeyEventRegexMatcher("[A-Fa-f0-9]{0,6}");
+        windowField.setHexColorRegexMatcher();
         windowField.setText(UserUtil.getCyderUser().getWindowcolor());
         windowField.setFont(CyderFonts.SEGOE_30);
         windowField.setToolTipText("Window border color");
         // todo extract
         windowField.addKeyListener(new KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
+            public void keyReleased(KeyEvent evt) {
                 try {
                     Color c = ColorUtil.hexStringToColor(windowField.getText());
                     windowColorBlock.setBackground(c);
@@ -920,26 +907,6 @@ public final class UserEditor {
         FillLabel.setFont(CyderFonts.SEGOE_30);
         FillLabel.setForeground(CyderColors.navy);
 
-        JLabel hexLabelFill = new JLabel("Hex: ");
-        hexLabelFill.setFont(CyderFonts.SEGOE_20);
-        hexLabelFill.setForeground(CyderColors.navy);
-        hexLabelFill.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                ColorConverterWidget.getInstance().innerShowGui();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                hexLabelFill.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                hexLabelFill.setForeground(CyderColors.navy);
-            }
-        });
-
         JTextField fillColorBlock = new JTextField();
         fillColorBlock.setHorizontalAlignment(JTextField.CENTER);
         fillColorBlock.setBackground(CyderColors.navy);
@@ -951,7 +918,7 @@ public final class UserEditor {
 
         CyderTextField fillField = new CyderTextField(6);
         fillField.setHorizontalAlignment(JTextField.CENTER);
-        fillField.setKeyEventRegexMatcher("[A-Fa-f0-9]{0,6}");
+        fillField.setHexColorRegexMatcher();
         fillField.setText(UserUtil.getCyderUser().getBackground());
         fillField.setFont(CyderFonts.SEGOE_30);
         fillField.setToolTipText("Input field and output area fill color if enabled");
@@ -1000,21 +967,6 @@ public final class UserEditor {
         });
         fillField.setOpaque(false);
 
-        JLabel FontLabel = new JLabel("FONTS", SwingConstants.CENTER);
-        FontLabel.setFont(new Font(UserUtil.getCyderUser().getFont(), Font.BOLD, 30));
-        FontLabel.setForeground(CyderColors.navy);
-
-        // todo size
-        AtomicReference<CyderScrollList> fontScrollRef = new AtomicReference<>(
-                new CyderScrollList(300, 300, CyderScrollList.SelectionPolicy.SINGLE));
-        fontScrollRef.get().setItemAlignment(StyleConstants.ALIGN_LEFT);
-
-        CyderLabel tempLabel = new CyderLabel(CyderStrings.LOADING);
-        tempLabel.setFont(CyderFonts.DEFAULT_FONT);
-        tempLabel.setBackground(CyderColors.vanilla);
-        tempLabel.setBorder(new LineBorder(CyderColors.navy, 5));
-        tempLabel.setOpaque(true);
-
         // todo load method?
         CyderThreadRunner.submit(() -> {
             LinkedList<String> fontList = new LinkedList<>();
@@ -1028,26 +980,24 @@ public final class UserEditor {
                 for (String fontName : fontList) {
                     Font font = new Font(fontName, metric, size);
 
-                    fontScrollRef.get().addElementWithSingleCLickAction(fontName, () -> FontLabel.setFont(font));
+                    fontScrollRef.get().addElementWithSingleCLickAction(fontName, () -> fontLabel.setFont(font));
                 }
             }
 
             if (currentPage == Page.FONT_AND_COLOR) {
-                JLabel fontLabel = fontScrollRef.get().generateScrollList();
-                fontLabel.setBounds(50, 100, 300, 300);
-                switchingLabel.remove(tempLabel);
-
-                if (currentPage == Page.FONT_AND_COLOR) {
-                    switchingLabel.add(fontLabel);
-                }
+                // todo
+                //                JLabel fontLabel = fontScrollRef.get().generateScrollList();
+                //                fontLabel.setBounds(50, 100, 300, 300);
+                //                switchingLabel.remove(tempLabel);
+                //
+                //                if (currentPage == Page.FONT_AND_COLOR) {
+                //                    switchingLabel.add(fontLabel);
+                //                }
             }
         }, "Preferences Frame Font Loader");
 
         CyderButton applyFontButton = new CyderButton("Apply Font");
         applyFontButton.setToolTipText("Apply"); // todo update this tooltip with the currently selected font name?
-        applyFontButton.setFont(CyderFonts.SEGOE_20);
-        applyFontButton.setFocusPainted(false);
-        applyFontButton.setBackground(CyderColors.regularRed);
         applyFontButton.addActionListener(e -> {
             if (fontScrollRef.get() == null || fontScrollRef.get().getSelectedElements().isEmpty())
                 return;
@@ -1068,9 +1018,6 @@ public final class UserEditor {
 
         CyderButton resetValues = new CyderButton("Reset all");
         resetValues.setToolTipText("Reset font and colors");
-        resetValues.setFont(CyderFonts.SEGOE_20);
-        resetValues.setFocusPainted(false);
-        resetValues.setBackground(CyderColors.regularRed);
         resetValues.addActionListener(e -> {
             // todo we can probably get away without building a default user
             User defaultUser = UserUtil.buildDefaultUser();
@@ -1102,7 +1049,7 @@ public final class UserEditor {
             if (fontScrollRef.get() != null) {
                 fontScrollRef.get().clearSelectedElements();
             }
-            FontLabel.setFont(applyFont);
+            fontLabel.setFont(applyFont);
 
             // Background color preference and here
             UserUtil.getCyderUser().setBackground(defaultUser.getBackground());
@@ -1140,14 +1087,38 @@ public final class UserEditor {
                 scrollBar.setValue(scrollBar.getMinimum());
             }
 
-            switchingLabel.revalidate();
-            editUserFrame.notify("Default fonts and colors set");
+            editUserFrame.notify("Default fonts and colors reset");
         });
-
-        switchingLabel.revalidate();
     }
 
-    // todo add things to label use magic text and print that label
+    /**
+     * Returns a {@link CyderLabel} to indicate a text field accepts a hex value.
+     *
+     * @return a {@link CyderLabel} to indicate a text field accepts a hex value
+     */
+    private static CyderLabel generateHexInformationLabel() {
+        CyderLabel hexLabel = new CyderLabel("Hex");
+        hexLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ColorConverterWidget.getInstance().innerShowGui();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                hexLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                hexLabel.setForeground(CyderColors.navy);
+            }
+        });
+
+        return hexLabel;
+    }
+
+    // todo add things to label use magic text and print that label so that stuff is aligned
     /**
      * The width of the preferences scroll and pane for the preferences page.
      */
