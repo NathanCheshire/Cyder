@@ -229,7 +229,7 @@ public final class Logger {
 
                 StringBuilder eolBuilder = new StringBuilder();
                 eolBuilder.append(getLogTimeTag());
-                eolBuilder.append("EOL");
+                eolBuilder.append("[EOL]: ");
                 eolBuilder.append("Log completed, exiting Cyder with exit code: ");
 
                 if (representation instanceof ExitCondition condition) {

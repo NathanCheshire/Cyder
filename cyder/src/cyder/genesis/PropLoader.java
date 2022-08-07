@@ -29,7 +29,7 @@ public final class PropLoader {
     /**
      * Whether to log the next prop that is loaded.
      * Props which should not be logged when loaded should be
-     * annotated with the @no_log annotation.
+     * annotated with the {@link #NO_LOG_ANNOTATION} annotation.
      */
     private static boolean logNextProp = true;
 
@@ -197,7 +197,7 @@ public final class PropLoader {
                         continue;
                     }
                     // hide next prop value
-                    else if (line.trim().equals("@no_log")) {
+                    else if (line.trim().equals(NO_LOG_ANNOTATION)) {
                         logNextProp = false;
                         continue;
                     }
@@ -298,7 +298,7 @@ public final class PropLoader {
     private static final String KEY_PATTERN = "_key";
 
     /**
-     * Injects @no_log annotations for props found which end in {@link #KEY_PATTERN}.
+     * Injects {@link #NO_LOG_ANNOTATION} annotations for props found which end in {@link #KEY_PATTERN}.
      *
      * @param file the prop file to insert annotations if needed
      */
@@ -324,7 +324,7 @@ public final class PropLoader {
                             && !previousLine.trim().equals(NO_LOG_ANNOTATION)) {
                         writer.write(NO_LOG_ANNOTATION);
                         writer.newLine();
-                        Logger.log(Logger.Tag.DEBUG, "Injected @no_log for prop: "
+                        Logger.log(Logger.Tag.DEBUG, "Injected " + NO_LOG_ANNOTATION + " for prop: "
                                 + extractedProp.key + ", prop file=" + file.getName());
                     }
                 } catch (Exception ignored) {}

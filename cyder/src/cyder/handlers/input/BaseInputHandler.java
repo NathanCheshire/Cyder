@@ -163,8 +163,6 @@ public class BaseInputHandler {
             return;
         }
 
-        // check redirection handler first
-
         if (redirectionHandler != null) {
             for (Method method : redirectionHandler.getMethods()) {
                 if (method.isAnnotationPresent(Handle.class)) {
@@ -178,8 +176,6 @@ public class BaseInputHandler {
                 }
             }
         }
-
-        // next check partitioned handlers
 
         for (Class<?> handle : primaryHandlers) {
             for (Method method : handle.getMethods()) {
@@ -203,8 +199,6 @@ public class BaseInputHandler {
             }
         }
 
-        // final handlers
-
         for (Class<?> handle : finalHandlers) {
             for (Method method : handle.getMethods()) {
                 if (method.isAnnotationPresent(Handle.class)) {
@@ -222,7 +216,6 @@ public class BaseInputHandler {
         }
 
         unknownInput();
-        // generalCommandCheck()
     }
 
     /**
@@ -363,6 +356,10 @@ public class BaseInputHandler {
                     double tolerance = similarCommandObj.tolerance();
 
                     if (!StringUtil.isNull(similarCommand)) {
+                        if (tolerance == 1.0) {
+                            return;
+                        }
+
                         Logger.log(Logger.Tag.DEBUG, "Similar command to \""
                                 + command + "\" found with tolerance of " + tolerance + ", command = \"" +
                                 similarCommand + "\"");

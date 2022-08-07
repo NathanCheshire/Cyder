@@ -18,7 +18,7 @@ public class PreferenceHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle()
+    @Handle
     public static boolean handle() {
         String targetedPreference = getInputHandler().getCommand();
         String parsedArgs = getInputHandler().argsToString().replaceAll("\\s+", "");

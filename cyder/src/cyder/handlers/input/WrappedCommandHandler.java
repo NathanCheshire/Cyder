@@ -16,7 +16,7 @@ public class WrappedCommandHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle()
+    @Handle
     public static boolean handle() {
         boolean ret = true;
 

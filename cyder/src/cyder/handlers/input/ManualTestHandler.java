@@ -21,7 +21,7 @@ public class ManualTestHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle()
+    @Handle
     public static boolean handle() {
         for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
             Class<?> classer = classInfo.load();
