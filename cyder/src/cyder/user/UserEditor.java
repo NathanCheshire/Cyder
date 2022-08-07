@@ -30,7 +30,9 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -814,12 +816,15 @@ public final class UserEditor {
     private static CyderButton applyFontButton;
     private static CyderPartitionedLayout fontPartitionedLayout;
 
+    private static CyderLabel foregroundColorLabel;
     private static CyderTextField foregroundField;
     private static JTextField foregroundColorBlock;
 
+    private static CyderLabel windowColorLabel;
     private static CyderTextField windowField;
     private static JTextField windowColorBlock;
 
+    private static CyderLabel backgroundColorLabel;
     private static CyderTextField backgroundField;
     private static JTextField fillColorBlock;
 
@@ -867,22 +872,12 @@ public final class UserEditor {
         loadFonts();
 
         CyderPanel fontPanel = new CyderPanel(fontPartitionedLayout);
-        fontPanel.setSize(CONTENT_PANE_WIDTH / 2, CONTENT_PANE_HEIGHT); // todo this shouldn't be necessary
+        fontPanel.setSize(CONTENT_PANE_WIDTH / 2, CONTENT_PANE_HEIGHT);
         fontAndColorPartitionedLayout.addComponent(fontPanel, 50);
-        editUserFrame.setCyderLayout(fontAndColorPartitionedLayout);
 
-        JLabel colorLabel = new JLabel("Text Color");
-        colorLabel.setFont(CyderFonts.SEGOE_30);
-        colorLabel.setForeground(CyderColors.navy);
-
-        foregroundColorBlock = new JTextField();
-        foregroundColorBlock.setHorizontalAlignment(JTextField.CENTER);
-        foregroundColorBlock.setBackground(CyderColors.navy);
-        foregroundColorBlock.setFocusable(false);
-        foregroundColorBlock.setCursor(null);
-        foregroundColorBlock.setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
-        foregroundColorBlock.setToolTipText("Color Preview");
-        foregroundColorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        foregroundColorLabel = new CyderLabel("Foreground Color");
+        foregroundColorLabel.setFont(CyderFonts.DEFAULT_FONT);
+        foregroundColorLabel.setSize(300, 40);
 
         foregroundField = new CyderTextField(6);
         foregroundField.setHorizontalAlignment(JTextField.CENTER);
@@ -890,34 +885,26 @@ public final class UserEditor {
         foregroundField.setText(UserUtil.getCyderUser().getForeground());
         foregroundField.setFont(CyderFonts.SEGOE_30);
         foregroundField.setToolTipText("Console input/output text color");
-        foregroundField.addKeyListener(new KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                try {
-                    Color foregroundColor = ColorUtil.hexStringToColor(foregroundField.getText());
-                    foregroundColorBlock.setBackground(foregroundColor);
-                    UserUtil.getCyderUser().setForeground(foregroundField.getText());
-                    Console.INSTANCE.getOutputArea().setForeground(foregroundColor);
-                    Console.INSTANCE.getInputField().setForeground(foregroundColor);
-                    Console.INSTANCE.getInputField().setCaretColor(foregroundColor);
-                    Console.INSTANCE.getInputField().setCaret(new CyderCaret(foregroundColor));
-                    Preference.invokeRefresh(Preference.FOREGROUND);
-                } catch (Exception ignored) {}
-            }
-        });
+        foregroundField.addKeyListener(FrameUtil.generateKeyAdapter(false, false, true, () -> {
+            try {
+                Color foregroundColor = ColorUtil.hexStringToColor(foregroundField.getText());
+                foregroundColorBlock.setBackground(foregroundColor);
+                UserUtil.getCyderUser().setForeground(foregroundField.getText());
+                Console.INSTANCE.getOutputArea().setForeground(foregroundColor);
+                Console.INSTANCE.getInputField().setForeground(foregroundColor);
+                Console.INSTANCE.getInputField().setCaretColor(foregroundColor);
+                Console.INSTANCE.getInputField().setCaret(new CyderCaret(foregroundColor));
+                Preference.invokeRefresh(Preference.FOREGROUND);
+            } catch (Exception ignored) {}
+        }));
+        foregroundField.setSize(180, 40);
         foregroundField.setOpaque(false);
 
-        JLabel windowThemeColorLabel = new JLabel("Window Color");
-        windowThemeColorLabel.setFont(CyderFonts.SEGOE_30);
-        windowThemeColorLabel.setForeground(CyderColors.navy);
+        foregroundColorBlock = generateColorBlock(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()),
+                "Foreground color preview");
 
-        windowColorBlock = new JTextField();
-        windowColorBlock.setHorizontalAlignment(JTextField.CENTER);
-        windowColorBlock.setBackground(CyderColors.navy);
-        windowColorBlock.setFocusable(false);
-        windowColorBlock.setCursor(null);
-        windowColorBlock.setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getWindowcolor()));
-        windowColorBlock.setToolTipText("Color Preview");
-        windowColorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        windowColorLabel = new CyderLabel("Window Color");
+        windowColorLabel.setFont(CyderFonts.DEFAULT_FONT);
 
         windowField = new CyderTextField(6);
         windowField.setHorizontalAlignment(JTextField.CENTER);
@@ -925,32 +912,22 @@ public final class UserEditor {
         windowField.setText(UserUtil.getCyderUser().getWindowcolor());
         windowField.setFont(CyderFonts.SEGOE_30);
         windowField.setToolTipText("Window border color");
-        // todo extract util method to call a runnable on key pressed/released/ whatever
-        windowField.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent evt) {
-                try {
-                    Color requestedWindowColor = ColorUtil.hexStringToColor(windowField.getText());
-                    windowColorBlock.setBackground(requestedWindowColor);
-                    UserUtil.getCyderUser().setWindowcolor(windowField.getText());
-                    CyderColors.setGuiThemeColor(requestedWindowColor);
-                    Preference.invokeRefresh(Preference.WINDOW_COLOR);
-                } catch (Exception ignored) {}
-            }
-        });
+        windowField.addKeyListener(FrameUtil.generateKeyAdapter(false, false, true, () -> {
+            try {
+                Color requestedWindowColor = ColorUtil.hexStringToColor(windowField.getText());
+                windowColorBlock.setBackground(requestedWindowColor);
+                UserUtil.getCyderUser().setWindowcolor(windowField.getText());
+                CyderColors.setGuiThemeColor(requestedWindowColor);
+                Preference.invokeRefresh(Preference.WINDOW_COLOR);
+            } catch (Exception ignored) {}
+        }));
         windowField.setOpaque(false);
 
-        JLabel FillLabel = new JLabel("Fill Color");
-        FillLabel.setFont(CyderFonts.SEGOE_30);
-        FillLabel.setForeground(CyderColors.navy);
+        windowColorBlock = generateColorBlock(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getWindowcolor()),
+                "Window color preview");
 
-        fillColorBlock = new JTextField();
-        fillColorBlock.setHorizontalAlignment(JTextField.CENTER);
-        fillColorBlock.setBackground(CyderColors.navy);
-        fillColorBlock.setFocusable(false);
-        fillColorBlock.setCursor(null);
-        fillColorBlock.setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
-        fillColorBlock.setToolTipText("Color Preview");
-        fillColorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        backgroundColorLabel = new CyderLabel("Background Color");
+        backgroundColorLabel.setFont(CyderFonts.DEFAULT_FONT);
 
         backgroundField = new CyderTextField(6);
         backgroundField.setHorizontalAlignment(JTextField.CENTER);
@@ -958,45 +935,79 @@ public final class UserEditor {
         backgroundField.setText(UserUtil.getCyderUser().getBackground());
         backgroundField.setFont(CyderFonts.SEGOE_30);
         backgroundField.setToolTipText("Input field and output area fill color if enabled");
-        backgroundField.addKeyListener(new KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                try {
-                    String backgroundColorString = backgroundField.getText();
-                    Color backgroundColor = ColorUtil.hexStringToColor(backgroundColorString);
-                    fillColorBlock.setBackground(backgroundColor);
-                    UserUtil.getCyderUser().setBackground(backgroundColorString);
+        backgroundField.addKeyListener(FrameUtil.generateKeyAdapter(false, false, true, () -> {
+            try {
+                String backgroundColorString = backgroundField.getText();
+                Color backgroundColor = ColorUtil.hexStringToColor(backgroundColorString);
+                fillColorBlock.setBackground(backgroundColor);
+                UserUtil.getCyderUser().setBackground(backgroundColorString);
 
-                    boolean outputFill = UserUtil.getCyderUser().getOutputfill().equals("1");
-                    boolean inputFill = UserUtil.getCyderUser().getInputfill().equals("1");
-                    boolean outputBorder = UserUtil.getCyderUser().getOutputborder().equals("1");
-                    boolean inputBorder = UserUtil.getCyderUser().getInputborder().equals("1");
+                boolean outputFill = UserUtil.getCyderUser().getOutputfill().equals("1");
+                boolean inputFill = UserUtil.getCyderUser().getInputfill().equals("1");
+                boolean outputBorder = UserUtil.getCyderUser().getOutputborder().equals("1");
+                boolean inputBorder = UserUtil.getCyderUser().getInputborder().equals("1");
 
-                    if (outputFill) {
-                        Console.INSTANCE.getOutputArea().setOpaque(true);
-                        Console.INSTANCE.getOutputArea().setBackground(backgroundColor);
-                        Console.INSTANCE.getOutputArea().repaint();
-                        Console.INSTANCE.getOutputArea().revalidate();
-                    }
-                    if (inputFill) {
-                        Console.INSTANCE.getInputField().setOpaque(true);
-                        Console.INSTANCE.getInputField().setBackground(backgroundColor);
-                        Console.INSTANCE.getInputField().repaint();
-                        Console.INSTANCE.getInputField().revalidate();
-                    }
-                    if (outputBorder) {
-                        Console.INSTANCE.getOutputScroll().setBorder(new LineBorder(backgroundColor, 3, false));
-                        Console.INSTANCE.getOutputScroll().repaint();
-                        Console.INSTANCE.getOutputScroll().revalidate();
-                    }
-                    if (inputBorder) {
-                        Console.INSTANCE.getInputField().setBorder(new LineBorder(backgroundColor, 3, false));
-                        Console.INSTANCE.getInputField().repaint();
-                        Console.INSTANCE.getInputField().revalidate();
-                    }
-                } catch (Exception ignored) {}
-            }
-        });
+                if (outputFill) {
+                    Console.INSTANCE.getOutputArea().setOpaque(true);
+                    Console.INSTANCE.getOutputArea().setBackground(backgroundColor);
+                    Console.INSTANCE.getOutputArea().repaint();
+                    Console.INSTANCE.getOutputArea().revalidate();
+                }
+                if (inputFill) {
+                    Console.INSTANCE.getInputField().setOpaque(true);
+                    Console.INSTANCE.getInputField().setBackground(backgroundColor);
+                    Console.INSTANCE.getInputField().repaint();
+                    Console.INSTANCE.getInputField().revalidate();
+                }
+                if (outputBorder) {
+                    Console.INSTANCE.getOutputScroll().setBorder(new LineBorder(backgroundColor, 3, false));
+                    Console.INSTANCE.getOutputScroll().repaint();
+                    Console.INSTANCE.getOutputScroll().revalidate();
+                }
+                if (inputBorder) {
+                    Console.INSTANCE.getInputField().setBorder(new LineBorder(backgroundColor, 3, false));
+                    Console.INSTANCE.getInputField().repaint();
+                    Console.INSTANCE.getInputField().revalidate();
+                }
+            } catch (Exception ignored) {}
+        }));
         backgroundField.setOpaque(false);
+
+        fillColorBlock = generateColorBlock(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
+                "Background color preview");
+
+        CyderGridLayout colorGridLayout = new CyderGridLayout(1, 3);
+
+        // todo partitioned layouts now for sub 3 components for each color field thing
+
+        CyderPanel colorPanel = new CyderPanel(colorGridLayout);
+        colorPanel.setSize(CONTENT_PANE_WIDTH / 2, CONTENT_PANE_HEIGHT);
+        fontAndColorPartitionedLayout.addComponent(colorPanel, 50);
+        editUserFrame.setCyderLayout(fontAndColorPartitionedLayout);
+    }
+
+    /**
+     * Returns a color block of size 40,40 to use a color preview.
+     *
+     * @param backgroundColor the initial color of the preview block.
+     * @param tooltip         the tooltip for the color block.
+     * @return the color block
+     */
+    private static JTextField generateColorBlock(Color backgroundColor, String tooltip) {
+        Preconditions.checkNotNull(backgroundColor);
+        Preconditions.checkNotNull(tooltip);
+        Preconditions.checkArgument(!tooltip.isEmpty());
+
+        JTextField ret = new JTextField();
+        ret.setHorizontalAlignment(JTextField.CENTER);
+        ret.setFocusable(false);
+        ret.setCursor(null);
+        ret.setBackground(backgroundColor);
+        ret.setSize(40, 40);
+        ret.setToolTipText(tooltip);
+        ret.setBorder(new LineBorder(CyderColors.navy, 5, false));
+
+        return ret;
     }
 
     /**

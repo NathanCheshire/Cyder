@@ -11,6 +11,8 @@ import cyder.user.UserUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -313,5 +315,39 @@ public final class FrameUtil {
         }
 
         return ret;
+    }
+
+    /**
+     * Generates a key adapter to use for a field to invoke the provided runnable.
+     *
+     * @param typed    whether the runnable should be invoked when a key is typed
+     * @param pressed  whether the runnable should be invoked when a key is pressed
+     * @param released whether the runnable should be invoked when a key is released
+     * @param runnable the runnable to invoke
+     * @return the generated key adapter
+     */
+    public static KeyAdapter generateKeyAdapter(boolean typed, boolean pressed, boolean released, Runnable runnable) {
+        return new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (typed) {
+                    runnable.run();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (pressed) {
+                    runnable.run();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (released) {
+                    runnable.run();
+                }
+            }
+        };
     }
 }
