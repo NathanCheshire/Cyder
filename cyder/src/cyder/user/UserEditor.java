@@ -15,6 +15,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
 import cyder.layouts.CyderPartitionedLayout;
 import cyder.threads.CyderThreadRunner;
@@ -103,11 +104,6 @@ public final class UserEditor {
      * The names of the files for the files list.
      */
     private static final ArrayList<String> filesNameList = new ArrayList<>();
-
-    /**
-     * The label on which components are added for a specific preference page.
-     */
-    private static JLabel switchingLabel;
 
     /**
      * The reference used for the files scroll list label.
@@ -1309,15 +1305,12 @@ public final class UserEditor {
         JTextPane fieldInputsPane = new JTextPane();
         fieldInputsPane.setEditable(false);
         fieldInputsPane.setAutoscrolls(false);
-        fieldInputsPane.setBounds(0, 0, 720, 500);
         fieldInputsPane.setFocusable(true);
         fieldInputsPane.setOpaque(false);
         fieldInputsPane.setBackground(Color.white);
 
-        //adding components
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(fieldInputsPane));
 
-        //print pairs here
         CyderLabel prefsTitle = new CyderLabel("Field Inputs");
         prefsTitle.setFont(CyderFonts.SEGOE_30);
         printingUtil.printlnComponent(prefsTitle);
@@ -1329,8 +1322,9 @@ public final class UserEditor {
 
         printingUtil.print("\n");
 
-        String space = StringUtil.generateNSpaces(3);
-        CyderButton changeUsernameButton = new CyderButton(space + "Change Username" + space);
+        CyderButton changeUsernameButton = new CyderButton("Change Username");
+        changeUsernameButton.setLeftTextPadding(StringUtil.generateNSpaces(3));
+        changeUsernameButton.setRightTextPadding(StringUtil.generateNSpaces(3));
         JTextField changeUsernameField = new JTextField(0);
         changeUsernameField.setHorizontalAlignment(JTextField.CENTER);
         changeUsernameField.addActionListener(e -> changeUsername(changeUsernameField));
@@ -1374,7 +1368,9 @@ public final class UserEditor {
         printingUtil.print("\n");
 
         // init button here to add listener to field
-        CyderButton changePassword = new CyderButton("    Change Password    ");
+        CyderButton changePassword = new CyderButton("Change Password");
+        changePassword.setLeftTextPadding(StringUtil.generateNSpaces(4));
+        changePassword.setRightTextPadding(StringUtil.generateNSpaces(4));
 
         changePasswordConfField.addActionListener(e -> changePassword(changePasswordField, changePasswordConfField));
         changePasswordConfField.setFont(changePasswordField.getFont());
@@ -1409,7 +1405,9 @@ public final class UserEditor {
 
         printingUtil.print("\n");
 
-        CyderButton validateDatePatternButton = new CyderButton(space + "Validate" + space);
+        CyderButton validateDatePatternButton = new CyderButton("Validate");
+        validateDatePatternButton.setLeftTextPadding(StringUtil.generateNSpaces(3));
+        validateDatePatternButton.setRightTextPadding(StringUtil.generateNSpaces(3));
         JTextField consoleDatePatternField = new JTextField(0);
         consoleDatePatternField.setHorizontalAlignment(JTextField.CENTER);
         consoleDatePatternField.addActionListener(e -> validateDatePattern(consoleDatePatternField));
@@ -1437,7 +1435,9 @@ public final class UserEditor {
 
         printingUtil.print("\n");
 
-        CyderButton addMapButton = new CyderButton(space + "Add Map" + space);
+        CyderButton addMapButton = new CyderButton("Add Map");
+        addMapButton.setLeftTextPadding(StringUtil.generateNSpaces(3));
+        addMapButton.setRightTextPadding(StringUtil.generateNSpaces(3));
         JTextField addMapField = new JTextField(0);
         addMapField.setHorizontalAlignment(JTextField.CENTER);
         addMapField.addActionListener(e -> addMap(addMapField));
@@ -1464,7 +1464,9 @@ public final class UserEditor {
 
         printingUtil.print("\n");
 
-        CyderButton removeMapButton = new CyderButton(space + "Remove Map" + space);
+        CyderButton removeMapButton = new CyderButton("Remove Map");
+        removeMapButton.setLeftTextPadding(StringUtil.generateNSpaces(3));
+        removeMapButton.setRightTextPadding(StringUtil.generateNSpaces(3));
         JTextField removeMapField = new JTextField(0);
         removeMapField.setHorizontalAlignment(JTextField.CENTER);
         removeMapField.addActionListener(e -> removeMap(removeMapField));
@@ -1489,7 +1491,9 @@ public final class UserEditor {
         CyderLabel deleteUserLabel = new CyderLabel("Delete User");
         printingUtil.printlnComponent(deleteUserLabel);
 
-        CyderButton deleteUserButton = new CyderButton(space + "Delete user" + space);
+        CyderButton deleteUserButton = new CyderButton("Delete user");
+        deleteUserButton.setLeftTextPadding(StringUtil.generateNSpaces(3));
+        deleteUserButton.setRightTextPadding(StringUtil.generateNSpaces(3));
         CyderPasswordField deletePasswordField = new CyderPasswordField();
         deletePasswordField.setToolTipText("Enter password to confirm account deletion");
         deletePasswordField.addActionListener(e -> deleteUser(deletePasswordField));
@@ -1515,18 +1519,15 @@ public final class UserEditor {
         fieldInputsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         fieldInputsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         fieldInputsScroll.setBounds(6, 5, 708, 490);
-
-        //after everything is on pane, use this to center it
         StyledDocument doc = fieldInputsPane.getStyledDocument();
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
-
-        //set menu location to top
         fieldInputsPane.setCaretPosition(0);
 
-        switchingLabel.add(fieldInputsScroll);
-        switchingLabel.revalidate();
+        CyderFlowLayout flowLayout = new CyderFlowLayout();
+        flowLayout.addComponent(fieldInputsScroll);
+        editUserFrame.setCyderLayout(flowLayout);
     }
 
     /**
@@ -1551,6 +1552,9 @@ public final class UserEditor {
         return false;
     }
 
+    private static final String IP_KEY = "ip_key";
+    private static final String YOUTUBE_API_3_KEY = "youtube_api_3_key";
+
     /**
      * Validates the ip key from the propkeys.ini file.
      *
@@ -1558,9 +1562,8 @@ public final class UserEditor {
      */
     private static boolean validateIpKey() {
         try {
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(new URL(CyderUrls.IPDATA_BASE
-                            + PropLoader.getString("ip_key")).openStream()));
+            URL url = new URL(CyderUrls.IPDATA_BASE + PropLoader.getString(IP_KEY));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             reader.close();
             return true;
         } catch (Exception ex) {
@@ -1570,19 +1573,20 @@ public final class UserEditor {
         return false;
     }
 
+    private static final String YOUTUBE_API_3_KEY_VALIDATOR_HEADER = CyderUrls.YOUTUBE_API_V3_SEARCH
+            + "?part=snippet&q=" + "gift+and+a+curse+skizzy+mars" + "&type=video&key=";
+
     /**
      * Validates the youtube key from the propkeys.ini file.
      *
      * @return whether the youtube key was valid
      */
     private static boolean validateYoutubeApiKey() {
-        String key = PropLoader.getString("youtube_api_3_key");
+        String key = PropLoader.getString(YOUTUBE_API_3_KEY);
 
         if (!key.isEmpty()) {
             try {
-                NetworkUtil.readUrl(CyderUrls.YOUTUBE_API_V3_SEARCH
-                        + "?part=snippet&q=" + "gift+and+a+curse+skizzy+mars"
-                        + "&type=video&key=" + key);
+                NetworkUtil.readUrl(YOUTUBE_API_3_KEY_VALIDATOR_HEADER + key);
                 return true;
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
@@ -1605,21 +1609,19 @@ public final class UserEditor {
             deletePasswordField.setText("");
         } else {
             CyderThreadRunner.submit(() -> {
-                boolean delete = GetterUtil.getInstance().getConfirmation(
-                        new GetterUtil.Builder(confirmationString)
-                                .setRelativeTo(editUserFrame));
+                boolean delete = GetterUtil.getInstance().getConfirmation(new GetterUtil.Builder(confirmationString)
+                        .setRelativeTo(editUserFrame));
 
                 if (delete) {
                     Console.INSTANCE.closeFrame(false, true);
 
-                    // close all frames, console is already closed
                     FrameUtil.closeAllFrames(true);
 
-                    // attempt to delete directory
-                    OSUtil.deleteFile(OSUtil.buildFile(Dynamic.PATH,
-                            Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid()));
+                    OSUtil.deleteFile(OSUtil.buildFile(
+                            Dynamic.PATH,
+                            Dynamic.USERS.getDirectoryName(),
+                            Console.INSTANCE.getUuid()));
 
-                    // exit with proper condition
                     OSUtil.exit(ExitCondition.UserDeleted);
                 } else {
                     deletePasswordField.setText("");

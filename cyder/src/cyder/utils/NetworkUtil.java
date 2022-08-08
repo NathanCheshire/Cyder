@@ -1,6 +1,7 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
@@ -128,8 +129,10 @@ public class NetworkUtil {
 
     /**
      * The ip to use when pinging google to determine a user's latency.
+     * DNS changing for this would be highly unlikely. However, this might
+     * be changed to a remote database GET request.
      */
-    public static final String LATENCY_GOOGLE_IP = "172.217.4.78"; // todo what if DNS changes
+    public static final String LATENCY_GOOGLE_IP = "172.217.4.78";
 
     /**
      * The default timeout to use when pinging google to determine a user's latency.
@@ -196,6 +199,7 @@ public class NetworkUtil {
      * @param urlString the string of the url to ping and get contents from
      * @return the resulting url response
      */
+    @CanIgnoreReturnValue /* sometimes used to ensure a url is valid */
     public static String readUrl(String urlString) {
         Preconditions.checkNotNull(urlString);
         Preconditions.checkArgument(!urlString.isEmpty());

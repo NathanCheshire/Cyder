@@ -130,7 +130,7 @@ public class CyderButton extends JButton {
         Preconditions.checkNotNull(text);
 
         super.setText((leftTextPadding != null ? leftTextPadding : "")
-                + text + (rightTextPadding != null ? rightTextPadding : ""));
+                + text.trim() + (rightTextPadding != null ? rightTextPadding : ""));
     }
 
     /**
@@ -303,6 +303,7 @@ public class CyderButton extends JButton {
      */
     public void setLeftTextPadding(String leftTextPadding) {
         this.leftTextPadding = leftTextPadding;
+        setText(getText());
     }
 
     /**
@@ -321,5 +322,6 @@ public class CyderButton extends JButton {
      */
     public void setRightTextPadding(String rightTextPadding) {
         this.rightTextPadding = rightTextPadding;
+        setText(getText());
     }
 }
