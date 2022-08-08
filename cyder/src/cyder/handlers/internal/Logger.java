@@ -854,7 +854,7 @@ public final class Logger {
                             // usually an IDE stop but sometimes the program exits,
                             // with exit condition 1 due to something failing on startup
                             // which is why this says "crashed unexpectedly"
-                            String logBuilder = "[" + TimeUtil.logTime() + "] [EOL]: " +
+                            String logBuilder = getLogTimeTag() + "[EOL]: " +
                                     "Log completed, Cyder crashed unexpectedly: " +
                                     "exit code: " + ExitCondition.ExternalStop.getCode() +
                                     " " + ExitCondition.ExternalStop.getDescription() +
@@ -885,7 +885,7 @@ public final class Logger {
                         int objectsCreated = objectCreationCounter.getAndSet(0);
                         totalObjectsCreated += objectsCreated;
 
-                        formatAndWriteLine("[" + TimeUtil.logTime() + "] [OBJECT CREATION]: "
+                        formatAndWriteLine(getLogTimeTag() + "[OBJECT CREATION]: "
                                 + "Objects created since last delta (" + OBJECT_LOG_FREQUENCY + "ms): "
                                 + objectsCreated, Tag.OBJECT_CREATION);
                     }
@@ -905,7 +905,7 @@ public final class Logger {
      * @return the time tag placed at the beginning of all log statements
      */
     private static String getLogTimeTag() {
-        return "[" + TimeUtil.logTime() + "] ";
+        return "[" + TimeUtil.getLogLineTime() + "] ";
     }
 
     /**

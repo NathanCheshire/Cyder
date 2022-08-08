@@ -6,7 +6,6 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.utils.NetworkUtil;
 
 import java.net.URL;
@@ -109,9 +108,7 @@ public class UrlHandler extends InputHandler {
         try {
             new URL(url).openConnection();
             return true;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+        } catch (Exception ignored) {}
 
         return false;
     }

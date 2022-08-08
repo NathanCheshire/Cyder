@@ -100,6 +100,20 @@ public final class TimeUtil {
     }
 
     /**
+     * The date formatter used for when a log line is being written to the log file.
+     */
+    public static final SimpleDateFormat LOG_LINE_TIME_FORMAT = new SimpleDateFormat("HH:mm:ss.S");
+
+    /**
+     * The time used for lines of log files.
+     *
+     * @return time used for lines of log files
+     */
+    public static String getLogLineTime() {
+        return getFormattedTime(LOG_LINE_TIME_FORMAT);
+    }
+
+    /**
      * The date formatter to use when formatting a date object to the notified at time.
      */
     public static final SimpleDateFormat notificationFormat = new SimpleDateFormat("HH:mm:ss");

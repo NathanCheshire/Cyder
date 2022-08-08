@@ -178,6 +178,8 @@ public final class UserEditor {
         showGui(Page.FILES);
     }
 
+    // todo deleting and renaming files are a hassle since handles are left open somewhere
+
     // todo console location saving doesn't work and sometimes
     //  messes up still, only save is not being disposed too
 
