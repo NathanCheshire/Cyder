@@ -1339,4 +1339,70 @@ public final class UserUtil {
 
         return false;
     }
+
+    private static final String IP_KEY = "ip_key";
+    private static final String YOUTUBE_API_3_KEY = "youtube_api_3_key";
+
+    /**
+     * Validates the ip key from the propkeys.ini file.
+     *
+     * @return whether the ip key was valid
+     */
+    private static boolean validateIpKey() {
+        try {
+            URL url = new URL(CyderUrls.IPDATA_BASE + PropLoader.getString(IP_KEY));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            reader.close();
+            return true;
+        } catch (Exception ex) {
+            ExceptionHandler.silentHandle(ex);
+        }
+
+        return false;
+    }
+
+    private static final String YOUTUBE_API_3_KEY_VALIDATOR_HEADER = CyderUrls.YOUTUBE_API_V3_SEARCH
+            + "?part=snippet&q=" + "gift+and+a+curse+skizzy+mars" + "&type=video&key=";
+
+    /**
+     * Validates the youtube key from the propkeys.ini file.
+     *
+     * @return whether the youtube key was valid
+     */
+    private static boolean validateYoutubeApiKey() {
+        String key = PropLoader.getString(YOUTUBE_API_3_KEY);
+
+        if (!key.isEmpty()) {
+            try {
+                NetworkUtil.readUrl(YOUTUBE_API_3_KEY_VALIDATOR_HEADER + key);
+                return true;
+            } catch (Exception ex) {
+                ExceptionHandler.handle(ex);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Validates the weather key from the propkeys.ini file.
+     *
+     * @return whether the weather key was valid
+     */
+    private static boolean validateWeatherKey() {
+        String openString = CyderUrls.OPEN_WEATHER_BASE
+                + PropLoader.getString("default_weather_location")
+                + "&appid=" + PropLoader.getString("weather_key")
+                + "&units=imperial";
+
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(new URL(openString).openStream()))) {
+            reader.readLine();
+            return true;
+        } catch (Exception ex) {
+            ExceptionHandler.silentHandle(ex);
+        }
+
+        return false;
+    }
 }

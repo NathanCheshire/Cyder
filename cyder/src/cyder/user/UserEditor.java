@@ -8,14 +8,12 @@ import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
-import cyder.constants.CyderUrls;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
 import cyder.layouts.CyderPartitionedLayout;
 import cyder.threads.CyderThreadRunner;
@@ -34,9 +32,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
@@ -1275,7 +1271,6 @@ public final class UserEditor {
             preferenceContentLabel.add(checkbox);
 
             printingUtil.printlnComponent(preferenceContentLabel);
-            System.out.println(preferenceContentLabel);
             printingUtil.println("");
         }
 
@@ -1298,16 +1293,31 @@ public final class UserEditor {
         editUserFrame.setCyderLayout(preferencesPartitionedLayout);
     }
 
+    private static CyderPasswordField newPasswordField;
+    private static CyderPasswordField newPasswordConfirmationField;
+
     /**
      * Switches to the field input preference page.
      */
     private static void switchToFieldInputs() {
-        // todo make this cleaner
-        // todo structure of field with a button / validate button
-
-        // todo fields should be same size
+        //      label
+        // field 1, field 2
+        // button 1, button 2
 
         // todo map removing/adding should be cleaner
+
+        // todo change password
+        // todo console date pattern
+
+        // todo panel should be a lot simpler for this
+        // todo add map
+        // todo remove map
+
+        // todo delete user
+
+        CyderLabel prefsTitle = new CyderLabel("Field Inputs");
+        prefsTitle.setFont(CyderFonts.DEFAULT_FONT);
+        prefsTitle.setSize(CONTENT_PANE_WIDTH, 50);
 
         JTextPane fieldInputsPane = new JTextPane();
         fieldInputsPane.setEditable(false);
@@ -1318,218 +1328,6 @@ public final class UserEditor {
 
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(fieldInputsPane));
 
-        CyderLabel prefsTitle = new CyderLabel("Field Inputs");
-        prefsTitle.setFont(CyderFonts.SEGOE_30);
-        printingUtil.printlnComponent(prefsTitle);
-
-        printingUtil.print("\n\n");
-
-        CyderLabel changeUsernameLabel = new CyderLabel("Change username");
-        printingUtil.printlnComponent(changeUsernameLabel);
-
-        printingUtil.print("\n");
-
-        CyderButton changeUsernameButton = new CyderButton("Change Username");
-        changeUsernameButton.setLeftTextPadding(StringUtil.generateNSpaces(3));
-        changeUsernameButton.setRightTextPadding(StringUtil.generateNSpaces(3));
-        JTextField changeUsernameField = new JTextField(0);
-        changeUsernameField.setHorizontalAlignment(JTextField.CENTER);
-        changeUsernameField.addActionListener(e -> attemptChangeUsername(changeUsernameField.getText().trim()));
-        changeUsernameField.setToolTipText("Change account username to a valid alternative");
-        changeUsernameField.setBackground(CyderColors.vanilla);
-        changeUsernameField.setSelectionColor(CyderColors.selectionColor);
-        changeUsernameField.setFont(new Font("Agency FB", Font.BOLD, 26));
-        changeUsernameField.setForeground(CyderColors.navy);
-        changeUsernameField.setCaretColor(CyderColors.navy);
-        changeUsernameField.setCaret(new CyderCaret(CyderColors.navy));
-        changeUsernameField.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        changeUsernameField.setOpaque(true);
-        CyderTextField.addAutoCapitalizationAdapter(changeUsernameField);
-        printingUtil.printlnComponent(changeUsernameField);
-        changeUsernameField.setText(UserUtil.getCyderUser().getName());
-
-        printingUtil.print("\n");
-
-        changeUsernameButton.setBackground(CyderColors.regularRed);
-        changeUsernameButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        changeUsernameButton.setFont(CyderFonts.SEGOE_20);
-        changeUsernameButton.addActionListener(e -> attemptChangeUsername(changeUsernameField.getText().trim()));
-        printingUtil.printlnComponent(changeUsernameButton);
-
-        printingUtil.print("\n\n");
-
-        CyderLabel changePasswordLabel = new CyderLabel("Change password");
-        printingUtil.printlnComponent(changePasswordLabel);
-
-        printingUtil.print("\n");
-
-        //needed for focus traversal
-        CyderPasswordField changePasswordConfField = new CyderPasswordField();
-
-        CyderPasswordField changePasswordField = new CyderPasswordField();
-        changePasswordField.setFont(changeUsernameField.getFont());
-        changePasswordField.addActionListener(e -> changePasswordConfField.requestFocus());
-        changePasswordField.setToolTipText("New Password");
-        printingUtil.printlnComponent(changePasswordField);
-
-        printingUtil.print("\n");
-
-        // init button here to add listener to field
-        CyderButton changePassword = new CyderButton("Change Password");
-        changePassword.setLeftTextPadding(StringUtil.generateNSpaces(4));
-        changePassword.setRightTextPadding(StringUtil.generateNSpaces(4));
-
-        changePasswordConfField.addActionListener(e -> {
-            changePassword(changePasswordField.getPassword(), changePasswordConfField.getPassword());
-            changePasswordField.setText("");
-            changePasswordConfField.setText("");
-        });
-        changePasswordConfField.setFont(changePasswordField.getFont());
-        changePasswordConfField.setToolTipText("New Password Confirmation");
-        printingUtil.printlnComponent(changePasswordConfField);
-
-        printingUtil.print("\n");
-
-        changePassword.addActionListener(e -> {
-            changePassword(changePasswordField.getPassword(), changePasswordConfField.getPassword());
-            changePasswordField.setText("");
-            changePasswordConfField.setText("");
-        });
-        printingUtil.printlnComponent(changePassword);
-
-        printingUtil.print("\n\n");
-
-        CyderLabel consoleDatePatternLabel = new CyderLabel("Console Clock Date Pattern");
-        consoleDatePatternLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.SIMPLE_DATE_PATTERN_GUIDE);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                consoleDatePatternLabel.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                consoleDatePatternLabel.setForeground(CyderColors.navy);
-            }
-        });
-        printingUtil.printlnComponent(consoleDatePatternLabel);
-
-        printingUtil.print("\n");
-
-        CyderButton validateDatePatternButton = new CyderButton("Validate");
-        validateDatePatternButton.setLeftTextPadding(StringUtil.generateNSpaces(3));
-        validateDatePatternButton.setRightTextPadding(StringUtil.generateNSpaces(3));
-        JTextField consoleDatePatternField = new JTextField(0);
-        consoleDatePatternField.setHorizontalAlignment(JTextField.CENTER);
-        consoleDatePatternField.addActionListener(e -> setConsoleDatePattern(consoleDatePatternField.getText()));
-        consoleDatePatternLabel.setToolTipText("Java date/time pattern to use for the console clock");
-        consoleDatePatternField.setBackground(CyderColors.vanilla);
-        consoleDatePatternField.setSelectionColor(CyderColors.selectionColor);
-        consoleDatePatternField.setFont(CyderFonts.SEGOE_20);
-        consoleDatePatternField.setForeground(CyderColors.navy);
-        consoleDatePatternField.setCaretColor(CyderColors.navy);
-        consoleDatePatternField.setCaret(new CyderCaret(CyderColors.navy));
-        consoleDatePatternField.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        consoleDatePatternField.setOpaque(true);
-        printingUtil.printlnComponent(consoleDatePatternField);
-        consoleDatePatternField.setText(UserUtil.getCyderUser().getConsoleclockformat());
-
-        printingUtil.print("\n");
-
-        validateDatePatternButton.addActionListener(e -> setConsoleDatePattern(consoleDatePatternField.getText()));
-        printingUtil.printlnComponent(validateDatePatternButton);
-
-        printingUtil.print("\n\n");
-
-        CyderLabel addMap = new CyderLabel("Add Maps");
-        printingUtil.printlnComponent(addMap);
-
-        printingUtil.print("\n");
-
-        CyderButton addMapButton = new CyderButton("Add Map");
-        addMapButton.setLeftTextPadding(StringUtil.generateNSpaces(3));
-        addMapButton.setRightTextPadding(StringUtil.generateNSpaces(3));
-        JTextField addMapField = new JTextField(0);
-        addMapField.setHorizontalAlignment(JTextField.CENTER);
-        addMapField.addActionListener(e -> addMap(addMapField));
-        addMapField.setToolTipText("Add format: map_name, PATH/TO/EXE or FILE or URL");
-        addMapField.setBackground(CyderColors.vanilla);
-        addMapField.setSelectionColor(CyderColors.selectionColor);
-        addMapField.setFont(CyderFonts.SEGOE_20);
-        addMapField.setForeground(CyderColors.navy);
-        addMapField.setCaretColor(CyderColors.navy);
-        addMapField.setCaret(new CyderCaret(CyderColors.navy));
-        addMapField.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        addMapField.setOpaque(true);
-        printingUtil.printlnComponent(addMapField);
-
-        printingUtil.print("\n");
-
-        addMapButton.addActionListener(e -> addMap(addMapField));
-        printingUtil.printlnComponent(addMapButton);
-
-        printingUtil.print("\n\n");
-
-        CyderLabel removeMap = new CyderLabel("Remove Map");
-        printingUtil.printlnComponent(removeMap);
-
-        printingUtil.print("\n");
-
-        CyderButton removeMapButton = new CyderButton("Remove Map");
-        removeMapButton.setLeftTextPadding(StringUtil.generateNSpaces(3));
-        removeMapButton.setRightTextPadding(StringUtil.generateNSpaces(3));
-        JTextField removeMapField = new JTextField(0);
-        removeMapField.setHorizontalAlignment(JTextField.CENTER);
-        removeMapField.addActionListener(e -> removeMap(removeMapField));
-        removeMapField.setToolTipText("Name of map to remove");
-        removeMapField.setBackground(CyderColors.vanilla);
-        removeMapField.setSelectionColor(CyderColors.selectionColor);
-        removeMapField.setFont(CyderFonts.SEGOE_20);
-        removeMapField.setForeground(CyderColors.navy);
-        removeMapField.setCaretColor(CyderColors.navy);
-        removeMapField.setCaret(new CyderCaret(CyderColors.navy));
-        removeMapField.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        removeMapField.setOpaque(true);
-        printingUtil.printlnComponent(removeMapField);
-
-        printingUtil.print("\n");
-
-        removeMapButton.addActionListener(e -> removeMap(removeMapField));
-        printingUtil.printlnComponent(removeMapButton);
-
-        printingUtil.print("\n\n");
-
-        CyderLabel deleteUserLabel = new CyderLabel("Delete User");
-        printingUtil.printlnComponent(deleteUserLabel);
-
-        CyderButton deleteUserButton = new CyderButton("Delete user");
-        deleteUserButton.setLeftTextPadding(StringUtil.generateNSpaces(3));
-        deleteUserButton.setRightTextPadding(StringUtil.generateNSpaces(3));
-        CyderPasswordField deletePasswordField = new CyderPasswordField();
-        deletePasswordField.setToolTipText("Enter password to confirm account deletion");
-        deletePasswordField.addActionListener(e -> {
-            deleteUser(deletePasswordField.getPassword());
-            deletePasswordField.setText("");
-        });
-        printingUtil.printlnComponent(deletePasswordField);
-
-        printingUtil.print("\n");
-
-        deleteUserButton.addActionListener(e -> {
-            deleteUser(deletePasswordField.getPassword());
-            deletePasswordField.setText("");
-        });
-        printingUtil.printlnComponent(deleteUserButton);
-
-        printingUtil.print("\n\n");
-
-        //more labels, fields, and if applicable, validation buttons here
-        //format: \n\n to separate sections, \n to separate components within a section
-
         CyderScrollPane fieldInputsScroll = new CyderScrollPane(fieldInputsPane);
         fieldInputsScroll.setThumbSize(7);
         fieldInputsScroll.getViewport().setOpaque(false);
@@ -1539,82 +1337,108 @@ public final class UserEditor {
         fieldInputsScroll.setBackground(Color.white);
         fieldInputsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         fieldInputsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        fieldInputsScroll.setBounds(6, 5, 708, 490);
+        fieldInputsScroll.setBorder(new LineBorder(CyderColors.navy, 5));
+        fieldInputsScroll.setSize(CONTENT_PANE_WIDTH - 50, CONTENT_PANE_HEIGHT - 100);
+
+        String panelMagicText = StringUtil.generateTextForCustomComponent(12);
+        int panelWidth = CONTENT_PANE_WIDTH - 100;
+        int panelHeight = 300;
+
+        int headerLabelHeight = 50;
+
+        int fieldAndButtonWidth = 300;
+        int fieldAndButtonHeight = 40;
+
+        JLabel changeUsernameLabel = new CyderLabel("Change Username");
+        changeUsernameLabel.setForeground(CyderColors.navy);
+        changeUsernameLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
+        changeUsernameLabel.setHorizontalAlignment(JLabel.CENTER);
+        changeUsernameLabel.setSize(panelWidth, headerLabelHeight);
+
+        CyderTextField newUsernameField = new CyderTextField();
+        newUsernameField.setHorizontalAlignment(JTextField.CENTER);
+        newUsernameField.setSize(fieldAndButtonWidth, fieldAndButtonHeight);
+        newUsernameField.addActionListener(e -> {
+            attemptChangeUsername(newUsernameField.getTrimmedText());
+            newUsernameField.setText(UserUtil.getCyderUser().getName());
+        });
+        newUsernameField.setText(UserUtil.getCyderUser().getName());
+
+        CyderButton changeUsernameButton = new CyderButton("Change username");
+        changeUsernameButton.setSize(fieldAndButtonWidth, fieldAndButtonHeight);
+        changeUsernameButton.setToolTipText("Change username");
+        changeUsernameButton.addActionListener(e -> {
+            attemptChangeUsername(newUsernameField.getTrimmedText());
+            newUsernameField.setText(UserUtil.getCyderUser().getName());
+        });
+
+        CyderGridLayout changeUsernameLayout = new CyderGridLayout(1, 3);
+        changeUsernameLayout.addComponent(changeUsernameLabel);
+        changeUsernameLayout.addComponent(newUsernameField);
+        changeUsernameLayout.addComponent(changeUsernameButton);
+
+        CyderPanel changeUsernamePanel = new CyderPanel(changeUsernameLayout);
+        changeUsernamePanel.setText(panelMagicText);
+        changeUsernamePanel.setSize(panelWidth, panelHeight);
+        printingUtil.printlnComponent(changeUsernamePanel);
+
+        JLabel changePasswordLabel = new CyderLabel("Change Password");
+        changePasswordLabel.setForeground(CyderColors.navy);
+        changePasswordLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
+        changePasswordLabel.setHorizontalAlignment(JLabel.CENTER);
+        changePasswordLabel.setSize(panelWidth, headerLabelHeight);
+
+        newPasswordField = new CyderPasswordField();
+        newPasswordField.setToolTipText("New password");
+        newPasswordField.setHorizontalAlignment(JTextField.CENTER);
+        newPasswordField.setSize(fieldAndButtonWidth, fieldAndButtonHeight);
+        newPasswordField.addActionListener(e -> {
+            changePassword(newPasswordField.getPassword(), newPasswordConfirmationField.getPassword());
+            newPasswordField.setText("");
+            newPasswordConfirmationField.setText("");
+        });
+
+        newPasswordConfirmationField = new CyderPasswordField();
+        newPasswordConfirmationField.setToolTipText("New password confirmation");
+        newPasswordConfirmationField.setHorizontalAlignment(JTextField.CENTER);
+        newPasswordConfirmationField.setSize(fieldAndButtonWidth, fieldAndButtonHeight);
+        newPasswordConfirmationField.addActionListener(e -> {
+            changePassword(newPasswordField.getPassword(), newPasswordConfirmationField.getPassword());
+            newPasswordField.setText("");
+            newPasswordConfirmationField.setText("");
+        });
+
+        CyderButton changePasswordButton = new CyderButton("Change password");
+        changePasswordButton.setSize(fieldAndButtonWidth, fieldAndButtonHeight);
+        changePasswordButton.setToolTipText("Change password");
+        changePasswordButton.addActionListener(e -> {
+            changePassword(newPasswordField.getPassword(), newPasswordConfirmationField.getPassword());
+            newPasswordField.setText("");
+            newPasswordConfirmationField.setText("");
+        });
+
+        CyderGridLayout changePasswordLayout = new CyderGridLayout(1, 4);
+        changePasswordLayout.addComponent(changePasswordLabel);
+        changePasswordLayout.addComponent(newPasswordField);
+        changePasswordLayout.addComponent(newPasswordConfirmationField);
+        changePasswordLayout.addComponent(changePasswordButton);
+
+        CyderPanel changePasswordPanel = new CyderPanel(changePasswordLayout);
+        changePasswordPanel.setText(panelMagicText);
+        changePasswordPanel.setSize(panelWidth, panelHeight);
+        printingUtil.printlnComponent(changePasswordPanel);
+
+
         StyledDocument doc = fieldInputsPane.getStyledDocument();
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
         fieldInputsPane.setCaretPosition(0);
 
-        CyderFlowLayout flowLayout = new CyderFlowLayout();
-        flowLayout.addComponent(fieldInputsScroll);
-        editUserFrame.setCyderLayout(flowLayout);
-    }
-
-    /**
-     * Validates the weather key from the propkeys.ini file.
-     *
-     * @return whether the weather key was valid
-     */
-    private static boolean validateWeatherKey() {
-        String openString = CyderUrls.OPEN_WEATHER_BASE
-                + PropLoader.getString("default_weather_location")
-                + "&appid=" + PropLoader.getString("weather_key")
-                + "&units=imperial";
-
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(new URL(openString).openStream()))) {
-            reader.readLine();
-            return true;
-        } catch (Exception ex) {
-            ExceptionHandler.silentHandle(ex);
-        }
-
-        return false;
-    }
-
-    private static final String IP_KEY = "ip_key";
-    private static final String YOUTUBE_API_3_KEY = "youtube_api_3_key";
-
-    /**
-     * Validates the ip key from the propkeys.ini file.
-     *
-     * @return whether the ip key was valid
-     */
-    private static boolean validateIpKey() {
-        try {
-            URL url = new URL(CyderUrls.IPDATA_BASE + PropLoader.getString(IP_KEY));
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            reader.close();
-            return true;
-        } catch (Exception ex) {
-            ExceptionHandler.silentHandle(ex);
-        }
-
-        return false;
-    }
-
-    private static final String YOUTUBE_API_3_KEY_VALIDATOR_HEADER = CyderUrls.YOUTUBE_API_V3_SEARCH
-            + "?part=snippet&q=" + "gift+and+a+curse+skizzy+mars" + "&type=video&key=";
-
-    /**
-     * Validates the youtube key from the propkeys.ini file.
-     *
-     * @return whether the youtube key was valid
-     */
-    private static boolean validateYoutubeApiKey() {
-        String key = PropLoader.getString(YOUTUBE_API_3_KEY);
-
-        if (!key.isEmpty()) {
-            try {
-                NetworkUtil.readUrl(YOUTUBE_API_3_KEY_VALIDATOR_HEADER + key);
-                return true;
-            } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
-            }
-        }
-
-        return false;
+        CyderPartitionedLayout fieldsPartitionedInput = new CyderPartitionedLayout();
+        fieldsPartitionedInput.addComponent(prefsTitle, 10);
+        fieldsPartitionedInput.addComponent(fieldInputsScroll, 90);
+        editUserFrame.setCyderLayout(fieldsPartitionedInput);
     }
 
     /**
@@ -1622,7 +1446,7 @@ public final class UserEditor {
      */
     private static final String confirmationString = "Final warning: you are about to"
             + " delete your Cyder account. All files, pictures, downloaded music, notes,"
-            + " etc. will be deleted. Are you ABSOLUTELY sure you wish to continue?";
+            + " romantic partners, and the world will be deleted. Are you ABSOLUTELY sure you wish to continue?";
 
     /**
      * Attempts to delete the current user's account if the password is valid.
