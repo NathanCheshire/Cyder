@@ -1302,6 +1302,13 @@ public final class UserEditor {
      * Switches to the field input preference page.
      */
     private static void switchToFieldInputs() {
+        // todo make this cleaner
+        // todo structure of field with a button / validate button
+
+        // todo fields should be same size
+
+        // todo map removing/adding should be cleaner
+
         JTextPane fieldInputsPane = new JTextPane();
         fieldInputsPane.setEditable(false);
         fieldInputsPane.setAutoscrolls(false);
@@ -1327,7 +1334,7 @@ public final class UserEditor {
         changeUsernameButton.setRightTextPadding(StringUtil.generateNSpaces(3));
         JTextField changeUsernameField = new JTextField(0);
         changeUsernameField.setHorizontalAlignment(JTextField.CENTER);
-        changeUsernameField.addActionListener(e -> changeUsername(changeUsernameField));
+        changeUsernameField.addActionListener(e -> attemptChangeUsername(changeUsernameField.getText().trim()));
         changeUsernameField.setToolTipText("Change account username to a valid alternative");
         changeUsernameField.setBackground(CyderColors.vanilla);
         changeUsernameField.setSelectionColor(CyderColors.selectionColor);
@@ -1346,7 +1353,7 @@ public final class UserEditor {
         changeUsernameButton.setBackground(CyderColors.regularRed);
         changeUsernameButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
         changeUsernameButton.setFont(CyderFonts.SEGOE_20);
-        changeUsernameButton.addActionListener(e -> changeUsername(changeUsernameField));
+        changeUsernameButton.addActionListener(e -> attemptChangeUsername(changeUsernameField.getText().trim()));
         printingUtil.printlnComponent(changeUsernameButton);
 
         printingUtil.print("\n\n");
@@ -1372,14 +1379,22 @@ public final class UserEditor {
         changePassword.setLeftTextPadding(StringUtil.generateNSpaces(4));
         changePassword.setRightTextPadding(StringUtil.generateNSpaces(4));
 
-        changePasswordConfField.addActionListener(e -> changePassword(changePasswordField, changePasswordConfField));
+        changePasswordConfField.addActionListener(e -> {
+            changePassword(changePasswordField.getPassword(), changePasswordConfField.getPassword());
+            changePasswordField.setText("");
+            changePasswordConfField.setText("");
+        });
         changePasswordConfField.setFont(changePasswordField.getFont());
         changePasswordConfField.setToolTipText("New Password Confirmation");
         printingUtil.printlnComponent(changePasswordConfField);
 
         printingUtil.print("\n");
 
-        changePassword.addActionListener(e -> changePassword(changePasswordField, changePasswordConfField));
+        changePassword.addActionListener(e -> {
+            changePassword(changePasswordField.getPassword(), changePasswordConfField.getPassword());
+            changePasswordField.setText("");
+            changePasswordConfField.setText("");
+        });
         printingUtil.printlnComponent(changePassword);
 
         printingUtil.print("\n\n");
@@ -1410,7 +1425,7 @@ public final class UserEditor {
         validateDatePatternButton.setRightTextPadding(StringUtil.generateNSpaces(3));
         JTextField consoleDatePatternField = new JTextField(0);
         consoleDatePatternField.setHorizontalAlignment(JTextField.CENTER);
-        consoleDatePatternField.addActionListener(e -> validateDatePattern(consoleDatePatternField));
+        consoleDatePatternField.addActionListener(e -> setConsoleDatePattern(consoleDatePatternField.getText()));
         consoleDatePatternLabel.setToolTipText("Java date/time pattern to use for the console clock");
         consoleDatePatternField.setBackground(CyderColors.vanilla);
         consoleDatePatternField.setSelectionColor(CyderColors.selectionColor);
@@ -1425,7 +1440,7 @@ public final class UserEditor {
 
         printingUtil.print("\n");
 
-        validateDatePatternButton.addActionListener(e -> validateDatePattern(consoleDatePatternField));
+        validateDatePatternButton.addActionListener(e -> setConsoleDatePattern(consoleDatePatternField.getText()));
         printingUtil.printlnComponent(validateDatePatternButton);
 
         printingUtil.print("\n\n");
@@ -1496,12 +1511,18 @@ public final class UserEditor {
         deleteUserButton.setRightTextPadding(StringUtil.generateNSpaces(3));
         CyderPasswordField deletePasswordField = new CyderPasswordField();
         deletePasswordField.setToolTipText("Enter password to confirm account deletion");
-        deletePasswordField.addActionListener(e -> deleteUser(deletePasswordField));
+        deletePasswordField.addActionListener(e -> {
+            deleteUser(deletePasswordField.getPassword());
+            deletePasswordField.setText("");
+        });
         printingUtil.printlnComponent(deletePasswordField);
 
         printingUtil.print("\n");
 
-        deleteUserButton.addActionListener(e -> deleteUser(deletePasswordField));
+        deleteUserButton.addActionListener(e -> {
+            deleteUser(deletePasswordField.getPassword());
+            deletePasswordField.setText("");
+        });
         printingUtil.printlnComponent(deleteUserButton);
 
         printingUtil.print("\n\n");
@@ -1596,17 +1617,26 @@ public final class UserEditor {
         return false;
     }
 
+    /**
+     * The string to prompt the user with when confirming an account deletion.
+     */
     private static final String confirmationString = "Final warning: you are about to"
             + " delete your Cyder account. All files, pictures, downloaded music, notes,"
             + " etc. will be deleted. Are you ABSOLUTELY sure you wish to continue?";
 
-    private static void deleteUser(CyderPasswordField deletePasswordField) {
-        String hashed = SecurityUtil.toHexString(SecurityUtil.getSha256(deletePasswordField.getPassword()));
+    /**
+     * Attempts to delete the current user's account if the password is valid.
+     *
+     * @param password the confirmation password
+     */
+    private static void deleteUser(char[] password) {
+        Preconditions.checkNotNull(password);
 
-        if (!SecurityUtil.toHexString(SecurityUtil.getSha256(hashed.toCharArray()))
-                .equals(UserUtil.getCyderUser().getPass())) {
+        String doublyHashedPassword = SecurityUtil.toHexString(SecurityUtil.getSha256(
+                SecurityUtil.toHexString(SecurityUtil.getSha256(password)).toCharArray()));
+
+        if (!doublyHashedPassword.equals(UserUtil.getCyderUser().getPass())) {
             editUserFrame.notify("Invalid password; user not deleted");
-            deletePasswordField.setText("");
         } else {
             CyderThreadRunner.submit(() -> {
                 boolean delete = GetterUtil.getInstance().getConfirmation(new GetterUtil.Builder(confirmationString)
@@ -1624,79 +1654,87 @@ public final class UserEditor {
 
                     OSUtil.exit(ExitCondition.UserDeleted);
                 } else {
-                    deletePasswordField.setText("");
                     editUserFrame.notify("Account not deleted");
                 }
-            }, "Account deletion confirmation");
+            }, "Account Deletion Confirmation");
         }
     }
 
-    private static void changePassword(CyderPasswordField changePasswordField,
-                                       CyderPasswordField changePasswordConfField) {
-        char[] newPassword = changePasswordField.getPassword();
-        char[] newPasswordConf = changePasswordConfField.getPassword();
+    /**
+     * Attempts to change the user's password if the passwords match.
+     *
+     * @param newPassword     the new requested password
+     * @param newPasswordConf the confirmation of the new requested password
+     */
+    private static void changePassword(char[] newPassword, char[] newPasswordConf) {
+        Preconditions.checkNotNull(newPassword);
+        Preconditions.checkNotNull(newPasswordConf);
 
-        boolean alphabet = false;
-        boolean number = false;
+        UserUtil.Validation passwordValid = UserUtil.validatePassword(newPassword, newPasswordConf);
 
-        // todo need a method to validate a username/password extract from UserCreator I assume and ad to userUtil
-        for (char c : newPassword) {
-            if (Character.isDigit(c))
-                number = true;
-            else if (Character.isAlphabetic(c))
-                alphabet = true;
-
-            if (number && alphabet)
-                break;
-        }
-
-        if (newPassword.length < 5 || !number || !alphabet) {
-            editUserFrame.notify("Sorry, " + UserUtil.getCyderUser().getName()
-                    + ", " + "but your password must contain at least"
-                    + " one number, one letter, and be 5 characters long");
+        if (passwordValid.valid()) {
+            UserUtil.getCyderUser().setPass(SecurityUtil.toHexString(SecurityUtil.getSha256(
+                    SecurityUtil.toHexString(SecurityUtil.getSha256(newPassword)).toCharArray())));
+            editUserFrame.notify("Password successfully changed");
         } else {
-            if (!Arrays.equals(newPasswordConf, newPassword)) {
-                editUserFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() + ", " +
-                        "but your provided passwords were not equal");
-                changePasswordField.setText("");
-                changePasswordConfField.setText("");
-            } else {
-                UserUtil.getCyderUser().setPass(SecurityUtil.toHexString(SecurityUtil.getSha256(
-                        SecurityUtil.toHexString(SecurityUtil.getSha256(newPassword)).toCharArray())));
-                editUserFrame.notify("Password successfully changed");
-            }
+            editUserFrame.notify(passwordValid.message());
         }
-
-        changePasswordField.setText("");
-        changePasswordConfField.setText("");
 
         Arrays.fill(newPasswordConf, '\0');
         Arrays.fill(newPassword, '\0');
     }
 
-    // todo should just be simple as changing property, maybe need some callback architecture as well
-    private static void changeUsername(JTextField changeUsernameField) {
-        String newUsername = changeUsernameField.getText();
-        if (!StringUtil.isNull(newUsername) && !newUsername.equalsIgnoreCase(UserUtil.getCyderUser().getName())) {
+    /**
+     * Attempts to change the current user's username to the provided one.
+     *
+     * @param newUsername the requested new username
+     */
+    private static void attemptChangeUsername(String newUsername) {
+        Preconditions.checkNotNull(newUsername);
+
+        UserUtil.Validation validUsername = UserUtil.validateUsername(newUsername);
+
+        if (validUsername.valid()) {
             UserUtil.getCyderUser().setName(newUsername);
             editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
-            Console.INSTANCE.getConsoleCyderFrame()
-                    .setTitle(PropLoader.getString("version") + " Cyder [" + newUsername + "]");
-            changeUsernameField.setText(UserUtil.getCyderUser().getName());
+            Console.INSTANCE.refreshConsoleTitle();
+        } else {
+            editUserFrame.notify(validUsername.message());
         }
     }
 
-    private static void validateDatePattern(JTextField consoleDatePatternField) {
-        String fieldText = StringUtil.getTrimmedText(consoleDatePatternField.getText());
+    /**
+     * Sets the console date pattern to the requested one provided it is valid.
+     *
+     * @param consoleDatePattern the new console date pattern
+     */
+    private static void setConsoleDatePattern(String consoleDatePattern) {
+        Preconditions.checkNotNull(consoleDatePattern);
+        Preconditions.checkArgument(!consoleDatePattern.isEmpty());
+        Preconditions.checkArgument(validateDatePattern(consoleDatePattern));
+
+        UserUtil.getCyderUser().setConsoleclockformat(consoleDatePattern);
+        Console.INSTANCE.refreshClockText();
+    }
+
+    /**
+     * Returns whether the provided date pattern is valid.
+     *
+     * @param datePattern the user-entered date pattern
+     * @return whether the provided date pattern is valid
+     */
+    private static boolean validateDatePattern(String datePattern) {
+        Preconditions.checkNotNull(datePattern);
+        Preconditions.checkArgument(!datePattern.isEmpty());
 
         try {
-            new SimpleDateFormat(fieldText).format(new Date());
-            UserUtil.getCyderUser().setConsoleclockformat(fieldText);
-            Console.INSTANCE.refreshClockText();
-            consoleDatePatternField.setText(fieldText);
-        } catch (Exception ex) {
-            ExceptionHandler.silentHandle(ex);
+            new SimpleDateFormat(datePattern).format(new Date());
+            return true;
+        } catch (Exception e) {
+            ExceptionHandler.silentHandle(e);
         }
+
+        return false;
     }
 
     private static void addMap(JTextField addMapField) {

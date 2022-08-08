@@ -506,7 +506,7 @@ public enum Console {
     /**
      * Refreshes the console title.
      */
-    private void refreshConsoleTitle() {
+    public void refreshConsoleTitle() {
         consoleCyderFrame.setTitle(PropLoader.getString("version") +
                 " Cyder [" + UserUtil.getCyderUser().getName() + "]");
     }

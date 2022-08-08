@@ -22,6 +22,7 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.Semaphore;
@@ -1248,5 +1249,94 @@ public final class UserUtil {
                 }
             }
         }
+    }
+
+    private static final String VALID = "Valid details";
+
+    private static final String NO_USERNAME = "No username";
+    private static final String INVALID_NAME = "Invalid name";
+    private static final String NAME_IN_USE = "Username already in use";
+
+    /**
+     * A validation wrapper for whether something is valid and an explanation message.
+     */
+    public record Validation(boolean valid, String message) {}
+
+    /**
+     * Returns whether the provided username is valid.
+     *
+     * @param username the username to validate
+     * @return whether the provided username is valid
+     */
+    public static Validation validateUsername(String username) {
+        Preconditions.checkNotNull(username);
+
+        if (username.isEmpty()) {
+            return new Validation(false, NO_USERNAME);
+        } else if (!StringUtil.parseNonAscii(username).equals(username)) {
+            return new Validation(false, INVALID_NAME);
+        } else if (usernameInUse(username)) {
+            return new Validation(false, NAME_IN_USE);
+        } else {
+            return new Validation(true, VALID);
+        }
+    }
+
+    private static final String NO_PASSWORD = "No password";
+    private static final String NO_CONFIRMATION = "No confirmation password";
+    private static final String PASSWORDS_DO_NOT_MATCH = "Passwords do not match";
+    private static final String NO_LETTER = "Password needs a letter";
+    private static final String INVALID_LENGTH = "Password is not > 4";
+    private static final String NO_NUMBER = "Password needs a number";
+
+    /**
+     * Returns whether the provided passwords match and are valid.
+     *
+     * @param password             the first password
+     * @param passwordConfirmation the password confirmation
+     * @return whether the provided passwords match and are valid
+     */
+    public static Validation validatePassword(char[] password, char[] passwordConfirmation) {
+        Preconditions.checkNotNull(password);
+        Preconditions.checkNotNull(passwordConfirmation);
+
+        if (password.length == 0) {
+            return new Validation(false, NO_PASSWORD);
+        } else if (passwordConfirmation.length == 0) {
+            return new Validation(false, NO_CONFIRMATION);
+        } else if (!Arrays.equals(password, passwordConfirmation)) {
+            return new Validation(false, PASSWORDS_DO_NOT_MATCH);
+        } else if (password.length < 4) {
+            return new Validation(false, INVALID_LENGTH);
+        } else if (!StringUtil.containsLetter(password)) {
+            return new Validation(false, NO_LETTER);
+        } else if (!StringUtil.containsNumber(password)) {
+            return new Validation(false, NO_NUMBER);
+        } else {
+            return new Validation(true, VALID);
+        }
+    }
+
+    /**
+     * Returns whether the provided username is already in use.
+     *
+     * @param username the username to determine if in use
+     * @return whether the provided username is already in use
+     */
+    public static boolean usernameInUse(String username) {
+        Preconditions.checkNotNull(username);
+        Preconditions.checkArgument(!username.isEmpty());
+
+        if (getUserCount() == 0) {
+            return false;
+        }
+
+        for (File userFile : getUserJsons()) {
+            if (extractUser(userFile).getName().equalsIgnoreCase(username)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

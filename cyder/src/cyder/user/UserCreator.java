@@ -1,6 +1,5 @@
 package cyder.user;
 
-import com.google.common.base.Preconditions;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
@@ -222,20 +221,6 @@ public final class UserCreator {
      */
     private static boolean validCredentials = false;
 
-    // Error messages
-    private static final String NO_USERNAME = "No username";
-    private static final String INVALID_NAME = "Invalid name";
-    private static final String NAME_IN_USE = "Username already in use";
-
-    private static final String NO_PASSWORD = "No password";
-    private static final String NO_CONFIRMATION = "No confirmation password";
-    private static final String PASSWORDS_DO_NOT_MATCH = "Passwords do not match";
-    private static final String NO_LETTER = "Password needs a letter";
-    private static final String INVALID_LENGTH = "Password is not > 4";
-    private static final String NO_NUMBER = "Password needs a number";
-
-    private static final String VALID = "Valid details";
-
     /**
      * Updates the information label based off of the current field values.
      */
@@ -247,29 +232,18 @@ public final class UserCreator {
         char[] password = newUserPasswordField.getPassword();
         char[] passwordConfirmation = newUserPasswordConfirmationField.getPassword();
 
-        if (name.isEmpty()) {
-            informationLabel.setText(NO_USERNAME);
-        } else if (!StringUtil.parseNonAscii(name).equals(name)) {
-            informationLabel.setText(INVALID_NAME);
-        } else if (usernameInUse(name)) {
-            informationLabel.setText(NAME_IN_USE);
-        } else if (password.length == 0) {
-            informationLabel.setText(NO_PASSWORD);
-        } else if (passwordConfirmation.length == 0) {
-            informationLabel.setText(NO_CONFIRMATION);
-        } else if (!Arrays.equals(password, passwordConfirmation)) {
-            informationLabel.setText(PASSWORDS_DO_NOT_MATCH);
-        } else if (password.length < 4) {
-            informationLabel.setText(INVALID_LENGTH);
-        } else if (!StringUtil.containsLetter(password)) {
-            informationLabel.setText(NO_LETTER);
-        } else if (!StringUtil.containsNumber(password)) {
-            informationLabel.setText(NO_NUMBER);
-        } else {
-            informationLabel.setText(VALID);
-            informationLabel.setForeground(CyderColors.regularGreen);
+        UserUtil.Validation nameValid = UserUtil.validateUsername(name);
+        UserUtil.Validation passwordValid = UserUtil.validatePassword(password, passwordConfirmation);
 
-            validCredentials = true;
+        if (!nameValid.valid()) {
+            informationLabel.setText(nameValid.message());
+        } else {
+            informationLabel.setText(passwordValid.message());
+
+            if (passwordValid.valid()) {
+                informationLabel.setForeground(CyderColors.regularGreen);
+                validCredentials = true;
+            }
         }
 
         Arrays.fill(password, '\0');
@@ -430,29 +404,6 @@ public final class UserCreator {
         if (createUserFrame != null) {
             createUserFrame.dispose();
         }
-    }
-
-    /**
-     * Returns whether the provided username is already in use.
-     *
-     * @param username the username to determine if in use
-     * @return whether the provided username is already in use
-     */
-    private static boolean usernameInUse(String username) {
-        Preconditions.checkNotNull(username);
-        Preconditions.checkArgument(!username.isEmpty());
-
-        if (UserUtil.getUserCount() == 0) {
-            return false;
-        }
-
-        for (File userFile : UserUtil.getUserJsons()) {
-            if (UserUtil.extractUser(userFile).getName().equalsIgnoreCase(username)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
