@@ -816,17 +816,14 @@ public final class UserEditor {
     private static CyderButton applyFontButton;
     private static CyderPartitionedLayout fontPartitionedLayout;
 
-    private static CyderLabel foregroundColorLabel;
     private static CyderTextField foregroundField;
     private static JTextField foregroundColorBlock;
 
-    private static CyderLabel windowColorLabel;
     private static CyderTextField windowField;
     private static JTextField windowColorBlock;
 
-    private static CyderLabel backgroundColorLabel;
     private static CyderTextField backgroundField;
-    private static JTextField fillColorBlock;
+    private static JTextField backgroundColorBlock;
 
     /**
      * Switches to the fonts and colors page.
@@ -875,7 +872,7 @@ public final class UserEditor {
         fontPanel.setSize(CONTENT_PANE_WIDTH / 2, CONTENT_PANE_HEIGHT);
         fontAndColorPartitionedLayout.addComponent(fontPanel, 50);
 
-        foregroundColorLabel = new CyderLabel("Foreground Color");
+        CyderLabel foregroundColorLabel = new CyderLabel("Foreground Color");
         foregroundColorLabel.setFont(CyderFonts.DEFAULT_FONT);
         foregroundColorLabel.setSize(300, 40);
 
@@ -897,14 +894,15 @@ public final class UserEditor {
                 Preference.invokeRefresh(Preference.FOREGROUND);
             } catch (Exception ignored) {}
         }));
-        foregroundField.setSize(180, 40);
+        foregroundField.setSize(160, 40);
         foregroundField.setOpaque(false);
 
         foregroundColorBlock = generateColorBlock(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()),
                 "Foreground color preview");
 
-        windowColorLabel = new CyderLabel("Window Color");
+        CyderLabel windowColorLabel = new CyderLabel("Window Color");
         windowColorLabel.setFont(CyderFonts.DEFAULT_FONT);
+        windowColorLabel.setSize(300, 40);
 
         windowField = new CyderTextField(6);
         windowField.setHorizontalAlignment(JTextField.CENTER);
@@ -922,12 +920,14 @@ public final class UserEditor {
             } catch (Exception ignored) {}
         }));
         windowField.setOpaque(false);
+        windowField.setSize(160, 40);
 
         windowColorBlock = generateColorBlock(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getWindowcolor()),
                 "Window color preview");
 
-        backgroundColorLabel = new CyderLabel("Background Color");
+        CyderLabel backgroundColorLabel = new CyderLabel("Background Color");
         backgroundColorLabel.setFont(CyderFonts.DEFAULT_FONT);
+        backgroundColorLabel.setSize(300, 40);
 
         backgroundField = new CyderTextField(6);
         backgroundField.setHorizontalAlignment(JTextField.CENTER);
@@ -939,7 +939,7 @@ public final class UserEditor {
             try {
                 String backgroundColorString = backgroundField.getText();
                 Color backgroundColor = ColorUtil.hexStringToColor(backgroundColorString);
-                fillColorBlock.setBackground(backgroundColor);
+                backgroundColorBlock.setBackground(backgroundColor);
                 UserUtil.getCyderUser().setBackground(backgroundColorString);
 
                 boolean outputFill = UserUtil.getCyderUser().getOutputfill().equals("1");
@@ -972,19 +972,67 @@ public final class UserEditor {
             } catch (Exception ignored) {}
         }));
         backgroundField.setOpaque(false);
+        backgroundField.setSize(160, 40);
 
-        fillColorBlock = generateColorBlock(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
+        backgroundColorBlock = generateColorBlock(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
                 "Background color preview");
 
         CyderGridLayout colorGridLayout = new CyderGridLayout(1, 3);
 
-        // todo partitioned layouts now for sub 3 components for each color field thing
+        CyderPartitionedLayout foregroundPartitionedLayout = new CyderPartitionedLayout();
+        foregroundPartitionedLayout.spacer(25);
+        foregroundPartitionedLayout.addComponent(foregroundColorLabel, 25);
+        CyderPartitionedLayout foregroundFieldPartitionedLayout = new CyderPartitionedLayout();
+        foregroundFieldPartitionedLayout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.ROW);
+        foregroundFieldPartitionedLayout.addComponent(generateHexInformationLabel(), 15);
+        foregroundFieldPartitionedLayout.addComponent(foregroundField, 70);
+        foregroundFieldPartitionedLayout.addComponent(foregroundColorBlock, 15);
+        CyderPanel foregroundFieldPanel = new CyderPanel(foregroundFieldPartitionedLayout);
+        foregroundFieldPanel.setSize(250, 40);
+        foregroundPartitionedLayout.addComponent(foregroundFieldPanel, 25);
+        foregroundPartitionedLayout.spacer(25);
+        colorGridLayout.addComponent(new CyderPanel(foregroundPartitionedLayout));
+
+        CyderPartitionedLayout windowPartitionedLayout = new CyderPartitionedLayout();
+        windowPartitionedLayout.spacer(25);
+        windowPartitionedLayout.addComponent(windowColorLabel, 25);
+        CyderPartitionedLayout windowFieldPartitionedLayout = new CyderPartitionedLayout();
+        windowFieldPartitionedLayout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.ROW);
+        windowFieldPartitionedLayout.addComponent(generateHexInformationLabel(), 15);
+        windowFieldPartitionedLayout.addComponent(windowField, 70);
+        windowFieldPartitionedLayout.addComponent(windowColorBlock, 15);
+        CyderPanel windowFieldPanel = new CyderPanel(windowFieldPartitionedLayout);
+        windowFieldPanel.setSize(250, 40);
+        windowPartitionedLayout.addComponent(windowFieldPanel, 25);
+        windowPartitionedLayout.spacer(25);
+        colorGridLayout.addComponent(new CyderPanel(windowPartitionedLayout));
+
+        CyderPartitionedLayout backgroundPartitionedLayout = new CyderPartitionedLayout();
+        backgroundPartitionedLayout.spacer(25);
+        backgroundPartitionedLayout.addComponent(backgroundColorLabel, 25);
+        CyderPartitionedLayout backgroundFieldPartitionedLayout = new CyderPartitionedLayout();
+        backgroundFieldPartitionedLayout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.ROW);
+        backgroundFieldPartitionedLayout.addComponent(generateHexInformationLabel(), 15);
+        backgroundFieldPartitionedLayout.addComponent(backgroundField, 70);
+        backgroundFieldPartitionedLayout.addComponent(backgroundColorBlock, 15);
+        CyderPanel backgroundFieldPanel = new CyderPanel(backgroundFieldPartitionedLayout);
+        backgroundFieldPanel.setSize(250, 40);
+        backgroundPartitionedLayout.addComponent(backgroundFieldPanel, 25);
+        backgroundPartitionedLayout.spacer(25);
+        colorGridLayout.addComponent(new CyderPanel(backgroundPartitionedLayout));
 
         CyderPanel colorPanel = new CyderPanel(colorGridLayout);
         colorPanel.setSize(CONTENT_PANE_WIDTH / 2, CONTENT_PANE_HEIGHT);
+
         fontAndColorPartitionedLayout.addComponent(colorPanel, 50);
+
         editUserFrame.setCyderLayout(fontAndColorPartitionedLayout);
     }
+
+    /**
+     * The length of generated color blocks.
+     */
+    private static final int COLOR_BLOCK_LEN = 40;
 
     /**
      * Returns a color block of size 40,40 to use a color preview.
@@ -1003,7 +1051,7 @@ public final class UserEditor {
         ret.setFocusable(false);
         ret.setCursor(null);
         ret.setBackground(backgroundColor);
-        ret.setSize(40, 40);
+        ret.setSize(COLOR_BLOCK_LEN, COLOR_BLOCK_LEN);
         ret.setToolTipText(tooltip);
         ret.setBorder(new LineBorder(CyderColors.navy, 5, false));
 
@@ -1111,7 +1159,7 @@ public final class UserEditor {
         Preference.invokeRefresh(Preference.FONT);
 
         UserUtil.getCyderUser().setBackground(defaultBackground);
-        fillColorBlock.setBackground(defaultBackgroundColor);
+        backgroundColorBlock.setBackground(defaultBackgroundColor);
         backgroundField.setText(defaultBackground);
         if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
             Console.INSTANCE.getOutputArea().setOpaque(true);
@@ -1152,7 +1200,7 @@ public final class UserEditor {
         hexLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ColorConverterWidget.getInstance().innerShowGui();
+                ColorConverterWidget.getInstance().innerShowGui(editUserFrame);
             }
 
             @Override

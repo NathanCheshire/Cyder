@@ -55,6 +55,10 @@ public class ColorConverterWidget {
     }
 
     public void innerShowGui() {
+        innerShowGui(CyderFrame.getDominantFrame());
+    }
+
+    public void innerShowGui(Component relativeTo) {
         int width = 300;
         int height = 400;
 
@@ -153,6 +157,7 @@ public class ColorConverterWidget {
         CyderPanel panel = new CyderPanel(layout);
         colorFrame.setCyderLayoutPanel(panel);
 
-        colorFrame.finalizeAndShow();
+        colorFrame.setLocationRelativeTo(relativeTo);
+        colorFrame.setVisible(true);
     }
 }
