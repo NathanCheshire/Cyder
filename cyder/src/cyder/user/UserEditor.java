@@ -1218,11 +1218,8 @@ public final class UserEditor {
         return hexLabel;
     }
 
-    // todo add things to label use magic text and print that label so that stuff is aligned
-    /**
-     * The width of the preferences scroll and pane for the preferences page.
-     */
     private static final int PREF_WIDTH = 400;
+    private static final int PREF_HEIGHT = 100;
 
     /**
      * The size of the preference checkboxes.
@@ -1232,63 +1229,57 @@ public final class UserEditor {
     /**
      * The text used for preference labels.
      */
-    private static final String PRINT_LABEL_CHECKBOX_MAGIC_TEXT = StringUtil.generateTextForCustomComponent(4);
+    private static final String PRINT_LABEL_MAGIC_TEXT = StringUtil.generateTextForCustomComponent(6);
 
     /**
      * Switches to the preferences preference page.
      */
     private static void switchToPreferences() {
+        CyderPartitionedLayout preferencesPartitionedLayout = new CyderPartitionedLayout();
+
+        CyderLabel prefsTitle = new CyderLabel("Preferences");
+        prefsTitle.setFont(CyderFonts.DEFAULT_FONT);
+        prefsTitle.setSize(200, 40);
+
         JTextPane preferencePane = new JTextPane();
         preferencePane.setEditable(false);
         preferencePane.setAutoscrolls(false);
-        preferencePane.setBounds(switchingLabel.getWidth() / 2 - PREF_WIDTH / 2,
-                10, PREF_WIDTH, switchingLabel.getHeight() - 20);
+        preferencePane.setSize(CONTENT_PANE_WIDTH, CONTENT_PANE_HEIGHT);
         preferencePane.setFocusable(true);
         preferencePane.setOpaque(false);
         preferencePane.setBackground(Color.white);
 
-        // adding components
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(preferencePane));
 
-        // print title
-        CyderLabel prefsTitle = new CyderLabel("Preferences");
-        prefsTitle.setFont(CyderFonts.SEGOE_30);
-        printingUtil.printlnComponent(prefsTitle);
-
-        // print boolean userdata, i.e. (preferences)
-        for (int i = 0 ; i < Preference.getPreferences().size() ; i++) {
-            if (Preference.getPreferences().get(i).getDisplayName().equals("IGNORE"))
+        for (Preference preference : Preference.getPreferences()) {
+            if (preference.getIgnoreForToggleSwitches()) {
                 continue;
+            }
 
-            // label for information
-            CyderLabel preferenceLabel = new CyderLabel(Preference.getPreferences().get(i).getDisplayName());
-            preferenceLabel.setForeground(CyderColors.navy);
-            preferenceLabel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
-            preferenceLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
-            printingUtil.printComponent(preferenceLabel);
-            printingUtil.print(StringUtil.generateNSpaces(20));
+            JLabel preferenceContentLabel = new JLabel(PRINT_LABEL_MAGIC_TEXT);
+            preferenceContentLabel.setSize(PREF_WIDTH, PREF_HEIGHT);
 
-            Preference localPref = Preference.getPreferences().get(i);
-            boolean selected = UserUtil.getUserDataById(localPref.getID()).equalsIgnoreCase("1");
+            CyderLabel preferenceNameLabel = new CyderLabel(preference.getDisplayName());
+            preferenceNameLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
+            preferenceNameLabel.setBounds((int) (PREF_WIDTH * 0.40), 0, PREF_WIDTH / 2, PREF_HEIGHT);
+            preferenceContentLabel.add(preferenceNameLabel);
 
+            boolean selected = UserUtil.getUserDataById(preference.getID()).equalsIgnoreCase("1");
             CyderCheckbox checkbox = new CyderCheckbox(selected);
-            checkbox.setToolTipText(Preference.getPreferences().get(i).getTooltip());
+            checkbox.setToolTipText(preference.getTooltip());
             checkbox.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    UserUtil.setUserDataById(localPref.getID(), checkbox.isChecked() ? "1" : "0");
-
-                    Preference.invokeRefresh(localPref.getID());
+                    UserUtil.setUserDataById(preference.getID(), checkbox.isChecked() ? "1" : "0");
+                    Preference.invokeRefresh(preference.getID());
                 }
             });
+            checkbox.setBounds(PREF_WIDTH - checkboxSize / 2,
+                    PREF_HEIGHT / 2 - checkboxSize / 2 + 10, checkboxSize, checkboxSize);
+            preferenceContentLabel.add(checkbox);
 
-            checkbox.setSize(checkboxSize, checkboxSize);
-            JLabel printLabel = new JLabel(PRINT_LABEL_CHECKBOX_MAGIC_TEXT);
-            printLabel.setSize(checkboxSize, checkboxSize);
-            checkbox.setBounds(0, 0, checkboxSize, checkboxSize);
-            printLabel.add(checkbox);
-
-            printingUtil.printlnComponent(printLabel);
+            printingUtil.printlnComponent(preferenceContentLabel);
+            System.out.println(preferenceContentLabel);
             printingUtil.println("");
         }
 
@@ -1301,14 +1292,14 @@ public final class UserEditor {
         preferenceScroll.setBackground(Color.white);
         preferenceScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         preferenceScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        preferenceScroll.setBounds(switchingLabel.getWidth() / 2 - PREF_WIDTH / 2, 10,
-                PREF_WIDTH, switchingLabel.getHeight() - 20);
-
-        //set menu location to top
+        preferenceScroll.setSize(CONTENT_PANE_WIDTH - 50, CONTENT_PANE_HEIGHT - 100);
+        preferenceScroll.setBorder(new LineBorder(CyderColors.navy, 5));
         preferencePane.setCaretPosition(0);
 
-        switchingLabel.add(preferenceScroll);
-        switchingLabel.revalidate();
+        preferencesPartitionedLayout.addComponent(prefsTitle, 10);
+        preferencesPartitionedLayout.addComponent(preferenceScroll, 90);
+
+        editUserFrame.setCyderLayout(preferencesPartitionedLayout);
     }
 
     /**
