@@ -33,8 +33,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.net.URL;
-import java.net.URLConnection;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -1293,28 +1291,26 @@ public final class UserEditor {
         editUserFrame.setCyderLayout(preferencesPartitionedLayout);
     }
 
+    /**
+     * The password field for a new password.
+     */
     private static CyderPasswordField newPasswordField;
+
+    /**
+     * The password confirmation field for a new password.
+     */
     private static CyderPasswordField newPasswordConfirmationField;
+
+    private static final int fieldPanelWidth = CONTENT_PANE_WIDTH - 100;
+    private static final int fieldPanelHeight = 300;
+    private static final int fieldHeaderLabelHeight = 50;
+    private static final int fieldMainComponentWidth = 300;
+    private static final int fieldMainComponentHeight = 40;
 
     /**
      * Switches to the field input preference page.
      */
     private static void switchToFieldInputs() {
-        //      label
-        // field 1, field 2
-        // button 1, button 2
-
-        // todo map removing/adding should be cleaner
-
-        // todo change password
-        // todo console date pattern
-
-        // todo panel should be a lot simpler for this
-        // todo add map
-        // todo remove map
-
-        // todo delete user
-
         CyderLabel prefsTitle = new CyderLabel("Field Inputs");
         prefsTitle.setFont(CyderFonts.DEFAULT_FONT);
         prefsTitle.setSize(CONTENT_PANE_WIDTH, 50);
@@ -1340,24 +1336,15 @@ public final class UserEditor {
         fieldInputsScroll.setBorder(new LineBorder(CyderColors.navy, 5));
         fieldInputsScroll.setSize(CONTENT_PANE_WIDTH - 50, CONTENT_PANE_HEIGHT - 100);
 
-        String panelMagicText = StringUtil.generateTextForCustomComponent(12);
-        int panelWidth = CONTENT_PANE_WIDTH - 100;
-        int panelHeight = 300;
-
-        int headerLabelHeight = 50;
-
-        int fieldAndButtonWidth = 300;
-        int fieldAndButtonHeight = 40;
-
         JLabel changeUsernameLabel = new CyderLabel("Change Username");
         changeUsernameLabel.setForeground(CyderColors.navy);
         changeUsernameLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
         changeUsernameLabel.setHorizontalAlignment(JLabel.CENTER);
-        changeUsernameLabel.setSize(panelWidth, headerLabelHeight);
+        changeUsernameLabel.setSize(fieldPanelWidth, fieldHeaderLabelHeight);
 
         CyderTextField newUsernameField = new CyderTextField();
         newUsernameField.setHorizontalAlignment(JTextField.CENTER);
-        newUsernameField.setSize(fieldAndButtonWidth, fieldAndButtonHeight);
+        newUsernameField.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
         newUsernameField.addActionListener(e -> {
             attemptChangeUsername(newUsernameField.getTrimmedText());
             newUsernameField.setText(UserUtil.getCyderUser().getName());
@@ -1365,7 +1352,7 @@ public final class UserEditor {
         newUsernameField.setText(UserUtil.getCyderUser().getName());
 
         CyderButton changeUsernameButton = new CyderButton("Change username");
-        changeUsernameButton.setSize(fieldAndButtonWidth, fieldAndButtonHeight);
+        changeUsernameButton.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
         changeUsernameButton.setToolTipText("Change username");
         changeUsernameButton.addActionListener(e -> {
             attemptChangeUsername(newUsernameField.getTrimmedText());
@@ -1378,20 +1365,20 @@ public final class UserEditor {
         changeUsernameLayout.addComponent(changeUsernameButton);
 
         CyderPanel changeUsernamePanel = new CyderPanel(changeUsernameLayout);
-        changeUsernamePanel.setText(panelMagicText);
-        changeUsernamePanel.setSize(panelWidth, panelHeight);
+        changeUsernamePanel.setText(StringUtil.generateTextForCustomComponent(12));
+        changeUsernamePanel.setSize(fieldPanelWidth, fieldPanelHeight);
         printingUtil.printlnComponent(changeUsernamePanel);
 
         JLabel changePasswordLabel = new CyderLabel("Change Password");
         changePasswordLabel.setForeground(CyderColors.navy);
         changePasswordLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
         changePasswordLabel.setHorizontalAlignment(JLabel.CENTER);
-        changePasswordLabel.setSize(panelWidth, headerLabelHeight);
+        changePasswordLabel.setSize(fieldPanelWidth, fieldHeaderLabelHeight);
 
         newPasswordField = new CyderPasswordField();
         newPasswordField.setToolTipText("New password");
         newPasswordField.setHorizontalAlignment(JTextField.CENTER);
-        newPasswordField.setSize(fieldAndButtonWidth, fieldAndButtonHeight);
+        newPasswordField.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
         newPasswordField.addActionListener(e -> {
             changePassword(newPasswordField.getPassword(), newPasswordConfirmationField.getPassword());
             newPasswordField.setText("");
@@ -1401,7 +1388,7 @@ public final class UserEditor {
         newPasswordConfirmationField = new CyderPasswordField();
         newPasswordConfirmationField.setToolTipText("New password confirmation");
         newPasswordConfirmationField.setHorizontalAlignment(JTextField.CENTER);
-        newPasswordConfirmationField.setSize(fieldAndButtonWidth, fieldAndButtonHeight);
+        newPasswordConfirmationField.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
         newPasswordConfirmationField.addActionListener(e -> {
             changePassword(newPasswordField.getPassword(), newPasswordConfirmationField.getPassword());
             newPasswordField.setText("");
@@ -1409,7 +1396,7 @@ public final class UserEditor {
         });
 
         CyderButton changePasswordButton = new CyderButton("Change password");
-        changePasswordButton.setSize(fieldAndButtonWidth, fieldAndButtonHeight);
+        changePasswordButton.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
         changePasswordButton.setToolTipText("Change password");
         changePasswordButton.addActionListener(e -> {
             changePassword(newPasswordField.getPassword(), newPasswordConfirmationField.getPassword());
@@ -1424,10 +1411,153 @@ public final class UserEditor {
         changePasswordLayout.addComponent(changePasswordButton);
 
         CyderPanel changePasswordPanel = new CyderPanel(changePasswordLayout);
-        changePasswordPanel.setText(panelMagicText);
-        changePasswordPanel.setSize(panelWidth, panelHeight);
+        changePasswordPanel.setText(StringUtil.generateTextForCustomComponent(14));
+        changePasswordPanel.setSize(fieldPanelWidth, fieldPanelHeight);
         printingUtil.printlnComponent(changePasswordPanel);
 
+        JLabel changeConsoleDatePatternLabel = new CyderLabel("Change Console Date Pattern");
+        changeConsoleDatePatternLabel.setForeground(CyderColors.navy);
+        changeConsoleDatePatternLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
+        changeConsoleDatePatternLabel.setHorizontalAlignment(JLabel.CENTER);
+        changeConsoleDatePatternLabel.setSize(fieldPanelWidth, fieldHeaderLabelHeight);
+
+        CyderTextField changeConsoleDatePatternField = new CyderTextField();
+        changeConsoleDatePatternField.setHorizontalAlignment(JTextField.CENTER);
+        changeConsoleDatePatternField.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
+        changeConsoleDatePatternField.addActionListener(e -> {
+            setConsoleDatePattern(changeConsoleDatePatternField.getTrimmedText());
+            changeConsoleDatePatternField.setText(UserUtil.getCyderUser().getConsoleclockformat());
+        });
+        changeConsoleDatePatternField.setText(UserUtil.getCyderUser().getConsoleclockformat());
+
+        CyderButton changeConsoleDaterPatternButton = new CyderButton("Change date pattern");
+        changeConsoleDaterPatternButton.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
+        changeConsoleDaterPatternButton.setToolTipText("Change console date pattern");
+        changeConsoleDaterPatternButton.addActionListener(e -> {
+            setConsoleDatePattern(changeConsoleDatePatternField.getTrimmedText());
+            changeConsoleDatePatternField.setText(UserUtil.getCyderUser().getConsoleclockformat());
+        });
+
+        CyderGridLayout changeConsoleDaterPatternLayout = new CyderGridLayout(1, 3);
+        changeConsoleDaterPatternLayout.addComponent(changeConsoleDatePatternLabel);
+        changeConsoleDaterPatternLayout.addComponent(changeConsoleDatePatternField);
+        changeConsoleDaterPatternLayout.addComponent(changeConsoleDaterPatternButton);
+
+        CyderPanel changeConsoleDaterPatternPanel = new CyderPanel(changeConsoleDaterPatternLayout);
+        changeConsoleDaterPatternPanel.setText(StringUtil.generateTextForCustomComponent(12));
+        changeConsoleDaterPatternPanel.setSize(fieldPanelWidth, fieldPanelHeight);
+        printingUtil.printlnComponent(changeConsoleDaterPatternPanel);
+
+        JLabel deleteUserLabel = new CyderLabel("Delete User");
+        deleteUserLabel.setForeground(CyderColors.navy);
+        deleteUserLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
+        deleteUserLabel.setHorizontalAlignment(JLabel.CENTER);
+        deleteUserLabel.setSize(fieldPanelWidth, fieldHeaderLabelHeight);
+
+        CyderPasswordField deleteUserConfirmationField = new CyderPasswordField();
+        deleteUserConfirmationField.setToolTipText("Password confirmation");
+        deleteUserConfirmationField.setHorizontalAlignment(JTextField.CENTER);
+        deleteUserConfirmationField.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
+        deleteUserConfirmationField.addActionListener(e -> {
+            deleteUser(deleteUserConfirmationField.getPassword());
+            deleteUserConfirmationField.setText("");
+        });
+
+        CyderButton deleteUserButton = new CyderButton("Delete user");
+        deleteUserButton.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
+        deleteUserButton.setToolTipText("Delete user");
+        deleteUserButton.addActionListener(e -> {
+            deleteUser(deleteUserConfirmationField.getPassword());
+            deleteUserConfirmationField.setText("");
+        });
+
+        CyderGridLayout deleteUserLayout = new CyderGridLayout(1, 3);
+        deleteUserLayout.addComponent(deleteUserLabel);
+        deleteUserLayout.addComponent(deleteUserConfirmationField);
+        deleteUserLayout.addComponent(deleteUserButton);
+
+        CyderPanel deleteUserPanel = new CyderPanel(deleteUserLayout);
+        deleteUserPanel.setText(StringUtil.generateTextForCustomComponent(12));
+        deleteUserPanel.setSize(fieldPanelWidth, fieldPanelHeight);
+        printingUtil.printlnComponent(deleteUserPanel);
+
+        JLabel addMapLabel = new CyderLabel("Add Map");
+        addMapLabel.setForeground(CyderColors.navy);
+        addMapLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
+        addMapLabel.setHorizontalAlignment(JLabel.CENTER);
+        addMapLabel.setSize(fieldPanelWidth, fieldHeaderLabelHeight);
+
+        CyderTextField addMapNameField = new CyderTextField();
+        addMapNameField.setToolTipText("New Map Name");
+        addMapNameField.setHorizontalAlignment(JTextField.CENTER);
+        addMapNameField.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
+
+        CyderTextField addMapLinkField = new CyderTextField();
+        addMapLinkField.setToolTipText("New Map Link");
+        addMapLinkField.setHorizontalAlignment(JTextField.CENTER);
+        addMapLinkField.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
+
+        CyderButton addMapButton = new CyderButton("Add map");
+        addMapButton.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
+        addMapButton.addActionListener(e -> {
+            if (!StringUtil.isNull(addMapNameField.getText())
+                    && !StringUtil.isNull(addMapLinkField.getText())) {
+                addMap(addMapNameField.getTrimmedText(), addMapLinkField.getTrimmedText());
+                addMapNameField.setText("");
+                addMapLinkField.setText("");
+            }
+        });
+
+        CyderButton showCurrentMapsButton = new CyderButton("Show current maps");
+        showCurrentMapsButton.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
+        showCurrentMapsButton.addActionListener(e -> showCurrentMaps());
+
+        CyderGridLayout addMapLayout = new CyderGridLayout(1, 5);
+        addMapLayout.addComponent(addMapLabel);
+        addMapLayout.addComponent(addMapNameField);
+        addMapLayout.addComponent(addMapLinkField);
+        addMapLayout.addComponent(addMapButton);
+        addMapLayout.addComponent(showCurrentMapsButton);
+
+        CyderPanel addMapPanel = new CyderPanel(addMapLayout);
+        addMapPanel.setText(StringUtil.generateTextForCustomComponent(16));
+        addMapPanel.setSize(fieldPanelWidth, fieldPanelHeight);
+        printingUtil.printlnComponent(addMapPanel);
+
+        JLabel removeMapLabel = new CyderLabel("Remove Map");
+        removeMapLabel.setForeground(CyderColors.navy);
+        removeMapLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
+        removeMapLabel.setHorizontalAlignment(JLabel.CENTER);
+        removeMapLabel.setSize(fieldPanelWidth, fieldHeaderLabelHeight);
+
+        CyderTextField removeMapNameField = new CyderTextField();
+        removeMapNameField.setToolTipText("Remove Map Name");
+        removeMapNameField.setHorizontalAlignment(JTextField.CENTER);
+        removeMapNameField.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
+
+        CyderButton removeMapButton = new CyderButton("Remove map");
+        removeMapButton.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
+        removeMapButton.addActionListener(e -> {
+            if (!StringUtil.isNull(removeMapNameField.getText())) {
+                removeMap(removeMapNameField.getText());
+                removeMapNameField.setText("");
+            }
+        });
+
+        CyderButton showCurrentMapsButtonForRemoveSection = new CyderButton("Show current maps");
+        showCurrentMapsButtonForRemoveSection.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
+        showCurrentMapsButtonForRemoveSection.addActionListener(e -> showCurrentMaps());
+
+        CyderGridLayout removeMapLayout = new CyderGridLayout(1, 4);
+        removeMapLayout.addComponent(removeMapLabel);
+        removeMapLayout.addComponent(removeMapNameField);
+        removeMapLayout.addComponent(removeMapButton);
+        removeMapLayout.addComponent(showCurrentMapsButtonForRemoveSection);
+
+        CyderPanel removeMapPanel = new CyderPanel(removeMapLayout);
+        removeMapPanel.setText(StringUtil.generateTextForCustomComponent(14));
+        removeMapPanel.setSize(fieldPanelWidth, fieldPanelHeight);
+        printingUtil.printlnComponent(removeMapPanel);
 
         StyledDocument doc = fieldInputsPane.getStyledDocument();
         SimpleAttributeSet center = new SimpleAttributeSet();
@@ -1561,96 +1691,100 @@ public final class UserEditor {
         return false;
     }
 
-    private static void addMap(JTextField addMapField) {
-        if (!addMapField.getText().trim().isEmpty()) {
-            if (!addMapField.getText().trim().contains(",")) {
-                editUserFrame.notify("Invalid map format");
-            } else {
-                String[] parts = addMapField.getText().trim().split(",");
+    /**
+     * Shows an information pane of the current user's maps.
+     */
+    private static void showCurrentMaps() {
+        StringBuilder builtInform = new StringBuilder();
 
-                if (parts.length != 2) {
-                    editUserFrame.notify("Too many arguments");
-                } else {
-                    String name = parts[0].trim();
-                    String path = parts[1].trim();
+        LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
 
-                    File pointerFile = new File(path);
-                    boolean validLink;
+        for (MappedExecutable exe : exes) {
+            builtInform.append("\"")
+                    .append(exe.getName())
+                    .append("\" maps to: \"")
+                    .append(exe.getFilepath())
+                    .append("\"")
+                    .append("<br/>");
+        }
 
-                    try {
-                        URL url = new URL(path);
-                        URLConnection conn = url.openConnection();
-                        conn.connect();
-                        validLink = true;
-                    } catch (Exception ex) {
-                        validLink = false;
-                    }
+        String username = UserUtil.getCyderUser().getName();
+        String mapsString = builtInform.toString();
+        editUserFrame.inform(mapsString.isEmpty()
+                ? "No maps found for " + UserUtil.getCyderUser().getName()
+                : mapsString, username + StringUtil.getApostrophe(username) + " maps");
+    }
 
-                    if ((!pointerFile.exists() || !pointerFile.isFile()) && !validLink && !pointerFile.isDirectory()) {
-                        editUserFrame.notify("File does not exist or link is invalid");
-                    } else {
-                        if (!name.isEmpty()) {
-                            LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
-                            boolean exists = false;
+    /**
+     * Adds a new map to the current users list of maps.
+     *
+     * @param name the name of the map
+     * @param link the link to the file/url
+     */
+    private static void addMap(String name, String link) {
+        Preconditions.checkNotNull(name);
+        Preconditions.checkNotNull(link);
+        Preconditions.checkArgument(!name.isEmpty());
+        Preconditions.checkArgument(!link.isEmpty());
 
-                            for (MappedExecutable exe : exes) {
-                                if (exe.getName().equalsIgnoreCase(name)) {
-                                    exists = true;
-                                    break;
-                                }
-                            }
+        File referenceFile = new File(link);
+        boolean isValidFile = referenceFile.isFile();
+        boolean isValidLink = NetworkUtil.isValidUrl(link);
 
-                            if (exists) {
-                                editUserFrame.notify("Mapped exe name already in use");
-                            } else {
-                                MappedExecutable addExe = new MappedExecutable(name, path);
-                                LinkedList<MappedExecutable> newExes = UserUtil.getCyderUser().getExecutables();
-                                newExes.add(addExe);
-                                UserUtil.getCyderUser().setExecutables(newExes);
+        if (!isValidFile && !isValidLink) {
+            editUserFrame.notify("Could not locate local file/link is invalid");
+            return;
+        }
 
-                                editUserFrame.notify("Mapped exe successfully added");
-                                Console.INSTANCE.revalidateMenu();
-                            }
-                        } else {
-                            editUserFrame.notify("Invalid map name");
-                        }
-                    }
-                }
+        LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
+        boolean exists = false;
 
-                addMapField.setText("");
+        for (MappedExecutable exe : exes) {
+            if (exe.getName().equalsIgnoreCase(name)) {
+                exists = true;
+                break;
             }
+        }
+
+        if (exists) {
+            editUserFrame.notify("Map name already exists");
+        } else {
+            MappedExecutable addExe = new MappedExecutable(name, link);
+            LinkedList<MappedExecutable> newExes = UserUtil.getCyderUser().getExecutables();
+            newExes.add(addExe);
+            UserUtil.getCyderUser().setExecutables(newExes);
+
+            editUserFrame.notify("Successfully added map \"" + name + "\" linking to: \"" + link + "\"");
+            Console.INSTANCE.revalidateMenu();
         }
     }
 
     /**
      * Removes the map from the user's list of maps.
      *
-     * @param removeMapField the map to remove
+     * @param name the name of the map to remove
      */
-    private static void removeMap(JTextField removeMapField) {
-        String text = removeMapField.getText().trim();
+    private static void removeMap(String name) {
+        Preconditions.checkNotNull(name);
+        Preconditions.checkArgument(!name.isEmpty());
 
-        if (!text.isEmpty()) {
-            LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
-            boolean found = false;
+        LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
+        boolean found = false;
 
-            for (MappedExecutable exe : exes) {
-                if (exe.getName().equalsIgnoreCase(text)) {
-                    found = true;
-                    exes.remove(exe);
-                    break;
-                }
+        for (MappedExecutable exe : exes) {
+            if (exe.getName().equalsIgnoreCase(name)) {
+                found = true;
+                exes.remove(exe);
+                break;
             }
+        }
 
-            if (found) {
-                UserUtil.getCyderUser().setExecutables(exes);
-                editUserFrame.notify("Map successfully removed");
-                Console.INSTANCE.revalidateMenu();
-            } else {
-                editUserFrame.notify("Could not locate specified map");
-            }
-
-            removeMapField.setText("");
+        if (found) {
+            UserUtil.getCyderUser().setExecutables(exes);
+            editUserFrame.notify("Removed map \"" + name + "\" successfully removed");
+            Console.INSTANCE.revalidateMenu();
+        } else {
+            editUserFrame.notify("Could not locate map with specified name");
         }
     }
 }

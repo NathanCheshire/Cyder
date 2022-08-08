@@ -1,0 +1,231 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[14-41-43] [ENTRY]: Nathan
+[14-41-43] [DEBUG]: Found prop file: props\propkeys.ini
+[14-41-43] [DEBUG]: Found prop file: props\props.ini
+[14-41-43] [PROP LOADED]: [key = map_quest_api_key]
+[14-41-43] [PROP LOADED]: [key = youtube_api_3_key]
+[14-41-43] [PROP LOADED]: [key = ip_key]
+[14-41-43] [PROP LOADED]: [key = weather_key]
+[14-41-43] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[14-41-43] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7ca733d0a7f6]
+[14-41-43] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[14-41-43] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiolength
+           ,capsmode,typingsound,showbusyicon]
+[14-41-43] [PROP LOADED]: [key = font_metric, value = 1]
+[14-41-43] [PROP LOADED]: [key = max_font_size, value = 50]
+[14-41-43] [PROP LOADED]: [key = min_font_size, value = 25]
+[14-41-43] [PROP LOADED]: [key = released, value = false]
+[14-41-43] [PROP LOADED]: [key = version, value = Liminal]
+[14-41-43] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[14-41-43] [PROP LOADED]: [key = components_relocatable, value = false]
+[14-41-43] [PROP LOADED]: [key = testing_mode, value = true]
+[14-41-43] [PROP LOADED]: [key = autocypher, value = true]
+[14-41-43] [PROP LOADED]: [key = dispose_splash, value = true]
+[14-41-43] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[14-41-43] [PROP LOADED]: [key = activate_watchdog, value = false]
+[14-41-43] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[14-41-43] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[14-41-43] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[14-41-43] [PROP LOADED]: [key = ui_scale, value = 1]
+[14-41-43] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[14-41-43] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[14-41-43] [DEBUG]: Jar mode set as: FALSE
+[14-41-43] [THREAD STARTED]: Object Creation Logger
+[14-41-43] [DEBUG]: Watchdog skipped
+[14-41-43] [LOADING MESSAGE]: Registering fonts
+[14-41-44] [FONT LOADED]: agency-fb
+[14-41-44] [FONT LOADED]: arial-black
+[14-41-44] [FONT LOADED]: beyno
+[14-41-44] [FONT LOADED]: condiment-regular
+[14-41-44] [FONT LOADED]: prompt-bold
+[14-41-44] [FONT LOADED]: segoe-ui-black
+[14-41-44] [FONT LOADED]: tahoma
+[14-41-44] [LOADING MESSAGE]: Ensuring singular instance
+[14-41-44] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[14-41-44] [DEBUG]: Starting instance socket on port 5150
+[14-41-44] [LOADING MESSAGE]: Ensuring OS is supported
+[14-41-44] [LOADING MESSAGE]: Creating dynamics
+[14-41-44] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[14-41-44] [LOADING MESSAGE]: Validating users
+[14-41-44] [LOADING MESSAGE]: Cleaning users
+[14-41-44] [LOADING MESSAGE]: Validating props
+[14-41-44] [LOADING MESSAGE]: Validating Widgets
+[14-41-45] [LOADING MESSAGE]: Validating Tests
+[14-41-45] [LOADING MESSAGE]: Validating Vanilla annotations
+[14-41-45] [LOADING MESSAGE]: Validating Handles
+[14-41-45] [THREAD STARTED]: Splash Loader
+[14-41-45] [THREAD STARTED]: Sufficient Subroutine Executor
+[14-41-45] [LOADING MESSAGE]: Logging JVM args
+[14-41-45] [THREAD STARTED]: JVM Args Logger
+[14-41-45] [LOADING MESSAGE]: Checking for an AutoCypher
+[14-41-45] [LOGIN]: AutoCypher Attempt
+[14-41-45] [LOADING MESSAGE]: Auto Cyphering
+[14-41-45] [THREAD STARTED]: Splash Animation
+[14-41-45] [THREAD STARTED]: Enter animation, frame=Cyder Splash
+[14-41-45] UNIQUE OBJECT CREATEDConsole singleton constructed
+[14-41-46] [DEBUG]: Cyder Entry = AutoCypher
+[14-41-46] [OBJECT CREATION]: Objects created since last delta (5000ms): 89
+[14-41-46] [THREAD STARTED]: High Ping Checker
+[14-41-46] [DEBUG]: Latency of Google found to be 49ms
+[14-41-46] [THREAD STARTED]: Console Printing Animation
+[14-41-46] [THREAD STARTED]: Hourly Chime Checker
+[14-41-46] [THREAD STARTED]: Console Clock Updater
+[14-41-46] [THREAD STARTED]: Cyder Busy Checker
+[14-41-46] [THREAD STARTED]: Console Stat Saver
+[14-41-46] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[14-41-46] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[14-41-46] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[14-41-47] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[14-41-47] [THREAD STARTED]: Manual Tests Thread
+[14-41-47] [CONSOLE OUT]: [STRING]: Console loaded in 3878ms
+[14-41-47] [DEBUG]: Attempted to log a new or empty line
+[14-41-47] [THREAD STARTED]: Splash Loading Label Updater
+[14-41-48] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[14-41-48] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[14-41-49] [CLIENT]: prefs
+[14-41-49] [THREAD STARTED]: Enter animation, frame=Preferences
+[14-41-49] [CONSOLE OUT]: [STRING]: Opening widget: UserEditor
+[14-41-49] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[14-41-49] [WIDGET]: UserEditor, trigger = prefs
+[14-41-49] [DEBUG]: Attempted to log a new or empty line
+[14-41-49] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 12] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[14-41-49] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659987660753.json
+[14-41-51] [OBJECT CREATION]: Objects created since last delta (5000ms): 128
+[14-41-57] [UI]: [INFORMATION PANE] text = ""youtube thing" maps to: "https://www.youtube.com/watch?v=dy5ytxc4upw"<br/>"
+           youtube thing2" maps to: "https://www.youtube.com/watch?v=dy5ytxc4upw"<br/>", relativeTo = Component = CyderFrame, hash
+           = 585874130, bounds = (915, 507, 800, 600), parent frame = Component itself is a CyderFrame, getTitle() = Preferences
+[14-41-57] [UI]: Component = CyderButton, hash = 537104475, bounds = (211, 209, 300, 40), parent frame = Preferences,
+           getText() = Show current maps, getTitle() = Preferences
+[14-41-59] [UI]: Component = CyderDragLabel, hash = -40981901, bounds = (2, 2, 613, 28), parent frame = Nathan's maps,
+           getText() = Show current maps, getTitle() = Preferences
+[14-41-59] [THREAD STARTED]: [Nathan's maps] dispose() animation thread
+[14-41-59] [UI]: CyderFrame disposed with fastclose=false, getTitle=Nathan's maps
+[14-42-01] [OBJECT CREATION]: Objects created since last delta (5000ms): 19
+[14-42-02] [UI]: [INFORMATION PANE] text = ""youtube thing" maps to: "https://www.youtube.com/watch?v=dy5ytxc4upw"<br/>"
+           youtube thing2" maps to: "https://www.youtube.com/watch?v=dy5ytxc4upw"<br/>", relativeTo = Component = CyderFrame, hash
+           = 585874130, bounds = (915, 507, 800, 600), parent frame = Component itself is a CyderFrame, getText() = Show current
+           maps, getTitle() = Preferences
+[14-42-02] [UI]: Component = CyderButton, hash = 317475443, bounds = (211, 176, 300, 40), parent frame = Preferences,
+           getText() = Show current maps, getTitle() = Preferences
+[14-42-03] [UI]: Component = CyderDragLabel, hash = -281901413, bounds = (2, 2, 613, 28), parent frame = Nathan's maps,
+           getText() = Show current maps, getTitle() = Preferences
+[14-42-03] [THREAD STARTED]: [Nathan's maps] dispose() animation thread
+[14-42-03] [UI]: CyderFrame disposed with fastclose=false, getTitle=Nathan's maps
+[14-42-04] [UI]: cyder.ui.CyderTextField[,211,64,300x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignmen
+           tX=0.0,alignmentY=0.0,border=javax.swing.border.LineBorder@41c16a49,flags=16777512,maximumSize=,minimumSize=,preferredSi
+           ze=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edit
+           able=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColor
+           UIResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,hori
+           zontalAlignment=CENTER]
+[14-42-06] [OBJECT CREATION]: Objects created since last delta (5000ms): 19
+[14-42-06] [THREAD STARTED]: Preferences notification queue checker
+[14-42-06] [UI]: Component = CyderButton, hash = 466214803, bounds = (211, 120, 300, 40), parent frame = Preferences,
+           getText() = Remove map, getTitle() = Preferences
+[14-42-06] [UI]: [Preferences] [NOTIFICATION] "<html>Removed map "youtube thing" successfully removed</html>"
+[14-42-06] [THREAD STARTED]: Notification Appear Animator
+[14-42-06] [THREAD STARTED]: Notification Vanish Animator
+[14-42-07] [THREAD STARTED]: Notification Vanish Animator
+[14-42-08] [UI]: cyder.ui.CyderTextField[,211,64,300x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignmen
+           tX=0.0,alignmentY=0.0,border=javax.swing.border.LineBorder@41c16a49,flags=16777512,maximumSize=,minimumSize=,preferredSi
+           ze=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edit
+           able=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColor
+           UIResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,hori
+           zontalAlignment=CENTER]
+[14-42-08] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 87] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[14-42-08] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659987709977.json
+[14-42-08] [THREAD STARTED]: Preferences notification queue checker
+[14-42-08] [UI]: Component = CyderButton, hash = 466214803, bounds = (211, 120, 300, 40), parent frame = Preferences,
+           getText() = Remove map, getTitle() = Preferences
+[14-42-08] [UI]: [Preferences] [NOTIFICATION] "<html>Could not locate map with specified name</html>"
+[14-42-08] [THREAD STARTED]: Notification Appear Animator
+[14-42-09] [THREAD STARTED]: Notification Vanish Animator
+[14-42-10] [THREAD STARTED]: Notification Vanish Animator
+[14-42-10] [UI]: cyder.ui.CyderTextField[,211,64,300x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignmen
+           tX=0.0,alignmentY=0.0,border=javax.swing.border.LineBorder@41c16a49,flags=16777512,maximumSize=,minimumSize=,preferredSi
+           ze=,caretColor=java.awt.Color[r=26,g=32,b=51],disabledTextColor=javax.swing.plaf.ColorUIResource[r=184,g=207,b=229],edit
+           able=true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColor
+           UIResource[r=51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,hori
+           zontalAlignment=CENTER]
+[14-42-11] [OBJECT CREATION]: Objects created since last delta (5000ms): 7
+[14-42-14] [THREAD STARTED]: Preferences notification queue checker
+[14-42-14] [UI]: Component = CyderButton, hash = 466214803, bounds = (211, 120, 300, 40), parent frame = Preferences,
+           getText() = Remove map, getTitle() = Preferences
+[14-42-14] [UI]: [Preferences] [NOTIFICATION] "<html>Removed map "youtube thing2" successfully removed</html>"
+[14-42-14] [THREAD STARTED]: Notification Appear Animator
+[14-42-14] [THREAD STARTED]: Notification Vanish Animator
+[14-42-15] [THREAD STARTED]: Notification Vanish Animator
+[14-42-16] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 87] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[14-42-16] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1659987728767.json
+[14-42-16] [DEBUG]: CyderFrame "No title found" was attempted to be set to invalid height: 78
+[14-42-16] [UI]: [INFORMATION PANE] text = "No maps found for Nathan", relativeTo = Component = CyderFrame, hash =
+           585874130, bounds = (915, 507, 800, 600), parent frame = Component itself is a CyderFrame, getText() = Remove map,
+           getTitle() = Preferences
+[14-42-16] [UI]: Component = CyderButton, hash = 537104475, bounds = (211, 209, 300, 40), parent frame = Preferences,
+           getText() = Show current maps, getTitle() = Preferences
+[14-42-16] [OBJECT CREATION]: Objects created since last delta (5000ms): 24
+[14-42-17] [UI]: Component = CyderDragLabel, hash = -855727114, bounds = (2, 2, 215, 28), parent frame = Nathan's maps,
+           getText() = Show current maps, getTitle() = Preferences
+[14-42-17] [THREAD STARTED]: [Nathan's maps] dispose() animation thread
+[14-42-17] [UI]: CyderFrame disposed with fastclose=false, getTitle=Nathan's maps
+[14-42-17] [UI]: Component = CyderButton, hash = 57018210, bounds = (211, 158, 300, 40), parent frame = Preferences,
+           getText() = Add map, getTitle() = Preferences
+[14-42-18] [UI]: Component = CyderButton, hash = 57018210, bounds = (211, 158, 300, 40), parent frame = Preferences,
+           getText() = Add map, getTitle() = Preferences
+[14-42-18] [UI]: Component = CyderButton, hash = 57018210, bounds = (211, 158, 300, 40), parent frame = Preferences,
+           getText() = Add map, getTitle() = Preferences
+[14-42-19] [UI]: Component = CyderButton, hash = 466214803, bounds = (211, 120, 300, 40), parent frame = Preferences,
+           getText() = Remove map, getTitle() = Preferences
+[14-42-19] [UI]: Component = CyderButton, hash = 466214803, bounds = (211, 120, 300, 40), parent frame = Preferences,
+           getText() = Remove map, getTitle() = Preferences
+[14-42-19] [UI]: Component = CyderButton, hash = 466214803, bounds = (211, 120, 300, 40), parent frame = Preferences,
+           getText() = Remove map, getTitle() = Preferences
+[14-42-19] [DEBUG]: CyderFrame "No title found" was attempted to be set to invalid height: 78
+[14-42-19] [UI]: [INFORMATION PANE] text = "No maps found for Nathan", relativeTo = Component = CyderFrame, hash =
+           585874130, bounds = (915, 507, 800, 600), parent frame = Component itself is a CyderFrame, getText() = Remove map,
+           getTitle() = Preferences
+[14-42-19] [UI]: Component = CyderButton, hash = 537104475, bounds = (211, 209, 300, 40), parent frame = Preferences,
+           getText() = Show current maps, getTitle() = Preferences
+[14-42-20] [THREAD STARTED]: Nathan's maps Opacity Decrement Animator
+[14-42-20] [THREAD STARTED]: Nathan's maps Opacity Increment Animator
+[14-42-21] [UI]: Component = CyderDragLabel, hash = -609483153, bounds = (2, 2, 215, 28), parent frame = Nathan's maps,
+           getText() = Show current maps, getTitle() = Preferences
+[14-42-21] [THREAD STARTED]: [Nathan's maps] dispose() animation thread
+[14-42-21] [UI]: CyderFrame disposed with fastclose=false, getTitle=Nathan's maps
+[14-42-21] [OBJECT CREATION]: Objects created since last delta (5000ms): 19
+[14-42-23] [UI]: Component = CyderDragLabel, hash = -1569019239, bounds = (2, 2, 796, 28), parent frame = Preferences,
+           getText() = Show current maps, getTitle() = Preferences
+[14-42-23] [THREAD STARTED]: [Preferences] dispose() animation thread
+[14-42-23] [UI]: CyderFrame disposed with fastclose=false, getTitle=Preferences
+[14-42-24] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[14-42-24] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[14-42-24] [EXIT]: [RUNTIME] 40s 828ms
+[14-42-24] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], no exceptions thrown, total
+           objects created: 305
