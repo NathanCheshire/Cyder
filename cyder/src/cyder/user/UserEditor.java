@@ -548,8 +548,10 @@ public final class UserEditor {
                     case "Music" -> editUserFrame.notify("Deleted music file: " + filename);
                     default -> editUserFrame.notify("Deleted file: " + filename);
                 }
+
+                revalidateFilesScroll();
             } else {
-                editUserFrame.notify("Could not delete " + filename + " at this time");
+                editUserFrame.notify("Could not delete " + filename);
             }
         }
     };

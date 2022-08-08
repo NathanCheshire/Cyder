@@ -15,8 +15,8 @@ import cyder.utils.OSUtil;
 import cyder.utils.TimeUtil;
 
 import javax.swing.*;
-import javax.swing.plaf.BorderUIResource;
-import java.io.File;
+
+import static cyder.genesis.Constants.*;
 
 /**
  * The main Cyder entry point that performs checks on data and
@@ -24,7 +24,7 @@ import java.io.File;
  */
 public final class Cyder {
     /**
-     * Instantiation of top level program genesis not permitted.
+     * Suppress default constructor.
      */
     private Cyder() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
@@ -57,7 +57,7 @@ public final class Cyder {
 
         PropLoader.loadProps();
 
-        addExitHook();
+        addExitHooks();
 
         Logger.initialize();
 
@@ -78,12 +78,13 @@ public final class Cyder {
      * Initializes UIManager tooltip key-value props.
      */
     private static void initUiManagerTooltipProps() {
-        UIManager.put("ToolTip.background", CyderColors.tooltipBackgroundColor);
-        UIManager.put("ToolTip.border", new BorderUIResource(BorderFactory.createLineBorder(
-                CyderColors.tooltipBorderColor, 2, true)));
-        UIManager.put("ToolTip.font", CyderFonts.TOOLTIP_FONT);
-        UIManager.put("ToolTip.foreground", CyderColors.tooltipForegroundColor);
+        UIManager.put(TOOLTIP_BACKGROUND, CyderColors.tooltipBackgroundColor);
+        UIManager.put(TOOLTIP_BORDER, TOOLTIP_BORDER_RESOURCE);
+        UIManager.put(TOOLTIP_FONT, CyderFonts.TOOLTIP_FONT);
+        UIManager.put(TOOLTIP_FOREGROUND, CyderColors.tooltipForegroundColor);
     }
+
+    private static final String SLIDER_ONLY_LEFT_MOUSE_DRAG = "Slider.onlyLeftMouseButtonDrag";
 
     /**
      * Initializes all system and ui-manager toolkit key-value props.
@@ -92,31 +93,23 @@ public final class Cyder {
         initUiManagerTooltipProps();
         initSystemProps();
 
-        UIManager.put("Slider.onlyLeftMouseButtonDrag", Boolean.TRUE);
+        UIManager.put(SLIDER_ONLY_LEFT_MOUSE_DRAG, Boolean.TRUE);
     }
 
     /**
      * Initializes System.getProperty key/value pairs such as the ui scale.
      */
     private static void initSystemProps() {
-        System.setProperty("sun.java2d.uiScale.enabled", "true");
-        System.setProperty("sun.java2d.uiScale", PropLoader.getString("ui_scale"));
-        System.setProperty("sun.java2d.uiScale.enabled", "true");
-        System.setProperty("ide.ui.scale", PropLoader.getString("ui_scale"));
+        System.setProperty(UI_SCALE_ENABLED, Boolean.TRUE.toString());
+        System.setProperty(SUN_UI_SCALE, PropLoader.getString(UI_SCALE));
+        System.setProperty(IDE_SCALE, PropLoader.getString(UI_SCALE));
     }
 
     /**
-     * The name to use for the exit hook thread.
+     * Adds the exit hooks to this Jvm.
      */
-    public static final String EXIT_HOOK_NAME = "exit-hook";
-
-    /**
-     * Adds the exit hook to this Jvm.
-     */
-    private static void addExitHook() {
-        Runtime.getRuntime().addShutdownHook(CyderThreadRunner.createThread(() -> {
-            File deleteDirectory = OSUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName());
-            OSUtil.deleteFile(deleteDirectory, false);
-        }, EXIT_HOOK_NAME));
+    private static void addExitHooks() {
+        Runtime.getRuntime().addShutdownHook(CyderThreadRunner.createThread(() -> OSUtil.deleteFile(
+                OSUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName()), false), CLEANER_EXIT_HOOK));
     }
 }
