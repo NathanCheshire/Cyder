@@ -173,7 +173,7 @@ public final class UserEditor {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Widget(triggers = {"prefs", "edituser"}, description = "A widget to edit your user preferences and files")
+    @Widget(triggers = {"prefs", "edit user"}, description = "A widget to edit your user preferences and files")
     public static void showGui() {
         showGui(Page.FILES);
     }

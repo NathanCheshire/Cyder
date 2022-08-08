@@ -10,12 +10,10 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.utils.FileUtil;
-import cyder.utils.OSUtil;
-import cyder.utils.StringUtil;
-import cyder.utils.TimeUtil;
+import cyder.utils.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -171,9 +169,19 @@ public final class Logger {
                 if (representation instanceof String) {
                     logBuilder.append(Tag.constructLogTagPrepend(STRING));
                     logBuilder.append(representation);
-                } else if (representation instanceof ImageIcon) {
+                } else if (representation instanceof ImageIcon icon) {
                     logBuilder.append(Tag.constructLogTagPrepend(IMAGE));
-                    logBuilder.append(representation);
+
+                    int width = icon.getIconWidth();
+                    int height = icon.getIconHeight();
+                    Color dominantColor = ColorUtil.getDominantColor(icon);
+
+                    logBuilder.append("Image: [")
+                            .append(width)
+                            .append("x")
+                            .append(height)
+                            .append("], dominant color: ")
+                            .append(dominantColor);
                 } else if (representation instanceof JComponent) {
                     logBuilder.append(Tag.constructLogTagPrepend(J_COMPONENT));
                     logBuilder.append(representation);
