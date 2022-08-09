@@ -384,6 +384,7 @@ public enum Console {
 
                 revalidateInputAndOutputBounds();
                 revalidateCustomMenuBounds();
+                revalidateAudioMenuBounds();
                 revalidateMenu();
                 refreshClockText();
                 revalidateTitleNotify();
@@ -586,21 +587,11 @@ public enum Console {
         consoleCyderFrame.addDragLabelMouseListener(consolePinnedWindowMouseAdapter);
     }
 
-    /**
-     * Revalidates the bounds of the input field and output area based off
-     * of the current console size and the menu state.
-     */
-    private void revalidateInputAndOutputBounds() {
-        revalidateInputAndOutputBounds(false);
-    }
-
     // todo if splash frame is dragged, set frame location relative to that center point when disposed
     // todo preferences should not show in taskbar aside from default icon.
 
     private static final int menuLabelShowingX = 3;
     private static final int menuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
-
-    // todo
 
     /**
      * Revalidates the bounds of the custom console menu and the audio controls menu.
@@ -609,13 +600,30 @@ public enum Console {
         if (menuLabel != null && menuLabel.isVisible()) {
             menuLabel.setBounds(menuLabelShowingX, menuLabelShowingY, TASKBAR_MENU_WIDTH, calculateMenuHeight());
         }
+    }
 
+    private static final int audioMenuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
+
+    /**
+     * Revalidates the audio menu bounds.
+     */
+    public void revalidateAudioMenuBounds() {
         if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
-            audioControlsLabel.setBounds(consoleCyderFrame.getWidth() - audioControlsLabel.getWidth() - 6,
-                    CyderDragLabel.DEFAULT_HEIGHT - 2,
-                    audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
+            audioControlsLabel.setBounds(calculateAudioMenuX(), audioMenuLabelShowingY,
+                    AUDIO_MENU_LABEL_WIDTH, AUDIO_MENU_LABEL_HEIGHT);
         }
     }
+
+    /**
+     * Revalidates the bounds of the input field and output area based off
+     * of the current console size and the menu state.
+     */
+    private void revalidateInputAndOutputBounds() {
+        revalidateInputAndOutputBounds(false);
+    }
+
+    // todo on end drag events save console frame screen position
+    // todo this method is quite ugly
 
     /**
      * Revalidates the bounds of the input field and output area based off
@@ -2776,6 +2784,9 @@ public enum Console {
     /**
      * Revalidates the Console size, bounds, background, menu, clock, audio menu, draggable property, etc.
      * based on the current background. Note that maintainDirection trumps maintainFullscreen.
+     * <p>
+     * Order of priority is as follows: maintainDirection > maintainFullscreen.
+     * Neither of these affect maintainConsoleSize.
      *
      * @param maintainDirection   whether to maintain the console direction
      * @param maintainFullscreen  whether to maintain fullscreen mode
@@ -2787,7 +2798,7 @@ public enum Console {
         ImageIcon background;
 
         if (maintainDirection) {
-            // have full size of image and maintain currently set direction
+            // Setup full size of image and maintain currently set direction
             background = switch (consoleDir) {
                 case TOP -> getCurrentBackground().generateImageIcon();
                 case LEFT -> new ImageIcon(ImageUtil.getRotatedImage(
@@ -2801,7 +2812,7 @@ public enum Console {
             UserUtil.getCyderUser().setFullscreen("0");
             consoleCyderFrame.setShouldAnimateOpacity(true);
         } else if (maintainFullscreen && UserUtil.getCyderUser().getFullscreen().equals("1")) {
-            // have fullscreen on current monitor
+            // Setup fullscreen on current monitor
             background = ImageUtil.resizeImage(getCurrentBackground().generateImageIcon(),
                     (int) consoleCyderFrame.getMonitorBounds().getWidth(),
                     (int) consoleCyderFrame.getMonitorBounds().getHeight());
@@ -2812,7 +2823,7 @@ public enum Console {
 
         if (maintainConsoleSize) {
             switch (consoleDir) {
-                case TOP:
+                case TOP: // fallthrough
                 case BOTTOM:
                     if (lastConsoleDir == Direction.LEFT || lastConsoleDir == Direction.RIGHT) {
                         background = ImageUtil.resizeImage(background, getHeight(), getWidth());
@@ -2820,7 +2831,7 @@ public enum Console {
                         background = ImageUtil.resizeImage(background, getWidth(), getHeight());
                     }
                     break;
-                case LEFT:
+                case LEFT: // fallthrough
                 case RIGHT:
                     if (lastConsoleDir == Direction.LEFT || lastConsoleDir == Direction.RIGHT) {
                         background = ImageUtil.resizeImage(background, getWidth(), getHeight());
@@ -2851,22 +2862,14 @@ public enum Console {
 
         refreshConsoleMaxSize();
 
-        // this takes care of offset of input/output due to menu
+        // This takes care of offset of input field and output area too
         revalidateMenu();
 
         consoleCyderFrame.refreshBackground();
+        consoleCyderFrame.setDraggingEnabled(!isFullscreen());
 
-        if (isFullscreen()) {
-            consoleCyderFrame.disableDragging();
-        } else {
-            consoleCyderFrame.enableDragging();
-        }
-
-        //audio menu bounds
-        if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
-            audioControlsLabel.setBounds(w - audioControlsLabel.getWidth(), CyderDragLabel.DEFAULT_HEIGHT - 2,
-                    audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
-        }
+        revalidateCustomMenuBounds();
+        revalidateAudioMenuBounds();
 
         // clock text
         refreshClockText();
@@ -2990,47 +2993,43 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().refreshRightButtons();
     }
 
-    /**
-     * The number of audio menu buttons.
-     */
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int AUDIO_MENU_BUTTONS = 3;
+    private static final int AUDIO_MENU_BUTTONS = 3;
+    private static final int AUDIO_MENU_BUTTON_SIZE = 30;
+    private static final int AUDIO_MENU_LABEL_HEIGHT = 40;
+    private static final int AUDIO_MENU_X_PADDING = 10;
+    private static final int AUDIO_MENU_Y_PADDING = (AUDIO_MENU_LABEL_HEIGHT - AUDIO_MENU_BUTTON_SIZE) / 2;
+
+    private static final int AUDIO_MENU_LABEL_WIDTH = AUDIO_MENU_BUTTON_SIZE * AUDIO_MENU_BUTTONS
+            + AUDIO_MENU_X_PADDING * (AUDIO_MENU_BUTTONS + 1);
+
+    // todo extract out this -6
 
     /**
-     * The size of an audio menu button.
+     * Returns the x value to place the audio menu at.
+     *
+     * @return the x value to place the audio menu at
      */
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int AUDIO_MENU_BUTTON_SIZE = 30;
-
-    /**
-     * The height of the audio menu label.
-     */
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int AUDIO_MENU_LABEL_HEIGHT = 40;
+    private int calculateAudioMenuX() {
+        return consoleCyderFrame.getWidth() - AUDIO_MENU_LABEL_WIDTH - 6;
+    }
 
     /**
      * Generates the audio menu label and the button components.
      */
     private void generateAudioMenu() {
-        int xPadding = 10;
-
-        int labelWidth = AUDIO_MENU_BUTTON_SIZE * AUDIO_MENU_BUTTONS + xPadding * (AUDIO_MENU_BUTTONS + 1);
-
-        int yPadding = (AUDIO_MENU_LABEL_HEIGHT - AUDIO_MENU_BUTTON_SIZE) / 2;
-
         audioControlsLabel = new JLabel();
-        audioControlsLabel.setBounds(consoleCyderFrame.getWidth() - labelWidth - 6,
-                -AUDIO_MENU_LABEL_HEIGHT, labelWidth, AUDIO_MENU_LABEL_HEIGHT);
+        audioControlsLabel.setBounds(calculateAudioMenuX(), -AUDIO_MENU_LABEL_HEIGHT,
+                AUDIO_MENU_LABEL_WIDTH, AUDIO_MENU_LABEL_HEIGHT);
         audioControlsLabel.setOpaque(true);
         audioControlsLabel.setBackground(CyderColors.getGuiThemeColor());
         audioControlsLabel.setBorder(new LineBorder(Color.black, 5));
         audioControlsLabel.setVisible(false);
         consoleCyderFrame.getIconPane().add(audioControlsLabel, JLayeredPane.MODAL_LAYER);
 
-        int currentX = xPadding;
+        int currentX = AUDIO_MENU_X_PADDING;
 
         JLabel lastMusicLabel = new JLabel();
-        lastMusicLabel.setBounds(currentX, yPadding, AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
+        lastMusicLabel.setBounds(currentX, AUDIO_MENU_Y_PADDING, AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
         lastMusicLabel.setIcon(AudioIcons.lastIcon);
         lastMusicLabel.setToolTipText("Previous");
         lastMusicLabel.addMouseListener(new MouseAdapter() {
@@ -3055,10 +3054,10 @@ public enum Console {
         lastMusicLabel.setOpaque(false);
         audioControlsLabel.add(lastMusicLabel);
 
-        currentX += xPadding + AUDIO_MENU_BUTTON_SIZE;
+        currentX += AUDIO_MENU_X_PADDING + AUDIO_MENU_BUTTON_SIZE;
 
         playPauseAudioLabel = new JLabel();
-        playPauseAudioLabel.setBounds(currentX, yPadding, AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
+        playPauseAudioLabel.setBounds(currentX, AUDIO_MENU_Y_PADDING, AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
         playPauseAudioLabel.setToolTipText("Play/Pause");
         playPauseAudioLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -3102,10 +3101,10 @@ public enum Console {
 
         audioControlsLabel.add(playPauseAudioLabel);
 
-        currentX += xPadding + AUDIO_MENU_BUTTON_SIZE;
+        currentX += AUDIO_MENU_X_PADDING + AUDIO_MENU_BUTTON_SIZE;
 
         JLabel nextMusicLabel = new JLabel();
-        nextMusicLabel.setBounds(currentX, yPadding, AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
+        nextMusicLabel.setBounds(currentX, AUDIO_MENU_Y_PADDING, AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
         nextMusicLabel.setIcon(AudioIcons.nextIcon);
         audioControlsLabel.add(nextMusicLabel);
         nextMusicLabel.setToolTipText("Skip");

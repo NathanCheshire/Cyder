@@ -22,8 +22,6 @@ import cyder.utils.*;
 import cyder.widgets.ColorConverterWidget;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -66,7 +64,7 @@ public final class UserEditor {
     /**
      * The padding between the partitioned area and the files scroll generated label.
      */
-    private static final int filesLabelPadding = 10;
+    private static final int filesLabelPadding = 20;
 
     /**
      * The partition height for the files scroll on the files page.
@@ -177,13 +175,6 @@ public final class UserEditor {
     public static void showGui() {
         showGui(Page.FILES);
     }
-
-    // todo deleting and renaming files are a hassle since handles are left open somewhere
-
-    // todo console location saving doesn't work and sometimes
-    //  messes up still, only save is not being disposed too
-
-    // todo update design doc for startup
 
     /**
      * Shows the user editor with the provided page.
@@ -718,31 +709,14 @@ public final class UserEditor {
         filesPartitionedLayout.clearComponents();
 
         JLabel filesLabelRef = filesLabelReference.get();
-        filesPartitionedLayout.addComponent(filesLabelRef == null
-                ? loadingLabel
-                : filesLabelRef, FILE_SCROLL_PARTITION);
+        if (filesLabelRef == null) filesLabelRef = loadingLabel;
+        filesPartitionedLayout.addComponent(filesLabelRef, FILE_SCROLL_PARTITION);
         filesPartitionedLayout.addComponent(buttonPanel, FILE_BUTTON_PARTITION);
 
         revalidateFilesScroll();
 
         editUserFrame.setCyderLayout(filesPartitionedLayout);
     }
-
-    /**
-     * The inner border of the files label border.
-     */
-    private static final LineBorder LINE_BORDER = new LineBorder(CyderColors.navy, 3);
-
-    /**
-     * The outer border (padding) of the files label border.
-     */
-    private static final Border EMPTY_BORDER = BorderFactory.createEmptyBorder(
-            filesLabelPadding, filesLabelPadding, filesLabelPadding, filesLabelPadding);
-
-    /**
-     * The border for the files label (the generated files scroll).
-     */
-    private static final CompoundBorder filesLabelBorder = new CompoundBorder(LINE_BORDER, EMPTY_BORDER);
 
     /**
      * The label to display when updating the files scroll list.
@@ -768,11 +742,18 @@ public final class UserEditor {
 
         JLabel filesLabel = filesScrollList.generateScrollList();
         filesLabelReference.set(filesLabel);
-        filesLabel.setSize(FILES_SCROLL_WIDTH, FILES_SCROLL_HEIGHT);
         filesLabel.setBackground(CyderColors.vanilla);
-        filesLabel.setBorder(filesLabelBorder);
+        filesLabel.setBorder(null);
+        filesLabel.setLocation(5, 5);
 
-        filesPartitionedLayout.setComponent(filesLabel, 0);
+        JLabel parentBorderLabel = new JLabel();
+        parentBorderLabel.setSize(FILES_SCROLL_WIDTH + 2 * 5, FILES_SCROLL_HEIGHT + 2 * 5);
+        parentBorderLabel.setOpaque(true);
+        parentBorderLabel.setBackground(CyderColors.vanilla);
+        parentBorderLabel.setBorder(new LineBorder(CyderColors.navy, 5));
+        parentBorderLabel.add(filesLabel);
+
+        filesPartitionedLayout.setComponent(parentBorderLabel, 0);
     }
 
     /**
