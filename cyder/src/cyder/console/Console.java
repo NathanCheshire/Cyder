@@ -587,9 +587,6 @@ public enum Console {
         consoleCyderFrame.addDragLabelMouseListener(consolePinnedWindowMouseAdapter);
     }
 
-    // todo if splash frame is dragged, set frame location relative to that center point when disposed
-    // todo preferences should not show in taskbar aside from default icon.
-
     private static final int menuLabelShowingX = 3;
     private static final int menuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
 
@@ -622,6 +619,9 @@ public enum Console {
         revalidateInputAndOutputBounds(false);
     }
 
+    // todo menu bug showing logout twice sometimes
+    // todo if splash frame is dragged, set frame location relative to that center point when disposed
+    // todo preferences should not show in taskbar aside from default icon.
     // todo on end drag events save console frame screen position
     // todo this method is quite ugly
 
@@ -1777,6 +1777,9 @@ public enum Console {
         return consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5;
     }
 
+    private static final int consoleMenuShowingX = 7;
+    private static final int consoleMenuShowingY = 10;
+
     /**
      * Revalidates the taskbar menu bounds and re-installs the icons.
      */
@@ -1812,12 +1815,9 @@ public enum Console {
         menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        // todo extract and use elsewhere for offsets instead of magic numbers
-        int xPadding = 7;
-        int yPadding = 10;
-
-        menuScroll.setBounds(xPadding, yPadding,
-                menuLabel.getWidth() - yPadding, calculateMenuHeight() - 2 * yPadding);
+        menuScroll.setBounds(consoleMenuShowingX, consoleMenuShowingY,
+                menuLabel.getWidth() - consoleMenuShowingY,
+                calculateMenuHeight() - 2 * consoleMenuShowingY);
         menuLabel.add(menuScroll);
 
         installMenuTaskbarIcons();
@@ -2903,7 +2903,7 @@ public enum Console {
             menuLabel.setBounds(menuLabelShowingX, menuLabelShowingY,
                     menuLabel.getWidth(), consoleCyderFrame.getHeight()
                             - CyderDragLabel.DEFAULT_HEIGHT - 5);
-            menuScroll.setBounds(7, 10, menuLabel.getWidth() - 10, menuLabel.getHeight() - 20);
+            menuScroll.setBounds(consoleMenuShowingX, 10, menuLabel.getWidth() - 10, menuLabel.getHeight() - 20);
         } else {
             menuButton.setIcon(CyderIcons.menuIcon);
             //no other actions needed
@@ -2919,7 +2919,7 @@ public enum Console {
         CyderThreadRunner.submit(() -> {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
-                        - audioControlsLabel.getWidth() - 6, i);
+                        - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, i);
                 ThreadUtil.sleep(10);
             }
             audioControlsLabel.setVisible(false);
@@ -2933,7 +2933,7 @@ public enum Console {
         CyderThreadRunner.submit(() -> {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
-                        - audioControlsLabel.getWidth() - 6, i);
+                        - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, i);
                 ThreadUtil.sleep(10);
             }
             audioControlsLabel.setVisible(false);
@@ -2948,15 +2948,15 @@ public enum Console {
         CyderThreadRunner.submit(() -> {
             generateAudioMenu();
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
-                    - audioControlsLabel.getWidth() - 6, -40);
+                    - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, -40);
             audioControlsLabel.setVisible(true);
             for (int i = -40 ; i < CyderDragLabel.DEFAULT_HEIGHT - 2 ; i += 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
-                        - audioControlsLabel.getWidth() - 6, i);
+                        - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, i);
                 ThreadUtil.sleep(10);
             }
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
-                    - audioControlsLabel.getWidth() - 6, CyderDragLabel.DEFAULT_HEIGHT - 2);
+                    - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, CyderDragLabel.DEFAULT_HEIGHT - 2);
         }, "Console Audio Menu Minimizer");
     }
 
@@ -3002,7 +3002,7 @@ public enum Console {
     private static final int AUDIO_MENU_LABEL_WIDTH = AUDIO_MENU_BUTTON_SIZE * AUDIO_MENU_BUTTONS
             + AUDIO_MENU_X_PADDING * (AUDIO_MENU_BUTTONS + 1);
 
-    // todo extract out this -6
+    private static final int AUDIO_MENU_X_OFFSET = 6;
 
     /**
      * Returns the x value to place the audio menu at.
@@ -3010,7 +3010,7 @@ public enum Console {
      * @return the x value to place the audio menu at
      */
     private int calculateAudioMenuX() {
-        return consoleCyderFrame.getWidth() - AUDIO_MENU_LABEL_WIDTH - 6;
+        return consoleCyderFrame.getWidth() - AUDIO_MENU_LABEL_WIDTH - AUDIO_MENU_X_OFFSET;
     }
 
     /**
