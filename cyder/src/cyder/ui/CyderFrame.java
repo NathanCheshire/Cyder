@@ -1299,11 +1299,6 @@ public class CyderFrame extends JFrame {
      */
     public void minimizeAnimation() {
         try {
-            // if we are the Console, save position vars
-            if (this == Console.INSTANCE.getConsoleCyderFrame())
-                Console.INSTANCE.saveScreenStat();
-
-            //set restore vars here
             setRestoreX(getX());
             setRestoreY(getY());
 
@@ -2799,7 +2794,7 @@ public class CyderFrame extends JFrame {
      */
     public int getMonitor() {
         return Integer.parseInt(getGraphicsConfiguration().getDevice()
-                .getIDstring().replaceAll("[^0-9]", ""));
+                .getIDstring().replaceAll(CyderRegexPatterns.nonNumberRegex, ""));
     }
 
     /**

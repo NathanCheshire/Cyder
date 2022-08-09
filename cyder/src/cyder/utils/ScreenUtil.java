@@ -1,6 +1,7 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
@@ -9,7 +10,7 @@ import java.awt.*;
 /**
  * Static util class for utilities revolving around the possibility of multiple monitors/displays.
  */
-public class ScreenUtil {
+public final class ScreenUtil {
     /**
      * Suppress default constructor.
      */
@@ -57,7 +58,7 @@ public class ScreenUtil {
         Preconditions.checkNotNull(frame);
 
         return Integer.parseInt(frame.getGraphicsConfiguration().getDevice()
-                .getIDstring().replaceAll("[^0-9]", ""));
+                .getIDstring().replaceAll(CyderRegexPatterns.nonNumberRegex, ""));
     }
 
     /**

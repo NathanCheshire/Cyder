@@ -4,10 +4,7 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
-import cyder.constants.CyderStrings;
+import cyder.constants.*;
 import cyder.enums.CyderInspection;
 import cyder.enums.Direction;
 import cyder.enums.Dynamic;
@@ -424,7 +421,7 @@ public final class UserCreator {
 
         if (createUserFrame != null) {
             GraphicsConfiguration gc = createUserFrame.getGraphicsConfiguration();
-            String monitorID = gc.getDevice().getIDstring().replaceAll("[^0-9]", "");
+            String monitorID = gc.getDevice().getIDstring().replaceAll(CyderRegexPatterns.nonNumberRegex, "");
 
             try {
                 monitorNum = Integer.parseInt(monitorID);

@@ -57,13 +57,6 @@ public final class CyderRegexPatterns {
             "((\\d{1,3})|(\\d{1,3},)|(\\d{1,3},\\d{1,3})|(\\d{1,3},\\d{1,3},)|(\\d{1,3},\\d{1,3},\\d{1,3}))");
 
     /**
-     * Prevent illegal class instantiation.
-     */
-    private CyderRegexPatterns() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
      * The pattern used to grab the youtube-dl progress from the process.
      */
     public static final Pattern updatePattern = Pattern.compile(
@@ -104,4 +97,16 @@ public final class CyderRegexPatterns {
      * The regex used to match 1-n whitespace.
      */
     public static final String whiteSpaceRegex = "\\s+";
+
+    /**
+     * The regex for filtering out any non-numbers.
+     */
+    public static final String nonNumberRegex = "[^0-9]";
+
+    /**
+     * Prevent illegal class instantiation.
+     */
+    private CyderRegexPatterns() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
 }

@@ -7,6 +7,7 @@ import cyder.audio.AudioIcons;
 import cyder.audio.AudioPlayer;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.Dynamic;
@@ -370,26 +371,19 @@ public enum Console {
      * @param consoleIcon the console icon record to use for the direct props
      */
     private void setupConsoleCyderFrame(ConsoleIcon consoleIcon) {
-        consoleCyderFrame = new CyderFrame(consoleIcon.dimension().width,
-                consoleIcon.dimension.height, consoleIcon.background) {
+        int w = (int) consoleIcon.dimension().getWidth();
+        int h = (int) consoleIcon.dimension().getHeight();
+
+        consoleCyderFrame = new CyderFrame(w, h, consoleIcon.background()) {
+            /**
+             * {@inheritDoc}
+             */
             @Override
-            public void setBounds(int x, int y, int w, int h) {
-                super.setBounds(x, y, w, h);
+            public void setBounds(int x, int y, int width, int height) {
+                super.setBounds(x, y, width, height);
 
                 revalidateInputAndOutputBounds();
-
-                if (menuLabel != null && menuLabel.isVisible()) {
-                    menuLabel.setBounds(3, CyderDragLabel.DEFAULT_HEIGHT - 2,
-                            menuLabel.getWidth(),
-                            consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5);
-                }
-
-                if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
-                    audioControlsLabel.setBounds(w - audioControlsLabel.getWidth() - 6,
-                            CyderDragLabel.DEFAULT_HEIGHT - 2,
-                            audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
-                }
-
+                revalidateCustomMenuBounds();
                 revalidateMenu();
                 refreshClockText();
                 revalidateTitleNotify();
@@ -407,11 +401,14 @@ public enum Console {
                 super.dispose(isFullscreen());
             }
 
-            private final int DEGREE_LIMIT = 360;
-            private final int DEGREE_INCREMENT = 2;
-            private final int DEGREE_DELAY = 2;
-            private boolean consoleBarrelRollLocked = false;
+            private static final int DEGREE_LIMIT = 360;
+            private static final int DEGREE_INCREMENT = 2;
+            private static final int DEGREE_DELAY = 2;
+            private static boolean consoleBarrelRollLocked = false;
 
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void barrelRoll() {
                 if (consoleBarrelRollLocked)
@@ -429,7 +426,16 @@ public enum Console {
 
                     getConsoleCyderFrameContentPane().setIcon(getCurrentBackground().generateImageIcon());
                     consoleBarrelRollLocked = false;
-                }, "Console Barrel roll");
+                }, "Console Barrel Roll");
+            }
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void minimizeAnimation() {
+                saveScreenStat();
+                super.minimizeAnimation();
             }
         };
 
@@ -586,6 +592,29 @@ public enum Console {
      */
     private void revalidateInputAndOutputBounds() {
         revalidateInputAndOutputBounds(false);
+    }
+
+    // todo if splash frame is dragged, set frame location relative to that center point when disposed
+    // todo preferences should not show in taskbar aside from default icon.
+
+    private static final int menuLabelShowingX = 3;
+    private static final int menuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
+
+    // todo
+
+    /**
+     * Revalidates the bounds of the custom console menu and the audio controls menu.
+     */
+    private void revalidateCustomMenuBounds() {
+        if (menuLabel != null && menuLabel.isVisible()) {
+            menuLabel.setBounds(menuLabelShowingX, menuLabelShowingY, TASKBAR_MENU_WIDTH, calculateMenuHeight());
+        }
+
+        if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
+            audioControlsLabel.setBounds(consoleCyderFrame.getWidth() - audioControlsLabel.getWidth() - 6,
+                    CyderDragLabel.DEFAULT_HEIGHT - 2,
+                    audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
+        }
     }
 
     /**
@@ -832,8 +861,9 @@ public enum Console {
      * Sets up and adds the console clock to the top drag label.
      */
     private void installConsoleClock() {
-        // todo this won't be needed eventually and we'll have a separate super title from the
-        //  centered title label. Need a setTitleLabelFont method too
+        // todo use centered frame title and setTitle calls which don't update the super title
+        // todo might need new architecture for this: methods for super title vs painted title
+        //  method for setting title label font
 
         consoleClockLabel = new JLabel(TimeUtil.userFormattedTime(), SwingConstants.CENTER);
         consoleClockLabel.setSize(0, StringUtil.getAbsoluteMinHeight("143", CONSOLE_CLOCK_FONT));
@@ -1244,7 +1274,7 @@ public enum Console {
                             IOUtil.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(
                                     NumberUtil.randInt(0, GRAYSCALE_AUDIO_PATHS.size() - 1)));
                         } else {
-                            IOUtil.playGeneralAudio(OSUtil.buildPath("static","audio","introtheme.mp3"));
+                            IOUtil.playGeneralAudio(OSUtil.buildPath("static", "audio", "introtheme.mp3"));
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
@@ -1731,17 +1761,25 @@ public enum Console {
     };
 
     /**
+     * Returns the height of the console menu based on the current frame height.
+     *
+     * @return the height of the console menu based on the current frame height
+     */
+    private int calculateMenuHeight() {
+        return consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5;
+    }
+
+    /**
      * Revalidates the taskbar menu bounds and re-installs the icons.
      */
     private void generateConsoleMenu() {
-        int menuHeight = consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5;
-
         if (menuLabel != null) {
             menuLabel.setVisible(false);
         }
 
         menuLabel = new JLabel();
-        menuLabel.setBounds(-TASKBAR_MENU_WIDTH, CyderDragLabel.DEFAULT_HEIGHT - 2, TASKBAR_MENU_WIDTH, menuHeight);
+        menuLabel.setBounds(-TASKBAR_MENU_WIDTH, CyderDragLabel.DEFAULT_HEIGHT - 2,
+                TASKBAR_MENU_WIDTH, calculateMenuHeight());
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.getGuiThemeColor());
         menuLabel.setFocusable(false);
@@ -1765,7 +1803,13 @@ public enum Console {
         menuScroll.setBackground(CyderColors.getGuiThemeColor());
         menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        menuScroll.setBounds(7, 10, menuLabel.getWidth() - 10, menuHeight - 20);
+
+        // todo extract and use elsewhere for offsets instead of magic numbers
+        int xPadding = 7;
+        int yPadding = 10;
+
+        menuScroll.setBounds(xPadding, yPadding,
+                menuLabel.getWidth() - yPadding, calculateMenuHeight() - 2 * yPadding);
         menuLabel.add(menuScroll);
 
         installMenuTaskbarIcons();
@@ -2853,7 +2897,7 @@ public enum Console {
         if (menuLabel.isVisible()) {
             menuButton.setIcon(CyderIcons.menuIconHover);
             installMenuTaskbarIcons();
-            menuLabel.setBounds(3, CyderDragLabel.DEFAULT_HEIGHT - 2,
+            menuLabel.setBounds(menuLabelShowingX, menuLabelShowingY,
                     menuLabel.getWidth(), consoleCyderFrame.getHeight()
                             - CyderDragLabel.DEFAULT_HEIGHT - 5);
             menuScroll.setBounds(7, 10, menuLabel.getWidth() - 10, menuLabel.getHeight() - 20);
@@ -3242,32 +3286,25 @@ public enum Console {
      * Saves the console's position and window stats to the currently logged-in user's json file.
      */
     public void saveScreenStat() {
-        if (getUuid() == null)
-            return;
+        if (consoleCyderFrame == null) return;
+        if (consoleCyderFrame.getState() == JFrame.ICONIFIED) return;
+        if (getUuid() == null) return;
 
-        if (consoleCyderFrame != null) {
-            // create new screen stat object
-            ScreenStat screenStat = UserUtil.getCyderUser().getScreenStat();
-            screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
-            screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
-            screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
-            screenStat.setMonitor(Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration()
-                    .getDevice().getIDstring().replaceAll("[^0-9]", "")));
+        ScreenStat screenStat = UserUtil.getCyderUser().getScreenStat();
+        screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
+        screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
+        screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
+        screenStat.setMonitor(Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration()
+                .getDevice().getIDstring().replaceAll(CyderRegexPatterns.nonNumberRegex, "")));
 
-            if (consoleCyderFrame.getState() == JFrame.ICONIFIED) {
-                screenStat.setConsoleX(consoleCyderFrame.getRestoreX());
-                screenStat.setConsoleY(consoleCyderFrame.getRelativeY());
-            } else {
-                screenStat.setConsoleX(consoleCyderFrame.getX());
-                screenStat.setConsoleY(consoleCyderFrame.getY());
-            }
+        screenStat.setConsoleX(consoleCyderFrame.getX());
+        screenStat.setConsoleY(consoleCyderFrame.getY());
 
-            screenStat.setConsoleDirection(consoleDir);
+        screenStat.setConsoleDirection(consoleDir);
 
-            if (!isClosed()) {
-                UserUtil.getCyderUser().setScreenStat(screenStat);
-                UserUtil.writeUser();
-            }
+        if (!isClosed()) {
+            UserUtil.getCyderUser().setScreenStat(screenStat);
+            UserUtil.writeUser();
         }
     }
 
