@@ -67,14 +67,19 @@ public final class UserEditor {
     private static final int filesLabelPadding = 20;
 
     /**
+     * The partition height of the files header label on the files page.
+     */
+    private static final int FILE_HEADER_LABEL_PARTITION = 10;
+
+    /**
      * The partition height for the files scroll on the files page.
      */
-    private static final int FILE_SCROLL_PARTITION = 85;
+    private static final int FILE_SCROLL_PARTITION = 75;
 
     /**
      * The partition height for the files scroll buttons for the files page.
      */
-    private static final int FILE_BUTTON_PARTITION = 100 - FILE_SCROLL_PARTITION;
+    private static final int FILE_BUTTON_PARTITION = 15;
 
     /**
      * The width of the files scroll.
@@ -228,7 +233,7 @@ public final class UserEditor {
     /**
      * UserFile folders to show in the files scroll list.
      */
-    @SuppressWarnings("Guava") /* Java being dumb */
+    @SuppressWarnings("Guava") /* IntelliJ being dumb */
     private enum ScrollListFolder {
         BACKGROUNDS(UserFile.BACKGROUNDS, FileUtil::isSupportedImageExtension),
         MUSIC(UserFile.MUSIC, FileUtil::isSupportedAudioExtension),
@@ -699,6 +704,17 @@ public final class UserEditor {
     private static final CyderPartitionedLayout filesPartitionedLayout = new CyderPartitionedLayout();
 
     /**
+     * The files label header label to display the page title.
+     */
+    private static final CyderLabel filesHeaderLabel;
+
+    static {
+        filesHeaderLabel = new CyderLabel("Files, Backgrounds, and Music");
+        filesHeaderLabel.setFont(CyderFonts.DEFAULT_FONT);
+        filesHeaderLabel.setSize(300, 50);
+    }
+
+    /**
      * Switches to the user files preference page, wiping past components
      * and regenerating the files scroll label in the process.
      */
@@ -710,6 +726,7 @@ public final class UserEditor {
 
         JLabel filesLabelRef = filesLabelReference.get();
         if (filesLabelRef == null) filesLabelRef = loadingLabel;
+        filesPartitionedLayout.addComponent(filesHeaderLabel, FILE_HEADER_LABEL_PARTITION);
         filesPartitionedLayout.addComponent(filesLabelRef, FILE_SCROLL_PARTITION);
         filesPartitionedLayout.addComponent(buttonPanel, FILE_BUTTON_PARTITION);
 
@@ -729,7 +746,7 @@ public final class UserEditor {
      * atomic reference values.
      */
     private static void revalidateFilesScroll() {
-        filesPartitionedLayout.setComponent(loadingLabel, 0);
+        filesPartitionedLayout.setComponent(loadingLabel, 1);
 
         CyderScrollList filesScrollList = filesScrollListReference.get();
         filesScrollList.removeAllElements();
@@ -753,7 +770,7 @@ public final class UserEditor {
         parentBorderLabel.setBorder(new LineBorder(CyderColors.navy, 5));
         parentBorderLabel.add(filesLabel);
 
-        filesPartitionedLayout.setComponent(parentBorderLabel, 0);
+        filesPartitionedLayout.setComponent(parentBorderLabel, 1);
     }
 
     /**
