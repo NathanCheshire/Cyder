@@ -446,6 +446,8 @@ public enum Console {
 
         consoleCyderFrame.addPostCloseAction(() -> OSUtil.exit(ExitCondition.GenesisControlledExit));
 
+        consoleCyderFrame.addEndDragEventCallback(this::saveScreenStat);
+
         consoleCyderFrame.setDraggingEnabled(!UserUtil.getCyderUser().getFullscreen().equals("1"));
 
         consoleCyderFrame.addWindowListener(consoleWindowAdapter);
@@ -622,8 +624,6 @@ public enum Console {
     // todo menu bug showing logout twice sometimes
     // todo if splash frame is dragged, set frame location relative to that center point when disposed
     // todo preferences should not show in taskbar aside from default icon.
-    // todo on end drag events save console frame screen position
-    // todo this method is quite ugly
 
     /**
      * Revalidates the bounds of the input field and output area based off
@@ -636,20 +636,17 @@ public enum Console {
             int w = consoleCyderFrame.getWidth();
             int h = consoleCyderFrame.getHeight();
 
-            int addX = 0;
+            int menuLabelEndX = (menuLabel != null && menuLabel.isVisible() && !ignoreMenuLabel)
+                    ? 2 + menuLabel.getWidth() : 0;
 
-            if (menuLabel != null && menuLabel.isVisible() && !ignoreMenuLabel) {
-                addX = 2 + menuLabel.getWidth();
-            }
-
-            outputScroll.setBounds(addX + FIELD_X_PADDING,
+            outputScroll.setBounds(menuLabelEndX + FIELD_X_PADDING,
                     CyderDragLabel.DEFAULT_HEIGHT + FIELD_Y_PADDING,
-                    w - addX - 2 * FIELD_X_PADDING,
+                    w - menuLabelEndX - 2 * FIELD_X_PADDING,
                     h - INPUT_FIELD_HEIGHT - FIELD_Y_PADDING * 3 - CyderDragLabel.DEFAULT_HEIGHT);
 
-            inputField.setBounds(addX + FIELD_X_PADDING,
+            inputField.setBounds(menuLabelEndX + FIELD_X_PADDING,
                     outputScroll.getY() + FIELD_Y_PADDING + outputScroll.getHeight(),
-                    w - 2 * FIELD_X_PADDING - addX, INPUT_FIELD_HEIGHT);
+                    w - 2 * FIELD_X_PADDING - menuLabelEndX, INPUT_FIELD_HEIGHT);
         }
     }
 

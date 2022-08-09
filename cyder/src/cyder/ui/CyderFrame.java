@@ -2896,10 +2896,11 @@ public class CyderFrame extends JFrame {
      */
     protected void endDragEvent() {
         if (!shouldAnimateOpacity) {
-            // just to be sure...
             setOpacity(DEFAULT_OPACITY);
             return;
         }
+
+        executeEndDragEventCallbacks();
 
         CyderThreadRunner.submit(() -> {
             animatingOut = true;
@@ -2915,6 +2916,44 @@ public class CyderFrame extends JFrame {
 
             animatingOut = false;
         }, getTitle() + " Opacity Increment Animator");
+    }
+
+    /**
+     * The list of callbacks to invoke when {@link #endDragEvent()} is invoked.
+     */
+    private final LinkedList<Runnable> endDragEventCallbacks = new LinkedList<>();
+
+    /**
+     * Executes all callbacks registered in {@link #endDragEventCallbacks}.
+     */
+    private void executeEndDragEventCallbacks() {
+        for (Runnable runnable : endDragEventCallbacks) {
+            runnable.run();
+        }
+    }
+
+    /**
+     * Adds the runnable to {@link #endDragEventCallbacks}.
+     *
+     * @param runnable the runnable to add
+     */
+    public void addEndDragEventCallback(Runnable runnable) {
+        Preconditions.checkNotNull(runnable);
+        Preconditions.checkArgument(!endDragEventCallbacks.contains(runnable));
+
+        endDragEventCallbacks.add(runnable);
+    }
+
+    /**
+     * Removes the runnable from {@link #endDragEventCallbacks}.
+     *
+     * @param runnable the runnable to remove
+     */
+    public void removeEndDragEventCallback(Runnable runnable) {
+        Preconditions.checkNotNull(runnable);
+        Preconditions.checkArgument(endDragEventCallbacks.contains(runnable));
+
+        endDragEventCallbacks.remove(runnable);
     }
 
     /**
