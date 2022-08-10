@@ -622,8 +622,7 @@ public enum Console {
     }
 
     // todo menu bug showing logout twice sometimes
-    // todo if splash frame is dragged, set frame location relative to that center point when disposed
-    // todo preferences should not show in taskbar aside from default icon.
+    // todo preferences should not show in taskbar aside from default icon
 
     /**
      * Revalidates the bounds of the input field and output area based off
@@ -769,10 +768,10 @@ public enum Console {
         int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
         int requestedConsoleHeight = requestedConsoleStats.getConsoleHeight();
 
-        if (requestedConsoleWidth <= consoleIcon.dimension().width
-                && requestedConsoleHeight <= consoleIcon.dimension().height
-                && requestedConsoleWidth >= MINIMUM_SIZE.width
-                && requestedConsoleHeight >= MINIMUM_SIZE.height) {
+        if (requestedConsoleWidth < consoleIcon.dimension().width
+                && requestedConsoleHeight < consoleIcon.dimension().height
+                && requestedConsoleWidth > MINIMUM_SIZE.width
+                && requestedConsoleHeight > MINIMUM_SIZE.height) {
             consoleCyderFrame.setSize(requestedConsoleWidth, requestedConsoleHeight);
             consoleCyderFrame.refreshBackground();
         }
@@ -781,11 +780,16 @@ public enum Console {
 
         revalidate(true, false, true);
 
-        FrameUtil.requestFramePosition(
-                requestedConsoleStats.getMonitor(),
-                requestedConsoleStats.getConsoleX(),
-                requestedConsoleStats.getConsoleY(),
-                consoleCyderFrame);
+        int consoleX = requestedConsoleStats.getConsoleX();
+        int consoleY = requestedConsoleStats.getConsoleY();
+
+        Point relocatedSplashCenter = CyderSplash.INSTANCE.getRelocatedCenterPoint();
+        if (relocatedSplashCenter != null) {
+            consoleX = (int) (relocatedSplashCenter.getX() - consoleCyderFrame.getWidth() / 2);
+            consoleY = (int) (relocatedSplashCenter.getY() - consoleCyderFrame.getHeight() / 2);
+        }
+
+        FrameUtil.requestFramePosition(requestedConsoleStats.getMonitor(), consoleX, consoleY, consoleCyderFrame);
 
         consoleCyderFrame.setVisible(true);
     }

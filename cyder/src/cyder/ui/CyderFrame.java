@@ -534,7 +534,7 @@ public class CyderFrame extends JFrame {
         contentLabel.add(iconPane, JLayeredPane.DEFAULT_LAYER);
         setContentPane(contentLabel);
 
-        CyderDragLabel masterDrag = new CyderDragLabel(width, height, this);
+        masterDrag = new CyderDragLabel(width, height, this);
         masterDrag.setRightButtonList(null);
         masterDrag.setBackground(background);
         masterDrag.setBounds(0, 0, width, height);
@@ -548,6 +548,22 @@ public class CyderFrame extends JFrame {
         revalidateFrameShape();
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * The master drag label for borderless frames.
+     */
+    private CyderDragLabel masterDrag;
+
+    /**
+     * Returns the borderless drag label.
+     *
+     * @return the borderless drag label
+     */
+    public CyderDragLabel getBorderlessDrag() {
+        Preconditions.checkArgument(isBorderlessFrame());
+
+        return masterDrag;
     }
 
     // ----------------

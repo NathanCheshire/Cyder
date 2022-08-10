@@ -21,6 +21,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * The splash screen for Cyder when it is originally first launched.
@@ -122,6 +123,20 @@ public enum CyderSplash {
     private final LinkedList<HarmonicRectangle> harmonicRectangles = new LinkedList<>();
 
     /**
+     * The center point to place the console frame/login frame at if the splash frame is relocated during startup.
+     */
+    private final AtomicReference<Point> relocatedCenterPoint = new AtomicReference<>();
+
+    /**
+     * Returns the point to place the console frame/login frame at.
+     *
+     * @return the point to place the console frame/login frame at
+     */
+    public Point getRelocatedCenterPoint() {
+        return relocatedCenterPoint.get();
+    }
+
+    /**
      * Shows the splash screen as long as it has not already been shown.
      */
     public void showSplash() {
@@ -149,6 +164,8 @@ public enum CyderSplash {
                     }
                 });
                 splashFrame.setTitle("Cyder Splash");
+                splashFrame.addEndDragEventCallback(
+                        () -> relocatedCenterPoint.set(splashFrame.getCenterPointOnScreen()));
 
                 // set AlwaysOnTop, this will be quickly turned off
                 splashFrame.setAlwaysOnTop(true);
