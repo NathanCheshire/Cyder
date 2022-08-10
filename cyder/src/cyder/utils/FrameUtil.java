@@ -266,12 +266,12 @@ public final class FrameUtil {
 
     /**
      * Minimizes all {@link Frame} instances by setting their state to {@link Frame#ICONIFIED}.
-     * Found {@link CyderFrame}s have their {@link CyderFrame#minimizeAnimation()} invoked instead.
+     * Found {@link CyderFrame}s have their {@link CyderFrame#minimizeAndIconify()} invoked instead.
      */
     public static void minimizeAllFrames() {
         for (Frame f : getFrames()) {
             if (f instanceof CyderFrame) {
-                ((CyderFrame) f).minimizeAnimation();
+                ((CyderFrame) f).minimizeAndIconify();
             } else {
                 f.setState(Frame.ICONIFIED);
             }
@@ -289,7 +289,7 @@ public final class FrameUtil {
 
         return () -> {
             if (frame.getState() == Frame.NORMAL) {
-                frame.minimizeAnimation();
+                frame.minimizeAndIconify();
             } else {
                 frame.setState(Frame.NORMAL);
             }

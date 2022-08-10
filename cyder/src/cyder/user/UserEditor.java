@@ -95,7 +95,7 @@ public final class UserEditor {
     /**
      * The user editor frame.
      */
-    private static CyderFrame editUserFrame;
+    private static CyderFrame editUserFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderColors.vanilla);
 
     /**
      * The names of the files for the files list.
@@ -192,8 +192,8 @@ public final class UserEditor {
         editUserFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderColors.vanilla);
         editUserFrame.setBackground(CyderColors.vanilla);
         editUserFrame.setTitle("Preferences");
-
         installDragLabelButtons();
+        Console.INSTANCE.addToFrameTaskbarExceptions(editUserFrame);
         editUserFrame.finalizeAndShow();
 
         currentPage = page;
@@ -220,9 +220,7 @@ public final class UserEditor {
      * Closes the frame if open.
      */
     private static void closeIfOpen() {
-        if (editUserFrame != null) {
-            editUserFrame.dispose(true);
-        }
+        editUserFrame.dispose(true);
     }
 
     /**
@@ -1788,5 +1786,48 @@ public final class UserEditor {
         } else {
             editUserFrame.notify("Could not locate map with specified name");
         }
+    }
+
+    /**
+     * Returns whether the user editor is open.
+     *
+     * @return whether the user editor is open
+     */
+    public static boolean isOpen() {
+        return editUserFrame.isVisible();
+    }
+
+    /**
+     * Returns whether the edit user frame is currently minimized.
+     *
+     * @return whether the edit user frame is currently minimized
+     */
+    public static boolean isMinimized() {
+        return editUserFrame.getState() == JFrame.ICONIFIED;
+    }
+
+    /**
+     * Minimizes the edit user frame.
+     */
+    public static void minimize() {
+        editUserFrame.minimizeAndIconify();
+    }
+
+    /**
+     * Restores the frame to the normal frame position of minimized.
+     */
+    public static void restore() {
+        if (isMinimized()) {
+            editUserFrame.setState(JFrame.NORMAL);
+        }
+    }
+
+    /**
+     * Returns the frame associated with the user editor.
+     *
+     * @return the frame associated with the user editor
+     */
+    public static CyderFrame getEditUserFrame() {
+        return editUserFrame;
     }
 }

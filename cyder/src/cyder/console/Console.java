@@ -76,9 +76,9 @@ public enum Console {
     public static final Font CONSOLE_CLOCK_FONT = new Font("Segoe UI Black", Font.BOLD, 21);
 
     /**
-     * An immutable list of the frames to ignore when placing a frame in the console taskbar menu.
+     * An list of the frames to ignore when placing a frame in the console taskbar menu.
      */
-    private ImmutableList<CyderFrame> frameTaskbarExceptions;
+    private LinkedList<CyderFrame> frameTaskbarExceptions;
 
     /**
      * The UUID of the user currently associated with the Console.
@@ -434,13 +434,15 @@ public enum Console {
              * {@inheritDoc}
              */
             @Override
-            public void minimizeAnimation() {
+            public void minimizeAndIconify() {
                 saveScreenStat();
-                super.minimizeAnimation();
+                super.minimizeAndIconify();
             }
         };
 
-        frameTaskbarExceptions = ImmutableList.of(consoleCyderFrame, CyderSplash.INSTANCE.getSplashFrame());
+        frameTaskbarExceptions = new LinkedList<>();
+        frameTaskbarExceptions.add(consoleCyderFrame);
+        frameTaskbarExceptions.add(CyderSplash.INSTANCE.getSplashFrame());
 
         consoleCyderFrame.setBackground(Color.black);
 
@@ -620,9 +622,6 @@ public enum Console {
     private void revalidateInputAndOutputBounds() {
         revalidateInputAndOutputBounds(false);
     }
-
-    // todo menu bug showing logout twice sometimes
-    // todo preferences should not show in taskbar aside from default icon
 
     /**
      * Revalidates the bounds of the input field and output area based off
@@ -821,7 +820,7 @@ public enum Console {
         minimizeButton.addActionListener(e -> {
             consoleCyderFrame.setRestoreX(consoleCyderFrame.getX());
             consoleCyderFrame.setRestoreY(consoleCyderFrame.getY());
-            consoleCyderFrame.minimizeAnimation();
+            consoleCyderFrame.minimizeAndIconify();
         });
         consoleDragButtonList.add(minimizeButton);
 
@@ -1658,18 +1657,38 @@ public enum Console {
     }
 
     /**
+     * The runnable for when the preferences default taskbar icon is clicked.
+     */
+    private final Runnable prefsRunnable = () -> {
+        if (UserEditor.isOpen()) {
+            if (UserEditor.isMinimized()) {
+                UserEditor.restore();
+            } else {
+                UserEditor.minimize();
+            }
+        } else {
+            UserEditor.showGui();
+        }
+
+        revalidateMenu();
+    };
+
+    private static final String PREFS = "Prefs";
+    private static final String LOGOUT = "Logout";
+
+    /**
      * The default compact taskbar icons.
      */
     private final ImmutableList<TaskbarIcon> compactDefaultTaskbarIcons = ImmutableList.of(
             new TaskbarIcon.Builder()
-                    .setName("Prefs")
+                    .setName(PREFS)
                     .setFocused(false)
                     .setCompact(true)
-                    .setRunnable(() -> UserEditor.showGui(UserEditor.Page.FILES))
+                    .setRunnable(prefsRunnable)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build(),
             new TaskbarIcon.Builder()
-                    .setName("Logout")
+                    .setName(LOGOUT)
                     .setFocused(false)
                     .setCompact(true)
                     .setRunnable(this::logout)
@@ -1681,14 +1700,14 @@ public enum Console {
      */
     private final ImmutableList<TaskbarIcon> nonCompactDefaultTaskbarIcons = ImmutableList.of(
             new TaskbarIcon.Builder()
-                    .setName("Prefs")
+                    .setName(PREFS)
                     .setFocused(false)
                     .setCompact(false)
-                    .setRunnable(() -> UserEditor.showGui(UserEditor.Page.FILES))
+                    .setRunnable(prefsRunnable)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
                     .build(),
             new TaskbarIcon.Builder()
-                    .setName("Logout")
+                    .setName(LOGOUT)
                     .setFocused(false)
                     .setCompact(false)
                     .setRunnable(this::logout)
@@ -2890,8 +2909,9 @@ public enum Console {
     // --------------------------------
 
     /**
-     * Revalidates the console menu bounds and height and places
+     * Revalidates the console menu bounds and places
      * it where it in the proper spot depending on if it is shown.
+     * The taskbar icons are also regenerated and shown.
      */
     public void revalidateMenu() {
         if (consoleClosed || menuLabel == null)
@@ -3533,5 +3553,25 @@ public enum Console {
                 (int) (center.getY() - NOTIFICATION_PADDING - h / 2));
 
         consoleCyderFrame.repaint();
+    }
+
+    /**
+     * Adds the provided frame to {@link #frameTaskbarExceptions}.
+     *
+     * @param frame the frame to add as an exception
+     */
+    public void addToFrameTaskbarExceptions(CyderFrame frame) {
+        Preconditions.checkNotNull(frame);
+
+        frameTaskbarExceptions.add(frame);
+    }
+
+    /**
+     * Removes the provided frame from {@link #frameTaskbarExceptions} if it is contained.
+     *
+     * @param frame the frame to remove
+     */
+    public void removeFrameTaskbarException(CyderFrame frame) {
+        frameTaskbarExceptions.remove(frame);
     }
 }

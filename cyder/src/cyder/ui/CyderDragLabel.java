@@ -379,7 +379,7 @@ public class CyderDragLabel extends JLabel {
                 null);
         minimize.addActionListener(e -> {
             Logger.log(Logger.Tag.UI_ACTION, this);
-            effectFrame.minimizeAnimation();
+            effectFrame.minimizeAndIconify();
         });
         ret.add(minimize);
 

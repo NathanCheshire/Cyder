@@ -143,7 +143,7 @@ public class FrameMovementHandler extends InputHandler {
         } else if (getInputHandler().commandIs("dance")) {
             Console.INSTANCE.dance();
         } else if (getInputHandler().commandIs("hide")) {
-            Console.INSTANCE.getConsoleCyderFrame().minimizeAnimation();
+            Console.INSTANCE.getConsoleCyderFrame().minimizeAndIconify();
         } else if (getInputHandler().inputWithoutSpacesIs("barrelroll")) {
             Console.INSTANCE.getConsoleCyderFrame().barrelRoll();
         } else if (getInputHandler().commandIs("askew")) {

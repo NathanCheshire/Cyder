@@ -1311,9 +1311,9 @@ public class CyderFrame extends JFrame {
 
     /**
      * Animates away this frame by moving it down until it is offscreen at which point the frame
-     * is set to the {@link Frame#ICONIFIED} state.
+     * is set to {@link Frame#ICONIFIED}.
      */
-    public void minimizeAnimation() {
+    public void minimizeAndIconify() {
         try {
             setRestoreX(getX());
             setRestoreY(getY());
@@ -1441,13 +1441,8 @@ public class CyderFrame extends JFrame {
                     currentNotification.kill();
                 }
 
-                //kill all threads
                 killThreads();
-
-                //disable dragging
                 disableDragging();
-
-                // disable content pane repainting not paint to speed up the animation
                 setDisableContentRepainting(true);
 
                 if (isVisible() && (!fastClose && !shouldFastClose)
@@ -1470,8 +1465,8 @@ public class CyderFrame extends JFrame {
                     }
                 }
 
-                //remove from Console
                 Console.INSTANCE.removeTaskbarIcon(this);
+                Console.INSTANCE.removeFrameTaskbarException(this);
 
                 super.dispose();
 
@@ -1480,8 +1475,6 @@ public class CyderFrame extends JFrame {
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
-
-                // failsafe
                 super.dispose();
             }
         }, "[" + getTitle() + "] dispose() animation thread");
