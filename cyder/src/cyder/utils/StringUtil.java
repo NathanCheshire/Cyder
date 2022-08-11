@@ -921,7 +921,6 @@ public class StringUtil {
      */
     public static String getTrimmedText(String text) {
         Preconditions.checkNotNull(text);
-        Preconditions.checkArgument(!text.isEmpty());
 
         return text.trim().replaceAll("\\s+", " ");
     }
@@ -1061,7 +1060,6 @@ public class StringUtil {
      */
     public static String parseNonAscii(String nonAsciiContaining) {
         Preconditions.checkNotNull(nonAsciiContaining);
-        Preconditions.checkArgument(!nonAsciiContaining.isEmpty());
 
         return getTrimmedText(nonAsciiContaining.replaceAll("[^\\x00-\\x7F]", " "));
     }

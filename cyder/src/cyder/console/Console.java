@@ -56,6 +56,7 @@ import static cyder.console.ConsoleConstants.*;
  * Singleton of components that represent the GUI way a user
  * interacts with Cyder and its functions.
  */
+@SuppressWarnings("FieldCanBeLocal") /* member clarity */
 public enum Console {
     /**
      * The Console singleton.
@@ -73,7 +74,7 @@ public enum Console {
     /**
      * The font used for the clock label.
      */
-    public static final Font CONSOLE_CLOCK_FONT = new Font("Segoe UI Black", Font.BOLD, 21);
+    public final Font CONSOLE_CLOCK_FONT = new Font("Agency FB", Font.BOLD, 25);
 
     /**
      * An list of the frames to ignore when placing a frame in the console taskbar menu.
@@ -125,11 +126,6 @@ public enum Console {
      * The default focus owner for focus to default to when no focused components can be found.
      */
     private Component defaultFocusOwner;
-
-    /**
-     * The label added to the top drag label to show the time.
-     */
-    private JLabel consoleClockLabel;
 
     /**
      * The label used for the Cyder taskbar.
@@ -242,7 +238,7 @@ public enum Console {
     /**
      * Whether the console is closed.
      */
-    private boolean consoleClosed = true;
+    private final AtomicBoolean consoleClosed = new AtomicBoolean(true);
 
     /**
      * The current bash string to use for the start of the input field.
@@ -309,7 +305,7 @@ public enum Console {
 
         setupConsoleCyderFrame(consoleIcon);
 
-        refreshConsoleTitle();
+        refreshConsoleSuperTitle();
 
         installConsoleResizing();
 
@@ -358,7 +354,7 @@ public enum Console {
 
         commandIndex = 0;
 
-        consoleClosed = false;
+        consoleClosed.set(false);
         menuLabel = null;
 
         commandList.clear();
@@ -386,7 +382,6 @@ public enum Console {
                 revalidateCustomMenuBounds();
                 revalidateAudioMenuBounds();
                 revalidateMenu();
-                refreshClockText();
                 revalidateTitleNotify();
             }
 
@@ -402,10 +397,10 @@ public enum Console {
                 super.dispose(isFullscreen());
             }
 
-            private static final int DEGREE_LIMIT = 360;
-            private static final int DEGREE_INCREMENT = 2;
-            private static final int DEGREE_DELAY = 2;
-            private static boolean consoleBarrelRollLocked = false;
+            private final int DEGREE_LIMIT = 360;
+            private final int DEGREE_INCREMENT = 2;
+            private final int DEGREE_DELAY = 2;
+            private boolean consoleBarrelRollLocked = false;
 
             /**
              * {@inheritDoc}
@@ -459,7 +454,7 @@ public enum Console {
 
         consoleCyderFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
-        consoleCyderFrame.setPaintCyderFrameTitle(false);
+        consoleCyderFrame.setPaintCyderFrameTitleOnSuperCall(false);
         consoleCyderFrame.setPaintSuperTitle(true);
 
         consoleCyderFrame.setShouldAnimateOpacity(!isFullscreen());
@@ -515,9 +510,9 @@ public enum Console {
     }
 
     /**
-     * Refreshes the console title.
+     * Refreshes the console super title, that of displaying "Version Cyder [Nathan]".
      */
-    public void refreshConsoleTitle() {
+    public void refreshConsoleSuperTitle() {
         consoleCyderFrame.setTitle(PropLoader.getString("version") +
                 " Cyder [" + UserUtil.getCyderUser().getName() + "]");
     }
@@ -591,8 +586,8 @@ public enum Console {
         consoleCyderFrame.addDragLabelMouseListener(consolePinnedWindowMouseAdapter);
     }
 
-    private static final int menuLabelShowingX = 3;
-    private static final int menuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
+    private final int menuLabelShowingX = 3;
+    private final int menuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
 
     /**
      * Revalidates the bounds of the custom console menu and the audio controls menu.
@@ -603,7 +598,7 @@ public enum Console {
         }
     }
 
-    private static final int audioMenuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
+    private final int audioMenuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
 
     /**
      * Revalidates the audio menu bounds.
@@ -869,17 +864,9 @@ public enum Console {
      * Sets up and adds the console clock to the top drag label.
      */
     private void installConsoleClock() {
-        // todo use centered frame title and setTitle calls which don't update the super title
-        // todo might need new architecture for this: methods for super title vs painted title
-        //  method for setting title label font
-
-        consoleClockLabel = new JLabel(TimeUtil.userFormattedTime(), SwingConstants.CENTER);
-        consoleClockLabel.setSize(0, StringUtil.getAbsoluteMinHeight("143", CONSOLE_CLOCK_FONT));
-        consoleClockLabel.setFont(CONSOLE_CLOCK_FONT);
-        consoleClockLabel.setForeground(CyderColors.vanilla);
-        consoleCyderFrame.getTopDragLabel().add(consoleClockLabel);
-        consoleClockLabel.setFocusable(false);
-        consoleClockLabel.setVisible(true);
+        consoleCyderFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+        consoleCyderFrame.setCyderFrameTitle("");
+        consoleCyderFrame.setTitleLabelFont(CONSOLE_CLOCK_FONT);
     }
 
     /**
@@ -1024,23 +1011,12 @@ public enum Console {
         }, IgnoreThread.HourlyChimeChecker.getName());
 
         CyderThreadRunner.submit(() -> {
-            OUTER:
             while (true) {
                 if (!isClosed()) {
                     try {
                         refreshClockText();
-
-                        // sleep 200 ms
-                        int i = 0;
-                        while (i < 200) {
-                            ThreadUtil.sleep(50);
-                            if (consoleClosed) {
-                                break OUTER;
-                            }
-                            i += 50;
-                        }
+                        TimeUtil.sleepWithChecks(200, 50, consoleClosed);
                     } catch (Exception e) {
-                        // sometimes this throws for no reason trying to get times or something so log quietly
                         ExceptionHandler.silentHandle(e);
                     }
                 }
@@ -1049,7 +1025,6 @@ public enum Console {
 
         CyderThreadRunner.submit(() -> {
             try {
-                OUTER:
                 while (true) {
                     if (!isClosed() && UserUtil.getCyderUser().getShowbusyicon().equals("1")) {
                         ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
@@ -1084,16 +1059,7 @@ public enum Console {
                     }
 
                     consoleCyderFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
-
-                    //sleep 3 seconds
-                    int i = 0;
-                    while (i < 3000) {
-                        ThreadUtil.sleep(50);
-                        if (consoleClosed) {
-                            break OUTER;
-                        }
-                        i += 50;
-                    }
+                    TimeUtil.sleepWithChecks(3000, 50, consoleClosed);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -1102,31 +1068,6 @@ public enum Console {
                 consoleCyderFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
             }
         }, IgnoreThread.CyderBusyChecker.getName());
-
-        CyderThreadRunner.submit(() -> {
-            int setDelay = 3000;
-
-            try {
-                // initial delay
-                ThreadUtil.sleep(setDelay);
-
-                OUTER:
-                while (true) {
-                    saveScreenStat();
-
-                    int i = 0;
-                    while (i < setDelay) {
-                        ThreadUtil.sleep(50);
-                        if (consoleClosed) {
-                            break OUTER;
-                        }
-                        i += 50;
-                    }
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }, IgnoreThread.ConsoleDataSaver.getName());
     }
 
     /**
@@ -1673,8 +1614,8 @@ public enum Console {
         revalidateMenu();
     };
 
-    private static final String PREFS = "Prefs";
-    private static final String LOGOUT = "Logout";
+    private final String PREFS = "Prefs";
+    private final String LOGOUT = "Logout";
 
     /**
      * The default compact taskbar icons.
@@ -1797,8 +1738,8 @@ public enum Console {
         return consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5;
     }
 
-    private static final int consoleMenuShowingX = 7;
-    private static final int consoleMenuShowingY = 10;
+    private final int consoleMenuShowingX = 7;
+    private final int consoleMenuShowingY = 10;
 
     /**
      * Revalidates the taskbar menu bounds and re-installs the icons.
@@ -2081,14 +2022,14 @@ public enum Console {
         }
     };
 
-    private static final String MAX_FONT_SIZE = "max_font_size";
-    private static final String MIN_FONT_SIZE = "min_font_size";
-    private static final String FONT_METRIC = "font_metric";
+    private final String MAX_FONT_SIZE = "max_font_size";
+    private final String MIN_FONT_SIZE = "min_font_size";
+    private final String FONT_METRIC = "font_metric";
 
     /**
      * Some kind of a magic number that denotes the mouse wheel is being scrolled up.
      */
-    private static final int WHEEL_UP = -1;
+    private final int WHEEL_UP = -1;
 
     /**
      * The MouseWheelListener used for increasing/decreasing the
@@ -2890,9 +2831,6 @@ public enum Console {
 
         revalidateCustomMenuBounds();
         revalidateAudioMenuBounds();
-
-        // clock text
-        refreshClockText();
     }
 
     /**
@@ -2914,7 +2852,7 @@ public enum Console {
      * The taskbar icons are also regenerated and shown.
      */
     public void revalidateMenu() {
-        if (consoleClosed || menuLabel == null)
+        if (consoleClosed.get() || menuLabel == null)
             return;
 
         // revalidate bounds if needed and change icon
@@ -3014,16 +2952,16 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().refreshRightButtons();
     }
 
-    private static final int AUDIO_MENU_BUTTONS = 3;
-    private static final int AUDIO_MENU_BUTTON_SIZE = 30;
-    private static final int AUDIO_MENU_LABEL_HEIGHT = 40;
-    private static final int AUDIO_MENU_X_PADDING = 10;
-    private static final int AUDIO_MENU_Y_PADDING = (AUDIO_MENU_LABEL_HEIGHT - AUDIO_MENU_BUTTON_SIZE) / 2;
+    private final int AUDIO_MENU_BUTTONS = 3;
+    private final int AUDIO_MENU_BUTTON_SIZE = 30;
+    private final int AUDIO_MENU_LABEL_HEIGHT = 40;
+    private final int AUDIO_MENU_X_PADDING = 10;
+    private final int AUDIO_MENU_Y_PADDING = (AUDIO_MENU_LABEL_HEIGHT - AUDIO_MENU_BUTTON_SIZE) / 2;
 
-    private static final int AUDIO_MENU_LABEL_WIDTH = AUDIO_MENU_BUTTON_SIZE * AUDIO_MENU_BUTTONS
+    private final int AUDIO_MENU_LABEL_WIDTH = AUDIO_MENU_BUTTON_SIZE * AUDIO_MENU_BUTTONS
             + AUDIO_MENU_X_PADDING * (AUDIO_MENU_BUTTONS + 1);
 
-    private static final int AUDIO_MENU_X_OFFSET = 6;
+    private final int AUDIO_MENU_X_OFFSET = 6;
 
     /**
      * Returns the x value to place the audio menu at.
@@ -3215,47 +3153,31 @@ public enum Console {
     }
 
     /**
-     * Refreshes the text on the ConsoleClock based off of showSeconds and the possibly set
-     * custom date pattern. The bounds of ConsoleClock are also updated.
+     * Refreshes the consoleCyderFrame painted title to display the console clock in the specified pattern if enabled.
      */
     public void refreshClockText() {
         try {
-            if (consoleClockLabel == null)
-                return;
-
-            if (UserUtil.getCyderUser().getClockonconsole().equals("1")) {
-                consoleClockLabel.setVisible(true);
-            } else {
-                consoleClockLabel.setVisible(false);
+            if (UserUtil.getCyderUser().getClockonconsole().equals("0")) {
+                consoleCyderFrame.setCyderFrameTitle("");
                 return;
             }
-
-            // get pattern
-            String pattern = UserUtil.getCyderUser().getConsoleclockformat();
-
-            //get time according to the pattern
-            String time = TimeUtil.getTime(pattern);
 
             String regularSecondTime = TimeUtil.consoleSecondTime();
             String regularNoSecondTime = TimeUtil.consoleNoSecondTime();
+            String userConfiguredTime = TimeUtil.userFormattedTime();
 
             // no custom pattern so take into account showSeconds
-            if (time.equalsIgnoreCase(regularSecondTime) || time.equalsIgnoreCase(regularNoSecondTime)) {
+            if (userConfiguredTime.equalsIgnoreCase(regularSecondTime)
+                    || userConfiguredTime.equalsIgnoreCase(regularNoSecondTime)) {
                 if (UserUtil.getCyderUser().getShowseconds().equalsIgnoreCase("1")) {
-                    time = regularSecondTime;
+                    userConfiguredTime = regularSecondTime;
                 } else {
-                    time = regularNoSecondTime;
+                    userConfiguredTime = regularNoSecondTime;
                 }
             }
 
-            consoleClockLabel.setText(time);
-
-            int w = StringUtil.getMinWidth(time, consoleClockLabel.getFont());
-            consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - w / 2,
-                    0, w, consoleClockLabel.getHeight());
-        } catch (Exception ignored) {
-        }
-        //sometimes extracting user throws, so we will ignore exceptions thrown from this method
+            consoleCyderFrame.setCyderFrameTitle(userConfiguredTime);
+        } catch (Exception ignored) {}
     }
 
     /**
@@ -3265,7 +3187,7 @@ public enum Console {
      * @param logoutUser whether to log out the currently logged-in user.
      */
     public void closeFrame(boolean exit, boolean logoutUser) {
-        consoleClosed = true;
+        consoleClosed.set(true);
         saveScreenStat();
 
         //stop any audio
@@ -3299,7 +3221,7 @@ public enum Console {
      * @return whether the Console is closed
      */
     public boolean isClosed() {
-        return consoleClosed;
+        return consoleClosed.get();
     }
 
     /**

@@ -442,8 +442,8 @@ public class CyderFrame extends JFrame {
         contentLabel.add(bottomDragCover, JLayeredPane.DRAG_LAYER);
 
         titleLabel = new JLabel("");
-        titleLabel.setFont(DEFAULT_FRAME_TITLE_FONT);
-        titleLabel.setForeground(CyderColors.vanilla);
+        titleLabel.setFont(titleLabelFont);
+        titleLabel.setForeground(titleLabelColor);
         titleLabel.setOpaque(false);
         titleLabel.setFocusable(false);
         titleLabel.setVisible(true);
@@ -862,31 +862,27 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    // -------------
-    // frame title
-    // -------------
-
     /**
-     * Whether to paint the title label on the top drag label.
+     * Whether to paint the title label on the top drag label when {@link #setTitle(String)} is called.
      */
-    private boolean paintCyderFrameTitle = true;
+    private boolean paintCyderFrameTitleOnSuperCall = true;
 
     /**
-     * Whether to paint the CyderFrame's title label
+     * Whether to paint the CyderFrame's title label when {@link #setTitle(String)} is called.
      *
-     * @param enable whether ot paint CyderFrame's title label
+     * @param enable whether ot paint CyderFrame's title label when {@link #setTitle(String)} is called
      */
-    public void setPaintCyderFrameTitle(boolean enable) {
-        paintCyderFrameTitle = enable;
+    public void setPaintCyderFrameTitleOnSuperCall(boolean enable) {
+        paintCyderFrameTitleOnSuperCall = enable;
     }
 
     /**
-     * Returns whether the title label will be painted.
+     * Returns whether the title label will be painted/updated when {@link #setTitle(String)} is called.
      *
-     * @return whether the title label will be painted
+     * @return whether the title label will be painted/updated when {@link #setTitle(String)} is called
      */
-    public boolean getPaintCyderFrameTitle() {
-        return paintCyderFrameTitle;
+    public boolean getPaintCyderFrameTitleOnSuperCall() {
+        return paintCyderFrameTitleOnSuperCall;
     }
 
     /**
@@ -913,29 +909,41 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Set the title of the label painted on the top drag label of the CyderFrame instance.
-     * You can also configure the frame to paint/not paint both
-     * the windowed title, and the title label title via {@link #setPaintSuperTitle(boolean)}
-     * and {@link #setPaintCyderFrameTitle(boolean)}.
+     * Sets the title of the frame of the OS' taskbar if {@link #paintSuperTitle} is true
+     * as well as the painted label on the CyderFrame if {@link #paintCyderFrameTitleOnSuperCall}
+     * is set to true.
      *
      * @param title the String representing the chosen CyderFrame title
      */
     @Override
     public void setTitle(String title) {
-        super.setTitle(paintSuperTitle ? title : "");
+        title = StringUtil.getTrimmedText(StringUtil.parseNonAscii(title));
 
-        if (titleLabel == null || StringUtil.isNull(title))
-            return;
-
-        if (paintCyderFrameTitle) {
-            String parsedTitle = StringUtil.getTrimmedText(StringUtil.parseNonAscii(title));
-            this.title = parsedTitle;
-            titleLabel.setText(parsedTitle);
-
-            correctTitleLength();
-
-            titleLabel.setVisible(true);
+        if (paintSuperTitle) {
+            super.setTitle(title);
+            this.title = title;
+        } else {
+            super.setTitle("");
         }
+
+        if (paintCyderFrameTitleOnSuperCall) {
+            setCyderFrameTitle(title);
+        }
+    }
+
+    /**
+     * Sets the painted title on the top drag label to the provided text.
+     *
+     * @param title the painted title text
+     */
+    public void setCyderFrameTitle(String title) {
+        Preconditions.checkNotNull(title);
+        title = StringUtil.getTrimmedText(StringUtil.parseNonAscii(title));
+
+        if (titleLabel == null) return;
+
+        titleLabel.setText(title);
+        correctTitleLength();
     }
 
     // ------------------
@@ -3618,6 +3626,62 @@ public class CyderFrame extends JFrame {
             case BOTTOM_RIGHT -> setLocation(ScreenUtil.getScreenWidth() - getWidth(),
                     ScreenUtil.getScreenHeight() - getHeight());
         }
+    }
+
+    /**
+     * The foreground color of the title label
+     */
+    private Color titleLabelColor = CyderColors.vanilla;
+
+    /**
+     * Sets the default color of the title label.
+     *
+     * @param color the default color of the title label
+     */
+    public void setTitleLabelColor(Color color) {
+        Preconditions.checkNotNull(color);
+
+        titleLabelColor = color;
+        titleLabel.setForeground(color);
+    }
+
+    /**
+     * Returns the foreground color used for the title label.
+     *
+     * @return the foreground color used for the title label
+     */
+    public Color getTitleLabelColor() {
+        return titleLabelColor;
+    }
+
+    /**
+     * The font for the title label.
+     */
+    private Font titleLabelFont = DEFAULT_FRAME_TITLE_FONT;
+
+    /**
+     * Returns the font for the title label.
+     *
+     * @return the font for the title label
+     */
+    public Font getTitleLabelFont() {
+        return titleLabelFont;
+    }
+
+    // todo logger needs to always use 3 milliseconds, use better format of dashes and such
+    // todo logger offset for wrapped lines needs to be longer by 3 chars
+    // todo initialize font in user editor scroll and select the element
+
+    /**
+     * Sets font for the title label.
+     *
+     * @param titleLabelFont font for the title label
+     */
+    public void setTitleLabelFont(Font titleLabelFont) {
+        Preconditions.checkNotNull(titleLabelFont);
+
+        this.titleLabelFont = titleLabelFont;
+        titleLabel.setFont(titleLabelFont);
     }
 
     /**

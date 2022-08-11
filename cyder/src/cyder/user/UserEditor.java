@@ -1651,7 +1651,7 @@ public final class UserEditor {
         if (validUsername.valid()) {
             UserUtil.getCyderUser().setName(newUsername);
             editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
-            Console.INSTANCE.refreshConsoleTitle();
+            Console.INSTANCE.refreshConsoleSuperTitle();
         } else {
             editUserFrame.notify(validUsername.message());
         }

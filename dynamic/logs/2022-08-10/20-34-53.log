@@ -1,0 +1,231 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[20:34:53.204] [ENTRY]: Nathan
+[20:34:53.114] [DEBUG]: Found prop file: props\propkeys.ini
+[20:34:53.134] [DEBUG]: Found prop file: props\props.ini
+[20:34:53.161] [PROP LOADED]: [key = map_quest_api_key]
+[20:34:53.162] [PROP LOADED]: [key = youtube_api_3_key]
+[20:34:53.162] [PROP LOADED]: [key = ip_key]
+[20:34:53.162] [PROP LOADED]: [key = weather_key]
+[20:34:53.162] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[20:34:53.162] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7c
+           a733d0a7f6]
+[20:34:53.174] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[20:34:53.174] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiole
+           ngth,capsmode,typingsound,showbusyicon]
+[20:34:53.174] [PROP LOADED]: [key = font_metric, value = 1]
+[20:34:53.174] [PROP LOADED]: [key = max_font_size, value = 50]
+[20:34:53.174] [PROP LOADED]: [key = min_font_size, value = 25]
+[20:34:53.174] [PROP LOADED]: [key = released, value = false]
+[20:34:53.175] [PROP LOADED]: [key = version, value = Liminal]
+[20:34:53.175] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[20:34:53.175] [PROP LOADED]: [key = components_relocatable, value = false]
+[20:34:53.175] [PROP LOADED]: [key = testing_mode, value = true]
+[20:34:53.175] [PROP LOADED]: [key = autocypher, value = true]
+[20:34:53.175] [PROP LOADED]: [key = dispose_splash, value = true]
+[20:34:53.175] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[20:34:53.175] [PROP LOADED]: [key = activate_watchdog, value = false]
+[20:34:53.175] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[20:34:53.175] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[20:34:53.175] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[20:34:53.176] [PROP LOADED]: [key = ui_scale, value = 1]
+[20:34:53.176] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[20:34:53.176] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[20:34:53.195] [DEBUG]: Jar mode set as: FALSE
+[20:34:53.273] [THREAD STARTED]: Object Creation Logger
+[20:34:53.440] [DEBUG]: Watchdog skipped
+[20:34:53.449] [LOADING MESSAGE]: Registering fonts
+[20:34:53.903] [FONT LOADED]: agency-fb
+[20:34:53.905] [FONT LOADED]: arial-black
+[20:34:53.907] [FONT LOADED]: beyno
+[20:34:53.910] [FONT LOADED]: condiment-regular
+[20:34:53.913] [FONT LOADED]: prompt-bold
+[20:34:53.914] [FONT LOADED]: segoe-ui-black
+[20:34:53.916] [FONT LOADED]: tahoma
+[20:34:53.917] [LOADING MESSAGE]: Ensuring singular instance
+[20:34:53.919] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20:34:53.921] [DEBUG]: Starting instance socket on port 5150
+[20:34:54.434] [LOADING MESSAGE]: Ensuring OS is supported
+[20:34:54.435] [LOADING MESSAGE]: Creating dynamics
+[20:34:54.436] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20:34:54.452] [LOADING MESSAGE]: Validating users
+[20:34:54.608] [LOADING MESSAGE]: Cleaning users
+[20:34:54.611] [LOADING MESSAGE]: Validating props
+[20:34:54.763] [LOADING MESSAGE]: Validating Widgets
+[20:34:56.463] [OBJECT CREATION]: Objects created since last delta (5000ms): 46
+[20:34:56.963] [LOADING MESSAGE]: Validating Tests
+[20:34:56.969] [LOADING MESSAGE]: Validating Vanilla annotations
+[20:34:56.987] [LOADING MESSAGE]: Validating Handles
+[20:34:57.149] [THREAD STARTED]: Splash Loader
+[20:34:57.151] [THREAD STARTED]: Sufficient Subroutine Executor
+[20:34:57.860] [LOADING MESSAGE]: Logging JVM args
+[20:34:57.862] [THREAD STARTED]: JVM Args Logger
+[20:34:58.101] [LOADING MESSAGE]: Checking for an AutoCypher
+[20:34:58.103] [LOGIN]: AutoCypher Attempt
+[20:34:58.104] [LOADING MESSAGE]: Auto Cyphering
+[20:35:00.386] [THREAD STARTED]: Splash Animation
+[20:35:00.392] [THREAD STARTED]: Enter animation, frame=Cyder Splash
+[20:35:00.738] UNIQUE OBJECT CREATEDConsole singleton constructed
+[20:35:01.131] [DEBUG]: Cyder Entry = AutoCypher
+[20:35:01.504] [OBJECT CREATION]: Objects created since last delta (5000ms): 44
+[20:35:01.658] [THREAD STARTED]: High Ping Checker
+[20:35:01.691] [THREAD STARTED]: Console Printing Animation
+[20:35:01.702] [DEBUG]: Latency of Google found to be 39ms
+[20:35:01.802] [THREAD STARTED]: Hourly Chime Checker
+[20:35:01.803] [THREAD STARTED]: Console Clock Updater
+[20:35:01.805] [THREAD STARTED]: Cyder Busy Checker
+[20:35:01.809] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[20:35:01.810] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[20:35:01.823] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[20:35:02.224] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[20:35:02.226] [THREAD STARTED]: Manual Tests Thread
+[20:35:02.237] [CONSOLE OUT]: [STRING]: Console loaded in 9188ms
+[20:35:02.583] [DEBUG]: Attempted to log a new or empty line
+[20:35:02.885] [THREAD STARTED]: Splash Loading Label Updater
+[20:35:06.521] [OBJECT CREATION]: Objects created since last delta (5000ms): 36
+[20:36:22.433] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[20:36:22.524] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7d
+           a\Userdata.json
+[20:36:22.540] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-8
+           1fe-329f-8a78-62f463d0b7da_1660181637426.json
+[20:36:22.541] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[20:36:26.797] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[20:36:26.875] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[20:36:27.10] [OBJECT CREATION]: Objects created since last delta (5000ms): 3
+[20:36:27.357] [THREAD STARTED]: minimize menu thread
+[20:36:27.358] [THREAD STARTED]: Console menu animator
+[20:36:28.486] [UI]: Component = CyderLabel, hash = 492276946, bounds = (0, 0, 75, 75), parent frame = Liminal Cyder
+           [Nathan], getText() = <html><div style='text-align: center;'>Pref</html>
+[20:36:28.515] [THREAD STARTED]: [] dispose() animation thread
+[20:36:28.516] [UI]: CyderFrame disposed with fastclose=true, getTitle=
+[20:36:28.521] [THREAD STARTED]: Enter animation, frame=Preferences
+[20:36:28.542] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[20:36:29.250] [THREAD STARTED]: Preferences Opacity Decrement Animator
+[20:36:29.587] [THREAD STARTED]: Preferences Opacity Increment Animator
+[20:36:30.834] [UI]: Component = CyderDragLabel, hash = 1143773448, bounds = (2, 2, 796, 28), parent frame = Preferences
+           , getText() = <html><div style='text-align: center;'>Pref</html>
+[20:36:30.835] [THREAD STARTED]: [Preferences] dispose() animation thread
+[20:36:30.836] [UI]: CyderFrame disposed with fastclose=false, getTitle=Preferences
+[20:36:31.619] [UI]: Component = CyderLabel, hash = 1690209166, bounds = (0, 0, 75, 75), parent frame = Liminal Cyder
+           [Nathan], getText() = <html><div style='text-align: center;'>Pref</html>
+[20:36:31.620] [THREAD STARTED]: [Preferences] dispose() animation thread
+[20:36:31.624] [THREAD STARTED]: Enter animation, frame=Preferences
+[20:36:31.661] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[20:36:32.11] [OBJECT CREATION]: Objects created since last delta (5000ms): 94
+[20:36:32.885] [THREAD STARTED]: Enter animation, frame=[967x613] img
+[20:36:32.893] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = [967x613] img
+[20:36:32.915] [THREAD STARTED]: Photo viewer directory watcher, directory="C:\Users\Nathan\Documents\IntelliJava\Cyder
+           \dynamic\users\7d7ebb00-81fe-329f-8a78-62f463d0b7da\Backgrounds"
+[20:36:33.719] [THREAD STARTED]: [967x613] img Opacity Decrement Animator
+[20:36:33.829] [THREAD STARTED]: [967x613] img Opacity Increment Animator
+[20:36:34.644] [UI]: Component = CyderDragLabel, hash = -1569936325, bounds = (2, 2, 796, 28), parent frame = [967x613]
+           img, getText() = <html><div style='text-align: center;'>Pref</html>
+[20:36:34.645] [THREAD STARTED]: [[967x613] img] dispose() animation thread
+[20:36:34.646] [UI]: CyderFrame disposed with fastclose=false, getTitle=[967x613] img
+[20:36:35.279] [THREAD STARTED]: Preferences Opacity Decrement Animator
+[20:36:35.524] [THREAD STARTED]: Preferences Opacity Increment Animator
+[20:36:36.314] [THREAD STARTED]: Enter animation, frame=[967x613] img
+[20:36:36.323] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = [967x613] img
+[20:36:36.326] [THREAD STARTED]: Photo viewer directory watcher, directory="C:\Users\Nathan\Documents\IntelliJava\Cyder
+           \dynamic\users\7d7ebb00-81fe-329f-8a78-62f463d0b7da\Backgrounds"
+[20:36:37.24] [OBJECT CREATION]: Objects created since last delta (5000ms): 55
+[20:36:37.306] [UI]: Component = CyderDragLabel, hash = -1670527789, bounds = (2, 2, 796, 28), parent frame = [967x613]
+           img, getText() = <html><div style='text-align: center;'>Pref</html>
+[20:36:37.307] [THREAD STARTED]: [[967x613] img] dispose() animation thread
+[20:36:37.308] [UI]: CyderFrame disposed with fastclose=false, getTitle=[967x613] img
+[20:36:38.887] [THREAD STARTED]: Alec Benjamin - Let Me Down Slowly Tevvez Remix Parallel Universe Progress Label Thread
+[20:36:38.889] [THREAD STARTED]: Audio Progress Label Animator
+[20:36:39.85] [THREAD STARTED]: Scrolling title label animator [Alec benjamin - let me down slowly tevvez remix parallel universe]
+[20:36:39.86] [THREAD STARTED]: Enter animation, frame=Alec benjamin - let me down slowly tevvez remix parallel universe
+[20:36:39.129] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Alec benjamin - let me down slowly tevvez
+           remix parallel universe
+[20:36:40.640] [THREAD STARTED]: AudioPlayer Play Audio Thread [Alec Benjamin - Let Me Down Slowly Tevvez Remix Parallel Universe]
+[20:36:40.691] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alig
+           nmentX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpac
+           ing=0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,sna
+           pToValue=true], uicyder.ui.CyderSliderUi@e797762
+[20:36:41.785] [THREAD STARTED]: AudioPlayer Play Audio Thread [Alec Benjamin - Let Me Down Slowly Tevvez Remix Parallel Universe]
+[20:36:41.786] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alig
+           nmentX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpac
+           ing=0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,sna
+           pToValue=true], uicyder.ui.CyderSliderUi@e797762
+[20:36:42.32] [OBJECT CREATION]: Objects created since last delta (5000ms): 26
+[20:36:44.299] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[20:36:44.504] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 5] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7d
+           a\Userdata.json
+[20:36:44.517] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-8
+           1fe-329f-8a78-62f463d0b7da_1660181782536.json
+[20:36:44.518] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[20:36:45.282] [THREAD STARTED]: Console Audio Menu Minimizer
+[20:36:47.29] [THREAD STARTED]: AudioPlayer Play Audio Thread [Alec Benjamin - Let Me Down Slowly Tevvez Remix Parallel Universe]
+[20:36:47.29] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,align
+           mentX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpaci
+           ng=0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snap
+           ToValue=true], uicyder.ui.CyderSliderUi@e797762
+[20:36:47.34] [OBJECT CREATION]: Objects created since last delta (5000ms): 11
+[20:36:47.869] [THREAD STARTED]: Vexento - Pixel Party Progress Label Thread
+[20:36:47.870] [THREAD STARTED]: AudioPlayer Play Audio Thread [Vexento - Pixel Party]
+[20:36:47.871] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alig
+           nmentX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpac
+           ing=0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,sna
+           pToValue=true], uicyder.ui.CyderSliderUi@e797762
+[20:36:49.559] [THREAD STARTED]: Scrolling title label animator [Alec benjamin - let me down slowly tevvez remix
+           parallel universe]
+[20:36:49.606] [THREAD STARTED]: Alec Benjamin - Let Me Down Slowly Tevvez Remix Parallel Universe Progress Label Thread
+[20:36:49.607] [THREAD STARTED]: AudioPlayer Play Audio Thread [Alec Benjamin - Let Me Down Slowly Tevvez Remix Parallel Universe]
+[20:36:49.608] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alig
+           nmentX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpac
+           ing=0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,sna
+           pToValue=true], uicyder.ui.CyderSliderUi@e797762
+[20:36:50.961] [THREAD STARTED]: Vexento - Pixel Party Progress Label Thread
+[20:36:50.962] [THREAD STARTED]: AudioPlayer Play Audio Thread [Vexento - Pixel Party]
+[20:36:50.963] [THREAD STARTED]: Audio Location Slider Animation Updater, slider=javax.swing.JSlider[,75,480,450x40,alig
+           nmentX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpac
+           ing=0,minorTickSpacing=1,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,sna
+           pToValue=true], uicyder.ui.CyderSliderUi@e797762
+[20:36:52.37] [OBJECT CREATION]: Objects created since last delta (5000ms): 18
+[20:36:55.141] [CLIENT]: showseconds
+[20:36:55.168] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7d
+           a\Userdata.json
+[20:36:55.177] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-8
+           1fe-329f-8a78-62f463d0b7da_1660181804514.json
+[20:36:55.178] [PREFERENCE REFRESH]: Key = showseconds
+[20:36:55.198] [CONSOLE OUT]: [STRING]: Show Seconds set to false
+[20:36:55.540] [DEBUG]: Attempted to log a new or empty line
+[20:36:57.38] [OBJECT CREATION]: Objects created since last delta (5000ms): 3
+[20:36:57.655] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[20:36:57.832] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 5] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7d
+           a\Userdata.json
+[20:36:57.843] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-8
+           1fe-329f-8a78-62f463d0b7da_1660181815174.json
+[20:36:57.844] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[20:37:00.68] [UI]: Component = CyderDragLabel, hash = -2081049445, bounds = (2, 2, 796, 28), parent frame = Preferences
+           , getText() = <html><div style='text-align: center;'>Pref</html>
+[20:37:00.69] [THREAD STARTED]: [Preferences] dispose() animation thread
+[20:37:00.70] [UI]: CyderFrame disposed with fastclose=false, getTitle=Preferences
+[20:37:01.302] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[20:37:01.303] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[20:37:01.515] [EXIT]: [RUNTIME] 2m 8s 404ms
+[20:37:01.517] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], no exceptions thrown,
+           total objects created: 336
