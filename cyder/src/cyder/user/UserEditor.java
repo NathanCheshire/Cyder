@@ -1069,7 +1069,9 @@ public final class UserEditor {
             }
 
             if (currentPage == Page.FONT_AND_COLOR) {
-                JLabel fontLabel = fontScrollReference.get().generateScrollList();
+                CyderScrollList scrollList = fontScrollReference.get();
+                scrollList.selectElement(UserUtil.getCyderUser().getFont());
+                JLabel fontLabel = scrollList.generateScrollList();
                 fontLabel.setSize(FONT_SCROLL_WIDTH, FONT_SCROLL_HEIGHT);
                 fontPartitionedLayout.setComponent(fontLabel, 2);
             }

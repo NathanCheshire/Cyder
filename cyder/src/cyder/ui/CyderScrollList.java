@@ -141,7 +141,7 @@ public class CyderScrollList {
      *
      * @param itemAlignment the item alignment to set
      */
-    public final void setItemAlignment(int itemAlignment) {
+    public void setItemAlignment(int itemAlignment) {
         this.itemAlignment = itemAlignment;
     }
 
@@ -209,7 +209,7 @@ public class CyderScrollList {
      *     <li>Revalidating based on compact mode</li>
      * </ul>
      */
-    public final void refreshList() {
+    public void refreshList() {
         boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
 
         CyderOutputPane outputPane = new CyderOutputPane(listPane);
@@ -230,7 +230,7 @@ public class CyderScrollList {
      *
      * @return the CyderScrollList component based on the constructed and set properties
      */
-    public final JLabel generateScrollList() {
+    public JLabel generateScrollList() {
         JLabel retLabel = new JLabel("");
         retLabel.setSize(width, height);
         retLabel.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.vanilla);
@@ -307,7 +307,7 @@ public class CyderScrollList {
      * @param labelText the text for the element to have
      * @param action    the action to invoke when the element is double clicked
      */
-    public final void addElement(String labelText, Runnable action) {
+    public void addElement(String labelText, Runnable action) {
         Preconditions.checkNotNull(labelText);
         Preconditions.checkArgument(!labelText.isEmpty());
         Preconditions.checkArgument(!elementInList(labelText),
@@ -333,12 +333,28 @@ public class CyderScrollList {
     }
 
     /**
+     * Selects the element with the provided text.
+     *
+     * @param elementText the element to select
+     */
+    public void selectElement(String elementText) {
+        Preconditions.checkNotNull(elementText);
+        Preconditions.checkArgument(!elementText.isEmpty());
+
+        for (JLabel element : elements) {
+            if (element.getText().equals(elementText)) {
+                element.setForeground(selectedColor);
+            }
+        }
+    }
+
+    /**
      * Adds a new element to the scroll list.
      *
      * @param labelText the text for the element to have
      * @param action    the action to invoke when the element is clicked once
      */
-    public final void addElementWithSingleCLickAction(String labelText, Runnable action) {
+    public void addElementWithSingleCLickAction(String labelText, Runnable action) {
         Preconditions.checkNotNull(labelText);
         Preconditions.checkArgument(!labelText.isEmpty());
         Preconditions.checkArgument(!elementInList(labelText),
@@ -364,7 +380,7 @@ public class CyderScrollList {
     /**
      * Removes all elements from the scroll list.
      */
-    public final void removeAllElements() {
+    public void removeAllElements() {
         elements.clear();
     }
 
@@ -373,7 +389,7 @@ public class CyderScrollList {
      *
      * @param labelText the element to remove from the scroll list
      */
-    public final void removeElement(String labelText) {
+    public void removeElement(String labelText) {
         for (JLabel element : elements) {
             if (element.getText().equals(labelText)) {
                 elements.remove(element);
@@ -418,7 +434,7 @@ public class CyderScrollList {
      *
      * @return a list of all currently selected elements
      */
-    public final LinkedList<String> getSelectedElements() {
+    public LinkedList<String> getSelectedElements() {
         LinkedList<String> ret = new LinkedList<>();
 
         for (JLabel element : elements) {
@@ -435,7 +451,7 @@ public class CyderScrollList {
      *
      * @return the currently selected element
      */
-    public final String getSelectedElement() {
+    public String getSelectedElement() {
         LinkedList<String> ret = new LinkedList<>();
 
         for (JLabel element : elements) {
@@ -452,7 +468,7 @@ public class CyderScrollList {
      *
      * @return the width of this scroll list
      */
-    public final int getWidth() {
+    public int getWidth() {
         return width;
     }
 
@@ -461,7 +477,7 @@ public class CyderScrollList {
      *
      * @return the height of this component
      */
-    public final int getHeight() {
+    public int getHeight() {
         return height;
     }
 
@@ -479,7 +495,7 @@ public class CyderScrollList {
      *
      * @return the selection policy for this scroll list
      */
-    public final SelectionPolicy getSelectionPolicy() {
+    public SelectionPolicy getSelectionPolicy() {
         return selectionPolicy;
     }
 
@@ -488,7 +504,7 @@ public class CyderScrollList {
      *
      * @param width the width of this scroll list
      */
-    public final void setWidth(int width) {
+    public void setWidth(int width) {
         this.width = width;
     }
 
@@ -497,7 +513,7 @@ public class CyderScrollList {
      *
      * @param height the height of this scroll list
      */
-    public final void setHeight(int height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
@@ -506,7 +522,7 @@ public class CyderScrollList {
      *
      * @return the inner text pane object
      */
-    public final JTextPane getListPane() {
+    public JTextPane getListPane() {
         return listPane;
     }
 
@@ -515,7 +531,7 @@ public class CyderScrollList {
      *
      * @param selectionPolicy the selection policy to use for the scroll list
      */
-    public final void setSelectionPolicy(SelectionPolicy selectionPolicy) {
+    public void setSelectionPolicy(SelectionPolicy selectionPolicy) {
         this.selectionPolicy = selectionPolicy;
     }
 
@@ -528,7 +544,7 @@ public class CyderScrollList {
      *
      * @return a separation label to use for the scroll list
      */
-    private final JLabel generateSepLabel() {
+    private JLabel generateSepLabel() {
         CyderLabel sepLabel = new CyderLabel(SEP_LABEL) {
             @Override
             public void paintComponent(Graphics g) {
@@ -544,7 +560,7 @@ public class CyderScrollList {
     /**
      * Deselects all selected elements from the scroll list.
      */
-    public final void clearSelectedElements() {
+    public void clearSelectedElements() {
         for (JLabel element : elements) {
             element.setForeground(nonSelectedColor);
         }

@@ -65,7 +65,7 @@ public final class Logger {
 
     /**
      * The number of spaces to prepend to a continuation line. This ensures wrapped lines are
-     * started after the following above it: "[hh-mm-ss.SSSS]".
+     * started after the header such as "[hh-mm-ss.SSSS] " above it.
      */
     private static final int NEWLINE_SPACE_OFFSET = 15;
 

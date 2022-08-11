@@ -3668,10 +3668,6 @@ public class CyderFrame extends JFrame {
         return titleLabelFont;
     }
 
-    // todo logger needs to always use 3 milliseconds, use better format of dashes and such
-    // todo logger offset for wrapped lines needs to be longer by 3 chars
-    // todo initialize font in user editor scroll and select the element
-
     /**
      * Sets font for the title label.
      *
