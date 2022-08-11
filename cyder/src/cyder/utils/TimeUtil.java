@@ -102,7 +102,7 @@ public final class TimeUtil {
     /**
      * The date formatter used for when a log line is being written to the log file.
      */
-    public static final SimpleDateFormat LOG_LINE_TIME_FORMAT = new SimpleDateFormat("HH:mm:ss.S");
+    public static final SimpleDateFormat LOG_LINE_TIME_FORMAT = new SimpleDateFormat("HH-mm-ss.SSS");
 
     /**
      * The time used for lines of log files.

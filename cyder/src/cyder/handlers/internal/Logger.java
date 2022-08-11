@@ -64,9 +64,10 @@ public final class Logger {
     private static final int MAX_LINE_LENGTH = 120;
 
     /**
-     * The number of spaces to prepend to a continuation line.
+     * The number of spaces to prepend to a continuation line. This ensures wrapped lines are
+     * started after the following above it: "[hh-mm-ss.SSSS]".
      */
-    private static final int NEWLINE_SPACE_OFFSET = 11;
+    private static final int NEWLINE_SPACE_OFFSET = 15;
 
     /**
      * Whether the current log should not be written to again.
