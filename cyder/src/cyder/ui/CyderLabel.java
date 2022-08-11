@@ -10,13 +10,12 @@ import cyder.threads.ThreadUtil;
 import cyder.utils.BoundsUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;
+import cyder.utils.UiUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
 /**
@@ -44,12 +43,7 @@ public class CyderLabel extends JLabel {
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
 
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
-            }
-        });
+        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }

@@ -5,9 +5,9 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.handlers.internal.Logger;
-import cyder.utils.FrameUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -202,7 +202,7 @@ public class CyderDragLabel extends JLabel {
 
                 effectFrame.setVisible(true);
                 effectFrame.requestFocus();
-                FrameUtil.requestFramePosition(effectFrame.getMonitor(), restoreX, restoreY, effectFrame);
+                UiUtil.requestFramePosition(effectFrame.getMonitor(), restoreX, restoreY, effectFrame);
             }
 
             @Override

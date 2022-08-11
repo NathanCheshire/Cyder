@@ -327,7 +327,7 @@ public enum Console {
 
         startExecutors();
 
-        FrameUtil.closeAllFrames(true, consoleCyderFrame);
+        UiUtil.closeAllFrames(true, consoleCyderFrame);
         CyderSplash.INSTANCE.fastDispose();
 
         if (!isFullscreen()) {
@@ -783,7 +783,7 @@ public enum Console {
             consoleY = (int) (relocatedSplashCenter.getY() - consoleCyderFrame.getHeight() / 2);
         }
 
-        FrameUtil.requestFramePosition(requestedConsoleStats.getMonitor(), consoleX, consoleY, consoleCyderFrame);
+        UiUtil.requestFramePosition(requestedConsoleStats.getMonitor(), consoleX, consoleY, consoleCyderFrame);
 
         consoleCyderFrame.setVisible(true);
     }
@@ -850,7 +850,7 @@ public enum Console {
 
         closeButton.addActionListener(e -> {
             if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
-                FrameUtil.minimizeAllFrames();
+                UiUtil.minimizeAllFrames();
             } else {
                 closeFrame(true, false);
             }
@@ -1248,7 +1248,7 @@ public enum Console {
         public void actionPerformed(ActionEvent e) {
             debugLines = !debugLines;
 
-            for (CyderFrame frame : FrameUtil.getCyderFrames()) {
+            for (CyderFrame frame : UiUtil.getCyderFrames()) {
                 frame.drawDebugLines(debugLines);
             }
         }
@@ -1559,7 +1559,7 @@ public enum Console {
                         .setFocused(false)
                         .setBorderColor(currentFrame.getTaskbarIconBorderColor())
                         .setCustomIcon(currentFrame.getCustomTaskbarIcon())
-                        .setRunnable(FrameUtil.generateCommonFrameTaskbarIconRunnable(currentFrame))
+                        .setRunnable(UiUtil.generateCommonFrameTaskbarIconRunnable(currentFrame))
                         .build());
             }
         }
@@ -2420,7 +2420,7 @@ public enum Console {
         consoleCyderFrame.setSize(width, height);
 
         // Bump frame into bounds if new size pushed part out of bounds
-        FrameUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
+        UiUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
                 (int) originalCenter.getX() - width / 2,
                 (int) originalCenter.getY() - height / 2, consoleCyderFrame);
 
@@ -2815,7 +2815,7 @@ public enum Console {
         consoleCyderFrame.setSize(w, h);
         consoleCyderFrame.setBackground(background);
 
-        FrameUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
+        UiUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
                 (int) originalCenter.getX() - w / 2,
                 (int) originalCenter.getY() - h / 2, consoleCyderFrame);
 
@@ -3256,7 +3256,7 @@ public enum Console {
      */
     public void logout() {
         closeFrame(false, true);
-        FrameUtil.closeAllFrames(true);
+        UiUtil.closeAllFrames(true);
 
         IOUtil.stopAllAudio();
 

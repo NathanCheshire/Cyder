@@ -6,6 +6,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 import cyder.user.UserUtil;
 
@@ -13,17 +14,19 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Utilities to control, update, modify, and create CyderFrames.
+ * Utilities to control, update, modify, and create CyderFrames and ui components.
  */
-public final class FrameUtil {
+public final class UiUtil {
     /**
      * Suppress default constructor.
      */
-    private FrameUtil() {
+    private UiUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
@@ -347,6 +350,20 @@ public final class FrameUtil {
                 if (released) {
                     runnable.run();
                 }
+            }
+        };
+    }
+
+    /**
+     * Returns the common mouse adapter linked to all cyder ui components to log when they are clicked.
+     *
+     * @return the common mouse adapter linked to all cyder ui components to log when they are clicked
+     */
+    public static MouseAdapter generateCommonUiLogMouseAdapter() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         };
     }

@@ -5,12 +5,16 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.text.Document;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -34,7 +38,7 @@ public class CyderPasswordField extends JPasswordField {
         setCaret(new CyderCaret(CyderColors.navy));
         setCaretColor(CyderColors.navy);
 
-        addMouseListener(loggingMouseAdapter);
+        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
         addFocusListener(generateSecurityFocusAdapter(this));
 
         setShiftShowsPassword(true);
@@ -77,16 +81,6 @@ public class CyderPasswordField extends JPasswordField {
     private CyderPasswordField(Document doc, String text, int col) {
         throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
     }
-
-    /**
-     * The mouse adapter to log field actions.
-     */
-    private static final MouseAdapter loggingMouseAdapter = new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
-        }
-    };
 
     /**
      * Generates and returns the security focus adapter for password fields.

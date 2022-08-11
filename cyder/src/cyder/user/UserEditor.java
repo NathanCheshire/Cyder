@@ -872,7 +872,7 @@ public final class UserEditor {
         foregroundField.setText(UserUtil.getCyderUser().getForeground());
         foregroundField.setFont(CyderFonts.SEGOE_30);
         foregroundField.setToolTipText("Console input/output text color");
-        foregroundField.addKeyListener(FrameUtil.generateKeyAdapter(false, false, true, () -> {
+        foregroundField.addKeyListener(UiUtil.generateKeyAdapter(false, false, true, () -> {
             try {
                 Color foregroundColor = ColorUtil.hexStringToColor(foregroundField.getText());
                 foregroundColorBlock.setBackground(foregroundColor);
@@ -900,7 +900,7 @@ public final class UserEditor {
         windowField.setText(UserUtil.getCyderUser().getWindowcolor());
         windowField.setFont(CyderFonts.SEGOE_30);
         windowField.setToolTipText("Window border color");
-        windowField.addKeyListener(FrameUtil.generateKeyAdapter(false, false, true, () -> {
+        windowField.addKeyListener(UiUtil.generateKeyAdapter(false, false, true, () -> {
             try {
                 Color requestedWindowColor = ColorUtil.hexStringToColor(windowField.getText());
                 windowColorBlock.setBackground(requestedWindowColor);
@@ -925,7 +925,7 @@ public final class UserEditor {
         backgroundField.setText(UserUtil.getCyderUser().getBackground());
         backgroundField.setFont(CyderFonts.SEGOE_30);
         backgroundField.setToolTipText("Input field and output area fill color if enabled");
-        backgroundField.addKeyListener(FrameUtil.generateKeyAdapter(false, false, true, () -> {
+        backgroundField.addKeyListener(UiUtil.generateKeyAdapter(false, false, true, () -> {
             try {
                 String backgroundColorString = backgroundField.getText();
                 Color backgroundColor = ColorUtil.hexStringToColor(backgroundColorString);
@@ -1601,7 +1601,7 @@ public final class UserEditor {
                 if (delete) {
                     Console.INSTANCE.closeFrame(false, true);
 
-                    FrameUtil.closeAllFrames(true);
+                    UiUtil.closeAllFrames(true);
 
                     OSUtil.deleteFile(OSUtil.buildFile(
                             Dynamic.PATH,

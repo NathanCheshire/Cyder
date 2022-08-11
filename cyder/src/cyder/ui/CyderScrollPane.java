@@ -4,12 +4,11 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
 import cyder.utils.ReflectionUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * A custom implementation of a ScrollPane to give it a more modern feel.
@@ -60,12 +59,7 @@ public class CyderScrollPane extends JScrollPane {
         setBackground(emptyColor);
         getViewport().setBackground(emptyColor);
 
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
-            }
-        });
+        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
@@ -85,12 +79,7 @@ public class CyderScrollPane extends JScrollPane {
         setBackground(new Color(0, 0, 0, 0));
         getViewport().setBackground(new Color(0, 0, 0, 0));
 
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
-            }
-        });
+        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }

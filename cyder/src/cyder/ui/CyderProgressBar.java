@@ -2,10 +2,9 @@ package cyder.ui;
 
 import cyder.handlers.internal.Logger;
 import cyder.utils.ReflectionUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * A progress bar styled and configured for Cyder.
@@ -18,12 +17,7 @@ public class CyderProgressBar extends JProgressBar {
      */
     public CyderProgressBar(int orientation) {
         super(orientation);
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
-            }
-        });
+        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
@@ -36,12 +30,7 @@ public class CyderProgressBar extends JProgressBar {
      */
     public CyderProgressBar(int min, int max) {
         super(min, max);
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
-            }
-        });
+        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
@@ -55,12 +44,7 @@ public class CyderProgressBar extends JProgressBar {
      */
     public CyderProgressBar(int orientation, int min, int max) {
         super(orientation, min, max);
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
-            }
-        });
+        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }

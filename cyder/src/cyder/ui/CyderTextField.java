@@ -4,6 +4,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
 import cyder.utils.StringUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -11,8 +12,6 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -107,13 +106,7 @@ public class CyderTextField extends JTextField {
             }
         });
 
-        // todo there should be a generate method for this in some util class
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
-            }
-        });
+        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
         setBackground(backgroundColor);
         setSelectionColor(CyderColors.selectionColor);

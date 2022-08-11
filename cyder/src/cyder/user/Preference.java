@@ -5,8 +5,8 @@ import cyder.console.Console;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderScrollList;
 import cyder.utils.ColorUtil;
-import cyder.utils.FrameUtil;
 import cyder.utils.ReflectionUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -209,13 +209,13 @@ public class Preference {
             new Preference(ROUNDED_WINDOWS, "Rounded Windows", "Make certain windows rounded",
                     "0", () -> {
                 Logger.log(Logger.Tag.PREFERENCE_REFRESH, ROUNDED_WINDOWS);
-                FrameUtil.repaintCyderFrames();
+                UiUtil.repaintCyderFrames();
             }),
 
             new Preference(WINDOW_COLOR, IGNORE, EMPTY, "1A2033", () -> {
                 Logger.log(Logger.Tag.PREFERENCE_REFRESH, WINDOW_COLOR);
 
-                FrameUtil.repaintCyderFrames();
+                UiUtil.repaintCyderFrames();
                 Console.INSTANCE.revalidateMenuBackgrounds();
             }).setIgnoreForToggleSwitches(true),
 

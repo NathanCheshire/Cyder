@@ -9,8 +9,8 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderSliderUi;
 import cyder.user.UserCreator;
 import cyder.user.UserUtil;
-import cyder.utils.FrameUtil;
 import cyder.utils.OSUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,10 +49,10 @@ public class UiHandler extends InputHandler {
         } else if (getInputHandler().commandIs("screenshot")) {
             if (getInputHandler().getArgsSize() != 0) {
                 if (getInputHandler().getArg(0).equalsIgnoreCase("frames")) {
-                    FrameUtil.screenshotCyderFrames();
+                    UiUtil.screenshotCyderFrames();
                     getInputHandler().println("Successfully saved to your Files directory");
                 } else {
-                    if (!FrameUtil.screenshotCyderFrame(getInputHandler().argsToString())) {
+                    if (!UiUtil.screenshotCyderFrame(getInputHandler().argsToString())) {
                         getInputHandler().println("CyderFrame not found");
                     } else {
                         getInputHandler().println("Successfully saved to your Files directory");
@@ -67,7 +67,7 @@ public class UiHandler extends InputHandler {
             UserCreator.showGui();
         } else if (getInputHandler().commandIs("panic")) {
             if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
-                FrameUtil.minimizeAllFrames();
+                UiUtil.minimizeAllFrames();
             } else {
                 OSUtil.exit(ExitCondition.GenesisControlledExit);
             }
@@ -76,7 +76,7 @@ public class UiHandler extends InputHandler {
                 getInputHandler().commandIs("leave") ||
                 getInputHandler().commandIs("close")) {
             if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
-                FrameUtil.minimizeAllFrames();
+                UiUtil.minimizeAllFrames();
             } else {
                 Console.INSTANCE.closeFrame(true, false);
             }

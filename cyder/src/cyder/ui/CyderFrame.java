@@ -323,7 +323,7 @@ public class CyderFrame extends JFrame {
         this.background = background;
         currentOrigIcon = background;
 
-        taskbarIconBorderColor = FrameUtil.getTaskbarBorderColor();
+        taskbarIconBorderColor = UiUtil.getTaskbarBorderColor();
 
         setSize(new Dimension(width, height));
         setResizable(false);

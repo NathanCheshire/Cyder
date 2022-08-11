@@ -5,7 +5,7 @@ import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderFrame;
-import cyder.utils.FrameUtil;
+import cyder.utils.UiUtil;
 
 import java.awt.*;
 
@@ -49,7 +49,7 @@ public class FrameMovementHandler extends InputHandler {
             if (getInputHandler().checkArgsLength(3)) {
                 if (getInputHandler().getArg(1).equalsIgnoreCase("top")
                         && getInputHandler().getArg(2).equalsIgnoreCase("right")) {
-                    for (CyderFrame f : FrameUtil.getCyderFrames()) {
+                    for (CyderFrame f : UiUtil.getCyderFrames()) {
                         if (f.getState() == Frame.ICONIFIED) {
                             f.setState(Frame.NORMAL);
                         }
@@ -65,7 +65,7 @@ public class FrameMovementHandler extends InputHandler {
                     }
                 } else if (getInputHandler().getArg(1).equalsIgnoreCase("bottom")
                         && getInputHandler().getArg(2).equalsIgnoreCase("right")) {
-                    for (CyderFrame f : FrameUtil.getCyderFrames()) {
+                    for (CyderFrame f : UiUtil.getCyderFrames()) {
                         if (f.getState() == Frame.ICONIFIED) {
                             f.setState(Frame.NORMAL);
                         }
@@ -83,7 +83,7 @@ public class FrameMovementHandler extends InputHandler {
                     }
                 } else if (getInputHandler().getArg(1).equalsIgnoreCase("bottom")
                         && getInputHandler().getArg(2).equalsIgnoreCase("left")) {
-                    for (CyderFrame f : FrameUtil.getCyderFrames()) {
+                    for (CyderFrame f : UiUtil.getCyderFrames()) {
                         if (f.getState() == Frame.ICONIFIED) {
                             f.setState(Frame.NORMAL);
                         }
@@ -99,7 +99,7 @@ public class FrameMovementHandler extends InputHandler {
                     }
                 } else if (getInputHandler().getArg(1).equalsIgnoreCase("top")
                         && getInputHandler().getArg(2).equalsIgnoreCase("left")) {
-                    for (CyderFrame f : FrameUtil.getCyderFrames()) {
+                    for (CyderFrame f : UiUtil.getCyderFrames()) {
                         if (f.getState() == Frame.ICONIFIED) {
                             f.setState(Frame.NORMAL);
                         }
@@ -121,7 +121,7 @@ public class FrameMovementHandler extends InputHandler {
                 int x = (int) consoleCenter.getX();
                 int y = (int) consoleCenter.getY();
 
-                for (CyderFrame f : FrameUtil.getCyderFrames()) {
+                for (CyderFrame f : UiUtil.getCyderFrames()) {
                     if (f == Console.INSTANCE.getConsoleCyderFrame()) {
                         continue;
                     }

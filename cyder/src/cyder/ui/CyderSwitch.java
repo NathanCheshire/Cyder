@@ -5,11 +5,10 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
 import cyder.utils.ReflectionUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * An animated binary switch with smooth transition animations.
@@ -110,12 +109,7 @@ public class CyderSwitch extends JLabel {
 
         setState(startingState);
 
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
-            }
-        });
+        addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
