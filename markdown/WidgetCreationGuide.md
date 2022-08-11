@@ -2,7 +2,7 @@
 
 By <b>Nathan Cheshire</b>
 
-Last updated: 4-16-21
+Last updated: 8-11-21
 
 ## Getting started
 
@@ -119,7 +119,6 @@ Calls:
 ```java
 CyderFrame cyderFrame = new CyderFrame(600, 600);
 cyderFrame.setTitle("My Title");
-cyderFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 ```
 
 Now comes the fun part, building the rest of the UI. As stated previously make sure to use already built Cyder
@@ -140,7 +139,7 @@ cyderFrame.getContentPane().add(cyderButton);
 
 If you want to have a bit of fun with the UI and not use the default absolute layout, take a look at the `layouts`
 package for layouts such as the `CyderFlowLayout` and `CyderGridLayout`. They work in the way you'd expect but are, IMHO, 
-much easier and intuitive than the Swing layouts.
+much easier and intuitive than Swing layouts.
 
 ## Logic
 
@@ -157,7 +156,7 @@ Cyder.
 To finalize your frame, make sure to set the frame's visibility and location. Typically in Cyder, component's locations
 are set relatively to the current dominant frame. You don't have to worry about manually invoking these calls, however. `CyderFrame` 
 takes care of this for you via the method `finalizeAndShow()` which performs the required actions and checks for you. Additionally,
-for a sweet enter animation, pass `true` to the `finalizeAndShow()` constructor.
+for a sweet enter animation, pass `true` to the `finalizeAndShow()` method.
 
 ```java
 cyderFrame.finalizeAndShow();
