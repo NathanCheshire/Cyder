@@ -2,6 +2,9 @@ package cyder.ui;
 
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class CyderModernButton extends JLabel {
     private String text = "Modern Button";
 
-    private Font labelFont = CyderFonts.DEFAULT_FONT_SMALL;
+    private Font font = CyderFonts.DEFAULT_FONT_SMALL;
 
     private Color foregroundColor = CyderColors.regularPink;
     private Color backgroundColor = CyderColors.navy;
@@ -31,8 +34,6 @@ public class CyderModernButton extends JLabel {
     private boolean disabled = false;
 
     private static final int CORNER_RADIUS = 20;
-    private int alertDelay = 250;
-    private int alertIterations = 10;
     private int borderRadius = 3;
 
     private int width = 150;
@@ -59,14 +60,18 @@ public class CyderModernButton extends JLabel {
 
         innerTextLabel = new JLabel();
         innerTextLabel.setHorizontalAlignment(JLabel.CENTER);
+        // todo enum for config of positioning, top left, bottom right, etc.
         innerTextLabel.setVerticalAlignment(JLabel.CENTER);
-        innerTextLabel.setBounds(0, 0, 150, 40);
-        innerTextLabel.setFont(labelFont);
+        innerTextLabel.setBounds(0, 0, width, height);
+        innerTextLabel.setFont(font);
         innerTextLabel.setForeground(foregroundColor);
         innerTextLabel.setText(text);
         add(innerTextLabel);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
@@ -83,6 +88,132 @@ public class CyderModernButton extends JLabel {
             graphics2D.setPaint(mouseIn.get() ? hoverColor : backgroundColor);
             graphics2D.fill(new RoundRectangle2D.Double(borderRadius, borderRadius,
                     width - 2 * borderRadius, height - 2 * borderRadius, CORNER_RADIUS, CORNER_RADIUS));
+        } else {
+            // todo
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setSize(int width, int height) {
+        super.setSize(width, height);
+
+        this.width = width;
+        this.height = height;
+
+        if (innerTextLabel != null) {
+            innerTextLabel.setSize(width, height);
+            innerTextLabel.repaint();
+        }
+
+        repaint();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setBounds(int x, int y, int width, int height) {
+        super.setBounds(x, y, width, height);
+
+        this.width = width;
+        this.height = height;
+
+        if (innerTextLabel != null) {
+            innerTextLabel.setSize(width, height);
+            innerTextLabel.repaint();
+        }
+
+        repaint();
+    }
+
+    /**
+     * The default delay between alert iterations.
+     */
+    private static final int DEFAULT_ALERT_DELAY = 250;
+
+    /**
+     * The default number of alert iterations.
+     */
+    private static final int DEFAULT_ALERT_ITERATIONS = 10;
+
+    /**
+     * Alerts the button for {@link #DEFAULT_ALERT_ITERATIONS} iterations.
+     */
+    public void alert() {
+        alert(DEFAULT_ALERT_ITERATIONS);
+    }
+
+    /**
+     * Alerts the button for the provided number of iterations.
+     *
+     * @param iterations the number of iterations to alert for
+     */
+    public void alert(int iterations) {
+        String buttonName = "Modern Button, hash = " + hashCode();
+
+        Color startingColor = backgroundColor;
+        Color endingColor = backgroundColor.darker();
+
+        CyderThreadRunner.submit(() -> {
+            try {
+                for (int i = 0 ; i < iterations ; i++) {
+                    // todo
+                    repaint();
+                    ThreadUtil.sleep(DEFAULT_ALERT_DELAY);
+                    // todo
+                    repaint();
+                    ThreadUtil.sleep(DEFAULT_ALERT_DELAY);
+                }
+
+                // todo
+                repaint();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, buttonName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int ret = text.hashCode();
+        ret += 31 * foregroundColor.hashCode();
+        ret += 31 * backgroundColor.hashCode();
+        ret += 31 * hoverColor.hashCode();
+        ret += 31 * pressedColor.hashCode();
+        ret += 31 * borderColor.hashCode();
+        ret += 31 * Integer.hashCode(width);
+        ret += 31 * Integer.hashCode(height);
+        return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "Cyder Modern Button {" + this.getX() + ", " + this.getY()
+                + ", " + width + "x" + height + "}, text=\"" + text + "\"";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        } else if (!(o instanceof CyderModernButton)) {
+            return false;
+        }
+
+        CyderModernButton other = (CyderModernButton) o;
+        // todo compare all things used in hashcode
+        return false;
     }
 }
