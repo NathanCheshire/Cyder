@@ -18,9 +18,9 @@ BLANK_COLOR = (33, 37, 22)
 
 
 def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
-                 width: str, height: str, save_name: str) -> None:
+                 width: int, height: int, save_name: str) -> None:
     """ 
-    Exports a stats png using the provided informtion.
+    Exports a stats png using the provided information.
 
     :param code_lines: the number of code lines in the project
     :param comment_lines: the number of comment lines in the project
@@ -36,14 +36,12 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
     code_percent = round(code_lines / float(total) * 100.0, 1)
     blank_percent = round(blank_lines / float(total) * 100.0, 1)
 
-    # currently no border for the exported png is rendered
     border_thickness = 0
 
     export_font = ImageFont.truetype(FONT_PATH, 16)
 
     blank_image = np.zeros((width, height, 3), np.uint8)
-    black_image = cv2.rectangle(
-        blank_image, (0, 0), (width, height), (0, 0, 0), -1)
+    black_image = cv2.rectangle(blank_image, (0, 0), (width, height), (0, 0, 0), -1)
     outlined_image = cv2.rectangle(black_image, (border_thickness, border_thickness),
                                    (width - border_thickness, height - border_thickness), (255, 255, 255), -1)
     code_height = int(height * (code_percent / 100.0))
@@ -61,29 +59,29 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
     img_pil = Image.fromarray(image)
     draw = ImageDraw.Draw(img_pil)
     code_string = "Java: " + str(code_percent) + \
-        "% (" + get_compressed_number(code_lines) + ')'
+                  "% (" + get_compressed_number(code_lines) + ')'
     w, h = draw.textsize(code_string, font=export_font)
     code_area_center = (width / 2 - w / 2,
                         border_thickness + code_height / 2 - h / 2)
-    draw.text(code_area_center,  code_string,
+    draw.text(code_area_center, code_string,
               font=export_font, fill=(245, 245, 245))
 
     draw = ImageDraw.Draw(img_pil)
     blank_string = "Blank lines: " + str(blank_percent) + \
-        "% (" + get_compressed_number(blank_lines) + ")"
+                   "% (" + get_compressed_number(blank_lines) + ")"
     w, h = draw.textsize(blank_string, font=export_font)
     blank_area_center = (width / 2 - w / 2,
                          border_thickness + code_height + comment_height / 2 - h / 2)
-    draw.text(blank_area_center,  blank_string,
+    draw.text(blank_area_center, blank_string,
               font=export_font, fill=(245, 245, 245))
 
     draw = ImageDraw.Draw(img_pil)
     comment_string = "Comment lines: " + str(comment_percent) + \
-        "% (" + get_compressed_number(comment_lines) + ")"
+                     "% (" + get_compressed_number(comment_lines) + ")"
     w, h = draw.textsize(comment_string, font=export_font)
     comment_area_center = (width / 2 - w / 2,
                            border_thickness + code_height + comment_height + blank_height / 2 - h / 2)
-    draw.text(comment_area_center,  comment_string,
+    draw.text(comment_area_center, comment_string,
               font=export_font, fill=(245, 245, 245))
 
     cv2.imwrite('actions/' + str(save_name) + '.png', np.array(img_pil))
@@ -137,11 +135,11 @@ def export_string_badge(alpha_string: str, beta_string: str, save_name: str, fon
 
     draw = ImageDraw.Draw(base_colors_done)
     left_anchor = (horizontal_padding / 2, vertical_padding)
-    draw.text(left_anchor,  alpha_string, font=local_font, fill=text_color)
+    draw.text(left_anchor, alpha_string, font=local_font, fill=text_color)
 
     draw = ImageDraw.Draw(base_colors_done)
     left_anchor = (alpha_width + horizontal_padding * 2, vertical_padding)
-    draw.text(left_anchor,  beta_string, font=local_font, fill=text_color)
+    draw.text(left_anchor, beta_string, font=local_font, fill=text_color)
 
     cv2.imwrite('actions/' + save_name + '.png', np.array(base_colors_done))
 
@@ -158,7 +156,7 @@ def find_files(starting_dir: str, extensions: list = [], recursive: bool = False
     """ 
     Finds all files within the provided directory that end in one of the provided extensions.
 
-    :param starting_dir: the directory to start recursing from
+    :param starting_dir: the directory to start recursion from
     :param extensions: a list of valid extensions such as [".java"]
     :param recursive: whether to recurse through found subdirectories
     :return: a list of discovered files
@@ -173,8 +171,8 @@ def find_files(starting_dir: str, extensions: list = [], recursive: bool = False
         for subDir in os.listdir(starting_dir):
             if recursive:
                 ret = ret + \
-                    find_files(os.path.join(starting_dir, subDir),
-                               extensions, recursive)
+                      find_files(os.path.join(starting_dir, subDir),
+                                 extensions, recursive)
             else:
                 ret.append(os.path.join(starting_dir, subDir))
     else:
@@ -193,13 +191,9 @@ def analyze_file(file: str) -> Tuple:
     :return: a tuple in the following order (num+code_lines, num_comment_lines, num_blank_lines)
     """
 
-    num_comments = 0
-    num_code_lines = 0
-    num_blank_lines = 0
-
     if not os.path.exists(file):
         print('Error: provided file does not exist: ', file)
-        return
+        return ()
 
     file_lines = open(file, 'r').readlines()
 
@@ -217,7 +211,7 @@ def analyze_file(file: str) -> Tuple:
     print('Comment lines:', num_comments)
     print('Blank lines:', num_blank_lines)
 
-    return (num_code_lines, num_comments, num_blank_lines)
+    return num_code_lines, num_comments, num_blank_lines
 
 
 def count_code_lines(file_lines: list) -> int:
@@ -285,11 +279,11 @@ def main():
     blank_lines = 0
 
     for file in files:
-        tuple = analyze_file(file)
+        results = analyze_file(file)
 
-        code_lines = code_lines + tuple[0]
-        comment_lines = comment_lines + tuple[1]
-        blank_lines = blank_lines + tuple[2]
+        code_lines = code_lines + results[0]
+        comment_lines = comment_lines + results[1]
+        blank_lines = blank_lines + results[2]
 
     print('---- Found code stats ----')
     print('Total code lines:', code_lines)
