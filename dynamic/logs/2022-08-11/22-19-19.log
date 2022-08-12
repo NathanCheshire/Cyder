@@ -1,0 +1,421 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[22-19-19.087] [ENTRY]: Nathan
+[22-19-19.047] [DEBUG]: Found prop file: props\propkeys.ini
+[22-19-19.060] [DEBUG]: Found prop file: props\props.ini
+[22-19-19.069] [PROP LOADED]: [key = map_quest_api_key]
+[22-19-19.069] [PROP LOADED]: [key = youtube_api_3_key]
+[22-19-19.069] [PROP LOADED]: [key = ip_key]
+[22-19-19.069] [PROP LOADED]: [key = weather_key]
+[22-19-19.070] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[22-19-19.070] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7c
+               a733d0a7f6]
+[22-19-19.071] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[22-19-19.071] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiole
+               ngth,capsmode,typingsound,showbusyicon]
+[22-19-19.071] [PROP LOADED]: [key = font_metric, value = 1]
+[22-19-19.071] [PROP LOADED]: [key = max_font_size, value = 50]
+[22-19-19.071] [PROP LOADED]: [key = min_font_size, value = 25]
+[22-19-19.071] [PROP LOADED]: [key = released, value = false]
+[22-19-19.071] [PROP LOADED]: [key = version, value = Liminal]
+[22-19-19.071] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[22-19-19.071] [PROP LOADED]: [key = components_relocatable, value = false]
+[22-19-19.071] [PROP LOADED]: [key = testing_mode, value = true]
+[22-19-19.071] [PROP LOADED]: [key = autocypher, value = true]
+[22-19-19.071] [PROP LOADED]: [key = dispose_splash, value = true]
+[22-19-19.071] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[22-19-19.072] [PROP LOADED]: [key = activate_watchdog, value = false]
+[22-19-19.072] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[22-19-19.072] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[22-19-19.072] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[22-19-19.072] [PROP LOADED]: [key = ui_scale, value = 1]
+[22-19-19.072] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[22-19-19.072] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[22-19-19.082] [DEBUG]: Jar mode set as: FALSE
+[22-19-19.126] [THREAD STARTED]: Object Creation Logger
+[22-19-19.239] [DEBUG]: Watchdog skipped
+[22-19-19.244] [LOADING MESSAGE]: Registering fonts
+[22-19-19.522] [FONT LOADED]: agency-fb
+[22-19-19.523] [FONT LOADED]: arial-black
+[22-19-19.525] [FONT LOADED]: beyno
+[22-19-19.526] [FONT LOADED]: condiment-regular
+[22-19-19.528] [FONT LOADED]: prompt-bold
+[22-19-19.529] [FONT LOADED]: segoe-ui-black
+[22-19-19.530] [FONT LOADED]: tahoma
+[22-19-19.530] [LOADING MESSAGE]: Ensuring singular instance
+[22-19-19.531] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-19-19.532] [DEBUG]: Starting instance socket on port 5150
+[22-19-20.047] [LOADING MESSAGE]: Ensuring OS is supported
+[22-19-20.048] [LOADING MESSAGE]: Creating dynamics
+[22-19-20.049] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-19-20.064] [LOADING MESSAGE]: Validating users
+[22-19-20.185] [LOADING MESSAGE]: Cleaning users
+[22-19-20.187] [LOADING MESSAGE]: Validating props
+[22-19-20.314] [LOADING MESSAGE]: Validating Widgets
+[22-19-20.593] [LOADING MESSAGE]: Validating Tests
+[22-19-20.600] [LOADING MESSAGE]: Validating Vanilla annotations
+[22-19-20.609] [LOADING MESSAGE]: Validating Handles
+[22-19-20.617] [THREAD STARTED]: Splash Loader
+[22-19-20.618] [THREAD STARTED]: Sufficient Subroutine Executor
+[22-19-20.619] [LOADING MESSAGE]: Logging JVM args
+[22-19-20.619] [THREAD STARTED]: JVM Args Logger
+[22-19-20.628] [LOADING MESSAGE]: Checking for an AutoCypher
+[22-19-20.629] [LOGIN]: AutoCypher Attempt
+[22-19-20.630] [LOADING MESSAGE]: Auto Cyphering
+[22-19-20.807] [THREAD STARTED]: Splash Animation
+[22-19-20.809] [THREAD STARTED]: Enter animation, frame=Cyder Splash
+[22-19-20.969] [UNIQUE OBJECT CREATED]: Console singleton constructed
+[22-19-21.211] [DEBUG]: Cyder Entry = AutoCypher
+[22-19-21.684] [THREAD STARTED]: Console Printing Animation
+[22-19-21.741] [THREAD STARTED]: Hourly Chime Checker
+[22-19-21.742] [THREAD STARTED]: Console Clock Updater
+[22-19-21.744] [THREAD STARTED]: Cyder Busy Checker
+[22-19-21.746] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[22-19-21.747] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[22-19-21.750] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[22-19-21.928] [THREAD STARTED]: High Ping Checker
+[22-19-21.937] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[22-19-21.938] [THREAD STARTED]: Manual Tests Thread
+[22-19-21.941] [THREAD STARTED]: Liminal Cyder [Nathan] notification queue checker
+[22-19-21.980] [UI]: [Liminal Cyder [Nathan]] [NOTIFICATION] "<html>Welcome back, Nathan!</html>"
+[22-19-21.983] [THREAD STARTED]: Notification Appear Animator
+[22-19-21.983] [DEBUG]: Latency of Google found to be 53ms
+[22-19-21.989] [CONSOLE OUT]: [STRING]: Console loaded in 2944ms
+[22-19-22.092] [THREAD STARTED]: Notification Vanish Animator
+[22-19-22.129] [OBJECT CREATION]: Objects created since last delta (5000ms): 126
+[22-19-22.336] [DEBUG]: Attempted to log a new or empty line
+[22-19-23.258] [THREAD STARTED]: Splash Loading Label Updater
+[22-19-23.775] [CLIENT]: hello
+[22-19-23.787] [CONSOLE OUT]: [STRING]: Hello, Nathan.
+[22-19-24.025] [DEBUG]: Attempted to log a new or empty line
+[22-19-25.087] [CLIENT]: clear
+[22-19-25.845] [CLIENT]: issues
+[22-19-25.846] [THREAD STARTED]: Cyder GitHub issue getter
+[22-19-26.350] [CONSOLE OUT]: [STRING]: 30 issues found:
+[22-19-26.621] [DEBUG]: Attempted to log a new or empty line
+[22-19-26.731] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.132] [OBJECT CREATION]: Objects created since last delta (5000ms): 3
+[22-19-27.223] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.333] [CONSOLE OUT]: [STRING]: Issue #181
+[22-19-27.535] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.535] [CONSOLE OUT]: [STRING]: Logger improvements
+[22-19-27.536] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.536] [CONSOLE OUT]: [STRING]: - We need to log a newline at the end of log files.  - We need to be able to
+               split lines at other chars before just splitting in the middle. Have a list such as [' ', '/','\','_'] and other chars t
+               hat would be acceptable to split at before splitting in the middle of a line.  - Logging a unique object creation doesn
+               't follow other standards
+[22-19-27.540] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.546] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.547] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.548] [CONSOLE OUT]: [STRING]: Issue #178
+[22-19-27.548] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.549] [CONSOLE OUT]: [STRING]: User data last updated timestamp
+[22-19-27.550] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.551] [CONSOLE OUT]: [STRING]: Use a timestamp in the userdata file name to allow multiple ones to exist. Cyder
+               will choose the most recent one which is not in the future. We'll have to implement some additional logic in places to
+               deal with it being "userdata_1032994223.json" and not "userdata.json" which might be annoying.
+[22-19-27.552] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.553] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.554] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.555] [CONSOLE OUT]: [STRING]: Issue #175
+[22-19-27.555] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.556] [CONSOLE OUT]: [STRING]: Frame transitions between monitors
+[22-19-27.557] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.558] [CONSOLE OUT]: [STRING]: Moving a frame between monitors results in a super weird bug. This used to work
+               in past versions so maybe figure out where it started and what changed.
+[22-19-27.559] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.560] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.562] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.563] [CONSOLE OUT]: [STRING]: Issue #171
+[22-19-27.563] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.564] [CONSOLE OUT]: [STRING]: Busy animation
+[22-19-27.565] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.567] [CONSOLE OUT]: [STRING]: In addition to the busy icon being toggle-able by the user, we should have a
+               progress indicator such as a dot animation next to the help button (perhaps replace the help button entirely) when cyder
+               is classified as busy.
+[22-19-27.568] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.571] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.572] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.573] [CONSOLE OUT]: [STRING]: Issue #170
+[22-19-27.573] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.574] [CONSOLE OUT]: [STRING]: System audio slider
+[22-19-27.575] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.576] [CONSOLE OUT]: [STRING]: Allow a drop down vertical slider from the console that controls any system
+               audio that's played via IOUtil if that's the right class.
+[22-19-27.576] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.578] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.579] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.580] [CONSOLE OUT]: [STRING]: Issue #169
+[22-19-27.581] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.583] [CONSOLE OUT]: [STRING]: Audio Player volume slider needs to be logarithmic
+[22-19-27.584] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.585] [CONSOLE OUT]: [STRING]: Audio Player volume slider needs to be logarithmic.
+[22-19-27.586] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.586] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.587] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.588] [CONSOLE OUT]: [STRING]: Issue #168
+[22-19-27.589] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.590] [CONSOLE OUT]: [STRING]: Messaging Widget
+[22-19-27.591] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.591] [CONSOLE OUT]: [STRING]: Implement our custom messaging widget. Capabilities include audio and images
+               with preview, text, links, and if the messaging window for a person isn't open, have a preference for whether to show it
+               in the console and/or a notification in the bottom right like discord or teams.
+[22-19-27.592] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.593] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.594] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.595] [CONSOLE OUT]: [STRING]: Issue #167
+[22-19-27.596] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.597] [CONSOLE OUT]: [STRING]: Color picker component
+[22-19-27.598] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.599] [CONSOLE OUT]: [STRING]: Extract the component from paint widget for keeping track of recent colors to
+               its own component.    Methods:  +getColor()  +getColor(int)  +setMaxColorDepth(int)  +clear()  +setDefaultColor()  +setX
+               Cells(int)  +setYCells(int)  +setCellSize(int, int)  +setColor()
+[22-19-27.601] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.605] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.606] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.606] [CONSOLE OUT]: [STRING]: Issue #165
+[22-19-27.607] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.608] [CONSOLE OUT]: [STRING]: Apple watch activity parser
+[22-19-27.609] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.610] [CONSOLE OUT]: [STRING]: Look at the format of xml exported data from the apple watch and see what
+               visualizations can be made from it.
+[22-19-27.611] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.612] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.613] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.614] [CONSOLE OUT]: [STRING]: Issue #164
+[22-19-27.615] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.616] [CONSOLE OUT]: [STRING]: Bitcoin tracker
+[22-19-27.616] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.617] [CONSOLE OUT]: [STRING]: Keyword "bitcoin" or "crypto" will show a graph of bitcoin. Allow filtering of
+               all time, 1y, 30d, today, etc. Mouse over event should show the actual price at that time.
+[22-19-27.618] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.619] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.620] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.621] [CONSOLE OUT]: [STRING]: Issue #163
+[22-19-27.622] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.623] [CONSOLE OUT]: [STRING]: To-do creator
+[22-19-27.624] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.624] [CONSOLE OUT]: [STRING]: Make a to-do keeping widget with preferences in the frame for what the check
+               color or shape can be, categories, and multiple lists. .todo extension
+[22-19-27.626] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.627] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.629] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.631] [CONSOLE OUT]: [STRING]: Issue #158
+[22-19-27.633] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.634] [CONSOLE OUT]: [STRING]: Get static resource
+[22-19-27.634] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.635] [CONSOLE OUT]: [STRING]: Implement a `getStaticResource()` method to get a file via a build path to the
+               static directory. For example, instead of playing an audio via a path of `static/audio/f17.mp3` we could pass it `getSta
+               ticResource(AUDIO, "f17.mp3")`;
+[22-19-27.636] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.638] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.640] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.640] [CONSOLE OUT]: [STRING]: Issue #152
+[22-19-27.641] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.642] [CONSOLE OUT]: [STRING]: Allow props to be reloaded at run time if desired
+[22-19-27.642] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.644] [CONSOLE OUT]: [STRING]: Maybe make a routine for this that's ran every hour or can also be requested by
+               the user. When reloading props we need to make sure it completes before assigning the new props list as the main list. T
+               hese methods might need synchronization but if we load new ones and ensure correct before assigning the list as the main
+               list, it should be an atomic operation. Maybe not though and the getter functions for props need to be synchronized as d
+               oes the load function.
+[22-19-27.645] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.645] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.646] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.648] [CONSOLE OUT]: [STRING]: Issue #149
+[22-19-27.649] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.649] [CONSOLE OUT]: [STRING]: Make backend secure
+[22-19-27.650] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.651] [CONSOLE OUT]: [STRING]: Use https for the backend protocol.
+[22-19-27.651] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.652] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.653] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.654] [CONSOLE OUT]: [STRING]: Issue #148
+[22-19-27.655] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.655] [CONSOLE OUT]: [STRING]: Make backend port configuable
+[22-19-27.656] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.657] [CONSOLE OUT]: [STRING]: Allow the fastAPI backend port to be configured at runtime via a prop. Before
+               doing this, the backend should be started by the Java backend somehow (necessary subroutine (make these their own method
+               in Cyder.java)), and still work and be able to be accessed via any http://locahost/PORT.
+[22-19-27.658] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.659] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.660] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.662] [CONSOLE OUT]: [STRING]: Issue #147
+[22-19-27.663] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.665] [CONSOLE OUT]: [STRING]: Rename current background
+[22-19-27.665] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.666] [CONSOLE OUT]: [STRING]: Implement functionality to allow a user to rename the background they are
+               currently using.
+[22-19-27.667] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.668] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.668] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.669] [CONSOLE OUT]: [STRING]: Issue #134
+[22-19-27.670] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.671] [CONSOLE OUT]: [STRING]: GuiColor Audio Menu
+[22-19-27.671] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.672] [CONSOLE OUT]: [STRING]: Changing the GuiColor still fails to revalidate the background of the AudioMenu.
+[22-19-27.672] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.673] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.674] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.675] [CONSOLE OUT]: [STRING]: Issue #132
+[22-19-27.676] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.677] [CONSOLE OUT]: [STRING]: Background resizing
+[22-19-27.677] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.678] [CONSOLE OUT]: [STRING]: Currently on lower dpi/resolution monitors, rescaling of the background image
+               might be invoked but it might still result in an image too big for the monitor. This should NEVER happen. If we say we'r
+               e resizing it, it better fit on screen.
+[22-19-27.679] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.681] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.682] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.683] [CONSOLE OUT]: [STRING]: Issue #127
+[22-19-27.684] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.684] [CONSOLE OUT]: [STRING]: User validation
+[22-19-27.685] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.686] [CONSOLE OUT]: [STRING]: The bug where the default font appeared in the user's foreground was just found.
+               This took a while to solve and find so we should have some kind of a validate User method in the UserUtil class to
+               provide a user and have all it's fields validated and parsed if there is data there.
+[22-19-27.687] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.688] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.689] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.690] [CONSOLE OUT]: [STRING]: Issue #123
+[22-19-27.691] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.692] [CONSOLE OUT]: [STRING]: Frame movement fixes
+[22-19-27.693] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.694] [CONSOLE OUT]: [STRING]: With pinned frames, we need to ensure that frames aren't placed out of bounds.
+               We can easily solve this by when we're setting location of pinned frames after setting the ConsoleFrame's position by us
+               ing FrameUtil.requestFramePosition().
+[22-19-27.695] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.697] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.698] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.700] [CONSOLE OUT]: [STRING]: Issue #122
+[22-19-27.701] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.702] [CONSOLE OUT]: [STRING]: Python environment setup
+[22-19-27.703] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.704] [CONSOLE OUT]: [STRING]: Setup a shell script for development and something else for production environme
+               nts that ensures the proper python dependencies are installed.
+[22-19-27.705] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.707] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.707] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.709] [CONSOLE OUT]: [STRING]: Issue #117
+[22-19-27.710] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.711] [CONSOLE OUT]: [STRING]: Console printing animation optimization
+[22-19-27.712] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.714] [CONSOLE OUT]: [STRING]: Just like the notification queue checker, we should stop this thread if there's
+               nothing to be printed and start it again once we have objects in the print queue.
+[22-19-27.715] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.716] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.717] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.718] [CONSOLE OUT]: [STRING]: Issue #110
+[22-19-27.719] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.720] [CONSOLE OUT]: [STRING]: Waves for HarmonicRectangle
+[22-19-27.720] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.721] [CONSOLE OUT]: [STRING]: Implement wave synchronization and phase shifts for HarmonicRectangle.
+[22-19-27.722] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.723] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.724] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.725] [CONSOLE OUT]: [STRING]: Issue #103
+[22-19-27.726] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.728] [CONSOLE OUT]: [STRING]: Notification resize
+[22-19-27.729] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.729] [CONSOLE OUT]: [STRING]: Allow notifications to change size on frame resize events. Already tried this
+               and a weird bug appeared where the label know it's bounds but would only respond to mouse events to highlight a hover an
+               d register a click on certain parts of the label. Attempt to fix this.
+[22-19-27.730] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.731] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.732] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.734] [CONSOLE OUT]: [STRING]: Issue #102
+[22-19-27.735] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.736] [CONSOLE OUT]: [STRING]: User schema
+[22-19-27.737] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.738] [CONSOLE OUT]: [STRING]: We need to nail down a solid user data schema with actual types used in place of
+               just strings for all primitives. When accessing Booleans it will be a lot easier but we'll need some overhead methods
+               using generics, don't use raw types, to handle the case that it could be an object but also a primitive such as a Boolea
+               n, int, etc.
+[22-19-27.739] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.740] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.741] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.742] [CONSOLE OUT]: [STRING]: Issue #101
+[22-19-27.743] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.744] [CONSOLE OUT]: [STRING]: Watchdog Timer Functionality
+[22-19-27.745] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.746] [CONSOLE OUT]: [STRING]: I'm not entirely sure the timer works as intended. Spend some time investigating
+               .
+[22-19-27.747] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.748] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.750] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.751] [CONSOLE OUT]: [STRING]: Issue #100
+[22-19-27.752] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.753] [CONSOLE OUT]: [STRING]: SVG Frame Drag Label Icons
+[22-19-27.754] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.755] [CONSOLE OUT]: [STRING]: As a POC, convert all the window icons (close, mini, pin, change size, etc.) to
+               svgs and load them in using https://xmlgraphics.apache.org/batik/using/swing.html. See if this is visually more appealin
+               g and doesn't tank the load time or fps of the application.
+[22-19-27.756] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.758] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.760] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.761] [CONSOLE OUT]: [STRING]: Issue #99
+[22-19-27.762] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.763] [CONSOLE OUT]: [STRING]: Singular Instance Failsafe Terminator
+[22-19-27.765] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.766] [CONSOLE OUT]: [STRING]: On startup, if a singular instance is detected, give the user the option to
+               attempt to terminate the other session if they enter a valid username and password combo for that instance of Cyder. If
+               right credentials, try for that other Cyder to unbind, exit, and return exited to the foreign instance so that it can pr
+               oceed. The other instance should be well within its right to refuse termination so that the other user cannot start a ne
+               w instance.
+[22-19-27.767] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.768] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.770] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.771] [CONSOLE OUT]: [STRING]: Issue #97
+[22-19-27.773] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.774] [CONSOLE OUT]: [STRING]: Cyder Clock
+[22-19-27.775] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.776] [CONSOLE OUT]: [STRING]: There should be a synchronization package with a clocksync class that clocks
+               throughout cyder can connect to and request a frequency for their update methods to be called. Should have an interface
+               which classes implement and this will be passed to the clock so that it can invoke a call back method for the class that
+               implements the interface can invoke.
+[22-19-27.777] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.778] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.779] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.781] [CONSOLE OUT]: [STRING]: Issue #96
+[22-19-27.782] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.783] [CONSOLE OUT]: [STRING]: Auto commit and push
+[22-19-27.784] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.785] [CONSOLE OUT]: [STRING]: Setup a client to detect if NathanCheshire hasn't pushed to github today at
+               10:30 and email notifying. At 11 if still no activity, commit and push a random commit.
+[22-19-27.786] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.787] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[22-19-27.788] [DEBUG]: Attempted to log a new or empty line
+[22-19-27.789] [CONSOLE OUT]: [STRING]: Escaped
+[22-19-27.790] [DEBUG]: Attempted to log a new or empty line
+[22-19-30.598] [CLIENT]: open currnet log
+[22-19-30.619] [THREAD STARTED]: Unknown Input Handler
+[22-19-30.628] [DEBUG]: Similar command to "open" found with tolerance of 0.8727272748947144, command = "openlastlog"
+[22-19-30.735] [CONSOLE OUT]: [STRING]: Unknown command; Most similar command: "openlastlog"
+[22-19-31.298] [DEBUG]: Attempted to log a new or empty line
+[22-19-33.541] [CLIENT]: opencurrentlog
+[22-20-21.065] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[22-20-21.066] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[22-20-21.281] [EXIT]: [RUNTIME] 1m 2s 235ms
+[22-20-21.282] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], no exceptions thrown,
+               total objects created: 129

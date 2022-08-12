@@ -1,6 +1,7 @@
 package cyder.handlers.internal;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
@@ -251,7 +252,9 @@ public final class Logger {
                     eolBuilder.append(exceptionsCounter.get() == 0
                             ? "no exceptions thrown" : "exceptions thrown: " + exceptionsCounter.get());
 
-                    eolBuilder.append(", total objects created: ").append(totalObjectsCreated);
+                    eolBuilder.append(", total objects created: ")
+                            .append(totalObjectsCreated)
+                            .append("\n");
 
                     formatAndWriteLine(eolBuilder.toString(), tag);
                     logConcluded = true;
@@ -289,7 +292,7 @@ public final class Logger {
                     objectCreationCounter.incrementAndGet();
                     return;
                 } else {
-                    logBuilder.append("UNIQUE OBJECT CREATED");
+                    logBuilder.append(Tag.constructLogTagPrepend("UNIQUE OBJECT CREATED"));
                     logBuilder.append(representation);
                 }
 
@@ -488,12 +491,12 @@ public final class Logger {
         if (!getCurrentLog().exists()) {
             generateAndSetLogFile();
 
-            writeLines(lengthCheck(getLogTimeTag() + "[DEBUG]: [Log was deleted during runtime," +
+            writeLines(insertBreaks(getLogTimeTag() + "[DEBUG]: [Log was deleted during runtime," +
                     " recreating and restarting log at: " + TimeUtil.userTime() + "]"));
         } else {
             // if not an exception, break up line if too long
             if (tag != Tag.EXCEPTION) {
-                writeLines(lengthCheck(line));
+                writeLines(insertBreaks(line));
             } else {
                 try {
                     String[] lines = line.split("\n");
@@ -561,6 +564,11 @@ public final class Logger {
     }
 
     /**
+     * The chars to check to split at before splitting in between a line at whatever character a split index falls on.
+     */
+    private static final ImmutableList<Character> BREAK_CHARS = ImmutableList.of(' ', '/', '\'', '-', '_', '.');
+
+    /**
      * Only check 10 chars to the left of a line unless we force a break regardless
      * of whether a space is at that char.
      */
@@ -578,7 +586,7 @@ public final class Logger {
      * @param line the line to insert breaks in if needed
      * @return the formatted lines
      */
-    public static LinkedList<String> lengthCheck(String line) {
+    public static LinkedList<String> insertBreaks(String line) {
         line = line.trim();
 
         LinkedList<String> ret = new LinkedList<>();
@@ -586,31 +594,31 @@ public final class Logger {
         while (line.length() > MAX_LINE_LENGTH) {
             line = line.trim();
 
-            // if length is within extension tol
-            if (line.length() <= MAX_LINE_LENGTH + CHAR_EXTENSION_TOL) {
-                // rest of line added to ret outside of while
-                break;
-            }
-            // if the ideal split works
-            else if (line.charAt(MAX_LINE_LENGTH) == ' ') {
-                ret.add(line.substring(0, MAX_LINE_LENGTH + 1));
-                line = line.substring(MAX_LINE_LENGTH + 1);
-            } else {
-                // otherwise need to check left
-                for (int i = MAX_LINE_LENGTH ; i > MAX_LINE_LENGTH - BREAK_INSERTION_TOL ; i--) {
-                    // found space to split at
-                    if (line.charAt(i) == ' ') {
-                        ret.add(line.substring(0, i).trim());
-                        line = line.substring(i).trim();
-                        break;
-                    } else if (line.charAt(i) == '\\') {
-                        ret.add(line.substring(0, i).trim());
-                        line = line.substring(i).trim();
-                        break;
-                    } else if (i == MAX_LINE_LENGTH - BREAK_INSERTION_TOL + 1) {
-                        // end of the check so just split at the end
-                        ret.add(line.substring(0, MAX_LINE_LENGTH).trim());
-                        line = line.substring(MAX_LINE_LENGTH).trim();
+            for (char splitChar : BREAK_CHARS) {
+                if (line.length() < MAX_LINE_LENGTH) {
+                    break;
+                }
+
+                // Able to split at char at current position
+                if (line.charAt(MAX_LINE_LENGTH) == splitChar) {
+                    ret.add(line.substring(0, MAX_LINE_LENGTH + 1));
+                    line = line.substring(MAX_LINE_LENGTH + 1);
+                    break;
+                } else {
+                    // Check left for splitChar
+                    for (int i = MAX_LINE_LENGTH ; i > MAX_LINE_LENGTH - BREAK_INSERTION_TOL ; i--) {
+                        // Found the split char
+                        if (line.charAt(i) == splitChar) {
+                            ret.add(line.substring(0, i).trim());
+                            line = line.substring(i).trim();
+                            break;
+                        }
+                        // End of the chars to check so just split at limit
+                        else if (i == MAX_LINE_LENGTH - BREAK_INSERTION_TOL + 1) {
+                            ret.add(line.substring(0, MAX_LINE_LENGTH).trim());
+                            line = line.substring(MAX_LINE_LENGTH).trim();
+                            break;
+                        }
                     }
                 }
             }

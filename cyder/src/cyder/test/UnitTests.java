@@ -202,7 +202,7 @@ public class UnitTests {
 
     @Test
     public void testLineChecker() {
-        assertEquals(Logger.lengthCheck("[22-05-04] [EOL]: Log completed, exiting Cyder with exit " +
+        assertEquals(Logger.insertBreaks("[22-05-04] [EOL]: Log completed, exiting Cyder with exit " +
                 "code: -13 [Watchdog Timeout], exceptions thrown: 0").size(), 1);
     }
 
