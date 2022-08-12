@@ -575,11 +575,6 @@ public final class Logger {
     private static final int BREAK_INSERTION_TOL = 10;
 
     /**
-     * The number of characters allowable past MAX_LINE_LENGTH if the end of the line will be reached.
-     */
-    private static final int CHAR_EXTENSION_TOL = 10;
-
-    /**
      * Returns the provided string with line breaks inserted if needed to ensure
      * the line length does not surpass {@link Logger#MAX_LINE_LENGTH}.
      *
