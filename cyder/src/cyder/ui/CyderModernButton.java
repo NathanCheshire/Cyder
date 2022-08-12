@@ -45,12 +45,34 @@ public class CyderModernButton extends JLabel {
      */
     private Color foregroundColor = CyderColors.regularPink;
 
-
+    /**
+     * The background color of the button.
+     */
     private Color backgroundColor = CyderColors.navy;
+
+    /**
+     * The border color.
+     */
     private Color borderColor = Color.black;
+
+    /**
+     * The color used for hover events.
+     */
     private Color hoverColor = backgroundColor.darker();
+
+    /**
+     * The color used while the button is pressed.
+     */
     private Color pressedColor = hoverColor.darker();
+
+    /**
+     * The foreground text color for when the button is disabled.
+     */
     private Color disabledForeground = Color.black;
+
+    /**
+     * The background color for the button when disabled.
+     */
     private Color disabledBackground = CyderColors.vanilla;
 
     /**
@@ -563,7 +585,113 @@ public class CyderModernButton extends JLabel {
         this.foregroundColor = foregroundColor;
     }
 
-    // todo
+    /**
+     * Returns the background color for the button.
+     *
+     * @return the background color for the button
+     */
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    /**
+     * Sets the background color for the button.
+     *
+     * @param backgroundColor the background color for the button
+     */
+    public void setBackgroundColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    /**
+     * Returns the color for the border.
+     *
+     * @return the color for the border
+     */
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
+    /**
+     * Sets the color for the border.
+     *
+     * @param borderColor the color for the border
+     */
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
+    }
+
+    /**
+     * Returns the color for hover events.
+     *
+     * @return the color for hover events
+     */
+    public Color getHoverColor() {
+        return hoverColor;
+    }
+
+    /**
+     * Sets the color for hover events.
+     *
+     * @param hoverColor the color for hover events
+     */
+    public void setHoverColor(Color hoverColor) {
+        this.hoverColor = hoverColor;
+    }
+
+    /**
+     * Returns the color used for when the button model is pressed.
+     *
+     * @return the color used for when the button model is pressed
+     */
+    public Color getPressedColor() {
+        return pressedColor;
+    }
+
+    /**
+     * Sets the color used for when the button model is pressed.
+     *
+     * @param pressedColor the color used for when the button model is pressed
+     */
+    public void setPressedColor(Color pressedColor) {
+        this.pressedColor = pressedColor;
+    }
+
+    /**
+     * Returns the color used for the label text when the button is disabled.
+     *
+     * @return the color used for the label text when the button is disabled
+     */
+    public Color getDisabledForeground() {
+        return disabledForeground;
+    }
+
+    /**
+     * Sets the color used for the label text when the button is disabled.
+     *
+     * @param disabledForeground the color used for the label text when the button is disabled
+     */
+    public void setDisabledForeground(Color disabledForeground) {
+        this.disabledForeground = disabledForeground;
+    }
+
+    /**
+     * Returns the color used for when the button is disabled.
+     *
+     * @return the color used for when the button is disabled
+     */
+    public Color getDisabledBackground() {
+        return disabledBackground;
+    }
+
+    /**
+     * Sets the color used for when the button is disabled.
+     *
+     * @param disabledBackground the color used for when the button is disabled
+     */
+    public void setDisabledBackground(Color disabledBackground) {
+        this.disabledBackground = disabledBackground;
+    }
 
     /**
      * The default delay between alert iterations.
@@ -663,7 +791,14 @@ public class CyderModernButton extends JLabel {
         }
 
         CyderModernButton other = (CyderModernButton) o;
-        // todo compare all things used in hashcode
-        return false;
+
+        return text.equals(other.getText())
+                && foregroundColor.equals(other.getForegroundColor())
+                && backgroundColor.equals(other.getBackgroundColor())
+                && hoverColor.equals(other.getHoverColor())
+                && pressedColor.equals(other.getPressedColor())
+                && borderColor.equals(other.getBorderColor())
+                && width == other.getWidth()
+                && height == other.getHeight();
     }
 }
