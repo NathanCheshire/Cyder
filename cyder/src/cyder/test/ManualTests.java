@@ -45,8 +45,9 @@ public final class ManualTests {
             try {
                 CyderFrame frame = new CyderFrame();
 
-                CyderModernButton modernButton = new CyderModernButton();
-                modernButton.setBounds(40, 40, 150, 40);
+                CyderModernButton modernButton = new CyderModernButton("Buttons and more buttons");
+                modernButton.setBounds(40, 40, 50, 40);
+                modernButton.addClickRunnable(() -> frame.notify("Hello"));
                 frame.getContentPane().add(modernButton);
 
                 frame.finalizeAndShow();

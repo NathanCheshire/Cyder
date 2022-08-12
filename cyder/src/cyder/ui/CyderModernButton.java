@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
@@ -12,18 +13,39 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A moder button for use throughout Cyder, similar to {@link CyderCheckbox}.
  */
 public class CyderModernButton extends JLabel {
-    private String text;
+    /**
+     * The radius to use when {@link #roundedCorners} is enabled.
+     */
+    private static final int CORNER_RADIUS = 20;
+
+    /**
+     * The default text for the modern button.
+     */
     private static final String DEFAULT_TEXT = "Modern Button";
 
+    /**
+     * The text this modern button holds.
+     */
+    private String text;
+
+    /**
+     * The font of the modern button text label.
+     */
     private Font font = CyderFonts.DEFAULT_FONT_SMALL;
 
+    /**
+     * The foreground color of the label text.
+     */
     private Color foregroundColor = CyderColors.regularPink;
+
+
     private Color backgroundColor = CyderColors.navy;
     private Color borderColor = Color.black;
     private Color hoverColor = backgroundColor.darker();
@@ -31,31 +53,95 @@ public class CyderModernButton extends JLabel {
     private Color disabledForeground = Color.black;
     private Color disabledBackground = CyderColors.vanilla;
 
+    /**
+     * Whether the button should be painted with rounded corners.
+     */
     private boolean roundedCorners = true;
-    private boolean threadsKilled = false;
+
+    /**
+     * Whether this button is disabled.
+     */
     private boolean disabled = false;
+
+    /**
+     * Whether the button is currently flashing. This is invoked by {@link #alert()}.
+     */
     private boolean isFlashing;
 
     /**
-     * The radius to use when {@link #roundedCorners} is enabled.
+     * The length of the border painted around the button.
      */
-    private static final int CORNER_RADIUS = 20;
-    private int borderRadius = 3;
+    private int borderLength = 3;
 
-    private int width = 150;
-    private int height = 40;
+    /**
+     * The width of the button.
+     */
+    private int width;
 
+    /**
+     * The height of the button.
+     */
+    private int height;
+
+    /**
+     * The label that holds the button text.
+     */
     private JLabel innerTextLabel;
 
+    /**
+     * Whether the mouse is currently inside of the modern button.
+     */
     private final AtomicBoolean mouseInside = new AtomicBoolean();
 
+    /**
+     * Constructs a new modern button.
+     */
     public CyderModernButton() {
         this(DEFAULT_TEXT);
     }
 
+    /**
+     * Constructs a new modern button.
+     *
+     * @param text the button text
+     */
     public CyderModernButton(String text) {
+        this(text, Integer.MIN_VALUE, Integer.MIN_VALUE);
+    }
+
+    /**
+     * Constructs a new modern button.
+     * Note: do not use this construct to force the width and height
+     * to be calculated by this class.
+     *
+     * @param text   the text of the button
+     * @param width  the width of the button
+     * @param height the height of the button
+     */
+    public CyderModernButton(String text, int width, int height) {
+        Preconditions.checkNotNull(text);
+
         this.text = text;
 
+        if (width == Integer.MIN_VALUE) {
+            width = StringUtil.getMinWidth(text, font);
+        }
+
+        if (height == Integer.MIN_VALUE) {
+            height = StringUtil.getMinHeight(text, font);
+        }
+
+        this.width = width;
+        this.height = height;
+
+        addListeners();
+        installInnerTextLabel();
+    }
+
+    /**
+     * Adds the necessary listeners to the modern button.
+     */
+    private void addListeners() {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -68,9 +154,12 @@ public class CyderModernButton extends JLabel {
                 mouseInside.set(false);
                 repaint();
             }
-        });
 
-        installInnerTextLabel();
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                invokeRunnables();
+            }
+        });
     }
 
     /**
@@ -91,7 +180,7 @@ public class CyderModernButton extends JLabel {
         innerTextLabel.setText(text);
         innerTextLabel.setBounds(0, 0, width, height);
         innerTextLabel.setFont(font);
-        innerTextLabel.setForeground(foregroundColor);
+        innerTextLabel.setForeground(disabled ? disabledForeground : foregroundColor);
 
         refreshTextAlignment();
 
@@ -175,6 +264,42 @@ public class CyderModernButton extends JLabel {
     }
 
     /**
+     * The runnables to invoke when the button is clicked.
+     */
+    private final LinkedList<Runnable> clickRunnables = new LinkedList<>();
+
+    /**
+     * Adds the runnable to the list of runnables to invoke when the button is clicked.
+     *
+     * @param runnable the runnable to invoke when the button is clicked
+     */
+    public void addClickRunnable(Runnable runnable) {
+        Preconditions.checkNotNull(runnable);
+
+        clickRunnables.add(runnable);
+    }
+
+    /**
+     * Removes the runnable from the list of runnables to invoke when a button is clicked.
+     *
+     * @param runnable the runnable to remove from the click runnables
+     */
+    public void removeClickRunnable(Runnable runnable) {
+        Preconditions.checkNotNull(runnable);
+
+        clickRunnables.remove(runnable);
+    }
+
+    /**
+     * Invokes all runnables in {@link #clickRunnables}.
+     */
+    private void invokeRunnables() {
+        for (Runnable runnable : clickRunnables) {
+            runnable.run();
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -191,17 +316,15 @@ public class CyderModernButton extends JLabel {
 
         if (roundedCorners) {
             graphics2D.fill(new RoundRectangle2D.Double(0, 0, width, height, CORNER_RADIUS, CORNER_RADIUS));
-            graphics2D.setPaint(mouseInside.get() ? hoverColor : backgroundColor);
-            graphics2D.fill(new RoundRectangle2D.Double(borderRadius, borderRadius,
-                    width - 2 * borderRadius, height - 2 * borderRadius, CORNER_RADIUS, CORNER_RADIUS));
+            graphics2D.setPaint(disabled ? disabledBackground : (mouseInside.get() ? hoverColor : backgroundColor));
+            graphics2D.fill(new RoundRectangle2D.Double(borderLength, borderLength,
+                    width - 2 * borderLength, height - 2 * borderLength, CORNER_RADIUS, CORNER_RADIUS));
         } else {
             graphics2D.fillRect(0, 0, width, height);
-            graphics2D.setPaint(mouseInside.get() ? hoverColor : backgroundColor);
-            graphics2D.fillRect(borderRadius, borderRadius,
-                    width - 2 * borderRadius, height - 2 * borderRadius);
+            graphics2D.setPaint(disabled ? disabledBackground : (mouseInside.get() ? hoverColor : backgroundColor));
+            graphics2D.fillRect(borderLength, borderLength,
+                    width - 2 * borderLength, height - 2 * borderLength);
         }
-
-
     }
 
     /**
@@ -212,6 +335,38 @@ public class CyderModernButton extends JLabel {
         super.setSize(width, height);
 
         this.width = width;
+        this.height = height;
+
+        if (innerTextLabel != null) {
+            innerTextLabel.setSize(width, height);
+            innerTextLabel.repaint();
+        }
+
+        repaint();
+    }
+
+    /**
+     * Sets the width of the button.
+     *
+     * @param width the width of the button
+     */
+    public void setWidth(int width) {
+        this.width = width;
+
+        if (innerTextLabel != null) {
+            innerTextLabel.setSize(width, height);
+            innerTextLabel.repaint();
+        }
+
+        repaint();
+    }
+
+    /**
+     * Sets the height of the button.
+     *
+     * @param height the height of the button
+     */
+    public void setHeight(int height) {
         this.height = height;
 
         if (innerTextLabel != null) {
@@ -300,6 +455,117 @@ public class CyderModernButton extends JLabel {
     }
 
     /**
+     * Sets the text of this modern button.
+     *
+     * @param text the text of this modern button
+     */
+    public void setText(String text) {
+        Preconditions.checkNotNull(text);
+
+        this.text = text;
+        refreshInnerTextLabel();
+    }
+
+    /**
+     * Returns the text this modern button holds.
+     *
+     * @return the text this modern button holds
+     */
+    public String getText() {
+        return this.text;
+    }
+
+    /**
+     * Returns the font of this modern button.
+     *
+     * @return the font of this modern button
+     */
+    @Override
+    public Font getFont() {
+        return font;
+    }
+
+    /**
+     * Sets the font of this modern button.
+     *
+     * @param font the font of this modern button
+     */
+    @Override
+    public void setFont(Font font) {
+        this.font = font;
+    }
+
+    /**
+     * Returns the length of the button border.
+     *
+     * @return the length of the button border
+     */
+    public int getBorderLength() {
+        return borderLength;
+    }
+
+    /**
+     * Sets the length of the button border.
+     *
+     * @param borderLength the length of the button border
+     */
+    public void setBorderLength(int borderLength) {
+        this.borderLength = borderLength;
+    }
+
+    /**
+     * Disables this modern button.
+     */
+    public void setDisabled() {
+        disabled = true;
+    }
+
+    /**
+     * Enables this modern button.
+     */
+    public void setEnabled() {
+        disabled = false;
+    }
+
+    /**
+     * Returns whether the button is painted with rounded corners.
+     *
+     * @return whether the button is painted with rounded corners
+     */
+    public boolean isRoundedCorners() {
+        return roundedCorners;
+    }
+
+    /**
+     * Sets whether the button is painted with rounded corners.
+     *
+     * @param roundedCorners whether the button is painted with rounded corners
+     */
+    public void setRoundedCorners(boolean roundedCorners) {
+        this.roundedCorners = roundedCorners;
+    }
+
+    /**
+     * Returns the foreground color for the button text.
+     *
+     * @return the foreground color for the button text
+     */
+    public Color getForegroundColor() {
+        return foregroundColor;
+    }
+
+    /**
+     * Sets the foreground color for the button text.
+     *
+     * @param foregroundColor the foreground color for the button text
+     */
+    public void setForegroundColor(Color foregroundColor) {
+        this.foregroundColor = foregroundColor;
+    }
+
+    // todo
+
+    /**
      * The default delay between alert iterations.
      */
     private static final int DEFAULT_ALERT_DELAY = 250;
@@ -322,28 +588,42 @@ public class CyderModernButton extends JLabel {
      * @param iterations the number of iterations to alert for
      */
     public void alert(int iterations) {
-        String buttonName = "Modern Button, hash = " + hashCode();
-
         Color startingColor = backgroundColor;
         Color endingColor = backgroundColor.darker();
 
         CyderThreadRunner.submit(() -> {
             try {
+                isFlashing = true;
+
                 for (int i = 0 ; i < iterations ; i++) {
-                    // todo
+                    if (!isFlashing) {
+                        break;
+                    }
+
+                    backgroundColor = startingColor;
                     repaint();
                     ThreadUtil.sleep(DEFAULT_ALERT_DELAY);
-                    // todo
+                    backgroundColor = endingColor;
                     repaint();
                     ThreadUtil.sleep(DEFAULT_ALERT_DELAY);
                 }
 
-                // todo
+                backgroundColor = startingColor;
                 repaint();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
+            } finally {
+                isFlashing = false;
             }
-        }, buttonName);
+        }, toString());
+    }
+
+    /**
+     * Kills all threads spawned by this modern button.
+     * Currently this means stopping the flashing animation if on-going.
+     */
+    public void killThreads() {
+        isFlashing = false;
     }
 
     /**
