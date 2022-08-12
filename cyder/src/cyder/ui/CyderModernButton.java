@@ -10,8 +10,7 @@ import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -691,6 +690,36 @@ public class CyderModernButton extends JLabel {
      */
     public void setDisabledBackground(Color disabledBackground) {
         this.disabledBackground = disabledBackground;
+    }
+
+    /**
+     * The focus listener to show when the button is the focus owner.
+     */
+    private final FocusListener defaultFocusListener = new FocusAdapter() {
+        @Override
+        public void focusGained(FocusEvent e) {
+            super.focusGained(e);
+
+            if (!disabled) {
+                setBackground(backgroundColor.darker());
+            }
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            super.focusLost(e);
+
+            if (!disabled) {
+                setBackground(backgroundColor);
+            }
+        }
+    };
+
+    /**
+     * Adds the default focus listener to this modern button.
+     */
+    public void addDefaultFocusListener() {
+        addFocusListener(defaultFocusListener);
     }
 
     /**

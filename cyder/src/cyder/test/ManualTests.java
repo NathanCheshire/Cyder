@@ -43,14 +43,7 @@ public final class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                CyderFrame frame = new CyderFrame();
 
-                CyderModernButton modernButton = new CyderModernButton("Buttons and more buttons");
-                modernButton.setBounds(40, 40, 50, 40);
-                modernButton.addClickRunnable(() -> frame.notify("Hello"));
-                frame.getContentPane().add(modernButton);
-
-                frame.finalizeAndShow();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
