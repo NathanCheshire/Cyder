@@ -43,7 +43,7 @@ public final class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-
+                modernButtonTest();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -904,5 +904,33 @@ public final class ManualTests {
 
         testFrame.setCyderLayout(cyderGridLayout);
         testFrame.finalizeAndShow();
+    }
+
+    @ManualTest("modern button test")
+    private static void modernButtonTest() {
+        CyderFrame testFrame = new CyderFrame();
+        testFrame.setTitle("Modern button test");
+        testFrame.setSize(800, 800);
+
+        CyderGridLayout layout = new CyderGridLayout(4, 5);
+
+        CyderModernButton regularButton = new CyderModernButton("Regular");
+        regularButton.pack();
+        regularButton.setYPadding(2);
+        regularButton.setXPadding(10);
+        layout.addComponent(regularButton);
+
+        CyderModernButton differentButton = new CyderModernButton("Different");
+        differentButton.setForegroundColor(CyderColors.vanilla);
+        differentButton.setBorderLength(0);
+        differentButton.setColors(CyderColors.regularBlue);
+        differentButton.pack();
+        differentButton.setYPadding(0);
+        differentButton.setXPadding(10);
+        layout.addComponent(differentButton);
+
+        testFrame.setCyderLayout(layout);
+        testFrame.finalizeAndShow();
+        ;
     }
 }

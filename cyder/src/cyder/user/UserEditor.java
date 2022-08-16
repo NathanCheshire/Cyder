@@ -219,8 +219,10 @@ public final class UserEditor {
     /**
      * Closes the frame if open.
      */
-    private static void closeIfOpen() {
-        editUserFrame.dispose(true);
+    private static void closeIfOpen() { // todo frame util method
+        if (editUserFrame != null) {
+            editUserFrame.dispose(true);
+        }
     }
 
     /**
@@ -575,7 +577,7 @@ public final class UserEditor {
     /**
      * Returns the user file represented by the provided name from the files list.
      * For example: backgrounds/Img.png would open Img.png if that file was present
-     * in the current user's Backgrounds/ folder
+     * in the current user's Backgrounds/ folder.
      *
      * @param name the file name such as "Backgrounds/img.jpg"
      * @return the user file represented by the provided name from the files list
@@ -706,10 +708,13 @@ public final class UserEditor {
      */
     private static final CyderLabel filesHeaderLabel;
 
+    private static final int FILES_HEADER_LABEL_WIDTH = 300;
+    private static final int FILES_HEADER_LABEL_HEIGHT = 50;
+
     static {
         filesHeaderLabel = new CyderLabel("Files, Backgrounds, and Music");
         filesHeaderLabel.setFont(CyderFonts.DEFAULT_FONT);
-        filesHeaderLabel.setSize(300, 50);
+        filesHeaderLabel.setSize(FILES_HEADER_LABEL_WIDTH, FILES_HEADER_LABEL_HEIGHT);
     }
 
     /**
@@ -771,15 +776,18 @@ public final class UserEditor {
         filesPartitionedLayout.setComponent(parentBorderLabel, 1);
     }
 
+    private static final int FILES_SCROLL_X_PADDING = 50;
+    private static final int FILES_SCROLL_Y_PADDING = 100;
+
     /**
      * The width of the font scroll list.
      */
-    private static final int FONT_SCROLL_WIDTH = CONTENT_PANE_WIDTH / 2 - 2 * 50;
+    private static final int FONT_SCROLL_WIDTH = CONTENT_PANE_WIDTH / 2 - 2 * FILES_SCROLL_X_PADDING;
 
     /**
      * The height of the font scroll list.
      */
-    private static final int FONT_SCROLL_HEIGHT = CONTENT_PANE_HEIGHT - 2 * 100;
+    private static final int FONT_SCROLL_HEIGHT = CONTENT_PANE_HEIGHT - 2 * FILES_SCROLL_Y_PADDING;
 
     /**
      * The reference to the font scroll list.

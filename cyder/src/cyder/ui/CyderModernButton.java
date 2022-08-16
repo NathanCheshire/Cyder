@@ -3,12 +3,14 @@ package cyder.ui;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.utils.StringUtil;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
@@ -115,6 +117,21 @@ public class CyderModernButton extends JLabel {
     private final AtomicBoolean mouseInside = new AtomicBoolean();
 
     /**
+     * The default padding value used for the x and y axis when performing bounds calculations for this button.
+     */
+    public static final int DEFAULT_PADDING = 5;
+
+    /**
+     * The x padding for left and right of the text on this button.
+     */
+    private int xPadding = DEFAULT_PADDING;
+
+    /**
+     * The y padding for top and bottom of the text on this button.
+     */
+    private int yPadding = DEFAULT_PADDING;
+
+    /**
      * Constructs a new modern button.
      */
     public CyderModernButton() {
@@ -198,6 +215,10 @@ public class CyderModernButton extends JLabel {
      * Refreshes the text, bounds, font, foreground, and alignment of the inner text label.
      */
     private void refreshInnerTextLabel() {
+        if (innerTextLabel == null) {
+            return;
+        }
+
         innerTextLabel.setText(text);
         innerTextLabel.setBounds(0, 0, width, height);
         innerTextLabel.setFont(font);
@@ -417,24 +438,32 @@ public class CyderModernButton extends JLabel {
     }
 
     /**
-     * Expands the button's width or height as necessary to fit all of the button text on the button.
+     * {@inheritDoc}
      */
-    public void expandToMinSize() {
-        expandToMinSize(false);
+    @Override
+    public void setLocation(int x, int y) {
+        setBounds(x, y, width, height);
     }
 
     /**
-     * Expands the button's width or height as necessary to fit all of the button text on the button.
+     * Expands or contracts the button's width or height as necessary to fit all of the button text on the button.
+     */
+    public void pack() {
+        pack(false);
+    }
+
+    /**
+     * Expands or contracts the button's width or height as necessary to fit all of the button text on the button.
      * The center of the button is kept in the same place if maintainRelativeCenter is passed as true.
      *
      * @param maintainRelativeCenter whether to maintain the center of the button
      */
-    public void expandToMinSize(boolean maintainRelativeCenter) {
+    public void pack(boolean maintainRelativeCenter) {
         int necessaryWidth = StringUtil.getMinWidth(text, font);
         int necessaryHeight = StringUtil.getMinHeight(text, font);
 
-        int newWidth = Math.max(width, necessaryWidth);
-        int newHeight = Math.max(height, necessaryHeight);
+        int newWidth = Math.max(width, necessaryWidth) + 2 * xPadding;
+        int newHeight = Math.max(height, necessaryHeight) + 2 * yPadding;
 
         if (newWidth != width || newHeight != height) {
             if (maintainRelativeCenter) {
@@ -514,6 +543,7 @@ public class CyderModernButton extends JLabel {
     @Override
     public void setFont(Font font) {
         this.font = font;
+        refreshInnerTextLabel();
     }
 
     /**
@@ -582,6 +612,7 @@ public class CyderModernButton extends JLabel {
      */
     public void setForegroundColor(Color foregroundColor) {
         this.foregroundColor = foregroundColor;
+        refreshInnerTextLabel();
     }
 
     /**
@@ -621,6 +652,14 @@ public class CyderModernButton extends JLabel {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Deprecated
+    public void setBorder(Border border) {
+        throw new IllegalMethodException("Cannot invoke setBorder on object " + this);
+    }
+
+    /**
      * Returns the color for hover events.
      *
      * @return the color for hover events
@@ -654,6 +693,18 @@ public class CyderModernButton extends JLabel {
      */
     public void setPressedColor(Color pressedColor) {
         this.pressedColor = pressedColor;
+    }
+
+    /**
+     * Sets the background color of this button to the provided color, the hover color to
+     * {@code backgroundColor.darker()}, and the pressed background color to {@code backgroundColor.darker().darker()}.
+     *
+     * @param backgroundColor the new background color
+     */
+    public void setColors(Color backgroundColor) {
+        setBackgroundColor(backgroundColor);
+        setHoverColor(backgroundColor.darker());
+        setPressedColor(backgroundColor.darker().darker());
     }
 
     /**
@@ -787,6 +838,58 @@ public class CyderModernButton extends JLabel {
      * {@inheritDoc}
      */
     @Override
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * Returns the x padding for left and right of the text for this button.
+     *
+     * @return the x padding for left and right of the text for this button
+     */
+    public int getXPadding() {
+        return xPadding;
+    }
+
+    /**
+     * Sets the x padding for left and right of the text for this button.
+     *
+     * @param xPadding the x padding for left and right of the text for this button
+     */
+    public void setXPadding(int xPadding) {
+        this.xPadding = xPadding;
+    }
+
+    /**
+     * Returns the y padding for top and bottom of the text for this button.
+     *
+     * @return the y padding for top and bottom of the text for this button
+     */
+    public int getYPadding() {
+        return yPadding;
+    }
+
+    /**
+     * Sets the y padding for top and bottom of the text for this button.
+     *
+     * @param yPadding the y padding for top and bottom of the text for this button
+     */
+    public void setYPadding(int yPadding) {
+        this.yPadding = yPadding;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public int hashCode() {
         int ret = text.hashCode();
         ret += 31 * foregroundColor.hashCode();
@@ -805,7 +908,7 @@ public class CyderModernButton extends JLabel {
     @Override
     public String toString() {
         return "Cyder Modern Button {" + this.getX() + ", " + this.getY()
-                + ", " + width + "x" + height + "}, text=\"" + text + "\"";
+                + ", " + width + "x" + height + "}, text=\"" + text + "\", hash = " + hashCode();
     }
 
     /**
