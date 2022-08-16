@@ -117,19 +117,29 @@ public class CyderModernButton extends JLabel {
     private final AtomicBoolean mouseInside = new AtomicBoolean();
 
     /**
-     * The default padding value used for the x and y axis when performing bounds calculations for this button.
+     * Whether the button is currently under a mouse pressed event.
      */
-    public static final int DEFAULT_PADDING = 5;
+    private final AtomicBoolean mousePressed = new AtomicBoolean();
+
+    /**
+     * The default padding value used for the x axis when performing bounds calculations for this button.
+     */
+    public static final int DEFAULT_X_PADDING = 5;
+
+    /**
+     * The default padding value used for the y axis when performing bounds calculations for this button.
+     */
+    public static final int DEFAULT_Y_PADDING = 0;
 
     /**
      * The x padding for left and right of the text on this button.
      */
-    private int xPadding = DEFAULT_PADDING;
+    private int xPadding = DEFAULT_X_PADDING;
 
     /**
      * The y padding for top and bottom of the text on this button.
      */
-    private int yPadding = DEFAULT_PADDING;
+    private int yPadding = DEFAULT_Y_PADDING;
 
     /**
      * Constructs a new modern button.
@@ -196,6 +206,18 @@ public class CyderModernButton extends JLabel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 invokeRunnables();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mousePressed.set(true);
+                repaint();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                mousePressed.set(false);
+                repaint();
             }
         });
     }
@@ -356,16 +378,36 @@ public class CyderModernButton extends JLabel {
         graphics2D.setPaint(borderColor);
         graphics2D.setStroke(new BasicStroke(1.0f));
 
+        Color color = getCurrentPaintedBackgroundColor();
+
         if (roundedCorners) {
             graphics2D.fill(new RoundRectangle2D.Double(0, 0, width, height, CORNER_RADIUS, CORNER_RADIUS));
-            graphics2D.setPaint(disabled ? disabledBackground : (mouseInside.get() ? hoverColor : backgroundColor));
+            graphics2D.setPaint(color);
             graphics2D.fill(new RoundRectangle2D.Double(borderLength, borderLength,
                     width - 2 * borderLength, height - 2 * borderLength, CORNER_RADIUS, CORNER_RADIUS));
         } else {
             graphics2D.fillRect(0, 0, width, height);
-            graphics2D.setPaint(disabled ? disabledBackground : (mouseInside.get() ? hoverColor : backgroundColor));
+            graphics2D.setPaint(color);
             graphics2D.fillRect(borderLength, borderLength,
                     width - 2 * borderLength, height - 2 * borderLength);
+        }
+    }
+
+    /**
+     * Returns the color that should be painted as the background color for
+     * this button based on its current internal state.
+     *
+     * @return the color that should be painted as the background color for this button
+     */
+    private Color getCurrentPaintedBackgroundColor() {
+        if (disabled) {
+            return disabledBackground;
+        } else if (mousePressed.get()) {
+            return pressedColor;
+        } else if (mouseInside.get()) {
+            return hoverColor;
+        } else {
+            return backgroundColor;
         }
     }
 

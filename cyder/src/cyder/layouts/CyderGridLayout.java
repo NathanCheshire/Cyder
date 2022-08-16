@@ -54,17 +54,17 @@ public class CyderGridLayout extends CyderLayout {
     /**
      * Constructs a new CyderGridLayout with the provided grid dimensions.
      *
-     * @param xCells the amount of horizontal cells to have in the Layout
-     * @param yCells the amount of vertical cells to have in the Layout
+     * @param horizontalCells the amount of horizontal cells to have in the Layout
+     * @param verticalCells   the amount of vertical cells to have in the Layout
      */
-    public CyderGridLayout(int xCells, int yCells) {
-        Preconditions.checkArgument(xCells >= 1);
-        Preconditions.checkArgument(yCells >= 1);
+    public CyderGridLayout(int horizontalCells, int verticalCells) {
+        Preconditions.checkArgument(horizontalCells >= 1);
+        Preconditions.checkArgument(verticalCells >= 1);
 
-        horizontalCells = xCells;
-        verticalCells = yCells;
+        this.horizontalCells = horizontalCells;
+        this.verticalCells = verticalCells;
 
-        components = new GridComponent[xCells][yCells];
+        components = new GridComponent[horizontalCells][verticalCells];
     }
 
     /**

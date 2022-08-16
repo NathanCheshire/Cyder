@@ -43,7 +43,7 @@ public final class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                modernButtonTest();
+
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -910,9 +910,9 @@ public final class ManualTests {
     private static void modernButtonTest() {
         CyderFrame testFrame = new CyderFrame();
         testFrame.setTitle("Modern button test");
-        testFrame.setSize(800, 800);
+        testFrame.setSize(500, 200);
 
-        CyderGridLayout layout = new CyderGridLayout(4, 5);
+        CyderGridLayout layout = new CyderGridLayout(4, 1);
 
         CyderModernButton regularButton = new CyderModernButton("Regular");
         regularButton.pack();
@@ -929,8 +929,28 @@ public final class ManualTests {
         differentButton.setXPadding(10);
         layout.addComponent(differentButton);
 
+        CyderModernButton greenButton = new CyderModernButton("Green");
+        greenButton.setForegroundColor(CyderColors.vanilla);
+        greenButton.setFont(CyderFonts.SEGOE_20);
+        greenButton.setBorderLength(4);
+        greenButton.setColors(CyderColors.regularGreen);
+        greenButton.pack();
+        greenButton.setYPadding(0);
+        greenButton.setXPadding(10);
+        layout.addComponent(greenButton);
+
+        CyderModernButton cyderButtonCopy = new CyderModernButton("Button");
+        cyderButtonCopy.setRoundedCorners(false);
+        cyderButtonCopy.setFont(CyderFonts.DEFAULT_FONT);
+        cyderButtonCopy.setForegroundColor(CyderColors.navy);
+        cyderButtonCopy.setBorderLength(5);
+        cyderButtonCopy.setColors(CyderColors.regularRed);
+        cyderButtonCopy.pack();
+        cyderButtonCopy.setYPadding(0);
+        cyderButtonCopy.setXPadding(10);
+        layout.addComponent(cyderButtonCopy);
+
         testFrame.setCyderLayout(layout);
         testFrame.finalizeAndShow();
-        ;
     }
 }
