@@ -11,6 +11,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderGrid;
+import cyder.utils.UiUtil;
 
 import java.awt.*;
 import java.util.*;
@@ -44,9 +45,7 @@ public final class ConvexHullWidget {
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     @Widget(triggers = {"convex", "convex hull"}, description = "A convex hull algorithm visualizer")
     public static void showGui() {
-        if (hullFrame != null) {
-            hullFrame.dispose();
-        }
+        UiUtil.closeIfOpen(hullFrame);
 
         hullFrame = new CyderFrame(800, 850);
         hullFrame.setTitle("Convex Hull Visualizer");

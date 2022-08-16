@@ -93,7 +93,7 @@ public final class UserCreator {
 
     @Widget(triggers = {"create user", "create"}, description = "A widget for creating new users")
     public static void showGui() {
-        closeIfOpen();
+        UiUtil.closeIfOpen(createUserFrame);
 
         newUserBackgroundFile = null;
 
@@ -392,15 +392,6 @@ public final class UserCreator {
                 ExceptionHandler.handle(ex);
             }
         }, "wait thread for GetterUtil().getFile()");
-    }
-
-    /**
-     * Closes the widget if open.
-     */
-    public static void closeIfOpen() {
-        if (createUserFrame != null) {
-            createUserFrame.dispose();
-        }
     }
 
     /**

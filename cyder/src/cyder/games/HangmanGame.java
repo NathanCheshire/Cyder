@@ -18,6 +18,7 @@ import cyder.ui.CyderTextField;
 import cyder.utils.BoundsUtil;
 import cyder.utils.NumberUtil;
 import cyder.utils.StringUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -83,9 +84,7 @@ public final class HangmanGame {
 
     @Widget(triggers = "hangman", description = "A hangman game")
     public static void showGui() {
-        if (hangmanFrame != null) {
-            hangmanFrame.dispose(true);
-        }
+        UiUtil.closeIfOpen(hangmanFrame);
 
         hangmanFrame = new CyderFrame(712, 812, CyderIcons.defaultBackground);
         hangmanFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);

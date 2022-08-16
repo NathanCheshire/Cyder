@@ -14,6 +14,7 @@ import cyder.ui.CyderTextField;
 import cyder.user.UserUtil;
 import cyder.utils.IOUtil;
 import cyder.utils.OSUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -107,9 +108,7 @@ public class DirectoryViewer {
             initialDirectory = initialDirectory.getParentFile();
         }
 
-        if (dirFrame != null) {
-            dirFrame.dispose();
-        }
+        UiUtil.closeIfOpen(dirFrame);
 
         boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
 

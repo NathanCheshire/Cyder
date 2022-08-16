@@ -19,6 +19,7 @@ import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderPanel;
 import cyder.utils.GetterUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -83,9 +84,7 @@ public final class TttGame {
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     @Widget(triggers = {"ttt", "tic tac toe"}, description = "A TicTacToe widget")
     public static void showGui() {
-        if (tttFrame != null) {
-            tttFrame.dispose(true);
-        }
+        UiUtil.closeIfOpen(tttFrame);
 
         int labelOffset = 60;
         int frameLen = buttonSize.width * boardLength + buttonPadding * (boardLength + 2) + labelOffset;

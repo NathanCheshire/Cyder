@@ -367,4 +367,25 @@ public final class UiUtil {
             }
         };
     }
+
+    /**
+     * Closes the frame using fast close if not null.
+     *
+     * @param cyderFrame the frame to fast close if not null
+     */
+    public static void closeIfOpen(CyderFrame cyderFrame) {
+        closeIfOpen(cyderFrame, true);
+    }
+
+    /**
+     * Closes the provided frame if not null.
+     *
+     * @param cyderFrame the frame to close
+     * @param fastClose  whether to fast close the frame
+     */
+    public static void closeIfOpen(CyderFrame cyderFrame, boolean fastClose) {
+        if (cyderFrame != null) {
+            cyderFrame.dispose(fastClose);
+        }
+    }
 }

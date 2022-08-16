@@ -187,7 +187,7 @@ public final class UserEditor {
      * @param page the page to show on the user editor
      */
     public static void showGui(Page page) {
-        closeIfOpen();
+        UiUtil.closeIfOpen(editUserFrame);
 
         editUserFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderColors.vanilla);
         editUserFrame.setBackground(CyderColors.vanilla);
@@ -213,15 +213,6 @@ public final class UserEditor {
                 }
             });
             editUserFrame.getTopDragLabel().addRightButton(textButton, 0);
-        }
-    }
-
-    /**
-     * Closes the frame if open.
-     */
-    private static void closeIfOpen() { // todo frame util method
-        if (editUserFrame != null) {
-            editUserFrame.dispose(true);
         }
     }
 

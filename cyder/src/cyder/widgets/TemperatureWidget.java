@@ -11,6 +11,7 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderCheckbox;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -54,9 +55,7 @@ public class TemperatureWidget {
     }
 
     public void innerShowGUI() {
-        if (temperatureFrame != null) {
-            temperatureFrame.dispose();
-        }
+        UiUtil.closeIfOpen(temperatureFrame);
 
         temperatureFrame = new CyderFrame(600, 340, CyderIcons.defaultBackground);
         temperatureFrame.setTitle("Temperature Converter");

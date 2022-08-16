@@ -17,6 +17,8 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+// todo add styles similar to android that reference some kind of json maybe?
+
 /**
  * A moder button for use throughout Cyder, similar to {@link CyderCheckbox}.
  */

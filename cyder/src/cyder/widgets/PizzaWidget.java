@@ -9,6 +9,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.*;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -47,9 +48,7 @@ public class PizzaWidget {
     @Widget(triggers = "pizza", description = "A very old widget I built using Swing in 2017 for AP Comp. Sci. " +
             "that I rewrote using the Cyder toolkit")
     public static void showGui() {
-        if (pizzaFrame != null) {
-            pizzaFrame.dispose();
-        }
+        UiUtil.closeIfOpen(pizzaFrame);
 
         pizzaFrame = new CyderFrame(600, 800, CyderIcons.defaultBackground);
         pizzaFrame.setTitle("Pizza");

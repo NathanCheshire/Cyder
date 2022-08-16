@@ -16,10 +16,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.*;
 import cyder.user.UserUtil;
-import cyder.utils.FileUtil;
-import cyder.utils.GetterUtil;
-import cyder.utils.OSUtil;
-import cyder.utils.StringUtil;
+import cyder.utils.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -183,9 +180,7 @@ public final class GameOfLifeWidget {
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     @Widget(triggers = {"conway", "conways", "game of life"}, description = "Conway's game of life visualizer")
     public static void showGui() {
-        if (conwayFrame != null) {
-            conwayFrame.dispose();
-        }
+        UiUtil.closeIfOpen(conwayFrame);
 
         conwayFrame = new CyderFrame(600, 860);
         conwayFrame.setTitle("Conway's Game of Life");
