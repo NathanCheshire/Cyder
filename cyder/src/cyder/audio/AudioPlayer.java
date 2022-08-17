@@ -124,8 +124,7 @@ public final class AudioPlayer {
      * The file representing the default album art to use if the frame is
      * in the standard audio view and the current audio file has no linked album art.
      */
-    private static final File DEFAULT_ALBUM_ART = OSUtil.buildFile(
-            "static", "pictures", "music", "Default.png");
+    private static final File DEFAULT_ALBUM_ART = StaticUtil.getStaticResource("Default.png");
 
     /**
      * The format of the waveform image to export.

@@ -686,7 +686,7 @@ public class BaseInputHandler {
     /**
      * The path to the typing sound effect.
      */
-    private final String typingSoundPath = OSUtil.buildPath("static", "audio", "typing.mp3");
+    private final String typingSoundPath = StaticUtil.getStaticPath("typing.mp3");
 
     /**
      * Prints the string to the output area checking for

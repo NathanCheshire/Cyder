@@ -10,7 +10,7 @@ import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.utils.IOUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.StaticUtil;
 import cyder.utils.StringUtil;
 import cyder.youtube.YoutubeUtil;
 
@@ -54,14 +54,14 @@ public class PlayAudioHandler extends InputHandler {
         } else if (getInputHandler().commandIs("xxx")) {
             CyderIcons.setCurrentCyderIcon(CyderIcons.X_ICON);
             Console.INSTANCE.getConsoleCyderFrame()
-                    .setIconImage(new ImageIcon("static/pictures/print/x.png").getImage());
-            IOUtil.playGeneralAudio(OSUtil.buildPath("static", "audio", "x.mp3"));
+                    .setIconImage(new ImageIcon(StaticUtil.getStaticPath("x.png")).getImage());
+            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("x.mp3"));
         } else if (getInputHandler().inputWithoutSpacesIs("blackpanther")
                 || getInputHandler().inputWithoutSpacesIs("chadwickboseman")) {
             CyderThreadRunner.submit(() -> {
                 getInputHandler().getOutputArea().setText("");
 
-                IOUtil.playGeneralAudio(OSUtil.buildPath("static", "audio", "allthestars.mp3"));
+                IOUtil.playGeneralAudio(StaticUtil.getStaticResource("allthestars.mp3"));
                 getInputHandler().getOutputArea().setFont(new Font("BEYNO",
                         Font.BOLD, getInputHandler().getOutputArea().getFont().getSize()));
                 BletchyThread.bletchy("RIP CHADWICK BOSEMAN",

@@ -13,6 +13,7 @@ import cyder.user.UserUtil;
 import cyder.utils.FileUtil;
 import cyder.utils.OSUtil;
 import cyder.utils.ReflectionUtil;
+import cyder.utils.StaticUtil;
 
 import java.awt.*;
 import java.io.File;
@@ -104,7 +105,7 @@ public final class NecessarySubroutines {
      * @return whether the fonts could be loaded
      */
     private static boolean registerFonts() {
-        File[] fontFiles = OSUtil.buildFile("static", "fonts").listFiles();
+        File[] fontFiles = StaticUtil.getStaticDirectory("fonts").listFiles();
 
         if (fontFiles == null || fontFiles.length == 0) {
             return false;

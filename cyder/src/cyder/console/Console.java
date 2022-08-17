@@ -981,6 +981,8 @@ public enum Console {
         }
     };
 
+    private static final String CHIME_PATH = StaticUtil.getStaticPath("chime.mp3");
+
     /**
      * Begins the console checker executors/threads.
      */
@@ -997,7 +999,7 @@ public enum Console {
                         // if at hh:00:00 and we haven't chimed for this hour yet
                         if (min == 0 && sec == 0 && lastChimeHour != LocalDateTime.now().getHour()) {
                             if (UserUtil.getCyderUser().getHourlychimes().equals("1")) {
-                                IOUtil.playSystemAudio("static/audio/chime.mp3");
+                                IOUtil.playSystemAudio(CHIME_PATH);
                                 lastChimeHour = LocalDateTime.now().getHour();
                             }
                         }
@@ -1187,13 +1189,13 @@ public enum Console {
                 }
             }
 
-            //if they have music then play their own
+            // If they have music then play their own
             if (!musicList.isEmpty()) {
                 IOUtil.playGeneralAudio(files[NumberUtil.randInt(0, files.length - 1)].getAbsolutePath());
             }
-            // otherwise, play our own
+            // Otherwise, play our own
             else {
-                IOUtil.playGeneralAudio(OSUtil.buildPath("static", "audio", "ride.mp3"));
+                IOUtil.playGeneralAudio(StaticUtil.getStaticResource("ride.mp3"));
             }
         }
         // intro music not on, check for grayscale image
@@ -1223,7 +1225,7 @@ public enum Console {
                             IOUtil.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(NumberUtil.randInt(
                                     0, GRAYSCALE_AUDIO_PATHS.size() - 1)));
                         } else {
-                            IOUtil.playGeneralAudio(OSUtil.buildPath("static", "audio", "introtheme.mp3"));
+                            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("introtheme.mp3"));
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
@@ -2011,7 +2013,7 @@ public enum Console {
                             baseInputHandler.println("Interesting F" + functionKey + " key");
 
                             if (functionKey == F_17_KEY_CODE) {
-                                IOUtil.playGeneralAudio(OSUtil.buildPath("static", "audio", "f17.mp3"));
+                                IOUtil.playGeneralAudio(StaticUtil.getStaticResource("f17.mp3"));
                             }
                         }
                     }

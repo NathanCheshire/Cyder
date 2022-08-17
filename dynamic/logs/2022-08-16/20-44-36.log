@@ -1,0 +1,234 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[20-44-36.451] [ENTRY]: Nathan
+[20-44-36.357] [DEBUG]: Found prop file: props\propkeys.ini
+[20-44-36.368] [DEBUG]: Found prop file: props\props.ini
+[20-44-36.380] [PROP LOADED]: [key = map_quest_api_key]
+[20-44-36.380] [PROP LOADED]: [key = youtube_api_3_key]
+[20-44-36.380] [PROP LOADED]: [key = ip_key]
+[20-44-36.380] [PROP LOADED]: [key = weather_key]
+[20-44-36.381] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[20-44-36.381] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7c
+               a733d0a7f6]
+[20-44-36.382] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[20-44-36.382] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiole
+               ngth,capsmode,typingsound,showbusyicon]
+[20-44-36.382] [PROP LOADED]: [key = font_metric, value = 1]
+[20-44-36.383] [PROP LOADED]: [key = max_font_size, value = 50]
+[20-44-36.383] [PROP LOADED]: [key = min_font_size, value = 25]
+[20-44-36.383] [PROP LOADED]: [key = released, value = false]
+[20-44-36.383] [PROP LOADED]: [key = version, value = Liminal]
+[20-44-36.383] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[20-44-36.383] [PROP LOADED]: [key = components_relocatable, value = false]
+[20-44-36.383] [PROP LOADED]: [key = testing_mode, value = true]
+[20-44-36.383] [PROP LOADED]: [key = autocypher, value = true]
+[20-44-36.383] [PROP LOADED]: [key = dispose_splash, value = true]
+[20-44-36.384] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[20-44-36.384] [PROP LOADED]: [key = activate_watchdog, value = false]
+[20-44-36.384] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[20-44-36.384] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[20-44-36.384] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[20-44-36.384] [PROP LOADED]: [key = ui_scale, value = 1]
+[20-44-36.384] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[20-44-36.384] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[20-44-36.397] [DEBUG]: Jar mode set as: FALSE
+[20-44-36.436] [DEBUG]: Loaded 131 static resources
+[20-44-36.445] [DEBUG]: Loaded 17 static folders
+[20-44-36.504] [THREAD STARTED]: Object Creation Logger
+[20-44-36.655] [DEBUG]: Watchdog skipped
+[20-44-36.661] [LOADING MESSAGE]: Registering fonts
+[20-44-36.997] [FONT LOADED]: agency-fb
+[20-44-36.998] [FONT LOADED]: arial-black
+[20-44-36.999] [FONT LOADED]: beyno
+[20-44-37.000] [FONT LOADED]: condiment-regular
+[20-44-37.002] [FONT LOADED]: prompt-bold
+[20-44-37.003] [FONT LOADED]: segoe-ui-black
+[20-44-37.004] [FONT LOADED]: tahoma
+[20-44-37.005] [LOADING MESSAGE]: Ensuring singular instance
+[20-44-37.006] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-44-37.007] [DEBUG]: Starting instance socket on port 5150
+[20-44-37.509] [LOADING MESSAGE]: Ensuring OS is supported
+[20-44-37.511] [LOADING MESSAGE]: Creating dynamics
+[20-44-37.517] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-44-37.534] [LOADING MESSAGE]: Validating users
+[20-44-37.686] [LOADING MESSAGE]: Cleaning users
+[20-44-37.689] [LOADING MESSAGE]: Validating props
+[20-44-37.830] [LOADING MESSAGE]: Validating Widgets
+[20-44-38.243] [LOADING MESSAGE]: Validating Tests
+[20-44-38.247] [LOADING MESSAGE]: Validating Vanilla annotations
+[20-44-38.257] [LOADING MESSAGE]: Validating Handles
+[20-44-38.271] [THREAD STARTED]: Splash Loader
+[20-44-38.272] [THREAD STARTED]: Sufficient Subroutine Executor
+[20-44-38.273] [LOADING MESSAGE]: Logging JVM args
+[20-44-38.274] [THREAD STARTED]: JVM Args Logger
+[20-44-38.287] [LOADING MESSAGE]: Checking for an AutoCypher
+[20-44-38.288] [LOGIN]: AutoCypher Attempt
+[20-44-38.288] [LOADING MESSAGE]: Auto Cyphering
+[20-44-38.513] [THREAD STARTED]: Splash Animation
+[20-44-38.514] [THREAD STARTED]: Enter animation, frame=Cyder Splash
+[20-44-38.716] [UNIQUE OBJECT CREATED]: Console singleton constructed
+[20-44-38.986] [DEBUG]: Cyder Entry = AutoCypher
+[20-44-39.516] [OBJECT CREATION]: Objects created since last delta (5000ms): 108
+[20-44-39.581] [THREAD STARTED]: Console Printing Animation
+[20-44-39.642] [THREAD STARTED]: Hourly Chime Checker
+[20-44-39.644] [THREAD STARTED]: Console Clock Updater
+[20-44-39.645] [THREAD STARTED]: Cyder Busy Checker
+[20-44-39.648] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[20-44-39.649] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[20-44-39.653] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[20-44-39.893] [CONSOLE OUT]: [STRING]: Console loaded in 3618ms
+[20-44-39.915] [THREAD STARTED]: High Ping Checker
+[20-44-39.944] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[20-44-39.945] [THREAD STARTED]: Manual Tests Thread
+[20-44-40.048] [DEBUG]: Latency of Google found to be 127ms
+[20-44-40.240] [DEBUG]: Attempted to log a new or empty line
+[20-44-40.948] [THREAD STARTED]: Splash Loading Label Updater
+[20-44-44.517] [OBJECT CREATION]: Objects created since last delta (5000ms): 18
+[20-44-48.723] [CLIENT]: x
+[20-44-48.738] [THREAD STARTED]: Unknown Input Handler
+[20-44-48.749] [DEBUG]: Similar command to "x" found with tolerance of 0.800000011920929, command = "xxx"
+[20-44-48.816] [CONSOLE OUT]: [STRING]: Unknown command; Most similar command: "xxx"
+[20-44-49.336] [DEBUG]: Attempted to log a new or empty line
+[20-44-50.397] [CLIENT]: xxx
+[20-44-50.687] [AUDIO]: C:\Users\Nathan\Documents\IntelliJava\Cyder\static\audio\x.mp3
+[20-44-50.687] [THREAD STARTED]: IOUtil General Audio
+[20-44-54.692] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[20-44-55.382] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 13] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7
+               da\Userdata.json
+[20-44-55.393] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-8
+               1fe-329f-8a78-62f463d0b7da_1660700047275.json
+[20-44-55.394] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[20-44-57.572] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[20-44-58.796] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 5] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7d
+               a\Userdata.json
+[20-44-58.804] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-8
+               1fe-329f-8a78-62f463d0b7da_1660700695388.json
+[20-44-58.805] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[20-44-59.537] [OBJECT CREATION]: Objects created since last delta (5000ms): 6
+[20-45-10.885] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[20-45-11.338] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 4] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7d
+               a\Userdata.json
+[20-45-11.351] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-8
+               1fe-329f-8a78-62f463d0b7da_1660700698802.json
+[20-45-11.352] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[20-45-14.201] [CLIENT]: prefs
+[20-45-14.241] [CONSOLE OUT]: [STRING]: Opening widget: UserEditor
+[20-45-14.247] [THREAD STARTED]: [] dispose() animation thread
+[20-45-14.249] [UI]: CyderFrame disposed with fastclose=true, getTitle=
+[20-45-14.263] [THREAD STARTED]: Enter animation, frame=Preferences
+[20-45-14.284] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Preferences
+[20-45-14.377] [WIDGET]: UserEditor, trigger = prefs
+[20-45-14.539] [OBJECT CREATION]: Objects created since last delta (5000ms): 60
+[20-45-14.587] [DEBUG]: Attempted to log a new or empty line
+[20-45-17.004] [EXCEPTION]:
+               Exception origin: java.base/sun.nio.ch.Net.connect0(Native Method)
+               From line: -2
+               Trace: java.net.ConnectException: Connection refused: connect
+               at java.base/sun.nio.ch.Net.connect0(Native Method)
+               at java.base/sun.nio.ch.Net.connect(Net.java:579)
+               at java.base/sun.nio.ch.Net.connect(Net.java:568)
+               at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:588)
+               at java.base/java.net.Socket.connect(Socket.java:633)
+               at java.base/java.net.Socket.connect(Socket.java:583)
+               at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:183)
+               at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:498)
+               at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:603)
+               at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:246)
+               at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:351)
+               at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:373)
+               at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1309)
+               at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1242)
+               at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1128)
+               at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1057)
+               at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream0(HttpURLConnection.java:1430)
+               at java.base/sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1401)
+               at cyder.audio.AudioUtil.getMillisFast(AudioUtil.java:554)
+               at cyder.audio.AudioLocationUpdater.<init>(AudioLocationUpdater.java:90)
+               at cyder.audio.AudioPlayer.showGui(AudioPlayer.java:706)
+               at cyder.utils.IOUtil.openFile(IOUtil.java:214)
+               at cyder.user.UserEditor.lambda$revalidateFilesScroll$7(UserEditor.java:751)
+               at cyder.ui.CyderScrollList$1.mouseClicked(CyderScrollList.java:324)
+               at java.desktop/java.awt.Component.processMouseEvent(Component.java:6629)
+               at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3389)
+               at java.desktop/java.awt.Component.processEvent(Component.java:6391)
+               at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+               at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:5001)
+               at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+               at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+               at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
+               at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4584)
+               at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
+               at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
+               at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
+               at java.desktop/java.awt.Component.dispatchEvent(Component.java:4833)
+               at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+               at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:722)
+               at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:716)
+               at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+               at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+               at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:97)
+               at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:746)
+               at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:744)
+               at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+               at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+               at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:743)
+               at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+               at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+               at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+               at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+               at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+               at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[20-45-17.008] [THREAD STARTED]: Alec Benjamin - Let Me Down Slowly Tevvez Remix Parallel Universe Progress Label Thread
+[20-45-17.012] [THREAD STARTED]: Audio Progress Label Animator
+[20-45-17.060] [THREAD STARTED]: Scrolling title label animator [Alec benjamin - let me down slowly tevvez remix
+               parallel universe]
+[20-45-17.060] [THREAD STARTED]: Enter animation, frame=Alec benjamin - let me down slowly tevvez remix parallel
+               universe
+[20-45-17.077] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Alec benjamin - let me down slowly tevvez
+               remix parallel universe
+[20-45-18.823] [UI]: Component = CyderDragLabel, hash = -1533822854, bounds = (2, 2, 796, 28), parent frame = Preference
+               s
+[20-45-19.541] [OBJECT CREATION]: Objects created since last delta (5000ms): 17
+[20-45-23.996] [UI]: Component = CyderDragLabel, hash = -1044969156, bounds = (2, 2, 596, 28), parent frame = Alec
+               benjamin - let me down slowly tevvez remix parallel universe
+[20-45-23.997] [THREAD STARTED]: [Alec benjamin - let me down slowly tevvez remix parallel universe] dispose() animation
+               thread
+[20-45-23.998] [UI]: CyderFrame disposed with fastclose=false, getTitle=Alec benjamin - let me down slowly tevvez remix
+               parallel universe
+[20-45-24.200] [THREAD STARTED]: [Alec benjamin - let me down slowly tevvez remix parallel universe] dispose() animation
+               thread
+[20-45-24.426] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[20-45-24.827] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 3] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7d
+               a\Userdata.json
+[20-45-24.836] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-8
+               1fe-329f-8a78-62f463d0b7da_1660700711348.json
+[20-45-24.837] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[20-45-25.729] [THREAD STARTED]: Console Audio Menu Minimizer
+[20-45-26.549] [THREAD STARTED]: Console Audio Menu Minimizer
+[20-45-26.549] [THREAD STARTED]: Console Audio Menu Minimizer
+[20-45-27.965] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[20-45-27.966] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[20-45-28.194] [EXIT]: [RUNTIME] 51s 839ms
+[20-45-28.198] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 1,
+               total objects created: 209

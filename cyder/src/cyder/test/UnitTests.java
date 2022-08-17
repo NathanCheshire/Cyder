@@ -164,7 +164,7 @@ public class UnitTests {
 
     @Test
     public void testFileSignature() {
-        assertTrue(FileUtil.fileMatchesSignature(new File(OSUtil.buildPath("static", "pictures", "CyderIcon.png")),
+        assertTrue(FileUtil.fileMatchesSignature(StaticUtil.getStaticResource("CyderIcon.png"),
                 FileUtil.PNG_SIGNATURE));
         assertFalse(FileUtil.fileMatchesSignature(new File(""), FileUtil.PNG_SIGNATURE));
         assertFalse(FileUtil.fileMatchesSignature(null, FileUtil.PNG_SIGNATURE));
