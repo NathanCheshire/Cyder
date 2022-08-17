@@ -1,0 +1,116 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[20-39-26.326] [ENTRY]: Nathan
+[20-39-26.194] [DEBUG]: Found prop file: props\propkeys.ini
+[20-39-26.209] [DEBUG]: Found prop file: props\props.ini
+[20-39-26.227] [PROP LOADED]: [key = map_quest_api_key]
+[20-39-26.227] [PROP LOADED]: [key = youtube_api_3_key]
+[20-39-26.227] [PROP LOADED]: [key = ip_key]
+[20-39-26.227] [PROP LOADED]: [key = weather_key]
+[20-39-26.228] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[20-39-26.228] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7c
+               a733d0a7f6]
+[20-39-26.229] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[20-39-26.230] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiole
+               ngth,capsmode,typingsound,showbusyicon]
+[20-39-26.230] [PROP LOADED]: [key = font_metric, value = 1]
+[20-39-26.230] [PROP LOADED]: [key = max_font_size, value = 50]
+[20-39-26.230] [PROP LOADED]: [key = min_font_size, value = 25]
+[20-39-26.230] [PROP LOADED]: [key = released, value = false]
+[20-39-26.231] [PROP LOADED]: [key = version, value = Liminal]
+[20-39-26.231] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[20-39-26.231] [PROP LOADED]: [key = components_relocatable, value = false]
+[20-39-26.231] [PROP LOADED]: [key = testing_mode, value = true]
+[20-39-26.231] [PROP LOADED]: [key = autocypher, value = true]
+[20-39-26.231] [PROP LOADED]: [key = dispose_splash, value = true]
+[20-39-26.231] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[20-39-26.232] [PROP LOADED]: [key = activate_watchdog, value = false]
+[20-39-26.232] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[20-39-26.232] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[20-39-26.232] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[20-39-26.232] [PROP LOADED]: [key = ui_scale, value = 1]
+[20-39-26.232] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[20-39-26.232] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[20-39-26.250] [DEBUG]: Jar mode set as: FALSE
+[20-39-26.307] [DEBUG]: Loaded 131 static resources
+[20-39-26.317] [DEBUG]: Loaded 17 static folders
+[20-39-26.393] [THREAD STARTED]: Object Creation Logger
+[20-39-26.574] [DEBUG]: Watchdog skipped
+[20-39-26.580] [LOADING MESSAGE]: Registering fonts
+[20-39-26.996] [FONT LOADED]: agency-fb
+[20-39-26.998] [FONT LOADED]: arial-black
+[20-39-26.999] [FONT LOADED]: beyno
+[20-39-27.000] [FONT LOADED]: condiment-regular
+[20-39-27.002] [FONT LOADED]: prompt-bold
+[20-39-27.003] [FONT LOADED]: segoe-ui-black
+[20-39-27.005] [FONT LOADED]: tahoma
+[20-39-27.005] [LOADING MESSAGE]: Ensuring singular instance
+[20-39-27.007] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-39-27.008] [DEBUG]: Starting instance socket on port 5150
+[20-39-27.514] [LOADING MESSAGE]: Ensuring OS is supported
+[20-39-27.515] [LOADING MESSAGE]: Creating dynamics
+[20-39-27.516] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-39-27.535] [LOADING MESSAGE]: Validating users
+[20-39-27.719] [LOADING MESSAGE]: Cleaning users
+[20-39-27.722] [LOADING MESSAGE]: Validating props
+[20-39-27.868] [LOADING MESSAGE]: Validating Widgets
+[20-39-28.264] [LOADING MESSAGE]: Validating Tests
+[20-39-28.270] [LOADING MESSAGE]: Validating Vanilla annotations
+[20-39-28.285] [LOADING MESSAGE]: Validating Handles
+[20-39-28.298] [THREAD STARTED]: Splash Loader
+[20-39-28.300] [THREAD STARTED]: Sufficient Subroutine Executor
+[20-39-28.301] [LOADING MESSAGE]: Logging JVM args
+[20-39-28.303] [THREAD STARTED]: JVM Args Logger
+[20-39-28.319] [LOADING MESSAGE]: Checking for an AutoCypher
+[20-39-28.319] [LOGIN]: AutoCypher Attempt
+[20-39-28.320] [LOADING MESSAGE]: Auto Cyphering
+[20-39-28.650] [THREAD STARTED]: Splash Animation
+[20-39-28.651] [THREAD STARTED]: Enter animation, frame=Cyder Splash
+[20-39-28.841] [UNIQUE OBJECT CREATED]: Console singleton constructed
+[20-39-29.241] [DEBUG]: Cyder Entry = AutoCypher
+[20-39-29.402] [OBJECT CREATION]: Objects created since last delta (5000ms): 87
+[20-39-29.949] [THREAD STARTED]: Console Printing Animation
+[20-39-29.955] [THREAD STARTED]: High Ping Checker
+[20-39-30.007] [THREAD STARTED]: Hourly Chime Checker
+[20-39-30.008] [THREAD STARTED]: Console Clock Updater
+[20-39-30.010] [THREAD STARTED]: Cyder Busy Checker
+[20-39-30.013] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[20-39-30.014] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[20-39-30.020] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[20-39-30.038] [DEBUG]: Latency of Google found to be 81ms
+[20-39-30.254] [CONSOLE OUT]: [STRING]: Console loaded in 4135ms
+[20-39-30.261] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[20-39-30.263] [THREAD STARTED]: Manual Tests Thread
+[20-39-30.595] [DEBUG]: Attempted to log a new or empty line
+[20-39-30.998] [THREAD STARTED]: Splash Loading Label Updater
+[20-39-33.785] [CLIENT]: fuck off
+[20-39-33.786] [HANDLE]: FAILED PRELIMINARIES
+[20-39-33.798] [CONSOLE OUT]: [STRING]: Sorry, Nathan, but that language is prohibited,  word: fuck
+[20-39-34.404] [OBJECT CREATION]: Objects created since last delta (5000ms): 39
+[20-39-34.452] [DEBUG]: Attempted to log a new or empty line
+[20-39-37.527] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[20-39-37.528] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[20-39-37.742] [EXIT]: [RUNTIME] 11s 550ms
+[20-39-37.745] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], no exceptions thrown,
+               total objects created: 126

@@ -4,10 +4,11 @@ import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
-import cyder.utils.OSUtil;
+import cyder.utils.StaticUtil;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 /**
  * Constants used for the {@link Console}.
@@ -21,10 +22,10 @@ public final class ConsoleConstants {
     /**
      * The possible audio files to play if the starting user background is grayscale.
      */
-    public static final ImmutableList<String> GRAYSCALE_AUDIO_PATHS = ImmutableList.of(
-            OSUtil.buildPath("static", "audio", "badapple.mp3"),
-            OSUtil.buildPath("static", "audio", "beetlejuice.mp3"),
-            OSUtil.buildPath("static", "audio", "blackorwhite.mp3"));
+    public static final ImmutableList<File> GRAYSCALE_AUDIO_PATHS = ImmutableList.of(
+            StaticUtil.getStaticResource("badapple.mp3"),
+            StaticUtil.getStaticResource("beetlejuice.mp3"),
+            StaticUtil.getStaticResource("blackorwhite.mp3"));
 
     /**
      * The thickness of the border around the input field and output area when enabled.

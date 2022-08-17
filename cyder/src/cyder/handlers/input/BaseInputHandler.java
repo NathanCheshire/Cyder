@@ -241,9 +241,13 @@ public class BaseInputHandler {
         Logger.log(Logger.Tag.CLIENT, userTriggered
                 ? commandAndArgsToString() : "[SIMULATED INPUT] \"" + this.command + "\"");
 
-        if (checkFoulLanguage()) {
-            println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language is prohibited.");
-            return false;
+        if (UserUtil.getCyderUser().getFilterchat().equals("1")) {
+            StringUtil.BlockedWordResult result = checkFoulLanguage();
+            if (result.failed()) {
+                println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language is prohibited,  word: "
+                        + result.triggerWord());
+                return false;
+            }
         }
 
         parseArgs();
@@ -271,11 +275,10 @@ public class BaseInputHandler {
     /**
      * Checks for whether the provided string contains blocked words.
      *
-     * @return whether the provided string contains blocked words
+     * @return the blocked word if found
      */
-    private boolean checkFoulLanguage() {
-        return UserUtil.getCyderUser().getFilterchat().equals("1")
-                && StringUtil.containsBlockedWords(command, true);
+    private StringUtil.BlockedWordResult checkFoulLanguage() {
+        return StringUtil.containsBlockedWords(command, true);
     }
 
     /**

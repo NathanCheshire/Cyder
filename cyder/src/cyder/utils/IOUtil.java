@@ -239,13 +239,24 @@ public final class IOUtil {
     public static void playGeneralAudio(String filePath) {
         Preconditions.checkNotNull(filePath);
         Preconditions.checkArgument(!filePath.isEmpty());
-        Preconditions.checkArgument(new File(filePath).exists());
+
+        playGeneralAudio(new File(filePath));
+    }
+
+    /**
+     * Plays the requested audio file using the general IOUtil JLayer player which can be terminated by the user.
+     *
+     * @param file the audio file to play
+     */
+    public static void playGeneralAudio(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
 
         try {
             stopGeneralAudio();
-            FileInputStream FileInputStream = new FileInputStream(filePath);
+            FileInputStream FileInputStream = new FileInputStream(file);
             player = new Player(FileInputStream);
-            Logger.log(Logger.Tag.AUDIO, filePath);
+            Logger.log(Logger.Tag.AUDIO, file.getAbsoluteFile());
 
             CyderThreadRunner.submit(() -> {
                 try {

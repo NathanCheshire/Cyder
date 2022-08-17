@@ -131,20 +131,6 @@ public class StatHandler extends InputHandler {
             for (StatUtil.FileSize fileSize : StatUtil.fileSizes()) {
                 getInputHandler().println(fileSize.name() + ": " + OSUtil.formatBytes(fileSize.size()));
             }
-        } else if (getInputHandler().commandIs("badwords")) {
-            if (OSUtil.JAR_MODE) {
-                getInputHandler().println("Bad words not available in jar mode");
-            } else {
-                CyderThreadRunner.submit(() -> {
-                    getInputHandler().println("Finding bad words:");
-
-                    for (String line : StatUtil.findBadWords()) {
-                        getInputHandler().println(line);
-                    }
-
-                    getInputHandler().println("Concluded");
-                }, "Bad Word Finder");
-            }
         } else if (getInputHandler().commandIs("widgets")) {
             ArrayList<ReflectionUtil.WidgetDescription> descriptions = ReflectionUtil.getWidgetDescriptions();
 

@@ -558,10 +558,23 @@ public final class FileUtil {
         return ImmutableList.copyOf(ret);
     }
 
+    /**
+     * Returns a list of folders found within the provided directory.
+     *
+     * @param topLevelDirectory the directory to find folders within
+     * @return a list of folders found within the provided directory
+     */
     public static ImmutableList<File> getFolders(File topLevelDirectory) {
         return getFolders(topLevelDirectory, true);
     }
 
+    /**
+     * Returns a list of folders found within the provided directory.
+     *
+     * @param topLevelDirectory the directory to find folders within
+     * @param recursive         whether to recurse from the top level directory
+     * @return a list of folders found within the provided directory
+     */
     public static ImmutableList<File> getFolders(File topLevelDirectory, boolean recursive) {
         Preconditions.checkNotNull(topLevelDirectory);
         Preconditions.checkArgument(topLevelDirectory.exists());

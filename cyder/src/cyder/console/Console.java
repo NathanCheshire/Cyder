@@ -1220,8 +1220,8 @@ public enum Console {
                         }
 
                         if (grayscale) {
-                            IOUtil.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(
-                                    NumberUtil.randInt(0, GRAYSCALE_AUDIO_PATHS.size() - 1)));
+                            IOUtil.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(NumberUtil.randInt(
+                                    0, GRAYSCALE_AUDIO_PATHS.size() - 1)));
                         } else {
                             IOUtil.playGeneralAudio(OSUtil.buildPath("static", "audio", "introtheme.mp3"));
                         }

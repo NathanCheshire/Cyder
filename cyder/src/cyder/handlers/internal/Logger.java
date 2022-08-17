@@ -415,9 +415,8 @@ public final class Logger {
      * Writes the lines contained in static/txt/cyder.txt to the current log file.
      */
     private static void writeCyderAsciiArt() {
-        // log file created so write Cyder Ascii art first
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(
-                OSUtil.buildFile("static", "txt", "cyder.txt"))) ;
+                StaticUtil.getStaticResource("cyder.txt"))) ;
              BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentLog, true))) {
             String line;
 

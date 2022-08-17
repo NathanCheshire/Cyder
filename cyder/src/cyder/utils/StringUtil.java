@@ -646,40 +646,58 @@ public class StringUtil {
             }
         }
 
-        return true;
+        return false;
     }
+
+    /**
+     * The list of blocked words as found from the static file "blocked.txt".
+     */
+    private static final ImmutableList<String> BLOCKED_WORDS;
+
+    static {
+        LinkedList<String> blockedWords = new LinkedList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(
+                StaticUtil.getStaticResource("blocked.txt")))) {
+            String blockedWord;
+
+            while ((blockedWord = reader.readLine()) != null) {
+                blockedWords.add(blockedWord);
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        BLOCKED_WORDS = ImmutableList.copyOf(blockedWords);
+    }
+
+    /**
+     * A record for holding information regarding a located bad word.
+     */
+    public record BlockedWordResult(boolean failed, String triggerWord) {}
 
     /**
      * Tests a given string to see if it contains any blocked words contained in the blocked.txt system file.
      *
      * @param input      the provided string to test against
      * @param filterLeet whether to filter out possible leet from the string
-     * @return a boolean describing whether the filter was triggered by the input
+     * @return a result object describing whether a bad word was found and if so, which
      */
-    public static boolean containsBlockedWords(String input, boolean filterLeet) {
+    public static BlockedWordResult containsBlockedWords(String input, boolean filterLeet) {
         Preconditions.checkNotNull(input);
         Preconditions.checkArgument(!input.isEmpty());
 
-        boolean ret = false;
-
-        if (filterLeet)
+        if (filterLeet) {
             input = filterLeet(input.toLowerCase());
-
-        try (BufferedReader vReader = new BufferedReader(
-                new FileReader(OSUtil.buildPath("static", "txt", "blocked.txt")))) {
-            String blockedWord;
-
-            while ((blockedWord = vReader.readLine()) != null) {
-                if (hasWord(input, blockedWord, true)) {
-                    ret = true;
-                    break;
-                }
-            }
-        } catch (Exception ex) {
-            ExceptionHandler.handle(ex);
         }
 
-        return ret;
+        for (String blockedWord : BLOCKED_WORDS) {
+            if (hasWord(input, blockedWord, true)) {
+                return new BlockedWordResult(true, blockedWord);
+            }
+        }
+
+        return new BlockedWordResult(false, "");
     }
 
     /**

@@ -451,54 +451,6 @@ public final class StatUtil {
     }
 
     /**
-     * The root file when recursively finding code stats.
-     */
-    private static final File ROOT = new File("cyder");
-
-    /**
-     * Finds and returns an immutable list of all the classes found which contain
-     * a word classified as restricted by blocked.txt.
-     *
-     * @return an immutable list of all the classes found which contain
-     * a word classified as restricted by blocked.txt
-     */
-    public static ImmutableList<String> findBadWords() {
-        return innerFindBadWords(ROOT);
-    }
-
-    private static ImmutableList<String> innerFindBadWords(File startDir) {
-        Preconditions.checkNotNull(startDir);
-        Preconditions.checkArgument(startDir.exists());
-
-        LinkedList<String> ret = new LinkedList<>();
-
-        if (startDir.isDirectory()) {
-            File[] files = startDir.listFiles();
-
-            if (files != null && files.length > 0) {
-                for (File f : files) {
-                    ret.addAll(innerFindBadWords(f));
-                }
-            }
-        } else if (startDir.isFile() && !FileUtil.getFilename(startDir.getName()).equals("blocked.txt")) {
-            try {
-                BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
-                String line;
-
-                while ((line = lineReader.readLine()) != null) {
-                    if (isComment(line) && StringUtil.containsBlockedWords(line, false)) {
-                        ret.add(FileUtil.getFilename(startDir.getName()) + ": " + line.trim());
-                    }
-                }
-            } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
-            }
-        }
-
-        return ImmutableList.copyOf(ret);
-    }
-
-    /**
      * A record to associate a file name with its size.
      */
     public record FileSize(String name, long size) {}
