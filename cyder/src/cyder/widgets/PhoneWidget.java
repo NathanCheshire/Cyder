@@ -11,13 +11,14 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.utils.IOUtil;
+import cyder.utils.StaticUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 @Vanilla
 @CyderAuthor
-public class PhoneWidget {
+public final class PhoneWidget {
     /**
      * The label numbers are appended to.
      */
@@ -64,7 +65,7 @@ public class PhoneWidget {
         eight.setBorder(new LineBorder(CyderColors.navy, 5, false));
         CyderButton nine = new CyderButton("9");
         nine.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        CyderButton back = new CyderButton("<X");
+        CyderButton back = new CyderButton("<<");
         back.setBorder(new LineBorder(CyderColors.navy, 5, false));
         CyderButton dialNumber = new CyderButton("Call");
         dialNumber.setBorder(new LineBorder(CyderColors.navy, 5, false));
@@ -230,17 +231,16 @@ public class PhoneWidget {
             if (!phoneNum.isEmpty()) {
                 // check for easter egg numbers
                 if (checkForSuicideHotline()) {
-                    IOUtil.playGeneralAudio("static/audio/1800.mp3");
+                    IOUtil.playGeneralAudio(StaticUtil.getStaticResource("1800.mp3"));
                     return;
                 } else if (checkForNumber("223")) {
-                    IOUtil.playGeneralAudio("static/audio/223.mp3");
+                    IOUtil.playGeneralAudio(StaticUtil.getStaticResource("223.mp3"));
                     return;
                 }
 
-                // finally just dial current number
-
                 phoneFrame.notify("Dialing: " + numberLabel.getText());
                 phoneNum = "";
+                numberLabel.setText(phoneNumFormat(phoneNum));
             }
         });
 

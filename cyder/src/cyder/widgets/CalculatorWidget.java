@@ -10,10 +10,10 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderDragLabel;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderTextField;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
+import cyder.ui.*;
+import cyder.utils.ColorUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -24,8 +24,17 @@ import java.awt.*;
  */
 @Vanilla
 @CyderAuthor
-public class CalculatorWidget {
+public final class CalculatorWidget {
+    // todo audio menu label not showing properly?
+
+    /**
+     * The field to display the most recent results in.
+     */
     private static CyderTextField resultField;
+
+    /**
+     * The field in which the user may enter an expression
+     */
     private static CyderTextField calculatorField;
 
     /**
@@ -40,11 +49,8 @@ public class CalculatorWidget {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    /**
-     * ShowGUI method standard.
-     */
-    @Widget(triggers = {"calculator", "calc"}, description =
-            "A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth.")
+    @Widget(triggers = {"calculator", "calc"}, description = "A calculator widget capable of "
+            + "performing complex expressions such as e^x, sin(x), cos(x), and so forth.")
     public static void showGui() {
         CyderFrame calculatorFrame = new CyderFrame(400, 595, CyderIcons.defaultBackground);
         calculatorFrame.setTitle("Calculator");
@@ -155,8 +161,8 @@ public class CalculatorWidget {
         calculatorEquals.setFocusPainted(false);
         calculatorEquals.setBackground(CyderColors.regularOrange);
         calculatorEquals.setFont(CyderFonts.SEGOE_30);
-        calculatorEquals.addActionListener(e -> compute());
-        calculatorField.addActionListener(e -> compute());
+        calculatorEquals.addActionListener(e -> computeExpression());
+        calculatorField.addActionListener(e -> computeExpression());
 
         CyderButton calculatorFour = new CyderButton("4");
         calculatorFour.setColors(CyderColors.regularOrange);
@@ -231,19 +237,21 @@ public class CalculatorWidget {
         calculatorThree.setFont(CyderFonts.SEGOE_30);
         calculatorThree.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "3"));
 
-        CyderButton calculatorUndo = new CyderButton("<<");
-        calculatorUndo.setColors(CyderColors.regularOrange);
-        calculatorUndo.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        calculatorUndo.setBounds(305, 405, 75, 75);
-        calculatorFrame.getContentPane().add(calculatorUndo);
-        calculatorUndo.setFocusPainted(false);
-        calculatorUndo.setBackground(CyderColors.regularOrange);
-        calculatorUndo.setFont(CyderFonts.SEGOE_30);
-        calculatorUndo.addActionListener(e -> {
+        CyderModernButton undo = new CyderModernButton("<<");
+        undo.setColors(CyderColors.regularOrange);
+        undo.setRoundedCorners(false);
+        undo.setForegroundColor(CyderColors.navy);
+        undo.setBorderLength(5);
+        undo.setBorderColor(CyderColors.navy);
+        undo.setFont(CyderFonts.SEGOE_30);
+        undo.setBounds(305, 405, 75, 75);
+        calculatorFrame.getContentPane().add(undo);
+        undo.addClickRunnable(() -> {
             String text = calculatorField.getText();
 
-            if (text.length() > 1)
+            if (text.length() > 1) {
                 calculatorField.setText(text.substring(0, text.length() - 1));
+            }
         });
 
         CyderButton calculatorZero = new CyderButton("0");
@@ -289,9 +297,17 @@ public class CalculatorWidget {
         calculatorFrame.finalizeAndShow();
     }
 
-    private static void compute() {
+    /**
+     * The evaluator for evaluating expressions.
+     */
+    private static final DoubleEvaluator evaluator = new DoubleEvaluator();
+
+    /**
+     * Attempts to compute the expression from the calculator field.
+     */
+    private static void computeExpression() {
         try {
-            double result = new DoubleEvaluator().evaluate(calculatorField.getText().trim());
+            double result = evaluator.evaluate(calculatorField.getText().trim());
             String resultString = String.valueOf(result);
 
             if (result == Double.POSITIVE_INFINITY) {
@@ -300,13 +316,54 @@ public class CalculatorWidget {
                 resultString = "-∞";
             }
 
-            resultField.setText(resultString);
-        } catch (Exception exc) {
-            if (exc instanceof IllegalArgumentException) {
-                resultField.setText(ERROR_TEXT);
+            setResultText(resultString);
+        } catch (Exception ex) {
+            if (ex instanceof IllegalArgumentException) {
+                setResultText(ERROR_TEXT);
             } else {
-                ExceptionHandler.silentHandle(exc);
+                ExceptionHandler.silentHandle(ex);
             }
         }
+    }
+
+    private static final int ANIMATION_LEN = 500;
+    private static final Color FLASH_COLOR = CyderColors.regularRed;
+    private static final Color DEFAULT_COLOR = CyderColors.navy;
+    private static final String ANIMATION_THREAD_NAME = "Calculator Results Field Animator";
+
+    /**
+     * Animates in the results text to the results field by fading it from
+     * {@link CyderColors#regularRed} to {@link CyderColors#navy} in 1s.
+     *
+     * @param resultText the text to show in the results field.
+     */
+    private static void setResultText(String resultText) {
+        resultField.setText(resultText);
+        resultField.setForeground(FLASH_COLOR);
+
+        Color middle = ColorUtil.getMiddleColor(FLASH_COLOR, DEFAULT_COLOR);
+        Color lessRed = ColorUtil.getMiddleColor(middle, FLASH_COLOR);
+        Color lessNavy = ColorUtil.getMiddleColor(middle, DEFAULT_COLOR);
+
+        Color beforeLessRed = ColorUtil.getMiddleColor(lessRed, FLASH_COLOR);
+        Color afterLessRed = ColorUtil.getMiddleColor(lessRed, middle);
+
+        Color beforeLessNavy = ColorUtil.getMiddleColor(lessNavy, middle);
+        Color afterLessNavy = ColorUtil.getMiddleColor(lessNavy, DEFAULT_COLOR);
+
+        Color[] colors = {FLASH_COLOR, beforeLessRed, lessRed, afterLessRed, middle,
+                beforeLessNavy, lessNavy, afterLessNavy, DEFAULT_COLOR};
+
+        int timeout = ANIMATION_LEN / colors.length;
+
+        CyderThreadRunner.submit(() -> {
+            for (int i = 0 ; i < colors.length ; i++) {
+                resultField.setForeground(colors[i]);
+                resultField.repaint();
+                ThreadUtil.sleep(timeout);
+            }
+
+            resultField.setForeground(DEFAULT_COLOR);
+        }, ANIMATION_THREAD_NAME);
     }
 }

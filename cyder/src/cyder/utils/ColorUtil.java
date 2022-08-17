@@ -234,6 +234,24 @@ public class ColorUtil {
     }
 
     /**
+     * Returns the middle point of the two colors.
+     *
+     * @param color1 the first color
+     * @param color2 the second color
+     * @return the middle point of the two colors
+     */
+    public static Color getMiddleColor(Color color1, Color color2) {
+        Preconditions.checkNotNull(color1);
+        Preconditions.checkNotNull(color2);
+
+        int r = color1.getRed() + color2.getRed();
+        int g = color1.getGreen() + color2.getGreen();
+        int b = color1.getBlue() + color2.getBlue();
+
+        return new Color(r / 2, g / 2, b / 2);
+    }
+
+    /**
      * Finds the dominant color of the provided color counter.
      * Used for calculating the dominant color of an image.
      *
