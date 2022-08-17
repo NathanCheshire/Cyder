@@ -78,8 +78,7 @@ public final class ImageAveragerWidget {
     public static void showGui() {
         files = new ArrayList<>();
 
-        if (averagerFrame != null)
-            averagerFrame.dispose(true);
+        UiUtil.closeIfOpen(averagerFrame);
 
         averagerFrame = new CyderFrame(600, 640);
         averagerFrame.setTitle("Image Averager");

@@ -15,10 +15,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.*;
-import cyder.utils.ColorUtil;
-import cyder.utils.IPUtil;
-import cyder.utils.StringUtil;
-import cyder.utils.TimeUtil;
+import cyder.utils.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -103,8 +100,7 @@ public final class ClockWidget {
     @Widget(triggers = "clock", description = "A clock widget capable of spawning mini widgets and changing the time zone")
     public static void showGui() {
         CyderThreadRunner.submit(() -> {
-            if (clockFrame != null)
-                clockFrame.dispose();
+            UiUtil.closeIfOpen(clockFrame);
 
             clockColor = CyderColors.getGuiThemeColor();
 

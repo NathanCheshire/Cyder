@@ -74,28 +74,24 @@ public final class PaintWidget {
     @Widget(triggers = {"paint", "draw"}, description =
             "A painting widget")
     public static void showGui() {
-        if (paintFrame != null)
-            paintFrame.dispose(true);
+        UiUtil.closeIfOpen(paintFrame);
 
         paintFrame = new CyderFrame(frameLength,
                 frameLength + CyderDragLabel.DEFAULT_HEIGHT);
         paintFrame.setTitle("Paint");
         paintFrame.setBackground(CyderIcons.defaultBackgroundLarge);
         paintFrame.addPreCloseAction(() -> {
-            if (paintControlsFrame != null)
-                paintControlsFrame.dispose(true);
+            UiUtil.closeIfOpen(paintControlsFrame);
         });
         paintFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (paintControlsFrame != null)
-                    paintControlsFrame.dispose(true);
+                UiUtil.closeIfOpen(paintControlsFrame);
             }
 
             @Override
             public void windowClosed(WindowEvent e) {
-                if (paintControlsFrame != null)
-                    paintControlsFrame.dispose(true);
+                UiUtil.closeIfOpen(paintControlsFrame);
             }
         });
 
@@ -346,8 +342,7 @@ public final class PaintWidget {
      * Opens the paint controls frame.
      */
     private static void installControlFrames() {
-        if (paintControlsFrame != null)
-            paintControlsFrame.dispose();
+        UiUtil.closeIfOpen(paintControlsFrame);
 
         recentColors = new ArrayList<>();
 

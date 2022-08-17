@@ -11,6 +11,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.*;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -254,8 +255,7 @@ public final class PathFinderWidget {
     @Widget(triggers = {"path", "pathfinder", "A*"},
             description = "A pathfinding visualizer for A* and Dijkstras algorithms")
     public static void showGui() {
-        if (pathFindingFrame != null)
-            pathFindingFrame.dispose();
+        UiUtil.closeIfOpen(pathFindingFrame);
 
         pathFindingFrame = new CyderFrame(1000, 1070, CyderIcons.defaultBackgroundLarge);
         pathFindingFrame.setTitle("Pathfinding Visualizer");

@@ -17,6 +17,7 @@ import cyder.user.UserUtil;
 import cyder.utils.FileUtil;
 import cyder.utils.OSUtil;
 import cyder.utils.StringUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -83,8 +84,7 @@ public class NotesWidget {
         if (Console.INSTANCE.getUuid() == null)
             return;
 
-        if (noteFrame != null)
-            noteFrame.dispose();
+        UiUtil.closeIfOpen(noteFrame);
 
         noteFrames = new LinkedList<>();
 
@@ -193,8 +193,7 @@ public class NotesWidget {
     }
 
     private static void addNote() {
-        if (newNoteFrame != null)
-            newNoteFrame.dispose();
+        UiUtil.closeIfOpen(newNoteFrame);
 
         newNoteFrame = new CyderFrame(600, 625, CyderIcons.defaultBackground);
         newNoteFrame.setTitle("New note");

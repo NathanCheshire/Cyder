@@ -35,22 +35,22 @@ public class PlayAudioHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().inputWithoutSpacesIs("heyya")) {
-            IOUtil.playGeneralAudio("static/audio/hey.mp3");
+            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("hey.mp3"));
         } else if (getInputHandler().commandIs("windows")) {
-            IOUtil.playGeneralAudio("static/audio/windows.mp3");
+            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("windows.mp3"));
         } else if (getInputHandler().commandIs("lightsaber")) {
-            IOUtil.playGeneralAudio("static/audio/Lightsaber.mp3");
+            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("lightsaber.mp3"));
         } else if (getInputHandler().commandIs("xbox")) {
-            IOUtil.playGeneralAudio("static/audio/xbox.mp3");
+            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("xbox.mp3"));
         } else if (getInputHandler().commandIs("startrek")) {
-            IOUtil.playGeneralAudio("static/audio/StarTrek.mp3");
+            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("startrek.mp3"));
         } else if (getInputHandler().commandIs("toystory")) {
-            IOUtil.playGeneralAudio("static/audio/theclaw.mp3");
+            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("theclaw.mp3"));
         } else if (getInputHandler().commandIs("logic")) {
-            IOUtil.playGeneralAudio("static/audio/commando.mp3");
+            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("commando.mp3"));
         } else if (getInputHandler().getCommand()
                 .replace("-", "").equals("18002738255")) {
-            IOUtil.playGeneralAudio("static/audio/1800.mp3");
+            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("1800.mp3"));
         } else if (getInputHandler().commandIs("xxx")) {
             CyderIcons.setCurrentCyderIcon(CyderIcons.X_ICON);
             Console.INSTANCE.getConsoleCyderFrame()

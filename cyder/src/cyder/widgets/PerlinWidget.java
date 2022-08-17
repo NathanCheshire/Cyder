@@ -9,6 +9,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.ui.*;
 import cyder.utils.NumberUtil;
 import cyder.utils.SimplexNoiseUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -178,8 +179,7 @@ public class PerlinWidget {
      */
     @Widget(triggers = "perlin", description = "Perlin noise visualizer/open simplex noise visualizer")
     public static void showGui() {
-        if (perlinFrame != null)
-            perlinFrame.dispose(true);
+        UiUtil.closeIfOpen(perlinFrame);
 
         //set closed
         closed = false;

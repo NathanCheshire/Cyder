@@ -284,8 +284,7 @@ public class WeatherWidget {
 
         repullWeatherStats();
 
-        if (weatherFrame != null)
-            weatherFrame.dispose();
+        UiUtil.closeIfOpen(weatherFrame);
 
         weatherFrame = new CyderFrame(480, 640) {
             @Override

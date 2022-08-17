@@ -14,6 +14,8 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
+import cyder.utils.StaticUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,18 +43,17 @@ public final class CardWidget {
     /**
      * Restrict default constructor.
      */
-    public CardWidget() {
+    private CardWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     @Widget(triggers = "Christmascard2020", description = "Christmas card for the year of 2020")
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     public static void Christmas2020() {
-        if (christmas2020Frame != null)
-            christmas2020Frame.dispose();
+        UiUtil.closeIfOpen(christmas2020Frame);
 
         christmas2020Frame = new CyderFrame(498, 490,
-                new ImageIcon("static/pictures/cards/Santa.gif"));
+                new ImageIcon(StaticUtil.getStaticPath("Santa.gif")));
         christmas2020Frame.setTitle("Merry Christmas!");
         christmas2020Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
@@ -84,8 +85,7 @@ public final class CardWidget {
     @Widget(triggers = "FathersDaycard2021", description = "Fathers day card for the year of 2021")
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     public static void FathersDay2021() {
-        if (fathersDay2021Frame != null)
-            fathersDay2021Frame.dispose();
+        UiUtil.closeIfOpen(fathersDay2021Frame);
 
         fathersDay2021Frame = new CyderFrame(800, 721,
                 new ImageIcon("static/pictures/cards/Philmont.png"));
@@ -109,8 +109,7 @@ public final class CardWidget {
     @Widget(triggers = "Birthdaycard2021", description = "Birthday card for my dad for the year 2021")
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     public static void Birthday2021() {
-        if (birthday2021Frame != null)
-            birthday2021Frame.dispose();
+        UiUtil.closeIfOpen(birthday2021Frame);
 
         birthday2021Frame = new CyderFrame(800, 600,
                 new ImageIcon("static/pictures/cards/Confetti.png"));
@@ -141,8 +140,7 @@ public final class CardWidget {
     @Widget(triggers = "Christmascard2021", description = "Christmas card for the year of 2021")
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     public static void Christmas2021() {
-        if (christmas2021Frame != null)
-            christmas2021Frame.dispose();
+        UiUtil.closeIfOpen(christmas2021Frame);
 
         christmas2021Frame = new CyderFrame(800, 800);
         christmas2021Frame.setTitle("Merry Christmas!");

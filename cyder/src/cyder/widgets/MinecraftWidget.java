@@ -9,10 +9,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderFrame;
 import cyder.user.MappedExecutable;
 import cyder.user.UserUtil;
-import cyder.utils.FileUtil;
-import cyder.utils.IOUtil;
-import cyder.utils.NetworkUtil;
-import cyder.utils.StringUtil;
+import cyder.utils.*;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -137,9 +134,7 @@ public final class MinecraftWidget {
 
     @Widget(triggers = "minecraft", description = "A minecraft widget that copies from the Mojang home page")
     public static void showGui() {
-        if (minecraftFrame != null)
-            minecraftFrame.dispose();
-
+        UiUtil.closeIfOpen(minecraftFrame);
         minecraftFrame = new CyderFrame(1263, 160,
                 new ImageIcon("static/pictures/minecraft/Minecraft.png"));
         minecraftFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
