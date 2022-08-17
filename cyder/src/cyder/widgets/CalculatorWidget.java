@@ -326,18 +326,33 @@ public final class CalculatorWidget {
         }
     }
 
-    private static final int ANIMATION_LEN = 500;
+    /**
+     * The length of the results animation.
+     */
+    private static final int ANIMATION_LEN_MS = 500;
+
+    /**
+     * The starting flash color.
+     */
     private static final Color FLASH_COLOR = CyderColors.regularRed;
+
+    /**
+     * The default field color to animate to.
+     */
     private static final Color DEFAULT_COLOR = CyderColors.navy;
+
+    /**
+     * The name of the animation thread.
+     */
     private static final String ANIMATION_THREAD_NAME = "Calculator Results Field Animator";
 
     /**
      * Animates in the results text to the results field by fading it from
-     * {@link CyderColors#regularRed} to {@link CyderColors#navy} in 1s.
+     * {@link CyderColors#regularRed} to {@link CyderColors#navy} in 500ms.
      *
      * @param resultText the text to show in the results field.
      */
-    private static void setResultText(String resultText) {
+    private synchronized static void setResultText(String resultText) {
         resultField.setText(resultText);
         resultField.setForeground(FLASH_COLOR);
 
@@ -354,11 +369,11 @@ public final class CalculatorWidget {
         Color[] colors = {FLASH_COLOR, beforeLessRed, lessRed, afterLessRed, middle,
                 beforeLessNavy, lessNavy, afterLessNavy, DEFAULT_COLOR};
 
-        int timeout = ANIMATION_LEN / colors.length;
+        int timeout = ANIMATION_LEN_MS / colors.length;
 
         CyderThreadRunner.submit(() -> {
-            for (int i = 0 ; i < colors.length ; i++) {
-                resultField.setForeground(colors[i]);
+            for (Color color : colors) {
+                resultField.setForeground(color);
                 resultField.repaint();
                 ThreadUtil.sleep(timeout);
             }
