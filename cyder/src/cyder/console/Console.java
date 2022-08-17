@@ -2849,6 +2849,13 @@ public enum Console {
     // --------------------------------
 
     /**
+     * Sets the visibility of the audio controls button to true.
+     */
+    public void showAudioButton() {
+        toggleAudioControls.setVisible(true);
+    }
+
+    /**
      * Revalidates the console menu bounds and places
      * it where it in the proper spot depending on if it is shown.
      * The taskbar icons are also regenerated and shown.

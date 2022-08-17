@@ -258,6 +258,8 @@ public final class IOUtil {
             player = new Player(FileInputStream);
             Logger.log(Logger.Tag.AUDIO, file.getAbsoluteFile());
 
+            Console.INSTANCE.showAudioButton();
+
             CyderThreadRunner.submit(() -> {
                 try {
                     player.play();

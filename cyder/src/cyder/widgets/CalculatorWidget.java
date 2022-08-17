@@ -25,8 +25,6 @@ import java.awt.*;
 @Vanilla
 @CyderAuthor
 public final class CalculatorWidget {
-    // todo audio menu label not showing properly?
-
     /**
      * The field to display the most recent results in.
      */
