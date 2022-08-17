@@ -13,23 +13,23 @@
 Funny you should ask this question, I'm asked it quite a lot and usually fail to give a comprehensive and elegant
 answer. The best I can do is something along the lines of "Cyder is a multi-purpose, desktop manager, GUI tool." It is
 written using a custom Java UI library which was built on top of lightweight Swing components. No modern GUI
-dependencies such as Material or FXML were used and all Cyder components are closely related
-to [java/awt/Component.java](https://developer.classpath.org/doc/java/awt/Component-source.html).
+dependencies such as [FlatLaf](https://github.com/JFormDesigner/FlatLaf), [MaterialFX](https://github.com/palexdev/MaterialFX)
+or [FXML](https://openjfx.io/) were used, thus all Cyder components are closely related to [java/awt/Component.java](https://developer.classpath.org/doc/java/awt/Component-source.html).
 
 Some examples of what you can do with Cyder include:
 
 * Downloading Audio from a YouTube video, playlist, uuid, or link
 * Image transforms, markup, and painting
 * Evaluating mathematical expressions as simple as 2 * 2 or as complex as sin(e^pi*cos(64^cos(e^-1)))
-* Visualizing algorithm such as A*, Graham Scan, Game of Life
-* Converting audio files between formats
-* Playing local Audio with the ability to "dreamify it"
-* Hashing inputs with a nice hashing widget
-* Writing and saving notes
-* Demonstrate how Perlin noise works in both 2D and 3D
-* Converting between temperature formats
+* Visualizing algorithms such as A*, Graham Scan, Game of Life
+* Converting audio files between formats such as wav and mp3
+* Playing local audio files with the ability to "dreamify"
+* Hashing inputs with a nice hashing widget using algorithms such as MD5, SHA1, and SHA256
+* Reading, writing, and storing notes
+* Demonstrating how Perlin noise works in both 2D and 3D with a visualizer
+* Converting between temperature formats such as Kelvin, Fahrenheit, and Celsius
 * Storing and running shortcuts
-* Playing games such as hangman or tic tac toe
+* Playing games such as hangman or nxn tic-tac-toe
 
 ## Screenshots
 
