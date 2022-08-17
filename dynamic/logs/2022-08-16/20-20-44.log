@@ -1,0 +1,126 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[20-20-44.157] [ENTRY]: Nathan
+[20-20-44.092] [DEBUG]: Found prop file: props\propkeys.ini
+[20-20-44.112] [DEBUG]: Found prop file: props\props.ini
+[20-20-44.128] [PROP LOADED]: [key = map_quest_api_key]
+[20-20-44.128] [PROP LOADED]: [key = youtube_api_3_key]
+[20-20-44.128] [PROP LOADED]: [key = ip_key]
+[20-20-44.128] [PROP LOADED]: [key = weather_key]
+[20-20-44.128] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[20-20-44.128] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7c
+               a733d0a7f6]
+[20-20-44.130] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[20-20-44.130] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiole
+               ngth,capsmode,typingsound,showbusyicon]
+[20-20-44.130] [PROP LOADED]: [key = font_metric, value = 1]
+[20-20-44.130] [PROP LOADED]: [key = max_font_size, value = 50]
+[20-20-44.130] [PROP LOADED]: [key = min_font_size, value = 25]
+[20-20-44.130] [PROP LOADED]: [key = released, value = false]
+[20-20-44.130] [PROP LOADED]: [key = version, value = Liminal]
+[20-20-44.130] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[20-20-44.131] [PROP LOADED]: [key = components_relocatable, value = false]
+[20-20-44.131] [PROP LOADED]: [key = testing_mode, value = true]
+[20-20-44.131] [PROP LOADED]: [key = autocypher, value = true]
+[20-20-44.131] [PROP LOADED]: [key = dispose_splash, value = true]
+[20-20-44.131] [PROP LOADED]: [key = wipe_logs_on_start, value = true]
+[20-20-44.131] [PROP LOADED]: [key = activate_watchdog, value = false]
+[20-20-44.132] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[20-20-44.132] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[20-20-44.132] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[20-20-44.132] [PROP LOADED]: [key = ui_scale, value = 1]
+[20-20-44.132] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[20-20-44.132] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[20-20-44.150] [DEBUG]: Jar mode set as: FALSE
+[20-20-44.216] [THREAD STARTED]: Object Creation Logger
+[20-20-44.381] [DEBUG]: Watchdog skipped
+[20-20-44.388] [LOADING MESSAGE]: Registering fonts
+[20-20-44.875] [FONT LOADED]: agency-fb
+[20-20-44.877] [FONT LOADED]: arial-black
+[20-20-44.878] [FONT LOADED]: beyno
+[20-20-44.880] [FONT LOADED]: condiment-regular
+[20-20-44.882] [FONT LOADED]: prompt-bold
+[20-20-44.883] [FONT LOADED]: segoe-ui-black
+[20-20-44.886] [FONT LOADED]: tahoma
+[20-20-44.887] [LOADING MESSAGE]: Ensuring singular instance
+[20-20-44.889] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-20-44.890] [DEBUG]: Starting instance socket on port 5150
+[20-20-45.392] [LOADING MESSAGE]: Ensuring OS is supported
+[20-20-45.393] [LOADING MESSAGE]: Creating dynamics
+[20-20-45.394] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-20-45.413] [LOADING MESSAGE]: Validating users
+[20-20-45.599] [LOADING MESSAGE]: Cleaning users
+[20-20-45.605] [LOADING MESSAGE]: Validating props
+[20-20-45.790] [LOADING MESSAGE]: Validating Widgets
+[20-20-46.183] [LOADING MESSAGE]: Validating Tests
+[20-20-46.189] [LOADING MESSAGE]: Validating Vanilla annotations
+[20-20-46.200] [LOADING MESSAGE]: Validating Handles
+[20-20-46.215] [THREAD STARTED]: Splash Loader
+[20-20-46.217] [THREAD STARTED]: Sufficient Subroutine Executor
+[20-20-46.218] [LOADING MESSAGE]: Logging JVM args
+[20-20-46.221] [THREAD STARTED]: JVM Args Logger
+[20-20-46.235] [LOADING MESSAGE]: Checking for an AutoCypher
+[20-20-46.236] [LOGIN]: AutoCypher Attempt
+[20-20-46.237] [LOADING MESSAGE]: Auto Cyphering
+[20-20-46.293] [DEBUG]: Loaded 131 static resources
+[20-20-46.305] [DEBUG]: Loaded 17 static folders
+[20-20-46.560] [THREAD STARTED]: Splash Animation
+[20-20-46.562] [THREAD STARTED]: Enter animation, frame=Cyder Splash
+[20-20-46.767] [UNIQUE OBJECT CREATED]: Console singleton constructed
+[20-20-47.226] [OBJECT CREATION]: Objects created since last delta (5000ms): 86
+[20-20-47.243] [DEBUG]: Cyder Entry = AutoCypher
+[20-20-47.865] [THREAD STARTED]: High Ping Checker
+[20-20-47.915] [DEBUG]: Latency of Google found to be 49ms
+[20-20-47.923] [THREAD STARTED]: Console Printing Animation
+[20-20-48.012] [THREAD STARTED]: Hourly Chime Checker
+[20-20-48.015] [THREAD STARTED]: Console Clock Updater
+[20-20-48.017] [THREAD STARTED]: Cyder Busy Checker
+[20-20-48.021] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[20-20-48.022] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[20-20-48.031] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[20-20-48.460] [CONSOLE OUT]: [STRING]: Console loaded in 4368ms
+[20-20-48.468] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[20-20-48.469] [THREAD STARTED]: Manual Tests Thread
+[20-20-48.806] [DEBUG]: Attempted to log a new or empty line
+[20-20-48.966] [THREAD STARTED]: Splash Loading Label Updater
+[20-20-50.139] [CLIENT]: conway
+[20-20-50.150] [CONSOLE OUT]: [STRING]: Opening widget: GameOfLifeWidget
+[20-20-50.342] [THREAD STARTED]: Enter animation, frame=Conway's Game of Life
+[20-20-50.343] [WIDGET]: GameOfLifeWidget, trigger = conway
+[20-20-50.364] [THREAD STARTED]: CyderFrame alwaysOnTop restorer: frame = Conway's Game of Life
+[20-20-50.577] [DEBUG]: Attempted to log a new or empty line
+[20-20-52.054] [THREAD STARTED]: Conway's Game of Life notification queue checker
+[20-20-52.064] [UI]: Component = CyderButton, hash = 1695579870, bounds = (120, 0, 40, 40), parent frame = Conway's Game
+               of Life, getText() = ▼
+[20-20-52.089] [UI]: [Conway's Game of Life] [NOTIFICATION] "<html>Loaded state: Simkin</html>"
+[20-20-52.093] [THREAD STARTED]: Notification Appear Animator
+[20-20-52.206] [THREAD STARTED]: Notification Vanish Animator
+[20-20-52.228] [OBJECT CREATION]: Objects created since last delta (5000ms): 131
+[20-20-52.565] [UI]: Component = CyderButton, hash = 1695579870, bounds = (120, 0, 40, 40), parent frame = Conway's Game
+               of Life, getText() = ▼
+[20-20-53.813] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[20-20-53.815] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[20-20-54.127] [EXIT]: [RUNTIME] 10s 36ms
+[20-20-54.130] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], no exceptions thrown,
+               total objects created: 217

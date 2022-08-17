@@ -557,4 +557,31 @@ public final class FileUtil {
 
         return ImmutableList.copyOf(ret);
     }
+
+    public static ImmutableList<File> getFolders(File topLevelDirectory) {
+        return getFolders(topLevelDirectory, true);
+    }
+
+    public static ImmutableList<File> getFolders(File topLevelDirectory, boolean recursive) {
+        Preconditions.checkNotNull(topLevelDirectory);
+        Preconditions.checkArgument(topLevelDirectory.exists());
+        Preconditions.checkArgument(topLevelDirectory.isDirectory());
+
+        LinkedList<File> ret = new LinkedList<>();
+
+        File[] topLevelFiles = topLevelDirectory.listFiles();
+        if (topLevelFiles != null && topLevelFiles.length > 0) {
+            for (File file : topLevelFiles) {
+                if (file.isDirectory()) {
+                    ret.add(file);
+
+                    if (recursive) {
+                        ret.addAll(getFolders(file, true));
+                    }
+                }
+            }
+        }
+
+        return ImmutableList.copyOf(ret);
+    }
 }

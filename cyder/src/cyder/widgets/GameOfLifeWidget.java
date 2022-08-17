@@ -255,12 +255,12 @@ public final class GameOfLifeWidget {
                 if (comboItems.get(i).equals(nextState)) {
                     beforeStartingState = new LinkedList<>();
 
-                    for (Point point : correspondingConwayStates.get(i).nodes()) {
+                    for (Point point : correspondingConwayStates.get(i).getNodes()) {
                         beforeStartingState.add(new CyderGrid.GridNode((int) point.getX(), (int) point.getY()));
                     }
 
-                    conwayFrame.notify("Loaded state: " + correspondingConwayStates.get(i).name());
-                    conwayGrid.setNodeDimensionLength(correspondingConwayStates.get(i).gridSize());
+                    conwayFrame.notify("Loaded state: " + correspondingConwayStates.get(i).getName());
+                    conwayGrid.setNodeDimensionLength(correspondingConwayStates.get(i).getGridSize());
 
                     break;
                 }
@@ -509,17 +509,17 @@ public final class GameOfLifeWidget {
 
             resetSimulation();
 
-            conwayGrid.setNodeDimensionLength(loadState.gridSize());
+            conwayGrid.setNodeDimensionLength(loadState.getGridSize());
 
-            for (Point p : loadState.nodes()) {
+            for (Point p : loadState.getNodes()) {
                 conwayGrid.addNode(new CyderGrid.GridNode((int) p.getX(), (int) p.getY()));
             }
 
-            conwayFrame.notify("Loaded state: " + loadState.name());
+            conwayFrame.notify("Loaded state: " + loadState.getName());
             beforeStartingState = new LinkedList<>(conwayGrid.getGridNodes());
 
             resetStats();
-            population = loadState.nodes().size();
+            population = loadState.getNodes().size();
             updateLabels();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -637,7 +637,7 @@ public final class GameOfLifeWidget {
         comboItems = new ArrayList<>();
         correspondingConwayStates = new ArrayList<>();
 
-        File statesDir = new File(OSUtil.buildPath("static", "json", "conway"));
+        File statesDir = StaticUtil.getStaticDirectory("conway");
 
         if (statesDir.exists()) {
             File[] statesDirFiles = statesDir.listFiles();
@@ -651,7 +651,7 @@ public final class GameOfLifeWidget {
                             reader.close();
 
                             correspondingConwayStates.add(loadState);
-                            comboItems.add(new CyderComboBox.ComboItem(loadState.name()));
+                            comboItems.add(new CyderComboBox.ComboItem(loadState.getName()));
                         } catch (Exception ignored) {
                         }
                     }
@@ -665,7 +665,51 @@ public final class GameOfLifeWidget {
     /**
      * An object used to store a Conway's game of life grid state.
      */
+    @SuppressWarnings("ClassCanBeRecord") /* GSON complains */
     @Immutable
-    private record ConwayState(String name, int gridSize, LinkedList<Point> nodes) {
+    private static class ConwayState {
+        private final String name;
+        private final int gridSize;
+        private final LinkedList<Point> nodes;
+
+        /**
+         * Constructs a new conway state.
+         *
+         * @param name     the name of the state
+         * @param gridSize the size of the nxn grid
+         * @param nodes    the nodes to place for the state
+         */
+        public ConwayState(String name, int gridSize, LinkedList<Point> nodes) {
+            this.name = Preconditions.checkNotNull(name);
+            this.gridSize = gridSize;
+            this.nodes = Preconditions.checkNotNull(nodes);
+        }
+
+        /**
+         * Returns the name of this conway state.
+         *
+         * @return the name of this conway state
+         */
+        public String getName() {
+            return name;
+        }
+
+        /**
+         * Returns the grid size of this conway state.
+         *
+         * @return the grid size of this conway state
+         */
+        public int getGridSize() {
+            return gridSize;
+        }
+
+        /**
+         * Returns the list of points for this conway state.
+         *
+         * @return the list of points for this conway state
+         */
+        public LinkedList<Point> getNodes() {
+            return nodes;
+        }
     }
 }
