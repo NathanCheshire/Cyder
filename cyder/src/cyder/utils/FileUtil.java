@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -500,5 +501,60 @@ public final class FileUtil {
         } else {
             return file.getName();
         }
+    }
+
+    /**
+     * Returns an immutable list of files found within the provided directory and all sub-directories.
+     *
+     * @param topLevelDirectory the top level directory to search for files in
+     * @return an immutable list of files found within the provided directory and all sub-directories
+     */
+    public static ImmutableList<File> getFiles(File topLevelDirectory) {
+        return getFiles(topLevelDirectory, true);
+    }
+
+    /*
+     * Returns an immutable list of files found within the provided directory.
+     *
+     * @param topLevelDirectory the top level directory to search for files in
+     * @param recursive whether to find files recursively starting from the provided directory
+     * @return an immutable list of files found within the provided directory
+     */
+    public static ImmutableList<File> getFiles(File topLevelDirectory, boolean recursive) {
+        return getFiles(topLevelDirectory, recursive, "");
+    }
+
+    /**
+     * Returns an immutable list of files found within the provided directory.
+     *
+     * @param topLevelDirectory the top level directory to search for files in
+     * @param recursive         whether to find files recursively starting from the provided directory
+     * @param extensionRegex    the regex to match extensions for such as "(txt|jpg)"
+     * @return an immutable list of files found within the provided directory
+     */
+    public static ImmutableList<File> getFiles(File topLevelDirectory, boolean recursive, String extensionRegex) {
+        Preconditions.checkNotNull(topLevelDirectory);
+        Preconditions.checkArgument(topLevelDirectory.exists());
+        Preconditions.checkArgument(topLevelDirectory.isDirectory());
+        Preconditions.checkNotNull(extensionRegex);
+
+        LinkedList<File> ret = new LinkedList<>();
+
+        File[] topLevelFiles = topLevelDirectory.listFiles();
+        if (topLevelFiles != null && topLevelFiles.length > 0) {
+            for (File file : topLevelFiles) {
+                if (file.isFile()) {
+                    String extension = FileUtil.getExtension(file).substring(1);
+
+                    if (extensionRegex.isEmpty() || extension.matches(extensionRegex)) {
+                        ret.add(file);
+                    }
+                } else if (recursive && file.isDirectory()) {
+                    ret.addAll(getFiles(file, true, extensionRegex));
+                }
+            }
+        }
+
+        return ImmutableList.copyOf(ret);
     }
 }
