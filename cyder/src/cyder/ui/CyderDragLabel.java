@@ -154,8 +154,8 @@ public class CyderDragLabel extends JLabel {
 
                     effectFrame.setLocation(setX, setY);
 
-                    effectFrame.setRestoreX(effectFrame.getX());
-                    effectFrame.setRestoreY(effectFrame.getY());
+                    effectFrame.setRestoreX(setX);
+                    effectFrame.setRestoreY(setY);
                 }
             }
 

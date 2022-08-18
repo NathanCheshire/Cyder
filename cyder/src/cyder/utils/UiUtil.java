@@ -166,9 +166,9 @@ public final class UiUtil {
                                             int requestedY, CyderFrame frame) {
         GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] screenDevices = graphicsEnvironment.getScreenDevices();
-        Rectangle requestedScreenBounds;
 
-        //if the monitor is valid, use its bounds
+        // Find monitor to use to define the frame as being "in" or "out" of bounds
+        Rectangle requestedScreenBounds;
         if (requestedMonitor > -1 && requestedMonitor < screenDevices.length) {
             requestedScreenBounds = screenDevices[requestedMonitor].getDefaultConfiguration().getBounds();
         } else if (screenDevices.length > 0) {
@@ -182,27 +182,20 @@ public final class UiUtil {
         int monitorWidth = requestedScreenBounds.width;
         int monitorHeight = requestedScreenBounds.height;
 
-        //if too far right, set to max x for this monitor
+        // Correct complete horizontal over/underflow
         if (requestedX + frame.getWidth() > monitorX + monitorWidth) {
             requestedX = monitorX + monitorWidth - frame.getWidth();
-        }
-
-        //if too far left, set to min x for this monitor
-        else if (requestedX < monitorX) {
+        } else if (requestedX < monitorX) {
             requestedX = monitorX;
         }
 
-        //if too far down, set to max y for this monitor
+        // Correct complete vertical over/underflow
         if (requestedY + frame.getHeight() > monitorY + monitorHeight) {
             requestedY = monitorY + monitorHeight - frame.getHeight();
-        }
-
-        //if too far up, set to min y
-        else if (requestedY < monitorY) {
+        } else if (requestedY < monitorY) {
             requestedY = monitorY;
         }
 
-        //set the location to the calculated location
         frame.setLocation(requestedX, requestedY);
     }
 

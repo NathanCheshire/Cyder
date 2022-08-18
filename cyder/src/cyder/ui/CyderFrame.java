@@ -2,6 +2,7 @@ package cyder.ui;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.console.Console;
@@ -237,12 +238,12 @@ public class CyderFrame extends JFrame {
      * Allowable indices to add components to the contentLabel
      * which is a JLayeredPane and the content pane.
      */
-    public static final ArrayList<Integer> allowableContentLabelIndices = new ArrayList<>() {{
-        // Drag labels
-        add(JLayeredPane.DRAG_LAYER);
-        // Notifications
-        add(JLayeredPane.POPUP_LAYER);
-    }};
+    public static final ImmutableList<Integer> allowableContentLabelIndices = ImmutableList.of(
+            // Drag labels
+            JLayeredPane.DRAG_LAYER,
+            // Notifications
+            JLayeredPane.POPUP_LAYER
+    );
 
     /**
      * Constructs a new CyderFrame object with default dimensions.
@@ -303,23 +304,19 @@ public class CyderFrame extends JFrame {
      *                   enable rescaling of this background on frame resize events should you choose)
      */
     public CyderFrame(int width, int height, ImageIcon background) {
-        // ensure non null background
         checkNotNull(background);
 
-        // correct possibly too small width and heights
-        Dimension dimension = validateRequestedSize(width, height);
-
-        width = dimension.width;
-        height = dimension.height;
+        Dimension correctedSize = validateRequestedSize(width, height);
+        width = correctedSize.width;
+        height = correctedSize.height;
 
         this.width = width;
         this.height = height;
 
-        // check to ensure background is same size as frame
+        // Ensure background same size as width and height
         if (width > background.getIconWidth() || height > background.getIconHeight()) {
-            background = ImageUtil.resizeImage(background, this.width, this.height);
+            background = ImageUtil.resizeImage(background, width, height);
         }
-
         this.background = background;
         currentOrigIcon = background;
 
@@ -331,29 +328,25 @@ public class CyderFrame extends JFrame {
         setBackground(CyderColors.vanilla);
         setIconImage(CyderIcons.CYDER_ICON.getImage());
 
-        // listener to ensure the close button was always pressed which ensures
-        // things like closeAnimation are always performed
+        // Ensure dispose actions are always invoked
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                dispose();
+                dispose(true);
             }
         });
 
-        // master ContentLabel
+        // True content pane
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
-                if (allowableContentLabelIndices.contains(index)) {
-                    return super.add(comp, index);
-                }
-
-                return super.add(comp, 0);
+                return super.add(comp, allowableContentLabelIndices.contains(index)
+                        ? index : 0);
             }
         };
         contentLabel.setFocusable(false);
 
-        // This is what is returned when getContentPane() is called
+        // getContentPane() result
         iconLabel = new JLabel() {
             @Override
             public void repaint() {
@@ -362,25 +355,26 @@ public class CyderFrame extends JFrame {
                 }
             }
         };
-        iconLabel.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
-                width - 2 * FRAME_RESIZING_LEN, height - 2 * FRAME_RESIZING_LEN);
+        int iconLabelWidth = width - 2 * FRAME_RESIZING_LEN;
+        int iconLabelHeight = height - 2 * FRAME_RESIZING_LEN;
+        iconLabel.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, iconLabelWidth, iconLabelHeight);
         iconLabel.setIcon(background);
         iconLabel.setFocusable(false);
 
         iconPane = new JLayeredPane();
-        iconPane.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
-                width - 2 * FRAME_RESIZING_LEN, height - 2 * FRAME_RESIZING_LEN);
+        iconPane.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, iconLabelWidth, iconLabelHeight);
         iconPane.add(iconLabel, JLayeredPane.DEFAULT_LAYER);
         iconPane.setFocusable(false);
         contentLabel.add(iconPane, JLayeredPane.DEFAULT_LAYER);
 
-        contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(), 3, false));
+        int contentLabelWidth = 3;
+        contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(), contentLabelWidth, false));
         setContentPane(contentLabel);
 
         topDrag = new CyderDragLabel(width - 2 * FRAME_RESIZING_LEN,
-                CyderDragLabel.DEFAULT_HEIGHT - 2, this);
+                CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN, this);
         topDrag.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
-                width - 2 * FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
+                iconLabelWidth, CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
         topDrag.setXOffset(FRAME_RESIZING_LEN);
         topDrag.setYOffset(FRAME_RESIZING_LEN);
         contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
@@ -395,7 +389,8 @@ public class CyderFrame extends JFrame {
         leftDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
                 height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT, this);
         leftDrag.setBounds(FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT,
-                5 - FRAME_RESIZING_LEN, height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
+                BORDER_LEN - FRAME_RESIZING_LEN,
+                height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
         leftDrag.setXOffset(FRAME_RESIZING_LEN);
         leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
         contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
@@ -426,7 +421,7 @@ public class CyderFrame extends JFrame {
         contentLabel.add(rightDragCover, JLayeredPane.DRAG_LAYER);
 
         bottomDrag = new CyderDragLabel(width - FRAME_RESIZING_LEN * FRAME_RESIZING_LEN,
-                5 - FRAME_RESIZING_LEN, this);
+                BORDER_LEN - FRAME_RESIZING_LEN, this);
         bottomDrag.setBounds(FRAME_RESIZING_LEN, height - BORDER_LEN,
                 width - 2 * FRAME_RESIZING_LEN, BORDER_LEN - FRAME_RESIZING_LEN);
         bottomDrag.setXOffset(FRAME_RESIZING_LEN);
@@ -3611,6 +3606,8 @@ public class CyderFrame extends JFrame {
         CENTER,
         MIDDLE
     }
+
+    // todo depends on monitor technically
 
     /**
      * Sets the console to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
