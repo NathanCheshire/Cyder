@@ -20,7 +20,7 @@ import java.awt.event.WindowEvent;
 /**
  * Information frames throughout Cyder.
  */
-public class InformHandler {
+public final class InformHandler {
     /**
      * Suppress default constructor.
      */

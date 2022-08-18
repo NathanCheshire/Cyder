@@ -226,11 +226,6 @@ public class CyderFrame extends JFrame {
     public static final int BORDER_LEN = 5;
 
     /**
-     * The degree angle increment used for the barrel roll animation.
-     */
-    public static final double BARREL_ROLL_DELTA = 2.0;
-
-    /**
      * The default CyderFrame dimension.
      */
     public static final Dimension DEFAULT_DIMENSION = new Dimension(400, 400);
@@ -1045,6 +1040,7 @@ public class CyderFrame extends JFrame {
 
     private static final int notificationPadding = 5;
     private static final int MINIMUM_NOTIFICATION_TIME_MS = 4000;
+    private static final int msPerNotificationWord = 300;
 
     /**
      * The notification queue for internal frame notifications/toasts.
@@ -1073,11 +1069,7 @@ public class CyderFrame extends JFrame {
             // Sanity check for overflow
             if (notificationHeight > height * NOTIFICATION_TO_FRAME_RATIO
                     || notificationWidth > width * NOTIFICATION_TO_FRAME_RATIO) {
-                // todo duplicate
-                inform(currentBuilder.getHtmlText(), getTitle() + " notification ("
-                        + currentBuilder.getNotifyTime() + ")");
-
-                notificationConstructionLock.release();
+                notifyAndReleaseSemaphore(currentBuilder.getHtmlText(), null, currentBuilder.notifyTime);
                 continue;
             }
 
@@ -1089,14 +1081,7 @@ public class CyderFrame extends JFrame {
                 // Custom component will not fit
                 if (containerWidth > width * NOTIFICATION_TO_FRAME_RATIO
                         || containerHeight > height * NOTIFICATION_TO_FRAME_RATIO) {
-                    // todo duplicate
-                    InformHandler.inform(new InformHandler.Builder("NULL")
-                            .setContainer(currentBuilder.getContainer())
-                            .setTitle(getTitle() + " Notification")
-                            .setRelativeTo(this));
-
-                    // done with actions so release and continue
-                    notificationConstructionLock.release();
+                    notifyAndReleaseSemaphore(null, currentBuilder.getContainer(), currentBuilder.notifyTime);
                     continue;
                 }
 
@@ -1104,20 +1089,8 @@ public class CyderFrame extends JFrame {
                 JLabel interactionLabel = new JLabel();
                 interactionLabel.setSize(containerWidth, containerHeight);
                 interactionLabel.setToolTipText("Notified at: " + toBeCurrentNotification.getBuilder().getNotifyTime());
-                // todo factory method for this mouse adapter
-                interactionLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        if (currentBuilder.getOnKillAction() != null) {
-                            toBeCurrentNotification.kill();
-                            currentBuilder.getOnKillAction().run();
-                        } else {
-                            toBeCurrentNotification.vanish(currentBuilder
-                                    .getNotificationDirection(), getContentPane(), 0);
-                        }
-                    }
-                });
-
+                interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
+                        currentBuilder, null, toBeCurrentNotification, false));
                 currentBuilder.getContainer().add(interactionLabel);
             } else {
                 // Empty container means use htmlText of builder
@@ -1129,9 +1102,8 @@ public class CyderFrame extends JFrame {
                 JLabel interactionLabel = new JLabel();
                 interactionLabel.setSize(notificationWidth, notificationHeight);
                 interactionLabel.setToolTipText("Notified at: " + toBeCurrentNotification.getBuilder().getNotifyTime());
-                // todo factory method for this mouse adapter
                 interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
-                        currentBuilder, textContainerLabel, toBeCurrentNotification));
+                        currentBuilder, textContainerLabel, toBeCurrentNotification, true));
 
                 textContainerLabel.add(interactionLabel);
                 toBeCurrentNotification.getBuilder().setContainer(textContainerLabel);
@@ -1141,11 +1113,8 @@ public class CyderFrame extends JFrame {
             getContentPane().repaint();
 
             int duration = currentBuilder.getViewDuration();
-
-            // todo this is technically a magic number and this should be some kind of a boolean
-            int msPerWord = 300;
-            if (duration == 0) {
-                duration = msPerWord * StringUtil.countWords(Jsoup.clean(bs.text(), Safelist.none()));
+            if (currentBuilder.isCalculateViewDuration()) {
+                duration = msPerNotificationWord * StringUtil.countWords(Jsoup.clean(bs.text(), Safelist.none()));
             }
             duration = Math.max(duration, MINIMUM_NOTIFICATION_TIME_MS);
 
@@ -1163,17 +1132,29 @@ public class CyderFrame extends JFrame {
         notificationCheckerStarted = false;
     };
 
+    @ForReadability
+    private void notifyAndReleaseSemaphore(String text, JLabel container, String time) {
+        InformHandler.Builder builder = new InformHandler.Builder(text == null ? "NULL" : text)
+                .setContainer(container)
+                .setTitle(getTitle() + " Notification (" + time + ")")
+                .setRelativeTo(this);
+
+        InformHandler.inform(builder);
+        notificationConstructionLock.release();
+    }
+
     /**
      * Generates the disposal mouse listener for a notification.
      *
-     * @param builder      the notification builder
-     * @param textLabel    the label the notification's text is placed on
-     * @param notification the current notification object under construction
+     * @param builder        the notification builder
+     * @param textLabel      the label the notification's text is placed on
+     * @param notification   the current notification object under construction
+     * @param doEnterAndExit whether to add the mouse entered/exited listeners
      * @return a disposal mouse listener for a notification.
      */
     @ForReadability
     private MouseAdapter generateNotificationDisposalMouseListener(
-            NotificationBuilder builder, JLabel textLabel, CyderNotification notification) {
+            NotificationBuilder builder, JLabel textLabel, CyderNotification notification, boolean doEnterAndExit) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -1187,16 +1168,20 @@ public class CyderFrame extends JFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                textLabel.setForeground(CyderColors.notificationForegroundColor.darker());
-                notification.setHovered(true);
-                notification.repaint();
+                if (doEnterAndExit) {
+                    textLabel.setForeground(CyderColors.notificationForegroundColor.darker());
+                    notification.setHovered(true);
+                    notification.repaint();
+                }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                textLabel.setForeground(CyderColors.notificationForegroundColor);
-                notification.setHovered(false);
-                notification.repaint();
+                if (doEnterAndExit) {
+                    textLabel.setForeground(CyderColors.notificationForegroundColor);
+                    notification.setHovered(false);
+                    notification.repaint();
+                }
             }
         };
     }
@@ -1306,6 +1291,11 @@ public class CyderFrame extends JFrame {
      * @param title The title of the CyderFrame which will be opened to display the text
      */
     public void inform(String text, String title) {
+        Preconditions.checkNotNull(text);
+        Preconditions.checkArgument(!text.isEmpty());
+        Preconditions.checkNotNull(title);
+        Preconditions.checkArgument(!title.isEmpty());
+
         InformHandler.inform(new InformHandler.Builder(text).setTitle(title).setRelativeTo(this));
     }
 
@@ -1357,7 +1347,7 @@ public class CyderFrame extends JFrame {
     /**
      * {@inheritDoc}
      */
-    @Override // disable/enable content area repainting for optimization
+    @Override
     public void setState(int state) {
         if (state == JFrame.ICONIFIED) {
             setDisableContentRepainting(true);
@@ -1565,11 +1555,12 @@ public class CyderFrame extends JFrame {
         this.dancingFinished = dancingFinished;
     }
 
+    private static final int dancingIncrement = 10;
+
     /**
      * Takes a step in the current dancing direction for a dance routine.
      */
     public void danceStep() {
-        int dancingIncrement = 10;
         switch (dancingDirection) {
             case INITIAL_UP -> {
                 setLocation(getX(), getY() - dancingIncrement);
@@ -1579,28 +1570,28 @@ public class CyderFrame extends JFrame {
                 }
             }
             case LEFT -> {
-                setLocation(getX() - 10, getY());
+                setLocation(getX() - dancingIncrement, getY());
                 if (getX() < 0) {
                     setLocation(0, 0);
                     dancingDirection = DancingDirection.DOWN;
                 }
             }
             case DOWN -> {
-                setLocation(getX(), getY() + 10);
+                setLocation(getX(), getY() + dancingIncrement);
                 if (getY() > ScreenUtil.getScreenHeight() - getHeight()) {
                     setLocation(getX(), ScreenUtil.getScreenHeight() - getHeight());
                     dancingDirection = DancingDirection.RIGHT;
                 }
             }
             case RIGHT -> {
-                setLocation(getX() + 10, getY());
+                setLocation(getX() + dancingIncrement, getY());
                 if (getX() > ScreenUtil.getScreenWidth() - getWidth()) {
                     setLocation(ScreenUtil.getScreenWidth() - getWidth(), getY());
                     dancingDirection = DancingDirection.UP;
                 }
             }
             case UP -> {
-                setLocation(getX(), getY() - 10);
+                setLocation(getX(), getY() - dancingIncrement);
                 if (getY() < 0) {
                     setLocation(getX(), 0);
 
@@ -1630,6 +1621,11 @@ public class CyderFrame extends JFrame {
     private static final int BARREL_ROLL_DELAY = 10;
 
     /**
+     * The increment in radians between barrel roll delays.
+     */
+    private static final int BARREL_ROLL_DELTA = 2;
+
+    /**
      * transforms the content pane by an incremental angle of 2 degrees
      * emulating Google's barrel roll easter egg.
      */
@@ -1637,28 +1633,22 @@ public class CyderFrame extends JFrame {
         ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
         BufferedImage master = ImageUtil.getBufferedImage(masterIcon);
 
-        new Timer(BARREL_ROLL_DELAY, new ActionListener() {
-            private double angle;
+        CyderThreadRunner.submit(() -> {
+            float angle = 0.0f;
 
-            BufferedImage rotated;
+            for (int i = 0 ; i < 360 ; i += BARREL_ROLL_DELTA) {
+                BufferedImage rotated = ImageUtil.rotateImage(master, angle);
+                ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                angle += BARREL_ROLL_DELTA;
-
-                if (angle >= 360) {
-                    setBackground(masterIcon);
-                    return;
-                }
+                ThreadUtil.sleep(BARREL_ROLL_DELAY);
 
                 if (threadsKilled) {
-                    return;
+                    break;
                 }
-
-                rotated = ImageUtil.rotateImage(master, angle);
-                ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
             }
-        }).start();
+
+            ((JLabel) getContentPane()).setIcon(masterIcon);
+        }, getTitle() + " Barrel Roll");
     }
 
     /**
@@ -1746,29 +1736,27 @@ public class CyderFrame extends JFrame {
 
         revalidateFrameShape();
 
-        //update the border covering the resize area
-        contentLabel.setBorder(new LineBorder(
-                CyderColors.getGuiThemeColor(), 5 - FRAME_RESIZING_LEN, false));
+        // Update the border covering the resize area
+        contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(),
+                BORDER_LEN - FRAME_RESIZING_LEN, false));
 
         if (topDrag != null) {
-            //update drag labels
             topDrag.setBackground(CyderColors.getGuiThemeColor());
             bottomDrag.setBackground(CyderColors.getGuiThemeColor());
             leftDrag.setBackground(CyderColors.getGuiThemeColor());
             rightDrag.setBackground(CyderColors.getGuiThemeColor());
+
             topDragCover.setBackground(CyderColors.getGuiThemeColor());
             bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
             leftDragCover.setBackground(CyderColors.getGuiThemeColor());
             rightDragCover.setBackground(CyderColors.getGuiThemeColor());
 
-            //repaint drag labels
             topDrag.repaint();
             leftDrag.repaint();
             bottomDrag.repaint();
             rightDrag.repaint();
         }
 
-        // update content panes
         getContentPane().repaint();
         getTrueContentPane().repaint();
 
@@ -1866,30 +1854,34 @@ public class CyderFrame extends JFrame {
 
         topDrag.setWidth(width - 2 * FRAME_RESIZING_LEN);
         topDrag.setHeight(CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
-        topDragCover.setBounds(0, 0, width, 2);
+        topDragCover.setBounds(0, 0, width, FRAME_RESIZING_LEN);
 
-        leftDrag.setWidth(5 - FRAME_RESIZING_LEN);
+        leftDrag.setWidth(BORDER_LEN - FRAME_RESIZING_LEN);
         leftDrag.setHeight(height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
         leftDragCover.setBounds(0, 0, FRAME_RESIZING_LEN, height);
 
-        rightDrag.setWidth(5 - FRAME_RESIZING_LEN);
+        rightDrag.setWidth(BORDER_LEN - FRAME_RESIZING_LEN);
         rightDrag.setHeight(height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
         rightDragCover.setBounds(width - FRAME_RESIZING_LEN, 0, FRAME_RESIZING_LEN, height);
 
         bottomDrag.setWidth(width - FRAME_RESIZING_LEN * 2);
-        bottomDrag.setHeight(5 - FRAME_RESIZING_LEN);
+        bottomDrag.setHeight(BORDER_LEN - FRAME_RESIZING_LEN);
         bottomDragCover.setBounds(0, height - FRAME_RESIZING_LEN, width, FRAME_RESIZING_LEN);
 
         revalidateTitlePositionLocation();
 
-        topDrag.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, width - 2 * FRAME_RESIZING_LEN,
+        topDrag.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
+                width - 2 * FRAME_RESIZING_LEN,
                 CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
-        leftDrag.setBounds(FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT, 5 - FRAME_RESIZING_LEN,
+        leftDrag.setBounds(FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT,
+                BORDER_LEN - FRAME_RESIZING_LEN,
                 height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
-        rightDrag.setBounds(width - 5, CyderDragLabel.DEFAULT_HEIGHT,
-                5 - FRAME_RESIZING_LEN, height - CyderDragLabel.DEFAULT_HEIGHT - 2);
-        bottomDrag.setBounds(FRAME_RESIZING_LEN, height - 5,
-                width - 2 * FRAME_RESIZING_LEN, 5 - FRAME_RESIZING_LEN);
+        rightDrag.setBounds(width - BORDER_LEN, CyderDragLabel.DEFAULT_HEIGHT,
+                BORDER_LEN - FRAME_RESIZING_LEN,
+                height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
+        bottomDrag.setBounds(FRAME_RESIZING_LEN, height - BORDER_LEN,
+                width - 2 * FRAME_RESIZING_LEN,
+                BORDER_LEN - FRAME_RESIZING_LEN);
 
         topDrag.setXOffset(FRAME_RESIZING_LEN);
         topDrag.setYOffset(FRAME_RESIZING_LEN);
@@ -1897,11 +1889,11 @@ public class CyderFrame extends JFrame {
         leftDrag.setXOffset(FRAME_RESIZING_LEN);
         leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
 
-        rightDrag.setXOffset(width - 5);
+        rightDrag.setXOffset(width - BORDER_LEN);
         rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
 
         bottomDrag.setXOffset(FRAME_RESIZING_LEN);
-        bottomDrag.setYOffset(height - 5);
+        bottomDrag.setYOffset(height - BORDER_LEN);
     }
 
     /**
@@ -1913,13 +1905,14 @@ public class CyderFrame extends JFrame {
      * Revalidates and updates the frame's shape, that of being rounded or square.
      */
     private void revalidateFrameShape() {
-        if (!isUndecorated())
+        if (!isUndecorated()) {
             return;
+        }
 
         Shape shape = null;
 
         try {
-            // borderless frames are by default rounded
+            // Borderless frames are by default rounded
             if (isBorderlessFrame() || (cr == null && Console.INSTANCE.getUuid() != null
                     && UserUtil.getCyderUser().getRoundedwindows().equals("1"))) {
                 shape = new RoundRectangle2D.Double(0, 0,
@@ -2189,8 +2182,9 @@ public class CyderFrame extends JFrame {
      * resizable such as registering the min/max sizes.
      */
     public void initializeResizing() {
-        if (cr != null)
-            cr.deregisterComponent(this);
+        if (cr != null) {
+            return;
+        }
 
         cr = new CyderComponentResizer();
         cr.registerComponent(this);
@@ -2223,8 +2217,9 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setResizable(boolean allow) {
-        if (cr != null)
+        if (cr != null) {
             cr.setResizingAllowed(allow);
+        }
     }
 
     /**
@@ -2232,10 +2227,11 @@ public class CyderFrame extends JFrame {
      */
     public void refreshBackground() {
         try {
-            if (iconLabel == null)
+            if (iconLabel == null) {
                 return;
+            }
 
-            // mainly needed for icon label and pane bounds, layout isn't usually expensive
+            // Mainly needed for icon label and pane bounds, layout isn't usually expensive
             revalidateLayout();
 
             if (cr != null && cr.backgroundResizingEnabled()) {
@@ -2276,10 +2272,13 @@ public class CyderFrame extends JFrame {
      * @param icon the ImageIcon of the frame's background
      */
     public void setBackground(ImageIcon icon) {
+        Preconditions.checkNotNull(icon);
+
         try {
-            //prevent errors before instantiation of ui objects
-            if (iconLabel == null)
+            // Prevent errors before instantiation of ui objects
+            if (iconLabel == null) {
                 return;
+            }
 
             currentOrigIcon = icon;
             iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
@@ -2521,9 +2520,9 @@ public class CyderFrame extends JFrame {
         closingConfirmationMessage = null;
     }
 
-    // ---------------
+    // -------------
     // pinning logic
-    // ---------------
+    // -------------
 
     /**
      * Adds any {@link MouseMotionListener}s to the drag labels.
@@ -3026,8 +3025,7 @@ public class CyderFrame extends JFrame {
      * @param currentMenuType the new menu type
      */
     public void setMenuType(MenuType currentMenuType) {
-        if (currentMenuType == this.menuType)
-            return;
+        if (currentMenuType == this.menuType) return;
 
         this.menuType = currentMenuType;
 
@@ -3094,8 +3092,9 @@ public class CyderFrame extends JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
             if (menuEnabled) {
-                if (menuLabel == null)
+                if (menuLabel == null) {
                     generateMenu();
+                }
 
                 if (menuLabel.isVisible()) {
                     animateMenuOut();
@@ -3370,8 +3369,7 @@ public class CyderFrame extends JFrame {
     private void animateMenuOut() {
         checkNotNull(menuLabel);
 
-        if (menuLabel.getX() + menuLabel.getWidth() < 0
-                && menuLabel.getY() + menuLabel.getHeight() < 0) {
+        if (menuLabel.getX() + menuLabel.getWidth() < 0 && menuLabel.getY() + menuLabel.getHeight() < 0) {
             return;
         }
 
@@ -3599,9 +3597,7 @@ public class CyderFrame extends JFrame {
                 && LoginHandler.getLoginFrame() != null
                 && LoginHandler.getLoginFrame().isVisible()) {
             return LoginHandler.getLoginFrame();
-        }
-        // other possibly dominant/stand-alone frame checks here
-        else {
+        } else {
             return null;
         }
     }
@@ -3749,6 +3745,11 @@ public class CyderFrame extends JFrame {
          * which holds the html styled text.
          */
         private JLabel container;
+
+        /**
+         * Whether the view duration should be auto-calculated.
+         */
+        private boolean calculateViewDuration;
 
         /**
          * The time the notification was originally constructed at.
@@ -3916,6 +3917,26 @@ public class CyderFrame extends JFrame {
             return this;
         }
 
+        /**
+         * Returns whether the view duration should be auto-calculated.
+         *
+         * @return whether the view duration should be auto-calculated
+         */
+        public boolean isCalculateViewDuration() {
+            return calculateViewDuration;
+        }
+
+        /**
+         * Sets whether the view duration should be auto-calculated.
+         *
+         * @param calculateViewDuration whether the view duration should be auto-calculated
+         * @return this builder
+         */
+        public NotificationBuilder setCalculateViewDuration(boolean calculateViewDuration) {
+            this.calculateViewDuration = calculateViewDuration;
+            return this;
+        }
+
         // -----------------------------------------------
         // Methods to override according to Effective Java
         // -----------------------------------------------
@@ -3938,6 +3959,7 @@ public class CyderFrame extends JFrame {
                     && Objects.equal(htmlText, that.htmlText)
                     && Objects.equal(onKillAction, that.onKillAction)
                     && notificationDirection == that.notificationDirection
+                    && calculateViewDuration == that.calculateViewDuration
                     && notificationType == that.notificationType
                     && Objects.equal(container, that.container);
         }
