@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import cyder.annotations.ForReadability;
 import cyder.console.Console;
 import cyder.constants.*;
 import cyder.enums.Direction;
@@ -436,7 +437,7 @@ public class CyderFrame extends JFrame {
         bottomDragCover.setOpaque(true);
         contentLabel.add(bottomDragCover, JLayeredPane.DRAG_LAYER);
 
-        titleLabel = new JLabel("");
+        titleLabel = new JLabel();
         titleLabel.setFont(titleLabelFont);
         titleLabel.setForeground(titleLabelColor);
         titleLabel.setOpaque(false);
@@ -468,6 +469,18 @@ public class CyderFrame extends JFrame {
      */
     public static CyderFrame generateBorderlessFrame(int width, int height, Color backgroundColor) {
         return new CyderFrame(new Dimension(width, height), backgroundColor);
+    }
+
+    /**
+     * Generates and returns a borderless CyderFrame.
+     * A drag listener is already attached to this but
+     * the caller needs to handle how the frame will be disposed.
+     *
+     * @param dimension the dimension of the frame to construct
+     * @return the borderless frame
+     */
+    public static CyderFrame generateBorderlessFrame(Dimension dimension, Color backgroundColor) {
+        return new CyderFrame(dimension, backgroundColor);
     }
 
     /**
@@ -508,7 +521,7 @@ public class CyderFrame extends JFrame {
         };
         contentLabel.setFocusable(false);
 
-        // this.getContentPane() will return this
+        // this.getContentPane() return
         iconLabel = new JLabel() {
             @Override
             public void repaint() {
@@ -518,7 +531,8 @@ public class CyderFrame extends JFrame {
             }
         };
         iconLabel.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
-                width - 2 * FRAME_RESIZING_LEN, height - 2 * FRAME_RESIZING_LEN);
+                width - 2 * FRAME_RESIZING_LEN,
+                height - 2 * FRAME_RESIZING_LEN);
         iconLabel.setFocusable(false);
 
         iconPane = new JLayeredPane();
@@ -541,7 +555,6 @@ public class CyderFrame extends JFrame {
         threadsKilled = false;
 
         revalidateFrameShape();
-
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
@@ -594,9 +607,9 @@ public class CyderFrame extends JFrame {
         return contentLabel;
     }
 
-    // --------------------------------
+    // -------------
     // frame layouts
-    // --------------------------------
+    // -------------
 
     /**
      * The CyderPanel associated with this CyderFrame which dictates
@@ -646,7 +659,8 @@ public class CyderFrame extends JFrame {
         this.cyderPanel = cyderPanel;
 
         // Panel literally sits on top of contentPane() (iconLabel in CyderFrame's case)
-        cyderPanel.setBounds(BORDER_LEN, CyderDragLabel.DEFAULT_HEIGHT, getWidth() - 2 * BORDER_LEN,
+        cyderPanel.setBounds(BORDER_LEN, CyderDragLabel.DEFAULT_HEIGHT,
+                getWidth() - 2 * BORDER_LEN,
                 getHeight() - CyderDragLabel.DEFAULT_HEIGHT - BORDER_LEN);
         iconLabel.add(cyderPanel);
         cyderPanel.repaint();
@@ -665,9 +679,9 @@ public class CyderFrame extends JFrame {
         return cyderPanel.getLayoutComponents();
     }
 
-    // ------------------------------------
+    // ------------------------------
     // frame positions based on enums
-    // ------------------------------------
+    // ------------------------------
 
     /**
      * Sets the title position of the title label. If the frame is visible, and the location
@@ -736,10 +750,7 @@ public class CyderFrame extends JFrame {
                         }
 
                         titlePosition = newPosition;
-
-                        revalidateTitlePositionLocation();
-                        correctTitleLabelAlignment();
-                        correctTitleLength();
+                        revalidateTitleLocationAlignmentAndLength();
                     }, "Title Position Animator");
                 } else {
                     CyderThreadRunner.submit(() -> {
@@ -749,32 +760,38 @@ public class CyderFrame extends JFrame {
                         }
 
                         titlePosition = newPosition;
-
-                        revalidateTitlePositionLocation();
-                        correctTitleLabelAlignment();
-                        correctTitleLength();
+                        revalidateTitleLocationAlignmentAndLength();
                     }, "Title Position Animator");
                 }
             } else {
                 titlePosition = newPosition;
-
-                revalidateTitlePositionLocation();
-                correctTitleLabelAlignment();
-                correctTitleLength();
+                revalidateTitleLocationAlignmentAndLength();
             }
         } else {
             titlePosition = newPosition;
-
-            revalidateTitlePositionLocation();
-            correctTitleLabelAlignment();
-            correctTitleLength();
-
+            revalidateTitleLocationAlignmentAndLength();
             titleLabel.setVisible(true);
         }
     }
 
     /**
-     * Sets the alignment of the title label based on the currently set alignment.
+     * This method is used only by the above method {@link #setTitlePosition(TitlePosition)}.
+     * Invokes the following:
+     * <ul>
+     *     <li>{@link #revalidateTitlePositionLocation()}</li>
+     *     <li>{@link #correctTitleLabelAlignment()}</li>
+     *     <li>{@link #correctTitleLength()}</li>
+     * </ul>
+     */
+    @ForReadability
+    private void revalidateTitleLocationAlignmentAndLength() {
+        revalidateTitlePositionLocation();
+        correctTitleLabelAlignment();
+        correctTitleLength();
+    }
+
+    /**
+     * Sets the alignment of the title label based on the currently set title position.
      */
     private void correctTitleLabelAlignment() {
         switch (titlePosition) {
@@ -837,23 +854,23 @@ public class CyderFrame extends JFrame {
      * @param frameType the frame type of this frame
      */
     public void setFrameType(FrameType frameType) {
-        this.frameType = frameType;
+        this.frameType = Preconditions.checkNotNull(frameType);
 
-        switch (this.frameType) {
+        switch (frameType) {
             case DEFAULT -> setAlwaysOnTop(false);
             case POPUP -> {
                 setAlwaysOnTop(true);
-                //remove minimize
+                // Remove minimize
                 topDrag.removeRightButton(0);
-                //remove pin
+                // Remove pin
                 topDrag.removeRightButton(0);
             }
             case INPUT_GETTER -> {
                 setAlwaysOnTop(true);
-                //remove pin
+                // Remove pin
                 topDrag.removeRightButton(1);
             }
-            default -> throw new IllegalStateException("Unimplemented state");
+            default -> throw new IllegalStateException("Unimplemented state: " + frameType);
         }
     }
 
@@ -904,9 +921,9 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Sets the title of the frame of the OS' taskbar if {@link #paintSuperTitle} is true
-     * as well as the painted label on the CyderFrame if {@link #paintCyderFrameTitleOnSuperCall}
-     * is set to true.
+     * Sets the title of the frame of the OS' taskbar if {@link #paintSuperTitle}
+     * is true as well as the painted label on the CyderFrame
+     * if {@link #paintCyderFrameTitleOnSuperCall} is set to true.
      *
      * @param title the String representing the chosen CyderFrame title
      */
@@ -941,9 +958,9 @@ public class CyderFrame extends JFrame {
         correctTitleLength();
     }
 
-    // ------------------
+    // -------------
     // Notifications
-    // ------------------
+    // -------------
 
     /**
      * The notification that is currently being displayed.
@@ -971,8 +988,16 @@ public class CyderFrame extends JFrame {
      * @param htmlText the text containing possibly formatted text to display
      */
     public void notify(String htmlText) {
+        Preconditions.checkNotNull(htmlText);
+        Preconditions.checkArgument(!htmlText.isEmpty());
+
         notify(new NotificationBuilder(htmlText));
     }
+
+    /**
+     * The name for the notification queue thread.
+     */
+    private static final String NOTIFICATION_QUEUE_THREAD_FOOTER = " Frame Notification Queue";
 
     /**
      * Notifies the user with a custom notification built from the provided builder.
@@ -981,15 +1006,15 @@ public class CyderFrame extends JFrame {
      * @param notificationBuilder the builder used to construct the notification
      */
     public void notify(NotificationBuilder notificationBuilder) {
-        checkArgument(StringUtil.getRawTextLength(notificationBuilder.getHtmlText())
-                >= NotificationBuilder.MINIMUM_TEXT_LENGTH, "Raw text must be "
-                + NotificationBuilder.MINIMUM_TEXT_LENGTH + " characters or greater");
+        Preconditions.checkNotNull(notificationBuilder);
+        Preconditions.checkNotNull(notificationBuilder.getHtmlText());
+        Preconditions.checkArgument(!notificationBuilder.getHtmlText().isEmpty());
 
         notificationList.add(notificationBuilder);
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
-            CyderThreadRunner.submit(notificationQueueRunnable, getTitle() + " notification queue checker");
+            CyderThreadRunner.submit(notificationQueueRunnable, getTitle() + NOTIFICATION_QUEUE_THREAD_FOOTER);
         }
     }
 
@@ -999,18 +1024,16 @@ public class CyderFrame extends JFrame {
      * @param htmlText the styled text to use for the toast
      */
     public void toast(String htmlText) {
-        checkArgument(StringUtil.getRawTextLength(htmlText)
-                >= NotificationBuilder.MINIMUM_TEXT_LENGTH, "Raw text must be "
-                + NotificationBuilder.MINIMUM_TEXT_LENGTH + " characters or greater");
+        Preconditions.checkNotNull(htmlText);
+        Preconditions.checkArgument(!htmlText.isEmpty());
 
         NotificationBuilder toastBuilder = new NotificationBuilder(htmlText);
         toastBuilder.setNotificationType(CyderNotification.NotificationType.TOAST);
-
         notificationList.add(toastBuilder);
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
-            CyderThreadRunner.submit(notificationQueueRunnable, getTitle() + " notification queue checker");
+            CyderThreadRunner.submit(notificationQueueRunnable, getTitle() + NOTIFICATION_QUEUE_THREAD_FOOTER);
         }
     }
 
@@ -1020,63 +1043,53 @@ public class CyderFrame extends JFrame {
      */
     private final Semaphore notificationConstructionLock = new Semaphore(1);
 
-    /**
-     * The number of pixels to add to the width and height of a notification's calculated bounds.
-     */
-    private static final int notificationExcessLen = 5;
+    private static final int notificationPadding = 5;
+    private static final int MINIMUM_NOTIFICATION_TIME_MS = 4000;
 
     /**
      * The notification queue for internal frame notifications/toasts.
      */
     private final Runnable notificationQueueRunnable = () -> {
-        // as long as threads aren't killed and we have notifications
-        // to pull, loop
         while (!threadsKilled && !notificationList.isEmpty()) {
-            // lock so that only one notification is visible at a time
             try {
                 notificationConstructionLock.acquire();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
 
-            // pull next notification to build
             NotificationBuilder currentBuilder = notificationList.remove(0);
-
-            // init current notification object, needed
-            // for builder access and to kill via revokes
             CyderNotification toBeCurrentNotification = new CyderNotification(currentBuilder);
 
             toBeCurrentNotification.setVisible(false);
-            // ensure invisible to start
 
-            // generate label for notification
+            int maxWidth = (int) Math.ceil(width * NOTIFICATION_TO_FRAME_RATIO);
             BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(
                     currentBuilder.getHtmlText(),
-                    NOTIFICATION_FONT, (int) Math.ceil(width * 0.8));
-            int notificationWidth = bs.width() + notificationExcessLen;
-            int notificationHeight = bs.height() + notificationExcessLen;
+                    NOTIFICATION_FONT, maxWidth);
+            int notificationWidth = bs.width() + notificationPadding;
+            int notificationHeight = bs.height() + notificationPadding;
             String brokenText = bs.text();
 
-            // if too wide, cannot notify so inform
+            // Sanity check for overflow
             if (notificationHeight > height * NOTIFICATION_TO_FRAME_RATIO
                     || notificationWidth > width * NOTIFICATION_TO_FRAME_RATIO) {
-                // inform original text
-                inform(currentBuilder.getHtmlText(), "Notification ("
+                // todo duplicate
+                inform(currentBuilder.getHtmlText(), getTitle() + " notification ("
                         + currentBuilder.getNotifyTime() + ")");
 
-                // release and continue with queue
                 notificationConstructionLock.release();
                 continue;
             }
 
-            // if container specified, ensure it can fit
+            // If container specified, ensure it can fit
             if (currentBuilder.getContainer() != null) {
                 int containerWidth = currentBuilder.getContainer().getWidth();
                 int containerHeight = currentBuilder.getContainer().getHeight();
 
-                // can't fit so we need to do a popup with the custom component
+                // Custom component will not fit
                 if (containerWidth > width * NOTIFICATION_TO_FRAME_RATIO
                         || containerHeight > height * NOTIFICATION_TO_FRAME_RATIO) {
+                    // todo duplicate
                     InformHandler.inform(new InformHandler.Builder("NULL")
                             .setContainer(currentBuilder.getContainer())
                             .setTitle(getTitle() + " Notification")
@@ -1087,31 +1100,27 @@ public class CyderFrame extends JFrame {
                     continue;
                 }
 
-                // we can show a custom container on the notification so add the dispose label
+                // Custom container will fit so generate and add disposal label
                 JLabel interactionLabel = new JLabel();
                 interactionLabel.setSize(containerWidth, containerHeight);
-                interactionLabel.setToolTipText("Notified at: "
-                        + toBeCurrentNotification.getBuilder().getNotifyTime());
+                interactionLabel.setToolTipText("Notified at: " + toBeCurrentNotification.getBuilder().getNotifyTime());
+                // todo factory method for this mouse adapter
                 interactionLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        // fire the on kill actions
                         if (currentBuilder.getOnKillAction() != null) {
                             toBeCurrentNotification.kill();
                             currentBuilder.getOnKillAction().run();
-                        }
-                        // smoothly animate notification away
-                        else {
-                            toBeCurrentNotification.vanish(currentBuilder.getNotificationDirection(),
-                                    getContentPane(), 0);
+                        } else {
+                            toBeCurrentNotification.vanish(currentBuilder
+                                    .getNotificationDirection(), getContentPane(), 0);
                         }
                     }
                 });
 
                 currentBuilder.getContainer().add(interactionLabel);
-            }
-            // if the container is empty, we are intended to generate a text label
-            else {
+            } else {
+                // Empty container means use htmlText of builder
                 JLabel textContainerLabel = new JLabel(brokenText);
                 textContainerLabel.setSize(notificationWidth, notificationHeight);
                 textContainerLabel.setFont(NOTIFICATION_FONT);
@@ -1119,83 +1128,83 @@ public class CyderFrame extends JFrame {
 
                 JLabel interactionLabel = new JLabel();
                 interactionLabel.setSize(notificationWidth, notificationHeight);
-                interactionLabel.setToolTipText("Notified at: "
-                        + toBeCurrentNotification.getBuilder().getNotifyTime());
-                interactionLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        // fire the on kill action
-                        if (currentBuilder.getOnKillAction() != null) {
-                            toBeCurrentNotification.kill();
-                            currentBuilder.getOnKillAction().run();
-                        }
-                        // smoothly animate notification away
-                        else {
-                            toBeCurrentNotification.vanish(currentBuilder.getNotificationDirection(),
-                                    getContentPane(), 0);
-                        }
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        textContainerLabel.setForeground(
-                                CyderColors.notificationForegroundColor.darker());
-                        toBeCurrentNotification.setHovered(true);
-                        toBeCurrentNotification.repaint();
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
-                        toBeCurrentNotification.setHovered(false);
-                        toBeCurrentNotification.repaint();
-                    }
-                });
+                interactionLabel.setToolTipText("Notified at: " + toBeCurrentNotification.getBuilder().getNotifyTime());
+                // todo factory method for this mouse adapter
+                interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
+                        currentBuilder, textContainerLabel, toBeCurrentNotification));
 
                 textContainerLabel.add(interactionLabel);
-
-                // now when building the notification component, we'll use
-                // this as our container that we must build around
                 toBeCurrentNotification.getBuilder().setContainer(textContainerLabel);
             }
 
-            // add notification component to proper layer
             iconPane.add(toBeCurrentNotification, JLayeredPane.POPUP_LAYER);
             getContentPane().repaint();
 
             int duration = currentBuilder.getViewDuration();
 
-            // if duration of 0 was passed, we should calculate it based on words
+            // todo this is technically a magic number and this should be some kind of a boolean
+            int msPerWord = 300;
             if (duration == 0) {
-                duration = 300 * StringUtil.countWords(
-                        Jsoup.clean(bs.text(), Safelist.none()));
+                duration = msPerWord * StringUtil.countWords(Jsoup.clean(bs.text(), Safelist.none()));
             }
+            duration = Math.max(duration, MINIMUM_NOTIFICATION_TIME_MS);
 
-            // failsafe to ensure notifications are at least four seconds
-            duration = Math.max(duration, 4000);
+            Logger.log(Logger.Tag.UI_ACTION, constructNotificationLogLine(getTitle(), brokenText));
 
-            Logger.log(Logger.Tag.UI_ACTION, "[" +
-                    getTitle() + "] [NOTIFICATION] \"" + brokenText + "\"");
-
-            // notification itself handles itself appearing, pausing, and vanishing
-            toBeCurrentNotification.appear(currentBuilder.getNotificationDirection(),
-                    getContentPane(), duration);
-
+            toBeCurrentNotification.appear(currentBuilder.getNotificationDirection(), getContentPane(), duration);
             currentNotification = toBeCurrentNotification;
 
-            // when the notification is killed/vanishes, it sets itself
-            // to killed; this loop will exit after
             while (!currentNotification.isKilled()) {
                 Thread.onSpinWait();
             }
 
             notificationConstructionLock.release();
         }
-
-        // the above while isn't checking so it needs
-        // to be started again for new notifications
         notificationCheckerStarted = false;
     };
+
+    /**
+     * Generates the disposal mouse listener for a notification.
+     *
+     * @param builder      the notification builder
+     * @param textLabel    the label the notification's text is placed on
+     * @param notification the current notification object under construction
+     * @return a disposal mouse listener for a notification.
+     */
+    @ForReadability
+    private MouseAdapter generateNotificationDisposalMouseListener(
+            NotificationBuilder builder, JLabel textLabel, CyderNotification notification) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (builder.getOnKillAction() != null) {
+                    notification.kill();
+                    builder.getOnKillAction().run();
+                } else {
+                    notification.vanish(builder.getNotificationDirection(), getContentPane(), 0);
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                textLabel.setForeground(CyderColors.notificationForegroundColor.darker());
+                notification.setHovered(true);
+                notification.repaint();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                textLabel.setForeground(CyderColors.notificationForegroundColor);
+                notification.setHovered(false);
+                notification.repaint();
+            }
+        };
+    }
+
+    @ForReadability
+    private static String constructNotificationLogLine(String title, String text) {
+        return "[" + title + "] [NOTIFICATION] \"" + text + "\"";
+    }
 
     /**
      * Ends the current notification on screen.
@@ -1239,18 +1248,20 @@ public class CyderFrame extends JFrame {
      * Removes all currently displayed notifications and wipes the notification queue.
      */
     public void revokeAllNotifications() {
-        if (currentNotification != null)
-            currentNotification.kill();
-
-        if (notificationList != null)
+        if (notificationList != null) {
             notificationList.clear();
+        }
+
+        if (currentNotification != null) {
+            currentNotification.kill();
+        }
 
         notificationCheckerStarted = false;
     }
 
-    // -------------
+    // -----------
     // drag labels
-    // -------------
+    // -----------
 
     /**
      * Returns the top drag label.
@@ -3693,6 +3704,7 @@ public class CyderFrame extends JFrame {
          * The minimum allowable char length for a notification.
          */
         public static final int MINIMUM_TEXT_LENGTH = 2;
+        // todo remove a need for me, it should work even with one char
 
         // -------------------
         // Required parameters

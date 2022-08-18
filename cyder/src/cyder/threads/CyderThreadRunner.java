@@ -13,14 +13,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public final class CyderThreadRunner {
     /**
-     * Restrict default instantiation.
+     * Suppress default instantiation.
      */
     private CyderThreadRunner() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
     /**
-     * Creates and immediately executes a thread with the provided
+     * Creates and immediately starts a thread with the provided
      * runnable named with the provided name.
      *
      * @param runnable the runnable to attach to the created thread
@@ -61,6 +61,10 @@ public final class CyderThreadRunner {
         scheduleAtFixedRate(runnable, name, frequency, null);
     }
 
+    private static String generateFixedRateSchedulerThreadName(String name, Duration frequency) {
+        return "Fixed Rate Scheduler, task=[" + name + "], rate=" + frequency;
+    }
+
     /**
      * Constructs a new thread to run the provided runnable at the provided fixed rate.
      *
@@ -85,6 +89,6 @@ public final class CyderThreadRunner {
                 submit(runnable, name);
                 ThreadUtil.sleep(frequency.toMillis());
             }
-        }, "Fixed Rate Scheduler, task=[" + name + "], rate=" + frequency);
+        }, generateFixedRateSchedulerThreadName(name, frequency));
     }
 }

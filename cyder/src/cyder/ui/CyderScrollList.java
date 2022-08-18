@@ -231,7 +231,7 @@ public class CyderScrollList {
      * @return the CyderScrollList component based on the constructed and set properties
      */
     public JLabel generateScrollList() {
-        JLabel retLabel = new JLabel("");
+        JLabel retLabel = new JLabel();
         retLabel.setSize(width, height);
         retLabel.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.vanilla);
         retLabel.setOpaque(true);
