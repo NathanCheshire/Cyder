@@ -202,7 +202,7 @@ public class CyderDragLabel extends JLabel {
 
                 effectFrame.setVisible(true);
                 effectFrame.requestFocus();
-                UiUtil.requestFramePosition(effectFrame.getMonitor(), restoreX, restoreY, effectFrame);
+                UiUtil.requestFramePosition(restoreX, restoreY, effectFrame);
             }
 
             @Override

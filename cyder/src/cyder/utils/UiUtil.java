@@ -158,44 +158,30 @@ public final class UiUtil {
      * Attempts to set the provided frame to the monitor specified,
      * if valid, with the provided starting location.
      *
-     * @param requestedMonitor the id number of the monitor to place the frame on, if invalid,
-     *                         the frame is placed in the center of the primary display
-     * @param requestedX       the x value to set the frame to
-     * @param requestedY       the y value to set the frame to
-     * @param frame            the frame to set the location/size of
+     * @param requestedX the x value to set the frame to
+     * @param requestedY the y value to set the frame to
+     * @param frame      the frame to set the location/size of
      */
-    public static void requestFramePosition(int requestedMonitor, int requestedX,
-                                            int requestedY, CyderFrame frame) {
-        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice[] screenDevices = graphicsEnvironment.getScreenDevices();
+    public static void requestFramePosition(int requestedX, int requestedY, CyderFrame frame) {
+        Rectangle mergedMonitors = getMergedMonitors();
 
-        // Find monitor to use to define the frame as being "in" or "out" of bounds
-        Rectangle requestedScreenBounds;
-        if (requestedMonitor > -1 && requestedMonitor < screenDevices.length) {
-            requestedScreenBounds = screenDevices[requestedMonitor].getDefaultConfiguration().getBounds();
-        } else if (screenDevices.length > 0) {
-            requestedScreenBounds = screenDevices[0].getDefaultConfiguration().getBounds();
-        } else {
-            throw new IllegalStateException("No monitors were found. " + CyderStrings.EUROPEAN_TOY_MAKER);
-        }
-
-        int monitorX = requestedScreenBounds.x;
-        int monitorY = requestedScreenBounds.y;
-        int monitorWidth = requestedScreenBounds.width;
-        int monitorHeight = requestedScreenBounds.height;
+        int absoluteMinX = mergedMonitors.x;
+        int absoluteMinY = mergedMonitors.y;
+        int totalWidth = mergedMonitors.width;
+        int totalHeight = mergedMonitors.height;
 
         // Correct complete horizontal over/underflow
-        if (requestedX + frame.getWidth() > monitorX + monitorWidth) {
-            requestedX = monitorX + monitorWidth - frame.getWidth();
-        } else if (requestedX < monitorX) {
-            requestedX = monitorX;
+        if (requestedX + frame.getWidth() > absoluteMinX + totalWidth) {
+            requestedX = absoluteMinX + totalWidth - frame.getWidth();
+        } else if (requestedX < absoluteMinX) {
+            requestedX = absoluteMinX;
         }
 
         // Correct complete vertical over/underflow
-        if (requestedY + frame.getHeight() > monitorY + monitorHeight) {
-            requestedY = monitorY + monitorHeight - frame.getHeight();
-        } else if (requestedY < monitorY) {
-            requestedY = monitorY;
+        if (requestedY + frame.getHeight() > absoluteMinY + totalHeight) {
+            requestedY = absoluteMinY + totalHeight - frame.getHeight();
+        } else if (requestedY < absoluteMinY) {
+            requestedY = absoluteMinY;
         }
 
         frame.setLocation(requestedX, requestedY);

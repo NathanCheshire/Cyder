@@ -783,7 +783,7 @@ public enum Console {
             consoleY = (int) (relocatedSplashCenter.getY() - consoleCyderFrame.getHeight() / 2);
         }
 
-        UiUtil.requestFramePosition(requestedConsoleStats.getMonitor(), consoleX, consoleY, consoleCyderFrame);
+        UiUtil.requestFramePosition(consoleX, consoleY, consoleCyderFrame);
 
         consoleCyderFrame.setVisible(true);
     }
@@ -2422,8 +2422,7 @@ public enum Console {
         consoleCyderFrame.setSize(width, height);
 
         // Bump frame into bounds if new size pushed part out of bounds
-        UiUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
-                (int) originalCenter.getX() - width / 2,
+        UiUtil.requestFramePosition((int) originalCenter.getX() - width / 2,
                 (int) originalCenter.getY() - height / 2, consoleCyderFrame);
 
         ImageIcon combinedIcon = switch (lastSlideDirection) {
@@ -2817,8 +2816,7 @@ public enum Console {
         consoleCyderFrame.setSize(w, h);
         consoleCyderFrame.setBackground(background);
 
-        UiUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
-                (int) originalCenter.getX() - w / 2,
+        UiUtil.requestFramePosition((int) originalCenter.getX() - w / 2,
                 (int) originalCenter.getY() - h / 2, consoleCyderFrame);
 
         revalidateInputAndOutputBounds();
