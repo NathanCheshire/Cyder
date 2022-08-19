@@ -2849,16 +2849,17 @@ public class CyderFrame extends JFrame {
     /**
      * Sets the center point of the frame to the provided point.
      *
-     * @param p the center point of the frame
+     * @param point the center point of the frame
      */
-    public void setCenterPoint(Point p) {
-        checkNotNull(p);
-        setLocation(p.x - getWidth() / 2, p.y - getHeight() / 2);
+    public void setCenterPoint(Point point) {
+        checkNotNull(point);
+
+        setLocation(point.x - getWidth() / 2, point.y - getHeight() / 2);
     }
 
-    // ---------------------------------
+    // -------------------------------
     // Transparency during drag events
-    // ---------------------------------
+    // -------------------------------
 
     /**
      * Whether the opacity should be animated in and out on drag events.
@@ -2900,8 +2901,9 @@ public class CyderFrame extends JFrame {
 
         CyderThreadRunner.submit(() -> {
             for (float i = DEFAULT_OPACITY ; i >= DRAG_OPACITY ; i -= OPACITY_DELTA) {
-                if (animatingOut)
+                if (animatingOut) {
                     break;
+                }
 
                 setOpacity(i);
                 repaint();
@@ -3030,7 +3032,8 @@ public class CyderFrame extends JFrame {
         this.menuType = currentMenuType;
 
         if (menuEnabled) {
-            boolean wasVisible = menuLabel != null && menuLabel.isVisible();
+            boolean wasVisible = UiUtil.notNullAndVisible(menuLabel);
+
             generateMenu();
 
             if (wasVisible) {
@@ -3044,7 +3047,7 @@ public class CyderFrame extends JFrame {
      */
     public void revalidateMenu() {
         if (menuEnabled) {
-            boolean wasVisible = menuLabel != null && menuLabel.isVisible();
+            boolean wasVisible = UiUtil.notNullAndVisible(menuLabel);
             generateMenu();
 
             if (wasVisible) {
@@ -3057,7 +3060,7 @@ public class CyderFrame extends JFrame {
      * Revalidates the menu and shows it only if it was visible.
      */
     public void revalidateMenuIfVisible() {
-        if (menuLabel != null && menuLabel.isVisible()) {
+        if (UiUtil.notNullAndVisible(menuLabel)) {
             revalidateMenu();
         }
     }
@@ -3088,6 +3091,9 @@ public class CyderFrame extends JFrame {
         setMenuEnabled(false);
     }
 
+    /**
+     * The mouse listener for the title label if this frame contains menu items.
+     */
     private final MouseListener titleLabelListener = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -3111,6 +3117,7 @@ public class CyderFrame extends JFrame {
             if (menuEnabled) {
                 titleLabel.setForeground(CyderColors.regularRed);
             } else {
+                // Necessary to pass to component behind
                 super.mouseEntered(e);
             }
         }
@@ -3120,6 +3127,7 @@ public class CyderFrame extends JFrame {
             if (menuEnabled) {
                 titleLabel.setForeground(CyderColors.vanilla);
             } else {
+                // Necessary to pass to component behind
                 super.mouseExited(e);
             }
         }
@@ -3178,7 +3186,7 @@ public class CyderFrame extends JFrame {
     /**
      * The maximum text length allowable for menu items.
      */
-    private static final int maxTextLength = 13;
+    private static final int MAXIMUM_MENU_ITEM_TEXT_LENGTH = 13;
 
     /**
      * Removes the menu item with the provided text.
@@ -3188,6 +3196,9 @@ public class CyderFrame extends JFrame {
      * @param text the text of the menu item to remove
      */
     public void removeMenuItem(String text) {
+        Preconditions.checkNotNull(text);
+        Preconditions.checkArgument(!text.isEmpty());
+
         for (int i = 0 ; i < menuItems.size() ; i++) {
             if (menuItems.get(i).label().getText().equals(text)) {
                 removeMenuItem(i);
@@ -3220,24 +3231,27 @@ public class CyderFrame extends JFrame {
         addMenuItem(text, onClick, null);
     }
 
+    private static final String DOTS = "...";
+    private static final Color menuItemForeground = CyderColors.vanilla;
+    private static final Color menuItemHoverForeground = CyderColors.regularRed;
+
     /**
      * Adds a new menu item to the menu and revalidates the menu.
      *
-     * @param text    the text for the menu label
-     * @param onClick the function to run upon clicking
-     * @param state   the atomic boolean used to dictate the toggled/not toggled state of the menu item if necessary
+     * @param text      the text for the menu label
+     * @param onClick   the function to run upon clicking
+     * @param isToggled the atomic boolean used to dictate the toggled/not toggled state of the menu item if necessary
      */
-    public void addMenuItem(String text, Runnable onClick, AtomicBoolean state) {
+    public void addMenuItem(String text, Runnable onClick, AtomicBoolean isToggled) {
         checkNotNull(text);
         checkArgument(!text.isEmpty());
         checkNotNull(onClick);
 
-        // just to be safe
         text = text.trim();
 
-        // account for possible overflow in clean way
-        if (text.length() > maxTextLength) {
-            text = (text.substring(0, maxTextLength - 3).trim() + "...");
+        // Overflow
+        if (text.length() > MAXIMUM_MENU_ITEM_TEXT_LENGTH) {
+            text = (text.substring(0, MAXIMUM_MENU_ITEM_TEXT_LENGTH - 3).trim() + DOTS);
         }
 
         JLabel newLabel = new JLabel(text);
@@ -3251,18 +3265,20 @@ public class CyderFrame extends JFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                newLabel.setForeground(state != null && state.get() ? CyderColors.vanilla : CyderColors.regularRed);
+                newLabel.setForeground(
+                        isToggled != null && isToggled.get() ? menuItemForeground : menuItemHoverForeground);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                newLabel.setForeground(state != null && state.get() ? CyderColors.regularRed : CyderColors.vanilla);
+                newLabel.setForeground(
+                        isToggled != null && isToggled.get() ? menuItemHoverForeground : menuItemForeground);
             }
         });
-        menuItems.add(new MenuItem(newLabel, state));
+        menuItems.add(new MenuItem(newLabel, isToggled));
 
-        // regenerate if menu is already visible
-        if (menuLabel != null && menuLabel.isVisible()) {
+        // Regenerate if needed
+        if (UiUtil.notNullAndVisible(menuLabel)) {
             generateMenu();
             menuLabel.setVisible(true);
             menuLabel.setLocation(animateMenuToPoint);
@@ -3272,7 +3288,8 @@ public class CyderFrame extends JFrame {
     /**
      * The point at which the menu is placed when visible.
      */
-    private final Point animateMenuToPoint = new Point(5 - 2, CyderDragLabel.DEFAULT_HEIGHT - 2);
+    private final Point animateMenuToPoint = new Point(
+            BORDER_LEN - FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT - 2);
 
     /**
      * Returns whether the menu is accessible
@@ -3342,14 +3359,15 @@ public class CyderFrame extends JFrame {
                 if (menuType == MenuType.PANEL) {
                     menuLabel.setLocation(-menuLabel.getWidth(), animateMenuToPoint.getLocation().y);
                     menuLabel.setVisible(true);
+
                     for (int x = menuLabel.getX() ; x < animateMenuToPoint.x ; x += menuAnimationInc) {
                         menuLabel.setLocation(x, menuLabel.getY());
                         ThreadUtil.sleep(menuAnimationDelay);
                     }
                 } else {
-                    menuLabel.setLocation(animateMenuToPoint.x,
-                            animateMenuToPoint.y - menuLabel.getHeight());
+                    menuLabel.setLocation(animateMenuToPoint.x, animateMenuToPoint.y - menuLabel.getHeight());
                     menuLabel.setVisible(true);
+
                     for (int y = menuLabel.getY() ; y <= animateMenuToPoint.y ; y += menuAnimationInc) {
                         menuLabel.setLocation(animateMenuToPoint.x, y);
                         ThreadUtil.sleep(menuAnimationDelay);
@@ -3451,8 +3469,11 @@ public class CyderFrame extends JFrame {
         menuLabel.setBorder(new LineBorder(Color.black, menuBorderThickness));
 
         JTextPane menuPane = new JTextPane() {
-            // overridden to disable vertical scrollbar since setting
-            // the policy doesn't work apparently, thanks JDK devs
+            /**
+             * Overridden to disable vertical scrollbar since setting
+             * the policy doesn't work apparently, thanks JDK devs
+             */
+            @Override
             public boolean getScrollableTracksViewportWidth() {
                 return getUI().getPreferredSize(this).width <= getParent().getSize().width;
             }
@@ -3541,7 +3562,9 @@ public class CyderFrame extends JFrame {
     /**
      * The delay between setting a frame's alwaysOnTop mode back to false after a {@link #finalizeAndShow()} call.
      */
-    public static final int ALWAYS_ON_TOP_RESTORER_DELAY = 1000;
+    public static final int ALWAYS_ON_TOP_RESTORE_DELAY = 1000;
+
+    private static final String FINALIZE_AND_SHOW_THREAD_PREFIX = "CyderFrame finalizeAndShow Thread, frame = ";
 
     /**
      * Sets the frame's location relative to the dominant frame,
@@ -3549,20 +3572,18 @@ public class CyderFrame extends JFrame {
      * temporarily to ensure the frame is placed on top of other possible frames.
      */
     public void finalizeAndShow() {
-        CyderThreadRunner.submit(() -> {
-            boolean onTop = isAlwaysOnTop();
+        boolean onTop = isAlwaysOnTop();
 
-            setAlwaysOnTop(true);
-            setLocationRelativeTo(getDominantFrame());
-            setVisible(true);
+        setAlwaysOnTop(true);
+        setLocationRelativeTo(getDominantFrame());
+        setVisible(true);
 
-            if (!onTop) {
-                CyderThreadRunner.submit(() -> {
-                    ThreadUtil.sleep(ALWAYS_ON_TOP_RESTORER_DELAY);
-                    setAlwaysOnTop(false);
-                }, "CyderFrame alwaysOnTop restorer: frame = " + this.title);
-            }
-        }, "Enter animation, frame=" + getTitle());
+        if (!onTop) {
+            CyderThreadRunner.submit(() -> {
+                ThreadUtil.sleep(ALWAYS_ON_TOP_RESTORE_DELAY);
+                setAlwaysOnTop(false);
+            }, FINALIZE_AND_SHOW_THREAD_PREFIX + getTitle());
+        }
     }
 
     /**
@@ -3572,13 +3593,15 @@ public class CyderFrame extends JFrame {
      */
     public void enterAnimation(Point point) {
         Preconditions.checkNotNull(point);
-        setLocation(point.x, -getHeight());
 
-        setLocation(getX(), -getHeight());
+        int x = point.x;
+        int y = point.y;
+
+        setLocation(x, -getHeight());
         setVisible(true);
 
-        for (int i = -getHeight() ; i < point.getY() ; i += ENTER_ANIMATION_INC) {
-            setLocation(point.x, i);
+        for (int i = -getHeight() ; i < y ; i += ENTER_ANIMATION_INC) {
+            setLocation(x, i);
             ThreadUtil.sleep(0, ENTER_ANIMATION_DELAY);
         }
     }
@@ -3614,20 +3637,30 @@ public class CyderFrame extends JFrame {
         MIDDLE
     }
 
-    // todo depends on monitor technically, make a wrapper method that calls a ui util method that passes this
     /**
      * Sets the console to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
      *
      * @param screenPos the screen position to move the Console to
      */
     public void setLocationOnScreen(ScreenPosition screenPos) {
+        Rectangle ourMonitorBounds = getMonitorBounds();
+
         switch (screenPos) {
-            case CENTER, MIDDLE -> setLocationRelativeTo(null);
-            case TOP_LEFT -> setLocation(0, 0);
-            case TOP_RIGHT -> setLocation(ScreenUtil.getScreenWidth() - getWidth(), 0);
-            case BOTTOM_LEFT -> setLocation(0, ScreenUtil.getScreenHeight() - getHeight());
-            case BOTTOM_RIGHT -> setLocation(ScreenUtil.getScreenWidth() - getWidth(),
-                    ScreenUtil.getScreenHeight() - getHeight());
+            case CENTER, MIDDLE -> setLocation(
+                    ourMonitorBounds.x + ourMonitorBounds.width / 2 - getWidth() / 2,
+                    ourMonitorBounds.y + ourMonitorBounds.height / 2 - getHeight() / 2);
+            case TOP_LEFT -> setLocation(
+                    ourMonitorBounds.x,
+                    ourMonitorBounds.y);
+            case TOP_RIGHT -> setLocation(
+                    ourMonitorBounds.x + ourMonitorBounds.width - getWidth(),
+                    ourMonitorBounds.y);
+            case BOTTOM_LEFT -> setLocation(
+                    ourMonitorBounds.x,
+                    ourMonitorBounds.y + ourMonitorBounds.height - getHeight());
+            case BOTTOM_RIGHT -> setLocation(
+                    ourMonitorBounds.x + ourMonitorBounds.width - getWidth(),
+                    ourMonitorBounds.y + ourMonitorBounds.height - getHeight());
         }
     }
 

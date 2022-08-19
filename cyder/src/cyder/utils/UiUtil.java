@@ -2,6 +2,7 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
@@ -94,23 +95,13 @@ public final class UiUtil {
      * @return whether the screenshot was successfully saved
      */
     public static boolean screenshotCyderFrame(String cyderFrameName) {
-        CyderFrame refFrame = null;
-
         for (CyderFrame frame : getCyderFrames()) {
             if (frame.getTitle().equalsIgnoreCase(cyderFrameName)) {
-                refFrame = frame;
-                break;
+                return screenshotCyderFrame(frame, generateScreenshotSaveFile(frame));
             }
         }
 
-        if (refFrame == null) {
-            return false;
-        }
-
-        String saveName = refFrame.getTitle().substring(0, Math.min(15, refFrame.getTitle().length()));
-        File refFile = UserUtil.createFileInUserSpace(saveName + "_" + TimeUtil.logTime()
-                + "_" + TimeUtil.logTime() + ".png");
-        return screenshotCyderFrame(refFrame, refFile);
+        return false;
     }
 
     /**
@@ -126,11 +117,15 @@ public final class UiUtil {
     public static void screenshotCyderFrame(CyderFrame cyderFrame) {
         Preconditions.checkNotNull(cyderFrame);
 
-        String saveName = cyderFrame.getTitle().substring(0,
-                Math.min(MAX_FRAME_TITLE_FILE_LENGTH, cyderFrame.getTitle().length()));
-        File refFile = UserUtil.createFileInUserSpace(saveName.trim() + "_"
-                + TimeUtil.logTime().trim() + ".png");
-        screenshotCyderFrame(cyderFrame, refFile);
+        screenshotCyderFrame(cyderFrame, generateScreenshotSaveFile(cyderFrame));
+    }
+
+    @ForReadability
+    private static File generateScreenshotSaveFile(CyderFrame cyderFrame) {
+        String saveName = cyderFrame.getTitle().substring(0, Math.min(MAX_FRAME_TITLE_FILE_LENGTH,
+                cyderFrame.getTitle().length()));
+        return UserUtil.createFileInUserSpace(saveName.trim() + "_"
+                + TimeUtil.logTime().trim() + "." + ImageUtil.PNG_FORMAT);
     }
 
     /**
@@ -432,5 +427,14 @@ public final class UiUtil {
         if (cyderFrame != null) {
             cyderFrame.dispose(fastClose);
         }
+    }
+
+    /**
+     * Returns whether the provided component is visible.
+     *
+     * @return whether the provided component is visible
+     */
+    public static boolean notNullAndVisible(Component component) {
+        return component != null && component.isVisible();
     }
 }

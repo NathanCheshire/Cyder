@@ -7,6 +7,7 @@ import cyder.exceptions.IllegalMethodException;
 
 import java.awt.*;
 
+// todo method go away and move to ui util I suppose and account for monitors
 /**
  * Static util class for utilities revolving around the possibility of multiple monitors/displays.
  */
