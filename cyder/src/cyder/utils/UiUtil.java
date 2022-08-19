@@ -3,7 +3,9 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.DeviceNotFoundException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -197,6 +199,70 @@ public final class UiUtil {
         }
 
         frame.setLocation(requestedX, requestedY);
+    }
+
+    /**
+     * Returns a list of the graphics devices found from the local graphics environment.
+     *
+     * @return a list of the graphics devices found from the local graphics environment
+     */
+    public static ImmutableList<GraphicsDevice> getGraphicsDevices() {
+        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        return ImmutableList.copyOf(graphicsEnvironment.getScreenDevices());
+    }
+
+    /**
+     * Returns a rectangle representing the currently connected monitors to this PC and their coalesced bounds.
+     *
+     * @return a rectangle representing the currently connected monitors to this PC and their coalesced bounds
+     */
+    public static Rectangle getMergedMonitors() {
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+
+        for (GraphicsDevice device : getGraphicsDevices()) {
+            Rectangle bounds = device.getDefaultConfiguration().getBounds();
+
+            minX = Math.min(minX, bounds.x);
+            minY = Math.min(minY, bounds.y);
+            maxX = Math.max(maxX, bounds.x + bounds.width);
+            maxY = Math.max(maxY, bounds.y + bounds.height);
+        }
+
+        return new Rectangle(minX, minY, Math.abs(maxX - minX), Math.abs(maxY - minY));
+    }
+
+    /**
+     * Returns whether the monitor the frame is on is full screen supported.
+     *
+     * @param frame the frame
+     * @return whether the monitor the frame is on is full screen supported.
+     */
+    public static boolean frameMonitorIsFullscreenSupported(CyderFrame frame) {
+        Preconditions.checkNotNull(frame);
+
+        return getGraphicsDevice(frame.getMonitor()).isFullScreenSupported();
+    }
+
+    /**
+     * Returns the graphics device with the provided id if found.
+     *
+     * @param id the id
+     * @return the device with the provided id
+     * @throws DeviceNotFoundException if a device with the provided id cannot be found
+     */
+    public static GraphicsDevice getGraphicsDevice(int id) {
+        for (GraphicsDevice device : getGraphicsDevices()) {
+            int localId = Integer.parseInt(device.getIDstring()
+                    .replaceAll(CyderRegexPatterns.nonNumberRegex, ""));
+            if (localId == id) {
+                return device;
+            }
+        }
+
+        throw new DeviceNotFoundException("Could not find device with id: " + id);
     }
 
     /**

@@ -3614,8 +3614,7 @@ public class CyderFrame extends JFrame {
         MIDDLE
     }
 
-    // todo depends on monitor technically
-
+    // todo depends on monitor technically, make a wrapper method that calls a ui util method that passes this
     /**
      * Sets the console to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
      *
@@ -3697,16 +3696,6 @@ public class CyderFrame extends JFrame {
     @CanIgnoreReturnValue
     public static final class NotificationBuilder {
         /**
-         * The minimum allowable char length for a notification.
-         */
-        public static final int MINIMUM_TEXT_LENGTH = 2;
-        // todo remove a need for me, it should work even with one char
-
-        // -------------------
-        // Required parameters
-        // -------------------
-
-        /**
          * The html styled text to display.
          */
         private final String htmlText;
@@ -3763,8 +3752,7 @@ public class CyderFrame extends JFrame {
          */
         public NotificationBuilder(String htmlText) {
             Preconditions.checkNotNull(htmlText);
-            Preconditions.checkArgument(htmlText.length() >= MINIMUM_TEXT_LENGTH,
-                    "HTML text length is less than " + MINIMUM_TEXT_LENGTH);
+            Preconditions.checkArgument(!htmlText.isEmpty());
 
             this.htmlText = htmlText;
 
