@@ -181,7 +181,6 @@ public final class ExceptionHandler {
                     for (float i = 1.0f ; i >= 0 ; i -= opacityShiftDelta) {
                         if (escapeOpacityThread.get()) return;
 
-
                         borderlessFrame.setOpacity(i);
                         borderlessFrame.repaint();
                         ThreadUtil.sleep(opacityTimeout);
