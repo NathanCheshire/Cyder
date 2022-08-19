@@ -1324,7 +1324,7 @@ public class CyderFrame extends JFrame {
             if (UserUtil.getCyderUser().getDoAnimations().equals("1")) {
                 setDisableContentRepainting(true);
 
-                int monitorHeight = UiUtil.getScreenHeight(this);
+                int monitorHeight = UiUtil.getMonitorHeight(this);
                 int animationInc = (int) ((double) (monitorHeight - getY()) / ANIMATION_FRAMES);
 
                 for (int i = getY() ; i <= monitorHeight + getHeight() ; i += animationInc) {

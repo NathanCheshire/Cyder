@@ -2125,8 +2125,8 @@ public enum Console {
      */
     public void resizeBackgrounds() {
         try {
-            int maxWidth = UiUtil.getDefaultScreenWidth();
-            int maxHeight = UiUtil.getDefaultScreenHeight();
+            int maxWidth = UiUtil.getDefaultMonitorWidth();
+            int maxHeight = UiUtil.getDefaultMonitorHeight();
 
             for (ConsoleBackground currentBackground : backgrounds) {
                 File currentFile = currentBackground.getReferenceFile();

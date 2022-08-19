@@ -81,9 +81,7 @@ public final class PaintWidget {
                 frameLength + CyderDragLabel.DEFAULT_HEIGHT);
         paintFrame.setTitle("Paint");
         paintFrame.setBackground(CyderIcons.defaultBackgroundLarge);
-        paintFrame.addPreCloseAction(() -> {
-            UiUtil.closeIfOpen(paintControlsFrame);
-        });
+        paintFrame.addPreCloseAction(() -> UiUtil.closeIfOpen(paintControlsFrame));
         paintFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

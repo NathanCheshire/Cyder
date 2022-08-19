@@ -444,7 +444,7 @@ public final class UiUtil {
      * @param frame the frame
      * @return the width of the monitor the provided frame is on
      */
-    public static int getScreenWidth(CyderFrame frame) {
+    public static int getMonitorWidth(CyderFrame frame) {
         Preconditions.checkNotNull(frame);
 
         return (int) frame.getMonitorBounds().getWidth();
@@ -456,20 +456,18 @@ public final class UiUtil {
      * @param frame the frame
      * @return the height of the monitor the provided frame is on
      */
-    public static int getScreenHeight(CyderFrame frame) {
+    public static int getMonitorHeight(CyderFrame frame) {
         Preconditions.checkNotNull(frame);
 
         return (int) frame.getMonitorBounds().getHeight();
     }
-
-    // todo after migration remove any screen names and replace with "monitor"
 
     /**
      * Returns the default graphics configuration monitor width.
      *
      * @return the default graphics configuration monitor width
      */
-    public static int getDefaultScreenWidth() {
+    public static int getDefaultMonitorWidth() {
         return (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     }
 
@@ -478,7 +476,7 @@ public final class UiUtil {
      *
      * @return the default graphics configuration monitor height
      */
-    public static int getDefaultScreenHeight() {
+    public static int getDefaultMonitorHeight() {
         return (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     }
 
