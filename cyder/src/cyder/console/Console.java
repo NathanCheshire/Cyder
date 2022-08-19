@@ -347,6 +347,7 @@ public enum Console {
     /**
      * Resets private variables to their default state.
      */
+    @ForReadability
     private void resetMembers() {
         consoleBashString = UserUtil.getCyderUser().getName() + BASH_STRING_PREFIX;
 
@@ -367,6 +368,7 @@ public enum Console {
      *
      * @param consoleIcon the console icon record to use for the direct props
      */
+    @ForReadability
     private void setupConsoleCyderFrame(ConsoleIcon consoleIcon) {
         int w = (int) consoleIcon.dimension().getWidth();
         int h = (int) consoleIcon.dimension().getHeight();
@@ -581,6 +583,7 @@ public enum Console {
     /**
      * Adds the pinned window logic listeners to the console.
      */
+    @ForReadability
     private void installConsolePinnedWindowListeners() {
         consoleCyderFrame.addDragListener(consolePinnedWindowMouseMotionAdapter);
         consoleCyderFrame.addDragLabelMouseListener(consolePinnedWindowMouseAdapter);
@@ -646,6 +649,7 @@ public enum Console {
     /**
      * Sets up the output area and output scroll and adds it to the console.
      */
+    @ForReadability
     private void installOutputArea() {
         outputArea = new JTextPane() {
             @Override
@@ -708,6 +712,7 @@ public enum Console {
     /**
      * Sets up the input field and adds it to the console.
      */
+    @ForReadability
     private void installInputField() {
         inputField = new JPasswordField(40);
 
@@ -743,6 +748,7 @@ public enum Console {
     /**
      * Sets up the input map to allow the drag label buttons to be triggered via the enter key.
      */
+    @ForReadability
     private void setupButtonEnterInputMap() {
         InputMap inputMap = (InputMap) UIManager.get(BUTTON_INPUT_FOCUS_MAP_KEY);
         inputMap.put(KeyStroke.getKeyStroke(ENTER), PRESSED);
@@ -754,6 +760,7 @@ public enum Console {
      *
      * @param consoleIcon the console icon record to get the size from
      */
+    @ForReadability
     private void restorePreviousFrameBounds(ConsoleIcon consoleIcon) {
         ScreenStat requestedConsoleStats = UserUtil.getCyderUser().getScreenStat();
 
@@ -791,6 +798,7 @@ public enum Console {
     /**
      * Sets up the drag label button lists for all the console's drag labels.
      */
+    @ForReadability
     private void installDragLabelButtons() {
         menuButton = new CyderIconButton(
                 "Menu", CyderIcons.menuIcon, CyderIcons.menuIconHover,
@@ -863,6 +871,7 @@ public enum Console {
     /**
      * Sets up and adds the console clock to the top drag label.
      */
+    @ForReadability
     private void installConsoleClock() {
         consoleCyderFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         consoleCyderFrame.setCyderFrameTitle("");
@@ -935,6 +944,7 @@ public enum Console {
     /**
      * Sets up resizing for the console.
      */
+    @ForReadability
     private void installConsoleResizing() {
         consoleCyderFrame.initializeResizing();
         consoleCyderFrame.setResizable(true);
@@ -986,6 +996,7 @@ public enum Console {
     /**
      * Begins the console checker executors/threads.
      */
+    @ForReadability
     private void startExecutors() {
         CyderThreadRunner.submit(() -> {
             try {
@@ -2123,6 +2134,7 @@ public enum Console {
      * Resizes the valid backgrounds found in the user's backgrounds/ directory
      * for all images found to be too large/small.
      */
+    @ForReadability
     public void resizeBackgrounds() {
         try {
             int maxWidth = UiUtil.getDefaultMonitorWidth();
