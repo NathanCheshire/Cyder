@@ -3,7 +3,6 @@ package cyder.constants;
 import cyder.exceptions.IllegalMethodException;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
-import cyder.utils.ScreenUtil;
 import cyder.utils.StaticUtil;
 
 import javax.swing.*;
@@ -73,20 +72,24 @@ public final class CyderIcons {
     public static final ImageIcon menuIcon = new ImageIcon(StaticUtil.getStaticPath("menu1.png"));
     public static final ImageIcon menuIconHover = new ImageIcon(StaticUtil.getStaticPath("menu2.png"));
 
+    private static final int DEFAULT_BACKGROUND_LEN = 1000;
+    private static final int DEFAULT_LARGE_BACKGROUND_LEN = 2800;
+
     /**
      * A default image with dimensions 1000x1000
      */
-    public static final ImageIcon defaultBackground = generateDefaultBackground(1000, 1000);
+    public static final ImageIcon defaultBackground = generateDefaultBackground(
+            DEFAULT_BACKGROUND_LEN, DEFAULT_BACKGROUND_LEN);
 
     /**
      * A default image that spans the size of the primary display
      */
     public static final ImageIcon defaultBackgroundLarge = generateDefaultBackground(
-            Math.max(ScreenUtil.getScreenWidth(), ScreenUtil.getScreenHeight()),
-            Math.max(ScreenUtil.getScreenWidth(), ScreenUtil.getScreenHeight()));
+            DEFAULT_LARGE_BACKGROUND_LEN,
+            DEFAULT_LARGE_BACKGROUND_LEN);
 
     /**
-     * Instantiation of images class not allowed
+     * Suppress default constructor.
      */
     private CyderIcons() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

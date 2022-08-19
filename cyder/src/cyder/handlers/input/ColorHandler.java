@@ -14,7 +14,6 @@ import cyder.user.UserUtil;
 import cyder.utils.ColorUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.OSUtil;
-import cyder.utils.ScreenUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -43,8 +42,11 @@ public class ColorHandler extends InputHandler {
                     int h = Console.INSTANCE.getConsoleCyderFrame().getHeight();
 
                     if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
-                        w = ScreenUtil.getScreenWidth();
-                        h = ScreenUtil.getScreenHeight();
+                        Rectangle monitorBounds = Console.INSTANCE.getConsoleCyderFrame()
+                                .getMonitorBounds().getBounds();
+
+                        w = (int) monitorBounds.getWidth();
+                        h = (int) monitorBounds.getHeight();
                     }
 
                     BufferedImage saveImage = ImageUtil.bufferedImageFromColor(

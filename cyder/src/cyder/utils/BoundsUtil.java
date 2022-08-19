@@ -14,7 +14,7 @@ import java.util.LinkedList;
 /**
  * Utility methods to calculate the needed space for a String of text.
  */
-public class BoundsUtil {
+public final class BoundsUtil {
     /**
      * An opening html tag.
      */
@@ -24,11 +24,6 @@ public class BoundsUtil {
      * A closing html tag.
      */
     public static final String CLOSING_HTML_TAG = "</html>";
-
-    /**
-     * An opening div tag.
-     */
-    public static final String OPENING_DIV_TAG = "<div>";
 
     /**
      * A closing div tag.
@@ -48,6 +43,11 @@ public class BoundsUtil {
     }
 
     /**
+     * The default maximum width for returned bounds strings.
+     */
+    private static final int DEFAULT_MAX_WIDTH = 1200;
+
+    /**
      * Calculates the needed height of an inform/dialog window.
      *
      * @param text the string to display
@@ -55,11 +55,11 @@ public class BoundsUtil {
      * for the provided display string.
      */
     public static BoundsString widthHeightCalculation(String text) {
-        return widthHeightCalculation(text, CyderFonts.DEFAULT_FONT_SMALL, ScreenUtil.getScreenWidth() / 2);
+        return widthHeightCalculation(text, CyderFonts.DEFAULT_FONT_SMALL, DEFAULT_MAX_WIDTH);
     }
 
     public static BoundsString widthHeightCalculation(String text, Font font) {
-        return widthHeightCalculation(text, font, ScreenUtil.getScreenWidth() / 2);
+        return widthHeightCalculation(text, font, DEFAULT_MAX_WIDTH);
     }
 
     /**
@@ -320,7 +320,7 @@ public class BoundsUtil {
                 boolean spaceFound = false;
 
                 // check right for a space
-                for (int j = i; j < i + breakInsertionTol; j++) {
+                for (int j = i ; j < i + breakInsertionTol ; j++) {
                     // is j valid
                     if (j < numChars) {
                         // is it a space
@@ -341,7 +341,7 @@ public class BoundsUtil {
                     continue;
 
                 // check left for a space
-                for (int j = i; j > i - breakInsertionTol; j--) {
+                for (int j = i ; j > i - breakInsertionTol ; j--) {
                     // is j valid
                     if (j > 0) {
                         // is it a space
@@ -411,7 +411,7 @@ public class BoundsUtil {
      * @param height the height for the string
      * @param text   the string text
      */
-    public record BoundsString(int width, int height, String text) { }
+    public record BoundsString(int width, int height, String text) {}
 
     /**
      * A record representing a segment of text as either being raw text or an html tag

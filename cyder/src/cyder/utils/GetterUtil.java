@@ -586,8 +586,8 @@ public class GetterUtil {
             try {
                 CyderLabel textLabel = new CyderLabel();
 
-                BoundsUtil.BoundsString bs =
-                        BoundsUtil.widthHeightCalculation(builder.getInitialString(), textLabel.getFont());
+                BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(
+                        builder.getInitialString(), textLabel.getFont());
                 int w = bs.width();
                 int h = bs.height();
                 textLabel.setText(bs.text());

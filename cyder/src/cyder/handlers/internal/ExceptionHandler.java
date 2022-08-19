@@ -12,7 +12,6 @@ import cyder.threads.ThreadUtil;
 import cyder.ui.CyderFrame;
 import cyder.user.UserUtil;
 import cyder.utils.OSUtil;
-import cyder.utils.ScreenUtil;
 import cyder.utils.StringUtil;
 
 import javax.swing.*;
@@ -155,9 +154,7 @@ public final class ExceptionHandler {
             label.setBounds(offset, offset, width, height);
             borderlessFrame.getContentPane().add(label);
 
-            // position on bottom right
-            borderlessFrame.setLocation(ScreenUtil.getScreenWidth() - borderlessFrame.getWidth(),
-                    ScreenUtil.getScreenHeight() - borderlessFrame.getHeight());
+            borderlessFrame.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_RIGHT);
             borderlessFrame.setAlwaysOnTop(true);
 
             // start opacity animation
@@ -167,8 +164,7 @@ public final class ExceptionHandler {
             CyderThreadRunner.submit(() -> {
                 try {
                     for (float i = 0.0f ; i <= 1 ; i += opacityShiftDelta) {
-                        if (escapeOpacityThread.get())
-                            return;
+                        if (escapeOpacityThread.get()) return;
 
                         borderlessFrame.setOpacity(i);
                         borderlessFrame.repaint();
@@ -180,20 +176,18 @@ public final class ExceptionHandler {
 
                     ThreadUtil.sleep(5000);
 
-                    if (escapeOpacityThread.get())
-                        return;
+                    if (escapeOpacityThread.get()) return;
 
                     for (float i = 1.0f ; i >= 0 ; i -= opacityShiftDelta) {
-                        if (escapeOpacityThread.get())
-                            return;
+                        if (escapeOpacityThread.get()) return;
+
 
                         borderlessFrame.setOpacity(i);
                         borderlessFrame.repaint();
                         ThreadUtil.sleep(opacityTimeout);
                     }
 
-                    if (escapeOpacityThread.get())
-                        return;
+                    if (escapeOpacityThread.get()) return;
 
                     borderlessFrame.dispose(true);
                 } catch (Exception ex) {

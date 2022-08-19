@@ -295,7 +295,8 @@ public final class UserCreator {
 
                 if (onlyOneUser()) {
                     LoginHandler.getLoginFrame().dispose();
-                    LoginHandler.recognize(name, SecurityUtil.toHexString(SecurityUtil.getSha256(password)), false);
+                    LoginHandler.recognize(name, SecurityUtil.toHexString(
+                            SecurityUtil.getSha256(password)), false);
                 }
             }
 
@@ -402,22 +403,28 @@ public final class UserCreator {
      */
     private static ScreenStat createDefaultScreenStat(BufferedImage background) {
         int monitorNum = -1;
+
         int w = background.getWidth();
         int h = background.getHeight();
-        int x;
-        int y;
 
-        int screenWidth = ScreenUtil.getScreenWidth();
-        int screenHeight = ScreenUtil.getScreenHeight();
+        int x = 0;
+        int y = 0;
 
         if (createUserFrame != null) {
+            Rectangle monitorBounds = createUserFrame.getMonitorBounds();
+            int screenWidth = (int) monitorBounds.getWidth();
+            int screenHeight = (int) monitorBounds.getHeight();
+
             GraphicsConfiguration gc = createUserFrame.getGraphicsConfiguration();
-            String monitorID = gc.getDevice().getIDstring().replaceAll(CyderRegexPatterns.nonNumberRegex, "");
+            String monitorID = gc.getDevice().getIDstring()
+                    .replaceAll(CyderRegexPatterns.nonNumberRegex, "");
 
             try {
                 monitorNum = Integer.parseInt(monitorID);
+
                 int monitorWidth = (int) gc.getBounds().getWidth();
                 int monitorHeight = (int) gc.getBounds().getHeight();
+
                 int monitorX = (int) gc.getBounds().getX();
                 int monitorY = (int) gc.getBounds().getY();
 
@@ -427,9 +434,6 @@ public final class UserCreator {
                 x = (screenWidth - w) / 2;
                 y = (screenHeight - h) / 2;
             }
-        } else {
-            x = (screenWidth - w) / 2;
-            y = (screenHeight - h) / 2;
         }
 
         return new ScreenStat(x, y, w, h, monitorNum, false, Direction.TOP);

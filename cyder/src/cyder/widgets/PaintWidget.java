@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import com.google.common.collect.ImmutableList;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
@@ -696,29 +697,44 @@ public final class PaintWidget {
                 paintControlsFrame.getHeight()));
         paintControlsFrame.setBackgroundResizing(true);
 
-        // initial colors
-        setNewPaintColor(CyderColors.navy);
-        setNewPaintColor(CyderColors.regularPink);
-        setNewPaintColor(CyderColors.regularOrange);
-        setNewPaintColor(CyderColors.regularGreen);
-        setNewPaintColor(CyderColors.regularBlue);
-        setNewPaintColor(CyderColors.tooltipForegroundColor);
+        installDefaultPaintColors();
 
-        // 40 is a taskbar offset estimate
-        int y = ScreenUtil.getScreenHeight() - paintControlsFrame.getHeight() - 40;
         Rectangle screen = Console.INSTANCE.getConsoleCyderFrame().getMonitorBounds();
-        int x = screen.x + (screen.width - paintControlsFrame.getWidth()) / 2;
+        int x = (int) (screen.getX() + (screen.getWidth() - paintControlsFrame.getWidth()) / 2);
+        // todo use method for taskbar offset
+        int y = (int) (screen.getHeight() - paintControlsFrame.getHeight()
+                - UiUtil.getWindowsTaskbarLength());
 
         paintControlsFrame.setLocation(x, y);
         paintControlsFrame.setVisible(true);
 
         paintControlsFrame.setPinned(true);
 
-        if (paintFrame.isVisible())
-            return;
+        if (paintFrame.isVisible()) return;
 
         paintFrame.setLocation(x, y - paintFrame.getHeight());
         paintFrame.setVisible(true);
+    }
+
+    /**
+     * The default pallet colors.
+     */
+    private static final ImmutableList<Color> defaultPallet = ImmutableList.of(
+            CyderColors.navy,
+            CyderColors.regularPink,
+            CyderColors.regularOrange,
+            CyderColors.regularGreen,
+            CyderColors.regularBlue,
+            CyderColors.tooltipForegroundColor
+    );
+
+    /**
+     * Sets up the default paint colors in the pallet.
+     */
+    private static void installDefaultPaintColors() {
+        for (Color paintColor : defaultPallet) {
+            setNewPaintColor(paintColor);
+        }
     }
 
     /**

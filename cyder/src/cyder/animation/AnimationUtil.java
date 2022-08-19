@@ -7,7 +7,6 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.CyderFrame;
-import cyder.utils.ScreenUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -85,7 +84,9 @@ public final class AnimationUtil {
         int x = (int) point.getX();
         int y = (int) point.getY();
 
-        for (int i = y ; i <= ScreenUtil.getScreenHeight() ; i += MINIMIZE_ANIMATION_INC) {
+        int monitorHeight = (int) cyderFrame.getMonitorBounds().getHeight();
+
+        for (int i = y ; i <= monitorHeight ; i += MINIMIZE_ANIMATION_INC) {
             ThreadUtil.sleep(0, MINIMIZE_ANIMATION_NANO_TIMEOUT);
             cyderFrame.setLocation(x, i);
         }
@@ -102,9 +103,9 @@ public final class AnimationUtil {
      * using the provided direction, delay, and increment.
      *
      * @param direction the direction of animation (to)
-     * @param start the starting value
-     * @param end the ending value
-     * @param delay the delay in ms
+     * @param start     the starting value
+     * @param end       the ending value
+     * @param delay     the delay in ms
      * @param increment the increment in px
      * @param component the component
      */
@@ -128,7 +129,7 @@ public final class AnimationUtil {
      * ending value by the increment amount, sleeping for the specified millisecond delay
      * in between increments.
      *
-     * @param startY     the starting y value
+     * @param startY    the starting y value
      * @param endY      the ending y value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
@@ -152,8 +153,8 @@ public final class AnimationUtil {
      * ending value by the increment amount, sleeping for the specified millisecond delay
      * in between increments.
      *
-     * @param startY     the starting y value
-     * @param stopY      the ending y value
+     * @param startY    the starting y value
+     * @param stopY     the ending y value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
      * @param comp      the component to move
@@ -176,8 +177,8 @@ public final class AnimationUtil {
      * ending value by the increment amount, sleeping for the specified millisecond delay
      * in between increments.
      *
-     * @param startX     the starting x value
-     * @param stopX      the ending x value
+     * @param startX    the starting x value
+     * @param stopX     the ending x value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
      * @param comp      the component to move
@@ -200,8 +201,8 @@ public final class AnimationUtil {
      * ending value by the increment amount, sleeping for the specified millisecond delay
      * in between increments.
      *
-     * @param startX     the starting x value
-     * @param stopX      the ending x value
+     * @param startX    the starting x value
+     * @param stopX     the ending x value
      * @param delay     the ms delay in between increments
      * @param increment the increment value
      * @param comp      the component to move

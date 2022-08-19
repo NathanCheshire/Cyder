@@ -198,8 +198,8 @@ public class CyderFrame extends JFrame {
     private JLayeredPane iconPane;
 
     /**
-     * Speeds up performance by not repainting anything on t
-     * he frame during animations such as minimize and close.
+     * Speeds up performance by not repainting anything on the
+     * frame during animations such as minimize and close.
      */
     private boolean disableContentRepainting;
 
@@ -225,20 +225,20 @@ public class CyderFrame extends JFrame {
      */
     public static final int BORDER_LEN = 5;
 
+    public static final int DEFAULT_FRAME_LEN = 400;
+
     /**
      * The default CyderFrame dimension.
      */
-    public static final Dimension DEFAULT_DIMENSION = new Dimension(400, 400);
+    public static final Dimension DEFAULT_DIMENSION = new Dimension(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN);
 
     /**
      * Allowable indices to add components to the contentLabel
      * which is a JLayeredPane and the content pane.
      */
     public static final ImmutableList<Integer> allowableContentLabelIndices = ImmutableList.of(
-            // Drag labels
-            JLayeredPane.DRAG_LAYER,
-            // Notifications
-            JLayeredPane.POPUP_LAYER
+            JLayeredPane.DRAG_LAYER, /* Drag labels */
+            JLayeredPane.POPUP_LAYER /* Notifications */
     );
 
     /**
@@ -310,11 +310,11 @@ public class CyderFrame extends JFrame {
         this.height = height;
 
         // Ensure background same size as width and height
-        if (width > background.getIconWidth() || height > background.getIconHeight()) {
+        if (width != background.getIconWidth() || height != background.getIconHeight()) {
             background = ImageUtil.resizeImage(background, width, height);
         }
         this.background = background;
-        currentOrigIcon = background;
+        currentMasterIcon = background;
 
         taskbarIconBorderColor = UiUtil.getTaskbarBorderColor();
 
@@ -336,8 +336,7 @@ public class CyderFrame extends JFrame {
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
-                return super.add(comp, allowableContentLabelIndices.contains(index)
-                        ? index : 0);
+                return super.add(comp, allowableContentLabelIndices.contains(index) ? index : 0);
             }
         };
         contentLabel.setFocusable(false);
@@ -1325,13 +1324,14 @@ public class CyderFrame extends JFrame {
             if (UserUtil.getCyderUser().getDoAnimations().equals("1")) {
                 setDisableContentRepainting(true);
 
-                int animationInc = (int) ((double) (ScreenUtil.getScreenHeight() - getY()) / ANIMATION_FRAMES);
+                int monitorHeight = UiUtil.getScreenHeight(this);
+                int animationInc = (int) ((double) (monitorHeight - getY()) / ANIMATION_FRAMES);
 
-                for (int i = getY() ; i <= ScreenUtil.getScreenHeight() + getHeight() ; i += animationInc) {
+                for (int i = getY() ; i <= monitorHeight + getHeight() ; i += animationInc) {
                     ThreadUtil.sleep(MOVEMENT_ANIMATION_DELAY);
                     setLocation(getX(), i);
 
-                    if (i >= ScreenUtil.getScreenHeight()) {
+                    if (i >= monitorHeight) {
                         setVisible(false);
                     }
                 }
@@ -1577,16 +1577,22 @@ public class CyderFrame extends JFrame {
                 }
             }
             case DOWN -> {
+                Rectangle bounds = getMonitorBounds();
+                int rectangleHeight = (int) bounds.getHeight();
+
                 setLocation(getX(), getY() + dancingIncrement);
-                if (getY() > ScreenUtil.getScreenHeight() - getHeight()) {
-                    setLocation(getX(), ScreenUtil.getScreenHeight() - getHeight());
+                if (getY() > rectangleHeight - getHeight()) {
+                    setLocation(getX(), rectangleHeight - getHeight());
                     dancingDirection = DancingDirection.RIGHT;
                 }
             }
             case RIGHT -> {
+                Rectangle bounds = getMonitorBounds();
+                int rectangleWidth = (int) bounds.getWidth();
+
                 setLocation(getX() + dancingIncrement, getY());
-                if (getX() > ScreenUtil.getScreenWidth() - getWidth()) {
-                    setLocation(ScreenUtil.getScreenWidth() - getWidth(), getY());
+                if (getX() > rectangleWidth - getWidth()) {
+                    setLocation(rectangleWidth - getWidth(), getY());
                     dancingDirection = DancingDirection.UP;
                 }
             }
@@ -1609,7 +1615,7 @@ public class CyderFrame extends JFrame {
      * @param degrees the degrees to be rotated by (360deg <==> 0deg)
      */
     public void rotateBackground(int degrees) {
-        ImageIcon masterIcon = currentOrigIcon;
+        ImageIcon masterIcon = currentMasterIcon;
         BufferedImage master = ImageUtil.getBufferedImage(masterIcon);
         BufferedImage rotated = ImageUtil.rotateImage(master, degrees);
         ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
@@ -2206,9 +2212,9 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * The original image icon to use for image resizing on resizing events if allowed.
+     * The current master image icon to use for image resizing on resizing events if allowed.
      */
-    private ImageIcon currentOrigIcon;
+    private ImageIcon currentMasterIcon;
 
     /**
      * Whether the frame is resizable.
@@ -2235,7 +2241,7 @@ public class CyderFrame extends JFrame {
             revalidateLayout();
 
             if (cr != null && cr.backgroundResizingEnabled()) {
-                iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
+                iconLabel.setIcon(new ImageIcon(currentMasterIcon.getImage()
                         .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
             }
 
@@ -2280,8 +2286,8 @@ public class CyderFrame extends JFrame {
                 return;
             }
 
-            currentOrigIcon = icon;
-            iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
+            currentMasterIcon = icon;
+            iconLabel.setIcon(new ImageIcon(currentMasterIcon.getImage()
                     .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
             iconLabel.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN, width - 2 * FRAME_RESIZING_LEN,
                     height - 2 * FRAME_RESIZING_LEN);
@@ -2747,6 +2753,7 @@ public class CyderFrame extends JFrame {
     private JLabel debugImageLabel;
 
     private static final ImageIcon neffexIcon = new ImageIcon("static/pictures/print/neffex.png");
+    private static final int debugLineLen = 4;
 
     /**
      * Sets whether debug lines should be drawn for this frame.
@@ -2772,13 +2779,13 @@ public class CyderFrame extends JFrame {
             add(debugImageLabel);
 
             debugXLabel = new JLabel();
-            debugXLabel.setBounds(getWidth() / 2 - 2, 0, 4, getHeight());
+            debugXLabel.setBounds(getWidth() / 2 - debugLineLen / 2, 0, debugLineLen, getHeight());
             debugXLabel.setOpaque(true);
             debugXLabel.setBackground(lineColor);
             add(debugXLabel);
 
             debugYLabel = new JLabel();
-            debugYLabel.setBounds(0, getHeight() / 2 - 2, getWidth(), 4);
+            debugYLabel.setBounds(0, getHeight() / 2 - debugLineLen / 2, getWidth(), debugLineLen);
             debugYLabel.setOpaque(true);
             debugYLabel.setBackground(lineColor);
             add(debugYLabel);
@@ -3646,7 +3653,7 @@ public class CyderFrame extends JFrame {
         Rectangle ourMonitorBounds = getMonitorBounds();
 
         switch (screenPos) {
-            case CENTER, MIDDLE -> setLocation(
+            case CENTER, MIDDLE, null -> setLocation(
                     ourMonitorBounds.x + ourMonitorBounds.width / 2 - getWidth() / 2,
                     ourMonitorBounds.y + ourMonitorBounds.height / 2 - getHeight() / 2);
             case TOP_LEFT -> setLocation(
@@ -3679,6 +3686,7 @@ public class CyderFrame extends JFrame {
 
         titleLabelColor = color;
         titleLabel.setForeground(color);
+        titleLabel.repaint();
     }
 
     /**
@@ -3714,6 +3722,7 @@ public class CyderFrame extends JFrame {
 
         this.titleLabelFont = titleLabelFont;
         titleLabel.setFont(titleLabelFont);
+        titleLabel.repaint();
     }
 
     /**
@@ -3958,10 +3967,6 @@ public class CyderFrame extends JFrame {
             return this;
         }
 
-        // -----------------------------------------------
-        // Methods to override according to Effective Java
-        // -----------------------------------------------
-
         /**
          * {@inheritDoc}
          */
@@ -3973,16 +3978,16 @@ public class CyderFrame extends JFrame {
                 return false;
             }
 
-            NotificationBuilder that = (NotificationBuilder) o;
+            NotificationBuilder other = (NotificationBuilder) o;
 
-            return viewDuration == that.viewDuration
-                    && notifyTime.equals(that.notifyTime)
-                    && Objects.equal(htmlText, that.htmlText)
-                    && Objects.equal(onKillAction, that.onKillAction)
-                    && notificationDirection == that.notificationDirection
-                    && calculateViewDuration == that.calculateViewDuration
-                    && notificationType == that.notificationType
-                    && Objects.equal(container, that.container);
+            return viewDuration == other.viewDuration
+                    && notifyTime.equals(other.notifyTime)
+                    && Objects.equal(htmlText, other.htmlText)
+                    && Objects.equal(onKillAction, other.onKillAction)
+                    && notificationDirection == other.notificationDirection
+                    && calculateViewDuration == other.calculateViewDuration
+                    && notificationType == other.notificationType
+                    && Objects.equal(container, other.container);
         }
 
         /**
@@ -3999,6 +4004,24 @@ public class CyderFrame extends JFrame {
                     notificationDirection,
                     notificationType,
                     container);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString() {
+            return "NotificationBuilder{" +
+                    "htmlText='" + htmlText + '\'' +
+                    ", viewDuration=" + viewDuration +
+                    ", arrowDir=" + arrowDir +
+                    ", onKillAction=" + onKillAction +
+                    ", notificationDirection=" + notificationDirection +
+                    ", notificationType=" + notificationType +
+                    ", container=" + container +
+                    ", calculateViewDuration=" + calculateViewDuration +
+                    ", notifyTime='" + notifyTime + '\'' +
+                    '}';
         }
     }
 }

@@ -437,4 +437,57 @@ public final class UiUtil {
     public static boolean notNullAndVisible(Component component) {
         return component != null && component.isVisible();
     }
+
+    /**
+     * Returns the width of the monitor the provided frame is on.
+     *
+     * @param frame the frame
+     * @return the width of the monitor the provided frame is on
+     */
+    public static int getScreenWidth(CyderFrame frame) {
+        Preconditions.checkNotNull(frame);
+
+        return (int) frame.getMonitorBounds().getWidth();
+    }
+
+    /**
+     * Returns the height of the monitor the provided frame is on.
+     *
+     * @param frame the frame
+     * @return the height of the monitor the provided frame is on
+     */
+    public static int getScreenHeight(CyderFrame frame) {
+        Preconditions.checkNotNull(frame);
+
+        return (int) frame.getMonitorBounds().getHeight();
+    }
+
+    // todo after migration remove any screen names and replace with "monitor"
+
+    /**
+     * Returns the default graphics configuration monitor width.
+     *
+     * @return the default graphics configuration monitor width
+     */
+    public static int getDefaultScreenWidth() {
+        return (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    }
+
+    /**
+     * Returns the default graphics configuration monitor height.
+     *
+     * @return the default graphics configuration monitor height
+     */
+    public static int getDefaultScreenHeight() {
+        return (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+    }
+
+    /**
+     * Returns the windows taskbar height
+     *
+     * @return the windows taskbar height
+     */
+    public static int getWindowsTaskbarLength() {
+        return 40; // todo implement me
+    }
 }

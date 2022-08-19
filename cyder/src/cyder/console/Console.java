@@ -3,6 +3,7 @@ package cyder.console;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import cyder.annotations.ForReadability;
 import cyder.audio.AudioIcons;
 import cyder.audio.AudioPlayer;
 import cyder.constants.CyderColors;
@@ -470,26 +471,25 @@ public enum Console {
      *
      * @return a record containing the initial console background icon and the dimensions of the icon
      */
+    @ForReadability
     private ConsoleIcon determineConsoleIconAndDimensions() {
         int width;
         int height;
         ImageIcon icon;
 
-        if (UserUtil.getCyderUser().getRandombackground().equals("1")) {
-            if (reloadAndGetBackgrounds().size() <= 1) {
-                consoleCyderFrame.notify("Sorry, " + UserUtil.getCyderUser().getName()
-                        + ", but you only have one background file "
-                        + "so there's no random element to be chosen.");
-            } else {
-                backgroundIndex = NumberUtil.randInt(0, backgrounds.size() - 1);
-            }
+        if (UserUtil.getCyderUser().getRandombackground().equals("1")
+                && reloadAndGetBackgrounds().size() > 1) {
+            backgroundIndex = NumberUtil.randInt(0, backgrounds.size() - 1);
         }
 
         if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
-            width = ScreenUtil.getScreenWidth();
-            height = ScreenUtil.getScreenHeight();
-            icon = new ImageIcon(ImageUtil.resizeImage(width,
-                    height, getCurrentBackground().getReferenceFile()));
+            int monitorId = UserUtil.getCyderUser().getScreenStat().getMonitor();
+            Rectangle monitorBounds = UiUtil.getGraphicsDevice(monitorId).getDefaultConfiguration().getBounds();
+
+            width = (int) monitorBounds.getWidth();
+            height = (int) monitorBounds.getHeight();
+
+            icon = new ImageIcon(ImageUtil.resizeImage(width, height, getCurrentBackground().getReferenceFile()));
         } else {
             BufferedImage bi = getCurrentBackground().generateBufferedImage();
 
@@ -499,8 +499,8 @@ public enum Console {
 
             width = bi.getWidth();
             height = bi.getHeight();
-            icon = new ImageIcon(ImageUtil.getRotatedImage(
-                    getCurrentBackground().getReferenceFile().toString(), getConsoleDirection()));
+            icon = new ImageIcon(ImageUtil.getRotatedImage(getCurrentBackground()
+                    .getReferenceFile().toString(), getConsoleDirection()));
         }
 
         if (width == 0 || height == 0)
@@ -2115,21 +2115,18 @@ public enum Console {
         }
     }
 
-    // -----------------
+    // ----------------
     // background logic
-    // -----------------
+    // ----------------
 
     /**
-     * Takes into account the dpi scaling value and checks all the backgrounds in the user's
-     * directory against the current monitor's resolution. If any width or height of a background file
-     * exceeds the monitor's width or height. We resize until it doesn't. We also check to make sure the background
-     * meets our minimum pixel dimension parameters. The old images are automatically resized and replaced with the
-     * properly resized and cropped images.
+     * Resizes the valid backgrounds found in the user's backgrounds/ directory
+     * for all images found to be too large/small.
      */
     public void resizeBackgrounds() {
         try {
-            int maxWidth = ScreenUtil.getScreenWidth();
-            int maxHeight = ScreenUtil.getScreenHeight();
+            int maxWidth = UiUtil.getDefaultScreenWidth();
+            int maxHeight = UiUtil.getDefaultScreenHeight();
 
             for (ConsoleBackground currentBackground : backgrounds) {
                 File currentFile = currentBackground.getReferenceFile();
@@ -2151,25 +2148,23 @@ public enum Console {
                         || backgroundHeight < MINIMUM_SIZE.height;
 
                 if (resizeNeeded) {
-                    InformHandler.inform(new InformHandler.Builder(
-                            "Resizing the background image \"" + currentFile.getName() + "\"")
-                            .setTitle("System Action"));
+                    String text = "Resizing the background image \"" + currentFile.getName() + "\"";
+                    InformHandler.inform(new InformHandler.Builder(text).setTitle("System Action"));
+
+                    Dimension resizeDimensions = ImageUtil.getImageResizeDimensions(
+                            MINIMUM_SIZE.width, MINIMUM_SIZE.height,
+                            maxWidth, maxHeight, currentImage);
+
+                    int deltaWidth = (int) resizeDimensions.getWidth();
+                    int deltaHeight = (int) resizeDimensions.getHeight();
+
+                    if (deltaWidth == 0 || deltaHeight == 0) {
+                        continue;
+                    }
+
+                    ImageIO.write(ImageUtil.resizeImage(currentImage, imageType, deltaWidth, deltaHeight),
+                            FileUtil.getExtension(currentFile), currentFile);
                 }
-
-                Dimension resizeDimensions = ImageUtil.getImageResizeDimensions(
-                        MINIMUM_SIZE.width, MINIMUM_SIZE.height,
-                        maxWidth, maxHeight, currentImage);
-
-                int deltaWidth = (int) resizeDimensions.getWidth();
-                int deltaHeight = (int) resizeDimensions.getHeight();
-
-                //if the image doesn't need a resize then continue to the next image
-                if (deltaWidth == 0 || deltaHeight == 0) {
-                    continue;
-                }
-
-                ImageIO.write(ImageUtil.resizeImage(currentImage, imageType, deltaWidth, deltaHeight),
-                        FileUtil.getExtension(currentFile), currentFile);
             }
 
             loadBackgrounds();

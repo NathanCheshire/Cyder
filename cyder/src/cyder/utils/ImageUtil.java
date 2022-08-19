@@ -32,6 +32,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Static utility methods revolving around Image manipulation.
  */
+@SuppressWarnings("unused") /* jpg formats */
 public final class ImageUtil {
     /**
      * The extension for png images.
@@ -844,13 +845,11 @@ public final class ImageUtil {
     }
 
     /**
-     * Finds the optimal size provided the min/max width/height bounds. The return dimension is ensured
-     * to be within the provided bounds
+     * Finds the optimal size provided the min/max width/height bounds.
+     * The return dimension is ensured to be within the provided bounds
      *
-     * @return an array representing the new image dimensions that the provided image should be cropped to
-     * so that the provided min/max properties are maintained
+     * @return the dimension to resize the provided image to
      */
-    @SuppressWarnings("ConstantConditions") // aspect ratio of 1.0 needs to not change delta values
     public static Dimension getImageResizeDimensions(int minWidth, int minHeight,
                                                      int maxWidth, int maxHeight, BufferedImage image) {
         Preconditions.checkArgument(minWidth > 0);
@@ -859,55 +858,72 @@ public final class ImageUtil {
         Preconditions.checkArgument(maxHeight > 0);
         Preconditions.checkArgument(maxWidth > minWidth);
         Preconditions.checkArgument(maxHeight > minHeight);
-
         Preconditions.checkNotNull(image);
 
         int backgroundWidth = image.getWidth();
         int backgroundHeight = image.getHeight();
 
-        //inform the user we are changing the size of the image
-        boolean resizeNeeded = backgroundWidth > maxWidth
-                || backgroundHeight > maxHeight
-                || backgroundWidth < minWidth
-                || backgroundHeight < minHeight;
-
         double widthToHeightRatio = ((double) backgroundWidth / (double) backgroundHeight);
         double heightToWidthRatio = ((double) backgroundHeight / (double) backgroundWidth);
-        double deltaWidth = 0.0;
-        double deltaHeight = 0.0;
+        double resizeToWidth = 0.0;
+        double resizeToHeight = 0.0;
 
-        if (widthToHeightRatio < 1.0) {
-            if (resizeNeeded) {
-                if (backgroundWidth > maxWidth || backgroundHeight > maxHeight) {
-                    deltaHeight = maxHeight;
-                    deltaWidth = maxHeight * (1.0 / heightToWidthRatio);
-                } else if (backgroundWidth < minWidth || backgroundHeight < minHeight) {
-                    deltaWidth = minWidth;
-                    deltaHeight = minWidth * heightToWidthRatio;
-                }
+        if (isVerticalImage(image)) {
+            if (backgroundWidth > maxWidth || backgroundHeight > maxHeight) {
+                // Downscale
+                resizeToHeight = maxHeight;
+                resizeToWidth = maxHeight * (1.0 / heightToWidthRatio);
+            } else if (backgroundWidth < minWidth || backgroundHeight < minHeight) {
+                // Upscale
+                resizeToWidth = minWidth;
+                resizeToHeight = minWidth * heightToWidthRatio;
             }
         } else {
-            if (resizeNeeded) {
-                if (backgroundWidth > maxWidth || backgroundHeight > maxHeight) {
-                    deltaWidth = maxWidth;
-                    deltaHeight = maxWidth * (1.0 / widthToHeightRatio);
-                } else if (backgroundWidth < minWidth || backgroundHeight < minHeight) {
-                    deltaHeight = minHeight;
-                    deltaWidth = minHeight * widthToHeightRatio;
-                }
+            if (backgroundWidth > maxWidth || backgroundHeight > maxHeight) {
+                // Downscale
+                resizeToWidth = maxWidth;
+                resizeToHeight = maxWidth * (1.0 / widthToHeightRatio);
+            } else if (backgroundWidth < minWidth || backgroundHeight < minHeight) {
+                // Upscale
+                resizeToHeight = minHeight;
+                resizeToWidth = minHeight * widthToHeightRatio;
             }
         }
 
-        //after all this, if something's too big, crop as much as possible
-        if (deltaWidth > maxWidth) {
-            deltaWidth = maxWidth;
-            deltaHeight = (int) Math.min(backgroundHeight, maxWidth * (1.0 / widthToHeightRatio));
-        } else if (deltaHeight > maxHeight) {
-            deltaHeight = maxHeight;
-            deltaWidth = (int) Math.min(backgroundWidth, maxHeight * (1.0 / heightToWidthRatio));
-        }
+        return new Dimension((int) resizeToWidth, (int) resizeToHeight);
+    }
 
-        return new Dimension((int) deltaWidth, (int) deltaHeight);
+    /**
+     * Returns whether the provided image is a horizontal image.
+     *
+     * @param image the image
+     * @return whether the provided image is a horizontal image
+     */
+    public static boolean horizontalImage(BufferedImage image) {
+        Preconditions.checkNotNull(image);
+        return image.getWidth() > image.getHeight();
+    }
+
+    /**
+     * Returns whether the provided image is a vertical image.
+     *
+     * @param image the image
+     * @return whether the provided image is a vertical image
+     */
+    public static boolean isVerticalImage(BufferedImage image) {
+        Preconditions.checkNotNull(image);
+        return image.getWidth() < image.getHeight();
+    }
+
+    /**
+     * Returns whether the provided image is a square image.
+     *
+     * @param image the image
+     * @return whether the provided image is a square image
+     */
+    public static boolean isSquareImage(BufferedImage image) {
+        Preconditions.checkNotNull(image);
+        return image.getWidth() == image.getHeight();
     }
 
     /**
