@@ -11,6 +11,7 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.Constants;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
@@ -723,7 +724,7 @@ public final class PaintWidget {
             CyderColors.regularOrange,
             CyderColors.regularGreen,
             CyderColors.regularBlue,
-            CyderColors.tooltipForegroundColor
+            Constants.tooltipForegroundColor
     );
 
     /**

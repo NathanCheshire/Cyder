@@ -48,16 +48,6 @@ public final class CyderColors {
     public static final Color regularOrange = new Color(255, 140, 0);
 
     /**
-     * The default color for the background of tooltips throughout Cyder
-     */
-    public static final Color tooltipBorderColor = new Color(26, 32, 51);
-
-    /**
-     * The background used for tooltips
-     */
-    public static final Color tooltipBackgroundColor = new Color(0, 0, 0);
-
-    /**
      * The default text color to use for text when dark mode is active
      */
     public static final Color defaultDarkModeTextColor = new Color(240, 240, 240);
@@ -86,11 +76,6 @@ public final class CyderColors {
      * The standard Cyder purple color.
      */
     public static final Color regularPurple = new Color(85, 85, 255);
-
-    /**
-     * The foreground used for tooltips
-     */
-    public static final Color tooltipForegroundColor = regularPurple;
 
     /**
      * The foreground color used for notifications

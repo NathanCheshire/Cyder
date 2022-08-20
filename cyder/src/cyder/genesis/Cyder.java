@@ -1,8 +1,6 @@
 package cyder.genesis;
 
 import com.google.common.collect.ImmutableList;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
@@ -78,10 +76,10 @@ public final class Cyder {
      * Initializes UIManager tooltip key-value props.
      */
     private static void initUiManagerTooltipProps() {
-        UIManager.put(TOOLTIP_BACKGROUND, CyderColors.tooltipBackgroundColor);
+        UIManager.put(TOOLTIP_BACKGROUND, tooltipBackgroundColor);
         UIManager.put(TOOLTIP_BORDER, TOOLTIP_BORDER_RESOURCE);
-        UIManager.put(TOOLTIP_FONT, CyderFonts.TOOLTIP_FONT);
-        UIManager.put(TOOLTIP_FOREGROUND, CyderColors.tooltipForegroundColor);
+        UIManager.put(TOOLTIP_FONT_KEY, TOOLTIP_FONT);
+        UIManager.put(TOOLTIP_FOREGROUND, tooltipForegroundColor);
     }
 
     private static final String SLIDER_ONLY_LEFT_MOUSE_DRAG = "Slider.onlyLeftMouseButtonDrag";
