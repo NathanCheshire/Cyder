@@ -1,12 +1,12 @@
 <img src="https://user-images.githubusercontent.com/60986919/171057466-8197f0c7-f908-4cb0-8978-deab86a79eac.png" alt="Logo" width="150">
 
-![](./actions/tagline.png)
+![](actions/output/tagline.png)
 
-![](./actions/author.png)
+![](actions/output/author.png)
 
-![](./actions/stats.png)
+![](actions/output/stats.png)
 
-![](./actions/total.png)
+![](actions/output/total.png)
 
 ## What is Cyder
 

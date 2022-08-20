@@ -9,7 +9,7 @@ from PIL import ImageFont, Image, ImageDraw
 IS_COMMENT_REGEX = "\s*[/]{2}.*|\s*[/][*].*|\s*[*].*|\s*.*[*][/]\s*"
 
 # the path to the font to use for all exported pngs
-FONT_PATH = os.path.join('actions', "roboto.ttf")
+FONT_PATH = os.path.join('actions', 'resources', 'roboto.ttf')
 
 # the color used for java code
 JAVA_CODE_COLOR = (25, 114, 176)
@@ -84,7 +84,7 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
     draw.text(comment_area_center, comment_string,
               font=export_font, fill=(245, 245, 245))
 
-    cv2.imwrite('actions/' + str(save_name) + '.png', np.array(img_pil))
+    cv2.imwrite('actions/output' + str(save_name) + '.png', np.array(img_pil))
 
 
 def get_compressed_number(num: int) -> str:
@@ -141,7 +141,7 @@ def export_string_badge(alpha_string: str, beta_string: str, save_name: str, fon
     left_anchor = (alpha_width + horizontal_padding * 2, vertical_padding)
     draw.text(left_anchor, beta_string, font=local_font, fill=text_color)
 
-    cv2.imwrite('actions/' + save_name + '.png', np.array(base_colors_done))
+    cv2.imwrite('actions/output' + save_name + '.png', np.array(base_colors_done))
 
 
 def get_text_size(text: str, font_size: int, font_name: str) -> Tuple:
