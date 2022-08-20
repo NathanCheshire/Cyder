@@ -1,33 +1,32 @@
 import os
 import re
-from typing import Tuple
 import cv2
 import numpy as np
 from PIL import ImageFont, Image, ImageDraw
 
-# a regex used to detect a comment line
-IS_COMMENT_REGEX = "\s*[/]{2}.*|\s*[/][*].*|\s*[*].*|\s*.*[*][/]\s*"
-
-# the path to the font to use for all exported pngs
 FONT_PATH = os.path.join('actions', 'resources', 'roboto.ttf')
 
-# the color used for java code
-JAVA_CODE_COLOR = (25, 114, 176)
+CODE_COLOR = (25, 114, 176)
 COMMENT_COLOR = (75, 71, 60)
 BLANK_COLOR = (33, 37, 22)
 
 
 def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
-                 width: int, height: int, save_name: str) -> None:
+                 save_name: str, width: int = 250, height: int = 250,
+                 border_length: int = 0, border_color: tuple = (255, 255, 255),
+                 text_foreground: tuple = (245, 245, 245)) -> None:
     """ 
     Exports a stats png using the provided information.
 
     :param code_lines: the number of code lines in the project
     :param comment_lines: the number of comment lines in the project
     :param blank_lines: the number of blank lines in the project
-    :param width: the width of the png to export
-    :param height: the height of the png to export
     :param save_name: the name of the png to export
+    :param width: the width of the png badge to export
+    :param height: the height of the png badge to export
+    :param border_length: the length of the border to paint on the exported png
+    :param border_color: the color the border to paint if border_length is greater than 0
+    :param text_foreground: the color of the painted strings
     """
 
     total = code_lines + comment_lines + blank_lines
@@ -36,63 +35,85 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
     code_percent = round(code_lines / float(total) * 100.0, 1)
     blank_percent = round(blank_lines / float(total) * 100.0, 1)
 
-    border_thickness = 0
-
     export_font = ImageFont.truetype(FONT_PATH, 16)
 
+    # Initial image
     blank_image = np.zeros((width, height, 3), np.uint8)
-    black_image = cv2.rectangle(blank_image, (0, 0), (width, height), (0, 0, 0), -1)
-    outlined_image = cv2.rectangle(black_image, (border_thickness, border_thickness),
-                                   (width - border_thickness, height - border_thickness), (255, 255, 255), -1)
+    black_image = cv2.rectangle(
+        blank_image, (0, 0), (width, height), (0, 0, 0), -1)
+
+    # Paint border color border with border length
+    outlined_image = cv2.rectangle(black_image, (border_length, border_length),
+                                   (width - border_length, height - border_length), border_color, -1)
+
     code_height = int(height * (code_percent / 100.0))
-    image = cv2.rectangle(outlined_image, (border_thickness, border_thickness),
-                          (width - border_thickness, code_height - border_thickness), JAVA_CODE_COLOR, -1)
-
     comment_height = int(height * (blank_percent / 100.0))
-    image = cv2.rectangle(image, (border_thickness, code_height - border_thickness),
-                          (width - border_thickness, code_height + comment_height), COMMENT_COLOR, -1)
-
     blank_height = int(height * (comment_percent / 100.0))
-    image = cv2.rectangle(image, (border_thickness, code_height + comment_height - border_thickness),
-                          (width - border_thickness, height), BLANK_COLOR, -1)
 
-    img_pil = Image.fromarray(image)
-    draw = ImageDraw.Draw(img_pil)
-    code_string = "Java: " + str(code_percent) + \
-                  "% (" + get_compressed_number(code_lines) + ')'
-    w, h = draw.textsize(code_string, font=export_font)
-    code_area_center = (width / 2 - w / 2,
-                        border_thickness + code_height / 2 - h / 2)
-    draw.text(code_area_center, code_string,
-              font=export_font, fill=(245, 245, 245))
+    # Paint code background at top
+    image = cv2.rectangle(outlined_image, (border_length, border_length),
+                          (width - border_length, code_height - border_length), CODE_COLOR, -1)
 
-    draw = ImageDraw.Draw(img_pil)
-    blank_string = "Blank lines: " + str(blank_percent) + \
-                   "% (" + get_compressed_number(blank_lines) + ")"
-    w, h = draw.textsize(blank_string, font=export_font)
-    blank_area_center = (width / 2 - w / 2,
-                         border_thickness + code_height + comment_height / 2 - h / 2)
-    draw.text(blank_area_center, blank_string,
-              font=export_font, fill=(245, 245, 245))
+    # Paint comment background in middle
+    image = cv2.rectangle(image, (border_length, code_height - border_length),
+                          (width - border_length, code_height + comment_height), COMMENT_COLOR, -1)
 
-    draw = ImageDraw.Draw(img_pil)
-    comment_string = "Comment lines: " + str(comment_percent) + \
-                     "% (" + get_compressed_number(comment_lines) + ")"
-    w, h = draw.textsize(comment_string, font=export_font)
-    comment_area_center = (width / 2 - w / 2,
-                           border_thickness + code_height + comment_height + blank_height / 2 - h / 2)
-    draw.text(comment_area_center, comment_string,
-              font=export_font, fill=(245, 245, 245))
+    # Paint blank lines background at bottom
+    image = cv2.rectangle(image, (border_length, code_height + comment_height - border_length),
+                          (width - border_length, height), BLANK_COLOR, -1)
 
-    cv2.imwrite('actions/output/' + str(save_name) + '.png', np.array(img_pil))
+    # Convert to pillow image
+    pillow_image = Image.fromarray(image)
 
-__thousand_prefix = 'K'
+    image_draw = ImageDraw.Draw(pillow_image)
+    code_string = get_paint_string("Java", code_percent, code_lines)
+    code_width, code_height = image_draw.textsize(code_string, font=export_font)
+    code_area_center = (width / 2 - code_width / 2, border_length +
+                        code_height / 2 - code_height / 2)
+    image_draw.text(code_area_center, code_string,
+                    font=export_font, fill=text_foreground)
+
+    image_draw = ImageDraw.Draw(pillow_image)
+    blank_string = get_paint_string("Blank", blank_percent, blank_lines)
+    blank_width, blank_height = image_draw.textsize(blank_string, font=export_font)
+    blank_area_center = (width / 2 - blank_width / 2, border_length +
+                         blank_height + comment_height / 2 - blank_height / 2)
+    image_draw.text(blank_area_center, blank_string,
+                    font=export_font, fill=text_foreground)
+
+    image_draw = ImageDraw.Draw(pillow_image)
+    comment_string = get_paint_string(
+        "Comment", comment_percent, comment_lines)
+    comment_width, comment_height = image_draw.textsize(comment_string, font=export_font)
+    comment_area_center = (width / 2 - comment_width / 2, border_length +
+                           comment_height + comment_height + blank_height / 2 - comment_height / 2)
+    image_draw.text(comment_area_center, comment_string,
+                    font=export_font, fill=text_foreground)
+
+    cv2.imwrite('actions/output/' + str(save_name) +
+                '.png', np.array(pillow_image))
+
+
+def get_paint_string(header: str, percent: float, lines: int) -> str:
+    """
+    Returns a string to paint on the stat image depicting the number
+    of lines associated with a certain line group and the percentage.
+
+    :param header: the header string such as "blank lines"
+    :param percent: the percent of the total this line group takes up
+    :param lines: the number of lines this group takes up
+    """
+    return header + " lines: " + str(percent) + "% (" + get_compressed_number(lines) + ")"
+
+
+THOUSAND = 'K'
+
 
 def get_compressed_number(num: int) -> str:
     """ 
     Returns the number of thousands represented by the integer rounded to one decimal place.
     """
-    return str(round(num / 1000.0, 1)) + __thousand_prefix
+    return str(round(num / 1000.0, 1)) + THOUSAND
 
 
 def export_string_badge(alpha_string: str, beta_string: str, save_name: str, font_size: int = 18,
@@ -142,10 +163,11 @@ def export_string_badge(alpha_string: str, beta_string: str, save_name: str, fon
     left_anchor = (alpha_width + horizontal_padding * 2, vertical_padding)
     draw.text(left_anchor, beta_string, font=local_font, fill=text_color)
 
-    cv2.imwrite('actions/output/' + save_name + '.png', np.array(base_colors_done))
+    cv2.imwrite('actions/output/' + save_name +
+                '.png', np.array(base_colors_done))
 
 
-def get_text_size(text: str, font_size: int, font_name: str) -> Tuple:
+def get_text_size(text: str, font_size: int, font_name: str) -> tuple:
     """ 
     Returns a tuple of the size (width, height) required to hold the provided 
     string with the provided font and point size.
@@ -169,13 +191,13 @@ def find_files(starting_dir: str, extensions: list = [], recursive: bool = False
         raise Exception('Error: must provide valid extensions')
 
     if os.path.isdir(starting_dir):
-        for subDir in os.listdir(starting_dir):
+        for sub_directory in os.listdir(starting_dir):
             if recursive:
                 ret = ret + \
-                      find_files(os.path.join(starting_dir, subDir),
-                                 extensions, recursive)
+                    find_files(os.path.join(starting_dir, sub_directory),
+                               extensions, recursive)
             else:
-                ret.append(os.path.join(starting_dir, subDir))
+                ret.append(os.path.join(starting_dir, sub_directory))
     else:
         for extension in extensions:
             if starting_dir.endswith(extension):
@@ -184,12 +206,12 @@ def find_files(starting_dir: str, extensions: list = [], recursive: bool = False
     return ret
 
 
-def analyze_file(file: str) -> Tuple:
+def analyze_file(file: str) -> tuple:
     """ 
     Analyzes the provided file for source code.
 
     :param file: the file to analyze
-    :return: a tuple in the following order (num+code_lines, num_comment_lines, num_blank_lines)
+    :return: a tuple in the following order (num_code_lines, num_comment_lines, num_blank_lines)
     """
 
     if not os.path.exists(file):
@@ -262,11 +284,21 @@ def count_comment_lines(file_lines: list) -> int:
     return ret
 
 
+IS_COMMENT_REGEX = "\s*[/]{2}.*|\s*[/][*].*|\s*[*].*|\s*.*[*][/]\s*"
+
+
 def is_comment_line(line: str) -> bool:
     """ 
     Returns whether the provided line is a comment line.
     """
     return re.compile(IS_COMMENT_REGEX).match(line)
+
+
+def regenerate_badges(total_lines):
+    export_string_badge("Cyder", "A Programmer's Swiss Army Knife", "tagline")
+    export_string_badge("By", "Nate Cheshire", "author")
+    export_string_badge(
+        "Total lines", get_compressed_number(total_lines), "total")
 
 
 def main():
@@ -282,28 +314,23 @@ def main():
     for file in files:
         results = analyze_file(file)
 
-        code_lines = code_lines + results[0]
-        comment_lines = comment_lines + results[1]
-        blank_lines = blank_lines + results[2]
+        code_lines += results[0]
+        comment_lines += results[1]
+        blank_lines += results[2]
 
-    print('---- Found code stats ----')
+    total = code_lines + comment_lines + blank_lines
+
     print('Total code lines:', code_lines)
     print('Total comment lines:', comment_lines)
     print('Total blank lines:', blank_lines)
+    print('Total:', total)
 
-    total = code_lines + comment_lines + blank_lines
-    print("Total:",total)
-
-    total_rounded = round(code_lines / 1000.0, 1) + round(comment_lines / 1000.0, 1) + round(blank_lines / 1000.0, 1)
-
+    total_rounded = round(code_lines / 1000.0, 1) + \
+        round(comment_lines / 1000.0, 1) + round(blank_lines / 1000.0, 1)
 
     export_stats(code_lines=code_lines, comment_lines=comment_lines,
-                 blank_lines=blank_lines, width=250, height=250, save_name="stats")
-
-    # attempt to regenerate in case one was removed
-    export_string_badge("Cyder", "A Programmer's Swiss Army Knife", "tagline")
-    export_string_badge("By", "Nate Cheshire", "author")
-    export_string_badge("Total lines", get_compressed_number(total_rounded), "total")
+                 blank_lines=blank_lines, save_name="stats")
+    regenerate_badges(total_rounded)
 
 
 if __name__ == '__main__':
