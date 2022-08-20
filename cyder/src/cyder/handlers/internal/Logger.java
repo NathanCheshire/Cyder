@@ -343,6 +343,10 @@ public final class Logger {
                 logBuilder.append(Tag.LOADING_MESSAGE.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
+            case USER_GET:
+                logBuilder.append(Tag.USER_GET.constructLogTagPrepend());
+                logBuilder.append(representation);
+                break;
             default:
                 //this is here and not UNKNOWN as the default so that we can detect if
                 // a log tag was added but not implemented
@@ -1032,7 +1036,11 @@ public final class Logger {
         /**
          * The CyderSplash loading message was set.
          */
-        LOADING_MESSAGE("LOADING MESSAGE");
+        LOADING_MESSAGE("LOADING MESSAGE"),
+        /**
+         * A get call was invoked on a user object.
+         */
+        USER_GET("USER GET");
 
         /**
          * The name to be written to the log file when this tag is logged

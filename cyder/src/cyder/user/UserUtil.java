@@ -1,6 +1,7 @@
 package cyder.user;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
@@ -698,6 +699,12 @@ public final class UserUtil {
         }
     }
 
+    public static final ImmutableList<String> IGNORE_USER_DATA;
+
+    static {
+        IGNORE_USER_DATA = ImmutableList.copyOf(PropLoader.getString("ignore_data").split(","));
+    }
+
     /**
      * Returns the requested data from the currently logged-in user.
      * This method exists purely for when indexing the preferences and user data
@@ -710,9 +717,7 @@ public final class UserUtil {
         Preconditions.checkArgument(!StringUtil.isNull(id));
 
         String ret = null;
-
-        String[] ignoreDatas = PropLoader.getString("ignore_data").split(",");
-        boolean shouldIgnore = StringUtil.in(id, true, ignoreDatas);
+        boolean shouldIgnore = StringUtil.in(id, true, IGNORE_USER_DATA);
 
         if (!shouldIgnore) {
             Logger.log(Logger.Tag.SYSTEM_IO, "Userdata requested: " + id);

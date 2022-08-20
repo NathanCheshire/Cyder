@@ -3,6 +3,7 @@ package cyder.user;
 import com.google.common.base.Objects;
 import cyder.handlers.internal.Logger;
 import cyder.utils.ReflectionUtil;
+import cyder.utils.StringUtil;
 
 import java.util.LinkedList;
 
@@ -234,6 +235,7 @@ public class User {
      * @return the username
      */
     public String getName() {
+        getterHook(Preference.NAME, name);
         return name;
     }
 
@@ -243,6 +245,7 @@ public class User {
      * @return the user password
      */
     public String getPass() {
+        getterHook(Preference.PASS, pass);
         return pass;
     }
 
@@ -252,6 +255,7 @@ public class User {
      * @return the user font
      */
     public String getFont() {
+        getterHook(Preference.FONT, font);
         return font;
     }
 
@@ -261,6 +265,7 @@ public class User {
      * @return the user font size
      */
     public String getFontsize() {
+        getterHook(Preference.FONT_SIZE, fontsize);
         return fontsize;
     }
 
@@ -270,6 +275,7 @@ public class User {
      * @return the foreground color
      */
     public String getForeground() {
+        getterHook(Preference.FOREGROUND, foreground);
         return foreground;
     }
 
@@ -279,6 +285,7 @@ public class User {
      * @return the background color
      */
     public String getBackground() {
+        getterHook(Preference.BACKGROUND, background);
         return background;
     }
 
@@ -288,6 +295,7 @@ public class User {
      * @return whether intro music is active
      */
     public String getIntromusic() {
+        getterHook(Preference.INTRO_MUSIC, intromusic);
         return intromusic;
     }
 
@@ -297,6 +305,7 @@ public class User {
      * @return whether to show debug menus on start
      */
     public String getDebugwindows() {
+        getterHook(Preference.DEBUG_WINDOWS, debugwindows);
         return debugwindows;
     }
 
@@ -306,6 +315,7 @@ public class User {
      * @return whether to choose a random background on launch
      */
     public String getRandombackground() {
+        getterHook(Preference.RANDOM_BACKGROUND, randombackground);
         return randombackground;
     }
 
@@ -315,6 +325,7 @@ public class User {
      * @return whether to draw the output border
      */
     public String getOutputborder() {
+        getterHook(Preference.OUTPUT_BORDER, outputborder);
         return outputborder;
     }
 
@@ -324,6 +335,7 @@ public class User {
      * @return whether to draw the input border
      */
     public String getInputborder() {
+        getterHook(Preference.INPUT_BORDER, inputborder);
         return inputborder;
     }
 
@@ -333,6 +345,7 @@ public class User {
      * @return whether to chime hourly
      */
     public String getHourlychimes() {
+        getterHook(Preference.HOURLY_CHIMES, hourlychimes);
         return hourlychimes;
     }
 
@@ -342,6 +355,7 @@ public class User {
      * @return whether to silence errors
      */
     public String getSilenceerrors() {
+        getterHook(Preference.SILENCE_ERRORS, silenceerrors);
         return silenceerrors;
     }
 
@@ -351,6 +365,7 @@ public class User {
      * @return whether fullscreen is active
      */
     public String getFullscreen() {
+        getterHook(Preference.FULLSCREEN, fullscreen);
         return fullscreen;
     }
 
@@ -360,6 +375,7 @@ public class User {
      * @return whether to fill the output area
      */
     public String getOutputfill() {
+        getterHook(Preference.OUTPUT_FILL, outputfill);
         return outputfill;
     }
 
@@ -369,6 +385,7 @@ public class User {
      * @return whether to fill the input field
      */
     public String getInputfill() {
+        getterHook(Preference.INPUT_FILL, inputfill);
         return inputfill;
     }
 
@@ -378,6 +395,7 @@ public class User {
      * @return whether the clock should be displayed on the console
      */
     public String getClockonconsole() {
+        getterHook(Preference.CLOCK_ON_CONSOLE, clockonconsole);
         return clockonconsole;
     }
 
@@ -387,6 +405,7 @@ public class User {
      * @return whether to show seconds if console clock is enabled
      */
     public String getShowseconds() {
+        getterHook(Preference.SHOW_SECONDS, showseconds);
         return showseconds;
     }
 
@@ -396,6 +415,7 @@ public class User {
      * @return whether to filter the chat of foul language
      */
     public String getFilterchat() {
+        getterHook(Preference.FILTER_CHAT, filterchat);
         return filterchat;
     }
 
@@ -405,6 +425,7 @@ public class User {
      * @return the unix time of the last time this user started Cyder
      */
     public String getLaststart() {
+        getterHook(Preference.LAST_START, laststart);
         return laststart;
     }
 
@@ -414,6 +435,7 @@ public class User {
      * @return whether to minimize on close
      */
     public String getMinimizeonclose() {
+        getterHook(Preference.MINIMIZE_ON_CLOSE, minimizeonclose);
         return minimizeonclose;
     }
 
@@ -423,6 +445,7 @@ public class User {
      * @return whether to perform the typing animation
      */
     public String getTypinganimation() {
+        getterHook(Preference.TYPING_ANIMATION, typinganimation);
         return typinganimation;
     }
 
@@ -432,6 +455,7 @@ public class User {
      * @return whether to show the busy icon when Cyder is busy
      */
     public String getShowbusyicon() {
+        getterHook(Preference.SHOW_BUSY_ICON, showbusyicon);
         return showbusyicon;
     }
 
@@ -441,6 +465,7 @@ public class User {
      * @return whether to round frames
      */
     public String getRoundedwindows() {
+        getterHook(Preference.ROUNDED_WINDOWS, roundedwindows);
         return roundedwindows;
     }
 
@@ -450,6 +475,7 @@ public class User {
      * @return the window color
      */
     public String getWindowcolor() {
+        getterHook(Preference.WINDOW_COLOR, windowcolor);
         return windowcolor;
     }
 
@@ -459,6 +485,7 @@ public class User {
      * @return the java date pattern for the console clock
      */
     public String getConsoleclockformat() {
+        getterHook(Preference.CONSOLE_CLOCK_FORMAT, consoleclockformat);
         return consoleclockformat;
     }
 
@@ -468,6 +495,7 @@ public class User {
      * @return whether to send a typing sound every typing animation
      */
     public String getTypingsound() {
+        getterHook(Preference.TYPING_SOUND, typingsound);
         return typingsound;
     }
 
@@ -477,6 +505,7 @@ public class User {
      * @return the youtube uuid the procedural checker script is at
      */
     public String getYoutubeuuid() {
+        getterHook(Preference.YOUTUBE_UUID, youtubeuuid);
         return youtubeuuid;
     }
 
@@ -486,6 +515,7 @@ public class User {
      * @return whether caps mode is on
      */
     public String getCapsmode() {
+        getterHook(Preference.CAPS_MODE, capsmode);
         return capsmode;
     }
 
@@ -495,6 +525,7 @@ public class User {
      * @return whether this user is logged in
      */
     public String getLoggedin() {
+        getterHook(Preference.LOGGED_IN, loggedin);
         return loggedin;
     }
 
@@ -504,6 +535,7 @@ public class User {
      * @return whether to show the audio total length or the time remaining
      */
     public String getAudiolength() {
+        getterHook(Preference.AUDIO_LENGTH, audiolength);
         return audiolength;
     }
 
@@ -513,6 +545,7 @@ public class User {
      * @return whether to persist notifications
      */
     public String getPersistentnotifications() {
+        getterHook(Preference.PERSISTENT_NOTIFICATIONS, persistentnotifications);
         return persistentnotifications;
     }
 
@@ -522,6 +555,7 @@ public class User {
      * @return whether to perform animations
      */
     public String getDoAnimations() {
+        getterHook(Preference.DO_ANIMATIONS, doAnimations);
         return doAnimations;
     }
 
@@ -531,6 +565,7 @@ public class User {
      * @return whether compact text mode
      */
     public String getCompactTextMode() {
+        getterHook(Preference.COMPACT_TEXT_MODE, compactTextMode);
         return compactTextMode;
     }
 
@@ -540,8 +575,11 @@ public class User {
      * @return whether to wrap the native terminal
      */
     public String getWrapshell() {
+        getterHook(Preference.WRAP_SHELL, wrapshell);
         return wrapshell;
     }
+
+    private static final String SCREEN_STAT = "screenstat";
 
     /**
      * Returns the screen stat object.
@@ -549,8 +587,11 @@ public class User {
      * @return the screen stat object
      */
     public ScreenStat getScreenStat() {
+        getterHook(SCREEN_STAT, screenStat);
         return screenStat;
     }
+
+    private static final String MAPPED_EXECUTABLE = "mappedexecutable";
 
     /**
      * Returns the list of mapped executables.
@@ -558,6 +599,7 @@ public class User {
      * @return the list of mapped executables
      */
     public LinkedList<MappedExecutable> getExecutables() {
+        getterHook(MAPPED_EXECUTABLE, executables);
         return executables;
     }
 
@@ -567,6 +609,7 @@ public class User {
      * @return whether dark mode is active
      */
     public String getDarkmode() {
+        getterHook(Preference.DARK_MODE, darkmode);
         return darkmode;
     }
 
@@ -914,6 +957,18 @@ public class User {
      */
     public void setDarkmode(String darkmode) {
         this.darkmode = darkmode;
+    }
+
+    /**
+     * The hook to call on all getters inside of the user class.
+     *
+     * @param id    the id of a user data
+     * @param value the current value of the user data
+     */
+    private static void getterHook(String id, Object value) {
+        if (!StringUtil.in(id, true, UserUtil.IGNORE_USER_DATA)) {
+            Logger.log(Logger.Tag.USER_GET, "key = " + id + ", value = " + value);
+        }
     }
 
     /**
