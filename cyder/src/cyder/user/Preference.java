@@ -17,7 +17,6 @@ import javax.swing.border.LineBorder;
  */
 @SuppressWarnings("SpellCheckingInspection") /* key names */
 public class Preference {
-    // Preference keys
     public static final String NAME = "name";
     public static final String PASS = "pass";
     public static final String FONT = "Font";
@@ -288,13 +287,15 @@ public class Preference {
             new Preference(DARK_MODE, "Dark Mode", "Activate a pleasant dark mode for Cyder",
                     "0", () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, DARK_MODE))
 
-            // To add: create object in User.java with a getter/setter and add a new Preference here
+            /*
+                To add: create object in User.java with a getter/setter and add a new Preference here
 
-            // Everything in userdata must be in this list in some way,
-            // perhaps this hints at this class being called something different
+                Everything in userdata must be in this list in some way, perhaps this hints at
+                this class being called something different
 
-            // Note: non primitive types such as ScreenStat need to be set by
-            // using the object reference returned by the getter, UserUtil.getCyderUser().getScreenStat().setX(0);
+                Note: non primitive types such as ScreenStat need to be set by using the object reference
+                returned by the getter, UserUtil.getCyderUser().getScreenStat().setX(0);
+             */
     );
 
     /**
@@ -377,9 +378,7 @@ public class Preference {
      * @param defaultValue     the default value
      * @param onChangeFunction the method to run when a change of the preference occurs.
      */
-    public Preference(String id, String displayName,
-                      String tooltip, Object defaultValue,
-                      Runnable onChangeFunction) {
+    public Preference(String id, String displayName, String tooltip, Object defaultValue, Runnable onChangeFunction) {
         this.id = id;
         this.displayName = displayName;
         this.tooltip = tooltip;

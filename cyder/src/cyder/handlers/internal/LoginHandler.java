@@ -15,10 +15,7 @@ import cyder.ui.*;
 import cyder.user.User;
 import cyder.user.UserCreator;
 import cyder.user.UserUtil;
-import cyder.utils.ImageUtil;
-import cyder.utils.OSUtil;
-import cyder.utils.SecurityUtil;
-import cyder.utils.StringUtil;
+import cyder.utils.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -519,7 +516,7 @@ public final class LoginHandler {
                 if (autoCypherAttempt) {
                     priorityPrintingList.add("Autocypher failed");
                     Logger.log(Logger.Tag.LOGIN, CyderEntry.AutoCypher.getFailMessage());
-                } else if (loginFrame != null && loginFrame.isVisible()) {
+                } else if (UiUtil.notNullAndVisible(loginFrame)) {
                     priorityPrintingList.add("Incorrect password\n");
                     Logger.log(Logger.Tag.LOGIN, CyderEntry.Login.getFailMessage());
                     loginField.requestFocusInWindow();

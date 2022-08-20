@@ -596,7 +596,7 @@ public enum Console {
      * Revalidates the bounds of the custom console menu and the audio controls menu.
      */
     private void revalidateCustomMenuBounds() {
-        if (menuLabel != null && menuLabel.isVisible()) {
+        if (UiUtil.notNullAndVisible(menuLabel)) {
             menuLabel.setBounds(menuLabelShowingX, menuLabelShowingY, TASKBAR_MENU_WIDTH, calculateMenuHeight());
         }
     }
@@ -607,7 +607,7 @@ public enum Console {
      * Revalidates the audio menu bounds.
      */
     public void revalidateAudioMenuBounds() {
-        if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
+        if (UiUtil.notNullAndVisible(audioControlsLabel)) {
             audioControlsLabel.setBounds(calculateAudioMenuX(), audioMenuLabelShowingY,
                     AUDIO_MENU_LABEL_WIDTH, AUDIO_MENU_LABEL_HEIGHT);
         }
@@ -632,7 +632,7 @@ public enum Console {
             int w = consoleCyderFrame.getWidth();
             int h = consoleCyderFrame.getHeight();
 
-            int menuLabelEndX = (menuLabel != null && menuLabel.isVisible() && !ignoreMenuLabel)
+            int menuLabelEndX = (UiUtil.notNullAndVisible(menuLabel) && !ignoreMenuLabel)
                     ? 2 + menuLabel.getWidth() : 0;
 
             outputScroll.setBounds(menuLabelEndX + FIELD_X_PADDING,
@@ -3109,7 +3109,7 @@ public enum Console {
      * Revalidates the background colors of the console menus (audio or taskbar) that are active.
      */
     public void revalidateMenuBackgrounds() {
-        if (menuLabel != null && menuLabel.isVisible()) {
+        if (UiUtil.notNullAndVisible(menuLabel)) {
             generateConsoleMenu();
             menuLabel.setLocation(2, CyderDragLabel.DEFAULT_HEIGHT - 2);
         }

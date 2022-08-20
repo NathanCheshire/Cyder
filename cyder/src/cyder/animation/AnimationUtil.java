@@ -7,6 +7,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.CyderFrame;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,7 +44,7 @@ public final class AnimationUtil {
             ((CyderFrame) frame).disableDragging();
         }
 
-        if (frame != null && frame.isVisible()) {
+        if (UiUtil.notNullAndVisible(frame)) {
             Point point = frame.getLocationOnScreen();
             int x = (int) point.getX();
             int y = (int) point.getY();

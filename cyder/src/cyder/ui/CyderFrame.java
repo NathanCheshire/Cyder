@@ -1804,7 +1804,7 @@ public class CyderFrame extends JFrame {
 
         revalidateLayout();
 
-        if (menuLabel != null && menuLabel.isVisible()) {
+        if (UiUtil.notNullAndVisible(menuLabel)) {
             generateMenu();
             menuLabel.setLocation(animateMenuToPoint);
             menuLabel.setVisible(true);
@@ -1841,7 +1841,7 @@ public class CyderFrame extends JFrame {
 
         revalidateLayout();
 
-        if (menuLabel != null && menuLabel.isVisible()) {
+        if (UiUtil.notNullAndVisible(menuLabel)) {
             generateMenu();
             menuLabel.setLocation(animateMenuToPoint);
             menuLabel.setVisible(true);
