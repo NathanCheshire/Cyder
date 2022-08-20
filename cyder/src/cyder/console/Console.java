@@ -3110,8 +3110,10 @@ public enum Console {
      */
     public void revalidateMenuBackgrounds() {
         if (UiUtil.notNullAndVisible(menuLabel)) {
-            generateConsoleMenu();
-            menuLabel.setLocation(2, CyderDragLabel.DEFAULT_HEIGHT - 2);
+            menuLabel.setBackground(CyderColors.getGuiThemeColor());
+            audioControlsLabel.repaint();
+            menuScroll.setBackground(CyderColors.getGuiThemeColor());
+            menuScroll.repaint();
         }
 
         if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
