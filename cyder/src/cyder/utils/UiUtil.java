@@ -486,6 +486,7 @@ public final class UiUtil {
      * @return the windows taskbar height
      */
     public static int getWindowsTaskbarLength() {
-        return 40; // todo implement me
+        return (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()
+                - GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getHeight());
     }
 }
