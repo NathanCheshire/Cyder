@@ -84,14 +84,15 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
     draw.text(comment_area_center, comment_string,
               font=export_font, fill=(245, 245, 245))
 
-    cv2.imwrite('actions/output' + str(save_name) + '.png', np.array(img_pil))
+    cv2.imwrite('actions/output/' + str(save_name) + '.png', np.array(img_pil))
 
+__thousand_prefix = 'K'
 
 def get_compressed_number(num: int) -> str:
     """ 
     Returns the number of thousands represented by the integer rounded to one decimal place.
     """
-    return str(round(num / 1000.0, 1)) + 'K'
+    return str(round(num / 1000.0, 1)) + __thousand_prefix
 
 
 def export_string_badge(alpha_string: str, beta_string: str, save_name: str, font_size: int = 18,
@@ -141,7 +142,7 @@ def export_string_badge(alpha_string: str, beta_string: str, save_name: str, fon
     left_anchor = (alpha_width + horizontal_padding * 2, vertical_padding)
     draw.text(left_anchor, beta_string, font=local_font, fill=text_color)
 
-    cv2.imwrite('actions/output' + save_name + '.png', np.array(base_colors_done))
+    cv2.imwrite('actions/output/' + save_name + '.png', np.array(base_colors_done))
 
 
 def get_text_size(text: str, font_size: int, font_name: str) -> Tuple:
@@ -291,8 +292,10 @@ def main():
     print('Total blank lines:', blank_lines)
 
     total = code_lines + comment_lines + blank_lines
+    print("Total:",total)
 
-    print('Total:', total)
+    total_rounded = round(code_lines / 1000.0, 1) + round(comment_lines / 1000.0, 1) + round(blank_lines / 1000.0, 1)
+
 
     export_stats(code_lines=code_lines, comment_lines=comment_lines,
                  blank_lines=blank_lines, width=250, height=250, save_name="stats")
@@ -300,7 +303,7 @@ def main():
     # attempt to regenerate in case one was removed
     export_string_badge("Cyder", "A Programmer's Swiss Army Knife", "tagline")
     export_string_badge("By", "Nate Cheshire", "author")
-    export_string_badge("Total lines", get_compressed_number(total), "total")
+    export_string_badge("Total lines", get_compressed_number(total_rounded), "total")
 
 
 if __name__ == '__main__':
