@@ -1014,7 +1014,7 @@ public class CyderModernButton extends JLabel {
     /**
      * A builder for constructing a theme for a modern button.
      */
-    private static class ThemeBuilder {
+    public static class ThemeBuilder {
         private Color backgroundColor;
         private Color foregroundColor;
         private Font font;

@@ -139,7 +139,7 @@ public final class AnimationUtil {
     public static void componentUp(int startY, int endY, int delay, int increment, Component comp) {
         Preconditions.checkNotNull(comp);
 
-        if (comp.getY() == startY)
+        if (comp.getY() == startY) {
             CyderThreadRunner.submit(() -> {
                 for (int i = startY ; i >= endY ; i -= increment) {
                     ThreadUtil.sleep(delay);
@@ -147,6 +147,7 @@ public final class AnimationUtil {
                 }
                 comp.setLocation(comp.getX(), endY);
             }, "Component Up Animator, comp=" + comp);
+        }
     }
 
     /**
@@ -163,7 +164,7 @@ public final class AnimationUtil {
     public static void componentDown(int startY, int stopY, int delay, int increment, Component comp) {
         Preconditions.checkNotNull(comp);
 
-        if (comp.getY() == startY)
+        if (comp.getY() == startY) {
             CyderThreadRunner.submit(() -> {
                 for (int i = startY ; i <= stopY ; i += increment) {
                     ThreadUtil.sleep(delay);
@@ -171,6 +172,7 @@ public final class AnimationUtil {
                 }
                 comp.setLocation(comp.getX(), stopY);
             }, "Component Down Animator, comp=" + comp);
+        }
     }
 
     /**
@@ -187,7 +189,7 @@ public final class AnimationUtil {
     public static void componentLeft(int startX, int stopX, int delay, int increment, Component comp) {
         Preconditions.checkNotNull(comp);
 
-        if (comp.getX() == startX)
+        if (comp.getX() == startX) {
             CyderThreadRunner.submit(() -> {
                 for (int i = startX ; i >= stopX ; i -= increment) {
                     ThreadUtil.sleep(delay);
@@ -195,6 +197,7 @@ public final class AnimationUtil {
                 }
                 comp.setLocation(stopX, comp.getY());
             }, "Component Left Animator, comp=" + comp);
+        }
     }
 
     /**
@@ -211,7 +214,7 @@ public final class AnimationUtil {
     public static void componentRight(int startX, int stopX, int delay, int increment, Component comp) {
         Preconditions.checkNotNull(comp);
 
-        if (comp.getX() == startX)
+        if (comp.getX() == startX) {
             CyderThreadRunner.submit(() -> {
                 for (int i = startX ; i <= stopX ; i += increment) {
                     ThreadUtil.sleep(delay);
@@ -219,5 +222,6 @@ public final class AnimationUtil {
                 }
                 comp.setLocation(stopX, comp.getY());
             }, "Component Right Animator, comp=" + comp);
+        }
     }
 }
