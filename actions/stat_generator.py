@@ -65,30 +65,29 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
     # Convert to pillow image
     pillow_image = Image.fromarray(image)
 
-    image_draw = ImageDraw.Draw(pillow_image)
+    draw = ImageDraw.Draw(pillow_image)
     code_string = get_paint_string("Java", code_percent, code_lines)
-    code_width, code_height = image_draw.textsize(code_string, font=export_font)
-    code_area_center = (width / 2 - code_width / 2, border_length +
-                        code_height / 2 - code_height / 2)
-    image_draw.text(code_area_center, code_string,
-                    font=export_font, fill=text_foreground)
+    w, h = draw.textsize(code_string, font=export_font)
+    code_area_center = (width / 2 - w / 2,
+                        border_length + code_height / 2 - h / 2)
+    draw.text(code_area_center, code_string,
+              font=export_font, fill=text_foreground)
 
-    image_draw = ImageDraw.Draw(pillow_image)
+    draw = ImageDraw.Draw(pillow_image)
     blank_string = get_paint_string("Blank", blank_percent, blank_lines)
-    blank_width, blank_height = image_draw.textsize(blank_string, font=export_font)
-    blank_area_center = (width / 2 - blank_width / 2, border_length +
-                         blank_height + comment_height / 2 - blank_height / 2)
-    image_draw.text(blank_area_center, blank_string,
-                    font=export_font, fill=text_foreground)
+    w, h = draw.textsize(blank_string, font=export_font)
+    blank_area_center = (width / 2 - w / 2,
+                         border_length + code_height + comment_height / 2 - h / 2)
+    draw.text(blank_area_center, blank_string,
+              font=export_font, fill=text_foreground)
 
-    image_draw = ImageDraw.Draw(pillow_image)
-    comment_string = get_paint_string(
-        "Comment", comment_percent, comment_lines)
-    comment_width, comment_height = image_draw.textsize(comment_string, font=export_font)
-    comment_area_center = (width / 2 - comment_width / 2, border_length +
-                           comment_height + comment_height + blank_height / 2 - comment_height / 2)
-    image_draw.text(comment_area_center, comment_string,
-                    font=export_font, fill=text_foreground)
+    draw = ImageDraw.Draw(pillow_image)
+    comment_string = get_paint_string("Comment", comment_percent, comment_lines)
+    w, h = draw.textsize(comment_string, font=export_font)
+    comment_area_center = (width / 2 - w / 2,
+                           border_length + code_height + comment_height + blank_height / 2 - h / 2)
+    draw.text(comment_area_center, comment_string,
+              font=export_font, fill=text_foreground)
 
     cv2.imwrite('actions/output/' + str(save_name) +
                 '.png', np.array(pillow_image))

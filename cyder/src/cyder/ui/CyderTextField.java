@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
@@ -12,6 +13,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -59,53 +61,7 @@ public class CyderTextField extends JTextField {
         this.limit = charLimit == 0 ? Integer.MAX_VALUE : charLimit;
         this.keyEventRegexMatcher = null;
 
-        addKeyListener(new KeyAdapter() {
-            public void keyTyped(KeyEvent evt) {
-                if (getText().length() > limit) {
-                    setText(getText().substring(0, getText().length() - 1));
-                    Toolkit.getDefaultToolkit().beep();
-                } else if (keyEventRegexMatcher != null
-                        && !keyEventRegexMatcher.isEmpty()
-                        && getText() != null
-                        && !getText().isEmpty()) {
-                    if (!currentTextMatchesPattern()) {
-                        setText(getText().substring(0, getText().length() - 1));
-                        Toolkit.getDefaultToolkit().beep();
-                    }
-                }
-            }
-
-            public void keyPressed(KeyEvent evt) {
-                if (getText().length() > limit) {
-                    setText(getText().substring(0, getText().length() - 1));
-                    Toolkit.getDefaultToolkit().beep();
-                } else if (keyEventRegexMatcher != null
-                        && !keyEventRegexMatcher.isEmpty()
-                        && getText() != null
-                        && !getText().isEmpty()) {
-                    if (!currentTextMatchesPattern()) {
-                        setText(getText().substring(0, getText().length() - 1));
-                        Toolkit.getDefaultToolkit().beep();
-                    }
-                }
-            }
-
-            public void keyReleased(KeyEvent evt) {
-                if (getText().length() > limit) {
-                    setText(getText().substring(0, getText().length() - 1));
-                    Toolkit.getDefaultToolkit().beep();
-                } else if (keyEventRegexMatcher != null
-                        && !keyEventRegexMatcher.isEmpty()
-                        && getText() != null
-                        && !getText().isEmpty()) {
-                    if (!currentTextMatchesPattern()) {
-                        setText(getText().substring(0, getText().length() - 1));
-                        Toolkit.getDefaultToolkit().beep();
-                    }
-                }
-            }
-        });
-
+        addKeyListener(regexAndLimitKeyListener);
         addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
         setBackground(backgroundColor);
@@ -118,6 +74,36 @@ public class CyderTextField extends JTextField {
         setOpaque(true);
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
+    }
+
+    KeyListener regexAndLimitKeyListener = new KeyAdapter() {
+        public void keyTyped(KeyEvent evt) {
+            regexAndLimitMatcherLogic();
+        }
+
+        public void keyPressed(KeyEvent evt) {
+            regexAndLimitMatcherLogic();
+        }
+
+        public void keyReleased(KeyEvent evt) {
+            regexAndLimitMatcherLogic();
+        }
+    };
+
+    @ForReadability
+    private void regexAndLimitMatcherLogic() {
+        if (getText().length() > limit) {
+            setText(getText().substring(0, getText().length() - 1));
+            Toolkit.getDefaultToolkit().beep();
+        } else if (keyEventRegexMatcher != null
+                && !keyEventRegexMatcher.isEmpty()
+                && getText() != null
+                && !getText().isEmpty()) {
+            if (!currentTextMatchesPattern()) {
+                setText(getText().substring(0, getText().length() - 1));
+                Toolkit.getDefaultToolkit().beep();
+            }
+        }
     }
 
     /**
@@ -330,31 +316,31 @@ public class CyderTextField extends JTextField {
     /**
      * Adds auto capitalization to the provided text field.
      *
-     * @param tf the text field to add auto capitalization to
+     * @param textField the text field to add auto capitalization to
      */
-    public static void addAutoCapitalizationAdapter(JTextField tf) {
-        tf.addKeyListener(new KeyAdapter() {
+    public static void addAutoCapitalizationAdapter(JTextField textField) {
+        textField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if (tf.getText().length() == 1) {
-                    tf.setText(tf.getText().toUpperCase());
-                }
+                autoCapitalizationLogic(textField);
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-                if (tf.getText().length() == 1) {
-                    tf.setText(tf.getText().toUpperCase());
-                }
+                autoCapitalizationLogic(textField);
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                if (tf.getText().length() == 1) {
-                    tf.setText(tf.getText().toUpperCase());
-                }
+                autoCapitalizationLogic(textField);
             }
         });
+    }
+
+    private static void autoCapitalizationLogic(JTextField textField) {
+        if (textField.getText().length() == 1) {
+            textField.setText(textField.getText().toUpperCase());
+        }
     }
 
     /**

@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
@@ -42,22 +43,17 @@ public class CyderScrollPane extends JScrollPane {
     private static Color thumbColor = CyderColors.regularPink;
 
     /**
-     * An empty color used for the background and viewport background color.
-     */
-    private static final Color emptyColor = new Color(0, 0, 0, 0);
-
-    /**
      * Constructs a new scroll pane for the provided component.
      *
      * @param view the component to wrap with the scroll pane.
      */
     public CyderScrollPane(Component view) {
-        this(view, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        this(Preconditions.checkNotNull(view), VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         setThumbColor(CyderColors.regularPink);
         setFont(CyderFonts.SEGOE_20);
-        setBackground(emptyColor);
-        getViewport().setBackground(emptyColor);
+        setBackground(CyderColors.empty);
+        getViewport().setBackground(CyderColors.empty);
 
         addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
@@ -76,8 +72,8 @@ public class CyderScrollPane extends JScrollPane {
         horizontalScrollBarPolicy = hsbPolicy;
         setThumbColor(CyderColors.regularPink);
         setFont(CyderFonts.SEGOE_20);
-        setBackground(new Color(0, 0, 0, 0));
-        getViewport().setBackground(new Color(0, 0, 0, 0));
+        setBackground(CyderColors.empty);
+        getViewport().setBackground(CyderColors.empty);
 
         addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
@@ -137,6 +133,8 @@ public class CyderScrollPane extends JScrollPane {
      * @param hsbPolicy the horizontal policy
      */
     public CyderScrollPane(Component view, int vsbPolicy, int hsbPolicy) {
+        Preconditions.checkNotNull(view);
+
         setBorder(null);
         verticalScrollBarPolicy = vsbPolicy;
         horizontalScrollBarPolicy = hsbPolicy;

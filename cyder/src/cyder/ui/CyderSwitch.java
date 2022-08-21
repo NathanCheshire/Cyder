@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import cyder.animation.AnimationUtil;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -9,6 +10,8 @@ import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * An animated binary switch with smooth transition animations.
@@ -78,6 +81,11 @@ public class CyderSwitch extends JLabel {
     private String offText = "0";
 
     /**
+     * The line border used for switches.
+     */
+    private static final LineBorder lineBorder = new LineBorder(CyderColors.navy, 5, false);
+
+    /**
      * Constructs a new switch from the provided parameters.
      *
      * @param width         the width of the switch
@@ -90,20 +98,17 @@ public class CyderSwitch extends JLabel {
         state = startingState;
 
         setSize(width, height);
-        setBorder(new LineBorder(CyderColors.navy, 5, false));
+        setBorder(lineBorder);
 
         switchButton = new CyderButton();
-        switchButton.addActionListener(e -> {
-            if (state == State.OFF)
-                setState(State.ON);
-            else
-                setState(State.OFF);
-        });
+        switchButton.addActionListener(switchButtonActionListener);
 
         switchButton.setForeground(CyderColors.regularPink);
         switchButton.setColors(CyderColors.navy);
         switchButton.setFont(CyderFonts.DEFAULT_FONT_SMALL);
-        switchButton.setSize((int) (this.width * ((double) buttonPercent / 100)) - 10, this.height - 20);
+
+        Dimension size = calculateSwitchButtonSize();
+        switchButton.setSize(size.width, size.height);
         switchButton.setLocation(10, 10);
         add(switchButton);
 
@@ -124,11 +129,54 @@ public class CyderSwitch extends JLabel {
         this(width, height, State.OFF);
     }
 
+    private static final int DEFAULT_WIDTH = 400;
+    private static final int DEFAULT_HEIGHT = 120;
+
     /**
      * Constructs a new switch with a width of 400, a height of 120, and a state of off.
      */
     public CyderSwitch() {
-        this(400, 120);
+        this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
+
+    private Dimension calculateSwitchButtonSize() {
+        return new Dimension((int) (this.width * ((double) buttonPercent / 100)) - 10,
+                this.height - 20);
+    }
+
+    @SuppressWarnings("FieldCanBeLocal")
+    private final ActionListener switchButtonActionListener = e -> {
+        if (state == State.OFF) {
+            setState(State.ON);
+        } else {
+            setState(State.OFF);
+        }
+    };
+
+    private static final int switchButtonY = 10;
+    private static final int switchButtonLeftX = 10;
+
+    /**
+     * The increment for state animations.
+     */
+    private int animationIncrement = 8;
+
+    /**
+     * Returns the animation increment.
+     *
+     * @return the animation increment
+     */
+    public int getAnimationIncrement() {
+        return animationIncrement;
+    }
+
+    /**
+     * Sets the animation increment.
+     *
+     * @param animationIncrement the animation increment
+     */
+    public void setAnimationIncrement(int animationIncrement) {
+        this.animationIncrement = animationIncrement;
     }
 
     /**
@@ -137,40 +185,47 @@ public class CyderSwitch extends JLabel {
      * @param state the new state of the switch
      */
     public void setState(State state) {
-        boolean shouldAnimate = (isVisible() && getParent() != null && this.state != state);
+        Preconditions.checkNotNull(state);
+
+        if (this.state == state) return;
 
         this.state = state;
 
+        boolean shouldAnimate = (isVisible() && getParent() != null);
         switch (state) {
             case ON -> {
                 switchButton.setText(onText);
-                if (shouldAnimate)
-                    AnimationUtil.componentRight(switchButton.getX(), width - switchButton.getWidth() - 10,
-                            animationDelay, 8, switchButton);
-                switchButton.setLocation(width - switchButton.getWidth() - 10, switchButton.getY());
+                if (shouldAnimate) {
+                    AnimationUtil.componentRight(switchButton.getX(),
+                            width - switchButton.getWidth() - switchButtonLeftX,
+                            animationDelay, animationIncrement, switchButton);
+                }
+                switchButton.setLocation(width - switchButton.getWidth() - switchButtonLeftX, switchButtonY);
             }
             case OFF -> {
                 switchButton.setText(offText);
-                if (shouldAnimate)
-                    AnimationUtil.componentLeft(switchButton.getX(), 10, animationDelay, 8, switchButton);
-                switchButton.setLocation(10, switchButton.getY());
+                if (shouldAnimate) {
+                    AnimationUtil.componentLeft(switchButton.getX(), switchButtonLeftX,
+                            animationDelay, animationIncrement, switchButton);
+                }
+                switchButton.setLocation(switchButtonLeftX, switchButtonY);
             }
             case INDETERMINATE -> {
                 switchButton.setText(indeterminateText);
-                if (switchButton.getX() > 10) {
+                if (switchButton.getX() > switchButtonLeftX) {
                     if (shouldAnimate) {
-                        switchButton.setLocation(width - switchButton.getWidth() - 10, 10);
-                        AnimationUtil.componentLeft(switchButton.getX(),
-                                width / 2 - switchButton.getWidth() / 2, animationDelay, 8, switchButton);
+                        switchButton.setLocation(width - switchButton.getWidth() - switchButtonLeftX, switchButtonY);
+                        AnimationUtil.componentLeft(switchButton.getX(), width / 2 - switchButton.getWidth() / 2,
+                                animationDelay, animationIncrement, switchButton);
                     }
-                    switchButton.setLocation(width / 2 - switchButton.getWidth() / 2, 10);
+                    switchButton.setLocation(width / 2 - switchButton.getWidth() / 2, switchButtonY);
                 } else {
                     if (shouldAnimate) {
-                        switchButton.setLocation(10, 10);
-                        AnimationUtil.componentRight(10, width / 2 - switchButton.getWidth() / 2,
-                                animationDelay, 8, switchButton);
+                        switchButton.setLocation(switchButtonLeftX, switchButtonY);
+                        AnimationUtil.componentRight(switchButtonLeftX, width / 2 - switchButton.getWidth() / 2,
+                                animationDelay, animationIncrement, switchButton);
                     }
-                    switchButton.setLocation(10, 10);
+                    switchButton.setLocation(switchButtonLeftX, switchButtonY);
                 }
             }
         }
@@ -273,12 +328,13 @@ public class CyderSwitch extends JLabel {
      */
     public void setButtonPercent(int buttonPercent) {
         this.buttonPercent = buttonPercent;
-        switchButton.setSize((int) (width * ((double) this.buttonPercent / 100)) - 10, height - 20);
+        Dimension size = calculateSwitchButtonSize();
+        switchButton.setSize(size.width, size.height);
 
         switch (state) {
-            case ON -> switchButton.setLocation(width - switchButton.getWidth() - 10, 10);
-            case OFF -> switchButton.setLocation(10, 10);
-            case INDETERMINATE -> switchButton.setLocation(width / 2 - switchButton.getWidth() / 2, 10);
+            case ON -> switchButton.setLocation(width - switchButton.getWidth() - switchButtonLeftX, switchButtonY);
+            case OFF -> switchButton.setLocation(switchButtonLeftX, switchButtonY);
+            case INDETERMINATE -> switchButton.setLocation(width / 2 - switchButton.getWidth() / 2, switchButtonY);
         }
     }
 

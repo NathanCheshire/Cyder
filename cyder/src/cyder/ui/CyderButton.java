@@ -94,13 +94,17 @@ public class CyderButton extends JButton {
         setVerticalAlignment(JLabel.CENTER);
         setBorder(new LineBorder(CyderColors.navy, 5, false));
 
-        setUI(new MetalButtonUI() {
+        setUI(generateMetalButtonUi());
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+    }
+
+    private static MetalButtonUI generateMetalButtonUi() {
+        return new MetalButtonUI() {
             protected Color getDisabledTextColor() {
                 return DISABLED_TEXT_COLOR;
             }
-        });
-
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        };
     }
 
     /**
