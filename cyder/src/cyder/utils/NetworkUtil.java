@@ -7,6 +7,7 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
@@ -25,6 +26,10 @@ import java.util.regex.Matcher;
  * Utility methods revolving around networking, urls, servers, etc.
  */
 public class NetworkUtil {
+    public static final String LATENCY_IP_KEY = "latency_ip";
+    public static final String LATENCY_PORT_KEY = "latency_port";
+    public static final String LATENCY_NAME = "latency_name";
+
     /**
      * Suppress default constructor.
      */
@@ -142,6 +147,11 @@ public class NetworkUtil {
     }
 
     /**
+     * The name of the ip to ping by default when determining a user's latency.
+     */
+    public static final String LATENCY_GOOGLE_HOST_NAME = "Google";
+
+    /**
      * The port to use when pinging google to determine a user's latency.
      */
     public static final int LATENCY_GOOGLE_PORT = 80;
@@ -153,10 +163,26 @@ public class NetworkUtil {
      */
     public static final String LATENCY_GOOGLE_IP = "172.217.4.78";
 
-    /**
-     * The default timeout to use when pinging google to determine a user's latency.
-     */
-    public static final int DEFAULT_LATENCY_TIMEOUT = 2000;
+    private static String LATENCY_IP = LATENCY_GOOGLE_IP;
+    private static int LATENCY_PORT = LATENCY_GOOGLE_PORT;
+    private static String LATENCY_HOST_NAME = LATENCY_GOOGLE_HOST_NAME;
+
+    static {
+        if (PropLoader.propExists(LATENCY_IP_KEY)) {
+            LATENCY_IP = PropLoader.getString(LATENCY_IP_KEY);
+            Logger.log(Logger.Tag.DEBUG, "Set latency ip as " + LATENCY_IP);
+        }
+
+        if (PropLoader.propExists(LATENCY_PORT_KEY)) {
+            LATENCY_PORT = PropLoader.getInteger(LATENCY_PORT_KEY);
+            Logger.log(Logger.Tag.DEBUG, "Set latency port as " + LATENCY_PORT);
+        }
+
+        if (PropLoader.propExists(LATENCY_NAME)) {
+            LATENCY_HOST_NAME = PropLoader.getString(LATENCY_NAME);
+            Logger.log(Logger.Tag.DEBUG, "Set latency host name as " + LATENCY_HOST_NAME);
+        }
+    }
 
     /**
      * Returns the latency of the host system to google.com.
@@ -166,7 +192,7 @@ public class NetworkUtil {
      */
     public static int latency(int timeout) {
         Socket socket = new Socket();
-        SocketAddress address = new InetSocketAddress(LATENCY_GOOGLE_IP, LATENCY_GOOGLE_PORT);
+        SocketAddress address = new InetSocketAddress(LATENCY_IP, LATENCY_PORT);
         long start = System.currentTimeMillis();
 
         try {
@@ -184,13 +210,19 @@ public class NetworkUtil {
             ExceptionHandler.handle(e);
         }
 
-        Logger.log(Logger.Tag.DEBUG, "Latency of Google found to be " + latency + "ms");
+        Logger.log(Logger.Tag.DEBUG, "Latency of " + LATENCY_HOST_NAME
+                + " found to be " + latency + "ms");
 
         return latency;
     }
 
     /**
-     * Pings google to find the latency.
+     * The default timeout to use when pinging google to determine a user's latency.
+     */
+    public static final int DEFAULT_LATENCY_TIMEOUT = 2000;
+
+    /**
+     * Pings {@link #LATENCY_GOOGLE_IP} to find the latency.
      *
      * @return the latency of the local internet connection to google.com
      */

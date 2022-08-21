@@ -65,6 +65,19 @@ public final class PropLoader {
     }
 
     /**
+     * Returns whether a prop with the provided key can be found.
+     *
+     * @param key the key
+     * @return whether a prop with the provided key can be found
+     */
+    public static boolean propExists(String key) {
+        Preconditions.checkArgument(propsLoaded);
+        Preconditions.checkNotNull(key);
+
+        return props.stream().anyMatch(prop -> prop.key.equals(key));
+    }
+
+    /**
      * Returns the prop value with the provided key.
      *
      * @param key the key to get the prop value of
@@ -72,6 +85,7 @@ public final class PropLoader {
      */
     public static String getString(String key) {
         Preconditions.checkArgument(propsLoaded);
+        Preconditions.checkNotNull(key);
 
         for (Prop prop : props) {
             if (prop.key.equals(key)) {
@@ -90,6 +104,7 @@ public final class PropLoader {
      */
     public static boolean getBoolean(String key) {
         Preconditions.checkArgument(propsLoaded);
+        Preconditions.checkNotNull(key);
 
         for (Prop prop : props) {
             if (prop.key.equals(key)) {
@@ -108,6 +123,7 @@ public final class PropLoader {
      */
     public static int getInteger(String key) {
         Preconditions.checkArgument(propsLoaded);
+        Preconditions.checkNotNull(key);
 
         for (Prop prop : props) {
             if (prop.key.equals(key)) {
@@ -126,6 +142,7 @@ public final class PropLoader {
      */
     public static float getFloat(String key) {
         Preconditions.checkArgument(propsLoaded);
+        Preconditions.checkNotNull(key);
 
         for (Prop prop : props) {
             if (prop.key.equals(key)) {
@@ -144,6 +161,7 @@ public final class PropLoader {
      */
     public static double getDouble(String key) {
         Preconditions.checkArgument(propsLoaded);
+        Preconditions.checkNotNull(key);
 
         for (Prop prop : props) {
             if (prop.key.equals(key)) {
@@ -325,7 +343,7 @@ public final class PropLoader {
                         writer.write(NO_LOG_ANNOTATION);
                         writer.newLine();
                         Logger.log(Logger.Tag.DEBUG, "Injected " + NO_LOG_ANNOTATION + " for prop: "
-                                + extractedProp.key + ", prop file=" + file.getName());
+                                + extractedProp.key + ", prop file = " + file.getName());
                     }
                 } catch (Exception ignored) {}
 

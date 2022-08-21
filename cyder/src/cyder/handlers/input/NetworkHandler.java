@@ -148,18 +148,18 @@ public class NetworkHandler extends InputHandler {
 
                     getInputHandler().println("You are currently in " + primary.text() + ", " + secondary.text());
 
-                    String isp = "NOT FOUND";
+                    String isp = "not found";
 
                     String[] lines = NetworkUtil.readUrl(CyderUrls.ISP_URL).split("\n");
 
                     for (String line : lines) {
                         Matcher matcher = CyderRegexPatterns.whereAmIPattern.matcher(line);
                         if (matcher.find()) {
-                            isp = matcher.group(1);
+                            isp = StringUtil.capsFirstWords(matcher.group(1));
                         }
                     }
 
-                    getInputHandler().println("Your ISP is " + StringUtil.capsFirstWords(isp));
+                    getInputHandler().println("Your ISP is " + isp);
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
