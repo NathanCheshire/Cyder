@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.utils.StringUtil;
@@ -16,8 +17,6 @@ import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-// todo add styles similar to android that reference some kind of json maybe?
 
 /**
  * A moder button for use throughout Cyder, similar to {@link CyderCheckbox}.
@@ -46,12 +45,12 @@ public class CyderModernButton extends JLabel {
     /**
      * The foreground color of the label text.
      */
-    private Color foregroundColor = CyderColors.regularPink;
+    private Color foregroundColor = CyderColors.navy;
 
     /**
      * The background color of the button.
      */
-    private Color backgroundColor = CyderColors.navy;
+    private Color backgroundColor = CyderColors.regularRed;
 
     /**
      * The border color.
@@ -71,12 +70,12 @@ public class CyderModernButton extends JLabel {
     /**
      * The foreground text color for when the button is disabled.
      */
-    private Color disabledForeground = Color.black;
+    private Color disabledForeground = CyderColors.vanilla;
 
     /**
      * The background color for the button when disabled.
      */
-    private Color disabledBackground = CyderColors.vanilla;
+    private Color disabledBackground = CyderColors.navy;
 
     /**
      * Whether the button should be painted with rounded corners.
@@ -93,10 +92,12 @@ public class CyderModernButton extends JLabel {
      */
     private boolean isFlashing;
 
+    public static final int DEFAULT_BORDER_LENGTH = 5;
+
     /**
      * The length of the border painted around the button.
      */
-    private int borderLength = 3;
+    private int borderLength = DEFAULT_BORDER_LENGTH;
 
     /**
      * The width of the button.
@@ -192,7 +193,16 @@ public class CyderModernButton extends JLabel {
      * Adds the necessary listeners to the modern button.
      */
     private void addListeners() {
-        addMouseListener(new MouseAdapter() {
+        addMouseListener(generateMouseAdapter());
+    }
+
+    /**
+     * Generates the default mouse listener for the button.
+     *
+     * @return the default mouse listener for the button
+     */
+    private MouseListener generateMouseAdapter() {
+        return new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 mouseInside.set(true);
@@ -221,7 +231,7 @@ public class CyderModernButton extends JLabel {
                 mousePressed.set(false);
                 repaint();
             }
-        });
+        };
     }
 
     /**
@@ -229,19 +239,15 @@ public class CyderModernButton extends JLabel {
      */
     private void installInnerTextLabel() {
         innerTextLabel = new JLabel();
-
-        refreshInnerTextLabel();
-
         add(innerTextLabel);
+        refreshInnerTextLabel();
     }
 
     /**
      * Refreshes the text, bounds, font, foreground, and alignment of the inner text label.
      */
     private void refreshInnerTextLabel() {
-        if (innerTextLabel == null) {
-            return;
-        }
+        if (innerTextLabel == null) return;
 
         innerTextLabel.setText(text);
         innerTextLabel.setBounds(0, 0, width, height);
@@ -402,6 +408,9 @@ public class CyderModernButton extends JLabel {
      * @return the color that should be painted as the background color for this button
      */
     private Color getCurrentPaintedBackgroundColor() {
+        // Note to maintainers: this could easily be a multi-layered ternary block
+        // block but I believe it is easier to read and maintain this way.
+
         if (disabled) {
             return disabledBackground;
         } else if (mousePressed.get()) {
@@ -606,6 +615,7 @@ public class CyderModernButton extends JLabel {
      */
     public void setBorderLength(int borderLength) {
         this.borderLength = borderLength;
+        repaint();
     }
 
     /**
@@ -613,6 +623,7 @@ public class CyderModernButton extends JLabel {
      */
     public void setDisabled() {
         disabled = true;
+        repaint();
     }
 
     /**
@@ -620,6 +631,7 @@ public class CyderModernButton extends JLabel {
      */
     public void setEnabled() {
         disabled = false;
+        repaint();
     }
 
     /**
@@ -638,6 +650,7 @@ public class CyderModernButton extends JLabel {
      */
     public void setRoundedCorners(boolean roundedCorners) {
         this.roundedCorners = roundedCorners;
+        repaint();
     }
 
     /**
@@ -675,6 +688,7 @@ public class CyderModernButton extends JLabel {
      */
     public void setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
+        repaint();
     }
 
     /**
@@ -693,6 +707,7 @@ public class CyderModernButton extends JLabel {
      */
     public void setBorderColor(Color borderColor) {
         this.borderColor = borderColor;
+        repaint();
     }
 
     /**
@@ -719,6 +734,7 @@ public class CyderModernButton extends JLabel {
      */
     public void setHoverColor(Color hoverColor) {
         this.hoverColor = hoverColor;
+        repaint();
     }
 
     /**
@@ -737,15 +753,19 @@ public class CyderModernButton extends JLabel {
      */
     public void setPressedColor(Color pressedColor) {
         this.pressedColor = pressedColor;
+        repaint();
     }
 
     /**
      * Sets the background color of this button to the provided color, the hover color to
-     * {@code backgroundColor.darker()}, and the pressed background color to {@code backgroundColor.darker().darker()}.
+     * {@code backgroundColor.darker()}, and the pressed background color
+     * to {@code backgroundColor.darker().darker()}.
      *
      * @param backgroundColor the new background color
      */
     public void setColors(Color backgroundColor) {
+        Preconditions.checkNotNull(backgroundColor);
+
         setBackgroundColor(backgroundColor);
         setHoverColor(backgroundColor.darker());
         setPressedColor(backgroundColor.darker().darker());
@@ -767,6 +787,7 @@ public class CyderModernButton extends JLabel {
      */
     public void setDisabledForeground(Color disabledForeground) {
         this.disabledForeground = disabledForeground;
+        repaint();
     }
 
     /**
@@ -785,6 +806,7 @@ public class CyderModernButton extends JLabel {
      */
     public void setDisabledBackground(Color disabledBackground) {
         this.disabledBackground = disabledBackground;
+        repaint();
     }
 
     /**
@@ -796,7 +818,7 @@ public class CyderModernButton extends JLabel {
             super.focusGained(e);
 
             if (!disabled) {
-                setBackground(backgroundColor.darker());
+                setBackground(hoverColor);
             }
         }
 
@@ -815,6 +837,13 @@ public class CyderModernButton extends JLabel {
      */
     public void addDefaultFocusListener() {
         addFocusListener(defaultFocusListener);
+    }
+
+    /**
+     * Removes the default focus listener from this modern button.
+     */
+    public void removeDefaultFocusListener() {
+        removeFocusListener(defaultFocusListener);
     }
 
     /**
@@ -976,5 +1005,151 @@ public class CyderModernButton extends JLabel {
                 && borderColor.equals(other.getBorderColor())
                 && width == other.getWidth()
                 && height == other.getHeight();
+    }
+
+    // -------------------------
+    // Theme loading and builder
+    // -------------------------
+
+    /**
+     * A builder for constructing a theme for a modern button.
+     */
+    private static class ThemeBuilder {
+        private Color backgroundColor;
+        private Color foregroundColor;
+        private Font font;
+        private int borderLength = DEFAULT_BORDER_LENGTH;
+        private Color hoverColor;
+        private Color pressedColor;
+        private boolean roundedCorners;
+        private Color disabledForeground;
+        private Color disabledBackground;
+
+        /**
+         * Constructs a new theme builder.
+         */
+        public ThemeBuilder() {
+            Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        }
+
+        public Color getBackgroundColor() {
+            return backgroundColor;
+        }
+
+        public ThemeBuilder setBackgroundColor(Color backgroundColor) {
+            this.backgroundColor = backgroundColor;
+            return this;
+        }
+
+        public Color getForegroundColor() {
+            return foregroundColor;
+        }
+
+        public ThemeBuilder setForegroundColor(Color foregroundColor) {
+            this.foregroundColor = foregroundColor;
+            return this;
+        }
+
+        public Font getFont() {
+            return font;
+        }
+
+        public ThemeBuilder setFont(Font font) {
+            this.font = font;
+            return this;
+        }
+
+        public int getBorderLength() {
+            return borderLength;
+        }
+
+        public ThemeBuilder setBorderLength(int borderLength) {
+            this.borderLength = borderLength;
+            return this;
+        }
+
+        public Color getHoverColor() {
+            return hoverColor;
+        }
+
+        public ThemeBuilder setHoverColor(Color hoverColor) {
+            this.hoverColor = hoverColor;
+            return this;
+        }
+
+        public Color getPressedColor() {
+            return pressedColor;
+        }
+
+        public ThemeBuilder setPressedColor(Color pressedColor) {
+            this.pressedColor = pressedColor;
+            return this;
+        }
+
+        public boolean isRoundedCorners() {
+            return roundedCorners;
+        }
+
+        public ThemeBuilder setRoundedCorners(boolean roundedCorners) {
+            this.roundedCorners = roundedCorners;
+            return this;
+        }
+
+        public Color getDisabledForeground() {
+            return disabledForeground;
+        }
+
+        public ThemeBuilder setDisabledForeground(Color disabledForeground) {
+            this.disabledForeground = disabledForeground;
+            return this;
+        }
+
+        public Color getDisabledBackground() {
+            return disabledBackground;
+        }
+
+        public ThemeBuilder setDisabledBackground(Color disabledBackground) {
+            this.disabledBackground = disabledBackground;
+            return this;
+        }
+    }
+
+    /**
+     * Sets the theme of this button to the provided theme and repaints the button.
+     *
+     * @param builder the theme for this button
+     */
+    public void setTheme(ThemeBuilder builder) {
+        Preconditions.checkNotNull(builder);
+
+        if (builder.getBackgroundColor() != null) {
+            setBackgroundColor(builder.getBackgroundColor());
+        }
+        if (builder.getForegroundColor() != null) {
+            setForegroundColor(builder.getForegroundColor());
+        }
+        if (builder.getFont() != null) {
+            setFont(builder.getFont());
+        }
+
+        setBorderLength(builder.getBorderLength());
+
+        if (builder.getHoverColor() != null) {
+            setHoverColor(builder.getHoverColor());
+        }
+        if (builder.getPressedColor() != null) {
+            setPressedColor(builder.getPressedColor());
+        }
+
+        setRoundedCorners(builder.isRoundedCorners());
+
+        if (builder.getDisabledForeground() != null) {
+            setDisabledForeground(builder.getDisabledForeground());
+        }
+        if (builder.getDisabledBackground() != null) {
+            setDisabledBackground(builder.getDisabledBackground());
+        }
+
+        repaint();
     }
 }

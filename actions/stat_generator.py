@@ -297,7 +297,7 @@ def regenerate_badges(total_rounded):
     export_string_badge("Cyder", "A Programmer's Swiss Army Knife", "tagline")
     export_string_badge("By", "Nate Cheshire", "author")
     export_string_badge(
-        "Total lines", str(total_rounded), "total")
+        "Total lines", str(total_rounded) + THOUSAND, "total")
 
 
 def main():
