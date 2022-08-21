@@ -17,6 +17,7 @@ import java.awt.*;
 import java.io.*;
 import java.net.*;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 
@@ -57,22 +58,40 @@ public class NetworkUtil {
     /**
      * The function used by the high ping checker to provide to TimeUtil.
      */
-    private static final Function<Void, Boolean> exit = ignored -> Console.INSTANCE.isClosed();
+    private static final Function<Void, Boolean> shouldExit = ignored -> Console.INSTANCE.isClosed();
 
-    // todo be able to start and stop this
-    static {
+    /**
+     * Whether the high ping check is/should be running currently.
+     */
+    private static final AtomicBoolean highPingCheckerRunning = new AtomicBoolean();
+
+    /**
+     * Starts the high ping checker.
+     */
+    public static void startDecentPingChecker() {
+        if (highPingCheckerRunning.get()) return;
+
+        highPingCheckerRunning.set(true);
+
         CyderThreadRunner.submit(() -> {
             try {
-                while (true) {
+                while (highPingCheckerRunning.get()) {
                     setHighLatency(!decentPing());
 
                     TimeUtil.sleepWithChecks(1000 * 60 * 2,
-                            1000 * 30, exit);
+                            1000 * 30, shouldExit);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         }, IgnoreThread.HighPingChecker.getName());
+    }
+
+    /**
+     * Ends the high ping checker
+     */
+    public static void endDecentPingChecker() {
+        highPingCheckerRunning.set(false);
     }
 
     /**

@@ -2,7 +2,6 @@ name: Cyder Statistics
 
 on:
   schedule: [{cron: "0 5 * * *"}]
-  push:
 jobs:
   generate_images:
     runs-on: ubuntu-latest
@@ -22,7 +21,7 @@ jobs:
             git config --local user.email "action@github.com"
             git config --local user.name "github-actions"
             git add .
-            git commit -m "update README statistics" -m "`date`"
+            git commit -m "update statistics badges" -m "`date`"
             git push -u origin main
           else
             echo "No files changed; job complete"
