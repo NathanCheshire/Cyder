@@ -62,7 +62,6 @@ public class YoutubeThread {
      */
     public YoutubeThread(JTextPane jTextPane, int threadNumber) {
         Preconditions.checkNotNull(jTextPane);
-        Preconditions.checkArgument(threadNumber > 0);
 
         stringUtil = new StringUtil(new CyderOutputPane(jTextPane));
 
@@ -76,6 +75,8 @@ public class YoutubeThread {
             long startTime = System.currentTimeMillis();
 
             while (!exit) {
+                MasterYoutubeThread.incrementUrlsChecked();
+
                 try {
                     MasterYoutubeThread.getSemaphore().acquire();
                     stringUtil.println("Checked UUID: " + youtubeUuid);
@@ -169,7 +170,7 @@ public class YoutubeThread {
 
         char positionChar = uuid[pos];
 
-        if (positionChar == validChars.get(validChars.size()) - 1) {
+        if (positionChar == validChars.get(validChars.size() - 1)) {
             // use recursion to add to next column
             if (pos - 1 < 0) {
                 throw new IllegalArgumentException("YouTube thread overflow");

@@ -17,16 +17,16 @@ public class ThreadHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"randomyoutube", "stopscript", "stopmusic"})
+    @Handle({"random youtube", "stop script", "stop music"})
     public static boolean handle() {
         boolean ret = true;
 
-        if (getInputHandler().commandIs("randomyoutube")) {
+        if (getInputHandler().inputWithoutSpacesIs("randomyoutube")) {
             MasterYoutubeThread.start(1);
-        } else if (getInputHandler().commandIs("stopscript")) {
+        } else if (getInputHandler().inputWithoutSpacesIs("stopscript")) {
             MasterYoutubeThread.killAll();
             getInputHandler().println("YouTube scripts have been killed.");
-        } else if (getInputHandler().commandIs("stopmusic")) {
+        } else if (getInputHandler().inputWithoutSpacesIs("stopmusic")) {
             IOUtil.stopGeneralAudio();
         } else {
             ret = false;

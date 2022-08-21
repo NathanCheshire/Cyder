@@ -1039,11 +1039,9 @@ public class BaseInputHandler {
      */
     public final <T> void println(T tee) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive()) {
-            consolePriorityPrintingList.add(tee);
-            consolePriorityPrintingList.add("\n");
+            consolePriorityPrintingList.add(tee + "\n");
         } else {
-            consolePrintingList.add(tee);
-            consolePrintingList.add("\n");
+            consolePrintingList.add(tee + "\n");
         }
     }
 
@@ -1062,8 +1060,7 @@ public class BaseInputHandler {
      * @param tee the tee to add to the priority printing list
      */
     public final <T> void printlnPriority(T tee) {
-        consolePriorityPrintingList.add(tee);
-        consolePriorityPrintingList.add("\n");
+        consolePriorityPrintingList.add(tee + "\n");
     }
 
     /**
@@ -1073,7 +1070,7 @@ public class BaseInputHandler {
      *
      * @param lines the lines to print to the JTextPane
      */
-    public final void printlns(String[] lines) {
+    public final synchronized void printlns(String[] lines) {
         for (String line : lines) {
             println(line);
         }
@@ -1086,7 +1083,7 @@ public class BaseInputHandler {
      *
      * @param lines the lines to print to the JTextPane
      */
-    public final void printlns(List<String> lines) {
+    public final synchronized void printlns(List<String> lines) {
         for (String line : lines) {
             println(line);
         }

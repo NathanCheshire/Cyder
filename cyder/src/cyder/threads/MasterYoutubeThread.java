@@ -9,6 +9,8 @@ import cyder.ui.CyderOutputPane;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 public final class MasterYoutubeThread {
     /**
@@ -38,6 +40,7 @@ public final class MasterYoutubeThread {
      *
      * @return the semaphore associated with the linked JTextPane object
      */
+    @SuppressWarnings("ProtectedMemberInFinalClass") /* YouTube thread access */
     protected static Semaphore getSemaphore() {
         return semaphore;
     }
@@ -86,14 +89,59 @@ public final class MasterYoutubeThread {
             return;
         }
 
+        urlsChecked.set(0);
+        startTime.set(System.currentTimeMillis());
+        lastNotifyTime = System.currentTimeMillis();
+
         for (int i = 0 ; i < number ; i++) {
             YoutubeThread current = new YoutubeThread(outputArea, i);
             youtubeThreads.add(current);
         }
 
-        Console.INSTANCE.getConsoleCyderFrame().notify(
-                "Type \"stopscript\" or press ctrl + c to stop the YouTube thread.");
+        Console.INSTANCE.getConsoleCyderFrame().notify("Type \"stop script\" or press ctrl + c to halt");
         isActive = true;
+    }
+
+    /**
+     * The number of urls checked during the current instance of the youtube thread(s).
+     */
+    private static final AtomicInteger urlsChecked = new AtomicInteger();
+
+    /**
+     * The last time the user was notified of the current rate.
+     */
+    private static long lastNotifyTime;
+
+    private static final int NOTIFY_SECOND_FREQUENCY = 60;
+
+    /**
+     * Increments the urls checked counter.
+     */
+    public static void incrementUrlsChecked() {
+        urlsChecked.getAndIncrement();
+
+        if (System.currentTimeMillis() - lastNotifyTime > NOTIFY_SECOND_FREQUENCY * 1000) {
+            notifyOfRate();
+            lastNotifyTime = System.currentTimeMillis();
+        }
+    }
+
+    /**
+     * The time this youtube thread session started.
+     */
+    private static final AtomicLong startTime = new AtomicLong();
+
+    /**
+     * Notifies the user of the current calculated rate of urls checked each minute.
+     */
+    private static void notifyOfRate() {
+        long timeTaken = System.currentTimeMillis() - startTime.get();
+        float urlsPerMs = urlsChecked.get() / (float) timeTaken;
+        float urlsPerSecond = urlsPerMs * 1000.0f;
+        float urlsPerMinute = (int) urlsPerSecond * 60.f;
+
+        Console.INSTANCE.getConsoleCyderFrame().notify(
+                "Current YouTube thread rate: " + urlsPerMinute + " / min");
     }
 
     /**
