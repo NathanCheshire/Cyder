@@ -293,11 +293,11 @@ def is_comment_line(line: str) -> bool:
     return re.compile(IS_COMMENT_REGEX).match(line)
 
 
-def regenerate_badges(total_lines):
+def regenerate_badges(total_rounded):
     export_string_badge("Cyder", "A Programmer's Swiss Army Knife", "tagline")
     export_string_badge("By", "Nate Cheshire", "author")
     export_string_badge(
-        "Total lines", get_compressed_number(total_lines), "total")
+        "Total lines", str(total_rounded), "total")
 
 
 def main():
@@ -326,6 +326,7 @@ def main():
 
     total_rounded = round(code_lines / 1000.0, 1) + \
         round(comment_lines / 1000.0, 1) + round(blank_lines / 1000.0, 1)
+    print('Total rounded:',total_rounded)
 
     export_stats(code_lines=code_lines, comment_lines=comment_lines,
                  blank_lines=blank_lines, save_name="stats")
