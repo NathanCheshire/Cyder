@@ -682,6 +682,10 @@ public final class OSUtil {
      * @return a formatted string detailing the number of bytes provided
      */
     public static String formatBytes(float bytes) {
+        boolean negative = bytes < 0.0f;
+        if (negative) bytes *= -1.0f;
+        String sign = negative ? "-" : "";
+
         if (bytes >= coalesceSpace) {
             float kilo = bytes / coalesceSpace;
 
@@ -693,15 +697,15 @@ public final class OSUtil {
 
                     if (giga >= coalesceSpace) {
                         float tera = giga / coalesceSpace;
-                        return (BYTE_FORMATTER.format(tera) + TERABYTE_PREFIX);
+                        return sign + (BYTE_FORMATTER.format(tera) + TERABYTE_PREFIX);
                     } else
-                        return (BYTE_FORMATTER.format(giga) + GIGABYTE_PREFIX);
+                        return sign + (BYTE_FORMATTER.format(giga) + GIGABYTE_PREFIX);
                 } else
-                    return (BYTE_FORMATTER.format(mega) + MEGABYTE_PREFIX);
+                    return sign + (BYTE_FORMATTER.format(mega) + MEGABYTE_PREFIX);
             } else
-                return (BYTE_FORMATTER.format(kilo) + KILOBYTE_PREFIX);
+                return sign + (BYTE_FORMATTER.format(kilo) + KILOBYTE_PREFIX);
         } else {
-            return (bytes + " " + BYTES);
+            return sign + bytes + " " + BYTES;
         }
     }
 }

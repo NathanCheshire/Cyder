@@ -165,12 +165,12 @@ public class NetworkUtil {
      * @return the latency in ms between the host and google.com
      */
     public static int latency(int timeout) {
-        Socket Sock = new Socket();
+        Socket socket = new Socket();
         SocketAddress address = new InetSocketAddress(LATENCY_GOOGLE_IP, LATENCY_GOOGLE_PORT);
         long start = System.currentTimeMillis();
 
         try {
-            Sock.connect(address, timeout);
+            socket.connect(address, timeout);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -179,7 +179,7 @@ public class NetworkUtil {
         int latency = (int) (stop - start);
 
         try {
-            Sock.close();
+            socket.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -218,7 +218,7 @@ public class NetworkUtil {
      * @param urlString the string of the url to ping and get contents from
      * @return the resulting url response
      */
-    @CanIgnoreReturnValue /* sometimes used to ensure a url is valid */
+    @CanIgnoreReturnValue /* sometimes used to ensure a url is valid as a precondition */
     public static String readUrl(String urlString) {
         Preconditions.checkNotNull(urlString);
         Preconditions.checkArgument(!urlString.isEmpty());
@@ -337,7 +337,7 @@ public class NetworkUtil {
      */
     public static Optional<String> getIp() {
         try {
-            return Optional.of(InetAddress.getLocalHost().getHostName());
+            return Optional.of(InetAddress.getLocalHost().getHostAddress());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

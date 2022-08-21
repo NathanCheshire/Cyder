@@ -18,7 +18,6 @@ import java.io.FileReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.LinkedList;
@@ -136,9 +135,6 @@ public final class StatUtil {
         Preconditions.checkArgument(!NetworkUtil.isHighLatency());
 
         return Executors.newSingleThreadExecutor(new CyderThreadFactory("test")).submit(() -> {
-            DecimalFormat gByteFormatter = new DecimalFormat("##.###");
-            double gBytes = Double.parseDouble(gByteFormatter
-                    .format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
             InetAddress address = InetAddress.getLocalHost();
             NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
 
@@ -157,8 +153,8 @@ public final class StatUtil {
                             "Postal Code: " + IPUtil.getIpData().getPostal(),
                             "City: " + IPUtil.getIpData().getCity(),
                             "State: " + IPUtil.getIpData().getRegion(),
-                            "Country: " + IPUtil.getIpData().getCountry_name() + " ("
-                                    + IPUtil.getIpData().getCountry_code() + ")",
+                            "Country: " + IPUtil.getIpData().getCountry_name()
+                                    + " (" + IPUtil.getIpData().getCountry_code() + ")",
                             "Latitude: " + IPUtil.getIpData().getLatitude() + " Degrees N",
                             "Longitude: " + IPUtil.getIpData().getLongitude() + " Degrees W",
                             "latency: " + NetworkUtil.latency(10000) + " ms",
@@ -169,7 +165,7 @@ public final class StatUtil {
                             "User Name: " + OSUtil.getOsUsername(),
                             "Computer Name: " + OSUtil.getComputerName(),
                             "Available Cores: " + Runtime.getRuntime().availableProcessors(),
-                            "Available Memory: " + gBytes + " GigaBytes",
+                            "Available Memory: " + OSUtil.formatBytes(Runtime.getRuntime().freeMemory()),
                             "Operating System: " + OSUtil.OPERATING_SYSTEM_NAME,
                             "Java Version: " + System.getProperty("java.version"),
                             "Network Interface Name: " + netIn.getName(),
