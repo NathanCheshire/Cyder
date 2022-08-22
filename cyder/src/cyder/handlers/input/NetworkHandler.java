@@ -2,7 +2,6 @@ package cyder.handlers.input;
 
 import cyder.annotations.Handle;
 import cyder.console.Console;
-import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Dynamic;
@@ -11,16 +10,12 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserFile;
 import cyder.utils.*;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.regex.Matcher;
 
 /**
  * A handler for things which require internet access and may reach out to external domains for data.
@@ -138,32 +133,12 @@ public class NetworkHandler extends InputHandler {
                 getInputHandler().println("Curl command usage: curl URL");
             }
         } else if (getInputHandler().commandIs("whereami")) {
-            CyderThreadRunner.submit(() -> {
-                try {
-                    String url = CyderUrls.LOCATION_URL;
-
-                    Document locationDocument = Jsoup.connect(url).get();
-                    Elements primary = locationDocument.getElementsByClass("desktop-title-content");
-                    Elements secondary = locationDocument.getElementsByClass("desktop-title-subcontent");
-
-                    getInputHandler().println("You are currently in " + primary.text() + ", " + secondary.text());
-
-                    String isp = "not found";
-
-                    String[] lines = NetworkUtil.readUrl(CyderUrls.ISP_URL).split("\n");
-
-                    for (String line : lines) {
-                        Matcher matcher = CyderRegexPatterns.whereAmIPattern.matcher(line);
-                        if (matcher.find()) {
-                            isp = StringUtil.capsFirstWords(matcher.group(1));
-                        }
-                    }
-
-                    getInputHandler().println("Your ISP is " + isp);
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-            }, "Location Finder");
+            NetworkUtil.IspQueryResult result = NetworkUtil.getIspAndNetworkDetails();
+            getInputHandler().println("You live in " + result.city() + ", " + result.state());
+            getInputHandler().println("Your country is: " + result.country());
+            getInputHandler().println("Your ip is: " + result.ip());
+            getInputHandler().println("Your isp is: " + result.isp());
+            getInputHandler().println("Your hostname is: " + result.hostname());
         } else if (getInputHandler().commandIs("networkdevices")) {
             getInputHandler().println(OSUtil.getNetworkDevicesString());
         } else {

@@ -5,9 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import cyder.audio.AudioPlayer;
 import cyder.console.Console;
-import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
-import cyder.constants.CyderUrls;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
@@ -18,9 +16,6 @@ import cyder.handlers.internal.Logger;
 import cyder.parsers.UsbResponse;
 import cyder.threads.CyderThreadRunner;
 import javazoom.jl.player.Player;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import java.awt.*;
 import java.io.*;
@@ -34,7 +29,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.DosFileAttributes;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 /**
  * Utilities related to local computer IO.
@@ -123,17 +117,6 @@ public final class IOUtil {
             openFileOutsideProgram(fileOrLink);
         }
     }
-
-    /**
-     * The element class when scraping the user's primary location from Google.
-     */
-    private static final String PRIMARY_LOCATION_CLASS = "desktop-title-content";
-
-    /**
-     * The element class when scraping the user's secondary location from Google.
-     */
-    private static final String SECONDARY_LOCATION_CLASS = "desktop-title-subcontent";
-
     /**
      * Logs any possible command line arguments passed in to Cyder upon starting.
      * Appends JVM Command Line Arguments along with the start location to the log.
@@ -156,34 +139,15 @@ public final class IOUtil {
                     argBuilder.append(cyderArgs.get(i));
                 }
 
-                Document locationDocument = Jsoup.connect(CyderUrls.LOCATION_URL).get();
-                Elements primaryLocation = locationDocument.getElementsByClass(PRIMARY_LOCATION_CLASS);
-                Elements secondaryLocation = locationDocument.getElementsByClass(SECONDARY_LOCATION_CLASS);
+                NetworkUtil.IspQueryResult result = NetworkUtil.getIspAndNetworkDetails();
 
-                String isp = "NOT FOUND";
+                argBuilder.append("city = ").append(result.city())
+                        .append(", state = ").append(result.state())
+                        .append(", country = ").append(result.country())
+                        .append(", ip = ").append(result.ip())
+                        .append(", isp = ").append(result.isp())
+                        .append(", hostname = ").append(result.hostname());
 
-                String[] lines = NetworkUtil.readUrl(CyderUrls.ISP_URL).split("\n");
-
-                for (String line : lines) {
-                    Matcher matcher = CyderRegexPatterns.whereAmIPattern.matcher(line);
-
-                    if (matcher.find()) {
-                        isp = matcher.group(1);
-                    }
-                }
-
-                if (argBuilder.length() > 0) {
-                    argBuilder.append("; ");
-                }
-
-                argBuilder.append("primary location = ")
-                        .append(primaryLocation.text())
-                        .append(", secondary location = ")
-                        .append(secondaryLocation.text());
-
-                if (!isp.isEmpty()) {
-                    argBuilder.append(", isp = ").append(StringUtil.capsFirstWords(isp));
-                }
 
                 // only log if autoCypher, means either Nathan or an advanced developer
                 if (!PropLoader.getBoolean("autocypher")) {

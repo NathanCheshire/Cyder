@@ -2,10 +2,12 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import cyder.annotations.ForReadability;
 import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.IgnoreThread;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
@@ -375,5 +377,68 @@ public class NetworkUtil {
         }
 
         return Optional.empty();
+    }
+
+    /**
+     * The url for determining network details.
+     */
+    public static final String ispQueryUrl = "https://www.whatismyisp.com///";
+
+    /**
+     * A record used to store the data after {@link #getIspAndNetworkDetails} is invoked.
+     */
+    public record IspQueryResult(String isp, String hostname, String ip, String city, String state, String country) {}
+
+    private static final String ispClassName = "block text-4xl";
+    private static final String cityStateCountryClassName = "grid grid-cols-3 gap-2 px-6 pb-6";
+    private static final String ipHostnameClassName = "prose";
+
+    private static final int cityIndex = 2;
+    private static final int stateIndex = 4;
+    private static final int countryIndex = 6;
+
+    /**
+     * Returns information about this user's isp, their ip, location, city, state/region, and country.
+     *
+     * @return information about this user's isp, their ip, location, city, state/region, and country
+     */
+    public static IspQueryResult getIspAndNetworkDetails() {
+        Document locationDocument = null;
+
+        try {
+            locationDocument = Jsoup.connect(ispQueryUrl).get();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        if (locationDocument == null) {
+            throw new FatalException("Could not obtain document from isp query url");
+        }
+
+        String isp = locationDocument.getElementsByClass(ispClassName).text();
+        String city = locationDocument.getElementsByClass(cityStateCountryClassName)
+                .get(0).getAllElements().get(cityIndex).text();
+        String state = locationDocument.getElementsByClass(cityStateCountryClassName)
+                .get(0).getAllElements().get(stateIndex).text();
+        String country = locationDocument.getElementsByClass(cityStateCountryClassName)
+                .get(0).getAllElements().get(countryIndex).text();
+        String ip = filterIp(locationDocument.getElementsByClass(ipHostnameClassName).get(2).text());
+        while (ip.endsWith(".")) {
+            ip = ip.substring(0, ip.length() - 2);
+        }
+        String hostname = filterHostname(locationDocument.getElementsByClass(ipHostnameClassName).get(3).text());
+
+        return new IspQueryResult(isp, hostname, ip, city, state, country);
+    }
+
+    @ForReadability
+    private static String filterIp(String rawClassResult) {
+        return rawClassResult.replaceAll("[^0-9.]", "").replaceAll("[.]{2,}", ".");
+    }
+
+    @ForReadability
+    private static String filterHostname(String rawClassResult) {
+        rawClassResult = rawClassResult.substring(rawClassResult.indexOf("'") + 1);
+        return rawClassResult.substring(0, rawClassResult.indexOf("'") + 1);
     }
 }

@@ -14,11 +14,6 @@ public final class CyderUrls {
     }
 
     /**
-     * The url used for web scraping where a user is.
-     */
-    public static final String LOCATION_URL = "https://www.google.com/search?q=where+am+i";
-
-    /**
      * The url used for web scraping who a user's ISP is.
      */
     public static final String ISP_URL = "https://www.whoismyisp.org/";
@@ -63,6 +58,7 @@ public final class CyderUrls {
      */
     public static final String YOUTUBE_API_V3_SEARCH = "https://www.googleapis.com/youtube/v3/search";
 
+    // todo use me
     /**
      * The link to learn about simple date patterns in Java.
      */

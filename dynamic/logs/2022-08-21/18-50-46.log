@@ -181,3 +181,20 @@
 [18-50-51.969] [CONSOLE OUT]: [STRING]: Console loaded in 5311ms
 [18-50-52.968] [THREAD STARTED]: Splash Loading Label Updater
 [18-50-54.836] [OBJECT CREATION]: Objects created since last delta (5000ms): 78
+[18-52-50.969] [DEBUG]: Latency of Google found to be 41ms
+[18-54-51.046] [DEBUG]: Latency of Google found to be 43ms
+[18-56-51.116] [DEBUG]: Latency of Google found to be 41ms
+[18-58-51.194] [DEBUG]: Latency of Google found to be 52ms
+[19-00-00.007] [USER GET]: key = hourlychimes, value = 1
+[19-00-00.357] [AUDIO]: [SYSTEM AUDIO] C:\Users\Nathan\Documents\IntelliJava\Cyder\static\audio\chime.mp3
+[19-00-00.359] [THREAD STARTED]: System Audio Player
+[19-00-51.271] [DEBUG]: Latency of Google found to be 55ms
+[19-02-51.350] [DEBUG]: Latency of Google found to be 44ms
+[19-04-51.429] [DEBUG]: Latency of Google found to be 49ms
+[19-06-51.507] [DEBUG]: Latency of Google found to be 47ms
+[19-08-51.581] [DEBUG]: Latency of Google found to be 41ms
+[19-10-51.650] [DEBUG]: Latency of Google found to be 41ms
+[19-12-51.750] [DEBUG]: Latency of Google found to be 57ms
+[19-14-51.816] [DEBUG]: Latency of Google found to be 43ms
+[19-16-51.963] [DEBUG]: Latency of Google found to be 52ms
+[19-17-40.197] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
