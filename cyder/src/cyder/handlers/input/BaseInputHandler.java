@@ -134,7 +134,8 @@ public class BaseInputHandler {
             ThreadHandler.class,
             UiHandler.class,
             FileHandler.class,
-            FrameMovementHandler.class
+            FrameMovementHandler.class,
+            PropHandler.class
     );
 
     /**

@@ -1,0 +1,74 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[21-57-52.237] [ENTRY]: Nathan
+[21-57-52.183] [DEBUG]: Loaded 131 static resources
+[21-57-52.203] [DEBUG]: Loaded 16 static folders
+[21-57-52.216] [DEBUG]: Found prop file: props\propkeys.ini
+[21-57-52.216] [DEBUG]: Found prop file: props\props.ini
+[21-57-52.228] [PROP LOADED]: [key = map_quest_api_key]
+[21-57-52.228] [PROP LOADED]: [key = youtube_api_3_key]
+[21-57-52.228] [PROP LOADED]: [key = ip_key]
+[21-57-52.228] [PROP LOADED]: [key = weather_key]
+[21-57-52.228] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[21-57-52.228] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7c
+               a733d0a7f6]
+[21-57-52.229] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[21-57-52.229] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor
+               ,audiolength,capsmode,typingsound,showbusyicon,clockonconsole,consoleclockformat]
+[21-57-52.229] [PROP LOADED]: [key = font_metric, value = 1]
+[21-57-52.229] [PROP LOADED]: [key = max_font_size, value = 50]
+[21-57-52.229] [PROP LOADED]: [key = min_font_size, value = 25]
+[21-57-52.229] [PROP LOADED]: [key = released, value = false]
+[21-57-52.229] [PROP LOADED]: [key = version, value = Liminal]
+[21-57-52.230] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[21-57-52.230] [PROP LOADED]: [key = components_relocatable, value = false]
+[21-57-52.230] [PROP LOADED]: [key = testing_mode, value = true]
+[21-57-52.230] [PROP LOADED]: [key = autocypher, value = true]
+[21-57-52.230] [PROP LOADED]: [key = dispose_splash, value = true]
+[21-57-52.230] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[21-57-52.230] [PROP LOADED]: [key = activate_watchdog, value = false]
+[21-57-52.230] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[21-57-52.230] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[21-57-52.230] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[21-57-52.230] [PROP LOADED]: [key = ui_scale, value = 1]
+[21-57-52.230] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[21-57-52.230] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[21-57-52.230] [PROP LOADED]: [key = latency_ip, value = 172.217.4.78]
+[21-57-52.230] [PROP LOADED]: [key = latency_port, value = 80]
+[21-57-52.230] [PROP LOADED]: [key = latency_name, value = Google]
+[21-57-52.231] [PROP LOADED]: [key = props_reloadable, value = false]
+[21-57-52.234] [DEBUG]: Jar mode set as: FALSE
+[21-57-52.280] [THREAD STARTED]: Object Creation Logger
+[21-57-52.678] [DEBUG]: Watchdog skipped
+[21-57-52.687] [LOADING MESSAGE]: Registering fonts
+[21-57-53.109] [FONT LOADED]: agency-fb
+[21-57-53.110] [FONT LOADED]: arial-black
+[21-57-53.111] [FONT LOADED]: beyno
+[21-57-53.112] [FONT LOADED]: condiment-regular
+[21-57-53.113] [FONT LOADED]: prompt-bold
+[21-57-53.114] [FONT LOADED]: segoe-ui-black
+[21-57-53.115] [FONT LOADED]: tahoma
+[21-57-53.116] [LOADING MESSAGE]: Ensuring singular instance
+[21-57-53.117] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[21-57-53.119] [DEBUG]: Starting instance socket on port 5150

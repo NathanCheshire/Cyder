@@ -46,6 +46,15 @@ public final class PropLoader {
     }
 
     /**
+     * Reloads the props from the found prop files.
+     */
+    public static void reloadProps() {
+        propsLoaded = false;
+        props = ImmutableList.of();
+        loadProps();
+    }
+
+    /**
      * Returns the props list.
      *
      * @return the props list

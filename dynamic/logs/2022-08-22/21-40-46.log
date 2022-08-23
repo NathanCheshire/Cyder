@@ -125,11 +125,9 @@
 [21-40-48.027] [LOADING MESSAGE]: Checking for an AutoCypher
 [21-40-48.027] [LOGIN]: AutoCypher Attempt
 [21-40-48.028] [LOADING MESSAGE]: Auto Cyphering
-[21-40-48.029] [USER GET]: key = name, value = Nathan
-[21-40-48.031] [USER GET]: key = name, value = Nathan
+[21-40-48.031] [USER GET]: key = name, value = Nathan [2x]
 [21-40-48.066] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
-[21-40-48.183] [USER GET]: key = darkmode, value = 0
-[21-40-48.191] [USER GET]: key = darkmode, value = 0
+[21-40-48.191] [USER GET]: key = darkmode, value = 0 [2x]
 [21-40-48.245] [THREAD STARTED]: Splash Animation
 [21-40-48.422] [UNIQUE OBJECT CREATED]: Console singleton constructed
 [21-40-48.423] [USER GET]: key = name, value = Nathan
@@ -138,21 +136,15 @@
 [21-40-48.635] [DEBUG]: Latency of Google found to be 60ms
 [21-40-48.891] [USER GET]: key = name, value = Nathan
 [21-40-48.892] [USER GET]: key = randombackground, value = 0
-[21-40-48.892] [USER GET]: key = fullscreen, value = 0
-[21-40-48.984] [USER GET]: key = fullscreen, value = 0
-[21-40-48.985] [USER GET]: key = fullscreen, value = 0
+[21-40-48.985] [USER GET]: key = fullscreen, value = 0 [3x]
 [21-40-48.985] [USER GET]: key = name, value = Nathan
-[21-40-49.049] [USER GET]: key = foreground, value = f0f0f0
-[21-40-49.050] [USER GET]: key = foreground, value = f0f0f0
-[21-40-49.054] [USER GET]: key = foreground, value = f0f0f0
+[21-40-49.054] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [21-40-49.054] [USER GET]: key = Font, value = Agency FB
 [21-40-49.055] [USER GET]: key = fontsize, value = 27
 [21-40-49.071] [USER GET]: key = outputborder, value = 0
 [21-40-49.072] [USER GET]: key = outputfill, value = 0
 [21-40-49.089] [USER GET]: key = inputborder, value = 0
-[21-40-49.090] [USER GET]: key = foreground, value = f0f0f0
-[21-40-49.091] [USER GET]: key = foreground, value = f0f0f0
-[21-40-49.091] [USER GET]: key = foreground, value = f0f0f0
+[21-40-49.091] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [21-40-49.092] [USER GET]: key = Font, value = Agency FB
 [21-40-49.092] [USER GET]: key = fontsize, value = 27
 [21-40-49.093] [USER GET]: key = inputfill, value = 0
@@ -162,8 +154,7 @@
 [21-40-49.208] [THREAD STARTED]: Hourly Chime Checker
 [21-40-49.218] [THREAD STARTED]: Console Clock Updater
 [21-40-49.228] [THREAD STARTED]: Cyder Busy Checker
-[21-40-49.244] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
-[21-40-49.246] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[21-40-49.246] [THREAD STARTED]: [Cyder Splash] dispose() animation thread [2x]
 [21-40-49.246] [USER GET]: key = fullscreen, value = 0
 [21-40-49.248] [USER GET]: key = screenstat, value = ScreenStat{consoleX=223, consoleY=260, consoleWidth=728, consoleHeight=909,
                monitor=0, consoleOnTop=false, consoleDirection=BOTTOM}
