@@ -132,3 +132,36 @@
 [21-35-15.301] [USER GET]: key = filterchat, value = 1
 [21-35-15.304] [THREAD STARTED]: Successive Process Runner, pipeTo = cyder.handlers.input.BaseInputHandler@12fd3955,
                builders.length() = 3
+[21-35-15.621] [CONSOLE OUT]: [STRING]: [main ec2bdeb3] handling improvements, fix wiping logs, fix hostname bug
+[21-35-16.407] [CONSOLE OUT]: [STRING]:  17 files changed, 178 insertions(+), 1466 deletions(-)
+[21-35-17.028] [CONSOLE OUT]: [STRING]:  rename dynamic/backup/{7d7ebb00-81fe-329f-8a78-62f463d0b7da_1661221162668.json
+               => 7d7ebb00-81fe-329f-8a78-62f463d0b7da_1661222096351.json} (67%)
+[21-35-18.491] [CONSOLE OUT]: [STRING]:  delete mode 100644 dynamic/logs/2022-08-21.zip
+[21-35-19.038] [CONSOLE OUT]: [STRING]:  delete mode 100644 dynamic/logs/2022-08-22/19-19-33.log
+[21-35-19.332] [CONSOLE OUT]: [STRING]:  delete mode 100644 dynamic/logs/2022-08-22/19-21-36.log
+[21-35-19.333] [CONSOLE OUT]: [STRING]:  delete mode 100644 dynamic/logs/2022-08-22/19-27-38.log
+[21-35-19.334] [CONSOLE OUT]: [STRING]:  delete mode 100644 dynamic/logs/2022-08-22/19-28-45.log
+[21-35-19.335] [CONSOLE OUT]: [STRING]:  delete mode 100644 dynamic/logs/2022-08-22/21-19-15.log
+[21-35-19.335] [CONSOLE OUT]: [STRING]:  create mode 100644 dynamic/logs/2022-08-22/21-33-01.log
+[21-35-19.336] [CONSOLE OUT]: [STRING]: remote: This repository moved. Please use the new location:
+[21-35-19.336] [CONSOLE OUT]: [STRING]: remote:   https://github.com/NathanCheshire/Cyder.git
+[21-35-19.338] [CONSOLE OUT]: [STRING]: Branch 'main' set up to track remote branch 'main' from 'origin'.
+[21-35-19.339] [CONSOLE OUT]: [STRING]: To https://github.com/nathancheshire/cyder.git
+[21-35-19.341] [CONSOLE OUT]: [STRING]:    247e759a..ec2bdeb3  main -> main
+[21-35-19.342] [CONSOLE OUT]: [STRING]: Escaped
+[21-35-20.411] [CLIENT]: cls
+[21-35-20.411] [USER GET]: key = filterchat, value = 1
+[21-35-21.174] [CLIENT]: clear
+[21-35-21.175] [USER GET]: key = filterchat, value = 1
+[21-35-22.526] [CLIENT]: quit
+[21-35-22.527] [USER GET]: key = filterchat, value = 1
+[21-35-22.528] [USER GET]: key = minimizeonclose, value = 0
+[21-35-22.528] [USER GET]: key = screenstat, value = ScreenStat{consoleX=223, consoleY=260, consoleWidth=728, consoleHeight=909,
+               monitor=0, consoleOnTop=false, consoleDirection=BOTTOM}
+[21-35-22.533] [USER GET]: key = fullscreen, value = 0
+[21-35-22.533] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[21-35-22.534] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[21-35-22.534] [USER GET]: key = doanimations, value = 1
+[21-35-22.726] [EXIT]: [RUNTIME] 2m 26s 517ms
+[21-35-22.728] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], no exceptions thrown,
+               total objects created: 133

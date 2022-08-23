@@ -4,6 +4,7 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.user.Preference;
+import cyder.user.UserEditor;
 import cyder.user.UserUtil;
 import cyder.utils.StringUtil;
 
@@ -18,8 +19,34 @@ public class PreferenceHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle
+    @Handle({"prefs-files", "prefs-fonts", "prefs-colors", "prefs-prefs", "prefs-fields"})
     public static boolean handle() {
+        if (getInputHandler().inputWithoutSpacesIs("prefs-files")) {
+            UserEditor.showGui(UserEditor.Page.FILES);
+            return true;
+        } else if (getInputHandler().inputWithoutSpacesIs("prefs-fonts")) {
+            UserEditor.showGui(UserEditor.Page.FONT_AND_COLOR);
+            return true;
+        } else if (getInputHandler().inputWithoutSpacesIs("prefs-colors")) {
+            UserEditor.showGui(UserEditor.Page.FONT_AND_COLOR);
+            return true;
+        } else if (getInputHandler().inputWithoutSpacesIs("prefs-prefs")) {
+            UserEditor.showGui(UserEditor.Page.PREFERENCES);
+            return true;
+        } else if (getInputHandler().inputWithoutSpacesIs("prefs-fields")) {
+            UserEditor.showGui(UserEditor.Page.FIELDS);
+            return true;
+        }
+
+        return attemptPreferenceToggle();
+    }
+
+    /**
+     * Attempts to find a preference with the user's input and toggle the state of it.
+     *
+     * @return whether a preference could be found and toggled from the current user's json
+     */
+    private static boolean attemptPreferenceToggle() {
         String targetedPreference = getInputHandler().getCommand();
         String parsedArgs = getInputHandler().argsToString().replaceAll("\\s+", "");
 
