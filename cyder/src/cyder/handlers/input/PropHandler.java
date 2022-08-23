@@ -17,9 +17,11 @@ public class PropHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
+    /**
+     * The key for determining if props are runtime reloadable.
+     */
     private static final String RELOAD_PROPS_KEY = "props_reloadable";
 
-    // todo add a check for non static non public methods found with @Handle
     @Handle("reload props")
     public static boolean handle() {
         boolean ret = true;

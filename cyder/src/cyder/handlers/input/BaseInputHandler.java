@@ -235,7 +235,7 @@ public class BaseInputHandler {
 
         this.command = command.trim();
 
-        if (StringUtil.isNull(this.command)) {
+        if (StringUtil.isNullOrEmpty(this.command)) {
             return false;
         }
 
@@ -359,7 +359,7 @@ public class BaseInputHandler {
                     String similarCommand = similarCommandObj.command().get();
                     double tolerance = similarCommandObj.tolerance();
 
-                    if (!StringUtil.isNull(similarCommand)) {
+                    if (!StringUtil.isNullOrEmpty(similarCommand)) {
                         if (tolerance == 1.0) {
                             return;
                         }

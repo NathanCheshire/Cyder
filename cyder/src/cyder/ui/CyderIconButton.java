@@ -79,7 +79,7 @@ public class CyderIconButton extends JButton {
     public CyderIconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon,
                            MouseListener mouseListener, FocusListener focusListener) {
         Preconditions.checkNotNull(tooltipText);
-        Preconditions.checkArgument(!StringUtil.isNull(tooltipText));
+        Preconditions.checkArgument(!StringUtil.isNullOrEmpty(tooltipText));
 
         if (defaultIcon != null) {
             this.defaultIcon = defaultIcon;

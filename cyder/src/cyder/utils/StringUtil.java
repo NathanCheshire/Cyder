@@ -373,11 +373,28 @@ public class StringUtil {
     private static final Rectangle menuSepBounds = new Rectangle(menuSepX, menuSepY, menuSepWidth, menuSepHeight);
 
     /**
+     * The default color of menu separator components.
+     */
+    private static final Color DEFAULT_MENU_SEP_COLOR = CyderColors.vanilla;
+
+    /**
      * Returns a menu separator label.
      *
      * @return a menu separator label
      */
     private JLabel getMenuSeparator() {
+        return getMenuSeparator(DEFAULT_MENU_SEP_COLOR);
+    }
+
+    /**
+     * Returns a menu separator label.
+     *
+     * @return a menu separator label
+     */
+    @SuppressWarnings("SameParameterValue")
+    private JLabel getMenuSeparator(Color color) {
+        Preconditions.checkNotNull(color);
+
         JLabel sepLabel = new JLabel(magicMenuSepText) {
             @Override
             public void paintComponent(Graphics g) {
@@ -390,7 +407,7 @@ public class StringUtil {
                 g.dispose();
             }
         };
-        sepLabel.setForeground(CyderColors.vanilla);
+        sepLabel.setForeground(color);
         return sepLabel;
     }
 
@@ -432,6 +449,7 @@ public class StringUtil {
 
         // todo Wolfram Alpha API link here
         // todo maybe make a unit test as well
+        // todo this might be a backend util thing
 
         return "";
     }
@@ -707,7 +725,7 @@ public class StringUtil {
      * @return the resultant string
      */
     public static String firstCharToLowerCase(String str) {
-        if (isNull(str)) {
+        if (isNullOrEmpty(str)) {
             return "";
         }
 
@@ -883,7 +901,7 @@ public class StringUtil {
     }
 
     /**
-     * The list of strings which are counted as null for comparisons.
+     * The list of strings which are counted as null for comparisons by {@link #isNullOrEmpty(String)}.
      */
     public static final ImmutableList<String> NULL_STRINGS = ImmutableList.of("NULL", "NUL");
 
@@ -894,7 +912,7 @@ public class StringUtil {
      * @param string the String to test for
      * @return whether the provided String was null
      */
-    public static boolean isNull(String string) {
+    public static boolean isNullOrEmpty(String string) {
         if (string == null) {
             return true;
         }

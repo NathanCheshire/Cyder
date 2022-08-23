@@ -865,7 +865,8 @@ public final class Logger {
         logLine1 = logLine1.replace(timeTag1, "");
         logLine2 = logLine2.replace(timeTag2, "");
 
-        return !StringUtil.isNull(logLine1) && !StringUtil.isNull(logLine2) && logLine1.equalsIgnoreCase(logLine2);
+        return !StringUtil.isNullOrEmpty(logLine1) && !StringUtil.isNullOrEmpty(logLine2) &&
+                logLine1.equalsIgnoreCase(logLine2);
     }
 
     /**

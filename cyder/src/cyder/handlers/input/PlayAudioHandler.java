@@ -78,7 +78,7 @@ public class PlayAudioHandler extends InputHandler {
                 getInputHandler().println("Mr. Robot didn't start :(");
             }
         } else if (getInputHandler().commandIs("play")) {
-            if (StringUtil.isNull(getInputHandler().argsToString())) {
+            if (StringUtil.isNullOrEmpty(getInputHandler().argsToString())) {
                 getInputHandler().println("Play command usage: Play [video_url/playlist_url/search query]");
             }
 

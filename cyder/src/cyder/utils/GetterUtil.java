@@ -98,7 +98,7 @@ public class GetterUtil {
 
                 BoundsUtil.BoundsString bounds = null;
 
-                if (!StringUtil.isNull(builder.getLabelText())) {
+                if (!StringUtil.isNullOrEmpty(builder.getLabelText())) {
                     bounds = BoundsUtil.widthHeightCalculation(builder.getLabelText(),
                             CyderFonts.DEFAULT_FONT, GET_STRING_MIN_WIDTH);
 
@@ -126,11 +126,11 @@ public class GetterUtil {
                 inputField.setHorizontalAlignment(JTextField.CENTER);
                 inputField.setBackground(Color.white);
 
-                if (!StringUtil.isNull(builder.getInitialString())) {
+                if (!StringUtil.isNullOrEmpty(builder.getInitialString())) {
                     inputField.setText(builder.getInitialString());
                 }
 
-                if (!StringUtil.isNull(builder.getFieldTooltip())) {
+                if (!StringUtil.isNullOrEmpty(builder.getFieldTooltip())) {
                     inputField.setToolTipText(builder.getFieldTooltip());
                 }
 
@@ -288,7 +288,7 @@ public class GetterUtil {
             public void windowClosed(WindowEvent e) {
                 File ref = setOnFileChosen.get();
 
-                if (ref == null || StringUtil.isNull(ref.getName())) {
+                if (ref == null || StringUtil.isNullOrEmpty(ref.getName())) {
                     setOnFileChosen.set(new File("NULL"));
                 }
             }
@@ -311,7 +311,7 @@ public class GetterUtil {
                 refFrame.setTitle("File getter");
 
                 dirFieldRef.set(new CyderTextField(0));
-                if (!StringUtil.isNull(builder.getFieldTooltip()))
+                if (!StringUtil.isNullOrEmpty(builder.getFieldTooltip()))
                     dirFieldRef.get().setToolTipText(builder.getFieldTooltip());
                 dirFieldRef.get().setBackground(darkMode ? CyderColors.darkModeBackgroundColor : Color.white);
                 dirFieldRef.get().setForeground(darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.navy);
@@ -410,7 +410,7 @@ public class GetterUtil {
                 // load possibly intense stuff on separate thread
                 CyderThreadRunner.submit(() -> {
                     // init current directory
-                    if (!StringUtil.isNull(builder.getInitialString())
+                    if (!StringUtil.isNullOrEmpty(builder.getInitialString())
                             && new File(builder.getInitialString()).exists()) {
                         currentDirectory = new File(builder.getInitialString());
                     } else {

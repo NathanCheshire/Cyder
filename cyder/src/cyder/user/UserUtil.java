@@ -573,7 +573,7 @@ public final class UserUtil {
      * Also ensures no users with a duplicate name exist.
      */
     public static void validateUsers() {
-        // we use all user files here since we are determining if they are corrupted or not
+        // we use all user files here since we are determining if they are corrupted
         File users = OSUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName());
 
@@ -714,7 +714,7 @@ public final class UserUtil {
      * @return the resulting data
      */
     public static String getUserDataById(String id) {
-        Preconditions.checkArgument(!StringUtil.isNull(id));
+        Preconditions.checkArgument(!StringUtil.isNullOrEmpty(id));
 
         String ret = null;
         boolean shouldIgnore = StringUtil.in(id, true, IGNORE_USER_DATA);
@@ -976,7 +976,7 @@ public final class UserUtil {
             // check for empty content
             if (json.exists()) {
                 BufferedReader reader = new BufferedReader(new FileReader(json));
-                if (StringUtil.isNull(reader.readLine())) {
+                if (StringUtil.isNullOrEmpty(reader.readLine())) {
                     reader.close();
                     OSUtil.deleteFile(json);
                 }
@@ -1201,7 +1201,7 @@ public final class UserUtil {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static File createFileInUserSpace(String name) {
-        if (!StringUtil.isNull(Console.INSTANCE.getUuid())) {
+        if (!StringUtil.isNullOrEmpty(Console.INSTANCE.getUuid())) {
             File saveDir = OSUtil.buildFile(Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(),
                     Console.INSTANCE.getUuid(), UserFile.FILES.getName());

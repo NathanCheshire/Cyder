@@ -542,7 +542,7 @@ public final class GameOfLifeWidget {
                     .setFieldTooltip("A valid filename")
                     .setSubmitButtonText("Save Conway State"));
 
-            if (StringUtil.isNull(saveName))
+            if (StringUtil.isNullOrEmpty(saveName))
                 return;
 
             String filename = saveName + ".json";

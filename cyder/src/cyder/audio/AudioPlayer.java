@@ -1060,7 +1060,7 @@ public final class AudioPlayer {
                             .setSubmitButtonText("Save to files")
                             .setInitialString(FileUtil.getFilename(getCurrentAudio()) + "_waveform"));
 
-            if (!StringUtil.isNull(saveName)) {
+            if (!StringUtil.isNullOrEmpty(saveName)) {
                 if (OSUtil.isValidFilename(saveName)) {
                     File saveFile = OSUtil.buildFile(
                             Dynamic.PATH,
@@ -2444,7 +2444,7 @@ public final class AudioPlayer {
     private static void searchAndUpdate() {
         String rawFieldText = searchField.getText();
 
-        if (StringUtil.isNull(rawFieldText) || rawFieldText.equalsIgnoreCase(previousSearch)) {
+        if (StringUtil.isNullOrEmpty(rawFieldText) || rawFieldText.equalsIgnoreCase(previousSearch)) {
             return;
         }
 

@@ -232,7 +232,7 @@ public enum Console {
     private JLabel audioControlsLabel;
 
     /**
-     * The button label used to indicate if audio is playing or not
+     * The button label used to indicate if audio is playing
      */
     private JLabel playPauseAudioLabel;
 
@@ -1729,7 +1729,7 @@ public enum Console {
                     .substring(consoleBashString.length())
                     .trim().replace(consoleBashString, "");
 
-            if (!StringUtil.isNull(op)) {
+            if (!StringUtil.isNullOrEmpty(op)) {
                 // add op unless last thing
                 if (commandList.isEmpty() || !commandList.get(commandList.size() - 1).equals(op)) {
                     commandList.add(op);
@@ -2251,7 +2251,7 @@ public enum Console {
             if (contentLabel != null) {
                 String filename = contentLabel.getToolTipText();
 
-                if (StringUtil.isNull(filename)) {
+                if (StringUtil.isNullOrEmpty(filename)) {
                     backgroundIndex = 0;
                     return;
                 }

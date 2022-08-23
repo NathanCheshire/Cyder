@@ -127,7 +127,7 @@ public final class YoutubeUtil {
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
             String playlistID = extractPlaylistId(playlist);
 
-            if (StringUtil.isNull(PropLoader.getString("youtube_api_3_key")) && baseInputHandler != null) {
+            if (StringUtil.isNullOrEmpty(PropLoader.getString("youtube_api_3_key")) && baseInputHandler != null) {
                 baseInputHandler.println(KEY_NOT_SET_ERROR_MESSAGE);
             } else {
                 try {
@@ -475,7 +475,7 @@ public final class YoutubeUtil {
         Preconditions.checkArgument(!query.isEmpty());
 
         String key = PropLoader.getString("youtube_api_3_key");
-        Preconditions.checkArgument(!StringUtil.isNull(key));
+        Preconditions.checkArgument(!StringUtil.isNullOrEmpty(key));
 
         String[] parts = query.split("\\s+");
 

@@ -279,7 +279,7 @@ public class PhotoViewer {
                         .setFieldTooltip("Valid filename")
                         .setSubmitButtonText("Rename"));
 
-                if (StringUtil.isNull(name)) {
+                if (StringUtil.isNullOrEmpty(name)) {
                     pictureFrame.notify("File not renamed");
                     return;
                 }

@@ -20,6 +20,7 @@ import org.apache.commons.text.similarity.JaroWinklerDistance;
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Optional;
@@ -196,7 +197,7 @@ public final class ReflectionUtil {
 
                         if (localInvokeResult instanceof String localInvokeResultString) {
                             if (!localInvokeResultString.isEmpty()
-                                    && !StringUtil.isNull(localInvokeResultString)) {
+                                    && !StringUtil.isNullOrEmpty(localInvokeResultString)) {
                                 specialMethod.setMethodResult(specialMethod.getLogPattern()
                                         + localInvokeResultString);
                             }
@@ -220,7 +221,7 @@ public final class ReflectionUtil {
         ret.append(", parent frame = ").append(parentFrame);
 
         for (SpecialMethod specialMethod : specialMethods) {
-            if (!StringUtil.isNull(specialMethod.getMethodResult())) {
+            if (!StringUtil.isNullOrEmpty(specialMethod.getMethodResult())) {
                 ret.append(specialMethod.getMethodResult());
             }
         }
@@ -324,7 +325,7 @@ public final class ReflectionUtil {
                                 + STANDARD_WIDGET_SHOW_METHOD_NAME + "(); name: " + m.getName());
                     }
 
-                    if (StringUtil.isNull(description)) {
+                    if (StringUtil.isNullOrEmpty(description)) {
                         if (suppressionValues != null) {
                             boolean in = false;
 
@@ -348,7 +349,7 @@ public final class ReflectionUtil {
                     }
 
                     for (String trigger : triggers) {
-                        if (StringUtil.isNull(trigger)) {
+                        if (StringUtil.isNullOrEmpty(trigger)) {
                             throw new IllegalMethodException("Method annotated with @Widget has an empty trigger");
                         }
                     }
@@ -398,7 +399,7 @@ public final class ReflectionUtil {
                                 + " with \"test\"; name: " + m.getName());
                     }
 
-                    if (StringUtil.isNull(trigger)) {
+                    if (StringUtil.isNullOrEmpty(trigger)) {
                         throw new IllegalMethodException("Method annotated with @ManualTest has no trigger");
                     }
 
@@ -524,6 +525,72 @@ public final class ReflectionUtil {
         return ret;
     }
 
+    public static boolean moreThanOneHandle(Class<?> clazz) {
+        return getHandleMethods(clazz).size() > 1;
+    }
+
+    /*
+    Handle requirements:
+    - cannot have an empty trigger after trimming
+    - cannot have duplicate triggers even across handlers
+    - cannot have a primary handler without at least one trigger
+    - cannot have any triggers on a final handler
+    - cannot be in both primary or final handlers lists
+    - must exist in either primary or final handlers list
+    - cannot have duplicate handles within the same annotation
+    - cannot have an @handle annotation unless the method is public static boolean
+    - cannot have @handle method unless the parent class is assignable from InputHandler.class
+     */
+
+    @ForReadability
+    private static boolean extendsInputHandler(Class<?> clazz) {
+        return InputHandler.class.isAssignableFrom(clazz);
+    }
+
+    @ForReadability
+    private static ImmutableList<Method> getHandleMethods(Class<?> clazz) {
+        LinkedList<Method> ret = new LinkedList<>();
+
+        for (Method method : clazz.getMethods()) {
+            if (method.isAnnotationPresent(Handle.class)) {
+                ret.add(method);
+            }
+        }
+
+        return ImmutableList.copyOf(ret);
+    }
+
+    @ForReadability
+    private static int countHandleAnnotatedMethods(Class<?> clazz) {
+        return getHandleMethods(clazz).size();
+    }
+
+    @ForReadability
+    private static boolean isFinalHandler(Class<?> clazz) {
+        return BaseInputHandler.finalHandlers.contains(clazz);
+    }
+
+    @ForReadability
+    private static boolean isPrimaryHandler(Class<?> clazz) {
+        return BaseInputHandler.primaryHandlers.contains(clazz);
+    }
+
+    @ForReadability
+    private static ImmutableList<String> getTriggers(Method method) {
+        return ImmutableList.copyOf(method.getAnnotation(Handle.class).value());
+    }
+
+    @ForReadability
+    private static boolean isPublicStaticBoolean(Method method) {
+        boolean isPublic = Modifier.isPublic(method.getModifiers());
+        boolean isStatic = Modifier.isStatic(method.getModifiers());
+        boolean returnsBoolean = method.getReturnType() == Boolean.class; // todo will this work with auto-boxing?
+
+        return isPublic && isStatic && returnsBoolean;
+    }
+
+    // todo follow and make cleaner with @ForReadability methods which return booleans
+
     /**
      * Validates all handles throughout Cyder.
      */
@@ -531,76 +598,27 @@ public final class ReflectionUtil {
         for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
             Class<?> clazz = classInfo.load();
 
+            ImmutableList<Method> handleMethods = getHandleMethods(clazz);
+
+            if (!extendsInputHandler(clazz)) {
+                if (handleMethods.size() > 0) {
+                    // todo illegal
+                }
+                continue;
+            }
+
+            if (moreThanOneHandle(clazz)) {
+                // todo illegal
+            }
+
+            if (isPrimaryHandler(clazz) == isFinalHandler(clazz)) {
+                // todo illegal
+            }
+
             LinkedList<String> foundTriggers = new LinkedList<>();
 
-            // is a handler
-            if (InputHandler.class.isAssignableFrom(clazz)) {
-                boolean alreadyFoundHandle = false;
-
-                for (Method m : clazz.getMethods()) {
-                    if (m.isAnnotationPresent(Handle.class)) {
-                        // properly formed
-                        if (m.getName().equals("handle")) {
-                            // the only one that should exist
-                            if (!alreadyFoundHandle) {
-                                alreadyFoundHandle = true;
-
-                                if (BaseInputHandler.primaryHandlers.contains(clazz)) {
-                                    String[] triggers = m.getAnnotation(Handle.class).value();
-
-                                    if (triggers.length > 0) {
-                                        for (String trigger : triggers) {
-                                            if (trigger.isEmpty()) {
-                                                Logger.log(Logger.Tag.DEBUG, "Primary handler "
-                                                        + "found with empty trigger: class = "
-                                                        + getBottomLevelClass(clazz));
-                                            }
-
-                                            if (StringUtil.in(trigger, true, foundTriggers)) {
-                                                Logger.log(Logger.Tag.DEBUG, "Primary handler "
-                                                        + "found with duplicate trigger: class = "
-                                                        + getBottomLevelClass(clazz) + ", trigger = \""
-                                                        + trigger + "\"");
-                                            } else {
-                                                foundTriggers.add(trigger);
-                                            }
-                                        }
-                                    } else {
-                                        Logger.log(Logger.Tag.DEBUG, "Primary handler "
-                                                + "found without triggers: class = " + getBottomLevelClass(clazz));
-                                    }
-                                } else if (BaseInputHandler.finalHandlers.contains(clazz)) {
-                                    String[] triggers = m.getAnnotation(Handle.class).value();
-
-                                    if (triggers.length > 1) {
-                                        Logger.log(Logger.Tag.DEBUG, "Final handler found containing"
-                                                + " triggers: class = " + getBottomLevelClass(clazz));
-                                    }
-                                } else {
-                                    Logger.log(Logger.Tag.DEBUG, "Handler found which is not in"
-                                            + " primaryHandlers nor finalHandlers: class = "
-                                            + getBottomLevelClass(clazz));
-                                }
-                            } else {
-                                Logger.log(Logger.Tag.DEBUG, "Handler with duplicate handle "
-                                        + "methods found: " + "class = " + getBottomLevelClass(clazz)
-                                        + ", method = " + m.getName());
-                            }
-                        } else {
-                            Logger.log(Logger.Tag.DEBUG, "Found illegal @Handle annotation "
-                                    + "on method not named handle(): " + "class = "
-                                    + getBottomLevelClass(clazz) + ", method = " + m.getName());
-                        }
-                    }
-                }
-            } else {
-                // ensure no methods exist with an @Handle annotation
-                for (Method m : clazz.getMethods()) {
-                    if (m.isAnnotationPresent(Handle.class)) {
-                        Logger.log(Logger.Tag.DEBUG, "Found illegal @Handle annotation: "
-                                + "class = " + getBottomLevelClass(clazz) + ", method = " + m.getName());
-                    }
-                }
+            for (Method handleMethod : handleMethods) {
+                ImmutableList<String> triggers = getTriggers(handleMethod);
             }
         }
     }
@@ -666,7 +684,7 @@ public final class ReflectionUtil {
             }
         }
 
-        return new SimilarCommand(StringUtil.isNull(mostSimilarTrigger)
+        return new SimilarCommand(StringUtil.isNullOrEmpty(mostSimilarTrigger)
                 ? Optional.empty() : Optional.of(mostSimilarTrigger), mostSimilarRatio);
     }
 

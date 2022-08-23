@@ -310,7 +310,7 @@ public final class UserEditor {
                     File fileToAdd = GetterUtil.getInstance().getFile(
                             new GetterUtil.Builder("Add File").setRelativeTo(editUserFrame));
 
-                    if (fileToAdd == null || StringUtil.isNull(fileToAdd.getName())) {
+                    if (fileToAdd == null || StringUtil.isNullOrEmpty(fileToAdd.getName())) {
                         return;
                     }
 
@@ -418,7 +418,7 @@ public final class UserEditor {
                                 .setSubmitButtonText("Rename")
                                 .setInitialString(FileUtil.getFilename(selectedFile)));
 
-                if (StringUtil.isNull(newName)) {
+                if (StringUtil.isNullOrEmpty(newName)) {
                     return;
                 }
 
@@ -1509,8 +1509,8 @@ public final class UserEditor {
         CyderButton addMapButton = new CyderButton("Add map");
         addMapButton.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
         addMapButton.addActionListener(e -> {
-            if (!StringUtil.isNull(addMapNameField.getText())
-                    && !StringUtil.isNull(addMapLinkField.getText())) {
+            if (!StringUtil.isNullOrEmpty(addMapNameField.getText())
+                    && !StringUtil.isNullOrEmpty(addMapLinkField.getText())) {
                 addMap(addMapNameField.getTrimmedText(), addMapLinkField.getTrimmedText());
                 addMapNameField.setText("");
                 addMapLinkField.setText("");
@@ -1547,7 +1547,7 @@ public final class UserEditor {
         CyderButton removeMapButton = new CyderButton("Remove map");
         removeMapButton.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
         removeMapButton.addActionListener(e -> {
-            if (!StringUtil.isNull(removeMapNameField.getText())) {
+            if (!StringUtil.isNullOrEmpty(removeMapNameField.getText())) {
                 removeMap(removeMapNameField.getText());
                 removeMapNameField.setText("");
             }
