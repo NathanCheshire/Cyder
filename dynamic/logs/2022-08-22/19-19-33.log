@@ -1,0 +1,372 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[19-19-33.540] [ENTRY]: Nathan
+[19-19-33.345] [DEBUG]: Found prop file: props\propkeys.ini
+[19-19-33.380] [DEBUG]: Found prop file: props\props.ini
+[19-19-33.425] [PROP LOADED]: [key = map_quest_api_key]
+[19-19-33.425] [PROP LOADED]: [key = youtube_api_3_key]
+[19-19-33.425] [PROP LOADED]: [key = ip_key]
+[19-19-33.425] [PROP LOADED]: [key = weather_key]
+[19-19-33.425] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[19-19-33.426] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7c
+               a733d0a7f6]
+[19-19-33.428] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[19-19-33.428] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor,audiole
+               ngth,capsmode,typingsound,showbusyicon,clockonconsole,consoleclockformat]
+[19-19-33.428] [PROP LOADED]: [key = font_metric, value = 1]
+[19-19-33.428] [PROP LOADED]: [key = max_font_size, value = 50]
+[19-19-33.428] [PROP LOADED]: [key = min_font_size, value = 25]
+[19-19-33.428] [PROP LOADED]: [key = released, value = false]
+[19-19-33.429] [PROP LOADED]: [key = version, value = Liminal]
+[19-19-33.429] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[19-19-33.429] [PROP LOADED]: [key = components_relocatable, value = false]
+[19-19-33.429] [PROP LOADED]: [key = testing_mode, value = true]
+[19-19-33.429] [PROP LOADED]: [key = autocypher, value = true]
+[19-19-33.429] [PROP LOADED]: [key = dispose_splash, value = true]
+[19-19-33.429] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[19-19-33.429] [PROP LOADED]: [key = activate_watchdog, value = false]
+[19-19-33.429] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[19-19-33.429] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[19-19-33.429] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[19-19-33.429] [PROP LOADED]: [key = ui_scale, value = 1]
+[19-19-33.429] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[19-19-33.429] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[19-19-33.429] [PROP LOADED]: [key = latency_ip, value = 172.217.4.78]
+[19-19-33.429] [PROP LOADED]: [key = latency_port, value = 80]
+[19-19-33.429] [PROP LOADED]: [key = latency_name, value = Google]
+[19-19-33.449] [DEBUG]: Jar mode set as: FALSE
+[19-19-33.513] [DEBUG]: Loaded 131 static resources
+[19-19-33.524] [DEBUG]: Loaded 16 static folders
+[19-19-33.637] [THREAD STARTED]: Object Creation Logger
+[19-19-33.963] [DEBUG]: Watchdog skipped
+[19-19-34.024] [LOADING MESSAGE]: Registering fonts
+[19-19-34.811] [FONT LOADED]: agency-fb
+[19-19-34.826] [FONT LOADED]: arial-black
+[19-19-34.835] [FONT LOADED]: beyno
+[19-19-34.844] [FONT LOADED]: condiment-regular
+[19-19-34.852] [FONT LOADED]: prompt-bold
+[19-19-34.864] [FONT LOADED]: segoe-ui-black
+[19-19-34.871] [FONT LOADED]: tahoma
+[19-19-34.872] [LOADING MESSAGE]: Ensuring singular instance
+[19-19-34.873] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-19-34.874] [DEBUG]: Starting instance socket on port 5150
+[19-19-35.377] [LOADING MESSAGE]: Ensuring OS is supported
+[19-19-35.378] [LOADING MESSAGE]: Creating dynamics
+[19-19-35.378] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-19-35.392] [LOADING MESSAGE]: Validating users
+[19-19-35.629] [USER GET]: key = name, value = Nathan
+[19-19-35.630] [USER GET]: key = mappedexecutable, value = []
+[19-19-35.657] [USER GET]: key = loggedin, value = 1
+[19-19-35.666] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1296, consoleY=104, consoleWidth=728,
+               consoleHeight=909, monitor=0, consoleOnTop=false, consoleDirection=BOTTOM}
+[19-19-35.667] [USER GET]: key = outputborder, value = 0
+[19-19-35.668] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
+[19-19-35.669] [USER GET]: key = fontsize, value = 27
+[19-19-35.669] [USER GET]: key = intromusic, value = 0
+[19-19-35.670] [USER GET]: key = debugwindows, value = 0
+[19-19-35.670] [USER GET]: key = darkmode, value = 0
+[19-19-35.671] [USER GET]: key = inputborder, value = 0
+[19-19-35.671] [USER GET]: key = youtubeuuid, value = aaaaaaaaaiI
+[19-19-35.672] [USER GET]: key = inputfill, value = 0
+[19-19-35.672] [USER GET]: key = outputfill, value = 0
+[19-19-35.673] [USER GET]: key = filterchat, value = 1
+[19-19-35.673] [USER GET]: key = compacttextmode, value = 0
+[19-19-35.674] [USER GET]: key = hourlychimes, value = 1
+[19-19-35.675] [USER GET]: key = wrapshell, value = 0
+[19-19-35.675] [USER GET]: key = minimizeonclose, value = 0
+[19-19-35.676] [USER GET]: key = laststart, value = 1661135668627
+[19-19-35.677] [USER GET]: key = silenceerrors, value = 1
+[19-19-35.677] [USER GET]: key = fullscreen, value = 0
+[19-19-35.678] [USER GET]: key = doanimations, value = 1
+[19-19-35.679] [USER GET]: key = randombackground, value = 0
+[19-19-35.679] [USER GET]: key = persistentnotifications, value = 0
+[19-19-35.680] [USER GET]: key = foreground, value = f0f0f0
+[19-19-35.681] [USER GET]: key = Font, value = Agency FB
+[19-19-35.681] [USER GET]: key = background, value = f0f0f0
+[19-19-35.683] [USER GET]: key = mappedexecutable, value = []
+[19-19-35.684] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1296, consoleY=104, consoleWidth=728,
+               consoleHeight=909, monitor=0, consoleOnTop=false, consoleDirection=BOTTOM}
+[19-19-35.693] [USER GET]: key = name, value = Nathan
+[19-19-35.694] [LOADING MESSAGE]: Cleaning users
+[19-19-35.705] [LOADING MESSAGE]: Validating props
+[19-19-35.858] [LOADING MESSAGE]: Validating Widgets
+[19-19-36.655] [OBJECT CREATION]: Objects created since last delta (5000ms): 46
+[19-19-37.627] [LOADING MESSAGE]: Validating Tests
+[19-19-37.630] [LOADING MESSAGE]: Validating Vanilla annotations
+[19-19-37.637] [LOADING MESSAGE]: Validating Handles
+[19-19-37.649] [THREAD STARTED]: Splash Loader
+[19-19-37.650] [THREAD STARTED]: Sufficient Subroutine Executor
+[19-19-37.651] [LOADING MESSAGE]: Logging JVM args
+[19-19-37.652] [THREAD STARTED]: JVM Args Logger
+[19-19-37.657] [DEBUG]: Set latency ip as 172.217.4.78
+[19-19-37.658] [DEBUG]: Set latency port as 80
+[19-19-37.659] [DEBUG]: Set latency host name as Google
+[19-19-37.675] [LOADING MESSAGE]: Checking for an AutoCypher
+[19-19-37.675] [LOGIN]: AutoCypher Attempt
+[19-19-37.676] [LOADING MESSAGE]: Auto Cyphering
+[19-19-37.678] [USER GET]: key = name, value = Nathan [2x]
+[19-19-37.710] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
+[19-19-37.819] [USER GET]: key = darkmode, value = 0 [2x]
+[19-19-37.923] [THREAD STARTED]: Splash Animation
+[19-19-38.116] [UNIQUE OBJECT CREATED]: Console singleton constructed
+[19-19-38.118] [USER GET]: key = name, value = Nathan
+[19-19-38.285] [DEBUG]: Cyder Entry = AutoCypher
+[19-19-38.286] [THREAD STARTED]: High Ping Checker
+[19-19-38.334] [DEBUG]: Latency of Google found to be 43ms
+[19-19-38.543] [USER GET]: key = name, value = Nathan
+[19-19-38.544] [USER GET]: key = randombackground, value = 0
+[19-19-38.664] [USER GET]: key = fullscreen, value = 0 [3x]
+[19-19-38.665] [USER GET]: key = name, value = Nathan
+[19-19-38.727] [USER GET]: key = foreground, value = f0f0f0 [3x]
+[19-19-38.727] [USER GET]: key = Font, value = Agency FB
+[19-19-38.728] [USER GET]: key = fontsize, value = 27
+[19-19-38.756] [USER GET]: key = outputborder, value = 0
+[19-19-38.757] [USER GET]: key = outputfill, value = 0
+[19-19-38.777] [USER GET]: key = inputborder, value = 0
+[19-19-38.781] [USER GET]: key = foreground, value = f0f0f0 [3x]
+[19-19-38.782] [USER GET]: key = Font, value = Agency FB
+[19-19-38.782] [USER GET]: key = fontsize, value = 27
+[19-19-38.783] [USER GET]: key = inputfill, value = 0
+[19-19-38.796] [THREAD STARTED]: Console Printing Animation
+[19-19-38.801] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1296, consoleY=104, consoleWidth=728,
+               consoleHeight=909, monitor=0, consoleOnTop=false, consoleDirection=BOTTOM}
+[19-19-38.930] [THREAD STARTED]: Hourly Chime Checker
+[19-19-38.931] [THREAD STARTED]: Console Clock Updater
+[19-19-38.933] [THREAD STARTED]: Cyder Busy Checker
+[19-19-38.935] [THREAD STARTED]: [Cyder Splash] dispose() animation thread [2x]
+[19-19-38.936] [USER GET]: key = fullscreen, value = 0
+[19-19-38.937] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1296, consoleY=104, consoleWidth=728,
+               consoleHeight=909, monitor=0, consoleOnTop=false, consoleDirection=BOTTOM}
+[19-19-38.939] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[19-19-39.110] [USER GET]: key = fullscreen, value = 0
+[19-19-39.195] [USER GET]: key = debugwindows, value = 0
+[19-19-39.196] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[19-19-39.197] [THREAD STARTED]: Manual Tests Thread
+[19-19-39.198] [USER GET]: key = laststart, value = 1661135668627
+[19-19-39.199] [USER GET]: key = intromusic, value = 0
+[19-19-39.212] [CONSOLE OUT]: [STRING]: Console loaded in 5970ms
+[19-19-40.251] [THREAD STARTED]: Splash Loading Label Updater
+[19-19-40.921] [CLIENT]: hello
+[19-19-40.922] [USER GET]: key = filterchat, value = 1
+[19-19-40.925] [USER GET]: key = name, value = Nathan
+[19-19-40.997] [CONSOLE OUT]: [STRING]: How are you doing, Nathan?
+[19-19-41.665] [OBJECT CREATION]: Objects created since last delta (5000ms): 78
+[19-19-41.887] [CLIENT]: issues
+[19-19-41.888] [USER GET]: key = filterchat, value = 1
+[19-19-41.891] [THREAD STARTED]: Cyder GitHub issue getter
+[19-19-42.450] [CONSOLE OUT]: [STRING]: 30 issues found:
+[19-19-42.731] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.213] [CONSOLE OUT]: [STRING]: Issue #191
+[19-19-43.214] [CONSOLE OUT]: [STRING]: Log line consolidator broken
+[19-19-43.217] [CONSOLE OUT]: [STRING]: Does not consolidate duplicates ignoring time, probably a bug after adding
+               milliseconds to the log lines. We might also want to add a caller field for who called a cyder user GET method? I'm not
+               sure how easy that would be though.
+[19-19-43.219] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.220] [CONSOLE OUT]: [STRING]: Issue #178
+[19-19-43.226] [CONSOLE OUT]: [STRING]: User data last updated timestamp
+[19-19-43.228] [CONSOLE OUT]: [STRING]: Use a timestamp in the userdata file name to allow multiple ones to exist. Cyder
+               will choose the most recent one which is not in the future. We'll have to implement some additional logic in places
+               to deal with it being "userdata_1032994223.json" and not "userdata.json" which might be annoying.
+[19-19-43.229] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.234] [CONSOLE OUT]: [STRING]: Issue #175
+[19-19-43.235] [CONSOLE OUT]: [STRING]: Frame transitions between monitors
+[19-19-43.236] [CONSOLE OUT]: [STRING]: Moving a frame between monitors results in a super weird bug. This used
+               to work in past versions so maybe figure out where it started and what changed.
+[19-19-43.239] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.241] [CONSOLE OUT]: [STRING]: Issue #171
+[19-19-43.243] [CONSOLE OUT]: [STRING]: Busy animation
+[19-19-43.244] [CONSOLE OUT]: [STRING]: In addition to the busy icon being toggle-able by the user, we should have
+               a progress indicator such as a dot animation next to the help button (perhaps replace the help button entirely)
+               when cyder is classified as busy.
+[19-19-43.246] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.249] [CONSOLE OUT]: [STRING]: Issue #170
+[19-19-43.250] [CONSOLE OUT]: [STRING]: System audio slider
+[19-19-43.251] [CONSOLE OUT]: [STRING]: Allow a drop down vertical slider from the console that controls any system
+               audio that's played via IOUtil if that's the right class.
+[19-19-43.252] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.253] [CONSOLE OUT]: [STRING]: Issue #169
+[19-19-43.255] [CONSOLE OUT]: [STRING]: Audio Player volume slider needs to be logarithmic
+[19-19-43.256] [CONSOLE OUT]: [STRING]: Audio Player volume slider needs to be logarithmic.
+[19-19-43.260] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.262] [CONSOLE OUT]: [STRING]: Issue #168
+[19-19-43.263] [CONSOLE OUT]: [STRING]: Messaging Widget
+[19-19-43.264] [CONSOLE OUT]: [STRING]: Implement our custom messaging widget. Capabilities include audio and images
+               with preview, text, links, and if the messaging window for a person isn't open, have a preference for whether
+               to show it in the console and/or a notification in the bottom right like discord or teams.
+[19-19-43.265] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.267] [CONSOLE OUT]: [STRING]: Issue #167
+[19-19-43.267] [CONSOLE OUT]: [STRING]: Color picker component
+[19-19-43.269] [CONSOLE OUT]: [STRING]: Extract the component from paint widget for keeping track of recent colors
+               to its own component.    Methods:  +getColor()  +getColor(int)  +setMaxColorDepth(int)  +clear()  +setDefaultColor()  +
+               setXCells(int)  +setYCells(int)  +setCellSize(int, int)  +setColor()
+[19-19-43.270] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.275] [CONSOLE OUT]: [STRING]: Issue #165
+[19-19-43.276] [CONSOLE OUT]: [STRING]: Apple watch activity parser
+[19-19-43.277] [CONSOLE OUT]: [STRING]: Look at the format of xml exported data from the apple watch and see what
+               visualizations can be made from it.
+[19-19-43.279] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.280] [CONSOLE OUT]: [STRING]: Issue #164
+[19-19-43.280] [CONSOLE OUT]: [STRING]: Bitcoin tracker
+[19-19-43.282] [CONSOLE OUT]: [STRING]: Keyword "bitcoin" or "crypto" will show a graph of bitcoin. Allow filtering
+               of all time, 1y, 30d, today, etc. Mouse over event should show the actual price at that time.
+[19-19-43.283] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.285] [CONSOLE OUT]: [STRING]: Issue #163
+[19-19-43.286] [CONSOLE OUT]: [STRING]: To-do creator
+[19-19-43.287] [CONSOLE OUT]: [STRING]: Make a to-do keeping widget with preferences in the frame for what the
+               check color or shape can be, categories, and multiple lists. .todo extension
+[19-19-43.288] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.288] [CONSOLE OUT]: [STRING]: Issue #152
+[19-19-43.289] [CONSOLE OUT]: [STRING]: Allow props to be reloaded at run time if desired
+[19-19-43.290] [CONSOLE OUT]: [STRING]: Maybe make a routine for this that's ran every hour or can also be requested
+               by the user. When reloading props we need to make sure it completes before assigning the new props list as the
+               main list. These methods might need synchronization but if we load new ones and ensure correct before assigning
+               the list as the main list, it should be an atomic operation. Maybe not though and the getter functions for props
+               need to be synchronized as does the load function.
+[19-19-43.291] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.293] [CONSOLE OUT]: [STRING]: Issue #149
+[19-19-43.294] [CONSOLE OUT]: [STRING]: Make backend secure
+[19-19-43.295] [CONSOLE OUT]: [STRING]: Use https for the backend protocol.
+[19-19-43.296] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.297] [CONSOLE OUT]: [STRING]: Issue #148
+[19-19-43.298] [CONSOLE OUT]: [STRING]: Make backend port configuable
+[19-19-43.299] [CONSOLE OUT]: [STRING]: Allow the fastAPI backend port to be configured at runtime via a prop.
+               Before doing this, the backend should be started by the Java backend somehow (necessary subroutine (make these
+               their own method in Cyder.java)), and still work and be able to be accessed via any http://locahost/PORT.
+[19-19-43.300] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.302] [CONSOLE OUT]: [STRING]: Issue #147
+[19-19-43.303] [CONSOLE OUT]: [STRING]: Rename current background
+[19-19-43.304] [CONSOLE OUT]: [STRING]: Implement functionality to allow a user to rename the background they are
+               currently using.
+[19-19-43.305] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.305] [CONSOLE OUT]: [STRING]: Issue #132
+[19-19-43.306] [CONSOLE OUT]: [STRING]: Background resizing
+[19-19-43.307] [CONSOLE OUT]: [STRING]: Currently on lower dpi/resolution monitors, rescaling of the background
+               image might be invoked but it might still result in an image too big for the monitor. This should NEVER happen.
+               If we say we're resizing it, it better fit on screen.
+[19-19-43.309] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.312] [CONSOLE OUT]: [STRING]: Issue #127
+[19-19-43.313] [CONSOLE OUT]: [STRING]: User validation
+[19-19-43.314] [CONSOLE OUT]: [STRING]: The bug where the default font appeared in the user's foreground was just found.
+               This took a while to solve and find so we should have some kind of a validate User method in the UserUtil class
+               to provide a user and have all it's fields validated and parsed if there is data there.
+[19-19-43.315] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.315] [CONSOLE OUT]: [STRING]: Issue #123
+[19-19-43.316] [CONSOLE OUT]: [STRING]: Frame movement fixes
+[19-19-43.317] [CONSOLE OUT]: [STRING]: With pinned frames, we need to ensure that frames aren't placed out of
+               bounds. We can easily solve this by when we're setting location of pinned frames after setting the ConsoleFrame's
+               position by using FrameUtil.requestFramePosition().
+[19-19-43.318] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.320] [CONSOLE OUT]: [STRING]: Issue #122
+[19-19-43.321] [CONSOLE OUT]: [STRING]: Python environment setup
+[19-19-43.322] [CONSOLE OUT]: [STRING]: Setup a shell script for development and something else for production
+               environments that ensures the proper python dependencies are installed.
+[19-19-43.323] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.324] [CONSOLE OUT]: [STRING]: Issue #117
+[19-19-43.325] [CONSOLE OUT]: [STRING]: Console printing animation optimization
+[19-19-43.326] [CONSOLE OUT]: [STRING]: Just like the notification queue checker, we should stop this thread if
+               there's nothing to be printed and start it again once we have objects in the print queue.
+[19-19-43.327] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.329] [CONSOLE OUT]: [STRING]: Issue #110
+[19-19-43.329] [CONSOLE OUT]: [STRING]: Waves for HarmonicRectangle
+[19-19-43.331] [CONSOLE OUT]: [STRING]: Implement wave synchronization and phase shifts for HarmonicRectangle.
+[19-19-43.332] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.332] [CONSOLE OUT]: [STRING]: Issue #103
+[19-19-43.333] [CONSOLE OUT]: [STRING]: Notification resize
+[19-19-43.334] [CONSOLE OUT]: [STRING]: Allow notifications to change size on frame resize events. Already tried
+               this and a weird bug appeared where the label know it's bounds but would only respond to mouse events to highlight
+               a hover and register a click on certain parts of the label. Attempt to fix this.
+[19-19-43.335] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.336] [CONSOLE OUT]: [STRING]: Issue #102
+[19-19-43.338] [CONSOLE OUT]: [STRING]: User schema
+[19-19-43.340] [CONSOLE OUT]: [STRING]: We need to nail down a solid user data schema with actual types used in place of
+               just strings for all primitives. When accessing Booleans it will be a lot easier but we'll need some overhead
+               methods using generics, don't use raw types, to handle the case that it could be an object but also a primitive such as
+               a Boolean, int, etc.
+[19-19-43.341] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.343] [CONSOLE OUT]: [STRING]: Issue #101
+[19-19-43.344] [CONSOLE OUT]: [STRING]: Watchdog Timer Functionality
+[19-19-43.345] [CONSOLE OUT]: [STRING]: I'm not entirely sure the timer works as intended. Spend some time investigating
+               .
+[19-19-43.346] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.346] [CONSOLE OUT]: [STRING]: Issue #100
+[19-19-43.347] [CONSOLE OUT]: [STRING]: SVG Frame Drag Label Icons
+[19-19-43.348] [CONSOLE OUT]: [STRING]: As a POC, convert all the window icons (close, mini, pin, change size,
+               etc.) to svgs and load them in using https://xmlgraphics.apache.org/batik/using/swing.html. See if this is visually
+               more appealing and doesn't tank the load time or fps of the application.
+[19-19-43.349] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.350] [CONSOLE OUT]: [STRING]: Issue #99
+[19-19-43.350] [CONSOLE OUT]: [STRING]: Singular Instance Failsafe Terminator
+[19-19-43.351] [CONSOLE OUT]: [STRING]: On startup, if a singular instance is detected, give the user the option
+               to attempt to terminate the other session if they enter a valid username and password combo for that instance of Cyder.
+               If right credentials, try for that other Cyder to unbind, exit, and return exited to the foreign instance so that
+               it can proceed. The other instance should be well within its right to refuse termination so that the other user
+               cannot start a new instance.
+[19-19-43.352] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.354] [CONSOLE OUT]: [STRING]: Issue #97
+[19-19-43.355] [CONSOLE OUT]: [STRING]: Cyder Clock
+[19-19-43.356] [CONSOLE OUT]: [STRING]: There should be a synchronization package with a clocksync class that clocks
+               throughout cyder can connect to and request a frequency for their update methods to be called. Should have an interface
+               which classes implement and this will be passed to the clock so that it can invoke a call back method for the
+               class that implements the interface can invoke.
+[19-19-43.357] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.360] [CONSOLE OUT]: [STRING]: Issue #96
+[19-19-43.361] [CONSOLE OUT]: [STRING]: Auto commit and push
+[19-19-43.362] [CONSOLE OUT]: [STRING]: Setup a client to detect if NathanCheshire hasn't pushed to github today
+               at 10:30 and email notifying. At 11 if still no activity, commit and push a random commit.
+[19-19-43.363] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.364] [CONSOLE OUT]: [STRING]: Issue #95
+[19-19-43.365] [CONSOLE OUT]: [STRING]: StudentScraper link
+[19-19-43.366] [CONSOLE OUT]: [STRING]: AFTER, and I repeat, AFTER you finish the auth pages and phase 1 of the backend,
+               we should ideally link the student scraper project to be able to execute a query for any semester (return a list
+               of valid semesters) provided we are an authenticated user. This means I will always be allowed to do this but I can let
+               my friends do this by giving them access and forcing them to use Cyder.
+[19-19-43.367] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.368] [CONSOLE OUT]: [STRING]: Issue #92
+[19-19-43.369] [CONSOLE OUT]: [STRING]: CyderGrid optimization
+[19-19-43.370] [CONSOLE OUT]: [STRING]: There are two approaches for the CyderGrid; a list approach and a 2D array/matrix
+               approach. The underlying grid principle is just to store a grid of colors. This could be accomplished using a
+               2D array or an arrray list of array list of integers representing colors. This is optimal if the grid will not
+               be resized often. Whether to use an ArrayList of objects or a true 2D array of integer color values will depend
+               on if the grid will be resized often.      ![Scannable Document 2 on Mar 27, 2022 at 11_33_21 AM](https://user
+               -images.githubusercontent.com/60986919/160291638-5bda2e98-1a9f-4f4f-9bc6-36c1cfef833a.png)
+[19-19-43.371] [CONSOLE OUT]: [STRING]: ----------------------------------------
+[19-19-43.374] [CONSOLE OUT]: [STRING]: Escaped
+[19-19-46.115] [CLIENT]: open current log
+[19-19-46.118] [USER GET]: key = filterchat, value = 1
+[19-19-46.157] [THREAD STARTED]: Unknown Input Handler
+[19-19-46.174] [DEBUG]: Similar command to "open" found with tolerance of 0.8727272748947144, command = "openlastlog"
+[19-19-46.218] [CONSOLE OUT]: [STRING]: Unknown command; Most similar command: "openlastlog"
+[19-19-46.678] [OBJECT CREATION]: Objects created since last delta (5000ms): 1
+[19-19-49.633] [CLIENT]: opencurrentlog
+[19-19-49.634] [USER GET]: key = filterchat, value = 1
+[19-19-59.840] [USER GET]: key = minimizeonclose, value = 0
+[19-19-59.841] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1296, consoleY=104, consoleWidth=728,
+               consoleHeight=909, monitor=0, consoleOnTop=false, consoleDirection=BOTTOM}
+[19-19-59.848] [USER GET]: key = fullscreen, value = 0
+[19-19-59.848] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[19-19-59.849] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[19-19-59.850] [USER GET]: key = doanimations, value = 1
+[19-20-00.133] [EXIT]: [RUNTIME] 26s 791ms
+[19-20-00.135] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], no exceptions thrown,
+               total objects created: 125

@@ -2,6 +2,7 @@ package cyder.handlers.internal;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
@@ -416,15 +417,31 @@ public final class Logger {
     }
 
     /**
+     * The list of lines from cyder.txt depicting a sweet Cyder Ascii art logo.
+     */
+    private static ImmutableList<String> headerLogoLines = ImmutableList.of();
+    static {
+        try (BufferedReader bufferedReader = new BufferedReader(
+                new FileReader(StaticUtil.getStaticResource("cyder.txt")))) {
+            LinkedList<String> set = new LinkedList<>();
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                set.add(line);
+            }
+
+            headerLogoLines = ImmutableList.copyOf(set);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
      * Writes the lines contained in static/txt/cyder.txt to the current log file.
      */
     private static void writeCyderAsciiArt() {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(
-                StaticUtil.getStaticResource("cyder.txt"))) ;
-             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentLog, true))) {
-            String line;
-
-            while ((line = bufferedReader.readLine()) != null) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentLog, true))) {
+            for (String line : headerLogoLines) {
                 bufferedWriter.write(line);
                 bufferedWriter.newLine();
             }
@@ -438,39 +455,31 @@ public final class Logger {
     }
 
     /**
-     * Creates the log file if it is not set/DNE.
+     * Creates the top level logs directory, the log sub-directory for today,
+     * and the log file for this session if it is not generated or set.
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void generateAndSetLogFile() {
         try {
-            // ensure logs dir exists
-            File logsDir = OSUtil.buildFile(Dynamic.PATH,
-                    Dynamic.LOGS.getDirectoryName());
+            File logsDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
             logsDir.mkdir();
 
-            // if dir for today's logs doesn't exists, create
             String logSubDirName = TimeUtil.logSubDirTime();
-            File logSubDir = OSUtil.buildFile(Dynamic.PATH,
-                    Dynamic.LOGS.getDirectoryName(), logSubDirName);
+            File logSubDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName(), logSubDirName);
             logSubDir.mkdir();
 
-            // actual log file
             String logFileName = TimeUtil.logTime();
 
-            // ensure uniqueness
             int number = 1;
-            File logFile = OSUtil.buildFile(Dynamic.PATH,
-                    Dynamic.LOGS.getDirectoryName(), logSubDirName, logFileName + ".log");
+            File logFile = OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName(),
+                    logSubDirName, logFileName + ".log");
             while (logFile.exists()) {
                 number++;
-                logFile = OSUtil.buildFile(Dynamic.PATH,
-                        Dynamic.LOGS.getDirectoryName(),
+                logFile = OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName(),
                         logSubDirName, logFileName + "-" + number + ".log");
-
             }
 
-            // found unique file so create
-            if (logFile.createNewFile()) {
+            if (OSUtil.createFile(logFile, true)) {
                 currentLog = logFile;
             } else {
                 throw new FatalException("Log file not created");
@@ -487,31 +496,32 @@ public final class Logger {
      * @param tag  the tag which was used to handle the constructed string to write
      */
     private static synchronized void formatAndWriteLine(String line, Tag tag) {
-        // just to be safe, we'll add in the 11 spaces in this method
         line = line.trim();
 
-        // if log file was deleted mid operation, regenerate and add message
         if (!getCurrentLog().exists()) {
+            // Deleted mid runtime
             generateAndSetLogFile();
-
-            writeLines(insertBreaks(getLogTimeTag() + "[DEBUG]: [Log was deleted during runtime," +
-                    " recreating and restarting log at: " + TimeUtil.userTime() + "]"));
-        } else {
-            // if not an exception, break up line if too long
-            if (tag != Tag.EXCEPTION) {
-                writeLines(insertBreaks(line));
-            } else {
-                try {
-                    String[] lines = line.split("\n");
-                    writeLines(lines);
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-            }
-
-            // print to standard output
-            println(line);
+            writeLines(insertBreaks(getLogRecoveryDebugLine()));
         }
+
+        if (tag != Tag.EXCEPTION) {
+            writeLines(insertBreaks(line));
+        } else {
+            writeLines(line.split("\n"));
+        }
+
+        println(line);
+    }
+
+    /**
+     * Generates and returns a log line for when a log was deleted mid session.
+     *
+     * @return returns a log line for when a log was deleted mid session
+     */
+    @ForReadability
+    private static String getLogRecoveryDebugLine() {
+        return getLogTimeTag() + "[DEBUG]: [Log was deleted during runtime,"
+                + " recreating and restarting log at: " + TimeUtil.userTime() + "]";
     }
 
     /**
@@ -569,7 +579,8 @@ public final class Logger {
     /**
      * The chars to check to split at before splitting in between a line at whatever character a split index falls on.
      */
-    private static final ImmutableList<Character> BREAK_CHARS = ImmutableList.of(' ', '/', '\'', '-', '_', '.');
+    private static final ImmutableList<Character> BREAK_CHARS
+            = ImmutableList.of(' ', '/', '\'', '-', '_', '.', '=', ',');
 
     /**
      * Only check 10 chars to the left of a line unless we force a break regardless
@@ -585,44 +596,88 @@ public final class Logger {
      * @return the formatted lines
      */
     public static LinkedList<String> insertBreaks(String line) {
-        line = line.trim();
+        Preconditions.checkNotNull(line);
 
-        LinkedList<String> ret = new LinkedList<>();
+        LinkedList<String> lines = new LinkedList<>();
 
         while (line.length() > MAX_LINE_LENGTH) {
-            line = line.trim();
+            boolean breakInserted = false;
 
             for (char splitChar : BREAK_CHARS) {
-                if (line.length() < MAX_LINE_LENGTH) {
+                if (line.charAt(MAX_LINE_LENGTH) == splitChar) {
+                    lines.add(line.substring(0, MAX_LINE_LENGTH));
+                    line = line.substring(MAX_LINE_LENGTH);
+                    breakInserted = true;
                     break;
                 }
 
-                // Able to split at char at current position
-                if (line.charAt(MAX_LINE_LENGTH) == splitChar) {
-                    ret.add(line.substring(0, MAX_LINE_LENGTH + 1));
-                    line = line.substring(MAX_LINE_LENGTH + 1);
+                int leftSplitIndex = checkLeftForSplitChar(line, splitChar);
+                if (leftSplitIndex != -1) {
+                    lines.add(line.substring(0, leftSplitIndex));
+                    line = line.substring(leftSplitIndex);
+                    breakInserted = true;
                     break;
-                } else {
-                    // Check left for splitChar
-                    for (int i = MAX_LINE_LENGTH ; i > MAX_LINE_LENGTH - BREAK_INSERTION_TOL ; i--) {
-                        // Found the split char
-                        if (line.charAt(i) == splitChar) {
-                            ret.add(line.substring(0, i).trim());
-                            line = line.substring(i).trim();
-                            break;
-                        }
-                        // End of the chars to check so just split at limit
-                        else if (i == MAX_LINE_LENGTH - BREAK_INSERTION_TOL + 1) {
-                            ret.add(line.substring(0, MAX_LINE_LENGTH).trim());
-                            line = line.substring(MAX_LINE_LENGTH).trim();
-                            break;
-                        }
-                    }
                 }
+
+                int rightSplitIndex = checkRightForSplitChar(line, splitChar);
+                if (rightSplitIndex != -1) {
+                    lines.add(line.substring(0, rightSplitIndex));
+                    line = line.substring(rightSplitIndex);
+                    breakInserted = true;
+                    break;
+                }
+            }
+
+            if (breakInserted) continue;
+            // Couldn't find a split char from the list so split at the maximum index
+            lines.add(line.substring(0, MAX_LINE_LENGTH));
+            line = line.substring(MAX_LINE_LENGTH);
+        }
+
+        lines.add(line);
+
+        return lines;
+    }
+
+    /**
+     * Attempts to find the index of the split char within the final {@link #BREAK_INSERTION_TOL}
+     * chars of the end of the provided string. If found, returns the index of the found splitChar.
+     *
+     * @param line      the line to search through
+     * @param splitChar the character to split at
+     * @return the index of the split char if found, -1 else
+     */
+    private static int checkLeftForSplitChar(String line, char splitChar) {
+        int ret = -1;
+
+        for (int i = MAX_LINE_LENGTH - BREAK_INSERTION_TOL ; i < MAX_LINE_LENGTH ; i++) {
+            if (line.charAt(i) == splitChar) {
+                ret = i;
+                break;
             }
         }
 
-        ret.add(line.trim());
+        return ret;
+    }
+
+    /**
+     * Attempts to find the index of the split char within {@link #BREAK_INSERTION_TOL} chars of the right of
+     * {@link #MAX_LINE_LENGTH}. If found, returns the index of the found splitChar.
+     *
+     * @param line      the line to search through
+     * @param splitChar the character to split at
+     * @return the index of the slit char if found, -1 else
+     */
+    private static int checkRightForSplitChar(String line, char splitChar) {
+        int ret = -1;
+
+        for (int i = MAX_LINE_LENGTH ; i < MAX_LINE_LENGTH + BREAK_INSERTION_TOL ; i++) {
+            if (i >= line.length()) break;
+            if (line.charAt(i) == splitChar) {
+                ret = i;
+                break;
+            }
+        }
 
         return ret;
     }
@@ -636,13 +691,14 @@ public final class Logger {
         return TimeUtil.millisToFormattedString(System.currentTimeMillis() - START_TIME);
     }
 
+    private static final String ZIP_EXTENSION = ".zip";
+
     /**
      * Zips the log files of the past.
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static void zipPastLogs() {
-        File topLevelLogsDir = OSUtil.buildFile(Dynamic.PATH,
-                Dynamic.LOGS.getDirectoryName());
+    private static void zipPastLogs() {
+        File topLevelLogsDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
 
         if (!topLevelLogsDir.exists()) {
             topLevelLogsDir.mkdir();
@@ -651,19 +707,16 @@ public final class Logger {
 
         File[] subLogDirs = topLevelLogsDir.listFiles();
 
-        if (subLogDirs == null || subLogDirs.length == 0)
-            return;
+        if (subLogDirs == null || subLogDirs.length == 0) return;
 
-        // for all sub log dirs
         for (File subLogDir : subLogDirs) {
-            // if it's not the current log and is not a zip file
+            // If it's not the current log and is not a zip file
             if (!FileUtil.getFilename(subLogDir.getName()).equals(TimeUtil.logSubDirTime())
-                    && !FileUtil.getExtension(subLogDir).equalsIgnoreCase(".zip")) {
-                // if a zip file for the directory exists, delete the dir
-                if (new File(subLogDir.getAbsolutePath() + ".zip").exists()) {
+                    && !FileUtil.getExtension(subLogDir).equalsIgnoreCase(ZIP_EXTENSION)) {
+                if (new File(subLogDir.getAbsolutePath() + ZIP_EXTENSION).exists()) {
                     OSUtil.deleteFile(subLogDir);
                 } else {
-                    FileUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ".zip");
+                    FileUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ZIP_EXTENSION);
                 }
             }
         }
@@ -673,28 +726,24 @@ public final class Logger {
      * Consolidates the lines of all non-zipped files within the logs/SubLogDir directory.
      */
     public static void consolidateLogLines() {
-        File logsDir = OSUtil.buildFile(Dynamic.PATH,
-                Dynamic.LOGS.getDirectoryName());
+        File logsDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
 
-        if (!logsDir.exists())
-            return;
+        if (!logsDir.exists()) return;
 
         File[] subLogDirs = logsDir.listFiles();
 
-        if (subLogDirs == null || subLogDirs.length == 0)
-            return;
+        if (subLogDirs == null || subLogDirs.length == 0) return;
 
         for (File subLogDir : subLogDirs) {
-            if (FileUtil.getExtension(subLogDir).equalsIgnoreCase(".zip"))
-                continue;
+            if (FileUtil.getExtension(subLogDir).equalsIgnoreCase(".zip")) continue;
 
             File[] logFiles = subLogDir.listFiles();
 
-            if (logFiles == null || logFiles.length == 0)
-                continue;
+            if (logFiles == null || logFiles.length == 0) continue;
 
-            for (File logFile : logFiles)
+            for (File logFile : logFiles) {
                 consolidateLines(logFile);
+            }
         }
     }
 
@@ -702,7 +751,7 @@ public final class Logger {
      * A pattern for the start of a standard log line used to find the time of the log call.
      */
     private static final Pattern standardLogLine =
-            Pattern.compile("\\s+\\[(\\d+-\\d+-\\d+)|(\\d+-\\d+-\\d+-\\d+)]\\s+.*");
+            Pattern.compile("\\s*\\[\\d+-\\d+-\\d+\\.\\d+]\\s*.*");
 
     /**
      * Consolidates duplicate lines next to each other of the provided file.
@@ -751,7 +800,7 @@ public final class Logger {
             lastLine = lines.get(i);
             currentLine = lines.get(i + 1);
 
-            if (logLinesEquivalent(lastLine, currentLine)) {
+            if (areLogLinesEquivalent(lastLine, currentLine)) {
                 currentCount++;
             } else {
                 if (currentCount > 1) {
@@ -798,7 +847,7 @@ public final class Logger {
      * @param logLine2 the second log line
      * @return whether the two log lines are equivalent
      */
-    private static boolean logLinesEquivalent(String logLine1, String logLine2) {
+    private static boolean areLogLinesEquivalent(String logLine1, String logLine2) {
         Preconditions.checkNotNull(logLine1);
         Preconditions.checkNotNull(logLine2);
 
@@ -820,41 +869,34 @@ public final class Logger {
     }
 
     /**
-     * Upon entry this method attempts to fix any user logs that ended abruptly (an exit code of -1 )
-     * as a result of an IDE stop or OS Task Manager Stop.
+     * Fixes any logs lacking/not ending in an EOL tag.
      */
     public static void concludeLogs() {
         try {
-            File logDir = OSUtil.buildFile(Dynamic.PATH,
-                    Dynamic.LOGS.getDirectoryName());
+            File logDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
 
-            if (!logDir.exists())
-                return;
+            if (!logDir.exists()) return;
 
             File[] logDirs = logDir.listFiles();
 
-            if (logDirs == null || logDirs.length == 0)
-                return;
+            if (logDirs == null || logDirs.length == 0) return;
 
             for (File subLogDir : logDirs) {
-                //for all directories of days of logs
-                if (FileUtil.getExtension(subLogDir).equalsIgnoreCase(".zip"))
-                    continue;
+                if (FileUtil.getExtension(subLogDir).equalsIgnoreCase(ZIP_EXTENSION)) continue;
 
                 File[] logs = subLogDir.listFiles();
 
-                if (logs == null || logs.length == 0)
-                    return;
+                if (logs == null || logs.length == 0) return;
 
                 for (File log : logs) {
                     if (!log.equals(getCurrentLog())) {
-                        BufferedReader br = new BufferedReader(new FileReader(log));
+                        BufferedReader reader = new BufferedReader(new FileReader(log));
                         String line;
                         boolean containsEOL = false;
 
                         int exceptions = 0;
 
-                        while ((line = br.readLine()) != null) {
+                        while ((line = reader.readLine()) != null) {
                             if (line.contains("[EOL]") || line.contains("[EXTERNAL STOP]")) {
                                 containsEOL = true;
                                 break;
@@ -863,12 +905,14 @@ public final class Logger {
                             }
                         }
 
-                        br.close();
+                        reader.close();
 
                         if (!containsEOL) {
-                            // usually an IDE stop but sometimes the program exits,
-                            // with exit condition 1 due to something failing on startup
-                            // which is why this says "crashed unexpectedly"
+                            /*
+                             Usually an IDE stop but sometimes the program exits,
+                             with exit condition 1 due to something failing on startup
+                             which is why this says "crashed unexpectedly"
+                             */
                             String logBuilder = getLogTimeTag() + "[EOL]: " +
                                     "Log completed, Cyder crashed unexpectedly: " +
                                     "exit code: " + ExitCondition.ExternalStop.getCode() +
@@ -886,14 +930,15 @@ public final class Logger {
         }
     }
 
+    private static final int INITIAL_OBJECT_CREATION_LOGGER_TIMEOUT = 3000;
+
     /**
      * Starts the object creation logger to log object creation calls every deltaT seconds.
      */
     private static void startObjectCreationLogger() {
         CyderThreadRunner.submit(() -> {
             try {
-                // initial timeout from program initialization
-                ThreadUtil.sleep(3000);
+                ThreadUtil.sleep(INITIAL_OBJECT_CREATION_LOGGER_TIMEOUT);
 
                 while (true) {
                     if (objectCreationCounter.get() > 0) {

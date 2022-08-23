@@ -1,8 +1,8 @@
 package cyder.user;
 
+import com.google.common.base.Objects;
 import cyder.enums.Direction;
 import cyder.handlers.internal.Logger;
-import cyder.utils.ReflectionUtil;
 
 /**
  * A class to store statistics about the Console and where it is.
@@ -209,6 +209,52 @@ public class ScreenStat {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
+        return "ScreenStat{" +
+                "consoleX=" + consoleX +
+                ", consoleY=" + consoleY +
+                ", consoleWidth=" + consoleWidth +
+                ", consoleHeight=" + consoleHeight +
+                ", monitor=" + monitor +
+                ", consoleOnTop=" + consoleOnTop +
+                ", consoleDirection=" + consoleDirection +
+                '}';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        ScreenStat that = (ScreenStat) o;
+
+        return consoleX == that.consoleX
+                && consoleY == that.consoleY
+                && consoleWidth == that.consoleWidth
+                && consoleHeight == that.consoleHeight
+                && monitor == that.monitor
+                && consoleOnTop == that.consoleOnTop
+                && consoleDirection == that.consoleDirection;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(consoleX,
+                consoleY,
+                consoleWidth,
+                consoleHeight,
+                monitor,
+                consoleOnTop,
+                consoleDirection);
     }
 }

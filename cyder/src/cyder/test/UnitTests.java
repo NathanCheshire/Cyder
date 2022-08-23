@@ -201,12 +201,6 @@ public class UnitTests {
     }
 
     @Test
-    public void testLineChecker() {
-        assertEquals(Logger.insertBreaks("[22-05-04] [EOL]: Log completed, exiting Cyder with exit " +
-                "code: -13 [Watchdog Timeout], exceptions thrown: 0").size(), 1);
-    }
-
-    @Test
     public void testFormatSeconds() {
         assertEquals(AudioUtil.formatSeconds(0), "0s");
         assertEquals(AudioUtil.formatSeconds(30), "30s");
