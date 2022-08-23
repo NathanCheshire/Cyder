@@ -439,6 +439,6 @@ public class NetworkUtil {
     @ForReadability
     private static String filterHostname(String rawClassResult) {
         rawClassResult = rawClassResult.substring(rawClassResult.indexOf("'") + 1);
-        return rawClassResult.substring(0, rawClassResult.indexOf("'") + 1);
+        return rawClassResult.substring(0, rawClassResult.indexOf("'"));
     }
 }

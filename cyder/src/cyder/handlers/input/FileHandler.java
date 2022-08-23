@@ -23,17 +23,16 @@ public class FileHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"wipelogs", "opencurrentlog", "openlastlog", "wipe"})
+    @Handle({"wipe logs", "open current log", "open last log", "wipe"})
     public static boolean handle() {
         boolean ret = true;
 
-        if (getInputHandler().commandIs("wipelogs")) {
-            OSUtil.deleteFile(OSUtil.buildFile(
-                    Dynamic.PATH, Dynamic.LOGS.getDirectoryName()));
+        if (getInputHandler().inputWithoutSpacesIs("wipelogs")) {
+            OSUtil.deleteFile(OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName()));
             getInputHandler().println("Logs wiped");
-        } else if (getInputHandler().commandIs("opencurrentlog")) {
+        } else if (getInputHandler().inputWithoutSpacesIs("opencurrentlog")) {
             IOUtil.openFileOutsideProgram(Logger.getCurrentLog().getAbsolutePath());
-        } else if (getInputHandler().commandIs("openlastlog")) {
+        } else if (getInputHandler().inputWithoutSpacesIs("openlastlog")) {
             File[] logs = Logger.getCurrentLog().getParentFile().listFiles();
 
             if (logs != null) {
@@ -43,7 +42,7 @@ public class FileHandler extends InputHandler {
                     IOUtil.openFileOutsideProgram(logs[logs.length - 2].getAbsolutePath());
                 }
             }
-        } else if (getInputHandler().commandAndArgsToString().equalsIgnoreCase("wipe spotlights")) {
+        } else if (getInputHandler().inputWithoutSpacesIs("wipespotlights")) {
             SpotlightUtil.wipeSpotlights();
         } else if (getInputHandler().commandIs("wipe")) {
             if (getInputHandler().checkArgsLength(1)) {

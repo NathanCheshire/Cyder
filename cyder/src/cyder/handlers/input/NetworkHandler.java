@@ -28,7 +28,7 @@ public class NetworkHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"define", "wikisum", "ip", "pastebin", "download", "usb", "curl", "whereami", "networkdevices"})
+    @Handle({"define", "wikisum", "ip", "pastebin", "download", "usb", "curl", "whereami", "network devices"})
     public static boolean handle() {
         boolean ret = true;
 
@@ -132,14 +132,14 @@ public class NetworkHandler extends InputHandler {
             } else {
                 getInputHandler().println("Curl command usage: curl URL");
             }
-        } else if (getInputHandler().commandIs("whereami")) {
+        } else if (getInputHandler().inputWithoutSpacesIs("whereami")) {
             NetworkUtil.IspQueryResult result = NetworkUtil.getIspAndNetworkDetails();
             getInputHandler().println("You live in " + result.city() + ", " + result.state());
             getInputHandler().println("Your country is: " + result.country());
             getInputHandler().println("Your ip is: " + result.ip());
             getInputHandler().println("Your isp is: " + result.isp());
             getInputHandler().println("Your hostname is: " + result.hostname());
-        } else if (getInputHandler().commandIs("networkdevices")) {
+        } else if (getInputHandler().inputWithoutSpacesIs("networkdevices")) {
             getInputHandler().println(OSUtil.getNetworkDevicesString());
         } else {
             ret = false;

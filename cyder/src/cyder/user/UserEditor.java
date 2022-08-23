@@ -8,6 +8,7 @@ import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
+import cyder.constants.CyderUrls;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
@@ -30,6 +31,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
@@ -1302,6 +1304,11 @@ public final class UserEditor {
      */
     private static CyderPasswordField newPasswordConfirmationField;
 
+    /**
+     * The label for opening the java guide for date patterns.
+     */
+    private static JLabel changeConsoleDatePatternLabel;
+
     private static final int fieldPanelWidth = CONTENT_PANE_WIDTH - 100;
     private static final int fieldPanelHeight = 300;
     private static final int fieldHeaderLabelHeight = 50;
@@ -1416,8 +1423,9 @@ public final class UserEditor {
         changePasswordPanel.setSize(fieldPanelWidth, fieldPanelHeight);
         printingUtil.printlnComponent(changePasswordPanel);
 
-        JLabel changeConsoleDatePatternLabel = new CyderLabel("Change Console Date Pattern");
+        changeConsoleDatePatternLabel = new CyderLabel("Change Console Date Pattern");
         changeConsoleDatePatternLabel.setForeground(CyderColors.navy);
+        changeConsoleDatePatternLabel.addMouseListener(consoleDatePatternLabelMouseListener);
         changeConsoleDatePatternLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
         changeConsoleDatePatternLabel.setHorizontalAlignment(JLabel.CENTER);
         changeConsoleDatePatternLabel.setSize(fieldPanelWidth, fieldHeaderLabelHeight);
@@ -1571,6 +1579,23 @@ public final class UserEditor {
         fieldsPartitionedInput.addComponent(fieldInputsScroll, 90);
         editUserFrame.setCyderLayout(fieldsPartitionedInput);
     }
+
+    private static final MouseListener consoleDatePatternLabelMouseListener = new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            NetworkUtil.openUrl(CyderUrls.SIMPLE_DATE_PATTERN_GUIDE);
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            changeConsoleDatePatternLabel.setForeground(CyderColors.regularRed);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            changeConsoleDatePatternLabel.setForeground(CyderColors.vanilla);
+        }
+    };
 
     /**
      * The string to prompt the user with when confirming an account deletion.

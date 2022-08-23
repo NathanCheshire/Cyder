@@ -33,9 +33,9 @@ public class StatHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"debug", "countlogs", "computerproperties", "systemproperties", "tests",
-            "networkaddresses", "filesizes", "badwords", "widgets", "analyzecode", "javaproperties",
-            "threads", "daemonthreads"})
+    @Handle({"debug", "count logs", "computer properties", "system properties", "tests",
+            "network addresses", "filesizes", "badwords", "widgets", "analyz ecode", "javap roperties",
+            "threads", "daemon threads"})
     public static boolean handle() {
         boolean ret = true;
 

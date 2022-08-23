@@ -14,11 +14,6 @@ public final class CyderUrls {
     }
 
     /**
-     * The url used for web scraping who a user's ISP is.
-     */
-    public static final String ISP_URL = "https://www.whoismyisp.org/";
-
-    /**
      * The open weather url to get weather data from.
      */
     public static final String OPEN_WEATHER_BASE = "https://api.openweathermap.org/data/2.5/weather?q=";
@@ -58,7 +53,6 @@ public final class CyderUrls {
      */
     public static final String YOUTUBE_API_V3_SEARCH = "https://www.googleapis.com/youtube/v3/search";
 
-    // todo use me
     /**
      * The link to learn about simple date patterns in Java.
      */

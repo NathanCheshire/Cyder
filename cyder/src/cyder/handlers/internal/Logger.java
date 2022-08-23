@@ -580,7 +580,7 @@ public final class Logger {
      * The chars to check to split at before splitting in between a line at whatever character a split index falls on.
      */
     private static final ImmutableList<Character> BREAK_CHARS
-            = ImmutableList.of(' ', '/', '\'', '-', '_', '.', '=', ',');
+            = ImmutableList.of(' ', '/', '\'', '-', '_', '.', '=', ',', ':');
 
     /**
      * Only check 10 chars to the left of a line unless we force a break regardless

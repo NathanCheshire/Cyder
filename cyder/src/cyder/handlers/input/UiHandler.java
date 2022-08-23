@@ -27,8 +27,8 @@ public class UiHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"toast", "opacity", "originalchams", "screenshot", "monitors",
-            "createuser", "panic", "quit", "logout", "clearclip", "mouse"})
+    @Handle({"toast", "opacity", "original chams", "screenshot", "monitors",
+            "create user", "panic", "quit", "logout", "clear clip", "mouse"})
     public static boolean handle() {
         boolean ret = true;
 
