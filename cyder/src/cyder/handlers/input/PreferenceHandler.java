@@ -1,7 +1,9 @@
 package cyder.handlers.input;
 
 import cyder.annotations.Handle;
+import cyder.annotations.SuppressCyderInspections;
 import cyder.constants.CyderStrings;
+import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.user.Preference;
 import cyder.user.UserEditor;
@@ -19,6 +21,7 @@ public class PreferenceHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
+    @SuppressCyderInspections(CyderInspection.HandleInspection)
     @Handle({"prefs-files", "prefs-fonts", "prefs-colors", "prefs-prefs", "prefs-fields"})
     public static boolean handle() {
         if (getInputHandler().inputWithoutSpacesIs("prefs-files")) {

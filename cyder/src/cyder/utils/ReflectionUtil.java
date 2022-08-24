@@ -561,7 +561,14 @@ public final class ReflectionUtil {
 
     @ForReadability
     private static ImmutableList<String> getTriggers(Method method) {
-        return ImmutableList.copyOf(method.getAnnotation(Handle.class).value());
+        String[] triggers = method.getAnnotation(Handle.class).value();
+        LinkedList<String> ret = new LinkedList<>();
+        for (String trigger : triggers) {
+            if (!StringUtil.isNullOrEmpty(trigger)) {
+                ret.add(trigger);
+            }
+        }
+        return ImmutableList.copyOf(ret);
     }
 
     @ForReadability
@@ -618,12 +625,15 @@ public final class ReflectionUtil {
 
         Logger.log(Logger.Tag.DEBUG, errorString);
         InformHandler.inform(new InformHandler.Builder(errorString).setTitle(
-                StringUtil.capsFirst(handleWarning.toString().replace("_", ""))));
+                StringUtil.capsFirst(handleWarning.name().replace("_", ""))));
     }
+
+    // TODO TAKE INTO ACCOUNT WARNINGS SuppressCyderWarnings(HANDLE)
 
     /**
      * Validates all handles throughout Cyder.
      */
+    @SuppressWarnings("ConstantConditions")
     public static void validateHandles() {
         LinkedList<String> allTriggers = new LinkedList<>();
 
@@ -641,9 +651,27 @@ public final class ReflectionUtil {
 
             if (moreThanOneHandle(clazz)) {
                 logHandleWarning(HandleWarning.MORE_THAN_ONE_HANDLE, getBottomLevelClass(clazz));
+                continue;
             }
 
+            if (handleMethods.size() < 1) continue;
             Method handleMethod = handleMethods.get(0);
+            boolean suppressCyderInspectionsPresent = handleMethod.isAnnotationPresent(SuppressCyderInspections.class);
+            boolean shouldSuppressHandleInspections = false;
+            if (suppressCyderInspectionsPresent) {
+                ImmutableList<CyderInspection> suppressionValues = ImmutableList.copyOf(
+                        handleMethod.getAnnotation(SuppressCyderInspections.class).value());
+
+                for (CyderInspection suppressionValue : suppressionValues) {
+                    if (suppressionValue == CyderInspection.HandleInspection) {
+                        shouldSuppressHandleInspections = true;
+                        break;
+                    }
+                }
+            }
+
+            if (shouldSuppressHandleInspections) continue;
+
             ImmutableList<String> triggers = getTriggers(handleMethod);
 
             boolean isPrimaryHandle = isPrimaryHandler(clazz);
@@ -651,22 +679,27 @@ public final class ReflectionUtil {
 
             if (isPrimaryHandle && triggers.size() < 1) {
                 logHandleWarning(HandleWarning.MISSING_TRIGGER, getBottomLevelClass(clazz));
+                continue;
             }
 
             if (isFinalHandler && triggers.size() > 0) {
                 logHandleWarning(HandleWarning.FINAL_HANDLER_HAS_TRIGGERS, getBottomLevelClass(clazz));
+                continue;
             }
 
             if (!isPrimaryHandle && !isFinalHandler) {
                 logHandleWarning(HandleWarning.HANDLER_NOT_USED, getBottomLevelClass(clazz));
+                continue;
             }
 
             if (isPrimaryHandle && isFinalHandler) {
                 logHandleWarning(HandleWarning.PRIMARY_AND_FINAL, getBottomLevelClass(clazz));
+                continue;
             }
 
             if (!isPublicStaticBoolean(handleMethod)) {
                 logHandleWarning(HandleWarning.NOT_PUBLIC_STATIC_BOOLEAN, getBottomLevelClass(clazz));
+                continue;
             }
 
             for (String trigger : triggers) {
@@ -674,6 +707,7 @@ public final class ReflectionUtil {
 
                 if (StringUtil.isNullOrEmpty(trigger)) {
                     logHandleWarning(HandleWarning.EMPTY_TRIGGER, getBottomLevelClass(clazz));
+                    continue;
                 }
 
                 if (allTriggers.contains(trigger)) {

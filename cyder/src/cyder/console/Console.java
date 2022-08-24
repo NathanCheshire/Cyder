@@ -330,7 +330,7 @@ public enum Console {
 
         startExecutors();
 
-        UiUtil.closeAllFrames(true, consoleCyderFrame);
+        // todo ensure frames from past instances are all closed
         CyderSplash.INSTANCE.fastDispose();
 
         if (!isFullscreen()) {
