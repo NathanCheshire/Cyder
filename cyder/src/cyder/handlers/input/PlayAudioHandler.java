@@ -34,7 +34,7 @@ public class PlayAudioHandler extends InputHandler {
     public static boolean handle() {
         boolean ret = true;
 
-        if (getInputHandler().inputWithoutSpacesIs("heyya")) {
+        if (getInputHandler().inputIgnoringSpacesMatches("heyya")) {
             IOUtil.playGeneralAudio(StaticUtil.getStaticResource("hey.mp3"));
         } else if (getInputHandler().commandIs("windows")) {
             IOUtil.playGeneralAudio(StaticUtil.getStaticResource("windows.mp3"));
@@ -56,8 +56,8 @@ public class PlayAudioHandler extends InputHandler {
             Console.INSTANCE.getConsoleCyderFrame()
                     .setIconImage(new ImageIcon(StaticUtil.getStaticPath("x.png")).getImage());
             IOUtil.playGeneralAudio(StaticUtil.getStaticResource("x.mp3"));
-        } else if (getInputHandler().inputWithoutSpacesIs("blackpanther")
-                || getInputHandler().inputWithoutSpacesIs("chadwickboseman")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("blackpanther")
+                || getInputHandler().inputIgnoringSpacesMatches("chadwickboseman")) {
             CyderThreadRunner.submit(() -> {
                 getInputHandler().getOutputArea().setText("");
 

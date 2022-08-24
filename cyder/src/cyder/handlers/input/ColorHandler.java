@@ -35,7 +35,7 @@ public class ColorHandler extends InputHandler {
     public static boolean handle() {
         boolean ret = true;
 
-        if (getInputHandler().inputWithoutSpacesIs("backgroundcolor")) {
+        if (getInputHandler().inputIgnoringSpacesMatches("backgroundcolor")) {
             if (getInputHandler().checkArgsLength(1)) {
                 try {
                     int w = Console.INSTANCE.getConsoleCyderFrame().getWidth();
@@ -71,7 +71,7 @@ public class ColorHandler extends InputHandler {
             } else {
                 getInputHandler().println("Background color command usage: backgroundcolor EC407A");
             }
-        } else if (getInputHandler().inputWithoutSpacesIs("fixforeground")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("fixforeground")) {
             try {
                 Color backgroundDominantColor = ColorUtil.getDominantColor(ImageIO.read(
                         Console.INSTANCE.getCurrentBackground().getReferenceFile()));

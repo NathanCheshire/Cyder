@@ -21,12 +21,12 @@ public class ThreadHandler extends InputHandler {
     public static boolean handle() {
         boolean ret = true;
 
-        if (getInputHandler().inputWithoutSpacesIs("randomyoutube")) {
+        if (getInputHandler().inputIgnoringSpacesMatches("randomyoutube")) {
             MasterYoutubeThread.start(1);
-        } else if (getInputHandler().inputWithoutSpacesIs("stopscript")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("stopscript")) {
             MasterYoutubeThread.killAll();
             getInputHandler().println("YouTube scripts have been killed.");
-        } else if (getInputHandler().inputWithoutSpacesIs("stopmusic")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("stopmusic")) {
             IOUtil.stopGeneralAudio();
         } else {
             ret = false;

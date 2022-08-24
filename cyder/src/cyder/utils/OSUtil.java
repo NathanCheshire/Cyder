@@ -263,6 +263,20 @@ public final class OSUtil {
     }
 
     /**
+     * Returns the name of the shell this operating system defaults to.
+     *
+     * @return the name of the shell this operating system defaults to
+     */
+    public static String getShellName() {
+        return switch (OPERATING_SYSTEM) {
+            case OSX -> "Terminal (Bash)";
+            case WINDOWS -> "Command prompt";
+            case UNIX -> "Bash";
+            case UNKNOWN -> "Unknown Shell";
+        };
+    }
+
+    /**
      * Builds the provided strings into a filepath by inserting the OS' path separators.
      * Example: ["alpha","beta","gamma","delta.txt"] on Windows would return
      * alpha\beta\gamma\delta.txt

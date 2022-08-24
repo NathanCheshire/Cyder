@@ -24,19 +24,19 @@ public class PreferenceHandler extends InputHandler {
     @SuppressCyderInspections(CyderInspection.HandleInspection)
     @Handle({"prefs-files", "prefs-fonts", "prefs-colors", "prefs-prefs", "prefs-fields"})
     public static boolean handle() {
-        if (getInputHandler().inputWithoutSpacesIs("prefs-files")) {
+        if (getInputHandler().inputIgnoringSpacesMatches("prefs-files")) {
             UserEditor.showGui(UserEditor.Page.FILES);
             return true;
-        } else if (getInputHandler().inputWithoutSpacesIs("prefs-fonts")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("prefs-fonts")) {
             UserEditor.showGui(UserEditor.Page.FONT_AND_COLOR);
             return true;
-        } else if (getInputHandler().inputWithoutSpacesIs("prefs-colors")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("prefs-colors")) {
             UserEditor.showGui(UserEditor.Page.FONT_AND_COLOR);
             return true;
-        } else if (getInputHandler().inputWithoutSpacesIs("prefs-prefs")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("prefs-prefs")) {
             UserEditor.showGui(UserEditor.Page.PREFERENCES);
             return true;
-        } else if (getInputHandler().inputWithoutSpacesIs("prefs-fields")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("prefs-fields")) {
             UserEditor.showGui(UserEditor.Page.FIELDS);
             return true;
         }

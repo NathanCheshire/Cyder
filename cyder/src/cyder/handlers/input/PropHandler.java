@@ -26,7 +26,7 @@ public class PropHandler extends InputHandler {
     public static boolean handle() {
         boolean ret = true;
 
-        if (getInputHandler().inputWithoutSpacesIs("reloadprops")) {
+        if (getInputHandler().inputIgnoringSpacesMatches("reloadprops")) {
             if (!PropLoader.propExists(RELOAD_PROPS_KEY)) {
                 getInputHandler().println("Reload prop key not found");
             }

@@ -71,7 +71,7 @@ public class StatHandler extends InputHandler {
                     ExceptionHandler.handle(e);
                 }
             }, "Debug Stat Finder");
-        } else if (getInputHandler().inputWithoutSpacesIs("computerproperties")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("computerproperties")) {
             getInputHandler().println("This may take a second since this feature counts your PC's free memory");
 
             CyderThreadRunner.submit(() -> {
@@ -79,7 +79,7 @@ public class StatHandler extends InputHandler {
                     getInputHandler().println(prop);
                 }
             }, "Computer Memory Computer");
-        } else if (getInputHandler().inputWithoutSpacesIs("systemproperties")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("systemproperties")) {
             for (String prop : StatUtil.getSystemProperties()) {
                 getInputHandler().println(prop);
             }

@@ -27,12 +27,12 @@ public class FileHandler extends InputHandler {
     public static boolean handle() {
         boolean ret = true;
 
-        if (getInputHandler().inputWithoutSpacesIs("wipelogs")) {
+        if (getInputHandler().inputIgnoringSpacesMatches("wipelogs")) {
             OSUtil.deleteFile(OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName()));
             getInputHandler().println("Logs wiped");
-        } else if (getInputHandler().inputWithoutSpacesIs("opencurrentlog")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("opencurrentlog")) {
             IOUtil.openFileOutsideProgram(Logger.getCurrentLog().getAbsolutePath());
-        } else if (getInputHandler().inputWithoutSpacesIs("openlastlog")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("openlastlog")) {
             File[] logs = Logger.getCurrentLog().getParentFile().listFiles();
 
             if (logs != null) {
@@ -42,7 +42,7 @@ public class FileHandler extends InputHandler {
                     IOUtil.openFileOutsideProgram(logs[logs.length - 2].getAbsolutePath());
                 }
             }
-        } else if (getInputHandler().inputWithoutSpacesIs("wipespotlights")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("wipespotlights")) {
             SpotlightUtil.wipeSpotlights();
         } else if (getInputHandler().commandIs("wipe")) {
             if (getInputHandler().checkArgsLength(1)) {

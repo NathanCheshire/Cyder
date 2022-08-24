@@ -2,6 +2,7 @@ package cyder.handlers.input;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.annotations.ForReadability;
 import cyder.annotations.Handle;
 import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
@@ -77,14 +78,16 @@ public class BaseInputHandler {
     /**
      * The robot used for screen operations.
      */
-    private static Robot robot;
+    private static Robot robot = setupRobot();
 
-    static {
+    private static Robot setupRobot() {
         try {
-            robot = new Robot();
+            return new Robot();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+
+        return null;
     }
 
     /**
@@ -93,6 +96,10 @@ public class BaseInputHandler {
      * @return the common robot object
      */
     public final Robot getRobot() {
+        if (robot == null) {
+            robot = setupRobot();
+        }
+
         return robot;
     }
 
@@ -105,7 +112,6 @@ public class BaseInputHandler {
         this.outputArea = new CyderOutputPane(Preconditions.checkNotNull(outputArea));
 
         initializeSpecialThreads();
-
         startConsolePrintingAnimation();
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
@@ -114,6 +120,7 @@ public class BaseInputHandler {
     /**
      * Sets up the custom thread objects to be managed by this {@link BaseInputHandler}.
      */
+    @ForReadability
     private void initializeSpecialThreads() {
         MasterYoutubeThread.initialize(outputArea);
         BletchyThread.initialize(outputArea);
@@ -160,7 +167,7 @@ public class BaseInputHandler {
      */
     public final void handle(String op, boolean userTriggered) {
         if (!handlePreliminaries(op, userTriggered)) {
-            Logger.log(Logger.Tag.HANDLE_METHOD, "FAILED PRELIMINARIES");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "Failed handle preliminaries for op: " + op);
             return;
         }
 
@@ -228,30 +235,29 @@ public class BaseInputHandler {
      * @return whether preliminary checks successfully completed
      */
     private boolean handlePreliminaries(String command, boolean userTriggered) {
-        Preconditions.checkNotNull(command);
+        this.command = Preconditions.checkNotNull(command).trim();
         Preconditions.checkNotNull(outputArea);
 
         resetMembers();
-
-        this.command = command.trim();
 
         if (StringUtil.isNullOrEmpty(this.command)) {
             return false;
         }
 
-        Logger.log(Logger.Tag.CLIENT, userTriggered
-                ? commandAndArgsToString() : "[SIMULATED INPUT] \"" + this.command + "\"");
+        String commandAndArgsToString = commandAndArgsToString();
+        Logger.log(Logger.Tag.CLIENT,
+                (userTriggered ? "" : "[SIMULATED INPUT]: ") + commandAndArgsToString);
 
         if (UserUtil.getCyderUser().getFilterchat().equals("1")) {
             StringUtil.BlockedWordResult result = checkFoulLanguage();
             if (result.failed()) {
-                println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language is prohibited,  word: "
-                        + result.triggerWord());
+                println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language"
+                        + " is prohibited,  word: " + result.triggerWord());
                 return false;
             }
         }
 
-        parseArgs();
+        parseArgsFromCommand();
 
         redirectionCheck();
 
@@ -262,7 +268,7 @@ public class BaseInputHandler {
      * Parses the current command into arguments and a command.
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void parseArgs() {
+    private void parseArgsFromCommand() {
         String[] parts = command.split(CyderRegexPatterns.whiteSpaceRegex);
         if (parts.length > 1) {
             Arrays.stream(parts).map(String::trim).toArray(i -> parts);
@@ -295,10 +301,8 @@ public class BaseInputHandler {
      * Checks for a requested redirection and attempts to create the file if valid.
      */
     private void redirectionCheck() {
-        if (args.size() < 2)
-            return;
-        if (!args.get(args.size() - 2).equalsIgnoreCase(">"))
-            return;
+        if (args.size() < 2) return;
+        if (!args.get(args.size() - 2).equalsIgnoreCase(">")) return;
 
         String requestedFilename = args.get(args.size() - 1);
 
@@ -348,6 +352,13 @@ public class BaseInputHandler {
     private static final float SIMILAR_COMMAND_TOL = 0.80f;
 
     /**
+     * The key for getting the tolerance value from the props.
+     */
+    private static final String AUTO_TRIGGER_SIMILAR_COMMAND_TOLERANCE_KEY = "auto_trigger_similar_command_tolerance";
+
+    private static final String UNKNOWN_INPUT_HANDLER_THREAD_NAME = "Unknown Input Handler";
+
+    /**
      * The final handle method for if all other handle methods failed.
      */
     private void unknownInput() {
@@ -360,9 +371,7 @@ public class BaseInputHandler {
                     double tolerance = similarCommandObj.tolerance();
 
                     if (!StringUtil.isNullOrEmpty(similarCommand)) {
-                        if (tolerance == 1.0) {
-                            return;
-                        }
+                        if (tolerance == 1.0) return;
 
                         Logger.log(Logger.Tag.DEBUG, "Similar command to \""
                                 + command + "\" found with tolerance of " + tolerance + ", command = \"" +
@@ -370,7 +379,7 @@ public class BaseInputHandler {
 
                         if (tolerance >= SIMILAR_COMMAND_TOL) {
                             if (PropLoader.getBoolean("auto_trigger_similar_commands")
-                                    && tolerance >= PropLoader.getFloat("auto_trigger_similar_command_tolerance")) {
+                                    && tolerance >= PropLoader.getFloat(AUTO_TRIGGER_SIMILAR_COMMAND_TOLERANCE_KEY)) {
                                 println("Unknown command; Invoking similar command: \"" + similarCommand + "\"");
                                 handle(similarCommand, false);
                             } else {
@@ -386,7 +395,7 @@ public class BaseInputHandler {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Unknown Input Handler");
+        }, UNKNOWN_INPUT_HANDLER_THREAD_NAME);
     }
 
     /**
@@ -394,12 +403,14 @@ public class BaseInputHandler {
      */
     private boolean escapeWrapShell;
 
+    private static final String WRAP_SHELL_THREAD_NAME = "Wrap Shell Thread";
+
     /**
      * Checks for wrap shell mode and passes the args and command to the native termainl.
      */
     private void wrapShellCheck() {
         if (UserUtil.getCyderUser().getWrapshell().equalsIgnoreCase("1")) {
-            println("Unknown command, passing to native shell");
+            println("Unknown command, passing to operating system native shell (" + OSUtil.getShellName() + ")");
 
             CyderThreadRunner.submit(() -> {
                 try {
@@ -416,15 +427,14 @@ public class BaseInputHandler {
                     while ((line = reader.readLine()) != null) {
                         println(line);
 
-                        if (escapeWrapShell)
-                            break;
+                        if (escapeWrapShell) break;
                     }
 
                     escapeWrapShell = false;
                 } catch (Exception ignored) {
                     println("Unknown command");
                 }
-            }, "Wrap Shell Thread");
+            }, WRAP_SHELL_THREAD_NAME);
         } else {
             println("Unknown command");
         }
@@ -516,9 +526,7 @@ public class BaseInputHandler {
      * The typing animation is only used if the user preference is enabled.
      */
     public final void startConsolePrintingAnimation() {
-        if (printingAnimationInvoked) {
-            return;
-        }
+        if (printingAnimationInvoked) return;
 
         printingAnimationInvoked = true;
         consolePrintingList.clear();
@@ -528,19 +536,23 @@ public class BaseInputHandler {
     }
 
     /**
+     * The delay between updating the value of typing animation from the current user's userdata.
+     */
+    private static final int USER_DATA_PULL_FREQUENCY_MS = 3000;
+
+    /**
      * The console printing animation runnable.
      */
     private final Runnable consolePrintingRunnable = new Runnable() {
-        @Override public void run() {
+        @Override
+        public void run() {
             try {
                 boolean typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
                 long lastPull = System.currentTimeMillis();
-                long dataPullTimeout = 3000;
                 int lineTimeout = PropLoader.getInteger("printing_animation_line_timeout");
 
                 while (!Console.INSTANCE.isClosed()) {
-                    // update typingAnimationLocal every 3 seconds to reduce resource usage
-                    if (System.currentTimeMillis() - lastPull > dataPullTimeout) {
+                    if (System.currentTimeMillis() - lastPull > USER_DATA_PULL_FREQUENCY_MS) {
                         lastPull = System.currentTimeMillis();
                         typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
                     }
@@ -625,6 +637,8 @@ public class BaseInputHandler {
      * @param object the object to insert
      */
     private void insertAsString(Object object) {
+        Preconditions.checkNotNull(object);
+
         StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
 
         try {
@@ -699,6 +713,8 @@ public class BaseInputHandler {
      * @param line the string to append to the output area
      */
     private void innerPrintString(String line) {
+        Preconditions.checkNotNull(line);
+
         try {
             outputArea.getSemaphore().acquire();
 
@@ -759,9 +775,11 @@ public class BaseInputHandler {
 
             int leafs = 0;
 
-            for (Element value : elements)
-                if (value.getElementCount() == 0)
+            for (Element value : elements) {
+                if (value.getElementCount() == 0) {
                     leafs++;
+                }
+            }
 
             int passedLeafs = 0;
 
@@ -772,8 +790,8 @@ public class BaseInputHandler {
                         continue;
                     }
 
-                    if (value.toString().toLowerCase().contains("icon") ||
-                            value.toString().toLowerCase().contains("component")) {
+                    if (value.toString().toLowerCase().contains("icon")
+                            || value.toString().toLowerCase().contains("component")) {
                         removeTwoLines = true;
                     }
                 }
@@ -1011,8 +1029,9 @@ public class BaseInputHandler {
      * @param match the string to match to
      * @return whether the provided string matched the command args with whitespace removed
      */
-    protected boolean inputWithoutSpacesIs(String match) {
-        Preconditions.checkArgument(!match.contains("\\s+"));
+    protected boolean inputIgnoringSpacesMatches(String match) {
+        Preconditions.checkNotNull(match);
+        if (match.contains(" ")) match = match.replaceAll("\\s+", "");
         return match.equalsIgnoreCase(commandAndArgsToString().replaceAll("\\s+", ""));
     }
 

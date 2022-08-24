@@ -148,7 +148,6 @@ public final class IOUtil {
                         .append(", isp = ").append(result.isp())
                         .append(", hostname = ").append(result.hostname());
 
-
                 // only log if autoCypher, means either Nathan or an advanced developer
                 if (!PropLoader.getBoolean("autocypher")) {
                     Logger.log(Logger.Tag.JVM_ARGS, argBuilder);

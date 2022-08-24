@@ -25,18 +25,18 @@ public class FrameMovementHandler extends InputHandler {
     public static boolean handle() {
         boolean ret = true;
 
-        if (getInputHandler().inputWithoutSpacesIs("topleft")) {
+        if (getInputHandler().inputIgnoringSpacesMatches("topleft")) {
             Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TOP_LEFT);
-        } else if (getInputHandler().inputWithoutSpacesIs("topright")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("topright")) {
             Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TOP_RIGHT);
-        } else if (getInputHandler().inputWithoutSpacesIs("bottomleft")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("bottomleft")) {
             Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_LEFT);
-        } else if (getInputHandler().inputWithoutSpacesIs("bottomright")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("bottomright")) {
             Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_RIGHT);
-        } else if (getInputHandler().inputWithoutSpacesIs("middle")
-                || getInputHandler().inputWithoutSpacesIs("center")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("middle")
+                || getInputHandler().inputIgnoringSpacesMatches("center")) {
             Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.CENTER);
-        } else if (getInputHandler().inputWithoutSpacesIs("frametitles")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("frametitles")) {
             Frame[] frames = Frame.getFrames();
             for (Frame f : frames)
                 if (f instanceof CyderFrame) {
@@ -144,7 +144,7 @@ public class FrameMovementHandler extends InputHandler {
             Console.INSTANCE.dance();
         } else if (getInputHandler().commandIs("hide")) {
             Console.INSTANCE.getConsoleCyderFrame().minimizeAndIconify();
-        } else if (getInputHandler().inputWithoutSpacesIs("barrelroll")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("barrelroll")) {
             Console.INSTANCE.getConsoleCyderFrame().barrelRoll();
         } else if (getInputHandler().commandIs("askew")) {
             Console.INSTANCE.getConsoleCyderFrame().rotateBackground(5);

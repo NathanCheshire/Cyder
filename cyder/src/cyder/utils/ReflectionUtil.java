@@ -628,8 +628,6 @@ public final class ReflectionUtil {
                 StringUtil.capsFirst(handleWarning.name().replace("_", ""))));
     }
 
-    // TODO TAKE INTO ACCOUNT WARNINGS SuppressCyderWarnings(HANDLE)
-
     /**
      * Validates all handles throughout Cyder.
      */

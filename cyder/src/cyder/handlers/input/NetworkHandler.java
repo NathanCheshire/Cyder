@@ -132,14 +132,14 @@ public class NetworkHandler extends InputHandler {
             } else {
                 getInputHandler().println("Curl command usage: curl URL");
             }
-        } else if (getInputHandler().inputWithoutSpacesIs("whereami")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("whereami")) {
             NetworkUtil.IspQueryResult result = NetworkUtil.getIspAndNetworkDetails();
             getInputHandler().println("You live in " + result.city() + ", " + result.state());
             getInputHandler().println("Your country is: " + result.country());
             getInputHandler().println("Your ip is: " + result.ip());
             getInputHandler().println("Your isp is: " + result.isp());
             getInputHandler().println("Your hostname is: " + result.hostname());
-        } else if (getInputHandler().inputWithoutSpacesIs("networkdevices")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("networkdevices")) {
             getInputHandler().println(OSUtil.getNetworkDevicesString());
         } else {
             ret = false;
