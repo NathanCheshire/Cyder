@@ -323,9 +323,12 @@ def main():
     print('Total comment lines:', comment_lines)
     print('Total blank lines:', blank_lines)
     print('Total:', total)
+    
+    code_rounded = round(code_lines / 1000.0, 1)
+    comment_rounded = round(comment_lines / 1000.0, 1)
+    blank_rounded = round(blank_lines / 1000.0, 1)
 
-    total_rounded = round(code_lines / 1000.0, 1) + \
-        round(comment_lines / 1000.0, 1) + round(blank_lines / 1000.0, 1)
+    total_rounded = round(code_rounded + comment_rounded + blank_rounded, 1)
     print('Total rounded:',total_rounded)
 
     export_stats(code_lines=code_lines, comment_lines=comment_lines,
