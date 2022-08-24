@@ -12,6 +12,7 @@ import cyder.genesis.PropLoader;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.input.InputHandler;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 import cyder.widgets.CardWidget;
@@ -525,22 +526,10 @@ public final class ReflectionUtil {
         return ret;
     }
 
+    @ForReadability
     public static boolean moreThanOneHandle(Class<?> clazz) {
         return getHandleMethods(clazz).size() > 1;
     }
-
-    /*
-    Handle requirements:
-    - cannot have an empty trigger after trimming
-    - cannot have duplicate triggers even across handlers
-    - cannot have a primary handler without at least one trigger
-    - cannot have any triggers on a final handler
-    - cannot be in both primary or final handlers lists
-    - must exist in either primary or final handlers list
-    - cannot have duplicate handles within the same annotation
-    - cannot have an @handle annotation unless the method is public static boolean
-    - cannot have @handle method unless the parent class is assignable from InputHandler.class
-     */
 
     @ForReadability
     private static boolean extendsInputHandler(Class<?> clazz) {
@@ -561,11 +550,6 @@ public final class ReflectionUtil {
     }
 
     @ForReadability
-    private static int countHandleAnnotatedMethods(Class<?> clazz) {
-        return getHandleMethods(clazz).size();
-    }
-
-    @ForReadability
     private static boolean isFinalHandler(Class<?> clazz) {
         return BaseInputHandler.finalHandlers.contains(clazz);
     }
@@ -581,20 +565,68 @@ public final class ReflectionUtil {
     }
 
     @ForReadability
-    private static boolean isPublicStaticBoolean(Method method) {
-        boolean isPublic = Modifier.isPublic(method.getModifiers());
-        boolean isStatic = Modifier.isStatic(method.getModifiers());
-        boolean returnsBoolean = method.getReturnType() == Boolean.class; // todo will this work with auto-boxing?
-
-        return isPublic && isStatic && returnsBoolean;
+    private static boolean isPublic(Method method) {
+        return Modifier.isPublic(method.getModifiers());
     }
 
-    // todo follow and make cleaner with @ForReadability methods which return booleans
+    @ForReadability
+    private static boolean isStatic(Method method) {
+        return Modifier.isStatic(method.getModifiers());
+    }
+
+    @ForReadability
+    public static boolean returnsBoolean(Method method) {
+        return method.getReturnType() == boolean.class;
+    }
+
+    @ForReadability
+    private static boolean isPublicStaticBoolean(Method method) {
+        return isPublic(method) && isStatic(method) && returnsBoolean(method);
+    }
+
+    @ForReadability
+    private enum HandleWarning {
+        CONTAINS_HANDLE,
+        MORE_THAN_ONE_HANDLE,
+        MISSING_TRIGGER,
+        FINAL_HANDLER_HAS_TRIGGERS,
+        HANDLER_NOT_USED,
+        PRIMARY_AND_FINAL,
+        NOT_PUBLIC_STATIC_BOOLEAN,
+        EMPTY_TRIGGER,
+        DUPLICATE_TRIGGER
+    }
+
+    @SuppressWarnings("UnnecessaryDefault")
+    private static void logHandleWarning(HandleWarning handleWarning, String classOrMethodName) {
+        String errorString = switch (handleWarning) {
+            case CONTAINS_HANDLE -> "Found class which does not extend InputHandler"
+                    + " with @Handle annotation: " + classOrMethodName;
+            case MORE_THAN_ONE_HANDLE -> "Found class which contains more than one method"
+                    + " annotated with @Handle: " + classOrMethodName;
+            case MISSING_TRIGGER -> "Primary handle class found to be missing triggers: " + classOrMethodName;
+            case FINAL_HANDLER_HAS_TRIGGERS -> "Final handle class found to contain triggers: " + classOrMethodName;
+            case HANDLER_NOT_USED -> "Handle class not contained in primary or final handlers: " + classOrMethodName;
+            case PRIMARY_AND_FINAL -> "Handle class found to be contained in both primary"
+                    + " and final lists: " + classOrMethodName;
+            case NOT_PUBLIC_STATIC_BOOLEAN -> "Method annotated with @Handle found to not"
+                    + " be public static boolean: " + classOrMethodName;
+            case EMPTY_TRIGGER -> "Handle annotation found to contain empty triggers: " + classOrMethodName;
+            case DUPLICATE_TRIGGER -> "Found duplicate trigger, trigger: " + classOrMethodName;
+            default -> throw new IllegalArgumentException("Illegal handle warning: " + handleWarning);
+        };
+
+        Logger.log(Logger.Tag.DEBUG, errorString);
+        InformHandler.inform(new InformHandler.Builder(errorString).setTitle(
+                StringUtil.capsFirst(handleWarning.toString().replace("_", ""))));
+    }
 
     /**
      * Validates all handles throughout Cyder.
      */
     public static void validateHandles() {
+        LinkedList<String> allTriggers = new LinkedList<>();
+
         for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
             Class<?> clazz = classInfo.load();
 
@@ -602,23 +634,53 @@ public final class ReflectionUtil {
 
             if (!extendsInputHandler(clazz)) {
                 if (handleMethods.size() > 0) {
-                    // todo illegal
+                    logHandleWarning(HandleWarning.CONTAINS_HANDLE, getBottomLevelClass(clazz));
                 }
                 continue;
             }
 
             if (moreThanOneHandle(clazz)) {
-                // todo illegal
+                logHandleWarning(HandleWarning.MORE_THAN_ONE_HANDLE, getBottomLevelClass(clazz));
             }
 
-            if (isPrimaryHandler(clazz) == isFinalHandler(clazz)) {
-                // todo illegal
+            Method handleMethod = handleMethods.get(0);
+            ImmutableList<String> triggers = getTriggers(handleMethod);
+
+            boolean isPrimaryHandle = isPrimaryHandler(clazz);
+            boolean isFinalHandler = isFinalHandler(clazz);
+
+            if (isPrimaryHandle && triggers.size() < 1) {
+                logHandleWarning(HandleWarning.MISSING_TRIGGER, getBottomLevelClass(clazz));
             }
 
-            LinkedList<String> foundTriggers = new LinkedList<>();
+            if (isFinalHandler && triggers.size() > 0) {
+                logHandleWarning(HandleWarning.FINAL_HANDLER_HAS_TRIGGERS, getBottomLevelClass(clazz));
+            }
 
-            for (Method handleMethod : handleMethods) {
-                ImmutableList<String> triggers = getTriggers(handleMethod);
+            if (!isPrimaryHandle && !isFinalHandler) {
+                logHandleWarning(HandleWarning.HANDLER_NOT_USED, getBottomLevelClass(clazz));
+            }
+
+            if (isPrimaryHandle && isFinalHandler) {
+                logHandleWarning(HandleWarning.PRIMARY_AND_FINAL, getBottomLevelClass(clazz));
+            }
+
+            if (!isPublicStaticBoolean(handleMethod)) {
+                logHandleWarning(HandleWarning.NOT_PUBLIC_STATIC_BOOLEAN, getBottomLevelClass(clazz));
+            }
+
+            for (String trigger : triggers) {
+                trigger = trigger.trim();
+
+                if (StringUtil.isNullOrEmpty(trigger)) {
+                    logHandleWarning(HandleWarning.EMPTY_TRIGGER, getBottomLevelClass(clazz));
+                }
+
+                if (allTriggers.contains(trigger)) {
+                    logHandleWarning(HandleWarning.DUPLICATE_TRIGGER, trigger);
+                } else {
+                    allTriggers.add(trigger);
+                }
             }
         }
     }
