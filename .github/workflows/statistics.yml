@@ -2,6 +2,7 @@ name: Cyder Statistics
 
 on:
   schedule: [{cron: "0 5 * * *"}]
+  workflow_dispatch:
 jobs:
   generate_images:
     runs-on: ubuntu-latest
