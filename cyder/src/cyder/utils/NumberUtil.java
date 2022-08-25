@@ -26,7 +26,7 @@ public final class NumberUtil {
     /**
      * The random instance used for inner methods.
      */
-    private static final Random RANDOM = new Random();
+    private static final Random random = new Random();
 
     /**
      * Returns a random integer in the range [min, upperBound].
@@ -36,7 +36,7 @@ public final class NumberUtil {
      * @return a random integer in the provided range [0, upperBound]
      */
     public static int randInt(int lowerBound, int upperBound) {
-        return RANDOM.nextInt((upperBound - lowerBound) + 1) + lowerBound;
+        return random.nextInt((upperBound - lowerBound) + 1) + lowerBound;
     }
 
     /**
@@ -46,7 +46,7 @@ public final class NumberUtil {
      * @return a random integer in the range [0, upperBound)
      */
     public static int randInt(int upperBound) {
-        return RANDOM.nextInt((upperBound) + 1);
+        return random.nextInt((upperBound) + 1);
     }
 
     /**
@@ -307,8 +307,7 @@ public final class NumberUtil {
      * @return an array of ints of the desired size of random elements from min to max
      */
     public static int[] randInt(int min, int max, int number, boolean allowDuplicates) {
-        Preconditions.checkArgument(!(max - min < number && !allowDuplicates),
-                "Desired number of random elements cannot be met with provided range.");
+        Preconditions.checkArgument(!(max - min < number && !allowDuplicates));
         int[] ret = new int[number];
 
         if (!allowDuplicates) {
@@ -331,38 +330,6 @@ public final class NumberUtil {
         }
 
         return ret;
-    }
-
-    /**
-     * Adds the integers together if they do not overflow the maximum integer value.
-     * If they do, returns positive infinity.
-     *
-     * @param a the first integer to add
-     * @param b the second integer to add
-     * @return the result of adding a to b guaranteed to not overflow
-     */
-    public static int addWithoutOverflow(int a, int b) {
-        //convert to longs so that addition is guaranteed to work for integers
-        long sum = (long) a + (long) b;
-
-        //check bounds of sum and return correct value
-        return (sum > Integer.MAX_VALUE ? Integer.MAX_VALUE : a + b);
-    }
-
-    /**
-     * Subtracts the subtrahend from the minuend and returns the result guaranteed to not have underflow.
-     * If underflow does occur, NEG_INFINITY is returned.
-     *
-     * @param a minuend
-     * @param b the subtrahend (value to subtract from a)
-     * @return the result of subtracting b from a guaranteed to not underflow
-     */
-    public static int subtractWithoutUnderflow(int a, int b) {
-        //convert to longs so that subtraction is guaranteed to work for integers
-        long difference = (long) a - (long) b;
-
-        //check bounds of difference and return correct result
-        return (difference < Integer.MIN_VALUE ? Integer.MIN_VALUE : a - b);
     }
 
     /**

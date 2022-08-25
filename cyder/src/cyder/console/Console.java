@@ -303,11 +303,8 @@ public enum Console {
         resetMembers();
 
         CyderColors.refreshGuiThemeColor();
-
         ConsoleIcon consoleIcon = determineConsoleIconAndDimensions();
-
         setupConsoleCyderFrame(consoleIcon);
-
         refreshConsoleSuperTitle();
 
         installConsoleResizing();
@@ -316,18 +313,12 @@ public enum Console {
         installInputField();
 
         baseInputHandler = new BaseInputHandler(outputArea);
-        baseInputHandler.startConsolePrintingAnimation();
 
         setupButtonEnterInputMap();
-
         installDragLabelButtons();
-
         generateAudioMenu();
-
         installConsoleClock();
-
         installConsolePinnedWindowListeners();
-
         startExecutors();
 
         // todo ensure frames from past instances are all closed
@@ -342,8 +333,8 @@ public enum Console {
         revalidateInputAndOutputBounds(true);
 
         TimeUtil.setConsoleStartTime(System.currentTimeMillis());
-        baseInputHandler.println("Console loaded in " + (TimeUtil.getConsoleStartTime()
-                - TimeUtil.getAbsoluteStartTime()) + "ms");
+        long loadTime = TimeUtil.getConsoleStartTime() - TimeUtil.getAbsoluteStartTime();
+        baseInputHandler.println("Console loaded in " + TimeUtil.millisToFormattedString(loadTime));
     }
 
     /**

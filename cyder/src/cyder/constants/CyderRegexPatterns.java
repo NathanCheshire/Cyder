@@ -75,11 +75,6 @@ public final class CyderRegexPatterns {
                     \\s*},""");
 
     /**
-     * The pattern sued to web scrape the isp from a google search.
-     */
-    public static final Pattern whereAmIPattern = Pattern.compile("^\\s*<p class=\"isp\">(.*)</p>\\s*$");
-
-    /**
      * The pattern used to extract the uuid from a youtube video.
      */
     public static final Pattern extractYoutubeUuidPattern

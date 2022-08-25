@@ -28,8 +28,10 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.io.*;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.*;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -110,10 +112,8 @@ public class BaseInputHandler {
      */
     public BaseInputHandler(JTextPane outputArea) {
         this.outputArea = new CyderOutputPane(Preconditions.checkNotNull(outputArea));
-
         initializeSpecialThreads();
-        startConsolePrintingAnimation(); // todo need for will go away
-
+        clearLists();
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
@@ -124,6 +124,15 @@ public class BaseInputHandler {
     private void initializeSpecialThreads() {
         MasterYoutubeThread.initialize(outputArea);
         BletchyThread.initialize(outputArea);
+    }
+
+    /**
+     * Clears the console printing lists.
+     */
+    @ForReadability
+    private void clearLists() {
+        consolePrintingList.clear();
+        consolePriorityPrintingList.clear();
     }
 
     /**
@@ -267,15 +276,11 @@ public class BaseInputHandler {
     /**
      * Parses the current command into arguments and a command.
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void parseArgsFromCommand() {
         String[] parts = command.split(CyderRegexPatterns.whiteSpaceRegex);
         if (parts.length > 1) {
-            Arrays.stream(parts).map(String::trim).toArray(i -> parts);
-
-            args.addAll(Arrays.stream(parts).filter(i -> !Objects.equals(i, parts[0])).toList());
-
-            command = parts[0];
+            args.clear();
+            args.addAll(Arrays.asList(parts).subList(1, parts.length));
         }
     }
 
@@ -356,6 +361,9 @@ public class BaseInputHandler {
      */
     private static final String AUTO_TRIGGER_SIMILAR_COMMAND_TOLERANCE_KEY = "auto_trigger_similar_command_tolerance";
 
+    /**
+     * The name of the thread for handling unknown input.
+     */
     private static final String UNKNOWN_INPUT_HANDLER_THREAD_NAME = "Unknown Input Handler";
 
     /**
@@ -369,10 +377,9 @@ public class BaseInputHandler {
                 if (similarCommandObj.command().isPresent()) {
                     String similarCommand = similarCommandObj.command().get();
                     double tolerance = similarCommandObj.tolerance();
+                    if (tolerance == 1.0) return;
 
                     if (!StringUtil.isNullOrEmpty(similarCommand)) {
-                        if (tolerance == 1.0) return;
-
                         Logger.log(Logger.Tag.DEBUG, "Similar command to \""
                                 + command + "\" found with tolerance of " + tolerance + ", command = \"" +
                                 similarCommand + "\"");
@@ -380,10 +387,10 @@ public class BaseInputHandler {
                         if (tolerance >= SIMILAR_COMMAND_TOL) {
                             if (PropLoader.getBoolean("auto_trigger_similar_commands")
                                     && tolerance >= PropLoader.getFloat(AUTO_TRIGGER_SIMILAR_COMMAND_TOLERANCE_KEY)) {
-                                println("Unknown command; Invoking similar command: \"" + similarCommand + "\"");
+                                println(UNKNOWN_COMMAND + "; Invoking similar command: \"" + similarCommand + "\"");
                                 handle(similarCommand, false);
                             } else {
-                                println("Unknown command; Most similar command: \"" + similarCommand + "\"");
+                                println(UNKNOWN_COMMAND + "; Most similar command: \"" + similarCommand + "\"");
                             }
                         } else {
                             wrapShellCheck();
@@ -403,14 +410,22 @@ public class BaseInputHandler {
      */
     private boolean escapeWrapShell;
 
+    /**
+     * The name of the thread when wrapping the shell
+     */
     private static final String WRAP_SHELL_THREAD_NAME = "Wrap Shell Thread";
+
+    /**
+     * The text to print for an unknown command.
+     */
+    private static final String UNKNOWN_COMMAND = "Unknown command";
 
     /**
      * Checks for wrap shell mode and passes the args and command to the native termainl.
      */
     private void wrapShellCheck() {
         if (UserUtil.getCyderUser().getWrapshell().equalsIgnoreCase("1")) {
-            println("Unknown command, passing to operating system native shell (" + OSUtil.getShellName() + ")");
+            println(UNKNOWN_COMMAND + ", passing to operating system native shell (" + OSUtil.getShellName() + ")");
 
             CyderThreadRunner.submit(() -> {
                 try {
@@ -427,16 +442,19 @@ public class BaseInputHandler {
                     while ((line = reader.readLine()) != null) {
                         println(line);
 
-                        if (escapeWrapShell) break;
+                        if (escapeWrapShell) {
+                            process.destroy();
+                            break;
+                        }
                     }
 
                     escapeWrapShell = false;
                 } catch (Exception ignored) {
-                    println("Unknown command");
+                    println(UNKNOWN_COMMAND);
                 }
             }, WRAP_SHELL_THREAD_NAME);
         } else {
-            println("Unknown command");
+            println(UNKNOWN_COMMAND);
         }
     }
 
@@ -466,6 +484,26 @@ public class BaseInputHandler {
     private final Semaphore printingListLock = new Semaphore(1);
 
     /**
+     * Acquires the printingListLock.
+     */
+    @ForReadability
+    private void lockLists() {
+        try {
+            printingListLock.acquire();
+        } catch (Exception exception) {
+            ExceptionHandler.handle(exception);
+        }
+    }
+
+    /**
+     * Releases the printingListLock.
+     */
+    @ForReadability
+    private void unlockLists() {
+        printingListLock.release();
+    }
+
+    /**
      * the printing list of non-important outputs.
      * Directly adding to this list should not be performed. Instead, use a print/println statement.
      * List is declared anonymously to allow for their add methods to be overridden to allow for
@@ -473,19 +511,11 @@ public class BaseInputHandler {
      */
     private final LinkedList<Object> consolePrintingList = new LinkedList<>() {
         @Override
-        public LinkedList<Object> clone() throws AssertionError {
-            throw new AssertionError();
-        }
-
-        @Override
         public boolean add(Object e) {
-            try {
-                printingListLock.acquire();
-            } catch (InterruptedException ex) {
-                ExceptionHandler.handle(ex);
-            }
+            lockLists();
             boolean ret = super.add(e);
-            printingListLock.release();
+            startConsolePrintingAnimationIfNeeded();
+            unlockLists();
             return ret;
         }
     };
@@ -498,41 +528,36 @@ public class BaseInputHandler {
      */
     private final LinkedList<Object> consolePriorityPrintingList = new LinkedList<>() {
         @Override
-        public LinkedList<Object> clone() throws AssertionError {
-            throw new AssertionError();
-        }
-
-        @Override
         public boolean add(Object e) {
-            try {
-                printingListLock.acquire();
-            } catch (InterruptedException ex) {
-                ExceptionHandler.handle(ex);
-            }
-
+            lockLists();
             boolean ret = super.add(e);
-            printingListLock.release();
+            startConsolePrintingAnimationIfNeeded();
+            unlockLists();
             return ret;
         }
     };
 
     /**
-     * Boolean describing whether the console printing animation thread has been invoked and begun.
+     * Whether the printing animation thread is running
      */
-    private boolean printingAnimationInvoked;
+    private boolean printingAnimationRunning;
 
     /**
-     * Begins the typing animation for the Console.
-     * The typing animation is only used if the user preference is enabled.
+     * Begins the typing animation for the Console if it has not already started.
      */
-    public final void startConsolePrintingAnimation() {
-        if (printingAnimationInvoked) return;
-
-        printingAnimationInvoked = true;
-        consolePrintingList.clear();
-        consolePriorityPrintingList.clear();
-
+    private void startConsolePrintingAnimationIfNeeded() {
+        if (printingAnimationRunning) return;
         CyderThreadRunner.submit(consolePrintingRunnable, IgnoreThread.ConsolePrintingAnimation.getName());
+    }
+
+    /**
+     * Returns whether both the printing lists are empty.
+     *
+     * @return whether both the printing lists are empty
+     */
+    @ForReadability
+    private boolean listsEmpty() {
+        return consolePrintingList.isEmpty() && consolePriorityPrintingList.isEmpty();
     }
 
     /**
@@ -550,11 +575,13 @@ public class BaseInputHandler {
      */
     private final Runnable consolePrintingRunnable = () -> {
         try {
+            printingAnimationRunning = true;
+
             boolean typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
             long lastPull = System.currentTimeMillis();
             int lineTimeout = PropLoader.getInteger(PRINATING_ANIMATION_LINE_KEY);
 
-            while (!Console.INSTANCE.isClosed()) {
+            while (!Console.INSTANCE.isClosed() && !listsEmpty()) {
                 if (System.currentTimeMillis() - lastPull > USER_DATA_PULL_FREQUENCY_MS) {
                     lastPull = System.currentTimeMillis();
                     typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
@@ -609,6 +636,8 @@ public class BaseInputHandler {
                     ThreadUtil.sleep(lineTimeout);
                 }
             }
+
+            printingAnimationRunning = false;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -622,7 +651,7 @@ public class BaseInputHandler {
      */
     private Object removeAndLog(LinkedList<Object> list) {
         Preconditions.checkNotNull(list);
-        Preconditions.checkArgument(list.size() > 0);
+        Preconditions.checkArgument(!list.isEmpty());
 
         Object ret = list.removeFirst();
         Logger.log(Logger.Tag.CONSOLE_OUT, ret);
@@ -659,18 +688,14 @@ public class BaseInputHandler {
      */
     private void insertJComponent(JComponent component) {
         Preconditions.checkNotNull(component);
-        Preconditions.checkNotNull(outputArea.getJTextPane());
 
-        String componentUUID = SecurityUtil.generateUuid();
-
-        Style cs = outputArea.getJTextPane()
-                .getStyledDocument().addStyle(componentUUID, null);
-
+        String componentUuid = SecurityUtil.generateUuid();
+        Style cs = outputArea.getJTextPane().getStyledDocument().addStyle(componentUuid, null);
         StyleConstants.setComponent(cs, component);
 
         try {
-            outputArea.getJTextPane().getStyledDocument()
-                    .insertString(outputArea.getJTextPane().getStyledDocument().getLength(), componentUUID, cs);
+            outputArea.getJTextPane().getStyledDocument().insertString(
+                    outputArea.getJTextPane().getStyledDocument().getLength(), componentUuid, cs);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -691,8 +716,7 @@ public class BaseInputHandler {
     /**
      * The frequency at which to play a typing sound effect if enabled.
      */
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int typingSoundFrequency = 2;
+    private static final int TYPING_SOUND_FREQUENCY = 2;
 
     /**
      * The increment we are currently on for inner char printing.
@@ -704,6 +728,8 @@ public class BaseInputHandler {
      * The path to the typing sound effect.
      */
     private final String typingSoundPath = StaticUtil.getStaticPath("typing.mp3");
+
+    private static final String PRINTING_ANIMATION_CHAR_TIMEOUT_KEY = "printing_animation_char_timeout";
 
     /**
      * Prints the string to the output area checking for
@@ -733,7 +759,7 @@ public class BaseInputHandler {
 
                 outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
 
-                if (typingSoundInc == typingSoundFrequency - 1) {
+                if (typingSoundInc == TYPING_SOUND_FREQUENCY - 1) {
                     if (!shouldFinishPrinting && shouldDoSound) {
                         IOUtil.playSystemAudio(typingSoundPath, false);
                         typingSoundInc = 0;
@@ -743,7 +769,7 @@ public class BaseInputHandler {
                 }
 
                 if (!shouldFinishPrinting) {
-                    ThreadUtil.sleep(PropLoader.getInteger("printing_animation_char_timeout"));
+                    ThreadUtil.sleep(PropLoader.getInteger(PRINTING_ANIMATION_CHAR_TIMEOUT_KEY));
                 }
             }
         } catch (Exception e) {
@@ -756,6 +782,9 @@ public class BaseInputHandler {
     // -----------------------
     // document entity removal
     // -----------------------
+
+    private static final String ICON = "icon";
+    private static final String COMPONENT = "component";
 
     /**
      * Removes the last entity added to the JTextPane whether it's a component,
@@ -792,8 +821,8 @@ public class BaseInputHandler {
                         continue;
                     }
 
-                    if (value.toString().toLowerCase().contains("icon")
-                            || value.toString().toLowerCase().contains("component")) {
+                    if (value.toString().toLowerCase().contains(ICON)
+                            || value.toString().toLowerCase().contains(COMPONENT)) {
                         removeTwoLines = true;
                     }
                 }
@@ -843,6 +872,8 @@ public class BaseInputHandler {
      */
     private final Semaphore redirectionSem = new Semaphore(1);
 
+    private static final String REDIRECTION_ERROR_MESSAGE = "Could not redirect output";
+
     /**
      * Writes the provided object to the redirection file instead of the JTextPane.
      *
@@ -853,7 +884,7 @@ public class BaseInputHandler {
 
         if (!redirectionFile.exists()) {
             if (!OSUtil.createFile(redirectionFile, true)) {
-                println("Could not redirect output");
+                println(REDIRECTION_ERROR_MESSAGE);
                 println(object);
                 return;
             }
@@ -869,6 +900,8 @@ public class BaseInputHandler {
         }
     }
 
+    private static final String ESCAPED = "Escaped";
+
     /**
      * Stops all threads invoked, sets the userInputMode to false,
      * stops any audio playing, and finishes printing anything in the printing lists.
@@ -879,7 +912,7 @@ public class BaseInputHandler {
         IOUtil.stopGeneralAudio();
         Console.INSTANCE.stopDancing();
         shouldFinishPrinting = true;
-        println("Escaped");
+        println(ESCAPED);
         resetHandlers();
     }
 
@@ -934,6 +967,8 @@ public class BaseInputHandler {
      * @param redirectionHandler the current redirection handler
      */
     public void setRedirectionHandler(Class<?> redirectionHandler) {
+        Preconditions.checkNotNull(redirectionHandler);
+
         this.redirectionHandler = redirectionHandler;
     }
 
@@ -953,6 +988,8 @@ public class BaseInputHandler {
      * @return if the current command equals the provided text ignoring case
      */
     protected boolean commandIs(String compare) {
+        Preconditions.checkNotNull(compare);
+
         return command.equalsIgnoreCase(compare);
     }
 
@@ -976,12 +1013,10 @@ public class BaseInputHandler {
      * @return the command argument at the provided index
      */
     protected String getArg(int index) {
-        if (index + 1 <= args.size() && index >= 0) {
-            return args.get(index);
-        }
+        Preconditions.checkArgument(index >= 0);
+        Preconditions.checkArgument(index < args.size());
 
-        throw new IllegalArgumentException("Provided index is out of bounds: "
-                + index + ", argument size: " + args.size());
+        return args.get(index);
     }
 
     /**
@@ -1002,26 +1037,23 @@ public class BaseInputHandler {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0 ; i < args.size() ; i++) {
-            sb.append(args.get(i)).append(i == args.size() - 1 ? "" : " ");
+            sb.append(args.get(i));
+
+            if (i != args.size() - 1) {
+                sb.append(" ");
+            }
         }
 
         return sb.toString();
     }
 
     /**
-     * Returns the original user input, that of command followed by the arguments.
+     * Returns the original user input, that of the command followed by the arguments.
      *
-     * @return the original user input, that of command followed by the arguments
+     * @return the original user input, that of the command followed by the arguments
      */
     protected String commandAndArgsToString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(command.trim()).append(" ");
-
-        for (int i = 0 ; i < args.size() ; i++) {
-            sb.append(args.get(i)).append(i == args.size() - 1 ? "" : " ");
-        }
-
-        return sb.toString().trim();
+        return (command.trim() + " " + argsToString()).trim();
     }
 
     /**
@@ -1033,8 +1065,9 @@ public class BaseInputHandler {
      */
     protected boolean inputIgnoringSpacesMatches(String match) {
         Preconditions.checkNotNull(match);
-        if (match.contains(" ")) match = match.replaceAll("\\s+", "");
-        return match.equalsIgnoreCase(commandAndArgsToString().replaceAll("\\s+", ""));
+
+        return match.replaceAll(CyderRegexPatterns.whiteSpaceRegex, "").equalsIgnoreCase(
+                commandAndArgsToString().replaceAll(CyderRegexPatterns.whiteSpaceRegex, ""));
     }
 
     // ---------------------

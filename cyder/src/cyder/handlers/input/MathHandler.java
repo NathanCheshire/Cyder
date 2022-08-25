@@ -17,17 +17,25 @@ public class MathHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
+    /**
+     * The evaluator for evaluating mathematical expressions
+     */
+    private static final DoubleEvaluator evaluator;
+
+    static {
+        evaluator = new DoubleEvaluator();
+    }
+
     @Handle
     public static boolean handle() {
         boolean ret = false;
 
         try {
-            double result = new DoubleEvaluator().evaluate(StringUtil.firstCharToLowerCase(
+            double result = evaluator.evaluate(StringUtil.firstCharToLowerCase(
                     getInputHandler().commandAndArgsToString()));
             getInputHandler().println(String.valueOf(result));
             ret = true;
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
 
         return ret;
     }

@@ -125,11 +125,9 @@
 [19-22-56.265] [LOADING MESSAGE]: Checking for an AutoCypher
 [19-22-56.266] [LOGIN]: AutoCypher Attempt
 [19-22-56.266] [LOADING MESSAGE]: Auto Cyphering
-[19-22-56.268] [USER GET]: key = name, value = Nathan
-[19-22-56.270] [USER GET]: key = name, value = Nathan
+[19-22-56.270] [USER GET]: key = name, value = Nathan [2x]
 [19-22-56.304] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
-[19-22-56.485] [USER GET]: key = darkmode, value = 0
-[19-22-56.492] [USER GET]: key = darkmode, value = 0
+[19-22-56.492] [USER GET]: key = darkmode, value = 0 [2x]
 [19-22-56.541] [THREAD STARTED]: Splash Animation
 [19-22-56.671] [UNIQUE OBJECT CREATED]: Console singleton constructed
 [19-22-56.673] [USER GET]: key = name, value = Nathan
@@ -138,21 +136,15 @@
 [19-22-56.892] [DEBUG]: Latency of Google found to be 59ms
 [19-22-57.078] [USER GET]: key = name, value = Nathan
 [19-22-57.079] [USER GET]: key = randombackground, value = 0
-[19-22-57.079] [USER GET]: key = fullscreen, value = 0
-[19-22-57.179] [USER GET]: key = fullscreen, value = 0
-[19-22-57.179] [USER GET]: key = fullscreen, value = 0
+[19-22-57.179] [USER GET]: key = fullscreen, value = 0 [3x]
 [19-22-57.179] [USER GET]: key = name, value = Nathan
-[19-22-57.228] [USER GET]: key = foreground, value = f0f0f0
-[19-22-57.229] [USER GET]: key = foreground, value = f0f0f0
-[19-22-57.230] [USER GET]: key = foreground, value = f0f0f0
+[19-22-57.230] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [19-22-57.231] [USER GET]: key = Font, value = Agency FB
 [19-22-57.232] [USER GET]: key = fontsize, value = 27
 [19-22-57.244] [USER GET]: key = outputborder, value = 0
 [19-22-57.244] [USER GET]: key = outputfill, value = 0
 [19-22-57.258] [USER GET]: key = inputborder, value = 0
-[19-22-57.259] [USER GET]: key = foreground, value = f0f0f0
-[19-22-57.259] [USER GET]: key = foreground, value = f0f0f0
-[19-22-57.260] [USER GET]: key = foreground, value = f0f0f0
+[19-22-57.260] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [19-22-57.260] [USER GET]: key = Font, value = Agency FB
 [19-22-57.261] [USER GET]: key = fontsize, value = 27
 [19-22-57.263] [USER GET]: key = inputfill, value = 0

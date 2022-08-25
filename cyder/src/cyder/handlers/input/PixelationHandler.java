@@ -36,16 +36,16 @@ public class PixelationHandler extends InputHandler {
 
     @Handle({"pixelate", "pixelation"})
     public static boolean handle() {
-        boolean isSolidColor = false;
-
-        try {
-            isSolidColor = ImageUtil.isSolidColor(Console.INSTANCE.getCurrentBackground().getReferenceFile());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
         switch (getInputHandler().getHandleIterations()) {
             case 0 -> {
+                boolean isSolidColor = false;
+
+                try {
+                    isSolidColor = ImageUtil.isSolidColor(Console.INSTANCE.getCurrentBackground().getReferenceFile());
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+
                 if (isSolidColor) {
                     getInputHandler().println("Silly " + UserUtil.getCyderUser().getName()
                             + "; your background " + "is a solid color :P");
