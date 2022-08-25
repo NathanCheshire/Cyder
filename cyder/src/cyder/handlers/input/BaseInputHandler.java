@@ -18,7 +18,6 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.MasterYoutubeThread;
 import cyder.threads.ThreadUtil;
 import cyder.ui.CyderOutputPane;
-import cyder.user.User;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.*;
@@ -43,7 +42,7 @@ public class BaseInputHandler {
     /**
      * The linked CyderOutputPane.
      */
-    private final CyderOutputPane outputArea;
+    private final CyderOutputPane linkedOutputPane;
 
     /**
      * boolean describing whether to quickly append all remaining queued objects to the linked JTextPane.
@@ -82,6 +81,11 @@ public class BaseInputHandler {
      */
     private static Robot robot = setupRobot();
 
+    /**
+     * Constructs and returns a new robot instance.
+     *
+     * @return a new robot instance
+     */
     private static Robot setupRobot() {
         try {
             return new Robot();
@@ -111,7 +115,7 @@ public class BaseInputHandler {
      * @param outputArea the JTextPane object to append content to
      */
     public BaseInputHandler(JTextPane outputArea) {
-        this.outputArea = new CyderOutputPane(Preconditions.checkNotNull(outputArea));
+        this.linkedOutputPane = new CyderOutputPane(Preconditions.checkNotNull(outputArea));
         initializeSpecialThreads();
         clearLists();
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
@@ -122,8 +126,8 @@ public class BaseInputHandler {
      */
     @ForReadability
     private void initializeSpecialThreads() {
-        MasterYoutubeThread.initialize(outputArea);
-        BletchyThread.initialize(outputArea);
+        MasterYoutubeThread.initialize(linkedOutputPane);
+        BletchyThread.initialize(linkedOutputPane);
     }
 
     /**
@@ -245,7 +249,7 @@ public class BaseInputHandler {
      */
     private boolean handlePreliminaries(String command, boolean userTriggered) {
         this.command = Preconditions.checkNotNull(command).trim();
-        Preconditions.checkNotNull(outputArea);
+        Preconditions.checkNotNull(linkedOutputPane);
 
         resetMembers();
 
@@ -267,7 +271,6 @@ public class BaseInputHandler {
         }
 
         parseArgsFromCommand();
-
         redirectionCheck();
 
         return true;
@@ -307,7 +310,8 @@ public class BaseInputHandler {
      */
     private void redirectionCheck() {
         if (args.size() < 2) return;
-        if (!args.get(args.size() - 2).equalsIgnoreCase(">")) return;
+        String secondToLastArg = args.get(args.size() - 2);
+        if (!secondToLastArg.equalsIgnoreCase(">")) return;
 
         String requestedFilename = args.get(args.size() - 1);
 
@@ -321,14 +325,12 @@ public class BaseInputHandler {
         try {
             redirectionSem.acquire();
 
-            redirectionFile = OSUtil.buildFile(
-                    Dynamic.PATH,
-                    Dynamic.USERS.getDirectoryName(),
-                    Console.INSTANCE.getUuid(),
-                    UserFile.FILES.getName(), requestedFilename).getAbsoluteFile();
+            redirectionFile = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+                    Console.INSTANCE.getUuid(), UserFile.FILES.getName(), requestedFilename).getAbsoluteFile();
 
-            if (redirectionFile.exists())
+            if (redirectionFile.exists()) {
                 OSUtil.deleteFile(redirectionFile);
+            }
 
             if (!OSUtil.createFile(redirectionFile, true)) {
                 failedRedirection();
@@ -458,15 +460,13 @@ public class BaseInputHandler {
         }
     }
 
-    // end printing tests ----------------------------------
-
     /**
-     * Standard getter for the currently linked JTextPane.
+     * Returns the output area's {@link JTextPane}.
      *
-     * @return the linked JTextPane
+     * @return the output area's {@link JTextPane}
      */
-    public final JTextPane getOutputArea() {
-        return outputArea.getJTextPane();
+    public final JTextPane getJTextPane() {
+        return linkedOutputPane.getJTextPane();
     }
 
     /**
@@ -504,10 +504,8 @@ public class BaseInputHandler {
     }
 
     /**
-     * the printing list of non-important outputs.
-     * Directly adding to this list should not be performed. Instead, use a print/println statement.
-     * List is declared anonymously to allow for their add methods to be overridden to allow for
-     * Semaphore usage implying thread safety when calling print statements.
+     * The printing list for non-important outputs.
+     * DO NOT ADD DIRECTLY TO THIS LIST UNLESS YOU ARE A PRINT METHOD.
      */
     private final LinkedList<Object> consolePrintingList = new LinkedList<>() {
         @Override
@@ -520,11 +518,14 @@ public class BaseInputHandler {
         }
     };
 
+    /*
+    Note to maintainers: these lists are anonymously declared to allow for their add methods
+    to have additional functionality such as thread-safety via the semaphore.
+     */
+
     /**
-     * The priority printing list of important outputs.
-     * Directly adding to this list should not be performed. Instead, use a print/println statement.
-     * List is declared anonymously to allow for their add methods to be overridden to allow for
-     * Semaphore usage implying thread safety when calling print statements.
+     * The priority printing list for important outputs.
+     * DO NOT ADD DIRECTLY TO THIS LIST UNLESS YOU ARE A PRINT METHOD.
      */
     private final LinkedList<Object> consolePriorityPrintingList = new LinkedList<>() {
         @Override
@@ -563,12 +564,22 @@ public class BaseInputHandler {
     /**
      * The delay between updating the value of typing animation from the current user's userdata.
      */
-    private static final int USER_DATA_PULL_FREQUENCY_MS = 3000;
+    private static final int USER_DATA_POLL_FREQUENCY_MS = 3000;
 
     /**
      * The key for getting the timeout between printing lines from the props file.
      */
     private static final String PRINATING_ANIMATION_LINE_KEY = "printing_animation_line_timeout";
+
+    /**
+     * Returns whether the typing animation should be performed.
+     *
+     * @return whether the typing animation should be performed
+     */
+    @ForReadability
+    private boolean shouldDoTypingAnimation() {
+        return UserUtil.getCyderUser().getTypinganimation().equals("1");
+    }
 
     /**
      * The console printing animation runnable.
@@ -577,14 +588,16 @@ public class BaseInputHandler {
         try {
             printingAnimationRunning = true;
 
-            boolean typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
+            boolean shouldDoTypingAnimation = shouldDoTypingAnimation();
+            boolean shouldDoTypingSound = shouldDoTypingSound();
             long lastPull = System.currentTimeMillis();
             int lineTimeout = PropLoader.getInteger(PRINATING_ANIMATION_LINE_KEY);
 
             while (!Console.INSTANCE.isClosed() && !listsEmpty()) {
-                if (System.currentTimeMillis() - lastPull > USER_DATA_PULL_FREQUENCY_MS) {
+                if (System.currentTimeMillis() - lastPull > USER_DATA_POLL_FREQUENCY_MS) {
                     lastPull = System.currentTimeMillis();
-                    typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
+                    shouldDoTypingAnimation = shouldDoTypingAnimation();
+                    shouldDoTypingSound = shouldDoTypingSound();
                 }
 
                 if (!consolePriorityPrintingList.isEmpty()) {
@@ -606,12 +619,12 @@ public class BaseInputHandler {
                         redirectionWrite(line);
                     } else {
                         switch (line) {
-                            case String s:
-                                if (typingAnimationLocal) {
+                            case String string:
+                                if (shouldDoTypingAnimation) {
                                     if (shouldFinishPrinting) {
-                                        insertAsString(s);
+                                        insertAsString(string);
                                     } else {
-                                        innerPrintString(s);
+                                        innerPrintString(string, shouldDoTypingSound);
                                     }
                                 } else {
                                     insertAsString(line);
@@ -632,9 +645,7 @@ public class BaseInputHandler {
                     shouldFinishPrinting = false;
                 }
 
-                if (!shouldFinishPrinting && typingAnimationLocal) {
-                    ThreadUtil.sleep(lineTimeout);
-                }
+                if (!shouldFinishPrinting && shouldDoTypingAnimation) ThreadUtil.sleep(lineTimeout);
             }
 
             printingAnimationRunning = false;
@@ -659,7 +670,7 @@ public class BaseInputHandler {
     }
 
     // -----------------------
-    // document insert methods
+    // Document insert methods
     // -----------------------
 
     /**
@@ -670,7 +681,7 @@ public class BaseInputHandler {
     private void insertAsString(Object object) {
         Preconditions.checkNotNull(object);
 
-        StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
+        StyledDocument document = (StyledDocument) getJTextPane().getDocument();
 
         try {
             document.insertString(document.getLength(), String.valueOf(object), null);
@@ -678,7 +689,7 @@ public class BaseInputHandler {
             ExceptionHandler.handle(e);
         }
 
-        outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+        getJTextPane().setCaretPosition(getJTextPane().getDocument().getLength());
     }
 
     /**
@@ -690,12 +701,12 @@ public class BaseInputHandler {
         Preconditions.checkNotNull(component);
 
         String componentUuid = SecurityUtil.generateUuid();
-        Style cs = outputArea.getJTextPane().getStyledDocument().addStyle(componentUuid, null);
+        Style cs = getJTextPane().getStyledDocument().addStyle(componentUuid, null);
         StyleConstants.setComponent(cs, component);
 
         try {
-            outputArea.getJTextPane().getStyledDocument().insertString(
-                    outputArea.getJTextPane().getStyledDocument().getLength(), componentUuid, cs);
+            getJTextPane().getStyledDocument().insertString(
+                    getJTextPane().getStyledDocument().getLength(), componentUuid, cs);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -708,10 +719,14 @@ public class BaseInputHandler {
      */
     private void insertImageIcon(ImageIcon imageIcon) {
         Preconditions.checkNotNull(imageIcon);
-        Preconditions.checkNotNull(outputArea.getJTextPane());
+        Preconditions.checkNotNull(getJTextPane());
 
-        outputArea.getJTextPane().insertIcon(imageIcon);
+        getJTextPane().insertIcon(imageIcon);
     }
+
+    // ---------------------------
+    // End document insert methods
+    // ---------------------------
 
     /**
      * The frequency at which to play a typing sound effect if enabled.
@@ -729,38 +744,52 @@ public class BaseInputHandler {
      */
     private final String typingSoundPath = StaticUtil.getStaticPath("typing.mp3");
 
+    /**
+     * The key for getting the timeout between printing characters
+     * to the output area if printing animation is enabled.
+     */
     private static final String PRINTING_ANIMATION_CHAR_TIMEOUT_KEY = "printing_animation_char_timeout";
+
+    /**
+     * Returns whether the current user has typing sound enabled.
+     *
+     * @return whether the current user has typing sound enabled
+     */
+    @ForReadability
+    private boolean shouldDoTypingSound() {
+        return UserUtil.getCyderUser().getTypingsound().equals("1");
+    }
 
     /**
      * Prints the string to the output area checking for
      * typing sound, finish printing, and other parameters.
      * <p>
-     * Note: this method is locking and SHOULD NOT be used as a
+     * Note: this method is blocking and SHOULD NOT be used as a
      * substitute for the default print/println methods.
      *
-     * @param line the string to append to the output area
+     * @param line        the string to append to the output area
+     * @param typingSound whether the typing sound should be played
      */
-    private void innerPrintString(String line) {
+    private void innerPrintString(String line, boolean typingSound) {
         Preconditions.checkNotNull(line);
 
         try {
-            outputArea.getSemaphore().acquire();
-
-            User localUser = UserUtil.getCyderUser();
-            boolean shouldDoSound = localUser.getTypingsound().equals("1");
+            linkedOutputPane.getSemaphore().acquire();
 
             for (char c : line.toCharArray()) {
                 String character = String.valueOf(c);
-                String insertCharacter = localUser.getCapsmode().equals("1") ? character.toUpperCase() : character;
+                String insertCharacter = UserUtil.getCyderUser().getCapsmode().equals("1")
+                        ? character.toUpperCase() : character;
 
-                StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
+                StyledDocument document = (StyledDocument) getJTextPane().getDocument();
 
                 document.insertString(document.getLength(), insertCharacter, null);
 
-                outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
+                getJTextPane().setCaretPosition(getJTextPane().getDocument().getLength());
 
-                if (typingSoundInc == TYPING_SOUND_FREQUENCY - 1) {
-                    if (!shouldFinishPrinting && shouldDoSound) {
+                // todo optimize queries and don't need to add if shouldn't even do typing sound
+                if (typingSoundInc == TYPING_SOUND_FREQUENCY) {
+                    if (!shouldFinishPrinting && typingSound) {
                         IOUtil.playSystemAudio(typingSoundPath, false);
                         typingSoundInc = 0;
                     }
@@ -775,7 +804,7 @@ public class BaseInputHandler {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
-            outputArea.getSemaphore().release();
+            linkedOutputPane.getSemaphore().release();
         }
     }
 
@@ -798,7 +827,7 @@ public class BaseInputHandler {
             boolean removeTwoLines = false;
 
             LinkedList<Element> elements = new LinkedList<>();
-            ElementIterator iterator = new ElementIterator(outputArea.getJTextPane().getStyledDocument());
+            ElementIterator iterator = new ElementIterator(getJTextPane().getStyledDocument());
             Element element;
             while ((element = iterator.next()) != null) {
                 elements.add(element);
@@ -828,7 +857,7 @@ public class BaseInputHandler {
                 }
             }
 
-            outputArea.getSemaphore().acquire();
+            linkedOutputPane.getSemaphore().acquire();
 
             if (removeTwoLines) {
                 removeLastLine();
@@ -836,7 +865,7 @@ public class BaseInputHandler {
 
             removeLastLine();
 
-            outputArea.getSemaphore().release();
+            linkedOutputPane.getSemaphore().release();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -849,7 +878,7 @@ public class BaseInputHandler {
      * @return the last line of text on the linked JTextPane
      */
     public final String getLastTextLine() {
-        return outputArea.getStringUtil().getLastTextLine();
+        return linkedOutputPane.getStringUtil().getLastTextLine();
     }
 
     /**
@@ -857,7 +886,7 @@ public class BaseInputHandler {
      * but really be removing just a newline (line break) character.
      */
     private void removeLastLine() {
-        outputArea.getStringUtil().removeLastLine();
+        linkedOutputPane.getStringUtil().removeLastLine();
     }
 
     // -----------------

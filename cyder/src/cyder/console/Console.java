@@ -321,7 +321,13 @@ public enum Console {
         installConsolePinnedWindowListeners();
         startExecutors();
 
-        // todo ensure frames from past instances are all closed
+        /*
+        Note to maintainers: we only close splash here, all other frames are disposed when we logout
+        which is the only way this launch method is invoked more than once for an instance of Cyder.
+
+        The login frame is disposed else where as well. Thus any frames left open are warnings or
+        popups which the user should read and dismiss themselves.
+         */
         CyderSplash.INSTANCE.fastDispose();
 
         if (!isFullscreen()) {
@@ -748,6 +754,7 @@ public enum Console {
         inputMap.put(KeyStroke.getKeyStroke(RELEASED_ENTER), RELEASED);
     }
 
+    // todo bug here if left or right with width and height?
     /**
      * Sets up the console position based on the saved stats from the previous session.
      *

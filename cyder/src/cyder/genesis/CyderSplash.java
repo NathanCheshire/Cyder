@@ -136,6 +136,8 @@ public enum CyderSplash {
         return relocatedCenterPoint.get();
     }
 
+    private static final String SPLASH_LOADER_THREAD_NAME = "Splash Loader";
+
     /**
      * Shows the splash screen as long as it has not already been shown.
      */
@@ -347,23 +349,20 @@ public enum CyderSplash {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Splash Loader");
+        }, SPLASH_LOADER_THREAD_NAME);
     }
+
+    public static final String DISPOSE_SPLASH_KEY = "dispose_splash";
 
     /**
      * Disposes the splashFrame using fast close.
      */
     public void fastDispose() {
-        if (disposed) {
-            return;
-        }
-        if (!PropLoader.getBoolean("dispose_splash")) {
-            return;
-        }
+        if (disposed) return;
+        if (!PropLoader.getBoolean(DISPOSE_SPLASH_KEY)) return;
 
         splashFrame.dispose(true);
         disposed = true;
-
     }
 
     /**
@@ -441,18 +440,17 @@ public enum CyderSplash {
      * @return the C symbol for the splash
      */
     private ImageIcon generateCIcon() {
-        if (C_ICON == null) {
-            BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
+        if (C_ICON != null) return C_ICON;
 
-            Graphics g = drawMe.getGraphics();
-            g.setColor(CyderColors.vanilla);
-            g.fillRect(0, 0, C_BLOCK_WIDTH, C_BLOCK_HEIGHT);
-            g.fillRect(0, ICON_LEN - C_BLOCK_HEIGHT, C_BLOCK_WIDTH, C_BLOCK_HEIGHT);
-            g.fillRect(0, 0, LETTER_LEN, ICON_LEN);
+        BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
 
-            C_ICON = ImageUtil.toImageIcon(drawMe);
-        }
+        Graphics g = drawMe.getGraphics();
+        g.setColor(CyderColors.vanilla);
+        g.fillRect(0, 0, C_BLOCK_WIDTH, C_BLOCK_HEIGHT);
+        g.fillRect(0, ICON_LEN - C_BLOCK_HEIGHT, C_BLOCK_WIDTH, C_BLOCK_HEIGHT);
+        g.fillRect(0, 0, LETTER_LEN, ICON_LEN);
 
+        C_ICON = ImageUtil.toImageIcon(drawMe);
         return C_ICON;
     }
 
@@ -467,17 +465,16 @@ public enum CyderSplash {
      * @return the Y symbol for the splash animation
      */
     private ImageIcon generateYIcon() {
-        if (Y_ICON == null) {
-            BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
+        if (Y_ICON != null) return Y_ICON;
 
-            Graphics g = drawMe.getGraphics();
-            g.setColor(CyderColors.vanilla);
-            g.fillRect(ICON_LEN - LETTER_LEN, 0, LETTER_LEN, ICON_LEN);
-            g.fillRect(60, 60, 95, LETTER_LEN);
+        BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
 
-            Y_ICON = ImageUtil.toImageIcon(drawMe);
-        }
+        Graphics g = drawMe.getGraphics();
+        g.setColor(CyderColors.vanilla);
+        g.fillRect(ICON_LEN - LETTER_LEN, 0, LETTER_LEN, ICON_LEN);
+        g.fillRect(60, 60, 95, LETTER_LEN);
 
+        Y_ICON = ImageUtil.toImageIcon(drawMe);
         return Y_ICON;
     }
 }

@@ -22,7 +22,7 @@ public final class CyderStrings {
     /**
      * Error message for static classes upon attempted instantiation.
      */
-    public static final String ATTEMPTED_INSTANTIATION = "Objects are not available for utility classes";
+    public static final String ATTEMPTED_INSTANTIATION = "Instances are not permitted for this class";
 
     /**
      * A statement I like using in code if something happens that shouldn't ever happen.
@@ -42,7 +42,7 @@ public final class CyderStrings {
     /**
      * The downward pointing triangle character (▼).
      */
-    public static final String DOWN_ARROW = "\u25BC";
+    public static final String DOWN_ARROW = "\u25BC"; // todo use me for pin icon
 
     /**
      * A string used to denote something is not available.

@@ -59,17 +59,17 @@ public class PlayAudioHandler extends InputHandler {
         } else if (getInputHandler().inputIgnoringSpacesMatches("blackpanther")
                 || getInputHandler().inputIgnoringSpacesMatches("chadwickboseman")) {
             CyderThreadRunner.submit(() -> {
-                getInputHandler().getOutputArea().setText("");
+                getInputHandler().getJTextPane().setText("");
 
                 IOUtil.playGeneralAudio(StaticUtil.getStaticResource("allthestars.mp3"));
-                getInputHandler().getOutputArea().setFont(new Font("BEYNO",
-                        Font.BOLD, getInputHandler().getOutputArea().getFont().getSize()));
+                getInputHandler().getJTextPane().setFont(new Font("BEYNO",
+                        Font.BOLD, getInputHandler().getJTextPane().getFont().getSize()));
                 BletchyThread.bletchy("RIP CHADWICK BOSEMAN",
                         false, 15, false);
 
                 ThreadUtil.sleep(4000);
 
-                getInputHandler().getOutputArea().setFont(Console.INSTANCE.generateUserFont());
+                getInputHandler().getJTextPane().setFont(Console.INSTANCE.generateUserFont());
             }, "Chadwick Boseman");
         } else if (getInputHandler().commandIs("f17")) {
             if (getInputHandler().getRobot() != null) {
