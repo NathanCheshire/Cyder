@@ -39,7 +39,7 @@ public final class ElevationUtil {
      *
      * @param latLonPoint the lat/lon point
      * @param unit        whether the elevation should be in feet or meters
-     * @return the elevation in meters or feet depending on the requested unit.
+     * @return the elevation in meters or feet depending on the requested unit
      * This return value should be checked to ensure it is not {@link Double#MIN_VALUE}
      * which indicates and invalid return
      */

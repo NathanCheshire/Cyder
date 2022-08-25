@@ -749,7 +749,7 @@ public final class UserUtil {
      * a brand new object with default values each time as a static final
      * user cannot be created and returned safely.
      *
-     * @return a user object with all the default {@link Preference}s.
+     * @return a user object with all the default {@link Preference}s
      */
     public static User buildDefaultUser() {
         User ret = new User();

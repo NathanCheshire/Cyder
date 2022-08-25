@@ -601,7 +601,7 @@ public class PerlinWidget {
      * Generates a grayscale color from the double value.
      *
      * @param value the value to map to a grayscale color
-     * @return a grayscale color unique to the double provided.
+     * @return a grayscale color unique to the double provided
      */
     private static Color generateGrayscaleColor(double value) {
         return new Color(0x010101 * (int) ((value + 1) * 127.5));

@@ -149,7 +149,7 @@ public class CyderPasswordField extends JPasswordField {
      * Adds the shift shows password listener to the provided password field.
      *
      * @param passwordField the password field to add the listener too
-     * @return an atomic boolean to toggle the state of the password listener.
+     * @return an atomic boolean to toggle the state of the password listener
      */
     @CanIgnoreReturnValue
     public static AtomicBoolean addShiftShowsPasswordListener(JPasswordField passwordField) {

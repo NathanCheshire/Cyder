@@ -840,7 +840,7 @@ public class WeatherWidget {
      * Returns the wind direction string based off of the current wind bearing.
      *
      * @param bearing the current wind bearing
-     * @return the wind direction string based off of the current wind bearing.
+     * @return the wind direction string based off of the current wind bearing
      */
     public static String getWindDirection(double bearing) {
         while (bearing > 360.0)

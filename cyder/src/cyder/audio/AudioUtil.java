@@ -453,7 +453,7 @@ public final class AudioUtil {
      * Downloads the youtube-dl binary from the remote resources.
      * Returns whether the download was successful.
      *
-     * @return whether youtube-dl could be downloaded from the remote resources.
+     * @return whether youtube-dl could be downloaded from the remote resources
      */
     public static Future<Boolean> downloadYoutubeDl() {
         return Executors.newSingleThreadExecutor(

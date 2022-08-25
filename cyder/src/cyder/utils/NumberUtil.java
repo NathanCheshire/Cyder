@@ -203,7 +203,7 @@ public final class NumberUtil {
      * Example: 123 will return "one-hundred twenty three"
      *
      * @param num the number to get a word representation for
-     * @return the word representation for the provided trio of base 10 digits.
+     * @return the word representation for the provided trio of base 10 digits
      */
     private static String trioToWords(int num) {
         Preconditions.checkArgument(num >= 0);

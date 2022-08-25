@@ -47,7 +47,7 @@ public class NetworkUtil {
     /**
      * Returns whether connection to the internet is slow.
      *
-     * @return whether connection to the internet is slow.
+     * @return whether connection to the internet is slow
      */
     public static boolean isHighLatency() {
         return highLatency;

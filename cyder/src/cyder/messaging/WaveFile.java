@@ -134,7 +134,7 @@ public class WaveFile {
      * the second of the left, 3 the second of the right, etc.
      *
      * @param samplePoint the point to sample the wav at
-     * @return the amplitude at the sample point.
+     * @return the amplitude at the sample point
      */
     public int getSample(int samplePoint) {
         Preconditions.checkArgument(samplePoint >= 0,
@@ -195,7 +195,7 @@ public class WaveFile {
     /**
      * Returns the duration in seconds.
      *
-     * @return the duration in seconds.
+     * @return the duration in seconds
      */
     public int getDurationTime() {
         return (int) (getNumFrames() / getAudioFormat().getFrameRate());

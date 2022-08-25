@@ -83,7 +83,7 @@ public class CyderOutputPane {
     /**
      * Returns the linked StringUtil object.
      *
-     * @return the linked StringUtil object.
+     * @return the linked StringUtil object
      */
     public StringUtil getStringUtil() {
         return stringUtil;

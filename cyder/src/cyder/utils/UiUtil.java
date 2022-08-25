@@ -219,7 +219,7 @@ public final class UiUtil {
      * Returns whether the monitor the frame is on is full screen supported.
      *
      * @param frame the frame
-     * @return whether the monitor the frame is on is full screen supported.
+     * @return whether the monitor the frame is on is full screen supported
      */
     public static boolean frameMonitorIsFullscreenSupported(CyderFrame frame) {
         Preconditions.checkNotNull(frame);

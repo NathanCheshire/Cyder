@@ -52,7 +52,7 @@ public final class GitHubUtil {
     /**
      * Returns a list of issues for Cyder.
      *
-     * @return the list of currently open issues for Cyder.
+     * @return the list of currently open issues for Cyder
      */
     public static ImmutableList<Issue> getIssues() {
         Issue[] ret = null;

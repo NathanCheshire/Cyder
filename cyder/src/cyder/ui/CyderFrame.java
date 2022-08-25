@@ -1149,7 +1149,7 @@ public class CyderFrame extends JFrame {
      * @param textLabel      the label the notification's text is placed on
      * @param notification   the current notification object under construction
      * @param doEnterAndExit whether to add the mouse entered/exited listeners
-     * @return a disposal mouse listener for a notification.
+     * @return a disposal mouse listener for a notification
      */
     @ForReadability
     private MouseAdapter generateNotificationDisposalMouseListener(
