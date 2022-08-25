@@ -34,7 +34,7 @@ import java.util.concurrent.Semaphore;
 
 /**
  * The base input handler used for linked JTextPane printing
- * operations and raw user input command triggering.
+ * operations and raw user input sub-handler triggering.
  */
 @SuppressWarnings("SpellCheckingInspection")
 public class BaseInputHandler {
@@ -112,7 +112,7 @@ public class BaseInputHandler {
         this.outputArea = new CyderOutputPane(Preconditions.checkNotNull(outputArea));
 
         initializeSpecialThreads();
-        startConsolePrintingAnimation();
+        startConsolePrintingAnimation(); // todo need for will go away
 
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
@@ -541,74 +541,76 @@ public class BaseInputHandler {
     private static final int USER_DATA_PULL_FREQUENCY_MS = 3000;
 
     /**
+     * The key for getting the timeout between printing lines from the props file.
+     */
+    private static final String PRINATING_ANIMATION_LINE_KEY = "printing_animation_line_timeout";
+
+    /**
      * The console printing animation runnable.
      */
-    private final Runnable consolePrintingRunnable = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                boolean typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
-                long lastPull = System.currentTimeMillis();
-                int lineTimeout = PropLoader.getInteger("printing_animation_line_timeout");
+    private final Runnable consolePrintingRunnable = () -> {
+        try {
+            boolean typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
+            long lastPull = System.currentTimeMillis();
+            int lineTimeout = PropLoader.getInteger(PRINATING_ANIMATION_LINE_KEY);
 
-                while (!Console.INSTANCE.isClosed()) {
-                    if (System.currentTimeMillis() - lastPull > USER_DATA_PULL_FREQUENCY_MS) {
-                        lastPull = System.currentTimeMillis();
-                        typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
-                    }
-
-                    if (!consolePriorityPrintingList.isEmpty()) {
-                        Object line = removeAndLog(consolePriorityPrintingList);
-
-                        if (redirection) {
-                            redirectionWrite(line);
-                        } else {
-                            switch (line) {
-                                case JComponent jComponent -> insertJComponent(jComponent);
-                                case ImageIcon imageIcon -> insertImageIcon(imageIcon);
-                                case default -> insertAsString(line);
-                            }
-                        }
-                    } else if (!consolePrintingList.isEmpty()) {
-                        Object line = removeAndLog(consolePrintingList);
-
-                        if (redirection) {
-                            redirectionWrite(line);
-                        } else {
-                            switch (line) {
-                                case String s:
-                                    if (typingAnimationLocal) {
-                                        if (shouldFinishPrinting) {
-                                            insertAsString(s);
-                                        } else {
-                                            innerPrintString(s);
-                                        }
-                                    } else {
-                                        insertAsString(line);
-                                    }
-                                    break;
-                                case JComponent jComponent:
-                                    insertJComponent(jComponent);
-                                    break;
-                                case ImageIcon imageIcon:
-                                    insertImageIcon(imageIcon);
-                                    break;
-                                default:
-                                    insertAsString(line);
-                                    break;
-                            }
-                        }
-                    } else {
-                        shouldFinishPrinting = false;
-                    }
-
-                    if (!shouldFinishPrinting && typingAnimationLocal) {
-                        ThreadUtil.sleep(lineTimeout);
-                    }
+            while (!Console.INSTANCE.isClosed()) {
+                if (System.currentTimeMillis() - lastPull > USER_DATA_PULL_FREQUENCY_MS) {
+                    lastPull = System.currentTimeMillis();
+                    typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
                 }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+
+                if (!consolePriorityPrintingList.isEmpty()) {
+                    Object line = removeAndLog(consolePriorityPrintingList);
+
+                    if (redirection) {
+                        redirectionWrite(line);
+                    } else {
+                        switch (line) {
+                            case JComponent jComponent -> insertJComponent(jComponent);
+                            case ImageIcon imageIcon -> insertImageIcon(imageIcon);
+                            case default -> insertAsString(line);
+                        }
+                    }
+                } else if (!consolePrintingList.isEmpty()) {
+                    Object line = removeAndLog(consolePrintingList);
+
+                    if (redirection) {
+                        redirectionWrite(line);
+                    } else {
+                        switch (line) {
+                            case String s:
+                                if (typingAnimationLocal) {
+                                    if (shouldFinishPrinting) {
+                                        insertAsString(s);
+                                    } else {
+                                        innerPrintString(s);
+                                    }
+                                } else {
+                                    insertAsString(line);
+                                }
+                                break;
+                            case JComponent jComponent:
+                                insertJComponent(jComponent);
+                                break;
+                            case ImageIcon imageIcon:
+                                insertImageIcon(imageIcon);
+                                break;
+                            default:
+                                insertAsString(line);
+                                break;
+                        }
+                    }
+                } else {
+                    shouldFinishPrinting = false;
+                }
+
+                if (!shouldFinishPrinting && typingAnimationLocal) {
+                    ThreadUtil.sleep(lineTimeout);
+                }
             }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
         }
     };
 
