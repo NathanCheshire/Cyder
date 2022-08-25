@@ -754,7 +754,6 @@ public enum Console {
         inputMap.put(KeyStroke.getKeyStroke(RELEASED_ENTER), RELEASED);
     }
 
-    // todo bug here if left or right with width and height?
     /**
      * Sets up the console position based on the saved stats from the previous session.
      *
@@ -769,28 +768,27 @@ public enum Console {
         int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
         int requestedConsoleHeight = requestedConsoleStats.getConsoleHeight();
 
-        if (requestedConsoleWidth < consoleIcon.dimension().width
-                && requestedConsoleHeight < consoleIcon.dimension().height
+        if (requestedConsoleWidth < consoleIcon.dimension().getWidth()
+                && requestedConsoleHeight < consoleIcon.dimension().getHeight()
                 && requestedConsoleWidth > MINIMUM_SIZE.width
                 && requestedConsoleHeight > MINIMUM_SIZE.height) {
             consoleCyderFrame.setSize(requestedConsoleWidth, requestedConsoleHeight);
-            consoleCyderFrame.refreshBackground();
         }
 
         consoleDir = requestedConsoleStats.getConsoleDirection();
+        ImageIcon rotated = getCurrentRotatedConsoleBackground();
+        ImageIcon resized = ImageUtil.resizeImage(rotated, requestedConsoleWidth, requestedConsoleHeight);
+        consoleCyderFrame.setBackground(resized);
 
-        revalidate(true, false, true);
-
-        int consoleX = requestedConsoleStats.getConsoleX();
-        int consoleY = requestedConsoleStats.getConsoleY();
-
+        int requestedConsoleX = requestedConsoleStats.getConsoleX();
+        int requestedConsoleY = requestedConsoleStats.getConsoleY();
         Point relocatedSplashCenter = CyderSplash.INSTANCE.getRelocatedCenterPoint();
         if (relocatedSplashCenter != null) {
-            consoleX = (int) (relocatedSplashCenter.getX() - consoleCyderFrame.getWidth() / 2);
-            consoleY = (int) (relocatedSplashCenter.getY() - consoleCyderFrame.getHeight() / 2);
+            requestedConsoleX = (int) (relocatedSplashCenter.getX() - consoleCyderFrame.getWidth() / 2);
+            requestedConsoleY = (int) (relocatedSplashCenter.getY() - consoleCyderFrame.getHeight() / 2);
         }
-
-        UiUtil.requestFramePosition(consoleX, consoleY, consoleCyderFrame);
+        // This is more so to push the frame into bounds if any part was out of bounds on the requested monitor.
+        UiUtil.requestFramePosition(requestedConsoleX, requestedConsoleY, consoleCyderFrame);
 
         consoleCyderFrame.setVisible(true);
     }
@@ -2751,6 +2749,23 @@ public enum Console {
     }
 
     /**
+     * Returns the current console background accounting for the console direction.
+     *
+     * @return the current console background accounting for the console direction
+     */
+    public ImageIcon getCurrentRotatedConsoleBackground() {
+        return switch (consoleDir) {
+            case TOP -> getCurrentBackground().generateImageIcon();
+            case LEFT -> new ImageIcon(ImageUtil.getRotatedImage(
+                    getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.LEFT));
+            case RIGHT -> new ImageIcon(ImageUtil.getRotatedImage(
+                    getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.RIGHT));
+            case BOTTOM -> new ImageIcon(ImageUtil.getRotatedImage(
+                    getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.BOTTOM));
+        };
+    }
+
+    /**
      * Revalidates the Console size, bounds, background, menu, clock, audio menu, draggable property, etc.
      * based on the current background. Note that maintainDirection trumps maintainFullscreen.
      * <p>
@@ -2767,16 +2782,7 @@ public enum Console {
         ImageIcon background;
 
         if (maintainDirection) {
-            // Setup full size of image and maintain currently set direction
-            background = switch (consoleDir) {
-                case TOP -> getCurrentBackground().generateImageIcon();
-                case LEFT -> new ImageIcon(ImageUtil.getRotatedImage(
-                        getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.LEFT));
-                case RIGHT -> new ImageIcon(ImageUtil.getRotatedImage(
-                        getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.RIGHT));
-                case BOTTOM -> new ImageIcon(ImageUtil.getRotatedImage(
-                        getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.BOTTOM));
-            };
+            background = getCurrentRotatedConsoleBackground();
 
             UserUtil.getCyderUser().setFullscreen("0");
             consoleCyderFrame.setShouldAnimateOpacity(true);
@@ -2792,7 +2798,7 @@ public enum Console {
 
         if (maintainConsoleSize) {
             switch (consoleDir) {
-                case TOP: // fallthrough
+                case TOP: // Fallthrough
                 case BOTTOM:
                     if (lastConsoleDir == Direction.LEFT || lastConsoleDir == Direction.RIGHT) {
                         background = ImageUtil.resizeImage(background, getHeight(), getWidth());
@@ -2800,7 +2806,7 @@ public enum Console {
                         background = ImageUtil.resizeImage(background, getWidth(), getHeight());
                     }
                     break;
-                case LEFT: // fallthrough
+                case LEFT: // Fallthrough
                 case RIGHT:
                     if (lastConsoleDir == Direction.LEFT || lastConsoleDir == Direction.RIGHT) {
                         background = ImageUtil.resizeImage(background, getWidth(), getHeight());

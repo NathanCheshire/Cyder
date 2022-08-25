@@ -126,11 +126,9 @@
 [20-35-48.419] [LOADING MESSAGE]: Checking for an AutoCypher
 [20-35-48.419] [LOGIN]: AutoCypher Attempt
 [20-35-48.419] [LOADING MESSAGE]: Auto Cyphering
-[20-35-48.421] [USER GET]: key = name, value = Nathan
-[20-35-48.424] [USER GET]: key = name, value = Nathan
+[20-35-48.424] [USER GET]: key = name, value = Nathan [2x]
 [20-35-48.455] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
-[20-35-48.793] [USER GET]: key = darkmode, value = 0
-[20-35-48.800] [USER GET]: key = darkmode, value = 0
+[20-35-48.800] [USER GET]: key = darkmode, value = 0 [2x]
 [20-35-48.908] [THREAD STARTED]: Splash Animation
 [20-35-49.036] [UNIQUE OBJECT CREATED]: Console singleton constructed
 [20-35-49.038] [USER GET]: key = name, value = Nathan
@@ -139,21 +137,15 @@
 [20-35-49.250] [DEBUG]: Latency of Google found to be 51ms
 [20-35-49.514] [USER GET]: key = name, value = Nathan
 [20-35-49.515] [USER GET]: key = randombackground, value = 0
-[20-35-49.515] [USER GET]: key = fullscreen, value = 0
-[20-35-49.633] [USER GET]: key = fullscreen, value = 0
-[20-35-49.634] [USER GET]: key = fullscreen, value = 0
+[20-35-49.634] [USER GET]: key = fullscreen, value = 0 [3x]
 [20-35-49.634] [USER GET]: key = name, value = Nathan
-[20-35-49.688] [USER GET]: key = foreground, value = f0f0f0
-[20-35-49.689] [USER GET]: key = foreground, value = f0f0f0
-[20-35-49.692] [USER GET]: key = foreground, value = f0f0f0
+[20-35-49.692] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [20-35-49.693] [USER GET]: key = Font, value = Agency FB
 [20-35-49.693] [USER GET]: key = fontsize, value = 27
 [20-35-49.716] [USER GET]: key = outputborder, value = 0
 [20-35-49.717] [USER GET]: key = outputfill, value = 0
 [20-35-49.732] [USER GET]: key = inputborder, value = 0
-[20-35-49.733] [USER GET]: key = foreground, value = f0f0f0
-[20-35-49.734] [USER GET]: key = foreground, value = f0f0f0
-[20-35-49.734] [USER GET]: key = foreground, value = f0f0f0
+[20-35-49.734] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [20-35-49.735] [USER GET]: key = Font, value = Agency FB
 [20-35-49.735] [USER GET]: key = fontsize, value = 27
 [20-35-49.736] [USER GET]: key = inputfill, value = 0
@@ -218,32 +210,13 @@
 [20-35-53.489] [THREAD STARTED]: Console Printing Animation
 [20-35-53.491] [PREFERENCE REFRESH]: Key = typingsound
 [20-35-53.491] [CONSOLE OUT]: [STRING]: Typing Animation Sound set to true
-[20-35-53.821] [THREAD STARTED]: System Audio Player
-[20-35-53.848] [THREAD STARTED]: System Audio Player
-[20-35-53.877] [THREAD STARTED]: System Audio Player
-[20-35-53.907] [THREAD STARTED]: System Audio Player
-[20-35-53.938] [THREAD STARTED]: System Audio Player
-[20-35-53.970] [THREAD STARTED]: System Audio Player
-[20-35-53.999] [THREAD STARTED]: System Audio Player
-[20-35-54.028] [THREAD STARTED]: System Audio Player
-[20-35-54.058] [THREAD STARTED]: System Audio Player
-[20-35-54.087] [THREAD STARTED]: System Audio Player
-[20-35-54.115] [THREAD STARTED]: System Audio Player
-[20-35-54.145] [THREAD STARTED]: System Audio Player
+[20-35-54.145] [THREAD STARTED]: System Audio Player [12x]
 [20-35-55.635] [CLIENT]: hello
 [20-35-55.635] [USER GET]: key = filterchat, value = 1
 [20-35-55.637] [USER GET]: key = name, value = Nathan
 [20-35-55.637] [THREAD STARTED]: Console Printing Animation
 [20-35-55.638] [CONSOLE OUT]: [STRING]: How are you doing, Nathan?
-[20-35-55.649] [THREAD STARTED]: System Audio Player
-[20-35-55.679] [THREAD STARTED]: System Audio Player
-[20-35-55.709] [THREAD STARTED]: System Audio Player
-[20-35-55.736] [THREAD STARTED]: System Audio Player
-[20-35-55.767] [THREAD STARTED]: System Audio Player
-[20-35-55.795] [THREAD STARTED]: System Audio Player
-[20-35-55.823] [THREAD STARTED]: System Audio Player
-[20-35-55.853] [THREAD STARTED]: System Audio Player
-[20-35-55.885] [THREAD STARTED]: System Audio Player
+[20-35-55.885] [THREAD STARTED]: System Audio Player [9x]
 [20-35-56.753] [CLIENT]: clear
 [20-35-56.754] [USER GET]: key = filterchat, value = 1
 [20-35-58.057] [OBJECT CREATION]: Objects created since last delta (5000ms): 3
@@ -255,11 +228,7 @@
 [20-35-58.428] [USER GET]: key = wrapshell, value = 0
 [20-35-58.429] [THREAD STARTED]: Console Printing Animation
 [20-35-58.430] [CONSOLE OUT]: [STRING]: Unknown command
-[20-35-58.439] [THREAD STARTED]: System Audio Player
-[20-35-58.467] [THREAD STARTED]: System Audio Player
-[20-35-58.494] [THREAD STARTED]: System Audio Player
-[20-35-58.524] [THREAD STARTED]: System Audio Player
-[20-35-58.553] [THREAD STARTED]: System Audio Player
+[20-35-58.553] [THREAD STARTED]: System Audio Player [5x]
 [20-35-59.447] [CLIENT]: what
 [20-35-59.447] [USER GET]: key = filterchat, value = 1
 [20-35-59.451] [THREAD STARTED]: Unknown Input Handler
@@ -267,12 +236,7 @@
 [20-35-59.456] [USER GET]: key = wrapshell, value = 0
 [20-35-59.456] [THREAD STARTED]: Console Printing Animation
 [20-35-59.457] [CONSOLE OUT]: [STRING]: Unknown command
-[20-35-59.458] [THREAD STARTED]: System Audio Player
-[20-35-59.486] [THREAD STARTED]: System Audio Player
-[20-35-59.516] [THREAD STARTED]: System Audio Player
-[20-35-59.546] [THREAD STARTED]: System Audio Player
-[20-35-59.576] [THREAD STARTED]: System Audio Player
-[20-35-59.606] [THREAD STARTED]: System Audio Player
+[20-35-59.606] [THREAD STARTED]: System Audio Player [6x]
 [20-36-00.195] [CLIENT]: clear
 [20-36-00.196] [USER GET]: key = filterchat, value = 1
 [20-36-00.940] [CLIENT]: story
@@ -281,71 +245,13 @@
 [20-36-00.942] [THREAD STARTED]: Console Printing Animation
 [20-36-00.943] [CONSOLE OUT]: [STRING]: It was a lazy day. Cyder was enjoying a deep sleep when suddenly Nathan
                started talking to Cyder. It was at this moment that Cyder knew its day had been ruined.
-[20-36-00.961] [THREAD STARTED]: System Audio Player
-[20-36-00.992] [THREAD STARTED]: System Audio Player
-[20-36-01.022] [THREAD STARTED]: System Audio Player
-[20-36-01.050] [THREAD STARTED]: System Audio Player
-[20-36-01.079] [THREAD STARTED]: System Audio Player
-[20-36-01.109] [THREAD STARTED]: System Audio Player
-[20-36-01.138] [THREAD STARTED]: System Audio Player
-[20-36-01.168] [THREAD STARTED]: System Audio Player
-[20-36-01.197] [THREAD STARTED]: System Audio Player
-[20-36-01.228] [THREAD STARTED]: System Audio Player
-[20-36-01.256] [THREAD STARTED]: System Audio Player
-[20-36-01.284] [THREAD STARTED]: System Audio Player
-[20-36-01.311] [THREAD STARTED]: System Audio Player
-[20-36-01.341] [THREAD STARTED]: System Audio Player
-[20-36-01.368] [THREAD STARTED]: System Audio Player
-[20-36-01.395] [THREAD STARTED]: System Audio Player
-[20-36-01.424] [THREAD STARTED]: System Audio Player
-[20-36-01.455] [THREAD STARTED]: System Audio Player
-[20-36-01.484] [THREAD STARTED]: System Audio Player
-[20-36-01.512] [THREAD STARTED]: System Audio Player
-[20-36-01.541] [THREAD STARTED]: System Audio Player
-[20-36-01.569] [THREAD STARTED]: System Audio Player
-[20-36-01.596] [THREAD STARTED]: System Audio Player
-[20-36-01.625] [THREAD STARTED]: System Audio Player
-[20-36-01.653] [THREAD STARTED]: System Audio Player
-[20-36-01.684] [THREAD STARTED]: System Audio Player
-[20-36-01.712] [THREAD STARTED]: System Audio Player
-[20-36-01.741] [THREAD STARTED]: System Audio Player
-[20-36-01.769] [THREAD STARTED]: System Audio Player
-[20-36-01.798] [THREAD STARTED]: System Audio Player
-[20-36-01.827] [THREAD STARTED]: System Audio Player
-[20-36-01.855] [THREAD STARTED]: System Audio Player
-[20-36-01.882] [THREAD STARTED]: System Audio Player
-[20-36-01.910] [THREAD STARTED]: System Audio Player
-[20-36-01.941] [THREAD STARTED]: System Audio Player
-[20-36-01.970] [THREAD STARTED]: System Audio Player
-[20-36-02.000] [THREAD STARTED]: System Audio Player
-[20-36-02.031] [THREAD STARTED]: System Audio Player
-[20-36-02.058] [THREAD STARTED]: System Audio Player
-[20-36-02.088] [THREAD STARTED]: System Audio Player
-[20-36-02.116] [THREAD STARTED]: System Audio Player
-[20-36-02.147] [THREAD STARTED]: System Audio Player
-[20-36-02.175] [THREAD STARTED]: System Audio Player
-[20-36-02.204] [THREAD STARTED]: System Audio Player
-[20-36-02.235] [THREAD STARTED]: System Audio Player
-[20-36-02.264] [THREAD STARTED]: System Audio Player
-[20-36-02.292] [THREAD STARTED]: System Audio Player
-[20-36-02.319] [THREAD STARTED]: System Audio Player
-[20-36-02.349] [THREAD STARTED]: System Audio Player
-[20-36-02.378] [THREAD STARTED]: System Audio Player
-[20-36-02.408] [THREAD STARTED]: System Audio Player
-[20-36-02.438] [THREAD STARTED]: System Audio Player
-[20-36-02.467] [THREAD STARTED]: System Audio Player
+[20-36-02.467] [THREAD STARTED]: System Audio Player [53x]
 [20-36-04.126] [CLIENT]: hello
 [20-36-04.127] [USER GET]: key = filterchat, value = 1
 [20-36-04.128] [USER GET]: key = name, value = Nathan
 [20-36-04.128] [THREAD STARTED]: Console Printing Animation
 [20-36-04.129] [CONSOLE OUT]: [STRING]: Greetings, Nathan.
-[20-36-04.130] [THREAD STARTED]: System Audio Player
-[20-36-04.159] [THREAD STARTED]: System Audio Player
-[20-36-04.186] [THREAD STARTED]: System Audio Player
-[20-36-04.214] [THREAD STARTED]: System Audio Player
-[20-36-04.244] [THREAD STARTED]: System Audio Player
-[20-36-04.274] [THREAD STARTED]: System Audio Player
-[20-36-04.302] [THREAD STARTED]: System Audio Player
+[20-36-04.302] [THREAD STARTED]: System Audio Player [7x]
 [20-36-06.238] [CLIENT]: typingsound
 [20-36-06.239] [USER GET]: key = filterchat, value = 1
 [20-36-06.270] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7d
