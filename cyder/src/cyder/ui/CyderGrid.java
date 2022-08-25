@@ -703,7 +703,7 @@ public class CyderGrid extends JLabel {
     /**
      * Sets the node color the provided color.
      *
-     * @param nodeColor the color of the next nodes to place on the grid.
+     * @param nodeColor the color of the next nodes to place on the grid
      */
     public void setNodeColor(Color nodeColor) {
         this.nodeColor = nodeColor;
@@ -1223,7 +1223,7 @@ public class CyderGrid extends JLabel {
     /**
      * Adds the provided runnable to invoke when the next node is placed.
      *
-     * @param runnable the runnable to invoke when the next node is placed.
+     * @param runnable the runnable to invoke when the next node is placed
      */
     public void invokeWhenNodePlaced(Runnable runnable) {
         runnablesForWhenNextNodePlaced.add(runnable);
@@ -1243,7 +1243,7 @@ public class CyderGrid extends JLabel {
     /**
      * Returns a linked list of all nodes with the provided color.
      *
-     * @param color the color of the nodes to find on the grid.
+     * @param color the color of the nodes to find on the grid
      * @return a linked list of all nodes with the provided color
      */
     public LinkedList<GridNode> getNodesOfColor(Color color) {
@@ -1335,7 +1335,7 @@ public class CyderGrid extends JLabel {
         /**
          * Constructs a new GridNode.
          *
-         * @param color the color of this node.
+         * @param color the color of this node
          * @param x     the x value of this node
          * @param y     the y value of this node
          */

@@ -171,7 +171,7 @@ public final class GitHubUtil {
      * Clones the provided github repo to the provided directory.
      *
      * @param githubRepo the URL of the github repository to clone
-     * @param directory  the directory to save the repo to.
+     * @param directory  the directory to save the repo to
      *                   Note this directory must exist prior to method invocation
      * @return whether the repo was successfully cloned and saved
      */

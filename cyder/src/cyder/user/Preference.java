@@ -376,7 +376,7 @@ public class Preference {
      * @param displayName      the display name
      * @param tooltip          the tooltip text for the toggle button
      * @param defaultValue     the default value
-     * @param onChangeFunction the method to run when a change of the preference occurs.
+     * @param onChangeFunction the method to run when a change of the preference occurs
      */
     public Preference(String id, String displayName, String tooltip, Object defaultValue, Runnable onChangeFunction) {
         this.id = id;

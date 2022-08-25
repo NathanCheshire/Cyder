@@ -179,7 +179,7 @@ public class CyderComboBox extends JLabel {
     /**
      * Invokes the provided function before the state changes.
      *
-     * @param function the provided function to invoke before the state changes.
+     * @param function the provided function to invoke before the state changes
      */
     public void addOnChangeListener(Function<Void, Void> function) {
         iterationButton.addActionListener((OptionalParam) -> function.apply(null));

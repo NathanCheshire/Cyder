@@ -44,7 +44,7 @@ public enum Dynamic {
     /**
      * Constructs a new directory.
      *
-     * @param directoryName the actual name of the directory the OS will display.
+     * @param directoryName the actual name of the directory the OS will display
      */
     Dynamic(String directoryName) {
         this.directoryName = directoryName;

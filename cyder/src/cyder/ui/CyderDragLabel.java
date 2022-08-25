@@ -94,7 +94,7 @@ public class CyderDragLabel extends JLabel {
     /**
      * Constructs a new drag label with the provided bounds and frame to effect.
      *
-     * @param width       the width of the drag label, typically the width of the effect frame.
+     * @param width       the width of the drag label, typically the width of the effect frame
      * @param height      the height of the drag label, typically {@link CyderDragLabel#DEFAULT_HEIGHT}
      * @param effectFrame the cyder frame object to control
      */

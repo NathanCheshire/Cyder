@@ -254,7 +254,7 @@ public class CyderFrame extends JFrame {
      * frame object will have the minimum width and/or height, not the width and
      * height provided.
      *
-     * @param size the size of the CyderFrame.
+     * @param size the size of the CyderFrame
      */
     public CyderFrame(Dimension size) {
         this(size.width, size.height);
@@ -457,8 +457,8 @@ public class CyderFrame extends JFrame {
      * A drag listener is already attached to this but
      * the caller needs to handle how the frame will be disposed.
      *
-     * @param width  the width of the frame.
-     * @param height the height of the frame.
+     * @param width  the width of the frame
+     * @param height the height of the frame
      * @return the borderless frame
      */
     public static CyderFrame generateBorderlessFrame(int width, int height, Color backgroundColor) {
@@ -1217,7 +1217,7 @@ public class CyderFrame extends JFrame {
      * Revokes the notification currently active or in
      * the queue that matches the provided text.
      *
-     * @param expectedText the text of the notification to revoke.
+     * @param expectedText the text of the notification to revoke
      */
     public void revokeNotification(String expectedText) {
         if (currentNotification.getBuilder().getHtmlText().equals(expectedText)) {
@@ -1495,7 +1495,7 @@ public class CyderFrame extends JFrame {
     /**
      * Whether to allow the frame to be relocated via dragging.
      *
-     * @param relocatable whether to allow the frame to be relocated via dragging.
+     * @param relocatable whether to allow the frame to be relocated via dragging
      */
     public void setRelocatable(boolean relocatable) {
         if (relocatable) {

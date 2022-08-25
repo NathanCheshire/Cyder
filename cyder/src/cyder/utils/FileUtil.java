@@ -246,7 +246,7 @@ public final class FileUtil {
      * Returns whether the provided file ends in one of the expected extensions.
      *
      * @param file               the file to validate the extension again
-     * @param expectedExtensions the expected extensions such as ".json", ".mp3", ".png", etc.
+     * @param expectedExtensions the expected extensions such as ".json", ".mp3", ".png", etc
      * @return whether the provided file ends in one of the expected extension
      */
     public static boolean validateExtension(File file, Collection<String> expectedExtensions) {

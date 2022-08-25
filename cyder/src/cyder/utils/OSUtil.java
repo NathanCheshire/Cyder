@@ -392,7 +392,7 @@ public final class OSUtil {
      *
      * @param fileOrFolder the folder/file to delete
      * @param log          whether to log the delete operation. Ideally this is
-     *                     always true but some rare cases require logging to be skipped.
+     *                     always true but some rare cases require logging to be skipped
      * @return whether the folder/file was successfully deleted
      */
     @CanIgnoreReturnValue
@@ -610,7 +610,7 @@ public final class OSUtil {
      * Returns whether the provided binary could be found by invoking
      * the base command in the native shell.
      *
-     * @param invokeCommand the invoke command such as ffmpeg for ffmpeg.
+     * @param invokeCommand the invoke command such as ffmpeg for ffmpeg
      * @return whether the binary could be located
      */
     public static boolean isBinaryInstalled(String invokeCommand) {

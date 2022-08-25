@@ -2353,7 +2353,7 @@ public final class AudioPlayer {
     /**
      * Sets the phase two components to the visibility specified.
      *
-     * @param visible whether the phase two components should be visible.
+     * @param visible whether the phase two components should be visible
      */
     @SuppressWarnings("SameParameterValue")
     private static void setPhaseTwoComponentsVisible(boolean visible) {

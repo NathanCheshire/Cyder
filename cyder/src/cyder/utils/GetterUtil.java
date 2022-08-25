@@ -722,7 +722,7 @@ public class GetterUtil {
         /**
          * Constructs a new GetterBuilder.
          *
-         * @param title the frame title/the text for confirmations.
+         * @param title the frame title/the text for confirmations
          */
         public Builder(String title) {
             this.title = checkNotNull(title);

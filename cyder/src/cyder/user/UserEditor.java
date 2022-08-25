@@ -1028,8 +1028,8 @@ public final class UserEditor {
     /**
      * Returns a color block of size 40,40 to use a color preview.
      *
-     * @param backgroundColor the initial color of the preview block.
-     * @param tooltip         the tooltip for the color block.
+     * @param backgroundColor the initial color of the preview block
+     * @param tooltip         the tooltip for the color block
      * @return the color block
      */
     private static JTextField generateColorBlock(Color backgroundColor, String tooltip) {

@@ -482,7 +482,7 @@ public class CyderNotification extends JLabel {
      * The components position is expected to have already
      * been set out of bounds on the parent.
      *
-     * @param notificationDirection the direction for the notification to enter and exit from.
+     * @param notificationDirection the direction for the notification to enter and exit from
      */
     public void appear(NotificationDirection notificationDirection, Component parent, int delay) {
         CyderThreadRunner.submit(() -> {

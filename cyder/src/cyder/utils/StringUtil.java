@@ -565,7 +565,7 @@ public class StringUtil {
     /**
      * Inner filtering of leet speech for words specifically, this is the main driver method that does the magic.
      *
-     * @param word the word to filter leet out of.
+     * @param word the word to filter leet out of
      * @return the word having leet removed to the best of our abilities
      */
     private static String replaceLeet(String word) {

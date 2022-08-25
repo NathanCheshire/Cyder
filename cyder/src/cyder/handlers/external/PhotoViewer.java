@@ -187,7 +187,7 @@ public class PhotoViewer {
      * Transitions to a new image in the directory if more exist.
      *
      * @param forward whether to transition forwards.
-     *                If false, the direction traversed is backwards.
+     *                If false, the direction traversed is backwards
      */
     private void transition(boolean forward) {
         refreshValidFiles();
@@ -323,7 +323,7 @@ public class PhotoViewer {
     /**
      * Invokes the provided runnable whenever a file is renamed via this photo viewer instance.
      *
-     * @param runnable the runnable to invoke.
+     * @param runnable the runnable to invoke
      */
     public void setRenameCallback(Runnable runnable) {
         Preconditions.checkNotNull(runnable);

@@ -53,7 +53,7 @@ public class ScrollingTitleLabel {
      * Constructs and begins the scrolling title label animation using the
      * provided label, its parent, and the provided text as the title.
      *
-     * @param effectLabel the label to move in its parent container.
+     * @param effectLabel the label to move in its parent container
      * @param localTitle  the title of the label
      */
     public ScrollingTitleLabel(JLabel effectLabel, String localTitle) {

@@ -45,7 +45,7 @@ public class CyderScrollPane extends JScrollPane {
     /**
      * Constructs a new scroll pane for the provided component.
      *
-     * @param view the component to wrap with the scroll pane.
+     * @param view the component to wrap with the scroll pane
      */
     public CyderScrollPane(Component view) {
         this(Preconditions.checkNotNull(view), VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);

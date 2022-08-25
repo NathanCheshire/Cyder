@@ -291,7 +291,7 @@ public final class CalculatorWidget {
      * Animates in the results text to the results field by fading it from
      * {@link CyderColors#regularRed} to {@link CyderColors#navy} in 500ms.
      *
-     * @param resultText the text to show in the results field.
+     * @param resultText the text to show in the results field
      */
     private synchronized static void setResultText(String resultText) {
         resultField.setText(resultText);

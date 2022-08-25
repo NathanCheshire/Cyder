@@ -657,7 +657,7 @@ public class BaseInputHandler {
     /**
      * Removes, logs, and returns the first element from the provided list.
      *
-     * @param list the list to perform the operations on.
+     * @param list the list to perform the operations on
      * @return the object removed from the list
      */
     private Object removeAndLog(LinkedList<Object> list) {

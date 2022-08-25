@@ -470,8 +470,8 @@ public final class MessagingUtils {
      * Generates and returns a file preview for the provided image file.
      *
      * @param imageFile      the image file
-     * @param onSaveRunnable the runnable to invoke when the save button is pressed.
-     * @return the label with the image preview and save button.
+     * @param onSaveRunnable the runnable to invoke when the save button is pressed
+     * @return the label with the image preview and save button
      */
     public static JLabel generatePicturePreviewLabel(File imageFile, Runnable onSaveRunnable) {
         Preconditions.checkNotNull(imageFile);

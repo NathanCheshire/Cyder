@@ -53,7 +53,7 @@ public class CyderTextField extends JTextField {
     /**
      * Constructs a new Cyder TextField object.
      *
-     * @param charLimit the character limit for the text field.
+     * @param charLimit the character limit for the text field
      */
     public CyderTextField(int charLimit) {
         super(charLimit == 0 ? Integer.MAX_VALUE : charLimit);

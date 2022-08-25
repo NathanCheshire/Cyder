@@ -68,7 +68,7 @@ public class CyderSliderUi extends BasicSliderUI {
     /**
      * Sets the radius of the thumb.
      *
-     * @param radius the radius of the thumb.
+     * @param radius the radius of the thumb
      */
     public void setThumbRadius(int radius) {
         Preconditions.checkArgument(radius > 0);

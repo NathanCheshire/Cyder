@@ -2563,7 +2563,7 @@ public enum Console {
     /**
      * Refreshes the console, bounds, orientation, and fullscreen mode.
      *
-     * @param fullscreen whether to set the frame to fullscreen mode.
+     * @param fullscreen whether to set the frame to fullscreen mode
      */
     public void setFullscreen(boolean fullscreen) {
         try {
@@ -3200,7 +3200,7 @@ public enum Console {
      * Simply closes the console due to a user logout.
      *
      * @param exit       whether to exit Cyder upon closing the Console
-     * @param logoutUser whether to log out the currently logged-in user.
+     * @param logoutUser whether to log out the currently logged-in user
      */
     public void closeFrame(boolean exit, boolean logoutUser) {
         consoleClosed.set(true);

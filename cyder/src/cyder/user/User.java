@@ -683,7 +683,7 @@ public class User {
     /**
      * Sets whether to show debug menus on start.
      *
-     * @param debugwindows whether to show the debug menus on start.
+     * @param debugwindows whether to show the debug menus on start
      */
     public void setDebugwindows(String debugwindows) {
         this.debugwindows = debugwindows;

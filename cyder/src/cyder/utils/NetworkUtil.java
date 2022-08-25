@@ -74,6 +74,16 @@ public class NetworkUtil {
             Console.INSTANCE.isClosed() || !highPingCheckerRunning.get();
 
     /**
+     * The timeout between checking for high ping (two minutes).
+     */
+    private static final int HIGH_PING_TIMEOUT = 1000 * 60 * 2;
+
+    /**
+     * The timeout between checking for the high ping checker's exit condition (six seconds).
+     */
+    private static final int HIGH_PING_EXIT_CHECK = 1000 * 6;
+
+    /**
      * Starts the high ping checker.
      */
     public static void startHighPingChecker() {
@@ -86,8 +96,7 @@ public class NetworkUtil {
                 while (highPingCheckerRunning.get()) {
                     setHighLatency(!decentPing());
 
-                    TimeUtil.sleepWithChecks(1000 * 60 * 2,
-                            1000 * 30, shouldExit);
+                    TimeUtil.sleepWithChecks(HIGH_PING_TIMEOUT, HIGH_PING_EXIT_CHECK, shouldExit);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -127,21 +136,28 @@ public class NetworkUtil {
     public static final int SITE_PING_TIMEOUT = 5000;
 
     /**
-     * Pings a HTTP URL. This effectively sends a HEAD request and returns <code>true</code>
+     * So no head?
+     */
+    private static final String HEAD = "HEAD";
+
+    /**
+     * Pings an HTTP URL. This effectively sends a HEAD request and returns <code>true</code>
      * if the response code is in the 200-399 range.
      *
-     * @param url The HTTP URL to be pinged.
+     * @param url The HTTP URL to be pinged
      * @return whether the given HTTP URL has returned response code 200-399 on a HEAD request within the
      * given timeout
      */
     public static boolean siteReachable(String url) {
-        url = url.replaceFirst("^https", "http");
+        Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!url.isEmpty());
+        if (url.startsWith("https")) url = url.replaceAll("^https", "http");
 
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setConnectTimeout(SITE_PING_TIMEOUT);
             connection.setReadTimeout(SITE_PING_TIMEOUT);
-            connection.setRequestMethod("HEAD");
+            connection.setRequestMethod(HEAD);
             int responseCode = connection.getResponseCode();
             return (200 <= responseCode && responseCode <= 399);
         } catch (Exception ignored) {}
@@ -161,8 +177,8 @@ public class NetworkUtil {
 
     /**
      * The ip to use when pinging google to determine a user's latency.
-     * DNS changing for this would be highly unlikely. However, this might
-     * be changed to a remote database GET request.
+     * DNS changing for this would be highly unlikely. In the future, this might
+     * be changed to a remote database value.
      */
     public static final String LATENCY_GOOGLE_IP = "172.217.4.78";
 
@@ -214,7 +230,7 @@ public class NetworkUtil {
         }
 
         Logger.log(Logger.Tag.DEBUG, "Latency of " + LATENCY_HOST_NAME
-                + " found to be " + latency + "ms");
+                + " found to be " + TimeUtil.millisToFormattedString(latency));
 
         return latency;
     }
@@ -248,7 +264,7 @@ public class NetworkUtil {
     }
 
     /**
-     * Reads from the provided url and returned the response.
+     * Reads from the provided url and returns the response.
      *
      * @param urlString the string of the url to ping and get contents from
      * @return the resulting url response
@@ -279,9 +295,9 @@ public class NetworkUtil {
     }
 
     /**
-     * Returns the title of the provided url.
+     * Returns the title of the provided url according to JSoup.
      *
-     * @param url the url to get the title of.
+     * @param url the url to get the title of
      * @return the title of the provided url
      */
     public static String getUrlTitle(String url) {

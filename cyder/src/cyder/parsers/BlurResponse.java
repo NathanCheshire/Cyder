@@ -21,7 +21,7 @@ public class BlurResponse {
     /**
      * Constructs a new blur response object.
      *
-     * @param imagePath the path to the blurred image.
+     * @param imagePath the path to the blurred image
      */
     public BlurResponse(String imagePath) {
         this.imagePath = imagePath;

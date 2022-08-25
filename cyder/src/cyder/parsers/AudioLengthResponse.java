@@ -12,7 +12,7 @@ public class AudioLengthResponse {
     /**
      * Constructs a new audio length response.
      *
-     * @param length the length of the audio file in seconds.
+     * @param length the length of the audio file in seconds
      */
     public AudioLengthResponse(float length) {
         this.length = length;

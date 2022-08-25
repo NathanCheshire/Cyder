@@ -694,7 +694,7 @@ public final class PathFinderWidget {
         /**
          * Constructs and starts a new path animator.
          *
-         * @param pathPoints the list of points to animate.
+         * @param pathPoints the list of points to animate
          */
         public PathAnimator(ArrayList<Point> pathPoints) {
             CyderThreadRunner.submit(() -> {

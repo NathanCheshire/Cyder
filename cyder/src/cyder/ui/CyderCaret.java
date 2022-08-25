@@ -20,7 +20,7 @@ public class CyderCaret extends DefaultCaret {
     /**
      * Constructs a new CyderCaret.
      *
-     * @param caretColor the color for the caret.
+     * @param caretColor the color for the caret
      */
     public CyderCaret(Color caretColor) {
         setBlinkRate(500);

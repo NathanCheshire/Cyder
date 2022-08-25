@@ -91,7 +91,7 @@ public class CyderScrollList {
     /**
      * Constructs a new scroll list object.
      *
-     * @param width  the width of the component.
+     * @param width  the width of the component
      * @param height the height of the component
      */
     public CyderScrollList(int width, int height) {

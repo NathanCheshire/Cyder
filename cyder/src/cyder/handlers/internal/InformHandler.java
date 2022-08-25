@@ -31,7 +31,7 @@ public final class InformHandler {
     /**
      * A quick information pane.
      *
-     * @param text the possibly html styled text to display.
+     * @param text the possibly html styled text to display
      * @return a reference to the shown inform frame
      * @throws IllegalArgumentException if the provided text is null
      */

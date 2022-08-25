@@ -75,7 +75,7 @@ public class CyderPanel extends JLabel {
     /**
      * Sets the state of disable content repainting.
      *
-     * @param disableContentRepainting whether the content pane should be repainted.
+     * @param disableContentRepainting whether the content pane should be repainted
      */
     public void setDisableContentRepainting(boolean disableContentRepainting) {
         this.disableContentRepainting = disableContentRepainting;
