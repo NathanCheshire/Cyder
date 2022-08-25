@@ -295,7 +295,7 @@ public enum Console {
     public void launch() {
         ExceptionHandler.checkFatalCondition(isClosed(), previousUuid);
 
-        NetworkUtil.startDecentPingChecker();
+        NetworkUtil.startHighPingChecker();
 
         loadBackgrounds();
         resizeBackgrounds();

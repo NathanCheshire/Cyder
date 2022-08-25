@@ -787,7 +787,6 @@ public class BaseInputHandler {
 
                 getJTextPane().setCaretPosition(getJTextPane().getDocument().getLength());
 
-                // todo optimize queries and don't need to add if shouldn't even do typing sound
                 if (typingSoundInc == TYPING_SOUND_FREQUENCY) {
                     if (!shouldFinishPrinting && typingSound) {
                         IOUtil.playSystemAudio(typingSoundPath, false);
@@ -890,17 +889,18 @@ public class BaseInputHandler {
     }
 
     // -----------------
-    // redirection logic
+    // Redirection logic
     // -----------------
 
     /**
-     * Semaphore used to ensure all things that need to
-     * be written to the redirectionFile are written to it.
-     * This also ensures that multiple redirections
-     * aren't performed at the same time.
+     * Semaphore used to ensure all things that need to be written to the redirectionFile are written to it.
+     * This also ensures that multiple redirections aren't performed at the same time.
      */
     private final Semaphore redirectionSem = new Semaphore(1);
 
+    /**
+     * The error message to print if redirection fails.
+     */
     private static final String REDIRECTION_ERROR_MESSAGE = "Could not redirect output";
 
     /**
@@ -1100,7 +1100,7 @@ public class BaseInputHandler {
     }
 
     // ---------------------
-    // generic print methods
+    // Generic print methods
     // ---------------------
 
     /**

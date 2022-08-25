@@ -63,19 +63,20 @@ public class NetworkUtil {
     }
 
     /**
-     * The function used by the high ping checker to provide to TimeUtil.
-     */
-    private static final Function<Void, Boolean> shouldExit = ignored -> Console.INSTANCE.isClosed();
-
-    /**
      * Whether the high ping check is/should be running currently.
      */
     private static final AtomicBoolean highPingCheckerRunning = new AtomicBoolean();
 
     /**
+     * The function used by the high ping checker to provide to TimeUtil.
+     */
+    private static final Function<Void, Boolean> shouldExit = ignored ->
+            Console.INSTANCE.isClosed() || !highPingCheckerRunning.get();
+
+    /**
      * Starts the high ping checker.
      */
-    public static void startDecentPingChecker() {
+    public static void startHighPingChecker() {
         if (highPingCheckerRunning.get()) return;
 
         highPingCheckerRunning.set(true);
