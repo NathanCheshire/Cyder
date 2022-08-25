@@ -9,6 +9,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderOutputPane;
 import cyder.youtube.YoutubeConstants;
+import org.atteo.evo.inflector.English;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -438,20 +439,15 @@ public class StringUtil {
     }
 
     /**
-     * Returns the most probable plural form of the provided noun.
+     * Returns the form of the word.
      *
-     * @param singularNoun the singular form of the noun
-     * @return the most probable plural form of the noun
+     * @return the form of the word
      */
-    public static String getPluralForm(String singularNoun) {
-        Preconditions.checkNotNull(singularNoun);
-        Preconditions.checkArgument(!singularNoun.isEmpty());
+    public static String getPlural(String word) {
+        Preconditions.checkNotNull(word);
+        Preconditions.checkArgument(!word.isEmpty());
 
-        // todo Wolfram Alpha API link here
-        // todo maybe make a unit test as well
-        // todo this might be a backend util thing
-
-        return "";
+        return English.plural(word);
     }
 
     /**
