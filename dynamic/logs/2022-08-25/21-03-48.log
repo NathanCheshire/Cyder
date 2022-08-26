@@ -125,11 +125,9 @@
 [21-03-51.509] [LOADING MESSAGE]: Checking for an AutoCypher
 [21-03-51.510] [LOGIN]: AutoCypher Attempt
 [21-03-51.511] [LOADING MESSAGE]: Auto Cyphering
-[21-03-51.513] [USER GET]: key = name, value = Nathan
-[21-03-51.515] [USER GET]: key = name, value = Nathan
+[21-03-51.515] [USER GET]: key = name, value = Nathan [2x]
 [21-03-51.558] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
-[21-03-51.704] [USER GET]: key = darkmode, value = 0
-[21-03-51.713] [USER GET]: key = darkmode, value = 0
+[21-03-51.713] [USER GET]: key = darkmode, value = 0 [2x]
 [21-03-51.773] [THREAD STARTED]: Splash Animation
 [21-03-51.809] [OBJECT CREATION]: Objects created since last delta (5000ms): 72
 [21-03-51.937] [UNIQUE OBJECT CREATED]: Console singleton constructed
@@ -139,21 +137,15 @@
 [21-03-52.203] [DEBUG]: Latency of Google found to be 63ms
 [21-03-52.440] [USER GET]: key = name, value = Nathan
 [21-03-52.441] [USER GET]: key = randombackground, value = 0
-[21-03-52.442] [USER GET]: key = fullscreen, value = 0
-[21-03-52.553] [USER GET]: key = fullscreen, value = 0
-[21-03-52.554] [USER GET]: key = fullscreen, value = 0
+[21-03-52.554] [USER GET]: key = fullscreen, value = 0 [3x]
 [21-03-52.555] [USER GET]: key = name, value = Nathan
-[21-03-52.623] [USER GET]: key = foreground, value = f0f0f0
-[21-03-52.624] [USER GET]: key = foreground, value = f0f0f0
-[21-03-52.626] [USER GET]: key = foreground, value = f0f0f0
+[21-03-52.626] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [21-03-52.627] [USER GET]: key = Font, value = Agency FB
 [21-03-52.627] [USER GET]: key = fontsize, value = 27
 [21-03-52.641] [USER GET]: key = outputborder, value = 0
 [21-03-52.642] [USER GET]: key = outputfill, value = 0
 [21-03-52.658] [USER GET]: key = inputborder, value = 0
-[21-03-52.659] [USER GET]: key = foreground, value = f0f0f0
-[21-03-52.660] [USER GET]: key = foreground, value = f0f0f0
-[21-03-52.661] [USER GET]: key = foreground, value = f0f0f0
+[21-03-52.661] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [21-03-52.661] [USER GET]: key = Font, value = Agency FB
 [21-03-52.662] [USER GET]: key = fontsize, value = 27
 [21-03-52.663] [USER GET]: key = inputfill, value = 0

@@ -13,5 +13,5 @@ import java.lang.annotation.Target;
  * for human-readability, we extract the logic to a named method.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.TYPE}) /* methods and type for enums */
+@Target({ElementType.METHOD, ElementType.TYPE, ElementType.FIELD}) /* methods, type for enums, field for listeners */
 public @interface ForReadability {}
