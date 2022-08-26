@@ -1,6 +1,7 @@
 package cyder.animation;
 
 import com.google.common.base.Preconditions;
+import cyder.console.ConsoleConstants;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
@@ -9,7 +10,6 @@ import cyder.threads.ThreadUtil;
 import cyder.ui.CyderFrame;
 import cyder.utils.UiUtil;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -92,7 +92,7 @@ public final class AnimationUtil {
             cyderFrame.setLocation(x, i);
         }
 
-        cyderFrame.setState(JFrame.ICONIFIED);
+        cyderFrame.setState(ConsoleConstants.FRAME_ICONIFIED);
 
         if (wasEnabled) {
             cyderFrame.enableDragging();

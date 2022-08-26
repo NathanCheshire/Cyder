@@ -7,6 +7,7 @@ import com.google.common.collect.Range;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.console.Console;
+import cyder.console.ConsoleConstants;
 import cyder.constants.*;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
@@ -1349,9 +1350,9 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setState(int state) {
-        if (state == JFrame.ICONIFIED) {
+        if (state == ConsoleConstants.FRAME_ICONIFIED) {
             setDisableContentRepainting(true);
-        } else if (state == JFrame.NORMAL) {
+        } else if (state == ConsoleConstants.FRAME_NORMAL) {
             setDisableContentRepainting(false);
         }
 
@@ -2567,10 +2568,6 @@ public class CyderFrame extends JFrame {
     public void setPinned(boolean pinWindow) {
         pinned = pinWindow;
         setAlwaysOnTop(pinned);
-
-        if (topDrag != null) {
-            topDrag.refreshPinIcon();
-        }
     }
 
     /**
@@ -2721,10 +2718,6 @@ public class CyderFrame extends JFrame {
         if (visible && Console.INSTANCE.getConsoleCyderFrame() != null &&
                 Console.INSTANCE.getConsoleCyderFrame().isAlwaysOnTop()) {
             setAlwaysOnTop(true);
-
-            if (topDrag != null) {
-                topDrag.refreshPinIconAndTooltip();
-            }
         }
     }
 

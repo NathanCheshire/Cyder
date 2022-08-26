@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import com.google.common.base.Preconditions;
+import cyder.console.Console;
 import cyder.console.PinButton;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -28,9 +29,6 @@ public class CyderDragLabel extends JLabel {
     public static final int DEFAULT_HEIGHT = 30;
 
     private static final String MINIMIZE = "Minimize";
-    private static final String PIN = "Pin";
-    private static final String UNPIN_FROM_CONSOLE = "Unpin from console";
-    private static final String PIN_TO_CONSOLE = "Pin to console";
     private static final String CLOSE = "Close";
 
     /**
@@ -83,7 +81,7 @@ public class CyderDragLabel extends JLabel {
     /**
      * The list of buttons to paint on the right of the drag label.
      */
-    private LinkedList<Component> rightButtonList = buildRightButtonList();
+    private LinkedList<Component> rightButtonList;
 
     /**
      * The list of buttons to paint on the left of the drag label.
@@ -106,6 +104,7 @@ public class CyderDragLabel extends JLabel {
         this.backgroundColor = CyderColors.getGuiThemeColor();
 
         leftButtonList = new LinkedList<>();
+        rightButtonList = buildRightButtonList();
 
         setSize(width, height);
         setOpaque(true);
@@ -360,11 +359,6 @@ public class CyderDragLabel extends JLabel {
     }
 
     /**
-     * The pin button used for the default drag label.
-     */
-    private JButton pinButton;
-
-    /**
      * Builds and returns the default right button list which contains the buttons
      * in the following order: minimize, pin window, close.
      *
@@ -384,34 +378,17 @@ public class CyderDragLabel extends JLabel {
         });
         ret.add(minimize);
 
-        pinButton = new CyderIconButton(PIN, CyderIcons.pinIcon, null,
-                new MouseAdapter() {
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        if (effectFrame.getPinned()) {
-                            pinButton.setIcon(CyderIcons.pinIconHoverPink);
-                        } else if (effectFrame.isConsolePinned()) {
-                            pinButton.setIcon(CyderIcons.pinIcon);
-                        } else {
-                            pinButton.setIcon(CyderIcons.pinIconHover);
-
-                        }
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        if (effectFrame.getPinned()) {
-                            pinButton.setIcon(CyderIcons.pinIconHover);
-                        } else if (effectFrame.isConsolePinned()) {
-                            pinButton.setIcon(CyderIcons.pinIconHoverPink);
-                        } else {
-                            pinButton.setIcon(CyderIcons.pinIcon);
-                        }
-                    }
-                });
-        pinButton.addActionListener(e -> {
-            Logger.log(Logger.Tag.UI_ACTION, this);
-            onPinButtonClick();
+        CyderFrame consoleFrame = Console.INSTANCE.getConsoleCyderFrame();
+        PinButton.State state = PinButton.State.DEFAULT;
+        if (consoleFrame != null && consoleFrame.isAlwaysOnTop()) {
+            state = PinButton.State.FRAME_PINNED;
+        }
+        PinButton pinButton = new PinButton(effectFrame, state);
+        pinButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Logger.log(Logger.Tag.UI_ACTION, this);
+            }
         });
         ret.add(pinButton);
 
@@ -858,58 +835,5 @@ public class CyderDragLabel extends JLabel {
      */
     public void setYOffset(int yOffset) {
         this.yOffset.set(yOffset);
-    }
-
-    /**
-     * Performs the logic needed for advancing pin state and
-     * refreshing when the pin button is pressed.
-     */
-    private void onPinButtonClick() {
-        if (effectFrame.getPinned()) {
-            effectFrame.setPinned(false);
-            effectFrame.setConsolePinned(true);
-        } else if (effectFrame.isConsolePinned()) {
-            effectFrame.setConsolePinned(false);
-        } else {
-            effectFrame.setPinned(true);
-        }
-
-        refreshPinIconAndTooltip();
-    }
-
-    /**
-     * Refreshes the pin icon and tooltip.
-     */
-    public void refreshPinIconAndTooltip() {
-        if (pinButton != null) {
-            refreshPinTooltip();
-            refreshPinIcon();
-        }
-    }
-
-    /**
-     * Refreshes the pin icon.
-     */
-    public void refreshPinIcon() {
-        if (effectFrame.getPinned()) {
-            pinButton.setIcon(CyderIcons.pinIconHover);
-        } else if (effectFrame.isConsolePinned()) {
-            pinButton.setIcon(CyderIcons.pinIconHoverPink);
-        } else {
-            pinButton.setIcon(CyderIcons.pinIcon);
-        }
-    }
-
-    /**
-     * Refreshes the pin tooltip.
-     */
-    public void refreshPinTooltip() {
-        if (effectFrame.getPinned()) {
-            pinButton.setToolTipText(PIN_TO_CONSOLE);
-        } else if (effectFrame.isConsolePinned()) {
-            pinButton.setToolTipText(UNPIN_FROM_CONSOLE);
-        } else {
-            pinButton.setToolTipText(PIN);
-        }
     }
 }

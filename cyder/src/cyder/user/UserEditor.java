@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
 import cyder.audio.AudioPlayer;
 import cyder.console.Console;
+import cyder.console.ConsoleConstants;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
@@ -1829,7 +1830,7 @@ public final class UserEditor {
      * @return whether the edit user frame is currently minimized
      */
     public static boolean isMinimized() {
-        return editUserFrame.getState() == JFrame.ICONIFIED;
+        return editUserFrame.getState() == ConsoleConstants.FRAME_ICONIFIED;
     }
 
     /**
@@ -1844,7 +1845,7 @@ public final class UserEditor {
      */
     public static void restore() {
         if (isMinimized()) {
-            editUserFrame.setState(JFrame.NORMAL);
+            editUserFrame.setState(ConsoleConstants.FRAME_NORMAL);
         }
     }
 
