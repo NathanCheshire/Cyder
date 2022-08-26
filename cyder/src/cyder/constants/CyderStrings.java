@@ -42,7 +42,7 @@ public final class CyderStrings {
     /**
      * The downward pointing triangle character (▼).
      */
-    public static final String DOWN_ARROW = "\u25BC"; // todo use me for pin icon
+    public static final String DOWN_ARROW = "\u25BC";
 
     /**
      * A string used to denote something is not available.

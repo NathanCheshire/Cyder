@@ -143,43 +143,7 @@ public enum Console {
      */
     private JButton menuButton;
 
-    /**
-     * The top drag label pin button.
-     */
-    private final JButton pinButton = new CyderIconButton("Pin",
-            CyderIcons.pinIcon, CyderIcons.pinIconHover, new MouseAdapter() {
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            if (consoleCyderFrame.isAlwaysOnTop()) {
-                pinButton.setIcon(CyderIcons.pinIcon);
-            } else {
-                pinButton.setIcon(CyderIcons.pinIconHover);
-            }
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            if (consoleCyderFrame.isAlwaysOnTop()) {
-                pinButton.setIcon(CyderIcons.pinIconHover);
-            } else {
-                pinButton.setIcon(CyderIcons.pinIcon);
-            }
-        }
-    }, new FocusAdapter() {
-        @Override
-        public void focusGained(FocusEvent e) {
-            pinButton.setIcon(CyderIcons.pinIconHover);
-        }
-
-        @Override
-        public void focusLost(FocusEvent e) {
-            if (consoleCyderFrame.isAlwaysOnTop()) {
-                pinButton.setIcon(CyderIcons.pinIconHover);
-            } else {
-                pinButton.setIcon(CyderIcons.pinIcon);
-            }
-        }
-    });
+    private PinButton pinButton;
 
     /**
      * The top drag label audio menu toggle button.
@@ -825,14 +789,8 @@ public enum Console {
         });
         consoleDragButtonList.add(minimizeButton);
 
-        pinButton.addActionListener(e -> {
-            consoleCyderFrame.setAlwaysOnTop(!consoleCyderFrame.isAlwaysOnTop());
-            pinButton.setIcon(consoleCyderFrame.isAlwaysOnTop() ? CyderIcons.pinIconHover : CyderIcons.pinIcon);
-            pinButton.setToolTipText(consoleCyderFrame.isAlwaysOnTop() ? "Unpin" : "Pin");
-            saveScreenStat();
-        });
-        pinButton.setIcon(UserUtil.getCyderUser().getScreenStat().isConsoleOnTop()
-                ? CyderIcons.pinIconHover : CyderIcons.pinIcon);
+        // todo might need to init state here for restoring from pinned
+        pinButton = new PinButton(consoleCyderFrame);
         consoleDragButtonList.add(pinButton);
 
         alternateBackgroundButton.addActionListener(e -> {

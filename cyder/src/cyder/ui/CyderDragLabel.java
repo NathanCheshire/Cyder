@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import com.google.common.base.Preconditions;
+import cyder.console.PinButton;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -738,14 +739,20 @@ public class CyderDragLabel extends JLabel {
             int buttonWidth;
             int buttonHeight;
 
-            if (rightButtonComponent instanceof JLabel label) {
-                buttonWidth = StringUtil.getMinWidth(label.getText().trim(), label.getFont());
-                buttonHeight = StringUtil.getAbsoluteMinHeight(label.getText().trim(), label.getFont());
-            } else if (rightButtonComponent instanceof JButton) {
-                buttonWidth = 22;
-                buttonHeight = 20;
-            } else {
-                throw new IllegalArgumentException("A component other than JLabel/JButton found "
+            switch (rightButtonComponent) {
+                case PinButton pinButton -> {
+                    buttonWidth = pinButton.getWidth();
+                    buttonHeight = pinButton.getHeight();
+                }
+                case JLabel label -> {
+                    buttonWidth = StringUtil.getMinWidth(label.getText().trim(), label.getFont());
+                    buttonHeight = StringUtil.getAbsoluteMinHeight(label.getText().trim(), label.getFont());
+                }
+                case JButton ignored -> {
+                    buttonWidth = 22;
+                    buttonHeight = 20;
+                }
+                case default -> throw new IllegalArgumentException("A component other than JLabel/JButton found "
                         + "its way into the right button list: " + rightButtonComponent);
             }
 
@@ -777,14 +784,20 @@ public class CyderDragLabel extends JLabel {
             int buttonWidth;
             int buttonHeight;
 
-            if (leftButtonComponent instanceof JLabel label) {
-                buttonWidth = StringUtil.getMinWidth(label.getText().trim(), label.getFont());
-                buttonHeight = StringUtil.getAbsoluteMinHeight(label.getText().trim(), label.getFont());
-            } else if (leftButtonComponent instanceof JButton) {
-                buttonWidth = 22;
-                buttonHeight = 20;
-            } else {
-                throw new IllegalArgumentException("A component other than JLabel/JButton found "
+            switch (leftButtonComponent) {
+                case PinButton pinButton -> {
+                    buttonWidth = pinButton.getWidth();
+                    buttonHeight = pinButton.getHeight();
+                }
+                case JLabel label -> {
+                    buttonWidth = StringUtil.getMinWidth(label.getText().trim(), label.getFont());
+                    buttonHeight = StringUtil.getAbsoluteMinHeight(label.getText().trim(), label.getFont());
+                }
+                case JButton ignored -> {
+                    buttonWidth = 22;
+                    buttonHeight = 20;
+                }
+                case default -> throw new IllegalArgumentException("A component other than JLabel/JButton found "
                         + "its way into the right button list: " + leftButtonComponent);
             }
 

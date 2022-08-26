@@ -1,0 +1,240 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[17-38-20.619] [ENTRY]: Nathan
+[17-38-20.568] [DEBUG]: Loaded 131 static resources
+[17-38-20.586] [DEBUG]: Loaded 16 static folders
+[17-38-20.598] [DEBUG]: Found prop file: props\propkeys.ini
+[17-38-20.598] [DEBUG]: Found prop file: props\props.ini
+[17-38-20.610] [PROP LOADED]: [key = map_quest_api_key]
+[17-38-20.610] [PROP LOADED]: [key = youtube_api_3_key]
+[17-38-20.610] [PROP LOADED]: [key = ip_key]
+[17-38-20.610] [PROP LOADED]: [key = weather_key]
+[17-38-20.610] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[17-38-20.610] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7c
+               a733d0a7f6]
+[17-38-20.612] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[17-38-20.612] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor
+               ,audiolength,capsmode,typingsound,showbusyicon,clockonconsole,consoleclockformat]
+[17-38-20.612] [PROP LOADED]: [key = font_metric, value = 1]
+[17-38-20.612] [PROP LOADED]: [key = max_font_size, value = 50]
+[17-38-20.612] [PROP LOADED]: [key = min_font_size, value = 25]
+[17-38-20.612] [PROP LOADED]: [key = released, value = false]
+[17-38-20.612] [PROP LOADED]: [key = version, value = Liminal]
+[17-38-20.612] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[17-38-20.612] [PROP LOADED]: [key = components_relocatable, value = false]
+[17-38-20.612] [PROP LOADED]: [key = testing_mode, value = true]
+[17-38-20.612] [PROP LOADED]: [key = autocypher, value = true]
+[17-38-20.612] [PROP LOADED]: [key = dispose_splash, value = true]
+[17-38-20.613] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[17-38-20.613] [PROP LOADED]: [key = activate_watchdog, value = false]
+[17-38-20.613] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[17-38-20.613] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[17-38-20.613] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[17-38-20.613] [PROP LOADED]: [key = ui_scale, value = 1]
+[17-38-20.613] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[17-38-20.613] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[17-38-20.613] [PROP LOADED]: [key = latency_ip, value = 172.217.4.78]
+[17-38-20.613] [PROP LOADED]: [key = latency_port, value = 80]
+[17-38-20.613] [PROP LOADED]: [key = latency_name, value = Google]
+[17-38-20.613] [PROP LOADED]: [key = props_reloadable, value = false]
+[17-38-20.617] [DEBUG]: Jar mode set as: FALSE
+[17-38-20.667] [THREAD STARTED]: Object Creation Logger
+[17-38-20.957] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-08-24
+[17-38-20.958] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\19-11-34.log
+[17-38-20.960] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\19-14-38.log
+[17-38-20.961] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\19-22-54.log
+[17-38-20.962] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\19-47-14.log
+[17-38-20.964] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\20-00-27.log
+[17-38-20.965] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\20-08-31.log
+[17-38-20.966] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\20-35-44.log
+[17-38-20.967] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-02-27.log
+[17-38-20.968] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-03-35.log
+[17-38-20.969] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-04-08.log
+[17-38-20.972] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-05-58.log
+[17-38-20.974] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-07-33.log
+[17-38-20.976] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-07-56.log
+[17-38-20.977] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-28-45.log
+[17-38-20.978] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-29-24.log
+[17-38-20.979] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-30-14.log
+[17-38-20.980] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-31-07.log
+[17-38-20.982] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-31-27.log
+[17-38-20.983] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-31-42.log
+[17-38-20.984] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-32-41.log
+[17-38-20.986] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-34-47.log
+[17-38-20.987] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-37-07.log
+[17-38-20.988] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-37-39.log
+[17-38-20.989] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-38-00.log
+[17-38-20.991] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-38-30.log
+[17-38-20.992] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-39-57.log
+[17-38-20.993] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-40-27.log
+[17-38-20.994] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-44-03.log
+[17-38-20.995] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-44-21.log
+[17-38-20.996] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-50-38.log
+[17-38-20.997] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-52-43.log
+[17-38-20.997] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-56-22.log
+[17-38-20.998] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-57-03.log
+[17-38-20.999] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-24\21-57-30.log
+[17-38-21.102] [DEBUG]: Watchdog skipped
+[17-38-21.108] [LOADING MESSAGE]: Registering fonts
+[17-38-21.499] [FONT LOADED]: agency-fb
+[17-38-21.501] [FONT LOADED]: arial-black
+[17-38-21.502] [FONT LOADED]: beyno
+[17-38-21.503] [FONT LOADED]: condiment-regular
+[17-38-21.504] [FONT LOADED]: prompt-bold
+[17-38-21.506] [FONT LOADED]: segoe-ui-black
+[17-38-21.507] [FONT LOADED]: tahoma
+[17-38-21.508] [LOADING MESSAGE]: Ensuring singular instance
+[17-38-21.510] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[17-38-21.511] [DEBUG]: Starting instance socket on port 5150
+[17-38-22.014] [LOADING MESSAGE]: Ensuring OS is supported
+[17-38-22.014] [LOADING MESSAGE]: Creating dynamics
+[17-38-22.015] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[17-38-22.031] [LOADING MESSAGE]: Validating users
+[17-38-22.132] [USER GET]: key = name, value = Nathan
+[17-38-22.133] [USER GET]: key = foreground, value = f0f0f0
+[17-38-22.133] [USER GET]: key = Font, value = Agency FB
+[17-38-22.133] [USER GET]: key = background, value = 0f0f0f
+[17-38-22.141] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1152, consoleY=454, consoleWidth=978,
+               consoleHeight=662, monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[17-38-22.154] [USER GET]: key = mappedexecutable, value = []
+[17-38-22.155] [USER GET]: key = loggedin, value = 0
+[17-38-22.155] [USER GET]: key = randombackground, value = 0
+[17-38-22.156] [USER GET]: key = persistentnotifications, value = 0
+[17-38-22.156] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
+[17-38-22.156] [USER GET]: key = debugwindows, value = 0
+[17-38-22.157] [USER GET]: key = outputborder, value = 0
+[17-38-22.157] [USER GET]: key = intromusic, value = 0
+[17-38-22.158] [USER GET]: key = fontsize, value = 27
+[17-38-22.158] [USER GET]: key = inputborder, value = 0
+[17-38-22.159] [USER GET]: key = minimizeonclose, value = 0
+[17-38-22.159] [USER GET]: key = youtubeuuid, value = aaaaaaaaaiI
+[17-38-22.160] [USER GET]: key = inputfill, value = 0
+[17-38-22.160] [USER GET]: key = silenceerrors, value = 1
+[17-38-22.160] [USER GET]: key = doanimations, value = 1
+[17-38-22.161] [USER GET]: key = compacttextmode, value = 0
+[17-38-22.161] [USER GET]: key = outputfill, value = 0
+[17-38-22.162] [USER GET]: key = fullscreen, value = 0
+[17-38-22.162] [USER GET]: key = laststart, value = 1661395845009
+[17-38-22.163] [USER GET]: key = darkmode, value = 0
+[17-38-22.163] [USER GET]: key = wrapshell, value = 0
+[17-38-22.163] [USER GET]: key = filterchat, value = 1
+[17-38-22.164] [USER GET]: key = hourlychimes, value = 1
+[17-38-22.166] [USER GET]: key = mappedexecutable, value = []
+[17-38-22.166] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1152, consoleY=454, consoleWidth=978,
+               consoleHeight=662, monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[17-38-22.177] [USER GET]: key = name, value = Nathan
+[17-38-22.177] [LOADING MESSAGE]: Cleaning users
+[17-38-22.179] [LOADING MESSAGE]: Validating props
+[17-38-22.286] [LOADING MESSAGE]: Validating Widgets
+[17-38-22.561] [LOADING MESSAGE]: Validating Tests
+[17-38-22.564] [LOADING MESSAGE]: Validating Vanilla annotations
+[17-38-22.574] [LOADING MESSAGE]: Validating Handles
+[17-38-22.585] [THREAD STARTED]: Splash Loader
+[17-38-22.586] [THREAD STARTED]: Sufficient Subroutine Executor
+[17-38-22.588] [LOADING MESSAGE]: Logging JVM args
+[17-38-22.589] [THREAD STARTED]: JVM Args Logger
+[17-38-22.594] [DEBUG]: Set latency ip as 172.217.4.78
+[17-38-22.595] [DEBUG]: Set latency port as 80
+[17-38-22.595] [DEBUG]: Set latency host name as Google
+[17-38-22.600] [LOADING MESSAGE]: Checking for an AutoCypher
+[17-38-22.601] [LOGIN]: AutoCypher Attempt
+[17-38-22.602] [LOADING MESSAGE]: Auto Cyphering
+[17-38-22.606] [USER GET]: key = name, value = Nathan [2x]
+[17-38-22.638] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
+[17-38-22.763] [USER GET]: key = darkmode, value = 0 [2x]
+[17-38-22.812] [THREAD STARTED]: Splash Animation
+[17-38-22.964] [UNIQUE OBJECT CREATED]: Console singleton constructed
+[17-38-22.967] [USER GET]: key = name, value = Nathan
+[17-38-23.093] [DEBUG]: Cyder Entry = AutoCypher
+[17-38-23.094] [THREAD STARTED]: High Ping Checker
+[17-38-23.141] [DEBUG]: Latency of Google found to be 45ms
+[17-38-23.385] [USER GET]: key = name, value = Nathan
+[17-38-23.386] [USER GET]: key = randombackground, value = 0
+[17-38-23.493] [USER GET]: key = fullscreen, value = 0 [3x]
+[17-38-23.494] [USER GET]: key = name, value = Nathan
+[17-38-23.561] [USER GET]: key = foreground, value = f0f0f0 [3x]
+[17-38-23.561] [USER GET]: key = Font, value = Agency FB
+[17-38-23.562] [USER GET]: key = fontsize, value = 27
+[17-38-23.577] [USER GET]: key = outputborder, value = 0
+[17-38-23.577] [USER GET]: key = outputfill, value = 0
+[17-38-23.589] [USER GET]: key = inputborder, value = 0
+[17-38-23.590] [USER GET]: key = foreground, value = f0f0f0 [3x]
+[17-38-23.591] [USER GET]: key = Font, value = Agency FB
+[17-38-23.591] [USER GET]: key = fontsize, value = 27
+[17-38-23.592] [USER GET]: key = inputfill, value = 0
+[17-38-23.595] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1152, consoleY=454, consoleWidth=978,
+               consoleHeight=662, monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[17-38-23.649] [THREAD STARTED]: Hourly Chime Checker
+[17-38-23.651] [THREAD STARTED]: Console Clock Updater
+[17-38-23.652] [THREAD STARTED]: Cyder Busy Checker
+[17-38-23.655] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[17-38-23.657] [USER GET]: key = fullscreen, value = 0
+[17-38-23.658] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1152, consoleY=454, consoleWidth=978,
+               consoleHeight=662, monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[17-38-23.661] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[17-38-23.679] [OBJECT CREATION]: Objects created since last delta (5000ms): 122
+[17-38-23.853] [THREAD STARTED]: Console Printing Animation
+[17-38-23.864] [CONSOLE OUT]: [STRING]: Console loaded in 3s 432ms
+[17-38-23.932] [USER GET]: key = debugwindows, value = 0
+[17-38-23.933] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[17-38-23.934] [THREAD STARTED]: Manual Tests Thread
+[17-38-23.935] [USER GET]: key = laststart, value = 1661395845009
+[17-38-23.936] [USER GET]: key = intromusic, value = 0
+[17-38-25.304] [THREAD STARTED]: Splash Loading Label Updater
+[17-38-28.699] [OBJECT CREATION]: Objects created since last delta (5000ms): 2
+[17-39-11.268] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
