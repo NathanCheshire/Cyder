@@ -728,6 +728,8 @@ public enum Console {
         ScreenStat requestedConsoleStats = UserUtil.getCyderUser().getScreenStat();
 
         consoleCyderFrame.setAlwaysOnTop(requestedConsoleStats.isConsoleOnTop());
+        pinButton.setState(requestedConsoleStats.isConsoleOnTop()
+                ? PinButton.State.CONSOLE_PINNED : PinButton.State.DEFAULT);
 
         int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
         int requestedConsoleHeight = requestedConsoleStats.getConsoleHeight();
@@ -789,7 +791,6 @@ public enum Console {
         });
         consoleDragButtonList.add(minimizeButton);
 
-        // todo might need to init state here for restoring from pinned
         pinButton = new PinButton(consoleCyderFrame);
         consoleDragButtonList.add(pinButton);
 
@@ -3204,12 +3205,15 @@ public enum Console {
         return consoleClosed.get();
     }
 
+    // todo extract me and use for for all
+    public static final int ICONIFIED = JFrame.ICONIFIED;
+
     /**
      * Saves the console's position and window stats to the currently logged-in user's json file.
      */
     public void saveScreenStat() {
         if (consoleCyderFrame == null) return;
-        if (consoleCyderFrame.getState() == JFrame.ICONIFIED) return;
+        if (consoleCyderFrame.getState() == ICONIFIED) return;
         if (getUuid() == null) return;
 
         ScreenStat screenStat = UserUtil.getCyderUser().getScreenStat();

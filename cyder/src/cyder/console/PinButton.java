@@ -54,11 +54,11 @@ public class PinButton extends JLabel {
         repaint();
     }
 
-    private void refreshTooltip() {
+    public void refreshTooltip() {
         setToolTipText(currentState.getTooltip());
     }
 
-    private void refreshPinnedState() {
+    public void refreshPinnedState() {
         if (isForConsole()) {
             effectFrame.setAlwaysOnTop(currentState == State.CONSOLE_PINNED);
         } else {
@@ -89,14 +89,21 @@ public class PinButton extends JLabel {
         };
     }
 
+    public void setState(State newState) {
+        this.currentState = Preconditions.checkNotNull(newState);
+        refreshTooltip();
+        refreshPinnedState();
+        repaint();
+    }
+
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        g.translate(3, 3);
+        g.translate(4, 4);
 
-        int w = 16;
-        int h = 16;
+        int w = 14;
+        int h = 14;
         int[] xPoints = {0, w, w / 2, 0};
         int[] yPoints = {0, 0, h, 0};
 
@@ -105,7 +112,7 @@ public class PinButton extends JLabel {
         super.paint(g);
     }
 
-    private enum State {
+    public enum State {
         DEFAULT("Pin", CyderColors.vanilla, CyderColors.regularRed),
         FRAME_PINNED("Pin to console", CyderColors.regularRed, CyderColors.regularPink),
         CONSOLE_PINNED("Unpin", CyderColors.regularRed, CyderColors.vanilla),
