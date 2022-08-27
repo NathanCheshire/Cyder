@@ -432,6 +432,8 @@ public class NetworkUtil {
             throw new FatalException("Could not obtain document from isp query url");
         }
 
+        // todo ensure length is valid otherwise throw
+
         String isp = locationDocument.getElementsByClass(ispClassName).text();
         String city = locationDocument.getElementsByClass(cityStateCountryClassName)
                 .get(0).getAllElements().get(cityIndex).text();

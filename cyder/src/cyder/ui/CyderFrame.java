@@ -8,6 +8,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.console.Console;
 import cyder.console.ConsoleConstants;
+import cyder.console.PinButton;
 import cyder.constants.*;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
@@ -2711,18 +2712,21 @@ public class CyderFrame extends JFrame {
 
         if (visible) {
             Console.INSTANCE.addTaskbarIcon(this);
-        }
 
-        // if the console is set to always on top, then we need this frame
-        // to be automatically set on top as well so that new frames are not behind the console
-        if (visible && Console.INSTANCE.getConsoleCyderFrame() != null &&
-                Console.INSTANCE.getConsoleCyderFrame().isAlwaysOnTop()) {
-            setAlwaysOnTop(true);
+            if (consoleOnTop()) {
+                getTopDragLabel().getPinButton().setState(PinButton.State.FRAME_PINNED);
+            }
         }
     }
 
+    @ForReadability
+    private static boolean consoleOnTop() {
+        CyderFrame console = Console.INSTANCE.getConsoleCyderFrame();
+        return console != null && console.isAlwaysOnTop();
+    }
+
     // -----------
-    // debug lines
+    // Debug lines
     // -----------
 
     /**

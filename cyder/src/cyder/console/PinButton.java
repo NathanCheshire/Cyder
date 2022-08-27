@@ -65,7 +65,7 @@ public class PinButton extends JLabel {
             currentState = getNextState();
             refreshTooltip();
             repaint();
-            refreshPinnedState();
+            refreshAlwaysOnTopBasedOnCurrentState();
         }
 
         @Override
@@ -99,11 +99,14 @@ public class PinButton extends JLabel {
     }
 
     /**
-     * Refreshes the pinned and console pinned state of the effect frame based off of the current state.
+     * Refreshes the {@link CyderFrame#getPinned()} and {@link CyderFrame#isConsolePinned()}
+     * states of the effect frame based off of the currently set {@link State}.
      */
-    public void refreshPinnedState() {
+    public void refreshAlwaysOnTopBasedOnCurrentState() {
         if (isForConsole()) {
             effectFrame.setAlwaysOnTop(currentState == State.CONSOLE_PINNED);
+
+            System.out.println(effectFrame.isAlwaysOnTop());
         } else {
             effectFrame.setPinned(currentState != State.DEFAULT);
             effectFrame.setConsolePinned(currentState == State.PINNED_TO_CONSOLE);
@@ -145,7 +148,7 @@ public class PinButton extends JLabel {
     public void setState(State newState) {
         this.currentState = Preconditions.checkNotNull(newState);
         refreshTooltip();
-        refreshPinnedState();
+        refreshAlwaysOnTopBasedOnCurrentState();
         repaint();
     }
 

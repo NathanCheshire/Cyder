@@ -1,0 +1,308 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[14-27-17.911] [ENTRY]: Nathan
+[14-27-17.761] [DEBUG]: Loaded 131 static resources
+[14-27-17.793] [DEBUG]: Loaded 16 static folders
+[14-27-17.815] [DEBUG]: Found prop file: props\propkeys.ini
+[14-27-17.816] [DEBUG]: Found prop file: props\props.ini
+[14-27-17.852] [PROP LOADED]: [key = map_quest_api_key]
+[14-27-17.853] [PROP LOADED]: [key = youtube_api_3_key]
+[14-27-17.853] [PROP LOADED]: [key = ip_key]
+[14-27-17.853] [PROP LOADED]: [key = weather_key]
+[14-27-17.853] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[14-27-17.853] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7c
+               a733d0a7f6]
+[14-27-17.854] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[14-27-17.854] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor
+               ,audiolength,capsmode,typingsound,showbusyicon,clockonconsole,consoleclockformat]
+[14-27-17.854] [PROP LOADED]: [key = font_metric, value = 1]
+[14-27-17.854] [PROP LOADED]: [key = max_font_size, value = 50]
+[14-27-17.854] [PROP LOADED]: [key = min_font_size, value = 25]
+[14-27-17.854] [PROP LOADED]: [key = released, value = false]
+[14-27-17.854] [PROP LOADED]: [key = version, value = Liminal]
+[14-27-17.854] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[14-27-17.854] [PROP LOADED]: [key = components_relocatable, value = false]
+[14-27-17.854] [PROP LOADED]: [key = testing_mode, value = true]
+[14-27-17.855] [PROP LOADED]: [key = autocypher, value = true]
+[14-27-17.855] [PROP LOADED]: [key = dispose_splash, value = true]
+[14-27-17.855] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[14-27-17.855] [PROP LOADED]: [key = activate_watchdog, value = false]
+[14-27-17.855] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[14-27-17.855] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[14-27-17.855] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[14-27-17.855] [PROP LOADED]: [key = ui_scale, value = 1]
+[14-27-17.855] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[14-27-17.855] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[14-27-17.855] [PROP LOADED]: [key = latency_ip, value = 172.217.4.78]
+[14-27-17.855] [PROP LOADED]: [key = latency_port, value = 80]
+[14-27-17.855] [PROP LOADED]: [key = latency_name, value = Google]
+[14-27-17.855] [PROP LOADED]: [key = props_reloadable, value = false]
+[14-27-17.898] [DEBUG]: Jar mode set as: FALSE
+[14-27-18.015] [THREAD STARTED]: Object Creation Logger
+[14-27-20.461] [DEBUG]: Watchdog skipped
+[14-27-20.554] [LOADING MESSAGE]: Registering fonts
+[14-27-21.687] [FONT LOADED]: agency-fb
+[14-27-21.696] [FONT LOADED]: arial-black
+[14-27-21.704] [FONT LOADED]: beyno
+[14-27-21.715] [FONT LOADED]: condiment-regular
+[14-27-21.729] [FONT LOADED]: prompt-bold
+[14-27-21.740] [FONT LOADED]: segoe-ui-black
+[14-27-21.748] [FONT LOADED]: tahoma
+[14-27-21.749] [LOADING MESSAGE]: Ensuring singular instance
+[14-27-21.751] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[14-27-21.752] [DEBUG]: Starting instance socket on port 5150
+[14-27-22.258] [LOADING MESSAGE]: Ensuring OS is supported
+[14-27-22.260] [LOADING MESSAGE]: Creating dynamics
+[14-27-22.262] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[14-27-22.312] [LOADING MESSAGE]: Validating users
+[14-27-22.847] [USER GET]: key = name, value = Nathan
+[14-27-22.847] [USER GET]: key = foreground, value = f0f0f0
+[14-27-22.856] [USER GET]: key = background, value = 0f0f0f
+[14-27-22.858] [USER GET]: key = Font, value = Agency FB
+[14-27-22.860] [USER GET]: key = randombackground, value = 0
+[14-27-22.862] [USER GET]: key = persistentnotifications, value = 0
+[14-27-22.899] [USER GET]: key = screenstat, value = ScreenStat{consoleX=844, consoleY=348, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[14-27-22.967] [USER GET]: key = mappedexecutable, value = []
+[14-27-22.968] [USER GET]: key = loggedin, value = 1
+[14-27-22.969] [USER GET]: key = fontsize, value = 27
+[14-27-22.970] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
+[14-27-22.971] [USER GET]: key = intromusic, value = 0
+[14-27-22.972] [USER GET]: key = debugwindows, value = 0
+[14-27-22.972] [USER GET]: key = wrapshell, value = 0
+[14-27-22.973] [USER GET]: key = doanimations, value = 1
+[14-27-22.974] [USER GET]: key = fullscreen, value = 0
+[14-27-22.975] [USER GET]: key = minimizeonclose, value = 0
+[14-27-22.975] [USER GET]: key = hourlychimes, value = 1
+[14-27-22.977] [USER GET]: key = filterchat, value = 1
+[14-27-22.977] [USER GET]: key = silenceerrors, value = 1
+[14-27-22.978] [USER GET]: key = outputfill, value = 0
+[14-27-22.978] [USER GET]: key = youtubeuuid, value = aaaaaaaaaiI
+[14-27-22.979] [USER GET]: key = inputborder, value = 0
+[14-27-22.980] [USER GET]: key = darkmode, value = 0
+[14-27-22.981] [USER GET]: key = laststart, value = 1661482443479
+[14-27-22.982] [USER GET]: key = compacttextmode, value = 0
+[14-27-22.982] [USER GET]: key = inputfill, value = 0
+[14-27-22.983] [USER GET]: key = outputborder, value = 0
+[14-27-22.985] [USER GET]: key = mappedexecutable, value = []
+[14-27-22.987] [USER GET]: key = screenstat, value = ScreenStat{consoleX=844, consoleY=348, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[14-27-23.000] [USER GET]: key = name, value = Nathan
+[14-27-23.001] [LOADING MESSAGE]: Cleaning users
+[14-27-23.022] [LOADING MESSAGE]: Validating props
+[14-27-23.234] [LOADING MESSAGE]: Validating Widgets
+[14-27-26.038] [OBJECT CREATION]: Objects created since last delta (5000ms): 46
+[14-27-28.515] [LOADING MESSAGE]: Validating Tests
+[14-27-28.521] [LOADING MESSAGE]: Validating Vanilla annotations
+[14-27-28.545] [LOADING MESSAGE]: Validating Handles
+[14-27-28.580] [THREAD STARTED]: Splash Loader
+[14-27-28.582] [THREAD STARTED]: Sufficient Subroutine Executor
+[14-27-28.592] [LOADING MESSAGE]: Logging JVM args
+[14-27-28.595] [THREAD STARTED]: JVM Args Logger
+[14-27-28.603] [DEBUG]: Set latency ip as 172.217.4.78
+[14-27-28.605] [DEBUG]: Set latency port as 80
+[14-27-28.607] [DEBUG]: Set latency host name as Google
+[14-27-28.640] [LOADING MESSAGE]: Checking for an AutoCypher
+[14-27-28.642] [LOGIN]: AutoCypher Attempt
+[14-27-28.643] [LOADING MESSAGE]: Auto Cyphering
+[14-27-28.648] [USER GET]: key = name, value = Nathan [2x]
+[14-27-28.727] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
+[14-27-28.892] [USER GET]: key = darkmode, value = 0 [2x]
+[14-27-29.238] [UNIQUE OBJECT CREATED]: Console singleton constructed
+[14-27-29.239] [USER GET]: key = name, value = Nathan
+[14-27-29.277] [THREAD STARTED]: Splash Animation
+[14-27-29.383] [EXCEPTION]:
+               Exception origin: cyder.ui.CyderFrame.setVisible(CyderFrame.java:2714)
+               From line: 2714
+               Trace: java.lang.NullPointerException: Cannot invoke "cyder.ui.CyderDragLabel.refreshAlwaysOnTopBasedOnPinState()" because the return value of "cyder.ui.CyderFrame.getTopDragLabel()" is null
+               at cyder.ui.CyderFrame.setVisible(CyderFrame.java:2714)
+               at cyder.ui.CyderFrame.finalizeAndShow(CyderFrame.java:3581)
+               at cyder.genesis.CyderSplash.lambda$showSplash$4(CyderSplash.java:348)
+               at java.base/java.lang.Thread.run(Thread.java:833)
+[14-27-29.514] [DEBUG]: Cyder Entry = AutoCypher
+[14-27-29.516] [THREAD STARTED]: High Ping Checker
+[14-27-29.583] [DEBUG]: Latency of Google found to be 64ms
+[14-27-29.866] [USER GET]: key = darkmode, value = 0
+[14-27-30.044] [DEBUG]: CyderFrame "No title found" was attempted to be set to invalid height: 78
+[14-27-30.143] [UI]: [INFORMATION PANE] text = "Resizing the background image "Fabled.jpeg"", relativeTo = null
+[14-27-30.286] [USER GET]: key = name, value = Nathan
+[14-27-30.287] [USER GET]: key = randombackground, value = 0
+[14-27-30.473] [USER GET]: key = fullscreen, value = 0 [3x]
+[14-27-30.474] [USER GET]: key = name, value = Nathan
+[14-27-30.571] [USER GET]: key = foreground, value = f0f0f0 [3x]
+[14-27-30.573] [USER GET]: key = Font, value = Agency FB
+[14-27-30.574] [USER GET]: key = fontsize, value = 27
+[14-27-30.611] [USER GET]: key = outputborder, value = 0
+[14-27-30.611] [USER GET]: key = outputfill, value = 0
+[14-27-30.638] [USER GET]: key = inputborder, value = 0
+[14-27-30.641] [USER GET]: key = foreground, value = f0f0f0
+[14-27-30.642] [EXCEPTION]:
+               Exception origin: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+               From line: 64
+               Trace: java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+               at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+               at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+               at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:266)
+               at java.base/java.util.Objects.checkIndex(Objects.java:359)
+               at java.base/java.util.ArrayList.get(ArrayList.java:427)
+               at cyder.utils.NetworkUtil.getIspAndNetworkDetails(NetworkUtil.java:437)
+               at cyder.utils.IOUtil.lambda$logArgs$0(IOUtil.java:142)
+               at java.base/java.lang.Thread.run(Thread.java:833)
+[14-27-30.642] [USER GET]: key = foreground, value = f0f0f0
+[14-27-30.642] [USER GET]: key = silenceerrors, value = 1
+[14-27-30.643] [USER GET]: key = foreground, value = f0f0f0
+[14-27-30.645] [USER GET]: key = Font, value = Agency FB
+[14-27-30.645] [USER GET]: key = fontsize, value = 27
+[14-27-30.649] [USER GET]: key = inputfill, value = 0
+[14-27-30.819] [THREAD STARTED]: Hourly Chime Checker
+[14-27-30.822] [THREAD STARTED]: Console Clock Updater
+[14-27-30.824] [THREAD STARTED]: Cyder Busy Checker
+[14-27-30.827] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[14-27-30.828] [USER GET]: key = fullscreen, value = 0
+[14-27-30.828] [USER GET]: key = screenstat, value = ScreenStat{consoleX=844, consoleY=348, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[14-27-30.832] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[14-27-31.046] [OBJECT CREATION]: Objects created since last delta (5000ms): 86
+[14-27-31.166] [THREAD STARTED]: Console Printing Animation
+[14-27-31.171] [CONSOLE OUT]: [STRING]: Console loaded in 13s 685ms
+[14-27-31.330] [USER GET]: key = debugwindows, value = 0
+[14-27-31.332] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[14-27-31.336] [THREAD STARTED]: Manual Tests Thread
+[14-27-31.338] [USER GET]: key = laststart, value = 1661482443479
+[14-27-31.340] [USER GET]: key = name, value = Nathan
+[14-27-31.367] [THREAD STARTED]: Liminal Cyder [Nathan] Frame Notification Queue
+[14-27-31.370] [USER GET]: key = intromusic, value = 0
+[14-27-31.471] [UI]: [Liminal Cyder [Nathan]] [NOTIFICATION] "<html>Welcome back, Nathan!</html>"
+[14-27-31.477] [THREAD STARTED]: Notification Appear Animator
+[14-27-31.610] [USER GET]: key = doanimations, value = 1 [5x]
+[14-27-31.610] [THREAD STARTED]: Splash Loading Label Updater
+[14-27-31.687] [USER GET]: key = doanimations, value = 1 [4x]
+[14-27-31.717] [USER GET]: key = persistentnotifications, value = 0
+[14-27-31.720] [THREAD STARTED]: Notification Vanish Animator
+[14-27-33.399] [UI]: Component = CyderDragLabel, hash = -134528560, bounds = (2, 2, 355, 28), parent frame = System
+               Action, getTitle() = System Action
+[14-27-33.400] [THREAD STARTED]: [System Action] dispose() animation thread
+[14-27-33.410] [UI]: CyderFrame disposed with fastclose=false, getTitle=System Action
+[14-27-33.411] [USER GET]: key = doanimations, value = 1
+[14-27-34.212] [THREAD STARTED]: Notification Vanish Animator
+[14-27-34.332] [USER GET]: key = doanimations, value = 1 [13x]
+[14-27-34.920] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[14-27-35.973] [USER GET]: key = screenstat, value = ScreenStat{consoleX=844, consoleY=348, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[14-27-36.011] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 18] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7
+               da\Userdata.json
+[14-27-36.023] [USER GET]: key = name, value = Nathan
+[14-27-36.023] [USER GET]: key = foreground, value = f0f0f0
+[14-27-36.027] [USER GET]: key = background, value = 0f0f0f
+[14-27-36.028] [USER GET]: key = Font, value = Agency FB
+[14-27-36.029] [USER GET]: key = randombackground, value = 0
+[14-27-36.030] [USER GET]: key = persistentnotifications, value = 0
+[14-27-36.030] [USER GET]: key = screenstat, value = ScreenStat{consoleX=277, consoleY=66, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[14-27-36.030] [USER GET]: key = mappedexecutable, value = []
+[14-27-36.034] [USER GET]: key = loggedin, value = 1
+[14-27-36.035] [USER GET]: key = fontsize, value = 27
+[14-27-36.036] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
+[14-27-36.037] [USER GET]: key = intromusic, value = 0
+[14-27-36.037] [USER GET]: key = debugwindows, value = 0
+[14-27-36.040] [USER GET]: key = wrapshell, value = 0
+[14-27-36.041] [USER GET]: key = doanimations, value = 1
+[14-27-36.042] [USER GET]: key = fullscreen, value = 0
+[14-27-36.042] [USER GET]: key = minimizeonclose, value = 0
+[14-27-36.043] [USER GET]: key = hourlychimes, value = 1
+[14-27-36.044] [USER GET]: key = filterchat, value = 1
+[14-27-36.046] [USER GET]: key = silenceerrors, value = 1
+[14-27-36.047] [USER GET]: key = outputfill, value = 0
+[14-27-36.047] [USER GET]: key = youtubeuuid, value = aaaaaaaaaiI
+[14-27-36.050] [USER GET]: key = inputborder, value = 0
+[14-27-36.050] [USER GET]: key = darkmode, value = 0
+[14-27-36.050] [USER GET]: key = laststart, value = 1661628451370
+[14-27-36.052] [OBJECT CREATION]: Objects created since last delta (5000ms): 6
+[14-27-36.053] [USER GET]: key = compacttextmode, value = 0
+[14-27-36.054] [USER GET]: key = inputfill, value = 0
+[14-27-36.054] [USER GET]: key = outputborder, value = 0
+[14-27-36.058] [USER GET]: key = mappedexecutable, value = []
+[14-27-36.060] [USER GET]: key = screenstat, value = ScreenStat{consoleX=277, consoleY=66, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[14-27-36.081] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00
+               -81fe-329f-8a78-62f463d0b7da_1661482487868.json
+[14-27-36.085] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[14-27-37.901] [CLIENT]: prefs
+[14-27-37.910] [USER GET]: key = filterchat, value = 1
+[14-27-37.914] [THREAD STARTED]: Console Printing Animation
+[14-27-37.916] [CONSOLE OUT]: [STRING]: Opening widget: UserEditor
+[14-27-37.973] [THREAD STARTED]: [] dispose() animation thread
+[14-27-37.975] [UI]: CyderFrame disposed with fastclose=true, getTitle=
+[14-27-38.028] [THREAD STARTED]: CyderFrame finalizeAndShow Thread, frame = Preferences
+[14-27-38.053] [USER GET]: key = compacttextmode, value = 0
+[14-27-38.134] [WIDGET]: UserEditor, trigger = prefs
+[14-27-41.061] [OBJECT CREATION]: Objects created since last delta (5000ms): 48
+[14-27-43.467] [THREAD STARTED]: Preferences Opacity Decrement Animator
+[14-27-43.792] [THREAD STARTED]: Preferences Opacity Increment Animator
+[14-27-44.169] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[14-27-44.519] [USER GET]: key = screenstat, value = ScreenStat{consoleX=277, consoleY=66, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[14-27-44.538] [SYSTEM IO]: [JSON WRITE] [Levenshtein = 5] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7d
+               a\Userdata.json
+[14-27-44.551] [USER GET]: key = name, value = Nathan
+[14-27-44.553] [USER GET]: key = foreground, value = f0f0f0
+[14-27-44.553] [USER GET]: key = background, value = 0f0f0f
+[14-27-44.554] [USER GET]: key = Font, value = Agency FB
+[14-27-44.555] [USER GET]: key = randombackground, value = 0
+[14-27-44.555] [USER GET]: key = persistentnotifications, value = 0
+[14-27-44.556] [USER GET]: key = screenstat, value = ScreenStat{consoleX=158, consoleY=85, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[14-27-44.558] [USER GET]: key = mappedexecutable, value = []
+[14-27-44.559] [USER GET]: key = loggedin, value = 1
+[14-27-44.560] [USER GET]: key = fontsize, value = 27
+[14-27-44.561] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
+[14-27-44.563] [USER GET]: key = intromusic, value = 0
+[14-27-44.564] [USER GET]: key = debugwindows, value = 0
+[14-27-44.564] [USER GET]: key = wrapshell, value = 0
+[14-27-44.565] [USER GET]: key = doanimations, value = 1
+[14-27-44.566] [USER GET]: key = fullscreen, value = 0
+[14-27-44.567] [USER GET]: key = minimizeonclose, value = 0
+[14-27-44.568] [USER GET]: key = hourlychimes, value = 1
+[14-27-44.568] [USER GET]: key = filterchat, value = 1
+[14-27-44.570] [USER GET]: key = silenceerrors, value = 1
+[14-27-44.571] [USER GET]: key = outputfill, value = 0
+[14-27-44.571] [USER GET]: key = youtubeuuid, value = aaaaaaaaaiI
+[14-27-44.572] [USER GET]: key = inputborder, value = 0
+[14-27-44.572] [USER GET]: key = darkmode, value = 0
+[14-27-44.573] [USER GET]: key = laststart, value = 1661628451370
+[14-27-44.573] [USER GET]: key = compacttextmode, value = 0
+[14-27-44.574] [USER GET]: key = inputfill, value = 0
+[14-27-44.575] [USER GET]: key = outputborder, value = 0
+[14-27-44.577] [USER GET]: key = mappedexecutable, value = []
+[14-27-44.578] [USER GET]: key = screenstat, value = ScreenStat{consoleX=158, consoleY=85, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[14-27-44.584] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00
+               -81fe-329f-8a78-62f463d0b7da_1661628456065.json
+[14-27-44.586] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[14-27-46.063] [OBJECT CREATION]: Objects created since last delta (5000ms): 3
+[14-27-48.017] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[14-27-48.126] [USER GET]: key = screenstat, value = ScreenStat{consoleX=158, consoleY=85, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[14-27-48.130] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[14-31-59.292] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 2

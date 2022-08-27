@@ -67,6 +67,11 @@ public class CyderDragLabel extends JLabel {
     private final AtomicBoolean draggingEnabled;
 
     /**
+     * The pin button for this drag label.
+     */
+    private PinButton pinButton;
+
+    /**
      * The current x location of the mouse relative to this label.
      */
     @SuppressWarnings("FieldCanBeLocal")
@@ -100,11 +105,13 @@ public class CyderDragLabel extends JLabel {
     public CyderDragLabel(int width, int height, CyderFrame effectFrame) {
         this.width = width;
         this.height = height;
-        this.effectFrame = effectFrame;
+        this.effectFrame = Preconditions.checkNotNull(effectFrame);
         this.backgroundColor = CyderColors.getGuiThemeColor();
 
         leftButtonList = new LinkedList<>();
         rightButtonList = buildRightButtonList();
+        // todo for borders this isn't needed so we're wasting some computation
+        //  doing this for left bottom and right drag labels
 
         setSize(width, height);
         setOpaque(true);
@@ -382,8 +389,9 @@ public class CyderDragLabel extends JLabel {
         PinButton.State state = PinButton.State.DEFAULT;
         if (consoleFrame != null && consoleFrame.isAlwaysOnTop()) {
             state = PinButton.State.FRAME_PINNED;
+            System.out.println(state);
         }
-        PinButton pinButton = new PinButton(effectFrame, state);
+        pinButton = new PinButton(effectFrame, state);
         pinButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -799,6 +807,15 @@ public class CyderDragLabel extends JLabel {
      */
     private boolean isTextButton(Component button) {
         return button instanceof JLabel label && !label.getText().isEmpty();
+    }
+
+    /**
+     * Returns the pin button for this CyderFrame.
+     *
+     * @return the pin button for this CyderFrame
+     */
+    public PinButton getPinButton() {
+        return pinButton;
     }
 
     /**
