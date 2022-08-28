@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import com.google.common.base.Preconditions;
+import cyder.annotations.ForReadability;
 import cyder.console.Console;
 import cyder.console.PinButton;
 import cyder.constants.CyderColors;
@@ -387,7 +388,7 @@ public class CyderDragLabel extends JLabel {
 
         CyderFrame consoleFrame = Console.INSTANCE.getConsoleCyderFrame();
         PinButton.State state = PinButton.State.DEFAULT;
-        if (consoleFrame != null && consoleFrame.isAlwaysOnTop()) {
+        if (consoleFrame != null && consoleFrame.isAlwaysOnTop() && !forConsole()) {
             state = PinButton.State.FRAME_PINNED;
             System.out.println(state);
         }
@@ -409,6 +410,12 @@ public class CyderDragLabel extends JLabel {
         ret.add(close);
 
         return ret;
+    }
+
+    @ForReadability
+    private boolean forConsole() {
+        CyderFrame console = Console.INSTANCE.getConsoleCyderFrame();
+        return console != null & console == effectFrame;
     }
 
     /**

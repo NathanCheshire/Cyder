@@ -2713,16 +2713,29 @@ public class CyderFrame extends JFrame {
         if (visible) {
             Console.INSTANCE.addTaskbarIcon(this);
 
-            if (consoleOnTop()) {
+            boolean consoleNotNull = Console.INSTANCE.getConsoleCyderFrame() != null;
+            System.out.println("Console not null: " + consoleNotNull);
+            boolean notForConsole = !forConsole();
+            System.out.println("For console: " + notForConsole);
+            if (consoleOnTop() && consoleNotNull && notForConsole) {
+                System.out.println("Setting frame pinned for frame: " + this); // todo not triggered
                 getTopDragLabel().getPinButton().setState(PinButton.State.FRAME_PINNED);
             }
         }
     }
 
+    // todo wrap shell didn't work, there's a bug if tolerance is above the display value I guess
+    // todo blur is broken
+
     @ForReadability
     private static boolean consoleOnTop() {
         CyderFrame console = Console.INSTANCE.getConsoleCyderFrame();
         return console != null && console.isAlwaysOnTop();
+    }
+
+    private boolean forConsole() {
+        CyderFrame frame = Console.INSTANCE.getConsoleCyderFrame();
+        return frame != null && frame != this;
     }
 
     // -----------

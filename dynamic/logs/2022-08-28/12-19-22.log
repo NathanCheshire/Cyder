@@ -1,0 +1,415 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[12-19-22.668] [ENTRY]: Nathan
+[12-19-22.596] [DEBUG]: Loaded 131 static resources
+[12-19-22.616] [DEBUG]: Loaded 16 static folders
+[12-19-22.632] [DEBUG]: Found prop file: props\propkeys.ini
+[12-19-22.632] [DEBUG]: Found prop file: props\props.ini
+[12-19-22.652] [PROP LOADED]: [key = map_quest_api_key]
+[12-19-22.652] [PROP LOADED]: [key = youtube_api_3_key]
+[12-19-22.652] [PROP LOADED]: [key = ip_key]
+[12-19-22.652] [PROP LOADED]: [key = weather_key]
+[12-19-22.652] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[12-19-22.652] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7c
+               a733d0a7f6]
+[12-19-22.656] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[12-19-22.660] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor
+               ,audiolength,capsmode,typingsound,showbusyicon,clockonconsole,consoleclockformat]
+[12-19-22.660] [PROP LOADED]: [key = font_metric, value = 1]
+[12-19-22.660] [PROP LOADED]: [key = max_font_size, value = 50]
+[12-19-22.660] [PROP LOADED]: [key = min_font_size, value = 25]
+[12-19-22.660] [PROP LOADED]: [key = released, value = false]
+[12-19-22.660] [PROP LOADED]: [key = version, value = Liminal]
+[12-19-22.660] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[12-19-22.660] [PROP LOADED]: [key = components_relocatable, value = false]
+[12-19-22.660] [PROP LOADED]: [key = testing_mode, value = true]
+[12-19-22.660] [PROP LOADED]: [key = autocypher, value = true]
+[12-19-22.660] [PROP LOADED]: [key = dispose_splash, value = true]
+[12-19-22.660] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[12-19-22.660] [PROP LOADED]: [key = activate_watchdog, value = false]
+[12-19-22.660] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[12-19-22.660] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[12-19-22.660] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[12-19-22.660] [PROP LOADED]: [key = ui_scale, value = 1]
+[12-19-22.660] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[12-19-22.660] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[12-19-22.660] [PROP LOADED]: [key = latency_ip, value = 172.217.4.78]
+[12-19-22.660] [PROP LOADED]: [key = latency_port, value = 80]
+[12-19-22.660] [PROP LOADED]: [key = latency_name, value = Google]
+[12-19-22.660] [PROP LOADED]: [key = props_reloadable, value = false]
+[12-19-22.668] [DEBUG]: Jar mode set as: FALSE
+[12-19-22.732] [THREAD STARTED]: Object Creation Logger
+[12-19-23.036] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022-08-27
+[12-19-23.036] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-27-17.log
+[12-19-23.040] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-31-59.log
+[12-19-23.040] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-33-07.log
+[12-19-23.040] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-33-27.log
+[12-19-23.044] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-34-42.log
+[12-19-23.044] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-35-18.log
+[12-19-23.048] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-37-13.log
+[12-19-23.048] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-37-31.log
+[12-19-23.052] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-37-58.log
+[12-19-23.052] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-38-26.log
+[12-19-23.052] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-38-41.log
+[12-19-23.056] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-39-19.log
+[12-19-23.056] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-40-23.log
+[12-19-23.056] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-44-21.log
+[12-19-23.060] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-45-21.log
+[12-19-23.060] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-46-36.log
+[12-19-23.060] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-49-01.log
+[12-19-23.060] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-54-16.log
+[12-19-23.064] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-56-53.log
+[12-19-23.064] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\14-58-01.log
+[12-19-23.064] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\15-02-41.log
+[12-19-23.068] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\19-38-57.log
+[12-19-23.068] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\19-41-21.log
+[12-19-23.072] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\logs\2022
+               -08-27\19-43-42.log
+[12-19-23.216] [DEBUG]: Watchdog skipped
+[12-19-23.220] [LOADING MESSAGE]: Registering fonts
+[12-19-23.674] [FONT LOADED]: agency-fb
+[12-19-23.674] [FONT LOADED]: arial-black
+[12-19-23.678] [FONT LOADED]: beyno
+[12-19-23.678] [FONT LOADED]: condiment-regular
+[12-19-23.678] [FONT LOADED]: prompt-bold
+[12-19-23.682] [FONT LOADED]: segoe-ui-black
+[12-19-23.682] [FONT LOADED]: tahoma
+[12-19-23.682] [LOADING MESSAGE]: Ensuring singular instance
+[12-19-23.686] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[12-19-23.686] [DEBUG]: Starting instance socket on port 5150
+[12-19-24.196] [LOADING MESSAGE]: Ensuring OS is supported
+[12-19-24.196] [LOADING MESSAGE]: Creating dynamics
+[12-19-24.196] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-19-24.224] [LOADING MESSAGE]: Validating users
+[12-19-24.356] [USER GET]: key = name, value = Nathan
+[12-19-24.356] [USER GET]: key = loggedin, value = 1
+[12-19-24.368] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[12-19-24.384] [USER GET]: key = mappedexecutable, value = []
+[12-19-24.384] [USER GET]: key = intromusic, value = 0
+[12-19-24.384] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
+[12-19-24.384] [USER GET]: key = fontsize, value = 27
+[12-19-24.388] [USER GET]: key = silenceerrors, value = 1
+[12-19-24.388] [USER GET]: key = minimizeonclose, value = 0
+[12-19-24.388] [USER GET]: key = inputborder, value = 0
+[12-19-24.388] [USER GET]: key = outputfill, value = 0
+[12-19-24.388] [USER GET]: key = outputborder, value = 0
+[12-19-24.388] [USER GET]: key = youtubeuuid, value = aaaaaaaaaiI
+[12-19-24.392] [USER GET]: key = debugwindows, value = 0
+[12-19-24.392] [USER GET]: key = filterchat, value = 1
+[12-19-24.392] [USER GET]: key = inputfill, value = 0
+[12-19-24.392] [USER GET]: key = laststart, value = 1661706839203
+[12-19-24.392] [USER GET]: key = hourlychimes, value = 1
+[12-19-24.392] [USER GET]: key = doanimations, value = 1
+[12-19-24.396] [USER GET]: key = fullscreen, value = 0
+[12-19-24.396] [USER GET]: key = wrapshell, value = 1
+[12-19-24.396] [USER GET]: key = compacttextmode, value = 0
+[12-19-24.396] [USER GET]: key = darkmode, value = 0
+[12-19-24.396] [USER GET]: key = randombackground, value = 0
+[12-19-24.396] [USER GET]: key = persistentnotifications, value = 0
+[12-19-24.400] [USER GET]: key = foreground, value = f0f0f0
+[12-19-24.400] [USER GET]: key = Font, value = Agency FB
+[12-19-24.400] [USER GET]: key = background, value = 0f0f0f
+[12-19-24.404] [USER GET]: key = mappedexecutable, value = []
+[12-19-24.404] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[12-19-24.416] [USER GET]: key = name, value = Nathan
+[12-19-24.416] [LOADING MESSAGE]: Cleaning users
+[12-19-24.420] [LOADING MESSAGE]: Validating props
+[12-19-24.604] [LOADING MESSAGE]: Validating Widgets
+[12-19-25.032] [LOADING MESSAGE]: Validating Tests
+[12-19-25.036] [LOADING MESSAGE]: Validating Vanilla annotations
+[12-19-25.052] [LOADING MESSAGE]: Validating Handles
+[12-19-25.064] [THREAD STARTED]: Splash Loader
+[12-19-25.068] [THREAD STARTED]: Sufficient Subroutine Executor
+[12-19-25.068] [LOADING MESSAGE]: Logging JVM args
+[12-19-25.076] [THREAD STARTED]: JVM Args Logger
+[12-19-25.080] [DEBUG]: Set latency ip as 172.217.4.78
+[12-19-25.084] [DEBUG]: Set latency port as 80
+[12-19-25.084] [DEBUG]: Set latency host name as Google
+[12-19-25.084] [LOADING MESSAGE]: Checking for an AutoCypher
+[12-19-25.088] [LOGIN]: AutoCypher Attempt
+[12-19-25.088] [LOADING MESSAGE]: Auto Cyphering
+[12-19-25.092] [USER GET]: key = name, value = Nathan
+[12-19-25.092] [USER GET]: key = name, value = Nathan
+[12-19-25.140] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
+[12-19-25.374] [USER GET]: key = darkmode, value = 0
+[12-19-25.382] [USER GET]: key = darkmode, value = 0
+[12-19-25.622] [UNIQUE OBJECT CREATED]: Console singleton constructed
+[12-19-25.626] [USER GET]: key = name, value = Nathan
+[12-19-25.638] [THREAD STARTED]: Splash Animation
+[12-19-25.750] [OBJECT CREATION]: Objects created since last delta (5000ms): 84
+[12-19-25.836] [DEBUG]: Cyder Entry = AutoCypher
+[12-19-25.837] [THREAD STARTED]: High Ping Checker
+[12-19-25.896] [DEBUG]: Latency of Google found to be 56ms
+[12-19-26.064] [USER GET]: key = darkmode, value = 0
+[12-19-26.199] [DEBUG]: CyderFrame "No title found" was attempted to be set to invalid height: 78
+[12-19-26.266] [UI]: [INFORMATION PANE] text = "Resizing the background image "Fabled.jpeg"", relativeTo = null
+[12-19-26.394] [USER GET]: key = name, value = Nathan
+[12-19-26.395] [USER GET]: key = randombackground, value = 0
+[12-19-26.396] [USER GET]: key = fullscreen, value = 0
+[12-19-26.508] [USER GET]: key = fullscreen, value = 0
+[12-19-26.509] [USER GET]: key = fullscreen, value = 0
+[12-19-26.509] [USER GET]: key = name, value = Nathan
+[12-19-26.578] [USER GET]: key = foreground, value = f0f0f0
+[12-19-26.579] [USER GET]: key = foreground, value = f0f0f0
+[12-19-26.582] [USER GET]: key = foreground, value = f0f0f0
+[12-19-26.584] [USER GET]: key = Font, value = Agency FB
+[12-19-26.584] [USER GET]: key = fontsize, value = 27
+[12-19-26.597] [USER GET]: key = outputborder, value = 0
+[12-19-26.598] [USER GET]: key = outputfill, value = 0
+[12-19-26.614] [USER GET]: key = inputborder, value = 0
+[12-19-26.615] [USER GET]: key = foreground, value = f0f0f0
+[12-19-26.616] [USER GET]: key = foreground, value = f0f0f0
+[12-19-26.616] [USER GET]: key = foreground, value = f0f0f0
+[12-19-26.617] [USER GET]: key = Font, value = Agency FB
+[12-19-26.617] [USER GET]: key = fontsize, value = 27
+[12-19-26.618] [USER GET]: key = inputfill, value = 0
+[12-19-26.682] [THREAD STARTED]: Hourly Chime Checker
+[12-19-26.684] [THREAD STARTED]: Console Clock Updater
+[12-19-26.686] [THREAD STARTED]: Cyder Busy Checker
+[12-19-26.688] [THREAD STARTED]: [Cyder Splash] dispose() animation thread
+[12-19-26.689] [USER GET]: key = fullscreen, value = 0
+[12-19-26.691] [UI]: CyderFrame disposed with fastclose=true, getTitle=Cyder Splash
+[12-19-26.694] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[12-19-26.783] [EXCEPTION]:
+               Exception origin: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+               From line: 64
+               Trace: java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+               at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+               at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+               at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:266)
+               at java.base/java.util.Objects.checkIndex(Objects.java:359)
+               at java.base/java.util.ArrayList.get(ArrayList.java:427)
+               at cyder.utils.NetworkUtil.getIspAndNetworkDetails(NetworkUtil.java:439)
+               at cyder.utils.IOUtil.lambda$logArgs$0(IOUtil.java:142)
+               at java.base/java.lang.Thread.run(Thread.java:833)
+[12-19-26.784] [USER GET]: key = silenceerrors, value = 1
+[12-19-26.890] [THREAD STARTED]: Console Printing Animation
+[12-19-26.892] [CONSOLE OUT]: [STRING]: Console loaded in 4s 467ms
+[12-19-26.931] [USER GET]: key = debugwindows, value = 0
+[12-19-26.932] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[12-19-26.933] [THREAD STARTED]: Manual Tests Thread
+[12-19-26.934] [USER GET]: key = laststart, value = 1661706839203
+[12-19-26.935] [USER GET]: key = intromusic, value = 0
+[12-19-28.171] [THREAD STARTED]: Splash Loading Label Updater
+[12-19-30.767] [OBJECT CREATION]: Objects created since last delta (5000ms): 49
+[12-19-38.893] [UI]: Component = CyderDragLabel, hash = 472120135, bounds = (2, 2, 355, 28), parent frame = System
+               Action
+[12-19-38.893] [THREAD STARTED]: [System Action] dispose() animation thread
+[12-19-38.893] [UI]: CyderFrame disposed with fastclose=false, getTitle=System Action
+[12-19-38.897] [USER GET]: key = doanimations, value = 1
+[12-19-45.271] [CLIENT]: prefs
+[12-19-45.271] [USER GET]: key = filterchat, value = 1
+[12-19-45.275] [THREAD STARTED]: Console Printing Animation
+[12-19-45.275] [CONSOLE OUT]: [STRING]: Opening widget: UserEditor
+[12-19-45.308] [THREAD STARTED]: [] dispose() animation thread
+[12-19-45.309] [UI]: CyderFrame disposed with fastclose=true, getTitle=
+[12-19-45.339] [THREAD STARTED]: CyderFrame finalizeAndShow Thread, frame = Preferences
+[12-19-45.347] [USER GET]: key = compacttextmode, value = 0
+[12-19-45.408] [WIDGET]: UserEditor, trigger = prefs
+[12-19-45.794] [OBJECT CREATION]: Objects created since last delta (5000ms): 48
+[12-19-52.211] [USER GET]: key = minimizeonclose, value = 0
+[12-19-52.211] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[12-19-52.219] [USER GET]: key = fullscreen, value = 0
+[12-19-52.223] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-52.223] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[12-19-52.223] [USER GET]: key = doanimations, value = 1
+[12-19-53.583] [USER GET]: key = minimizeonclose, value = 0
+[12-19-53.587] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-53.591] [USER GET]: key = fullscreen, value = 0
+[12-19-53.595] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-54.895] [USER GET]: key = minimizeonclose, value = 0
+[12-19-54.899] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-54.907] [USER GET]: key = fullscreen, value = 0
+[12-19-54.907] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-55.307] [USER GET]: key = minimizeonclose, value = 0
+[12-19-55.307] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-55.315] [USER GET]: key = fullscreen, value = 0
+[12-19-55.315] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-55.451] [USER GET]: key = minimizeonclose, value = 0
+[12-19-55.451] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-55.459] [USER GET]: key = fullscreen, value = 0
+[12-19-55.459] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-55.603] [USER GET]: key = minimizeonclose, value = 0
+[12-19-55.603] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-55.607] [USER GET]: key = fullscreen, value = 0
+[12-19-55.611] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-55.739] [USER GET]: key = minimizeonclose, value = 0
+[12-19-55.739] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-55.747] [USER GET]: key = fullscreen, value = 0
+[12-19-55.747] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-55.875] [USER GET]: key = minimizeonclose, value = 0
+[12-19-55.879] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-55.883] [USER GET]: key = fullscreen, value = 0
+[12-19-55.883] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-55.987] [DEBUG]: Latency of Google found to be 60ms
+[12-19-55.995] [USER GET]: key = minimizeonclose, value = 0
+[12-19-55.995] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-56.003] [USER GET]: key = fullscreen, value = 0
+[12-19-56.003] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-56.127] [USER GET]: key = minimizeonclose, value = 0
+[12-19-56.127] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-56.131] [USER GET]: key = fullscreen, value = 0
+[12-19-56.135] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-56.255] [USER GET]: key = minimizeonclose, value = 0
+[12-19-56.255] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-56.263] [USER GET]: key = fullscreen, value = 0
+[12-19-56.263] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-56.387] [USER GET]: key = minimizeonclose, value = 0
+[12-19-56.387] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-56.395] [USER GET]: key = fullscreen, value = 0
+[12-19-56.395] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-56.511] [USER GET]: key = minimizeonclose, value = 0
+[12-19-56.511] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-56.515] [USER GET]: key = fullscreen, value = 0
+[12-19-56.519] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-56.640] [USER GET]: key = minimizeonclose, value = 0
+[12-19-56.640] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-56.648] [USER GET]: key = fullscreen, value = 0
+[12-19-56.648] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-56.776] [USER GET]: key = minimizeonclose, value = 0
+[12-19-56.780] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-56.784] [USER GET]: key = fullscreen, value = 0
+[12-19-56.784] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-56.908] [USER GET]: key = minimizeonclose, value = 0
+[12-19-56.908] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-56.916] [USER GET]: key = fullscreen, value = 0
+[12-19-56.916] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-57.048] [USER GET]: key = minimizeonclose, value = 0
+[12-19-57.048] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-57.052] [USER GET]: key = fullscreen, value = 0
+[12-19-57.056] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-57.176] [USER GET]: key = minimizeonclose, value = 0
+[12-19-57.176] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-57.184] [USER GET]: key = fullscreen, value = 0
+[12-19-57.184] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-57.308] [USER GET]: key = minimizeonclose, value = 0
+[12-19-57.308] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-57.312] [USER GET]: key = fullscreen, value = 0
+[12-19-57.312] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-57.436] [USER GET]: key = minimizeonclose, value = 0
+[12-19-57.440] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-57.444] [USER GET]: key = fullscreen, value = 0
+[12-19-57.444] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-57.560] [USER GET]: key = minimizeonclose, value = 0
+[12-19-57.564] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-57.568] [USER GET]: key = fullscreen, value = 0
+[12-19-57.568] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-57.680] [USER GET]: key = minimizeonclose, value = 0
+[12-19-57.680] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-57.684] [USER GET]: key = fullscreen, value = 0
+[12-19-57.684] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-57.800] [USER GET]: key = minimizeonclose, value = 0
+[12-19-57.804] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-57.808] [USER GET]: key = fullscreen, value = 0
+[12-19-57.808] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-57.924] [USER GET]: key = minimizeonclose, value = 0
+[12-19-57.928] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-57.932] [USER GET]: key = fullscreen, value = 0
+[12-19-57.932] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-58.048] [USER GET]: key = minimizeonclose, value = 0
+[12-19-58.052] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-58.056] [USER GET]: key = fullscreen, value = 0
+[12-19-58.056] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-58.180] [USER GET]: key = minimizeonclose, value = 0
+[12-19-58.180] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-58.188] [USER GET]: key = fullscreen, value = 0
+[12-19-58.188] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-58.296] [USER GET]: key = minimizeonclose, value = 0
+[12-19-58.296] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-58.304] [USER GET]: key = fullscreen, value = 0
+[12-19-58.304] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-58.536] [USER GET]: key = minimizeonclose, value = 0
+[12-19-58.540] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-58.544] [USER GET]: key = fullscreen, value = 0
+[12-19-58.544] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-58.840] [USER GET]: key = minimizeonclose, value = 0
+[12-19-58.840] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-19-58.844] [USER GET]: key = fullscreen, value = 0
+[12-19-58.848] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[12-19-59.560] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[12-20-01.708] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-20-01.710] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[12-20-01.722] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
+[12-20-01.724] [USER GET]: key = screenstat, value = ScreenStat{consoleX=421, consoleY=61, consoleWidth=978, consoleHeight=662,
+               monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[12-20-01.725] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
+[12-20-02.030] [EXIT]: [RUNTIME] 39s 498ms
+[12-20-02.032] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown:
+               1, total objects created: 181

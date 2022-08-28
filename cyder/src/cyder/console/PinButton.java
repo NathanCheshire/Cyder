@@ -103,10 +103,10 @@ public class PinButton extends JLabel {
      * states of the effect frame based off of the currently set {@link State}.
      */
     public void refreshAlwaysOnTopBasedOnCurrentState() {
+        System.out.println("Current state: " + currentState + ", frame " + effectFrame.getTitle());
+
         if (isForConsole()) {
             effectFrame.setAlwaysOnTop(currentState == State.CONSOLE_PINNED);
-
-            System.out.println(effectFrame.isAlwaysOnTop());
         } else {
             effectFrame.setPinned(currentState != State.DEFAULT);
             effectFrame.setConsolePinned(currentState == State.PINNED_TO_CONSOLE);
@@ -138,6 +138,15 @@ public class PinButton extends JLabel {
             case PINNED_TO_CONSOLE -> State.DEFAULT;
             case CONSOLE_PINNED -> throw new IllegalStateException("Illegal state for regular frame");
         };
+    }
+
+    /**
+     * Returns the current state of this pin button.
+     *
+     * @return the current state of this pin button
+     */
+    public State getCurrentState() {
+        return currentState;
     }
 
     /**
