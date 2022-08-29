@@ -2724,8 +2724,8 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    // todo wrap shell didn't work, there's a bug if tolerance is above the display value I guess
     // todo blur is broken for some reason
+    // todo open current log broken?
 
     @ForReadability
     private static boolean consoleOnTop() {

@@ -411,38 +411,51 @@ public class BaseInputHandler {
             }
 
             if (wrapShell) {
-                println(UNKNOWN_COMMAND + ", passing to operating system native shell (" + OSUtil.getShellName() + ")");
-
-                CyderThreadRunner.submit(() -> {
-                    try {
-                        args.add(0, command);
-                        ProcessBuilder builder = new ProcessBuilder(args);
-                        builder.redirectErrorStream(true);
-                        Process process = builder.start();
-
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                        String line;
-
-                        process.waitFor();
-
-                        while ((line = reader.readLine()) != null) {
-                            println(line);
-
-                            if (escapeWrapShell) {
-                                process.destroy();
-                                break;
-                            }
-                        }
-
-                        escapeWrapShell = false;
-                    } catch (Exception ignored) {
-                        println(UNKNOWN_COMMAND);
-                    }
-                }, WRAP_SHELL_THREAD_NAME);
+                wrapShellLogic();
             } else {
                 println(UNKNOWN_COMMAND);
             }
         }, UNKNOWN_INPUT_HANDLER_THREAD_NAME);
+    }
+
+    /**
+     * The logic performed when it is known that a wrap shell action should be taken.
+     */
+    @ForReadability
+    private void wrapShellLogic() {
+        println(UNKNOWN_COMMAND + ", passing to operating system native shell (" + OSUtil.getShellName() + ")");
+
+        CyderThreadRunner.submit(() -> {
+            try {
+                Process process = createAndStartWrapShellProcess();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String line;
+                process.waitFor();
+
+                while ((line = reader.readLine()) != null) {
+                    println(line);
+
+                    if (escapeWrapShell) {
+                        process.destroy();
+                        break;
+                    }
+                }
+
+                escapeWrapShell = false;
+            } catch (Exception ignored) {
+                println(UNKNOWN_COMMAND);
+            }
+        }, WRAP_SHELL_THREAD_NAME);
+    }
+
+    @ForReadability
+    private Process createAndStartWrapShellProcess() throws IOException {
+        LinkedList<String> processArgs = new LinkedList<>(args);
+        processArgs.add(0, command);
+        ProcessBuilder builder = new ProcessBuilder(processArgs);
+        builder.redirectErrorStream(true);
+        return builder.start();
     }
 
     /**

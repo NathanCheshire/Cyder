@@ -1,0 +1,55 @@
+[22-35-39.163] [DEBUG]: [Log was deleted during runtime, recreating and restarting log at: Sunday, 08/28/2022 10:35PM
+               CDT]
+[22-35-39.163] [THREAD STARTED]: Console Printing Animation
+[22-35-39.165] [CONSOLE OUT]: [STRING]: Logs wiped
+[22-35-40.662] [CLIENT]: clear
+[22-35-40.663] [USER GET]: key = filterchat, value = 1
+[22-35-43.260] [CLIENT]: open current log
+[22-35-43.261] [USER GET]: key = filterchat, value = 1
+[22-35-43.276] [THREAD STARTED]: Unknown Input Handler
+[22-35-43.280] [USER GET]: key = wrapshell, value = 1
+[22-35-46.994] [CLIENT]: open current log
+[22-35-46.994] [USER GET]: key = filterchat, value = 1
+[22-35-47.001] [THREAD STARTED]: Unknown Input Handler
+[22-35-47.006] [USER GET]: key = wrapshell, value = 1
+[22-35-56.368] [CLIENT]: prefs
+[22-35-56.369] [USER GET]: key = filterchat, value = 1
+[22-35-56.371] [THREAD STARTED]: Console Printing Animation
+[22-35-56.372] [CONSOLE OUT]: [STRING]: Opening widget: UserEditor
+[22-35-56.404] [THREAD STARTED]: [] dispose() animation thread
+[22-35-56.405] [UI]: CyderFrame disposed with fastclose=true, getTitle=
+[22-35-56.430] [THREAD STARTED]: CyderFrame finalizeAndShow Thread, frame = Preferences
+[22-35-56.439] [USER GET]: key = compacttextmode, value = 0
+[22-35-56.489] [WIDGET]: UserEditor, trigger = prefs
+[22-35-56.986] [OBJECT CREATION]: Objects created since last delta (5000ms): 48
+[22-35-58.661] [UI]: Component = CyderDragLabel, hash = -231258967, bounds = (2, 2, 796, 28), parent frame = Preferences
+[22-35-58.663] [THREAD STARTED]: [Preferences] dispose() animation thread
+[22-35-58.664] [UI]: CyderFrame disposed with fastclose=false, getTitle=Preferences
+[22-35-58.664] [USER GET]: key = doanimations, value = 1
+[22-35-59.361] [CLIENT]: prefs
+[22-35-59.362] [USER GET]: key = filterchat, value = 1
+[22-35-59.364] [THREAD STARTED]: Console Printing Animation
+[22-35-59.365] [THREAD STARTED]: [Preferences] dispose() animation thread
+[22-35-59.365] [CONSOLE OUT]: [STRING]: Opening widget: UserEditor
+[22-35-59.389] [THREAD STARTED]: CyderFrame finalizeAndShow Thread, frame = Preferences
+[22-35-59.410] [USER GET]: key = compacttextmode, value = 0
+[22-35-59.440] [WIDGET]: UserEditor, trigger = prefs
+[22-36-00.858] [UI]: Component = CyderDragLabel, hash = 834216818, bounds = (2, 2, 796, 28), parent frame = Preferences
+[22-36-00.858] [THREAD STARTED]: [Preferences] dispose() animation thread
+[22-36-00.859] [UI]: CyderFrame disposed with fastclose=false, getTitle=Preferences
+[22-36-00.860] [USER GET]: key = doanimations, value = 1
+[22-36-01.613] [CLIENT]: open current log
+[22-36-01.614] [USER GET]: key = filterchat, value = 1
+[22-36-01.619] [THREAD STARTED]: Unknown Input Handler
+[22-36-01.631] [USER GET]: key = wrapshell, value = 1
+[22-36-02.002] [OBJECT CREATION]: Objects created since last delta (5000ms): 19
+[22-36-07.406] [USER GET]: key = minimizeonclose, value = 0
+[22-36-07.407] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1294, consoleY=279, consoleWidth=1046,
+               consoleHeight=800, monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
+[22-36-07.412] [USER GET]: key = fullscreen, value = 0
+[22-36-07.412] [THREAD STARTED]: [Liminal Cyder [Nathan]] dispose() animation thread
+[22-36-07.413] [UI]: CyderFrame disposed with fastclose=false, getTitle=Liminal Cyder [Nathan]
+[22-36-07.413] [USER GET]: key = doanimations, value = 1
+[22-36-07.668] [EXIT]: [RUNTIME] 43s 861ms
+[22-36-07.670] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown:
+               1, total objects created: 188
