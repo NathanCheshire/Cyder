@@ -727,9 +727,9 @@ public enum Console {
     private void restorePreviousFrameBounds(ConsoleIcon consoleIcon) {
         ScreenStat requestedConsoleStats = UserUtil.getCyderUser().getScreenStat();
 
-        consoleCyderFrame.setAlwaysOnTop(requestedConsoleStats.isConsoleOnTop());
-        pinButton.setState(requestedConsoleStats.isConsoleOnTop()
-                ? PinButton.State.CONSOLE_PINNED : PinButton.State.DEFAULT);
+        boolean onTop = requestedConsoleStats.isConsoleOnTop();
+        consoleCyderFrame.setAlwaysOnTop(onTop);
+        pinButton.setState(onTop ? PinButton.State.CONSOLE_PINNED : PinButton.State.DEFAULT);
 
         int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
         int requestedConsoleHeight = requestedConsoleStats.getConsoleHeight();

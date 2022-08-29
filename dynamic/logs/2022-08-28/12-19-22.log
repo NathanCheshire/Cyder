@@ -174,11 +174,9 @@
 [12-19-25.084] [LOADING MESSAGE]: Checking for an AutoCypher
 [12-19-25.088] [LOGIN]: AutoCypher Attempt
 [12-19-25.088] [LOADING MESSAGE]: Auto Cyphering
-[12-19-25.092] [USER GET]: key = name, value = Nathan
-[12-19-25.092] [USER GET]: key = name, value = Nathan
+[12-19-25.092] [USER GET]: key = name, value = Nathan [2x]
 [12-19-25.140] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
-[12-19-25.374] [USER GET]: key = darkmode, value = 0
-[12-19-25.382] [USER GET]: key = darkmode, value = 0
+[12-19-25.382] [USER GET]: key = darkmode, value = 0 [2x]
 [12-19-25.622] [UNIQUE OBJECT CREATED]: Console singleton constructed
 [12-19-25.626] [USER GET]: key = name, value = Nathan
 [12-19-25.638] [THREAD STARTED]: Splash Animation
@@ -191,21 +189,15 @@
 [12-19-26.266] [UI]: [INFORMATION PANE] text = "Resizing the background image "Fabled.jpeg"", relativeTo = null
 [12-19-26.394] [USER GET]: key = name, value = Nathan
 [12-19-26.395] [USER GET]: key = randombackground, value = 0
-[12-19-26.396] [USER GET]: key = fullscreen, value = 0
-[12-19-26.508] [USER GET]: key = fullscreen, value = 0
-[12-19-26.509] [USER GET]: key = fullscreen, value = 0
+[12-19-26.509] [USER GET]: key = fullscreen, value = 0 [3x]
 [12-19-26.509] [USER GET]: key = name, value = Nathan
-[12-19-26.578] [USER GET]: key = foreground, value = f0f0f0
-[12-19-26.579] [USER GET]: key = foreground, value = f0f0f0
-[12-19-26.582] [USER GET]: key = foreground, value = f0f0f0
+[12-19-26.582] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [12-19-26.584] [USER GET]: key = Font, value = Agency FB
 [12-19-26.584] [USER GET]: key = fontsize, value = 27
 [12-19-26.597] [USER GET]: key = outputborder, value = 0
 [12-19-26.598] [USER GET]: key = outputfill, value = 0
 [12-19-26.614] [USER GET]: key = inputborder, value = 0
-[12-19-26.615] [USER GET]: key = foreground, value = f0f0f0
-[12-19-26.616] [USER GET]: key = foreground, value = f0f0f0
-[12-19-26.616] [USER GET]: key = foreground, value = f0f0f0
+[12-19-26.616] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [12-19-26.617] [USER GET]: key = Font, value = Agency FB
 [12-19-26.617] [USER GET]: key = fontsize, value = 27
 [12-19-26.618] [USER GET]: key = inputfill, value = 0

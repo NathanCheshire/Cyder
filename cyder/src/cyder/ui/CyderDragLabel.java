@@ -1,7 +1,6 @@
 package cyder.ui;
 
 import com.google.common.base.Preconditions;
-import cyder.annotations.ForReadability;
 import cyder.console.Console;
 import cyder.console.PinButton;
 import cyder.constants.CyderColors;
@@ -386,13 +385,7 @@ public class CyderDragLabel extends JLabel {
         });
         ret.add(minimize);
 
-        CyderFrame consoleFrame = Console.INSTANCE.getConsoleCyderFrame();
-        PinButton.State state = PinButton.State.DEFAULT;
-        if (consoleFrame != null && consoleFrame.isAlwaysOnTop() && !forConsole()) {
-            state = PinButton.State.FRAME_PINNED;
-            System.out.println(state);
-        }
-        pinButton = new PinButton(effectFrame, state);
+        pinButton = new PinButton(effectFrame, getInitialPinButtonState());
         pinButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -412,10 +405,25 @@ public class CyderDragLabel extends JLabel {
         return ret;
     }
 
-    @ForReadability
-    private boolean forConsole() {
-        CyderFrame console = Console.INSTANCE.getConsoleCyderFrame();
-        return console != null & console == effectFrame;
+    /**
+     * Returns the initial state of the pin button.
+     *
+     * @return the initial state of the pin button
+     */
+    private PinButton.State getInitialPinButtonState() {
+        PinButton.State ret = PinButton.State.DEFAULT;
+
+        CyderFrame consoleFrame = Console.INSTANCE.getConsoleCyderFrame();
+        if (consoleFrame != null) {
+            boolean consolePinned = consoleFrame.getTopDragLabel()
+                    .getPinButton().getCurrentState() == PinButton.State.CONSOLE_PINNED;
+            boolean weAreConsole = consoleFrame.equals(effectFrame);
+            if (consolePinned && !weAreConsole) {
+                ret = PinButton.State.FRAME_PINNED;
+            }
+        }
+
+        return ret;
     }
 
     /**
