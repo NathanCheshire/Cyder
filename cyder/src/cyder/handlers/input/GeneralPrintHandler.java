@@ -108,7 +108,7 @@ public class GeneralPrintHandler extends InputHandler {
             getInputHandler().println("You're welcome.");
         } else if (getInputHandler().commandIs("name")) {
             getInputHandler().println("My name is Cyder. I am a tool built by"
-                    + " Nathan Cheshire for programmers/advanced users.");
+                    + " Nathan Cheshire for programmers and advanced users.");
         } else if (getInputHandler().commandIs("k")) {
             getInputHandler().println("Fun Fact: the letter \"K\" comes from the Greek letter kappa, which was taken "
                     + "from the Semitic kap, the symbol for an open hand. It is this very hand which "

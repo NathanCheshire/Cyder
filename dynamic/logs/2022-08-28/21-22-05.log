@@ -125,11 +125,9 @@
 [21-22-07.207] [LOADING MESSAGE]: Checking for an AutoCypher
 [21-22-07.208] [LOGIN]: AutoCypher Attempt
 [21-22-07.208] [LOADING MESSAGE]: Auto Cyphering
-[21-22-07.210] [USER GET]: key = name, value = Nathan
-[21-22-07.211] [USER GET]: key = name, value = Nathan
+[21-22-07.211] [USER GET]: key = name, value = Nathan [2x]
 [21-22-07.247] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
-[21-22-07.348] [USER GET]: key = darkmode, value = 0
-[21-22-07.355] [USER GET]: key = darkmode, value = 0
+[21-22-07.355] [USER GET]: key = darkmode, value = 0 [2x]
 [21-22-07.542] [UNIQUE OBJECT CREATED]: Console singleton constructed
 [21-22-07.544] [USER GET]: key = name, value = Nathan
 [21-22-07.553] [THREAD STARTED]: Splash Animation
@@ -142,21 +140,15 @@
 [21-22-08.687] [UI]: [INFORMATION PANE] text = "Resizing the background image "Fabled.jpg"", relativeTo = null
 [21-22-09.113] [USER GET]: key = name, value = Nathan
 [21-22-09.113] [USER GET]: key = randombackground, value = 0
-[21-22-09.114] [USER GET]: key = fullscreen, value = 0
-[21-22-09.448] [USER GET]: key = fullscreen, value = 0
-[21-22-09.449] [USER GET]: key = fullscreen, value = 0
+[21-22-09.449] [USER GET]: key = fullscreen, value = 0 [3x]
 [21-22-09.449] [USER GET]: key = name, value = Nathan
-[21-22-09.609] [USER GET]: key = foreground, value = f0f0f0
-[21-22-09.610] [USER GET]: key = foreground, value = f0f0f0
-[21-22-09.610] [USER GET]: key = foreground, value = f0f0f0
+[21-22-09.610] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [21-22-09.611] [USER GET]: key = Font, value = Agency FB
 [21-22-09.611] [USER GET]: key = fontsize, value = 27
 [21-22-09.618] [USER GET]: key = outputborder, value = 0
 [21-22-09.619] [USER GET]: key = outputfill, value = 0
 [21-22-09.631] [USER GET]: key = inputborder, value = 0
-[21-22-09.632] [USER GET]: key = foreground, value = f0f0f0
-[21-22-09.632] [USER GET]: key = foreground, value = f0f0f0
-[21-22-09.633] [USER GET]: key = foreground, value = f0f0f0
+[21-22-09.633] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [21-22-09.633] [USER GET]: key = Font, value = Agency FB
 [21-22-09.634] [USER GET]: key = fontsize, value = 27
 [21-22-09.634] [USER GET]: key = inputfill, value = 0
@@ -223,10 +215,7 @@
 [21-22-11.586] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
 [21-22-12.930] [USER GET]: key = fullscreen, value = 0
 [21-22-13.518] [OBJECT CREATION]: Objects created since last delta (5000ms): 53
-[21-22-14.786] [USER GET]: key = fullscreen, value = 0
-[21-22-15.974] [USER GET]: key = fullscreen, value = 0
-[21-22-17.611] [USER GET]: key = fullscreen, value = 0
-[21-22-18.708] [USER GET]: key = fullscreen, value = 0
+[21-22-18.708] [USER GET]: key = fullscreen, value = 0 [4x]
 [21-22-19.818] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
 [21-22-24.848] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1161, consoleY=246, consoleWidth=800,
                consoleHeight=800, monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
@@ -267,9 +256,7 @@
 [21-22-24.885] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00
                -81fe-329f-8a78-62f463d0b7da_1661739731577.json
 [21-22-24.886] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
-[21-22-25.868] [USER GET]: key = fullscreen, value = 0
-[21-22-26.750] [USER GET]: key = fullscreen, value = 0
-[21-22-27.747] [USER GET]: key = fullscreen, value = 0
+[21-22-27.747] [USER GET]: key = fullscreen, value = 0 [3x]
 [21-22-28.544] [OBJECT CREATION]: Objects created since last delta (5000ms): 3
 [21-22-29.550] [USER GET]: key = fullscreen, value = 0
 [21-22-30.177] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator

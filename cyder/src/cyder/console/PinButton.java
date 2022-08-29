@@ -103,23 +103,8 @@ public class PinButton extends JLabel {
      * states of the effect frame based off of the currently set {@link State}.
      */
     public void refreshAlwaysOnTopBasedOnCurrentState() {
-        System.out.println("Current state: " + currentState + ", frame " + effectFrame.getTitle());
-
-        if (isForConsole()) {
-            effectFrame.setAlwaysOnTop(currentState == State.CONSOLE_PINNED);
-        } else {
-            effectFrame.setPinned(currentState != State.DEFAULT);
-            effectFrame.setConsolePinned(currentState == State.PINNED_TO_CONSOLE);
-        }
-    }
-
-    /**
-     * Returns whether this pin button is for the console.
-     *
-     * @return whether this pin button is for the console
-     */
-    private boolean isForConsole() {
-        return Console.INSTANCE.getConsoleCyderFrame() == effectFrame;
+        effectFrame.setPinned(currentState != State.DEFAULT);
+        effectFrame.setConsolePinned(currentState == State.PINNED_TO_CONSOLE);
     }
 
     /**
@@ -129,9 +114,8 @@ public class PinButton extends JLabel {
      * @return the next state for this pin button
      */
     private State getNextState() {
-        if (isForConsole()) {
-            return currentState == State.DEFAULT
-                    ? State.CONSOLE_PINNED : State.DEFAULT;
+        if (Console.INSTANCE.getConsoleCyderFrame().equals(effectFrame)) {
+            return currentState == State.DEFAULT ? State.CONSOLE_PINNED : State.DEFAULT;
         } else return switch (currentState) {
             case DEFAULT -> State.FRAME_PINNED;
             case FRAME_PINNED -> State.PINNED_TO_CONSOLE;

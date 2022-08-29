@@ -482,7 +482,7 @@ public final class LoginHandler {
     }
 
     /**
-     * The status returned by an {@link CheckPasswordStatus} call.
+     * The status returned by a {@link CheckPasswordStatus} call.
      */
     private enum CheckPasswordStatus {
         /**
@@ -498,6 +498,8 @@ public final class LoginHandler {
          * to find the uuid and load the other user files.
          */
         SUCCESS
+
+        // todo enum could contain optional user
     }
 
     /**

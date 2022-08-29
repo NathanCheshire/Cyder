@@ -2725,7 +2725,7 @@ public class CyderFrame extends JFrame {
     }
 
     // todo wrap shell didn't work, there's a bug if tolerance is above the display value I guess
-    // todo blur is broken
+    // todo blur is broken for some reason
 
     @ForReadability
     private static boolean consoleOnTop() {
@@ -3589,7 +3589,8 @@ public class CyderFrame extends JFrame {
      * temporarily to ensure the frame is placed on top of other possible frames.
      */
     public void finalizeAndShow() {
-        boolean onTop = isAlwaysOnTop();
+        PinButton.State state = getTopDragLabel().getPinButton().getCurrentState();
+        boolean onTop = state == PinButton.State.CONSOLE_PINNED || state == PinButton.State.FRAME_PINNED;
 
         setAlwaysOnTop(true);
         setLocationRelativeTo(getDominantFrame());

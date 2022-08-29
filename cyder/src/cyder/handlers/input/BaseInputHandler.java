@@ -369,40 +369,78 @@ public class BaseInputHandler {
     private static final String UNKNOWN_INPUT_HANDLER_THREAD_NAME = "Unknown Input Handler";
 
     /**
+     * The key for whether a command should be auto-invoked if the specified tolerance is met.
+     */
+    private static final String AUTO_TRIGGER_SIMILAR_COMMANDS_KEY = "auto_trigger_similar_commands";
+
+    /**
      * The final handle method for if all other handle methods failed.
      */
     private void unknownInput() {
         CyderThreadRunner.submit(() -> {
-            try {
-                ReflectionUtil.SimilarCommand similarCommandObj = ReflectionUtil.getSimilarCommand(command);
+            ReflectionUtil.SimilarCommand similarCommandObj = ReflectionUtil.getSimilarCommand(command);
+            boolean wrapShell = UserUtil.getCyderUser().getWrapshell().equalsIgnoreCase("1");
 
-                if (similarCommandObj.command().isPresent()) {
-                    String similarCommand = similarCommandObj.command().get();
-                    double tolerance = similarCommandObj.tolerance();
-                    if (tolerance == 1.0) return;
+            if (similarCommandObj.command().isPresent()) {
+                String similarCommand = similarCommandObj.command().get();
+                double tolerance = similarCommandObj.tolerance();
+                if (tolerance == 1.0) return;
 
-                    if (!StringUtil.isNullOrEmpty(similarCommand)) {
-                        Logger.log(Logger.Tag.DEBUG, "Similar command to \""
-                                + command + "\" found with tolerance of " + tolerance + ", command = \"" +
-                                similarCommand + "\"");
+                if (!StringUtil.isNullOrEmpty(similarCommand)) {
+                    Logger.log(Logger.Tag.DEBUG, "Similar command to \""
+                            + command + "\" found with tolerance of " + tolerance
+                            + ", command = \"" + similarCommand + "\"");
+
+                    if (!wrapShell) {
+                        boolean autoTrigger = PropLoader.getBoolean(AUTO_TRIGGER_SIMILAR_COMMANDS_KEY);
+                        boolean toleranceMet =
+                                tolerance >= PropLoader.getFloat(AUTO_TRIGGER_SIMILAR_COMMAND_TOLERANCE_KEY);
 
                         if (tolerance >= SIMILAR_COMMAND_TOL) {
-                            if (PropLoader.getBoolean("auto_trigger_similar_commands")
-                                    && tolerance >= PropLoader.getFloat(AUTO_TRIGGER_SIMILAR_COMMAND_TOLERANCE_KEY)) {
+                            if (autoTrigger && toleranceMet) {
                                 println(UNKNOWN_COMMAND + "; Invoking similar command: \"" + similarCommand + "\"");
                                 handle(similarCommand, false);
                             } else {
                                 println(UNKNOWN_COMMAND + "; Most similar command: \"" + similarCommand + "\"");
                             }
-                        } else {
-                            wrapShellCheck();
+
+                            return;
                         }
                     }
-                } else {
-                    wrapShellCheck();
                 }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+            }
+
+            if (wrapShell) {
+                println(UNKNOWN_COMMAND + ", passing to operating system native shell (" + OSUtil.getShellName() + ")");
+
+                CyderThreadRunner.submit(() -> {
+                    try {
+                        args.add(0, command);
+                        ProcessBuilder builder = new ProcessBuilder(args);
+                        builder.redirectErrorStream(true);
+                        Process process = builder.start();
+
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                        String line;
+
+                        process.waitFor();
+
+                        while ((line = reader.readLine()) != null) {
+                            println(line);
+
+                            if (escapeWrapShell) {
+                                process.destroy();
+                                break;
+                            }
+                        }
+
+                        escapeWrapShell = false;
+                    } catch (Exception ignored) {
+                        println(UNKNOWN_COMMAND);
+                    }
+                }, WRAP_SHELL_THREAD_NAME);
+            } else {
+                println(UNKNOWN_COMMAND);
             }
         }, UNKNOWN_INPUT_HANDLER_THREAD_NAME);
     }
@@ -421,44 +459,6 @@ public class BaseInputHandler {
      * The text to print for an unknown command.
      */
     private static final String UNKNOWN_COMMAND = "Unknown command";
-
-    /**
-     * Checks for wrap shell mode and passes the args and command to the native termainl.
-     */
-    private void wrapShellCheck() {
-        if (UserUtil.getCyderUser().getWrapshell().equalsIgnoreCase("1")) {
-            println(UNKNOWN_COMMAND + ", passing to operating system native shell (" + OSUtil.getShellName() + ")");
-
-            CyderThreadRunner.submit(() -> {
-                try {
-                    args.add(0, command);
-                    ProcessBuilder builder = new ProcessBuilder(args);
-                    builder.redirectErrorStream(true);
-                    Process process = builder.start();
-
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                    String line;
-
-                    process.waitFor();
-
-                    while ((line = reader.readLine()) != null) {
-                        println(line);
-
-                        if (escapeWrapShell) {
-                            process.destroy();
-                            break;
-                        }
-                    }
-
-                    escapeWrapShell = false;
-                } catch (Exception ignored) {
-                    println(UNKNOWN_COMMAND);
-                }
-            }, WRAP_SHELL_THREAD_NAME);
-        } else {
-            println(UNKNOWN_COMMAND);
-        }
-    }
 
     /**
      * Returns the output area's {@link JTextPane}.
