@@ -265,7 +265,7 @@ public class BaseInputHandler {
             StringUtil.BlockedWordResult result = checkFoulLanguage();
             if (result.failed()) {
                 println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language"
-                        + " is prohibited,  word: " + result.triggerWord());
+                        + " is prohibited, word: " + result.triggerWord());
                 return false;
             }
         }
@@ -280,7 +280,8 @@ public class BaseInputHandler {
      * Parses the current command into arguments and a command.
      */
     private void parseArgsFromCommand() {
-        String[] parts = command.split(CyderRegexPatterns.whiteSpaceRegex);
+        String[] parts = this.command.split(CyderRegexPatterns.whiteSpaceRegex);
+        this.command = parts[0];
         if (parts.length > 1) {
             args.clear();
             args.addAll(Arrays.asList(parts).subList(1, parts.length));
@@ -1020,7 +1021,7 @@ public class BaseInputHandler {
      * @return the current user issued command
      */
     public final String getCommand() {
-        return command;
+        return this.command;
     }
 
     /**
@@ -1032,7 +1033,7 @@ public class BaseInputHandler {
     protected boolean commandIs(String compare) {
         Preconditions.checkNotNull(compare);
 
-        return command.equalsIgnoreCase(compare);
+        return this.command.equalsIgnoreCase(compare);
     }
 
     /**
@@ -1095,7 +1096,7 @@ public class BaseInputHandler {
      * @return the original user input, that of the command followed by the arguments
      */
     protected String commandAndArgsToString() {
-        return (command.trim() + " " + argsToString()).trim();
+        return (this.command.trim() + " " + argsToString()).trim();
     }
 
     /**

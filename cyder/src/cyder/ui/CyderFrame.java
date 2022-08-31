@@ -844,6 +844,9 @@ public class CyderFrame extends JFrame {
         return frameType;
     }
 
+    private static final int PIN_BUTTON_DEFAULT_INDEX = 1;
+    private static final int MINIMIZE_BUTTON_DEFAULT_INDEX = 0;
+
     /**
      * Sets the frame type of this CyderFrame.
      *
@@ -856,16 +859,11 @@ public class CyderFrame extends JFrame {
             case DEFAULT -> {}
             case POPUP -> {
                 if (!isBorderlessFrame()) {
-                    // Remove minimize
-                    topDrag.removeRightButton(0);
-                    // Remove pin
-                    topDrag.removeRightButton(0);
+                    topDrag.removeRightButton(PIN_BUTTON_DEFAULT_INDEX);
+                    topDrag.removeRightButton(MINIMIZE_BUTTON_DEFAULT_INDEX);
                 }
             }
-            case INPUT_GETTER -> {
-                // Remove pin
-                topDrag.removeRightButton(1);
-            }
+            case INPUT_GETTER -> topDrag.removeRightButton(PIN_BUTTON_DEFAULT_INDEX);
             default -> throw new IllegalStateException("Unimplemented state: " + frameType);
         }
 
@@ -883,9 +881,7 @@ public class CyderFrame extends JFrame {
                 System.out.println("Setting always on top of " + this.getTitle() + " to: " + notDefaultState);
                 setAlwaysOnTop(notDefaultState);
             }
-            case INPUT_GETTER, POPUP -> {
-                setAlwaysOnTop(true);
-            }
+            case INPUT_GETTER, POPUP -> setAlwaysOnTop(true);
         }
     }
 
@@ -2728,7 +2724,6 @@ public class CyderFrame extends JFrame {
     }
 
     // todo blur is broken for some reason
-    // todo open current log broken?
     // todo focus listeners for custom buttons broken now
     // todo use toFront and toBack for prefs toggler
     // todo default weather background should be nicer
