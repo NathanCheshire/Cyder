@@ -125,11 +125,9 @@
 [22-13-30.864] [LOADING MESSAGE]: Checking for an AutoCypher
 [22-13-30.864] [LOGIN]: AutoCypher Attempt
 [22-13-30.865] [LOADING MESSAGE]: Auto Cyphering
-[22-13-30.868] [USER GET]: key = name, value = Nathan
-[22-13-30.870] [USER GET]: key = name, value = Nathan
+[22-13-30.870] [USER GET]: key = name, value = Nathan [2x]
 [22-13-30.920] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
-[22-13-31.094] [USER GET]: key = darkmode, value = 0
-[22-13-31.102] [USER GET]: key = darkmode, value = 0
+[22-13-31.102] [USER GET]: key = darkmode, value = 0 [2x]
 [22-13-31.342] [UNIQUE OBJECT CREATED]: Console singleton constructed
 [22-13-31.343] [USER GET]: key = name, value = Nathan
 [22-13-31.364] [THREAD STARTED]: Splash Animation
@@ -150,20 +148,15 @@
                at cyder.genesis.CyderSplash.lambda$showSplash$4(CyderSplash.java:345)
                at java.base/java.lang.Thread.run(Thread.java:833)
 [22-13-31.544] [USER GET]: key = silenceerrors, value = 1
-[22-13-31.599] [USER GET]: key = fullscreen, value = 0
-[22-13-31.600] [USER GET]: key = fullscreen, value = 0
+[22-13-31.600] [USER GET]: key = fullscreen, value = 0 [2x]
 [22-13-31.601] [USER GET]: key = name, value = Nathan
-[22-13-31.640] [USER GET]: key = foreground, value = f0f0f0
-[22-13-31.642] [USER GET]: key = foreground, value = f0f0f0
-[22-13-31.646] [USER GET]: key = foreground, value = f0f0f0
+[22-13-31.646] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [22-13-31.647] [USER GET]: key = Font, value = Agency FB
 [22-13-31.648] [USER GET]: key = fontsize, value = 27
 [22-13-31.669] [USER GET]: key = outputborder, value = 0
 [22-13-31.670] [USER GET]: key = outputfill, value = 0
 [22-13-31.731] [USER GET]: key = inputborder, value = 0
-[22-13-31.733] [USER GET]: key = foreground, value = f0f0f0
-[22-13-31.734] [USER GET]: key = foreground, value = f0f0f0
-[22-13-31.735] [USER GET]: key = foreground, value = f0f0f0
+[22-13-31.735] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [22-13-31.735] [USER GET]: key = Font, value = Agency FB
 [22-13-31.736] [USER GET]: key = fontsize, value = 27
 [22-13-31.738] [USER GET]: key = inputfill, value = 0
@@ -313,56 +306,18 @@
 [22-14-14.464] [USER GET]: key = filterchat, value = 1
 [22-14-14.467] [THREAD STARTED]: Console Printing Animation
 [22-14-14.468] [CONSOLE OUT]: [STRING]: Opening widget: WeatherWidget
-[22-14-14.468] [THREAD STARTED]: Weather Stats Updater
-[22-14-14.797] [THREAD STARTED]: Weather Stats Updater
+[22-14-14.797] [THREAD STARTED]: Weather Stats Updater [2x]
 [22-14-14.798] [THREAD STARTED]: Weather Clock Updater
 [22-14-14.799] [WIDGET]: WeatherWidget, trigger = weather
 [22-14-16.084] [THREAD STARTED]: Starkville's weather Frame Notification Queue
 [22-14-16.100] [UI]: [Starkville's weather] [NOTIFICATION] "<html>Refreshed</html>"
 [22-14-16.103] [THREAD STARTED]: Notification Appear Animator
-[22-14-16.113] [USER GET]: key = doanimations, value = 1
-[22-14-16.123] [USER GET]: key = doanimations, value = 1
-[22-14-16.132] [USER GET]: key = doanimations, value = 1
-[22-14-16.141] [USER GET]: key = doanimations, value = 1
-[22-14-16.151] [USER GET]: key = doanimations, value = 1
-[22-14-16.161] [USER GET]: key = doanimations, value = 1
-[22-14-16.171] [USER GET]: key = doanimations, value = 1
-[22-14-16.181] [USER GET]: key = doanimations, value = 1
-[22-14-16.190] [USER GET]: key = doanimations, value = 1
-[22-14-16.199] [USER GET]: key = doanimations, value = 1
-[22-14-16.208] [USER GET]: key = doanimations, value = 1
-[22-14-16.218] [USER GET]: key = doanimations, value = 1
-[22-14-16.227] [USER GET]: key = doanimations, value = 1
-[22-14-16.237] [USER GET]: key = doanimations, value = 1
-[22-14-16.247] [USER GET]: key = doanimations, value = 1
-[22-14-16.256] [USER GET]: key = doanimations, value = 1
-[22-14-16.265] [USER GET]: key = doanimations, value = 1
-[22-14-16.275] [USER GET]: key = doanimations, value = 1
-[22-14-16.284] [USER GET]: key = doanimations, value = 1
-[22-14-16.293] [USER GET]: key = doanimations, value = 1
+[22-14-16.293] [USER GET]: key = doanimations, value = 1 [20x]
 [22-14-16.303] [USER GET]: key = persistentnotifications, value = 0
 [22-14-16.305] [THREAD STARTED]: Notification Vanish Animator
 [22-14-16.867] [OBJECT CREATION]: Objects created since last delta (5000ms): 35
 [22-14-18.589] [THREAD STARTED]: Notification Vanish Animator
-[22-14-18.590] [USER GET]: key = doanimations, value = 1
-[22-14-18.600] [USER GET]: key = doanimations, value = 1
-[22-14-18.609] [USER GET]: key = doanimations, value = 1
-[22-14-18.619] [USER GET]: key = doanimations, value = 1
-[22-14-18.628] [USER GET]: key = doanimations, value = 1
-[22-14-18.639] [USER GET]: key = doanimations, value = 1
-[22-14-18.650] [USER GET]: key = doanimations, value = 1
-[22-14-18.659] [USER GET]: key = doanimations, value = 1
-[22-14-18.668] [USER GET]: key = doanimations, value = 1
-[22-14-18.678] [USER GET]: key = doanimations, value = 1
-[22-14-18.688] [USER GET]: key = doanimations, value = 1
-[22-14-18.698] [USER GET]: key = doanimations, value = 1
-[22-14-18.708] [USER GET]: key = doanimations, value = 1
-[22-14-18.717] [USER GET]: key = doanimations, value = 1
-[22-14-18.727] [USER GET]: key = doanimations, value = 1
-[22-14-18.737] [USER GET]: key = doanimations, value = 1
-[22-14-18.747] [USER GET]: key = doanimations, value = 1
-[22-14-18.756] [USER GET]: key = doanimations, value = 1
-[22-14-18.766] [USER GET]: key = doanimations, value = 1
+[22-14-18.766] [USER GET]: key = doanimations, value = 1 [19x]
 [22-14-19.560] [THREAD STARTED]: Starkville's weather Opacity Decrement Animator
 [22-14-19.862] [THREAD STARTED]: Starkville's weather Opacity Increment Animator
 [22-14-21.010] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
@@ -374,8 +329,7 @@
 [22-14-22.142] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1307, consoleY=339, consoleWidth=832,
                consoleHeight=797, monitor=0, consoleOnTop=true, consoleDirection=RIGHT}
 [22-14-22.143] [USER GET]: key = doanimations, value = 1
-[22-14-46.532] [THREAD STARTED]: Starkville's weather Menu Label Animator
-[22-14-46.542] [THREAD STARTED]: Starkville's weather Menu Label Animator
+[22-14-46.542] [THREAD STARTED]: Starkville's weather Menu Label Animator [2x]
 [22-14-46.919] [OBJECT CREATION]: Objects created since last delta (5000ms): 6
 [22-14-47.195] [THREAD STARTED]: Weather Location Changer
 [22-14-47.197] [THREAD STARTED]: getString() thread, title = [Change Location]
@@ -394,19 +348,7 @@
 [22-14-52.085] [THREAD STARTED]: Notification Appear Animator
 [22-14-52.092] [USER GET]: key = doanimations, value = 1
 [22-14-52.095] [UI]: CyderFrame disposed with fastclose=false, getTitle=Change Location
-[22-14-52.097] [USER GET]: key = doanimations, value = 1
-[22-14-52.107] [USER GET]: key = doanimations, value = 1
-[22-14-52.118] [USER GET]: key = doanimations, value = 1
-[22-14-52.128] [USER GET]: key = doanimations, value = 1
-[22-14-52.142] [USER GET]: key = doanimations, value = 1
-[22-14-52.151] [USER GET]: key = doanimations, value = 1
-[22-14-52.162] [USER GET]: key = doanimations, value = 1
-[22-14-52.175] [USER GET]: key = doanimations, value = 1
-[22-14-52.184] [USER GET]: key = doanimations, value = 1
-[22-14-52.197] [USER GET]: key = doanimations, value = 1
-[22-14-52.213] [USER GET]: key = doanimations, value = 1
-[22-14-52.225] [USER GET]: key = doanimations, value = 1
-[22-14-52.234] [USER GET]: key = doanimations, value = 1
+[22-14-52.234] [USER GET]: key = doanimations, value = 1 [13x]
 [22-14-52.239] [EXCEPTION]:
                Exception origin: java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1993)
                From line: 1993
@@ -418,73 +360,17 @@
                at cyder.widgets.WeatherWidget.lambda$repullWeatherStats$4(WeatherWidget.java:757)
                at java.base/java.lang.Thread.run(Thread.java:833)
 [22-14-52.245] [USER GET]: key = persistentnotifications, value = 0
-[22-14-52.246] [THREAD STARTED]: Notification Vanish Animator
-[22-14-53.346] [THREAD STARTED]: Notification Vanish Animator
-[22-14-53.348] [USER GET]: key = doanimations, value = 1
-[22-14-53.359] [USER GET]: key = doanimations, value = 1
-[22-14-53.368] [USER GET]: key = doanimations, value = 1
-[22-14-53.378] [USER GET]: key = doanimations, value = 1
-[22-14-53.388] [USER GET]: key = doanimations, value = 1
-[22-14-53.397] [USER GET]: key = doanimations, value = 1
-[22-14-53.406] [USER GET]: key = doanimations, value = 1
-[22-14-53.417] [USER GET]: key = doanimations, value = 1
-[22-14-53.427] [USER GET]: key = doanimations, value = 1
-[22-14-53.438] [USER GET]: key = doanimations, value = 1
-[22-14-53.448] [USER GET]: key = doanimations, value = 1
-[22-14-53.458] [USER GET]: key = doanimations, value = 1
-[22-14-53.467] [USER GET]: key = doanimations, value = 1
-[22-14-53.478] [USER GET]: key = doanimations, value = 1
-[22-14-53.487] [USER GET]: key = doanimations, value = 1
-[22-14-53.496] [USER GET]: key = doanimations, value = 1
+[22-14-53.346] [THREAD STARTED]: Notification Vanish Animator [2x]
+[22-14-53.496] [USER GET]: key = doanimations, value = 1 [16x]
 [22-14-53.518] [UI]: [Starkville's weather] [NOTIFICATION] "<html>Sorry, but that location is invalid</html>"
 [22-14-53.519] [THREAD STARTED]: Notification Appear Animator
-[22-14-53.523] [USER GET]: key = doanimations, value = 1
-[22-14-53.534] [USER GET]: key = doanimations, value = 1
-[22-14-53.543] [USER GET]: key = doanimations, value = 1
-[22-14-53.554] [USER GET]: key = doanimations, value = 1
-[22-14-53.564] [USER GET]: key = doanimations, value = 1
-[22-14-53.574] [USER GET]: key = doanimations, value = 1
-[22-14-53.584] [USER GET]: key = doanimations, value = 1
-[22-14-53.594] [USER GET]: key = doanimations, value = 1
-[22-14-53.604] [USER GET]: key = doanimations, value = 1
+[22-14-53.604] [USER GET]: key = doanimations, value = 1 [9x]
 [22-14-53.613] [USER GET]: key = persistentnotifications, value = 0
-[22-14-53.613] [THREAD STARTED]: Notification Vanish Animator
-[22-14-54.605] [THREAD STARTED]: Notification Vanish Animator
-[22-14-54.606] [USER GET]: key = doanimations, value = 1
-[22-14-54.617] [USER GET]: key = doanimations, value = 1
-[22-14-54.627] [USER GET]: key = doanimations, value = 1
-[22-14-54.638] [USER GET]: key = doanimations, value = 1
-[22-14-54.646] [USER GET]: key = doanimations, value = 1
-[22-14-54.657] [USER GET]: key = doanimations, value = 1
-[22-14-54.667] [USER GET]: key = doanimations, value = 1
-[22-14-54.676] [USER GET]: key = doanimations, value = 1
-[22-14-54.684] [USER GET]: key = doanimations, value = 1
-[22-14-54.694] [USER GET]: key = doanimations, value = 1
-[22-14-54.704] [USER GET]: key = doanimations, value = 1
-[22-14-54.715] [USER GET]: key = doanimations, value = 1
-[22-14-54.724] [USER GET]: key = doanimations, value = 1
+[22-14-54.605] [THREAD STARTED]: Notification Vanish Animator [2x]
+[22-14-54.724] [USER GET]: key = doanimations, value = 1 [13x]
 [22-14-54.745] [UI]: [Starkville's weather] [NOTIFICATION] "<html>Refreshed</html>"
 [22-14-54.745] [THREAD STARTED]: Notification Appear Animator
-[22-14-54.749] [USER GET]: key = doanimations, value = 1
-[22-14-54.761] [USER GET]: key = doanimations, value = 1
-[22-14-54.769] [USER GET]: key = doanimations, value = 1
-[22-14-54.778] [USER GET]: key = doanimations, value = 1
-[22-14-54.788] [USER GET]: key = doanimations, value = 1
-[22-14-54.798] [USER GET]: key = doanimations, value = 1
-[22-14-54.806] [USER GET]: key = doanimations, value = 1
-[22-14-54.816] [USER GET]: key = doanimations, value = 1
-[22-14-54.825] [USER GET]: key = doanimations, value = 1
-[22-14-54.835] [USER GET]: key = doanimations, value = 1
-[22-14-54.844] [USER GET]: key = doanimations, value = 1
-[22-14-54.854] [USER GET]: key = doanimations, value = 1
-[22-14-54.864] [USER GET]: key = doanimations, value = 1
-[22-14-54.876] [USER GET]: key = doanimations, value = 1
-[22-14-54.884] [USER GET]: key = doanimations, value = 1
-[22-14-54.894] [USER GET]: key = doanimations, value = 1
-[22-14-54.902] [USER GET]: key = doanimations, value = 1
-[22-14-54.913] [USER GET]: key = doanimations, value = 1
-[22-14-54.923] [USER GET]: key = doanimations, value = 1
-[22-14-54.932] [USER GET]: key = doanimations, value = 1
+[22-14-54.932] [USER GET]: key = doanimations, value = 1 [20x]
 [22-14-54.941] [USER GET]: key = persistentnotifications, value = 0
 [22-14-54.941] [THREAD STARTED]: Notification Vanish Animator
 [22-14-56.322] [THREAD STARTED]: Weather Location Changer
@@ -496,25 +382,7 @@
                =true,margin=javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0],selectedTextColor=sun.swing.PrintColorUIResource[r
                =51,g=51,b=51],selectionColor=java.awt.Color[r=204,g=153,b=0],columns=2147483647,columnWidth=0,command=,horizontalAlignment
                =CENTER]
-[22-14-58.955] [USER GET]: key = doanimations, value = 1
-[22-14-58.964] [USER GET]: key = doanimations, value = 1
-[22-14-58.974] [USER GET]: key = doanimations, value = 1
-[22-14-58.984] [USER GET]: key = doanimations, value = 1
-[22-14-58.993] [USER GET]: key = doanimations, value = 1
-[22-14-59.004] [USER GET]: key = doanimations, value = 1
-[22-14-59.013] [USER GET]: key = doanimations, value = 1
-[22-14-59.023] [USER GET]: key = doanimations, value = 1
-[22-14-59.033] [USER GET]: key = doanimations, value = 1
-[22-14-59.044] [USER GET]: key = doanimations, value = 1
-[22-14-59.069] [USER GET]: key = doanimations, value = 1
-[22-14-59.080] [USER GET]: key = doanimations, value = 1
-[22-14-59.089] [USER GET]: key = doanimations, value = 1
-[22-14-59.099] [USER GET]: key = doanimations, value = 1
-[22-14-59.109] [USER GET]: key = doanimations, value = 1
-[22-14-59.118] [USER GET]: key = doanimations, value = 1
-[22-14-59.128] [USER GET]: key = doanimations, value = 1
-[22-14-59.137] [USER GET]: key = doanimations, value = 1
-[22-14-59.147] [USER GET]: key = doanimations, value = 1
+[22-14-59.147] [USER GET]: key = doanimations, value = 1 [19x]
 [22-15-00.170] [THREAD STARTED]: [Change Location] dispose() animation thread
 [22-15-00.170] [THREAD STARTED]: Starkville's weather Frame Notification Queue
 [22-15-00.172] [THREAD STARTED]: Weather Stats Updater
@@ -523,17 +391,7 @@
 [22-15-00.178] [UI]: [Starkville's weather] [NOTIFICATION] "<html>Attempting to refresh weather stats<br/>for location
                "Captiva,Fl,Usa"</html>"
 [22-15-00.180] [THREAD STARTED]: Notification Appear Animator
-[22-15-00.187] [USER GET]: key = doanimations, value = 1
-[22-15-00.228] [USER GET]: key = doanimations, value = 1
-[22-15-00.242] [USER GET]: key = doanimations, value = 1
-[22-15-00.253] [USER GET]: key = doanimations, value = 1
-[22-15-00.262] [USER GET]: key = doanimations, value = 1
-[22-15-00.271] [USER GET]: key = doanimations, value = 1
-[22-15-00.282] [USER GET]: key = doanimations, value = 1
-[22-15-00.294] [USER GET]: key = doanimations, value = 1
-[22-15-00.304] [USER GET]: key = doanimations, value = 1
-[22-15-00.314] [USER GET]: key = doanimations, value = 1
-[22-15-00.323] [USER GET]: key = doanimations, value = 1
+[22-15-00.323] [USER GET]: key = doanimations, value = 1 [11x]
 [22-15-00.328] [EXCEPTION]:
                Exception origin: java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1993)
                From line: 1993
@@ -544,101 +402,27 @@
                at java.base/java.net.URL.openStream(URL.java:1161)
                at cyder.widgets.WeatherWidget.lambda$repullWeatherStats$4(WeatherWidget.java:757)
                at java.base/java.lang.Thread.run(Thread.java:833)
-[22-15-00.332] [USER GET]: key = doanimations, value = 1
-[22-15-00.342] [USER GET]: key = doanimations, value = 1
+[22-15-00.342] [USER GET]: key = doanimations, value = 1 [2x]
 [22-15-00.354] [USER GET]: key = persistentnotifications, value = 0
 [22-15-00.355] [THREAD STARTED]: Notification Vanish Animator
 [22-15-01.423] [UI]: Component = CyderNotification, hash = -1960390905, bounds = (37, 29, 402, 97), parent frame
                = Starkville's weather, getTitle() = Vexento - pixel party
 [22-15-01.786] [THREAD STARTED]: Notification Vanish Animator
-[22-15-01.787] [USER GET]: key = doanimations, value = 1
-[22-15-01.797] [USER GET]: key = doanimations, value = 1
-[22-15-01.806] [USER GET]: key = doanimations, value = 1
-[22-15-01.816] [USER GET]: key = doanimations, value = 1
-[22-15-01.825] [USER GET]: key = doanimations, value = 1
-[22-15-01.834] [USER GET]: key = doanimations, value = 1
-[22-15-01.845] [USER GET]: key = doanimations, value = 1
-[22-15-01.856] [USER GET]: key = doanimations, value = 1
-[22-15-01.865] [USER GET]: key = doanimations, value = 1
-[22-15-01.874] [USER GET]: key = doanimations, value = 1
-[22-15-01.884] [USER GET]: key = doanimations, value = 1
-[22-15-01.894] [USER GET]: key = doanimations, value = 1
-[22-15-01.905] [USER GET]: key = doanimations, value = 1
-[22-15-01.916] [USER GET]: key = doanimations, value = 1
-[22-15-01.925] [USER GET]: key = doanimations, value = 1
-[22-15-01.934] [USER GET]: key = doanimations, value = 1
+[22-15-01.934] [USER GET]: key = doanimations, value = 1 [16x]
 [22-15-01.941] [OBJECT CREATION]: Objects created since last delta (5000ms): 4
 [22-15-01.951] [UI]: [Starkville's weather] [NOTIFICATION] "<html>Sorry, but that location is invalid</html>"
 [22-15-01.952] [THREAD STARTED]: Notification Appear Animator
-[22-15-01.955] [USER GET]: key = doanimations, value = 1
-[22-15-01.966] [USER GET]: key = doanimations, value = 1
-[22-15-01.975] [USER GET]: key = doanimations, value = 1
-[22-15-01.984] [USER GET]: key = doanimations, value = 1
-[22-15-01.993] [USER GET]: key = doanimations, value = 1
-[22-15-02.002] [USER GET]: key = doanimations, value = 1
-[22-15-02.012] [USER GET]: key = doanimations, value = 1
-[22-15-02.021] [USER GET]: key = doanimations, value = 1
-[22-15-02.030] [USER GET]: key = doanimations, value = 1
+[22-15-02.030] [USER GET]: key = doanimations, value = 1 [9x]
 [22-15-02.039] [USER GET]: key = persistentnotifications, value = 0
-[22-15-02.039] [THREAD STARTED]: Notification Vanish Animator
-[22-15-02.726] [THREAD STARTED]: Notification Vanish Animator
-[22-15-02.727] [USER GET]: key = doanimations, value = 1
-[22-15-02.737] [USER GET]: key = doanimations, value = 1
-[22-15-02.746] [USER GET]: key = doanimations, value = 1
-[22-15-02.755] [USER GET]: key = doanimations, value = 1
-[22-15-02.766] [USER GET]: key = doanimations, value = 1
-[22-15-02.775] [USER GET]: key = doanimations, value = 1
-[22-15-02.784] [USER GET]: key = doanimations, value = 1
-[22-15-02.794] [USER GET]: key = doanimations, value = 1
-[22-15-02.804] [USER GET]: key = doanimations, value = 1
-[22-15-02.815] [USER GET]: key = doanimations, value = 1
-[22-15-02.825] [USER GET]: key = doanimations, value = 1
-[22-15-02.836] [USER GET]: key = doanimations, value = 1
-[22-15-02.846] [USER GET]: key = doanimations, value = 1
+[22-15-02.726] [THREAD STARTED]: Notification Vanish Animator [2x]
+[22-15-02.846] [USER GET]: key = doanimations, value = 1 [13x]
 [22-15-02.863] [UI]: [Starkville's weather] [NOTIFICATION] "<html>Refreshed</html>"
 [22-15-02.864] [THREAD STARTED]: Notification Appear Animator
-[22-15-02.868] [USER GET]: key = doanimations, value = 1
-[22-15-02.877] [USER GET]: key = doanimations, value = 1
-[22-15-02.887] [USER GET]: key = doanimations, value = 1
-[22-15-02.896] [USER GET]: key = doanimations, value = 1
-[22-15-02.906] [USER GET]: key = doanimations, value = 1
-[22-15-02.916] [USER GET]: key = doanimations, value = 1
-[22-15-02.925] [USER GET]: key = doanimations, value = 1
-[22-15-02.935] [USER GET]: key = doanimations, value = 1
-[22-15-02.945] [USER GET]: key = doanimations, value = 1
-[22-15-02.954] [USER GET]: key = doanimations, value = 1
-[22-15-02.964] [USER GET]: key = doanimations, value = 1
-[22-15-02.974] [USER GET]: key = doanimations, value = 1
-[22-15-02.983] [USER GET]: key = doanimations, value = 1
-[22-15-02.992] [USER GET]: key = doanimations, value = 1
-[22-15-03.001] [USER GET]: key = doanimations, value = 1
-[22-15-03.010] [USER GET]: key = doanimations, value = 1
-[22-15-03.019] [USER GET]: key = doanimations, value = 1
-[22-15-03.028] [USER GET]: key = doanimations, value = 1
-[22-15-03.038] [USER GET]: key = doanimations, value = 1
-[22-15-03.048] [USER GET]: key = doanimations, value = 1
+[22-15-03.048] [USER GET]: key = doanimations, value = 1 [20x]
 [22-15-03.058] [USER GET]: key = persistentnotifications, value = 0
 [22-15-03.058] [THREAD STARTED]: Notification Vanish Animator
 [22-15-06.942] [OBJECT CREATION]: Objects created since last delta (5000ms): 2
-[22-15-07.061] [USER GET]: key = doanimations, value = 1
-[22-15-07.071] [USER GET]: key = doanimations, value = 1
-[22-15-07.081] [USER GET]: key = doanimations, value = 1
-[22-15-07.090] [USER GET]: key = doanimations, value = 1
-[22-15-07.099] [USER GET]: key = doanimations, value = 1
-[22-15-07.108] [USER GET]: key = doanimations, value = 1
-[22-15-07.119] [USER GET]: key = doanimations, value = 1
-[22-15-07.128] [USER GET]: key = doanimations, value = 1
-[22-15-07.137] [USER GET]: key = doanimations, value = 1
-[22-15-07.146] [USER GET]: key = doanimations, value = 1
-[22-15-07.155] [USER GET]: key = doanimations, value = 1
-[22-15-07.165] [USER GET]: key = doanimations, value = 1
-[22-15-07.174] [USER GET]: key = doanimations, value = 1
-[22-15-07.183] [USER GET]: key = doanimations, value = 1
-[22-15-07.192] [USER GET]: key = doanimations, value = 1
-[22-15-07.202] [USER GET]: key = doanimations, value = 1
-[22-15-07.211] [USER GET]: key = doanimations, value = 1
-[22-15-07.220] [USER GET]: key = doanimations, value = 1
-[22-15-07.230] [USER GET]: key = doanimations, value = 1
+[22-15-07.230] [USER GET]: key = doanimations, value = 1 [19x]
 [22-15-20.167] [THREAD STARTED]: Weather Location Changer
 [22-15-20.169] [THREAD STARTED]: getString() thread, title = [Change Location]
 [22-15-21.284] [UI]: cyder.ui.CyderTextField[,40,124,410x40,layout=javax.swing.plaf.basic.BasicTextUI$UpdateHandler,alignmentX=0
@@ -656,85 +440,19 @@
 [22-15-26.446] [UI]: [Starkville's weather] [NOTIFICATION] "<html>Attempting to refresh weather stats<br/>for location
                "New Orleans,La,Usa"</html>"
 [22-15-26.446] [THREAD STARTED]: Notification Appear Animator
-[22-15-26.451] [USER GET]: key = doanimations, value = 1
-[22-15-26.461] [USER GET]: key = doanimations, value = 1
-[22-15-26.471] [USER GET]: key = doanimations, value = 1
-[22-15-26.480] [USER GET]: key = doanimations, value = 1
-[22-15-26.489] [USER GET]: key = doanimations, value = 1
-[22-15-26.499] [USER GET]: key = doanimations, value = 1
-[22-15-26.511] [USER GET]: key = doanimations, value = 1
-[22-15-26.521] [USER GET]: key = doanimations, value = 1
-[22-15-26.531] [USER GET]: key = doanimations, value = 1
-[22-15-26.540] [USER GET]: key = doanimations, value = 1
-[22-15-26.549] [USER GET]: key = doanimations, value = 1
-[22-15-26.558] [USER GET]: key = doanimations, value = 1
-[22-15-26.567] [USER GET]: key = doanimations, value = 1
+[22-15-26.567] [USER GET]: key = doanimations, value = 1 [13x]
 [22-15-26.578] [USER GET]: key = persistentnotifications, value = 0
 [22-15-26.578] [THREAD STARTED]: Notification Vanish Animator
 [22-15-26.974] [OBJECT CREATION]: Objects created since last delta (5000ms): 2
 [22-15-27.931] [THREAD STARTED]: Notification Vanish Animator
-[22-15-27.933] [USER GET]: key = doanimations, value = 1
-[22-15-27.943] [USER GET]: key = doanimations, value = 1
-[22-15-27.952] [USER GET]: key = doanimations, value = 1
-[22-15-27.961] [USER GET]: key = doanimations, value = 1
-[22-15-27.970] [USER GET]: key = doanimations, value = 1
-[22-15-27.979] [USER GET]: key = doanimations, value = 1
-[22-15-27.988] [USER GET]: key = doanimations, value = 1
-[22-15-27.997] [USER GET]: key = doanimations, value = 1
-[22-15-28.006] [USER GET]: key = doanimations, value = 1
-[22-15-28.016] [USER GET]: key = doanimations, value = 1
-[22-15-28.025] [USER GET]: key = doanimations, value = 1
-[22-15-28.035] [USER GET]: key = doanimations, value = 1
-[22-15-28.044] [USER GET]: key = doanimations, value = 1
-[22-15-28.053] [USER GET]: key = doanimations, value = 1
-[22-15-28.063] [USER GET]: key = doanimations, value = 1
-[22-15-28.072] [USER GET]: key = doanimations, value = 1
+[22-15-28.072] [USER GET]: key = doanimations, value = 1 [16x]
 [22-15-28.087] [UI]: [New Orleans' weather] [NOTIFICATION] "<html>Refreshed</html>"
 [22-15-28.088] [THREAD STARTED]: Notification Appear Animator
-[22-15-28.091] [USER GET]: key = doanimations, value = 1
-[22-15-28.101] [USER GET]: key = doanimations, value = 1
-[22-15-28.111] [USER GET]: key = doanimations, value = 1
-[22-15-28.120] [USER GET]: key = doanimations, value = 1
-[22-15-28.130] [USER GET]: key = doanimations, value = 1
-[22-15-28.139] [USER GET]: key = doanimations, value = 1
-[22-15-28.148] [USER GET]: key = doanimations, value = 1
-[22-15-28.157] [USER GET]: key = doanimations, value = 1
-[22-15-28.167] [USER GET]: key = doanimations, value = 1
-[22-15-28.176] [USER GET]: key = doanimations, value = 1
-[22-15-28.185] [USER GET]: key = doanimations, value = 1
-[22-15-28.194] [USER GET]: key = doanimations, value = 1
-[22-15-28.203] [USER GET]: key = doanimations, value = 1
-[22-15-28.213] [USER GET]: key = doanimations, value = 1
-[22-15-28.222] [USER GET]: key = doanimations, value = 1
-[22-15-28.231] [USER GET]: key = doanimations, value = 1
-[22-15-28.240] [USER GET]: key = doanimations, value = 1
-[22-15-28.249] [USER GET]: key = doanimations, value = 1
-[22-15-28.258] [USER GET]: key = doanimations, value = 1
-[22-15-28.268] [USER GET]: key = doanimations, value = 1
+[22-15-28.268] [USER GET]: key = doanimations, value = 1 [20x]
 [22-15-28.277] [USER GET]: key = persistentnotifications, value = 0
-[22-15-28.277] [THREAD STARTED]: Notification Vanish Animator
-[22-15-29.462] [THREAD STARTED]: Notification Vanish Animator
-[22-15-29.463] [USER GET]: key = doanimations, value = 1
-[22-15-29.474] [USER GET]: key = doanimations, value = 1
-[22-15-29.484] [USER GET]: key = doanimations, value = 1
-[22-15-29.493] [USER GET]: key = doanimations, value = 1
-[22-15-29.503] [USER GET]: key = doanimations, value = 1
-[22-15-29.512] [USER GET]: key = doanimations, value = 1
-[22-15-29.522] [USER GET]: key = doanimations, value = 1
-[22-15-29.531] [USER GET]: key = doanimations, value = 1
-[22-15-29.540] [USER GET]: key = doanimations, value = 1
-[22-15-29.550] [USER GET]: key = doanimations, value = 1
-[22-15-29.559] [USER GET]: key = doanimations, value = 1
-[22-15-29.569] [USER GET]: key = doanimations, value = 1
-[22-15-29.578] [USER GET]: key = doanimations, value = 1
-[22-15-29.589] [USER GET]: key = doanimations, value = 1
-[22-15-29.598] [USER GET]: key = doanimations, value = 1
-[22-15-29.608] [USER GET]: key = doanimations, value = 1
-[22-15-29.618] [USER GET]: key = doanimations, value = 1
-[22-15-29.627] [USER GET]: key = doanimations, value = 1
-[22-15-29.637] [USER GET]: key = doanimations, value = 1
-[22-15-31.292] [THREAD STARTED]: New Orleans' weather menu label animator
-[22-15-31.293] [THREAD STARTED]: New Orleans' weather menu label animator
+[22-15-29.462] [THREAD STARTED]: Notification Vanish Animator [2x]
+[22-15-29.637] [USER GET]: key = doanimations, value = 1 [19x]
+[22-15-31.293] [THREAD STARTED]: New Orleans' weather menu label animator [2x]
 [22-15-31.980] [OBJECT CREATION]: Objects created since last delta (5000ms): 2
 [22-15-32.703] [THREAD STARTED]: New Orleans' weather Opacity Decrement Animator
 [22-15-33.183] [THREAD STARTED]: New Orleans' weather Opacity Increment Animator
@@ -792,19 +510,7 @@
 [22-16-38.572] [UI]: [Liminal Cyder [Nathan]] [NOTIFICATION] "<html>You only have one background image. Try<br/>adding
                more via the user editor</html>"
 [22-16-38.573] [THREAD STARTED]: Notification Appear Animator
-[22-16-38.574] [USER GET]: key = doanimations, value = 1
-[22-16-38.586] [USER GET]: key = doanimations, value = 1
-[22-16-38.595] [USER GET]: key = doanimations, value = 1
-[22-16-38.604] [USER GET]: key = doanimations, value = 1
-[22-16-38.614] [USER GET]: key = doanimations, value = 1
-[22-16-38.623] [USER GET]: key = doanimations, value = 1
-[22-16-38.633] [USER GET]: key = doanimations, value = 1
-[22-16-38.642] [USER GET]: key = doanimations, value = 1
-[22-16-38.651] [USER GET]: key = doanimations, value = 1
-[22-16-38.660] [USER GET]: key = doanimations, value = 1
-[22-16-38.669] [USER GET]: key = doanimations, value = 1
-[22-16-38.678] [USER GET]: key = doanimations, value = 1
-[22-16-38.687] [USER GET]: key = doanimations, value = 1
+[22-16-38.687] [USER GET]: key = doanimations, value = 1 [13x]
 [22-16-38.696] [USER GET]: key = persistentnotifications, value = 0
 [22-16-38.696] [THREAD STARTED]: Notification Vanish Animator
 [22-16-39.192] [THREAD STARTED]: [Preferences] dispose() animation thread

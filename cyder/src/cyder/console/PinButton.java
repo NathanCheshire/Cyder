@@ -50,7 +50,7 @@ public class PinButton extends JLabel {
         this.effectFrame = Preconditions.checkNotNull(effectFrame);
         this.currentState = Preconditions.checkNotNull(initialState);
 
-        addMouseListener(mouseAdapter);
+        addMouseListener(generateMouseAdapter(this));
 
         refreshTooltip();
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -58,28 +58,35 @@ public class PinButton extends JLabel {
     }
 
     @ForReadability
-    @SuppressWarnings("FieldCanBeLocal")
-    private final MouseAdapter mouseAdapter = new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            currentState = getNextState();
-            refreshTooltip();
-            repaint();
-            effectFrame.refreshAlwaysOnTop();
-        }
+    private static MouseAdapter generateMouseAdapter(PinButton pinButton) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                pinButton.incrementState();
+            }
 
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            mouseIn.set(true);
-            repaint();
-        }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                pinButton.setMouseIn(true);
+                pinButton.repaint();
+            }
 
-        @Override
-        public void mouseExited(MouseEvent e) {
-            mouseIn.set(false);
-            repaint();
-        }
-    };
+            @Override
+            public void mouseExited(MouseEvent e) {
+                pinButton.setMouseIn(false);
+                pinButton.repaint();
+            }
+        };
+    }
+
+    /**
+     * Sets whether the mouse is inside of the bounds of this pin button.
+     *
+     * @param mouseIn whether the mouse is inside of the bounds of this pin button
+     */
+    public void setMouseIn(boolean mouseIn) {
+        this.mouseIn.set(mouseIn);
+    }
 
     /**
      * The default width given to this component.
@@ -125,12 +132,22 @@ public class PinButton extends JLabel {
     }
 
     /**
+     * Sets the state of this pin button to the next state.
+     */
+    public void incrementState() {
+        currentState = getNextState();
+        refreshTooltip();
+        repaint();
+        effectFrame.refreshAlwaysOnTop();
+    }
+
+    /**
      * Sets the state of this pin button.
      *
      * @param newState the state of this pin button
      */
     public void setState(State newState) {
-        this.currentState = Preconditions.checkNotNull(newState);
+        currentState = Preconditions.checkNotNull(newState);
         refreshTooltip();
         effectFrame.refreshAlwaysOnTop();
         repaint();
@@ -142,20 +159,20 @@ public class PinButton extends JLabel {
     private static final int translateX = 4;
     private static final int translateY = 4;
 
+    private static final int paintPoints = 4;
+    private static final int[] xPoints = {0, paintWidth, paintWidth / 2, 0};
+    private static final int[] yPoints = {0, 0, paintHeight, 0};
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-
-        g.translate(translateX, translateY);
-
-        int[] xPoints = {0, paintWidth, paintWidth / 2, 0};
-        int[] yPoints = {0, 0, paintHeight, 0};
+        g2d.translate(translateX, translateY);
 
         g2d.setColor(mouseIn.get() ? currentState.getNextColor() : currentState.getCurrentColor());
-        g2d.fillPolygon(xPoints, yPoints, xPoints.length);
+        g2d.fillPolygon(xPoints, yPoints, paintPoints);
         super.paint(g);
     }
 

@@ -109,9 +109,9 @@ public class CyderDragLabel extends JLabel {
         this.backgroundColor = CyderColors.getGuiThemeColor();
 
         leftButtonList = new LinkedList<>();
+
+        // todo only do this if necessary, not for bottom, left, right, or borderless ones
         rightButtonList = buildRightButtonList();
-        // todo for borders this isn't needed so we're wasting some computation
-        //  doing this for left bottom and right drag labels
 
         setSize(width, height);
         setOpaque(true);
