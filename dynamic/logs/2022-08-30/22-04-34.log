@@ -1,0 +1,159 @@
+          _____                _____                    _____                    _____                    _____
+         /\    \              |\    \                  /\    \                  /\    \                  /\    \
+        /::\    \             |:\____\                /::\    \                /::\    \                /::\    \
+       /::::\    \            |::|   |               /::::\    \              /::::\    \              /::::\    \
+      /::::::\    \           |::|   |              /::::::\    \            /::::::\    \            /::::::\    \
+     /:::/\:::\    \          |::|   |             /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \
+    /:::/  \:::\    \         |::|   |            /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \
+   /:::/    \:::\    \        |::|   |           /:::/    \:::\    \      /::::\   \:::\    \      /::::\   \:::\    \
+  /:::/    / \:::\    \       |::|___|______    /:::/    / \:::\    \    /::::::\   \:::\    \    /::::::\   \:::\    \
+ /:::/    /   \:::\    \      /::::::::\    \  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\
+/:::/____/     \:::\____\    /::::::::::\____\/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/:::/  \:::\   \:::|    |
+\:::\    \      \::/    /   /:::/~~~~/~~      \:::\    \     /:::|____|\:::\   \:::\   \::/    /\::/   |::::\  /:::|____|
+ \:::\    \      \/____/   /:::/    /          \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \/____|:::::\/:::/    /
+  \:::\    \              /:::/    /            \:::\    \ /:::/    /    \:::\   \:::\    \            |:::::::::/    /
+   \:::\    \            /:::/    /              \:::\    /:::/    /      \:::\   \:::\____\           |::|\::::/    /
+    \:::\    \           \::/    /                \:::\  /:::/    /        \:::\   \::/    /           |::| \::/____/
+     \:::\    \           \/____/                  \:::\/:::/    /          \:::\   \/____/            |::|  ~|
+      \:::\    \                                    \::::::/    /            \:::\    \                |::|   |
+       \:::\____\                                    \::::/    /              \:::\____\               \::|   |
+        \::/    /                                     \::/____/                \::/    /                \:|   |
+         \/____/                                       ~~                       \/____/                  \|___|
+
+
+[22-04-34.101] [ENTRY]: Nathan
+[22-04-34.051] [DEBUG]: Loaded 131 static resources
+[22-04-34.066] [DEBUG]: Loaded 16 static folders
+[22-04-34.077] [DEBUG]: Found prop file: props\propkeys.ini
+[22-04-34.077] [DEBUG]: Found prop file: props\props.ini
+[22-04-34.088] [PROP LOADED]: [key = map_quest_api_key]
+[22-04-34.088] [PROP LOADED]: [key = youtube_api_3_key]
+[22-04-34.088] [PROP LOADED]: [key = ip_key]
+[22-04-34.088] [PROP LOADED]: [key = weather_key]
+[22-04-34.088] [PROP LOADED]: [key = debug_hash_name, value = Nathan]
+[22-04-34.088] [PROP LOADED]: [key = debug_hash_password, value = 571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7c
+               a733d0a7f6]
+[22-04-34.093] [PROP LOADED]: [key = default_weather_location, value = Austin,Tx,USA]
+[22-04-34.093] [PROP LOADED]: [key = ignore_data, value = typinganimation,showseconds,roundedwindows,windowcolor
+               ,audiolength,capsmode,typingsound,showbusyicon,clockonconsole,consoleclockformat]
+[22-04-34.093] [PROP LOADED]: [key = font_metric, value = 1]
+[22-04-34.093] [PROP LOADED]: [key = max_font_size, value = 50]
+[22-04-34.093] [PROP LOADED]: [key = min_font_size, value = 25]
+[22-04-34.093] [PROP LOADED]: [key = released, value = false]
+[22-04-34.093] [PROP LOADED]: [key = version, value = Liminal]
+[22-04-34.093] [PROP LOADED]: [key = release_date, value = 22.7.4]
+[22-04-34.093] [PROP LOADED]: [key = components_relocatable, value = false]
+[22-04-34.093] [PROP LOADED]: [key = testing_mode, value = true]
+[22-04-34.093] [PROP LOADED]: [key = autocypher, value = true]
+[22-04-34.093] [PROP LOADED]: [key = dispose_splash, value = true]
+[22-04-34.094] [PROP LOADED]: [key = wipe_logs_on_start, value = false]
+[22-04-34.094] [PROP LOADED]: [key = activate_watchdog, value = false]
+[22-04-34.094] [PROP LOADED]: [key = ffmpeg_audio_output_format, value = mp3]
+[22-04-34.094] [PROP LOADED]: [key = printing_animation_char_timeout, value = 8]
+[22-04-34.094] [PROP LOADED]: [key = printing_animation_line_timeout, value = 100]
+[22-04-34.094] [PROP LOADED]: [key = ui_scale, value = 1]
+[22-04-34.094] [PROP LOADED]: [key = auto_trigger_similar_commands, value = true]
+[22-04-34.094] [PROP LOADED]: [key = auto_trigger_similar_command_tolerance, value = 0.95]
+[22-04-34.094] [PROP LOADED]: [key = latency_ip, value = 172.217.4.78]
+[22-04-34.094] [PROP LOADED]: [key = latency_port, value = 80]
+[22-04-34.094] [PROP LOADED]: [key = latency_name, value = Google]
+[22-04-34.094] [PROP LOADED]: [key = props_reloadable, value = false]
+[22-04-34.099] [DEBUG]: Jar mode set as: FALSE
+[22-04-34.149] [THREAD STARTED]: Object Creation Logger
+[22-04-34.554] [DEBUG]: Watchdog skipped
+[22-04-34.558] [LOADING MESSAGE]: Registering fonts
+[22-04-34.928] [FONT LOADED]: agency-fb
+[22-04-34.930] [FONT LOADED]: arial-black
+[22-04-34.935] [FONT LOADED]: beyno
+[22-04-34.936] [FONT LOADED]: condiment-regular
+[22-04-34.938] [FONT LOADED]: prompt-bold
+[22-04-34.939] [FONT LOADED]: segoe-ui-black
+[22-04-34.941] [FONT LOADED]: tahoma
+[22-04-34.942] [LOADING MESSAGE]: Ensuring singular instance
+[22-04-34.944] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-04-34.946] [DEBUG]: Starting instance socket on port 5150
+[22-04-35.449] [LOADING MESSAGE]: Ensuring OS is supported
+[22-04-35.450] [LOADING MESSAGE]: Creating dynamics
+[22-04-35.450] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-04-35.466] [LOADING MESSAGE]: Validating users
+[22-04-35.575] [USER GET]: key = name, value = Nathan
+[22-04-35.576] [USER GET]: key = foreground, value = f0f0f0
+[22-04-35.577] [USER GET]: key = Font, value = Agency FB
+[22-04-35.578] [USER GET]: key = background, value = 0f0f0f
+[22-04-35.589] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1527, consoleY=257, consoleWidth=832,
+               consoleHeight=797, monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[22-04-35.602] [USER GET]: key = mappedexecutable, value = []
+[22-04-35.602] [USER GET]: key = loggedin, value = 1
+[22-04-35.603] [USER GET]: key = randombackground, value = 0
+[22-04-35.603] [USER GET]: key = persistentnotifications, value = 0
+[22-04-35.603] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
+[22-04-35.604] [USER GET]: key = intromusic, value = 0
+[22-04-35.604] [USER GET]: key = fontsize, value = 27
+[22-04-35.605] [USER GET]: key = wrapshell, value = 1
+[22-04-35.605] [USER GET]: key = doanimations, value = 1
+[22-04-35.606] [USER GET]: key = compacttextmode, value = 0
+[22-04-35.606] [USER GET]: key = darkmode, value = 0
+[22-04-35.606] [USER GET]: key = outputfill, value = 0
+[22-04-35.607] [USER GET]: key = minimizeonclose, value = 0
+[22-04-35.607] [USER GET]: key = fullscreen, value = 0
+[22-04-35.608] [USER GET]: key = inputborder, value = 0
+[22-04-35.608] [USER GET]: key = youtubeuuid, value = aaaaaaaaaiI
+[22-04-35.609] [USER GET]: key = hourlychimes, value = 1
+[22-04-35.609] [USER GET]: key = inputfill, value = 0
+[22-04-35.609] [USER GET]: key = laststart, value = 1661911320535
+[22-04-35.610] [USER GET]: key = outputborder, value = 0
+[22-04-35.610] [USER GET]: key = filterchat, value = 1
+[22-04-35.611] [USER GET]: key = silenceerrors, value = 1
+[22-04-35.611] [USER GET]: key = debugwindows, value = 0
+[22-04-35.613] [USER GET]: key = mappedexecutable, value = []
+[22-04-35.613] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1527, consoleY=257, consoleWidth=832,
+               consoleHeight=797, monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
+[22-04-35.622] [USER GET]: key = name, value = Nathan
+[22-04-35.623] [LOADING MESSAGE]: Cleaning users
+[22-04-35.625] [LOADING MESSAGE]: Validating props
+[22-04-35.743] [LOADING MESSAGE]: Validating Widgets
+[22-04-36.079] [LOADING MESSAGE]: Validating Tests
+[22-04-36.082] [LOADING MESSAGE]: Validating Vanilla annotations
+[22-04-36.091] [LOADING MESSAGE]: Validating Handles
+[22-04-36.103] [THREAD STARTED]: Splash Loader
+[22-04-36.104] [THREAD STARTED]: Sufficient Subroutine Executor
+[22-04-36.107] [LOADING MESSAGE]: Logging JVM args
+[22-04-36.108] [THREAD STARTED]: JVM Args Logger
+[22-04-36.114] [DEBUG]: Set latency ip as 172.217.4.78
+[22-04-36.116] [DEBUG]: Set latency port as 80
+[22-04-36.117] [DEBUG]: Set latency host name as Google
+[22-04-36.123] [LOADING MESSAGE]: Checking for an AutoCypher
+[22-04-36.124] [LOGIN]: AutoCypher Attempt
+[22-04-36.124] [LOADING MESSAGE]: Auto Cyphering
+[22-04-36.127] [USER GET]: key = name, value = Nathan [2x]
+[22-04-36.167] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
+[22-04-36.291] [USER GET]: key = darkmode, value = 0 [2x]
+[22-04-36.553] [UNIQUE OBJECT CREATED]: Console singleton constructed
+[22-04-36.554] [USER GET]: key = name, value = Nathan
+[22-04-36.567] [THREAD STARTED]: Splash Animation
+[22-04-36.660] [DEBUG]: Cyder Entry = AutoCypher
+[22-04-36.662] [THREAD STARTED]: High Ping Checker
+[22-04-36.719] [DEBUG]: Latency of Google found to be 54ms
+[22-04-36.729] [USER GET]: key = name, value = Nathan
+[22-04-36.730] [USER GET]: key = randombackground, value = 0
+[22-04-36.791] [USER GET]: key = fullscreen, value = 0 [3x]
+[22-04-36.791] [USER GET]: key = name, value = Nathan
+[22-04-36.828] [USER GET]: key = foreground, value = f0f0f0 [3x]
+[22-04-36.829] [USER GET]: key = Font, value = Agency FB
+[22-04-36.830] [USER GET]: key = fontsize, value = 27
+[22-04-36.848] [USER GET]: key = outputborder, value = 0
+[22-04-36.849] [USER GET]: key = outputfill, value = 0
+[22-04-36.868] [USER GET]: key = inputborder, value = 0
+[22-04-36.870] [USER GET]: key = foreground, value = f0f0f0 [3x]
+[22-04-36.871] [USER GET]: key = Font, value = Agency FB
+[22-04-36.871] [USER GET]: key = fontsize, value = 27
+[22-04-36.872] [USER GET]: key = inputfill, value = 0
+[22-04-37.159] [OBJECT CREATION]: Objects created since last delta (5000ms): 105
+[22-04-38.772] [THREAD STARTED]: Splash Loading Label Updater
+[22-04-40.713] [THREAD STARTED]: Harmonic Rectangle Animator [20x]
+[22-04-40.931] [THREAD STARTED]: Cyder Splash Opacity Decrement Animator
+[22-04-41.342] [THREAD STARTED]: Cyder Splash Opacity Increment Animator
+[22-04-42.162] [OBJECT CREATION]: Objects created since last delta (5000ms): 2
+[22-04-55.352] [THREAD STARTED]: Cyder Splash Opacity Decrement Animator
+[22-04-56.051] [THREAD STARTED]: Cyder Splash Opacity Increment Animator
+[22-05-17.895] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

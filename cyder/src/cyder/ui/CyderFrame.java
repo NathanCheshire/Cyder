@@ -2721,9 +2721,7 @@ public class CyderFrame extends JFrame {
         if (visible) {
             Console.INSTANCE.addTaskbarIcon(this);
 
-            boolean consoleNotNull = Console.INSTANCE.getConsoleCyderFrame() != null;
-            boolean notForConsole = !forConsole();
-            if (consoleOnTop() && consoleNotNull && notForConsole) {
+            if (consoleOnTop() && notForConsole()) {
                 getTopDragLabel().getPinButton().setState(PinButton.State.FRAME_PINNED);
             }
         }
@@ -2731,6 +2729,14 @@ public class CyderFrame extends JFrame {
 
     // todo blur is broken for some reason
     // todo open current log broken?
+    // todo focus listeners for custom buttons broken now
+    // todo use toFront and toBack for prefs toggler
+    // todo default weather background should be nicer
+    // todo should be able to toggle off weather background for location and instead
+    //  use a gradient
+    // todo time for weather doesn't update seconds
+    // todo pinning to console broken
+    // todo starting frames on top if console is is broken
 
     @ForReadability
     private static boolean consoleOnTop() {
@@ -2738,9 +2744,10 @@ public class CyderFrame extends JFrame {
         return console != null && console.isAlwaysOnTop();
     }
 
-    private boolean forConsole() {
+    @ForReadability
+    private boolean notForConsole() {
         CyderFrame frame = Console.INSTANCE.getConsoleCyderFrame();
-        return frame != null && frame != this;
+        return frame != null && !frame.equals(this);
     }
 
     // -----------

@@ -125,11 +125,9 @@
 [21-01-59.369] [LOADING MESSAGE]: Checking for an AutoCypher
 [21-01-59.370] [LOGIN]: AutoCypher Attempt
 [21-01-59.370] [LOADING MESSAGE]: Auto Cyphering
-[21-01-59.372] [USER GET]: key = name, value = Nathan
-[21-01-59.373] [USER GET]: key = name, value = Nathan
+[21-01-59.373] [USER GET]: key = name, value = Nathan [2x]
 [21-01-59.405] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
-[21-01-59.594] [USER GET]: key = darkmode, value = 0
-[21-01-59.602] [USER GET]: key = darkmode, value = 0
+[21-01-59.602] [USER GET]: key = darkmode, value = 0 [2x]
 [21-01-59.831] [UNIQUE OBJECT CREATED]: Console singleton constructed
 [21-01-59.834] [USER GET]: key = name, value = Nathan
 [21-01-59.844] [THREAD STARTED]: Splash Animation
@@ -137,21 +135,15 @@
 [21-01-59.929] [THREAD STARTED]: High Ping Checker
 [21-01-59.993] [USER GET]: key = name, value = Nathan
 [21-01-59.994] [USER GET]: key = randombackground, value = 0
-[21-01-59.995] [USER GET]: key = fullscreen, value = 0
-[21-02-00.041] [USER GET]: key = fullscreen, value = 0
-[21-02-00.042] [USER GET]: key = fullscreen, value = 0
+[21-02-00.042] [USER GET]: key = fullscreen, value = 0 [3x]
 [21-02-00.043] [USER GET]: key = name, value = Nathan
-[21-02-00.069] [USER GET]: key = foreground, value = f0f0f0
-[21-02-00.070] [USER GET]: key = foreground, value = f0f0f0
-[21-02-00.072] [USER GET]: key = foreground, value = f0f0f0
+[21-02-00.072] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [21-02-00.073] [USER GET]: key = Font, value = Agency FB
 [21-02-00.073] [USER GET]: key = fontsize, value = 27
 [21-02-00.088] [USER GET]: key = outputborder, value = 0
 [21-02-00.089] [USER GET]: key = outputfill, value = 0
 [21-02-00.105] [USER GET]: key = inputborder, value = 0
-[21-02-00.106] [USER GET]: key = foreground, value = f0f0f0
-[21-02-00.106] [USER GET]: key = foreground, value = f0f0f0
-[21-02-00.107] [USER GET]: key = foreground, value = f0f0f0
+[21-02-00.107] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [21-02-00.107] [USER GET]: key = Font, value = Agency FB
 [21-02-00.107] [USER GET]: key = fontsize, value = 27
 [21-02-00.108] [USER GET]: key = inputfill, value = 0
@@ -228,9 +220,7 @@
 [21-02-10.909] [SYSTEM IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00
                -81fe-329f-8a78-62f463d0b7da_1661910811697.json
 [21-02-10.911] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Increment Animator
-[21-02-11.546] [UI]: cyder.ui.CyderDragLabel$4@4d3767aa
-[21-02-12.380] [UI]: cyder.ui.CyderDragLabel$4@4d3767aa
-[21-02-13.478] [UI]: cyder.ui.CyderDragLabel$4@4d3767aa
+[21-02-13.478] [UI]: cyder.ui.CyderDragLabel$4@4d3767aa [3x]
 [21-02-14.417] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
 [21-02-15.070] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1510, consoleY=303, consoleWidth=832,
                consoleHeight=797, monitor=0, consoleOnTop=false, consoleDirection=RIGHT}

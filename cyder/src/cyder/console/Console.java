@@ -144,21 +144,10 @@ public enum Console {
     private JButton menuButton;
 
     /**
-     * The pin button for the top drag label.
-     */
-    private PinButton pinButton;
-
-    /**
      * The top drag label audio menu toggle button.
      */
     private final JButton toggleAudioControls = new CyderIconButton(
             "Audio Controls", CyderIcons.menuIcon, CyderIcons.menuIconHover);
-
-    /**
-     * The top drag label minimize button.
-     */
-    private final CyderIconButton minimizeButton = new CyderIconButton(
-            "Minimize", CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover);
 
     /**
      * The top drag label alternate background button.
@@ -731,7 +720,8 @@ public enum Console {
         ScreenStat requestedConsoleStats = UserUtil.getCyderUser().getScreenStat();
 
         boolean onTop = requestedConsoleStats.isConsoleOnTop();
-        pinButton.setState(onTop ? PinButton.State.CONSOLE_PINNED : PinButton.State.DEFAULT);
+        consoleCyderFrame.getTopDragLabel().getPinButton()
+                .setState(onTop ? PinButton.State.CONSOLE_PINNED : PinButton.State.DEFAULT);
 
         int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
         int requestedConsoleHeight = requestedConsoleStats.getConsoleHeight();
@@ -764,6 +754,18 @@ public enum Console {
      */
     @ForReadability
     private void installDragLabelButtons() {
+        // Remove close button
+        consoleCyderFrame.getTopDragLabel().removeRightButton(2);
+        // Add custom close button at end
+        closeButton.addActionListener(e -> {
+            if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
+                UiUtil.minimizeAllFrames();
+            } else {
+                closeFrame(true, false);
+            }
+        });
+        consoleCyderFrame.getTopDragLabel().addRightButton(closeButton, 2);
+
         menuButton = new CyderIconButton(
                 "Menu", CyderIcons.menuIcon, CyderIcons.menuIconHover,
                 menuButtonMouseListener, menuButtonFocusAdapter);
@@ -771,17 +773,6 @@ public enum Console {
         menuButton.setSize(22, 22);
         menuButton.addKeyListener(menuButtonKeyAdapter);
         consoleCyderFrame.getTopDragLabel().addLeftButton(menuButton, 0);
-
-        toggleAudioControls.addActionListener(e -> {
-            if (audioControlsLabel.isVisible()) {
-                animateOutAudioControls();
-            } else {
-                animateInAudioControls();
-            }
-        });
-        toggleAudioControls.setVisible(false);
-
-        pinButton = new PinButton(consoleCyderFrame);
 
         alternateBackgroundButton.addActionListener(e -> {
             loadBackgrounds();
@@ -800,16 +791,17 @@ public enum Console {
                 Logger.log(Logger.Tag.EXCEPTION, "Background DNE");
             }
         });
+        consoleCyderFrame.getTopDragLabel().addRightButton(alternateBackgroundButton, 2);
 
-        closeButton.addActionListener(e -> {
-            if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
-                UiUtil.minimizeAllFrames();
+        toggleAudioControls.addActionListener(e -> {
+            if (audioControlsLabel.isVisible()) {
+                animateOutAudioControls();
             } else {
-                closeFrame(true, false);
+                animateInAudioControls();
             }
         });
-
-        // todo add buttons to top dag level of frame, pin bug comes from us using a custom pin button
+        toggleAudioControls.setVisible(false);
+        consoleCyderFrame.getTopDragLabel().addRightButton(toggleAudioControls, 0);
     }
 
     /**
