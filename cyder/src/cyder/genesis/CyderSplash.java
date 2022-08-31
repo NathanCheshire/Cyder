@@ -137,14 +137,13 @@ public enum CyderSplash {
     }
 
     private static final String SPLASH_LOADER_THREAD_NAME = "Splash Loader";
+    private static final String FRAME_TITLE = "Cyder Splash";
 
     /**
      * Shows the splash screen as long as it has not already been shown.
      */
     public void showSplash() {
-        if (splashShown)
-            throw new IllegalStateException("Program has already been loaded");
-
+        Preconditions.checkState(!splashShown);
         splashShown = true;
 
         CyderThreadRunner.submit(() -> {
@@ -165,12 +164,10 @@ public enum CyderSplash {
                         }
                     }
                 });
-                splashFrame.setTitle("Cyder Splash");
+                splashFrame.setTitle(FRAME_TITLE);
                 splashFrame.addEndDragEventCallback(
                         () -> relocatedCenterPoint.set(splashFrame.getCenterPointOnScreen()));
-
-                // set AlwaysOnTop, this will be quickly turned off
-                splashFrame.setAlwaysOnTop(true);
+                splashFrame.setFrameType(CyderFrame.FrameType.POPUP);
 
                 CyderThreadRunner.submit(() -> {
                     try {

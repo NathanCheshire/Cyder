@@ -142,8 +142,8 @@ public final class InformHandler {
             });
         }
 
+        informFrame.setFrameType(CyderFrame.FrameType.POPUP);
         informFrame.setVisible(true);
-        informFrame.setAlwaysOnTop(true);
         informFrame.setLocationRelativeTo(relativeTo);
 
         Logger.log(Logger.Tag.UI_ACTION, "[INFORMATION PANE] text = \""

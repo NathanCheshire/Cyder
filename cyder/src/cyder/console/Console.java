@@ -143,6 +143,9 @@ public enum Console {
      */
     private JButton menuButton;
 
+    /**
+     * The pin button for the top drag label.
+     */
     private PinButton pinButton;
 
     /**
@@ -728,9 +731,7 @@ public enum Console {
         ScreenStat requestedConsoleStats = UserUtil.getCyderUser().getScreenStat();
 
         boolean onTop = requestedConsoleStats.isConsoleOnTop();
-        consoleCyderFrame.setAlwaysOnTop(onTop);
         pinButton.setState(onTop ? PinButton.State.CONSOLE_PINNED : PinButton.State.DEFAULT);
-        System.out.println("Console on top: " + onTop);
 
         int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
         int requestedConsoleHeight = requestedConsoleStats.getConsoleHeight();
@@ -768,10 +769,8 @@ public enum Console {
                 menuButtonMouseListener, menuButtonFocusAdapter);
         menuButton.addActionListener(menuButtonActionListener);
         menuButton.setSize(22, 22);
-        consoleCyderFrame.getTopDragLabel().addLeftButton(menuButton, 0);
         menuButton.addKeyListener(menuButtonKeyAdapter);
-
-        LinkedList<Component> consoleDragButtonList = new LinkedList<>();
+        consoleCyderFrame.getTopDragLabel().addLeftButton(menuButton, 0);
 
         toggleAudioControls.addActionListener(e -> {
             if (audioControlsLabel.isVisible()) {
@@ -781,17 +780,8 @@ public enum Console {
             }
         });
         toggleAudioControls.setVisible(false);
-        consoleDragButtonList.add(toggleAudioControls);
-
-        minimizeButton.addActionListener(e -> {
-            consoleCyderFrame.setRestoreX(consoleCyderFrame.getX());
-            consoleCyderFrame.setRestoreY(consoleCyderFrame.getY());
-            consoleCyderFrame.minimizeAndIconify();
-        });
-        consoleDragButtonList.add(minimizeButton);
 
         pinButton = new PinButton(consoleCyderFrame);
-        consoleDragButtonList.add(pinButton);
 
         alternateBackgroundButton.addActionListener(e -> {
             loadBackgrounds();
@@ -810,7 +800,6 @@ public enum Console {
                 Logger.log(Logger.Tag.EXCEPTION, "Background DNE");
             }
         });
-        consoleDragButtonList.add(alternateBackgroundButton);
 
         closeButton.addActionListener(e -> {
             if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
@@ -819,9 +808,8 @@ public enum Console {
                 closeFrame(true, false);
             }
         });
-        consoleDragButtonList.add(closeButton);
 
-        consoleCyderFrame.getTopDragLabel().setRightButtonList(consoleDragButtonList);
+        // todo add buttons to top dag level of frame, pin bug comes from us using a custom pin button
     }
 
     /**

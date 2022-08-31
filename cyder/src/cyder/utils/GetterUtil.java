@@ -175,7 +175,6 @@ public class GetterUtil {
                     });
                 }
 
-                inputFrame.setAlwaysOnTop(true);
                 inputFrame.setLocationRelativeTo(relativeTo);
                 inputFrame.setVisible(true);
             } catch (Exception e) {

@@ -853,20 +853,39 @@ public class CyderFrame extends JFrame {
         this.frameType = Preconditions.checkNotNull(frameType);
 
         switch (frameType) {
-            case DEFAULT -> setAlwaysOnTop(false);
+            case DEFAULT -> {}
             case POPUP -> {
-                setAlwaysOnTop(true);
-                // Remove minimize
-                topDrag.removeRightButton(0);
-                // Remove pin
-                topDrag.removeRightButton(0);
+                if (!isBorderlessFrame()) {
+                    // Remove minimize
+                    topDrag.removeRightButton(0);
+                    // Remove pin
+                    topDrag.removeRightButton(0);
+                }
             }
             case INPUT_GETTER -> {
-                setAlwaysOnTop(true);
                 // Remove pin
                 topDrag.removeRightButton(1);
             }
             default -> throw new IllegalStateException("Unimplemented state: " + frameType);
+        }
+
+        refreshAlwaysOnTop();
+    }
+
+    /**
+     * Refreshes whether this frame is always on top based on the currently
+     * set frame state and the state of the pinned button.
+     */
+    public void refreshAlwaysOnTop() {
+        switch (frameType) {
+            case DEFAULT -> {
+                boolean notDefaultState = getTopDragLabel().getPinButton().getCurrentState() != PinButton.State.DEFAULT;
+                System.out.println("Setting always on top of " + this.getTitle() + " to: " + notDefaultState);
+                setAlwaysOnTop(notDefaultState);
+            }
+            case INPUT_GETTER, POPUP -> {
+                setAlwaysOnTop(true);
+            }
         }
     }
 
@@ -2059,17 +2078,6 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Returns the absolute minimum size for the title label based on the currently set text and font.
-     *
-     * @return the absolute minimum size for the title label based on the currently set text and font
-     */
-    public Dimension getTitleLabelSize() {
-        String text = titleLabel.getText();
-        Font font = titleLabel.getFont();
-        return new Dimension(StringUtil.getAbsoluteMinWidth(text, font), StringUtil.getAbsoluteMinHeight(title, font));
-    }
-
-    /**
      * The minimum size dimension.
      */
     private Dimension minimumSize = new Dimension(MINIMUM_WIDTH, MINIMUM_HEIGHT);
@@ -2568,7 +2576,7 @@ public class CyderFrame extends JFrame {
      */
     public void setPinned(boolean pinWindow) {
         pinned = pinWindow;
-        setAlwaysOnTop(pinned);
+        refreshAlwaysOnTop();
     }
 
     /**
@@ -2601,7 +2609,7 @@ public class CyderFrame extends JFrame {
      */
     public void setConsolePinned(boolean consolePinned) {
         this.consolePinned = consolePinned;
-        setAlwaysOnTop(this.consolePinned);
+        refreshAlwaysOnTop();
     }
 
     /**
@@ -2714,11 +2722,8 @@ public class CyderFrame extends JFrame {
             Console.INSTANCE.addTaskbarIcon(this);
 
             boolean consoleNotNull = Console.INSTANCE.getConsoleCyderFrame() != null;
-            System.out.println("Console not null: " + consoleNotNull);
             boolean notForConsole = !forConsole();
-            System.out.println("For console: " + notForConsole);
             if (consoleOnTop() && consoleNotNull && notForConsole) {
-                System.out.println("Setting frame pinned for frame: " + this); // todo not triggered
                 getTopDragLabel().getPinButton().setState(PinButton.State.FRAME_PINNED);
             }
         }
@@ -3577,31 +3582,14 @@ public class CyderFrame extends JFrame {
     public static final int ENTER_ANIMATION_DELAY = 75;
 
     /**
-     * The delay between setting a frame's alwaysOnTop mode back to false after a {@link #finalizeAndShow()} call.
-     */
-    public static final int ALWAYS_ON_TOP_RESTORE_DELAY = 1000;
-
-    private static final String FINALIZE_AND_SHOW_THREAD_PREFIX = "CyderFrame finalizeAndShow Thread, frame = ";
-
-    /**
      * Sets the frame's location relative to the dominant frame,
      * the visibility to true, and sets always on top mode to true
      * temporarily to ensure the frame is placed on top of other possible frames.
      */
     public void finalizeAndShow() {
-        PinButton.State state = getTopDragLabel().getPinButton().getCurrentState();
-        boolean onTop = state == PinButton.State.CONSOLE_PINNED || state == PinButton.State.FRAME_PINNED;
-
-        setAlwaysOnTop(true);
         setLocationRelativeTo(getDominantFrame());
         setVisible(true);
-
-        if (!onTop) {
-            CyderThreadRunner.submit(() -> {
-                ThreadUtil.sleep(ALWAYS_ON_TOP_RESTORE_DELAY);
-                setAlwaysOnTop(false);
-            }, FINALIZE_AND_SHOW_THREAD_PREFIX + getTitle());
-        }
+        toFront();
     }
 
     /**

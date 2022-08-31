@@ -137,6 +137,7 @@ public final class ExceptionHandler {
             CyderFrame borderlessFrame = CyderFrame.generateBorderlessFrame(width + 2 * offset,
                     height + 2 * offset, exceptionRed);
             borderlessFrame.setTitle(e.getMessage());
+            borderlessFrame.setFrameType(CyderFrame.FrameType.POPUP);
 
             // generate label for text
             JLabel label = new JLabel(builder.toString());
@@ -155,7 +156,6 @@ public final class ExceptionHandler {
             borderlessFrame.getContentPane().add(label);
 
             borderlessFrame.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_RIGHT);
-            borderlessFrame.setAlwaysOnTop(true);
 
             // start opacity animation
             borderlessFrame.setOpacity(0.0f);

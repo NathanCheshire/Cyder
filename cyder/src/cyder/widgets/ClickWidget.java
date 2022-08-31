@@ -18,15 +18,15 @@ import java.awt.event.MouseEvent;
 
 @Vanilla
 @CyderAuthor
-public class ClickWidget {
+public final class ClickWidget {
     /**
-     * Restrict default instantiation.
+     * Suppress default instantiation.
      */
     private ClickWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Widget(triggers = "clickme", description = "A troll widget that pops open a new window every time it is clicked")
+    @Widget(triggers = "click me", description = "A troll widget that pops open a new window every time it is clicked")
     public static void showGui() {
         try {
             CyderFrame clickMeFrame = new CyderFrame(220, 100) {
@@ -35,7 +35,6 @@ public class ClickWidget {
                     dispose(true);
                 }
             };
-            clickMeFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
             clickMeFrame.setTitle("Click Me");
             clickMeFrame.setFrameType(CyderFrame.FrameType.POPUP);
             clickMeFrame.setBackground(CyderColors.vanilla);
@@ -70,8 +69,8 @@ public class ClickWidget {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
             Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
-            clickMeFrame.setLocation(NumberUtil.randInt(0, (int) (rect.getMaxX() - 200)), NumberUtil.randInt(0, (int) rect.getMaxY() - 200));
-            clickMeFrame.setAlwaysOnTop(true);
+            clickMeFrame.setLocation(NumberUtil.randInt(0, (int) (rect.getMaxX() - 200)),
+                    NumberUtil.randInt(0, (int) rect.getMaxY() - 200));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
