@@ -24,11 +24,44 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class CyderDragLabel extends JLabel {
     /**
+     * The possible types of drag labels.
+     */
+    public enum Type {
+        /**
+         * The top of the frame. This is the only drag label that builds the default right button list.
+         */
+        TOP,
+        /**
+         * The bottom of the frame.
+         */
+        BOTTOM,
+        /**
+         * The left of the frame.
+         */
+        LEFT,
+        /**
+         * The right of the frame.
+         */
+        RIGHT,
+        /**
+         * The drag label takes up the full content pane or is the content pane.
+         */
+        FULL
+    }
+
+    /**
      * The default height for drag labels. The Cyder standard for top labels is 30 pixels.
      */
     public static final int DEFAULT_HEIGHT = 30;
 
+    /**
+     * The text for the minimize button.
+     */
     private static final String MINIMIZE = "Minimize";
+
+    /**
+     * The text for the close button.
+     */
     private static final String CLOSE = "Close";
 
     /**
@@ -72,18 +105,6 @@ public class CyderDragLabel extends JLabel {
     private PinButton pinButton;
 
     /**
-     * The current x location of the mouse relative to this label.
-     */
-    @SuppressWarnings("FieldCanBeLocal")
-    private final AtomicInteger mouseX;
-
-    /**
-     * The current y location of the mouse relative to this label.
-     */
-    @SuppressWarnings("FieldCanBeLocal")
-    private final AtomicInteger mouseY;
-
-    /**
      * The list of buttons to paint on the right of the drag label.
      */
     private LinkedList<Component> rightButtonList;
@@ -96,22 +117,32 @@ public class CyderDragLabel extends JLabel {
     private LinkedList<Component> leftButtonList;
 
     /**
+     * The type of drag label this drag label is.
+     */
+    private final Type type;
+
+    /**
      * Constructs a new drag label with the provided bounds and frame to effect.
      *
      * @param width       the width of the drag label, typically the width of the effect frame
      * @param height      the height of the drag label, typically {@link CyderDragLabel#DEFAULT_HEIGHT}
      * @param effectFrame the cyder frame object to control
+     * @param type        the type of drag label this drag label should be
      */
-    public CyderDragLabel(int width, int height, CyderFrame effectFrame) {
+    public CyderDragLabel(int width, int height, CyderFrame effectFrame, Type type) {
         this.width = width;
         this.height = height;
         this.effectFrame = Preconditions.checkNotNull(effectFrame);
         this.backgroundColor = CyderColors.getGuiThemeColor();
+        this.type = Preconditions.checkNotNull(type);
 
         leftButtonList = new LinkedList<>();
 
-        // todo only do this if necessary, not for bottom, left, right, or borderless ones
-        rightButtonList = buildRightButtonList();
+        if (type == Type.TOP) {
+            rightButtonList = buildRightButtonList();
+        } else {
+            rightButtonList = new LinkedList<>();
+        }
 
         setSize(width, height);
         setOpaque(true);
@@ -120,13 +151,11 @@ public class CyderDragLabel extends JLabel {
 
         xOffset = new AtomicInteger();
         yOffset = new AtomicInteger();
-        mouseX = new AtomicInteger();
-        mouseY = new AtomicInteger();
 
         draggingEnabled = new AtomicBoolean(true);
 
-        addMouseMotionListener(createDraggingMouseMotionListener(effectFrame, draggingEnabled,
-                mouseX, mouseY, xOffset, yOffset));
+        addMouseMotionListener(createDraggingMouseMotionListener(
+                effectFrame, draggingEnabled, xOffset, yOffset));
         addMouseListener(createOpacityAnimationMouseListener(effectFrame));
 
         effectFrame.addWindowListener(createWindowListener(effectFrame));
@@ -139,16 +168,16 @@ public class CyderDragLabel extends JLabel {
      *
      * @param effectFrame     the frame the motion listener will be applied to
      * @param draggingEnabled whether dragging should be allowed
-     * @param mouseX          the current x location relative to the component
-     * @param mouseY          the current y location relative to the component
      * @param xOffset         the current frame x offset
      * @param yOffset         the current frame y offset
      * @return a mouse motion listener to allow the provided frame to be dragged
      */
     private static MouseMotionListener createDraggingMouseMotionListener(
             CyderFrame effectFrame, AtomicBoolean draggingEnabled,
-            AtomicInteger mouseX, AtomicInteger mouseY,
             AtomicInteger xOffset, AtomicInteger yOffset) {
+        AtomicInteger mouseX = new AtomicInteger();
+        AtomicInteger mouseY = new AtomicInteger();
+
         return new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -867,5 +896,14 @@ public class CyderDragLabel extends JLabel {
      */
     public void setYOffset(int yOffset) {
         this.yOffset.set(yOffset);
+    }
+
+    /**
+     * Returns the type of drag label this drag label is.
+     *
+     * @return the type of drag label this drag label is
+     */
+    public Type getType() {
+        return type;
     }
 }

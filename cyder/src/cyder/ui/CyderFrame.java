@@ -369,7 +369,8 @@ public class CyderFrame extends JFrame {
         setContentPane(contentLabel);
 
         topDrag = new CyderDragLabel(width - 2 * FRAME_RESIZING_LEN,
-                CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN, this);
+                CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN,
+                this, CyderDragLabel.Type.TOP);
         topDrag.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
                 iconLabelWidth, CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
         topDrag.setXOffset(FRAME_RESIZING_LEN);
@@ -384,7 +385,8 @@ public class CyderFrame extends JFrame {
         contentLabel.add(topDragCover, JLayeredPane.DRAG_LAYER);
 
         leftDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
-                height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT, this);
+                height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT,
+                this, CyderDragLabel.Type.LEFT);
         leftDrag.setBounds(FRAME_RESIZING_LEN, CyderDragLabel.DEFAULT_HEIGHT,
                 BORDER_LEN - FRAME_RESIZING_LEN,
                 height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
@@ -401,7 +403,8 @@ public class CyderFrame extends JFrame {
         contentLabel.add(leftDragCover, JLayeredPane.DRAG_LAYER);
 
         rightDrag = new CyderDragLabel(BORDER_LEN - FRAME_RESIZING_LEN,
-                height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT, this);
+                height - FRAME_RESIZING_LEN - CyderDragLabel.DEFAULT_HEIGHT,
+                this, CyderDragLabel.Type.RIGHT);
         rightDrag.setBounds(width - BORDER_LEN, CyderDragLabel.DEFAULT_HEIGHT,
                 BORDER_LEN - FRAME_RESIZING_LEN,
                 height - CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
@@ -418,7 +421,8 @@ public class CyderFrame extends JFrame {
         contentLabel.add(rightDragCover, JLayeredPane.DRAG_LAYER);
 
         bottomDrag = new CyderDragLabel(width - FRAME_RESIZING_LEN * FRAME_RESIZING_LEN,
-                BORDER_LEN - FRAME_RESIZING_LEN, this);
+                BORDER_LEN - FRAME_RESIZING_LEN,
+                this, CyderDragLabel.Type.BOTTOM);
         bottomDrag.setBounds(FRAME_RESIZING_LEN, height - BORDER_LEN,
                 width - 2 * FRAME_RESIZING_LEN, BORDER_LEN - FRAME_RESIZING_LEN);
         bottomDrag.setXOffset(FRAME_RESIZING_LEN);
@@ -539,7 +543,7 @@ public class CyderFrame extends JFrame {
         contentLabel.add(iconPane, JLayeredPane.DEFAULT_LAYER);
         setContentPane(contentLabel);
 
-        masterDrag = new CyderDragLabel(width, height, this);
+        masterDrag = new CyderDragLabel(width, height, this, CyderDragLabel.Type.FULL);
         masterDrag.setRightButtonList(null);
         masterDrag.setBackground(background);
         masterDrag.setBounds(0, 0, width, height);

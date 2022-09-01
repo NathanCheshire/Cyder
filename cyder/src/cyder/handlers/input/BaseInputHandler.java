@@ -265,7 +265,7 @@ public class BaseInputHandler {
             StringUtil.BlockedWordResult result = checkFoulLanguage();
             if (result.failed()) {
                 println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language"
-                        + " is prohibited, word: " + result.triggerWord());
+                        + " is prohibited, word: \"" + result.triggerWord() + "\"");
                 return false;
             }
         }
