@@ -354,4 +354,21 @@ public final class NumberUtil {
     public static boolean isValidFontMetric(int metric) {
         return fontMetricRange.contains(metric);
     }
+
+    /**
+     * Returns the magnitude of the vector represented by the provided values.
+     *
+     * @param first  the first dimensional value
+     * @param second the second dimensional value
+     * @param others the other n dimensional values
+     * @return the magnitude of the vector represented by teh provided values.
+     */
+    public static double calculateMagnitude(double first, double second, double... others) {
+        double summedSquares = Math.pow(first, 2) + Math.pow(second, 2);
+        for (double other : others) {
+            summedSquares += Math.pow(other, 2);
+        }
+
+        return Math.sqrt(summedSquares);
+    }
 }
