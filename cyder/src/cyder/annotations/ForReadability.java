@@ -12,6 +12,6 @@ import java.lang.annotation.Target;
  * Most methods tagged with this annotation will be optimized away by the JVM at runtime but
  * for human-readability, we extract the logic to a named method.
  */
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.METHOD, ElementType.TYPE, ElementType.FIELD}) /* methods, type for enums, field for listeners */
 public @interface ForReadability {}

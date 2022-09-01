@@ -845,55 +845,6 @@ public final class ImageUtil {
     }
 
     /**
-     * Finds the optimal size provided the min/max width/height bounds.
-     * The return dimension is ensured to be within the provided bounds
-     *
-     * @return the dimension to resize the provided image to
-     */
-    public static Dimension getImageResizeDimensions(int minWidth, int minHeight,
-                                                     int maxWidth, int maxHeight, BufferedImage image) {
-        Preconditions.checkArgument(minWidth > 0);
-        Preconditions.checkArgument(minHeight > 0);
-        Preconditions.checkArgument(maxWidth > 0);
-        Preconditions.checkArgument(maxHeight > 0);
-        Preconditions.checkArgument(maxWidth > minWidth);
-        Preconditions.checkArgument(maxHeight > minHeight);
-        Preconditions.checkNotNull(image);
-
-        int backgroundWidth = image.getWidth();
-        int backgroundHeight = image.getHeight();
-
-        double widthToHeightRatio = ((double) backgroundWidth / (double) backgroundHeight);
-        double heightToWidthRatio = ((double) backgroundHeight / (double) backgroundWidth);
-        double resizeToWidth = 0.0;
-        double resizeToHeight = 0.0;
-
-        if (isVerticalImage(image)) {
-            if (backgroundWidth > maxWidth || backgroundHeight > maxHeight) {
-                // Downscale
-                resizeToHeight = maxHeight;
-                resizeToWidth = maxHeight * (1.0 / heightToWidthRatio);
-            } else if (backgroundWidth < minWidth || backgroundHeight < minHeight) {
-                // Upscale
-                resizeToWidth = minWidth;
-                resizeToHeight = minWidth * heightToWidthRatio;
-            }
-        } else {
-            if (backgroundWidth > maxWidth || backgroundHeight > maxHeight) {
-                // Downscale
-                resizeToWidth = maxWidth;
-                resizeToHeight = maxWidth * (1.0 / widthToHeightRatio);
-            } else if (backgroundWidth < minWidth || backgroundHeight < minHeight) {
-                // Upscale
-                resizeToHeight = minHeight;
-                resizeToWidth = minHeight * widthToHeightRatio;
-            }
-        }
-
-        return new Dimension((int) resizeToWidth, (int) resizeToHeight);
-    }
-
-    /**
      * Returns whether the provided image is a horizontal image.
      *
      * @param image the image

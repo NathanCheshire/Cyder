@@ -19,7 +19,6 @@ import cyder.genesis.CyderSplash;
 import cyder.genesis.PropLoader;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
 import cyder.test.ManualTests;
@@ -1808,7 +1807,6 @@ public enum Console {
     public void addTaskbarIcon(CyderFrame associatedFrame) {
         if (isClosed() || frameTaskbarExceptions.contains(associatedFrame)) return;
 
-
         if (!currentActiveFrames.contains(associatedFrame)) {
             currentActiveFrames.add(associatedFrame);
             revalidateMenu();
@@ -1927,7 +1925,6 @@ public enum Console {
             ensureFullBashStringPresent();
         }
 
-
         @ForReadability
         private boolean wouldRemoveBashStringContents() {
             return String.valueOf(inputField.getPassword()).trim().equals(consoleBashString.trim());
@@ -1971,52 +1968,85 @@ public enum Console {
      */
     private final KeyListener commandScrolling = new KeyAdapter() {
         @Override
-        public void keyPressed(java.awt.event.KeyEvent event) {
-            int code = event.getKeyCode();
+        public void keyPressed(KeyEvent e) {
+            if (!controlAltNotPressed(e)) return;
 
-            try {
-                // make sure ctrl + alt are not pressed
-                if ((event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) == 0
-                        && ((event.getModifiersEx() & InputEvent.ALT_DOWN_MASK) == 0)) {
+            if (upEvent(e)) {
+                attemptScrollUp();
+            } else if (downEvent(e)) {
+                attemptScrollDown();
+            }
 
-                    // command scrolling
+            checkForSpecialFunctionKeys(e);
+        }
 
-                    if (code == KeyEvent.VK_UP) {
-                        if (commandIndex - 1 >= 0) {
-                            commandIndex -= 1;
-                            inputField.setText(consoleBashString
-                                    + commandList.get(commandIndex).replace(consoleBashString, ""));
-                        }
-                    } else if (code == KeyEvent.VK_DOWN) {
-                        if (commandIndex + 1 < commandList.size()) {
-                            commandIndex += 1;
-                            inputField.setText(consoleBashString + commandList.get(commandIndex)
-                                    .replace(consoleBashString, ""));
-                        } else if (commandIndex + 1 == commandList.size()) {
-                            commandIndex += 1;
-                            inputField.setText(consoleBashString);
-                        }
-                    }
+        @ForReadability
+        private void attemptScrollUp() {
+            if (commandIndex - 1 >= 0) {
+                commandIndex -= 1;
+                inputField.setText(consoleBashString + commandList.get(commandIndex)
+                        .replace(consoleBashString, ""));
+            }
+        }
 
-                    for (int specialCode : SPECIAL_FUNCTION_KEY_CODES) {
-                        if (code == specialCode) {
-                            int functionKey = (code - KeyEvent.VK_F13 + SPECIAL_FUNCTION_KEY_CODE_OFFSET);
-                            baseInputHandler.println("Interesting F" + functionKey + " key");
+        @ForReadability
+        private void attemptScrollDown() {
+            if (commandIndex + 1 < commandList.size()) {
+                commandIndex += 1;
+                inputField.setText(consoleBashString + commandList.get(commandIndex)
+                        .replace(consoleBashString, ""));
+            } else if (commandIndex + 1 == commandList.size()) {
+                commandIndex += 1;
+                inputField.setText(consoleBashString);
+            }
+        }
 
-                            if (functionKey == F_17_KEY_CODE) {
-                                IOUtil.playGeneralAudio(StaticUtil.getStaticResource("f17.mp3"));
-                            }
-                        }
+        @ForReadability
+        private void checkForSpecialFunctionKeys(KeyEvent e) {
+            int code = e.getKeyCode();
+
+            for (int specialCode : SPECIAL_FUNCTION_KEY_CODES) {
+                if (code == specialCode) {
+                    int functionKey = (code - KeyEvent.VK_F13 + SPECIAL_FUNCTION_KEY_CODE_OFFSET);
+                    baseInputHandler.println("Interesting F" + functionKey + " key");
+
+                    if (functionKey == F_17_KEY_CODE) {
+                        IOUtil.playGeneralAudio(StaticUtil.getStaticResource("f17.mp3"));
                     }
                 }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
             }
+        }
+
+        @ForReadability
+        private boolean upEvent(KeyEvent e) {
+            return e.getKeyCode() == KeyEvent.VK_UP;
+        }
+
+        @ForReadability
+        private boolean downEvent(KeyEvent e) {
+            return e.getKeyCode() == KeyEvent.VK_DOWN;
+        }
+
+        @ForReadability
+        private boolean controlAltNotPressed(KeyEvent e) {
+            return (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) == 0
+                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) == 0);
         }
     };
 
+    /**
+     * The key to use for the max font size prop.
+     */
     private final String MAX_FONT_SIZE = "max_font_size";
+
+    /**
+     * The key to use for the min font size prop.
+     */
     private final String MIN_FONT_SIZE = "min_font_size";
+
+    /**
+     * The key to use for the font metric prop.
+     */
     private final String FONT_METRIC = "font_metric";
 
     /**
@@ -2028,7 +2058,7 @@ public enum Console {
      * The MouseWheelListener used for increasing/decreasing the
      * font size for input field and output area.
      */
-    @SuppressWarnings("MagicConstant") // check font metric before using
+    @SuppressWarnings("MagicConstant") // Font metric is always checked
     private final MouseWheelListener fontSizerListener = e -> {
         if (e.isControlDown()) {
             int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
@@ -2093,9 +2123,9 @@ public enum Console {
      *
      * @return the font to use for the input and output areas
      */
-    @SuppressWarnings("MagicConstant") // check font metric before use
+    @SuppressWarnings("MagicConstant") // Font metric is always checked before use
     public Font generateUserFont() {
-        int metric = Integer.parseInt(PropLoader.getString("font_metric"));
+        int metric = Integer.parseInt(PropLoader.getString(FONT_METRIC));
 
         if (NumberUtil.isValidFontMetric(metric)) {
             return new Font(UserUtil.getCyderUser().getFont(), metric,
@@ -2107,7 +2137,7 @@ public enum Console {
     }
 
     // ----------------
-    // background logic
+    // Background logic
     // ----------------
 
     /**
@@ -2116,53 +2146,8 @@ public enum Console {
      */
     @ForReadability
     public void resizeBackgrounds() {
-        try {
-            int maxWidth = UiUtil.getDefaultMonitorWidth();
-            int maxHeight = UiUtil.getDefaultMonitorHeight();
-
-            for (ConsoleBackground currentBackground : backgrounds) {
-                File currentFile = currentBackground.getReferenceFile();
-
-                if (!currentBackground.getReferenceFile().exists()) {
-                    backgrounds.remove(currentBackground);
-                }
-
-                BufferedImage currentImage = ImageIO.read(currentFile);
-
-                int backgroundWidth = currentImage.getWidth();
-                int backgroundHeight = currentImage.getHeight();
-                int imageType = currentImage.getType();
-
-                // Inform the user we are changing the size of the image
-                boolean resizeNeeded = backgroundWidth > maxWidth
-                        || backgroundHeight > maxHeight
-                        || backgroundWidth < MINIMUM_SIZE.width
-                        || backgroundHeight < MINIMUM_SIZE.height;
-
-                if (resizeNeeded) {
-                    String text = "Resizing the background image \"" + currentFile.getName() + "\"";
-                    InformHandler.inform(new InformHandler.Builder(text).setTitle("System Action"));
-
-                    Dimension resizeDimensions = ImageUtil.getImageResizeDimensions(
-                            MINIMUM_SIZE.width, MINIMUM_SIZE.height,
-                            maxWidth, maxHeight, currentImage);
-
-                    int deltaWidth = (int) resizeDimensions.getWidth();
-                    int deltaHeight = (int) resizeDimensions.getHeight();
-
-                    if (deltaWidth == 0 || deltaHeight == 0) {
-                        continue;
-                    }
-
-                    ImageIO.write(ImageUtil.resizeImage(currentImage, imageType, deltaWidth, deltaHeight),
-                            FileUtil.getExtension(currentFile), currentFile);
-                }
-            }
-
-            loadBackgrounds();
-        } catch (Exception ex) {
-            ExceptionHandler.handle(ex);
-        }
+        // todo do away with this and instead for a background that is too large,
+        //  make it's max size the size of the window it's currently on.
     }
 
     /**
@@ -2173,11 +2158,8 @@ public enum Console {
         try {
             ArrayList<File> backgroundFiles = new ArrayList<>();
 
-            File[] backgroundFilesArr = OSUtil.buildFile(
-                    Dynamic.PATH,
-                    Dynamic.USERS.getDirectoryName(),
-                    getUuid(),
-                    UserFile.BACKGROUNDS.getName()).listFiles();
+            File[] backgroundFilesArr = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+                    getUuid(), UserFile.BACKGROUNDS.getName()).listFiles();
             if (backgroundFilesArr != null && backgroundFilesArr.length > 0) {
                 for (File file : backgroundFilesArr) {
                     if (StringUtil.in(FileUtil.getExtension(file),
@@ -2198,8 +2180,6 @@ public enum Console {
                     backgrounds.add(new ConsoleBackground(file));
                 }
             }
-
-            // now we have our wrapped files list
 
             // find the index we are it if console has a content pane
             revalidateBackgroundIndex();
@@ -2243,7 +2223,6 @@ public enum Console {
             }
         }
 
-        // failsafe
         backgroundIndex = 0;
     }
 
@@ -2305,9 +2284,7 @@ public enum Console {
     private void setBackgroundIndex(int index) {
         loadBackgrounds();
 
-        if (index < 0 || index > backgrounds.size() - 1) {
-            return;
-        }
+        if (index < 0 || index > backgrounds.size() - 1) return;
 
         Point center = consoleCyderFrame.getCenterPointOnScreen();
 
@@ -2331,16 +2308,12 @@ public enum Console {
         consoleCyderFrame.setLocation((int) (center.getX() - (imageIcon.getIconWidth()) / 2),
                 (int) (center.getY() - (imageIcon.getIconHeight()) / 2));
 
-        //tooltip based on image name
+        // Tooltip based on image name
         getConsoleCyderFrameContentPane().setToolTipText(
                 FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
 
         revalidateInputAndOutputBounds();
-
-        //focus default component
         inputField.requestFocus();
-
-        //fix menu
         revalidateMenu();
     }
 
@@ -2365,11 +2338,7 @@ public enum Console {
      */
     @SuppressWarnings("UnnecessaryDefault")
     private void switchBackground() {
-
-        if (backgroundSwitchingLocked.get()) {
-            return;
-        }
-
+        if (backgroundSwitchingLocked.get()) return;
         backgroundSwitchingLocked.set(true);
 
         ImageIcon nextBackground = (backgroundIndex + 1 == backgrounds.size()
@@ -2668,7 +2637,7 @@ public enum Console {
     }
 
     // --------------------
-    // command history mods
+    // Command history mods
     // --------------------
 
     /**
@@ -2689,7 +2658,7 @@ public enum Console {
     }
 
     // ----------
-    // ui getters
+    // Ui getters
     // ----------
 
     /**
