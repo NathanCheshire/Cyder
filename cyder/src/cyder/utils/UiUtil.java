@@ -51,7 +51,7 @@ public final class UiUtil {
         ArrayList<CyderFrame> ret = new ArrayList<>();
 
         for (Frame f : Frame.getFrames()) {
-            if (f instanceof CyderFrame) {
+            if (f instanceof CyderFrame cyderFrame && !cyderFrame.isDisposed()) {
                 ret.add((CyderFrame) f);
             }
         }

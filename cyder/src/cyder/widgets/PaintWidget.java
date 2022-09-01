@@ -706,8 +706,7 @@ public final class PaintWidget {
 
         paintControlsFrame.setLocation(x, y);
         paintControlsFrame.setVisible(true);
-
-        paintControlsFrame.setPinned(true);
+        paintControlsFrame.setFrameType(CyderFrame.FrameType.POPUP);
 
         if (paintFrame.isVisible()) return;
 

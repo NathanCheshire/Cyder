@@ -2565,51 +2565,12 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Whether the frame should be pinned on top.
-     */
-    private boolean pinned;
-
-    /**
-     * Sets the value for pinning the frame on top.
-     *
-     * @param pinWindow whether the frame is always on top
-     */
-    public void setPinned(boolean pinWindow) {
-        pinned = pinWindow;
-        refreshAlwaysOnTop();
-    }
-
-    /**
-     * Returns whether the frame is pinned.
-     *
-     * @return whether the frame is pinned
-     */
-    public boolean getPinned() {
-        return pinned;
-    }
-
-    /**
-     * Whether the frame is pinned on top AND pinned to the console.
-     */
-    private boolean consolePinned;
-
-    /**
      * Returns whether the frame should be pinned to the console.
      *
      * @return whether the frame should be pinned to the console
      */
     public boolean isConsolePinned() {
-        return consolePinned;
-    }
-
-    /**
-     * Sets whether the frame should be pinned to the console.
-     *
-     * @param consolePinned whether the frame should be pinned to the console
-     */
-    public void setConsolePinned(boolean consolePinned) {
-        this.consolePinned = consolePinned;
-        refreshAlwaysOnTop();
+        return getTopDragLabel().getPinButton().getCurrentState() == PinButton.State.PINNED_TO_CONSOLE;
     }
 
     /**

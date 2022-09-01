@@ -6,6 +6,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
+import cyder.ui.CyderFrame;
 import cyder.ui.CyderSliderUi;
 import cyder.user.UserCreator;
 import cyder.user.UserUtil;
@@ -28,7 +29,7 @@ public class UiHandler extends InputHandler {
     }
 
     @Handle({"toast", "opacity", "original chams", "screenshot", "monitors",
-            "create user", "panic", "quit", "logout", "clear clip", "mouse"})
+            "create user", "panic", "quit", "logout", "clear clip", "mouse", "frames"})
     public static boolean handle() {
         boolean ret = true;
 
@@ -94,6 +95,10 @@ public class UiHandler extends InputHandler {
             java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(selection, selection);
             getInputHandler().println("Clipboard has been reset.");
+        } else if (getInputHandler().commandIs("frames")) {
+            for (CyderFrame frame : UiUtil.getCyderFrames()) {
+                getInputHandler().println(frame);
+            }
         } else {
             ret = false;
         }

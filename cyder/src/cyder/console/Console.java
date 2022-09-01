@@ -484,16 +484,13 @@ public enum Console {
                     && consoleCyderFrame.isFocused()
                     && consoleCyderFrame.isDraggingEnabled()) {
 
-                for (Frame f : Frame.getFrames()) {
-                    if (f instanceof CyderFrame
-                            && ((CyderFrame) f).isConsolePinned()
-                            && !f.getTitle().equals(consoleCyderFrame.getTitle())
-                            && ((CyderFrame) f).getRelativeX() != Integer.MIN_VALUE
-                            && ((CyderFrame) f).getRelativeY() != Integer.MIN_VALUE) {
+                for (CyderFrame f : UiUtil.getCyderFrames()) {
+                    if (f.isConsolePinned() && !f.getTitle().equals(consoleCyderFrame.getTitle())
+                            && f.getRelativeX() != Integer.MIN_VALUE
+                            && f.getRelativeY() != Integer.MIN_VALUE) {
 
-                        f.setLocation(
-                                consoleCyderFrame.getX() + ((CyderFrame) f).getRelativeX(),
-                                consoleCyderFrame.getY() + ((CyderFrame) f).getRelativeY());
+                        f.setLocation(consoleCyderFrame.getX() + f.getRelativeX(),
+                                consoleCyderFrame.getY() + f.getRelativeY());
                     }
                 }
             }
