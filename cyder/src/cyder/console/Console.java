@@ -475,9 +475,9 @@ public enum Console {
     }
 
     /**
-     * The mouse motion adapter to add to the console used for pinned window logic.
+     * The mouse motion adapter for frame pinned window logic.
      */
-    private final MouseMotionAdapter consolePinnedWindowMouseMotionAdapter = new MouseMotionAdapter() {
+    private final MouseMotionAdapter consolePinnedMouseMotionAdapter = new MouseMotionAdapter() {
         @Override
         public void mouseDragged(MouseEvent e) {
             if (consoleCyderFrame != null
@@ -498,13 +498,12 @@ public enum Console {
     };
 
     /**
-     * The mouse adapter to add to all the console drag labels.
+     * The mouse adapter for frame pinned window logic.
      */
-    private final MouseAdapter consolePinnedWindowMouseAdapter = new MouseAdapter() {
+    private final MouseAdapter consolePinnedMouseAdapter = new MouseAdapter() {
         @Override
         public void mousePressed(MouseEvent e) {
-            if (consoleCyderFrame != null
-                    && consoleCyderFrame.isFocused()
+            if (consoleCyderFrame != null && consoleCyderFrame.isFocused()
                     && consoleCyderFrame.isDraggingEnabled()) {
 
                 Rectangle consoleRect = new Rectangle(
@@ -513,18 +512,18 @@ public enum Console {
                         consoleCyderFrame.getWidth(),
                         consoleCyderFrame.getHeight());
 
-                for (Frame f : Frame.getFrames()) {
-                    if (f instanceof CyderFrame
-                            && ((CyderFrame) f).isConsolePinned()
-                            && !f.getTitle().equals(consoleCyderFrame.getTitle())) {
-                        Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
+                for (CyderFrame cyderFrame : UiUtil.getCyderFrames()) {
+                    if (cyderFrame.isConsolePinned() && isNotConsole(cyderFrame)) {
+                        Rectangle frameRect = new Rectangle(cyderFrame.getX(), cyderFrame.getY(), cyderFrame.getWidth(),
+                                cyderFrame.getHeight());
+                        System.out.println(frameRect.equals(cyderFrame.getBounds()));
 
                         if (MathUtil.rectanglesOverlap(consoleRect, frameRect)) {
-                            ((CyderFrame) f).setRelativeX(-consoleCyderFrame.getX() + f.getX());
-                            ((CyderFrame) f).setRelativeY(-consoleCyderFrame.getY() + f.getY());
+                            cyderFrame.setRelativeX(-consoleCyderFrame.getX() + cyderFrame.getX());
+                            cyderFrame.setRelativeY(-consoleCyderFrame.getY() + cyderFrame.getY());
                         } else {
-                            ((CyderFrame) f).setRelativeX(Integer.MIN_VALUE);
-                            ((CyderFrame) f).setRelativeY(Integer.MIN_VALUE);
+                            cyderFrame.setRelativeX(Integer.MIN_VALUE);
+                            cyderFrame.setRelativeY(Integer.MIN_VALUE);
                         }
                     }
                 }
@@ -532,13 +531,19 @@ public enum Console {
         }
     };
 
+    @ForReadability
+    private boolean isNotConsole(CyderFrame frame) {
+        Preconditions.checkNotNull(frame);
+        return !consoleCyderFrame.getTitle().equals(frame.getTitle());
+    }
+
     /**
      * Adds the pinned window logic listeners to the console.
      */
     @ForReadability
     private void installConsolePinnedWindowListeners() {
-        consoleCyderFrame.addDragListener(consolePinnedWindowMouseMotionAdapter);
-        consoleCyderFrame.addDragLabelMouseListener(consolePinnedWindowMouseAdapter);
+        consoleCyderFrame.addDragListener(consolePinnedMouseMotionAdapter);
+        consoleCyderFrame.addDragLabelMouseListener(consolePinnedMouseAdapter);
     }
 
     private final int menuLabelShowingX = 3;

@@ -2695,8 +2695,6 @@ public class CyderFrame extends JFrame {
     // todo should be able to toggle off weather background for location and instead
     //  use a gradient
     // todo time for weather doesn't update seconds
-    // todo pinning to console broken
-    // todo starting frames on top if console is is broken
 
     @ForReadability
     private static boolean consoleOnTop() {

@@ -125,11 +125,9 @@
 [19-45-08.074] [LOADING MESSAGE]: Checking for an AutoCypher
 [19-45-08.075] [LOGIN]: AutoCypher Attempt
 [19-45-08.075] [LOADING MESSAGE]: Auto Cyphering
-[19-45-08.077] [USER GET]: key = name, value = Nathan
-[19-45-08.078] [USER GET]: key = name, value = Nathan
+[19-45-08.078] [USER GET]: key = name, value = Nathan [2x]
 [19-45-08.114] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
-[19-45-08.224] [USER GET]: key = darkmode, value = 0
-[19-45-08.232] [USER GET]: key = darkmode, value = 0
+[19-45-08.232] [USER GET]: key = darkmode, value = 0 [2x]
 [19-45-08.276] [THREAD STARTED]: Splash Animation
 [19-45-08.442] [UNIQUE OBJECT CREATED]: Console singleton constructed
 [19-45-08.444] [USER GET]: key = name, value = Nathan
@@ -138,21 +136,15 @@
 [19-45-08.673] [DEBUG]: Latency of Google found to be 49ms
 [19-45-08.678] [USER GET]: key = name, value = Nathan
 [19-45-08.679] [USER GET]: key = randombackground, value = 0
-[19-45-08.680] [USER GET]: key = fullscreen, value = 0
-[19-45-08.719] [USER GET]: key = fullscreen, value = 0
-[19-45-08.721] [USER GET]: key = fullscreen, value = 0
+[19-45-08.721] [USER GET]: key = fullscreen, value = 0 [3x]
 [19-45-08.722] [USER GET]: key = name, value = Nathan
-[19-45-08.758] [USER GET]: key = foreground, value = f0f0f0
-[19-45-08.759] [USER GET]: key = foreground, value = f0f0f0
-[19-45-08.762] [USER GET]: key = foreground, value = f0f0f0
+[19-45-08.762] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [19-45-08.763] [USER GET]: key = Font, value = Agency FB
 [19-45-08.764] [USER GET]: key = fontsize, value = 27
 [19-45-08.788] [USER GET]: key = outputborder, value = 0
 [19-45-08.790] [USER GET]: key = outputfill, value = 0
 [19-45-08.810] [USER GET]: key = inputborder, value = 0
-[19-45-08.812] [USER GET]: key = foreground, value = f0f0f0
-[19-45-08.813] [USER GET]: key = foreground, value = f0f0f0
-[19-45-08.814] [USER GET]: key = foreground, value = f0f0f0
+[19-45-08.814] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [19-45-08.814] [USER GET]: key = Font, value = Agency FB
 [19-45-08.815] [USER GET]: key = fontsize, value = 27
 [19-45-08.816] [USER GET]: key = inputfill, value = 0
@@ -333,8 +325,7 @@
 [19-45-45.118] [UI]: CyderFrame disposed with fastclose=true, getTitle=
 [19-45-45.143] [USER GET]: key = compacttextmode, value = 0
 [19-45-45.192] [WIDGET]: UserEditor, trigger = prefs
-[19-45-46.828] [UI]: cyder.ui.CyderDragLabel$4@28a338a3
-[19-45-47.476] [UI]: cyder.ui.CyderDragLabel$4@28a338a3
+[19-45-47.476] [UI]: cyder.ui.CyderDragLabel$4@28a338a3 [2x]
 [19-45-48.277] [THREAD STARTED]: Liminal Cyder [Nathan] Opacity Decrement Animator
 [19-45-49.397] [USER GET]: key = screenstat, value = ScreenStat{consoleX=419, consoleY=229, consoleWidth=832, consoleHeight=797,
                monitor=0, consoleOnTop=false, consoleDirection=RIGHT}
