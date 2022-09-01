@@ -1544,6 +1544,7 @@ public enum Console {
         if (UserEditor.isOpen()) {
             if (UserEditor.isMinimized()) {
                 UserEditor.restore();
+                UserEditor.getEditUserFrame().toFront();
             } else {
                 UserEditor.minimize();
             }
@@ -1554,7 +1555,14 @@ public enum Console {
         revalidateMenu();
     };
 
+    /**
+     * The tooltip and label text for the preferences default taskbar icon.
+     */
     private final String PREFS = "Prefs";
+
+    /**
+     * The tooltip and label text for the logout default taskbar icon.
+     */
     private final String LOGOUT = "Logout";
 
     /**
@@ -1650,24 +1658,42 @@ public enum Console {
     private final ActionListener inputFieldActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String op = String.valueOf(inputField.getPassword())
+            String input = String.valueOf(inputField.getPassword())
                     .substring(consoleBashString.length())
                     .trim().replace(consoleBashString, "");
 
-            if (!StringUtil.isNullOrEmpty(op)) {
-                // add op unless last thing
-                if (commandList.isEmpty() || !commandList.get(commandList.size() - 1).equals(op)) {
-                    commandList.add(op);
-                }
-
-                commandIndex = commandList.size();
-                baseInputHandler.handle(op, true);
+            if (StringUtil.isNullOrEmpty(input)) {
+                resetInputField();
+                return;
             }
 
-            inputField.setText(consoleBashString);
-            inputField.setCaretPosition(consoleBashString.length());
+            if (shouldAddToCommandList(input)) commandList.add(input);
+            commandIndex = commandList.size();
+            baseInputHandler.handle(input, true);
+
+            resetInputField();
         }
     };
+
+    /**
+     * Returns whether the provided user input should be added to the command list.
+     *
+     * @param input the user input to add to the command list if the proper conditions are met
+     * @return whether the provided user input should be added to the command list
+     */
+    @ForReadability
+    private boolean shouldAddToCommandList(String input) {
+        return commandList.isEmpty() || !commandList.get(commandList.size() - 1).equals(input);
+    }
+
+    /**
+     * Sets the input field text to the console bash string and the caret to the end.
+     */
+    @ForReadability
+    private void resetInputField() {
+        inputField.setText(consoleBashString);
+        inputField.setCaretPosition(consoleBashString.length());
+    }
 
     /**
      * Returns the height of the console menu based on the current frame height.
@@ -1675,7 +1701,7 @@ public enum Console {
      * @return the height of the console menu based on the current frame height
      */
     private int calculateMenuHeight() {
-        return consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5;
+        return consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - CyderFrame.BORDER_LEN;
     }
 
     private final int consoleMenuShowingX = 7;
@@ -1685,9 +1711,7 @@ public enum Console {
      * Revalidates the taskbar menu bounds and re-installs the icons.
      */
     private void generateConsoleMenu() {
-        if (menuLabel != null) {
-            menuLabel.setVisible(false);
-        }
+        if (menuLabel != null) menuLabel.setVisible(false);
 
         menuLabel = new JLabel();
         menuLabel.setBounds(-TASKBAR_MENU_WIDTH, CyderDragLabel.DEFAULT_HEIGHT - 2,
@@ -1782,9 +1806,8 @@ public enum Console {
      * @param associatedFrame the frame reference to add to the taskbar list
      */
     public void addTaskbarIcon(CyderFrame associatedFrame) {
-        if (isClosed() || frameTaskbarExceptions.contains(associatedFrame)) {
-            return;
-        }
+        if (isClosed() || frameTaskbarExceptions.contains(associatedFrame)) return;
+
 
         if (!currentActiveFrames.contains(associatedFrame)) {
             currentActiveFrames.add(associatedFrame);
@@ -1832,84 +1855,114 @@ public enum Console {
      */
     private final KeyAdapter inputFieldKeyAdapter = new KeyAdapter() {
         @Override
-        public void keyPressed(java.awt.event.KeyEvent e) {
-            //escaping
-            if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)) {
-                baseInputHandler.escapeThreads();
-            }
-
+        public void keyPressed(KeyEvent e) {
+            if (isControlC(e)) baseInputHandler.escapeThreads();
             int caretPosition = outputArea.getCaretPosition();
 
-            // direction switching
-            if ((e.getKeyCode() == KeyEvent.VK_DOWN)
-                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
+            if (isConsoleAltDown(e)) {
                 setConsoleDirection(Direction.BOTTOM);
                 outputArea.setCaretPosition(caretPosition);
-            } else if ((e.getKeyCode() == KeyEvent.VK_RIGHT)
-                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
+            } else if (isConsoleAltRight(e)) {
                 setConsoleDirection(Direction.RIGHT);
                 outputArea.setCaretPosition(caretPosition);
-            } else if ((e.getKeyCode() == KeyEvent.VK_UP)
-                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
+            } else if (isConsoleAltUp(e)) {
                 setConsoleDirection(Direction.TOP);
                 outputArea.setCaretPosition(caretPosition);
-            } else if ((e.getKeyCode() == KeyEvent.VK_LEFT)
-                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
+            } else if (isConsoleAltLeft(e)) {
                 setConsoleDirection(Direction.LEFT);
                 outputArea.setCaretPosition(caretPosition);
             }
         }
 
+        @ForReadability
+        private boolean isControlC(KeyEvent e) {
+            return (e.getKeyCode() == KeyEvent.VK_C)
+                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0);
+        }
+
+        @ForReadability
+        private boolean isConsoleAltDown(KeyEvent e) {
+            return (e.getKeyCode() == KeyEvent.VK_DOWN)
+                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0);
+        }
+
+        @ForReadability
+        private boolean isConsoleAltRight(KeyEvent e) {
+            return (e.getKeyCode() == KeyEvent.VK_RIGHT)
+                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0);
+        }
+
+        @ForReadability
+        private boolean isConsoleAltUp(KeyEvent e) {
+            return (e.getKeyCode() == KeyEvent.VK_UP)
+                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0);
+        }
+
+        @ForReadability
+        private boolean isConsoleAltLeft(KeyEvent e) {
+            return (e.getKeyCode() == KeyEvent.VK_LEFT)
+                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0);
+        }
+
         @Override
         public void keyTyped(java.awt.event.KeyEvent e) {
-            // suppress backspaces that take away from bash string
-            if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-                String currentText = String.valueOf(inputField.getPassword());
-                if (currentText.startsWith(consoleBashString.trim())
-                        && currentText.trim().equals(consoleBashString.trim())) {
-                    e.consume();
-                    inputField.setText(consoleBashString);
-                    return;
-                }
+            if (isBackspace(e) && wouldRemoveBashStringContents()) {
+                e.consume();
+                inputField.setText(consoleBashString);
+                return;
             }
 
-            // ensure starts with bash string
-            if (inputField.getPassword().length < consoleBashString.toCharArray().length) {
-                inputField.setText(consoleBashString + String.valueOf(inputField.getPassword()));
-                inputField.setCaretPosition(inputField.getPassword().length);
-            }
-
-            // if the caret position is before start
             if (inputField.getCaretPosition() < consoleBashString.toCharArray().length) {
-                // if missing content, set to bash string and place cursor at end
-                if (inputField.getPassword().length < consoleBashString.toCharArray().length) {
-                    inputField.setText(consoleBashString);
-                    inputField.setCaretPosition(consoleBashString.length());
-                }
-
-                // place cursor at start of user-entered string
-                inputField.setCaretPosition(consoleBashString.toCharArray().length);
+                ensureFullBashStringPresent();
+                setCaretPositionAtEnd();
             } else {
-                // content is long enough but check for starting with bash string
-                String text = new String(inputField.getPassword());
-
-                if (!text.startsWith(consoleBashString)) {
-                    inputField.setText(consoleBashString + text.replace(consoleBashString, ""));
-                    inputField.setCaretPosition(consoleBashString.length());
-                }
+                ensureStartsWithBashString();
             }
 
             super.keyTyped(e);
+            ensureFullBashStringPresent();
+        }
 
-            // handles if bash string content was removed
-            if (inputField.getPassword().length < consoleBashString.toCharArray().length) {
-                inputField.setText(consoleBashString);
-                inputField.setCaretPosition(consoleBashString.length());
+
+        @ForReadability
+        private boolean wouldRemoveBashStringContents() {
+            return String.valueOf(inputField.getPassword()).trim().equals(consoleBashString.trim());
+        }
+
+        @ForReadability
+        private boolean isBackspace(KeyEvent e) {
+            return e.getKeyChar() == KeyEvent.VK_BACK_SPACE;
+        }
+
+        @ForReadability
+        private void ensureStartsWithBashString() {
+            String text = new String(inputField.getPassword());
+            if (!text.startsWith(consoleBashString)) {
+                inputField.setText(consoleBashString + text.replace(consoleBashString, ""));
+                setCaretPositionAtBashStringLength();
             }
+        }
+
+        @ForReadability
+        private void ensureFullBashStringPresent() {
+            if (inputField.getPassword().length < consoleBashString.length()) {
+                inputField.setText(consoleBashString);
+                setCaretPositionAtBashStringLength();
+            }
+        }
+
+        @ForReadability
+        private void setCaretPositionAtBashStringLength() {
+            inputField.setCaretPosition(consoleBashString.length());
+        }
+
+        @ForReadability
+        private void setCaretPositionAtEnd() {
+            inputField.setCaretPosition(inputField.getPassword().length);
         }
     };
 

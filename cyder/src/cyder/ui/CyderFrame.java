@@ -2680,14 +2680,33 @@ public class CyderFrame extends JFrame {
         super.setVisible(visible);
 
         if (visible) {
-            Console.INSTANCE.addTaskbarIcon(this);
-
-            if (consoleOnTop() && notForConsole()) {
-                getTopDragLabel().getPinButton().setState(PinButton.State.FRAME_PINNED);
-            }
+            addToTaskbar();
+            determinePinState();
         }
     }
 
+    /**
+     * Adds this frame to the console taskbar.
+     */
+    @ForReadability
+    private void addToTaskbar() {
+        Console.INSTANCE.addTaskbarIcon(this);
+    }
+
+    /**
+     * Determines whether the drag label pin button should be active based on the console's pinned state.
+     */
+    @ForReadability
+    private void determinePinState() {
+        CyderFrame console = Console.INSTANCE.getConsoleCyderFrame();
+        if (console == null) return;
+
+        if (console.isAlwaysOnTop() && !console.equals(this)) {
+            getTopDragLabel().getPinButton().setState(PinButton.State.FRAME_PINNED);
+        }
+    }
+
+    // todo prefs files label needs to be whole width? sometimes it's too small somehow and wraps
     // todo blur is broken for some reason
     // todo focus listeners for custom buttons broken now
     // todo use toFront and toBack for prefs toggler
@@ -2695,18 +2714,6 @@ public class CyderFrame extends JFrame {
     // todo should be able to toggle off weather background for location and instead
     //  use a gradient
     // todo time for weather doesn't update seconds
-
-    @ForReadability
-    private static boolean consoleOnTop() {
-        CyderFrame console = Console.INSTANCE.getConsoleCyderFrame();
-        return console != null && console.isAlwaysOnTop();
-    }
-
-    @ForReadability
-    private boolean notForConsole() {
-        CyderFrame frame = Console.INSTANCE.getConsoleCyderFrame();
-        return frame != null && !frame.equals(this);
-    }
 
     // -----------
     // Debug lines
