@@ -36,14 +36,10 @@ public class FrameMovementHandler extends InputHandler {
         } else if (getInputHandler().inputIgnoringSpacesMatches("middle")
                 || getInputHandler().inputIgnoringSpacesMatches("center")) {
             Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.CENTER);
-        } else if (getInputHandler().inputIgnoringSpacesMatches("frametitles")) {
-            Frame[] frames = Frame.getFrames();
-            for (Frame f : frames)
-                if (f instanceof CyderFrame) {
-                    getInputHandler().println(f.getTitle());
-                } else {
-                    getInputHandler().println(f.getTitle());
-                }
+        } else if (getInputHandler().inputIgnoringSpacesMatches("frame titles")) {
+            for (Frame f : UiUtil.getFrames()) {
+                getInputHandler().println(f.getTitle());
+            }
         } else if (getInputHandler().commandIs("consolidate")
                 && getInputHandler().getArg(0).equalsIgnoreCase("windows")) {
             if (getInputHandler().checkArgsLength(3)) {

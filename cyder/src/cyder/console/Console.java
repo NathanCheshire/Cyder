@@ -505,20 +505,9 @@ public enum Console {
         public void mousePressed(MouseEvent e) {
             if (consoleCyderFrame != null && consoleCyderFrame.isFocused()
                     && consoleCyderFrame.isDraggingEnabled()) {
-
-                Rectangle consoleRect = new Rectangle(
-                        consoleCyderFrame.getX(),
-                        consoleCyderFrame.getY(),
-                        consoleCyderFrame.getWidth(),
-                        consoleCyderFrame.getHeight());
-
                 for (CyderFrame cyderFrame : UiUtil.getCyderFrames()) {
                     if (cyderFrame.isConsolePinned() && isNotConsole(cyderFrame)) {
-                        Rectangle frameRect = new Rectangle(cyderFrame.getX(), cyderFrame.getY(), cyderFrame.getWidth(),
-                                cyderFrame.getHeight());
-                        System.out.println(frameRect.equals(cyderFrame.getBounds()));
-
-                        if (MathUtil.rectanglesOverlap(consoleRect, frameRect)) {
+                        if (MathUtil.rectanglesOverlap(consoleCyderFrame.getBounds(), cyderFrame.getBounds())) {
                             cyderFrame.setRelativeX(-consoleCyderFrame.getX() + cyderFrame.getX());
                             cyderFrame.setRelativeY(-consoleCyderFrame.getY() + cyderFrame.getY());
                         } else {
@@ -3088,8 +3077,7 @@ public enum Console {
     /**
      * The record used for frames pinned to the console.
      */
-    private record RelativeFrame(CyderFrame frame, int xOffset, int yOffset) {
-    }
+    private record RelativeFrame(CyderFrame frame, int xOffset, int yOffset) {}
 
     /**
      * Returns a list of all frames that are pinned to the Console.
@@ -3099,14 +3087,11 @@ public enum Console {
     private ArrayList<RelativeFrame> getPinnedFrames() {
         ArrayList<RelativeFrame> frames = new ArrayList<>();
 
-        for (Frame f : Frame.getFrames()) {
-            if (f instanceof CyderFrame) {
-                if (((CyderFrame) f).isConsolePinned() &&
-                        !f.getTitle().equals(consoleCyderFrame.getTitle())) {
-                    if (MathUtil.rectanglesOverlap(consoleCyderFrame.getBounds(), f.getBounds())) {
-                        frames.add(new RelativeFrame((CyderFrame) f,
-                                f.getX() - consoleCyderFrame.getX(), f.getY() - consoleCyderFrame.getY()));
-                    }
+        for (CyderFrame f : UiUtil.getCyderFrames()) {
+            if (f.isConsolePinned() && !f.getTitle().equals(consoleCyderFrame.getTitle())) {
+                if (MathUtil.rectanglesOverlap(consoleCyderFrame.getBounds(), f.getBounds())) {
+                    frames.add(new RelativeFrame(f, f.getX() - consoleCyderFrame.getX(),
+                            f.getY() - consoleCyderFrame.getY()));
                 }
             }
         }
@@ -3228,7 +3213,7 @@ public enum Console {
     }
 
     // -------
-    // dancing
+    // Dancing
     // -------
 
     /**
@@ -3249,27 +3234,22 @@ public enum Console {
             }
         }
 
-        //list of frames for restoration purposes
+        // List of frames for restoration purposes
         LinkedList<RestoreFrame> restoreFrames = new LinkedList<>();
 
-        //add frame's to list for restoration coords and dragging restoration
-        for (Frame f : Frame.getFrames()) {
-            if (f instanceof CyderFrame) {
-                restoreFrames.add(new RestoreFrame((CyderFrame) f,
-                        f.getX(), f.getY(), ((CyderFrame) f).isDraggingEnabled()));
-                ((CyderFrame) f).disableDragging();
-            }
+        // Add frame's to list for restoration coords and dragging restoration
+        for (CyderFrame f : UiUtil.getCyderFrames()) {
+            restoreFrames.add(new RestoreFrame(f, f.getX(), f.getY(), f.isDraggingEnabled()));
+            f.disableDragging();
         }
 
         //set var to true so we can terminate dancing
         currentlyDancing = true;
 
-        //invoke dance step on all threads which currently dancing is true and all frames are not in the finished state
+        // Invoke dance step on all threads which currently dancing is true and all frames are not in the finished state
         while (currentlyDancing && !allFramesFinishedDancing()) {
-            for (Frame f : Frame.getFrames()) {
-                if (f instanceof CyderFrame) {
-                    ((CyderFrame) f).danceStep();
-                }
+            for (CyderFrame f : UiUtil.getCyderFrames()) {
+                f.danceStep();
             }
         }
 
@@ -3289,15 +3269,13 @@ public enum Console {
      * Ends the dancing sequence if ongoing.
      */
     public void stopDancing() {
-        //end dancing sequence
+        // End dancing sequence
         currentlyDancing = false;
 
-        //reset all frames to dance again
-        for (Frame f : Frame.getFrames()) {
-            if (f instanceof CyderFrame) {
-                ((CyderFrame) f).setDancingDirection(CyderFrame.DancingDirection.INITIAL_UP);
-                ((CyderFrame) f).setDancingFinished(false);
-            }
+        // Reset all frames to dance again
+        for (CyderFrame f : UiUtil.getCyderFrames()) {
+            f.setDancingDirection(CyderFrame.DancingDirection.INITIAL_UP);
+            f.setDancingFinished(false);
         }
     }
 
@@ -3309,8 +3287,8 @@ public enum Console {
     private boolean allFramesFinishedDancing() {
         boolean ret = true;
 
-        for (Frame f : Frame.getFrames()) {
-            if (!((CyderFrame) f).isDancingFinished()) {
+        for (CyderFrame f : UiUtil.getCyderFrames()) {
+            if (!f.isDancingFinished()) {
                 ret = false;
                 break;
             }

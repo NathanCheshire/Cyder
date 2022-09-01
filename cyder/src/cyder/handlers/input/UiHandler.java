@@ -45,9 +45,9 @@ public class UiHandler extends InputHandler {
             }
 
             getInputHandler().println(opacitySlider);
-        } else if (getInputHandler().commandIs("originalchams")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("originalchams")) {
             Console.INSTANCE.originalChams();
-        } else if (getInputHandler().commandIs("screenshot")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("screenshot")) {
             if (getInputHandler().getArgsSize() != 0) {
                 if (getInputHandler().getArg(0).equalsIgnoreCase("frames")) {
                     UiUtil.screenshotCyderFrames();
