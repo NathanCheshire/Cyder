@@ -82,7 +82,7 @@ public final class CyderThreadRunner {
 
         submit(() -> {
             while (true) {
-                if (shouldExit.get()) {
+                if (shouldExit != null && shouldExit.get()) {
                     return;
                 }
 

@@ -412,6 +412,7 @@ public class CyderDragLabel extends JLabel {
             Logger.log(Logger.Tag.UI_ACTION, this);
             effectFrame.minimizeAndIconify();
         });
+        minimize.addDefaultFocusListener();
         ret.add(minimize);
 
         pinButton = new PinButton(effectFrame, getInitialPinButtonState());

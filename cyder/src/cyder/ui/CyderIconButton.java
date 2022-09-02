@@ -9,7 +9,6 @@ import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.Objects;
 
 /**
  * A button with an ImageIcon as the clickable component.
@@ -99,29 +98,17 @@ public class CyderIconButton extends JButton {
 
         setToolTipText(tooltipText);
 
-        addMouseListener(Objects.requireNonNullElseGet(mouseListener, () -> new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setIcon(hoverAndFocusIcon);
-            }
+        if (mouseListener == null) {
+            addDefaultMouseListener();
+        } else {
+            addMouseListener(mouseListener);
+        }
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setIcon(defaultIcon);
-            }
-        }));
-
-        addFocusListener(Objects.requireNonNullElseGet(focusListener, () -> new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                setIcon(hoverAndFocusIcon);
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                setIcon(defaultIcon);
-            }
-        }));
+        if (focusListener == null) {
+            addDefaultFocusListener();
+        } else {
+            addFocusListener(focusListener);
+        }
 
         if (defaultIcon != null) {
             setIcon(defaultIcon);
@@ -195,5 +182,39 @@ public class CyderIconButton extends JButton {
 
             setIcon(originalIcon);
         }, "CyderIconButton Flash Thread");
+    }
+
+    /**
+     * Adds the default mouse listener to this icon button.
+     */
+    public void addDefaultMouseListener() {
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setIcon(hoverAndFocusIcon);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setIcon(defaultIcon);
+            }
+        });
+    }
+
+    /**
+     * Adds the default focus listener to this icon button.
+     */
+    public void addDefaultFocusListener() {
+        addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                setIcon(hoverAndFocusIcon);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                setIcon(defaultIcon);
+            }
+        });
     }
 }
