@@ -3,6 +3,9 @@ package cyder.console;
 import com.google.common.base.Preconditions;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
+import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
+import cyder.structures.Cache;
 import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 
@@ -251,24 +254,95 @@ public class PinButton extends JLabel {
      */
     private static final int PAINT_PADDING = 4;
 
-    // todo cache paint length and polygon points
+    /**
+     * The cached value for the length the painted polygon takes up.
+     */
+    private final Cache<Integer> paintLength = new Cache<>();
 
     /**
-     * Calculates and returns the actual size of the painted icon button after accounting for padding.
+     * Returns the actual size of the painted icon button after accounting for padding.
      *
      * @return the actual size of the painted icon button after accounting for padding
      */
-    private int calculatePaintLength() {
+    private int getPaintLength() {
         Preconditions.checkNotNull(size);
-        return size.size - 2 * PAINT_PADDING;
+
+        if (!paintLength.isCachePresent()) {
+            paintLength.setCache(size.size - 2 * PAINT_PADDING);
+        }
+
+        return paintLength.getCache();
     }
 
-    private int[] generatePolygonXPoints() {
-        return new int[]{0, calculatePaintLength(), calculatePaintLength() / 2, 0};
+    /**
+     * A wrapper for an integer array used for the icon button paint method.
+     */
+    private static class PolygonWrapper {
+        /**
+         * Suppress default constructor.
+         */
+        private PolygonWrapper() {
+            throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+        }
+
+        /**
+         * The points of the polygon.
+         */
+        private final int[] polygon;
+
+        /**
+         * Constructs a new polygon point.
+         *
+         * @param polygon the points of the polygon
+         */
+        public PolygonWrapper(int[] polygon) {
+            this.polygon = polygon;
+        }
+
+        /**
+         * Returns the points of the polygon.
+         *
+         * @return the points of the polygon
+         */
+        public int[] getPolygon() {
+            return polygon.clone();
+        }
     }
 
-    private int[] generatePolygonPoints() {
-        return new int[]{0, 0, calculatePaintLength(), 0};
+    /**
+     * The x polygon points for the paint method.
+     */
+    private final Cache<PolygonWrapper> polygonXPoints = new Cache<>();
+
+    /**
+     * Returns the x polygon points for the paint method.
+     *
+     * @return the x polygon points for the paint method
+     */
+    private int[] getPolygonXPoints() {
+        if (!polygonXPoints.isCachePresent()) {
+            polygonXPoints.setCache(new PolygonWrapper(new int[]{0, getPaintLength(), getPaintLength() / 2, 0}));
+        }
+
+        return polygonXPoints.getCache().getPolygon();
+    }
+
+    /**
+     * The y polygon points for the paint method.
+     */
+    private final Cache<PolygonWrapper> polygonYPoints = new Cache<>();
+
+    /**
+     * Returns the y polygon points for the paint method.
+     *
+     * @return the y polygon points for the paint method
+     */
+    private int[] getPolygonYPoints() {
+        if (!polygonYPoints.isCachePresent()) {
+            polygonYPoints.setCache(new PolygonWrapper(new int[]{0, 0, getPaintLength(), 0}));
+        }
+
+        return polygonYPoints.getCache().getPolygon();
     }
 
     /**
@@ -280,7 +354,7 @@ public class PinButton extends JLabel {
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
 
         g2d.setColor(getPaintColor());
-        g2d.fillPolygon(generatePolygonXPoints(), generatePolygonPoints(), generatePolygonXPoints().length);
+        g2d.fillPolygon(getPolygonXPoints(), getPolygonYPoints(), getPolygonXPoints().length);
         super.paint(g);
     }
 
