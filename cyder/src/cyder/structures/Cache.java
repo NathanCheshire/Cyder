@@ -1,6 +1,7 @@
 package cyder.structures;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.handlers.internal.Logger;
 
 /**
@@ -65,5 +66,20 @@ public class Cache<T> {
      */
     public boolean isCachePresent() {
         return cachedValue != null;
+    }
+
+    /**
+     * Caches the provided value if no cache is currently present.
+     *
+     * @return whether the new cache was set
+     * @throws NullPointerException if newCache is attempted to be set as the new cache value and it is null
+     */
+    @CanIgnoreReturnValue
+    public boolean cacheIfNotPresent(T newCache) {
+        if (isCachePresent()) return false;
+
+        cachedValue = Preconditions.checkNotNull(newCache);
+
+        return true;
     }
 }

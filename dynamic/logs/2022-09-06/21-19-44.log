@@ -150,11 +150,9 @@
 [21-19-46.489] [LOADING MESSAGE]: Checking for an AutoCypher
 [21-19-46.489] [LOGIN]: AutoCypher Attempt
 [21-19-46.490] [LOADING MESSAGE]: Auto Cyphering
-[21-19-46.492] [USER GET]: key = name, value = Nathan
-[21-19-46.494] [USER GET]: key = name, value = Nathan
+[21-19-46.494] [USER GET]: key = name, value = Nathan [2x]
 [21-19-46.548] [USER GET]: key = pass, value = 1b0a051deaadc2e793bfe185cd81a74b9c56f75bd713f28507d1abd99332a28
-[21-19-46.729] [USER GET]: key = darkmode, value = 0
-[21-19-46.738] [USER GET]: key = darkmode, value = 0
+[21-19-46.738] [USER GET]: key = darkmode, value = 0 [2x]
 [21-19-46.775] [THREAD STARTED]: Splash Animation
 [21-19-47.004] [UNIQUE OBJECT CREATED]: Console singleton constructed
 [21-19-47.006] [USER GET]: key = name, value = Nathan
@@ -163,21 +161,15 @@
 [21-19-47.241] [DEBUG]: Latency of Google found to be 45ms
 [21-19-47.296] [USER GET]: key = name, value = Nathan
 [21-19-47.297] [USER GET]: key = randombackground, value = 0
-[21-19-47.297] [USER GET]: key = fullscreen, value = 0
-[21-19-47.407] [USER GET]: key = fullscreen, value = 0
-[21-19-47.408] [USER GET]: key = fullscreen, value = 0
+[21-19-47.408] [USER GET]: key = fullscreen, value = 0 [3x]
 [21-19-47.408] [USER GET]: key = name, value = Nathan
-[21-19-47.465] [USER GET]: key = foreground, value = f0f0f0
-[21-19-47.465] [USER GET]: key = foreground, value = f0f0f0
-[21-19-47.468] [USER GET]: key = foreground, value = f0f0f0
+[21-19-47.468] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [21-19-47.470] [USER GET]: key = Font, value = Agency FB
 [21-19-47.471] [USER GET]: key = fontsize, value = 27
 [21-19-47.488] [USER GET]: key = outputborder, value = 0
 [21-19-47.489] [USER GET]: key = outputfill, value = 0
 [21-19-47.507] [USER GET]: key = inputborder, value = 0
-[21-19-47.509] [USER GET]: key = foreground, value = f0f0f0
-[21-19-47.510] [USER GET]: key = foreground, value = f0f0f0
-[21-19-47.511] [USER GET]: key = foreground, value = f0f0f0
+[21-19-47.511] [USER GET]: key = foreground, value = f0f0f0 [3x]
 [21-19-47.511] [USER GET]: key = Font, value = Agency FB
 [21-19-47.512] [USER GET]: key = fontsize, value = 27
 [21-19-47.513] [USER GET]: key = inputfill, value = 0
@@ -206,20 +198,12 @@
 [21-20-19.539] [USER GET]: key = compacttextmode, value = 0
 [21-20-19.561] [THREAD STARTED]: minimize menu thread
 [21-20-19.562] [THREAD STARTED]: Console menu animator
-[21-20-20.177] [USER GET]: key = compacttextmode, value = 0
-[21-20-21.537] [USER GET]: key = compacttextmode, value = 0
-[21-20-22.243] [USER GET]: key = compacttextmode, value = 0
+[21-20-22.243] [USER GET]: key = compacttextmode, value = 0 [3x]
 [21-20-22.602] [OBJECT CREATION]: Objects created since last delta (5000ms): 13
-[21-20-22.716] [USER GET]: key = compacttextmode, value = 0
-[21-20-23.145] [USER GET]: key = compacttextmode, value = 0
-[21-20-23.590] [USER GET]: key = compacttextmode, value = 0
-[21-20-23.960] [USER GET]: key = compacttextmode, value = 0
-[21-20-24.463] [USER GET]: key = compacttextmode, value = 0
-[21-20-25.322] [USER GET]: key = compacttextmode, value = 0
+[21-20-25.322] [USER GET]: key = compacttextmode, value = 0 [6x]
 [21-20-26.161] [THREAD STARTED]: [] dispose() animation thread
 [21-20-26.162] [UI]: CyderFrame disposed with fastclose=true, getTitle=
-[21-20-26.196] [USER GET]: key = compacttextmode, value = 0
-[21-20-26.237] [USER GET]: key = compacttextmode, value = 0
+[21-20-26.237] [USER GET]: key = compacttextmode, value = 0 [2x]
 [21-20-26.238] [USER GET]: key = mappedexecutable, value = []
 [21-20-26.240] [USER GET]: key = compacttextmode, value = 0
 [21-20-27.615] [OBJECT CREATION]: Objects created since last delta (5000ms): 57
@@ -228,20 +212,14 @@
 [21-20-28.702] [THREAD STARTED]: [Preferences] dispose() animation thread
 [21-20-28.703] [UI]: CyderFrame disposed with fastclose=false, getTitle=Preferences
 [21-20-28.704] [USER GET]: key = doanimations, value = 1
-[21-20-28.974] [USER GET]: key = compacttextmode, value = 0
-[21-20-29.330] [USER GET]: key = compacttextmode, value = 0
+[21-20-29.330] [USER GET]: key = compacttextmode, value = 0 [2x]
 [21-20-29.342] [USER GET]: key = background, value = 0f0f0f
 [21-20-29.800] [USER GET]: key = outputborder, value = 0
-[21-20-30.083] [USER GET]: key = compacttextmode, value = 0
-[21-20-30.372] [USER GET]: key = compacttextmode, value = 0
-[21-20-31.342] [USER GET]: key = compacttextmode, value = 0
-[21-20-31.715] [USER GET]: key = compacttextmode, value = 0
-[21-20-32.029] [USER GET]: key = compacttextmode, value = 0
+[21-20-32.029] [USER GET]: key = compacttextmode, value = 0 [5x]
 [21-20-32.619] [OBJECT CREATION]: Objects created since last delta (5000ms): 21
 [21-20-32.893] [USER GET]: key = compacttextmode, value = 0
 [21-20-34.298] [THREAD STARTED]: [Preferences] dispose() animation thread
-[21-20-34.337] [USER GET]: key = compacttextmode, value = 0
-[21-20-34.356] [USER GET]: key = compacttextmode, value = 0
+[21-20-34.356] [USER GET]: key = compacttextmode, value = 0 [2x]
 [21-20-34.357] [USER GET]: key = mappedexecutable, value = []
 [21-20-34.360] [USER GET]: key = compacttextmode, value = 0
 [21-20-36.030] [UI]: Component = CyderDragLabel, hash = -1766354874, bounds = (2, 2, 796, 28), parent frame = Preference
@@ -249,8 +227,7 @@
 [21-20-36.031] [THREAD STARTED]: [Preferences] dispose() animation thread
 [21-20-36.032] [UI]: CyderFrame disposed with fastclose=false, getTitle=Preferences
 [21-20-36.032] [USER GET]: key = doanimations, value = 1
-[21-20-36.299] [USER GET]: key = compacttextmode, value = 0
-[21-20-36.584] [USER GET]: key = compacttextmode, value = 0
+[21-20-36.584] [USER GET]: key = compacttextmode, value = 0 [2x]
 [21-20-36.631] [USER GET]: key = minimizeonclose, value = 0
 [21-20-36.632] [USER GET]: key = screenstat, value = ScreenStat{consoleX=1465, consoleY=327, consoleWidth=976,
                consoleHeight=685, monitor=0, consoleOnTop=false, consoleDirection=RIGHT}

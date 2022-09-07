@@ -266,11 +266,7 @@ public class PinButton extends JLabel {
      */
     private int getPaintLength() {
         Preconditions.checkNotNull(size);
-
-        if (!paintLength.isCachePresent()) {
-            paintLength.setCache(size.size - 2 * PAINT_PADDING);
-        }
-
+        paintLength.cacheIfNotPresent(size.size - 2 * PAINT_PADDING);
         return paintLength.getCache();
     }
 
@@ -320,10 +316,7 @@ public class PinButton extends JLabel {
      * @return the x polygon points for the paint method
      */
     private int[] getPolygonXPoints() {
-        if (!polygonXPoints.isCachePresent()) {
-            polygonXPoints.setCache(new PolygonWrapper(new int[]{0, getPaintLength(), getPaintLength() / 2, 0}));
-        }
-
+        polygonXPoints.cacheIfNotPresent(new PolygonWrapper(new int[]{0, getPaintLength(), getPaintLength() / 2, 0}));
         return polygonXPoints.getCache().getPolygon();
     }
 
@@ -338,10 +331,7 @@ public class PinButton extends JLabel {
      * @return the y polygon points for the paint method
      */
     private int[] getPolygonYPoints() {
-        if (!polygonYPoints.isCachePresent()) {
-            polygonYPoints.setCache(new PolygonWrapper(new int[]{0, 0, getPaintLength(), 0}));
-        }
-
+        polygonYPoints.cacheIfNotPresent(new PolygonWrapper(new int[]{0, 0, getPaintLength(), 0}));
         return polygonYPoints.getCache().getPolygon();
     }
 
