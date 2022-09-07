@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import com.google.common.base.Preconditions;
+import cyder.annotations.ForReadability;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
@@ -53,7 +54,12 @@ public class CyderIconButton extends JButton {
      */
     public CyderIconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon,
                            MouseListener mouseListener) {
-        this(tooltipText, defaultIcon, hoverAndFocusIcon, mouseListener, new FocusAdapter() {
+        this(tooltipText, defaultIcon, hoverAndFocusIcon, mouseListener, generateDefaultFocusAdapter());
+    }
+
+    @ForReadability
+    private static FocusListener generateDefaultFocusAdapter() {
+        return new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 super.focusGained(e);
@@ -63,7 +69,7 @@ public class CyderIconButton extends JButton {
             public void focusLost(FocusEvent e) {
                 super.focusLost(e);
             }
-        });
+        };
     }
 
     /**
@@ -75,18 +81,16 @@ public class CyderIconButton extends JButton {
      * @param mouseListener     the custom mouse listener for when a mouse enters/exits the icon button's area
      * @param focusListener     the focus listener for when the button gains/loses focus
      */
-    public CyderIconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon,
-                           MouseListener mouseListener, FocusListener focusListener) {
+    public CyderIconButton(String tooltipText,
+                           ImageIcon defaultIcon,
+                           ImageIcon hoverAndFocusIcon,
+                           MouseListener mouseListener,
+                           FocusListener focusListener) {
         Preconditions.checkNotNull(tooltipText);
         Preconditions.checkArgument(!StringUtil.isNullOrEmpty(tooltipText));
 
-        if (defaultIcon != null) {
-            this.defaultIcon = defaultIcon;
-        }
-
-        if (hoverAndFocusIcon != null) {
-            this.hoverAndFocusIcon = hoverAndFocusIcon;
-        }
+        if (defaultIcon != null) this.defaultIcon = defaultIcon;
+        if (hoverAndFocusIcon != null) this.hoverAndFocusIcon = hoverAndFocusIcon;
 
         Preconditions.checkArgument(!(defaultIcon != null && defaultIcon == hoverAndFocusIcon),
                 "Provided hover image is the same as the default icon");
@@ -98,21 +102,13 @@ public class CyderIconButton extends JButton {
 
         setToolTipText(tooltipText);
 
-        if (mouseListener == null) {
-            addDefaultMouseListener();
-        } else {
-            addMouseListener(mouseListener);
-        }
+        if (mouseListener == null) addDefaultMouseListener();
+        else addMouseListener(mouseListener);
 
-        if (focusListener == null) {
-            addDefaultFocusListener();
-        } else {
-            addFocusListener(focusListener);
-        }
+        if (focusListener == null) addDefaultFocusListener();
+        else addFocusListener(focusListener);
 
-        if (defaultIcon != null) {
-            setIcon(defaultIcon);
-        }
+        if (defaultIcon != null) setIcon(defaultIcon);
 
         setFocusPainted(false);
         setOpaque(false);
@@ -188,33 +184,45 @@ public class CyderIconButton extends JButton {
      * Adds the default mouse listener to this icon button.
      */
     public void addDefaultMouseListener() {
-        addMouseListener(new MouseAdapter() {
+        addMouseListener(generateDefaultMouseListener(this, hoverAndFocusIcon, defaultIcon));
+    }
+
+    @ForReadability
+    private static MouseAdapter generateDefaultMouseListener(
+            CyderIconButton iconButton, ImageIcon hoverAndFocusIcon, ImageIcon defaultIcon) {
+        return new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                setIcon(hoverAndFocusIcon);
+                iconButton.setIcon(hoverAndFocusIcon);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                setIcon(defaultIcon);
+                iconButton.setIcon(defaultIcon);
             }
-        });
+        };
     }
 
     /**
      * Adds the default focus listener to this icon button.
      */
     public void addDefaultFocusListener() {
-        addFocusListener(new FocusAdapter() {
+        addFocusListener(generateDefaultFocusListener(this, hoverAndFocusIcon, defaultIcon));
+    }
+
+    @ForReadability
+    private static FocusAdapter generateDefaultFocusListener(
+            CyderIconButton iconButton, ImageIcon hoverAndFocusIcon, ImageIcon defaultIcon) {
+        return new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                setIcon(hoverAndFocusIcon);
+                iconButton.setIcon(hoverAndFocusIcon);
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                setIcon(defaultIcon);
+                iconButton.setIcon(defaultIcon);
             }
-        });
+        };
     }
 }

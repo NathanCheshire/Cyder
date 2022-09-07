@@ -7,6 +7,8 @@ import cyder.ui.CyderFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -32,6 +34,11 @@ public class PinButton extends JLabel {
     private final AtomicBoolean mouseIn = new AtomicBoolean();
 
     /**
+     * Whether this pin button is focused.
+     */
+    private final AtomicBoolean focused = new AtomicBoolean();
+
+    /**
      * Constructs a new pin button with a default state of {@link State#DEFAULT}.
      *
      * @param effectFrame constructs a new pin button
@@ -51,8 +58,10 @@ public class PinButton extends JLabel {
         this.currentState = Preconditions.checkNotNull(initialState);
 
         addMouseListener(generateMouseAdapter(this));
+        addFocusListener(generateFocusAdapter(this));
 
         refreshTooltip();
+        setFocusable(true);
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         repaint();
     }
@@ -79,6 +88,23 @@ public class PinButton extends JLabel {
         };
     }
 
+    @ForReadability
+    private static FocusAdapter generateFocusAdapter(PinButton pinButton) {
+        return new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                pinButton.setFocused(true);
+                pinButton.repaint();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                pinButton.setFocused(false);
+                pinButton.repaint();
+            }
+        };
+    }
+
     /**
      * Sets whether the mouse is inside of the bounds of this pin button.
      *
@@ -86,6 +112,15 @@ public class PinButton extends JLabel {
      */
     public void setMouseIn(boolean mouseIn) {
         this.mouseIn.set(mouseIn);
+    }
+
+    /**
+     * Sets whether this pin button is focused.
+     *
+     * @param focused whether this pin button is focused
+     */
+    public void setFocused(boolean focused) {
+        this.focused.set(focused);
     }
 
     /**
@@ -171,9 +206,21 @@ public class PinButton extends JLabel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(translateX, translateY);
 
-        g2d.setColor(mouseIn.get() ? currentState.getNextColor() : currentState.getCurrentColor());
+        g2d.setColor(getPaintColor());
         g2d.fillPolygon(xPoints, yPoints, paintPoints);
         super.paint(g);
+    }
+
+    private Color getPaintColor() {
+        if (focused.get()) {
+            return getCurrentState().getNextColor();
+        } else {
+            if (mouseIn.get()) {
+                return getCurrentState().getNextColor();
+            } else {
+                return getCurrentState().getCurrentColor();
+            }
+        }
     }
 
     /**
