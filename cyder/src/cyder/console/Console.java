@@ -40,7 +40,6 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 import java.io.File;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -297,10 +296,6 @@ public enum Console {
         TimeUtil.setConsoleStartTime(System.currentTimeMillis());
         long loadTime = TimeUtil.getConsoleStartTime() - TimeUtil.getAbsoluteStartTime();
         baseInputHandler.println("Console loaded in " + TimeUtil.millisToFormattedString(loadTime));
-
-        CyderThreadRunner.scheduleAtFixedRate(() -> {
-            System.out.println(consoleCyderFrame.getFocusOwner());
-        }, "Debug", Duration.ofSeconds(5));
     }
 
     /**

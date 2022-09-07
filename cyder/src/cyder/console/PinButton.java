@@ -3,6 +3,7 @@ package cyder.console;
 import com.google.common.base.Preconditions;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
+import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 
 import javax.swing.*;
@@ -19,6 +20,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class PinButton extends JLabel {
     /**
+     * The default width/height given to this icon button.
+     */
+    public static final Size DEFAULT_SIZE = Size.SMALL;
+
+    /**
      * The current state of this pin button.
      */
     private State currentState;
@@ -27,6 +33,11 @@ public class PinButton extends JLabel {
      * The frame this pin button will be placed on.
      */
     private final CyderFrame effectFrame;
+
+    /**
+     * The size this pin button will be painted with.
+     */
+    private final Size size;
 
     /**
      * Whether the mouse is currently inside of this component.
@@ -41,10 +52,20 @@ public class PinButton extends JLabel {
     /**
      * Constructs a new pin button with a default state of {@link State#DEFAULT}.
      *
-     * @param effectFrame constructs a new pin button
+     * @param effectFrame the frame this pin button will be on
      */
     public PinButton(CyderFrame effectFrame) {
         this(effectFrame, State.DEFAULT);
+    }
+
+    /**
+     * Constructs a new pin button with a state of {@link #DEFAULT_SIZE}.
+     *
+     * @param effectFrame  the frame this pin button will be on
+     * @param initialState the starting state of this pin button
+     */
+    public PinButton(CyderFrame effectFrame, State initialState) {
+        this(effectFrame, initialState, DEFAULT_SIZE);
     }
 
     /**
@@ -52,17 +73,19 @@ public class PinButton extends JLabel {
      *
      * @param effectFrame  the frame this pin button will be on
      * @param initialState the initial state of the pin button
+     * @param size         the size of the pin button
      */
-    public PinButton(CyderFrame effectFrame, State initialState) {
+    public PinButton(CyderFrame effectFrame, State initialState, Size size) {
         this.effectFrame = Preconditions.checkNotNull(effectFrame);
         this.currentState = Preconditions.checkNotNull(initialState);
+        this.size = Preconditions.checkNotNull(size);
 
         addMouseListener(generateMouseAdapter(this));
         addFocusListener(generateFocusAdapter(this));
 
         refreshTooltip();
         setFocusable(true);
-        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        setSize(DEFAULT_SIZE.getSize(), DEFAULT_SIZE.getSize());
         repaint();
     }
 
@@ -124,14 +147,47 @@ public class PinButton extends JLabel {
     }
 
     /**
-     * The default width given to this component.
+     * Valid sizes for an icon button.
      */
-    private static final int DEFAULT_WIDTH = 22;
+    public enum Size {
+        /**
+         * The default size of small.
+         */
+        SMALL(22),
 
-    /**
-     * The default height given to this component.
-     */
-    private static final int DEFAULT_HEIGHT = 22;
+        /**
+         * A slightly larger icon button size.
+         */
+        MEDIUM(26),
+
+        /**
+         * A larger icon button size to fill the entire height of a default {@link CyderDragLabel}.
+         */
+        LARGE(30),
+
+        /**
+         * The icon should be drawn to take up the most space it can of its parent.
+         */
+        FULL_DRAG_LABEL(Integer.MAX_VALUE);
+
+        /**
+         * The size of this icon button.
+         */
+        private final int size;
+
+        Size(int size) {
+            this.size = size;
+        }
+
+        /**
+         * Returns the size this icon button should be drawn with.
+         *
+         * @return the size this icon button should be drawn with
+         */
+        public int getSize() {
+            return size;
+        }
+    }
 
     /**
      * Refreshes the tooltip of this pin button based on the current state.
@@ -139,6 +195,8 @@ public class PinButton extends JLabel {
     public void refreshTooltip() {
         setToolTipText(currentState.getTooltip());
     }
+
+    private static final String ILLEGAL_STATE_FOR_REGULAR_FRAME = "Illegal state for regular frame";
 
     /**
      * Returns the next state for this pin button depending on whether
@@ -153,7 +211,7 @@ public class PinButton extends JLabel {
             case DEFAULT -> State.FRAME_PINNED;
             case FRAME_PINNED -> State.PINNED_TO_CONSOLE;
             case PINNED_TO_CONSOLE -> State.DEFAULT;
-            case CONSOLE_PINNED -> throw new IllegalStateException("Illegal state for regular frame");
+            case CONSOLE_PINNED -> throw new IllegalStateException(ILLEGAL_STATE_FOR_REGULAR_FRAME);
         };
     }
 
@@ -188,15 +246,30 @@ public class PinButton extends JLabel {
         repaint();
     }
 
-    private static final int paintWidth = 14;
-    private static final int paintHeight = 14;
+    /**
+     * The padding between the edges of the painted icon button.
+     */
+    private static final int PAINT_PADDING = 4;
 
-    private static final int translateX = 4;
-    private static final int translateY = 4;
+    // todo cache paint length and polygon points
 
-    private static final int paintPoints = 4;
-    private static final int[] xPoints = {0, paintWidth, paintWidth / 2, 0};
-    private static final int[] yPoints = {0, 0, paintHeight, 0};
+    /**
+     * Calculates and returns the actual size of the painted icon button after accounting for padding.
+     *
+     * @return the actual size of the painted icon button after accounting for padding
+     */
+    private int calculatePaintLength() {
+        Preconditions.checkNotNull(size);
+        return size.size - 2 * PAINT_PADDING;
+    }
+
+    private int[] generatePolygonXPoints() {
+        return new int[]{0, calculatePaintLength(), calculatePaintLength() / 2, 0};
+    }
+
+    private int[] generatePolygonPoints() {
+        return new int[]{0, 0, calculatePaintLength(), 0};
+    }
 
     /**
      * {@inheritDoc}
@@ -204,10 +277,10 @@ public class PinButton extends JLabel {
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.translate(translateX, translateY);
+        g2d.translate(PAINT_PADDING, PAINT_PADDING);
 
         g2d.setColor(getPaintColor());
-        g2d.fillPolygon(xPoints, yPoints, paintPoints);
+        g2d.fillPolygon(generatePolygonXPoints(), generatePolygonPoints(), generatePolygonXPoints().length);
         super.paint(g);
     }
 

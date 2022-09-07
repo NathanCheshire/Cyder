@@ -12,18 +12,21 @@ import java.util.ArrayList;
 
 /**
  * CyderPanels are what hold and manage where components go on them.
- * They basically are a wrapper for layouts that extends {@link CyderLayout}.
+ * They basically are a wrapper for layouts (classes which extends {@link CyderLayout}).
  */
 public class CyderPanel extends JLabel {
     /*
-     * This class extends JLabel to allow it to be a content pane
+     * Note to maintainers: this class extends JLabel to allow it to be a content pane
      * for a CyderFrame or act like a regular component.
      */
 
+    /**
+     * The message to show as an error if the default constructor is invoked.
+     */
     private static final String INSTANTIATION_ERROR_MESSAGE = "Cannot instantiate cyder panel without a valid layout";
 
     /**
-     * Restrict class instantiation without a valid cyder layout.
+     * Suppress default constructor.
      */
     private CyderPanel() {
         throw new IllegalMethodException(INSTANTIATION_ERROR_MESSAGE);
