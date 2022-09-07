@@ -8,3 +8,4 @@ build/
 props/propkeys.ini
 __pycache__/
 venv/
+dynamic/logs/*
