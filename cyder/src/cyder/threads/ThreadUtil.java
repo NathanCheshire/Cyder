@@ -7,7 +7,7 @@ import cyder.exceptions.IllegalMethodException;
 import java.util.LinkedList;
 
 /**
- * A utility class for getting thread names and counts.
+ * A utility class for querying threads, names, and counts.
  */
 public final class ThreadUtil {
     /**

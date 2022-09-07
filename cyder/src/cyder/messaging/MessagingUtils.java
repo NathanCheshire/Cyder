@@ -26,14 +26,7 @@ import java.util.concurrent.Future;
  * Utilities related to the messaging client.
  */
 public final class MessagingUtils {
-    /**
-     * Suppress default constructor.
-     */
-    private MessagingUtils() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
+     /**
      * The default large width for waveform image generation.
      */
     public static final int DEFAULT_LARGE_WAVEFORM_WIDTH = 1800;
@@ -53,6 +46,13 @@ public final class MessagingUtils {
      * "Gave 'em 44, now here's 44 more."
      */
     public static final int DEFAULT_SMALL_WAVEFORM_HEIGHT = 44;
+    
+    /**
+     * Suppress default constructor.
+     */
+    private MessagingUtils() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
 
     /**
      * The default background color.
@@ -72,6 +72,7 @@ public final class MessagingUtils {
      * @return the generated image
      */
     public static Future<BufferedImage> generateLargeWaveform(File wavOrMp3File) {
+        Preconditions.checkNotNull(wavOrMp3File);
         Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, ".mp3")
                 || FileUtil.validateExtension(wavOrMp3File, ".wav"));
 
@@ -86,6 +87,7 @@ public final class MessagingUtils {
      * @return the generated image
      */
     public static Future<BufferedImage> generateSmallWaveform(File wavOrMp3File) {
+        Preconditions.checkNotNull(wavOrMp3File);
         Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, ".mp3")
                 || FileUtil.validateExtension(wavOrMp3File, ".wav"));
 
@@ -93,6 +95,8 @@ public final class MessagingUtils {
     }
 
     private static Future<BufferedImage> generateWaveform(File wavOrMp3File, int width, int height) {
+        Preconditions.checkNotNull(wavOrMp3File);
+
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Waveform generator")).submit(() -> {
 
@@ -225,6 +229,8 @@ public final class MessagingUtils {
 
         return ret;
     }
+
+    // todo could consolidate these methods
 
     /**
      * Generates a png depicting the waveform of the provided wav file.
@@ -466,6 +472,7 @@ public final class MessagingUtils {
      */
     private static final String SAVE = "Save";
 
+    // todo rename to image or something
     /**
      * Generates and returns a file preview for the provided image file.
      *

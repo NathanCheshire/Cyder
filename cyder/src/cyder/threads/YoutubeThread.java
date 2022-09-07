@@ -21,6 +21,12 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
+// todo this class should be renamed to something else
+
+/**
+ * A class for generating random YouTube UUIDs and attepmting to parse the resulting url for a valid video.
+ * As of 9-7-22, this has about a 1 in 92233720368 chance of succeeding every iteration.
+ */
 public class YoutubeThread {
     /**
      * Boolean used for killing the YouTube threads.
