@@ -16,6 +16,11 @@ public class Cache<T> {
     private T cachedValue;
 
     /**
+     * The function to invoke to update the currently cached value if requested.
+     */
+    private Function<Void, T> cachedValueUpdator;
+
+    /**
      * Constructs a new cache.
      */
     public Cache() {
@@ -81,5 +86,25 @@ public class Cache<T> {
         cachedValue = Preconditions.checkNotNull(newCache);
 
         return true;
+    }
+
+    /**
+     * Sets the cached value updator function.
+     *
+     * @param function the cached value updator function to invoke when {@link #refreshCachedValue()} is called.
+     * @throws NullPointerException if the provided function is null
+     */
+    public void setCachedValueUpdator(Function<Void, Integer> function) {
+        cachedValueUpdator = Preconditions.checkNotNull(function);
+    }
+
+    /**
+     * Refreshes the cached value by invoking the cached value updator function.
+     *
+     * @throws IllegalStateException if the cached value updator function has not been set
+     */
+    public void refreshCachedValue() {
+        Preconditions.checkState(function != null);
+        cachedValue = function.apply();
     }
 }
