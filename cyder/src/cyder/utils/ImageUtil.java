@@ -314,21 +314,6 @@ public final class ImageUtil {
     }
 
     /**
-     * Returns a buffered image by attempting to read from
-     * a file constructed from the provided path.
-     *
-     * @param filename the path to read
-     * @return the buffered image
-     */
-    public static Optional<BufferedImage> getBufferedImage(String filename) {
-        Preconditions.checkNotNull(filename);
-        Preconditions.checkArgument(!filename.isEmpty());
-
-
-        return Optional.empty();
-    }
-
-    /**
      * Rotates the provided buffered image by the requested angle in degrees.
      *
      * @param img     the buffered image to rotate

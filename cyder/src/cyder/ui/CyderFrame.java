@@ -2714,6 +2714,8 @@ public class CyderFrame extends JFrame {
     //  use a gradient
     // todo time for weather doesn't update seconds
     // todo blurring currently background changes size
+    // todo add demo mode prop to not dispose splash until finished with animations and specific timeout for
+    //  allowing waves to propagate
 
     // -----------
     // Debug lines
