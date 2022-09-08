@@ -29,7 +29,7 @@ public final class BackendUtil {
     public static final String DELIMITER = "/";
 
     /**
-     * Restrict class instantiation.
+     * Suppress deafult constructor.
      */
     private BackendUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
@@ -51,7 +51,7 @@ public final class BackendUtil {
                 .append(DELIMITER).append(part).append(DELIMITER);
 
         for (String partsPart : parts) {
-            if (partsPart.isEmpty()) {
+            if (partsPart == null || partsPart.isEmpty()) {
                 throw new IllegalArgumentException("Provided additional empty part");
             }
 

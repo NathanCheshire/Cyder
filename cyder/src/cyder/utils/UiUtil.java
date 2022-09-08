@@ -268,19 +268,17 @@ public final class UiUtil {
 
             if (ignoreFrames.length > 0) {
                 for (Frame ignoreFrame : ignoreFrames) {
-                    if (ignoreFrame == frame) {
+                    if (frame.equals(ignoreFrame)) {
                         skip = true;
                         break;
                     }
                 }
             }
 
-            if (skip) {
-                continue;
-            }
+            if (skip) continue;
 
-            if (frame instanceof CyderFrame) {
-                ((CyderFrame) frame).dispose(fastClose);
+            if (frame instanceof CyderFrame cyderFrame) {
+                cyderFrame.dispose(fastClose);
             } else {
                 frame.dispose();
             }
@@ -394,6 +392,7 @@ public final class UiUtil {
         };
     }
 
+    // todo use me
     /**
      * Returns the common mouse adapter linked to all cyder ui components to log when they are clicked.
      *
@@ -481,12 +480,12 @@ public final class UiUtil {
     }
 
     /**
-     * Returns the windows taskbar height
+     * Returns the Windows taskbar height of the primary monitor
      *
-     * @return the windows taskbar height
+     * @return the Windows taskbar height of the primary monitor
      */
     public static int getWindowsTaskbarLength() {
-        return (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()
-                - GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getHeight());
+        return (int) (getDefaultMonitorHeight() - GraphicsEnvironment.getLocalGraphicsEnvironment()
+            .getMaximumWindowBounds().getHeight());
     }
 }

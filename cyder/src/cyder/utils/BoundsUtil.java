@@ -72,12 +72,9 @@ public final class BoundsUtil {
      * for the provided display string.
      */
     public static BoundsString widthHeightCalculation(String text, Font font, int maxWidth) {
-        // init red object
         BoundsString ret;
 
-        // the addition for width increments
         int widthAddition = 5;
-        // the addition for height increments
         int heightAddition = 2;
 
         // find height for a single line of text
@@ -256,8 +253,7 @@ public final class BoundsUtil {
             for (String line : lines) {
                 int currentWidth = (int) (font.getStringBounds(line, frc).getWidth() + widthAddition);
 
-                if (currentWidth > w)
-                    w = currentWidth;
+                if (currentWidth > w) w = currentWidth;
             }
 
             // if for some reason the text is not surrounded with html tags, add them
@@ -285,41 +281,36 @@ public final class BoundsUtil {
      * @return the text with html line breaks inserted
      */
     public static String insertBreaks(String rawText, int numLines) {
-        if (numLines == 1)
-            return rawText;
+        if (numLines == 1) return rawText;
 
-        // the mutation string we will return
+        // The mutated string we will return
         String ret = rawText;
 
-        // the ideal place to split the string is the len divided by the number of chars
+        // The ideal place to split the string is the len divided by the number of chars
         int splitEveryNthChar = (int) Math.ceil((float) rawText.length() / (float) numLines);
         int numChars = rawText.length();
 
-        //we can look for a space within a tolerance
+        // We can look for a space within a tolerance
         // of 7 chars both sides of a given char
         int breakInsertionTol = 7;
 
-        // the number of lines we are at
+        // The number of lines in we currently are
         int currentLines = 1;
 
-        // loop through string at the indices we desire
         for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
-            //if goal lines is reached, exit
-            if (currentLines == numLines)
-                break;
+            // Goal met todo maybe method for me?
+            if (currentLines == numLines) break;
 
-            // if space, perfect, insert a break and replace the space
+            // Found space at char, insert a break and replace the space
             if (ret.charAt(i) == ' ') {
                 StringBuilder sb = new StringBuilder(ret);
                 sb.deleteCharAt(i);
                 sb.insert(i, BREAK_TAG);
                 ret = sb.toString();
-            }
-            // otherwise logic is harder
-            else {
+            } else {
                 boolean spaceFound = false;
 
-                // check right for a space
+                // Check right for a space
                 for (int j = i ; j < i + breakInsertionTol ; j++) {
                     // is j valid
                     if (j < numChars) {
@@ -336,11 +327,9 @@ public final class BoundsUtil {
                     }
                 }
 
-                // if we found a space to turn into a break, continue to next inc
-                if (spaceFound)
-                    continue;
+                if (spaceFound) continue;
 
-                // check left for a space
+                // Check left for a space
                 for (int j = i ; j > i - breakInsertionTol ; j--) {
                     // is j valid
                     if (j > 0) {
@@ -357,12 +346,13 @@ public final class BoundsUtil {
                     }
                 }
 
-                if (spaceFound) {
-                    continue;
-                }
+                if (spaceFound) continue;
 
-                // unfortunate final resort is to just place the string at the location we are currently at
-                // there shouldn't be any html formatting in this string so this is safe.
+                /*
+                    The final resort is to just split at the current index and add a break.
+                    There shouldn't be any html formatting at this point so this is safe to do.
+                */
+
                 StringBuilder sb = new StringBuilder(ret);
                 sb.insert(i, BREAK_TAG);
                 ret = sb.toString();
