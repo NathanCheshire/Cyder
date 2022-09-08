@@ -129,7 +129,7 @@ public class YoutubeDownload {
     public YoutubeDownload(String url) {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
-        Preconditions.checkArgument(AudioUtil.youtubeDlInstalled());
+        Preconditions.checkState(AudioUtil.youtubeDlInstalled());
 
         this.url = url;
     }
@@ -267,12 +267,12 @@ public class YoutubeDownload {
      * @return the file this object downloaded from YouTube
      */
     public File getDownloadFile() {
-        Preconditions.checkArgument(!isCanceled());
-        Preconditions.checkArgument(isDone());
-        Preconditions.checkArgument(isDownloaded());
-        Preconditions.checkNotNull(downloadFile);
+        Preconditions.checkState(!isCanceled());
+        Preconditions.checkState(isDone());
+        Preconditions.checkState(isDownloaded());
 
-        return downloadFile;
+        return Preconditions.checkNotNull(downloadFile);
+
     }
 
     /**
@@ -281,7 +281,7 @@ public class YoutubeDownload {
      * @return the exit code of the internal download process if completed
      */
     public int getProcessExitCode() {
-        Preconditions.checkArgument(processExitCode != Integer.MIN_VALUE,
+        Preconditions.checkState(processExitCode != Integer.MIN_VALUE,
                 "Process not yet finished");
 
         return processExitCode;

@@ -17,6 +17,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.PixelGrabber;
 import java.io.*;
@@ -237,40 +238,6 @@ public final class ImageUtil {
     }
 
     /**
-     * Returns a buffered image from the provided file.
-     *
-     * @param imageFile the file to convert to a buffered image
-     * @return the buffered image
-     */
-    public static Optional<BufferedImage> getBufferedImage(File imageFile) {
-        Preconditions.checkNotNull(imageFile);
-        Preconditions.checkArgument(imageFile.exists());
-
-        try {
-            return Optional.of(ImageIO.read(imageFile));
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return Optional.empty();
-    }
-
-    /**
-     * Returns a buffered image from the provided image icon.
-     *
-     * @param im the image icon to convert to a buffered image.
-     * @return the buffered image drawn from the provided image icon
-     */
-    public static BufferedImage getBufferedImage(ImageIcon im) {
-        Preconditions.checkNotNull(im);
-
-        BufferedImage bi = new BufferedImage(im.getIconWidth(), im.getIconHeight(), BufferedImage.TYPE_INT_RGB);
-        Graphics g = bi.createGraphics();
-        im.paintIcon(null, g, 0, 0);
-        return bi;
-    }
-
-    /**
      * Returns the buffered image converted to an ImageIcon.
      *
      * @param image a buffered image to convert
@@ -283,17 +250,19 @@ public final class ImageUtil {
     }
 
     /**
-     * Returns a buffered image by attempting to read from
-     * a file constructed from the provided path.
+     * Converts the provided ImageIcon to a BufferedImage.
      *
-     * @param filename the path to read
-     * @return the buffered image
+     * @param icon the image icon to convert
+     * @return the buffered image after converting
      */
-    public static Optional<BufferedImage> getBufferedImage(String filename) {
-        Preconditions.checkNotNull(filename);
-        Preconditions.checkArgument(!filename.isEmpty());
+    public static BufferedImage toBufferedImage(ImageIcon icon) {
+        Preconditions.checkNotNull(icon);
 
-        return getBufferedImage(new File(filename));
+        BufferedImage bi = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics g = bi.createGraphics();
+        icon.paintIcon(null, g, 0, 0);
+        g.dispose();
+        return bi;
     }
 
     /**
@@ -319,27 +288,44 @@ public final class ImageUtil {
      * @return the rotated image
      * @throws IllegalArgumentException if the buffered image cannot be loaded from the provided path
      */
-    @SuppressWarnings("UnnecessaryDefault")
     public static BufferedImage getRotatedImage(String filepath, Direction direction) {
         Preconditions.checkNotNull(filepath);
         Preconditions.checkArgument(!filepath.isEmpty());
         Preconditions.checkNotNull(direction);
 
-        Optional<BufferedImage> optionalBufferedImage = getBufferedImage(filepath);
+        BufferedImage bufferedImage = null;
 
-        if (optionalBufferedImage.isEmpty()) {
+        try {
+            bufferedImage = ImageIO.read(new File(filepath));
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        if (bufferedImage == null) {
             throw new IllegalArgumentException("Could not get buffered image from path: " + filepath);
         }
 
-        BufferedImage bi = optionalBufferedImage.get();
-
         return switch (direction) {
-            case TOP -> rotateImage(bi, ZERO_DEGREES);
-            case RIGHT -> rotateImage(bi, NINETY_DEGREES);
-            case BOTTOM -> rotateImage(bi, ONE_EIGHTY_DEGREES);
-            case LEFT -> rotateImage(bi, -NINETY_DEGREES);
-            default -> throw new IllegalArgumentException("Invalid direction: " + direction);
+            case TOP -> rotateImage(bufferedImage, ZERO_DEGREES);
+            case RIGHT -> rotateImage(bufferedImage, NINETY_DEGREES);
+            case BOTTOM -> rotateImage(bufferedImage, ONE_EIGHTY_DEGREES);
+            case LEFT -> rotateImage(bufferedImage, -NINETY_DEGREES);
         };
+    }
+
+    /**
+     * Returns a buffered image by attempting to read from
+     * a file constructed from the provided path.
+     *
+     * @param filename the path to read
+     * @return the buffered image
+     */
+    public static Optional<BufferedImage> getBufferedImage(String filename) {
+        Preconditions.checkNotNull(filename);
+        Preconditions.checkArgument(!filename.isEmpty());
+
+
+        return Optional.empty();
     }
 
     /**
@@ -386,7 +372,7 @@ public final class ImageUtil {
      * @return the rotated image
      */
     public static ImageIcon rotateImage(ImageIcon imageIcon, double degrees) {
-        BufferedImage img = getBufferedImage(imageIcon);
+        BufferedImage img = toBufferedImage(imageIcon);
 
         degrees = MathUtil.convertAngleToStdForm(degrees);
 
@@ -595,22 +581,6 @@ public final class ImageUtil {
         }
 
         return ret;
-    }
-
-    /**
-     * Converts the provided ImageIcon to a BufferedImage.
-     *
-     * @param icon the image icon to convert
-     * @return the buffered image after converting
-     */
-    public static BufferedImage toBufferedImage(ImageIcon icon) {
-        Preconditions.checkNotNull(icon);
-
-        BufferedImage bi = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
-        Graphics g = bi.createGraphics();
-        icon.paintIcon(null, g, 0, 0);
-        g.dispose();
-        return bi;
     }
 
     /**
@@ -850,7 +820,7 @@ public final class ImageUtil {
      * @param image the image
      * @return whether the provided image is a horizontal image
      */
-    public static boolean horizontalImage(BufferedImage image) {
+    public static boolean isHorizontalImage(BufferedImage image) {
         Preconditions.checkNotNull(image);
         return image.getWidth() > image.getHeight();
     }
@@ -927,15 +897,16 @@ public final class ImageUtil {
                 }
 
                 return true;
-            } else
-                return false;
+            }
         } catch (Exception ignored) {
             return false;
         }
+
+        return false;
     }
 
     /**
-     * Returns whether the provided file is a valid image file.
+     * Returns whether the provided file is a valid image file meaning it can be read by {@link ImageIO}.
      *
      * @param file the file to check for image validity
      * @return whether the provided file is a valid image file
@@ -994,7 +965,7 @@ public final class ImageUtil {
          * @param radius    the radius of the gaussian blur to apply
          */
         public GaussianBlurBuilder(File imageFile, int radius) {
-            this.imageFile = imageFile;
+            this.imageFile = Preconditions.checkNotNull(imageFile);
             this.radius = radius;
         }
 
@@ -1014,7 +985,7 @@ public final class ImageUtil {
          * @return this builder
          */
         public GaussianBlurBuilder setImageFile(File imageFile) {
-            this.imageFile = imageFile;
+            this.imageFile = Preconditions.checkNotNull(imageFile);
             return this;
         }
 
@@ -1054,7 +1025,7 @@ public final class ImageUtil {
          * @return this builder
          */
         public GaussianBlurBuilder setSaveDirectory(File saveDirectory) {
-            this.saveDirectory = saveDirectory;
+            this.saveDirectory = Preconditions.checkNotNull(saveDirectory);
             return this;
         }
     }
@@ -1152,14 +1123,16 @@ public final class ImageUtil {
     }
 
     /**
-     * Saves the provided buffered image to the tmp directory.
+     * Saves the provided buffered image to the temporary directory.
      *
      * @param bi the buffered image to save
      * @return whether the image was successfully saved
      */
     @CanIgnoreReturnValue
-    public static boolean saveImageToTmp(BufferedImage bi, String saveName) {
+    public static boolean saveImageToTemporaryDirectory(BufferedImage bi, String saveName) {
         Preconditions.checkNotNull(bi);
+        Preconditions.checkNotNull(saveName);
+        Preconditions.checkArgument(!saveName.isEmpty());
 
         try {
             File tmpDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName(),
@@ -1186,5 +1159,49 @@ public final class ImageUtil {
         Preconditions.checkArgument(NetworkUtil.isValidUrl(url));
 
         return ImageIO.read(new URL(url));
+    }
+
+    /**
+     * Returns a new buffered image resized to fit within the provided dimension.
+     *
+     * @param image     the image to ensure fits in the provided dimension
+     * @param dimension the width and height the image must fit in
+     * @return a new buffered image resized to fit within the provided dimension
+     */
+    public static BufferedImage ensureFitsInBounds(BufferedImage image, Dimension dimension) {
+        Preconditions.checkNotNull(image);
+        Preconditions.checkNotNull(dimension);
+
+        BufferedImage ret = copy(image);
+
+        if (isHorizontalImage(image) && image.getWidth() > dimension.getWidth()) {
+            float ratio = image.getHeight() / (float) image.getWidth();
+            int width = (int) dimension.getWidth();
+            int height = (int) (dimension.getHeight() * ratio);
+        } else if (isVerticalImage(image) && image.getHeight() > dimension.getHeight()) {
+            float ratio = image.getWidth() / (float) image.getHeight();
+            int width = (int) (dimension.getWidth() * ratio);
+            int height = (int) dimension.getHeight();
+            ret = ImageUtil.resizeImage(image, image.getType(), width, height);
+        } else if (isSquareImage(image) && image.getWidth() > dimension.getWidth()) {
+            int len = (int) dimension.getWidth();
+            ret = ImageUtil.resizeImage(image, image.getType(), len, len);
+        }
+
+        return ret;
+    }
+
+    /**
+     * Returns a copy of the provided image, leaving the reference untouched.
+     *
+     * @param image the image to copy
+     * @return the copied image
+     */
+    public static BufferedImage copy(BufferedImage image) {
+        Preconditions.checkNotNull(image);
+
+        ColorModel colorModel = image.getColorModel();
+        boolean isAlphaPreMultiplied = colorModel.isAlphaPremultiplied();
+        return new BufferedImage(colorModel, image.copyData(null), isAlphaPreMultiplied, null);
     }
 }

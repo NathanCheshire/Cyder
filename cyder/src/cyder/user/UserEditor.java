@@ -2,6 +2,7 @@ package cyder.user;
 
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
+import cyder.annotations.ForReadability;
 import cyder.annotations.Widget;
 import cyder.audio.AudioPlayer;
 import cyder.console.Console;
@@ -315,11 +316,7 @@ public final class UserEditor {
                         return;
                     }
 
-                    UserFile copyLocation = FileUtil.isSupportedImageExtension(fileToAdd)
-                            ? UserFile.BACKGROUNDS
-                            : FileUtil.isSupportedAudioExtension(fileToAdd)
-                            ? UserFile.MUSIC
-                            : UserFile.FILES;
+                    UserFile copyLocation = determineCopyLocation(fileToAdd);
 
                     String uniqueNameAndExtension = fileToAdd.getName();
                     File parentFolder = UserUtil.getUserFile(copyLocation);
@@ -335,11 +332,11 @@ public final class UserEditor {
                         revalidateFilesScroll();
 
                         if (copyLocation.getName().equals(UserFile.BACKGROUNDS.getName())) {
-                            Console.INSTANCE.resizeBackgrounds();
+                            Console.INSTANCE.reloadBackgrounds();
                         }
-                    } catch (Exception exception) {
+                    } catch (Exception ex) {
                         editUserFrame.notify("Could not add file at this time");
-                        ExceptionHandler.handle(exception);
+                        ExceptionHandler.handle(ex);
                     }
                 } catch (Exception ex) {
                     ExceptionHandler.handle(ex);
@@ -349,6 +346,26 @@ public final class UserEditor {
             ExceptionHandler.handle(exc);
         }
     };
+
+    /**
+     * Returns the user file to place the provided file in.
+     *
+     * @param file the file which will be moved to the returned user folder
+     * @return the user file to place the provided file in
+     */
+    @ForReadability
+    private static UserFile determineCopyLocation(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkState(file.exists());
+
+        if (FileUtil.isSupportedImageExtension(file)) {
+            return UserFile.BACKGROUNDS;
+        } else if (FileUtil.isSupportedAudioExtension(file)) {
+            return UserFile.MUSIC;
+        } else {
+            return UserFile.FILES;
+        }
+    }
 
     /**
      * The action listener for the open file button.

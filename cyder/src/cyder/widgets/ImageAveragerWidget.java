@@ -378,7 +378,7 @@ public final class ImageAveragerWidget {
      * @return a new icon that is guaranteed to be at most 800x800
      */
     private static ImageIcon checkImage(ImageIcon originalIcon) {
-        BufferedImage bi = ImageUtil.getBufferedImage(originalIcon);
+        BufferedImage bi = ImageUtil.toBufferedImage(originalIcon);
         int width = originalIcon.getIconWidth();
         int height = originalIcon.getIconHeight();
 

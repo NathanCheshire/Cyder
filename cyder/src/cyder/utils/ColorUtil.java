@@ -150,7 +150,7 @@ public class ColorUtil {
      */
     public static Color getDominantColor(ImageIcon imageIcon) {
         checkNotNull(imageIcon);
-        return getDominantColor(ImageUtil.getBufferedImage(imageIcon));
+        return getDominantColor(ImageUtil.toBufferedImage(imageIcon));
     }
 
     /**

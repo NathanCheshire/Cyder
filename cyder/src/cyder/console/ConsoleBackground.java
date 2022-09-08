@@ -4,10 +4,12 @@ import com.google.common.base.Preconditions;
 import cyder.exceptions.FatalException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.ui.CyderFrame;
 import cyder.utils.ImageUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -58,19 +60,36 @@ public class ConsoleBackground {
     }
 
     /**
+     * The error message for the fatal exception to throw if a buffered image cannot be generated.
+     */
+    private static final String COULD_NOT_GENERATE = "Could not general buffered image from reference file: ";
+
+    /**
      * Returns a generated buffered image from the reference file.
      *
      * @return a generated buffered image from the reference file
      */
     public BufferedImage generateBufferedImage() {
+        BufferedImage image = null;
+
         try {
-            return ImageIO.read(referenceFile);
+            image = ImageIO.read(referenceFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        throw new FatalException("Could not general buffered image from reference file: "
-                + referenceFile.getAbsolutePath());
+        if (image == null) {
+            throw new FatalException(COULD_NOT_GENERATE + referenceFile.getAbsolutePath());
+        }
+
+        CyderFrame console = Console.INSTANCE.getConsoleCyderFrame();
+        if (console != null) {
+            Rectangle monitorDimensions = Console.INSTANCE.getConsoleCyderFrame().getMonitorBounds();
+            return ImageUtil.ensureFitsInBounds(image,
+                    new Dimension((int) monitorDimensions.getWidth(), (int) monitorDimensions.getHeight()));
+        } else {
+            return image;
+        }
     }
 
     /**
@@ -87,7 +106,7 @@ public class ConsoleBackground {
      *
      * @return whether the reference file still exists, can be read, and is an image
      */
-    public boolean validate() {
+    public boolean isValid() {
         return referenceFile.exists() && generateBufferedImage() != null;
     }
 }

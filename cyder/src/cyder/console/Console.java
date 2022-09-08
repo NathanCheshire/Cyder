@@ -42,6 +42,7 @@ import java.awt.image.PixelGrabber;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.concurrent.Future;
@@ -252,8 +253,7 @@ public enum Console {
 
         NetworkUtil.startHighPingChecker();
 
-        loadBackgrounds();
-        resizeBackgrounds();
+        reloadBackgrounds();
 
         resetMembers();
 
@@ -765,7 +765,7 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().addLeftButton(menuButton, 0);
 
         alternateBackgroundButton.addActionListener(e -> {
-            loadBackgrounds();
+            reloadBackgrounds();
 
             try {
                 if (canSwitchBackground()) {
@@ -2151,32 +2151,22 @@ public enum Console {
     // ----------------
 
     /**
-     * Resizes the valid backgrounds found in the user's backgrounds/ directory
-     * for all images found to be too large/small.
-     */
-    @ForReadability
-    public void resizeBackgrounds() {
-        // todo do away with this and instead for a background that is too large,
-        //  make it's max size the size of the window it's currently on.
-    }
-
-    /**
      * Initializes the backgrounds associated with the current user.
      * Also attempts to find the background index of the Console current background if it exists.
      */
-    public void loadBackgrounds() {
+    public void reloadBackgrounds() {
         try {
             ArrayList<File> backgroundFiles = new ArrayList<>();
 
             File[] backgroundFilesArr = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                     getUuid(), UserFile.BACKGROUNDS.getName()).listFiles();
             if (backgroundFilesArr != null && backgroundFilesArr.length > 0) {
-                for (File file : backgroundFilesArr) {
+                Arrays.stream(backgroundFilesArr).forEach(file -> {
                     if (StringUtil.in(FileUtil.getExtension(file),
                             true, FileUtil.SUPPORTED_IMAGE_EXTENSIONS)) {
                         backgroundFiles.add(file);
                     }
-                }
+                });
             }
 
             if (backgroundFiles.isEmpty()) {
@@ -2185,11 +2175,11 @@ public enum Console {
 
             backgrounds.clear();
 
-            for (File file : backgroundFiles) {
-                if (ImageUtil.isValidImage(file)) {
-                    backgrounds.add(new ConsoleBackground(file));
+            backgroundFiles.forEach(backgroundFile -> {
+                if (ImageUtil.isValidImage(backgroundFile)) {
+                    backgrounds.add(new ConsoleBackground(backgroundFile));
                 }
-            }
+            });
 
             // find the index we are it if console has a content pane
             revalidateBackgroundIndex();
@@ -2204,7 +2194,7 @@ public enum Console {
      * @return list of found backgrounds
      */
     public ArrayList<ConsoleBackground> reloadAndGetBackgrounds() {
-        loadBackgrounds();
+        reloadBackgrounds();
         return backgrounds;
     }
 
@@ -2242,7 +2232,7 @@ public enum Console {
      * @param backgroundFile the background file to set the console to
      */
     public void setBackgroundFile(File backgroundFile) {
-        loadBackgrounds();
+        reloadBackgrounds();
 
         int index = -1;
 
@@ -2292,7 +2282,7 @@ public enum Console {
      * @param index the index to switch the console background to
      */
     private void setBackgroundIndex(int index) {
-        loadBackgrounds();
+        reloadBackgrounds();
 
         if (index < 0 || index > backgrounds.size() - 1) return;
 
@@ -2588,7 +2578,7 @@ public enum Console {
      * @return whether the current background index is the maximum index
      */
     public boolean onLastBackground() {
-        loadBackgrounds();
+        reloadBackgrounds();
         return backgrounds.size() == backgroundIndex + 1;
     }
 

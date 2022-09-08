@@ -1,6 +1,7 @@
 package cyder.console;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.Immutable;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
@@ -273,6 +274,7 @@ public class PinButton extends JLabel {
     /**
      * A wrapper for an integer array used for the icon button paint method.
      */
+    @Immutable
     private static class PolygonWrapper {
         /**
          * Suppress default constructor.

@@ -80,7 +80,7 @@ public class ImageHandler extends InputHandler {
 
             if (currentBackgroundFile == null || !currentBackgroundFile.exists()) {
                 String name = SecurityUtil.generateUuid();
-                boolean saved = ImageUtil.saveImageToTmp(Console.INSTANCE
+                boolean saved = ImageUtil.saveImageToTemporaryDirectory(Console.INSTANCE
                         .getCurrentBackground().generateBufferedImage(), name);
 
                 if (!saved) {

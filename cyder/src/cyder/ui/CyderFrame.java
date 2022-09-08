@@ -1637,7 +1637,7 @@ public class CyderFrame extends JFrame {
      */
     public void rotateBackground(int degrees) {
         ImageIcon masterIcon = currentMasterIcon;
-        BufferedImage master = ImageUtil.getBufferedImage(masterIcon);
+        BufferedImage master = ImageUtil.toBufferedImage(masterIcon);
         BufferedImage rotated = ImageUtil.rotateImage(master, degrees);
         ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
     }
@@ -1658,7 +1658,7 @@ public class CyderFrame extends JFrame {
      */
     public void barrelRoll() {
         ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
-        BufferedImage master = ImageUtil.getBufferedImage(masterIcon);
+        BufferedImage master = ImageUtil.toBufferedImage(masterIcon);
 
         CyderThreadRunner.submit(() -> {
             float angle = 0.0f;
@@ -2713,6 +2713,7 @@ public class CyderFrame extends JFrame {
     // todo should be able to toggle off weather background for location and instead
     //  use a gradient
     // todo time for weather doesn't update seconds
+    // todo blurring currently background changes size
 
     // -----------
     // Debug lines
