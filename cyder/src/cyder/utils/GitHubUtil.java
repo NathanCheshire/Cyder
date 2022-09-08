@@ -8,7 +8,7 @@ import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.parsers.github.Issue;
+import cyder.parsers.remote.github.Issue;
 import cyder.threads.CyderThreadFactory;
 
 import java.io.BufferedReader;

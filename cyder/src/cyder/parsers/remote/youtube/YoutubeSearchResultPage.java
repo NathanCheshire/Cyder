@@ -1,4 +1,4 @@
-package cyder.parsers.youtube;
+package cyder.parsers.remote.youtube;
 
 import java.util.LinkedList;
 

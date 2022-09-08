@@ -1,4 +1,4 @@
-package cyder.parsers.github;
+package cyder.parsers.remote.github;
 
 import com.google.gson.annotations.SerializedName;
 

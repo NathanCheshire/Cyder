@@ -7,7 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.parsers.AudioLengthResponse;
+import cyder.parsers.local.AudioLengthResponse;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.ThreadUtil;
 import cyder.user.UserFile;

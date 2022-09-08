@@ -1,4 +1,4 @@
-package cyder.parsers.ip;
+package cyder.parsers.remote.ip;
 
 import com.google.gson.annotations.SerializedName;
 

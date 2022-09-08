@@ -1,4 +1,4 @@
-package cyder.parsers.ip;
+package cyder.parsers.remote.ip;
 
 /**
  * An object for parsing returned ip data threat objects.

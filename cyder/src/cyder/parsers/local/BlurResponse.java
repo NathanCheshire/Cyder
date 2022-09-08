@@ -1,4 +1,4 @@
-package cyder.parsers;
+package cyder.parsers.local;
 
 import com.google.gson.annotations.SerializedName;
 import cyder.handlers.internal.ExceptionHandler;

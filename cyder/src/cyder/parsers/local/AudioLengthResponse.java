@@ -1,4 +1,4 @@
-package cyder.parsers;
+package cyder.parsers.local;
 
 // todo local backend package
 

@@ -13,7 +13,7 @@ import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.parsers.UsbResponse;
+import cyder.parsers.local.UsbResponse;
 import cyder.threads.CyderThreadRunner;
 import javazoom.jl.player.Player;
 

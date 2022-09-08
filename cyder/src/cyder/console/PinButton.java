@@ -348,6 +348,11 @@ public class PinButton extends JLabel {
         super.paint(g);
     }
 
+    /**
+     * Returns the color to paint for the icon button based on the current state.
+     *
+     * @return the color to paint for the icon button based on the current state
+     */
     private Color getPaintColor() {
         if (focused.get()) {
             return getCurrentState().getNextColor();
