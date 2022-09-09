@@ -3,6 +3,7 @@ package cyder.widgets;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.console.Console;
@@ -27,12 +28,12 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * A widget for showing the weather for a local area.
+ */
 @Vanilla
 @CyderAuthor
 public class WeatherWidget {
@@ -204,7 +205,7 @@ public class WeatherWidget {
     /**
      * Whether to repull weather data every updateFrequency minutes.
      */
-    private final AtomicBoolean stopUpdating = new AtomicBoolean(true);
+    private final AtomicBoolean stopUpdating = new AtomicBoolean(false);
 
     /**
      * The frequency at which to update the weather data at in minutes.
@@ -264,6 +265,13 @@ public class WeatherWidget {
         getInstance().innerShowGui();
     }
 
+    private static final String WEATHER_KEY = "weather_key";
+
+    private static final int FRAME_WIDTH = 480;
+    private static final int FRAME_HEIGHT = 640;
+
+    private static final String DEFAULT_TITLE = "Weather";
+
     /**
      * Shows the UI since we need to allow multiple instances of weather widget
      * while still having the public static showGui() method with the @Widget annotation.
@@ -274,7 +282,7 @@ public class WeatherWidget {
                     + UserUtil.getCyderUser().getName() + ", but"
                     + " this feature is suspended until a stable internet connection can be established");
             return;
-        } else if (StringUtil.isNullOrEmpty(PropLoader.getString("weather_key"))) {
+        } else if (StringUtil.isNullOrEmpty(PropLoader.getString(WEATHER_KEY))) {
             Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has "
                     + "not been set or is invalid, as a result, many features of Cyder will not work as"
                     + " intended. Please see the fields panel of the user editor to learn how to acquire "
@@ -286,14 +294,14 @@ public class WeatherWidget {
 
         UiUtil.closeIfOpen(weatherFrame);
 
-        weatherFrame = new CyderFrame(480, 640) {
+        weatherFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT) {
             @Override
             public void dispose() {
                 stopUpdating.set(true);
                 super.dispose();
             }
         };
-        weatherFrame.setTitle("Weather");
+        weatherFrame.setTitle(DEFAULT_TITLE);
 
         currentTimeLabel = new JLabel(getWeatherTime(), SwingConstants.CENTER);
         currentTimeLabel.setForeground(CyderColors.navy);
@@ -383,24 +391,19 @@ public class WeatherWidget {
                             .setLabelText("<html>Enter your city, state, and country code separated by a comma. "
                                     + "Example:<p style=\"color:rgb(45, 100, 220)\""
                                     + ">New Orleans, LA, US</p></html>"));
+            // todo method for this to add color to text with html styling
 
             try {
-                if (StringUtil.isNullOrEmpty(newLocation))
-                    return;
+                if (StringUtil.isNullOrEmpty(newLocation)) return;
 
                 previousLocationString = currentLocationString;
                 String[] parts = newLocation.split(",");
 
                 StringBuilder sb = new StringBuilder();
 
-                for (int i = 0 ; i < parts.length ; i++) {
-                    sb.append(StringUtil.capsFirstWords(parts[i].trim()).trim());
-
-                    if (i != parts.length - 1)
-                        sb.append(",");
-                }
-
+                Arrays.stream(parts).forEach(part -> sb.append(StringUtil.capsFirstWords(part.trim())).append(","));
                 currentLocationString = sb.toString();
+                currentLocationString = currentLocationString.substring(0, currentLocationString.length() - 2);
                 useCustomLoc = true;
 
                 weatherFrame.notify("Attempting to refresh weather stats for location \""
@@ -433,7 +436,7 @@ public class WeatherWidget {
 
                 try {
                     // map temp val in width range
-                    double tempVal = map(temperature, minTemp, maxTemp, 0, 400);
+                    double tempVal = map(temperature, minTemp, maxTemp);
 
                     // draw current temp line
                     g.setColor(CyderColors.regularPink);
@@ -542,8 +545,6 @@ public class WeatherWidget {
 
         weatherFrame.finalizeAndShow();
 
-        stopUpdating.set(false);
-
         CyderThreadRunner.submit(() -> {
             try {
                 while (true) {
@@ -560,28 +561,34 @@ public class WeatherWidget {
             }
         }, "Weather Stats Updater");
 
+        startUpdatingClock();
+    }
+
+    private static final String WEATHER_CLOCK_UPDATER_THREAD_NAME = "Weather Clock Updater";
+
+    @ForReadability
+    private void startUpdatingClock() {
         CyderThreadRunner.submit(() -> {
-            while (stopUpdating.get()) {
+            while (!stopUpdating.get()) {
                 ThreadUtil.sleep(ONE_SECOND);
                 currentTimeLabel.setText(getWeatherTime());
             }
-        }, "Weather Clock Updater");
+        }, WEATHER_CLOCK_UPDATER_THREAD_NAME);
     }
 
     /**
-     * Maps the value in from one range to the next.
+     * Maps the value from the old range to the range [0, 400].
      *
      * @param value       the value to map
      * @param oldRangeMin the old range's min
      * @param oldRangeMax the old range's max
-     * @param newRangeMin the new range's min
-     * @param newRangeMax the new range's max
      * @return the value mapped from the old range to the new range
      */
-    public static double map(double value, double oldRangeMin, double oldRangeMax,
-                             double newRangeMin, double newRangeMax) {
-        return (value - oldRangeMin) * (newRangeMax - newRangeMin) / (oldRangeMax - oldRangeMin) + newRangeMin;
+    private double map(double value, double oldRangeMin, double oldRangeMax) {
+        return (value - oldRangeMin) * 400.0 / (oldRangeMax - oldRangeMin);
     }
+
+    private static final String GMT = "GMT";
 
     /**
      * Returns the current weather time.
@@ -589,18 +596,18 @@ public class WeatherWidget {
      * @return the current weather time
      */
     private String getWeatherTime() {
-        Calendar cal = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormatter = TimeUtil.weatherFormat;
-        dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+        dateFormatter.setTimeZone(TimeZone.getTimeZone(GMT));
 
         try {
             int timeOffset = Integer.parseInt(weatherDataGmtOffset) / 3600;
-            cal.add(Calendar.HOUR, timeOffset);
+            calendar.add(Calendar.HOUR, timeOffset);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        return dateFormatter.format(cal.getTime());
+        return dateFormatter.format(calendar.getTime());
     }
 
     /**
@@ -612,17 +619,18 @@ public class WeatherWidget {
                 String[] parts = currentLocationString.split(",");
                 StringBuilder sb = new StringBuilder();
 
-                boolean isLenThree = parts.length == 3;
+                boolean lengthThree = parts.length == 3;
 
                 for (int i = 0 ; i < parts.length ; i++) {
-                    if (isLenThree && i == 1 && parts[i].length() == 2) {
+                    if (lengthThree && i == 1 && parts[i].length() == 2) {
                         sb.append(parts[i].trim().toUpperCase());
                     } else {
                         sb.append(StringUtil.capsFirstWords(parts[i].trim()).trim());
                     }
 
-                    if (i != parts.length - 1)
+                    if (i != parts.length - 1) {
                         sb.append(", ");
+                    }
                 }
 
                 locationLabel.setText(sb.toString());
@@ -643,21 +651,21 @@ public class WeatherWidget {
             sunriseLabel.setText(correctedSunTime(sunrise) + "am");
             sunsetLabel.setText(correctedSunTime(sunset) + "pm");
 
-            // repaint custom temperature drawing
+            // Repaint custom temperature drawing
             customTempLabel.repaint();
 
-            int temperatureLineCenter = (int) Math.ceil(customTempLabel.getX() + map(temperature,
-                    minTemp, maxTemp, 0, 400)) + 5;
+            int temperatureLineCenter = (int) Math.ceil(customTempLabel.getX()
+                    + map(temperature, minTemp, maxTemp)) + 5;
 
             currentTempLabel.setText(temperature + "F");
 
-            int width = StringUtil.getMinWidth(currentTempLabel.getText(), currentTempLabel.getFont());
-            int height = StringUtil.getMinHeight(currentTempLabel.getText(), currentTempLabel.getFont());
+            int tempLabelWidth = StringUtil.getMinWidth(currentTempLabel.getText(), currentTempLabel.getFont());
+            int tempLabelHeight = StringUtil.getMinHeight(currentTempLabel.getText(), currentTempLabel.getFont());
 
             int minX = customTempLabel.getX();
-            int maxX = customTempLabel.getX() + customTempLabel.getWidth() - width;
+            int maxX = customTempLabel.getX() + customTempLabel.getWidth() - tempLabelWidth;
 
-            int desiredX = temperatureLineCenter - (width) / 2;
+            int desiredX = temperatureLineCenter - (tempLabelWidth) / 2;
 
             if (desiredX < minX) {
                 desiredX = minX;
@@ -667,9 +675,10 @@ public class WeatherWidget {
                 desiredX = maxX;
             }
 
-            currentTempLabel.setBounds(desiredX, customTempLabel.getY() - 3 - height, width, height);
+            currentTempLabel.setBounds(desiredX, customTempLabel.getY() - 3 - tempLabelHeight, tempLabelWidth,
+                    tempLabelHeight);
 
-            //redraw arrow
+            // Redraw arrow
             windDirectionLabel.repaint();
 
             String[] parts = currentLocationString.split(",");
@@ -679,7 +688,7 @@ public class WeatherWidget {
                 String city = StringUtil.capsFirstWords(parts[0].trim()).trim();
                 weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " weather");
             } else {
-                weatherFrame.setTitle("Weather");
+                weatherFrame.setTitle(DEFAULT_TITLE);
             }
 
             if (weatherFrame != null) {
@@ -806,14 +815,13 @@ public class WeatherWidget {
                         String city = StringUtil.capsFirstWords(parts[0].trim()).trim();
                         weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " weather");
                     } else {
-                        weatherFrame.setTitle("Weather");
+                        weatherFrame.setTitle(DEFAULT_TITLE);
                     }
 
-                    // needed to change the title on the menu
                     Console.INSTANCE.revalidateMenu();
                 }
             } catch (FileNotFoundException e) {
-                //invalid custom location so go back to the old one
+                // Invalid custom location so go back to the old one
                 weatherFrame.notify("Sorry, but that location is invalid");
                 currentLocationString = previousLocationString;
                 useCustomLoc = false;
@@ -843,43 +851,53 @@ public class WeatherWidget {
      * @return the wind direction string based off of the current wind bearing
      */
     public static String getWindDirection(double bearing) {
-        while (bearing > 360.0)
-            bearing -= 360.0;
-        while (bearing < 0.0)
-            bearing += 360.0;
+        bearing = MathUtil.convertAngleToStdForm(bearing);
 
-        String ret = "";
+        StringBuilder ret = new StringBuilder();
 
-        // northern hemisphere
-        if (bearing >= 0.0 && bearing <= 180.0) {
-            if (bearing == 0.0)
-                ret = "E";
-            else if (bearing == 180.0)
-                ret = "W";
-            else {
-                //we now know it's north something
-                ret += "N";
+        if (inNorthernHemisphere(bearing)) {
+            ret.append("N");
 
-                if (bearing > 90.0) {
-                    ret += "W";
-                } else if (bearing < 90.0) {
-                    ret += "E";
-                }
+            if (bearing > 90.0) {
+                ret.append("W");
+            } else if (bearing < 90.0) {
+                ret.append("E");
             }
-        }
-        // southern hemisphere excluding directly East and West
-        else {
-            //already know it must be S appended
-            ret = "S";
+        } else if (inSouthernHemisphere(bearing)) {
+            ret.append("S");
 
-            //is it east
-            if (bearing < 270.0)
-                ret += "W";
-            if (bearing > 270.0)
-                ret += "E";
+            if (bearing < 270.0) {
+                ret.append("W");
+            } else if (bearing > 270.0) {
+                ret.append("E");
+            }
+        } else if (isEast(bearing)) {
+            ret.append("E");
+        } else if (isWest(bearing)) {
+            ret.append("W");
         }
 
-        return ret;
+        return ret.toString();
+    }
+
+    @ForReadability
+    private static boolean inNorthernHemisphere(double bearing) {
+        return bearing > 0.0 && bearing < 180.0;
+    }
+
+    @ForReadability
+    private static boolean inSouthernHemisphere(double bearing) {
+        return bearing > 180.0 && bearing < 360.0;
+    }
+
+    @ForReadability
+    private static boolean isEast(double bearing) {
+        return bearing == 0.0;
+    }
+
+    @ForReadability
+    private static boolean isWest(double bearing) {
+        return bearing == 180.0;
     }
 
     /**
