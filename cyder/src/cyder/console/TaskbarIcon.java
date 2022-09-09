@@ -1,6 +1,7 @@
 package cyder.console;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
@@ -236,7 +237,7 @@ public class TaskbarIcon {
 
         TaskbarIcon other = (TaskbarIcon) o;
 
-        return other.builder.equals(builder);
+        return builder.equals(other.builder);
     }
 
     /**
@@ -256,6 +257,7 @@ public class TaskbarIcon {
          * @param compact whether this taskbar icon should be painted in compact mode
          * @return this Builder
          */
+        @CanIgnoreReturnValue
         public Builder setCompact(boolean compact) {
             this.compact = compact;
             return this;
@@ -267,6 +269,7 @@ public class TaskbarIcon {
          * @param focused whether this taskbar icon should be painted as focused
          * @return this Builder
          */
+        @CanIgnoreReturnValue
         public Builder setFocused(boolean focused) {
             this.focused = focused;
             return this;
@@ -278,6 +281,7 @@ public class TaskbarIcon {
          * @param borderColor the name for this taskbar icon
          * @return this Builder
          */
+        @CanIgnoreReturnValue
         public Builder setBorderColor(Color borderColor) {
             this.borderColor = borderColor;
             return this;
@@ -289,6 +293,7 @@ public class TaskbarIcon {
          * @param customIcon the name for this taskbar icon
          * @return this Builder
          */
+        @CanIgnoreReturnValue
         public Builder setCustomIcon(ImageIcon customIcon) {
             this.customIcon = customIcon;
             return this;
@@ -300,6 +305,7 @@ public class TaskbarIcon {
          * @param runnable the runnable for this taskbar icon
          * @return this Builder
          */
+        @CanIgnoreReturnValue
         public Builder setRunnable(Runnable runnable) {
             this.runnable = runnable;
             return this;
@@ -311,6 +317,7 @@ public class TaskbarIcon {
          * @param name the name for this taskbar icon
          * @return this Builder
          */
+        @CanIgnoreReturnValue
         public Builder setName(String name) {
             this.name = name;
             return this;
@@ -343,15 +350,15 @@ public class TaskbarIcon {
                     && other.borderColor.equals(borderColor);
 
             if (other.customIcon != null) {
-                ret &= other.customIcon.equals(customIcon);
+                ret = ret && other.customIcon.equals(customIcon);
             }
 
             if (other.runnable != null) {
-                ret &= other.runnable.equals(runnable);
+                ret = ret && other.runnable.equals(runnable);
             }
 
             if (other.name != null) {
-                ret &= other.name.equals(name);
+                ret = ret && other.name.equals(name);
             }
 
             return ret;
