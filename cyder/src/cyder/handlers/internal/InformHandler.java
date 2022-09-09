@@ -81,7 +81,6 @@ public final class InformHandler {
 
             informFrame = new CyderFrame(containerWidth + 2 * xPadding,
                     containerHeight + yTopPadding + yBottomPadding);
-            informFrame.setFrameType(CyderFrame.FrameType.POPUP);
             informFrame.setTitle(builder.getTitle());
 
             JLabel container = builder.getContainer();
@@ -110,7 +109,6 @@ public final class InformHandler {
             informFrame = new CyderFrame(containerWidth + xPadding * 2,
                     containerHeight + yOffset + 2 * yPadding,
                     (darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor));
-            informFrame.setFrameType(CyderFrame.FrameType.POPUP);
             informFrame.setTitle(builder.getTitle());
 
             int containerX = informFrame.getWidth() / 2 - containerWidth / 2;
@@ -119,7 +117,6 @@ public final class InformHandler {
             JLabel container = builder.getContainer();
             container.setBounds(containerX, containerY, containerWidth, containerHeight);
             informFrame.add(container);
-
         }
 
         if (builder.getPreCloseAction() != null) {

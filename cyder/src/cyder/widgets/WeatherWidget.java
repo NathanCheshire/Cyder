@@ -380,6 +380,7 @@ public class WeatherWidget {
                 sunsetLabelIcon.getHeight() / 2);
         sunsetLabelIcon.add(sunsetLabel);
 
+        // todo cache builder
         weatherFrame.setMenuEnabled(true);
         weatherFrame.addMenuItem("Location", () -> CyderThreadRunner.submit(() -> {
             String newLocation = GetterUtil.getInstance().getString(
@@ -614,91 +615,90 @@ public class WeatherWidget {
      * Refreshes the weather labels based off of the current vars.
      */
     private void refreshWeatherLabels() {
-        try {
-            if (currentLocationString.length() > 1) {
-                String[] parts = currentLocationString.split(",");
-                StringBuilder sb = new StringBuilder();
+        if (currentLocationString.length() > 1) {
+            String[] parts = currentLocationString.split(",");
+            StringBuilder sb = new StringBuilder();
 
-                boolean lengthThree = parts.length == 3;
+            boolean lengthThree = parts.length == 3;
 
-                for (int i = 0 ; i < parts.length ; i++) {
-                    if (lengthThree && i == 1 && parts[i].length() == 2) {
-                        sb.append(parts[i].trim().toUpperCase());
-                    } else {
-                        sb.append(StringUtil.capsFirstWords(parts[i].trim()).trim());
-                    }
-
-                    if (i != parts.length - 1) {
-                        sb.append(", ");
-                    }
+            for (int i = 0 ; i < parts.length ; i++) {
+                if (lengthThree && i == 1 && parts[i].length() == 2) {
+                    sb.append(parts[i].trim().toUpperCase());
+                } else {
+                    sb.append(StringUtil.capsFirstWords(parts[i].trim()).trim());
                 }
 
-                locationLabel.setText(sb.toString());
-            } else {
-                locationLabel.setText("");
+                if (i != parts.length - 1) {
+                    sb.append(", ");
+                }
             }
 
-            currentWeatherIconLabel.setIcon(new ImageIcon("static/pictures/weather/" + weatherIcon + ".png"));
-            currentWeatherLabel.setText("<html><div style='text-align: center; vertical-align:bottom'>"
-                    + StringUtil.capsFirstWords(weatherCondition).replace("\\s+", "<br/>") + "</html>");
-            windSpeedLabel.setText(
-                    "Wind: " + windSpeed + "mph, " + windBearing + "deg (" + getWindDirection(windBearing) + ")");
-            humidityLabel.setText("Humidity: " + humidity + "%");
+            locationLabel.setText(sb.toString());
+        } else {
+            locationLabel.setText("");
+        }
 
-            pressureLabel.setText("Pressure: " + formatFloatMeasurement(pressure) + "atm");
+        // todo cache icons on first entry?
+        currentWeatherIconLabel.setIcon(new ImageIcon(
+                OSUtil.buildPath("static", "pictures", "weather", weatherIcon + "." + ImageUtil.PNG_FORMAT)));
+        currentWeatherLabel.setText("<html><div style='text-align: center; vertical-align:bottom'>"
+                + StringUtil.capsFirstWords(weatherCondition).replace("\\s+", "<br/>") + "</html>");
+        windSpeedLabel.setText("Wind: " + windSpeed + "mph, " + windBearing
+                + "deg (" + getWindDirection(windBearing) + ")");
+        humidityLabel.setText("Humidity: " + humidity + "%");
+        pressureLabel.setText("Pressure: " + formatFloatMeasurement(pressure) + "atm");
+        timezoneLabel.setText("Timezone: " + getTimezoneLabel());
+        sunriseLabel.setText(correctedSunTime(sunrise) + "am");
+        sunsetLabel.setText(correctedSunTime(sunset) + "pm");
 
-            timezoneLabel.setText("Timezone: " + getTimezoneLabel());
-            sunriseLabel.setText(correctedSunTime(sunrise) + "am");
-            sunsetLabel.setText(correctedSunTime(sunset) + "pm");
+        customTempLabel.repaint();
+        currentTempLabel.setText(temperature + "F");
 
-            // Repaint custom temperature drawing
-            customTempLabel.repaint();
+        int tempLabelWidth = StringUtil.getMinWidth(currentTempLabel.getText(), currentTempLabel.getFont());
+        int tempLabelHeight = StringUtil.getMinHeight(currentTempLabel.getText(), currentTempLabel.getFont());
 
-            int temperatureLineCenter = (int) Math.ceil(customTempLabel.getX()
-                    + map(temperature, minTemp, maxTemp)) + 5;
+        int minX = customTempLabel.getX();
+        int maxX = customTempLabel.getX() + customTempLabel.getWidth() - tempLabelWidth;
 
-            currentTempLabel.setText(temperature + "F");
+        int temperatureLineCenter = (int) Math.ceil(customTempLabel.getX()
+                + map(temperature, minTemp, maxTemp)) + 5;
+        int desiredX = temperatureLineCenter - (tempLabelWidth) / 2;
 
-            int tempLabelWidth = StringUtil.getMinWidth(currentTempLabel.getText(), currentTempLabel.getFont());
-            int tempLabelHeight = StringUtil.getMinHeight(currentTempLabel.getText(), currentTempLabel.getFont());
+        if (desiredX < minX) {
+            desiredX = minX;
+        }
 
-            int minX = customTempLabel.getX();
-            int maxX = customTempLabel.getX() + customTempLabel.getWidth() - tempLabelWidth;
+        if (desiredX > maxX) {
+            desiredX = maxX;
+        }
 
-            int desiredX = temperatureLineCenter - (tempLabelWidth) / 2;
+        currentTempLabel.setBounds(desiredX, customTempLabel.getY() - 3 - tempLabelHeight, tempLabelWidth,
+                tempLabelHeight);
 
-            if (desiredX < minX) {
-                desiredX = minX;
-            }
+        windDirectionLabel.repaint();
 
-            if (desiredX > maxX) {
-                desiredX = maxX;
-            }
+        String[] splitLocation = currentLocationString.split(",");
+        refreshFrameTitle(splitLocation[0]);
 
-            currentTempLabel.setBounds(desiredX, customTempLabel.getY() - 3 - tempLabelHeight, tempLabelWidth,
-                    tempLabelHeight);
+        // todo cache builder
+        if (weatherFrame != null) {
+            weatherFrame.notify(new CyderFrame.NotificationBuilder("Refreshed")
+                    .setViewDuration(2000)
+                    .setNotificationDirection(NotificationDirection.BOTTOM_LEFT)
+                    .setArrowDir(Direction.LEFT));
+        }
+    }
 
-            // Redraw arrow
-            windDirectionLabel.repaint();
+    @ForReadability
+    private void refreshFrameTitle(String city) {
+        Preconditions.checkNotNull(city);
+        city = city.trim();
 
-            String[] parts = currentLocationString.split(",");
-
-            //frame title
-            if (!parts[0].trim().isEmpty()) {
-                String city = StringUtil.capsFirstWords(parts[0].trim()).trim();
-                weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " weather");
-            } else {
-                weatherFrame.setTitle(DEFAULT_TITLE);
-            }
-
-            if (weatherFrame != null) {
-                weatherFrame.notify(new CyderFrame.NotificationBuilder("Refreshed")
-                        .setViewDuration(2000)
-                        .setNotificationDirection(NotificationDirection.BOTTOM_LEFT)
-                        .setArrowDir(Direction.LEFT));
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+        if (!city.isEmpty()) {
+            String correctedCityName = StringUtil.capsFirstWords(city).trim();
+            weatherFrame.setTitle(correctedCityName + StringUtil.getApostrophe(correctedCityName) + " weather");
+        } else {
+            weatherFrame.setTitle(DEFAULT_TITLE);
         }
     }
 
