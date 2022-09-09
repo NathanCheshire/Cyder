@@ -9,8 +9,8 @@ import cyder.genesis.subroutines.SufficientSubroutines;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
 import cyder.threads.CyderThreadRunner;
+import cyder.time.TimeUtil;
 import cyder.utils.OSUtil;
-import cyder.utils.TimeUtil;
 
 import javax.swing.*;
 

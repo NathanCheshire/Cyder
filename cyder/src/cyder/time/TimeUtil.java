@@ -1,4 +1,4 @@
-package cyder.utils;
+package cyder.time;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
@@ -8,6 +8,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.ThreadUtil;
 import cyder.user.UserUtil;
+import cyder.utils.StringUtil;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,16 +31,46 @@ import java.util.function.Function;
  */
 public final class TimeUtil {
     /**
-     * The calendar instance to use for calculations.
+     * The number of milliseconds in a single second.
      */
-    public static final Calendar calendarInstance = Calendar.getInstance();
+    public static final double MILLISECONDS_IN_SECOND = 1000.0;
 
     /**
-     * Instantiation of TimeUtil class is not allowed.
+     * The number of seconds in a single minute.
+     */
+    public static final double SECONDS_IN_MINUTE = 60.0;
+
+    /**
+     * The number of minutes in a single hour.
+     */
+    public static final double MINUTES_IN_HOUR = 60.0;
+
+    /**
+     * The number of hours in a single day.
+     */
+    public static final double HOURS_IN_DAY = 24.0;
+
+    /**
+     * The number of days in a single month.
+     */
+    public static final double DAYS_IN_MONTH = 30.0;
+
+    /**
+     * The number of months in a single year.
+     */
+    public static final double MONTHS_IN_YEAR = 12.0;
+
+    /**
+     * Suppress default constructor.
      */
     private TimeUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
+
+    /**
+     * The calendar instance to use for calculations within this class.
+     */
+    private static final Calendar calendarInstance = Calendar.getInstance();
 
     /**
      * The date formatter to use when the weather time is requested.
@@ -426,13 +457,6 @@ public final class TimeUtil {
         return AFTERNOON_RANGE.contains(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
     }
 
-    public static final double MILLISECONDS_IN_SECOND = 1000;
-    public static final double SECONDS_IN_MINUTE = 60.0;
-    public static final double MINUTES_IN_HOUR = 60.0;
-    public static final double HOURS_IN_DAY = 24.0;
-    public static final double DAYS_IN_MONTH = 30.0;
-    public static final double MONTHS_IN_YEAR = 12.0;
-
     /**
      * Returns a string detailing how many years/months/days/hours/minutes/seconds
      * are represented by the given input parameter.
@@ -442,6 +466,8 @@ public final class TimeUtil {
      * are represented by the provided milliseconds.
      */
     public static String millisToFormattedString(long milliseconds) {
+        Preconditions.checkArgument(milliseconds >= 0);
+
         StringBuilder sb = new StringBuilder();
 
         double years = 0;
@@ -451,76 +477,82 @@ public final class TimeUtil {
         double minutes = 0;
         double seconds = 0;
 
-        // convert milliseconds to seconds
+        // Convert milliseconds to seconds
         if (milliseconds >= MILLISECONDS_IN_SECOND) {
             seconds = Math.floor(milliseconds / MILLISECONDS_IN_SECOND);
         }
 
-        // take away milliseconds that were converted
+        // Take away milliseconds that were converted
         milliseconds -= seconds * MILLISECONDS_IN_SECOND;
 
-        // convert seconds to minutes
+        // Convert seconds to minutes
         if (seconds >= SECONDS_IN_MINUTE) {
             minutes = Math.floor(seconds / SECONDS_IN_MINUTE);
         }
 
-        // take away seconds that were converted
+        // Take away seconds that were converted
         seconds -= minutes * SECONDS_IN_MINUTE;
 
-        // convert minutes to hours
+        // Convert minutes to hours
         if (minutes >= MINUTES_IN_HOUR) {
             hours = Math.floor(minutes / MINUTES_IN_HOUR);
         }
 
-        // take a way minutes that were converted
+        // Take a way minutes that were converted
         minutes -= hours * MINUTES_IN_HOUR;
 
-        // convert hours to days
+        // Convert hours to days
         if (hours >= HOURS_IN_DAY) {
             days = Math.floor(hours / HOURS_IN_DAY);
         }
 
-        // take away hours that were converted
+        // Take away hours that were converted
         hours -= days * HOURS_IN_DAY;
 
-        // convert days to months
+        // Convert days to months
         if (days >= DAYS_IN_MONTH) {
             months = Math.floor(days / DAYS_IN_MONTH);
         }
 
-        // take away days that were converted
+        // Take away days that were converted
         days -= months * DAYS_IN_MONTH;
 
-        // convert months to years
+        // Convert months to years
         if (months >= MONTHS_IN_YEAR) {
             years = Math.floor(months / MONTHS_IN_YEAR);
         }
 
-        // take away months that were converted
+        // Take away months that were converted
         months -= years * MONTHS_IN_YEAR;
 
         DecimalFormat format = new DecimalFormat("#.##");
 
-        if (years != 0)
+        if (years != 0) {
             sb.append(format.format(years)).append("y ");
-        if (months != 0)
+        }
+        if (months != 0) {
             sb.append(format.format(months)).append("mo ");
-        if (days != 0)
+        }
+        if (days != 0) {
             sb.append(format.format(days)).append("d ");
-        if (hours != 0)
+        }
+        if (hours != 0) {
             sb.append(format.format(hours)).append("h ");
-        if (minutes != 0)
+        }
+        if (minutes != 0) {
             sb.append(format.format(minutes)).append("m ");
-        if (seconds != 0)
+        }
+        if (seconds != 0) {
             sb.append(format.format(seconds)).append("s ");
-        if (milliseconds != 0)
+        }
+        if (milliseconds != 0) {
             sb.append(format.format(milliseconds)).append("ms ");
+        }
 
         String ret = sb.toString();
 
-        // remove comma if starting with
-        if (ret.startsWith(","))
-            ret = ret.substring(1);
+        // Remove comma if starting with
+        if (ret.startsWith(",")) ret = ret.substring(1);
 
         return StringUtil.getTrimmedText(ret).trim();
     }
@@ -609,13 +641,17 @@ public final class TimeUtil {
     }
 
     /**
+     * The error message for when the start time has already been set.
+     */
+    private static final String SET_START_TIME_ERROR_MESSAGE = "Absolute start time already set";
+
+    /**
      * Sets the absolute start time of Cyder.
      *
      * @param absoluteStartTime the absolute start time of Cyder
      */
     public static void setAbsoluteStartTime(long absoluteStartTime) {
-        if (TimeUtil.absoluteStartTime != 0)
-            throw new IllegalArgumentException("Absolute Start Time already set");
+        Preconditions.checkState(TimeUtil.absoluteStartTime == 0, SET_START_TIME_ERROR_MESSAGE);
 
         TimeUtil.absoluteStartTime = absoluteStartTime;
     }
@@ -636,11 +672,14 @@ public final class TimeUtil {
      * @param consoleStartTime the time the console was shown
      */
     public static void setConsoleStartTime(long consoleStartTime) {
-        if (TimeUtil.consoleStartTime != 0)
-            return;
+        if (TimeUtil.consoleStartTime != 0) return;
 
         TimeUtil.consoleStartTime = consoleStartTime;
     }
+
+    // ---------------------------------------
+    // End relative timing methods and members
+    // ---------------------------------------
 
     /**
      * Sleeps on the current thread for the specified amount of time,
@@ -696,12 +735,39 @@ public final class TimeUtil {
         }
     }
 
+    /**
+     * The url to query for moon phase data.
+     */
     private static final String MOON_PHASE_URL = "https://www.timeanddate.com/moon/phases/";
+
+    /**
+     * The html moon element id.
+     */
     private static final String CURRENT_MOON_ID = "cur-moon";
+
+    /**
+     * The html moon percent element id.
+     */
     private static final String CURRENT_MOON_PERCENT_ID = "cur-moon-percent";
+
+    /**
+     * The html moon phase element id.
+     */
     private static final String PHASE_ID = "qlook";
+
+    /**
+     * The src constant.
+     */
     private static final String SRC = "SRC";
+
+    /**
+     * The img constant for extracting the moon phase image.
+     */
     private static final String IMG = "img";
+
+    /**
+     * The a tag constant.
+     */
     private static final String A_TAG = "a";
 
     /**
