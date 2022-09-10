@@ -32,6 +32,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -308,12 +309,19 @@ public class WeatherWidget {
     private static final String AM = "am";
 
     /**
+     * The instances of weather widget for this Cyder session.
+     */
+    private static final LinkedList<WeatherWidget> instances = new LinkedList<>();
+
+    /**
      * Returns a new instance of weather widget.
      *
      * @return a new instance of weather widget
      */
     public static WeatherWidget getInstance() {
-        return new WeatherWidget();
+        WeatherWidget instance = new WeatherWidget();
+        instances.add(instance);
+        return instance;
     }
 
     /**
@@ -355,10 +363,12 @@ public class WeatherWidget {
         repullWeatherStats();
 
         UiUtil.closeIfOpen(weatherFrame);
+        WeatherWidget thisInstance = this;
         weatherFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderColors.regularBlue) {
             @Override
             public void dispose() {
                 stopUpdating.set(true);
+                instances.remove(thisInstance);
                 super.dispose();
             }
         };
@@ -1032,13 +1042,7 @@ public class WeatherWidget {
             lat = wd.getCoord().getLat();
             lon = wd.getCoord().getLon();
 
-            try {
-                ImageIcon newMapBackground = MapUtil.getMapView(lat, lon, FRAME_WIDTH, FRAME_HEIGHT);
-                weatherFrame.setBackground(newMapBackground);
-            } catch (Exception e) {
-                ExceptionHandler.silentHandle(e);
-                weatherFrame.notify("Could not refresh map background");
-            }
+            refreshMapBackground();
 
             SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm");
             sunriseFormatted = dateFormatter.format(new Date((long) Integer.parseInt(sunriseMillis) * 1000));
@@ -1062,6 +1066,61 @@ public class WeatherWidget {
 
             Console.INSTANCE.revalidateMenu();
         }, WEATHER_STATS_UPDATER_THREAD_NAME);
+    }
+
+    /**
+     * Refreshes the map background of the weather frame. If not enabled, hides the map.
+     * If enabled, shows the map.
+     */
+    public void refreshMapBackground() {
+        try {
+            boolean displayMap = UserUtil.getCyderUser().getWeatherMap().equals("1");
+
+            if (displayMap) {
+                ImageIcon newMapBackground = MapUtil.getMapView(lat, lon, FRAME_WIDTH, FRAME_HEIGHT);
+                weatherFrame.setBackground(newMapBackground);
+            } else {
+                weatherFrame.setBackground(defaultBackground);
+            }
+
+            refreshReadableLabels(displayMap);
+        } catch (Exception e) {
+            ExceptionHandler.silentHandle(e);
+            weatherFrame.notify("Could not refresh map background");
+        }
+    }
+
+    /**
+     * Refreshes the labels with raw text on them based on the current visibility of the background map.
+     *
+     * @param mapVisible whether the map is visible
+     */
+    @ForReadability
+    private void refreshReadableLabels(boolean mapVisible) {
+        if (mapVisible) {
+            currentTimeLabel.setForeground(CyderColors.navy);
+            locationLabel.setForeground(CyderColors.navy);
+            windSpeedLabel.setForeground(CyderColors.navy);
+            humidityLabel.setForeground(CyderColors.navy);
+            pressureLabel.setForeground(CyderColors.navy);
+            timezoneLabel.setForeground(CyderColors.navy);
+        } else {
+            currentTimeLabel.setForeground(CyderColors.vanilla);
+            locationLabel.setForeground(CyderColors.vanilla);
+            windSpeedLabel.setForeground(CyderColors.vanilla);
+            humidityLabel.setForeground(CyderColors.vanilla);
+            pressureLabel.setForeground(CyderColors.vanilla);
+            timezoneLabel.setForeground(CyderColors.vanilla);
+        }
+    }
+
+    /**
+     * Refreshes the map background of all weather instances.
+     */
+    public static void refreshAllMapBackgrounds() {
+        for (WeatherWidget weatherWidget : instances) {
+            weatherWidget.refreshMapBackground();
+        }
     }
 
     /**
@@ -1101,7 +1160,7 @@ public class WeatherWidget {
      * @param bearing the bearing of the wind vector
      * @return the wind direction string
      */
-    public static String getWindDirection(String bearing) {
+    public String getWindDirection(String bearing) {
         return getWindDirection(Double.parseDouble(bearing));
     }
 
@@ -1111,7 +1170,7 @@ public class WeatherWidget {
      * @param bearing the current wind bearing
      * @return the wind direction string based off of the current wind bearing
      */
-    public static String getWindDirection(double bearing) {
+    public String getWindDirection(double bearing) {
         bearing = MathUtil.convertAngleToStdForm(bearing);
 
         StringBuilder ret = new StringBuilder();

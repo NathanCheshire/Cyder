@@ -7,6 +7,7 @@ import cyder.ui.CyderScrollList;
 import cyder.utils.ColorUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.UiUtil;
+import cyder.widgets.WeatherWidget;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -57,6 +58,7 @@ public class Preference {
     public static final String FONT_SIZE = "fontsize";
     public static final String WRAP_SHELL = "wrapshell";
     public static final String DARK_MODE = "darkmode";
+    private static final String WEATHER_MAP = "weathermap";
 
     private static final String IGNORE = "IGNORE";
     private static final String EMPTY = "";
@@ -285,7 +287,14 @@ public class Preference {
                     () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, WRAP_SHELL)),
 
             new Preference(DARK_MODE, "Dark Mode", "Activate a pleasant dark mode for Cyder",
-                    "0", () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, DARK_MODE))
+                    "0", () -> Logger.log(Logger.Tag.PREFERENCE_REFRESH, DARK_MODE)),
+
+            new Preference(WEATHER_MAP, "Weather Map",
+                    "Show a map of the location's area in the weather widget background", "1",
+                    () -> {
+                        Logger.log(Logger.Tag.PREFERENCE_REFRESH, WEATHER_MAP);
+                        WeatherWidget.refreshAllMapBackgrounds();
+                    })
 
             /*
                 To add: create object in User.java with a getter/setter and add a new Preference here

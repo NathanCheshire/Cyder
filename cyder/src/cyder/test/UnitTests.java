@@ -2,7 +2,6 @@ package cyder.test;
 
 import cyder.audio.AudioUtil;
 import cyder.constants.CyderRegexPatterns;
-import cyder.handlers.internal.Logger;
 import cyder.utils.*;
 import cyder.widgets.WeatherWidget;
 import cyder.youtube.YoutubeUtil;
@@ -37,52 +36,54 @@ public class UnitTests {
 
     @Test
     public void testWindBearingDirection() {
-        //cardinal directions and +/1 1, +/1 0.1
+        // Cardinal directions and +/1 1, +/1 0.1
+
+        WeatherWidget instance = WeatherWidget.getInstance();
 
         //east
-        assertEquals(WeatherWidget.getWindDirection(-1.0), "SE");
-        assertEquals(WeatherWidget.getWindDirection(-0.1), "SE");
-        assertEquals(WeatherWidget.getWindDirection(0.0), "E");
-        assertEquals(WeatherWidget.getWindDirection(0.1), "NE");
-        assertEquals(WeatherWidget.getWindDirection(1.0), "NE");
+        assertEquals(instance.getWindDirection(-1.0), "SE");
+        assertEquals(instance.getWindDirection(-0.1), "SE");
+        assertEquals(instance.getWindDirection(0.0), "E");
+        assertEquals(instance.getWindDirection(0.1), "NE");
+        assertEquals(instance.getWindDirection(1.0), "NE");
 
         //north
-        assertEquals(WeatherWidget.getWindDirection(89.0), "NE");
-        assertEquals(WeatherWidget.getWindDirection(89.9), "NE");
-        assertEquals(WeatherWidget.getWindDirection(90.0), "N");
-        assertEquals(WeatherWidget.getWindDirection(90.1), "NW");
-        assertEquals(WeatherWidget.getWindDirection(91.0), "NW");
+        assertEquals(instance.getWindDirection(89.0), "NE");
+        assertEquals(instance.getWindDirection(89.9), "NE");
+        assertEquals(instance.getWindDirection(90.0), "N");
+        assertEquals(instance.getWindDirection(90.1), "NW");
+        assertEquals(instance.getWindDirection(91.0), "NW");
 
         //west
-        assertEquals(WeatherWidget.getWindDirection(179.0), "NW");
-        assertEquals(WeatherWidget.getWindDirection(179.9), "NW");
-        assertEquals(WeatherWidget.getWindDirection(180.0), "W");
-        assertEquals(WeatherWidget.getWindDirection(180.1), "SW");
-        assertEquals(WeatherWidget.getWindDirection(181.0), "SW");
+        assertEquals(instance.getWindDirection(179.0), "NW");
+        assertEquals(instance.getWindDirection(179.9), "NW");
+        assertEquals(instance.getWindDirection(180.0), "W");
+        assertEquals(instance.getWindDirection(180.1), "SW");
+        assertEquals(instance.getWindDirection(181.0), "SW");
 
         //south
-        assertEquals(WeatherWidget.getWindDirection(269.0), "SW");
-        assertEquals(WeatherWidget.getWindDirection(269.9), "SW");
-        assertEquals(WeatherWidget.getWindDirection(270.0), "S");
-        assertEquals(WeatherWidget.getWindDirection(270.1), "SE");
-        assertEquals(WeatherWidget.getWindDirection(271.0), "SE");
+        assertEquals(instance.getWindDirection(269.0), "SW");
+        assertEquals(instance.getWindDirection(269.9), "SW");
+        assertEquals(instance.getWindDirection(270.0), "S");
+        assertEquals(instance.getWindDirection(270.1), "SE");
+        assertEquals(instance.getWindDirection(271.0), "SE");
 
         //half angles
-        assertEquals(WeatherWidget.getWindDirection(45.0), "NE");
-        assertEquals(WeatherWidget.getWindDirection(45.0 + 360.0), "NE");
-        assertEquals(WeatherWidget.getWindDirection(45.0 - 360.0), "NE");
+        assertEquals(instance.getWindDirection(45.0), "NE");
+        assertEquals(instance.getWindDirection(45.0 + 360.0), "NE");
+        assertEquals(instance.getWindDirection(45.0 - 360.0), "NE");
 
-        assertEquals(WeatherWidget.getWindDirection(135.0), "NW");
-        assertEquals(WeatherWidget.getWindDirection(135.0 + 360.0), "NW");
-        assertEquals(WeatherWidget.getWindDirection(135.0 - 360.0), "NW");
+        assertEquals(instance.getWindDirection(135.0), "NW");
+        assertEquals(instance.getWindDirection(135.0 + 360.0), "NW");
+        assertEquals(instance.getWindDirection(135.0 - 360.0), "NW");
 
-        assertEquals(WeatherWidget.getWindDirection(225.0), "SW");
-        assertEquals(WeatherWidget.getWindDirection(225.0 + 360.0), "SW");
-        assertEquals(WeatherWidget.getWindDirection(225.0 - 360.0), "SW");
+        assertEquals(instance.getWindDirection(225.0), "SW");
+        assertEquals(instance.getWindDirection(225.0 + 360.0), "SW");
+        assertEquals(instance.getWindDirection(225.0 - 360.0), "SW");
 
-        assertEquals(WeatherWidget.getWindDirection(315.0), "SE");
-        assertEquals(WeatherWidget.getWindDirection(315.0 + 360.0), "SE");
-        assertEquals(WeatherWidget.getWindDirection(315.0 - 360.0), "SE");
+        assertEquals(instance.getWindDirection(315.0), "SE");
+        assertEquals(instance.getWindDirection(315.0 + 360.0), "SE");
+        assertEquals(instance.getWindDirection(315.0 - 360.0), "SE");
     }
 
     @Test

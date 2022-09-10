@@ -206,6 +206,11 @@ public class User {
      */
     private String darkmode;
 
+    /**
+     * Weather to draw a location map as the background of the weather widget.
+     */
+    private String weatherMap;
+
     // -------------------
     // non primitive types
     // -------------------
@@ -613,8 +618,17 @@ public class User {
         return darkmode;
     }
 
+    /**
+     * Returns whether to draw a location map as the background of the weather widget.
+     *
+     * @return whether to draw a location map as the background of the weather widget
+     */
+    public String getWeatherMap() {
+        return weatherMap;
+    }
+
     // -------
-    // setters
+    // Setters
     // -------
 
     /**
@@ -960,6 +974,19 @@ public class User {
     }
 
     /**
+     * Sets whether to draw a location map as the background of the weather widget.
+     *
+     * @param weatherMap whether to draw a location map as the background of the weather widget
+     */
+    public void setWeatherMap(String weatherMap) {
+        this.weatherMap = weatherMap;
+    }
+
+    // -----------
+    // End setters
+    // -----------
+
+    /**
      * The hook to call on all getters inside of the user class.
      *
      * @param id    the id of a user data
@@ -981,12 +1008,13 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
-        if (!(o instanceof User other))
+        }
+        if (!(o instanceof User other)) {
             return false;
+        }
 
-        // name and password serve as a primary key so we only need to compare them thankfully
         return other.getPass().equals(getPass()) && other.getName().equals(getName());
     }
 

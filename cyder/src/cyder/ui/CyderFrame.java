@@ -2720,7 +2720,6 @@ public class CyderFrame extends JFrame {
 
     // todo prefs files label needs to be whole width? sometimes it's too small somehow and wraps
     // todo focus listeners for custom buttons broken now
-    // todo default weather background should be nicer
     // todo should be able to toggle off weather background for location and instead
     //  use a gradient
     // todo blurring currently background changes size

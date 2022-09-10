@@ -571,8 +571,9 @@ public class StringUtil {
             char c = chars[i];
 
             /*
-            Someone pls make this better and PR a method for this, make it work for
-             permutations from this table: https://cleanspeak.com/images/blog/leet-wiki-table.png
+            Ideally this should be redone or use a library.
+            I'd like to implement the rules from this table at some point:
+            https://cleanspeak.com/images/blog/leet-wiki-table.png
              */
 
             if (c == '4' || c == '@' || c == '^' || c == 'z')
@@ -611,7 +612,6 @@ public class StringUtil {
                 chars[i] = 'x';
             else if (c == '%')
                 chars[i] = 'z';
-
         }
 
         return String.valueOf(chars);
