@@ -1459,6 +1459,8 @@ public enum Console {
      * Refreshes the taskbar icons based on the frames currently in the frame list.
      */
     private synchronized void installMenuTaskbarIcons() {
+        // todo apparently this is not concurrent
+
         boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
 
         StyleConstants.setAlignment(alignment, compactMode

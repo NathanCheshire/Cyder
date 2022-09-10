@@ -174,6 +174,11 @@ public final class UserEditor {
     private static Page currentPage = Page.FILES;
 
     /**
+     * The thickness of the border for the input and output areas if enabled.
+     */
+    public static final int inputOutputBorderThickness = 3;
+
+    /**
      * Suppress default constructor.
      */
     private UserEditor() {
@@ -283,24 +288,15 @@ public final class UserEditor {
     }
 
     /**
-     * Disables the files scroll buttons.
+     * Sets whether the files scroll buttons are enabled.
+     *
+     * @param enabled whether to enable the files scroll buttons
      */
-    private static void disableFilesScrollButtons() {
-        Preconditions.checkNotNull(addFileButton).setEnabled(false);
-        openFileButton.setEnabled(false);
-        renameFileButton.setEnabled(false);
-        deleteFileButton.setEnabled(false);
-    }
-    // todo these aren't used currently
-
-    /**
-     * Enables the files scroll buttons.
-     */
-    private static void enableFilesScrollButtons() {
-        Preconditions.checkNotNull(addFileButton).setEnabled(true);
-        openFileButton.setEnabled(true);
-        renameFileButton.setEnabled(true);
-        deleteFileButton.setEnabled(true);
+    private static void setFilesScrollButtonsEnabled(boolean enabled) {
+        Preconditions.checkNotNull(addFileButton).setEnabled(enabled);
+        openFileButton.setEnabled(enabled);
+        renameFileButton.setEnabled(enabled);
+        deleteFileButton.setEnabled(enabled);
     }
 
     /**
@@ -911,9 +907,49 @@ public final class UserEditor {
     private static JTextField backgroundColorBlock;
 
     /**
-     * The thickness of the border for the input and output areas if enabled.
+     * The partition space for the font and color panel within the horizontal partitioned layout.
      */
-    public static final int inputOutputBorderThickness = 3;
+    private static final int fontColorHorizontalPartition = 50;
+
+    /**
+     * The partition length for a color panel.
+     */
+    private static final int colorPartitionedLayoutSpacerLen = 25;
+
+    /**
+     * The header label partition length for color labels.
+     */
+    private static final int colorHeaderLabelPartition = 25;
+
+    /**
+     * The partition for the hex information label.
+     */
+    private static final int hexInformationLabelPartition = 15;
+
+    /**
+     * The partition length for the color field.
+     */
+    private static final int colorFieldPartitionSpace = 70;
+
+    /**
+     * The partition length for the color block.
+     */
+    private static final int colorBlockPartitionSpace = 15;
+
+    /**
+     * The partition length for the color panel.
+     */
+    private static final int colorPanelPartitionSpace = 25;
+
+    /**
+     * The width for color field panels.
+     */
+    private static final int colorFieldPanelWidth = 250;
+
+    /**
+     * The height for color field panels.
+     */
+    private static final int colorFieldPanelHeight = 40;
 
     /**
      * Switches to the fonts and colors page.
@@ -960,7 +996,7 @@ public final class UserEditor {
 
         CyderPanel fontPanel = new CyderPanel(fontPartitionedLayout);
         fontPanel.setSize(CONTENT_PANE_WIDTH / 2, CONTENT_PANE_HEIGHT);
-        fontAndColorPartitionedLayout.addComponent(fontPanel, 50);
+        fontAndColorPartitionedLayout.addComponent(fontPanel, fontColorHorizontalPartition);
 
         CyderLabel foregroundColorLabel = new CyderLabel("Foreground Color");
         foregroundColorLabel.setFont(CyderFonts.DEFAULT_FONT);
@@ -1070,56 +1106,51 @@ public final class UserEditor {
                 UserUtil.getCyderUser().getBackground()), "Background color preview");
 
         CyderGridLayout colorGridLayout = new CyderGridLayout(1, 3);
-
-        // todo these three blocks are similar, perhaps readability method would be nice
-
         CyderPartitionedLayout foregroundPartitionedLayout = new CyderPartitionedLayout();
-        foregroundPartitionedLayout.spacer(25);
-        foregroundPartitionedLayout.addComponent(foregroundColorLabel, 25);
+        foregroundPartitionedLayout.spacer(colorPartitionedLayoutSpacerLen);
+        foregroundPartitionedLayout.addComponent(foregroundColorLabel, colorHeaderLabelPartition);
         CyderPartitionedLayout foregroundFieldPartitionedLayout = new CyderPartitionedLayout();
         foregroundFieldPartitionedLayout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.ROW);
-        foregroundFieldPartitionedLayout.addComponent(generateHexInformationLabel(), 15);
-        foregroundFieldPartitionedLayout.addComponent(foregroundField, 70);
-        foregroundFieldPartitionedLayout.addComponent(foregroundColorBlock, 15);
+        foregroundFieldPartitionedLayout.addComponent(generateHexInformationLabel(), hexInformationLabelPartition);
+        foregroundFieldPartitionedLayout.addComponent(foregroundField, colorFieldPartitionSpace);
+        foregroundFieldPartitionedLayout.addComponent(foregroundColorBlock, colorBlockPartitionSpace);
         CyderPanel foregroundFieldPanel = new CyderPanel(foregroundFieldPartitionedLayout);
-        foregroundFieldPanel.setSize(250, 40);
-        foregroundPartitionedLayout.addComponent(foregroundFieldPanel, 25);
-        foregroundPartitionedLayout.spacer(25);
+        foregroundFieldPanel.setSize(colorFieldPanelWidth, colorFieldPanelHeight);
+        foregroundPartitionedLayout.addComponent(foregroundFieldPanel, colorPanelPartitionSpace);
+        foregroundPartitionedLayout.spacer(colorPartitionedLayoutSpacerLen);
         colorGridLayout.addComponent(new CyderPanel(foregroundPartitionedLayout));
 
         CyderPartitionedLayout windowPartitionedLayout = new CyderPartitionedLayout();
-        windowPartitionedLayout.spacer(25);
-        windowPartitionedLayout.addComponent(windowColorLabel, 25);
+        windowPartitionedLayout.spacer(colorPartitionedLayoutSpacerLen);
+        windowPartitionedLayout.addComponent(windowColorLabel, colorHeaderLabelPartition);
         CyderPartitionedLayout windowFieldPartitionedLayout = new CyderPartitionedLayout();
         windowFieldPartitionedLayout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.ROW);
-        windowFieldPartitionedLayout.addComponent(generateHexInformationLabel(), 15);
-        windowFieldPartitionedLayout.addComponent(windowField, 70);
-        windowFieldPartitionedLayout.addComponent(windowColorBlock, 15);
+        windowFieldPartitionedLayout.addComponent(generateHexInformationLabel(), hexInformationLabelPartition);
+        windowFieldPartitionedLayout.addComponent(windowField, colorFieldPartitionSpace);
+        windowFieldPartitionedLayout.addComponent(windowColorBlock, colorBlockPartitionSpace);
         CyderPanel windowFieldPanel = new CyderPanel(windowFieldPartitionedLayout);
-        windowFieldPanel.setSize(250, 40);
-        windowPartitionedLayout.addComponent(windowFieldPanel, 25);
-        windowPartitionedLayout.spacer(25);
+        windowFieldPanel.setSize(colorFieldPanelWidth, colorFieldPanelHeight);
+        windowPartitionedLayout.addComponent(windowFieldPanel, colorPanelPartitionSpace);
+        windowPartitionedLayout.spacer(colorPartitionedLayoutSpacerLen);
         colorGridLayout.addComponent(new CyderPanel(windowPartitionedLayout));
 
         CyderPartitionedLayout backgroundPartitionedLayout = new CyderPartitionedLayout();
-        backgroundPartitionedLayout.spacer(25);
-        backgroundPartitionedLayout.addComponent(backgroundColorLabel, 25);
+        backgroundPartitionedLayout.spacer(colorPartitionedLayoutSpacerLen);
+        backgroundPartitionedLayout.addComponent(backgroundColorLabel, colorHeaderLabelPartition);
         CyderPartitionedLayout backgroundFieldPartitionedLayout = new CyderPartitionedLayout();
         backgroundFieldPartitionedLayout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.ROW);
-        backgroundFieldPartitionedLayout.addComponent(generateHexInformationLabel(), 15);
-        backgroundFieldPartitionedLayout.addComponent(backgroundField, 70);
-        backgroundFieldPartitionedLayout.addComponent(backgroundColorBlock, 15);
+        backgroundFieldPartitionedLayout.addComponent(generateHexInformationLabel(), hexInformationLabelPartition);
+        backgroundFieldPartitionedLayout.addComponent(backgroundField, colorFieldPartitionSpace);
+        backgroundFieldPartitionedLayout.addComponent(backgroundColorBlock, colorBlockPartitionSpace);
         CyderPanel backgroundFieldPanel = new CyderPanel(backgroundFieldPartitionedLayout);
-        backgroundFieldPanel.setSize(250, 40);
-        backgroundPartitionedLayout.addComponent(backgroundFieldPanel, 25);
-        backgroundPartitionedLayout.spacer(25);
+        backgroundFieldPanel.setSize(colorFieldPanelWidth, colorFieldPanelHeight);
+        backgroundPartitionedLayout.addComponent(backgroundFieldPanel, colorPanelPartitionSpace);
+        backgroundPartitionedLayout.spacer(colorPartitionedLayoutSpacerLen);
         colorGridLayout.addComponent(new CyderPanel(backgroundPartitionedLayout));
 
         CyderPanel colorPanel = new CyderPanel(colorGridLayout);
         colorPanel.setSize(CONTENT_PANE_WIDTH / 2, CONTENT_PANE_HEIGHT);
-
-        fontAndColorPartitionedLayout.addComponent(colorPanel, 50);
-
+        fontAndColorPartitionedLayout.addComponent(colorPanel, fontColorHorizontalPartition);
         editUserFrame.setCyderLayout(fontAndColorPartitionedLayout);
     }
 
@@ -1129,9 +1160,15 @@ public final class UserEditor {
     private static final int COLOR_BLOCK_LEN = 40;
 
     /**
+     * The thickness of the color block border.
+     */
+    private static final int colorBlockBorderThickness = 5;
+
+    /**
      * The line border for generated color blocks.
      */
-    private static final LineBorder colorBlockBorder = new LineBorder(CyderColors.navy, 5, false);
+    private static final LineBorder colorBlockBorder = new LineBorder(
+            CyderColors.navy, colorBlockBorderThickness, false);
 
     /**
      * Returns a color block of size 40,40 to use a color preview.
@@ -1236,7 +1273,8 @@ public final class UserEditor {
         Color defaultWindowColor = ColorUtil.hexStringToColor(defaultWindow);
 
         String defaultFontName = Preference.get(Preference.FONT).getDefaultValue().toString();
-        int defaultFontMetric = Integer.parseInt(Preference.get(Preference.FONT_METRIC).getDefaultValue().toString());
+        int defaultFontMetric =
+                Integer.parseInt(Preference.get(Preference.FONT_METRIC).getDefaultValue().toString());
         int defaultFontSize = Integer.parseInt(Preference.get(Preference.FONT_SIZE).getDefaultValue().toString());
 
         UserUtil.getCyderUser().setForeground(defaultForeground);
@@ -1446,12 +1484,12 @@ public final class UserEditor {
     /**
      * The width of printed field panels.
      */
-    private static final int fieldPanelWidth = CONTENT_PANE_WIDTH - 100;
+    private static final int fieldsPagePanelWidth = CONTENT_PANE_WIDTH - 100;
 
     /**
      * The height of printed field panels.
      */
-    private static final int fieldPanelHeight = 300;
+    private static final int fieldsPagePanelHeight = 300;
 
     /**
      * The height of printed field header labels.
@@ -1501,7 +1539,7 @@ public final class UserEditor {
         changeUsernameLabel.setForeground(CyderColors.navy);
         changeUsernameLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
         changeUsernameLabel.setHorizontalAlignment(JLabel.CENTER);
-        changeUsernameLabel.setSize(fieldPanelWidth, fieldHeaderLabelHeight);
+        changeUsernameLabel.setSize(fieldsPagePanelWidth, fieldHeaderLabelHeight);
 
         CyderTextField newUsernameField = new CyderTextField();
         newUsernameField.setHorizontalAlignment(JTextField.CENTER);
@@ -1527,14 +1565,14 @@ public final class UserEditor {
 
         CyderPanel changeUsernamePanel = new CyderPanel(changeUsernameLayout);
         changeUsernamePanel.setText(StringUtil.generateTextForCustomComponent(12));
-        changeUsernamePanel.setSize(fieldPanelWidth, fieldPanelHeight);
+        changeUsernamePanel.setSize(fieldsPagePanelWidth, fieldsPagePanelHeight);
         printingUtil.printlnComponent(changeUsernamePanel);
 
         JLabel changePasswordLabel = new CyderLabel("Change Password");
         changePasswordLabel.setForeground(CyderColors.navy);
         changePasswordLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
         changePasswordLabel.setHorizontalAlignment(JLabel.CENTER);
-        changePasswordLabel.setSize(fieldPanelWidth, fieldHeaderLabelHeight);
+        changePasswordLabel.setSize(fieldsPagePanelWidth, fieldHeaderLabelHeight);
 
         newPasswordField = new CyderPasswordField();
         newPasswordField.setToolTipText("New password");
@@ -1573,7 +1611,7 @@ public final class UserEditor {
 
         CyderPanel changePasswordPanel = new CyderPanel(changePasswordLayout);
         changePasswordPanel.setText(StringUtil.generateTextForCustomComponent(14));
-        changePasswordPanel.setSize(fieldPanelWidth, fieldPanelHeight);
+        changePasswordPanel.setSize(fieldsPagePanelWidth, fieldsPagePanelHeight);
         printingUtil.printlnComponent(changePasswordPanel);
 
         changeConsoleDatePatternLabel = new CyderLabel("Change Console Date Pattern");
@@ -1581,7 +1619,7 @@ public final class UserEditor {
         changeConsoleDatePatternLabel.addMouseListener(consoleDatePatternLabelMouseListener);
         changeConsoleDatePatternLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
         changeConsoleDatePatternLabel.setHorizontalAlignment(JLabel.CENTER);
-        changeConsoleDatePatternLabel.setSize(fieldPanelWidth, fieldHeaderLabelHeight);
+        changeConsoleDatePatternLabel.setSize(fieldsPagePanelWidth, fieldHeaderLabelHeight);
 
         CyderTextField changeConsoleDatePatternField = new CyderTextField();
         changeConsoleDatePatternField.setHorizontalAlignment(JTextField.CENTER);
@@ -1607,14 +1645,14 @@ public final class UserEditor {
 
         CyderPanel changeConsoleDaterPatternPanel = new CyderPanel(changeConsoleDaterPatternLayout);
         changeConsoleDaterPatternPanel.setText(StringUtil.generateTextForCustomComponent(12));
-        changeConsoleDaterPatternPanel.setSize(fieldPanelWidth, fieldPanelHeight);
+        changeConsoleDaterPatternPanel.setSize(fieldsPagePanelWidth, fieldsPagePanelHeight);
         printingUtil.printlnComponent(changeConsoleDaterPatternPanel);
 
         JLabel deleteUserLabel = new CyderLabel("Delete User");
         deleteUserLabel.setForeground(CyderColors.navy);
         deleteUserLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
         deleteUserLabel.setHorizontalAlignment(JLabel.CENTER);
-        deleteUserLabel.setSize(fieldPanelWidth, fieldHeaderLabelHeight);
+        deleteUserLabel.setSize(fieldsPagePanelWidth, fieldHeaderLabelHeight);
 
         CyderPasswordField deleteUserConfirmationField = new CyderPasswordField();
         deleteUserConfirmationField.setToolTipText("Password confirmation");
@@ -1640,14 +1678,14 @@ public final class UserEditor {
 
         CyderPanel deleteUserPanel = new CyderPanel(deleteUserLayout);
         deleteUserPanel.setText(StringUtil.generateTextForCustomComponent(12));
-        deleteUserPanel.setSize(fieldPanelWidth, fieldPanelHeight);
+        deleteUserPanel.setSize(fieldsPagePanelWidth, fieldsPagePanelHeight);
         printingUtil.printlnComponent(deleteUserPanel);
 
         JLabel addMapLabel = new CyderLabel("Add Map");
         addMapLabel.setForeground(CyderColors.navy);
         addMapLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
         addMapLabel.setHorizontalAlignment(JLabel.CENTER);
-        addMapLabel.setSize(fieldPanelWidth, fieldHeaderLabelHeight);
+        addMapLabel.setSize(fieldsPagePanelWidth, fieldHeaderLabelHeight);
 
         CyderTextField addMapNameField = new CyderTextField();
         addMapNameField.setToolTipText("New Map Name");
@@ -1683,14 +1721,14 @@ public final class UserEditor {
 
         CyderPanel addMapPanel = new CyderPanel(addMapLayout);
         addMapPanel.setText(StringUtil.generateTextForCustomComponent(16));
-        addMapPanel.setSize(fieldPanelWidth, fieldPanelHeight);
+        addMapPanel.setSize(fieldsPagePanelWidth, fieldsPagePanelHeight);
         printingUtil.printlnComponent(addMapPanel);
 
         JLabel removeMapLabel = new CyderLabel("Remove Map");
         removeMapLabel.setForeground(CyderColors.navy);
         removeMapLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
         removeMapLabel.setHorizontalAlignment(JLabel.CENTER);
-        removeMapLabel.setSize(fieldPanelWidth, fieldHeaderLabelHeight);
+        removeMapLabel.setSize(fieldsPagePanelWidth, fieldHeaderLabelHeight);
 
         CyderTextField removeMapNameField = new CyderTextField();
         removeMapNameField.setToolTipText("Remove Map Name");
@@ -1718,7 +1756,7 @@ public final class UserEditor {
 
         CyderPanel removeMapPanel = new CyderPanel(removeMapLayout);
         removeMapPanel.setText(StringUtil.generateTextForCustomComponent(14));
-        removeMapPanel.setSize(fieldPanelWidth, fieldPanelHeight);
+        removeMapPanel.setSize(fieldsPagePanelWidth, fieldsPagePanelHeight);
         printingUtil.printlnComponent(removeMapPanel);
 
         StyledDocument doc = fieldInputsPane.getStyledDocument();

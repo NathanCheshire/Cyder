@@ -468,6 +468,9 @@ public class WeatherWidget {
 
         weatherFrame.setMenuEnabled(true);
         weatherFrame.addMenuItem("Location", () -> CyderThreadRunner.submit(() -> {
+            // todo need a way to close frames associated with a getter instance.
+            // todo we should keep track of each thing separately for future proofing too
+
             String newLocation = GetterUtil.getInstance().getString(changeLocationBuilder);
 
             try {
@@ -1067,6 +1070,9 @@ public class WeatherWidget {
             Console.INSTANCE.revalidateMenu();
         }, WEATHER_STATS_UPDATER_THREAD_NAME);
     }
+
+    // todo multiple change location frames can open, dispose all for instance before opening another
+    // todo also dispose when frame is closed
 
     /**
      * Refreshes the map background of the weather frame. If not enabled, hides the map.
