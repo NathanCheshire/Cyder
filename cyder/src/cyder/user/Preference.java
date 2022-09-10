@@ -109,8 +109,9 @@ public class Preference {
                 if (UserUtil.getCyderUser().getOutputborder().equals("0")) {
                     Console.INSTANCE.getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
                 } else {
-                    Console.INSTANCE.getOutputScroll().setBorder(new LineBorder(ColorUtil.hexStringToColor(
-                            UserUtil.getCyderUser().getBackground()), 3, true));
+                    LineBorder lineBorder = new LineBorder(ColorUtil.hexStringToColor(
+                            UserUtil.getCyderUser().getBackground()), UserEditor.inputOutputBorderThickness, true);
+                    Console.INSTANCE.getOutputScroll().setBorder(lineBorder);
                 }
             }),
 

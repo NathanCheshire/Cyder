@@ -2720,11 +2720,10 @@ public class CyderFrame extends JFrame {
 
     // todo prefs files label needs to be whole width? sometimes it's too small somehow and wraps
     // todo focus listeners for custom buttons broken now
-    // todo should be able to toggle off weather background for location and instead
-    //  use a gradient
     // todo blurring currently background changes size
     // todo add demo mode prop to not dispose splash until finished with animations and specific timeout for
     //  allowing waves to propagate
+    // todo fade opacity of scroll bars
 
     // -----------
     // Debug lines

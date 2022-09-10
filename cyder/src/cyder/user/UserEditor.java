@@ -228,7 +228,7 @@ public final class UserEditor {
     /**
      * UserFile folders to show in the files scroll list.
      */
-    @SuppressWarnings("Guava") /* IntelliJ being dumb */
+    @SuppressWarnings("Guava") /* IntelliJ thinking it can show up Guava */
     private enum ScrollListFolder {
         BACKGROUNDS(UserFile.BACKGROUNDS, FileUtil::isSupportedImageExtension),
         MUSIC(UserFile.MUSIC, FileUtil::isSupportedAudioExtension),
@@ -291,6 +291,7 @@ public final class UserEditor {
         renameFileButton.setEnabled(false);
         deleteFileButton.setEnabled(false);
     }
+    // todo these aren't used currently
 
     /**
      * Enables the files scroll buttons.
@@ -394,15 +395,18 @@ public final class UserEditor {
     }
 
     /**
+     * The name of the thread for renaming af ile.
+     */
+    private static final String USER_EDITOR_FILE_RENAMER_THREAD_NAME = "User Editor File Renamer";
+
+    /**
      * The action listener for the rename file button.
      */
     private static final ActionListener renameFileButtonActionListener = e -> {
         try {
             LinkedList<String> selectedElements = filesScrollListReference.get().getSelectedElements();
 
-            if (selectedElements.isEmpty()) {
-                return;
-            }
+            if (selectedElements.isEmpty()) return;
 
             if (selectedElements.size() > 1) {
                 editUserFrame.notify("Sorry, but you can only rename one file at a time");
@@ -412,9 +416,7 @@ public final class UserEditor {
             String selectedElement = selectedElements.get(0);
             File selectedFile = getFile(selectedElement);
 
-            if (selectedFile == null || !selectedFile.exists()) {
-                return;
-            }
+            if (selectedFile == null || !selectedFile.exists()) return;
 
             String[] parts = selectedElement.split(FILES_SCROLL_SEPARATOR);
             String userDirectory = parts[0];
@@ -436,9 +438,7 @@ public final class UserEditor {
                                 .setSubmitButtonText("Rename")
                                 .setInitialString(FileUtil.getFilename(selectedFile)));
 
-                if (StringUtil.isNullOrEmpty(newName)) {
-                    return;
-                }
+                if (StringUtil.isNullOrEmpty(newName)) return;
 
                 String newFilenameAndExtension = newName + FileUtil.getExtension(selectedFile);
 
@@ -458,7 +458,7 @@ public final class UserEditor {
                 } else {
                     editUserFrame.notify("Failed to rename file");
                 }
-            }, "User Editor File Renamer");
+            }, USER_EDITOR_FILE_RENAMER_THREAD_NAME);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
@@ -570,6 +570,8 @@ public final class UserEditor {
      * @return whether the provided file is the currently open file in the audio player
      */
     private static boolean isOpenInAudioPlayer(File file) {
+        Preconditions.checkNotNull(file);
+
         File refFile = AudioPlayer.getCurrentAudio();
         return refFile != null && refFile.getAbsolutePath().equals(file.getAbsolutePath());
     }
@@ -581,6 +583,8 @@ public final class UserEditor {
      * @return whether the provided file is the current set background
      */
     private static boolean isConsoleBackground(File file) {
+        Preconditions.checkNotNull(file);
+
         return Console.INSTANCE.getCurrentBackground().getReferenceFile()
                 .getAbsolutePath().equals(file.getAbsolutePath());
     }
@@ -719,11 +723,23 @@ public final class UserEditor {
      */
     private static final CyderLabel filesHeaderLabel;
 
-    private static final int FILES_HEADER_LABEL_WIDTH = 300;
+    /**
+     * The width of the files header label.
+     */
+    private static final int FILES_HEADER_LABEL_WIDTH = 350;
+
+    /**
+     * The height of the files header label.
+     */
     private static final int FILES_HEADER_LABEL_HEIGHT = 50;
 
+    /**
+     * The text for the file header label.
+     */
+    private static final String FILES_BACKGROUNDS_AND_MUSIC = "Files, Backgrounds, and Music";
+
     static {
-        filesHeaderLabel = new CyderLabel("Files, Backgrounds, and Music");
+        filesHeaderLabel = new CyderLabel(FILES_BACKGROUNDS_AND_MUSIC);
         filesHeaderLabel.setFont(CyderFonts.DEFAULT_FONT);
         filesHeaderLabel.setSize(FILES_HEADER_LABEL_WIDTH, FILES_HEADER_LABEL_HEIGHT);
     }
@@ -787,7 +803,14 @@ public final class UserEditor {
         filesPartitionedLayout.setComponent(parentBorderLabel, 1);
     }
 
+    /**
+     * The x padding between the left and right frame bounds for the files scroll.
+     */
     private static final int FILES_SCROLL_X_PADDING = 50;
+
+    /**
+     * The y padding between the top and bottom frame bounds for the files scroll.
+     */
     private static final int FILES_SCROLL_Y_PADDING = 100;
 
     /**
@@ -812,27 +835,85 @@ public final class UserEditor {
         fontScrollReference.set(scrollList);
     }
 
+    /**
+     * The width of the apply font button.
+     */
     private static final int fontButtonWidth = 130;
+
+    /**
+     * The height of the apply font button.
+     */
     private static final int fontButtonHeight = 40;
 
+    /**
+     * The padding for the top and bottom of the font layout.
+     */
     private static final int paddingPartition = 5;
+
+    /**
+     * The partition for the font label and bottom secondary spacer.
+     */
     private static final int surroundingPanelPartition = 5;
+
+    /**
+     * The partition for the font files scroll.
+     */
     private static final int fontLabelPartition = 80;
 
-    private static final int fontLabelSize = 40;
+    /**
+     * The font label font size.
+     */
+    private static final int fontLabelFontSize = 40;
 
+    /**
+     * The font label which the font is updated on to show the user what the selected font looks like.
+     */
     private static CyderLabel fontLabel;
+
+    /**
+     * The button to apply the font.
+     */
     private static CyderButton applyFontButton;
+
+    /**
+     * The partition layout for the font components.
+     */
     private static CyderPartitionedLayout fontPartitionedLayout;
 
+    /**
+     * The text field for the foreground hex color.
+     */
     private static CyderTextField foregroundField;
+
+    /**
+     * The color block preview for the foreground color.
+     */
     private static JTextField foregroundColorBlock;
 
+    /**
+     * The text field for the window hex color.
+     */
     private static CyderTextField windowField;
+
+    /**
+     * The color block preview for the window color.
+     */
     private static JTextField windowColorBlock;
 
+    /**
+     * The text field for the background hex color.
+     */
     private static CyderTextField backgroundField;
+
+    /**
+     * The color block preview for the background color.
+     */
     private static JTextField backgroundColorBlock;
+
+    /**
+     * The thickness of the border for the input and output areas if enabled.
+     */
+    public static final int inputOutputBorderThickness = 3;
 
     /**
      * Switches to the fonts and colors page.
@@ -842,7 +923,7 @@ public final class UserEditor {
         fontAndColorPartitionedLayout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.ROW);
 
         fontLabel = new CyderLabel("Fonts");
-        fontLabel.setFont(new Font(UserUtil.getCyderUser().getFont(), Font.BOLD, fontLabelSize));
+        fontLabel.setFont(new Font(UserUtil.getCyderUser().getFont(), Font.BOLD, fontLabelFontSize));
         fontLabel.setSize(FONT_SCROLL_WIDTH, 60);
 
         CyderLabel loadingLabel = new CyderLabel(CyderStrings.LOADING);
@@ -968,13 +1049,15 @@ public final class UserEditor {
                     Console.INSTANCE.getInputField().repaint();
                     Console.INSTANCE.getInputField().revalidate();
                 }
+
+                LineBorder inputOutputBorder = new LineBorder(backgroundColor, inputOutputBorderThickness, false);
                 if (outputBorder) {
-                    Console.INSTANCE.getOutputScroll().setBorder(new LineBorder(backgroundColor, 3, false));
+                    Console.INSTANCE.getOutputScroll().setBorder(inputOutputBorder);
                     Console.INSTANCE.getOutputScroll().repaint();
                     Console.INSTANCE.getOutputScroll().revalidate();
                 }
                 if (inputBorder) {
-                    Console.INSTANCE.getInputField().setBorder(new LineBorder(backgroundColor, 3, false));
+                    Console.INSTANCE.getInputField().setBorder(inputOutputBorder);
                     Console.INSTANCE.getInputField().repaint();
                     Console.INSTANCE.getInputField().revalidate();
                 }
@@ -983,10 +1066,12 @@ public final class UserEditor {
         backgroundField.setOpaque(false);
         backgroundField.setSize(160, 40);
 
-        backgroundColorBlock = generateColorBlock(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
-                "Background color preview");
+        backgroundColorBlock = generateColorBlock(ColorUtil.hexStringToColor(
+                UserUtil.getCyderUser().getBackground()), "Background color preview");
 
         CyderGridLayout colorGridLayout = new CyderGridLayout(1, 3);
+
+        // todo these three blocks are similar, perhaps readability method would be nice
 
         CyderPartitionedLayout foregroundPartitionedLayout = new CyderPartitionedLayout();
         foregroundPartitionedLayout.spacer(25);
@@ -1044,6 +1129,11 @@ public final class UserEditor {
     private static final int COLOR_BLOCK_LEN = 40;
 
     /**
+     * The line border for generated color blocks.
+     */
+    private static final LineBorder colorBlockBorder = new LineBorder(CyderColors.navy, 5, false);
+
+    /**
      * Returns a color block of size 40,40 to use a color preview.
      *
      * @param backgroundColor the initial color of the preview block
@@ -1060,9 +1150,11 @@ public final class UserEditor {
         ret.setFocusable(false);
         ret.setCursor(null);
         ret.setBackground(backgroundColor);
+        ret.setForeground(backgroundColor);
+        ret.setSelectedTextColor(backgroundColor);
         ret.setSize(COLOR_BLOCK_LEN, COLOR_BLOCK_LEN);
         ret.setToolTipText(tooltip);
-        ret.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        ret.setBorder(colorBlockBorder);
 
         return ret;
     }
@@ -1083,7 +1175,7 @@ public final class UserEditor {
                 reference.addElementWithSingleCLickAction(fontName,
                         () -> {
                             applyFontButton.setToolTipText("Apply font: " + fontName);
-                            fontLabel.setFont(new Font(fontName, Font.BOLD, fontLabelSize));
+                            fontLabel.setFont(new Font(fontName, Font.BOLD, fontLabelFontSize));
                         });
             }
 
@@ -1172,13 +1264,16 @@ public final class UserEditor {
         UserUtil.getCyderUser().setBackground(defaultBackground);
         backgroundColorBlock.setBackground(defaultBackgroundColor);
         backgroundField.setText(defaultBackground);
-        if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
+
+        boolean outputFill = UserUtil.getCyderUser().getOutputfill().equals("1");
+        boolean inputFill = UserUtil.getCyderUser().getInputfill().equals("1");
+        if (outputFill) {
             Console.INSTANCE.getOutputArea().setOpaque(true);
             Console.INSTANCE.getOutputArea().setBackground(defaultBackgroundColor);
             Console.INSTANCE.getOutputArea().repaint();
             Console.INSTANCE.getOutputArea().revalidate();
         }
-        if (UserUtil.getCyderUser().getInputfill().equals("1")) {
+        if (inputFill) {
             Console.INSTANCE.getInputField().setOpaque(true);
             Console.INSTANCE.getInputField().setBackground(defaultBackgroundColor);
             Console.INSTANCE.getInputField().repaint();
@@ -1197,8 +1292,20 @@ public final class UserEditor {
         editUserFrame.notify("Default fonts and colors reset");
     };
 
+    /**
+     * The width of the hex label.
+     */
     private static final int HEX_LABEL_WIDTH = 80;
+
+    /**
+     * The height of the the hex label.
+     */
     private static final int HEX_LABEL_HEIGHT = 40;
+
+    /**
+     * The hex label text.
+     */
+    private static final String HEX = "Hex";
 
     /**
      * Returns a {@link CyderLabel} to indicate a text field accepts a hex value.
@@ -1206,7 +1313,7 @@ public final class UserEditor {
      * @return a {@link CyderLabel} to indicate a text field accepts a hex value
      */
     private static CyderLabel generateHexInformationLabel() {
-        CyderLabel hexLabel = new CyderLabel("Hex");
+        CyderLabel hexLabel = new CyderLabel(HEX);
         hexLabel.setFont(CyderFonts.DEFAULT_FONT);
         hexLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -1229,8 +1336,15 @@ public final class UserEditor {
         return hexLabel;
     }
 
-    private static final int PREF_WIDTH = 400;
-    private static final int PREF_HEIGHT = 100;
+    /**
+     * The width of components printed to the preferences scroll.
+     */
+    private static final int PRINTED_PREF_COMPONENT_WIDTH = 400;
+
+    /**
+     * The height of components printed to the preferences scroll.
+     */
+    private static final int PRINTED_PREF_COMPONENT_HEIGHT = 100;
 
     /**
      * The size of the preference checkboxes.
@@ -1268,11 +1382,13 @@ public final class UserEditor {
             }
 
             JLabel preferenceContentLabel = new JLabel(PRINT_LABEL_MAGIC_TEXT);
-            preferenceContentLabel.setSize(PREF_WIDTH, PREF_HEIGHT);
+            preferenceContentLabel.setSize(PRINTED_PREF_COMPONENT_WIDTH, PRINTED_PREF_COMPONENT_HEIGHT);
 
             CyderLabel preferenceNameLabel = new CyderLabel(preference.getDisplayName());
             preferenceNameLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
-            preferenceNameLabel.setBounds((int) (PREF_WIDTH * 0.40), 0, PREF_WIDTH / 2, PREF_HEIGHT);
+            preferenceNameLabel.setBounds((int) (PRINTED_PREF_COMPONENT_WIDTH * 0.40), 0,
+                    PRINTED_PREF_COMPONENT_WIDTH / 2,
+                    PRINTED_PREF_COMPONENT_HEIGHT);
             preferenceContentLabel.add(preferenceNameLabel);
 
             boolean selected = UserUtil.getUserDataById(preference.getID()).equalsIgnoreCase("1");
@@ -1285,8 +1401,8 @@ public final class UserEditor {
                     Preference.invokeRefresh(preference.getID());
                 }
             });
-            checkbox.setBounds(PREF_WIDTH - checkboxSize / 2,
-                    PREF_HEIGHT / 2 - checkboxSize / 2 + 10, checkboxSize, checkboxSize);
+            checkbox.setBounds(PRINTED_PREF_COMPONENT_WIDTH - checkboxSize / 2,
+                    PRINTED_PREF_COMPONENT_HEIGHT / 2 - checkboxSize / 2 + 10, checkboxSize, checkboxSize);
             preferenceContentLabel.add(checkbox);
 
             printingUtil.printlnComponent(preferenceContentLabel);
@@ -1327,10 +1443,29 @@ public final class UserEditor {
      */
     private static JLabel changeConsoleDatePatternLabel;
 
+    /**
+     * The width of printed field panels.
+     */
     private static final int fieldPanelWidth = CONTENT_PANE_WIDTH - 100;
+
+    /**
+     * The height of printed field panels.
+     */
     private static final int fieldPanelHeight = 300;
+
+    /**
+     * The height of printed field header labels.
+     */
     private static final int fieldHeaderLabelHeight = 50;
+
+    /**
+     * The width of a component on a printed field panel.
+     */
     private static final int fieldMainComponentWidth = 300;
+
+    /**
+     * The height of a component on a printed field panel.
+     */
     private static final int fieldMainComponentHeight = 40;
 
     /**
@@ -1598,6 +1733,9 @@ public final class UserEditor {
         editUserFrame.setCyderLayout(fieldsPartitionedInput);
     }
 
+    /**
+     * The mouse listener for the console date pattern label.
+     */
     private static final MouseListener consoleDatePatternLabelMouseListener = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -1623,6 +1761,11 @@ public final class UserEditor {
             + " romantic partners, and the world will be deleted. Are you ABSOLUTELY sure you wish to continue?";
 
     /**
+     * The name for the waiter thread to confirm account deletion.
+     */
+    private static final String ACCOUNT_DELETION_CONFIRMATION = "Account Deletion Confirmation";
+
+    /**
      * Attempts to delete the current user's account if the password is valid.
      *
      * @param password the confirmation password
@@ -1635,27 +1778,28 @@ public final class UserEditor {
 
         if (!doublyHashedPassword.equals(UserUtil.getCyderUser().getPass())) {
             editUserFrame.notify("Invalid password; user not deleted");
-        } else {
-            CyderThreadRunner.submit(() -> {
-                boolean delete = GetterUtil.getInstance().getConfirmation(new GetterUtil.Builder(confirmationString)
-                        .setRelativeTo(editUserFrame));
-
-                if (delete) {
-                    Console.INSTANCE.closeFrame(false, true);
-
-                    UiUtil.closeAllFrames(true);
-
-                    OSUtil.deleteFile(OSUtil.buildFile(
-                            Dynamic.PATH,
-                            Dynamic.USERS.getDirectoryName(),
-                            Console.INSTANCE.getUuid()));
-
-                    OSUtil.exit(ExitCondition.UserDeleted);
-                } else {
-                    editUserFrame.notify("Account not deleted");
-                }
-            }, "Account Deletion Confirmation");
+            return;
         }
+
+        CyderThreadRunner.submit(() -> {
+            boolean delete = GetterUtil.getInstance().getConfirmation(
+                    new GetterUtil.Builder(confirmationString)
+                            .setRelativeTo(editUserFrame));
+
+            if (!delete) {
+                editUserFrame.notify("Account not deleted");
+                return;
+            }
+
+            Console.INSTANCE.closeFrame(false, true);
+
+            UiUtil.closeAllFrames(true);
+
+            OSUtil.deleteFile(OSUtil.buildFile(Dynamic.PATH,
+                    Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid()));
+
+            OSUtil.exit(ExitCondition.UserDeleted);
+        }, ACCOUNT_DELETION_CONFIRMATION);
     }
 
     /**
@@ -1721,12 +1865,13 @@ public final class UserEditor {
      * @param datePattern the user-entered date pattern
      * @return whether the provided date pattern is valid
      */
+    @SuppressWarnings("unused") /* Validation object, no difference because of String pool */
     private static boolean validateDatePattern(String datePattern) {
         Preconditions.checkNotNull(datePattern);
         Preconditions.checkArgument(!datePattern.isEmpty());
 
         try {
-            new SimpleDateFormat(datePattern).format(new Date());
+            String validated = new SimpleDateFormat(datePattern).format(new Date());
             return true;
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
@@ -1736,27 +1881,39 @@ public final class UserEditor {
     }
 
     /**
+     * An escaped quote character.
+     */
+    private static final String ESCAPED_QUOTE = "\"";
+
+    /**
+     * The maps keyword.
+     */
+    private static final String MAPS = "maps";
+
+    /**
      * Shows an information pane of the current user's maps.
      */
     private static void showCurrentMaps() {
-        StringBuilder builtInform = new StringBuilder();
+        StringBuilder informationBuilder = new StringBuilder();
 
         LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
 
         for (MappedExecutable exe : exes) {
-            builtInform.append("\"")
+            informationBuilder.append(ESCAPED_QUOTE)
                     .append(exe.getName())
-                    .append("\" maps to: \"")
+                    .append(ESCAPED_QUOTE)
+                    .append(" maps to: ")
+                    .append(ESCAPED_QUOTE)
                     .append(exe.getFilepath())
-                    .append("\"")
-                    .append("<br/>");
+                    .append(ESCAPED_QUOTE)
+                    .append(BoundsUtil.BREAK_TAG);
         }
 
         String username = UserUtil.getCyderUser().getName();
-        String mapsString = builtInform.toString();
+        String mapsString = informationBuilder.toString();
         editUserFrame.inform(mapsString.isEmpty()
                 ? "No maps found for " + UserUtil.getCyderUser().getName()
-                : mapsString, username + StringUtil.getApostrophe(username) + " maps");
+                : mapsString, username + StringUtil.getApostrophe(username) + " " + MAPS);
     }
 
     /**
@@ -1792,15 +1949,16 @@ public final class UserEditor {
 
         if (exists) {
             editUserFrame.notify("Map name already exists");
-        } else {
-            MappedExecutable addExe = new MappedExecutable(name, link);
-            LinkedList<MappedExecutable> newExes = UserUtil.getCyderUser().getExecutables();
-            newExes.add(addExe);
-            UserUtil.getCyderUser().setExecutables(newExes);
-
-            editUserFrame.notify("Successfully added map \"" + name + "\" linking to: \"" + link + "\"");
-            Console.INSTANCE.revalidateMenu();
+            return;
         }
+
+        MappedExecutable addExe = new MappedExecutable(name, link);
+        LinkedList<MappedExecutable> newExes = UserUtil.getCyderUser().getExecutables();
+        newExes.add(addExe);
+        UserUtil.getCyderUser().setExecutables(newExes);
+
+        editUserFrame.notify("Successfully added map \"" + name + "\" linking to: \"" + link + "\"");
+        Console.INSTANCE.revalidateMenu();
     }
 
     /**
@@ -1823,13 +1981,14 @@ public final class UserEditor {
             }
         }
 
-        if (found) {
-            UserUtil.getCyderUser().setExecutables(exes);
-            editUserFrame.notify("Removed map \"" + name + "\" successfully removed");
-            Console.INSTANCE.revalidateMenu();
-        } else {
+        if (!found) {
             editUserFrame.notify("Could not locate map with specified name");
+            return;
         }
+
+        UserUtil.getCyderUser().setExecutables(exes);
+        editUserFrame.notify("Removed map \"" + name + "\" successfully removed");
+        Console.INSTANCE.revalidateMenu();
     }
 
     /**
