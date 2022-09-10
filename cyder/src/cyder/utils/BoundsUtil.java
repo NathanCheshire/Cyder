@@ -1,5 +1,6 @@
 package cyder.utils;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -15,6 +16,11 @@ import java.util.LinkedList;
  * Utility methods to calculate the needed space for a String of text.
  */
 public final class BoundsUtil {
+    /**
+     * A closing paragraph tag.
+     */
+    public static final String CLOSING_P_TAG = "</p>";
+
     /**
      * An opening html tag.
      */
@@ -298,7 +304,6 @@ public final class BoundsUtil {
         int currentLines = 1;
 
         for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
-            // Goal met todo maybe method for me?
             if (currentLines == numLines) break;
 
             // Found space at char, insert a break and replace the space
@@ -389,6 +394,24 @@ public final class BoundsUtil {
         ret.append(CLOSING_HTML_TAG);
 
         return ret.toString();
+    }
+
+    /**
+     * Returns a paragraph tag styled with the provided color for the provided text.
+     *
+     * @param text  the text to style
+     * @param color the color for the styling
+     * @return the styled paragraph
+     */
+    public static String generateColoredHtmlText(String text, Color color) {
+        Preconditions.checkNotNull(text);
+        Preconditions.checkArgument(!text.isEmpty());
+        Preconditions.checkNotNull(color);
+
+        int r = color.getRed();
+        int g = color.getGreen();
+        int b = color.getBlue();
+        return "<p style=\"color:rgb(" + r + ", " + g + ", " + b + ")\">" + text + CLOSING_P_TAG;
     }
 
     /**

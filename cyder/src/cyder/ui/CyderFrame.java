@@ -2284,9 +2284,20 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Set the background to a new image and revalidates and repaints the frame.
+     *
+     * @param bi the buffered image for the frame's background
+     */
+    public void setBackground(BufferedImage bi) {
+        Preconditions.checkNotNull(bi);
+
+        setBackground(ImageUtil.toImageIcon(bi));
+    }
+
+    /**
      * Set the background to a new icon and revalidates and repaints the frame.
      *
-     * @param icon the ImageIcon of the frame's background
+     * @param icon the ImageIcon for the frame's background
      */
     public void setBackground(ImageIcon icon) {
         Preconditions.checkNotNull(icon);

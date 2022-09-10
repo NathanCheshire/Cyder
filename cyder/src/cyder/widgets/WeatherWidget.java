@@ -16,6 +16,7 @@ import cyder.enums.NotificationDirection;
 import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.parsers.remote.weather.WeatherData;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
@@ -25,12 +26,15 @@ import cyder.utils.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -240,11 +244,6 @@ public class WeatherWidget {
     private boolean isGmtSet;
 
     /**
-     * The amount in ms to delay between clock updates.
-     */
-    private static final int ONE_SECOND = 1000;
-
-    /**
      * The key for obtaining the weather key from the props.
      */
     private static final String WEATHER_KEY = "weather_key";
@@ -263,6 +262,32 @@ public class WeatherWidget {
      * The default frame title.
      */
     private static final String DEFAULT_TITLE = "Weather";
+
+    /**
+     * The shade color for the default background.
+     */
+    private static final Color shadeColor = new Color(89, 85, 161);
+
+    /**
+     * The primary color for the default background.
+     */
+    private static final Color primaryColorOne = new Color(205, 119, 130);
+
+    /**
+     * The primary color for the default background.
+     */
+    private static final Color primaryColorTwo = new Color(38, 21, 75);
+
+    /**
+     * The default frame background.
+     */
+    private static final BufferedImage defaultBackground = ImageUtil.getImageGradient(FRAME_WIDTH, FRAME_HEIGHT,
+            primaryColorOne, primaryColorTwo, shadeColor);
+
+    /**
+     * The number of seconds in a singular hour.
+     */
+    private static final int SECONDS_IN_HOUR = 3600;
 
     /**
      * Returns a new instance of weather widget.
@@ -312,14 +337,14 @@ public class WeatherWidget {
         repullWeatherStats();
 
         UiUtil.closeIfOpen(weatherFrame);
-
-        weatherFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT) {
+        weatherFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderColors.regularBlue) {
             @Override
             public void dispose() {
                 stopUpdating.set(true);
                 super.dispose();
             }
         };
+        weatherFrame.setBackground(defaultBackground);
         weatherFrame.setTitle(DEFAULT_TITLE);
 
         currentTimeLabel = new JLabel(getWeatherTime(), SwingConstants.CENTER);
@@ -350,6 +375,7 @@ public class WeatherWidget {
         currentWeatherContainer.setBounds(180, 120, 120, 180);
         weatherFrame.getContentPane().add(currentWeatherContainer);
 
+        // todo method since this image icon is in two places
         currentWeatherIconLabel = new JLabel(new ImageIcon("static/pictures/weather/" + weatherIcon + ".png"));
         currentWeatherIconLabel.setBounds(0, 25, currentWeatherContainer.getWidth(),
                 currentWeatherContainer.getHeight() / 2);
@@ -358,17 +384,23 @@ public class WeatherWidget {
         currentWeatherLabel = new JLabel("", SwingConstants.CENTER);
         currentWeatherLabel.setForeground(CyderColors.vanilla);
         currentWeatherLabel.setFont(CyderFonts.SEGOE_20.deriveFont(18f));
-        currentWeatherLabel.setBounds(0, currentWeatherContainer.getHeight() / 2, currentWeatherContainer.getWidth(),
-                currentWeatherContainer.getHeight() / 2);
+        currentWeatherLabel.setBounds(0, currentWeatherContainer.getHeight() / 2,
+                currentWeatherContainer.getWidth(), currentWeatherContainer.getHeight() / 2);
         currentWeatherContainer.add(currentWeatherLabel);
 
-        JLabel sunriseLabelIcon = new JLabel(new ImageIcon("static/pictures/weather/sunrise.png")) {
+        ImageIcon sunriseIcon = new ImageIcon(
+                OSUtil.buildPath("static", "pictures", "weather", "sunrise.png"));
+        JLabel sunriseLabelIcon = new JLabel(sunriseIcon) {
+            private static final int arcLen = 25;
+            private static final int offset = 10;
+            private static final int strokeWidth = 3;
+
             @Override
             public void paint(Graphics g) {
                 Graphics2D g2d = (Graphics2D) g;
                 g.setColor(CyderColors.navy);
-                ((Graphics2D) g).setStroke(new BasicStroke(3));
-                g2d.fillRoundRect(10, 10, 100, 160, 25, 25);
+                g2d.setStroke(new BasicStroke(strokeWidth));
+                g2d.fillRoundRect(offset, offset, 100, 160, arcLen, arcLen);
                 super.paint(g);
             }
         };
@@ -382,13 +414,18 @@ public class WeatherWidget {
                 sunriseLabelIcon.getHeight() / 2);
         sunriseLabelIcon.add(sunriseLabel);
 
-        JLabel sunsetLabelIcon = new JLabel(new ImageIcon("static/pictures/weather/sunset.png")) {
+        ImageIcon sunsetIcon = new ImageIcon("static/pictures/weather/sunset.png");
+        JLabel sunsetLabelIcon = new JLabel(sunsetIcon) {
+            private static final int arcLen = 25;
+            private static final int offset = 10;
+            private static final int strokeWidth = 3;
+
             @Override
             public void paint(Graphics g) {
                 Graphics2D g2d = (Graphics2D) g;
                 g.setColor(CyderColors.navy);
-                ((Graphics2D) g).setStroke(new BasicStroke(3));
-                g2d.fillRoundRect(10, 10, 100, 160, 25, 25);
+                ((Graphics2D) g).setStroke(new BasicStroke(strokeWidth));
+                g2d.fillRoundRect(offset, offset, 100, 160, arcLen, arcLen);
                 super.paint(g);
             }
         };
@@ -402,31 +439,24 @@ public class WeatherWidget {
                 sunsetLabelIcon.getHeight() / 2);
         sunsetLabelIcon.add(sunsetLabel);
 
-        // todo cache builder
         weatherFrame.setMenuEnabled(true);
         weatherFrame.addMenuItem("Location", () -> CyderThreadRunner.submit(() -> {
-            String newLocation = GetterUtil.getInstance().getString(
-                    new GetterUtil.Builder("Change Location")
-                            .setRelativeTo(weatherFrame)
-                            .setSubmitButtonText("Change Location")
-                            .setInitialString(currentLocationString)
-                            .setSubmitButtonColor(CyderColors.notificationForegroundColor)
-                            .setLabelText("<html>Enter your city, state, and country code separated by a comma. "
-                                    + "Example:<p style=\"color:rgb(45, 100, 220)\""
-                                    + ">New Orleans, LA, US</p></html>"));
-            // todo method for this to add color to text with html styling
+            String newLocation = GetterUtil.getInstance().getString(changeLocationBuilder);
 
             try {
                 if (StringUtil.isNullOrEmpty(newLocation)) return;
 
                 previousLocationString = currentLocationString;
-                String[] parts = newLocation.split(",");
+                String[] newLocationParts = newLocation.split(",");
 
                 StringBuilder sb = new StringBuilder();
+                for (int i = 0 ; i < newLocationParts.length ; i++) {
+                    sb.append(StringUtil.capsFirstWords(newLocationParts[i].trim()));
 
-                Arrays.stream(parts).forEach(part -> sb.append(StringUtil.capsFirstWords(part.trim())).append(","));
+                    if (i != newLocationParts.length - 1) sb.append(",");
+                }
+
                 currentLocationString = sb.toString();
-                currentLocationString = currentLocationString.substring(0, currentLocationString.length() - 2);
                 useCustomLoc = true;
 
                 weatherFrame.notify("Attempting to refresh weather stats for location \""
@@ -454,49 +484,44 @@ public class WeatherWidget {
         customTempLabel = new JLabel() {
             @Override
             public void paintComponent(Graphics g) {
+                int w = componentWidth - 2 * borderLen;
+                int h = componentHeight - 2 * borderLen;
                 g.setColor(CyderColors.navy);
-                g.fillRect(3, 3, 400 - 6, 40 - 6);
+                g.fillRect(borderLen, borderLen, w, h);
 
-                try {
-                    // map temp val in width range
-                    double tempVal = map(temperature, minTemp, maxTemp);
+                int mappedTemperatureValue = (int) Math.round(map(temperature, minTemp, maxTemp));
+                int yOffset = 3;
+                int lineWidth = 6;
+                g.setColor(CyderColors.regularPink);
+                g.fillRect(mappedTemperatureValue + yOffset, borderLen,
+                        lineWidth, componentHeight - 2 * yOffset);
 
-                    // draw current temp line
-                    g.setColor(CyderColors.regularPink);
-                    int line = (int) Math.round(tempVal);
-                    g.fillRect(line + 3, 3, 6, 34);
+                String minTempText = formatFloatMeasurement(minTemp) + "F";
+                minTempLabel.setText(minTempText);
+                minTempLabel.setSize(
+                        StringUtil.getMinWidth(minTempText, minTempLabel.getFont()),
+                        StringUtil.getMinHeight(minTempText, minTempLabel.getFont()));
+                minTempLabel.setLocation(10, (componentHeight - minTempLabel.getHeight()) / 2);
+                customTempLabel.add(minTempLabel);
 
-                    // set min temp label
-                    String minText = formatFloatMeasurement(minTemp) + "F";
-                    minTempLabel.setText(minText);
-                    minTempLabel.setSize(
-                            StringUtil.getMinWidth(minText, minTempLabel.getFont()),
-                            StringUtil.getMinHeight(minText, minTempLabel.getFont()));
-                    minTempLabel.setLocation(10, (40 - minTempLabel.getHeight()) / 2);
-                    customTempLabel.add(minTempLabel);
+                String currentTempText = formatFloatMeasurement(temperature) + "F";
+                currentTempLabel.setText(currentTempText);
+                currentTempLabel.setSize(
+                        StringUtil.getMinWidth(currentTempText, currentTempLabel.getFont()),
+                        StringUtil.getMinHeight(currentTempText, currentTempLabel.getFont()));
+                currentTempLabel.setLocation(customTempLabel.getWidth() / 2 - currentTempLabel.getWidth() / 2,
+                        customTempLabel.getHeight() / 2 - currentTempLabel.getHeight() / 2);
+                customTempLabel.add(currentTempLabel);
 
-                    // current temp
-                    String currentTemp = formatFloatMeasurement(temperature) + "F";
-                    currentTempLabel.setText(currentTemp);
-                    currentTempLabel.setSize(
-                            StringUtil.getMinWidth(currentTemp, currentTempLabel.getFont()),
-                            StringUtil.getMinHeight(currentTemp, currentTempLabel.getFont()));
-                    currentTempLabel.setLocation(customTempLabel.getWidth() / 2 - currentTempLabel.getWidth() / 2,
-                            customTempLabel.getHeight() / 2 - currentTempLabel.getHeight() / 2);
-                    customTempLabel.add(currentTempLabel);
-
-                    // set max temp label
-                    String maxText = formatFloatMeasurement(maxTemp) + "F";
-                    maxTempLabel.setText(maxText);
-                    maxTempLabel.setSize(
-                            StringUtil.getMinWidth(maxText, minTempLabel.getFont()),
-                            StringUtil.getMinHeight(maxText, minTempLabel.getFont()));
-                    maxTempLabel.setLocation(400 - maxTempLabel.getWidth(),
-                            (40 - maxTempLabel.getHeight()) / 2);
-                    customTempLabel.add(maxTempLabel);
-                } catch (Exception e) {
-                    ExceptionHandler.silentHandle(e);
-                }
+                // set max temp label
+                String maxText = formatFloatMeasurement(maxTemp) + "F";
+                maxTempLabel.setText(maxText);
+                maxTempLabel.setSize(
+                        StringUtil.getMinWidth(maxText, minTempLabel.getFont()),
+                        StringUtil.getMinHeight(maxText, minTempLabel.getFont()));
+                maxTempLabel.setLocation(componentWidth - maxTempLabel.getWidth(),
+                        (componentHeight - maxTempLabel.getHeight()) / 2);
+                customTempLabel.add(maxTempLabel);
 
                 g.setColor(Color.black);
                 paintCustomBorder(g);
@@ -588,7 +613,7 @@ public class WeatherWidget {
         pressureLabel.setBounds(0, 540, 480, 30);
         weatherFrame.getContentPane().add(pressureLabel);
 
-        timezoneLabel = new JLabel("Timezone: " + getTimezoneLabel(), SwingConstants.CENTER);
+        timezoneLabel = new JLabel("Timezone: " + getGmtTimezoneLabelText(), SwingConstants.CENTER);
         timezoneLabel.setForeground(CyderColors.navy);
         timezoneLabel.setFont(CyderFonts.SEGOE_20);
         timezoneLabel.setBounds(0, 580, 480, 30);
@@ -599,6 +624,44 @@ public class WeatherWidget {
         startWeatherStatsUpdater();
         startUpdatingClock();
     }
+
+    /**
+     * The change location text.
+     */
+    private static final String CHANGE_LOCATION = "Change Location";
+
+    /**
+     * The color for the styled text for the example location.
+     */
+    private static final Color exampleColor = new Color(45, 100, 220);
+
+    /**
+     * The example location.
+     */
+    private static final String exampleChangeLocationText = "New Orleans, LA, US";
+
+    /**
+     * The styled example change location text.
+     */
+    private static final String styledExampleText = BoundsUtil.generateColoredHtmlText(
+            exampleChangeLocationText, exampleColor);
+
+    /**
+     * The complete change location html styled text to show on the string getter's label.
+     */
+    private static final String changeLocationHtmlText = BoundsUtil.OPENING_HTML_TAG
+            + "Enter your city, state, and country code separated by a comma. Example: "
+            + styledExampleText + BoundsUtil.CLOSING_HTML_TAG;
+
+    /**
+     * The builder for changing the current weather location.
+     */
+    private final GetterUtil.Builder changeLocationBuilder = new GetterUtil.Builder(CHANGE_LOCATION)
+            .setRelativeTo(weatherFrame)
+            .setSubmitButtonText(CHANGE_LOCATION)
+            .setInitialString(currentLocationString)
+            .setSubmitButtonColor(CyderColors.notificationForegroundColor)
+            .setLabelText(changeLocationHtmlText);
 
     /**
      * The thread name for the weather stats updater.
@@ -617,7 +680,7 @@ public class WeatherWidget {
     private void startUpdatingClock() {
         CyderThreadRunner.submit(() -> {
             while (!stopUpdating.get()) {
-                ThreadUtil.sleep(ONE_SECOND);
+                ThreadUtil.sleep((long) TimeUtil.MILLISECONDS_IN_SECOND);
                 currentTimeLabel.setText(getWeatherTime());
             }
         }, WEATHER_CLOCK_UPDATER_THREAD_NAME);
@@ -675,7 +738,7 @@ public class WeatherWidget {
         dateFormatter.setTimeZone(TimeZone.getTimeZone(GMT));
 
         try {
-            int timeOffset = Integer.parseInt(weatherDataGmtOffset) / 3600;
+            int timeOffset = Integer.parseInt(weatherDataGmtOffset) / SECONDS_IN_HOUR;
             calendar.add(Calendar.HOUR, timeOffset);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -720,9 +783,9 @@ public class WeatherWidget {
                 + "deg (" + getWindDirection(windBearing) + ")");
         humidityLabel.setText("Humidity: " + humidity + "%");
         pressureLabel.setText("Pressure: " + formatFloatMeasurement(pressure) + "atm");
-        timezoneLabel.setText("Timezone: " + getTimezoneLabel());
-        sunriseLabel.setText(correctedSunTime(sunrise) + "am");
-        sunsetLabel.setText(correctedSunTime(sunset) + "pm");
+        timezoneLabel.setText("Timezone: " + getGmtTimezoneLabelText());
+        sunriseLabel.setText(accountForGmtOffset(sunrise) + "am");
+        sunsetLabel.setText(accountForGmtOffset(sunset) + "pm");
 
         customTempLabel.repaint();
         currentTempLabel.setText(temperature + "F");
@@ -791,13 +854,21 @@ public class WeatherWidget {
     }
 
     /**
-     * Returns the text for the timezone label.
+     * The dst active bracketed text.
+     */
+    private static final String DST_ACTIVE = "[DST Active]";
+
+    /**
+     * Returns the text for the timezone label. For example, if weatherDataGmtOffset is -18000
+     * and DST is active, then the method will return "GMT-5 [DST Active].
      *
      * @return the text for the timezone label
      */
-    private String getTimezoneLabel() {
-        return GMT + (Integer.parseInt(weatherDataGmtOffset) / 3600)
-                + (IPUtil.getIpData().getTime_zone().isIs_dst() ? " [DST Active]" : "");
+    private String getGmtTimezoneLabelText() {
+        String gmtPart = GMT + (Integer.parseInt(weatherDataGmtOffset) / SECONDS_IN_HOUR);
+        String dstPart = IPUtil.getIpData().getTime_zone().isIs_dst() ? " " + DST_ACTIVE : "";
+
+        return gmtPart + dstPart;
     }
 
     /**
@@ -806,20 +877,17 @@ public class WeatherWidget {
      * @param absoluteTime the absolute hh:mm time
      * @return the hh:mm time after accounting for the GMT offset
      */
-    private String correctedSunTime(String absoluteTime) {
+    private String accountForGmtOffset(String absoluteTime) {
         Preconditions.checkNotNull(absoluteTime);
         Preconditions.checkArgument(absoluteTime.contains(":"));
 
-        String[] parts = absoluteTime.split(":");
+        String[] splitTime = absoluteTime.split(":");
+        Preconditions.checkState(splitTime.length == 2);
 
-        if (parts.length != 2) {
-            throw new IllegalArgumentException("Illegal absolute time: " + absoluteTime);
-        }
+        int hour = Integer.parseInt(splitTime[0]);
+        int minute = Integer.parseInt(splitTime[1]);
 
-        int hour = Integer.parseInt(parts[0]);
-        int minute = Integer.parseInt(parts[1]);
-
-        hour += (Integer.parseInt(weatherDataGmtOffset) / 3600 - (parsedGmtOffset / 60 / 60));
+        hour += (Integer.parseInt(weatherDataGmtOffset) / SECONDS_IN_HOUR - (parsedGmtOffset / SECONDS_IN_HOUR));
 
         return hour + ":" + formatMinutes(minute);
     }
@@ -1024,335 +1092,5 @@ public class WeatherWidget {
         String string = String.valueOf(measurement);
         return string.substring(0, string.length() > MAX_FLOAT_MEASUREMENT_LENGTH - 1
                 ? MAX_FLOAT_MEASUREMENT_LENGTH : string.length());
-    }
-
-    /**
-     * The json schema for weather data.
-     */
-    public static final class WeatherData {
-        private Coord coord;
-        private LinkedList<JsonWeather> weather;
-        private String base;
-        private Main main;
-        private int visibility;
-        private Wind wind;
-        private Clouds clouds;
-        private int dt;
-        private Sys sys;
-        private int timezone;
-        private int id;
-        private String name;
-        private double cod;
-
-        public Coord getCoord() {
-            return coord;
-        }
-
-        public void setCoord(Coord coord) {
-            this.coord = coord;
-        }
-
-        public LinkedList<JsonWeather> getWeather() {
-            return weather;
-        }
-
-        public void setWeather(LinkedList<JsonWeather> weather) {
-            this.weather = weather;
-        }
-
-        public String getBase() {
-            return base;
-        }
-
-        public void setBase(String base) {
-            this.base = base;
-        }
-
-        public Main getMain() {
-            return main;
-        }
-
-        public void setMain(Main main) {
-            this.main = main;
-        }
-
-        public int getVisibility() {
-            return visibility;
-        }
-
-        public void setVisibility(int visibility) {
-            this.visibility = visibility;
-        }
-
-        public Wind getWind() {
-            return wind;
-        }
-
-        public void setWind(Wind wind) {
-            this.wind = wind;
-        }
-
-        public Clouds getClouds() {
-            return clouds;
-        }
-
-        public void setClouds(Clouds clouds) {
-            this.clouds = clouds;
-        }
-
-        public int getDt() {
-            return dt;
-        }
-
-        public void setDt(int dt) {
-            this.dt = dt;
-        }
-
-        public Sys getSys() {
-            return sys;
-        }
-
-        public void setSys(Sys sys) {
-            this.sys = sys;
-        }
-
-        public int getTimezone() {
-            return timezone;
-        }
-
-        public void setTimezone(int timezone) {
-            this.timezone = timezone;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public double getCod() {
-            return cod;
-        }
-
-        public void setCod(double cod) {
-            this.cod = cod;
-        }
-
-        public static class Coord {
-            private double lon;
-            private double lat;
-
-            public double getLon() {
-                return lon;
-            }
-
-            public void setLon(double lon) {
-                this.lon = lon;
-            }
-
-            public double getLat() {
-                return lat;
-            }
-
-            public void setLat(double lat) {
-                this.lat = lat;
-            }
-        }
-
-        public static class JsonWeather {
-            private int id;
-            private String main;
-            private String description;
-            private String icon;
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public String getMain() {
-                return main;
-            }
-
-            public void setMain(String main) {
-                this.main = main;
-            }
-
-            public String getDescription() {
-                return description;
-            }
-
-            public void setDescription(String description) {
-                this.description = description;
-            }
-
-            public String getIcon() {
-                return icon;
-            }
-
-            public void setIcon(String icon) {
-                this.icon = icon;
-            }
-        }
-
-        public static class Main {
-            private float temp;
-            private float feels_like;
-            private float temp_min;
-            private float temp_max;
-            private float pressure;
-            private float humidity;
-
-            public float getTemp() {
-                return temp;
-            }
-
-            public void setTemp(float temp) {
-                this.temp = temp;
-            }
-
-            public float getFeels_like() {
-                return feels_like;
-            }
-
-            public void setFeels_like(float feels_like) {
-                this.feels_like = feels_like;
-            }
-
-            public float getTemp_min() {
-                return temp_min;
-            }
-
-            public void setTemp_min(float temp_min) {
-                this.temp_min = temp_min;
-            }
-
-            public float getTemp_max() {
-                return temp_max;
-            }
-
-            public void setTemp_max(float temp_max) {
-                this.temp_max = temp_max;
-            }
-
-            public float getPressure() {
-                return pressure;
-            }
-
-            public void setPressure(float pressure) {
-                this.pressure = pressure;
-            }
-
-            public float getHumidity() {
-                return humidity;
-            }
-
-            public void setHumidity(float humidity) {
-                this.humidity = humidity;
-            }
-        }
-
-        public static class Wind {
-            private float speed;
-            private int deg;
-            private float gust;
-
-            public float getSpeed() {
-                return speed;
-            }
-
-            public void setSpeed(float speed) {
-                this.speed = speed;
-            }
-
-            public int getDeg() {
-                return deg;
-            }
-
-            public void setDeg(int deg) {
-                this.deg = deg;
-            }
-
-            public float getGust() {
-                return gust;
-            }
-
-            public void setGust(float gust) {
-                this.gust = gust;
-            }
-        }
-
-        public static class Clouds {
-            private double all;
-
-            public double getAll() {
-                return all;
-            }
-
-            public void setAll(double all) {
-                this.all = all;
-            }
-        }
-
-        public static class Sys {
-            private int type;
-            private int id;
-            private String country;
-            private int sunrise;
-            private int sunset;
-
-            public void setType(int type) {
-                this.type = type;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public void setCountry(String country) {
-                this.country = country;
-            }
-
-            public void setSunrise(int sunrise) {
-                this.sunrise = sunrise;
-            }
-
-            public void setSunset(int sunset) {
-                this.sunset = sunset;
-            }
-
-            public int getType() {
-                return type;
-            }
-
-            public int getId() {
-                return id;
-            }
-
-            public String getCountry() {
-                return country;
-            }
-
-            public int getSunrise() {
-                return sunrise;
-            }
-
-            public int getSunset() {
-                return sunset;
-            }
-        }
     }
 }
