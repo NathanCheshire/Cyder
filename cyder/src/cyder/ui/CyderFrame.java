@@ -2718,12 +2718,11 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    // todo prefs files label needs to be whole width? sometimes it's too small somehow and wraps
-    // todo focus listeners for custom buttons broken now
+    // todo minimize is focused by default or something?
     // todo blurring currently background changes size
-    // todo add demo mode prop to not dispose splash until finished with animations and specific timeout for
-    //  allowing waves to propagate
-    // todo fade opacity of scroll bars
+    // todo add prop to not dispose splash until complete which is true obviously
+    // todo fade opacity of scroll bars by 1s in and out
+    // todo dreamifying still freezes sometimes
 
     // -----------
     // Debug lines

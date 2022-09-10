@@ -1,5 +1,6 @@
 package cyder.utils;
 
+import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -15,6 +16,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Stack;
@@ -43,6 +45,65 @@ public class GetterUtil {
         return new GetterUtil();
     }
 
+    // --------------------
+    // Frame tracking logic
+    // --------------------
+
+    /**
+     * All the currently active get string frames associated with this instance.
+     */
+    private final ArrayList<CyderFrame> getStringFrames = new ArrayList<>();
+
+    /**
+     * Closes all get string frames associated with this instance.
+     */
+    public void closeAllGetStringFrames() {
+        for (CyderFrame frame : getStringFrames) {
+            frame.dispose(true);
+        }
+    }
+
+    /**
+     * All the currently active get file frames associated with this instance.
+     */
+    private final ArrayList<CyderFrame> getFileFrames = new ArrayList<>();
+
+    /**
+     * Closes all get file frames associated with this instance.
+     */
+    public void closeAllGetFileFrames() {
+        for (CyderFrame frame : getFileFrames) {
+            frame.dispose(true);
+        }
+    }
+
+    /**
+     * All the currently active get string confirmation associated with this instance.
+     */
+    private final ArrayList<CyderFrame> getConfirmationFrames = new ArrayList<>();
+
+    /**
+     * Closes all get confirmation frames associated with this instance.
+     */
+    public void closeAllGetConfirmationFrames() {
+        for (CyderFrame frame : getConfirmationFrames) {
+            frame.dispose(true);
+        }
+    }
+
+    /**
+     * Closes all getter frames associated with this instance.
+     */
+    public void closeAllGetFrames() {
+        closeAllGetStringFrames();
+        closeAllGetFileFrames();
+        closeAllGetConfirmationFrames();
+    }
+
+    // ------------------------
+    // End frame tracking logic
+    // ------------------------
+
     /**
      * The minimum width for a get string popup.
      */
@@ -62,6 +123,11 @@ public class GetterUtil {
      * The left and right padding for a string popup.
      */
     private static final int getStringXPadding = 40;
+
+    /**
+     * The empty string to return for getString invocations which are canceled.
+     */
+    private static final String NULL = "NULL";
 
     /**
      * Custom getString() method, see usage below for how to
@@ -84,7 +150,7 @@ public class GetterUtil {
      * @param builder the builder to use
      * @return the user entered input string. NOTE: if any improper
      * input is attempted to be returned, this function returns
-     * the string literal of "NULL" instead of {@code null}
+     * the string literal of NULL instead of {@code null}
      */
     public String getString(Builder builder) {
         checkNotNull(builder);
@@ -109,6 +175,8 @@ public class GetterUtil {
 
                 CyderFrame inputFrame = new CyderFrame(width,
                         height, CyderIcons.defaultBackground);
+                inputFrame.addPreCloseAction(() -> getStringFrames.remove(inputFrame));
+                getStringFrames.add(inputFrame);
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 inputFrame.setTitle(builder.getTitle());
 
@@ -144,7 +212,7 @@ public class GetterUtil {
                 submit.setBackground(builder.getSubmitButtonColor());
                 inputField.addActionListener(e1 -> {
                     returnString.set((inputField.getText() == null || inputField.getText().isEmpty() ?
-                            "NULL" : inputField.getText()));
+                            NULL : inputField.getText()));
                     inputFrame.dispose();
                 });
                 submit.setBorder(new LineBorder(CyderColors.navy, 5, false));
@@ -152,7 +220,7 @@ public class GetterUtil {
                 submit.setForeground(CyderColors.navy);
                 submit.addActionListener(e12 -> {
                     returnString.set((inputField.getText() == null || inputField.getText().isEmpty() ?
-                            "NULL" : inputField.getText()));
+                            NULL : inputField.getText()));
                     inputFrame.dispose();
                 });
                 submit.setBounds(getStringXPadding, yOff,
@@ -161,7 +229,7 @@ public class GetterUtil {
 
                 inputFrame.addPreCloseAction(() -> returnString.set((inputField.getText() == null
                         || inputField.getText().isEmpty()
-                        || inputField.getText().equals(builder.getInitialString()) ? "NULL" : inputField.getText())));
+                        || inputField.getText().equals(builder.getInitialString()) ? NULL : inputField.getText())));
 
                 Component relativeTo = builder.getRelativeTo();
 
@@ -282,13 +350,14 @@ public class GetterUtil {
 
         CyderFrame referenceInitFrame = new CyderFrame(630, 510, darkMode
                 ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor);
+        getFileFrames.add(referenceInitFrame);
         referenceInitFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
                 File ref = setOnFileChosen.get();
 
                 if (ref == null || StringUtil.isNullOrEmpty(ref.getName())) {
-                    setOnFileChosen.set(new File("NULL"));
+                    setOnFileChosen.set(new File(NULL));
                 }
             }
         });
@@ -305,6 +374,7 @@ public class GetterUtil {
 
                 CyderFrame refFrame = dirFrameAtomicRef.get();
                 refFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
+                refFrame.addPreCloseAction(() -> getFileFrames.remove(refFrame));
 
                 // tmp title for case of adding to taskbar before pwd is known
                 refFrame.setTitle("File getter");
@@ -469,13 +539,13 @@ public class GetterUtil {
             while (setOnFileChosen.get() == null) {
                 Thread.onSpinWait();
             }
-        } catch (Exception ex) {
-            ExceptionHandler.handle(ex);
+        } catch (Exception e) {
+            ExceptionHandler.silentHandle(e);
         } finally {
             dirFrameAtomicRef.get().dispose();
         }
 
-        return setOnFileChosen.get().getName().equals("NULL") ? null : setOnFileChosen.get();
+        return setOnFileChosen.get().getName().equals(NULL) ? null : setOnFileChosen.get();
     }
 
     /**
@@ -484,6 +554,7 @@ public class GetterUtil {
      * @param directory   the directory/file to refresh on
      * @param wipeForward whether to clear the forward traversal stack
      */
+    @ForReadability
     private void refreshBasedOnDir(File directory, boolean wipeForward) {
         checkNotNull(directory);
 
@@ -593,6 +664,7 @@ public class GetterUtil {
 
                 CyderFrame frame = new CyderFrame(w + 40,
                         h + 25 + 20 + 40 + 40, CyderIcons.defaultBackgroundLarge);
+                getConfirmationFrames.add(frame);
                 frameReference.set(frame);
                 frame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 frame.setTitle(builder.getTitle());
@@ -600,6 +672,8 @@ public class GetterUtil {
                     if (ret.get() != Boolean.TRUE) {
                         ret.set(Boolean.FALSE);
                     }
+
+                    getConfirmationFrames.remove(frame);
                 });
 
                 textLabel.setBounds(10, 35, w, h);
