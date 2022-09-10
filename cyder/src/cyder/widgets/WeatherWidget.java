@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Range;
 import com.google.gson.Gson;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.ForReadability;
@@ -236,12 +237,32 @@ public class WeatherWidget {
     /**
      * Whether the gmt offset has been set.
      */
-    private boolean gmtSet;
+    private boolean isGmtSet;
 
     /**
      * The amount in ms to delay between clock updates.
      */
     private static final int ONE_SECOND = 1000;
+
+    /**
+     * The key for obtaining the weather key from the props.
+     */
+    private static final String WEATHER_KEY = "weather_key";
+
+    /**
+     * The width of the frame.
+     */
+    private static final int FRAME_WIDTH = 480;
+
+    /**
+     * The height of the frame.
+     */
+    private static final int FRAME_HEIGHT = 640;
+
+    /**
+     * The default frame title.
+     */
+    private static final String DEFAULT_TITLE = "Weather";
 
     /**
      * Returns a new instance of weather widget.
@@ -259,19 +280,16 @@ public class WeatherWidget {
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
-    //show gui method as per standard
-    @Widget(triggers = "weather", description = "A widget that displays weather data for the current " +
-            "city you are in. The location is also changeable")
+    /**
+     * The description for the @Widget annotation.
+     */
+    private static final String widgetDescription = "A widget that displays weather data for the current " +
+            "city you are in. The location is also changeable";
+
+    @Widget(triggers = "weather", description = widgetDescription)
     public static void showGui() {
         getInstance().innerShowGui();
     }
-
-    private static final String WEATHER_KEY = "weather_key";
-
-    private static final int FRAME_WIDTH = 480;
-    private static final int FRAME_HEIGHT = 640;
-
-    private static final String DEFAULT_TITLE = "Weather";
 
     /**
      * Shows the UI since we need to allow multiple instances of weather widget
@@ -317,12 +335,15 @@ public class WeatherWidget {
         weatherFrame.getContentPane().add(locationLabel);
 
         JLabel currentWeatherContainer = new JLabel() {
+            private static final int arcLen = 25;
+            private static final int offset = 10;
+
             @Override
             public void paint(Graphics g) {
                 Graphics2D g2d = (Graphics2D) g;
                 g.setColor(CyderColors.navy);
-                ((Graphics2D) g).setStroke(new BasicStroke(3));
-                g2d.fillRoundRect(10, 10, 100, 160, 25, 25);
+                g2d.setStroke(new BasicStroke(3));
+                g2d.fillRoundRect(offset, offset, 100, 160, arcLen, arcLen);
                 super.paint(g);
             }
         };
@@ -477,50 +498,78 @@ public class WeatherWidget {
                     ExceptionHandler.silentHandle(e);
                 }
 
-                // border last, 3px
                 g.setColor(Color.black);
-                // left
-                g.fillRect(0, 0, 3, 40);
-                // right
-                g.fillRect(400 - 3, 0, 3, 40);
-                // top
-                g.fillRect(0, 0, 400, 3);
-                // bottom
-                g.fillRect(0, 40 - 3, 400, 3);
+                paintCustomBorder(g);
+            }
+
+            /**
+             * The length of the border around this component.
+             */
+            private static final int borderLen = 3;
+
+            /**
+             * The width of this component.
+             */
+            public static final int componentWidth = 400;
+
+            /**
+             * The height of this component
+             */
+            public static final int componentHeight = 40;
+
+            @ForReadability
+            private void paintCustomBorder(Graphics g) {
+                g.fillRect(0, 0, borderLen, componentHeight);
+                g.fillRect(componentWidth - borderLen, 0, borderLen, componentHeight);
+                g.fillRect(0, 0, componentWidth, borderLen);
+                g.fillRect(0, componentHeight - borderLen, componentWidth, borderLen);
             }
         };
         customTempLabel.setBounds(40, 320, 400, 40);
         weatherFrame.getContentPane().add(customTempLabel);
 
         windSpeedLabel = new JLabel("", SwingConstants.CENTER);
-        windSpeedLabel.setText(
-                "Wind: " + windSpeed + "mph, " + windBearing + "deg (" + getWindDirection(windBearing) + ")");
+        windSpeedLabel.setText("Wind: " + windSpeed + "mph, " + windBearing
+                + "deg (" + getWindDirection(windBearing) + ")");
         windSpeedLabel.setForeground(CyderColors.navy);
         windSpeedLabel.setFont(CyderFonts.SEGOE_20);
         windSpeedLabel.setBounds(0, 390, 480, 30);
         weatherFrame.getContentPane().add(windSpeedLabel);
 
         windDirectionLabel = new JLabel() {
+            private static final int length = 50;
+            private static final int borderLength = 3;
+            private static final int arrowWidth = 3;
+            private static final int arrowRadius = 20;
+
+            private static final Color backgroundColor = Color.black;
+            private static final Color innerColor = CyderColors.navy;
+            private static final Color arrowColor = CyderColors.regularPink;
+
             @Override
             public void paintComponent(Graphics g) {
-                g.setColor(Color.black);
-                g.fillRect(0, 0, 50, 50);
+                g.setColor(backgroundColor);
+                g.fillRect(0, 0, length, length);
 
-                g.setColor(CyderColors.navy);
-                g.fillRect(3, 3, getWidth() - 6, getHeight() - 6);
+                g.setColor(innerColor);
+                g.fillRect(borderLength, borderLength,
+                        getWidth() - 2 * borderLength, getHeight() - 2 * borderLength);
 
-                int radius = 20;
                 double theta = windBearing * Math.PI / 180.0;
-                double x = radius * Math.cos(theta);
-                double y = radius * Math.sin(theta);
+                double x = arrowRadius * Math.cos(theta);
+                double y = arrowRadius * Math.sin(theta);
 
                 int drawToX = (int) Math.round(x);
                 int drawToY = -(int) Math.round(y);
 
-                ((Graphics2D) g).setStroke(new BasicStroke(3));
-                g.setColor(CyderColors.regularPink);
-                g.drawLine(getWidth() / 2, getHeight() / 2,
-                        getWidth() / 2 + drawToX, getWidth() / 2 + drawToY);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setStroke(new BasicStroke(arrowWidth));
+
+                int w = getWidth();
+                int h = getHeight();
+
+                g.setColor(arrowColor);
+                g.drawLine(w / 2, h / 2, w / 2 + drawToX, w / 2 + drawToY);
             }
         };
         windDirectionLabel.setBounds(weatherFrame.getWidth() / 2 - 50 / 2, 430, 50, 50);
@@ -547,11 +596,45 @@ public class WeatherWidget {
 
         weatherFrame.finalizeAndShow();
 
+        startWeatherStatsUpdater();
+        startUpdatingClock();
+    }
+
+    /**
+     * The thread name for the weather stats updater.
+     */
+    private static final String WEATHER_STATS_UPDATER_THREAD_NAME = "Weather Stats Updater";
+
+    /**
+     * The thread name for the weather clock updater.
+     */
+    private static final String WEATHER_CLOCK_UPDATER_THREAD_NAME = "Weather Clock Updater";
+
+    /**
+     * Starts the thread to update the current time label.
+     */
+    @ForReadability
+    private void startUpdatingClock() {
+        CyderThreadRunner.submit(() -> {
+            while (!stopUpdating.get()) {
+                ThreadUtil.sleep(ONE_SECOND);
+                currentTimeLabel.setText(getWeatherTime());
+            }
+        }, WEATHER_CLOCK_UPDATER_THREAD_NAME);
+    }
+
+    /**
+     * Starts the thread to update the weather stats.
+     */
+    @ForReadability
+    private void startWeatherStatsUpdater() {
         CyderThreadRunner.submit(() -> {
             try {
+                int sleepTime = updateFrequency * 1000 * 60;
+                int checkFrequency = 1000 * 10;
+
                 while (true) {
-                    TimeUtil.sleepWithChecks(
-                            1000 * 60 * updateFrequency, 10000, stopUpdating);
+                    TimeUtil.sleepWithChecks(sleepTime, checkFrequency, stopUpdating);
                     if (stopUpdating.get()) {
                         break;
                     }
@@ -561,21 +644,7 @@ public class WeatherWidget {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Weather Stats Updater");
-
-        startUpdatingClock();
-    }
-
-    private static final String WEATHER_CLOCK_UPDATER_THREAD_NAME = "Weather Clock Updater";
-
-    @ForReadability
-    private void startUpdatingClock() {
-        CyderThreadRunner.submit(() -> {
-            while (!stopUpdating.get()) {
-                ThreadUtil.sleep(ONE_SECOND);
-                currentTimeLabel.setText(getWeatherTime());
-            }
-        }, WEATHER_CLOCK_UPDATER_THREAD_NAME);
+        }, WEATHER_STATS_UPDATER_THREAD_NAME);
     }
 
     /**
@@ -590,6 +659,9 @@ public class WeatherWidget {
         return (value - oldRangeMin) * 400.0 / (oldRangeMax - oldRangeMin);
     }
 
+    /**
+     * The gmt keyword.
+     */
     private static final String GMT = "GMT";
 
     /**
@@ -673,23 +745,38 @@ public class WeatherWidget {
             desiredX = maxX;
         }
 
-        currentTempLabel.setBounds(desiredX, customTempLabel.getY() - 3 - tempLabelHeight, tempLabelWidth,
-                tempLabelHeight);
+        currentTempLabel.setBounds(desiredX, customTempLabel.getY() - 3 - tempLabelHeight,
+                tempLabelWidth, tempLabelHeight);
 
         windDirectionLabel.repaint();
 
-        String[] splitLocation = currentLocationString.split(",");
-        refreshFrameTitle(splitLocation[0]);
+        String splitCity = currentLocationString.split(",")[0];
+        refreshFrameTitle(splitCity);
 
-        // todo cache builder
         if (weatherFrame != null) {
-            weatherFrame.notify(new CyderFrame.NotificationBuilder("Refreshed")
-                    .setViewDuration(2000)
-                    .setNotificationDirection(NotificationDirection.BOTTOM_LEFT)
-                    .setArrowDir(Direction.LEFT));
+            weatherFrame.notify(refreshedBuilder);
         }
     }
 
+    /**
+     * The refreshed keyword.
+     */
+    private static final String REFRESHED = "Refreshed";
+
+    /**
+     * The notification builder to use for when a refresh weather is invoked.
+     */
+    private final CyderFrame.NotificationBuilder refreshedBuilder
+            = new CyderFrame.NotificationBuilder(REFRESHED)
+            .setViewDuration(2000)
+            .setNotificationDirection(NotificationDirection.BOTTOM_LEFT)
+            .setArrowDir(Direction.LEFT);
+
+    /**
+     * Refreshes the frame title based on the provided city.
+     *
+     * @param city the city to display in the frame title
+     */
     @ForReadability
     private void refreshFrameTitle(String city) {
         Preconditions.checkNotNull(city);
@@ -709,7 +796,7 @@ public class WeatherWidget {
      * @return the text for the timezone label
      */
     private String getTimezoneLabel() {
-        return "GMT" + (Integer.parseInt(weatherDataGmtOffset) / 3600)
+        return GMT + (Integer.parseInt(weatherDataGmtOffset) / 3600)
                 + (IPUtil.getIpData().getTime_zone().isIs_dst() ? " [DST Active]" : "");
     }
 
@@ -734,8 +821,29 @@ public class WeatherWidget {
 
         hour += (Integer.parseInt(weatherDataGmtOffset) / 3600 - (parsedGmtOffset / 60 / 60));
 
-        // hour, colon, 01,...,09,10,..., 59,01
-        return hour + ":" + (minute < 10 ? "0" + minute : minute);
+        return hour + ":" + formatMinutes(minute);
+    }
+
+    /**
+     * The range a minute value must fall within.
+     */
+    private static final Range<Integer> minuteRange = Range.closed(0, 60);
+
+    /**
+     * Formats the provided minutes to always have two digits.
+     *
+     * @param minute the minutes value
+     * @return the formatted minutes string
+     */
+    @ForReadability
+    private String formatMinutes(int minute) {
+        Preconditions.checkArgument(minuteRange.contains(minute));
+
+        if (minute < 10) {
+            return "0" + minute;
+        } else {
+            return String.valueOf(minute);
+        }
     }
 
     /**
@@ -800,9 +908,9 @@ public class WeatherWidget {
                     sunset = dateFormatter.format(SunsetTime);
 
                     //calculate the offset from GMT + 0/Zulu time
-                    if (!gmtSet) {
+                    if (!isGmtSet) {
                         parsedGmtOffset = Integer.parseInt(weatherDataGmtOffset);
-                        gmtSet = true;
+                        isGmtSet = true;
                     }
 
                     //check for night/day icon

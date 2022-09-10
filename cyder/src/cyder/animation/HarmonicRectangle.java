@@ -252,11 +252,9 @@ public class HarmonicRectangle extends JLabel {
      * Starts the animation.
      */
     public void startAnimation() {
-        if (!isAnimating) {
-            isAnimating = true;
-
-            CyderThreadRunner.submit(animationRunnable, "Harmonic Rectangle Animator");
-        }
+        if (isAnimating) return;
+        isAnimating = true;
+        CyderThreadRunner.submit(animationRunnable, "Harmonic Rectangle Animator");
     }
 
     /**
@@ -397,6 +395,6 @@ public class HarmonicRectangle extends JLabel {
      */
     public static Function<Float, Double> constructWaveEquation(float amplitude, float period,
                                                                float phaseShift, float verticalShift) {
-        return aFloat -> amplitude * Math.sin(period * (aFloat + phaseShift)) + verticalShift;
+        return inputFloat -> amplitude * Math.sin(period * (inputFloat + phaseShift)) + verticalShift;
     }
 }

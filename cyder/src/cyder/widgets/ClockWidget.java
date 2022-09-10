@@ -15,10 +15,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
-import cyder.ui.CyderDragLabel;
-import cyder.ui.CyderLabel;
-import cyder.ui.CyderSwitch;
-import cyder.ui.CyderTextField;
+import cyder.ui.*;
 import cyder.utils.ColorUtil;
 import cyder.utils.IPUtil;
 import cyder.utils.StringUtil;
@@ -432,13 +429,13 @@ public final class ClockWidget {
                                     + "<br/>GMT: " + currentGMTOffset + "<br/>" + build);
                         } catch (Exception exc) {
                             ExceptionHandler.silentHandle(exc);
-                            clockFrame.notify("Failed to update loation");
+                            clockFrame.notify("Failed to update location");
                             locationField.setText(currentLocation);
                             locationField.setCaretPosition(0);
                         }
                     } catch (Exception ex) {
                         ExceptionHandler.silentHandle(ex);
-                        clockFrame.notify("Failed to update loation");
+                        clockFrame.notify("Failed to update location");
                         locationField.setText(currentLocation);
                         locationField.setCaretPosition(0);
                     }
