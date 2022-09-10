@@ -1459,7 +1459,7 @@ public enum Console {
      * Refreshes the taskbar icons based on the frames currently in the frame list.
      */
     private synchronized void installMenuTaskbarIcons() {
-        // todo apparently this is not concurrent
+        lockMenuTaskbarInstallation();
 
         boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
 
@@ -1474,6 +1474,7 @@ public enum Console {
         ImmutableList<TaskbarIcon> defaultMenuItems = getDefaultTaskbarIcons(compactMode);
 
         if (!differentMenuState(frameMenuItems, mappedExeItems, defaultMenuItems)) {
+            unlockMenuTaskbarInstallation();
             return;
         }
 
@@ -1482,6 +1483,30 @@ public enum Console {
         currentDefaultMenuItems = defaultMenuItems;
 
         reinstallCurrentTaskbarIcons();
+        unlockMenuTaskbarInstallation();
+    }
+
+    /**
+     * The semaphore used to lock invocation of the {@link #installMenuTaskbarIcons()} method.
+     */
+    private final Semaphore menuTaskbarLockingSemaphore = new Semaphore(1);
+
+    /**
+     * Locks invocation of the {@link #installMenuTaskbarIcons()} method.
+     */
+    private void lockMenuTaskbarInstallation() {
+        try {
+            menuTaskbarLockingSemaphore.acquire();
+        } catch (InterruptedException e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * Unlocks invocation of the {@link #installMenuTaskbarIcons()} method.
+     */
+    private void unlockMenuTaskbarInstallation() {
+        menuTaskbarLockingSemaphore.release();
     }
 
     /**
@@ -1761,7 +1786,7 @@ public enum Console {
     }
 
     /**
-     * Clears the taskbar menu pane and re-prints the current taskbar icons.
+     * Clears the taskbar menu pane and re-prints the current taskbar icons from the three lists.
      */
     private void reinstallCurrentTaskbarIcons() {
         boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
