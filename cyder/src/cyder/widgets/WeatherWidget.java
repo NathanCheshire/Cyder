@@ -290,6 +290,16 @@ public class WeatherWidget {
     private static final int SECONDS_IN_HOUR = 3600;
 
     /**
+     * The post meridiem string
+     */
+    private static final String PM = "pm";
+
+    /**
+     * The ante meridiem string.
+     */
+    private static final String AM = "am";
+
+    /**
      * Returns a new instance of weather widget.
      *
      * @return a new instance of weather widget
@@ -347,7 +357,7 @@ public class WeatherWidget {
         weatherFrame.setBackground(defaultBackground);
         weatherFrame.setTitle(DEFAULT_TITLE);
 
-        currentTimeLabel = new JLabel(getWeatherTime(), SwingConstants.CENTER);
+        currentTimeLabel = new JLabel(getWeatherTimeAccountForGmtOffset(), SwingConstants.CENTER);
         currentTimeLabel.setForeground(CyderColors.navy);
         currentTimeLabel.setFont(CyderFonts.SEGOE_20);
         currentTimeLabel.setBounds(0, 50, 480, 30);
@@ -407,7 +417,7 @@ public class WeatherWidget {
         sunriseLabelIcon.setBounds(60, 120, 120, 180);
         weatherFrame.getContentPane().add(sunriseLabelIcon);
 
-        sunriseLabel = new JLabel(sunrise + "am", SwingConstants.CENTER);
+        sunriseLabel = new JLabel(sunrise + AM, SwingConstants.CENTER);
         sunriseLabel.setForeground(CyderColors.vanilla);
         sunriseLabel.setFont(CyderFonts.SEGOE_20);
         sunriseLabel.setBounds(0, sunriseLabelIcon.getHeight() / 2, sunriseLabelIcon.getWidth(),
@@ -432,7 +442,7 @@ public class WeatherWidget {
         sunsetLabelIcon.setBounds(480 - 60 - 120, 120, 120, 180);
         weatherFrame.getContentPane().add(sunsetLabelIcon);
 
-        sunsetLabel = new JLabel(sunset + "pm", SwingConstants.CENTER);
+        sunsetLabel = new JLabel(sunset + PM, SwingConstants.CENTER);
         sunsetLabel.setForeground(CyderColors.vanilla);
         sunsetLabel.setFont(CyderFonts.SEGOE_20);
         sunsetLabel.setBounds(0, sunsetLabelIcon.getHeight() / 2, sunsetLabelIcon.getWidth(),
@@ -681,7 +691,7 @@ public class WeatherWidget {
         CyderThreadRunner.submit(() -> {
             while (!stopUpdating.get()) {
                 ThreadUtil.sleep((long) TimeUtil.MILLISECONDS_IN_SECOND);
-                currentTimeLabel.setText(getWeatherTime());
+                currentTimeLabel.setText(getWeatherTimeAccountForGmtOffset());
             }
         }, WEATHER_CLOCK_UPDATER_THREAD_NAME);
     }
@@ -728,11 +738,11 @@ public class WeatherWidget {
     private static final String GMT = "GMT";
 
     /**
-     * Returns the current weather time.
+     * Returns the current weather time correct based on the current gmt offset.
      *
-     * @return the current weather time
+     * @return the current weather time correct based on the current gmt offset
      */
-    private String getWeatherTime() {
+    private String getWeatherTimeAccountForGmtOffset() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormatter = TimeUtil.weatherFormat;
         dateFormatter.setTimeZone(TimeZone.getTimeZone(GMT));
@@ -748,6 +758,28 @@ public class WeatherWidget {
     }
 
     /**
+     * The length for a string with two commas containing city, state, and country.
+     */
+    private static final int cityStateCountryFormatLen = 3;
+
+    /**
+     * The index of the state abbreviation in a city state country string.
+     */
+    private static final int stateIndex = 1;
+
+    /**
+     * The length of USA state abbreviations.
+     */
+    private static final int stateAbbrLen = 2;
+
+    @ForReadability
+    private boolean isRepresentativeOfStateAbbreviation(int locationStringSplitLength, int currentIndex, String part) {
+        return locationStringSplitLength == cityStateCountryFormatLen
+                && currentIndex == stateIndex
+                && part.length() == stateAbbrLen;
+    }
+
+    /**
      * Refreshes the weather labels based off of the current vars.
      */
     private void refreshWeatherLabels() {
@@ -755,18 +787,16 @@ public class WeatherWidget {
             String[] parts = currentLocationString.split(",");
             StringBuilder sb = new StringBuilder();
 
-            boolean lengthThree = parts.length == 3;
-
             for (int i = 0 ; i < parts.length ; i++) {
-                if (lengthThree && i == 1 && parts[i].length() == 2) {
-                    sb.append(parts[i].trim().toUpperCase());
+                String part = parts[i].trim();
+
+                if (isRepresentativeOfStateAbbreviation(parts.length, i, part)) {
+                    sb.append(part.toUpperCase());
                 } else {
-                    sb.append(StringUtil.capsFirstWords(parts[i].trim()).trim());
+                    sb.append(StringUtil.capsFirstWords(part));
                 }
 
-                if (i != parts.length - 1) {
-                    sb.append(", ");
-                }
+                if (i != parts.length - 1) sb.append(", ");
             }
 
             locationLabel.setText(sb.toString());
@@ -777,15 +807,20 @@ public class WeatherWidget {
         // todo cache icons on first entry?
         currentWeatherIconLabel.setIcon(new ImageIcon(
                 OSUtil.buildPath("static", "pictures", "weather", weatherIcon + "." + ImageUtil.PNG_FORMAT)));
-        currentWeatherLabel.setText("<html><div style='text-align: center; vertical-align:bottom'>"
-                + StringUtil.capsFirstWords(weatherCondition).replace("\\s+", "<br/>") + "</html>");
+
+        String centeringDivText = "<div style='text-align: center; vertical-align:bottom'>";
+        currentWeatherLabel.setText(BoundsUtil.OPENING_HTML_TAG
+                + centeringDivText
+                + StringUtil.capsFirstWords(weatherCondition).replace("\\s+", "<br/>")
+                + BoundsUtil.CLOSING_HTML_TAG);
+
         windSpeedLabel.setText("Wind: " + windSpeed + "mph, " + windBearing
                 + "deg (" + getWindDirection(windBearing) + ")");
         humidityLabel.setText("Humidity: " + humidity + "%");
         pressureLabel.setText("Pressure: " + formatFloatMeasurement(pressure) + "atm");
         timezoneLabel.setText("Timezone: " + getGmtTimezoneLabelText());
-        sunriseLabel.setText(accountForGmtOffset(sunrise) + "am");
-        sunsetLabel.setText(accountForGmtOffset(sunset) + "pm");
+        sunriseLabel.setText(accountForGmtOffset(sunrise) + AM);
+        sunsetLabel.setText(accountForGmtOffset(sunset) + PM);
 
         customTempLabel.repaint();
         currentTempLabel.setText(temperature + "F");
@@ -793,23 +828,9 @@ public class WeatherWidget {
         int tempLabelWidth = StringUtil.getMinWidth(currentTempLabel.getText(), currentTempLabel.getFont());
         int tempLabelHeight = StringUtil.getMinHeight(currentTempLabel.getText(), currentTempLabel.getFont());
 
-        int minX = customTempLabel.getX();
-        int maxX = customTempLabel.getX() + customTempLabel.getWidth() - tempLabelWidth;
-
-        int temperatureLineCenter = (int) Math.ceil(customTempLabel.getX()
-                + map(temperature, minTemp, maxTemp)) + 5;
-        int desiredX = temperatureLineCenter - (tempLabelWidth) / 2;
-
-        if (desiredX < minX) {
-            desiredX = minX;
-        }
-
-        if (desiredX > maxX) {
-            desiredX = maxX;
-        }
-
-        currentTempLabel.setBounds(desiredX, customTempLabel.getY() - 3 - tempLabelHeight,
-                tempLabelWidth, tempLabelHeight);
+        int tempLabelPadding = 3;
+        currentTempLabel.setBounds(calculateTemperatureLineCenter(temperature, minTemp, maxTemp),
+                customTempLabel.getY() - tempLabelPadding - tempLabelHeight, tempLabelWidth, tempLabelHeight);
 
         windDirectionLabel.repaint();
 
@@ -819,6 +840,29 @@ public class WeatherWidget {
         if (weatherFrame != null) {
             weatherFrame.notify(refreshedBuilder);
         }
+    }
+
+    private static final int temperatureLineCenterAdditive = 5;
+
+    private int calculateTemperatureLineCenter(float temperature, float minTemp, float maxTemp) {
+        int tempLabelWidth = StringUtil.getMinWidth(currentTempLabel.getText(), currentTempLabel.getFont());
+
+        int customTempLabelMinX = customTempLabel.getX();
+        int customTempLabelMaxX = customTempLabel.getX() + customTempLabel.getWidth() - tempLabelWidth;
+
+        int temperatureLineCenter = (int) Math.ceil(customTempLabel.getX()
+                + map(temperature, minTemp, maxTemp)) + temperatureLineCenterAdditive;
+        temperatureLineCenter -= (tempLabelWidth) / 2;
+
+        if (temperatureLineCenter < customTempLabelMinX) {
+            temperatureLineCenter = customTempLabelMinX;
+        }
+
+        if (temperatureLineCenter > customTempLabelMaxX) {
+            temperatureLineCenter = customTempLabelMaxX;
+        }
+
+        return temperatureLineCenter;
     }
 
     /**
@@ -836,6 +880,11 @@ public class WeatherWidget {
             .setArrowDir(Direction.LEFT);
 
     /**
+     * The weather keyword.
+     */
+    private static final String WEATHER = "weather";
+
+    /**
      * Refreshes the frame title based on the provided city.
      *
      * @param city the city to display in the frame title
@@ -847,7 +896,7 @@ public class WeatherWidget {
 
         if (!city.isEmpty()) {
             String correctedCityName = StringUtil.capsFirstWords(city).trim();
-            weatherFrame.setTitle(correctedCityName + StringUtil.getApostrophe(correctedCityName) + " weather");
+            weatherFrame.setTitle(correctedCityName + StringUtil.getApostrophe(correctedCityName) + " " + WEATHER);
         } else {
             weatherFrame.setTitle(DEFAULT_TITLE);
         }
@@ -895,7 +944,7 @@ public class WeatherWidget {
     /**
      * The range a minute value must fall within.
      */
-    private static final Range<Integer> minuteRange = Range.closed(0, 60);
+    private static final Range<Integer> minuteRange = Range.closed(0, (int) TimeUtil.SECONDS_IN_MINUTE);
 
     /**
      * Formats the provided minutes to always have two digits.
@@ -924,79 +973,21 @@ public class WeatherWidget {
      */
     protected void repullWeatherStats() {
         CyderThreadRunner.submit(() -> {
-            try {
-                userCity = IPUtil.getIpData().getCity();
-                userState = IPUtil.getIpData().getRegion();
-                userCountry = IPUtil.getIpData().getCountry_name();
 
-                if (!useCustomLoc)
-                    currentLocationString = userCity + ", " + userState + ", " + userCountry;
+            userCity = IPUtil.getIpData().getCity();
+            userState = IPUtil.getIpData().getRegion();
+            userCountry = IPUtil.getIpData().getCountry_name();
 
-                String key = PropLoader.getString("weather_key");
+            if (!useCustomLoc) currentLocationString = userCity + ", " + userState + ", " + userCountry;
 
-                String OpenString = CyderUrls.OPEN_WEATHER_BASE +
-                        currentLocationString + "&appid=" + key + "&units=imperial";
+            String key = PropLoader.getString("weather_key");
+            String urlString = CyderUrls.OPEN_WEATHER_BASE +
+                    currentLocationString + "&appid=" + key + "&units=imperial";
 
-                WeatherData wd;
-
-                try (BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(new URL(OpenString).openStream()))) {
-                    wd = gson.fromJson(reader, WeatherData.class);
-
-                    sunrise = String.valueOf(wd.getSys().getSunrise());
-                    sunset = String.valueOf(wd.getSys().getSunset());
-                    weatherIcon = wd.getWeather().get(0).getIcon();
-                    windSpeed = wd.getWind().getSpeed();
-                    windBearing = wd.getWind().getDeg();
-                    weatherCondition = wd.getWeather().get(0).getDescription();
-                    pressure = wd.getMain().getPressure();
-                    humidity = wd.getMain().getHumidity();
-                    temperature = wd.getMain().getTemp();
-                    weatherDataGmtOffset = String.valueOf(wd.getTimezone());
-
-                    minTemp = wd.getMain().getTemp_min();
-                    maxTemp = wd.getMain().getTemp_max();
-
-                    lat = wd.getCoord().getLat();
-                    lon = wd.getCoord().getLon();
-
-                    try {
-                        ImageIcon newBack = MapUtil.getMapView(lat, lon,
-                                weatherFrame.getWidth(), weatherFrame.getHeight());
-                        weatherFrame.setBackground(newBack);
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-
-                    SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm");
-
-                    sunrise = dateFormatter.format(new Date((long) Integer.parseInt(sunrise) * 1000));
-
-                    Date SunsetTime = new Date((long) Integer.parseInt(sunset) * 1000);
-                    sunset = dateFormatter.format(SunsetTime);
-
-                    //calculate the offset from GMT + 0/Zulu time
-                    if (!isGmtSet) {
-                        parsedGmtOffset = Integer.parseInt(weatherDataGmtOffset);
-                        isGmtSet = true;
-                    }
-
-                    //check for night/day icon
-                    if (new Date().getTime() > SunsetTime.getTime()) {
-                        weatherIcon = weatherIcon.replace("d", "n");
-                    }
-
-                    String[] parts = currentLocationString.split(",");
-
-                    if (!parts[0].trim().isEmpty()) {
-                        String city = StringUtil.capsFirstWords(parts[0].trim()).trim();
-                        weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " weather");
-                    } else {
-                        weatherFrame.setTitle(DEFAULT_TITLE);
-                    }
-
-                    Console.INSTANCE.revalidateMenu();
-                }
+            WeatherData wd = null;
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(new URL(urlString).openStream()))) {
+                wd = gson.fromJson(reader, WeatherData.class);
             } catch (FileNotFoundException e) {
                 // Invalid custom location so go back to the old one
                 weatherFrame.notify("Sorry, but that location is invalid");
@@ -1005,11 +996,92 @@ public class WeatherWidget {
                 ExceptionHandler.silentHandle(e);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
-            } finally {
-                refreshWeatherLabels();
             }
-        }, "Weather Stats Updater");
+
+            if (wd == null) return;
+
+            sunrise = String.valueOf(wd.getSys().getSunrise());
+            sunset = String.valueOf(wd.getSys().getSunset());
+            weatherIcon = wd.getWeather().get(0).getIcon();
+            windSpeed = wd.getWind().getSpeed();
+            windBearing = wd.getWind().getDeg();
+            weatherCondition = wd.getWeather().get(0).getDescription();
+            pressure = wd.getMain().getPressure();
+            humidity = wd.getMain().getHumidity();
+            temperature = wd.getMain().getTemp();
+            weatherDataGmtOffset = String.valueOf(wd.getTimezone());
+            minTemp = wd.getMain().getTemp_min();
+            maxTemp = wd.getMain().getTemp_max();
+            lat = wd.getCoord().getLat();
+            lon = wd.getCoord().getLon();
+
+            try {
+                ImageIcon newMapBackground = MapUtil.getMapView(lat, lon, FRAME_WIDTH, FRAME_HEIGHT);
+                weatherFrame.setBackground(newMapBackground);
+            } catch (Exception e) {
+                ExceptionHandler.silentHandle(e);
+                weatherFrame.notify("Could not refresh map background");
+            }
+
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm");
+            sunrise = dateFormatter.format(new Date((long) Integer.parseInt(sunrise) * 1000));
+
+            Date sunsetTime = new Date((long) Integer.parseInt(sunset) * 1000);
+            sunset = dateFormatter.format(sunsetTime);
+
+            setGmtIfNotSet();
+
+            //check for night/day icon
+            if (new Date().getTime() > sunsetTime.getTime()) {
+                weatherIcon = weatherIcon.replace("d", "n");
+            }
+
+            String[] currentLocationParts = currentLocationString.split(",");
+            String currentLocationCityPart = currentLocationParts[0].trim();
+
+            if (!currentLocationCityPart.isEmpty()) {
+                String city = StringUtil.capsFirstWords(currentLocationCityPart);
+                weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " weather");
+            } else {
+                weatherFrame.setTitle(DEFAULT_TITLE);
+            }
+
+            refreshWeatherLabels();
+
+            Console.INSTANCE.revalidateMenu();
+        }, WEATHER_STATS_UPDATER_THREAD_NAME);
     }
+
+    /**
+     * Calculates the timezone offset from GMT0/Zulu time if not yet performed.
+     */
+    @ForReadability
+    private void setGmtIfNotSet() {
+        if (!isGmtSet) {
+            parsedGmtOffset = Integer.parseInt(weatherDataGmtOffset);
+            isGmtSet = true;
+        }
+    }
+
+    /**
+     * The north cardinal direction abbreviation.
+     */
+    private static final String NORTH = "N";
+
+    /**
+     * The south cardinal direction abbreviation.
+     */
+    private static final String SOUTH = "S";
+
+    /**
+     * The east cardinal direction abbreviation.
+     */
+    private static final String EAST = "E";
+
+    /**
+     * The west cardinal direction abbreviation.
+     */
+    private static final String WEST = "W";
 
     /**
      * Returns the wind direction String.
@@ -1033,38 +1105,43 @@ public class WeatherWidget {
         StringBuilder ret = new StringBuilder();
 
         if (inNorthernHemisphere(bearing)) {
-            ret.append("N");
+            ret.append(NORTH);
 
-            if (bearing > 90.0) {
-                ret.append("W");
-            } else if (bearing < 90.0) {
-                ret.append("E");
+            if (bearing > NINETY_DEG) {
+                ret.append(WEST);
+            } else if (bearing < NINETY_DEG) {
+                ret.append(EAST);
             }
         } else if (inSouthernHemisphere(bearing)) {
-            ret.append("S");
+            ret.append(SOUTH);
 
-            if (bearing < 270.0) {
-                ret.append("W");
-            } else if (bearing > 270.0) {
-                ret.append("E");
+            if (bearing < TWO_SEVENTY_DEG) {
+                ret.append(WEST);
+            } else if (bearing > TWO_SEVENTY_DEG) {
+                ret.append(EAST);
             }
         } else if (isEast(bearing)) {
-            ret.append("E");
+            ret.append(EAST);
         } else if (isWest(bearing)) {
-            ret.append("W");
+            ret.append(WEST);
         }
 
         return ret.toString();
     }
 
+    private static final double NINETY_DEG = 90.0;
+    private static final double ONE_EIGHTY_DEG = 180.0;
+    private static final double TWO_SEVENTY_DEG = 270.0;
+    private static final double THREE_SIXTY_DEG = 360.0;
+
     @ForReadability
     private static boolean inNorthernHemisphere(double bearing) {
-        return bearing > 0.0 && bearing < 180.0;
+        return bearing > 0.0 && bearing < ONE_EIGHTY_DEG;
     }
 
     @ForReadability
     private static boolean inSouthernHemisphere(double bearing) {
-        return bearing > 180.0 && bearing < 360.0;
+        return bearing > ONE_EIGHTY_DEG && bearing < THREE_SIXTY_DEG;
     }
 
     @ForReadability
@@ -1074,7 +1151,7 @@ public class WeatherWidget {
 
     @ForReadability
     private static boolean isWest(double bearing) {
-        return bearing == 180.0;
+        return bearing == ONE_EIGHTY_DEG;
     }
 
     /**
