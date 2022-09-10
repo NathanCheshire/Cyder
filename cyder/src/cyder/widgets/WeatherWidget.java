@@ -11,8 +11,6 @@ import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderUrls;
-import cyder.enums.Direction;
-import cyder.enums.NotificationDirection;
 import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -121,17 +119,27 @@ public class WeatherWidget {
     /**
      * The sunrise time in unix time format.
      */
-    private String sunrise = "0";
+    private String sunriseMillis = "0";
 
     /**
      * The sunset time in unix time format.
      */
-    private String sunset = "0";
+    private String sunsetMillis = "0";
+
+    /**
+     * The sunrise time to display on the label.
+     */
+    private String sunriseFormatted = "";
+
+    /**
+     * The sunset time to display on the label.
+     */
+    private String sunsetFormatted = "";
 
     /**
      * The current weather icon resource.
      */
-    private String weatherIcon = "01d.png";
+    private String weatherIconId = "01d";
 
     /**
      * The current weather condition.
@@ -385,8 +393,7 @@ public class WeatherWidget {
         currentWeatherContainer.setBounds(180, 120, 120, 180);
         weatherFrame.getContentPane().add(currentWeatherContainer);
 
-        // todo method since this image icon is in two places
-        currentWeatherIconLabel = new JLabel(new ImageIcon("static/pictures/weather/" + weatherIcon + ".png"));
+        currentWeatherIconLabel = new JLabel(generateCurrentWeatherIcon());
         currentWeatherIconLabel.setBounds(0, 25, currentWeatherContainer.getWidth(),
                 currentWeatherContainer.getHeight() / 2);
         currentWeatherContainer.add(currentWeatherIconLabel);
@@ -417,7 +424,7 @@ public class WeatherWidget {
         sunriseLabelIcon.setBounds(60, 120, 120, 180);
         weatherFrame.getContentPane().add(sunriseLabelIcon);
 
-        sunriseLabel = new JLabel(sunrise + AM, SwingConstants.CENTER);
+        sunriseLabel = new JLabel(sunriseFormatted + AM, SwingConstants.CENTER);
         sunriseLabel.setForeground(CyderColors.vanilla);
         sunriseLabel.setFont(CyderFonts.SEGOE_20);
         sunriseLabel.setBounds(0, sunriseLabelIcon.getHeight() / 2, sunriseLabelIcon.getWidth(),
@@ -442,7 +449,7 @@ public class WeatherWidget {
         sunsetLabelIcon.setBounds(480 - 60 - 120, 120, 120, 180);
         weatherFrame.getContentPane().add(sunsetLabelIcon);
 
-        sunsetLabel = new JLabel(sunset + PM, SwingConstants.CENTER);
+        sunsetLabel = new JLabel(sunsetFormatted + PM, SwingConstants.CENTER);
         sunsetLabel.setForeground(CyderColors.vanilla);
         sunsetLabel.setFont(CyderFonts.SEGOE_20);
         sunsetLabel.setBounds(0, sunsetLabelIcon.getHeight() / 2, sunsetLabelIcon.getWidth(),
@@ -804,9 +811,7 @@ public class WeatherWidget {
             locationLabel.setText("");
         }
 
-        // todo cache icons on first entry?
-        currentWeatherIconLabel.setIcon(new ImageIcon(
-                OSUtil.buildPath("static", "pictures", "weather", weatherIcon + "." + ImageUtil.PNG_FORMAT)));
+        currentWeatherIconLabel.setIcon(generateCurrentWeatherIcon());
 
         String centeringDivText = "<div style='text-align: center; vertical-align:bottom'>";
         currentWeatherLabel.setText(BoundsUtil.OPENING_HTML_TAG
@@ -819,8 +824,10 @@ public class WeatherWidget {
         humidityLabel.setText("Humidity: " + humidity + "%");
         pressureLabel.setText("Pressure: " + formatFloatMeasurement(pressure) + "atm");
         timezoneLabel.setText("Timezone: " + getGmtTimezoneLabelText());
-        sunriseLabel.setText(accountForGmtOffset(sunrise) + AM);
-        sunsetLabel.setText(accountForGmtOffset(sunset) + PM);
+
+        // todo using AM or PM should be determined by determining if the time truly is after/before 12:00am
+        sunriseLabel.setText(accountForGmtOffset(sunriseFormatted) + AM);
+        sunsetLabel.setText(accountForGmtOffset(sunsetFormatted) + PM);
 
         customTempLabel.repaint();
         currentTempLabel.setText(temperature + "F");
@@ -837,13 +844,32 @@ public class WeatherWidget {
         String splitCity = currentLocationString.split(",")[0];
         refreshFrameTitle(splitCity);
 
-        if (weatherFrame != null) {
-            weatherFrame.notify(refreshedBuilder);
-        }
+        if (weatherFrame != null) weatherFrame.toast(REFRESHED);
     }
 
+    private static final String replaceLettersRegex = "[a-zA-Z]+";
+    private static final String D = "d";
+    private static final String N = "n";
+
+    @ForReadability
+    private ImageIcon generateCurrentWeatherIcon() {
+        long sunsetTime = new Date((long) Integer.parseInt(sunsetMillis) * 1000).getTime();
+        long currentTime = new Date().getTime();
+
+        boolean isAfterSunset = currentTime > sunsetTime;
+        String weatherIconIdAndTime = weatherIconId.replaceAll(replaceLettersRegex, "")
+                + (isAfterSunset ? N : D);
+
+        return new ImageIcon(OSUtil.buildPath("static", "pictures", "weather",
+                weatherIconIdAndTime + "." + ImageUtil.PNG_FORMAT));
+    }
+
+    /**
+     * The value to add to the center x value for the temperature label within the custom painted component.
+     */
     private static final int temperatureLineCenterAdditive = 5;
 
+    @ForReadability
     private int calculateTemperatureLineCenter(float temperature, float minTemp, float maxTemp) {
         int tempLabelWidth = StringUtil.getMinWidth(currentTempLabel.getText(), currentTempLabel.getFont());
 
@@ -869,15 +895,6 @@ public class WeatherWidget {
      * The refreshed keyword.
      */
     private static final String REFRESHED = "Refreshed";
-
-    /**
-     * The notification builder to use for when a refresh weather is invoked.
-     */
-    private final CyderFrame.NotificationBuilder refreshedBuilder
-            = new CyderFrame.NotificationBuilder(REFRESHED)
-            .setViewDuration(2000)
-            .setNotificationDirection(NotificationDirection.BOTTOM_LEFT)
-            .setArrowDir(Direction.LEFT);
 
     /**
      * The weather keyword.
@@ -1000,9 +1017,9 @@ public class WeatherWidget {
 
             if (wd == null) return;
 
-            sunrise = String.valueOf(wd.getSys().getSunrise());
-            sunset = String.valueOf(wd.getSys().getSunset());
-            weatherIcon = wd.getWeather().get(0).getIcon();
+            sunriseMillis = String.valueOf(wd.getSys().getSunrise());
+            sunsetMillis = String.valueOf(wd.getSys().getSunset());
+            weatherIconId = wd.getWeather().get(0).getIcon();
             windSpeed = wd.getWind().getSpeed();
             windBearing = wd.getWind().getDeg();
             weatherCondition = wd.getWeather().get(0).getDescription();
@@ -1024,17 +1041,12 @@ public class WeatherWidget {
             }
 
             SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm");
-            sunrise = dateFormatter.format(new Date((long) Integer.parseInt(sunrise) * 1000));
+            sunriseFormatted = dateFormatter.format(new Date((long) Integer.parseInt(sunriseMillis) * 1000));
 
-            Date sunsetTime = new Date((long) Integer.parseInt(sunset) * 1000);
-            sunset = dateFormatter.format(sunsetTime);
+            Date sunsetTime = new Date((long) Integer.parseInt(sunsetMillis) * 1000);
+            sunsetFormatted = dateFormatter.format(sunsetTime);
 
             setGmtIfNotSet();
-
-            //check for night/day icon
-            if (new Date().getTime() > sunsetTime.getTime()) {
-                weatherIcon = weatherIcon.replace("d", "n");
-            }
 
             String[] currentLocationParts = currentLocationString.split(",");
             String currentLocationCityPart = currentLocationParts[0].trim();
