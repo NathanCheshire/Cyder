@@ -2,7 +2,6 @@ package cyder.audio;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.AtomicDouble;
-import com.google.gson.Gson;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
@@ -2703,11 +2702,6 @@ public final class AudioPlayer {
     }
 
     /**
-     * The gson object used for queries from youtube.
-     */
-    private static final Gson gson = new Gson();
-
-    /**
      * Returns the search results for a particular url query.
      *
      * @param url the constructed url to get youtube video results
@@ -2716,7 +2710,7 @@ public final class AudioPlayer {
     private static Optional<YoutubeSearchResultPage> getSearchResults(String url) {
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(new URL(url).openStream()))) {
-            return Optional.of(gson.fromJson(reader, YoutubeSearchResultPage.class));
+            return Optional.of(SerializationUtil.serialize(reader, YoutubeSearchResultPage.class));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

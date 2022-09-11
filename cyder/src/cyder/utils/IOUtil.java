@@ -2,7 +2,6 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.gson.Gson;
 import cyder.audio.AudioPlayer;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
@@ -117,6 +116,7 @@ public final class IOUtil {
             openFileOutsideProgram(fileOrLink);
         }
     }
+
     /**
      * Logs any possible command line arguments passed in to Cyder upon starting.
      * Appends JVM Command Line Arguments along with the start location to the log.
@@ -470,11 +470,6 @@ public final class IOUtil {
     private static final Charset ENCODING = StandardCharsets.UTF_8;
 
     /**
-     * The gson object used to serialize a usb get response.
-     */
-    private static final Gson gson = new Gson();
-
-    /**
      * Executes the usb_q.py script to find the devices connected to the PC via a USB protocol.
      */
     public static ArrayList<String> getUsbDevices() {
@@ -497,7 +492,7 @@ public final class IOUtil {
 
                 responseLine = response.toString().replace("'", "");
 
-                UsbResponse usbResponse = gson.fromJson(responseLine, UsbResponse.class);
+                UsbResponse usbResponse = SerializationUtil.serialize(responseLine, UsbResponse.class);
 
                 ret = usbResponse.parse();
             }

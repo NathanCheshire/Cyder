@@ -2,7 +2,6 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
-import com.google.gson.Gson;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -23,11 +22,6 @@ public final class ElevationUtil {
     private ElevationUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
-
-    /**
-     * The gson object used to serialize data from <a href="https://nationalmap.gov/">NationalMap</a>.
-     */
-    private static final Gson gson = new Gson();
 
     /**
      * The base string for queries.
@@ -59,7 +53,7 @@ public final class ElevationUtil {
 
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(new URL(queryString).openStream()))) {
-            ElevationData elevationData = gson.fromJson(reader, ElevationData.class);
+            ElevationData elevationData = SerializationUtil.serialize(reader, ElevationData.class);
             return Double.parseDouble(elevationData.uepqs.elevationQuery.elevation);
         } catch (Exception e) {
             ExceptionHandler.handle(e);

@@ -1,7 +1,6 @@
 package cyder.audio;
 
 import com.google.common.base.Preconditions;
-import com.google.gson.Gson;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
@@ -529,11 +528,6 @@ public final class AudioUtil {
     private static final Charset ENCODING = StandardCharsets.UTF_8;
 
     /**
-     * The gson object used to serialize audio length posts.
-     */
-    private static final Gson gson = new Gson();
-
-    /**
      * Returns the number of milliseconds in an audio file.
      *
      * @param audioFile the audio file to return the duration of
@@ -565,7 +559,8 @@ public final class AudioUtil {
                     response.append(responseLine.trim());
                 }
 
-                AudioLengthResponse audioLengthResponse = gson.fromJson(response.toString(), AudioLengthResponse.class);
+                AudioLengthResponse audioLengthResponse = SerializationUtil.serialize(
+                        response.toString(), AudioLengthResponse.class);
 
                 return Math.round(audioLengthResponse.getLength() * 1000);
             }

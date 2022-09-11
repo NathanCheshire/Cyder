@@ -35,11 +35,6 @@ public final class GitHubUtil {
     }
 
     /**
-     * The gson object used to serialize github issue responses.
-     */
-    private static final Gson gson = new Gson();
-
-    /**
      * The link for the github api to return a json of currently open issues for Cyder.
      */
     private static final String CYDER_ISSUES = "https://api.github.com/repos/nathancheshire/cyder/issues";
@@ -71,7 +66,7 @@ public final class GitHubUtil {
             reader.close();
             String rawJson = sb.toString();
 
-            ret = gson.fromJson(rawJson, Issue[].class);
+            ret = SerializationUtil.serialize(rawJson, Issue[].class);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -108,7 +103,7 @@ public final class GitHubUtil {
 
             Type type = new TypeToken<HashMap<String, Integer>>() {}.getType();
 
-            ret = gson.fromJson(rawJson, type);
+            ret = new Gson().fromJson(rawJson, type);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

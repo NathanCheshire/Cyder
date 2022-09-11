@@ -1,6 +1,5 @@
 package cyder.widgets;
 
-import com.google.gson.Gson;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
@@ -17,10 +16,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.ui.*;
-import cyder.utils.ColorUtil;
-import cyder.utils.IPUtil;
-import cyder.utils.StringUtil;
-import cyder.utils.UiUtil;
+import cyder.utils.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -102,7 +98,8 @@ public final class ClockWidget {
     private static int currentGMTOffset;
 
     // it's ya boi, Greenwich
-    @Widget(triggers = "clock", description = "A clock widget capable of spawning mini widgets and changing the time zone")
+    @Widget(triggers = "clock",
+            description = "A clock widget capable of spawning mini widgets and changing the time zone")
     public static void showGui() {
         CyderThreadRunner.submit(() -> {
             UiUtil.closeIfOpen(clockFrame);
@@ -411,12 +408,11 @@ public final class ClockWidget {
                         String OpenString = CyderUrls.OPEN_WEATHER_BASE +
                                 possibleLocation + "&appid=" + key + "&units=imperial";
 
-                        Gson gson = new Gson();
                         WeatherData wd;
 
                         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                                 new URL(OpenString).openStream()))) {
-                            wd = gson.fromJson(reader, WeatherData.class);
+                            wd = SerializationUtil.serialize(reader, WeatherData.class);
                             currentGMTOffset = Integer.parseInt(String.valueOf(wd.getTimezone())) / 3600;
                             currentLocation = possibleLocation;
 
@@ -559,11 +555,10 @@ public final class ClockWidget {
         String OpenString = CyderUrls.OPEN_WEATHER_BASE +
                 currentLocation + "&appid=" + key + "&units=imperial";
 
-        Gson gson = new Gson();
         WeatherData wd;
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()))) {
-            wd = gson.fromJson(reader, WeatherData.class);
+            wd = SerializationUtil.serialize(reader, WeatherData.class);
             currentGMTOffset = Integer.parseInt(String.valueOf(wd.getTimezone())) / 3600;
         } catch (Exception e) {
             ExceptionHandler.handle(e);

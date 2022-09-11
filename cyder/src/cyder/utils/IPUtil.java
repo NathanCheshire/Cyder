@@ -1,6 +1,5 @@
 package cyder.utils;
 
-import com.google.gson.Gson;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -53,10 +52,7 @@ public final class IPUtil {
      * Refreshes this object's IPData var
      */
     public static void refreshIpData() {
-        Gson gson = new Gson();
-
-        if (UserUtil.getCyderUser() == null)
-            return;
+        if (UserUtil.getCyderUser() == null) return;
 
         String key = PropLoader.getString("ip_key");
 
@@ -71,7 +67,7 @@ public final class IPUtil {
         String url = CyderUrls.IPDATA_BASE + key;
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
-            ipdata = gson.fromJson(reader, IPData.class);
+            ipdata = SerializationUtil.serialize(reader, IPData.class);
         } catch (IOException e) {
             ExceptionHandler.silentHandle(e);
         }

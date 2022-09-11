@@ -2,7 +2,6 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.gson.Gson;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.Dynamic;
@@ -920,11 +919,6 @@ public final class ImageUtil {
     private static final Charset ENCODING = StandardCharsets.UTF_8;
 
     /**
-     * The gson object used to serialize image posts.
-     */
-    private static final Gson GSON = new Gson();
-
-    /**
      * A builder for a gaussian blur POST to the backend.
      */
     public static class GaussianBlurBuilder {
@@ -1070,9 +1064,8 @@ public final class ImageUtil {
                         response.append(responseLine.trim());
                     }
 
-                    return GSON.fromJson(response.toString(), BlurResponse.class).generateFileReference();
+                    return SerializationUtil.serialize(response.toString(), BlurResponse.class).generateFileReference();
                 }
-
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -1080,6 +1073,11 @@ public final class ImageUtil {
             return Optional.empty();
         });
     }
+
+    /**
+     * The maximum alpha value.
+     */
+    private static final int MAX_ALPHA = 255;
 
     /**
      * Sets the alpha value of all pixels within the buffered image to the provided value.
@@ -1091,7 +1089,7 @@ public final class ImageUtil {
     public static BufferedImage setAlphaOfPixels(BufferedImage bi, int alpha) {
         Preconditions.checkNotNull(bi);
         Preconditions.checkArgument(alpha >= 0);
-        Preconditions.checkArgument(alpha < 256);
+        Preconditions.checkArgument(alpha <= MAX_ALPHA);
 
         BufferedImage ret = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_INT_ARGB);
 

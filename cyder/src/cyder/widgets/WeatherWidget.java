@@ -2,7 +2,6 @@ package cyder.widgets;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
-import com.google.gson.Gson;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
@@ -998,11 +997,6 @@ public class WeatherWidget {
     }
 
     /**
-     * The gson object to use for deserializing json data.
-     */
-    private static final Gson gson = new Gson();
-
-    /**
      * Refreshes the weather stat variables.
      */
     protected void repullWeatherStats() {
@@ -1021,7 +1015,7 @@ public class WeatherWidget {
             WeatherData wd = null;
             try (BufferedReader reader = new BufferedReader(
                     new InputStreamReader(new URL(urlString).openStream()))) {
-                wd = gson.fromJson(reader, WeatherData.class);
+                wd = SerializationUtil.serialize(reader, WeatherData.class);
             } catch (FileNotFoundException e) {
                 // Invalid custom location so go back to the old one
                 weatherFrame.notify("Sorry, but that location is invalid");
