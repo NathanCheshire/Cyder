@@ -6,6 +6,7 @@ import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.ExitCondition;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
@@ -22,6 +23,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -260,6 +262,11 @@ public enum CyderSplash {
     private final LinkedList<HarmonicRectangle> harmonicRectangles = new LinkedList<>();
 
     /**
+     * The semaphore for adding or removing harmonic rectangles.
+     */
+    private final Semaphore harmonicRectangleSemaphore = new Semaphore(1);
+
+    /**
      * The center point to place the console frame/login frame at if the splash frame is relocated during startup.
      */
     private final AtomicReference<Point> relocatedCenterPoint = new AtomicReference<>();
@@ -337,9 +344,17 @@ public enum CyderSplash {
      * Stops the animation of all harmonic rectangles.
      */
     private void stopHarmonicRectangles() {
+        try {
+            harmonicRectangleSemaphore.acquire();
+        } catch (InterruptedException e) {
+            ExceptionHandler.handle(e);
+        }
+
         for (HarmonicRectangle rectangle : harmonicRectangles) {
             rectangle.stopAnimation();
         }
+
+        harmonicRectangleSemaphore.release();
     }
 
     /**
@@ -359,9 +374,9 @@ public enum CyderSplash {
 
                 ThreadUtil.sleep(loadingMessageStartTimeout);
 
-                addAndUpdateLoadingLabel();
-
                 splashAnimationCompleted.set(true);
+
+                addAndUpdateLoadingLabel();
 
                 addAndAnimateHarmonicRectangles();
 
@@ -527,6 +542,12 @@ public enum CyderSplash {
         int harmonicPadding = (FRAME_LEN - harmonicRectangleLen * numHarmonicRectangles
                 - harmonicXInnerPadding * (numHarmonicRectangles - 1)) / 2;
 
+        try {
+            harmonicRectangleSemaphore.acquire();
+        } catch (InterruptedException e) {
+            ExceptionHandler.handle(e);
+        }
+
         for (int i = 0 ; i < numHarmonicRectangles ; i++) {
             int x = harmonicPadding + i * harmonicRectangleLen + i * harmonicXInnerPadding;
             HarmonicRectangle harmonicRectangle = new HarmonicRectangle(harmonicRectangleLen,
@@ -538,6 +559,8 @@ public enum CyderSplash {
             splashFrame.getContentPane().add(harmonicRectangle);
             harmonicRectangles.add(harmonicRectangle);
         }
+
+        harmonicRectangleSemaphore.release();
 
         for (HarmonicRectangle rectangle : harmonicRectangles) {
             if (disposed.get()) break;

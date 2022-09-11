@@ -2582,7 +2582,9 @@ public class CyderFrame extends JFrame {
      * @return whether the frame should be pinned to the console
      */
     public boolean isConsolePinned() {
-        return getTopDragLabel().getPinButton().getCurrentState() == PinButton.State.PINNED_TO_CONSOLE;
+        CyderDragLabel dragLabel = getTopDragLabel();
+        if (dragLabel == null) return false;
+        return dragLabel.getPinButton().getCurrentState() == PinButton.State.PINNED_TO_CONSOLE;
     }
 
     /**
@@ -2720,7 +2722,6 @@ public class CyderFrame extends JFrame {
 
     // todo minimize is focused by default or something?
     // todo blurring current background changes size
-    // todo fade opacity of scroll bars by 1s in and out
     // todo dreamifying still freezes sometimes
 
     // -----------
