@@ -440,16 +440,16 @@ public class CyderDragLabel extends JLabel {
      *
      * @return the initial state of the pin button
      */
-    private PinButton.State getInitialPinButtonState() {
-        PinButton.State ret = PinButton.State.DEFAULT;
+    private PinButton.PinState getInitialPinButtonState() {
+        PinButton.PinState ret = PinButton.PinState.DEFAULT;
 
         CyderFrame consoleFrame = Console.INSTANCE.getConsoleCyderFrame();
         if (consoleFrame != null) {
             boolean consolePinned = consoleFrame.getTopDragLabel()
-                    .getPinButton().getCurrentState() == PinButton.State.CONSOLE_PINNED;
+                    .getPinButton().getCurrentState() == PinButton.PinState.CONSOLE_PINNED;
             boolean weAreConsole = consoleFrame.equals(effectFrame);
             if (consolePinned && !weAreConsole) {
-                ret = PinButton.State.FRAME_PINNED;
+                ret = PinButton.PinState.FRAME_PINNED;
             }
         }
 

@@ -1,6 +1,7 @@
 package cyder.console;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.ui.CyderDragLabel;
@@ -25,9 +26,9 @@ public class PinButton extends JLabel {
     public static final Size DEFAULT_SIZE = Size.SMALL;
 
     /**
-     * The current state of this pin button.
+     * The current state of this icon button.
      */
-    private State currentState;
+    private PinState currentState;
 
     /**
      * The frame this pin button will be placed on.
@@ -50,32 +51,32 @@ public class PinButton extends JLabel {
     private final AtomicBoolean focused = new AtomicBoolean();
 
     /**
-     * Constructs a new pin button with a default state of {@link State#DEFAULT}.
+     * Constructs a new icon button with a default state of {@link PinState#DEFAULT}.
      *
-     * @param effectFrame the frame this pin button will be on
+     * @param effectFrame the frame this icon button will be on
      */
     public PinButton(CyderFrame effectFrame) {
-        this(effectFrame, State.DEFAULT);
+        this(effectFrame, PinState.DEFAULT);
     }
 
     /**
-     * Constructs a new pin button with a state of {@link #DEFAULT_SIZE}.
+     * Constructs a new icon button with a state of {@link #DEFAULT_SIZE}.
      *
-     * @param effectFrame  the frame this pin button will be on
-     * @param initialState the starting state of this pin button
+     * @param effectFrame  the frame this icon button will be on
+     * @param initialState the starting state of this icon button
      */
-    public PinButton(CyderFrame effectFrame, State initialState) {
+    public PinButton(CyderFrame effectFrame, PinState initialState) {
         this(effectFrame, initialState, DEFAULT_SIZE);
     }
 
     /**
      * Constructs a new pin button.
      *
-     * @param effectFrame  the frame this pin button will be on
-     * @param initialState the initial state of the pin button
-     * @param size         the size of the pin button
+     * @param effectFrame  the frame this icon button will be on
+     * @param initialState the initial state of the icon button
+     * @param size         the size of the icon button
      */
-    public PinButton(CyderFrame effectFrame, State initialState, Size size) {
+    public PinButton(CyderFrame effectFrame, PinState initialState, Size size) {
         this.effectFrame = Preconditions.checkNotNull(effectFrame);
         this.currentState = Preconditions.checkNotNull(initialState);
         this.size = Preconditions.checkNotNull(size);
@@ -208,45 +209,53 @@ public class PinButton extends JLabel {
     }
 
     /**
-     * Refreshes the tooltip of this pin button based on the current state.
+     * Refreshes the tooltip of this icon button based on the current state.
      */
     public void refreshTooltip() {
         setToolTipText(currentState.getTooltip());
     }
 
     /**
-     * The exception message for an invalid icon button state.
+     * The immutable map of console pin button states to their successor states.
      */
-    private static final String ILLEGAL_STATE_FOR_REGULAR_FRAME = "Illegal state for regular frame";
+    private static final ImmutableMap<PinState, PinState> consolePinButtonStates = ImmutableMap.of(
+            PinState.DEFAULT, PinState.CONSOLE_PINNED,
+            PinState.CONSOLE_PINNED, PinState.DEFAULT
+    );
 
     /**
-     * Returns the next state for this pin button depending on whether
-     * effect frame is equal to {@link Console#INSTANCE}'s CyderFrame.
-     *
-     * @return the next state for this pin button
+     * The immutable map of pin button states to their successor states.
      */
-    private State getNextState() {
+    private static final ImmutableMap<PinState, PinState> pinButtonStates = ImmutableMap.of(
+            PinState.DEFAULT, PinState.FRAME_PINNED,
+            PinState.FRAME_PINNED, PinState.PINNED_TO_CONSOLE,
+            PinState.PINNED_TO_CONSOLE, PinState.DEFAULT
+    );
+
+    /**
+     * Returns the next state for this icon button.
+     *
+     * @return the next state for this icon button
+     */
+    private PinState getNextState() {
         if (Console.INSTANCE.getConsoleCyderFrame().equals(effectFrame)) {
-            return currentState == State.DEFAULT ? State.CONSOLE_PINNED : State.DEFAULT;
-        } else return switch (currentState) {
-            case DEFAULT -> State.FRAME_PINNED;
-            case FRAME_PINNED -> State.PINNED_TO_CONSOLE;
-            case PINNED_TO_CONSOLE -> State.DEFAULT;
-            case CONSOLE_PINNED -> throw new IllegalStateException(ILLEGAL_STATE_FOR_REGULAR_FRAME);
-        };
+            return consolePinButtonStates.get(currentState);
+        } else {
+            return pinButtonStates.get(currentState);
+        }
     }
 
     /**
-     * Returns the current state of this pin button.
+     * Returns the current state of this icon button.
      *
-     * @return the current state of this pin button
+     * @return the current state of this icon button
      */
-    public State getCurrentState() {
+    public PinState getCurrentState() {
         return currentState;
     }
 
     /**
-     * Sets the state of this pin button to the next state.
+     * Sets the state of this icon to the next state.
      */
     public void incrementState() {
         currentState = getNextState();
@@ -257,11 +266,11 @@ public class PinButton extends JLabel {
     }
 
     /**
-     * Sets the state of this pin button.
+     * Sets the state of this icon button.
      *
-     * @param newState the state of this pin button
+     * @param newState the state of this icon button
      */
-    public void setState(State newState) {
+    public void setState(PinState newState) {
         currentState = Preconditions.checkNotNull(newState);
         refreshTooltip();
         repaint();
@@ -299,24 +308,6 @@ public class PinButton extends JLabel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
 
-        g2d.setColor(getPaintColor());
-
-        int len = 2;
-        for (int i = 0 ; i < getPaintLength() ; i++) {
-            g2d.drawRect(i, i, len, len);
-        }
-
-        for (int i = 0 ; i < getPaintLength() ; i++) {
-            g2d.drawRect(i, getPaintLength() - i - 1, len, len);
-        }
-
-        super.paint(g);
-    }
-
-    public void paintPin(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.translate(PAINT_PADDING, PAINT_PADDING);
-
         int[] pinButtonPolygonXPoints = new int[]{0, getPaintLength(), getPaintLength() / 2, 0};
         int[] pinButtonPolygonYPoints = new int[]{0, 0, getPaintLength(), 0};
 
@@ -330,9 +321,12 @@ public class PinButton extends JLabel {
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
 
         g2d.setColor(getPaintColor());
-        g2d.setStroke(new BasicStroke(2));
+        BasicStroke changeSizeStroke = new BasicStroke(2);
+        g2d.setStroke(changeSizeStroke);
+        int changeSizeYOffset = 1;
+        int changeSizeHeight = getPaintLength() - 2;
 
-        g2d.drawRect(0, 1, getPaintLength(), getPaintLength() - 2);
+        g2d.drawRect(0, changeSizeYOffset, getPaintLength(), changeSizeHeight);
         super.paint(g);
     }
 
@@ -341,9 +335,30 @@ public class PinButton extends JLabel {
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
 
         g2d.setColor(getPaintColor());
-        g2d.setStroke(new BasicStroke(2));
+        BasicStroke minimizeStroke = new BasicStroke(2);
+        g2d.setStroke(minimizeStroke);
+        int minimizeYStart = getPaintLength() - 4;
 
-        g2d.drawLine(0, getPaintLength() - 4, getPaintLength(), getPaintLength() - 4);
+        g2d.drawLine(0, minimizeYStart, getPaintLength(), minimizeYStart);
+        super.paint(g);
+    }
+
+    public void paintClose(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.translate(PAINT_PADDING, PAINT_PADDING);
+
+        g2d.setColor(getPaintColor());
+
+        int len = 2;
+        int secondLineSubtrahend = 1;
+        for (int i = 0 ; i < getPaintLength() ; i++) {
+            g2d.drawRect(i, i, len, len);
+        }
+
+        for (int i = 0 ; i < getPaintLength() ; i++) {
+            g2d.drawRect(i, getPaintLength() - i - secondLineSubtrahend, len, len);
+        }
+
         super.paint(g);
     }
 
@@ -367,7 +382,7 @@ public class PinButton extends JLabel {
     /**
      * The possible states of pin buttons.
      */
-    public enum State {
+    public enum PinState {
         /**
          * The default state of frames.
          */
@@ -392,7 +407,7 @@ public class PinButton extends JLabel {
         private final Color currentColor;
         private final Color nextColor;
 
-        State(String tooltip, Color currentColor, Color nextColor) {
+        PinState(String tooltip, Color currentColor, Color nextColor) {
             this.tooltip = tooltip;
             this.currentColor = currentColor;
             this.nextColor = nextColor;

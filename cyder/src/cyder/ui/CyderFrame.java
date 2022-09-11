@@ -882,7 +882,8 @@ public class CyderFrame extends JFrame {
     public void refreshAlwaysOnTop() {
         switch (frameType) {
             case DEFAULT -> {
-                boolean notDefaultState = getTopDragLabel().getPinButton().getCurrentState() != PinButton.State.DEFAULT;
+                boolean notDefaultState =
+                        getTopDragLabel().getPinButton().getCurrentState() != PinButton.PinState.DEFAULT;
                 System.out.println("Setting always on top of " + this.getTitle() + " to: " + notDefaultState);
                 setAlwaysOnTop(notDefaultState);
             }
@@ -2584,7 +2585,7 @@ public class CyderFrame extends JFrame {
     public boolean isConsolePinned() {
         CyderDragLabel dragLabel = getTopDragLabel();
         if (dragLabel == null) return false;
-        return dragLabel.getPinButton().getCurrentState() == PinButton.State.PINNED_TO_CONSOLE;
+        return dragLabel.getPinButton().getCurrentState() == PinButton.PinState.PINNED_TO_CONSOLE;
     }
 
     /**
@@ -2716,7 +2717,7 @@ public class CyderFrame extends JFrame {
         if (console == null) return;
 
         if (console.isAlwaysOnTop() && !console.equals(this)) {
-            getTopDragLabel().getPinButton().setState(PinButton.State.FRAME_PINNED);
+            getTopDragLabel().getPinButton().setState(PinButton.PinState.FRAME_PINNED);
         }
     }
 

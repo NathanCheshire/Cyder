@@ -712,7 +712,7 @@ public enum Console {
 
         boolean onTop = requestedConsoleStats.isConsoleOnTop();
         consoleCyderFrame.getTopDragLabel().getPinButton()
-                .setState(onTop ? PinButton.State.CONSOLE_PINNED : PinButton.State.DEFAULT);
+                .setState(onTop ? PinButton.PinState.CONSOLE_PINNED : PinButton.PinState.DEFAULT);
 
         int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
         int requestedConsoleHeight = requestedConsoleStats.getConsoleHeight();
