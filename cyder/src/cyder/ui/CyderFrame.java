@@ -2721,8 +2721,6 @@ public class CyderFrame extends JFrame {
     }
 
     // todo minimize is focused by default or something?
-    // todo blurring current background changes size
-    // todo dreamifying still freezes sometimes
 
     // -----------
     // Debug lines
@@ -2850,7 +2848,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Sets the center point of the frame to the provided point.
+     * Sets the center point of the frame on the screen to the provided point.
      *
      * @param point the center point of the frame
      */

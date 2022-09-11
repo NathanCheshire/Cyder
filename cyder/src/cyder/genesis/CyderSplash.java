@@ -209,7 +209,7 @@ public enum CyderSplash {
     /**
      * The default loading message for the splash to display.
      */
-    public final String DEFAULT_LOADING_MESSAGE = "Loading Components";
+    private static final String DEFAULT_LOADING_MESSAGE = "Loading Components";
 
     /**
      * Whether the splash has been disposed this instance.
@@ -219,32 +219,32 @@ public enum CyderSplash {
     /**
      * The width and height for the borderless splash frame.
      */
-    private final int FRAME_LEN = 600;
+    private static final int FRAME_LEN = 600;
 
     /**
      * The length of the blue borders that animate in to surround the Cyder logo.
      */
-    private final int LOGO_BORDER_LEN = 200;
+    private static final int LOGO_BORDER_LEN = 200;
 
     /**
      * The timeout between loading label updates.
      */
-    private final int loadingLabelUpdateTimeout = 25;
+    private static final int loadingLabelUpdateTimeout = 25;
 
     /**
      * The maximum seconds of the splash should be visible for.
      */
-    private final int showLoadingLabelTimeout = 30 * 1000;
+    private static final int showLoadingLabelTimeout = 30 * 1000;
 
     /**
      * The number of times to update the loading label.
      */
-    private final int loadingLabelUpdateIterations = (showLoadingLabelTimeout) / loadingLabelUpdateTimeout;
+    private static final int loadingLabelUpdateIterations = (showLoadingLabelTimeout) / loadingLabelUpdateTimeout;
 
     /**
      * The timeout before starting to display loading messages after finishing the splash animation.
      */
-    private final int loadingMessageStartTimeout = 1500;
+    private static final int loadingMessageStartTimeout = 500;
 
     /**
      * The font used for the loading label messages.
@@ -252,9 +252,14 @@ public enum CyderSplash {
     private final Font loadingLabelFont = new Font("Agency FB", Font.BOLD, 40);
 
     /**
+     * The name of the font for the developer signature label.
+     */
+    private static final String developerSignatureFontName = "Condiment";
+
+    /**
      * The font used for the author signature.
      */
-    private final Font developerSignatureFont = new Font("Condiment", Font.BOLD, 50);
+    private final Font developerSignatureFont = new Font(developerSignatureFontName, Font.BOLD, 50);
 
     /**
      * The list of harmonic rectangles.
@@ -319,7 +324,7 @@ public enum CyderSplash {
     /**
      * The loading message to display on the loading label.
      */
-    private String loadingMessage = DEFAULT_LOADING_MESSAGE;
+    private final AtomicReference<String> loadingMessage = new AtomicReference<>(DEFAULT_LOADING_MESSAGE);
 
     /**
      * The C icon.
@@ -382,7 +387,7 @@ public enum CyderSplash {
 
                 ThreadUtil.sleep(showLoadingLabelTimeout);
 
-                loadingLabel.setText(loadingMessage);
+                loadingLabel.setText(loadingMessage.get());
                 loadingLabel.repaint();
 
                 if (!disposed.get() && PropLoader.getBoolean(DISPOSE_SPLASH_KEY)) {
@@ -511,19 +516,19 @@ public enum CyderSplash {
      * Adds the loading label and spawns the thread to update it {@link #loadingLabelUpdateIterations} times.
      */
     private void addAndUpdateLoadingLabel() {
-        loadingLabel = new CyderLabel(loadingMessage);
+        loadingLabel = new CyderLabel(loadingMessage.get());
         loadingLabel.setFocusable(false);
         loadingLabel.setFont(loadingLabelFont);
         loadingLabel.setForeground(CyderColors.vanilla);
         loadingLabel.setSize(FRAME_LEN,
-                StringUtil.getMinHeight(loadingMessage, loadingLabelFont));
+                StringUtil.getMinHeight(loadingMessage.get(), loadingLabelFont));
         loadingLabel.setLocation(0, FRAME_LEN - LOADING_LABEL_BOTTOM_OFFSET);
 
         splashFrame.getContentPane().add(loadingLabel);
 
         CyderThreadRunner.submit(() -> {
             for (int i = 0 ; i < loadingLabelUpdateIterations ; i++) {
-                loadingLabel.setText(loadingMessage);
+                loadingLabel.setText(loadingMessage.get());
                 loadingLabel.repaint();
 
                 ThreadUtil.sleep(loadingLabelUpdateTimeout);
@@ -623,24 +628,24 @@ public enum CyderSplash {
     /**
      * Sets the loading label and updates the splash frame.
      *
-     * @param loadingMessage the message to set to the loading label
+     * @param newLoadingMessage the message to set to the loading label
      */
-    public void setLoadingMessage(String loadingMessage) {
-        Preconditions.checkNotNull(loadingMessage);
-        Preconditions.checkArgument(!loadingMessage.isEmpty());
+    public void setLoadingMessage(String newLoadingMessage) {
+        Preconditions.checkNotNull(newLoadingMessage);
+        Preconditions.checkArgument(!newLoadingMessage.isEmpty());
 
-        loadingMessage = StringUtil.getTrimmedText(loadingMessage);
-        Logger.log(Logger.Tag.LOADING_MESSAGE, loadingMessage);
+        newLoadingMessage = StringUtil.getTrimmedText(newLoadingMessage);
+        Logger.log(Logger.Tag.LOADING_MESSAGE, newLoadingMessage);
 
         if (splashFrame == null || splashFrame.isDisposed()) return;
 
+        loadingMessage.set(newLoadingMessage);
+
         if (loadingLabel != null) {
-            loadingLabel.setText(loadingMessage);
+            loadingLabel.setText(newLoadingMessage);
             loadingLabel.revalidate();
             loadingLabel.repaint();
         }
-
-        this.loadingMessage = loadingMessage;
     }
 
     /**

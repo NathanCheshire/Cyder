@@ -64,16 +64,25 @@ public class ImageHandler extends InputHandler {
     }
 
     /**
+     * The minimum allowable radius when blurring the background.
+     */
+    private static final int MIN_BLUR_SIZE = 3;
+
+    /**
      * Attempts to validate a blur command and if valid, blur the current console background.
      */
     private static void attemptToBlurBackground() {
         try {
             int radius = Integer.parseInt(getInputHandler().getArg(0));
+            boolean isEven = radius % 2 == 0;
 
-            if (radius % 2 == 0) {
+
+            if (isEven) {
                 getInputHandler().println("Blur radius must be an odd number");
-            } else if (radius < 3) {
-                getInputHandler().println("Minimum blur radius is 3");
+                return;
+            } else if (radius < MIN_BLUR_SIZE) {
+                getInputHandler().println("Minimum blur radius is " + MIN_BLUR_SIZE);
+                return;
             }
 
             File currentBackgroundFile = Console.INSTANCE.getCurrentBackground().getReferenceFile();
@@ -88,10 +97,8 @@ public class ImageHandler extends InputHandler {
                     return;
                 }
 
-                currentBackgroundFile = OSUtil.buildFile(
-                        Dynamic.PATH,
-                        Dynamic.TEMP.getDirectoryName(),
-                        name + "." + ImageUtil.PNG_FORMAT);
+                currentBackgroundFile = OSUtil.buildFile(Dynamic.PATH,
+                        Dynamic.TEMP.getDirectoryName(), name + "." + ImageUtil.PNG_FORMAT);
             }
 
             Future<Optional<File>> futureImage = ImageUtil.gaussianBlur(
@@ -102,7 +109,7 @@ public class ImageHandler extends InputHandler {
             }
 
             if (futureImage.get().isPresent()) {
-                Console.INSTANCE.setBackgroundFile(futureImage.get().get());
+                Console.INSTANCE.setBackgroundFile(futureImage.get().get(), true);
                 getInputHandler().println("Background blurred, set, and saved as a separate background file.");
             } else {
                 getInputHandler().println("Could not blur background at this time");

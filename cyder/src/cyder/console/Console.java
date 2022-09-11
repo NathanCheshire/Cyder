@@ -2260,6 +2260,22 @@ public enum Console {
      * @param backgroundFile the background file to set the console to
      */
     public void setBackgroundFile(File backgroundFile) {
+        Preconditions.checkNotNull(backgroundFile);
+        Preconditions.checkArgument(backgroundFile.exists());
+
+        setBackgroundFile(backgroundFile, false);
+    }
+
+    /**
+     * Sets the background to the provided file in the user's backgrounds directory provided it exists.
+     *
+     * @param backgroundFile        the background file to set the console to
+     * @param maintainSizeAndCenter whether to maintain the current console frame size and center
+     */
+    public void setBackgroundFile(File backgroundFile, boolean maintainSizeAndCenter) {
+        Preconditions.checkNotNull(backgroundFile);
+        Preconditions.checkArgument(backgroundFile.exists());
+
         reloadBackgrounds();
 
         int index = -1;
@@ -2272,7 +2288,7 @@ public enum Console {
         }
 
         if (index != -1) {
-            setBackgroundIndex(index);
+            setBackgroundIndex(index, maintainSizeAndCenter);
         } else {
             throw new IllegalArgumentException("Provided file not found in user's backgrounds directory: "
                     + backgroundFile.getAbsolutePath());
@@ -2310,13 +2326,23 @@ public enum Console {
      * @param index the index to switch the console background to
      */
     private void setBackgroundIndex(int index) {
+        setBackgroundIndex(index, false);
+    }
+
+    /**
+     * Sets the background index to the provided index
+     * if valid and switches to that background.
+     *
+     * @param index                 the index to switch the console background to
+     * @param maintainSizeAndCenter whether to maintain the current console frame size and center
+     */
+    private void setBackgroundIndex(int index, boolean maintainSizeAndCenter) {
         reloadBackgrounds();
 
         if (index < 0 || index > backgrounds.size() - 1) return;
 
+        Dimension originalSize = consoleCyderFrame.getSize();
         Point center = consoleCyderFrame.getCenterPointOnScreen();
-
-        revalidate(true, false);
 
         backgroundIndex = index;
 
@@ -2331,10 +2357,15 @@ public enum Console {
         };
 
         consoleCyderFrame.setBackground(imageIcon);
-        consoleCyderFrame.setSize(imageIcon.getIconWidth(), imageIcon.getIconHeight());
 
-        consoleCyderFrame.setLocation((int) (center.getX() - (imageIcon.getIconWidth()) / 2),
-                (int) (center.getY() - (imageIcon.getIconHeight()) / 2));
+        if (maintainSizeAndCenter) {
+            consoleCyderFrame.setSize(originalSize);
+            consoleCyderFrame.setCenterPoint(center);
+        } else {
+            consoleCyderFrame.setSize(imageIcon.getIconWidth(), imageIcon.getIconHeight());
+            consoleCyderFrame.setLocation((int) (center.getX() - (imageIcon.getIconWidth()) / 2),
+                    (int) (center.getY() - (imageIcon.getIconHeight()) / 2));
+        }
 
         // Tooltip based on image name
         getConsoleCyderFrameContentPane().setToolTipText(

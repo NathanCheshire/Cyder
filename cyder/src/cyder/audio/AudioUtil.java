@@ -173,12 +173,37 @@ public final class AudioUtil {
     /**
      * The highpass value for dreamifying an audio file.
      */
-    public static final int highpass = 2;
+    public static final int HIGHPASS = 2;
 
     /**
      * The lowpass value for dreamifying an audio file.
      */
-    public static final int lowpass = 300;
+    public static final int LOWPASS = 300;
+
+    /**
+     * The audio dreamifier thread name prefix.
+     */
+    private static final String AUDIO_DREAMIFIER = "Audio Dreamifier: ";
+
+    /**
+     * An escaped quote character.
+     */
+    private static final String ESCAPED_QUOTE = "\"";
+
+    /**
+     * The -filter:a flag for setting high and low pass data.
+     */
+    private static final String FILTER_DASH_A = "-filter:a";
+
+    /**
+     * The high and low pass argument string.
+     */
+    private static final String HIGHPASS_LOWPASS_ARGS = "\"highpass=f=" + HIGHPASS + ", lowpass=f=" + LOWPASS + "\"";
+
+    /**
+     * The delay between polling milliseconds when dreamifying an audio.
+     */
+    private static final int pollMillisDelay = 500;
 
     /**
      * Dreamifies the provided wav or mp3 audio file.
@@ -193,37 +218,37 @@ public final class AudioUtil {
         Preconditions.checkArgument(wavOrMp3File.exists());
         Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(wavOrMp3File));
 
+        String executorThreadName = AUDIO_DREAMIFIER + FileUtil.getFilename(wavOrMp3File);
+
         return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory("Audio Dreamifier: "
-                        + FileUtil.getFilename(wavOrMp3File))).submit(() -> {
+                new CyderThreadFactory(executorThreadName)).submit(() -> {
 
             // in case the audio wav name contains spaces, surround with quotes
-            String safeFilename = "\"" + wavOrMp3File.getAbsolutePath() + "\"";
+            String safeFilename = ESCAPED_QUOTE + wavOrMp3File.getAbsolutePath() + ESCAPED_QUOTE;
 
-            File outputFile = OSUtil.buildFile(Dynamic.PATH,
-                    "tmp", FileUtil.getFilename(wavOrMp3File) + DREAMY_SUFFIX + ".mp3");
+            File outputFile = OSUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName(),
+                    FileUtil.getFilename(wavOrMp3File) + DREAMY_SUFFIX + ".mp3");
+            String safeOutputFilename = ESCAPED_QUOTE + outputFile.getAbsolutePath() + ESCAPED_QUOTE;
 
-            ProcessBuilder pb = new ProcessBuilder(
+            String[] command = {
                     getFfmpegCommand(),
                     INPUT_FLAG,
                     safeFilename,
-                    "-filter:a",
-                    "\"highpass=f=" + highpass + ", lowpass=f=" + lowpass + "\"",
-                    "\"" + outputFile.getAbsolutePath() + "\"");
-            pb.start();
+                    FILTER_DASH_A,
+                    HIGHPASS_LOWPASS_ARGS,
+                    safeOutputFilename};
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+            Process process = processBuilder.start();
 
-            // get original time of wav (after process started to save time)
-            Future<Integer> startingMillis = getMillis(wavOrMp3File);
-            while (!startingMillis.isDone()) {
+            Future<Integer> originalFileMillis = getMillis(wavOrMp3File);
+            while (!originalFileMillis.isDone()) {
                 Thread.onSpinWait();
             }
 
-            // wait for file to be created by ffmpeg
             while (!outputFile.exists()) {
                 Thread.onSpinWait();
             }
 
-            // wait until length is equal to the original length
             while (true) {
                 Future<Integer> updatedLen = getMillis(outputFile);
 
@@ -231,14 +256,18 @@ public final class AudioUtil {
                     Thread.onSpinWait();
                 }
 
-                if (updatedLen.get().equals(startingMillis.get())) {
-                    break;
-                }
+                System.out.println("In dreamify polling while true loop");
 
-                ThreadUtil.sleep(500);
+                if (updatedLen.get().equals(originalFileMillis.get())) break;
+
+                ThreadUtil.sleep(pollMillisDelay);
             }
 
-            // return dreamified
+            int exitValue = process.exitValue();
+            if (exitValue != 0) {
+                return Optional.empty();
+            }
+
             return Optional.of(outputFile);
         });
     }
