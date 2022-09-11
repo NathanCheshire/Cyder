@@ -8,7 +8,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.ui.CyderFrame;
+import cyder.ui.frame.CyderFrame;
 import cyder.utils.NumberUtil;
 
 import javax.swing.*;

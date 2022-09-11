@@ -12,8 +12,8 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderLabel;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.label.CyderLabel;
 import cyder.utils.StaticUtil;
 import cyder.utils.UiUtil;
 

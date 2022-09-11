@@ -1,4 +1,4 @@
-package cyder.ui;
+package cyder.ui.field;
 
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;

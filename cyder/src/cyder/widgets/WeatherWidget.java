@@ -17,7 +17,7 @@ import cyder.parsers.remote.weather.WeatherData;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
-import cyder.ui.CyderFrame;
+import cyder.ui.frame.CyderFrame;
 import cyder.user.UserUtil;
 import cyder.utils.*;
 

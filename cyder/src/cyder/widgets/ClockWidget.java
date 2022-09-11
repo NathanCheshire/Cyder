@@ -15,11 +15,11 @@ import cyder.parsers.remote.weather.WeatherData;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderLabel;
-import cyder.ui.CyderSwitch;
-import cyder.ui.CyderTextField;
 import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.field.CyderTextField;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.label.CyderLabel;
+import cyder.ui.selection.CyderSwitch;
 import cyder.utils.*;
 
 import javax.swing.*;

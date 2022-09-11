@@ -9,7 +9,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.local.BlurResponse;
 import cyder.threads.CyderThreadFactory;
-import cyder.ui.CyderFrame;
+import cyder.ui.frame.CyderFrame;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

@@ -6,7 +6,7 @@ import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.ui.CyderOutputPane;
+import cyder.ui.pane.CyderOutputPane;
 import cyder.utils.NumberUtil;
 import cyder.utils.StringUtil;
 

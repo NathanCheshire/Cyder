@@ -5,7 +5,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
-import cyder.ui.CyderLabel;
+import cyder.ui.label.CyderLabel;
 import cyder.utils.ImageUtil;
 
 import javax.swing.*;

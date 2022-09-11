@@ -16,8 +16,16 @@ import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.*;
+import cyder.ui.CyderGrid;
+import cyder.ui.CyderPanel;
+import cyder.ui.button.CyderIconButton;
 import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.field.CyderTextField;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.label.CyderLabel;
+import cyder.ui.selection.CyderCheckbox;
+import cyder.ui.selection.CyderCheckboxGroup;
+import cyder.ui.slider.CyderSliderUi;
 import cyder.user.UserUtil;
 import cyder.utils.*;
 

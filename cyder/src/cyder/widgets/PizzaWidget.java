@@ -8,7 +8,12 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.ui.*;
+import cyder.ui.button.CyderButton;
+import cyder.ui.field.CyderTextField;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.pane.CyderScrollList;
+import cyder.ui.pane.CyderScrollPane;
+import cyder.ui.selection.CyderCheckbox;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;

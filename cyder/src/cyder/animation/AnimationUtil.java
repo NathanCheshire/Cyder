@@ -7,7 +7,7 @@ import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.ui.CyderFrame;
+import cyder.ui.frame.CyderFrame;
 import cyder.utils.UiUtil;
 
 import java.awt.*;

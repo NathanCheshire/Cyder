@@ -8,8 +8,8 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderFrame;
+import cyder.ui.button.CyderButton;
+import cyder.ui.frame.CyderFrame;
 import cyder.utils.IOUtil;
 import cyder.utils.StaticUtil;
 

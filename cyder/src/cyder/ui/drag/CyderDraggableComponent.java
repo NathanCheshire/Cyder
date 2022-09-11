@@ -1,4 +1,4 @@
-package cyder.ui;
+package cyder.ui.drag;
 
 import cyder.genesis.PropLoader;
 import cyder.handlers.internal.Logger;

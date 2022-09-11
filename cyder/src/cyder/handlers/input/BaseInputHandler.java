@@ -17,7 +17,7 @@ import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.MasterYoutubeThread;
 import cyder.threads.ThreadUtil;
-import cyder.ui.CyderOutputPane;
+import cyder.ui.pane.CyderOutputPane;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.*;

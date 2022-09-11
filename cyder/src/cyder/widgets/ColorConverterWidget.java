@@ -11,9 +11,9 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.enums.CyderInspection;
 import cyder.handlers.internal.Logger;
 import cyder.layouts.CyderPartitionedLayout;
-import cyder.ui.CyderFrame;
 import cyder.ui.CyderPanel;
-import cyder.ui.CyderTextField;
+import cyder.ui.field.CyderTextField;
+import cyder.ui.frame.CyderFrame;
 import cyder.utils.ColorUtil;
 
 import javax.swing.*;

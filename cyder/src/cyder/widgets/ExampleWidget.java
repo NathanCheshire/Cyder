@@ -6,9 +6,9 @@ import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.enums.CyderInspection;
 import cyder.handlers.internal.Logger;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderFrame;
+import cyder.ui.button.CyderButton;
 import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.frame.CyderFrame;
 import cyder.user.UserUtil;
 
 /**

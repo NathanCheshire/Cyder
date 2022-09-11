@@ -4,10 +4,10 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderScrollPane;
-import cyder.ui.CyderTextField;
+import cyder.ui.button.CyderButton;
+import cyder.ui.field.CyderTextField;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.pane.CyderScrollPane;
 import cyder.utils.ReflectionUtil;
 
 import javax.swing.*;

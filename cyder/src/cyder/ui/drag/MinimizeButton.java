@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;
-import cyder.ui.CyderFrame;
+import cyder.ui.frame.CyderFrame;
 
 import javax.swing.*;
 import java.awt.*;

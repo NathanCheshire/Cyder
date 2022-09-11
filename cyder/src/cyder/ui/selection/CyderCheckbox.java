@@ -1,8 +1,9 @@
-package cyder.ui;
+package cyder.ui.selection;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;
+import cyder.ui.drag.CyderDraggableComponent;
 
 import javax.swing.*;
 import java.awt.*;

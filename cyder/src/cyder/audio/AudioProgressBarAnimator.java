@@ -3,7 +3,7 @@ package cyder.audio;
 import com.google.common.base.Preconditions;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.ui.CyderSliderUi;
+import cyder.ui.slider.CyderSliderUi;
 
 import javax.swing.*;
 

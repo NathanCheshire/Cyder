@@ -8,7 +8,7 @@ import cyder.constants.CyderUrls;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.ui.CyderOutputPane;
+import cyder.ui.pane.CyderOutputPane;
 import cyder.youtube.YoutubeConstants;
 import org.atteo.evo.inflector.English;
 import org.jsoup.HttpStatusException;

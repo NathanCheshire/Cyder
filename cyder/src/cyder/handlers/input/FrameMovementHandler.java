@@ -4,7 +4,7 @@ import cyder.annotations.Handle;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.ui.CyderFrame;
+import cyder.ui.frame.CyderFrame;
 import cyder.utils.UiUtil;
 
 import java.awt.*;

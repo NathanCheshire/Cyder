@@ -1,4 +1,4 @@
-package cyder.ui;
+package cyder.ui.button;
 
 import com.google.common.base.Preconditions;
 import cyder.annotations.ForReadability;

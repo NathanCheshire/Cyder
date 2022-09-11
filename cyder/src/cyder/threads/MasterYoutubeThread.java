@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.ui.CyderOutputPane;
+import cyder.ui.pane.CyderOutputPane;
 
 import javax.swing.*;
 import java.util.ArrayList;

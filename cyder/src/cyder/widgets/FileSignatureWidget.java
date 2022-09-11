@@ -10,10 +10,10 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderLabel;
-import cyder.ui.CyderTextField;
+import cyder.ui.button.CyderButton;
+import cyder.ui.field.CyderTextField;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.label.CyderLabel;
 import cyder.utils.GetterUtil;
 import cyder.utils.NetworkUtil;
 

@@ -7,7 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.ui.CyderCaret;
+import cyder.ui.field.CyderCaret;
 import cyder.user.Preference;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;

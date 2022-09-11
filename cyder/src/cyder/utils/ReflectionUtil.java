@@ -14,7 +14,7 @@ import cyder.handlers.input.InputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
-import cyder.ui.CyderFrame;
+import cyder.ui.frame.CyderFrame;
 import cyder.widgets.CardWidget;
 import org.apache.commons.text.similarity.JaroWinklerDistance;
 

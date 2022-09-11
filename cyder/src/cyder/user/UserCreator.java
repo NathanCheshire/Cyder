@@ -14,10 +14,10 @@ import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.LoginHandler;
 import cyder.layouts.CyderPartitionedLayout;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderPasswordField;
-import cyder.ui.CyderTextField;
+import cyder.ui.button.CyderButton;
+import cyder.ui.field.CyderPasswordField;
+import cyder.ui.field.CyderTextField;
+import cyder.ui.frame.CyderFrame;
 import cyder.utils.*;
 
 import javax.imageio.ImageIO;

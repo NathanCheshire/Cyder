@@ -1,4 +1,4 @@
-package cyder.ui;
+package cyder.ui.label;
 
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
@@ -7,6 +7,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
+import cyder.ui.frame.CyderFrame;
 import cyder.utils.BoundsUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;

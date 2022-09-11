@@ -12,10 +12,10 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderModernButton;
-import cyder.ui.CyderTextField;
+import cyder.ui.button.CyderModernButton;
 import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.field.CyderTextField;
+import cyder.ui.frame.CyderFrame;
 import cyder.utils.ColorUtil;
 
 import javax.swing.*;

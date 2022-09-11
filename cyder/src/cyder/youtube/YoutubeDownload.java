@@ -13,9 +13,9 @@ import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderProgressBar;
-import cyder.ui.CyderProgressUI;
+import cyder.ui.button.CyderButton;
+import cyder.ui.progress.CyderProgressBar;
+import cyder.ui.progress.CyderProgressUI;
 import cyder.user.UserFile;
 import cyder.utils.*;
 

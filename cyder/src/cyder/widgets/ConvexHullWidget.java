@@ -8,9 +8,9 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderFrame;
 import cyder.ui.CyderGrid;
+import cyder.ui.button.CyderButton;
+import cyder.ui.frame.CyderFrame;
 import cyder.utils.UiUtil;
 
 import java.awt.*;

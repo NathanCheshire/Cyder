@@ -8,10 +8,10 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderComboBox;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderPasswordField;
+import cyder.ui.button.CyderButton;
+import cyder.ui.field.CyderPasswordField;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.selection.CyderComboBox;
 import cyder.utils.OSUtil;
 import cyder.utils.SecurityUtil;
 

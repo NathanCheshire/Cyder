@@ -1,9 +1,11 @@
-package cyder.ui;
+package cyder.ui.pane;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.label.CyderLabel;
 import cyder.user.UserUtil;
 import cyder.utils.ReflectionUtil;
 

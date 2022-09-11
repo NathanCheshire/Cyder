@@ -1,4 +1,4 @@
-package cyder.ui;
+package cyder.ui.frame;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -19,8 +19,12 @@ import cyder.layouts.CyderLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
+import cyder.ui.CyderComponentResizer;
+import cyder.ui.CyderPanel;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.drag.PinButton;
+import cyder.ui.pane.CyderOutputPane;
+import cyder.ui.pane.CyderScrollPane;
 import cyder.user.UserUtil;
 import cyder.utils.*;
 import org.jetbrains.annotations.Nullable;

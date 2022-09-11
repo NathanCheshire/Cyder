@@ -7,7 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
-import cyder.ui.CyderButton;
+import cyder.ui.button.CyderButton;
 import cyder.utils.FileUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.StringUtil;

@@ -1,4 +1,4 @@
-package cyder.ui;
+package cyder.ui.frame;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;

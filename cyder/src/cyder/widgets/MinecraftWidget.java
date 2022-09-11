@@ -6,7 +6,7 @@ import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.ui.CyderFrame;
+import cyder.ui.frame.CyderFrame;
 import cyder.user.MappedExecutable;
 import cyder.user.UserUtil;
 import cyder.utils.*;

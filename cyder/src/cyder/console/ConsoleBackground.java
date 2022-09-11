@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.exceptions.FatalException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.ui.CyderFrame;
+import cyder.ui.frame.CyderFrame;
 import cyder.utils.ImageUtil;
 
 import javax.imageio.ImageIO;

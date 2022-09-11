@@ -1,4 +1,4 @@
-package cyder.ui;
+package cyder.ui.field;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;

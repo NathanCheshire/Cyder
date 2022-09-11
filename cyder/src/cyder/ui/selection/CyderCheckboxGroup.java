@@ -1,4 +1,4 @@
-package cyder.ui;
+package cyder.ui.selection;
 
 import com.google.common.base.Preconditions;
 import cyder.handlers.internal.Logger;

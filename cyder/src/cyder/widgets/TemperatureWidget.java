@@ -7,10 +7,10 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.handlers.internal.Logger;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderCheckbox;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderTextField;
+import cyder.ui.button.CyderButton;
+import cyder.ui.field.CyderTextField;
+import cyder.ui.frame.CyderFrame;
+import cyder.ui.selection.CyderCheckbox;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
