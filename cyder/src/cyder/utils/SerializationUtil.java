@@ -3,6 +3,7 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -25,7 +26,7 @@ public final class SerializationUtil {
     /**
      * The master Gson object used for all of Cyder.
      */
-    private static final Gson gson = new Gson();
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     /**
      * Deserializes the contents contained in the provided string.

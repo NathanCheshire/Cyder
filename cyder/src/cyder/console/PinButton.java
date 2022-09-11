@@ -297,10 +297,19 @@ public class PinButton extends JLabel {
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
+        g2d.translate(PAINT_PADDING, PAINT_PADDING);
 
         g2d.setColor(getPaintColor());
-        g2d.setStroke(new BasicStroke(2));
-        g2d.drawLine(PAINT_PADDING, PAINT_PADDING, getPaintLength(), getPaintLength());
+
+        int len = 2;
+        for (int i = 0 ; i < getPaintLength() ; i++) {
+            g2d.drawRect(i, i, len, len);
+        }
+
+        for (int i = 0 ; i < getPaintLength() ; i++) {
+            g2d.drawRect(i, getPaintLength() - i - 1, len, len);
+        }
+
         super.paint(g);
     }
 
