@@ -2695,7 +2695,7 @@ public class CyderFrame extends JFrame {
 
         if (visible) {
             addToTaskbar();
-            determinePinState();
+            determineInitialPinState();
         }
     }
 
@@ -2708,10 +2708,10 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Determines whether the drag label pin button should be active based on the console's pinned state.
+     * Determines whether the drag label pin button should be enabled based on the console's pinned state.
      */
     @ForReadability
-    private void determinePinState() {
+    private void determineInitialPinState() {
         CyderFrame console = Console.INSTANCE.getConsoleCyderFrame();
         if (console == null) return;
 

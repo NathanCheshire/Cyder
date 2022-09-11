@@ -76,7 +76,6 @@ public class ImageHandler extends InputHandler {
             int radius = Integer.parseInt(getInputHandler().getArg(0));
             boolean isEven = radius % 2 == 0;
 
-
             if (isEven) {
                 getInputHandler().println("Blur radius must be an odd number");
                 return;

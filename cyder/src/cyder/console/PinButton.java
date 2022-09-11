@@ -1,12 +1,8 @@
 package cyder.console;
 
 import com.google.common.base.Preconditions;
-import com.google.errorprone.annotations.Immutable;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
-import cyder.constants.CyderStrings;
-import cyder.exceptions.IllegalMethodException;
-import cyder.structures.Cache;
 import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 
@@ -93,61 +89,79 @@ public class PinButton extends JLabel {
         repaint();
     }
 
+    /**
+     * Generates the default mouse adapter for the provided icon button.
+     * A click increments the state and hovers show a mouse over animation.
+     *
+     * @param iconButton the icon button for the mouse adapter to be added to
+     * @return the mouse adapter
+     */
     @ForReadability
-    private static MouseAdapter generateMouseAdapter(PinButton pinButton) {
+    private static MouseAdapter generateMouseAdapter(PinButton iconButton) {
+        Preconditions.checkNotNull(iconButton);
+
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                pinButton.incrementState();
+                iconButton.incrementState();
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                pinButton.setMouseIn(true);
-                pinButton.repaint();
+                iconButton.setMouseIn(true);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                pinButton.setMouseIn(false);
-                pinButton.repaint();
+                iconButton.setMouseIn(false);
             }
         };
     }
 
+    /**
+     * Generates the default focus adapter for the provided icon button.
+     * Focus/de-focus shows a focus animation.
+     *
+     * @param iconButton the icon button for the mouse adapter to be added to
+     * @return the focus adapter
+     */
     @ForReadability
-    private static FocusAdapter generateFocusAdapter(PinButton pinButton) {
+    private static FocusAdapter generateFocusAdapter(PinButton iconButton) {
+        Preconditions.checkNotNull(iconButton);
+
         return new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                pinButton.setFocused(true);
-                pinButton.repaint();
+                iconButton.setFocused(true);
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                pinButton.setFocused(false);
-                pinButton.repaint();
+                iconButton.setFocused(false);
             }
         };
     }
 
     /**
      * Sets whether the mouse is inside of the bounds of this pin button.
+     * Repaint is also invoked.
      *
      * @param mouseIn whether the mouse is inside of the bounds of this pin button
      */
     public void setMouseIn(boolean mouseIn) {
         this.mouseIn.set(mouseIn);
+        repaint();
     }
 
     /**
      * Sets whether this pin button is focused.
+     * Repaint is also invoked.
      *
      * @param focused whether this pin button is focused
      */
     public void setFocused(boolean focused) {
         this.focused.set(focused);
+        repaint();
     }
 
     /**
@@ -200,6 +214,9 @@ public class PinButton extends JLabel {
         setToolTipText(currentState.getTooltip());
     }
 
+    /**
+     * The exception message for an invalid icon button state.
+     */
     private static final String ILLEGAL_STATE_FOR_REGULAR_FRAME = "Illegal state for regular frame";
 
     /**
@@ -235,7 +252,8 @@ public class PinButton extends JLabel {
         currentState = getNextState();
         refreshTooltip();
         repaint();
-        effectFrame.refreshAlwaysOnTop();
+
+        refreshStateBasedOnState();
     }
 
     /**
@@ -246,8 +264,16 @@ public class PinButton extends JLabel {
     public void setState(State newState) {
         currentState = Preconditions.checkNotNull(newState);
         refreshTooltip();
-        effectFrame.refreshAlwaysOnTop();
         repaint();
+
+        refreshStateBasedOnState();
+    }
+
+    /**
+     * Refreshes based on the currently set state.
+     */
+    private void refreshStateBasedOnState() {
+        effectFrame.refreshAlwaysOnTop();
     }
 
     /**
@@ -256,86 +282,15 @@ public class PinButton extends JLabel {
     private static final int PAINT_PADDING = 4;
 
     /**
-     * The cached value for the length the painted polygon takes up.
-     */
-    private final Cache<Integer> paintLength = new Cache<>();
-
-    /**
      * Returns the actual size of the painted icon button after accounting for padding.
      *
      * @return the actual size of the painted icon button after accounting for padding
      */
     private int getPaintLength() {
         Preconditions.checkNotNull(size);
-        paintLength.cacheIfNotPresent(size.size - 2 * PAINT_PADDING);
-        return paintLength.getCache();
+        return size.size - 2 * PAINT_PADDING;
     }
 
-    /**
-     * A wrapper for an integer array used for the icon button paint method.
-     */
-    @Immutable
-    private static class PolygonWrapper {
-        /**
-         * Suppress default constructor.
-         */
-        private PolygonWrapper() {
-            throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-        }
-
-        /**
-         * The points of the polygon.
-         */
-        private final int[] polygon;
-
-        /**
-         * Constructs a new polygon point.
-         *
-         * @param polygon the points of the polygon
-         */
-        public PolygonWrapper(int[] polygon) {
-            this.polygon = polygon;
-        }
-
-        /**
-         * Returns the points of the polygon.
-         *
-         * @return the points of the polygon
-         */
-        public int[] getPolygon() {
-            return polygon.clone();
-        }
-    }
-
-    /**
-     * The x polygon points for the paint method.
-     */
-    private final Cache<PolygonWrapper> polygonXPoints = new Cache<>();
-
-    /**
-     * Returns the x polygon points for the paint method.
-     *
-     * @return the x polygon points for the paint method
-     */
-    private int[] getPolygonXPoints() {
-        polygonXPoints.cacheIfNotPresent(new PolygonWrapper(new int[]{0, getPaintLength(), getPaintLength() / 2, 0}));
-        return polygonXPoints.getCache().getPolygon();
-    }
-
-    /**
-     * The y polygon points for the paint method.
-     */
-    private final Cache<PolygonWrapper> polygonYPoints = new Cache<>();
-
-    /**
-     * Returns the y polygon points for the paint method.
-     *
-     * @return the y polygon points for the paint method
-     */
-    private int[] getPolygonYPoints() {
-        polygonYPoints.cacheIfNotPresent(new PolygonWrapper(new int[]{0, 0, getPaintLength(), 0}));
-        return polygonYPoints.getCache().getPolygon();
-    }
 
     /**
      * {@inheritDoc}
@@ -345,8 +300,11 @@ public class PinButton extends JLabel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
 
+        int[] pinButtonPolygonXPoints = new int[]{0, getPaintLength(), getPaintLength() / 2, 0};
+        int[] pinButtonPolygonYPoints = new int[]{0, 0, getPaintLength(), 0};
+
         g2d.setColor(getPaintColor());
-        g2d.fillPolygon(getPolygonXPoints(), getPolygonYPoints(), getPolygonXPoints().length);
+        g2d.fillPolygon(pinButtonPolygonXPoints, pinButtonPolygonYPoints, pinButtonPolygonYPoints.length);
         super.paint(g);
     }
 
