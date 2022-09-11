@@ -16,8 +16,7 @@ import java.awt.event.MouseEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * A pin button for CyderFrames which also handles the special case for the
- * Console frame which does not have the pin to frame option.
+ * An icon button for CyderFrame drag labels.
  */
 public class PinButton extends JLabel {
     /**

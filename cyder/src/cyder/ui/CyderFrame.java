@@ -198,7 +198,7 @@ public class CyderFrame extends JFrame {
     /**
      * Another layered pane that the content label is added to for layering purposes.
      */
-    private JLayeredPane iconPane;
+    private final JLayeredPane iconPane;
 
     /**
      * Speeds up performance by not repainting anything on the
@@ -1031,7 +1031,7 @@ public class CyderFrame extends JFrame {
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
-            CyderThreadRunner.submit(notificationQueueRunnable, getTitle() + NOTIFICATION_QUEUE_THREAD_FOOTER);
+            CyderThreadRunner.submit(getNotificationQueueRunnable(), getTitle() + NOTIFICATION_QUEUE_THREAD_FOOTER);
         }
     }
 
@@ -1050,7 +1050,7 @@ public class CyderFrame extends JFrame {
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
-            CyderThreadRunner.submit(notificationQueueRunnable, getTitle() + NOTIFICATION_QUEUE_THREAD_FOOTER);
+            CyderThreadRunner.submit(getNotificationQueueRunnable(), getTitle() + NOTIFICATION_QUEUE_THREAD_FOOTER);
         }
     }
 
@@ -1061,98 +1061,112 @@ public class CyderFrame extends JFrame {
     private final Semaphore notificationConstructionLock = new Semaphore(1);
 
     private static final int notificationPadding = 5;
-    private static final int MINIMUM_NOTIFICATION_TIME_MS = 4000;
+
+    /**
+     * The minimum time a notification can be visible for.
+     */
+    private static final int MINIMUM_NOTIFICATION_TIME_MS = 2000;
+
+    /**
+     * The milliseconds per word for a notification if the time calculation is left up to the method.
+     */
     private static final int msPerNotificationWord = 300;
 
     /**
-     * The notification queue for internal frame notifications/toasts.
+     * Returns the notification queue for internal frame notifications/toasts.
+     *
+     * @return the notification queue for internal frame notifications/toasts
      */
-    private final Runnable notificationQueueRunnable = () -> {
-        while (!threadsKilled && !notificationList.isEmpty()) {
-            try {
-                notificationConstructionLock.acquire();
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
+    private final Runnable getNotificationQueueRunnable() {
+        return () -> {
+            while (!threadsKilled && !notificationList.isEmpty()) {
+                try {
+                    notificationConstructionLock.acquire();
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
 
-            NotificationBuilder currentBuilder = notificationList.remove(0);
-            CyderNotification toBeCurrentNotification = new CyderNotification(currentBuilder);
+                NotificationBuilder currentBuilder = notificationList.remove(0);
+                CyderNotification toBeCurrentNotification = new CyderNotification(currentBuilder);
 
-            toBeCurrentNotification.setVisible(false);
+                toBeCurrentNotification.setVisible(false);
 
-            int maxWidth = (int) Math.ceil(width * NOTIFICATION_TO_FRAME_RATIO);
-            BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(
-                    currentBuilder.getHtmlText(),
-                    NOTIFICATION_FONT, maxWidth);
-            int notificationWidth = bs.width() + notificationPadding;
-            int notificationHeight = bs.height() + notificationPadding;
-            String brokenText = bs.text();
+                int maxWidth = (int) Math.ceil(width * NOTIFICATION_TO_FRAME_RATIO);
+                BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(
+                        currentBuilder.getHtmlText(),
+                        NOTIFICATION_FONT, maxWidth);
+                int notificationWidth = bs.width() + notificationPadding;
+                int notificationHeight = bs.height() + notificationPadding;
+                String brokenText = bs.text();
 
-            // Sanity check for overflow
-            if (notificationHeight > height * NOTIFICATION_TO_FRAME_RATIO
-                    || notificationWidth > width * NOTIFICATION_TO_FRAME_RATIO) {
-                notifyAndReleaseSemaphore(currentBuilder.getHtmlText(), null, currentBuilder.notifyTime);
-                continue;
-            }
-
-            // If container specified, ensure it can fit
-            if (currentBuilder.getContainer() != null) {
-                int containerWidth = currentBuilder.getContainer().getWidth();
-                int containerHeight = currentBuilder.getContainer().getHeight();
-
-                // Custom component will not fit
-                if (containerWidth > width * NOTIFICATION_TO_FRAME_RATIO
-                        || containerHeight > height * NOTIFICATION_TO_FRAME_RATIO) {
-                    notifyAndReleaseSemaphore(null, currentBuilder.getContainer(), currentBuilder.notifyTime);
+                // Sanity check for overflow
+                if (notificationHeight > height * NOTIFICATION_TO_FRAME_RATIO
+                        || notificationWidth > width * NOTIFICATION_TO_FRAME_RATIO) {
+                    notifyAndReleaseSemaphore(currentBuilder.getHtmlText(), null, currentBuilder.notifyTime);
                     continue;
                 }
 
-                // Custom container will fit so generate and add disposal label
-                JLabel interactionLabel = new JLabel();
-                interactionLabel.setSize(containerWidth, containerHeight);
-                interactionLabel.setToolTipText("Notified at: " + toBeCurrentNotification.getBuilder().getNotifyTime());
-                interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
-                        currentBuilder, null, toBeCurrentNotification, false));
-                currentBuilder.getContainer().add(interactionLabel);
-            } else {
-                // Empty container means use htmlText of builder
-                JLabel textContainerLabel = new JLabel(brokenText);
-                textContainerLabel.setSize(notificationWidth, notificationHeight);
-                textContainerLabel.setFont(NOTIFICATION_FONT);
-                textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
+                // If container specified, ensure it can fit
+                if (currentBuilder.getContainer() != null) {
+                    int containerWidth = currentBuilder.getContainer().getWidth();
+                    int containerHeight = currentBuilder.getContainer().getHeight();
 
-                JLabel interactionLabel = new JLabel();
-                interactionLabel.setSize(notificationWidth, notificationHeight);
-                interactionLabel.setToolTipText("Notified at: " + toBeCurrentNotification.getBuilder().getNotifyTime());
-                interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
-                        currentBuilder, textContainerLabel, toBeCurrentNotification, true));
+                    // Custom component will not fit
+                    if (containerWidth > width * NOTIFICATION_TO_FRAME_RATIO
+                            || containerHeight > height * NOTIFICATION_TO_FRAME_RATIO) {
+                        notifyAndReleaseSemaphore(null, currentBuilder.getContainer(), currentBuilder.notifyTime);
+                        continue;
+                    }
 
-                textContainerLabel.add(interactionLabel);
-                toBeCurrentNotification.getBuilder().setContainer(textContainerLabel);
+                    // Custom container will fit so generate and add disposal label
+                    JLabel interactionLabel = new JLabel();
+                    interactionLabel.setSize(containerWidth, containerHeight);
+                    interactionLabel.setToolTipText(
+                            "Notified at: " + toBeCurrentNotification.getBuilder().getNotifyTime());
+                    interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
+                            currentBuilder, null, toBeCurrentNotification, false));
+                    currentBuilder.getContainer().add(interactionLabel);
+                } else {
+                    // Empty container means use htmlText of builder
+                    JLabel textContainerLabel = new JLabel(brokenText);
+                    textContainerLabel.setSize(notificationWidth, notificationHeight);
+                    textContainerLabel.setFont(NOTIFICATION_FONT);
+                    textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
+
+                    JLabel interactionLabel = new JLabel();
+                    interactionLabel.setSize(notificationWidth, notificationHeight);
+                    interactionLabel.setToolTipText(
+                            "Notified at: " + toBeCurrentNotification.getBuilder().getNotifyTime());
+                    interactionLabel.addMouseListener(generateNotificationDisposalMouseListener(
+                            currentBuilder, textContainerLabel, toBeCurrentNotification, true));
+
+                    textContainerLabel.add(interactionLabel);
+                    toBeCurrentNotification.getBuilder().setContainer(textContainerLabel);
+                }
+
+                iconPane.add(toBeCurrentNotification, JLayeredPane.POPUP_LAYER);
+                getContentPane().repaint();
+
+                int duration = currentBuilder.getViewDuration();
+                if (currentBuilder.isCalculateViewDuration()) {
+                    duration = msPerNotificationWord * StringUtil.countWords(Jsoup.clean(bs.text(), Safelist.none()));
+                }
+                duration = Math.max(duration, MINIMUM_NOTIFICATION_TIME_MS);
+
+                Logger.log(Logger.Tag.UI_ACTION, constructNotificationLogLine(getTitle(), brokenText));
+
+                toBeCurrentNotification.appear(currentBuilder.getNotificationDirection(), getContentPane(), duration);
+                currentNotification = toBeCurrentNotification;
+
+                while (!currentNotification.isKilled()) {
+                    Thread.onSpinWait();
+                }
+
+                notificationConstructionLock.release();
             }
-
-            iconPane.add(toBeCurrentNotification, JLayeredPane.POPUP_LAYER);
-            getContentPane().repaint();
-
-            int duration = currentBuilder.getViewDuration();
-            if (currentBuilder.isCalculateViewDuration()) {
-                duration = msPerNotificationWord * StringUtil.countWords(Jsoup.clean(bs.text(), Safelist.none()));
-            }
-            duration = Math.max(duration, MINIMUM_NOTIFICATION_TIME_MS);
-
-            Logger.log(Logger.Tag.UI_ACTION, constructNotificationLogLine(getTitle(), brokenText));
-
-            toBeCurrentNotification.appear(currentBuilder.getNotificationDirection(), getContentPane(), duration);
-            currentNotification = toBeCurrentNotification;
-
-            while (!currentNotification.isKilled()) {
-                Thread.onSpinWait();
-            }
-
-            notificationConstructionLock.release();
-        }
-        notificationCheckerStarted = false;
-    };
+            notificationCheckerStarted = false;
+        };
+    }
 
     @ForReadability
     private void notifyAndReleaseSemaphore(String text, JLabel container, String time) {

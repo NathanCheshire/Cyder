@@ -58,7 +58,7 @@ import static cyder.console.ConsoleConstants.*;
  * Singleton of components that represent the GUI way a user
  * interacts with Cyder and its functions.
  */
-@SuppressWarnings("FieldCanBeLocal") /* member clarity */
+@SuppressWarnings({"FieldCanBeLocal", "ImmutableEnumChecker"}) /* member clarity, enum used as singleton */
 public enum Console {
     /**
      * The Console singleton.
@@ -81,7 +81,7 @@ public enum Console {
     /**
      * An list of the frames to ignore when placing a frame in the console taskbar menu.
      */
-    private LinkedList<CyderFrame> frameTaskbarExceptions;
+    private ArrayList<CyderFrame> frameTaskbarExceptions;
 
     /**
      * The UUID of the user currently associated with the Console.
@@ -393,7 +393,7 @@ public enum Console {
             }
         };
 
-        frameTaskbarExceptions = new LinkedList<>();
+        frameTaskbarExceptions = new ArrayList<>();
         frameTaskbarExceptions.add(consoleCyderFrame);
         frameTaskbarExceptions.add(CyderSplash.INSTANCE.getSplashFrame());
 
@@ -837,35 +837,11 @@ public enum Console {
     }
 
     /**
-     * Removes all the input field listeners
-     */
-    private void uninstallInputFieldListeners() {
-        inputField.removeKeyListener(inputFieldKeyAdapter);
-        inputField.removeKeyListener(commandScrolling);
-
-        inputField.removeFocusListener(inputFieldFocusAdapter);
-
-        inputField.removeMouseWheelListener(fontSizerListener);
-        inputField.removeActionListener(inputFieldActionListener);
-
-        inputField.getActionMap().remove(DEBUG_LINES);
-        inputField.getActionMap().remove(FORCED_EXIT);
-    }
-
-    /**
      * Installs all the output area listeners.
      */
     private void installOutputAreaListeners() {
         outputArea.addFocusListener(outputAreaFocusAdapter);
         outputArea.addMouseWheelListener(fontSizerListener);
-    }
-
-    /**
-     * Removes all the output area listeners.
-     */
-    private void uninstallOutputAreaListeners() {
-        outputArea.removeFocusListener(outputAreaFocusAdapter);
-        outputArea.removeMouseWheelListener(fontSizerListener);
     }
 
     /**
@@ -2325,6 +2301,7 @@ public enum Console {
      *
      * @param index the index to switch the console background to
      */
+    @SuppressWarnings("UnusedMethod")
     private void setBackgroundIndex(int index) {
         setBackgroundIndex(index, false);
     }

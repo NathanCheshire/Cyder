@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderUrls;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderOutputPane;
@@ -22,10 +23,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -104,7 +102,7 @@ public class StringUtil {
         try {
             boolean removeTwoLines = false;
 
-            LinkedList<Element> elements = new LinkedList<>();
+            ArrayList<Element> elements = new ArrayList<>();
             ElementIterator iterator = new ElementIterator(linkedCyderPane.getJTextPane().getStyledDocument());
             Element element;
             while ((element = iterator.next()) != null) {
@@ -155,6 +153,11 @@ public class StringUtil {
     public synchronized String getLastTextLine() {
         String text = linkedCyderPane.getJTextPane().getText();
         String[] lines = text.split("\n");
+
+        if (lines.length < 1) {
+            throw new FatalException("Linked pane contains no text lines");
+        }
+
         return lines[lines.length - 1];
     }
 
@@ -164,7 +167,7 @@ public class StringUtil {
      */
     public synchronized void removeLastLine() {
         try {
-            LinkedList<Element> elements = new LinkedList<>();
+            ArrayList<Element> elements = new ArrayList<>();
             ElementIterator iterator = new ElementIterator(linkedCyderPane.getJTextPane().getStyledDocument());
             Element element;
 
@@ -191,7 +194,9 @@ public class StringUtil {
                             value.getEndOffset() - value.getStartOffset());
                 }
             }
-        } catch (BadLocationException ignored) {} catch (Exception e) {
+        } catch (BadLocationException e) {
+            ExceptionHandler.silentHandle(e);
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
@@ -1169,10 +1174,15 @@ public class StringUtil {
      * @return the combined string
      */
     public static String separate(String... strings) {
+        Preconditions.checkNotNull(strings);
+        Preconditions.checkArgument(strings.length > 0);
+
         StringBuilder ret = new StringBuilder();
 
-        for (String s : strings) {
-            ret.append(s.trim());
+        for (String string : strings) {
+            Preconditions.checkNotNull(string);
+
+            ret.append(string.trim());
             ret.append(" ");
         }
 

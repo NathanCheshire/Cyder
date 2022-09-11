@@ -14,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
+import java.util.Objects;
 
 /**
  * A {@link Console} taskbar icon for the console menu.
@@ -241,14 +242,45 @@ public class TaskbarIcon {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(builder);
+    }
+
+    /**
      * A builder for a TaskbarIcon.
      */
     public static final class Builder {
+        /**
+         * Whether this icon should be compact.
+         */
         private boolean compact;
+
+        /**
+         * Whether this icon is focused.
+         */
         private boolean focused;
+
+        /**
+         * The border color.
+         */
         private Color borderColor;
+
+        /**
+         * A possible custom icon.
+         */
         private ImageIcon customIcon;
+
+        /**
+         * The runnable to invoke upon a click action.
+         */
         private Runnable runnable;
+
+        /**
+         * The name of the icon.
+         */
         private String name;
 
         /**
@@ -362,6 +394,20 @@ public class TaskbarIcon {
             }
 
             return ret;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            return Objects.hash(
+                    compact,
+                    focused,
+                    borderColor,
+                    customIcon,
+                    runnable,
+                    name);
         }
     }
 }

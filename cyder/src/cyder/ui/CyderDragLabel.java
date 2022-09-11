@@ -380,6 +380,7 @@ public class CyderDragLabel extends JLabel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -744,7 +745,14 @@ public class CyderDragLabel extends JLabel {
         refreshLeftButtons();
     }
 
+    /**
+     * The spacing between drag label buttons.
+     */
     private static final int BUTTON_SPACING = 2;
+
+    /**
+     * The padding between the left and right of the drag label buttons.
+     */
     private static final int BUTTON_PADDING = 5;
 
     /**
