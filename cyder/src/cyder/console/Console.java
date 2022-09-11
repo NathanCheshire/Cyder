@@ -27,6 +27,7 @@ import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.ui.*;
 import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.drag.PinButton;
 import cyder.user.*;
 import cyder.utils.*;
 import cyder.youtube.YoutubeUtil;

@@ -2,7 +2,6 @@ package cyder.ui.drag;
 
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
-import cyder.console.PinButton;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
