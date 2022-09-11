@@ -21,6 +21,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -136,8 +137,26 @@ public enum CyderSplash {
         return relocatedCenterPoint.get();
     }
 
+    /**
+     * The name for the loading thread.
+     */
     private static final String SPLASH_LOADER_THREAD_NAME = "Splash Loader";
+
+    /**
+     * The frame title.
+     */
     private static final String FRAME_TITLE = "Cyder Splash";
+
+    /**
+     * The key for getting the allow_splash_completion prop.
+     */
+    private static final String ALLOW_SPLASH_COMPLETION = "allow_splash_completion";
+
+    /**
+     * Whether the splash animation has completed.
+     * The splash completes as the developer name finishes animating in and the harmonic rectangles are started.
+     */
+    private final AtomicBoolean splashAnimationCompleted = new AtomicBoolean();
 
     /**
      * Shows the splash screen as long as it has not already been shown.
@@ -273,6 +292,7 @@ public enum CyderSplash {
 
                         splashFrame.getContentPane().add(loadingLabel);
 
+                        // todo thread
                         CyderThreadRunner.submit(() -> {
                             try {
                                 for (int i = 0 ; i < loadingLabelUpdateIterations ; i++) {
@@ -281,17 +301,16 @@ public enum CyderSplash {
 
                                     ThreadUtil.sleep(loadingLabelUpdateTimeout);
 
-                                    // if disposed, exit thread
-                                    if (splashFrame.isDisposed()) {
-                                        loadingLabel.setText("Subroutines Complete");
-                                        return;
-                                    }
+                                    if (splashFrame.isDisposed()) return;
                                 }
                             } catch (Exception e) {
                                 ExceptionHandler.handle(e);
                             }
                         }, "Splash Loading Label Updater");
 
+                        splashAnimationCompleted.set(true);
+
+                        // todo thread for starting harmonic rectangles
                         int rectLen = (FRAME_LEN - 2 * harmonicXPadding - (numHarmonicRectangles - 1)
                                 * harmonicXInnerPadding) / numHarmonicRectangles;
 
@@ -312,8 +331,7 @@ public enum CyderSplash {
                         }
 
                         for (HarmonicRectangle rectangle : harmonicRectangles) {
-                            if (disposed)
-                                break;
+                            if (disposed) break;
 
                             rectangle.startAnimation();
                             ThreadUtil.sleep(100);
@@ -349,6 +367,9 @@ public enum CyderSplash {
         }, SPLASH_LOADER_THREAD_NAME);
     }
 
+    /**
+     * The key for whether to dispose the splash frame.
+     */
     public static final String DISPOSE_SPLASH_KEY = "dispose_splash";
 
     /**
@@ -358,8 +379,16 @@ public enum CyderSplash {
         if (disposed) return;
         if (!PropLoader.getBoolean(DISPOSE_SPLASH_KEY)) return;
 
-        splashFrame.dispose(true);
-        disposed = true;
+        CyderThreadRunner.submit(() -> {
+            if (PropLoader.getBoolean(ALLOW_SPLASH_COMPLETION)) {
+                while (!splashAnimationCompleted.get()) {
+                    Thread.onSpinWait();
+                }
+            }
+
+            splashFrame.dispose(true);
+            disposed = true;
+        }, "todo");
     }
 
     /**

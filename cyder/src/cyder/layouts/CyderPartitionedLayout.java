@@ -248,7 +248,6 @@ public class CyderPartitionedLayout extends CyderLayout {
                 || associatedPanel.getWidth() == 0
                 || associatedPanel.getHeight() == 0) return;
 
-
         Component focusOwner = null;
 
         int currentComponentStart = 0;
