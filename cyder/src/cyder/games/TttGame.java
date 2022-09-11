@@ -15,9 +15,9 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderButton;
-import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderPanel;
+import cyder.ui.drag.CyderDragLabel;
 import cyder.utils.GetterUtil;
 import cyder.utils.UiUtil;
 

@@ -24,6 +24,7 @@ import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.*;
+import cyder.ui.drag.CyderDragLabel;
 import cyder.user.UserFile;
 import cyder.utils.*;
 import cyder.youtube.YoutubeConstants;

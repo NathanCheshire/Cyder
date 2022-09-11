@@ -20,6 +20,7 @@ import cyder.layouts.CyderLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
+import cyder.ui.drag.CyderDragLabel;
 import cyder.user.UserUtil;
 import cyder.utils.*;
 import org.jetbrains.annotations.Nullable;
@@ -884,7 +885,6 @@ public class CyderFrame extends JFrame {
             case DEFAULT -> {
                 boolean notDefaultState =
                         getTopDragLabel().getPinButton().getCurrentState() != PinButton.PinState.DEFAULT;
-                System.out.println("Setting always on top of " + this.getTitle() + " to: " + notDefaultState);
                 setAlwaysOnTop(notDefaultState);
             }
             case INPUT_GETTER, POPUP -> setAlwaysOnTop(true);
@@ -2735,8 +2735,6 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    // todo minimize is focused by default or something?
-
     // -----------
     // Debug lines
     // -----------
@@ -2761,7 +2759,15 @@ public class CyderFrame extends JFrame {
      */
     private JLabel debugImageLabel;
 
-    private static final ImageIcon neffexIcon = new ImageIcon("static/pictures/print/neffex.png");
+    /**
+     * The image for the debug lines for the console.
+     */
+    private static final ImageIcon neffexIcon = new ImageIcon(
+            OSUtil.buildPath("static", "pictures", "print", "neffex.png"));
+
+    /**
+     * The minor axis length of a debug line.
+     */
     private static final int debugLineLen = 4;
 
     /**
@@ -2910,7 +2916,7 @@ public class CyderFrame extends JFrame {
     /**
      * Sets the opacity of the frame to {@link CyderFrame#DRAG_OPACITY}.
      */
-    protected void startDragEvent() {
+    public void startDragEvent() {
         if (!shouldAnimateOpacity) {
             return;
         }
@@ -2934,7 +2940,7 @@ public class CyderFrame extends JFrame {
     /**
      * Sets the opacity of the frame to {@link CyderFrame#DEFAULT_OPACITY}.
      */
-    protected void endDragEvent() {
+    public void endDragEvent() {
         if (!shouldAnimateOpacity) {
             setOpacity(DEFAULT_OPACITY);
             return;

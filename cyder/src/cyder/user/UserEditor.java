@@ -21,6 +21,7 @@ import cyder.layouts.CyderGridLayout;
 import cyder.layouts.CyderPartitionedLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
+import cyder.ui.drag.CyderDragLabel;
 import cyder.utils.*;
 import cyder.widgets.ColorConverterWidget;
 

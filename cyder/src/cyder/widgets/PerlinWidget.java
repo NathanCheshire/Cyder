@@ -7,6 +7,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.*;
+import cyder.ui.drag.CyderDragLabel;
 import cyder.utils.NumberUtil;
 import cyder.utils.SimplexNoiseUtil;
 import cyder.utils.UiUtil;

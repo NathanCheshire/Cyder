@@ -16,6 +16,7 @@ import cyder.layouts.*;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.*;
+import cyder.ui.drag.CyderDragLabel;
 import cyder.utils.ImageUtil;
 
 import javax.swing.*;

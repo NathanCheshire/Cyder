@@ -256,8 +256,6 @@ public final class AudioUtil {
                     Thread.onSpinWait();
                 }
 
-                System.out.println("In dreamify polling while true loop");
-
                 if (updatedLen.get().equals(originalFileMillis.get())) break;
 
                 ThreadUtil.sleep(pollMillisDelay);

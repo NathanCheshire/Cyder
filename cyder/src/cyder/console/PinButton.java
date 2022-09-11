@@ -4,8 +4,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
-import cyder.ui.CyderDragLabel;
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
+import cyder.ui.drag.DragLabelButtonSize;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,16 +17,16 @@ import java.awt.event.MouseEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * An icon button for CyderFrame drag labels.
+ * A pin button for CyderFrame drag labels.
  */
 public class PinButton extends JLabel {
     /**
-     * The default width/height given to this icon button.
+     * The default width/height given to this pin button.
      */
-    public static final Size DEFAULT_SIZE = Size.SMALL;
+    public static final DragLabelButtonSize DEFAULT_SIZE = DragLabelButtonSize.SMALL;
 
     /**
-     * The current state of this icon button.
+     * The current state of this pin button.
      */
     private PinState currentState;
 
@@ -37,7 +38,7 @@ public class PinButton extends JLabel {
     /**
      * The size this pin button will be painted with.
      */
-    private final Size size;
+    private final DragLabelButtonSize size;
 
     /**
      * Whether the mouse is currently inside of this component.
@@ -50,19 +51,19 @@ public class PinButton extends JLabel {
     private final AtomicBoolean focused = new AtomicBoolean();
 
     /**
-     * Constructs a new icon button with a default state of {@link PinState#DEFAULT}.
+     * Constructs a new pin button with a default state of {@link PinState#DEFAULT}.
      *
-     * @param effectFrame the frame this icon button will be on
+     * @param effectFrame the frame this pin button will be on
      */
     public PinButton(CyderFrame effectFrame) {
         this(effectFrame, PinState.DEFAULT);
     }
 
     /**
-     * Constructs a new icon button with a state of {@link #DEFAULT_SIZE}.
+     * Constructs a new pin button with a state of {@link #DEFAULT_SIZE}.
      *
-     * @param effectFrame  the frame this icon button will be on
-     * @param initialState the starting state of this icon button
+     * @param effectFrame  the frame this pin button will be on
+     * @param initialState the starting state of this pin button
      */
     public PinButton(CyderFrame effectFrame, PinState initialState) {
         this(effectFrame, initialState, DEFAULT_SIZE);
@@ -71,73 +72,66 @@ public class PinButton extends JLabel {
     /**
      * Constructs a new pin button.
      *
-     * @param effectFrame  the frame this icon button will be on
-     * @param initialState the initial state of the icon button
-     * @param size         the size of the icon button
+     * @param effectFrame  the frame this pin button will be on
+     * @param initialState the initial state of the pin button
+     * @param size         the size of the pin button
      */
-    public PinButton(CyderFrame effectFrame, PinState initialState, Size size) {
+    public PinButton(CyderFrame effectFrame, PinState initialState, DragLabelButtonSize size) {
         this.effectFrame = Preconditions.checkNotNull(effectFrame);
         this.currentState = Preconditions.checkNotNull(initialState);
         this.size = Preconditions.checkNotNull(size);
 
-        addMouseListener(generateMouseAdapter(this));
-        addFocusListener(generateFocusAdapter(this));
+        addMouseListener(generateMouseAdapter());
+        addFocusListener(generateFocusAdapter());
 
         refreshTooltip();
         setFocusable(true);
-        setSize(DEFAULT_SIZE.getSize(), DEFAULT_SIZE.getSize());
+        setSize(size.getSize(), size.getSize());
         repaint();
     }
 
     /**
-     * Generates the default mouse adapter for the provided icon button.
-     * A click increments the state and hovers show a mouse over animation.
+     * Generates the default mouse adapter for this pin button
      *
-     * @param iconButton the icon button for the mouse adapter to be added to
      * @return the mouse adapter
      */
     @ForReadability
-    private static MouseAdapter generateMouseAdapter(PinButton iconButton) {
-        Preconditions.checkNotNull(iconButton);
-
+    private MouseAdapter generateMouseAdapter() {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                iconButton.incrementState();
+                incrementState();
+                Logger.log(Logger.Tag.UI_ACTION, this);
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                iconButton.setMouseIn(true);
+                setMouseIn(true);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                iconButton.setMouseIn(false);
+                setMouseIn(false);
             }
         };
     }
 
     /**
-     * Generates the default focus adapter for the provided icon button.
-     * Focus/de-focus shows a focus animation.
+     * Generates the default focus adapter for this pin button.
      *
-     * @param iconButton the icon button for the mouse adapter to be added to
      * @return the focus adapter
      */
     @ForReadability
-    private static FocusAdapter generateFocusAdapter(PinButton iconButton) {
-        Preconditions.checkNotNull(iconButton);
-
+    private FocusAdapter generateFocusAdapter() {
         return new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                iconButton.setFocused(true);
+                setFocused(true);
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                iconButton.setFocused(false);
+                setFocused(false);
             }
         };
     }
@@ -148,7 +142,7 @@ public class PinButton extends JLabel {
      *
      * @param mouseIn whether the mouse is inside of the bounds of this pin button
      */
-    public void setMouseIn(boolean mouseIn) {
+    private void setMouseIn(boolean mouseIn) {
         this.mouseIn.set(mouseIn);
         repaint();
     }
@@ -159,58 +153,15 @@ public class PinButton extends JLabel {
      *
      * @param focused whether this pin button is focused
      */
-    public void setFocused(boolean focused) {
+    private void setFocused(boolean focused) {
         this.focused.set(focused);
         repaint();
     }
 
     /**
-     * Valid sizes for an icon button.
+     * Refreshes the tooltip of this pin button based on the current state.
      */
-    public enum Size {
-        /**
-         * The default size of small.
-         */
-        SMALL(22),
-
-        /**
-         * A slightly larger icon button size.
-         */
-        MEDIUM(26),
-
-        /**
-         * A larger icon button size to fill the entire height of a default {@link CyderDragLabel}.
-         */
-        LARGE(30),
-
-        /**
-         * The icon should be drawn to take up the most space it can of its parent.
-         */
-        FULL_DRAG_LABEL(Integer.MAX_VALUE);
-
-        /**
-         * The size of this icon button.
-         */
-        private final int size;
-
-        Size(int size) {
-            this.size = size;
-        }
-
-        /**
-         * Returns the size this icon button should be drawn with.
-         *
-         * @return the size this icon button should be drawn with
-         */
-        public int getSize() {
-            return size;
-        }
-    }
-
-    /**
-     * Refreshes the tooltip of this icon button based on the current state.
-     */
-    public void refreshTooltip() {
+    private void refreshTooltip() {
         setToolTipText(currentState.getTooltip());
     }
 
@@ -232,9 +183,9 @@ public class PinButton extends JLabel {
     );
 
     /**
-     * Returns the next state for this icon button.
+     * Returns the next state for this pin button.
      *
-     * @return the next state for this icon button
+     * @return the next state for this pin button
      */
     private PinState getNextState() {
         if (Console.INSTANCE.getConsoleCyderFrame().equals(effectFrame)) {
@@ -245,18 +196,18 @@ public class PinButton extends JLabel {
     }
 
     /**
-     * Returns the current state of this icon button.
+     * Returns the current state of this pin button.
      *
-     * @return the current state of this icon button
+     * @return the current state of this pin button
      */
     public PinState getCurrentState() {
         return currentState;
     }
 
     /**
-     * Sets the state of this icon to the next state.
+     * Sets the state of this pin to the next state.
      */
-    public void incrementState() {
+    private void incrementState() {
         currentState = getNextState();
         refreshTooltip();
         repaint();
@@ -265,9 +216,9 @@ public class PinButton extends JLabel {
     }
 
     /**
-     * Sets the state of this icon button.
+     * Sets the state of this pin button.
      *
-     * @param newState the state of this icon button
+     * @param newState the state of this pin button
      */
     public void setState(PinState newState) {
         currentState = Preconditions.checkNotNull(newState);
@@ -285,18 +236,18 @@ public class PinButton extends JLabel {
     }
 
     /**
-     * The padding between the edges of the painted icon button.
+     * The padding between the edges of the painted pin button.
      */
     private static final int PAINT_PADDING = 4;
 
     /**
-     * Returns the actual size of the painted icon button after accounting for padding.
+     * Returns the actual size of the painted pin button after accounting for padding.
      *
-     * @return the actual size of the painted icon button after accounting for padding
+     * @return the actual size of the painted pin button after accounting for padding
      */
     private int getPaintLength() {
         Preconditions.checkNotNull(size);
-        return size.size - 2 * PAINT_PADDING;
+        return size.getSize() - 2 * PAINT_PADDING;
     }
 
     /**
@@ -315,7 +266,7 @@ public class PinButton extends JLabel {
         super.paint(g);
     }
 
-    public void paintChangeSize(Graphics g) {
+    private void paintChangeSize(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
 
@@ -329,7 +280,7 @@ public class PinButton extends JLabel {
         super.paint(g);
     }
 
-    public void paintMinimize(Graphics g) {
+    private void paintMinimize(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
 
@@ -342,7 +293,7 @@ public class PinButton extends JLabel {
         super.paint(g);
     }
 
-    public void paintClose(Graphics g) {
+    private void paintClose(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
 
@@ -362,9 +313,9 @@ public class PinButton extends JLabel {
     }
 
     /**
-     * Returns the color to paint for the icon button based on the current state.
+     * Returns the color to paint for the pin button based on the current state.
      *
-     * @return the color to paint for the icon button based on the current state
+     * @return the color to paint for the pin button based on the current state
      */
     private Color getPaintColor() {
         if (focused.get()) {

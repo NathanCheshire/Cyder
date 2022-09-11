@@ -1,4 +1,4 @@
-package cyder.ui;
+package cyder.ui.drag;
 
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
@@ -7,6 +7,8 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.handlers.internal.Logger;
+import cyder.ui.CyderFrame;
+import cyder.ui.CyderIconButton;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
@@ -53,11 +55,6 @@ public class CyderDragLabel extends JLabel {
      * The default height for drag labels. The Cyder standard for top labels is 30 pixels.
      */
     public static final int DEFAULT_HEIGHT = 30;
-
-    /**
-     * The text for the minimize button.
-     */
-    private static final String MINIMIZE = "Minimize";
 
     /**
      * The text for the close button.
@@ -138,6 +135,7 @@ public class CyderDragLabel extends JLabel {
 
         leftButtonList = new LinkedList<>();
 
+        /* This is better for readability */
         if (type == Type.TOP) {
             rightButtonList = buildRightButtonList();
         } else {
@@ -404,25 +402,10 @@ public class CyderDragLabel extends JLabel {
     private LinkedList<Component> buildRightButtonList() {
         LinkedList<Component> ret = new LinkedList<>();
 
-        CyderIconButton minimize = new CyderIconButton(
-                MINIMIZE,
-                CyderIcons.minimizeIcon,
-                CyderIcons.minimizeIconHover,
-                null);
-        minimize.addActionListener(e -> {
-            Logger.log(Logger.Tag.UI_ACTION, this);
-            effectFrame.minimizeAndIconify();
-        });
-        minimize.addDefaultFocusListener();
-        ret.add(minimize);
+        MinimizeButton minimizeButton = new MinimizeButton(effectFrame);
+        ret.add(minimizeButton);
 
         pinButton = new PinButton(effectFrame, getInitialPinButtonState());
-        pinButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.UI_ACTION, this);
-            }
-        });
         ret.add(pinButton);
 
         CyderIconButton close = new CyderIconButton(CLOSE, CyderIcons.closeIcon,
@@ -773,11 +756,16 @@ public class CyderDragLabel extends JLabel {
 
         int currentXStart = width - BUTTON_PADDING;
 
+        // todo duplicate code for refreshing logic when determining sizes
         for (Component rightButtonComponent : reversedRightButtons) {
             int buttonWidth;
             int buttonHeight;
 
             switch (rightButtonComponent) {
+                case MinimizeButton minimizeButton -> {
+                    buttonWidth = minimizeButton.getWidth();
+                    buttonHeight = minimizeButton.getHeight();
+                }
                 case PinButton pinButton -> {
                     buttonWidth = pinButton.getWidth();
                     buttonHeight = pinButton.getHeight();
@@ -790,8 +778,8 @@ public class CyderDragLabel extends JLabel {
                     buttonWidth = 22;
                     buttonHeight = 20;
                 }
-                case default -> throw new IllegalArgumentException("A component other than JLabel/JButton found "
-                        + "its way into the right button list: " + rightButtonComponent);
+                case default -> throw new IllegalArgumentException("A component other than JLabel/PinButton/" +
+                        "MinimizeButton found its way into the right button list: " + rightButtonComponent);
             }
 
             int y = buttonHeight > DEFAULT_HEIGHT ? 0 : DEFAULT_HEIGHT / 2 - buttonHeight / 2;
@@ -823,6 +811,10 @@ public class CyderDragLabel extends JLabel {
             int buttonHeight;
 
             switch (leftButtonComponent) {
+                case MinimizeButton minimizeButton -> {
+                    buttonWidth = minimizeButton.getWidth();
+                    buttonHeight = minimizeButton.getHeight();
+                }
                 case PinButton pinButton -> {
                     buttonWidth = pinButton.getWidth();
                     buttonHeight = pinButton.getHeight();
@@ -835,8 +827,8 @@ public class CyderDragLabel extends JLabel {
                     buttonWidth = 22;
                     buttonHeight = 20;
                 }
-                case default -> throw new IllegalArgumentException("A component other than JLabel/JButton found "
-                        + "its way into the right button list: " + leftButtonComponent);
+                case default -> throw new IllegalArgumentException("A component other than JLabel/PinButton/" +
+                        "MinimizeButton found its way into the right button list: " + leftButtonComponent);
             }
 
             int y = buttonHeight > DEFAULT_HEIGHT ? 0 : DEFAULT_HEIGHT / 2 - buttonHeight / 2;

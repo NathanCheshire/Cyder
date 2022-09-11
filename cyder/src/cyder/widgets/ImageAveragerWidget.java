@@ -13,9 +13,9 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderButton;
-import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
+import cyder.ui.drag.CyderDragLabel;
 import cyder.user.UserFile;
 import cyder.utils.*;
 

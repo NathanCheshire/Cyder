@@ -11,6 +11,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.*;
+import cyder.ui.drag.CyderDragLabel;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
