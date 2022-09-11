@@ -291,12 +291,20 @@ public class PinButton extends JLabel {
         return size.size - 2 * PAINT_PADDING;
     }
 
-
     /**
      * {@inheritDoc}
      */
     @Override
     public void paint(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setColor(getPaintColor());
+        g2d.setStroke(new BasicStroke(2));
+        g2d.drawLine(PAINT_PADDING, PAINT_PADDING, getPaintLength(), getPaintLength());
+        super.paint(g);
+    }
+
+    public void paintPin(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
 
@@ -305,6 +313,28 @@ public class PinButton extends JLabel {
 
         g2d.setColor(getPaintColor());
         g2d.fillPolygon(pinButtonPolygonXPoints, pinButtonPolygonYPoints, pinButtonPolygonYPoints.length);
+        super.paint(g);
+    }
+
+    public void paintChangeSize(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.translate(PAINT_PADDING, PAINT_PADDING);
+
+        g2d.setColor(getPaintColor());
+        g2d.setStroke(new BasicStroke(2));
+
+        g2d.drawRect(0, 1, getPaintLength(), getPaintLength() - 2);
+        super.paint(g);
+    }
+
+    public void paintMinimize(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.translate(PAINT_PADDING, PAINT_PADDING);
+
+        g2d.setColor(getPaintColor());
+        g2d.setStroke(new BasicStroke(2));
+
+        g2d.drawLine(0, getPaintLength() - 4, getPaintLength(), getPaintLength() - 4);
         super.paint(g);
     }
 
