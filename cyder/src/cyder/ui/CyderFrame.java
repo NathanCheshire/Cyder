@@ -2720,7 +2720,6 @@ public class CyderFrame extends JFrame {
 
     // todo minimize is focused by default or something?
     // todo blurring current background changes size
-    // todo add prop to not dispose splash until complete which is true obviously
     // todo fade opacity of scroll bars by 1s in and out
     // todo dreamifying still freezes sometimes
 

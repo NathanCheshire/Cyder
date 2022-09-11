@@ -4,12 +4,16 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A custom implementation of a ScrollPane to give it a more modern feel.
@@ -20,12 +24,12 @@ public class CyderScrollPane extends JScrollPane {
     /**
      * The alpha value for mouse over events.
      */
-    private static int scrollBarAlphaRollover = 100;
+    private int maxScrollBarAlphaRollover = 140;
 
     /**
      * The default alpha of the scroll bar.
      */
-    private static int scrollBarAlpha = 60;
+    private int defaultScrollBarAlpha = 60;
 
     /**
      * The size of the thumb by default.
@@ -86,7 +90,7 @@ public class CyderScrollPane extends JScrollPane {
      * @param alpha the alpha rollover color
      */
     public void setScrollBarAlphaRollover(int alpha) {
-        scrollBarAlphaRollover = alpha;
+        maxScrollBarAlphaRollover = alpha;
     }
 
     /**
@@ -95,7 +99,7 @@ public class CyderScrollPane extends JScrollPane {
      * @param alpha the alpha color
      */
     public void setScrollBarAlpha(int alpha) {
-        scrollBarAlpha = alpha;
+        defaultScrollBarAlpha = alpha;
     }
 
     /**
@@ -128,7 +132,7 @@ public class CyderScrollPane extends JScrollPane {
     /**
      * Constructs a new scrollpane.
      *
-     * @param view the component to surround with a scrollpane
+     * @param view      the component to surround with a scrollpane
      * @param vsbPolicy the vertical policy
      * @param hsbPolicy the horizontal policy
      */
@@ -138,14 +142,21 @@ public class CyderScrollPane extends JScrollPane {
         setBorder(null);
         verticalScrollBarPolicy = vsbPolicy;
         horizontalScrollBarPolicy = hsbPolicy;
-
         JScrollBar verticalScrollBar = getVerticalScrollBar();
         verticalScrollBar.setOpaque(false);
-        verticalScrollBar.setUI(new ModernScrollBarUI(this));
+        ModernScrollBarUI verticalUi = new ModernScrollBarUI(this);
+        verticalUi.setMaxScrollBarAlphaRollover(maxScrollBarAlphaRollover);
+        verticalUi.setDefaultScrollBarAlpha(defaultScrollBarAlpha);
+        verticalUi.setParent(this);
+        verticalScrollBar.setUI(verticalUi);
 
         JScrollBar horizontalScrollBar = getHorizontalScrollBar();
         horizontalScrollBar.setOpaque(false);
-        horizontalScrollBar.setUI(new ModernScrollBarUI(this));
+        ModernScrollBarUI horizontalUi = new ModernScrollBarUI(this);
+        horizontalUi.setMaxScrollBarAlphaRollover(maxScrollBarAlphaRollover);
+        horizontalUi.setDefaultScrollBarAlpha(defaultScrollBarAlpha);
+        horizontalUi.setParent(this);
+        horizontalScrollBar.setUI(horizontalUi);
 
         setLayout(new ScrollPaneLayout() {
             @Override
@@ -243,7 +254,57 @@ public class CyderScrollPane extends JScrollPane {
      * Inner class extending the BasicScrollBarUI that overrides all necessary methods.
      */
     private static class ModernScrollBarUI extends BasicScrollBarUI {
+        /**
+         * The scrollpane this ui is controlling.
+         */
         private final JScrollPane scrollPane;
+
+        /**
+         * The current alpha value.
+         */
+        private final AtomicInteger currentAlpha = new AtomicInteger();
+
+        /**
+         * The max scrollbar alpha value to display on a mouse rollover.
+         */
+        private int maxScrollBarAlphaRollover;
+
+        /**
+         * The default alpha value.
+         */
+        private int defaultScrollBarAlpha;
+
+        /**
+         * The scroll pane this ui is for.
+         */
+        private Component parent;
+
+        /**
+         * Sets the scroll pane this ui is for.
+         *
+         * @param parent the scroll pane this ui is for
+         */
+        public void setParent(Component parent) {
+            this.parent = parent;
+        }
+
+        /**
+         * Sets the default scrollbar alpha.
+         *
+         * @param defaultScrollBarAlpha the default scrollbar alpha
+         */
+        public void setDefaultScrollBarAlpha(int defaultScrollBarAlpha) {
+            this.defaultScrollBarAlpha = defaultScrollBarAlpha;
+        }
+
+        /**
+         * Sets the scrollbar alpha rollover value.
+         *
+         * @param maxScrollBarAlphaRollover the scrollbar alpha rollover value
+         */
+        public void setMaxScrollBarAlphaRollover(int maxScrollBarAlphaRollover) {
+            this.maxScrollBarAlphaRollover = maxScrollBarAlphaRollover;
+        }
 
         /**
          * Constructs a new modern scrollbar ui.
@@ -274,15 +335,29 @@ public class CyderScrollPane extends JScrollPane {
          * {@inheritDoc}
          */
         @Override
-        protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
-        }
+        protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {}
+
+        /**
+         * The boolean for knowing when a state changes in the rollover.
+         */
+        private final AtomicBoolean mouseInsideThumb = new AtomicBoolean();
 
         /**
          * {@inheritDoc}
          */
         @Override
         protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-            int alpha = isThumbRollover() ? scrollBarAlphaRollover : scrollBarAlpha;
+            boolean currentThumbRollover = isThumbRollover();
+
+            if (currentThumbRollover && !mouseInsideThumb.get()) {
+                currentAlpha.set(maxScrollBarAlphaRollover);
+                mouseInsideThumb.set(true);
+            }
+            if (!currentThumbRollover && mouseInsideThumb.get()) {
+                mouseInsideThumb.set(false);
+                startAlphaDecrementAlphaAnimation();
+            }
+
             int orientation = scrollbar.getOrientation();
             int x = thumbBounds.x;
             int y = thumbBounds.y;
@@ -295,9 +370,35 @@ public class CyderScrollPane extends JScrollPane {
 
             Graphics2D graphics2D = (Graphics2D) g.create();
             graphics2D.setColor(new Color(CyderScrollPane.thumbColor.getRed(), CyderScrollPane.thumbColor.getGreen(),
-                    CyderScrollPane.thumbColor.getBlue(), alpha));
+                    CyderScrollPane.thumbColor.getBlue(), currentAlpha.get()));
             graphics2D.fillRect(x, y, width, height);
             graphics2D.dispose();
+        }
+
+        private AtomicBoolean aniamationThreadRunning = new AtomicBoolean();
+
+        private void startAlphaDecrementAlphaAnimation() {
+            if (aniamationThreadRunning.get()) return;
+
+            CyderThreadRunner.submit(() -> {
+                aniamationThreadRunning.set(true);
+
+                do {
+                    currentAlpha.decrementAndGet();
+                    parent.repaint();
+                    System.out.println(currentAlpha);
+
+                    // means another animation was started
+                    if (currentAlpha.get() == maxScrollBarAlphaRollover) {
+                        aniamationThreadRunning.set(false);
+                        return;
+                    }
+
+                    ThreadUtil.sleep(5);
+                } while (currentAlpha.get() != defaultScrollBarAlpha);
+
+                aniamationThreadRunning.set(false);
+            }, "todo");
         }
 
         /**

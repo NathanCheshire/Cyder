@@ -200,6 +200,11 @@ public enum CyderSplash {
     private static final int C_BLOCK_HEIGHT = 25;
 
     /**
+     * The width of the y block.
+     */
+    private static final int Y_BLOCK_WIDTH = 95;
+
+    /**
      * The default loading message for the splash to display.
      */
     public final String DEFAULT_LOADING_MESSAGE = "Loading Components";
@@ -648,7 +653,7 @@ public enum CyderSplash {
         Graphics g = drawMe.getGraphics();
         g.setColor(CyderColors.vanilla);
         g.fillRect(ICON_LEN - LETTER_LEN, 0, LETTER_LEN, ICON_LEN);
-        g.fillRect(60, 60, 95, LETTER_LEN);
+        g.fillRect(60, 60, Y_BLOCK_WIDTH, LETTER_LEN);
 
         Y_ICON = ImageUtil.toImageIcon(drawMe);
         return Y_ICON;
