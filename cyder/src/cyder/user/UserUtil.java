@@ -2,7 +2,6 @@ package cyder.user;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.gson.Gson;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -176,11 +175,6 @@ public final class UserUtil {
     }
 
     /**
-     * The gson object used for serializing users.
-     */
-    private static final Gson gson = new Gson();
-
-    /**
      * Writes the provided user to the provided file.
      *
      * @param file the file to write to
@@ -195,9 +189,9 @@ public final class UserUtil {
         try {
             FileWriter writer = new FileWriter(file);
             userIoSemaphore.acquire();
-            gson.toJson(user, writer);
+            SerializationUtil.toJson(user, writer);
 
-            String currentSerializedUser = gson.toJson(user);
+            String currentSerializedUser = SerializationUtil.toJson(user);
 
             if (previousSerializedUser.isEmpty()) {
                 currentLevenshteinDistance = currentSerializedUser.length();
@@ -666,7 +660,7 @@ public final class UserUtil {
 
         try {
             Reader reader = new FileReader(file);
-            ret = gson.fromJson(reader, User.class);
+            ret = SerializationUtil.fromJson(reader, User.class);
             reader.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -939,12 +933,12 @@ public final class UserUtil {
 
                     // ensure the backup is parsable as a user object
                     Reader reader = new FileReader(restore);
-                    User backupUser = gson.fromJson(reader, User.class);
+                    User backupUser = SerializationUtil.fromJson(reader, User.class);
                     reader.close();
 
                     // write user to current user json
                     Writer writer = new FileWriter(userJson);
-                    gson.toJson(backupUser, writer);
+                    SerializationUtil.toJson(backupUser, writer);
                     writer.close();
 
                     // log success

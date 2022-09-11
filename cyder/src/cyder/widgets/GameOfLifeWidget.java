@@ -2,7 +2,6 @@ package cyder.widgets;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
-import com.google.gson.Gson;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
@@ -159,11 +158,6 @@ public final class GameOfLifeWidget {
      * The switcher states to cycle between the states loaded from static/json/conway.
      */
     private static ArrayList<CyderComboBox.ComboItem> comboItems;
-
-    /**
-     * Gson object used for converting to/from json files to save conway states.
-     */
-    private static final Gson conwayGson = new Gson();
 
     /**
      * The minimum dimensional node length for the inner cyder grid.
@@ -504,7 +498,7 @@ public final class GameOfLifeWidget {
 
         try {
             Reader reader = new FileReader(jsonFile);
-            ConwayState loadState = conwayGson.fromJson(reader, ConwayState.class);
+            ConwayState loadState = SerializationUtil.fromJson(reader, ConwayState.class);
             reader.close();
 
             resetSimulation();
@@ -561,7 +555,7 @@ public final class GameOfLifeWidget {
 
                 try {
                     FileWriter writer = new FileWriter(saveFile);
-                    conwayGson.toJson(state, writer);
+                    SerializationUtil.toJson(state, writer);
                     writer.close();
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
@@ -647,7 +641,7 @@ public final class GameOfLifeWidget {
                     if (FileUtil.validateExtension(json, ".json")) {
                         try {
                             Reader reader = new FileReader(json);
-                            ConwayState loadState = conwayGson.fromJson(reader, ConwayState.class);
+                            ConwayState loadState = SerializationUtil.fromJson(reader, ConwayState.class);
                             reader.close();
 
                             correspondingConwayStates.add(loadState);

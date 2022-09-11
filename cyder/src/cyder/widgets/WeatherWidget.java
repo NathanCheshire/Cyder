@@ -1015,7 +1015,7 @@ public class WeatherWidget {
             WeatherData wd = null;
             try (BufferedReader reader = new BufferedReader(
                     new InputStreamReader(new URL(urlString).openStream()))) {
-                wd = SerializationUtil.serialize(reader, WeatherData.class);
+                wd = SerializationUtil.fromJson(reader, WeatherData.class);
             } catch (FileNotFoundException e) {
                 // Invalid custom location so go back to the old one
                 weatherFrame.notify("Sorry, but that location is invalid");

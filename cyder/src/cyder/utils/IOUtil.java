@@ -492,7 +492,7 @@ public final class IOUtil {
 
                 responseLine = response.toString().replace("'", "");
 
-                UsbResponse usbResponse = SerializationUtil.serialize(responseLine, UsbResponse.class);
+                UsbResponse usbResponse = SerializationUtil.fromJson(responseLine, UsbResponse.class);
 
                 ret = usbResponse.parse();
             }

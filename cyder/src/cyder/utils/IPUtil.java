@@ -67,7 +67,7 @@ public final class IPUtil {
         String url = CyderUrls.IPDATA_BASE + key;
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
-            ipdata = SerializationUtil.serialize(reader, IPData.class);
+            ipdata = SerializationUtil.fromJson(reader, IPData.class);
         } catch (IOException e) {
             ExceptionHandler.silentHandle(e);
         }

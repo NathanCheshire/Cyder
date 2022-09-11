@@ -2710,7 +2710,7 @@ public final class AudioPlayer {
     private static Optional<YoutubeSearchResultPage> getSearchResults(String url) {
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(new URL(url).openStream()))) {
-            return Optional.of(SerializationUtil.serialize(reader, YoutubeSearchResultPage.class));
+            return Optional.of(SerializationUtil.fromJson(reader, YoutubeSearchResultPage.class));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

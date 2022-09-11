@@ -559,7 +559,7 @@ public final class AudioUtil {
                     response.append(responseLine.trim());
                 }
 
-                AudioLengthResponse audioLengthResponse = SerializationUtil.serialize(
+                AudioLengthResponse audioLengthResponse = SerializationUtil.fromJson(
                         response.toString(), AudioLengthResponse.class);
 
                 return Math.round(audioLengthResponse.getLength() * 1000);

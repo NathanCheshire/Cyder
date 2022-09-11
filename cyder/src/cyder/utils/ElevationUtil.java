@@ -53,7 +53,7 @@ public final class ElevationUtil {
 
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(new URL(queryString).openStream()))) {
-            ElevationData elevationData = SerializationUtil.serialize(reader, ElevationData.class);
+            ElevationData elevationData = SerializationUtil.fromJson(reader, ElevationData.class);
             return Double.parseDouble(elevationData.uepqs.elevationQuery.elevation);
         } catch (Exception e) {
             ExceptionHandler.handle(e);

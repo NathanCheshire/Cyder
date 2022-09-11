@@ -1064,7 +1064,7 @@ public final class ImageUtil {
                         response.append(responseLine.trim());
                     }
 
-                    return SerializationUtil.serialize(response.toString(), BlurResponse.class).generateFileReference();
+                    return SerializationUtil.fromJson(response.toString(), BlurResponse.class).generateFileReference();
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

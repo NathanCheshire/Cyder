@@ -3,7 +3,6 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -66,7 +65,7 @@ public final class GitHubUtil {
             reader.close();
             String rawJson = sb.toString();
 
-            ret = SerializationUtil.serialize(rawJson, Issue[].class);
+            ret = SerializationUtil.fromJson(rawJson, Issue[].class);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -103,7 +102,7 @@ public final class GitHubUtil {
 
             Type type = new TypeToken<HashMap<String, Integer>>() {}.getType();
 
-            ret = new Gson().fromJson(rawJson, type);
+            ret = SerializationUtil.fromJson(rawJson, type);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

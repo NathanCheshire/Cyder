@@ -412,7 +412,7 @@ public final class ClockWidget {
 
                         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                                 new URL(OpenString).openStream()))) {
-                            wd = SerializationUtil.serialize(reader, WeatherData.class);
+                            wd = SerializationUtil.fromJson(reader, WeatherData.class);
                             currentGMTOffset = Integer.parseInt(String.valueOf(wd.getTimezone())) / 3600;
                             currentLocation = possibleLocation;
 
@@ -558,7 +558,7 @@ public final class ClockWidget {
         WeatherData wd;
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()))) {
-            wd = SerializationUtil.serialize(reader, WeatherData.class);
+            wd = SerializationUtil.fromJson(reader, WeatherData.class);
             currentGMTOffset = Integer.parseInt(String.valueOf(wd.getTimezone())) / 3600;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
