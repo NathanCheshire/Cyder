@@ -266,52 +266,6 @@ public class PinButton extends JLabel {
         super.paint(g);
     }
 
-    private void paintChangeSize(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.translate(PAINT_PADDING, PAINT_PADDING);
-
-        g2d.setColor(getPaintColor());
-        BasicStroke changeSizeStroke = new BasicStroke(2);
-        g2d.setStroke(changeSizeStroke);
-        int changeSizeYOffset = 1;
-        int changeSizeHeight = getPaintLength() - 2;
-
-        g2d.drawRect(0, changeSizeYOffset, getPaintLength(), changeSizeHeight);
-        super.paint(g);
-    }
-
-    private void paintMinimize(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.translate(PAINT_PADDING, PAINT_PADDING);
-
-        g2d.setColor(getPaintColor());
-        BasicStroke minimizeStroke = new BasicStroke(2);
-        g2d.setStroke(minimizeStroke);
-        int minimizeYStart = getPaintLength() - 4;
-
-        g2d.drawLine(0, minimizeYStart, getPaintLength(), minimizeYStart);
-        super.paint(g);
-    }
-
-    private void paintClose(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.translate(PAINT_PADDING, PAINT_PADDING);
-
-        g2d.setColor(getPaintColor());
-
-        int len = 2;
-        int secondLineSubtrahend = 1;
-        for (int i = 0 ; i < getPaintLength() ; i++) {
-            g2d.drawRect(i, i, len, len);
-        }
-
-        for (int i = 0 ; i < getPaintLength() ; i++) {
-            g2d.drawRect(i, getPaintLength() - i - secondLineSubtrahend, len, len);
-        }
-
-        super.paint(g);
-    }
-
     /**
      * Returns the color to paint for the pin button based on the current state.
      *

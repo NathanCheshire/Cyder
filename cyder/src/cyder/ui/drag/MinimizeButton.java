@@ -108,7 +108,7 @@ public class MinimizeButton extends JLabel {
     /**
      * Generates the default focus adapter for the provided minimize button button.
      *
-     * @param minimizeButton the minimizeButton button for the mouse adapter to be added to
+     * @param minimizeButton the minimize button for the mouse adapter to be added to
      * @return the focus adapter
      */
     @ForReadability
@@ -165,7 +165,14 @@ public class MinimizeButton extends JLabel {
      */
     private static final int PAINT_PADDING = 4;
 
+    /**
+     * The stroke to paint with for this minimize button.
+     */
     private static final BasicStroke minimizeStroke = new BasicStroke(2);
+
+    /**
+     * The offset from the bottom for drawing this minimize button.
+     */
     private static final int MINIMIZE_BOTTOM_OFFSET = 4;
 
     /**
@@ -184,7 +191,14 @@ public class MinimizeButton extends JLabel {
         super.paint(g);
     }
 
+    /**
+     * The focus and hover color for this minimize button.
+     */
     private final Color focusedAndHoverColor = CyderColors.regularRed;
+
+    /**
+     * The default color for this minimize button.
+     */
     private final Color defaultColor = CyderColors.vanilla;
 
     /**

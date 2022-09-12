@@ -1,12 +1,11 @@
 package cyder.ui.drag;
 
 import com.google.common.base.Preconditions;
+import cyder.annotations.ForReadability;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
 import cyder.handlers.internal.Logger;
-import cyder.ui.button.CyderIconButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;
@@ -54,11 +53,6 @@ public class CyderDragLabel extends JLabel {
      * The default height for drag labels. The Cyder standard for top labels is 30 pixels.
      */
     public static final int DEFAULT_HEIGHT = 30;
-
-    /**
-     * The text for the close button.
-     */
-    private static final String CLOSE = "Close";
 
     /**
      * The width of this DragLabel.
@@ -407,13 +401,8 @@ public class CyderDragLabel extends JLabel {
         pinButton = new PinButton(effectFrame, getInitialPinButtonState());
         ret.add(pinButton);
 
-        CyderIconButton close = new CyderIconButton(CLOSE, CyderIcons.closeIcon,
-                CyderIcons.closeIconHover, null);
-        close.addActionListener(e -> {
-            Logger.log(Logger.Tag.UI_ACTION, this);
-            effectFrame.dispose();
-        });
-        ret.add(close);
+        CloseButton closeButton = new CloseButton(effectFrame);
+        ret.add(closeButton);
 
         return ret;
     }
@@ -755,31 +744,10 @@ public class CyderDragLabel extends JLabel {
 
         int currentXStart = width - BUTTON_PADDING;
 
-        // todo duplicate code for refreshing logic when determining sizes
         for (Component rightButtonComponent : reversedRightButtons) {
-            int buttonWidth;
-            int buttonHeight;
-
-            switch (rightButtonComponent) {
-                case MinimizeButton minimizeButton -> {
-                    buttonWidth = minimizeButton.getWidth();
-                    buttonHeight = minimizeButton.getHeight();
-                }
-                case PinButton pinButton -> {
-                    buttonWidth = pinButton.getWidth();
-                    buttonHeight = pinButton.getHeight();
-                }
-                case JLabel label -> {
-                    buttonWidth = StringUtil.getMinWidth(label.getText().trim(), label.getFont());
-                    buttonHeight = StringUtil.getAbsoluteMinHeight(label.getText().trim(), label.getFont());
-                }
-                case JButton ignored -> {
-                    buttonWidth = 22;
-                    buttonHeight = 20;
-                }
-                case default -> throw new IllegalArgumentException("A component other than JLabel/PinButton/" +
-                        "MinimizeButton found its way into the right button list: " + rightButtonComponent);
-            }
+            Dimension dimension = determineButtonDimensions(rightButtonComponent);
+            int buttonWidth = (int) dimension.getWidth();
+            int buttonHeight = (int) dimension.getHeight();
 
             int y = buttonHeight > DEFAULT_HEIGHT ? 0 : DEFAULT_HEIGHT / 2 - buttonHeight / 2;
 
@@ -806,29 +774,9 @@ public class CyderDragLabel extends JLabel {
         int currentXStart = BUTTON_PADDING;
 
         for (Component leftButtonComponent : leftButtonList) {
-            int buttonWidth;
-            int buttonHeight;
-
-            switch (leftButtonComponent) {
-                case MinimizeButton minimizeButton -> {
-                    buttonWidth = minimizeButton.getWidth();
-                    buttonHeight = minimizeButton.getHeight();
-                }
-                case PinButton pinButton -> {
-                    buttonWidth = pinButton.getWidth();
-                    buttonHeight = pinButton.getHeight();
-                }
-                case JLabel label -> {
-                    buttonWidth = StringUtil.getMinWidth(label.getText().trim(), label.getFont());
-                    buttonHeight = StringUtil.getAbsoluteMinHeight(label.getText().trim(), label.getFont());
-                }
-                case JButton ignored -> {
-                    buttonWidth = 22;
-                    buttonHeight = 20;
-                }
-                case default -> throw new IllegalArgumentException("A component other than JLabel/PinButton/" +
-                        "MinimizeButton found its way into the right button list: " + leftButtonComponent);
-            }
+            Dimension dimension = determineButtonDimensions(leftButtonComponent);
+            int buttonWidth = (int) dimension.getWidth();
+            int buttonHeight = (int) dimension.getHeight();
 
             int y = buttonHeight > DEFAULT_HEIGHT ? 0 : DEFAULT_HEIGHT / 2 - buttonHeight / 2;
 
@@ -840,6 +788,64 @@ public class CyderDragLabel extends JLabel {
         revalidate();
         repaint();
     }
+
+    /**
+     * The error message to display if a component not allowed is attempted to be added to the drag label button list.
+     */
+    private static final String BUTTON_DIMENSION_ERROR_MESSAGE = "A component other than JLabel/PinButton/"
+            + "MinimizeButton found its way into the right button list: ";
+
+    /**
+     * Returns the dimension for the provided component being added to the drag label.
+     *
+     * @param component the component being added to the drag label.
+     * @return the dimension for the component
+     */
+    @ForReadability
+    private Dimension determineButtonDimensions(Component component) {
+        Preconditions.checkNotNull(component);
+        Preconditions.checkState(this.type == Type.TOP);
+
+        int buttonWidth;
+        int buttonHeight;
+
+        switch (component) {
+            case ChangeSizeButton changeSizeButton -> {
+                buttonWidth = changeSizeButton.getWidth();
+                buttonHeight = changeSizeButton.getHeight();
+            }
+            case CloseButton closeButton -> {
+                buttonWidth = closeButton.getWidth();
+                buttonHeight = closeButton.getHeight();
+            }
+            case MinimizeButton minimizeButton -> {
+                buttonWidth = minimizeButton.getWidth();
+                buttonHeight = minimizeButton.getHeight();
+            }
+            case PinButton pinButton -> {
+                buttonWidth = pinButton.getWidth();
+                buttonHeight = pinButton.getHeight();
+            }
+            case JLabel label -> {
+                buttonWidth = StringUtil.getMinWidth(label.getText().trim(), label.getFont());
+                buttonHeight = StringUtil.getAbsoluteMinHeight(label.getText().trim(), label.getFont());
+            }
+            case JButton ignored -> {
+                buttonWidth = 22; // todo these should go away and we just use the button's width and height as it is
+                buttonHeight = 20;
+            }
+            case default -> throw new IllegalArgumentException(BUTTON_DIMENSION_ERROR_MESSAGE + component);
+        }
+
+        return new Dimension(buttonWidth, buttonHeight);
+    }
+
+    // todo buttons for console
+    // todo remove icon button
+    // todo remove assets for drawing
+    // todo make change size button
+    // todo add hooks to these buttons
+    // todo backup routine broken because of pretty print no longer one line
 
     /**
      * Returns whether the provided button is a text button indicated by containing text and not an icon.

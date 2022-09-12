@@ -26,6 +26,8 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.ui.button.CyderIconButton;
+import cyder.ui.drag.ChangeSizeButton;
+import cyder.ui.drag.CloseButton;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.drag.PinButton;
 import cyder.ui.field.CyderCaret;
@@ -156,39 +158,6 @@ public enum Console {
      */
     private final JButton toggleAudioControls = new CyderIconButton(
             "Audio Controls", CyderIcons.menuIcon, CyderIcons.menuIconHover);
-
-    /**
-     * The top drag label alternate background button.
-     */
-    private final CyderIconButton alternateBackgroundButton = new CyderIconButton("Alternate Background",
-            CyderIcons.changeSizeIcon, CyderIcons.changeSizeIconHover);
-
-    /**
-     * The top drag label close button.
-     */
-    private final CyderIconButton closeButton = new CyderIconButton("Close",
-            CyderIcons.closeIcon, CyderIcons.closeIconHover, new MouseAdapter() {
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            closeButton.setIcon(CyderIcons.closeIconHover);
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            closeButton.setIcon(CyderIcons.closeIcon);
-        }
-    }, new FocusAdapter() {
-        @Override
-        public void focusGained(FocusEvent e) {
-            closeButton.setIcon(CyderIcons.closeIconHover);
-        }
-
-        @Override
-        public void focusLost(FocusEvent e) {
-            closeButton.setIcon(CyderIcons.closeIcon);
-            outputArea.requestFocus();
-        }
-    });
 
     /**
      * The audio menu parent label
@@ -752,16 +721,17 @@ public enum Console {
      */
     @ForReadability
     private void installDragLabelButtons() {
-        // Remove close button
+        // Remove default close button
         consoleCyderFrame.getTopDragLabel().removeRightButton(2);
-        // Add custom close button at end
-        closeButton.addActionListener(e -> {
+        CloseButton closeButton = new CloseButton(consoleCyderFrame);
+        closeButton.setCloseAction(() -> {
             if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
                 UiUtil.minimizeAllFrames();
             } else {
                 closeFrame(true, false);
             }
         });
+        closeButton.addFocusLostAction(() -> outputArea.requestFocus());
         consoleCyderFrame.getTopDragLabel().addRightButton(closeButton, 2);
 
         menuButton = new CyderIconButton(
@@ -772,7 +742,9 @@ public enum Console {
         menuButton.addKeyListener(menuButtonKeyAdapter);
         consoleCyderFrame.getTopDragLabel().addLeftButton(menuButton, 0);
 
-        alternateBackgroundButton.addActionListener(e -> {
+        ChangeSizeButton changeSizeButton = new ChangeSizeButton(consoleCyderFrame);
+        changeSizeButton.setToolTipText("Alternate Background");
+        changeSizeButton.setChangeSizeAction(() -> {
             reloadBackgrounds();
 
             try {
@@ -789,7 +761,7 @@ public enum Console {
                 Logger.log(Logger.Tag.EXCEPTION, "Background DNE");
             }
         });
-        consoleCyderFrame.getTopDragLabel().addRightButton(alternateBackgroundButton, 2);
+        consoleCyderFrame.getTopDragLabel().addRightButton(changeSizeButton, 2);
 
         toggleAudioControls.addActionListener(e -> {
             if (audioControlsLabel.isVisible()) {
