@@ -22,7 +22,7 @@ import cyder.time.TimeUtil;
 import cyder.ui.CyderComponentResizer;
 import cyder.ui.CyderPanel;
 import cyder.ui.drag.CyderDragLabel;
-import cyder.ui.drag.PinButton;
+import cyder.ui.drag.button.PinButton;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.ui.pane.CyderScrollPane;
 import cyder.user.UserUtil;

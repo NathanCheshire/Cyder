@@ -1,4 +1,4 @@
-package cyder.ui.drag;
+package cyder.ui.drag.button;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
@@ -6,6 +6,7 @@ import cyder.annotations.ForReadability;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;
+import cyder.ui.drag.DragLabelButtonSize;
 import cyder.ui.frame.CyderFrame;
 
 import javax.swing.*;

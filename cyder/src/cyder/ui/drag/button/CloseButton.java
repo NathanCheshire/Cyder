@@ -1,9 +1,11 @@
-package cyder.ui.drag;
+package cyder.ui.drag.button;
 
 import com.google.common.base.Preconditions;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;
+import cyder.ui.drag.DragLabelButtonSize;
+import cyder.ui.frame.CyderFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,16 +17,21 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * A menu button for a drag label.
+ * A close button for CyderFrame drag labels.
  */
-public class MenuButton extends JLabel {
+public class CloseButton extends JLabel {
     /**
-     * The default size of the menu button.
+     * The default size of the close button.
      */
     private static final DragLabelButtonSize DEFAULT_SIZE = DragLabelButtonSize.SMALL;
 
     /**
-     * The size this menu button will be painted with.
+     * The frame this close button will be placed on.
+     */
+    private final CyderFrame effectFrame;
+
+    /**
+     * The size this close button will be painted with.
      */
     private final DragLabelButtonSize size;
 
@@ -34,118 +41,123 @@ public class MenuButton extends JLabel {
     private final AtomicBoolean mouseIn = new AtomicBoolean();
 
     /**
-     * Whether this menu button is focused.
+     * Whether this close button is focused.
      */
     private final AtomicBoolean focused = new AtomicBoolean();
 
     /**
-     * The text for the menu button.
+     * Constructs a new close button.
+     *
+     * @param effectFrame the frame this close button will be on
      */
-    private static final String MENU = "Menu";
-
-    /**
-     * Constructs a new menu button.
-     */
-    public MenuButton() {
-        this(DEFAULT_SIZE);
+    public CloseButton(CyderFrame effectFrame) {
+        this(effectFrame, DEFAULT_SIZE);
     }
 
     /**
-     * Constructs a new menu button.
-     *
-     * @param size the size of this menu button
+     * The text for the close button.
      */
-    public MenuButton(DragLabelButtonSize size) {
+    private static final String CLOSE = "Close";
+
+    /**
+     * Constructs a new close button.
+     *
+     * @param effectFrame the frame this close button will be on
+     * @param size        the size of this close button
+     */
+    public CloseButton(CyderFrame effectFrame, DragLabelButtonSize size) {
+        this.effectFrame = Preconditions.checkNotNull(effectFrame);
         this.size = Preconditions.checkNotNull(size);
 
         addMouseListener(generateMouseAdapter(this));
         addFocusListener(generateFocusAdapter(this));
 
-        setToolTipText(MENU);
+        setToolTipText(CLOSE);
         setFocusable(true);
         setSize(size.getSize(), size.getSize());
         repaint();
     }
 
     /**
-     * The default action to invoke when this menu button is pressed.
+     * The default action to invoke when this close button is pressed.
      */
-    private void defaultMenuAction() {
+    private void defaultCloseAction() {
         Logger.log(Logger.Tag.UI_ACTION, this);
+        effectFrame.dispose();
     }
 
     /**
-     * The action to invoke when this menu button is pressed.
+     * The action to invoke when this close button is pressed.
      */
-    private Runnable menuAction = this::defaultMenuAction;
+    private Runnable closeAction = this::defaultCloseAction;
 
     /**
-     * Sets the menu action to the provided runnable.
+     * Sets the close action to the provided runnable.
      *
-     * @param menuAction the action to invoke when this menu button is pressed
+     * @param closeAction the action to invoke when this close button is pressed
      */
-    public void setMenuAction(Runnable menuAction) {
-        this.menuAction = Preconditions.checkNotNull(menuAction);
+    public void setCloseAction(Runnable closeAction) {
+        this.closeAction = Preconditions.checkNotNull(closeAction);
     }
 
     /**
-     * Generates the default mouse adapter for this menu button.
+     * Generates the default mouse adapter for this close button.
      *
-     * @param menuButton the menu button for the mouse adapter to be added to
+     * @param closeButton the close button for the mouse adapter to be added to
      * @return the mouse adapter
      */
     @ForReadability
-    private MouseAdapter generateMouseAdapter(MenuButton menuButton) {
-        Preconditions.checkNotNull(menuButton);
+    private MouseAdapter generateMouseAdapter(CloseButton closeButton) {
+        Preconditions.checkNotNull(closeButton);
 
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                menuAction.run();
+                closeAction.run();
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                menuButton.setMouseIn(true);
+                closeButton.setMouseIn(true);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                menuButton.setMouseIn(false);
+                closeButton.setMouseIn(false);
             }
         };
     }
 
     /**
-     * Generates the default focus adapter for the provided menu button button.
+     * Generates the default focus adapter for the provided close button button.
      *
-     * @param menuButton the menu button for the mouse adapter to be added to
+     * @param closeButton the close button for the mouse adapter to be added to
      * @return the focus adapter
      */
     @ForReadability
-    private FocusAdapter generateFocusAdapter(MenuButton menuButton) {
-        Preconditions.checkNotNull(menuButton);
+    private FocusAdapter generateFocusAdapter(CloseButton closeButton) {
+        Preconditions.checkNotNull(closeButton);
 
         return new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                menuButton.setFocused(true);
+                closeButton.setFocused(true);
                 runFocusGainedActions();
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                menuButton.setFocused(false);
+                closeButton.setFocused(false);
                 runFocusLostActions();
             }
         };
     }
 
     /**
-     * Sets whether the mouse is inside of the bounds of this menu button.
+     * Sets whether the mouse is inside of the bounds of this close button.
      * Repaint is also invoked.
      *
-     * @param mouseIn whether the mouse is inside of the bounds of this menu button
+     * @param mouseIn whether the mouse is inside of the bounds of this close button
      */
     private void setMouseIn(boolean mouseIn) {
         this.mouseIn.set(mouseIn);
@@ -153,10 +165,10 @@ public class MenuButton extends JLabel {
     }
 
     /**
-     * Sets whether this menu button is focused.
+     * Sets whether this close button is focused.
      * Repaint is also invoked.
      *
-     * @param focused whether this menu button is focused
+     * @param focused whether this close button is focused
      */
     private void setFocused(boolean focused) {
         this.focused.set(focused);
@@ -164,9 +176,9 @@ public class MenuButton extends JLabel {
     }
 
     /**
-     * Returns the actual size of the painted menu button after accounting for padding.
+     * Returns the actual size of the painted close button after accounting for padding.
      *
-     * @return the actual size of the painted menu button after accounting for padding
+     * @return the actual size of the painted close button after accounting for padding
      */
     private int getPaintLength() {
         Preconditions.checkNotNull(size);
@@ -174,14 +186,19 @@ public class MenuButton extends JLabel {
     }
 
     /**
-     * The padding between the edges of the painted menu button.
+     * The padding between the edges of the painted close button.
      */
     private static final int PAINT_PADDING = 4;
 
     /**
-     * The size of the rectangles to draw in the paint method.
+     * The length of the rectangles drawn for this close button.
      */
     private static final int drawnRectangleLength = 2;
+
+    /**
+     * The value to subtract from the second line drawn by the rectangles.
+     */
+    private static final int secondLineSubtrahend = 1;
 
     /**
      * {@inheritDoc}
@@ -190,32 +207,33 @@ public class MenuButton extends JLabel {
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
-
-        g2d.setStroke(new BasicStroke(3));
         g2d.setColor(getPaintColor());
 
-        for (int i = 0 ; i <= getPaintLength() ; i++) {
-            g2d.fillRect(i / 2, i, drawnRectangleLength, drawnRectangleLength);
-            g2d.fillRect(getPaintLength() - i / 2, i, drawnRectangleLength, drawnRectangleLength);
+        for (int i = 0 ; i < getPaintLength() ; i++) {
+            g2d.drawRect(i, i, drawnRectangleLength, drawnRectangleLength);
+        }
+
+        for (int i = 0 ; i < getPaintLength() ; i++) {
+            g2d.drawRect(i, getPaintLength() - i - secondLineSubtrahend, drawnRectangleLength, drawnRectangleLength);
         }
 
         super.paint(g);
     }
 
     /**
-     * The focus and hover color for this menu button.
+     * The focus and hover color for this close button.
      */
     private final Color focusedAndHoverColor = CyderColors.regularRed;
 
     /**
-     * The default color for this menu button.
+     * The default color for this close button.
      */
     private final Color defaultColor = CyderColors.vanilla;
 
     /**
-     * Returns the color to paint for the menu button based on the current state.
+     * Returns the color to paint for the close button based on the current state.
      *
-     * @return the color to paint for the menu button based on the current state
+     * @return the color to paint for the close button based on the current state
      */
     private Color getPaintColor() {
         if (mouseIn.get() || focused.get()) {

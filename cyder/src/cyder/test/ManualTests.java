@@ -20,7 +20,7 @@ import cyder.ui.CyderPanel;
 import cyder.ui.button.CyderButton;
 import cyder.ui.button.CyderModernButton;
 import cyder.ui.drag.CyderDragLabel;
-import cyder.ui.drag.MenuButton;
+import cyder.ui.drag.button.MenuButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;

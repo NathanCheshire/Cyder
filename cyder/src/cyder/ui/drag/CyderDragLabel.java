@@ -6,6 +6,7 @@ import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
+import cyder.ui.drag.button.*;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;
@@ -810,6 +811,7 @@ public class CyderDragLabel extends JLabel {
         int buttonHeight;
 
         switch (component) {
+            // todo make base class that implements our custom interface and extends JLabel
             case MenuButton menuButton -> {
                 buttonWidth = menuButton.getWidth();
                 buttonHeight = menuButton.getHeight();
@@ -830,13 +832,11 @@ public class CyderDragLabel extends JLabel {
                 buttonWidth = pinButton.getWidth();
                 buttonHeight = pinButton.getHeight();
             }
+            // todo should be some label wrapper so we can do proper instance of checks
+            //  and ensure it came from CyderDragLabel's generate method
             case JLabel label -> {
                 buttonWidth = StringUtil.getMinWidth(label.getText().trim(), label.getFont());
                 buttonHeight = StringUtil.getAbsoluteMinHeight(label.getText().trim(), label.getFont());
-            }
-            case JButton ignored -> {
-                buttonWidth = 22; // todo these should go away and we just use the button's width and height as it is
-                buttonHeight = 20;
             }
             case default -> throw new IllegalArgumentException(BUTTON_DIMENSION_ERROR_MESSAGE + component);
         }
@@ -845,8 +845,8 @@ public class CyderDragLabel extends JLabel {
     }
 
     // todo by default drag label buttons shouldn't be focusable, console is exception
-    // todo console menu add frames and removing whne not showing not working?
-    // todo remove icon button
+    // todo console menu add frames and removing not showing not working?
+    // todo remove icon button class
 
     /**
      * Returns whether the provided button is a text button indicated by containing text and not an icon.
