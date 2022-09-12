@@ -6,7 +6,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.ui.button.CyderIconButton;
+import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
 import cyder.user.UserUtil;
 import cyder.utils.FileUtil;
@@ -52,14 +52,14 @@ public class PhotoViewer {
     private boolean killed;
 
     /**
-     * The icon button to transition to the next photo in the directory.
+     * The next image button.
      */
-    private CyderIconButton next;
+    private JLabel nextButton;
 
     /**
-     * The icon button to transition to the last photo in the directory.
+     * The last image button.
      */
-    private CyderIconButton last;
+    private JLabel lastButton;
 
     /**
      * Returns a new instance of photo viewer with the provided starting directory.
@@ -115,7 +115,41 @@ public class PhotoViewer {
         pictureFrame.setBackground(Color.BLACK);
         revalidateTitle(FileUtil.getFilename(currentImage.getName()));
         pictureFrame.setVisible(true);
-        pictureFrame.addWindowListener(new WindowAdapter() {
+        pictureFrame.addWindowListener(generateWindowAdapter());
+
+        pictureFrame.finalizeAndShow();
+
+        pictureFrame.setMenuEnabled(true);
+        pictureFrame.addMenuItem("Rename", this::rename);
+
+        nextButton = CyderDragLabel.generateTextButton(NEXT, NEXT,
+                () -> transition(true));
+        pictureFrame.getTopDragLabel().addRightButton(nextButton, 0);
+
+        lastButton = CyderDragLabel.generateTextButton(LAST, LAST,
+                () -> transition(false));
+        pictureFrame.getTopDragLabel().addRightButton(lastButton, 0);
+
+        startDirectoryWatcherThread();
+    }
+
+    /**
+     * The next keyword.
+     */
+    private static final String NEXT = "Next";
+
+    /**
+     * The last keyword.
+     */
+    private static final String LAST = "Last";
+
+    /**
+     * Generates and returns the window adapter for this photo viewer.
+     *
+     * @return the window adapter for this photo viewer
+     */
+    private WindowAdapter generateWindowAdapter() {
+        return new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
                 killed = false;
@@ -125,28 +159,7 @@ public class PhotoViewer {
             public void windowClosed(WindowEvent e) {
                 killed = true;
             }
-        });
-
-        pictureFrame.finalizeAndShow();
-
-        pictureFrame.setMenuEnabled(true);
-        pictureFrame.addMenuItem("Rename", this::rename);
-
-        ImageIcon nextIcon = new ImageIcon("static/pictures/icons/nextPicture1.png");
-        ImageIcon nextIconHover = new ImageIcon("static/pictures/icons/nextPicture2.png");
-        next = new CyderIconButton("Next", nextIcon, nextIconHover, null);
-        next.setSize(nextIcon.getIconWidth(), nextIconHover.getIconHeight());
-        next.addActionListener(e -> transition(true));
-        pictureFrame.getTopDragLabel().addRightButton(next, 0);
-
-        ImageIcon lastIcon = new ImageIcon("static/pictures/icons/lastPicture1.png");
-        ImageIcon lastIconHover = new ImageIcon("static/pictures/icons/lastPicture2.png");
-        last = new CyderIconButton("Last", lastIcon, lastIconHover, null);
-        last.setSize(lastIcon.getIconWidth(), lastIcon.getIconHeight());
-        last.addActionListener(e -> transition(false));
-        pictureFrame.getTopDragLabel().addRightButton(last, 0);
-
-        startDirectoryWatcherThread();
+        };
     }
 
     /**
@@ -158,9 +171,7 @@ public class PhotoViewer {
         if (photoDirectory.isDirectory()) {
             File[] files = photoDirectory.listFiles();
 
-            if (files == null || files.length == 0) {
-                return;
-            }
+            if (files == null || files.length == 0) return;
 
             for (File f : files) {
                 if (FileUtil.isSupportedImageExtension(f)) {
@@ -171,9 +182,7 @@ public class PhotoViewer {
             File parent = photoDirectory.getParentFile();
             File[] neighbors = parent.listFiles();
 
-            if (neighbors == null || neighbors.length == 0) {
-                return;
-            }
+            if (neighbors == null || neighbors.length == 0) return;
 
             for (File f : neighbors) {
                 if (FileUtil.isSupportedImageExtension(f)) {
@@ -370,7 +379,7 @@ public class PhotoViewer {
      * @param visible the visibility of the navigation buttons
      */
     private void setNavigationButtonsVisible(boolean visible) {
-        next.setVisible(visible);
-        last.setVisible(visible);
+        nextButton.setVisible(visible);
+        lastButton.setVisible(visible);
     }
 }
