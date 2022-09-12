@@ -61,6 +61,46 @@ public final class TimeUtil {
     public static final double MONTHS_IN_YEAR = 12.0;
 
     /**
+     * The abbreviation for a year.
+     */
+    public static final String YEAR_ABBREVIATION = "y";
+
+    /**
+     * The abbreviation for a month.
+     */
+    public static final String MONTH_ABBREVIATION = "mo";
+
+    /**
+     * The abbreviation for a day.
+     */
+    public static final String DAY_ABBREVIATION = "d";
+
+    /**
+     * The abbreviation for an hour.
+     */
+    public static final String HOUR_ABBREVIATION = "h";
+
+    /**
+     * The abbreviation for a minute.
+     */
+    public static final String MINUTE_ABBREVIATION = "m";
+
+    /**
+     * The abbreviation for a second.
+     */
+    public static final String SECOND_ABBREVIATION = "s";
+
+    /**
+     * The abbreviation for a millisecond.
+     */
+    public static final String MILLISECOND_ABBREVIATION = "ms";
+
+    /**
+     * An empty space character.
+     */
+    private static final String SPACE = " ";
+
+    /**
      * Suppress default constructor.
      */
     private TimeUtil() {
@@ -458,6 +498,11 @@ public final class TimeUtil {
     }
 
     /**
+     * The decimal formatter for the {@link #formatMillis(long)} method.
+     */
+    private static final DecimalFormat milliFormatter = new DecimalFormat("#.##");
+
+    /**
      * Returns a string detailing how many years/months/days/hours/minutes/seconds
      * are represented by the given input parameter.
      *
@@ -465,7 +510,7 @@ public final class TimeUtil {
      * @return a String detailing how many years/months/days...
      * are represented by the provided milliseconds.
      */
-    public static String millisToFormattedString(long milliseconds) {
+    public static String formatMillis(long milliseconds) {
         Preconditions.checkArgument(milliseconds >= 0);
 
         StringBuilder sb = new StringBuilder();
@@ -525,34 +570,32 @@ public final class TimeUtil {
         // Take away months that were converted
         months -= years * MONTHS_IN_YEAR;
 
-        DecimalFormat format = new DecimalFormat("#.##");
-
         if (years != 0) {
-            sb.append(format.format(years)).append("y ");
+            sb.append(milliFormatter.format(years)).append(YEAR_ABBREVIATION).append(SPACE);
         }
         if (months != 0) {
-            sb.append(format.format(months)).append("mo ");
+            sb.append(milliFormatter.format(months)).append(MONTH_ABBREVIATION).append(SPACE);
         }
         if (days != 0) {
-            sb.append(format.format(days)).append("d ");
+            sb.append(milliFormatter.format(days)).append(DAY_ABBREVIATION).append(SPACE);
         }
         if (hours != 0) {
-            sb.append(format.format(hours)).append("h ");
+            sb.append(milliFormatter.format(hours)).append(HOUR_ABBREVIATION).append(SPACE);
         }
         if (minutes != 0) {
-            sb.append(format.format(minutes)).append("m ");
+            sb.append(milliFormatter.format(minutes)).append(MINUTE_ABBREVIATION).append(SPACE);
         }
         if (seconds != 0) {
-            sb.append(format.format(seconds)).append("s ");
+            sb.append(milliFormatter.format(seconds)).append(SECOND_ABBREVIATION).append(SPACE);
         }
         if (milliseconds != 0) {
-            sb.append(format.format(milliseconds)).append("ms ");
+            sb.append(milliFormatter.format(milliseconds)).append(MILLISECOND_ABBREVIATION).append(SPACE);
         }
 
         String ret = sb.toString();
 
-        // Remove comma if starting with
         if (ret.startsWith(",")) ret = ret.substring(1);
+        if (ret.length() == 0) return 0 + MILLISECOND_ABBREVIATION;
 
         return StringUtil.getTrimmedText(ret).trim();
     }

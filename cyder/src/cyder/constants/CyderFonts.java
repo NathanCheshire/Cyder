@@ -3,6 +3,8 @@ package cyder.constants;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.Logger;
+import cyder.time.TimeUtil;
 
 import java.awt.*;
 
@@ -11,6 +13,7 @@ import java.awt.*;
  * <p>
  * Format for new fonts: NAME_SIZE unless there is a rare exception that applies.
  */
+@SuppressWarnings("unused")
 public final class CyderFonts {
     public static final String SEGOE_UI_BLACK = "Segoe UI Black";
     public static final String AGENCY_FB = "Agency FB";
@@ -38,6 +41,9 @@ public final class CyderFonts {
      * A builder for a font.
      */
     public static class FontBuilder {
+        /**
+         * The default font metric for built fonts.
+         */
         public static final int DEFAULT_METRIC = Font.BOLD;
 
         /**
@@ -68,6 +74,16 @@ public final class CyderFonts {
             this.name = name;
         }
 
+        /**
+         * The valid font metric range.
+         * This includes the following:
+         * <ul>
+         *     <li>{@link Font#PLAIN}</li>
+         *     <li>{@link Font#BOLD}</li>
+         *     <li>{@link Font#ITALIC}</li>
+         *     <li>{@link Font#BOLD} + {@link Font#ITALIC}</li>
+         * </ul>
+         */
         private static final Range<Integer> FONT_METRIC_RANGE = Range.closed(0, 3);
 
         /**
@@ -103,7 +119,11 @@ public final class CyderFonts {
          */
         @SuppressWarnings("MagicConstant") /* font metric checked */
         public Font generate() {
-            return new Font(name, metric, size);
+            long start = System.currentTimeMillis();
+            Font ret = new Font(name, metric, size);
+            String constructionTime = TimeUtil.formatMillis(System.currentTimeMillis() - start);
+            Logger.log(Logger.Tag.DEBUG, "Font generation of \"" + name + "\" took: " + constructionTime);
+            return ret;
         }
     }
 }

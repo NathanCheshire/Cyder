@@ -231,7 +231,7 @@ public class NetworkUtil {
         }
 
         Logger.log(Logger.Tag.DEBUG, "Latency of " + LATENCY_HOST_NAME
-                + " found to be " + TimeUtil.millisToFormattedString(latency));
+                + " found to be " + TimeUtil.formatMillis(latency));
 
         return latency;
     }

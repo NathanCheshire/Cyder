@@ -271,7 +271,7 @@ public enum Console {
 
         TimeUtil.setConsoleStartTime(System.currentTimeMillis());
         long loadTime = TimeUtil.getConsoleStartTime() - TimeUtil.getAbsoluteStartTime();
-        baseInputHandler.println("Console loaded in " + TimeUtil.millisToFormattedString(loadTime));
+        baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
     }
 
     /**

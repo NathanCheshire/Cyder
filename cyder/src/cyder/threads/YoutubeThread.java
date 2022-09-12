@@ -156,7 +156,7 @@ public class YoutubeThread {
                         long msTimeLeft = (long) ((totalUUIDs - completedUUIDs) / avgMsPerCheck);
 
                         Console.INSTANCE.getConsoleCyderFrame().notify("Time left: "
-                                + TimeUtil.millisToFormattedString(msTimeLeft));
+                                + TimeUtil.formatMillis(msTimeLeft));
                     }
                 }
             }

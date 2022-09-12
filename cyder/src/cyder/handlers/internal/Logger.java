@@ -689,7 +689,7 @@ public final class Logger {
      * @return the run time of Cyder
      */
     private static String getRuntime() {
-        return TimeUtil.millisToFormattedString(System.currentTimeMillis() - START_TIME);
+        return TimeUtil.formatMillis(System.currentTimeMillis() - START_TIME);
     }
 
     private static final String ZIP_EXTENSION = ".zip";

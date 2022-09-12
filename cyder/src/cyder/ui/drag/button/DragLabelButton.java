@@ -2,9 +2,12 @@ package cyder.ui.drag.button;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
+import cyder.ui.drag.DragLabelButtonSize;
+import cyder.ui.frame.CyderFrame;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * An interface for all drag label buttons to implement.
@@ -90,4 +93,29 @@ public interface DragLabelButton {
     Color hoverAndFocusColor = CyderColors.regularRed;
 
     void paintLogic(Graphics g);
+
+    void addDefaultMouseAdapter();
+
+    void addDefaultFocusAdapter();
+
+    AtomicBoolean focused = new AtomicBoolean();
+    AtomicBoolean mouseIn = new AtomicBoolean();
+
+    void setFocused(boolean focused);
+
+    void setMouseIn(boolean mouseIn);
+
+    DragLabelButtonSize DEFAULT_SIZE = DragLabelButtonSize.SMALL;
+    DragLabelButtonSize size = DEFAULT_SIZE;
+
+    CyderFrame effectFrame = null;
+
+    default void setEffectFrame(CyderFrame effectFrame) {
+        effectFrame = Preconditions.checkNotNull(effectFrame);
+        ;
+    }
+
+    default CyderFrame getEffectFrame() {
+        return effectFrame;
+    }
 }
