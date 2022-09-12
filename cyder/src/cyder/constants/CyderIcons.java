@@ -34,38 +34,6 @@ public final class CyderIcons {
     private static ImageIcon currentCyderIcon = CYDER_ICON;
 
     /*
-     * Minimize icons used for CyderFrame DragLabels
-     */
-
-    public static final ImageIcon minimizeIcon = new ImageIcon(StaticUtil.getStaticPath("minimize1.png"));
-    public static final ImageIcon minimizeIconHover = new ImageIcon(StaticUtil.getStaticPath("minimize2.png"));
-
-    /*
-     * Change Size icons used for occasional frames to change the size of
-     * the frame or in Console's case, switch the background.
-     */
-
-    public static final ImageIcon changeSizeIcon = new ImageIcon(StaticUtil.getStaticPath("changesize1.png"));
-    public static final ImageIcon changeSizeIconHover = new ImageIcon(
-            StaticUtil.getStaticPath("changesize2.png"));
-
-    /*
-     * Pin icons used for setting a frame to always on top,
-     * pin3.png is used to indicate a frame is pinned to the Console
-     */
-
-    public static final ImageIcon pinIcon = new ImageIcon(StaticUtil.getStaticPath("pin1.png"));
-    public static final ImageIcon pinIconHover = new ImageIcon(StaticUtil.getStaticPath("pin2.png"));
-    public static final ImageIcon pinIconHoverPink = new ImageIcon(StaticUtil.getStaticPath("pin3.png"));
-
-    /*
-     * Close icons used for closing CyderFrames
-     */
-
-    public static final ImageIcon closeIcon = new ImageIcon(StaticUtil.getStaticPath("Close1.png"));
-    public static final ImageIcon closeIconHover = new ImageIcon(StaticUtil.getStaticPath("Close2.png"));
-
-    /*
      * Menu icons used for console menus.
      */
 

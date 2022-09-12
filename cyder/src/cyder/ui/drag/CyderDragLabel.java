@@ -810,6 +810,10 @@ public class CyderDragLabel extends JLabel {
         int buttonHeight;
 
         switch (component) {
+            case MenuButton menuButton -> {
+                buttonWidth = menuButton.getWidth();
+                buttonHeight = menuButton.getHeight();
+            }
             case ChangeSizeButton changeSizeButton -> {
                 buttonWidth = changeSizeButton.getWidth();
                 buttonHeight = changeSizeButton.getHeight();
@@ -840,11 +844,11 @@ public class CyderDragLabel extends JLabel {
         return new Dimension(buttonWidth, buttonHeight);
     }
 
+    // todo by default drag label buttons shouldn't be focusable, console is exception
+    // todo console menu not working?
     // todo buttons for console
     // todo remove icon button
     // todo remove assets for drawing
-    // todo make change size button
-    // todo add hooks to these buttons
     // todo backup routine broken because of pretty print no longer one line
 
     /**

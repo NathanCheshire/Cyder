@@ -122,7 +122,7 @@ public final class ManualTests {
         addLeftButton.addActionListener(e -> {
             JButton button = new JButton("");
             button.setToolTipText("drag label button");
-            button.setIcon(CyderIcons.pinIconHoverPink);
+            button.setIcon(CyderIcons.menuIcon);
             button.setContentAreaFilled(false);
             button.setBorderPainted(false);
             button.setFocusPainted(false);
@@ -139,7 +139,7 @@ public final class ManualTests {
         addRightButton.addActionListener(e -> {
             JButton button = new JButton("");
             button.setToolTipText("drag label button");
-            button.setIcon(CyderIcons.pinIconHoverPink);
+            button.setIcon(CyderIcons.menuIcon);
             button.setContentAreaFilled(false);
             button.setBorderPainted(false);
             button.setFocusPainted(false);

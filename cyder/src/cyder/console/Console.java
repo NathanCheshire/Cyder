@@ -26,10 +26,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.ui.button.CyderIconButton;
-import cyder.ui.drag.ChangeSizeButton;
-import cyder.ui.drag.CloseButton;
-import cyder.ui.drag.CyderDragLabel;
-import cyder.ui.drag.PinButton;
+import cyder.ui.drag.*;
 import cyder.ui.field.CyderCaret;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
@@ -134,6 +131,11 @@ public enum Console {
     private JPasswordField inputField;
 
     /**
+     * The menu button for the console frame.
+     */
+    private MenuButton menuButton;
+
+    /**
      * The default focus owner for focus to default to when no focused components can be found.
      */
     private Component defaultFocusOwner;
@@ -147,11 +149,6 @@ public enum Console {
      * The scroll pane for the active frames.
      */
     private CyderScrollPane menuScroll;
-
-    /**
-     * The top drag label menu toggle button.
-     */
-    private JButton menuButton;
 
     /**
      * The top drag label audio menu toggle button.
@@ -734,12 +731,11 @@ public enum Console {
         closeButton.addFocusLostAction(() -> outputArea.requestFocus());
         consoleCyderFrame.getTopDragLabel().addRightButton(closeButton, 2);
 
-        menuButton = new CyderIconButton(
-                "Menu", CyderIcons.menuIcon, CyderIcons.menuIconHover,
-                menuButtonMouseListener, menuButtonFocusAdapter);
-        menuButton.addActionListener(menuButtonActionListener);
-        menuButton.setSize(22, 22);
+        menuButton = new MenuButton();
+        menuButton.setMenuAction(this::menuButtonAction);
         menuButton.addKeyListener(menuButtonKeyAdapter);
+        menuButton.addFocusGainedAction(this::removeFocusFromTaskbarMenuIcons);
+        menuButton.addFocusLostAction(this::removeFocusFromTaskbarMenuIcons);
         consoleCyderFrame.getTopDragLabel().addLeftButton(menuButton, 0);
 
         ChangeSizeButton changeSizeButton = new ChangeSizeButton(consoleCyderFrame);
@@ -1246,6 +1242,8 @@ public enum Console {
      * Removes focus from any and task menu taskbar items
      */
     private void removeFocusFromTaskbarMenuIcons() {
+        System.out.println("removing focus");
+
         currentFocusedMenuItemIndex = -1;
 
         if (menuLabel == null) {
@@ -1267,107 +1265,72 @@ public enum Console {
     }
 
     /**
-     * The action listener for the menu button.
+     * The action for when the menu button is pressed.
      */
-    private final ActionListener menuButtonActionListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Point menuPoint = menuButton.getLocationOnScreen();
-            boolean mouseTriggered = MathUtil.pointInOrOnRectangle(MouseInfo.getPointerInfo().getLocation(),
-                    new Rectangle((int) menuPoint.getX(), (int) menuPoint.getY(), menuButton.getWidth(),
-                            menuButton.getHeight()));
+    private void menuButtonAction() {
+        Point menuPoint = menuButton.getLocationOnScreen();
+        boolean mouseTriggered = MathUtil.pointInOrOnRectangle(MouseInfo.getPointerInfo().getLocation(),
+                new Rectangle((int) menuPoint.getX(), (int) menuPoint.getY(), menuButton.getWidth(),
+                        menuButton.getHeight()));
 
-            // if there's a focused item and it wasn't a mouse click
-            if (currentFocusedMenuItemIndex != -1 && !mouseTriggered) {
-                ImmutableList.copyOf(Stream.of(currentFrameMenuItems,
-                                        currentMappedExeItems, currentDefaultMenuItems)
-                                .flatMap(Collection::stream)
-                                .collect(Collectors.toList()))
-                        .get(currentFocusedMenuItemIndex).runRunnable();
-                return;
-            }
-
-            if (menuLabel == null) {
-                generateConsoleMenu();
-            }
-
-            if (!menuLabel.isVisible()) {
-                CyderThreadRunner.submit(() -> {
-                    menuLabel.setLocation(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
-                    int y = menuLabel.getY();
-
-                    for (int i = -150 ; i < 2 ; i += 8) {
-                        menuLabel.setLocation(i, y);
-                        ThreadUtil.sleep(10);
-                    }
-
-                    menuLabel.setLocation(2, y);
-
-                    revalidateInputAndOutputBounds();
-                }, "minimize menu thread");
-
-                CyderThreadRunner.submit(() -> {
-                    if (menuLabel == null) {
-                        generateConsoleMenu();
-                    }
-
-                    menuLabel.setLocation(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
-                    menuLabel.setVisible(true);
-
-                    int addX = 0;
-
-                    if (menuLabel.isVisible())
-                        addX = 2 + menuLabel.getWidth();
-
-                    int finalAddX = addX;
-
-                    for (int i = inputField.getX() ; i < finalAddX + 15 ; i += 8) {
-                        outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1,
-                                outputScroll.getHeight());
-                        inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
-
-                        ThreadUtil.sleep(10);
-                    }
-
-                    revalidateInputAndOutputBounds();
-                }, "Console menu animator");
-            } else {
-                minimizeMenu();
-            }
-        }
-    };
-
-    /**
-     * The mouse listener for the menu button.
-     */
-    private final MouseListener menuButtonMouseListener = new MouseAdapter() {
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            menuButton.setIcon(CyderIcons.menuIconHover);
+        // if there's a focused item and it wasn't a mouse click
+        if (currentFocusedMenuItemIndex != -1 && !mouseTriggered) {
+            ImmutableList.copyOf(Stream.of(currentFrameMenuItems,
+                                    currentMappedExeItems, currentDefaultMenuItems)
+                            .flatMap(Collection::stream)
+                            .collect(Collectors.toList()))
+                    .get(currentFocusedMenuItemIndex).runRunnable();
+            return;
         }
 
-        @Override
-        public void mouseExited(MouseEvent e) {
-            menuButton.setIcon(CyderIcons.menuIcon);
-        }
-    };
-
-    /**
-     * The focus adapter for the menu button.
-     */
-    private final FocusAdapter menuButtonFocusAdapter = new FocusAdapter() {
-        @Override
-        public void focusLost(FocusEvent e) {
-            menuButton.setIcon(CyderIcons.menuIcon);
-            removeFocusFromTaskbarMenuIcons();
+        if (menuLabel == null) {
+            generateConsoleMenu();
         }
 
-        @Override
-        public void focusGained(FocusEvent e) {
-            menuButton.setIcon(CyderIcons.menuIconHover);
-            removeFocusFromTaskbarMenuIcons();
+        if (!menuLabel.isVisible()) {
+            CyderThreadRunner.submit(() -> {
+                menuLabel.setLocation(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
+                int y = menuLabel.getY();
+
+                for (int i = -150 ; i < 2 ; i += 8) {
+                    menuLabel.setLocation(i, y);
+                    ThreadUtil.sleep(10);
+                }
+
+                menuLabel.setLocation(2, y);
+
+                revalidateInputAndOutputBounds();
+            }, "minimize menu thread");
+
+            CyderThreadRunner.submit(() -> {
+                if (menuLabel == null) {
+                    generateConsoleMenu();
+                }
+
+                menuLabel.setLocation(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
+                menuLabel.setVisible(true);
+
+                int addX = 0;
+
+                if (menuLabel.isVisible())
+                    addX = 2 + menuLabel.getWidth();
+
+                int finalAddX = addX;
+
+                for (int i = inputField.getX() ; i < finalAddX + 15 ; i += 8) {
+                    outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1,
+                            outputScroll.getHeight());
+                    inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
+
+                    ThreadUtil.sleep(10);
+                }
+
+                revalidateInputAndOutputBounds();
+            }, "Console menu animator");
+        } else {
+            minimizeMenu();
         }
-    };
+    }
 
     /**
      * The key adapter for the menu button to allow "focusing" taskbar items.

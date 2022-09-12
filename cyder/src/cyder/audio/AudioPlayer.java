@@ -25,6 +25,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.button.CyderIconButton;
+import cyder.ui.drag.ChangeSizeButton;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.field.CyderCaret;
 import cyder.ui.field.CyderTextField;
@@ -359,35 +360,6 @@ public final class AudioPlayer {
     private static ScrollingTitleLabel scrollingTitleLabel;
 
     /**
-     * The button to be placed in the audio player drag label button list to switch frame views.
-     */
-    private static final CyderIconButton switchFrameAudioView = new CyderIconButton(
-            "Switch Mode", alternateView, alternateViewHover,
-            new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    switch (currentFrameView.get()) {
-                        case FULL -> setupAndShowFrameView(FrameView.HIDDEN_ART);
-                        case HIDDEN_ART -> setupAndShowFrameView(FrameView.MINI);
-                        case MINI -> setupAndShowFrameView(FrameView.FULL);
-                        case SEARCH -> goBackFromSearchView();
-                        default -> throw new IllegalArgumentException(
-                                "Illegal requested view to switch to via view switch frame button");
-                    }
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    switchFrameAudioView.setIcon(alternateViewHover);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    switchFrameAudioView.setIcon(alternateView);
-                }
-            });
-
-    /**
      * The last action invoked by the user.
      */
     private static LastAction lastAction = LastAction.Unknown;
@@ -518,7 +490,20 @@ public final class AudioPlayer {
 
         audioPlayerFrame = new CyderFrame(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN, BACKGROUND_COLOR);
         refreshFrameTitle();
-        audioPlayerFrame.getTopDragLabel().addRightButton(switchFrameAudioView, 1);
+
+        ChangeSizeButton changeSizeButton = new ChangeSizeButton(audioPlayerFrame);
+        changeSizeButton.setToolTipText("Switch Mode");
+        changeSizeButton.setChangeSizeAction(() -> {
+            switch (currentFrameView.get()) {
+                case FULL -> setupAndShowFrameView(FrameView.HIDDEN_ART);
+                case HIDDEN_ART -> setupAndShowFrameView(FrameView.MINI);
+                case MINI -> setupAndShowFrameView(FrameView.FULL);
+                case SEARCH -> goBackFromSearchView();
+                default -> throw new IllegalArgumentException(
+                        "Illegal requested view to switch to via view switch frame button");
+            }
+        });
+        audioPlayerFrame.getTopDragLabel().addRightButton(changeSizeButton, 1);
         audioPlayerFrame.setMenuType(CyderFrame.MenuType.PANEL);
         audioPlayerFrame.setMenuEnabled(true);
         audioPlayerFrame.addWindowListener(new WindowAdapter() {
