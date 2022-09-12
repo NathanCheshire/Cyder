@@ -846,10 +846,7 @@ public class CyderDragLabel extends JLabel {
 
     // todo by default drag label buttons shouldn't be focusable, console is exception
     // todo console menu not working?
-    // todo buttons for console
     // todo remove icon button
-    // todo remove assets for drawing
-    // todo backup routine broken because of pretty print no longer one line
 
     /**
      * Returns whether the provided button is a text button indicated by containing text and not an icon.

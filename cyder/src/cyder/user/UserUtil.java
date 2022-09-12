@@ -115,10 +115,7 @@ public final class UserUtil {
                         + currentLevenshteinDistance + "] User was written to file: "
                         + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
 
-                // validate the user is still valid
                 getterSetterValidator(cyderUserFile);
-
-                // backup the file
                 backupUserJsonFile(cyderUserFile);
             }
         } catch (Exception e) {
@@ -229,19 +226,16 @@ public final class UserUtil {
         Preconditions.checkNotNull(jsonFile);
 
         try {
-            // ensure save directory exists
             if (!backupDirectory.exists()) {
                 if (!backupDirectory.mkdir()) {
                     throw new FatalException("Failed to create backup directory");
                 }
             }
 
-            // timestamp to mark this backup
-            long timestamp = System.currentTimeMillis();
+            long backupTimestamp = System.currentTimeMillis();
             String uuid = FileUtil.getFilename(jsonFile.getParentFile());
-            String newFilename = uuid + "_" + timestamp + ".json";
+            String backupFilename = uuid + "_" + backupTimestamp + ".json";
 
-            // find most recent file
             File[] backups = backupDirectory.listFiles();
             checkNotNull(backups);
             long currentMaxTimestamp = 0;
@@ -250,11 +244,9 @@ public final class UserUtil {
             for (File backup : backups) {
                 String filename = FileUtil.getFilename(backup);
 
-                // ensure in valid format
                 if (filename.contains("_")) {
                     String[] parts = filename.split("_");
 
-                    // ensure like "uuid_timestamp"
                     if (parts.length == 2) {
                         String foundUuid = parts[0];
                         long foundTimestamp = Long.parseLong(parts[1]);
@@ -267,33 +259,26 @@ public final class UserUtil {
                 }
             }
 
-            // build file from uuid and the found most recent timestamp
-            File mostRecentFile = null;
-
-            // found one if the timestamp isn't the initial value
+            File mostRecentBackup = null;
             if (currentMaxTimestamp != 0) {
-                mostRecentFile = OSUtil.buildFile(
-                        Dynamic.PATH,
+                mostRecentBackup = OSUtil.buildFile(Dynamic.PATH,
                         Dynamic.BACKUP.getDirectoryName(), uuid + "_" + currentMaxTimestamp);
             }
 
-            // if no files in directory or current is different from previous
-            if (mostRecentFile == null || !FileUtil.fileContentsEqual(jsonFile, mostRecentFile)) {
-                // copy file contents from jsonFile to newBackup
-                File newBackup = OSUtil.buildFile(Dynamic.PATH, Dynamic.BACKUP.getDirectoryName(), newFilename);
+            if (mostRecentBackup == null || !FileUtil.fileContentsEqual(jsonFile, mostRecentBackup)) {
+                File newBackup = OSUtil.buildFile(Dynamic.PATH, Dynamic.BACKUP.getDirectoryName(), backupFilename);
                 if (!newBackup.createNewFile()) {
                     Logger.log(Logger.Tag.DEBUG, "Failed to create backup file: "
                             + newBackup.getAbsolutePath() + ", for user: " + uuid);
                     return;
                 }
 
-                BufferedReader jsonReader = new BufferedReader(new FileReader(jsonFile));
-                String serializedUser = jsonReader.readLine();
-                jsonReader.close();
-
-                BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(newBackup));
-                jsonWriter.write(serializedUser);
-                jsonWriter.close();
+                String backupSerializeUser = SerializationUtil.toJson(SerializationUtil.fromJson(jsonFile, User.class));
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(newBackup))) {
+                    writer.write(backupSerializeUser);
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
 
                 backups = backupDirectory.listFiles();
                 checkNotNull(backups);

@@ -1241,8 +1241,6 @@ public enum Console {
      * Removes focus from any and task menu taskbar items
      */
     private void removeFocusFromTaskbarMenuIcons() {
-        System.out.println("removing focus");
-
         currentFocusedMenuItemIndex = -1;
 
         if (menuLabel == null) {
