@@ -20,6 +20,7 @@ import cyder.ui.CyderPanel;
 import cyder.ui.button.CyderButton;
 import cyder.ui.button.CyderModernButton;
 import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.drag.MenuButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
@@ -119,16 +120,7 @@ public final class ManualTests {
         testFrame.setTitle("Drag label test");
 
         CyderButton addLeftButton = new CyderButton("Add left");
-        addLeftButton.addActionListener(e -> {
-            JButton button = new JButton("");
-            button.setToolTipText("drag label button");
-            button.setIcon(CyderIcons.menuIcon);
-            button.setContentAreaFilled(false);
-            button.setBorderPainted(false);
-            button.setFocusPainted(false);
-
-            testFrame.getTopDragLabel().addLeftButton(button, 0);
-        });
+        addLeftButton.addActionListener(e -> testFrame.getTopDragLabel().addLeftButton(new MenuButton(), 0));
         addLeftButton.setSize(200, 40);
 
         CyderButton removeLeftButton = new CyderButton("Remove left");
@@ -136,16 +128,7 @@ public final class ManualTests {
         removeLeftButton.setSize(200, 40);
 
         CyderButton addRightButton = new CyderButton("Add right");
-        addRightButton.addActionListener(e -> {
-            JButton button = new JButton("");
-            button.setToolTipText("drag label button");
-            button.setIcon(CyderIcons.menuIcon);
-            button.setContentAreaFilled(false);
-            button.setBorderPainted(false);
-            button.setFocusPainted(false);
-
-            testFrame.getTopDragLabel().addRightButton(button, 0);
-        });
+        addRightButton.addActionListener(e -> testFrame.getTopDragLabel().addRightButton(new MenuButton(), 0));
         addRightButton.setSize(200, 40);
 
         CyderButton removeRightButton = new CyderButton("Remove right");

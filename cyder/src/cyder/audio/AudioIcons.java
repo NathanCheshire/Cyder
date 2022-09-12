@@ -70,16 +70,6 @@ public final class AudioIcons {
     public static final ImageIcon shuffleIconHover = new ImageIcon("static/pictures/music/ShuffleHover.png");
 
     /**
-     * The alternate view icon.
-     */
-    public static final ImageIcon alternateView = new ImageIcon("static/pictures/icons/ChangeSize1.png");
-
-    /**
-     * The alternate view hover icon.
-     */
-    public static final ImageIcon alternateViewHover = new ImageIcon("static/pictures/icons/ChangeSize2.png");
-
-    /**
      * Suppress default constructor.
      */
     private AudioIcons() {

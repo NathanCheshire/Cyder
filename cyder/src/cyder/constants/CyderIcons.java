@@ -33,13 +33,6 @@ public final class CyderIcons {
      */
     private static ImageIcon currentCyderIcon = CYDER_ICON;
 
-    /*
-     * Menu icons used for console menus.
-     */
-
-    public static final ImageIcon menuIcon = new ImageIcon(StaticUtil.getStaticPath("menu1.png"));
-    public static final ImageIcon menuIconHover = new ImageIcon(StaticUtil.getStaticPath("menu2.png"));
-
     private static final int DEFAULT_BACKGROUND_LEN = 1000;
     private static final int DEFAULT_LARGE_BACKGROUND_LEN = 2800;
 

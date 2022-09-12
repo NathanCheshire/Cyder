@@ -34,17 +34,6 @@ public class CyderIconButton extends JButton {
     private ImageIcon hoverAndFocusIcon;
 
     /**
-     * Constructs a new icon button with the following parameters, and default mouse and focus listeners.
-     *
-     * @param tooltipText       the tool tip text of the button
-     * @param defaultIcon       the default icon
-     * @param hoverAndFocusIcon the hover icon
-     */
-    public CyderIconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon) {
-        this(tooltipText, defaultIcon, hoverAndFocusIcon, null, null);
-    }
-
-    /**
      * Constructs a new icon button with the following parameters, and no focus listener.
      *
      * @param tooltipText       the tool tip text of the button

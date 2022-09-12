@@ -25,7 +25,6 @@ import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
-import cyder.ui.button.CyderIconButton;
 import cyder.ui.drag.*;
 import cyder.ui.field.CyderCaret;
 import cyder.ui.frame.CyderFrame;
@@ -136,6 +135,11 @@ public enum Console {
     private MenuButton menuButton;
 
     /**
+     * The menu button for the audio controls.
+     */
+    private MenuButton toggleAudioControls;
+
+    /**
      * The default focus owner for focus to default to when no focused components can be found.
      */
     private Component defaultFocusOwner;
@@ -149,12 +153,6 @@ public enum Console {
      * The scroll pane for the active frames.
      */
     private CyderScrollPane menuScroll;
-
-    /**
-     * The top drag label audio menu toggle button.
-     */
-    private final JButton toggleAudioControls = new CyderIconButton(
-            "Audio Controls", CyderIcons.menuIcon, CyderIcons.menuIconHover);
 
     /**
      * The audio menu parent label
@@ -759,7 +757,8 @@ public enum Console {
         });
         consoleCyderFrame.getTopDragLabel().addRightButton(changeSizeButton, 2);
 
-        toggleAudioControls.addActionListener(e -> {
+        toggleAudioControls = new MenuButton();
+        toggleAudioControls.setMenuAction(() -> {
             if (audioControlsLabel.isVisible()) {
                 animateOutAudioControls();
             } else {
@@ -2806,15 +2805,11 @@ public enum Console {
 
         // revalidate bounds if needed and change icon
         if (menuLabel.isVisible()) {
-            menuButton.setIcon(CyderIcons.menuIconHover);
             installMenuTaskbarIcons();
             menuLabel.setBounds(menuLabelShowingX, menuLabelShowingY,
                     menuLabel.getWidth(), consoleCyderFrame.getHeight()
                             - CyderDragLabel.DEFAULT_HEIGHT - 5);
             menuScroll.setBounds(consoleMenuShowingX, 10, menuLabel.getWidth() - 10, menuLabel.getHeight() - 20);
-        } else {
-            menuButton.setIcon(CyderIcons.menuIcon);
-            //no other actions needed
         }
 
         revalidateInputAndOutputBounds();
