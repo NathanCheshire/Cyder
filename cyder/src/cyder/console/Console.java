@@ -741,7 +741,8 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().addRightButton(minimizeButton, 0);
 
         menuButton = new MenuButton();
-        menuButton.setMenuAction(this::menuButtonAction);
+        menuButton.setForConsole(true);
+        menuButton.setClickAction(this::menuButtonAction);
         menuButton.addKeyListener(menuButtonKeyAdapter);
         menuButton.addFocusGainedAction(this::removeFocusFromTaskbarMenuIcons);
         menuButton.addFocusLostAction(this::removeFocusFromTaskbarMenuIcons);
@@ -769,7 +770,8 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().addRightButton(changeSizeButton, 2);
 
         toggleAudioControls = new MenuButton();
-        toggleAudioControls.setMenuAction(() -> {
+        toggleAudioControls.setToolTipText("Audio Menu");
+        toggleAudioControls.setClickAction(() -> {
             if (audioControlsLabel.isVisible()) {
                 animateOutAudioControls();
             } else {

@@ -8,6 +8,7 @@ import cyder.ui.drag.DragLabelButtonSize;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -190,8 +191,8 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
     }
 
     /*
-    Note to maintainers: the below method forces extending classes to override
-    the below method which also forces them to keep track of their own non-final size variable.
+    Note to maintainers: the below method forces extending classes to override  the below method
+    which also forces them to keep track of their own non-final private size variable.
      */
 
     /**
@@ -202,5 +203,272 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
     @Override
     public void setSize(DragLabelButtonSize size) {
         throw new IllegalMethodException(CyderStrings.NOT_IMPLEMENTED);
+    }
+
+    // -----------
+    // Hooks logic
+    // ----------
+
+    /**
+     * The actions to invoke when this button is pressed.
+     */
+    private final ArrayList<Runnable> clickActions = new ArrayList<>();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setClickAction(Runnable clickAction) {
+        Preconditions.checkNotNull(clickAction);
+        clearClickActions();
+        clickActions.add(clickAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addClickAction(Runnable clickAction) {
+        Preconditions.checkNotNull(clickAction);
+        clickActions.add(clickAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeClickAction(Runnable clickAction) {
+        Preconditions.checkNotNull(clickAction);
+        clickActions.remove(clickAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void clearClickActions() {
+        clickActions.clear();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void invokeClickActions() {
+        for (Runnable clickAction : clickActions) {
+            clickAction.run();
+        }
+    }
+
+    /**
+     * The actions to invoke on a mouse over event.
+     */
+    private final ArrayList<Runnable> mouseOverActions = new ArrayList<>();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setMouseOverAction(Runnable mouseOverAction) {
+        Preconditions.checkNotNull(mouseOverAction);
+        clearMouseOverActions();
+        mouseOverActions.add(mouseOverAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addMouseOverAction(Runnable mouseOverAction) {
+        Preconditions.checkNotNull(mouseOverAction);
+
+        mouseOverActions.add(mouseOverAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeMouseOverAction(Runnable mouseOverAction) {
+        Preconditions.checkNotNull(mouseOverAction);
+
+        mouseOverActions.remove(mouseOverAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void clearMouseOverActions() {
+        mouseOverActions.clear();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void invokeMouseOverActions() {
+        for (Runnable mouseOverAction : mouseOverActions) {
+            mouseOverAction.run();
+        }
+    }
+
+    /**
+     * The actions to invoke on a mouse exit event.
+     */
+    private final ArrayList<Runnable> mouseExitActions = new ArrayList<>();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setMouseExitAction(Runnable mouseExitAction) {
+        Preconditions.checkNotNull(mouseExitAction);
+        clearMouseExitActions();
+        mouseExitActions.add(mouseExitAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addMouseExitAction(Runnable mouseExitAction) {
+        Preconditions.checkNotNull(mouseExitAction);
+
+        mouseExitActions.add(mouseExitAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeMouseExitAction(Runnable mouseExitAction) {
+        Preconditions.checkNotNull(mouseExitAction);
+
+        mouseExitActions.remove(mouseExitAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void clearMouseExitActions() {
+        mouseExitActions.clear();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void invokeMouseExitActions() {
+        for (Runnable mouseExitAction : mouseExitActions) {
+            mouseExitAction.run();
+        }
+    }
+
+    /**
+     * The actions to invoke on a focus gained event.
+     */
+    private final ArrayList<Runnable> focusGainedActions = new ArrayList<>();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setFocusGainedAction(Runnable focusGainedAction) {
+        Preconditions.checkNotNull(focusGainedAction);
+        clearFocusGainedActions();
+        focusGainedActions.add(focusGainedAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addFocusGainedAction(Runnable focusGainedAction) {
+        Preconditions.checkNotNull(focusGainedAction);
+
+        focusGainedActions.add(focusGainedAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeFocusGainedAction(Runnable focusGainedAction) {
+        Preconditions.checkNotNull(focusGainedAction);
+
+        focusGainedActions.remove(focusGainedAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void clearFocusGainedActions() {
+        focusGainedActions.clear();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void invokeFocusGainedActions() {
+        for (Runnable focusGainedAction : focusGainedActions) {
+            focusGainedAction.run();
+        }
+    }
+
+    /**
+     * The actions to invoke on a focus lost event.
+     */
+    private final ArrayList<Runnable> focusLostActions = new ArrayList<>();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setFocusLostAction(Runnable focusLostAction) {
+        Preconditions.checkNotNull(focusLostAction);
+        clearFocusLostActions();
+        focusLostActions.add(focusLostAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addFocusLostAction(Runnable focusLostAction) {
+        Preconditions.checkNotNull(focusLostAction);
+
+        focusLostActions.add(focusLostAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeFocusLostAction(Runnable focusLostAction) {
+        Preconditions.checkNotNull(focusLostAction);
+
+        focusLostActions.remove(focusLostAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void clearFocusLostActions() {
+        focusLostActions.clear();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void invokeFocusLostActions() {
+        for (Runnable focusLostAction : focusLostActions) {
+            focusLostAction.run();
+        }
     }
 }

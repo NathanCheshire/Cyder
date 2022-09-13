@@ -844,7 +844,6 @@ public class CyderDragLabel extends JLabel {
         return new Dimension(buttonWidth, buttonHeight);
     }
 
-    // todo by default drag label buttons shouldn't be focusable, console is exception
     // todo console menu add frames and removing not showing not working?
     // todo remove icon button class
 

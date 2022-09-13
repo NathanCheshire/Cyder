@@ -1,11 +1,9 @@
 package cyder.ui.drag.button;
 
-import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.ui.drag.DragLabelButtonSize;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * An interface for all drag label buttons to implement.
@@ -24,272 +22,159 @@ public interface ICyderDragLabelButton {
     void setSize(DragLabelButtonSize size);
 
     /**
-     * The actions to invoke when this button is pressed.
-     */
-    ArrayList<Runnable> clickActions = new ArrayList<>();
-
-    /**
      * Clears the click actions list and adds the provided click action
      *
      * @param clickAction the click action to add
      */
-    default void setClickAction(Runnable clickAction) {
-        Preconditions.checkNotNull(clickAction);
-        clearClickActions();
-        clickActions.add(clickAction);
-    }
+    void setClickAction(Runnable clickAction);
 
     /**
      * Adds the provided click action to the click actions list.
      *
      * @param clickAction the click action to add
      */
-    default void addClickAction(Runnable clickAction) {
-        Preconditions.checkNotNull(clickAction);
-        clickActions.add(clickAction);
-    }
+    void addClickAction(Runnable clickAction);
 
     /**
      * Removes the provided click action from the click actions list.
      *
      * @param clickAction the click action to remove
      */
-    default void removeClickAction(Runnable clickAction) {
-        Preconditions.checkNotNull(clickAction);
-        clickActions.remove(clickAction);
-    }
+    void removeClickAction(Runnable clickAction);
 
     /**
      * Clears the click actions list.
      */
-    default void clearClickActions() {
-        clickActions.clear();
-    }
+    void clearClickActions();
 
     /**
      * Invokes all click actions.
      */
-    default void invokeClickActions() {
-        for (Runnable clickAction : clickActions) {
-            clickAction.run();
-        }
-    }
-
-    /**
-     * The actions to invoke on a mouse over event.
-     */
-    ArrayList<Runnable> mouseOverActions = new ArrayList<>();
+    void invokeClickActions();
 
     /**
      * Clears the mouse over actions and adds the provided action to the mouse over actions list.
      *
      * @param mouseOverAction the mouse over action to set
      */
-    default void setMouseOverAction(Runnable mouseOverAction) {
-        Preconditions.checkNotNull(mouseOverAction);
-        clearMouseOverActions();
-        mouseOverActions.add(mouseOverAction);
-    }
+    void setMouseOverAction(Runnable mouseOverAction);
 
     /**
      * Adds the mouse over action to the mouse over actions list.
      *
      * @param mouseOverAction the mouse over action to add
      */
-    default void addMouseOverAction(Runnable mouseOverAction) {
-        Preconditions.checkNotNull(mouseOverAction);
-
-        mouseOverActions.add(mouseOverAction);
-    }
+    void addMouseOverAction(Runnable mouseOverAction);
 
     /**
      * Removes the mouse over action from the mouse over actions list.
      *
      * @param mouseOverAction the mouse over action to remove
      */
-    default void removeMouseOverAction(Runnable mouseOverAction) {
-        Preconditions.checkNotNull(mouseOverAction);
-
-        mouseOverActions.remove(mouseOverAction);
-    }
+    void removeMouseOverAction(Runnable mouseOverAction);
 
     /**
      * Clears the mouse over actions list.
      */
-    default void clearMouseOverActions() {
-        mouseOverActions.clear();
-    }
+    void clearMouseOverActions();
 
     /**
      * Invokes all mouse over actions.
      */
-    default void invokeMouseOverActions() {
-        for (Runnable mouseOverAction : mouseOverActions) {
-            mouseOverAction.run();
-        }
-    }
-
-    /**
-     * The actions to invoke on a mouse exit event.
-     */
-    ArrayList<Runnable> mouseExitActions = new ArrayList<>();
+    void invokeMouseOverActions();
 
     /**
      * Clears the mouse exit actions and adds the provided mouse exit action.
      *
      * @param mouseExitAction the mouse exit action to set
      */
-    default void setMouseExitAction(Runnable mouseExitAction) {
-        Preconditions.checkNotNull(mouseExitAction);
-        clearMouseExitActions();
-        mouseExitActions.add(mouseExitAction);
-    }
+    void setMouseExitAction(Runnable mouseExitAction);
 
     /**
      * Adds the provided mouse exit action to the mouse exit actions list.
      *
      * @param mouseExitAction the mouse exit action to add
      */
-    default void addMouseExitAction(Runnable mouseExitAction) {
-        Preconditions.checkNotNull(mouseExitAction);
-
-        mouseExitActions.add(mouseExitAction);
-    }
+    void addMouseExitAction(Runnable mouseExitAction);
 
     /**
      * Removes the provided mouse exit action from the mouse exit actions list.
      *
      * @param mouseExitAction the mouse exit action to remove
      */
-    default void removeMouseExitAction(Runnable mouseExitAction) {
-        Preconditions.checkNotNull(mouseExitAction);
-
-        mouseExitActions.remove(mouseExitAction);
-    }
+    void removeMouseExitAction(Runnable mouseExitAction);
 
     /**
      * Clears the mouse exit actions list.
      */
-    default void clearMouseExitActions() {
-        mouseExitActions.clear();
-    }
+    void clearMouseExitActions();
 
     /**
      * Invokes all mouse exit actions.
      */
-    default void invokeMouseExitActions() {
-        for (Runnable mouseExitAction : mouseExitActions) {
-            mouseExitAction.run();
-        }
-    }
-
-    /**
-     * The actions to invoke on a focus gained event.
-     */
-    ArrayList<Runnable> focusGainedActions = new ArrayList<>();
+    void invokeMouseExitActions();
 
     /**
      * Clears the focus gained actions and adds the provided focus gained action.
      *
      * @param focusGainedAction the focus gained action to set
      */
-    default void setFocusGainedAction(Runnable focusGainedAction) {
-        Preconditions.checkNotNull(focusGainedAction);
-        clearFocusGainedActions();
-        focusGainedActions.add(focusGainedAction);
-    }
+    void setFocusGainedAction(Runnable focusGainedAction);
 
     /**
      * Adds the provided focus gained action to the focus gained actions list.
      *
      * @param focusGainedAction the focus gained action to add
      */
-    default void addFocusGainedAction(Runnable focusGainedAction) {
-        Preconditions.checkNotNull(focusGainedAction);
-
-        focusGainedActions.add(focusGainedAction);
-    }
+    void addFocusGainedAction(Runnable focusGainedAction);
 
     /**
      * Removes the focus gained action from the focus gained actions list.
      *
      * @param focusGainedAction the focus gained action to remove
      */
-    default void removeFocusGainedAction(Runnable focusGainedAction) {
-        Preconditions.checkNotNull(focusGainedAction);
-
-        focusGainedActions.remove(focusGainedAction);
-    }
+    void removeFocusGainedAction(Runnable focusGainedAction);
 
     /**
      * Clears the focus gained actions list.
      */
-    default void clearFocusGainedActions() {
-        focusGainedActions.clear();
-    }
+    void clearFocusGainedActions();
 
     /**
      * Invokes all focus gained actions.
      */
-    default void invokeFocusGainedActions() {
-        for (Runnable focusGainedAction : focusGainedActions) {
-            focusGainedAction.run();
-        }
-    }
-
-    /**
-     * The actions to invoke on a focus lost event.
-     */
-    ArrayList<Runnable> focusLostActions = new ArrayList<>();
+    void invokeFocusGainedActions();
 
     /**
      * Clears the focus lost actions list and adds the provided focus lost action.
      *
      * @param focusLostAction the focus lost action to set
      */
-    default void setFocusLostAction(Runnable focusLostAction) {
-        Preconditions.checkNotNull(focusLostAction);
-        clearFocusLostActions();
-        focusLostActions.add(focusLostAction);
-    }
+    void setFocusLostAction(Runnable focusLostAction);
 
     /**
      * Adds the provided focus lost action to the focus lost actions list.
      *
      * @param focusLostAction the focus lost action to add
      */
-    default void addFocusLostAction(Runnable focusLostAction) {
-        Preconditions.checkNotNull(focusLostAction);
-
-        focusLostActions.add(focusLostAction);
-    }
+    void addFocusLostAction(Runnable focusLostAction);
 
     /**
      * Removes the focus lost action from the focus lost actions list.
      *
      * @param focusLostAction the focus lost action to remove
      */
-    default void removeFocusLostAction(Runnable focusLostAction) {
-        Preconditions.checkNotNull(focusLostAction);
-
-        focusLostActions.remove(focusLostAction);
-    }
+    void removeFocusLostAction(Runnable focusLostAction);
 
     /**
      * Clears the focus lost actions list.
      */
-    default void clearFocusLostActions() {
-        focusLostActions.clear();
-    }
+    void clearFocusLostActions();
 
     /**
      * Invokes all focus lost actions.
      */
-    default void invokeFocusLostActions() {
-        for (Runnable focusLostAction : focusLostActions) {
-            focusLostAction.run();
-        }
-    }
+    void invokeFocusLostActions();
 
     /**
      * The default color for a non hovered or focused button.
