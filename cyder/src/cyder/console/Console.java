@@ -26,10 +26,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.ui.drag.CyderDragLabel;
-import cyder.ui.drag.button.ChangeSizeButton;
-import cyder.ui.drag.button.CloseButton;
-import cyder.ui.drag.button.MenuButton;
-import cyder.ui.drag.button.PinButton;
+import cyder.ui.drag.button.*;
 import cyder.ui.field.CyderCaret;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
@@ -722,6 +719,8 @@ public enum Console {
     private void installDragLabelButtons() {
         // Remove default close button
         consoleCyderFrame.getTopDragLabel().removeRightButton(2);
+
+        // Add custom close button
         CloseButton closeButton = new CloseButton(consoleCyderFrame);
         closeButton.setCloseAction(() -> {
             if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
@@ -732,6 +731,14 @@ public enum Console {
         });
         closeButton.addFocusLostAction(() -> outputArea.requestFocus());
         consoleCyderFrame.getTopDragLabel().addRightButton(closeButton, 2);
+
+        // Remove default minimize button
+        consoleCyderFrame.getTopDragLabel().removeRightButton(0);
+
+        // Add custom minimize button
+        MinimizeButton minimizeButton = new MinimizeButton(consoleCyderFrame);
+        minimizeButton.setForConsole(true);
+        consoleCyderFrame.getTopDragLabel().addRightButton(minimizeButton, 0);
 
         menuButton = new MenuButton();
         menuButton.setMenuAction(this::menuButtonAction);

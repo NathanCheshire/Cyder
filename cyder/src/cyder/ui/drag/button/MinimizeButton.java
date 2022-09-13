@@ -39,13 +39,9 @@ public class MinimizeButton extends CyderDragLabelButton {
         Preconditions.checkNotNull(effectFrame);
         this.size = Preconditions.checkNotNull(size);
 
-        addDefaultFocusAdapter();
-        addDefaultMouseAdapter();
-        addClickAction(effectFrame::minimizeAndIconify);
-        addEnterListenerKeyAdapter();
-
+        setClickAction(effectFrame::minimizeAndIconify);
         setToolTipText(MINIMIZE);
-        setFocusable(true);
+
         setSize(size.getSize(), size.getSize());
         repaint();
     }
@@ -88,8 +84,6 @@ public class MinimizeButton extends CyderDragLabelButton {
         int minimizeYStart = getPaintLength() - MINIMIZE_BOTTOM_OFFSET;
 
         g2d.drawLine(0, minimizeYStart, getPaintLength(), minimizeYStart);
-
-        super.paint(g);
     }
 
     /**

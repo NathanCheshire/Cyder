@@ -29,6 +29,9 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
     public CyderDragLabelButton(DragLabelButtonSize size) {
         Preconditions.checkNotNull(size);
         setSize(size);
+        addEnterListenerKeyAdapter();
+        addDefaultMouseAdapter();
+        setForConsole(false);
     }
 
     /**
@@ -106,6 +109,18 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
     public void setMouseIn(boolean mouseIn) {
         this.mouseIn.set(mouseIn);
         repaint();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setForConsole(boolean forConsole) {
+        if (forConsole) {
+            addDefaultFocusAdapter();
+        }
+
+        setFocusable(forConsole);
     }
 
     /**

@@ -301,9 +301,6 @@ public interface ICyderDragLabelButton {
      */
     Color defaultHoverAndFocusColor = CyderColors.regularRed;
 
-    // todo need to somehow ensure paint is overridden
-    // todo add a size and set size method which repaints
-
     /**
      * Returns the color to paint the button as based on the current state
      *
@@ -334,4 +331,12 @@ public interface ICyderDragLabelButton {
      * @param mouseIn whether the mouse is in this button
      */
     void setMouseIn(boolean mouseIn);
+
+    /**
+     * Sets whether this drag label button is for the console.
+     * This means focus will be enabled and the default focus adapter will be added if enabled.
+     *
+     * @param forConsole whether this drag label button is for the console.
+     */
+    void setForConsole(boolean forConsole);
 }
