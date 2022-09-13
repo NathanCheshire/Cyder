@@ -7,10 +7,7 @@ import cyder.ui.drag.DragLabelButtonSize;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -31,7 +28,6 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
      */
     public CyderDragLabelButton(DragLabelButtonSize size) {
         Preconditions.checkNotNull(size);
-        throw new IllegalMethodException(CyderStrings.NOT_IMPLEMENTED);
     }
 
     /**
@@ -58,12 +54,14 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                setMouseIn(true);
                 invokeMouseOverActions();
                 repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                setMouseIn(false);
                 invokeMouseExitActions();
                 repaint();
             }
@@ -78,12 +76,14 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
         addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
+                setFocused(true);
                 invokeFocusGainedActions();
                 repaint();
             }
 
             @Override
             public void focusLost(FocusEvent e) {
+                setFocused(false);
                 invokeFocusLostActions();
                 repaint();
             }
@@ -130,13 +130,11 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
     /**
      * The color to use when painting the default state of this button.
      */
-    @SuppressWarnings("UnusedAssignment")
     private Color paintColor = defaultColor;
 
     /**
      * The color to use when painting the hover and focus states of this button.
      */
-    @SuppressWarnings("UnusedAssignment")
     private Color hoverAndFocusPaintColor = defaultHoverAndFocusColor;
 
     /**
@@ -171,5 +169,19 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
         } else {
             return paintColor;
         }
+    }
+
+    /**
+     * Adds the default key adapter to invoke all click actions on the enter key press.
+     */
+    public void addEnterListenerKeyAdapter() {
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    invokeClickActions();
+                }
+            }
+        });
     }
 }

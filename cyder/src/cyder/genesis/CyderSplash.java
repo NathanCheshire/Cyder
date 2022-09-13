@@ -554,6 +554,7 @@ public enum CyderSplash {
         }
 
         for (int i = 0 ; i < numHarmonicRectangles ; i++) {
+            if (disposed.get()) break;
             int x = harmonicPadding + i * harmonicRectangleLen + i * harmonicXInnerPadding;
             HarmonicRectangle harmonicRectangle = new HarmonicRectangle(harmonicRectangleLen,
                     harmonicMinHeight, harmonicRectangleLen, harmonicMaxHeight);
