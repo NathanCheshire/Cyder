@@ -402,7 +402,8 @@ public class CyderDragLabel extends JLabel {
         pinButton = new PinButton(effectFrame, getInitialPinButtonState());
         ret.add(pinButton);
 
-        CloseButton closeButton = new CloseButton(effectFrame);
+        CloseButton closeButton = new CloseButton();
+        closeButton.setClickAction(effectFrame::dispose);
         ret.add(closeButton);
 
         return ret;

@@ -243,7 +243,10 @@ public enum Console {
         baseInputHandler = new BaseInputHandler(outputArea);
 
         setupButtonEnterInputMap();
-        installDragLabelButtons();
+
+        installRightDragLabelButtons();
+        installLeftDragLabelButtons();
+
         generateAudioMenu();
         installConsoleClock();
         installConsolePinnedWindowListeners();
@@ -713,16 +716,16 @@ public enum Console {
     }
 
     /**
-     * Sets up the drag label button lists for all the console's drag labels.
+     * Installs the right drag label buttons for the console frame.
      */
     @ForReadability
-    private void installDragLabelButtons() {
+    private void installRightDragLabelButtons() {
         // Remove default close button
         consoleCyderFrame.getTopDragLabel().removeRightButton(2);
-
         // Add custom close button
-        CloseButton closeButton = new CloseButton(consoleCyderFrame);
-        closeButton.setCloseAction(() -> {
+        CloseButton closeButton = new CloseButton();
+        closeButton.setForConsole(true);
+        closeButton.setClickAction(() -> {
             if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
                 UiUtil.minimizeAllFrames();
             } else {
@@ -734,19 +737,10 @@ public enum Console {
 
         // Remove default minimize button
         consoleCyderFrame.getTopDragLabel().removeRightButton(0);
-
         // Add custom minimize button
         MinimizeButton minimizeButton = new MinimizeButton(consoleCyderFrame);
         minimizeButton.setForConsole(true);
         consoleCyderFrame.getTopDragLabel().addRightButton(minimizeButton, 0);
-
-        menuButton = new MenuButton();
-        menuButton.setForConsole(true);
-        menuButton.setClickAction(this::menuButtonAction);
-        menuButton.addKeyListener(menuButtonKeyAdapter);
-        menuButton.addFocusGainedAction(this::removeFocusFromTaskbarMenuIcons);
-        menuButton.addFocusLostAction(this::removeFocusFromTaskbarMenuIcons);
-        consoleCyderFrame.getTopDragLabel().addLeftButton(menuButton, 0);
 
         ChangeSizeButton changeSizeButton = new ChangeSizeButton(consoleCyderFrame);
         changeSizeButton.setToolTipText("Alternate Background");
@@ -770,6 +764,7 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().addRightButton(changeSizeButton, 2);
 
         toggleAudioControls = new MenuButton();
+        toggleAudioControls.setForConsole(true);
         toggleAudioControls.setToolTipText("Audio Menu");
         toggleAudioControls.setClickAction(() -> {
             if (audioControlsLabel.isVisible()) {
@@ -780,6 +775,20 @@ public enum Console {
         });
         toggleAudioControls.setVisible(false);
         consoleCyderFrame.getTopDragLabel().addRightButton(toggleAudioControls, 0);
+    }
+
+    /**
+     * Installs the left drag label buttons for the console frame.
+     */
+    @ForReadability
+    private void installLeftDragLabelButtons() {
+        menuButton = new MenuButton();
+        menuButton.setForConsole(true);
+        menuButton.setClickAction(this::menuButtonAction);
+        menuButton.addKeyListener(menuButtonKeyAdapter);
+        menuButton.addFocusGainedAction(this::removeFocusFromTaskbarMenuIcons);
+        menuButton.addFocusLostAction(this::removeFocusFromTaskbarMenuIcons);
+        consoleCyderFrame.getTopDragLabel().addLeftButton(menuButton, 0);
     }
 
     /**
