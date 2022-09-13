@@ -3,7 +3,6 @@ package cyder.ui.drag.button;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.ui.drag.DragLabelButtonSize;
-import cyder.ui.frame.CyderFrame;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -43,54 +42,126 @@ public interface DragLabelButton {
 
     ArrayList<Runnable> mouseOverActions = new ArrayList<>();
 
-    void setMouseOverAction(Runnable mouseOverAction);
+    default void setMouseOverAction(Runnable mouseOverAction) {
+        Preconditions.checkNotNull(mouseOverAction);
+        clearMouseOvertActions();
+        mouseOverActions.add(mouseOverAction);
+    }
 
-    void addMouseOverAction(Runnable mouseOverAction);
+    default void addMouseOverAction(Runnable mouseOverAction) {
+        Preconditions.checkNotNull(mouseOverAction);
 
-    void removeMouseOverAction(Runnable mouseOverAction);
+        mouseOverActions.add(mouseOverAction);
+    }
 
-    void clearMouseOvertActions();
+    default void removeMouseOverAction(Runnable mouseOverAction) {
+        Preconditions.checkNotNull(mouseOverAction);
 
-    void invokeMouseOverActions();
+        mouseOverActions.remove(mouseOverAction);
+    }
+
+    default void clearMouseOvertActions() {
+        mouseOverActions.clear();
+    }
+
+    default void invokeMouseOverActions() {
+        for (Runnable mouseOverAction : mouseOverActions) {
+            mouseOverAction.run();
+        }
+    }
 
     ArrayList<Runnable> mouseExitActions = new ArrayList<>();
 
-    void setMouseExitAction(Runnable mouseExitAction);
+    default void setMouseExitAction(Runnable mouseExitAction) {
+        Preconditions.checkNotNull(mouseExitAction);
+        clearMouseExitActions();
+        mouseExitActions.add(mouseExitAction);
+    }
 
-    void addMouseExitAction(Runnable mouseExitAction);
+    default void addMouseExitAction(Runnable mouseExitAction) {
+        Preconditions.checkNotNull(mouseExitAction);
 
-    void removeMouseExitAction(Runnable mouseExitAction);
+        mouseExitActions.add(mouseExitAction);
+    }
 
-    void clearMouseExitActions();
+    default void removeMouseExitAction(Runnable mouseExitAction) {
+        Preconditions.checkNotNull(mouseExitAction);
 
-    void invokeMouseExitActions();
+        mouseExitActions.remove(mouseExitAction);
+    }
+
+    default void clearMouseExitActions() {
+        mouseExitActions.clear();
+    }
+
+    default void invokeMouseExitActions() {
+        for (Runnable mouseExitAction : mouseExitActions) {
+            mouseExitAction.run();
+        }
+    }
 
     ArrayList<Runnable> focusGainedActions = new ArrayList<>();
 
-    void setFocusGainedAction(Runnable focusGainedAction);
+    default void setFocusGainedAction(Runnable focusGainedAction) {
+        Preconditions.checkNotNull(focusGainedAction);
+        clearFocusGainedActions();
+        focusGainedActions.add(focusGainedAction);
+    }
 
-    void addFocusGainedAction(Runnable focusGainedAction);
+    default void addFocusGainedAction(Runnable focusGainedAction) {
+        Preconditions.checkNotNull(focusGainedAction);
 
-    void removeFocusGainedAction(Runnable focusGainedAction);
+        focusGainedActions.add(focusGainedAction);
+    }
 
-    void clearFocusGainedActions();
+    default void removeFocusGainedAction(Runnable focusGainedAction) {
+        Preconditions.checkNotNull(focusGainedAction);
 
-    void invokeFocusGainedActions();
+        focusGainedActions.remove(focusGainedAction);
+    }
+
+    default void clearFocusGainedActions() {
+        focusGainedActions.clear();
+    }
+
+    default void invokeFocusGainedActions() {
+        for (Runnable focusGainedAction : focusGainedActions) {
+            focusGainedAction.run();
+        }
+    }
 
     ArrayList<Runnable> focusLostActions = new ArrayList<>();
 
-    void setFocusLostAction(Runnable focusLostAction);
+    default void setFocusLostAction(Runnable focusLostAction) {
+        Preconditions.checkNotNull(focusLostAction);
+        clearFocusLostActions();
+        focusLostActions.add(focusLostAction);
+    }
 
-    void addFocusLostAction(Runnable focusLostAction);
+    default void addFocusLostAction(Runnable focusLostAction) {
+        Preconditions.checkNotNull(focusLostAction);
 
-    void removeFocusLostAction(Runnable focusLostAction);
+        focusLostActions.add(focusLostAction);
+    }
 
-    void clearFocusLostActions();
+    default void removeFocusLostAction(Runnable focusLostAction) {
+        Preconditions.checkNotNull(focusLostAction);
 
-    void invokeFocusLostActions();
+        focusLostActions.remove(focusLostAction);
+    }
+
+    default void clearFocusLostActions() {
+        focusLostActions.clear();
+    }
+
+    default void invokeFocusLostActions() {
+        for (Runnable focusLostAction : focusLostActions) {
+            focusLostAction.run();
+        }
+    }
 
     Color defaultColor = CyderColors.vanilla;
-    Color hoverAndFocusColor = CyderColors.regularRed;
+    Color defaultHoverAndFocusColor = CyderColors.regularRed;
 
     void paintLogic(Graphics g);
 
@@ -107,15 +178,4 @@ public interface DragLabelButton {
 
     DragLabelButtonSize DEFAULT_SIZE = DragLabelButtonSize.SMALL;
     DragLabelButtonSize size = DEFAULT_SIZE;
-
-    CyderFrame effectFrame = null;
-
-    default void setEffectFrame(CyderFrame effectFrame) {
-        effectFrame = Preconditions.checkNotNull(effectFrame);
-        ;
-    }
-
-    default CyderFrame getEffectFrame() {
-        return effectFrame;
-    }
 }
