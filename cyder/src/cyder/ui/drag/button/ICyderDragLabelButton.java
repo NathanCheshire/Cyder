@@ -17,6 +17,13 @@ public interface ICyderDragLabelButton {
     DragLabelButtonSize DEFAULT_SIZE = DragLabelButtonSize.SMALL;
 
     /**
+     * Sets the size of this drag label button and repaints this button.
+     *
+     * @param size the new size of this drag label button
+     */
+    void setSize(DragLabelButtonSize size);
+
+    /**
      * The actions to invoke when this button is pressed.
      */
     ArrayList<Runnable> clickActions = new ArrayList<>();
@@ -293,13 +300,6 @@ public interface ICyderDragLabelButton {
      * The hover and focus color.
      */
     Color defaultHoverAndFocusColor = CyderColors.regularRed;
-
-    /**
-     * The logic to invoke to paint the drag label button.
-     *
-     * @param g the graphics object
-     */
-    void paintLogic(Graphics g);
 
     // todo need to somehow ensure paint is overridden
     // todo add a size and set size method which repaints

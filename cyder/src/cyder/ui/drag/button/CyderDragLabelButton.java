@@ -28,17 +28,7 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
      */
     public CyderDragLabelButton(DragLabelButtonSize size) {
         Preconditions.checkNotNull(size);
-    }
-
-    /**
-     * The logic to invoke to paint the button.
-     *
-     * @param g the graphics object
-     * @throws IllegalMethodException always unless overridden by base class
-     */
-    @Override
-    public void paintLogic(Graphics g) {
-        throw new IllegalMethodException(CyderStrings.NOT_IMPLEMENTED);
+        setSize(size);
     }
 
     /**
@@ -123,8 +113,7 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
      */
     @Override
     public void paint(Graphics g) {
-        paintLogic(g);
-        super.paint(g);
+        throw new IllegalMethodException(CyderStrings.NOT_IMPLEMENTED);
     }
 
     /**
@@ -183,5 +172,20 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
                 }
             }
         });
+    }
+
+    /*
+    Note to maintainers: the below method forces extending classes to override
+    the below method which also forces them to keep track of their own non-final size variable.
+     */
+
+    /**
+     * Sets the size of this drag label button.
+     *
+     * @param size the size of this drag label button
+     */
+    @Override
+    public void setSize(DragLabelButtonSize size) {
+        throw new IllegalMethodException(CyderStrings.NOT_IMPLEMENTED);
     }
 }

@@ -13,11 +13,7 @@ public class MinimizeButton extends CyderDragLabelButton {
     /**
      * The size this minimize button will be painted with.
      */
-    private final DragLabelButtonSize size;
-
-    public MinimizeButton(DragLabelButtonSize size) {
-        this(null, size);
-    }
+    private DragLabelButtonSize size;
 
     /**
      * Constructs a new minimize button.
@@ -83,21 +79,10 @@ public class MinimizeButton extends CyderDragLabelButton {
      * {@inheritDoc}
      */
     @Override
-    public void paintLogic(Graphics g) {
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void paint(Graphics g) {
-        paintLogic(g);
-
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
 
-        System.out.println(getPaintColor());
         g2d.setColor(getPaintColor());
         g2d.setStroke(minimizeStroke);
         int minimizeYStart = getPaintLength() - MINIMIZE_BOTTOM_OFFSET;
@@ -105,5 +90,14 @@ public class MinimizeButton extends CyderDragLabelButton {
         g2d.drawLine(0, minimizeYStart, getPaintLength(), minimizeYStart);
 
         super.paint(g);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setSize(DragLabelButtonSize size) {
+        this.size = Preconditions.checkNotNull(size);
+        repaint();
     }
 }
