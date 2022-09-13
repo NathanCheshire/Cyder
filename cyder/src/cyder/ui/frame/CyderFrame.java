@@ -658,9 +658,9 @@ public class CyderFrame extends JFrame {
             this.cyderPanel = null;
         }
 
-        if (cyderPanel == null) {
-            return;
-        }
+        // todo implement these methods
+        // Allowed but removeCyderLayout or removeCyderLayoutPanel preferred to passing null
+        if (cyderPanel == null) return;
 
         this.cyderPanel = cyderPanel;
 
@@ -686,7 +686,7 @@ public class CyderFrame extends JFrame {
     }
 
     // ------------------------------
-    // frame positions based on enums
+    // Frame positions based on enums
     // ------------------------------
 
     /**
@@ -816,9 +816,7 @@ public class CyderFrame extends JFrame {
      * Revalidates the location the title label is anchored to based off of the currently set title position.
      */
     private void revalidateTitlePositionLocation() {
-        if (topDrag == null) {
-            return;
-        }
+        if (topDrag == null) return;
 
         int dragWidth = topDrag.getWidth();
         int dragHeight = topDrag.getHeight();
@@ -887,9 +885,8 @@ public class CyderFrame extends JFrame {
     public void refreshAlwaysOnTop() {
         switch (frameType) {
             case DEFAULT -> {
-                System.out.println(getTopDragLabel().getPinButton().getCurrentState());
-                boolean notDefaultState =
-                        getTopDragLabel().getPinButton().getCurrentState() != PinButton.PinState.DEFAULT;
+                boolean notDefaultState = getTopDragLabel().getPinButton()
+                        .getCurrentState() != PinButton.PinState.DEFAULT;
                 setAlwaysOnTop(notDefaultState);
             }
             case INPUT_GETTER, POPUP -> setAlwaysOnTop(true);

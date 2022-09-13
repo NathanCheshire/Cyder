@@ -832,11 +832,15 @@ public class CyderDragLabel extends JLabel {
         return new Dimension(buttonWidth, buttonHeight);
     }
 
+    // todo add left and right drag label buttons and use for photo viewer
+
     // todo lots of redundancy and confusion in console related to menus
     //  lots of vars and magic numbers could be extracted too
 
     // todo console menu add frames and removing not showing not working?
     // todo remove icon button class
+
+    // todo printing images is broken for some reason, to string is printed instead
 
     /**
      * Returns whether the provided button is a text button indicated by containing text and not an icon.

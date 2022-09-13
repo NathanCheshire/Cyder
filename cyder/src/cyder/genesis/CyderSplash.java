@@ -97,6 +97,12 @@ public enum CyderSplash {
     private static final String STARTUP_EXCEPTION = "Startup Exception";
 
     /**
+     * The name of the fast dispose thread. The method might wait before disposing if the
+     * allow splash completion prop is set to true.
+     */
+    private static final String FAST_DISPOSE_THREAD_NAME = "Cyder Splash Dispose Waiter";
+
+    /**
      * The horizontal padding for the animation letter blocks.
      */
     private static final int blockHorizontalPadding = 20;
@@ -568,9 +574,9 @@ public enum CyderSplash {
 
         harmonicRectangleSemaphore.release();
 
-        for (HarmonicRectangle rectangle : harmonicRectangles) {
+        for (int i = 0 ; i < harmonicRectangles.size() ; i++) {
             if (disposed.get()) break;
-            rectangle.startAnimation();
+            harmonicRectangles.get(i).startAnimation("Harmonic Rectangle #" + i);
             ThreadUtil.sleep(harmonicRectangleSequentialAnimationStarterTimeout);
         }
     }
@@ -614,7 +620,7 @@ public enum CyderSplash {
 
             splashFrame.dispose(true);
             disposed.set(true);
-        }, "todo");
+        }, FAST_DISPOSE_THREAD_NAME);
     }
 
     /**

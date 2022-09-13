@@ -249,12 +249,29 @@ public class HarmonicRectangle extends JLabel {
     }
 
     /**
+     * The default animation thread name.
+     */
+    private static final String DEFAULT_ANIMATION_THREAD_NAME = "Harmonic Rectangle Animator";
+
+    /**
      * Starts the animation.
      */
     public void startAnimation() {
+        startAnimation(DEFAULT_ANIMATION_THREAD_NAME);
+
+    }
+
+    /**
+     * Starts the animation with the provided name as the thread name.
+     *
+     * @param threadName the name of the thread for animation of this rectangle.
+     */
+    public void startAnimation(String threadName) {
+        Preconditions.checkNotNull(threadName);
+
         if (isAnimating) return;
         isAnimating = true;
-        CyderThreadRunner.submit(animationRunnable, "Harmonic Rectangle Animator");
+        CyderThreadRunner.submit(animationRunnable, threadName);
     }
 
     /**

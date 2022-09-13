@@ -16,6 +16,8 @@ import cyder.threads.CyderThreadRunner;
 import cyder.time.TimeUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.awt.*;
 import java.io.*;
@@ -407,13 +409,41 @@ public class NetworkUtil {
      */
     public record IspQueryResult(String isp, String hostname, String ip, String city, String state, String country) {}
 
+    /**
+     * The class name of the isp html element.
+     */
     private static final String ispClassName = "block text-4xl";
+
+    /**
+     * The class name of the html element containing the city, state, and country.
+     * This is Tailwind and prone to change.
+     */
     private static final String cityStateCountryClassName = "grid grid-cols-3 gap-2 px-6 pb-6";
+
+    /**
+     * The class name of the html element containing the host name.
+     */
     private static final String ipHostnameClassName = "prose";
 
+    /**
+     * The index of the city element in its parent element.
+     */
     private static final int cityIndex = 2;
+
+    /**
+     * The index of the state element in its parent element.
+     */
     private static final int stateIndex = 4;
+
+    /**
+     * The index of the country element in its parent element.
+     */
     private static final int countryIndex = 6;
+
+    /**
+     * The index of the ip hostname in its parent element.
+     */
+    private static final int ipHostnameIndex = 2;
 
     /**
      * Returns information about this user's isp, their ip, location, city, state/region, and country.
@@ -433,19 +463,25 @@ public class NetworkUtil {
             throw new FatalException("Could not obtain document from isp query url");
         }
 
-        // todo ensure length is valid otherwise throw
-
         String isp = locationDocument.getElementsByClass(ispClassName).text();
-        String city = locationDocument.getElementsByClass(cityStateCountryClassName)
-                .get(0).getAllElements().get(cityIndex).text();
-        String state = locationDocument.getElementsByClass(cityStateCountryClassName)
-                .get(0).getAllElements().get(stateIndex).text();
-        String country = locationDocument.getElementsByClass(cityStateCountryClassName)
-                .get(0).getAllElements().get(countryIndex).text();
-        String ip = filterIp(locationDocument.getElementsByClass(ipHostnameClassName).get(2).text());
-        while (ip.endsWith(".")) {
-            ip = ip.substring(0, ip.length() - 2);
+        Elements cityStateCountryElements = locationDocument.getElementsByClass(cityStateCountryClassName);
+        if (cityStateCountryElements.size() < 1) {
+            throw new FatalException("Could not parse document for city state country element");
         }
+        Element firstCityStateCountryElement = cityStateCountryElements.get(0);
+        Elements cityStateCountryElementAllElements = firstCityStateCountryElement.getAllElements();
+        if (cityStateCountryElementAllElements.size() < countryIndex - 1) {
+            throw new FatalException("Not enough city state country sub elements");
+        }
+        String city = cityStateCountryElementAllElements.get(cityIndex).text();
+        String state = cityStateCountryElementAllElements.get(stateIndex).text();
+        String country = cityStateCountryElementAllElements.get(countryIndex).text();
+
+        Elements ipHostnameElements = locationDocument.getElementsByClass(ipHostnameClassName);
+        if (ipHostnameElements.size() < ipHostnameIndex) {
+            throw new FatalException("Not enough ip hostname elements");
+        }
+        String ip = removeTrailingPeriods(filterIp(ipHostnameElements.get(ipHostnameIndex).text()));
         String hostname = filterHostname(locationDocument.getElementsByClass(ipHostnameClassName).get(3).text());
 
         return new IspQueryResult(isp, hostname, ip, city, state, country);
@@ -460,5 +496,16 @@ public class NetworkUtil {
     private static String filterHostname(String rawClassResult) {
         rawClassResult = rawClassResult.substring(rawClassResult.indexOf("'") + 1);
         return rawClassResult.substring(0, rawClassResult.indexOf("'"));
+    }
+
+    @ForReadability
+    private static String removeTrailingPeriods(final String string) {
+        String ret = string;
+
+        while (ret.endsWith(".")) {
+            ret = ret.substring(0, ret.length() - 2);
+        }
+
+        return ret;
     }
 }
