@@ -218,6 +218,20 @@ public interface ICyderDragLabelButton {
     void setMouseIn(boolean mouseIn);
 
     /**
+     * Returns whether this button is focused.
+     *
+     * @return whether this button is focused
+     */
+    boolean getFocused();
+
+    /**
+     * Returns whether the mouse is in this button.
+     *
+     * @return whether the mouse is in this button
+     */
+    boolean getMouseIn();
+
+    /**
      * Sets whether this drag label button is for the console.
      * This means focus will be enabled and the default focus adapter will be added if enabled.
      *

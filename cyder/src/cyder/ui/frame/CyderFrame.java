@@ -887,6 +887,7 @@ public class CyderFrame extends JFrame {
     public void refreshAlwaysOnTop() {
         switch (frameType) {
             case DEFAULT -> {
+                System.out.println(getTopDragLabel().getPinButton().getCurrentState());
                 boolean notDefaultState =
                         getTopDragLabel().getPinButton().getCurrentState() != PinButton.PinState.DEFAULT;
                 setAlwaysOnTop(notDefaultState);

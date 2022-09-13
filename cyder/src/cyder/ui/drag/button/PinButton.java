@@ -2,25 +2,20 @@ package cyder.ui.drag.button;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-import cyder.annotations.ForReadability;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;
 import cyder.ui.drag.DragLabelButtonSize;
 import cyder.ui.frame.CyderFrame;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A pin button for CyderFrame drag labels.
  */
-public class PinButton extends JLabel {
+public class PinButton extends CyderDragLabelButton {
     /**
      * The default width/height given to this pin button.
      */
@@ -39,17 +34,7 @@ public class PinButton extends JLabel {
     /**
      * The size this pin button will be painted with.
      */
-    private final DragLabelButtonSize size;
-
-    /**
-     * Whether the mouse is currently inside of this component.
-     */
-    private final AtomicBoolean mouseIn = new AtomicBoolean();
-
-    /**
-     * Whether this pin button is focused.
-     */
-    private final AtomicBoolean focused = new AtomicBoolean();
+    private DragLabelButtonSize size;
 
     /**
      * Constructs a new pin button with a default state of {@link PinState#DEFAULT}.
@@ -82,23 +67,18 @@ public class PinButton extends JLabel {
         this.currentState = Preconditions.checkNotNull(initialState);
         this.size = Preconditions.checkNotNull(size);
 
-        addMouseListener(generateMouseAdapter());
-        addFocusListener(generateFocusAdapter());
-
         refreshTooltip();
-        setFocusable(true);
+
         setSize(size.getSize(), size.getSize());
         repaint();
     }
 
     /**
-     * Generates the default mouse adapter for this pin button
-     *
-     * @return the mouse adapter
+     * {@inheritDoc}
      */
-    @ForReadability
-    private MouseAdapter generateMouseAdapter() {
-        return new MouseAdapter() {
+    @Override
+    public void addDefaultMouseAdapter() {
+        addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 incrementState();
@@ -108,55 +88,15 @@ public class PinButton extends JLabel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 setMouseIn(true);
+                repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 setMouseIn(false);
+                repaint();
             }
-        };
-    }
-
-    /**
-     * Generates the default focus adapter for this pin button.
-     *
-     * @return the focus adapter
-     */
-    @ForReadability
-    private FocusAdapter generateFocusAdapter() {
-        return new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                setFocused(true);
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                setFocused(false);
-            }
-        };
-    }
-
-    /**
-     * Sets whether the mouse is inside of the bounds of this pin button.
-     * Repaint is also invoked.
-     *
-     * @param mouseIn whether the mouse is inside of the bounds of this pin button
-     */
-    private void setMouseIn(boolean mouseIn) {
-        this.mouseIn.set(mouseIn);
-        repaint();
-    }
-
-    /**
-     * Sets whether this pin button is focused.
-     * Repaint is also invoked.
-     *
-     * @param focused whether this pin button is focused
-     */
-    private void setFocused(boolean focused) {
-        this.focused.set(focused);
-        repaint();
+        });
     }
 
     /**
@@ -264,24 +204,31 @@ public class PinButton extends JLabel {
 
         g2d.setColor(getPaintColor());
         g2d.fillPolygon(pinButtonPolygonXPoints, pinButtonPolygonYPoints, pinButtonPolygonYPoints.length);
-        super.paint(g);
     }
 
     /**
-     * Returns the color to paint for the pin button based on the current state.
-     *
-     * @return the color to paint for the pin button based on the current state
+     * {@inheritDoc}
      */
-    private Color getPaintColor() {
-        if (focused.get()) {
+    @Override
+    public Color getPaintColor() {
+        if (getFocused()) {
             return getCurrentState().getNextColor();
         } else {
-            if (mouseIn.get()) {
+            if (getMouseIn()) {
                 return getCurrentState().getNextColor();
             } else {
                 return getCurrentState().getCurrentColor();
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setSize(DragLabelButtonSize size) {
+        this.size = Preconditions.checkNotNull(size);
+        repaint();
     }
 
     /**

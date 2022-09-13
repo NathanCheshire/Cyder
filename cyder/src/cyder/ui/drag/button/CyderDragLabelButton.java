@@ -99,6 +99,14 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getFocused() {
+        return focused.get();
+    }
+
+    /**
      * Whether the mouse is currently inside of this drag label button.
      */
     private final AtomicBoolean mouseIn = new AtomicBoolean();
@@ -110,6 +118,14 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
     public void setMouseIn(boolean mouseIn) {
         this.mouseIn.set(mouseIn);
         repaint();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getMouseIn() {
+        return mouseIn.get();
     }
 
     /**
@@ -174,6 +190,13 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
         } else {
             return paintColor;
         }
+    }
+
+    /**
+     * {}
+     */
+    public boolean mouseIn() {
+        return mouseIn.get();
     }
 
     /**

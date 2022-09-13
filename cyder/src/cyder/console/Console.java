@@ -742,6 +742,14 @@ public enum Console {
         minimizeButton.setForConsole(true);
         consoleCyderFrame.getTopDragLabel().addRightButton(minimizeButton, 0);
 
+        // Remove default pin button
+        consoleCyderFrame.getTopDragLabel().removeRightButton(1);
+        //  Add custom pin button
+        PinButton pinButton = new PinButton(consoleCyderFrame);
+        pinButton.setForConsole(true);
+        consoleCyderFrame.getTopDragLabel().setPinButton(pinButton);
+        consoleCyderFrame.getTopDragLabel().addRightButton(pinButton, 1);
+
         ChangeSizeButton changeSizeButton = new ChangeSizeButton();
         changeSizeButton.setForConsole(true);
         changeSizeButton.setToolTipText("Alternate Background");

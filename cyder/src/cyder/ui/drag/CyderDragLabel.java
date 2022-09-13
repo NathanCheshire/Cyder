@@ -797,8 +797,9 @@ public class CyderDragLabel extends JLabel {
     /**
      * The error message to display if a component not allowed is attempted to be added to the drag label button list.
      */
-    private static final String BUTTON_DIMENSION_ERROR_MESSAGE = "A component other than JLabel/PinButton/"
-            + "MinimizeButton found its way into the right button list: ";
+    private static final String BUTTON_DIMENSION_ERROR_MESSAGE = "A component other than"
+            + " CyderDragLabelButton or WRAPPER TODO found its way into the right button list: ";
+    // todo
 
     /**
      * Returns the dimension for the provided component being added to the drag label.
@@ -856,6 +857,15 @@ public class CyderDragLabel extends JLabel {
      */
     public PinButton getPinButton() {
         return pinButton;
+    }
+
+    /**
+     * Sets the pin button of this drag label.
+     *
+     * @param pinButton the pin button of this drag label
+     */
+    public void setPinButton(PinButton pinButton) {
+        this.pinButton = Preconditions.checkNotNull(pinButton);
     }
 
     /**
