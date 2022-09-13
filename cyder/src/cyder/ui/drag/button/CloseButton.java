@@ -40,7 +40,6 @@ public class CloseButton extends CyderDragLabelButton {
         repaint();
     }
 
-
     /**
      * Returns the actual size of the painted close button after accounting for padding.
      *

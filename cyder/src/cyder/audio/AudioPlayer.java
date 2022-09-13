@@ -491,9 +491,9 @@ public final class AudioPlayer {
         audioPlayerFrame = new CyderFrame(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN, BACKGROUND_COLOR);
         refreshFrameTitle();
 
-        ChangeSizeButton changeSizeButton = new ChangeSizeButton(audioPlayerFrame);
+        ChangeSizeButton changeSizeButton = new ChangeSizeButton();
         changeSizeButton.setToolTipText("Switch Mode");
-        changeSizeButton.setChangeSizeAction(() -> {
+        changeSizeButton.setClickAction(() -> {
             switch (currentFrameView.get()) {
                 case FULL -> setupAndShowFrameView(FrameView.HIDDEN_ART);
                 case HIDDEN_ART -> setupAndShowFrameView(FrameView.MINI);

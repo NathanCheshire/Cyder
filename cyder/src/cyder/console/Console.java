@@ -742,9 +742,10 @@ public enum Console {
         minimizeButton.setForConsole(true);
         consoleCyderFrame.getTopDragLabel().addRightButton(minimizeButton, 0);
 
-        ChangeSizeButton changeSizeButton = new ChangeSizeButton(consoleCyderFrame);
+        ChangeSizeButton changeSizeButton = new ChangeSizeButton();
+        changeSizeButton.setForConsole(true);
         changeSizeButton.setToolTipText("Alternate Background");
-        changeSizeButton.setChangeSizeAction(() -> {
+        changeSizeButton.setClickAction(() -> {
             reloadBackgrounds();
 
             try {

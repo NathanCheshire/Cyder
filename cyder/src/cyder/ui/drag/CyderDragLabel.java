@@ -6,7 +6,10 @@ import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
-import cyder.ui.drag.button.*;
+import cyder.ui.drag.button.CloseButton;
+import cyder.ui.drag.button.CyderDragLabelButton;
+import cyder.ui.drag.button.MinimizeButton;
+import cyder.ui.drag.button.PinButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;
@@ -812,26 +815,9 @@ public class CyderDragLabel extends JLabel {
         int buttonHeight;
 
         switch (component) {
-            // todo make base class that implements our custom interface and extends JLabel
-            case MenuButton menuButton -> {
-                buttonWidth = menuButton.getWidth();
-                buttonHeight = menuButton.getHeight();
-            }
-            case ChangeSizeButton changeSizeButton -> {
-                buttonWidth = changeSizeButton.getWidth();
-                buttonHeight = changeSizeButton.getHeight();
-            }
-            case CloseButton closeButton -> {
-                buttonWidth = closeButton.getWidth();
-                buttonHeight = closeButton.getHeight();
-            }
-            case MinimizeButton minimizeButton -> {
-                buttonWidth = minimizeButton.getWidth();
-                buttonHeight = minimizeButton.getHeight();
-            }
-            case PinButton pinButton -> {
-                buttonWidth = pinButton.getWidth();
-                buttonHeight = pinButton.getHeight();
+            case CyderDragLabelButton cyderDragLabelButton -> {
+                buttonWidth = cyderDragLabelButton.getWidth();
+                buttonHeight = cyderDragLabelButton.getHeight();
             }
             // todo should be some label wrapper so we can do proper instance of checks
             //  and ensure it came from CyderDragLabel's generate method
@@ -844,6 +830,9 @@ public class CyderDragLabel extends JLabel {
 
         return new Dimension(buttonWidth, buttonHeight);
     }
+
+    // todo lots of redundancy and confusion in console related to menus
+    //  lots of vars and magic numbers could be extracted too
 
     // todo console menu add frames and removing not showing not working?
     // todo remove icon button class
