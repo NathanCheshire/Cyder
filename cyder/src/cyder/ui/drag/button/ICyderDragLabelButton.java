@@ -6,12 +6,16 @@ import cyder.ui.drag.DragLabelButtonSize;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * An interface for all drag label buttons to implement.
  */
-public interface DragLabelButton {
+public interface ICyderDragLabelButton {
+    /**
+     * The default size of a drag label button.
+     */
+    DragLabelButtonSize DEFAULT_SIZE = DragLabelButtonSize.SMALL;
+
     /**
      * The actions to invoke when this button is pressed.
      */
@@ -301,6 +305,13 @@ public interface DragLabelButton {
     // todo add a size and set size method which repaints
 
     /**
+     * Returns the color to paint the button as based on the current state
+     *
+     * @return the color to paint the button
+     */
+    Color getPaintColor();
+
+    /**
      * Adds the default mouse adapter to this button.
      */
     void addDefaultMouseAdapter();
@@ -309,16 +320,6 @@ public interface DragLabelButton {
      * Adds the default focus adapter to this button.
      */
     void addDefaultFocusAdapter();
-
-    /**
-     * Whether the button is focused.
-     */
-    AtomicBoolean focused = new AtomicBoolean();
-
-    /**
-     * Whether the mouse is in this button.
-     */
-    AtomicBoolean mouseIn = new AtomicBoolean();
 
     /**
      * Sets whether this button is focused.
@@ -333,9 +334,4 @@ public interface DragLabelButton {
      * @param mouseIn whether the mouse is in this button
      */
     void setMouseIn(boolean mouseIn);
-
-    /**
-     * The default size of a drag label button.
-     */
-    DragLabelButtonSize DEFAULT_SIZE = DragLabelButtonSize.SMALL;
 }
