@@ -742,6 +742,9 @@ public class CyderDragLabel extends JLabel {
         repaint();
     }
 
+    // todo typing animation broken
+    // todo addition if list locking seems to have fucked up new lines and shit
+
     // todo add left and right drag label buttons and use for photo viewer
 
     // todo lots of redundancy and confusion in console related to menus

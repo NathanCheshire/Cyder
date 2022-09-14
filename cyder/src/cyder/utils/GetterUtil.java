@@ -1,5 +1,6 @@
 package cyder.utils;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -144,7 +145,7 @@ public class GetterUtil {
      *  CyderThreadRunner.submit(() -> {
      *      try {
      *          String input = GetterUtil().getInstance().getString(getterBuilder);
-     *          //other operations using input
+     *          // Other operations using input
      *      } catch (Exception e) {
      *          ErrorHandler.handle(e);
      *      }
@@ -200,10 +201,10 @@ public class GetterUtil {
 
                 String initialString = builder.getInitialString();
                 if (!StringUtil.isNullOrEmpty(initialString)) inputField.setText(initialString);
-                
+
                 String tooltip = builder.getFieldTooltip();
                 if (!StringUtil.isNullOrEmpty(tooltip)) inputField.setToolTipText(tooltip);
-                
+
                 inputField.setBounds(getStringXPadding, yOff,
                         width - 2 * getStringXPadding, 40);
                 inputFrame.getContentPane().add(inputField);
@@ -335,7 +336,7 @@ public class GetterUtil {
      *   CyderThreadRunner.submit(() -> {
      *         try {
      *             File input = GetterUtil().getInstance().getFile(getterBuilder);
-     *             //other operations using input
+     *             // Other operations using input
      *         } catch (Exception e) {
      *             ErrorHandler.handle(e);
      *         }
@@ -637,7 +638,7 @@ public class GetterUtil {
      *  CyderThreadRunner.submit(() -> {
      *      try {
      *          String input = GetterUtil().getInstance().getConfirmation(getterBuilder);
-     *          //other operations using input
+     *          // Other operations using input
      *      } catch (Exception e) {
      *          ErrorHandler.handle(e);
      *      }
@@ -659,51 +660,57 @@ public class GetterUtil {
             try {
                 CyderLabel textLabel = new CyderLabel();
 
-                BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(
+                BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(
                         builder.getInitialString(), textLabel.getFont());
-                int w = bs.width();
-                int h = bs.height();
-                textLabel.setText(bs.text());
+                int textWidth = boundsString.width();
+                int textHeight = boundsString.height();
+                textLabel.setText(boundsString.text());
 
-                // todo this is a mess
                 int horizontalPadding = 20;
                 int yesNoButtonHeight = 40;
+                int topPadding = 40;
+                int textBottomPadding = 20;
+                int buttonBottomPadding = 25;
 
-                CyderFrame frame = new CyderFrame(w + 2 * horizontalPadding,
-                        h + 25 + 20 + 40 + yesNoButtonHeight, CyderIcons.defaultBackgroundLarge);
+                int frameWidth = 2 * horizontalPadding + textWidth;
+                int frameHeight = topPadding + textHeight + textBottomPadding + yesNoButtonHeight + buttonBottomPadding;
+                CyderFrame frame = new CyderFrame(frameWidth, frameHeight, CyderIcons.defaultBackgroundLarge);
                 getConfirmationFrames.add(frame);
                 frameReference.set(frame);
+
                 frame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 frame.setTitle(builder.getTitle());
                 frame.addPreCloseAction(() -> {
-                    if (ret.get() != Boolean.TRUE) {
-                        ret.set(Boolean.FALSE);
-                    }
+                    if (ret.get() != Boolean.TRUE) ret.set(Boolean.FALSE);
 
                     getConfirmationFrames.remove(frame);
                 });
 
-                textLabel.setBounds(10, 35, w, h);
+                int currentY = topPadding;
+
+                int textLabelPadding = 10;
+                textLabel.setBounds(textLabelPadding, currentY, textWidth, textHeight);
                 frame.getContentPane().add(textLabel);
-                w += 35;
-                w += 5;
+                currentY += textHeight + textBottomPadding;
 
-                CyderButton yes = new CyderButton(builder.getYesButtonText());
-                yes.setColors(builder.getSubmitButtonColor());
-                yes.addActionListener(e -> ret.set(Boolean.TRUE));
-                yes.setBounds(horizontalPadding, 35 + h + 20, 
-                    (w - 60) / 2, yesNoButtonHeight);
-                frame.getContentPane().add(yes);
+                int numButtons = 2;
+                int buttonInnerSpacing = 30;
+                int buttonWidth = (frameWidth - buttonInnerSpacing - 2 * horizontalPadding) / numButtons;
 
-                CyderButton no = new CyderButton(builder.getNoButtonText());
-                no.setColors(builder.getSubmitButtonColor());
-                no.addActionListener(e -> ret.set(Boolean.FALSE));
-                no.setBounds(horizontalPadding + 20 + ((w - 60) / 2), 35 + h + 20, 
-                    (w - 60) / 2, yesNoButtonHeight);
-                frame.getContentPane().add(no);
+                CyderButton yesButton = new CyderButton(builder.getYesButtonText());
+                yesButton.setColors(builder.getSubmitButtonColor());
+                yesButton.addActionListener(e -> ret.set(Boolean.TRUE));
+                yesButton.setBounds(horizontalPadding, currentY, buttonWidth, yesNoButtonHeight);
+                frame.getContentPane().add(yesButton);
+
+                int noButtonX = horizontalPadding + buttonWidth + buttonInnerSpacing;
+                CyderButton noButton = new CyderButton(builder.getNoButtonText());
+                noButton.setColors(builder.getSubmitButtonColor());
+                noButton.addActionListener(e -> ret.set(Boolean.FALSE));
+                noButton.setBounds(noButtonX, currentY, buttonWidth, yesNoButtonHeight);
+                frame.getContentPane().add(noButton);
 
                 Component relativeTo = builder.getRelativeTo();
-
                 if (relativeTo != null && builder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
                     frame.addWindowListener(new WindowAdapter() {
