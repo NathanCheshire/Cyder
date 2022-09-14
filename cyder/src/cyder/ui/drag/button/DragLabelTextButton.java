@@ -146,42 +146,84 @@ public class DragLabelTextButton extends JLabel {
             this.text = text;
         }
 
+        /**
+         * Sets the click action for this text button.
+         *
+         * @param clickAction the click action for this text button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public Builder setClickAction(Runnable clickAction) {
             this.clickAction = Preconditions.checkNotNull(clickAction);
             return this;
         }
 
+        /**
+         * Sets the mouse enter action for this text button.
+         *
+         * @param mouseEnterAction the mouse enter action for this text button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public Builder setMouseEnterAction(Runnable mouseEnterAction) {
             this.mouseEnterAction = Preconditions.checkNotNull(mouseEnterAction);
             return this;
         }
 
+        /**
+         * Sets the mouse exit action for this text button.
+         *
+         * @param mouseExitAction the mouse exit action for this text button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public Builder setMouseExitAction(Runnable mouseExitAction) {
             this.mouseExitAction = Preconditions.checkNotNull(mouseExitAction);
             return this;
         }
 
+        /**
+         * Sets the font for this text button.
+         *
+         * @param font the font for this text button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public Builder setFont(Font font) {
             this.font = Preconditions.checkNotNull(font);
             return this;
         }
 
+        /**
+         * Sets the default color for this text button.
+         *
+         * @param color the default color for this text button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public Builder setDefaultColor(Color color) {
             this.defaultColor = Preconditions.checkNotNull(color);
             return this;
         }
 
+        /**
+         * Sets the hover color for this text button.
+         *
+         * @param color the hover color for this text button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public Builder setHoverColor(Color color) {
             this.hoverColor = Preconditions.checkNotNull(color);
             return this;
         }
 
+        /**
+         * Sets the tooltip for this text button.
+         *
+         * @param tooltip the tooltip for this text button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public Builder setTooltip(String tooltip) {
             Preconditions.checkNotNull(tooltip);
@@ -190,34 +232,74 @@ public class DragLabelTextButton extends JLabel {
             return this;
         }
 
+        /**
+         * Returns the text for this text button.
+         *
+         * @return the text for this text button
+         */
         public String getText() {
             return text;
         }
 
+        /**
+         * Returns the click action for this text button.
+         *
+         * @return the click action for this text button
+         */
         public Runnable getClickAction() {
             return clickAction;
         }
 
+        /**
+         * Returns the mouse enter action for this text button.
+         *
+         * @return the mouse enter action for this text button
+         */
         public Runnable getMouseEnterAction() {
             return mouseEnterAction;
         }
 
+        /**
+         * Returns the mouse exit action for this text button.
+         *
+         * @return the mouse exit action for this text button
+         */
         public Runnable getMouseExitAction() {
             return mouseExitAction;
         }
 
+        /**
+         * Returns the font for this text button.
+         *
+         * @return the font for this text button
+         */
         public Font getFont() {
             return font;
         }
 
+        /**
+         * Returns the default color for this text button.
+         *
+         * @return the default color for this text button
+         */
         public Color getDefaultColor() {
             return defaultColor;
         }
 
+        /**
+         * Returns the hover color for this text button.
+         *
+         * @return the hover color for this text button
+         */
         public Color getHoverColor() {
             return hoverColor;
         }
 
+        /**
+         * Returns the tooltip for this text button.
+         *
+         * @return the tooltip for this text button
+         */
         public String getTooltip() {
             return tooltip;
         }
