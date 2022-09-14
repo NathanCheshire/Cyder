@@ -34,12 +34,16 @@ public class DragLabelTextButton extends JLabel {
         Preconditions.checkNotNull(builder);
 
         DragLabelTextButton ret = new DragLabelTextButton();
-        ret.setText(StringUtil.getTrimmedText(builder.getText()));
+        ret.setText(builder.getText());
         ret.setForeground(builder.getDefaultColor());
         ret.setFont(builder.getFont());
 
         String tooltip = builder.getTooltip();
         if (tooltip != null) ret.setToolTipText(tooltip);
+
+        int width = StringUtil.getMinWidth(builder.getText(), builder.getFont());
+        int height = StringUtil.getAbsoluteMinHeight(builder.getText(), builder.getFont());
+        ret.setSize(width, height);
 
         ret.addMouseListener(new MouseAdapter() {
             @Override
@@ -136,7 +140,7 @@ public class DragLabelTextButton extends JLabel {
          */
         public Builder(String text) {
             Preconditions.checkNotNull(text);
-            text = text.trim();
+            text = StringUtil.getTrimmedText(text);
             Preconditions.checkArgument(!text.isEmpty());
 
             this.text = text;

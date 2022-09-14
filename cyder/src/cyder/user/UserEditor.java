@@ -23,6 +23,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderPanel;
 import cyder.ui.button.CyderButton;
 import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.field.CyderCaret;
 import cyder.ui.field.CyderPasswordField;
 import cyder.ui.field.CyderTextField;
@@ -225,14 +226,18 @@ public final class UserEditor {
      */
     private static void installDragLabelButtons() {
         for (Page page : Page.values()) {
-            JLabel textButton = CyderDragLabel.generateTextButton(page.getTitle(), page.getTitle(), () -> {
-                if (currentPage != page) {
-                    currentPage = page;
+            DragLabelTextButton menuButton = DragLabelTextButton.generateTextButton(
+                    new DragLabelTextButton.Builder(page.getTitle())
+                            .setTooltip(page.getTitle())
+                            .setClickAction(() -> {
+                                if (currentPage != page) {
+                                    currentPage = page;
 
-                    page.getSwitchRunnable().run();
-                }
-            });
-            editUserFrame.getTopDragLabel().addRightButton(textButton, 0);
+                                    page.getSwitchRunnable().run();
+                                }
+                            }));
+
+            editUserFrame.getTopDragLabel().addRightButton(menuButton, 0);
         }
     }
 

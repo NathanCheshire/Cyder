@@ -1,18 +1,14 @@
 package cyder.ui.drag;
 
 import com.google.common.base.Preconditions;
-import cyder.annotations.ForReadability;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
 import cyder.ui.drag.button.CloseButton;
-import cyder.ui.drag.button.CyderDragLabelButton;
 import cyder.ui.drag.button.MinimizeButton;
 import cyder.ui.drag.button.PinButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.ReflectionUtil;
-import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
@@ -434,52 +430,6 @@ public class CyderDragLabel extends JLabel {
     }
 
     /**
-     * The font to use for text buttons.
-     */
-    private static final Font TEXT_BUTTON_FONT = CyderFonts.DEFAULT_FONT_SMALL;
-
-    /**
-     * Generates a drag label text button.
-     *
-     * @param text        the text of the button
-     * @param tooltip     the tooltip of the button
-     * @param clickAction the action to invoke when the button is clicked
-     * @return the text button
-     */
-    public static JLabel generateTextButton(String text, String tooltip, Runnable clickAction) {
-        Preconditions.checkNotNull(text);
-        text = StringUtil.getTrimmedText(text);
-
-        Preconditions.checkArgument(!text.isEmpty());
-        Preconditions.checkNotNull(tooltip);
-        Preconditions.checkArgument(!tooltip.isEmpty());
-        Preconditions.checkNotNull(clickAction);
-
-        JLabel ret = new JLabel(text);
-        ret.setForeground(CyderColors.vanilla);
-        ret.setFont(TEXT_BUTTON_FONT);
-        ret.setToolTipText(tooltip);
-        ret.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                ret.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                ret.setForeground(CyderColors.vanilla);
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                clickAction.run();
-            }
-        });
-
-        return ret;
-    }
-
-    /**
      * Returns the button from the right button list at the provided index.
      *
      * @param index the index of the button to be returned
@@ -750,9 +700,8 @@ public class CyderDragLabel extends JLabel {
         int currentXStart = width - BUTTON_PADDING;
 
         for (Component rightButtonComponent : reversedRightButtons) {
-            Dimension dimension = determineButtonDimensions(rightButtonComponent);
-            int buttonWidth = (int) dimension.getWidth();
-            int buttonHeight = (int) dimension.getHeight();
+            int buttonWidth = rightButtonComponent.getWidth();
+            int buttonHeight = rightButtonComponent.getHeight();
 
             int y = buttonHeight > DEFAULT_HEIGHT ? 0 : DEFAULT_HEIGHT / 2 - buttonHeight / 2;
 
@@ -779,9 +728,8 @@ public class CyderDragLabel extends JLabel {
         int currentXStart = BUTTON_PADDING;
 
         for (Component leftButtonComponent : leftButtonList) {
-            Dimension dimension = determineButtonDimensions(leftButtonComponent);
-            int buttonWidth = (int) dimension.getWidth();
-            int buttonHeight = (int) dimension.getHeight();
+            int buttonWidth = leftButtonComponent.getWidth();
+            int buttonHeight = leftButtonComponent.getHeight();
 
             int y = buttonHeight > DEFAULT_HEIGHT ? 0 : DEFAULT_HEIGHT / 2 - buttonHeight / 2;
 
@@ -794,44 +742,6 @@ public class CyderDragLabel extends JLabel {
         repaint();
     }
 
-    /**
-     * The error message to display if a component not allowed is attempted to be added to the drag label button list.
-     */
-    private static final String BUTTON_DIMENSION_ERROR_MESSAGE = "A component other than"
-            + " CyderDragLabelButton or WRAPPER TODO found its way into the right button list: ";
-    // todo
-
-    /**
-     * Returns the dimension for the provided component being added to the drag label.
-     *
-     * @param component the component being added to the drag label.
-     * @return the dimension for the component
-     */
-    @ForReadability
-    private Dimension determineButtonDimensions(Component component) {
-        Preconditions.checkNotNull(component);
-        Preconditions.checkState(this.type == Type.TOP);
-
-        int buttonWidth;
-        int buttonHeight;
-
-        switch (component) {
-            case CyderDragLabelButton cyderDragLabelButton -> {
-                buttonWidth = cyderDragLabelButton.getWidth();
-                buttonHeight = cyderDragLabelButton.getHeight();
-            }
-            // todo should be some label wrapper so we can do proper instance of checks
-            //  and ensure it came from CyderDragLabel's generate method
-            case JLabel label -> {
-                buttonWidth = StringUtil.getMinWidth(label.getText().trim(), label.getFont());
-                buttonHeight = StringUtil.getAbsoluteMinHeight(label.getText().trim(), label.getFont());
-            }
-            case default -> throw new IllegalArgumentException(BUTTON_DIMENSION_ERROR_MESSAGE + component);
-        }
-
-        return new Dimension(buttonWidth, buttonHeight);
-    }
-
     // todo add left and right drag label buttons and use for photo viewer
 
     // todo lots of redundancy and confusion in console related to menus
@@ -839,18 +749,6 @@ public class CyderDragLabel extends JLabel {
 
     // todo console menu add frames and removing not showing not working?
     // todo remove icon button class
-
-    /**
-     * Returns whether the provided button is a text button indicated by containing text and not an icon.
-     * This means that for bounds calculations the dimensions of the button will be determined by the contained
-     * text dimensions.
-     *
-     * @param button the button to test
-     * @return whether the provided button is a text button
-     */
-    private boolean isTextButton(Component button) {
-        return button instanceof JLabel label && !label.getText().isEmpty();
-    }
 
     /**
      * Returns the pin button for this CyderFrame.

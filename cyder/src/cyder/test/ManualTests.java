@@ -19,7 +19,7 @@ import cyder.ui.CyderGrid;
 import cyder.ui.CyderPanel;
 import cyder.ui.button.CyderButton;
 import cyder.ui.button.CyderModernButton;
-import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.drag.button.MenuButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
@@ -872,7 +872,10 @@ public final class ManualTests {
             String text = leftField.getTrimmedText();
 
             if (!text.isEmpty()) {
-                JLabel textButton = CyderDragLabel.generateTextButton(text, text, () -> testFrame.notify(text));
+                DragLabelTextButton textButton = DragLabelTextButton.generateTextButton(
+                        new DragLabelTextButton.Builder(text)
+                                .setTooltip(text)
+                                .setClickAction(() -> testFrame.notify(text)));
                 testFrame.getTopDragLabel().addLeftButton(textButton, 0);
             }
         });
@@ -888,7 +891,10 @@ public final class ManualTests {
             String text = rightField.getTrimmedText();
 
             if (!text.isEmpty()) {
-                JLabel textButton = CyderDragLabel.generateTextButton(text, text, () -> testFrame.notify(text));
+                DragLabelTextButton textButton = DragLabelTextButton.generateTextButton(
+                        new DragLabelTextButton.Builder(text)
+                                .setTooltip(text)
+                                .setClickAction(() -> testFrame.notify(text)));
                 testFrame.getTopDragLabel().addRightButton(textButton, 0);
             }
         });

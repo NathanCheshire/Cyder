@@ -15,7 +15,7 @@ import cyder.parsers.remote.weather.WeatherData;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
-import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
@@ -101,9 +101,13 @@ public final class ClockWidget {
      */
     private static int currentGMTOffset;
 
-    // it's ya boi, Greenwich
-    @Widget(triggers = "clock",
-            description = "A clock widget capable of spawning mini widgets and changing the time zone")
+    private static final String MINI = "Mini";
+    private static final String TOOLTIP = "Spawn a mini clock for the current location";
+
+    private static final String widgetDescription = "A clock widget capable of spawning"
+            + " mini widgets and changing the time zone";
+
+    @Widget(triggers = "clock", description = widgetDescription)
     public static void showGui() {
         CyderThreadRunner.submit(() -> {
             UiUtil.closeIfOpen(clockFrame);
@@ -128,9 +132,11 @@ public final class ClockWidget {
             };
             clockFrame.setTitle("Clock");
 
-            JLabel miniClock = CyderDragLabel.generateTextButton("Mini",
-                    "Spawn a mini clock for the current location", ClockWidget::spawnMiniClock);
-            clockFrame.getTopDragLabel().addRightButton(miniClock, 0);
+            DragLabelTextButton miniClockButton = DragLabelTextButton.generateTextButton(
+                    new DragLabelTextButton.Builder(MINI)
+                            .setTooltip(TOOLTIP)
+                            .setClickAction(ClockWidget::spawnMiniClock));
+            clockFrame.getTopDragLabel().addRightButton(miniClockButton, 0);
 
             digitalTimeAndDateLabel = new CyderLabel(getTime(currentGMTOffset));
             digitalTimeAndDateLabel.setFont(CyderFonts.DEFAULT_FONT);

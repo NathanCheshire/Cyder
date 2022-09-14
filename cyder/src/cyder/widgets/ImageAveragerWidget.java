@@ -13,7 +13,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.button.CyderButton;
-import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderScrollList;
 import cyder.user.UserFile;
@@ -148,6 +148,9 @@ public final class ImageAveragerWidget {
         averagerFrame.finalizeAndShow();
     }
 
+    private static final String SAVE = "Save";
+    private static final String SAVE_IMAGE = "Save Image";
+
     /**
      * Revalidates the chosen images viewport.
      */
@@ -205,28 +208,27 @@ public final class ImageAveragerWidget {
 
                 ImageIcon previewImage = checkImage(new ImageIcon(saveImage));
 
-                CyderFrame drawFrame = new CyderFrame(
-                        previewImage.getIconWidth(),
-                        previewImage.getIconHeight(),
-                        previewImage);
+                CyderFrame drawFrame = new CyderFrame(previewImage.getIconWidth(),
+                        previewImage.getIconHeight(), previewImage);
 
-                JLabel save = CyderDragLabel.generateTextButton("Save", "Save Image", () -> {
-                    try {
-                        File outFile = OSUtil.buildFile(Dynamic.PATH,
-                                Dynamic.USERS.getDirectoryName(),
-                                Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(),
-                                combineImageNames() + "." + ImageUtil.PNG_FORMAT);
+                DragLabelTextButton saveButton = DragLabelTextButton.generateTextButton(
+                        new DragLabelTextButton.Builder(SAVE).setTooltip(SAVE_IMAGE).setClickAction(() -> {
+                            try {
+                                File outFile = OSUtil.buildFile(Dynamic.PATH,
+                                        Dynamic.USERS.getDirectoryName(),
+                                        Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(),
+                                        combineImageNames() + "." + ImageUtil.PNG_FORMAT);
 
-                        ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, outFile);
-                        averagerFrame.notify("Average computed and saved to your user's backgrounds/ directory");
-                        drawFrame.dispose();
-                    } catch (Exception ex) {
-                        ExceptionHandler.handle(ex);
-                    }
-                });
-                drawFrame.getTopDragLabel().addRightButton(save, 0);
+                                ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, outFile);
+                                averagerFrame.notify(
+                                        "Average computed and saved to your user's backgrounds/ directory");
+                                drawFrame.dispose();
+                            } catch (Exception ex) {
+                                ExceptionHandler.handle(ex);
+                            }
+                        }));
+                drawFrame.getTopDragLabel().addRightButton(saveButton, 0);
 
-                drawFrame.getTopDragLabel().add(save, 1);
                 drawFrame.setVisible(true);
                 drawFrame.setLocationRelativeTo(averagerFrame);
             } catch (Exception e) {

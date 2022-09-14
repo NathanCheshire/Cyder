@@ -6,7 +6,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.ui.drag.CyderDragLabel;
+import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.user.UserUtil;
 import cyder.utils.FileUtil;
@@ -54,12 +54,12 @@ public class PhotoViewer {
     /**
      * The next image button.
      */
-    private JLabel nextButton;
+    private DragLabelTextButton nextButton;
 
     /**
      * The last image button.
      */
-    private JLabel lastButton;
+    private DragLabelTextButton lastButton;
 
     /**
      * Returns a new instance of photo viewer with the provided starting directory.
@@ -122,12 +122,16 @@ public class PhotoViewer {
         pictureFrame.setMenuEnabled(true);
         pictureFrame.addMenuItem("Rename", this::rename);
 
-        nextButton = CyderDragLabel.generateTextButton(NEXT, NEXT,
-                () -> transition(true));
+        nextButton = DragLabelTextButton.generateTextButton(
+                new DragLabelTextButton.Builder(NEXT)
+                        .setTooltip(NEXT)
+                        .setClickAction(() -> transition(true)));
         pictureFrame.getTopDragLabel().addRightButton(nextButton, 0);
 
-        lastButton = CyderDragLabel.generateTextButton(LAST, LAST,
-                () -> transition(false));
+        lastButton = DragLabelTextButton.generateTextButton(
+                new DragLabelTextButton.Builder(LAST)
+                        .setTooltip(LAST)
+                        .setClickAction(() -> transition(false)));
         pictureFrame.getTopDragLabel().addRightButton(lastButton, 0);
 
         startDirectoryWatcherThread();
