@@ -37,7 +37,7 @@ import java.util.concurrent.Semaphore;
  * The base input handler used for linked JTextPane printing
  * operations and raw user input sub-handler triggering.
  */
-@SuppressWarnings("SpellCheckingInspection")
+@SuppressWarnings("SpellCheckingInspection") /* Cyder specific words */
 public class BaseInputHandler {
     /**
      * The linked CyderOutputPane.
