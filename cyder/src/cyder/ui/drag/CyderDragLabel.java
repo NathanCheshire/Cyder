@@ -747,7 +747,7 @@ public class CyderDragLabel extends JLabel {
     //  if no list then do all files. Output correct results
 
     // todo typing animation broken
-    // todo addition if list locking seems to have fucked up new lines and shit
+    // todo addition if list locking seems to have messed up new lines
 
     // todo add left and right drag label buttons and use for photo viewer
 

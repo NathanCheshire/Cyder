@@ -117,24 +117,25 @@ public class GetterUtil {
     private static final int GET_STRING_MIN_WIDTH = 400;
 
     /**
-     * The minimum height for a get string popup.
-     */
-    private static final int GET_STRING_MIN_HEIGHT = 170;
-
-    /**
      * The top and bottom padding for a string popup.
      */
-    private static final int getStringYPadding = 10;
+    private static final int GET_STRING_Y_PADDING = 10;
 
     /**
      * The left and right padding for a string popup.
      */
-    private static final int getStringXPadding = 40;
+    private static final int GET_STRING_X_PADDING = 40;
 
     /**
      * The empty string to return for getString invocations which are canceled.
      */
     private static final String NULL = "NULL";
+
+    /**
+     * The line border for the get string's submit button.
+     */
+    private static final LineBorder GET_STRING_SUBMIT_BUTTON_BORDER
+            = new LineBorder(CyderColors.navy, 5, false);
 
     /**
      * Custom getString() method, see usage below for how to
@@ -161,40 +162,31 @@ public class GetterUtil {
      */
     public String getString(Builder builder) {
         checkNotNull(builder);
+        checkNotNull(builder.getLabelText());
 
         AtomicReference<String> returnString = new AtomicReference<>();
 
         CyderThreadRunner.submit(() -> {
             try {
-                int height = GET_STRING_MIN_HEIGHT;
-                int width = GET_STRING_MIN_WIDTH;
+                BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(
+                        builder.getLabelText(), CyderFonts.DEFAULT_FONT, GET_STRING_MIN_WIDTH);
 
-                BoundsUtil.BoundsString bounds = null;
+                int width = boundsString.width() + 2 * GET_STRING_X_PADDING;
+                int height = boundsString.height() + 2 * GET_STRING_Y_PADDING;
+                builder.setLabelText(boundsString.text());
 
-                if (!StringUtil.isNullOrEmpty(builder.getLabelText())) {
-                    bounds = BoundsUtil.widthHeightCalculation(builder.getLabelText(),
-                            CyderFonts.DEFAULT_FONT, GET_STRING_MIN_WIDTH);
-
-                    height += bounds.height() + 2 * getStringYPadding;
-                    width = bounds.width() + 2 * getStringXPadding;
-                    builder.setLabelText(bounds.text());
-                }
-
-                CyderFrame inputFrame = new CyderFrame(width,
-                        height, CyderIcons.defaultBackground);
+                CyderFrame inputFrame = new CyderFrame(width, height, CyderIcons.defaultBackground);
                 getStringFrames.add(inputFrame);
                 inputFrame.addPreCloseAction(() -> getStringFrames.remove(inputFrame));
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 inputFrame.setTitle(builder.getTitle());
 
-                int yOff = CyderDragLabel.DEFAULT_HEIGHT + getStringYPadding;
-                if (bounds != null) {
-                    CyderLabel textLabel = new CyderLabel(builder.getLabelText());
-                    textLabel.setBounds(getStringXPadding, yOff, bounds.width(), bounds.height());
-                    inputFrame.getContentPane().add(textLabel);
+                int yOff = CyderDragLabel.DEFAULT_HEIGHT + GET_STRING_Y_PADDING;
+                CyderLabel textLabel = new CyderLabel(builder.getLabelText());
+                textLabel.setBounds(GET_STRING_X_PADDING, yOff, boundsString.width(), boundsString.height());
+                inputFrame.getContentPane().add(textLabel);
 
-                    yOff += getStringYPadding + bounds.height();
-                }
+                yOff += GET_STRING_Y_PADDING + boundsString.height();
 
                 CyderTextField inputField = new CyderTextField(0);
                 inputField.setHorizontalAlignment(JTextField.CENTER);
@@ -206,29 +198,27 @@ public class GetterUtil {
                 String tooltip = builder.getFieldTooltip();
                 if (!StringUtil.isNullOrEmpty(tooltip)) inputField.setToolTipText(tooltip);
 
-                inputField.setBounds(getStringXPadding, yOff,
-                        width - 2 * getStringXPadding, 40);
+                int componentWidth = width - 2 * GET_STRING_X_PADDING;
+                int componentHeight = 40;
+                inputField.setBounds(GET_STRING_X_PADDING, yOff, componentWidth, componentHeight);
                 inputFrame.getContentPane().add(inputField);
 
-                yOff += getStringYPadding + 40;
+                yOff += GET_STRING_Y_PADDING + componentHeight;
+
+                Runnable submitAction = () -> {
+                    returnString.set((inputField.getText() == null
+                            || inputField.getText().isEmpty() ? NULL : inputField.getText()));
+                    inputFrame.dispose();
+                };
 
                 CyderButton submit = new CyderButton(builder.getSubmitButtonText());
                 submit.setBackground(builder.getSubmitButtonColor());
-                inputField.addActionListener(e1 -> {
-                    returnString.set((inputField.getText() == null || inputField.getText().isEmpty() ?
-                            NULL : inputField.getText()));
-                    inputFrame.dispose();
-                });
-                submit.setBorder(new LineBorder(CyderColors.navy, 5, false));
+                inputField.addActionListener(e -> submitAction.run());
+                submit.setBorder(GET_STRING_SUBMIT_BUTTON_BORDER);
                 submit.setFont(CyderFonts.SEGOE_20);
                 submit.setForeground(CyderColors.navy);
-                submit.addActionListener(e12 -> {
-                    returnString.set((inputField.getText() == null || inputField.getText().isEmpty() ?
-                            NULL : inputField.getText()));
-                    inputFrame.dispose();
-                });
-                submit.setBounds(getStringXPadding, yOff,
-                        width - 2 * getStringXPadding, 40);
+                submit.addActionListener(e -> submitAction.run());
+                submit.setBounds(GET_STRING_X_PADDING, yOff, componentWidth, componentHeight);
                 inputFrame.getContentPane().add(submit);
 
                 inputFrame.addPreCloseAction(() -> returnString.set((inputField.getText() == null
@@ -236,15 +226,9 @@ public class GetterUtil {
                         || inputField.getText().equals(builder.getInitialString()) ? NULL : inputField.getText())));
 
                 Component relativeTo = builder.getRelativeTo();
-
                 if (relativeTo != null && builder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
-                    inputFrame.addWindowListener(new WindowAdapter() {
-                        @Override
-                        public void windowClosed(WindowEvent e) {
-                            relativeTo.setEnabled(true);
-                        }
-                    });
+                    inputFrame.addWindowListener(generateGetStringWindowAdapter(relativeTo));
                 }
 
                 inputFrame.setLocationRelativeTo(relativeTo);
@@ -264,6 +248,16 @@ public class GetterUtil {
         }
 
         return returnString.get();
+    }
+
+    @ForReadability
+    private WindowAdapter generateGetStringWindowAdapter(Component frame) {
+        return new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                frame.setEnabled(true);
+            }
+        };
     }
 
     @ForReadability
