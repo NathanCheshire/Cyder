@@ -495,26 +495,28 @@ public class BaseInputHandler {
     /**
      * Semaphore for adding objects to both consolePrintingList and consolePriorityPrintingList.
      */
-    private final Semaphore printingListLock = new Semaphore(1);
+    private final Semaphore printingListAddLock = new Semaphore(1);
 
     /**
-     * Acquires the printingListLock.
+     * Acquires the printingListAddLock.
+     * This method should only be called from inside one of the printing lists overriden add method.
      */
     @ForReadability
-    private void lockLists() {
+    private void lockAddingToLists() {
         try {
-            printingListLock.acquire();
+            printingListAddLock.acquire();
         } catch (Exception exception) {
             ExceptionHandler.handle(exception);
         }
     }
 
     /**
-     * Releases the printingListLock.
+     * Releases the printingListAddLock.
+     * This method should only be called from inside one of the printing lists overriden add method.
      */
     @ForReadability
-    private void unlockLists() {
-        printingListLock.release();
+    private void unlockAddingToLists() {
+        printingListAddLock.release();
     }
 
     /**
@@ -524,17 +526,17 @@ public class BaseInputHandler {
     private final LinkedList<Object> consolePrintingList = new LinkedList<>() {
         @Override
         public boolean add(Object e) {
-            lockLists();
+            lockAddingToLists();
             boolean ret = super.add(e);
             startConsolePrintingAnimationIfNeeded();
-            unlockLists();
+            unlockAddingToLists();
             return ret;
         }
     };
 
     /*
     Note to maintainers: these lists are anonymously declared to allow for their add methods
-    to have additional functionality such as thread-safety via the semaphore.
+    to have additional functionality such as thread-safety via printingListAddLock.
      */
 
     /**
@@ -544,10 +546,10 @@ public class BaseInputHandler {
     private final LinkedList<Object> consolePriorityPrintingList = new LinkedList<>() {
         @Override
         public boolean add(Object e) {
-            lockLists();
+            lockAddingToLists();
             boolean ret = super.add(e);
             startConsolePrintingAnimationIfNeeded();
-            unlockLists();
+            unlockAddingToLists();
             return ret;
         }
     };
@@ -604,12 +606,12 @@ public class BaseInputHandler {
 
             boolean shouldDoTypingAnimation = shouldDoTypingAnimation();
             boolean shouldDoTypingSound = shouldDoTypingSound();
-            long lastPull = System.currentTimeMillis();
+            long lastPollTime = System.currentTimeMillis();
             int lineTimeout = PropLoader.getInteger(PRINATING_ANIMATION_LINE_KEY);
 
             while (!Console.INSTANCE.isClosed() && !listsEmpty()) {
-                if (System.currentTimeMillis() - lastPull > USER_DATA_POLL_FREQUENCY_MS) {
-                    lastPull = System.currentTimeMillis();
+                if (System.currentTimeMillis() - lastPollTime > USER_DATA_POLL_FREQUENCY_MS) {
+                    lastPollTime = System.currentTimeMillis();
                     shouldDoTypingAnimation = shouldDoTypingAnimation();
                     shouldDoTypingSound = shouldDoTypingSound();
                 }
@@ -1113,6 +1115,71 @@ public class BaseInputHandler {
                 commandAndArgsToString().replaceAll(CyderRegexPatterns.whiteSpaceRegex, ""));
     }
 
+    // -------------------------------------------
+    // Utils for print methods and synchronization
+    // -------------------------------------------
+
+    /**
+     * The newline character.
+     */
+    private static final String NEWLINE = "\n";
+
+    /**
+     * The sempahore to ensure atomic operations when adding to the console priority printing list.
+     */
+    private static final Semaphore consolePriorityPrintingListSemaphore = new Semaphore(1);
+
+    /**
+     * The semaphore to ensure atomic operations when adding to the console printing list.
+     */
+    private static final Semaphore consolePrintingListSemaphore = new Semaphore(1);
+
+    /**
+     * Locks the prioroity printing list.
+     */
+    private static void lockPriorityPrintingList() {
+        try {
+            consolePriorityPrintingListSemaphore.acquire();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * Unlocks the prioroity printing list.
+     */
+    private static void unlockPriorityPrintingList() {
+        consolePriorityPrintingListSemaphore.release();
+    }
+
+    /**
+     * Locks the printing list.
+     */
+    private static void lockPrintingList() {
+        try {
+            consolePrintingListSemaphore.acquire();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * Unlocks the printing list.
+     */
+    private static void unlockPrintingList() {
+        consolePrintingListSemaphore.release();
+    }
+
+    /**
+     * Returns whether a YouTube or bletchy thread is running.
+     *
+     * @return whether a YouTube or bletchy thread is running
+     */
+    @ForReadability
+    private boolean threadsActive() {
+        return MasterYoutubeThread.isActive() || BletchyThread.isActive();
+    }
+
     // ---------------------
     // Generic print methods
     // ---------------------
@@ -1123,11 +1190,15 @@ public class BaseInputHandler {
      * @param tee the tee to print
      */
     public final <T> void print(T tee) {
-        if (MasterYoutubeThread.isActive() || BletchyThread.isActive()) {
+        lockPrintingList();
+
+        if (threadsActive()) {
             consolePriorityPrintingList.add(tee);
         } else {
             consolePrintingList.add(tee);
         }
+
+        unlockPrintingList();
     }
 
     /**
@@ -1136,11 +1207,16 @@ public class BaseInputHandler {
      * @param tee the tee to print
      */
     public final <T> void println(T tee) {
-        if (MasterYoutubeThread.isActive() || BletchyThread.isActive()) {
-            consolePriorityPrintingList.add(tee + "\n");
+        lockPrintingList();
+
+        if (threadsActive()) {
+            consolePriorityPrintingList.add(tee);
         } else {
-            consolePrintingList.add(tee + "\n");
+            consolePrintingList.add(tee);
         }
+
+        consolePrintingList.add(NEWLINE);
+        unlockPrintingList();
     }
 
     /**
@@ -1149,7 +1225,9 @@ public class BaseInputHandler {
      * @param tee the tee to add to the priority printing list
      */
     public final <T> void printPriority(T tee) {
+        lockPriorityPrintingList();
         consolePriorityPrintingList.add(tee);
+        unlockPriorityPrintingList();
     }
 
     /**
@@ -1158,7 +1236,10 @@ public class BaseInputHandler {
      * @param tee the tee to add to the priority printing list
      */
     public final <T> void printlnPriority(T tee) {
-        consolePriorityPrintingList.add(tee + "\n");
+        lockPriorityPrintingList();
+        consolePriorityPrintingList.add(tee);
+        consolePriorityPrintingList.add(NEWLINE);
+        unlockPriorityPrintingList();
     }
 
     /**
@@ -1168,7 +1249,7 @@ public class BaseInputHandler {
      *
      * @param lines the lines to print to the JTextPane
      */
-    public final synchronized void printlns(String[] lines) {
+    public final void printlns(String[] lines) {
         for (String line : lines) {
             println(line);
         }
@@ -1181,7 +1262,7 @@ public class BaseInputHandler {
      *
      * @param lines the lines to print to the JTextPane
      */
-    public final synchronized void printlns(List<String> lines) {
+    public final void printlns(List<String> lines) {
         for (String line : lines) {
             println(line);
         }

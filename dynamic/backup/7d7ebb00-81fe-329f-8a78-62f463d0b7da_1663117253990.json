@@ -18,7 +18,7 @@
   "clockonconsole": "1",
   "showseconds": "1",
   "filterchat": "0",
-  "laststart": "1663116639643",
+  "laststart": "1663117216676",
   "minimizeonclose": "0",
   "typinganimation": "1",
   "showbusyicon": "0",
@@ -37,10 +37,10 @@
   "darkmode": "0",
   "weatherMap": "1",
   "screenStat": {
-    "consoleX": 1223,
-    "consoleY": 370,
+    "consoleX": 618,
+    "consoleY": 352,
     "consoleWidth": 892,
-    "consoleHeight": 711,
+    "consoleHeight": 687,
     "monitor": 0,
     "consoleOnTop": false,
     "consoleDirection": "RIGHT"
