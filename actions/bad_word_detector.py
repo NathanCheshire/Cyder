@@ -63,8 +63,6 @@ def find_bad_words(starting_dir: str, filter_path: str, extensions: list) -> lis
         if file == filter_path:
             continue
 
-        print("On file:", file)
-
         file_lines = get_stripped_lines(file)
 
         for line_number, line in enumerate(file_lines):

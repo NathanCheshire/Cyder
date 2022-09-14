@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -251,7 +252,7 @@ public class GetterUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "getString() thread, title = [" + builder.getTitle() + "]");
+        }, getGetStringThreadName(builder));
 
         try {
             // todo can we guarantee these while loops that wait for input will exit if the frames are disposed?
@@ -263,6 +264,11 @@ public class GetterUtil {
         }
 
         return returnString.get();
+    }
+
+    @ForReadability
+    private String getGetStringThreadName(Builder builder) {
+        return "GetString Waiter thread, title = \"" + builder.getTitle() + "\"";
     }
 
     /**
@@ -308,7 +314,7 @@ public class GetterUtil {
     /**
      * The frame for the file getter.
      */
-    private final AtomicReference<CyderFrame> dirFrameAtomicRef = new AtomicReference<>();
+    private final AtomicReference<CyderFrame> directoryFrameReference = new AtomicReference<>();
 
     /**
      * The scroll view for the files.
@@ -324,6 +330,36 @@ public class GetterUtil {
      * The file to return once chosen.
      */
     private final AtomicReference<File> setOnFileChosen = new AtomicReference<>();
+
+    /**
+     * The thread name for the file getter threads which load the initial directory's files.
+     */
+    private static final String FILE_GETTER_LOADER = "File Getter Loader";
+
+    /**
+     * The initial title for file getter frames.
+     */
+    private static final String INITIAL_DIRECTORY_FRAME_TITLE = "File getter";
+
+    /**
+     * The null file.
+     */
+    private static final File NULL_FILE = new File(NULL);
+
+    /**
+     * The text for the last button.
+     */
+    private static final String LAST_BUTTON_TEXT = " < ";
+
+    /**
+     * The text for the next button.
+     */
+    private static final String NEXT_BUTTON_TEXT = " > ";
+
+    /**
+     * The border for the next and last buttons.
+     */
+    private static final LineBorder BUTTON_BORDER = new LineBorder(CyderColors.navy, 5, false);
 
     /**
      * Custom getFile method, see usage below for how to setup so that the program doesn't
@@ -351,9 +387,10 @@ public class GetterUtil {
         checkNotNull(builder);
 
         boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
+        Color backgroundColor = darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor;
+        Color textColor = darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.navy;
+        CyderFrame referenceInitFrame = new CyderFrame(630, 510, backgroundColor);
 
-        CyderFrame referenceInitFrame = new CyderFrame(630, 510, darkMode
-                ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor);
         getFileFrames.add(referenceInitFrame);
         referenceInitFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -361,12 +398,11 @@ public class GetterUtil {
                 File ref = setOnFileChosen.get();
 
                 if (ref == null || StringUtil.isNullOrEmpty(ref.getName())) {
-                    setOnFileChosen.set(new File(NULL));
+                    setOnFileChosen.set(NULL_FILE);
                 }
             }
         });
-
-        dirFrameAtomicRef.set(referenceInitFrame);
+        directoryFrameReference.set(referenceInitFrame);
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -376,20 +412,19 @@ public class GetterUtil {
                 directoryFileList.clear();
                 directoryNameList.clear();
 
-                CyderFrame refFrame = dirFrameAtomicRef.get();
-                refFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
-                refFrame.addPreCloseAction(() -> getFileFrames.remove(refFrame));
+                CyderFrame directoryFrame = directoryFrameReference.get();
+                directoryFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
+                directoryFrame.addPreCloseAction(() -> getFileFrames.remove(directoryFrame));
 
-                // tmp title for case of adding to taskbar before pwd is known
-                refFrame.setTitle("File getter");
+                directoryFrame.setTitle(INITIAL_DIRECTORY_FRAME_TITLE);
 
                 dirFieldRef.set(new CyderTextField(0));
-                if (!StringUtil.isNullOrEmpty(builder.getFieldTooltip()))
+                if (!StringUtil.isNullOrEmpty(builder.getFieldTooltip())) {
                     dirFieldRef.get().setToolTipText(builder.getFieldTooltip());
+                }
                 dirFieldRef.get().setBackground(darkMode ? CyderColors.darkModeBackgroundColor : Color.white);
                 dirFieldRef.get().setForeground(darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.navy);
-                dirFieldRef.get().setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
-                        : CyderColors.navy, 5, false));
+                dirFieldRef.get().setBorder(new LineBorder(textColor, 5, false));
                 dirFieldRef.get().addActionListener(e -> {
                     File ChosenDir = new File(dirFieldRef.get().getText());
 
@@ -400,15 +435,15 @@ public class GetterUtil {
                     }
                 });
                 dirFieldRef.get().setBounds(60, 40, 500, 40);
-                refFrame.getContentPane().add(dirFieldRef.get());
+                directoryFrame.getContentPane().add(dirFieldRef.get());
                 dirFieldRef.get().setEnabled(false);
 
-                last = new CyderButton(" < ");
+                last = new CyderButton(LAST_BUTTON_TEXT);
                 last.setFocusPainted(false);
                 last.setForeground(CyderColors.navy);
                 last.setBackground(CyderColors.regularRed);
                 last.setFont(CyderFonts.SEGOE_20);
-                last.setBorder(new LineBorder(CyderColors.navy, 5, false));
+                last.setBorder(BUTTON_BORDER);
                 last.addActionListener(e -> {
                     //we may only go back if there's something in the back and it's different from where we are now
                     if (!backward.isEmpty() && !backward.peek().equals(currentDirectory)) {
@@ -423,15 +458,15 @@ public class GetterUtil {
                     }
                 });
                 last.setBounds(10, 40, 40, 40);
-                refFrame.getContentPane().add(last);
+                directoryFrame.getContentPane().add(last);
                 last.setEnabled(false);
 
-                next = new CyderButton(" > ");
+                next = new CyderButton(NEXT_BUTTON_TEXT);
                 next.setFocusPainted(false);
                 next.setForeground(CyderColors.navy);
                 next.setBackground(CyderColors.regularRed);
                 next.setFont(CyderFonts.SEGOE_20);
-                next.setBorder(new LineBorder(CyderColors.navy, 5, false));
+                next.setBorder(BUTTON_BORDER);
                 next.addActionListener(e -> {
                     //only traverse forward if the stack is not empty and forward is different from where we are
                     if (!forward.isEmpty() && !forward.peek().equals(currentDirectory)) {
@@ -446,8 +481,11 @@ public class GetterUtil {
                     }
                 });
                 next.setBounds(620 - 50, 40, 40, 40);
-                refFrame.getContentPane().add(next);
+                directoryFrame.getContentPane().add(next);
                 next.setEnabled(false);
+
+                int mainComponentWidth = 600;
+                int mainComponentHeight = 400;
 
                 // label to show where files will be
                 JLabel tempLabel = new JLabel();
@@ -455,21 +493,18 @@ public class GetterUtil {
                 tempLabel.setHorizontalAlignment(JLabel.CENTER);
                 tempLabel.setVerticalAlignment(JLabel.CENTER);
                 tempLabel.setFont(CyderFonts.DEFAULT_FONT);
-                tempLabel.setForeground(darkMode
-                        ? CyderColors.defaultDarkModeTextColor
-                        : CyderColors.navy);
-                tempLabel.setBorder(new LineBorder(darkMode
-                        ? CyderColors.defaultDarkModeTextColor
+                tempLabel.setForeground(darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.navy);
+                tempLabel.setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
                         : CyderColors.navy, 5, false));
                 tempLabel.setOpaque(false);
-                tempLabel.setBounds(10, 90, 600, 400);
-                refFrame.getContentPane().add(tempLabel);
+                tempLabel.setBounds(10, 90, mainComponentWidth, mainComponentHeight);
+                directoryFrame.getContentPane().add(tempLabel);
 
                 Component relativeTo = builder.getRelativeTo();
 
                 if (relativeTo != null && builder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
-                    refFrame.addWindowListener(new WindowAdapter() {
+                    directoryFrame.addWindowListener(new WindowAdapter() {
                         @Override
                         public void windowClosed(WindowEvent e) {
                             relativeTo.setEnabled(true);
@@ -477,23 +512,19 @@ public class GetterUtil {
                     });
                 }
 
-                refFrame.setLocationRelativeTo(relativeTo);
-                refFrame.setVisible(true);
+                directoryFrame.setLocationRelativeTo(relativeTo);
+                directoryFrame.setVisible(true);
 
-                // load possibly intense stuff on separate thread
+                // Load files
                 CyderThreadRunner.submit(() -> {
-                    // init current directory
-                    if (!StringUtil.isNullOrEmpty(builder.getInitialString())
-                            && new File(builder.getInitialString()).exists()) {
-                        currentDirectory = new File(builder.getInitialString());
-                    } else {
-                        currentDirectory = new File(OSUtil.USER_DIR);
-                    }
+                    String path = !StringUtil.isNullOrEmpty(builder.getInitialString())
+                            && new File(builder.getInitialString()).exists()
+                            ? builder.getInitialString() : OSUtil.USER_DIR;
+                    currentDirectory = new File(path);
 
-                    refFrame.setTitle(currentDirectory.getName());
+                    directoryFrame.setTitle(currentDirectory.getName());
 
                     File[] currentDirectoryFiles = currentDirectory.listFiles();
-
                     if (currentDirectoryFiles != null && currentDirectoryFiles.length > 0) {
                         Collections.addAll(directoryFileList, currentDirectoryFiles);
                     }
@@ -502,25 +533,23 @@ public class GetterUtil {
                         directoryNameList.add(file.getName());
                     }
 
-                    cyderScrollListRef.set(new CyderScrollList(600, 400,
+                    cyderScrollListRef.set(new CyderScrollList(mainComponentWidth, mainComponentHeight,
                             CyderScrollList.SelectionPolicy.SINGLE, darkMode));
                     cyderScrollListRef.get().setScrollFont(CyderFonts.SEGOE_20.deriveFont(16f));
 
                     //adding things to the list and setting up actions for what to do when an element is clicked
-                    for (int i = 0 ; i < directoryNameList.size() ; i++) {
-                        int finalI = i;
-                        cyderScrollListRef.get().addElement(directoryNameList.get(i), () -> {
-                            if (directoryFileList.get(finalI).isDirectory()) {
-                                refreshBasedOnDir(directoryFileList.get(finalI), false);
-                            } else {
-                                setOnFileChosen.set(directoryFileList.get(finalI));
-                            }
-                        });
-                    }
+                    IntStream.of(directoryNameList.size()).forEach(index ->
+                            cyderScrollListRef.get().addElement(directoryNameList.get(index), () -> {
+                                if (directoryFileList.get(index).isDirectory()) {
+                                    refreshBasedOnDir(directoryFileList.get(index), false);
+                                } else {
+                                    setOnFileChosen.set(directoryFileList.get(index));
+                                }
+                            }));
 
                     dirScrollLabel = cyderScrollListRef.get().generateScrollList();
-                    dirScrollLabel.setBounds(10, 90, 600, 400);
-                    refFrame.getContentPane().add(dirScrollLabel);
+                    dirScrollLabel.setBounds(10, 90, mainComponentWidth, mainComponentHeight);
+                    directoryFrame.getContentPane().add(dirScrollLabel);
 
                     next.setEnabled(true);
                     last.setEnabled(true);
@@ -530,14 +559,14 @@ public class GetterUtil {
                     dirFieldRef.get().requestFocus();
 
                     tempLabel.setVisible(false);
-                    refFrame.getContentPane().remove(tempLabel);
+                    directoryFrame.getContentPane().remove(tempLabel);
 
                     backward.push(currentDirectory);
-                }, "File Getter Loader");
+                }, FILE_GETTER_LOADER);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, " getFile() thread, title = [" + builder.getTitle() + "]");
+        }, getGetFileThreadName(builder));
 
         try {
             while (setOnFileChosen.get() == null) {
@@ -546,10 +575,15 @@ public class GetterUtil {
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
         } finally {
-            dirFrameAtomicRef.get().dispose();
+            directoryFrameReference.get().dispose();
         }
 
         return setOnFileChosen.get().getName().equals(NULL) ? null : setOnFileChosen.get();
+    }
+
+    @ForReadability
+    private String getGetFileThreadName(Builder builder) {
+        return "GetFile Waiter Thread, title = \"" + builder.getTitle() + "\"";
     }
 
     /**
@@ -574,7 +608,7 @@ public class GetterUtil {
 
         // remove old scroll
         cyderScrollListRef.get().removeAllElements();
-        dirFrameAtomicRef.get().remove(dirScrollLabel);
+        directoryFrameReference.get().remove(dirScrollLabel);
 
         // if given a file, use its parent
         if (directory.isFile()) {
@@ -589,7 +623,6 @@ public class GetterUtil {
         directoryFileList.clear();
 
         File[] currentDirectoryFiles = currentDirectory.listFiles();
-
         if (currentDirectoryFiles != null && currentDirectoryFiles.length > 0) {
             Collections.addAll(directoryFileList, currentDirectoryFiles);
         }
@@ -618,12 +651,12 @@ public class GetterUtil {
         }
         dirScrollLabel = cyderScrollListRef.get().generateScrollList();
         dirScrollLabel.setBounds(10, 90, 600, 400);
-        dirFrameAtomicRef.get().getContentPane().add(dirScrollLabel);
+        directoryFrameReference.get().getContentPane().add(dirScrollLabel);
 
         // revalidate, set title, set pwd text
-        dirFrameAtomicRef.get().revalidate();
-        dirFrameAtomicRef.get().repaint();
-        dirFrameAtomicRef.get().setTitle(currentDirectory.getName());
+        directoryFrameReference.get().revalidate();
+        directoryFrameReference.get().repaint();
+        directoryFrameReference.get().setTitle(currentDirectory.getName());
 
         dirFieldRef.get().setText(currentDirectory.getAbsolutePath());
     }
@@ -666,14 +699,15 @@ public class GetterUtil {
                 int textHeight = boundsString.height();
                 textLabel.setText(boundsString.text());
 
-                int horizontalPadding = 20;
+                int frameHorizontalPadding = 20;
                 int yesNoButtonHeight = 40;
-                int topPadding = 40;
+                int frameTopPadding = 40;
                 int textBottomPadding = 20;
                 int buttonBottomPadding = 25;
 
-                int frameWidth = 2 * horizontalPadding + textWidth;
-                int frameHeight = topPadding + textHeight + textBottomPadding + yesNoButtonHeight + buttonBottomPadding;
+                int frameWidth = 2 * frameHorizontalPadding + textWidth;
+                int frameHeight = frameTopPadding + textHeight + textBottomPadding
+                        + yesNoButtonHeight + buttonBottomPadding;
                 CyderFrame frame = new CyderFrame(frameWidth, frameHeight, CyderIcons.defaultBackgroundLarge);
                 getConfirmationFrames.add(frame);
                 frameReference.set(frame);
@@ -686,7 +720,7 @@ public class GetterUtil {
                     getConfirmationFrames.remove(frame);
                 });
 
-                int currentY = topPadding;
+                int currentY = frameTopPadding;
 
                 int textLabelPadding = 10;
                 textLabel.setBounds(textLabelPadding, currentY, textWidth, textHeight);
@@ -695,15 +729,15 @@ public class GetterUtil {
 
                 int numButtons = 2;
                 int buttonInnerSpacing = 30;
-                int buttonWidth = (frameWidth - buttonInnerSpacing - 2 * horizontalPadding) / numButtons;
+                int buttonWidth = (frameWidth - buttonInnerSpacing - 2 * frameHorizontalPadding) / numButtons;
 
                 CyderButton yesButton = new CyderButton(builder.getYesButtonText());
                 yesButton.setColors(builder.getSubmitButtonColor());
                 yesButton.addActionListener(e -> ret.set(Boolean.TRUE));
-                yesButton.setBounds(horizontalPadding, currentY, buttonWidth, yesNoButtonHeight);
+                yesButton.setBounds(frameHorizontalPadding, currentY, buttonWidth, yesNoButtonHeight);
                 frame.getContentPane().add(yesButton);
 
-                int noButtonX = horizontalPadding + buttonWidth + buttonInnerSpacing;
+                int noButtonX = frameHorizontalPadding + buttonWidth + buttonInnerSpacing;
                 CyderButton noButton = new CyderButton(builder.getNoButtonText());
                 noButton.setColors(builder.getSubmitButtonColor());
                 noButton.addActionListener(e -> ret.set(Boolean.FALSE));
@@ -726,7 +760,7 @@ public class GetterUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, " getConfirmation() thread, title = [" + builder.getTitle() + "]");
+        }, getGetConfirmationThreadName(builder));
 
         try {
             while (ret.get() == null) {
@@ -740,6 +774,11 @@ public class GetterUtil {
         }
 
         return ret.get();
+    }
+
+    @ForReadability
+    private String getGetConfirmationThreadName(Builder builder) {
+        return "GetConfirmation Waiter Thread, title = \"" + builder.getTitle() + "\"";
     }
 
     /**

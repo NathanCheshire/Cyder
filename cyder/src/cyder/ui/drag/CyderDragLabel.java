@@ -742,6 +742,10 @@ public class CyderDragLabel extends JLabel {
         repaint();
     }
 
+    // todo bad word finder kind of broken
+    //  fix and be able to point to starting directory and a filter and give a list of extensions
+    //  if no list then do all files. Output correct results
+
     // todo typing animation broken
     // todo addition if list locking seems to have fucked up new lines and shit
 
