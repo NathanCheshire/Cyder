@@ -74,7 +74,7 @@ public class ChangeSizeButton extends CyderDragLabelButton {
      * {@inheritDoc}
      */
     @Override
-    public void paint(Graphics g) {
+    public void paintDragLabelButton(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
 

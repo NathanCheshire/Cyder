@@ -1,8 +1,6 @@
 package cyder.ui.drag.button;
 
 import com.google.common.base.Preconditions;
-import cyder.constants.CyderStrings;
-import cyder.exceptions.IllegalMethodException;
 import cyder.ui.drag.DragLabelButtonSize;
 
 import javax.swing.*;
@@ -145,7 +143,7 @@ public abstract class CyderDragLabelButton extends JLabel implements ICyderDragL
      */
     @Override
     public void paint(Graphics g) {
-        throw new IllegalMethodException(CyderStrings.NOT_IMPLEMENTED);
+        paintDragLabelButton(g);
     }
 
     /**
@@ -213,20 +211,12 @@ public abstract class CyderDragLabelButton extends JLabel implements ICyderDragL
         });
     }
 
-    /*
-    Note to maintainers: the below method forces extending classes to override  the below method
-    which also forces them to keep track of their own non-final private size variable.
-     */
-
     /**
      * Sets the size of this drag label button.
      *
      * @param size the size of this drag label button
      */
-    @Override
-    public void setSize(DragLabelButtonSize size) {
-        throw new IllegalMethodException(CyderStrings.NOT_IMPLEMENTED);
-    }
+    abstract public void setSize(DragLabelButtonSize size);
 
     // -----------
     // Hooks logic
@@ -500,5 +490,5 @@ public abstract class CyderDragLabelButton extends JLabel implements ICyderDragL
      *
      * @param g the graphics object
      */
-    abstract public void paintLogic(Graphics g);
+    abstract public void paintDragLabelButton(Graphics g);
 }

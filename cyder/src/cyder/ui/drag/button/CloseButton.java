@@ -69,7 +69,7 @@ public class CloseButton extends CyderDragLabelButton {
      * {@inheritDoc}
      */
     @Override
-    public void paintLogic(Graphics g) {
+    public void paintDragLabelButton(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
         g2d.setColor(getPaintColor());
@@ -81,14 +81,6 @@ public class CloseButton extends CyderDragLabelButton {
         for (int i = 0 ; i < getPaintLength() ; i++) {
             g2d.drawRect(i, getPaintLength() - i - secondLineSubtrahend, drawnRectangleLength, drawnRectangleLength);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void paint(Graphics g) {
-        paintLogic(g);
     }
 
     /**
