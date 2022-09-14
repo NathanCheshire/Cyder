@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * An icon button for a drag label.
  */
-public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButton {
+public abstract class CyderDragLabelButton extends JLabel implements ICyderDragLabelButton {
     /**
      * Constructs a new drag label button.
      */
@@ -494,4 +494,11 @@ public class CyderDragLabelButton extends JLabel implements ICyderDragLabelButto
             focusLostAction.run();
         }
     }
+
+    /**
+     * The logic to invoke to paint the drag label button.
+     *
+     * @param g the graphics object
+     */
+    abstract public void paintLogic(Graphics g);
 }
