@@ -180,13 +180,12 @@ public class GetterUtil {
 
                 CyderFrame inputFrame = new CyderFrame(width,
                         height, CyderIcons.defaultBackground);
-                inputFrame.addPreCloseAction(() -> getStringFrames.remove(inputFrame));
                 getStringFrames.add(inputFrame);
+                inputFrame.addPreCloseAction(() -> getStringFrames.remove(inputFrame));
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 inputFrame.setTitle(builder.getTitle());
 
                 int yOff = CyderDragLabel.DEFAULT_HEIGHT + getStringYPadding;
-
                 if (bounds != null) {
                     CyderLabel textLabel = new CyderLabel(builder.getLabelText());
                     textLabel.setBounds(getStringXPadding, yOff, bounds.width(), bounds.height());
@@ -199,14 +198,12 @@ public class GetterUtil {
                 inputField.setHorizontalAlignment(JTextField.CENTER);
                 inputField.setBackground(Color.white);
 
-                if (!StringUtil.isNullOrEmpty(builder.getInitialString())) {
-                    inputField.setText(builder.getInitialString());
-                }
-
-                if (!StringUtil.isNullOrEmpty(builder.getFieldTooltip())) {
-                    inputField.setToolTipText(builder.getFieldTooltip());
-                }
-
+                String initialString = builder.getInitialString();
+                if (!StringUtil.isNullOrEmpty(initialString)) inputField.setText(initialString);
+                
+                String tooltip = builder.getFieldTooltip();
+                if (!StringUtil.isNullOrEmpty(tooltip)) inputField.setToolTipText(tooltip);
+                
                 inputField.setBounds(getStringXPadding, yOff,
                         width - 2 * getStringXPadding, 40);
                 inputFrame.getContentPane().add(inputField);
@@ -256,6 +253,7 @@ public class GetterUtil {
         }, "getString() thread, title = [" + builder.getTitle() + "]");
 
         try {
+            // todo can we guarantee these while loops that wait for input will exit if the frames are disposed?
             while (returnString.get() == null) {
                 Thread.onSpinWait();
             }
@@ -667,8 +665,12 @@ public class GetterUtil {
                 int h = bs.height();
                 textLabel.setText(bs.text());
 
-                CyderFrame frame = new CyderFrame(w + 40,
-                        h + 25 + 20 + 40 + 40, CyderIcons.defaultBackgroundLarge);
+                // todo this is a mess
+                int horizontalPadding = 20;
+                int yesNoButtonHeight = 40;
+
+                CyderFrame frame = new CyderFrame(w + 2 * horizontalPadding,
+                        h + 25 + 20 + 40 + yesNoButtonHeight, CyderIcons.defaultBackgroundLarge);
                 getConfirmationFrames.add(frame);
                 frameReference.set(frame);
                 frame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
@@ -683,20 +685,21 @@ public class GetterUtil {
 
                 textLabel.setBounds(10, 35, w, h);
                 frame.getContentPane().add(textLabel);
-
-                //accounting for offset above
-                w += 40;
+                w += 35;
+                w += 5;
 
                 CyderButton yes = new CyderButton(builder.getYesButtonText());
                 yes.setColors(builder.getSubmitButtonColor());
                 yes.addActionListener(e -> ret.set(Boolean.TRUE));
-                yes.setBounds(20, 35 + h + 20, (w - 60) / 2, 40);
+                yes.setBounds(horizontalPadding, 35 + h + 20, 
+                    (w - 60) / 2, yesNoButtonHeight);
                 frame.getContentPane().add(yes);
 
                 CyderButton no = new CyderButton(builder.getNoButtonText());
                 no.setColors(builder.getSubmitButtonColor());
                 no.addActionListener(e -> ret.set(Boolean.FALSE));
-                no.setBounds(20 + 20 + ((w - 60) / 2), 35 + h + 20, (w - 60) / 2, 40);
+                no.setBounds(horizontalPadding + 20 + ((w - 60) / 2), 35 + h + 20, 
+                    (w - 60) / 2, yesNoButtonHeight);
                 frame.getContentPane().add(no);
 
                 Component relativeTo = builder.getRelativeTo();
@@ -833,6 +836,7 @@ public class GetterUtil {
          * @param submitButtonText the submit button text for getter frames which get field input from the user
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setSubmitButtonText(String submitButtonText) {
             this.submitButtonText = submitButtonText;
             return this;
@@ -853,6 +857,7 @@ public class GetterUtil {
          * @param fieldTooltip the field tooltip text for getter frames which get field input from the user
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setFieldTooltip(String fieldTooltip) {
             this.fieldTooltip = fieldTooltip;
             return this;
@@ -873,6 +878,7 @@ public class GetterUtil {
          * @param fieldRegex the field regex for getter frames which get field input from the user
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setFieldRegex(String fieldRegex) {
             this.fieldRegex = fieldRegex;
             return this;
@@ -893,6 +899,7 @@ public class GetterUtil {
          * @param relativeTo the relative to component to set the getter frame relative to
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setRelativeTo(Component relativeTo) {
             this.relativeTo = relativeTo;
             return this;
@@ -914,6 +921,7 @@ public class GetterUtil {
          *                          submit button for getter frames which get input from a user
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setSubmitButtonColor(Color submitButtonColor) {
             this.submitButtonColor = submitButtonColor;
             return this;
@@ -934,6 +942,7 @@ public class GetterUtil {
          * @param initialString the initial field text for getter frames which have an input field
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setInitialString(String initialString) {
             this.initialString = initialString;
             return this;
@@ -954,6 +963,7 @@ public class GetterUtil {
          * @param yesButtonText the text to display on the button for approving a requested operation
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setYesButtonText(String yesButtonText) {
             this.yesButtonText = yesButtonText;
             return this;
@@ -974,6 +984,7 @@ public class GetterUtil {
          * @param noButtonText the text to display on the button for denying a requested operation
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setNoButtonText(String noButtonText) {
             this.noButtonText = noButtonText;
             return this;
@@ -994,6 +1005,7 @@ public class GetterUtil {
          * @param labelText the label text for getter frames which have a primary information label
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setLabelText(String labelText) {
             this.labelText = labelText;
             return this;
@@ -1014,6 +1026,7 @@ public class GetterUtil {
          * @param disableRelativeTo whether to disable the relativeTo component while the getter frame is active
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public Builder setDisableRelativeTo(boolean disableRelativeTo) {
             this.disableRelativeTo = disableRelativeTo;
             return this;
