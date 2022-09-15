@@ -190,6 +190,12 @@ public final class UserEditor {
      */
     public static final int inputOutputBorderThickness = 3;
 
+    // todo make this should include the page somehow?
+    /**
+     * The title of the frame.
+     */
+    private static final String FRAME_TITLE = "Preferences";
+
     /**
      * Suppress default constructor.
      */
@@ -212,7 +218,8 @@ public final class UserEditor {
 
         editUserFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderColors.vanilla);
         editUserFrame.setBackground(CyderColors.vanilla);
-        editUserFrame.setTitle("Preferences");
+        editUserFrame.setTitle(FRAME_TITLE);
+        editUserFrame.addPreCloseAction(UserEditor::closeGetterFrames);
         installDragLabelButtons();
         Console.INSTANCE.addToFrameTaskbarExceptions(editUserFrame);
         editUserFrame.finalizeAndShow();
@@ -233,6 +240,7 @@ public final class UserEditor {
                                 if (currentPage != page) {
                                     currentPage = page;
 
+                                    closeGetterFrames();
                                     page.getSwitchRunnable().run();
                                 }
                             }));
@@ -322,8 +330,11 @@ public final class UserEditor {
         try {
             CyderThreadRunner.submit(() -> {
                 try {
-                    File fileToAdd = GetterUtil.getInstance().getFile(
-                            new GetterUtil.Builder("Add File").setRelativeTo(editUserFrame));
+                    GetterUtil instance = GetterUtil.getInstance();
+                    addGetterInstance(instance);
+                    File fileToAdd = instance.getFile(
+                            new GetterUtil.Builder("Add File")
+                                    .setRelativeTo(editUserFrame));
 
                     if (fileToAdd == null || StringUtil.isNullOrEmpty(fileToAdd.getName())) {
                         return;
@@ -442,9 +453,13 @@ public final class UserEditor {
                 return;
             }
 
+            // todo bounds for this broken?
             CyderThreadRunner.submit(() -> {
-                String newName = GetterUtil.getInstance().getString(
+                GetterUtil instance = GetterUtil.getInstance();
+                addGetterInstance(instance);
+                String newName = instance.getString(
                         new GetterUtil.Builder("Rename " + filename)
+                                .setLabelText("Rename " + filename)
                                 .setFieldTooltip("Enter a valid file name (extension will be handled)")
                                 .setRelativeTo(editUserFrame)
                                 .setSubmitButtonText("Rename")
@@ -1836,8 +1851,11 @@ public final class UserEditor {
         }
 
         CyderThreadRunner.submit(() -> {
-            boolean delete = GetterUtil.getInstance().getConfirmation(
-                    new GetterUtil.Builder(confirmationString)
+            GetterUtil instance = GetterUtil.getInstance();
+            addGetterInstance(instance);
+            boolean delete = instance.getConfirmation(
+                    new GetterUtil.Builder("Deletion Confirmation")
+                            .setInitialString(confirmationString)
                             .setRelativeTo(editUserFrame));
 
             if (!delete) {
@@ -2086,5 +2104,30 @@ public final class UserEditor {
      */
     public static CyderFrame getEditUserFrame() {
         return editUserFrame;
+    }
+
+    /**
+     * Instances of getter utils opened since the last invocation of {@link #closeGetterFrames()}.
+     */
+    private static final ArrayList<GetterUtil> getterUtils = new ArrayList<>();
+
+    /**
+     * Adds the provided getter util to the list of instances.
+     *
+     * @param instance the instance to add
+     */
+    private static void addGetterInstance(GetterUtil instance) {
+        getterUtils.add(instance);
+    }
+
+    /**
+     * Closes all frames associated with getter instances opened via the user editor.
+     */
+    private static void closeGetterFrames() {
+        for (GetterUtil util : getterUtils) {
+            util.closeAllGetFrames();
+        }
+
+        getterUtils.clear();
     }
 }

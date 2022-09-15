@@ -42,7 +42,7 @@ public final class BoundsUtil {
     public static final String BREAK_TAG = "<br/>";
 
     /**
-     * Restrict instantiation of class.
+     * Suppress default constructor.
      */
     private BoundsUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
@@ -78,6 +78,10 @@ public final class BoundsUtil {
      * for the provided display string.
      */
     public static BoundsString widthHeightCalculation(String text, Font font, int maxWidth) {
+        Preconditions.checkNotNull(text);
+        Preconditions.checkArgument(!text.isEmpty());
+        Preconditions.checkNotNull(font);
+
         BoundsString ret;
 
         int widthAddition = 5;
@@ -377,6 +381,9 @@ public final class BoundsUtil {
      * @return the string with a div style inserted
      */
     public static String addCenteringToHtml(String html) {
+        Preconditions.checkNotNull(html);
+        Preconditions.checkArgument(!html.isEmpty());
+
         StringBuilder ret = new StringBuilder();
 
         if (html.startsWith(OPENING_HTML_TAG)) {
