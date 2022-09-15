@@ -1125,52 +1125,6 @@ public class BaseInputHandler {
     private static final String NEWLINE = "\n";
 
     /**
-     * The sempahore to ensure atomic operations when adding to the console priority printing list.
-     */
-    private static final Semaphore consolePriorityPrintingListSemaphore = new Semaphore(1);
-
-    /**
-     * The semaphore to ensure atomic operations when adding to the console printing list.
-     */
-    private static final Semaphore consolePrintingListSemaphore = new Semaphore(1);
-
-    /**
-     * Locks the prioroity printing list.
-     */
-    private static void lockPriorityPrintingList() {
-        try {
-            consolePriorityPrintingListSemaphore.acquire();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * Unlocks the prioroity printing list.
-     */
-    private static void unlockPriorityPrintingList() {
-        consolePriorityPrintingListSemaphore.release();
-    }
-
-    /**
-     * Locks the printing list.
-     */
-    private static void lockPrintingList() {
-        try {
-            consolePrintingListSemaphore.acquire();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * Unlocks the printing list.
-     */
-    private static void unlockPrintingList() {
-        consolePrintingListSemaphore.release();
-    }
-
-    /**
      * Returns whether a YouTube or bletchy thread is running.
      *
      * @return whether a YouTube or bletchy thread is running
@@ -1189,16 +1143,12 @@ public class BaseInputHandler {
      *
      * @param tee the tee to print
      */
-    public final <T> void print(T tee) {
-        lockPrintingList();
-
+    public synchronized final <T> void print(T tee) {
         if (threadsActive()) {
             consolePriorityPrintingList.add(tee);
         } else {
             consolePrintingList.add(tee);
         }
-
-        unlockPrintingList();
     }
 
     /**
@@ -1206,9 +1156,7 @@ public class BaseInputHandler {
      *
      * @param tee the tee to print
      */
-    public final <T> void println(T tee) {
-        lockPrintingList();
-
+    public synchronized final <T> void println(T tee) {
         if (threadsActive()) {
             consolePriorityPrintingList.add(tee);
         } else {
@@ -1216,7 +1164,6 @@ public class BaseInputHandler {
         }
 
         consolePrintingList.add(NEWLINE);
-        unlockPrintingList();
     }
 
     /**
@@ -1224,10 +1171,8 @@ public class BaseInputHandler {
      *
      * @param tee the tee to add to the priority printing list
      */
-    public final <T> void printPriority(T tee) {
-        lockPriorityPrintingList();
+    public synchronized final <T> void printPriority(T tee) {
         consolePriorityPrintingList.add(tee);
-        unlockPriorityPrintingList();
     }
 
     /**
@@ -1235,11 +1180,9 @@ public class BaseInputHandler {
      *
      * @param tee the tee to add to the priority printing list
      */
-    public final <T> void printlnPriority(T tee) {
-        lockPriorityPrintingList();
+    public synchronized final <T> void printlnPriority(T tee) {
         consolePriorityPrintingList.add(tee);
         consolePriorityPrintingList.add(NEWLINE);
-        unlockPriorityPrintingList();
     }
 
     /**

@@ -120,16 +120,21 @@ public class GitHandler extends InputHandler {
      */
     private static void printIssues() {
         CyderThreadRunner.submit(() -> {
+            StringBuilder builder = new StringBuilder();
             ImmutableList<Issue> issues = GitHubUtil.getIssues();
-            getInputHandler().println(issues.size() + " issue" + (issues.size() == 1 ? "" : "s") + " found:\n");
-            getInputHandler().println("----------------------------------------");
+            builder.append(issues.size()).append(" issue")
+                    .append(issues.size() == 1 ? "" : "s")
+                    .append(" found:").append("\n");
+            builder.append("----------------------------------------").append("\n");
 
             for (Issue issue : issues) {
-                getInputHandler().println("Issue #" + issue.number);
-                getInputHandler().println(issue.title);
-                getInputHandler().println(issue.body);
-                getInputHandler().println("----------------------------------------");
+                builder.append("Issue #").append(issue.number).append("\n");
+                builder.append(issue.title).append("\n");
+                builder.append(issue.body).append("\n");
+                builder.append("----------------------------------------").append("\n");
             }
+
+            getInputHandler().println(builder);
         }, "Cyder GitHub issue getter");
     }
 }

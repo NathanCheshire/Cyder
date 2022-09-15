@@ -742,6 +742,8 @@ public class CyderDragLabel extends JLabel {
         repaint();
     }
 
+    // todo address user editor todos
+
     // todo bad word finder kind of broken
     //  fix and be able to point to starting directory and a filter and give a list of extensions
     //  if no list then do all files. Output correct results
