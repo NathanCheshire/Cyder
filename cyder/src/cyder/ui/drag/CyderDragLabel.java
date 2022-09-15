@@ -748,9 +748,6 @@ public class CyderDragLabel extends JLabel {
     //  fix and be able to point to starting directory and a filter and give a list of extensions
     //  if no list then do all files. Output correct results
 
-    // todo typing animation broken
-    // todo addition if list locking seems to have messed up new lines
-
     // todo add left and right drag label buttons and use for photo viewer
 
     // todo lots of redundancy and confusion in console related to menus
