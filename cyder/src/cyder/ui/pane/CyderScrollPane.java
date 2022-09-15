@@ -396,7 +396,7 @@ public class CyderScrollPane extends JScrollPane {
         /**
          * The alpha animation thread name.
          */
-        private static final String ALPHA_ANIMATION_THREAD_NAME = "Alpha Animation Decrementer";
+        private static final String ALPHA_ANIMATION_THREAD_NAME = "Scrollbar Alpha Animation Decrementer";
 
         /**
          * Starts the alpha decrement animation thread.

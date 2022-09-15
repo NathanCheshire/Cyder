@@ -757,6 +757,9 @@ public class CyderDragLabel extends JLabel {
     // todo console menu add frames and removing not showing not working?
     // todo remove icon button class
 
+    // todo user editor files page needs to keep track of getter frames and dispose when page switch
+    //  or frame disposal
+
     /**
      * Returns the pin button for this CyderFrame.
      *
