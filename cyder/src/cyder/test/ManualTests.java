@@ -20,7 +20,6 @@ import cyder.ui.CyderPanel;
 import cyder.ui.button.CyderButton;
 import cyder.ui.button.CyderModernButton;
 import cyder.ui.drag.button.DragLabelTextButton;
-import cyder.ui.drag.button.LeftButton;
 import cyder.ui.drag.button.MenuButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
@@ -58,9 +57,7 @@ public final class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                CyderFrame frame = new CyderFrame();
-                frame.getTopDragLabel().addRightButton(new LeftButton(), 0);
-                frame.finalizeAndShow();
+
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
