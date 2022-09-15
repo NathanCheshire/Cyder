@@ -742,8 +742,6 @@ public class CyderDragLabel extends JLabel {
         repaint();
     }
 
-    // todo address user editor todos
-
     // todo bad word finder kind of broken
     //  fix and be able to point to starting directory and a filter and give a list of extensions
     //  if no list then do all files. Output correct results
@@ -753,9 +751,6 @@ public class CyderDragLabel extends JLabel {
 
     // todo console menu add frames and removing not showing not working?
     // todo remove icon button class
-
-    // todo user editor files page needs to keep track of getter frames and dispose when page switch
-    //  or frame disposal
 
     /**
      * Returns the pin button for this CyderFrame.

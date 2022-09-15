@@ -190,7 +190,6 @@ public final class UserEditor {
      */
     public static final int inputOutputBorderThickness = 3;
 
-    // todo make this should include the page somehow?
     /**
      * The title of the frame.
      */
@@ -453,7 +452,6 @@ public final class UserEditor {
                 return;
             }
 
-            // todo bounds for this broken?
             CyderThreadRunner.submit(() -> {
                 GetterUtil instance = GetterUtil.getInstance();
                 addGetterInstance(instance);

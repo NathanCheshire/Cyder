@@ -176,7 +176,12 @@ public class GetterUtil {
                 int height = boundsString.height() + 2 * GET_STRING_Y_PADDING;
                 builder.setLabelText(boundsString.text());
 
-                CyderFrame inputFrame = new CyderFrame(width, height, CyderIcons.defaultBackground);
+                int componentWidth = width - 2 * GET_STRING_X_PADDING;
+                int componentHeight = 40;
+
+                int frameHeight = CyderDragLabel.DEFAULT_HEIGHT + height
+                        + 2 * componentHeight + 3 * GET_STRING_Y_PADDING;
+                CyderFrame inputFrame = new CyderFrame(width, frameHeight, CyderIcons.defaultBackground);
                 getStringFrames.add(inputFrame);
                 inputFrame.addPreCloseAction(() -> getStringFrames.remove(inputFrame));
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
@@ -199,8 +204,6 @@ public class GetterUtil {
                 String tooltip = builder.getFieldTooltip();
                 if (!StringUtil.isNullOrEmpty(tooltip)) inputField.setToolTipText(tooltip);
 
-                int componentWidth = width - 2 * GET_STRING_X_PADDING;
-                int componentHeight = 40;
                 inputField.setBounds(GET_STRING_X_PADDING, yOff, componentWidth, componentHeight);
                 inputFrame.getContentPane().add(inputField);
 
