@@ -1,6 +1,5 @@
 package cyder.utils;
 
-import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
@@ -294,44 +293,12 @@ public class GetterUtil {
     /**
      * The backward stack.
      */
-    private final Stack<File> backward = new Stack<>() {
-        @Override
-        public File push(File file) {
-            Preconditions.checkNotNull(file);
-
-            if (isEmpty()) {
-                return super.push(file);
-            }
-
-            String lastFilePath = peek().getAbsolutePath();
-            if (!file.getAbsolutePath().equals(lastFilePath)) {
-                return super.push(file);
-            }
-
-            throw new IllegalArgumentException("Cannot add duplicates sequentially");
-        }
-    };
+    private final Stack<File> backward = new Stack<>();
 
     /**
      * The forward stack.
      */
-    private final Stack<File> forward = new Stack<>() {
-        @Override
-        public File push(File file) {
-            Preconditions.checkNotNull(file);
-
-            if (isEmpty()) {
-                return super.push(file);
-            }
-
-            String lastFilePath = peek().getAbsolutePath();
-            if (!file.getAbsolutePath().equals(lastFilePath)) {
-                return super.push(file);
-            }
-
-            throw new IllegalArgumentException("Cannot add duplicates sequentially");
-        }
-    };
+    private final Stack<File> forward = new Stack<>();
 
     /**
      * The current location for the file getter.
@@ -641,8 +608,7 @@ public class GetterUtil {
 
         if (wipeForward) {
             forward.clear();
-            boolean notLastThingPushed = !backward.peek().equals(currentDirectory);
-            if (backward.isEmpty() || notLastThingPushed) {
+            if (backward.isEmpty() || !backward.peek().equals(currentDirectory)) {
                 backward.push(currentDirectory);
             }
         }
