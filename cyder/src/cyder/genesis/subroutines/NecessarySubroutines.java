@@ -100,6 +100,19 @@ public final class NecessarySubroutines {
     }
 
     /**
+     * Executes the necessary subroutines required by Punch.
+     */
+    public static void executePunch() {
+        if (!registerFonts()) {
+            throw new FatalException("Registering fonts failed");
+        }
+
+        if (!ensureSupportedOs()) {
+            throw new FatalException("Unsupported OS");
+        }
+    }
+
+    /**
      * Registers the fonts within static/fonts.
      *
      * @return whether the fonts could be loaded

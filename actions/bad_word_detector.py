@@ -10,6 +10,15 @@ class BadWord:
     """
 
     def __init__(self, clazz: str, line_number: int, line: str, words: list) -> None:
+        """
+        Constructs a new BadWord.
+
+        :param clazz: the class the bad word was found in.
+        :param line_number: the line number of the file the bad word was found in
+        :param line: the full line the bad word was found in
+        :param words: the list of bad words found on the file line
+        """
+
         self._clazz = clazz
         self._line_number = line_number
         self._line = line
@@ -68,8 +77,7 @@ def find_bad_words(starting_dir: str, filter_path: str, extensions: list) -> lis
         for line_number, line in enumerate(file_lines):
             words = contains_blocked_word(line, bad_words)
             if words is not None:
-                ret.append(
-                    BadWord(clazz=file, line_number=line_number, line=line, words=words))
+                ret.append(BadWord(clazz=file, line_number=line_number, line=line, words=words))
 
     return ret
 
@@ -77,9 +85,9 @@ def find_bad_words(starting_dir: str, filter_path: str, extensions: list) -> lis
 def get_stripped_lines(path: str) -> list:
     """ 
     Returns a list of lines contained in the found file pointed to by the provided path.
+    All lines are stripped before being added to the returned list.
 
     :param path: the path to the file
-    :type path: str
     :return: a list of lines found, after removing trailing and leading whitespace
     """
 
@@ -92,16 +100,14 @@ def contains_blocked_word(line: str, blocked_words: list) -> list:
     A list of the bad word(s) found is/are returned if found, otherwise None.
 
     :param input: the line to search through
-    :type input: str
     :param blocked_words: the list of blocked words
-    :type blocked_words: list
     :return: a list of found blocked words, None otherwise
     """
 
-    corrected_words = [word.lower() for word in blocked_words]
+    lower_blocked_words = [word.lower() for word in blocked_words]
     line_words = line.strip().lower().split()
 
-    intersection = [word for word in corrected_words if word in line_words]
+    intersection = [word for word in lower_blocked_words if word in line_words]
 
     return intersection if len(intersection) > 0 else None
 

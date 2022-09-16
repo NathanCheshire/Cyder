@@ -742,10 +742,6 @@ public class CyderDragLabel extends JLabel {
         repaint();
     }
 
-    // todo bad word finder kind of broken
-    //  fix and be able to point to starting directory and a filter and give a list of extensions
-    //  if no list then do all files. Output correct results
-
     // todo lots of redundancy and confusion in console related to menus
     //  lots of vars and magic numbers could be extracted too
 
