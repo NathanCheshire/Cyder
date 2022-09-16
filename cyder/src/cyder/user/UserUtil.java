@@ -466,7 +466,7 @@ public final class UserUtil {
 
                 // for all getters (primitive values)
                 for (Method getterMethod : user.getClass().getMethods()) {
-                    if (getterMethod.getName().startsWith("get")) {
+                    if (getterMethod.getName().startsWith(GET)) {
                         Object getter = getterMethod.invoke(user);
 
                         if (!(getter instanceof String)) {
@@ -476,7 +476,7 @@ public final class UserUtil {
                             Preference preference = null;
                             for (Preference pref : Preference.getPreferences()) {
                                 if (pref.getID().equalsIgnoreCase(getterMethod.getName()
-                                        .replace("get", ""))) {
+                                        .replace(GET, ""))) {
                                     preference = pref;
                                     break;
                                 }
@@ -500,7 +500,7 @@ public final class UserUtil {
                                 if (setterMethod.getName().startsWith("set")
                                         && setterMethod.getParameterTypes().length == 1
                                         && setterMethod.getName().replace("set", "")
-                                        .equalsIgnoreCase(getterMethod.getName().replace("get", ""))) {
+                                        .equalsIgnoreCase(getterMethod.getName().replace(GET, ""))) {
 
                                     // invoke setter method with default value
                                     setterMethod.invoke(user, preference.getDefaultValue());
@@ -655,6 +655,16 @@ public final class UserUtil {
     }
 
     /**
+     * The method prefix to locate mutator methods reflectively.
+     */
+    private static final String SET = "set";
+
+    /**
+     * The method prefix to locate accessor methods reflectively.
+     */
+    private static final String GET = "get";
+
+    /**
      * Sets the {@link UserUtil#cyderUser}'s data to the provided value.
      * This method exists purely for when indexing the preferences and user data
      * is required. The direct setter should be used if possible.
@@ -665,9 +675,9 @@ public final class UserUtil {
     public static void setUserDataById(String name, String value) {
         try {
             for (Method m : cyderUser.getClass().getMethods()) {
-                if (m.getName().startsWith("set")
+                if (m.getName().startsWith(SET)
                         && m.getParameterTypes().length == 1
-                        && m.getName().replace("set", "").equalsIgnoreCase(name)) {
+                        && m.getName().replace(SET, "").equalsIgnoreCase(name)) {
                     m.invoke(cyderUser, value);
                     writeUser();
                     break;
@@ -678,10 +688,27 @@ public final class UserUtil {
         }
     }
 
-    public static final ImmutableList<String> IGNORE_USER_DATA;
+    /**
+     * The list of userdata to ignore when logging.
+     */
+    private static final ImmutableList<String> IGNORE_USER_DATA;
+
+    /**
+     * Returns the list of user data keys to ignore when logging.
+     *
+     * @return the list of user data keys to ignore when logging
+     */
+    public static ImmutableList<String> getIgnoreUserData() {
+        return IGNORE_USER_DATA;
+    }
+
+    /**
+     * The key to obtain the user data keys to ignore when logging.
+     */
+    private static final String IGNORE_DATA = "ignore_data";
 
     static {
-        IGNORE_USER_DATA = ImmutableList.copyOf(PropLoader.getString("ignore_data").split(","));
+        IGNORE_USER_DATA = ImmutableList.copyOf(PropLoader.getString(IGNORE_DATA).split(","));
     }
 
     /**
@@ -1207,8 +1234,6 @@ public final class UserUtil {
         throw new IllegalStateException("File could not be created at this time: " + name);
     }
 
-    private static final String SET = "set";
-
     /**
      * Resets all data/preferences (preferences for which {@link Preference#getIgnoreForUserCreation()} returns true)
      * to their default values.
@@ -1235,10 +1260,24 @@ public final class UserUtil {
         }
     }
 
+    /**
+     * User details are valid.
+     */
     private static final String VALID = "Valid details";
 
+    /**
+     * No username was provided.
+     */
     private static final String NO_USERNAME = "No username";
+
+    /**
+     * The username provided contains invalid characters.
+     */
     private static final String INVALID_NAME = "Invalid name";
+
+    /**
+     * The username provided is already in use.
+     */
     private static final String NAME_IN_USE = "Username already in use";
 
     /**
@@ -1266,11 +1305,34 @@ public final class UserUtil {
         }
     }
 
+    /**
+     * No password was provided.
+     */
     private static final String NO_PASSWORD = "No password";
+
+    /**
+     * No confirmation password was provided.
+     */
     private static final String NO_CONFIRMATION = "No confirmation password";
+
+    /**
+     * The provided passwords do not match.
+     */
     private static final String PASSWORDS_DO_NOT_MATCH = "Passwords do not match";
+
+    /**
+     * The password contains no letter.
+     */
     private static final String NO_LETTER = "Password needs a letter";
+
+    /**
+     * The password is not of length at least 5.
+     */
     private static final String INVALID_LENGTH = "Password is not > 4";
+
+    /**
+     * The password does not contain a number.
+     */
     private static final String NO_NUMBER = "Password needs a number";
 
     /**
@@ -1324,7 +1386,14 @@ public final class UserUtil {
         return false;
     }
 
+    /**
+     * The key to use to obtain the ip data key from the props.
+     */
     private static final String IP_KEY = "ip_key";
+
+    /**
+     * The key to use to obtain the YouTube API v3 key from the props.
+     */
     private static final String YOUTUBE_API_3_KEY = "youtube_api_3_key";
 
     /**
@@ -1345,6 +1414,9 @@ public final class UserUtil {
         return false;
     }
 
+    /**
+     * The header for the url to validate a provided YouTube API 3 key.
+     */
     private static final String YOUTUBE_API_3_KEY_VALIDATOR_HEADER = CyderUrls.YOUTUBE_API_V3_SEARCH
             + "?part=snippet&q=" + "gift+and+a+curse+skizzy+mars" + "&type=video&key=";
 

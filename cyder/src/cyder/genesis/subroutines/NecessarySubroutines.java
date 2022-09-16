@@ -21,6 +21,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@SuppressWarnings("BooleanMethodIsAlwaysInverted") /* readability */
 public final class NecessarySubroutines {
     /**
      * The socket used to ensure only one instance of Cyder ever exists.

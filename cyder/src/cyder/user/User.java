@@ -993,7 +993,7 @@ public class User {
      * @param value the current value of the user data
      */
     private static void getterHook(String id, Object value) {
-        if (!StringUtil.in(id, true, UserUtil.IGNORE_USER_DATA)) {
+        if (!StringUtil.in(id, true, UserUtil.getIgnoreUserData())) {
             Logger.log(Logger.Tag.USER_GET, "key = " + id + ", value = " + value);
         }
     }
