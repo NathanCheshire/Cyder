@@ -41,8 +41,7 @@ Some examples of what you can do with Cyder include:
 
 <details>
 <summary><b>Weather Widget</b></summary>
-<br>
-<img src="https://user-images.githubusercontent.com/60986919/170841041-cf1f7ddb-c40a-4d18-b1b6-cf8478bdee4c.png" alt="Weather" width="400">
+<img src="https://user-images.githubusercontent.com/60986919/190870600-a7ce2b39-2099-4365-ba8b-e2f38adff432.png" alt="Weather" width="400">
 </details>
 
 <details>
@@ -58,8 +57,8 @@ https://user-images.githubusercontent.com/60986919/176815977-b50fb247-7ae8-4f6f-
 <details>
 <summary><b>Paint Widget</b></summary>
 <br>
-<img src="https://user-images.githubusercontent.com/60986919/158036314-055f87d4-b21c-4eec-a92c-d65561c75483.png" alt="Paint widget" width="600">
-<img src="https://user-images.githubusercontent.com/60986919/158036316-0abe20d4-3414-40e9-8da5-5ec83430d54d.png" alt="Paint widget controls" width="600">
+<img src="https://user-images.githubusercontent.com/60986919/190871241-1ef14f0b-50d7-4cec-b484-7c6e1c9f9f43.png" alt="Paint widget" width="600">
+<img src="https://user-images.githubusercontent.com/60986919/190871244-cd183604-3fbe-4f13-94c8-40ce6069f825.png" alt="Paint widget controls" width="600">
 </details>
 
 <details>
