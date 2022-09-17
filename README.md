@@ -33,10 +33,10 @@ Some examples of what you can do with Cyder include:
 
 ## Screenshots
 
-<details>
+<details open>
 <summary><b>Cyder Console</b></summary>
 <br>
-<img src="https://user-images.githubusercontent.com/60986919/183503177-ba4fdc2b-4f44-4111-86d5-dda3eec8458c.png" alt="Liminal Cyder" width="800">
+<img src="https://user-images.githubusercontent.com/60986919/190871454-c07fe3a8-7be2-4517-8290-1f47267d2e58.png" alt="Liminal Cyder" width="800">
 </details>
 
 <details>
