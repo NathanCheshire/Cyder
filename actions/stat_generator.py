@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from PIL import ImageFont, Image, ImageDraw
 
-FONT_PATH = os.path.join('actions', 'resources', 'roboto.ttf')
+FONT_PATH = os.path.join('actions', 'resources', 'bebasneue.ttf')
 
 CODE_COLOR = (25, 114, 176)
 COMMENT_COLOR = (75, 71, 60)
