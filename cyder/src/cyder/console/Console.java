@@ -265,7 +265,7 @@ public enum Console {
             restorePreviousFrameBounds(consoleIcon);
         }
 
-        consoleCyderFrame.setVisible(true);
+        setConsoleVisibleAndPerformFadeInAnimation();
 
         revalidateInputAndOutputBounds(true);
 
@@ -674,6 +674,47 @@ public enum Console {
         InputMap inputMap = (InputMap) UIManager.get(BUTTON_INPUT_FOCUS_MAP_KEY);
         inputMap.put(KeyStroke.getKeyStroke(ENTER), PRESSED);
         inputMap.put(KeyStroke.getKeyStroke(RELEASED_ENTER), RELEASED);
+    }
+
+    /**
+     * The increment of the console fade in animation.
+     */
+    private static final float FADE_IN_ANIMATION_INCREMENT = 0.02f;
+
+    /**
+     * The starting minimum opacity of the console for the fade in animation.
+     */
+    private static final float MIN_OPACITY = 0f;
+
+    /**
+     * The ending maximum opacity of the console for the fade in animation.
+     */
+    private static final float MAX_OPACITY = 1f;
+
+    /**
+     * The delay between fade in increments for the fade in animation.
+     */
+    private static final int FADE_IN_ANIMATION_DELAY = 2;
+
+    /**
+     * The thread name for the console fade in animation.
+     */
+    private static final String FADE_IN_ANIMATION_THREAD_NAME = "Console Fade-in Animation";
+
+    /**
+     * Sets the console to visible and performs the fade in animation.
+     */
+    @ForReadability
+    private void setConsoleVisibleAndPerformFadeInAnimation() {
+        consoleCyderFrame.setOpacity(0f);
+        consoleCyderFrame.setVisible(true);
+
+        CyderThreadRunner.submit(() -> {
+            for (float i = MIN_OPACITY ; i < MAX_OPACITY ; i += FADE_IN_ANIMATION_INCREMENT) {
+                consoleCyderFrame.setOpacity(i);
+                ThreadUtil.sleep(FADE_IN_ANIMATION_DELAY);
+            }
+        }, FADE_IN_ANIMATION_THREAD_NAME);
     }
 
     /**
