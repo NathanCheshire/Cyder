@@ -45,11 +45,11 @@ Some examples of what you can do with Cyder include:
 </details>
 
 <details>
-<summary><b>Music Widget</b></summary>
+<summary><b>Music Widget (audio present)</b></summary>
 <p>
 <br>
 
-https://user-images.githubusercontent.com/60986919/176815977-b50fb247-7ae8-4f6f-acc6-c4198502407c.mp4
+https://user-images.githubusercontent.com/60986919/190871970-86091b80-b2ec-4c93-a7c1-c27128a67e8f.mp4
 
 </p>
 </details>
