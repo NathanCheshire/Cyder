@@ -491,4 +491,20 @@ public abstract class CyderDragLabelButton extends JLabel implements ICyderDragL
      * @param g the graphics object
      */
     abstract public void paintDragLabelButton(Graphics g);
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "CyderDragLabelButton {"
+                + "x=" + getX()
+                + ", y=" + getY()
+                + ", w=" + getWidth()
+                + ", h=" + getHeight()
+                + ", clickActions: " + clickActions.size()
+                + ", mouseEnterActions: " + mouseOverActions.size()
+                + ", mouseExitActions: " + mouseExitActions.size()
+                + "}";
+    }
 }

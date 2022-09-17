@@ -1,6 +1,7 @@
 package cyder.ui.pane;
 
 import com.google.common.base.Preconditions;
+import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
@@ -22,14 +23,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class CyderScrollPane extends JScrollPane {
     /**
-     * The alpha value for mouse over events.
+     * The maximum alpha of the scroll bar (the value for when the mouse is hovering).
      */
-    private int maxScrollBarAlphaRollover = 140;
+    private int maxScrollbarAlpha = 140;
 
     /**
-     * The default alpha of the scroll bar.
+     * The minimum alpha of the scroll bar (the default value).
      */
-    private int defaultScrollBarAlpha = 60;
+    private int minScrollbarAlpha = 60;
 
     /**
      * The size of the thumb by default.
@@ -42,9 +43,14 @@ public class CyderScrollPane extends JScrollPane {
     private static int scrollbarSize = 10;
 
     /**
+     * The default thumb color for a scroll pane.
+     */
+    private static final Color DEFAULT_THUMB_COLOR = CyderColors.regularPink;
+
+    /**
      * The color the scroll bar.
      */
-    private static Color thumbColor = CyderColors.regularPink;
+    private static Color thumbColor = DEFAULT_THUMB_COLOR;
 
     /**
      * Constructs a new scroll pane for the provided component.
@@ -74,8 +80,10 @@ public class CyderScrollPane extends JScrollPane {
         this(null, vsbPolicy, hsbPolicy);
         verticalScrollBarPolicy = vsbPolicy;
         horizontalScrollBarPolicy = hsbPolicy;
+
         setThumbColor(CyderColors.regularPink);
         setFont(CyderFonts.SEGOE_20);
+
         setBackground(CyderColors.empty);
         getViewport().setBackground(CyderColors.empty);
 
@@ -89,8 +97,8 @@ public class CyderScrollPane extends JScrollPane {
      *
      * @param alpha the alpha rollover color
      */
-    public void setScrollBarAlphaRollover(int alpha) {
-        maxScrollBarAlphaRollover = alpha;
+    public void setMaxScrollbarAlpha(int alpha) {
+        maxScrollbarAlpha = alpha;
     }
 
     /**
@@ -98,8 +106,8 @@ public class CyderScrollPane extends JScrollPane {
      *
      * @param alpha the alpha color
      */
-    public void setScrollBarAlpha(int alpha) {
-        defaultScrollBarAlpha = alpha;
+    public void setMinScrollbarAlpha(int alpha) {
+        minScrollbarAlpha = alpha;
     }
 
     /**
@@ -130,6 +138,11 @@ public class CyderScrollPane extends JScrollPane {
     }
 
     /**
+     * The view this scrollpane is for.
+     */
+    private final Component view;
+
+    /**
      * Constructs a new scrollpane.
      *
      * @param view      the component to surround with a scrollpane
@@ -137,7 +150,7 @@ public class CyderScrollPane extends JScrollPane {
      * @param hsbPolicy the horizontal policy
      */
     public CyderScrollPane(Component view, int vsbPolicy, int hsbPolicy) {
-        Preconditions.checkNotNull(view);
+        this.view = Preconditions.checkNotNull(view);
 
         setBorder(null);
         verticalScrollBarPolicy = vsbPolicy;
@@ -145,16 +158,16 @@ public class CyderScrollPane extends JScrollPane {
         JScrollBar verticalScrollBar = getVerticalScrollBar();
         verticalScrollBar.setOpaque(false);
         ModernScrollBarUI verticalUi = new ModernScrollBarUI(this);
-        verticalUi.setMaxScrollBarAlphaRollover(maxScrollBarAlphaRollover);
-        verticalUi.setDefaultScrollBarAlpha(defaultScrollBarAlpha);
+        verticalUi.setMaxScrollbarAlpha(maxScrollbarAlpha);
+        verticalUi.setMinScrollBarAlpha(minScrollbarAlpha);
         verticalUi.setParent(this);
         verticalScrollBar.setUI(verticalUi);
 
         JScrollBar horizontalScrollBar = getHorizontalScrollBar();
         horizontalScrollBar.setOpaque(false);
         ModernScrollBarUI horizontalUi = new ModernScrollBarUI(this);
-        horizontalUi.setMaxScrollBarAlphaRollover(maxScrollBarAlphaRollover);
-        horizontalUi.setDefaultScrollBarAlpha(defaultScrollBarAlpha);
+        horizontalUi.setMaxScrollbarAlpha(maxScrollbarAlpha);
+        horizontalUi.setMinScrollBarAlpha(minScrollbarAlpha);
         horizontalUi.setParent(this);
         horizontalScrollBar.setUI(horizontalUi);
 
@@ -212,6 +225,15 @@ public class CyderScrollPane extends JScrollPane {
     }
 
     /**
+     * Returns the view this scroll pane is for.
+     *
+     * @return the view this scroll pane is for
+     */
+    public Component getView() {
+        return view;
+    }
+
+    /**
      * Returns whether a vertical scrollbar is necessary.
      *
      * @return whether a vertical scrollbar is necessary
@@ -219,6 +241,7 @@ public class CyderScrollPane extends JScrollPane {
     public boolean isVerticalScrollBarNecessary() {
         Rectangle viewRect = viewport.getViewRect();
         Dimension viewSize = viewport.getViewSize();
+
         return viewSize.getHeight() > viewRect.getHeight()
                 && verticalScrollBarPolicy != VERTICAL_SCROLLBAR_NEVER;
     }
@@ -267,14 +290,14 @@ public class CyderScrollPane extends JScrollPane {
         private final AtomicInteger currentAlpha = new AtomicInteger();
 
         /**
-         * The max scrollbar alpha value to display on a mouse rollover.
+         * The maximum alpha value for the scroll bar's default state.
          */
-        private int maxScrollBarAlphaRollover;
+        private int maxScrollbarAlpha;
 
         /**
-         * The default alpha value.
+         * The minimum alpha value for the scroll bar's hover state.
          */
-        private int defaultScrollBarAlpha;
+        private int minScrollbarAlpha;
 
         /**
          * The scroll pane this ui is for.
@@ -291,13 +314,13 @@ public class CyderScrollPane extends JScrollPane {
         }
 
         /**
-         * Sets the default scrollbar alpha.
+         * Sets the minimum scrollbar alpha.
          *
-         * @param defaultScrollBarAlpha the default scrollbar alpha
+         * @param minScrollbarAlpha the minimum scrollbar alpha
          */
-        public void setDefaultScrollBarAlpha(int defaultScrollBarAlpha) {
-            this.defaultScrollBarAlpha = defaultScrollBarAlpha;
-            currentAlpha.set(defaultScrollBarAlpha);
+        public void setMinScrollBarAlpha(int minScrollbarAlpha) {
+            this.minScrollbarAlpha = minScrollbarAlpha;
+            currentAlpha.set(minScrollbarAlpha);
         }
 
         /**
@@ -305,8 +328,8 @@ public class CyderScrollPane extends JScrollPane {
          *
          * @param maxScrollBarAlphaRollover the scrollbar alpha rollover value
          */
-        public void setMaxScrollBarAlphaRollover(int maxScrollBarAlphaRollover) {
-            this.maxScrollBarAlphaRollover = maxScrollBarAlphaRollover;
+        public void setMaxScrollbarAlpha(int maxScrollBarAlphaRollover) {
+            this.maxScrollbarAlpha = maxScrollBarAlphaRollover;
         }
 
         /**
@@ -315,7 +338,7 @@ public class CyderScrollPane extends JScrollPane {
          * @param scrollpane the scroll pane
          */
         public ModernScrollBarUI(CyderScrollPane scrollpane) {
-            scrollPane = scrollpane;
+            scrollPane = Preconditions.checkNotNull(scrollpane);
         }
 
         /**
@@ -338,7 +361,7 @@ public class CyderScrollPane extends JScrollPane {
          * {@inheritDoc}
          */
         @Override
-        protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {}
+        protected void paintTrack(Graphics graphics, JComponent component, Rectangle trackBounds) {}
 
         /**
          * The boolean for knowing when a state changes in the rollover.
@@ -352,36 +375,49 @@ public class CyderScrollPane extends JScrollPane {
         protected void paintThumb(Graphics graphics, JComponent component, Rectangle thumbBounds) {
             boolean currentThumbRollover = isThumbRollover();
 
+            // Entering for first time
             if (currentThumbRollover && !mouseInsideThumb.get()) {
-                currentAlpha.set(maxScrollBarAlphaRollover);
                 mouseInsideThumb.set(true);
-            }
-            if (!currentThumbRollover && mouseInsideThumb.get()) {
-                mouseInsideThumb.set(false);
+                endAnimations();
                 startAlphaDecrementAnimation();
+            }
+            // Exiting for first time
+            else if (!currentThumbRollover && mouseInsideThumb.get()) {
+                mouseInsideThumb.set(false);
+                endAnimations();
+                startAlphaIncrementAnimation();
             }
 
             int orientation = scrollbar.getOrientation();
             int x = thumbBounds.x;
             int y = thumbBounds.y;
 
-            int width = orientation == JScrollBar.VERTICAL ? thumbSize : thumbBounds.width;
+            int width = orientation == JScrollBar.VERTICAL
+                    ? thumbSize : thumbBounds.width;
             width = Math.max(width, thumbSize);
 
-            int height = orientation == JScrollBar.VERTICAL ? thumbBounds.height : thumbSize;
+            int height = orientation == JScrollBar.VERTICAL
+                    ? thumbBounds.height : thumbSize;
             height = Math.max(height, thumbSize);
 
             Graphics2D graphics2D = (Graphics2D) graphics.create();
-            graphics2D.setColor(new Color(CyderScrollPane.thumbColor.getRed(), CyderScrollPane.thumbColor.getGreen(),
-                    CyderScrollPane.thumbColor.getBlue(), currentAlpha.get()));
+
+            Color scrollPaneThumbColor = CyderScrollPane.thumbColor;
+            Color scrollBarColor = new Color(scrollPaneThumbColor.getRed(), scrollPaneThumbColor.getGreen(),
+                    scrollPaneThumbColor.getBlue(), currentAlpha.get());
+            graphics2D.setColor(scrollBarColor);
             graphics2D.fillRect(x, y, width, height);
             graphics2D.dispose();
         }
 
         /**
-         * whether the opacity animation thread is running
+         * Ends the increment and decrement animations if on-going.
          */
-        private final AtomicBoolean animationThreadRunning = new AtomicBoolean();
+        @ForReadability
+        private void endAnimations() {
+            alphaIncrementAnimationRunning.set(false);
+            alphaDecrementAnimationRunning.set(false);
+        }
 
         /**
          * The delay between alpha animation decrements.
@@ -389,39 +425,92 @@ public class CyderScrollPane extends JScrollPane {
         private final int alphaAnimationTimeout = 5;
 
         /**
-         * The decrement for the alpha animation.
+         * The value to change when incrementing or decrementing alpha for the alpha animation.
          */
-        private final int alphaAnimationDecrement = 2;
+        private final int alphaAnimationDelta = 2;
 
         /**
-         * The alpha animation thread name.
+         * Whether the alpha decrement animation thread is running.
          */
-        private static final String ALPHA_ANIMATION_THREAD_NAME = "Scrollbar Alpha Animation Decrementer";
+        private final AtomicBoolean alphaDecrementAnimationRunning = new AtomicBoolean();
 
         /**
-         * Starts the alpha decrement animation thread.
+         * The alpha animation decrementer thread name.
+         */
+        private static final String ALPHA_DECREMENT_ANIMATION_THREAD_NAME = "Scrollbar Alpha Animation Decrementer";
+
+        /**
+         * Starts the alpha decrement animation thread for mouse enter events.
          */
         private void startAlphaDecrementAnimation() {
-            if (animationThreadRunning.get()) return;
+            if (animationRunning()) return;
 
             CyderThreadRunner.submit(() -> {
-                animationThreadRunning.set(true);
+                alphaDecrementAnimationRunning.set(true);
+                currentAlpha.set(minScrollbarAlpha);
 
-                do {
-                    currentAlpha.getAndSet(currentAlpha.get() - alphaAnimationDecrement);
+                while (currentAlpha.get() < maxScrollbarAlpha) {
+                    // Told to stop by external source
+                    if (!alphaDecrementAnimationRunning.get()) break;
+
+                    int current = currentAlpha.get();
+                    currentAlpha.set(current + alphaAnimationDelta);
                     parent.repaint();
 
-                    // means another animation was started
-                    if (currentAlpha.get() == maxScrollBarAlphaRollover) {
-                        animationThreadRunning.set(false);
-                        return;
-                    }
+                    ThreadUtil.sleep(alphaAnimationTimeout);
+                }
+
+                currentAlpha.set(maxScrollbarAlpha);
+                parent.repaint();
+                alphaDecrementAnimationRunning.set(false);
+            }, ALPHA_DECREMENT_ANIMATION_THREAD_NAME);
+        }
+
+        /**
+         * Whether the alpha increment animation thread is running.
+         */
+        private final AtomicBoolean alphaIncrementAnimationRunning = new AtomicBoolean();
+
+        /**
+         * The alpha animation incrementer thread name.
+         */
+        private static final String ALPHA_INCREMENT_ANIMATION_THREAD_NAME = "Scrollbar Alpha Animation Incrementer";
+
+        /**
+         * Starts the alpha increment animation thread for mouse exit events.
+         */
+        private void startAlphaIncrementAnimation() {
+            if (animationRunning()) return;
+
+            CyderThreadRunner.submit(() -> {
+                alphaIncrementAnimationRunning.set(true);
+                currentAlpha.set(maxScrollbarAlpha);
+
+                while (currentAlpha.get() > minScrollbarAlpha) {
+                    // Told to stop by external source
+                    if (!alphaIncrementAnimationRunning.get()) break;
+
+                    int current = currentAlpha.get();
+                    currentAlpha.set(current - alphaAnimationDelta);
+                    parent.repaint();
 
                     ThreadUtil.sleep(alphaAnimationTimeout);
-                } while (currentAlpha.get() != defaultScrollBarAlpha);
+                }
 
-                animationThreadRunning.set(false);
-            }, ALPHA_ANIMATION_THREAD_NAME);
+                currentAlpha.set(minScrollbarAlpha);
+                parent.repaint();
+                alphaIncrementAnimationRunning.set(false);
+            }, ALPHA_INCREMENT_ANIMATION_THREAD_NAME);
+        }
+
+        /**
+         * Returns whether an animation is running.
+         *
+         * @return whether an animation is running
+         */
+        @ForReadability
+        private boolean animationRunning() {
+            return alphaIncrementAnimationRunning.get() || alphaDecrementAnimationRunning.get();
         }
 
         /**

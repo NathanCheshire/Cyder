@@ -18,7 +18,7 @@
   "clockonconsole": "1",
   "showseconds": "1",
   "filterchat": "0",
-  "laststart": "1663383557024",
+  "laststart": "1663436843514",
   "minimizeonclose": "0",
   "typinganimation": "1",
   "showbusyicon": "0",
@@ -37,13 +37,13 @@
   "darkmode": "0",
   "weatherMap": "1",
   "screenStat": {
-    "consoleX": 1503,
-    "consoleY": 310,
-    "consoleWidth": 892,
-    "consoleHeight": 687,
+    "consoleX": 1444,
+    "consoleY": 244,
+    "consoleWidth": 900,
+    "consoleHeight": 600,
     "monitor": 0,
-    "consoleOnTop": false,
-    "consoleDirection": "RIGHT"
+    "consoleOnTop": true,
+    "consoleDirection": "TOP"
   },
   "executables": []
 }
