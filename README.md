@@ -66,7 +66,9 @@ https://user-images.githubusercontent.com/60986919/190871970-86091b80-b2ec-4c93-
 <p>
 <br>
 
-https://user-images.githubusercontent.com/60986919/160253262-8b10844a-6385-4328-ab84-961d05777526.mp4
+
+https://user-images.githubusercontent.com/60986919/190872205-b9ccf6d0-d1b5-41fb-abc8-0ca2a492075b.mp4
+
 
 </p>
 </details>
@@ -76,7 +78,9 @@ https://user-images.githubusercontent.com/60986919/160253262-8b10844a-6385-4328-
 <p>
 <br>
 
-https://user-images.githubusercontent.com/60986919/161394292-cb7bf459-d405-4efc-8ea1-33a127036a69.mp4
+
+https://user-images.githubusercontent.com/60986919/190872371-323bb51d-f678-4965-b1f6-3f7fe7976b28.mp4
+
 
 </p>
 </details>
