@@ -33,24 +33,23 @@ Some examples of what you can do with Cyder include:
 
 ## Screenshots
 
-<details>
+<details open>
 <summary><b>Cyder Console</b></summary>
 <br>
-<img src="https://user-images.githubusercontent.com/60986919/183503177-ba4fdc2b-4f44-4111-86d5-dda3eec8458c.png" alt="Liminal Cyder" width="800">
+<img src="https://user-images.githubusercontent.com/60986919/190871454-c07fe3a8-7be2-4517-8290-1f47267d2e58.png" alt="Liminal Cyder" width="800">
 </details>
 
 <details>
 <summary><b>Weather Widget</b></summary>
-<br>
-<img src="https://user-images.githubusercontent.com/60986919/170841041-cf1f7ddb-c40a-4d18-b1b6-cf8478bdee4c.png" alt="Weather" width="400">
+<img src="https://user-images.githubusercontent.com/60986919/190870600-a7ce2b39-2099-4365-ba8b-e2f38adff432.png" alt="Weather" width="400">
 </details>
 
 <details>
-<summary><b>Music Widget</b></summary>
+<summary><b>Music Widget (audio present)</b></summary>
 <p>
 <br>
 
-https://user-images.githubusercontent.com/60986919/176815977-b50fb247-7ae8-4f6f-acc6-c4198502407c.mp4
+https://user-images.githubusercontent.com/60986919/190871970-86091b80-b2ec-4c93-a7c1-c27128a67e8f.mp4
 
 </p>
 </details>
@@ -58,8 +57,8 @@ https://user-images.githubusercontent.com/60986919/176815977-b50fb247-7ae8-4f6f-
 <details>
 <summary><b>Paint Widget</b></summary>
 <br>
-<img src="https://user-images.githubusercontent.com/60986919/158036314-055f87d4-b21c-4eec-a92c-d65561c75483.png" alt="Paint widget" width="600">
-<img src="https://user-images.githubusercontent.com/60986919/158036316-0abe20d4-3414-40e9-8da5-5ec83430d54d.png" alt="Paint widget controls" width="600">
+<img src="https://user-images.githubusercontent.com/60986919/190871241-1ef14f0b-50d7-4cec-b484-7c6e1c9f9f43.png" alt="Paint widget" width="600">
+<img src="https://user-images.githubusercontent.com/60986919/190871244-cd183604-3fbe-4f13-94c8-40ce6069f825.png" alt="Paint widget controls" width="600">
 </details>
 
 <details>
@@ -67,7 +66,9 @@ https://user-images.githubusercontent.com/60986919/176815977-b50fb247-7ae8-4f6f-
 <p>
 <br>
 
-https://user-images.githubusercontent.com/60986919/160253262-8b10844a-6385-4328-ab84-961d05777526.mp4
+
+https://user-images.githubusercontent.com/60986919/190872205-b9ccf6d0-d1b5-41fb-abc8-0ca2a492075b.mp4
+
 
 </p>
 </details>
@@ -77,7 +78,9 @@ https://user-images.githubusercontent.com/60986919/160253262-8b10844a-6385-4328-
 <p>
 <br>
 
-https://user-images.githubusercontent.com/60986919/161394292-cb7bf459-d405-4efc-8ea1-33a127036a69.mp4
+
+https://user-images.githubusercontent.com/60986919/190872371-323bb51d-f678-4965-b1f6-3f7fe7976b28.mp4
+
 
 </p>
 </details>
