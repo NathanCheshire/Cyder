@@ -69,8 +69,8 @@ public final class ClickWidget {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
             Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
-            clickMeFrame.setLocation(NumberUtil.randInt(0, (int) (rect.getMaxX() - 200)),
-                    NumberUtil.randInt(0, (int) rect.getMaxY() - 200));
+            clickMeFrame.setLocation(NumberUtil.randInt((int) (rect.getMaxX() - 200)),
+                    NumberUtil.randInt((int) rect.getMaxY() - 200));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

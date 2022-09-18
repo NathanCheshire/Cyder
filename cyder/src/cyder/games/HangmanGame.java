@@ -201,7 +201,7 @@ public final class HangmanGame {
 
         chosenLetters = "";
 
-        hangmanWord = words.get(NumberUtil.randInt(0, words.size() - 1)).toLowerCase().trim();
+        hangmanWord = words.get(NumberUtil.randInt(words.size() - 1)).toLowerCase().trim();
 
         currentWordLabel.setText(BoundsUtil.OPENING_HTML_TAG
                 + StringUtil.fillString(hangmanWord.length(), UNDERSCORE)

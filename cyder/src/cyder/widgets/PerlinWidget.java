@@ -31,7 +31,7 @@ import java.util.Random;
  */
 @Vanilla
 @CyderAuthor
-public class PerlinWidget {
+public final class PerlinWidget {
     /**
      * Prevent illegal class instantiation.
      */
@@ -468,7 +468,7 @@ public class PerlinWidget {
                 //reset timeStep
                 timeStep = 0;
 
-                noise = new SimplexNoiseUtil(NumberUtil.randInt(0, 1000));
+                noise = new SimplexNoiseUtil(NumberUtil.randInt(1000));
                 for (int y = 0 ; y < resolution ; y++) {
                     for (int x = 0 ; x < resolution ; x++) {
                         double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);

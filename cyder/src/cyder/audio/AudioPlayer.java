@@ -437,7 +437,7 @@ public final class AudioPlayer {
         File[] userMusicFiles = userMusicDir.listFiles((dir, name) -> FileUtil.isSupportedAudioExtension(name));
 
         if (userMusicFiles != null && userMusicFiles.length > 0) {
-            showGui(userMusicFiles[NumberUtil.randInt(0, userMusicFiles.length - 1)]);
+            showGui(userMusicFiles[NumberUtil.randInt(userMusicFiles.length - 1)]);
         } else
             throw new IllegalArgumentException("Could not find any user audio files");
     }
@@ -2139,7 +2139,7 @@ public final class AudioPlayer {
             ints.add(i);
         }
 
-        return ints.get(NumberUtil.randInt(0, ints.size() - 1));
+        return ints.get(NumberUtil.randInt(ints.size() - 1));
     }
 
     // --------------------------------

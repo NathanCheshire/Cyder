@@ -411,7 +411,7 @@ public enum Console {
 
         if (UserUtil.getCyderUser().getRandombackground().equals("1")
                 && reloadAndGetBackgrounds().size() > 1) {
-            backgroundIndex = NumberUtil.randInt(0, backgrounds.size() - 1);
+            backgroundIndex = NumberUtil.randInt(backgrounds.size() - 1);
         }
 
         if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
@@ -450,6 +450,11 @@ public enum Console {
     }
 
     /**
+     * The value to indicate a frame is not pinned to the console.
+     */
+    private final int FRAME_NOT_PINNED = Integer.MIN_VALUE;
+
+    /**
      * The mouse motion adapter for frame pinned window logic.
      */
     private final MouseMotionAdapter consolePinnedMouseMotionAdapter = new MouseMotionAdapter() {
@@ -461,8 +466,8 @@ public enum Console {
 
                 for (CyderFrame f : UiUtil.getCyderFrames()) {
                     if (f.isConsolePinned() && !f.getTitle().equals(consoleCyderFrame.getTitle())
-                            && f.getRelativeX() != Integer.MIN_VALUE
-                            && f.getRelativeY() != Integer.MIN_VALUE) {
+                            && f.getRelativeX() != FRAME_NOT_PINNED
+                            && f.getRelativeY() != FRAME_NOT_PINNED) {
 
                         f.setLocation(consoleCyderFrame.getX() + f.getRelativeX(),
                                 consoleCyderFrame.getY() + f.getRelativeY());
@@ -481,25 +486,19 @@ public enum Console {
             if (consoleCyderFrame != null && consoleCyderFrame.isFocused()
                     && consoleCyderFrame.isDraggingEnabled()) {
                 for (CyderFrame cyderFrame : UiUtil.getCyderFrames()) {
-                    if (cyderFrame.isConsolePinned() && isNotConsole(cyderFrame)) {
+                    if (cyderFrame.isConsolePinned() && !cyderFrame.isConsole()) {
                         if (MathUtil.rectanglesOverlap(consoleCyderFrame.getBounds(), cyderFrame.getBounds())) {
                             cyderFrame.setRelativeX(-consoleCyderFrame.getX() + cyderFrame.getX());
                             cyderFrame.setRelativeY(-consoleCyderFrame.getY() + cyderFrame.getY());
                         } else {
-                            cyderFrame.setRelativeX(Integer.MIN_VALUE);
-                            cyderFrame.setRelativeY(Integer.MIN_VALUE);
+                            cyderFrame.setRelativeX(FRAME_NOT_PINNED);
+                            cyderFrame.setRelativeY(FRAME_NOT_PINNED);
                         }
                     }
                 }
             }
         }
     };
-
-    @ForReadability
-    private boolean isNotConsole(CyderFrame frame) {
-        Preconditions.checkNotNull(frame);
-        return !consoleCyderFrame.getTitle().equals(frame.getTitle());
-    }
 
     /**
      * Adds the pinned window logic listeners to the console.
@@ -522,6 +521,9 @@ public enum Console {
         }
     }
 
+    /**
+     * The y value for the audio menu after animated on.
+     */
     private final int audioMenuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
 
     /**
@@ -615,14 +617,16 @@ public enum Console {
         outputScroll.getViewport().setOpaque(false);
         outputScroll.setOpaque(false);
         outputScroll.setFocusable(true);
-        outputScroll.setBorder(UserUtil.getCyderUser().getOutputborder().equals("1")
-                ? new LineBorder(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
-                FIELD_BORDER_THICKNESS, false)
+        boolean outputBorder = UserUtil.getCyderUser().getOutputborder().equals("1");
+        Color color = ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground());
+        outputScroll.setBorder(outputBorder
+                ? new LineBorder(color, FIELD_BORDER_THICKNESS, false)
                 : BorderFactory.createEmptyBorder());
 
-        if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
+        boolean outputFill = UserUtil.getCyderUser().getOutputfill().equals("1");
+        if (outputFill) {
             outputArea.setOpaque(true);
-            outputArea.setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
+            outputArea.setBackground(color);
             outputArea.repaint();
             outputArea.revalidate();
         }
@@ -635,13 +639,14 @@ public enum Console {
      */
     @ForReadability
     private void installInputField() {
-        inputField = new JPasswordField(40);
+        inputField = new JPasswordField();
 
         inputField.setEchoChar((char) 0);
         inputField.setText(consoleBashString);
-        inputField.setBorder(UserUtil.getCyderUser().getInputborder().equals("1")
-                ? new LineBorder(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()),
-                FIELD_BORDER_THICKNESS, false)
+        boolean inputBorder = UserUtil.getCyderUser().getInputborder().equals("1");
+        Color backgroundColor = ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground());
+        inputField.setBorder(inputBorder
+                ? new LineBorder(backgroundColor, FIELD_BORDER_THICKNESS, false)
                 : BorderFactory.createEmptyBorder());
         inputField.setSelectionColor(CyderColors.selectionColor);
         inputField.setCaretPosition(inputField.getPassword().length);
@@ -654,7 +659,8 @@ public enum Console {
 
         installInputFieldListeners();
 
-        if (UserUtil.getCyderUser().getInputfill().equals("1")) {
+        boolean inputFill = UserUtil.getCyderUser().getInputfill().equals("1");
+        if (inputFill) {
             inputField.setOpaque(true);
             inputField.setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
             inputField.repaint();
@@ -757,6 +763,16 @@ public enum Console {
     }
 
     /**
+     * The tooltip of the alternate background button.
+     */
+    private final String ALTERNATE_BACKGROUND = "Alternate Background";
+
+    /**
+     * The tooltip of the audio menu button.
+     */
+    private final String AUDIO_MENU = "Audio Menu";
+
+    /**
      * Installs the right drag label buttons for the console frame.
      */
     @ForReadability
@@ -767,7 +783,8 @@ public enum Console {
         CloseButton closeButton = new CloseButton();
         closeButton.setForConsole(true);
         closeButton.setClickAction(() -> {
-            if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
+            boolean shouldMinimize = UserUtil.getCyderUser().getMinimizeonclose().equals("1");
+            if (shouldMinimize) {
                 UiUtil.minimizeAllFrames();
             } else {
                 closeFrame(true, false);
@@ -793,7 +810,7 @@ public enum Console {
 
         ChangeSizeButton changeSizeButton = new ChangeSizeButton();
         changeSizeButton.setForConsole(true);
-        changeSizeButton.setToolTipText("Alternate Background");
+        changeSizeButton.setToolTipText(ALTERNATE_BACKGROUND);
         changeSizeButton.setClickAction(() -> {
             reloadBackgrounds();
 
@@ -815,7 +832,7 @@ public enum Console {
 
         toggleAudioControls = new MenuButton();
         toggleAudioControls.setForConsole(true);
-        toggleAudioControls.setToolTipText("Audio Menu");
+        toggleAudioControls.setToolTipText(AUDIO_MENU);
         toggleAudioControls.setClickAction(() -> {
             if (audioControlsLabel.isVisible()) {
                 animateOutAudioControls();
@@ -854,12 +871,12 @@ public enum Console {
     /**
      * The key used for the debug lines abstract action.
      */
-    private final String DEBUG_LINES = "debug_lines";
+    private final String DEBUG_LINES = "debuglines";
 
     /**
      * The key used for the forced exit abstract action.
      */
-    private final String FORCED_EXIT = "forced_exit";
+    private final String FORCED_EXIT = "forcedexit";
 
     /**
      * Installs all the input field listeners.
@@ -873,12 +890,12 @@ public enum Console {
 
         inputField.addFocusListener(inputFieldFocusAdapter);
 
-        inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), DEBUG_LINES);
+        KeyStroke debugKeystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK);
+        inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(debugKeystroke, DEBUG_LINES);
         inputField.getActionMap().put(DEBUG_LINES, debugLinesAbstractAction);
 
-        inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK), FORCED_EXIT);
+        KeyStroke exitKeystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK);
+        inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(exitKeystroke, FORCED_EXIT);
         inputField.getActionMap().put(FORCED_EXIT, forcedExitAbstractAction);
     }
 
@@ -940,7 +957,15 @@ public enum Console {
         }
     };
 
-    private static final String CHIME_PATH = StaticUtil.getStaticPath("chime.mp3");
+    /**
+     * The name of the chime file.
+     */
+    private final String CHIME = "chime.mp3";
+
+    /**
+     * The path to the chime mp3 file.
+     */
+    private final String CHIME_PATH = StaticUtil.getStaticPath(CHIME);
 
     /**
      * Begins the console checker executors/threads.
@@ -972,12 +997,15 @@ public enum Console {
             }
         }, IgnoreThread.HourlyChimeChecker.getName());
 
+        int clockRefreshSleepTime = 200;
+        int clockCheckFrequency = 50;
+
         CyderThreadRunner.submit(() -> {
             while (true) {
                 if (!isClosed()) {
                     try {
                         refreshClockText();
-                        TimeUtil.sleepWithChecks(200, 50, consoleClosed);
+                        TimeUtil.sleepWithChecks(clockRefreshSleepTime, clockCheckFrequency, consoleClosed);
                     } catch (Exception e) {
                         ExceptionHandler.silentHandle(e);
                     }
@@ -1031,6 +1059,11 @@ public enum Console {
             }
         }, IgnoreThread.CyderBusyChecker.getName());
     }
+
+    /**
+     * The thread name of the debug stat finder.
+     */
+    private final String DEBUG_STAT_FINDER_THREAD_NAME = "Debug Stat Finder";
 
     /**
      * Performs special actions on the console start such as special day events,
@@ -1109,7 +1142,7 @@ public enum Console {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-            }, "Debug Stat Finder");
+            }, DEBUG_STAT_FINDER_THREAD_NAME);
         }
 
         if (PropLoader.getBoolean("testing_mode")) {
@@ -1128,38 +1161,54 @@ public enum Console {
     }
 
     /**
+     * The default intro music to play if enabled an no user music is present.
+     */
+    private final File DEFAULT_INTRO_MUSIC = StaticUtil.getStaticResource("ride.mp3");
+
+    /**
+     * The key for getting whether Cyder is released from the props.
+     */
+    private final String RELEASED_KEY = "released";
+
+    /**
+     * The name of the Cyder intro theme file
+     */
+    private final String INTRO_THEME = "introtheme.mp3";
+
+    /**
+     * The thread name of the intro music grayscale checker.
+     */
+    private final String INTRO_MUSIC_CHECKER_THREAD_NAME = "Intro Music Checker";
+
+    /**
      * Determines what audio to play at the beginning of the Console startup.
      */
     private void introMusicCheck() {
-        //if the user wants some custom intro music
-        if (UserUtil.getCyderUser().getIntromusic().equalsIgnoreCase("1")) {
+        boolean introMusic = UserUtil.getCyderUser().getIntromusic().equalsIgnoreCase("1");
+        if (introMusic) {
             ArrayList<File> musicList = new ArrayList<>();
 
-            File userMusicDir = new File(OSUtil.buildPath(
-                    Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
-                    INSTANCE.getUuid(), UserFile.MUSIC.getName()));
+            File userMusicDir = new File(OSUtil.buildPath(Dynamic.PATH,
+                    Dynamic.USERS.getDirectoryName(), INSTANCE.getUuid(), UserFile.MUSIC.getName()));
 
             File[] files = userMusicDir.listFiles();
-
             if (files != null && files.length > 0) {
-                for (File file : files) {
+                Arrays.stream(files).forEach(file -> {
                     if (FileUtil.isSupportedAudioExtension(file)) {
                         musicList.add(file);
                     }
-                }
+                });
             }
 
-            // If they have music then play their own
             if (!musicList.isEmpty()) {
-                IOUtil.playGeneralAudio(files[NumberUtil.randInt(0, files.length - 1)].getAbsolutePath());
-            }
-            // Otherwise, play our own
-            else {
-                IOUtil.playGeneralAudio(StaticUtil.getStaticResource("ride.mp3"));
+                int randomFileIndex = NumberUtil.randInt(files.length - 1);
+                IOUtil.playGeneralAudio(files[randomFileIndex].getAbsolutePath());
+            } else {
+                IOUtil.playGeneralAudio(DEFAULT_INTRO_MUSIC);
             }
         }
         // intro music not on, check for grayscale image
-        else if (PropLoader.getBoolean("released")) {
+        else if (PropLoader.getBoolean(RELEASED_KEY)) {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
@@ -1182,15 +1231,16 @@ public enum Console {
                         }
 
                         if (grayscale) {
-                            IOUtil.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(NumberUtil.randInt(
-                                    0, GRAYSCALE_AUDIO_PATHS.size() - 1)));
+                            int upperBound = GRAYSCALE_AUDIO_PATHS.size() - 1;
+                            int grayscaleAudioRandomIndex = NumberUtil.randInt(upperBound);
+                            IOUtil.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
                         } else {
-                            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("introtheme.mp3"));
+                            IOUtil.playGeneralAudio(StaticUtil.getStaticResource(INTRO_THEME));
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
                     }
-                }, "Intro Music Checker");
+                }, INTRO_MUSIC_CHECKER_THREAD_NAME);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

@@ -3746,6 +3746,15 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Returns whether this frame is the console frame.
+     *
+     * @return whether this frame is the console frame
+     */
+    public boolean isConsole() {
+        return equals(Console.INSTANCE.getConsoleCyderFrame());
+    }
+
+    /**
      * A CyderFrame menu item.
      * This record is to associate a label with a possible
      * AtomicBoolean which dictates the state of the menu item.
