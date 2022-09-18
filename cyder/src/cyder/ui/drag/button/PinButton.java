@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
-import cyder.handlers.internal.Logger;
 import cyder.ui.drag.DragLabelButtonSize;
 import cyder.ui.frame.CyderFrame;
 
@@ -82,7 +81,6 @@ public class PinButton extends CyderDragLabelButton {
             @Override
             public void mouseClicked(MouseEvent e) {
                 incrementState();
-                Logger.log(Logger.Tag.UI_ACTION, this);
             }
 
             @Override

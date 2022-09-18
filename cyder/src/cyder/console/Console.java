@@ -1163,88 +1163,108 @@ public enum Console {
     /**
      * The default intro music to play if enabled an no user music is present.
      */
-    private final File DEFAULT_INTRO_MUSIC = StaticUtil.getStaticResource("ride.mp3");
+    private static final File DEFAULT_INTRO_MUSIC = StaticUtil.getStaticResource("ride.mp3");
 
     /**
      * The key for getting whether Cyder is released from the props.
      */
-    private final String RELEASED_KEY = "released";
+    private static final String RELEASED_KEY = "released";
 
     /**
      * The name of the Cyder intro theme file
      */
-    private final String INTRO_THEME = "introtheme.mp3";
+    private static final String INTRO_THEME = "introtheme.mp3";
 
     /**
      * The thread name of the intro music grayscale checker.
      */
-    private final String INTRO_MUSIC_CHECKER_THREAD_NAME = "Intro Music Checker";
+    private static final String INTRO_MUSIC_CHECKER_THREAD_NAME = "Intro Music Checker";
 
     /**
      * Determines what audio to play at the beginning of the Console startup.
      */
     private void introMusicCheck() {
         boolean introMusic = UserUtil.getCyderUser().getIntromusic().equalsIgnoreCase("1");
+        boolean released = PropLoader.getBoolean(RELEASED_KEY);
         if (introMusic) {
-            ArrayList<File> musicList = new ArrayList<>();
-
-            File userMusicDir = new File(OSUtil.buildPath(Dynamic.PATH,
-                    Dynamic.USERS.getDirectoryName(), INSTANCE.getUuid(), UserFile.MUSIC.getName()));
-
-            File[] files = userMusicDir.listFiles();
-            if (files != null && files.length > 0) {
-                Arrays.stream(files).forEach(file -> {
-                    if (FileUtil.isSupportedAudioExtension(file)) {
-                        musicList.add(file);
-                    }
-                });
-            }
-
-            if (!musicList.isEmpty()) {
-                int randomFileIndex = NumberUtil.randInt(files.length - 1);
-                IOUtil.playGeneralAudio(files[randomFileIndex].getAbsolutePath());
-            } else {
-                IOUtil.playGeneralAudio(DEFAULT_INTRO_MUSIC);
-            }
+            performIntroMusic();
+        } else if (released) {
+            grayscaleImageCheck();
         }
-        // intro music not on, check for grayscale image
-        else if (PropLoader.getBoolean(RELEASED_KEY)) {
+    }
+
+    /**
+     * Plays intro music, from the user's music folder if file are present. Otherwise the default intro music.
+     */
+    @ForReadability
+    private void performIntroMusic() {
+        ArrayList<File> musicList = new ArrayList<>();
+
+        File userMusicDir = new File(OSUtil.buildPath(Dynamic.PATH,
+                Dynamic.USERS.getDirectoryName(), INSTANCE.getUuid(), UserFile.MUSIC.getName()));
+
+        File[] files = userMusicDir.listFiles();
+        if (files != null && files.length > 0) {
+            Arrays.stream(files).forEach(file -> {
+                if (FileUtil.isSupportedAudioExtension(file)) {
+                    musicList.add(file);
+                }
+            });
+        }
+
+        if (!musicList.isEmpty()) {
+            int randomFileIndex = NumberUtil.randInt(files.length - 1);
+            IOUtil.playGeneralAudio(files[randomFileIndex].getAbsolutePath());
+        } else {
+            IOUtil.playGeneralAudio(DEFAULT_INTRO_MUSIC);
+        }
+    }
+
+    /**
+     * Checks for a grayscale image and plays a grayscale song if true.
+     */
+    @ForReadability
+    private void grayscaleImageCheck() {
+        CyderThreadRunner.submit(() -> {
+            Image icon = null;
+
             try {
-                CyderThreadRunner.submit(() -> {
-                    try {
-                        Image icon = new ImageIcon(ImageIO.read(getCurrentBackground().getReferenceFile())).getImage();
-
-                        int w = icon.getWidth(null);
-                        int h = icon.getHeight(null);
-
-                        int[] pixels = new int[w * h];
-                        PixelGrabber pg = new PixelGrabber(icon, 0, 0, w, h, pixels, 0, w);
-                        pg.grabPixels();
-
-                        boolean grayscale = true;
-                        for (int pixel : pixels) {
-                            Color color = new Color(pixel);
-                            if (color.getRed() != color.getGreen() || color.getRed() != color.getBlue()) {
-                                grayscale = false;
-                                break;
-                            }
-                        }
-
-                        if (grayscale) {
-                            int upperBound = GRAYSCALE_AUDIO_PATHS.size() - 1;
-                            int grayscaleAudioRandomIndex = NumberUtil.randInt(upperBound);
-                            IOUtil.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
-                        } else {
-                            IOUtil.playGeneralAudio(StaticUtil.getStaticResource(INTRO_THEME));
-                        }
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-                }, INTRO_MUSIC_CHECKER_THREAD_NAME);
+                icon = new ImageIcon(ImageIO.read(getCurrentBackground().getReferenceFile())).getImage();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }
+
+            if (icon == null) return;
+
+            int w = icon.getWidth(null);
+            int h = icon.getHeight(null);
+
+            int[] pixels = new int[w * h];
+            PixelGrabber pg = new PixelGrabber(icon, 0, 0, w, h, pixels, 0, w);
+
+            try {
+                pg.grabPixels();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+
+            boolean grayscale = true;
+            for (int pixel : pixels) {
+                Color color = new Color(pixel);
+                if (color.getRed() != color.getGreen() || color.getRed() != color.getBlue()) {
+                    grayscale = false;
+                    break;
+                }
+            }
+
+            if (grayscale) {
+                int upperBound = GRAYSCALE_AUDIO_PATHS.size() - 1;
+                int grayscaleAudioRandomIndex = NumberUtil.randInt(upperBound);
+                IOUtil.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
+            } else {
+                IOUtil.playGeneralAudio(StaticUtil.getStaticResource(INTRO_THEME));
+            }
+        }, INTRO_MUSIC_CHECKER_THREAD_NAME);
     }
 
     /**
@@ -1282,14 +1302,16 @@ public enum Console {
     private final FocusAdapter outputAreaFocusAdapter = new FocusAdapter() {
         @Override
         public void focusGained(FocusEvent e) {
-            outputScroll.setBorder(new LineBorder(ColorUtil.hexStringToColor(
-                    UserUtil.getCyderUser().getBackground()), 3));
+            Color color = ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground());
+            outputScroll.setBorder(new LineBorder(color, 3));
         }
 
         @Override
         public void focusLost(FocusEvent e) {
-            if (UserUtil.getCyderUser().getOutputborder().equals("0"))
+            boolean outputBorder = UserUtil.getCyderUser().getOutputborder().equals("1");
+            if (!outputBorder) {
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
+            }
 
             inputField.requestFocusInWindow();
             inputField.setCaretPosition(inputField.getPassword().length);
@@ -1337,9 +1359,7 @@ public enum Console {
                         .flatMap(Collection::stream)
                         .collect(Collectors.toList()));
 
-        if (state.size() == 0) {
-            return;
-        }
+        if (state.size() == 0) return;
 
         // remove focus from previous item if possible
         if (currentFocusedMenuItemIndex != -1) {
@@ -1365,18 +1385,13 @@ public enum Console {
     private void removeFocusFromTaskbarMenuIcons() {
         currentFocusedMenuItemIndex = -1;
 
-        if (menuLabel == null) {
-            return;
-        }
+        if (menuLabel == null) return;
 
-        ImmutableList<TaskbarIcon> state = ImmutableList.copyOf(
-                Stream.of(currentFrameMenuItems, currentMappedExeItems, currentDefaultMenuItems)
-                        .flatMap(Collection::stream)
-                        .collect(Collectors.toList()));
-
-        for (TaskbarIcon icon : state) {
-            icon.getBuilder().setFocused(false);
-        }
+        Stream.of(currentFrameMenuItems, currentMappedExeItems,
+                        currentDefaultMenuItems)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList())
+                .forEach(icon -> icon.getBuilder().setFocused(false));
 
         if (menuLabel.isVisible()) {
             reinstallCurrentTaskbarIcons();
@@ -1388,9 +1403,9 @@ public enum Console {
      */
     private void menuButtonAction() {
         Point menuPoint = menuButton.getLocationOnScreen();
-        boolean mouseTriggered = MathUtil.pointInOrOnRectangle(MouseInfo.getPointerInfo().getLocation(),
-                new Rectangle((int) menuPoint.getX(), (int) menuPoint.getY(), menuButton.getWidth(),
-                        menuButton.getHeight()));
+        Rectangle rect = new Rectangle((int) menuPoint.getX(), (int) menuPoint.getY(),
+                menuButton.getWidth(), menuButton.getHeight());
+        boolean mouseTriggered = MathUtil.pointInOrOnRectangle(MouseInfo.getPointerInfo().getLocation(), rect);
 
         // if there's a focused item and it wasn't a mouse click
         if (currentFocusedMenuItemIndex != -1 && !mouseTriggered) {
@@ -1407,45 +1422,55 @@ public enum Console {
         }
 
         if (!menuLabel.isVisible()) {
+            String MINIMIZE_MEN_THREAD_NAME = "Minimize Console Menu Thread";
+            int menuHiddenX = -150;
+
             CyderThreadRunner.submit(() -> {
-                menuLabel.setLocation(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
+                menuLabel.setLocation(menuHiddenX, CyderDragLabel.DEFAULT_HEIGHT - 2);
                 int y = menuLabel.getY();
 
-                for (int i = -150 ; i < 2 ; i += 8) {
+                int increment = 8;
+                int delay = 10;
+                for (int i = menuHiddenX ; i < 2 ; i += increment) {
                     menuLabel.setLocation(i, y);
-                    ThreadUtil.sleep(10);
+                    ThreadUtil.sleep(delay);
                 }
 
                 menuLabel.setLocation(2, y);
 
                 revalidateInputAndOutputBounds();
-            }, "minimize menu thread");
+            }, MINIMIZE_MEN_THREAD_NAME);
 
+            String ENTER_CONSOLE_MENU_THREAD_NAME = "Enter Console Menu Thread";
             CyderThreadRunner.submit(() -> {
                 if (menuLabel == null) {
                     generateConsoleMenu();
                 }
 
-                menuLabel.setLocation(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
+                menuLabel.setLocation(menuHiddenX, CyderDragLabel.DEFAULT_HEIGHT - 2);
                 menuLabel.setVisible(true);
 
                 int addX = 0;
 
-                if (menuLabel.isVisible())
+                if (menuLabel.isVisible()) {
                     addX = 2 + menuLabel.getWidth();
+                }
 
                 int finalAddX = addX;
 
-                for (int i = inputField.getX() ; i < finalAddX + 15 ; i += 8) {
-                    outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1,
-                            outputScroll.getHeight());
-                    inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
+                int increment = 8;
+                int delay = 10;
+                for (int x = inputField.getX() ; x < finalAddX + 15 ; x += increment) {
+                    outputScroll.setBounds(x, outputScroll.getY(),
+                            outputScroll.getWidth(), outputScroll.getHeight());
+                    inputField.setBounds(x, inputField.getY(),
+                            inputField.getWidth(), inputField.getHeight());
 
-                    ThreadUtil.sleep(10);
+                    ThreadUtil.sleep(delay);
                 }
 
                 revalidateInputAndOutputBounds();
-            }, "Console menu animator");
+            }, ENTER_CONSOLE_MENU_THREAD_NAME);
         } else {
             minimizeMenu();
         }
@@ -1459,13 +1484,23 @@ public enum Console {
         public void keyReleased(KeyEvent e) {
             int code = e.getKeyCode();
 
-            if (code == KeyEvent.VK_DOWN || code == KeyEvent.VK_RIGHT) {
+            if (downOrRight(code)) {
                 focusNextTaskbarMenuItem();
-            } else if (code == KeyEvent.VK_UP || code == KeyEvent.VK_LEFT) {
+            } else if (upOrLeft(code)) {
                 focusPreviousTaskbarMenuItem();
             }
         }
     };
+
+    @ForReadability
+    private boolean downOrRight(int code) {
+        return code == KeyEvent.VK_DOWN || code == KeyEvent.VK_RIGHT;
+    }
+
+    @ForReadability
+    private boolean upOrLeft(int code) {
+        return code == KeyEvent.VK_UP || code == KeyEvent.VK_LEFT;
+    }
 
     /**
      * The current active frames to generate TaskbarIcons for the console's menu.
@@ -1556,20 +1591,22 @@ public enum Console {
         LinkedList<TaskbarIcon> ret = new LinkedList<>();
 
         if (!currentActiveFrames.isEmpty()) {
-            for (CyderFrame currentFrame : Lists.reverse(currentActiveFrames)) {
-                ret.add(new TaskbarIcon.Builder()
-                        .setName(currentFrame.getTitle())
-                        .setCompact(compactMode)
-                        .setFocused(false)
-                        .setBorderColor(currentFrame.getTaskbarIconBorderColor())
-                        .setCustomIcon(currentFrame.getCustomTaskbarIcon())
-                        .setRunnable(UiUtil.generateCommonFrameTaskbarIconRunnable(currentFrame))
-                        .build());
-            }
+            Lists.reverse(currentActiveFrames).forEach(currentFrame ->
+                    ret.add(new TaskbarIcon.Builder()
+                            .setName(currentFrame.getTitle())
+                            .setCompact(compactMode)
+                            .setFocused(false)
+                            .setBorderColor(currentFrame.getTaskbarIconBorderColor())
+                            .setCustomIcon(currentFrame.getCustomTaskbarIcon())
+                            .setRunnable(UiUtil.generateCommonFrameTaskbarIconRunnable(currentFrame))
+                            .build()));
         }
 
         return ImmutableList.copyOf(ret);
     }
+
+    // todo console menu add frames and removing not showing not working?
+    // todo remove icon button class
 
     /**
      * Returns the mapped exe taskbar icon items.
@@ -1582,7 +1619,7 @@ public enum Console {
         LinkedList<TaskbarIcon> ret = new LinkedList<>();
 
         if (!exes.isEmpty()) {
-            for (MappedExecutable exe : exes) {
+            exes.forEach(exe -> {
                 Runnable runnable = () -> {
                     IOUtil.openOutsideProgram(exe.getFilepath());
                     exe.displayInvokedNotification();
@@ -1595,7 +1632,7 @@ public enum Console {
                         .setRunnable(runnable)
                         .setBorderColor(CyderColors.vanilla)
                         .build());
-            }
+            });
         }
 
         return ImmutableList.copyOf(ret);
@@ -1632,12 +1669,12 @@ public enum Console {
     /**
      * The tooltip and label text for the preferences default taskbar icon.
      */
-    private final String PREFS = "Prefs";
+    private static final String PREFS = "Prefs";
 
     /**
      * The tooltip and label text for the logout default taskbar icon.
      */
-    private final String LOGOUT = "Logout";
+    private static final String LOGOUT = "Logout";
 
     /**
      * The default compact taskbar icons.
@@ -1656,7 +1693,8 @@ public enum Console {
                     .setCompact(true)
                     .setRunnable(this::logout)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
-                    .build());
+                    .build()
+    );
 
     /**
      * The default non compact taskbar icons.
@@ -1675,7 +1713,8 @@ public enum Console {
                     .setCompact(false)
                     .setRunnable(this::logout)
                     .setBorderColor(CyderColors.taskbarDefaultColor)
-                    .build());
+                    .build()
+    );
 
     /**
      * Returns the default taskbar icon items.
@@ -1709,13 +1748,9 @@ public enum Console {
                         .flatMap(Collection::stream)
                         .collect(Collectors.toList()));
 
-        if (previousState.size() == 0) {
-            return true;
-        }
+        if (previousState.size() == 0) return true;
 
-        if (newState.size() != previousState.size()) {
-            return true;
-        }
+        if (newState.size() != previousState.size()) return true;
 
         for (int i = 0 ; i < newState.size() ; i++) {
             if (!newState.get(i).equals(previousState.get(i))) {
@@ -1778,8 +1813,10 @@ public enum Console {
         return consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - CyderFrame.BORDER_LEN;
     }
 
-    private final int consoleMenuShowingX = 7;
-    private final int consoleMenuShowingY = 10;
+    /**
+     * The point the console menu is set at and animated to when visible.
+     */
+    private static final Point consoleMenuShowingPoint = new Point(7, 10);
 
     /**
      * Revalidates the taskbar menu bounds and re-installs the icons.
@@ -1814,9 +1851,11 @@ public enum Console {
         menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        menuScroll.setBounds(consoleMenuShowingX, consoleMenuShowingY,
-                menuLabel.getWidth() - consoleMenuShowingY,
-                calculateMenuHeight() - 2 * consoleMenuShowingY);
+        menuScroll.setBounds(
+                (int) consoleMenuShowingPoint.getX(),
+                (int) consoleMenuShowingPoint.getY(),
+                (int) (menuLabel.getWidth() - consoleMenuShowingPoint.getX()),
+                (int) (calculateMenuHeight() - 2 * consoleMenuShowingPoint.getY()));
         menuLabel.add(menuScroll);
 
         installMenuTaskbarIcons();
@@ -1833,31 +1872,31 @@ public enum Console {
 
         printingUtil.newline(!compactMode);
 
-        for (TaskbarIcon frameItem : currentFrameMenuItems) {
+        currentFrameMenuItems.forEach(frameItem -> {
             frameItem.generateTaskbarIcon();
             printingUtil.printlnComponent(frameItem.getTaskbarIcon());
             printingUtil.newline(!compactMode);
-        }
+        });
 
         if (currentFrameMenuItems.size() > 0 && !compactMode) {
             printingUtil.printSeparator();
         }
 
-        for (TaskbarIcon mappedExe : currentMappedExeItems) {
+        currentMappedExeItems.forEach(mappedExe -> {
             mappedExe.generateTaskbarIcon();
             printingUtil.printlnComponent(mappedExe.getTaskbarIcon());
             printingUtil.newline(!compactMode);
-        }
+        });
 
         if (currentMappedExeItems.size() > 0 && currentFrameMenuItems.size() > 0 && !compactMode) {
             printingUtil.printSeparator();
         }
 
-        for (TaskbarIcon taskbarIcon : currentDefaultMenuItems) {
+        currentDefaultMenuItems.forEach(taskbarIcon -> {
             taskbarIcon.generateTaskbarIcon();
             printingUtil.printlnComponent(taskbarIcon.getTaskbarIcon());
             printingUtil.newline(!compactMode);
-        }
+        });
 
         menuPane.setCaretPosition(0);
     }
@@ -1893,13 +1932,19 @@ public enum Console {
      */
     private void minimizeMenu() {
         if (menuLabel.isVisible()) {
-            CyderThreadRunner.submit(() -> {
-                for (int i = inputField.getX() ; i > 15 ; i -= 8) {
-                    outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1,
-                            outputScroll.getHeight());
-                    inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
+            int increment = 8;
+            int delay = 10;
 
-                    ThreadUtil.sleep(10);
+            // todo pretty sure this is duplicated above
+
+            CyderThreadRunner.submit(() -> {
+                for (int i = inputField.getX() ; i > 15 ; i -= increment) {
+                    outputScroll.setBounds(i, outputScroll.getY(),
+                            outputScroll.getWidth() + 1, outputScroll.getHeight());
+                    inputField.setBounds(i, inputField.getY(),
+                            inputField.getWidth() + 1, inputField.getHeight());
+
+                    ThreadUtil.sleep(delay);
                 }
 
                 revalidateInputAndOutputBounds(true);
@@ -1908,14 +1953,14 @@ public enum Console {
             CyderThreadRunner.submit(() -> {
                 menuLabel.setLocation(2, CyderDragLabel.DEFAULT_HEIGHT - 2);
                 int y = menuLabel.getY();
+                int hiddenX = -150;
 
-                for (int i = 0 ; i > -150 ; i -= 8) {
+                for (int i = 0 ; i > hiddenX ; i -= increment) {
                     menuLabel.setLocation(i, y);
-                    ThreadUtil.sleep(10);
+                    ThreadUtil.sleep(delay);
                 }
 
-                menuLabel.setLocation(-150, y);
-
+                menuLabel.setLocation(hiddenX, y);
                 menuLabel.setVisible(false);
 
                 revalidateInputAndOutputBounds();
@@ -2929,7 +2974,8 @@ public enum Console {
             menuLabel.setBounds(menuLabelShowingX, menuLabelShowingY,
                     menuLabel.getWidth(), consoleCyderFrame.getHeight()
                             - CyderDragLabel.DEFAULT_HEIGHT - 5);
-            menuScroll.setBounds(consoleMenuShowingX, 10, menuLabel.getWidth() - 10, menuLabel.getHeight() - 20);
+            menuScroll.setBounds(10, 10,
+                    menuLabel.getWidth() - 10, menuLabel.getHeight() - 20);
         }
 
         revalidateInputAndOutputBounds();

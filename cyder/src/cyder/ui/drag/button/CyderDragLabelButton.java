@@ -1,6 +1,8 @@
 package cyder.ui.drag.button;
 
 import com.google.common.base.Preconditions;
+import cyder.annotations.ForReadability;
+import cyder.handlers.internal.Logger;
 import cyder.ui.drag.DragLabelButtonSize;
 
 import javax.swing.*;
@@ -30,6 +32,7 @@ public abstract class CyderDragLabelButton extends JLabel implements ICyderDragL
         setSize(size);
         addEnterListenerKeyAdapter();
         addDefaultMouseAdapter();
+        addLogOnClickActionMouseAdapter();
         setForConsole(false);
     }
 
@@ -56,6 +59,19 @@ public abstract class CyderDragLabelButton extends JLabel implements ICyderDragL
                 setMouseIn(false);
                 invokeMouseExitActions();
                 repaint();
+            }
+        });
+    }
+
+    /**
+     * Adds the mouse adapter to lock the click on click actions.
+     */
+    @ForReadability
+    public void addLogOnClickActionMouseAdapter() {
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Logger.log(Logger.Tag.UI_ACTION, CyderDragLabelButton.this.toString());
             }
         });
     }

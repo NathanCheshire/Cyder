@@ -754,12 +754,6 @@ public class CyderDragLabel extends JLabel {
         repaint();
     }
 
-    // todo lots of redundancy and confusion in console related to menus
-    //  lots of vars and magic numbers could be extracted too
-
-    // todo console menu add frames and removing not showing not working?
-    // todo remove icon button class
-
     /**
      * Returns the pin button for this CyderFrame.
      *
