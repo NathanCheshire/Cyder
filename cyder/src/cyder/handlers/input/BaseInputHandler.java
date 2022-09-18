@@ -564,6 +564,7 @@ public class BaseInputHandler {
      */
     private void startConsolePrintingAnimationIfNeeded() {
         if (printingAnimationRunning) return;
+        printingAnimationRunning = true;
         CyderThreadRunner.submit(consolePrintingRunnable, IgnoreThread.ConsolePrintingAnimation.getName());
     }
 
@@ -602,8 +603,6 @@ public class BaseInputHandler {
      */
     private final Runnable consolePrintingRunnable = () -> {
         try {
-            printingAnimationRunning = true;
-
             boolean shouldDoTypingAnimation = shouldDoTypingAnimation();
             boolean shouldDoTypingSound = shouldDoTypingSound();
             long lastPollTime = System.currentTimeMillis();
@@ -1138,12 +1137,26 @@ public class BaseInputHandler {
     // Generic print methods
     // ---------------------
 
+    private final Semaphore printingSemaphore = new Semaphore(1);
+
+    private void aquirePrintingLock() {
+        try {
+            printingSemaphore.acquire();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    private void releasePrintingLock() {
+        printingSemaphore.release();
+    }
+
     /**
      * Prints the provided tee.
      *
      * @param tee the tee to print
      */
-    public synchronized final <T> void print(T tee) {
+    public final <T> void print(T tee) {
         if (threadsActive()) {
             consolePriorityPrintingList.add(tee);
         } else {
@@ -1156,14 +1169,16 @@ public class BaseInputHandler {
      *
      * @param tee the tee to print
      */
-    public synchronized final <T> void println(T tee) {
+    public final <T> void println(T tee) {
         if (threadsActive()) {
             consolePriorityPrintingList.add(tee);
+            consolePriorityPrintingList.add(NEWLINE);
         } else {
+            aquirePrintingLock();
             consolePrintingList.add(tee);
+            consolePrintingList.add(NEWLINE);
+            releasePrintingLock();
         }
-
-        consolePrintingList.add(NEWLINE);
     }
 
     /**
@@ -1171,7 +1186,7 @@ public class BaseInputHandler {
      *
      * @param tee the tee to add to the priority printing list
      */
-    public synchronized final <T> void printPriority(T tee) {
+    public final <T> void printPriority(T tee) {
         consolePriorityPrintingList.add(tee);
     }
 
@@ -1180,7 +1195,7 @@ public class BaseInputHandler {
      *
      * @param tee the tee to add to the priority printing list
      */
-    public synchronized final <T> void printlnPriority(T tee) {
+    public final <T> void printlnPriority(T tee) {
         consolePriorityPrintingList.add(tee);
         consolePriorityPrintingList.add(NEWLINE);
     }

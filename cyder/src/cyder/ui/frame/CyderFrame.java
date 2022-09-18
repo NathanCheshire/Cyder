@@ -830,7 +830,6 @@ public class CyderFrame extends JFrame {
         int dragWidth = topDrag.getWidth();
         int dragHeight = topDrag.getHeight();
 
-        Font titleFont = titleLabel.getFont();
         int titleWidth = titleLabel.getWidth();
         int titleHeight = titleLabel.getHeight();
 
