@@ -28,7 +28,7 @@ public class UiHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"toast", "opacity", "original chams", "screenshot", "monitors",
+    @Handle({"toast", "opacity", "original chams", "screenshot frames", "monitors",
             "create user", "panic", "quit", "logout", "clear clip", "mouse", "frames"})
     public static boolean handle() {
         boolean ret = true;
@@ -45,23 +45,11 @@ public class UiHandler extends InputHandler {
             }
 
             getInputHandler().println(opacitySlider);
-        } else if (getInputHandler().inputIgnoringSpacesMatches("originalchams")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("original chams")) {
             Console.INSTANCE.originalChams();
-        } else if (getInputHandler().inputIgnoringSpacesMatches("screenshot")) {
-            if (getInputHandler().getArgsSize() != 0) {
-                if (getInputHandler().getArg(0).equalsIgnoreCase("frames")) {
-                    UiUtil.screenshotCyderFrames();
-                    getInputHandler().println("Successfully saved to your Files directory");
-                } else {
-                    if (!UiUtil.screenshotCyderFrame(getInputHandler().argsToString())) {
-                        getInputHandler().println("CyderFrame not found");
-                    } else {
-                        getInputHandler().println("Successfully saved to your Files directory");
-                    }
-                }
-            } else {
-                getInputHandler().println("Screenshot command usage: screenshot [FRAMES or FRAME_NAME]");
-            }
+        } else if (getInputHandler().inputIgnoringSpacesMatches("screenshot frames")) {
+            UiUtil.screenshotCyderFrames();
+            getInputHandler().println("Successfully saved to your Files directory");
         } else if (getInputHandler().commandIs("monitors")) {
             getInputHandler().println(OSUtil.getMonitorStatsString());
         } else if (getInputHandler().commandIs("createuser")) {

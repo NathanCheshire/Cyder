@@ -540,6 +540,7 @@ public final class GameOfLifeWidget {
 
             String saveName = GetterUtil.getInstance().getString(new GetterUtil.Builder("Save name")
                     .setRelativeTo(conwayFrame)
+                    .setLabelText("Save Conway state file name")
                     .setFieldTooltip("A valid filename")
                     .setSubmitButtonText("Save Conway State"));
 

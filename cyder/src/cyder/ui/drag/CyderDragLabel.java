@@ -598,6 +598,18 @@ public class CyderDragLabel extends JLabel {
     }
 
     /**
+     * Removes the provided button from the left button list.
+     *
+     * @param component the drag label button or text button to remove from the left button list
+     */
+    public void removeLeftButton(Component component) {
+        Preconditions.checkNotNull(component);
+
+        leftButtonList.remove(component);
+        refreshLeftButtons();
+    }
+
+    /**
      * Returns the current right button list.
      *
      * @return the current right button list

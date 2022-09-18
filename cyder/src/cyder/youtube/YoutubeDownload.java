@@ -446,7 +446,9 @@ public class YoutubeDownload {
                     YoutubeUtil.downloadThumbnail(url);
                     AudioPlayer.addAudioNext(downloadFile);
 
-                    onDownloadedCallback.run();
+                    if (onDownloadedCallback != null) {
+                        onDownloadedCallback.run();
+                    }
 
                     if (shouldPrintUpdates) {
                         inputHandler.println("Download complete: saved as "
