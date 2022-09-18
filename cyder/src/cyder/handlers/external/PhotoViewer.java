@@ -114,6 +114,7 @@ public class PhotoViewer {
 
         pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
         pictureFrame.setBackground(Color.BLACK);
+        pictureFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         revalidateTitle(FileUtil.getFilename(currentImage.getName()));
         pictureFrame.setVisible(true);
         pictureFrame.addWindowListener(generateWindowAdapter());

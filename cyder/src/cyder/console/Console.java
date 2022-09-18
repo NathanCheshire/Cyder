@@ -1603,7 +1603,6 @@ public enum Console {
         return ImmutableList.copyOf(ret);
     }
 
-    // todo console menu add frames and removing not showing not working?
     // todo remove icon button class
 
     /**
@@ -2963,12 +2962,12 @@ public enum Console {
      * The taskbar icons are also regenerated and shown.
      */
     public void revalidateMenu() {
-        if (consoleClosed.get() || menuLabel == null)
-            return;
+        if (consoleClosed.get() || menuLabel == null) return;
+
+        installMenuTaskbarIcons();
 
         // revalidate bounds if needed and change icon
         if (menuLabel.isVisible()) {
-            installMenuTaskbarIcons();
             menuLabel.setBounds(menuLabelShowingX, menuLabelShowingY,
                     menuLabel.getWidth(), consoleCyderFrame.getHeight()
                             - CyderDragLabel.DEFAULT_HEIGHT - 5);

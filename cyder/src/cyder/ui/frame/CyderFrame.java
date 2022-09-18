@@ -3483,6 +3483,13 @@ public class CyderFrame extends JFrame {
     private static final int menuYOffset = 5;
 
     /**
+     * A CyderFrame menu item.
+     * This record is to associate a label with a possible
+     * AtomicBoolean which dictates the state of the menu item.
+     */
+    private record MenuItem(JLabel label, AtomicBoolean state) {}
+
+    /**
      * Generates the menu based off of the current menu components
      * and sets the location to the starting point for inward animation.
      */
@@ -3762,12 +3769,9 @@ public class CyderFrame extends JFrame {
         setDancingFinished(false);
     }
 
-    /**
-     * A CyderFrame menu item.
-     * This record is to associate a label with a possible
-     * AtomicBoolean which dictates the state of the menu item.
+    /*
+    Inner classes such as builders.
      */
-    private record MenuItem(JLabel label, AtomicBoolean state) {}
 
     /**
      * A builder for a CyderFrame notification.
@@ -3864,6 +3868,7 @@ public class CyderFrame extends JFrame {
          * @param viewDuration the view duration for the notification
          * @return this NotificationBuilder
          */
+        @CanIgnoreReturnValue
         public NotificationBuilder setViewDuration(int viewDuration) {
             this.viewDuration = viewDuration;
             return this;
@@ -3884,6 +3889,7 @@ public class CyderFrame extends JFrame {
          * @param arrowDir the arrow direction for the notification
          * @return this NotificationBuilder
          */
+        @CanIgnoreReturnValue
         public NotificationBuilder setArrowDir(Direction arrowDir) {
             this.arrowDir = arrowDir;
             return this;
@@ -3904,6 +3910,7 @@ public class CyderFrame extends JFrame {
          * @param onKillAction the on kill action for this notification
          * @return this NotificationBuilder
          */
+        @CanIgnoreReturnValue
         public NotificationBuilder setOnKillAction(Runnable onKillAction) {
             this.onKillAction = onKillAction;
             return this;
@@ -3924,6 +3931,7 @@ public class CyderFrame extends JFrame {
          * @param notificationDirection the notification direction for this notification
          * @return this NotificationBuilder
          */
+        @CanIgnoreReturnValue
         public NotificationBuilder setNotificationDirection(NotificationDirection notificationDirection) {
             this.notificationDirection = notificationDirection;
             return this;
@@ -3979,6 +3987,7 @@ public class CyderFrame extends JFrame {
          * @param notificationType the notification type of this notification
          * @return this NotificationBuilder
          */
+        @CanIgnoreReturnValue
         public NotificationBuilder setNotificationType(CyderNotification.NotificationType notificationType) {
             this.notificationType = notificationType;
             return this;
@@ -3999,6 +4008,7 @@ public class CyderFrame extends JFrame {
          * @param calculateViewDuration whether the view duration should be auto-calculated
          * @return this builder
          */
+        @CanIgnoreReturnValue
         public NotificationBuilder setCalculateViewDuration(boolean calculateViewDuration) {
             this.calculateViewDuration = calculateViewDuration;
             return this;
