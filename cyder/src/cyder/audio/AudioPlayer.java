@@ -762,7 +762,7 @@ public final class AudioPlayer {
 
         audioPlayerFrame.finalizeAndShow();
 
-        Console.INSTANCE.revalidateAudioMenu();
+        Console.INSTANCE.revalidateAudioMenuVisibility();
 
         // now that frame is shown, ensure binaries installed and restrict UI until proven
         if (!AudioUtil.ffmpegInstalled() || !AudioUtil.youtubeDlInstalled()) {
@@ -1659,7 +1659,7 @@ public final class AudioPlayer {
             playPauseButton.setToolTipText("Play");
         }
 
-        Console.INSTANCE.revalidateAudioMenu();
+        Console.INSTANCE.revalidateAudioMenuVisibility();
     }
 
     /**
@@ -1720,7 +1720,7 @@ public final class AudioPlayer {
             playAudio();
         }
 
-        Console.INSTANCE.revalidateAudioMenu();
+        Console.INSTANCE.revalidateAudioMenuVisibility();
     }
 
     /**
@@ -2076,7 +2076,7 @@ public final class AudioPlayer {
             innerAudioPlayer = null;
         }
 
-        Console.INSTANCE.revalidateAudioMenu();
+        Console.INSTANCE.revalidateAudioMenuVisibility();
     }
 
     /**

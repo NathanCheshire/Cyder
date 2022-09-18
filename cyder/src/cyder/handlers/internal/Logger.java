@@ -219,7 +219,7 @@ public final class Logger {
                 break;
             case LOGOUT:
                 logBuilder.append(Tag.LOGOUT.constructLogTagPrepend());
-                logBuilder.append(representation);
+                logBuilder.append("[CyderUser = ").append(representation).append("]");
                 break;
             case JVM_ARGS:
                 logBuilder.append(Tag.JVM_ARGS.constructLogTagPrepend());
@@ -421,6 +421,7 @@ public final class Logger {
      * The list of lines from cyder.txt depicting a sweet Cyder Ascii art logo.
      */
     private static ImmutableList<String> headerLogoLines = ImmutableList.of();
+
     static {
         try (BufferedReader bufferedReader = new BufferedReader(
                 new FileReader(StaticUtil.getStaticResource("cyder.txt")))) {

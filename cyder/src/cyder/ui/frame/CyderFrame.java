@@ -3755,6 +3755,14 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Resets the dancing members and state variables.
+     */
+    public void resetDancing() {
+        setDancingDirection(CyderFrame.DancingDirection.INITIAL_UP);
+        setDancingFinished(false);
+    }
+
+    /**
      * A CyderFrame menu item.
      * This record is to associate a label with a possible
      * AtomicBoolean which dictates the state of the menu item.

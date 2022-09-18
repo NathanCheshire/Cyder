@@ -229,7 +229,7 @@ public final class IOUtil {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 } finally {
-                    Console.INSTANCE.revalidateAudioMenu();
+                    Console.INSTANCE.revalidateAudioMenuVisibility();
                 }
             }, IO_UTIL_GENERAL_AUDIO_THREAD_NAME);
         } catch (Exception e) {
@@ -309,7 +309,7 @@ public final class IOUtil {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
-            Console.INSTANCE.revalidateAudioMenu();
+            Console.INSTANCE.revalidateAudioMenuVisibility();
         }
     }
 

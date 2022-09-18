@@ -374,8 +374,6 @@ public enum Console {
 
         consoleCyderFrame.setBackground(Color.black);
 
-        consoleCyderFrame.addPostCloseAction(() -> OSUtil.exit(ExitCondition.GenesisControlledExit));
-
         consoleCyderFrame.addEndDragEventCallback(this::saveScreenStat);
 
         consoleCyderFrame.setDraggingEnabled(!UserUtil.getCyderUser().getFullscreen().equals("1"));
@@ -595,7 +593,7 @@ public enum Console {
         outputArea.setOpaque(false);
         outputArea.setBackground(CyderColors.empty);
         outputArea.setForeground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
-        outputArea.setFont(INSTANCE.generateUserFont());
+        outputArea.setFont(generateUserFont());
 
         installOutputAreaListeners();
 
@@ -655,7 +653,7 @@ public enum Console {
         inputField.setCaretColor(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
         inputField.setCaret(new CyderCaret(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground())));
         inputField.setForeground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
-        inputField.setFont(INSTANCE.generateUserFont());
+        inputField.setFont(generateUserFont());
 
         installInputFieldListeners();
 
@@ -1108,7 +1106,7 @@ public enum Console {
         }
 
         if (TimeUtil.isDeveloperBirthday()) {
-            Console.INSTANCE.getInputHandler().println("Thanks for creating me Nate :,)");
+            getInputHandler().println("Thanks for creating me Nate :,)");
         }
 
         if (UserUtil.getCyderUser().getDebugwindows().equals("1")) {
@@ -1201,7 +1199,7 @@ public enum Console {
         ArrayList<File> musicList = new ArrayList<>();
 
         File userMusicDir = new File(OSUtil.buildPath(Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(), INSTANCE.getUuid(), UserFile.MUSIC.getName()));
+                Dynamic.USERS.getDirectoryName(), getUuid(), UserFile.MUSIC.getName()));
 
         File[] files = userMusicDir.listFiles();
         if (files != null && files.length > 0) {
@@ -2985,29 +2983,37 @@ public enum Console {
      * Smoothly animates out the console audio controls.
      */
     private void animateOutAudioControls() {
+        String CONSOLE_AUDIO_MENU_MINIMIZER_THREAD_NAME = "Console Audio Menu Minimizer";
+        int decrement = 8;
+        int sleepTime = 10;
+
         CyderThreadRunner.submit(() -> {
-            for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
+            for (int i = audioControlsLabel.getY() ; i > -AUDIO_MENU_LABEL_HEIGHT ; i -= decrement) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
                         - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, i);
-                ThreadUtil.sleep(10);
+                ThreadUtil.sleep(sleepTime);
             }
             audioControlsLabel.setVisible(false);
-        }, "Console Audio Menu Minimizer");
+        }, CONSOLE_AUDIO_MENU_MINIMIZER_THREAD_NAME);
     }
 
     /**
      * Smooth animates out and removes the audio controls button.
      */
     public void animateOutAndRemoveAudioControls() {
+        String CONSOLE_AUDIO_MENU_MINIMIZER_THREAD_NAME = "Console Audio Menu Minimizer";
+        int decrement = 8;
+        int delay = 10;
+
         CyderThreadRunner.submit(() -> {
-            for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
+            for (int i = audioControlsLabel.getY() ; i > -AUDIO_MENU_LABEL_HEIGHT ; i -= decrement) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
                         - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, i);
-                ThreadUtil.sleep(10);
+                ThreadUtil.sleep(delay);
             }
             audioControlsLabel.setVisible(false);
             removeAudioControls();
-        }, "Console Audio Menu Minimizer");
+        }, CONSOLE_AUDIO_MENU_MINIMIZER_THREAD_NAME);
     }
 
     /**
@@ -3017,9 +3023,9 @@ public enum Console {
         CyderThreadRunner.submit(() -> {
             generateAudioMenu();
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
-                    - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, -40);
+                    - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, -AUDIO_MENU_LABEL_HEIGHT);
             audioControlsLabel.setVisible(true);
-            for (int i = -40 ; i < CyderDragLabel.DEFAULT_HEIGHT - 2 ; i += 8) {
+            for (int i = -AUDIO_MENU_LABEL_HEIGHT ; i < CyderDragLabel.DEFAULT_HEIGHT - 2 ; i += 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
                         - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, i);
                 ThreadUtil.sleep(10);
@@ -3032,7 +3038,7 @@ public enum Console {
     /**
      * Revalidates the visibility audio menu and the play/pause button based on if audio is playing.
      */
-    public void revalidateAudioMenu() {
+    public void revalidateAudioMenuVisibility() {
         if (!AudioPlayer.isWidgetOpen() && !IOUtil.generalAudioPlaying()) {
             if (audioControlsLabel.isVisible()) {
                 animateOutAndRemoveAudioControls();
@@ -3041,20 +3047,28 @@ public enum Console {
             }
         } else {
             if (!audioControlsLabel.isVisible()) {
-                audioControlsLabel.setLocation(audioControlsLabel.getX(), -40);
+                audioControlsLabel.setLocation(audioControlsLabel.getX(), -AUDIO_MENU_LABEL_HEIGHT);
                 toggleAudioControls.setVisible(true);
             }
 
-            if (IOUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
-                playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
-            } else {
-                playPauseAudioLabel.setIcon(AudioIcons.playIcon);
-            }
+            revalidateAudioMenuPlayPauseButton();
         }
     }
 
     /**
-     * Hides the audio controls panel and toggle button.
+     * Revalidates the play pause audio label button icon.
+     */
+    @ForReadability
+    private void revalidateAudioMenuPlayPauseButton() {
+        if (IOUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
+            playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
+        } else {
+            playPauseAudioLabel.setIcon(AudioIcons.playIcon);
+        }
+    }
+
+    /**
+     * Hides the audio controls menu and toggle button.
      */
     private void removeAudioControls() {
         audioControlsLabel.setVisible(false);
@@ -3062,16 +3076,56 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().refreshRightButtons();
     }
 
-    private final int AUDIO_MENU_BUTTONS = 3;
-    private final int AUDIO_MENU_BUTTON_SIZE = 30;
-    private final int AUDIO_MENU_LABEL_HEIGHT = 40;
-    private final int AUDIO_MENU_X_PADDING = 10;
-    private final int AUDIO_MENU_Y_PADDING = (AUDIO_MENU_LABEL_HEIGHT - AUDIO_MENU_BUTTON_SIZE) / 2;
+    /**
+     * The number of audio menu buttons.
+     */
+    private static final int AUDIO_MENU_BUTTONS = 3;
 
-    private final int AUDIO_MENU_LABEL_WIDTH = AUDIO_MENU_BUTTON_SIZE * AUDIO_MENU_BUTTONS
+    /**
+     * The size of each audio menu button.
+     */
+    private static final int AUDIO_MENU_BUTTON_SIZE = 30;
+
+    /**
+     * The height of the audio menu.
+     */
+    private static final int AUDIO_MENU_LABEL_HEIGHT = 40;
+
+    /**
+     * The padding between buttons for the audio menu.
+     */
+    private static final int AUDIO_MENU_X_PADDING = 10;
+
+    /**
+     * The audio menu button y padding.
+     */
+    private static final int AUDIO_MENU_BUTTON_Y_PADDING = (AUDIO_MENU_LABEL_HEIGHT - AUDIO_MENU_BUTTON_SIZE) / 2;
+
+    /**
+     * The width of the audio menu.
+     */
+    private static final int AUDIO_MENU_LABEL_WIDTH = AUDIO_MENU_BUTTON_SIZE * AUDIO_MENU_BUTTONS
             + AUDIO_MENU_X_PADDING * (AUDIO_MENU_BUTTONS + 1);
 
-    private final int AUDIO_MENU_X_OFFSET = 6;
+    /**
+     * The offset between the end of the audio menu label and the end of the console frame.
+     */
+    private static final int AUDIO_MENU_X_OFFSET = 6;
+
+    /**
+     * The tooltip for the previous audio menu button.
+     */
+    private static final String PREVIOUS = "Previous";
+
+    /**
+     * The tooltip for the play pause audio menu button.
+     */
+    private static final String PLAY_PAUSE = "Play/Pause";
+
+    /**
+     * The tooltip for the skip audio menu button.
+     */
+    private static final String SKIP = "Skip";
 
     /**
      * Returns the x value to place the audio menu at.
@@ -3087,8 +3141,11 @@ public enum Console {
      */
     private void generateAudioMenu() {
         audioControlsLabel = new JLabel();
-        audioControlsLabel.setBounds(calculateAudioMenuX(), -AUDIO_MENU_LABEL_HEIGHT,
-                AUDIO_MENU_LABEL_WIDTH, AUDIO_MENU_LABEL_HEIGHT);
+        audioControlsLabel.setBounds(
+                calculateAudioMenuX(),
+                -AUDIO_MENU_LABEL_HEIGHT,
+                AUDIO_MENU_LABEL_WIDTH,
+                AUDIO_MENU_LABEL_HEIGHT);
         audioControlsLabel.setOpaque(true);
         audioControlsLabel.setBackground(CyderColors.getGuiThemeColor());
         audioControlsLabel.setBorder(new LineBorder(Color.black, 5));
@@ -3098,9 +3155,10 @@ public enum Console {
         int currentX = AUDIO_MENU_X_PADDING;
 
         JLabel lastMusicLabel = new JLabel();
-        lastMusicLabel.setBounds(currentX, AUDIO_MENU_Y_PADDING, AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
+        lastMusicLabel.setBounds(currentX, AUDIO_MENU_BUTTON_Y_PADDING,
+                AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
         lastMusicLabel.setIcon(AudioIcons.lastIcon);
-        lastMusicLabel.setToolTipText("Previous");
+        lastMusicLabel.setToolTipText(PREVIOUS);
         lastMusicLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -3126,8 +3184,9 @@ public enum Console {
         currentX += AUDIO_MENU_X_PADDING + AUDIO_MENU_BUTTON_SIZE;
 
         playPauseAudioLabel = new JLabel();
-        playPauseAudioLabel.setBounds(currentX, AUDIO_MENU_Y_PADDING, AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
-        playPauseAudioLabel.setToolTipText("Play/Pause");
+        playPauseAudioLabel.setBounds(currentX, AUDIO_MENU_BUTTON_Y_PADDING,
+                AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
+        playPauseAudioLabel.setToolTipText(PLAY_PAUSE);
         playPauseAudioLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -3162,21 +3221,17 @@ public enum Console {
         playPauseAudioLabel.setOpaque(false);
         audioControlsLabel.add(playPauseAudioLabel);
 
-        if (IOUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
-            playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
-        } else {
-            playPauseAudioLabel.setIcon(AudioIcons.playIcon);
-        }
+        revalidateAudioMenuPlayPauseButton();
 
         audioControlsLabel.add(playPauseAudioLabel);
 
         currentX += AUDIO_MENU_X_PADDING + AUDIO_MENU_BUTTON_SIZE;
 
         JLabel nextMusicLabel = new JLabel();
-        nextMusicLabel.setBounds(currentX, AUDIO_MENU_Y_PADDING, AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
+        nextMusicLabel.setBounds(currentX, AUDIO_MENU_BUTTON_Y_PADDING, AUDIO_MENU_BUTTON_SIZE, AUDIO_MENU_BUTTON_SIZE);
         nextMusicLabel.setIcon(AudioIcons.nextIcon);
         audioControlsLabel.add(nextMusicLabel);
-        nextMusicLabel.setToolTipText("Skip");
+        nextMusicLabel.setToolTipText(SKIP);
         nextMusicLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -3224,15 +3279,13 @@ public enum Console {
      * @param screenPos the screen position to move the Console to
      */
     public void setLocationOnScreen(CyderFrame.ScreenPosition screenPos) {
-        ArrayList<RelativeFrame> frames = getPinnedFrames();
-
         consoleCyderFrame.setLocationOnScreen(screenPos);
 
-        for (RelativeFrame rf : frames) {
-            rf.frame().setLocation(
-                    rf.xOffset() + consoleCyderFrame.getX(),
-                    rf.yOffset() + consoleCyderFrame.getY());
-        }
+        getPinnedFrames().forEach(relativeFrame ->
+                relativeFrame.frame().setLocation(
+                        relativeFrame.xOffset() + consoleCyderFrame.getX(),
+                        relativeFrame.yOffset() + consoleCyderFrame.getY())
+        );
     }
 
     /**
@@ -3246,80 +3299,67 @@ public enum Console {
      * @return a list of all frames that are pinned to the Console
      */
     private ArrayList<RelativeFrame> getPinnedFrames() {
-        ArrayList<RelativeFrame> frames = new ArrayList<>();
+        ArrayList<RelativeFrame> ret = new ArrayList<>();
 
-        for (CyderFrame f : UiUtil.getCyderFrames()) {
-            if (f.isConsolePinned() && !f.getTitle().equals(consoleCyderFrame.getTitle())) {
-                if (MathUtil.rectanglesOverlap(consoleCyderFrame.getBounds(), f.getBounds())) {
-                    frames.add(new RelativeFrame(f, f.getX() - consoleCyderFrame.getX(),
-                            f.getY() - consoleCyderFrame.getY()));
-                }
-            }
-        }
+        ImmutableList.copyOf(UiUtil.getCyderFrames().stream()
+                .filter(frame -> frame.isConsole() && !frame.isConsole()
+                        && MathUtil.rectanglesOverlap(consoleCyderFrame.getBounds(), frame.getBounds()))
+                .collect(Collectors.toList())).forEach(frame -> {
+            int xOffset = frame.getX() - consoleCyderFrame.getX();
+            int yOffset = frame.getY() - consoleCyderFrame.getY();
+            ret.add(new RelativeFrame(frame, xOffset, yOffset));
+        });
 
-        return frames;
+        return ret;
     }
 
     /**
      * Refreshes the consoleCyderFrame painted title to display the console clock in the specified pattern if enabled.
      */
     public void refreshClockText() {
-        try {
-            if (UserUtil.getCyderUser().getClockonconsole().equals("0")) {
-                consoleCyderFrame.setCyderFrameTitle("");
-                return;
-            }
+        boolean showClock = UserUtil.getCyderUser().getClockonconsole().equals("1");
+        if (!showClock) {
+            consoleCyderFrame.setCyderFrameTitle("");
+            return;
+        }
 
-            String regularSecondTime = TimeUtil.consoleSecondTime();
-            String regularNoSecondTime = TimeUtil.consoleNoSecondTime();
-            String userConfiguredTime = TimeUtil.userFormattedTime();
+        String regularSecondTime = TimeUtil.consoleSecondTime();
+        String regularNoSecondTime = TimeUtil.consoleNoSecondTime();
+        String userConfiguredTime = TimeUtil.userFormattedTime();
 
-            // no custom pattern so take into account showSeconds
-            if (userConfiguredTime.equalsIgnoreCase(regularSecondTime)
-                    || userConfiguredTime.equalsIgnoreCase(regularNoSecondTime)) {
-                if (UserUtil.getCyderUser().getShowseconds().equalsIgnoreCase("1")) {
-                    userConfiguredTime = regularSecondTime;
-                } else {
-                    userConfiguredTime = regularNoSecondTime;
-                }
-            }
+        // No custom pattern so take into account showSeconds
+        if (userConfiguredTime.equalsIgnoreCase(regularSecondTime)
+                || userConfiguredTime.equalsIgnoreCase(regularNoSecondTime)) {
+            boolean showSeconds = UserUtil.getCyderUser().getShowseconds().equalsIgnoreCase("1");
+            userConfiguredTime = showSeconds ? regularSecondTime : regularNoSecondTime;
+        }
 
-            consoleCyderFrame.setCyderFrameTitle(userConfiguredTime);
-        } catch (Exception ignored) {}
+        consoleCyderFrame.setCyderFrameTitle(userConfiguredTime);
     }
 
     /**
-     * Simply closes the console due to a user logout.
+     * Simply closes the console frame.
      *
      * @param exit       whether to exit Cyder upon closing the Console
      * @param logoutUser whether to log out the currently logged-in user
      */
     public void closeFrame(boolean exit, boolean logoutUser) {
         consoleClosed.set(true);
-        saveScreenStat();
 
-        //stop any audio
+        saveScreenStat();
         IOUtil.stopGeneralAudio();
 
-        //close the input handler
         if (baseInputHandler != null) {
             baseInputHandler.killThreads();
             baseInputHandler = null;
         }
 
         if (logoutUser) {
-            Logger.log(Logger.Tag.LOGOUT, "[CyderUser = " + UserUtil.getCyderUser().getName() + "]");
+            Logger.log(Logger.Tag.LOGOUT, UserUtil.getCyderUser().getName());
             UserUtil.getCyderUser().setLoggedin("0");
         }
 
-        //remove closing actions
-        consoleCyderFrame.removePostCloseActions();
-
-        //dispose and set closed var as true
-        if (exit) {
-            consoleCyderFrame.addPostCloseAction(() -> OSUtil.exit(ExitCondition.GenesisControlledExit));
-        }
-
+        if (exit) consoleCyderFrame.addPostCloseAction(() -> OSUtil.exit(ExitCondition.GenesisControlledExit));
         consoleCyderFrame.dispose();
     }
 
@@ -3367,77 +3407,57 @@ public enum Console {
         UiUtil.closeAllFrames(true);
 
         IOUtil.stopAllAudio();
-
         NetworkUtil.endDecentPingChecker();
-
         LoginHandler.showGui();
     }
 
-    // -------
-    // Dancing
-    // -------
+    // -----------------------------------------------------
+    // Dancing (Get up on teh floor, dancing all night long)
+    // -----------------------------------------------------
+
+    /**
+     * A record for a frame to dance.
+     */
+    private record RestoreFrame(CyderFrame frame, int restoreX, int restoreY, boolean draggingWasEnabled) {
+        /**
+         * Restores the encapsulated frame's original location and re-enables
+         * dragging if it was enabled prior to dancing.
+         */
+        public void restore() {
+            frame.setLocation(restoreX, restoreY);
+
+            if (draggingWasEnabled) {
+                frame.enableDragging();
+            }
+        }
+    }
 
     /**
      * Invokes dance in a synchronous way on all CyderFrame instances.
      */
     public void dance() {
-        class RestoreFrame {
-            private final int restoreX;
-            private final int restoreY;
-            private final CyderFrame frame;
-            private final boolean draggingWasEnabled;
-
-            private RestoreFrame(CyderFrame frame, int restoreX, int restoreY, boolean draggingWasEnabled) {
-                this.restoreX = restoreX;
-                this.restoreY = restoreY;
-                this.frame = frame;
-                this.draggingWasEnabled = draggingWasEnabled;
-            }
-        }
-
-        // List of frames for restoration purposes
         LinkedList<RestoreFrame> restoreFrames = new LinkedList<>();
+        UiUtil.getCyderFrames().forEach(frame -> {
+            restoreFrames.add(new RestoreFrame(frame, frame.getX(), frame.getY(), frame.isDraggingEnabled()));
+            frame.disableDragging();
+        });
 
-        // Add frame's to list for restoration coords and dragging restoration
-        for (CyderFrame f : UiUtil.getCyderFrames()) {
-            restoreFrames.add(new RestoreFrame(f, f.getX(), f.getY(), f.isDraggingEnabled()));
-            f.disableDragging();
-        }
-
-        //set var to true so we can terminate dancing
         currentlyDancing = true;
 
-        // Invoke dance step on all threads which currently dancing is true and all frames are not in the finished state
         while (currentlyDancing && !allFramesFinishedDancing()) {
-            for (CyderFrame f : UiUtil.getCyderFrames()) {
-                f.danceStep();
-            }
+            UiUtil.getCyderFrames().forEach(CyderFrame::danceStep);
         }
 
         stopDancing();
-
-        //reset frame's locations and dragging vars
-        for (RestoreFrame f : restoreFrames) {
-            f.frame.setLocation(f.restoreX, f.restoreY);
-
-            if (f.draggingWasEnabled) {
-                f.frame.enableDragging();
-            }
-        }
+        restoreFrames.forEach(RestoreFrame::restore);
     }
 
     /**
      * Ends the dancing sequence if ongoing.
      */
     public void stopDancing() {
-        // End dancing sequence
         currentlyDancing = false;
-
-        // Reset all frames to dance again
-        for (CyderFrame f : UiUtil.getCyderFrames()) {
-            f.setDancingDirection(CyderFrame.DancingDirection.INITIAL_UP);
-            f.setDancingFinished(false);
-        }
+        UiUtil.getCyderFrames().forEach(CyderFrame::resetDancing);
     }
 
     /**
@@ -3446,16 +3466,7 @@ public enum Console {
      * @return whether all frames have completed a dance iteration
      */
     private boolean allFramesFinishedDancing() {
-        boolean ret = true;
-
-        for (CyderFrame f : UiUtil.getCyderFrames()) {
-            if (!f.isDancingFinished()) {
-                ret = false;
-                break;
-            }
-        }
-
-        return ret;
+        return UiUtil.getCyderFrames().stream().anyMatch(frame -> !frame.isDancingFinished());
     }
 
     /**
@@ -3465,18 +3476,17 @@ public enum Console {
      */
     public void originalChams() {
         try {
-            CyderFrame ref = INSTANCE.getConsoleCyderFrame();
+            CyderFrame ref = getConsoleCyderFrame();
             Rectangle monitorBounds = ref.getMonitorBounds();
 
-            INSTANCE.getConsoleCyderFrame().setVisible(false);
-            BufferedImage capture = Console.INSTANCE
-                    .getInputHandler().getRobot().createScreenCapture(monitorBounds);
-            INSTANCE.getConsoleCyderFrame().setVisible(true);
+            consoleCyderFrame.setVisible(false);
+            BufferedImage capture = getInputHandler().getRobot().createScreenCapture(monitorBounds);
+            consoleCyderFrame.setVisible(true);
 
             capture = ImageUtil.cropImage(capture, (int) (Math.abs(monitorBounds.getX()) + ref.getX()),
                     (int) (Math.abs(monitorBounds.getY()) + ref.getY()), ref.getWidth(), ref.getHeight());
 
-            INSTANCE.setBackground(ImageUtil.toImageIcon(capture));
+            setBackground(ImageUtil.toImageIcon(capture));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -3502,6 +3512,12 @@ public enum Console {
     private final CyderLabel titleNotifyLabel = new CyderLabel();
 
     /**
+     * The exception text for a title notify call with too short if a visible duration.
+     */
+    private static final String TITLE_NOTIFY_LENGTH_TOO_SHORT = "A user probably won't"
+            + " see a message with that short of a duration";
+
+    /**
      * Paints a label with the provided possibly html-formatted string over the
      * Console for the provided number of milliseconds
      *
@@ -3511,8 +3527,7 @@ public enum Console {
      */
     public void titleNotify(String htmlString, Font labelFont, int visibleDuration) {
         Preconditions.checkNotNull(htmlString);
-        Preconditions.checkArgument(visibleDuration > 500,
-                "A user probably won't see a message with that short of a duration");
+        Preconditions.checkArgument(visibleDuration > 500, TITLE_NOTIFY_LENGTH_TOO_SHORT);
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -3564,9 +3579,7 @@ public enum Console {
      * Revalidates the bounds of the title label notify if one is underway.
      */
     public void revalidateTitleNotify() {
-        if (consoleCyderFrame == null || titleNotifyLabel.getText().isEmpty()) {
-            return;
-        }
+        if (consoleCyderFrame == null || titleNotifyLabel.getText().isEmpty()) return;
 
         int w = titleNotifyLabel.getWidth();
         int h = titleNotifyLabel.getHeight();
