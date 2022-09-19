@@ -57,6 +57,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static cyder.console.ConsoleConstants.*;
@@ -496,7 +497,6 @@ public enum Console {
             if (consoleCyderFrame == null
                     || !consoleCyderFrame.isFocusable()
                     || !consoleCyderFrame.isDraggingEnabled()) return;
-
 
             UiUtil.getCyderFrames().stream()
                     .filter(frame -> frame.isConsolePinned() && !frame.isConsole())
@@ -1104,7 +1104,17 @@ public enum Console {
     /**
      * The thread name of the debug stat finder.
      */
-    private final String DEBUG_STAT_FINDER_THREAD_NAME = "Debug Stat Finder";
+    private static final String DEBUG_STAT_FINDER_THREAD_NAME = "Debug Stat Finder";
+
+    /**
+     * The key for obtaining the testing mode prop value.
+     */
+    private static final String TESTING_MODE = "testing_mode";
+
+    /**
+     * The number of days without Cyder use which can pass without a welcome back notification.
+     */
+    private static final int ACCEPTABLE_DAYS_WITHOUT_USE = 1;
 
     /**
      * Performs special actions on the console start such as special day events,
@@ -1149,22 +1159,23 @@ public enum Console {
         }
 
         if (TimeUtil.isDeveloperBirthday()) {
-            getInputHandler().println("Thanks for creating me Nate :,)");
+            getInputHandler().println("Thanks for creating me Nate :,) Happy Birthday Bud");
         }
 
-        if (UserUtil.getCyderUser().getDebugwindows().equals("1")) {
+        boolean debugWindows = UserUtil.getCyderUser().getDebugwindows().equals("1");
+        if (debugWindows) {
             CyderThreadRunner.submit(() -> {
                 try {
-                    for (String prop : StatUtil.getSystemProperties()) {
-                        getInputHandler().println(prop);
+                    for (String property : StatUtil.getSystemProperties()) {
+                        getInputHandler().println(property);
                     }
 
-                    for (String prop : StatUtil.getComputerMemorySpaces()) {
-                        getInputHandler().println(prop);
+                    for (String property : StatUtil.getComputerMemorySpaces()) {
+                        getInputHandler().println(property);
                     }
 
-                    for (String prop : StatUtil.getJavaProperties()) {
-                        getInputHandler().println(prop);
+                    for (String property : StatUtil.getJavaProperties()) {
+                        getInputHandler().println(property);
                     }
 
                     Future<StatUtil.DebugStats> futureStats = StatUtil.getDebugProps();
@@ -1174,11 +1185,7 @@ public enum Console {
                     }
 
                     StatUtil.DebugStats stats = futureStats.get();
-
-                    for (String line : stats.lines()) {
-                        getInputHandler().println(line);
-                    }
-
+                    stats.lines().forEach(line -> getInputHandler().println(line));
                     getInputHandler().println(stats.countryFlag());
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
@@ -1186,13 +1193,13 @@ public enum Console {
             }, DEBUG_STAT_FINDER_THREAD_NAME);
         }
 
-        if (PropLoader.getBoolean("testing_mode")) {
+        if (PropLoader.getBoolean(TESTING_MODE)) {
             Logger.log(Logger.Tag.CONSOLE_LOAD, "[" + OSUtil.getOsUsername() + "] [TESTING MODE]");
             ManualTests.launchTests();
         }
 
         if (TimeUtil.millisToDays(System.currentTimeMillis() -
-                Long.parseLong(UserUtil.getCyderUser().getLaststart())) > 1) {
+                Long.parseLong(UserUtil.getCyderUser().getLaststart())) > ACCEPTABLE_DAYS_WITHOUT_USE) {
             consoleCyderFrame.notify("Welcome back, " + UserUtil.getCyderUser().getName() + "!");
         }
 
@@ -1320,10 +1327,7 @@ public enum Console {
         @Override
         public void actionPerformed(ActionEvent e) {
             debugLines = !debugLines;
-
-            for (CyderFrame frame : UiUtil.getCyderFrames()) {
-                frame.drawDebugLines(debugLines);
-            }
+            UiUtil.getCyderFrames().forEach(frame -> frame.drawDebugLines(debugLines));
         }
     };
 
@@ -2166,16 +2170,16 @@ public enum Console {
         private void checkForSpecialFunctionKeys(KeyEvent e) {
             int code = e.getKeyCode();
 
-            for (int specialCode : SPECIAL_FUNCTION_KEY_CODES) {
+            IntStream.range(KeyEvent.VK_F13, KeyEvent.VK_F24 + 1).forEach(specialCode -> {
                 if (code == specialCode) {
                     int functionKey = (code - KeyEvent.VK_F13 + SPECIAL_FUNCTION_KEY_CODE_OFFSET);
                     baseInputHandler.println("Interesting F" + functionKey + " key");
 
                     if (functionKey == F_17_KEY_CODE) {
-                        IOUtil.playGeneralAudio(StaticUtil.getStaticResource("f17.mp3"));
+                        IOUtil.playGeneralAudio(F_17_MUSIC_FILE);
                     }
                 }
-            }
+            });
         }
 
         @ForReadability
@@ -2198,22 +2202,22 @@ public enum Console {
     /**
      * The key to use for the max font size prop.
      */
-    private final String MAX_FONT_SIZE = "max_font_size";
+    private static final String MAX_FONT_SIZE = "max_font_size";
 
     /**
      * The key to use for the min font size prop.
      */
-    private final String MIN_FONT_SIZE = "min_font_size";
+    private static final String MIN_FONT_SIZE = "min_font_size";
 
     /**
      * The key to use for the font metric prop.
      */
-    private final String FONT_METRIC = "font_metric";
+    private static final String FONT_METRIC = "font_metric";
 
     /**
      * Some kind of a magic number that denotes the mouse wheel is being scrolled up.
      */
-    private final int WHEEL_UP = -1;
+    private static final int WHEEL_UP = -1;
 
     /**
      * The MouseWheelListener used for increasing/decreasing the
@@ -2435,12 +2439,12 @@ public enum Console {
     /**
      * The degree amount used for console directions requiring one rotation.
      */
-    private final int NINETY_DEGREES = 90;
+    private static final int NINETY_DEGREES = 90;
 
     /**
      * The degree amount used for console directions requiring two rotations.
      */
-    private final int ONE_EIGHTY_DEGREES = 180;
+    private static final int ONE_EIGHTY_DEGREES = 180;
 
     /**
      * Sets the background index to the provided index

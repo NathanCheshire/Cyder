@@ -89,23 +89,6 @@ public final class ConsoleConstants {
     public static final int TASKBAR_MENU_WIDTH = 110;
 
     /**
-     * The list function key codes above the default 12 function keys which Windows is capable of handling.
-     */
-    public static final ImmutableList<Integer> SPECIAL_FUNCTION_KEY_CODES = ImmutableList.of(
-            KeyEvent.VK_F13,
-            KeyEvent.VK_F14,
-            KeyEvent.VK_F15,
-            KeyEvent.VK_F16,
-            KeyEvent.VK_F17,
-            KeyEvent.VK_F18,
-            KeyEvent.VK_F19,
-            KeyEvent.VK_F20,
-            KeyEvent.VK_F21,
-            KeyEvent.VK_F22,
-            KeyEvent.VK_F23,
-            KeyEvent.VK_F24);
-
-    /**
      * The keycode used to detect the f17 key being pressed and invoke the easter egg.
      */
     public static final int F_17_KEY_CODE = 17;
@@ -154,6 +137,11 @@ public final class ConsoleConstants {
      * The font used for the clock label.
      */
     public static final Font CONSOLE_CLOCK_FONT = new Font("Agency FB", Font.BOLD, 25);
+
+    /**
+     * The music file for the f17 easter egg.
+     */
+    public static final File F_17_MUSIC_FILE = StaticUtil.getStaticResource("f17.mp3");
 
     /**
      * Suppress default constructor.
