@@ -14,7 +14,7 @@ import cyder.utils.OSUtil;
 
 import javax.swing.*;
 
-import static cyder.genesis.Constants.*;
+import static cyder.genesis.GenesisConstants.*;
 
 /**
  * The main Cyder entry point that performs checks on data and
@@ -108,6 +108,7 @@ public final class Cyder {
      */
     private static void addExitHooks() {
         Runtime.getRuntime().addShutdownHook(CyderThreadRunner.createThread(() -> OSUtil.deleteFile(
-                OSUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName()), false), CLEANER_EXIT_HOOK));
+                        OSUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName()), false),
+                REMOVE_TEMP_DIRECTORY_HOOK_NAME));
     }
 }

@@ -12,7 +12,7 @@ import java.awt.*;
 /**
  * Constants for the genesis package.
  */
-public final class Constants {
+public final class GenesisConstants {
     /**
      * The thickness of default swing tooltip borders.
      */
@@ -61,7 +61,7 @@ public final class Constants {
     /**
      * The name to use for the temporary directory cleaning exit hook.
      */
-    public static final String CLEANER_EXIT_HOOK = "cyder-temporary-directory-cleaner-exit-hook";
+    public static final String REMOVE_TEMP_DIRECTORY_HOOK_NAME = "cyder-temporary-directory-cleaner-exit-hook";
 
     /**
      * The font used for default Java tooltips.
@@ -92,7 +92,7 @@ public final class Constants {
     /**
      * Suppress default constructor.
      */
-    private Constants() {
+    private GenesisConstants() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 }

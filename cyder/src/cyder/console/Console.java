@@ -55,6 +55,7 @@ import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -80,14 +81,9 @@ public enum Console {
     }
 
     /**
-     * The font used for the clock label.
-     */
-    public final Font CONSOLE_CLOCK_FONT = new Font("Agency FB", Font.BOLD, 25);
-
-    /**
      * An list of the frames to ignore when placing a frame in the console taskbar menu.
      */
-    private ArrayList<CyderFrame> frameTaskbarExceptions;
+    private ImmutableList<CyderFrame> frameTaskbarExceptions;
 
     /**
      * The UUID of the user currently associated with the Console.
@@ -232,6 +228,7 @@ public enum Console {
 
         CyderColors.refreshGuiThemeColor();
         ConsoleIcon consoleIcon = determineConsoleIconAndDimensions();
+
         setupConsoleCyderFrame(consoleIcon);
         refreshConsoleSuperTitle();
 
@@ -256,8 +253,8 @@ public enum Console {
         Note to maintainers: we only close splash here, all other frames are disposed when we logout
         which is the only way this launch method is invoked more than once for an instance of Cyder.
 
-        The login frame is disposed else where as well. Thus any frames left open are warnings or
-        popups which the user should read and dismiss themselves.
+        The login frame is disposed elsewhere as well. Thus any frames left open are warnings or
+        popups from validation subroutines which the user (hopefully developer) should read and dismiss themselves.
          */
         CyderSplash.INSTANCE.fastDispose();
 
@@ -330,32 +327,50 @@ public enum Console {
                 super.dispose(isFullscreen());
             }
 
-            private final int DEGREE_LIMIT = 360;
-            private final int DEGREE_INCREMENT = 2;
-            private final int DEGREE_DELAY = 2;
-            private boolean consoleBarrelRollLocked = false;
+            /**
+             * A full barrel roll's rotation degrees.
+             */
+            private static final int FULL_ROTATION_DEGREES = 360;
+
+            /**
+             * The increment in degrees for a barrel roll.
+             */
+            private static final int DEGREE_INCREMENT = 2;
+
+            /**
+             * The delay between barrel roll increments.
+             */
+            private static final int BARREL_ROLL_DELAY = 2;
+
+            /**
+             * Whether a barrel roll is currently underway.
+             */
+            private static boolean consoleBarrelRollLocked = false;
+
+            /**
+             * The thread name for the barrel roll animator.
+             */
+            private static final String BARREL_ROLL_THREAD_NAME = "Console Barrel Roll Thread";
 
             /**
              * {@inheritDoc}
              */
             @Override
             public void barrelRoll() {
-                if (consoleBarrelRollLocked)
-                    return;
-
+                if (consoleBarrelRollLocked) return;
                 consoleBarrelRollLocked = true;
 
                 CyderThreadRunner.submit(() -> {
                     BufferedImage masterImage = getCurrentBackground().generateBufferedImage();
-                    for (int i = 0 ; i <= DEGREE_LIMIT ; i += DEGREE_INCREMENT) {
+                    for (int i = 0 ; i <= FULL_ROTATION_DEGREES ; i += DEGREE_INCREMENT) {
                         BufferedImage rotated = ImageUtil.rotateImage(masterImage, i);
                         getConsoleCyderFrameContentPane().setIcon(new ImageIcon(rotated));
-                        ThreadUtil.sleep(DEGREE_DELAY);
+                        ThreadUtil.sleep(BARREL_ROLL_DELAY);
                     }
 
                     getConsoleCyderFrameContentPane().setIcon(getCurrentBackground().generateImageIcon());
                     consoleBarrelRollLocked = false;
-                }, "Console Barrel Roll");
+                }, BARREL_ROLL_THREAD_NAME);
             }
 
             /**
@@ -368,16 +383,11 @@ public enum Console {
             }
         };
 
-        frameTaskbarExceptions = new ArrayList<>();
-        frameTaskbarExceptions.add(consoleCyderFrame);
-        frameTaskbarExceptions.add(CyderSplash.INSTANCE.getSplashFrame());
+        frameTaskbarExceptions = ImmutableList.of(consoleCyderFrame, CyderSplash.INSTANCE.getSplashFrame());
 
         consoleCyderFrame.setBackground(Color.black);
-
         consoleCyderFrame.addEndDragEventCallback(this::saveScreenStat);
-
         consoleCyderFrame.setDraggingEnabled(!UserUtil.getCyderUser().getFullscreen().equals("1"));
-
         consoleCyderFrame.addWindowListener(consoleWindowAdapter);
 
         getConsoleCyderFrameContentPane().setToolTipText(
@@ -407,12 +417,13 @@ public enum Console {
         int height;
         ImageIcon icon;
 
-        if (UserUtil.getCyderUser().getRandombackground().equals("1")
-                && reloadAndGetBackgrounds().size() > 1) {
+        boolean randombackground = UserUtil.getCyderUser().getRandombackground().equals("1");
+        if (randombackground && reloadAndGetBackgrounds().size() > 1) {
             backgroundIndex = NumberUtil.randInt(backgrounds.size() - 1);
         }
 
-        if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
+        boolean fullscreen = UserUtil.getCyderUser().getFullscreen().equals("1");
+        if (fullscreen) {
             int monitorId = UserUtil.getCyderUser().getScreenStat().getMonitor();
             Rectangle monitorBounds = UiUtil.getGraphicsDevice(monitorId).getDefaultConfiguration().getBounds();
 
@@ -433,24 +444,30 @@ public enum Console {
                     .getReferenceFile().toString(), getConsoleDirection()));
         }
 
-        if (width == 0 || height == 0)
+        if (width == 0 || height == 0) {
             throw new FatalException("Could not construct background dimension");
+        }
 
         return new ConsoleIcon(icon, new Dimension(width, height));
     }
 
     /**
+     * The key for obtaining the Cyder version prop from the props.
+     */
+    private static final String VERSION = "version";
+
+    /**
      * Refreshes the console super title, that of displaying "Version Cyder [Nathan]".
      */
     public void refreshConsoleSuperTitle() {
-        consoleCyderFrame.setTitle(PropLoader.getString("version") +
+        consoleCyderFrame.setTitle(PropLoader.getString(VERSION) +
                 " Cyder [" + UserUtil.getCyderUser().getName() + "]");
     }
 
     /**
      * The value to indicate a frame is not pinned to the console.
      */
-    private final int FRAME_NOT_PINNED = Integer.MIN_VALUE;
+    private static final int FRAME_NOT_PINNED = Integer.MIN_VALUE;
 
     /**
      * The mouse motion adapter for frame pinned window logic.
@@ -458,20 +475,15 @@ public enum Console {
     private final MouseMotionAdapter consolePinnedMouseMotionAdapter = new MouseMotionAdapter() {
         @Override
         public void mouseDragged(MouseEvent e) {
-            if (consoleCyderFrame != null
-                    && consoleCyderFrame.isFocused()
-                    && consoleCyderFrame.isDraggingEnabled()) {
+            if (consoleCyderFrame == null
+                    || !consoleCyderFrame.isFocusable()
+                    || !consoleCyderFrame.isDraggingEnabled()) return;
 
-                for (CyderFrame f : UiUtil.getCyderFrames()) {
-                    if (f.isConsolePinned() && !f.getTitle().equals(consoleCyderFrame.getTitle())
-                            && f.getRelativeX() != FRAME_NOT_PINNED
-                            && f.getRelativeY() != FRAME_NOT_PINNED) {
-
-                        f.setLocation(consoleCyderFrame.getX() + f.getRelativeX(),
-                                consoleCyderFrame.getY() + f.getRelativeY());
-                    }
-                }
-            }
+            UiUtil.getCyderFrames().stream().filter(frame -> frame.isConsolePinned() && !frame.isConsole()
+                            && frame.getRelativeX() != FRAME_NOT_PINNED
+                            && frame.getRelativeY() != FRAME_NOT_PINNED)
+                    .forEach(frame -> frame.setLocation(consoleCyderFrame.getX() + frame.getRelativeX(),
+                            consoleCyderFrame.getY() + frame.getRelativeY()));
         }
     };
 
@@ -481,20 +493,23 @@ public enum Console {
     private final MouseAdapter consolePinnedMouseAdapter = new MouseAdapter() {
         @Override
         public void mousePressed(MouseEvent e) {
-            if (consoleCyderFrame != null && consoleCyderFrame.isFocused()
-                    && consoleCyderFrame.isDraggingEnabled()) {
-                for (CyderFrame cyderFrame : UiUtil.getCyderFrames()) {
-                    if (cyderFrame.isConsolePinned() && !cyderFrame.isConsole()) {
-                        if (MathUtil.rectanglesOverlap(consoleCyderFrame.getBounds(), cyderFrame.getBounds())) {
-                            cyderFrame.setRelativeX(-consoleCyderFrame.getX() + cyderFrame.getX());
-                            cyderFrame.setRelativeY(-consoleCyderFrame.getY() + cyderFrame.getY());
+            if (consoleCyderFrame == null
+                    || !consoleCyderFrame.isFocusable()
+                    || !consoleCyderFrame.isDraggingEnabled()) return;
+
+
+            UiUtil.getCyderFrames().stream()
+                    .filter(frame -> frame.isConsolePinned() && !frame.isConsole())
+                    .forEach(frame -> {
+                        boolean overlap = MathUtil.rectanglesOverlap(consoleCyderFrame.getBounds(), frame.getBounds());
+                        if (overlap) {
+                            frame.setRelativeX(-consoleCyderFrame.getX() + frame.getX());
+                            frame.setRelativeY(-consoleCyderFrame.getY() + frame.getY());
                         } else {
-                            cyderFrame.setRelativeX(FRAME_NOT_PINNED);
-                            cyderFrame.setRelativeY(FRAME_NOT_PINNED);
+                            frame.setRelativeX(FRAME_NOT_PINNED);
+                            frame.setRelativeY(FRAME_NOT_PINNED);
                         }
-                    }
-                }
-            }
+                    });
         }
     };
 
@@ -507,8 +522,15 @@ public enum Console {
         consoleCyderFrame.addDragLabelMouseListener(consolePinnedMouseAdapter);
     }
 
-    private final int menuLabelShowingX = 3;
-    private final int menuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
+    /**
+     * The x value for the menu label when open.
+     */
+    private static final int menuLabelShowingX = 3;
+
+    /**
+     * The y value for the menu label when open.
+     */
+    private static final int menuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
 
     /**
      * Revalidates the bounds of the custom console menu and the audio controls menu.
@@ -688,12 +710,12 @@ public enum Console {
     /**
      * The starting minimum opacity of the console for the fade in animation.
      */
-    private static final float MIN_OPACITY = 0f;
+    private static final float FADE_IN_STARTING_OPACITY = 0f;
 
     /**
      * The ending maximum opacity of the console for the fade in animation.
      */
-    private static final float MAX_OPACITY = 1f;
+    private static final float FADE_IN_ENDING_OPACITY = 1f;
 
     /**
      * The delay between fade in increments for the fade in animation.
@@ -710,11 +732,11 @@ public enum Console {
      */
     @ForReadability
     private void setConsoleVisibleAndPerformFadeInAnimation() {
-        consoleCyderFrame.setOpacity(0f);
+        consoleCyderFrame.setOpacity(FADE_IN_STARTING_OPACITY);
         consoleCyderFrame.setVisible(true);
 
         CyderThreadRunner.submit(() -> {
-            for (float i = MIN_OPACITY ; i < MAX_OPACITY ; i += FADE_IN_ANIMATION_INCREMENT) {
+            for (float i = FADE_IN_STARTING_OPACITY ; i < FADE_IN_ENDING_OPACITY ; i += FADE_IN_ANIMATION_INCREMENT) {
                 consoleCyderFrame.setOpacity(i);
                 ThreadUtil.sleep(FADE_IN_ANIMATION_DELAY);
             }
@@ -731,8 +753,8 @@ public enum Console {
         ScreenStat requestedConsoleStats = UserUtil.getCyderUser().getScreenStat();
 
         boolean onTop = requestedConsoleStats.isConsoleOnTop();
-        consoleCyderFrame.getTopDragLabel().getPinButton()
-                .setState(onTop ? PinButton.PinState.CONSOLE_PINNED : PinButton.PinState.DEFAULT);
+        PinButton.PinState state = onTop ? PinButton.PinState.CONSOLE_PINNED : PinButton.PinState.DEFAULT;
+        consoleCyderFrame.getTopDragLabel().getPinButton().setState(state);
 
         int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
         int requestedConsoleHeight = requestedConsoleStats.getConsoleHeight();
@@ -763,12 +785,26 @@ public enum Console {
     /**
      * The tooltip of the alternate background button.
      */
-    private final String ALTERNATE_BACKGROUND = "Alternate Background";
+    private static final String ALTERNATE_BACKGROUND = "Alternate Background";
 
     /**
      * The tooltip of the audio menu button.
      */
-    private final String AUDIO_MENU = "Audio Menu";
+    private static final String AUDIO_MENU = "Audio Menu";
+
+    /**
+     * The text for the only one background notification builder.
+     */
+    private static final String onlyOneBackgroundNotificationText = "You only have one background image. "
+            + "Try adding more via the user editor";
+
+    /**
+     * The builder for when the alternate background buttons is pressed when only one background is present.
+     */
+    private static final CyderFrame.NotificationBuilder onlyOneBackgroundNotificationBuilder
+            = new CyderFrame.NotificationBuilder(onlyOneBackgroundNotificationText)
+            .setViewDuration(5000)
+            .setOnKillAction(() -> UserEditor.showGui(UserEditor.Page.FILES));
 
     /**
      * Installs the right drag label buttons for the console frame.
@@ -812,18 +848,10 @@ public enum Console {
         changeSizeButton.setClickAction(() -> {
             reloadBackgrounds();
 
-            try {
-                if (canSwitchBackground()) {
-                    switchBackground();
-                } else if (reloadAndGetBackgrounds().size() == 1) {
-                    consoleCyderFrame.notify(new CyderFrame.NotificationBuilder(
-                            "You only have one background image. Try adding more via the user editor")
-                            .setViewDuration(5000)
-                            .setOnKillAction(() -> UserEditor.showGui(UserEditor.Page.FILES)));
-                }
-            } catch (Exception ex) {
-                consoleCyderFrame.notify("Error in parsing background; perhaps it was deleted.");
-                Logger.log(Logger.Tag.EXCEPTION, "Background DNE");
+            if (canSwitchBackground()) {
+                switchBackground();
+            } else if (reloadAndGetBackgrounds().size() == 1) {
+                consoleCyderFrame.notify(onlyOneBackgroundNotificationBuilder);
             }
         });
         consoleCyderFrame.getTopDragLabel().addRightButton(changeSizeButton, 2);
@@ -869,12 +897,12 @@ public enum Console {
     /**
      * The key used for the debug lines abstract action.
      */
-    private final String DEBUG_LINES = "debuglines";
+    private static final String DEBUG_LINES = "debuglines";
 
     /**
      * The key used for the forced exit abstract action.
      */
-    private final String FORCED_EXIT = "forcedexit";
+    private static final String FORCED_EXIT = "forcedexit";
 
     /**
      * Installs all the input field listeners.
@@ -966,28 +994,46 @@ public enum Console {
     private final String CHIME_PATH = StaticUtil.getStaticPath(CHIME);
 
     /**
+     * The last hour a chime sound was played at.
+     */
+    private final AtomicInteger lastChimeHour = new AtomicInteger(-1);
+
+    /**
+     * The frequency to check the clock for a chime.
+     */
+    private static final int CHIME_CHECKER_FREQUENCY = 50;
+
+    /**
+     * The clock refresh frequency.
+     */
+    private static final int CLOCK_REFRESH_SLEEP_TIME = 200;
+
+    /**
+     * The frequency to check for console disposal in the clock refresh thread.
+     */
+    private static final int CLOCK_CHECK_FREQUENCY = 50;
+
+    /**
      * Begins the console checker executors/threads.
      */
     @ForReadability
     private void startExecutors() {
         CyderThreadRunner.submit(() -> {
             try {
-                int lastChimeHour = -1;
-
                 while (true) {
                     if (!isClosed()) {
                         int min = LocalDateTime.now().getMinute();
                         int sec = LocalDateTime.now().getSecond();
 
-                        // if at hh:00:00 and we haven't chimed for this hour yet
-                        if (min == 0 && sec == 0 && lastChimeHour != LocalDateTime.now().getHour()) {
-                            if (UserUtil.getCyderUser().getHourlychimes().equals("1")) {
+                        if (min == 0 && sec == 0 && lastChimeHour.get() != LocalDateTime.now().getHour()) {
+                            boolean chime = UserUtil.getCyderUser().getHourlychimes().equals("1");
+                            if (chime) {
                                 IOUtil.playSystemAudio(CHIME_PATH);
-                                lastChimeHour = LocalDateTime.now().getHour();
+                                lastChimeHour.set(LocalDateTime.now().getHour());
                             }
                         }
 
-                        ThreadUtil.sleep(50);
+                        ThreadUtil.sleep(CHIME_CHECKER_FREQUENCY);
                     }
                 }
             } catch (Exception e) {
@@ -995,15 +1041,12 @@ public enum Console {
             }
         }, IgnoreThread.HourlyChimeChecker.getName());
 
-        int clockRefreshSleepTime = 200;
-        int clockCheckFrequency = 50;
-
         CyderThreadRunner.submit(() -> {
             while (true) {
                 if (!isClosed()) {
                     try {
                         refreshClockText();
-                        TimeUtil.sleepWithChecks(clockRefreshSleepTime, clockCheckFrequency, consoleClosed);
+                        TimeUtil.sleepWithChecks(CLOCK_REFRESH_SLEEP_TIME, CLOCK_CHECK_FREQUENCY, consoleClosed);
                     } catch (Exception e) {
                         ExceptionHandler.silentHandle(e);
                     }
@@ -1603,7 +1646,8 @@ public enum Console {
         return ImmutableList.copyOf(ret);
     }
 
-    // todo remove icon button class
+    // todo remove icon button class, need an alternative for generating
+    //  a JLabel with an icon for normal, hover, and focused states
 
     /**
      * Returns the mapped exe taskbar icon items.
@@ -2024,7 +2068,7 @@ public enum Console {
         }
 
         @Override
-        public void keyTyped(java.awt.event.KeyEvent e) {
+        public void keyTyped(KeyEvent e) {
             if (isBackspace(e) && wouldRemoveBashStringContents()) {
                 e.consume();
                 inputField.setText(consoleBashString);
@@ -3599,8 +3643,7 @@ public enum Console {
      */
     public void addToFrameTaskbarExceptions(CyderFrame frame) {
         Preconditions.checkNotNull(frame);
-
-        frameTaskbarExceptions.add(frame);
+        frameTaskbarExceptions = ImmutableList.<CyderFrame>builder().addAll(frameTaskbarExceptions).add(frame).build();
     }
 
     /**
@@ -3609,6 +3652,9 @@ public enum Console {
      * @param frame the frame to remove
      */
     public void removeFrameTaskbarException(CyderFrame frame) {
-        frameTaskbarExceptions.remove(frame);
+        Preconditions.checkNotNull(frame);
+
+        frameTaskbarExceptions = ImmutableList.copyOf(frameTaskbarExceptions.stream()
+                .filter(streamingFrame -> !streamingFrame.equals(frame)).collect(Collectors.toList()));
     }
 }

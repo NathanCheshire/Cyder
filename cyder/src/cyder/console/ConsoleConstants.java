@@ -151,6 +151,11 @@ public final class ConsoleConstants {
     public static final int FRAME_NORMAL = JFrame.NORMAL;
 
     /**
+     * The font used for the clock label.
+     */
+    public static final Font CONSOLE_CLOCK_FONT = new Font("Agency FB", Font.BOLD, 25);
+
+    /**
      * Suppress default constructor.
      */
     private ConsoleConstants() {
