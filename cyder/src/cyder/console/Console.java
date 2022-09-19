@@ -544,7 +544,7 @@ public enum Console {
     /**
      * The y value for the audio menu after animated on.
      */
-    private final int audioMenuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
+    private static final int audioMenuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
 
     /**
      * Revalidates the audio menu bounds.

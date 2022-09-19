@@ -1,6 +1,7 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Range;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.console.Console;
@@ -25,14 +26,24 @@ import java.net.*;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
-import java.util.regex.Matcher;
 
 /**
  * Utility methods revolving around networking, urls, servers, etc.
  */
 public class NetworkUtil {
+    /**
+     * The key for obtaining the latency ip prop.
+     */
     public static final String LATENCY_IP_KEY = "latency_ip";
+
+    /**
+     * The key for obtaining the latency port prop.
+     */
     public static final String LATENCY_PORT_KEY = "latency_port";
+
+    /**
+     * The key for obtaining the latency name prop.
+     */
     public static final String LATENCY_NAME = "latency_name";
 
     /**
@@ -144,6 +155,11 @@ public class NetworkUtil {
     private static final String HEAD = "HEAD";
 
     /**
+     * The range of response codes that indicate a website as reachable/readable.
+     */
+    private static final Range<Integer> SITE_REACHABLE_RESPONSE_CODE_RANGE = Range.closed(200, 399);
+
+    /**
      * Pings an HTTP URL. This effectively sends a HEAD request and returns <code>true</code>
      * if the response code is in the 200-399 range.
      *
@@ -161,8 +177,9 @@ public class NetworkUtil {
             connection.setConnectTimeout(SITE_PING_TIMEOUT);
             connection.setReadTimeout(SITE_PING_TIMEOUT);
             connection.setRequestMethod(HEAD);
+
             int responseCode = connection.getResponseCode();
-            return (200 <= responseCode && responseCode <= 399);
+            return SITE_REACHABLE_RESPONSE_CODE_RANGE.contains(responseCode);
         } catch (Exception ignored) {}
 
         return false;
@@ -185,24 +202,35 @@ public class NetworkUtil {
      */
     public static final String LATENCY_GOOGLE_IP = "172.217.4.78";
 
-    private static String LATENCY_IP = LATENCY_GOOGLE_IP;
-    private static int LATENCY_PORT = LATENCY_GOOGLE_PORT;
-    private static String LATENCY_HOST_NAME = LATENCY_GOOGLE_HOST_NAME;
+    /**
+     * The currently set latency ip.
+     */
+    private static String latencyIp = LATENCY_GOOGLE_IP;
+
+    /**
+     * The currently set latency port.
+     */
+    private static int latencyPort = LATENCY_GOOGLE_PORT;
+
+    /**
+     * The currently set latency host name.
+     */
+    private static String latencyHostName = LATENCY_GOOGLE_HOST_NAME;
 
     static {
         if (PropLoader.propExists(LATENCY_IP_KEY)) {
-            LATENCY_IP = PropLoader.getString(LATENCY_IP_KEY);
-            Logger.log(Logger.Tag.DEBUG, "Set latency ip as " + LATENCY_IP);
+            latencyIp = PropLoader.getString(LATENCY_IP_KEY);
+            Logger.log(Logger.Tag.DEBUG, "Set latency ip as " + latencyIp);
         }
 
         if (PropLoader.propExists(LATENCY_PORT_KEY)) {
-            LATENCY_PORT = PropLoader.getInteger(LATENCY_PORT_KEY);
-            Logger.log(Logger.Tag.DEBUG, "Set latency port as " + LATENCY_PORT);
+            latencyPort = PropLoader.getInteger(LATENCY_PORT_KEY);
+            Logger.log(Logger.Tag.DEBUG, "Set latency port as " + latencyPort);
         }
 
         if (PropLoader.propExists(LATENCY_NAME)) {
-            LATENCY_HOST_NAME = PropLoader.getString(LATENCY_NAME);
-            Logger.log(Logger.Tag.DEBUG, "Set latency host name as " + LATENCY_HOST_NAME);
+            latencyHostName = PropLoader.getString(LATENCY_NAME);
+            Logger.log(Logger.Tag.DEBUG, "Set latency host name as " + latencyHostName);
         }
     }
 
@@ -214,7 +242,7 @@ public class NetworkUtil {
      */
     public static int latency(int timeout) {
         Socket socket = new Socket();
-        SocketAddress address = new InetSocketAddress(LATENCY_IP, LATENCY_PORT);
+        SocketAddress address = new InetSocketAddress(latencyIp, latencyPort);
         long start = System.currentTimeMillis();
 
         try {
@@ -232,8 +260,8 @@ public class NetworkUtil {
             ExceptionHandler.handle(e);
         }
 
-        Logger.log(Logger.Tag.DEBUG, "Latency of " + LATENCY_HOST_NAME
-                + " found to be " + TimeUtil.formatMillis(latency));
+        Logger.log(Logger.Tag.DEBUG, "Latency of " + latencyHostName + "(" + latencyIp
+                + ":" + latencyPort + ") found to be " + TimeUtil.formatMillis(latency));
 
         return latency;
     }
@@ -329,8 +357,7 @@ public class NetworkUtil {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
 
-        Matcher regexMatcher = CyderRegexPatterns.urlFormationPattern.matcher(url);
-        return regexMatcher.matches();
+        return CyderRegexPatterns.urlFormationPattern.matcher(url).matches();
     }
 
     /**
@@ -402,7 +429,7 @@ public class NetworkUtil {
     /**
      * The url for determining network details.
      */
-    public static final String ispQueryUrl = "https://www.whatismyisp.com///";
+    public static final String ispQueryUrl = "https://www.whatismyisp.com/";
 
     /**
      * A record used to store the data after {@link #getIspAndNetworkDetails} is invoked.
@@ -411,6 +438,7 @@ public class NetworkUtil {
 
     /**
      * The class name of the isp html element.
+     * This is Tailwind and prone to change.
      */
     private static final String ispClassName = "block text-4xl";
 
@@ -422,6 +450,7 @@ public class NetworkUtil {
 
     /**
      * The class name of the html element containing the host name.
+     * (Fiction)
      */
     private static final String ipHostnameClassName = "prose";
 
@@ -487,9 +516,20 @@ public class NetworkUtil {
         return new IspQueryResult(isp, hostname, ip, city, state, country);
     }
 
+    /**
+     * The regex to target non numbers in a string.
+     */
+    private static final String nonNumberRegex = "[^0-9.]";
+
+    /**
+     * The regex to target duplicate periods, two or more, in a string.
+     */
+    private static final String duplicatePeriodReducerRegex = "[.]{2,}";
+
     @ForReadability
     private static String filterIp(String rawClassResult) {
-        return rawClassResult.replaceAll("[^0-9.]", "").replaceAll("[.]{2,}", ".");
+        return rawClassResult.replaceAll(nonNumberRegex, "")
+                .replaceAll(duplicatePeriodReducerRegex, ".");
     }
 
     @ForReadability
