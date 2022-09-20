@@ -1,9 +1,13 @@
 package cyder.ui.field;
 
+import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
+import cyder.utils.ColorUtil;
 import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
@@ -139,12 +143,10 @@ public class CyderTextField extends JTextField {
     }
 
     /**
-     * Sets the regex to restrict the input to.
-     * Note that this is applied every key event.
-     * To validate a pattern which may be valid and not complete until
-     * some time after the user initially started typing, you'll need
-     * to do the validation on your own by grabbing the text and matching
-     * it before using the input.
+     * Sets the regex to restrict the input to. Note that this is applied every key event.
+     * To validate a pattern which may be valid and not complete until some time after the
+     * user initially started typing, you'll need to do the validation on your own by grabbing
+     * the text and matching it before using the input.
      *
      * @param regex the regex to restrict the input to
      */
@@ -337,6 +339,12 @@ public class CyderTextField extends JTextField {
         });
     }
 
+    /**
+     * The logic for performing auto capitalization on a text field.
+     *
+     * @param textField the text field
+     */
+    @ForReadability
     private static void autoCapitalizationLogic(JTextField textField) {
         if (textField.getText().length() == 1) {
             textField.setText(textField.getText().toUpperCase());
@@ -351,5 +359,39 @@ public class CyderTextField extends JTextField {
      */
     public String getTrimmedText() {
         return StringUtil.getTrimmedText(getText());
+    }
+
+    /**
+     * The default flash color.
+     */
+    private static final Color DEFAULT_FLASH_COLOR = CyderColors.regularRed;
+
+    /**
+     * The time a flash animation takes.
+     */
+    private static final int flashDurationMs = 500;
+
+    /**
+     * The name of the flash animation thread.
+     */
+    private static final String FLASH_ANIMATION_THREAD_NAME = "Cyder Text Field Flash Animator";
+
+    /**
+     * Performs a flash on the field.
+     */
+    public void flashField() {
+        Color startingColor = getForeground();
+        ImmutableList<Color> flashColors = ColorUtil.getFlashColors(DEFAULT_FLASH_COLOR, startingColor);
+        int timeout = flashDurationMs / flashColors.size();
+
+        CyderThreadRunner.submit(() -> {
+            flashColors.forEach(color -> {
+                setForeground(color);
+                repaint();
+                ThreadUtil.sleep(timeout);
+            });
+
+            setForeground(startingColor);
+        }, FLASH_ANIMATION_THREAD_NAME);
     }
 }

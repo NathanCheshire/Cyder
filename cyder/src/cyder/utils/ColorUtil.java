@@ -1,6 +1,7 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
@@ -268,5 +269,32 @@ public class ColorUtil {
                 .getKey();
 
         return new Color(dominantRGB);
+    }
+
+    /**
+     * Generates a list of eight colors for a transition from the flash color to the provided default color.
+     *
+     * @param flashColor   the flash color to start with
+     * @param defaultColor the default color to fade to
+     * @return the list of flash colors fading from flash color to default color
+     */
+    public static ImmutableList<Color> getFlashColors(Color flashColor, Color defaultColor) {
+        Preconditions.checkNotNull(flashColor);
+        Preconditions.checkNotNull(defaultColor);
+        Preconditions.checkArgument(!flashColor.equals(defaultColor));
+
+        Color middle = ColorUtil.getMiddleColor(flashColor, defaultColor);
+        Color lessFlash = ColorUtil.getMiddleColor(middle, flashColor);
+        Color lessDefault = ColorUtil.getMiddleColor(middle, defaultColor);
+
+        Color beforeLessFlash = ColorUtil.getMiddleColor(lessFlash, flashColor);
+        Color afterLessFlash = ColorUtil.getMiddleColor(lessFlash, middle);
+
+        Color beforeLessDefault = ColorUtil.getMiddleColor(lessDefault, middle);
+        Color afterLessDefault = ColorUtil.getMiddleColor(lessDefault, defaultColor);
+
+        Color[] colors = {flashColor, beforeLessFlash, lessFlash, afterLessFlash, middle,
+                beforeLessDefault, lessDefault, afterLessDefault, defaultColor};
+        return ImmutableList.copyOf(colors);
     }
 }
