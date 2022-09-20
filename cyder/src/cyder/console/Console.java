@@ -1653,6 +1653,17 @@ public enum Console {
     // todo remove icon button class, need an alternative for generating
     //  a JLabel with an icon for normal, hover, and focused states
 
+    // todo console menu output pane is too far down and left, not centered basically
+
+    // todo if not on current background (chams as example) pressing ctrl up or whatever dir
+    //  we are in should first reset to background before resetting size
+
+    // todo if output area lost focus by shift tab then focus close button
+
+    // todo fill animation for checkboxes? fill from center outward over 400ms by default and then perhaps
+    //  check (might not be a check) color fades from background to the
+    //  color it is now? use logic for color fading from calc flash
+
     /**
      * Returns the mapped exe taskbar icon items.
      *

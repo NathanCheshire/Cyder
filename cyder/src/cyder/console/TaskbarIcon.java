@@ -63,7 +63,7 @@ public class TaskbarIcon {
     /**
      * The builder last used to construct the encapsulated taskbar icon.
      */
-    private Builder builder;
+    private final Builder builder;
 
     /**
      * Constructs and generates a new taskbar icon.
@@ -96,8 +96,6 @@ public class TaskbarIcon {
     public void generateTaskbarIcon(Builder builder) {
         Preconditions.checkNotNull(builder.name);
         Preconditions.checkArgument(!builder.name.isEmpty());
-
-        this.builder = builder;
 
         if (builder.compact) {
             String name = builder.name.substring(0, Math.min(MAX_COMPACT_MENU_CHARS, builder.name.length()));

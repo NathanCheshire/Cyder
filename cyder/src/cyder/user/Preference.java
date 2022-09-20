@@ -18,6 +18,10 @@ import javax.swing.border.LineBorder;
  */
 @SuppressWarnings("SpellCheckingInspection") /* key names */
 public class Preference {
+    /*
+    Keys
+     */
+
     public static final String NAME = "name";
     public static final String PASS = "pass";
     public static final String FONT = "Font";
@@ -59,6 +63,10 @@ public class Preference {
     public static final String WRAP_SHELL = "wrapshell";
     public static final String DARK_MODE = "darkmode";
     private static final String WEATHER_MAP = "weathermap";
+
+    /*
+    Special values.
+     */
 
     private static final String IGNORE = "IGNORE";
     private static final String EMPTY = "";
@@ -328,13 +336,23 @@ public class Preference {
         for (Preference preference : preferences) {
             if (preference.getID().equals(preferenceID)) {
                 preference.getOnChangeFunction().run();
+                postPreferenceOnChangeFunctionHook();
                 invoked = true;
+                break;
             }
         }
 
         if (!invoked) {
-            Logger.log(Logger.Tag.DEBUG, "Failed to invoke preference refresh. Provided id: " + preferenceID);
+            Logger.log(Logger.Tag.DEBUG, "Failed to invoke preference refresh."
+                    + " Provided id: " + preferenceID);
         }
+    }
+
+    /**
+     * A hook to be ran after all preference on change function invocations.
+     */
+    private static void postPreferenceOnChangeFunctionHook() {
+        UserEditor.revalidatePreferencesIfOpen();
     }
 
     /**

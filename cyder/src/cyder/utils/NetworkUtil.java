@@ -260,7 +260,7 @@ public class NetworkUtil {
             ExceptionHandler.handle(e);
         }
 
-        Logger.log(Logger.Tag.DEBUG, "Latency of " + latencyHostName + "(" + latencyIp
+        Logger.log(Logger.Tag.DEBUG, "Latency of " + latencyHostName + " (" + latencyIp
                 + ":" + latencyPort + ") found to be " + TimeUtil.formatMillis(latency));
 
         return latency;

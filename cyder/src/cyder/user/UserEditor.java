@@ -1423,6 +1423,8 @@ public final class UserEditor {
      */
     private static final String PRINT_LABEL_MAGIC_TEXT = StringUtil.generateTextForCustomComponent(6);
 
+    private static final HashMap<String, CyderCheckbox> checkboxComponents = new HashMap<>();
+
     /**
      * Switches to the preferences preference page.
      */
@@ -1443,38 +1445,38 @@ public final class UserEditor {
 
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(preferencePane));
 
-        for (Preference preference : Preference.getPreferences()) {
-            if (preference.getIgnoreForToggleSwitches()) {
-                continue;
-            }
+        checkboxComponents.clear();
+        Preference.getPreferences().stream()
+                .filter(preference -> !preference.getIgnoreForToggleSwitches())
+                .forEach(preference -> {
+                    JLabel preferenceContentLabel = new JLabel(PRINT_LABEL_MAGIC_TEXT);
+                    preferenceContentLabel.setSize(PRINTED_PREF_COMPONENT_WIDTH, PRINTED_PREF_COMPONENT_HEIGHT);
 
-            JLabel preferenceContentLabel = new JLabel(PRINT_LABEL_MAGIC_TEXT);
-            preferenceContentLabel.setSize(PRINTED_PREF_COMPONENT_WIDTH, PRINTED_PREF_COMPONENT_HEIGHT);
+                    CyderLabel preferenceNameLabel = new CyderLabel(preference.getDisplayName());
+                    preferenceNameLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
+                    preferenceNameLabel.setBounds((int) (PRINTED_PREF_COMPONENT_WIDTH * 0.40), 0,
+                            PRINTED_PREF_COMPONENT_WIDTH / 2,
+                            PRINTED_PREF_COMPONENT_HEIGHT);
+                    preferenceContentLabel.add(preferenceNameLabel);
 
-            CyderLabel preferenceNameLabel = new CyderLabel(preference.getDisplayName());
-            preferenceNameLabel.setFont(CyderFonts.DEFAULT_FONT_SMALL);
-            preferenceNameLabel.setBounds((int) (PRINTED_PREF_COMPONENT_WIDTH * 0.40), 0,
-                    PRINTED_PREF_COMPONENT_WIDTH / 2,
-                    PRINTED_PREF_COMPONENT_HEIGHT);
-            preferenceContentLabel.add(preferenceNameLabel);
+                    boolean selected = UserUtil.getUserDataById(preference.getID()).equalsIgnoreCase("1");
+                    CyderCheckbox checkbox = new CyderCheckbox(selected);
+                    checkbox.setToolTipText(preference.getTooltip());
+                    checkbox.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            UserUtil.setUserDataById(preference.getID(), checkbox.isChecked() ? "1" : "0");
+                            Preference.invokeRefresh(preference.getID());
+                        }
+                    });
+                    checkbox.setBounds(PRINTED_PREF_COMPONENT_WIDTH - checkboxSize / 2,
+                            PRINTED_PREF_COMPONENT_HEIGHT / 2 - checkboxSize / 2 + 10, checkboxSize, checkboxSize);
+                    checkboxComponents.put(preference.getID(), checkbox);
+                    preferenceContentLabel.add(checkbox);
 
-            boolean selected = UserUtil.getUserDataById(preference.getID()).equalsIgnoreCase("1");
-            CyderCheckbox checkbox = new CyderCheckbox(selected);
-            checkbox.setToolTipText(preference.getTooltip());
-            checkbox.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    UserUtil.setUserDataById(preference.getID(), checkbox.isChecked() ? "1" : "0");
-                    Preference.invokeRefresh(preference.getID());
-                }
-            });
-            checkbox.setBounds(PRINTED_PREF_COMPONENT_WIDTH - checkboxSize / 2,
-                    PRINTED_PREF_COMPONENT_HEIGHT / 2 - checkboxSize / 2 + 10, checkboxSize, checkboxSize);
-            preferenceContentLabel.add(checkbox);
-
-            printingUtil.printlnComponent(preferenceContentLabel);
-            printingUtil.println("");
-        }
+                    printingUtil.printlnComponent(preferenceContentLabel);
+                    printingUtil.println("");
+                });
 
         CyderScrollPane preferenceScroll = new CyderScrollPane(preferencePane);
         preferenceScroll.setThumbSize(8);
@@ -2122,10 +2124,26 @@ public final class UserEditor {
      * Closes all frames associated with getter instances opened via the user editor.
      */
     private static void closeGetterFrames() {
-        for (GetterUtil util : getterUtils) {
-            util.closeAllGetFrames();
-        }
-
+        getterUtils.forEach(GetterUtil::closeAllGetFrames);
         getterUtils.clear();
+    }
+
+    /**
+     * Revalidates the preferences page if the user editor is open and on the preferences page.
+     */
+    public static void revalidatePreferencesIfOpen() {
+        if (isOpen() && currentPage == UserEditor.Page.PREFERENCES) {
+            checkboxComponents.forEach((id, checkbox) -> {
+                // todo refresh check state from function?
+                boolean selected = UserUtil.getUserDataById(id).equalsIgnoreCase("1");
+                if (selected) {
+                    checkbox.setChecked();
+                } else {
+                    checkbox.setNotChecked();
+                }
+
+                checkbox.repaint();
+            });
+        }
     }
 }
