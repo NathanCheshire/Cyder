@@ -153,6 +153,7 @@ public class CyderFrame extends JFrame {
      * button list, the title, and any custom components.
      */
     private CyderDragLabel topDrag;
+
     /**
      * The bottom component responsible for frame location changes on the bottom.
      */
@@ -4042,15 +4043,15 @@ public class CyderFrame extends JFrame {
          */
         @Override
         public int hashCode() {
-            return Objects.hashCode(
-                    viewDuration,
-                    notifyTime,
-                    htmlText,
-                    arrowDir,
-                    onKillAction,
-                    notificationDirection,
-                    notificationType,
-                    container);
+            int ret = Integer.hashCode(viewDuration);
+            ret = 31 * ret + notifyTime.hashCode();
+            ret = 31 * ret + htmlText.hashCode();
+            ret = 31 * ret + arrowDir.hashCode();
+            ret = 31 * ret + onKillAction.hashCode();
+            ret = 31 * ret + notificationDirection.hashCode();
+            ret = 31 * ret + notificationType.hashCode();
+            ret = 31 * ret + container.hashCode();
+            return ret;
         }
 
         /**

@@ -1679,9 +1679,6 @@ public enum Console {
 
     // todo console menu output pane is too far down and left, not centered basically
 
-    // todo if not on current background (chams as example) pressing ctrl up or whatever dir
-    //  we are in should first reset to background before resetting size
-
     // todo when toggling a pref via the console with switcher, also print a checkbox to toggle it
     //  which will update when we toggle. So we need to keep track of these checkboxes and invoke a refresh
     //  from preferences. Reset this list somehow
@@ -2705,6 +2702,11 @@ public enum Console {
     }
 
     /**
+     * Whether chams (chameleon mode) is currently active.
+     */
+    private final AtomicBoolean chamsActive = new AtomicBoolean();
+
+    /**
      * Sets the console orientation and refreshes the frame.
      * This action exits fullscreen mode if active.
      *
@@ -2715,7 +2717,13 @@ public enum Console {
         lastConsoleDir = consoleDir;
         consoleDir = consoleDirection;
 
-        // If background is different then reset that first todo
+        // If chams, reset to what background should be first
+        if (chamsActive.get()) {
+            revalidate(true, false, true);
+            chamsActive.set(false);
+            return;
+        }
+
 
         UserUtil.getCyderUser().setFullscreen("0");
         revalidate(true, false, maintainConsoleSize);
@@ -3568,6 +3576,7 @@ public enum Console {
                     (int) (Math.abs(monitorBounds.getY()) + ref.getY()), ref.getWidth(), ref.getHeight());
 
             setBackground(ImageUtil.toImageIcon(capture));
+            chamsActive.set(true);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
