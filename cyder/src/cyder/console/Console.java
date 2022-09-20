@@ -1682,6 +1682,10 @@ public enum Console {
     // todo if not on current background (chams as example) pressing ctrl up or whatever dir
     //  we are in should first reset to background before resetting size
 
+    // todo when toggling a pref via the console with switcher, also print a checkbox to toggle it
+    //  which will update when we toggle. So we need to keep track of these checkboxes and invoke a refresh
+    //  from preferences. Reset this list somehow
+
     /**
      * Returns the mapped exe taskbar icon items.
      *

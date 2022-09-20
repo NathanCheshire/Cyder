@@ -277,7 +277,7 @@ public class CyderCheckbox extends JLabel {
     /**
      * The delay between check animation increments.
      */
-    private static final int CHECK_ANIMATION_DELAY = 15;
+    private static final int CHECK_ANIMATION_DELAY = 25;
 
     /**
      * The delay between background animation increments.
@@ -316,6 +316,7 @@ public class CyderCheckbox extends JLabel {
                 ThreadUtil.sleep(CHECK_ANIMATION_DELAY);
             });
 
+            expandingSideLength = sideLength;
             setCheckColor(originalCheckColor);
             inCheckAnimation.set(false);
         }, CHECK_ANIMATION_THREAD_NAME);
