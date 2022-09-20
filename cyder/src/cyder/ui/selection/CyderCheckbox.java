@@ -1,9 +1,13 @@
 package cyder.ui.selection;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.ui.drag.CyderDraggableComponent;
+import cyder.utils.ColorUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +15,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.IntStream;
 
 /**
  * A custom styled checkbox for use throughout Cyder.
@@ -97,6 +103,11 @@ public class CyderCheckbox extends JLabel {
     private Runnable refreshStateFunction;
 
     /**
+     * Whether this checkbox is currently showing the check animation.
+     */
+    private final AtomicBoolean inCheckAnimation = new AtomicBoolean();
+
+    /**
      * Constructs a new checkbox.
      */
     public CyderCheckbox() {
@@ -151,8 +162,9 @@ public class CyderCheckbox extends JLabel {
      * @param cyderCheckboxGroup the associated check box group
      */
     protected void setCyderCheckboxGroup(CyderCheckboxGroup cyderCheckboxGroup) {
-        if (this.cyderCheckboxGroup != null && this.cyderCheckboxGroup != cyderCheckboxGroup)
+        if (this.cyderCheckboxGroup != null && this.cyderCheckboxGroup != cyderCheckboxGroup) {
             cyderCheckboxGroup.removeCheckbox(this);
+        }
 
         this.cyderCheckboxGroup = cyderCheckboxGroup;
     }
@@ -188,6 +200,12 @@ public class CyderCheckbox extends JLabel {
      * Sets the checkbox to be checked.
      */
     public void setChecked() {
+        if (inCheckAnimation.get()) return;
+
+        if (!isChecked) {
+            animateCheck();
+        }
+
         isChecked = true;
         repaint();
 
@@ -200,6 +218,8 @@ public class CyderCheckbox extends JLabel {
      * Sets the checkbox to not be checked
      */
     public void setNotChecked() {
+        if (inCheckAnimation.get()) return;
+
         isChecked = false;
         repaint();
     }
@@ -210,11 +230,10 @@ public class CyderCheckbox extends JLabel {
      * @param checked whether the checkbox is checked
      */
     public void setChecked(boolean checked) {
-        isChecked = checked;
-        repaint();
-
-        if (checked && cyderCheckboxGroup != null) {
-            cyderCheckboxGroup.setCheckedBox(this);
+        if (checked) {
+            setChecked();
+        } else {
+            setNotChecked();
         }
     }
 
@@ -230,10 +249,12 @@ public class CyderCheckbox extends JLabel {
     /**
      * Sets whether the checkbox has rounded corners.
      *
-     * @param b whether the checkbox has rounded corners
+     * @param roundedCorners whether the checkbox has rounded corners
      */
-    public void setRoundedCorners(Boolean b) {
-        roundedCorners = b;
+    public void setRoundedCorners(boolean roundedCorners) {
+        if (inCheckAnimation.get()) return;
+
+        this.roundedCorners = roundedCorners;
         repaint();
     }
 
@@ -254,6 +275,53 @@ public class CyderCheckbox extends JLabel {
     }
 
     /**
+     * The delay between check animation increments.
+     */
+    private static final int CHECK_ANIMATION_DELAY = 15;
+
+    /**
+     * The delay between background animation increments.
+     */
+    private static final int BACKGROUND_ANIMATION_DELAY = 2;
+
+    /**
+     * The name of the checkbox animation thread.
+     */
+    private static final String CHECK_ANIMATION_THREAD_NAME = "Checkbox Check Animation";
+
+    /**
+     * The current side length when in the background expanding animation.
+     */
+    private int expandingSideLength = sideLength;
+
+    /**
+     * Animates the filling and checking of the checkbox.
+     */
+    private void animateCheck() {
+        inCheckAnimation.set(true);
+
+        CyderThreadRunner.submit(() -> {
+            IntStream.range(0, sideLength + 1).forEach(sideLen -> {
+                expandingSideLength = sideLen;
+                repaint();
+                ThreadUtil.sleep(BACKGROUND_ANIMATION_DELAY);
+            });
+
+            Color originalCheckColor = checkColor;
+            ImmutableList<Color> colors = ColorUtil.getFlashColors(background, originalCheckColor);
+
+            colors.forEach(color -> {
+                setCheckColor(color);
+                repaint();
+                ThreadUtil.sleep(CHECK_ANIMATION_DELAY);
+            });
+
+            setCheckColor(originalCheckColor);
+            inCheckAnimation.set(false);
+        }, CHECK_ANIMATION_THREAD_NAME);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -265,11 +333,14 @@ public class CyderCheckbox extends JLabel {
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHints(qualityHints);
 
-        // draw background
+        // Background
         if (roundedCorners) {
             graphics2D.setPaint(background);
-            graphics2D.setStroke(new BasicStroke(2.0f));
+            BasicStroke roundedCornersStroke = new BasicStroke(2.0f);
+            graphics2D.setStroke(roundedCornersStroke);
             graphics2D.fill(new RoundRectangle2D.Double(0, 0, sideLength, sideLength, ARC_LEN, ARC_LEN));
+
+            // Remove fill
             graphics2D.setPaint(CyderColors.vanilla);
             graphics2D.fill(new RoundRectangle2D.Double(borderLen, borderLen,
                     sideLength - 2 * borderLen, sideLength - 2 * borderLen, ARC_LEN, ARC_LEN));
@@ -295,63 +366,69 @@ public class CyderCheckbox extends JLabel {
             graphics2D.fill(fillPath);
         }
 
-        if (isChecked) {
-            // fill the shape
-            graphics2D.setPaint(background);
-            graphics2D.setStroke(new BasicStroke(2.0f));
-            graphics2D.fill(new RoundRectangle2D.Double(0, 0, sideLength, sideLength, ARC_LEN, ARC_LEN));
+        if (!isChecked) return;
 
-            graphics2D.setColor(checkColor);
+        // Fill all of shape
+        graphics2D.setPaint(background);
+        graphics2D.setStroke(new BasicStroke(2.0f));
+        int padding = (sideLength - expandingSideLength) / 2;
+        graphics2D.fill(new RoundRectangle2D.Double(padding, padding,
+                expandingSideLength, expandingSideLength, ARC_LEN, ARC_LEN));
 
-            switch (checkShape) {
-                case CHECK -> {
-                    graphics2D.setColor(checkColor);
-                    //move enter check down
-                    int yTranslate = 4;
+        // Not done with filling animation
+        if (expandingSideLength != sideLength) {
+            return;
+        }
 
-                    //thickness of line drawn
-                    graphics2D.setStroke(new BasicStroke(5));
+        graphics2D.setColor(checkColor);
+        switch (checkShape) {
+            case CHECK -> {
+                graphics2D.setColor(checkColor);
+                //move enter check down
+                int yTranslate = 4;
 
-                    // initial top right corner to center
-                    int cornerOffset = sideLength / 5;
-                    graphics2D.drawLine(
-                            sideLength - borderLen - cornerOffset,
-                            borderLen + cornerOffset + yTranslate,
-                            sideLength / 2,
-                            sideLength / 2 + yTranslate);
+                //thickness of line drawn
+                graphics2D.setStroke(new BasicStroke(5));
 
-                    // length from center to bottom most check point
-                    int secondaryDip = 5;
-                    graphics2D.drawLine(
-                            sideLength / 2,
-                            sideLength / 2 + yTranslate,
-                            sideLength / 2 - secondaryDip,
-                            sideLength / 2 + secondaryDip + yTranslate);
+                // initial top right corner to center
+                int cornerOffset = sideLength / 5;
+                graphics2D.drawLine(
+                        sideLength - borderLen - cornerOffset,
+                        borderLen + cornerOffset + yTranslate,
+                        sideLength / 2,
+                        sideLength / 2 + yTranslate);
 
-                    // length from bottom most part back up
-                    int lengthUp = 8;
-                    graphics2D.drawLine(
-                            sideLength / 2 - secondaryDip,
-                            sideLength / 2 + secondaryDip + yTranslate,
-                            sideLength / 2 - secondaryDip - lengthUp,
-                            sideLength / 2 + secondaryDip - lengthUp + yTranslate);
-                }
-                case FILLED_CIRCLE -> {
-                    int diameter = sideLength / 2;
-                    int x = sideLength / 2 - diameter / 2;
-                    int y = sideLength / 2 - diameter / 2;
-                    g.fillOval(x, y, diameter, diameter);
-                }
-                case HOLLOW_CIRCLE -> {
-                    graphics2D.setStroke(new BasicStroke(hollowCircleCheckStrokeWidth));
+                // length from center to bottom most check point
+                int secondaryDip = 5;
+                graphics2D.drawLine(
+                        sideLength / 2,
+                        sideLength / 2 + yTranslate,
+                        sideLength / 2 - secondaryDip,
+                        sideLength / 2 + secondaryDip + yTranslate);
 
-                    int diameter = sideLength / 2;
-                    int x = sideLength / 2 - diameter / 2;
-                    int y = sideLength / 2 - diameter / 2;
-                    g.drawOval(x, y, diameter, diameter);
-                }
-                default -> throw new IllegalArgumentException("Invalid check shape: " + checkShape);
+                // length from bottom most part back up
+                int lengthUp = 8;
+                graphics2D.drawLine(
+                        sideLength / 2 - secondaryDip,
+                        sideLength / 2 + secondaryDip + yTranslate,
+                        sideLength / 2 - secondaryDip - lengthUp,
+                        sideLength / 2 + secondaryDip - lengthUp + yTranslate);
             }
+            case FILLED_CIRCLE -> {
+                int diameter = sideLength / 2;
+                int x = sideLength / 2 - diameter / 2;
+                int y = sideLength / 2 - diameter / 2;
+                g.fillOval(x, y, diameter, diameter);
+            }
+            case HOLLOW_CIRCLE -> {
+                graphics2D.setStroke(new BasicStroke(hollowCircleCheckStrokeWidth));
+
+                int diameter = sideLength / 2;
+                int x = sideLength / 2 - diameter / 2;
+                int y = sideLength / 2 - diameter / 2;
+                g.drawOval(x, y, diameter, diameter);
+            }
+            default -> throw new IllegalArgumentException("Invalid check shape: " + checkShape);
         }
     }
 
@@ -465,6 +542,8 @@ public class CyderCheckbox extends JLabel {
      * Refreshes the state of the checkbox using the refresh state function.
      */
     public void refreshState() {
+        if (inCheckAnimation.get()) return;
+
         Preconditions.checkState(refreshStateFunction != null);
         refreshStateFunction.run();
         repaint();

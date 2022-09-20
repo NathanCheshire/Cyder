@@ -1682,10 +1682,6 @@ public enum Console {
     // todo if not on current background (chams as example) pressing ctrl up or whatever dir
     //  we are in should first reset to background before resetting size
 
-    // todo fill animation for checkboxes? fill from center outward over 400ms by default and then perhaps
-    //  check (might not be a check) color fades from background to the
-    //  color it is now? use logic for color fading from calc flash
-
     /**
      * Returns the mapped exe taskbar icon items.
      *
