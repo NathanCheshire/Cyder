@@ -84,7 +84,6 @@ public class ColorUtil {
         return newHex.toString();
     }
 
-
     /**
      * Computes and returns the inverse of the provided color.
      * This is done by subtracting the provided red, green, and blue colors
