@@ -294,16 +294,6 @@ public final class CalculatorWidget {
     }
 
     /**
-     * The starting flash color.
-     */
-    private static final Color FLASH_COLOR = CyderColors.regularRed;
-
-    /**
-     * The default field color to animate to.
-     */
-    private static final Color DEFAULT_COLOR = CyderColors.navy;
-
-    /**
      * Animates in the results text to the results field by fading it from
      * {@link CyderColors#regularRed} to {@link CyderColors#navy} in 500ms.
      *

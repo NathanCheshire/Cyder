@@ -2,6 +2,7 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Range;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -12,10 +13,18 @@ import java.util.LinkedList;
 import java.util.Random;
 
 /**
- * A common Number methods class such as generating random
- * numbers or converting integers to their String representations
+ * A util for working with numbers and not necessarily math.
  */
 public final class NumberUtil {
+    /**
+     * The map of the base 10 limits of one, two, and three bytes.
+     */
+    public static final ImmutableMap<Integer, Integer> BIT_LIMITS = ImmutableMap.of(
+            8, 255,
+            16, 65535,
+            24, 16777215
+    );
+
     /**
      * Suppress default constructor.
      */

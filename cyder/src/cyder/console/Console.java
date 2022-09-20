@@ -2711,13 +2711,14 @@ public enum Console {
      * @param consoleDirection the direction the background is to face
      */
     private void setConsoleDirection(Direction consoleDirection) {
-        // only reset console size if setting in the current direction
-        boolean revalidateConsoleSize = (consoleDirection != consoleDir);
-
+        boolean maintainConsoleSize = consoleDirection != consoleDir;
         lastConsoleDir = consoleDir;
         consoleDir = consoleDirection;
+
+        // If background is different then reset that first todo
+
         UserUtil.getCyderUser().setFullscreen("0");
-        revalidate(true, false, revalidateConsoleSize);
+        revalidate(true, false, maintainConsoleSize);
     }
 
     /**

@@ -31,6 +31,21 @@ public class ColorUtil {
     public static final int HEX_BASE = 16;
 
     /**
+     * The length of shorthand hex color strings.
+     */
+    public static final int SHORTHAND_HEX_LENGTH = 3;
+
+    /**
+     * The regular length of hex color strings.
+     */
+    public static final int HEX_LENGTH = 6;
+
+    /**
+     * The valid lengths a hex color must be.
+     */
+    public static final ImmutableList<Integer> VALID_HEX_LENGTHS = ImmutableList.of(SHORTHAND_HEX_LENGTH, HEX_LENGTH);
+
+    /**
      * Converts the provided hex string to a {@link Color} object.
      * Shorthand hex notation may be used. For example, passing "#345", "345", "334455",
      * or "#334455" will all return the same result.
@@ -44,30 +59,31 @@ public class ColorUtil {
         checkArgument(!hex.isEmpty());
 
         hex = hex.replace("#", "");
-        Preconditions.checkArgument(hex.length() == 3 || hex.length() == 6);
+        Preconditions.checkArgument(VALID_HEX_LENGTHS.contains(hex.length()));
 
-        // If shorthand notation, expand to full
-        if (hex.length() == 3) {
-            StringBuilder hexBuilder = new StringBuilder();
-
-            for (char c : hex.toCharArray()) {
-                hexBuilder.append(c).append(c);
-            }
-
-            hex = hexBuilder.toString();
+        if (hex.length() == SHORTHAND_HEX_LENGTH) {
+            hex = expandShorthandHexColor(hex);
         }
 
-        return new Color(
-                Integer.valueOf(hex.substring(0, 2), HEX_BASE),
-                Integer.valueOf(hex.substring(2, 4), HEX_BASE),
-                Integer.valueOf(hex.substring(4, 6), HEX_BASE));
+        return new Color(Integer.valueOf(hex.substring(0, 2), HEX_BASE),
+                Integer.valueOf(hex.substring(2, 4), HEX_BASE), Integer.valueOf(hex.substring(4, 6), HEX_BASE));
     }
 
     /**
-     * The maximum integer value a color can hold in any one of its red, green,
-     * or blue values (the unsigned 8-bit integer limit).
+     * Converts a three digit shorthand hex color code into a full six digit hex color code.
+     *
+     * @param shorthandHex the shorthand hex
+     * @return the full six digit hex code
      */
-    public static final int BASE_8_LIMIT = 255;
+    public static String expandShorthandHexColor(String shorthandHex) {
+        checkArgument(shorthandHex.length() == SHORTHAND_HEX_LENGTH);
+
+        StringBuilder newHex = new StringBuilder();
+        shorthandHex.chars().mapToObj(i -> (char) i)
+                .forEach(character -> newHex.append(character).append(character));
+        return newHex.toString();
+    }
+
 
     /**
      * Computes and returns the inverse of the provided color.
@@ -77,12 +93,15 @@ public class ColorUtil {
      * @param color the color to calculate the inverse of
      * @return the inverse of the provided color
      */
+    @SuppressWarnings("ConstantConditions") /* unboxing safe */
     public static Color getInverseColor(Color color) {
         checkNotNull(color);
 
-        return new Color(BASE_8_LIMIT - color.getRed(),
-                BASE_8_LIMIT - color.getGreen(),
-                BASE_8_LIMIT - color.getBlue());
+        int eightBitLimit = NumberUtil.BIT_LIMITS.get(8);
+
+        return new Color(eightBitLimit - color.getRed(),
+                eightBitLimit - color.getGreen(),
+                eightBitLimit - color.getBlue());
     }
 
     /**
@@ -95,9 +114,8 @@ public class ColorUtil {
     public String hexToRgbString(String hex) {
         checkNotNull(hex);
 
-        hex = hex.replace("#","");
-
-        checkArgument(hex.length() == 6);
+        hex = hex.replace("#", "");
+        if (hex.length() == SHORTHAND_HEX_LENGTH) hex = expandShorthandHexColor(hex);
 
         return Integer.valueOf(hex.substring(0, 2), HEX_BASE)
                 + "," + Integer.valueOf(hex.substring(2, 4), HEX_BASE)
@@ -151,6 +169,7 @@ public class ColorUtil {
      */
     public static Color getDominantColor(ImageIcon imageIcon) {
         checkNotNull(imageIcon);
+
         return getDominantColor(ImageUtil.toBufferedImage(imageIcon));
     }
 
@@ -162,6 +181,7 @@ public class ColorUtil {
      */
     public static Color getDominantColorInverse(BufferedImage image) {
         checkNotNull(image);
+
         return getInverseColor(getDominantColor(image));
     }
 
@@ -173,18 +193,19 @@ public class ColorUtil {
      */
     public static Color getDominantColorInverse(ImageIcon image) {
         checkNotNull(image);
+
         return getInverseColor(getDominantColor(ImageUtil.toBufferedImage(image)));
     }
 
     /**
-     * Blends the two colors together using the provided ratio of c1 to c2.
+     * Blends the two colors together using the provided ratio of colorOne to colorTwo.
      *
-     * @param c1    the first color to blend
-     * @param c2    the second color to blend
-     * @param ratio the blend ratio
+     * @param colorOne the first color to blend
+     * @param colorTwo the second color to blend
+     * @param ratio    the blend ratio
      * @return the blended color
      */
-    public static Color blendColors(int c1, int c2, float ratio) {
+    public static Color blendColors(int colorOne, int colorTwo, float ratio) {
         if (ratio > 1f) {
             ratio = 1f;
         } else if (ratio < 0f) {
@@ -193,15 +214,15 @@ public class ColorUtil {
 
         float iRatio = 1.0f - ratio;
 
-        int a1 = (c1 >> 24 & 0xff);
-        int r1 = ((c1 & 0xff0000) >> 16);
-        int g1 = ((c1 & 0xff00) >> 8);
-        int b1 = (c1 & 0xff);
+        int a1 = (colorOne >> 24 & 0xff);
+        int r1 = ((colorOne & 0xff0000) >> 16);
+        int g1 = ((colorOne & 0xff00) >> 8);
+        int b1 = (colorOne & 0xff);
 
-        int a2 = (c2 >> 24 & 0xff);
-        int r2 = ((c2 & 0xff0000) >> 16);
-        int g2 = ((c2 & 0xff00) >> 8);
-        int b2 = (c2 & 0xff);
+        int a2 = (colorTwo >> 24 & 0xff);
+        int r2 = ((colorTwo & 0xff0000) >> 16);
+        int g2 = ((colorTwo & 0xff00) >> 8);
+        int b2 = (colorTwo & 0xff);
 
         int a = (int) ((a1 * iRatio) + (a2 * ratio));
         int r = (int) ((r1 * iRatio) + (r2 * ratio));
@@ -219,6 +240,8 @@ public class ColorUtil {
      * @return the gray-scale text color to use
      */
     public static Color getSuitableOverlayTextColor(BufferedImage bi) {
+        checkNotNull(bi);
+
         return getInverseColor(getDominantGrayscaleColor(bi));
     }
 
@@ -229,6 +252,8 @@ public class ColorUtil {
      * @return the closest gray-scale color the provided buffered image's dominant color
      */
     public static Color getDominantGrayscaleColor(BufferedImage bi) {
+        checkNotNull(bi);
+
         Color dominant = getDominantColor(bi);
         int avg = (dominant.getRed() + dominant.getGreen() + dominant.getBlue()) / 3;
         return new Color(avg, avg, avg);
@@ -242,8 +267,8 @@ public class ColorUtil {
      * @return the middle point of the two colors
      */
     public static Color getMiddleColor(Color color1, Color color2) {
-        Preconditions.checkNotNull(color1);
-        Preconditions.checkNotNull(color2);
+        checkNotNull(color1);
+        checkNotNull(color2);
 
         int r = color1.getRed() + color2.getRed();
         int g = color1.getGreen() + color2.getGreen();
@@ -279,22 +304,21 @@ public class ColorUtil {
      * @return the list of flash colors fading from flash color to default color
      */
     public static ImmutableList<Color> getFlashColors(Color flashColor, Color defaultColor) {
-        Preconditions.checkNotNull(flashColor);
-        Preconditions.checkNotNull(defaultColor);
-        Preconditions.checkArgument(!flashColor.equals(defaultColor));
+        checkNotNull(flashColor);
+        checkNotNull(defaultColor);
+        checkArgument(!flashColor.equals(defaultColor));
 
-        Color middle = ColorUtil.getMiddleColor(flashColor, defaultColor);
-        Color lessFlash = ColorUtil.getMiddleColor(middle, flashColor);
-        Color lessDefault = ColorUtil.getMiddleColor(middle, defaultColor);
+        Color middle = getMiddleColor(flashColor, defaultColor);
+        Color lessFlash = getMiddleColor(middle, flashColor);
+        Color lessDefault = getMiddleColor(middle, defaultColor);
 
-        Color beforeLessFlash = ColorUtil.getMiddleColor(lessFlash, flashColor);
-        Color afterLessFlash = ColorUtil.getMiddleColor(lessFlash, middle);
+        Color beforeLessFlash = getMiddleColor(lessFlash, flashColor);
+        Color afterLessFlash = getMiddleColor(lessFlash, middle);
 
-        Color beforeLessDefault = ColorUtil.getMiddleColor(lessDefault, middle);
-        Color afterLessDefault = ColorUtil.getMiddleColor(lessDefault, defaultColor);
+        Color beforeLessDefault = getMiddleColor(lessDefault, middle);
+        Color afterLessDefault = getMiddleColor(lessDefault, defaultColor);
 
-        Color[] colors = {flashColor, beforeLessFlash, lessFlash, afterLessFlash, middle,
-                beforeLessDefault, lessDefault, afterLessDefault, defaultColor};
-        return ImmutableList.copyOf(colors);
+        return ImmutableList.of(flashColor, beforeLessFlash, lessFlash, afterLessFlash,
+                middle, beforeLessDefault, lessDefault, afterLessDefault, defaultColor);
     }
 }
