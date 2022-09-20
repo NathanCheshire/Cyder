@@ -138,6 +138,16 @@ public enum Console {
     private MenuButton toggleAudioControls;
 
     /**
+     * The close button for the drag label right button list.
+     */
+    private CloseButton closeButton;
+
+    /**
+     * The change size button for the drag label right button list.
+     */
+    private ChangeSizeButton changeSizeButton;
+
+    /**
      * The default focus owner for focus to default to when no focused components can be found.
      */
     private Component defaultFocusOwner;
@@ -814,7 +824,7 @@ public enum Console {
         // Remove default close button
         consoleCyderFrame.getTopDragLabel().removeRightButton(2);
         // Add custom close button
-        CloseButton closeButton = new CloseButton();
+        closeButton = new CloseButton();
         closeButton.setForConsole(true);
         closeButton.setClickAction(() -> {
             boolean shouldMinimize = UserUtil.getCyderUser().getMinimizeonclose().equals("1");
@@ -824,7 +834,17 @@ public enum Console {
                 closeFrame(true, false);
             }
         });
-        closeButton.addFocusLostAction(() -> outputArea.requestFocus());
+        closeButton.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (e.getCause() == FocusEvent.Cause.TRAVERSAL_BACKWARD) {
+                    changeSizeButton.requestFocus();
+                } else {
+                    outputArea.requestFocus();
+                }
+            }
+        });
+        //closeButton.addFocusLostAction(() -> outputArea.requestFocus());
         consoleCyderFrame.getTopDragLabel().addRightButton(closeButton, 2);
 
         // Remove default minimize button
@@ -842,7 +862,7 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().setPinButton(pinButton);
         consoleCyderFrame.getTopDragLabel().addRightButton(pinButton, 1);
 
-        ChangeSizeButton changeSizeButton = new ChangeSizeButton();
+        changeSizeButton = new ChangeSizeButton();
         changeSizeButton.setForConsole(true);
         changeSizeButton.setToolTipText(ALTERNATE_BACKGROUND);
         changeSizeButton.setClickAction(() -> {
@@ -1358,8 +1378,12 @@ public enum Console {
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
             }
 
-            inputField.requestFocusInWindow();
-            inputField.setCaretPosition(inputField.getPassword().length);
+            if (e.getCause() == FocusEvent.Cause.TRAVERSAL_BACKWARD) {
+                closeButton.requestFocus();
+            } else {
+                inputField.requestFocusInWindow();
+                inputField.setCaretPosition(inputField.getPassword().length);
+            }
         }
     };
 
@@ -1657,8 +1681,6 @@ public enum Console {
 
     // todo if not on current background (chams as example) pressing ctrl up or whatever dir
     //  we are in should first reset to background before resetting size
-
-    // todo if output area lost focus by shift tab then focus close button
 
     // todo fill animation for checkboxes? fill from center outward over 400ms by default and then perhaps
     //  check (might not be a check) color fades from background to the
