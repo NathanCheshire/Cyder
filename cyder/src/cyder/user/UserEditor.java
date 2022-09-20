@@ -1423,7 +1423,10 @@ public final class UserEditor {
      */
     private static final String PRINT_LABEL_MAGIC_TEXT = StringUtil.generateTextForCustomComponent(6);
 
-    private static final HashMap<String, CyderCheckbox> checkboxComponents = new HashMap<>();
+    /**
+     * The list of most recently generated checkboxes.
+     */
+    private static final ArrayList<CyderCheckbox> checkboxComponents = new ArrayList<>();
 
     /**
      * Switches to the preferences preference page.
@@ -1461,6 +1464,12 @@ public final class UserEditor {
 
                     boolean selected = UserUtil.getUserDataById(preference.getID()).equalsIgnoreCase("1");
                     CyderCheckbox checkbox = new CyderCheckbox(selected);
+                    checkbox.setRefreshStateFunction(() -> {
+                        boolean checked = UserUtil.getUserDataById(
+                                preference.getID()).equalsIgnoreCase("1");
+                        checkbox.setChecked(checked);
+                        checkbox.repaint();
+                    });
                     checkbox.setToolTipText(preference.getTooltip());
                     checkbox.addMouseListener(new MouseAdapter() {
                         @Override
@@ -1471,7 +1480,7 @@ public final class UserEditor {
                     });
                     checkbox.setBounds(PRINTED_PREF_COMPONENT_WIDTH - checkboxSize / 2,
                             PRINTED_PREF_COMPONENT_HEIGHT / 2 - checkboxSize / 2 + 10, checkboxSize, checkboxSize);
-                    checkboxComponents.put(preference.getID(), checkbox);
+                    checkboxComponents.add(checkbox);
                     preferenceContentLabel.add(checkbox);
 
                     printingUtil.printlnComponent(preferenceContentLabel);
@@ -2133,17 +2142,7 @@ public final class UserEditor {
      */
     public static void revalidatePreferencesIfOpen() {
         if (isOpen() && currentPage == UserEditor.Page.PREFERENCES) {
-            checkboxComponents.forEach((id, checkbox) -> {
-                // todo refresh check state from function?
-                boolean selected = UserUtil.getUserDataById(id).equalsIgnoreCase("1");
-                if (selected) {
-                    checkbox.setChecked();
-                } else {
-                    checkbox.setNotChecked();
-                }
-
-                checkbox.repaint();
-            });
+            checkboxComponents.forEach(CyderCheckbox::refreshState);
         }
     }
 }

@@ -92,6 +92,11 @@ public class CyderCheckbox extends JLabel {
     private CyderCheckboxGroup cyderCheckboxGroup;
 
     /**
+     * The function to invoke to update the checked state of this checkbox.
+     */
+    private Runnable refreshStateFunction;
+
+    /**
      * Constructs a new checkbox.
      */
     public CyderCheckbox() {
@@ -186,8 +191,9 @@ public class CyderCheckbox extends JLabel {
         isChecked = true;
         repaint();
 
-        if (cyderCheckboxGroup != null)
+        if (cyderCheckboxGroup != null) {
             cyderCheckboxGroup.setCheckedBox(this);
+        }
     }
 
     /**
@@ -201,13 +207,13 @@ public class CyderCheckbox extends JLabel {
     /**
      * Sets whether the checkbox is checked.
      *
-     * @param b whether the checkbox is checked
+     * @param checked whether the checkbox is checked
      */
-    public void setChecked(boolean b) {
-        isChecked = b;
+    public void setChecked(boolean checked) {
+        isChecked = checked;
         repaint();
 
-        if (b && cyderCheckboxGroup != null) {
+        if (checked && cyderCheckboxGroup != null) {
             cyderCheckboxGroup.setCheckedBox(this);
         }
     }
@@ -438,9 +444,36 @@ public class CyderCheckbox extends JLabel {
     }
 
     /**
+     * Returns the refresh state function.
+     *
+     * @return the refresh state function
+     */
+    public Runnable getRefreshStateFunction() {
+        return refreshStateFunction;
+    }
+
+    /**
+     * Sets the refresh state function.
+     *
+     * @param refreshStateFunction the refresh state function
+     */
+    public void setRefreshStateFunction(Runnable refreshStateFunction) {
+        this.refreshStateFunction = Preconditions.checkNotNull(refreshStateFunction);
+    }
+
+    /**
+     * Refreshes the state of the checkbox using the refresh state function.
+     */
+    public void refreshState() {
+        Preconditions.checkState(refreshStateFunction != null);
+        refreshStateFunction.run();
+        repaint();
+    }
+
+    /**
      * {@inheritDoc}
      */
-    @Override // to ensure setLocation calls work same as set bounds
+    @Override /* To ensure setLocation calls work same as set bounds */
     public void setLocation(int x, int y) {
         super.setBounds(x, y, getWidth(), getHeight());
     }
@@ -448,7 +481,7 @@ public class CyderCheckbox extends JLabel {
     /**
      * {@inheritDoc}
      */
-    @Override // to ensure length is not changed via get bounds
+    @Override /* To ensure length is not changed via get bounds */
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, sideLength, sideLength);
     }
@@ -456,7 +489,7 @@ public class CyderCheckbox extends JLabel {
     /**
      * {@inheritDoc}
      */
-    @Override // to ensure same len
+    @Override /* To ensure same len */
     public void setSize(int width, int height) {
         Preconditions.checkArgument(width == height);
         sideLength = width;
@@ -466,7 +499,7 @@ public class CyderCheckbox extends JLabel {
     /**
      * {@inheritDoc}
      */
-    @Override // to ensure same len
+    @Override /* To ensure same len */
     public void setSize(Dimension dimension) {
         Preconditions.checkArgument(dimension.width == dimension.height);
         sideLength = dimension.width;
@@ -478,8 +511,16 @@ public class CyderCheckbox extends JLabel {
      */
     @Override
     public String toString() {
-        return "CyderCheckbox{[" + getX() + ", " + getY() + ","
-                + getWidth() + ", " + getHeight() + "], Color=" + checkColor
-                + ", isChecked=" + isChecked;
+        return "CyderCheckbox{" +
+                "checkShape=" + checkShape +
+                ", borderLen=" + borderLen +
+                ", isChecked=" + isChecked +
+                ", enabled=" + enabled +
+                ", sideLength=" + sideLength +
+                ", background=" + background +
+                ", checkColor=" + checkColor +
+                ", roundedCorners=" + roundedCorners +
+                ", cyderCheckboxGroup=" + cyderCheckboxGroup +
+                '}';
     }
 }
