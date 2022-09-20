@@ -2,17 +2,17 @@
 
 if [%1]==[] goto help
 
-echo creating venv
+echo Creating virtual environment
 call python -m venv venv
-echo entering venv
+echo Entering virtual environment
 call .\venv\Scripts\Activate.bat
-echo installing requirements
+echo Installing Python requirements
 call pip install -r requirements.txt
-echo starting backend on port: %1
+echo Starting FastAPI backend on port: %1
 call python main.py --port %1
 goto done
 
 :help
-echo usage: .\setup.bat PORT_NUMBER
+echo Usage: .\setup.bat PORT_NUMBER
 
 :done

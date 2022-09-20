@@ -10,7 +10,9 @@ import libusb_package
 
 
 def gaussian_blur(image_path: str, radius: int, save_directory: str = None) -> str:
-    """ Returns the path to the blurred and saved image
+    """ 
+    Returns the path to the blurred and saved image.
+
     :param image_path: the path to the image to blur
     :type image_path: str
     :param radius: the radius of the gaussian blur to apply
@@ -36,8 +38,10 @@ def gaussian_blur(image_path: str, radius: int, save_directory: str = None) -> s
 
 
 def __get_filename(full_path: str) -> str:
-    """ Returns the filename (without the extension) of the provided file path.
-    For example, providing "c:\\users\\nathan\\downloads\\something.png" will return "something"
+    """ 
+    Returns the filename (without the extension) of the provided file path.
+    For example, providing "c:\\users\\nathan\\downloads\\something.png" will return "something".
+
     :param full_path: the full, absolute path of the file
     :type full_path: str
     :return: the filename
@@ -51,8 +55,10 @@ def __get_filename(full_path: str) -> str:
 
 
 def __get_extension(full_path: str) -> str:
-    """ Returns the extension of the provided file path.
-    For example, providing "c:\\users\\nathan\\downloads\\something.png" will return "png"
+    """ 
+    Returns the extension of the provided file path.
+    For example, providing "c:\\users\\nathan\\downloads\\something.png" will return "png".
+
     :param full_path: the full, absolute path of the file
     :type full_path: str
     :return: the extension
@@ -66,7 +72,9 @@ def __get_extension(full_path: str) -> str:
 
 
 def __separate_name_from_extension(file_name: str) -> Tuple:
-    """ Returns the filename separated from the extension.
+    """ 
+    Returns the filename separated from the extension.
+
     :param file_name: the filename and extension. For example, "something.png"
     :type file_name: str
     :return: a tuple consisting of the name and extension
@@ -77,7 +85,9 @@ def __separate_name_from_extension(file_name: str) -> Tuple:
 
 
 def get_unix_gmt_time() -> int:
-    """ Returns the current unix gmt time.
+    """ 
+    Returns the current unix gmt time.
+
     :return: the current unix gmt time
     :rtype: int
     """
@@ -85,7 +95,9 @@ def get_unix_gmt_time() -> int:
 
 
 def get_audio_length(path: str) -> float:
-    """ Returns the length of the provided audio file in seconds.
+    """ 
+    Returns the length of the provided audio file in seconds.
+
     :param path: the path to the audio file
     :type path: str
     :return: how long the audio file is in seconds
@@ -95,7 +107,9 @@ def get_audio_length(path: str) -> float:
 
 
 def get_usb_devices() -> List:
-    """ Returns a list of the devices connected to this comuter via USB.
+    """ 
+    Returns a list of the devices connected to this comuter via USB.
+    
     :return: a list of the devices connected to this computer via USB.
     :rtype: list
     """

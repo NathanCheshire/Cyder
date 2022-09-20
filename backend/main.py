@@ -14,13 +14,15 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    """ The local backend root.
+    """ 
+    The local backend root.
     """
     return {"ping_time": get_unix_gmt_time()}
 
 
 class GaussianBlurPost(BaseModel):
-    """ The expected schema for a gaussian blur post request.
+    """ 
+    The expected schema for a gaussian blur post request.
     """
     image: str
     radius: int
@@ -29,21 +31,28 @@ class GaussianBlurPost(BaseModel):
 
 @app.post("/image/blur/")
 def post_blur_image(gaussian_blur_post: GaussianBlurPost):
-    """ The post location for applying a gaussian blur to a local image file.
+    """ 
+    The post location for applying a gaussian blur to a local image file.
+
+    :param gaussian_blur_post: the gaussian blur post response
     """
     return {"image": str(gaussian_blur(gaussian_blur_post.image, gaussian_blur_post.radius,
                                        save_directory=gaussian_blur_post.save_directory))}
 
 
 class AudioLengthPost(BaseModel):
-    """ The expected schema for an audio length post request.
+    """ 
+    The expected schema for an audio length post request.
     """
     audio_path: str
 
 
 @app.post("/audio/length/")
 def post_audio_length(audio_length: AudioLengthPost):
-    """ The post location for determing the length in seconds of a local audio file.
+    """ 
+    The post location for determing the length in seconds of a local audio file.
+
+    :param audio_length: the audio length post
     """
     exists = os.path.exists(audio_length.audio_path)
 
@@ -55,7 +64,8 @@ def post_audio_length(audio_length: AudioLengthPost):
 
 @app.get("/usb/devices/")
 def get_usb():
-    """ The get location for usb devices.
+    """ 
+    The get location for usb devices.
     """
     return {"usb": str(get_usb_devices())}
 
