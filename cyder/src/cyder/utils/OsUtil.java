@@ -35,7 +35,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Helper methods to sort out differences between operating systems Cyder might be running on.
  */
-public final class OSUtil {
+public final class OsUtil {
     /**
      * A list of the restricted windows filenames due to backwards compatibility
      * and the nature of "APIs are forever".
@@ -60,7 +60,7 @@ public final class OSUtil {
     /**
      * Suppress default constructor.
      */
-    private OSUtil() {
+    private OsUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
@@ -217,7 +217,7 @@ public final class OSUtil {
     /**
      * Returns whether the operating system is unix based.
      * (yes this includes OSX systems too. If you need to test for
-     * OSX specifically then call {@link OSUtil#isOsx()})
+     * OSX specifically then call {@link OsUtil#isOsx()})
      *
      * @return whether the operating system is unix based
      */

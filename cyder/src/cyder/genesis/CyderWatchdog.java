@@ -9,7 +9,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 
 import javax.swing.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -127,14 +127,14 @@ public final class CyderWatchdog {
                     if (watchdogCounter.get() == MAX_WATCHDOG_COUNT) {
                         Logger.log(Logger.Tag.DEBUG, "Halt detected by watchdog,");
 
-                        if (OSUtil.JAR_MODE) {
+                        if (OsUtil.JAR_MODE) {
                             Logger.log(Logger.Tag.DEBUG, "JAR_MODE detected; attempting to " +
                                     "locate jar to boostrap from");
                             bootstrap();
                         } else {
                             Logger.log(Logger.Tag.DEBUG, "JAR_MODE is not active thus " +
                                     "no jar can be located to boostrap from; exiting Cyder");
-                            OSUtil.exit(ExitCondition.WatchdogTimeout);
+                            OsUtil.exit(ExitCondition.WatchdogTimeout);
                         }
                     }
                 } else {

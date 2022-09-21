@@ -37,7 +37,7 @@ public final class SpotlightUtil {
      * Wipes the windows spotlight directory. Windows will download new ones eventually.
      */
     public static void wipeSpotlights() {
-        Preconditions.checkArgument(OSUtil.isWindows(), "Host OS is not Windows");
+        Preconditions.checkArgument(OsUtil.isWindows(), "Host OS is not Windows");
 
         File spotlightsDir = getSpotlightsDirectory();
 
@@ -54,7 +54,7 @@ public final class SpotlightUtil {
 
                 if (files != null && files.length > 0) {
                     for (File spotlight : files) {
-                        OSUtil.deleteFile(spotlight);
+                        OsUtil.deleteFile(spotlight);
                     }
                 }
 
@@ -74,8 +74,8 @@ public final class SpotlightUtil {
      * @return the parent directory of the spotlight images
      */
     public static File getSpotlightsDirectory() {
-        return new File(OSUtil.buildPath(
-                OSUtil.WINDOWS_ROOT, "users", OSUtil.getOsUsername(),
+        return new File(OsUtil.buildPath(
+                OsUtil.WINDOWS_ROOT, "users", OsUtil.getOsUsername(),
                 "AppData", "Local", "Packages", CONTENT_DELIVERY_MANAGER_PREFIX
                         + CONTENT_DELIVERY_MANAGER_SUFFIX, "LocalState", "Assets"));
     }
@@ -94,7 +94,7 @@ public final class SpotlightUtil {
         Preconditions.checkNotNull(saveDir);
         Preconditions.checkArgument(saveDir.isDirectory(), "Destination directory is not a folder");
         Preconditions.checkArgument(saveDir.exists(), "Destination directory does not exists");
-        Preconditions.checkArgument(OSUtil.isWindows(), "Host OS is not Windows");
+        Preconditions.checkArgument(OsUtil.isWindows(), "Host OS is not Windows");
 
         try {
             int acc = 0;
@@ -114,7 +114,7 @@ public final class SpotlightUtil {
                     continue;
                 }
 
-                Files.copy(spotlight.toPath(), Paths.get(saveDir + OSUtil.FILE_SEP + acc + ".png"),
+                Files.copy(spotlight.toPath(), Paths.get(saveDir + OsUtil.FILE_SEP + acc + ".png"),
                         StandardCopyOption.REPLACE_EXISTING);
                 acc++;
             }

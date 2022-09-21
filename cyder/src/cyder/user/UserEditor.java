@@ -349,7 +349,7 @@ public final class UserEditor {
 
                     try {
                         String copyFolderPath = UserUtil.getUserFile(copyLocation).getAbsolutePath();
-                        File copyFile = OSUtil.buildFile(copyFolderPath, uniqueNameAndExtension);
+                        File copyFile = OsUtil.buildFile(copyFolderPath, uniqueNameAndExtension);
                         Files.copy(fileToAdd.toPath(), copyFile.toPath());
 
                         revalidateFilesScroll();
@@ -467,7 +467,7 @@ public final class UserEditor {
 
                 String newFilenameAndExtension = newName + FileUtil.getExtension(selectedFile);
 
-                if (!OSUtil.isValidFilename(newFilenameAndExtension)) {
+                if (!OsUtil.isValidFilename(newFilenameAndExtension)) {
                     editUserFrame.notify("Invalid filename; file not renamed");
                     return;
                 }
@@ -502,16 +502,16 @@ public final class UserEditor {
         Preconditions.checkArgument(referenceFile.exists());
         Preconditions.checkNotNull(proposedName);
         Preconditions.checkArgument(!proposedName.isEmpty());
-        Preconditions.checkArgument(OSUtil.isValidFilename(proposedName));
+        Preconditions.checkArgument(OsUtil.isValidFilename(proposedName));
 
         String oldAlbumArtName = FileUtil.getFilename(referenceFile);
-        File newReferenceFile = OSUtil.buildFile(referenceFile.getParentFile().getAbsolutePath(), proposedName);
+        File newReferenceFile = OsUtil.buildFile(referenceFile.getParentFile().getAbsolutePath(), proposedName);
         if (!referenceFile.renameTo(newReferenceFile)) {
             return false;
         }
 
         // Attempt to find album art file to rename
-        File albumArtDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+        File albumArtDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
 
         if (albumArtDir.exists()) {
@@ -529,7 +529,7 @@ public final class UserEditor {
 
                 if (renameMe != null) {
                     String namePart = proposedName.split("\\.")[0];
-                    File newAlbumArtFile = OSUtil.buildFile(renameMe.getParentFile().getAbsolutePath(),
+                    File newAlbumArtFile = OsUtil.buildFile(renameMe.getParentFile().getAbsolutePath(),
                             namePart + "." + ImageUtil.PNG_FORMAT);
                     if (!renameMe.renameTo(newAlbumArtFile)) {
                         Console.INSTANCE.getInputHandler().println("Failed to rename album art: "
@@ -574,7 +574,7 @@ public final class UserEditor {
                 return;
             }
 
-            if (OSUtil.deleteFile(selectedFile)) {
+            if (OsUtil.deleteFile(selectedFile)) {
                 switch (userDirectory) {
                     case "Backgrounds" -> editUserFrame.notify("Deleted background file: " + filename);
                     case "Music" -> editUserFrame.notify("Deleted music file: " + filename);
@@ -656,7 +656,7 @@ public final class UserEditor {
         Preconditions.checkArgument(!name.isEmpty());
         Preconditions.checkNotNull(userFile);
 
-        File userFilesDirectory = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+        File userFilesDirectory = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), userFile.getName());
 
         File[] files = userFilesDirectory.listFiles();
@@ -1876,10 +1876,10 @@ public final class UserEditor {
 
             UiUtil.closeAllFrames(true);
 
-            OSUtil.deleteFile(OSUtil.buildFile(Dynamic.PATH,
+            OsUtil.deleteFile(OsUtil.buildFile(Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid()));
 
-            OSUtil.exit(ExitCondition.UserDeleted);
+            OsUtil.exit(ExitCondition.UserDeleted);
         }, ACCOUNT_DELETION_CONFIRMATION);
     }
 

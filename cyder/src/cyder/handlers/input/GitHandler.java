@@ -12,7 +12,7 @@ import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.GitHubUtil;
 import cyder.utils.NetworkUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 
 import java.util.Map;
 import java.util.Optional;
@@ -84,7 +84,7 @@ public class GitHandler extends InputHandler {
 
                 getInputHandler().println("Cyder uses the following languages:");
                 for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                    getInputHandler().println(entry.getKey() + " takes up " + OSUtil.formatBytes(entry.getValue()));
+                    getInputHandler().println(entry.getKey() + " takes up " + OsUtil.formatBytes(entry.getValue()));
                 }
 
                 return true;
@@ -108,7 +108,7 @@ public class GitHandler extends InputHandler {
                     "git", "commit", "-m", "\"" + getInputHandler().argsToString() + "\"");
             ProcessBuilder processBuilderPush = new ProcessBuilder("git", "push", "-u", "origin", "main");
 
-            OSUtil.runAndPrintProcessesSequential(getInputHandler(), processBuilderAdd,
+            OsUtil.runAndPrintProcessesSequential(getInputHandler(), processBuilderAdd,
                     processBuilderCommit, processBuilderPush);
         } else {
             getInputHandler().println("gitme usage: gitme [commit message without quotes]");

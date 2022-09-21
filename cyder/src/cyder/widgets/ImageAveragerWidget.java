@@ -214,7 +214,7 @@ public final class ImageAveragerWidget {
                 DragLabelTextButton saveButton = DragLabelTextButton.generateTextButton(
                         new DragLabelTextButton.Builder(SAVE).setTooltip(SAVE_IMAGE).setClickAction(() -> {
                             try {
-                                File outFile = OSUtil.buildFile(Dynamic.PATH,
+                                File outFile = OsUtil.buildFile(Dynamic.PATH,
                                         Dynamic.USERS.getDirectoryName(),
                                         Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(),
                                         combineImageNames() + "." + ImageUtil.PNG_FORMAT);

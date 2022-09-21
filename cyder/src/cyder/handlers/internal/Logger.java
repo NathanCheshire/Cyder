@@ -380,7 +380,7 @@ public final class Logger {
      */
     public static void initialize() {
         if (PropLoader.getBoolean(WIPE_LOGS_ON_START)) {
-            OSUtil.deleteFile(OSUtil.buildFile(Dynamic.PATH,
+            OsUtil.deleteFile(OsUtil.buildFile(Dynamic.PATH,
                     Dynamic.LOGS.getDirectoryName()), false);
         }
 
@@ -389,7 +389,7 @@ public final class Logger {
         writeCyderAsciiArt();
 
         // first log tag call should always be a JVM_ENTRY tag
-        log(Tag.JVM_ENTRY, OSUtil.getOsUsername());
+        log(Tag.JVM_ENTRY, OsUtil.getOsUsername());
 
         startObjectCreationLogger();
         concludeLogs();
@@ -463,25 +463,25 @@ public final class Logger {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void generateAndSetLogFile() {
         try {
-            File logsDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
+            File logsDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
             logsDir.mkdir();
 
             String logSubDirName = TimeUtil.logSubDirTime();
-            File logSubDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName(), logSubDirName);
+            File logSubDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName(), logSubDirName);
             logSubDir.mkdir();
 
             String logFileName = TimeUtil.logTime();
 
             int number = 1;
-            File logFile = OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName(),
+            File logFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName(),
                     logSubDirName, logFileName + ".log");
             while (logFile.exists()) {
                 number++;
-                logFile = OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName(),
+                logFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName(),
                         logSubDirName, logFileName + "-" + number + ".log");
             }
 
-            if (OSUtil.createFile(logFile, true)) {
+            if (OsUtil.createFile(logFile, true)) {
                 currentLog = logFile;
             } else {
                 throw new FatalException("Log file not created");
@@ -700,7 +700,7 @@ public final class Logger {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void zipPastLogs() {
-        File topLevelLogsDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
+        File topLevelLogsDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
 
         if (!topLevelLogsDir.exists()) {
             topLevelLogsDir.mkdir();
@@ -716,7 +716,7 @@ public final class Logger {
             if (!FileUtil.getFilename(subLogDir.getName()).equals(TimeUtil.logSubDirTime())
                     && !FileUtil.getExtension(subLogDir).equalsIgnoreCase(ZIP_EXTENSION)) {
                 if (new File(subLogDir.getAbsolutePath() + ZIP_EXTENSION).exists()) {
-                    OSUtil.deleteFile(subLogDir);
+                    OsUtil.deleteFile(subLogDir);
                 } else {
                     FileUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ZIP_EXTENSION);
                 }
@@ -728,7 +728,7 @@ public final class Logger {
      * Consolidates the lines of all non-zipped files within the logs/SubLogDir directory.
      */
     public static void consolidateLogLines() {
-        File logsDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
+        File logsDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
 
         if (!logsDir.exists()) return;
 
@@ -876,7 +876,7 @@ public final class Logger {
      */
     public static void concludeLogs() {
         try {
-            File logDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
+            File logDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
 
             if (!logDir.exists()) return;
 

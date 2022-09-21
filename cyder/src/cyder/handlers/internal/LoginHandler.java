@@ -83,7 +83,7 @@ public final class LoginHandler {
      * The string at the beginning of the input field.
      */
     private static final String defaultBashString =
-            OSUtil.getOsUsername() + "@" + OSUtil.getComputerName() + ":~$ ";
+            OsUtil.getOsUsername() + "@" + OsUtil.getComputerName() + ":~$ ";
 
     /**
      * The BashString currently being used.
@@ -321,7 +321,7 @@ public final class LoginHandler {
             doLoginAnimations = false;
 
             if (Console.INSTANCE.isClosed()) {
-                OSUtil.exit(ExitCondition.GenesisControlledExit);
+                OsUtil.exit(ExitCondition.GenesisControlledExit);
             }
         }
 
@@ -365,7 +365,7 @@ public final class LoginHandler {
                             } else if (inputString.equalsIgnoreCase("quit")) {
                                 loginFrame.dispose();
                                 if (Console.INSTANCE.isClosed())
-                                    OSUtil.exit(ExitCondition.GenesisControlledExit);
+                                    OsUtil.exit(ExitCondition.GenesisControlledExit);
 
                             } else if (inputString.equalsIgnoreCase("help")) {
                                 loginField.setText(currentBashString);

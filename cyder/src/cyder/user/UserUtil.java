@@ -113,7 +113,7 @@ public final class UserUtil {
                 // log the write since we know the user is valid
                 Logger.log(Logger.Tag.SYSTEM_IO, "[JSON WRITE] [Levenshtein = "
                         + currentLevenshteinDistance + "] User was written to file: "
-                        + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
+                        + OsUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
 
                 getterSetterValidator(cyderUserFile);
                 backupUserJsonFile(cyderUserFile);
@@ -146,7 +146,7 @@ public final class UserUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(!uuid.isEmpty());
 
-        File jsonFile = OSUtil.buildFile(Dynamic.PATH,
+        File jsonFile = OsUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(), uuid, UserFile.USERDATA.getName());
 
         Preconditions.checkArgument(jsonFile.exists(), "File does not exist");
@@ -211,7 +211,7 @@ public final class UserUtil {
      * The backup directory.
      */
     public static final File backupDirectory = new File(
-            OSUtil.buildPath(Dynamic.PATH, Dynamic.BACKUP.getDirectoryName()));
+            OsUtil.buildPath(Dynamic.PATH, Dynamic.BACKUP.getDirectoryName()));
 
     /**
      * Saves the provided jsonFile to the backup directory in case
@@ -261,12 +261,12 @@ public final class UserUtil {
 
             File mostRecentBackup = null;
             if (currentMaxTimestamp != 0) {
-                mostRecentBackup = OSUtil.buildFile(Dynamic.PATH,
+                mostRecentBackup = OsUtil.buildFile(Dynamic.PATH,
                         Dynamic.BACKUP.getDirectoryName(), uuid + "_" + currentMaxTimestamp);
             }
 
             if (mostRecentBackup == null || !FileUtil.fileContentsEqual(jsonFile, mostRecentBackup)) {
-                File newBackup = OSUtil.buildFile(Dynamic.PATH, Dynamic.BACKUP.getDirectoryName(), backupFilename);
+                File newBackup = OsUtil.buildFile(Dynamic.PATH, Dynamic.BACKUP.getDirectoryName(), backupFilename);
                 if (!newBackup.createNewFile()) {
                     Logger.log(Logger.Tag.DEBUG, "Failed to create backup file: "
                             + newBackup.getAbsolutePath() + ", for user: " + uuid);
@@ -294,7 +294,7 @@ public final class UserUtil {
                             // backed up and not the file we just made
                             if (parts[0].equals(uuid) && !FileUtil.getFilename(backup)
                                     .equals(FileUtil.getFilename(newBackup))) {
-                                OSUtil.deleteFile(backup);
+                                OsUtil.deleteFile(backup);
                             }
                         }
                     }
@@ -346,7 +346,7 @@ public final class UserUtil {
 
             // if a recent backup was found for the user
             if (mostRecentTimestamp != 0) {
-                File mostRecentBackup = OSUtil.buildFile(
+                File mostRecentBackup = OsUtil.buildFile(
                         Dynamic.PATH,
                         Dynamic.BACKUP.getDirectoryName(),
                         uuid + "_" + mostRecentTimestamp + ".json");
@@ -378,7 +378,7 @@ public final class UserUtil {
             if (val.getName().equals(UserFile.USERDATA.getName()))
                 continue;
 
-            File currentUserFile = OSUtil.buildFile(
+            File currentUserFile = OsUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(),
                     uuid, val.getName());
@@ -553,7 +553,7 @@ public final class UserUtil {
      */
     public static void validateUsers() {
         // we use all user files here since we are determining if they are corrupted
-        File users = OSUtil.buildFile(Dynamic.PATH,
+        File users = OsUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName());
 
         File[] files = users.listFiles();
@@ -561,7 +561,7 @@ public final class UserUtil {
         if (files != null && files.length > 0) {
             for (File userFile : files) {
                 //file userdata
-                File json = new File(OSUtil.buildPath(
+                File json = new File(OsUtil.buildPath(
                         userFile.getAbsolutePath(), UserFile.USERDATA.getName()));
 
                 if (json.exists()) {
@@ -598,7 +598,7 @@ public final class UserUtil {
             //acquire sem so that any user requested exit will not corrupt the background
             getUserIoSemaphore().acquire();
 
-            File currentUserBackgrounds = OSUtil.buildFile(
+            File currentUserBackgrounds = OsUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(), uuid,
                     UserFile.BACKGROUNDS.getName());
@@ -619,7 +619,7 @@ public final class UserUtil {
                     }
 
                     if (!valid) {
-                        OSUtil.deleteFile(f);
+                        OsUtil.deleteFile(f);
                     }
                 }
             }
@@ -806,7 +806,7 @@ public final class UserUtil {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void cleanUsers() {
-        File users = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName());
+        File users = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName());
 
         if (!users.exists()) {
             users.mkdir();
@@ -819,9 +819,9 @@ public final class UserUtil {
                         continue;
                     // take care of void users
                     if (user.isDirectory() && user.getName().contains("VoidUser")) {
-                        OSUtil.deleteFile(user);
+                        OsUtil.deleteFile(user);
                     } else {
-                        File musicDir = new File(OSUtil.buildPath(user.getAbsolutePath(), "Music"));
+                        File musicDir = new File(OsUtil.buildPath(user.getAbsolutePath(), "Music"));
 
                         if (!musicDir.exists()) {
                             continue;
@@ -833,14 +833,14 @@ public final class UserUtil {
                         if (files != null && files.length > 0) {
                             for (File musicFile : files) {
                                 if (!FileUtil.isSupportedAudioExtension(musicFile) && !musicFile.isDirectory()) {
-                                    OSUtil.deleteFile(musicFile);
+                                    OsUtil.deleteFile(musicFile);
                                 } else {
                                     validMusicFileNames.add(FileUtil.getFilename(musicFile));
                                 }
                             }
                         }
 
-                        File albumArtDirectory = new File(OSUtil.buildPath(user.getAbsolutePath(),
+                        File albumArtDirectory = new File(OsUtil.buildPath(user.getAbsolutePath(),
                                 UserFile.MUSIC.getName(), UserFile.ALBUM_ART));
 
                         if (!albumArtDirectory.exists())
@@ -854,7 +854,7 @@ public final class UserUtil {
                                 // if the album art file name does not match to a music file name, delete it
                                 if (!StringUtil.in(FileUtil.getFilename(albumArt),
                                         true, validMusicFileNames)) {
-                                    OSUtil.deleteFile(albumArt);
+                                    OsUtil.deleteFile(albumArt);
                                 }
                             }
                         }
@@ -870,7 +870,7 @@ public final class UserUtil {
      * Removes any backup jsons from dynamic/backup not liked to current Cyder users.
      */
     private static void cleanBackupJsons() {
-        File backupDirectory = OSUtil.buildFile(Dynamic.PATH, Dynamic.BACKUP.getDirectoryName());
+        File backupDirectory = OsUtil.buildFile(Dynamic.PATH, Dynamic.BACKUP.getDirectoryName());
 
         if (!backupDirectory.exists()) {
             return;
@@ -888,7 +888,7 @@ public final class UserUtil {
 
             if (!StringUtil.in(uuid, false, getUserUuids())) {
                 Logger.log(Logger.Tag.DEBUG, "Deleting backup file not linked to user: " + name);
-                OSUtil.deleteFile(backupFile);
+                OsUtil.deleteFile(backupFile);
             }
         }
     }
@@ -928,7 +928,7 @@ public final class UserUtil {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void userJsonCorruption(String uuid) {
         try {
-            File userJson = OSUtil.buildFile(
+            File userJson = OsUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(),
                     uuid, UserFile.USERDATA.getName());
@@ -972,10 +972,10 @@ public final class UserUtil {
             addInvalidUuid(uuid);
 
             // create parent directory
-            File userDir = OSUtil.buildFile(
+            File userDir = OsUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(), uuid);
-            File json = OSUtil.buildFile(
+            File json = OsUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(), uuid, UserFile.USERDATA.getName());
 
@@ -984,7 +984,7 @@ public final class UserUtil {
                 BufferedReader reader = new BufferedReader(new FileReader(json));
                 if (StringUtil.isNullOrEmpty(reader.readLine())) {
                     reader.close();
-                    OSUtil.deleteFile(json);
+                    OsUtil.deleteFile(json);
                 }
             }
 
@@ -992,7 +992,7 @@ public final class UserUtil {
 
             //if there's nothing left in the user
             if (files != null && files.length == 0) {
-                OSUtil.deleteFile(userDir);
+                OsUtil.deleteFile(userDir);
             } else {
                 // otherwise, we need to figure out all the file names in each sub-dir,
                 // not recursive, and inform the user that a json was deleted
@@ -1001,7 +1001,7 @@ public final class UserUtil {
                 String informString = "Unfortunately a user's data file was corrupted and had to be deleted. "
                         + "The following files still exists and are associated with the user at the following "
                         + "path:<br/><b>"
-                        + OSUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid) + "</b><br/>Files:";
+                        + OsUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid) + "</b><br/>Files:";
 
                 LinkedList<String> filenames = new LinkedList<>();
 
@@ -1053,12 +1053,12 @@ public final class UserUtil {
         Preconditions.checkNotNull(userFile);
         Preconditions.checkArgument(Console.INSTANCE.getUuid() != null);
 
-        File ret = OSUtil.buildFile(Dynamic.PATH,
+        File ret = OsUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), userFile.getName());
 
         if (!ret.exists()) {
-            if (OSUtil.createFile(ret, false)) {
+            if (OsUtil.createFile(ret, false)) {
                 return ret;
             } else {
                 throw new FatalException("Failed to create user file: " + userFile);
@@ -1085,13 +1085,13 @@ public final class UserUtil {
     public static ArrayList<String> getUserUuids() {
         ArrayList<String> uuids = new ArrayList<>();
 
-        File usersDir = OSUtil.buildFile(Dynamic.PATH,
+        File usersDir = OsUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName());
         File[] users = usersDir.listFiles();
 
         if (users != null && users.length > 0) {
             for (File user : users) {
-                File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
+                File json = new File(OsUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
                 if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs))
                     uuids.add(user.getName());
@@ -1109,13 +1109,13 @@ public final class UserUtil {
     public static ArrayList<File> getUserJsons() {
         ArrayList<File> userFiles = new ArrayList<>();
 
-        File usersDir = OSUtil.buildFile(Dynamic.PATH,
+        File usersDir = OsUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName());
         File[] users = usersDir.listFiles();
 
         if (users != null && users.length > 0) {
             for (File user : users) {
-                File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
+                File json = new File(OsUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
                 if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs)) {
                     userFiles.add(json);
@@ -1177,9 +1177,9 @@ public final class UserUtil {
             }
         }
 
-        File backgroundFile = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+        File backgroundFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                 uuid, UserFile.BACKGROUNDS.getName(), "Default." + ImageUtil.PNG_FORMAT);
-        File backgroundFolder = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+        File backgroundFolder = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                 uuid, UserFile.BACKGROUNDS.getName());
 
         try {
@@ -1208,7 +1208,7 @@ public final class UserUtil {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static File createFileInUserSpace(String name) {
         if (!StringUtil.isNullOrEmpty(Console.INSTANCE.getUuid())) {
-            File saveDir = OSUtil.buildFile(Dynamic.PATH,
+            File saveDir = OsUtil.buildFile(Dynamic.PATH,
                     Dynamic.USERS.getDirectoryName(),
                     Console.INSTANCE.getUuid(), UserFile.FILES.getName());
             File createFile = new File(saveDir, name);
@@ -1223,7 +1223,7 @@ public final class UserUtil {
                     saveDir.mkdir();
                 }
 
-                if (OSUtil.createFile(createFile, true)) {
+                if (OsUtil.createFile(createFile, true)) {
                     Logger.log(Logger.Tag.SYSTEM_IO, "Created file in userspace: " + name);
                     return createFile;
                 }

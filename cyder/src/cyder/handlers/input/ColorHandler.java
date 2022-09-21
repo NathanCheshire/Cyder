@@ -13,7 +13,7 @@ import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.ColorUtil;
 import cyder.utils.ImageUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -56,7 +56,7 @@ public class ColorHandler extends InputHandler {
                     String saveName = "Solid_" + getInputHandler().getArg(0)
                             + "Generated_Background." + ImageUtil.PNG_FORMAT;
 
-                    File saveFile = OSUtil.buildFile(Dynamic.PATH, "users",
+                    File saveFile = OsUtil.buildFile(Dynamic.PATH, "users",
                             Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(), saveName);
 
                     ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, saveFile);

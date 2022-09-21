@@ -10,7 +10,7 @@ import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.time.TimeUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 
 import javax.swing.*;
 
@@ -107,8 +107,8 @@ public final class Cyder {
      * Adds the exit hooks to this Jvm.
      */
     private static void addExitHooks() {
-        Runtime.getRuntime().addShutdownHook(CyderThreadRunner.createThread(() -> OSUtil.deleteFile(
-                        OSUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName()), false),
+        Runtime.getRuntime().addShutdownHook(CyderThreadRunner.createThread(() -> OsUtil.deleteFile(
+                        OsUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName()), false),
                 REMOVE_TEMP_DIRECTORY_HOOK_NAME));
     }
 }

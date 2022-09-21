@@ -370,7 +370,7 @@ public final class FileUtil {
 
             // for all zip entries
             while (zipEntry != null) {
-                File zippedFile = OSUtil.buildFile(destinationFolder.getAbsolutePath(), zipEntry.getName());
+                File zippedFile = OsUtil.buildFile(destinationFolder.getAbsolutePath(), zipEntry.getName());
 
                 // ensure parents of zip entry exist
                 File zipEntryParent = new File(zippedFile.getParent());

@@ -1020,7 +1020,7 @@ public final class ImageUtil {
         Preconditions.checkArgument(gaussianBlurBuilder.getImageFile().exists());
         Preconditions.checkArgument(gaussianBlurBuilder.getRadius() > 2);
         Preconditions.checkArgument(gaussianBlurBuilder.getRadius() % 2 != 0);
-        Preconditions.checkArgument(OSUtil.isBinaryInstalled("python"));
+        Preconditions.checkArgument(OsUtil.isBinaryInstalled("python"));
 
         String path = gaussianBlurBuilder.getImageFile()
                 .getAbsolutePath().replace("\\", "\\\\");
@@ -1118,7 +1118,7 @@ public final class ImageUtil {
         Preconditions.checkArgument(!saveName.isEmpty());
 
         try {
-            File tmpDir = OSUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName(),
+            File tmpDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName(),
                     saveName + "." + PNG_FORMAT);
             ImageIO.write(bi, PNG_FORMAT, tmpDir);
             return true;

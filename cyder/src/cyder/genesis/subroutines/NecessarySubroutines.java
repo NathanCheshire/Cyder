@@ -11,7 +11,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.user.UserUtil;
 import cyder.utils.FileUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StaticUtil;
 
@@ -76,7 +76,7 @@ public final class NecessarySubroutines {
         }
 
         CyderSplash.INSTANCE.setLoadingMessage("Creating dynamics");
-        OSUtil.ensureDynamicsCreated();
+        OsUtil.ensureDynamicsCreated();
 
         CyderSplash.INSTANCE.setLoadingMessage("Validating users");
         UserUtil.validateUsers();
@@ -158,6 +158,6 @@ public final class NecessarySubroutines {
      * @return whether the host operating system is supported by Cyder
      */
     private static boolean ensureSupportedOs() {
-        return !OSUtil.isOsx();
+        return !OsUtil.isOsx();
     }
 }

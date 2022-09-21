@@ -12,7 +12,7 @@ import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.FileUtil;
 import cyder.utils.ImageUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -99,7 +99,7 @@ public class PixelationHandler extends InputHandler {
                             .getCurrentBackground().getReferenceFile().getName())
                             + "_Pixelated_Pixel_Size_" + size + "." + ImageUtil.PNG_FORMAT;
 
-                    File saveFile = OSUtil.buildFile(
+                    File saveFile = OsUtil.buildFile(
                             Dynamic.PATH,
                             Dynamic.USERS.getDirectoryName(),
                             Console.INSTANCE.getUuid(),

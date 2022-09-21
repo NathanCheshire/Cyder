@@ -8,7 +8,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
@@ -96,7 +96,7 @@ public class ImageHandler extends InputHandler {
                     return;
                 }
 
-                currentBackgroundFile = OSUtil.buildFile(Dynamic.PATH,
+                currentBackgroundFile = OsUtil.buildFile(Dynamic.PATH,
                         Dynamic.TEMP.getDirectoryName(), name + "." + ImageUtil.PNG_FORMAT);
             }
 

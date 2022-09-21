@@ -549,7 +549,7 @@ public final class GameOfLifeWidget {
 
             String filename = saveName + ".json";
 
-            if (OSUtil.isValidFilename(filename)) {
+            if (OsUtil.isValidFilename(filename)) {
                 File saveFile = UserUtil.createFileInUserSpace(filename);
 
                 LinkedList<Point> points = new LinkedList<>();

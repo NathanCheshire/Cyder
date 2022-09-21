@@ -1214,7 +1214,7 @@ public enum Console {
         }
 
         if (PropLoader.getBoolean(TESTING_MODE)) {
-            Logger.log(Logger.Tag.CONSOLE_LOAD, "[" + OSUtil.getOsUsername() + "] [TESTING MODE]");
+            Logger.log(Logger.Tag.CONSOLE_LOAD, "[" + OsUtil.getOsUsername() + "] [TESTING MODE]");
             ManualTests.launchTests();
         }
 
@@ -1268,7 +1268,7 @@ public enum Console {
     private void performIntroMusic() {
         ArrayList<File> musicList = new ArrayList<>();
 
-        File userMusicDir = new File(OSUtil.buildPath(Dynamic.PATH,
+        File userMusicDir = new File(OsUtil.buildPath(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(), getUuid(), UserFile.MUSIC.getName()));
 
         File[] files = userMusicDir.listFiles();
@@ -1357,7 +1357,7 @@ public enum Console {
     private final AbstractAction forcedExitAbstractAction = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            OSUtil.exit(ExitCondition.ForcedImmediateExit);
+            OsUtil.exit(ExitCondition.ForcedImmediateExit);
         }
     };
 
@@ -2339,7 +2339,7 @@ public enum Console {
         try {
             ArrayList<File> backgroundFiles = new ArrayList<>();
 
-            File[] backgroundFilesArr = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+            File[] backgroundFilesArr = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                     getUuid(), UserFile.BACKGROUNDS.getName()).listFiles();
             if (backgroundFilesArr != null && backgroundFilesArr.length > 0) {
                 Arrays.stream(backgroundFilesArr).forEach(file -> {
@@ -3444,7 +3444,7 @@ public enum Console {
             UserUtil.getCyderUser().setLoggedin("0");
         }
 
-        if (exit) consoleCyderFrame.addPostCloseAction(() -> OSUtil.exit(ExitCondition.GenesisControlledExit));
+        if (exit) consoleCyderFrame.addPostCloseAction(() -> OsUtil.exit(ExitCondition.GenesisControlledExit));
         consoleCyderFrame.dispose();
     }
 

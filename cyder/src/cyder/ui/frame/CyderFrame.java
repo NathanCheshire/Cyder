@@ -2774,7 +2774,7 @@ public class CyderFrame extends JFrame {
      * The image for the debug lines for the console.
      */
     private static final ImageIcon neffexIcon = new ImageIcon(
-            OSUtil.buildPath("static", "pictures", "print", "neffex.png"));
+            OsUtil.buildPath("static", "pictures", "print", "neffex.png"));
 
     /**
      * The minor axis length of a debug line.

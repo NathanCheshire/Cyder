@@ -14,7 +14,7 @@ import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
 import cyder.utils.ImageUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 import cyder.utils.StringUtil;
 
 import javax.swing.*;
@@ -89,7 +89,7 @@ public enum CyderSplash {
     /**
      * The post close action for the fatal exception information popup frame.
      */
-    private static final Runnable FATAL_EXCEPTION_POST_CLOSE_ACTION = () -> OSUtil.exit(ExitCondition.FatalTimeout);
+    private static final Runnable FATAL_EXCEPTION_POST_CLOSE_ACTION = () -> OsUtil.exit(ExitCondition.FatalTimeout);
 
     /**
      * The startup exception text for the fatal exception information popup frame title.

@@ -1,6 +1,6 @@
 package cyder.enums;
 
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 
 /**
  * Cyder exit codes and their corresponding meanings.
@@ -37,7 +37,7 @@ public enum ExitCondition {
 
     /**
      * The code associated with this ExitCondition.
-     * The method {@link OSUtil#exit(ExitCondition)} will invoke {@link System#exit(int)} using this code.
+     * The method {@link OsUtil#exit(ExitCondition)} will invoke {@link System#exit(int)} using this code.
      */
     private final int code;
 

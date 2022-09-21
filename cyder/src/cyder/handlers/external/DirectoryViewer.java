@@ -13,7 +13,7 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderScrollList;
 import cyder.user.UserUtil;
 import cyder.utils.IoUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
@@ -71,7 +71,7 @@ public class DirectoryViewer {
     /**
      * The current location of the directory widget.
      */
-    private static File currentDirectory = new File(OSUtil.USER_DIR);
+    private static File currentDirectory = new File(OsUtil.USER_DIR);
 
     /**
      * Restrict default constructor.
@@ -82,7 +82,7 @@ public class DirectoryViewer {
 
     @Widget(triggers = "dir", description = "A directory navigator widget")
     public static void showGui() {
-        showGui(new File(OSUtil.USER_DIR));
+        showGui(new File(OsUtil.USER_DIR));
     }
 
     /**

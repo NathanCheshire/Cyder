@@ -118,7 +118,7 @@ public final class UserCreator {
         newUserNameField.setSize(240, 40);
 
         if (!defaultCyderUserAlreadyExists()) {
-            newUserNameField.setText(OSUtil.getOsUsername());
+            newUserNameField.setText(OsUtil.getOsUsername());
         }
 
         JLabel passwordLabel = new JLabel("Password: ", SwingConstants.CENTER);
@@ -283,7 +283,7 @@ public final class UserCreator {
 
             if (!attemptToCreateUser(name, password)) {
                 if (lastGeneratedUuid != null) {
-                    OSUtil.deleteFile(OSUtil.buildFile(
+                    OsUtil.deleteFile(OsUtil.buildFile(
                             Dynamic.PATH, Dynamic.USERS.getDirectoryName(), lastGeneratedUuid));
                 }
             } else {
@@ -312,7 +312,7 @@ public final class UserCreator {
      * @return whether only one valid user exists within Cyder
      */
     private static boolean onlyOneUser() {
-        File[] userFiles = OSUtil.buildFile(
+        File[] userFiles = OsUtil.buildFile(
                 Dynamic.PATH, Dynamic.USERS.getDirectoryName()).listFiles();
 
         return userFiles != null && userFiles.length == 1;
@@ -355,12 +355,12 @@ public final class UserCreator {
     };
 
     /**
-     * Returns whether the user with the user name of {@link  OSUtil#getOsUsername()} exists.
+     * Returns whether the user with the user name of {@link  OsUtil#getOsUsername()} exists.
      *
-     * @return whether the user with the user name of {@link  OSUtil#getOsUsername()} exists
+     * @return whether the user with the user name of {@link  OsUtil#getOsUsername()} exists
      */
     private static boolean defaultCyderUserAlreadyExists() {
-        String osUsername = OSUtil.getOsUsername();
+        String osUsername = OsUtil.getOsUsername();
 
         for (File userJson : UserUtil.getUserJsons()) {
             User user = UserUtil.extractUser(userJson);
@@ -455,13 +455,13 @@ public final class UserCreator {
         String uuid = SecurityUtil.generateUuidForUser();
         lastGeneratedUuid = uuid;
 
-        if (!OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid).mkdir()) {
+        if (!OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid).mkdir()) {
             createUserFrame.toast("Failed to create user folder");
             return false;
         }
 
         for (UserFile userFile : UserFile.values()) {
-            File makeMe = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid, userFile.getName());
+            File makeMe = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid, userFile.getName());
 
             if (userFile.isFile()) {
                 try {
@@ -487,7 +487,7 @@ public final class UserCreator {
         }
 
         try {
-            File destination = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+            File destination = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                     uuid, UserFile.BACKGROUNDS.getName(), newUserBackgroundFile.getName());
             Files.copy(Paths.get(newUserBackgroundFile.getAbsolutePath()), destination.toPath());
         } catch (Exception e) {
@@ -511,7 +511,7 @@ public final class UserCreator {
         user.setScreenStat(createDefaultScreenStat(background));
         user.setExecutables(new LinkedList<>());
 
-        UserUtil.setUserData(OSUtil.buildFile(Dynamic.PATH,
+        UserUtil.setUserData(OsUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(), uuid, UserFile.USERDATA.getName()), user);
 
         return true;

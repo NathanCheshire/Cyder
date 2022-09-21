@@ -64,7 +64,7 @@ public final class IoUtil {
             try {
                 String path = file.getAbsolutePath();
 
-                if (OSUtil.OPERATING_SYSTEM == OSUtil.OperatingSystem.WINDOWS) {
+                if (OsUtil.OPERATING_SYSTEM == OsUtil.OperatingSystem.WINDOWS) {
                     Runtime.getRuntime().exec("explorer.exe /select," + path);
                 } else {
                     throw new FatalException("Could not open file; tell Nathan to fix me");

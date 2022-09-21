@@ -316,7 +316,7 @@ public class BaseInputHandler {
 
         String requestedFilename = args.get(args.size() - 1);
 
-        if (!OSUtil.isValidFilename(requestedFilename)) {
+        if (!OsUtil.isValidFilename(requestedFilename)) {
             failedRedirection();
             return;
         }
@@ -326,14 +326,14 @@ public class BaseInputHandler {
         try {
             redirectionSem.acquire();
 
-            redirectionFile = OSUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+            redirectionFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                     Console.INSTANCE.getUuid(), UserFile.FILES.getName(), requestedFilename).getAbsoluteFile();
 
             if (redirectionFile.exists()) {
-                OSUtil.deleteFile(redirectionFile);
+                OsUtil.deleteFile(redirectionFile);
             }
 
-            if (!OSUtil.createFile(redirectionFile, true)) {
+            if (!OsUtil.createFile(redirectionFile, true)) {
                 failedRedirection();
             }
         } catch (Exception ignored) {
@@ -424,7 +424,7 @@ public class BaseInputHandler {
      */
     @ForReadability
     private void wrapShellLogic() {
-        println(UNKNOWN_COMMAND + ", passing to operating system native shell (" + OSUtil.getShellName() + ")");
+        println(UNKNOWN_COMMAND + ", passing to operating system native shell (" + OsUtil.getShellName() + ")");
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -927,7 +927,7 @@ public class BaseInputHandler {
         Preconditions.checkNotNull(object);
 
         if (!redirectionFile.exists()) {
-            if (!OSUtil.createFile(redirectionFile, true)) {
+            if (!OsUtil.createFile(redirectionFile, true)) {
                 println(REDIRECTION_ERROR_MESSAGE);
                 println(object);
                 return;

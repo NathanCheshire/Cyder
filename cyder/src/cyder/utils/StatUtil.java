@@ -83,7 +83,7 @@ public final class StatUtil {
         ret.add("OS Name: " + System.getProperty("os.name"));
         ret.add("OS Version: " + System.getProperty("os.version"));
         ret.add("OS Path Separator: " + System.getProperty("path.separator"));
-        ret.add("User Directory: " + OSUtil.USER_DIR);
+        ret.add("User Directory: " + OsUtil.USER_DIR);
         ret.add("User Home: " + System.getProperty("user.home"));
         ret.add("Computer Username: " + System.getProperty("user.name"));
 
@@ -102,21 +102,21 @@ public final class StatUtil {
         LinkedList<String> ret = new LinkedList<>();
 
         ret.add("Available processors (cores): " + Runtime.getRuntime().availableProcessors());
-        ret.add("Free memory: " + OSUtil.formatBytes(Runtime.getRuntime().freeMemory()));
+        ret.add("Free memory: " + OsUtil.formatBytes(Runtime.getRuntime().freeMemory()));
 
         long maxMemory = Runtime.getRuntime().maxMemory();
 
         ret.add("Maximum memory: " +
-                (maxMemory == Long.MAX_VALUE ? "no limit" : OSUtil.formatBytes(maxMemory)));
-        ret.add("Total memory available to JVM: " + OSUtil.formatBytes(Runtime.getRuntime().totalMemory()));
+                (maxMemory == Long.MAX_VALUE ? "no limit" : OsUtil.formatBytes(maxMemory)));
+        ret.add("Total memory available to JVM: " + OsUtil.formatBytes(Runtime.getRuntime().totalMemory()));
 
         File[] roots = File.listRoots();
 
         for (File root : roots) {
             ret.add("File system root: " + root.getAbsolutePath());
-            ret.add("Total space (root): " + OSUtil.formatBytes(root.getTotalSpace()));
-            ret.add("Free space (root): " + OSUtil.formatBytes(root.getFreeSpace()));
-            ret.add("Usable space (root): " + OSUtil.formatBytes(root.getUsableSpace()));
+            ret.add("Total space (root): " + OsUtil.formatBytes(root.getTotalSpace()));
+            ret.add("Free space (root): " + OsUtil.formatBytes(root.getFreeSpace()));
+            ret.add("Usable space (root): " + OsUtil.formatBytes(root.getUsableSpace()));
         }
 
         return ImmutableList.copyOf(ret);
@@ -163,11 +163,11 @@ public final class StatUtil {
                             "YouTube Reachable: " + NetworkUtil.siteReachable(CyderUrls.YOUTUBE),
                             "Apple Reachable: " + NetworkUtil.siteReachable(CyderUrls.APPLE),
                             "Microsoft Reachable: " + NetworkUtil.siteReachable(CyderUrls.MICROSOFT),
-                            "User Name: " + OSUtil.getOsUsername(),
-                            "Computer Name: " + OSUtil.getComputerName(),
+                            "User Name: " + OsUtil.getOsUsername(),
+                            "Computer Name: " + OsUtil.getComputerName(),
                             "Available Cores: " + Runtime.getRuntime().availableProcessors(),
-                            "Available Memory: " + OSUtil.formatBytes(Runtime.getRuntime().freeMemory()),
-                            "Operating System: " + OSUtil.OPERATING_SYSTEM_NAME,
+                            "Available Memory: " + OsUtil.formatBytes(Runtime.getRuntime().freeMemory()),
+                            "Operating System: " + OsUtil.OPERATING_SYSTEM_NAME,
                             "Java Version: " + System.getProperty("java.version"),
                             "Network Interface Name: " + netIn.getName(),
                             "Network Interface Display Name: " + netIn.getDisplayName(),
@@ -405,11 +405,11 @@ public final class StatUtil {
      * within the root level directory and their sizes
      */
     public static ImmutableList<FileSize> fileSizes() {
-        if (OSUtil.JAR_MODE) {
+        if (OsUtil.JAR_MODE) {
             throw new IllegalMethodException("Method not allowed when in Jar mode");
         }
 
-        LinkedList<FileSize> prints = innerFileSizes(OSUtil.buildFile("..", "Cyder"));
+        LinkedList<FileSize> prints = innerFileSizes(OsUtil.buildFile("..", "Cyder"));
         prints.sort(new FileComparator());
         return ImmutableList.copyOf(prints);
     }

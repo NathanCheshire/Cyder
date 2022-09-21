@@ -20,7 +20,7 @@ import cyder.ui.pane.CyderScrollPane;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.FileUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
@@ -167,7 +167,7 @@ public class NotesWidget {
                         }
                     }
 
-                    OSUtil.deleteFile(noteList.get(i));
+                    OsUtil.deleteFile(noteList.get(i));
                     initializeNotesList();
 
                     cyderScrollList.removeAllElements();
@@ -245,7 +245,7 @@ public class NotesWidget {
 
             try {
                 BufferedWriter NoteWriter = new BufferedWriter(
-                        new FileWriter(OSUtil.buildFile(
+                        new FileWriter(OsUtil.buildFile(
                                 Dynamic.PATH,
                                 Dynamic.USERS.getDirectoryName(),
                                 Console.INSTANCE.getUuid(),
@@ -288,7 +288,7 @@ public class NotesWidget {
      * @throws IllegalStateException if the notes parent directory DNE
      */
     private static void initializeNotesList() throws IllegalStateException {
-        File dir = OSUtil.buildFile(
+        File dir = OsUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(),

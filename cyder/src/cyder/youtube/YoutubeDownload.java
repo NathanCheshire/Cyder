@@ -356,7 +356,7 @@ public class YoutubeDownload {
 
         boolean shouldPrintUpdates = inputHandler != null;
 
-        String userMusicDir = OSUtil.buildPath(
+        String userMusicDir = OsUtil.buildPath(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(),
@@ -383,7 +383,7 @@ public class YoutubeDownload {
                 AudioUtil.getYoutubeDlCommand(), url,
                 FFMPEG_EXTRACT_AUDIO_FLAG,
                 FFMPEG_AUDIO_FORMAT_FLAG, PropLoader.getString("ffmpeg_audio_output_format"),
-                FFMPEG_OUTPUT_FLAG, new File(userMusicDir).getAbsolutePath() + OSUtil.FILE_SEP
+                FFMPEG_OUTPUT_FLAG, new File(userMusicDir).getAbsolutePath() + OsUtil.FILE_SEP
                 + parsedSaveName + ".%(ext)s"
         };
 
@@ -440,7 +440,7 @@ public class YoutubeDownload {
                         inputHandler.println("Canceled download due to user request or an exception");
                     }
                 } else if (!isCanceled()) {
-                    downloadFile = OSUtil.buildFile(userMusicDir, parsedSaveName + extension);
+                    downloadFile = OsUtil.buildFile(userMusicDir, parsedSaveName + extension);
                     downloaded = true;
 
                     YoutubeUtil.downloadThumbnail(url);
@@ -559,7 +559,7 @@ public class YoutubeDownload {
         if (children != null && children.length > 0) {
             for (File child : children) {
                 if (FileUtil.getFilename(child).startsWith(nameWithoutExtension.get())) {
-                    if (!OSUtil.deleteFile(child)) {
+                    if (!OsUtil.deleteFile(child)) {
                         Logger.log(Logger.Tag.DEBUG, "Could not delete file resulting from youtube "
                                 + "download operation canceled, location=" + parentDirectory.getAbsolutePath()
                                 + ", name=" + nameWithoutExtension);

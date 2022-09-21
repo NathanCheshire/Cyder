@@ -9,7 +9,7 @@ import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.utils.FileUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StatUtil;
 
@@ -84,7 +84,7 @@ public class StatHandler extends InputHandler {
                 getInputHandler().println(prop);
             }
         } else if (getInputHandler().commandIs("countlogs")) {
-            File[] logDirs = new File(OSUtil.buildPath(
+            File[] logDirs = new File(OsUtil.buildPath(
                     Dynamic.PATH, Dynamic.LOGS.getDirectoryName())).listFiles();
             int count = 0;
             int days = 0;
@@ -129,7 +129,7 @@ public class StatHandler extends InputHandler {
             }
         } else if (getInputHandler().commandIs("filesizes")) {
             for (StatUtil.FileSize fileSize : StatUtil.fileSizes()) {
-                getInputHandler().println(fileSize.name() + ": " + OSUtil.formatBytes(fileSize.size()));
+                getInputHandler().println(fileSize.name() + ": " + OsUtil.formatBytes(fileSize.size()));
             }
         } else if (getInputHandler().commandIs("widgets")) {
             ArrayList<ReflectionUtil.WidgetDescription> descriptions = ReflectionUtil.getWidgetDescriptions();
@@ -153,7 +153,7 @@ public class StatHandler extends InputHandler {
                 getInputHandler().println("-------------------------------------");
             }
         } else if (getInputHandler().commandIs("analyzecode")) {
-            if (OSUtil.JAR_MODE) {
+            if (OsUtil.JAR_MODE) {
                 getInputHandler().println("Code analyzing is not available when in Jar mode");
             } else {
                 if (getInputHandler().checkArgsLength(0)

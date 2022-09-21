@@ -10,7 +10,7 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.slider.CyderSliderUi;
 import cyder.user.UserCreator;
 import cyder.user.UserUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
@@ -51,14 +51,14 @@ public class UiHandler extends InputHandler {
             UiUtil.screenshotCyderFrames();
             getInputHandler().println("Successfully saved to your Files directory");
         } else if (getInputHandler().commandIs("monitors")) {
-            getInputHandler().println(OSUtil.getMonitorStatsString());
+            getInputHandler().println(OsUtil.getMonitorStatsString());
         } else if (getInputHandler().commandIs("createuser")) {
             UserCreator.showGui();
         } else if (getInputHandler().commandIs("panic")) {
             if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
                 UiUtil.minimizeAllFrames();
             } else {
-                OSUtil.exit(ExitCondition.GenesisControlledExit);
+                OsUtil.exit(ExitCondition.GenesisControlledExit);
             }
         } else if (getInputHandler().commandIs("quit") ||
                 getInputHandler().commandIs("exit") ||
@@ -73,7 +73,7 @@ public class UiHandler extends InputHandler {
             Console.INSTANCE.logout();
         } else if (getInputHandler().commandIs("mouse")) {
             if (getInputHandler().checkArgsLength(2)) {
-                OSUtil.setMouseLoc(Integer.parseInt(getInputHandler().getArg(0)),
+                OsUtil.setMouseLoc(Integer.parseInt(getInputHandler().getArg(0)),
                         Integer.parseInt(getInputHandler().getArg(1)));
             } else {
                 getInputHandler().println("Mouse command usage: mouse X_PIXEL, Y_PIXEL");

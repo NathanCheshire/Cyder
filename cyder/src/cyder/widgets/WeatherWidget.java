@@ -421,7 +421,7 @@ public class WeatherWidget {
         currentWeatherContainer.add(currentWeatherLabel);
 
         ImageIcon sunriseIcon = new ImageIcon(
-                OSUtil.buildPath("static", "pictures", "weather", "sunrise.png"));
+                OsUtil.buildPath("static", "pictures", "weather", "sunrise.png"));
         JLabel sunriseLabelIcon = new JLabel(sunriseIcon) {
             private static final int arcLen = 25;
             private static final int offset = 10;
@@ -876,7 +876,7 @@ public class WeatherWidget {
         String weatherIconIdAndTime = weatherIconId.replaceAll(replaceLettersRegex, "")
                 + (isAfterSunset ? N : D);
 
-        return new ImageIcon(OSUtil.buildPath("static", "pictures", "weather",
+        return new ImageIcon(OsUtil.buildPath("static", "pictures", "weather",
                 weatherIconIdAndTime + "." + ImageUtil.PNG_FORMAT));
     }
 

@@ -428,7 +428,7 @@ public final class AudioPlayer {
      */
     @Widget(triggers = {"mp3", "wav", "music", "audio"}, description = "An advanced audio playing widget")
     public static void showGui() {
-        File userMusicDir = OSUtil.buildFile(
+        File userMusicDir = OsUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(),
@@ -484,7 +484,7 @@ public final class AudioPlayer {
             return;
         }
 
-        currentUserAlbumArtDir = OSUtil.buildFile(Dynamic.PATH,
+        currentUserAlbumArtDir = OsUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
 
@@ -963,7 +963,7 @@ public final class AudioPlayer {
 
                 try {
                     if (wavConvertedFile.get().isPresent()) {
-                        File moveTo = OSUtil.buildFile(
+                        File moveTo = OsUtil.buildFile(
                                 Dynamic.PATH,
                                 Dynamic.USERS.getDirectoryName(),
                                 Console.INSTANCE.getUuid(),
@@ -1012,7 +1012,7 @@ public final class AudioPlayer {
 
                 try {
                     if (mp3ConvertedFile.get().isPresent()) {
-                        File moveTo = OSUtil.buildFile(
+                        File moveTo = OsUtil.buildFile(
                                 Dynamic.PATH,
                                 Dynamic.USERS.getDirectoryName(),
                                 Console.INSTANCE.getUuid(),
@@ -1054,8 +1054,8 @@ public final class AudioPlayer {
                             .setInitialString(FileUtil.getFilename(getCurrentAudio()) + "_waveform"));
 
             if (!StringUtil.isNullOrEmpty(saveName)) {
-                if (OSUtil.isValidFilename(saveName)) {
-                    File saveFile = OSUtil.buildFile(
+                if (OsUtil.isValidFilename(saveName)) {
+                    File saveFile = OsUtil.buildFile(
                             Dynamic.PATH,
                             Dynamic.USERS.getDirectoryName(),
                             Console.INSTANCE.getUuid(),
@@ -1082,7 +1082,7 @@ public final class AudioPlayer {
                         audioPlayerFrame.notify("Could not save waveform at this time");
                     }
                 } else {
-                    audioPlayerFrame.notify("Invalid filename for " + OSUtil.OPERATING_SYSTEM_NAME);
+                    audioPlayerFrame.notify("Invalid filename for " + OsUtil.OPERATING_SYSTEM_NAME);
                 }
             }
         }, "AudioPlayer Waveform Exporter");
@@ -1165,7 +1165,7 @@ public final class AudioPlayer {
         }
 
         File dreamifiedFile = dreamifiedAudio.get();
-        File targetFile = OSUtil.buildFile(
+        File targetFile = OsUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(),
@@ -1247,7 +1247,7 @@ public final class AudioPlayer {
             return;
         }
 
-        File userMusicDir = OSUtil.buildFile(Dynamic.PATH,
+        File userMusicDir = OsUtil.buildFile(Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName());
 
@@ -1520,9 +1520,9 @@ public final class AudioPlayer {
             dreamy = true;
         }
 
-        File albumArtFilePng = OSUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
+        File albumArtFilePng = OsUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
                 name + ".png");
-        File albumArtFileJpg = OSUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
+        File albumArtFileJpg = OsUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
                 name + ".jpg");
 
         ImageIcon customAlbumArt = null;

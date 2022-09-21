@@ -196,12 +196,12 @@ public class GeneralPrintHandler extends InputHandler {
 
             getInputHandler().println("");
         } else if (getInputHandler().commandIs("pwd")) {
-            getInputHandler().println(OSUtil.USER_DIR);
+            getInputHandler().println(OsUtil.USER_DIR);
         } else if (getInputHandler().commandIs("whoami")) {
-            getInputHandler().println(OSUtil.getComputerName() + OSUtil.FILE_SEP
+            getInputHandler().println(OsUtil.getComputerName() + OsUtil.FILE_SEP
                     + StringUtil.capsFirstWords(UserUtil.getCyderUser().getName()));
         } else if (getInputHandler().commandIs("jarmode")) {
-            getInputHandler().println(OSUtil.JAR_MODE ? "Cyder is currently running from a JAR"
+            getInputHandler().println(OsUtil.JAR_MODE ? "Cyder is currently running from a JAR"
                     : "Cyder is currently running from a non-JAR source");
         } else if (getInputHandler().commandIs("clc") ||
                 getInputHandler().commandIs("cls") ||

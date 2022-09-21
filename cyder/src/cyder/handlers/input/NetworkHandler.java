@@ -72,7 +72,7 @@ public class NetworkHandler extends InputHandler {
                 getInputHandler().println("pastebin usage: pastebin [URL/UUID]\nExample: pastebin xa7sJvNm");
             }
         } else if (getInputHandler().commandIs("usb")) {
-            getInputHandler().println("Devices connected to " + OSUtil.getComputerName() + " via USB protocol:");
+            getInputHandler().println("Devices connected to " + OsUtil.getComputerName() + " via USB protocol:");
 
             for (String line : IoUtil.getUsbDevices()) {
                 getInputHandler().println(line);
@@ -89,7 +89,7 @@ public class NetworkHandler extends InputHandler {
                         }
                     }
 
-                    File saveFile = new File(OSUtil.buildPath(Dynamic.PATH, "users",
+                    File saveFile = new File(OsUtil.buildPath(Dynamic.PATH, "users",
                             Console.INSTANCE.getUuid(), UserFile.FILES.getName(), saveName));
 
                     getInputHandler().println("Saving file: " + saveName + " to files directory");
@@ -140,7 +140,7 @@ public class NetworkHandler extends InputHandler {
             getInputHandler().println("Your isp is: " + result.isp());
             getInputHandler().println("Your hostname is: " + result.hostname());
         } else if (getInputHandler().inputIgnoringSpacesMatches("networkdevices")) {
-            getInputHandler().println(OSUtil.getNetworkDevicesString());
+            getInputHandler().println(OsUtil.getNetworkDevicesString());
         } else {
             ret = false;
         }

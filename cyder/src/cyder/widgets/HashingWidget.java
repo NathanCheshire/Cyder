@@ -12,7 +12,7 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderPasswordField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.selection.CyderComboBox;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
@@ -124,7 +124,7 @@ public class HashingWidget {
                     .setTitle(algorithm + " Hash Result")
                     .setRelativeTo(hashField));
 
-            OSUtil.setClipboard(hashResult);
+            OsUtil.setClipboard(hashResult);
 
             hashField.setText("");
         }

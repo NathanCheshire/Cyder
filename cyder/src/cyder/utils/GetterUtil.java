@@ -541,7 +541,7 @@ public class GetterUtil {
         CyderThreadRunner.submit(() -> {
             String path = !StringUtil.isNullOrEmpty(builder.getInitialString())
                     && new File(builder.getInitialString()).exists()
-                    ? builder.getInitialString() : OSUtil.USER_DIR;
+                    ? builder.getInitialString() : OsUtil.USER_DIR;
             currentDirectory = new File(path);
 
             directoryFrame.setTitle(currentDirectory.getName());

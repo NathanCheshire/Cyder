@@ -11,7 +11,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.user.UserUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 import cyder.utils.StringUtil;
 
 import javax.swing.*;
@@ -271,7 +271,7 @@ public final class ExceptionHandler {
     public static void exceptionExit(String message, String title, ExitCondition condition) {
         InformHandler.inform(new InformHandler.Builder(message)
                 .setTitle(title)
-                .setPostCloseAction(() -> OSUtil.exit(condition)));
+                .setPostCloseAction(() -> OsUtil.exit(condition)));
     }
 
     /**

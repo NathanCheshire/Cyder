@@ -209,7 +209,7 @@ public final class YoutubeUtil {
             parsedAsciiSaveName = SecurityUtil.generateUuid();
         }
 
-        File albumArtDir = OSUtil.buildFile(
+        File albumArtDir = OsUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(),
@@ -222,7 +222,7 @@ public final class YoutubeUtil {
             }
         }
 
-        File saveAlbumArt = OSUtil.buildFile(albumArtDir.getAbsolutePath(),
+        File saveAlbumArt = OsUtil.buildFile(albumArtDir.getAbsolutePath(),
                 parsedAsciiSaveName + "." + ImageUtil.PNG_FORMAT);
 
         try {
@@ -308,7 +308,7 @@ public final class YoutubeUtil {
 
         maxThumbnail = ImageUtil.resizeImage(maxThumbnail, maxThumbnail.getType(), newConsoleWidth, newConsoleHeight);
 
-        File fullSaveFile = OSUtil.buildFile(
+        File fullSaveFile = OsUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(),

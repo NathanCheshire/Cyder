@@ -7,7 +7,7 @@ import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
 import cyder.utils.IoUtil;
-import cyder.utils.OSUtil;
+import cyder.utils.OsUtil;
 import cyder.utils.SpotlightUtil;
 
 import java.io.File;
@@ -28,7 +28,7 @@ public class FileHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().inputIgnoringSpacesMatches("wipe logs")) {
-            OSUtil.deleteFile(OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName()));
+            OsUtil.deleteFile(OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName()));
             getInputHandler().println("Logs wiped");
         } else if (getInputHandler().inputIgnoringSpacesMatches("open current log")) {
             IoUtil.openFileOutsideProgram(Logger.getCurrentLog().getAbsolutePath());
@@ -46,19 +46,19 @@ public class FileHandler extends InputHandler {
             SpotlightUtil.wipeSpotlights();
         } else if (getInputHandler().commandIs("wipe")) {
             if (getInputHandler().checkArgsLength(1)) {
-                File requestedDeleteFile = new File(OSUtil.buildPath(
+                File requestedDeleteFile = new File(OsUtil.buildPath(
                         Dynamic.PATH, "users",
                         Console.INSTANCE.getUuid(), getInputHandler().getArg(0)));
                 if (requestedDeleteFile.exists()) {
                     if (requestedDeleteFile.isDirectory()) {
-                        if (OSUtil.deleteFile(requestedDeleteFile)) {
+                        if (OsUtil.deleteFile(requestedDeleteFile)) {
                             getInputHandler().println("Successfully deleted: "
                                     + requestedDeleteFile.getAbsolutePath());
                         } else {
                             getInputHandler().println("Could not delete folder at this time");
                         }
                     } else if (requestedDeleteFile.isFile()) {
-                        if (OSUtil.deleteFile(requestedDeleteFile)) {
+                        if (OsUtil.deleteFile(requestedDeleteFile)) {
                             getInputHandler().println("Successfully deleted "
                                     + requestedDeleteFile.getAbsolutePath());
                         } else {
@@ -76,7 +76,7 @@ public class FileHandler extends InputHandler {
                 getInputHandler().print("Wipe command usage: wipe [directory/file within your user directory]");
             }
         } else if (getInputHandler().commandIs("cmd")) {
-            OSUtil.openShell();
+            OsUtil.openShell();
         } else {
             ret = false;
         }

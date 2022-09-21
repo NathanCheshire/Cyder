@@ -202,7 +202,7 @@ public final class GitHubUtil {
 
             //folder name is index of last / to the .git
             File saveDir = new File(directory.getAbsolutePath()
-                    + OSUtil.FILE_SEP + repoName);
+                    + OsUtil.FILE_SEP + repoName);
 
             if (!saveDir.exists()) {
                 if (!saveDir.mkdirs()) {
@@ -212,14 +212,14 @@ public final class GitHubUtil {
 
             Console.INSTANCE.getInputHandler().println("Checking for git");
 
-            if (!OSUtil.isBinaryInstalled("git")) {
+            if (!OsUtil.isBinaryInstalled("git")) {
                 Console.INSTANCE.getInputHandler()
                         .println("Git not installed. Please install it at: " + GIT_DOWNLOAD);
                 return Optional.of(Boolean.FALSE);
             }
 
             Console.INSTANCE.getInputHandler().println("Cloning: \"" + NetworkUtil.getUrlTitle(githubRepo)
-                    + "\" to \"" + saveDir.getName() + OSUtil.FILE_SEP + "\"");
+                    + "\" to \"" + saveDir.getName() + OsUtil.FILE_SEP + "\"");
 
             try {
                 Runtime rt = Runtime.getRuntime();

@@ -98,7 +98,7 @@ public final class AudioUtil {
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Mp3 to wav converter")).submit(() -> {
-            String builtPath = new File(OSUtil.buildPath(
+            String builtPath = new File(OsUtil.buildPath(
                     Dynamic.PATH,
                     "tmp", FileUtil.getFilename(mp3File) + ".wav")).getAbsolutePath();
             String safePath = "\"" + builtPath + "\"";
@@ -139,7 +139,7 @@ public final class AudioUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Wav to mp3 converter")).submit(() -> {
 
-            String builtPath = new File(OSUtil.buildPath(
+            String builtPath = new File(OsUtil.buildPath(
                     Dynamic.PATH,
                     "tmp", FileUtil.getFilename(wavFile) + ".mp3")).getAbsolutePath();
             String safePath = "\"" + builtPath + "\"";
@@ -226,7 +226,7 @@ public final class AudioUtil {
             // in case the audio wav name contains spaces, surround with quotes
             String safeFilename = ESCAPED_QUOTE + wavOrMp3File.getAbsolutePath() + ESCAPED_QUOTE;
 
-            File outputFile = OSUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName(),
+            File outputFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName(),
                     FileUtil.getFilename(wavOrMp3File) + DREAMY_SUFFIX + ".mp3");
             String safeOutputFilename = ESCAPED_QUOTE + outputFile.getAbsolutePath() + ESCAPED_QUOTE;
 
@@ -324,12 +324,12 @@ public final class AudioUtil {
      */
     public static boolean ffmpegInstalled() {
         // check for the binary first being set in the Windows PATH
-        if (OSUtil.isBinaryInstalled(FFMPEG)) {
+        if (OsUtil.isBinaryInstalled(FFMPEG)) {
             return true;
         }
 
         // finally check dynamic/exes to see if an ffmpeg binary exists there
-        return OSUtil.isBinaryInExes(FFMPEG + ".exe");
+        return OsUtil.isBinaryInExes(FFMPEG + ".exe");
     }
 
     /**
@@ -341,12 +341,12 @@ public final class AudioUtil {
      */
     public static boolean youtubeDlInstalled() {
         // check for the binary first being set in the Windows PATH
-        if (OSUtil.isBinaryInstalled(YOUTUBE_DL)) {
+        if (OsUtil.isBinaryInstalled(YOUTUBE_DL)) {
             return true;
         }
 
         // finally check dynamic/exes to see if a youtube-dl binary exists there
-        return OSUtil.isBinaryInExes(YOUTUBE_DL + ".exe");
+        return OsUtil.isBinaryInExes(YOUTUBE_DL + ".exe");
     }
 
     /**
@@ -355,8 +355,8 @@ public final class AudioUtil {
      * @return whether ffprobe is installed
      */
     public static boolean ffprobeInstalled() {
-        return OSUtil.isBinaryInstalled("ffprobe")
-                || OSUtil.isBinaryInExes("ffprobe.exe");
+        return OsUtil.isBinaryInstalled("ffprobe")
+                || OsUtil.isBinaryInExes("ffprobe.exe");
     }
 
     /**
@@ -368,8 +368,8 @@ public final class AudioUtil {
     public static String getFfmpegCommand() {
         Preconditions.checkArgument(ffmpegInstalled());
 
-        return OSUtil.isBinaryInstalled(FFMPEG) ? FFMPEG
-                : OSUtil.buildPath(Dynamic.PATH,
+        return OsUtil.isBinaryInstalled(FFMPEG) ? FFMPEG
+                : OsUtil.buildPath(Dynamic.PATH,
                 Dynamic.EXES.getDirectoryName(), FFMPEG + ".exe");
     }
 
@@ -382,8 +382,8 @@ public final class AudioUtil {
     public static String getYoutubeDlCommand() {
         Preconditions.checkArgument(youtubeDlInstalled());
 
-        return OSUtil.isBinaryInstalled(YOUTUBE_DL) ? YOUTUBE_DL
-                : OSUtil.buildPath(Dynamic.PATH,
+        return OsUtil.isBinaryInstalled(YOUTUBE_DL) ? YOUTUBE_DL
+                : OsUtil.buildPath(Dynamic.PATH,
                 Dynamic.EXES.getDirectoryName(), YOUTUBE_DL + ".exe");
     }
 
@@ -395,10 +395,10 @@ public final class AudioUtil {
     public static String getFfprobeCommand() {
         Preconditions.checkArgument(ffprobeInstalled());
 
-        if (OSUtil.isBinaryInstalled("ffprobe")) {
+        if (OsUtil.isBinaryInstalled("ffprobe")) {
             return "ffprobe";
         } else {
-            return OSUtil.buildPath(
+            return OsUtil.buildPath(
                     Dynamic.PATH,
                     Dynamic.EXES.getDirectoryName(),
                     "ffprobe.exe");
@@ -426,15 +426,15 @@ public final class AudioUtil {
             }
 
             ArrayList<PairedFile> downloadZips = new ArrayList<>();
-            downloadZips.add(new PairedFile(OSUtil.buildFile(
+            downloadZips.add(new PairedFile(OsUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.EXES.getDirectoryName(),
                     FFMPEG + ".zip"), DOWNLOAD_RESOURCE_FFMPEG));
-            downloadZips.add(new PairedFile(OSUtil.buildFile(
+            downloadZips.add(new PairedFile(OsUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.EXES.getDirectoryName(),
                     FFPROBE + ".zip"), DOWNLOAD_RESOURCE_FFPROBE));
-            downloadZips.add(new PairedFile(OSUtil.buildFile(
+            downloadZips.add(new PairedFile(OsUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.EXES.getDirectoryName(),
                     FFPLAY + ".zip"), DOWNLOAD_RESOURCE_FFPLAY));
@@ -446,22 +446,22 @@ public final class AudioUtil {
                     Thread.onSpinWait();
                 }
 
-                File extractFolder = OSUtil.buildFile(
+                File extractFolder = OsUtil.buildFile(
                         Dynamic.PATH,
                         Dynamic.EXES.getDirectoryName());
 
                 FileUtil.unzip(pairedZipFile.file, extractFolder);
-                OSUtil.deleteFile(pairedZipFile.file);
+                OsUtil.deleteFile(pairedZipFile.file);
             }
 
             ArrayList<File> resultingFiles = new ArrayList<>();
-            resultingFiles.add(OSUtil.buildFile(
+            resultingFiles.add(OsUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.EXES.getDirectoryName(), FFMPEG + ".exe"));
-            resultingFiles.add(OSUtil.buildFile(
+            resultingFiles.add(OsUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.EXES.getDirectoryName(), FFPROBE + ".exe"));
-            resultingFiles.add(OSUtil.buildFile(
+            resultingFiles.add(OsUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.EXES.getDirectoryName(), FFPLAY + ".exe"));
 
@@ -484,7 +484,7 @@ public final class AudioUtil {
     public static Future<Boolean> downloadYoutubeDl() {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("YouTubeDl Downloader")).submit(() -> {
-            File downloadZip = OSUtil.buildFile(
+            File downloadZip = OsUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.EXES.getDirectoryName(),
                     YOUTUBE_DL + ".zip");
@@ -495,14 +495,14 @@ public final class AudioUtil {
                 Thread.onSpinWait();
             }
 
-            File extractFolder = OSUtil.buildFile(
+            File extractFolder = OsUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.EXES.getDirectoryName());
 
             FileUtil.unzip(downloadZip, extractFolder);
-            OSUtil.deleteFile(downloadZip);
+            OsUtil.deleteFile(downloadZip);
 
-            return OSUtil.buildFile(
+            return OsUtil.buildFile(
                     Dynamic.PATH,
                     Dynamic.EXES.getDirectoryName(), YOUTUBE_DL + ".exe").exists();
         });
@@ -624,7 +624,7 @@ public final class AudioUtil {
      * @return an optional reference to the requested music file
      */
     public static Optional<File> getMusicFileWithName(String title) {
-        File[] files = OSUtil.buildFile(
+        File[] files = OsUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(),

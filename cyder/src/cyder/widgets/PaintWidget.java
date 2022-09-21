@@ -126,10 +126,10 @@ public final class PaintWidget {
             int increment = 0;
             String defaultFilename = base + increment + ".png";
 
-            String path = OSUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+            String path = OsUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                     Console.INSTANCE.getUuid(), "Files");
 
-            while (new File(path + OSUtil.FILE_SEP + defaultFilename).exists()) {
+            while (new File(path + OsUtil.FILE_SEP + defaultFilename).exists()) {
                 increment++;
                 defaultFilename = base + increment + ".png";
             }
@@ -145,7 +145,7 @@ public final class PaintWidget {
                 filename += ".png";
             }
 
-            if (OSUtil.isValidFilename(filename)) {
+            if (OsUtil.isValidFilename(filename)) {
                 BufferedImage image = new BufferedImage(cyderGrid.getNodeDimensionLength(),
                         cyderGrid.getNodeDimensionLength(), BufferedImage.TYPE_INT_ARGB);
 
