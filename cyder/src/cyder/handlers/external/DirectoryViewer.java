@@ -74,7 +74,7 @@ public class DirectoryViewer {
     private static File currentDirectory = new File(OsUtil.USER_DIR);
 
     /**
-     * Restrict default constructor.
+     * Suppress default constructor.
      */
     private DirectoryViewer() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

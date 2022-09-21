@@ -76,7 +76,7 @@ public final class HangmanGame {
     private static String chosenLetters = "";
 
     /**
-     * Restrict default instantiation.
+     * Suppress default constructor.
      */
     private HangmanGame() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

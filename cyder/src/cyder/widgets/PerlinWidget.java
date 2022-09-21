@@ -33,7 +33,7 @@ import java.util.Random;
 @CyderAuthor
 public final class PerlinWidget {
     /**
-     * Prevent illegal class instantiation.
+     * Suppress default constructor.
      */
     private PerlinWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

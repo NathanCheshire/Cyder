@@ -33,7 +33,7 @@ public final class ConvexHullWidget {
     private static CyderGrid gridComponent;
 
     /**
-     * Instantiation of convex hull not allowed.
+     * Suppress default constructor.
      */
     private ConvexHullWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

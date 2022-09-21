@@ -15,7 +15,7 @@ import java.net.UnknownHostException;
 /**
  * Utilities for MapBox, MapQuest, OpenRouteService, etc.
  */
-public class MapUtil {
+public final class MapUtil {
     /**
      * Suppress default constructor.
      */

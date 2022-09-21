@@ -44,7 +44,7 @@ public class PizzaWidget {
     private static CyderCheckbox soda;
 
     /**
-     * Restrict default constructor.
+     * Suppress default constructor.
      */
     private PizzaWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

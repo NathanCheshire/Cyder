@@ -34,7 +34,7 @@ import java.util.ArrayList;
  */
 public final class IoUtil {
     /**
-     * No objects of util methods allowed.
+     * Suppress default constructor.
      */
     private IoUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

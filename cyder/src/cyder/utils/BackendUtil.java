@@ -29,7 +29,7 @@ public final class BackendUtil {
     public static final String DELIMITER = "/";
 
     /**
-     * Suppress deafult constructor.
+     * Suppress default constructor.
      */
     private BackendUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

@@ -127,7 +127,7 @@ public final class CyderColors {
     );
 
     /**
-     * Instantiation of the CyderColors class is not allowed.
+     * Suppress default constructor.
      */
     private CyderColors() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

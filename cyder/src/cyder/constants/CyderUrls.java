@@ -7,7 +7,7 @@ import cyder.exceptions.IllegalMethodException;
  */
 public final class CyderUrls {
     /**
-     * Restrict default constructor.
+     * Suppress default constructor.
      */
     private CyderUrls() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

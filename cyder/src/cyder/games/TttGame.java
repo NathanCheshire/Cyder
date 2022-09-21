@@ -70,7 +70,7 @@ public final class TttGame {
     private static final Range<Integer> GRID_SIZE_RANGE = Range.closed(3, 11);
 
     /**
-     * Prevent instantiation of class.
+     * Suppress default constructor.
      */
     private TttGame() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

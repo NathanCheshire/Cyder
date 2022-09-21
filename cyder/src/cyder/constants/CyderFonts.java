@@ -31,7 +31,7 @@ public final class CyderFonts {
     public static final Font DEFAULT_FONT_LARGE = AGENCY_FB_35;
 
     /**
-     * No class instantiation allowed for CyderFonts
+     * Suppress default constructor.
      */
     private CyderFonts() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

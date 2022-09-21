@@ -34,7 +34,7 @@ import static cyder.youtube.YoutubeConstants.*;
  */
 public final class YoutubeUtil {
     /**
-     * Restrict instantiation of class.
+     * Suppress default constructor.
      */
     private YoutubeUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

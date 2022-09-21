@@ -41,7 +41,7 @@ public final class CardWidget {
     private static CyderFrame birthday2021Frame;
 
     /**
-     * Restrict default constructor.
+     * Suppress default constructor.
      */
     private CardWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

@@ -99,7 +99,7 @@ public final class CyderRegexPatterns {
     public static final String nonNumberRegex = "[^0-9]";
 
     /**
-     * Prevent illegal class instantiation.
+     * Suppress default constructor.
      */
     private CyderRegexPatterns() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

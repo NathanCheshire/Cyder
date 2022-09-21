@@ -53,7 +53,7 @@ public class YoutubeThread {
             '3', '4', '5', '6', '7', '8', '9', '-', '_');
 
     /**
-     * Suppress default constructor. Requires two parameters for instantiation.D
+     * Suppress default constructor. Requires two parameters for instantiation.
      */
     private YoutubeThread() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

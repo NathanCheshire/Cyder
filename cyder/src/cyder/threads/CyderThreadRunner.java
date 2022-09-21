@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public final class CyderThreadRunner {
     /**
-     * Suppress default instantiation.
+     * Suppress default constructor.
      */
     private CyderThreadRunner() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

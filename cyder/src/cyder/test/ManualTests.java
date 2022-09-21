@@ -41,7 +41,7 @@ import java.util.ArrayList;
  */
 public final class ManualTests {
     /**
-     * Restricts default instantiation.
+     * RSuppress default constructor.
      */
     private ManualTests() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

@@ -73,7 +73,7 @@ public final class PaintWidget {
     private static CyderIconButton selectColor;
 
     /**
-     * Prevent illegal class instantiation.
+     * Suppress default constructor.
      */
     private PaintWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

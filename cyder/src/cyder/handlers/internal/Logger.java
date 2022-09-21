@@ -34,7 +34,7 @@ import static java.lang.System.out;
  */
 public final class Logger {
     /**
-     * Instances of Logger not allowed.
+     * Suppress default constructor.
      */
     private Logger() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

@@ -38,7 +38,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public final class LoginHandler {
     /**
-     * Instances of LoginHandler not permitted.
+     * Suppress default constructor.
      */
     private LoginHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);

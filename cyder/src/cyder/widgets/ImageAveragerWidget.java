@@ -63,7 +63,7 @@ public final class ImageAveragerWidget {
     private static JLabel imageScrollLabelHolder;
 
     /**
-     * Instantiation of class not permitted.
+     * Suppress default constructor.
      */
     private ImageAveragerWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
