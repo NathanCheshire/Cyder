@@ -161,7 +161,7 @@ public final class ImageAveragerWidget {
         for (int j = 0 ; j < files.size() ; j++) {
             int finalJ = j;
             imagesScroll.addElement(files.get(j).getName(),
-                    () -> IOUtil.openFile(files.get(finalJ).getAbsolutePath()));
+                    () -> IoUtil.openFile(files.get(finalJ).getAbsolutePath()));
         }
 
         imagesScroll.setItemAlignment(StyleConstants.ALIGN_LEFT);

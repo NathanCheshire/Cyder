@@ -804,7 +804,7 @@ public class BaseInputHandler {
 
                 if (typingSoundInc == TYPING_SOUND_FREQUENCY) {
                     if (!shouldFinishPrinting && typingSound) {
-                        IOUtil.playSystemAudio(typingSoundPath, false);
+                        IoUtil.playSystemAudio(typingSoundPath, false);
                         typingSoundInc = 0;
                     }
                 } else {
@@ -953,7 +953,7 @@ public class BaseInputHandler {
     public final void escapeThreads() {
         killThreads();
         escapeWrapShell = true;
-        IOUtil.stopGeneralAudio();
+        IoUtil.stopGeneralAudio();
         Console.INSTANCE.stopDancing();
         shouldFinishPrinting = true;
         println(ESCAPED);

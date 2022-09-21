@@ -74,7 +74,7 @@ public class NetworkHandler extends InputHandler {
         } else if (getInputHandler().commandIs("usb")) {
             getInputHandler().println("Devices connected to " + OSUtil.getComputerName() + " via USB protocol:");
 
-            for (String line : IOUtil.getUsbDevices()) {
+            for (String line : IoUtil.getUsbDevices()) {
                 getInputHandler().println(line);
             }
         } else if (getInputHandler().commandIs("download")) {

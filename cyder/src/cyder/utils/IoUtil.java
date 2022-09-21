@@ -32,11 +32,11 @@ import java.util.ArrayList;
 /**
  * Utilities related to local computer IO.
  */
-public final class IOUtil {
+public final class IoUtil {
     /**
      * No objects of util methods allowed.
      */
-    private IOUtil() {
+    private IoUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 

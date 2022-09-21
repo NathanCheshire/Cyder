@@ -7,7 +7,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.Cyder;
 import cyder.genesis.CyderSplash;
 import cyder.threads.CyderThreadRunner;
-import cyder.utils.IOUtil;
+import cyder.utils.IoUtil;
 
 /**
  * A subroutine for completing startup subroutines which are not necessary for Cyder to run properly.
@@ -79,7 +79,7 @@ public final class SufficientSubroutines {
     private static final ImmutableList<SufficientSubroutine> parallelSufficientSubroutines = ImmutableList.of(
             new SufficientSubroutine(() -> {
                 CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
-                IOUtil.logArgs(Cyder.getJvmArguments());
+                IoUtil.logArgs(Cyder.getJvmArguments());
             }, "Jvm Logger")
     );
 

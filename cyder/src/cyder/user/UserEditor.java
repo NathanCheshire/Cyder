@@ -407,7 +407,7 @@ public final class UserEditor {
                     File file = getFile(selectedScrollElement);
 
                     if (file.exists()) {
-                        IOUtil.openFile(file);
+                        IoUtil.openFile(file);
                     }
 
                     break;
@@ -809,7 +809,7 @@ public final class UserEditor {
         refreshFileLists();
 
         for (String element : filesNameList) {
-            filesScrollList.addElement(element, () -> IOUtil.openFile(getFile(element)));
+            filesScrollList.addElement(element, () -> IoUtil.openFile(getFile(element)));
         }
 
         JLabel filesLabel = filesScrollList.generateScrollList();
@@ -1426,7 +1426,7 @@ public final class UserEditor {
     /**
      * The list of most recently generated checkboxes.
      */
-    private static final ArrayList<CyderCheckbox> checkboxComponents = new ArrayList<>();
+    private static final HashMap<String, CyderCheckbox> checkboxComponents = new HashMap<>();
 
     /**
      * Switches to the preferences preference page.
@@ -1480,7 +1480,7 @@ public final class UserEditor {
                     });
                     checkbox.setBounds(PRINTED_PREF_COMPONENT_WIDTH - checkboxSize / 2,
                             PRINTED_PREF_COMPONENT_HEIGHT / 2 - checkboxSize / 2 + 10, checkboxSize, checkboxSize);
-                    checkboxComponents.add(checkbox);
+                    checkboxComponents.put(preference.getID(), checkbox);
                     preferenceContentLabel.add(checkbox);
 
                     printingUtil.printlnComponent(preferenceContentLabel);
@@ -2142,7 +2142,22 @@ public final class UserEditor {
      */
     public static void revalidatePreferencesIfOpen() {
         if (isOpen() && currentPage == UserEditor.Page.PREFERENCES) {
-            checkboxComponents.forEach(CyderCheckbox::refreshState);
+            checkboxComponents.forEach((id, checkbox) -> checkbox.refreshState());
         }
+    }
+
+    /**
+     * Returns the generated preference toggling checkbox for the preference with
+     * the provided id if present. Empty optional else.
+     *
+     * @param preferenceId the id of the preference
+     * @return the checkbox if already generated
+     */
+    public static Optional<CyderCheckbox> getCheckboxForId(String preferenceId) {
+        if (checkboxComponents.containsKey(preferenceId)) {
+            return Optional.of(checkboxComponents.get(preferenceId));
+        }
+
+        return Optional.empty();
     }
 }

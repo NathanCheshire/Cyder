@@ -1048,7 +1048,7 @@ public enum Console {
                         if (min == 0 && sec == 0 && lastChimeHour.get() != LocalDateTime.now().getHour()) {
                             boolean chime = UserUtil.getCyderUser().getHourlychimes().equals("1");
                             if (chime) {
-                                IOUtil.playSystemAudio(CHIME_PATH);
+                                IoUtil.playSystemAudio(CHIME_PATH);
                                 lastChimeHour.set(LocalDateTime.now().getHour());
                             }
                         }
@@ -1282,9 +1282,9 @@ public enum Console {
 
         if (!musicList.isEmpty()) {
             int randomFileIndex = NumberUtil.randInt(files.length - 1);
-            IOUtil.playGeneralAudio(files[randomFileIndex].getAbsolutePath());
+            IoUtil.playGeneralAudio(files[randomFileIndex].getAbsolutePath());
         } else {
-            IOUtil.playGeneralAudio(DEFAULT_INTRO_MUSIC);
+            IoUtil.playGeneralAudio(DEFAULT_INTRO_MUSIC);
         }
     }
 
@@ -1328,9 +1328,9 @@ public enum Console {
             if (grayscale) {
                 int upperBound = GRAYSCALE_AUDIO_PATHS.size() - 1;
                 int grayscaleAudioRandomIndex = NumberUtil.randInt(upperBound);
-                IOUtil.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
+                IoUtil.playGeneralAudio(GRAYSCALE_AUDIO_PATHS.get(grayscaleAudioRandomIndex));
             } else {
-                IOUtil.playGeneralAudio(StaticUtil.getStaticResource(INTRO_THEME));
+                IoUtil.playGeneralAudio(StaticUtil.getStaticResource(INTRO_THEME));
             }
         }, INTRO_MUSIC_CHECKER_THREAD_NAME);
     }
@@ -1679,10 +1679,6 @@ public enum Console {
 
     // todo console menu output pane is too far down and left, not centered basically
 
-    // todo when toggling a pref via the console with switcher, also print a checkbox to toggle it
-    //  which will update when we toggle. So we need to keep track of these checkboxes and invoke a refresh
-    //  from preferences. Reset this list somehow
-
     /**
      * Returns the mapped exe taskbar icon items.
      *
@@ -1696,7 +1692,7 @@ public enum Console {
         if (!exes.isEmpty()) {
             exes.forEach(exe -> {
                 Runnable runnable = () -> {
-                    IOUtil.openOutsideProgram(exe.getFilepath());
+                    IoUtil.openOutsideProgram(exe.getFilepath());
                     exe.displayInvokedNotification();
                 };
 
@@ -2206,7 +2202,7 @@ public enum Console {
                     baseInputHandler.println("Interesting F" + functionKey + " key");
 
                     if (functionKey == F_17_KEY_CODE) {
-                        IOUtil.playGeneralAudio(F_17_MUSIC_FILE);
+                        IoUtil.playGeneralAudio(F_17_MUSIC_FILE);
                     }
                 }
             });
@@ -3128,7 +3124,7 @@ public enum Console {
      * Revalidates the visibility audio menu and the play/pause button based on if audio is playing.
      */
     public void revalidateAudioMenuVisibility() {
-        if (!AudioPlayer.isWidgetOpen() && !IOUtil.generalAudioPlaying()) {
+        if (!AudioPlayer.isWidgetOpen() && !IoUtil.generalAudioPlaying()) {
             if (audioControlsLabel.isVisible()) {
                 animateOutAndRemoveAudioControls();
             } else {
@@ -3149,7 +3145,7 @@ public enum Console {
      */
     @ForReadability
     private void revalidateAudioMenuPlayPauseButton() {
-        if (IOUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
+        if (IoUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
             playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
         } else {
             playPauseAudioLabel.setIcon(AudioIcons.playIcon);
@@ -3283,14 +3279,14 @@ public enum Console {
                     AudioPlayer.handlePlayPauseButtonClick();
                 }
 
-                if (IOUtil.generalAudioPlaying()) {
-                    IOUtil.stopGeneralAudio();
+                if (IoUtil.generalAudioPlaying()) {
+                    IoUtil.stopGeneralAudio();
                 }
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (IOUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
+                if (IoUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
                     playPauseAudioLabel.setIcon(AudioIcons.pauseIconHover);
                 } else {
                     playPauseAudioLabel.setIcon(AudioIcons.playIconHover);
@@ -3299,7 +3295,7 @@ public enum Console {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (IOUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
+                if (IoUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
                     playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
                 } else {
                     playPauseAudioLabel.setIcon(AudioIcons.playIcon);
@@ -3436,7 +3432,7 @@ public enum Console {
         consoleClosed.set(true);
 
         saveScreenStat();
-        IOUtil.stopGeneralAudio();
+        IoUtil.stopGeneralAudio();
 
         if (baseInputHandler != null) {
             baseInputHandler.killThreads();
@@ -3495,7 +3491,7 @@ public enum Console {
         closeFrame(false, true);
         UiUtil.closeAllFrames(true);
 
-        IOUtil.stopAllAudio();
+        IoUtil.stopAllAudio();
         NetworkUtil.endDecentPingChecker();
         LoginHandler.showGui();
     }

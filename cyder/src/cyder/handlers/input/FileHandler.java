@@ -6,7 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
-import cyder.utils.IOUtil;
+import cyder.utils.IoUtil;
 import cyder.utils.OSUtil;
 import cyder.utils.SpotlightUtil;
 
@@ -31,7 +31,7 @@ public class FileHandler extends InputHandler {
             OSUtil.deleteFile(OSUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName()));
             getInputHandler().println("Logs wiped");
         } else if (getInputHandler().inputIgnoringSpacesMatches("open current log")) {
-            IOUtil.openFileOutsideProgram(Logger.getCurrentLog().getAbsolutePath());
+            IoUtil.openFileOutsideProgram(Logger.getCurrentLog().getAbsolutePath());
         } else if (getInputHandler().inputIgnoringSpacesMatches("open last log")) {
             File[] logs = Logger.getCurrentLog().getParentFile().listFiles();
 
@@ -39,7 +39,7 @@ public class FileHandler extends InputHandler {
                 if (logs.length == 1) {
                     getInputHandler().println("No previous logs found");
                 } else if (logs.length > 1) {
-                    IOUtil.openFileOutsideProgram(logs[logs.length - 2].getAbsolutePath());
+                    IoUtil.openFileOutsideProgram(logs[logs.length - 2].getAbsolutePath());
                 }
             }
         } else if (getInputHandler().inputIgnoringSpacesMatches("wipe spot lights")) {

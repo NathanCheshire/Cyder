@@ -10,7 +10,7 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.button.CyderButton;
 import cyder.ui.frame.CyderFrame;
-import cyder.utils.IOUtil;
+import cyder.utils.IoUtil;
 import cyder.utils.StaticUtil;
 
 import javax.swing.*;
@@ -231,10 +231,10 @@ public final class PhoneWidget {
             if (!phoneNum.isEmpty()) {
                 // check for easter egg numbers
                 if (checkForSuicideHotline()) {
-                    IOUtil.playGeneralAudio(StaticUtil.getStaticResource("1800.mp3"));
+                    IoUtil.playGeneralAudio(StaticUtil.getStaticResource("1800.mp3"));
                     return;
                 } else if (checkForNumber("223")) {
-                    IOUtil.playGeneralAudio(StaticUtil.getStaticResource("223.mp3"));
+                    IoUtil.playGeneralAudio(StaticUtil.getStaticResource("223.mp3"));
                     return;
                 }
 

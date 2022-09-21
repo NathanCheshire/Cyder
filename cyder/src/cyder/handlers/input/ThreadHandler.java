@@ -4,7 +4,7 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.threads.MasterYoutubeThread;
-import cyder.utils.IOUtil;
+import cyder.utils.IoUtil;
 
 /**
  * A handler to handle things related to thread ops.
@@ -27,7 +27,7 @@ public class ThreadHandler extends InputHandler {
             MasterYoutubeThread.killAll();
             getInputHandler().println("YouTube scripts have been killed.");
         } else if (getInputHandler().inputIgnoringSpacesMatches("stopmusic")) {
-            IOUtil.stopGeneralAudio();
+            IoUtil.stopGeneralAudio();
         } else {
             ret = false;
         }

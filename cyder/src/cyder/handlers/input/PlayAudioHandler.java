@@ -9,7 +9,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.utils.IOUtil;
+import cyder.utils.IoUtil;
 import cyder.utils.StaticUtil;
 import cyder.utils.StringUtil;
 import cyder.youtube.YoutubeUtil;
@@ -35,33 +35,33 @@ public class PlayAudioHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().inputIgnoringSpacesMatches("heyya")) {
-            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("hey.mp3"));
+            IoUtil.playGeneralAudio(StaticUtil.getStaticResource("hey.mp3"));
         } else if (getInputHandler().commandIs("windows")) {
-            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("windows.mp3"));
+            IoUtil.playGeneralAudio(StaticUtil.getStaticResource("windows.mp3"));
         } else if (getInputHandler().commandIs("lightsaber")) {
-            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("lightsaber.mp3"));
+            IoUtil.playGeneralAudio(StaticUtil.getStaticResource("lightsaber.mp3"));
         } else if (getInputHandler().commandIs("xbox")) {
-            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("xbox.mp3"));
+            IoUtil.playGeneralAudio(StaticUtil.getStaticResource("xbox.mp3"));
         } else if (getInputHandler().commandIs("startrek")) {
-            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("startrek.mp3"));
+            IoUtil.playGeneralAudio(StaticUtil.getStaticResource("startrek.mp3"));
         } else if (getInputHandler().commandIs("toystory")) {
-            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("theclaw.mp3"));
+            IoUtil.playGeneralAudio(StaticUtil.getStaticResource("theclaw.mp3"));
         } else if (getInputHandler().commandIs("logic")) {
-            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("commando.mp3"));
+            IoUtil.playGeneralAudio(StaticUtil.getStaticResource("commando.mp3"));
         } else if (getInputHandler().getCommand()
                 .replace("-", "").equals("18002738255")) {
-            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("1800.mp3"));
+            IoUtil.playGeneralAudio(StaticUtil.getStaticResource("1800.mp3"));
         } else if (getInputHandler().commandIs("xxx")) {
             CyderIcons.setCurrentCyderIcon(CyderIcons.X_ICON);
             Console.INSTANCE.getConsoleCyderFrame()
                     .setIconImage(new ImageIcon(StaticUtil.getStaticPath("x.png")).getImage());
-            IOUtil.playGeneralAudio(StaticUtil.getStaticResource("x.mp3"));
+            IoUtil.playGeneralAudio(StaticUtil.getStaticResource("x.mp3"));
         } else if (getInputHandler().inputIgnoringSpacesMatches("blackpanther")
                 || getInputHandler().inputIgnoringSpacesMatches("chadwickboseman")) {
             CyderThreadRunner.submit(() -> {
                 getInputHandler().getJTextPane().setText("");
 
-                IOUtil.playGeneralAudio(StaticUtil.getStaticResource("allthestars.mp3"));
+                IoUtil.playGeneralAudio(StaticUtil.getStaticResource("allthestars.mp3"));
                 getInputHandler().getJTextPane().setFont(new Font("BEYNO",
                         Font.BOLD, getInputHandler().getJTextPane().getFont().getSize()));
                 BletchyThread.bletchy("RIP CHADWICK BOSEMAN",
