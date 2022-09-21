@@ -262,7 +262,6 @@ public class CyderIconButton extends JButton {
             return defaultIcon;
         }
 
-
         /**
          * Returns the hover and focus icon for this cyder icon button.
          *

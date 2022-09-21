@@ -2717,7 +2717,6 @@ public enum Console {
             return;
         }
 
-
         UserUtil.getCyderUser().setFullscreen("0");
         revalidate(true, false, maintainConsoleSize);
     }
