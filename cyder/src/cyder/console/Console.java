@@ -1674,9 +1674,6 @@ public enum Console {
         return ImmutableList.copyOf(ret);
     }
 
-    // todo remove icon button class, need an alternative for generating
-    //  a JLabel with an icon for normal, hover, and focused states
-
     // todo console menu output pane is too far down and left, not centered basically
 
     /**

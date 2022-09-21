@@ -4,10 +4,11 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 
 import javax.swing.*;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 /**
  * A button with an image icon.
@@ -37,7 +38,58 @@ public class CyderIconButtonNew extends JButton {
         setBorderPainted(false);
         setVisible(true);
 
+        addMouseListener();
+        addFocusListener();
+
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * Adds the builder's focus listener or generates and adds the default focus listener if not set.
+     */
+    private void addFocusListener() {
+        if (builder.getFocusListener() == null) {
+            addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    setIcon(builder.getHoverAndFocusIcon());
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    setIcon(builder.getDefaultIcon());
+                }
+            });
+        } else {
+            addFocusListener(builder.getFocusListener());
+        }
+    }
+
+    /**
+     * Adds the builder's mouse listener or generates and adds the default mouse listener if not set.
+     */
+    private void addMouseListener() {
+        if (builder.getMouseListener() == null) {
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    Runnable runnable = builder.getClickAction();
+                    if (runnable != null) runnable.run();
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setIcon(builder.getHoverAndFocusIcon());
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setIcon(builder.getDefaultIcon());
+                }
+            });
+        } else {
+            addMouseListener(builder.getMouseListener());
+        }
     }
 
     /**
@@ -48,6 +100,33 @@ public class CyderIconButtonNew extends JButton {
     public Builder getBuilder() {
         return builder;
     }
+
+    /**
+     * Flashes the icon button between the regular icon and
+     * hoverAndFocus icon for the provided number of iterations with
+     * the provided delay.
+     *
+     * @param iterations the number of iterations to flash the icon button for
+     * @param msDelay    the delay in milliseconds between button flash calls
+     */
+    public void flash(int iterations, int msDelay) {
+        CyderThreadRunner.submit(() -> {
+            Icon originalIcon = getIcon();
+            ImageIcon hoverAndFocusIcon = builder.getHoverAndFocusIcon();
+            ImageIcon defaultIcon = builder.getDefaultIcon();
+
+            for (int i = 0 ; i < iterations ; i++) {
+                setIcon(hoverAndFocusIcon);
+                ThreadUtil.sleep(msDelay);
+                setIcon(defaultIcon);
+                ThreadUtil.sleep(msDelay);
+            }
+
+            setIcon(originalIcon);
+        }, FLASH_THREAD_NAME + ", iterations=" + iterations + ", delay=" + msDelay + "ms");
+    }
+
+    private static final String FLASH_THREAD_NAME = "CyderIconButton Flash Thread";
 
     /**
      * Suppress default constructor.
@@ -68,12 +147,12 @@ public class CyderIconButtonNew extends JButton {
         /**
          * The default icon for the button.
          */
-        private ImageIcon defaultIcon;
+        private final ImageIcon defaultIcon;
 
         /**
          * The hover and focus icon for the button.
          */
-        private ImageIcon hoverAndFocusIcon;
+        private final ImageIcon hoverAndFocusIcon;
 
         /**
          * The focus listener or adapter for the button.
@@ -97,11 +176,18 @@ public class CyderIconButtonNew extends JButton {
          *
          * @param tooltip the tooltip for the button
          */
-        public Builder(String tooltip) {
+        public Builder(String tooltip, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon) {
             Preconditions.checkNotNull(tooltip);
             Preconditions.checkArgument(!tooltip.isEmpty());
 
+            Preconditions.checkNotNull(defaultIcon);
+            Preconditions.checkNotNull(hoverAndFocusIcon);
+            Preconditions.checkArgument(defaultIcon.getIconWidth() == hoverAndFocusIcon.getIconWidth());
+            Preconditions.checkArgument(defaultIcon.getIconHeight() == hoverAndFocusIcon.getIconHeight());
+
             this.tooltip = tooltip;
+            this.defaultIcon = defaultIcon;
+            this.hoverAndFocusIcon = hoverAndFocusIcon;
         }
 
         /**
@@ -122,23 +208,6 @@ public class CyderIconButtonNew extends JButton {
             return defaultIcon;
         }
 
-        /**
-         * Sets the default icon for this cyder icon button.
-         *
-         * @param defaultIcon the default icon for this cyder icon button
-         * @return this builder.
-         */
-        public Builder setDefaultIcon(ImageIcon defaultIcon) {
-            Preconditions.checkNotNull(defaultIcon);
-
-            if (hoverAndFocusIcon != null) {
-                Preconditions.checkArgument(defaultIcon.getIconWidth() == hoverAndFocusIcon.getIconWidth());
-                Preconditions.checkArgument(defaultIcon.getIconHeight() == hoverAndFocusIcon.getIconHeight());
-            }
-
-            this.defaultIcon = defaultIcon;
-            return this;
-        }
 
         /**
          * Returns the hover and focus icon for this cyder icon button.
@@ -147,24 +216,6 @@ public class CyderIconButtonNew extends JButton {
          */
         public ImageIcon getHoverAndFocusIcon() {
             return hoverAndFocusIcon;
-        }
-
-        /**
-         * Sets the hover and focus icon for this cyder icon button.
-         *
-         * @param hoverAndFocusIcon the hover and focus icon for this cyder icon button
-         * @return this builder
-         */
-        public Builder setHoverAndFocusIcon(ImageIcon hoverAndFocusIcon) {
-            Preconditions.checkNotNull(hoverAndFocusIcon);
-
-            if (defaultIcon != null) {
-                Preconditions.checkArgument(defaultIcon.getIconWidth() == hoverAndFocusIcon.getIconWidth());
-                Preconditions.checkArgument(defaultIcon.getIconHeight() == hoverAndFocusIcon.getIconHeight());
-            }
-
-            this.hoverAndFocusIcon = hoverAndFocusIcon;
-            return this;
         }
 
         /**
