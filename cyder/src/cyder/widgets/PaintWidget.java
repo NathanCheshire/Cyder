@@ -18,7 +18,7 @@ import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderGrid;
 import cyder.ui.CyderPanel;
-import cyder.ui.button.CyderIconButtonNew;
+import cyder.ui.button.CyderIconButton;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
@@ -65,12 +65,12 @@ public final class PaintWidget {
     /**
      * The button for selecting a region.
      */
-    private static CyderIconButtonNew selectionTool;
+    private static CyderIconButton selectionTool;
 
     /**
      * The button for selecting a color.
      */
-    private static CyderIconButtonNew selectColor;
+    private static CyderIconButton selectColor;
 
     /**
      * Suppress default constructor.
@@ -504,7 +504,7 @@ public final class PaintWidget {
 
         ImageIcon undoDefault = new ImageIcon("static/pictures/paint/undo.png");
         ImageIcon undoHoverAndFocus = new ImageIcon("static/pictures/paint/undo_hover.png");
-        CyderIconButtonNew undo = new CyderIconButtonNew.Builder("Undo", undoDefault, undoHoverAndFocus)
+        CyderIconButton undo = new CyderIconButton.Builder("Undo", undoDefault, undoHoverAndFocus)
                 .setClickAction(() -> {
                     cyderGrid.backwardState();
                     cyderGrid.revalidate();
@@ -517,7 +517,7 @@ public final class PaintWidget {
 
         ImageIcon redoDefault = new ImageIcon("static/pictures/paint/redo.png");
         ImageIcon redoFocusHover = new ImageIcon("static/pictures/paint/redo_hover.png");
-        CyderIconButtonNew redo = new CyderIconButtonNew.Builder("Redo", redoDefault, redoFocusHover)
+        CyderIconButton redo = new CyderIconButton.Builder("Redo", redoDefault, redoFocusHover)
                 .setClickAction(() -> {
                     cyderGrid.forwardState();
                     cyderGrid.revalidate();
@@ -612,7 +612,7 @@ public final class PaintWidget {
 
         ImageIcon selectionDefault = new ImageIcon("static/pictures/paint/select.png");
         ImageIcon selectionHoverFocus = new ImageIcon("static/pictures/paint/select_hover.png");
-        selectionTool = new CyderIconButtonNew.Builder("Select Region",
+        selectionTool = new CyderIconButton.Builder("Select Region",
                 selectionDefault, selectionHoverFocus)
                 .setClickAction(PaintWidget::toggleSelectionMode).setToggleButton(true).build();
         selectionTool.setSize(50, 50);
@@ -620,32 +620,32 @@ public final class PaintWidget {
 
         ImageIcon cropDefault = new ImageIcon("static/pictures/paint/crop.png");
         ImageIcon cropHoverFocus = new ImageIcon("static/pictures/paint/crop_hover.png");
-        CyderIconButtonNew cropToRegion = new CyderIconButtonNew.Builder("Crop Region", cropDefault,
+        CyderIconButton cropToRegion = new CyderIconButton.Builder("Crop Region", cropDefault,
                 cropHoverFocus).setClickAction(() -> cyderGrid.cropToSelectedRegion()).build();
         bottomLayout.addComponent(cropToRegion, 1, 0);
 
         ImageIcon cutDefault = new ImageIcon("static/pictures/paint/cut.png");
         ImageIcon cutHoverFocus = new ImageIcon("static/pictures/paint/cut_hover.png");
-        CyderIconButtonNew deleteRegion = new CyderIconButtonNew.Builder("Cut Region",
+        CyderIconButton deleteRegion = new CyderIconButton.Builder("Cut Region",
                 cutDefault, cutHoverFocus).setClickAction(() -> cyderGrid.deleteSelectedRegion()).build();
         bottomLayout.addComponent(deleteRegion, 2, 0);
 
         ImageIcon selectColorDefault = new ImageIcon("static/pictures/paint/select_color.png");
         ImageIcon selectColorHoverFocus = new ImageIcon("static/pictures/paint/select_color_hover.png");
-        selectColor = new CyderIconButtonNew.Builder("Select Color", selectColorDefault, selectColorHoverFocus)
+        selectColor = new CyderIconButton.Builder("Select Color", selectColorDefault, selectColorHoverFocus)
                 .setClickAction(PaintWidget::toggleColorSelection).setToggleButton(true).build();
         bottomLayout.addComponent(selectColor, 3, 0);
 
         ImageIcon rotateDefault = new ImageIcon("static/pictures/paint/rotate.png");
         ImageIcon rotateHoverFocus = new ImageIcon("static/pictures/paint/rotate_hover.png");
-        CyderIconButtonNew rotate = new CyderIconButtonNew.Builder("Rotate Region", rotateDefault,
+        CyderIconButton rotate = new CyderIconButton.Builder("Rotate Region", rotateDefault,
                 rotateHoverFocus).setClickAction(() -> cyderGrid.rotateRegion()).build();
         bottomLayout.addComponent(rotate, 4, 0);
 
         // selection region reflecting
         ImageIcon reflectDefault = new ImageIcon("static/pictures/paint/reflect.png");
         ImageIcon reflectHoverFocus = new ImageIcon("static/pictures/paint/reflect_hover.png");
-        CyderIconButtonNew reflect = new CyderIconButtonNew.Builder("Reflect Region", reflectDefault,
+        CyderIconButton reflect = new CyderIconButton.Builder("Reflect Region", reflectDefault,
                 reflectHoverFocus).setClickAction(() -> cyderGrid.reflectRegionHorizontally()).build();
         bottomLayout.addComponent(reflect, 5, 0);
 

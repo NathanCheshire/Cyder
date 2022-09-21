@@ -232,89 +232,31 @@ public final class AudioPlayer {
      * The play last audio icon button.
      */
     private static final CyderIconButton lastAudioButton =
-            new CyderIconButton("Last", lastIcon, lastIconHover,
-                    new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            handleLastAudioButtonClick();
-                        }
-
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                            lastAudioButton.setIcon(lastIconHover);
-                        }
-
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                            lastAudioButton.setIcon(lastIcon);
-                        }
-                    });
+            new CyderIconButton.Builder("Last", lastIcon, lastIconHover)
+                    .setClickAction(AudioPlayer::handleLastAudioButtonClick).build();
 
     /**
      * The play next audio icon button.
      */
     private static final CyderIconButton nextAudioButton =
-            new CyderIconButton("Next", nextIcon, nextIconHover,
-                    new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            handleNextAudioButtonClick();
-                        }
-
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                            nextAudioButton.setIcon(nextIconHover);
-                        }
-
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                            nextAudioButton.setIcon(nextIcon);
-                        }
-                    });
+            new CyderIconButton.Builder("Next", nextIcon, nextIconHover)
+                    .setClickAction(AudioPlayer::handleNextAudioButtonClick).build();
 
     /**
      * The repeat audio icon button.
      */
     private static final CyderIconButton repeatAudioButton =
-            new CyderIconButton("Repeat", repeatIcon, repeatIconHover,
-                    new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            handleRepeatButtonClick();
-                        }
-
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                            repeatAudioButton.setIcon(repeatAudio ? repeatIcon : repeatIconHover);
-                        }
-
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                            repeatAudioButton.setIcon(repeatAudio ? repeatIconHover : repeatIcon);
-                        }
-                    });
+            new CyderIconButton.Builder("Repeat", repeatIcon, repeatIconHover)
+                    .setClickAction(AudioPlayer::handleRepeatButtonClick)
+                    .setToggleButton(true).build();
 
     /**
      * The shuffle audio icon button.
      */
     private static final CyderIconButton shuffleAudioButton =
-            new CyderIconButton("Shuffle", shuffleIcon, shuffleIconHover,
-                    new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            handleShuffleButtonClick();
-                        }
-
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                            shuffleAudioButton.setIcon(shuffleAudio ? shuffleIcon : shuffleIconHover);
-                        }
-
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                            shuffleAudioButton.setIcon(shuffleAudio ? shuffleIconHover : shuffleIcon);
-                        }
-                    });
+            new CyderIconButton.Builder("Shuffle", shuffleIcon, shuffleIconHover)
+                    .setClickAction(AudioPlayer::handleShuffleButtonClick)
+                    .setToggleButton(true).build();
 
     /**
      * The current frame view the audio player is in.
