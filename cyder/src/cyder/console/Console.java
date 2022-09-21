@@ -1143,27 +1143,22 @@ public enum Console {
     private void onLaunch() {
         if (TimeUtil.isChristmas()) {
             consoleCyderFrame.notify("Merry Christmas!");
-            ReflectionUtil.invokeCardWidget("Christmas", TimeUtil.getYear());
         }
 
         if (TimeUtil.isHalloween()) {
             consoleCyderFrame.notify("Happy Halloween!");
-            ReflectionUtil.invokeCardWidget("Halloween", TimeUtil.getYear());
         }
 
         if (TimeUtil.isIndependenceDay()) {
             consoleCyderFrame.notify("Happy 4th of July!");
-            ReflectionUtil.invokeCardWidget("Independence", TimeUtil.getYear());
         }
 
         if (TimeUtil.isThanksgiving()) {
             consoleCyderFrame.notify("Happy Thanksgiving!");
-            ReflectionUtil.invokeCardWidget("Thanksgiving", TimeUtil.getYear());
         }
 
         if (TimeUtil.isAprilFoolsDay()) {
             consoleCyderFrame.notify("Happy April Fools Day!");
-            ReflectionUtil.invokeCardWidget("AprilFools", TimeUtil.getYear());
         }
 
         if (TimeUtil.isValentinesDay()) {

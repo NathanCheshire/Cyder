@@ -15,7 +15,6 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.frame.CyderFrame;
-import cyder.widgets.CardWidget;
 import org.apache.commons.text.similarity.JaroWinklerDistance;
 
 import javax.swing.*;
@@ -714,25 +713,6 @@ public final class ReflectionUtil {
                     allTriggers.add(trigger);
                 }
             }
-        }
-    }
-
-    /**
-     * Invokes the method with the name holiday + year from the CardsWidget.
-     *
-     * @param holiday the holiday name such as Christmas
-     * @param year    the year of the holiday such as 2021
-     */
-    public static void invokeCardWidget(String holiday, int year) {
-        try {
-            for (Method m : CardWidget.class.getMethods()) {
-                if (m.getName().toLowerCase().contains(holiday.toLowerCase())
-                        && m.getName().toLowerCase().contains(String.valueOf(year))) {
-                    m.invoke(CardWidget.class);
-                }
-            }
-        } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
         }
     }
 
