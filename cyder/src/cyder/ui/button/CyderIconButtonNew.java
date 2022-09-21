@@ -1,6 +1,7 @@
 package cyder.ui.button;
 
 import com.google.common.base.Preconditions;
+import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
@@ -20,6 +21,11 @@ public class CyderIconButtonNew extends JButton {
     private final Builder builder;
 
     /**
+     * Whether this button is toggled on if the button is a toggle icon button.
+     */
+    private boolean toggledOn;
+
+    /**
      * Constructs a new cyder icon button.
      *
      * @param builder the builder to construct the button from
@@ -29,7 +35,9 @@ public class CyderIconButtonNew extends JButton {
 
         this.builder = builder;
 
-        setIcon(builder.getDefaultIcon());
+        ImageIcon icon = builder.getDefaultIcon();
+        setIcon(icon);
+        setSize(icon.getIconWidth(), icon.getIconHeight());
 
         setToolTipText(builder.getTooltip());
         setFocusPainted(false);
@@ -47,17 +55,22 @@ public class CyderIconButtonNew extends JButton {
     /**
      * Adds the builder's focus listener or generates and adds the default focus listener if not set.
      */
+    @ForReadability
     private void addFocusListener() {
         if (builder.getFocusListener() == null) {
             addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    setIcon(builder.getHoverAndFocusIcon());
+                    if (!builder.isToggleButton()) {
+                        setIcon(builder.getHoverAndFocusIcon());
+                    }
                 }
 
                 @Override
                 public void focusLost(FocusEvent e) {
-                    setIcon(builder.getDefaultIcon());
+                    if (!builder.isToggleButton()) {
+                        setIcon(builder.getDefaultIcon());
+                    }
                 }
             });
         } else {
@@ -68,6 +81,7 @@ public class CyderIconButtonNew extends JButton {
     /**
      * Adds the builder's mouse listener or generates and adds the default mouse listener if not set.
      */
+    @ForReadability
     private void addMouseListener() {
         if (builder.getMouseListener() == null) {
             addMouseListener(new MouseAdapter() {
@@ -75,21 +89,56 @@ public class CyderIconButtonNew extends JButton {
                 public void mouseClicked(MouseEvent e) {
                     Runnable runnable = builder.getClickAction();
                     if (runnable != null) runnable.run();
+
+                    if (builder.isToggleButton()) {
+                        toggledOn = !toggledOn;
+
+                        if (toggledOn) {
+                            setIcon(builder.getDefaultIcon());
+                        } else {
+                            setIcon(builder.getHoverAndFocusIcon());
+                        }
+                    }
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    setIcon(builder.getHoverAndFocusIcon());
+                    if (builder.isToggleButton()) {
+
+                        if (toggledOn) {
+                            setIcon(builder.getDefaultIcon());
+                        } else {
+                            setIcon(builder.getHoverAndFocusIcon());
+                        }
+                    } else {
+                        setIcon(builder.getHoverAndFocusIcon());
+                    }
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    setIcon(builder.getDefaultIcon());
+                    if (builder.isToggleButton()) {
+                        if (toggledOn) {
+                            setIcon(builder.getHoverAndFocusIcon());
+                        } else {
+                            setIcon(builder.getDefaultIcon());
+                        }
+                    } else {
+                        setIcon(builder.getDefaultIcon());
+                    }
                 }
             });
         } else {
             addMouseListener(builder.getMouseListener());
         }
+    }
+
+    /**
+     * Resets the state/icon of this cyder icon button.
+     */
+    public void reset() {
+        toggledOn = false;
+        setIcon(builder.defaultIcon);
     }
 
     /**
@@ -170,6 +219,11 @@ public class CyderIconButtonNew extends JButton {
          * The action to invoke when the mouse is pressed.
          */
         private Runnable clickAction;
+
+        /**
+         * Whether clicking the button toggles the state, and thus the icon.
+         */
+        private boolean toggleButton;
 
         /**
          * Constructs a new CyderIconButton builder.
@@ -278,6 +332,31 @@ public class CyderIconButtonNew extends JButton {
             return this;
         }
 
+        /**
+         * Returns whether this cyder icon button should be a toggle button.
+         *
+         * @return whether this cyder icon button should be a toggle button
+         */
+        public boolean isToggleButton() {
+            return toggleButton;
+        }
+
+        /**
+         * Sets whether this cyder icon button should be a toggle button.
+         *
+         * @param toggleButton whether this cyder icon button should be a toggle button
+         * @return this builder
+         */
+        public Builder setToggleButton(boolean toggleButton) {
+            this.toggleButton = toggleButton;
+            return this;
+        }
+
+        /**
+         * Builds and returns a new cyder icon button using this builder.
+         *
+         * @return a new cyder icon button
+         */
         public CyderIconButtonNew build() {
             return new CyderIconButtonNew(this);
         }
