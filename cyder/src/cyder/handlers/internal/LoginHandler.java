@@ -366,8 +366,10 @@ public final class LoginHandler {
                                 loginMode = LoginMode.USERNAME;
                             } else if (inputString.equalsIgnoreCase("quit")) {
                                 loginFrame.dispose();
-                                if (Console.INSTANCE.isClosed())
+
+                                if (Console.INSTANCE.isClosed()) {
                                     OsUtil.exit(ExitCondition.GenesisControlledExit);
+                                }
 
                             } else if (inputString.equalsIgnoreCase("help")) {
                                 loginField.setText(currentBashString);
@@ -407,6 +409,8 @@ public final class LoginHandler {
                             priorityPrintingList.add("Login failed\n");
                             loginMode = LoginMode.INPUT;
                             username = "";
+                        } else {
+                            loginFrame.dispose(true);
                         }
 
                         Arrays.fill(input, '\0');
