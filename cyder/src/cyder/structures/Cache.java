@@ -2,7 +2,7 @@ package cyder.structures;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 
 import java.util.function.Function;
 

@@ -19,8 +19,8 @@ import cyder.genesis.CyderSplash;
 import cyder.genesis.PropLoader;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
+import cyder.logging.Logger;
 import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -897,7 +897,7 @@ public enum Console {
     private void installLeftDragLabelButtons() {
         menuButton = new MenuButton();
         menuButton.setForConsole(true);
-        menuButton.setClickAction(this::menuButtonAction);
+        menuButton.setClickAction(this::onMenuButtonClicked);
         menuButton.addKeyListener(menuButtonKeyAdapter);
         menuButton.addFocusGainedAction(this::removeFocusFromTaskbarMenuIcons);
         menuButton.addFocusLostAction(this::removeFocusFromTaskbarMenuIcons);
@@ -1174,24 +1174,16 @@ public enum Console {
         }
 
         if (TimeUtil.isDeveloperBirthday()) {
-            getInputHandler().println("Thanks for creating me Nate :,) Happy Birthday Bud");
+            getInputHandler().println("Thanks for creating me, Nate :,) Happy Birthday bud");
         }
 
         boolean debugWindows = UserUtil.getCyderUser().getDebugwindows().equals("1");
         if (debugWindows) {
             CyderThreadRunner.submit(() -> {
                 try {
-                    for (String property : StatUtil.getSystemProperties()) {
-                        getInputHandler().println(property);
-                    }
-
-                    for (String property : StatUtil.getComputerMemorySpaces()) {
-                        getInputHandler().println(property);
-                    }
-
-                    for (String property : StatUtil.getJavaProperties()) {
-                        getInputHandler().println(property);
-                    }
+                    StatUtil.getSystemProperties().forEach(property -> getInputHandler().println(property));
+                    StatUtil.getComputerMemorySpaces().forEach(property -> getInputHandler().println(property));
+                    StatUtil.getJavaProperties().forEach(property -> getInputHandler().println(property));
 
                     Future<StatUtil.DebugStats> futureStats = StatUtil.getDebugProps();
 
@@ -1249,6 +1241,7 @@ public enum Console {
     private void introMusicCheck() {
         boolean introMusic = UserUtil.getCyderUser().getIntromusic().equalsIgnoreCase("1");
         boolean released = PropLoader.getBoolean(RELEASED_KEY);
+
         if (introMusic) {
             performIntroMusic();
         } else if (released) {
@@ -1425,19 +1418,19 @@ public enum Console {
 
         if (state.size() == 0) return;
 
-        // remove focus from previous item if possible
+        // Remove focus from previous item if possible
         if (currentFocusedMenuItemIndex != -1) {
             state.get(currentFocusedMenuItemIndex).getBuilder().setFocused(false);
         }
 
-        // wrap around logic
+        // Wrap around if out of bounds
         if (index < 0) {
             index = state.size() - 1;
         } else if (index > state.size() - 1) {
             index = 0;
         }
 
-        // give focus to new item
+        // Give and paint focus on new item
         currentFocusedMenuItemIndex = index;
         state.get(currentFocusedMenuItemIndex).getBuilder().setFocused(true);
         reinstallCurrentTaskbarIcons();
@@ -1463,9 +1456,9 @@ public enum Console {
     }
 
     /**
-     * The action for when the menu button is pressed.
+     * The logic for when the menu button is pressed.
      */
-    private void menuButtonAction() {
+    private void onMenuButtonClicked() {
         Point menuPoint = menuButton.getLocationOnScreen();
         Rectangle rect = new Rectangle((int) menuPoint.getX(), (int) menuPoint.getY(),
                 menuButton.getWidth(), menuButton.getHeight());

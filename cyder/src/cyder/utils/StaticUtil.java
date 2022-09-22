@@ -3,7 +3,7 @@ package cyder.utils;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 
 import java.io.File;
 

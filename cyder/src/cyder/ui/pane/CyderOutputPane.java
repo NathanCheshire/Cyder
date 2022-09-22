@@ -1,7 +1,7 @@
 package cyder.ui.pane;
 
 import com.google.common.base.Preconditions;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.utils.StringUtil;
 
 import javax.swing.*;

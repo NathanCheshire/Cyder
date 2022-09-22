@@ -1,6 +1,6 @@
 package cyder.layouts;
 
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.ui.CyderPanel;
 import cyder.utils.ReflectionUtil;
 

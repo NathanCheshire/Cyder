@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.animation.AnimationUtil;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.ui.button.CyderButton;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.UiUtil;

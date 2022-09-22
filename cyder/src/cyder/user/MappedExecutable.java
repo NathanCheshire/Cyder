@@ -3,7 +3,7 @@ package cyder.user;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
 import cyder.console.Console;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.utils.ReflectionUtil;
 
 /**

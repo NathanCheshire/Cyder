@@ -5,7 +5,7 @@ import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.utils.IoUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SpotlightUtil;

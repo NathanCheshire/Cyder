@@ -2,8 +2,8 @@ package cyder.ui;
 
 import com.google.common.base.Preconditions;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.Logger;
 import cyder.layouts.CyderLayout;
+import cyder.logging.Logger;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.ReflectionUtil;
 

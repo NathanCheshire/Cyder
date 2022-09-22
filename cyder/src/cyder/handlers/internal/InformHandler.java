@@ -5,6 +5,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.logging.Logger;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;

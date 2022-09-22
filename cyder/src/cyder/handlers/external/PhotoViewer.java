@@ -3,7 +3,7 @@ package cyder.handlers.external;
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.drag.button.LeftButton;

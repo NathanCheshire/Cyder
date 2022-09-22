@@ -4,7 +4,7 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 
 /**
  * A handler for utilities related to props.

@@ -11,7 +11,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.button.CyderButton;
 import cyder.ui.progress.CyderProgressBar;

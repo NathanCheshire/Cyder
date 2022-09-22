@@ -7,7 +7,7 @@ import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.utils.ReflectionUtil;
 
 import java.lang.reflect.Method;

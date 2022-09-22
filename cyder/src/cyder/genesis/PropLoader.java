@@ -6,7 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.utils.FileUtil;
 
 import java.io.*;

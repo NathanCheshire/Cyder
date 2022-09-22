@@ -6,7 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Suggestion;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.time.TimeUtil;

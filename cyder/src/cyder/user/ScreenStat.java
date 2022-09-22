@@ -2,7 +2,7 @@ package cyder.user;
 
 import com.google.common.base.Objects;
 import cyder.enums.Direction;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 
 /**
  * A class to store statistics about the Console and where it is.

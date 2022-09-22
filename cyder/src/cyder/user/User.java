@@ -1,7 +1,7 @@
 package cyder.user;
 
 import com.google.common.base.Objects;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;
 

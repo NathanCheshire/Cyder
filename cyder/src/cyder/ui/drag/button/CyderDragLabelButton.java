@@ -2,7 +2,7 @@ package cyder.ui.drag.button;
 
 import com.google.common.base.Preconditions;
 import cyder.annotations.ForReadability;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.ui.drag.DragLabelButtonSize;
 
 import javax.swing.*;

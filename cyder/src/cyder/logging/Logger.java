@@ -1,4 +1,4 @@
-package cyder.handlers.internal;
+package cyder.logging;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -10,6 +10,7 @@ import cyder.enums.IgnoreThread;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;

@@ -13,7 +13,7 @@ import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.input.InputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.ui.frame.CyderFrame;
 import org.apache.commons.text.similarity.JaroWinklerDistance;
 

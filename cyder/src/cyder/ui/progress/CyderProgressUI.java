@@ -2,7 +2,7 @@ package cyder.ui.progress;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.utils.MathUtil;
 
 import javax.swing.*;

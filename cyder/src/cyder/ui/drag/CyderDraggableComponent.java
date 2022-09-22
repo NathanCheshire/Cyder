@@ -1,7 +1,7 @@
 package cyder.ui.drag;
 
 import cyder.genesis.PropLoader;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.utils.ReflectionUtil;
 
 import javax.swing.*;

@@ -1,6 +1,6 @@
 package cyder.ui.progress;
 
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.UiUtil;
 

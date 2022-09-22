@@ -13,7 +13,7 @@ import cyder.exceptions.UnsupportedOsException;
 import cyder.genesis.Cyder;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserUtil;
 

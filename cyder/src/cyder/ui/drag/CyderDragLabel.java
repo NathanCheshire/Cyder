@@ -3,7 +3,7 @@ package cyder.ui.drag;
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.ui.drag.button.CloseButton;
 import cyder.ui.drag.button.MinimizeButton;
 import cyder.ui.drag.button.PinButton;

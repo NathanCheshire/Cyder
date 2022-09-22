@@ -2,7 +2,7 @@ package cyder.ui.selection;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 

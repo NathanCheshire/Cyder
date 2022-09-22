@@ -3,7 +3,7 @@ package cyder.ui;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.utils.ReflectionUtil;
 import cyder.widgets.PaintWidget;
 

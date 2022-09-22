@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.ui.label.CyderLabel;
 import cyder.utils.ImageUtil;
 

@@ -1,7 +1,7 @@
 package cyder.ui.selection;
 
 import com.google.common.base.Preconditions;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 
 import java.util.LinkedList;
 

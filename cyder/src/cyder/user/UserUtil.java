@@ -12,7 +12,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.utils.*;
 
 import javax.imageio.ImageIO;

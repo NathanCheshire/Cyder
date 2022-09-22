@@ -5,7 +5,7 @@ import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.enums.CyderInspection;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.ui.button.CyderButton;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;

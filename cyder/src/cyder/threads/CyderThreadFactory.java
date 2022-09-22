@@ -1,6 +1,6 @@
 package cyder.threads;
 
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.utils.ReflectionUtil;
 import org.jetbrains.annotations.NotNull;
 

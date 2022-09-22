@@ -4,7 +4,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;

@@ -11,7 +11,7 @@ import cyder.genesis.PropLoader;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.parsers.local.UsbResponse;
 import cyder.threads.CyderThreadRunner;
 import javazoom.jl.player.Player;

@@ -2,7 +2,7 @@ package cyder.user;
 
 import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.ui.pane.CyderScrollList;
 import cyder.utils.ColorUtil;
 import cyder.utils.ReflectionUtil;

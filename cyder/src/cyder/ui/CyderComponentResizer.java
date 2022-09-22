@@ -1,7 +1,7 @@
 package cyder.ui;
 
 import com.google.common.collect.ImmutableMap;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.ReflectionUtil;
 

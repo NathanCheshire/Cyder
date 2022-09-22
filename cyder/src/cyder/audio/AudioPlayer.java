@@ -16,7 +16,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 import cyder.messaging.MessagingUtils;
 import cyder.parsers.remote.youtube.YoutubeSearchResultPage;
 import cyder.parsers.remote.youtube.YoutubeVideo;

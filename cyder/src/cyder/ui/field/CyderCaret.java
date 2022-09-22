@@ -1,6 +1,6 @@
 package cyder.ui.field;
 
-import cyder.handlers.internal.Logger;
+import cyder.logging.Logger;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
