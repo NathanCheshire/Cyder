@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -49,7 +50,7 @@ public class CyderIconButton extends JButton {
         addMouseListener();
         addFocusListener();
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**

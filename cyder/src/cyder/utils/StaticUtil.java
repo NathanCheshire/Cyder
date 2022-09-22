@@ -3,6 +3,7 @@ package cyder.utils;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
 import java.io.File;
@@ -35,10 +36,10 @@ public final class StaticUtil {
 
     static {
         STATIC_FILES = FileUtil.getFiles(new File(STATIC));
-        Logger.log(Logger.Tag.DEBUG, "Loaded " + STATIC_FILES.size() + " static resources");
+        Logger.log(LogTag.DEBUG, "Loaded " + STATIC_FILES.size() + " static resources");
 
         STATIC_FOLDERS = FileUtil.getFolders(new File(STATIC));
-        Logger.log(Logger.Tag.DEBUG, "Loaded " + STATIC_FOLDERS.size() + " static folders");
+        Logger.log(LogTag.DEBUG, "Loaded " + STATIC_FOLDERS.size() + " static folders");
     }
 
     /**

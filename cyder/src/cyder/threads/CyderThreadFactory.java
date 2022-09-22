@@ -1,5 +1,6 @@
 package cyder.threads;
 
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.utils.ReflectionUtil;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +18,7 @@ public class CyderThreadFactory implements ThreadFactory {
      */
     public CyderThreadFactory(String name) {
         this.name = name;
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**

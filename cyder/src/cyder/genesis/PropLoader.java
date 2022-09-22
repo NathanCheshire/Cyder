@@ -6,6 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.utils.FileUtil;
 
@@ -199,7 +200,7 @@ public final class PropLoader {
         for (File f : propFilesArray) {
             if (f.getName().startsWith("prop") && FileUtil.validateExtension(f, ".ini")) {
                 propFiles.add(f);
-                Logger.log(Logger.Tag.DEBUG, "Found prop file: " + f);
+                Logger.log(LogTag.DEBUG, "Found prop file: " + f);
             }
         }
 
@@ -233,7 +234,7 @@ public final class PropLoader {
 
                     propsList.add(addProp);
 
-                    Logger.log(Logger.Tag.PROP_LOADED, "[key = " + addProp.key
+                    Logger.log(LogTag.PROP_LOADED, "[key = " + addProp.key
                             + (logNextProp ? ", value = " + addProp.value : "") + "]");
 
                     logNextProp = true;
@@ -351,7 +352,7 @@ public final class PropLoader {
                             && !previousLine.trim().equals(NO_LOG_ANNOTATION)) {
                         writer.write(NO_LOG_ANNOTATION);
                         writer.newLine();
-                        Logger.log(Logger.Tag.DEBUG, "Injected " + NO_LOG_ANNOTATION + " for prop: "
+                        Logger.log(LogTag.DEBUG, "Injected " + NO_LOG_ANNOTATION + " for prop: "
                                 + extractedProp.key + ", prop file = " + file.getName());
                     }
                 } catch (Exception ignored) {}

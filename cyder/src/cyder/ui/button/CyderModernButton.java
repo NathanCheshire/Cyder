@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -1030,7 +1031,7 @@ public class CyderModernButton extends JLabel {
          * Constructs a new theme builder.
          */
         public ThemeBuilder() {
-            Logger.log(Logger.Tag.OBJECT_CREATION, this);
+            Logger.log(LogTag.OBJECT_CREATION, this);
         }
 
         public Color getBackgroundColor() {

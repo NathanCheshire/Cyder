@@ -3,6 +3,7 @@ package cyder.console;
 import com.google.common.base.Preconditions;
 import cyder.exceptions.FatalException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.ImageUtil;
@@ -34,7 +35,7 @@ public class ConsoleBackground {
         Preconditions.checkArgument(ImageUtil.isValidImage(referenceFile));
 
         this.referenceFile = referenceFile;
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**

@@ -1,6 +1,7 @@
 package cyder.ui.selection;
 
 import com.google.common.base.Preconditions;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
 import java.util.LinkedList;
@@ -10,7 +11,7 @@ import java.util.LinkedList;
  */
 public class CyderCheckboxGroup {
     /**
-     * The list of managed checkboxes.
+     * The list of checkboxes.
      */
     private final LinkedList<CyderCheckbox> checkboxes = new LinkedList<>();
 
@@ -23,7 +24,7 @@ public class CyderCheckboxGroup {
      * Constructs a new CyderCheckboxGroup object.
      */
     public CyderCheckboxGroup() {
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**
@@ -109,8 +110,7 @@ public class CyderCheckboxGroup {
         for (int i = 0 ; i < getCheckboxCount() ; i++) {
             sb.append(checkboxes.get(i).toString());
 
-            if (i != getCheckboxCount() - 1)
-                sb.append(", ");
+            if (i != getCheckboxCount() - 1) sb.append(", ");
         }
 
         return sb.toString();

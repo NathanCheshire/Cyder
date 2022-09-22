@@ -3,6 +3,7 @@ package cyder.ui.drag;
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.drag.button.CloseButton;
 import cyder.ui.drag.button.MinimizeButton;
@@ -151,7 +152,7 @@ public class CyderDragLabel extends JLabel {
 
         effectFrame.addWindowListener(createWindowListener(effectFrame));
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**

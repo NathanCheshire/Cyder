@@ -4,6 +4,7 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
 /**
@@ -34,9 +35,9 @@ public class PropHandler extends InputHandler {
                 getInputHandler().println("Reloading props is currently disabled"
                         + " during runtime, check your props file");
             } else {
-                Logger.log(Logger.Tag.DEBUG, "Reloading props");
+                Logger.log(LogTag.DEBUG, "Reloading props");
                 PropLoader.reloadProps();
-                Logger.log(Logger.Tag.DEBUG, "Props reloaded");
+                Logger.log(LogTag.DEBUG, "Props reloaded");
                 getInputHandler().println("Reloaded props. Props loaded: " + PropLoader.getProps().size());
             }
         } else ret = false;

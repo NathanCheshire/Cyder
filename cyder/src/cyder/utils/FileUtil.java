@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.stream.Stream;
@@ -324,8 +325,8 @@ public final class FileUtil {
             Path zipFile = Files.createFile(Paths.get(usedFileName));
             Path sourceDirPath = Paths.get(source);
 
-            try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile)) ;
-                 Stream<Path> paths = Files.walk(sourceDirPath)) {
+            try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile))
+                 ; Stream<Path> paths = Files.walk(sourceDirPath)) {
                 paths.filter(path -> !Files.isDirectory(path)).forEach(path -> {
                     ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
                     try {
@@ -411,7 +412,7 @@ public final class FileUtil {
      *
      * @param closable the object to close and free
      */
-    @SuppressWarnings("UnusedAssignment") // freeing up resource
+    @SuppressWarnings("UnusedAssignment") /* Freeing up resource */
     public static void closeIfNotNull(Closeable closable) {
         if (closable != null) {
             try {
@@ -445,12 +446,9 @@ public final class FileUtil {
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
-            if (files == null)
-                return ImmutableList.copyOf(ret);
+            if (files == null) return ImmutableList.copyOf(ret);
 
-            for (File f : files)
-                ret.addAll(getFiles(f, extension));
-
+            Arrays.stream(files).forEach(file -> ret.addAll(getFiles(file, extension)));
         } else if (getExtension(startDir).equals(extension)) {
             ret.add(startDir);
         }
@@ -465,24 +463,19 @@ public final class FileUtil {
      * @param file      the file to find a unique name for
      * @param directory the directory to place the file in
      * @return a unique name for the file. Note this may or may not equal
-     * the original file name including the extension
+     * the original file name, but will include the extension
      */
     public static String findUniqueName(File file, File directory) {
         Preconditions.checkNotNull(file);
         Preconditions.checkNotNull(directory);
-        Preconditions.checkArgument(file.exists());
         Preconditions.checkArgument(directory.exists());
-        Preconditions.checkArgument(file.isFile());
         Preconditions.checkArgument(directory.isDirectory());
 
         File[] files = directory.listFiles();
 
         if (files != null && files.length > 0) {
             ArrayList<String> filenames = new ArrayList<>(files.length);
-
-            for (File neighboringFile : files) {
-                filenames.add(neighboringFile.getName());
-            }
+            Arrays.stream(files).forEach(neighboringFile -> filenames.add(neighboringFile.getName()));
 
             String filenameAndExtension = file.getName();
             String[] filenameAndExtensionArr = filenameAndExtension.split("\\.");
@@ -541,8 +534,9 @@ public final class FileUtil {
         LinkedList<File> ret = new LinkedList<>();
 
         File[] topLevelFiles = topLevelDirectory.listFiles();
+
         if (topLevelFiles != null && topLevelFiles.length > 0) {
-            for (File file : topLevelFiles) {
+            Arrays.stream(topLevelFiles).forEach(file -> {
                 if (file.isFile()) {
                     String extension = FileUtil.getExtension(file).substring(1);
 
@@ -552,7 +546,7 @@ public final class FileUtil {
                 } else if (recursive && file.isDirectory()) {
                     ret.addAll(getFiles(file, true, extensionRegex));
                 }
-            }
+            });
         }
 
         return ImmutableList.copyOf(ret);
@@ -583,8 +577,9 @@ public final class FileUtil {
         LinkedList<File> ret = new LinkedList<>();
 
         File[] topLevelFiles = topLevelDirectory.listFiles();
+
         if (topLevelFiles != null && topLevelFiles.length > 0) {
-            for (File file : topLevelFiles) {
+            Arrays.stream(topLevelFiles).forEach(file -> {
                 if (file.isDirectory()) {
                     ret.add(file);
 
@@ -592,7 +587,7 @@ public final class FileUtil {
                         ret.addAll(getFolders(file, true));
                     }
                 }
-            }
+            });
         }
 
         return ImmutableList.copyOf(ret);

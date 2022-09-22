@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -87,7 +88,7 @@ public class CyderButton extends JButton {
         super.setContentAreaFilled(false);
 
         addMouseMotionListener(new CyderDraggableComponent());
-        addActionListener(e -> Logger.log(Logger.Tag.UI_ACTION, this));
+        addActionListener(e -> Logger.log(LogTag.UI_ACTION, this));
 
         setFont(CyderFonts.SEGOE_20);
         setColors(CyderColors.buttonColor);
@@ -97,7 +98,7 @@ public class CyderButton extends JButton {
 
         setUI(generateMetalButtonUi());
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     private static MetalButtonUI generateMetalButtonUi() {

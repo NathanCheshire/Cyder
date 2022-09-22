@@ -2,6 +2,7 @@ package cyder.ui.selection;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
@@ -95,7 +96,7 @@ public class CyderComboBox extends JLabel {
 
         valueDisplayField.setText(startingState.displayValue());
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**
@@ -221,7 +222,7 @@ public class CyderComboBox extends JLabel {
             this.displayValue = displayValue;
             this.mappedValue = mappedValue;
 
-            Logger.log(Logger.Tag.OBJECT_CREATION, this);
+            Logger.log(LogTag.OBJECT_CREATION, this);
         }
     }
 }

@@ -7,6 +7,7 @@ import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -90,7 +91,7 @@ public class CyderNotification extends JLabel {
 
         addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**

@@ -6,6 +6,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
@@ -45,7 +46,7 @@ public class TemperatureWidget {
      * Temperature converter widget to convert between kelvin, fahrenheit, and celsius
      */
     private TemperatureWidget() {
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     @Widget(triggers = {"temperature", "temp"},

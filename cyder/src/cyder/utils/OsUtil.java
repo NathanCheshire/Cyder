@@ -13,6 +13,7 @@ import cyder.exceptions.UnsupportedOsException;
 import cyder.genesis.Cyder;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserUtil;
@@ -54,7 +55,7 @@ public final class OsUtil {
         JAR_MODE = Objects.requireNonNull(
                 Cyder.class.getResource("Cyder.class")).toString().startsWith("jar:");
 
-        Logger.log(Logger.Tag.DEBUG, "Jar mode set as: " + String.valueOf(JAR_MODE).toUpperCase());
+        Logger.log(LogTag.DEBUG, "Jar mode set as: " + String.valueOf(JAR_MODE).toUpperCase());
     }
 
     /**
@@ -134,7 +135,7 @@ public final class OsUtil {
             UserUtil.blockFutureIo();
 
             //log exit
-            Logger.log(Logger.Tag.EXIT, exitCondition);
+            Logger.log(LogTag.EXIT, exitCondition);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -400,7 +401,7 @@ public final class OsUtil {
         checkNotNull(fileOrFolder);
 
         if (log) {
-            Logger.log(Logger.Tag.SYSTEM_IO, "Requested deletion of: " + fileOrFolder.getAbsolutePath());
+            Logger.log(LogTag.SYSTEM_IO, "Requested deletion of: " + fileOrFolder.getAbsolutePath());
         }
 
         // directory means recursive case to delete contents
@@ -425,7 +426,7 @@ public final class OsUtil {
         }
 
         if (fileOrFolder.exists() && log) {
-            Logger.log(Logger.Tag.SYSTEM_IO, "[DELETION FAILED] file: "
+            Logger.log(LogTag.SYSTEM_IO, "[DELETION FAILED] file: "
                     + fileOrFolder.getAbsolutePath());
         }
 

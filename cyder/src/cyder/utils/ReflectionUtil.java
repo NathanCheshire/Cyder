@@ -13,6 +13,7 @@ import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.input.InputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.frame.CyderFrame;
 import org.apache.commons.text.similarity.JaroWinklerDistance;
@@ -321,7 +322,7 @@ public final class ReflectionUtil {
                             }
                         }
 
-                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @Widget is not named "
+                        Logger.log(LogTag.DEBUG, "Method annotated with @Widget is not named "
                                 + STANDARD_WIDGET_SHOW_METHOD_NAME + "(); name: " + m.getName());
                     }
 
@@ -395,7 +396,7 @@ public final class ReflectionUtil {
                             }
                         }
 
-                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @ManualTest does not end"
+                        Logger.log(LogTag.DEBUG, "Method annotated with @ManualTest does not end"
                                 + " with \"test\"; name: " + m.getName());
                     }
 
@@ -463,18 +464,18 @@ public final class ReflectionUtil {
                 }
 
                 if (!clazz.getName().toLowerCase().endsWith(WIDGET) && !widgetAnnotationFound) {
-                    Logger.log(Logger.Tag.DEBUG, "Class annotated with @Vanilla does not end"
+                    Logger.log(LogTag.DEBUG, "Class annotated with @Vanilla does not end"
                             + " with Widget; name: " + clazz.getName());
                 }
 
                 if (!clazz.isAnnotationPresent(CyderAuthor.class)) {
-                    Logger.log(Logger.Tag.DEBUG, "Method annotated with @Vanilla"
+                    Logger.log(LogTag.DEBUG, "Method annotated with @Vanilla"
                             + " does not contain a @CyderAuthor annotation");
                 } else {
                     String author = clazz.getAnnotation(CyderAuthor.class).author();
 
                     if (!StringUtil.in(author, true, DEVELOPER_NAMES)) {
-                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @Vanilla"
+                        Logger.log(LogTag.DEBUG, "Method annotated with @Vanilla"
                                 + " does not contain Nathan Cheshire as an author");
                     }
                 }
@@ -492,7 +493,7 @@ public final class ReflectionUtil {
             if (!StringUtil.in(prop.key(), false, discoveredKeys)) {
                 discoveredKeys.add(prop.key());
             } else {
-                Logger.log(Logger.Tag.DEBUG, "Found duplicate prop key: " + prop.key());
+                Logger.log(LogTag.DEBUG, "Found duplicate prop key: " + prop.key());
             }
         }
     }
@@ -622,7 +623,7 @@ public final class ReflectionUtil {
             default -> throw new IllegalArgumentException("Illegal handle warning: " + handleWarning);
         };
 
-        Logger.log(Logger.Tag.DEBUG, errorString);
+        Logger.log(LogTag.DEBUG, errorString);
         InformHandler.inform(new InformHandler.Builder(errorString).setTitle(
                 StringUtil.capsFirst(handleWarning.name().replace("_", ""))));
     }

@@ -3,6 +3,7 @@ package cyder.ui;
 import com.google.common.base.Preconditions;
 import cyder.exceptions.IllegalMethodException;
 import cyder.layouts.CyderLayout;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.ReflectionUtil;
@@ -43,7 +44,7 @@ public class CyderPanel extends JLabel {
         cyderLayout.setAssociatedPanel(this);
         revalidateComponents();
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**

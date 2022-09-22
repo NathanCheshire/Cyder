@@ -20,6 +20,7 @@ import cyder.genesis.PropLoader;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.LoginHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
@@ -78,7 +79,7 @@ public enum Console {
      * (enums are constructed when they are first referenced).
      */
     Console() {
-        Logger.log(Logger.Tag.OBJECT_CREATION, "Console singleton constructed");
+        Logger.log(LogTag.OBJECT_CREATION, "Console singleton constructed");
     }
 
     /**
@@ -1201,7 +1202,7 @@ public enum Console {
         }
 
         if (PropLoader.getBoolean(TESTING_MODE)) {
-            Logger.log(Logger.Tag.CONSOLE_LOAD, "[" + OsUtil.getOsUsername() + "] [TESTING MODE]");
+            Logger.log(LogTag.CONSOLE_LOAD, "[" + OsUtil.getOsUsername() + "] [TESTING MODE]");
             ManualTests.launchTests();
         }
 
@@ -3424,7 +3425,7 @@ public enum Console {
         }
 
         if (logoutUser) {
-            Logger.log(Logger.Tag.LOGOUT, UserUtil.getCyderUser().getName());
+            Logger.log(LogTag.LOGOUT, UserUtil.getCyderUser().getName());
             UserUtil.getCyderUser().setLoggedin("0");
         }
 

@@ -7,6 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -46,10 +47,10 @@ public final class ExceptionHandler {
             Optional<String> write = getPrintableException(e);
 
             if (write.isPresent() && !write.get().trim().isEmpty()) {
-                if (Logger.isLogStarted()) {
-                    Logger.log(Logger.Tag.EXCEPTION, write.get());
+                if (Logger.hasLogStarted()) {
+                    Logger.log(LogTag.EXCEPTION, write.get());
                 } else {
-                    Logger.Debug(write.get());
+                    Logger.log(LogTag.DEBUG, write.get());
                 }
             }
 
@@ -62,7 +63,7 @@ public final class ExceptionHandler {
             }
         } catch (Exception ex) {
             // uh oh
-            Logger.Debug(getPrintableException(e));
+            Logger.log(LogTag.DEBUG, getPrintableException(e));
         }
     }
 
@@ -191,7 +192,7 @@ public final class ExceptionHandler {
 
                     borderlessFrame.dispose(true);
                 } catch (Exception ex) {
-                    Logger.Debug(getPrintableException(ex));
+                    Logger.log(LogTag.DEBUG, getPrintableException(ex));
                 }
             }, "Exception Popup Opacity Animator: " + e.getMessage());
         }
@@ -207,11 +208,11 @@ public final class ExceptionHandler {
         try {
             Optional<String> write = getPrintableException(e);
 
-            if (write.isPresent() && !write.get().trim().isEmpty())
-                Logger.log(Logger.Tag.EXCEPTION, write.get());
+            if (write.isPresent() && !write.get().trim().isEmpty()) {
+                Logger.log(LogTag.EXCEPTION, write.get());
+            }
         } catch (Exception ex) {
-            // uh oh
-            Logger.Debug(getPrintableException(e));
+            Logger.log(LogTag.DEBUG, getPrintableException(e));
         }
     }
 

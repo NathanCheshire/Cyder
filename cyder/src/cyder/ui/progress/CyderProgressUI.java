@@ -2,6 +2,7 @@ package cyder.ui.progress;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.utils.MathUtil;
 
@@ -32,7 +33,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
     public CyderProgressUI() {
         startAnimationTimer();
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**

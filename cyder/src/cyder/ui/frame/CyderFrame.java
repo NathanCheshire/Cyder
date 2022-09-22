@@ -15,6 +15,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.LoginHandler;
 import cyder.layouts.CyderLayout;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -459,7 +460,7 @@ public class CyderFrame extends JFrame {
 
         revalidateFrameShape();
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     // -----------------------------
@@ -563,7 +564,7 @@ public class CyderFrame extends JFrame {
         threadsKilled = false;
 
         revalidateFrameShape();
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**
@@ -1164,7 +1165,7 @@ public class CyderFrame extends JFrame {
                 }
                 duration = Math.max(duration, MINIMUM_NOTIFICATION_TIME_MS);
 
-                Logger.log(Logger.Tag.UI_ACTION, constructNotificationLogLine(getTitle(), brokenText));
+                Logger.log(LogTag.UI_ACTION, constructNotificationLogLine(getTitle(), brokenText));
 
                 toBeCurrentNotification.appear(currentBuilder.getNotificationDirection(), getContentPane(), duration);
                 currentNotification = toBeCurrentNotification;
@@ -1482,7 +1483,7 @@ public class CyderFrame extends JFrame {
 
                 disposed = true;
 
-                Logger.log(Logger.Tag.UI_ACTION, "CyderFrame disposed with fastclose="
+                Logger.log(LogTag.UI_ACTION, "CyderFrame disposed with fastclose="
                         + fastClose + ", getTitle=" + getTitle());
 
                 for (Runnable action : preCloseActions) {
@@ -1737,13 +1738,13 @@ public class CyderFrame extends JFrame {
         String title = getTitle().length() < 1 ? "No title found" : getTitle();
 
         if (width < MINIMUM_WIDTH) {
-            Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + title
+            Logger.log(LogTag.DEBUG, "CyderFrame \"" + title
                     + "\" was attempted to be set to invalid width: " + width);
             width = MINIMUM_WIDTH;
         }
 
         if (height < MINIMUM_HEIGHT) {
-            Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + title
+            Logger.log(LogTag.DEBUG, "CyderFrame \"" + title
                     + "\" was attempted to be set to invalid height: " + height);
             height = MINIMUM_HEIGHT;
         }
@@ -3842,7 +3843,7 @@ public class CyderFrame extends JFrame {
 
             notifyTime = TimeUtil.notificationTime();
 
-            Logger.log(Logger.Tag.OBJECT_CREATION, this);
+            Logger.log(LogTag.OBJECT_CREATION, this);
         }
 
         /**

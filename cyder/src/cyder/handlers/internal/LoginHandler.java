@@ -9,6 +9,7 @@ import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.PropLoader;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -348,7 +349,7 @@ public final class LoginHandler {
                 if (loginMode != LoginMode.PASSWORD) {
                     inputString = new String(input).replace(currentBashString, "");
 
-                    Logger.log(Logger.Tag.CLIENT, "[LOGIN FRAME] " + String.valueOf(input));
+                    Logger.log(LogTag.CLIENT, "[LOGIN FRAME] " + String.valueOf(input));
                 }
 
                 switch (loginMode) {
@@ -454,7 +455,7 @@ public final class LoginHandler {
         CyderSplash.INSTANCE.setLoadingMessage("Checking for an AutoCypher");
 
         if (PropLoader.getBoolean(AUTOCYPHER)) {
-            Logger.log(Logger.Tag.LOGIN, "AutoCypher Attempt");
+            Logger.log(LogTag.LOGIN, "AutoCypher Attempt");
             CyderSplash.INSTANCE.setLoadingMessage("Auto Cyphering");
 
             if (!autoCypher()) {
@@ -464,7 +465,7 @@ public final class LoginHandler {
             ExceptionHandler.exceptionExit("Unreleased build of Cyder",
                     "Exception", ExitCondition.NotReleased);
         } else {
-            Logger.log(Logger.Tag.LOGIN, "CYDER STARTING IN RELEASED MODE");
+            Logger.log(LogTag.LOGIN, "CYDER STARTING IN RELEASED MODE");
 
             Optional<String> optionalUUID = UserUtil.getFirstLoggedInUser();
 
@@ -475,10 +476,10 @@ public final class LoginHandler {
 
                 Console.INSTANCE.setUuid(loggedInUUID);
 
-                Logger.log(Logger.Tag.LOGIN, CyderEntry.PreviouslyLoggedIn.getName().toUpperCase()
+                Logger.log(LogTag.LOGIN, CyderEntry.PreviouslyLoggedIn.getName().toUpperCase()
                         + ", " + loggedInUUID);
 
-                Logger.log(Logger.Tag.DEBUG, "Cyder Entry = " + CyderEntry.PreviouslyLoggedIn);
+                Logger.log(LogTag.DEBUG, "Cyder Entry = " + CyderEntry.PreviouslyLoggedIn);
                 Console.INSTANCE.launch();
             } else {
                 showGui();
@@ -522,10 +523,10 @@ public final class LoginHandler {
             case FAILED -> {
                 if (autoCypherAttempt) {
                     priorityPrintingList.add("Autocypher failed");
-                    Logger.log(Logger.Tag.LOGIN, CyderEntry.AutoCypher.getFailMessage());
+                    Logger.log(LogTag.LOGIN, CyderEntry.AutoCypher.getFailMessage());
                 } else if (UiUtil.notNullAndVisible(loginFrame)) {
                     priorityPrintingList.add("Incorrect password\n");
-                    Logger.log(Logger.Tag.LOGIN, CyderEntry.Login.getFailMessage());
+                    Logger.log(LogTag.LOGIN, CyderEntry.Login.getFailMessage());
                     loginField.requestFocusInWindow();
                 }
             }
@@ -539,7 +540,7 @@ public final class LoginHandler {
                     Console.INSTANCE.closeFrame(false, true);
                 }
 
-                Logger.log(Logger.Tag.DEBUG, "Cyder Entry = "
+                Logger.log(LogTag.DEBUG, "Cyder Entry = "
                         + (autoCypherAttempt ? CyderEntry.AutoCypher : CyderEntry.Login));
                 Console.INSTANCE.launch();
                 return true;

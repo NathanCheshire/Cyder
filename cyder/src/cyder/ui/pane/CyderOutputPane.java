@@ -1,6 +1,7 @@
 package cyder.ui.pane;
 
 import com.google.common.base.Preconditions;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.utils.StringUtil;
 
@@ -53,7 +54,7 @@ public class CyderOutputPane {
         this.stringUtil = stringUtil;
         semaphore = new Semaphore(1);
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**
@@ -68,7 +69,7 @@ public class CyderOutputPane {
         stringUtil = new StringUtil(this);
         semaphore = new Semaphore(1);
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**

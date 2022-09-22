@@ -18,6 +18,7 @@ import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
 import cyder.layouts.CyderPartitionedLayout;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderPanel;
@@ -158,7 +159,7 @@ public final class UserEditor {
             this.title = title;
             this.switchRunnable = runnable;
 
-            Logger.log(Logger.Tag.OBJECT_CREATION, this);
+            Logger.log(LogTag.OBJECT_CREATION, this);
         }
 
         /**
@@ -535,7 +536,7 @@ public final class UserEditor {
                         Console.INSTANCE.getInputHandler().println("Failed to rename album art: "
                                 + FileUtil.getFilename(renameMe));
                     } else {
-                        Logger.log(Logger.Tag.DEBUG, "Renamed album art file for reference file: "
+                        Logger.log(LogTag.DEBUG, "Renamed album art file for reference file: "
                                 + oldAlbumArtName + ", renamed to: " + namePart);
                     }
                 }

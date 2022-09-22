@@ -11,6 +11,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.button.CyderButton;
@@ -560,7 +561,7 @@ public class YoutubeDownload {
             for (File child : children) {
                 if (FileUtil.getFilename(child).startsWith(nameWithoutExtension.get())) {
                     if (!OsUtil.deleteFile(child)) {
-                        Logger.log(Logger.Tag.DEBUG, "Could not delete file resulting from youtube "
+                        Logger.log(LogTag.DEBUG, "Could not delete file resulting from youtube "
                                 + "download operation canceled, location=" + parentDirectory.getAbsolutePath()
                                 + ", name=" + nameWithoutExtension);
                     }

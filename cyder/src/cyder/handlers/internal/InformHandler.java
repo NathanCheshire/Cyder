@@ -5,6 +5,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
@@ -144,7 +145,7 @@ public final class InformHandler {
         informFrame.setVisible(true);
         informFrame.setLocationRelativeTo(relativeTo);
 
-        Logger.log(Logger.Tag.UI_ACTION, "[INFORMATION PANE] text = \""
+        Logger.log(LogTag.UI_ACTION, "[INFORMATION PANE] text = \""
                 + builder.getHtmlText() + "\", relativeTo = " + builder.getRelativeTo());
 
         return informFrame;
@@ -209,7 +210,7 @@ public final class InformHandler {
             Preconditions.checkArgument(StringUtil.getRawTextLength(htmlText) >= MINIMUM_TEXT_LENGTH);
 
             this.htmlText = htmlText;
-            Logger.log(Logger.Tag.OBJECT_CREATION, this);
+            Logger.log(LogTag.OBJECT_CREATION, this);
         }
 
         /**

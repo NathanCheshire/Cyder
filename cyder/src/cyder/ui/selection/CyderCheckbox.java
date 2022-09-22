@@ -3,6 +3,7 @@ package cyder.ui.selection;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -133,7 +134,7 @@ public class CyderCheckbox extends JLabel {
                     repaint();
                 }
 
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
+                Logger.log(LogTag.UI_ACTION, e.getComponent());
             }
         });
 
@@ -144,7 +145,7 @@ public class CyderCheckbox extends JLabel {
         repaint();
 
         addMouseMotionListener(new CyderDraggableComponent());
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**
@@ -591,16 +592,15 @@ public class CyderCheckbox extends JLabel {
      */
     @Override
     public String toString() {
-        return "CyderCheckbox{" +
-                "checkShape=" + checkShape +
-                ", borderLen=" + borderLen +
-                ", isChecked=" + isChecked +
-                ", enabled=" + enabled +
-                ", sideLength=" + sideLength +
-                ", background=" + background +
-                ", checkColor=" + checkColor +
-                ", roundedCorners=" + roundedCorners +
-                ", cyderCheckboxGroup=" + cyderCheckboxGroup +
-                '}';
+        return "CyderCheckbox{"
+                + "checkShape=" + checkShape
+                + ", borderLen=" + borderLen
+                + ", isChecked=" + isChecked
+                + ", enabled=" + enabled
+                + ", sideLength=" + sideLength
+                + ", background=" + background
+                + ", checkColor=" + checkColor
+                + ", roundedCorners=" + roundedCorners
+                + "}";
     }
 }

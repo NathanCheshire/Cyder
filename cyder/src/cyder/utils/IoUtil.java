@@ -11,6 +11,7 @@ import cyder.genesis.PropLoader;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.parsers.local.UsbResponse;
 import cyder.threads.CyderThreadRunner;
@@ -70,7 +71,7 @@ public final class IoUtil {
                     throw new FatalException("Could not open file; tell Nathan to fix me");
                 }
 
-                Logger.log(Logger.Tag.LINK, path);
+                Logger.log(LogTag.LINK, path);
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
@@ -150,7 +151,7 @@ public final class IoUtil {
 
                 // only log if autoCypher, means either Nathan or an advanced developer
                 if (!PropLoader.getBoolean("autocypher")) {
-                    Logger.log(Logger.Tag.JVM_ARGS, argBuilder);
+                    Logger.log(LogTag.JVM_ARGS, argBuilder);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -219,7 +220,7 @@ public final class IoUtil {
             stopGeneralAudio();
             FileInputStream FileInputStream = new FileInputStream(file);
             player = new Player(FileInputStream);
-            Logger.log(Logger.Tag.AUDIO, file.getAbsoluteFile());
+            Logger.log(LogTag.AUDIO, file.getAbsoluteFile());
 
             Console.INSTANCE.showAudioButton();
 
@@ -278,7 +279,7 @@ public final class IoUtil {
             Player systemPlayer = new Player(bis);
 
             if (log) {
-                Logger.log(Logger.Tag.AUDIO, "[SYSTEM AUDIO] " + filePath);
+                Logger.log(LogTag.AUDIO, "[SYSTEM AUDIO] " + filePath);
             }
 
             CyderThreadRunner.submit(() -> {

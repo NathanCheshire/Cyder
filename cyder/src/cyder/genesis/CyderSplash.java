@@ -8,6 +8,7 @@ import cyder.enums.Direction;
 import cyder.enums.ExitCondition;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -642,7 +643,7 @@ public enum CyderSplash {
         Preconditions.checkArgument(!newLoadingMessage.isEmpty());
 
         newLoadingMessage = StringUtil.getTrimmedText(newLoadingMessage);
-        Logger.log(Logger.Tag.LOADING_MESSAGE, newLoadingMessage);
+        Logger.log(LogTag.LOADING_MESSAGE, newLoadingMessage);
 
         if (splashFrame == null || splashFrame.isDisposed()) return;
 

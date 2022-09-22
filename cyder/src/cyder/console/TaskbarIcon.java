@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.label.CyderLabel;
 import cyder.utils.ImageUtil;
@@ -74,7 +75,7 @@ public class TaskbarIcon {
         Preconditions.checkNotNull(builder.name);
         Preconditions.checkArgument(!builder.name.isEmpty());
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
 
         this.builder = builder;
 

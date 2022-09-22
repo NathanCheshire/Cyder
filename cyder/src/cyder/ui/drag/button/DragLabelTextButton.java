@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.utils.StringUtil;
@@ -21,7 +22,7 @@ public class DragLabelTextButton extends JLabel {
      * Suppress default constructor.
      */
     private DragLabelTextButton() {
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**

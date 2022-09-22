@@ -5,6 +5,7 @@ import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.enums.CyderInspection;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.button.CyderButton;
 import cyder.ui.drag.CyderDragLabel;
@@ -22,7 +23,7 @@ public class ExampleWidget {
      * when objects are created by the static factory method.
      */
     private ExampleWidget() {
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**

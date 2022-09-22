@@ -3,6 +3,7 @@ package cyder.constants;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import cyder.exceptions.IllegalMethodException;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.time.TimeUtil;
 
@@ -122,7 +123,7 @@ public final class CyderFonts {
             long start = System.currentTimeMillis();
             Font ret = new Font(name, metric, size);
             String constructionTime = TimeUtil.formatMillis(System.currentTimeMillis() - start);
-            Logger.log(Logger.Tag.DEBUG, "Font generation of \"" + name + "\" took: " + constructionTime);
+            Logger.log(LogTag.DEBUG, "Font generation of \"" + name + "\" took: " + constructionTime);
             return ret;
         }
     }

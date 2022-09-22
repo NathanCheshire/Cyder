@@ -9,6 +9,7 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.DeviceNotFoundException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.time.TimeUtil;
 import cyder.ui.frame.CyderFrame;
@@ -403,7 +404,7 @@ public final class UiUtil {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
+                Logger.log(LogTag.UI_ACTION, e.getComponent());
             }
         };
     }

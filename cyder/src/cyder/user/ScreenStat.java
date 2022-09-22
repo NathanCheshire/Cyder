@@ -2,6 +2,7 @@ package cyder.user;
 
 import com.google.common.base.Objects;
 import cyder.enums.Direction;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
 /**
@@ -67,7 +68,7 @@ public class ScreenStat {
         this.consoleOnTop = consoleOnTop;
         this.consoleDirection = consoleDirection;
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**

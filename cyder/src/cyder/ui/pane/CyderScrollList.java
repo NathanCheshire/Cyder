@@ -3,6 +3,7 @@ package cyder.ui.pane;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
@@ -135,7 +136,7 @@ public class CyderScrollList {
                 ? CyderColors.defaultDarkModeTextColor
                 : CyderColors.navy, 5, false);
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -46,7 +47,7 @@ public class CyderLabel extends JLabel {
 
         addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**

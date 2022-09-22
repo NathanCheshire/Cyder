@@ -12,6 +12,7 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.time.TimeUtil;
@@ -138,7 +139,7 @@ public class NetworkUtil {
 
         try {
             Internet.browse(new URI(url));
-            Logger.log(Logger.Tag.LINK, url);
+            Logger.log(LogTag.LINK, url);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
@@ -220,17 +221,17 @@ public class NetworkUtil {
     static {
         if (PropLoader.propExists(LATENCY_IP_KEY)) {
             latencyIp = PropLoader.getString(LATENCY_IP_KEY);
-            Logger.log(Logger.Tag.DEBUG, "Set latency ip as " + latencyIp);
+            Logger.log(LogTag.DEBUG, "Set latency ip as " + latencyIp);
         }
 
         if (PropLoader.propExists(LATENCY_PORT_KEY)) {
             latencyPort = PropLoader.getInteger(LATENCY_PORT_KEY);
-            Logger.log(Logger.Tag.DEBUG, "Set latency port as " + latencyPort);
+            Logger.log(LogTag.DEBUG, "Set latency port as " + latencyPort);
         }
 
         if (PropLoader.propExists(LATENCY_NAME)) {
             latencyHostName = PropLoader.getString(LATENCY_NAME);
-            Logger.log(Logger.Tag.DEBUG, "Set latency host name as " + latencyHostName);
+            Logger.log(LogTag.DEBUG, "Set latency host name as " + latencyHostName);
         }
     }
 
@@ -260,7 +261,7 @@ public class NetworkUtil {
             ExceptionHandler.handle(e);
         }
 
-        Logger.log(Logger.Tag.DEBUG, "Latency of " + latencyHostName + " (" + latencyIp
+        Logger.log(LogTag.DEBUG, "Latency of " + latencyHostName + " (" + latencyIp
                 + ":" + latencyPort + ") found to be " + TimeUtil.formatMillis(latency));
 
         return latency;

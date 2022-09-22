@@ -12,6 +12,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.utils.*;
 
@@ -111,7 +112,7 @@ public final class UserUtil {
             // don't bother with other actions if the written value was no different than the previous
             if (currentLevenshteinDistance > 0) {
                 // log the write since we know the user is valid
-                Logger.log(Logger.Tag.SYSTEM_IO, "[JSON WRITE] [Levenshtein = "
+                Logger.log(LogTag.SYSTEM_IO, "[JSON WRITE] [Levenshtein = "
                         + currentLevenshteinDistance + "] User was written to file: "
                         + OsUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
 
@@ -268,7 +269,7 @@ public final class UserUtil {
             if (mostRecentBackup == null || !FileUtil.fileContentsEqual(jsonFile, mostRecentBackup)) {
                 File newBackup = OsUtil.buildFile(Dynamic.PATH, Dynamic.BACKUP.getDirectoryName(), backupFilename);
                 if (!newBackup.createNewFile()) {
-                    Logger.log(Logger.Tag.DEBUG, "Failed to create backup file: "
+                    Logger.log(LogTag.DEBUG, "Failed to create backup file: "
                             + newBackup.getAbsolutePath() + ", for user: " + uuid);
                     return;
                 }
@@ -409,7 +410,7 @@ public final class UserUtil {
 
                 if (attempts == MAX_CREATION_ATTEMPTS) {
                     // log the failure
-                    Logger.log(Logger.Tag.SYSTEM_IO,
+                    Logger.log(LogTag.SYSTEM_IO,
                             "Unable to create all user files for user [" + uuid
                                     + "] after " + MAX_CREATION_ATTEMPTS + " attempts");
                 }
@@ -726,7 +727,7 @@ public final class UserUtil {
         boolean shouldIgnore = StringUtil.in(id, true, IGNORE_USER_DATA);
 
         if (!shouldIgnore) {
-            Logger.log(Logger.Tag.SYSTEM_IO, "Userdata requested: " + id);
+            Logger.log(LogTag.SYSTEM_IO, "Userdata requested: " + id);
         }
 
         try {
@@ -887,7 +888,7 @@ public final class UserUtil {
             String uuid = name.split("_")[0];
 
             if (!StringUtil.in(uuid, false, getUserUuids())) {
-                Logger.log(Logger.Tag.DEBUG, "Deleting backup file not linked to user: " + name);
+                Logger.log(LogTag.DEBUG, "Deleting backup file not linked to user: " + name);
                 OsUtil.deleteFile(backupFile);
             }
         }
@@ -954,7 +955,7 @@ public final class UserUtil {
                     writer.close();
 
                     // log success
-                    Logger.log(Logger.Tag.CORRUPTION,
+                    Logger.log(LogTag.CORRUPTION,
                             "[BACKUP SUCCESS] Successfully restored "
                                     + uuid + " from: " + FileUtil.getFilename(userJsonBackup.get().getName()));
 
@@ -964,7 +965,7 @@ public final class UserUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 // exception above so proceed as normal
-                Logger.log(Logger.Tag.CORRUPTION,
+                Logger.log(LogTag.CORRUPTION,
                         "[BACKUP FAILURE] attempted restoration of " + uuid + " failed");
             }
 
@@ -1036,7 +1037,7 @@ public final class UserUtil {
                 }
 
                 InformHandler.inform(new InformHandler.Builder(informString).setTitle("Userdata Corruption"));
-                Logger.log(Logger.Tag.CORRUPTION, "[Resulting Popup]\n" + informString);
+                Logger.log(LogTag.CORRUPTION, "[Resulting Popup]\n" + informString);
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -1214,7 +1215,7 @@ public final class UserUtil {
             File createFile = new File(saveDir, name);
 
             if (createFile.exists()) {
-                Logger.log(Logger.Tag.SYSTEM_IO, "File already existed in userspace: " + name);
+                Logger.log(LogTag.SYSTEM_IO, "File already existed in userspace: " + name);
                 return createFile;
             }
 
@@ -1224,7 +1225,7 @@ public final class UserUtil {
                 }
 
                 if (OsUtil.createFile(createFile, true)) {
-                    Logger.log(Logger.Tag.SYSTEM_IO, "Created file in userspace: " + name);
+                    Logger.log(LogTag.SYSTEM_IO, "Created file in userspace: " + name);
                     return createFile;
                 }
             } catch (Exception ignored) {

@@ -1,6 +1,7 @@
 package cyder.user;
 
 import com.google.common.base.Objects;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;
@@ -16,7 +17,7 @@ public class User {
      * Creates a new User object.
      */
     public User() {
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     // ---------------------------------------------------
@@ -994,7 +995,7 @@ public class User {
      */
     private static void getterHook(String id, Object value) {
         if (!StringUtil.in(id, true, UserUtil.getIgnoreUserData())) {
-            Logger.log(Logger.Tag.USER_GET, "key = " + id + ", value = " + value);
+            Logger.log(LogTag.USER_GET, "key = " + id + ", value = " + value);
         }
     }
 

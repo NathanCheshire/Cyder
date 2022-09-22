@@ -12,6 +12,7 @@ import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
@@ -118,7 +119,7 @@ public class BaseInputHandler {
         this.linkedOutputPane = new CyderOutputPane(Preconditions.checkNotNull(outputArea));
         initializeSpecialThreads();
         clearLists();
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**
@@ -180,7 +181,7 @@ public class BaseInputHandler {
      */
     public final void handle(String op, boolean userTriggered) {
         if (!handlePreliminaries(op, userTriggered)) {
-            Logger.log(Logger.Tag.HANDLE_METHOD, "Failed handle preliminaries for op: " + op);
+            Logger.log(LogTag.HANDLE_METHOD, "Failed handle preliminaries for op: " + op);
             return;
         }
 
@@ -258,7 +259,7 @@ public class BaseInputHandler {
         }
 
         String commandAndArgsToString = commandAndArgsToString();
-        Logger.log(Logger.Tag.CLIENT,
+        Logger.log(LogTag.CLIENT,
                 (userTriggered ? "" : "[SIMULATED INPUT]: ") + commandAndArgsToString);
 
         if (UserUtil.getCyderUser().getFilterchat().equals("1")) {
@@ -388,7 +389,7 @@ public class BaseInputHandler {
                 if (tolerance == 1.0) return;
 
                 if (!StringUtil.isNullOrEmpty(similarCommand)) {
-                    Logger.log(Logger.Tag.DEBUG, "Similar command to \""
+                    Logger.log(LogTag.DEBUG, "Similar command to \""
                             + command + "\" found with tolerance of " + tolerance
                             + ", command = \"" + similarCommand + "\"");
 
@@ -680,7 +681,7 @@ public class BaseInputHandler {
         Preconditions.checkArgument(!list.isEmpty());
 
         Object ret = list.removeFirst();
-        Logger.log(Logger.Tag.CONSOLE_OUT, ret);
+        Logger.log(LogTag.CONSOLE_OUT, ret);
         return ret;
     }
 
@@ -937,7 +938,7 @@ public class BaseInputHandler {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(redirectionFile, true))) {
             redirectionSem.acquire();
             writer.write(String.valueOf(object));
-            Logger.log(Logger.Tag.CONSOLE_REDIRECTION, redirectionFile);
+            Logger.log(LogTag.CONSOLE_REDIRECTION, redirectionFile);
             redirectionSem.release();
         } catch (Exception e) {
             ExceptionHandler.handle(e);

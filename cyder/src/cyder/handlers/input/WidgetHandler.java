@@ -7,6 +7,7 @@ import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.utils.ReflectionUtil;
 
@@ -44,7 +45,7 @@ public class WidgetHandler extends InputHandler {
                                 if (m.getParameterCount() == 0) {
                                     m.invoke(clazz);
 
-                                    Logger.log(Logger.Tag.WIDGET_OPENED,
+                                    Logger.log(LogTag.WIDGET_OPENED,
                                             shortWidgetName + ", trigger = " +
                                                     getInputHandler().commandAndArgsToString());
 

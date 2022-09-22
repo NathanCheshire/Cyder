@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import com.google.common.collect.ImmutableMap;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.ReflectionUtil;
@@ -128,7 +129,7 @@ public class CyderComponentResizer extends MouseAdapter {
         setDragInsets(dragInsets);
         setSnapSize(snapSize);
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**
@@ -590,7 +591,7 @@ public class CyderComponentResizer extends MouseAdapter {
             this.component = component;
             this.canFocus = canFocus;
 
-            Logger.log(Logger.Tag.OBJECT_CREATION, this);
+            Logger.log(LogTag.OBJECT_CREATION, this);
         }
 
         /**

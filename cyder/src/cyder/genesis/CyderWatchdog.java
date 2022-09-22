@@ -6,6 +6,7 @@ import cyder.enums.ExitCondition;
 import cyder.enums.IgnoreThread;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -60,7 +61,7 @@ public final class CyderWatchdog {
      */
     public static void initializeWatchDog() {
         if (!PropLoader.getBoolean("activate_watchdog")) {
-            Logger.log(Logger.Tag.DEBUG, "Watchdog skipped");
+            Logger.log(LogTag.DEBUG, "Watchdog skipped");
             return;
         }
 
@@ -83,7 +84,7 @@ public final class CyderWatchdog {
                         }
                     }
                 } catch (Exception e) {
-                    Logger.Debug(ExceptionHandler.getPrintableException(e));
+                    Logger.log(LogTag.DEBUG, ExceptionHandler.getPrintableException(e));
                 }
             }
         }, IgnoreThread.WatchdogInitializer.getName());
@@ -120,19 +121,19 @@ public final class CyderWatchdog {
 
                     // log if getting close to a timeout
                     if (get > MAX_WATCHDOG_COUNT / 2) {
-                        Logger.log(Logger.Tag.DEBUG, "Watchdog timer over halfway "
+                        Logger.log(LogTag.DEBUG, "Watchdog timer over halfway "
                                 + "to timeout, value = " + get);
                     }
 
                     if (watchdogCounter.get() == MAX_WATCHDOG_COUNT) {
-                        Logger.log(Logger.Tag.DEBUG, "Halt detected by watchdog,");
+                        Logger.log(LogTag.DEBUG, "Halt detected by watchdog,");
 
                         if (OsUtil.JAR_MODE) {
-                            Logger.log(Logger.Tag.DEBUG, "JAR_MODE detected; attempting to " +
+                            Logger.log(LogTag.DEBUG, "JAR_MODE detected; attempting to " +
                                     "locate jar to boostrap from");
                             bootstrap();
                         } else {
-                            Logger.log(Logger.Tag.DEBUG, "JAR_MODE is not active thus " +
+                            Logger.log(LogTag.DEBUG, "JAR_MODE is not active thus " +
                                     "no jar can be located to boostrap from; exiting Cyder");
                             OsUtil.exit(ExitCondition.WatchdogTimeout);
                         }

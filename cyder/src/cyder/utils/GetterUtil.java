@@ -7,6 +7,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.button.CyderButton;
@@ -41,7 +42,7 @@ public class GetterUtil {
      * To obtain an instance, use {@link GetterUtil#getInstance()}.
      */
     private GetterUtil() {
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**
@@ -860,7 +861,7 @@ public class GetterUtil {
             this.title = checkNotNull(title);
             checkArgument(title.length() >= MINIMUM_TITLE_LENGTH);
 
-            Logger.log(Logger.Tag.OBJECT_CREATION, this);
+            Logger.log(LogTag.OBJECT_CREATION, this);
         }
 
         /**

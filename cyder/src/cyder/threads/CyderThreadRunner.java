@@ -3,6 +3,7 @@ package cyder.threads;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
 import java.time.Duration;
@@ -31,7 +32,7 @@ public final class CyderThreadRunner {
         Preconditions.checkNotNull(name);
         Preconditions.checkArgument(!name.isEmpty());
 
-        Logger.log(Logger.Tag.THREAD, name);
+        Logger.log(LogTag.THREAD, name);
         new Thread(runnable, name).start();
     }
 

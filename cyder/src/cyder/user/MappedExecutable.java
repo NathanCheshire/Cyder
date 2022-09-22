@@ -3,6 +3,7 @@ package cyder.user;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
 import cyder.console.Console;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.utils.ReflectionUtil;
 
@@ -33,7 +34,7 @@ public class MappedExecutable {
         this.name = Preconditions.checkNotNull(name);
         this.filepath = Preconditions.checkNotNull(filepath);
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**

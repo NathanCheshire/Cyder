@@ -6,6 +6,7 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -117,7 +118,7 @@ public final class NecessarySubroutines {
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 try {
                     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, fontFile));
-                    Logger.log(Logger.Tag.FONT_LOADED, FileUtil.getFilename(fontFile));
+                    Logger.log(LogTag.FONT_LOADED, FileUtil.getFilename(fontFile));
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
                     return false;
@@ -138,11 +139,11 @@ public final class NecessarySubroutines {
 
         CyderThreadRunner.submit(() -> {
             try {
-                Logger.log(Logger.Tag.DEBUG, "Starting instance socket on port " + INSTANCE_SOCKET_PORT);
+                Logger.log(LogTag.DEBUG, "Starting instance socket on port " + INSTANCE_SOCKET_PORT);
                 serverSocket = new ServerSocket(INSTANCE_SOCKET_PORT).accept();
             } catch (Exception ignored) {
                 singularInstance.set(false);
-                Logger.log(Logger.Tag.DEBUG, "Failed to start singular instance socket");
+                Logger.log(LogTag.DEBUG, "Failed to start singular instance socket");
             }
         }, IgnoreThread.SingularInstanceEnsurer.getName());
 

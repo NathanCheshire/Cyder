@@ -6,6 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Suggestion;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
@@ -212,7 +213,7 @@ public class GeneralPrintHandler extends InputHandler {
                     "\"I chase your love around figure 8, I need you more than I can take\""));
         } else if (getInputHandler().commandIs("clearops")) {
             Console.INSTANCE.clearCommandHistory();
-            Logger.log(Logger.Tag.HANDLE_METHOD, "User cleared command history");
+            Logger.log(LogTag.HANDLE_METHOD, "User cleared command history");
             getInputHandler().println("Command history reset");
         } else if (getInputHandler().commandIs("anagram")) {
             if (getInputHandler().checkArgsLength(2)) {

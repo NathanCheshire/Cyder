@@ -12,6 +12,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderUrls;
 import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.parsers.remote.weather.WeatherData;
 import cyder.threads.CyderThreadRunner;
@@ -327,7 +328,7 @@ public class WeatherWidget {
      * Creates a new weather widget initialized to the user's current location.
      */
     private WeatherWidget() {
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**
