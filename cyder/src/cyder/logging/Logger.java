@@ -1,7 +1,6 @@
 package cyder.logging;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
@@ -14,7 +13,10 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
-import cyder.utils.*;
+import cyder.utils.ColorUtil;
+import cyder.utils.FileUtil;
+import cyder.utils.OsUtil;
+import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,11 +68,6 @@ public final class Logger {
      * The rate at which to log the amount of objects created since the last log.
      */
     private static final int OBJECT_LOG_FREQUENCY = 5000;
-
-    /**
-     * The maximum number of chars per line of a log.
-     */
-    private static final int MAX_LINE_LENGTH = 120;
 
     /**
      * The number of spaces to prepend to a continuation line. This ensures wrapped lines are
@@ -140,14 +137,6 @@ public final class Logger {
      */
     private static final String LOG_CONCLUDED = "LOG CALL AFTER LOG CONCLUDED";
 
-    @ForReadability
-    public static boolean emptyOrNewline(String string) {
-        Preconditions.checkNotNull(string);
-        string = string.trim();
-
-        return string.isEmpty() || string.equals("\n");
-    }
-
     /**
      * The main log method to log an action associated with a type tag.
      *
@@ -158,9 +147,9 @@ public final class Logger {
     @SuppressWarnings("IfCanBeSwitch")
     public static <T> void log(LogTag tag, T representation) {
         if (logConcluded) {
-            println(getLogTimeTag() + LogTag.constructLogTagPrepend(LOG_CONCLUDED) + representation);
+            println(LoggingUtil.getLogTimeTag() + LogTag.constructLogTagPrepend(LOG_CONCLUDED) + representation);
             return;
-        } else if (representation instanceof String string && emptyOrNewline(string)) {
+        } else if (representation instanceof String string && LoggingUtil.emptyOrNewline(string)) {
             log(LogTag.DEBUG, "Attempted to log a new or empty line");
             return;
         }
@@ -169,7 +158,7 @@ public final class Logger {
             logAwaitingLogCalls();
         }
 
-        StringBuilder logBuilder = new StringBuilder(getLogTimeTag());
+        StringBuilder logBuilder = new StringBuilder(LoggingUtil.getLogTimeTag());
 
         switch (tag) {
             case CLIENT:
@@ -245,7 +234,7 @@ public final class Logger {
                 formatAndWriteLine(logBuilder.toString(), tag);
 
                 StringBuilder eolBuilder = new StringBuilder();
-                eolBuilder.append(getLogTimeTag());
+                eolBuilder.append(LoggingUtil.getLogTimeTag());
                 eolBuilder.append("[EOL]: ");
                 eolBuilder.append("Log completed, exiting Cyder with exit code: ");
 
@@ -360,7 +349,7 @@ public final class Logger {
 
         String logLine = logBuilder.toString().trim();
 
-        if (logLine.length() <= getLogTimeTag().trim().length()) {
+        if (logLine.length() <= LoggingUtil.getLogTimeTag().trim().length()) {
             log(LogTag.EXCEPTION, "Log call resulted in nothing built; tag = " + tag);
         } else if (!logStarted.get()) {
             awaitingLogCalls.add(new AwaitingLog(logLine, tag));
@@ -417,37 +406,11 @@ public final class Logger {
     }
 
     /**
-     * The filename of the file that contains the Cyder signature to place at the top of log files.
-     */
-    private static final String SIGNATURE_FILE_NAME = "cyder.txt";
-
-    /**
-     * The list of lines from cyder.txt depicting a sweet Cyder Ascii art logo.
-     */
-    private static ImmutableList<String> headerLogoLines = ImmutableList.of();
-
-    static {
-        try (BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(StaticUtil.getStaticResource(SIGNATURE_FILE_NAME)))) {
-            LinkedList<String> set = new LinkedList<>();
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                set.add(line);
-            }
-
-            headerLogoLines = ImmutableList.copyOf(set);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
      * Writes the lines contained in static/txt/cyder.txt to the current log file.
      */
     private static void writeCyderAsciiArt() {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentLog, true))) {
-            for (String line : headerLogoLines) {
+            for (String line : LoggingUtil.getHeaderLogoLines()) {
                 bufferedWriter.write(line);
                 bufferedWriter.newLine();
             }
@@ -503,11 +466,11 @@ public final class Logger {
 
         if (logFileDeletedMidRuntime()) {
             generateAndSetLogFile();
-            writeLines(insertBreaks(getLogRecoveryDebugLine()));
+            writeLines(LoggingUtil.insertBreaks(LoggingUtil.getLogRecoveryDebugLine()));
         }
 
         if (tag != LogTag.EXCEPTION) {
-            writeLines(insertBreaks(line));
+            writeLines(LoggingUtil.insertBreaks(line));
         } else {
             writeLines(line.split("\n"));
         }
@@ -518,17 +481,6 @@ public final class Logger {
     @ForReadability
     private static boolean logFileDeletedMidRuntime() {
         return !getCurrentLog().exists();
-    }
-
-    /**
-     * Generates and returns a log line for when a log was deleted mid session.
-     *
-     * @return returns a log line for when a log was deleted mid session
-     */
-    @ForReadability
-    private static String getLogRecoveryDebugLine() {
-        return getLogTimeTag() + "[DEBUG]: [Log was deleted during runtime,"
-                + " recreating and restarting log at: " + TimeUtil.userTime() + "]";
     }
 
     /**
@@ -581,112 +533,6 @@ public final class Logger {
         } catch (Exception e) {
             log(LogTag.DEBUG, ExceptionHandler.getPrintableException(e));
         }
-    }
-
-    /**
-     * The chars to check to split at before splitting in between a line at whatever character a split index falls on.
-     */
-    private static final ImmutableList<Character> BREAK_CHARS
-            = ImmutableList.of(' ', '/', '\'', '-', '_', '.', '=', ',', ':');
-
-    /**
-     * Only check 10 chars to the left of a line unless we force a break regardless
-     * of whether a space is at that char.
-     */
-    private static final int BREAK_INSERTION_TOL = 10;
-
-    /**
-     * Returns the provided string with line breaks inserted if needed to ensure
-     * the line length does not surpass {@link Logger#MAX_LINE_LENGTH}.
-     *
-     * @param line the line to insert breaks in if needed
-     * @return the formatted lines
-     */
-    public static LinkedList<String> insertBreaks(String line) {
-        Preconditions.checkNotNull(line);
-
-        LinkedList<String> lines = new LinkedList<>();
-
-        while (line.length() > MAX_LINE_LENGTH) {
-            boolean breakInserted = false;
-
-            for (char splitChar : BREAK_CHARS) {
-                if (line.charAt(MAX_LINE_LENGTH) == splitChar) {
-                    lines.add(line.substring(0, MAX_LINE_LENGTH));
-                    line = line.substring(MAX_LINE_LENGTH);
-                    breakInserted = true;
-                    break;
-                }
-
-                int leftSplitIndex = checkLeftForSplitChar(line, splitChar);
-                if (leftSplitIndex != -1) {
-                    lines.add(line.substring(0, leftSplitIndex));
-                    line = line.substring(leftSplitIndex);
-                    breakInserted = true;
-                    break;
-                }
-
-                int rightSplitIndex = checkRightForSplitChar(line, splitChar);
-                if (rightSplitIndex != -1) {
-                    lines.add(line.substring(0, rightSplitIndex));
-                    line = line.substring(rightSplitIndex);
-                    breakInserted = true;
-                    break;
-                }
-            }
-
-            if (breakInserted) continue;
-            // Couldn't find a split char from the list so split at the maximum index
-            lines.add(line.substring(0, MAX_LINE_LENGTH));
-            line = line.substring(MAX_LINE_LENGTH);
-        }
-
-        lines.add(line);
-
-        return lines;
-    }
-
-    /**
-     * Attempts to find the index of the split char within the final {@link #BREAK_INSERTION_TOL}
-     * chars of the end of the provided string. If found, returns the index of the found splitChar.
-     *
-     * @param line      the line to search through
-     * @param splitChar the character to split at
-     * @return the index of the split char if found, -1 else
-     */
-    private static int checkLeftForSplitChar(String line, char splitChar) {
-        int ret = -1;
-
-        for (int i = MAX_LINE_LENGTH - BREAK_INSERTION_TOL ; i < MAX_LINE_LENGTH ; i++) {
-            if (line.charAt(i) == splitChar) {
-                ret = i;
-                break;
-            }
-        }
-
-        return ret;
-    }
-
-    /**
-     * Attempts to find the index of the split char within {@link #BREAK_INSERTION_TOL} chars of the right of
-     * {@link #MAX_LINE_LENGTH}. If found, returns the index of the found splitChar.
-     *
-     * @param line      the line to search through
-     * @param splitChar the character to split at
-     * @return the index of the slit char if found, -1 else
-     */
-    private static int checkRightForSplitChar(String line, char splitChar) {
-        int ret = -1;
-
-        for (int i = MAX_LINE_LENGTH ; i < MAX_LINE_LENGTH + BREAK_INSERTION_TOL ; i++) {
-            if (i >= line.length()) break;
-            if (line.charAt(i) == splitChar) {
-                ret = i;
-                break;
-            }
-        }
-
-        return ret;
     }
 
     /**
@@ -758,7 +604,7 @@ public final class Logger {
     /**
      * A pattern for the start of a standard log line used to find the time of the log call.
      */
-    private static final Pattern standardLogLine =
+    private static final Pattern standardLogLinePattern =
             Pattern.compile("\\s*\\[\\d+-\\d+-\\d+\\.\\d+]\\s*.*");
 
     /**
@@ -786,7 +632,7 @@ public final class Logger {
                     lines.add(line);
                 }
 
-                if (standardLogLine.matcher(line).matches()) {
+                if (standardLogLinePattern.matcher(line).matches()) {
                     beforeFirstTimeTag = false;
                 }
             }
@@ -808,7 +654,7 @@ public final class Logger {
             lastLine = lines.get(i);
             currentLine = lines.get(i + 1);
 
-            if (areLogLinesEquivalent(lastLine, currentLine)) {
+            if (LoggingUtil.areLogLinesEquivalent(lastLine, currentLine)) {
                 currentCount++;
             } else {
                 if (currentCount > 1) {
@@ -846,35 +692,6 @@ public final class Logger {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
-    }
-
-    /**
-     * Returns whether the two log lines are equivalent.
-     *
-     * @param logLine1 the first log line
-     * @param logLine2 the second log line
-     * @return whether the two log lines are equivalent
-     */
-    private static boolean areLogLinesEquivalent(String logLine1, String logLine2) {
-        Preconditions.checkNotNull(logLine1);
-        Preconditions.checkNotNull(logLine2);
-
-        // if not full line tags, directly compare
-        if (!logLine1.startsWith("[")
-                || !logLine1.contains("]")
-                || !logLine2.contains("]")
-                || !logLine2.startsWith("["))
-            return logLine1.equals(logLine2);
-
-        // guaranteed to have square braces now
-        String timeTag1 = logLine1.substring(logLine1.indexOf("["), logLine2.indexOf("]") + 1).trim();
-        String timeTag2 = logLine2.substring(logLine2.indexOf("["), logLine2.indexOf("]") + 1).trim();
-
-        logLine1 = logLine1.replace(timeTag1, "");
-        logLine2 = logLine2.replace(timeTag2, "");
-
-        return !StringUtil.isNullOrEmpty(logLine1) && !StringUtil.isNullOrEmpty(logLine2) &&
-                logLine1.equalsIgnoreCase(logLine2);
     }
 
     /**
@@ -922,11 +739,11 @@ public final class Logger {
                              with exit condition 1 due to something failing on startup
                              which is why this says "crashed unexpectedly"
                              */
-                            String logBuilder = getLogTimeTag() + "[EOL]: " +
-                                    "Log completed, Cyder crashed unexpectedly: " +
-                                    "exit code: " + ExitCondition.ExternalStop.getCode() +
-                                    " " + ExitCondition.ExternalStop.getDescription() +
-                                    ", exceptions thrown: " + exceptions;
+                            String logBuilder = LoggingUtil.getLogTimeTag() + "[EOL]: "
+                                    + "Log completed, Cyder crashed unexpectedly: "
+                                    + "exit code: " + ExitCondition.ExternalStop.getCode()
+                                    + " " + ExitCondition.ExternalStop.getDescription()
+                                    + ", exceptions thrown: " + exceptions;
 
                             Files.write(Paths.get(log.getAbsolutePath()),
                                     (logBuilder).getBytes(), StandardOpenOption.APPEND);
@@ -957,7 +774,7 @@ public final class Logger {
                         int objectsCreated = objectCreationCounter.getAndSet(0);
                         totalObjectsCreated += objectsCreated;
 
-                        formatAndWriteLine(getLogTimeTag() + "[OBJECT CREATION]: "
+                        formatAndWriteLine(LoggingUtil.getLogTimeTag() + "[OBJECT CREATION]: "
                                 + "Objects created since last delta (" + OBJECT_LOG_FREQUENCY + "ms): "
                                 + objectsCreated, LogTag.OBJECT_CREATION);
                     }
@@ -969,15 +786,4 @@ public final class Logger {
             }
         }, IgnoreThread.ObjectCreationLogger.getName());
     }
-
-    /**
-     * Returns the time tag placed at the beginning of all log statements.
-     * Example: "[22-12-39] "
-     *
-     * @return the time tag placed at the beginning of all log statements
-     */
-    private static String getLogTimeTag() {
-        return "[" + TimeUtil.getLogLineTime() + "] ";
-    }
-
 }

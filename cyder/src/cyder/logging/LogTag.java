@@ -3,7 +3,7 @@ package cyder.logging;
 import cyder.enums.Dynamic;
 
 /**
- * Supported tags for log entries
+ * Supported tags for log entries.
  */
 public enum LogTag {
     /**
@@ -163,6 +163,9 @@ public enum LogTag {
         return "[" + tagString + "]: ";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return constructLogTagPrepend(logName);
