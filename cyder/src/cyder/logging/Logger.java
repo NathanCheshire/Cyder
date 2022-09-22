@@ -33,9 +33,6 @@ import java.util.regex.Pattern;
 
 import static java.lang.System.out;
 
-// todo checking animation test with other check marks
-// todo checking animation kind of breaks checkbox groups
-
 /**
  * Logger class used to log useful information about any Cyder instance from beginning at
  * runtime to exit at JVM termination.
@@ -69,12 +66,14 @@ public final class Logger {
      */
     private static final int OBJECT_LOG_FREQUENCY = 5000;
 
+    @ForReadability
+    private static final int BRACKETS_SPACE_LEN = 3;
+
     /**
      * The number of spaces to prepend to a continuation line. This ensures wrapped lines are
      * started after the header such as "[hh-mm-ss.SSSS] " above it.
      */
-    private static final int NEWLINE_SPACE_OFFSET = 15;
-    // todo make dynamic
+    private static final int NEWLINE_SPACE_OFFSET = TimeUtil.getLogLineTime().length() + BRACKETS_SPACE_LEN;
 
     /**
      * Whether the current log should not be written to again.

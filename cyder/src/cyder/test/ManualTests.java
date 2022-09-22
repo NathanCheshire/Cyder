@@ -375,6 +375,7 @@ public final class ManualTests {
         CyderCheckbox cb1 = new CyderCheckbox();
         cb1.setBounds(175, 225, 50, 50);
         cb1.setRoundedCorners(false);
+        cb1.setCheckShape(CyderCheckbox.CheckShape.FILLED_CIRCLE);
         testFrame.getContentPane().add(cb1);
 
         testFrame.finalizeAndShow();

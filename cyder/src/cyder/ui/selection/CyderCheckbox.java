@@ -283,7 +283,7 @@ public class CyderCheckbox extends JLabel {
     /**
      * The delay between background animation increments.
      */
-    private static final int BACKGROUND_ANIMATION_DELAY = 2;
+    private static final int BACKGROUND_ANIMATION_DELAY = 1;
 
     /**
      * The name of the checkbox animation thread.
@@ -302,6 +302,8 @@ public class CyderCheckbox extends JLabel {
         inCheckAnimation.set(true);
 
         CyderThreadRunner.submit(() -> {
+            if (cyderCheckboxGroup != null) cyderCheckboxGroup.disableCheckboxes();
+
             IntStream.range(0, sideLength + 1).forEach(sideLen -> {
                 expandingSideLength = sideLen;
                 repaint();
@@ -319,6 +321,10 @@ public class CyderCheckbox extends JLabel {
 
             expandingSideLength = sideLength;
             setCheckColor(originalCheckColor);
+            if (cyderCheckboxGroup != null) {
+                cyderCheckboxGroup.enableCheckboxes();
+                cyderCheckboxGroup.refreshNonOwnerBoxes();
+            }
             inCheckAnimation.set(false);
         }, CHECK_ANIMATION_THREAD_NAME);
     }

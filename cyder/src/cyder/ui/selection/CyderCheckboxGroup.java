@@ -71,11 +71,32 @@ public class CyderCheckboxGroup {
 
         currentlyCheckedBox = checkbox;
 
-        for (CyderCheckbox cb : checkboxes) {
-            if (cb != currentlyCheckedBox) {
-                cb.setNotChecked();
+        refreshNonOwnerBoxes();
+    }
+
+    /**
+     * Calls setNotChecked on all checkboxes not equal to the currently checked box of this group.
+     */
+    public void refreshNonOwnerBoxes() {
+        checkboxes.forEach(checkBox -> {
+            if (checkBox != currentlyCheckedBox) {
+                checkBox.setNotChecked();
             }
-        }
+        });
+    }
+
+    /**
+     * Disables all checkboxes in this group.
+     */
+    public void disableCheckboxes() {
+        checkboxes.forEach(checkBox -> checkBox.setEnabled(false));
+    }
+
+    /**
+     * Enables all checkboxes in this group.
+     */
+    public void enableCheckboxes() {
+        checkboxes.forEach(checkBox -> checkBox.setEnabled(true));
     }
 
     /**
