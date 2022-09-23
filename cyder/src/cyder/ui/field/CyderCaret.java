@@ -1,5 +1,6 @@
 package cyder.ui.field;
 
+import com.google.common.base.Preconditions;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 
@@ -24,11 +25,16 @@ public class CyderCaret extends DefaultCaret {
      * @param caretColor the color for the caret
      */
     public CyderCaret(Color caretColor) {
+        this.caretColor = Preconditions.checkNotNull(caretColor);
         setBlinkRate(500);
-        this.caretColor = caretColor;
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
+
+    /**
+     * The character to use for computing the width of the caret.
+     */
+    private static final String WIDTH_CHAR = ">";
 
     /**
      * {@inheritDoc}
@@ -42,7 +48,7 @@ public class CyderCaret extends DefaultCaret {
         JTextComponent comp = getComponent();
         FontMetrics fm = comp.getFontMetrics(comp.getFont());
 
-        int textWidth = fm.stringWidth(">");
+        int textWidth = fm.stringWidth(WIDTH_CHAR);
         int textHeight = fm.getHeight();
 
         x = r.x;
@@ -60,26 +66,23 @@ public class CyderCaret extends DefaultCaret {
     @Override
     public void paint(Graphics g) {
         JTextComponent comp = getComponent();
-        if (comp == null) {
-            return;
-        }
 
-        int dot = getDot();
-        Rectangle2D r;
+        if (comp == null) return;
+
+        int currentPosition = getDot();
+        Rectangle2D rectangle;
 
         try {
-            r = comp.modelToView2D(dot);
+            rectangle = comp.modelToView2D(currentPosition);
         } catch (BadLocationException e) {
             return;
         }
 
-        if (r == null) {
-            return;
-        }
+        if (rectangle == null) return;
 
-        if (x != r.getX() || y != r.getY()) {
-            repaint(); // erase previous location of caret
-
+        // Remove previous caret
+        if (x != rectangle.getX() || y != rectangle.getY()) {
+            repaint();
         }
 
         if (isVisible()) {

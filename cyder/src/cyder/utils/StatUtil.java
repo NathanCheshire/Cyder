@@ -2,6 +2,7 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.annotations.ForReadability;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -19,12 +20,10 @@ import java.io.FileReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.LinkedList;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Utilities around general statistics gathering.
@@ -58,6 +57,11 @@ public final class StatUtil {
     }
 
     /**
+     * The system property key to obtain the java class path.
+     */
+    private static final String JAVA_CLASS_PATH = "java.class.path";
+
+    /**
      * Returns an immutable list detailing the java system properties of the current JVM.
      *
      * @return an immutable list detailing the java system properties of the current JVM
@@ -65,12 +69,11 @@ public final class StatUtil {
     public static ImmutableList<String> getSystemProperties() {
         LinkedList<String> ret = new LinkedList<>();
 
-        String systemProps = System.getProperty("java.class.path");
+        String systemProps = System.getProperty(JAVA_CLASS_PATH);
         StringBuilder separatedSystemProps = new StringBuilder();
 
-        for (String part : systemProps.split(";")) {
-            separatedSystemProps.append(part).append("\n");
-        }
+        Arrays.stream(systemProps.split(";"))
+                .forEach(part -> separatedSystemProps.append(part).append(newline));
 
         ret.add("File Separator: " + System.getProperty("file.separator"));
         ret.add("Class Path: " + separatedSystemProps);
@@ -91,6 +94,11 @@ public final class StatUtil {
     }
 
     /**
+     * If I hit it one time ima pipe her.
+     */
+    private static final String NO_LIMIT = "no limit";
+
+    /**
      * Returns an immutable list detailing the found computer memory spaces.
      * <p>
      * Note: invocation of this method should be done in a separate thread
@@ -107,17 +115,15 @@ public final class StatUtil {
         long maxMemory = Runtime.getRuntime().maxMemory();
 
         ret.add("Maximum memory: " +
-                (maxMemory == Long.MAX_VALUE ? "no limit" : OsUtil.formatBytes(maxMemory)));
+                (maxMemory == Long.MAX_VALUE ? NO_LIMIT : OsUtil.formatBytes(maxMemory)));
         ret.add("Total memory available to JVM: " + OsUtil.formatBytes(Runtime.getRuntime().totalMemory()));
 
-        File[] roots = File.listRoots();
-
-        for (File root : roots) {
+        Arrays.stream(File.listRoots()).forEach(root -> {
             ret.add("File system root: " + root.getAbsolutePath());
             ret.add("Total space (root): " + OsUtil.formatBytes(root.getTotalSpace()));
             ret.add("Free space (root): " + OsUtil.formatBytes(root.getFreeSpace()));
             ret.add("Usable space (root): " + OsUtil.formatBytes(root.getUsableSpace()));
-        }
+        });
 
         return ImmutableList.copyOf(ret);
     }
@@ -186,6 +192,16 @@ public final class StatUtil {
     }
 
     /**
+     * The extension for Java files.
+     */
+    private static final String javaExtension = ".java";
+
+    /**
+     * A new line character.
+     */
+    private static final String newline = "\n";
+
+    /**
      * Returns a string representing statistics found about all .java files found from the starting directory such as
      * comment lines, total lines, and blank lines.
      *
@@ -197,17 +213,14 @@ public final class StatUtil {
         Preconditions.checkNotNull(startDir);
         Preconditions.checkArgument(startDir.exists());
 
-        StringBuilder ret = new StringBuilder(
-                "Numbers in order represent: code lines, comment lines, and blank lines respectively\n");
+        StringBuilder ret = new StringBuilder("Numbers in order represent: "
+                + "code lines, comment lines, and blank lines respectively" + newline);
 
-        ImmutableList<File> javaFiles = FileUtil.getFiles(startDir, ".java");
-
-        for (File f : javaFiles) {
-            ret.append(f.getName().replace(".java", ""))
-                    .append(": ").append(totalLines(f)).append(",")
-                    .append(totalComments(f)).append(",")
-                    .append(totalBlankLines(f)).append("\n");
-        }
+        FileUtil.getFiles(startDir, javaExtension).forEach(javaFile ->
+                ret.append(javaFile.getName().replace(javaExtension, ""))
+                        .append(": ").append(totalLines(javaFile)).append(",")
+                        .append(totalComments(javaFile)).append(",")
+                        .append(totalBlankLines(javaFile)).append(newline));
 
         return ret.toString();
     }
@@ -223,26 +236,25 @@ public final class StatUtil {
         Preconditions.checkNotNull(startDir);
         Preconditions.checkArgument(startDir.exists());
 
-        int ret = 0;
+        AtomicInteger ret = new AtomicInteger();
 
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
             if (files != null && files.length > 0) {
-                for (File f : files) {
-                    ret += totalJavaLines(f);
-                }
+                Arrays.stream(files).forEach(file -> ret.addAndGet(totalJavaLines(file)));
             }
-        } else if (startDir.getName().endsWith(".java")) {
+        } else if (startDir.getName().endsWith(javaExtension)) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
                 String line;
                 int localRet = 0;
 
-                while ((line = lineReader.readLine()) != null)
-                    //not blank and not a comment means a code line
-                    if (!line.trim().isEmpty() && !isComment(line.trim()))
+                while ((line = lineReader.readLine()) != null) {
+                    if (isCodeLine(line)) {
                         localRet++;
+                    }
+                }
 
                 return localRet;
             } catch (Exception ex) {
@@ -250,7 +262,20 @@ public final class StatUtil {
             }
         }
 
-        return ret;
+        return ret.get();
+    }
+
+    /**
+     * Returns whether hte provided line is a code line meaning it is not blank or a comment line.
+     *
+     * @param line the line
+     * @return whether the provided line is a code line
+     */
+    @ForReadability
+    private static boolean isCodeLine(String line) {
+        Preconditions.checkNotNull(line);
+
+        return !line.trim().isEmpty() && !isComment(line.trim());
     }
 
     /**
@@ -274,7 +299,7 @@ public final class StatUtil {
                     ret += totalLines(f);
                 }
             }
-        } else if (startDir.getName().endsWith(".java")) {
+        } else if (startDir.getName().endsWith(javaExtension)) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
                 int localRet = 0;
@@ -312,7 +337,7 @@ public final class StatUtil {
                     ret += totalComments(f);
                 }
             }
-        } else if (startDir.getName().endsWith(".java")) {
+        } else if (startDir.getName().endsWith(javaExtension)) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
                 String line;
@@ -385,7 +410,7 @@ public final class StatUtil {
                     ret += totalBlankLines(f);
                 }
             }
-        } else if (startDir.getName().endsWith(".java")) {
+        } else if (startDir.getName().endsWith(javaExtension)) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
                 String line;
