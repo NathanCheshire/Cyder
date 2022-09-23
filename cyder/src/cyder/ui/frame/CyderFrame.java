@@ -4063,17 +4063,17 @@ public class CyderFrame extends JFrame {
          */
         @Override
         public String toString() {
-            return "NotificationBuilder{" +
-                    "htmlText='" + htmlText + '\'' +
-                    ", viewDuration=" + viewDuration +
-                    ", arrowDir=" + arrowDir +
-                    ", onKillAction=" + onKillAction +
-                    ", notificationDirection=" + notificationDirection +
-                    ", notificationType=" + notificationType +
-                    ", container=" + container +
-                    ", calculateViewDuration=" + calculateViewDuration +
-                    ", notifyTime='" + notifyTime + '\'' +
-                    '}';
+            return "NotificationBuilder{"
+                    + "htmlText='" + htmlText + '\''
+                    + ", viewDuration=" + viewDuration
+                    + ", arrowDir=" + arrowDir
+                    + ", onKillAction=" + onKillAction
+                    + ", notificationDirection=" + notificationDirection
+                    + ", notificationType=" + notificationType
+                    + ", container=" + container
+                    + ", calculateViewDuration=" + calculateViewDuration
+                    + ", notifyTime='" + notifyTime + '\''
+                    + "}";
         }
     }
 }

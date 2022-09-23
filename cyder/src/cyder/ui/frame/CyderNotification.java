@@ -792,7 +792,11 @@ public class CyderNotification extends JLabel {
      */
     @Override
     public int hashCode() {
-        return Objects.hashCode(arrowLen, killed, opacity, builder);
+        int ret = Integer.hashCode(arrowLen);
+        ret = 31 * ret + Boolean.hashCode(killed);
+        ret = 31 * ret + Integer.hashCode(opacity);
+        ret = 31 * ret + builder.hashCode();
+        return ret;
     }
 
     /**

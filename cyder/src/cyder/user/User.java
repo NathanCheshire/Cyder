@@ -1,6 +1,5 @@
 package cyder.user;
 
-import com.google.common.base.Objects;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.utils.ReflectionUtil;
@@ -1004,7 +1003,9 @@ public class User {
      */
     @Override
     public int hashCode() {
-        return Objects.hashCode(name, pass);
+        int ret = name.hashCode();
+        ret = 31 * ret + pass.hashCode();
+        return ret;
     }
 
     @Override

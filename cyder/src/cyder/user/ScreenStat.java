@@ -1,6 +1,6 @@
 package cyder.user;
 
-import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import cyder.enums.Direction;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -66,17 +66,43 @@ public class ScreenStat {
         this.consoleHeight = consoleHeight;
         this.monitor = monitor;
         this.consoleOnTop = consoleOnTop;
-        this.consoleDirection = consoleDirection;
+        this.consoleDirection = Preconditions.checkNotNull(consoleDirection);
 
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
     /**
+     * The default x and y value of a screen stat.
+     */
+    private static final int DEFAULT_X_Y_VALUE = Integer.MIN_VALUE;
+
+    /**
+     * The default width and height of a screen stat.
+     */
+    private static final int DEFAULT_WIDTH_HEIGHT = Integer.MAX_VALUE;
+
+    /**
+     * The default monitor of a screen stat.
+     */
+    private static final int DEFAULT_MONITOR = Integer.MAX_VALUE;
+
+    /**
+     * The default stat of the on top member of a screen stat.
+     */
+    private static final boolean DEFAULT_ON_TOP_VALUE = false;
+
+    /**
+     * The default direction of a scree stat.
+     */
+    private static final Direction DEFAULT_DIRECTION = Direction.TOP;
+
+    /**
      * Constructs a default invalid screen stat object.
      */
     public ScreenStat() {
-        this(-Integer.MAX_VALUE, -Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE,
-                Integer.MAX_VALUE, false, Direction.TOP);
+        this(DEFAULT_X_Y_VALUE, DEFAULT_X_Y_VALUE,
+                DEFAULT_WIDTH_HEIGHT, DEFAULT_WIDTH_HEIGHT,
+                DEFAULT_MONITOR, DEFAULT_ON_TOP_VALUE, DEFAULT_DIRECTION);
     }
 
     /**
@@ -202,7 +228,7 @@ public class ScreenStat {
      * @param consoleDirection the direction the console is oriented in
      */
     public void setConsoleDirection(Direction consoleDirection) {
-        this.consoleDirection = consoleDirection;
+        this.consoleDirection = Preconditions.checkNotNull(consoleDirection);
     }
 
     /**
@@ -250,12 +276,13 @@ public class ScreenStat {
      */
     @Override
     public int hashCode() {
-        return Objects.hashCode(consoleX,
-                consoleY,
-                consoleWidth,
-                consoleHeight,
-                monitor,
-                consoleOnTop,
-                consoleDirection);
+        int ret = Integer.hashCode(consoleX);
+        ret = 31 * ret + Integer.hashCode(consoleY);
+        ret = 31 * ret + Integer.hashCode(consoleWidth);
+        ret = 31 * ret + Integer.hashCode(consoleHeight);
+        ret = 31 * ret + Integer.hashCode(monitor);
+        ret = 31 * ret + Boolean.hashCode(consoleOnTop);
+        ret = 31 * ret + consoleDirection.hashCode();
+        return ret;
     }
 }

@@ -16,7 +16,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -364,8 +363,12 @@ public class CyderDragLabel extends JLabel {
         int ret = Integer.hashCode(width);
         ret = 31 * ret + Integer.hashCode(height);
         ret = 31 * ret + backgroundColor.hashCode();
-        ret = 31 * ret + Objects.hashCode(leftButtonList);
-        ret = 31 * ret + Objects.hashCode(rightButtonList);
+        for (Component leftComponent : leftButtonList) {
+            ret = 31 * ret + leftComponent.hashCode();
+        }
+        for (Component rightComponent : rightButtonList) {
+            ret = 31 * ret + rightComponent.hashCode();
+        }
         return ret;
     }
 
