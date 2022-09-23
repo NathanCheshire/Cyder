@@ -18,7 +18,7 @@
   "clockonconsole": "1",
   "showseconds": "0",
   "filterchat": "1",
-  "laststart": "1663812381050",
+  "laststart": "1663897459744",
   "minimizeonclose": "0",
   "typinganimation": "1",
   "showbusyicon": "0",
@@ -28,7 +28,7 @@
   "typingsound": "0",
   "youtubeuuid": "aaaaaaaaaks",
   "capsmode": "0",
-  "loggedin": "0",
+  "loggedin": "1",
   "audiolength": "0",
   "persistentnotifications": "0",
   "doAnimations": "1",
@@ -37,13 +37,13 @@
   "darkmode": "0",
   "weatherMap": "0",
   "screenStat": {
-    "consoleX": 1218,
-    "consoleY": 424,
-    "consoleWidth": 909,
-    "consoleHeight": 601,
+    "consoleX": 1326,
+    "consoleY": 317,
+    "consoleWidth": 1092,
+    "consoleHeight": 732,
     "monitor": 0,
     "consoleOnTop": false,
-    "consoleDirection": "TOP"
+    "consoleDirection": "RIGHT"
   },
   "executables": []
 }

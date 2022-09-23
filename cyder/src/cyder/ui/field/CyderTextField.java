@@ -1,5 +1,6 @@
 package cyder.ui.field;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
@@ -16,9 +17,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -68,6 +68,8 @@ public class CyderTextField extends JTextField {
 
         addKeyListener(regexAndLimitKeyListener);
         addMouseListener(UiUtil.generateCommonUiLogMouseAdapter());
+        addHintTextFocusListener();
+        addHintTextKeyListener();
 
         setBackground(backgroundColor);
         setSelectionColor(CyderColors.selectionColor);
@@ -394,5 +396,210 @@ public class CyderTextField extends JTextField {
 
             setForeground(startingColor);
         }, FLASH_ANIMATION_THREAD_NAME);
+    }
+
+    /**
+     * The hint text for the field.
+     */
+    private String hintText;
+
+    /**
+     * The hint text label for the field.
+     */
+    private JLabel hintTextLabel;
+
+    /**
+     * Whether the hint text should be shown if the proper conditions are met.
+     */
+    private boolean hintTextEnabled;
+
+    /**
+     * Possible hint text alignments.
+     */
+    public enum HintTextAlignment {
+        LEFT,
+        CENTER,
+        RIGHT
+    }
+
+    /**
+     * The hint text alignment for this field.
+     */
+    private HintTextAlignment hintTextAlignment = HintTextAlignment.LEFT;
+
+    /**
+     * Returns the hint text alignment for this field.
+     *
+     * @return the hint text alignment for this field
+     */
+    public HintTextAlignment getHintTextAlignment() {
+        return hintTextAlignment;
+    }
+
+    /**
+     * Sets the hint text alignment for this field.
+     *
+     * @param hintTextAlignment the hint text alignment for this field
+     */
+    public void setHintTextAlignment(HintTextAlignment hintTextAlignment) {
+        this.hintTextAlignment = hintTextAlignment;
+        refreshHintText();
+    }
+
+    /**
+     * Sets whether the hint text should appear if the proper conditions are met.
+     *
+     * @param enabled whether the hint text should appear if the proper conditions are met
+     */
+    public void setHintTextEnabled(boolean enabled) {
+        this.hintTextEnabled = enabled;
+        refreshHintText();
+    }
+
+    /**
+     * Sets the hint text for this field.
+     *
+     * @param text the hint text for this field
+     */
+    public void setHintText(String text) {
+        Preconditions.checkNotNull(text);
+        Preconditions.checkArgument(!text.isEmpty());
+
+        this.hintText = text;
+        refreshHintText();
+    }
+
+    /**
+     * Refreshes the hint text and label visibility.
+     */
+    private void refreshHintText() {
+        if (hintTextLabel == null) addHintTextLabel();
+        hintTextLabel.setText(hintText);
+
+        Dimension size = getSize();
+        hintTextLabel.setBounds(HINT_LABEL_PADDING, HINT_LABEL_PADDING,
+                (int) size.getWidth() - 2 * HINT_LABEL_PADDING,
+                (int) size.getHeight() - 2 * HINT_LABEL_PADDING);
+
+        switch (hintTextAlignment) {
+            case LEFT -> hintTextLabel.setHorizontalAlignment(JLabel.LEFT);
+            case CENTER -> hintTextLabel.setHorizontalAlignment(JLabel.CENTER);
+            case RIGHT -> hintTextLabel.setHorizontalAlignment(JLabel.RIGHT);
+        }
+
+        hintTextLabel.setForeground(getForeground());
+        hintTextLabel.setFont(getFont());
+        hintTextLabel.repaint();
+    }
+
+    /**
+     * Adds the hint text focus listener to this field.
+     */
+    @ForReadability
+    private void addHintTextFocusListener() {
+        addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                hintTextLabel.setVisible(false);
+                refreshHintText();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (getText().length() == 0) {
+                    hintTextLabel.setVisible(true);
+                }
+
+                refreshHintText();
+            }
+        });
+    }
+
+    /**
+     * Whether the char being typed currently is the first character in this field.
+     * This is used to block refreshing of the hint text and label on the subsequent
+     * released and typed events that will be generated.
+     */
+    private final AtomicBoolean enteringFirstChar = new AtomicBoolean();
+
+    /**
+     * Adds the hint text key listener to this field.
+     */
+    @ForReadability
+    private void addHintTextKeyListener() {
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (enteringFirstChar.get()) return;
+                hintKeyListenerLogic();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                boolean backspace = e.getKeyCode() == KeyEvent.VK_BACK_SPACE;
+                int length = getText().length();
+
+                if (backspace && length == 1) {
+                    hintTextLabel.setVisible(true);
+                } else if (!backspace && length == 0) {
+                    enteringFirstChar.set(true);
+                    hintTextLabel.setVisible(false);
+                } else {
+                    enteringFirstChar.set(false);
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (enteringFirstChar.get()) return;
+                hintKeyListenerLogic();
+            }
+        });
+    }
+
+    /**
+     * The logic for key pressed, released, and typed events from the hint text key listener.
+     */
+    @ForReadability
+    private void hintKeyListenerLogic() {
+        if (getText().length() != 0) {
+            hintTextLabel.setVisible(false);
+        } else if (hintTextEnabled) {
+            hintTextLabel.setVisible(true);
+        }
+    }
+
+
+    /**
+     * The padding for the hint text label on this component.
+     */
+    private static final int HINT_LABEL_PADDING = 5;
+
+    /**
+     * Adds the hint text label to this component.
+     */
+    private void addHintTextLabel() {
+        hintTextLabel = new JLabel();
+        add(hintTextLabel);
+        hintTextEnabled = true;
+        refreshHintText();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setSize(int width, int height) {
+        super.setSize(width, height);
+        refreshHintText();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setBounds(int x, int y, int width, int height) {
+        super.setBounds(x, y, width, height);
+        refreshHintText();
     }
 }

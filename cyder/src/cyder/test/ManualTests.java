@@ -48,6 +48,11 @@ public final class ManualTests {
     }
 
     /**
+     * The name of the manual tests thread.
+     */
+    private static final String MANUAL_TESTS_THREAD_NAME = "Manual Tests Thread";
+
+    /**
      * Runs the tests within the method.
      * This method is used purely for testing purposes.
      */
@@ -61,7 +66,7 @@ public final class ManualTests {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Manual Tests Thread");
+        }, MANUAL_TESTS_THREAD_NAME);
     }
 
     /**
@@ -955,5 +960,26 @@ public final class ManualTests {
 
         testFrame.setCyderLayout(layout);
         testFrame.finalizeAndShow();
+    }
+
+    @ManualTest("hint text test")
+    private static void testTextFieldHintText() {
+        CyderFrame frame = new CyderFrame();
+        frame.setTitle("Test");
+
+        CyderFlowLayout flow = new CyderFlowLayout();
+
+        CyderTextField textField = new CyderTextField();
+        textField.setSize(200, 40);
+        textField.setHintText("Test");
+
+        CyderButton button = new CyderButton("Test");
+        button.setSize(200, 40);
+
+        flow.addComponent(textField);
+        flow.addComponent(button);
+        frame.setCyderLayout(flow);
+
+        frame.finalizeAndShow();
     }
 }

@@ -958,6 +958,9 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setTitle(String title) {
+        Preconditions.checkNotNull(title);
+        Preconditions.checkArgument(!title.isEmpty());
+
         title = StringUtil.getTrimmedText(StringUtil.parseNonAscii(title));
 
         if (paintSuperTitle) {

@@ -128,6 +128,11 @@ public final class StatUtil {
     public record DebugStats(ImmutableList<String> lines, ImageIcon countryFlag) {}
 
     /**
+     * The name of the executor service which gets the debug props.
+     */
+    private static final String DEBUG_PROPS_EXECUTOR_THREAD_NAME = "Debug Props Getter";
+
+    /**
      * Returns a debug object containing the found user flag and some common debug details.
      *
      * @return a debug object containing the found user flag and some common debug details
@@ -135,16 +140,18 @@ public final class StatUtil {
     public static Future<DebugStats> getDebugProps() {
         Preconditions.checkArgument(!NetworkUtil.isHighLatency());
 
-        return Executors.newSingleThreadExecutor(new CyderThreadFactory("test")).submit(() -> {
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory(DEBUG_PROPS_EXECUTOR_THREAD_NAME)).submit(() -> {
             InetAddress address = InetAddress.getLocalHost();
             NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
 
             BufferedImage flag = ImageIO.read(new URL(IPUtil.getIpData().getFlag()));
 
-            double x = flag.getWidth();
-            double y = flag.getHeight();
+            int x = 2 * flag.getWidth();
+            int y = 2 * flag.getHeight();
+            int type = flag.getType();
 
-            ImageIcon resized = new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y)));
+            ImageIcon resized = new ImageIcon(ImageUtil.resizeImage(flag, type, x, y));
 
             return new DebugStats(
                     ImmutableList.of(
