@@ -9,11 +9,11 @@ import cyder.enums.Direction;
 import cyder.enums.Dynamic;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.props.PropLoader;
 import cyder.utils.*;
 
 import javax.imageio.ImageIO;

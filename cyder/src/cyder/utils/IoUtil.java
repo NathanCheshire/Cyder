@@ -7,13 +7,13 @@ import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.PropLoader;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.parsers.local.UsbResponse;
+import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
 import javazoom.jl.player.Player;
 

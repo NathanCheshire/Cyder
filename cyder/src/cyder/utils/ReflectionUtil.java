@@ -8,13 +8,14 @@ import cyder.annotations.*;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.PropLoader;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.input.InputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.props.PropConstants;
+import cyder.props.PropLoader;
 import cyder.ui.frame.CyderFrame;
 import org.apache.commons.text.similarity.JaroWinklerDistance;
 
@@ -489,7 +490,7 @@ public final class ReflectionUtil {
     public static void ensureNoDuplicateProps() {
         ArrayList<String> discoveredKeys = new ArrayList<>();
 
-        for (PropLoader.Prop prop : PropLoader.getProps()) {
+        for (PropConstants.Prop prop : PropLoader.getProps()) {
             if (!StringUtil.in(prop.key(), false, discoveredKeys)) {
                 discoveredKeys.add(prop.key());
             } else {

@@ -3,9 +3,9 @@ package cyder.handlers.input;
 import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.PropLoader;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.props.PropLoader;
 
 /**
  * A handler for utilities related to props.

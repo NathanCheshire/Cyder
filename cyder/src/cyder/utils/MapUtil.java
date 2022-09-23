@@ -4,8 +4,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.props.PropLoader;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

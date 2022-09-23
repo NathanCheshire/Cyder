@@ -1,7 +1,8 @@
-package cyder.genesis;
+package cyder.props;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -9,19 +10,18 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.utils.FileUtil;
+import cyder.utils.StringUtil;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import static cyder.props.PropConstants.*;
 
 /**
  * A class for loading ini props from props.ini used throughout Cyder.
  */
 public final class PropLoader {
-    /**
-     * Lines which start with this are marked as a comment and not parsed as props.
-     */
-    public static final String COMMENT_PATTERN = "#";
-
     /**
      * The props immutable list.
      */
@@ -30,7 +30,7 @@ public final class PropLoader {
     /**
      * Whether to log the next prop that is loaded.
      * Props which should not be logged when loaded should be
-     * annotated with the {@link #NO_LOG_ANNOTATION} annotation.
+     * annotated with the {@link Annotation#NO_LOG} annotation.
      */
     private static boolean logNextProp = true;
 
@@ -84,7 +84,7 @@ public final class PropLoader {
         Preconditions.checkArgument(propsLoaded);
         Preconditions.checkNotNull(key);
 
-        return props.stream().anyMatch(prop -> prop.key.equals(key));
+        return props.stream().anyMatch(prop -> prop.key().equals(key));
     }
 
     /**
@@ -98,8 +98,8 @@ public final class PropLoader {
         Preconditions.checkNotNull(key);
 
         for (Prop prop : props) {
-            if (prop.key.equals(key)) {
-                return prop.value;
+            if (prop.key().equals(key)) {
+                return prop.value();
             }
         }
 
@@ -117,8 +117,8 @@ public final class PropLoader {
         Preconditions.checkNotNull(key);
 
         for (Prop prop : props) {
-            if (prop.key.equals(key)) {
-                return prop.value.equals("1") || prop.value.equalsIgnoreCase("true");
+            if (prop.key().equals(key)) {
+                return prop.value().equals("1") || prop.value().equalsIgnoreCase("true");
             }
         }
 
@@ -136,8 +136,8 @@ public final class PropLoader {
         Preconditions.checkNotNull(key);
 
         for (Prop prop : props) {
-            if (prop.key.equals(key)) {
-                return Integer.parseInt(prop.value);
+            if (prop.key().equals(key)) {
+                return Integer.parseInt(prop.value());
             }
         }
 
@@ -155,8 +155,8 @@ public final class PropLoader {
         Preconditions.checkNotNull(key);
 
         for (Prop prop : props) {
-            if (prop.key.equals(key)) {
-                return Float.parseFloat(prop.value);
+            if (prop.key().equals(key)) {
+                return Float.parseFloat(prop.value());
             }
         }
 
@@ -174,74 +174,70 @@ public final class PropLoader {
         Preconditions.checkNotNull(key);
 
         for (Prop prop : props) {
-            if (prop.key.equals(key)) {
-                return Double.parseDouble(prop.value);
+            if (prop.key().equals(key)) {
+                return Double.parseDouble(prop.value());
             }
         }
 
         throw new IllegalArgumentException("Prop with key not found: key = \"" + key + "\"");
     }
 
+    private static final String PROP_EXTENSION = ".ini";
+    private static final String PROP_FILE_PREFIX = "prop";
+
     /**
      * Loads the props from all discovered prop files.
      */
-    static void loadProps() {
+    public static void loadProps() {
         Preconditions.checkArgument(!propsLoaded);
 
         ArrayList<File> propFiles = new ArrayList<>();
 
-        File propsDirectory = new File("props");
+        File propsDirectory = new File(PROPS_DIR_NAME);
         File[] propFilesArray = propsDirectory.listFiles();
 
-        if (propFilesArray == null || propFilesArray.length < 1) {
+        if (propFilesArray == null || propFilesArray.length == 1) {
             throw new FatalException("Could not find any prop files");
         }
 
-        for (File f : propFilesArray) {
-            if (f.getName().startsWith("prop") && FileUtil.validateExtension(f, ".ini")) {
-                propFiles.add(f);
-                Logger.log(LogTag.DEBUG, "Found prop file: " + f);
+        Arrays.stream(propFilesArray).forEach(file -> {
+            if (file.getName().startsWith(PROP_FILE_PREFIX) && FileUtil.validateExtension(file, PROP_EXTENSION)) {
+                propFiles.add(file);
+                Logger.log(LogTag.DEBUG, "Found prop file: " + file);
             }
-        }
+        });
 
-        for (File f : propFilesArray) {
-            injectNoLogAnnotations(f);
-        }
+        Arrays.stream(propFilesArray).forEach(PropLoader::injectAnnotations);
 
         try {
             ArrayList<Prop> propsList = new ArrayList<>();
 
-            for (File propFile : propFiles) {
-                BufferedReader reader = new BufferedReader(new FileReader(propFile));
-                String line;
+            propFiles.forEach(propFile -> {
+                try (BufferedReader reader = new BufferedReader(new FileReader(propFile))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        if (isComment(line)) {
+                            continue;
+                        } else if (StringUtil.isNullOrEmpty(line)) {
+                            continue;
+                        } else if (isNoLogAnnotation(line)) {
+                            logNextProp = false;
+                            continue;
+                        }
 
-                while ((line = reader.readLine()) != null) {
-                    // comment
-                    if (line.trim().startsWith(COMMENT_PATTERN)) {
-                        continue;
+                        Prop addProp = extractProp(line);
+
+                        propsList.add(addProp);
+
+                        Logger.log(LogTag.PROP_LOADED, "[key = " + addProp.key()
+                                + (logNextProp ? ", value = " + addProp.value() : "") + "]");
+
+                        logNextProp = true;
                     }
-                    // blank line
-                    else if (line.trim().isEmpty()) {
-                        continue;
-                    }
-                    // hide next prop value
-                    else if (line.trim().equals(NO_LOG_ANNOTATION)) {
-                        logNextProp = false;
-                        continue;
-                    }
-
-                    Prop addProp = extractProp(line);
-
-                    propsList.add(addProp);
-
-                    Logger.log(LogTag.PROP_LOADED, "[key = " + addProp.key
-                            + (logNextProp ? ", value = " + addProp.value : "") + "]");
-
-                    logNextProp = true;
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
                 }
-
-                reader.close();
-            }
+            });
 
             props = ImmutableList.copyOf(propsList);
         } catch (Exception e) {
@@ -250,6 +246,16 @@ public final class PropLoader {
         } finally {
             propsLoaded = true;
         }
+    }
+
+    @ForReadability
+    private static boolean isComment(String line) {
+        return line.trim().startsWith(COMMENT_PATTERN);
+    }
+
+    @ForReadability
+    private static boolean isNoLogAnnotation(String line) {
+        return line.trim().equals(Annotation.NO_LOG.getAnnotation());
     }
 
     /**
@@ -272,27 +278,21 @@ public final class PropLoader {
             int lastKeyIndex = -1;
 
             for (int i = 0 ; i < parts.length - 1 ; i++) {
-                // if it's an escaped comma, continue
-                if (parts[i].endsWith("\\")) {
+                if (escapedString(parts[i])) {
                     parts[i] = parts[i].substring(0, parts[i].length() - 1);
                     continue;
                 }
 
-                // should be real comma so ensure not already set
-                if (lastKeyIndex != -1)
-                    throw new IllegalStateException("Could not parse line: " + line);
-
-                // set last index of key parts
+                if (lastKeyIndex != -1) throw new IllegalStateException("Could not parse line: " + line);
                 lastKeyIndex = i;
             }
 
-            if (lastKeyIndex == -1) {
-                throw new IllegalStateException("Could not parse line: " + line);
-            }
+            if (lastKeyIndex == -1) throw new IllegalStateException("Could not parse line: " + line);
 
             StringBuilder key = new StringBuilder();
             StringBuilder value = new StringBuilder();
 
+            // Build key
             for (int i = 0 ; i <= lastKeyIndex ; i++) {
                 key.append(parts[i]);
 
@@ -301,6 +301,7 @@ public final class PropLoader {
                 }
             }
 
+            // Build value
             for (int i = lastKeyIndex + 1 ; i < parts.length ; i++) {
                 value.append(parts[i]);
 
@@ -316,17 +317,37 @@ public final class PropLoader {
     }
 
     /**
-     * The annotation to skip logging a prop value.
+     * The escape char for comma.
      */
-    private static final String NO_LOG_ANNOTATION = "@no_log";
+    private static final String escapeSequence = "\\";
 
     /**
-     * The pattern a key must have for a no log annotation to be injected.
+     * Returns whether the provided line ends with the escape pattern.
+     *
+     * @param line the line
+     * @return whether the provided line ends with the escape pattern
      */
-    private static final String KEY_PATTERN = "_key";
+    @ForReadability
+    private static boolean escapedString(String line) {
+        Preconditions.checkNotNull(line);
+
+        return line.endsWith(escapeSequence);
+    }
 
     /**
-     * Injects {@link #NO_LOG_ANNOTATION} annotations for props found which end in {@link #KEY_PATTERN}.
+     * Injects necessary annotations into the provided prop file.
+     *
+     * @param file the file to inject annotations into.
+     */
+    private static void injectAnnotations(File file) {
+        Preconditions.checkNotNull(file);
+
+        injectNoLogAnnotations(file);
+    }
+
+    /**
+     * Injects {@link Annotation#NO_LOG} annotations for
+     * props found which end in {@link PropConstants#KEY_PROP_SUFFIX}.
      *
      * @param file the prop file to insert annotations if needed
      */
@@ -348,12 +369,12 @@ public final class PropLoader {
             for (String line : originalLines) {
                 try {
                     Prop extractedProp = extractProp(line);
-                    if (extractedProp.key.trim().endsWith(KEY_PATTERN)
-                            && !previousLine.trim().equals(NO_LOG_ANNOTATION)) {
-                        writer.write(NO_LOG_ANNOTATION);
+                    if (extractedProp.key().trim().endsWith(KEY_PROP_SUFFIX)
+                            && !previousLine.trim().equals(Annotation.NO_LOG.getAnnotation())) {
+                        writer.write(Annotation.NO_LOG.getAnnotation());
                         writer.newLine();
-                        Logger.log(LogTag.DEBUG, "Injected " + NO_LOG_ANNOTATION + " for prop: "
-                                + extractedProp.key + ", prop file = " + file.getName());
+
+                        logInjection(Annotation.NO_LOG.getAnnotation(), extractedProp, file);
                     }
                 } catch (Exception ignored) {}
 
@@ -368,7 +389,16 @@ public final class PropLoader {
     }
 
     /**
-     * A prop object mapping a key to a value of the props.ini file.
+     * Logs an injection.
+     *
+     * @param line the line an injection was performed above
+     * @param prop the prop the injection was performed for
+     * @param file the file the injection was performed on
      */
-    public static record Prop(String key, String value) {}
+    @ForReadability
+    private static void logInjection(String line, Prop prop, File file) {
+        String log = "Injected " + line + " for prop: " + prop.key()
+                + ", prop file = " + file.getName();
+        Logger.log(LogTag.DEBUG, log);
+    }
 }

@@ -4,9 +4,9 @@ import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.PropLoader;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.parsers.remote.ip.IPData;
+import cyder.props.PropLoader;
 import cyder.user.UserUtil;
 
 import java.io.BufferedReader;
