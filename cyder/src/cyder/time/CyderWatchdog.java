@@ -178,5 +178,6 @@ public final class CyderWatchdog {
      */
     private static void bootstrap() {
         // todo spawn a new Cyder process.
+        // todo if this fails we need to have a special exit code
     }
 }

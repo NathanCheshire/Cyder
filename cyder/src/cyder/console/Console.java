@@ -1483,7 +1483,6 @@ public enum Console {
         startMenuLabelAndFieldAnimatingThreads();
     }
 
-
     /**
      * The name of the animating thread for the console input and output fields.
      */
@@ -3059,7 +3058,6 @@ public enum Console {
                 audioControlsLabel.setLocation(calculateAudioMenuX(), i);
                 ThreadUtil.sleep(audioMenuAnimationDelayMs);
             }
-
 
             audioControlsLabel.setLocation(calculateAudioMenuX(), CyderDragLabel.DEFAULT_HEIGHT - 2);
         }, CONSOLE_AUDIO_MENU_MINIMIZER_THREAD_NAME);

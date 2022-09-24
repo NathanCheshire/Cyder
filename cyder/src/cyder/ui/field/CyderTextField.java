@@ -398,6 +398,10 @@ public class CyderTextField extends JTextField {
         }, FLASH_ANIMATION_THREAD_NAME);
     }
 
+    // ---------------
+    // Hint text logic
+    // ---------------
+
     /**
      * The hint text for the field.
      */
@@ -569,7 +573,6 @@ public class CyderTextField extends JTextField {
         }
     }
 
-
     /**
      * The padding for the hint text label on this component.
      */
@@ -585,6 +588,43 @@ public class CyderTextField extends JTextField {
         refreshHintText();
     }
 
+    // -----------------------
+    // Inner icon label logics
+    // -----------------------
+
+    private JLabel leftIconLabel;
+    private ImageIcon leftIcon;
+
+    private ImageIcon rightIcon;
+
+    public void setLeftIcon(ImageIcon leftIcon) {
+        this.leftIcon = Preconditions.checkNotNull(leftIcon);
+        // todo refresh left icon
+    }
+
+    private void removeLeftIcon() {
+        leftIcon = null;
+        // todo refresh left icon
+    }
+
+    private void refreshLeftIcon() {
+        if (leftIconLabel == null) addLeftIconLabel();
+        leftIconLabel.setIcon(leftIcon);
+
+        int iconLabelPadding = 5;
+        leftIconLabel.setBounds(
+                iconLabelPadding,
+                iconLabelPadding,
+                getHeight() - 2 * iconLabelPadding,
+                getHeight() - 2 * iconLabelPadding);
+    }
+
+    private void addLeftIconLabel() {
+        leftIconLabel = new JLabel();
+        add(leftIconLabel);
+        refreshLeftIcon();
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -592,6 +632,7 @@ public class CyderTextField extends JTextField {
     public void setSize(int width, int height) {
         super.setSize(width, height);
         refreshHintText();
+        // todo refresh icons
     }
 
     /**
@@ -601,5 +642,6 @@ public class CyderTextField extends JTextField {
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, width, height);
         refreshHintText();
+        // todo refresh icons
     }
 }
