@@ -56,6 +56,26 @@ public final class PropConstants {
     static final String PROPS_DIR_NAME = "props";
 
     /**
+     * The extension for prop files.
+     */
+    static final String PROP_EXTENSION = ".ini";
+
+    /**
+     * The prefix prop files must have.
+     */
+    static final String PROP_FILE_PREFIX = "prop";
+
+    /**
+     * The separator for prop keys and values.
+     */
+    static final String KEY_VALUE_SEPARATOR = ":";
+
+    /**
+     * The escape char for comma.
+     */
+    static final String escapeSequence = "\\";
+
+    /**
      * Suppress default constructor.
      */
     private PropConstants() {

@@ -182,9 +182,6 @@ public final class PropLoader {
         throw new IllegalArgumentException("Prop with key not found: key = \"" + key + "\"");
     }
 
-    private static final String PROP_EXTENSION = ".ini";
-    private static final String PROP_FILE_PREFIX = "prop";
-
     /**
      * Loads the props from all discovered prop files.
      */
@@ -267,71 +264,65 @@ public final class PropLoader {
     private static Prop extractProp(String line) {
         Preconditions.checkNotNull(line);
 
-        String[] parts = line.split(":");
+        String[] parts = line.split(KEY_VALUE_SEPARATOR);
         Preconditions.checkArgument(parts.length > 1);
 
-        Prop prop;
-
         if (parts.length == 2) {
-            prop = new Prop(parts[0].trim(), parts[1].trim());
-        } else {
-            int lastKeyIndex = -1;
-
-            for (int i = 0 ; i < parts.length - 1 ; i++) {
-                if (escapedString(parts[i])) {
-                    parts[i] = parts[i].substring(0, parts[i].length() - 1);
-                    continue;
-                }
-
-                if (lastKeyIndex != -1) throw new IllegalStateException("Could not parse line: " + line);
-                lastKeyIndex = i;
-            }
-
-            if (lastKeyIndex == -1) throw new IllegalStateException("Could not parse line: " + line);
-
-            StringBuilder key = new StringBuilder();
-            StringBuilder value = new StringBuilder();
-
-            // Build key
-            for (int i = 0 ; i <= lastKeyIndex ; i++) {
-                key.append(parts[i]);
-
-                if (i != lastKeyIndex) {
-                    key.append(":");
-                }
-            }
-
-            // Build value
-            for (int i = lastKeyIndex + 1 ; i < parts.length ; i++) {
-                value.append(parts[i]);
-
-                if (i != parts.length - 1) {
-                    value.append(":");
-                }
-            }
-
-            prop = new Prop(key.toString().trim(), value.toString().trim());
+            String key = parts[0].trim();
+            String value = parts[1].trim();
+            return new Prop(key, value);
         }
 
-        return prop;
+        // Figure out where key ends and value starts
+        int lastKeyIndex = -1;
+        for (int i = 0 ; i < parts.length - 1 ; i++) {
+            if (partIsEscaped(parts[i])) {
+                parts[i] = parts[i].substring(0, parts[i].length() - 1);
+                continue;
+            }
+
+            if (lastKeyIndex != -1) throw new IllegalStateException("Could not parse line: " + line);
+            lastKeyIndex = i;
+        }
+
+        if (lastKeyIndex == -1) throw new IllegalStateException("Could not parse line: " + line);
+
+        // Build key
+        StringBuilder keyBuilder = new StringBuilder();
+        for (int i = 0 ; i <= lastKeyIndex ; i++) {
+            keyBuilder.append(parts[i]);
+
+            if (i != lastKeyIndex) {
+                keyBuilder.append(KEY_VALUE_SEPARATOR);
+            }
+        }
+
+        // Build value
+        StringBuilder valueBuilder = new StringBuilder();
+        for (int i = lastKeyIndex + 1 ; i < parts.length ; i++) {
+            valueBuilder.append(parts[i]);
+
+            if (i != parts.length - 1) {
+                valueBuilder.append(KEY_VALUE_SEPARATOR);
+            }
+        }
+
+        String key = keyBuilder.toString().trim();
+        String value = valueBuilder.toString().trim();
+        return new Prop(key, value);
     }
 
     /**
-     * The escape char for comma.
-     */
-    private static final String escapeSequence = "\\";
-
-    /**
-     * Returns whether the provided line ends with the escape pattern.
+     * Returns whether the provided part ends with the escape pattern.
      *
-     * @param line the line
-     * @return whether the provided line ends with the escape pattern
+     * @param part the part
+     * @return whether the provided part ends with the escape pattern
      */
     @ForReadability
-    private static boolean escapedString(String line) {
-        Preconditions.checkNotNull(line);
+    private static boolean partIsEscaped(String part) {
+        Preconditions.checkNotNull(part);
 
-        return line.endsWith(escapeSequence);
+        return part.endsWith(escapeSequence);
     }
 
     /**
@@ -341,6 +332,7 @@ public final class PropLoader {
      */
     private static void injectAnnotations(File file) {
         Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
 
         injectNoLogAnnotations(file);
     }
@@ -352,6 +344,9 @@ public final class PropLoader {
      * @param file the prop file to insert annotations if needed
      */
     private static void injectNoLogAnnotations(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+
         ArrayList<String> originalLines = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
