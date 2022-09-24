@@ -1,4 +1,4 @@
-package cyder.genesis;
+package cyder.time;
 
 import com.google.common.base.Preconditions;
 import cyder.annotations.ForReadability;
@@ -15,6 +15,7 @@ import cyder.threads.ThreadUtil;
 import cyder.utils.OsUtil;
 
 import javax.swing.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -31,7 +32,7 @@ public final class CyderWatchdog {
     /**
      * The time in ms to wait between checking for the first appearance of AWT-EventQueue-0.
      */
-    public static final int INITIALIZE_TIMEOUT = 3000;
+    public static final int INITIALIZE_TIMEOUT_MS = 3000;
 
     /**
      * The time in ms to wait between checking the AWT-EventQueue-0 thread for its status.
@@ -60,6 +61,11 @@ public final class CyderWatchdog {
     private static final String ACTIVE_WATCHDOG = "activate_watchdog";
 
     /**
+     * Whether the watchdog has been initialized and started.
+     */
+    private static final AtomicBoolean watchdogInitialized = new AtomicBoolean();
+
+    /**
      * Waits for the AWT-EventQueue-0 thread to spawn and then polls the thread's state
      * every {@link CyderWatchdog#POLL_TIMEOUT} checking to ensure the thread is not frozen.
      * Upon a possible freeze event, the user will be informed and prompted to exit or restart Cyder.
@@ -72,11 +78,14 @@ public final class CyderWatchdog {
             return;
         }
 
+        if (watchdogInitialized.get()) return;
+        watchdogInitialized.set(true);
+
         CyderThreadRunner.submit(() -> {
             OUTER:
             while (true) {
                 try {
-                    ThreadUtil.sleep(INITIALIZE_TIMEOUT);
+                    ThreadUtil.sleep(INITIALIZE_TIMEOUT_MS);
 
                     // get thread group and enumerate over threads
                     ThreadGroup group = Thread.currentThread().getThreadGroup();
@@ -122,6 +131,13 @@ public final class CyderWatchdog {
 
                 Thread.State currentState = awtEventQueueThread.getState();
                 if (currentState == Thread.State.RUNNABLE) {
+                    ProgramState currentCyderState = ProgramStateManager.INSTANCE.getCurrentProgramState();
+                    if (currentCyderState != ProgramState.NORMAL) {
+                        Logger.log(LogTag.DEBUG, "Watchdog not incremented as "
+                                + "current program state is: " + currentCyderState);
+                        continue;
+                    }
+
                     watchdogCounter.getAndAdd(POLL_TIMEOUT);
 
                     int currentFreezeLength = watchdogCounter.get();

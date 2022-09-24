@@ -24,6 +24,8 @@ import cyder.props.PropLoader;
 import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
+import cyder.time.ProgramState;
+import cyder.time.ProgramStateManager;
 import cyder.time.TimeUtil;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.drag.button.*;
@@ -3471,6 +3473,7 @@ public enum Console {
         });
 
         currentlyDancing = true;
+        ProgramStateManager.INSTANCE.setCurrentProgramState(ProgramState.DANCING);
 
         while (currentlyDancing) {
             if (allFramesFinishedDancing()) break;
@@ -3487,6 +3490,7 @@ public enum Console {
      */
     public void stopDancing() {
         currentlyDancing = false;
+        ProgramStateManager.INSTANCE.setCurrentProgramState(ProgramState.NORMAL);
         UiUtil.getCyderFrames().forEach(CyderFrame::resetDancing);
     }
 

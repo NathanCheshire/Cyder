@@ -20,6 +20,11 @@ public class FrameMovementHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
+    /**
+     * The degrees to rotate the console pane by when making a frame askew.
+     */
+    private static final int ASKEW_DEGREE = 5;
+
     @Handle({"top left", "top right", "bottom left", "bottom right",
             "consolidate windows", "dance", "hide", "askew", "barrelroll", "middle", "center"})
     public static boolean handle() {
@@ -143,7 +148,7 @@ public class FrameMovementHandler extends InputHandler {
         } else if (getInputHandler().inputIgnoringSpacesMatches("barrelroll")) {
             Console.INSTANCE.getConsoleCyderFrame().barrelRoll();
         } else if (getInputHandler().commandIs("askew")) {
-            Console.INSTANCE.getConsoleCyderFrame().rotateBackground(5);
+            Console.INSTANCE.getConsoleCyderFrame().rotateBackground(ASKEW_DEGREE);
         } else {
             ret = false;
         }
