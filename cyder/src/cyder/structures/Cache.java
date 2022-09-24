@@ -94,7 +94,7 @@ public class Cache<T> {
     /**
      * Sets the cached value updater function.
      *
-     * @param function the cached value updater function to invoke when {@link #refreshCachedValue()} is called.
+     * @param function the cached value updater function to invoke when {@link #refreshCachedValue()} is called
      * @throws NullPointerException if the provided function is null
      */
     public void setCachedValueUpdater(Function<Void, T> function) {

@@ -1,6 +1,6 @@
 # Creating a Cyder Widget
 
-By <b>Nathan Cheshire</b>
+By <b>Nate Cheshire</b>
 
 Last updated: 8-11-21
 

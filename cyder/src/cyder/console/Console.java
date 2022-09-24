@@ -534,21 +534,12 @@ public enum Console {
     }
 
     /**
-     * The x value for the menu label when open.
-     */
-    private static final int menuLabelShowingX = 3;
-
-    /**
-     * The y value for the menu label when open.
-     */
-    private static final int menuLabelShowingY = CyderDragLabel.DEFAULT_HEIGHT - 2;
-
-    /**
      * Revalidates the bounds of the custom console menu and the audio controls menu.
      */
     private void revalidateCustomMenuBounds() {
         if (UiUtil.notNullAndVisible(menuLabel)) {
-            menuLabel.setBounds(menuLabelShowingX, menuLabelShowingY, TASKBAR_MENU_WIDTH, calculateMenuHeight());
+            menuLabel.setBounds((int) consoleMenuShowingPoint.getX(), (int) consoleMenuShowingPoint.getY(),
+                    TASKBAR_MENU_WIDTH, calculateMenuHeight());
         }
     }
 
@@ -1460,15 +1451,19 @@ public enum Console {
      * The logic for when the menu button is pressed.
      */
     private void onMenuButtonClicked() {
-        Point menuPoint = menuButton.getLocationOnScreen();
-        Rectangle rect = new Rectangle((int) menuPoint.getX(), (int) menuPoint.getY(),
-                menuButton.getWidth(), menuButton.getHeight());
-        boolean mouseTriggered = MathUtil.pointInOrOnRectangle(MouseInfo.getPointerInfo().getLocation(), rect);
+        Point menuButtonPointOnScreen = menuButton.getLocationOnScreen();
+        Rectangle menuButtonBoundsOnScreen = new Rectangle(
+                (int) menuButtonPointOnScreen.getX(),
+                (int) menuButtonPointOnScreen.getY(),
+                menuButton.getWidth(),
+                menuButton.getHeight());
+
+        boolean mouseTriggered = MathUtil.pointInOrOnRectangle(
+                MouseInfo.getPointerInfo().getLocation(), menuButtonBoundsOnScreen);
 
         // if there's a focused item and it wasn't a mouse click
         if (currentFocusedMenuItemIndex != -1 && !mouseTriggered) {
-            ImmutableList.copyOf(Stream.of(currentFrameMenuItems,
-                                    currentMappedExeItems, currentDefaultMenuItems)
+            ImmutableList.copyOf(Stream.of(currentFrameMenuItems, currentMappedExeItems, currentDefaultMenuItems)
                             .flatMap(Collection::stream)
                             .collect(Collectors.toList()))
                     .get(currentFocusedMenuItemIndex).runRunnable();
@@ -1479,59 +1474,76 @@ public enum Console {
             generateConsoleMenu();
         }
 
-        if (!menuLabel.isVisible()) {
-            String MINIMIZE_MEN_THREAD_NAME = "Minimize Console Menu Thread";
-            int menuHiddenX = -150;
-
-            CyderThreadRunner.submit(() -> {
-                menuLabel.setLocation(menuHiddenX, CyderDragLabel.DEFAULT_HEIGHT - 2);
-                int y = menuLabel.getY();
-
-                int increment = 8;
-                int delay = 10;
-                for (int i = menuHiddenX ; i < 2 ; i += increment) {
-                    menuLabel.setLocation(i, y);
-                    ThreadUtil.sleep(delay);
-                }
-
-                menuLabel.setLocation(2, y);
-
-                revalidateInputAndOutputBounds();
-            }, MINIMIZE_MEN_THREAD_NAME);
-
-            String ENTER_CONSOLE_MENU_THREAD_NAME = "Enter Console Menu Thread";
-            CyderThreadRunner.submit(() -> {
-                if (menuLabel == null) {
-                    generateConsoleMenu();
-                }
-
-                menuLabel.setLocation(menuHiddenX, CyderDragLabel.DEFAULT_HEIGHT - 2);
-                menuLabel.setVisible(true);
-
-                int addX = 0;
-
-                if (menuLabel.isVisible()) {
-                    addX = 2 + menuLabel.getWidth();
-                }
-
-                int finalAddX = addX;
-
-                int increment = 8;
-                int delay = 10;
-                for (int x = inputField.getX() ; x < finalAddX + 15 ; x += increment) {
-                    outputScroll.setBounds(x, outputScroll.getY(),
-                            outputScroll.getWidth(), outputScroll.getHeight());
-                    inputField.setBounds(x, inputField.getY(),
-                            inputField.getWidth(), inputField.getHeight());
-
-                    ThreadUtil.sleep(delay);
-                }
-
-                revalidateInputAndOutputBounds();
-            }, ENTER_CONSOLE_MENU_THREAD_NAME);
-        } else {
+        if (menuLabel.isVisible()) {
             minimizeMenu();
+            return;
         }
+
+        startMenuLabelAndFieldAnimatingThreads();
+    }
+
+
+    /**
+     * The name of the animating thread for the console input and output fields.
+     */
+    private static final String CONSOLE_FIELDS_ANIMATOR_THREAD_NAME = "Console Fields Animator";
+
+    /**
+     * The name of the thread for animating in the menu label.
+     */
+    private static final String MINIMIZE_MENU_THREAD_NAME = "Minimize Console Menu Thread";
+
+    /**
+     * The increment in pixels for the menu label and fields for animations.
+     */
+    private static final int menuAnimationIncrement = 8;
+
+    /**
+     * The delay in ms for the menu and fields animations.
+     */
+    private static final int menuAnimationDelayMs = 10;
+
+    /**
+     * The x value the fields should be animated to when the menu label is animating in.
+     */
+    private static final int fieldsEnterAnimateToX = TASKBAR_MENU_WIDTH + 2 + 15;
+
+    @ForReadability
+    private void startMenuLabelAndFieldAnimatingThreads() {
+        CyderThreadRunner.submit(() -> {
+            menuLabel.setLocation(consoleMenuHiddenPoint);
+            menuLabel.setVisible(true);
+            int y = menuLabel.getY();
+
+            for (int i = (int) consoleMenuHiddenPoint.getX()
+                 ; i < consoleMenuShowingPoint.getX() ; i += menuAnimationIncrement) {
+                menuLabel.setLocation(i, y);
+                ThreadUtil.sleep(menuAnimationDelayMs);
+            }
+
+            menuLabel.setLocation(consoleMenuShowingPoint);
+
+            revalidateInputAndOutputBounds();
+        }, MINIMIZE_MENU_THREAD_NAME);
+
+        CyderThreadRunner.submit(() -> {
+            int outputScrollY = outputScroll.getY();
+            int outputScrollWidth = outputScroll.getWidth();
+            int outputScrollHeight = outputScroll.getHeight();
+
+            int inputFieldY = inputField.getY();
+            int inputFieldWidth = inputField.getWidth();
+            int inputFieldHeight = inputField.getHeight();
+
+            for (int x = inputField.getX() ; x < fieldsEnterAnimateToX ; x += menuAnimationIncrement) {
+                outputScroll.setBounds(x, outputScrollY, outputScrollWidth, outputScrollHeight);
+                inputField.setBounds(x, inputFieldY, inputFieldWidth, inputFieldHeight);
+
+                ThreadUtil.sleep(menuAnimationDelayMs);
+            }
+
+            revalidateInputAndOutputBounds();
+        }, CONSOLE_FIELDS_ANIMATOR_THREAD_NAME);
     }
 
     /**
@@ -1662,8 +1674,6 @@ public enum Console {
 
         return ImmutableList.copyOf(ret);
     }
-
-    // todo console menu output pane is too far down and left, not centered basically
 
     /**
      * Returns the mapped exe taskbar icon items.
@@ -1873,17 +1883,23 @@ public enum Console {
     /**
      * The point the console menu is set at and animated to when visible.
      */
-    private static final Point consoleMenuShowingPoint = new Point(7, 10);
+    private static final Point consoleMenuShowingPoint = new Point(2, CyderDragLabel.DEFAULT_HEIGHT - 2);
+
+    /**
+     * The point the console menu is set at before animating to the visible point.
+     */
+    private static final Point consoleMenuHiddenPoint = new Point(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
 
     /**
      * Revalidates the taskbar menu bounds and re-installs the icons.
      */
     private void generateConsoleMenu() {
-        if (menuLabel != null) menuLabel.setVisible(false);
+        if (menuLabel != null) {
+            menuLabel.setVisible(false);
+        }
 
         menuLabel = new JLabel();
-        menuLabel.setBounds(-TASKBAR_MENU_WIDTH, CyderDragLabel.DEFAULT_HEIGHT - 2,
-                TASKBAR_MENU_WIDTH, calculateMenuHeight());
+        menuLabel.setSize(TASKBAR_MENU_WIDTH, calculateMenuHeight());
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.getGuiThemeColor());
         menuLabel.setFocusable(false);
@@ -1985,44 +2001,55 @@ public enum Console {
     }
 
     /**
+     * The thread name for the input and output fields out animator thread.
+     */
+    private static final String CONSOLE_FIELDS_OUT_ANIMATOR_THREAD_NAME = "Console Field Out Animator";
+
+    /**
+     * The animate to x value when animating the fields left with the menu minimize animation.
+     */
+    private static final int minFieldAnimateToX = 15;
+
+    /**
      * Slowly animates the taskbar away.
      */
+    @ForReadability
     private void minimizeMenu() {
-        if (menuLabel.isVisible()) {
-            int increment = 8;
-            int delay = 10;
+        Preconditions.checkState(menuLabel.isVisible());
 
-            // todo pretty sure this is duplicated above
+        CyderThreadRunner.submit(() -> {
+            int outputScrollY = outputScroll.getY();
+            int outputScrollWidth = outputScroll.getWidth();
+            int outputScrollHeight = outputScroll.getHeight();
 
-            CyderThreadRunner.submit(() -> {
-                for (int i = inputField.getX() ; i > 15 ; i -= increment) {
-                    outputScroll.setBounds(i, outputScroll.getY(),
-                            outputScroll.getWidth() + 1, outputScroll.getHeight());
-                    inputField.setBounds(i, inputField.getY(),
-                            inputField.getWidth() + 1, inputField.getHeight());
+            int inputFieldY = inputField.getY();
+            int inputFieldWidth = inputField.getWidth();
+            int inputFieldHeight = inputField.getHeight();
 
-                    ThreadUtil.sleep(delay);
-                }
+            for (int i = inputField.getX() ; i > minFieldAnimateToX ; i -= menuAnimationIncrement) {
+                outputScroll.setBounds(i, outputScrollY, outputScrollWidth + 1, outputScrollHeight);
+                inputField.setBounds(i, inputFieldY, inputFieldWidth + 1, inputFieldHeight);
 
-                revalidateInputAndOutputBounds(true);
-            }, "Console menu animator");
+                ThreadUtil.sleep(menuAnimationDelayMs);
+            }
 
-            CyderThreadRunner.submit(() -> {
-                menuLabel.setLocation(2, CyderDragLabel.DEFAULT_HEIGHT - 2);
-                int y = menuLabel.getY();
-                int hiddenX = -150;
+            revalidateInputAndOutputBounds(true);
+        }, CONSOLE_FIELDS_OUT_ANIMATOR_THREAD_NAME);
 
-                for (int i = 0 ; i > hiddenX ; i -= increment) {
-                    menuLabel.setLocation(i, y);
-                    ThreadUtil.sleep(delay);
-                }
+        CyderThreadRunner.submit(() -> {
+            menuLabel.setLocation(consoleMenuShowingPoint);
+            int y = menuLabel.getY();
 
-                menuLabel.setLocation(hiddenX, y);
-                menuLabel.setVisible(false);
+            for (int i = 0 ; i > consoleMenuHiddenPoint.getX() ; i -= menuAnimationIncrement) {
+                menuLabel.setLocation(i, y);
+                ThreadUtil.sleep(menuAnimationDelayMs);
+            }
 
-                revalidateInputAndOutputBounds();
-            }, "minimize menu thread");
-        }
+            menuLabel.setLocation(consoleMenuHiddenPoint);
+            menuLabel.setVisible(false);
+
+            revalidateInputAndOutputBounds();
+        }, MINIMIZE_MENU_THREAD_NAME);
     }
 
     /**
@@ -3039,11 +3066,16 @@ public enum Console {
 
         // revalidate bounds if needed and change icon
         if (menuLabel.isVisible()) {
-            menuLabel.setBounds(menuLabelShowingX, menuLabelShowingY,
-                    menuLabel.getWidth(), consoleCyderFrame.getHeight()
-                            - CyderDragLabel.DEFAULT_HEIGHT - 5);
-            menuScroll.setBounds(10, 10,
-                    menuLabel.getWidth() - 10, menuLabel.getHeight() - 20);
+            menuLabel.setBounds(
+                    (int) consoleMenuShowingPoint.getX(),
+                    (int) consoleMenuShowingPoint.getY(),
+                    TASKBAR_MENU_WIDTH,
+                    consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5);
+            menuScroll.setBounds(
+                    (int) consoleMenuShowingPoint.getX(),
+                    (int) consoleMenuShowingPoint.getY(),
+                    (int) (menuLabel.getWidth() - consoleMenuShowingPoint.getX()),
+                    (int) (calculateMenuHeight() - 2 * consoleMenuShowingPoint.getY()));
         }
 
         revalidateInputAndOutputBounds();

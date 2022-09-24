@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME) /* allow to be found after compilation to bytecode */
 @Target(ElementType.TYPE) /* restrict annotations to classes */
 public @interface CyderAuthor {
-    String author() default "Nathan Cheshire";
+    String author() default "Nate Cheshire";
 }

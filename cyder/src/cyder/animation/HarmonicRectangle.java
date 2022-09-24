@@ -69,7 +69,15 @@ public class HarmonicRectangle extends JLabel {
      * The position directions of harmonic oscillation.
      */
     public enum HarmonicDirection {
-        VERTICAL, HORIZONTAL
+        /**
+         * The rectangle will oscillate in the vertical direction.
+         */
+        VERTICAL,
+
+        /**
+         * The rectangle will oscillate in the horizontal direction.
+         */
+        HORIZONTAL
     }
 
     /**
@@ -81,7 +89,15 @@ public class HarmonicRectangle extends JLabel {
      * The possible states of the harmonic direction.
      */
     public enum DeltaDirection {
-        INCREASING, DECREASING
+        /**
+         * The rectangle is currently increasing.
+         */
+        INCREASING,
+
+        /**
+         * The rectangle is currently decreasing.
+         */
+        DECREASING
     }
 
     /**
@@ -194,7 +210,7 @@ public class HarmonicRectangle extends JLabel {
      * @param backgroundColor the background color
      */
     public void setBackgroundColor(Color backgroundColor) {
-        this.backgroundColor = backgroundColor;
+        this.backgroundColor = Preconditions.checkNotNull(backgroundColor);
     }
 
     /**
@@ -212,7 +228,7 @@ public class HarmonicRectangle extends JLabel {
      * @param harmonicDirection the direction to oscillate in
      */
     public void setHarmonicDirection(HarmonicDirection harmonicDirection) {
-        this.harmonicDirection = harmonicDirection;
+        this.harmonicDirection = Preconditions.checkNotNull(harmonicDirection);
     }
 
     /**
@@ -265,11 +281,13 @@ public class HarmonicRectangle extends JLabel {
      * Starts the animation with the provided name as the thread name.
      *
      * @param threadName the name of the thread for animation of this rectangle.
+     * @throws IllegalStateException if the rectangle has already started animating
      */
     public void startAnimation(String threadName) {
         Preconditions.checkNotNull(threadName);
+        Preconditions.checkArgument(!threadName.isEmpty());
 
-        if (isAnimating) return;
+        if (isAnimating) throw new IllegalStateException("Rectangle already animating");
         isAnimating = true;
         CyderThreadRunner.submit(animationRunnable, threadName);
     }
@@ -287,7 +305,7 @@ public class HarmonicRectangle extends JLabel {
     /**
      * Takes an animation step.
      */
-    public void animationStep() {
+    private void animationStep() {
         switch (harmonicDirection) {
             case HORIZONTAL:
                 switch (deltaDirection) {
@@ -384,7 +402,7 @@ public class HarmonicRectangle extends JLabel {
      * @param waveEquation the wave equation for this harmonic rectangle
      */
     public void setWaveEquation(Function<Float, Double> waveEquation) {
-        this.waveEquation = waveEquation;
+        this.waveEquation = Preconditions.checkNotNull(waveEquation);
     }
 
     /**

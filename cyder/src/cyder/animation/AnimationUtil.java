@@ -40,6 +40,8 @@ public final class AnimationUtil {
      * @param frame the frame object to close
      */
     public static void closeAnimation(Frame frame) {
+        Preconditions.checkNotNull(frame);
+
         if (frame instanceof CyderFrame) {
             ((CyderFrame) frame).disableDragging();
         }
@@ -77,6 +79,8 @@ public final class AnimationUtil {
      * @param cyderFrame the CyderFrame object to minimize and iconify
      */
     public static void minimizeAnimation(CyderFrame cyderFrame) {
+        Preconditions.checkNotNull(cyderFrame);
+
         boolean wasEnabled = cyderFrame.isDraggingEnabled();
 
         cyderFrame.disableDragging();

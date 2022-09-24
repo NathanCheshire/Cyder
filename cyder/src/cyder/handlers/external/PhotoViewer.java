@@ -352,7 +352,7 @@ public class PhotoViewer {
     public void revalidateTitle(String title) {
         try {
             BufferedImage bi = ImageIO.read(validDirectoryImages.get(currentIndex));
-            pictureFrame.setTitle("[" + bi.getWidth() + "x" + bi.getHeight() + "] " + title);
+            pictureFrame.setTitle(title + "[" + bi.getWidth() + "x" + bi.getHeight() + "]");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             pictureFrame.setTitle(title);
