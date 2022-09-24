@@ -973,6 +973,8 @@ public class CyderFrame extends JFrame {
         if (paintCyderFrameTitleOnSuperCall) {
             setCyderFrameTitle(title);
         }
+
+        correctTitleLength();
     }
 
     /**
@@ -2052,9 +2054,11 @@ public class CyderFrame extends JFrame {
             if (titlePosition != TitlePosition.CENTER) {
                 setTitlePosition(TitlePosition.CENTER, false);
             }
-
-            if (leftButtonsEnd + necessaryTitleWidth + 2 * necessaryGap > rightButtonsStart) {
-                int w = rightButtonsStart - leftButtonsEnd - 2 * necessaryGap;
+            if (titleLabel.getX() - necessaryGap < leftButtonsEnd
+                    || titleLabel.getX() + titleLabel.getWidth() + necessaryGap > rightButtonsStart) {
+                int leftDeviation = getWidth() / 2 - leftButtonsEnd - necessaryGap;
+                int rightDeviation = rightButtonsStart - getWidth() / 2 - necessaryGap;
+                int w = 2 * Math.min(leftDeviation, rightDeviation);
                 titleLabel.setBounds(width / 2 - w / 2, y, w, necessaryTitleHeight);
             }
         } else if (areLeftButtons) {
@@ -2098,7 +2102,7 @@ public class CyderFrame extends JFrame {
 
         // Super rare cases the title label will still be over the buttons
         int titleLabelStart = titleLabel.getX();
-        int titleLabelEnd = titleLabel.getY();
+        int titleLabelEnd = titleLabel.getX() + titleLabel.getWidth();
 
         Range<Integer> leftButtonRange = Range.closed(leftButtonsStart, leftButtonsEnd);
         Range<Integer> rightButtonRange = Range.closed(rightButtonsStart, rightButtonsEnd);

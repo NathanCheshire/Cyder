@@ -1442,6 +1442,9 @@ public final class AudioPlayer {
         audioPlayerFrame.setTitle(title);
     }
 
+    /**
+     * The label to place over the album art if the audio has been dreamified.
+     */
     private static final CyderLabel dreamyLabel = new CyderLabel("D");
 
     /**
@@ -1464,9 +1467,9 @@ public final class AudioPlayer {
         }
 
         File albumArtFilePng = OsUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
-                name + ".png");
+                name + "." + ImageUtil.PNG_FORMAT);
         File albumArtFileJpg = OsUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
-                name + ".jpg");
+                name + "." + ImageUtil.JPG_FORMAT);
 
         ImageIcon customAlbumArt = null;
 
