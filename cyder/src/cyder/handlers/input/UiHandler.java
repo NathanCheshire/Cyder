@@ -29,7 +29,7 @@ public class UiHandler extends InputHandler {
     }
 
     @Handle({"toast", "opacity", "original chams", "screenshot frames", "monitors",
-            "create user", "panic", "quit", "logout", "clear clip", "mouse", "frames"})
+            "create user", "panic", "quit", "logout", "clear clip", "mouse", "frames", "freeze"})
     public static boolean handle() {
         boolean ret = true;
 

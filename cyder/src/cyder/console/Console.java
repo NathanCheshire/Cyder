@@ -3472,7 +3472,9 @@ public enum Console {
 
         currentlyDancing = true;
 
-        while (currentlyDancing && !allFramesFinishedDancing()) {
+        while (currentlyDancing) {
+            if (allFramesFinishedDancing()) break;
+
             UiUtil.getCyderFrames().forEach(CyderFrame::danceStep);
         }
 
@@ -3494,7 +3496,13 @@ public enum Console {
      * @return whether all frames have completed a dance iteration
      */
     private boolean allFramesFinishedDancing() {
-        return UiUtil.getCyderFrames().stream().anyMatch(frame -> !frame.isDancingFinished());
+        for (CyderFrame frame : UiUtil.getCyderFrames()) {
+            if (!frame.isDancingFinished()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
