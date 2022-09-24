@@ -155,11 +155,27 @@ public final class UiUtil {
      * Attempts to set the provided frame to the monitor specified,
      * if valid, with the provided starting location.
      *
+     * @param requestPoint the point to position the frame's top left at
+     * @param frame        the frame to set the location/size of
+     */
+    public static void requestFramePosition(Point requestPoint, CyderFrame frame) {
+        Preconditions.checkNotNull(requestPoint);
+        Preconditions.checkNotNull(frame);
+
+        requestFramePosition(requestPoint.x, requestPoint.y, frame);
+    }
+
+    /**
+     * Attempts to set the provided frame to the monitor specified,
+     * if valid, with the provided starting location.
+     *
      * @param requestedX the x value to set the frame to
      * @param requestedY the y value to set the frame to
      * @param frame      the frame to set the location/size of
      */
     public static void requestFramePosition(int requestedX, int requestedY, CyderFrame frame) {
+        Preconditions.checkNotNull(frame);
+
         Rectangle mergedMonitors = getMergedMonitors();
 
         int absoluteMinX = mergedMonitors.x;
@@ -395,6 +411,7 @@ public final class UiUtil {
     }
 
     // todo use me
+
     /**
      * Returns the common mouse adapter linked to all cyder ui components to log when they are clicked.
      *
@@ -488,6 +505,6 @@ public final class UiUtil {
      */
     public static int getWindowsTaskbarLength() {
         return (int) (getDefaultMonitorHeight() - GraphicsEnvironment.getLocalGraphicsEnvironment()
-            .getMaximumWindowBounds().getHeight());
+                .getMaximumWindowBounds().getHeight());
     }
 }

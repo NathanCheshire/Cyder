@@ -9,7 +9,6 @@ import cyder.audio.AudioPlayer;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
@@ -1891,6 +1890,16 @@ public enum Console {
     private static final Point consoleMenuHiddenPoint = new Point(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
 
     /**
+     * The padding between the menu label and the menu scroll panel on the horizontal axis.
+     */
+    private static final int menuScrollHorizontalPadding = 5;
+
+    /**
+     * The padding between the menu label and the menu scroll panel on the vertical axis.
+     */
+    private static final int menuScrollVerticalPadding = 5;
+
+    /**
      * Revalidates the taskbar menu bounds and re-installs the icons.
      */
     private void generateConsoleMenu() {
@@ -1924,11 +1933,9 @@ public enum Console {
         menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        menuScroll.setBounds(
-                (int) consoleMenuShowingPoint.getX(),
-                (int) consoleMenuShowingPoint.getY(),
-                (int) (menuLabel.getWidth() - consoleMenuShowingPoint.getX()),
-                (int) (calculateMenuHeight() - 2 * consoleMenuShowingPoint.getY()));
+        int width = menuLabel.getWidth() - 2 * menuScrollHorizontalPadding;
+        int height = menuLabel.getHeight() - 2 * menuScrollVerticalPadding;
+        menuScroll.setBounds(menuScrollHorizontalPadding, menuScrollVerticalPadding, width, height);
         menuLabel.add(menuScroll);
 
         installMenuTaskbarIcons();
@@ -1980,6 +1987,8 @@ public enum Console {
      * @param associatedFrame the frame reference to remove from the taskbar frame list
      */
     public void removeTaskbarIcon(CyderFrame associatedFrame) {
+        Preconditions.checkNotNull(associatedFrame);
+
         if (currentActiveFrames.contains(associatedFrame)) {
             currentActiveFrames.remove(associatedFrame);
             revalidateMenu();
@@ -1992,6 +2001,8 @@ public enum Console {
      * @param associatedFrame the frame reference to add to the taskbar list
      */
     public void addTaskbarIcon(CyderFrame associatedFrame) {
+        Preconditions.checkNotNull(associatedFrame);
+
         if (isClosed() || frameTaskbarExceptions.contains(associatedFrame)) return;
 
         if (!currentActiveFrames.contains(associatedFrame)) {
@@ -2059,6 +2070,7 @@ public enum Console {
         @Override
         public void keyPressed(KeyEvent e) {
             if (isControlC(e)) baseInputHandler.escapeThreads();
+
             int caretPosition = outputArea.getCaretPosition();
 
             if (isConsoleAltDown(e)) {
@@ -2175,9 +2187,9 @@ public enum Console {
         public void keyPressed(KeyEvent e) {
             if (!controlAltNotPressed(e)) return;
 
-            if (upEvent(e)) {
+            if (isUp(e)) {
                 attemptScrollUp();
-            } else if (downEvent(e)) {
+            } else if (isDown(e)) {
                 attemptScrollDown();
             }
 
@@ -2222,12 +2234,12 @@ public enum Console {
         }
 
         @ForReadability
-        private boolean upEvent(KeyEvent e) {
+        private boolean isUp(KeyEvent e) {
             return e.getKeyCode() == KeyEvent.VK_UP;
         }
 
         @ForReadability
-        private boolean downEvent(KeyEvent e) {
+        private boolean isDown(KeyEvent e) {
             return e.getKeyCode() == KeyEvent.VK_DOWN;
         }
 
@@ -2262,33 +2274,33 @@ public enum Console {
      * The MouseWheelListener used for increasing/decreasing the
      * font size for input field and output area.
      */
-    @SuppressWarnings("MagicConstant") // Font metric is always checked
+    @SuppressWarnings("MagicConstant") /* Font metric is always checked */
     private final MouseWheelListener fontSizerListener = e -> {
         if (e.isControlDown()) {
-            int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
-            size += e.getWheelRotation() == WHEEL_UP ? 1 : -1;
+            int fontSize = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
+            fontSize += e.getWheelRotation() == WHEEL_UP ? 1 : -1;
 
-            if (size > PropLoader.getInteger(MAX_FONT_SIZE)
-                    || size < PropLoader.getInteger(MIN_FONT_SIZE)) {
+            if (fontSize > PropLoader.getInteger(MAX_FONT_SIZE)
+                    || fontSize < PropLoader.getInteger(MIN_FONT_SIZE)) {
                 return;
             }
 
             try {
                 String fontName = UserUtil.getCyderUser().getFont();
                 int fontMetric = Integer.parseInt(PropLoader.getString(FONT_METRIC));
-                Font newFont = new Font(fontName, fontMetric, size);
 
+                Font newFont = new Font(fontName, fontMetric, fontSize);
                 if (NumberUtil.isValidFontMetric(fontMetric)) {
                     inputField.setFont(newFont);
                     outputArea.setFont(newFont);
 
-                    UserUtil.getCyderUser().setFontsize(String.valueOf(size));
+                    UserUtil.getCyderUser().setFontsize(String.valueOf(fontSize));
 
                     YoutubeUtil.refreshAllDownloadLabels();
                 }
             } catch (Exception ignored) {}
         } else {
-            // don't disrupt original function
+            // Don't disrupt original event
             outputArea.getParent().dispatchEvent(e);
             inputField.getParent().dispatchEvent(e);
         }
@@ -2329,15 +2341,13 @@ public enum Console {
      */
     @SuppressWarnings("MagicConstant") // Font metric is always checked before use
     public Font generateUserFont() {
-        int metric = Integer.parseInt(PropLoader.getString(FONT_METRIC));
+        String fontName = UserUtil.getCyderUser().getFont();
+        int fontMetric = Integer.parseInt(PropLoader.getString(FONT_METRIC));
+        int fontSize = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
 
-        if (NumberUtil.isValidFontMetric(metric)) {
-            return new Font(UserUtil.getCyderUser().getFont(), metric,
-                    Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
-        } else {
-            return new Font(UserUtil.getCyderUser().getFont(), Font.BOLD,
-                    Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
-        }
+        if (!NumberUtil.isValidFontMetric(fontMetric)) fontMetric = Font.BOLD;
+
+        return new Font(fontName, fontMetric, fontSize);
     }
 
     // ----------------
@@ -2397,23 +2407,27 @@ public enum Console {
      * refreshing due to a possible background list change.
      */
     private void revalidateBackgroundIndex() {
-        if (consoleCyderFrame != null) {
-            JLabel contentLabel = getConsoleCyderFrameContentPane();
+        if (consoleCyderFrame == null) {
+            backgroundIndex = 0;
+            return;
+        }
 
-            if (contentLabel != null) {
-                String filename = contentLabel.getToolTipText();
+        JLabel contentLabel = getConsoleCyderFrameContentPane();
+        if (contentLabel == null) {
+            backgroundIndex = 0;
+            return;
+        }
 
-                if (StringUtil.isNullOrEmpty(filename)) {
-                    backgroundIndex = 0;
-                    return;
-                }
+        String filename = contentLabel.getToolTipText();
+        if (StringUtil.isNullOrEmpty(filename)) {
+            backgroundIndex = 0;
+            return;
+        }
 
-                for (int i = 0 ; i < backgrounds.size() ; i++) {
-                    if (FileUtil.getFilename(backgrounds.get(i).getReferenceFile()).equals(filename)) {
-                        backgroundIndex = i;
-                        return;
-                    }
-                }
+        for (int i = 0 ; i < backgrounds.size() ; i++) {
+            if (FileUtil.getFilename(backgrounds.get(i).getReferenceFile()).equals(filename)) {
+                backgroundIndex = i;
+                return;
             }
         }
 
@@ -2444,21 +2458,16 @@ public enum Console {
 
         reloadBackgrounds();
 
-        int index = -1;
-
         for (int i = 0 ; i < backgrounds.size() ; i++) {
-            if (backgrounds.get(i).getReferenceFile().getAbsolutePath().equals(backgroundFile.getAbsolutePath())) {
-                index = i;
-                break;
+            if (backgrounds.get(i).getReferenceFile().getAbsolutePath()
+                    .equals(backgroundFile.getAbsolutePath())) {
+                setBackgroundIndex(i, maintainSizeAndCenter);
+                return;
             }
         }
 
-        if (index != -1) {
-            setBackgroundIndex(index, maintainSizeAndCenter);
-        } else {
-            throw new IllegalArgumentException("Provided file not found in user's backgrounds directory: "
-                    + backgroundFile.getAbsolutePath());
-        }
+        throw new IllegalArgumentException("Provided file not found in user's backgrounds directory: "
+                + backgroundFile.getAbsolutePath());
     }
 
     /**
@@ -2558,6 +2567,11 @@ public enum Console {
     private final AtomicBoolean backgroundSwitchingLocked = new AtomicBoolean(false);
 
     /**
+     * The name of the thread which animates the background switch.
+     */
+    private static final String CONSOLE_BACKGROUND_SWITCHER_THREAD_NAME = "Console Background Switcher";
+
+    /**
      * Switches backgrounds to the next background in the list via a sliding animation.
      * The Console will remain in fullscreen mode if in fullscreen mode as well as maintain
      * whatever size it was at before a background switch was requested.
@@ -2618,25 +2632,26 @@ public enum Console {
         // Revalidate bounds for icon label and icon pane
         consoleCyderFrame.refreshBackground();
 
-        // Set dimensions
+        // Determine this slide direction
+        Direction nextSlideDirection;
         switch (lastSlideDirection) {
-            case LEFT ->
-                    // will be sliding up
-                    contentPane.setBounds(CyderFrame.FRAME_RESIZING_LEN, CyderFrame.FRAME_RESIZING_LEN,
-                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
-            case RIGHT ->
-                    // will be sliding down
-                    contentPane.setBounds(CyderFrame.FRAME_RESIZING_LEN, -combinedIcon.getIconHeight() / 2,
-                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
-            case TOP ->
-                    // will be sliding right
-                    contentPane.setBounds(-combinedIcon.getIconWidth() / 2, CyderFrame.FRAME_RESIZING_LEN,
-                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
-            case BOTTOM ->
-                    // will be sliding left
-                    contentPane.setBounds(combinedIcon.getIconWidth() / 2, CyderFrame.FRAME_RESIZING_LEN,
-                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
-            default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
+            case LEFT -> nextSlideDirection = Direction.TOP;
+            case RIGHT -> nextSlideDirection = Direction.BOTTOM;
+            case TOP -> nextSlideDirection = Direction.RIGHT;
+            case BOTTOM -> nextSlideDirection = Direction.LEFT;
+            default -> throw new IllegalStateException("Illegal last slide direction");
+        }
+
+        // Set dimensions
+        switch (nextSlideDirection) {
+            case TOP -> contentPane.setBounds(CyderFrame.FRAME_RESIZING_LEN, CyderFrame.FRAME_RESIZING_LEN,
+                    combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
+            case BOTTOM -> contentPane.setBounds(CyderFrame.FRAME_RESIZING_LEN, -combinedIcon.getIconHeight() / 2,
+                    combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
+            case RIGHT -> contentPane.setBounds(-combinedIcon.getIconWidth() / 2, CyderFrame.FRAME_RESIZING_LEN,
+                    combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
+            case LEFT -> contentPane.setBounds(combinedIcon.getIconWidth() / 2, CyderFrame.FRAME_RESIZING_LEN,
+                    combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
         }
 
         // set to combined icon
@@ -2652,40 +2667,35 @@ public enum Console {
             int timeout = isFullscreen() ? FULLSCREEN_TIMEOUT : DEFAULT_TIMEOUT;
             int increment = isFullscreen() ? FULLSCREEN_INCREMENT : DEFAULT_INCREMENT;
 
-            switch (lastSlideDirection) {
-                case LEFT -> {
-                    // Sliding up
+            switch (nextSlideDirection) {
+                case TOP -> {
                     for (int i = 0 ; i >= -consoleCyderFrame.getHeight() ; i -= increment) {
                         ThreadUtil.sleep(timeout);
                         contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
                     }
-                    lastSlideDirection = Direction.TOP;
+                    lastSlideDirection = nextSlideDirection;
                 }
-                case RIGHT -> {
-                    // Sliding down
+                case BOTTOM -> {
                     for (int i = -consoleCyderFrame.getHeight() ; i <= 0 ; i += increment) {
                         ThreadUtil.sleep(timeout);
                         contentPane.setLocation(consoleCyderFrame.getContentPane().getX(), i);
                     }
-                    lastSlideDirection = Direction.BOTTOM;
+                    lastSlideDirection = nextSlideDirection;
                 }
-                case TOP -> {
-                    // Sliding right
+                case RIGHT -> {
                     for (int i = -consoleCyderFrame.getWidth() ; i <= 0 ; i += increment) {
                         ThreadUtil.sleep(timeout);
                         contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
                     }
-                    lastSlideDirection = Direction.RIGHT;
+                    lastSlideDirection = nextSlideDirection;
                 }
-                case BOTTOM -> {
-                    // Sliding left
+                case LEFT -> {
                     for (int i = 0 ; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
                         ThreadUtil.sleep(timeout);
                         contentPane.setLocation(i, consoleCyderFrame.getContentPane().getY());
                     }
-                    lastSlideDirection = Direction.LEFT;
+                    lastSlideDirection = nextSlideDirection;
                 }
-                default -> throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
             }
 
             consoleCyderFrame.setBackground(nextBackFinal);
@@ -2707,7 +2717,7 @@ public enum Console {
             outputArea.setFocusable(outputAreaWasFocusable);
 
             backgroundSwitchingLocked.set(false);
-        }, "Background Switcher");
+        }, CONSOLE_BACKGROUND_SWITCHER_THREAD_NAME);
     }
 
     /**
@@ -2768,55 +2778,9 @@ public enum Console {
         }
     }
 
-    /**
-     * Returns whether fullscreen is on.
-     *
-     * @return whether fullscreen is on
-     */
+    @ForReadability
     private boolean isFullscreen() {
         return UserUtil.getCyderUser().getFullscreen().equals("1");
-    }
-
-    /**
-     * Returns the index in the command history we are currently at.
-     *
-     * @return the index in the command history we are currently at
-     */
-    public int getCommandIndex() {
-        return commandIndex;
-    }
-
-    /**
-     * Sets the index in the command history we are at.
-     *
-     * @param downs the index in the command history we are at
-     */
-    public void setCommandIndex(int downs) {
-        commandIndex = downs;
-    }
-
-    /**
-     * Increments the command index by 1.
-     */
-    public void incrementCommandIndex() {
-        commandIndex += 1;
-    }
-
-    /**
-     * Decreases the command index by 1.
-     */
-    public void decrementCommandIndex() {
-        commandIndex -= 1;
-    }
-
-    /**
-     * Returns whether the current background index is the maximum index.
-     *
-     * @return whether the current background index is the maximum index
-     */
-    public boolean onLastBackground() {
-        reloadBackgrounds();
-        return backgrounds.size() == backgroundIndex + 1;
     }
 
     /**
@@ -2837,42 +2801,6 @@ public enum Console {
         return baseInputHandler;
     }
 
-    /**
-     * Returns the x value of the Console.
-     *
-     * @return the x value of the Console
-     */
-    public int getX() {
-        return consoleCyderFrame.getX();
-    }
-
-    /**
-     * Returns the y value of the Console.
-     *
-     * @return the y value of the Console
-     */
-    public int getY() {
-        return consoleCyderFrame.getY();
-    }
-
-    /**
-     * Returns the width of the Console.
-     *
-     * @return the width of the Console
-     */
-    public int getWidth() {
-        return consoleCyderFrame.getWidth();
-    }
-
-    /**
-     * Returns the height of the Console.
-     *
-     * @return the height of the Console
-     */
-    public int getHeight() {
-        return consoleCyderFrame.getHeight();
-    }
-
     // --------------------
     // Command history mods
     // --------------------
@@ -2883,15 +2811,6 @@ public enum Console {
     public void clearCommandHistory() {
         commandList.clear();
         commandIndex = 0;
-    }
-
-    /**
-     * Returns the command history.
-     *
-     * @return the command history
-     */
-    public ArrayList<String> getCommandHistory() {
-        return commandList;
     }
 
     // ----------
@@ -2984,22 +2903,25 @@ public enum Console {
             background = getCurrentBackground().generateImageIcon();
         }
 
+        int width = consoleCyderFrame.getWidth();
+        int height = consoleCyderFrame.getHeight();
+
         if (maintainConsoleSize) {
             switch (consoleDir) {
                 case TOP: // Fallthrough
                 case BOTTOM:
                     if (lastConsoleDir == Direction.LEFT || lastConsoleDir == Direction.RIGHT) {
-                        background = ImageUtil.resizeImage(background, getHeight(), getWidth());
+                        background = ImageUtil.resizeImage(background, height, width);
                     } else {
-                        background = ImageUtil.resizeImage(background, getWidth(), getHeight());
+                        background = ImageUtil.resizeImage(background, width, height);
                     }
                     break;
                 case LEFT: // Fallthrough
                 case RIGHT:
                     if (lastConsoleDir == Direction.LEFT || lastConsoleDir == Direction.RIGHT) {
-                        background = ImageUtil.resizeImage(background, getWidth(), getHeight());
+                        background = ImageUtil.resizeImage(background, width, height);
                     } else {
-                        background = ImageUtil.resizeImage(background, getHeight(), getWidth());
+                        background = ImageUtil.resizeImage(background, height, width);
                     }
                     break;
             }
@@ -3008,17 +2930,12 @@ public enum Console {
         int w = background.getIconWidth();
         int h = background.getIconHeight();
 
-        // this shouldn't ever happen
-        if (w == -1 || h == -1) {
-            throw new FatalException("Resulting width or height was found to " +
-                    "not have been set in Console refresh method. " + CyderStrings.EUROPEAN_TOY_MAKER);
-        }
-
         consoleCyderFrame.setSize(w, h);
         consoleCyderFrame.setBackground(background);
 
-        UiUtil.requestFramePosition((int) originalCenter.getX() - w / 2,
-                (int) originalCenter.getY() - h / 2, consoleCyderFrame);
+        int topLeftX = (int) originalCenter.getX() - w / 2;
+        int topLeftY = (int) originalCenter.getY() - h / 2;
+        UiUtil.requestFramePosition(topLeftX, topLeftY, consoleCyderFrame);
 
         revalidateInputAndOutputBounds();
 
@@ -3070,30 +2987,40 @@ public enum Console {
                     (int) consoleMenuShowingPoint.getX(),
                     (int) consoleMenuShowingPoint.getY(),
                     TASKBAR_MENU_WIDTH,
-                    consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5);
-            menuScroll.setBounds(
-                    (int) consoleMenuShowingPoint.getX(),
-                    (int) consoleMenuShowingPoint.getY(),
-                    (int) (menuLabel.getWidth() - consoleMenuShowingPoint.getX()),
-                    (int) (calculateMenuHeight() - 2 * consoleMenuShowingPoint.getY()));
+                    calculateMenuHeight());
+
+            int width = menuLabel.getWidth() - 2 * menuScrollHorizontalPadding;
+            int height = menuLabel.getHeight() - 2 * menuScrollVerticalPadding;
+            menuScroll.setBounds(menuScrollHorizontalPadding, menuScrollVerticalPadding, width, height);
         }
 
         revalidateInputAndOutputBounds();
     }
 
     /**
+     * The name of the console audio menu minimizer thread.
+     */
+    private static final String CONSOLE_AUDIO_MENU_MINIMIZER_THREAD_NAME = "Console Audio Menu Minimizer";
+
+    /**
+     * The increment for audio menu animations.
+     */
+    private static final int audioMenuAnimationIncrement = 8;
+
+    /**
+     * The delay for audio menu animations.
+     */
+    private static final int audioMenuAnimationDelayMs = 10;
+
+    /**
      * Smoothly animates out the console audio controls.
      */
     private void animateOutAudioControls() {
-        String CONSOLE_AUDIO_MENU_MINIMIZER_THREAD_NAME = "Console Audio Menu Minimizer";
-        int decrement = 8;
-        int sleepTime = 10;
-
         CyderThreadRunner.submit(() -> {
-            for (int i = audioControlsLabel.getY() ; i > -AUDIO_MENU_LABEL_HEIGHT ; i -= decrement) {
+            for (int i = audioControlsLabel.getY() ; i > -AUDIO_MENU_LABEL_HEIGHT ; i -= audioMenuAnimationIncrement) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
                         - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, i);
-                ThreadUtil.sleep(sleepTime);
+                ThreadUtil.sleep(audioMenuAnimationDelayMs);
             }
             audioControlsLabel.setVisible(false);
         }, CONSOLE_AUDIO_MENU_MINIMIZER_THREAD_NAME);
@@ -3103,15 +3030,11 @@ public enum Console {
      * Smooth animates out and removes the audio controls button.
      */
     public void animateOutAndRemoveAudioControls() {
-        String CONSOLE_AUDIO_MENU_MINIMIZER_THREAD_NAME = "Console Audio Menu Minimizer";
-        int decrement = 8;
-        int delay = 10;
-
         CyderThreadRunner.submit(() -> {
-            for (int i = audioControlsLabel.getY() ; i > -AUDIO_MENU_LABEL_HEIGHT ; i -= decrement) {
+            for (int i = audioControlsLabel.getY() ; i > -AUDIO_MENU_LABEL_HEIGHT ; i -= audioMenuAnimationIncrement) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
                         - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, i);
-                ThreadUtil.sleep(delay);
+                ThreadUtil.sleep(audioMenuAnimationDelayMs);
             }
             audioControlsLabel.setVisible(false);
             removeAudioControls();
@@ -3124,17 +3047,20 @@ public enum Console {
     private void animateInAudioControls() {
         CyderThreadRunner.submit(() -> {
             generateAudioMenu();
-            audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
-                    - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, -AUDIO_MENU_LABEL_HEIGHT);
+
+            int y = CyderDragLabel.DEFAULT_HEIGHT - AUDIO_MENU_LABEL_HEIGHT;
+            audioControlsLabel.setLocation(calculateAudioMenuX(), y);
+
             audioControlsLabel.setVisible(true);
-            for (int i = -AUDIO_MENU_LABEL_HEIGHT ; i < CyderDragLabel.DEFAULT_HEIGHT - 2 ; i += 8) {
-                audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
-                        - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, i);
-                ThreadUtil.sleep(10);
+
+            for (int i = y ; i < CyderDragLabel.DEFAULT_HEIGHT - 2 ; i += audioMenuAnimationIncrement) {
+                audioControlsLabel.setLocation(calculateAudioMenuX(), i);
+                ThreadUtil.sleep(audioMenuAnimationDelayMs);
             }
-            audioControlsLabel.setLocation(consoleCyderFrame.getWidth()
-                    - audioControlsLabel.getWidth() - AUDIO_MENU_X_OFFSET, CyderDragLabel.DEFAULT_HEIGHT - 2);
-        }, "Console Audio Menu Minimizer");
+
+
+            audioControlsLabel.setLocation(calculateAudioMenuX(), CyderDragLabel.DEFAULT_HEIGHT - 2);
+        }, CONSOLE_AUDIO_MENU_MINIMIZER_THREAD_NAME);
     }
 
     /**
@@ -3212,7 +3138,7 @@ public enum Console {
     /**
      * The offset between the end of the audio menu label and the end of the console frame.
      */
-    private static final int AUDIO_MENU_X_OFFSET = 6;
+    private static final int AUDIO_MENU_X_OFFSET = CyderFrame.BORDER_LEN + 1;
 
     /**
      * The tooltip for the previous audio menu button.
@@ -3703,7 +3629,9 @@ public enum Console {
      */
     public void addToFrameTaskbarExceptions(CyderFrame frame) {
         Preconditions.checkNotNull(frame);
-        frameTaskbarExceptions = ImmutableList.<CyderFrame>builder().addAll(frameTaskbarExceptions).add(frame).build();
+
+        frameTaskbarExceptions = ImmutableList.<CyderFrame>builder()
+                .addAll(frameTaskbarExceptions).add(frame).build();
     }
 
     /**
