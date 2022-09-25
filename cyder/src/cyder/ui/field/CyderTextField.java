@@ -10,18 +10,21 @@ import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.utils.ColorUtil;
+import cyder.utils.ImageUtil;
 import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -47,6 +50,16 @@ public class CyderTextField extends JTextField {
      * The pattern to use for matching against keyEventRegexMatcher.
      */
     private Pattern keyEventRegexPattern;
+
+    /**
+     * The default border for Cyder text fields.
+     */
+    private static final LineBorder DEFAULT_BORDER = new LineBorder(CyderColors.navy, 5, false);
+
+    /**
+     * The border currently set on this text field.
+     */
+    private Border border = DEFAULT_BORDER;
 
     /**
      * Constructs a new Cyder TextField object with no character limit.
@@ -77,7 +90,7 @@ public class CyderTextField extends JTextField {
         setForeground(CyderColors.navy);
         setCaretColor(CyderColors.navy);
         setCaret(new CyderCaret(CyderColors.navy));
-        setBorder(new LineBorder(CyderColors.navy, 5, false));
+        setBorder(border);
         setOpaque(true);
 
         Logger.log(LogTag.OBJECT_CREATION, this);
@@ -220,56 +233,24 @@ public class CyderTextField extends JTextField {
     }
 
     /**
-     * The text field's LineBorder if applicable.
+     * The padding between the border and left or right icon label and the start of the field input.
      */
-    private LineBorder lineBorder;
-
-    /**
-     * The color used for valid form data.
-     */
-    private final Color validFormDataColor = CyderColors.regularGreen;
-
-    /**
-     * The data used for invalid form data.
-     */
-    private final Color invalidFormDataColor = CyderColors.regularRed;
+    private static final int ADDITIONAL_ICON_LABEL_ADDING = 5;
 
     /**
      * {@inheritDoc}
-     * <p>
-     * If line borders are used, then the invalid
-     * and valid form data methods may be called.
      */
     @Override
     public void setBorder(Border border) {
-        if (border instanceof LineBorder) {
-            lineBorder = (LineBorder) border;
-        } else {
-            lineBorder = null;
+        if (leftIcon != null) {
+            this.border = border;
+
+            int len = getHeight() - 2 * ICON_LABEL_PADDING + ADDITIONAL_ICON_LABEL_ADDING;
+            Border empty = new EmptyBorder(0, len, 0, 0);
+            border = new CompoundBorder(border, empty);
         }
 
-        // no need to cast since instanceof LineBorder is ensured
         super.setBorder(border);
-    }
-
-    /**
-     * Sets the border to a green color to let the user know the provided input is valid.
-     */
-    public void informValidData() {
-        checkArgument(lineBorder != null);
-
-        setBorder(new LineBorder(validFormDataColor,
-                lineBorder.getThickness(), lineBorder.getRoundedCorners()));
-    }
-
-    /**
-     * Sets the border to a red color to let the user know the provided input is invalid.
-     */
-    public void informInvalidData() {
-        checkArgument(lineBorder != null);
-
-        setBorder(new LineBorder(invalidFormDataColor,
-                lineBorder.getThickness(), lineBorder.getRoundedCorners()));
     }
 
     /**
@@ -413,11 +394,6 @@ public class CyderTextField extends JTextField {
     private JLabel hintTextLabel;
 
     /**
-     * Whether the hint text should be shown if the proper conditions are met.
-     */
-    private boolean hintTextEnabled;
-
-    /**
      * Possible hint text alignments.
      */
     public enum HintTextAlignment {
@@ -451,16 +427,6 @@ public class CyderTextField extends JTextField {
     }
 
     /**
-     * Sets whether the hint text should appear if the proper conditions are met.
-     *
-     * @param enabled whether the hint text should appear if the proper conditions are met
-     */
-    public void setHintTextEnabled(boolean enabled) {
-        this.hintTextEnabled = enabled;
-        refreshHintText();
-    }
-
-    /**
      * Sets the hint text for this field.
      *
      * @param text the hint text for this field
@@ -481,9 +447,19 @@ public class CyderTextField extends JTextField {
         hintTextLabel.setText(hintText);
 
         Dimension size = getSize();
-        hintTextLabel.setBounds(HINT_LABEL_PADDING, HINT_LABEL_PADDING,
-                (int) size.getWidth() - 2 * HINT_LABEL_PADDING,
-                (int) size.getHeight() - 2 * HINT_LABEL_PADDING);
+        boolean leftIconPresent = leftIcon != null;
+        if (leftIconPresent) {
+            int leftIconLen = getHeight() - 2 * ICON_LABEL_PADDING;
+            int width = (int) size.getWidth() - 2 * HINT_LABEL_PADDING
+                    - leftIconLen - ADDITIONAL_ICON_LABEL_ADDING;
+            int height = (int) size.getHeight() - 2 * HINT_LABEL_PADDING;
+            hintTextLabel.setBounds(leftIconLen + ADDITIONAL_ICON_LABEL_ADDING + HINT_LABEL_PADDING,
+                    HINT_LABEL_PADDING, width, height);
+        } else {
+            int width = (int) size.getWidth() - 2 * HINT_LABEL_PADDING;
+            int height = (int) size.getHeight() - 2 * HINT_LABEL_PADDING;
+            hintTextLabel.setBounds(HINT_LABEL_PADDING, HINT_LABEL_PADDING, width, height);
+        }
 
         switch (hintTextAlignment) {
             case LEFT -> hintTextLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -519,12 +495,18 @@ public class CyderTextField extends JTextField {
         });
     }
 
-    /**
-     * Whether the char being typed currently is the first character in this field.
-     * This is used to block refreshing of the hint text and label on the subsequent
-     * released and typed events that will be generated.
-     */
-    private final AtomicBoolean enteringFirstChar = new AtomicBoolean();
+    private static final ImmutableList<Integer> keyCodes;
+
+    static {
+        ArrayList<Integer> ret = new ArrayList<>();
+
+        IntStream.range(48, 112).forEach(ret::add);
+        IntStream.range(150, 153).forEach(ret::add);
+        IntStream.range(161, 223).forEach(ret::add);
+        IntStream.range(513, 524).forEach(ret::add);
+
+        keyCodes = ImmutableList.copyOf(ret);
+    }
 
     /**
      * Adds the hint text key listener to this field.
@@ -533,44 +515,16 @@ public class CyderTextField extends JTextField {
     private void addHintTextKeyListener() {
         addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
-                if (enteringFirstChar.get()) return;
-                hintKeyListenerLogic();
-            }
-
-            @Override
             public void keyPressed(KeyEvent e) {
-                boolean backspace = e.getKeyCode() == KeyEvent.VK_BACK_SPACE;
-                int length = getText().length();
-
-                if (backspace && length == 1) {
-                    hintTextLabel.setVisible(true);
-                } else if (!backspace && length == 0) {
-                    enteringFirstChar.set(true);
-                    hintTextLabel.setVisible(false);
-                } else {
-                    enteringFirstChar.set(false);
-                }
+                System.out.println(e.getKeyCode());
+                hintTextLabel.setVisible(!keyCodes.contains(e.getKeyCode()));
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                if (enteringFirstChar.get()) return;
-                hintKeyListenerLogic();
+                hintTextLabel.setVisible(!keyCodes.contains(e.getKeyCode()));
             }
         });
-    }
-
-    /**
-     * The logic for key pressed, released, and typed events from the hint text key listener.
-     */
-    @ForReadability
-    private void hintKeyListenerLogic() {
-        if (getText().length() != 0) {
-            hintTextLabel.setVisible(false);
-        } else if (hintTextEnabled) {
-            hintTextLabel.setVisible(true);
-        }
     }
 
     /**
@@ -584,7 +538,7 @@ public class CyderTextField extends JTextField {
     private void addHintTextLabel() {
         hintTextLabel = new JLabel();
         add(hintTextLabel);
-        hintTextEnabled = true;
+        hintTextLabel.setVisible(true);
         refreshHintText();
     }
 
@@ -599,7 +553,6 @@ public class CyderTextField extends JTextField {
 
     public void setLeftIcon(ImageIcon leftIcon) {
         this.leftIcon = Preconditions.checkNotNull(leftIcon);
-        hintTextEnabled = false;
         refreshLeftIcon();
     }
 
@@ -613,13 +566,15 @@ public class CyderTextField extends JTextField {
         if (leftIcon == null) return;
         if (leftIconLabel == null) addLeftIconLabel();
 
+        int len = getHeight() - 2 * ICON_LABEL_PADDING;
+        if (leftIcon.getIconWidth() > len || leftIcon.getIconHeight() > len) {
+            leftIcon = ImageUtil.resizeImage(leftIcon, len, len);
+        }
+
+        setBorder(border);
         leftIconLabel.setIcon(leftIcon);
         leftIconLabel.setVisible(true);
-        leftIconLabel.setBounds(
-                ICON_LABEL_PADDING,
-                ICON_LABEL_PADDING,
-                getHeight() - 2 * ICON_LABEL_PADDING,
-                getHeight() - 2 * ICON_LABEL_PADDING);
+        leftIconLabel.setBounds(ICON_LABEL_PADDING, ICON_LABEL_PADDING, len, len);
     }
 
     private void addLeftIconLabel() {

@@ -421,7 +421,7 @@ public final class ReflectionUtil {
      * The vanilla developer names.
      */
     private static final ImmutableList<String> DEVELOPER_NAMES
-            = ImmutableList.of("Nathan Cheshire", "Natche", "Cypher");
+            = ImmutableList.of("Nathan Cheshire", "Natche", "Cypher", "Nate Cheshire");
 
     /**
      * The key word to look for a class to end with it if contains a method annotated with {@link Widget}.
