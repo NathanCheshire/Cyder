@@ -34,7 +34,7 @@ public class StatHandler extends InputHandler {
     }
 
     @Handle({"debug", "count logs", "computer properties", "system properties", "tests",
-            "network addresses", "filesizes", "badwords", "widgets", "analyz ecode", "javap roperties",
+            "network addresses", "filesizes", "badwords", "widgets", "analyze code", "java properties",
             "threads", "daemon threads"})
     public static boolean handle() {
         boolean ret = true;
@@ -109,9 +109,9 @@ public class StatHandler extends InputHandler {
             getInputHandler().println("Number of log dirs: " + days);
             getInputHandler().println("Number of logs: " + count);
         } else if (getInputHandler().commandIs("tests")) {
-            getInputHandler().println("Valid tests to call:\n");
-            getInputHandler().printlns(ReflectionUtil.getManualTests());
-        } else if (getInputHandler().commandIs("networkaddresses")) {
+            getInputHandler().println("Valid GUI tests to call:\n");
+            getInputHandler().printlns(ReflectionUtil.getGuiTests());
+        } else if (getInputHandler().inputIgnoringSpacesMatches("networkaddresses")) {
             try {
                 Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
 
@@ -127,7 +127,7 @@ public class StatHandler extends InputHandler {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        } else if (getInputHandler().commandIs("filesizes")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("filesizes")) {
             for (StatUtil.FileSize fileSize : StatUtil.fileSizes()) {
                 getInputHandler().println(fileSize.name() + ": " + OsUtil.formatBytes(fileSize.size()));
             }
@@ -152,7 +152,7 @@ public class StatHandler extends InputHandler {
                         + triggers.toString().trim() + "]");
                 getInputHandler().println("-------------------------------------");
             }
-        } else if (getInputHandler().commandIs("analyzecode")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("analyzecode")) {
             if (OsUtil.JAR_MODE) {
                 getInputHandler().println("Code analyzing is not available when in Jar mode");
             } else {
@@ -182,20 +182,21 @@ public class StatHandler extends InputHandler {
                         getInputHandler().println("Classes: " + ReflectionUtil.CYDER_CLASSES.size());
 
                         float ratio = ((float) codeLines / (float) commentLines);
-                        getInputHandler().println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
+                        getInputHandler().println("Code to comment ratio: "
+                                + new DecimalFormat("#0.00").format(ratio));
                     }, "Code Analyzer");
                 } else {
                     getInputHandler().println("analyzecode usage: analyzecode [path/to/the/root/directory] " +
                             "(leave path blank to analyze Cyder)");
                 }
             }
-        } else if (getInputHandler().commandIs("javaproperties")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("javaproperties")) {
             for (String prop : StatUtil.getJavaProperties()) {
                 getInputHandler().println(prop);
             }
         } else if (getInputHandler().commandIs("threads")) {
             getInputHandler().printlns(ThreadUtil.getThreads());
-        } else if (getInputHandler().commandIs("daemonthreads")) {
+        } else if (getInputHandler().inputIgnoringSpacesMatches("daemonthreads")) {
             getInputHandler().printlns(ThreadUtil.getDaemonThreads());
         } else {
             ret = false;

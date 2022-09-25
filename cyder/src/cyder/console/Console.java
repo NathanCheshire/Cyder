@@ -21,7 +21,7 @@ import cyder.handlers.internal.LoginHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.PropLoader;
-import cyder.test.ManualTests;
+import cyder.test.GuiTests;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.ProgramState;
@@ -1195,7 +1195,7 @@ public enum Console {
 
         if (PropLoader.getBoolean(TESTING_MODE)) {
             Logger.log(LogTag.CONSOLE_LOAD, "[" + OsUtil.getOsUsername() + "] [TESTING MODE]");
-            ManualTests.launchTests();
+            GuiTests.launchTests();
         }
 
         if (TimeUtil.millisToDays(System.currentTimeMillis() -

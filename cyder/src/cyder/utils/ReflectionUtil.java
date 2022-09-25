@@ -361,10 +361,10 @@ public final class ReflectionUtil {
     }
 
     /**
-     * Finds all manual tests within Cyder by looking for methods annotated with {@link ManualTest}.
+     * Finds all gui tests within Cyder by looking for methods annotated with {@link GuiTest}.
      * The annotated method MUST take no parameters, and contain a valid, unique trigger.
      *
-     * @throws IllegalMethodException if an invalid {@link ManualTest} annotation is located
+     * @throws IllegalMethodException if an invalid {@link GuiTest} annotation is located
      */
     public static void validateTests() {
         LinkedList<String> foundTriggers = new LinkedList<>();
@@ -373,8 +373,8 @@ public final class ReflectionUtil {
             Class<?> clazz = classInfo.load();
 
             for (Method m : clazz.getMethods()) {
-                if (m.isAnnotationPresent(ManualTest.class)) {
-                    String trigger = m.getAnnotation(ManualTest.class).value();
+                if (m.isAnnotationPresent(GuiTest.class)) {
+                    String trigger = m.getAnnotation(GuiTest.class).value();
 
                     CyderInspection[] values = null;
 
@@ -397,16 +397,16 @@ public final class ReflectionUtil {
                             }
                         }
 
-                        Logger.log(LogTag.DEBUG, "Method annotated with @ManualTest does not end"
+                        Logger.log(LogTag.DEBUG, "Method annotated with @GuiTest does not end"
                                 + " with \"test\"; name: " + m.getName());
                     }
 
                     if (StringUtil.isNullOrEmpty(trigger)) {
-                        throw new IllegalMethodException("Method annotated with @ManualTest has no trigger");
+                        throw new IllegalMethodException("Method annotated with @GuiTest has no trigger");
                     }
 
                     if (StringUtil.in(trigger, true, foundTriggers)) {
-                        throw new IllegalArgumentException("Method annotation with @ManualTest "
+                        throw new IllegalArgumentException("Method annotation with @GuiTest "
                                 + "has a trigger which has already been used; method: " + m.getName()
                                 + ", trigger: " + trigger);
                     }
@@ -765,20 +765,20 @@ public final class ReflectionUtil {
     }
 
     /**
-     * Returns a list the available manual tests that follow the standard
+     * Returns a list the available gui tests that follow the standard
      * naming convention to the linked JTextPane.
      *
-     * @return a list of triggers for manual tests
+     * @return a list of triggers for gui tests
      */
-    public static ImmutableList<String> getManualTests() {
+    public static ImmutableList<String> getGuiTests() {
         LinkedList<String> ret = new LinkedList<>();
 
         for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
             Class<?> clazz = classInfo.load();
 
             for (Method m : clazz.getMethods()) {
-                if (m.isAnnotationPresent(ManualTest.class)) {
-                    String trigger = m.getAnnotation(ManualTest.class).value();
+                if (m.isAnnotationPresent(GuiTest.class)) {
+                    String trigger = m.getAnnotation(GuiTest.class).value();
                     ret.add(trigger);
                 }
             }

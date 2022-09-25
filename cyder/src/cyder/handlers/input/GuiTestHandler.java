@@ -1,8 +1,8 @@
 package cyder.handlers.input;
 
 import com.google.common.reflect.ClassPath;
+import cyder.annotations.GuiTest;
 import cyder.annotations.Handle;
-import cyder.annotations.ManualTest;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -11,13 +11,13 @@ import cyder.utils.ReflectionUtil;
 import java.lang.reflect.Method;
 
 /**
- * A handle for invoking manual tests.
+ * A handle for invoking gui tests.
  */
-public class ManualTestHandler extends InputHandler {
+public class GuiTestHandler extends InputHandler {
     /**
      * Suppress default constructor
      */
-    private ManualTestHandler() {
+    private GuiTestHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
@@ -27,11 +27,11 @@ public class ManualTestHandler extends InputHandler {
             Class<?> classer = classInfo.load();
 
             for (Method m : classer.getMethods()) {
-                if (m.isAnnotationPresent(ManualTest.class)) {
-                    String trigger = m.getAnnotation(ManualTest.class).value();
+                if (m.isAnnotationPresent(GuiTest.class)) {
+                    String trigger = m.getAnnotation(GuiTest.class).value();
                     if (trigger.equalsIgnoreCase(getInputHandler().commandAndArgsToString())) {
                         try {
-                            getInputHandler().println("Invoking manual test " + m.getName());
+                            getInputHandler().println("Invoking gui test \"" + m.getName() + "\"");
                             m.invoke(classer);
                             return true;
                         } catch (Exception e) {

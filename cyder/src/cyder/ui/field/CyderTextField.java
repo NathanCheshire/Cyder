@@ -444,29 +444,21 @@ public class CyderTextField extends JTextField {
         hintTextLabel.setText(hintText);
 
         Dimension size = getSize();
-        boolean leftIconPresent = leftIcon != null;
-        boolean rightIconPresent = rightIcon != null;
+        int iconLen = getHeight() - 2 * ICON_LABEL_PADDING;
 
-        // todo both case
-        if (leftIconPresent) {
-            int leftIconLen = getHeight() - 2 * ICON_LABEL_PADDING;
-            int width = (int) size.getWidth() - 2 * HINT_LABEL_PADDING
-                    - leftIconLen - ADDITIONAL_ICON_LABEL_ADDING;
-            int height = (int) size.getHeight() - 2 * HINT_LABEL_PADDING;
-            hintTextLabel.setBounds(leftIconLen + ADDITIONAL_ICON_LABEL_ADDING + HINT_LABEL_PADDING,
-                    HINT_LABEL_PADDING, width, height);
-        } else if (rightIconPresent) {
-            int rightIconLen = getHeight() - 2 * ICON_LABEL_PADDING;
-            int width = (int) size.getWidth() - 2 * HINT_LABEL_PADDING
-                    - rightIconLen - ADDITIONAL_ICON_LABEL_ADDING;
-            int height = (int) size.getHeight() - 2 * HINT_LABEL_PADDING;
-            hintTextLabel.setBounds(HINT_LABEL_PADDING, HINT_LABEL_PADDING,
-                    width, height);
-        } else {
-            int width = (int) size.getWidth() - 2 * HINT_LABEL_PADDING;
-            int height = (int) size.getHeight() - 2 * HINT_LABEL_PADDING;
-            hintTextLabel.setBounds(HINT_LABEL_PADDING, HINT_LABEL_PADDING, width, height);
+        int start = HINT_LABEL_PADDING;
+        if (leftIcon != null) {
+            start = iconLen + ADDITIONAL_ICON_LABEL_ADDING + HINT_LABEL_PADDING;
         }
+
+        int end = getWidth();
+        if (rightIcon != null) {
+            end = getWidth() - iconLen - HINT_LABEL_PADDING;
+        }
+
+        int width = end - start;
+        int defaultHeight = (int) size.getHeight() - 2 * HINT_LABEL_PADDING;
+        hintTextLabel.setBounds(start, HINT_LABEL_PADDING, width, defaultHeight);
 
         switch (hintTextAlignment) {
             case LEFT -> hintTextLabel.setHorizontalAlignment(JLabel.LEFT);

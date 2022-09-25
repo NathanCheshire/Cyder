@@ -169,7 +169,7 @@ public class BaseInputHandler {
             MathHandler.class,
             UrlHandler.class,
             PreferenceHandler.class,
-            ManualTestHandler.class,
+            GuiTestHandler.class,
             WrappedCommandHandler.class
     );
 
