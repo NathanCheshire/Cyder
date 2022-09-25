@@ -151,8 +151,6 @@ public final class NumberUtil {
      */
     private static final String NEGATIVE_CHAR = "-";
 
-    // todo only add AND if last digit is 1-9 and second to last is 0
-
     /**
      * Returns the string representation for the provided raw text field input straight from a user.
      *
@@ -187,8 +185,10 @@ public final class NumberUtil {
 
         for (int i = 0 ; i < reversed.size() ; i++) {
             boolean firstAndReversedSizeGreaterThanOne = i == 0 && reversed.size() > 1;
-            trioStrings.add((firstAndReversedSizeGreaterThanOne ? " and " : "")
-                    + reversed.get(i) + getThousandsPrefix(i));
+            boolean secondToLastDigitIsZero = baseTrios.get(baseTrios.size() - 1).charAt(1) == '0';
+            boolean lastDigitNotZero = baseTrios.get(baseTrios.size() - 1).charAt(2) != '0';
+            trioStrings.add((firstAndReversedSizeGreaterThanOne && secondToLastDigitIsZero && lastDigitNotZero
+                    ? " and " : "") + reversed.get(i) + getThousandsPrefix(i));
         }
 
         StringBuilder wordFormBuilder = new StringBuilder();
