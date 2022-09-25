@@ -49,9 +49,13 @@ public class NumberHandler extends InputHandler {
                 if (NumberUtil.isPrime(num)) {
                     getInputHandler().println(num + " is a prime");
                 } else {
-                    getInputHandler().println(
-                            num + " is not a prime because it is divisible by: "
-                                    + NumberUtil.primeFactors(num));
+                    getInputHandler().println(num + " is not a prime because it is divisible by:\n[");
+
+                    for (int factor : NumberUtil.primeFactors(num)) {
+                        getInputHandler().println(factor + ", ");
+                    }
+
+                    getInputHandler().println("]");
                 }
             } else {
                 getInputHandler().println("Prime usage: prime NUMBER");

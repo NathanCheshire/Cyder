@@ -1115,6 +1115,19 @@ public class BaseInputHandler {
                 commandAndArgsToString().replaceAll(CyderRegexPatterns.whiteSpaceRegex, ""));
     }
 
+    /**
+     * Returns whether the current command and args to string starts with the provided string.
+     *
+     * @param startsWith the string
+     * @return whether the current command and args to string starts with the provided string
+     */
+    protected boolean inputIgnoringSpacesAndCaseStartsWith(String startsWith) {
+        Preconditions.checkNotNull(startsWith);
+
+        return commandAndArgsToString().replaceAll(CyderRegexPatterns.whiteSpaceRegex, "").toLowerCase()
+                .startsWith(startsWith.replaceAll(CyderRegexPatterns.whiteSpaceRegex, "").toLowerCase());
+    }
+
     // -------------------------------------------
     // Utils for print methods and synchronization
     // -------------------------------------------

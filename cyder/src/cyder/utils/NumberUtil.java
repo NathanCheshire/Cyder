@@ -4,13 +4,16 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Range;
+import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
+import java.awt.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 /**
  * A util for working with numbers and not necessarily math.
@@ -67,7 +70,7 @@ public final class NumberUtil {
     public static boolean isPrime(int num) {
         boolean ret = true;
 
-        for (int i = 2 ; i < Math.ceil(Math.sqrt(num)) ; i += 1)
+        for (int i = 2 ; i < Math.ceil(Math.sqrt(num)) ; i++)
             if (num % i == 0) {
                 ret = false;
                 break;
@@ -83,26 +86,16 @@ public final class NumberUtil {
      * @param num the number to find prime factors of
      * @return a list of prime factors of num
      */
-    public static ArrayList<Integer> primeFactors(int num) {
-        if (isPrime(num)) {
-            ArrayList<Integer> numbers = new ArrayList<>();
-            numbers.add(1);
-            numbers.add(num);
-            return numbers;
-        } else {
-            ArrayList<Integer> numbers = new ArrayList<>();
+    public static ImmutableList<Integer> primeFactors(int num) {
+        ArrayList<Integer> ret = new ArrayList<>();
 
-            // If n is not prime it can be factored into a and b
-            // Since a * b = n, this will not be greater than
-            // sqrt(n) since sqrt(n)^2 = n and neither a nor b can be greater than n
-            for (int i = 2 ; i < Math.ceil(Math.sqrt(num)) ; i += 1) {
-                if (num % i == 0) {
-                    numbers.add(i);
-                }
+        for (int i = 2 ; i < Math.ceil(Math.sqrt(num)) ; i++) {
+            if (num % i == 0) {
+                ret.add(i);
             }
-
-            return numbers;
         }
+
+        return ImmutableList.copyOf(ret);
     }
 
     /**
@@ -113,19 +106,19 @@ public final class NumberUtil {
      * @param numFibs the number of fibonacci numbers to return
      * @return the requested number of fibonacci numbers
      */
-    public static LinkedList<Long> fib(long a, long b, int numFibs) {
+    public static ImmutableList<Long> fib(long a, long b, int numFibs) {
         LinkedList<Long> ret = new LinkedList<>();
         ret.add(a);
+
         for (int i = 1 ; i < numFibs ; i++) {
             ret.add(b);
 
             long next = a + b;
-
             a = b;
             b = next;
         }
 
-        return ret;
+        return ImmutableList.copyOf(ret);
     }
 
     /**
@@ -139,6 +132,28 @@ public final class NumberUtil {
     }
 
     /**
+     * A space character.
+     */
+    private static final String SPACE = " ";
+
+    /**
+     * The negative string.
+     */
+    private static final String NEGATIVE = "Negative";
+
+    /**
+     * The zero string.
+     */
+    private static final String ZERO = "Zero";
+
+    /**
+     * The character to denote a negative number.
+     */
+    private static final String NEGATIVE_CHAR = "-";
+
+    // todo only add AND if last digit is 1-9 and second to last is 0
+
+    /**
      * Returns the string representation for the provided raw text field input straight from a user.
      *
      * @param word the result of calling textField.getText() on (an integer in the form of a String)
@@ -147,65 +162,70 @@ public final class NumberUtil {
     public static String toWords(String word) {
         Preconditions.checkNotNull(word);
         Preconditions.checkArgument(!word.isEmpty());
+        Preconditions.checkArgument(word.split(NEGATIVE_CHAR).length < 2);
 
-        //convert to a big integer
         BigInteger num = new BigInteger(word);
 
-        //check for zero
-        if (num.compareTo(BigInteger.ZERO) == 0) {
-            return "Zero";
-        }
+        if (num.compareTo(BigInteger.ZERO) == 0) return ZERO;
 
-        //check for signage
         boolean negative = num.compareTo(BigInteger.ZERO) < 0;
+        word = word.replace(NEGATIVE_CHAR, "");
 
-        //pad with 0's so that we have all trios
-        StringBuilder wordRepBuilder = new StringBuilder(word.replace("-", ""));
-        while (wordRepBuilder.length() % 3 != 0)
-            wordRepBuilder.insert(0, "0");
+        StringBuilder wordRepBuilder = new StringBuilder(word);
+        while (wordRepBuilder.length() % 3 != 0) {
+            wordRepBuilder.insert(0, 0);
+        }
         word = wordRepBuilder.toString();
 
-        //now split into trios array
-        String[] baseTrios = java.util.Arrays.toString(word.split("(?<=\\G...)"))
-                .replace("[", "").replace("]", "")
-                .replace(" ", "").split(",");
+        ImmutableList<String> baseTrios = splitToTrios(word);
+        ArrayList<String> trioStrings = new ArrayList<>(baseTrios.size());
+        baseTrios.forEach(trio -> trioStrings.add(trioToWords(Integer.parseInt(trio))));
 
-        //list of trios converted to strings
-        LinkedList<String> trioStrings = new LinkedList<>();
-
-        //convert all trios to strings
-        for (String trio : baseTrios)
-            trioStrings.add(trioToWords(Integer.parseInt(trio)));
-
-        //reverse the list to build our number with correct prefixes
-        LinkedList<String> reversed = new LinkedList<>();
-
-        for (String str : trioStrings)
-            reversed.push(str);
-
-        //clear the list so that we can add back to it
+        ArrayList<String> reversed = new ArrayList<>(trioStrings.size());
+        trioStrings.forEach(trioString -> reversed.add(0, trioString));
         trioStrings.clear();
 
-        //for all trios get the prefix and add and to the last prefix (first since reversed)
         for (int i = 0 ; i < reversed.size() ; i++) {
-            trioStrings.add((i == 0 && reversed.size() > 1 ? " and " : "")
+            boolean firstAndReversedSizeGreaterThanOne = i == 0 && reversed.size() > 1;
+            trioStrings.add((firstAndReversedSizeGreaterThanOne ? " and " : "")
                     + reversed.get(i) + getThousandsPrefix(i));
         }
 
-        StringBuilder ret = new StringBuilder();
+        StringBuilder wordFormBuilder = new StringBuilder();
+        if (negative) wordFormBuilder.append(NEGATIVE).append(SPACE);
 
-        if (negative)
-            ret.append("Negative ");
+        int trioStringsSize = trioStrings.size();
+        IntStream.range(0, trioStringsSize).forEach(index -> {
+            wordFormBuilder.append(trioStrings.get(trioStringsSize - index - 1).trim());
+            wordFormBuilder.append(SPACE);
+        });
 
-        for (int i = trioStrings.size() - 1 ; i > -1 ; i--) {
-            ret.append(trioStrings.get(i).trim());
+        return wordFormBuilder.toString().trim();
+    }
 
-            if (i != 0)
-                ret.append(" ");
+    @ForReadability
+    private static ImmutableList<String> splitToTrios(String combinedWord) {
+        String[] trios = combinedWord.split("(?<=\\G...)");
+        ArrayList<String> ret = new ArrayList<>(trios.length);
+
+        for (String trio : trios) {
+            ret.add(trio.replaceAll("\\s+", "")
+                    .replace("[", "")
+                    .replace("]", ""));
         }
 
-        return ret.toString();
+        return ImmutableList.copyOf(ret);
     }
+
+    /**
+     * The range a trio must be in.
+     */
+    private static final Range<Integer> THOUSAND_RANGE = Range.closedOpen(0, 1000);
+
+    /**
+     * The hundreds word.
+     */
+    private static final String HUNDRED = "hundred";
 
     /**
      * Returns the word representation for a trio of base 10 digits.
@@ -215,33 +235,44 @@ public final class NumberUtil {
      * @return the word representation for the provided trio of base 10 digits
      */
     private static String trioToWords(int num) {
-        Preconditions.checkArgument(num >= 0);
-        Preconditions.checkArgument(num <= 999);
+        Preconditions.checkArgument(THOUSAND_RANGE.contains(num));
 
-        int ones = num % 10;
-        int tens = (num % 100) / 10;
+        int onesDigit = num % 10;
+        int tensDigit = (num % 100) / 10;
+        int onesAndTensNumber = onesDigit + 10 * tensDigit;
+        int hundredsDigit = num / 100;
 
-        int below100 = ones + tens * 10;
+        String hundredsDigitString = ONES_STRINGS.get(hundredsDigit);
+        String hundredsString = StringUtil.isNullOrEmpty(hundredsDigitString)
+                ? "" : hundredsDigitString + SPACE + HUNDRED;
 
-        int hundreds = num / 100;
+        String belowOneHundredString;
+        belowOneHundredString = TEENS_RANGE.contains(onesAndTensNumber)
+                ? TEEN_STRINGS.get(onesAndTensNumber - 10)
+                : TENS_STRINGS.get(tensDigit) + SPACE + ONES_STRINGS.get(onesDigit);
 
-        String hundredsStr = (onesPlace.get(hundreds).equals("") ? "" : onesPlace.get(hundreds) + " hundred");
-        String below100Str;
-
-        if (below100 < 20 && below100 > 9) {
-            below100Str = teens.get(below100 - 10);
-        } else {
-            below100Str = (tensPlace.get(tens) + " " + onesPlace.get(ones));
-        }
-
-        return (hundredsStr + " " + below100Str).trim().replaceAll("\\s+", "");
+        return StringUtil.getTrimmedText((hundredsString + SPACE + belowOneHundredString));
     }
+
+    /**
+     * The range for an integer to be in to be in the teen range.
+     */
+    private static final Range<Integer> TEENS_RANGE = Range.closedOpen(10, 20);
 
     /**
      * String representations for all digits in the one's place.
      */
-    private static final ImmutableList<String> onesPlace
-            = ImmutableList.of("", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine");
+    private static final ImmutableList<String> ONES_STRINGS = ImmutableList.of(
+            "",
+            "one",
+            "two",
+            "three",
+            "four",
+            "five",
+            "six",
+            "seven",
+            "eight",
+            "nine");
 
     /**
      * Returns the word representation for any digit in the inclusive range [0, 9].
@@ -249,51 +280,69 @@ public final class NumberUtil {
      * @param num the number to get a word representation for
      * @return the word representation for any digit in the inclusive range [0, 9]
      */
-    private static String wordForOnes(int num) {
-        return onesPlace.get(num);
+    private static String getOnesPlaceWord(int num) {
+        Preconditions.checkArgument(num >= 0 && num <= 9);
+
+        return ONES_STRINGS.get(num);
     }
 
     /**
      * String representations for all digits in the ten's place in base 10.
      */
-    private static final ImmutableList<String> tensPlace = ImmutableList.of("", "", "twenty",
-            "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety");
-
-    /**
-     * Returns the word representation for any digit in the ten's place in base 10.
-     * Example: 0 and 1 return nothing whilst 9 returns ninety.
-     *
-     * @param num the number to get a word representation for provided the number is in the ten's place
-     * @return the word representation for the number in the ten's place in base 10
-     */
-    private static String wordForTens(int num) {
-        return tensPlace.get(num);
-    }
+    private static final ImmutableList<String> TENS_STRINGS = ImmutableList.of(
+            "",
+            "",
+            "twenty",
+            "thirty",
+            "forty",
+            "fifty",
+            "sixty",
+            "seventy",
+            "eighty",
+            "ninety");
 
     /**
      * String representations for numbers in the range [10, 19].
      */
-    private static final ImmutableList<String> teens = ImmutableList.of("ten", "eleven",
-            "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen");
-
-    /**
-     * Returns the word representation for a number in the inclusive range [10, 19].
-     *
-     * @param num the number to find a word representation of
-     * @return the word representation for a number in the inclusive range [10, 19]
-     */
-    private static String wordForTeenNums(int num) {
-        return teens.get(num - 10);
-    }
+    private static final ImmutableList<String> TEEN_STRINGS = ImmutableList.of(
+            "ten",
+            "eleven",
+            "twelve",
+            "thirteen",
+            "fourteen",
+            "fifteen",
+            "sixteen",
+            "seventeen",
+            "eighteen",
+            "nineteen");
 
     /**
      * String prefixes for digit trios in base 10.
      */
-    private static final ImmutableList<String> thousandPrefixes = ImmutableList.of(
-            "", "-thousand", "-million", "-billion", "-trillion", "-quadrillion", "-quintillion",
-            "-sextillion", "-septillion", "-octillion", "-nonillion", "-decillion", "-undecillion",
-            "-duodecillion", "-tredecillion", "-quattuordecillion", "-quindecillion", "-sexdexillion",
-            "-septendecillion", "-octodecillion", "-novemdecillion", "-vigintillion", "-centillion");
+    private static final ImmutableList<String> THOUSAND_PREFIXES = ImmutableList.of(
+            "",
+            "-thousand",
+            "-million",
+            "-billion",
+            "-trillion",
+            "-quadrillion",
+            "-quintillion",
+            "-sextillion",
+            "-septillion",
+            "-octillion",
+            "-nonillion",
+            "-decillion",
+            "-undecillion",
+            "-duodecillion",
+            "-tredecillion",
+            "-quattuordecillion",
+            "-quindecillion",
+            "-sexdexillion",
+            "-septendecillion",
+            "-octodecillion",
+            "-novemdecillion",
+            "-vigintillion",
+            "-centillion");
 
     /**
      * Returns the prefix associated with the place of a trio of digits in base 10.
@@ -303,7 +352,9 @@ public final class NumberUtil {
      * @return the prefix associated with the palace of a trio of digits in base 10
      */
     private static String getThousandsPrefix(int trioPlace) {
-        return thousandPrefixes.get(trioPlace);
+        Preconditions.checkArgument(trioPlace >= 0 && trioPlace < THOUSAND_PREFIXES.size());
+
+        return THOUSAND_PREFIXES.get(trioPlace);
     }
 
     /**
@@ -311,43 +362,44 @@ public final class NumberUtil {
      *
      * @param min             the minimum random number possible
      * @param max             the maximum random number possible
-     * @param number          the number of random elements desired
+     * @param numInts         the number of random elements desired
      * @param allowDuplicates allow duplicate random values for a pure random experience vs unique random elements
      * @return an array of ints of the desired size of random elements from min to max
      */
-    public static int[] randInt(int min, int max, int number, boolean allowDuplicates) {
-        Preconditions.checkArgument(!(max - min < number && !allowDuplicates));
-        int[] ret = new int[number];
+    public static ImmutableList<Integer> randInt(int min, int max, int numInts, boolean allowDuplicates) {
+        if (allowDuplicates) {
+            Preconditions.checkArgument(max - min >= numInts);
+        }
 
         if (!allowDuplicates) {
-            LinkedList<Integer> uniqueInts = new LinkedList<>();
+            ArrayList<Integer> uniqueInts = new ArrayList<>(numInts);
 
-            while (uniqueInts.size() < number) {
+            while (uniqueInts.size() < numInts) {
                 int rand = randInt(min, max);
+
                 if (!uniqueInts.contains(rand)) {
                     uniqueInts.add(rand);
                 }
             }
 
-            for (int i = 0 ; i < uniqueInts.size() ; i++) {
-                ret[i] = uniqueInts.get(i);
-            }
-        } else {
-            for (int i = 0 ; i < number ; i++) {
-                ret[i] = randInt(min, max);
-            }
+            return ImmutableList.copyOf(uniqueInts);
         }
 
-        return ret;
+        ArrayList<Integer> ret = new ArrayList<>();
+        for (int i = 0 ; i < numInts ; i++) {
+            ret.add(randInt(min, max));
+        }
+
+        return ImmutableList.copyOf(ret);
     }
 
     /**
      * The allowable range for font metrics.
      * These consist of the following and their additions:
      * <ul>
-     *     <li>{@link java.awt.Font#PLAIN}</li>
-     *     <li>{@link java.awt.Font#BOLD}</li>
-     *     <li>{@link java.awt.Font#ITALIC}</li>
+     *     <li>{@link Font#PLAIN}</li>
+     *     <li>{@link Font#BOLD}</li>
+     *     <li>{@link Font#ITALIC}</li>
      * </ul>
      */
     public static final Range<Integer> fontMetricRange = Range.closed(0, 3);

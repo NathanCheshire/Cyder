@@ -31,11 +31,11 @@ public class ColorHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"background color", "fix foreground", "foreground", "repaint"})
+    @Handle({"backgroundcolor", "fix foreground", "foreground", "repaint"})
     public static boolean handle() {
         boolean ret = true;
 
-        if (getInputHandler().inputIgnoringSpacesMatches("backgroundcolor")) {
+        if (getInputHandler().inputIgnoringSpacesAndCaseStartsWith("backgroundcolor")) {
             if (getInputHandler().checkArgsLength(1)) {
                 try {
                     int w = Console.INSTANCE.getConsoleCyderFrame().getWidth();
@@ -49,12 +49,12 @@ public class ColorHandler extends InputHandler {
                         h = (int) monitorBounds.getHeight();
                     }
 
-                    BufferedImage saveImage = ImageUtil.bufferedImageFromColor(
-                            Color.decode("#" + getInputHandler().getArg(0)
-                                    .replace("#", "")), w, h);
+                    String colorString = getInputHandler().getArg(0);
+                    Color color = ColorUtil.hexStringToColor(colorString);
+                    BufferedImage saveImage = ImageUtil.bufferedImageFromColor(color, w, h);
 
                     String saveName = "Solid_" + getInputHandler().getArg(0)
-                            + "Generated_Background." + ImageUtil.PNG_FORMAT;
+                            + "Generated_Background" + "." + ImageUtil.PNG_FORMAT;
 
                     File saveFile = OsUtil.buildFile(Dynamic.PATH, "users",
                             Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(), saveName);
