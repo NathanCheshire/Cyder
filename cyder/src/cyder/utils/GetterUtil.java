@@ -829,7 +829,7 @@ public class GetterUtil {
         /**
          * The label text for getter frames which use a label.
          */
-        private String labelText = "";
+        private String labelText;
 
         /**
          * The text for confirming an operation.
@@ -858,8 +858,10 @@ public class GetterUtil {
          * @param title the frame title/the text for confirmations
          */
         public Builder(String title) {
-            this.title = checkNotNull(title);
+            checkNotNull(title);
             checkArgument(title.length() >= MINIMUM_TITLE_LENGTH);
+            this.title = title;
+            this.labelText = title;
 
             Logger.log(LogTag.OBJECT_CREATION, this);
         }

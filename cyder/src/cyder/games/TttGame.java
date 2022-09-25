@@ -95,6 +95,7 @@ public final class TttGame {
             try {
                 String sizeString = GetterUtil.getInstance().getString(
                         new GetterUtil.Builder("Board Size")
+                                .setLabelText("Board size")
                                 .setInitialString(String.valueOf(boardLength))
                                 .setFieldRegex("[0-7]")
                                 .setRelativeTo(tttFrame));

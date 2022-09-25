@@ -3613,44 +3613,47 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * The increment between y values for the enter animation.
+     * The increment of the fade in animation.
      */
-    public static final int ENTER_ANIMATION_INC = 25;
+    private static final float FADE_IN_ANIMATION_INCREMENT = 0.02f;
 
     /**
-     * The delay in nanoseconds between enter animation increments.
+     * The starting minimum opacity of the frame for the fade in animation.
      */
-    public static final int ENTER_ANIMATION_DELAY = 75;
+    private static final float FADE_IN_STARTING_OPACITY = 0f;
+
+    /**
+     * The ending maximum opacity of the frame for the fade in animation.
+     */
+    private static final float FADE_IN_ENDING_OPACITY = 1f;
+
+    /**
+     * The delay between fade in increments for the fade in animation.
+     */
+    private static final int FADE_IN_ANIMATION_DELAY = 2;
+
+    /**
+     * The thread name for the frame fade in animation.
+     */
+    private static final String FADE_IN_ANIMATION_THREAD_NAME = "Frame Fade-in Animation";
 
     /**
      * Sets the frame's location relative to the dominant frame,
-     * the visibility to true, and sets always on top mode to true
-     * temporarily to ensure the frame is placed on top of other possible frames.
+     * the visibility to true, and fades in the frame.
      */
     public void finalizeAndShow() {
         setLocationRelativeTo(getDominantFrame());
+
+        setOpacity(FADE_IN_STARTING_OPACITY);
         setVisible(true);
         toFront();
-    }
 
-    /**
-     * Performs an enter animation to the point.
-     *
-     * @param point the point to position the frame at after performing the enter animation
-     */
-    public void enterAnimation(Point point) {
-        Preconditions.checkNotNull(point);
-
-        int x = point.x;
-        int y = point.y;
-
-        setLocation(x, -getHeight());
-        setVisible(true);
-
-        for (int i = -getHeight() ; i < y ; i += ENTER_ANIMATION_INC) {
-            setLocation(x, i);
-            ThreadUtil.sleep(0, ENTER_ANIMATION_DELAY);
-        }
+        CyderThreadRunner.submit(() -> {
+            for (float i = FADE_IN_STARTING_OPACITY ; i < FADE_IN_ENDING_OPACITY ; i += FADE_IN_ANIMATION_INCREMENT) {
+                setOpacity(i);
+                ThreadUtil.sleep(FADE_IN_ANIMATION_DELAY);
+            }
+        }, FADE_IN_ANIMATION_THREAD_NAME);
     }
 
     /**
