@@ -532,20 +532,38 @@ public class CyderTextField extends JTextField {
 
     private static final int ICON_LABEL_PADDING = 5;
 
+    /**
+     * The label to hold the left icon.
+     */
     private JLabel leftIconLabel;
+
+    /**
+     * The left icon.
+     */
     private ImageIcon leftIcon;
 
+    /**
+     * Sets the left icon for this text field.
+     *
+     * @param leftIcon the left icon for this text field
+     */
     public void setLeftIcon(ImageIcon leftIcon) {
         this.leftIcon = Preconditions.checkNotNull(leftIcon);
         refreshLeftIcon();
     }
 
+    /**
+     * Removes the left icon from this text field.
+     */
     private void removeLeftIcon() {
         leftIcon = null;
         leftIconLabel.setVisible(false);
         refreshLeftIcon();
     }
 
+    /**
+     * Refreshes the left icon bounds, border, icon, and visibility.
+     */
     private void refreshLeftIcon() {
         if (leftIcon == null) return;
         if (leftIconLabel == null) addLeftIconLabel();
@@ -561,35 +579,51 @@ public class CyderTextField extends JTextField {
         leftIconLabel.setBounds(ICON_LABEL_PADDING, ICON_LABEL_PADDING, len, len);
     }
 
+    /**
+     * Creates and adds the left icon label to this component.
+     */
     private void addLeftIconLabel() {
         leftIconLabel = new JLabel();
         add(leftIconLabel);
         refreshLeftIcon();
     }
 
-    public void refreshLeftAndRightIcons() {
-        refreshLeftIcon();
-        refreshRightIcon();
-    }
-
     // ----------
     // Right Icon
     // ----------
 
+    /**
+     * The label to hold the right icon.
+     */
     private JLabel rightIconLabel;
+
+    /**
+     * The right icon.
+     */
     private ImageIcon rightIcon;
 
+    /**
+     * Sets the right icon for this text field.
+     *
+     * @param rightIcon the right icon for this text field
+     */
     public void setRightIcon(ImageIcon rightIcon) {
         this.rightIcon = Preconditions.checkNotNull(rightIcon);
         refreshRightIcon();
     }
 
+    /**
+     * Removes the right icon from this text field.
+     */
     private void removeRightIcon() {
         rightIcon = null;
         rightIconLabel.setVisible(false);
         refreshRightIcon();
     }
 
+    /**
+     * Refreshes the right icon bounds, border, icon, and visibility.
+     */
     private void refreshRightIcon() {
         if (rightIcon == null) return;
         if (rightIconLabel == null) addRightIconLabel();
@@ -605,9 +639,20 @@ public class CyderTextField extends JTextField {
         rightIconLabel.setBounds(getWidth() - ICON_LABEL_PADDING - len, ICON_LABEL_PADDING, len, len);
     }
 
+    /**
+     * Creates and adds the right icon label to this component.
+     */
     private void addRightIconLabel() {
         rightIconLabel = new JLabel();
         add(rightIconLabel);
+        refreshRightIcon();
+    }
+
+    /**
+     * Refreshes the left and right icons.
+     */
+    public void refreshLeftAndRightIcons() {
+        refreshLeftIcon();
         refreshRightIcon();
     }
 

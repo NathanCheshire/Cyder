@@ -54,9 +54,9 @@ public class ColorHandler extends InputHandler {
                     BufferedImage saveImage = ImageUtil.bufferedImageFromColor(color, w, h);
 
                     String saveName = "Solid_" + getInputHandler().getArg(0)
-                            + "Generated_Background" + "." + ImageUtil.PNG_FORMAT;
+                            + "_Background" + "." + ImageUtil.PNG_FORMAT;
 
-                    File saveFile = OsUtil.buildFile(Dynamic.PATH, "users",
+                    File saveFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                             Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(), saveName);
 
                     ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, saveFile);
