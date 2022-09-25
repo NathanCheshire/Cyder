@@ -68,6 +68,7 @@ public final class ManualTests {
                 CyderFlowLayout flowLayout = new CyderFlowLayout();
                 CyderTextField ctf = new CyderTextField();
                 ctf.setSize(200, 40);
+                ctf.setRightIcon(CyderIcons.CYDER_ICON);
                 ctf.setLeftIcon(CyderIcons.CYDER_ICON);
                 ctf.setHintText("Password");
                 flowLayout.addComponent(ctf);

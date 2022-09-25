@@ -21,9 +21,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.regex.Pattern;
-import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -242,15 +240,13 @@ public class CyderTextField extends JTextField {
      */
     @Override
     public void setBorder(Border border) {
-        if (leftIcon != null) {
-            this.border = border;
+        int len = getHeight() - 2 * ICON_LABEL_PADDING + ADDITIONAL_ICON_LABEL_ADDING;
+        int leftInsets = leftIcon != null ? len : 0;
+        int rightInsets = rightIcon != null ? len : 0;
 
-            int len = getHeight() - 2 * ICON_LABEL_PADDING + ADDITIONAL_ICON_LABEL_ADDING;
-            Border empty = new EmptyBorder(0, len, 0, 0);
-            border = new CompoundBorder(border, empty);
-        }
-
-        super.setBorder(border);
+        this.border = border;
+        Border paddingBorder = new EmptyBorder(0, leftInsets, 0, rightInsets);
+        super.setBorder(new CompoundBorder(border, paddingBorder));
     }
 
     /**
@@ -437,6 +433,7 @@ public class CyderTextField extends JTextField {
 
         this.hintText = text;
         refreshHintText();
+        hintTextLabel.setVisible(true);
     }
 
     /**
@@ -448,6 +445,9 @@ public class CyderTextField extends JTextField {
 
         Dimension size = getSize();
         boolean leftIconPresent = leftIcon != null;
+        boolean rightIconPresent = rightIcon != null;
+
+        // todo both case
         if (leftIconPresent) {
             int leftIconLen = getHeight() - 2 * ICON_LABEL_PADDING;
             int width = (int) size.getWidth() - 2 * HINT_LABEL_PADDING
@@ -455,6 +455,13 @@ public class CyderTextField extends JTextField {
             int height = (int) size.getHeight() - 2 * HINT_LABEL_PADDING;
             hintTextLabel.setBounds(leftIconLen + ADDITIONAL_ICON_LABEL_ADDING + HINT_LABEL_PADDING,
                     HINT_LABEL_PADDING, width, height);
+        } else if (rightIconPresent) {
+            int rightIconLen = getHeight() - 2 * ICON_LABEL_PADDING;
+            int width = (int) size.getWidth() - 2 * HINT_LABEL_PADDING
+                    - rightIconLen - ADDITIONAL_ICON_LABEL_ADDING;
+            int height = (int) size.getHeight() - 2 * HINT_LABEL_PADDING;
+            hintTextLabel.setBounds(HINT_LABEL_PADDING, HINT_LABEL_PADDING,
+                    width, height);
         } else {
             int width = (int) size.getWidth() - 2 * HINT_LABEL_PADDING;
             int height = (int) size.getHeight() - 2 * HINT_LABEL_PADDING;
@@ -480,8 +487,9 @@ public class CyderTextField extends JTextField {
         addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                hintTextLabel.setVisible(false);
-                refreshHintText();
+                if (getText().length() != 0) {
+                    hintTextLabel.setVisible(false);
+                }
             }
 
             @Override
@@ -489,23 +497,8 @@ public class CyderTextField extends JTextField {
                 if (getText().length() == 0) {
                     hintTextLabel.setVisible(true);
                 }
-
-                refreshHintText();
             }
         });
-    }
-
-    private static final ImmutableList<Integer> keyCodes;
-
-    static {
-        ArrayList<Integer> ret = new ArrayList<>();
-
-        IntStream.range(48, 112).forEach(ret::add);
-        IntStream.range(150, 153).forEach(ret::add);
-        IntStream.range(161, 223).forEach(ret::add);
-        IntStream.range(513, 524).forEach(ret::add);
-
-        keyCodes = ImmutableList.copyOf(ret);
     }
 
     /**
@@ -516,13 +509,12 @@ public class CyderTextField extends JTextField {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println(e.getKeyCode());
-                hintTextLabel.setVisible(!keyCodes.contains(e.getKeyCode()));
+                hintTextLabel.setVisible(getText().isEmpty());
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                hintTextLabel.setVisible(!keyCodes.contains(e.getKeyCode()));
+                hintTextLabel.setVisible(getText().isEmpty());
             }
         });
     }
@@ -538,13 +530,13 @@ public class CyderTextField extends JTextField {
     private void addHintTextLabel() {
         hintTextLabel = new JLabel();
         add(hintTextLabel);
-        hintTextLabel.setVisible(true);
         refreshHintText();
+        hintTextLabel.setVisible(true);
     }
 
-    // -----------------------
-    // Inner icon label logics
-    // -----------------------
+    // ---------
+    // Left icon
+    // ---------
 
     private static final int ICON_LABEL_PADDING = 5;
 
@@ -585,7 +577,46 @@ public class CyderTextField extends JTextField {
 
     public void refreshLeftAndRightIcons() {
         refreshLeftIcon();
-        // todo refresh right icon
+        refreshRightIcon();
+    }
+
+    // ----------
+    // Right Icon
+    // ----------
+
+    private JLabel rightIconLabel;
+    private ImageIcon rightIcon;
+
+    public void setRightIcon(ImageIcon rightIcon) {
+        this.rightIcon = Preconditions.checkNotNull(rightIcon);
+        refreshRightIcon();
+    }
+
+    private void removeRightIcon() {
+        rightIcon = null;
+        rightIconLabel.setVisible(false);
+        refreshRightIcon();
+    }
+
+    private void refreshRightIcon() {
+        if (rightIcon == null) return;
+        if (rightIconLabel == null) addRightIconLabel();
+
+        int len = getHeight() - 2 * ICON_LABEL_PADDING;
+        if (rightIcon.getIconWidth() > len || rightIcon.getIconHeight() > len) {
+            rightIcon = ImageUtil.resizeImage(rightIcon, len, len);
+        }
+
+        setBorder(border);
+        rightIconLabel.setIcon(rightIcon);
+        rightIconLabel.setVisible(true);
+        rightIconLabel.setBounds(getWidth() - ICON_LABEL_PADDING - len, ICON_LABEL_PADDING, len, len);
+    }
+
+    private void addRightIconLabel() {
+        rightIconLabel = new JLabel();
+        add(rightIconLabel);
+        refreshRightIcon();
     }
 
     /**
