@@ -62,7 +62,17 @@ public final class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
+                CyderFrame frame = new CyderFrame();
+                frame.setTitle("Test");
 
+                CyderFlowLayout flowLayout = new CyderFlowLayout();
+                CyderTextField ctf = new CyderTextField();
+                ctf.setSize(200, 40);
+                ctf.setLeftIcon(CyderIcons.CYDER_ICON);
+                flowLayout.addComponent(ctf);
+
+                frame.setCyderLayout(flowLayout);
+                frame.finalizeAndShow();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

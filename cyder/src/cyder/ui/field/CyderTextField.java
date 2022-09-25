@@ -592,37 +592,45 @@ public class CyderTextField extends JTextField {
     // Inner icon label logics
     // -----------------------
 
+    private static final int ICON_LABEL_PADDING = 5;
+
     private JLabel leftIconLabel;
     private ImageIcon leftIcon;
 
-    private ImageIcon rightIcon;
-
     public void setLeftIcon(ImageIcon leftIcon) {
         this.leftIcon = Preconditions.checkNotNull(leftIcon);
-        // todo refresh left icon
+        hintTextEnabled = false;
+        refreshLeftIcon();
     }
 
     private void removeLeftIcon() {
         leftIcon = null;
-        // todo refresh left icon
+        leftIconLabel.setVisible(false);
+        refreshLeftIcon();
     }
 
     private void refreshLeftIcon() {
+        if (leftIcon == null) return;
         if (leftIconLabel == null) addLeftIconLabel();
-        leftIconLabel.setIcon(leftIcon);
 
-        int iconLabelPadding = 5;
+        leftIconLabel.setIcon(leftIcon);
+        leftIconLabel.setVisible(true);
         leftIconLabel.setBounds(
-                iconLabelPadding,
-                iconLabelPadding,
-                getHeight() - 2 * iconLabelPadding,
-                getHeight() - 2 * iconLabelPadding);
+                ICON_LABEL_PADDING,
+                ICON_LABEL_PADDING,
+                getHeight() - 2 * ICON_LABEL_PADDING,
+                getHeight() - 2 * ICON_LABEL_PADDING);
     }
 
     private void addLeftIconLabel() {
         leftIconLabel = new JLabel();
         add(leftIconLabel);
         refreshLeftIcon();
+    }
+
+    public void refreshLeftAndRightIcons() {
+        refreshLeftIcon();
+        // todo refresh right icon
     }
 
     /**
@@ -632,7 +640,7 @@ public class CyderTextField extends JTextField {
     public void setSize(int width, int height) {
         super.setSize(width, height);
         refreshHintText();
-        // todo refresh icons
+        refreshLeftAndRightIcons();
     }
 
     /**
@@ -642,6 +650,6 @@ public class CyderTextField extends JTextField {
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, width, height);
         refreshHintText();
-        // todo refresh icons
+        refreshLeftAndRightIcons();
     }
 }

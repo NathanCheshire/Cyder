@@ -29,6 +29,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.DosFileAttributes;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Utilities related to local computer IO.
@@ -160,6 +161,11 @@ public final class IoUtil {
     }
 
     /**
+     * The txt extension for files.
+     */
+    private static final String TXT_EXTENSION = ".txt";
+
+    /**
      * Opens the provided file, possibly inside of the program if a handler exists for it.
      *
      * @param file the file to open
@@ -170,7 +176,7 @@ public final class IoUtil {
 
         String extension = FileUtil.getExtension(file);
 
-        if (extension.equals(".txt")) {
+        if (extension.equals(TXT_EXTENSION)) {
             TextViewer.getInstance(file).showGui();
         } else if (FileUtil.isSupportedImageExtension(file)) {
             PhotoViewer.getInstance(file).showGui();
@@ -193,6 +199,9 @@ public final class IoUtil {
         openFile(new File(filePath));
     }
 
+    /**
+     * The name of the thread for playing general audio.
+     */
     private static final String IO_UTIL_GENERAL_AUDIO_THREAD_NAME = "IOUtil General Audio";
 
     /**
@@ -220,22 +229,23 @@ public final class IoUtil {
             stopGeneralAudio();
             FileInputStream FileInputStream = new FileInputStream(file);
             player = new Player(FileInputStream);
-            Logger.log(LogTag.AUDIO, file.getAbsoluteFile());
-
-            Console.INSTANCE.showAudioButton();
-
-            CyderThreadRunner.submit(() -> {
-                try {
-                    player.play();
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                } finally {
-                    Console.INSTANCE.revalidateAudioMenuVisibility();
-                }
-            }, IO_UTIL_GENERAL_AUDIO_THREAD_NAME);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+
+        Logger.log(LogTag.AUDIO, file.getAbsoluteFile());
+
+        Console.INSTANCE.showAudioButton();
+
+        CyderThreadRunner.submit(() -> {
+            try {
+                player.play();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            } finally {
+                Console.INSTANCE.revalidateAudioMenuVisibility();
+            }
+        }, IO_UTIL_GENERAL_AUDIO_THREAD_NAME);
     }
 
     /**
@@ -243,7 +253,7 @@ public final class IoUtil {
      *
      * @return whether general audio is playing
      */
-    public static boolean generalAudioPlaying() {
+    public static boolean isGeneralAudioPlaying() {
         return player != null && !player.isComplete();
     }
 
@@ -260,6 +270,9 @@ public final class IoUtil {
         playSystemAudio(filePath, true);
     }
 
+    /**
+     * The thread name for the system audio player.
+     */
     private static final String SYSTEM_AUDIO_PLAYER_THREAD_NAME = "System Audio Player";
 
     /**
@@ -273,28 +286,32 @@ public final class IoUtil {
         Preconditions.checkNotNull(filePath);
         Preconditions.checkArgument(!filePath.isEmpty());
 
+        AtomicReference<FileInputStream> fis = new AtomicReference<>();
+        AtomicReference<BufferedInputStream> bis = new AtomicReference<>();
+        AtomicReference<Player> newSystemPlayer = new AtomicReference<>();
+
         try {
-            FileInputStream fis = new FileInputStream(filePath);
-            BufferedInputStream bis = new BufferedInputStream(fis);
-            Player systemPlayer = new Player(bis);
-
-            if (log) {
-                Logger.log(LogTag.AUDIO, "[SYSTEM AUDIO] " + filePath);
-            }
-
-            CyderThreadRunner.submit(() -> {
-                try {
-                    systemPlayer.play();
-                    systemPlayer.close();
-                    FileUtil.closeIfNotNull(fis);
-                    FileUtil.closeIfNotNull(bis);
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-            }, SYSTEM_AUDIO_PLAYER_THREAD_NAME);
+            fis.set(new FileInputStream(filePath));
+            bis.set(new BufferedInputStream(fis.get()));
+            newSystemPlayer.set(new Player(bis.get()));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+
+        if (log) {
+            Logger.log(LogTag.AUDIO, "[SYSTEM AUDIO] " + filePath);
+        }
+
+        CyderThreadRunner.submit(() -> {
+            try {
+                newSystemPlayer.get().play();
+                newSystemPlayer.get().close();
+                FileUtil.closeIfNotNull(fis.get());
+                FileUtil.closeIfNotNull(bis.get());
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, SYSTEM_AUDIO_PLAYER_THREAD_NAME);
     }
 
     /**
@@ -318,7 +335,7 @@ public final class IoUtil {
      * Stops any and all audio playing either through the audio player or the general player.
      */
     public static void stopAllAudio() {
-        if (generalAudioPlaying()) {
+        if (isGeneralAudioPlaying()) {
             stopGeneralAudio();
         }
 
@@ -335,22 +352,64 @@ public final class IoUtil {
             AudioPlayer.handlePlayPauseButtonClick();
         }
 
-        if (generalAudioPlaying()) {
+        if (isGeneralAudioPlaying()) {
             stopGeneralAudio();
         }
     }
 
+    /**
+     * A legacy DOS attribute of a file.
+     */
     private record DosAttribute(String name, String value) {}
 
+    /**
+     * The is archive dos attribute.
+     */
     private static final String IS_ARCHIVE = "isArchive";
+
+    /**
+     * The is hidden dos attribute.
+     */
     private static final String IS_HIDDEN = "isHidden";
+
+    /**
+     * The is read only dos attribute.
+     */
     private static final String IS_READ_ONLY = "isReadOnly";
+
+    /**
+     * The is system dos attribute.
+     */
     private static final String IS_SYSTEM = "isSystem";
+
+    /**
+     * The is creation time dos attribute.
+     */
     private static final String CREATION_TIME = "creationTime";
+
+    /**
+     * The is directory dos attribute.
+     */
     private static final String IS_DIRECTORY = "isDirectory";
+
+    /**
+     * The is hidden dos attribute.
+     */
     private static final String IS_OTHER = "isOther";
+
+    /**
+     * The is symbolic link dos attribute.
+     */
     private static final String IS_SYMBOLIC_LINK = "isSymbolicLink";
+
+    /**
+     * The last access time dos attribute.
+     */
     private static final String LAST_ACCESS_TIME = "lastAccessTime";
+
+    /**
+     * The last modified time dos attribute.
+     */
     private static final String LAST_MODIFIED_TIME = "lastModifiedTime";
 
     /**
@@ -404,6 +463,11 @@ public final class IoUtil {
     }
 
     /**
+     * The extension for bin files.
+     */
+    private static final String BIN_EXTENSION = ".bin";
+
+    /**
      * Returns a binary string for the provided binary file.
      *
      * @param file the binary file of pure binary contents
@@ -412,21 +476,18 @@ public final class IoUtil {
     public static String getBinaryString(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(".bin"));
-
-        String ret = null;
+        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(BIN_EXTENSION));
 
         try {
             BufferedReader fis = new BufferedReader(new FileReader(file));
             String stringBytes = fis.readLine();
             fis.close();
-            ret = stringBytes;
-
+            return stringBytes;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        return ret;
+        throw new IllegalCallerException("Could not read binary file");
     }
 
     /**
@@ -438,9 +499,7 @@ public final class IoUtil {
     public static String getHexString(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(".bin"));
-
-        String ret = null;
+        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(BIN_EXTENSION));
 
         try {
             BufferedReader fis = new BufferedReader(new FileReader(file));
@@ -452,12 +511,12 @@ public final class IoUtil {
             }
 
             fis.close();
-            ret = sb.toString();
+            return sb.toString();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        return ret;
+        throw new IllegalCallerException("Could not read binary file");
     }
 
     /**

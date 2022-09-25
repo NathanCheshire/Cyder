@@ -3067,7 +3067,7 @@ public enum Console {
      * Revalidates the visibility audio menu and the play/pause button based on if audio is playing.
      */
     public void revalidateAudioMenuVisibility() {
-        if (!AudioPlayer.isWidgetOpen() && !IoUtil.generalAudioPlaying()) {
+        if (!AudioPlayer.isWidgetOpen() && !IoUtil.isGeneralAudioPlaying()) {
             if (audioControlsLabel.isVisible()) {
                 animateOutAndRemoveAudioControls();
             } else {
@@ -3088,7 +3088,7 @@ public enum Console {
      */
     @ForReadability
     private void revalidateAudioMenuPlayPauseButton() {
-        if (IoUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
+        if (IoUtil.isGeneralAudioPlaying() || AudioPlayer.isAudioPlaying()) {
             playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
         } else {
             playPauseAudioLabel.setIcon(AudioIcons.playIcon);
@@ -3222,14 +3222,14 @@ public enum Console {
                     AudioPlayer.handlePlayPauseButtonClick();
                 }
 
-                if (IoUtil.generalAudioPlaying()) {
+                if (IoUtil.isGeneralAudioPlaying()) {
                     IoUtil.stopGeneralAudio();
                 }
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (IoUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
+                if (IoUtil.isGeneralAudioPlaying() || AudioPlayer.isAudioPlaying()) {
                     playPauseAudioLabel.setIcon(AudioIcons.pauseIconHover);
                 } else {
                     playPauseAudioLabel.setIcon(AudioIcons.playIconHover);
@@ -3238,7 +3238,7 @@ public enum Console {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (IoUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
+                if (IoUtil.isGeneralAudioPlaying() || AudioPlayer.isAudioPlaying()) {
                     playPauseAudioLabel.setIcon(AudioIcons.pauseIcon);
                 } else {
                     playPauseAudioLabel.setIcon(AudioIcons.playIcon);

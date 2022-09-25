@@ -975,6 +975,10 @@ public class CyderFrame extends JFrame {
         }
 
         correctTitleLength();
+
+        if (!isConsole() && !Console.INSTANCE.isClosed()) {
+            Console.INSTANCE.revalidateMenu();
+        }
     }
 
     /**

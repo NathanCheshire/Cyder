@@ -84,11 +84,7 @@ public class PhotoViewer {
         Preconditions.checkNotNull(photoDirectory);
         Preconditions.checkArgument(photoDirectory.exists());
 
-        if (photoDirectory.isFile()) {
-            this.photoDirectory = photoDirectory.getParentFile();
-        } else {
-            this.photoDirectory = photoDirectory;
-        }
+        this.photoDirectory = photoDirectory;
     }
 
     /**
