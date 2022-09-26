@@ -8,6 +8,7 @@ import cyder.logging.Logger;
 
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A class used to submit runnables and executors.
@@ -18,6 +19,20 @@ public final class CyderThreadRunner {
      */
     private CyderThreadRunner() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
+
+    /**
+     * The threads ran for this session of Cyder.
+     */
+    private static final AtomicInteger threadsRan = new AtomicInteger();
+
+    /**
+     * Returns the number of threads CyderThreadRunner has created and started.
+     *
+     * @return the number of threads CyderThreadRunner has created and started
+     */
+    public static int getThreadsRan() {
+        return threadsRan.get();
     }
 
     /**
@@ -32,8 +47,9 @@ public final class CyderThreadRunner {
         Preconditions.checkNotNull(name);
         Preconditions.checkArgument(!name.isEmpty());
 
-        Logger.log(LogTag.THREAD, name);
+        Logger.log(LogTag.THREAD_STARTED, name);
         new Thread(runnable, name).start();
+        threadsRan.incrementAndGet();
     }
 
     /**

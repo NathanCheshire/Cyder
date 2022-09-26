@@ -53,7 +53,7 @@ public enum ConsoleOut {
     /**
      * A closing bracket.
      */
-    private static final String CLOSING_BRACKET = "[";
+    private static final String CLOSING_BRACKET = "]";
 
     /**
      * The suffix for a log tag for a console out type.

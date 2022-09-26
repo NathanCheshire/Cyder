@@ -249,6 +249,8 @@ public final class Logger {
 
                     eolBuilder.append(", total objects created: ")
                             .append(totalObjectsCreated)
+                            .append(", threads ran: ")
+                            .append(CyderThreadRunner.getThreadsRan())
                             .append("\n");
 
                     formatAndWriteLine(eolBuilder.toString(), tag);
@@ -278,8 +280,8 @@ public final class Logger {
                 logBuilder.append(LogTag.PREFERENCE_REFRESH.constructLogTagPrepend());
                 logBuilder.append("Key = ").append(representation);
                 break;
-            case THREAD:
-                logBuilder.append(LogTag.THREAD.constructLogTagPrepend());
+            case THREAD_STARTED:
+                logBuilder.append(LogTag.THREAD_STARTED.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case OBJECT_CREATION:

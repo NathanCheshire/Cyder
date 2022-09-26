@@ -268,9 +268,14 @@ public class WeatherWidget {
     private static final int FRAME_HEIGHT = 640;
 
     /**
+     * The weather keyword.
+     */
+    private static final String WEATHER = "weather";
+
+    /**
      * The default frame title.
      */
-    private static final String DEFAULT_TITLE = "Weather";
+    private static final String DEFAULT_TITLE = WEATHER;
 
     /**
      * The shade color for the default background.
@@ -422,7 +427,7 @@ public class WeatherWidget {
         currentWeatherContainer.add(currentWeatherLabel);
 
         ImageIcon sunriseIcon = new ImageIcon(
-                OsUtil.buildPath("static", "pictures", "weather", "sunrise.png"));
+                OsUtil.buildPath("static", "pictures", WEATHER, "sunrise.png"));
         JLabel sunriseLabelIcon = new JLabel(sunriseIcon) {
             private static final int arcLen = 25;
             private static final int offset = 10;
@@ -889,7 +894,7 @@ public class WeatherWidget {
         String weatherIconIdAndTime = weatherIconId.replaceAll(replaceLettersRegex, "")
                 + (isAfterSunset ? N : D);
 
-        return new ImageIcon(OsUtil.buildPath("static", "pictures", "weather",
+        return new ImageIcon(OsUtil.buildPath("static", "pictures", WEATHER,
                 weatherIconIdAndTime + "." + ImageUtil.PNG_FORMAT));
     }
 
@@ -924,11 +929,6 @@ public class WeatherWidget {
      * The refreshed keyword.
      */
     private static final String REFRESHED = "Refreshed";
-
-    /**
-     * The weather keyword.
-     */
-    private static final String WEATHER = "weather";
 
     /**
      * Refreshes the frame title based on the provided city.
@@ -1071,7 +1071,7 @@ public class WeatherWidget {
 
             if (!currentLocationCityPart.isEmpty()) {
                 String city = StringUtil.capsFirstWords(currentLocationCityPart);
-                weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " weather");
+                weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " " + WEATHER);
             } else {
                 weatherFrame.setTitle(DEFAULT_TITLE);
             }

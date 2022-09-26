@@ -86,7 +86,7 @@ public enum LogTag {
     /**
      * A thread was spun up and started by CyderThreadRunner.
      */
-    THREAD("THREAD STARTED"),
+    THREAD_STARTED("THREAD STARTED"),
     /**
      * When an object's constructor is invoked.
      */
