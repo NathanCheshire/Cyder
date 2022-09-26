@@ -861,11 +861,23 @@ public class WeatherWidget {
         String splitCity = currentLocationString.split(",")[0];
         refreshFrameTitle(splitCity);
 
-        if (weatherFrame != null) weatherFrame.toast(REFRESHED);
+        if (weatherFrame != null) weatherFrame.toast(
+                new CyderFrame.NotificationBuilder(REFRESHED).setViewDuration(1000));
     }
 
+    /**
+     * The regex to target all latin characters.
+     */
     private static final String replaceLettersRegex = "[a-zA-Z]+";
+
+    /**
+     * The day time identifier.
+     */
     private static final String D = "d";
+
+    /**
+     * The night time identifier.
+     */
     private static final String N = "n";
 
     @ForReadability
@@ -1071,6 +1083,11 @@ public class WeatherWidget {
     }
 
     /**
+     * The height of the mapbox watermark.
+     */
+    private static final int MAP_BOX_WATERMARK_HEIGHT = 25;
+
+    /**
      * Refreshes the map background of the weather frame. If not enabled, hides the map.
      * If enabled, shows the map.
      */
@@ -1079,7 +1096,9 @@ public class WeatherWidget {
             boolean displayMap = UserUtil.getCyderUser().getWeatherMap().equals("1");
 
             if (displayMap) {
-                ImageIcon newMapBackground = MapUtil.getMapView(lat, lon, FRAME_WIDTH, FRAME_HEIGHT);
+                int h = FRAME_HEIGHT + MAP_BOX_WATERMARK_HEIGHT;
+                ImageIcon newMapBackground = MapUtil.getMapView(lat, lon, FRAME_WIDTH, h);
+                newMapBackground = ImageUtil.cropImage(newMapBackground, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
                 weatherFrame.setBackground(newMapBackground);
             } else {
                 weatherFrame.setBackground(defaultBackground);

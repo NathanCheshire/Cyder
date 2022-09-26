@@ -113,7 +113,6 @@ public final class UserCreator {
         newUserNameField.setFont(CyderFonts.SEGOE_20);
         newUserNameField.setBorder(new LineBorder(Color.black));
         newUserNameField.addKeyListener(newUserNameFieldListener);
-
         newUserNameField.setBorder(BORDER);
         newUserNameField.setSize(240, 40);
 

@@ -121,6 +121,37 @@ public final class ImageUtil {
     }
 
     /**
+     * Crops the specified ImageIcon to the new bounds and returns a new ImageIcon.
+     *
+     * @param image  the ImageIcon image to crop
+     * @param x      the starting x pixel within the image
+     * @param y      the starting y pixel within the image
+     * @param width  the width of the new image
+     * @param height the height of the new image
+     * @return the requested cropped image
+     */
+    public static ImageIcon cropImage(ImageIcon image,
+                                      int x, int y, int width, int height) {
+        Preconditions.checkNotNull(image);
+        Preconditions.checkArgument(x >= 0);
+        Preconditions.checkArgument(y >= 0);
+        Preconditions.checkArgument(width <= image.getIconWidth());
+        Preconditions.checkArgument(height <= image.getIconHeight());
+
+        if (x + width > image.getIconWidth()) {
+            x = 0;
+            width = image.getIconWidth();
+        }
+
+        if (y + height > image.getIconHeight()) {
+            y = 0;
+            height = image.getIconHeight();
+        }
+
+        return toImageIcon(toBufferedImage(image).getSubimage(x, y, width, height));
+    }
+
+    /**
      * Returns a buffered image of the specified color.
      *
      * @param color  the color of the requested image

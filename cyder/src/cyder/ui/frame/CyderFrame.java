@@ -1076,17 +1076,31 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Displays a toast.
+     *
+     * @param builder the b builder for the toast
+     */
+    public void toast(NotificationBuilder builder) {
+        Preconditions.checkNotNull(builder);
+        Preconditions.checkNotNull(builder.getHtmlText());
+        Preconditions.checkArgument(!builder.getHtmlText().isEmpty());
+
+        builder.setNotificationType(CyderNotification.NotificationType.TOAST);
+        notificationList.add(builder);
+
+        if (!notificationCheckerStarted) {
+            notificationCheckerStarted = true;
+            CyderThreadRunner.submit(getNotificationQueueRunnable(), getTitle() + NOTIFICATION_QUEUE_THREAD_FOOTER);
+        }
+    }
+
+    /**
      * The semaphore used to lock the notification queue
      * so that only one may ever be present at a time.
      */
     private final Semaphore notificationConstructionLock = new Semaphore(1);
 
     private static final int notificationPadding = 5;
-
-    /**
-     * The minimum time a notification can be visible for.
-     */
-    private static final int MINIMUM_NOTIFICATION_TIME_MS = 2000;
 
     /**
      * The milliseconds per word for a notification if the time calculation is left up to the method.
@@ -1123,7 +1137,8 @@ public class CyderFrame extends JFrame {
                 // Sanity check for overflow
                 if (notificationHeight > height * NOTIFICATION_TO_FRAME_RATIO
                         || notificationWidth > width * NOTIFICATION_TO_FRAME_RATIO) {
-                    notifyAndReleaseSemaphore(currentBuilder.getHtmlText(), null, currentBuilder.notifyTime);
+                    notifyAndReleaseNotificationSemaphore(currentBuilder.getHtmlText(), null,
+                            currentBuilder.notifyTime);
                     continue;
                 }
 
@@ -1135,7 +1150,8 @@ public class CyderFrame extends JFrame {
                     // Custom component will not fit
                     if (containerWidth > width * NOTIFICATION_TO_FRAME_RATIO
                             || containerHeight > height * NOTIFICATION_TO_FRAME_RATIO) {
-                        notifyAndReleaseSemaphore(null, currentBuilder.getContainer(), currentBuilder.notifyTime);
+                        notifyAndReleaseNotificationSemaphore(null, currentBuilder.getContainer(),
+                                currentBuilder.notifyTime);
                         continue;
                     }
 
@@ -1172,7 +1188,6 @@ public class CyderFrame extends JFrame {
                 if (currentBuilder.isCalculateViewDuration()) {
                     duration = msPerNotificationWord * StringUtil.countWords(Jsoup.clean(bs.text(), Safelist.none()));
                 }
-                duration = Math.max(duration, MINIMUM_NOTIFICATION_TIME_MS);
 
                 Logger.log(LogTag.UI_ACTION, constructNotificationLogLine(getTitle(), brokenText));
 
@@ -1190,14 +1205,19 @@ public class CyderFrame extends JFrame {
     }
 
     @ForReadability
-    private void notifyAndReleaseSemaphore(String text, JLabel container, String time) {
+    private void notifyAndReleaseNotificationSemaphore(String text, JLabel container, String time) {
         InformHandler.Builder builder = new InformHandler.Builder(text == null ? "NULL" : text)
                 .setContainer(container)
-                .setTitle(getTitle() + " Notification (" + time + ")")
+                .setTitle(generateNotificationTooltip(time))
                 .setRelativeTo(this);
 
         InformHandler.inform(builder);
         notificationConstructionLock.release();
+    }
+
+    @ForReadability
+    private String generateNotificationTooltip(String time) {
+        return getTitle() + " Notification (" + time + ")";
     }
 
     /**

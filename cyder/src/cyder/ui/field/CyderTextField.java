@@ -585,7 +585,6 @@ public class CyderTextField extends JTextField {
     private void addLeftIconLabel() {
         leftIconLabel = new JLabel();
         add(leftIconLabel);
-        refreshLeftIcon();
     }
 
     // ----------
@@ -645,7 +644,6 @@ public class CyderTextField extends JTextField {
     private void addRightIconLabel() {
         rightIconLabel = new JLabel();
         add(rightIconLabel);
-        refreshRightIcon();
     }
 
     /**
