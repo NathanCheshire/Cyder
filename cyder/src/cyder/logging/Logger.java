@@ -227,9 +227,8 @@ public final class Logger {
                 break;
             case EXIT:
                 logBuilder.append(LogTag.EXIT.constructLogTagPrepend());
-                logBuilder.append("[RUNTIME] ");
+                logBuilder.append("Runtime: ");
                 logBuilder.append(getRuntime());
-
                 formatAndWriteLine(logBuilder.toString(), tag);
 
                 StringBuilder eolBuilder = new StringBuilder();
@@ -237,27 +236,27 @@ public final class Logger {
                 eolBuilder.append("[EOL]: ");
                 eolBuilder.append("Log completed, exiting Cyder with exit code: ");
 
-                if (representation instanceof ExitCondition condition) {
-                    eolBuilder.append(condition.getCode());
-
-                    eolBuilder.append(" [");
-                    eolBuilder.append(condition.getDescription());
-                    eolBuilder.append("], ");
-
-                    eolBuilder.append(exceptionsCounter.get() == 0
-                            ? "no exceptions thrown" : "exceptions thrown: " + exceptionsCounter.get());
-
-                    eolBuilder.append(", total objects created: ")
-                            .append(totalObjectsCreated)
-                            .append(", threads ran: ")
-                            .append(CyderThreadRunner.getThreadsRan())
-                            .append("\n");
-
-                    formatAndWriteLine(eolBuilder.toString(), tag);
-                    logConcluded = true;
+                String exitCodeRepresentation;
+                if (representation instanceof ExitCondition exitCondition) {
+                    exitCodeRepresentation = exitCondition.getCode() + " [" + exitCondition.getDescription() + "], ";
                 } else {
-                    throw new FatalException("Error parsing exit condition: " + representation);
+                    exitCodeRepresentation = "Error parsing exit condition: " + representation + ", ";
                 }
+
+                eolBuilder.append(exitCodeRepresentation);
+
+                eolBuilder.append(exceptionsCounter.get() == 0
+                        ? "no exceptions thrown"
+                        : "exceptions thrown: " + exceptionsCounter.get());
+
+                eolBuilder.append(", total objects created: ")
+                        .append(totalObjectsCreated)
+                        .append(", threads ran: ")
+                        .append(CyderThreadRunner.getThreadsRan())
+                        .append("\n");
+
+                formatAndWriteLine(eolBuilder.toString(), tag);
+                logConcluded = true;
 
                 return;
             case CORRUPTION:
