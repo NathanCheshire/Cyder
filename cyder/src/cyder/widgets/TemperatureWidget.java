@@ -21,6 +21,8 @@ import javax.swing.*;
 import java.text.DecimalFormat;
 import java.util.Optional;
 
+import static cyder.utils.TemperatureUtil.*;
+
 @Vanilla
 @CyderAuthor
 public class TemperatureWidget {
@@ -257,7 +259,7 @@ public class TemperatureWidget {
         Unit newUnit = newUnitOptional.get();
 
         if (newUnit == oldUnit) {
-            temperatureFrame.notify("Get out of here with that, Your value is already in "
+            temperatureFrame.notify("Get out of here with that, your value is already in "
                     + oldUnit.getName());
             return;
         }
@@ -317,36 +319,6 @@ public class TemperatureWidget {
         };
     }
 
-    @ForReadability
-    private double fahrenheitToKelvin(double value) {
-        return (value - 32.0) * (5.0 / 9.0) + 273.15;
-    }
-
-    @ForReadability
-    private double celsiusToKelvin(double value) {
-        return value + 273.15;
-    }
-
-    @ForReadability
-    private double fahrenheitToCelsius(double value) {
-        System.out.println("here: " + value);
-        return (value - 32.0) * (5.0 / 9.0);
-    }
-
-    @ForReadability
-    private double kelvinToCelsius(double value) {
-        return value - 273.15;
-    }
-
-    @ForReadability
-    private double celsiusToFahrenheit(double value) {
-        return value * 1.8 + 32.0;
-    }
-
-    @ForReadability
-    private double kelvinToFahrenheit(double value) {
-        return 1.8 * (value - 273.15) + 32.0;
-    }
 
     @ForReadability
     private Optional<Unit> getOldUnit() {
