@@ -123,7 +123,8 @@ public final class CyderFonts {
             long start = System.currentTimeMillis();
             Font ret = new Font(name, metric, size);
             String constructionTime = TimeUtil.formatMillis(System.currentTimeMillis() - start);
-            Logger.log(LogTag.DEBUG, "Font generation of \"" + name + "\" took: " + constructionTime);
+            Logger.log(LogTag.DEBUG, "Font generation of \"" + name + " ("
+                    + size + ")\" took: " + constructionTime);
             return ret;
         }
     }

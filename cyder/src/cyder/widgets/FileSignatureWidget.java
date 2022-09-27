@@ -33,7 +33,7 @@ public final class FileSignatureWidget {
     private static File currentFile;
 
     /**
-     * The frame.
+     * The widget frame.
      */
     private static CyderFrame signatureFrame;
 

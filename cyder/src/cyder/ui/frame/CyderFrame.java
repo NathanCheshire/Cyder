@@ -3662,7 +3662,17 @@ public class CyderFrame extends JFrame {
      * the visibility to true, and fades in the frame.
      */
     public void finalizeAndShow() {
-        setLocationRelativeTo(getDominantFrame());
+        finalizeAndShow(getDominantFrame());
+    }
+
+    /**
+     * Sets the frame's location relative to the provided component,
+     * the visibility to true, and fades in the frame.
+     *
+     * @param component the component to set the frame relative to
+     */
+    public void finalizeAndShow(Component component) {
+        setLocationRelativeTo(component);
 
         setOpacity(FADE_IN_STARTING_OPACITY);
         setVisible(true);
