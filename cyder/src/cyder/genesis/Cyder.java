@@ -106,11 +106,18 @@ public final class Cyder {
     }
 
     /**
+     * The list of shutdown hooks to be added to this instance of Cyder.
+     */
+    private static final ImmutableList<Thread> shutdownHooks = ImmutableList.of(
+            CyderThreadRunner.createThread(() -> OsUtil.deleteFile(
+                            OsUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName()), false),
+                    REMOVE_TEMP_DIRECTORY_HOOK_NAME)
+    );
+
+    /**
      * Adds the exit hooks to this Jvm.
      */
     private static void addExitHooks() {
-        Runtime.getRuntime().addShutdownHook(CyderThreadRunner.createThread(() -> OsUtil.deleteFile(
-                        OsUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName()), false),
-                REMOVE_TEMP_DIRECTORY_HOOK_NAME));
+        shutdownHooks.forEach(hook -> Runtime.getRuntime().addShutdownHook(hook));
     }
 }

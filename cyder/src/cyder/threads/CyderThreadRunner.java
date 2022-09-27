@@ -1,6 +1,7 @@
 package cyder.threads;
 
 import com.google.common.base.Preconditions;
+import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.logging.LogTag;
@@ -78,6 +79,7 @@ public final class CyderThreadRunner {
         scheduleAtFixedRate(runnable, name, frequency, null);
     }
 
+    @ForReadability
     private static String generateFixedRateSchedulerThreadName(String name, Duration frequency) {
         return "Fixed Rate Scheduler, task=[" + name + "], rate=" + frequency;
     }
@@ -90,7 +92,9 @@ public final class CyderThreadRunner {
      * @param frequency  the frequency to execute the runnable
      * @param shouldExit the condition to check to stop executing at the fixed rate
      */
-    public static void scheduleAtFixedRate(Runnable runnable, String name, Duration frequency,
+    public static void scheduleAtFixedRate(Runnable runnable,
+                                           String name,
+                                           Duration frequency,
                                            AtomicBoolean shouldExit) {
         Preconditions.checkNotNull(runnable);
         Preconditions.checkNotNull(name);

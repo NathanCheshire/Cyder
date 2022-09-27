@@ -1,20 +1,26 @@
 package cyder.widgets;
 
-import cyder.annotations.CyderAuthor;
-import cyder.annotations.SuppressCyderInspections;
-import cyder.annotations.Vanilla;
-import cyder.annotations.Widget;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import cyder.annotations.*;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
+import cyder.layouts.CyderPartitionedLayout;
 import cyder.ui.CyderGrid;
+import cyder.ui.CyderPanel;
 import cyder.ui.button.CyderButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.UiUtil;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 
 /**
  * Convex hull widget that solve a convex hull problem using a CyderGrid as the drawing label.
@@ -39,6 +45,30 @@ public final class ConvexHullWidget {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
+    private static final String FRAME_TITLE = "Convex Hull";
+    private static final String SOLVE = "Solve";
+    private static final String RESET = "Reset";
+
+    private static final int GRID_NODES = 175;
+    private static final int GRID_LENGTH = 700;
+    private static final int GRID_PADDING = 5;
+    private static final int GRID_PARENT_LEN = GRID_LENGTH + 2 * GRID_PADDING;
+
+    private static final int FRAME_WIDTH = 800;
+    private static final int FRAME_HEIGHT = 850;
+
+    private static final Dimension BUTTON_SIZE = new Dimension(300, 40);
+    private static final int BUTTON_Y_PADDING = 10;
+
+    private static final Color PLACED_NODE_COLOR = CyderColors.regularPink;
+    private static final Color WALL_NODE_COLOR = CyderColors.navy;
+
+    private static final LineBorder GRID_PARENT_BORDER = new LineBorder(CyderColors.navy, GRID_PADDING);
+
+    private static final int MIN_POLYGON_POINTS = 3;
+
+    private static final String FOUR_CORNERS = "Congratulations, you played yourself";
+
     /**
      * Shows the convex hull widget.
      */
@@ -47,124 +77,141 @@ public final class ConvexHullWidget {
     public static void showGui() {
         UiUtil.closeIfOpen(hullFrame);
 
-        hullFrame = new CyderFrame(800, 850);
-        hullFrame.setTitle("Convex Hull Visualizer");
+        hullFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
+        hullFrame.setTitle(FRAME_TITLE);
 
-        gridComponent = new CyderGrid(100, 700);
+        JLabel gridComponentParent = new JLabel();
+        gridComponentParent.setSize(GRID_PARENT_LEN, GRID_PARENT_LEN);
+        gridComponentParent.setBorder(GRID_PARENT_BORDER);
+
+        gridComponent = new CyderGrid(GRID_NODES, GRID_LENGTH);
         gridComponent.setDrawGridLines(false);
-        gridComponent.setBounds(50, 50, 700, 700);
-        hullFrame.getContentPane().add(gridComponent);
+        gridComponent.setBounds(GRID_PADDING, GRID_PADDING, GRID_LENGTH, GRID_LENGTH);
         gridComponent.setResizable(false);
-        gridComponent.setNodeColor(CyderColors.navy);
+        gridComponent.setNodeColor(PLACED_NODE_COLOR);
         gridComponent.setBackground(CyderColors.vanilla);
         gridComponent.installClickListener();
         gridComponent.installDragListener();
         gridComponent.setSaveStates(false);
+        gridComponentParent.add(gridComponent);
 
-        CyderButton solveButton = new CyderButton("Solve");
-        solveButton.setBounds(50, 700 + 80, 325, 40);
-        solveButton.addActionListener(e -> solveAndUpdate());
-        hullFrame.getContentPane().add(solveButton);
+        CyderPartitionedLayout buttonPartitionedLayout = new CyderPartitionedLayout();
+        buttonPartitionedLayout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.ROW);
 
-        CyderButton resetButton = new CyderButton("Reset");
+        buttonPartitionedLayout.spacer(10);
+        CyderButton solveButton = new CyderButton(SOLVE);
+        solveButton.setSize(BUTTON_SIZE);
+        solveButton.addActionListener(e -> solveButtonAction());
+        buttonPartitionedLayout.addComponent(solveButton, 40);
+
+        CyderButton resetButton = new CyderButton(RESET);
         resetButton.addActionListener(e -> reset());
-        resetButton.setBounds(50 + 375, 700 + 80, 325, 40);
-        hullFrame.getContentPane().add(resetButton);
+        resetButton.setSize(BUTTON_SIZE);
+        buttonPartitionedLayout.addComponent(resetButton, 40);
+        buttonPartitionedLayout.spacer(10);
 
+        CyderPartitionedLayout partitionedLayout = new CyderPartitionedLayout();
+        partitionedLayout.spacer(10);
+
+        partitionedLayout.addComponent(gridComponentParent, 70);
+
+        partitionedLayout.spacer(10);
+
+        CyderPanel buttonPanel = new CyderPanel(buttonPartitionedLayout);
+        buttonPanel.setSize(FRAME_WIDTH, (int) (BUTTON_SIZE.getHeight() + 2 * BUTTON_Y_PADDING));
+        partitionedLayout.addComponent(buttonPanel, 10);
+
+        hullFrame.setCyderLayout(partitionedLayout);
         hullFrame.finalizeAndShow();
     }
 
     /**
-     * Solves the convex hull and draws the lines on the grid.
+     * The actions to invoke when the solve button is pressed.
      */
-    private static void solveAndUpdate() {
-        gridComponent.setGridNodes(new LinkedList<>(gridComponent.getGridNodes()));
+    private static void solveButtonAction() {
+        gridComponent.setGridNodes(new LinkedList<>(gridComponent.getNodesOfColor(PLACED_NODE_COLOR)));
 
-        // initialize list of grid points
-        LinkedList<Point> points = new LinkedList<>();
-
-        // get all grid nodes that the user placed
-        for (CyderGrid.GridNode gn : gridComponent.getGridNodes()) {
-            points.add(new Point(gn.getX(), gn.getY()));
-        }
-
-        // can't make a polygon with less than 3 points
-        if (points.size() < 3) {
+        if (gridComponent.getNodeCount() < MIN_POLYGON_POINTS) {
+            hullFrame.notify(MIN_POLYGON_POINTS + " points are required to create a polygon in 2D space");
             return;
         }
 
-        // solve using O(nlogn) method
-        LinkedList<Point> hull = solveGrahamScan(points);
+        ArrayList<Point> points = new ArrayList<>();
+        gridComponent.getGridNodes().forEach(node -> points.add(new Point(node.getX(), node.getY())));
 
-        // for all the hull points, connect a line between the nodes
-        for (int i = 0 ; i < hull.size() ; i++) {
-            Point p0 = hull.get(i);
-            Point p1;
-
-            // if p0 is the last point
-            if (i == hull.size() - 1) {
-                p1 = hull.get(0);
-            } else {
-                p1 = hull.get(i + 1);
-            }
-
-            // add a point between the two points with our line color
-            addMidPoints(p0, p1);
-        }
-
-        CyderGrid.GridNode upperLeft = new CyderGrid.GridNode(CyderColors.navy, 0, 0);
-        CyderGrid.GridNode upperRight = new CyderGrid.GridNode(CyderColors.navy, 0,
-                gridComponent.getNodeDimensionLength() - 1);
-        CyderGrid.GridNode bottomLeft = new CyderGrid.GridNode(CyderColors.navy,
-                gridComponent.getNodeDimensionLength() - 1, 0);
-        CyderGrid.GridNode bottomRight = new CyderGrid.GridNode(CyderColors.navy,
-                gridComponent.getNodeDimensionLength() - 1,
-                gridComponent.getNodeDimensionLength() - 1);
-
-        LinkedList<CyderGrid.GridNode> cornerNodes = new LinkedList<>();
-
-        cornerNodes.add(upperLeft);
-        cornerNodes.add(upperRight);
-        cornerNodes.add(bottomLeft);
-        cornerNodes.add(bottomRight);
-
-        if (gridComponent.getGridNodes().containsAll(cornerNodes)) {
-            hullFrame.notify("Congratulations, you played yourself");
-        }
-
-        // repaint to update nodes with line
+        ImmutableList<Point> hull = solveGrahamScan(points);
+        connectHullPointsWithLines(hull);
+        checkFourCorners();
         gridComponent.repaint();
     }
 
     /**
-     * Finds the middle point between the provided points and adds it to the grid.
+     * Connects all points contained within the provided list with lines on the grid.
      *
-     * @param p0 the first point
-     * @param p1 the second point
+     * @param hullPoints the points of the convex hull to connect with lines
      */
-    private static void addMidPoints(Point p0, Point p1) {
-        // base case one
-        if (p0 == p1) {
-            return;
+    private static void connectHullPointsWithLines(ImmutableList<Point> hullPoints) {
+        Preconditions.checkNotNull(hullPoints);
+        Preconditions.checkArgument(hullPoints.size() >= MIN_POLYGON_POINTS);
+
+        for (int i = 0 ; i < hullPoints.size() ; i++) {
+            Point firstPoint = hullPoints.get(i);
+            Point secondPoint = (i == hullPoints.size() - 1)
+                    ? hullPoints.get(0)
+                    : hullPoints.get(i + 1);
+
+            addMidPointsToGrid(firstPoint, secondPoint);
         }
+    }
 
-        int midPointX = (p1.x + p0.x) / 2;
-        int midPointY = (p1.y + p0.y) / 2;
-        Point newPoint = new Point(midPointX, midPointY);
+    /**
+     * Checks to see if the four corner grid nodes have a user-placed node in them.
+     */
+    @ForReadability
+    private static void checkFourCorners() {
+        int min = 0;
+        int max = gridComponent.getNodeDimensionLength() - 1;
+        ImmutableList<CyderGrid.GridNode> cornerNodes = ImmutableList.of(
+                /* Color is irrelevant here */
+                new CyderGrid.GridNode(WALL_NODE_COLOR, min, min),
+                new CyderGrid.GridNode(WALL_NODE_COLOR, min, max),
+                new CyderGrid.GridNode(WALL_NODE_COLOR, max, min),
+                new CyderGrid.GridNode(WALL_NODE_COLOR, max, max)
+        );
 
-        // base case two
-        if (newPoint.equals(p0) || newPoint.equals(p1)) {
-            return;
+        if (gridComponent.getGridNodes().containsAll(cornerNodes)) {
+            hullFrame.notify(FOUR_CORNERS);
         }
+    }
 
-        CyderGrid.GridNode add = new CyderGrid.GridNode(CyderColors.navy, midPointX, midPointY);
-        if (gridComponent.contains(add)) {
-            gridComponent.removeNode(add);
+    /**
+     * Recursively finds the middle point between the provided points and adds
+     * it to the grid meaning a line between the original two provided points
+     * is created on the grid.
+     *
+     * @param firstPoint  the first point
+     * @param secondPoint the second point
+     */
+    private static void addMidPointsToGrid(Point firstPoint, Point secondPoint) {
+        Preconditions.checkNotNull(firstPoint);
+        Preconditions.checkNotNull(secondPoint);
+
+        if (firstPoint.equals(secondPoint)) return;
+
+        int midXPoints = (int) (secondPoint.getX() + firstPoint.getX()) / 2;
+        int midYPoints = (int) (secondPoint.getY() + firstPoint.getY()) / 2;
+        Point midPoint = new Point(midXPoints, midYPoints);
+
+        if (midPoint.equals(firstPoint) || midPoint.equals(secondPoint)) return;
+
+        CyderGrid.GridNode gridMidPoint = new CyderGrid.GridNode(WALL_NODE_COLOR, midXPoints, midYPoints);
+        if (gridComponent.contains(gridMidPoint)) {
+            gridComponent.removeNode(gridMidPoint);
         }
-        gridComponent.addNode(add);
+        gridComponent.addNode(gridMidPoint);
 
-        addMidPoints(p0, newPoint);
-        addMidPoints(newPoint, p1);
+        addMidPointsToGrid(firstPoint, midPoint);
+        addMidPointsToGrid(midPoint, secondPoint);
     }
 
     /**
@@ -173,37 +220,40 @@ public final class ConvexHullWidget {
      * @param points the list of points
      * @return the points in the convex hull
      */
-    private static LinkedList<Point> solveGrahamScan(LinkedList<? extends Point> points) {
+    private static ImmutableList<Point> solveGrahamScan(ArrayList<Point> points) {
         Deque<Point> stack = new ArrayDeque<>();
 
-        Point minYPoint = getMinY(points);
-        sortByAngle(points, minYPoint);
+        Point minY = getMinY(points);
+        sortByAngle(points, minY);
 
         stack.push(points.get(0));
         stack.push(points.get(1));
 
         for (int i = 2, size = points.size() ; i < size ; i++) {
             Point next = points.get(i);
-            Point p = stack.pop();
+            Point poppedPoint = stack.pop();
 
-            while (stack.peek() != null && ccw(stack.peek(), p, next) <= 0) {
-                p = stack.pop();
+            while (stack.peek() != null &&
+                    (determineRotation(stack.peek(), poppedPoint, next) == PointRotation.CO_LINEAR
+                            || determineRotation(stack.peek(), poppedPoint, next) == PointRotation.CLOCK_WISE)) {
+                poppedPoint = stack.pop();
             }
 
-            stack.push(p);
+            stack.push(poppedPoint);
             stack.push(points.get(i));
         }
 
-        Point p = stack.pop();
-
-        if (stack.peek() == null)
-            return new LinkedList<>();
-
-        if (ccw(stack.peek(), p, minYPoint) > 0) {
-            stack.push(p);
+        Point poppedPoint = stack.pop();
+        if (stack.peek() == null) {
+            return ImmutableList.of();
         }
 
-        return new LinkedList<>(stack);
+        PointRotation rotation = determineRotation(stack.peek(), poppedPoint, minY);
+        if (rotation == PointRotation.COUNTER_CLOCK_WISE) {
+            stack.push(poppedPoint);
+        }
+
+        return ImmutableList.copyOf(stack);
     }
 
     /**
@@ -212,16 +262,18 @@ public final class ConvexHullWidget {
      * @param points the list of points
      * @return the point with the minimum y value
      */
-    private static Point getMinY(Collection<? extends Point> points) {
-        Iterator<? extends Point> it = points.iterator();
-        Point min = it.next();
+    private static Point getMinY(ArrayList<Point> points) {
+        Preconditions.checkNotNull(points);
+        Preconditions.checkArgument(!points.isEmpty());
 
-        while (it.hasNext()) {
-            Point point = it.next();
-            if (point.y <= min.y) {
-                if (point.y < min.y) {
+        Point min = points.get(0);
+        for (Point point : points) {
+            if (point.getY() <= min.getY()) {
+                if (point.getY() < min.getY()) {
                     min = point;
-                } else if (point.x < min.x) { // point.y==min.y, pick left most one
+                }
+                // Choose leftmost point if same y value
+                else if (point.getX() < min.getX()) {
                     min = point;
                 }
             }
@@ -231,69 +283,88 @@ public final class ConvexHullWidget {
     }
 
     /**
-     * Returns whether the turn between a and b will be counter-clockwise.
-     *
-     * @param a the first point
-     * @param b the second point
-     * @param c the reference point
-     * @return whether the turn between a and b will be counter-clockwise
+     * The possible degrees of rotate between two points and a reference point.
      */
-    private static int ccw(Point a, Point b, Point c) {
-        float area = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+    private enum PointRotation {
+        /**
+         * The points result in a clock wise turn.
+         */
+        CLOCK_WISE,
+        /**
+         * The points result in a counter clock wise turn.
+         */
+        COUNTER_CLOCK_WISE,
+        /**
+         * The points are co-linear.
+         */
+        CO_LINEAR
+    }
 
-        // clockwise
+    /**
+     * Determines the rotation between the first point and second point relative to the reference point.
+     *
+     * @param firstPoint     the first point
+     * @param secondPoint    the second point
+     * @param referencePoint the reference point
+     * @return the rotation between the first point and second point relative to the reference point
+     */
+    private static PointRotation determineRotation(Point firstPoint, Point secondPoint, Point referencePoint) {
+        Preconditions.checkNotNull(firstPoint);
+        Preconditions.checkNotNull(secondPoint);
+        Preconditions.checkNotNull(referencePoint);
+
+        float area = (secondPoint.x - firstPoint.x) * (referencePoint.y - firstPoint.y)
+                - (secondPoint.y - firstPoint.y) * (referencePoint.x - firstPoint.x);
+
         if (area < 0) {
-            return -1;
+            return PointRotation.CLOCK_WISE;
+        } else if (area > 0) {
+            return PointRotation.COUNTER_CLOCK_WISE;
+        } else {
+            return PointRotation.CO_LINEAR;
         }
-
-        // counter-clockwise
-        if (area > 0) {
-            return 1;
-        }
-
-        // collinear
-        return 0;
     }
 
     /**
      * Sorts the list of points by angle using the reference point.
      *
-     * @param points the list of points
-     * @param ref    the reference point
+     * @param points         the list of points
+     * @param referencePoint the reference point
      */
-    @SuppressWarnings("ComparatorMethodParameterNotUsed")
-    private static void sortByAngle(LinkedList<? extends Point> points, Point ref) {
-        points.sort((b, c) -> {
-            if (b == ref) {
+    private static void sortByAngle(ArrayList<Point> points, Point referencePoint) {
+        Preconditions.checkNotNull(points);
+        Preconditions.checkNotNull(referencePoint);
+
+        points.sort((firstPoint, secondPoint) -> {
+            if (firstPoint == referencePoint) {
+                return -1;
+            } else if (secondPoint == referencePoint) {
+                return 1;
+            } else if (firstPoint == secondPoint) {
+                return 0;
+            }
+
+            PointRotation rotation = determineRotation(referencePoint, firstPoint, secondPoint);
+            if (rotation == PointRotation.CO_LINEAR) {
+                if (Float.compare(firstPoint.x, secondPoint.x) == 0) {
+                    return firstPoint.y < secondPoint.y ? -1 : 1;
+                } else {
+                    return firstPoint.x < secondPoint.x ? -1 : 1;
+                }
+            } else if (rotation == PointRotation.CLOCK_WISE) {
+                return 1;
+            } else if (rotation == PointRotation.COUNTER_CLOCK_WISE) {
                 return -1;
             }
 
-            if (c == ref) {
-                return 1;
-            }
-
-            int ccw = ccw(ref, b, c);
-
-            if (ccw == 0) {
-                if (Float.compare(b.x, c.x) == 0) {
-                    return b.y < c.y ? -1 : 1;
-                } else {
-                    return b.x < c.x ? -1 : 1;
-                }
-            } else {
-                return ccw * -1;
-            }
+            throw new IllegalStateException("Invalid rotation: " + rotation);
         });
     }
 
     /**
-     * Clears the grid.
+     * Resets the convex hull state and grid.
      */
     private static void reset() {
-        if (gridComponent.getNodeCount() == 0) {
-            return;
-        }
-
         gridComponent.clearGrid();
     }
 }

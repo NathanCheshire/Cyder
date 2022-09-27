@@ -5,10 +5,10 @@ import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.enums.CyderInspection;
+import cyder.layouts.CyderGridLayout;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.button.CyderButton;
-import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
 import cyder.user.UserUtil;
 
@@ -17,7 +17,7 @@ import cyder.user.UserUtil;
  */
 @Vanilla
 @CyderAuthor
-public class ExampleWidget {
+public final class ExampleWidget {
     /**
      * Suppress default constructor from access outside of this class and log
      * when objects are created by the static factory method.
@@ -41,18 +41,24 @@ public class ExampleWidget {
         getInstance().innerShowGui();
     }
 
-    public void innerShowGui() {
+    /**
+     * Shows the widget.
+     */
+    private void innerShowGui() {
         CyderFrame cyderFrame = new CyderFrame(600, 600);
         cyderFrame.setTitle("Example Widget");
 
         CyderButton cyderButton = new CyderButton("Button");
-        cyderButton.setBounds((600 - 200) / 2,
-                (600 - 40 + CyderDragLabel.DEFAULT_HEIGHT) / 2, 200, 40);
+        cyderButton.setSize(200, 40);
         cyderButton.addActionListener(e -> {
-            // your logic here or a lambda to a class level private (possibly static) method
+            // Your logic here or a method reference to a local method (See EJ items 42 and 43)
             cyderFrame.notify("Hello " + UserUtil.getCyderUser().getName() + "!");
         });
-        cyderFrame.getContentPane().add(cyderButton);
+
+        CyderGridLayout gridLayout = new CyderGridLayout(1, 1);
+        gridLayout.addComponent(cyderButton);
+
+        cyderFrame.setCyderLayout(gridLayout);
 
         cyderFrame.finalizeAndShow();
     }

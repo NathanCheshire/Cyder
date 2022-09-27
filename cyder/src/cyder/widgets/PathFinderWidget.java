@@ -530,13 +530,12 @@ public final class PathFinderWidget {
                 if (walls.contains(node))
                     continue;
 
-                // skip start
-                if (startNode.equals(node))
-                    continue;
+                PathNode tempNode = new PathNode(x, y);
 
+                // skip start
+                if (startNode.equals(tempNode)) continue;
                 // skip goal node
-                if (goalNode.equals(node))
-                    continue;
+                if (goalNode.equals(tempNode)) continue;
 
                 // otherwise it's a pathable node so convert and add
                 pathableNodes.add(new PathNode(node.getX(), node.getY()));

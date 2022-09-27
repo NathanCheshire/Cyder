@@ -156,10 +156,15 @@ public final class GitHubUtil {
     }
 
     /**
+     * The name of the thread for cloning repos from GitHub.
+     */
+    private static final String GIT_REPO_CLONER_THREAD_NAME = "Git Repo Cloner";
+
+    /**
      * Executor service used to clone github repos.
      */
     private static final ExecutorService cloningExecutor =
-            Executors.newSingleThreadScheduledExecutor(new CyderThreadFactory("Git Repo Cloner"));
+            Executors.newSingleThreadScheduledExecutor(new CyderThreadFactory(GIT_REPO_CLONER_THREAD_NAME));
 
     /**
      * Clones the provided github repo to the provided directory.
