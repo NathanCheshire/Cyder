@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -12,19 +13,18 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.selection.CyderCheckbox;
+import cyder.ui.selection.CyderCheckboxGroup;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 
 @Vanilla
 @CyderAuthor
 public class TemperatureWidget {
     private CyderFrame temperatureFrame;
-    private CyderTextField startingValue;
+    private CyderTextField startingValueField;
 
     private CyderCheckbox oldFahrenheit;
     private CyderCheckbox newFahrenheit;
@@ -49,8 +49,44 @@ public class TemperatureWidget {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    @Widget(triggers = {"temperature", "temp"},
-            description = "A temperature conversion widget for the three standard temperature units")
+    private static final String description
+            = "A temperature conversion widget for the three standard temperature units";
+
+    private static final DecimalFormat resultFormatter = new DecimalFormat("#.####");
+
+    /**
+     * The temperature units supported by Cyder for conversion.
+     */
+    private enum Unit {
+        /**
+         * The imperial temperature unit.
+         */
+        FAHRENHEIT("Fahrenheit"),
+
+        /**
+         * The SI temperature unit.
+         */
+        CELSIUS("Celsius"),
+
+        /**
+         * The primary temperature uit
+         */
+        KELVIN("Kelvin");
+
+        private final String name;
+
+        Unit(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    private static final String CALCULATE = "Calculate";
+
+    @Widget(triggers = {"temperature", "temp", "fahrenheit", "celsius", "kelvin"}, description = description)
     public static void showGui() {
         getInstance().innerShowGUI();
     }
@@ -61,40 +97,36 @@ public class TemperatureWidget {
         temperatureFrame = new CyderFrame(600, 340, CyderIcons.defaultBackground);
         temperatureFrame.setTitle("Temperature Converter");
 
-        JLabel ValueLabel = new JLabel("Measurement: ");
-        ValueLabel.setFont(CyderFonts.SEGOE_20);
+        JLabel valueLabel = new JLabel("Measurement: ");
+        valueLabel.setFont(CyderFonts.SEGOE_20);
 
-        startingValue = new CyderTextField(0);
-        startingValue.setHorizontalAlignment(JTextField.CENTER);
-        startingValue.setKeyEventRegexMatcher(
-                "(\\-?)" +
-                        "|(\\-?[0-9]+)" +
-                        "|(\\-?[0-9]+.)" +
-                        "|(\\-?[0-9]+.[0-9]+)");
+        startingValueField = new CyderTextField(0);
+        startingValueField.setHorizontalAlignment(JTextField.CENTER);
+        // todo regex
 
-        ValueLabel.setBounds(60, 40, 200, 30);
+        valueLabel.setBounds(60, 40, 200, 30);
 
-        temperatureFrame.getContentPane().add(ValueLabel);
-        startingValue.setBounds(240, 40, 300, 35);
-        temperatureFrame.getContentPane().add(startingValue);
+        temperatureFrame.getContentPane().add(valueLabel);
+        startingValueField.setBounds(240, 40, 300, 35);
+        temperatureFrame.getContentPane().add(startingValueField);
 
         oldFahrenheit = new CyderCheckbox();
         oldCelsius = new CyderCheckbox();
         oldKelvin = new CyderCheckbox();
 
-        JLabel oldFahrenheitLabel = new JLabel("Fahrenheit");
+        JLabel oldFahrenheitLabel = new JLabel(Unit.FAHRENHEIT.getName());
         oldFahrenheitLabel.setFont(CyderFonts.SEGOE_30.deriveFont(22f));
         oldFahrenheitLabel.setForeground(CyderColors.navy);
         oldFahrenheitLabel.setBounds(140, 110, 250, 30);
         temperatureFrame.getContentPane().add(oldFahrenheitLabel);
 
-        JLabel oldCelsiusLabel = new JLabel("Celsius");
+        JLabel oldCelsiusLabel = new JLabel(Unit.CELSIUS.getName());
         oldCelsiusLabel.setFont(CyderFonts.SEGOE_30.deriveFont(22f));
         oldCelsiusLabel.setForeground(CyderColors.navy);
         oldCelsiusLabel.setBounds(140, 170, 250, 30);
         temperatureFrame.getContentPane().add(oldCelsiusLabel);
 
-        JLabel oldKelvinLabel = new JLabel("Kelvin");
+        JLabel oldKelvinLabel = new JLabel(Unit.KELVIN.getName());
         oldKelvinLabel.setFont(CyderFonts.SEGOE_30.deriveFont(22f));
         oldKelvinLabel.setForeground(CyderColors.navy);
         oldKelvinLabel.setBounds(140, 230, 250, 30);
@@ -104,60 +136,38 @@ public class TemperatureWidget {
         oldCelsius.setBounds(80, 160, 50, 50);
         oldKelvin.setBounds(80, 220, 50, 50);
 
-        oldFahrenheit.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                oldCelsius.setNotChecked();
-                oldKelvin.setNotChecked();
-            }
-        });
-
-        oldCelsius.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                oldFahrenheit.setNotChecked();
-                oldKelvin.setNotChecked();
-            }
-        });
-
-        oldKelvin.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                oldCelsius.setNotChecked();
-                oldFahrenheit.setNotChecked();
-            }
-        });
+        CyderCheckboxGroup oldGroup = new CyderCheckboxGroup();
+        oldGroup.addCheckbox(oldFahrenheit);
+        oldGroup.addCheckbox(oldCelsius);
+        oldGroup.addCheckbox(oldKelvin);
 
         temperatureFrame.getContentPane().add(oldFahrenheit);
         temperatureFrame.getContentPane().add(oldCelsius);
         temperatureFrame.getContentPane().add(oldKelvin);
 
-        JLabel twoLabel = new JLabel("-2-");
-        twoLabel.setFont(CyderFonts.SEGOE_30.deriveFont(45f));
-        twoLabel.setForeground(CyderColors.navy);
-        twoLabel.setBounds(260, 150, 150, 60);
-        temperatureFrame.getContentPane().add(twoLabel);
+        JLabel conversionToLabel = new JLabel("-2-");
+        conversionToLabel.setFont(CyderFonts.SEGOE_30.deriveFont(45f));
+        conversionToLabel.setForeground(CyderColors.navy);
+        conversionToLabel.setBounds(260, 150, 150, 60);
+        temperatureFrame.getContentPane().add(conversionToLabel);
 
         newFahrenheit = new CyderCheckbox();
         newCelsius = new CyderCheckbox();
         newKelvin = new CyderCheckbox();
 
-        JLabel newFahrenheitLabel = new JLabel("Fahrenheit");
+        JLabel newFahrenheitLabel = new JLabel(Unit.FAHRENHEIT.getName());
         newFahrenheitLabel.setFont(CyderFonts.SEGOE_30.deriveFont(22f));
         newFahrenheitLabel.setForeground(CyderColors.navy);
         newFahrenheitLabel.setBounds(430, 110, 250, 30);
         temperatureFrame.getContentPane().add(newFahrenheitLabel);
 
-        JLabel newCelsiusLabel = new JLabel("Celsius");
+        JLabel newCelsiusLabel = new JLabel(Unit.CELSIUS.getName());
         newCelsiusLabel.setFont(CyderFonts.SEGOE_30.deriveFont(22f));
         newCelsiusLabel.setForeground(CyderColors.navy);
         newCelsiusLabel.setBounds(430, 170, 250, 30);
         temperatureFrame.getContentPane().add(newCelsiusLabel);
 
-        JLabel newKelvinLabel = new JLabel("Kelvin");
+        JLabel newKelvinLabel = new JLabel(Unit.KELVIN.getName());
         newKelvinLabel.setFont(CyderFonts.SEGOE_30.deriveFont(22f));
         newKelvinLabel.setForeground(CyderColors.navy);
         newKelvinLabel.setBounds(430, 230, 250, 30);
@@ -167,162 +177,115 @@ public class TemperatureWidget {
         newCelsius.setBounds(370, 160, 50, 50);
         newKelvin.setBounds(370, 220, 50, 50);
 
-        newFahrenheit.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                newCelsius.setNotChecked();
-                newKelvin.setNotChecked();
-            }
-        });
-
-        newCelsius.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                newFahrenheit.setNotChecked();
-                newKelvin.setNotChecked();
-            }
-        });
-
-        newKelvin.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                newCelsius.setNotChecked();
-                newFahrenheit.setNotChecked();
-            }
-        });
+        CyderCheckboxGroup newGroup = new CyderCheckboxGroup();
+        newGroup.addCheckbox(newFahrenheit);
+        newGroup.addCheckbox(newCelsius);
+        newGroup.addCheckbox(newKelvin);
 
         temperatureFrame.getContentPane().add(newFahrenheit);
         temperatureFrame.getContentPane().add(newCelsius);
         temperatureFrame.getContentPane().add(newKelvin);
 
-        CyderButton calculate = new CyderButton("Calculate");
+        CyderButton calculate = new CyderButton(CALCULATE);
         calculate.setBorder(new LineBorder(CyderColors.navy, 5, false));
-
         calculate.addActionListener(e -> {
+            String startingValueText = startingValueField.getTrimmedText();
+            if (startingValueText.isEmpty()) return;
+
+            double value;
             try {
-                DecimalFormat tempFormat = new DecimalFormat("#.####");
-                double CalculationValue = Double.parseDouble(startingValue.getText());
+                value = Double.parseDouble(startingValueText);
+            } catch (NumberFormatException ex) {
+                temperatureFrame.notify("Could not parse input");
+                return;
+            }
 
-                if (oldKelvin.isChecked() && CalculationValue <= 0) {
-                    temperatureFrame.notify("Temperatures below absolute zero are imposible.");
-                } else {
-                    if (oldFahrenheit.isChecked()) {
-                        if (newFahrenheit.isChecked()) {
-                            temperatureFrame.notify("Get out of here with that. Your value is already in Fahrenheit.");
-                        } else if (newCelsius.isChecked()) {
-                            double CelsiusFromFahrenheit;
+            Unit oldUnit;
+            if (oldFahrenheit.isChecked()) {
+                oldUnit = Unit.FAHRENHEIT;
+            } else if (oldCelsius.isChecked()) {
+                oldUnit = Unit.CELSIUS;
+            } else if (oldKelvin.isChecked()) {
+                oldUnit = Unit.KELVIN;
+            } else {
+                return;
+            }
 
-                            CelsiusFromFahrenheit = (CalculationValue - 32.0) / 1.8;
+            Unit newUnit;
+            if (newFahrenheit.isChecked()) {
+                newUnit = Unit.FAHRENHEIT;
+            } else if (newCelsius.isChecked()) {
+                newUnit = Unit.CELSIUS;
+            } else if (newKelvin.isChecked()) {
+                newUnit = Unit.KELVIN;
+            } else {
+                return;
+            }
 
-                            temperatureFrame.notify(CalculationValue + " Fahrenheit converted to Celsius equals: "
-                                    + tempFormat.format(CelsiusFromFahrenheit));
+            if (newUnit == oldUnit) {
+                temperatureFrame.notify("Get out of here with that, Your value is already in "
+                        + oldUnit.getName());
+                return;
+            }
 
-                            startingValue.setText("");
-                        } else if (newKelvin.isChecked()) {
-                            double KelvinFromFahrenheit;
-                            KelvinFromFahrenheit = (CalculationValue + 459.67) * 5 / 9;
+            double oldValueInKelvin = switch (oldUnit) {
+                case FAHRENHEIT -> (value - 32) * (5.0 / 9.0) + 273.15;
+                case CELSIUS -> value + 273.15;
+                case KELVIN -> value;
+            };
 
-                            if (KelvinFromFahrenheit >= 0) {
-                                temperatureFrame.notify(CalculationValue + " Fahrenheit converted to Kelvin equals: "
-                                        + tempFormat.format(KelvinFromFahrenheit));
-
-                                startingValue.setText("");
-
-                            } else {
-                                temperatureFrame.notify("Temperatures below absolute zero are imposible.");
-                            }
-                        } else {
-                            temperatureFrame.notify("Please select the unit to convert to.");
-                        }
-                    } else if (oldCelsius.isChecked()) {
-                        if (newFahrenheit.isChecked()) {
-                            double FahrenheitFromCelsius;
-
-                            FahrenheitFromCelsius = (CalculationValue * 1.8) + 32;
-
-                            temperatureFrame.notify(CalculationValue + " Celsius converted to Fahrenheit equals: "
-                                    + tempFormat.format(FahrenheitFromCelsius));
-
-                            startingValue.setText("");
-                        } else if (newCelsius.isChecked()) {
-                            temperatureFrame.notify("Get out of here with that. Your value is already in Celsius.");
-                        } else if (newKelvin.isChecked()) {
-                            double KelvinFromCelsius;
-                            KelvinFromCelsius = CalculationValue + 273.15;
-
-                            if (KelvinFromCelsius >= 0) {
-                                temperatureFrame.notify(CalculationValue + " Celsius converted to Kelvin equals: "
-                                        + tempFormat.format(KelvinFromCelsius));
-
-                                startingValue.setText("");
-                            } else {
-                                temperatureFrame.notify("Temperatures below absolute zero are imposible.");
-                            }
-                        } else {
-                            temperatureFrame.notify("Please select the unit to convert to.");
-                        }
-                    } else if (oldKelvin.isChecked()) {
-                        if (newFahrenheit.isChecked()) {
-                            double FahrenheitFromKelvin;
-
-                            FahrenheitFromKelvin = CalculationValue * 1.8 - 459.67;
-
-                            temperatureFrame.notify(CalculationValue + " Kelvin converted to Fahrenheit equals: "
-                                    + tempFormat.format(FahrenheitFromKelvin));
-
-                            startingValue.setText("");
-                        } else if (newCelsius.isChecked()) {
-                            double CelsiusFromKelvin;
-
-                            CelsiusFromKelvin = CalculationValue - 273.15;
-
-                            temperatureFrame.notify(CalculationValue + " Kelvin converted to Celsius equals: "
-                                    + tempFormat.format(CelsiusFromKelvin));
-
-                            startingValue.setText("");
-                        } else if (newKelvin.isChecked()) {
-                            temperatureFrame.notify("Get out of here with that. Your value is already in Kelvin");
-                        } else {
-                            temperatureFrame.notify("Please select the unit to convert to.");
-                        }
-                    } else
-                        temperatureFrame.notify("Please select your current temperature unit and the one you want to convet to.");
+            switch (newUnit) {
+                case FAHRENHEIT -> {
+                    double fahrenheitFromKelvin = 1.8 * (oldValueInKelvin - 273.15) + 32;
+                    startingValueField.setText(resultFormatter.format(fahrenheitFromKelvin));
+                    oldFahrenheit.setChecked();
                 }
-            } catch (Exception ex) {
-                if (startingValue.getText().isEmpty()) {
-                    temperatureFrame.notify("Please enter a starting value.");
-                } else {
-                    temperatureFrame.notify("Your value must only contain numbers.");
+                case CELSIUS -> {
+                    double celsiusFromKelvin = oldValueInKelvin - 273.15;
+                    startingValueField.setText(resultFormatter.format(celsiusFromKelvin));
+                    oldCelsius.setChecked();
+                }
+                case KELVIN -> {
+                    startingValueField.setText(resultFormatter.format(oldValueInKelvin));
+                    oldKelvin.setChecked();
                 }
             }
+
+            startingValueField.flashField();
         });
+        calculate.setBackground(CyderColors.regularRed);
+        calculate.setFont(CyderFonts.SEGOE_20);
+        calculate.setBounds(140, 280, 150, 40);
+        temperatureFrame.getContentPane().add(calculate);
 
         CyderButton resetValues = new CyderButton("Reset Values");
         resetValues.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        resetValues.addActionListener(e -> {
-            startingValue.setText("");
-            oldCelsius.setNotChecked();
-            oldFahrenheit.setNotChecked();
-            oldKelvin.setNotChecked();
-            newCelsius.setNotChecked();
-            newFahrenheit.setNotChecked();
-            newKelvin.setNotChecked();
-        });
-
-        calculate.setBackground(CyderColors.regularRed);
-        calculate.setFont(CyderFonts.SEGOE_20);
+        resetValues.addActionListener(e -> reset());
         resetValues.setFocusPainted(false);
         resetValues.setBackground(CyderColors.regularRed);
         resetValues.setFont(CyderFonts.SEGOE_20);
-
-        calculate.setBounds(140, 280, 150, 40);
         resetValues.setBounds(300, 280, 150, 40);
-
-        temperatureFrame.getContentPane().add(calculate);
         temperatureFrame.getContentPane().add(resetValues);
+
+        reset();
         temperatureFrame.finalizeAndShow();
+    }
+
+    @ForReadability
+    private void clearFieldInput() {
+        startingValueField.setText("");
+    }
+
+    @ForReadability
+    private void reset() {
+        clearFieldInput();
+
+        oldFahrenheit.setChecked();
+        oldCelsius.setNotChecked();
+        oldKelvin.setNotChecked();
+
+        newFahrenheit.setChecked();
+        newCelsius.setNotChecked();
+        newKelvin.setNotChecked();
     }
 }
