@@ -1,6 +1,7 @@
 package cyder.ui.button;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.exceptions.IllegalMethodException;
@@ -717,7 +718,7 @@ public class CyderModernButton extends JLabel {
      */
     @Deprecated
     public void setBorder(Border border) {
-        throw new IllegalMethodException("Cannot invoke setBorder on object " + this);
+        throw new IllegalMethodException("Cannot invoke setBorder on object " + CyderModernButton.class.getName());
     }
 
     /**
@@ -1013,6 +1014,7 @@ public class CyderModernButton extends JLabel {
     // Theme loading and builder
     // -------------------------
 
+    // todo javadoc
     /**
      * A builder for constructing a theme for a modern button.
      */
@@ -1021,6 +1023,7 @@ public class CyderModernButton extends JLabel {
         private Color foregroundColor;
         private Font font;
         private int borderLength = DEFAULT_BORDER_LENGTH;
+        private Color borderColor;
         private Color hoverColor;
         private Color pressedColor;
         private boolean roundedCorners;
@@ -1038,6 +1041,7 @@ public class CyderModernButton extends JLabel {
             return backgroundColor;
         }
 
+        @CanIgnoreReturnValue
         public ThemeBuilder setBackgroundColor(Color backgroundColor) {
             this.backgroundColor = backgroundColor;
             return this;
@@ -1047,6 +1051,7 @@ public class CyderModernButton extends JLabel {
             return foregroundColor;
         }
 
+        @CanIgnoreReturnValue
         public ThemeBuilder setForegroundColor(Color foregroundColor) {
             this.foregroundColor = foregroundColor;
             return this;
@@ -1056,6 +1061,7 @@ public class CyderModernButton extends JLabel {
             return font;
         }
 
+        @CanIgnoreReturnValue
         public ThemeBuilder setFont(Font font) {
             this.font = font;
             return this;
@@ -1065,6 +1071,7 @@ public class CyderModernButton extends JLabel {
             return borderLength;
         }
 
+        @CanIgnoreReturnValue
         public ThemeBuilder setBorderLength(int borderLength) {
             this.borderLength = borderLength;
             return this;
@@ -1074,6 +1081,7 @@ public class CyderModernButton extends JLabel {
             return hoverColor;
         }
 
+        @CanIgnoreReturnValue
         public ThemeBuilder setHoverColor(Color hoverColor) {
             this.hoverColor = hoverColor;
             return this;
@@ -1083,6 +1091,7 @@ public class CyderModernButton extends JLabel {
             return pressedColor;
         }
 
+        @CanIgnoreReturnValue
         public ThemeBuilder setPressedColor(Color pressedColor) {
             this.pressedColor = pressedColor;
             return this;
@@ -1092,6 +1101,7 @@ public class CyderModernButton extends JLabel {
             return roundedCorners;
         }
 
+        @CanIgnoreReturnValue
         public ThemeBuilder setRoundedCorners(boolean roundedCorners) {
             this.roundedCorners = roundedCorners;
             return this;
@@ -1101,6 +1111,7 @@ public class CyderModernButton extends JLabel {
             return disabledForeground;
         }
 
+        @CanIgnoreReturnValue
         public ThemeBuilder setDisabledForeground(Color disabledForeground) {
             this.disabledForeground = disabledForeground;
             return this;
@@ -1110,12 +1121,24 @@ public class CyderModernButton extends JLabel {
             return disabledBackground;
         }
 
+        @CanIgnoreReturnValue
         public ThemeBuilder setDisabledBackground(Color disabledBackground) {
             this.disabledBackground = disabledBackground;
             return this;
         }
+
+        public Color getBorderColor() {
+            return borderColor;
+        }
+
+        @CanIgnoreReturnValue
+        public ThemeBuilder setBorderColor(Color borderColor) {
+            this.borderColor = borderColor;
+            return this;
+        }
     }
 
+    // todo could be cleaner
     /**
      * Sets the theme of this button to the provided theme and repaints the button.
      *
@@ -1135,6 +1158,9 @@ public class CyderModernButton extends JLabel {
         }
 
         setBorderLength(builder.getBorderLength());
+        if (builder.getBorderColor() != null) {
+            setBorderColor(builder.getBorderColor());
+        }
 
         if (builder.getHoverColor() != null) {
             setHoverColor(builder.getHoverColor());
