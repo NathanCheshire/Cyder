@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -357,9 +358,17 @@ public class CyderTextField extends JTextField {
     private static final String FLASH_ANIMATION_THREAD_NAME = "Cyder Text Field Flash Animator";
 
     /**
+     * Whether this field is currently flashing.
+     */
+    private final AtomicBoolean fieldFlashing = new AtomicBoolean();
+
+    /**
      * Performs a flash on the field.
      */
     public void flashField() {
+        if (fieldFlashing.get()) return;
+        fieldFlashing.set(true);
+
         Color startingColor = getForeground();
         ImmutableList<Color> flashColors = ColorUtil.getFlashColors(DEFAULT_FLASH_COLOR, startingColor);
         int timeout = flashDurationMs / flashColors.size();
@@ -371,6 +380,7 @@ public class CyderTextField extends JTextField {
                 ThreadUtil.sleep(timeout);
             });
 
+            fieldFlashing.set(false);
             setForeground(startingColor);
         }, FLASH_ANIMATION_THREAD_NAME);
     }
