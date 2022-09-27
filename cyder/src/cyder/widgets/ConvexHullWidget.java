@@ -45,28 +45,84 @@ public final class ConvexHullWidget {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
+    /**
+     * The title of the frame.
+     */
     private static final String FRAME_TITLE = "Convex Hull";
+
+    /**
+     * The solve button text.
+     */
     private static final String SOLVE = "Solve";
+
+    /**
+     * The reset button text.
+     */
     private static final String RESET = "Reset";
 
+    /**
+     * The number of grid nodes.
+     */
     private static final int GRID_NODES = 175;
+
+    /**
+     * The length of the grid.
+     */
     private static final int GRID_LENGTH = 700;
+
+    /**
+     * The padding around the edges of the grid.
+     */
     private static final int GRID_PADDING = 5;
+
+    /**
+     * The size of the parent component for the grid.
+     */
     private static final int GRID_PARENT_LEN = GRID_LENGTH + 2 * GRID_PADDING;
 
+    /**
+     * The width of the frame.
+     */
     private static final int FRAME_WIDTH = 800;
+
+    /**
+     * The height of the frame.
+     */
     private static final int FRAME_HEIGHT = 850;
 
+    /**
+     * The size of the buttons.
+     */
     private static final Dimension BUTTON_SIZE = new Dimension(300, 40);
+
+    /**
+     * The top and bottom button padding.
+     */
     private static final int BUTTON_Y_PADDING = 10;
 
+    /**
+     * The color of the nodes the user places on the grid.
+     */
     private static final Color PLACED_NODE_COLOR = CyderColors.regularPink;
+
+    /**
+     * The color of the nodes placed by the algorithm.
+     */
     private static final Color WALL_NODE_COLOR = CyderColors.navy;
 
+    /**
+     * The border for the grid component.
+     */
     private static final LineBorder GRID_PARENT_BORDER = new LineBorder(CyderColors.navy, GRID_PADDING);
 
+    /**
+     * The minimum number of points required to form a polygon in 2D space.
+     */
     private static final int MIN_POLYGON_POINTS = 3;
 
+    /**
+     * The text to display in a notification if the four corners of the grid are occupied.
+     */
     private static final String FOUR_CORNERS = "Congratulations, you played yourself";
 
     /**
@@ -156,9 +212,8 @@ public final class ConvexHullWidget {
 
         for (int i = 0 ; i < hullPoints.size() ; i++) {
             Point firstPoint = hullPoints.get(i);
-            Point secondPoint = (i == hullPoints.size() - 1)
-                    ? hullPoints.get(0)
-                    : hullPoints.get(i + 1);
+            int secondPointIndex = (i == hullPoints.size() - 1) ? 0 : i + 1;
+            Point secondPoint = hullPoints.get(secondPointIndex);
 
             addMidPointsToGrid(firstPoint, secondPoint);
         }
@@ -223,19 +278,20 @@ public final class ConvexHullWidget {
     private static ImmutableList<Point> solveGrahamScan(ArrayList<Point> points) {
         Deque<Point> stack = new ArrayDeque<>();
 
-        Point minY = getMinY(points);
-        sortByAngle(points, minY);
+        Point bottomLeftMostPoint = getBottomLeftMostPoint(points);
+        sortPointsByAngle(points, bottomLeftMostPoint);
 
-        stack.push(points.get(0));
-        stack.push(points.get(1));
+        int pointIndex = 0;
+        stack.push(points.get(pointIndex++));
+        stack.push(points.get(pointIndex++));
 
-        for (int i = 2, size = points.size() ; i < size ; i++) {
+        for (int i = pointIndex, size = points.size() ; i < size ; i++) {
             Point next = points.get(i);
             Point poppedPoint = stack.pop();
 
-            while (stack.peek() != null &&
-                    (determineRotation(stack.peek(), poppedPoint, next) == PointRotation.CO_LINEAR
-                            || determineRotation(stack.peek(), poppedPoint, next) == PointRotation.CLOCK_WISE)) {
+            while (stack.peek() != null) {
+                PointRotation rotation = determineRotation(stack.peek(), poppedPoint, next);
+                if (rotation == PointRotation.COUNTER_CLOCK_WISE) break;
                 poppedPoint = stack.pop();
             }
 
@@ -248,7 +304,7 @@ public final class ConvexHullWidget {
             return ImmutableList.of();
         }
 
-        PointRotation rotation = determineRotation(stack.peek(), poppedPoint, minY);
+        PointRotation rotation = determineRotation(stack.peek(), poppedPoint, bottomLeftMostPoint);
         if (rotation == PointRotation.COUNTER_CLOCK_WISE) {
             stack.push(poppedPoint);
         }
@@ -258,11 +314,12 @@ public final class ConvexHullWidget {
 
     /**
      * Returns the node with the minimum y value from the provided list.
+     * If two points contain teh same y value, the point with the minimum x value is returned.
      *
      * @param points the list of points
-     * @return the point with the minimum y value
+     * @return the bottom left most point
      */
-    private static Point getMinY(ArrayList<Point> points) {
+    private static Point getBottomLeftMostPoint(ArrayList<Point> points) {
         Preconditions.checkNotNull(points);
         Preconditions.checkArgument(!points.isEmpty());
 
@@ -331,7 +388,7 @@ public final class ConvexHullWidget {
      * @param points         the list of points
      * @param referencePoint the reference point
      */
-    private static void sortByAngle(ArrayList<Point> points, Point referencePoint) {
+    private static void sortPointsByAngle(ArrayList<Point> points, Point referencePoint) {
         Preconditions.checkNotNull(points);
         Preconditions.checkNotNull(referencePoint);
 
@@ -346,10 +403,10 @@ public final class ConvexHullWidget {
 
             PointRotation rotation = determineRotation(referencePoint, firstPoint, secondPoint);
             if (rotation == PointRotation.CO_LINEAR) {
-                if (Float.compare(firstPoint.x, secondPoint.x) == 0) {
-                    return firstPoint.y < secondPoint.y ? -1 : 1;
+                if (Double.compare(firstPoint.getX(), secondPoint.getX()) == 0) {
+                    return firstPoint.getY() < secondPoint.getY() ? -1 : 1;
                 } else {
-                    return firstPoint.x < secondPoint.x ? -1 : 1;
+                    return firstPoint.getX() < secondPoint.getX() ? -1 : 1;
                 }
             } else if (rotation == PointRotation.CLOCK_WISE) {
                 return 1;

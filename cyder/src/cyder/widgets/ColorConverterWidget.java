@@ -41,7 +41,6 @@ public class ColorConverterWidget {
      * Creates a new Color Converter Widget.
      */
     private ColorConverterWidget() {
-        // invoked via getInstance()
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
