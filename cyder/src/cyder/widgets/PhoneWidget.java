@@ -21,6 +21,9 @@ import cyder.utils.UiUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * A phone number dialing widget.
+ */
 @Vanilla
 @CyderAuthor
 public final class PhoneWidget {
@@ -119,6 +122,16 @@ public final class PhoneWidget {
      * The height of the widget frame.
      */
     private static final int FRAME_HEIGHT = 500;
+
+    /**
+     * The string for the back button.
+     */
+    private static final String backText = "<<";
+
+    /**
+     * The call string.
+     */
+    private static final String CALL = "Call";
 
     @Widget(triggers = "phone", description = "A phone emulating widget")
     public static void showGui() {
@@ -226,7 +239,7 @@ public final class PhoneWidget {
         });
         nine.setTheme(theme);
 
-        CyderModernButton back = new CyderModernButton("<<");
+        CyderModernButton back = new CyderModernButton(backText);
         back.setBounds(20, 400, 80, 80);
         phoneFrame.getContentPane().add(back);
         back.addClickRunnable(() -> {
@@ -237,7 +250,7 @@ public final class PhoneWidget {
         });
         back.setTheme(theme);
 
-        CyderModernButton dialNumber = new CyderModernButton("Call");
+        CyderModernButton dialNumber = new CyderModernButton(CALL);
         dialNumber.setBounds(220, 400, 80, 80);
         phoneFrame.getContentPane().add(dialNumber);
         dialNumber.addClickRunnable(PhoneWidget::dialNumberAction);
