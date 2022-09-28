@@ -4092,10 +4092,8 @@ public class CyderFrame extends JFrame {
             ret = 31 * ret + notifyTime.hashCode();
             ret = 31 * ret + htmlText.hashCode();
             ret = 31 * ret + arrowDir.hashCode();
-            ret = 31 * ret + onKillAction.hashCode();
             ret = 31 * ret + notificationDirection.hashCode();
             ret = 31 * ret + notificationType.hashCode();
-            ret = 31 * ret + container.hashCode();
             return ret;
         }
 
