@@ -1,6 +1,8 @@
 package cyder.widgets;
 
+import com.google.common.collect.ImmutableList;
 import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -14,25 +16,27 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderScrollList;
 import cyder.ui.pane.CyderScrollPane;
 import cyder.ui.selection.CyderCheckbox;
+import cyder.ui.selection.CyderCheckboxGroup;
+import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 @Vanilla
 @CyderAuthor
-public class PizzaWidget {
+public final class PizzaWidget {
     private static CyderFrame pizzaFrame;
+
     private static CyderTextField nameField;
-    private static CyderCheckbox smallPizza;
-    private static CyderCheckbox mediumPizza;
-    private static CyderCheckbox largePizza;
+
+    private static CyderCheckboxGroup sizeGroup;
+
+    private static CyderCheckbox smallCheckbox;
+    private static CyderCheckbox mediumCheckbox;
+    private static CyderCheckbox largeCheckbox;
 
     private static CyderScrollList pizzaToppingsScroll;
     private static CyderScrollList crustTypeScroll;
@@ -50,154 +54,152 @@ public class PizzaWidget {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Widget(triggers = "pizza", description = "A very old widget I built using Swing in 2017 for AP Comp. Sci. " +
-            "that I rewrote using the Cyder toolkit")
+    private static final String FRAME_TITLE = "Pizza";
+    private static final int FRAME_WIDTH = 600;
+    private static final int FRAME_HEIGHT = 800;
+    private static final String NAME = "Name:";
+    private static final String SIZE = "Size:";
+    private static final String SMALL = "Small";
+    private static final String MEDIUM = "Medium";
+    private static final String LARGE = "Large";
+    private static final String CRUST_TYPE = "Crust Type";
+    private static final String TOPPINGS = "Toppings";
+    private static final String RESET = "Reset";
+    private static final String BREAK_TAG = "<br/>";
+    private static final String PLACE_ORDER = "Place Order";
+    private static final String EXTRAS = "Extras:";
+    private static final String BREAD_STICKS = "Bread Sticks";
+    private static final String SALAD = "Salad";
+    private static final String SODA = "Soda";
+    private static final String ORDER_COMMENTS = "Order Comments";
+
+    private static final ImmutableList<String> crustTypes = ImmutableList.of(
+            "Thin",
+            "Thick",
+            "Deep dish",
+            "Classic",
+            "Tavern",
+            "Seasonal");
+
+    private static final ImmutableList<String> pizzaToppings = ImmutableList.of(
+            "Pepperoni",
+            "Sausage",
+            "Green peppers",
+            "Onions",
+            "Tomatoes",
+            "Anchovies",
+            "Bacon",
+            "Chicken",
+            "Beef",
+            "Olives",
+            "Mushrooms");
+    private static final int pizzaToppingsScrollLength = 200;
+
+    private static final int crustScrollWidth = 160;
+    private static final int crustScrollHeight = 200;
+
+    @Widget(triggers = "pizza", description = "A fake pizza ordering widget")
     public static void showGui() {
         UiUtil.closeIfOpen(pizzaFrame);
 
-        pizzaFrame = new CyderFrame(600, 800, CyderIcons.defaultBackground);
-        pizzaFrame.setTitle("Pizza");
+        pizzaFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderIcons.defaultBackground);
+        pizzaFrame.setTitle(FRAME_TITLE);
 
-        JLabel CustomerName = new JLabel("Name:");
-        CustomerName.setFont(CyderFonts.SEGOE_20);
-        CustomerName.setForeground(CyderColors.navy);
-        CustomerName.setBounds(40, 45, 100, 30);
-        pizzaFrame.getContentPane().add(CustomerName);
+        JLabel nameLabel = new JLabel(NAME);
+        nameLabel.setFont(CyderFonts.SEGOE_20);
+        nameLabel.setForeground(CyderColors.navy);
+        nameLabel.setBounds(40, 45, 100, 30);
+        pizzaFrame.getContentPane().add(nameLabel);
 
         nameField = new CyderTextField(0);
         nameField.setHorizontalAlignment(JTextField.CENTER);
-        nameField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyPressed(java.awt.event.KeyEvent e) {
-                if (nameField.getText().length() == 1) {
-                    nameField.setText(nameField.getText().toUpperCase());
-                }
-            }
-
-            @Override
-            public void keyReleased(java.awt.event.KeyEvent e) {
-                if (nameField.getText().length() == 1) {
-                    nameField.setText(nameField.getText().toUpperCase());
-                }
-            }
-
-            @Override
-            public void keyTyped(java.awt.event.KeyEvent e) {
-                if (nameField.getText().length() == 1) {
-                    nameField.setText(nameField.getText().toUpperCase());
-                }
-            }
-        });
+        nameField.setAutoCapitalization(true);
         nameField.setBackground(Color.white);
         nameField.setBounds(140, 40, 400, 40);
         pizzaFrame.getContentPane().add(nameField);
 
-        JLabel pizzaSizeLabel = new JLabel("Size:");
-        pizzaSizeLabel.setFont(CyderFonts.SEGOE_20);
-        pizzaSizeLabel.setForeground(CyderColors.navy);
-        pizzaSizeLabel.setBounds(40, 140, 50, 30);
-        pizzaFrame.getContentPane().add(pizzaSizeLabel);
+        JLabel sizeLabel = new JLabel(SIZE);
+        sizeLabel.setFont(CyderFonts.SEGOE_20);
+        sizeLabel.setForeground(CyderColors.navy);
+        sizeLabel.setBounds(40, 140, 50, 30);
+        pizzaFrame.getContentPane().add(sizeLabel);
 
-        JLabel smallLabel = new JLabel("Small");
+        JLabel smallLabel = new JLabel(SMALL);
         smallLabel.setFont(CyderFonts.SEGOE_20);
         smallLabel.setForeground(CyderColors.navy);
         smallLabel.setBounds(180, 100, 100, 30);
         pizzaFrame.getContentPane().add(smallLabel);
 
-        JLabel mediumLabel = new JLabel("Medium");
+        JLabel mediumLabel = new JLabel(MEDIUM);
         mediumLabel.setFont(CyderFonts.SEGOE_20);
         mediumLabel.setForeground(CyderColors.navy);
         mediumLabel.setBounds(285, 100, 100, 30);
         pizzaFrame.getContentPane().add(mediumLabel);
 
-        JLabel largeLabel = new JLabel("Large");
+        JLabel largeLabel = new JLabel(LARGE);
         largeLabel.setFont(CyderFonts.SEGOE_20);
         largeLabel.setForeground(CyderColors.navy);
         largeLabel.setBounds(420, 100, 100, 30);
         pizzaFrame.getContentPane().add(largeLabel);
 
-        smallPizza = new CyderCheckbox();
-        smallPizza.setHorizontalAlignment(SwingConstants.CENTER);
-        smallPizza.setNotChecked();
-        smallPizza.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                mediumPizza.setNotChecked();
-                largePizza.setNotChecked();
-            }
-        });
-        smallPizza.setBounds(185, 135, 50, 50);
-        pizzaFrame.getContentPane().add(smallPizza);
+        sizeGroup = new CyderCheckboxGroup();
 
-        mediumPizza = new CyderCheckbox();
-        mediumPizza.setHorizontalAlignment(SwingConstants.CENTER);
-        mediumPizza.setChecked();
-        mediumPizza.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                smallPizza.setNotChecked();
-                largePizza.setNotChecked();
-            }
-        });
-        mediumPizza.setBounds(305, 135, 50, 50);
-        pizzaFrame.getContentPane().add(mediumPizza);
+        smallCheckbox = new CyderCheckbox();
+        smallCheckbox.setHorizontalAlignment(SwingConstants.CENTER);
+        smallCheckbox.setNotChecked();
+        smallCheckbox.setBounds(185, 135, 50, 50);
+        pizzaFrame.getContentPane().add(smallCheckbox);
+        sizeGroup.addCheckbox(smallCheckbox);
 
-        largePizza = new CyderCheckbox();
-        largePizza.setHorizontalAlignment(SwingConstants.CENTER);
-        largePizza.setNotChecked();
-        largePizza.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                smallPizza.setNotChecked();
-                mediumPizza.setNotChecked();
-            }
-        });
-        largePizza.setBounds(425, 135, 50, 50);
-        pizzaFrame.getContentPane().add(largePizza);
+        mediumCheckbox = new CyderCheckbox();
+        mediumCheckbox.setHorizontalAlignment(SwingConstants.CENTER);
+        mediumCheckbox.setChecked();
+        mediumCheckbox.setBounds(305, 135, 50, 50);
+        pizzaFrame.getContentPane().add(mediumCheckbox);
+        sizeGroup.addCheckbox(mediumCheckbox);
 
-        JLabel crustLabel = new JLabel("Crust Type");
+        largeCheckbox = new CyderCheckbox();
+        largeCheckbox.setHorizontalAlignment(SwingConstants.CENTER);
+        largeCheckbox.setNotChecked();
+        largeCheckbox.setBounds(425, 135, 50, 50);
+        pizzaFrame.getContentPane().add(largeCheckbox);
+        sizeGroup.addCheckbox(largeCheckbox);
+
+        JLabel crustLabel = new JLabel(CRUST_TYPE);
         crustLabel.setFont(CyderFonts.SEGOE_20);
         crustLabel.setForeground(CyderColors.navy);
         crustLabel.setBounds(90, 210, 130, 30);
         pizzaFrame.getContentPane().add(crustLabel);
 
-        JLabel Toppings = new JLabel("Toppings");
+        JLabel Toppings = new JLabel(TOPPINGS);
         Toppings.setFont(CyderFonts.SEGOE_20);
         Toppings.setForeground(CyderColors.navy);
         Toppings.setBounds(370, 210, 130, 30);
         pizzaFrame.getContentPane().add(Toppings);
 
-        String[] crustTypes = {"Thin", "Thick", "Deep Dish", "Classic", "Tavern", "Seasonal"};
-        crustTypeScroll = new CyderScrollList(160, 200, CyderScrollList.SelectionPolicy.SINGLE);
-
-        for (String crustType : crustTypes) {
-            crustTypeScroll.addElement(crustType, null);
-        }
+        crustTypeScroll = new CyderScrollList(crustScrollWidth, crustScrollHeight,
+                CyderScrollList.SelectionPolicy.SINGLE);
+        crustTypes.forEach(crustType -> crustTypeScroll.addElement(crustType, null));
 
         JLabel crustTypeLabel = crustTypeScroll.generateScrollList();
         crustTypeLabel.setBounds(80, 250, 160, 200);
         pizzaFrame.getContentPane().add(crustTypeLabel);
 
-        String[] pizzaToppings = {"Pepperoni", "Sausage", "Green Peppers",
-                "Onions", "Tomatoes", "Anchovies", "Bacon", "Chicken", "Beef",
-                "Olives", "Mushrooms"};
-        pizzaToppingsScroll = new CyderScrollList(200, 200, CyderScrollList.SelectionPolicy.MULTIPLE);
-
-        for (String pizzaTopping : pizzaToppings) {
-            pizzaToppingsScroll.addElement(pizzaTopping, null);
-        }
+        pizzaToppingsScroll = new CyderScrollList(pizzaToppingsScrollLength, pizzaToppingsScrollLength,
+                CyderScrollList.SelectionPolicy.MULTIPLE);
+        pizzaToppings.forEach(topping -> pizzaToppingsScroll.addElement(topping, null));
 
         JLabel pizzaToppingsLabel = pizzaToppingsScroll.generateScrollList();
         pizzaToppingsLabel.setBounds(320, 250, 200, 200);
         pizzaFrame.getContentPane().add(pizzaToppingsLabel);
 
-        JLabel Extra = new JLabel("Extras:");
+        JLabel Extra = new JLabel(EXTRAS);
         Extra.setForeground(CyderColors.navy);
         Extra.setFont(CyderFonts.SEGOE_20);
         Extra.setBounds(40, 510, 130, 30);
         pizzaFrame.getContentPane().add(Extra);
 
-        JLabel breadSticksLabel = new JLabel("Bread Sticks");
+        JLabel breadSticksLabel = new JLabel(BREAD_STICKS);
         breadSticksLabel.setFont(CyderFonts.SEGOE_20);
         breadSticksLabel.setForeground(CyderColors.navy);
         breadSticksLabel.setBounds(130, 470, 150, 30);
@@ -209,7 +211,7 @@ public class PizzaWidget {
         breadSticks.setBounds(165, 505, 50, 50);
         pizzaFrame.getContentPane().add(breadSticks);
 
-        JLabel saladLabel = new JLabel("Salad");
+        JLabel saladLabel = new JLabel(SALAD);
         saladLabel.setFont(CyderFonts.SEGOE_20);
         saladLabel.setForeground(CyderColors.navy);
         saladLabel.setBounds(310, 470, 150, 30);
@@ -221,7 +223,7 @@ public class PizzaWidget {
         salad.setBounds(315, 505, 50, 50);
         pizzaFrame.getContentPane().add(salad);
 
-        JLabel sodaLabel = new JLabel("Soda");
+        JLabel sodaLabel = new JLabel(SODA);
         sodaLabel.setFont(CyderFonts.SEGOE_20);
         sodaLabel.setForeground(CyderColors.navy);
         sodaLabel.setBounds(445, 470, 150, 30);
@@ -233,7 +235,7 @@ public class PizzaWidget {
         soda.setBounds(445, 505, 50, 50);
         pizzaFrame.getContentPane().add(soda);
 
-        JLabel orderCommentsLabel = new JLabel("Order Comments");
+        JLabel orderCommentsLabel = new JLabel(ORDER_COMMENTS);
         orderCommentsLabel.setFont(CyderFonts.SEGOE_20);
         orderCommentsLabel.setForeground(CyderColors.navy);
         orderCommentsLabel.setBounds(210, 565, 200, 30);
@@ -251,101 +253,116 @@ public class PizzaWidget {
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         orderCommentsScroll.setThumbColor(CyderColors.regularRed);
-        orderCommentsScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
-        orderCommentsScroll.getViewport().setBorder(null);
-        orderCommentsScroll.setViewportBorder(null);
         orderCommentsScroll.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        orderCommentsScroll.setPreferredSize(new Dimension(400, 200));
-        orderCommentsScroll.setBounds(80, 600, 600 - 160, 120);
+        orderCommentsScroll.setBounds(80, 600, 600 - 2 * 80, 120);
         pizzaFrame.getContentPane().add(orderCommentsScroll);
 
-        CyderButton placeOrder = new CyderButton("Place Order");
+        CyderButton placeOrder = new CyderButton(PLACE_ORDER);
         placeOrder.setFont(CyderFonts.SEGOE_20);
-        placeOrder.addActionListener(e -> {
-            if (nameField.getText().length() <= 0)
-                pizzaFrame.notify("Sorry, but you must enter a name.");
-
-            else {
-                String Name =
-                        nameField.getText().substring(0, 1).toUpperCase() + nameField.getText().substring(1) + "<br/>";
-                String Size;
-
-                if (smallPizza.isChecked())
-                    Size = "Small<br/>";
-
-                else if (mediumPizza.isChecked())
-                    Size = "Medium<br/>";
-
-                else
-                    Size = "Large<br/>";
-
-                String Crust = crustTypeScroll.getSelectedElement();
-
-                if (Crust == null)
-                    Crust = "Thin";
-
-                LinkedList<String> ToppingsList = pizzaToppingsScroll.getSelectedElements();
-                ArrayList<String> ToppingsArrList = new ArrayList<>();
-
-                for (Object o : ToppingsList)
-                    ToppingsArrList.add(o.toString());
-
-                if (ToppingsArrList.isEmpty())
-                    ToppingsArrList.add("Plain");
-
-                StringBuilder ToppingsChosen = new StringBuilder();
-
-                for (String s : ToppingsArrList)
-                    ToppingsChosen.append(s).append("<br/>");
-
-                String Extras = "";
-
-                if (breadSticks.isChecked())
-                    Extras += "Bread Sticks<br/>";
-
-                if (salad.isChecked())
-                    Extras += "Salad<br/>";
-
-                if (soda.isChecked())
-                    Extras += "Soda<br/>";
-
-                String Comments = orderComments.getText().trim();
-
-                if (Extras.isEmpty()) {
-                    Extras = "";
-                } else {
-                    Extras = "<br/>Extras: " + "<br/>" + Extras;
-                }
-
-                Comments = Comments.trim().isEmpty() ? "" : "<br/>Comments: " + "<br/>" + Comments;
-
-                pizzaFrame.inform("Customer Name: " + "<br/>" + Name + "<br/>" + "Size: "
-                        + "<br/>" + Size + "<br/>" + "Crust: " + "<br/>" + Crust + "<br/><br/>" + "Toppings: " + "<br/>" + ToppingsChosen
-                        + Extras + Comments, "");
-
-            }
-        });
+        placeOrder.addActionListener(e -> placeOrderAction());
         placeOrder.setBounds(80, 740, 200, 40);
         pizzaFrame.getContentPane().add(placeOrder);
 
-        CyderButton resetPizza = new CyderButton("Reset");
+        CyderButton resetPizza = new CyderButton(RESET);
         resetPizza.setFont(CyderFonts.SEGOE_20);
-        resetPizza.addActionListener(e -> {
-            nameField.setText("");
-            smallPizza.setNotChecked();
-            mediumPizza.setNotChecked();
-            largePizza.setNotChecked();
-            crustTypeScroll.clearSelectedElements();
-            pizzaToppingsScroll.clearSelectedElements();
-            breadSticks.setNotChecked();
-            salad.setNotChecked();
-            soda.setNotChecked();
-            orderComments.setText("");
-
-        });
+        resetPizza.addActionListener(e -> reset());
         resetPizza.setBounds(180 + 100 + 40, 740, 200, 40);
         pizzaFrame.getContentPane().add(resetPizza);
 
         pizzaFrame.finalizeAndShow();
+    }
+
+    @ForReadability
+    private static void placeOrderAction() {
+        String name = nameField.getTrimmedText();
+        if (name.isEmpty()) {
+            pizzaFrame.notify("Please enter a valid name");
+            return;
+        }
+        name = StringUtil.capsFirstWords(name);
+
+
+        // todo method
+        String size;
+        if (smallCheckbox.isChecked())
+            size = "Small" + BREAK_TAG;
+
+        else if (mediumCheckbox.isChecked())
+            size = "Medium" + BREAK_TAG;
+
+        else if (largeCheckbox.isChecked())
+            size = "Large" + BREAK_TAG;
+        else {
+            pizzaFrame.notify("Please specify a size");
+            return;
+        }
+
+
+        // todo method
+        String crust = crustTypeScroll.getSelectedElement();
+        if (crust == null)
+            crust = "Thin";
+
+
+        // todo method
+        StringBuilder toppingsChosen = new StringBuilder();
+        LinkedList<String> selectedToppings = pizzaToppingsScroll.getSelectedElements();
+        if (selectedToppings.isEmpty()) {
+            toppingsChosen.append("Plain");
+        } else {
+            selectedToppings.forEach(topping -> toppingsChosen.append(topping).append(BREAK_TAG));
+        }
+
+
+        // todo get extras method
+        String extras = "";
+        if (breadSticks.isChecked()) {
+            extras += "Bread Sticks" + BREAK_TAG;
+        }
+        if (salad.isChecked()) {
+            extras += "Salad" + BREAK_TAG;
+        }
+        if (soda.isChecked()) {
+            extras += "Soda" + BREAK_TAG;
+        }
+
+        if (extras.isEmpty()) {
+            extras = "";
+        } else {
+            extras = BREAK_TAG + "Extras: " + BREAK_TAG + extras;
+        }
+
+
+        String comments = StringUtil.getTrimmedText(orderComments.getText());
+        if (comments.isEmpty()) {
+            comments = "No comments";
+        }
+
+        String informTitle = "Order summary";
+        pizzaFrame.inform("Name: " + BREAK_TAG + name + BREAK_TAG
+                + "Size: " + BREAK_TAG + size + BREAK_TAG
+                + "Crust: " + BREAK_TAG + crust + BREAK_TAG + BREAK_TAG
+                + "Toppings: " + BREAK_TAG + toppingsChosen + BREAK_TAG
+                + "Extras: " + BREAK_TAG + extras + BREAK_TAG
+                + "Comments: " + BREAK_TAG + comments + BREAK_TAG, informTitle);
+    }
+
+    /**
+     * Resets the state of the pizza widget.
+     */
+    @ForReadability
+    private static void reset() {
+        nameField.setText("");
+
+        sizeGroup.clearSelection();
+
+        crustTypeScroll.clearSelectedElements();
+        pizzaToppingsScroll.clearSelectedElements();
+
+        breadSticks.setNotChecked();
+        salad.setNotChecked();
+        soda.setNotChecked();
+
+        orderComments.setText("");
     }
 }
