@@ -23,6 +23,7 @@ import cyder.utils.UiUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Optional;
 
@@ -73,6 +74,11 @@ public final class PizzaWidget {
     private static final String SALAD = "Salad";
     private static final String SODA = "Soda";
     private static final String ORDER_COMMENTS = "Order Comments";
+    private static final String PLAIN = "Plain";
+    private static final String THIN = "Thin";
+    private static final String NO_COMMENTS = "No comments";
+    private static final String informTitle = "Order";
+    private static final String NO_EXTRAS = "No extras";
 
     private static final ImmutableList<String> crustTypes = ImmutableList.of(
             "Thin",
@@ -154,7 +160,6 @@ public final class PizzaWidget {
 
         mediumCheckbox = new CyderCheckbox();
         mediumCheckbox.setHorizontalAlignment(SwingConstants.CENTER);
-        mediumCheckbox.setChecked();
         mediumCheckbox.setBounds(305, 135, 50, 50);
         pizzaFrame.getContentPane().add(mediumCheckbox);
         sizeGroup.addCheckbox(mediumCheckbox);
@@ -273,6 +278,9 @@ public final class PizzaWidget {
         pizzaFrame.finalizeAndShow();
     }
 
+    /**
+     * The action to run when the place order button is clicked.
+     */
     @ForReadability
     private static void placeOrderAction() {
         String name = nameField.getTrimmedText();
@@ -290,53 +298,63 @@ public final class PizzaWidget {
         String size = optionalSize.get() + BREAK_TAG;
 
         String crust;
-        if (crustTypeScroll.getSelectedElementCount() == 0) {
-            crust = "Thin";
+        LinkedList<String> selectedElements = crustTypeScroll.getSelectedElements();
+        if (selectedElements.isEmpty()) {
+            crust = THIN;
         } else {
-            crust = crustTypeScroll.getSelectedElement();
+            crust = selectedElements.get(0);
         }
 
-        // todo method
         StringBuilder toppingsChosen = new StringBuilder();
         LinkedList<String> selectedToppings = pizzaToppingsScroll.getSelectedElements();
         if (selectedToppings.isEmpty()) {
-            toppingsChosen.append("Plain");
+            toppingsChosen.append(PLAIN);
         } else {
             selectedToppings.forEach(topping -> toppingsChosen.append(topping).append(BREAK_TAG));
         }
 
-
-        // todo get extras method
-        String extras = "";
-        if (breadSticks.isChecked()) {
-            extras += "Bread Sticks" + BREAK_TAG;
-        }
-        if (salad.isChecked()) {
-            extras += "Salad" + BREAK_TAG;
-        }
-        if (soda.isChecked()) {
-            extras += "Soda" + BREAK_TAG;
-        }
-
-        if (extras.isEmpty()) {
-            extras = "";
+        ImmutableList<String> extrasList = getExtras();
+        String extras;
+        if (extrasList.isEmpty()) {
+            extras = NO_EXTRAS;
         } else {
-            extras = BREAK_TAG + "Extras: " + BREAK_TAG + extras;
+            StringBuilder extraBuilder = new StringBuilder();
+            extrasList.forEach(extra -> extraBuilder.append(extra).append(BREAK_TAG));
+            extras = extraBuilder.toString();
         }
-
 
         String comments = StringUtil.getTrimmedText(orderComments.getText());
         if (comments.isEmpty()) {
-            comments = "No comments";
+            comments = NO_COMMENTS;
         }
 
-        String informTitle = "Order summary";
-        pizzaFrame.inform("Name: " + BREAK_TAG + name + BREAK_TAG
-                + "Size: " + BREAK_TAG + size + BREAK_TAG
+        pizzaFrame.inform("Name: " + BREAK_TAG + name + BREAK_TAG + BREAK_TAG
+                + "Size: " + BREAK_TAG + size + BREAK_TAG + BREAK_TAG
                 + "Crust: " + BREAK_TAG + crust + BREAK_TAG + BREAK_TAG
                 + "Toppings: " + BREAK_TAG + toppingsChosen + BREAK_TAG
                 + "Extras: " + BREAK_TAG + extras + BREAK_TAG
                 + "Comments: " + BREAK_TAG + comments + BREAK_TAG, informTitle);
+    }
+
+    /**
+     * Returns a list of extras.
+     *
+     * @return a list of extras
+     */
+    private static ImmutableList<String> getExtras() {
+        ArrayList<String> ret = new ArrayList<>();
+
+        if (breadSticks.isChecked()) {
+            ret.add(BREAD_STICKS);
+        }
+        if (salad.isChecked()) {
+            ret.add(SALAD);
+        }
+        if (soda.isChecked()) {
+            ret.add(SODA);
+        }
+
+        return ImmutableList.copyOf(ret);
     }
 
     /**
@@ -367,7 +385,9 @@ public final class PizzaWidget {
         sizeGroup.clearSelection();
 
         crustTypeScroll.clearSelectedElements();
+        crustTypeScroll.getScrollPane().getHorizontalScrollBar().setValue(0);
         pizzaToppingsScroll.clearSelectedElements();
+        pizzaToppingsScroll.getScrollPane().getHorizontalScrollBar().setValue(0);
 
         breadSticks.setNotChecked();
         salad.setNotChecked();

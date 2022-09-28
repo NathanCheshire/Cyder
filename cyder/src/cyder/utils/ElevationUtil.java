@@ -51,8 +51,7 @@ public final class ElevationUtil {
 
         String queryString = BASE + "output=json&x=" + lon + "&y=" + lat + UNITS_TAG + unit.getName();
 
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(new URL(queryString).openStream()))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(queryString).openStream()))) {
             ElevationData elevationData = SerializationUtil.fromJson(reader, ElevationData.class);
             return Optional.of(Double.parseDouble(elevationData.uepqs.elevationQuery.elevation));
         } catch (Exception e) {
