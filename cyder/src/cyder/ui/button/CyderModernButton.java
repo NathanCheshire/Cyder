@@ -1014,20 +1014,58 @@ public class CyderModernButton extends JLabel {
     // Theme loading and builder
     // -------------------------
 
-    // todo javadoc
     /**
      * A builder for constructing a theme for a modern button.
      */
     public static class ThemeBuilder {
+        /**
+         * The background color for the button.
+         */
         private Color backgroundColor;
+
+        /**
+         * The foreground color for the button.
+         */
         private Color foregroundColor;
+
+        /**
+         * The font for the button.
+         */
         private Font font;
+
+        /**
+         * The border length for the button.
+         */
         private int borderLength = DEFAULT_BORDER_LENGTH;
+
+        /**
+         * The border color for this button.
+         */
         private Color borderColor;
+
+        /**
+         * The hover color for this button.
+         */
         private Color hoverColor;
+
+        /**
+         * The pressed color for this button.
+         */
         private Color pressedColor;
+
+        /**
+         * Whether this button's corners are rounded.
+         */
         private boolean roundedCorners;
+
+        /**
+         * The disabled foreground color for this button.
+         */
         private Color disabledForeground;
+
+        /**
+         * The disabled background color for this button.
+         */
         private Color disabledBackground;
 
         /**
@@ -1037,108 +1075,218 @@ public class CyderModernButton extends JLabel {
             Logger.log(LogTag.OBJECT_CREATION, this);
         }
 
+        /**
+         * Returns the background color for this button.
+         *
+         * @return the background color for this button
+         */
         public Color getBackgroundColor() {
             return backgroundColor;
         }
 
+        /**
+         * Sets the background color for this button.
+         *
+         * @param backgroundColor the background color for this button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public ThemeBuilder setBackgroundColor(Color backgroundColor) {
-            this.backgroundColor = backgroundColor;
+            this.backgroundColor = Preconditions.checkNotNull(backgroundColor);
             return this;
         }
 
+        /**
+         * Returns the foreground color for this button.
+         *
+         * @return the foreground color for this button
+         */
         public Color getForegroundColor() {
             return foregroundColor;
         }
 
+        /**
+         * Sets the foreground color for this button.
+         *
+         * @param foregroundColor the foreground color for this button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public ThemeBuilder setForegroundColor(Color foregroundColor) {
-            this.foregroundColor = foregroundColor;
+            this.foregroundColor = Preconditions.checkNotNull(foregroundColor);
             return this;
         }
 
+        /**
+         * Returns the font for this button.
+         *
+         * @return the font for this button
+         */
         public Font getFont() {
             return font;
         }
 
+        /**
+         * Sets the font for this button.
+         *
+         * @param font the font for this button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public ThemeBuilder setFont(Font font) {
-            this.font = font;
+            this.font = Preconditions.checkNotNull(font);
             return this;
         }
 
+        /**
+         * Returns the border length for this button.
+         *
+         * @return the border length for this button
+         */
         public int getBorderLength() {
             return borderLength;
         }
 
+        /**
+         * Sets the border length for this button.
+         *
+         * @param borderLength the border length for this button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public ThemeBuilder setBorderLength(int borderLength) {
+            Preconditions.checkArgument(borderLength >= 0);
             this.borderLength = borderLength;
             return this;
         }
 
+        /**
+         * Returns the hover color for this button.
+         *
+         * @return the hover color for this button
+         */
         public Color getHoverColor() {
             return hoverColor;
         }
 
+        /**
+         * Sets the hover color for this button.
+         *
+         * @param hoverColor the hover color for this button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public ThemeBuilder setHoverColor(Color hoverColor) {
-            this.hoverColor = hoverColor;
+            this.hoverColor = Preconditions.checkNotNull(hoverColor);
             return this;
         }
 
+        /**
+         * Returns the pressed color for this button.
+         *
+         * @return the pressed color for this button
+         */
         public Color getPressedColor() {
             return pressedColor;
         }
 
+        /**
+         * Sets the pressed color for this button.
+         *
+         * @param pressedColor the pressed color for this button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public ThemeBuilder setPressedColor(Color pressedColor) {
-            this.pressedColor = pressedColor;
+            this.pressedColor = Preconditions.checkNotNull(pressedColor);
             return this;
         }
 
+        /**
+         * Returns whether this button should have rounded corners.
+         *
+         * @return whether this button should have rounded corners
+         */
         public boolean isRoundedCorners() {
             return roundedCorners;
         }
 
+        /**
+         * Sets whether this button should have rounded corners.
+         *
+         * @param roundedCorners whether this button should have rounded corners
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public ThemeBuilder setRoundedCorners(boolean roundedCorners) {
             this.roundedCorners = roundedCorners;
             return this;
         }
 
+        /**
+         * Returns the disabled foreground color for this button.
+         *
+         * @return the disabled foreground color for this button
+         */
         public Color getDisabledForeground() {
             return disabledForeground;
         }
 
+        /**
+         * Sets the disabled foreground color for this button.
+         *
+         * @param disabledForeground the disabled foreground color for this button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public ThemeBuilder setDisabledForeground(Color disabledForeground) {
-            this.disabledForeground = disabledForeground;
+            this.disabledForeground = Preconditions.checkNotNull(disabledForeground);
             return this;
         }
 
+        /**
+         * Returns the disabled background color for this button.
+         *
+         * @return the disabled background color for this button
+         */
         public Color getDisabledBackground() {
             return disabledBackground;
         }
 
+        /**
+         * Sets the disabled background color for this button.
+         *
+         * @param disabledBackground the disabled background color for this button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public ThemeBuilder setDisabledBackground(Color disabledBackground) {
-            this.disabledBackground = disabledBackground;
+            this.disabledBackground = Preconditions.checkNotNull(disabledBackground);
             return this;
         }
 
+        /**
+         * Returns the border color for this button.
+         *
+         * @return the border color for this button
+         */
         public Color getBorderColor() {
             return borderColor;
         }
 
+        /**
+         * Sets the border color for this button.
+         *
+         * @param borderColor the border color for this button
+         * @return this builder
+         */
         @CanIgnoreReturnValue
         public ThemeBuilder setBorderColor(Color borderColor) {
-            this.borderColor = borderColor;
+            this.borderColor = Preconditions.checkNotNull(borderColor);
             return this;
         }
     }
 
-    // todo could be cleaner
     /**
      * Sets the theme of this button to the provided theme and repaints the button.
      *
@@ -1147,36 +1295,32 @@ public class CyderModernButton extends JLabel {
     public void setTheme(ThemeBuilder builder) {
         Preconditions.checkNotNull(builder);
 
-        if (builder.getBackgroundColor() != null) {
-            setBackgroundColor(builder.getBackgroundColor());
-        }
-        if (builder.getForegroundColor() != null) {
-            setForegroundColor(builder.getForegroundColor());
-        }
-        if (builder.getFont() != null) {
-            setFont(builder.getFont());
-        }
+        Color backgroundColor = builder.getBackgroundColor();
+        if (backgroundColor != null) setBackgroundColor(backgroundColor);
+
+        Color foregroundColor = builder.getForegroundColor();
+        if (foregroundColor != null) setForegroundColor(foregroundColor);
+
+        Font font = builder.getFont();
+        if (font != null) setFont(font);
 
         setBorderLength(builder.getBorderLength());
-        if (builder.getBorderColor() != null) {
-            setBorderColor(builder.getBorderColor());
-        }
+        Color borderColor = builder.getBorderColor();
+        if (borderColor != null) setBorderColor(borderColor);
 
-        if (builder.getHoverColor() != null) {
-            setHoverColor(builder.getHoverColor());
-        }
-        if (builder.getPressedColor() != null) {
-            setPressedColor(builder.getPressedColor());
-        }
+        Color hoverColor = builder.getHoverColor();
+        if (hoverColor != null) setHoverColor(hoverColor);
+
+        Color pressedColor = builder.getPressedColor();
+        if (pressedColor != null) setPressedColor(pressedColor);
 
         setRoundedCorners(builder.isRoundedCorners());
 
-        if (builder.getDisabledForeground() != null) {
-            setDisabledForeground(builder.getDisabledForeground());
-        }
-        if (builder.getDisabledBackground() != null) {
-            setDisabledBackground(builder.getDisabledBackground());
-        }
+        Color disabledForegroundColor = builder.getDisabledForeground();
+        if (disabledForegroundColor != null) setDisabledForeground(disabledForegroundColor);
+
+        Color disabledBackgroundColor = builder.getDisabledBackground();
+        if (disabledBackgroundColor != null) setDisabledBackground(disabledBackgroundColor);
 
         repaint();
     }
