@@ -36,13 +36,34 @@ public class TemperatureWidget {
      */
     private CyderTextField startingValueField;
 
+    /**
+     * The old Fahrenheit checkbox.
+     */
     private CyderCheckbox oldFahrenheit;
+
+    /**
+     * The new Fahrenheit checkbox.
+     */
     private CyderCheckbox newFahrenheit;
 
+    /**
+     * The old celsius checkbox.
+     */
     private CyderCheckbox oldCelsius;
+
+    /**
+     * The new celsius checkbox.
+     */
     private CyderCheckbox newCelsius;
 
+    /**
+     * The old kelvin checkbox.
+     */
     private CyderCheckbox oldKelvin;
+
+    /**
+     * The new kelvin checkbox.
+     */
     private CyderCheckbox newKelvin;
 
     /**
@@ -64,8 +85,14 @@ public class TemperatureWidget {
     private static final String description
             = "A temperature conversion widget for the three standard temperature units";
 
+    /**
+     * The decimal formatter for the result.
+     */
     private static final DecimalFormat resultFormatter = new DecimalFormat("#.####");
 
+    /**
+     * The text for the reset values button.
+     */
     private static final String RESET_VALUES = "Reset Values";
 
     /**
@@ -93,6 +120,11 @@ public class TemperatureWidget {
             this.name = name;
         }
 
+        /**
+         * Returns the name of this temperature unit.
+         *
+         * @return the name of this temperature unit
+         */
         public String getName() {
             return name;
         }
@@ -118,6 +150,11 @@ public class TemperatureWidget {
      */
     private static final String valueFieldRegex = "-?(([0-9]*)\\.?[0-9]*)";
 
+    /**
+     * The measurement label text.
+     */
+    private static final String MEASUREMENT = "Measurement:";
+
     @Widget(triggers = {"temperature", "temp", "fahrenheit", "celsius", "kelvin"}, description = description)
     public static void showGui() {
         getInstance().innerShowGUI();
@@ -129,12 +166,12 @@ public class TemperatureWidget {
         temperatureFrame = new CyderFrame(600, 340, CyderIcons.defaultBackground);
         temperatureFrame.setTitle("Temperature Converter");
 
-        JLabel valueLabel = new JLabel("Measurement:");
+        JLabel valueLabel = new JLabel(MEASUREMENT);
         valueLabel.setFont(CyderFonts.SEGOE_20);
         valueLabel.setBounds(60, 40, 200, 30);
         temperatureFrame.getContentPane().add(valueLabel);
 
-        startingValueField = new CyderTextField(0);
+        startingValueField = new CyderTextField();
         startingValueField.setHorizontalAlignment(JTextField.CENTER);
         startingValueField.setKeyEventRegexMatcher(valueFieldRegex);
         startingValueField.setBounds(240, 40, 300, 35);
@@ -286,6 +323,13 @@ public class TemperatureWidget {
         startingValueField.flashField();
     }
 
+    /**
+     * Converts the provided temperature to kelvin.
+     *
+     * @param value           the temperature value
+     * @param temperatureUnit the temperature unit
+     * @return the temperature converted to kelvin
+     */
     @ForReadability
     private double toKelvin(double value, Unit temperatureUnit) {
         Preconditions.checkNotNull(temperatureUnit);
@@ -297,6 +341,13 @@ public class TemperatureWidget {
         };
     }
 
+    /**
+     * Converts the provided temperature to celsius.
+     *
+     * @param value           the temperature value
+     * @param temperatureUnit the temperature unit
+     * @return the temperature converted to fahrenheit
+     */
     @ForReadability
     private double toFahrenheit(double value, Unit temperatureUnit) {
         Preconditions.checkNotNull(temperatureUnit);
@@ -308,6 +359,13 @@ public class TemperatureWidget {
         };
     }
 
+    /**
+     * Converts the provided temperature to celsius.
+     *
+     * @param value           the temperature value
+     * @param temperatureUnit the temperature unit
+     * @return the temperature converted to celsius
+     */
     @ForReadability
     private double toCelsius(double value, Unit temperatureUnit) {
         Preconditions.checkNotNull(temperatureUnit);
@@ -319,7 +377,11 @@ public class TemperatureWidget {
         };
     }
 
-
+    /**
+     * Returns the old temperature unit if present.
+     *
+     * @return the old temperature unit if present
+     */
     @ForReadability
     private Optional<Unit> getOldUnit() {
         if (oldFahrenheit.isChecked()) {
@@ -333,6 +395,11 @@ public class TemperatureWidget {
         }
     }
 
+    /**
+     * Returns the new temperature unit if present.
+     *
+     * @return the new temperature unit if present
+     */
     @ForReadability
     private Optional<Unit> getNewUnit() {
         if (newFahrenheit.isChecked()) {
@@ -346,13 +413,21 @@ public class TemperatureWidget {
         }
     }
 
+    /**
+     * Clears the value field.
+     */
     @ForReadability
     private void clearFieldInput() {
         startingValueField.setText("");
     }
 
+    /**
+     * Resets the temperature widget state.
+     */
     @ForReadability
     private void reset() {
+        temperatureFrame.revokeAllNotifications();
+
         clearFieldInput();
 
         oldFahrenheit.setChecked();
