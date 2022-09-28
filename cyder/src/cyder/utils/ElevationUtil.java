@@ -1,7 +1,6 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
-import com.google.errorprone.annotations.CheckReturnValue;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -11,6 +10,7 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Optional;
 
 /**
  * A utility class for elevation queries.
@@ -29,6 +29,11 @@ public final class ElevationUtil {
     private static final String BASE = "https://nationalmap.gov/epqs/pqs.php?";
 
     /**
+     * The units tag for a url.
+     */
+    private static final String UNITS_TAG = "&units=";
+
+    /**
      * Returns the elevation of the provided point.
      *
      * @param latLonPoint the lat/lon point
@@ -37,29 +42,24 @@ public final class ElevationUtil {
      * This return value should be checked to ensure it is not {@link Double#MIN_VALUE}
      * which indicates and invalid return
      */
-    @CheckReturnValue
-    @SuppressWarnings("UnnecessaryDefault")
-    public static double getElevation(Point latLonPoint, LengthUnit unit) {
+    public static Optional<Double> getElevation(Point latLonPoint, LengthUnit unit) {
         Preconditions.checkNotNull(latLonPoint);
+        Preconditions.checkNotNull(unit);
 
         double lat = latLonPoint.getY();
         double lon = latLonPoint.getX();
 
-        String queryString = switch (unit) {
-            case FEET -> BASE + "output=json&x=" + lon + "&y=" + lat + "&units=" + LengthUnit.FEET.getName();
-            case METERS -> BASE + "output=json&x=" + lon + "&y=" + lat + "&units=" + LengthUnit.METERS.getName();
-            default -> throw new IllegalArgumentException("Invalid requested distance unit: " + unit);
-        };
+        String queryString = BASE + "output=json&x=" + lon + "&y=" + lat + UNITS_TAG + unit.getName();
 
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(new URL(queryString).openStream()))) {
             ElevationData elevationData = SerializationUtil.fromJson(reader, ElevationData.class);
-            return Double.parseDouble(elevationData.uepqs.elevationQuery.elevation);
+            return Optional.of(Double.parseDouble(elevationData.uepqs.elevationQuery.elevation));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        return Double.MIN_VALUE;
+        return Optional.empty();
     }
 
     /**

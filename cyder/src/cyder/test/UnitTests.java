@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -365,7 +366,8 @@ public class UnitTests {
 
     @Test
     public void testElevationUtil() {
-        assertEquals(ElevationUtil.getElevation(
-                new Point(0, 0), ElevationUtil.LengthUnit.FEET), -1000000.0, 0);
+        Optional<Double> elevation = ElevationUtil.getElevation(new Point(0, 0), ElevationUtil.LengthUnit.FEET);
+        assertTrue(elevation.isPresent());
+        assertEquals(elevation.get(), -1000000.0, 0);
     }
 }

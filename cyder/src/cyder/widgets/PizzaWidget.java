@@ -24,6 +24,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.LinkedList;
+import java.util.Optional;
 
 @Vanilla
 @CyderAuthor
@@ -281,28 +282,19 @@ public final class PizzaWidget {
         }
         name = StringUtil.capsFirstWords(name);
 
-
-        // todo method
-        String size;
-        if (smallCheckbox.isChecked())
-            size = "Small" + BREAK_TAG;
-
-        else if (mediumCheckbox.isChecked())
-            size = "Medium" + BREAK_TAG;
-
-        else if (largeCheckbox.isChecked())
-            size = "Large" + BREAK_TAG;
-        else {
+        Optional<String> optionalSize = getSize();
+        if (optionalSize.isEmpty()) {
             pizzaFrame.notify("Please specify a size");
             return;
         }
+        String size = optionalSize.get() + BREAK_TAG;
 
-
-        // todo method
-        String crust = crustTypeScroll.getSelectedElement();
-        if (crust == null)
+        String crust;
+        if (crustTypeScroll.getSelectedElementCount() == 0) {
             crust = "Thin";
-
+        } else {
+            crust = crustTypeScroll.getSelectedElement();
+        }
 
         // todo method
         StringBuilder toppingsChosen = new StringBuilder();
@@ -345,6 +337,24 @@ public final class PizzaWidget {
                 + "Toppings: " + BREAK_TAG + toppingsChosen + BREAK_TAG
                 + "Extras: " + BREAK_TAG + extras + BREAK_TAG
                 + "Comments: " + BREAK_TAG + comments + BREAK_TAG, informTitle);
+    }
+
+    /**
+     * Returns the pizza size if present. Empty optional else.
+     *
+     * @return the pizza size if present. Empty optional else
+     */
+    @ForReadability
+    private static Optional<String> getSize() {
+        if (smallCheckbox.isChecked()) {
+            return Optional.of(SMALL);
+        } else if (mediumCheckbox.isChecked()) {
+            return Optional.of(MEDIUM);
+        } else if (largeCheckbox.isChecked()) {
+            return Optional.of(LARGE);
+        } else {
+            return Optional.empty();
+        }
     }
 
     /**

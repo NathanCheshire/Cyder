@@ -410,7 +410,7 @@ public class CyderScrollList {
         if (selectionPolicy == SelectionPolicy.SINGLE) {
             for (JLabel element : elements) {
                 if (element.getText().equals(clickedText)) {
-                    if (element.getForeground() == selectedColor) {
+                    if (element.getForeground().equals(selectedColor)) {
                         element.setForeground(nonSelectedColor);
                     } else {
                         element.setForeground(selectedColor);
@@ -422,7 +422,7 @@ public class CyderScrollList {
         } else {
             for (JLabel element : elements) {
                 if (element.getText().equals(clickedText)) {
-                    if (element.getForeground() == selectedColor) {
+                    if (element.getForeground().equals(selectedColor)) {
                         element.setForeground(nonSelectedColor);
                     } else {
                         element.setForeground(selectedColor);
@@ -441,7 +441,7 @@ public class CyderScrollList {
         LinkedList<String> ret = new LinkedList<>();
 
         for (JLabel element : elements) {
-            if (element.getForeground() == selectedColor) {
+            if (element.getForeground().equals(selectedColor)) {
                 ret.add(element.getText());
             }
         }
@@ -458,12 +458,21 @@ public class CyderScrollList {
         LinkedList<String> ret = new LinkedList<>();
 
         for (JLabel element : elements) {
-            if (element.getForeground() == selectedColor) {
+            if (element.getForeground().equals(selectedColor)) {
                 ret.add(element.getText());
             }
         }
 
         return ret.isEmpty() || ret.get(0) == null ? "null" : ret.get(0);
+    }
+
+    /**
+     * Returns the number of currently selected elements.
+     *
+     * @return the number of currently selected elements
+     */
+    public int getSelectedElementCount() {
+        return (int) elements.stream().filter(element -> element.getForeground().equals(selectedColor)).count();
     }
 
     /**
