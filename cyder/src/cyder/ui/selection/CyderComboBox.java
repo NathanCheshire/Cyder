@@ -48,6 +48,11 @@ public class CyderComboBox extends JLabel {
     private final int height;
 
     /**
+     * The border offset for constructing the field toggle button.
+     */
+    private static final int borderOffset = 5;
+
+    /**
      * Constructs a new CyderComboBox. Note, you will need to add an action listener
      * to the internal button if you wish to invoke actions whenever the
      * switch button is clicked. Use the getNextState() and getCurrentState() as needed.
@@ -60,21 +65,17 @@ public class CyderComboBox extends JLabel {
     public CyderComboBox(int width, int height, Collection<ComboItem> states, ComboItem startingState) {
         Preconditions.checkArgument(width > 0);
         Preconditions.checkArgument(height > 0);
-        Preconditions.checkNotNull(states, "Provided states are null");
-        Preconditions.checkNotNull(startingState, "Provided starting state is null");
-        Preconditions.checkArgument(!states.isEmpty(), "No states provided");
-        Preconditions.checkArgument(states.contains(startingState),
-                "Provided states do not contain the starting state");
+        Preconditions.checkNotNull(states);
+        Preconditions.checkNotNull(startingState);
+        Preconditions.checkArgument(!states.isEmpty());
+        Preconditions.checkArgument(states.contains(startingState));
 
         this.width = width;
         this.height = height;
-
         this.states = states;
-        currentState = startingState;
+        this.currentState = startingState;
 
         setSize(width, height);
-
-        int borderOffset = 5;
 
         valueDisplayField = new CyderTextField();
         valueDisplayField.setEditable(false);
@@ -106,6 +107,7 @@ public class CyderComboBox extends JLabel {
      *
      * @return the width of this switcher
      */
+    @Override
     public int getWidth() {
         return width;
     }
@@ -115,6 +117,7 @@ public class CyderComboBox extends JLabel {
      *
      * @return the height of this switcher
      */
+    @Override
     public int getHeight() {
         return height;
     }

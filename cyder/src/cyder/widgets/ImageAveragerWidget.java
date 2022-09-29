@@ -1,9 +1,7 @@
 package cyder.widgets;
 
-import cyder.annotations.CyderAuthor;
-import cyder.annotations.SuppressCyderInspections;
-import cyder.annotations.Vanilla;
-import cyder.annotations.Widget;
+import com.google.common.base.Preconditions;
+import cyder.annotations.*;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
@@ -17,6 +15,7 @@ import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderScrollList;
 import cyder.user.UserFile;
+import cyder.user.UserUtil;
 import cyder.utils.*;
 
 import javax.imageio.ImageIO;
@@ -28,6 +27,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
@@ -40,7 +40,7 @@ public final class ImageAveragerWidget {
     /**
      * The list of selected files to average together.
      */
-    private static ArrayList<File> files;
+    private static ArrayList<File> imageFiles;
 
     /**
      * The scroll label for the selected images.
@@ -70,20 +70,106 @@ public final class ImageAveragerWidget {
     }
 
     /**
+     * The widget description.
+     */
+    private static final String description = "A widget that adds multiple images "
+            + "together and divides by the total to obtain an average base image";
+
+    /**
+     * The title of the widget frame.
+     */
+    private static final String FRAME_TITLE = "Image Averager";
+
+    /**
+     * The save text.
+     */
+    private static final String SAVE = "Save";
+
+    /**
+     * The save image text.
+     */
+    private static final String SAVE_IMAGE = "Save Image";
+
+    /**
+     * The width of the widget frame.
+     */
+    private static final int FRAME_WIDTH = 600;
+
+    /**
+     * The height of the widget frame.
+     */
+    private static final int FRAME_HEIGHT = 640;
+
+    /**
+     * The length of the images scroll list.
+     */
+    private static final int imagesScrollLen = 400;
+
+
+    /**
+     * The builder for the getter util instance to add a file.
+     */
+    private static final GetterUtil.Builder builder = new GetterUtil.Builder("Select any image file")
+            .setRelativeTo(averagerFrame);
+
+    /**
+     * The maximum image length that the preview frame can display.
+     */
+    private static final int maxImageLength = 800;
+
+    /**
+     * The combined files name separator.
+     */
+    private static final String UNDERSCORE = "_";
+
+    /**
+     * The add image button text.
+     */
+    private static final String ADD_IMAGE = "Add Image";
+
+    /**
+     * The remove images button text.
+     */
+    private static final String REMOVE_IMAGES = "Remove Selected Images";
+
+    /**
+     * The average images button text.
+     */
+    private static final String AVERAGE_IMAGES = "Average Images";
+
+    /**
+     * The thread name for the waiter thread for the add file getter.
+     */
+    private static final String IMAGE_AVERAGER_ADD_FILE_WAITER_THREAD_NAME = "Image Averager Add File Waiter";
+
+    /**
+     * The alpha value for pixels with a non-present alpha value.
+     */
+    private static final int EMPTY_ALPHA = 16777216;
+
+    /**
+     * The length of data for data elements containing an alpha byte.
+     */
+    private static final int alphaPixelLength = 4;
+
+    /**
+     * The length of data for data elements without an alpha byte.
+     */
+    private static final int noAlphaPixelLength = 3;
+
+    /**
      * Shows the image averaging widget.
      */
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
-    @Widget(triggers = {"average images", "average pictures"}, description = "A widget that adds multiple images " +
-            "together and divides by the total to obtain an average base image")
+    @Widget(triggers = {"average images", "average pictures"}, description = description)
     public static void showGui() {
-        files = new ArrayList<>();
-
         UiUtil.closeIfOpen(averagerFrame);
+        imageFiles = new ArrayList<>();
 
-        averagerFrame = new CyderFrame(600, 640);
-        averagerFrame.setTitle("Image Averager");
+        averagerFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
+        averagerFrame.setTitle(FRAME_TITLE);
 
-        imagesScroll = new CyderScrollList(400, 400, CyderScrollList.SelectionPolicy.SINGLE);
+        imagesScroll = new CyderScrollList(imagesScrollLen, imagesScrollLen, CyderScrollList.SelectionPolicy.MULTIPLE);
         imagesScroll.setBorder(null);
 
         imageScrollLabelHolder = new JLabel();
@@ -92,7 +178,7 @@ public final class ImageAveragerWidget {
         averagerFrame.getContentPane().add(imageScrollLabelHolder);
 
         imagesScrollLabel = imagesScroll.generateScrollList();
-        imagesScrollLabel.setBounds(10, 10, 400, 400);
+        imagesScrollLabel.setBounds(10, 10, imagesScrollLen, imagesScrollLen);
         imageScrollLabelHolder.add(imagesScrollLabel);
 
         imageScrollLabelHolder.setBackground(Color.white);
@@ -100,46 +186,17 @@ public final class ImageAveragerWidget {
         imageScrollLabelHolder.setOpaque(true);
         imagesScrollLabel.setBackground(Color.white);
 
-        CyderButton addButton = new CyderButton("Add Image");
-        addButton.setBounds(90, 480, 420, 40);
-        averagerFrame.getContentPane().add(addButton);
-        addButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
-            try {
-                File input = GetterUtil.getInstance().getFile(
-                        new GetterUtil.Builder("Select any image file").setRelativeTo(averagerFrame));
+        CyderButton addFileButton = new CyderButton(ADD_IMAGE);
+        addFileButton.setBounds(90, 480, 420, 40);
+        averagerFrame.getContentPane().add(addFileButton);
+        addFileButton.addActionListener(e -> addButtonAction());
 
-                if (FileUtil.isSupportedImageExtension(input)) {
-                    files.add(input);
-                    revalidateScroll();
-                } else {
-                    averagerFrame.notify("Selected file is not a supported image file");
-                }
-            } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
-            }
-        }, "wait thread for GetterUtil().getFile()"));
+        CyderButton removeSelectedImagesButton = new CyderButton(REMOVE_IMAGES);
+        removeSelectedImagesButton.setBounds(90, 530, 420, 40);
+        averagerFrame.getContentPane().add(removeSelectedImagesButton);
+        removeSelectedImagesButton.addActionListener(e -> removeSelectedImagesButtonAction());
 
-        CyderButton remove = new CyderButton("Remove Image");
-        remove.setBounds(90, 530, 420, 40);
-        averagerFrame.getContentPane().add(remove);
-        remove.addActionListener(e -> {
-            String matchName = imagesScroll.getSelectedElement();
-            int removeIndex = -1;
-
-            for (int i = 0 ; i < files.size() ; i++) {
-                if (files.get(i).getName().equalsIgnoreCase(matchName)) {
-                    removeIndex = i;
-                    break;
-                }
-            }
-
-            if (removeIndex != -1) {
-                files.remove(removeIndex);
-                revalidateScroll();
-            }
-        });
-
-        CyderButton average = new CyderButton("Average Images");
+        CyderButton average = new CyderButton(AVERAGE_IMAGES);
         average.setColors(CyderColors.regularPink);
         average.setBounds(90, 580, 420, 40);
         averagerFrame.getContentPane().add(average);
@@ -148,25 +205,31 @@ public final class ImageAveragerWidget {
         averagerFrame.finalizeAndShow();
     }
 
-    private static final String SAVE = "Save";
-    private static final String SAVE_IMAGE = "Save Image";
+    /**
+     * The action to invoke when the remove selected images button is pressed.
+     */
+    @ForReadability
+    private static void removeSelectedImagesButtonAction() {
+        imagesScroll.removeSelectedElements();
+        revalidateImagesScroll();
+    }
 
     /**
-     * Revalidates the chosen images viewport.
+     * Revalidates the chosen images scroll view.
      */
-    private static void revalidateScroll() {
+    private static void revalidateImagesScroll() {
         imagesScroll.removeAllElements();
         imageScrollLabelHolder.remove(imagesScrollLabel);
 
-        for (int j = 0 ; j < files.size() ; j++) {
-            int finalJ = j;
-            imagesScroll.addElement(files.get(j).getName(),
-                    () -> IoUtil.openFile(files.get(finalJ).getAbsolutePath()));
-        }
+        imageFiles.forEach(file -> {
+            String name = file.getName();
+            Runnable openFileRunnable = () -> IoUtil.openFile(file.getAbsolutePath());
+            imagesScroll.addElement(name, openFileRunnable);
+        });
 
         imagesScroll.setItemAlignment(StyleConstants.ALIGN_LEFT);
         imagesScrollLabel = imagesScroll.generateScrollList();
-        imagesScrollLabel.setBounds(10, 10, 400, 400);
+        imagesScrollLabel.setBounds(10, 10, imagesScrollLen, imagesScrollLen);
         imageScrollLabelHolder.setBackground(CyderColors.vanilla);
 
         imageScrollLabelHolder.add(imagesScrollLabel);
@@ -175,135 +238,167 @@ public final class ImageAveragerWidget {
     }
 
     /**
+     * The action to invoke when the add file button is pressed.
+     */
+    private static void addButtonAction() {
+        CyderThreadRunner.submit(() -> {
+            try {
+                File addFile = GetterUtil.getInstance().getFile(builder);
+                if (addFile == null || StringUtil.isNullOrEmpty(FileUtil.getFilename(addFile))) {
+                    return;
+                }
+
+                boolean supportedImage = FileUtil.isSupportedImageExtension(addFile);
+                if (!supportedImage) {
+                    averagerFrame.notify("Selected file is not a supported image file");
+                    return;
+                }
+
+                imageFiles.add(addFile);
+                revalidateImagesScroll();
+            } catch (Exception ex) {
+                ExceptionHandler.handle(ex);
+            }
+        }, IMAGE_AVERAGER_ADD_FILE_WAITER_THREAD_NAME);
+    }
+
+    /**
      * Action performed when the user clicks the compute button.
      */
     private static void averageButtonAction() {
-        if (files.size() > 1) {
-            try {
-                int width = 0;
-                int height = 0;
-
-                for (File file : files) {
-                    BufferedImage currentImage = ImageIO.read(file);
-
-                    if (currentImage.getWidth() > width) {
-                        width = currentImage.getWidth();
-                    }
-
-                    if (currentImage.getHeight() > height) {
-                        height = currentImage.getHeight();
-                    }
-                }
-
-                //alpha since possibility of alpha channel
-                BufferedImage saveImage = new BufferedImage(width, height, TYPE_INT_ARGB);
-                Graphics2D graph = saveImage.createGraphics();
-
-                //init transparent image
-                graph.setPaint(new Color(0, 0, 0, 0));
-                graph.fillRect(0, 0, width, height);
-
-                //compute the average based on max width, height, and the BI to write to
-                computerAverage(width, height, saveImage);
-
-                ImageIcon previewImage = checkImage(new ImageIcon(saveImage));
-
-                CyderFrame drawFrame = new CyderFrame(previewImage.getIconWidth(),
-                        previewImage.getIconHeight(), previewImage);
-
-                DragLabelTextButton saveButton = DragLabelTextButton.generateTextButton(
-                        new DragLabelTextButton.Builder(SAVE).setTooltip(SAVE_IMAGE).setClickAction(() -> {
-                            try {
-                                File outFile = OsUtil.buildFile(Dynamic.PATH,
-                                        Dynamic.USERS.getDirectoryName(),
-                                        Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(),
-                                        combineImageNames() + "." + ImageUtil.PNG_FORMAT);
-
-                                ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, outFile);
-                                averagerFrame.notify(
-                                        "Average computed and saved to your user's backgrounds/ directory");
-                                drawFrame.dispose();
-                            } catch (Exception ex) {
-                                ExceptionHandler.handle(ex);
-                            }
-                        }));
-                drawFrame.getTopDragLabel().addRightButton(saveButton, 0);
-
-                drawFrame.setVisible(true);
-                drawFrame.setLocationRelativeTo(averagerFrame);
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        } else if (files.size() == 1) {
+        if (imageFiles.size() < 2) {
             averagerFrame.notify("Please add at least two images");
+            return;
         }
+
+        int width = 0;
+        int height = 0;
+
+        for (File file : imageFiles) {
+            try {
+                BufferedImage currentImage = ImageIO.read(file);
+                width = Math.max(currentImage.getWidth(), width);
+                height = Math.max(currentImage.getHeight(), height);
+            } catch (Exception e) {
+                averagerFrame.inform("IO Failure", "Failed to read image file: "
+                        + file.getAbsolutePath());
+            }
+        }
+
+        BufferedImage saveImage = computerAverage(width, height);
+        ImageIcon previewImage = resizeImage(new ImageIcon(saveImage));
+
+        String saveImageName = combineImageNames() + "." + ImageUtil.PNG_FORMAT;
+        File outputFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+                Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(), saveImageName);
+
+        CyderFrame drawFrame = new CyderFrame(saveImage.getWidth(), saveImage.getHeight(), previewImage);
+        DragLabelTextButton saveButton = DragLabelTextButton.generateTextButton(
+                new DragLabelTextButton.Builder(SAVE).setTooltip(SAVE_IMAGE).setClickAction(() -> {
+                    boolean saved = saveImage(saveImage, outputFile);
+                    if (!saved) {
+                        averagerFrame.notify("Could not save average at this time");
+                        return;
+                    }
+
+                    averagerFrame.notify("Average computed and saved to "
+                            + StringUtil.getApostrophe(UserUtil.getCyderUser().getName())
+                            + "backgrounds/ directory");
+                    drawFrame.dispose(true);
+                }));
+        drawFrame.getTopDragLabel().addRightButton(saveButton, 0);
+
+        drawFrame.setVisible(true);
+        drawFrame.setLocationRelativeTo(averagerFrame);
+    }
+
+    /**
+     * Saves the provided buffered image to the current user's backgrounds folder using the provided name.
+     * Png format is used as the image format.
+     *
+     * @param saveImage  the buffered image to save
+     * @param outputFile the file to save the buffered image to
+     * @return whether the saving operation was successful
+     */
+    @ForReadability
+    private static boolean saveImage(BufferedImage saveImage, File outputFile) {
+        Preconditions.checkNotNull(saveImage);
+        Preconditions.checkNotNull(outputFile);
+
+        try {
+            ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, outputFile);
+            return true;
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return false;
     }
 
     /**
      * Computes the average of the images inside of the files array list and
      * modifies saveImage to have the resulting calculated pixel average.
      *
-     * @param width     the width of the resulting image
-     * @param height    the height of the resulting image
-     * @param saveImage the reference image to save the averaged image to
+     * @param width  the width of the resulting image
+     * @param height the height of the resulting image
      */
-    private static void computerAverage(int width, int height, BufferedImage saveImage) {
-        try {
-            //running add array
-            int[][] pixels = new int[height][width];
-            //averaging array
-            int[][] divideBy = new int[height][width];
+    private static BufferedImage computerAverage(int width, int height) {
+        BufferedImage saveImage = new BufferedImage(width, height, TYPE_INT_ARGB);
+        Graphics2D g2d = saveImage.createGraphics();
+        g2d.setPaint(CyderColors.empty);
+        g2d.fillRect(0, 0, width, height);
 
-            //fill averaging with zeros
-            for (int y = 0 ; y < divideBy.length ; y++) {
-                for (int x = 0 ; x < divideBy[0].length ; x++) {
-                    divideBy[y][x] = 0;
-                }
+        /*
+            This should be save to hold the sum of all pixel data.
+            Adding a precondition check for file.size() * 256 < Integer.MAX_VALUE
+            is even flagged by IntelliJ as always true
+         */
+        int[][] pixelSum = new int[height][width];
+        int[][] divideBy = new int[height][width];
+
+        for (int y = 0 ; y < divideBy.length ; y++) {
+            for (int x = 0 ; x < divideBy[0].length ; x++) {
+                divideBy[y][x] = 0;
             }
-
-            //for all files
-            for (File file : files) {
-                //create bi object
-                BufferedImage bufferImage = ImageIO.read(file);
-
-                //get pixel data
-                int[][] currentPixels = get2DRgbArray(bufferImage);
-
-                //get current dimensions and offsets
-                int currentHeight = bufferImage.getHeight();
-                int currentWidth = bufferImage.getWidth();
-                int currentXOffset = (width - currentWidth) / 2;
-                int currentYOffset = (height - currentHeight) / 2;
-
-                //loop through current data
-                for (int y = 0 ; y < currentPixels.length ; y++) {
-                    for (int x = 0 ; x < currentPixels[0].length ; x++) {
-                        //add in current data to master array accounting for offset
-                        pixels[y + currentYOffset][x + currentXOffset] += currentPixels[y][x];
-                        //add in data to say this pixel was added to
-                        divideBy[y + currentYOffset][x + currentXOffset] += 1;
-                    }
-                }
-            }
-
-            //can't divide by 0 so for the pixel values that were not changed, divide by a 1
-            for (int y = 0 ; y < divideBy.length ; y++) {
-                for (int x = 0 ; x < divideBy[0].length ; x++) {
-                    if (divideBy[y][x] == 0) {
-                        divideBy[y][x] = 1;
-                    }
-                }
-            }
-
-            //write pixel data to image
-            for (int y = 0 ; y < pixels.length ; y++) {
-                for (int x = 0 ; x < pixels[0].length ; x++) {
-                    saveImage.setRGB(x, y, pixels[y][x] / divideBy[y][x]);
-                }
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
         }
+
+        for (File currentImageFile : imageFiles) {
+            BufferedImage currentImage;
+            try {
+                currentImage = ImageIO.read(currentImageFile);
+            } catch (Exception e) {
+                averagerFrame.inform("IO Failure", "Failed to read image file: "
+                        + currentImageFile.getAbsolutePath());
+                ExceptionHandler.handle(e);
+                continue;
+            }
+
+            int currentHeight = currentImage.getHeight();
+            int currentWidth = currentImage.getWidth();
+
+            int[][] currentPixels = get2DRgbArray(currentImage);
+            int currentXOffset = (width - currentWidth) / 2;
+            int currentYOffset = (height - currentHeight) / 2;
+
+            for (int y = 0 ; y < currentPixels.length ; y++) {
+                for (int x = 0 ; x < currentPixels[0].length ; x++) {
+                    pixelSum[y + currentYOffset][x + currentXOffset] += currentPixels[y][x];
+                    divideBy[y + currentYOffset][x + currentXOffset] += 1;
+                }
+            }
+        }
+
+        for (int y = 0 ; y < pixelSum.length ; y++) {
+            for (int x = 0 ; x < pixelSum[0].length ; x++) {
+                int dividend = pixelSum[y][x];
+                int divisor = divideBy[y][x];
+                if (divisor == 0) divisor = 1;
+                int quotient = dividend / divisor;
+                saveImage.setRGB(x, y, quotient);
+            }
+        }
+
+        return saveImage;
     }
 
     /**
@@ -314,20 +409,23 @@ public final class ImageAveragerWidget {
      */
     private static int[][] get2DRgbArray(BufferedImage image) {
         byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+
         int width = image.getWidth();
         int height = image.getHeight();
-        boolean hasAlphaChannel = image.getAlphaRaster() != null;
 
-        int[][] result = new int[height][width];
+        boolean hasAlphaChannel = image.getAlphaRaster() != null;
+        int[][] ret = new int[height][width];
+
         if (hasAlphaChannel) {
-            final int pixelLength = 4;
-            for (int pixel = 0, row = 0, col = 0 ; pixel + 3 < pixels.length ; pixel += pixelLength) {
+            for (int pixel = 0, row = 0, col = 0 ; pixel + 3 < pixels.length ; pixel += alphaPixelLength) {
                 int argb = 0;
-                argb += (((int) pixels[pixel] & 0xff) << 24); // alpha
-                argb += ((int) pixels[pixel + 1] & 0xff); // blue
-                argb += (((int) pixels[pixel + 2] & 0xff) << 8); // green
-                argb += (((int) pixels[pixel + 3] & 0xff) << 16); // red
-                result[row][col] = argb;
+
+                argb += (((int) pixels[pixel] & 0xff) << 24);
+                argb += (((int) pixels[pixel + 3] & 0xff) << 16);
+                argb += (((int) pixels[pixel + 2] & 0xff) << 8);
+                argb += ((int) pixels[pixel + 1] & 0xff);
+
+                ret[row][col] = argb;
                 col++;
 
                 if (col == width) {
@@ -336,15 +434,15 @@ public final class ImageAveragerWidget {
                 }
             }
         } else {
-            final int pixelLength = 3;
-
-            for (int pixel = 0, row = 0, col = 0 ; pixel + 2 < pixels.length ; pixel += pixelLength) {
+            for (int pixel = 0, row = 0, col = 0 ; pixel + 2 < pixels.length ; pixel += noAlphaPixelLength) {
                 int argb = 0;
-                argb -= 16777216; // 255 alpha
-                argb += ((int) pixels[pixel] & 0xff); // blue
-                argb += (((int) pixels[pixel + 1] & 0xff) << 8); // green
-                argb += (((int) pixels[pixel + 2] & 0xff) << 16); // red
-                result[row][col] = argb;
+
+                argb -= EMPTY_ALPHA;
+                argb += (((int) pixels[pixel + 2] & 0xff) << 16);
+                argb += (((int) pixels[pixel + 1] & 0xff) << 8);
+                argb += ((int) pixels[pixel] & 0xff);
+
+                ret[row][col] = argb;
                 col++;
 
                 if (col == width) {
@@ -354,7 +452,7 @@ public final class ImageAveragerWidget {
             }
         }
 
-        return result;
+        return ret;
     }
 
     /**
@@ -363,35 +461,44 @@ public final class ImageAveragerWidget {
      *
      * @return the combined file names
      */
+    @ForReadability
     private static String combineImageNames() {
         StringBuilder ret = new StringBuilder();
 
-        for (File f : files) {
-            ret.append(FileUtil.getFilename(f.getName())).append("_");
-        }
+        int finalIndex = imageFiles.size() - 1;
+        AtomicInteger currentIndex = new AtomicInteger();
+        imageFiles.forEach(file -> {
+            String filename = FileUtil.getFilename(file.getName());
+            ret.append(filename);
+            if (currentIndex.get() != finalIndex) ret.append(UNDERSCORE);
+            currentIndex.getAndIncrement();
+        });
 
-        return ret.substring(0, ret.toString().length() - 1);
+        return ret.toString();
     }
 
     /**
-     * Returns an image icon no bigger than 800x800.
+     * Returns an image icon no bigger than {@link #maxImageLength}x{@link #maxImageLength}.
      *
      * @param originalIcon the icon to resize if needed
-     * @return a new icon that is guaranteed to be at most 800x800
+     * @return a new icon that is guaranteed to be at most {@link #maxImageLength}x{@link #maxImageLength}
      */
-    private static ImageIcon checkImage(ImageIcon originalIcon) {
+    private static ImageIcon resizeImage(ImageIcon originalIcon) {
+        Preconditions.checkNotNull(originalIcon);
+
         BufferedImage bi = ImageUtil.toBufferedImage(originalIcon);
+
         int width = originalIcon.getIconWidth();
         int height = originalIcon.getIconHeight();
 
         if (width > height) {
-            int scaledHeight = 800 * height / width;
-            return new ImageIcon(bi.getScaledInstance(800, scaledHeight, Image.SCALE_SMOOTH));
+            int scaledHeight = maxImageLength * height / width;
+            return new ImageIcon(bi.getScaledInstance(maxImageLength, scaledHeight, Image.SCALE_SMOOTH));
         } else if (height > width) {
-            int scaledWidth = 800 * width / height;
-            return new ImageIcon(bi.getScaledInstance(scaledWidth, 800, Image.SCALE_SMOOTH));
+            int scaledWidth = maxImageLength * width / height;
+            return new ImageIcon(bi.getScaledInstance(scaledWidth, maxImageLength, Image.SCALE_SMOOTH));
         } else {
-            return new ImageIcon(bi.getScaledInstance(800, 800, Image.SCALE_SMOOTH));
+            return new ImageIcon(bi.getScaledInstance(maxImageLength, maxImageLength, Image.SCALE_SMOOTH));
         }
     }
 }

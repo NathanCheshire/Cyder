@@ -467,6 +467,30 @@ public class CyderScrollList {
     }
 
     /**
+     * Removes all selected elements on this scroll list.
+     */
+    public void removeSelectedElements() {
+        elements.removeIf(element -> element.getForeground().equals(selectedColor));
+    }
+
+    /**
+     * Removes the first element from this scroll list.
+     */
+    public void removeSelectedElement() {
+        JLabel remove = null;
+        for (JLabel element : elements) {
+            if (element.getForeground().equals(selectedColor)) {
+                remove = element;
+                break;
+            }
+        }
+
+        if (remove != null) {
+            elements.remove(remove);
+        }
+    }
+
+    /**
      * Returns the number of currently selected elements.
      *
      * @return the number of currently selected elements
