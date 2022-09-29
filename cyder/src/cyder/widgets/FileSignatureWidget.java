@@ -196,7 +196,7 @@ public final class FileSignatureWidget {
         signatureFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderIcons.defaultBackground);
         signatureFrame.setTitle(TITLE);
 
-        signatureField = new CyderTextField(0);
+        signatureField = new CyderTextField();
         signatureField.setHorizontalAlignment(JTextField.CENTER);
         signatureField.setBounds(50, 120, 300, 40);
         signatureField.setToolTipText("Enter the hex file signature of the file type you presume this file to be");

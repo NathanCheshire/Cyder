@@ -195,7 +195,7 @@ public class GetterUtil {
 
                 yOff += GET_STRING_Y_PADDING + boundsString.height();
 
-                CyderTextField inputField = new CyderTextField(0);
+                CyderTextField inputField = new CyderTextField();
                 inputField.setHorizontalAlignment(JTextField.CENTER);
                 inputField.setBackground(Color.white);
 
@@ -430,7 +430,7 @@ public class GetterUtil {
 
                 directoryFrame.setTitle(INITIAL_DIRECTORY_FRAME_TITLE);
 
-                CyderTextField dirField = new CyderTextField(0);
+                CyderTextField dirField = new CyderTextField();
                 dirFieldRef.set(dirField);
                 if (!StringUtil.isNullOrEmpty(builder.getFieldTooltip())) {
                     dirField.setToolTipText(builder.getFieldTooltip());

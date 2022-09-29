@@ -394,7 +394,7 @@ public final class ClockWidget {
             hexLabel.setBounds(60, 830, StringUtil.getMinWidth("Clock Color Hex:", hexLabel.getFont()), 40);
             clockFrame.getContentPane().add(hexLabel);
 
-            CyderTextField locationField = new CyderTextField(0);
+            CyderTextField locationField = new CyderTextField();
             locationField.setHorizontalAlignment(JTextField.CENTER);
             locationField.setText(currentLocation);
             locationField.setCaretPosition(0);

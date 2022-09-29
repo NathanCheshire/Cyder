@@ -107,7 +107,7 @@ public final class UserCreator {
 
         createNewUserButton = new CyderButton("Create User");
 
-        newUserNameField = new CyderTextField(0);
+        newUserNameField = new CyderTextField();
         newUserNameField.setHorizontalAlignment(JTextField.CENTER);
         newUserNameField.setBackground(Color.white);
         newUserNameField.setFont(CyderFonts.SEGOE_20);

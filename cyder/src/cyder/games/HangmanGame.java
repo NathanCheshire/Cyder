@@ -101,7 +101,7 @@ public final class HangmanGame {
         imageLabel.setBounds(100, 50, 712, 712);
         hangmanFrame.getContentPane().add(imageLabel);
 
-        letterField = new CyderTextField(0);
+        letterField = new CyderTextField();
         letterField.setHorizontalAlignment(JTextField.CENTER);
         letterField.setBackground(Color.white);
         letterField.setBorder(new LineBorder(CyderColors.navy, 5, false));

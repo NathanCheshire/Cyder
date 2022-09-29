@@ -140,7 +140,7 @@ public final class PhoneWidget {
         phoneFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderIcons.defaultBackground);
         phoneFrame.setTitle(TITLE);
 
-        numberField = new CyderTextField(0);
+        numberField = new CyderTextField();
         numberField.setText(HASH);
         numberField.setEditable(false);
         numberField.setFont(CyderFonts.SEGOE_20);

@@ -270,7 +270,7 @@ public final class PizzaWidget {
         nameLabel.setBounds(40, 45, 100, 30);
         pizzaFrame.getContentPane().add(nameLabel);
 
-        nameField = new CyderTextField(0);
+        nameField = new CyderTextField();
         nameField.setHorizontalAlignment(JTextField.CENTER);
         nameField.setAutoCapitalization(true);
         nameField.setBackground(Color.white);

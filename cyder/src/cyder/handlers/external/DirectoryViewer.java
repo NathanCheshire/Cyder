@@ -116,7 +116,7 @@ public class DirectoryViewer {
                 ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor);
         dirFrame.setTitle(currentDirectory.getName());
 
-        dirField = new CyderTextField(0);
+        dirField = new CyderTextField();
         dirField.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : Color.white);
         dirField.setForeground(darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.navy);
         dirField.setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor

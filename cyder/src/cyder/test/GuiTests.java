@@ -194,7 +194,7 @@ public final class GuiTests {
 
         CyderGridLayout layout = new CyderGridLayout(3, 3);
 
-        CyderTextField ctf = new CyderTextField(0);
+        CyderTextField ctf = new CyderTextField();
         ctf.setSize(150, 40);
 
         CyderButton topNotify = new CyderButton("Top");
@@ -277,7 +277,7 @@ public final class GuiTests {
         CyderFrame testFrame = new CyderFrame(350, 300, CyderIcons.defaultBackground);
         testFrame.setTitle("Askew Test");
 
-        CyderTextField ctf = new CyderTextField(0);
+        CyderTextField ctf = new CyderTextField();
         ctf.setBounds(100, 100, 150, 40);
         testFrame.getContentPane().add(ctf);
 
@@ -461,7 +461,7 @@ public final class GuiTests {
         cf.setTitle("Title Length Test");
         cf.setTitlePosition(CyderFrame.TitlePosition.LEFT);
 
-        CyderTextField ctf = new CyderTextField(0);
+        CyderTextField ctf = new CyderTextField();
         ctf.setBounds(40, 40, 600 - 80, 40);
         cf.getContentPane().add(ctf);
         ctf.addActionListener(e -> cf.setTitle(ctf.getText().trim()));
@@ -643,7 +643,7 @@ public final class GuiTests {
         CyderFrame testFrame = new CyderFrame(400, 120);
         testFrame.setTitle("Inform Test");
 
-        CyderTextField ctf = new CyderTextField(0);
+        CyderTextField ctf = new CyderTextField();
         ctf.setBounds(40, 40, 320, 40);
         ctf.addActionListener(e -> {
             String text = ctf.getText();
@@ -697,7 +697,7 @@ public final class GuiTests {
             }
         });
 
-        CyderTextField addMenuItem = new CyderTextField(0);
+        CyderTextField addMenuItem = new CyderTextField();
         addMenuItem.setSize(200, 40);
         addMenuItem.addActionListener(e -> {
             if (addMenuItem.getText().trim().length() < 3)
@@ -735,7 +735,7 @@ public final class GuiTests {
         container.setBackground(CyderColors.notificationBackgroundColor);
         container.setForeground(CyderColors.vanilla);
 
-        CyderTextField ctf = new CyderTextField(0);
+        CyderTextField ctf = new CyderTextField();
         ctf.setSize(200, 40);
         ctf.addActionListener(
                 e -> testFrame.notify(new CyderFrame.NotificationBuilder("NULL").setContainer(container)));

@@ -65,7 +65,7 @@ public class TextViewer {
         textEditorFrame = new CyderFrame(600, 625, CyderIcons.defaultBackground);
         textEditorFrame.setTitle("Editing: " + file.getName().replace(".txt", ""));
 
-        textNameEditField = new CyderTextField(0);
+        textNameEditField = new CyderTextField();
         textNameEditField.setHorizontalAlignment(JTextField.CENTER);
         textNameEditField.setBackground(Color.white);
         textNameEditField.setToolTipText("Change Name");

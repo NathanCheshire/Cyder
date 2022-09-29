@@ -90,7 +90,7 @@ public final class CalculatorWidget {
         CyderFrame calculatorFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderIcons.defaultBackground);
         calculatorFrame.setTitle("Calculator");
 
-        resultField = new CyderTextField(0);
+        resultField = new CyderTextField();
         resultField.setBorder(null);
         resultField.setEditable(false);
         resultField.setFocusable(true);
@@ -100,7 +100,7 @@ public final class CalculatorWidget {
         resultField.setBounds(25, CyderDragLabel.DEFAULT_HEIGHT + 10, 350, 30);
         calculatorFrame.getContentPane().add(resultField);
 
-        calculatorField = new CyderTextField(0);
+        calculatorField = new CyderTextField();
         calculatorField.setBorder(null);
         calculatorField.setHorizontalAlignment(JTextField.LEFT);
         calculatorField.setSelectionColor(CyderColors.selectionColor);

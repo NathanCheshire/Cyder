@@ -76,7 +76,7 @@ public class CyderComboBox extends JLabel {
 
         int borderOffset = 5;
 
-        valueDisplayField = new CyderTextField(0);
+        valueDisplayField = new CyderTextField();
         valueDisplayField.setEditable(false);
         valueDisplayField.setFocusable(false);
         valueDisplayField.setSize(width - height + borderOffset, height);
@@ -225,11 +225,8 @@ public class CyderComboBox extends JLabel {
          * @param mappedValue  the underlying value of the state
          */
         public ComboItem(String displayValue, String mappedValue) {
-            Preconditions.checkNotNull(displayValue);
-            Preconditions.checkNotNull(mappedValue);
-
-            this.displayValue = displayValue;
-            this.mappedValue = mappedValue;
+            this.displayValue = Preconditions.checkNotNull(displayValue);
+            this.mappedValue = Preconditions.checkNotNull(mappedValue);
 
             Logger.log(LogTag.OBJECT_CREATION, this);
         }
