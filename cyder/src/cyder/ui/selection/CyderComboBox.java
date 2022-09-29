@@ -1,6 +1,7 @@
 package cyder.ui.selection;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -8,7 +9,8 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 
 import javax.swing.*;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.function.Function;
 
 /**
@@ -33,7 +35,7 @@ public class CyderComboBox extends JLabel {
     /**
      * The list of valid states for this switcher.
      */
-    private final ArrayList<ComboItem> states;
+    private final Collection<ComboItem> states;
 
     /**
      * The width of the whole switcher.
@@ -55,8 +57,7 @@ public class CyderComboBox extends JLabel {
      * @param states        the valid states
      * @param startingState the starting state
      */
-    @SuppressWarnings("SuspiciousNameCombination") // incorrect
-    public CyderComboBox(int width, int height, ArrayList<ComboItem> states, ComboItem startingState) {
+    public CyderComboBox(int width, int height, Collection<ComboItem> states, ComboItem startingState) {
         Preconditions.checkArgument(width > 0);
         Preconditions.checkArgument(height > 0);
         Preconditions.checkNotNull(states, "Provided states are null");
@@ -83,8 +84,9 @@ public class CyderComboBox extends JLabel {
         valueDisplayField.setText(currentState.displayValue());
         valueDisplayField.setToolTipText(currentState.mappedValue());
 
+        int iterationButtonLength = Math.min(width, height);
         iterationButton = new CyderButton(CyderStrings.DOWN_ARROW);
-        iterationButton.setSize(height, height);
+        iterationButton.setSize(iterationButtonLength, iterationButtonLength);
         iterationButton.setLocation(width - height, 0);
         add(iterationButton);
 
@@ -131,8 +133,8 @@ public class CyderComboBox extends JLabel {
      *
      * @return the states of this switcher
      */
-    public ArrayList<ComboItem> getStates() {
-        return states;
+    public Collection<ComboItem> getStates() {
+        return ImmutableList.copyOf(states);
     }
 
     /**
@@ -150,23 +152,28 @@ public class CyderComboBox extends JLabel {
      * @return the state just after the current state
      */
     public ComboItem getNextState() {
-        int currentIndex = 0;
+        Preconditions.checkNotNull(states);
+        Preconditions.checkState(!states.isEmpty());
 
-        for (int i = 0 ; i < states.size() ; i++) {
-            if (states.get(i) == currentState) {
-                currentIndex = i;
-                break;
+        Iterator<ComboItem> iterator = states.iterator();
+        ComboItem firstItem = null;
+
+        while (iterator.hasNext()) {
+            ComboItem currentIterationItem = iterator.next();
+            if (firstItem == null) {
+                firstItem = currentIterationItem;
+            }
+
+            if (currentIterationItem.equals(currentState)) {
+                if (iterator.hasNext()) {
+                    return iterator.next();
+                } else {
+                    return firstItem;
+                }
             }
         }
 
-        // if current state is end, next state is start
-        if (currentIndex == states.size() - 1) {
-            return states.get(0);
-        }
-        // otherwise the next state is just incremented
-        else {
-            return states.get(currentIndex + 1);
-        }
+        throw new IllegalStateException("Could not get next state");
     }
 
     /**
@@ -175,7 +182,7 @@ public class CyderComboBox extends JLabel {
      * @param currentState the current state of this switcher
      */
     public void setCurrentState(ComboItem currentState) {
-        this.currentState = currentState;
+        this.currentState = Preconditions.checkNotNull(currentState);
         valueDisplayField.setText(currentState.displayValue());
     }
 
@@ -185,6 +192,8 @@ public class CyderComboBox extends JLabel {
      * @param function the provided function to invoke before the state changes
      */
     public void addOnChangeListener(Function<Void, Void> function) {
+        Preconditions.checkNotNull(function);
+
         iterationButton.addActionListener((OptionalParam) -> function.apply(null));
     }
 
