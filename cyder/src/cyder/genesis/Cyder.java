@@ -55,9 +55,6 @@ public final class Cyder {
 
         jvmArguments = ImmutableList.copyOf(arguments);
 
-        // todo java.lang.management.ManagementFactory.getRuntimeMXBean()
-        //  .getInputArguments().toString().indexOf("-agentlib:jdwp")
-
         PropLoader.loadProps();
 
         addExitHooks();

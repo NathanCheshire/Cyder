@@ -105,7 +105,6 @@ public final class ImageAveragerWidget {
      */
     private static final int imagesScrollLen = 400;
 
-
     /**
      * The builder for the getter util instance to add a file.
      */
@@ -292,7 +291,7 @@ public final class ImageAveragerWidget {
         File outputFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(), saveImageName);
 
-        CyderFrame drawFrame = new CyderFrame(saveImage.getWidth(), saveImage.getHeight(), previewImage);
+        CyderFrame drawFrame = new CyderFrame(previewImage.getIconWidth(), previewImage.getIconHeight(), previewImage);
         DragLabelTextButton saveButton = DragLabelTextButton.generateTextButton(
                 new DragLabelTextButton.Builder(SAVE).setTooltip(SAVE_IMAGE).setClickAction(() -> {
                     boolean saved = saveImage(saveImage, outputFile);

@@ -12,6 +12,7 @@ import cyder.logging.Logger;
 import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
+import cyder.utils.JvmUtil;
 import cyder.utils.OsUtil;
 
 import javax.swing.*;
@@ -135,6 +136,10 @@ public final class CyderWatchdog {
                     if (currentCyderState != ProgramState.NORMAL) {
                         Logger.log(LogTag.DEBUG, "Watchdog not incremented as "
                                 + "current program state is: " + currentCyderState);
+                        continue;
+                    } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
+                        Logger.log(LogTag.DEBUG, "Watchdog not incremented as "
+                                + "current jvm session was launched using debug");
                         continue;
                     }
 
