@@ -55,10 +55,7 @@ public class PixelationHandler extends InputHandler {
                             int size = Integer.parseInt(getInputHandler().getArg(0));
                             attemptPixelation(size);
                         } catch (Exception e) {
-                            ExceptionHandler.handle(e);
-                            getInputHandler().println("Could not parse argument as an integer");
-
-                            getInputHandler().resetHandlers();
+                            return false;
                         }
                     } else {
                         getInputHandler().setRedirectionHandler(PixelationHandler.class);

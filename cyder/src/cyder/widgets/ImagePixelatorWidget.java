@@ -28,6 +28,9 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+/**
+ * An image pixelator widget.
+ */
 @Vanilla
 @CyderAuthor
 public final class ImagePixelatorWidget {
@@ -44,14 +47,23 @@ public final class ImagePixelatorWidget {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Widget(triggers = {"pixelatepicture", "pixelateimage", "pixelator"},
-            description = "A simple image pixelator widget that transforms" +
-                    " the image into an image depicted of the specified number of pixels")
+    /**
+     * The widget description
+     */
+    private static final String description = "A simple image pixelator widget that transforms" +
+            " the image into an image depicted of the specified number of pixels";
+
+    @Widget(triggers = {"pixelate picture", "pixelate image", "pixelator"}, description = description)
     public static void showGui() {
         showGui(null);
     }
 
-    public static void showGui(File startPNG) {
+    /**
+     * Shows the widget ui with the provided image as the preview image.
+     *
+     * @param imageFile the image to pixelate
+     */
+    public static void showGui(File imageFile) {
         CyderFrame pixelFrame = new CyderFrame(800, 800, CyderIcons.defaultBackground);
         pixelFrame.setTitle("Image Pixelator");
 
@@ -168,14 +180,14 @@ public final class ImagePixelatorWidget {
 
         pixelFrame.finalizeAndShow();
 
-        if (startPNG != null && FileUtil.isSupportedImageExtension(startPNG)) {
+        if (imageFile != null && FileUtil.isSupportedImageExtension(imageFile)) {
             try {
-                currentFile = startPNG;
-                displayIcon = checkImage(startPNG);
+                currentFile = imageFile;
+                displayIcon = checkImage(imageFile);
                 previewLabel.setIcon(displayIcon);
                 previewLabel.revalidate();
                 pixelFrame.revalidate();
-                originalIcon = new ImageIcon(ImageIO.read(startPNG));
+                originalIcon = new ImageIcon(ImageIO.read(imageFile));
                 integerField.setCharLimit(String.valueOf(originalIcon.getIconWidth()).length());
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

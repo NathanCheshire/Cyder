@@ -1,7 +1,9 @@
 package cyder.widgets;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
@@ -12,10 +14,15 @@ import cyder.user.UserUtil;
 import cyder.utils.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 
+/**
+ * A widget emulating the Minecraft front page.
+ */
 @Vanilla
 @CyderAuthor
 public final class MinecraftWidget {
@@ -23,26 +30,6 @@ public final class MinecraftWidget {
      * The minecraft frame.
      */
     private static CyderFrame minecraftFrame;
-
-    /**
-     * The label to use for the realms icon.
-     */
-    private static JLabel realmsLabel;
-
-    /**
-     * The label to use for the chest.
-     */
-    private static JLabel chestLabel;
-
-    /**
-     * The label to use for the hamburger menu.
-     */
-    private static JLabel hamLabel;
-
-    /**
-     * The label to use for the minecraft block.
-     */
-    private static JLabel blockLabel;
 
     /**
      * The minecraft.net link that redirects to the hamburger icon's result.
@@ -132,108 +119,20 @@ public final class MinecraftWidget {
     private static final ImageIcon HAMBURGER_EXIT
             = new ImageIcon("static/pictures/minecraft/HamburgerExit.gif");
 
-    @Widget(triggers = "minecraft", description = "A minecraft widget that copies from the Mojang home page")
-    public static void showGui() {
-        UiUtil.closeIfOpen(minecraftFrame);
-        minecraftFrame = new CyderFrame(1263, 160,
-                new ImageIcon("static/pictures/minecraft/Minecraft.png"));
-        minecraftFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-        minecraftFrame.setTitle("Minecraft Widget");
+    /**
+     * The title of the widget frame.
+     */
+    private static final String FRAME_TITLE = "Minecraft Widget";
 
-        blockLabel = new JLabel(BLOCK);
-        blockLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl(MINECRAFT_BLOCK);
-            }
+    /**
+     * The width of the widget frame.
+     */
+    private static final int FRAME_WIDTH = 1263;
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                BLOCK_ENTER.getImage().flush();
-                blockLabel.setIcon(BLOCK_ENTER);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                BLOCK_EXIT.getImage().flush();
-                blockLabel.setIcon(BLOCK_EXIT);
-            }
-        });
-
-        blockLabel.setBounds(83, 46, 50, 45);
-        minecraftFrame.getContentPane().add(blockLabel);
-
-        realmsLabel = new JLabel(REALMS);
-        realmsLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl(MINECRAFT_REALMS);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                REALMS_ENTER.getImage().flush();
-                realmsLabel.setIcon(REALMS_ENTER);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                REALMS_EXIT.getImage().flush();
-                realmsLabel.setIcon(REALMS_EXIT);
-            }
-        });
-        realmsLabel.setBounds(196, 51, 70, 45);
-        minecraftFrame.getContentPane().add(realmsLabel);
-
-        chestLabel = new JLabel(CHEST);
-        chestLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl(MINECRAFT_CHEST);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                CHEST_ENTER.getImage().flush();
-                chestLabel.setIcon(CHEST_ENTER);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                CHEST_EXIT.getImage().flush();
-                chestLabel.setIcon(CHEST_EXIT);
-            }
-        });
-        chestLabel.setBounds(1009, 44, 60, 50);
-        minecraftFrame.getContentPane().add(chestLabel);
-
-        hamLabel = new JLabel(HAMBURGER);
-        hamLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl(MINECRAFT_HAMBURGER);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                HAMBURGER_ENTER.getImage().flush();
-                hamLabel.setIcon(HAMBURGER_ENTER);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                HAMBURGER_EXIT.getImage().flush();
-                hamLabel.setIcon(HAMBURGER_EXIT);
-            }
-        });
-        hamLabel.setBounds(1135, 52, 42, 40);
-        minecraftFrame.getContentPane().add(hamLabel);
-
-        minecraftFrame.finalizeAndShow();
-        minecraftFrame.setIconImage(BLOCK.getImage());
-
-        checkMappedExes();
-    }
+    /**
+     * The height of the image frame.
+     */
+    private static final int FRAME_HEIGHT = 160;
 
     /**
      * Names of mapped exes which may reference a Minecraft executable.
@@ -245,7 +144,92 @@ public final class MinecraftWidget {
             "Optifine",
             "ATLauncher",
             "Technic",
-            "Forge");
+            "Forge"
+    );
+
+    /**
+     * The background of the frame.
+     */
+    private static final ImageIcon background = new ImageIcon("static/pictures/minecraft/Minecraft.png");
+
+    @Widget(triggers = "minecraft", description = "A minecraft widget that copies from the Mojang home page")
+    public static void showGui() {
+        UiUtil.closeIfOpen(minecraftFrame);
+        minecraftFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, background);
+        minecraftFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+        minecraftFrame.setTitle(FRAME_TITLE);
+
+        JLabel blockLabel = new JLabel(BLOCK);
+        blockLabel.addMouseListener(generateMouseListener(blockLabel, MINECRAFT_BLOCK,
+                BLOCK_ENTER, BLOCK_EXIT));
+        blockLabel.setBounds(83, 46, 50, 45);
+        minecraftFrame.getContentPane().add(blockLabel);
+
+        JLabel realmsLabel = new JLabel(REALMS);
+        realmsLabel.addMouseListener(generateMouseListener(realmsLabel, MINECRAFT_REALMS,
+                REALMS_ENTER, REALMS_EXIT));
+        realmsLabel.setBounds(196, 51, 70, 45);
+        minecraftFrame.getContentPane().add(realmsLabel);
+
+        JLabel chestLabel = new JLabel(CHEST);
+        chestLabel.addMouseListener(generateMouseListener(chestLabel, MINECRAFT_CHEST,
+                CHEST_ENTER, CHEST_EXIT));
+        chestLabel.setBounds(1009, 44, 60, 50);
+        minecraftFrame.getContentPane().add(chestLabel);
+
+        JLabel hamLabel = new JLabel(HAMBURGER);
+        hamLabel.addMouseListener(generateMouseListener(hamLabel, MINECRAFT_HAMBURGER,
+                HAMBURGER_ENTER, HAMBURGER_EXIT));
+        hamLabel.setBounds(1135, 52, 42, 40);
+        minecraftFrame.getContentPane().add(hamLabel);
+
+        int x = (UiUtil.getDefaultMonitorWidth() - FRAME_WIDTH) / 2;
+        int y = UiUtil.getDefaultMonitorHeight() - FRAME_HEIGHT - UiUtil.getWindowsTaskbarLength();
+        minecraftFrame.finalizeAndShow(new Point(x, y));
+        minecraftFrame.setIconImage(BLOCK.getImage());
+
+        checkMappedExes();
+    }
+
+    /**
+     * Generates a mouse adapter for a minecraft gif label.
+     *
+     * @param label    the label
+     * @param url      the url to open on click
+     * @param enterGif the enter gif
+     * @param exitGif  the exit gif
+     * @return the mouse listener
+     */
+    @ForReadability
+    private static MouseListener generateMouseListener(JLabel label,
+                                                       String url,
+                                                       ImageIcon enterGif,
+                                                       ImageIcon exitGif) {
+        Preconditions.checkNotNull(label);
+        Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!url.isEmpty());
+        Preconditions.checkNotNull(enterGif);
+        Preconditions.checkNotNull(exitGif);
+
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                NetworkUtil.openUrl(url);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                enterGif.getImage().flush();
+                label.setIcon(enterGif);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                exitGif.getImage().flush();
+                label.setIcon(exitGif);
+            }
+        };
+    }
 
     /**
      * Checks the current user's mapped executables to determine if any might reference a Minecraft launcher.

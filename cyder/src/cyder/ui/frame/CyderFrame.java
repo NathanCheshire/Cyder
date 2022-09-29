@@ -3687,6 +3687,28 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Sets the frame's location to the provided point,
+     * the visibility to true, and fades in the frame.
+     *
+     * @param point the point to set the top left of the frame at
+     */
+    public void finalizeAndShow(Point point) {
+        Preconditions.checkNotNull(point);
+        setLocation(point);
+
+        setOpacity(FADE_IN_STARTING_OPACITY);
+        setVisible(true);
+        toFront();
+
+        CyderThreadRunner.submit(() -> {
+            for (float i = FADE_IN_STARTING_OPACITY ; i < FADE_IN_ENDING_OPACITY ; i += FADE_IN_ANIMATION_INCREMENT) {
+                setOpacity(i);
+                ThreadUtil.sleep(FADE_IN_ANIMATION_DELAY);
+            }
+        }, FADE_IN_ANIMATION_THREAD_NAME);
+    }
+
+    /**
      * Returns the current dominant frame for Cyder.
      *
      * @return the current dominant frame for Cyder

@@ -666,7 +666,6 @@ public final class PaintWidget {
 
         Rectangle screen = Console.INSTANCE.getConsoleCyderFrame().getMonitorBounds();
         int x = (int) (screen.getX() + (screen.getWidth() - paintControlsFrame.getWidth()) / 2);
-        // todo use method for taskbar offset
         int y = (int) (screen.getHeight() - paintControlsFrame.getHeight()
                 - UiUtil.getWindowsTaskbarLength());
 
