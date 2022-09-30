@@ -146,14 +146,25 @@ public final class ImagePixelatorWidget {
      */
     private static final String pixelSizeFieldRegexMatcher = "[0-9]*";
 
+    /**
+     * The length of primary components.
+     */
+    private static final int componentLength = 300;
+
+    /**
+     * The height of primary components.
+     */
+    private static final int componentHeight = 40;
+
+    /**
+     * The partition length for primary components.
+     */
+    private static final int componentPartition = 7;
+
     @Widget(triggers = {"pixelate picture", "pixelate image", "pixelator"}, description = description)
     public static void showGui() {
         showGui(null);
     }
-
-    // todo circle back to image average since removing files doesn't work...
-    // todo add pipe to pixelator to image averager
-    // todo redo this ui
 
     /**
      * Shows the widget ui with the provided image as the preview image.
@@ -166,9 +177,6 @@ public final class ImagePixelatorWidget {
         pixelFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
         pixelFrame.setTitle(IMAGE_PIXELATOR);
 
-        int componentLength = 300;
-        int componentHeight = 40;
-        int componentPartition = 7;
         int remainingPartition = CyderPartitionedLayout.MAX_PARTITION - 4 * componentPartition;
 
         CyderPartitionedLayout partitionedLayout = new CyderPartitionedLayout();
@@ -286,6 +294,7 @@ public final class ImagePixelatorWidget {
                         ImageUtil.toImageIcon(bufferedImage), previewImageMaxLen);
                 previewLabel.setIcon(currentDisplayImageIcon);
 
+                refreshPreviewLabelSize();
                 repaintPreviewLabelAndFrame();
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
@@ -335,7 +344,21 @@ public final class ImagePixelatorWidget {
                 ImageUtil.toImageIcon(newBufferedImage), previewImageMaxLen);
         previewLabel.setIcon(currentDisplayImageIcon);
 
+        refreshPreviewLabelSize();
         repaintPreviewLabelAndFrame();
+    }
+
+    /**
+     * Refreshes the size of the preview label based on the current icon.
+     */
+    @ForReadability
+    private static void refreshPreviewLabelSize() {
+        ImageIcon previewIcon = (ImageIcon) previewLabel.getIcon();
+        if (previewIcon == null) {
+            previewLabel.setSize(previewImageMaxLen, previewImageMaxLen);
+        } else {
+            previewLabel.setSize(previewIcon.getIconWidth(), previewIcon.getIconHeight());
+        }
     }
 
     /**
