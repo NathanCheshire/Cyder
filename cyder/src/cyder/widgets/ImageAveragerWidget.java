@@ -285,7 +285,7 @@ public final class ImageAveragerWidget {
         }
 
         BufferedImage saveImage = computerAverage(width, height);
-        ImageIcon previewImage = resizeImage(new ImageIcon(saveImage));
+        ImageIcon previewImage = ImageUtil.resizeIfLengthExceeded(new ImageIcon(saveImage), maxImageLength);
 
         String saveImageName = combineImageNames() + "." + ImageUtil.PNG_FORMAT;
         File outputFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
@@ -474,30 +474,5 @@ public final class ImageAveragerWidget {
         });
 
         return ret.toString();
-    }
-
-    /**
-     * Returns an image icon no bigger than {@link #maxImageLength}x{@link #maxImageLength}.
-     *
-     * @param originalIcon the icon to resize if needed
-     * @return a new icon that is guaranteed to be at most {@link #maxImageLength}x{@link #maxImageLength}
-     */
-    private static ImageIcon resizeImage(ImageIcon originalIcon) {
-        Preconditions.checkNotNull(originalIcon);
-
-        BufferedImage bi = ImageUtil.toBufferedImage(originalIcon);
-
-        int width = originalIcon.getIconWidth();
-        int height = originalIcon.getIconHeight();
-
-        if (width > height) {
-            int scaledHeight = maxImageLength * height / width;
-            return new ImageIcon(bi.getScaledInstance(maxImageLength, scaledHeight, Image.SCALE_SMOOTH));
-        } else if (height > width) {
-            int scaledWidth = maxImageLength * width / height;
-            return new ImageIcon(bi.getScaledInstance(scaledWidth, maxImageLength, Image.SCALE_SMOOTH));
-        } else {
-            return new ImageIcon(bi.getScaledInstance(maxImageLength, maxImageLength, Image.SCALE_SMOOTH));
-        }
     }
 }

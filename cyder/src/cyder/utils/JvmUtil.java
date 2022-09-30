@@ -3,6 +3,8 @@ package cyder.utils;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
+import java.lang.management.ManagementFactory;
+
 /**
  * Utilities related to the JVM.
  */
@@ -28,7 +30,8 @@ public final class JvmUtil {
      * thread could be externally suspended
      */
     public static boolean currentInstanceLaunchedWithDebug() {
-        return java.lang.management.ManagementFactory.getRuntimeMXBean()
+        //System.out.println(ManagementFactory.getClassLoadingMXBean().getTotalLoadedClassCount());
+        return ManagementFactory.getRuntimeMXBean()
                 .getInputArguments().toString().contains(IN_DEBUG_MODE_KEY_PHRASE);
     }
 }

@@ -1,22 +1,24 @@
 package cyder.widgets;
 
 import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.layouts.CyderPartitionedLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
 import cyder.user.UserFile;
+import cyder.user.UserUtil;
 import cyder.utils.*;
 
 import javax.imageio.ImageIO;
@@ -25,6 +27,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -34,11 +37,25 @@ import java.io.File;
 @Vanilla
 @CyderAuthor
 public final class ImagePixelatorWidget {
-    private static ImageIcon displayIcon;
-    private static ImageIcon originalIcon;
+    /**
+     * The current icon that is being displayed.
+     */
+    private static ImageIcon currentDisplayImageIcon;
+
+    /**
+     * The current raw image file.
+     */
     private static File currentFile;
+
+    /**
+     * The image pixelation preview label.
+     */
     private static JLabel previewLabel;
-    private static CyderTextField integerField;
+
+    /**
+     * The pixelation size field.
+     */
+    private static CyderTextField pixelSizeField;
 
     /**
      * Suppress default constructor.
@@ -50,13 +67,93 @@ public final class ImagePixelatorWidget {
     /**
      * The widget description
      */
-    private static final String description = "A simple image pixelator widget that transforms" +
-            " the image into an image depicted of the specified number of pixels";
+    private static final String description = "A simple image pixelator widget that transforms"
+            + " the image into an image depicted of the specified number of pixels";
+
+    /**
+     * The width of the frame.
+     */
+    private static final int FRAME_WIDTH = 700;
+
+    /**
+     * The height of the frame.
+     */
+    private static final int FRAME_HEIGHT = 950;
+
+    /**
+     * The widget frame title.
+     */
+    private static final String IMAGE_PIXELATOR = "Image Pixelator";
+
+    /**
+     * The pixel size label text.
+     */
+    private static final String PIXEL_SIZE = "Pixel Size";
+
+    /**
+     * The choose image button text.
+     */
+    private static final String CHOOSE_IMAGE = "Choose Image";
+
+    /**
+     * The widget frame.
+     */
+    private static CyderFrame pixelFrame;
+
+    /**
+     * The border for the preview label.
+     */
+    private static final LineBorder previewLabelBorder = new LineBorder(CyderColors.navy, 5, false);
+
+    /**
+     * The maximum length for the preview label image.
+     */
+    private static final int previewImageMaxLen = 600;
+
+    /**
+     * The name of the waiter thread for the get file getter util instance.
+     */
+    private static final String CHOOSE_IMAGE_WAITER_THREAD_NAME = "Choose Image Waiter Thread";
+
+    /**
+     * The builder for the choose file button.
+     */
+    private static final GetterUtil.Builder getterUtilBuilder = new GetterUtil.Builder("Choose file to resize")
+            .setRelativeTo(pixelFrame);
+
+    /**
+     * The image files text.
+     */
+    private static final String IMAGE_FILES = "Image files";
+
+    /**
+     * The pixel label font.
+     */
+    private static final Font pixelLabelFont = new Font(CyderFonts.AGENCY_FB, Font.BOLD, 28);
+
+    /**
+     * The approve image label.
+     */
+    private static final String APPROVE_IMAGE = "Approve Image";
+
+    /**
+     * The pixelated pixel size part of the name when saving a pixelated image.
+     */
+    private static final String PIXELATED_PIXEL_SIZE = "_Pixelated_Pixel_Size_";
+
+    /**
+     * The regex for the pixel size field to restrict the input to numbers.
+     */
+    private static final String pixelSizeFieldRegexMatcher = "[0-9]*";
 
     @Widget(triggers = {"pixelate picture", "pixelate image", "pixelator"}, description = description)
     public static void showGui() {
         showGui(null);
     }
+
+    // todo circle back to image average since removing files doesn't work...
+    // todo add pipe to pixelator to image averager
+    // todo redo this ui
 
     /**
      * Shows the widget ui with the provided image as the preview image.
@@ -64,172 +161,192 @@ public final class ImagePixelatorWidget {
      * @param imageFile the image to pixelate
      */
     public static void showGui(File imageFile) {
-        CyderFrame pixelFrame = new CyderFrame(800, 800, CyderIcons.defaultBackground);
-        pixelFrame.setTitle("Image Pixelator");
+        UiUtil.closeIfOpen(pixelFrame);
 
-        CyderLabel pixelSize = new CyderLabel("Pixel Size");
-        pixelSize.setFont(CyderFonts.DEFAULT_FONT_SMALL.deriveFont(28f));
-        int w = StringUtil.getMinWidth(pixelSize.getText(), pixelSize.getFont());
-        int h = StringUtil.getMinHeight(pixelSize.getText(), pixelSize.getFont());
-        pixelSize.setBounds(400 - w / 2, 30 + 20, w, h);
-        pixelFrame.getContentPane().add(pixelSize);
+        pixelFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
+        pixelFrame.setTitle(IMAGE_PIXELATOR);
 
-        CyderButton chooseImage = new CyderButton("Choose Image");
-        chooseImage.setToolTipText("PNGs");
-        chooseImage.setBounds(50, 100, 200, 40);
-        pixelFrame.getContentPane().add(chooseImage);
-        chooseImage.addActionListener(e -> {
+        int componentLength = 300;
+        int componentHeight = 40;
+        int componentPartition = 7;
+        int remainingPartition = CyderPartitionedLayout.MAX_PARTITION - 4 * componentPartition;
+
+        CyderPartitionedLayout partitionedLayout = new CyderPartitionedLayout();
+        partitionedLayout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.COLUMN);
+
+        CyderLabel pixelSizeLabel = new CyderLabel(PIXEL_SIZE);
+        pixelSizeLabel.setFont(pixelLabelFont);
+        pixelSizeLabel.setSize(componentLength, componentHeight);
+        partitionedLayout.addComponent(pixelSizeLabel, componentPartition);
+
+        pixelSizeField = new CyderTextField();
+        pixelSizeField.setKeyEventRegexMatcher(pixelSizeFieldRegexMatcher);
+        pixelSizeField.setSize(componentLength, componentHeight);
+        pixelSizeField.addKeyListener(pixelSizeFieldKeyAdapter);
+        partitionedLayout.addComponent(pixelSizeField, componentPartition);
+
+        CyderButton chooseImage = new CyderButton(CHOOSE_IMAGE);
+        chooseImage.setToolTipText(IMAGE_FILES);
+        chooseImage.setSize(componentLength, componentHeight);
+        chooseImage.addActionListener(e -> chooseImageButtonAction());
+        partitionedLayout.addComponent(chooseImage, componentPartition);
+
+        CyderButton approveImageButton = new CyderButton(APPROVE_IMAGE);
+        approveImageButton.setSize(componentLength, componentHeight);
+        approveImageButton.addActionListener(e -> approveImageAction());
+        partitionedLayout.addComponent(approveImageButton, componentPartition);
+
+        previewLabel = new JLabel();
+        previewLabel.setSize(previewImageMaxLen, previewImageMaxLen);
+        previewLabel.setBorder(previewLabelBorder);
+        partitionedLayout.addComponent(previewLabel, remainingPartition);
+
+        attemptToSetFileAsImage(imageFile);
+
+        pixelFrame.setCyderLayout(partitionedLayout);
+        pixelFrame.finalizeAndShow();
+    }
+
+    /**
+     * The actions to invoke when the approve image button is pressed.
+     */
+    private static void approveImageAction() {
+        String pixelInput = pixelSizeField.getText();
+        if (StringUtil.isNullOrEmpty(pixelInput)) return;
+
+        int pixelSize;
+        try {
+            pixelSize = Integer.parseInt(pixelInput);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            pixelFrame.notify("Could not parse input as an integer:" + pixelInput);
+            return;
+        }
+
+        if (pixelSize == 1) {
+            pixelFrame.notify("Pixel size is already 1");
+            return;
+        }
+
+        BufferedImage currentBufferedImage;
+        try {
+            currentBufferedImage = ImageIO.read(currentFile);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            pixelFrame.notify("Failed to read image file: " + currentFile.getAbsolutePath());
+            return;
+        }
+
+        BufferedImage saveImage = ImageUtil.pixelateImage(currentBufferedImage, pixelSize);
+
+        String currentFilename = FileUtil.getFilename(currentFile);
+        String saveName = currentFilename + PIXELATED_PIXEL_SIZE + pixelSize + "." + ImageUtil.PNG_FORMAT;
+        File saveFile = new File(OsUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+                Console.INSTANCE.getUuid(), UserFile.FILES.getName(), saveName));
+
+        try {
+            ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, saveFile);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            pixelFrame.notify("Failed to write pixelated image");
+            return;
+        }
+
+        pixelFrame.notify("Successfully saved pixelated image to "
+                + StringUtil.getApostrophe(UserUtil.getCyderUser().getName())
+                + " files/ directory");
+    }
+
+    /**
+     * The key listener for the pixel size field.
+     */
+    private static final KeyListener pixelSizeFieldKeyAdapter = new KeyAdapter() {
+        @Override
+        public void keyReleased(KeyEvent e) {
             try {
-                CyderThreadRunner.submit(() -> {
-                    try {
-                        File temp = GetterUtil.getInstance().getFile(
-                                new GetterUtil.Builder("Choose file to resize")
-                                        .setRelativeTo(pixelFrame));
+                String input = pixelSizeField.getText();
+                if (input.isEmpty()) return;
 
-                        if (temp != null && FileUtil.isSupportedImageExtension(temp)) {
-                            currentFile = temp;
-
-                            displayIcon = checkImage(temp);
-                            originalIcon = new ImageIcon(ImageIO.read(temp));
-                            previewLabel.setIcon(displayIcon);
-                            integerField.setCharLimit(String.valueOf(originalIcon.getIconWidth()).length());
-                            previewLabel.revalidate();
-                            pixelFrame.revalidate();
-                            previewLabel.repaint();
-                            pixelFrame.repaint();
-                        } else if (temp != null && !FileUtil.isSupportedImageExtension(temp)) {
-                            currentFile = null;
-                            displayIcon = null;
-                        }
-                    } catch (Exception ex) {
-                        ExceptionHandler.handle(ex);
-                    }
-                }, "wait thread for GetterUtil().getFile()");
-            } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
-            }
-        });
-
-        integerField = new CyderTextField();
-        integerField.setKeyEventRegexMatcher("[0-9]*");
-        integerField.setBounds(300, 100, 200, 40);
-        integerField.setToolTipText("How many old pixels should be combined into a new pixel?");
-        pixelFrame.getContentPane().add(integerField);
-        integerField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
+                int pixelSize = -1;
                 try {
-                    int pixelSize = -1;
-
-                    if (integerField.getText() != null && !integerField.getText().isEmpty()) {
-                        if (Integer.parseInt(integerField.getText()) == 0) {
-                            pixelSize = 1;
-                        } else {
-                            pixelSize = Integer.parseInt(integerField.getText());
-                        }
-                    }
-
-                    displayIcon = new ImageIcon(ImageUtil.pixelateImage(checkImageBi(currentFile), pixelSize));
-                    previewLabel.setIcon(displayIcon);
-                    previewLabel.revalidate();
-                    pixelFrame.revalidate();
+                    pixelSize = Integer.parseInt(pixelSizeField.getText());
                 } catch (Exception ex) {
                     ExceptionHandler.handle(ex);
                 }
-            }
-        });
 
-        CyderButton approveImage = new CyderButton("Approve Image");
-        approveImage.setToolTipText("Saves to downloads folder");
-        approveImage.setBounds(800 - 50 - 200, 100, 200, 40);
-        pixelFrame.getContentPane().add(approveImage);
-        approveImage.addActionListener(e -> {
-            if (integerField.getText() != null && !integerField.getText().isEmpty()) {
-                int pixel = Integer.parseInt(integerField.getText());
-
-                if (pixel > 1) {
-                    try {
-                        BufferedImage saveImage = ImageUtil.pixelateImage(ImageIO.read(currentFile), pixel);
-                        File saveFile = new File(OsUtil.buildPath(
-                                Dynamic.PATH, "users", Console.INSTANCE.getUuid(),
-                                UserFile.FILES.getName(), FileUtil.getFilename(currentFile)
-                                        + "_Pixelated_Pixel_Size_" + pixel + "." + ImageUtil.PNG_FORMAT));
-
-                        ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, saveFile);
-
-                        displayIcon = null;
-                        originalIcon = null;
-                        currentFile = null;
-
-                        previewLabel.setIcon(null);
-
-                        integerField.setText("");
-
-                        pixelFrame.notify("Successfully saved pixelated image to your files/ directory");
-                    } catch (Exception ex) {
-                        ExceptionHandler.handle(ex);
-                    }
+                if (pixelSize == -1) {
+                    pixelFrame.notify("Could not parse input as integer: " + input);
+                    return;
                 }
-            }
-        });
 
-        previewLabel = new JLabel();
-        previewLabel.setBounds(50, 170, 800 - 100, 610);
-        previewLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        pixelFrame.getContentPane().add(previewLabel);
+                if (pixelSize == 0 || pixelSize == 1) return;
 
-        pixelFrame.finalizeAndShow();
+                BufferedImage bufferedImage = ImageUtil.pixelateImage(ImageIO.read(currentFile), pixelSize);
+                currentDisplayImageIcon = ImageUtil.resizeIfLengthExceeded(
+                        ImageUtil.toImageIcon(bufferedImage), previewImageMaxLen);
+                previewLabel.setIcon(currentDisplayImageIcon);
 
-        if (imageFile != null && FileUtil.isSupportedImageExtension(imageFile)) {
-            try {
-                currentFile = imageFile;
-                displayIcon = checkImage(imageFile);
-                previewLabel.setIcon(displayIcon);
-                previewLabel.revalidate();
-                pixelFrame.revalidate();
-                originalIcon = new ImageIcon(ImageIO.read(imageFile));
-                integerField.setCharLimit(String.valueOf(originalIcon.getIconWidth()).length());
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+                repaintPreviewLabelAndFrame();
+            } catch (Exception ex) {
+                ExceptionHandler.handle(ex);
             }
         }
+    };
+
+    /**
+     * The actions to invoke when the choose image button is pressed.
+     */
+    @ForReadability
+    private static void chooseImageButtonAction() {
+        CyderThreadRunner.submit(() -> {
+            File chosenImageFile = GetterUtil.getInstance().getFile(getterUtilBuilder);
+            attemptToSetFileAsImage(chosenImageFile);
+        }, CHOOSE_IMAGE_WAITER_THREAD_NAME);
     }
 
-    private static ImageIcon checkImage(File icon) {
-        ImageIcon ret = null;
+    /**
+     * Attempts to read the provided file and set it as the current image file to be pixelated.
+     *
+     * @param imageFile the file to read and set as the current image file to be pixelated
+     */
+    @ForReadability
+    private static void attemptToSetFileAsImage(File imageFile) {
+        if (imageFile == null || !imageFile.exists() || !FileUtil.isSupportedImageExtension(imageFile)) {
+            currentFile = null;
+            currentDisplayImageIcon = null;
 
-        try {
-            BufferedImage resizedImg = new BufferedImage(700, 610, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2 = resizedImg.createGraphics();
+            repaintPreviewLabelAndFrame();
 
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2.drawImage(ImageIO.read(icon), 0, 0, 700, 610, null);
-            g2.dispose();
-
-            ret = new ImageIcon(resizedImg);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+            return;
         }
 
-        return ret;
+        currentFile = imageFile;
+
+        BufferedImage newBufferedImage;
+        try {
+            newBufferedImage = ImageIO.read(imageFile);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            pixelFrame.notify("Could not read chosen file: " + imageFile.getAbsolutePath());
+            return;
+        }
+
+        currentDisplayImageIcon = ImageUtil.resizeIfLengthExceeded(
+                ImageUtil.toImageIcon(newBufferedImage), previewImageMaxLen);
+        previewLabel.setIcon(currentDisplayImageIcon);
+
+        repaintPreviewLabelAndFrame();
     }
 
-    private static BufferedImage checkImageBi(File icon) {
-        BufferedImage ret = null;
+    /**
+     * Revalidates and repaints the previewLabel and pixelFrame.
+     */
+    @ForReadability
+    private static void repaintPreviewLabelAndFrame() {
+        previewLabel.revalidate();
+        previewLabel.repaint();
 
-        try {
-            BufferedImage resizedImg = new BufferedImage(700, 610, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2 = resizedImg.createGraphics();
-
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2.drawImage(ImageIO.read(icon), 0, 0, 700, 610, null);
-            g2.dispose();
-
-            ret = resizedImg;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return ret;
+        pixelFrame.revalidate();
+        pixelFrame.repaint();
     }
 }

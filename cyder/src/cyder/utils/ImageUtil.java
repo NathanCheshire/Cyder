@@ -1218,4 +1218,31 @@ public final class ImageUtil {
         boolean isAlphaPreMultiplied = colorModel.isAlphaPremultiplied();
         return new BufferedImage(colorModel, image.copyData(null), isAlphaPreMultiplied, null);
     }
+
+    /**
+     * Returns an image icon no bigger than originalIcon x originalIcon.
+     *
+     * @param originalIcon the icon to resize if needed
+     * @param length       the side length of the image
+     * @return a new icon that is guaranteed to be at most originalIcon x originalIcon
+     */
+    public static ImageIcon resizeIfLengthExceeded(ImageIcon originalIcon, int length) {
+        Preconditions.checkNotNull(originalIcon);
+        Preconditions.checkArgument(length > 0);
+
+        BufferedImage bi = ImageUtil.toBufferedImage(originalIcon);
+
+        int width = originalIcon.getIconWidth();
+        int height = originalIcon.getIconHeight();
+
+        if (width > height) {
+            int scaledHeight = length * height / width;
+            return new ImageIcon(bi.getScaledInstance(length, scaledHeight, Image.SCALE_SMOOTH));
+        } else if (height > width) {
+            int scaledWidth = length * width / height;
+            return new ImageIcon(bi.getScaledInstance(scaledWidth, length, Image.SCALE_SMOOTH));
+        } else {
+            return new ImageIcon(bi.getScaledInstance(length, length, Image.SCALE_SMOOTH));
+        }
+    }
 }
