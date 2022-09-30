@@ -1,6 +1,9 @@
 package cyder.widgets;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.console.Console;
@@ -10,6 +13,7 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.parsers.remote.ip.IPData;
 import cyder.parsers.remote.weather.WeatherData;
 import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
@@ -32,7 +36,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Optional;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A clock widget for displaying the current time in a fancy and minimalistic format.
@@ -99,13 +105,37 @@ public final class ClockWidget {
     /**
      * The GMT offset for the current timezone.
      */
-    private static int currentGMTOffset;
+    private static int currentGmtOffset;
 
+    /**
+     * The taskbar button text to spawn a mini clock frame.
+     */
     private static final String MINI = "Mini";
+
+    /**
+     * The tooltip for the mini button.
+     */
     private static final String TOOLTIP = "Spawn a mini clock for the current location";
 
+    /**
+     * The description of this widget.
+     */
     private static final String widgetDescription = "A clock widget capable of spawning"
             + " mini widgets and changing the time zone";
+
+    /**
+     * A joiner for joining strings on commas.
+     */
+    private static final Joiner commaJoiner = Joiner.on(",");
+
+    private static final ImmutableList<String> romanNumerals = ImmutableList.of(
+            "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "I", "II"
+    );
+
+    /**
+     * The widget frame title.
+     */
+    private static final String CLOCK = "Clock";
 
     @Widget(triggers = "clock", description = widgetDescription)
     public static void showGui() {
@@ -118,10 +148,9 @@ public final class ClockWidget {
             showSecondHand = true;
             paintHourLabels = true;
 
-            currentLocation = IPUtil.getIpData().getCity() + ","
-                    + IPUtil.getIpData().getRegion() + ","
-                    + IPUtil.getIpData().getCountry_name();
-            currentGMTOffset = getGmtFromUserLocation();
+            IPData ipData = IPUtil.getIpData();
+            currentLocation = commaJoiner.join(ipData.getCity(), ipData.getRegion(), ipData.getCountry_name());
+            currentGmtOffset = getGmtFromUserLocation();
 
             clockFrame = new CyderFrame(800, 900) {
                 @Override
@@ -130,7 +159,7 @@ public final class ClockWidget {
                     super.dispose();
                 }
             };
-            clockFrame.setTitle("Clock");
+            clockFrame.setTitle(CLOCK);
 
             DragLabelTextButton miniClockButton = DragLabelTextButton.generateTextButton(
                     new DragLabelTextButton.Builder(MINI)
@@ -138,17 +167,20 @@ public final class ClockWidget {
                             .setClickAction(ClockWidget::spawnMiniClock));
             clockFrame.getTopDragLabel().addRightButton(miniClockButton, 0);
 
-            digitalTimeAndDateLabel = new CyderLabel(getTime(currentGMTOffset));
+            digitalTimeAndDateLabel = new CyderLabel(getCurrentTimeAccountingForOffset(currentGmtOffset));
             digitalTimeAndDateLabel.setFont(CyderFonts.DEFAULT_FONT);
             digitalTimeAndDateLabel.setBounds(10, 60, 780, 40);
             clockFrame.getContentPane().add(digitalTimeAndDateLabel);
 
+            int labelLen = 640;
+            float circleDegrees = 360.0f;
+            float oneEightyDegrees = 180.0f;
             clockLabel = new JLabel() {
                 @Override
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
+                    Graphics2D g2d = (Graphics2D) g;
 
-                    int labelLen = 640;
                     int inset = 20;
                     int boxLen = 20;
 
@@ -159,30 +191,26 @@ public final class ClockWidget {
                     int center = labelLen / 2;
 
                     //vars used in if
-                    int numPoints = 12;
+                    int numPoints = romanNumerals.size();
                     double theta = 0.0;
-                    double thetaInc = 360.0 / numPoints;
+                    double thetaInc = circleDegrees / numPoints;
                     if (paintHourLabels) {
-                        //draw numbers in the boxes
-
-                        String[] numerals = {"III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "I", "II"};
-
                         //drawing center points
                         for (int i = 0 ; i < numPoints ; i++) {
-                            double rads = theta * Math.PI / 180.0;
+                            double rads = theta * Math.PI / oneEightyDegrees;
 
                             double x = r * Math.cos(rads);
                             double y = r * Math.sin(rads);
 
-                            Graphics2D g2d = (Graphics2D) g;
                             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                             g2d.setColor(clockColor);
-                            ((Graphics2D) g).setStroke(new BasicStroke(6));
+                            g2d.setStroke(new BasicStroke(6));
+
                             int radius = 20;
                             int topLeftX = (int) (x - radius / 2 + center) + 10;
                             int topleftY = (int) (y - radius / 2 + center);
 
-                            String minText = numerals[i];
+                            String minText = romanNumerals.get(i);
                             g.setColor(clockColor);
                             g.setFont(CyderFonts.DEFAULT_FONT);
                             g.drawString(minText, topLeftX - boxLen / 2, topleftY + boxLen / 2);
@@ -192,12 +220,11 @@ public final class ClockWidget {
                     } else {
                         //drawing center points
                         for (int i = 0 ; i < numPoints ; i++) {
-                            double rads = theta * Math.PI / 180.0;
+                            double rads = theta * Math.PI / oneEightyDegrees;
 
                             double x = r * Math.cos(rads);
                             double y = r * Math.sin(rads);
 
-                            Graphics2D g2d = (Graphics2D) g;
                             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                             g2d.setColor(clockColor);
                             ((Graphics2D) g).setStroke(new BasicStroke(6));
@@ -223,14 +250,12 @@ public final class ClockWidget {
                     int drawToY;
 
                     g.setColor(clockColor);
-                    ((Graphics2D) g).setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                    g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                     theta = (currentHour[0] * 30.0) + 270.0;
+                    theta = MathUtil.convertAngleToStdForm(theta);
 
-                    if (theta > 360.0)
-                        theta -= 360.0;
-
-                    theta = theta * Math.PI / 180.0;
+                    theta = theta * Math.PI / oneEightyDegrees;
 
                     x = r * Math.cos(theta);
                     y = -r * Math.sin(theta);
@@ -239,7 +264,7 @@ public final class ClockWidget {
                     drawToY = -(int) Math.round(y);
 
                     g.setColor(clockColor);
-                    ((Graphics2D) g).setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                    g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                     //draw hour hand
                     g.drawLine(center, center, center + drawToX, center + drawToY);
@@ -281,24 +306,22 @@ public final class ClockWidget {
                     }
 
                     //draw center dot
-                    Graphics2D g2d = (Graphics2D) g;
                     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                     g2d.setColor(CyderColors.navy);
-                    ((Graphics2D) g).setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                    g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+
                     int radius = 20;
+
                     g.fillOval(center - radius / 2, center - radius / 2, radius, radius);
                 }
             };
-            clockLabel.setBounds(80, 100, 640, 640);
+            clockLabel.setBounds(80, 100, labelLen, labelLen);
             clockLabel.setBorder(new LineBorder(CyderColors.navy, 5));
             clockFrame.getContentPane().add(clockLabel);
 
             //figure out starting theta for hour, minute, second
             int hour = Integer.parseInt(TimeUtil.getTime("HH"));
-
-            if (hour >= 12)
-                hour -= 12;
-
+            if (hour >= 12) hour -= 12;
             int minute = Integer.parseInt(TimeUtil.getTime("mm"));
             int second = Integer.parseInt(TimeUtil.getTime("ss"));
 
@@ -308,7 +331,7 @@ public final class ClockWidget {
 
             CyderThreadRunner.submit(() -> {
                 while (shouldUpdate) {
-                    ThreadUtil.sleep(1000);
+                    ThreadUtil.sleep((long) TimeUtil.MILLISECONDS_IN_SECOND);
 
                     //increment seconds
                     currentSecond[0] += 1;
@@ -327,7 +350,7 @@ public final class ClockWidget {
                         }
                     }
 
-                    digitalTimeAndDateLabel.setText(getTime(currentGMTOffset));
+                    digitalTimeAndDateLabel.setText(getCurrentTimeAccountingForOffset(currentGmtOffset));
                     clockLabel.repaint();
                 }
             }, "Clock Widget Updater");
@@ -423,17 +446,18 @@ public final class ClockWidget {
                         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                                 new URL(OpenString).openStream()))) {
                             wd = SerializationUtil.fromJson(reader, WeatherData.class);
-                            currentGMTOffset = Integer.parseInt(String.valueOf(wd.getTimezone())) / 3600;
+                            currentGmtOffset = Integer.parseInt(String.valueOf(wd.getTimezone()))
+                                    / TimeUtil.SECONDS_IN_HOUR;
                             currentLocation = possibleLocation;
 
-                            currentHour[0] = getUnitForCurrentGMT("h");
-                            currentMinute[0] = getUnitForCurrentGMT("m");
-                            currentSecond[0] = getUnitForCurrentGMT("s");
+                            currentHour[0] = getUnitForCurrentGmt("h");
+                            currentMinute[0] = getUnitForCurrentGmt("m");
+                            currentSecond[0] = getUnitForCurrentGmt("s");
 
                             String build = "[" + wd.getCoord().getLat() + "," + wd.getCoord().getLon() + "]";
 
                             clockFrame.notify("Successfully updated location to " + wd.getName()
-                                    + "<br/>GMT: " + currentGMTOffset + "<br/>" + build);
+                                    + "<br/>GMT: " + currentGmtOffset + "<br/>" + build);
                         } catch (Exception exc) {
                             ExceptionHandler.silentHandle(exc);
                             clockFrame.notify("Failed to update location");
@@ -459,68 +483,88 @@ public final class ClockWidget {
      * Spawns a mini clock with its own timer based off of the current location.
      */
     private static void spawnMiniClock() {
-        boolean[] updateMiniClock = {true};
+        AtomicBoolean updateMiniClock = new AtomicBoolean(true);
 
-        CyderFrame miniFrame = new CyderFrame(600, 150) {
+        int miniFrameWidth = 600;
+        int miniFrameHeight = 150;
+        CyderFrame miniFrame = new CyderFrame(miniFrameWidth, miniFrameHeight) {
             @Override
             public void dispose() {
-                updateMiniClock[0] = false;
+                updateMiniClock.set(false);
                 super.dispose();
             }
         };
 
-        miniFrame.setTitle("Timezone: " + "(GMT" + currentGMTOffset + ")");
+        miniFrame.setTitle("Timezone: " + "(" + GMT + currentGmtOffset + ")");
         miniFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
-        JLabel currentTimeLabel = new JLabel(getTime(currentGMTOffset), SwingConstants.CENTER);
+        JLabel currentTimeLabel =
+                new JLabel(getCurrentTimeAccountingForOffset(currentGmtOffset), SwingConstants.CENTER);
         currentTimeLabel.setForeground(CyderColors.navy);
         currentTimeLabel.setFont(CyderFonts.SEGOE_20);
-        currentTimeLabel.setBounds(0, 50, 600, 30);
+        currentTimeLabel.setBounds(0, 50, miniFrameWidth, 30);
         miniFrame.getContentPane().add(currentTimeLabel);
 
         if (!currentLocation.trim().isEmpty()) {
-            String labelText;
-
-            labelText = StringUtil.formatCommas(currentLocation) + " " + ("(GMT" + currentGMTOffset + ")");
+            String labelText = StringUtil.formatCommas(currentLocation) + " " + "(" + GMT + currentGmtOffset + ")";
 
             JLabel locationLabel = new JLabel(labelText, SwingConstants.CENTER);
             locationLabel.setForeground(CyderColors.navy);
             locationLabel.setFont(CyderFonts.SEGOE_20);
-            locationLabel.setBounds(0, 80, 600, 30);
+            locationLabel.setBounds(0, 80, miniFrameWidth, 30);
             miniFrame.getContentPane().add(locationLabel);
         }
 
+        int miniClockUpdateTimeout = 500;
         CyderThreadRunner.submit(() -> {
-            int effectivelyFinal = currentGMTOffset;
-            while (updateMiniClock[0]) {
-                ThreadUtil.sleep(500);
-                currentTimeLabel.setText(getTime(effectivelyFinal));
+            int effectivelyFinal = currentGmtOffset;
+            while (updateMiniClock.get()) {
+                ThreadUtil.sleep(miniClockUpdateTimeout);
+                currentTimeLabel.setText(getCurrentTimeAccountingForOffset(effectivelyFinal));
             }
-        }, "Mini Clock Updater [GMT" + currentGMTOffset + "]");
+        }, "Mini Clock Updater [" + GMT + currentGmtOffset + "]");
 
         miniFrame.setVisible(true);
         miniFrame.setLocationRelativeTo(clockFrame);
     }
 
     /**
-     * Returns the current time accounting for the GMT offset.
+     * The time formatter for getting the current time accounting for the gmt offset.
+     */
+    private static final SimpleDateFormat timeFormatter = TimeUtil.weatherFormat;
+
+    /**
+     * Returns the current time accounting for the GMT offset by adding
+     * the number of hours to the returned time.
      *
      * @param gmtOffsetInHours the GMT offset for the location
      * @return the current time accounting for the GMT offset
      */
-    private static String getTime(int gmtOffsetInHours) {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat dateFormatter = TimeUtil.weatherFormat;
-        dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+    private static String getCurrentTimeAccountingForOffset(int gmtOffsetInHours) {
+        Calendar calendar = Calendar.getInstance();
+
+        timeFormatter.setTimeZone(TimeZone.getTimeZone(GMT));
 
         try {
-            cal.add(Calendar.HOUR, gmtOffsetInHours);
+            calendar.add(Calendar.HOUR, gmtOffsetInHours);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        return dateFormatter.format(cal.getTime());
+        return timeFormatter.format(calendar.getTime());
     }
+
+    /**
+     * The GMT timezone string ID.
+     */
+    private static final String GMT = "GMT";
+
+    /**
+     * The GMT timezone object.
+     */
+    private static final TimeZone gmtTimezone = TimeZone.getTimeZone(GMT);
+
+    // todo should be enum or something like actually passing minute or second
 
     /**
      * Returns the h/m/s provided accounting for the GMT offset
@@ -528,19 +572,24 @@ public final class ClockWidget {
      * @param unit the h, m, or s unit
      * @return the unit accounting for the GMT offset
      */
-    private static int getUnitForCurrentGMT(String unit) {
-        Calendar cal = Calendar.getInstance();
+    private static int getUnitForCurrentGmt(String unit) {
+        Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormatter = new SimpleDateFormat(unit);
-        dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+        dateFormatter.setTimeZone(gmtTimezone);
 
         try {
-            cal.add(Calendar.HOUR, currentGMTOffset);
+            calendar.add(Calendar.HOUR, currentGmtOffset);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        return Integer.parseInt(dateFormatter.format(cal.getTime()));
+        return Integer.parseInt(dateFormatter.format(calendar.getTime()));
     }
+
+    /**
+     * The key for obtaining the weather data key from the props.
+     */
+    private static final String WEATHER_KEY = "weather_key";
 
     /**
      * Returns the GMT based off of the current location.
@@ -548,34 +597,56 @@ public final class ClockWidget {
      * @return the GMT based off of the current location
      */
     private static int getGmtFromUserLocation() {
-        String key = PropLoader.getString("weather_key");
+        String key = PropLoader.getString(WEATHER_KEY);
 
-        if (key.trim().isEmpty()) {
+        if (key.isEmpty()) {
             Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, "
                     + "but the Weather Key has not been set or is invalid"
                     + ", as a result, many features of Cyder will not work as intended. "
                     + "Please see the fields panel of the user editor to learn how to acquire a key"
                     + " and set it.", "Weather Key Not Set");
 
-            currentGMTOffset = 0;
-            currentLocation = "Greenwich, London";
-            return currentGMTOffset;
+            return resetAndGetDefaultGmtOffset();
         }
 
-        String OpenString = CyderUrls.OPEN_WEATHER_BASE +
-                currentLocation + "&appid=" + key + "&units=imperial";
+        Optional<WeatherData> optionalWeatherData = getWeatherData(currentLocation);
+        if (optionalWeatherData.isEmpty()) {
+            return resetAndGetDefaultGmtOffset();
+        }
 
-        WeatherData wd;
+        WeatherData weatherData = optionalWeatherData.get();
+        currentGmtOffset = Integer.parseInt(String.valueOf(weatherData.getTimezone())) / TimeUtil.SECONDS_IN_HOUR;
+        return currentGmtOffset;
+    }
+
+    /**
+     * Returns the weather data object for the provided location string if available. Empty optional else.
+     *
+     * @param locationString the location string such as "Starkville,Ms,USA"
+     * @return the weather data object for the provided location string if available. Empty optional else
+     */
+    private static Optional<WeatherData> getWeatherData(String locationString) {
+        String key = PropLoader.getString(WEATHER_KEY);
+
+        if (key.isEmpty()) {
+            return Optional.empty();
+        }
+
+        String OpenString = CyderUrls.OPEN_WEATHER_BASE + locationString + "&appid=" + key + "&units=imperial";
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()))) {
-            wd = SerializationUtil.fromJson(reader, WeatherData.class);
-            currentGMTOffset = Integer.parseInt(String.valueOf(wd.getTimezone())) / 3600;
+            return Optional.of(SerializationUtil.fromJson(reader, WeatherData.class));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-            currentGMTOffset = 0;
-            currentLocation = "Greenwich, London";
         }
 
-        return currentGMTOffset;
+        return Optional.empty();
+    }
+
+    @ForReadability
+    private static int resetAndGetDefaultGmtOffset() {
+        currentGmtOffset = 0;
+        currentLocation = DEFAULT_LOCATION;
+        return currentGmtOffset;
     }
 }

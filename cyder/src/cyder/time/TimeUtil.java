@@ -61,6 +61,11 @@ public final class TimeUtil {
     public static final double MONTHS_IN_YEAR = 12.0;
 
     /**
+     * The number of seconds in a single hour.
+     */
+    public static final int SECONDS_IN_HOUR = 3600;
+
+    /**
      * The abbreviation for a year.
      */
     public static final String YEAR_ABBREVIATION = "y";
