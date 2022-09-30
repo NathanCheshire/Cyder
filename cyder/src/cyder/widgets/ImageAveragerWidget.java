@@ -27,6 +27,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
@@ -37,11 +39,6 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 @Vanilla
 @CyderAuthor
 public final class ImageAveragerWidget {
-    /**
-     * The list of selected files to average together.
-     */
-    private static ArrayList<File> imageFiles;
-
     /**
      * The scroll label for the selected images.
      */
@@ -163,7 +160,6 @@ public final class ImageAveragerWidget {
     @Widget(triggers = {"average images", "average pictures"}, description = description)
     public static void showGui() {
         UiUtil.closeIfOpen(averagerFrame);
-        imageFiles = new ArrayList<>();
 
         averagerFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
         averagerFrame.setTitle(FRAME_TITLE);
@@ -209,9 +205,16 @@ public final class ImageAveragerWidget {
      */
     @ForReadability
     private static void removeSelectedImagesButtonAction() {
+        LinkedList<String> selectedElements = imagesScroll.getSelectedElements();
+        for (String selectedElement : selectedElements) {
+            currentFiles.remove(selectedElement);
+        }
+
         imagesScroll.removeSelectedElements();
         revalidateImagesScroll();
     }
+
+    private static final HashMap<String, File> currentFiles = new HashMap<>();
 
     /**
      * Revalidates the chosen images scroll view.
@@ -220,10 +223,9 @@ public final class ImageAveragerWidget {
         imagesScroll.removeAllElements();
         imageScrollLabelHolder.remove(imagesScrollLabel);
 
-        imageFiles.forEach(file -> {
-            String name = file.getName();
+        currentFiles.forEach((filename, file) -> {
             Runnable openFileRunnable = () -> IoUtil.openFile(file.getAbsolutePath());
-            imagesScroll.addElement(name, openFileRunnable);
+            imagesScroll.addElement(filename, openFileRunnable);
         });
 
         imagesScroll.setItemAlignment(StyleConstants.ALIGN_LEFT);
@@ -232,8 +234,12 @@ public final class ImageAveragerWidget {
         imageScrollLabelHolder.setBackground(CyderColors.vanilla);
 
         imageScrollLabelHolder.add(imagesScrollLabel);
+
         imageScrollLabelHolder.revalidate();
+        imageScrollLabelHolder.repaint();
+
         averagerFrame.revalidate();
+        averagerFrame.repaint();
     }
 
     /**
@@ -253,7 +259,7 @@ public final class ImageAveragerWidget {
                     return;
                 }
 
-                imageFiles.add(addFile);
+                currentFiles.put(addFile.getName(), addFile);
                 revalidateImagesScroll();
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
@@ -265,26 +271,26 @@ public final class ImageAveragerWidget {
      * Action performed when the user clicks the compute button.
      */
     private static void averageButtonAction() {
-        if (imageFiles.size() < 2) {
+        if (currentFiles.size() < 2) {
             averagerFrame.notify("Please add at least two images");
             return;
         }
 
-        int width = 0;
-        int height = 0;
+        AtomicInteger width = new AtomicInteger();
+        AtomicInteger height = new AtomicInteger();
 
-        for (File file : imageFiles) {
+        currentFiles.forEach((filename, file) -> {
             try {
                 BufferedImage currentImage = ImageIO.read(file);
-                width = Math.max(currentImage.getWidth(), width);
-                height = Math.max(currentImage.getHeight(), height);
+                width.set(Math.max(currentImage.getWidth(), width.get()));
+                height.set(Math.max(currentImage.getHeight(), height.get()));
             } catch (Exception e) {
                 averagerFrame.inform("IO Failure", "Failed to read image file: "
                         + file.getAbsolutePath());
             }
-        }
+        });
 
-        BufferedImage saveImage = computerAverage(width, height);
+        BufferedImage saveImage = computerAverage(width.get(), height.get());
         ImageIcon previewImage = ImageUtil.resizeIfLengthExceeded(new ImageIcon(saveImage), maxImageLength);
 
         String saveImageName = combineImageNames() + "." + ImageUtil.PNG_FORMAT;
@@ -361,7 +367,10 @@ public final class ImageAveragerWidget {
             }
         }
 
-        for (File currentImageFile : imageFiles) {
+        ArrayList<File> averageFiles = new ArrayList<>();
+        currentFiles.forEach((filename, file) -> averageFiles.add(file));
+
+        for (File currentImageFile : averageFiles) {
             BufferedImage currentImage;
             try {
                 currentImage = ImageIO.read(currentImageFile);
@@ -464,11 +473,10 @@ public final class ImageAveragerWidget {
     private static String combineImageNames() {
         StringBuilder ret = new StringBuilder();
 
-        int finalIndex = imageFiles.size() - 1;
+        int finalIndex = currentFiles.size() - 1;
         AtomicInteger currentIndex = new AtomicInteger();
-        imageFiles.forEach(file -> {
-            String filename = FileUtil.getFilename(file.getName());
-            ret.append(filename);
+        currentFiles.forEach((filename, file) -> {
+            ret.append(FileUtil.getFilename(file.getName()));
             if (currentIndex.get() != finalIndex) ret.append(UNDERSCORE);
             currentIndex.getAndIncrement();
         });
