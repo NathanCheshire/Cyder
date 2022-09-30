@@ -2,7 +2,7 @@
 
 By <b>Nate Cheshire</b>
 
-Last updated: 8-11-21
+Last updated: 9-30-21
 
 ## Getting started
 
@@ -156,7 +156,8 @@ Cyder.
 To finalize your frame, make sure to set the frame's visibility and location. Typically in Cyder, component's locations
 are set relatively to the current dominant frame. You don't have to worry about manually invoking these calls, however. `CyderFrame` 
 takes care of this for you via the method `finalizeAndShow()` which performs the required actions and checks for you. Additionally,
-for a sweet enter animation, pass `true` to the `finalizeAndShow()` method.
+if you don't want Cyder to determine where to place the frame, you can provide a `Component` to set the frame relative to or provide
+a `Point` to set the top left of the frame to.
 
 ```java
 cyderFrame.finalizeAndShow();
