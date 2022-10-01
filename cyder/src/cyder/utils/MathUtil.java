@@ -1,15 +1,47 @@
 package cyder.utils;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Range;
+import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
 import java.awt.*;
 
+// todo math package for the below
+// todo geometry util
+// todo interpolation util
+// todo angle util
+
 /**
  * General mathematical functions and methods.
  */
 public final class MathUtil {
+    /**
+     * The number of degrees in a circle.
+     */
+    public static final int DEGREES_IN_CIRCLE = 360;
+
+    /**
+     * One hundred eighty degrees.
+     */
+    public static final int ONE_EIGHTY_DEGREES = 180;
+
+    /**
+     * The standard range of angle measurements in degree form.
+     */
+    public static final Range<Double> DEGREE_RANGE = Range.closedOpen(0d, (double) DEGREES_IN_CIRCLE);
+
+    /**
+     * The range for angles in degree format in the range [0, 180).
+     */
+    public static final Range<Double> ONE_EIGHTY_DEGREE_RANGE = Range.closedOpen(0d, (double) ONE_EIGHTY_DEGREES);
+
+    /**
+     * The standard range of angle measurements in radian form.
+     */
+    public static final Range<Double> RADIAN_RANGE = Range.closedOpen(0d, 2 * Math.PI);
+
     /**
      * Suppress default constructor.
      */
@@ -18,67 +50,74 @@ public final class MathUtil {
     }
 
     /**
-     * Finds the greatest common divisor of the provided integers
+     * Finds the greatest common divisor of the provided integers.
      *
-     * @param a the first integer
-     * @param b the second integer
+     * @param first  the first integer
+     * @param second the second integer
      * @return the greatest common divisor of the provided integers
      */
-    public static int gcd(int a, int b) {
-        if (a < b)
-            return gcd(b, a);
-        if (a % b == 0)
-            return b;
-        else
-            return gcd(b, a % b);
+    public static int gcd(int first, int second) {
+        if (first < second) {
+            return gcd(second, first);
+        }
+        if (first % second == 0) {
+            return second;
+        } else {
+            return gcd(second, first % second);
+        }
     }
 
     /**
-     * Finds the least common multiple of the provided integers
+     * Finds the least common multiple of the provided integers.
      *
-     * @param a the first integer
-     * @param b the second integer
+     * @param first  the first integer
+     * @param second the second integer
      * @return the least common multiple of the provided integers
      */
-    public static int lcm(int a, int b) {
-        return ((a * b) / gcd(a, b));
+    public static int lcm(int first, int second) {
+        return ((first * second) / gcd(first, second));
     }
 
     /**
      * Finds the lcm of the provided array.
      *
-     * @param arr the array to find the lcm of
+     * @param array the array to find the lcm of
      * @return the lcm of the provided array
      */
-    public static int lcmArray(int[] arr) {
-        return lcmArrayInner(arr, 0, arr.length);
+    public static int lcmArray(int[] array) {
+        Preconditions.checkNotNull(array);
+
+        return lcmArrayInner(array, 0, array.length);
     }
 
     /**
-     * Helper method for finding the lcm of an Array
+     * Helper method for finding the lcm of an Array.
      *
-     * @param arr   the array to find the lcm of
+     * @param array the array to find the lcm of
      * @param start the starting index for the array
      * @param end   the ending index for the array
      * @return the lcm of the provided array
      */
-    private static int lcmArrayInner(int[] arr, int start, int end) {
+    @ForReadability
+    private static int lcmArrayInner(int[] array, int start, int end) {
+        Preconditions.checkNotNull(array);
+
         if ((end - start) == 1) {
-            return lcm(arr[start], arr[end - 1]);
+            return lcm(array[start], array[end - 1]);
         } else {
-            return lcm(arr[start], lcmArrayInner(arr, start + 1, end));
+            return lcm(array[start], lcmArrayInner(array, start + 1, end));
         }
     }
 
     /**
-     * Linearly interpolates between v0 and v1 for the provided t value in the range [0,1]
+     * Linearly interpolates between v0 and v1 for the provided t value in the range [0,1].
      *
      * @param v0 the first value
      * @param v1 the second value
      * @param t  the t value in the range [0,1]
      * @return the linearly interpolated value
      */
-    public static float linearInterpolate(float v0, float v1, float t) {
+    public static float linearlyInterpolate(float v0, float v1, float t) {
         return (1 - t) * v0 + t * v1;
     }
 
@@ -90,24 +129,32 @@ public final class MathUtil {
      * @return the new point
      */
     public static Point rotatePoint(Point point, double deg) {
+        Preconditions.checkNotNull(point);
+
+        deg = normalizeAngle360(deg);
         double rad = Math.toRadians(deg);
+
         double sinRad = Math.sin(rad);
         double cosRad = Math.cos(rad);
+
         return new Point((int) (point.x * cosRad - point.y * sinRad), (int) (point.x * sinRad + point.y * cosRad));
     }
 
     /**
      * Determines if the rectangles intersect i.e. overlap each other.
      *
-     * @param r1 the first rectangle
-     * @param r2 the second rectangle
+     * @param rectangle1 the first rectangle
+     * @param rectangle2 the second rectangle
      * @return whether the rectangles intersect each other
      */
-    public static boolean rectanglesOverlap(Rectangle r1, Rectangle r2) {
-        return r2.x < r1.x + r1.width
-                && r2.x + r2.width > r1.x
-                && r2.y < r1.y + r1.height
-                && r2.y + r2.height > r1.y;
+    public static boolean rectanglesOverlap(Rectangle rectangle1, Rectangle rectangle2) {
+        Preconditions.checkNotNull(rectangle1);
+        Preconditions.checkNotNull(rectangle2);
+
+        return rectangle2.x < rectangle1.x + rectangle1.width
+                && rectangle2.x + rectangle2.width > rectangle1.x
+                && rectangle2.y < rectangle1.y + rectangle1.height
+                && rectangle2.y + rectangle2.height > rectangle1.y;
     }
 
     /**
@@ -119,18 +166,14 @@ public final class MathUtil {
     public static int min(int... ints) {
         int min = Integer.MAX_VALUE;
 
-        for (int i : ints)
+        for (int i : ints) {
             if (i < min) {
                 min = i;
             }
+        }
 
         return min;
     }
-
-    /**
-     * The number of degrees in a circle.
-     */
-    public static final int DEGREES_IN_CIRCLE = 360;
 
     /**
      * Converts the angle in degrees to standard form of being in the range [0, 360).
@@ -138,13 +181,9 @@ public final class MathUtil {
      * @param angle the angle in degrees
      * @return the angle in standard form with rotations removed
      */
-    public static int convertAngleToStdForm(int angle) {
+    public static int normalizeAngle360(int angle) {
         angle = angle % DEGREES_IN_CIRCLE;
-
-        if (angle < 0) {
-            angle += DEGREES_IN_CIRCLE;
-        }
-
+        if (angle < 0) angle += DEGREES_IN_CIRCLE;
         return angle;
     }
 
@@ -154,20 +193,28 @@ public final class MathUtil {
      * @param angle the angle in degrees
      * @return the angle in standard form with rotations removed
      */
-    public static double convertAngleToStdForm(double angle) {
+    public static double normalizeAngle360(double angle) {
         angle = angle % DEGREES_IN_CIRCLE;
+        if (angle < 0) angle += DEGREES_IN_CIRCLE;
+        return angle;
+    }
 
-        if (angle < 0) {
-            angle += DEGREES_IN_CIRCLE;
-        }
-
+    /**
+     * Normalizes the provided angle to be in the range [0, 180).
+     *
+     * @param angle the angle to normalize to the range [0, 180)
+     * @return the normalized angle
+     */
+    public static double normalizeAngle180(double angle) {
+        angle = angle % ONE_EIGHTY_DEGREES;
+        if (angle < 0) angle += ONE_EIGHTY_DEGREES;
         return angle;
     }
 
     /**
      * Returns whether the provided point is inside of or on the rectangle.
      *
-     * @param point      the point of interest
+     * @param point  the point of interest
      * @param bounds the bounds to test for the point being inside of or on
      * @return whether the provided point is inside of or on the rectangle
      */
@@ -181,7 +228,7 @@ public final class MathUtil {
     /**
      * Returns whether the provided point is inside of the rectangle.
      *
-     * @param point      the point of interest
+     * @param point  the point of interest
      * @param bounds the rectangle to test for the point being inside of
      * @return whether the provided point is inside of the rectangle
      */
@@ -196,7 +243,7 @@ public final class MathUtil {
     /**
      * Returns whether the provided point is on the rectangle.
      *
-     * @param point the point of interest
+     * @param point  the point of interest
      * @param bounds the rectangle to test for the point being on
      * @return whether the provided point is on the rectangle
      */
@@ -204,16 +251,16 @@ public final class MathUtil {
         Preconditions.checkNotNull(point);
         Preconditions.checkNotNull(bounds);
 
-       return pointOnTopOfRectangle(point,bounds)
-               || pointOnBottomOfRectangle(point,bounds)
-               || pointOnLeftOfRectangle(point,bounds)
-               || pointOnRightOfRectangle(point,bounds);
+        return pointOnTopOfRectangle(point, bounds)
+                || pointOnBottomOfRectangle(point, bounds)
+                || pointOnLeftOfRectangle(point, bounds)
+                || pointOnRightOfRectangle(point, bounds);
     }
 
     /**
      * Returns whether the provided point is on the top line of the rectangle.
      *
-     * @param point the point of interest
+     * @param point  the point of interest
      * @param bounds the rectangle to test for the point being on the top line of
      * @return whether the provided point is on the top line of the rectangle
      */
@@ -229,7 +276,7 @@ public final class MathUtil {
     /**
      * Returns whether the provided point is on the right line of the rectangle.
      *
-     * @param point the point of interest
+     * @param point  the point of interest
      * @param bounds the rectangle to test for the point being on the right line of
      * @return whether the provided point is on the right line of the rectangle
      */
@@ -245,7 +292,7 @@ public final class MathUtil {
     /**
      * Returns whether the provided point is on the left line of the rectangle.
      *
-     * @param point the point of interest
+     * @param point  the point of interest
      * @param bounds the rectangle to test for the point being on the left line of
      * @return whether the provided point is on the left line of the rectangle
      */
@@ -254,14 +301,14 @@ public final class MathUtil {
         Preconditions.checkNotNull(bounds);
 
         return point.x == bounds.x // same x value as left line
-            && point.y >= bounds.y // top most point
-            && point.y <= bounds.y + bounds.height;  // bottom most point
+                && point.y >= bounds.y // top most point
+                && point.y <= bounds.y + bounds.height;  // bottom most point
     }
 
     /**
      * Returns whether the provided point is on the bottom line of the rectangle.
      *
-     * @param point the point of interest
+     * @param point  the point of interest
      * @param bounds the rectangle to test for the point being on the bottom line of
      * @return whether the provided point is on the left bottom of the rectangle
      */

@@ -1192,7 +1192,7 @@ public class WeatherWidget {
      * @return the wind direction string based off of the current wind bearing
      */
     public String getWindDirection(double bearing) {
-        bearing = MathUtil.convertAngleToStdForm(bearing);
+        bearing = MathUtil.normalizeAngle360(bearing);
 
         StringBuilder ret = new StringBuilder();
 

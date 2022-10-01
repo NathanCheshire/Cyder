@@ -128,14 +128,32 @@ public final class ClockWidget {
      */
     private static final Joiner commaJoiner = Joiner.on(",");
 
+    /**
+     * The list of roman numerals, organized by the angle made between the positive x axis.
+     */
     private static final ImmutableList<String> romanNumerals = ImmutableList.of(
             "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "I", "II"
     );
 
     /**
+     * The clock foreground hex color field.
+     */
+    private static CyderTextField hexField;
+
+    /**
      * The widget frame title.
      */
     private static final String CLOCK = "Clock";
+
+    /**
+     * The frame width of the widget.
+     */
+    private static final int FRAME_WIDTH = 500;
+
+    /**
+     * The frame height of the widget.
+     */
+    private static final int FRAME_HEIGHT = 500;
 
     @Widget(triggers = "clock", description = widgetDescription)
     public static void showGui() {
@@ -152,7 +170,7 @@ public final class ClockWidget {
             currentLocation = commaJoiner.join(ipData.getCity(), ipData.getRegion(), ipData.getCountry_name());
             currentGmtOffset = getGmtFromUserLocation();
 
-            clockFrame = new CyderFrame(800, 900) {
+            clockFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT) {
                 @Override
                 public void dispose() {
                     shouldUpdate = false;
@@ -253,7 +271,7 @@ public final class ClockWidget {
                     g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                     theta = (currentHour[0] * 30.0) + 270.0;
-                    theta = MathUtil.convertAngleToStdForm(theta);
+                    theta = MathUtil.normalizeAngle360(theta);
 
                     theta = theta * Math.PI / oneEightyDegrees;
 
@@ -373,27 +391,16 @@ public final class ClockWidget {
             showSecondHandSwitch.setBounds(60 + 40 + 320, 760, 320, 50);
             showSecondHandSwitch.setButtonPercent(50);
             showSecondHandSwitch.setState(CyderSwitch.State.ON);
+            showSecondHandSwitch.getSwitchButton().addActionListener(e -> showSecondHand = !showSecondHand);
             clockFrame.getContentPane().add(showSecondHandSwitch);
 
-            showSecondHandSwitch.getSwitchButton().addActionListener(e -> showSecondHand = !showSecondHand);
-
-            CyderTextField hexField = new CyderTextField(6);
+            hexField = new CyderTextField(6);
             hexField.setHorizontalAlignment(JTextField.CENTER);
             hexField.setText(ColorUtil.rgbToHexString(clockColor));
             hexField.setToolTipText("Clock color");
-            hexField.setKeyEventRegexMatcher("#?[a-fA-F0-9]{0,6}");
+            hexField.setHexColorRegexMatcher();
             hexField.setBounds(240, 830, 140, 40);
-            hexField.addActionListener(e -> {
-                String text = hexField.getText().trim();
-
-                try {
-                    clockColor = ColorUtil.hexStringToColor(text);
-                    hexField.setText(ColorUtil.rgbToHexString(clockColor));
-                    clockLabel.repaint();
-                } catch (Exception ex) {
-                    ExceptionHandler.handle(ex);
-                }
-            });
+            hexField.addActionListener(e -> hexFieldFieldAction());
             clockFrame.getContentPane().add(hexField);
 
             CyderLabel hexLabel = new CyderLabel("Clock Color Hex:");
@@ -477,6 +484,19 @@ public final class ClockWidget {
 
             clockFrame.finalizeAndShow();
         }, "Clock Widget Initializer");
+    }
+
+    @ForReadability
+    private static void hexFieldFieldAction() {
+        String text = hexField.getTrimmedText();
+
+        try {
+            clockColor = ColorUtil.hexStringToColor(text);
+            hexField.setText(ColorUtil.rgbToHexString(clockColor));
+            clockLabel.repaint();
+        } catch (Exception ex) {
+            ExceptionHandler.handle(ex);
+        }
     }
 
     /**

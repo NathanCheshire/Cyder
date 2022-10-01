@@ -353,7 +353,7 @@ public final class ImageUtil {
     public static BufferedImage rotateImage(BufferedImage img, double degrees) {
         Preconditions.checkNotNull(img);
 
-        degrees = MathUtil.convertAngleToStdForm(degrees);
+        degrees = MathUtil.normalizeAngle360(degrees);
 
         double rads = Math.toRadians(degrees);
 
@@ -389,7 +389,7 @@ public final class ImageUtil {
     public static ImageIcon rotateImage(ImageIcon imageIcon, double degrees) {
         BufferedImage img = toBufferedImage(imageIcon);
 
-        degrees = MathUtil.convertAngleToStdForm(degrees);
+        degrees = MathUtil.normalizeAngle360(degrees);
 
         double rads = Math.toRadians(degrees);
 
