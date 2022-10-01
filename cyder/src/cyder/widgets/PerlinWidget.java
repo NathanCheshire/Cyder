@@ -6,6 +6,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.math.NumberUtil;
 import cyder.ui.CyderGrid;
 import cyder.ui.button.CyderButton;
 import cyder.ui.drag.CyderDragLabel;
@@ -14,7 +15,6 @@ import cyder.ui.label.CyderLabel;
 import cyder.ui.selection.CyderCheckbox;
 import cyder.ui.selection.CyderComboBox;
 import cyder.ui.slider.CyderSliderUi;
-import cyder.utils.NumberUtil;
 import cyder.utils.SimplexNoiseUtil;
 import cyder.utils.UiUtil;
 

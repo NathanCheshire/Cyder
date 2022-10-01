@@ -1,4 +1,4 @@
-package cyder.utils;
+package cyder.math;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -7,6 +7,7 @@ import com.google.common.collect.Range;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.utils.StringUtil;
 
 import java.awt.*;
 import java.math.BigInteger;
@@ -431,5 +432,83 @@ public final class NumberUtil {
         }
 
         return Math.sqrt(summedSquares);
+    }
+
+    /**
+     * Finds the minimum of the provided integer array.
+     *
+     * @param ints the array of ints
+     * @return the minimum integer value found
+     */
+    public static int min(int... ints) {
+        int min = Integer.MAX_VALUE;
+
+        for (int i : ints) {
+            if (i < min) {
+                min = i;
+            }
+        }
+
+        return min;
+    }
+
+    /**
+     * Finds the greatest common divisor of the provided integers.
+     *
+     * @param first  the first integer
+     * @param second the second integer
+     * @return the greatest common divisor of the provided integers
+     */
+    public static int gcd(int first, int second) {
+        if (first < second) {
+            return gcd(second, first);
+        }
+        if (first % second == 0) {
+            return second;
+        } else {
+            return gcd(second, first % second);
+        }
+    }
+
+    /**
+     * Finds the least common multiple of the provided integers.
+     *
+     * @param first  the first integer
+     * @param second the second integer
+     * @return the least common multiple of the provided integers
+     */
+    public static int lcm(int first, int second) {
+        return ((first * second) / gcd(first, second));
+    }
+
+    /**
+     * Finds the lcm of the provided array.
+     *
+     * @param array the array to find the lcm of
+     * @return the lcm of the provided array
+     */
+    public static int lcmArray(int[] array) {
+        Preconditions.checkNotNull(array);
+
+        return lcmArrayInner(array, 0, array.length);
+    }
+
+    /**
+     * Helper method for finding the lcm of an Array.
+     *
+     * @param array the array to find the lcm of
+     * @param start the starting index for the array
+     * @param end   the ending index for the array
+     * @return the lcm of the provided array
+     */
+    @ForReadability
+    private static int lcmArrayInner(int[] array, int start, int end) {
+        Preconditions.checkNotNull(array);
+
+        if ((end - start) == 1) {
+            return lcm(array[start], array[end - 1]);
+        } else {
+            return lcm(array[start], lcmArrayInner(array, start + 1, end));
+        }
     }
 }

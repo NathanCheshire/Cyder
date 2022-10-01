@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.utils.MathUtil;
+import cyder.math.InterpolationUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicProgressBarUI;
@@ -214,10 +214,10 @@ public class CyderProgressUI extends BasicProgressBarUI {
             int offset;
             //image drawing offset for completed percent
             if (animationDirection == AnimationDirection.TOP_TO_BOTTOM) {
-                offset = (int) (MathUtil.rangeMap(getAnimationIndex(), 0,
+                offset = (int) (InterpolationUtil.rangeMap(getAnimationIndex(), 0,
                         framesPerSecond, 0, barImage.getHeight()));
             } else {
-                offset = (int) (MathUtil.rangeMap(getAnimationIndex(), 0,
+                offset = (int) (InterpolationUtil.rangeMap(getAnimationIndex(), 0,
                         framesPerSecond, barImage.getHeight(), 0));
             }
 
@@ -249,10 +249,10 @@ public class CyderProgressUI extends BasicProgressBarUI {
             int offset;
             //right to left otherwise left to right, offset for progress image drawing
             if (animationDirection == AnimationDirection.RIGHT_TO_LEFT) {
-                offset = (int) (MathUtil.rangeMap(getAnimationIndex(), 0,
+                offset = (int) (InterpolationUtil.rangeMap(getAnimationIndex(), 0,
                         framesPerSecond, barImage.getWidth(), 0));
             } else {
-                offset = (int) (MathUtil.rangeMap(getAnimationIndex(), 0,
+                offset = (int) (InterpolationUtil.rangeMap(getAnimationIndex(), 0,
                         framesPerSecond, 0, barImage.getWidth()));
             }
 

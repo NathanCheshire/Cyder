@@ -7,6 +7,7 @@ import cyder.enums.Direction;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.math.AngleUtil;
 import cyder.parsers.local.BlurResponse;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.frame.CyderFrame;
@@ -353,7 +354,7 @@ public final class ImageUtil {
     public static BufferedImage rotateImage(BufferedImage img, double degrees) {
         Preconditions.checkNotNull(img);
 
-        degrees = MathUtil.normalizeAngle360(degrees);
+        degrees = AngleUtil.normalizeAngle360(degrees);
 
         double rads = Math.toRadians(degrees);
 
@@ -389,7 +390,7 @@ public final class ImageUtil {
     public static ImageIcon rotateImage(ImageIcon imageIcon, double degrees) {
         BufferedImage img = toBufferedImage(imageIcon);
 
-        degrees = MathUtil.normalizeAngle360(degrees);
+        degrees = AngleUtil.normalizeAngle360(degrees);
 
         double rads = Math.toRadians(degrees);
 

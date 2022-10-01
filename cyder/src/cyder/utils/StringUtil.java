@@ -8,6 +8,7 @@ import cyder.constants.CyderUrls;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.math.NumberUtil;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.youtube.YoutubeConstants;
 import org.atteo.evo.inflector.English;
@@ -1256,7 +1257,7 @@ public class StringUtil {
 
             for (int j = 1 ; j <= lb ; j += 1) {
                 int act = prv + (alpha.charAt(i - 1) == beta.charAt(j - 1) ? 0 : 1);
-                cost[j] = MathUtil.min(1 + (prv = cost[j]), 1 + cost[j - 1], act);
+                cost[j] = NumberUtil.min(1 + (prv = cost[j]), 1 + cost[j - 1], act);
 
                 if (prv < min) {
                     min = prv;

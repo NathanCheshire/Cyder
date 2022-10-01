@@ -13,6 +13,7 @@ import cyder.constants.CyderUrls;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.math.AngleUtil;
 import cyder.parsers.remote.weather.WeatherData;
 import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
@@ -1192,7 +1193,7 @@ public class WeatherWidget {
      * @return the wind direction string based off of the current wind bearing
      */
     public String getWindDirection(double bearing) {
-        bearing = MathUtil.normalizeAngle360(bearing);
+        bearing = AngleUtil.normalizeAngle360(bearing);
 
         StringBuilder ret = new StringBuilder();
 

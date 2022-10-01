@@ -13,6 +13,7 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.math.AngleUtil;
 import cyder.parsers.remote.ip.IPData;
 import cyder.parsers.remote.weather.WeatherData;
 import cyder.props.PropLoader;
@@ -271,7 +272,7 @@ public final class ClockWidget {
                     g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                     theta = (currentHour[0] * 30.0) + 270.0;
-                    theta = MathUtil.normalizeAngle360(theta);
+                    theta = AngleUtil.normalizeAngle360(theta);
 
                     theta = theta * Math.PI / oneEightyDegrees;
 

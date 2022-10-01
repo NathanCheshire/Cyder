@@ -20,6 +20,8 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.LoginHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.math.GeometryUtil;
+import cyder.math.NumberUtil;
 import cyder.props.PropLoader;
 import cyder.test.GuiTests;
 import cyder.threads.CyderThreadRunner;
@@ -513,7 +515,8 @@ public enum Console {
             UiUtil.getCyderFrames().stream()
                     .filter(frame -> frame.isConsolePinned() && !frame.isConsole())
                     .forEach(frame -> {
-                        boolean overlap = MathUtil.rectanglesOverlap(consoleCyderFrame.getBounds(), frame.getBounds());
+                        boolean overlap =
+                                GeometryUtil.rectanglesOverlap(consoleCyderFrame.getBounds(), frame.getBounds());
                         if (overlap) {
                             frame.setRelativeX(-consoleCyderFrame.getX() + frame.getX());
                             frame.setRelativeY(-consoleCyderFrame.getY() + frame.getY());
@@ -1418,7 +1421,7 @@ public enum Console {
                 menuButton.getWidth(),
                 menuButton.getHeight());
 
-        boolean mouseTriggered = MathUtil.pointInOrOnRectangle(
+        boolean mouseTriggered = GeometryUtil.pointInOrOnRectangle(
                 MouseInfo.getPointerInfo().getLocation(), menuButtonBoundsOnScreen);
 
         // if there's a focused item and it wasn't a mouse click
@@ -3290,7 +3293,7 @@ public enum Console {
 
         ImmutableList.copyOf(UiUtil.getCyderFrames().stream()
                 .filter(frame -> frame.isConsole() && !frame.isConsole()
-                        && MathUtil.rectanglesOverlap(consoleCyderFrame.getBounds(), frame.getBounds()))
+                        && GeometryUtil.rectanglesOverlap(consoleCyderFrame.getBounds(), frame.getBounds()))
                 .collect(Collectors.toList())).forEach(frame -> {
             int xOffset = frame.getX() - consoleCyderFrame.getX();
             int yOffset = frame.getY() - consoleCyderFrame.getY();

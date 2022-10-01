@@ -12,11 +12,11 @@ import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.math.NumberUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.BoundsUtil;
-import cyder.utils.NumberUtil;
 import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
