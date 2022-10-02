@@ -260,7 +260,8 @@ public final class ClockWidget {
                     //current theta, and x,y pair to draw from the center to
 
                     //hour hand is decreased by 30%
-                    r = (int) (r * 0.70);
+                    float hourHandRatio = 0.70f;
+                    r = (int) (r * hourHandRatio);
 
                     double x;
                     double y;
@@ -271,7 +272,9 @@ public final class ClockWidget {
                     g.setColor(clockColor);
                     g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
-                    theta = (currentHour[0] * 30.0) + 270.0;
+                    float threeQuartersRatio = 270.0f;
+                    float oneHourAngle = 30.0f;
+                    theta = (currentHour[0] * oneHourAngle) + threeQuartersRatio;
                     theta = AngleUtil.normalizeAngle360(theta);
 
                     theta = theta * Math.PI / oneEightyDegrees;
@@ -289,7 +292,8 @@ public final class ClockWidget {
                     g.drawLine(center, center, center + drawToX, center + drawToY);
 
                     //minute hand is 20% decrease
-                    r = (int) (originalR * 0.80);
+                    float minuteHandRatio = 0.80f;
+                    r = (int) (originalR * minuteHandRatio);
 
                     //current theta, and x,y pair to draw from the center to
                     theta = (currentMinute[0] / 60.0) * Math.PI * 2.0 + Math.PI * 1.5;
@@ -300,17 +304,18 @@ public final class ClockWidget {
                     drawToY = -(int) Math.round(y);
 
                     g.setColor(clockColor);
-                    ((Graphics2D) g).setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                    g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                     //draw minute hand
                     g.drawLine(center, center, center + drawToX, center + drawToY);
 
                     if (showSecondHand) {
                         //second hand is 85% of original r
-                        r = (int) (originalR * 0.85);
+                        float secondHandRatio = 0.85f;
+                        r = (int) (originalR * secondHandRatio);
 
                         //current theta, and x,y pair to draw from the center to
-                        theta = (currentSecond[0] / 60.0) * Math.PI * 2.0 + Math.PI * 1.5;
+                        theta = (currentSecond[0] / TimeUtil.SECONDS_IN_MINUTE) * Math.PI * 2.0f + Math.PI * 1.5;
                         x = r * Math.cos(theta);
                         y = -r * Math.sin(theta);
 
@@ -318,7 +323,7 @@ public final class ClockWidget {
                         drawToY = -(int) Math.round(y);
 
                         g.setColor(clockColor);
-                        ((Graphics2D) g).setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                        g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                         //draw second hand
                         g.drawLine(center, center, center + drawToX, center + drawToY);
@@ -339,10 +344,13 @@ public final class ClockWidget {
             clockFrame.getContentPane().add(clockLabel);
 
             //figure out starting theta for hour, minute, second
-            int hour = Integer.parseInt(TimeUtil.getTime("HH"));
+            String hourDaterPattern = "HH";
+            String minuteDatePattern = "mm";
+            String secondDatePattern = "ss";
+            int hour = Integer.parseInt(TimeUtil.getTime(hourDaterPattern));
             if (hour >= 12) hour -= 12;
-            int minute = Integer.parseInt(TimeUtil.getTime("mm"));
-            int second = Integer.parseInt(TimeUtil.getTime("ss"));
+            int minute = Integer.parseInt(TimeUtil.getTime(minuteDatePattern));
+            int second = Integer.parseInt(TimeUtil.getTime(secondDatePattern));
 
             currentHour[0] = hour;
             currentMinute[0] = minute;
@@ -431,23 +439,23 @@ public final class ClockWidget {
             locationField.setCaretPosition(0);
             locationField.setToolTipText("Current Location");
             locationField.addActionListener(e -> {
-                String possibleLocation = locationField.getText().trim();
+                String possibleLocation = locationField.getTrimmedText();
 
                 if (!possibleLocation.isEmpty()) {
                     try {
-                        String key = PropLoader.getString("weather_key");
+                        String key = PropLoader.getString(WEATHER_KEY);
 
                         if (key.trim().isEmpty()) {
-                            Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, " +
-                                    "but the Weather Key has not been set or is invalid" +
-                                    ", as a result, many features of Cyder will not work as intended. " +
-                                    "Please see the fields panel of the user editor to learn how to acquire " +
-                                    "a key and set it.", "Weather Key Not Set");
+                            Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, "
+                                    + "but the Weather Key has not been set or is invalid"
+                                    + ", as a result, many features of Cyder will not work as intended. "
+                                    + "Please see the fields panel of the user editor to learn how to acquire "
+                                    + "a key and set it.", "Weather Key Not Set");
                             return;
                         }
 
-                        String OpenString = CyderUrls.OPEN_WEATHER_BASE +
-                                possibleLocation + "&appid=" + key + "&units=imperial";
+                        String OpenString = CyderUrls.OPEN_WEATHER_BASE
+                                + possibleLocation + "&appid=" + key + "&units=imperial";
 
                         WeatherData wd;
 
@@ -458,14 +466,14 @@ public final class ClockWidget {
                                     / TimeUtil.SECONDS_IN_HOUR;
                             currentLocation = possibleLocation;
 
-                            currentHour[0] = getUnitForCurrentGmt("h");
-                            currentMinute[0] = getUnitForCurrentGmt("m");
-                            currentSecond[0] = getUnitForCurrentGmt("s");
+                            currentHour[0] = getUnitForCurrentGmt(GmtUnit.HOUR);
+                            currentMinute[0] = getUnitForCurrentGmt(GmtUnit.MINUTE);
+                            currentSecond[0] = getUnitForCurrentGmt(GmtUnit.SECOND);
 
                             String build = "[" + wd.getCoord().getLat() + "," + wd.getCoord().getLon() + "]";
 
                             clockFrame.notify("Successfully updated location to " + wd.getName()
-                                    + "<br/>GMT: " + currentGmtOffset + "<br/>" + build);
+                                    + "<br/>" + GMT + ": " + currentGmtOffset + "<br/>" + build);
                         } catch (Exception exc) {
                             ExceptionHandler.silentHandle(exc);
                             clockFrame.notify("Failed to update location");
@@ -484,8 +492,13 @@ public final class ClockWidget {
             clockFrame.getContentPane().add(locationField);
 
             clockFrame.finalizeAndShow();
-        }, "Clock Widget Initializer");
+        }, CLOCK_WIDGET_INITIALIZER_THREAD_NAME);
     }
+
+    /**
+     * The thread name for the clock widget initializer thread.
+     */
+    private static final String CLOCK_WIDGET_INITIALIZER_THREAD_NAME = "Clock Widget Initializer";
 
     @ForReadability
     private static void hexFieldFieldAction() {
@@ -493,10 +506,11 @@ public final class ClockWidget {
 
         try {
             clockColor = ColorUtil.hexStringToColor(text);
-            hexField.setText(ColorUtil.rgbToHexString(clockColor));
+            String stringRepresentation = ColorUtil.rgbToHexString(clockColor);
+            hexField.setText(stringRepresentation);
             clockLabel.repaint();
-        } catch (Exception ex) {
-            ExceptionHandler.handle(ex);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -587,15 +601,36 @@ public final class ClockWidget {
 
     // todo should be enum or something like actually passing minute or second
 
+    private enum GmtUnit {
+        HOUR("h"),
+        MINUTE("m"),
+        SECOND("s");
+
+        private final String unitString;
+
+        GmtUnit(String unitString) {
+            this.unitString = unitString;
+        }
+
+        /**
+         * Returns the unit string for this gmt unit.
+         *
+         * @return the unit string for this gmt unit
+         */
+        public String getUnitString() {
+            return unitString;
+        }
+    }
+
     /**
      * Returns the h/m/s provided accounting for the GMT offset
      *
-     * @param unit the h, m, or s unit
+     * @param unit the gmt unit, that of hour, minute, or second
      * @return the unit accounting for the GMT offset
      */
-    private static int getUnitForCurrentGmt(String unit) {
+    private static int getUnitForCurrentGmt(GmtUnit unit) {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat(unit);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(unit.getUnitString());
         dateFormatter.setTimeZone(gmtTimezone);
 
         try {
