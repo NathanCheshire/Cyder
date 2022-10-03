@@ -66,6 +66,7 @@ public class Preference {
     public static final String DARK_MODE = "darkmode";
     private static final String WEATHER_MAP = "weathermap";
     private static final String PAINT_CLOCK_LABELS = "paintclocklabels";
+    private static final String SHOW_SECOND_HAND = "showsecondhand";
 
     /*
     Special values.
@@ -313,6 +314,13 @@ public class Preference {
                     () -> {
                         Logger.log(LogTag.PREFERENCE_REFRESH, PAINT_CLOCK_LABELS);
                         ClockWidget.setPaintHourLabels(UserUtil.getCyderUser().getPaintClockLabels().equals("1"));
+                    }),
+
+            new Preference(SHOW_SECOND_HAND, "Show Second Hand",
+                    "Whether to show the second hand on the clock widget", "1",
+                    () -> {
+                        Logger.log(LogTag.PREFERENCE_REFRESH, SHOW_SECOND_HAND);
+                        ClockWidget.setShowSecondHand(UserUtil.getCyderUser().getShowSecondHand().equals("1"));
                     })
 
             /*

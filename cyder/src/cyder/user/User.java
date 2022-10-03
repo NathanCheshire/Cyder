@@ -216,6 +216,11 @@ public class User {
      */
     private String paintClockLabels;
 
+    /**
+     * Whether to show the second hand for the clock widget.
+     */
+    private String showSecondHand;
+
     // -------------------
     // non primitive types
     // -------------------
@@ -641,6 +646,15 @@ public class User {
         return paintClockLabels;
     }
 
+    /**
+     * Returns whether to show the seconds hand for the clock widget.
+     *
+     * @return whether to show the seconds hand for the clock widget
+     */
+    public String getShowSecondHand() {
+        return showSecondHand;
+    }
+
     // -------
     // Setters
     // -------
@@ -1003,6 +1017,15 @@ public class User {
      */
     public void setPaintClockLabels(String paintClockLabels) {
         this.paintClockLabels = paintClockLabels;
+    }
+
+    /**
+     * Sets whether to show the seconds hand for the clock widget.
+     *
+     * @param showSecondHand whether to show the seconds hand for the clock widget
+     */
+    public void setShowSecondHand(String showSecondHand) {
+        this.showSecondHand = showSecondHand;
     }
 
     // -----------

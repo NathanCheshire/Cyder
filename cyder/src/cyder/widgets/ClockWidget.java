@@ -815,7 +815,6 @@ public final class ClockWidget {
             clockLabel.repaint();
         }
     }
-    // todo utilize these and call for update hooks
 
     /**
      * Sets whether the hour labels should be painted.
