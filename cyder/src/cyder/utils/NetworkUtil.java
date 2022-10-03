@@ -447,13 +447,13 @@ public class NetworkUtil {
      * The class name of the html element containing the city, state, and country.
      * This is Tailwind and prone to change.
      */
-    private static final String cityStateCountryClassName = "grid grid-cols-3 gap-2 px-6 pb-6";
+    private static final String cityStateCountryClassName = "grid grid-cols-3 gap-2 pb-6";
 
     /**
      * The class name of the html element containing the host name.
      * (Fiction)
      */
-    private static final String ipHostnameClassName = "prose";
+    private static final String hostnameClassName = "prose";
 
     /**
      * The index of the city element in its parent element.
@@ -471,9 +471,19 @@ public class NetworkUtil {
     private static final int countryIndex = 6;
 
     /**
-     * The index of the ip hostname in its parent element.
+     * The index of the hostname in its parent element.
      */
-    private static final int ipHostnameIndex = 2;
+    private static final int hostnameIndex = 2;
+
+    /**
+     * The class name of the element containing the ip.
+     */
+    private static final String ipElementClassName = "px-14 font-bold break-all";
+
+    /**
+     * The index of the ip element inside its parent.
+     */
+    private static final int ipElementIndex = 0;
 
     /**
      * Returns information about this user's isp, their ip, location, city, state/region, and country.
@@ -507,12 +517,20 @@ public class NetworkUtil {
         String state = cityStateCountryElementAllElements.get(stateIndex).text();
         String country = cityStateCountryElementAllElements.get(countryIndex).text();
 
-        Elements ipHostnameElements = locationDocument.getElementsByClass(ipHostnameClassName);
-        if (ipHostnameElements.size() < ipHostnameIndex) {
-            throw new FatalException("Not enough ip hostname elements");
+        Elements hostnameElements = locationDocument.getElementsByClass(hostnameClassName);
+        if (hostnameElements.size() < hostnameIndex) {
+            throw new FatalException("Not enough hostname elements");
         }
-        String ip = removeTrailingPeriods(filterIp(ipHostnameElements.get(ipHostnameIndex).text()));
-        String hostname = filterHostname(locationDocument.getElementsByClass(ipHostnameClassName).get(3).text());
+
+        String rawHostname = hostnameElements.get(hostnameIndex).text();
+        String hostname = filterHostname(rawHostname);
+
+        Elements ipElements = locationDocument.getElementsByClass(ipElementClassName);
+        if (ipElements.isEmpty()) {
+            throw new FatalException("Not enough ip elements");
+        }
+        Element ipElement = ipElements.get(ipElementIndex);
+        String ip = ipElement.text().replaceAll(nonNumberRegex, "");
 
         return new IspQueryResult(isp, hostname, ip, city, state, country);
     }
@@ -522,31 +540,9 @@ public class NetworkUtil {
      */
     private static final String nonNumberRegex = "[^0-9.]";
 
-    /**
-     * The regex to target duplicate periods, two or more, in a string.
-     */
-    private static final String duplicatePeriodReducerRegex = "[.]{2,}";
-
-    @ForReadability
-    private static String filterIp(String rawClassResult) {
-        return rawClassResult.replaceAll(nonNumberRegex, "")
-                .replaceAll(duplicatePeriodReducerRegex, ".");
-    }
-
     @ForReadability
     private static String filterHostname(String rawClassResult) {
         rawClassResult = rawClassResult.substring(rawClassResult.indexOf("'") + 1);
         return rawClassResult.substring(0, rawClassResult.indexOf("'"));
-    }
-
-    @ForReadability
-    private static String removeTrailingPeriods(final String string) {
-        String ret = string;
-
-        while (ret.endsWith(".")) {
-            ret = ret.substring(0, ret.length() - 2);
-        }
-
-        return ret;
     }
 }
