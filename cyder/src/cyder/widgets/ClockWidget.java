@@ -23,17 +23,13 @@ import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.drag.button.DragLabelTextButton;
-import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
-import cyder.ui.selection.CyderSwitch;
 import cyder.utils.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -89,7 +85,7 @@ public final class ClockWidget {
     /**
      * Whether to update the clock.
      */
-    private static boolean shouldUpdate;
+    private static final AtomicBoolean shouldUpdateWidget = new AtomicBoolean(false);
 
     private static final int[] currentSecond = {0};
     private static final int[] currentMinute = {0};
@@ -139,11 +135,6 @@ public final class ClockWidget {
     );
 
     /**
-     * The clock foreground hex color field.
-     */
-    private static CyderTextField hexField;
-
-    /**
      * The widget frame title.
      */
     private static final String CLOCK = "Clock";
@@ -156,7 +147,7 @@ public final class ClockWidget {
     /**
      * The frame height of the widget.
      */
-    private static final int FRAME_HEIGHT = 500;
+    private static final int FRAME_HEIGHT = 600;
 
     /**
      * The hour date pattern.
@@ -178,6 +169,11 @@ public final class ClockWidget {
      */
     private static final String breakTag = "<br/>";
 
+    /**
+     * The font of the clock label.
+     */
+    private static final Font clockFont = new Font(CyderFonts.AGENCY_FB, Font.BOLD, 26);
+
     @Widget(triggers = "clock", description = widgetDescription)
     public static void showGui() {
         CyderThreadRunner.submit(() -> {
@@ -185,9 +181,7 @@ public final class ClockWidget {
 
             clockColor = CyderColors.getGuiThemeColor();
 
-            shouldUpdate = true;
-            showSecondHand = true;
-            paintHourLabels = true;
+            shouldUpdateWidget.set(true);
 
             IPData ipData = IPUtil.getIpData();
             currentLocation = commaJoiner.join(ipData.getCity(), ipData.getRegion(), ipData.getCountry_name());
@@ -196,21 +190,13 @@ public final class ClockWidget {
             clockFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT) {
                 @Override
                 public void dispose() {
-                    shouldUpdate = false;
+                    shouldUpdateWidget.set(false);
                     super.dispose();
                 }
             };
             clockFrame.setTitle(CLOCK);
 
-            // todo add drag label buttons method
-            DragLabelTextButton miniClockButton = DragLabelTextButton.generateTextButton(
-                    new DragLabelTextButton.Builder(MINI)
-                            .setTooltip(TOOLTIP)
-                            .setClickAction(ClockWidget::spawnMiniClock));
-            clockFrame.getTopDragLabel().addRightButton(miniClockButton, 0);
-
             digitalTimeAndDateLabel = new CyderLabel(getCurrentTimeAccountingForOffset(currentGmtOffset));
-            Font clockFont = new Font(CyderFonts.AGENCY_FB, Font.BOLD, 26);
             digitalTimeAndDateLabel.setFont(clockFont);
             int yPadding = 20;
             int xPadding = 10;
@@ -218,7 +204,8 @@ public final class ClockWidget {
                     FRAME_WIDTH - 2 * xPadding, 40);
             clockFrame.getContentPane().add(digitalTimeAndDateLabel);
 
-            int labelLen = 640;
+            int labelPadding = 20;
+            int labelLen = FRAME_WIDTH - 2 * labelPadding;
             float circleDegrees = 360.0f;
             float oneEightyDegrees = 180.0f;
             clockLabel = new JLabel() {
@@ -366,7 +353,7 @@ public final class ClockWidget {
                     g.fillOval(center - radius / 2, center - radius / 2, radius, radius);
                 }
             };
-            clockLabel.setBounds(80, 100, labelLen, labelLen);
+            clockLabel.setBounds(labelPadding, 100, labelLen, labelLen);
             clockLabel.setBorder(new LineBorder(CyderColors.navy, 5));
             clockFrame.getContentPane().add(clockLabel);
 
@@ -380,7 +367,7 @@ public final class ClockWidget {
             currentSecond[0] = second;
 
             CyderThreadRunner.submit(() -> {
-                while (shouldUpdate) {
+                while (shouldUpdateWidget.get()) {
                     ThreadUtil.sleep((long) TimeUtil.MILLISECONDS_IN_SECOND);
 
                     //increment seconds
@@ -405,134 +392,153 @@ public final class ClockWidget {
                 }
             }, "Clock Widget Updater");
 
-            CyderSwitch paintHourLabelsSwitch = new CyderSwitch(320, 50);
-            paintHourLabelsSwitch.setOnText("Labels");
-            paintHourLabelsSwitch.setOffText("No Labels");
-            paintHourLabelsSwitch.setToolTipText("Paint Hours");
-            paintHourLabelsSwitch.setBounds(60, 760, 320, 50);
-            paintHourLabelsSwitch.setButtonPercent(50);
-            paintHourLabelsSwitch.setState(CyderSwitch.State.ON);
-            clockFrame.getContentPane().add(paintHourLabelsSwitch);
-
-            paintHourLabelsSwitch.getSwitchButton().addActionListener(e -> paintHourLabels = !paintHourLabels);
-
-            CyderSwitch showSecondHandSwitch = new CyderSwitch(320, 50);
-            showSecondHandSwitch.setOnText("Seconds");
-            showSecondHandSwitch.setOffText("No Seconds");
-            showSecondHandSwitch.setToolTipText("Show Second hand");
-            showSecondHandSwitch.setBounds(60 + 40 + 320, 760, 320, 50);
-            showSecondHandSwitch.setButtonPercent(50);
-            showSecondHandSwitch.setState(CyderSwitch.State.ON);
-            showSecondHandSwitch.getSwitchButton().addActionListener(e -> showSecondHand = !showSecondHand);
-            clockFrame.getContentPane().add(showSecondHandSwitch);
-
-            hexField = new CyderTextField(6);
-            hexField.setHorizontalAlignment(JTextField.CENTER);
-            hexField.setText(ColorUtil.rgbToHexString(clockColor));
-            hexField.setToolTipText("Clock color");
-            hexField.setHexColorRegexMatcher();
-            hexField.setBounds(240, 830, 140, 40);
-            hexField.addActionListener(e -> hexFieldFieldAction());
-            clockFrame.getContentPane().add(hexField);
-
-            CyderLabel clockColorHexLabel = new CyderLabel("Clock Color Hex:");
-            clockColorHexLabel.setFont(CyderFonts.DEFAULT_FONT);
-            clockColorHexLabel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    ColorConverterWidget.getInstance().innerShowGui();
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    clockColorHexLabel.setForeground(CyderColors.regularRed);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    clockColorHexLabel.setForeground(CyderColors.navy);
-                }
-            });
-            clockColorHexLabel.setBounds(60, 830,
-                    StringUtil.getMinWidth(clockColorHexLabel.getText(), clockColorHexLabel.getFont()), 40);
-            clockFrame.getContentPane().add(clockColorHexLabel);
-
-            String CURRENT_LOCATION = "Current Location";
-            CyderTextField locationField = new CyderTextField();
-            locationField.setHorizontalAlignment(JTextField.CENTER);
-            locationField.setText(currentLocation);
-            locationField.setCaretPosition(0);
-            locationField.setToolTipText(CURRENT_LOCATION);
-            locationField.addActionListener(e -> {
-                String possibleLocation = locationField.getTrimmedText();
-
-                if (!possibleLocation.isEmpty()) {
-                    try {
-                        Optional<WeatherData> optionalWeatherData = getWeatherData(possibleLocation);
-
-                        if (optionalWeatherData.isEmpty()) {
-                            Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, "
-                                    + "but the Weather Key has not been set or is invalid"
-                                    + ", as a result, many features of Cyder will not work as intended. "
-                                    + "Please see the fields panel of the user editor to learn how to acquire "
-                                    + "a key and set it.", "Weather Key Not Set");
-                            clockFrame.notify("Failed to update location");
-                            locationField.setText(currentLocation);
-                            locationField.setCaretPosition(0);
-                            return;
-                        }
-
-                        WeatherData weatherData = optionalWeatherData.get();
-                        String timezoneString = String.valueOf(weatherData.getTimezone());
-                        // todo throws
-                        currentGmtOffset = Integer.parseInt(timezoneString) / TimeUtil.SECONDS_IN_HOUR;
-                        currentLocation = possibleLocation;
-
-                        currentHour[0] = getUnitForCurrentGmt(GmtUnit.HOUR);
-                        currentMinute[0] = getUnitForCurrentGmt(GmtUnit.MINUTE);
-                        currentSecond[0] = getUnitForCurrentGmt(GmtUnit.SECOND);
-
-                        Coord coord = weatherData.getCoord();
-                        String build = openingBracket + coord.getLat() + "," + coord.getLon() + closingBracket;
-
-                        clockFrame.notify("Successfully updated location to " + weatherData.getName()
-                                + breakTag + GMT + ":" + space + currentGmtOffset + breakTag + build);
-                    } catch (Exception ex) {
-                        ExceptionHandler.silentHandle(ex);
-                        clockFrame.notify("Failed to update location");
-                        locationField.setText(currentLocation);
-                        locationField.setCaretPosition(0);
-                    }
-                }
-            });
-            locationField.setBounds(60 + 40 + 320, 830, 320, 50);
-            clockFrame.getContentPane().add(locationField);
+            installDragLabelButtons();
 
             clockFrame.finalizeAndShow();
         }, CLOCK_WIDGET_INITIALIZER_THREAD_NAME);
+    }
+
+    @ForReadability
+    private static void installDragLabelButtons() {
+        DragLabelTextButton miniClockButton = DragLabelTextButton.generateTextButton(
+                new DragLabelTextButton.Builder(MINI)
+                        .setTooltip(TOOLTIP)
+                        .setClickAction(ClockWidget::spawnMiniClock));
+        clockFrame.getTopDragLabel().addRightButton(miniClockButton, 0);
+
+        DragLabelTextButton colorButton =
+                DragLabelTextButton.generateTextButton(new DragLabelTextButton.Builder(COLOR)
+                        .setTooltip(THEME_COLOR)
+                        .setClickAction(getColorButtonClickRunnable()));
+        clockFrame.getTopDragLabel().addRightButton(colorButton, 0);
+
+        DragLabelTextButton locationButton =
+                DragLabelTextButton.generateTextButton(new DragLabelTextButton.Builder(LOCATION)
+                        .setTooltip(CURRENT_LOCATION)
+                        .setClickAction(getLocationButtonClickRunnable()));
+        clockFrame.getTopDragLabel().addRightButton(locationButton, 0);
+    }
+
+    /**
+     * The location string.
+     */
+    private static final String LOCATION = "Location";
+
+    /**
+     * The current location string.
+     */
+    private static final String CURRENT_LOCATION = "Current Location";
+
+    /**
+     * The set location string.
+     */
+    private static final String SET_LOCATION = "Set location";
+
+    /**
+     * The label text for the getter util for setting the current location.
+     */
+    private static final String locationLabelText = "Time Location<br/>Enter locations separated by commas";
+
+    @ForReadability
+    private static Runnable getLocationButtonClickRunnable() {
+        return () -> CyderThreadRunner.submit(() -> {
+            String possibleLocation = GetterUtil.getInstance().getString(new GetterUtil.Builder(LOCATION)
+                    .setLabelText(locationLabelText)
+                    .setInitialString(currentLocation)
+                    .setSubmitButtonText(SET_LOCATION)
+                    .setRelativeTo(clockFrame)
+                    .setDisableRelativeTo(true));
+
+            if (StringUtil.isNullOrEmpty(possibleLocation)) return;
+
+            Optional<WeatherData> optionalWeatherData = getWeatherData(possibleLocation);
+
+            if (optionalWeatherData.isEmpty()) {
+                Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, "
+                        + "but the Weather Key has not been set or is invalid"
+                        + ", as a result, many features of Cyder will not work as intended. "
+                        + "Please see the fields panel of the user editor to learn how to acquire "
+                        + "a key and set it.", "Weather Key Not Set");
+                clockFrame.notify("Failed to update location");
+                return;
+            }
+
+            WeatherData weatherData = optionalWeatherData.get();
+            String timezoneString = String.valueOf(weatherData.getTimezone());
+
+            int timezoneMinutes;
+            try {
+                timezoneMinutes = Integer.parseInt(timezoneString);
+            } catch (Exception ignored) {
+                clockFrame.notify("Failed to update location");
+                return;
+            }
+            currentGmtOffset = timezoneMinutes / TimeUtil.SECONDS_IN_HOUR;
+            currentLocation = StringUtil.capsFirstWords(possibleLocation);
+
+            currentHour[0] = getUnitForCurrentGmt(GmtUnit.HOUR);
+            currentMinute[0] = getUnitForCurrentGmt(GmtUnit.MINUTE);
+            currentSecond[0] = getUnitForCurrentGmt(GmtUnit.SECOND);
+
+            Coord coord = weatherData.getCoord();
+            String build = openingBracket + coord.getLat() + "," + coord.getLon() + closingBracket;
+
+            clockFrame.notify("Successfully updated location to " + weatherData.getName()
+                    + breakTag + GMT + ":" + space + currentGmtOffset + breakTag + build);
+        }, "tester");
+    }
+
+    /**
+     * The color string.
+     */
+    private static final String COLOR = "Color";
+
+    /**
+     * The theme color string.
+     */
+    private static final String THEME_COLOR = "Theme color";
+
+    /**
+     * The regex for the get string color getter.
+     */
+    private static final String colorThemeFieldRegex = "[A-Fa-f0-9]{0,6}";
+
+    /**
+     * The name for the color theme color getter waiting thread.
+     */
+    private static final String CLOCK_COLOR_THEME_GETTER_WAITER = "Clock Color Theme Getter";
+
+    /**
+     * The builder for getting the theme color.
+     */
+    private static final GetterUtil.Builder themeColorBuilder = new GetterUtil.Builder(THEME_COLOR)
+            .setRelativeTo(clockFrame)
+            .setFieldRegex(colorThemeFieldRegex)
+            .setInitialString(ColorUtil.rgbToHexString(clockColor));
+
+    @ForReadability
+    private static Runnable getColorButtonClickRunnable() {
+        return () -> CyderThreadRunner.submit(() -> {
+            String text = GetterUtil.getInstance().getString(themeColorBuilder).trim();
+            if (StringUtil.isNullOrEmpty(text)) return;
+
+            Color newColor;
+
+            try {
+                newColor = ColorUtil.hexStringToColor(text);
+            } catch (Exception ignored) {
+                clockFrame.notify("Could not parse input for hex color: " + text);
+                return;
+            }
+
+            setClockColor(newColor);
+        }, CLOCK_COLOR_THEME_GETTER_WAITER);
     }
 
     /**
      * The thread name for the clock widget initializer thread.
      */
     private static final String CLOCK_WIDGET_INITIALIZER_THREAD_NAME = "Clock Widget Initializer";
-
-    /**
-     * The actions to take when the enter key is pressed in the hex field.
-     */
-    @ForReadability
-    private static void hexFieldFieldAction() {
-        String text = hexField.getTrimmedText();
-        Color newColor;
-
-        try {
-            newColor = ColorUtil.hexStringToColor(text);
-        } catch (Exception ignored) {
-            return;
-        }
-
-        setClockColor(newColor);
-    }
 
     /**
      * Sets the color of the clock to the provided color.
@@ -542,8 +548,6 @@ public final class ClockWidget {
     @ForReadability
     private static void setClockColor(Color clockColor) {
         ClockWidget.clockColor = clockColor;
-        String stringRepresentation = ColorUtil.rgbToHexString(clockColor);
-        hexField.setText(stringRepresentation);
         clockLabel.repaint();
     }
 
@@ -679,8 +683,9 @@ public final class ClockWidget {
      */
     private static final TimeZone gmtTimezone = TimeZone.getTimeZone(GMT);
 
-    // todo should be enum or something like actually passing minute or second
-
+    /**
+     * Possible gmt units used for hands of the clock.
+     */
     private enum GmtUnit {
         HOUR("h"),
         MINUTE("m"),
@@ -795,5 +800,34 @@ public final class ClockWidget {
         currentGmtOffset = 0;
         currentLocation = DEFAULT_LOCATION;
         return currentGmtOffset;
+    }
+
+    /**
+     * Sets whether to show the second hand.
+     *
+     * @param showSecondHand whether to show the second hand
+     */
+    @ForReadability
+    public static void setShowSecondHand(boolean showSecondHand) {
+        ClockWidget.showSecondHand = showSecondHand;
+
+        if (clockLabel != null && shouldUpdateWidget.get()) {
+            clockLabel.repaint();
+        }
+    }
+    // todo utilize these and call for update hooks
+
+    /**
+     * Sets whether the hour labels should be painted.
+     *
+     * @param paintHourLabels whether the hour labels should be painted
+     */
+    @ForReadability
+    public static void setPaintHourLabels(boolean paintHourLabels) {
+        ClockWidget.paintHourLabels = paintHourLabels;
+
+        if (clockLabel != null && shouldUpdateWidget.get()) {
+            clockLabel.repaint();
+        }
     }
 }

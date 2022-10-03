@@ -8,6 +8,7 @@ import cyder.ui.pane.CyderScrollList;
 import cyder.utils.ColorUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.UiUtil;
+import cyder.widgets.ClockWidget;
 import cyder.widgets.WeatherWidget;
 
 import javax.swing.*;
@@ -64,6 +65,7 @@ public class Preference {
     public static final String WRAP_SHELL = "wrapshell";
     public static final String DARK_MODE = "darkmode";
     private static final String WEATHER_MAP = "weathermap";
+    private static final String PAINT_CLOCK_LABELS = "paintclocklabels";
 
     /*
     Special values.
@@ -304,6 +306,13 @@ public class Preference {
                     () -> {
                         Logger.log(LogTag.PREFERENCE_REFRESH, WEATHER_MAP);
                         WeatherWidget.refreshAllMapBackgrounds();
+                    }),
+
+            new Preference(PAINT_CLOCK_LABELS, "Paint Clock Labels",
+                    "Whether to paint the hour labels on the clock widget", "1",
+                    () -> {
+                        Logger.log(LogTag.PREFERENCE_REFRESH, PAINT_CLOCK_LABELS);
+                        ClockWidget.setPaintHourLabels(UserUtil.getCyderUser().getPaintClockLabels().equals("1"));
                     })
 
             /*

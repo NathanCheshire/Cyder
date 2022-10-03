@@ -198,6 +198,10 @@ public class GetterUtil {
                 CyderTextField inputField = new CyderTextField();
                 inputField.setHorizontalAlignment(JTextField.CENTER);
                 inputField.setBackground(Color.white);
+                String regex = builder.getFieldRegex();
+                if (!StringUtil.isNullOrEmpty(regex)) {
+                    inputField.setKeyEventRegexMatcher(regex);
+                }
 
                 String initialString = builder.getInitialString();
                 if (!StringUtil.isNullOrEmpty(initialString)) inputField.setText(initialString);

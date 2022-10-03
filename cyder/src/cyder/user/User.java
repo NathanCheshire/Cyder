@@ -211,6 +211,11 @@ public class User {
      */
     private String weatherMap;
 
+    /**
+     * Whether to paint the hour labels for the clock widget.
+     */
+    private String paintClockLabels;
+
     // -------------------
     // non primitive types
     // -------------------
@@ -627,6 +632,15 @@ public class User {
         return weatherMap;
     }
 
+    /**
+     * Returns whether to paint the hour labels for the clock widget.
+     *
+     * @return whether to paint the hour labels for the clock widget
+     */
+    public String getPaintClockLabels() {
+        return paintClockLabels;
+    }
+
     // -------
     // Setters
     // -------
@@ -980,6 +994,15 @@ public class User {
      */
     public void setWeatherMap(String weatherMap) {
         this.weatherMap = weatherMap;
+    }
+
+    /**
+     * Sets whether to paint the hour labels for the clock widget.
+     *
+     * @param paintClockLabels whether to paint the hour labels for the clock widget
+     */
+    public void setPaintClockLabels(String paintClockLabels) {
+        this.paintClockLabels = paintClockLabels;
     }
 
     // -----------
