@@ -25,7 +25,7 @@ import static cyder.utils.TemperatureUtil.*;
 
 @Vanilla
 @CyderAuthor
-public class TemperatureWidget {
+public final class TemperatureWidget {
     /**
      * The frame for this widget.
      */

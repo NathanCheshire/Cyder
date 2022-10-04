@@ -2,10 +2,7 @@ package cyder.widgets;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
-import cyder.annotations.CyderAuthor;
-import cyder.annotations.SuppressCyderInspections;
-import cyder.annotations.Vanilla;
-import cyder.annotations.Widget;
+import cyder.annotations.*;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
@@ -42,6 +39,13 @@ import java.util.LinkedList;
 @CyderAuthor
 public final class GameOfLifeWidget {
     /**
+     * Suppress default constructor.
+     */
+    private GameOfLifeWidget() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
+
+    /**
      * The game of life frame.
      */
     private static CyderFrame conwayFrame;
@@ -54,7 +58,7 @@ public final class GameOfLifeWidget {
     /**
      * The button to begin/stop (pause) the simulation.
      */
-    private static CyderButton simulateStopButton;
+    private static CyderButton stopSimulationButton;
 
     /**
      * The checkbox to detect oscillations when the simulation devolves to two state swaps.
@@ -172,19 +176,59 @@ public final class GameOfLifeWidget {
     private static final int MIN_NODES = 50;
 
     /**
-     * Suppress default constructor.
+     * The width of the widget frame.
      */
-    private GameOfLifeWidget() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
+    private static final int FRAME_WIDTH = 600;
 
+    /**
+     * The height of the widget frame.
+     */
+    private static final int FRAME_HEIGHT = 860;
+
+    /**
+     * The reset string.
+     */
+    private static final String RESET = "Reset";
+
+    /**
+     * The simulate string.
+     */
+    private static final String SIMULATE = "Simulate";
+
+    /**
+     * The widget frame title.
+     */
+    private static final String TITLE = "Conway's Game of Life";
+
+    /**
+     * The load string.
+     */
+    private static final String LOAD = "Load";
+
+    /**
+     * The save string.
+     */
+    private static final String SAVE = "Save";
+
+    /**
+     * The clear string.
+     */
+    private static final String CLEAR = "Clear";
+
+    /**
+     * The conway string.
+     */
+    private static final String CONWAY = "conway";
+
+    // todo buttons need to be in better positions and groups
+    // todo notes widget improvements
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
-    @Widget(triggers = {"conway", "conways", "game of life"}, description = "Conway's game of life visualizer")
+    @Widget(triggers = {CONWAY, "conways", "game of life"}, description = "Conway's game of life visualizer")
     public static void showGui() {
         UiUtil.closeIfOpen(conwayFrame);
 
-        conwayFrame = new CyderFrame(600, 860);
-        conwayFrame.setTitle("Conway's Game of Life");
+        conwayFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
+        conwayFrame.setTitle(TITLE);
 
         currentPopulationLabel = new CyderLabel();
         currentPopulationLabel.setBounds(25, CyderDragLabel.DEFAULT_HEIGHT, 240, 30);
@@ -215,32 +259,18 @@ public final class GameOfLifeWidget {
         conwayFrame.getContentPane().add(conwayGrid);
         conwayGrid.setSaveStates(false);
 
-        CyderButton resetButton = new CyderButton("Reset");
+        CyderButton resetButton = new CyderButton(RESET);
         resetButton.setBounds(25 + 15, conwayGrid.getY() + conwayGrid.getHeight() + 10, 160, 40);
         conwayFrame.getContentPane().add(resetButton);
         resetButton.addActionListener(e -> resetToPreviousState());
 
-        simulateStopButton = new CyderButton("Simulate");
-        simulateStopButton.setBounds(25 + 15 + 160 + 20,
+        stopSimulationButton = new CyderButton(SIMULATE);
+        stopSimulationButton.setBounds(25 + 15 + 160 + 20,
                 conwayGrid.getY() + conwayGrid.getHeight() + 10, 160, 40);
-        conwayFrame.getContentPane().add(simulateStopButton);
-        simulateStopButton.addActionListener(e -> {
-            if (simulationRunning) {
-                stop();
-            } else {
-                if (conwayGrid.getNodeCount() > 0) {
-                    simulationRunning = true;
-                    simulateStopButton.setText("Stop");
-                    conwayGrid.uninstallClickAndDragPlacer();
-                    conwayGrid.setResizable(false);
-                    start();
-                } else {
-                    conwayFrame.notify("Place at least one node");
-                }
-            }
-        });
+        conwayFrame.getContentPane().add(stopSimulationButton);
+        stopSimulationButton.addActionListener(e -> stopSimulationButtonAction());
 
-        CyderButton clearButton = new CyderButton("Clear");
+        CyderButton clearButton = new CyderButton(CLEAR);
         clearButton.setBounds(25 + 15 + 160 + 20 + 160 + 20,
                 conwayGrid.getY() + conwayGrid.getHeight() + 10, 160, 40);
         conwayFrame.getContentPane().add(clearButton);
@@ -249,49 +279,22 @@ public final class GameOfLifeWidget {
         loadConwayStates();
 
         presetComboBox = new CyderComboBox(160, 40, comboItems, comboItems.get(0));
-        presetComboBox.getIterationButton().addActionListener(e -> {
-            CyderComboBox.ComboItem nextState = presetComboBox.getNextState();
-
-            for (int i = 0 ; i < comboItems.size() ; i++) {
-                if (comboItems.get(i).equals(nextState)) {
-                    beforeStartingState = new LinkedList<>();
-
-                    for (Point point : correspondingConwayStates.get(i).getNodes()) {
-                        beforeStartingState.add(new CyderGrid.GridNode((int) point.getX(), (int) point.getY()));
-                    }
-
-                    conwayFrame.notify("Loaded state: " + correspondingConwayStates.get(i).getName());
-                    conwayGrid.setNodeDimensionLength(correspondingConwayStates.get(i).getGridSize());
-
-                    break;
-                }
-            }
-
-            resetToPreviousState();
-        });
+        presetComboBox.getIterationButton().addActionListener(e -> presetComboBoxAction());
         presetComboBox.setBounds(25 + 15,
                 conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
         conwayFrame.getContentPane().add(presetComboBox);
 
-        CyderButton saveButton = new CyderButton("Save");
+        CyderButton saveButton = new CyderButton(SAVE);
         saveButton.setBounds(25 + 15 + 160 + 20,
                 conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
         conwayFrame.getContentPane().add(saveButton);
         saveButton.addActionListener(e -> toFile());
 
-        CyderButton loadButton = new CyderButton("Load");
+        CyderButton loadButton = new CyderButton(LOAD);
         loadButton.setBounds(25 + 15 + 160 + 20 + 160 + 20,
                 conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
         conwayFrame.getContentPane().add(loadButton);
-        loadButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
-            File loadFile = GetterUtil.getInstance().getFile(new GetterUtil.Builder("Load state")
-                    .setRelativeTo(conwayFrame));
-
-            if (loadFile != null && loadFile.exists()
-                    && FileUtil.validateExtension(loadFile, ".json")) {
-                fromJson(loadFile);
-            }
-        }, "Conway State Loader"));
+        loadButton.addActionListener(e -> loadButtonAction());
 
         CyderLabel detectOscillationsLabel = new CyderLabel("Oscillations");
         detectOscillationsLabel.setBounds(15,
@@ -350,6 +353,74 @@ public final class GameOfLifeWidget {
     }
 
     /**
+     * The actions to invoke when the present combo box button is clicked.
+     */
+    @ForReadability
+    private static void presetComboBoxAction() {
+        CyderComboBox.ComboItem nextState = presetComboBox.getNextState();
+
+        for (int i = 0 ; i < comboItems.size() ; i++) {
+            if (comboItems.get(i).equals(nextState)) {
+                beforeStartingState = new LinkedList<>();
+
+                correspondingConwayStates.get(i).getNodes().forEach(point ->
+                        beforeStartingState.add(new CyderGrid.GridNode((int) point.getX(), (int) point.getY())));
+
+                conwayFrame.notify("Loaded state: " + correspondingConwayStates.get(i).getName());
+                conwayGrid.setNodeDimensionLength(correspondingConwayStates.get(i).getGridSize());
+
+                break;
+            }
+        }
+
+        resetToPreviousState();
+    }
+
+    /**
+     * The name of the thread which loads conway states.
+     */
+    private static final String CONWAY_STATE_LOADER_THREAD_NAME = "Conway State Loader";
+
+    /**
+     * The actions to invoke when the load button is pressed.
+     */
+    @ForReadability
+    private static void loadButtonAction() {
+        CyderThreadRunner.submit(() -> {
+            File loadFile = GetterUtil.getInstance().getFile(new GetterUtil.Builder("Load state")
+                    .setRelativeTo(conwayFrame));
+
+            if (loadFile != null && loadFile.exists()
+                    && FileUtil.validateExtension(loadFile, JSON_EXTENSION)) {
+                fromJson(loadFile);
+            }
+        }, CONWAY_STATE_LOADER_THREAD_NAME);
+    }
+
+    /**
+     * The stop text.
+     */
+    private static final String STOP = "Stop";
+
+    /**
+     * The actions to invoke when the stop simulation button is clicked.
+     */
+    @ForReadability
+    private static void stopSimulationButtonAction() {
+        if (simulationRunning) {
+            stop();
+        } else if (conwayGrid.getNodeCount() > 0) {
+            simulationRunning = true;
+            stopSimulationButton.setText(STOP);
+            conwayGrid.uninstallClickAndDragPlacer();
+            conwayGrid.setResizable(false);
+            start();
+        } else {
+            conwayFrame.notify("Place at least one node");
+        }
+    }
+
+    /**
      * Resets the simulation and all values back to their default.
      */
     private static void resetSimulation() {
@@ -403,8 +474,7 @@ public final class GameOfLifeWidget {
      * Sets the grid to the state it was in before beginning the simulation.
      */
     private static void resetToPreviousState() {
-        if (beforeStartingState == null)
-            return;
+        if (beforeStartingState == null) return;
 
         stop();
         conwayGrid.setGridState(beforeStartingState);
@@ -420,10 +490,15 @@ public final class GameOfLifeWidget {
      */
     private static void stop() {
         simulationRunning = false;
-        simulateStopButton.setText("Simulate");
+        stopSimulationButton.setText(SIMULATE);
         conwayGrid.installClickAndDragPlacer();
         conwayGrid.setResizable(true);
     }
+
+    /**
+     * The name of the conway simulation thread.
+     */
+    private static final String CONWAY_SIMULATOR_THREAD_NAME = "Conway Simulator";
 
     /**
      * Starts the simulation.
@@ -436,8 +511,7 @@ public final class GameOfLifeWidget {
                 try {
                     LinkedList<CyderGrid.GridNode> nextState = new LinkedList<>();
 
-                    int[][] nextGen = nextGeneration(cyderGridToConwayGrid(
-                            conwayGrid.getGridNodes(), conwayGrid.getNodeDimensionLength()));
+                    int[][] nextGen = nextGeneration(cyderGridToConwayGrid(conwayGrid.getGridNodes()));
                     for (int i = 0 ; i < nextGen.length ; i++) {
                         for (int j = 0 ; j < nextGen[0].length ; j++) {
                             if (nextGen[i][j] == 1) {
@@ -458,8 +532,8 @@ public final class GameOfLifeWidget {
                         return;
                     } else if (nextState.isEmpty()) {
                         conwayFrame.revokeAllNotifications();
-                        conwayFrame.notify("Simulation ended with total " +
-                                "elimination at generation: " + generation);
+                        conwayFrame.notify("Simulation ended with total "
+                                + "elimination at generation: " + generation);
                         stop();
                         return;
                     }
@@ -484,14 +558,12 @@ public final class GameOfLifeWidget {
                     }
 
                     updateLabels();
-
-                    // timeout based on current iterations per second
                     ThreadUtil.sleep(1000 / iterationsPerSecond);
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
             }
-        }, "Conway Simulator");
+        }, CONWAY_SIMULATOR_THREAD_NAME);
     }
 
     /**
@@ -511,10 +583,9 @@ public final class GameOfLifeWidget {
             resetSimulation();
 
             conwayGrid.setNodeDimensionLength(loadState.getGridSize());
+            loadState.getNodes().forEach(point -> conwayGrid.addNode(
+                    new CyderGrid.GridNode((int) point.getX(), (int) point.getY())));
 
-            for (Point p : loadState.getNodes()) {
-                conwayGrid.addNode(new CyderGrid.GridNode((int) p.getX(), (int) p.getY()));
-            }
 
             conwayFrame.notify("Loaded state: " + loadState.getName());
             beforeStartingState = new LinkedList<>(conwayGrid.getGridNodes());
@@ -527,6 +598,16 @@ public final class GameOfLifeWidget {
             conwayFrame.notify("Could not parse json as a valid ConwayState object");
         }
     }
+
+    /**
+     * The name of the thread to save a conway grid state.
+     */
+    private static final String CONWAY_STATE_SAVER_THREAD_NAME = "Conway State Saver";
+
+    /**
+     * The extension for json files.
+     */
+    private static final String JSON_EXTENSION = ".json";
 
     /**
      * Saves the current grid state to a json which can be loaded.
@@ -547,7 +628,7 @@ public final class GameOfLifeWidget {
             if (StringUtil.isNullOrEmpty(saveName))
                 return;
 
-            String filename = saveName + ".json";
+            String filename = saveName + JSON_EXTENSION;
 
             if (OsUtil.isValidFilename(filename)) {
                 File saveFile = UserUtil.createFileInUserSpace(filename);
@@ -572,24 +653,28 @@ public final class GameOfLifeWidget {
             } else {
                 conwayFrame.notify("Invalid save name");
             }
-        }, "Conway State Saver");
+        }, CONWAY_STATE_SAVER_THREAD_NAME);
     }
 
     /**
-     * Converts the CyderGrid nodes to the 2D integer array
+     * Converts the CyderGrid nodes to a 2D integer array
      * needed to compute the next Conway iteration.
      *
      * @param nodes the list of cyder grid nodes
-     * @param len   the dimensional length of the grid
      * @return the 2D array consisting of 1s and 0s
      */
-    private static int[][] cyderGridToConwayGrid(LinkedList<CyderGrid.GridNode> nodes, int len) {
+    private static int[][] cyderGridToConwayGrid(LinkedList<CyderGrid.GridNode> nodes) {
+        int len = conwayGrid.getNodeDimensionLength();
+
         int[][] ret = new int[len][len];
+        nodes.forEach(node -> {
+            int x = node.getX();
+            int y = node.getY();
 
-        for (CyderGrid.GridNode node : nodes) {
-            ret[node.getX()][node.getY()] = 1;
-        }
-
+            if (x < len && y < len) {
+                ret[x][y] = 1;
+            }
+        });
         return ret;
     }
 
@@ -639,14 +724,14 @@ public final class GameOfLifeWidget {
         comboItems = new ArrayList<>();
         correspondingConwayStates = new ArrayList<>();
 
-        File statesDir = StaticUtil.getStaticDirectory("conway");
+        File statesDir = StaticUtil.getStaticDirectory(CONWAY);
 
         if (statesDir.exists()) {
             File[] statesDirFiles = statesDir.listFiles();
 
             if (statesDirFiles != null && statesDirFiles.length > 0) {
                 for (File json : statesDirFiles) {
-                    if (FileUtil.validateExtension(json, ".json")) {
+                    if (FileUtil.validateExtension(json, JSON_EXTENSION)) {
                         try {
                             Reader reader = new FileReader(json);
                             ConwayState loadState = SerializationUtil.fromJson(reader, ConwayState.class);
@@ -667,7 +752,7 @@ public final class GameOfLifeWidget {
     /**
      * An object used to store a Conway's game of life grid state.
      */
-    @SuppressWarnings("ClassCanBeRecord") /* GSON complains */
+    @SuppressWarnings("ClassCanBeRecord") /* GSON */
     @Immutable
     private static class ConwayState {
         private final String name;

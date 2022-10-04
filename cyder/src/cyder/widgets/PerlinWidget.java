@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -144,12 +145,12 @@ public final class PerlinWidget {
     /**
      * The node array to store the open simplex noise.
      */
-    private static CyderGrid.GridNode[][] _3DNoise;
+    private static CyderGrid.GridNode[][] noise3D;
 
     /**
      * The array to store the perlin noise.
      */
-    private static float[] _2DNoise;
+    private static float[] noise2D;
 
     /**
      * The random object used for randomizing the noise seeds.
@@ -182,24 +183,26 @@ public final class PerlinWidget {
     private static boolean closed = true;
 
     /**
+     * The noise string.
+     */
+    private static final String NOISE = "Noise";
+
+    /**
      * Shows the perlin noise widget.
      */
     @Widget(triggers = "perlin", description = "Perlin noise visualizer/open simplex noise visualizer")
     public static void showGui() {
         UiUtil.closeIfOpen(perlinFrame);
 
-        //set closed
         closed = false;
-
-        //init with random
-        _2DNoise = new float[resolution];
-        _3DNoise = new CyderGrid.GridNode[resolution][resolution];
+        noise2D = new float[resolution];
+        noise3D = new CyderGrid.GridNode[resolution][resolution];
 
         timeStep = 0;
 
         for (int x = 0 ; x < resolution ; x++) {
             for (int y = 0 ; y < resolution ; y++) {
-                _3DNoise[x][y] = new CyderGrid.GridNode(x, y);
+                noise3D[x][y] = new CyderGrid.GridNode(x, y);
             }
         }
 
@@ -208,28 +211,23 @@ public final class PerlinWidget {
         timer = new Timer(speedSliderMaxValue - speedSliderValue, animationAction);
 
         for (int i = 0 ; i < resolution ; i++) {
-            _2DNoise[i] = rand.nextFloat();
+            noise2D[i] = rand.nextFloat();
         }
 
         //set seed and octaves
-        for (int i = 0 ; i < resolution ; i++) {
-            for (int j = 0 ; j < resolution ; j++) {
-                instanceSeed[i][j] = rand.nextFloat();
-            }
-        }
+        generateNewSeed();
 
         octaves = 1;
 
         //fill noise based on current session's seed
-        _2DNoise = generate2DNoise(instanceSeed[0], octaves);
+        noise2D = generate2DNoise(instanceSeed[0], octaves);
 
-        //ui constructions
         perlinFrame = new CyderFrame(600 + 10, 750 + CyderDragLabel.DEFAULT_HEIGHT);
-        perlinFrame.setTitle("Noise");
+        perlinFrame.setTitle(NOISE);
 
         perlinFrame.addPreCloseAction(() -> {
-            _2DNoise = null;
-            _3DNoise = null;
+            noise2D = null;
+            noise3D = null;
             closed = true;
 
             if (timer != null && timer.isRunning())
@@ -242,12 +240,10 @@ public final class PerlinWidget {
         noiseLabel = new JLabel() {
             @Override
             public void paint(Graphics g) {
-                if (closed)
-                    return;
+                if (closed) return;
 
                 super.paint(g);
 
-                //setup
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setColor(Color.darkGray);
                 g2d.setStroke(new BasicStroke(2));
@@ -262,7 +258,7 @@ public final class PerlinWidget {
                         if (x + 1 == resolution)
                             break;
 
-                        float y = (float) ((_2DNoise[x] * resolution / 2.0) + resolution / 2.0);
+                        float y = (float) ((noise2D[x] * resolution / 2.0) + resolution / 2.0);
                         int minY = (int) y;
                         int lenDown = 0;
                         //range is between y and resolution
@@ -292,7 +288,7 @@ public final class PerlinWidget {
                 } else {
                     for (int i = 0 ; i < resolution ; i++) {
                         for (int j = 0 ; j < resolution ; j++) {
-                            g2d.setColor(_3DNoise[i][j].getColor());
+                            g2d.setColor(noise3D[i][j].getColor());
                             g2d.fillRect(i, j, 1, 1);
                         }
                     }
@@ -353,9 +349,9 @@ public final class PerlinWidget {
             for (int y = 0 ; y < resolution ; y++) {
                 for (int x = 0 ; x < resolution ; x++) {
                     double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
-                    _3DNoise[x][y].setColor(generateGrayscaleColor(value));
-                    _3DNoise[x][y].setX(x);
-                    _3DNoise[x][y].setY(y);
+                    noise3D[x][y].setColor(generateGrayscaleColor(value));
+                    noise3D[x][y].setX(x);
+                    noise3D[x][y].setY(y);
                 }
             }
             noiseLabel.repaint();
@@ -409,9 +405,9 @@ public final class PerlinWidget {
                 for (int y = 0 ; y < resolution ; y++) {
                     for (int x = 0 ; x < resolution ; x++) {
                         double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
-                        _3DNoise[x][y].setColor(generateGrayscaleColor(value));
-                        _3DNoise[x][y].setX(x);
-                        _3DNoise[x][y].setY(y);
+                        noise3D[x][y].setColor(generateGrayscaleColor(value));
+                        noise3D[x][y].setX(x);
+                        noise3D[x][y].setY(y);
                     }
                 }
 
@@ -428,6 +424,16 @@ public final class PerlinWidget {
     }
 
     /**
+     * The generate string.
+     */
+    private static final String GENERATE = "Generate";
+
+    /**
+     * The stop string.
+     */
+    private static final String STOP = "Stop";
+
+    /**
      * Generates new noise based on the current random seed.
      */
     private static void generate() {
@@ -438,10 +444,10 @@ public final class PerlinWidget {
             if (timer.isRunning()) {
                 timer.stop();
                 unlockUI();
-                generate.setText("Generate");
+                generate.setText(GENERATE);
             } else {
                 lockUI();
-                generate.setText("Stop");
+                generate.setText(STOP);
                 timer.start();
             }
         } else {
@@ -449,21 +455,16 @@ public final class PerlinWidget {
                 if (timer.isRunning()) {
                     timer.stop();
                     unlockUI();
-                    generate.setText("Generate");
+                    generate.setText(GENERATE);
                 }
 
-                //new seed
-                for (int i = 0 ; i < resolution ; i++) {
-                    for (int j = 0 ; j < resolution ; j++) {
-                        instanceSeed[i][j] = rand.nextFloat();
-                    }
-                }
+                generateNewSeed();
 
                 //reset octaves
                 octaves = 1;
 
                 //new noise
-                _2DNoise = generate2DNoise(instanceSeed[0], octaves);
+                noise2D = generate2DNoise(instanceSeed[0], octaves);
             } else {
                 //reset timeStep
                 timeStep = 0;
@@ -472,14 +473,13 @@ public final class PerlinWidget {
                 for (int y = 0 ; y < resolution ; y++) {
                     for (int x = 0 ; x < resolution ; x++) {
                         double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
-                        _3DNoise[x][y].setColor(generateGrayscaleColor(value));
-                        _3DNoise[x][y].setX(x);
-                        _3DNoise[x][y].setY(y);
+                        noise3D[x][y].setColor(generateGrayscaleColor(value));
+                        noise3D[x][y].setX(x);
+                        noise3D[x][y].setY(y);
                     }
                 }
             }
 
-            //repaint
             noiseLabel.repaint();
         }
     }
@@ -488,42 +488,36 @@ public final class PerlinWidget {
      * Generates the new iteration of noise from the current noise.
      */
     private static void nextIteration() {
-        if (closed)
-            return;
+        if (closed) return;
 
         if (comboBox.getCurrentState().equals(twoDimensionState)) {
             //serves no purpose during an animation
-            if (timer != null && timer.isRunning())
-                return;
+            if (timer != null && timer.isRunning()) return;
 
             octaves++;
 
             if (octaves == maxOctaves)
                 octaves = 1;
 
-            _2DNoise = generate2DNoise(instanceSeed[0], octaves);
+            noise2D = generate2DNoise(instanceSeed[0], octaves);
         } else {
             //serves no purpose during an animation
-            if (timer != null && timer.isRunning())
-                return;
+            if (timer != null && timer.isRunning()) return;
 
             timeStep += 0.1;
 
             for (int y = 0 ; y < resolution ; y++) {
                 for (int x = 0 ; x < resolution ; x++) {
-                    // just to be safe
-                    if (closed)
-                        return;
+                    if (closed) return;
 
                     double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
-                    _3DNoise[x][y].setColor(generateGrayscaleColor(value));
-                    _3DNoise[x][y].setX(x);
-                    _3DNoise[x][y].setY(y);
+                    noise3D[x][y].setColor(generateGrayscaleColor(value));
+                    noise3D[x][y].setX(x);
+                    noise3D[x][y].setY(y);
                 }
             }
         }
 
-        //repaint
         noiseLabel.repaint();
     }
 
@@ -542,8 +536,8 @@ public final class PerlinWidget {
             float fScale = 1.0f;
             float fScaleAcc = 0.0f;
 
-            for (int o = 0 ; o < nOctaves ; o++) {
-                int nPitch = resolution >> o; //assuming octaves is a power of 2
+            for (int octave = 0 ; octave < nOctaves ; octave++) {
+                int nPitch = resolution >> octave; /* Assuming octaves is a power of 2 */
                 int nSample1 = (x / nPitch) * nPitch;
                 int nSample2 = (nSample1 + nPitch) % resolution;
 
@@ -564,45 +558,48 @@ public final class PerlinWidget {
      * The function for the timer to invoke when noise animation is enabled.
      */
     private static final ActionListener animationAction = evt -> {
-        if (closed)
-            return;
+        if (closed) return;
 
         octaves++;
 
         if (octaves == maxOctaves) {
             octaves = 1;
-
-            //new seed
-            for (int i = 0 ; i < resolution ; i++) {
-                for (int j = 0 ; j < resolution ; j++) {
-                    instanceSeed[i][j] = rand.nextFloat();
-                }
-            }
+            generateNewSeed();
         }
 
-        //generate new noise based on random seed and update
         if (comboBox.getCurrentState().equals(twoDimensionState)) {
-            _2DNoise = generate2DNoise(instanceSeed[0], octaves);
+            noise2D = generate2DNoise(instanceSeed[0], octaves);
         } else {
             timeStep += 0.1;
 
             for (int y = 0 ; y < resolution ; y++) {
                 for (int x = 0 ; x < resolution ; x++) {
-                    // just to be safe
-                    if (closed)
-                        return;
+                    if (closed) return;
 
                     double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
-                    _3DNoise[x][y].setColor(generateGrayscaleColor(value));
-                    _3DNoise[x][y].setX(x);
-                    _3DNoise[x][y].setY(y);
+                    noise3D[x][y].setColor(generateGrayscaleColor(value));
+                    noise3D[x][y].setX(x);
+                    noise3D[x][y].setY(y);
                 }
             }
         }
 
-        //repaint
         noiseLabel.repaint();
     };
+
+    @ForReadability
+    private static void generateNewSeed() {
+        for (int i = 0 ; i < resolution ; i++) {
+            for (int j = 0 ; j < resolution ; j++) {
+                instanceSeed[i][j] = rand.nextFloat();
+            }
+        }
+    }
+
+    /**
+     * Half of the limit for 8-bit color values.
+     */
+    private static final float halfEightBitColorLimit = 127.5f;
 
     /**
      * Generates a grayscale color from the double value.
@@ -611,7 +608,7 @@ public final class PerlinWidget {
      * @return a grayscale color unique to the double provided
      */
     private static Color generateGrayscaleColor(double value) {
-        return new Color(0x010101 * (int) ((value + 1) * 127.5));
+        return new Color(0x010101 * (int) ((value + 1) * halfEightBitColorLimit));
     }
 
     /**

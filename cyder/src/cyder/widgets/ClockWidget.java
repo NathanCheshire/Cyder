@@ -826,7 +826,6 @@ public final class ClockWidget {
         return currentGmtOffset;
     }
 
-
     @ForReadability
     private static int resetAndGetDefaultGmtOffset() {
         currentGmtOffset = 0;
