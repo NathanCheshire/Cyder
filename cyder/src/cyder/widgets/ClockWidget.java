@@ -197,6 +197,71 @@ public final class ClockWidget {
      */
     private static final int clockLabelLength = FRAME_WIDTH - 2 * clockLabelPadding;
 
+    /**
+     * The hour hand ratio for the radius.
+     */
+    private static final float hourHandRatio = 0.65f;
+
+    /**
+     * The minute hand ratio for the radius.
+     */
+    private static final float minuteHandRatio = 0.75f;
+
+    /**
+     * The second hand ratio for the radius.
+     */
+    private static final float secondHandRatio = 0.80f;
+
+    /**
+     * The radius of the center dot.
+     */
+    private static final int centerDotRadius = 20;
+
+    /**
+     * The additive for the starting y values of numeral labels.
+     */
+    private static final int numeralLabelTopLeftYAdditive = -10;
+
+    /**
+     * The length of hour box labels.
+     */
+    private static final int hourBoxLabelLength = 20;
+
+    /**
+     * The padding between the edges of the clock label and painted attributes.
+     */
+    private static final int innerLabelPadding = 20;
+
+    /**
+     * The maximum radius for clock hands.
+     */
+    private static final int maxHandRadius = (clockLabelLength - innerLabelPadding * 2 - hourBoxLabelLength * 2) / 2;
+
+    /**
+     * The center of the clock label.
+     */
+    private static final int clockLabelCenter = clockLabelLength / 2;
+
+    /**
+     * The increment for painting hours.
+     */
+    private static final double hourThetaInc = AngleUtil.DEGREES_IN_CIRCLE / romanNumerals.size();
+
+    /**
+     * The radius for the hour hand.
+     */
+    private static final int hourHandRadius = (int) (maxHandRadius * hourHandRatio);
+
+    /**
+     * The radius for the minute hand.
+     */
+    private static final int minuteHandRadius = (int) (maxHandRadius * minuteHandRatio);
+
+    /**
+     * The radius for the second hand.
+     */
+    private static final int secondHandRadius = (int) (maxHandRadius * secondHandRatio);
+
     @Widget(triggers = "clock", description = widgetDescription)
     public static void showGui() {
         CyderThreadRunner.submit(() -> {
@@ -212,6 +277,8 @@ public final class ClockWidget {
             currentLocation = commaJoiner.join(ipData.getCity(), ipData.getRegion(), ipData.getCountry_name());
             currentGmtOffset = getGmtFromUserLocation();
 
+            // todo perhaps method to generate a CyderFrame of width and height
+            //  and setters for runnables before/after super.dispose call?
             clockFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT) {
                 @Override
                 public void dispose() {
@@ -234,161 +301,41 @@ public final class ClockWidget {
                     super.paintComponent(g);
                     Graphics2D g2d = (Graphics2D) g;
 
-                    int innerLabelPadding = 20;
-                    int hourLabelLen = 20;
-
-                    int r = (clockLabelLength - innerLabelPadding * 2 - hourLabelLen * 2) / 2;
-                    int originalR = r;
-
-                    //center point to draw our hands from
-                    int labelCenter = clockLabelLength / 2;
-
-                    //vars used in if
-                    int numPoints = romanNumerals.size();
-                    double theta = 0.0;
-                    double thetaInc = AngleUtil.DEGREES_IN_CIRCLE / numPoints;
-                    if (paintHourLabels) {
-                        g2d.setStroke(new BasicStroke(6));
-                        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                        g2d.setColor(clockColor);
-
-                        //drawing center points
-                        for (int i = 0 ; i < numPoints ; i++) {
-                            double radians = theta * Math.PI / AngleUtil.ONE_EIGHTY_DEGREES;
-                            double x = r * Math.cos(radians);
-                            double y = r * Math.sin(radians);
-
-                            int boxLength = 20;
-                            int topLeftX = (int) (x - boxLength / 2 + labelCenter) + 10;
-                            int topleftY = (int) (y - boxLength / 2 + labelCenter);
-
-                            String minText = romanNumerals.get(i);
-
-                            g.setColor(clockColor);
-                            g.setFont(CyderFonts.DEFAULT_FONT);
-                            g.drawString(minText, topLeftX - hourLabelLen / 2, topleftY + hourLabelLen / 2);
-
-                            theta += thetaInc;
-                        }
-                    } else {
-                        g2d.setStroke(new BasicStroke(6));
-                        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                        g2d.setColor(clockColor);
-
-                        //drawing center points
-                        for (int i = 0 ; i < numPoints ; i++) {
-                            double currentRadians = theta * Math.PI / AngleUtil.ONE_EIGHTY_DEGREES;
-                            double x = r * Math.cos(currentRadians);
-                            double y = r * Math.sin(currentRadians);
-
-                            int xAdditive = 0;
-                            int yAdditive = -10;
-                            int topLeftX = (int) (x - hourLabelLen / 2 + labelCenter) + xAdditive;
-                            int topleftY = (int) (y - hourLabelLen / 2 + labelCenter) + yAdditive;
-
-                            g.fillRect(topLeftX, topleftY, hourLabelLen, hourLabelLen);
-
-                            theta += thetaInc;
-                        }
-                    }
-
-                    //current theta, and x,y pair to draw from the center to
-
-                    //hour hand is decreased by 30%
-                    float hourHandRatio = 0.70f;
-                    r = (int) (r * hourHandRatio);
-
-                    double x;
-                    double y;
-
-                    int drawToX;
-                    int drawToY;
-
-                    g.setColor(clockColor);
-                    g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-
-                    float threeQuartersRatio = 270.0f;
-                    float oneHourAngle = 30.0f;
-                    theta = currentHour.get() * oneHourAngle + threeQuartersRatio;
-                    theta = AngleUtil.normalizeAngle360(theta);
-
-                    theta = theta * Math.PI / AngleUtil.ONE_EIGHTY_DEGREES;
-
-                    x = r * Math.cos(theta);
-                    y = -r * Math.sin(theta);
-
-                    drawToX = (int) Math.round(x);
-                    drawToY = -(int) Math.round(y);
-
-                    g.setColor(clockColor);
-                    g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-
-                    //draw hour hand
-                    g.drawLine(labelCenter, labelCenter, labelCenter + drawToX, labelCenter + drawToY);
-
-                    //minute hand is 20% decrease
-                    float minuteHandRatio = 0.80f;
-                    r = (int) (originalR * minuteHandRatio);
-
-                    //current theta, and x,y pair to draw from the center to
-                    theta = (currentMinute.get() / TimeUtil.MINUTES_IN_HOUR) * Math.PI * 2.0 + Math.PI * 1.5;
-                    x = r * Math.cos(theta);
-                    y = -r * Math.sin(theta);
-
-                    drawToX = (int) Math.round(x);
-                    drawToY = -(int) Math.round(y);
-
-                    g.setColor(clockColor);
-                    g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-
-                    //draw minute hand
-                    g.drawLine(labelCenter, labelCenter, labelCenter + drawToX, labelCenter + drawToY);
-
-                    if (showSecondHand) {
-                        //second hand is 85% of original r
-                        float secondHandRatio = 0.85f;
-                        r = (int) (originalR * secondHandRatio);
-
-                        //current theta, and x,y pair to draw from the center to
-                        theta = (currentSecond.get() / TimeUtil.SECONDS_IN_MINUTE) * Math.PI * 2.0f + Math.PI * 1.5;
-                        x = r * Math.cos(theta);
-                        y = -r * Math.sin(theta);
-
-                        drawToX = (int) Math.round(x);
-                        drawToY = -(int) Math.round(y);
-
-                        g.setColor(clockColor);
-                        g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-
-                        //draw second hand
-                        g.drawLine(labelCenter, labelCenter, labelCenter + drawToX, labelCenter + drawToY);
-                    }
-
-                    //draw center dot
+                    g2d.setStroke(new BasicStroke(6));
                     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2d.setColor(CyderColors.navy);
+                    g2d.setColor(clockColor);
+                    g2d.setFont(CyderFonts.DEFAULT_FONT);
+
+                    if (paintHourLabels) {
+                        paintHourLabels(g2d);
+                    } else {
+                        paintHourBoxes(g2d);
+                    }
+
                     g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
-                    int radius = 20;
+                    drawHourHand(g2d);
+                    drawMinuteHand(g2d);
 
-                    g.fillOval(labelCenter - radius / 2, labelCenter - radius / 2, radius, radius);
+                    if (showSecondHand) drawSecondHand(g2d);
+
+                    drawCenterDot(g2d);
                 }
             };
             clockLabel.setBounds(clockLabelPadding, 100, clockLabelLength, clockLabelLength);
             clockLabel.setBorder(new LineBorder(CyderColors.navy, 5));
             clockFrame.getContentPane().add(clockLabel);
 
-            int hour = Integer.parseInt(TimeUtil.getTime(hourDaterPattern));
-            if (hour >= TimeUtil.HOURS_IN_DAY / 2) hour -= (TimeUtil.HOURS_IN_DAY / 2);
-            int minute = Integer.parseInt(TimeUtil.getTime(minuteDatePattern));
-            int second = Integer.parseInt(TimeUtil.getTime(secondDatePattern));
-
+            int hour = Integer.parseInt(TimeUtil.getTime(hourDaterPattern)) % ((int) TimeUtil.HOURS_IN_DAY / 2);
             currentHour.set(hour);
+
+            int minute = Integer.parseInt(TimeUtil.getTime(minuteDatePattern));
             currentMinute.set(minute);
+
+            int second = Integer.parseInt(TimeUtil.getTime(secondDatePattern));
             currentSecond.set(second);
 
             startUpdating();
-
             installDragLabelButtons();
 
             clockFrame.finalizeAndShow();
@@ -396,10 +343,121 @@ public final class ClockWidget {
     }
 
     /**
+     * Draws the hour hand on the clock.
+     *
+     * @param g2d the 2D graphics object
+     */
+    @ForReadability
+    private static void drawHourHand(Graphics2D g2d) {
+        float oneHourAngle = (float) (AngleUtil.DEGREES_IN_CIRCLE / romanNumerals.size());
+        double hourTheta = currentHour.get() * oneHourAngle + AngleUtil.TWO_SEVENTY_DEGREES;
+        hourTheta = AngleUtil.normalizeAngle360(hourTheta) * Math.PI / AngleUtil.ONE_EIGHTY_DEGREES;
+        int hourHandDrawToX = (int) Math.round(hourHandRadius * Math.cos(hourTheta));
+        int hourHandDrawToY = (int) Math.round(hourHandRadius * Math.sin(hourTheta));
+        g2d.drawLine(clockLabelCenter, clockLabelCenter,
+                clockLabelCenter + hourHandDrawToX,
+                clockLabelCenter + hourHandDrawToY);
+    }
+
+    /**
+     * Draws the minute hand on the clock.
+     *
+     * @param g2d the 2D graphics object
+     */
+    @ForReadability
+    private static void drawMinuteHand(Graphics2D g2d) {
+        double minuteTheta = (currentMinute.get() / TimeUtil.MINUTES_IN_HOUR) * Math.PI * 2.0 + Math.PI * 1.5;
+        int minuteHandDrawToX = (int) Math.round(minuteHandRadius * Math.cos(minuteTheta));
+        int minuteHandDrawToY = (int) Math.round(minuteHandRadius * Math.sin(minuteTheta));
+        g2d.drawLine(clockLabelCenter, clockLabelCenter,
+                clockLabelCenter + minuteHandDrawToX,
+                clockLabelCenter + minuteHandDrawToY);
+    }
+
+    /**
+     * Draws the second hand on the clock.
+     *
+     * @param g2d the current 2D graphics object
+     */
+    @ForReadability
+    private static void drawSecondHand(Graphics2D g2d) {
+        double secondTheta = (currentSecond.get() / TimeUtil.SECONDS_IN_MINUTE)
+                * Math.PI * 2.0f + Math.PI * 1.5;
+        int secondHandDrawToX = (int) Math.round(secondHandRadius * Math.cos(secondTheta));
+        int secondHandDrawToY = (int) Math.round(secondHandRadius * Math.sin(secondTheta));
+        g2d.drawLine(clockLabelCenter, clockLabelCenter,
+                clockLabelCenter + secondHandDrawToX,
+                clockLabelCenter + secondHandDrawToY);
+    }
+
+    /**
+     * Draws the center dot on the clock.
+     *
+     * @param g2d the current 2D graphics object
+     */
+    @ForReadability
+    private static void drawCenterDot(Graphics2D g2d) {
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setColor(CyderColors.navy);
+        g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+        g2d.fillOval(clockLabelCenter - centerDotRadius / 2, clockLabelCenter - centerDotRadius / 2,
+                centerDotRadius, centerDotRadius);
+    }
+
+    /**
+     * Draws the hour boxes on the clock.
+     *
+     * @param g2d the current 2D graphics object
+     */
+    @ForReadability
+    private static void paintHourBoxes(Graphics2D g2d) {
+        double hourTheta = 0.0;
+
+        for (int i = 0 ; i < romanNumerals.size() ; i++) {
+            double currentRadians = hourTheta * Math.PI / AngleUtil.ONE_EIGHTY_DEGREES;
+            double x = maxHandRadius * Math.cos(currentRadians);
+            double y = maxHandRadius * Math.sin(currentRadians);
+
+            int topLeftX = (int) (x - hourBoxLabelLength / 2 + clockLabelCenter);
+            int topleftY = (int) (y - hourBoxLabelLength / 2 + clockLabelCenter) + numeralLabelTopLeftYAdditive;
+
+            g2d.fillRect(topLeftX, topleftY, hourBoxLabelLength, hourBoxLabelLength);
+
+            hourTheta += hourThetaInc;
+        }
+    }
+
+    /**
+     * Draws the hour labels on the clock.
+     *
+     * @param g2d the current 2D graphics object
+     */
+    @ForReadability
+    private static void paintHourLabels(Graphics2D g2d) {
+        double hourTheta = 0.0;
+
+        for (int i = 0 ; i < romanNumerals.size() ; i++) {
+            double radians = hourTheta * Math.PI / AngleUtil.ONE_EIGHTY_DEGREES;
+            double x = maxHandRadius * Math.cos(radians);
+            double y = maxHandRadius * Math.sin(radians);
+
+            int topLeftX = (int) (x - hourBoxLabelLength / 2 + clockLabelCenter) + 10;
+            int topleftY = (int) (y - hourBoxLabelLength / 2 + clockLabelCenter);
+
+            String minText = romanNumerals.get(i);
+            g2d.drawString(minText, topLeftX - hourBoxLabelLength / 2,
+                    topleftY + hourBoxLabelLength / 2);
+
+            hourTheta += hourThetaInc;
+        }
+    }
+
+    /**
      * The thread name for the clock time updater.
      */
     private static final String CLOCK_UPDATER_THREAD_NAME = "Clock Time Updater";
 
+    // todo make update quicker and get actual second, min, hour from system time
     @ForReadability
     private static void startUpdating() {
         CyderThreadRunner.submit(() -> {

@@ -15,6 +15,11 @@ public final class AngleUtil {
     public static final double DEGREES_IN_CIRCLE = 360.0;
 
     /**
+     * Two hundred seventy degrees.
+     */
+    public static final double TWO_SEVENTY_DEGREES = 270.0;
+
+    /**
      * One hundred eighty degrees.
      */
     public static final double ONE_EIGHTY_DEGREES = 180.0;
