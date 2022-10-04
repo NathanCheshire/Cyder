@@ -10,9 +10,9 @@ import cyder.exceptions.IllegalMethodException;
 @SuppressWarnings("unused") /* Ranges not currently used */
 public final class AngleUtil {
     /**
-     * The number of degrees in a circle.
+     * Three hundred sixty degrees.
      */
-    public static final double DEGREES_IN_CIRCLE = 360.0;
+    public static final double THREE_SIXTY_DEGREES = 360.0;
 
     /**
      * Two hundred seventy degrees.
@@ -25,9 +25,14 @@ public final class AngleUtil {
     public static final double ONE_EIGHTY_DEGREES = 180.0;
 
     /**
+     * Ninety degrees.
+     */
+    public static final double NINETY_DEGREES = 90.0;
+
+    /**
      * The standard range of angle measurements in degree form.
      */
-    public static final Range<Double> DEGREE_RANGE = Range.closedOpen(0d, DEGREES_IN_CIRCLE);
+    public static final Range<Double> DEGREE_RANGE = Range.closedOpen(0d, THREE_SIXTY_DEGREES);
 
     /**
      * The range for angles in degree format in the range [0, 180).
@@ -53,8 +58,8 @@ public final class AngleUtil {
      * @return the angle in standard form with rotations removed
      */
     public static int normalizeAngle360(int angle) {
-        angle = angle % (int) DEGREES_IN_CIRCLE;
-        if (angle < 0) angle += DEGREES_IN_CIRCLE;
+        angle = angle % (int) THREE_SIXTY_DEGREES;
+        if (angle < 0) angle += THREE_SIXTY_DEGREES;
         return angle;
     }
 
@@ -65,8 +70,8 @@ public final class AngleUtil {
      * @return the angle in standard form with rotations removed
      */
     public static double normalizeAngle360(double angle) {
-        angle = angle % DEGREES_IN_CIRCLE;
-        if (angle < 0) angle += DEGREES_IN_CIRCLE;
+        angle = angle % THREE_SIXTY_DEGREES;
+        if (angle < 0) angle += THREE_SIXTY_DEGREES;
         return angle;
     }
 

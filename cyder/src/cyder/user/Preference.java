@@ -8,8 +8,8 @@ import cyder.ui.pane.CyderScrollList;
 import cyder.utils.ColorUtil;
 import cyder.utils.ReflectionUtil;
 import cyder.utils.UiUtil;
+import cyder.weather.WeatherWidget;
 import cyder.widgets.ClockWidget;
-import cyder.widgets.WeatherWidget;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

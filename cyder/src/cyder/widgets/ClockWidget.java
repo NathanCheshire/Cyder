@@ -1,7 +1,6 @@
 package cyder.widgets;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.ForReadability;
@@ -11,7 +10,6 @@ import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
-import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.AngleUtil;
@@ -28,13 +26,11 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
 import cyder.user.UserUtil;
 import cyder.utils.*;
+import cyder.weather.WeatherUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Optional;
@@ -240,7 +236,7 @@ public final class ClockWidget {
     /**
      * The increment for painting hours.
      */
-    private static final double hourThetaInc = AngleUtil.DEGREES_IN_CIRCLE / romanNumerals.size();
+    private static final double hourThetaInc = AngleUtil.THREE_SIXTY_DEGREES / romanNumerals.size();
 
     /**
      * The radius for the hour hand.
@@ -335,7 +331,7 @@ public final class ClockWidget {
     private static void drawHourHand(Graphics2D g2d) {
         int hour = Integer.parseInt(TimeUtil.getTime(hourDaterPattern)) % ((int) TimeUtil.HOURS_IN_DAY / 2);
 
-        float oneHourAngle = (float) (AngleUtil.DEGREES_IN_CIRCLE / romanNumerals.size());
+        float oneHourAngle = (float) (AngleUtil.THREE_SIXTY_DEGREES / romanNumerals.size());
         double hourTheta = hour * oneHourAngle + AngleUtil.TWO_SEVENTY_DEGREES;
         hourTheta = AngleUtil.normalizeAngle360(hourTheta) * Math.PI / AngleUtil.ONE_EIGHTY_DEGREES;
         int hourHandDrawToX = (int) Math.round(hourHandRadius * Math.cos(hourTheta));
@@ -516,7 +512,7 @@ public final class ClockWidget {
 
             if (StringUtil.isNullOrEmpty(possibleLocation)) return;
 
-            Optional<WeatherData> optionalWeatherData = getWeatherData(possibleLocation);
+            Optional<WeatherData> optionalWeatherData = WeatherUtil.getWeatherData(possibleLocation);
 
             if (optionalWeatherData.isEmpty()) {
                 Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, "
@@ -803,17 +799,12 @@ public final class ClockWidget {
     }
 
     /**
-     * The key for obtaining the weather data key from the props.
-     */
-    private static final String WEATHER_KEY = "weather_key";
-
-    /**
      * Returns the GMT based off of the current location.
      *
      * @return the GMT based off of the current location
      */
     private static int getGmtFromUserLocation() {
-        String key = PropLoader.getString(WEATHER_KEY);
+        String key = PropLoader.getString(WeatherUtil.WEATHER_KEY);
 
         if (key.isEmpty()) {
             Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, "
@@ -825,7 +816,7 @@ public final class ClockWidget {
             return resetAndGetDefaultGmtOffset();
         }
 
-        Optional<WeatherData> optionalWeatherData = getWeatherData(currentLocation);
+        Optional<WeatherData> optionalWeatherData = WeatherUtil.getWeatherData(currentLocation);
         if (optionalWeatherData.isEmpty()) {
             return resetAndGetDefaultGmtOffset();
         }
@@ -835,75 +826,6 @@ public final class ClockWidget {
         return currentGmtOffset;
     }
 
-    /**
-     * The app id argument.
-     */
-    private static final String APP_ID = "&appid=";
-
-    /**
-     * The units argument for the weather data.
-     */
-    private static final String UNITS_ARG = "&units=";
-
-    /**
-     * Possible measurement scales, that of imperial or metric.
-     */
-    private enum MeasurementScale {
-        /**
-         * The imperial measurement scale.
-         */
-        IMPERIAL("imperial"),
-
-        /**
-         * The metric measurement scale.
-         */
-        METRIC("metric");
-
-        private final String weatherDataRepresentation;
-
-        MeasurementScale(String weatherDataRepresentation) {
-            this.weatherDataRepresentation = weatherDataRepresentation;
-        }
-
-        /**
-         * Returns the weather data representation for this measurement scale.
-         *
-         * @return the weather data representation for this measurement scale
-         */
-        public String getWeatherDataRepresentation() {
-            return weatherDataRepresentation;
-        }
-    }
-
-    // todo weather util? weather package soon
-
-    /**
-     * Returns the weather data object for the provided location string if available. Empty optional else.
-     *
-     * @param locationString the location string such as "Starkville,Ms,USA"
-     * @return the weather data object for the provided location string if available. Empty optional else
-     */
-    private static Optional<WeatherData> getWeatherData(String locationString) {
-        Preconditions.checkNotNull(locationString);
-        Preconditions.checkArgument(!locationString.isEmpty());
-
-        String weatherKey = PropLoader.getString(WEATHER_KEY);
-
-        if (weatherKey.isEmpty()) {
-            return Optional.empty();
-        }
-
-        String OpenString = CyderUrls.OPEN_WEATHER_BASE + locationString + APP_ID
-                + weatherKey + UNITS_ARG + MeasurementScale.IMPERIAL.getWeatherDataRepresentation();
-
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()))) {
-            return Optional.of(SerializationUtil.fromJson(reader, WeatherData.class));
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return Optional.empty();
-    }
 
     @ForReadability
     private static int resetAndGetDefaultGmtOffset() {

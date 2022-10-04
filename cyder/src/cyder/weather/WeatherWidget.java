@@ -1,4 +1,4 @@
-package cyder.widgets;
+package cyder.weather;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
@@ -9,7 +9,6 @@ import cyder.annotations.Widget;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.constants.CyderUrls;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -26,15 +25,8 @@ import cyder.utils.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -1022,40 +1014,29 @@ public class WeatherWidget {
 
             if (!useCustomLoc) currentLocationString = userCity + ", " + userState + ", " + userCountry;
 
-            String key = PropLoader.getString("weather_key");
-            String urlString = CyderUrls.OPEN_WEATHER_BASE +
-                    currentLocationString + "&appid=" + key + "&units=imperial";
-
-            WeatherData wd = null;
-            try (BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(new URL(urlString).openStream()))) {
-                wd = SerializationUtil.fromJson(reader, WeatherData.class);
-            } catch (FileNotFoundException e) {
-                // Invalid custom location so go back to the old one
+            Optional<WeatherData> optionalWeatherData = WeatherUtil.getWeatherData(currentLocationString);
+            if (optionalWeatherData.isEmpty()) {
                 weatherFrame.notify("Sorry, but that location is invalid");
                 currentLocationString = previousLocationString;
                 useCustomLoc = false;
-                ExceptionHandler.silentHandle(e);
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+                return;
             }
 
-            if (wd == null) return;
-
-            sunriseMillis = String.valueOf(wd.getSys().getSunrise());
-            sunsetMillis = String.valueOf(wd.getSys().getSunset());
-            weatherIconId = wd.getWeather().get(0).getIcon();
-            windSpeed = wd.getWind().getSpeed();
-            windBearing = wd.getWind().getDeg();
-            weatherCondition = wd.getWeather().get(0).getDescription();
-            pressure = wd.getMain().getPressure();
-            humidity = wd.getMain().getHumidity();
-            temperature = wd.getMain().getTemp();
-            weatherDataGmtOffset = String.valueOf(wd.getTimezone());
-            minTemp = wd.getMain().getTemp_min();
-            maxTemp = wd.getMain().getTemp_max();
-            lat = wd.getCoord().getLat();
-            lon = wd.getCoord().getLon();
+            WeatherData weatherData = optionalWeatherData.get();
+            sunriseMillis = String.valueOf(weatherData.getSys().getSunrise());
+            sunsetMillis = String.valueOf(weatherData.getSys().getSunset());
+            weatherIconId = weatherData.getWeather().get(0).getIcon();
+            windSpeed = weatherData.getWind().getSpeed();
+            windBearing = weatherData.getWind().getDeg();
+            weatherCondition = weatherData.getWeather().get(0).getDescription();
+            pressure = weatherData.getMain().getPressure();
+            humidity = weatherData.getMain().getHumidity();
+            temperature = weatherData.getMain().getTemp();
+            weatherDataGmtOffset = String.valueOf(weatherData.getTimezone());
+            minTemp = weatherData.getMain().getTemp_min();
+            maxTemp = weatherData.getMain().getTemp_max();
+            lat = weatherData.getCoord().getLat();
+            lon = weatherData.getCoord().getLon();
 
             refreshMapBackground();
 
@@ -1140,9 +1121,7 @@ public class WeatherWidget {
      * Refreshes the map background of all weather instances.
      */
     public static void refreshAllMapBackgrounds() {
-        for (WeatherWidget weatherWidget : instances) {
-            weatherWidget.refreshMapBackground();
-        }
+        instances.forEach(WeatherWidget::refreshMapBackground);
     }
 
     /**
@@ -1200,17 +1179,17 @@ public class WeatherWidget {
         if (inNorthernHemisphere(bearing)) {
             ret.append(NORTH);
 
-            if (bearing > NINETY_DEG) {
+            if (bearing > AngleUtil.NINETY_DEGREES) {
                 ret.append(WEST);
-            } else if (bearing < NINETY_DEG) {
+            } else if (bearing < AngleUtil.NINETY_DEGREES) {
                 ret.append(EAST);
             }
         } else if (inSouthernHemisphere(bearing)) {
             ret.append(SOUTH);
 
-            if (bearing < TWO_SEVENTY_DEG) {
+            if (bearing < AngleUtil.TWO_SEVENTY_DEGREES) {
                 ret.append(WEST);
-            } else if (bearing > TWO_SEVENTY_DEG) {
+            } else if (bearing > AngleUtil.TWO_SEVENTY_DEGREES) {
                 ret.append(EAST);
             }
         } else if (isEast(bearing)) {
@@ -1222,19 +1201,14 @@ public class WeatherWidget {
         return ret.toString();
     }
 
-    private static final double NINETY_DEG = 90.0;
-    private static final double ONE_EIGHTY_DEG = 180.0;
-    private static final double TWO_SEVENTY_DEG = 270.0;
-    private static final double THREE_SIXTY_DEG = 360.0;
-
     @ForReadability
     private static boolean inNorthernHemisphere(double bearing) {
-        return bearing > 0.0 && bearing < ONE_EIGHTY_DEG;
+        return bearing > 0.0 && bearing < AngleUtil.ONE_EIGHTY_DEGREES;
     }
 
     @ForReadability
     private static boolean inSouthernHemisphere(double bearing) {
-        return bearing > ONE_EIGHTY_DEG && bearing < THREE_SIXTY_DEG;
+        return bearing > AngleUtil.ONE_EIGHTY_DEGREES && bearing < AngleUtil.THREE_SIXTY_DEGREES;
     }
 
     @ForReadability
@@ -1244,7 +1218,7 @@ public class WeatherWidget {
 
     @ForReadability
     private static boolean isWest(double bearing) {
-        return bearing == ONE_EIGHTY_DEG;
+        return bearing == AngleUtil.ONE_EIGHTY_DEGREES;
     }
 
     /**

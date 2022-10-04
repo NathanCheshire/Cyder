@@ -4,7 +4,7 @@ import cyder.audio.AudioUtil;
 import cyder.constants.CyderRegexPatterns;
 import cyder.math.AngleUtil;
 import cyder.utils.*;
-import cyder.widgets.WeatherWidget;
+import cyder.weather.WeatherWidget;
 import cyder.youtube.YoutubeUtil;
 import org.junit.Test;
 
