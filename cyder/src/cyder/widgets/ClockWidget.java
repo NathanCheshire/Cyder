@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.ForReadability;
@@ -25,6 +26,7 @@ import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.drag.button.DragLabelTextButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
+import cyder.user.UserUtil;
 import cyder.utils.*;
 
 import javax.swing.*;
@@ -38,6 +40,7 @@ import java.util.Calendar;
 import java.util.Optional;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A clock widget for displaying the current time in a fancy and minimalistic format.
@@ -87,9 +90,9 @@ public final class ClockWidget {
      */
     private static final AtomicBoolean shouldUpdateWidget = new AtomicBoolean(false);
 
-    private static final int[] currentSecond = {0};
-    private static final int[] currentMinute = {0};
-    private static final int[] currentHour = {0};
+    private static final AtomicInteger currentSecond = new AtomicInteger();
+    private static final AtomicInteger currentMinute = new AtomicInteger();
+    private static final AtomicInteger currentHour = new AtomicInteger();
 
     /**
      * The default location for the clock.
@@ -174,6 +177,26 @@ public final class ClockWidget {
      */
     private static final Font clockFont = new Font(CyderFonts.AGENCY_FB, Font.BOLD, 26);
 
+    /**
+     * The y padding for the digital time and date label.
+     */
+    private static final int digitalTimeAndDateLabelYPadding = 20;
+
+    /**
+     * The x padding for the digital time and date label.
+     */
+    private static final int digitalTimeAndDateLabelXPadding = 10;
+
+    /**
+     * The clock label padding between the label ends and the frame.
+     */
+    private static final int clockLabelPadding = 20;
+
+    /**
+     * The length of the clock label.
+     */
+    private static final int clockLabelLength = FRAME_WIDTH - 2 * clockLabelPadding;
+
     @Widget(triggers = "clock", description = widgetDescription)
     public static void showGui() {
         CyderThreadRunner.submit(() -> {
@@ -182,6 +205,8 @@ public final class ClockWidget {
             clockColor = CyderColors.getGuiThemeColor();
 
             shouldUpdateWidget.set(true);
+            setShowSecondHand(UserUtil.getCyderUser().getShowSecondHand().equals("1"));
+            setPaintHourLabels(UserUtil.getCyderUser().getPaintClockLabels().equals("1"));
 
             IPData ipData = IPUtil.getIpData();
             currentLocation = commaJoiner.join(ipData.getCity(), ipData.getRegion(), ipData.getCountry_name());
@@ -198,74 +223,70 @@ public final class ClockWidget {
 
             digitalTimeAndDateLabel = new CyderLabel(getCurrentTimeAccountingForOffset(currentGmtOffset));
             digitalTimeAndDateLabel.setFont(clockFont);
-            int yPadding = 20;
-            int xPadding = 10;
-            digitalTimeAndDateLabel.setBounds(xPadding, CyderDragLabel.DEFAULT_HEIGHT + yPadding,
-                    FRAME_WIDTH - 2 * xPadding, 40);
+            digitalTimeAndDateLabel.setBounds(digitalTimeAndDateLabelXPadding,
+                    CyderDragLabel.DEFAULT_HEIGHT + digitalTimeAndDateLabelYPadding,
+                    FRAME_WIDTH - 2 * digitalTimeAndDateLabelXPadding, 40);
             clockFrame.getContentPane().add(digitalTimeAndDateLabel);
 
-            int labelPadding = 20;
-            int labelLen = FRAME_WIDTH - 2 * labelPadding;
-            float circleDegrees = 360.0f;
-            float oneEightyDegrees = 180.0f;
             clockLabel = new JLabel() {
                 @Override
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     Graphics2D g2d = (Graphics2D) g;
 
-                    int inset = 20;
-                    int boxLen = 20;
+                    int innerLabelPadding = 20;
+                    int hourLabelLen = 20;
 
-                    int r = (labelLen - inset * 2 - boxLen * 2) / 2;
+                    int r = (clockLabelLength - innerLabelPadding * 2 - hourLabelLen * 2) / 2;
                     int originalR = r;
 
                     //center point to draw our hands from
-                    int center = labelLen / 2;
+                    int labelCenter = clockLabelLength / 2;
 
                     //vars used in if
                     int numPoints = romanNumerals.size();
                     double theta = 0.0;
-                    double thetaInc = circleDegrees / numPoints;
+                    double thetaInc = AngleUtil.DEGREES_IN_CIRCLE / numPoints;
                     if (paintHourLabels) {
+                        g2d.setStroke(new BasicStroke(6));
+                        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                        g2d.setColor(clockColor);
+
                         //drawing center points
                         for (int i = 0 ; i < numPoints ; i++) {
-                            double rads = theta * Math.PI / oneEightyDegrees;
+                            double radians = theta * Math.PI / AngleUtil.ONE_EIGHTY_DEGREES;
+                            double x = r * Math.cos(radians);
+                            double y = r * Math.sin(radians);
 
-                            double x = r * Math.cos(rads);
-                            double y = r * Math.sin(rads);
-
-                            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                            g2d.setColor(clockColor);
-                            g2d.setStroke(new BasicStroke(6));
-
-                            int radius = 20;
-                            int topLeftX = (int) (x - radius / 2 + center) + 10;
-                            int topleftY = (int) (y - radius / 2 + center);
+                            int boxLength = 20;
+                            int topLeftX = (int) (x - boxLength / 2 + labelCenter) + 10;
+                            int topleftY = (int) (y - boxLength / 2 + labelCenter);
 
                             String minText = romanNumerals.get(i);
+
                             g.setColor(clockColor);
                             g.setFont(CyderFonts.DEFAULT_FONT);
-                            g.drawString(minText, topLeftX - boxLen / 2, topleftY + boxLen / 2);
+                            g.drawString(minText, topLeftX - hourLabelLen / 2, topleftY + hourLabelLen / 2);
 
                             theta += thetaInc;
                         }
                     } else {
+                        g2d.setStroke(new BasicStroke(6));
+                        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                        g2d.setColor(clockColor);
+
                         //drawing center points
                         for (int i = 0 ; i < numPoints ; i++) {
-                            double rads = theta * Math.PI / oneEightyDegrees;
+                            double currentRadians = theta * Math.PI / AngleUtil.ONE_EIGHTY_DEGREES;
+                            double x = r * Math.cos(currentRadians);
+                            double y = r * Math.sin(currentRadians);
 
-                            double x = r * Math.cos(rads);
-                            double y = r * Math.sin(rads);
+                            int xAdditive = 0;
+                            int yAdditive = -10;
+                            int topLeftX = (int) (x - hourLabelLen / 2 + labelCenter) + xAdditive;
+                            int topleftY = (int) (y - hourLabelLen / 2 + labelCenter) + yAdditive;
 
-                            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                            g2d.setColor(clockColor);
-                            g2d.setStroke(new BasicStroke(6));
-                            int radius = 20;
-                            int topLeftX = (int) (x - radius / 2 + center) + 5;
-                            int topleftY = (int) (y - radius / 2 + center) - 10;
-
-                            g.fillRect(topLeftX, topleftY, boxLen / 2, boxLen);
+                            g.fillRect(topLeftX, topleftY, hourLabelLen, hourLabelLen);
 
                             theta += thetaInc;
                         }
@@ -288,10 +309,10 @@ public final class ClockWidget {
 
                     float threeQuartersRatio = 270.0f;
                     float oneHourAngle = 30.0f;
-                    theta = (currentHour[0] * oneHourAngle) + threeQuartersRatio;
+                    theta = currentHour.get() * oneHourAngle + threeQuartersRatio;
                     theta = AngleUtil.normalizeAngle360(theta);
 
-                    theta = theta * Math.PI / oneEightyDegrees;
+                    theta = theta * Math.PI / AngleUtil.ONE_EIGHTY_DEGREES;
 
                     x = r * Math.cos(theta);
                     y = -r * Math.sin(theta);
@@ -303,14 +324,14 @@ public final class ClockWidget {
                     g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                     //draw hour hand
-                    g.drawLine(center, center, center + drawToX, center + drawToY);
+                    g.drawLine(labelCenter, labelCenter, labelCenter + drawToX, labelCenter + drawToY);
 
                     //minute hand is 20% decrease
                     float minuteHandRatio = 0.80f;
                     r = (int) (originalR * minuteHandRatio);
 
                     //current theta, and x,y pair to draw from the center to
-                    theta = (currentMinute[0] / 60.0) * Math.PI * 2.0 + Math.PI * 1.5;
+                    theta = (currentMinute.get() / TimeUtil.MINUTES_IN_HOUR) * Math.PI * 2.0 + Math.PI * 1.5;
                     x = r * Math.cos(theta);
                     y = -r * Math.sin(theta);
 
@@ -321,7 +342,7 @@ public final class ClockWidget {
                     g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                     //draw minute hand
-                    g.drawLine(center, center, center + drawToX, center + drawToY);
+                    g.drawLine(labelCenter, labelCenter, labelCenter + drawToX, labelCenter + drawToY);
 
                     if (showSecondHand) {
                         //second hand is 85% of original r
@@ -329,7 +350,7 @@ public final class ClockWidget {
                         r = (int) (originalR * secondHandRatio);
 
                         //current theta, and x,y pair to draw from the center to
-                        theta = (currentSecond[0] / TimeUtil.SECONDS_IN_MINUTE) * Math.PI * 2.0f + Math.PI * 1.5;
+                        theta = (currentSecond.get() / TimeUtil.SECONDS_IN_MINUTE) * Math.PI * 2.0f + Math.PI * 1.5;
                         x = r * Math.cos(theta);
                         y = -r * Math.sin(theta);
 
@@ -340,7 +361,7 @@ public final class ClockWidget {
                         g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                         //draw second hand
-                        g.drawLine(center, center, center + drawToX, center + drawToY);
+                        g.drawLine(labelCenter, labelCenter, labelCenter + drawToX, labelCenter + drawToY);
                     }
 
                     //draw center dot
@@ -350,52 +371,60 @@ public final class ClockWidget {
 
                     int radius = 20;
 
-                    g.fillOval(center - radius / 2, center - radius / 2, radius, radius);
+                    g.fillOval(labelCenter - radius / 2, labelCenter - radius / 2, radius, radius);
                 }
             };
-            clockLabel.setBounds(labelPadding, 100, labelLen, labelLen);
+            clockLabel.setBounds(clockLabelPadding, 100, clockLabelLength, clockLabelLength);
             clockLabel.setBorder(new LineBorder(CyderColors.navy, 5));
             clockFrame.getContentPane().add(clockLabel);
 
             int hour = Integer.parseInt(TimeUtil.getTime(hourDaterPattern));
-            if (hour >= 12) hour -= 12;
+            if (hour >= TimeUtil.HOURS_IN_DAY / 2) hour -= (TimeUtil.HOURS_IN_DAY / 2);
             int minute = Integer.parseInt(TimeUtil.getTime(minuteDatePattern));
             int second = Integer.parseInt(TimeUtil.getTime(secondDatePattern));
 
-            currentHour[0] = hour;
-            currentMinute[0] = minute;
-            currentSecond[0] = second;
+            currentHour.set(hour);
+            currentMinute.set(minute);
+            currentSecond.set(second);
 
-            CyderThreadRunner.submit(() -> {
-                while (shouldUpdateWidget.get()) {
-                    ThreadUtil.sleep((long) TimeUtil.MILLISECONDS_IN_SECOND);
-
-                    //increment seconds
-                    currentSecond[0] += 1;
-
-                    if (currentSecond[0] == 60) {
-                        currentSecond[0] -= 60;
-                        currentMinute[0] += 1;
-
-                        if (currentMinute[0] == 60) {
-                            currentMinute[0] -= 60;
-                            currentHour[0] += 1;
-
-                            if (currentHour[0] == 60) {
-                                currentHour[0] -= 60;
-                            }
-                        }
-                    }
-
-                    digitalTimeAndDateLabel.setText(getCurrentTimeAccountingForOffset(currentGmtOffset));
-                    clockLabel.repaint();
-                }
-            }, "Clock Widget Updater");
+            startUpdating();
 
             installDragLabelButtons();
 
             clockFrame.finalizeAndShow();
         }, CLOCK_WIDGET_INITIALIZER_THREAD_NAME);
+    }
+
+    /**
+     * The thread name for the clock time updater.
+     */
+    private static final String CLOCK_UPDATER_THREAD_NAME = "Clock Time Updater";
+
+    @ForReadability
+    private static void startUpdating() {
+        CyderThreadRunner.submit(() -> {
+            while (shouldUpdateWidget.get()) {
+                ThreadUtil.sleep((long) TimeUtil.MILLISECONDS_IN_SECOND);
+                currentSecond.getAndIncrement();
+
+                if (currentSecond.get() == TimeUtil.SECONDS_IN_MINUTE) {
+                    currentSecond.set((int) (currentSecond.get() - TimeUtil.SECONDS_IN_MINUTE));
+                    currentMinute.getAndIncrement();
+
+                    if (currentMinute.get() == TimeUtil.MINUTES_IN_HOUR) {
+                        currentMinute.set((int) (currentMinute.get() - TimeUtil.MINUTES_IN_HOUR));
+                        currentHour.getAndIncrement();
+
+                        if (currentHour.get() == TimeUtil.HOURS_IN_DAY / 2) {
+                            currentHour.set(0);
+                        }
+                    }
+                }
+
+                digitalTimeAndDateLabel.setText(getCurrentTimeAccountingForOffset(currentGmtOffset));
+                clockLabel.repaint();
+            }
+        }, CLOCK_UPDATER_THREAD_NAME);
     }
 
     @ForReadability
@@ -476,9 +505,9 @@ public final class ClockWidget {
             currentGmtOffset = timezoneMinutes / TimeUtil.SECONDS_IN_HOUR;
             currentLocation = StringUtil.capsFirstWords(possibleLocation);
 
-            currentHour[0] = getUnitForCurrentGmt(GmtUnit.HOUR);
-            currentMinute[0] = getUnitForCurrentGmt(GmtUnit.MINUTE);
-            currentSecond[0] = getUnitForCurrentGmt(GmtUnit.SECOND);
+            currentHour.set(getUnitForCurrentGmt(GmtUnit.HOUR));
+            currentMinute.set(getUnitForCurrentGmt(GmtUnit.MINUTE));
+            currentSecond.set(getUnitForCurrentGmt(GmtUnit.SECOND));
 
             Coord coord = weatherData.getCoord();
             String build = openingBracket + coord.getLat() + "," + coord.getLon() + closingBracket;
@@ -617,14 +646,16 @@ public final class ClockWidget {
         miniFrame.setTitle(TIMEZONE + space + openingParenthesis + GMT + currentGmtOffset + closingParenthesis);
         miniFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
-        JLabel currentTimeLabel = new JLabel("", SwingConstants.CENTER);
+        JLabel currentTimeLabel =
+                new JLabel(getCurrentTimeAccountingForOffset(currentGmtOffset), SwingConstants.CENTER);
         currentTimeLabel.setForeground(CyderColors.navy);
         currentTimeLabel.setFont(CyderFonts.SEGOE_20);
         currentTimeLabel.setBounds(0, 50, miniFrameWidth, 30);
         miniFrame.getContentPane().add(currentTimeLabel);
 
         if (!currentLocation.isEmpty()) {
-            String labelText = StringUtil.formatCommas(currentLocation)
+            String locationString = StringUtil.formatCommas(currentLocation);
+            String labelText = locationString
                     + space + openingParenthesis + GMT + currentGmtOffset + closingParenthesis;
             JLabel locationLabel = new JLabel(labelText, SwingConstants.CENTER);
             locationLabel.setForeground(CyderColors.navy);
@@ -636,10 +667,11 @@ public final class ClockWidget {
         String threadName = minClockUpdaterThreadNamePrefix + space + openingBracket
                 + GMT + currentGmtOffset + closingBracket;
         CyderThreadRunner.submit(() -> {
-            int effectivelyFinal = currentGmtOffset;
+            // Localize since the global can change
+            int localGmtOffset = currentGmtOffset;
             while (updateMiniClock.get()) {
                 ThreadUtil.sleep(miniClockUpdateTimeout);
-                currentTimeLabel.setText(getCurrentTimeAccountingForOffset(effectivelyFinal));
+                currentTimeLabel.setText(getCurrentTimeAccountingForOffset(localGmtOffset));
             }
         }, threadName);
 
@@ -772,19 +804,65 @@ public final class ClockWidget {
     }
 
     /**
+     * The app id argument.
+     */
+    private static final String APP_ID = "&appid=";
+
+    /**
+     * The units argument for the weather data.
+     */
+    private static final String UNITS_ARG = "&units=";
+
+    /**
+     * Possible measurement scales, that of imperial or metric.
+     */
+    private enum MeasurementScale {
+        /**
+         * The imperial measurement scale.
+         */
+        IMPERIAL("imperial"),
+
+        /**
+         * The metric measurement scale.
+         */
+        METRIC("metric");
+
+        private final String weatherDataRepresentation;
+
+        MeasurementScale(String weatherDataRepresentation) {
+            this.weatherDataRepresentation = weatherDataRepresentation;
+        }
+
+        /**
+         * Returns the weather data representation for this measurement scale.
+         *
+         * @return the weather data representation for this measurement scale
+         */
+        public String getWeatherDataRepresentation() {
+            return weatherDataRepresentation;
+        }
+    }
+
+    // todo weather util? weather package soon
+
+    /**
      * Returns the weather data object for the provided location string if available. Empty optional else.
      *
      * @param locationString the location string such as "Starkville,Ms,USA"
      * @return the weather data object for the provided location string if available. Empty optional else
      */
     private static Optional<WeatherData> getWeatherData(String locationString) {
-        String key = PropLoader.getString(WEATHER_KEY);
+        Preconditions.checkNotNull(locationString);
+        Preconditions.checkArgument(!locationString.isEmpty());
 
-        if (key.isEmpty()) {
+        String weatherKey = PropLoader.getString(WEATHER_KEY);
+
+        if (weatherKey.isEmpty()) {
             return Optional.empty();
         }
 
-        String OpenString = CyderUrls.OPEN_WEATHER_BASE + locationString + "&appid=" + key + "&units=imperial";
+        String OpenString = CyderUrls.OPEN_WEATHER_BASE + locationString + APP_ID
+                + weatherKey + UNITS_ARG + MeasurementScale.IMPERIAL.getWeatherDataRepresentation();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()))) {
             return Optional.of(SerializationUtil.fromJson(reader, WeatherData.class));

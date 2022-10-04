@@ -120,10 +120,20 @@ public final class IoUtil {
     }
 
     /**
+     * The key for obtaining the autocypher prop from the props file.
+     */
+    private static final String AUTOCYPHER = "autocypher";
+
+    /**
+     * The thread name for the jvm args logger.
+     */
+    private static final String JVM_ARGS_LOGGER_THREAD_NAME = "JVM Args Logger";
+
+    /**
      * Logs any possible command line arguments passed in to Cyder upon starting.
      * Appends JVM Command Line Arguments along with the start location to the log.
      *
-     * @param cyderArgs command line arguments passed in
+     * @param cyderArgs the command line arguments passed in
      */
     public static void logArgs(ImmutableList<String> cyderArgs) {
         Preconditions.checkNotNull(cyderArgs);
@@ -150,14 +160,12 @@ public final class IoUtil {
                         .append(", isp = ").append(result.isp())
                         .append(", hostname = ").append(result.hostname());
 
-                // only log if autoCypher, means either Nathan or an advanced developer
-                if (!PropLoader.getBoolean("autocypher")) {
-                    Logger.log(LogTag.JVM_ARGS, argBuilder);
-                }
+                boolean autoCypher = PropLoader.getBoolean(AUTOCYPHER);
+                Logger.log(LogTag.JVM_ARGS, autoCypher ? "JVM args hidden due to autocypher" : argBuilder);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "JVM Args Logger");
+        }, JVM_ARGS_LOGGER_THREAD_NAME);
     }
 
     /**

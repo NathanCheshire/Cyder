@@ -516,10 +516,10 @@ public class StringUtil {
         StringBuilder sb = new StringBuilder(word.length());
         String[] words = word.split("\\s+");
 
-        for (String wordy : words) {
+        Arrays.stream(words).forEach(wordy -> {
             sb.append(Character.toUpperCase(wordy.charAt(0)));
             sb.append(wordy.substring(1).toLowerCase()).append(" ");
-        }
+        });
 
         return sb.toString().trim();
     }

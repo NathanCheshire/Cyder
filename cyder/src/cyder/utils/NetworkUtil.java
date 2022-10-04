@@ -447,7 +447,7 @@ public class NetworkUtil {
      * The class name of the html element containing the city, state, and country.
      * This is Tailwind and prone to change.
      */
-    private static final String cityStateCountryClassName = "grid grid-cols-3 gap-2 pb-6";
+    private static final String cityStateCountryClassName = "grid grid-cols-3 gap-2 px-6 pb-6";
 
     /**
      * The class name of the html element containing the host name.
@@ -473,12 +473,12 @@ public class NetworkUtil {
     /**
      * The index of the hostname in its parent element.
      */
-    private static final int hostnameIndex = 2;
+    private static final int hostnameIndex = 3;
 
     /**
      * The class name of the element containing the ip.
      */
-    private static final String ipElementClassName = "px-14 font-bold break-all";
+    private static final String ipElementClassName = "px-14 font-semibold break-all";
 
     /**
      * The index of the ip element inside its parent.
