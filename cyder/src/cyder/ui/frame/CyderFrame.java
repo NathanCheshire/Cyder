@@ -1567,7 +1567,7 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void dispose() {
-        dispose(false);
+        dispose(autoFastClose);
     }
 
     /**
@@ -3835,6 +3835,29 @@ public class CyderFrame extends JFrame {
     public void resetDancing() {
         setDancingDirection(CyderFrame.DancingDirection.INITIAL_UP);
         setDancingFinished(false);
+    }
+
+    /**
+     * Whether this frame should auto fast-close.
+     */
+    private boolean autoFastClose = false;
+
+    /**
+     * Returns whether this frame will fast close on disposal.
+     *
+     * @return whether this frame will fast close on disposal
+     */
+    public boolean isAutoFastClose() {
+        return autoFastClose;
+    }
+
+    /**
+     * Sets whether this frame will fast close on disposal.
+     *
+     * @param autoFastClose whether this frame will fast close on disposal
+     */
+    public void setAutoFastClose(boolean autoFastClose) {
+        this.autoFastClose = autoFastClose;
     }
 
     /*

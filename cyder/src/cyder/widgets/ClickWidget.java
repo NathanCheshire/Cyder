@@ -66,12 +66,8 @@ public final class ClickWidget {
         try {
             UiUtil.closeIfOpen(clickMeFrame);
 
-            clickMeFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT) {
-                @Override
-                public void dispose() {
-                    dispose(true);
-                }
-            };
+            clickMeFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
+            clickMeFrame.setAutoFastClose(true);
             clickMeFrame.setTitle(CLICK_ME);
             clickMeFrame.setFrameType(CyderFrame.FrameType.POPUP);
             clickMeFrame.setBackground(CyderColors.vanilla);

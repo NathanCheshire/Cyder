@@ -277,8 +277,6 @@ public final class ClockWidget {
             currentLocation = commaJoiner.join(ipData.getCity(), ipData.getRegion(), ipData.getCountry_name());
             currentGmtOffset = getGmtFromUserLocation();
 
-            // todo perhaps method to generate a CyderFrame of width and height
-            //  and setters for runnables before/after super.dispose call?
             clockFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT) {
                 @Override
                 public void dispose() {

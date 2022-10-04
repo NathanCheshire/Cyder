@@ -2,7 +2,6 @@ package cyder.test;
 
 import cyder.annotations.GuiTest;
 import cyder.annotations.SuppressCyderInspections;
-import cyder.audio.AudioUtil;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -32,14 +31,9 @@ import cyder.ui.selection.CyderComboBox;
 import cyder.ui.selection.CyderSwitch;
 import cyder.ui.slider.CyderSliderUi;
 import cyder.utils.ImageUtil;
-import cyder.utils.IoUtil;
-import cyder.utils.StaticUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -67,35 +61,35 @@ public final class GuiTests {
     @SuppressWarnings({"EmptyTryBlock", "RedundantSuppression"}) /* for when try is empty and not empty */
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
+            // todo watch command and reference local mp4 or youtube video
             try {
-
-                File audioFile = StaticUtil.getStaticResource("badapple.mp3");
-                int milliSeconds = AudioUtil.getMillisFast(audioFile);
-
-                int numFrames = 7777;
-                int milliSecondsPerFrame = milliSeconds / numFrames;
-
-                int width = 640;
-                int height = 480;
-                CyderFrame cyderFrame = new CyderFrame(width, height);
-                cyderFrame.setTitle("Bad Apple");
-                cyderFrame.finalizeAndShow();
-
-                IoUtil.playGeneralAudio(audioFile);
-
-                long starTime = System.currentTimeMillis();
-
-                for (int i = 1 ; i <= numFrames ; i++) {
-                    File frameFile = new File("C:\\users\\nathan\\Downloads\\Frames\\"
-                            + String.format("%04d", i) + ".png");
-
-                    BufferedImage image = ImageIO.read(frameFile);
-                    cyderFrame.setBackground(image);
-
-                    frameFile = null;
-                    System.out.println("fps: " + (System.currentTimeMillis() - starTime) / (float) i);
-                    Thread.sleep(milliSecondsPerFrame);
-                }
+                //                File audioFile = StaticUtil.getStaticResource("badapple.mp3");
+                //                int milliSeconds = AudioUtil.getMillisFast(audioFile);
+                //
+                //                int numFrames = 7777;
+                //                int milliSecondsPerFrame = milliSeconds / numFrames;
+                //
+                //                int width = 640;
+                //                int height = 480;
+                //                CyderFrame cyderFrame = new CyderFrame(width, height);
+                //                cyderFrame.setTitle("Bad Apple");
+                //                cyderFrame.finalizeAndShow();
+                //
+                //                IoUtil.playGeneralAudio(audioFile);
+                //
+                //                long starTime = System.currentTimeMillis();
+                //
+                //                for (int i = 1 ; i <= numFrames ; i++) {
+                //                    File frameFile = new File("C:\\users\\nathan\\Downloads\\Frames\\"
+                //                            + String.format("%04d", i) + ".png");
+                //
+                //                    BufferedImage image = ImageIO.read(frameFile);
+                //                    cyderFrame.setBackground(image);
+                //
+                //                    frameFile = null;
+                //                    System.out.println("fps: " + (System.currentTimeMillis() - starTime) / (float) i);
+                //                    Thread.sleep(milliSecondsPerFrame);
+                //                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -111,10 +105,10 @@ public final class GuiTests {
         testFrame.setTitle("Switcher test");
 
         ArrayList<CyderComboBox.ComboItem> states = new ArrayList<>();
-        states.add(new CyderComboBox.ComboItem("Uno", "uno long"));
-        states.add(new CyderComboBox.ComboItem("Dos", "dos long"));
-        states.add(new CyderComboBox.ComboItem("Tres", "tres long"));
-        states.add(new CyderComboBox.ComboItem("Cuatro", "cuatro long"));
+        states.add(new CyderComboBox.ComboItem("One", "Mapped one"));
+        states.add(new CyderComboBox.ComboItem("Two", "Mapped two"));
+        states.add(new CyderComboBox.ComboItem("Three", "Mapped three"));
+        states.add(new CyderComboBox.ComboItem("Four", "Mapped four"));
 
         CyderComboBox.ComboItem startingState = states.get(0);
 
