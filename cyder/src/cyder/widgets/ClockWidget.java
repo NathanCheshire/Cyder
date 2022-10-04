@@ -40,7 +40,6 @@ import java.util.Calendar;
 import java.util.Optional;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A clock widget for displaying the current time in a fancy and minimalistic format.
@@ -89,10 +88,6 @@ public final class ClockWidget {
      * Whether to update the clock.
      */
     private static final AtomicBoolean shouldUpdateWidget = new AtomicBoolean(false);
-
-    private static final AtomicInteger currentSecond = new AtomicInteger();
-    private static final AtomicInteger currentMinute = new AtomicInteger();
-    private static final AtomicInteger currentHour = new AtomicInteger();
 
     /**
      * The default location for the clock.
@@ -324,15 +319,6 @@ public final class ClockWidget {
             clockLabel.setBorder(new LineBorder(CyderColors.navy, 5));
             clockFrame.getContentPane().add(clockLabel);
 
-            int hour = Integer.parseInt(TimeUtil.getTime(hourDaterPattern)) % ((int) TimeUtil.HOURS_IN_DAY / 2);
-            currentHour.set(hour);
-
-            int minute = Integer.parseInt(TimeUtil.getTime(minuteDatePattern));
-            currentMinute.set(minute);
-
-            int second = Integer.parseInt(TimeUtil.getTime(secondDatePattern));
-            currentSecond.set(second);
-
             startUpdating();
             installDragLabelButtons();
 
@@ -347,8 +333,10 @@ public final class ClockWidget {
      */
     @ForReadability
     private static void drawHourHand(Graphics2D g2d) {
+        int hour = Integer.parseInt(TimeUtil.getTime(hourDaterPattern)) % ((int) TimeUtil.HOURS_IN_DAY / 2);
+
         float oneHourAngle = (float) (AngleUtil.DEGREES_IN_CIRCLE / romanNumerals.size());
-        double hourTheta = currentHour.get() * oneHourAngle + AngleUtil.TWO_SEVENTY_DEGREES;
+        double hourTheta = hour * oneHourAngle + AngleUtil.TWO_SEVENTY_DEGREES;
         hourTheta = AngleUtil.normalizeAngle360(hourTheta) * Math.PI / AngleUtil.ONE_EIGHTY_DEGREES;
         int hourHandDrawToX = (int) Math.round(hourHandRadius * Math.cos(hourTheta));
         int hourHandDrawToY = (int) Math.round(hourHandRadius * Math.sin(hourTheta));
@@ -364,7 +352,9 @@ public final class ClockWidget {
      */
     @ForReadability
     private static void drawMinuteHand(Graphics2D g2d) {
-        double minuteTheta = (currentMinute.get() / TimeUtil.MINUTES_IN_HOUR) * Math.PI * 2.0 + Math.PI * 1.5;
+        int minute = Integer.parseInt(TimeUtil.getTime(minuteDatePattern));
+
+        double minuteTheta = (minute / TimeUtil.MINUTES_IN_HOUR) * Math.PI * 2.0 + Math.PI * 1.5;
         int minuteHandDrawToX = (int) Math.round(minuteHandRadius * Math.cos(minuteTheta));
         int minuteHandDrawToY = (int) Math.round(minuteHandRadius * Math.sin(minuteTheta));
         g2d.drawLine(clockLabelCenter, clockLabelCenter,
@@ -379,7 +369,9 @@ public final class ClockWidget {
      */
     @ForReadability
     private static void drawSecondHand(Graphics2D g2d) {
-        double secondTheta = (currentSecond.get() / TimeUtil.SECONDS_IN_MINUTE)
+        int second = Integer.parseInt(TimeUtil.getTime(secondDatePattern));
+
+        double secondTheta = (second / TimeUtil.SECONDS_IN_MINUTE)
                 * Math.PI * 2.0f + Math.PI * 1.5;
         int secondHandDrawToX = (int) Math.round(secondHandRadius * Math.cos(secondTheta));
         int secondHandDrawToY = (int) Math.round(secondHandRadius * Math.sin(secondTheta));
@@ -455,28 +447,16 @@ public final class ClockWidget {
      */
     private static final String CLOCK_UPDATER_THREAD_NAME = "Clock Time Updater";
 
-    // todo make update quicker and get actual second, min, hour from system time
+    /**
+     * The delay between clock updates.
+     */
+    private static final int CLOCK_UPDATER_TIMEOUT = 250;
+
     @ForReadability
     private static void startUpdating() {
         CyderThreadRunner.submit(() -> {
             while (shouldUpdateWidget.get()) {
-                ThreadUtil.sleep((long) TimeUtil.MILLISECONDS_IN_SECOND);
-                currentSecond.getAndIncrement();
-
-                if (currentSecond.get() == TimeUtil.SECONDS_IN_MINUTE) {
-                    currentSecond.set((int) (currentSecond.get() - TimeUtil.SECONDS_IN_MINUTE));
-                    currentMinute.getAndIncrement();
-
-                    if (currentMinute.get() == TimeUtil.MINUTES_IN_HOUR) {
-                        currentMinute.set((int) (currentMinute.get() - TimeUtil.MINUTES_IN_HOUR));
-                        currentHour.getAndIncrement();
-
-                        if (currentHour.get() == TimeUtil.HOURS_IN_DAY / 2) {
-                            currentHour.set(0);
-                        }
-                    }
-                }
-
+                ThreadUtil.sleep(CLOCK_UPDATER_TIMEOUT);
                 digitalTimeAndDateLabel.setText(getCurrentTimeAccountingForOffset(currentGmtOffset));
                 clockLabel.repaint();
             }
@@ -560,10 +540,6 @@ public final class ClockWidget {
             }
             currentGmtOffset = timezoneMinutes / TimeUtil.SECONDS_IN_HOUR;
             currentLocation = StringUtil.capsFirstWords(possibleLocation);
-
-            currentHour.set(getUnitForCurrentGmt(GmtUnit.HOUR));
-            currentMinute.set(getUnitForCurrentGmt(GmtUnit.MINUTE));
-            currentSecond.set(getUnitForCurrentGmt(GmtUnit.SECOND));
 
             Coord coord = weatherData.getCoord();
             String build = openingBracket + coord.getLat() + "," + coord.getLon() + closingBracket;
