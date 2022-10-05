@@ -1,4 +1,4 @@
-package cyder.utils;
+package cyder.temperature;
 
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -7,6 +7,11 @@ import cyder.exceptions.IllegalMethodException;
  * Utility methods related to temperature conversions.
  */
 public final class TemperatureUtil {
+    /**
+     * The value to add to Celsius measurements to convert them to Kelvin measurements.
+     */
+    private static final double kelvinAdditive = 273.15;
+
     /**
      * Suppress default constructor.
      */
@@ -21,7 +26,7 @@ public final class TemperatureUtil {
      * @return the provided fahrenheit value in kelvin
      */
     public static double fahrenheitToKelvin(double fahrenheit) {
-        return (fahrenheit - 32.0) * (5.0 / 9.0) + 273.15;
+        return (fahrenheit - 32.0) * (5.0 / 9.0) + kelvinAdditive;
     }
 
     /**
@@ -31,7 +36,7 @@ public final class TemperatureUtil {
      * @return the provided celsius value in kelvin
      */
     public static double celsiusToKelvin(double celsius) {
-        return celsius + 273.15;
+        return celsius + kelvinAdditive;
     }
 
     /**
@@ -51,7 +56,7 @@ public final class TemperatureUtil {
      * @return the provided kelvin value in celsius
      */
     public static double kelvinToCelsius(double kelvin) {
-        return kelvin - 273.15;
+        return kelvin - kelvinAdditive;
     }
 
     /**
@@ -71,6 +76,6 @@ public final class TemperatureUtil {
      * @return the provided kelvin value in fahrenheit
      */
     public static double kelvinToFahrenheit(double kelvin) {
-        return 1.8 * (kelvin - 273.15) + 32.0;
+        return 1.8 * (kelvin - kelvinAdditive) + 32.0;
     }
 }

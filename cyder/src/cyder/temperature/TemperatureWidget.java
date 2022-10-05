@@ -1,4 +1,4 @@
-package cyder.widgets;
+package cyder.temperature;
 
 import com.google.common.base.Preconditions;
 import cyder.annotations.CyderAuthor;
@@ -21,7 +21,7 @@ import javax.swing.*;
 import java.text.DecimalFormat;
 import java.util.Optional;
 
-import static cyder.utils.TemperatureUtil.*;
+import static cyder.temperature.TemperatureUtil.*;
 
 @Vanilla
 @CyderAuthor
