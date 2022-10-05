@@ -586,7 +586,6 @@ public final class GameOfLifeWidget {
             loadState.getNodes().forEach(point -> conwayGrid.addNode(
                     new CyderGrid.GridNode((int) point.getX(), (int) point.getY())));
 
-
             conwayFrame.notify("Loaded state: " + loadState.getName());
             beforeStartingState = new LinkedList<>(conwayGrid.getGridNodes());
 

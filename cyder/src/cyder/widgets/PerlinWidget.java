@@ -188,6 +188,52 @@ public final class PerlinWidget {
     private static final String NOISE = "Noise";
 
     /**
+     * The stroke for drawing on the noise label.
+     */
+    private static final BasicStroke stroke = new BasicStroke(2);
+
+    /**
+     * The text for the next iteration button.
+     */
+    private static final String NEXT_ITERATION = "Next Iteration";
+
+    /**
+     * The length of the border on the noise label.
+     */
+    private static final int noiseLabelBorderLength = 1;
+
+    /**
+     * The time step increment.
+     */
+    private static final double timeStepIncrement = 0.1;
+
+
+    /**
+     * The generate string.
+     */
+    private static final String GENERATE = "Generate";
+
+    /**
+     * The stop string.
+     */
+    private static final String STOP = "Stop";
+
+    /**
+     * Half of the limit for 8-bit color values.
+     */
+    private static final float halfEightBitColorLimit = 127.5f;
+
+    /**
+     * The feature slider tooltip text.
+     */
+    private static final String THREE_D_FEATURE_SIZE = "3D Feature Size";
+
+    /**
+     * The animate string.
+     */
+    private static final String ANIMATE = "Animate";
+
+    /**
      * Shows the perlin noise widget.
      */
     @Widget(triggers = "perlin", description = "Perlin noise visualizer/open simplex noise visualizer")
@@ -214,96 +260,37 @@ public final class PerlinWidget {
             noise2D[i] = rand.nextFloat();
         }
 
-        //set seed and octaves
         generateNewSeed();
-
         octaves = 1;
 
-        //fill noise based on current session's seed
+        // Fill noise based on current session's seed
         noise2D = generate2DNoise(instanceSeed[0], octaves);
 
         perlinFrame = new CyderFrame(600 + 10, 750 + CyderDragLabel.DEFAULT_HEIGHT);
         perlinFrame.setTitle(NOISE);
-
-        perlinFrame.addPreCloseAction(() -> {
-            noise2D = null;
-            noise3D = null;
-            closed = true;
-
-            if (timer != null && timer.isRunning())
-                timer.stop();
-        });
-
-        //stop the animation when we are trying to close the frame if it's running
-        perlinFrame.addPreCloseAction(() -> timer.stop());
+        perlinFrame.addPreCloseAction(PerlinWidget::preCloseActions);
 
         noiseLabel = new JLabel() {
             @Override
             public void paint(Graphics g) {
                 if (closed) return;
-
                 super.paint(g);
 
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setColor(Color.darkGray);
-                g2d.setStroke(new BasicStroke(2));
+                g2d.setStroke(stroke);
 
-                int labelWidth = noiseLabel.getWidth();
-
-                //draw noise
-                if (comboBox.getCurrentState().equals(twoDimensionState)) {
-                    g2d.setColor(Color.black);
-
-                    for (int x = 0 ; x < resolution ; x++) {
-                        if (x + 1 == resolution)
-                            break;
-
-                        float y = (float) ((noise2D[x] * resolution / 2.0) + resolution / 2.0);
-                        int minY = (int) y;
-                        int lenDown = 0;
-                        //range is between y and resolution
-
-                        //top line
-                        g2d.setColor(Color.black);
-                        g2d.fillRect(x, minY, 2, 2);
-
-                        lenDown += 2;
-
-                        //green grass
-                        g2d.setColor(CyderColors.regularGreen);
-                        g2d.fillRect(x, minY + lenDown, 2, 10);
-
-                        lenDown += 10;
-
-                        // brown dirt
-                        g2d.setColor(CyderColors.brownDirt);
-                        g2d.fillRect(x, minY + lenDown, 2, 20);
-
-                        lenDown += 20;
-
-                        //gray stone
-                        g2d.setColor(Color.darkGray);
-                        g2d.fillRect(x, minY + lenDown, 2, resolution - (minY + lenDown));
-                    }
+                boolean twoDimensionalNoise = comboBox.getCurrentState().equals(twoDimensionState);
+                if (twoDimensionalNoise) {
+                    draw2DNoise(g2d);
                 } else {
-                    for (int i = 0 ; i < resolution ; i++) {
-                        for (int j = 0 ; j < resolution ; j++) {
-                            g2d.setColor(noise3D[i][j].getColor());
-                            g2d.fillRect(i, j, 1, 1);
-                        }
-                    }
+                    draw3DNoise(g2d);
                 }
 
-                //draw border lines last
-                g2d.setColor(CyderColors.navy);
-
-                g2d.drawLine(1, 1, 1, labelWidth - 1);
-                g2d.drawLine(1, 1, labelWidth - 1, 1);
-                g2d.drawLine(labelWidth - 1, 1, labelWidth - 1, labelWidth - 1);
-                g2d.drawLine(1, labelWidth - 1, labelWidth - 1, labelWidth - 1);
+                drawBorder(g2d);
             }
         };
-        noiseLabel.setBounds(1, 0, resolution, resolution);
+        noiseLabel.setBounds(noiseLabelBorderLength, 0, resolution, resolution);
         perlinFrame.getContentPane().add(noiseLabel);
 
         animateCheckBox = new CyderCheckbox();
@@ -312,15 +299,13 @@ public final class PerlinWidget {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
-                if (timer != null && timer.isRunning())
-                    timer.stop();
+                stopTimerIfRunning();
             }
         });
         animateCheckBox.setBounds(25, 630, 50, 50);
         perlinFrame.getContentPane().add(animateCheckBox);
 
-        CyderLabel animateLabel = new CyderLabel("Animate");
+        CyderLabel animateLabel = new CyderLabel(ANIMATE);
         animateLabel.setBounds(0, 605, 100, 20);
         perlinFrame.getContentPane().add(animateLabel);
 
@@ -330,7 +315,7 @@ public final class PerlinWidget {
         generate.setBounds(25 + 25 + 50, 630, 180, 40);
         perlinFrame.getContentPane().add(generate);
 
-        nextIteration = new CyderButton("Next Iteration");
+        nextIteration = new CyderButton(NEXT_ITERATION);
         nextIteration.addActionListener(e -> nextIteration());
         nextIteration.setToolTipText("increments the octave and displayed the revalidated noise");
         nextIteration.setBounds(25 + 25 + 50 + 180 + 25, 630, 180, 40);
@@ -342,20 +327,7 @@ public final class PerlinWidget {
         comboBox = new CyderComboBox(80, 40, states, twoDimensionState);
         comboBox.setBounds(25 + 25 + 50 + 180 + 25 + 180 + 25, 630, 80, 40);
         perlinFrame.getContentPane().add(comboBox);
-        comboBox.getIterationButton().addActionListener(e -> {
-            nextIteration();
-
-            timeStep += 0.1;
-            for (int y = 0 ; y < resolution ; y++) {
-                for (int x = 0 ; x < resolution ; x++) {
-                    double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
-                    noise3D[x][y].setColor(generateGrayscaleColor(value));
-                    noise3D[x][y].setX(x);
-                    noise3D[x][y].setY(y);
-                }
-            }
-            noiseLabel.repaint();
-        });
+        comboBox.getIterationButton().addActionListener(e -> comboBoxAction());
 
         speedSlider = new JSlider(JSlider.HORIZONTAL, speedSliderMinValue, speedSliderMaxValue, speedSliderValue);
         CyderSliderUi UI = new CyderSliderUi(speedSlider);
@@ -372,17 +344,17 @@ public final class PerlinWidget {
         speedSlider.setPaintLabels(false);
         speedSlider.setVisible(true);
         speedSlider.setValue(speedSliderValue);
-        speedSlider.addChangeListener(e -> {
-            speedSliderValue = speedSlider.getValue();
-            timer.setDelay(speedSliderMaxValue - speedSliderValue);
-        });
+        speedSlider.addChangeListener(e -> speedSliderChangeAction());
         speedSlider.setOpaque(false);
         speedSlider.setToolTipText("Animation Timeout");
         speedSlider.setFocusable(false);
         speedSlider.repaint();
         perlinFrame.getContentPane().add(speedSlider);
 
-        featureSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 500);
+        int maxFeatureSlider = 1000;
+        int minFeatureSlider = 0;
+        int defaultFeatureSlider = (maxFeatureSlider - minFeatureSlider) / 2;
+        featureSlider = new JSlider(JSlider.HORIZONTAL, minFeatureSlider, maxFeatureSlider, defaultFeatureSlider);
         CyderSliderUi UI2 = new CyderSliderUi(featureSlider);
         UI2.setThumbStroke(new BasicStroke(2.0f));
         UI2.setThumbShape(CyderSliderUi.ThumbShape.RECT);
@@ -415,7 +387,7 @@ public final class PerlinWidget {
             }
         });
         featureSlider.setOpaque(false);
-        featureSlider.setToolTipText("3D Feature Size");
+        featureSlider.setToolTipText(THREE_D_FEATURE_SIZE);
         featureSlider.setFocusable(false);
         featureSlider.repaint();
         perlinFrame.getContentPane().add(featureSlider);
@@ -424,21 +396,132 @@ public final class PerlinWidget {
     }
 
     /**
-     * The generate string.
+     * The pre close action to invoke when the frame's dispose function has been called.
      */
-    private static final String GENERATE = "Generate";
+    @ForReadability
+    private static void preCloseActions() {
+        noise2D = null;
+        noise3D = null;
+        closed = true;
+
+        stopTimerIfRunning();
+    }
 
     /**
-     * The stop string.
+     * The actions to invoke on a speed slider value change.
      */
-    private static final String STOP = "Stop";
+    @ForReadability
+    private static void speedSliderChangeAction() {
+        speedSliderValue = speedSlider.getValue();
+        timer.setDelay(speedSliderMaxValue - speedSliderValue);
+    }
+
+    /**
+     * Draws two dimension noise on the noise label.
+     *
+     * @param g2d the 2D graphics object
+     */
+    @ForReadability
+    private static void draw2DNoise(Graphics2D g2d) {
+        int width = 2;
+
+        for (int x = 0 ; x < resolution - 1 ; x++) {
+            float y = (float) ((noise2D[x] * resolution / 2.0) + resolution / 2.0);
+            int minY = (int) y;
+            int lenDown = 0;
+
+            // Draw top line
+            int topLineLength = 2;
+            g2d.setColor(Color.black);
+            g2d.fillRect(x, minY, width, topLineLength);
+            lenDown += topLineLength;
+
+            // Draw grass
+            int grassLength = 10;
+            g2d.setColor(CyderColors.regularGreen);
+            g2d.fillRect(x, minY + lenDown, width, grassLength);
+            lenDown += grassLength;
+
+            // Draw dirt
+            int dirtLength = 20;
+            g2d.setColor(CyderColors.brownDirt);
+            g2d.fillRect(x, minY + lenDown, width, dirtLength);
+            lenDown += dirtLength;
+
+            // Draw stone
+            int stoneLength = resolution - (minY + lenDown);
+            g2d.setColor(Color.darkGray);
+            g2d.fillRect(x, minY + lenDown, width, stoneLength);
+        }
+    }
+
+    /**
+     * Draws three dimensional noise on the noise label.
+     *
+     * @param g2d the 2D graphics object
+     */
+    @ForReadability
+    private static void draw3DNoise(Graphics2D g2d) {
+        int len = 1;
+
+        for (int i = 0 ; i < resolution ; i++) {
+            for (int j = 0 ; j < resolution ; j++) {
+                g2d.setColor(noise3D[i][j].getColor());
+                g2d.fillRect(i, j, len, len);
+            }
+        }
+    }
+
+    /**
+     * Draws the border on the noise label.
+     *
+     * @param g2d the 2D graphics object
+     */
+    @ForReadability
+    private static void drawBorder(Graphics2D g2d) {
+        int max = resolution - noiseLabelBorderLength;
+
+        g2d.setColor(CyderColors.navy);
+        g2d.drawLine(noiseLabelBorderLength, noiseLabelBorderLength, noiseLabelBorderLength, max);
+        g2d.drawLine(noiseLabelBorderLength, noiseLabelBorderLength, max, noiseLabelBorderLength);
+        g2d.drawLine(max, noiseLabelBorderLength, max, max);
+        g2d.drawLine(noiseLabelBorderLength, max, max, max);
+    }
+
+    /**
+     * The actions to invoke when the combo box iteration button is clicked.
+     */
+    @ForReadability
+    private static void comboBoxAction() {
+        nextIteration();
+
+        timeStep += timeStepIncrement;
+        for (int y = 0 ; y < resolution ; y++) {
+            for (int x = 0 ; x < resolution ; x++) {
+                double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
+                noise3D[x][y].setColor(generateGrayscaleColor(value));
+                noise3D[x][y].setX(x);
+                noise3D[x][y].setY(y);
+            }
+        }
+        noiseLabel.repaint();
+    }
+
+    /**
+     * Stops the timer if running.
+     */
+    @ForReadability
+    private static void stopTimerIfRunning() {
+        if (timer != null && timer.isRunning()) {
+            timer.stop();
+        }
+    }
 
     /**
      * Generates new noise based on the current random seed.
      */
     private static void generate() {
-        if (closed)
-            return;
+        if (closed) return;
 
         if (animateCheckBox.isChecked()) {
             if (timer.isRunning()) {
@@ -491,7 +574,6 @@ public final class PerlinWidget {
         if (closed) return;
 
         if (comboBox.getCurrentState().equals(twoDimensionState)) {
-            //serves no purpose during an animation
             if (timer != null && timer.isRunning()) return;
 
             octaves++;
@@ -504,7 +586,7 @@ public final class PerlinWidget {
             //serves no purpose during an animation
             if (timer != null && timer.isRunning()) return;
 
-            timeStep += 0.1;
+            timeStep += timeStepIncrement;
 
             for (int y = 0 ; y < resolution ; y++) {
                 for (int x = 0 ; x < resolution ; x++) {
@@ -570,7 +652,7 @@ public final class PerlinWidget {
         if (comboBox.getCurrentState().equals(twoDimensionState)) {
             noise2D = generate2DNoise(instanceSeed[0], octaves);
         } else {
-            timeStep += 0.1;
+            timeStep += timeStepIncrement;
 
             for (int y = 0 ; y < resolution ; y++) {
                 for (int x = 0 ; x < resolution ; x++) {
@@ -595,11 +677,6 @@ public final class PerlinWidget {
             }
         }
     }
-
-    /**
-     * Half of the limit for 8-bit color values.
-     */
-    private static final float halfEightBitColorLimit = 127.5f;
 
     /**
      * Generates a grayscale color from the double value.
