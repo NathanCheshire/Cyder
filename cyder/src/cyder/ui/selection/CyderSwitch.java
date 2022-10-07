@@ -189,14 +189,20 @@ public class CyderSwitch extends JLabel {
     public void setState(State state) {
         Preconditions.checkNotNull(state);
 
-        if (this.state == state) return;
+        if (this.state == state) {
+            refreshButtonText();
+            repaint();
+            return;
+        }
 
         this.state = state;
 
         boolean shouldAnimate = (isVisible() && getParent() != null);
+
+        refreshButtonText();
+
         switch (state) {
             case ON -> {
-                switchButton.setText(onText);
                 if (shouldAnimate) {
                     AnimationUtil.componentRight(switchButton.getX(),
                             width - switchButton.getWidth() - switchButtonLeftX,
@@ -205,7 +211,6 @@ public class CyderSwitch extends JLabel {
                 switchButton.setLocation(width - switchButton.getWidth() - switchButtonLeftX, switchButtonY);
             }
             case OFF -> {
-                switchButton.setText(offText);
                 if (shouldAnimate) {
                     AnimationUtil.componentLeft(switchButton.getX(), switchButtonLeftX,
                             animationDelay, animationIncrement, switchButton);
@@ -213,7 +218,6 @@ public class CyderSwitch extends JLabel {
                 switchButton.setLocation(switchButtonLeftX, switchButtonY);
             }
             case INDETERMINATE -> {
-                switchButton.setText(indeterminateText);
                 if (switchButton.getX() > switchButtonLeftX) {
                     if (shouldAnimate) {
                         switchButton.setLocation(width - switchButton.getWidth() - switchButtonLeftX, switchButtonY);
@@ -233,6 +237,17 @@ public class CyderSwitch extends JLabel {
         }
 
         repaint();
+    }
+
+    /**
+     * Refreshes the switch button text.
+     */
+    public void refreshButtonText() {
+        switch (state) {
+            case ON -> switchButton.setText(onText);
+            case OFF -> switchButton.setText(offText);
+            case INDETERMINATE -> switchButton.setText(indeterminateText);
+        }
     }
 
     /**
@@ -366,6 +381,7 @@ public class CyderSwitch extends JLabel {
     public void setOnText(String onText) {
         this.onText = onText;
         setState(state);
+        switchButton.repaint();
     }
 
     /**
@@ -404,6 +420,7 @@ public class CyderSwitch extends JLabel {
     public void setOffText(String offText) {
         this.offText = offText;
         setState(state);
+        switchButton.repaint();
     }
 
     /**

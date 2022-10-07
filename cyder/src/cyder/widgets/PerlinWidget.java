@@ -373,12 +373,18 @@ public final class PerlinWidget {
         featureSlider.setFocusable(false);
         featureSlider.repaint();
 
-        dimensionSwitch = new CyderSwitch(180, 50, CyderSwitch.State.OFF);
-        dimensionSwitch.setSize(180, 50);
-        dimensionSwitch.setState(CyderSwitch.State.OFF);
-        dimensionSwitch.repaint();
+        dimensionSwitch = new CyderSwitch(180, 55, CyderSwitch.State.OFF);
+        dimensionSwitch.setSize(180, 55);
         dimensionSwitch.setOffText("2D");
         dimensionSwitch.setOnText("3D");
+        dimensionSwitch.getSwitchButton().addActionListener(e -> {
+            // todo update to 2d immediately or 3d
+            switch (dimensionSwitch.getState()) {
+                case ON -> {}
+                case OFF -> {}
+                case INDETERMINATE -> {}
+            }
+        });
 
         CyderPartitionedLayout partitionedLayout = new CyderPartitionedLayout();
         partitionedLayout.spacer(2);
@@ -394,22 +400,17 @@ public final class PerlinWidget {
         partitionedLayout.addComponent(featureSliderLabel, 4);
         partitionedLayout.addComponent(featureSlider, 2);
 
-        CyderGridLayout gridLayout = new CyderGridLayout(3, 1);
+        CyderGridLayout gridLayout = new CyderGridLayout(2, 2);
         gridLayout.addComponent(animateButton);
         gridLayout.addComponent(stepButton);
         gridLayout.addComponent(regenerateButton);
+        gridLayout.addComponent(dimensionSwitch);
         CyderPanel gridPanel = new CyderPanel(gridLayout);
-        gridPanel.setSize(600, 40);
-        partitionedLayout.addComponent(gridPanel, 5);
+        gridPanel.setSize(600, 120);
 
+        partitionedLayout.spacer(6);
+        partitionedLayout.addComponent(gridPanel, 5);
         partitionedLayout.spacer(4);
-        CyderGridLayout bottomGrid = new CyderGridLayout(3, 1);
-        gridLayout.addComponent(new JLabel());
-        bottomGrid.addComponent(dimensionSwitch);
-        bottomGrid.addComponent(new JLabel());
-        CyderPanel bottomGridPanel = new CyderPanel(bottomGrid);
-        bottomGridPanel.setSize(600, 50);
-        partitionedLayout.addComponent(bottomGridPanel, 3);
 
         perlinFrame.setCyderLayout(partitionedLayout);
         perlinFrame.finalizeAndShow();
