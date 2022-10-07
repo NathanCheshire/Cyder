@@ -256,6 +256,72 @@ public final class PerlinWidget {
     private static final int dirtLength = 20;
 
     /**
+     * The text for the off state of the dimension switch button.
+     */
+    private static final String TWO_D = "2D";
+
+    /**
+     * The text for the on state of the dimension switch button.
+     */
+    private static final String THREE_D = "3D";
+
+    /**
+     * The text for the speed label.
+     */
+    private static final String SPEED = "Speed";
+
+    /**
+     * The text for the feature size label.
+     */
+    private static final String FEATURE_SIZE = "Feature size";
+
+    /**
+     * The padding between the frame and the start of components.
+     */
+    private static final int framePadding = 25;
+
+    /**
+     * The width of the frame.
+     */
+    private static final int frameWidth = resolution + 2 * framePadding;
+
+    /**
+     * The height of the bottom control components.
+     */
+    private static final int interactionComponentsHeight = 240;
+
+    /**
+     * The frame height.
+     */
+    private static final int frameHeight = resolution + 2 * framePadding
+            + CyderDragLabel.DEFAULT_HEIGHT + interactionComponentsHeight;
+
+    /**
+     * The regenerate button text.
+     */
+    private static final String REGENERATE = "Regenerate";
+
+    /**
+     * The size of the dimension switch button
+     */
+    private static final Dimension dimensionSwitchSize = new Dimension(180, 55);
+
+    /**
+     * The size of the slider labels.
+     */
+    private static final Dimension sliderLabelSize = new Dimension(200, 40);
+
+    /**
+     * The size of the buttons.
+     */
+    private static final Dimension buttonSize = new Dimension(180, 40);
+
+    /**
+     * The length of the noise label border.
+     */
+    private static final int noiseLabelBorderLength = 5;
+
+    /**
      * Shows the perlin noise widget.
      */
     @Widget(triggers = {"perlin", "noise"}, description = "Perlin noise visualizer/open simplex noise visualizer")
@@ -267,17 +333,21 @@ public final class PerlinWidget {
         octaves = 1;
 
         instanceSeed = new float[resolution][resolution];
+
         generateNewSeed();
 
         initializeNoise();
 
         timer = new Timer(speedSliderMaxValue - speedSliderValue, animationAction);
 
-        int framePadding = 25;
-        int frameWidth = resolution + 2 * framePadding;
-        int interactionComponentsHeight = 240;
-        int frameHeight = resolution + 2 * framePadding + CyderDragLabel.DEFAULT_HEIGHT + interactionComponentsHeight;
-        perlinFrame = new CyderFrame(frameWidth, frameHeight);
+        perlinFrame = new CyderFrame(frameWidth, frameHeight) {
+            @Override
+            public void repaint() {
+                if (twoDimensionalMode()) {
+                    super.repaint();
+                }
+            }
+        };
         perlinFrame.setTitle(PERLIN);
         perlinFrame.addPreCloseAction(PerlinWidget::preCloseActions);
 
@@ -291,22 +361,20 @@ public final class PerlinWidget {
                 g2d.setColor(Color.darkGray);
                 g2d.setStroke(stroke);
 
-                boolean twoDimensionalNoise = dimensionSwitch.getState() == CyderSwitch.State.OFF;
-                if (twoDimensionalNoise) {
+                if (twoDimensionalMode()) {
                     draw2DNoise(g2d);
                 } else {
                     draw3DNoise(g2d);
                 }
             }
         };
-        noiseLabel.setBounds(5, 5, resolution, resolution);
+        noiseLabel.setBounds(noiseLabelBorderLength, noiseLabelBorderLength, resolution, resolution);
 
         JLabel noiseParentLabel = new JLabel();
-        noiseParentLabel.setSize(resolution + 10, resolution + 10);
-        noiseParentLabel.setBorder(new LineBorder(CyderColors.navy, 5));
+        noiseParentLabel.setSize(resolution + 2 * noiseLabelBorderLength,
+                resolution + 2 * noiseLabelBorderLength);
+        noiseParentLabel.setBorder(new LineBorder(CyderColors.navy, noiseLabelBorderLength));
         noiseParentLabel.add(noiseLabel);
-
-        int frameComponentXPadding = 25;
 
         CyderLabel animateLabel = new CyderLabel(ANIMATE);
         animateLabel.setSize(100, 20);
@@ -314,17 +382,17 @@ public final class PerlinWidget {
         animateButton = new CyderButton(ANIMATE);
         animateButton.addActionListener(e -> generate());
         animateButton.setToolTipText("Animate Perlin Noise");
-        animateButton.setSize(180, 40);
+        animateButton.setSize(buttonSize);
 
         stepButton = new CyderButton(STEP);
         stepButton.addActionListener(e -> nextIteration());
         stepButton.setToolTipText("Increments the octave and displayed the revalidated noise");
-        stepButton.setSize(180, 40);
+        stepButton.setSize(buttonSize);
 
-        regenerateButton = new CyderButton("Regenerate");
+        regenerateButton = new CyderButton(REGENERATE);
         regenerateButton.addActionListener(e -> regenerateButtonAction());
         regenerateButton.setToolTipText("Regenerates the noise");
-        regenerateButton.setSize(180, 40);
+        regenerateButton.setSize(buttonSize);
 
         speedSlider = new JSlider(JSlider.HORIZONTAL, speedSliderMinValue, speedSliderMaxValue, speedSliderValue);
 
@@ -338,7 +406,7 @@ public final class PerlinWidget {
         speedSliderUi.setTrackStroke(new BasicStroke(3.0f));
 
         speedSlider.setUI(speedSliderUi);
-        speedSlider.setSize(resolution - 2 * frameComponentXPadding, sliderHeight);
+        speedSlider.setSize(resolution - 2 * framePadding, sliderHeight);
         speedSlider.setPaintTicks(false);
         speedSlider.setPaintLabels(false);
         speedSlider.setVisible(true);
@@ -349,8 +417,8 @@ public final class PerlinWidget {
         speedSlider.setFocusable(false);
         speedSlider.repaint();
 
-        featureSlider = new JSlider(JSlider.HORIZONTAL, minFeatureSliderValue, maxFeatureSliderValue,
-                defaultFeatureSliderValue);
+        featureSlider = new JSlider(JSlider.HORIZONTAL, minFeatureSliderValue,
+                maxFeatureSliderValue, defaultFeatureSliderValue);
 
         CyderSliderUi featureSliderUi = new CyderSliderUi(featureSlider);
         featureSliderUi.setThumbRadius(25);
@@ -362,7 +430,7 @@ public final class PerlinWidget {
         featureSliderUi.setTrackStroke(new BasicStroke(3.0f));
 
         featureSlider.setUI(featureSliderUi);
-        featureSlider.setSize(resolution - 2 * frameComponentXPadding, sliderHeight);
+        featureSlider.setSize(resolution - 2 * framePadding, sliderHeight);
         featureSlider.setPaintTicks(false);
         featureSlider.setPaintLabels(false);
         featureSlider.setVisible(true);
@@ -373,27 +441,21 @@ public final class PerlinWidget {
         featureSlider.setFocusable(false);
         featureSlider.repaint();
 
-        dimensionSwitch = new CyderSwitch(180, 55, CyderSwitch.State.OFF);
-        dimensionSwitch.setSize(180, 55);
-        dimensionSwitch.setOffText("2D");
-        dimensionSwitch.setOnText("3D");
-        dimensionSwitch.getSwitchButton().addActionListener(e -> {
-            // todo update to 2d immediately or 3d
-            switch (dimensionSwitch.getState()) {
-                case ON -> {}
-                case OFF -> {}
-                case INDETERMINATE -> {}
-            }
-        });
+        dimensionSwitch = new CyderSwitch(dimensionSwitchSize, CyderSwitch.State.OFF);
+        dimensionSwitch.setButtonPercent(50);
+        dimensionSwitch.setSize(dimensionSwitchSize);
+        dimensionSwitch.setOffText(TWO_D);
+        dimensionSwitch.setOnText(THREE_D);
+        dimensionSwitch.getSwitchButton().addActionListener(e -> dimensionSwitchButtonAction());
 
         CyderPartitionedLayout partitionedLayout = new CyderPartitionedLayout();
         partitionedLayout.spacer(2);
         partitionedLayout.addComponent(noiseParentLabel, 70);
 
-        CyderLabel speedSliderLabel = new CyderLabel("Speed");
-        speedSliderLabel.setSize(200, 40);
-        CyderLabel featureSliderLabel = new CyderLabel("Feature Size");
-        featureSliderLabel.setSize(200, 40);
+        CyderLabel speedSliderLabel = new CyderLabel(SPEED);
+        speedSliderLabel.setSize(sliderLabelSize);
+        CyderLabel featureSliderLabel = new CyderLabel(FEATURE_SIZE);
+        featureSliderLabel.setSize(sliderLabelSize);
 
         partitionedLayout.addComponent(speedSliderLabel, 4);
         partitionedLayout.addComponent(speedSlider, 2);
@@ -416,22 +478,39 @@ public final class PerlinWidget {
         perlinFrame.finalizeAndShow();
     }
 
+    /**
+     * The actions to invoke when the dimension switch button is pressed.
+     */
+    @ForReadability
+    private static void dimensionSwitchButtonAction() {
+        regenerateButtonAction();
+        perlinFrame.repaint();
+    }
+
+    /**
+     * Returns whether the current perlin nose mode is 2D.
+     *
+     * @return whether the current perlin nose mode is 2D
+     */
+    @ForReadability
+    private static boolean twoDimensionalMode() {
+        return dimensionSwitch.getState().equals(CyderSwitch.State.OFF);
+    }
+
+    /**
+     * The actions to invoke when the regenerate button is clicked.
+     */
     private static void regenerateButtonAction() {
-        if (dimensionSwitch.getState().equals(CyderSwitch.State.OFF)) {
+        if (twoDimensionalMode()) {
             if (timer.isRunning()) {
                 timer.stop();
                 unlockUI();
             }
 
             generateNewSeed();
-
-            //reset octaves
             octaves = 1;
-
-            //new noise
             noise2D = generate2DNoise(instanceSeed[0], octaves);
         } else {
-            //reset timeStep
             timeStep = 0;
 
             noise = new SimplexNoiseUtil(NumberUtil.randInt(1000));
@@ -449,7 +528,7 @@ public final class PerlinWidget {
     }
 
     /**
-     * Initializes 2D and 3D noise.
+     * Initializes the 2D and 3D noise.
      */
     @ForReadability
     private static void initializeNoise() {
@@ -472,7 +551,7 @@ public final class PerlinWidget {
         featureSize = (featureSlider.getValue() / (float) maxFeatureSliderValue)
                 * (MAXIMUM_FEATURE_SIZE - MINIMUM_FEATURE_SIZE) + MINIMUM_FEATURE_SIZE;
 
-        if (dimensionSwitch.getState().equals(CyderSwitch.State.ON) && !timer.isRunning()) {
+        if (!twoDimensionalMode() && !timer.isRunning()) {
             for (int y = 0 ; y < resolution ; y++) {
                 for (int x = 0 ; x < resolution ; x++) {
                     double value = noise.eval(x / featureSize, y / featureSize, timeStep);
@@ -565,25 +644,6 @@ public final class PerlinWidget {
     }
 
     /**
-     * The actions to invoke when the combo box iteration button is clicked.
-     */
-    @ForReadability
-    private static void comboBoxAction() {
-        nextIteration();
-
-        timeStep += timeStepIncrement;
-        for (int y = 0 ; y < resolution ; y++) {
-            for (int x = 0 ; x < resolution ; x++) {
-                double value = noise.eval(x / featureSize, y / featureSize, timeStep);
-                noise3D[x][y].setColor(generateGrayscaleColor(value));
-                noise3D[x][y].setX(x);
-                noise3D[x][y].setY(y);
-            }
-        }
-        noiseLabel.repaint();
-    }
-
-    /**
      * Stops the timer if running.
      */
     @ForReadability
@@ -616,7 +676,7 @@ public final class PerlinWidget {
     private static void nextIteration() {
         if (closed) return;
 
-        if (dimensionSwitch.getState().equals(CyderSwitch.State.OFF)) {
+        if (twoDimensionalMode()) {
             if (timer != null && timer.isRunning()) return;
 
             octaves++;
@@ -697,7 +757,7 @@ public final class PerlinWidget {
             generateNewSeed();
         }
 
-        if (dimensionSwitch.getState().equals(CyderSwitch.State.OFF)) {
+        if (twoDimensionalMode()) {
             noise2D = generate2DNoise(instanceSeed[0], octaves);
         } else {
             timeStep += timeStepIncrement;

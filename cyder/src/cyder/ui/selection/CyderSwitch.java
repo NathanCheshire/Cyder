@@ -2,12 +2,12 @@ package cyder.ui.selection;
 
 import com.google.common.base.Preconditions;
 import cyder.animation.AnimationUtil;
+import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.button.CyderButton;
-import cyder.utils.ReflectionUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
@@ -90,6 +90,16 @@ public class CyderSwitch extends JLabel {
     /**
      * Constructs a new switch from the provided parameters.
      *
+     * @param size          the size of the switch
+     * @param startingState the state to initialize the switch in
+     */
+    public CyderSwitch(Dimension size, State startingState) {
+        this(size.getSize().width, size.getSize().height, startingState);
+    }
+
+    /**
+     * Constructs a new switch from the provided parameters.
+     *
      * @param width         the width of the switch
      * @param height        the height of the switch
      * @param startingState the state to initialize the switch in
@@ -97,7 +107,7 @@ public class CyderSwitch extends JLabel {
     public CyderSwitch(int width, int height, State startingState) {
         this.width = width;
         this.height = height;
-        state = startingState;
+        state = Preconditions.checkNotNull(startingState);
 
         setSize(width, height);
         setBorder(lineBorder);
@@ -131,7 +141,14 @@ public class CyderSwitch extends JLabel {
         this(width, height, State.OFF);
     }
 
+    /**
+     * The default width of a switch.
+     */
     private static final int DEFAULT_WIDTH = 400;
+
+    /**
+     * The default height of a switch.
+     */
     private static final int DEFAULT_HEIGHT = 120;
 
     /**
@@ -141,8 +158,9 @@ public class CyderSwitch extends JLabel {
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
+    @ForReadability
     private Dimension calculateSwitchButtonSize() {
-        return new Dimension((int) (this.width * ((double) buttonPercent / 100)) - 10,
+        return new Dimension((int) (this.width * (buttonPercent / 100.0f)) - 10,
                 this.height - 20);
     }
 
@@ -379,6 +397,9 @@ public class CyderSwitch extends JLabel {
      * @param onText the text used for the on state
      */
     public void setOnText(String onText) {
+        Preconditions.checkNotNull(onText);
+        Preconditions.checkArgument(!onText.isEmpty());
+
         this.onText = onText;
         setState(state);
         switchButton.repaint();
@@ -399,6 +420,9 @@ public class CyderSwitch extends JLabel {
      * @param indeterminateText the text used for the indeterminate state
      */
     public void setIndeterminateText(String indeterminateText) {
+        Preconditions.checkNotNull(indeterminateText);
+        Preconditions.checkArgument(!indeterminateText.isEmpty());
+
         this.indeterminateText = indeterminateText;
         setState(state);
     }
@@ -418,6 +442,9 @@ public class CyderSwitch extends JLabel {
      * @param offText the text for the off state
      */
     public void setOffText(String offText) {
+        Preconditions.checkNotNull(offText);
+        Preconditions.checkArgument(!offText.isEmpty());
+
         this.offText = offText;
         setState(state);
         switchButton.repaint();
@@ -439,6 +466,17 @@ public class CyderSwitch extends JLabel {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderUiToString(this);
+        return "CyderSwitch{"
+                + "width=" + width
+                + ", height=" + height
+                + ", state=" + state
+                + ", switchButton=" + switchButton
+                + ", buttonPercent=" + buttonPercent
+                + ", animationDelay=" + animationDelay
+                + ", onText=" + onText
+                + ", indeterminateText=" + indeterminateText
+                + ", offText=" + offText
+                + ", switchButtonActionListener=" + switchButtonActionListener
+                + ", animationIncrement=" + animationIncrement + "}";
     }
 }
