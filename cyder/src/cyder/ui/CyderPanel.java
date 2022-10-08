@@ -10,7 +10,7 @@ import cyder.utils.ReflectionUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * CyderPanels are what hold and manage where components go on them.
@@ -119,7 +119,7 @@ public class CyderPanel extends JLabel {
      *
      * @return the components managed by the layout
      */
-    public ArrayList<Component> getLayoutComponents() {
+    public Collection<Component> getLayoutComponents() {
         return cyderLayout.getLayoutComponents();
     }
 }

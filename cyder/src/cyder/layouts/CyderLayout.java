@@ -1,7 +1,6 @@
 package cyder.layouts;
 
 import cyder.exceptions.IllegalMethodException;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,7 +59,7 @@ public class CyderLayout extends JLabel implements ICyderLayout {
      */
     @Override
     @Deprecated
-    public void add(@NotNull Component comp, Object constraints) {
+    public void add(Component comp, Object constraints) {
         throw new IllegalMethodException(UNSUPPORTED);
     }
 

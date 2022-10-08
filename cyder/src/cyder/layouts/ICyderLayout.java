@@ -4,7 +4,7 @@ import cyder.constants.CyderStrings;
 import cyder.ui.CyderPanel;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * An interface for Cyder layouts to implement.
@@ -53,7 +53,7 @@ public interface ICyderLayout {
      *
      * @return all components managed by this layout
      */
-    default ArrayList<Component> getLayoutComponents() {
+    default Collection<Component> getLayoutComponents() {
         throw new UnsupportedOperationException(CyderStrings.NOT_IMPLEMENTED);
     }
 

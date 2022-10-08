@@ -73,7 +73,7 @@ public final class ConvexHullWidget {
     /**
      * The padding around the edges of the grid.
      */
-    private static final int GRID_PADDING = 5;
+    private static final int GRID_PADDING = 3;
 
     /**
      * The size of the parent component for the grid.

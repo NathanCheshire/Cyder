@@ -1,9 +1,9 @@
 package cyder.threads;
 
+import com.google.common.base.Preconditions;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.utils.ReflectionUtil;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.ThreadFactory;
 
@@ -50,8 +50,8 @@ public class CyderThreadFactory implements ThreadFactory {
      * @param runnable the runnable to use for the thread
      * @return a new thread using the provided runnable and name
      */
-    public Thread newThread(@NotNull Runnable runnable) {
-        return new Thread(runnable, name);
+    public Thread newThread(Runnable runnable) {
+        return new Thread(Preconditions.checkNotNull(runnable), name);
     }
 
     /**

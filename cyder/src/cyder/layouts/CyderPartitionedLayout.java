@@ -115,6 +115,7 @@ public class CyderPartitionedLayout extends CyderLayout {
     /**
      * {@inheritDoc}
      */
+    @Override
     public ArrayList<Component> getLayoutComponents() {
         ArrayList<Component> ret = new ArrayList<>(components.size());
 
@@ -127,6 +128,10 @@ public class CyderPartitionedLayout extends CyderLayout {
      * {@inheritDoc}
      */
     public Dimension getPackSize() {
+        /*
+        Doesn't exactly make sense since the size depends on the provided viewport
+        meaning the returned size would always be equal to the viewport's size.
+         */
         throw new UnsupportedOperationException("Not implemented");
     }
 
@@ -141,6 +146,7 @@ public class CyderPartitionedLayout extends CyderLayout {
      *
      * @param associatedPanel the CyderPanel to manage
      */
+    @Override
     public void setAssociatedPanel(CyderPanel associatedPanel) {
         this.associatedPanel = Preconditions.checkNotNull(associatedPanel);
 
@@ -186,6 +192,7 @@ public class CyderPartitionedLayout extends CyderLayout {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void revalidateComponents() {
         if (associatedPanel == null || associatedPanel.getWidth() == 0
                 || associatedPanel.getHeight() == 0) return;
@@ -292,6 +299,7 @@ public class CyderPartitionedLayout extends CyderLayout {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void removeComponent(Component component) {
         Preconditions.checkNotNull(component);
 

@@ -43,6 +43,7 @@ import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -684,7 +685,7 @@ public class CyderFrame extends JFrame {
      * @return the components managed by the layout
      * @throws IllegalStateException if no layout is associated with the name
      */
-    public ArrayList<Component> getLayoutComponents() {
+    public Collection<Component> getLayoutComponents() {
         checkNotNull(cyderPanel);
         checkNotNull(cyderPanel.getLayoutComponents());
 
