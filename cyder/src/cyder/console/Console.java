@@ -1021,7 +1021,7 @@ public enum Console {
                 if (!isClosed()) {
                     try {
                         refreshClockText();
-                        TimeUtil.sleepWithChecks(CLOCK_REFRESH_SLEEP_TIME, CLOCK_CHECK_FREQUENCY, consoleClosed);
+                        ThreadUtil.sleepWithChecks(CLOCK_REFRESH_SLEEP_TIME, CLOCK_CHECK_FREQUENCY, consoleClosed);
                     } catch (Exception e) {
                         ExceptionHandler.silentHandle(e);
                     }
@@ -1065,7 +1065,7 @@ public enum Console {
                     }
 
                     consoleCyderFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
-                    TimeUtil.sleepWithChecks(3000, 50, consoleClosed);
+                    ThreadUtil.sleepWithChecks(3000, 50, consoleClosed);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

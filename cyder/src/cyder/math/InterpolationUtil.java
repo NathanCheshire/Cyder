@@ -39,16 +39,4 @@ public final class InterpolationUtil {
     public static double linearlyInterpolate(double value1, double value2, double amt) {
         return ((value2 - value1) * amt) + value1;
     }
-
-    /**
-     * Linearly interpolates between v0 and v1 for the provided t value in the range [0,1].
-     *
-     * @param v0 the first value
-     * @param v1 the second value
-     * @param t  the t value in the range [0,1]
-     * @return the linearly interpolated value
-     */
-    public static float linearlyInterpolate(float v0, float v1, float t) {
-        return (1 - t) * v0 + t * v1;
-    }
 }

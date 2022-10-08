@@ -8,6 +8,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.math.NumberUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.CyderGrid;
@@ -28,6 +29,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.*;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A pathfinding widget to visualize Dijkstra's path finding algorithm and the A* algorithm
@@ -273,19 +275,77 @@ public final class PathFinderWidget {
     private static PathTrickleAnimator currentPathAnimator;
 
     /**
+     * The path solver thread name.
+     */
+    private static final String PATH_SOLVING_THREAD_NAME = "Path Solver";
+
+    /**
+     * The semaphore used to achieve thread safety when
+     * adding/removing to/from the grid and repainting.
+     */
+    private static final Semaphore semaphore = new Semaphore(1);
+
+    /**
+     * The heuristic value for A* to be logically equivalent to Dijkstra's.
+     */
+    private static final int DIJKSTRA_HEURISTIC = 1;
+
+    /**
+     * The width of the frame.
+     */
+    private static final int FRAME_WIDTH = 1000;
+
+    /**
+     * The height of the frame.
+     */
+    private static final int FRAME_HEIGHT = 1070;
+
+    /**
+     * The widget title.
+     */
+    private static final String TITLE = "Pathfinding Visualizer";
+
+    /**
+     * The length of the grid component.
+     */
+    private static final int gridLength = 800;
+
+    /**
+     * The text for the start button.
+     */
+    private static final String START = "Start";
+
+    /**
+     * The text for the reset button.
+     */
+    private static final String RESET = "Reset";
+
+    /**
+     * The text for the stop button.
+     */
+    private static final String STOP = "Stop";
+
+    /**
+     * The state label string prefix.
+     */
+    private static final String STATE = "State:";
+
+    /**
+     * A space character.
+     */
+    private static final String SPACE = " ";
+
+    /**
+     * The text for the resume button.
+     */
+    private static final String RESUME = "Resume";
+
+    /**
      * Suppress default constructor.
      */
     private PathFinderWidget() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
-
-    private static final int FRAME_WIDTH = 1000;
-    private static final int FRAME_HEIGHT = 1070;
-    private static final String TITLE = "Pathfinding Visualizer";
-    private static final int gridLength = 800;
-    private static final String START = "Start";
-    private static final String RESET = "Reset";
-    private static final String STOP = "Stop";
 
     @Widget(triggers = {"path", "pathfinder", "A*"},
             description = "A pathfinding visualizer for A* and Dijkstras algorithms")
@@ -521,7 +581,7 @@ public final class PathFinderWidget {
 
         if (currentPathingState == PathingState.RUNNING) {
             currentPathingState = PathingState.PAUSED;
-            startPauseButton.setText("Resume");
+            startPauseButton.setText(RESUME);
             updateStateLabel();
             enableUiElements();
             return;
@@ -596,11 +656,6 @@ public final class PathFinderWidget {
     }
 
     /**
-     * The path solver thread name.
-     */
-    private static final String PATH_SOLVING_THREAD_NAME = "Path Solver";
-
-    /**
      * Starts the main while loop which takes path steps until a path is
      * found or all reachable nodes have been checked.
      * All setup of lists must be performed before invoking this method.
@@ -639,7 +694,6 @@ public final class PathFinderWidget {
                 return;
             }
 
-            // todo method for neighbors
             LinkedList<PathNode> neighbors = new LinkedList<>();
             for (PathNode possibleNeighbor : pathableNodes) {
                 if (areOrthogonalNeighbors(possibleNeighbor, min)
@@ -665,11 +719,13 @@ public final class PathFinderWidget {
             // Refresh grid colors based on current state of algorithm and nodes checked.
             pathableNodes.stream().filter(pathNode -> !pathNode.equals(startNode) && !pathNode.equals(goalNode))
                     .forEach(pathNode -> {
+                        int x = pathNode.getX();
+                        int y = pathNode.getY();
+
                         if (openNodes.contains(pathNode)) {
-                            lockingAddNode(new CyderGrid.GridNode(pathableOpenColor, pathNode.getX(), pathNode.getY()));
+                            lockingAddNode(new CyderGrid.GridNode(pathableOpenColor, x, y));
                         } else if (pathNode.getParent() != null) {
-                            lockingAddNode(
-                                    new CyderGrid.GridNode(pathableClosedColor, pathNode.getX(), pathNode.getY()));
+                            lockingAddNode(new CyderGrid.GridNode(pathableClosedColor, x, y));
                         }
                     });
         } else {
@@ -713,6 +769,11 @@ public final class PathFinderWidget {
      */
     private static class PathTrickleAnimator {
         /**
+         * The trickle animation thread name.
+         */
+        private static final String PATH_TRICKLE_ANIMATION_THREAD_NAME = "Pathfinding Path Trickle Animator";
+
+        /**
          * The color used for the found path.
          */
         private static final Color PATH_COLOR = CyderColors.regularBlue;
@@ -725,7 +786,7 @@ public final class PathFinderWidget {
         /**
          * Whether this animation has been killed
          */
-        private boolean killed;
+        private final AtomicBoolean killed = new AtomicBoolean(false);
 
         /**
          * Constructs and starts a new path animator.
@@ -735,65 +796,72 @@ public final class PathFinderWidget {
         public PathTrickleAnimator(ArrayList<Point> pathPoints) {
             CyderThreadRunner.submit(() -> {
                 try {
+                    // Draw initial path from start to goal
                     for (Point pathPoint : pathPoints) {
-                        if (killed) return;
+                        if (killed.get()) return;
 
                         CyderGrid.GridNode updateNode = null;
 
                         for (CyderGrid.GridNode node : pathfindingGrid.getGridNodes()) {
-                            if (killed) return;
+                            if (killed.get()) return;
 
-                            if (node.getX() == pathPoint.getX()
-                                    && node.getY() == pathPoint.getY()) {
+                            if (node.getX() == pathPoint.getX() && node.getY() == pathPoint.getY()) {
                                 updateNode = node;
                                 break;
                             }
                         }
 
-                        Color c = updateNode != null ? updateNode.getColor() : null;
-                        if (c != null && (c.equals(PATH_ANIMATION_COLOR) || c.equals(pathableClosedColor))) {
-                            lockingAddNode(new CyderGrid.GridNode(PATH_ANIMATION_COLOR,
-                                    updateNode.getX(), updateNode.getY()));
+                        Color color = updateNode != null ? updateNode.getColor() : null;
+                        if (color != null
+                                && (color.equals(PATH_ANIMATION_COLOR) || color.equals(pathableClosedColor))) {
+
+                            int x = updateNode.getX();
+                            int y = updateNode.getY();
+                            lockingAddNode(new CyderGrid.GridNode(PATH_ANIMATION_COLOR, x, y));
+
                             lockingRepaintGrid();
                             ThreadUtil.sleep(PATH_TRICKLE_TIMEOUT);
                         }
                     }
 
                     while (true) {
-                        // moving path dot from start to goal
-                        for (Point p : pathPoints) {
-                            if (killed) return;
+                        // Trickle from start to goal
+                        for (Point pathPoint : pathPoints) {
+                            if (killed.get()) return;
 
-                            Optional<CyderGrid.GridNode> overridePoint = pathfindingGrid.getNodeAtPoint(p);
+                            Optional<CyderGrid.GridNode> overridePoint = pathfindingGrid.getNodeAtPoint(pathPoint);
                             if (overridePoint.isPresent()
                                     && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
                                     || overridePoint.get().getColor().equals(PATH_COLOR))) {
-                                lockingAddNode(new CyderGrid.GridNode(PATH_COLOR, (int) p.getX(), (int) p.getY()));
+                                int x = (int) pathPoint.getX();
+                                int y = (int) pathPoint.getY();
+                                lockingAddNode(new CyderGrid.GridNode(PATH_COLOR, x, y));
+
                                 lockingRepaintGrid();
                             }
 
-                            if (killed) return;
-
+                            if (killed.get()) return;
                             ThreadUtil.sleep(PATH_TRICKLE_TIMEOUT);
+                            if (killed.get()) return;
 
-                            if (killed) return;
-
-                            overridePoint = pathfindingGrid.getNodeAtPoint(p);
+                            overridePoint = pathfindingGrid.getNodeAtPoint(pathPoint);
                             if (overridePoint.isPresent()
                                     && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
                                     || overridePoint.get().getColor().equals(PATH_COLOR))) {
-                                lockingAddNode(
-                                        new CyderGrid.GridNode(PATH_ANIMATION_COLOR, (int) p.getX(), (int) p.getY()));
+
+                                int x = (int) pathPoint.getX();
+                                int y = (int) pathPoint.getY();
+                                lockingAddNode(new CyderGrid.GridNode(PATH_ANIMATION_COLOR, x, y));
                                 lockingRepaintGrid();
                             }
                         }
 
-                        if (killed) return;
+                        if (killed.get()) return;
 
-                        // moving path dot from goal to start
+                        // Trickle from goal to start
                         for (int i = pathPoints.size() - 1 ; i >= 0 ; i--) {
-                            Optional<CyderGrid.GridNode> overridePoint =
-                                    pathfindingGrid.getNodeAtPoint(pathPoints.get(i));
+                            Optional<CyderGrid.GridNode> overridePoint
+                                    = pathfindingGrid.getNodeAtPoint(pathPoints.get(i));
                             if (overridePoint.isPresent()
                                     && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
                                     || overridePoint.get().getColor().equals(PATH_COLOR))) {
@@ -803,11 +871,9 @@ public final class PathFinderWidget {
                                 lockingRepaintGrid();
                             }
 
-                            if (killed) return;
-
+                            if (killed.get()) return;
                             ThreadUtil.sleep(PATH_TRICKLE_TIMEOUT);
-
-                            if (killed) return;
+                            if (killed.get()) return;
 
                             overridePoint = pathfindingGrid.getNodeAtPoint(pathPoints.get(i));
                             if (overridePoint.isPresent()
@@ -819,21 +885,21 @@ public final class PathFinderWidget {
                                 lockingRepaintGrid();
                             }
 
-                            if (killed) return;
+                            if (killed.get()) return;
                         }
                     }
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
                 lockingRepaintGrid();
-            }, "Pathfinding Path Animator");
+            }, PATH_TRICKLE_ANIMATION_THREAD_NAME);
         }
 
         /**
          * Kills this path animator.
          */
         public void kill() {
-            killed = true;
+            killed.set(true);
         }
     }
 
@@ -920,7 +986,7 @@ public final class PathFinderWidget {
      * Updates the state label based.
      */
     private static void updateStateLabel() {
-        currentStateLabel.setText("State: " + currentPathingState.getStateLabelText());
+        currentStateLabel.setText(STATE + SPACE + currentPathingState.getStateLabelText());
     }
 
     /**
@@ -960,13 +1026,14 @@ public final class PathFinderWidget {
      * Kills the path animator and sets it to null.
      */
     private static void endPathAnimator() {
-        if (currentPathAnimator != null) {
-            currentPathAnimator.kill();
-            currentPathAnimator = null;
+        if (currentPathAnimator == null) return;
 
-            pathfindingGrid.removeNodesOfColor(PathTrickleAnimator.PATH_COLOR);
-            pathfindingGrid.removeNodesOfColor(PathTrickleAnimator.PATH_ANIMATION_COLOR);
-        }
+        currentPathAnimator.kill();
+        currentPathAnimator = null;
+
+        pathfindingGrid.removeNodesOfColor(PathTrickleAnimator.PATH_COLOR);
+        pathfindingGrid.removeNodesOfColor(PathTrickleAnimator.PATH_ANIMATION_COLOR);
+
     }
 
     /**
@@ -975,11 +1042,9 @@ public final class PathFinderWidget {
     public static void reset() {
         endPathAnimator();
 
-        // ensure ui elements are enabled
         enableUiElements();
 
-        // ensure start button has proper text
-        startPauseButton.setText("Start");
+        startPauseButton.setText(START);
 
         resetCheckboxStates();
         resetSwitcherStates();
@@ -987,30 +1052,19 @@ public final class PathFinderWidget {
         resetStartAndGoalNodes();
         removeWalls();
 
-        // reset state
         currentPathingState = PathingState.NOT_STARTED;
         updateStateLabel();
 
-        // reset initial grid length
         pathfindingGrid.setNodeDimensionLength(DEFAULT_NODES);
 
-        // reset slider value
         speedSlider.setValue(DEFAULT_SLIDER_VALUE);
 
-        // ensure nodes can be drawn on the grid
         pathfindingGrid.installClickAndDragPlacer();
 
         pathfindingGrid.setResizable(true);
 
-        // finally repaint grid
         lockingRepaintGrid();
     }
-
-    /**
-     * The semaphore used to achieve thread safety when
-     * adding/removing to/from the grid and repainting.
-     */
-    private static final Semaphore semaphore = new Semaphore(1);
 
     /**
      * Repaints the pathfinding grid in a thread-safe way.
@@ -1045,76 +1099,83 @@ public final class PathFinderWidget {
     /**
      * Returns whether the provided nodes are diagonal neighbors.
      *
-     * @param n1 the first node
-     * @param n2 the second node
+     * @param node1 the first node
+     * @param node2 the second node
      * @return whether the provided nodes are diagonal neighbors
      */
-    private static boolean areDiagonalNeighbors(PathNode n1, PathNode n2) {
-        return (n1.getX() == n2.getX() + 1 && n1.getY() == n2.getY() + 1) ||
-                (n1.getX() == n2.getX() + 1 && n1.getY() == n2.getY() - 1) ||
-                (n1.getX() == n2.getX() - 1 && n1.getY() == n2.getY() - 1) ||
-                (n1.getX() == n2.getX() - 1 && n1.getY() == n2.getY() + 1);
+    private static boolean areDiagonalNeighbors(PathNode node1, PathNode node2) {
+        return (node1.getX() == node2.getX() + 1 && node1.getY() == node2.getY() + 1)
+                || (node1.getX() == node2.getX() + 1 && node1.getY() == node2.getY() - 1)
+                || (node1.getX() == node2.getX() - 1 && node1.getY() == node2.getY() - 1)
+                || (node1.getX() == node2.getX() - 1 && node1.getY() == node2.getY() + 1);
     }
 
     /**
      * Returns whether the provided nodes are orthogonal neighbors.
      *
-     * @param n1 the first node
-     * @param n2 the second node
+     * @param node1 the first node
+     * @param node2 the second node
      * @return whether the provided nodes are orthogonal neighbors
      */
-    private static boolean areOrthogonalNeighbors(PathNode n1, PathNode n2) {
-        return (n1.getX() == n2.getX() && n1.getY() == n2.getY() + 1) ||
-                (n1.getX() == n2.getX() && n1.getY() == n2.getY() - 1) ||
-                (n1.getX() == n2.getX() + 1 && n1.getY() == n2.getY()) ||
-                (n1.getX() == n2.getX() - 1 && n1.getY() == n2.getY());
+    private static boolean areOrthogonalNeighbors(PathNode node1, PathNode node2) {
+        return (node1.getX() == node2.getX() && node1.getY() == node2.getY() + 1)
+                || (node1.getX() == node2.getX() && node1.getY() == node2.getY() - 1)
+                || (node1.getX() == node2.getX() + 1 && node1.getY() == node2.getY())
+                || (node1.getX() == node2.getX() - 1 && node1.getY() == node2.getY());
     }
 
     /**
      * Calculates the heuristic from the provided node to the goal node
      * using the currently set heuristic.
      *
-     * @param n the node to calculate the heuristic of
+     * @param node the node to calculate the heuristic of
      * @return the cost to path from the provided node to the goal
      */
-    private static double heuristic(PathNode n) {
-        // algorithm on corresponds to Dijkstra's
-        return algorithmSwitch.getState() == CyderSwitch.State.ON
-                ? 1 : (heuristicSwitch.getState() == CyderSwitch.State.OFF
-                ? manhattanDistance(n, goalNode) : euclideanDistance(n, goalNode));
+    private static double heuristic(PathNode node) {
+        boolean dijkstrasAlgorithm = algorithmSwitch.getState() == CyderSwitch.State.ON;
+        boolean euclideanDistance = heuristicSwitch.getState() == CyderSwitch.State.ON;
+        if (dijkstrasAlgorithm) {
+            return DIJKSTRA_HEURISTIC;
+        } else if (euclideanDistance) {
+            return euclideanDistance(node, goalNode);
+        } else {
+            return manhattanDistance(node, goalNode);
+        }
     }
 
     /**
      * Calculates the g cost from the provided node to the start node.
      * This uses Euclidean distance by definition of g cost.
      *
-     * @param n the node to calculate the g cost of
+     * @param node the node to calculate the g cost of
      * @return the g cost of the provided node
      */
-    private static double calcGCost(PathNode n) {
-        return euclideanDistance(n, startNode);
+    private static double calcGCost(PathNode node) {
+        return euclideanDistance(node, startNode);
     }
 
     /**
      * Returns the Euclidean distance between the two nodes.
      *
-     * @param n1 the first noDe
-     * @param n2 the second node
+     * @param node1 the first noDe
+     * @param node2 the second node
      * @return the Euclidean distance between the two nodes
      */
-    private static double euclideanDistance(PathNode n1, PathNode n2) {
-        return Math.sqrt(Math.pow((n1.getX() - n2.getX()), 2) + Math.pow((n1.getY() - n2.getY()), 2));
+    private static double euclideanDistance(PathNode node1, PathNode node2) {
+        return NumberUtil.calculateMagnitude(
+                node1.getX() - node2.getX(),
+                node1.getY() - node2.getY());
     }
 
     /**
      * Returns the Manhattan distance between the two nodes.
      *
-     * @param n1 the first node
-     * @param n2 the second node
+     * @param node1 the first node
+     * @param node2 the second node
      * @return the Manhattan distance between the two nodes
      */
-    private static double manhattanDistance(PathNode n1, PathNode n2) {
-        return Math.abs(n1.getX() - n2.getX()) + Math.abs(n1.getY() - n2.getY());
+    private static double manhattanDistance(PathNode node1, PathNode node2) {
+        return Math.abs(node1.getX() - node2.getX()) + Math.abs(node1.getY() - node2.getY());
     }
 
     /**

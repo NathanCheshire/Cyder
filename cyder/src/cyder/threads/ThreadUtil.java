@@ -1,10 +1,13 @@
 package cyder.threads;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Function;
 
 /**
  * A utility class for querying threads, names, and counts.
@@ -106,5 +109,58 @@ public final class ThreadUtil {
         try {
             Thread.sleep(sleepTimeMs, sleepTimeNano);
         } catch (Exception ignored) {}
+    }
+
+    /**
+     * Sleeps on the current thread for the specified amount of time,
+     * checking the escapeCondition for truth every checkConditionFrequency ms.
+     *
+     * @param sleepTime               the total time to sleep for
+     * @param checkConditionFrequency the frequency to check the escapeCondition
+     * @param shouldExit              the function to evaluate to determine whether to stop sleeping
+     */
+    public static void sleepWithChecks(long sleepTime, long checkConditionFrequency,
+                                       Function<Void, Boolean> shouldExit) {
+        Preconditions.checkNotNull(shouldExit);
+        Preconditions.checkArgument(sleepTime > 0);
+        Preconditions.checkArgument(checkConditionFrequency > 0);
+        Preconditions.checkArgument(sleepTime > checkConditionFrequency);
+
+        long acc = 0;
+        while (acc < sleepTime) {
+            sleep(checkConditionFrequency);
+            acc += checkConditionFrequency;
+
+            if (shouldExit.apply(null)) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Sleeps on the current thread for the specified amount of time,
+     * checking the escapeCondition for truth every checkConditionFrequency ms.
+     *
+     * @param sleepTime               the total time to sleep for
+     * @param checkConditionFrequency the frequency to check the escapeCondition
+     * @param escapeCondition         the condition to stop sleeping if true
+     */
+    public static void sleepWithChecks(long sleepTime,
+                                       long checkConditionFrequency,
+                                       AtomicBoolean escapeCondition) {
+        Preconditions.checkNotNull(escapeCondition);
+        Preconditions.checkArgument(sleepTime > 0);
+        Preconditions.checkArgument(checkConditionFrequency > 0);
+        Preconditions.checkArgument(sleepTime > checkConditionFrequency);
+
+        long acc = 0;
+        while (acc < sleepTime) {
+            ThreadUtil.sleep(checkConditionFrequency);
+            acc += checkConditionFrequency;
+
+            if (escapeCondition.get()) {
+                break;
+            }
+        }
     }
 }

@@ -6,7 +6,6 @@ import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.threads.ThreadUtil;
 import cyder.user.UserUtil;
 import cyder.utils.StringUtil;
 import org.jsoup.HttpStatusException;
@@ -23,8 +22,6 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Function;
 
 /**
  * Static utility class for things related to time/date queries and conversions.
@@ -728,60 +725,6 @@ public final class TimeUtil {
     // ---------------------------------------
     // End relative timing methods and members
     // ---------------------------------------
-
-    /**
-     * Sleeps on the current thread for the specified amount of time,
-     * checking the escapeCondition for truth every checkConditionFrequency ms.
-     *
-     * @param sleepTime               the total time to sleep for
-     * @param checkConditionFrequency the frequency to check the escapeCondition
-     * @param escapeCondition         the condition to stop sleeping if true
-     */
-    public static void sleepWithChecks(long sleepTime,
-                                       long checkConditionFrequency, AtomicBoolean escapeCondition) {
-        Preconditions.checkNotNull(escapeCondition);
-        Preconditions.checkArgument(sleepTime > 0);
-        Preconditions.checkArgument(checkConditionFrequency > 0);
-        Preconditions.checkArgument(sleepTime > checkConditionFrequency);
-
-        long acc = 0;
-
-        while (acc < sleepTime) {
-            ThreadUtil.sleep(checkConditionFrequency);
-            acc += checkConditionFrequency;
-
-            if (escapeCondition.get()) {
-                break;
-            }
-        }
-    }
-
-    /**
-     * Sleeps on the current thread for the specified amount of time,
-     * checking the escapeCondition for truth every checkConditionFrequency ms.
-     *
-     * @param sleepTime               the total time to sleep for
-     * @param checkConditionFrequency the frequency to check the escapeCondition
-     * @param shouldExit              the function to evaluate to determine whether to stop sleeping
-     */
-    public static void sleepWithChecks(long sleepTime, long checkConditionFrequency,
-                                       Function<Void, Boolean> shouldExit) {
-        Preconditions.checkNotNull(shouldExit);
-        Preconditions.checkArgument(sleepTime > 0);
-        Preconditions.checkArgument(checkConditionFrequency > 0);
-        Preconditions.checkArgument(sleepTime > checkConditionFrequency);
-
-        long acc = 0;
-
-        while (acc < sleepTime) {
-            ThreadUtil.sleep(checkConditionFrequency);
-            acc += checkConditionFrequency;
-
-            if (shouldExit.apply(null)) {
-                break;
-            }
-        }
-    }
 
     /**
      * The url to query for moon phase data.

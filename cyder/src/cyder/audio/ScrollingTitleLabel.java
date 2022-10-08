@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
-import cyder.time.TimeUtil;
 import cyder.utils.StringUtil;
 
 import javax.swing.*;
@@ -123,7 +122,7 @@ public class ScrollingTitleLabel {
     private void startScrollingThread(int textWidth, int parentWidth, String labelText) {
         CyderThreadRunner.submit(() -> {
             try {
-                TimeUtil.sleepWithChecks(INITIAL_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
+                ThreadUtil.sleepWithChecks(INITIAL_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
 
                 while (!killed.get()) {
                     int translatedDistance = 0;
@@ -138,7 +137,7 @@ public class ScrollingTitleLabel {
                         translatedDistance++;
                     }
 
-                    TimeUtil.sleepWithChecks(SIDE_TO_SIDE_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
+                    ThreadUtil.sleepWithChecks(SIDE_TO_SIDE_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
 
                     while (translatedDistance > 0) {
                         if (killed.get()) {
@@ -150,7 +149,7 @@ public class ScrollingTitleLabel {
                         translatedDistance--;
                     }
 
-                    TimeUtil.sleepWithChecks(SIDE_TO_SIDE_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
+                    ThreadUtil.sleepWithChecks(SIDE_TO_SIDE_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

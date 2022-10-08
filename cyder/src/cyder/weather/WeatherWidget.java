@@ -307,6 +307,27 @@ public class WeatherWidget {
     private static final String AM = "am";
 
     /**
+     * The component width for the custom temperature label.
+     */
+    private static final int customTempLabelWidth = 400;
+
+    /**
+     * The name for the waiting thread for changing the widget's location.
+     */
+    private static final String WEATHER_LOCATION_CHANGER_THREAD_NAME = "Weather Location Changer";
+
+    /**
+     * The description for the @Widget annotation.
+     */
+    private static final String widgetDescription = "A widget that displays weather data for the current " +
+            "city you are in. The location is also changeable";
+
+    /**
+     * The getter util instance for changing the weather location.
+     */
+    private final GetterUtil getterUtilInstance = GetterUtil.getInstance();
+
+    /**
      * The instances of weather widget for this Cyder session.
      */
     private static final LinkedList<WeatherWidget> instances = new LinkedList<>();
@@ -329,21 +350,10 @@ public class WeatherWidget {
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 
-    /**
-     * The description for the @Widget annotation.
-     */
-    private static final String widgetDescription = "A widget that displays weather data for the current " +
-            "city you are in. The location is also changeable";
-
     @Widget(triggers = "weather", description = widgetDescription)
     public static void showGui() {
         getInstance().innerShowGui();
     }
-
-    /**
-     * The getter util instance for changing the weather location.
-     */
-    GetterUtil getterUtilInstance = GetterUtil.getInstance();
 
     /**
      * Shows the UI since we need to allow multiple instances of weather widget
@@ -352,8 +362,8 @@ public class WeatherWidget {
     private void innerShowGui() {
         if (NetworkUtil.isHighLatency()) {
             Console.INSTANCE.getConsoleCyderFrame().notify("Sorry, "
-                    + UserUtil.getCyderUser().getName() + ", but"
-                    + " this feature is suspended until a stable internet connection can be established");
+                    + UserUtil.getCyderUser().getName() + ", but this feature "
+                    + "is suspended until a stable internet connection can be established");
             return;
         } else if (StringUtil.isNullOrEmpty(PropLoader.getString(WEATHER_KEY))) {
             Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has "
@@ -495,10 +505,12 @@ public class WeatherWidget {
                         + currentLocationString + "\"");
 
                 repullWeatherStats();
+
+                weatherFrame.hideMenu();
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
-        }, "Weather Location Changer"));
+        }, WEATHER_LOCATION_CHANGER_THREAD_NAME));
 
         minTempLabel = new JLabel();
         minTempLabel.setForeground(CyderColors.vanilla);
@@ -516,7 +528,7 @@ public class WeatherWidget {
         customTempLabel = new JLabel() {
             @Override
             public void paintComponent(Graphics g) {
-                int w = componentWidth - 2 * borderLen;
+                int w = customTempLabelWidth - 2 * borderLen;
                 int h = componentHeight - 2 * borderLen;
                 g.setColor(CyderColors.navy);
                 g.fillRect(borderLen, borderLen, w, h);
@@ -551,7 +563,7 @@ public class WeatherWidget {
                 maxTempLabel.setSize(
                         StringUtil.getMinWidth(maxText, minTempLabel.getFont()),
                         StringUtil.getMinHeight(maxText, minTempLabel.getFont()));
-                maxTempLabel.setLocation(componentWidth - maxTempLabel.getWidth(),
+                maxTempLabel.setLocation(customTempLabelWidth - maxTempLabel.getWidth(),
                         (componentHeight - maxTempLabel.getHeight()) / 2);
                 customTempLabel.add(maxTempLabel);
 
@@ -565,11 +577,6 @@ public class WeatherWidget {
             private static final int borderLen = 3;
 
             /**
-             * The width of this component.
-             */
-            public static final int componentWidth = 400;
-
-            /**
              * The height of this component
              */
             public static final int componentHeight = 40;
@@ -577,12 +584,12 @@ public class WeatherWidget {
             @ForReadability
             private void paintCustomBorder(Graphics g) {
                 g.fillRect(0, 0, borderLen, componentHeight);
-                g.fillRect(componentWidth - borderLen, 0, borderLen, componentHeight);
-                g.fillRect(0, 0, componentWidth, borderLen);
-                g.fillRect(0, componentHeight - borderLen, componentWidth, borderLen);
+                g.fillRect(customTempLabelWidth - borderLen, 0, borderLen, componentHeight);
+                g.fillRect(0, 0, customTempLabelWidth, borderLen);
+                g.fillRect(0, componentHeight - borderLen, customTempLabelWidth, borderLen);
             }
         };
-        customTempLabel.setBounds(40, 320, 400, 40);
+        customTempLabel.setBounds(40, 320, customTempLabelWidth, 40);
         weatherFrame.getContentPane().add(customTempLabel);
 
         windSpeedLabel = new JLabel("", SwingConstants.CENTER);
@@ -729,7 +736,7 @@ public class WeatherWidget {
                 int checkFrequency = 1000 * 10;
 
                 while (true) {
-                    TimeUtil.sleepWithChecks(sleepTime, checkFrequency, stopUpdating);
+                    ThreadUtil.sleepWithChecks(sleepTime, checkFrequency, stopUpdating);
                     if (stopUpdating.get()) {
                         break;
                     }
@@ -743,7 +750,7 @@ public class WeatherWidget {
     }
 
     /**
-     * Maps the value from the old range to the range [0, 400].
+     * Maps the value from the old range to the range [0, customTempLabelWidth].
      *
      * @param value       the value to map
      * @param oldRangeMin the old range's min
@@ -751,7 +758,7 @@ public class WeatherWidget {
      * @return the value mapped from the old range to the new range
      */
     private double map(double value, double oldRangeMin, double oldRangeMax) {
-        return (value - oldRangeMin) * 400.0 / (oldRangeMax - oldRangeMin);
+        return (value - oldRangeMin) * (float) customTempLabelWidth / (oldRangeMax - oldRangeMin);
     }
 
     /**

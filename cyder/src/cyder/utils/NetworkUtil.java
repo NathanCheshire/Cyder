@@ -15,6 +15,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -111,7 +112,7 @@ public class NetworkUtil {
                 while (highPingCheckerRunning.get()) {
                     setHighLatency(!decentPing());
 
-                    TimeUtil.sleepWithChecks(HIGH_PING_TIMEOUT, HIGH_PING_EXIT_CHECK, shouldExit);
+                    ThreadUtil.sleepWithChecks(HIGH_PING_TIMEOUT, HIGH_PING_EXIT_CHECK, shouldExit);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

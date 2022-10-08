@@ -1268,6 +1268,8 @@ public class CyderGrid extends JLabel {
      * @return the grid node at the point if found
      */
     public Optional<GridNode> getNodeAtPoint(Point point) {
+        Preconditions.checkNotNull(point);
+
         lock();
         for (GridNode gridNode : grid) {
             if (gridNode.getX() == point.getX() && gridNode.getY() == point.getY()) {
