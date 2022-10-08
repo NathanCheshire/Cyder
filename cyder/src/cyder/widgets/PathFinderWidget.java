@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -159,24 +160,42 @@ public final class PathFinderWidget {
         /**
          * The algorithm is finished and found a path.
          */
-        PATH_FOUND,
+        PATH_FOUND("Path found"),
         /**
          * The algorithm is finished but no path was found. :(
          */
-        PATH_NOT_FOUND,
+        PATH_NOT_FOUND("No path found"),
         /**
          * The algorithm is incomplete and may be resumed.
          */
-        PAUSED,
+        PAUSED("Paused"),
         /**
          * The algorithm has not yet begun (Widget just opened or reset invoked).
          */
-        NOT_STARTED,
+        NOT_STARTED("Not Started"),
         /**
          * The algorithm is currently underway, whether this be the first time it
          * has begun, or the 1000th time it has been paused and resumed.
          */
-        RUNNING,
+        RUNNING("Running...");
+
+        /**
+         * The state label text for this pathing state.
+         */
+        private final String stateLabelText;
+
+        PathingState(String stateLabelText) {
+            this.stateLabelText = stateLabelText;
+        }
+
+        /**
+         * Returns the state label text for this pathing state.
+         *
+         * @return the state label text for this pathing state
+         */
+        public String getStateLabelText() {
+            return stateLabelText;
+        }
     }
 
     /**
@@ -251,7 +270,7 @@ public final class PathFinderWidget {
      * This is always killed before being set to a new object,
      * similar to how things are handled in AudioPlayer.
      */
-    private static PathAnimator currentPathAnimator;
+    private static PathTrickleAnimator currentPathAnimator;
 
     /**
      * Suppress default constructor.
@@ -663,10 +682,8 @@ public final class PathFinderWidget {
      * from the start to the goal node being found.
      */
     private static void pathFound() {
-        // set state
         currentPathingState = PathingState.PATH_FOUND;
 
-        // reset button text
         startPauseButton.setText(START);
 
         enableUiElements();
@@ -674,30 +691,27 @@ public final class PathFinderWidget {
 
         pathfindingGrid.setResizable(true);
 
-        // traverse from goal back to start to construct the path
-        PathNode refNode = goalNode.getParent();
         ArrayList<Point> pathForward = new ArrayList<>();
+
+        PathNode refNode = goalNode.getParent();
         while (refNode != startNode) {
             pathForward.add(new Point(refNode.getX(), refNode.getY()));
             refNode = refNode.getParent();
         }
 
-        // reverse the path so that it goes from start to goal
         ArrayList<Point> pathReversed = new ArrayList<>();
+
         for (int i = pathForward.size() - 1 ; i > -1 ; i--) {
             pathReversed.add(pathForward.get(i));
         }
 
-        // start path trickle animation thread
-        // this simply changes the color of the actual grid nodes based on the
-        // nodes within the found path
-        currentPathAnimator = new PathAnimator(pathReversed);
+        currentPathAnimator = new PathTrickleAnimator(pathReversed);
     }
 
     /**
-     * A animator class to animate the path found animation.
+     * A animator class to perform the path found animation.
      */
-    private static class PathAnimator {
+    private static class PathTrickleAnimator {
         /**
          * The color used for the found path.
          */
@@ -718,18 +732,16 @@ public final class PathFinderWidget {
          *
          * @param pathPoints the list of points to animate
          */
-        public PathAnimator(ArrayList<Point> pathPoints) {
+        public PathTrickleAnimator(ArrayList<Point> pathPoints) {
             CyderThreadRunner.submit(() -> {
                 try {
                     for (Point pathPoint : pathPoints) {
-                        if (killed)
-                            return;
+                        if (killed) return;
 
                         CyderGrid.GridNode updateNode = null;
 
                         for (CyderGrid.GridNode node : pathfindingGrid.getGridNodes()) {
-                            if (killed)
-                                return;
+                            if (killed) return;
 
                             if (node.getX() == pathPoint.getX()
                                     && node.getY() == pathPoint.getY()) {
@@ -750,8 +762,7 @@ public final class PathFinderWidget {
                     while (true) {
                         // moving path dot from start to goal
                         for (Point p : pathPoints) {
-                            if (killed)
-                                return;
+                            if (killed) return;
 
                             Optional<CyderGrid.GridNode> overridePoint = pathfindingGrid.getNodeAtPoint(p);
                             if (overridePoint.isPresent()
@@ -761,15 +772,11 @@ public final class PathFinderWidget {
                                 lockingRepaintGrid();
                             }
 
-                            if (killed) {
-                                return;
-                            }
+                            if (killed) return;
 
                             ThreadUtil.sleep(PATH_TRICKLE_TIMEOUT);
 
-                            if (killed) {
-                                return;
-                            }
+                            if (killed) return;
 
                             overridePoint = pathfindingGrid.getNodeAtPoint(p);
                             if (overridePoint.isPresent()
@@ -781,9 +788,7 @@ public final class PathFinderWidget {
                             }
                         }
 
-                        if (killed) {
-                            return;
-                        }
+                        if (killed) return;
 
                         // moving path dot from goal to start
                         for (int i = pathPoints.size() - 1 ; i >= 0 ; i--) {
@@ -798,15 +803,11 @@ public final class PathFinderWidget {
                                 lockingRepaintGrid();
                             }
 
-                            if (killed) {
-                                return;
-                            }
+                            if (killed) return;
 
                             ThreadUtil.sleep(PATH_TRICKLE_TIMEOUT);
 
-                            if (killed) {
-                                return;
-                            }
+                            if (killed) return;
 
                             overridePoint = pathfindingGrid.getNodeAtPoint(pathPoints.get(i));
                             if (overridePoint.isPresent()
@@ -818,9 +819,7 @@ public final class PathFinderWidget {
                                 lockingRepaintGrid();
                             }
 
-                            if (killed) {
-                                return;
-                            }
+                            if (killed) return;
                         }
                     }
                 } catch (Exception e) {
@@ -843,14 +842,12 @@ public final class PathFinderWidget {
      * from the start to the goal node was not found.
      */
     private static void pathNotFound() {
-        // set state
         currentPathingState = PathingState.PATH_NOT_FOUND;
+
         updateStateLabel();
 
-        // reset button text
-        startPauseButton.setText("Start");
+        startPauseButton.setText(START);
 
-        // enable ui elements
         enableUiElements();
 
         pathfindingGrid.setResizable(true);
@@ -862,34 +859,38 @@ public final class PathFinderWidget {
      * Enables the UI elements during the pathfinding animation.
      */
     private static void enableUiElements() {
-        deleteWallsCheckBox.setEnabled(true);
-        showStepsBox.setEnabled(true);
-        diagonalBox.setEnabled(true);
-        placeStartBox.setEnabled(true);
-        placeGoalBox.setEnabled(true);
-        drawGridLinesBox.setEnabled(true);
-
-        heuristicSwitch.setEnabled(true);
-        algorithmSwitch.setEnabled(true);
-
-        pathfindingGrid.installClickAndDragPlacer();
+        setUiElementsEnabled(true);
     }
 
     /**
      * Disables the UI elements during the pathfinding animation.
      */
     private static void disableUiElements() {
-        deleteWallsCheckBox.setEnabled(false);
-        showStepsBox.setEnabled(false);
-        diagonalBox.setEnabled(false);
-        placeStartBox.setEnabled(false);
-        placeGoalBox.setEnabled(false);
-        drawGridLinesBox.setEnabled(false);
+        setUiElementsEnabled(false);
+    }
 
-        heuristicSwitch.setEnabled(false);
-        algorithmSwitch.setEnabled(false);
+    /**
+     * Sets whether the ui elements are enabled.
+     *
+     * @param enabled whether the ui elements are enabled
+     */
+    @ForReadability
+    private static void setUiElementsEnabled(boolean enabled) {
+        deleteWallsCheckBox.setEnabled(enabled);
+        showStepsBox.setEnabled(enabled);
+        diagonalBox.setEnabled(enabled);
+        placeStartBox.setEnabled(enabled);
+        placeGoalBox.setEnabled(enabled);
+        drawGridLinesBox.setEnabled(enabled);
 
-        pathfindingGrid.uninstallClickAndDragPlacer();
+        heuristicSwitch.setEnabled(enabled);
+        algorithmSwitch.setEnabled(enabled);
+
+        if (enabled) {
+            pathfindingGrid.installClickAndDragPlacer();
+        } else {
+            pathfindingGrid.uninstallClickAndDragPlacer();
+        }
     }
 
     /**
@@ -909,25 +910,17 @@ public final class PathFinderWidget {
      * Resets the algorithm and heuristic switchers to their default states.
      */
     private static void resetSwitcherStates() {
-        // corresponds to Manhattan
+        // Corresponds to Manhattan
         heuristicSwitch.setState(CyderSwitch.State.OFF);
-
-        // corresponds to A*
+        // Corresponds to A*
         algorithmSwitch.setState(CyderSwitch.State.OFF);
     }
 
     /**
-     * Updates the state label
+     * Updates the state label based.
      */
     private static void updateStateLabel() {
-        switch (currentPathingState) {
-            case PAUSED -> currentStateLabel.setText("State: Paused");
-            case RUNNING -> currentStateLabel.setText("State: Running...");
-            case PATH_FOUND -> currentStateLabel.setText("State: Path found");
-            case PATH_NOT_FOUND -> currentStateLabel.setText("State: No path found");
-            case NOT_STARTED -> currentStateLabel.setText("State: Not Started");
-            default -> throw new IllegalStateException("Invalid currentPathingState: " + currentPathingState);
-        }
+        currentStateLabel.setText("State: " + currentPathingState.getStateLabelText());
     }
 
     /**
@@ -971,8 +964,8 @@ public final class PathFinderWidget {
             currentPathAnimator.kill();
             currentPathAnimator = null;
 
-            pathfindingGrid.removeNodesOfColor(PathAnimator.PATH_COLOR);
-            pathfindingGrid.removeNodesOfColor(PathAnimator.PATH_ANIMATION_COLOR);
+            pathfindingGrid.removeNodesOfColor(PathTrickleAnimator.PATH_COLOR);
+            pathfindingGrid.removeNodesOfColor(PathTrickleAnimator.PATH_ANIMATION_COLOR);
         }
     }
 
