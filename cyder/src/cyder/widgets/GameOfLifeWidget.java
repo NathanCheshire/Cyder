@@ -29,8 +29,6 @@ import cyder.utils.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -258,9 +256,29 @@ public final class GameOfLifeWidget {
     private static final Dimension switchSize = new Dimension(200, 55);
 
     /**
+     * The delay in ms between preset combo box actions.
+     */
+    private static final int presetComboBoxDelay = 800;
+
+    /**
+     * The last time a preset combo action was invoked.
+     */
+    private static long lastPresetComboBoxAction = 0;
+
+    /**
      * The left and right padding for the slider.
      */
     private static final int sliderPadding = 25;
+
+    /**
+     * The border length for the grid.
+     */
+    private static final int gridBorderLength = 3;
+
+    /**
+     * The length of the grid parent.
+     */
+    private static final int gridParentLength = gridLength + 2 * gridBorderLength;
 
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
     @Widget(triggers = {CONWAY, "conways", "game of life", "conways game of life"},
@@ -301,7 +319,6 @@ public final class GameOfLifeWidget {
 
         partitionedLayout.spacer(0.5f);
 
-        int gridBorderLength = 3;
         conwayGrid = new CyderGrid(gridNodes, gridLength);
         conwayGrid.setSize(gridLength, gridLength);
         conwayGrid.setMinNodes(MIN_NODES);
@@ -316,8 +333,7 @@ public final class GameOfLifeWidget {
 
         JLabel conwayGridParent = new JLabel();
         conwayGridParent.setBorder(new LineBorder(CyderColors.navy, gridBorderLength));
-        int len = gridLength + 2 * gridBorderLength;
-        conwayGridParent.setSize(len, len);
+        conwayGridParent.setSize(gridParentLength, gridParentLength);
         conwayGridParent.add(conwayGrid);
         partitionedLayout.addComponentMaintainSize(conwayGridParent, CyderPartitionedLayout.PartitionAlignment.TOP);
 
@@ -372,12 +388,10 @@ public final class GameOfLifeWidget {
 
         CyderSwitch drawGridLinesSwitch = new CyderSwitch(switchSize, CyderSwitch.State.OFF);
         drawGridLinesSwitch.setSize(switchSize);
-        drawGridLinesSwitch.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                conwayGrid.setDrawGridLines(drawGridLinesSwitch.getState().equals(CyderSwitch.State.ON));
-                conwayGrid.repaint();
-            }
+        drawGridLinesSwitch.getSwitchButton().addActionListener(e -> {
+            CyderSwitch.State nextState = drawGridLinesSwitch.getNextState();
+            conwayGrid.setDrawGridLines(nextState.equals(CyderSwitch.State.ON));
+            conwayGrid.repaint();
         });
         drawGridLinesSwitch.setOffText("No Grid");
         drawGridLinesSwitch.setOnText("Grid");
@@ -428,12 +442,15 @@ public final class GameOfLifeWidget {
         iterationsPerSecond = iterationsPerSecondSlider.getValue();
     }
 
-    // todo need a 200ms timeout for the switch button
     /**
      * The actions to invoke when the present combo box button is clicked.
      */
     @ForReadability
     private static void presetComboBoxAction() {
+        long now = System.currentTimeMillis();
+        if (lastPresetComboBoxAction + presetComboBoxDelay > now) return;
+        lastPresetComboBoxAction = now;
+
         CyderComboBox.ComboItem nextState = presetComboBox.getNextState();
 
         for (int i = 0 ; i < comboItems.size() ; i++) {
@@ -443,6 +460,7 @@ public final class GameOfLifeWidget {
                 correspondingConwayStates.get(i).getNodes().forEach(point ->
                         beforeStartingState.add(new CyderGrid.GridNode((int) point.getX(), (int) point.getY())));
 
+                conwayFrame.revokeAllNotifications();
                 conwayFrame.notify("Loaded state: " + correspondingConwayStates.get(i).getName());
                 conwayGrid.setNodeDimensionLength(correspondingConwayStates.get(i).getGridSize());
 
