@@ -177,7 +177,7 @@ public final class ImagePixelatorWidget {
         pixelFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
         pixelFrame.setTitle(IMAGE_PIXELATOR);
 
-        int remainingPartition = CyderPartitionedLayout.MAX_PARTITION - 4 * componentPartition;
+        float remainingPartition = CyderPartitionedLayout.MAX_PARTITION - 4 * componentPartition;
 
         CyderPartitionedLayout partitionedLayout = new CyderPartitionedLayout();
         partitionedLayout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.COLUMN);
@@ -207,7 +207,7 @@ public final class ImagePixelatorWidget {
         previewLabel = new JLabel();
         previewLabel.setSize(previewImageMaxLen, previewImageMaxLen);
         previewLabel.setBorder(previewLabelBorder);
-        partitionedLayout.addComponent(previewLabel, remainingPartition);
+        partitionedLayout.addComponent(previewLabel, (int) remainingPartition);
 
         attemptToSetFileAsImage(imageFile);
 

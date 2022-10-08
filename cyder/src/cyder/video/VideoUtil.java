@@ -15,6 +15,7 @@ import java.io.File;
 
 /**
  * Utilities related to playing mp4 files in a Cyder frame.
+ * Video killed the radio star.
  */
 public final class VideoUtil {
     /**

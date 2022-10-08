@@ -8,20 +8,26 @@ import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.layouts.CyderGridLayout;
+import cyder.layouts.CyderPartitionedLayout;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
+import cyder.time.TimeUtil;
 import cyder.ui.CyderGrid;
+import cyder.ui.CyderPanel;
 import cyder.ui.button.CyderButton;
-import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
-import cyder.ui.selection.CyderCheckbox;
 import cyder.ui.selection.CyderComboBox;
+import cyder.ui.selection.CyderSwitch;
 import cyder.ui.slider.CyderSliderUi;
 import cyder.user.UserUtil;
 import cyder.utils.*;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -30,6 +36,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -61,16 +68,6 @@ public final class GameOfLifeWidget {
     private static CyderButton stopSimulationButton;
 
     /**
-     * The checkbox to detect oscillations when the simulation devolves to two state swaps.
-     */
-    private static CyderCheckbox detectOscillationsCheckbox;
-
-    /**
-     * The checkbox to determine whether to draw grid lines.
-     */
-    private static CyderCheckbox drawGridLinesCheckbox;
-
-    /**
      * The combo box to cycle through the built-in presets.
      */
     private static CyderComboBox presetComboBox;
@@ -79,6 +76,11 @@ public final class GameOfLifeWidget {
      * The slider to speed up/slow down the simulation.
      */
     private static JSlider iterationsPerSecondSlider;
+
+    /**
+     * The switch to toggle between detecting oscillations.
+     */
+    private static CyderSwitch detectOscillationsSwitch;
 
     /**
      * Whether the simulation is running
@@ -183,7 +185,7 @@ public final class GameOfLifeWidget {
     /**
      * The height of the widget frame.
      */
-    private static final int FRAME_HEIGHT = 860;
+    private static final int FRAME_HEIGHT = 1000;
 
     /**
      * The reset string.
@@ -220,35 +222,82 @@ public final class GameOfLifeWidget {
      */
     private static final String CONWAY = "conway";
 
-    // todo buttons need to be in better positions and groups
-    // todo notes widget improvements
+    /**
+     * The name of the thread which loads conway states.
+     */
+    private static final String CONWAY_STATE_LOADER_THREAD_NAME = "Conway State Loader";
+
+    /**
+     * The stop text.
+     */
+    private static final String STOP = "Stop";
+
+    /**
+     * The length of the grid.
+     */
+    private static final int gridLength = 550;
+
+    /**
+     * The initial node length on the grid.
+     */
+    private static final int gridNodes = 50;
+
+    /**
+     * The size of the primary widget controls.
+     */
+    private static final Dimension primaryControlSize = new Dimension(160, 40);
+
+    /**
+     * The size of the labels above the grid.
+     */
+    private static final Dimension topLabelSize = new Dimension(240, 30);
+
+    /**
+     * The left and right padding for the slider.
+     */
+    private static final int sliderPadding = 25;
+
     @SuppressCyderInspections(CyderInspection.WidgetInspection)
-    @Widget(triggers = {CONWAY, "conways", "game of life"}, description = "Conway's game of life visualizer")
+    @Widget(triggers = {CONWAY, "conways", "game of life", "conways game of life"},
+            description = "Conway's game of life visualizer")
     public static void showGui() {
         UiUtil.closeIfOpen(conwayFrame);
+
+        loadConwayStates();
 
         conwayFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
         conwayFrame.setTitle(TITLE);
 
-        currentPopulationLabel = new CyderLabel();
-        currentPopulationLabel.setBounds(25, CyderDragLabel.DEFAULT_HEIGHT, 240, 30);
-        conwayFrame.getContentPane().add(currentPopulationLabel);
+        CyderPartitionedLayout partitionedLayout = new CyderPartitionedLayout();
 
-        currentGenerationLabel = new CyderLabel();
-        currentGenerationLabel.setBounds(25 + 240 + 20, CyderDragLabel.DEFAULT_HEIGHT, 240, 30);
-        conwayFrame.getContentPane().add(currentGenerationLabel);
+        CyderGridLayout topLabelsGrid = new CyderGridLayout(2, 2);
+
+        currentPopulationLabel = new CyderLabel();
+        currentPopulationLabel.setSize(topLabelSize);
+        topLabelsGrid.addComponent(currentPopulationLabel);
 
         maxPopulationLabel = new CyderLabel();
-        maxPopulationLabel.setBounds(25, CyderDragLabel.DEFAULT_HEIGHT + 30, 240, 30);
-        conwayFrame.getContentPane().add(maxPopulationLabel);
+        maxPopulationLabel.setSize(topLabelSize);
+        topLabelsGrid.addComponent(maxPopulationLabel);
+
+        currentGenerationLabel = new CyderLabel();
+        currentGenerationLabel.setSize(topLabelSize);
+        topLabelsGrid.addComponent(currentGenerationLabel);
 
         correspondingGenerationLabel = new CyderLabel();
-        correspondingGenerationLabel.setBounds(25 + 240 + 20,
-                CyderDragLabel.DEFAULT_HEIGHT + 30, 240, 30);
-        conwayFrame.getContentPane().add(correspondingGenerationLabel);
+        correspondingGenerationLabel.setSize(topLabelSize);
+        topLabelsGrid.addComponent(correspondingGenerationLabel);
 
-        conwayGrid = new CyderGrid(50, 550);
-        conwayGrid.setBounds(25, CyderDragLabel.DEFAULT_HEIGHT + 30 * 2 + 10, 550, 550);
+        partitionedLayout.spacer(1);
+
+        CyderPanel topLabelsPanel = new CyderPanel(topLabelsGrid);
+        topLabelsPanel.setSize((int) (FRAME_WIDTH / 1.5), 50);
+        partitionedLayout.addComponent(topLabelsPanel, 6,
+                CyderPartitionedLayout.PartitionAlignment.TOP);
+
+        int gridBorderLength = 3;
+        conwayGrid = new CyderGrid(gridNodes, gridLength);
+        conwayGrid.setSize(gridLength, gridLength);
         conwayGrid.setMinNodes(MIN_NODES);
         conwayGrid.setMaxNodes(150);
         conwayGrid.setDrawGridLines(false);
@@ -256,101 +305,121 @@ public final class GameOfLifeWidget {
         conwayGrid.setResizable(true);
         conwayGrid.setSmoothScrolling(true);
         conwayGrid.installClickAndDragPlacer();
-        conwayFrame.getContentPane().add(conwayGrid);
         conwayGrid.setSaveStates(false);
+        conwayGrid.setLocation(gridBorderLength, gridBorderLength);
 
-        CyderButton resetButton = new CyderButton(RESET);
-        resetButton.setBounds(25 + 15, conwayGrid.getY() + conwayGrid.getHeight() + 10, 160, 40);
-        conwayFrame.getContentPane().add(resetButton);
-        resetButton.addActionListener(e -> resetToPreviousState());
+        JLabel conwayGridParent = new JLabel();
+        conwayGridParent.setBorder(new LineBorder(CyderColors.navy, gridBorderLength));
+        int len = gridLength + 2 * gridBorderLength;
+        conwayGridParent.setSize(len, len);
+        conwayGridParent.add(conwayGrid);
+        partitionedLayout.addComponent(conwayGridParent, 30,
+                CyderPartitionedLayout.PartitionAlignment.TOP);
+
+        CyderGridLayout primaryControlGrid = new CyderGridLayout(2, 3);
 
         stopSimulationButton = new CyderButton(SIMULATE);
-        stopSimulationButton.setBounds(25 + 15 + 160 + 20,
-                conwayGrid.getY() + conwayGrid.getHeight() + 10, 160, 40);
-        conwayFrame.getContentPane().add(stopSimulationButton);
+        stopSimulationButton.setSize(primaryControlSize);
         stopSimulationButton.addActionListener(e -> stopSimulationButtonAction());
+        primaryControlGrid.addComponent(stopSimulationButton);
 
-        CyderButton clearButton = new CyderButton(CLEAR);
-        clearButton.setBounds(25 + 15 + 160 + 20 + 160 + 20,
-                conwayGrid.getY() + conwayGrid.getHeight() + 10, 160, 40);
-        conwayFrame.getContentPane().add(clearButton);
-        clearButton.addActionListener(e -> resetSimulation());
-
-        loadConwayStates();
-
-        presetComboBox = new CyderComboBox(160, 40, comboItems, comboItems.get(0));
-        presetComboBox.getIterationButton().addActionListener(e -> presetComboBoxAction());
-        presetComboBox.setBounds(25 + 15,
-                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
-        conwayFrame.getContentPane().add(presetComboBox);
-
-        CyderButton saveButton = new CyderButton(SAVE);
-        saveButton.setBounds(25 + 15 + 160 + 20,
-                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
-        conwayFrame.getContentPane().add(saveButton);
-        saveButton.addActionListener(e -> toFile());
+        CyderButton resetButton = new CyderButton(RESET);
+        resetButton.setSize(primaryControlSize);
+        resetButton.addActionListener(e -> resetToPreviousState());
+        primaryControlGrid.addComponent(resetButton);
 
         CyderButton loadButton = new CyderButton(LOAD);
-        loadButton.setBounds(25 + 15 + 160 + 20 + 160 + 20,
-                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
-        conwayFrame.getContentPane().add(loadButton);
+        loadButton.setSize(primaryControlSize);
         loadButton.addActionListener(e -> loadButtonAction());
+        primaryControlGrid.addComponent(loadButton);
 
-        CyderLabel detectOscillationsLabel = new CyderLabel("Oscillations");
-        detectOscillationsLabel.setBounds(15,
-                conwayGrid.getY() + conwayGrid.getHeight() + 100, 100, 40);
-        conwayFrame.getContentPane().add(detectOscillationsLabel);
+        Dimension switchSize = new Dimension(200, 55);
 
-        detectOscillationsCheckbox = new CyderCheckbox(true);
-        detectOscillationsCheckbox.setBounds(25 + 15,
-                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50 + 50 + 10 + 20, 50, 50);
-        conwayFrame.getContentPane().add(detectOscillationsCheckbox);
-        detectOscillationsCheckbox.setToolTipText("Detect Oscillations");
+        detectOscillationsSwitch = new CyderSwitch(switchSize, CyderSwitch.State.ON);
+        detectOscillationsSwitch.setSize(switchSize);
+        //  primaryControlGrid.addComponent(detectOscillationsSwitch);
+        detectOscillationsSwitch.setState(CyderSwitch.State.ON);
+        detectOscillationsSwitch.setButtonPercent(50);
+        detectOscillationsSwitch.setOnText("Oscillations");
+        detectOscillationsSwitch.setOffText("Ignore");
+        detectOscillationsSwitch.getSwitchButton().addActionListener(e -> {
+            // todo
+        });
 
-        CyderLabel gridLinesLabel = new CyderLabel("Grid Lines");
-        gridLinesLabel.setBounds(15 + 85,
-                conwayGrid.getY() + conwayGrid.getHeight() + 100, 100, 40);
-        conwayFrame.getContentPane().add(gridLinesLabel);
+        presetComboBox = new CyderComboBox(primaryControlSize.width, primaryControlSize.height,
+                comboItems, comboItems.get(0));
+        presetComboBox.getIterationButton().addActionListener(e -> presetComboBoxAction());
+        presetComboBox.setSize(primaryControlSize);
+        primaryControlGrid.addComponent(presetComboBox);
 
-        drawGridLinesCheckbox = new CyderCheckbox(false);
-        drawGridLinesCheckbox.setBounds(25 + 15 + 50 + 10 + 20,
-                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50 + 50 + 10 + 20, 50, 50);
-        conwayFrame.getContentPane().add(drawGridLinesCheckbox);
-        drawGridLinesCheckbox.addMouseListener(new MouseAdapter() {
+        CyderButton clearButton = new CyderButton(CLEAR);
+        clearButton.setSize(primaryControlSize);
+        clearButton.addActionListener(e -> resetSimulation());
+        primaryControlGrid.addComponent(clearButton);
+
+        CyderButton saveButton = new CyderButton(SAVE);
+        saveButton.setSize(primaryControlSize);
+        saveButton.addActionListener(e -> toFile());
+        primaryControlGrid.addComponent(saveButton);
+
+        CyderSwitch drawGridLinesSwitch = new CyderSwitch(switchSize, CyderSwitch.State.OFF);
+        drawGridLinesSwitch.setSize(switchSize);
+        drawGridLinesSwitch.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                conwayGrid.setDrawGridLines(drawGridLinesCheckbox.isChecked());
+                conwayGrid.setDrawGridLines(drawGridLinesSwitch.getState().equals(CyderSwitch.State.ON));
                 conwayGrid.repaint();
             }
         });
-        drawGridLinesCheckbox.setToolTipText("Draw Grid Lines");
+        drawGridLinesSwitch.setOffText("No Grid");
+        drawGridLinesSwitch.setOnText("Grid");
+        drawGridLinesSwitch.setButtonPercent(50);
+        //primaryControlGrid.addComponent(drawGridLinesSwitch);
+
+        CyderPanel primaryControlPanel = new CyderPanel(primaryControlGrid);
+        primaryControlPanel.setSize(450, 220);
+        //partitionedLayout.addComponent(primaryControlPanel, 20);
 
         iterationsPerSecondSlider = new JSlider(JSlider.HORIZONTAL, MIN_ITERATIONS_PER_SECOND,
                 MAX_ITERATIONS_PER_SECOND, DEFAULT_ITERATIONS_PER_SECOND);
-        CyderSliderUi UI = new CyderSliderUi(iterationsPerSecondSlider);
-        UI.setThumbStroke(new BasicStroke(2.0f));
-        UI.setThumbShape(CyderSliderUi.ThumbShape.RECT);
-        UI.setThumbFillColor(Color.black);
-        UI.setThumbOutlineColor(CyderColors.navy);
-        UI.setRightThumbColor(CyderColors.regularBlue);
-        UI.setLeftThumbColor(CyderColors.regularPink);
-        UI.setTrackStroke(new BasicStroke(3.0f));
-        iterationsPerSecondSlider.setUI(UI);
-        iterationsPerSecondSlider.setBounds(25 + 15 + 50 + 10 + 100,
-                conwayGrid.getY() + conwayGrid.getHeight() + 5 + 50 + 50 + 20 + 20, 350, 40);
+        CyderSliderUi sliderUi = new CyderSliderUi(iterationsPerSecondSlider);
+        sliderUi.setThumbStroke(new BasicStroke(2.0f));
+        sliderUi.setThumbRadius(25);
+        sliderUi.setThumbShape(CyderSliderUi.ThumbShape.CIRCLE);
+        sliderUi.setThumbFillColor(Color.black);
+        sliderUi.setThumbOutlineColor(CyderColors.navy);
+        sliderUi.setRightThumbColor(CyderColors.regularBlue);
+        sliderUi.setLeftThumbColor(CyderColors.regularPink);
+        sliderUi.setTrackStroke(new BasicStroke(3.0f));
+        iterationsPerSecondSlider.setUI(sliderUi);
+        iterationsPerSecondSlider.setSize(350, 40);
         iterationsPerSecondSlider.setPaintTicks(false);
         iterationsPerSecondSlider.setPaintLabels(false);
         iterationsPerSecondSlider.setVisible(true);
-        iterationsPerSecondSlider.addChangeListener(e -> iterationsPerSecond = iterationsPerSecondSlider.getValue());
+        iterationsPerSecondSlider.addChangeListener(e -> iterationsSliderChangeAction());
         iterationsPerSecondSlider.setOpaque(false);
         iterationsPerSecondSlider.setToolTipText("Iterations per second");
         iterationsPerSecondSlider.setFocusable(false);
         iterationsPerSecondSlider.repaint();
-        conwayFrame.getContentPane().add(iterationsPerSecondSlider);
+        iterationsPerSecondSlider.setSize(FRAME_WIDTH - 2 * sliderPadding, 40);
+
+        partitionedLayout.spacer(2);
+        //partitionedLayout.addComponent(iterationsPerSecondSlider, 3);
 
         resetSimulation();
+        conwayFrame.setCyderLayout(partitionedLayout);
         conwayFrame.finalizeAndShow();
     }
+
+    /**
+     * The actions to invoke when a change of the iterations slider is encountered.
+     */
+    @ForReadability
+    private static void iterationsSliderChangeAction() {
+        iterationsPerSecond = iterationsPerSecondSlider.getValue();
+    }
+
+    // todo need a 200ms timeout for the switch button
 
     /**
      * The actions to invoke when the present combo box button is clicked.
@@ -377,11 +446,6 @@ public final class GameOfLifeWidget {
     }
 
     /**
-     * The name of the thread which loads conway states.
-     */
-    private static final String CONWAY_STATE_LOADER_THREAD_NAME = "Conway State Loader";
-
-    /**
      * The actions to invoke when the load button is pressed.
      */
     @ForReadability
@@ -398,17 +462,12 @@ public final class GameOfLifeWidget {
     }
 
     /**
-     * The stop text.
-     */
-    private static final String STOP = "Stop";
-
-    /**
      * The actions to invoke when the stop simulation button is clicked.
      */
     @ForReadability
     private static void stopSimulationButtonAction() {
         if (simulationRunning) {
-            stop();
+            stopSimulation();
         } else if (conwayGrid.getNodeCount() > 0) {
             simulationRunning = true;
             stopSimulationButton.setText(STOP);
@@ -424,7 +483,7 @@ public final class GameOfLifeWidget {
      * Resets the simulation and all values back to their default.
      */
     private static void resetSimulation() {
-        stop();
+        stopSimulation();
 
         iterationsPerSecond = DEFAULT_ITERATIONS_PER_SECOND;
 
@@ -432,7 +491,7 @@ public final class GameOfLifeWidget {
         conwayGrid.clearGrid();
         conwayGrid.repaint();
 
-        detectOscillationsCheckbox.setChecked();
+        detectOscillationsSwitch.setState(CyderSwitch.State.ON);
         iterationsPerSecondSlider.setValue(DEFAULT_ITERATIONS_PER_SECOND);
         iterationsPerSecond = DEFAULT_ITERATIONS_PER_SECOND;
 
@@ -476,7 +535,8 @@ public final class GameOfLifeWidget {
     private static void resetToPreviousState() {
         if (beforeStartingState == null) return;
 
-        stop();
+        stopSimulation();
+
         conwayGrid.setGridState(beforeStartingState);
         conwayGrid.repaint();
 
@@ -488,7 +548,7 @@ public final class GameOfLifeWidget {
     /**
      * Performs any stopping actions needed to properly stop the simulation.
      */
-    private static void stop() {
+    private static void stopSimulation() {
         simulationRunning = false;
         stopSimulationButton.setText(SIMULATE);
         conwayGrid.installClickAndDragPlacer();
@@ -523,18 +583,19 @@ public final class GameOfLifeWidget {
                     if (nextState.equals(conwayGrid.getGridNodes())) {
                         conwayFrame.revokeAllNotifications();
                         conwayFrame.notify("Simulation stabilized at generation: " + generation);
-                        stop();
+                        stopSimulation();
                         return;
-                    } else if (detectOscillationsCheckbox.isChecked() && nextState.equals(lastState)) {
+                    } else if (detectOscillationsSwitch.getState().equals(CyderSwitch.State.ON)
+                            && nextState.equals(lastState)) {
                         conwayFrame.revokeAllNotifications();
                         conwayFrame.notify("Detected oscillation at generation: " + generation);
-                        stop();
+                        stopSimulation();
                         return;
                     } else if (nextState.isEmpty()) {
                         conwayFrame.revokeAllNotifications();
-                        conwayFrame.notify("Simulation ended with total "
-                                + "elimination at generation: " + generation);
-                        stop();
+                        conwayFrame.notify("Simulation ended with total elimination at generation: "
+                                + generation);
+                        stopSimulation();
                         return;
                     }
 
@@ -558,7 +619,7 @@ public final class GameOfLifeWidget {
                     }
 
                     updateLabels();
-                    ThreadUtil.sleep(1000 / iterationsPerSecond);
+                    ThreadUtil.sleep((long) (TimeUtil.MILLISECONDS_IN_SECOND / iterationsPerSecond));
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
@@ -624,8 +685,7 @@ public final class GameOfLifeWidget {
                     .setFieldTooltip("A valid filename")
                     .setSubmitButtonText("Save Conway State"));
 
-            if (StringUtil.isNullOrEmpty(saveName))
-                return;
+            if (StringUtil.isNullOrEmpty(saveName)) return;
 
             String filename = saveName + JSON_EXTENSION;
 
@@ -634,12 +694,8 @@ public final class GameOfLifeWidget {
 
                 LinkedList<Point> points = new LinkedList<>();
 
-                for (CyderGrid.GridNode node : conwayGrid.getGridNodes()) {
-                    points.add(new Point(node.getX(), node.getY()));
-                }
-
-                ConwayState state = new ConwayState(saveName,
-                        conwayGrid.getNodeDimensionLength(), points);
+                conwayGrid.getGridNodes().forEach(node -> points.add(new Point(node.getX(), node.getY())));
+                ConwayState state = new ConwayState(saveName, conwayGrid.getNodeDimensionLength(), points);
 
                 try {
                     FileWriter writer = new FileWriter(saveFile);
@@ -728,23 +784,26 @@ public final class GameOfLifeWidget {
         if (statesDir.exists()) {
             File[] statesDirFiles = statesDir.listFiles();
 
-            if (statesDirFiles != null && statesDirFiles.length > 0) {
-                for (File json : statesDirFiles) {
-                    if (FileUtil.validateExtension(json, JSON_EXTENSION)) {
+            if (statesDirFiles == null || statesDirFiles.length == 0) {
+                presetComboBox.getIterationButton().setEnabled(false);
+                return;
+            }
+
+            Arrays.stream(statesDirFiles).filter(jsonStateFile ->
+                            FileUtil.validateExtension(jsonStateFile, JSON_EXTENSION))
+                    .forEach(jsonStateFile -> {
                         try {
-                            Reader reader = new FileReader(json);
+                            Reader reader = new FileReader(jsonStateFile);
                             ConwayState loadState = SerializationUtil.fromJson(reader, ConwayState.class);
                             reader.close();
 
                             correspondingConwayStates.add(loadState);
                             comboItems.add(new CyderComboBox.ComboItem(loadState.getName()));
-                        } catch (Exception ignored) {
+                        } catch (Exception e) {
+                            Logger.log(LogTag.DEBUG, "Failed to load conway state: " + jsonStateFile);
+                            ExceptionHandler.handle(e);
                         }
-                    }
-                }
-            } else {
-                presetComboBox.getIterationButton().setEnabled(false);
-            }
+                    });
         }
     }
 
@@ -754,8 +813,19 @@ public final class GameOfLifeWidget {
     @SuppressWarnings("ClassCanBeRecord") /* GSON */
     @Immutable
     private static class ConwayState {
+        /**
+         * The name of the conway state.
+         */
         private final String name;
+
+        /**
+         * The grid length for the saved state.
+         */
         private final int gridSize;
+
+        /**
+         * The list of nodes for the saves state.
+         */
         private final LinkedList<Point> nodes;
 
         /**

@@ -1,7 +1,6 @@
 package cyder.layouts;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
 import cyder.ui.CyderPanel;
 
@@ -19,23 +18,23 @@ public class CyderPartitionedLayout extends CyderLayout {
     /**
      * The range all partitions must fall within.
      */
-    public static final Range<Integer> PARTITION_RANGE = Range.closed(0, 100);
+    public static final Range<Float> PARTITION_RANGE = Range.closed(0.0f, 100.0f);
 
     /**
      * The maximum partition value which all partitions and
      * the sum of all partitions must be less than or equal to.
      */
-    public static final int MAX_PARTITION = PARTITION_RANGE.upperEndpoint();
+    public static final float MAX_PARTITION = PARTITION_RANGE.upperEndpoint();
 
     /**
      * The amount of partition space to assign a component added without a provided partition space.
      */
-    public static final int DEFAULT_PARTITION_SPACE_PERCENT = 10;
+    public static final float DEFAULT_PARTITION_SPACE_PERCENT = 10;
 
     /**
      * The partition space to partition to a new component being added without a specified partition space.
      */
-    private int newComponentPartitionSpace = DEFAULT_PARTITION_SPACE_PERCENT;
+    private float newComponentPartitionSpace = DEFAULT_PARTITION_SPACE_PERCENT;
 
     /**
      * The sum of all partitions from {@link #partitions}.
@@ -45,7 +44,7 @@ public class CyderPartitionedLayout extends CyderLayout {
     /**
      * The list of all added partitions.
      */
-    private final LinkedList<Integer> partitions;
+    private final LinkedList<Float> partitions;
 
     /**
      * The possible directions to lay components out.
@@ -86,62 +85,6 @@ public class CyderPartitionedLayout extends CyderLayout {
      * The direct components managed by this layout.
      */
     private final ArrayList<PartitionedComponent> components;
-
-    /**
-     * Returns a list of all the partitions.
-     *
-     * @return a list of all the partitions
-     */
-    public ImmutableList<Integer> getPartitions() {
-        return ImmutableList.copyOf(partitions);
-    }
-
-    /**
-     * Returns the sum of all partitions.
-     *
-     * @return the sum of all partitions
-     */
-    public int getPartitionsSum() {
-        return partitionsSum;
-    }
-
-    /**
-     * Returns the partition for the component at the specified index.
-     *
-     * @param index the index of the component to return the partition of
-     * @return the partition for the component at the specified index
-     */
-    public int getPartition(int index) {
-        Preconditions.checkArgument(index >= 0);
-        Preconditions.checkArgument(index < partitions.size());
-
-        return partitions.get(index);
-    }
-
-    /**
-     * Sets the partition for the component at the specified index.
-     *
-     * @param index     the index of the partition to update
-     * @param partition the new partition value
-     */
-    public void setPartition(int index, int partition) {
-        Preconditions.checkArgument(index >= 0);
-        Preconditions.checkArgument(index < partitions.size());
-
-        int oldPartition = partitions.get(index);
-
-        if (partition > oldPartition) {
-            int newPartitionSum = partitionsSum + partition - oldPartition;
-
-            if (newPartitionSum > MAX_PARTITION) {
-                throw new IllegalArgumentException("Requested partition overriding old partition at"
-                        + " provided index will cause partition sum to be: " + newPartitionSum);
-            }
-
-        }
-
-        partitions.set(index, partition);
-    }
 
     /**
      * Returns the {@link PartitionDirection}, that of {@link PartitionDirection#COLUMN}
@@ -209,7 +152,7 @@ public class CyderPartitionedLayout extends CyderLayout {
      *
      * @return the partition space given to a new component if none is specified
      */
-    public int getNewComponentPartitionSpace() {
+    public float getNewComponentPartitionSpace() {
         return newComponentPartitionSpace;
     }
 
@@ -218,7 +161,7 @@ public class CyderPartitionedLayout extends CyderLayout {
      *
      * @param newComponentPartitionSpace the partition space given to a new component if none is specified
      */
-    public void setNewComponentPartitionSpace(int newComponentPartitionSpace) {
+    public void setNewComponentPartitionSpace(float newComponentPartitionSpace) {
         this.newComponentPartitionSpace = newComponentPartitionSpace;
     }
 
@@ -244,31 +187,35 @@ public class CyderPartitionedLayout extends CyderLayout {
      * {@inheritDoc}
      */
     public void revalidateComponents() {
-        if (associatedPanel == null
-                || associatedPanel.getWidth() == 0
+        if (associatedPanel == null || associatedPanel.getWidth() == 0
                 || associatedPanel.getHeight() == 0) return;
 
         Component focusOwner = null;
 
         int currentComponentStart = 0;
 
+        int parentWidth = associatedPanel.getWidth();
+        int parentHeight = associatedPanel.getHeight();
+
         for (int i = 0 ; i < components.size() ; i++) {
             PartitionedComponent partitionedComponent = components.get(i);
-
             Component component = partitionedComponent.getComponent();
             PartitionAlignment alignment = partitionedComponent.getAlignment();
 
-            int parentWidth = associatedPanel.getWidth();
-            int parentHeight = associatedPanel.getHeight();
-
-            int componentPartitionedLen = (int) switch (partitionDirection) {
-                case ROW -> ((float) partitions.get(i) / MAX_PARTITION) * parentWidth;
-                case COLUMN -> ((float) partitions.get(i) / MAX_PARTITION) * parentHeight;
-            };
+            int componentPartitionedLength;
+            switch (partitionDirection) {
+                case ROW -> {
+                    componentPartitionedLength = (int) ((partitions.get(i) / MAX_PARTITION) * parentWidth);
+                }
+                case COLUMN -> {
+                    componentPartitionedLength = (int) ((partitions.get(i) / MAX_PARTITION) * parentHeight);
+                }
+                default -> throw new IllegalStateException("Invalid partition direction: " + partitionDirection);
+            }
 
             // indicates a spacer in the layout
             if (component == null) {
-                currentComponentStart += componentPartitionedLen;
+                currentComponentStart += componentPartitionedLength;
                 continue;
             }
 
@@ -281,24 +228,24 @@ public class CyderPartitionedLayout extends CyderLayout {
                     switch (alignment) {
                         case TOP_LEFT -> component.setLocation(currentComponentStart, 0);
                         case TOP -> component.setLocation(currentComponentStart
-                                + componentPartitionedLen / 2 - component.getWidth() / 2, 0);
+                                + componentPartitionedLength / 2 - component.getWidth() / 2, 0);
                         case TOP_RIGHT -> component.setLocation(currentComponentStart
-                                + componentPartitionedLen - component.getWidth(), 0);
+                                + componentPartitionedLength - component.getWidth(), 0);
                         case LEFT -> component.setLocation(currentComponentStart,
                                 parentHeight / 2 - component.getWidth() / 2);
                         case CENTER -> component.setLocation(currentComponentStart
-                                        + componentPartitionedLen / 2 - component.getWidth() / 2,
+                                        + componentPartitionedLength / 2 - component.getWidth() / 2,
                                 parentHeight / 2 - component.getHeight() / 2);
                         case RIGHT -> component.setLocation(currentComponentStart
-                                        + componentPartitionedLen / 2 - component.getWidth() / 2,
+                                        + componentPartitionedLength / 2 - component.getWidth() / 2,
                                 parentHeight / 2 - component.getWidth() / 2);
                         case BOTTOM_LEFT -> component.setLocation(currentComponentStart,
                                 parentHeight - component.getHeight());
                         case BOTTOM -> component.setLocation(currentComponentStart
-                                        + componentPartitionedLen / 2 - component.getWidth() / 2,
+                                        + componentPartitionedLength / 2 - component.getWidth() / 2,
                                 parentHeight - component.getHeight());
                         case BOTTOM_RIGHT -> component.setLocation(currentComponentStart
-                                        + componentPartitionedLen - component.getWidth(),
+                                        + componentPartitionedLength - component.getWidth(),
                                 parentHeight - component.getHeight());
                         default -> throw new IllegalArgumentException("Invalid alignment direction: " + alignment);
                     }
@@ -306,29 +253,29 @@ public class CyderPartitionedLayout extends CyderLayout {
                 case COLUMN -> {
                     switch (alignment) {
                         case TOP_LEFT -> component.setLocation(0, currentComponentStart);
-                        case TOP -> component.setLocation(parentWidth / 2 - component.getWidth(),
+                        case TOP -> component.setLocation(parentWidth / 2 - component.getWidth() / 2,
                                 currentComponentStart);
                         case TOP_RIGHT -> component.setLocation(parentWidth - component.getWidth(),
                                 currentComponentStart);
                         case LEFT -> component.setLocation(0,
-                                currentComponentStart + componentPartitionedLen / 2 - component.getHeight() / 2);
+                                currentComponentStart + componentPartitionedLength / 2 - component.getHeight() / 2);
                         case CENTER -> component.setLocation(parentWidth / 2 - component.getWidth() / 2,
-                                currentComponentStart + componentPartitionedLen / 2 - component.getHeight() / 2);
+                                currentComponentStart + componentPartitionedLength / 2 - component.getHeight() / 2);
                         case RIGHT -> component.setLocation(parentWidth - component.getWidth(),
-                                currentComponentStart + componentPartitionedLen / 2 - component.getHeight() / 2);
+                                currentComponentStart + componentPartitionedLength / 2 - component.getHeight() / 2);
                         case BOTTOM_LEFT -> component.setLocation(0,
-                                currentComponentStart + componentPartitionedLen - component.getHeight());
+                                currentComponentStart + componentPartitionedLength - component.getHeight());
                         case BOTTOM -> component.setLocation(parentWidth / 2 - component.getWidth() / 2,
-                                currentComponentStart + componentPartitionedLen - component.getHeight());
+                                currentComponentStart + componentPartitionedLength - component.getHeight());
                         case BOTTOM_RIGHT -> component.setLocation(parentWidth - component.getWidth(),
-                                currentComponentStart + componentPartitionedLen - component.getHeight());
+                                currentComponentStart + componentPartitionedLength - component.getHeight());
                         default -> throw new IllegalArgumentException("Invalid alignment direction: " + alignment);
                     }
                 }
                 default -> throw new IllegalArgumentException("Invalid partition direction: " + partitionDirection);
             }
 
-            currentComponentStart += componentPartitionedLen;
+            currentComponentStart += componentPartitionedLength;
 
             associatedPanel.add(component);
 
@@ -369,9 +316,9 @@ public class CyderPartitionedLayout extends CyderLayout {
      */
     public void removeComponent(int index) {
         Preconditions.checkArgument(index >= 0);
-        Preconditions.checkArgument(index < partitions.size());
+        Preconditions.checkArgument(index < components.size());
 
-        int addBack = partitions.get(index);
+        float addBack = partitions.get(index);
         partitionsSum += addBack;
 
         partitions.remove(index);
@@ -394,7 +341,7 @@ public class CyderPartitionedLayout extends CyderLayout {
      * @param component      the component to add to the components list
      * @param partitionSpace the space to be partitioned for this component
      */
-    public void addComponent(Component component, int partitionSpace) {
+    public void addComponent(Component component, float partitionSpace) {
         Preconditions.checkNotNull(component);
         Preconditions.checkArgument(PARTITION_RANGE.contains(partitionSpace));
         Preconditions.checkArgument(partitionSpace + partitionsSum <= MAX_PARTITION);
@@ -411,7 +358,7 @@ public class CyderPartitionedLayout extends CyderLayout {
      * @param partitionAlignment the alignment for the partitioned component if it
      *                           does not precisely fit the partitioned area
      */
-    public void addComponent(Component component, int partitionSpace, PartitionAlignment partitionAlignment) {
+    public void addComponent(Component component, float partitionSpace, PartitionAlignment partitionAlignment) {
         Preconditions.checkNotNull(component);
         Preconditions.checkArgument(PARTITION_RANGE.contains(partitionSpace));
         Preconditions.checkArgument(partitionSpace + partitionsSum <= MAX_PARTITION);

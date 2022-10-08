@@ -1,5 +1,7 @@
 package cyder.layouts;
 
+import com.google.common.base.Preconditions;
+
 import java.awt.*;
 
 /**
@@ -17,14 +19,19 @@ public class PartitionedComponent {
     private CyderPartitionedLayout.PartitionAlignment alignment;
 
     /**
+     * The partition for this component.
+     */
+    private float partition;
+
+    /**
      * Constructs a new partitioned component.
      *
      * @param component the component reference
      * @param alignment the alignment for this component
      */
     public PartitionedComponent(Component component, CyderPartitionedLayout.PartitionAlignment alignment) {
-        this.component = component;
-        this.alignment = alignment;
+        this.component = Preconditions.checkNotNull(component);
+        this.alignment = Preconditions.checkNotNull(alignment);
     }
 
     /**
@@ -61,5 +68,23 @@ public class PartitionedComponent {
      */
     public void setAlignment(CyderPartitionedLayout.PartitionAlignment alignment) {
         this.alignment = alignment;
+    }
+
+    /**
+     * Sets the partition for this component.
+     *
+     * @return the partition for this component
+     */
+    public float getPartition() {
+        return partition;
+    }
+
+    /**
+     * Returns the partition for this component.
+     *
+     * @param partition the partition for this component
+     */
+    public void setPartition(float partition) {
+        this.partition = partition;
     }
 }
