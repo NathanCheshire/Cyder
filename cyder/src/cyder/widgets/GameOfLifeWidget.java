@@ -185,7 +185,7 @@ public final class GameOfLifeWidget {
     /**
      * The height of the widget frame.
      */
-    private static final int FRAME_HEIGHT = 1000;
+    private static final int FRAME_HEIGHT = 920;
 
     /**
      * The reset string.
@@ -253,6 +253,11 @@ public final class GameOfLifeWidget {
     private static final Dimension topLabelSize = new Dimension(240, 30);
 
     /**
+     * The size of the Cyder switches.
+     */
+    private static final Dimension switchSize = new Dimension(200, 55);
+
+    /**
      * The left and right padding for the slider.
      */
     private static final int sliderPadding = 25;
@@ -292,8 +297,9 @@ public final class GameOfLifeWidget {
 
         CyderPanel topLabelsPanel = new CyderPanel(topLabelsGrid);
         topLabelsPanel.setSize((int) (FRAME_WIDTH / 1.5), 50);
-        partitionedLayout.addComponent(topLabelsPanel, 6,
-                CyderPartitionedLayout.PartitionAlignment.TOP);
+        partitionedLayout.addComponentMaintainSize(topLabelsPanel, CyderPartitionedLayout.PartitionAlignment.TOP);
+
+        partitionedLayout.spacer(0.5f);
 
         int gridBorderLength = 3;
         conwayGrid = new CyderGrid(gridNodes, gridLength);
@@ -313,8 +319,9 @@ public final class GameOfLifeWidget {
         int len = gridLength + 2 * gridBorderLength;
         conwayGridParent.setSize(len, len);
         conwayGridParent.add(conwayGrid);
-        partitionedLayout.addComponent(conwayGridParent, 30,
-                CyderPartitionedLayout.PartitionAlignment.TOP);
+        partitionedLayout.addComponentMaintainSize(conwayGridParent, CyderPartitionedLayout.PartitionAlignment.TOP);
+
+        partitionedLayout.spacer(1);
 
         CyderGridLayout primaryControlGrid = new CyderGridLayout(2, 3);
 
@@ -333,19 +340,6 @@ public final class GameOfLifeWidget {
         loadButton.addActionListener(e -> loadButtonAction());
         primaryControlGrid.addComponent(loadButton);
 
-        Dimension switchSize = new Dimension(200, 55);
-
-        detectOscillationsSwitch = new CyderSwitch(switchSize, CyderSwitch.State.ON);
-        detectOscillationsSwitch.setSize(switchSize);
-        //  primaryControlGrid.addComponent(detectOscillationsSwitch);
-        detectOscillationsSwitch.setState(CyderSwitch.State.ON);
-        detectOscillationsSwitch.setButtonPercent(50);
-        detectOscillationsSwitch.setOnText("Oscillations");
-        detectOscillationsSwitch.setOffText("Ignore");
-        detectOscillationsSwitch.getSwitchButton().addActionListener(e -> {
-            // todo
-        });
-
         presetComboBox = new CyderComboBox(primaryControlSize.width, primaryControlSize.height,
                 comboItems, comboItems.get(0));
         presetComboBox.getIterationButton().addActionListener(e -> presetComboBoxAction());
@@ -362,6 +356,20 @@ public final class GameOfLifeWidget {
         saveButton.addActionListener(e -> toFile());
         primaryControlGrid.addComponent(saveButton);
 
+        CyderPanel primaryControlPanel = new CyderPanel(primaryControlGrid);
+        primaryControlPanel.setSize(450, 140);
+        partitionedLayout.addComponentMaintainSize(primaryControlPanel);
+
+        CyderGridLayout switchGrid = new CyderGridLayout(2, 1);
+
+        detectOscillationsSwitch = new CyderSwitch(switchSize, CyderSwitch.State.ON);
+        detectOscillationsSwitch.setSize(switchSize);
+        detectOscillationsSwitch.setState(CyderSwitch.State.ON);
+        detectOscillationsSwitch.setButtonPercent(50);
+        detectOscillationsSwitch.setOnText("Oscillations");
+        detectOscillationsSwitch.setOffText("Ignore");
+        switchGrid.addComponent(detectOscillationsSwitch);
+
         CyderSwitch drawGridLinesSwitch = new CyderSwitch(switchSize, CyderSwitch.State.OFF);
         drawGridLinesSwitch.setSize(switchSize);
         drawGridLinesSwitch.addMouseListener(new MouseAdapter() {
@@ -374,11 +382,11 @@ public final class GameOfLifeWidget {
         drawGridLinesSwitch.setOffText("No Grid");
         drawGridLinesSwitch.setOnText("Grid");
         drawGridLinesSwitch.setButtonPercent(50);
-        //primaryControlGrid.addComponent(drawGridLinesSwitch);
+        switchGrid.addComponent(drawGridLinesSwitch);
 
-        CyderPanel primaryControlPanel = new CyderPanel(primaryControlGrid);
-        primaryControlPanel.setSize(450, 220);
-        //partitionedLayout.addComponent(primaryControlPanel, 20);
+        CyderPanel switchGridPanel = new CyderPanel(switchGrid);
+        switchGridPanel.setSize(450, 60);
+        partitionedLayout.addComponentMaintainSize(switchGridPanel);
 
         iterationsPerSecondSlider = new JSlider(JSlider.HORIZONTAL, MIN_ITERATIONS_PER_SECOND,
                 MAX_ITERATIONS_PER_SECOND, DEFAULT_ITERATIONS_PER_SECOND);
@@ -403,8 +411,9 @@ public final class GameOfLifeWidget {
         iterationsPerSecondSlider.repaint();
         iterationsPerSecondSlider.setSize(FRAME_WIDTH - 2 * sliderPadding, 40);
 
-        partitionedLayout.spacer(2);
-        //partitionedLayout.addComponent(iterationsPerSecondSlider, 3);
+        partitionedLayout.spacer(0.5f);
+        partitionedLayout.addComponentMaintainSize(iterationsPerSecondSlider);
+        partitionedLayout.spacer(0.5f);
 
         resetSimulation();
         conwayFrame.setCyderLayout(partitionedLayout);
@@ -420,7 +429,6 @@ public final class GameOfLifeWidget {
     }
 
     // todo need a 200ms timeout for the switch button
-
     /**
      * The actions to invoke when the present combo box button is clicked.
      */

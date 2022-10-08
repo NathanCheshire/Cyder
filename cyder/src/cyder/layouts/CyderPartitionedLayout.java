@@ -37,15 +37,17 @@ public class CyderPartitionedLayout extends CyderLayout {
     private float newComponentPartitionSpace = DEFAULT_PARTITION_SPACE_PERCENT;
 
     /**
-     * The sum of all partitions.
-     */
-    private int partitionsSum;
-
-    /**
      * The possible directions to lay components out.
      */
     public enum PartitionDirection {
-        ROW, COLUMN
+        /**
+         * The components are laid out in a row.
+         */
+        ROW,
+        /**
+         * The components are laid out in a column.
+         */
+        COLUMN
     }
 
     /**
@@ -72,7 +74,6 @@ public class CyderPartitionedLayout extends CyderLayout {
      */
     public CyderPartitionedLayout() {
         components = new ArrayList<>();
-        partitionsSum = 0;
     }
 
     /**
@@ -304,23 +305,20 @@ public class CyderPartitionedLayout extends CyderLayout {
     @Override
     public void removeComponent(Component component) {
         Preconditions.checkNotNull(component);
-
-        int index = -1;
+        Preconditions.checkArgument(alreadyInComponents(component));
 
         for (int i = 0 ; i < components.size() ; i++) {
             if (components.get(i).getComponent().equals(component)) {
-                index = i;
-                break;
+                removeComponent(i);
+                return;
             }
         }
-
-        Preconditions.checkArgument(index != -1);
-        removeComponent(index);
     }
 
     /**
      * Removes the component at the specified index from the components list.
      * This also removes the partition and returns the new space to the list of available space.
+     * If the associated panel is set, the contained component is removed from the panel.
      *
      * @param index the component at the specified index from the components list
      */
@@ -328,10 +326,7 @@ public class CyderPartitionedLayout extends CyderLayout {
         Preconditions.checkArgument(index >= 0);
         Preconditions.checkArgument(index < components.size());
 
-        PartitionedComponent remove = components.get(index);
-        float addBack = remove.getPartition();
-        partitionsSum += addBack;
-
+        if (associatedPanel != null) associatedPanel.remove(components.get(index).getComponent());
         components.remove(index);
     }
 
@@ -339,8 +334,6 @@ public class CyderPartitionedLayout extends CyderLayout {
      * {@inheritDoc}
      */
     public void addComponent(Component component) {
-        Preconditions.checkNotNull(component);
-
         addComponent(component, newComponentPartitionSpace);
     }
 
@@ -352,10 +345,6 @@ public class CyderPartitionedLayout extends CyderLayout {
      * @param partitionSpace the space to be partitioned for this component
      */
     public void addComponent(Component component, float partitionSpace) {
-        Preconditions.checkNotNull(component);
-        Preconditions.checkArgument(PARTITION_RANGE.contains(partitionSpace));
-        Preconditions.checkArgument(partitionSpace + partitionsSum <= MAX_PARTITION);
-
         addComponent(component, partitionSpace, newComponentPartitionAlignment);
     }
 
@@ -371,14 +360,41 @@ public class CyderPartitionedLayout extends CyderLayout {
     public void addComponent(Component component, float partitionSpace, PartitionAlignment partitionAlignment) {
         Preconditions.checkNotNull(component);
         Preconditions.checkArgument(PARTITION_RANGE.contains(partitionSpace));
-        Preconditions.checkArgument(partitionSpace + partitionsSum <= MAX_PARTITION);
         Preconditions.checkNotNull(partitionAlignment);
         Preconditions.checkState(!alreadyInComponents(component));
 
         PartitionedComponent partitionedComponent = new PartitionedComponent(component, partitionAlignment);
         partitionedComponent.setPartition(partitionSpace);
         components.add(partitionedComponent);
-        partitionsSum += partitionSpace;
+
+        revalidateComponents();
+    }
+
+    /**
+     * Adds the provided component to the layout. This component will always take up the minimal partition
+     * space required to be completely visible.
+     *
+     * @param component the component
+     */
+    public void addComponentMaintainSize(Component component) {
+        addComponentMaintainSize(component, PartitionAlignment.CENTER);
+    }
+
+    /**
+     * Adds the provided component to the layout. This component will always take up the minimal partition
+     * space required to be completely visible.
+     *
+     * @param component          the component
+     * @param partitionAlignment the alignment of the component
+     */
+    public void addComponentMaintainSize(Component component, PartitionAlignment partitionAlignment) {
+        Preconditions.checkNotNull(component);
+        Preconditions.checkNotNull(partitionAlignment);
+        Preconditions.checkState(!alreadyInComponents(component));
+
+        PartitionedComponent partitionedComponent = new PartitionedComponent(component, partitionAlignment);
+        partitionedComponent.setPartition(Float.MAX_VALUE);
+        components.add(partitionedComponent);
 
         revalidateComponents();
     }
@@ -407,7 +423,7 @@ public class CyderPartitionedLayout extends CyderLayout {
      *
      * @param partition the partition the spacer should take up
      */
-    public void spacer(int partition) {
+    public void spacer(float partition) {
         addComponent(new JLabel(), partition);
     }
 
@@ -441,7 +457,5 @@ public class CyderPartitionedLayout extends CyderLayout {
      */
     public void clearComponents() {
         components.clear();
-
-        partitionsSum = 0;
     }
 }

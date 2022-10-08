@@ -87,4 +87,5 @@ public class PartitionedComponent {
     public void setPartition(float partition) {
         this.partition = partition;
     }
+
 }
