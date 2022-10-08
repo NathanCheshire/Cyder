@@ -4,7 +4,6 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
-import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -25,6 +24,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -260,16 +260,24 @@ public final class PathFinderWidget {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
+    private static final int FRAME_WIDTH = 1000;
+    private static final int FRAME_HEIGHT = 1070;
+    private static final String TITLE = "Pathfinding Visualizer";
+    private static final int gridLength = 800;
+    private static final String START = "Start";
+    private static final String RESET = "Reset";
+    private static final String STOP = "Stop";
+
     @Widget(triggers = {"path", "pathfinder", "A*"},
             description = "A pathfinding visualizer for A* and Dijkstras algorithms")
     public static void showGui() {
         UiUtil.closeIfOpen(pathFindingFrame);
 
-        pathFindingFrame = new CyderFrame(1000, 1070, CyderIcons.defaultBackgroundLarge);
-        pathFindingFrame.setTitle("Pathfinding Visualizer");
+        pathFindingFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
+        pathFindingFrame.setTitle(TITLE);
 
-        pathfindingGrid = new CyderGrid(DEFAULT_NODES, 800);
-        pathfindingGrid.setBounds(100, 80, 800, 800);
+        pathfindingGrid = new CyderGrid(DEFAULT_NODES, gridLength);
+        pathfindingGrid.setBounds(100, 80, gridLength, gridLength);
         pathfindingGrid.setMinNodes(DEFAULT_NODES);
         pathfindingGrid.setMaxNodes(MAX_NODES);
         pathfindingGrid.setDrawGridLines(true);
@@ -296,28 +304,7 @@ public final class PathFinderWidget {
         placeStartBox.setToolTipText("Place start node");
         placeStartBox.setBounds(startX, startY + 40, 50, 50);
         pathFindingFrame.getContentPane().add(placeStartBox);
-        placeStartBox.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (placeStartBox.isChecked()) {
-                    pathfindingGrid.setNodeColor(startNodeColor);
-
-                    pathfindingGrid.invokeWhenNodePlaced(() -> {
-                        pathfindingGrid.removeNodesOfColor(startNodeColor);
-
-                        placeStartBox.setNotChecked();
-                        pathfindingGrid.setNodeColor(wallsColor);
-                    });
-
-                    // other actions
-                    deleteWallsCheckBox.setNotChecked();
-                    pathfindingGrid.setMode(CyderGrid.Mode.ADD);
-                } else {
-                    pathfindingGrid.setNodeColor(wallsColor);
-                }
-            }
-        });
+        placeStartBox.addMouseListener(placeStartBoxMouseListener);
 
         CyderLabel placeGoalLabel = new CyderLabel("Goal");
         placeGoalLabel.setBounds(startX - 50 + 80, startY + 5, 150, 40);
@@ -327,28 +314,7 @@ public final class PathFinderWidget {
         placeGoalBox.setToolTipText("Place goal node");
         placeGoalBox.setBounds(startX + 80, startY + 40, 50, 50);
         pathFindingFrame.getContentPane().add(placeGoalBox);
-        placeGoalBox.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (placeGoalBox.isChecked()) {
-                    pathfindingGrid.setNodeColor(goalNodeColor);
-
-                    pathfindingGrid.invokeWhenNodePlaced(() -> {
-                        pathfindingGrid.removeNodesOfColor(goalNodeColor);
-
-                        placeGoalBox.setNotChecked();
-                        pathfindingGrid.setNodeColor(wallsColor);
-                    });
-
-                    // other actions
-                    deleteWallsCheckBox.setNotChecked();
-                    pathfindingGrid.setMode(CyderGrid.Mode.ADD);
-                } else {
-                    pathfindingGrid.setNodeColor(wallsColor);
-                }
-            }
-        });
+        placeGoalBox.addMouseListener(placeGoalMouseListener);
 
         CyderCheckboxGroup nodeGroup = new CyderCheckboxGroup();
         nodeGroup.addCheckbox(placeStartBox);
@@ -362,18 +328,7 @@ public final class PathFinderWidget {
         deleteWallsCheckBox.setToolTipText("Delete Walls");
         deleteWallsCheckBox.setBounds(startX + 80 * 2, startY + 40, 50, 50);
         pathFindingFrame.getContentPane().add(deleteWallsCheckBox);
-        deleteWallsCheckBox.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-
-                if (pathfindingGrid.getMode() == CyderGrid.Mode.ADD) {
-                    pathfindingGrid.setMode(CyderGrid.Mode.DELETE);
-                } else {
-                    pathfindingGrid.setMode(CyderGrid.Mode.ADD);
-                }
-            }
-        });
+        deleteWallsCheckBox.addMouseListener(deleteWallsMouseListener);
 
         CyderLabel showStepsLabel = new CyderLabel("Steps");
         showStepsLabel.setBounds(startX - 50, startY + 5 + 80, 150, 40);
@@ -400,59 +355,17 @@ public final class PathFinderWidget {
         drawGridLinesBox = new CyderCheckbox();
         drawGridLinesBox.setToolTipText("Draw grid lines");
         drawGridLinesBox.setBounds(startX + 80 * 2, startY + 40 + 80, 50, 50);
-        drawGridLinesBox.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                pathfindingGrid.setDrawGridLines(drawGridLinesBox.isChecked());
-            }
-        });
+        drawGridLinesBox.addMouseListener(drawGridLinesMouseListener);
         pathFindingFrame.getContentPane().add(drawGridLinesBox);
 
-        CyderButton reset = new CyderButton("Reset");
+        CyderButton reset = new CyderButton(RESET);
         reset.setBounds(350, startY + 40 - 20, 180, 50);
         reset.addActionListener(e -> reset());
         pathFindingFrame.getContentPane().add(reset);
 
-        startPauseButton = new CyderButton("Start");
+        startPauseButton = new CyderButton(START);
         startPauseButton.setBounds(350, startY + 40 + 80, 180, 50);
-        startPauseButton.addActionListener(e -> {
-            // start must be placed
-            if (pathfindingGrid.getNodesOfColor(startNodeColor).isEmpty()) {
-                pathFindingFrame.notify("Start node not set");
-                return;
-            }
-
-            // goal must be placed
-            if (pathfindingGrid.getNodesOfColor(goalNodeColor).isEmpty()) {
-                pathFindingFrame.notify("End node not set");
-                return;
-            }
-
-            // if not running
-            if (currentPathingState != PathingState.RUNNING) {
-                disableUiElements();
-                startPauseButton.setText("Stop");
-
-                // resume if paused
-                if (currentPathingState == PathingState.PAUSED) {
-                    // transition state
-                    currentPathingState = PathingState.RUNNING;
-
-                    // all setup was already performed so just start stepping again
-                    startMainWhile();
-                }
-                // otherwise first start so setup then run
-                else {
-                    searchSetup();
-                }
-            } else {
-                currentPathingState = PathingState.PAUSED;
-                startPauseButton.setText("Resume");
-                updateStateLabel();
-                enableUiElements();
-            }
-        });
+        startPauseButton.addActionListener(e -> startPauseButtonAction());
         pathFindingFrame.getContentPane().add(startPauseButton);
 
         heuristicSwitch = new CyderSwitch(350, 50);
@@ -465,15 +378,15 @@ public final class PathFinderWidget {
 
         speedSlider = new JSlider(JSlider.HORIZONTAL, MIN_SLIDER_VALUE,
                 MAX_SLIDER_VALUE, DEFAULT_SLIDER_VALUE);
-        CyderSliderUi UI = new CyderSliderUi(speedSlider);
-        UI.setThumbStroke(new BasicStroke(2.0f));
-        UI.setThumbShape(CyderSliderUi.ThumbShape.RECT);
-        UI.setThumbFillColor(Color.black);
-        UI.setThumbOutlineColor(CyderColors.navy);
-        UI.setRightThumbColor(CyderColors.regularBlue);
-        UI.setLeftThumbColor(CyderColors.regularPink);
-        UI.setTrackStroke(new BasicStroke(3.0f));
-        speedSlider.setUI(UI);
+        CyderSliderUi speedSliderUi = new CyderSliderUi(speedSlider);
+        speedSliderUi.setThumbStroke(new BasicStroke(2.0f));
+        speedSliderUi.setThumbShape(CyderSliderUi.ThumbShape.RECT);
+        speedSliderUi.setThumbFillColor(Color.black);
+        speedSliderUi.setThumbOutlineColor(CyderColors.navy);
+        speedSliderUi.setRightThumbColor(CyderColors.regularBlue);
+        speedSliderUi.setLeftThumbColor(CyderColors.regularPink);
+        speedSliderUi.setTrackStroke(new BasicStroke(3.0f));
+        speedSlider.setUI(speedSliderUi);
         speedSlider.setBounds(350, startY + 40 + 35, 350 + 180 + 20, 40);
         speedSlider.setPaintTicks(false);
         speedSlider.setPaintLabels(false);
@@ -482,7 +395,6 @@ public final class PathFinderWidget {
         speedSlider.setToolTipText("Pathfinding Speed");
         speedSlider.setFocusable(false);
         pathFindingFrame.getContentPane().add(speedSlider);
-        // no change listener since the sleep value is used as soon as possible
 
         algorithmSwitch = new CyderSwitch(350, 50);
         algorithmSwitch.setOffText(ALGORITHM_OFF);
@@ -498,76 +410,183 @@ public final class PathFinderWidget {
     }
 
     /**
+     * The mouse listener for the place start checkbox.
+     */
+    private static final MouseListener placeStartBoxMouseListener = new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            super.mouseClicked(e);
+            if (placeStartBox.isChecked()) {
+                pathfindingGrid.setNodeColor(startNodeColor);
+
+                pathfindingGrid.invokeWhenNodePlaced(() -> {
+                    pathfindingGrid.removeNodesOfColor(startNodeColor);
+
+                    placeStartBox.setNotChecked();
+                    pathfindingGrid.setNodeColor(wallsColor);
+                });
+
+                deleteWallsCheckBox.setNotChecked();
+                pathfindingGrid.setMode(CyderGrid.Mode.ADD);
+            } else {
+                pathfindingGrid.setNodeColor(wallsColor);
+            }
+        }
+    };
+
+    /**
+     * The mouse listener for the place goal checkbox.
+     */
+    private static final MouseListener placeGoalMouseListener = new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            super.mouseClicked(e);
+            if (placeGoalBox.isChecked()) {
+                pathfindingGrid.setNodeColor(goalNodeColor);
+
+                pathfindingGrid.invokeWhenNodePlaced(() -> {
+                    pathfindingGrid.removeNodesOfColor(goalNodeColor);
+
+                    placeGoalBox.setNotChecked();
+                    pathfindingGrid.setNodeColor(wallsColor);
+                });
+
+                deleteWallsCheckBox.setNotChecked();
+                pathfindingGrid.setMode(CyderGrid.Mode.ADD);
+            } else {
+                pathfindingGrid.setNodeColor(wallsColor);
+            }
+        }
+    };
+
+    /**
+     * The mouse listener for the delete walls checkbox.
+     */
+    private static final MouseListener deleteWallsMouseListener = new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            super.mouseClicked(e);
+
+            if (pathfindingGrid.getMode() == CyderGrid.Mode.ADD) {
+                pathfindingGrid.setMode(CyderGrid.Mode.DELETE);
+            } else {
+                pathfindingGrid.setMode(CyderGrid.Mode.ADD);
+            }
+        }
+    };
+
+    /**
+     * The mouse listener for the draw grid lines checkbox.
+     */
+    private static final MouseListener drawGridLinesMouseListener = new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            super.mouseClicked(e);
+            pathfindingGrid.setDrawGridLines(drawGridLinesBox.isChecked());
+        }
+    };
+
+    /**
+     * The actions to invoke when the start/pause button is pressed.
+     */
+    private static void startPauseButtonAction() {
+        if (pathfindingGrid.getNodesOfColor(startNodeColor).isEmpty()) {
+            pathFindingFrame.notify("Start node not set");
+            return;
+        }
+
+        if (pathfindingGrid.getNodesOfColor(goalNodeColor).isEmpty()) {
+            pathFindingFrame.notify("End node not set");
+            return;
+        }
+
+        if (currentPathingState == PathingState.RUNNING) {
+            currentPathingState = PathingState.PAUSED;
+            startPauseButton.setText("Resume");
+            updateStateLabel();
+            enableUiElements();
+            return;
+        }
+
+        disableUiElements();
+        startPauseButton.setText(STOP);
+
+        if (currentPathingState == PathingState.PAUSED) {
+            currentPathingState = PathingState.RUNNING;
+            startPathStepLoop();
+        } else {
+            searchSetup();
+        }
+    }
+
+    /**
      * Performs the setup necessary to start path finding such as
      * initializing the lists, finding the start and goal nodes,
      * and converting GridNodes to PathNodes.
      */
     private static void searchSetup() {
-        // this is only invoked if start and goal are set so safe not to check here
+        /*
+        This method is only invoked if start and goal nodes are set.
+         */
+
         endPathAnimator();
         removePathingNodes();
 
-        // find walls that we cannot path through
         LinkedList<CyderGrid.GridNode> walls = pathfindingGrid.getNodesOfColor(wallsColor);
 
-        // get goal node and convert to path node
         CyderGrid.GridNode gridGoal = pathfindingGrid.getNodesOfColor(goalNodeColor).get(0);
         goalNode = new PathNode(gridGoal.getX(), gridGoal.getY());
         goalNode.setParent(null);
 
-        // get start node and convert to path node
         CyderGrid.GridNode gridStart = pathfindingGrid.getNodesOfColor(startNodeColor).get(0);
         startNode = new PathNode(gridStart.getX(), gridStart.getY());
         startNode.setParent(null);
 
-        // find new pathable nodes which aren't start, goal, or walls
         pathableNodes.clear();
         for (int x = 0 ; x < pathfindingGrid.getNodeDimensionLength() ; x++) {
             for (int y = 0 ; y < pathfindingGrid.getNodeDimensionLength() ; y++) {
                 CyderGrid.GridNode node = new CyderGrid.GridNode(x, y);
 
-                // skip walls
-                if (walls.contains(node))
+                /*
+                Ignore walls for pathable nodes.
+
+                Note to maintainers: if future node types are added and should not be pathable,
+                 they should be tested for here.
+                 */
+                if (walls.contains(node)) {
                     continue;
+                }
 
-                PathNode tempNode = new PathNode(x, y);
-
-                // skip start
-                if (startNode.equals(tempNode)) continue;
-                // skip goal node
-                if (goalNode.equals(tempNode)) continue;
-
-                // otherwise it's a pathable node so convert and add
                 pathableNodes.add(new PathNode(node.getX(), node.getY()));
             }
         }
 
-        // reset open nodes
-        openNodes.clear();
-
-        // put start in the open after setting costs
         startNode.setG(0);
         startNode.setH(heuristic(goalNode));
+
+        openNodes.clear();
         openNodes.add(startNode);
 
-        // update state
         currentPathingState = PathingState.RUNNING;
 
-        // disable ui elements
         disableUiElements();
 
-        // disable zooming
         pathfindingGrid.setResizable(false);
 
-        // start main program loop
-        startMainWhile();
+        startPathStepLoop();
     }
 
     /**
-     * Starts the main A* while loop.
+     * The path solver thread name.
+     */
+    private static final String PATH_SOLVING_THREAD_NAME = "Path Solver";
+
+    /**
+     * Starts the main while loop which takes path steps until a path is
+     * found or all reachable nodes have been checked.
      * All setup of lists must be performed before invoking this method.
      */
-    private static void startMainWhile() {
+    private static void startPathStepLoop() {
         updateStateLabel();
 
         CyderThreadRunner.submit(() -> {
@@ -579,7 +598,7 @@ public final class PathFinderWidget {
                     ThreadUtil.sleep(MAX_SLIDER_VALUE - speedSlider.getValue());
                 }
             }
-        }, "Path Solver");
+        }, PATH_SOLVING_THREAD_NAME);
     }
 
     /**
@@ -601,22 +620,20 @@ public final class PathFinderWidget {
                 return;
             }
 
-            //generate neighbors of this current node
+            // todo method for neighbors
             LinkedList<PathNode> neighbors = new LinkedList<>();
-
             for (PathNode possibleNeighbor : pathableNodes) {
-                if (areOrthogonalNeighbors(possibleNeighbor, min) ||
-                        (areDiagonalNeighbors(possibleNeighbor, min) && diagonalBox.isChecked())) {
+                if (areOrthogonalNeighbors(possibleNeighbor, min)
+                        || (areDiagonalNeighbors(possibleNeighbor, min) && diagonalBox.isChecked())) {
                     neighbors.add(possibleNeighbor);
                 }
             }
 
-            for (PathNode neighbor : neighbors) {
-                //calculate new H
-                double newH = heuristic(neighbor);
+            neighbors.forEach(neighbor -> {
+                double currentHCost = heuristic(neighbor);
 
-                if (newH < neighbor.getH()) {
-                    neighbor.setH(newH);
+                if (currentHCost < neighbor.getH()) {
+                    neighbor.setH(currentHCost);
                     neighbor.setParent(min);
                     neighbor.setG(min.getG() + euclideanDistance(min, neighbor));
 
@@ -624,23 +641,21 @@ public final class PathFinderWidget {
                         openNodes.add(neighbor);
                     }
                 }
-            }
+            });
 
-            // path hasn't been found yet but one may still
-            // exist since there are nodes in the open list
-            // therefore refresh the grid
-            for (PathNode pathNode : pathableNodes) {
-                if (pathNode.equals(startNode) || pathNode.equals(goalNode))
-                    continue;
-
-                if (openNodes.contains(pathNode)) {
-                    lockingAddNode(new CyderGrid.GridNode(pathableOpenColor, pathNode.getX(), pathNode.getY()));
-                } else if (pathNode.getParent() != null) {
-                    lockingAddNode(new CyderGrid.GridNode(pathableClosedColor, pathNode.getX(), pathNode.getY()));
-                }
-            }
-        } else
+            // Refresh grid colors based on current state of algorithm and nodes checked.
+            pathableNodes.stream().filter(pathNode -> !pathNode.equals(startNode) && !pathNode.equals(goalNode))
+                    .forEach(pathNode -> {
+                        if (openNodes.contains(pathNode)) {
+                            lockingAddNode(new CyderGrid.GridNode(pathableOpenColor, pathNode.getX(), pathNode.getY()));
+                        } else if (pathNode.getParent() != null) {
+                            lockingAddNode(
+                                    new CyderGrid.GridNode(pathableClosedColor, pathNode.getX(), pathNode.getY()));
+                        }
+                    });
+        } else {
             pathNotFound();
+        }
     }
 
     /**
@@ -652,7 +667,7 @@ public final class PathFinderWidget {
         currentPathingState = PathingState.PATH_FOUND;
 
         // reset button text
-        startPauseButton.setText("Start");
+        startPauseButton.setText(START);
 
         enableUiElements();
         updateStateLabel();
