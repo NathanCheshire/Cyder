@@ -2,12 +2,12 @@ package cyder.layouts;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
+import cyder.annotations.ForReadability;
 import cyder.ui.CyderPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  * A layout designed to allow partitioning of a row or column into different parts each taking up
@@ -37,14 +37,9 @@ public class CyderPartitionedLayout extends CyderLayout {
     private float newComponentPartitionSpace = DEFAULT_PARTITION_SPACE_PERCENT;
 
     /**
-     * The sum of all partitions from {@link #partitions}.
+     * The sum of all partitions.
      */
     private int partitionsSum;
-
-    /**
-     * The list of all added partitions.
-     */
-    private final LinkedList<Float> partitions;
 
     /**
      * The possible directions to lay components out.
@@ -76,7 +71,6 @@ public class CyderPartitionedLayout extends CyderLayout {
      * Constructs a new partitioned layout.
      */
     public CyderPartitionedLayout() {
-        partitions = new LinkedList<>();
         components = new ArrayList<>();
         partitionsSum = 0;
     }
@@ -204,18 +198,26 @@ public class CyderPartitionedLayout extends CyderLayout {
         int parentWidth = associatedPanel.getWidth();
         int parentHeight = associatedPanel.getHeight();
 
-        for (int i = 0 ; i < components.size() ; i++) {
-            PartitionedComponent partitionedComponent = components.get(i);
+        for (PartitionedComponent partitionedComponent : components) {
             Component component = partitionedComponent.getComponent();
             PartitionAlignment alignment = partitionedComponent.getAlignment();
+            float partition = partitionedComponent.getPartition();
 
             int componentPartitionedLength;
             switch (partitionDirection) {
                 case ROW -> {
-                    componentPartitionedLength = (int) ((partitions.get(i) / MAX_PARTITION) * parentWidth);
+                    if (partition == Float.MAX_VALUE) {
+                        componentPartitionedLength = component.getWidth();
+                    } else {
+                        componentPartitionedLength = (int) ((partition / MAX_PARTITION) * parentWidth);
+                    }
                 }
                 case COLUMN -> {
-                    componentPartitionedLength = (int) ((partitions.get(i) / MAX_PARTITION) * parentHeight);
+                    if (partition == Float.MAX_VALUE) {
+                        componentPartitionedLength = component.getHeight();
+                    } else {
+                        componentPartitionedLength = (int) ((partition / MAX_PARTITION) * parentHeight);
+                    }
                 }
                 default -> throw new IllegalStateException("Invalid partition direction: " + partitionDirection);
             }
@@ -326,10 +328,10 @@ public class CyderPartitionedLayout extends CyderLayout {
         Preconditions.checkArgument(index >= 0);
         Preconditions.checkArgument(index < components.size());
 
-        float addBack = partitions.get(index);
+        PartitionedComponent remove = components.get(index);
+        float addBack = remove.getPartition();
         partitionsSum += addBack;
 
-        partitions.remove(index);
         components.remove(index);
     }
 
@@ -371,21 +373,33 @@ public class CyderPartitionedLayout extends CyderLayout {
         Preconditions.checkArgument(PARTITION_RANGE.contains(partitionSpace));
         Preconditions.checkArgument(partitionSpace + partitionsSum <= MAX_PARTITION);
         Preconditions.checkNotNull(partitionAlignment);
+        Preconditions.checkState(!alreadyInComponents(component));
 
-        boolean in = false;
-        for (PartitionedComponent partitionedComponent : components) {
-            if (partitionedComponent.getComponent().equals(component)) {
-                in = true;
-                break;
-            }
-        }
-        Preconditions.checkArgument(!in, "Layout already contains component");
-
-        components.add(new PartitionedComponent(component, partitionAlignment));
-        partitions.add(partitionSpace);
+        PartitionedComponent partitionedComponent = new PartitionedComponent(component, partitionAlignment);
+        partitionedComponent.setPartition(partitionSpace);
+        components.add(partitionedComponent);
         partitionsSum += partitionSpace;
 
         revalidateComponents();
+    }
+
+    /**
+     * Returns whether the provided component is in the components list already.
+     *
+     * @param component the component
+     * @return whether the provided component is in the components list already
+     */
+    @ForReadability
+    private boolean alreadyInComponents(Component component) {
+        Preconditions.checkNotNull(component);
+
+        for (PartitionedComponent partitionedComponent : components) {
+            if (partitionedComponent.getComponent().equals(component)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -408,11 +422,16 @@ public class CyderPartitionedLayout extends CyderLayout {
         Preconditions.checkArgument(index >= 0);
         Preconditions.checkArgument(index < components.size());
 
+        PartitionedComponent remove = components.get(index);
+        float partition = remove.getPartition();
+        PartitionAlignment alignment = remove.getAlignment();
         if (associatedPanel != null) {
-            associatedPanel.remove(components.get(index).getComponent());
+            associatedPanel.remove(remove.getComponent());
         }
 
-        components.set(index, new PartitionedComponent(component, components.get(index).getAlignment()));
+        PartitionedComponent newComponent = new PartitionedComponent(component, alignment);
+        newComponent.setPartition(partition);
+        components.set(index, newComponent);
 
         revalidateComponents();
     }
@@ -422,7 +441,6 @@ public class CyderPartitionedLayout extends CyderLayout {
      */
     public void clearComponents() {
         components.clear();
-        partitions.clear();
 
         partitionsSum = 0;
     }
