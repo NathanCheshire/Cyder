@@ -268,7 +268,8 @@ public final class NotesWidget {
         buttonPanel.setSize(notesLabel.getWidth(), 50);
 
         framePartitionedLayout.spacer(2);
-        framePartitionedLayout.addComponentMaintainSize(notesLabel, CyderPartitionedLayout.PartitionAlignment.TOP);
+        framePartitionedLayout.addComponentMaintainSize(notesLabel,
+                CyderPartitionedLayout.PartitionAlignment.TOP);
         framePartitionedLayout.spacer(2);
         framePartitionedLayout.addComponent(buttonPanel);
         framePartitionedLayout.spacer(2);
@@ -438,7 +439,8 @@ public final class NotesWidget {
         noteEditArea.setCaret(new CyderCaret(CyderColors.navy));
         noteEditArea.setCaretColor(noteEditArea.getForeground());
 
-        CyderScrollPane noteScroll = new CyderScrollPane(noteEditArea, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,
+        CyderScrollPane noteScroll = new CyderScrollPane(noteEditArea,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         noteScroll.setThumbColor(CyderColors.regularPink);
         noteScroll.setSize(noteScrollLength, noteScrollHeight);
