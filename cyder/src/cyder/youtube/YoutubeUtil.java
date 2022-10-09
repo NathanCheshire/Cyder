@@ -392,6 +392,16 @@ public final class YoutubeUtil {
     }
 
     /**
+     * Returns whether the provided url is a video rul.
+     *
+     * @param url the url
+     * @return whether the provided url is a video url
+     */
+    public static boolean isVideoUrl(String url) {
+        return Preconditions.checkNotNull(url).startsWith(YOUTUBE_VIDEO_BASE);
+    }
+
+    /**
      * Extracts the YouTube playlist id from the provided playlist url.
      *
      * @param url the url of the playlist

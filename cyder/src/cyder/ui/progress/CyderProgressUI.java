@@ -85,6 +85,18 @@ public class CyderProgressUI extends BasicProgressBarUI {
     }
 
     /**
+     * Sets the color of the progress ui.
+     *
+     * @param color the color of the progress ui
+     */
+    public void setAnimationColor(Color color) {
+        Preconditions.checkNotNull(color);
+
+        this.primaryAnimationColor = color;
+        this.secondaryAnimationColor = color;
+    }
+
+    /**
      * Returns the primary animation color.
      *
      * @return the primary animation color

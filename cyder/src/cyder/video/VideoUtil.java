@@ -24,6 +24,8 @@ public final class VideoUtil {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
+    // ffmpeg -i BadApple.mp4 "%04d.png"
+
     @SuppressWarnings("UnusedAssignment") /* Optimizations */
     public static void test() {
         File audioFile = new File("c:\\users\\nathan\\downloads\\BadApple.mp3");
@@ -40,8 +42,10 @@ public final class VideoUtil {
 
         IoUtil.playGeneralAudio(audioFile);
 
+        long absoluteStart = System.currentTimeMillis();
+
         for (int i = 1 ; i <= numFrames ; i++) {
-            long start = System.currentTimeMillis();
+            if (cyderFrame.isDisposed()) return;
 
             File frameFile = new File("C:\\users\\nathan\\Downloads\\Frames\\"
                     + String.format("%04d", i) + ".png");
@@ -57,12 +61,14 @@ public final class VideoUtil {
 
             frameFile = null;
             image = null;
-            long loadTime = (System.currentTimeMillis() - start);
-            System.out.println("Load time: " + loadTime + "ms");
-            int sleepMillis = (int) (milliSecondsPerFrame - loadTime);
-            if (sleepMillis > 0) ThreadUtil.sleep(sleepMillis);
-
-            // ffmpeg -i BadApple.mp4 "%04d.png"
+            long totalTimeTaken = (System.currentTimeMillis() - absoluteStart);
+            long timeThatShouldHaveElapsed = (long) milliSecondsPerFrame * i;
+            long sleepTime = timeThatShouldHaveElapsed - totalTimeTaken;
+            if (sleepTime >= 0) {
+                ThreadUtil.sleep(sleepTime);
+            } else {
+                System.out.println("Need to skip frames, behind: " + Math.abs(sleepTime) + "ms");
+            }
         }
     }
 

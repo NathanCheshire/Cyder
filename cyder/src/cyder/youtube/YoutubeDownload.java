@@ -26,17 +26,18 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 
 import static cyder.youtube.YoutubeConstants.*;
 
 /**
- * A utility class for downloading a single video's audio from YouTube.
+ * A utility class for downloading a video's audio and/or video from YouTube.
  */
 public class YoutubeDownload {
     /**
-     * The download name of this download object.
+     * The name of this download object.
      */
     private String downloadableName;
 
@@ -113,7 +114,7 @@ public class YoutubeDownload {
     /**
      * The exit code for the internal download process.
      */
-    private int processExitCode = Integer.MIN_VALUE;
+    private int processExitCode = DOWNLOAD_NOT_FINISHED;
 
     /**
      * Suppress default constructor.
@@ -241,7 +242,7 @@ public class YoutubeDownload {
      * @param onCanceledCallback the callback to invoke when/if a cancel action is invoked
      */
     public void setOnCanceledCallback(Runnable onCanceledCallback) {
-        this.onCanceledCallback = onCanceledCallback;
+        this.onCanceledCallback = Preconditions.checkNotNull(onCanceledCallback);
     }
 
     /**
@@ -259,7 +260,7 @@ public class YoutubeDownload {
      * @param onDownloadedCallback the callback to invoke when a download completes
      */
     public void setOnDownloadedCallback(Runnable onDownloadedCallback) {
-        this.onDownloadedCallback = onDownloadedCallback;
+        this.onDownloadedCallback = Preconditions.checkNotNull(onDownloadedCallback);
     }
 
     /**
@@ -271,8 +272,9 @@ public class YoutubeDownload {
         Preconditions.checkState(!isCanceled());
         Preconditions.checkState(isDone());
         Preconditions.checkState(isDownloaded());
+        Preconditions.checkNotNull(downloadFile);
 
-        return Preconditions.checkNotNull(downloadFile);
+        return downloadFile;
 
     }
 
@@ -282,23 +284,23 @@ public class YoutubeDownload {
      * @return the exit code of the internal download process if completed
      */
     public int getProcessExitCode() {
-        Preconditions.checkState(processExitCode != Integer.MIN_VALUE,
+        Preconditions.checkState(processExitCode != DOWNLOAD_NOT_FINISHED,
                 "Process not yet finished");
 
         return processExitCode;
     }
 
     /**
-     * Updates the download progress label.
+     * Updates the download progress label text.
      */
-    public void updateProgressLabel() {
+    public void updateProgressLabelText() {
         downloadProgressLabel.setText(
                 BoundsUtil.OPENING_HTML_TAG + downloadableName
-                + "<br/>File size: " + downloadableFileSize
-                + "<br/>Progress: " + downloadableProgress + "%"
-                + "<br/>Rate: " + downloadableRate
-                + "<br/>Eta: " + downloadableEta
-                + BoundsUtil.CLOSING_HTML_TAG);
+                        + "<br/>File size: " + downloadableFileSize
+                        + "<br/>Progress: " + downloadableProgress + "%"
+                        + "<br/>Rate: " + downloadableRate
+                        + "<br/>Eta: " + downloadableEta
+                        + BoundsUtil.CLOSING_HTML_TAG);
         downloadProgressLabel.revalidate();
         downloadProgressLabel.repaint();
         downloadProgressLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -308,12 +310,11 @@ public class YoutubeDownload {
      * Refreshes the font of the label containing the download information.
      */
     public void refreshLabelFont() {
-        if (isDone()) {
-            return;
-        }
+        if (isDone()) return;
 
-        downloadProgressLabel.setFont(Console.INSTANCE.generateUserFont());
-        cancelButton.setFont(Console.INSTANCE.getInputField().getFont());
+        Font font = Console.INSTANCE.generateUserFont();
+        downloadProgressLabel.setFont(font);
+        cancelButton.setFont(font);
     }
 
     /**
@@ -346,14 +347,14 @@ public class YoutubeDownload {
      * @param inputHandler the input handler set for this YouTube download
      */
     public void setInputHandler(BaseInputHandler inputHandler) {
-        this.inputHandler = inputHandler;
+        this.inputHandler = Preconditions.checkNotNull(inputHandler);
     }
 
     /**
      * Downloads this object's YouTube video.
      */
     public void download() {
-        Preconditions.checkArgument(!done, "Object attempted to download previously");
+        Preconditions.checkState(!done, "Object attempted to download previously");
 
         boolean shouldPrintUpdates = inputHandler != null;
 
@@ -363,19 +364,20 @@ public class YoutubeDownload {
                 Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName());
 
-        String extension = "." + PropLoader.getString("ffmpeg_audio_output_format");
+        String ffmpegAudioOutputFormat = PropLoader.getString(FFMPEG_AUDIO_OUTPUT_FORMAT);
+        String extension = "." + ffmpegAudioOutputFormat;
 
         AtomicReference<String> parsedSaveName = new AtomicReference<>(
                 StringUtil.parseNonAscii(NetworkUtil.getUrlTitle(url))
-                        .replace("- YouTube", "")
+                        .replace(YOUTUBE_VIDEO_URL_TITLE_SUFFIX, "")
                         .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim());
 
-        // remove trailing periods
+        // Remove trailing periods
         while (parsedSaveName.get().endsWith(".")) {
             parsedSaveName.set(parsedSaveName.get().substring(0, parsedSaveName.get().length() - 1));
         }
 
-        // if for some reason this case happens, account for it
+        // If for some reason this case happens, account for it
         if (parsedSaveName.get().isEmpty()) {
             parsedSaveName.set(SecurityUtil.generateUuid());
         }
@@ -383,14 +385,16 @@ public class YoutubeDownload {
         String[] command = {
                 AudioUtil.getYoutubeDlCommand(), url,
                 FFMPEG_EXTRACT_AUDIO_FLAG,
-                FFMPEG_AUDIO_FORMAT_FLAG, PropLoader.getString("ffmpeg_audio_output_format"),
+                FFMPEG_AUDIO_FORMAT_FLAG, ffmpegAudioOutputFormat,
                 FFMPEG_OUTPUT_FLAG, new File(userMusicDir).getAbsolutePath() + OsUtil.FILE_SEP
                 + parsedSaveName + ".%(ext)s"
         };
 
         YoutubeUtil.addActiveDownload(this);
-        this.downloadableName = parsedSaveName.get();
+        downloadableName = parsedSaveName.get();
 
+        String threadName = "YouTube Downloader, saveName=" + parsedSaveName.get()
+                + ", uuid=" + YoutubeUtil.getUuid(url);
         CyderThreadRunner.submit(() -> {
             try {
                 if (shouldPrintUpdates) {
@@ -408,37 +412,52 @@ public class YoutubeDownload {
                     if (isCanceled()) {
                         proc.destroy();
 
-                        cleanUpFromCancel(new File(userMusicDir), parsedSaveName);
-
-                        onCanceledCallback.run();
+                        cleanUpFromCancel(new File(userMusicDir), parsedSaveName.get());
+                        if (onDownloadedCallback != null) {
+                            onCanceledCallback.run();
+                        }
 
                         break;
                     }
 
                     Matcher updateMatcher = CyderRegexPatterns.updatePattern.matcher(outputString);
 
-                    if (updateMatcher.find()) {
-                        float progress = Float.parseFloat(updateMatcher.group(1)
-                                .replaceAll("[^0-9.]", ""));
+                    // todo common enough should extract to regex patterns
+                    String nonNumberRegex = "[^0-9.]";
+                    int progressIndex = 1;
+                    int sizeIndex = 2;
+                    int rateIndex = 3;
+                    int etaIndex = 4;
 
-                        this.downloadableFileSize = updateMatcher.group(2);
-                        this.downloadableProgress = progress;
-                        this.downloadableRate = updateMatcher.group(3);
-                        this.downloadableEta = updateMatcher.group(4);
+                    if (updateMatcher.find()) {
+                        String progressPart = updateMatcher.group(progressIndex);
+                        float progress = Float.parseFloat(progressPart.replaceAll(nonNumberRegex, ""));
+
+                        downloadableProgress = progress;
+                        downloadableFileSize = updateMatcher.group(sizeIndex);
+                        downloadableRate = updateMatcher.group(rateIndex);
+                        downloadableEta = updateMatcher.group(etaIndex);
 
                         if (shouldPrintUpdates && downloadProgressBar != null) {
-                            downloadProgressBar.setValue(
-                                    (int) ((progress / 100.0f) * downloadProgressBar.getMaximum()));
-                            updateProgressLabel();
+                            int value = (int) ((progress / 100.0f) * downloadProgressBar.getMaximum());
+                            downloadProgressBar.setValue(value);
+                            updateProgressLabelText();
                         }
                     }
                 }
 
-                this.processExitCode = proc.waitFor();
+                // todo update cancel button to say downloaded when done
+                // todo ctrl + c should cancel all pending downloads
 
-                if (processExitCode != 0) {
+                processExitCode = proc.waitFor();
+
+                if (processExitCode != SUCCESSFUL_EXIT_CODE) {
                     if (shouldPrintUpdates) {
-                        inputHandler.println("Canceled download due to user request or an exception");
+                        if (isCanceled()) {
+                            inputHandler.println("Canceled download due to user request");
+                        } else {
+                            inputHandler.println("Failed to download audio");
+                        }
                     }
                 } else if (!isCanceled()) {
                     downloadFile = OsUtil.buildFile(userMusicDir, parsedSaveName + extension);
@@ -457,14 +476,10 @@ public class YoutubeDownload {
                     }
                 }
             } catch (Exception e) {
-                if (isCanceled()) {
-                    inputHandler.println("Canceled download");
-                } else {
-                    ExceptionHandler.handle(e);
+                ExceptionHandler.handle(e);
 
-                    if (shouldPrintUpdates) {
-                        inputHandler.println("An exception occurred while attempting to download, url=" + url);
-                    }
+                if (shouldPrintUpdates) {
+                    inputHandler.println("An exception occurred while attempting to download, url=" + url);
                 }
             } finally {
                 YoutubeUtil.removeActiveDownload(this);
@@ -475,21 +490,23 @@ public class YoutubeDownload {
                     cleanUpUi();
                 }
             }
-        }, "YouTube Downloader, saveName=" + parsedSaveName.get() + ", uuid=" + YoutubeUtil.getUuid(url));
+        }, threadName);
     }
 
     /**
      * Constructs and prints the progress bar and label to the linked input handler.
      */
     private void constructAndPrintUiElements() {
-        downloadProgressBar = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
+        downloadProgressBar = new CyderProgressBar(CyderProgressBar.HORIZONTAL,
+                downloadProgressMin, downloadProgressMax);
 
         downloadProgressBarUi = new CyderProgressUI();
         downloadProgressBarUi.setAnimationColors(CyderColors.regularPink, CyderColors.regularBlue);
         downloadProgressBarUi.setAnimationDirection(CyderProgressUI.AnimationDirection.LEFT_TO_RIGHT);
+
         downloadProgressBar.setUI(downloadProgressBarUi);
-        downloadProgressBar.setMinimum(0);
-        downloadProgressBar.setMaximum(10000);
+        downloadProgressBar.setMinimum(downloadProgressMin);
+        downloadProgressBar.setMaximum(downloadProgressMax);
         downloadProgressBar.setBorder(new LineBorder(Color.black, 2));
         downloadProgressBar.setBounds(0, 0, 400, 40);
         downloadProgressBar.setVisible(true);
@@ -498,7 +515,7 @@ public class YoutubeDownload {
         downloadProgressBar.setFocusable(false);
         downloadProgressBar.repaint();
 
-        downloadProgressLabel = new JLabel("\"" + this.downloadableName + "\"");
+        downloadProgressLabel = new JLabel("\"" + downloadableName + "\"");
         downloadProgressLabel.setFont(Console.INSTANCE.generateUserFont());
         downloadProgressLabel.setForeground(CyderColors.vanilla);
         downloadProgressLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -509,9 +526,6 @@ public class YoutubeDownload {
         inputHandler.println(downloadProgressLabel);
         inputHandler.println(getCancelDownloadButton());
     }
-
-    private static final String CANCEL = "Cancel";
-    private static final String CANCELED = "Canceled";
 
     /**
      * Returns a button which can be used to cancel and clean up the download.
@@ -538,10 +552,22 @@ public class YoutubeDownload {
      * Cleans up the printed ui elements.
      */
     private void cleanUpUi() {
-        downloadProgressBarUi.setAnimationColors(CyderColors.regularBlue, CyderColors.regularBlue);
+        Color resultColor = downloaded ? CyderColors.regularBlue : CyderColors.regularRed;
+
+        downloadProgressBarUi.setAnimationColor(resultColor);
         downloadProgressBarUi.stopAnimationTimer();
 
         downloadProgressBar.repaint();
+
+        String buttonText;
+        if (downloaded) {
+            buttonText = DOWNLOADED;
+        } else if (canceled) {
+            buttonText = CANCELED;
+        } else {
+            buttonText = FAILED;
+        }
+        cancelButton.setText(buttonText);
     }
 
     /**
@@ -550,23 +576,22 @@ public class YoutubeDownload {
      * @param parentDirectory      the directory the file would have been downloaded to
      * @param nameWithoutExtension the file name without the extension, anything that starts with this will be deleted
      */
-    private void cleanUpFromCancel(File parentDirectory, AtomicReference<String> nameWithoutExtension) {
+    private void cleanUpFromCancel(File parentDirectory, String nameWithoutExtension) {
         Preconditions.checkNotNull(parentDirectory);
         Preconditions.checkNotNull(nameWithoutExtension);
-        Preconditions.checkNotNull(nameWithoutExtension.get());
+        Preconditions.checkNotNull(nameWithoutExtension);
+        Preconditions.checkArgument(!nameWithoutExtension.isEmpty());
 
         File[] children = parentDirectory.listFiles();
+        if (children == null || children.length == 0) return;
 
-        if (children != null && children.length > 0) {
-            for (File child : children) {
-                if (FileUtil.getFilename(child).startsWith(nameWithoutExtension.get())) {
+        Arrays.stream(children).filter(child -> FileUtil.getFilename(child).startsWith(nameWithoutExtension))
+                .forEach(child -> {
                     if (!OsUtil.deleteFile(child)) {
                         Logger.log(LogTag.DEBUG, "Could not delete file resulting from youtube "
                                 + "download operation canceled, location=" + parentDirectory.getAbsolutePath()
                                 + ", name=" + nameWithoutExtension);
                     }
-                }
-            }
-        }
+                });
     }
 }

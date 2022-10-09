@@ -31,7 +31,6 @@ import cyder.ui.selection.CyderComboBox;
 import cyder.ui.selection.CyderSwitch;
 import cyder.ui.slider.CyderSliderUi;
 import cyder.utils.ImageUtil;
-import cyder.video.VideoUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,7 +62,7 @@ public final class GuiTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                VideoUtil.test();
+
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
