@@ -20,6 +20,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Optional;
 
 /**
  * A scroll list with clickable elements.
@@ -454,16 +455,14 @@ public class CyderScrollList {
      *
      * @return the currently selected element
      */
-    public String getSelectedElement() {
-        LinkedList<String> ret = new LinkedList<>();
-
+    public Optional<String> getSelectedElement() {
         for (JLabel element : elements) {
             if (element.getForeground().equals(selectedColor)) {
-                ret.add(element.getText());
+                return Optional.of(element.getText());
             }
         }
 
-        return ret.isEmpty() || ret.get(0) == null ? "null" : ret.get(0);
+        return Optional.empty();
     }
 
     /**
