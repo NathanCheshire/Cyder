@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import com.google.common.base.Preconditions;
 import cyder.annotations.CyderAuthor;
+import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.console.Console;
@@ -28,7 +29,12 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -44,33 +50,160 @@ public final class NotesWidget {
      */
     private static CyderFrame noteFrame;
 
+    /**
+     * The default frame width.
+     */
     private static final int defaultFrameWidth = 600;
+
+    /**
+     * The default frame height.
+     */
     private static final int defaultFrameHeight = 680;
+
+    /**
+     * The padding between the frame and the note contents scrolls.
+     */
     private static final int noteScrollPadding = 25;
+
+    /**
+     * The notes list scroll.
+     */
     private static CyderScrollList notesScrollList;
 
+    /**
+     * The length of the notes scroll.
+     */
     private static final int noteScrollLength = defaultFrameWidth - 2 * noteScrollPadding;
 
+    /**
+     * The partitioned layout for the notes scroll view.
+     */
     private static CyderPartitionedLayout framePartitionedLayout;
 
+    /**
+     * The current frame view.
+     */
     private static View currentView;
 
-    private static final Dimension commonButtonSizes = new Dimension(160, 40);
+    /**
+     * The button size of most buttons.
+     */
+    private static final Dimension buttonSize = new Dimension(160, 40);
 
+    /**
+     * The new note contents area.
+     */
     private static JTextPane newNoteArea;
+
+    /**
+     * The new note name field.
+     */
     private static CyderTextField newNoteNameField;
 
+    /**
+     * A txt file extension, the extension for all notes.
+     */
     private static final String TXT_EXTENSION = ".txt";
 
+    /**
+     * The add button text.
+     */
     private static final String ADD = "Add";
+
+    /**
+     * The open button text.
+     */
     private static final String OPEN = "Open";
+
+    /**
+     * The delete button text.
+     */
     private static final String DELETE = "Delete";
 
+    /**
+     * The possible widget views.
+     */
     private enum View {
         LIST,
         ADD,
         EDIT,
     }
+
+    /**
+     * The description for this widget.
+     */
+    private static final String description = "A note taking widget that can save and display multiple notes";
+
+    /**
+     * The font for the note name fields.
+     */
+    private static final Font noteNameFieldFont = new Font("Agency FB", Font.BOLD, 26);
+
+    /**
+     * The border for the note name fields.
+     */
+    private static final Border noteNameFieldBorder
+            = BorderFactory.createMatteBorder(0, 0, 4, 0, CyderColors.navy);
+
+    /**
+     * The height of the note scrolls.
+     */
+    private static final int noteScrollHeight = noteScrollLength - 50;
+
+    /**
+     * The back button text.
+     */
+    private static final String BACK = "Back";
+
+    /**
+     * The create button text.
+     */
+    private static final String CREATE = "Create";
+
+    /**
+     * The list of currently read notes from the user's notes directory.
+     */
+    private static final ArrayList<File> notesList = new ArrayList<>();
+
+    /**
+     * The exit text.
+     */
+    private static final String EXIT = "Exit";
+
+    /**
+     * The stay text (I told you that I never would).
+     */
+    private static final String STAY = "Stay";
+
+    /**
+     * The name of the thread which waits for a save confirmation.
+     */
+    private static final String NOTE_EDITOR_EXIT_CONFIRMATION_WAITER_THREAD_NAME = "Note editor exit confirmation";
+
+    /**
+     * The add note button text.
+     */
+    private static final String ADD_NOTE = "Add note";
+
+    /**
+     * The edit note name field.
+     */
+    private static CyderTextField editNoteNameField;
+
+    /**
+     * The edit note contents area.
+     */
+    private static JTextPane noteEditArea;
+
+    /**
+     * The save button text.
+     */
+    private static final String SAVE = "Save";
+
+    /**
+     * The currently being edited note file.
+     */
+    private static File currentNoteFile;
 
     /**
      * Suppress default constructor.
@@ -79,19 +212,20 @@ public final class NotesWidget {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Widget(triggers = {"note", "notes"}, description
-            = "A note taking widget that can save and display multiple notes")
+    @Widget(triggers = {"note", "notes"}, description = description)
     public static void showGui() {
         if (Console.INSTANCE.getUuid() == null) return;
         UiUtil.closeIfOpen(noteFrame);
-
         noteFrame = new CyderFrame(defaultFrameWidth, defaultFrameHeight);
-
         setupView(View.LIST);
-
         noteFrame.finalizeAndShow();
     }
 
+    /**
+     * Sets up the frame for the provided view.
+     *
+     * @param view the view
+     */
     private static void setupView(View view) {
         Preconditions.checkNotNull(view);
         currentView = view;
@@ -103,21 +237,15 @@ public final class NotesWidget {
         }
     }
 
+    /**
+     * Sets up and shows the notes list view.
+     */
     private static void setupListView() {
         refreshNotesList();
 
         framePartitionedLayout = new CyderPartitionedLayout();
 
-        notesScrollList = new CyderScrollList(noteScrollLength, noteScrollLength,
-                CyderScrollList.SelectionPolicy.MULTIPLE);
-        notesList.forEach(noteFile -> notesScrollList.addElement(noteFile.getName(), () -> {
-            currentNoteFile = noteFile;
-            setupView(View.EDIT);
-        }));
-        JLabel notesLabel = notesScrollList.generateScrollList();
-        notesLabel.setSize(noteScrollLength, noteScrollLength);
-
-        Dimension buttonSize = new Dimension(160, 40);
+        JLabel notesLabel = regenerateAndGetNotesScrollLabel();
 
         CyderGridLayout buttonGridlayout = new CyderGridLayout(3, 1);
 
@@ -150,13 +278,9 @@ public final class NotesWidget {
         revalidateFrameTitle();
     }
 
-    private static final Font noteNameFieldFont = new Font("Agency FB", Font.BOLD, 26);
-    private static final Border noteNameFieldBorder
-            = BorderFactory.createMatteBorder(0, 0, 4, 0, CyderColors.navy);
-    private static final int noteScrollHeight = noteScrollLength - 50;
-    private static final String BACK = "Back";
-    private static final String CREATE = "Create";
-
+    /**
+     * Sets up and shows the add note view.
+     */
     private static void setupAddView() {
         noteFrame.removeCyderLayoutPanel();
         noteFrame.repaint();
@@ -192,11 +316,11 @@ public final class NotesWidget {
         newNoteArea.setAutoscrolls(true);
 
         CyderButton backButton = new CyderButton(BACK);
-        backButton.setSize(commonButtonSizes);
+        backButton.setSize(buttonSize);
         backButton.addActionListener(e -> setupView(View.LIST));
 
         CyderButton createButton = new CyderButton(CREATE);
-        createButton.setSize(commonButtonSizes);
+        createButton.setSize(buttonSize);
         createButton.addActionListener(e -> createNoteAction());
 
         CyderGridLayout buttonGridLayout = new CyderGridLayout(2, 1);
@@ -219,8 +343,9 @@ public final class NotesWidget {
         noteFrame.repaint();
     }
 
-    private static File currentNoteFile;
-
+    /**
+     * The actions to invoke when the open button is pressed.
+     */
     private static void openButtonAction() {
         Optional<String> optionalFile = notesScrollList.getSelectedElement();
         if (optionalFile.isEmpty()) return;
@@ -237,7 +362,9 @@ public final class NotesWidget {
      */
     private static void createNoteAction() {
         String noteName = newNoteNameField.getTrimmedText();
-        if (noteName.toLowerCase().endsWith(TXT_EXTENSION)) noteName = noteName.substring(0, noteName.length() - 4);
+        if (noteName.toLowerCase().endsWith(TXT_EXTENSION)) {
+            noteName = noteName.substring(0, noteName.length() - TXT_EXTENSION.length());
+        }
 
         String requestedName = noteName + TXT_EXTENSION;
 
@@ -263,21 +390,20 @@ public final class NotesWidget {
         noteFrame.notify("Added note file: \"" + requestedName + "\"");
     }
 
+    /**
+     * Reads and returns the contents of the current note file.
+     *
+     * @return the contents of the current note file
+     */
     private static String getCurrentNoteContents() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(currentNoteFile))) {
-            StringBuilder contentBuilder = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                contentBuilder.append(line);
-                contentBuilder.append("\n");
-            }
-
-            return contentBuilder.toString();
+        try {
+            byte[] encoded = Files.readAllBytes(Paths.get(currentNoteFile.getAbsolutePath()));
+            return new String(encoded, StandardCharsets.UTF_8);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        throw new IllegalStateException("Could not get contents of current note file");
+        throw new IllegalStateException("Could not read contents of current note file");
     }
 
     /**
@@ -289,7 +415,7 @@ public final class NotesWidget {
         noteFrame.removeCyderLayoutPanel();
         noteFrame.repaint();
 
-        CyderTextField editNoteNameField = new CyderTextField();
+        editNoteNameField = new CyderTextField();
         editNoteNameField.setFont(noteNameFieldFont);
         editNoteNameField.setForeground(CyderColors.navy);
         editNoteNameField.setCaret(new CyderCaret(CyderColors.navy));
@@ -299,7 +425,7 @@ public final class NotesWidget {
         editNoteNameField.setBorder(noteNameFieldBorder);
         editNoteNameField.setText(FileUtil.getFilename(currentNoteFile));
 
-        JTextPane noteEditArea = new JTextPane();
+        noteEditArea = new JTextPane();
         noteEditArea.setText(getCurrentNoteContents());
         noteEditArea.setSize(noteScrollLength, noteScrollHeight);
         noteEditArea.setBackground(CyderColors.vanilla);
@@ -321,77 +447,13 @@ public final class NotesWidget {
         noteScroll.setBorder(null);
         noteEditArea.setAutoscrolls(true);
 
-        CyderButton saveButton = new CyderButton("Save");
-        saveButton.setSize(commonButtonSizes);
-        saveButton.addActionListener(e -> {
-            // todo extract me
-            String newFilename = editNoteNameField.getTrimmedText() + TXT_EXTENSION;
-            if (!OsUtil.isValidFilename(newFilename)) {
-                noteFrame.notify("Invalid filename: \"" + newFilename + "\"");
-                return;
-            }
-
-            if (!OsUtil.deleteFile(currentNoteFile)) {
-                noteFrame.notify("Failed to update note contents");
-                return;
-            }
-
-            File newFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
-                    Console.INSTANCE.getUuid(), UserFile.NOTES.getName(), newFilename);
-            if (!OsUtil.createFile(newFile, true)) {
-                noteFrame.notify("Failed to update not contents");
-                return;
-            }
-
-            currentNoteFile = newFile;
-
-            String contents = noteEditArea.getText();
-            if (contents.isEmpty()) return;
-
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(newFile))) {
-                writer.write(contents);
-            } catch (Exception exception) {
-                ExceptionHandler.handle(exception);
-            }
-        });
+        CyderButton saveButton = new CyderButton(SAVE);
+        saveButton.setSize(buttonSize);
+        saveButton.addActionListener(e -> editNoteSaveButtonAction());
 
         CyderButton backButton = new CyderButton(BACK);
-        backButton.setSize(commonButtonSizes);
-        backButton.addActionListener(e -> {
-            CyderThreadRunner.submit(() -> {
-                // todo extract me
-                String currentName = editNoteNameField.getTrimmedText();
-                String currentContents = noteEditArea.getText();
-
-                StringBuilder pendingChangesBuilder = new StringBuilder();
-                String currentlySavedName = FileUtil.getFilename(currentNoteFile);
-                if (!currentName.equals(currentlySavedName)) {
-                    pendingChangesBuilder.append("Note name pending changes");
-                }
-
-                String currentSavedContents = getCurrentNoteContents();
-                if (!currentContents.equals(currentSavedContents)) {
-                    if (!pendingChangesBuilder.isEmpty()) {
-                        pendingChangesBuilder.append(", ");
-                    }
-                    pendingChangesBuilder.append("Note contents pending changes");
-                }
-
-                boolean pendingChanges = pendingChangesBuilder.length() > 0;
-                if (pendingChanges) {
-                    GetterUtil.Builder builder = new GetterUtil.Builder("Pending changes")
-                            .setDisableRelativeTo(true)
-                            .setInitialString(pendingChangesBuilder.toString())
-                            .setRelativeTo(noteFrame)
-                            .setYesButtonText("Exit")
-                            .setNoButtonText("Don't exit");
-                    boolean shouldGoBack = GetterUtil.getInstance().getConfirmation(builder);
-                    if (!shouldGoBack) return;
-                }
-
-                setupView(View.LIST);
-            }, "Note editor exit confirmation");
-        });
+        backButton.setSize(buttonSize);
+        backButton.addActionListener(e -> editBackButtonAction());
 
         CyderGridLayout buttonGridLayout = new CyderGridLayout(2, 1);
         buttonGridLayout.addComponent(saveButton);
@@ -414,6 +476,88 @@ public final class NotesWidget {
     }
 
     /**
+     * The actions to invoke when the save button on the edit note view is pressed.
+     */
+    private static void editNoteSaveButtonAction() {
+        String newFilename = editNoteNameField.getTrimmedText() + TXT_EXTENSION;
+        if (!OsUtil.isValidFilename(newFilename)) {
+            noteFrame.notify("Invalid filename: \"" + newFilename + "\"");
+            return;
+        }
+
+        if (!OsUtil.deleteFile(currentNoteFile)) {
+            noteFrame.notify("Failed to update note contents");
+            return;
+        }
+
+        File newFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+                Console.INSTANCE.getUuid(), UserFile.NOTES.getName(), newFilename);
+        if (!OsUtil.createFile(newFile, true)) {
+            noteFrame.notify("Failed to update note contents");
+            return;
+        }
+
+        currentNoteFile = newFile;
+
+        String contents = noteEditArea.getText();
+        if (contents.isEmpty()) return;
+        saveToCurrentNote(contents);
+    }
+
+    /**
+     * Saves the provided contents to the current note file.
+     *
+     * @param contents the contents to save
+     */
+    private static void saveToCurrentNote(String contents) {
+        Preconditions.checkNotNull(contents);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentNoteFile))) {
+            writer.write(contents);
+        } catch (Exception exception) {
+            ExceptionHandler.handle(exception);
+        }
+    }
+
+    /**
+     * The action to invoke when the back button on the edit note view is pressed.
+     */
+    private static void editBackButtonAction() {
+        CyderThreadRunner.submit(() -> {
+            String currentName = editNoteNameField.getTrimmedText();
+            String currentContents = noteEditArea.getText();
+
+            StringBuilder pendingChangesBuilder = new StringBuilder();
+            String currentlySavedName = FileUtil.getFilename(currentNoteFile);
+            if (!currentName.equals(currentlySavedName)) {
+                pendingChangesBuilder.append("Note name pending changes");
+            }
+
+            String currentSavedContents = getCurrentNoteContents();
+            if (!currentContents.equals(currentSavedContents)) {
+                if (!pendingChangesBuilder.isEmpty()) {
+                    pendingChangesBuilder.append(", ");
+                }
+                pendingChangesBuilder.append("Note contents pending changes");
+            }
+
+            boolean pendingChanges = !pendingChangesBuilder.isEmpty();
+            if (pendingChanges) {
+                GetterUtil.Builder builder = new GetterUtil.Builder("Pending changes")
+                        .setRelativeTo(noteFrame)
+                        .setDisableRelativeTo(true)
+                        .setInitialString(pendingChangesBuilder.toString())
+                        .setYesButtonText(EXIT)
+                        .setNoButtonText(STAY);
+                boolean shouldGoBack = GetterUtil.getInstance().getConfirmation(builder);
+                if (!shouldGoBack) return;
+            }
+
+            setupView(View.LIST);
+        }, NOTE_EDITOR_EXIT_CONFIRMATION_WAITER_THREAD_NAME);
+    }
+
+    /**
      * Revalidates the frame title based on the current view.
      */
     private static void revalidateFrameTitle() {
@@ -422,7 +566,7 @@ public final class NotesWidget {
                 String name = UserUtil.getCyderUser().getName();
                 noteFrame.setTitle(name + StringUtil.getApostrophe(name) + " notes");
             }
-            case ADD -> noteFrame.setTitle("Add note");
+            case ADD -> noteFrame.setTitle(ADD_NOTE);
             case EDIT -> {
                 String name = currentNoteFile == null ? "" : FileUtil.getFilename(currentNoteFile);
                 noteFrame.setTitle("Editing note: " + name);
@@ -430,6 +574,9 @@ public final class NotesWidget {
         }
     }
 
+    /**
+     * The actions to invoke when the delete button is pressed.
+     */
     private static void deleteButtonAction() {
         Optional<String> selectedElement = notesScrollList.getSelectedElement();
         if (selectedElement.isEmpty()) return;
@@ -439,20 +586,28 @@ public final class NotesWidget {
         refreshNotesList();
         notesScrollList.removeSelectedElement();
 
-        // todo duplicate logic here with setup for view
+        JLabel notesLabel = regenerateAndGetNotesScrollLabel();
+        framePartitionedLayout.setComponent(notesLabel, 1);
+        noteFrame.repaint();
+    }
+
+    /**
+     * Regenerates the notes scroll list and the JLabel and returns the generated component.
+     *
+     * @return the generated component
+     */
+    @ForReadability
+    private static JLabel regenerateAndGetNotesScrollLabel() {
         notesScrollList = new CyderScrollList(noteScrollLength, noteScrollLength,
-                CyderScrollList.SelectionPolicy.MULTIPLE);
+                CyderScrollList.SelectionPolicy.SINGLE);
         notesList.forEach(noteFile -> notesScrollList.addElement(noteFile.getName(), () -> {
             currentNoteFile = noteFile;
             setupView(View.EDIT);
         }));
         JLabel notesLabel = notesScrollList.generateScrollList();
         notesLabel.setSize(noteScrollLength, noteScrollLength);
-        framePartitionedLayout.setComponent(notesLabel, 1);
-        noteFrame.repaint();
+        return notesLabel;
     }
-
-    private static final ArrayList<File> notesList = new ArrayList<>();
 
     /**
      * Refreshes the contents of the notes list.
