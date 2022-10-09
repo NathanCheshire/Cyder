@@ -34,6 +34,11 @@ import java.util.function.Function;
  */
 public class NetworkUtil {
     /**
+     * The string used to represent a space in a url.
+     */
+    public static final String URL_SPACE = "%20";
+
+    /**
      * The key for obtaining the latency ip prop.
      */
     public static final String LATENCY_IP_KEY = "latency_ip";

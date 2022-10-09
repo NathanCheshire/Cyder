@@ -351,7 +351,7 @@ public class YoutubeDownload {
     }
 
     /**
-     * Downloads this object's YouTube video.
+     * Downloads this object's YouTube video audio.
      */
     public void download() {
         Preconditions.checkState(!done, "Object attempted to download previously");
@@ -422,16 +422,10 @@ public class YoutubeDownload {
 
                     Matcher updateMatcher = CyderRegexPatterns.updatePattern.matcher(outputString);
 
-                    // todo common enough should extract to regex patterns
-                    String nonNumberRegex = "[^0-9.]";
-                    int progressIndex = 1;
-                    int sizeIndex = 2;
-                    int rateIndex = 3;
-                    int etaIndex = 4;
-
                     if (updateMatcher.find()) {
                         String progressPart = updateMatcher.group(progressIndex);
-                        float progress = Float.parseFloat(progressPart.replaceAll(nonNumberRegex, ""));
+                        float progress = Float.parseFloat(progressPart
+                                .replaceAll(CyderRegexPatterns.nonNumberRegex, ""));
 
                         downloadableProgress = progress;
                         downloadableFileSize = updateMatcher.group(sizeIndex);
@@ -445,9 +439,6 @@ public class YoutubeDownload {
                         }
                     }
                 }
-
-                // todo update cancel button to say downloaded when done
-                // todo ctrl + c should cancel all pending downloads
 
                 processExitCode = proc.waitFor();
 

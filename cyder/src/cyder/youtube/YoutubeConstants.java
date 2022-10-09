@@ -48,6 +48,11 @@ public final class YoutubeConstants {
     static final String YOUTUBE_API_V3_SEARCH_BASE = "https://www.googleapis.com/youtube/v3/search?part=snippet";
 
     /**
+     * The key to get the youtube api v3 key from the props.
+     */
+    static final String YOUTUBE_API_3_KEY = "youtube_api_3_key";
+
+    /**
      * A link for how to install ffmpeg.
      */
     static final String FFMPEG_INSTALLATION = "https://www.wikihow.com/Install-FFmpeg-on-Windows";
@@ -94,12 +99,6 @@ public final class YoutubeConstants {
      * The range of valid values for the number of results a youtube api 3 search query.
      */
     static final Range<Integer> SEARCH_QUERY_RESULTS_RANGE = Range.closed(1, MAX_THUMBNAIL_CHARS);
-
-    // todo move to network util
-    /**
-     * The string used to represent a space in a url.
-     */
-    public static final String URL_SPACE = "%20";
 
     /**
      * The key used for a max resolution thumbnail.
@@ -175,6 +174,26 @@ public final class YoutubeConstants {
      * The failed text for the button.
      */
     static final String FAILED = "Failed";
+
+    /**
+     * The index of the matcher group the progress of the youtube download lies at.
+     */
+    static final int progressIndex = 1;
+
+    /**
+     * The index of the matcher group the size of the youtube download lies at.
+     */
+    static final int sizeIndex = 2;
+
+    /**
+     * The index of the matcher group the rate of the youtube download lies at.
+     */
+    static final int rateIndex = 3;
+
+    /**
+     * The index of the matcher group the eta of the youtube download lies at.
+     */
+    static final int etaIndex = 4;
 
     /**
      * Suppress default constructor.

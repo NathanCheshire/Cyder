@@ -100,9 +100,14 @@ public final class YoutubeUtil {
      * Refreshes the label font of all YouTube download labels.
      */
     public static void refreshAllDownloadLabels() {
-        for (YoutubeDownload youtubeDownload : activeDownloads) {
-            youtubeDownload.refreshLabelFont();
-        }
+        activeDownloads.forEach(YoutubeDownload::refreshLabelFont);
+    }
+
+    /**
+     * Cancels all active youtube downloads.
+     */
+    public static void cancelAllActiveDownloads() {
+        activeDownloads.forEach(YoutubeDownload::cancel);
     }
 
     /**
@@ -131,9 +136,9 @@ public final class YoutubeUtil {
                 baseInputHandler.println(KEY_NOT_SET_ERROR_MESSAGE);
             } else {
                 try {
-                    String link = YOUTUBE_API_V3_PLAYLIST_ITEMS +
-                            "part=snippet%2C+id&playlistId=" + playlistID + "&key="
-                            + PropLoader.getString("youtube_api_3_key");
+                    String link = YOUTUBE_API_V3_PLAYLIST_ITEMS
+                            + "part=snippet%2C+id&playlistId=" + playlistID
+                            + "&key=" + PropLoader.getString(YOUTUBE_API_3_KEY);
 
                     String jsonResponse = NetworkUtil.readUrl(link);
 
@@ -144,9 +149,7 @@ public final class YoutubeUtil {
                         uuids.add(m.group(1));
                     }
 
-                    for (String uuid : uuids) {
-                        downloadVideo(buildVideoUrl(uuid), baseInputHandler);
-                    }
+                    uuids.forEach(uuid -> downloadVideo(buildVideoUrl(uuid), baseInputHandler));
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
 
@@ -496,7 +499,7 @@ public final class YoutubeUtil {
             builder.append(append.trim());
 
             if (i != parts.length - 1 && !append.isEmpty()) {
-                builder.append(URL_SPACE);
+                builder.append(NetworkUtil.URL_SPACE);
             }
         }
 

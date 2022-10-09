@@ -10,7 +10,6 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.NumberUtil;
 import cyder.ui.pane.CyderOutputPane;
-import cyder.youtube.YoutubeConstants;
 import org.atteo.evo.inflector.English;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
@@ -828,7 +827,7 @@ public class StringUtil {
 
         try {
             String urlString = CyderUrls.WIKIPEDIA_SUMMARY_BASE
-                    + WIKI_SUM_PROP + query.replace(" ", YoutubeConstants.URL_SPACE);
+                    + WIKI_SUM_PROP + query.replace(" ", NetworkUtil.URL_SPACE);
             String jsonString = NetworkUtil.readUrl(urlString);
 
             String[] serializedPageNumber = jsonString.split("\"extract\":\"");

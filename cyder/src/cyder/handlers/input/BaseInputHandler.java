@@ -22,6 +22,7 @@ import cyder.ui.pane.CyderOutputPane;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.*;
+import cyder.youtube.YoutubeUtil;
 
 import javax.swing.*;
 import javax.swing.text.*;
@@ -955,6 +956,7 @@ public class BaseInputHandler {
         killThreads();
         escapeWrapShell = true;
         IoUtil.stopGeneralAudio();
+        YoutubeUtil.cancelAllActiveDownloads();
         Console.INSTANCE.stopDancing();
         shouldFinishPrinting = true;
         println(ESCAPED);
