@@ -107,14 +107,19 @@ public class YoutubeDownload {
     private Runnable onDownloadedCallback;
 
     /**
-     * The file this object downloaded from YouTube.
+     * The audio file this object downloaded from YouTube.
      */
-    private File downloadFile;
+    private File audioDownloadFile;
 
     /**
      * The exit code for the internal download process.
      */
     private int processExitCode = DOWNLOAD_NOT_FINISHED;
+
+    /**
+     * The type of this download.
+     */
+    private final DownloadType downloadType;
 
     /**
      * Suppress default constructor.
@@ -128,12 +133,14 @@ public class YoutubeDownload {
      *
      * @param url the url of the video to download
      */
-    public YoutubeDownload(String url) {
+    public YoutubeDownload(String url, DownloadType downloadType) {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
         Preconditions.checkState(AudioUtil.youtubeDlInstalled());
+        Preconditions.checkNotNull(downloadType);
 
         this.url = url;
+        this.downloadType = downloadType;
     }
 
     /**
@@ -264,17 +271,26 @@ public class YoutubeDownload {
     }
 
     /**
+     * Returns the type of this download.
+     *
+     * @return the type of this download
+     */
+    public DownloadType getDownloadType() {
+        return downloadType;
+    }
+
+    /**
      * Returns the file this object downloaded from YouTube.
      *
      * @return the file this object downloaded from YouTube
      */
-    public File getDownloadFile() {
+    public File getAudioDownloadFile() {
         Preconditions.checkState(!isCanceled());
         Preconditions.checkState(isDone());
         Preconditions.checkState(isDownloaded());
-        Preconditions.checkNotNull(downloadFile);
+        Preconditions.checkNotNull(audioDownloadFile);
 
-        return downloadFile;
+        return audioDownloadFile;
 
     }
 
@@ -351,12 +367,10 @@ public class YoutubeDownload {
     }
 
     /**
-     * Downloads this object's YouTube video audio.
+     * Downloads this object's YouTube video audio and/or video.
      */
     public void download() {
         Preconditions.checkState(!done, "Object attempted to download previously");
-
-        boolean shouldPrintUpdates = inputHandler != null;
 
         String userMusicDir = OsUtil.buildPath(
                 Dynamic.PATH,
@@ -382,23 +396,28 @@ public class YoutubeDownload {
             parsedSaveName.set(SecurityUtil.generateUuid());
         }
 
+        String output = new File(userMusicDir).getAbsolutePath()
+                + OsUtil.FILE_SEP + parsedSaveName + ".%(ext)s";
         String[] command = {
                 AudioUtil.getYoutubeDlCommand(), url,
-                FFMPEG_EXTRACT_AUDIO_FLAG,
-                FFMPEG_AUDIO_FORMAT_FLAG, ffmpegAudioOutputFormat,
-                FFMPEG_OUTPUT_FLAG, new File(userMusicDir).getAbsolutePath() + OsUtil.FILE_SEP
-                + parsedSaveName + ".%(ext)s"
+                YoutubeDlFlag.EXTRACT_AUDIO.getFlag(),
+                YoutubeDlFlag.AUDIO_FORMAT.getFlag(), ffmpegAudioOutputFormat,
+                YoutubeDlFlag.OUTPUT.getFlag(), output
         };
 
         YoutubeUtil.addActiveDownload(this);
         downloadableName = parsedSaveName.get();
 
-        String threadName = "YouTube Downloader, saveName=" + parsedSaveName.get()
-                + ", uuid=" + YoutubeUtil.getUuid(url);
+        boolean shouldPrintUpdates = inputHandler != null;
+        String threadName = "YouTube " + downloadType.getRepresentation()
+                + " Downloader, saveName=" + parsedSaveName.get() + ", uuid=" + YoutubeUtil.getUuid(url);
         CyderThreadRunner.submit(() -> {
             try {
                 if (shouldPrintUpdates) {
-                    inputHandler.println("Downloading audio as: " + parsedSaveName + extension);
+                    String types = downloadType.getRepresentation();
+                    String audioName = parsedSaveName + extension;
+                    inputHandler.println("Downloading " + types + " as: " + audioName);
+
                     constructAndPrintUiElements();
                 }
 
@@ -426,8 +445,8 @@ public class YoutubeDownload {
                         String progressPart = updateMatcher.group(progressIndex);
                         float progress = Float.parseFloat(progressPart
                                 .replaceAll(CyderRegexPatterns.nonNumberRegex, ""));
-
                         downloadableProgress = progress;
+
                         downloadableFileSize = updateMatcher.group(sizeIndex);
                         downloadableRate = updateMatcher.group(rateIndex);
                         downloadableEta = updateMatcher.group(etaIndex);
@@ -451,11 +470,11 @@ public class YoutubeDownload {
                         }
                     }
                 } else if (!isCanceled()) {
-                    downloadFile = OsUtil.buildFile(userMusicDir, parsedSaveName + extension);
+                    audioDownloadFile = OsUtil.buildFile(userMusicDir, parsedSaveName + extension);
                     downloaded = true;
 
                     YoutubeUtil.downloadThumbnail(url);
-                    AudioPlayer.addAudioNext(downloadFile);
+                    AudioPlayer.addAudioNext(audioDownloadFile);
 
                     if (onDownloadedCallback != null) {
                         onDownloadedCallback.run();
@@ -478,7 +497,7 @@ public class YoutubeDownload {
                 downloading = false;
 
                 if (shouldPrintUpdates) {
-                    cleanUpUi();
+                    cleanUpPrintedUiElements();
                 }
             }
         }, threadName);
@@ -542,7 +561,7 @@ public class YoutubeDownload {
     /**
      * Cleans up the printed ui elements.
      */
-    private void cleanUpUi() {
+    private void cleanUpPrintedUiElements() {
         Color resultColor = downloaded ? CyderColors.regularBlue : CyderColors.regularRed;
 
         downloadProgressBarUi.setAnimationColor(resultColor);

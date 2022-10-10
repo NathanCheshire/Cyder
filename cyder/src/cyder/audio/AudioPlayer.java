@@ -38,6 +38,7 @@ import cyder.ui.pane.CyderScrollPane;
 import cyder.ui.slider.CyderSliderUi;
 import cyder.user.UserFile;
 import cyder.utils.*;
+import cyder.youtube.DownloadType;
 import cyder.youtube.YoutubeConstants;
 import cyder.youtube.YoutubeDownload;
 import cyder.youtube.YoutubeUtil;
@@ -2429,7 +2430,8 @@ public final class AudioPlayer {
                 printSearchResultLabels(result);
 
                 String url = YoutubeUtil.buildVideoUrl(result.uuid);
-                AtomicReference<YoutubeDownload> downloadable = new AtomicReference<>(new YoutubeDownload(url));
+                AtomicReference<YoutubeDownload> downloadable
+                        = new AtomicReference<>(new YoutubeDownload(url, DownloadType.AUDIO));
                 AtomicBoolean mouseEntered = new AtomicBoolean(false);
 
                 CyderButton downloadButton = new CyderButton();
@@ -2449,17 +2451,17 @@ public final class AudioPlayer {
                         playAudioFromSearchView(alreadyExistsOptional.get());
                         return;
                     } else if (downloadable.get().isDownloaded()) {
-                        playAudioFromSearchView(downloadable.get().getDownloadFile());
+                        playAudioFromSearchView(downloadable.get().getAudioDownloadFile());
                         return;
                     }
 
                     if (downloadable.get().isCanceled()) {
-                        downloadable.set(new YoutubeDownload(url));
+                        downloadable.set(new YoutubeDownload(url, DownloadType.AUDIO));
                         downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
                         downloadable.get().setOnDownloadedCallback(() -> {
                             downloadButton.setText(PLAY);
                             downloadButton.addActionListener(event ->
-                                    playAudioFromSearchView(downloadable.get().getDownloadFile()));
+                                    playAudioFromSearchView(downloadable.get().getAudioDownloadFile()));
                         });
                     }
 
@@ -2473,7 +2475,7 @@ public final class AudioPlayer {
                 downloadable.get().setOnDownloadedCallback(() -> {
                     downloadButton.setText(PLAY);
                     downloadButton.addActionListener(event ->
-                            playAudioFromSearchView(downloadable.get().getDownloadFile()));
+                            playAudioFromSearchView(downloadable.get().getAudioDownloadFile()));
                 });
 
                 printingUtil.printlnComponent(downloadButton);

@@ -76,21 +76,6 @@ public final class YoutubeConstants {
     static final Dimension DEFAULT_THUMBNAIL_DIMENSION = new Dimension(720, 720);
 
     /**
-     * The extract audio ffmpeg flag.
-     */
-    static final String FFMPEG_EXTRACT_AUDIO_FLAG = "--extract-audio";
-
-    /**
-     * The audio format ffmpeg flag.
-     */
-    static final String FFMPEG_AUDIO_FORMAT_FLAG = "--audio-format";
-
-    /**
-     * The output ffmpeg flag.
-     */
-    static final String FFMPEG_OUTPUT_FLAG = "--output";
-
-    /**
      * The maximum number of chars that can be used for a filename from a youtube video's title.
      */
     static final int MAX_THUMBNAIL_CHARS = 20;

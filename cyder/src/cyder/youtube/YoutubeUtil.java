@@ -50,9 +50,12 @@ public final class YoutubeUtil {
      *
      * @param url the url of the video to download
      */
-    public static void downloadVideo(String url) {
+    public static void downloadYouTubeAudio(String url) {
+        Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!url.isEmpty());
+
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
-            YoutubeDownload youtubeDownload = new YoutubeDownload(url);
+            YoutubeDownload youtubeDownload = new YoutubeDownload(url, DownloadType.AUDIO);
             activeDownloads.add(youtubeDownload);
             youtubeDownload.download();
         } else {
@@ -66,9 +69,13 @@ public final class YoutubeUtil {
      * @param url              the url of the video to download
      * @param baseInputHandler the handler to use to print updates about the download to
      */
-    public static void downloadVideo(String url, BaseInputHandler baseInputHandler) {
+    public static void downloadYouTubeAudio(String url, BaseInputHandler baseInputHandler) {
+        Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!url.isEmpty());
+        Preconditions.checkNotNull(baseInputHandler);
+
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
-            YoutubeDownload youtubeDownload = new YoutubeDownload(url);
+            YoutubeDownload youtubeDownload = new YoutubeDownload(url, DownloadType.AUDIO);
             youtubeDownload.setInputHandler(baseInputHandler);
             youtubeDownload.download();
         } else {
@@ -82,6 +89,8 @@ public final class YoutubeUtil {
      * @param youtubeDownload the YouTube download to remove from the active downloads list
      */
     static void removeActiveDownload(YoutubeDownload youtubeDownload) {
+        Preconditions.checkNotNull(youtubeDownload);
+
         activeDownloads.remove(youtubeDownload);
     }
 
@@ -116,6 +125,9 @@ public final class YoutubeUtil {
      * @param playlist the url of the playlist to download
      */
     public static void downloadPlaylist(String playlist) {
+        Preconditions.checkNotNull(playlist);
+        Preconditions.checkArgument(!playlist.isEmpty());
+
         downloadPlaylist(playlist, null);
     }
 
@@ -132,7 +144,7 @@ public final class YoutubeUtil {
         if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
             String playlistID = extractPlaylistId(playlist);
 
-            if (StringUtil.isNullOrEmpty(PropLoader.getString("youtube_api_3_key")) && baseInputHandler != null) {
+            if (StringUtil.isNullOrEmpty(PropLoader.getString(YOUTUBE_API_3_KEY)) && baseInputHandler != null) {
                 baseInputHandler.println(KEY_NOT_SET_ERROR_MESSAGE);
             } else {
                 try {
@@ -149,7 +161,7 @@ public final class YoutubeUtil {
                         uuids.add(m.group(1));
                     }
 
-                    uuids.forEach(uuid -> downloadVideo(buildVideoUrl(uuid), baseInputHandler));
+                    uuids.forEach(uuid -> downloadYouTubeAudio(buildVideoUrl(uuid), baseInputHandler));
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
 
@@ -172,6 +184,8 @@ public final class YoutubeUtil {
      */
     public static void downloadThumbnail(String url) throws YoutubeException {
         Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!url.isEmpty());
+
         downloadThumbnail(url, DEFAULT_THUMBNAIL_DIMENSION);
     }
 
@@ -261,9 +275,9 @@ public final class YoutubeUtil {
      * Outputs instructions to the console due to youtube-dl or ffmpeg not being installed.
      */
     private static void noFfmpegOrYoutubeDl() {
-        Console.INSTANCE.getInputHandler().println("Sorry, but ffmpeg and/or youtube-dl " +
-                "couldn't be located. Please make sure they are both installed and added to your PATH Windows" +
-                " variable. Remember to also set the path to your youtube-dl executable in the user editor");
+        Console.INSTANCE.getInputHandler().println("Sorry, but ffmpeg and/or youtube-dl "
+                + "couldn't be located. Please make sure they are both installed and added to your PATH Windows "
+                + "variable. Remember to also set the path to your youtube-dl executable in the user editor");
 
         CyderButton environmentVariableHelp = new CyderButton("Learn how to add environment variables");
         environmentVariableHelp.addActionListener(e -> NetworkUtil.openUrl(environmentVariables));
@@ -274,8 +288,7 @@ public final class YoutubeUtil {
         Console.INSTANCE.getInputHandler().println(downloadFFMPEG);
 
         CyderButton downloadYoutubeDL = new CyderButton("Learn how to download youtube-dl");
-        downloadYoutubeDL.addActionListener(e ->
-                NetworkUtil.openUrl(YOUTUBE_DL_INSTALLATION));
+        downloadYoutubeDL.addActionListener(e -> NetworkUtil.openUrl(YOUTUBE_DL_INSTALLATION));
         Console.INSTANCE.getInputHandler().println(downloadYoutubeDL);
     }
 
@@ -441,6 +454,7 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
+        // todo build url method in future
         return YOUTUBE_THUMBNAIL_BASE + uuid + "/" + MAX_RES_DEFAULT;
     }
 
@@ -454,6 +468,7 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
+        // todo build url method in future
         return YOUTUBE_THUMBNAIL_BASE + uuid + "/" + SD_DEFAULT;
     }
 
@@ -481,13 +496,13 @@ public final class YoutubeUtil {
      * @param query      the search query such as "black parade"
      * @return the constructed url to match the provided parameters
      */
-    @SuppressWarnings("ConstantConditions") // unit test asserts throws for query of null
+    @SuppressWarnings("ConstantConditions") /* unit test asserts throws for query of null */
     public static String buildYouTubeApiV3SearchQuery(int numResults, String query) {
         Preconditions.checkNotNull(query);
         Preconditions.checkArgument(SEARCH_QUERY_RESULTS_RANGE.contains(numResults));
         Preconditions.checkArgument(!query.isEmpty());
 
-        String key = PropLoader.getString("youtube_api_3_key");
+        String key = PropLoader.getString(YOUTUBE_API_3_KEY);
         Preconditions.checkArgument(!StringUtil.isNullOrEmpty(key));
 
         String[] parts = query.split("\\s+");
@@ -517,21 +532,17 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
-        String thumbnailURL = buildMaxResThumbnailUrl(uuid);
-
-        BufferedImage thumbnail;
+        String thumbnailUrl = buildMaxResThumbnailUrl(uuid);
 
         try {
-            thumbnail = ImageIO.read(new URL(thumbnailURL));
+            return Optional.of(ImageIO.read(new URL(thumbnailUrl)));
         } catch (Exception ignored) {
             try {
-                thumbnailURL = buildSdDefThumbnailUrl(uuid);
-                thumbnail = ImageIO.read(new URL(thumbnailURL));
-            } catch (Exception ignored1) {
-                thumbnail = null;
+                thumbnailUrl = buildSdDefThumbnailUrl(uuid);
+                return Optional.of(ImageIO.read(new URL(thumbnailUrl)));
+            } catch (Exception ignored2) {
+                return Optional.empty();
             }
         }
-
-        return thumbnail == null ? Optional.empty() : Optional.of(thumbnail);
     }
 }

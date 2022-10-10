@@ -1,12 +1,14 @@
 package cyder.exceptions;
 
-import java.io.IOException;
-
 /**
  * An exception used to indicate that an operation involving YouTube failed.
  */
-public class YoutubeException extends IOException {
+public class YoutubeException extends RuntimeException {
     public YoutubeException(String errorMessage) {
         super(errorMessage);
+    }
+
+    public YoutubeException(Exception e) {
+        super(e);
     }
 }
