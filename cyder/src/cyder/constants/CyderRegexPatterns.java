@@ -104,6 +104,11 @@ public final class CyderRegexPatterns {
     public static final String nonNumberAndPeriodRegex = "[^0-9.]";
 
     /**
+     * A regex for targeting two or more spaces.
+     */
+    public static final String multipleSpacesRegex = "\\s{2,}";
+
+    /**
      * Suppress default constructor.
      */
     private CyderRegexPatterns() {

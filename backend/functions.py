@@ -1,7 +1,7 @@
 
 from datetime import datetime
 import calendar
-from typing import List, Tuple
+from typing import Tuple
 from PIL import Image
 from PIL import ImageFilter
 from mutagen.mp3 import MP3
@@ -106,7 +106,7 @@ def get_audio_length(path: str) -> float:
     return MP3(path).info.length
 
 
-def get_usb_devices() -> List:
+def get_usb_devices() -> list:
     """ 
     Returns a list of the devices connected to this comuter via USB.
     

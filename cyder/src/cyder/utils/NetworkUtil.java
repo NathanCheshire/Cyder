@@ -546,6 +546,12 @@ public class NetworkUtil {
      */
     private static final String nonNumberRegex = "[^0-9.]";
 
+    /**
+     * Filters the hostname out of the rest of the text of the element.
+     *
+     * @param rawClassResult the element text
+     * @return the filtered hostname
+     */
     @ForReadability
     private static String filterHostname(String rawClassResult) {
         rawClassResult = rawClassResult.substring(rawClassResult.indexOf("'") + 1);

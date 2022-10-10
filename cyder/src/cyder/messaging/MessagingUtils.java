@@ -118,7 +118,6 @@ public final class MessagingUtils {
             }
 
             return generateWaveform(usageWav, width, height, DEFAULT_BACKGROUND_COLOR, DEFAULT_WAVE_COLOR);
-
         });
     }
 

@@ -1,16 +1,13 @@
 package cyder.test;
 
 import cyder.annotations.GuiTest;
-import cyder.annotations.SuppressCyderInspections;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
-import cyder.enums.CyderInspection;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.layouts.*;
 import cyder.threads.CyderThreadRunner;
@@ -45,28 +42,6 @@ public final class GuiTests {
      */
     private GuiTests() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
-     * The name of the gui test loading thread.
-     */
-    private static final String GUI_TESTS_THREAD_NAME = "GUI Test Loader Thread";
-
-    /**
-     * Runs the tests within the method.
-     * This method is used purely for testing purposes.
-     */
-    @GuiTest()
-    @SuppressCyderInspections(CyderInspection.TestInspection) /* Not ending in test */
-    @SuppressWarnings({"EmptyTryBlock", "RedundantSuppression"}) /* For when try is empty */
-    public static void launchTests() {
-        CyderThreadRunner.submit(() -> {
-            try {
-
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }, GUI_TESTS_THREAD_NAME);
     }
 
     /**

@@ -170,7 +170,7 @@ public final class Logger {
                     logBuilder.append(ConsoleOut.STRING.getLogTag());
                     logBuilder.append(representation);
                 } else if (representation instanceof ImageIcon icon) {
-                    logBuilder.append(LogTag.constructLogTagPrepend(ConsoleOut.IMAGE.getLogTag()));
+                    logBuilder.append(ConsoleOut.IMAGE.getLogTag());
 
                     int width = icon.getIconWidth();
                     int height = icon.getIconHeight();
@@ -180,10 +180,11 @@ public final class Logger {
                             .append(height).append("], dominant color: ")
                             .append(dominantColor);
                 } else if (representation instanceof JComponent) {
-                    logBuilder.append(LogTag.constructLogTagPrepend(ConsoleOut.J_COMPONENT.getLogTag()));
+                    logBuilder.append(ConsoleOut.J_COMPONENT.getLogTag());
                     logBuilder.append(representation);
                 } else {
-                    logBuilder.append(LogTag.constructLogTagPrepend(ConsoleOut.UNKNOWN.getLogTag()));
+                    logBuilder.append(LogTag.constructLogTagPrepend(
+                            StringUtil.capsFirstWords(representation.getClass().toString())));
                     logBuilder.append(representation);
                 }
                 break;
