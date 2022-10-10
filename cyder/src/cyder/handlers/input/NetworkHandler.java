@@ -1,5 +1,6 @@
 package cyder.handlers.input;
 
+import com.google.common.collect.ImmutableList;
 import cyder.annotations.Handle;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
@@ -8,9 +9,10 @@ import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
+import cyder.network.UsbDevice;
+import cyder.network.UsbUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserFile;
-import cyder.utils.IoUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 import cyder.utils.StringUtil;
@@ -20,11 +22,17 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.Future;
 
 /**
  * A handler for things which require internet access and may reach out to external domains for data.
  */
 public class NetworkHandler extends InputHandler {
+    /**
+     * The name of the waiter thread for getting the usb devices.
+     */
+    private static final String USB_DEVICE_WAITER_THREAD_NAME = "Usb Device Waiter";
+
     /**
      * Suppress default constructor.
      */
@@ -76,11 +84,27 @@ public class NetworkHandler extends InputHandler {
                 getInputHandler().println("pastebin usage: pastebin [URL/UUID]\nExample: pastebin xa7sJvNm");
             }
         } else if (getInputHandler().commandIs("usb")) {
-            getInputHandler().println("Devices connected to " + OsUtil.getComputerName() + " via USB protocol:");
+            CyderThreadRunner.submit(() -> {
+                getInputHandler().println("Devices connected to " + OsUtil.getComputerName() + " via USB protocol:");
 
-            for (String line : IoUtil.getUsbDevices()) {
-                getInputHandler().println(line);
-            }
+                Future<ImmutableList<UsbDevice>> futureDevices = UsbUtil.getUsbDevices();
+                while (!futureDevices.isDone()) {
+                    Thread.onSpinWait();
+                }
+
+                try {
+                    ImmutableList<UsbDevice> devices = futureDevices.get();
+                    devices.forEach(device -> {
+                        getInputHandler().println("Status: " + device.getStatus());
+                        getInputHandler().println("Type: " + device.getType());
+                        getInputHandler().println("Friendly name: " + device.getFriendlyName());
+                        getInputHandler().println("Instance ID: " + device.getInstanceId());
+                        getInputHandler().println("-------------------------");
+                    });
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+            }, USB_DEVICE_WAITER_THREAD_NAME);
         } else if (getInputHandler().commandIs("download")) {
             if (getInputHandler().checkArgsLength(1)) {
                 if (NetworkUtil.isValidUrl(getInputHandler().getArg(0))) {

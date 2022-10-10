@@ -29,10 +29,7 @@ public final class Test {
     @SuppressWarnings({"EmptyTryBlock", "RedundantSuppression"})
     public static void test() {
         try {
-            Future<ImmutableList<UsbDevice>> futureDevices = UsbUtil.getUsbDevices();
-            while (!futureDevices.isDone()) Thread.onSpinWait();
-            ImmutableList<UsbDevice> devices = futureDevices.get();
-            devices.forEach(Console.INSTANCE.getInputHandler()::println);
+
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

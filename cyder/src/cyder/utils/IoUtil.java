@@ -3,6 +3,7 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.audio.AudioPlayer;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -12,23 +13,18 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
-import cyder.parsers.local.UsbResponse;
 import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
 import javazoom.jl.player.Player;
 
 import java.awt.*;
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.DosFileAttributes;
-import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -525,50 +521,5 @@ public final class IoUtil {
         }
 
         throw new IllegalCallerException("Could not read binary file");
-    }
-
-    /**
-     * The location for a usb get request.
-     */
-    private static final String USB_GET_LOCATION = BackendUtil.constructPath("usb", "devices");
-
-    /**
-     * The encoding used for a usb get request.
-     */
-    private static final Charset ENCODING = StandardCharsets.UTF_8;
-
-    /**
-     * Executes the usb_q.py script to find the devices connected to the PC via a USB protocol.
-     */
-    public static ArrayList<String> getUsbDevices() {
-        ArrayList<String> ret = new ArrayList<>();
-
-        try {
-            URL url = new URL(USB_GET_LOCATION);
-
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                    con.getInputStream(), ENCODING))) {
-                StringBuilder response = new StringBuilder();
-                String responseLine;
-
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
-                }
-
-                responseLine = response.toString().replace("'", "");
-
-                UsbResponse usbResponse = SerializationUtil.fromJson(responseLine, UsbResponse.class);
-
-                ret = usbResponse.parse();
-            }
-
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return ret;
     }
 }

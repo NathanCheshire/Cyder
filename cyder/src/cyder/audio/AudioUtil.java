@@ -1,6 +1,7 @@
 package cyder.audio;
 
 import com.google.common.base.Preconditions;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;

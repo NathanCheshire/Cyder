@@ -11,15 +11,6 @@ import argparse
 
 app = FastAPI()
 
-
-@app.get("/")
-def read_root():
-    """ 
-    The local backend root.
-    """
-    return {"ping_time": get_unix_gmt_time()}
-
-
 class GaussianBlurPost(BaseModel):
     """ 
     The expected schema for a gaussian blur post request.
@@ -60,15 +51,6 @@ def post_audio_length(audio_length: AudioLengthPost):
         return {"length": get_audio_length(audio_length.audio_path)}
     else:
         return {"error": "file not found"}
-
-
-@app.get("/usb/devices/")
-def get_usb():
-    """ 
-    The get location for usb devices.
-    """
-    return {"usb": str(get_usb_devices())}
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')

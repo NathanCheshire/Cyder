@@ -104,23 +104,3 @@ def get_audio_length(path: str) -> float:
     :rtype: float
     """
     return MP3(path).info.length
-
-
-def get_usb_devices() -> list:
-    """ 
-    Returns a list of the devices connected to this comuter via USB.
-    
-    :return: a list of the devices connected to this computer via USB.
-    :rtype: list
-    """
-    ret = []
-
-    devices = libusb_package.find(find_all=True)
-
-    for dev in devices:
-        lines = str(dev).split('\n')
-
-        for line in lines:
-            ret.append(line.strip())
-
-    return ret

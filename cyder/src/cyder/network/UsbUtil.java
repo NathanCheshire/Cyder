@@ -42,6 +42,16 @@ public final class UsbUtil {
     private static final String space = " ";
 
     /**
+     * The number of lines from the usb query output to ignore.
+     */
+    private static final int headerLines = 2;
+
+    /**
+     * The number of members contained in a {@link UsbDevice}.
+     */
+    private static final int usbDeviceMemberLength = 4;
+
+    /**
      * Returns a list of usb devices connected to this computer.
      *
      * @return a list of usb devices connected to this computer
@@ -79,16 +89,19 @@ public final class UsbUtil {
                 throw new FatalException("Exception whilst trying to query USB devices");
             }
 
-            standardOutput.forEach(line -> {
-                String[] parts = line.split(CyderRegexPatterns.multipleSpacesRegex);
-                if (parts.length == 4) {
-                    String status = parts[0];
-                    String clazz = parts[1];
-                    String friendlyName = parts[2];
-                    String instanceId = parts[3];
-                    ret.add(new UsbDevice(status, clazz, friendlyName, instanceId));
-                }
-            });
+            if (standardOutput.size() > headerLines) {
+                standardOutput.stream().filter(line -> !line.isEmpty()).skip(headerLines).forEach(line -> {
+                    String[] parts = line.split(CyderRegexPatterns.multipleSpacesRegex);
+                    if (parts.length == usbDeviceMemberLength) {
+                        int index = 0;
+                        String status = parts[index++];
+                        String clazz = parts[index++];
+                        String friendlyName = parts[index++];
+                        String instanceId = parts[index];
+                        ret.add(new UsbDevice(status, clazz, friendlyName, instanceId));
+                    }
+                });
+            }
 
             return ImmutableList.copyOf(ret);
         });
