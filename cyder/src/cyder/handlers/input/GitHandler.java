@@ -6,12 +6,12 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.network.NetworkUtil;
 import cyder.parsers.remote.github.Issue;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.GitHubUtil;
-import cyder.utils.NetworkUtil;
 import cyder.utils.OsUtil;
 
 import java.util.Map;

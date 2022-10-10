@@ -2,7 +2,6 @@ package cyder.user;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Direction;
@@ -13,6 +12,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.network.NetworkUtil;
 import cyder.props.PropLoader;
 import cyder.utils.*;
 

@@ -7,11 +7,11 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.network.NetworkUtil;
 import cyder.time.TimeUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.user.UserUtil;
-import cyder.utils.NetworkUtil;
 import cyder.utils.StringUtil;
 
 import javax.imageio.ImageIO;

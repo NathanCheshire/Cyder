@@ -20,6 +20,7 @@ import cyder.layouts.CyderPartitionedLayout;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.math.NumberUtil;
+import cyder.network.NetworkUtil;
 import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderPanel;

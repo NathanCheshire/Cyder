@@ -6,7 +6,7 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
-import cyder.utils.NetworkUtil;
+import cyder.network.NetworkUtil;
 
 import java.net.URL;
 

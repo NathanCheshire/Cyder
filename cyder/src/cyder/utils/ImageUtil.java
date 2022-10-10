@@ -8,6 +8,7 @@ import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.AngleUtil;
+import cyder.network.NetworkUtil;
 import cyder.parsers.local.BlurResponse;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.frame.CyderFrame;

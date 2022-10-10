@@ -8,10 +8,14 @@ import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.network.NetworkUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.user.MappedExecutable;
 import cyder.user.UserUtil;
-import cyder.utils.*;
+import cyder.utils.FileUtil;
+import cyder.utils.IoUtil;
+import cyder.utils.StringUtil;
+import cyder.utils.UiUtil;
 
 import javax.swing.*;
 import java.awt.*;

@@ -9,6 +9,7 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.NumberUtil;
+import cyder.network.NetworkUtil;
 import cyder.ui.pane.CyderOutputPane;
 import org.atteo.evo.inflector.English;
 import org.jsoup.HttpStatusException;

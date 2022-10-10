@@ -9,13 +9,13 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.network.NetworkUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
 import cyder.utils.GetterUtil;
-import cyder.utils.NetworkUtil;
 
 import javax.swing.*;
 import java.awt.*;

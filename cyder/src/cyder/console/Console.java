@@ -22,6 +22,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.math.GeometryUtil;
 import cyder.math.NumberUtil;
+import cyder.network.NetworkUtil;
 import cyder.props.PropLoader;
 import cyder.test.Test;
 import cyder.threads.CyderThreadRunner;
