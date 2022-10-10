@@ -444,7 +444,7 @@ public class YoutubeDownload {
                     if (updateMatcher.find()) {
                         String progressPart = updateMatcher.group(progressIndex);
                         float progress = Float.parseFloat(progressPart
-                                .replaceAll(CyderRegexPatterns.nonNumberRegex, ""));
+                                .replaceAll(CyderRegexPatterns.nonNumberAndPeriodRegex, ""));
                         downloadableProgress = progress;
 
                         downloadableFileSize = updateMatcher.group(sizeIndex);
@@ -549,7 +549,7 @@ public class YoutubeDownload {
         cancelButton.setText(CANCEL);
         cancelButton.setFont(Console.INSTANCE.getInputField().getFont());
         cancelButton.addActionListener(e -> {
-            if (!isCanceled()) {
+            if (!isCanceled() && isDownloading()) {
                 cancel();
                 cancelButton.setText(CANCELED);
             }

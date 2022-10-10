@@ -99,6 +99,11 @@ public final class CyderRegexPatterns {
     public static final String nonNumberRegex = "[^0-9]";
 
     /**
+     * The regex for filtering out non-numbers and periods.
+     */
+    public static final String nonNumberAndPeriodRegex = "[^0-9.]";
+
+    /**
      * Suppress default constructor.
      */
     private CyderRegexPatterns() {
