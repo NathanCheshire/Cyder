@@ -86,7 +86,7 @@ public final class NecessarySubroutines {
         UserUtil.cleanUsers();
 
         CyderSplash.INSTANCE.setLoadingMessage("Validating props");
-        ReflectionUtil.ensureNoDuplicateProps();
+        ReflectionUtil.validateProps();
 
         CyderSplash.INSTANCE.setLoadingMessage("Validating Widgets");
         ReflectionUtil.validateWidgets();

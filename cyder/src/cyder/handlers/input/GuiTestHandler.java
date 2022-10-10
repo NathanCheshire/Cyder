@@ -23,17 +23,19 @@ public class GuiTestHandler extends InputHandler {
 
     @Handle
     public static boolean handle() {
+        boolean ret = false;
+
         for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
             Class<?> classer = classInfo.load();
 
-            for (Method m : classer.getMethods()) {
-                if (m.isAnnotationPresent(GuiTest.class)) {
-                    String trigger = m.getAnnotation(GuiTest.class).value();
+            for (Method method : classer.getMethods()) {
+                if (method.isAnnotationPresent(GuiTest.class)) {
+                    String trigger = method.getAnnotation(GuiTest.class).value();
                     if (trigger.equalsIgnoreCase(getInputHandler().commandAndArgsToString())) {
                         try {
-                            getInputHandler().println("Invoking gui test \"" + m.getName() + "\"");
-                            m.invoke(classer);
-                            return true;
+                            getInputHandler().println("Invoking gui test \"" + method.getName() + "\"");
+                            method.invoke(classer);
+                            ret = true;
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                         }
@@ -42,6 +44,6 @@ public class GuiTestHandler extends InputHandler {
             }
         }
 
-        return false;
+        return ret;
     }
 }

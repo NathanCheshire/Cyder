@@ -56,9 +56,9 @@ public final class GuiTests {
      * Runs the tests within the method.
      * This method is used purely for testing purposes.
      */
-    @GuiTest("test")
-    @SuppressCyderInspections(CyderInspection.TestInspection) /* not ending in test */
-    @SuppressWarnings({"EmptyTryBlock", "RedundantSuppression"}) /* for when try is empty and not empty */
+    @GuiTest()
+    @SuppressCyderInspections(CyderInspection.TestInspection) /* Not ending in test */
+    @SuppressWarnings({"EmptyTryBlock", "RedundantSuppression"}) /* For when try is empty */
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {

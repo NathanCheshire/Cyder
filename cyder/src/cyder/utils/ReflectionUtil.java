@@ -360,6 +360,8 @@ public final class ReflectionUtil {
         }
     }
 
+    private static final String TEST = "test";
+
     /**
      * Finds all gui tests within Cyder by looking for methods annotated with {@link GuiTest}.
      * The annotated method MUST take no parameters, and contain a valid, unique trigger.
@@ -378,10 +380,11 @@ public final class ReflectionUtil {
 
                     CyderInspection[] values = null;
 
-                    if (m.isAnnotationPresent(SuppressCyderInspections.class))
+                    if (m.isAnnotationPresent(SuppressCyderInspections.class)) {
                         values = m.getAnnotation(SuppressCyderInspections.class).value();
+                    }
 
-                    if (!m.getName().toLowerCase().endsWith("test")) {
+                    if (!m.getName().toLowerCase().endsWith(TEST)) {
                         if (values != null) {
                             boolean in = false;
 
@@ -399,10 +402,6 @@ public final class ReflectionUtil {
 
                         Logger.log(LogTag.DEBUG, "Method annotated with @GuiTest does not end"
                                 + " with \"test\"; name: " + m.getName());
-                    }
-
-                    if (StringUtil.isNullOrEmpty(trigger)) {
-                        throw new IllegalMethodException("Method annotated with @GuiTest has no trigger");
                     }
 
                     if (StringUtil.in(trigger, true, foundTriggers)) {
@@ -487,7 +486,7 @@ public final class ReflectionUtil {
     /**
      * Ensures there are no duplicate props within the loaded props.
      */
-    public static void ensureNoDuplicateProps() {
+    public static void validateProps() {
         ArrayList<String> discoveredKeys = new ArrayList<>();
 
         for (PropConstants.Prop prop : PropLoader.getProps()) {
