@@ -5,11 +5,9 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
+import cyder.utils.ProcessUtil;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -52,6 +50,11 @@ public final class UsbUtil {
     private static final int usbDeviceMemberLength = 4;
 
     /**
+     * The name for the executor service returned by {@link #getUsbDevices()}.
+     */
+    private static final String USB_DEVICE_THREAD_NAME = "USB Device Getter";
+
+    /**
      * Returns a list of usb devices connected to this computer.
      *
      * @return a list of usb devices connected to this computer
@@ -59,36 +62,22 @@ public final class UsbUtil {
     public static Future<ImmutableList<UsbDevice>> getUsbDevices() {
         ArrayList<UsbDevice> ret = new ArrayList<>();
 
-        ArrayList<String> standardOutput = new ArrayList<>();
-        ArrayList<String> errorOutput = new ArrayList<>();
-
         String command = POWER_SHELL + space + usbConnectedDevicesCommand;
 
         return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory("Audio file preview generator")).submit(() -> {
-            try {
-                Process powerShellProcess = Runtime.getRuntime().exec(command);
-                powerShellProcess.getOutputStream().close();
-
-                String outputLine;
-                BufferedReader outReader =
-                        new BufferedReader(new InputStreamReader(powerShellProcess.getInputStream()));
-                while ((outputLine = outReader.readLine()) != null) standardOutput.add(outputLine);
-                outReader.close();
-
-                String errorLine;
-                BufferedReader errorReader =
-                        new BufferedReader(new InputStreamReader(powerShellProcess.getErrorStream()));
-                while ((errorLine = errorReader.readLine()) != null) errorOutput.add(errorLine);
-                errorReader.close();
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+                new CyderThreadFactory(USB_DEVICE_THREAD_NAME)).submit(() -> {
+            Future<ProcessUtil.ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
+            while (!futureResult.isDone()) {
+                Thread.onSpinWait();
             }
 
-            if (!errorOutput.isEmpty()) {
+            ProcessUtil.ProcessResult result = futureResult.get();
+
+            if (!result.getErrorOutput().isEmpty()) {
                 throw new FatalException("Exception whilst trying to query USB devices");
             }
 
+            ImmutableList<String> standardOutput = result.getStandardOutput();
             if (standardOutput.size() > headerLines) {
                 standardOutput.stream().filter(line -> !line.isEmpty()).skip(headerLines).forEach(line -> {
                     String[] parts = line.split(CyderRegexPatterns.multipleSpacesRegex);

@@ -1,15 +1,9 @@
 package cyder.test;
 
-import com.google.common.collect.ImmutableList;
 import cyder.annotations.GuiTest;
-import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.network.UsbDevice;
-import cyder.network.UsbUtil;
-
-import java.util.concurrent.Future;
 
 /**
  * A class for calling test methods manually.
