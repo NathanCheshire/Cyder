@@ -511,13 +511,16 @@ public final class AudioUtil {
         });
     }
 
-    // todo ensure requirements are installed on host machine before any python functions are ran
-    // Pillow, mutagen
+    // todo subroutine for installing these on startup
 
     // todo this class could be cleaner
-    // todo extensions enum, move extensions package to other packages
 
-    // todo os util move
+    // todo extensions enum
+    // todo move enums to other packages where it makes sense
+    // todo programs enum, PIP, FFMPEG, FFPROBE, YOUTUBE_DL, PYTHON, etc.
+
+    // todo blur still requires conversion to not use old backend
+
     /**
      * The python binary invocation string.
      */

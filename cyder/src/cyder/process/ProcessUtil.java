@@ -18,6 +18,17 @@ import java.util.concurrent.Future;
  * Utilities related to processes.
  */
 public final class ProcessUtil {
+
+    /**
+     * A space character.
+     */
+    private static final String SPACE = " ";
+
+    /**
+     * The install keyword for pip installations.
+     */
+    private static final String INSTALL = "install";
+
     /**
      * Suppress default constructor.
      */
@@ -71,9 +82,9 @@ public final class ProcessUtil {
     public static void installPipDependency(String packageName) {
         Preconditions.checkNotNull(packageName);
         Preconditions.checkArgument(!packageName.isEmpty());
-        Preconditions.checkArgument(OsUtil.isBinaryInstalled("python"));
-        Preconditions.checkArgument(OsUtil.isBinaryInstalled("pip"));
+        Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
+        Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PIP.getProgramName()));
 
-        getProcessOutput("pip install " + packageName);
+        getProcessOutput(Program.PIP.getProgramName() + SPACE + INSTALL + SPACE + packageName);
     }
 }
