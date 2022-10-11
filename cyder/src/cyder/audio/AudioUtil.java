@@ -1,23 +1,25 @@
 package cyder.audio;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
-import cyder.parsers.local.AudioLengthResponse;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.ThreadUtil;
 import cyder.user.UserFile;
-import cyder.utils.*;
+import cyder.utils.FileUtil;
+import cyder.utils.OsUtil;
+import cyder.utils.ProcessUtil;
+import cyder.utils.StringUtil;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.Executors;
@@ -546,53 +548,39 @@ public final class AudioUtil {
     }
 
     /**
-     * The location to post for an audio location post.
-     */
-    private static final String AUDIO_LENGTH_PATH = BackendUtil.constructPath("audio", "length");
-
-    /**
-     * The encoding used for a post.
-     */
-    private static final Charset ENCODING = StandardCharsets.UTF_8;
-
-    /**
      * Returns the number of milliseconds in an audio file.
      *
      * @param audioFile the audio file to return the duration of
      * @return the duration of the provided audio file in milliseconds
      */
     public static int getMillisFast(File audioFile) {
+        Preconditions.checkNotNull(audioFile);
+        Preconditions.checkArgument(audioFile.exists());
+
+        // todo ensure requirements are installed on host machine before any python functions are ran
+        // Pillow, mutagen
+
+        String functions = "c:\\users\\nathan\\documents\\intellijava\\cyder\\backend\\python_functions.py";
+        String command = "python " + functions + " audio_length \"" + audioFile.getAbsolutePath() + "\"";
+
+        Future<ProcessUtil.ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
+        while (!futureResult.isDone()) {
+            Thread.onSpinWait();
+        }
+
         try {
-            URL url = new URL(AUDIO_LENGTH_PATH);
-            String path = audioFile.getAbsolutePath().replace("\\", "\\\\");
-            String data = "{\"audio_path\":\"" + path + "\"}";
+            ProcessUtil.ProcessResult result = futureResult.get();
 
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Accept", "application/json");
-            con.setDoOutput(true);
-
-            try (OutputStream os = con.getOutputStream()) {
-                byte[] input = data.getBytes();
-                os.write(input, 0, input.length);
-            }
-
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                    con.getInputStream(), ENCODING))) {
-                StringBuilder response = new StringBuilder();
-                String responseLine;
-
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
+            if (result.getErrorOutput().isEmpty()) {
+                ImmutableList<String> standardOutput = result.getStandardOutput();
+                if (standardOutput.size() == 1) {
+                    String firstResult = standardOutput.get(0);
+                    if (firstResult.startsWith("Audio length: ")) {
+                        firstResult = firstResult.replace("Audio length: ", "");
+                        return (int) (Float.parseFloat(firstResult) * 1000.0f);
+                    }
                 }
-
-                AudioLengthResponse audioLengthResponse = SerializationUtil.fromJson(
-                        response.toString(), AudioLengthResponse.class);
-
-                return Math.round(audioLengthResponse.getLength() * 1000);
             }
-
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -611,9 +599,10 @@ public final class AudioUtil {
         Preconditions.checkArgument(file.exists());
 
         try {
-            FileInputStream fis = new FileInputStream(file);
-            return fis.available();
-        } catch (Exception ignored) {}
+            return new FileInputStream(file).available();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
 
         return 0L;
     }
@@ -625,6 +614,9 @@ public final class AudioUtil {
      * @return an optional reference to the requested music file
      */
     public static Optional<File> getMusicFileWithName(String title) {
+        Preconditions.checkNotNull(title);
+        Preconditions.checkArgument(!title.isEmpty());
+
         File[] files = OsUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),

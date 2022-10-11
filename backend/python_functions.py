@@ -41,13 +41,7 @@ def get_audio_length(path: str) -> float:
     return MP3(path).info.length
 
 if __name__ == '__main__':
-    import subprocess
     import sys
-
-    packages = ["Pillow", "mutagen"]
-
-    for package in packages:
-        subprocess.check_call(["pip", "install", package])
 
     args = sys.argv
     command = args[1]

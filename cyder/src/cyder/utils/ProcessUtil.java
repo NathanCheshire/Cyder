@@ -85,18 +85,16 @@ public final class ProcessUtil {
             ArrayList<String> errorOutput = new ArrayList<>();
 
             try {
-                Process powerShellProcess = Runtime.getRuntime().exec(command);
-                powerShellProcess.getOutputStream().close();
+                Process process = Runtime.getRuntime().exec(command);
+                process.getOutputStream().close();
 
                 String outputLine;
-                BufferedReader outReader =
-                        new BufferedReader(new InputStreamReader(powerShellProcess.getInputStream()));
+                BufferedReader outReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                 while ((outputLine = outReader.readLine()) != null) standardOutput.add(outputLine);
                 outReader.close();
 
                 String errorLine;
-                BufferedReader errorReader =
-                        new BufferedReader(new InputStreamReader(powerShellProcess.getErrorStream()));
+                BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
                 while ((errorLine = errorReader.readLine()) != null) errorOutput.add(errorLine);
                 errorReader.close();
             } catch (Exception e) {
