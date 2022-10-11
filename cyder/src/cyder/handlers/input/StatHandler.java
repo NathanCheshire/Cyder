@@ -3,6 +3,7 @@ package cyder.handlers.input;
 import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.Logger;
@@ -97,7 +98,7 @@ public class StatHandler extends InputHandler {
 
                     if (logDirFiles != null && logDirFiles.length > 0) {
                         for (File log : logDirFiles) {
-                            if (FileUtil.getExtension(log).equals(".log")
+                            if (FileUtil.getExtension(log).equals(Extension.LOG.getExtension())
                                     && !logDir.equals(Logger.getCurrentLog())) {
                                 count++;
                             }

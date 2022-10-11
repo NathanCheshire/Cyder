@@ -5,6 +5,7 @@ import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
+import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -441,7 +442,7 @@ public final class Logger {
                 throw new FatalException("Failed to create log directory for current day");
             }
 
-            File proposedLogFile = new File(TimeUtil.logTime() + ".log");
+            File proposedLogFile = new File(TimeUtil.logTime() + Extension.LOG.getExtension());
             String uniqueFilename = FileUtil.findUniqueName(proposedLogFile, logSubDir);
             File logFile = OsUtil.buildFile(Dynamic.PATH,
                     Dynamic.LOGS.getDirectoryName(), logSubDirName, uniqueFilename);
@@ -546,11 +547,6 @@ public final class Logger {
     }
 
     /**
-     * The extension for a zip file.
-     */
-    private static final String ZIP_EXTENSION = ".zip";
-
-    /**
      * Zips the log files of the past.
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -569,11 +565,12 @@ public final class Logger {
         Arrays.stream(subLogDirs).forEach(subLogDir -> {
             // If it's not the current log and is not a zip file
             if (!FileUtil.getFilename(subLogDir.getName()).equals(TimeUtil.logSubDirTime())
-                    && !FileUtil.getExtension(subLogDir).equalsIgnoreCase(ZIP_EXTENSION)) {
-                if (new File(subLogDir.getAbsolutePath() + ZIP_EXTENSION).exists()) {
+                    && !FileUtil.getExtension(subLogDir).equalsIgnoreCase(Extension.ZIP.getExtension())) {
+                if (new File(subLogDir.getAbsolutePath() + Extension.ZIP.getExtension()).exists()) {
                     OsUtil.deleteFile(subLogDir);
                 } else {
-                    FileUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ZIP_EXTENSION);
+                    FileUtil.zip(subLogDir.getAbsolutePath(),
+                            subLogDir.getAbsolutePath() + Extension.ZIP.getExtension());
                 }
             }
         });
@@ -592,7 +589,7 @@ public final class Logger {
         if (subLogDirs == null || subLogDirs.length == 0) return;
 
         Arrays.stream(subLogDirs)
-                .filter(subLogDir -> !FileUtil.getExtension(subLogDir).equalsIgnoreCase(ZIP_EXTENSION))
+                .filter(subLogDir -> !FileUtil.getExtension(subLogDir).equalsIgnoreCase(Extension.ZIP.getExtension()))
                 .forEach(subLogDir -> {
                     File[] logFiles = subLogDir.listFiles();
 
@@ -615,7 +612,7 @@ public final class Logger {
      */
     private static void consolidateLines(File file) {
         Preconditions.checkArgument(file.exists(), "Provided file does not exist: " + file);
-        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(".log"),
+        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(Extension.LOG.getExtension()),
                 "Provided file does not exist: " + file);
 
         boolean beforeFirstTimeTag = true;
@@ -709,7 +706,7 @@ public final class Logger {
             if (logDirs == null || logDirs.length == 0) return;
 
             for (File subLogDir : logDirs) {
-                if (FileUtil.getExtension(subLogDir).equalsIgnoreCase(ZIP_EXTENSION)) continue;
+                if (FileUtil.getExtension(subLogDir).equalsIgnoreCase(Extension.ZIP.getExtension())) continue;
 
                 File[] logs = subLogDir.listFiles();
 

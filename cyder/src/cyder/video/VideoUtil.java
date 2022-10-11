@@ -3,6 +3,7 @@ package cyder.video;
 import com.google.common.base.Preconditions;
 import cyder.audio.AudioUtil;
 import cyder.constants.CyderStrings;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
@@ -48,7 +49,7 @@ public final class VideoUtil {
             if (cyderFrame.isDisposed()) return;
 
             File frameFile = new File("C:\\users\\nathan\\Downloads\\Frames\\"
-                    + String.format("%04d", i) + ".png");
+                    + String.format("%04d", i) + Extension.PNG.getExtension());
 
             BufferedImage image;
             try {

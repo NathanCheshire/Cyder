@@ -3,6 +3,7 @@ package cyder.handlers.input;
 import cyder.annotations.Handle;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.NumberUtil;
@@ -86,7 +87,7 @@ public class NumberHandler extends InputHandler {
                     if (!f.exists())
                         throw new IllegalArgumentException("File does not exist");
 
-                    if (FileUtil.getExtension(f).equalsIgnoreCase(".bin")) {
+                    if (FileUtil.getExtension(f).equalsIgnoreCase(Extension.BIN.getExtension())) {
                         if (f.exists()) {
                             getInputHandler().printlnPriority("0x" + IoUtil.getHexString(f).toUpperCase());
                         } else {

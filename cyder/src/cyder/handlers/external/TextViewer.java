@@ -3,6 +3,7 @@ package cyder.handlers.external;
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
+import cyder.enums.Extension;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderPartitionedLayout;
 import cyder.ui.button.CyderButton;
@@ -181,18 +182,16 @@ public class TextViewer {
         throw new IllegalStateException("Could not read contents of current note file");
     }
 
-    private static final String TXT_EXTENSION = ".txt";
-
     /**
      * The actions to invoke when the save button is pressed.
      */
     private void saveButtonAction() {
         String nameContents = nameField.getTrimmedText();
-        if (nameContents.toLowerCase().endsWith(TXT_EXTENSION)) {
-            nameContents = nameContents.substring(0, nameContents.length() - TXT_EXTENSION.length());
+        if (nameContents.toLowerCase().endsWith(Extension.TXT.getExtension())) {
+            nameContents = nameContents.substring(0, nameContents.length() - Extension.TXT.getExtension().length());
         }
 
-        String requestedName = nameContents + TXT_EXTENSION;
+        String requestedName = nameContents + Extension.TXT.getExtension();
 
         if (!OsUtil.isValidFilename(requestedName)) {
             textFrame.notify("Invalid filename");

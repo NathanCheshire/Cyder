@@ -166,11 +166,6 @@ public final class IoUtil {
     }
 
     /**
-     * The txt extension for files.
-     */
-    private static final String TXT_EXTENSION = ".txt";
-
-    /**
      * Opens the provided file, possibly inside of the program if a handler exists for it.
      *
      * @param file the file to open
@@ -181,7 +176,7 @@ public final class IoUtil {
 
         String extension = FileUtil.getExtension(file);
 
-        if (extension.equals(TXT_EXTENSION)) {
+        if (extension.equals(Extension.TXT.getExtension())) {
             TextViewer.getInstance(file).showGui();
         } else if (FileUtil.isSupportedImageExtension(file)) {
             PhotoViewer.getInstance(file).showGui();

@@ -3,7 +3,6 @@ package cyder.enums;
 /**
  * Common extensions used and checked for throughout Cyder.
  */
-// todo find and use throughout cyder
 public enum Extension {
     EXE(".exe"),
     MP3(".mp3"),
@@ -15,7 +14,12 @@ public enum Extension {
     JPG(".jpg"),
     JPEG(".jpeg"),
     PNG(".png"),
-    JAVA(".java");
+    JAVA(".java"),
+    JSON(".json"),
+    GIT(".git"),
+    TTF(".ttf"),
+    LOG(".log"),
+    INI(".ini");
 
     /**
      * The extension text with the leading period.

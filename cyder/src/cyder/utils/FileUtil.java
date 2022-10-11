@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderStrings;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 
@@ -51,17 +52,20 @@ public final class FileUtil {
     /**
      * The audio formats Cyder supports.
      */
-    public static final ImmutableList<String> SUPPORTED_AUDIO_EXTENSIONS = ImmutableList.of(".wav", ".mp3");
+    public static final ImmutableList<String> SUPPORTED_AUDIO_EXTENSIONS
+            = ImmutableList.of(Extension.WAV.getExtension(), Extension.MP3.getExtension());
 
     /**
      * The image formats Cyder supports.
      */
-    public static final ImmutableList<String> SUPPORTED_IMAGE_EXTENSIONS = ImmutableList.of(".png", ".jpg", ".jpeg");
+    public static final ImmutableList<String> SUPPORTED_IMAGE_EXTENSIONS = ImmutableList.of(
+            Extension.PNG.getExtension(), Extension.JPG.getExtension(), Extension.JPEG.getExtension());
 
     /**
      * Supported font types that are loaded upon Cyder's start.
      */
-    public static final ImmutableList<String> SUPPORTED_FONT_EXTENSIONS = ImmutableList.of(".ttf");
+    public static final ImmutableList<String> SUPPORTED_FONT_EXTENSIONS
+            = ImmutableList.of(Extension.TTF.getExtension());
 
     /**
      * Suppress default constructor.
@@ -312,11 +316,13 @@ public final class FileUtil {
         try {
             if (new File(destination).exists()) {
                 int incrementer = 1;
-                usedFileName = destination.replace(".zip", "") + "_" + incrementer + ".zip";
+                usedFileName = destination.replace(Extension.ZIP.getExtension(), "")
+                        + "_" + incrementer + Extension.ZIP.getExtension();
 
                 while (new File(usedFileName).exists()) {
                     incrementer++;
-                    usedFileName = destination.replace(".zip", "") + "_" + incrementer + ".zip";
+                    usedFileName = destination.replace(Extension.ZIP.getExtension(), "")
+                            + "_" + incrementer + Extension.ZIP.getExtension();
                 }
             } else {
                 usedFileName = destination;

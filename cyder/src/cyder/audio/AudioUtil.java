@@ -100,13 +100,13 @@ public final class AudioUtil {
     @SuppressWarnings({"ResultOfMethodCallIgnored"})
     public static Future<Optional<File>> mp3ToWav(File mp3File) {
         Preconditions.checkNotNull(mp3File);
-        Preconditions.checkArgument(FileUtil.validateExtension(mp3File, ".mp3"));
+        Preconditions.checkArgument(FileUtil.validateExtension(mp3File, Extension.MP3.getExtension()));
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Mp3 to wav converter")).submit(() -> {
             String builtPath = new File(OsUtil.buildPath(
                     Dynamic.PATH,
-                    "tmp", FileUtil.getFilename(mp3File) + ".wav")).getAbsolutePath();
+                    "tmp", FileUtil.getFilename(mp3File) + Extension.WAV.getExtension())).getAbsolutePath();
             String safePath = "\"" + builtPath + "\"";
 
             File outputFile = new File(builtPath);
@@ -140,14 +140,14 @@ public final class AudioUtil {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored") public static Future<Optional<File>> wavToMp3(File wavFile) {
         Preconditions.checkNotNull(wavFile);
-        Preconditions.checkArgument(FileUtil.validateExtension(wavFile, ".wav"));
+        Preconditions.checkArgument(FileUtil.validateExtension(wavFile, Extension.WAV.getExtension()));
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Wav to mp3 converter")).submit(() -> {
 
             String builtPath = new File(OsUtil.buildPath(
                     Dynamic.PATH,
-                    "tmp", FileUtil.getFilename(wavFile) + ".mp3")).getAbsolutePath();
+                    "tmp", FileUtil.getFilename(wavFile) + Extension.MP3.getExtension())).getAbsolutePath();
             String safePath = "\"" + builtPath + "\"";
 
             File outputFile = new File(builtPath);
@@ -233,7 +233,7 @@ public final class AudioUtil {
             String safeFilename = ESCAPED_QUOTE + wavOrMp3File.getAbsolutePath() + ESCAPED_QUOTE;
 
             File outputFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName(),
-                    FileUtil.getFilename(wavOrMp3File) + DREAMY_SUFFIX + ".mp3");
+                    FileUtil.getFilename(wavOrMp3File) + DREAMY_SUFFIX + Extension.MP3.getExtension());
             String safeOutputFilename = ESCAPED_QUOTE + outputFile.getAbsolutePath() + ESCAPED_QUOTE;
 
             String[] command = {
@@ -291,8 +291,8 @@ public final class AudioUtil {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
 
-        Preconditions.checkArgument(FileUtil.validateExtension(audioFile, ".wav")
-                || FileUtil.validateExtension(audioFile, ".mp3"));
+        Preconditions.checkArgument(FileUtil.validateExtension(audioFile, Extension.WAV.getExtension())
+                || FileUtil.validateExtension(audioFile, Extension.MP3.getExtension()));
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Audio Length Finder: "

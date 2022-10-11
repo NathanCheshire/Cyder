@@ -6,6 +6,7 @@ import cyder.annotations.*;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
@@ -481,7 +482,7 @@ public final class GameOfLifeWidget {
                     .setRelativeTo(conwayFrame));
 
             if (loadFile != null && loadFile.exists()
-                    && FileUtil.validateExtension(loadFile, JSON_EXTENSION)) {
+                    && FileUtil.validateExtension(loadFile, Extension.JSON.getExtension())) {
                 fromJson(loadFile);
             }
         }, CONWAY_STATE_LOADER_THREAD_NAME);
@@ -691,11 +692,6 @@ public final class GameOfLifeWidget {
     private static final String CONWAY_STATE_SAVER_THREAD_NAME = "Conway State Saver";
 
     /**
-     * The extension for json files.
-     */
-    private static final String JSON_EXTENSION = ".json";
-
-    /**
      * Saves the current grid state to a json which can be loaded.
      */
     private static void toFile() {
@@ -713,7 +709,7 @@ public final class GameOfLifeWidget {
 
             if (StringUtil.isNullOrEmpty(saveName)) return;
 
-            String filename = saveName + JSON_EXTENSION;
+            String filename = saveName + Extension.JSON.getExtension();
 
             if (OsUtil.isValidFilename(filename)) {
                 File saveFile = UserUtil.createFileInUserSpace(filename);
@@ -816,7 +812,7 @@ public final class GameOfLifeWidget {
             }
 
             Arrays.stream(statesDirFiles).filter(jsonStateFile ->
-                            FileUtil.validateExtension(jsonStateFile, JSON_EXTENSION))
+                            FileUtil.validateExtension(jsonStateFile, Extension.JSON.getExtension()))
                     .forEach(jsonStateFile -> {
                         try {
                             Reader reader = new FileReader(jsonStateFile);

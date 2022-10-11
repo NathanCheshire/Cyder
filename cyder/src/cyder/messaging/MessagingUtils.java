@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.audio.AudioUtil;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
@@ -73,8 +74,8 @@ public final class MessagingUtils {
      */
     public static Future<BufferedImage> generateLargeWaveform(File wavOrMp3File) {
         Preconditions.checkNotNull(wavOrMp3File);
-        Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, ".mp3")
-                || FileUtil.validateExtension(wavOrMp3File, ".wav"));
+        Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, Extension.MP3.getExtension())
+                || FileUtil.validateExtension(wavOrMp3File, Extension.WAV.getExtension()));
 
         return generateWaveform(wavOrMp3File, DEFAULT_LARGE_WAVEFORM_WIDTH, DEFAULT_LARGE_WAVEFORM_HEIGHT);
     }
@@ -88,8 +89,8 @@ public final class MessagingUtils {
      */
     public static Future<BufferedImage> generateSmallWaveform(File wavOrMp3File) {
         Preconditions.checkNotNull(wavOrMp3File);
-        Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, ".mp3")
-                || FileUtil.validateExtension(wavOrMp3File, ".wav"));
+        Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, Extension.MP3.getExtension())
+                || FileUtil.validateExtension(wavOrMp3File, Extension.WAV.getExtension()));
 
         return generateWaveform(wavOrMp3File, DEFAULT_SMALL_WAVEFORM_WIDTH, DEFAULT_SMALL_WAVEFORM_HEIGHT);
     }
@@ -104,7 +105,7 @@ public final class MessagingUtils {
             File usageWav = wavOrMp3File;
 
             // if it's an mp3, convert to wav before passing off
-            if (FileUtil.validateExtension(usageWav, ".mp3")) {
+            if (FileUtil.validateExtension(usageWav, Extension.MP3.getExtension())) {
                 Future<Optional<File>> waitFor = AudioUtil.mp3ToWav(usageWav);
 
                 // wait for conversion
@@ -245,7 +246,7 @@ public final class MessagingUtils {
                                                  Color backgroundColor, Color waveColor) {
         Preconditions.checkNotNull(wavFile);
         Preconditions.checkArgument(wavFile.exists());
-        Preconditions.checkArgument(FileUtil.validateExtension(wavFile, ".wav"));
+        Preconditions.checkArgument(FileUtil.validateExtension(wavFile, Extension.WAV.getExtension()));
 
         Preconditions.checkArgument(width >= DEFAULT_SMALL_WAVEFORM_WIDTH);
         Preconditions.checkArgument(height >= DEFAULT_SMALL_WAVEFORM_HEIGHT);
@@ -398,8 +399,8 @@ public final class MessagingUtils {
         Preconditions.checkArgument(mp3OrWavFile.exists());
         Preconditions.checkNotNull(onSaveRunnable);
 
-        Preconditions.checkArgument(FileUtil.validateExtension(mp3OrWavFile, ".mp3")
-                || FileUtil.validateExtension(mp3OrWavFile, ".wav"));
+        Preconditions.checkArgument(FileUtil.validateExtension(mp3OrWavFile, Extension.MP3.getExtension())
+                || FileUtil.validateExtension(mp3OrWavFile, Extension.WAV.getExtension()));
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Audio file preview generator")).submit(() -> {

@@ -10,6 +10,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.NumberUtil;
@@ -266,7 +267,7 @@ public final class HangmanGame {
             } else {
                 numWrongGuesses++;
                 imageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman"
-                        + numWrongGuesses + ".png"));
+                        + numWrongGuesses + Extension.PNG.getExtension()));
             }
         }
     }

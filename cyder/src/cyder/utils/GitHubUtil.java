@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.TypeToken;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
@@ -133,7 +134,7 @@ public final class GitHubUtil {
         }
 
         // make sure it ends with .git
-        if (!url.endsWith(".git")) {
+        if (!url.endsWith(Extension.GIT.getExtension())) {
             return false;
         }
 
@@ -200,11 +201,11 @@ public final class GitHubUtil {
             String repoName = parts[parts.length - 1];
 
             //shouldn't be possible
-            if (!repoName.endsWith(".git")) {
+            if (!repoName.endsWith(Extension.GIT.getExtension())) {
                 return Optional.of(Boolean.FALSE);
             }
 
-            repoName = repoName.replace(".git", "");
+            repoName = repoName.replace(Extension.GIT.getExtension(), "");
 
             //folder name is index of last / to the .git
             File saveDir = new File(directory.getAbsolutePath()

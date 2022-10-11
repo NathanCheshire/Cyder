@@ -3,6 +3,7 @@ package cyder.utils;
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 
@@ -114,7 +115,8 @@ public final class SpotlightUtil {
                     continue;
                 }
 
-                Files.copy(spotlight.toPath(), Paths.get(saveDir + OsUtil.FILE_SEP + acc + ".png"),
+                Files.copy(spotlight.toPath(), Paths.get(saveDir + OsUtil.FILE_SEP
+                                + acc + Extension.PNG.getExtension()),
                         StandardCopyOption.REPLACE_EXISTING);
                 acc++;
             }

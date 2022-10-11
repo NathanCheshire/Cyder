@@ -153,7 +153,7 @@ public final class UserUtil {
                 Dynamic.USERS.getDirectoryName(), uuid, UserFile.USERDATA.getName());
 
         Preconditions.checkArgument(jsonFile.exists(), "File does not exist");
-        Preconditions.checkArgument(FileUtil.getExtension(jsonFile).equals(".json"),
+        Preconditions.checkArgument(FileUtil.getExtension(jsonFile).equals(Extension.JSON.getExtension()),
                 "File is not a json type");
 
         cyderUserFile = jsonFile;
@@ -184,7 +184,7 @@ public final class UserUtil {
         Preconditions.checkNotNull(file);
         Preconditions.checkNotNull(user);
         Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.validateExtension(file, ".json"));
+        Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.JSON.getExtension()));
 
         try {
             FileWriter writer = new FileWriter(file);
@@ -237,7 +237,7 @@ public final class UserUtil {
 
             long backupTimestamp = System.currentTimeMillis();
             String uuid = FileUtil.getFilename(jsonFile.getParentFile());
-            String backupFilename = uuid + "_" + backupTimestamp + ".json";
+            String backupFilename = uuid + "_" + backupTimestamp + Extension.JSON.getExtension();
 
             File[] backups = backupDirectory.listFiles();
             checkNotNull(backups);
@@ -327,7 +327,7 @@ public final class UserUtil {
 
             for (File backup : backups) {
                 // not sure how this would happen but still check
-                if (!FileUtil.getExtension(backup).equals(".json"))
+                if (!FileUtil.getExtension(backup).equals(Extension.JSON.getExtension()))
                     continue;
 
                 String name = FileUtil.getFilename(backup);
@@ -352,7 +352,7 @@ public final class UserUtil {
                 File mostRecentBackup = OsUtil.buildFile(
                         Dynamic.PATH,
                         Dynamic.BACKUP.getDirectoryName(),
-                        uuid + "_" + mostRecentTimestamp + ".json");
+                        uuid + "_" + mostRecentTimestamp + Extension.JSON.getExtension());
 
                 // should always be true...
                 if (mostRecentBackup.exists()) {
@@ -642,7 +642,7 @@ public final class UserUtil {
     public static User extractUser(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.validateExtension(file, ".json"));
+        Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.JSON.getExtension()));
 
         User ret = null;
 

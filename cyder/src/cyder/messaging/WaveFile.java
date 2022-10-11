@@ -2,6 +2,7 @@ package cyder.messaging;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
+import cyder.enums.Extension;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.utils.FileUtil;
 
@@ -85,7 +86,7 @@ public class WaveFile {
     public WaveFile(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists(), "File does not exist");
-        Preconditions.checkArgument(FileUtil.validateExtension(file, ".wav"));
+        Preconditions.checkArgument(FileUtil.validateExtension(file, Extension.WAV.getExtension()));
 
         wavFile = file;
         setup();

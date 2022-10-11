@@ -1,6 +1,7 @@
 package cyder.props;
 
 import cyder.constants.CyderStrings;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 
 /**
@@ -58,7 +59,7 @@ public final class PropConstants {
     /**
      * The extension for prop files.
      */
-    static final String PROP_EXTENSION = ".ini";
+    static final String PROP_EXTENSION = Extension.INI.getExtension();
 
     /**
      * The prefix prop files must have.
