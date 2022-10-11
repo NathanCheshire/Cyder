@@ -9,6 +9,7 @@ import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
@@ -99,11 +100,6 @@ public final class NotesWidget {
      * The new note name field.
      */
     private static CyderTextField newNoteNameField;
-
-    /**
-     * A txt file extension, the extension for all notes.
-     */
-    private static final String TXT_EXTENSION = ".txt";
 
     /**
      * The add button text.
@@ -363,11 +359,11 @@ public final class NotesWidget {
      */
     private static void createNoteAction() {
         String noteName = newNoteNameField.getTrimmedText();
-        if (noteName.toLowerCase().endsWith(TXT_EXTENSION)) {
-            noteName = noteName.substring(0, noteName.length() - TXT_EXTENSION.length());
+        if (noteName.toLowerCase().endsWith(Extension.TXT.getExtension())) {
+            noteName = noteName.substring(0, noteName.length() - Extension.TXT.getExtension().length());
         }
 
-        String requestedName = noteName + TXT_EXTENSION;
+        String requestedName = noteName + Extension.TXT.getExtension();
 
         if (!OsUtil.isValidFilename(requestedName)) {
             noteFrame.notify("Invalid filename");
@@ -481,7 +477,7 @@ public final class NotesWidget {
      * The actions to invoke when the save button on the edit note view is pressed.
      */
     private static void editNoteSaveButtonAction() {
-        String newFilename = editNoteNameField.getTrimmedText() + TXT_EXTENSION;
+        String newFilename = editNoteNameField.getTrimmedText() + Extension.TXT.getExtension();
         if (!OsUtil.isValidFilename(newFilename)) {
             noteFrame.notify("Invalid filename: \"" + newFilename + "\"");
             return;
@@ -625,6 +621,6 @@ public final class NotesWidget {
         if (noteFiles == null) return;
 
         Arrays.stream(noteFiles).filter(noteFile ->
-                FileUtil.getExtension(noteFile).equals(TXT_EXTENSION)).forEach(notesList::add);
+                FileUtil.getExtension(noteFile).equals(Extension.TXT.getExtension())).forEach(notesList::add);
     }
 }

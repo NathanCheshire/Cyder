@@ -1,4 +1,4 @@
-package cyder.enums;
+package cyder.genesis;
 
 /**
  * Possible ways to enter Cyder.
@@ -35,13 +35,6 @@ public enum CyderEntry {
      */
     private final String failMessage;
 
-    /**
-     * Constructs a new CyderEntry type.
-     *
-     * @param name        the name for this entry method
-     * @param passMessage the success message
-     * @param failMessage the fail message
-     */
     CyderEntry(String name, String passMessage, String failMessage) {
         this.name = name;
         this.passMessage = passMessage;

@@ -9,6 +9,7 @@ import cyder.annotations.Widget;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.enums.Extension;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -896,7 +897,7 @@ public class WeatherWidget {
                 + (isAfterSunset ? N : D);
 
         return new ImageIcon(OsUtil.buildPath("static", "pictures", WEATHER,
-                weatherIconIdAndTime + "." + ImageUtil.PNG_FORMAT));
+                weatherIconIdAndTime + Extension.PNG.getExtension()));
     }
 
     /**

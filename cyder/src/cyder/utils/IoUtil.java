@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import cyder.audio.AudioPlayer;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
+import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.external.PhotoViewer;
@@ -467,11 +468,6 @@ public final class IoUtil {
     }
 
     /**
-     * The extension for bin files.
-     */
-    private static final String BIN_EXTENSION = ".bin";
-
-    /**
      * Returns a binary string for the provided binary file.
      *
      * @param file the binary file of pure binary contents
@@ -480,7 +476,7 @@ public final class IoUtil {
     public static String getBinaryString(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(BIN_EXTENSION));
+        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(Extension.BIN.getExtension()));
 
         try {
             BufferedReader fis = new BufferedReader(new FileReader(file));
@@ -503,7 +499,7 @@ public final class IoUtil {
     public static String getHexString(File file) {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
-        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(BIN_EXTENSION));
+        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(Extension.BIN.getExtension()));
 
         try {
             BufferedReader fis = new BufferedReader(new FileReader(file));

@@ -4,6 +4,7 @@ import cyder.annotations.Handle;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.user.UserUtil;
@@ -97,7 +98,7 @@ public class ImageHandler extends InputHandler {
                 }
 
                 currentBackgroundFile = OsUtil.buildFile(Dynamic.PATH,
-                        Dynamic.TEMP.getDirectoryName(), name + "." + ImageUtil.PNG_FORMAT);
+                        Dynamic.TEMP.getDirectoryName(), name + Extension.PNG.getExtension());
             }
 
             Future<Optional<File>> futureImage = ImageUtil.gaussianBlur(

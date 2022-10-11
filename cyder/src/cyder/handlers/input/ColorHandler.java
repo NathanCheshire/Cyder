@@ -5,6 +5,7 @@ import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.field.CyderCaret;
@@ -54,12 +55,12 @@ public class ColorHandler extends InputHandler {
                     BufferedImage saveImage = ImageUtil.bufferedImageFromColor(color, w, h);
 
                     String saveName = "Solid_" + getInputHandler().getArg(0)
-                            + "_Background" + "." + ImageUtil.PNG_FORMAT;
+                            + "_Background" + Extension.PNG.getExtension();
 
                     File saveFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                             Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(), saveName);
 
-                    ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, saveFile);
+                    ImageIO.write(saveImage, Extension.PNG.getExtension(), saveFile);
 
                     getInputHandler().println("Background generated, set, and saved as a separate background file.");
 

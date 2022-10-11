@@ -7,6 +7,7 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Dynamic;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.exceptions.YoutubeException;
 import cyder.handlers.input.BaseInputHandler;
@@ -244,10 +245,10 @@ public final class YoutubeUtil {
         }
 
         File saveAlbumArt = OsUtil.buildFile(albumArtDir.getAbsolutePath(),
-                parsedAsciiSaveName + "." + ImageUtil.PNG_FORMAT);
+                parsedAsciiSaveName + Extension.PNG.getExtension());
 
         try {
-            ImageIO.write(optionalBi.get(), ImageUtil.PNG_FORMAT, saveAlbumArt);
+            ImageIO.write(optionalBi.get(), Extension.PNG.getExtension(), saveAlbumArt);
         } catch (IOException e) {
             throw new YoutubeException("Could not write thumbnail to: " + saveAlbumArt.getAbsolutePath());
         }
@@ -333,10 +334,10 @@ public final class YoutubeUtil {
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(),
                 UserFile.BACKGROUNDS.getName(),
-                NetworkUtil.getUrlTitle(url) + "." + ImageUtil.PNG_FORMAT);
+                NetworkUtil.getUrlTitle(url) + Extension.PNG.getExtension());
 
         try {
-            ImageIO.write(maxThumbnail, ImageUtil.PNG_FORMAT, fullSaveFile);
+            ImageIO.write(maxThumbnail, Extension.PNG.getExtension(), fullSaveFile);
             Console.INSTANCE.setBackgroundFile(fullSaveFile);
         } catch (IOException e) {
             ExceptionHandler.handle(e);

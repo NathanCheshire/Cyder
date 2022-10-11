@@ -10,6 +10,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.GenesisConstants;
 import cyder.handlers.external.PhotoViewer;
@@ -124,14 +125,14 @@ public final class PaintWidget {
 
             String base = "image";
             int increment = 0;
-            String defaultFilename = base + increment + ".png";
+            String defaultFilename = base + increment + Extension.PNG.getExtension();
 
             String path = OsUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                     Console.INSTANCE.getUuid(), "Files");
 
             while (new File(path + OsUtil.FILE_SEP + defaultFilename).exists()) {
                 increment++;
-                defaultFilename = base + increment + ".png";
+                defaultFilename = base + increment + Extension.PNG.getExtension();
             }
 
             String filename = GetterUtil.getInstance().getString(new GetterUtil.Builder("Filename")
@@ -141,8 +142,8 @@ public final class PaintWidget {
                     .setSubmitButtonText("Save Image")
                     .setFieldTooltip("The filename to save the image as"));
 
-            if (!filename.endsWith(".png")) {
-                filename += ".png";
+            if (!filename.endsWith(Extension.PNG.getExtension())) {
+                filename += Extension.PNG.getExtension();
             }
 
             if (OsUtil.isValidFilename(filename)) {
@@ -158,7 +159,7 @@ public final class PaintWidget {
 
                 try {
                     File referenceFile = UserUtil.createFileInUserSpace(filename);
-                    ImageIO.write(image, ImageUtil.PNG_FORMAT, referenceFile);
+                    ImageIO.write(image, Extension.PNG.getExtension(), referenceFile);
 
                     paintFrame.notify(new CyderFrame.NotificationBuilder(
                             "Successfully saved grid as \"" + filename

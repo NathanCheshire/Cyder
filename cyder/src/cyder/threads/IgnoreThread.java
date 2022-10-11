@@ -1,4 +1,4 @@
-package cyder.enums;
+package cyder.threads;
 
 /**
  * Thread names to ignore when determining if Cyder should be classified as busy.

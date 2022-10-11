@@ -10,7 +10,6 @@ import cyder.console.Console;
 import cyder.console.ConsoleConstants;
 import cyder.constants.*;
 import cyder.enums.Direction;
-import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.LoginHandler;

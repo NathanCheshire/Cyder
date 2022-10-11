@@ -5,6 +5,7 @@ import cyder.annotations.Handle;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -94,7 +95,7 @@ public class PixelationHandler extends InputHandler {
 
                     String newName = FileUtil.getFilename(Console.INSTANCE
                             .getCurrentBackground().getReferenceFile().getName())
-                            + "_Pixelated_Pixel_Size_" + size + "." + ImageUtil.PNG_FORMAT;
+                            + "_Pixelated_Pixel_Size_" + size + Extension.PNG.getExtension();
 
                     File saveFile = OsUtil.buildFile(
                             Dynamic.PATH,
@@ -103,7 +104,7 @@ public class PixelationHandler extends InputHandler {
                             UserFile.BACKGROUNDS.getName(),
                             newName);
 
-                    ImageIO.write(img, ImageUtil.PNG_FORMAT, saveFile);
+                    ImageIO.write(img, Extension.PNG.getExtension(), saveFile);
 
                     getInputHandler().println("Background pixelated and saved as a separate background file.");
 

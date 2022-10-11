@@ -6,6 +6,7 @@ import cyder.annotations.ForReadability;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
@@ -193,11 +194,6 @@ public final class StatUtil {
     }
 
     /**
-     * The extension for Java files.
-     */
-    private static final String javaExtension = ".java";
-
-    /**
      * A new line character.
      */
     private static final String newline = "\n";
@@ -217,8 +213,8 @@ public final class StatUtil {
         StringBuilder ret = new StringBuilder("Numbers in order represent: "
                 + "code lines, comment lines, and blank lines respectively" + newline);
 
-        FileUtil.getFiles(startDir, javaExtension).forEach(javaFile ->
-                ret.append(javaFile.getName().replace(javaExtension, ""))
+        FileUtil.getFiles(startDir, Extension.JAVA.getExtension()).forEach(javaFile ->
+                ret.append(javaFile.getName().replace(Extension.JAVA.getExtension(), ""))
                         .append(": ").append(totalLines(javaFile)).append(",")
                         .append(totalComments(javaFile)).append(",")
                         .append(totalBlankLines(javaFile)).append(newline));
@@ -245,7 +241,7 @@ public final class StatUtil {
             if (files != null && files.length > 0) {
                 Arrays.stream(files).forEach(file -> ret.addAndGet(totalJavaLines(file)));
             }
-        } else if (startDir.getName().endsWith(javaExtension)) {
+        } else if (startDir.getName().endsWith(Extension.JAVA.getExtension())) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
                 String line;
@@ -300,7 +296,7 @@ public final class StatUtil {
                     ret += totalLines(f);
                 }
             }
-        } else if (startDir.getName().endsWith(javaExtension)) {
+        } else if (startDir.getName().endsWith(Extension.JAVA.getExtension())) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
                 int localRet = 0;
@@ -338,7 +334,7 @@ public final class StatUtil {
                     ret += totalComments(f);
                 }
             }
-        } else if (startDir.getName().endsWith(javaExtension)) {
+        } else if (startDir.getName().endsWith(Extension.JAVA.getExtension())) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
                 String line;
@@ -411,7 +407,7 @@ public final class StatUtil {
                     ret += totalBlankLines(f);
                 }
             }
-        } else if (startDir.getName().endsWith(javaExtension)) {
+        } else if (startDir.getName().endsWith(Extension.JAVA.getExtension())) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
                 String line;

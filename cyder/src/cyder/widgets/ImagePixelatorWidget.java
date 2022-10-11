@@ -9,6 +9,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderPartitionedLayout;
@@ -248,12 +249,12 @@ public final class ImagePixelatorWidget {
         BufferedImage saveImage = ImageUtil.pixelateImage(currentBufferedImage, pixelSize);
 
         String currentFilename = FileUtil.getFilename(currentFile);
-        String saveName = currentFilename + PIXELATED_PIXEL_SIZE + pixelSize + "." + ImageUtil.PNG_FORMAT;
+        String saveName = currentFilename + PIXELATED_PIXEL_SIZE + pixelSize + Extension.PNG.getExtension();
         File saveFile = new File(OsUtil.buildPath(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.FILES.getName(), saveName));
 
         try {
-            ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, saveFile);
+            ImageIO.write(saveImage, Extension.PNG.getExtension(), saveFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             pixelFrame.notify("Failed to write pixelated image");

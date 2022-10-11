@@ -7,6 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Direction;
 import cyder.enums.Dynamic;
+import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -1180,7 +1181,7 @@ public final class UserUtil {
         }
 
         File backgroundFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
-                uuid, UserFile.BACKGROUNDS.getName(), "Default." + ImageUtil.PNG_FORMAT);
+                uuid, UserFile.BACKGROUNDS.getName(), "Default" + Extension.PNG.getExtension());
         File backgroundFolder = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                 uuid, UserFile.BACKGROUNDS.getName());
 
@@ -1192,7 +1193,7 @@ public final class UserUtil {
                 }
             }
 
-            ImageIO.write(createMe, ImageUtil.PNG_FORMAT, backgroundFile);
+            ImageIO.write(createMe, Extension.PNG.getExtension(), backgroundFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

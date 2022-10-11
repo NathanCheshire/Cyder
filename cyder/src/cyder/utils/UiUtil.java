@@ -6,6 +6,7 @@ import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
+import cyder.enums.Extension;
 import cyder.exceptions.DeviceNotFoundException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -127,7 +128,7 @@ public final class UiUtil {
         String saveName = cyderFrame.getTitle().substring(0, Math.min(MAX_FRAME_TITLE_FILE_LENGTH,
                 cyderFrame.getTitle().length()));
         return UserUtil.createFileInUserSpace(saveName.trim() + "_"
-                + TimeUtil.logTime().trim() + "." + ImageUtil.PNG_FORMAT);
+                + TimeUtil.logTime().trim() + Extension.PNG.getExtension());
     }
 
     /**
@@ -143,7 +144,7 @@ public final class UiUtil {
         boolean ret = false;
 
         try {
-            ret = ImageIO.write(ImageUtil.screenshotComponent(frame), ImageUtil.PNG_FORMAT, saveFile);
+            ret = ImageIO.write(ImageUtil.screenshotComponent(frame), Extension.PNG.getExtension(), saveFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

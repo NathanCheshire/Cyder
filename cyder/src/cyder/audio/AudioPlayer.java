@@ -12,6 +12,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.enums.Dynamic;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
@@ -141,7 +142,7 @@ public final class AudioPlayer {
     /**
      * The format of the waveform image to export.
      */
-    private static final String WAVEFORM_EXPORT_FORMAT = ImageUtil.PNG_FORMAT;
+    private static final String WAVEFORM_EXPORT_FORMAT = Extension.PNG.getExtension();
 
     /**
      * The default text to display for the audio title label.
@@ -892,9 +893,9 @@ public final class AudioPlayer {
             return;
         }
 
-        if (FileUtil.validateExtension(currentAudioFile.get(), ".wav")) {
+        if (FileUtil.validateExtension(currentAudioFile.get(), Extension.WAV.getExtension())) {
             audioPlayerFrame.notify("This file is already a wav");
-        } else if (FileUtil.validateExtension(currentAudioFile.get(), ".mp3")) {
+        } else if (FileUtil.validateExtension(currentAudioFile.get(), Extension.MP3.getExtension())) {
             CyderThreadRunner.submit(() -> {
                 Future<Optional<File>> wavConvertedFile = AudioUtil.mp3ToWav(currentAudioFile.get());
 
@@ -913,7 +914,7 @@ public final class AudioPlayer {
                                 Dynamic.USERS.getDirectoryName(),
                                 Console.INSTANCE.getUuid(),
                                 UserFile.MUSIC.getName(),
-                                FileUtil.getFilename(wavConvertedFile.get().get()) + ".wav");
+                                FileUtil.getFilename(wavConvertedFile.get().get()) + Extension.WAV.getExtension());
 
                         Files.copy(Paths.get(wavConvertedFile.get().get().getAbsolutePath()),
                                 Paths.get(moveTo.getAbsolutePath()));
@@ -941,9 +942,9 @@ public final class AudioPlayer {
             return;
         }
 
-        if (FileUtil.validateExtension(currentAudioFile.get(), ".mp3")) {
+        if (FileUtil.validateExtension(currentAudioFile.get(), Extension.MP3.getExtension())) {
             audioPlayerFrame.notify("This file is already an mp3");
-        } else if (FileUtil.validateExtension(currentAudioFile.get(), ".wav")) {
+        } else if (FileUtil.validateExtension(currentAudioFile.get(), Extension.WAV.getExtension())) {
             CyderThreadRunner.submit(() -> {
                 Future<Optional<File>> mp3ConvertedFile = AudioUtil.wavToMp3(currentAudioFile.get());
 
@@ -962,7 +963,7 @@ public final class AudioPlayer {
                                 Dynamic.USERS.getDirectoryName(),
                                 Console.INSTANCE.getUuid(),
                                 UserFile.MUSIC.getName(),
-                                FileUtil.getFilename(mp3ConvertedFile.get().get()) + ".mp3");
+                                FileUtil.getFilename(mp3ConvertedFile.get().get()) + Extension.MP3.getExtension());
 
                         Files.copy(Paths.get(mp3ConvertedFile.get().get().getAbsolutePath()),
                                 Paths.get(moveTo.getAbsolutePath()));
@@ -1469,9 +1470,9 @@ public final class AudioPlayer {
         }
 
         File albumArtFilePng = OsUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
-                name + "." + ImageUtil.PNG_FORMAT);
+                name + Extension.PNG.getExtension());
         File albumArtFileJpg = OsUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
-                name + "." + ImageUtil.JPG_FORMAT);
+                name + Extension.JPG.getExtension());
 
         ImageIcon customAlbumArt = null;
 

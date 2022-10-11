@@ -5,6 +5,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.Dynamic;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.AngleUtil;
@@ -36,21 +37,6 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 @SuppressWarnings("unused") /* jpg formats */
 public final class ImageUtil {
-    /**
-     * The extension for png images.
-     */
-    public static final String PNG_FORMAT = "png";
-
-    /**
-     * The extension for jpg images.
-     */
-    public static final String JPG_FORMAT = "jpg";
-
-    /**
-     * The extension for jpeg images.
-     */
-    public static final String JPEG_FORMAT = "jpeg";
-
     /**
      * Suppress default constructor.
      */
@@ -1152,8 +1138,8 @@ public final class ImageUtil {
 
         try {
             File tmpDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName(),
-                    saveName + "." + PNG_FORMAT);
-            ImageIO.write(bi, PNG_FORMAT, tmpDir);
+                    saveName + Extension.PNG.getExtension());
+            ImageIO.write(bi, Extension.PNG.getExtension(), tmpDir);
             return true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);

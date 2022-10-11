@@ -1,7 +1,6 @@
 package cyder.genesis.subroutines;
 
 import cyder.constants.CyderStrings;
-import cyder.enums.IgnoreThread;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
@@ -9,6 +8,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
+import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
 import cyder.user.UserUtil;
 import cyder.utils.FileUtil;

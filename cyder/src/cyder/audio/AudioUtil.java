@@ -5,11 +5,13 @@ import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
 import cyder.process.ProcessResult;
 import cyder.process.ProcessUtil;
+import cyder.process.Program;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.ThreadUtil;
 import cyder.user.UserFile;
@@ -333,7 +335,7 @@ public final class AudioUtil {
         }
 
         // finally check dynamic/exes to see if an ffmpeg binary exists there
-        return OsUtil.isBinaryInExes(FFMPEG + EXE_EXTENSION);
+        return OsUtil.isBinaryInExes(FFMPEG + Extension.EXE.getExtension());
     }
 
     /**
@@ -350,7 +352,7 @@ public final class AudioUtil {
         }
 
         // finally check dynamic/exes to see if a youtube-dl binary exists there
-        return OsUtil.isBinaryInExes(YOUTUBE_DL + EXE_EXTENSION);
+        return OsUtil.isBinaryInExes(YOUTUBE_DL + Extension.EXE.getExtension());
     }
 
     /**
@@ -359,7 +361,7 @@ public final class AudioUtil {
      * @return whether ffprobe is installed
      */
     public static boolean ffprobeInstalled() {
-        return OsUtil.isBinaryInstalled(FFPROBE) || OsUtil.isBinaryInExes(FFPROBE + EXE_EXTENSION);
+        return OsUtil.isBinaryInstalled(FFPROBE) || OsUtil.isBinaryInExes(FFPROBE + Extension.EXE.getExtension());
     }
 
     /**
@@ -372,7 +374,7 @@ public final class AudioUtil {
         Preconditions.checkArgument(ffmpegInstalled());
 
         return OsUtil.isBinaryInstalled(FFMPEG) ? FFMPEG : OsUtil.buildPath(Dynamic.PATH,
-                Dynamic.EXES.getDirectoryName(), FFMPEG + EXE_EXTENSION);
+                Dynamic.EXES.getDirectoryName(), FFMPEG + Extension.EXE.getExtension());
     }
 
     /**
@@ -386,7 +388,7 @@ public final class AudioUtil {
 
         return OsUtil.isBinaryInstalled(YOUTUBE_DL)
                 ? YOUTUBE_DL : OsUtil.buildPath(Dynamic.PATH,
-                Dynamic.EXES.getDirectoryName(), YOUTUBE_DL + EXE_EXTENSION);
+                Dynamic.EXES.getDirectoryName(), YOUTUBE_DL + Extension.EXE.getExtension());
     }
 
     /**
@@ -401,7 +403,7 @@ public final class AudioUtil {
             return FFPROBE;
         } else {
             return OsUtil.buildPath(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), FFPROBE + EXE_EXTENSION);
+                    Dynamic.EXES.getDirectoryName(), FFPROBE + Extension.EXE.getExtension());
         }
     }
 
@@ -429,11 +431,12 @@ public final class AudioUtil {
 
             ArrayList<PairedFile> downloadZips = new ArrayList<>();
             downloadZips.add(new PairedFile(OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), FFMPEG + ZIP_EXTENSION), DOWNLOAD_RESOURCE_FFMPEG));
+                    Dynamic.EXES.getDirectoryName(), FFMPEG + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFMPEG));
             downloadZips.add(new PairedFile(OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), FFPROBE + ZIP_EXTENSION), DOWNLOAD_RESOURCE_FFPROBE));
+                    Dynamic.EXES.getDirectoryName(), FFPROBE + Extension.ZIP.getExtension()),
+                    DOWNLOAD_RESOURCE_FFPROBE));
             downloadZips.add(new PairedFile(OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), FFPLAY + ZIP_EXTENSION), DOWNLOAD_RESOURCE_FFPLAY));
+                    Dynamic.EXES.getDirectoryName(), FFPLAY + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFPLAY));
 
             for (PairedFile pairedZipFile : downloadZips) {
                 NetworkUtil.downloadResource(pairedZipFile.url, pairedZipFile.file);
@@ -452,11 +455,11 @@ public final class AudioUtil {
 
             ArrayList<File> resultingFiles = new ArrayList<>();
             resultingFiles.add(OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), FFMPEG + EXE_EXTENSION));
+                    Dynamic.EXES.getDirectoryName(), FFMPEG + Extension.EXE.getExtension()));
             resultingFiles.add(OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), FFPROBE + EXE_EXTENSION));
+                    Dynamic.EXES.getDirectoryName(), FFPROBE + Extension.EXE.getExtension()));
             resultingFiles.add(OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), FFPLAY + EXE_EXTENSION));
+                    Dynamic.EXES.getDirectoryName(), FFPLAY + Extension.EXE.getExtension()));
 
             boolean ret = true;
 
@@ -467,16 +470,6 @@ public final class AudioUtil {
             return ret;
         });
     }
-
-    /**
-     * A zip file extension.
-     */
-    private static final String ZIP_EXTENSION = ".zip";
-
-    /**
-     * An exe file extension.
-     */
-    private static final String EXE_EXTENSION = ".exe";
 
     /**
      * The name of the thread that downloads youtube-dl if missing and needed.
@@ -493,7 +486,7 @@ public final class AudioUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(YOUTUBE_DL_DOWNLOADER_THREAD_NAME)).submit(() -> {
             File downloadZip = OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), YOUTUBE_DL + ZIP_EXTENSION);
+                    Dynamic.EXES.getDirectoryName(), YOUTUBE_DL + Extension.ZIP.getExtension());
 
             NetworkUtil.downloadResource(DOWNLOAD_RESOURCE_YOUTUBE_DL, downloadZip);
 
@@ -507,24 +500,13 @@ public final class AudioUtil {
             OsUtil.deleteFile(downloadZip);
 
             return OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), YOUTUBE_DL + EXE_EXTENSION).exists();
+                    Dynamic.EXES.getDirectoryName(), YOUTUBE_DL + Extension.EXE.getExtension()).exists();
         });
     }
 
     // todo subroutine for installing these on startup
-
     // todo this class could be cleaner
-
-    // todo extensions enum
-    // todo move enums to other packages where it makes sense
-    // todo programs enum, PIP, FFMPEG, FFPROBE, YOUTUBE_DL, PYTHON, etc.
-
     // todo blur still requires conversion to not use old backend
-
-    /**
-     * The python binary invocation string.
-     */
-    private static final String PYTHON = "python";
 
     /**
      * A space character.
@@ -561,11 +543,11 @@ public final class AudioUtil {
     public static int getMillisFast(File audioFile) {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
-        Preconditions.checkArgument(OsUtil.isBinaryInstalled(PYTHON));
+        Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
 
         String functionsScriptPath = StaticUtil.getStaticPath(PYTHON_FUNCTIONS_SCRIPT_NAME);
-        String command = PYTHON + SPACE + functionsScriptPath + AUDIO_LENGTH
-                + SPACE + QUOTE + audioFile.getAbsolutePath() + QUOTE;
+        String command = Program.PYTHON.getProgramName() + SPACE + functionsScriptPath
+                + SPACE + AUDIO_LENGTH + SPACE + QUOTE + audioFile.getAbsolutePath() + QUOTE;
 
         Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
         while (!futureResult.isDone()) {

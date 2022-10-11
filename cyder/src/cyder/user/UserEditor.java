@@ -13,6 +13,7 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
@@ -533,7 +534,7 @@ public final class UserEditor {
                 if (renameMe != null) {
                     String namePart = proposedName.split("\\.")[0];
                     File newAlbumArtFile = OsUtil.buildFile(renameMe.getParentFile().getAbsolutePath(),
-                            namePart + "." + ImageUtil.PNG_FORMAT);
+                            namePart + Extension.PNG.getExtension());
                     if (!renameMe.renameTo(newAlbumArtFile)) {
                         Console.INSTANCE.getInputHandler().println("Failed to rename album art: "
                                 + FileUtil.getFilename(renameMe));

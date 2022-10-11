@@ -7,6 +7,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.enums.Dynamic;
+import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -293,7 +294,7 @@ public final class ImageAveragerWidget {
         BufferedImage saveImage = computerAverage(width.get(), height.get());
         ImageIcon previewImage = ImageUtil.resizeIfLengthExceeded(new ImageIcon(saveImage), maxImageLength);
 
-        String saveImageName = combineImageNames() + "." + ImageUtil.PNG_FORMAT;
+        String saveImageName = combineImageNames() + Extension.PNG.getExtension();
         File outputFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(), saveImageName);
 
@@ -331,7 +332,7 @@ public final class ImageAveragerWidget {
         Preconditions.checkNotNull(outputFile);
 
         try {
-            ImageIO.write(saveImage, ImageUtil.PNG_FORMAT, outputFile);
+            ImageIO.write(saveImage, Extension.PNG.getExtension(), outputFile);
             return true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
