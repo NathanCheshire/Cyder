@@ -1,8 +1,8 @@
 package cyder.test;
 
-import cyder.audio.AudioUtil;
 import cyder.constants.CyderRegexPatterns;
 import cyder.math.AngleUtil;
+import cyder.time.TimeUtil;
 import cyder.utils.*;
 import cyder.weather.WeatherWidget;
 import cyder.youtube.YoutubeUtil;
@@ -205,17 +205,17 @@ public class UnitTests {
 
     @Test
     public void testFormatSeconds() {
-        assertEquals(AudioUtil.formatSeconds(0), "0s");
-        assertEquals(AudioUtil.formatSeconds(30), "30s");
-        assertEquals(AudioUtil.formatSeconds(59), "59s");
-        assertEquals(AudioUtil.formatSeconds(60), "1m");
-        assertEquals(AudioUtil.formatSeconds(61), "1m 1s");
-        assertEquals(AudioUtil.formatSeconds(120), "2m");
-        assertEquals(AudioUtil.formatSeconds(121), "2m 1s");
-        assertEquals(AudioUtil.formatSeconds(3599), "59m 59s");
-        assertEquals(AudioUtil.formatSeconds(3600), "1h");
-        assertEquals(AudioUtil.formatSeconds(3601), "1h 1s");
-        assertEquals(AudioUtil.formatSeconds(3661), "1h 1m 1s");
+        assertEquals(TimeUtil.formatMillis(0), "0ms");
+        assertEquals(TimeUtil.formatMillis(30000), "30s");
+        assertEquals(TimeUtil.formatMillis(59000), "59s");
+        assertEquals(TimeUtil.formatMillis(60000), "1m");
+        assertEquals(TimeUtil.formatMillis(61000), "1m 1s");
+        assertEquals(TimeUtil.formatMillis(120000), "2m");
+        assertEquals(TimeUtil.formatMillis(121000), "2m 1s");
+        assertEquals(TimeUtil.formatMillis(3599000), "59m 59s");
+        assertEquals(TimeUtil.formatMillis(3600000), "1h");
+        assertEquals(TimeUtil.formatMillis(3601000), "1h 1s");
+        assertEquals(TimeUtil.formatMillis(3661000), "1h 1m 1s");
     }
 
     @Test

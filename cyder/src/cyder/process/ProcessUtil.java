@@ -1,11 +1,12 @@
-package cyder.utils;
+package cyder.process;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
+import cyder.utils.OsUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -25,55 +26,12 @@ public final class ProcessUtil {
     }
 
     /**
-     * The result of a {@link #getProcessOutput(String) invocation}.
-     */
-    public static class ProcessResult {
-        /**
-         * The standard output of the process.
-         */
-        private final ImmutableList<String> standardOutput;
-
-        /**
-         * The error output of the process.
-         */
-        private final ImmutableList<String> errorOutput;
-
-        /**
-         * Constructs a new process result.
-         *
-         * @param standardOutput the standard output
-         * @param errorOutput    the error output
-         */
-        public ProcessResult(ArrayList<String> standardOutput, ArrayList<String> errorOutput) {
-            this.standardOutput = ImmutableList.copyOf(standardOutput);
-            this.errorOutput = ImmutableList.copyOf(errorOutput);
-        }
-
-        /**
-         * Returns the standard output of the process.
-         *
-         * @return the standard output of the process
-         */
-        public ImmutableList<String> getStandardOutput() {
-            return standardOutput;
-        }
-
-        /**
-         * Returns the error output of the process.
-         *
-         * @return the error output of the process
-         */
-        public ImmutableList<String> getErrorOutput() {
-            return errorOutput;
-        }
-    }
-
-    /**
      * Returns the output as a result of the running the provided command using a {@link Process}.
      *
      * @param command the command to run
      * @return the process result
      */
+    @CanIgnoreReturnValue
     public static Future<ProcessResult> getProcessOutput(String command) {
         Preconditions.checkNotNull(command);
         Preconditions.checkArgument(!command.isEmpty());
@@ -103,5 +61,19 @@ public final class ProcessUtil {
 
             return new ProcessResult(standardOutput, errorOutput);
         });
+    }
+
+    /**
+     * Installs the provided python pip dependency.
+     *
+     * @param packageName the pip dependency to install.
+     */
+    public static void installPipDependency(String packageName) {
+        Preconditions.checkNotNull(packageName);
+        Preconditions.checkArgument(!packageName.isEmpty());
+        Preconditions.checkArgument(OsUtil.isBinaryInstalled("python"));
+        Preconditions.checkArgument(OsUtil.isBinaryInstalled("pip"));
+
+        getProcessOutput("pip install " + packageName);
     }
 }

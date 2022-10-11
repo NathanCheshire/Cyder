@@ -2,6 +2,7 @@ package cyder.audio;
 
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
+import cyder.time.TimeUtil;
 import cyder.user.UserUtil;
 import cyder.utils.FileUtil;
 
@@ -204,13 +205,13 @@ public class AudioLocationUpdater {
         }
 
         lastSecondsIn = secondsIn;
+        secondsInLabel.setText(TimeUtil.formatMillis(secondsIn * 1000L));
 
-        secondsInLabel.setText(AudioUtil.formatSeconds(secondsIn));
-
-        if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
-            secondsLeftLabel.setText(AudioUtil.formatSeconds((int) Math.round(totalMilliSeconds / 1000.0)));
+        boolean totalLength = UserUtil.getCyderUser().getAudiolength().equals("1");
+        if (totalLength) {
+            secondsLeftLabel.setText(TimeUtil.formatMillis(Math.round(totalMilliSeconds)));
         } else {
-            secondsLeftLabel.setText(AudioUtil.formatSeconds(secondsLeft));
+            secondsLeftLabel.setText(TimeUtil.formatMillis(secondsLeft * 1000L));
         }
     }
 

@@ -5,8 +5,9 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
+import cyder.process.ProcessResult;
+import cyder.process.ProcessUtil;
 import cyder.threads.CyderThreadFactory;
-import cyder.utils.ProcessUtil;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -66,12 +67,12 @@ public final class UsbUtil {
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(USB_DEVICE_THREAD_NAME)).submit(() -> {
-            Future<ProcessUtil.ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
+            Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
             while (!futureResult.isDone()) {
                 Thread.onSpinWait();
             }
 
-            ProcessUtil.ProcessResult result = futureResult.get();
+            ProcessResult result = futureResult.get();
 
             if (!result.getErrorOutput().isEmpty()) {
                 throw new FatalException("Exception whilst trying to query USB devices");
