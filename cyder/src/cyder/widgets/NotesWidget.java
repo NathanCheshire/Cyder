@@ -30,6 +30,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -202,6 +204,21 @@ public final class NotesWidget {
     private static File currentNoteFile;
 
     /**
+     * The confirmation message to display when a user attempts to close the frame when there are pending changes.
+     */
+    private static final String closingConfirmationMessage = "You have unsaved changes, are you sure you wish to exit?";
+
+    /**
+     * Whether the current note has unsaved changes.
+     */
+    private static boolean unsavedChanges = false;
+
+    /**
+     * The notification text to display when a note is saved.
+     */
+    private static final String SAVED_NOTE = "Saved note";
+
+    /**
      * Suppress default constructor.
      */
     private NotesWidget() {
@@ -210,7 +227,7 @@ public final class NotesWidget {
 
     @Widget(triggers = {"note", "notes"}, description = description)
     public static void showGui() {
-        if (Console.INSTANCE.getUuid() == null) return;
+        Preconditions.checkNotNull(Console.INSTANCE.getUuid());
         UiUtil.closeIfOpen(noteFrame);
         noteFrame = new CyderFrame(defaultFrameWidth, defaultFrameHeight);
         setupView(View.LIST);
@@ -238,6 +255,8 @@ public final class NotesWidget {
      */
     private static void setupListView() {
         refreshNotesList();
+
+        currentNoteFile = null;
 
         framePartitionedLayout = new CyderPartitionedLayout();
 
@@ -413,6 +432,13 @@ public final class NotesWidget {
         noteFrame.repaint();
 
         editNoteNameField = new CyderTextField();
+        editNoteNameField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                refreshUnsavedChanges();
+            }
+        });
         editNoteNameField.setFont(noteNameFieldFont);
         editNoteNameField.setForeground(CyderColors.navy);
         editNoteNameField.setCaret(new CyderCaret(CyderColors.navy));
@@ -422,7 +448,17 @@ public final class NotesWidget {
         editNoteNameField.setBorder(noteNameFieldBorder);
         editNoteNameField.setText(FileUtil.getFilename(currentNoteFile));
 
+        // todo delay save button by 500ms
+
+        // todo apply to other area and extract to function?
         noteEditArea = new JTextPane();
+        noteEditArea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                refreshUnsavedChanges();
+            }
+        });
         noteEditArea.setText(getCurrentNoteContents());
         noteEditArea.setSize(noteScrollLength, noteScrollHeight);
         noteEditArea.setBackground(CyderColors.vanilla);
@@ -512,6 +548,8 @@ public final class NotesWidget {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentNoteFile))) {
             writer.write(contents);
+            noteFrame.notify(SAVED_NOTE);
+            setUnsavedChanges(false);
         } catch (Exception exception) {
             ExceptionHandler.handle(exception);
         }
@@ -622,5 +660,31 @@ public final class NotesWidget {
 
         Arrays.stream(noteFiles).filter(noteFile ->
                 FileUtil.getExtension(noteFile).equals(Extension.TXT.getExtension())).forEach(notesList::add);
+    }
+
+    /**
+     * Refreshes the state of {@link #unsavedChanges}.
+     */
+    private static void refreshUnsavedChanges() {
+        boolean filenameDifferent = !FileUtil.getFilename(currentNoteFile).equals(editNoteNameField.getText());
+        boolean contentsDifferent = !getCurrentNoteContents().equals(noteEditArea.getText());
+        setUnsavedChanges(contentsDifferent || filenameDifferent);
+    }
+
+    /**
+     * Sets whether there are unsaved changes in the current note or note being created and thus
+     * whether a closing confirmation should be displayed if the frame is attempted to be disposed.
+     *
+     * @param newUnsavedChangesValue whether there are unsaved changes.
+     */
+    private static void setUnsavedChanges(boolean newUnsavedChangesValue) {
+        if (unsavedChanges == newUnsavedChangesValue) return;
+        unsavedChanges = newUnsavedChangesValue;
+
+        if (newUnsavedChangesValue) {
+            noteFrame.setClosingConfirmation(closingConfirmationMessage);
+        } else {
+            noteFrame.removeClosingConfirmation();
+        }
     }
 }

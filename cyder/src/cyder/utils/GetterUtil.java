@@ -187,6 +187,9 @@ public class GetterUtil {
                 inputFrame.addPreCloseAction(() -> getStringFrames.remove(inputFrame));
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 inputFrame.setTitle(builder.getTitle());
+                if (builder.getOnDialogDisposalRunnable() != null) {
+                    inputFrame.addPostCloseAction(builder.getOnDialogDisposalRunnable());
+                }
 
                 int yOff = CyderDragLabel.DEFAULT_HEIGHT + GET_STRING_Y_PADDING;
                 CyderLabel textLabel = new CyderLabel(builder.getLabelText());
@@ -237,7 +240,13 @@ public class GetterUtil {
                 Component relativeTo = builder.getRelativeTo();
                 if (relativeTo != null && builder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
-                    inputFrame.addWindowListener(generateEnableComponentOnWindowCloseWindowAdapter(relativeTo));
+                    inputFrame.addPostCloseAction(() -> {
+                        boolean onTop = false;
+                        if (relativeTo instanceof Frame aFrame) onTop = aFrame.isAlwaysOnTop();
+                        relativeTo.setEnabled(true);
+                        if (relativeTo instanceof Frame aFrame) aFrame.setAlwaysOnTop(true);
+                        if (relativeTo instanceof Frame aFrame) aFrame.setAlwaysOnTop(onTop);
+                    });
                 }
 
                 inputFrame.setLocationRelativeTo(relativeTo);
@@ -256,16 +265,6 @@ public class GetterUtil {
         }
 
         return returnString.get();
-    }
-
-    @ForReadability
-    private WindowAdapter generateEnableComponentOnWindowCloseWindowAdapter(Component frame) {
-        return new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                frame.setEnabled(true);
-            }
-        };
     }
 
     @ForReadability
@@ -431,6 +430,9 @@ public class GetterUtil {
                 CyderFrame directoryFrame = directoryFrameReference.get();
                 directoryFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 directoryFrame.addPreCloseAction(() -> getFileFrames.remove(directoryFrame));
+                if (builder.getOnDialogDisposalRunnable() != null) {
+                    directoryFrame.addPostCloseAction(builder.getOnDialogDisposalRunnable());
+                }
 
                 directoryFrame.setTitle(INITIAL_DIRECTORY_FRAME_TITLE);
 
@@ -510,10 +512,15 @@ public class GetterUtil {
                 directoryFrame.getContentPane().add(tempLabel);
 
                 Component relativeTo = builder.getRelativeTo();
-
                 if (relativeTo != null && builder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
-                    directoryFrame.addWindowListener(generateEnableComponentOnWindowCloseWindowAdapter(relativeTo));
+                    directoryFrame.addPostCloseAction(() -> {
+                        boolean onTop = false;
+                        if (relativeTo instanceof Frame aFrame) onTop = aFrame.isAlwaysOnTop();
+                        relativeTo.setEnabled(true);
+                        if (relativeTo instanceof Frame aFrame) aFrame.setAlwaysOnTop(true);
+                        if (relativeTo instanceof Frame aFrame) aFrame.setAlwaysOnTop(onTop);
+                    });
                 }
 
                 directoryFrame.setLocationRelativeTo(relativeTo);
@@ -721,6 +728,9 @@ public class GetterUtil {
                 CyderFrame frame = new CyderFrame(frameWidth, frameHeight, CyderIcons.defaultBackgroundLarge);
                 getConfirmationFrames.add(frame);
                 frameReference.set(frame);
+                if (builder.getOnDialogDisposalRunnable() != null) {
+                    frame.addPostCloseAction(builder.getOnDialogDisposalRunnable());
+                }
 
                 frame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 frame.setTitle(builder.getTitle());
@@ -757,11 +767,13 @@ public class GetterUtil {
                 Component relativeTo = builder.getRelativeTo();
                 if (relativeTo != null && builder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
-                    frame.addWindowListener(new WindowAdapter() {
-                        @Override
-                        public void windowClosed(WindowEvent e) {
-                            relativeTo.setEnabled(true);
-                        }
+                    // todo clean these up
+                    frame.addPostCloseAction(() -> {
+                        boolean onTop = false;
+                        if (relativeTo instanceof Frame aFrame) onTop = aFrame.isAlwaysOnTop();
+                        relativeTo.setEnabled(true);
+                        if (relativeTo instanceof Frame aFrame) aFrame.setAlwaysOnTop(true);
+                        if (relativeTo instanceof Frame aFrame) aFrame.setAlwaysOnTop(onTop);
                     });
                 }
 
@@ -795,6 +807,11 @@ public class GetterUtil {
      * A builder for a getter frame.
      */
     public static class Builder {
+        /**
+         * The minimum text length of a getter frame title.
+         */
+        public static final int MINIMUM_TITLE_LENGTH = 3;
+
         /**
          * The title of the frame.
          */
@@ -852,9 +869,9 @@ public class GetterUtil {
         private boolean disableRelativeTo;
 
         /**
-         * The minimum text length of a getter frame title.
+         * The runnable to invoke when the dialog is disposed.
          */
-        public static final int MINIMUM_TITLE_LENGTH = 3;
+        private Runnable onDialogDisposalRunnable;
 
         /**
          * Constructs a new GetterBuilder.
@@ -1087,6 +1104,27 @@ public class GetterUtil {
         @CanIgnoreReturnValue
         public Builder setDisableRelativeTo(boolean disableRelativeTo) {
             this.disableRelativeTo = disableRelativeTo;
+            return this;
+        }
+
+        /**
+         * Returns the runnable to invoke when the dialog is disposed.
+         *
+         * @return the runnable to invoke when the dialog is disposed
+         */
+        public Runnable getOnDialogDisposalRunnable() {
+            return onDialogDisposalRunnable;
+        }
+
+        /**
+         * Sets the runnable to invoke when the dialog is disposed.
+         *
+         * @param onDialogDisposalRunnable the runnable to invoke when the dialog is disposed
+         * @return this builder
+         */
+        @CanIgnoreReturnValue
+        public Builder setOnDialogDisposalRunnable(Runnable onDialogDisposalRunnable) {
+            this.onDialogDisposalRunnable = onDialogDisposalRunnable;
             return this;
         }
     }

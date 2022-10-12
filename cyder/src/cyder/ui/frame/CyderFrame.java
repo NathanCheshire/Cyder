@@ -16,6 +16,7 @@ import cyder.handlers.internal.LoginHandler;
 import cyder.layouts.CyderLayout;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.math.AngleUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
@@ -1492,11 +1493,10 @@ public class CyderFrame extends JFrame {
      * @param fastClose whether to animate the frame away or immediately dispose the frame
      */
     public void dispose(boolean fastClose) {
+        String threadName = "[" + getTitle() + "] dispose() animation thread";
         CyderThreadRunner.submit(() -> {
             try {
-                if (disposed) {
-                    return;
-                }
+                if (disposed) return;
 
                 if (closingConfirmationMessage != null) {
                     boolean exit = GetterUtil.getInstance().getConfirmation(
@@ -1505,9 +1505,7 @@ public class CyderFrame extends JFrame {
                                     .setRelativeTo(this)
                                     .setDisableRelativeTo(true));
 
-                    if (!exit) {
-                        return;
-                    }
+                    if (!exit) return;
                 }
 
                 disposed = true;
@@ -1515,20 +1513,16 @@ public class CyderFrame extends JFrame {
                 Logger.log(LogTag.UI_ACTION, "CyderFrame disposed with fastclose="
                         + fastClose + ", getTitle=" + getTitle());
 
-                for (Runnable action : preCloseActions) {
-                    action.run();
-                }
+                preCloseActions.forEach(Runnable::run);
+                if (currentNotification != null) currentNotification.kill();
 
-                if (currentNotification != null) {
-                    currentNotification.kill();
-                }
 
                 killThreads();
                 disableDragging();
                 setDisableContentRepainting(true);
 
-                if (isVisible() && (!fastClose && !shouldFastClose)
-                        && UserUtil.getCyderUser().getDoAnimations().equals("1")) {
+                boolean closingAnimation = UserUtil.getCyderUser().getDoAnimations().equals("1");
+                if (isVisible() && (!fastClose && !shouldFastClose) && closingAnimation) {
                     Point point = getLocationOnScreen();
                     int x = (int) point.getX();
                     int y = (int) point.getY();
@@ -1551,15 +1545,12 @@ public class CyderFrame extends JFrame {
                 Console.INSTANCE.removeFrameTaskbarException(this);
 
                 super.dispose();
-
-                for (Runnable action : postCloseActions) {
-                    action.run();
-                }
+                postCloseActions.forEach(Runnable::run);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 super.dispose();
             }
-        }, "[" + getTitle() + "] dispose() animation thread");
+        }, threadName);
     }
 
     /**
@@ -1583,14 +1574,14 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    // -----------
-    // dancing
-    // -----------
+    // -------
+    // Dancing
+    // -------
 
     /**
      * The directions for frame dancing.
      */
-    public enum DancingDirection {
+    private enum DancingDirection {
         INITIAL_UP, LEFT, DOWN, RIGHT, UP
     }
 
@@ -1633,6 +1624,9 @@ public class CyderFrame extends JFrame {
         this.dancingFinished = dancingFinished;
     }
 
+    /**
+     * The increment in pixels a singular dance steps takes.
+     */
     private static final int dancingIncrement = 10;
 
     /**
@@ -1720,7 +1714,7 @@ public class CyderFrame extends JFrame {
         CyderThreadRunner.submit(() -> {
             float angle = 0.0f;
 
-            for (int i = 0 ; i < 360 ; i += BARREL_ROLL_DELTA) {
+            for (int i = 0 ; i < (int) AngleUtil.THREE_SIXTY_DEGREES ; i += BARREL_ROLL_DELTA) {
                 BufferedImage rotated = ImageUtil.rotateImage(master, angle);
                 ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
 
@@ -1739,9 +1733,7 @@ public class CyderFrame extends JFrame {
      * Revalidates the title position.
      */
     public void revalidateTitlePosition() {
-        if (topDrag == null) {
-            return;
-        }
+        if (topDrag == null) return;
 
         int leftButtonSize = topDrag.getLeftButtonList().size();
         int rightButtonSize = topDrag.getRightButtonList().size();
@@ -1796,6 +1788,8 @@ public class CyderFrame extends JFrame {
      * {@link CyderFrame#generateBorderlessFrame(int, int, Color)}.
      */
     private void repaintBorderlessFrame() {
+        Preconditions.checkState(isBorderlessFrame());
+
         if (getContentPane() != null) {
             getContentPane().repaint();
         }
@@ -2596,6 +2590,9 @@ public class CyderFrame extends JFrame {
      * @param message the message to display to the user
      */
     public void setClosingConfirmation(String message) {
+        Preconditions.checkNotNull(message);
+        Preconditions.checkArgument(!message.isEmpty());
+
         closingConfirmationMessage = message;
     }
 

@@ -504,9 +504,11 @@ public final class AudioUtil {
         });
     }
 
-    // todo subroutine for installing these on startup
-    // todo this class could be cleaner
-    // todo blur still requires conversion to not use old backend
+    // todo note frame itself needs actual closing confirmation if content is edited
+    // todo subroutine for installing python packages on startup
+    // todo AudioUtil could be cleaner
+    // todo blur still requires conversion to not use old backend, fix
+    // todo moving splash and positioning frame at disposed location doesn't work anymore
 
     /**
      * A space character.
