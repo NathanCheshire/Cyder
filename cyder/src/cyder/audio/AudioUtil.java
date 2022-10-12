@@ -504,7 +504,6 @@ public final class AudioUtil {
         });
     }
 
-    // todo note frame itself needs actual closing confirmation if content is edited
     // todo subroutine for installing python packages on startup
     // todo AudioUtil could be cleaner
     // todo blur still requires conversion to not use old backend, fix

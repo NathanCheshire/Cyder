@@ -42,6 +42,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * A note taking widget.
@@ -223,6 +224,16 @@ public final class NotesWidget {
      * The notification text to display when a note is saved.
      */
     private static final String SAVED_NOTE = "Saved note";
+
+    /**
+     * The last time the current note was saved at.
+     */
+    private static final AtomicLong lastSave = new AtomicLong();
+
+    /**
+     * The timeout between allowable note save actions.
+     */
+    private static final int SAVE_BUTTON_TIMEOUT = 500;
 
     /**
      * Suppress default constructor.
@@ -465,8 +476,6 @@ public final class NotesWidget {
         editNoteNameField.setBorder(noteNameFieldBorder);
         editNoteNameField.setText(FileUtil.getFilename(currentNoteFile));
 
-        // todo delay save button by 500ms
-
         noteEditArea = new JTextPane();
         noteEditArea.addKeyListener(getEditNoteKeyListener());
         noteEditArea.setText(getCurrentNoteContents());
@@ -494,6 +503,7 @@ public final class NotesWidget {
         CyderButton saveButton = new CyderButton(SAVE);
         saveButton.setSize(buttonSize);
         saveButton.addActionListener(e -> editNoteSaveButtonAction());
+        lastSave.set(System.currentTimeMillis());
 
         CyderButton backButton = new CyderButton(BACK);
         backButton.setSize(buttonSize);
@@ -539,6 +549,9 @@ public final class NotesWidget {
      * The actions to invoke when the save button on the edit note view is pressed.
      */
     private static void editNoteSaveButtonAction() {
+        if (System.currentTimeMillis() < lastSave.get() + SAVE_BUTTON_TIMEOUT) return;
+        lastSave.set(System.currentTimeMillis());
+
         String newFilename = editNoteNameField.getTrimmedText() + Extension.TXT.getExtension();
         if (!OsUtil.isValidFilename(newFilename)) {
             noteFrame.notify("Invalid filename: \"" + newFilename + "\"");
