@@ -10,7 +10,9 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.AngleUtil;
 import cyder.network.NetworkUtil;
-import cyder.parsers.local.BlurResponse;
+import cyder.process.ProcessResult;
+import cyder.process.ProcessUtil;
+import cyder.process.Program;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.frame.CyderFrame;
 
@@ -22,21 +24,23 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.PixelGrabber;
-import java.io.*;
-import java.net.HttpURLConnection;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Static utility methods revolving around Image manipulation.
  */
 @SuppressWarnings("unused") /* jpg formats */
 public final class ImageUtil {
+    /**
+     * The name of the thread which blurs an image.
+     */
+    private static final String GAUSSIAN_IMAGE_BLURER_THREAD_NAME = "Gaussian Image Blurer Thread";
+
     /**
      * Suppress default constructor.
      */
@@ -928,162 +932,64 @@ public final class ImageUtil {
     }
 
     /**
-     * The POST location for blurring an image.
+     * The name of the python functions script.
      */
-    private static final String IMAGE_BLUR_LOCATION = BackendUtil.constructPath("image", "blur");
+    private static final String PYTHON_FUNCTIONS_SCRIPT_NAME = "python_functions.py";
 
     /**
-     * The encoding used for a post to the backend.
+     * A space character.
      */
-    private static final Charset ENCODING = StandardCharsets.UTF_8;
+    private static final String SPACE = " ";
 
     /**
-     * A builder for a gaussian blur POST to the backend.
+     * A quote character.
      */
-    public static class GaussianBlurBuilder {
-        /**
-         * The image file to blur.
-         */
-        private File imageFile;
+    private static final String QUOTE = "\"";
 
-        /**
-         * The radius of the gaussian blur to apply
-         */
-        private int radius;
+    /**
+     * The blur command for the python Gaussian blur function script.
+     */
+    private static final String BLUR = "blur";
 
-        /**
-         * The directory to save the blurred image to.
-         */
-        private File saveDirectory;
-
-        /**
-         * Constructs a new GaussianBlurBuilder object.
-         *
-         * @param imageFile the image file to blur
-         * @param radius    the radius of the gaussian blur to apply
-         */
-        public GaussianBlurBuilder(File imageFile, int radius) {
-            this.imageFile = Preconditions.checkNotNull(imageFile);
-            this.radius = radius;
-        }
-
-        /**
-         * Returns the image file to blur.
-         *
-         * @return the image file to blur
-         */
-        public File getImageFile() {
-            return imageFile;
-        }
-
-        /**
-         * Sets the image file to blur.
-         *
-         * @param imageFile the image file to blur
-         * @return this builder
-         */
-        public GaussianBlurBuilder setImageFile(File imageFile) {
-            this.imageFile = Preconditions.checkNotNull(imageFile);
-            return this;
-        }
-
-        /**
-         * Returns the radius of the gaussian blur to apply.
-         *
-         * @return the radius of the gaussian blur to apply
-         */
-        public int getRadius() {
-            return radius;
-        }
-
-        /**
-         * Sets the radius of the gaussian blur to apply.
-         *
-         * @param radius the radius of the gaussian blur to apply
-         * @return this builder
-         */
-        public GaussianBlurBuilder setRadius(int radius) {
-            this.radius = radius;
-            return this;
-        }
-
-        /**
-         * Returns the directory to save the blurred image to.
-         *
-         * @return the directory to save the blurred image to
-         */
-        public File getSaveDirectory() {
-            return saveDirectory;
-        }
-
-        /**
-         * Sets the directory to save the blurred image to.
-         *
-         * @param saveDirectory the directory to save the blurred image to
-         * @return this builder
-         */
-        public GaussianBlurBuilder setSaveDirectory(File saveDirectory) {
-            this.saveDirectory = Preconditions.checkNotNull(saveDirectory);
-            return this;
-        }
-    }
+    /**
+     * The prefix of the blur process success output.
+     */
+    private static final String blurProcessReturnPrefix = "Blurred: ";
 
     /**
      * Returns the provided image file after applying a gaussian blur to it.
      *
-     * @param gaussianBlurBuilder the builder for the gaussian blur POST
+     * @param imageFile the image file to blur and output a blurred copy in the same directory
+     * @param radius    the radius of the Gaussian blur
      * @return the provided image file after applying a gaussian blur
      */
-    public static Future<Optional<File>> gaussianBlur(GaussianBlurBuilder gaussianBlurBuilder) {
-        Preconditions.checkNotNull(gaussianBlurBuilder.getImageFile());
-        Preconditions.checkArgument(gaussianBlurBuilder.getImageFile().exists());
-        Preconditions.checkArgument(gaussianBlurBuilder.getRadius() > 2);
-        Preconditions.checkArgument(gaussianBlurBuilder.getRadius() % 2 != 0);
-        Preconditions.checkArgument(OsUtil.isBinaryInstalled("python"));
-
-        String path = gaussianBlurBuilder.getImageFile()
-                .getAbsolutePath().replace("\\", "\\\\");
-
-        AtomicReference<String> data = new AtomicReference<>();
-
-        if (gaussianBlurBuilder.getSaveDirectory() != null) {
-            Preconditions.checkArgument(gaussianBlurBuilder.getSaveDirectory().exists());
-            Preconditions.checkArgument(gaussianBlurBuilder.getSaveDirectory().isDirectory());
-
-            data.set("{\"image\":\"" + path + "\",\"radius\":"
-                    + gaussianBlurBuilder.getRadius() + ",\"save_directory\":\""
-                    + gaussianBlurBuilder.getSaveDirectory().getAbsolutePath()
-                    .replace("\\", "\\\\") + "\"}");
-        } else {
-            data.set("{\"image\":\"" + path + "\",\"radius\":" + gaussianBlurBuilder.getRadius() + "}");
-        }
+    public static Future<Optional<File>> gaussianBlur(File imageFile, int radius) {
+        Preconditions.checkNotNull(imageFile);
+        Preconditions.checkArgument(imageFile.exists());
+        Preconditions.checkArgument(radius > 2);
+        Preconditions.checkArgument(radius % 2 != 0);
+        Preconditions.checkState(Program.PYTHON.isInstalled());
 
         return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory("Python Script Executor")).submit(() -> {
+                new CyderThreadFactory(GAUSSIAN_IMAGE_BLURER_THREAD_NAME)).submit(() -> {
+            String functionsScriptPath = StaticUtil.getStaticPath(PYTHON_FUNCTIONS_SCRIPT_NAME);
+            String command = Program.PYTHON.getProgramName() + SPACE + functionsScriptPath
+                    + SPACE + BLUR + SPACE + QUOTE + imageFile.getAbsolutePath() + QUOTE + SPACE + radius;
+
+            Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
+            while (!futureResult.isDone()) Thread.onSpinWait();
+
             try {
-                URL url = new URL(IMAGE_BLUR_LOCATION);
-
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("POST");
-                con.setRequestProperty("Content-Type", "application/json");
-                con.setRequestProperty("Accept", "application/json");
-                con.setDoOutput(true);
-
-                try (OutputStream os = con.getOutputStream()) {
-                    byte[] input = data.get().getBytes();
-                    os.write(input, 0, input.length);
-                }
-
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                        con.getInputStream(), ENCODING))) {
-                    StringBuilder response = new StringBuilder();
-                    String responseLine;
-
-                    while ((responseLine = br.readLine()) != null) {
-                        response.append(responseLine.trim());
+                ProcessResult result = futureResult.get();
+                if (!result.hasErrors()) {
+                    for (String line : result.getStandardOutput()) {
+                        if (line.startsWith(blurProcessReturnPrefix)) {
+                            String filePath = line.substring(blurProcessReturnPrefix.length()).trim();
+                            File ret = new File(filePath);
+                            if (ret.exists()) return Optional.of(ret);
+                            break;
+                        }
                     }
-
-                    return SerializationUtil.fromJson(response.toString(), BlurResponse.class).generateFileReference();
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -1116,8 +1022,9 @@ public final class ImageUtil {
             for (int y = 0 ; y < bi.getHeight() ; y++) {
                 int rgb = bi.getRGB(x, y);
                 int mc = (alpha << 24) | 0x00ffffff;
+                byte colorByte = (byte) (rgb & mc);
 
-                ret.setRGB(x, y, (byte) (rgb & mc));
+                ret.setRGB(x, y, colorByte);
             }
         }
 

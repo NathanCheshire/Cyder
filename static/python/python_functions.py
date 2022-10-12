@@ -49,9 +49,8 @@ if __name__ == '__main__':
     if command == "blur":
         image_path = args[2]
         radius = args[3]
-        print(image_path + "," + radius)
-        gaussian_blur(image_path, int(radius))
-        print("Blurred " + image_path)
+        save_as = gaussian_blur(image_path, int(radius))
+        print("Blurred: ", save_as)
     elif command == "audio_length":
         path = args[2]
         length = str(get_audio_length(path))

@@ -46,4 +46,13 @@ public class ProcessResult {
     public ImmutableList<String> getErrorOutput() {
         return errorOutput;
     }
+
+    /**
+     * Returns whether the error output contains strings.
+     *
+     * @return whether the error output contains strings
+     */
+    public boolean hasErrors() {
+        return !errorOutput.isEmpty();
+    }
 }
