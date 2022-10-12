@@ -32,6 +32,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -214,6 +215,11 @@ public final class NotesWidget {
     private static boolean unsavedChanges = false;
 
     /**
+     * Whether a new note being added has information that would be lost.
+     */
+    private static boolean newNoteContent = false;
+
+    /**
      * The notification text to display when a note is saved.
      */
     private static final String SAVED_NOTE = "Saved note";
@@ -302,6 +308,7 @@ public final class NotesWidget {
         noteFrame.repaint();
 
         newNoteNameField = new CyderTextField();
+        newNoteNameField.addKeyListener(getAddNoteKeyListener());
         newNoteNameField.setFont(noteNameFieldFont);
         newNoteNameField.setForeground(CyderColors.navy);
         newNoteNameField.setCaret(new CyderCaret(CyderColors.navy));
@@ -311,6 +318,7 @@ public final class NotesWidget {
         newNoteNameField.setBorder(noteNameFieldBorder);
 
         newNoteArea = new JTextPane();
+        newNoteArea.addKeyListener(getAddNoteKeyListener());
         newNoteArea.setSize(noteScrollLength, noteScrollHeight);
         newNoteArea.setBackground(CyderColors.vanilla);
         newNoteArea.setBorder(new LineBorder(CyderColors.navy, 5));
@@ -357,6 +365,21 @@ public final class NotesWidget {
         noteFrame.setCyderLayout(addNoteLayout);
         revalidateFrameTitle();
         noteFrame.repaint();
+    }
+
+    /**
+     * Returns a key listener for the add note name field and content area.
+     *
+     * @return a key listener for the add note name field and content area
+     */
+    private static KeyListener getAddNoteKeyListener() {
+        return new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                refreshNewNoteChanges();
+            }
+        };
     }
 
     /**
@@ -432,13 +455,7 @@ public final class NotesWidget {
         noteFrame.repaint();
 
         editNoteNameField = new CyderTextField();
-        editNoteNameField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyReleased(e);
-                refreshUnsavedChanges();
-            }
-        });
+        editNoteNameField.addKeyListener(getEditNoteKeyListener());
         editNoteNameField.setFont(noteNameFieldFont);
         editNoteNameField.setForeground(CyderColors.navy);
         editNoteNameField.setCaret(new CyderCaret(CyderColors.navy));
@@ -450,15 +467,8 @@ public final class NotesWidget {
 
         // todo delay save button by 500ms
 
-        // todo apply to other area and extract to function?
         noteEditArea = new JTextPane();
-        noteEditArea.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyReleased(e);
-                refreshUnsavedChanges();
-            }
-        });
+        noteEditArea.addKeyListener(getEditNoteKeyListener());
         noteEditArea.setText(getCurrentNoteContents());
         noteEditArea.setSize(noteScrollLength, noteScrollHeight);
         noteEditArea.setBackground(CyderColors.vanilla);
@@ -504,9 +514,25 @@ public final class NotesWidget {
         editNoteLayout.addComponentMaintainSize(buttonGridPanel);
         editNoteLayout.spacer(2);
 
+        refreshUnsavedChanges();
         noteFrame.setCyderLayout(editNoteLayout);
         revalidateFrameTitle();
         noteFrame.repaint();
+    }
+
+    /**
+     * Returns a key listener for the edit note name field and content area.
+     *
+     * @return a key listener for the edit note name field and content area
+     */
+    private static KeyListener getEditNoteKeyListener() {
+        return new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                refreshUnsavedChanges();
+            }
+        };
     }
 
     /**
@@ -672,6 +698,15 @@ public final class NotesWidget {
     }
 
     /**
+     * Refreshes the state of {@link #newNoteContent}.
+     */
+    private static void refreshNewNoteChanges() {
+        boolean filenameContents = !newNoteNameField.getTrimmedText().isEmpty();
+        boolean contents = !newNoteArea.getText().isEmpty();
+        setNewNoteContent(filenameContents || contents);
+    }
+
+    /**
      * Sets whether there are unsaved changes in the current note or note being created and thus
      * whether a closing confirmation should be displayed if the frame is attempted to be disposed.
      *
@@ -680,8 +715,27 @@ public final class NotesWidget {
     private static void setUnsavedChanges(boolean newUnsavedChangesValue) {
         if (unsavedChanges == newUnsavedChangesValue) return;
         unsavedChanges = newUnsavedChangesValue;
+        if (newNoteContent) return;
 
         if (newUnsavedChangesValue) {
+            noteFrame.setClosingConfirmation(closingConfirmationMessage);
+        } else {
+            noteFrame.removeClosingConfirmation();
+        }
+    }
+
+    /**
+     * Sets whether there is an unsaved note with contents that would be lost if the frame was disposed
+     * and thus whether a closing confirmation should be displayed if the frame is attempted to be disposed.
+     *
+     * @param newNoteContainsContent whether there is a new note present with unsaved changes
+     */
+    private static void setNewNoteContent(boolean newNoteContainsContent) {
+        if (newNoteContent == newNoteContainsContent) return;
+        newNoteContent = newNoteContainsContent;
+        if (unsavedChanges) return;
+
+        if (newNoteContainsContent) {
             noteFrame.setClosingConfirmation(closingConfirmationMessage);
         } else {
             noteFrame.removeClosingConfirmation();
