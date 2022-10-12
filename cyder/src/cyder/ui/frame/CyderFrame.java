@@ -1516,7 +1516,6 @@ public class CyderFrame extends JFrame {
                 preCloseActions.forEach(Runnable::run);
                 if (currentNotification != null) currentNotification.kill();
 
-
                 killThreads();
                 disableDragging();
                 setDisableContentRepainting(true);

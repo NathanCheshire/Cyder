@@ -1,5 +1,8 @@
 package cyder.process;
 
+import java.util.Optional;
+import java.util.concurrent.Future;
+
 /**
  * Python packages utilized by Cyder.
  */
@@ -37,5 +40,23 @@ public enum PythonPackage {
      */
     public void install() {
         ProcessUtil.installPipDependency(packageName);
+    }
+
+    /**
+     * Returns whether the python package is installed.
+     *
+     * @return whether the python package is installed
+     */
+    public Future<Boolean> isInstalled() {
+        return ProcessUtil.isPipDependencyPresent(packageName);
+    }
+
+    /**
+     * Returns the installed version of the python package.
+     *
+     * @return the installed version of the python package
+     */
+    public Future<Optional<String>> getInstalledVersion() {
+        return ProcessUtil.getPipDependencyVersion(packageName);
     }
 }

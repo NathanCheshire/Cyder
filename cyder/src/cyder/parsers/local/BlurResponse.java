@@ -8,8 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Optional;
 
-// todo local backend package
-
+// todo remove me
 /**
  * A POST response parser for a blur request.
  */
