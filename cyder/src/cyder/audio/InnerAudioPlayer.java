@@ -11,6 +11,7 @@ import javazoom.jl.player.Player;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.concurrent.Future;
 
 /**
  * An inner class for easily playing a single audio file
@@ -51,10 +52,29 @@ class InnerAudioPlayer {
     private long totalAudioLength;
 
     /**
+     * The total number of milliseconds in this audio file.
+     */
+    private int totalMilliSeconds = 0;
+
+    /**
+     * The name of the setup thread for getting the milliseconds of the audio file.
+     */
+    private static final String SETUP_THREAD_NAME = "InnerAudioPlayer Setup Thread";
+
+    /**
      * Performs necessary setup actions such as refreshing the title label.
      */
     private void setup() {
         AudioPlayer.refreshAudioTitleLabel();
+
+        CyderThreadRunner.submit(() -> {
+            try {
+                Future<Integer> futureTotalMilliSeconds = AudioUtil.getMillisFast(audioFile);
+                this.totalMilliSeconds = futureTotalMilliSeconds.get();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, SETUP_THREAD_NAME);
     }
 
     /**
@@ -218,7 +238,6 @@ class InnerAudioPlayer {
      * @return the milliseconds into the current audio this player object is
      */
     public long getMillisecondsIn() {
-        int totalMillis = AudioUtil.getMillisFast(audioFile);
-        return (long) (totalMillis * getPercentIn());
+        return (long) (totalMilliSeconds * getPercentIn());
     }
 }

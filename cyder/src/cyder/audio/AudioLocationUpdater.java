@@ -1,5 +1,7 @@
 package cyder.audio;
 
+import com.google.common.base.Preconditions;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
@@ -8,15 +10,19 @@ import cyder.utils.FileUtil;
 
 import javax.swing.*;
 import java.io.File;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * The class to update the audio location label and progress bar.
  */
 public class AudioLocationUpdater {
+    /**
+     * The thread for setting up the props during object construction.
+     */
+    private static final String SETUP_PROPS_THREAD_NAME = "AudioLocationUpdater setupProps Thread";
+
     /**
      * Whether this AudioLocationUpdater has been killed.
      */
@@ -55,7 +61,7 @@ public class AudioLocationUpdater {
     /**
      * The total milliseconds of the audio file this location updater was given.
      */
-    private final long totalMilliSeconds;
+    private long totalMilliSeconds;
 
     /**
      * The number of milliseconds in to the audio file.
@@ -75,20 +81,12 @@ public class AudioLocationUpdater {
                                 AtomicReference<FrameView> currentFrameView,
                                 AtomicReference<File> currentAudioFile, AtomicBoolean sliderPressed,
                                 JSlider slider) {
-        checkNotNull(secondsInLabel);
-        checkNotNull(secondsLeftLabel);
-        checkNotNull(currentFrameView);
-        checkNotNull(sliderPressed);
-        checkNotNull(slider);
-
-        this.secondsInLabel = secondsInLabel;
-        this.secondsLeftLabel = secondsLeftLabel;
-        this.currentFrameView = currentFrameView;
-        this.currentAudioFile = currentAudioFile;
-        this.sliderPressed = sliderPressed;
-        this.slider = slider;
-
-        this.totalMilliSeconds = AudioUtil.getMillisFast(currentAudioFile.get());
+        this.secondsInLabel = Preconditions.checkNotNull(secondsInLabel);
+        this.secondsLeftLabel = Preconditions.checkNotNull(secondsLeftLabel);
+        this.currentFrameView = Preconditions.checkNotNull(currentFrameView);
+        this.currentAudioFile = Preconditions.checkNotNull(currentAudioFile);
+        this.sliderPressed = Preconditions.checkNotNull(sliderPressed);
+        this.slider = Preconditions.checkNotNull(slider);
 
         setupProps();
     }
@@ -107,7 +105,16 @@ public class AudioLocationUpdater {
             updateSlider();
         }
 
-        startUpdateThread();
+        CyderThreadRunner.submit(() -> {
+            try {
+                File file = currentAudioFile.get();
+                Future<Integer> futureTotalMilliSeconds = AudioUtil.getMillisFast(file);
+                this.totalMilliSeconds = futureTotalMilliSeconds.get();
+                startUpdateThread();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, SETUP_PROPS_THREAD_NAME);
     }
 
     /**

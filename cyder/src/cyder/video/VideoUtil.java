@@ -1,7 +1,6 @@
 package cyder.video;
 
 import com.google.common.base.Preconditions;
-import cyder.audio.AudioUtil;
 import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
@@ -30,7 +29,8 @@ public final class VideoUtil {
     @SuppressWarnings("UnusedAssignment") /* Optimizations */
     public static void test() {
         File audioFile = new File("c:\\users\\nathan\\downloads\\BadApple.mp3");
-        int milliSeconds = AudioUtil.getMillisFast(audioFile);
+        //int milliSeconds = AudioUtil.getMillisFast(audioFile);
+        int milliSeconds = 300000;
 
         int numFrames = 6572;
         int milliSecondsPerFrame = milliSeconds / numFrames;

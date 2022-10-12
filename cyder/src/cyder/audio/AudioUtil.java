@@ -544,41 +544,47 @@ public final class AudioUtil {
      *
      * @param audioFile the audio file to return the duration of
      * @return the duration of the provided audio file in milliseconds
-     */ // todo use future for this
-    public static int getMillisFast(File audioFile) {
+     */
+    public static Future<Integer> getMillisFast(File audioFile) {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
 
-        String functionsScriptPath = StaticUtil.getStaticPath(PYTHON_FUNCTIONS_SCRIPT_NAME);
-        String command = Program.PYTHON.getProgramName() + SPACE + functionsScriptPath
-                + SPACE + AUDIO_LENGTH + SPACE + QUOTE + audioFile.getAbsolutePath() + QUOTE;
+        String threadName = "getMillisFast thread, audioFile = " + QUOTE + audioFile + QUOTE;
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory(threadName)).submit(() -> {
+            String functionsScriptPath = StaticUtil.getStaticPath(PYTHON_FUNCTIONS_SCRIPT_NAME);
+            String command = Program.PYTHON.getProgramName() + SPACE + functionsScriptPath
+                    + SPACE + AUDIO_LENGTH + SPACE + QUOTE + audioFile.getAbsolutePath() + QUOTE;
 
-        Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
-        while (!futureResult.isDone()) {
-            Thread.onSpinWait();
-        }
-
-        ProcessResult result = null;
-        try {
-            result = futureResult.get();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        if (result != null && result.getErrorOutput().isEmpty()) {
-            ImmutableList<String> standardOutput = result.getStandardOutput();
-            if (standardOutput.isEmpty()) return 0;
-
-            String firstResult = standardOutput.get(0);
-
-            if (firstResult.startsWith(audioLengthProcessReturnPrefix)) {
-                firstResult = firstResult.replace(audioLengthProcessReturnPrefix, "");
-                return (int) (Float.parseFloat(firstResult) * 1000.0f);
+            Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
+            while (!futureResult.isDone()) {
+                Thread.onSpinWait();
             }
-        }
 
-        return 0;
+            ProcessResult result = null;
+            try {
+                result = futureResult.get();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+
+            int ret = 0;
+
+            if (result != null && result.getErrorOutput().isEmpty()) {
+                ImmutableList<String> standardOutput = result.getStandardOutput();
+                if (!standardOutput.isEmpty()) {
+                    String firstResult = standardOutput.get(0);
+
+                    if (firstResult.startsWith(audioLengthProcessReturnPrefix)) {
+                        firstResult = firstResult.replace(audioLengthProcessReturnPrefix, "");
+                        ret = (int) (Float.parseFloat(firstResult) * 1000.0f);
+                    }
+                }
+            }
+
+            return ret;
+        });
     }
 
     /**
