@@ -506,11 +506,7 @@ public final class AudioUtil {
 
     // todo ensure python 3 is present in necessary subroutine
 
-    // todo subroutine for installing python packages on startup, should be sufficient and inform user
-    //  if negative results
-
     // todo AudioUtil could be cleaner
-    // todo blur still requires conversion to not use old backend, fix
     // todo moving splash and positioning frame at disposed location doesn't work anymore
 
     /**

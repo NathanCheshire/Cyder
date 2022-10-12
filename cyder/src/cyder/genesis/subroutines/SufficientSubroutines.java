@@ -2,12 +2,20 @@ package cyder.genesis.subroutines;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.Cyder;
 import cyder.genesis.CyderSplash;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.logging.LogTag;
+import cyder.logging.Logger;
+import cyder.process.PythonPackage;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.IoUtil;
+
+import java.util.Arrays;
+import java.util.concurrent.Future;
 
 /**
  * A subroutine for completing startup subroutines which are not necessary for Cyder to run properly.
@@ -68,19 +76,45 @@ public final class SufficientSubroutines {
     }
 
     /**
-     * The sequential subroutines to execute meaning that the first routine
-     * is invoked and upon completion, the second one is invoked and so forth.
+     * The name of the sufficient subroutine to log the JVM args.
      */
-    private static final ImmutableList<SufficientSubroutine> sequentialSufficientSubroutines = ImmutableList.of();
+    private static final String JVM_LOGGER = "JVM Logger";
 
     /**
-     * The parallel subroutines to execute meaning that they are all started in a separate thread.
+     * The name of the sufficient subroutine to ensure the needed python dependencies defined in
+     * {@link cyder.process.PythonPackage} are installed.
+     */
+    private static final String PYTHON_PACKAGES_INSTALLED_ENSURER = "Python Packages Installed Ensurer";
+
+    /**
+     * The subroutines to execute.
      */
     private static final ImmutableList<SufficientSubroutine> parallelSufficientSubroutines = ImmutableList.of(
             new SufficientSubroutine(() -> {
                 CyderSplash.INSTANCE.setLoadingMessage("Logging JVM args");
                 IoUtil.logArgs(Cyder.getJvmArguments());
-            }, "Jvm Logger")
+            }, JVM_LOGGER),
+            new SufficientSubroutine(() -> Arrays.stream(PythonPackage.values()).forEach(pythonPackage -> {
+                String threadName = "Python Package Installed Ensurer, package = " + pythonPackage.getPackageName();
+                CyderThreadRunner.submit(() -> {
+                    Future<Boolean> futureInstalled = pythonPackage.isInstalled();
+                    while (!futureInstalled.isDone()) Thread.onSpinWait();
+                    try {
+                        boolean installed = futureInstalled.get();
+                        if (installed) {
+                            Logger.log(LogTag.DEBUG, "Python package "
+                                    + pythonPackage.getPackageName() + " found to be installed");
+                        } else {
+                            Logger.log(LogTag.DEBUG, "MISSING Python package "
+                                    + pythonPackage.getPackageName());
+                            Console.INSTANCE.getInputHandler().println("Missing Python dependency: "
+                                    + pythonPackage.getPackageName());
+                        }
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
+                }, threadName);
+            }), PYTHON_PACKAGES_INSTALLED_ENSURER)
     );
 
     /**
@@ -89,20 +123,11 @@ public final class SufficientSubroutines {
     private static final String SUFFICIENT_SUBROUTINE_EXECUTOR_THREAD_NAME = "Sufficient Subroutine Executor";
 
     /**
-     * The name for the thread that spins off the parallel threads into their own threads.
-     */
-    private static final String PARALLEL_SUFFICIENT_SUBROUTINE_THREAD_NAME = "Parallel Sufficient Subroutine Executor";
-
-    /**
      * Executes the parallel and sequential sufficient subroutines in a separate thread.
      */
     public static void execute() {
-        CyderThreadRunner.submit(() -> {
-            CyderThreadRunner.submit(() -> parallelSufficientSubroutines.forEach(subroutine ->
-                            CyderThreadRunner.submit(subroutine.getRoutine(), subroutine.getThreadName())),
-                    PARALLEL_SUFFICIENT_SUBROUTINE_THREAD_NAME);
-
-            sequentialSufficientSubroutines.forEach(subroutine -> subroutine.getRoutine().run());
-        }, SUFFICIENT_SUBROUTINE_EXECUTOR_THREAD_NAME);
+        CyderThreadRunner.submit(() -> parallelSufficientSubroutines.forEach(sufficientSubroutine ->
+                        CyderThreadRunner.submit(sufficientSubroutine.getRoutine(), sufficientSubroutine.getThreadName())),
+                SUFFICIENT_SUBROUTINE_EXECUTOR_THREAD_NAME);
     }
 }
