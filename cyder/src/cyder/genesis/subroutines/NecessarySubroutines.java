@@ -72,7 +72,7 @@ public final class NecessarySubroutines {
         }
 
         CyderSplash.INSTANCE.setLoadingMessage("Ensuring OS is supported");
-        if (!ensureSupportedOs()) {
+        if (OsUtil.isOsx()) {
             throw new FatalException("Unsupported OS");
         }
 
@@ -153,12 +153,5 @@ public final class NecessarySubroutines {
         return singularInstance.get();
     }
 
-    /**
-     * Returns whether the host operating system is supported by Cyder.
-     *
-     * @return whether the host operating system is supported by Cyder
-     */
-    private static boolean ensureSupportedOs() {
-        return !OsUtil.isOsx();
-    }
+
 }

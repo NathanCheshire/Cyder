@@ -19,6 +19,15 @@ import java.util.concurrent.Future;
  * Utilities related to processes.
  */
 public final class ProcessUtil {
+    /**
+     * The version command line argument.
+     */
+    private static final String VERSION_ARGUMENT = "--version";
+
+    /**
+     * The Python version command result prefix.
+     */
+    private static final String pythonVersionResultPrefix = "Python ";
 
     /**
      * A space character.
@@ -167,5 +176,33 @@ public final class ProcessUtil {
 
             return Optional.empty();
         });
+    }
+
+    /**
+     * Returns the python version installed if present. Empty optional else.
+     *
+     * @return the python version installed if present
+     */
+    public static Optional<String> python3Installed() {
+        Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(
+                Program.PYTHON.getProgramName() + SPACE + VERSION_ARGUMENT);
+        while (!futureResult.isDone()) Thread.onSpinWait();
+
+        try {
+            ProcessResult result = futureResult.get();
+            if (!result.hasErrors()) {
+                if (!result.getStandardOutput().isEmpty()) {
+                    String line = result.getStandardOutput().get(0);
+                    if (line.contains(pythonVersionResultPrefix)) {
+                        String version = line.substring(pythonVersionResultPrefix.length()).trim();
+                        return Optional.of(version);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return Optional.empty();
     }
 }

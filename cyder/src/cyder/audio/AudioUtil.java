@@ -504,8 +504,6 @@ public final class AudioUtil {
         });
     }
 
-    // todo ensure python 3 is present in necessary subroutine
-
     // todo AudioUtil could be cleaner
     // todo moving splash and positioning frame at disposed location doesn't work anymore
 

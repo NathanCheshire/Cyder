@@ -10,11 +10,13 @@ import cyder.genesis.CyderSplash;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.process.ProcessUtil;
 import cyder.process.PythonPackage;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.IoUtil;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.concurrent.Future;
 
 /**
@@ -81,10 +83,20 @@ public final class SufficientSubroutines {
     private static final String JVM_LOGGER = "JVM Logger";
 
     /**
-     * The name of the sufficient subroutine to ensure the needed python dependencies defined in
+     * The name of the sufficient subroutine to ensure the needed Python dependencies defined in
      * {@link cyder.process.PythonPackage} are installed.
      */
     private static final String PYTHON_PACKAGES_INSTALLED_ENSURER = "Python Packages Installed Ensurer";
+
+    /**
+     * The name of the sufficient subroutine to check for Python 3 being installed.
+     */
+    private static final String PYTHON_3_INSTALLED_ENSURER = "Python 3 Installed Ensurer";
+
+    /**
+     * The minimum acceptable Python major version.
+     */
+    private static final int MIN_PYTHON_MAJOR_VERSION = 3;
 
     /**
      * The subroutines to execute.
@@ -114,7 +126,23 @@ public final class SufficientSubroutines {
                         ExceptionHandler.handle(e);
                     }
                 }, threadName);
-            }), PYTHON_PACKAGES_INSTALLED_ENSURER)
+            }), PYTHON_PACKAGES_INSTALLED_ENSURER),
+            new SufficientSubroutine(() -> {
+                Optional<String> optionalVersion = ProcessUtil.python3Installed();
+                if (optionalVersion.isEmpty()) {
+                    Logger.log(LogTag.DEBUG, "Failed to find installed Python version");
+                } else {
+                    String version = optionalVersion.get();
+                    if (version.charAt(0) >= MIN_PYTHON_MAJOR_VERSION) {
+                        Logger.log(LogTag.DEBUG, "Found Python version " + version);
+                    } else {
+                        String message = "Installed Python does not meet minimum standards, version: "
+                                + version + ", min version: " + MIN_PYTHON_MAJOR_VERSION;
+                        Logger.log(LogTag.DEBUG, message);
+                        Console.INSTANCE.getInputHandler().println(message);
+                    }
+                }
+            }, PYTHON_3_INSTALLED_ENSURER)
     );
 
     /**
