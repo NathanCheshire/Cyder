@@ -1,4 +1,4 @@
-package cyder.video;
+package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
@@ -6,7 +6,6 @@ import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
-import cyder.utils.IoUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

@@ -32,7 +32,9 @@ import java.util.function.Function;
 /**
  * Utility methods revolving around networking, urls, servers, etc.
  */
+@SuppressWarnings("unused") /* Response codes unused */
 public class NetworkUtil {
+    // todo replace instances of %20 with me
     /**
      * The string used to represent a space in a url.
      */
@@ -95,14 +97,15 @@ public class NetworkUtil {
             Console.INSTANCE.isClosed() || !highPingCheckerRunning.get();
 
     /**
-     * The timeout between checking for high ping (two minutes).
+     * The timeout between checking for high ping.
      */
-    private static final int HIGH_PING_TIMEOUT = 1000 * 60 * 2;
+    private static final int HIGH_PING_TIMEOUT = (int) (TimeUtil.MILLISECONDS_IN_SECOND
+            * TimeUtil.SECONDS_IN_MINUTE * 2.0f);
 
     /**
-     * The timeout between checking for the high ping checker's exit condition (six seconds).
+     * The timeout between checking for the high ping checker's exit condition.
      */
-    private static final int HIGH_PING_EXIT_CHECK = 1000 * 6;
+    private static final int HIGH_PING_EXIT_CHECK = (int) (TimeUtil.MILLISECONDS_IN_SECOND * 6.0f);
 
     /**
      * Starts the high ping checker.
@@ -126,9 +129,9 @@ public class NetworkUtil {
     }
 
     /**
-     * Ends the high ping checker
+     * Ends the high ping checker subroutine.
      */
-    public static void endDecentPingChecker() {
+    public static void terminateHighPingChecker() {
         highPingCheckerRunning.set(false);
     }
 
@@ -154,7 +157,7 @@ public class NetworkUtil {
     /**
      * The timeout value when determining if a site is reachable.
      */
-    public static final int SITE_PING_TIMEOUT = 5000;
+    public static final int SITE_PING_TIMEOUT = (int) (TimeUtil.MILLISECONDS_IN_SECOND * 5);
 
     /**
      * So no head?
@@ -162,9 +165,40 @@ public class NetworkUtil {
     private static final String HEAD = "HEAD";
 
     /**
+     * The minimum HTTP response code indicating a successful response.
+     */
+    public static final int MIN_SUCCESSFUL_RESPONSE_CODE = 200;
+
+    /**
+     * The maximum HTTP response code indicating a successful response.
+     */
+    public static final int MAX_SUCCESSFUL_RESPONSE_CODE = 299;
+
+    /**
+     * The minimum HTTP response code indicating a successful redirection.
+     */
+    public static final int MIN_REDIRECTED_RESPONSE_CODE = 300;
+
+    /**
+     * The maximum HTTP response code indicating a successful redirection.
+     */
+    public static final int MAX_REDIRECTED_RESPONSE_CODE = 399;
+
+    /**
      * The range of response codes that indicate a website as reachable/readable.
      */
-    private static final Range<Integer> SITE_REACHABLE_RESPONSE_CODE_RANGE = Range.closed(200, 399);
+    public static final Range<Integer> SITE_REACHABLE_RESPONSE_CODE_RANGE
+            = Range.closed(MIN_SUCCESSFUL_RESPONSE_CODE, MAX_REDIRECTED_RESPONSE_CODE);
+
+    /**
+     * The prefix for https urls.
+     */
+    private static final String HTTPS = "https";
+
+    /**
+     * The prefix for http urls.
+     */
+    private static final String HTTP = "http";
 
     /**
      * Pings an HTTP URL. This effectively sends a HEAD request and returns <code>true</code>
@@ -177,7 +211,7 @@ public class NetworkUtil {
     public static boolean siteReachable(String url) {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
-        if (url.startsWith("https")) url = url.replaceAll("^https", "http");
+        if (url.startsWith(HTTPS)) url = url.replaceAll("^" + HTTPS, HTTP);
 
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -267,8 +301,9 @@ public class NetworkUtil {
             ExceptionHandler.handle(e);
         }
 
-        Logger.log(LogTag.DEBUG, "Latency of " + latencyHostName + " (" + latencyIp
-                + ":" + latencyPort + ") found to be " + TimeUtil.formatMillis(latency));
+        Logger.log(LogTag.DEBUG, "Latency of "
+                + latencyIp + ":" + latencyPort
+                + " (" + latencyHostName + ") found to be " + TimeUtil.formatMillis(latency));
 
         return latency;
     }

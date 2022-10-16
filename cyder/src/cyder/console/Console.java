@@ -3398,7 +3398,7 @@ public enum Console {
         UiUtil.closeAllFrames(true);
 
         IoUtil.stopAllAudio();
-        NetworkUtil.endDecentPingChecker();
+        NetworkUtil.terminateHighPingChecker();
         LoginHandler.showGui();
     }
 
