@@ -32,9 +32,8 @@ import java.util.function.Function;
 /**
  * Utility methods revolving around networking, urls, servers, etc.
  */
-@SuppressWarnings("unused") /* Response codes unused */
+@SuppressWarnings("unused") /* Response codes */
 public class NetworkUtil {
-    // todo replace instances of %20 with me
     /**
      * The string used to represent a space in a url.
      */

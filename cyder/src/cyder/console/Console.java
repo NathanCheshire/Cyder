@@ -284,8 +284,9 @@ public enum Console {
             restorePreviousFrameBounds(consoleIcon);
         }
 
-        // todo need a way to ignore the component and just show where it is?
-        consoleCyderFrame.finalizeAndShow();
+        int x = consoleCyderFrame.getX();
+        int y = consoleCyderFrame.getY();
+        consoleCyderFrame.finalizeAndShow(new Point(x, y));
 
         revalidateInputAndOutputBounds(true);
 
@@ -457,10 +458,7 @@ public enum Console {
             icon = new ImageIcon(ImageUtil.resizeImage(width, height, getCurrentBackground().getReferenceFile()));
         } else {
             BufferedImage bi = getCurrentBackground().generateBufferedImage();
-
-            if (bi == null) {
-                throw new FatalException("Generated buffered image is null");
-            }
+            if (bi == null) throw new FatalException("Generated buffered image is null");
 
             width = bi.getWidth();
             height = bi.getHeight();

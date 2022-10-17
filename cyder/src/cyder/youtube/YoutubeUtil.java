@@ -523,6 +523,7 @@ public final class YoutubeUtil {
             }
         }
 
+        // todo could extract more here
         return YOUTUBE_API_V3_SEARCH_BASE + YoutubeConstants.MAX_RESULTS_PARAMETER
                 + numResults + "&q=" + builder + "&type=video" + "&key=" + key;
     }
