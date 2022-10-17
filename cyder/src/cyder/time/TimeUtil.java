@@ -22,6 +22,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Static utility class for things related to time/date queries and conversions.
@@ -669,12 +670,12 @@ public final class TimeUtil {
     /**
      * The time at which Cyder was first started.
      */
-    private static long absoluteStartTime;
+    private static final AtomicLong absoluteStartTime = new AtomicLong(0);
 
     /**
-     * The time at which the console first appeared.
+     * The time at which the console was first shown.
      */
-    private static long consoleStartTime;
+    private static final AtomicLong consoleFirstShownTime = new AtomicLong(0);
 
     /**
      * Returns the absolute start time of Cyder.
@@ -682,7 +683,7 @@ public final class TimeUtil {
      * @return the absolute start time of Cyder
      */
     public static long getAbsoluteStartTime() {
-        return absoluteStartTime;
+        return absoluteStartTime.get();
     }
 
     /**
@@ -693,33 +694,33 @@ public final class TimeUtil {
     /**
      * Sets the absolute start time of Cyder.
      *
-     * @param absoluteStartTime the absolute start time of Cyder
+     * @param absoluteStartTimeMs the absolute start time of Cyder
      */
-    public static void setAbsoluteStartTime(long absoluteStartTime) {
-        Preconditions.checkState(TimeUtil.absoluteStartTime == 0, SET_START_TIME_ERROR_MESSAGE);
+    public static void setAbsoluteStartTime(long absoluteStartTimeMs) {
+        Preconditions.checkState(absoluteStartTime.get() == 0, SET_START_TIME_ERROR_MESSAGE);
 
-        TimeUtil.absoluteStartTime = absoluteStartTime;
+        absoluteStartTime.set(absoluteStartTimeMs);
     }
 
     /**
-     * Returns the time at which the console first appeared visible.
+     * Returns the time at which the console was first shown.
      * This is not affected by a user logout and successive login.
      *
-     * @return the time at which the console first appeared visible
+     * @return the time at which the console was first shown
      */
-    public static long getConsoleStartTime() {
-        return consoleStartTime;
+    public static long getConsoleFirstShownTime() {
+        return consoleFirstShownTime.get();
     }
 
     /**
-     * Sets the time the console was shown.
+     * Sets the time at which the console was first shown.
      *
-     * @param consoleStartTime the time the console was shown
+     * @param consoleFirstShownTimeMs the time at which the console was first shown
      */
-    public static void setConsoleStartTime(long consoleStartTime) {
-        if (TimeUtil.consoleStartTime != 0) return;
+    public static void setConsoleFirstShownTime(long consoleFirstShownTimeMs) {
+        if (consoleFirstShownTime.get() != 0) return;
 
-        TimeUtil.consoleStartTime = consoleStartTime;
+        consoleFirstShownTime.set(consoleFirstShownTimeMs);
     }
 
     // ---------------------------------------

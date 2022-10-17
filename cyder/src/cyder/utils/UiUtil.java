@@ -411,8 +411,6 @@ public final class UiUtil {
         };
     }
 
-    // todo use me
-
     /**
      * Returns the common mouse adapter linked to all cyder ui components to log when they are clicked.
      *

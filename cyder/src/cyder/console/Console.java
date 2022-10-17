@@ -13,6 +13,7 @@ import cyder.enums.Direction;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
@@ -87,9 +88,14 @@ public enum Console {
     }
 
     /**
-     * An list of the frames to ignore when placing a frame in the console taskbar menu.
+     * A list of the frames to ignore when placing a frame in the console taskbar menu.
      */
-    private ImmutableList<CyderFrame> frameTaskbarExceptions;
+    private final ArrayList<CyderFrame> frameTaskbarExceptions = new ArrayList<>() {
+        @Override
+        public void clear() {
+            throw new IllegalMethodException("Invalid operation");
+        }
+    };
 
     /**
      * The UUID of the user currently associated with the Console.
@@ -278,12 +284,13 @@ public enum Console {
             restorePreviousFrameBounds(consoleIcon);
         }
 
+        // todo need a way to ignore the component and just show where it is?
         consoleCyderFrame.finalizeAndShow();
 
         revalidateInputAndOutputBounds(true);
 
-        TimeUtil.setConsoleStartTime(System.currentTimeMillis());
-        long loadTime = TimeUtil.getConsoleStartTime() - TimeUtil.getAbsoluteStartTime();
+        TimeUtil.setConsoleFirstShownTime(System.currentTimeMillis());
+        long loadTime = TimeUtil.getConsoleFirstShownTime() - TimeUtil.getAbsoluteStartTime();
         baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
     }
 
@@ -399,7 +406,8 @@ public enum Console {
             }
         };
 
-        frameTaskbarExceptions = ImmutableList.of(consoleCyderFrame, CyderSplash.INSTANCE.getSplashFrame());
+        frameTaskbarExceptions.add(consoleCyderFrame);
+        frameTaskbarExceptions.add(CyderSplash.INSTANCE.getSplashFrame());
 
         consoleCyderFrame.setBackground(Color.black);
         consoleCyderFrame.addEndDragEventCallback(this::saveScreenStat);
@@ -746,6 +754,7 @@ public enum Console {
         }
         // This is more so to push the frame into bounds if any part was out of bounds on the requested monitor.
         UiUtil.requestFramePosition(requestedConsoleX, requestedConsoleY, consoleCyderFrame);
+        System.out.println(consoleCyderFrame.getLocation());
     }
 
     /**
@@ -3602,9 +3611,7 @@ public enum Console {
      */
     public void addToFrameTaskbarExceptions(CyderFrame frame) {
         Preconditions.checkNotNull(frame);
-
-        frameTaskbarExceptions = ImmutableList.<CyderFrame>builder()
-                .addAll(frameTaskbarExceptions).add(frame).build();
+        frameTaskbarExceptions.add(frame);
     }
 
     /**
@@ -3614,8 +3621,6 @@ public enum Console {
      */
     public void removeFrameTaskbarException(CyderFrame frame) {
         Preconditions.checkNotNull(frame);
-
-        frameTaskbarExceptions = ImmutableList.copyOf(frameTaskbarExceptions.stream()
-                .filter(streamingFrame -> !streamingFrame.equals(frame)).collect(Collectors.toList()));
+        frameTaskbarExceptions.remove(frame);
     }
 }
