@@ -240,7 +240,7 @@ public enum Console {
      * @throws FatalException if the Console was left open
      */
     public void launch() {
-        ExceptionHandler.checkFatalCondition(isClosed(), previousUuid);
+        ExceptionHandler.checkFatalCondition(isClosed(), "Console left open, uuid: " + previousUuid);
 
         NetworkUtil.startHighPingChecker();
 

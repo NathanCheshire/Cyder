@@ -512,6 +512,8 @@ public final class AudioUtil {
 
     // todo log in TESTING MODE should be replaced with launched in dev debug vs ide debug... ?
 
+    // todo rare case of is closed for console being false but getdominantframe failing to get the frame
+
     /**
      * A space character.
      */

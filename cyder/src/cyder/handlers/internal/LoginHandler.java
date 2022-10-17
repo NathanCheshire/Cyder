@@ -30,6 +30,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Optional;
@@ -227,7 +228,8 @@ public final class LoginHandler {
                     }
 
                     //if it doesn't start with bash string, reset it to start with bashString if it's not mode 2
-                    if (loginMode != LoginMode.PASSWORD && !String.valueOf(loginField.getPassword()).startsWith(currentBashString)) {
+                    if (loginMode != LoginMode.PASSWORD &&
+                            !String.valueOf(loginField.getPassword()).startsWith(currentBashString)) {
                         loginField.setText(currentBashString + String.valueOf(
                                 loginField.getPassword()).replace(currentBashString, "").trim());
                         loginField.setCaretPosition(loginField.getPassword().length);
@@ -461,11 +463,12 @@ public final class LoginHandler {
         if (PropLoader.getBoolean(AUTOCYPHER)) {
             CyderSplash.INSTANCE.setLoadingMessage("AutoCypher found, attempting");
 
-            if (!autoCypher()) showGui();
+            if (!attemptAutoCypher()) showGui();
         } else if (!PropLoader.getBoolean(RELEASED)) {
             ExceptionHandler.exceptionExit("Unreleased build of Cyder", ExitCondition.NotReleased);
         } else {
-            Logger.log(LogTag.LOGIN, "CYDER STARTING IN RELEASED MODE");
+            Logger.log(LogTag.DEBUG, "Cyder starting in released mode,"
+                    + " attempting to find previously logged in user");
 
             Optional<String> optionalUuid = UserUtil.getFirstLoggedInUser();
             if (optionalUuid.isEmpty()) {
@@ -482,9 +485,9 @@ public final class LoginHandler {
     }
 
     /**
-     * The status returned by a {@link #checkPassword(String, String)} call.
+     * The status of a {@link PasswordCheckResult}.
      */
-    private enum PasswordCheckResult {
+    private enum Result {
         /**
          * The login failed due to invalid credentials.
          */
@@ -494,11 +497,70 @@ public final class LoginHandler {
          */
         UNKNOWN_USER,
         /**
-         * The login succeeded and the {@link #findUuid(String)} method should be invoked
-         * to find the uuid and load the other user files.
+         * The login succeeded and the optional user should be present.
          */
         SUCCESS
-        // todo enum could contain optional user maybe? to replace above of also invoking findUuid()
+    }
+
+    /**
+     * The result returned by a {@link #checkPassword(String, String)} call.
+     */
+    private static class PasswordCheckResult {
+        /**
+         * The result of the password check.
+         */
+        private final Result result;
+
+        /**
+         * The uuid to use if the result is of type {@link Result#SUCCESS}.
+         */
+        private String uuid;
+
+        /**
+         * Suppress default constructor.
+         */
+        public PasswordCheckResult() {
+            throw new IllegalMethodException(CyderStrings.ILLEGAL_CONSTRUCTOR);
+        }
+
+        /**
+         * Constructs a new password check result.
+         *
+         * @param result the result of this password check result
+         */
+        public PasswordCheckResult(Result result) {
+            this.result = result;
+        }
+
+        /**
+         * Constructs a new password check result
+         *
+         * @param result the result of this password check result
+         * @param uuid   the uuid of this password check result
+         */
+        public PasswordCheckResult(Result result, String uuid) {
+            this.result = result;
+            this.uuid = uuid;
+        }
+
+        /**
+         * Returns the result of this password check result.
+         *
+         * @return the result of this password check result
+         */
+        public Result getResult() {
+            return result;
+        }
+
+        /**
+         * Returns the uuid of this password check result.
+         *
+         * @return the uuid of this password check result
+         */
+        public Optional<String> getUuid() {
+            if (uuid == null) return Optional.empty();
+            return Optional.of(uuid);
+        }
     }
 
     /**
@@ -511,7 +573,7 @@ public final class LoginHandler {
      */
     public static boolean recognize(String name, String hashedPass, boolean autoCypherAttempt) {
         PasswordCheckResult status = checkPassword(name, hashedPass);
-        switch (status) {
+        switch (status.getResult()) {
             case FAILED -> {
                 if (autoCypherAttempt) {
                     priorityPrintingList.add("Autocypher failed\n");
@@ -524,7 +586,10 @@ public final class LoginHandler {
             }
             case UNKNOWN_USER -> priorityPrintingList.add("Unknown user\n");
             case SUCCESS -> {
-                Console.INSTANCE.setUuid(findUuid(name));
+                Optional<String> optionalUuid = status.getUuid();
+                if (optionalUuid.isEmpty()) throw new IllegalStateException("Successful"
+                        + " recognize failed to provide uuid");
+                Console.INSTANCE.setUuid(optionalUuid.get());
 
                 doLoginAnimations = false;
 
@@ -557,7 +622,7 @@ public final class LoginHandler {
      * Attempts to automatically log in the developer if {@link #DEBUG_HASH_NAME}
      * and {@link #DEBUG_HASH_PASSWORD} exists within props.
      */
-    public static boolean autoCypher() {
+    public static boolean attemptAutoCypher() {
         return recognize(PropLoader.getString(DEBUG_HASH_NAME),
                 PropLoader.getString(DEBUG_HASH_PASSWORD), true);
     }
@@ -571,45 +636,26 @@ public final class LoginHandler {
      * @return the result of checking for the a user with the provided name and password
      */
     public static PasswordCheckResult checkPassword(String name, String hashedPass) {
-        LinkedList<String> names = new LinkedList<>();
-
-        for (File userJsonFile : UserUtil.getUserJsons()) {
-            names.add(UserUtil.extractUser(userJsonFile).getName());
-        }
-
-        if (!StringUtil.in(name, true, names)) {
-            return PasswordCheckResult.UNKNOWN_USER;
-        }
+        ArrayList<String> names = new ArrayList<>();
+        UserUtil.getUserJsons().forEach(jsonFile -> names.add(UserUtil.extractUser(jsonFile).getName()));
+        if (!StringUtil.in(name, true, names)) return new PasswordCheckResult(Result.UNKNOWN_USER);
 
         for (File userJsonFile : UserUtil.getUserJsons()) {
             User user = UserUtil.extractUser(userJsonFile);
+            String doubleHashed = SecurityUtil.toHexString(SecurityUtil.getSha256(hashedPass.toCharArray()));
 
-            if (name.equalsIgnoreCase(user.getName()) && SecurityUtil.toHexString(SecurityUtil.getSha256(
-                    hashedPass.toCharArray())).equals(user.getPass())) {
-                return PasswordCheckResult.SUCCESS;
+            if (name.equalsIgnoreCase(user.getName()) && doubleHashed.equals(user.getPass())) {
+                return new PasswordCheckResult(Result.SUCCESS, userJsonFile.getParentFile().getName());
             }
         }
 
-        return PasswordCheckResult.FAILED;
+        return new PasswordCheckResult(Result.FAILED);
     }
 
     /**
-     * Finds and returns the uuid for the user with the provided name.
-     *
-     * @return the uuid for the user with the provided name
-     * @throws IllegalArgumentException if a user with the provided name cannot be found
+     * The key to get the version of Cyder from the props.
      */
-    public static String findUuid(String name) {
-        for (File userJsonFile : UserUtil.getUserJsons()) {
-            User user = UserUtil.extractUser(userJsonFile);
-
-            if (name.equalsIgnoreCase(user.getName())) {
-                return userJsonFile.getParentFile().getName();
-            }
-        }
-
-        throw new IllegalArgumentException("User folder not found for name: " + name);
-    }
+    private static final String VERSION = "version";
 
     /**
      * Returns the title to use for the login frame.
@@ -617,6 +663,6 @@ public final class LoginHandler {
      * @return the title to use for the login frame
      */
     public static String generateLoginFrameTitle() {
-        return "Cyder Login [" + PropLoader.getString("version") + " Build]";
+        return "Cyder Login " + "[" + PropLoader.getString(VERSION) + " Build" + "]";
     }
 }
