@@ -55,7 +55,7 @@ public class UiHandler extends InputHandler {
         } else if (getInputHandler().commandIs("createuser")) {
             UserCreator.showGui();
         } else if (getInputHandler().commandIs("panic")) {
-            if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
+            if (UserUtil.getCyderUser().getMinimizeOnClose().equals("1")) {
                 UiUtil.minimizeAllFrames();
             } else {
                 OsUtil.exit(ExitCondition.GenesisControlledExit);
@@ -64,7 +64,7 @@ public class UiHandler extends InputHandler {
                 getInputHandler().commandIs("exit") ||
                 getInputHandler().commandIs("leave") ||
                 getInputHandler().commandIs("close")) {
-            if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
+            if (UserUtil.getCyderUser().getMinimizeOnClose().equals("1")) {
                 UiUtil.minimizeAllFrames();
             } else {
                 Console.INSTANCE.closeFrame(true, false);

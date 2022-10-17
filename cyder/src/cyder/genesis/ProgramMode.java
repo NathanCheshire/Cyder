@@ -4,9 +4,27 @@ package cyder.genesis;
  * Possible modes Cyder can exist in for a certain instance.
  */
 public enum ProgramMode {
+    /**
+     * The normal, user mode for Cyder, started from a JAR file.
+     */
     NORMAL("Normal", 0),
-    IDE_DEBUG("IDE Debug", 1),
-    DEVELOPER_DEBUG("Developer Debug", 2);
+
+    /**
+     * Cyder was started from an IDE and not a JAR file.
+     */
+    IDE_NORMAL_MODE("IDE Normal", 1),
+
+    /**
+     * Cyder was started in a debug mode by an IDE.
+     */
+    IDE_DEBUG("IDE Debug", 2),
+
+    /**
+     * Cyder was started via an AutoCypher.
+     */
+    DEVELOPER_DEBUG("Developer Debug", 3);
+
+    // todo need a manager for this, logging and LoginHandler is pretty messy
 
     /**
      * The name of the program mode.

@@ -56,9 +56,10 @@ public final class ExceptionHandler {
             }
 
             // if user wants to be informed of exceptions
+            boolean silenceErrors = UserUtil.getCyderUser().getSilenceErrors().equals("0");
             if (Console.INSTANCE.getUuid() != null &&
                     !Console.INSTANCE.isClosed() &&
-                    UserUtil.getCyderUser().getSilenceerrors().equals("0")) {
+                    silenceErrors) {
 
                 showExceptionPane(e);
             }

@@ -259,7 +259,7 @@ public class BaseInputHandler {
         Logger.log(LogTag.CLIENT,
                 (userTriggered ? "" : "[SIMULATED INPUT]: ") + commandAndArgsToString);
 
-        if (UserUtil.getCyderUser().getFilterchat().equals("1")) {
+        if (UserUtil.getCyderUser().getFilterChat().equals("1")) {
             StringUtil.BlockedWordResult result = checkFoulLanguage();
             if (result.failed()) {
                 println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language"
@@ -378,7 +378,7 @@ public class BaseInputHandler {
     private void unknownInput() {
         CyderThreadRunner.submit(() -> {
             ReflectionUtil.SimilarCommand similarCommandObj = ReflectionUtil.getSimilarCommand(command);
-            boolean wrapShell = UserUtil.getCyderUser().getWrapshell().equalsIgnoreCase("1");
+            boolean wrapShell = UserUtil.getCyderUser().getWrapShell().equalsIgnoreCase("1");
 
             if (similarCommandObj.command().isPresent()) {
                 String similarCommand = similarCommandObj.command().get();
@@ -593,7 +593,7 @@ public class BaseInputHandler {
      */
     @ForReadability
     private boolean shouldDoTypingAnimation() {
-        return UserUtil.getCyderUser().getTypinganimation().equals("1");
+        return UserUtil.getCyderUser().getTypingAnimation().equals("1");
     }
 
     /**
@@ -770,7 +770,7 @@ public class BaseInputHandler {
      */
     @ForReadability
     private boolean shouldDoTypingSound() {
-        return UserUtil.getCyderUser().getTypingsound().equals("1");
+        return UserUtil.getCyderUser().getTypingSound().equals("1");
     }
 
     /**
@@ -791,7 +791,7 @@ public class BaseInputHandler {
 
             for (char c : line.toCharArray()) {
                 String character = String.valueOf(c);
-                String insertCharacter = UserUtil.getCyderUser().getCapsmode().equals("1")
+                String insertCharacter = UserUtil.getCyderUser().getCapsMode().equals("1")
                         ? character.toUpperCase() : character;
 
                 StyledDocument document = (StyledDocument) getJTextPane().getDocument();

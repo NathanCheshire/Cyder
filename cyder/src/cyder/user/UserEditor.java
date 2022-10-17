@@ -1066,14 +1066,14 @@ public final class UserEditor {
         windowField = new CyderTextField(6);
         windowField.setHorizontalAlignment(JTextField.CENTER);
         windowField.setHexColorRegexMatcher();
-        windowField.setText(UserUtil.getCyderUser().getWindowcolor());
+        windowField.setText(UserUtil.getCyderUser().getWindowColor());
         windowField.setFont(CyderFonts.SEGOE_30);
         windowField.setToolTipText("Window border color");
         windowField.addKeyListener(UiUtil.generateKeyAdapter(false, false, true, () -> {
             try {
                 Color requestedWindowColor = ColorUtil.hexStringToColor(windowField.getText());
                 windowColorBlock.setBackground(requestedWindowColor);
-                UserUtil.getCyderUser().setWindowcolor(windowField.getText());
+                UserUtil.getCyderUser().setWindowColor(windowField.getText());
                 CyderColors.setGuiThemeColor(requestedWindowColor);
                 Preference.invokeRefresh(Preference.WINDOW_COLOR);
             } catch (Exception ignored) {}
@@ -1081,7 +1081,7 @@ public final class UserEditor {
         windowField.setOpaque(false);
         windowField.setSize(160, 40);
 
-        windowColorBlock = generateColorBlock(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getWindowcolor()),
+        windowColorBlock = generateColorBlock(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getWindowColor()),
                 "Window color preview");
 
         CyderLabel backgroundColorLabel = new CyderLabel("Background Color");
@@ -1101,10 +1101,10 @@ public final class UserEditor {
                 backgroundColorBlock.setBackground(backgroundColor);
                 UserUtil.getCyderUser().setBackground(backgroundColorString);
 
-                boolean outputFill = UserUtil.getCyderUser().getOutputfill().equals("1");
-                boolean inputFill = UserUtil.getCyderUser().getInputfill().equals("1");
-                boolean outputBorder = UserUtil.getCyderUser().getOutputborder().equals("1");
-                boolean inputBorder = UserUtil.getCyderUser().getInputborder().equals("1");
+                boolean outputFill = UserUtil.getCyderUser().getOutputFill().equals("1");
+                boolean inputFill = UserUtil.getCyderUser().getInputFill().equals("1");
+                boolean outputBorder = UserUtil.getCyderUser().getOutputBorder().equals("1");
+                boolean inputBorder = UserUtil.getCyderUser().getInputBorder().equals("1");
 
                 if (outputFill) {
                     Console.INSTANCE.getOutputArea().setOpaque(true);
@@ -1284,7 +1284,7 @@ public final class UserEditor {
                 requestedFontMetric = Font.BOLD;
             }
 
-            int requestedFontSize = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
+            int requestedFontSize = Integer.parseInt(UserUtil.getCyderUser().getFontSize());
 
             Font applyFont = new Font(selectedFont, requestedFontMetric, requestedFontSize);
             Console.INSTANCE.getOutputArea().setFont(applyFont);
@@ -1336,8 +1336,8 @@ public final class UserEditor {
         backgroundColorBlock.setBackground(defaultBackgroundColor);
         backgroundField.setText(defaultBackground);
 
-        boolean outputFill = UserUtil.getCyderUser().getOutputfill().equals("1");
-        boolean inputFill = UserUtil.getCyderUser().getInputfill().equals("1");
+        boolean outputFill = UserUtil.getCyderUser().getOutputFill().equals("1");
+        boolean inputFill = UserUtil.getCyderUser().getInputFill().equals("1");
         if (outputFill) {
             Console.INSTANCE.getOutputArea().setOpaque(true);
             Console.INSTANCE.getOutputArea().setBackground(defaultBackgroundColor);
@@ -1352,7 +1352,7 @@ public final class UserEditor {
         }
         Preference.invokeRefresh(Preference.BACKGROUND);
 
-        UserUtil.getCyderUser().setWindowcolor(defaultWindow);
+        UserUtil.getCyderUser().setWindowColor(defaultWindow);
         windowColorBlock.setBackground(defaultWindowColor);
         windowField.setText(defaultWindow);
         windowColorBlock.setBackground((defaultWindowColor));
@@ -1670,16 +1670,16 @@ public final class UserEditor {
         changeConsoleDatePatternField.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
         changeConsoleDatePatternField.addActionListener(e -> {
             setConsoleDatePattern(changeConsoleDatePatternField.getTrimmedText());
-            changeConsoleDatePatternField.setText(UserUtil.getCyderUser().getConsoleclockformat());
+            changeConsoleDatePatternField.setText(UserUtil.getCyderUser().getConsoleClockFormat());
         });
-        changeConsoleDatePatternField.setText(UserUtil.getCyderUser().getConsoleclockformat());
+        changeConsoleDatePatternField.setText(UserUtil.getCyderUser().getConsoleClockFormat());
 
         CyderButton changeConsoleDaterPatternButton = new CyderButton("Change date pattern");
         changeConsoleDaterPatternButton.setSize(fieldMainComponentWidth, fieldMainComponentHeight);
         changeConsoleDaterPatternButton.setToolTipText("Change console date pattern");
         changeConsoleDaterPatternButton.addActionListener(e -> {
             setConsoleDatePattern(changeConsoleDatePatternField.getTrimmedText());
-            changeConsoleDatePatternField.setText(UserUtil.getCyderUser().getConsoleclockformat());
+            changeConsoleDatePatternField.setText(UserUtil.getCyderUser().getConsoleClockFormat());
         });
 
         CyderGridLayout changeConsoleDaterPatternLayout = new CyderGridLayout(1, 3);
@@ -1940,7 +1940,7 @@ public final class UserEditor {
         Preconditions.checkArgument(!consoleDatePattern.isEmpty());
         Preconditions.checkArgument(validateDatePattern(consoleDatePattern));
 
-        UserUtil.getCyderUser().setConsoleclockformat(consoleDatePattern);
+        UserUtil.getCyderUser().setConsoleClockFormat(consoleDatePattern);
         Console.INSTANCE.refreshClockText();
     }
 

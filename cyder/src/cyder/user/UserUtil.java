@@ -1135,7 +1135,7 @@ public final class UserUtil {
     public static void logoutAllUsers() {
         for (File json : getUserJsons()) {
             User u = extractUser(json);
-            u.setLoggedin("0");
+            u.setLoggedIn("0");
             setUserData(json, u);
         }
     }
@@ -1147,7 +1147,7 @@ public final class UserUtil {
      */
     public static Optional<String> getFirstLoggedInUser() {
         for (File userJSON : getUserJsons()) {
-            if (extractUser(userJSON).getLoggedin().equals("1"))
+            if (extractUser(userJSON).getLoggedIn().equals("1"))
                 return Optional.of(FileUtil.getFilename(userJSON.getParentFile().getName()));
         }
 

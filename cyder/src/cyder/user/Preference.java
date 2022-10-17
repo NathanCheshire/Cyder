@@ -118,7 +118,7 @@ public class Preference {
                     "Draw a border around the output area", "0", () -> {
                 Logger.log(LogTag.PREFERENCE_REFRESH, OUTPUT_BORDER);
 
-                if (UserUtil.getCyderUser().getOutputborder().equals("0")) {
+                if (UserUtil.getCyderUser().getOutputBorder().equals("0")) {
                     Console.INSTANCE.getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
                 } else {
                     LineBorder lineBorder = new LineBorder(ColorUtil.hexStringToColor(
@@ -131,7 +131,7 @@ public class Preference {
                     "0", () -> {
                 Logger.log(LogTag.PREFERENCE_REFRESH, INPUT_BORDER);
 
-                if (UserUtil.getCyderUser().getInputborder().equals("0")) {
+                if (UserUtil.getCyderUser().getInputBorder().equals("0")) {
                     Console.INSTANCE.getInputField().setBorder(null);
                 } else {
                     Console.INSTANCE.getInputField().setBorder(new LineBorder(ColorUtil.hexStringToColor(
@@ -156,7 +156,7 @@ public class Preference {
                     "0", () -> {
                 Logger.log(LogTag.PREFERENCE_REFRESH, OUTPUT_FILL);
 
-                if (UserUtil.getCyderUser().getOutputfill().equals("0")) {
+                if (UserUtil.getCyderUser().getOutputFill().equals("0")) {
                     Console.INSTANCE.getOutputArea().setBackground(null);
                     Console.INSTANCE.getOutputArea().setOpaque(false);
                 } else {
@@ -173,7 +173,7 @@ public class Preference {
                     "0", () -> {
                 Logger.log(LogTag.PREFERENCE_REFRESH, INPUT_FILL);
 
-                if (UserUtil.getCyderUser().getInputfill().equals("0")) {
+                if (UserUtil.getCyderUser().getInputFill().equals("0")) {
                     Console.INSTANCE.getInputField().setBackground(null);
                     Console.INSTANCE.getInputField().setOpaque(false);
                 } else {

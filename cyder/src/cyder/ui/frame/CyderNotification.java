@@ -635,7 +635,7 @@ public class CyderNotification extends JLabel {
                 }
 
                 // call vanish now visible and not set to stay until dismissed
-                if (UserUtil.getCyderUser().getPersistentnotifications().equals("0") && delay != -1) {
+                if (UserUtil.getCyderUser().getPersistentNotifications().equals("0") && delay != -1) {
                     vanish(notificationDirection, parent, delay);
                 }
             } catch (Exception e) {

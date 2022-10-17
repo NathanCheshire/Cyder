@@ -43,7 +43,7 @@ public class User {
     /**
      * The font size.
      */
-    private String fontsize;
+    private String fontSize;
 
     /**
      * The foreground color.
@@ -58,37 +58,37 @@ public class User {
     /**
      * Whether to play intro music when Cyder starts up after the user has logged in.
      */
-    private String intromusic;
+    private String introMusic;
 
     /**
      * Whether to open debug menus when the user logs in.
      */
-    private String debugwindows;
+    private String debugWindows;
 
     /**
      * Whether to choose a random background on startup.
      */
-    private String randombackground;
+    private String randomBackground;
 
     /**
      * Whether to draw a border around the output area.
      */
-    private String outputborder;
+    private String outputBorder;
 
     /**
      * Whether to draw a border around the input field.
      */
-    private String inputborder;
+    private String inputBorder;
 
     /**
      * Whether to chime hourly.
      */
-    private String hourlychimes;
+    private String hourlyChimes;
 
     /**
      * Whether to silence errors when they occur.
      */
-    private String silenceerrors;
+    private String silenceErrors;
 
     /**
      * Whether to draw the console as a fullscreen frame.
@@ -98,92 +98,92 @@ public class User {
     /**
      * Whether to fill the output area.
      */
-    private String outputfill;
+    private String outputFill;
 
     /**
      * Whether to fill the input field.
      */
-    private String inputfill;
+    private String inputFill;
 
     /**
      * Whether to show the clock on the console
      */
-    private String clockonconsole;
+    private String clockOnConsole;
 
     /**
      * Whether to show seconds on the console clock.
      */
-    private String showseconds;
+    private String showSeconds;
 
     /**
      * Whether to filter the chat of foul language.
      */
-    private String filterchat;
+    private String filterChat;
 
     /**
      * The last time this user start and logged in to Cyder.
      */
-    private String laststart;
+    private String lastStart;
 
     /**
      * Whether to minimize instead of closing.
      */
-    private String minimizeonclose;
+    private String minimizeOnClose;
 
     /**
      * Whether to perform the typing animation.
      */
-    private String typinganimation;
+    private String typingAnimation;
 
     /**
      * Whether to show the busy icon.
      */
-    private String showbusyicon;
+    private String showBusyIcon;
 
     /**
      * Whether to round CyderFrames.
      */
-    private String roundedwindows;
+    private String roundedWindows;
 
     /**
      * The color to use for CyderFrame components and common panels such as menus.
      */
-    private String windowcolor;
+    private String windowColor;
 
     /**
      * The java date pattern to use for the console clock.
      */
-    private String consoleclockformat;
+    private String consoleClockFormat;
 
     /**
      * Whether to play a typing sound during typing animations.
      */
-    private String typingsound;
+    private String typingSound;
 
     /**
      * The current uuid the procedural script is at.
      */
-    private String youtubeuuid;
+    private String youtubeUuid;
 
     /**
      * Whether to output ascii chars as capitalized letters.
      */
-    private String capsmode;
+    private String capsMode;
 
     /**
      * Whether the user is logged in.
      */
-    private String loggedin;
+    private String loggedIn;
 
     /**
      * Whether to show the audio total length or the time remaining for the audio player.
      */
-    private String audiolength;
+    private String audioLength;
 
     /**
      * Whether to persist notifications.
      */
-    private String persistentnotifications;
+    private String persistentNotifications;
 
     /**
      * Whether to do animations such as close, minimize, and notification slides.
@@ -198,7 +198,7 @@ public class User {
     /**
      * If true, any unrecognized input is passed to the native terminal/shell.
      */
-    private String wrapshell;
+    private String wrapShell;
 
     /**
      * Dark mode controls certain gui aspects about Cyder
@@ -279,9 +279,9 @@ public class User {
      *
      * @return the user font size
      */
-    public String getFontsize() {
-        getterHook(Preference.FONT_SIZE, fontsize);
-        return fontsize;
+    public String getFontSize() {
+        getterHook(Preference.FONT_SIZE, fontSize);
+        return fontSize;
     }
 
     /**
@@ -309,9 +309,9 @@ public class User {
      *
      * @return whether intro music is active
      */
-    public String getIntromusic() {
-        getterHook(Preference.INTRO_MUSIC, intromusic);
-        return intromusic;
+    public String getIntroMusic() {
+        getterHook(Preference.INTRO_MUSIC, introMusic);
+        return introMusic;
     }
 
     /**
@@ -319,9 +319,9 @@ public class User {
      *
      * @return whether to show debug menus on start
      */
-    public String getDebugwindows() {
-        getterHook(Preference.DEBUG_WINDOWS, debugwindows);
-        return debugwindows;
+    public String getDebugWindows() {
+        getterHook(Preference.DEBUG_WINDOWS, debugWindows);
+        return debugWindows;
     }
 
     /**
@@ -329,9 +329,9 @@ public class User {
      *
      * @return whether to choose a random background on launch
      */
-    public String getRandombackground() {
-        getterHook(Preference.RANDOM_BACKGROUND, randombackground);
-        return randombackground;
+    public String getRandomBackground() {
+        getterHook(Preference.RANDOM_BACKGROUND, randomBackground);
+        return randomBackground;
     }
 
     /**
@@ -339,9 +339,9 @@ public class User {
      *
      * @return whether to draw the output border
      */
-    public String getOutputborder() {
-        getterHook(Preference.OUTPUT_BORDER, outputborder);
-        return outputborder;
+    public String getOutputBorder() {
+        getterHook(Preference.OUTPUT_BORDER, outputBorder);
+        return outputBorder;
     }
 
     /**
@@ -349,9 +349,9 @@ public class User {
      *
      * @return whether to draw the input border
      */
-    public String getInputborder() {
-        getterHook(Preference.INPUT_BORDER, inputborder);
-        return inputborder;
+    public String getInputBorder() {
+        getterHook(Preference.INPUT_BORDER, inputBorder);
+        return inputBorder;
     }
 
     /**
@@ -359,9 +359,9 @@ public class User {
      *
      * @return whether to chime hourly
      */
-    public String getHourlychimes() {
-        getterHook(Preference.HOURLY_CHIMES, hourlychimes);
-        return hourlychimes;
+    public String getHourlyChimes() {
+        getterHook(Preference.HOURLY_CHIMES, hourlyChimes);
+        return hourlyChimes;
     }
 
     /**
@@ -369,9 +369,9 @@ public class User {
      *
      * @return whether to silence errors
      */
-    public String getSilenceerrors() {
-        getterHook(Preference.SILENCE_ERRORS, silenceerrors);
-        return silenceerrors;
+    public String getSilenceErrors() {
+        getterHook(Preference.SILENCE_ERRORS, silenceErrors);
+        return silenceErrors;
     }
 
     /**
@@ -389,9 +389,9 @@ public class User {
      *
      * @return whether to fill the output area
      */
-    public String getOutputfill() {
-        getterHook(Preference.OUTPUT_FILL, outputfill);
-        return outputfill;
+    public String getOutputFill() {
+        getterHook(Preference.OUTPUT_FILL, outputFill);
+        return outputFill;
     }
 
     /**
@@ -399,9 +399,9 @@ public class User {
      *
      * @return whether to fill the input field
      */
-    public String getInputfill() {
-        getterHook(Preference.INPUT_FILL, inputfill);
-        return inputfill;
+    public String getInputFill() {
+        getterHook(Preference.INPUT_FILL, inputFill);
+        return inputFill;
     }
 
     /**
@@ -409,9 +409,9 @@ public class User {
      *
      * @return whether the clock should be displayed on the console
      */
-    public String getClockonconsole() {
-        getterHook(Preference.CLOCK_ON_CONSOLE, clockonconsole);
-        return clockonconsole;
+    public String getClockOnConsole() {
+        getterHook(Preference.CLOCK_ON_CONSOLE, clockOnConsole);
+        return clockOnConsole;
     }
 
     /**
@@ -419,9 +419,9 @@ public class User {
      *
      * @return whether to show seconds if console clock is enabled
      */
-    public String getShowseconds() {
-        getterHook(Preference.SHOW_SECONDS, showseconds);
-        return showseconds;
+    public String getShowSeconds() {
+        getterHook(Preference.SHOW_SECONDS, showSeconds);
+        return showSeconds;
     }
 
     /**
@@ -429,9 +429,9 @@ public class User {
      *
      * @return whether to filter the chat of foul language
      */
-    public String getFilterchat() {
-        getterHook(Preference.FILTER_CHAT, filterchat);
-        return filterchat;
+    public String getFilterChat() {
+        getterHook(Preference.FILTER_CHAT, filterChat);
+        return filterChat;
     }
 
     /**
@@ -439,9 +439,9 @@ public class User {
      *
      * @return the unix time of the last time this user started Cyder
      */
-    public String getLaststart() {
-        getterHook(Preference.LAST_START, laststart);
-        return laststart;
+    public String getLastStart() {
+        getterHook(Preference.LAST_START, lastStart);
+        return lastStart;
     }
 
     /**
@@ -449,9 +449,9 @@ public class User {
      *
      * @return whether to minimize on close
      */
-    public String getMinimizeonclose() {
-        getterHook(Preference.MINIMIZE_ON_CLOSE, minimizeonclose);
-        return minimizeonclose;
+    public String getMinimizeOnClose() {
+        getterHook(Preference.MINIMIZE_ON_CLOSE, minimizeOnClose);
+        return minimizeOnClose;
     }
 
     /**
@@ -459,9 +459,9 @@ public class User {
      *
      * @return whether to perform the typing animation
      */
-    public String getTypinganimation() {
-        getterHook(Preference.TYPING_ANIMATION, typinganimation);
-        return typinganimation;
+    public String getTypingAnimation() {
+        getterHook(Preference.TYPING_ANIMATION, typingAnimation);
+        return typingAnimation;
     }
 
     /**
@@ -469,9 +469,9 @@ public class User {
      *
      * @return whether to show the busy icon when Cyder is busy
      */
-    public String getShowbusyicon() {
-        getterHook(Preference.SHOW_BUSY_ICON, showbusyicon);
-        return showbusyicon;
+    public String getShowBusyIcon() {
+        getterHook(Preference.SHOW_BUSY_ICON, showBusyIcon);
+        return showBusyIcon;
     }
 
     /**
@@ -479,9 +479,9 @@ public class User {
      *
      * @return whether to round frames
      */
-    public String getRoundedwindows() {
-        getterHook(Preference.ROUNDED_WINDOWS, roundedwindows);
-        return roundedwindows;
+    public String getRoundedWindows() {
+        getterHook(Preference.ROUNDED_WINDOWS, roundedWindows);
+        return roundedWindows;
     }
 
     /**
@@ -489,9 +489,9 @@ public class User {
      *
      * @return the window color
      */
-    public String getWindowcolor() {
-        getterHook(Preference.WINDOW_COLOR, windowcolor);
-        return windowcolor;
+    public String getWindowColor() {
+        getterHook(Preference.WINDOW_COLOR, windowColor);
+        return windowColor;
     }
 
     /**
@@ -499,9 +499,9 @@ public class User {
      *
      * @return the java date pattern for the console clock
      */
-    public String getConsoleclockformat() {
-        getterHook(Preference.CONSOLE_CLOCK_FORMAT, consoleclockformat);
-        return consoleclockformat;
+    public String getConsoleClockFormat() {
+        getterHook(Preference.CONSOLE_CLOCK_FORMAT, consoleClockFormat);
+        return consoleClockFormat;
     }
 
     /**
@@ -509,9 +509,9 @@ public class User {
      *
      * @return whether to send a typing sound every typing animation
      */
-    public String getTypingsound() {
-        getterHook(Preference.TYPING_SOUND, typingsound);
-        return typingsound;
+    public String getTypingSound() {
+        getterHook(Preference.TYPING_SOUND, typingSound);
+        return typingSound;
     }
 
     /**
@@ -519,9 +519,9 @@ public class User {
      *
      * @return the youtube uuid the procedural checker script is at
      */
-    public String getYoutubeuuid() {
-        getterHook(Preference.YOUTUBE_UUID, youtubeuuid);
-        return youtubeuuid;
+    public String getYoutubeUuid() {
+        getterHook(Preference.YOUTUBE_UUID, youtubeUuid);
+        return youtubeUuid;
     }
 
     /**
@@ -529,9 +529,9 @@ public class User {
      *
      * @return whether caps mode is on
      */
-    public String getCapsmode() {
-        getterHook(Preference.CAPS_MODE, capsmode);
-        return capsmode;
+    public String getCapsMode() {
+        getterHook(Preference.CAPS_MODE, capsMode);
+        return capsMode;
     }
 
     /**
@@ -539,9 +539,9 @@ public class User {
      *
      * @return whether this user is logged in
      */
-    public String getLoggedin() {
-        getterHook(Preference.LOGGED_IN, loggedin);
-        return loggedin;
+    public String getLoggedIn() {
+        getterHook(Preference.LOGGED_IN, loggedIn);
+        return loggedIn;
     }
 
     /**
@@ -549,9 +549,9 @@ public class User {
      *
      * @return whether to show the audio total length or the time remaining
      */
-    public String getAudiolength() {
-        getterHook(Preference.AUDIO_LENGTH, audiolength);
-        return audiolength;
+    public String getAudioLength() {
+        getterHook(Preference.AUDIO_LENGTH, audioLength);
+        return audioLength;
     }
 
     /**
@@ -559,9 +559,9 @@ public class User {
      *
      * @return whether to persist notifications
      */
-    public String getPersistentnotifications() {
-        getterHook(Preference.PERSISTENT_NOTIFICATIONS, persistentnotifications);
-        return persistentnotifications;
+    public String getPersistentNotifications() {
+        getterHook(Preference.PERSISTENT_NOTIFICATIONS, persistentNotifications);
+        return persistentNotifications;
     }
 
     /**
@@ -589,9 +589,9 @@ public class User {
      *
      * @return whether to wrap the native terminal
      */
-    public String getWrapshell() {
-        getterHook(Preference.WRAP_SHELL, wrapshell);
-        return wrapshell;
+    public String getWrapShell() {
+        getterHook(Preference.WRAP_SHELL, wrapShell);
+        return wrapShell;
     }
 
     private static final String SCREEN_STAT = "screenstat";
@@ -689,10 +689,10 @@ public class User {
     /**
      * Sets the user font size.
      *
-     * @param fontsize the user font size
+     * @param fontSize the user font size
      */
-    public void setFontsize(String fontsize) {
-        this.fontsize = fontsize;
+    public void setFontSize(String fontSize) {
+        this.fontSize = fontSize;
     }
 
     /**
@@ -716,64 +716,64 @@ public class User {
     /**
      * Sets whether to perform intro music.
      *
-     * @param intromusic whether to perform intro music
+     * @param introMusic whether to perform intro music
      */
-    public void setIntromusic(String intromusic) {
-        this.intromusic = intromusic;
+    public void setIntroMusic(String introMusic) {
+        this.introMusic = introMusic;
     }
 
     /**
      * Sets whether to show debug menus on start.
      *
-     * @param debugwindows whether to show the debug menus on start
+     * @param debugWindows whether to show the debug menus on start
      */
-    public void setDebugwindows(String debugwindows) {
-        this.debugwindows = debugwindows;
+    public void setDebugWindows(String debugWindows) {
+        this.debugWindows = debugWindows;
     }
 
     /**
      * Sets whether to choose a random background on start.
      *
-     * @param randombackground whether to choose a random background on start
+     * @param randomBackground whether to choose a random background on start
      */
-    public void setRandombackground(String randombackground) {
-        this.randombackground = randombackground;
+    public void setRandomBackground(String randomBackground) {
+        this.randomBackground = randomBackground;
     }
 
     /**
      * Sets whether to draw the output border.
      *
-     * @param outputborder whether to draw the output border
+     * @param outputBorder whether to draw the output border
      */
-    public void setOutputborder(String outputborder) {
-        this.outputborder = outputborder;
+    public void setOutputBorder(String outputBorder) {
+        this.outputBorder = outputBorder;
     }
 
     /**
      * Sets whether to draw the input border.
      *
-     * @param inputborder whether to draw the input border
+     * @param inputBorder whether to draw the input border
      */
-    public void setInputborder(String inputborder) {
-        this.inputborder = inputborder;
+    public void setInputBorder(String inputBorder) {
+        this.inputBorder = inputBorder;
     }
 
     /**
      * Sets whether to chime hourly.
      *
-     * @param hourlychimes whether to chime hourly
+     * @param hourlyChimes whether to chime hourly
      */
-    public void setHourlychimes(String hourlychimes) {
-        this.hourlychimes = hourlychimes;
+    public void setHourlyChimes(String hourlyChimes) {
+        this.hourlyChimes = hourlyChimes;
     }
 
     /**
      * Sets whether to silence errors.
      *
-     * @param silenceerrors whether to silence errors
+     * @param silenceErrors whether to silence errors
      */
-    public void setSilenceerrors(String silenceerrors) {
-        this.silenceerrors = silenceerrors;
+    public void setSilenceErrors(String silenceErrors) {
+        this.silenceErrors = silenceErrors;
     }
 
     /**
@@ -788,163 +788,163 @@ public class User {
     /**
      * Sets whether to fill the output area.
      *
-     * @param outputfill whether to fill the output area
+     * @param outputFill whether to fill the output area
      */
-    public void setOutputfill(String outputfill) {
-        this.outputfill = outputfill;
+    public void setOutputFill(String outputFill) {
+        this.outputFill = outputFill;
     }
 
     /**
      * Sets whether to fill the input field.
      *
-     * @param inputfill whether to fill the input field
+     * @param inputFill whether to fill the input field
      */
-    public void setInputfill(String inputfill) {
-        this.inputfill = inputfill;
+    public void setInputFill(String inputFill) {
+        this.inputFill = inputFill;
     }
 
     /**
      * Sets whether to show the console clock.
      *
-     * @param clockonconsole whether to show the console clock
+     * @param clockOnConsole whether to show the console clock
      */
-    public void setClockonconsole(String clockonconsole) {
-        this.clockonconsole = clockonconsole;
+    public void setClockOnConsole(String clockOnConsole) {
+        this.clockOnConsole = clockOnConsole;
     }
 
     /**
      * Sets whether to show seconds on the console clock.
      *
-     * @param showseconds whether to show seconds on the console clock
+     * @param showSeconds whether to show seconds on the console clock
      */
-    public void setShowseconds(String showseconds) {
-        this.showseconds = showseconds;
+    public void setShowSeconds(String showSeconds) {
+        this.showSeconds = showSeconds;
     }
 
     /**
      * Sets whether to filter the chat of any foul language.
      *
-     * @param filterchat whether to filter the chat of any foul language
+     * @param filterChat whether to filter the chat of any foul language
      */
-    public void setFilterchat(String filterchat) {
-        this.filterchat = filterchat;
+    public void setFilterChat(String filterChat) {
+        this.filterChat = filterChat;
     }
 
     /**
      * Sets the last start time for this user.
      *
-     * @param laststart the last start time for this user
+     * @param lastStart the last start time for this user
      */
-    public void setLaststart(String laststart) {
-        this.laststart = laststart;
+    public void setLastStart(String lastStart) {
+        this.lastStart = lastStart;
     }
 
     /**
      * Sets whether to minimize instead of close when the console close button is pressed.
      *
-     * @param minimizeonclose whether to minimize instead of close when the console close button is pressed
+     * @param minimizeOnClose whether to minimize instead of close when the console close button is pressed
      */
-    public void setMinimizeonclose(String minimizeonclose) {
-        this.minimizeonclose = minimizeonclose;
+    public void setMinimizeOnClose(String minimizeOnClose) {
+        this.minimizeOnClose = minimizeOnClose;
     }
 
     /**
      * Sets whether to perform typing animations.
      *
-     * @param typinganimation whether to perform typing animations
+     * @param typingAnimation whether to perform typing animations
      */
-    public void setTypinganimation(String typinganimation) {
-        this.typinganimation = typinganimation;
+    public void setTypingAnimation(String typingAnimation) {
+        this.typingAnimation = typingAnimation;
     }
 
     /**
      * Sets whether to show the busy icon.
      *
-     * @param showbusyicon whether to show the busy icon
+     * @param showBusyIcon whether to show the busy icon
      */
-    public void setShowbusyicon(String showbusyicon) {
-        this.showbusyicon = showbusyicon;
+    public void setShowBusyIcon(String showBusyIcon) {
+        this.showBusyIcon = showBusyIcon;
     }
 
     /**
      * Sets whether windows should be rounded.
      *
-     * @param roundedwindows whether windows should be rounded
+     * @param roundedWindows whether windows should be rounded
      */
-    public void setRoundedwindows(String roundedwindows) {
-        this.roundedwindows = roundedwindows;
+    public void setRoundedWindows(String roundedWindows) {
+        this.roundedWindows = roundedWindows;
     }
 
     /**
      * Sets the window color.
      *
-     * @param windowcolor the window color
+     * @param windowColor the window color
      */
-    public void setWindowcolor(String windowcolor) {
-        this.windowcolor = windowcolor;
+    public void setWindowColor(String windowColor) {
+        this.windowColor = windowColor;
     }
 
     /**
      * Sets the console clock format.
      *
-     * @param consoleclockformat the console clock format
+     * @param consoleClockFormat the console clock format
      */
-    public void setConsoleclockformat(String consoleclockformat) {
-        this.consoleclockformat = consoleclockformat;
+    public void setConsoleClockFormat(String consoleClockFormat) {
+        this.consoleClockFormat = consoleClockFormat;
     }
 
     /**
      * Sets whether to play a typing sound on typing animations calls.
      *
-     * @param typingsound whether to play a typing sound on typing animations calls
+     * @param typingSound whether to play a typing sound on typing animations calls
      */
-    public void setTypingsound(String typingsound) {
-        this.typingsound = typingsound;
+    public void setTypingSound(String typingSound) {
+        this.typingSound = typingSound;
     }
 
     /**
      * Sets the youtube uuid the procedural finder is at.
      *
-     * @param youtubeuuid the youtube uuid the procedural finder is at
+     * @param youtubeUuid the youtube uuid the procedural finder is at
      */
-    public void setYoutubeuuid(String youtubeuuid) {
-        this.youtubeuuid = youtubeuuid;
+    public void setYoutubeUuid(String youtubeUuid) {
+        this.youtubeUuid = youtubeUuid;
     }
 
     /**
      * Sets caps mode.
      *
-     * @param capsmode caps mode
+     * @param capsMode caps mode
      */
-    public void setCapsmode(String capsmode) {
-        this.capsmode = capsmode;
+    public void setCapsMode(String capsMode) {
+        this.capsMode = capsMode;
     }
 
     /**
      * Sets whether this user is logged in.
      *
-     * @param loggedin whether this user is logged in
+     * @param loggedIn whether this user is logged in
      */
-    public void setLoggedin(String loggedin) {
-        this.loggedin = loggedin;
+    public void setLoggedIn(String loggedIn) {
+        this.loggedIn = loggedIn;
     }
 
     /**
      * Sets whether to show the audio total length or time remaining for the audio player.
      *
-     * @param audiolength whether to show the audio total length or time remaining for the audio player
+     * @param audioLength whether to show the audio total length or time remaining for the audio player
      */
-    public void setAudiolength(String audiolength) {
-        this.audiolength = audiolength;
+    public void setAudioLength(String audioLength) {
+        this.audioLength = audioLength;
     }
 
     /**
      * Sets whether to persist notifications.
      *
-     * @param persistentnotifications whether to persist notifications
+     * @param persistentNotifications whether to persist notifications
      */
-    public void setPersistentnotifications(String persistentnotifications) {
-        this.persistentnotifications = persistentnotifications;
+    public void setPersistentNotifications(String persistentNotifications) {
+        this.persistentNotifications = persistentNotifications;
     }
 
     /**
@@ -968,10 +968,10 @@ public class User {
     /**
      * Sets whether to wrap the native shell.
      *
-     * @param wrapshell whether to wrap the native shell
+     * @param wrapShell whether to wrap the native shell
      */
-    public void setWrapshell(String wrapshell) {
-        this.wrapshell = wrapshell;
+    public void setWrapShell(String wrapShell) {
+        this.wrapShell = wrapShell;
     }
 
     /**

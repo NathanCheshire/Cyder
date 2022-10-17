@@ -72,7 +72,7 @@ public class YoutubeThread {
         stringUtil = new StringUtil(new CyderOutputPane(jTextPane));
 
         CyderThreadRunner.submit(() -> {
-            youtubeUuid = UserUtil.getCyderUser().getYoutubeuuid();
+            youtubeUuid = UserUtil.getCyderUser().getYoutubeUuid();
 
             Preconditions.checkNotNull(youtubeUuid);
             Preconditions.checkArgument(youtubeUuid.length() == 11);
@@ -223,6 +223,6 @@ public class YoutubeThread {
      */
     public void kill() {
         exit = true;
-        UserUtil.getCyderUser().setYoutubeuuid(youtubeUuid);
+        UserUtil.getCyderUser().setYoutubeUuid(youtubeUuid);
     }
 }

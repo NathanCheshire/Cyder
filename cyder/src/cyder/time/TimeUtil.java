@@ -228,7 +228,7 @@ public final class TimeUtil {
         if (Console.INSTANCE.getUuid() == null)
             throw new IllegalStateException("The console uuid is not set");
 
-        return getTime(UserUtil.getCyderUser().getConsoleclockformat());
+        return getTime(UserUtil.getCyderUser().getConsoleClockFormat());
     }
 
     /**

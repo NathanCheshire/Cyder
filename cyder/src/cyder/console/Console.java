@@ -442,7 +442,7 @@ public enum Console {
         int height;
         ImageIcon icon;
 
-        boolean randombackground = UserUtil.getCyderUser().getRandombackground().equals("1");
+        boolean randombackground = UserUtil.getCyderUser().getRandomBackground().equals("1");
         if (randombackground && reloadAndGetBackgrounds().size() > 1) {
             backgroundIndex = NumberUtil.randInt(backgrounds.size() - 1);
         }
@@ -650,13 +650,13 @@ public enum Console {
         outputScroll.getViewport().setOpaque(false);
         outputScroll.setOpaque(false);
         outputScroll.setFocusable(true);
-        boolean outputBorder = UserUtil.getCyderUser().getOutputborder().equals("1");
+        boolean outputBorder = UserUtil.getCyderUser().getOutputBorder().equals("1");
         Color color = ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground());
         outputScroll.setBorder(outputBorder
                 ? new LineBorder(color, FIELD_BORDER_THICKNESS, false)
                 : BorderFactory.createEmptyBorder());
 
-        boolean outputFill = UserUtil.getCyderUser().getOutputfill().equals("1");
+        boolean outputFill = UserUtil.getCyderUser().getOutputFill().equals("1");
         if (outputFill) {
             outputArea.setOpaque(true);
             outputArea.setBackground(color);
@@ -676,7 +676,7 @@ public enum Console {
 
         inputField.setEchoChar((char) 0);
         inputField.setText(consoleBashString);
-        boolean inputBorder = UserUtil.getCyderUser().getInputborder().equals("1");
+        boolean inputBorder = UserUtil.getCyderUser().getInputBorder().equals("1");
         Color backgroundColor = ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground());
         inputField.setBorder(inputBorder
                 ? new LineBorder(backgroundColor, FIELD_BORDER_THICKNESS, false)
@@ -692,7 +692,7 @@ public enum Console {
 
         installInputFieldListeners();
 
-        boolean inputFill = UserUtil.getCyderUser().getInputfill().equals("1");
+        boolean inputFill = UserUtil.getCyderUser().getInputFill().equals("1");
         if (inputFill) {
             inputField.setOpaque(true);
             inputField.setBackground(ColorUtil.hexStringToColor(UserUtil.getCyderUser().getBackground()));
@@ -790,7 +790,7 @@ public enum Console {
         closeButton = new CloseButton();
         closeButton.setForConsole(true);
         closeButton.setClickAction(() -> {
-            boolean shouldMinimize = UserUtil.getCyderUser().getMinimizeonclose().equals("1");
+            boolean shouldMinimize = UserUtil.getCyderUser().getMinimizeOnClose().equals("1");
             if (shouldMinimize) {
                 UiUtil.minimizeAllFrames();
             } else {
@@ -1009,7 +1009,7 @@ public enum Console {
                         int sec = LocalDateTime.now().getSecond();
 
                         if (min == 0 && sec == 0 && lastChimeHour.get() != LocalDateTime.now().getHour()) {
-                            boolean chime = UserUtil.getCyderUser().getHourlychimes().equals("1");
+                            boolean chime = UserUtil.getCyderUser().getHourlyChimes().equals("1");
                             if (chime) {
                                 IoUtil.playSystemAudio(CHIME_PATH);
                                 lastChimeHour.set(LocalDateTime.now().getHour());
@@ -1040,7 +1040,7 @@ public enum Console {
         CyderThreadRunner.submit(() -> {
             try {
                 while (true) {
-                    if (!isClosed() && UserUtil.getCyderUser().getShowbusyicon().equals("1")) {
+                    if (!isClosed() && UserUtil.getCyderUser().getShowBusyIcon().equals("1")) {
                         ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
                         int num = threadGroup.activeCount();
                         Thread[] printThreads = new Thread[num];
@@ -1140,7 +1140,7 @@ public enum Console {
             getInputHandler().println("Thanks for creating me, Nate :,) Happy Birthday bud");
         }
 
-        boolean debugWindows = UserUtil.getCyderUser().getDebugwindows().equals("1");
+        boolean debugWindows = UserUtil.getCyderUser().getDebugWindows().equals("1");
         if (debugWindows) {
             CyderThreadRunner.submit(() -> {
                 try {
@@ -1175,11 +1175,11 @@ public enum Console {
         }
 
         if (TimeUtil.millisToDays(System.currentTimeMillis() -
-                Long.parseLong(UserUtil.getCyderUser().getLaststart())) > ACCEPTABLE_DAYS_WITHOUT_USE) {
+                Long.parseLong(UserUtil.getCyderUser().getLastStart())) > ACCEPTABLE_DAYS_WITHOUT_USE) {
             consoleCyderFrame.notify("Welcome back, " + UserUtil.getCyderUser().getName() + "!");
         }
 
-        UserUtil.getCyderUser().setLaststart(String.valueOf(System.currentTimeMillis()));
+        UserUtil.getCyderUser().setLastStart(String.valueOf(System.currentTimeMillis()));
 
         introMusicCheck();
     }
@@ -1208,7 +1208,7 @@ public enum Console {
      * Determines what audio to play at the beginning of the Console startup.
      */
     private void introMusicCheck() {
-        boolean introMusic = UserUtil.getCyderUser().getIntromusic().equalsIgnoreCase("1");
+        boolean introMusic = UserUtil.getCyderUser().getIntroMusic().equalsIgnoreCase("1");
         boolean released = PropLoader.getBoolean(RELEASED_KEY);
 
         if (introMusic) {
@@ -1330,7 +1330,7 @@ public enum Console {
 
         @Override
         public void focusLost(FocusEvent e) {
-            boolean outputBorder = UserUtil.getCyderUser().getOutputborder().equals("1");
+            boolean outputBorder = UserUtil.getCyderUser().getOutputBorder().equals("1");
             if (!outputBorder) {
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
             }
@@ -2254,7 +2254,7 @@ public enum Console {
     @SuppressWarnings("MagicConstant") /* Font metric is always checked */
     private final MouseWheelListener fontSizerListener = e -> {
         if (e.isControlDown()) {
-            int fontSize = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
+            int fontSize = Integer.parseInt(UserUtil.getCyderUser().getFontSize());
             fontSize += e.getWheelRotation() == WHEEL_UP ? 1 : -1;
 
             if (fontSize > PropLoader.getInteger(MAX_FONT_SIZE)
@@ -2271,7 +2271,7 @@ public enum Console {
                     inputField.setFont(newFont);
                     outputArea.setFont(newFont);
 
-                    UserUtil.getCyderUser().setFontsize(String.valueOf(fontSize));
+                    UserUtil.getCyderUser().setFontSize(String.valueOf(fontSize));
 
                     YoutubeUtil.refreshAllDownloadLabels();
                 }
@@ -2298,7 +2298,7 @@ public enum Console {
 
         UserUtil.setCyderUser(uuid);
         UserUtil.logoutAllUsers();
-        UserUtil.getCyderUser().setLoggedin("1");
+        UserUtil.getCyderUser().setLoggedIn("1");
         UserUtil.deleteInvalidBackgrounds(uuid);
     }
 
@@ -2320,7 +2320,7 @@ public enum Console {
     public Font generateUserFont() {
         String fontName = UserUtil.getCyderUser().getFont();
         int fontMetric = Integer.parseInt(PropLoader.getString(FONT_METRIC));
-        int fontSize = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
+        int fontSize = Integer.parseInt(UserUtil.getCyderUser().getFontSize());
 
         if (!NumberUtil.isValidFontMetric(fontMetric)) fontMetric = Font.BOLD;
 
@@ -3321,7 +3321,7 @@ public enum Console {
      * Refreshes the consoleCyderFrame painted title to display the console clock in the specified pattern if enabled.
      */
     public void refreshClockText() {
-        boolean showClock = UserUtil.getCyderUser().getClockonconsole().equals("1");
+        boolean showClock = UserUtil.getCyderUser().getClockOnConsole().equals("1");
         if (!showClock) {
             consoleCyderFrame.setCyderFrameTitle("");
             return;
@@ -3334,7 +3334,7 @@ public enum Console {
         // No custom pattern so take into account showSeconds
         if (userConfiguredTime.equalsIgnoreCase(regularSecondTime)
                 || userConfiguredTime.equalsIgnoreCase(regularNoSecondTime)) {
-            boolean showSeconds = UserUtil.getCyderUser().getShowseconds().equalsIgnoreCase("1");
+            boolean showSeconds = UserUtil.getCyderUser().getShowSeconds().equalsIgnoreCase("1");
             userConfiguredTime = showSeconds ? regularSecondTime : regularNoSecondTime;
         }
 
@@ -3360,7 +3360,7 @@ public enum Console {
 
         if (logoutUser) {
             Logger.log(LogTag.LOGOUT, UserUtil.getCyderUser().getName());
-            UserUtil.getCyderUser().setLoggedin("0");
+            UserUtil.getCyderUser().setLoggedIn("0");
         }
 
         if (exit) consoleCyderFrame.addPostCloseAction(() -> OsUtil.exit(ExitCondition.GenesisControlledExit));
