@@ -1,9 +1,11 @@
 package cyder.handlers.internal;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
@@ -14,6 +16,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.user.UserUtil;
+import cyder.utils.BoundsUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.StringUtil;
 
@@ -39,33 +42,29 @@ public final class ExceptionHandler {
 
     /**
      * This method takes an exception, prints it to a string, and then passes the
-     * error to the SessionLogger to be logged
+     * error to the SessionLogger to be logged.
      *
      * @param e the exception we are handling and possibly informing the user of
      */
     public static void handle(Exception e) {
         try {
-            Optional<String> write = getPrintableException(e);
-
-            if (write.isPresent() && !write.get().trim().isEmpty()) {
-                if (Logger.hasLogStarted()) {
-                    Logger.log(LogTag.EXCEPTION, write.get());
-                } else {
-                    Logger.log(LogTag.DEBUG, write.get());
+            Optional<String> optionalWrite = getPrintableException(e);
+            if (optionalWrite.isPresent()) {
+                String write = optionalWrite.get();
+                if (!write.replaceAll(CyderRegexPatterns.whiteSpaceRegex, "").isEmpty()) {
+                    LogTag logTag = Logger.hasLogStarted() ? LogTag.EXCEPTION : LogTag.DEBUG;
+                    Logger.log(logTag, write);
                 }
             }
 
-            // if user wants to be informed of exceptions
-            boolean silenceErrors = UserUtil.getCyderUser().getSilenceErrors().equals("0");
-            if (Console.INSTANCE.getUuid() != null &&
-                    !Console.INSTANCE.isClosed() &&
-                    silenceErrors) {
-
+            boolean consoleOpen = Console.INSTANCE.getUuid() != null && !Console.INSTANCE.isClosed();
+            boolean silenceErrors = UserUtil.getCyderUser().getSilenceErrors().equals("1");
+            if (consoleOpen && !silenceErrors) {
                 showExceptionPane(e);
             }
-        } catch (Exception ex) {
-            // uh oh
+        } catch (Exception uhOh) {
             Logger.log(LogTag.DEBUG, getPrintableException(e));
+            Logger.log(LogTag.DEBUG, getPrintableException(uhOh));
         }
     }
 
@@ -95,6 +94,41 @@ public final class ExceptionHandler {
     private static final int opacityTimeout = 20;
 
     /**
+     * The prefix for the thread name for exception popup animators.
+     */
+    private static final String exceptionPopupThreadAnimatorNamePrefix = "Exception Popup Opacity Animator: ";
+
+    /**
+     * The at keyword to split a stack trace at to find the first line number.
+     */
+    private static final String AT = "at";
+
+    /**
+     * The minimum opacity for exception popup animations.
+     */
+    private static final float minimumOpacity = 0.0f;
+
+    /**
+     * The maximum opacity for exception popup animations.
+     */
+    private static final float maximumOpacity = 1.0f;
+
+    /**
+     * The time the exception popup should be visible between fade-in and fade-out animations.
+     */
+    private static final int exceptionPopupVisibilityTime = 3000;
+
+    /**
+     * The exception string.
+     */
+    private static final String EXCEPTION = "Exception";
+
+    /**
+     * A newline character.
+     */
+    private static final String newline = "\n";
+
+    /**
      * Shows a popup pane containing a preview of the exception.
      * If the user clicks on the popup, it vanishes immediately and the
      * current log is opened externally.
@@ -103,101 +137,97 @@ public final class ExceptionHandler {
      */
     private static void showExceptionPane(Exception e) {
         Optional<String> informTextOptional = getPrintableException(e);
+        if (informTextOptional.isEmpty()) return;
+        String informText = informTextOptional.get();
 
-        // if exception pretty stack present
-        if (informTextOptional.isPresent()) {
-            AtomicBoolean escapeOpacityThread = new AtomicBoolean();
-            escapeOpacityThread.set(false);
+        AtomicBoolean escapeOpacityThread = new AtomicBoolean();
+        String[] exceptionLines = informText.split(newline);
 
-            // split at the newlines the method adds
-            String[] lines = informTextOptional.get().split("\n");
+        // find max width of lines
+        int width = 0;
+        Font font = CyderFonts.DEFAULT_FONT_SMALL;
 
-            // find max width of lines
-            int width = 0;
-            Font font = CyderFonts.DEFAULT_FONT_SMALL;
-
-            for (int i = 0 ; i < 10 ; i++) {
-                width = Math.max(width, StringUtil.getMinWidth(lines[i], font));
-            }
-
-            // find height of frame
-            int height = StringUtil.getAbsoluteMinHeight(lines[0], font) * (exceptionLines + 1);
-
-            // form label string
-            StringBuilder builder = new StringBuilder();
-            builder.append("<html>");
-
-            for (int i = 0 ; i < exceptionLines ; i++) {
-                builder.append(lines[i]);
-
-                if (i != lines.length - 1) {
-                    builder.append("<br/>");
-                }
-            }
-
-            builder.append("</html>");
-
-            // generate frame
-            CyderFrame borderlessFrame = CyderFrame.generateBorderlessFrame(width + 2 * offset,
-                    height + 2 * offset, exceptionRed);
-            borderlessFrame.setTitle(e.getMessage());
-            borderlessFrame.setFrameType(CyderFrame.FrameType.POPUP);
-
-            // generate label for text
-            JLabel label = new JLabel(builder.toString());
-            label.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    escapeOpacityThread.set(true);
-                    borderlessFrame.dispose(true);
-                }
-            });
-            label.setForeground(CyderColors.navy);
-            label.setFont(CyderFonts.DEFAULT_FONT_SMALL);
-            label.setHorizontalAlignment(JLabel.CENTER);
-            label.setVerticalAlignment(JLabel.CENTER);
-            label.setBounds(offset, offset, width, height);
-            borderlessFrame.getContentPane().add(label);
-
-            borderlessFrame.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_RIGHT);
-
-            // start opacity animation
-            borderlessFrame.setOpacity(0.0f);
-            borderlessFrame.setVisible(true);
-
-            CyderThreadRunner.submit(() -> {
-                try {
-                    for (float i = 0.0f ; i <= 1 ; i += opacityShiftDelta) {
-                        if (escapeOpacityThread.get()) return;
-
-                        borderlessFrame.setOpacity(i);
-                        borderlessFrame.repaint();
-                        ThreadUtil.sleep(opacityTimeout);
-                    }
-
-                    borderlessFrame.setOpacity(1.0f);
-                    borderlessFrame.repaint();
-
-                    ThreadUtil.sleep(5000);
-
-                    if (escapeOpacityThread.get()) return;
-
-                    for (float i = 1.0f ; i >= 0 ; i -= opacityShiftDelta) {
-                        if (escapeOpacityThread.get()) return;
-
-                        borderlessFrame.setOpacity(i);
-                        borderlessFrame.repaint();
-                        ThreadUtil.sleep(opacityTimeout);
-                    }
-
-                    if (escapeOpacityThread.get()) return;
-
-                    borderlessFrame.dispose(true);
-                } catch (Exception ex) {
-                    Logger.log(LogTag.DEBUG, getPrintableException(ex));
-                }
-            }, "Exception Popup Opacity Animator: " + e.getMessage());
+        for (int i = 0 ; i < 10 ; i++) {
+            width = Math.max(width, StringUtil.getMinWidth(exceptionLines[i], font));
         }
+
+        // find height of frame
+        int height = StringUtil.getAbsoluteMinHeight(exceptionLines[0], font) * (ExceptionHandler.exceptionLines + 1);
+
+        // form label string
+        StringBuilder builder = new StringBuilder();
+        builder.append(BoundsUtil.OPENING_HTML_TAG);
+
+        for (int i = 0 ; i < ExceptionHandler.exceptionLines ; i++) {
+            builder.append(exceptionLines[i]);
+
+            if (i != exceptionLines.length - 1) {
+                builder.append(BoundsUtil.BREAK_TAG);
+            }
+        }
+
+        builder.append(BoundsUtil.CLOSING_HTML_TAG);
+
+        CyderFrame borderlessFrame = CyderFrame.generateBorderlessFrame(
+                width + 2 * offset, height + 2 * offset, exceptionRed);
+        borderlessFrame.setTitle(e.getMessage());
+        borderlessFrame.setFrameType(CyderFrame.FrameType.POPUP);
+
+        // generate label for text
+        JLabel label = new JLabel(builder.toString());
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                escapeOpacityThread.set(true);
+                borderlessFrame.dispose(true);
+            }
+        });
+        label.setForeground(CyderColors.navy);
+        label.setFont(CyderFonts.DEFAULT_FONT_SMALL);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setBounds(offset, offset, width, height);
+        borderlessFrame.getContentPane().add(label);
+
+        borderlessFrame.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_RIGHT);
+
+        // start opacity animation
+        borderlessFrame.setOpacity(minimumOpacity);
+        borderlessFrame.setVisible(true);
+
+        String threadName = exceptionPopupThreadAnimatorNamePrefix + e.getMessage();
+        CyderThreadRunner.submit(() -> {
+            try {
+                for (float i = minimumOpacity ; i <= maximumOpacity ; i += opacityShiftDelta) {
+                    if (escapeOpacityThread.get()) return;
+                    borderlessFrame.setOpacity(i);
+                    borderlessFrame.repaint();
+                    ThreadUtil.sleep(opacityTimeout);
+                }
+
+                borderlessFrame.setOpacity(maximumOpacity);
+                borderlessFrame.repaint();
+
+                ThreadUtil.sleep(exceptionPopupVisibilityTime);
+                if (escapeOpacityThread.get()) return;
+
+                for (float i = maximumOpacity ; i >= minimumOpacity ; i -= opacityShiftDelta) {
+                    if (escapeOpacityThread.get()) return;
+                    borderlessFrame.setOpacity(i);
+                    borderlessFrame.repaint();
+                    ThreadUtil.sleep(opacityTimeout);
+                }
+
+                borderlessFrame.setOpacity(minimumOpacity);
+                borderlessFrame.repaint();
+
+                if (escapeOpacityThread.get()) return;
+                borderlessFrame.dispose(true);
+            } catch (Exception ex) {
+                Logger.log(LogTag.DEBUG, getPrintableException(ex));
+            }
+        }, threadName);
+
     }
 
     /**
@@ -224,40 +254,37 @@ public final class ExceptionHandler {
      * @return Optional String possibly containing exception details and trace
      */
     public static Optional<String> getPrintableException(Exception e) {
-        // Should be highly unlikely if not impossible
-        if (e == null) return Optional.empty();
+        if (e == null) {
+            return Optional.empty();
+        }
 
-        //init streams to get information from the Exception
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-
-        //print to the stream
         e.printStackTrace(pw);
-
-        //full stack trace
-        int lineNumber = e.getStackTrace()[0].getLineNumber();
         String stackTrace = sw.toString();
 
-        //one or more white space, "at" literal, one or more white space
-        String[] stackSplit = stackTrace.split("\\s+at\\s+");
+        ImmutableList<StackTraceElement> stackTraceElements = ImmutableList.copyOf(e.getStackTrace());
+        if (stackTraceElements.isEmpty()) return Optional.empty();
+        int lineNumber = stackTraceElements.get(0).getLineNumber();
+
+        String atRegex = CyderRegexPatterns.whiteSpaceRegex + AT + CyderRegexPatterns.whiteSpaceRegex;
+        ImmutableList<String> splitStackAt = ImmutableList.copyOf(stackTrace.split(atRegex));
 
         StringBuilder exceptionPrintBuilder = new StringBuilder();
-
-        if (stackSplit.length > 1) {
-            exceptionPrintBuilder.append("\nException origin: ").append(stackSplit[1]);
+        if (!splitStackAt.isEmpty()) {
+            exceptionPrintBuilder.append(newline + "Exception origin: ").append(splitStackAt.get(0));
         } else {
-            exceptionPrintBuilder.append("\nException origin not found");
+            exceptionPrintBuilder.append(newline + "Exception origin not found");
         }
 
         // line number
         if (lineNumber != 0) {
-            exceptionPrintBuilder.append("\nFrom line: ").append(lineNumber);
+            exceptionPrintBuilder.append(newline + "From line: ").append(lineNumber);
         } else {
-            exceptionPrintBuilder.append("\nThrowing line not found");
+            exceptionPrintBuilder.append(newline + "Throwing line not found in stacktrace");
         }
 
-        //trace
-        exceptionPrintBuilder.append("\nTrace: ").append(stackTrace);
+        exceptionPrintBuilder.append(newline + "Trace: ").append(stackTrace);
 
         return Optional.of(exceptionPrintBuilder.toString());
     }
@@ -290,7 +317,7 @@ public final class ExceptionHandler {
      * @param condition the exit condition to log when exiting
      */
     public static void exceptionExit(String message, ExitCondition condition) {
-        exceptionExit(message, condition, "Exception");
+        exceptionExit(message, condition, EXCEPTION);
     }
 
     /**
