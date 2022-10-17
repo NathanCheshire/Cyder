@@ -1163,9 +1163,15 @@ public enum Console {
             }, DEBUG_STAT_FINDER_THREAD_NAME);
         }
 
+        String openingBracket = "[";
+        String closingBracket = "]";
+        String programMode = "Debug Mode"; // todo cyder debug mode, user mode, ide debug mode
         if (PropLoader.getBoolean(TESTING_MODE)) {
-            Logger.log(LogTag.CONSOLE_LOAD, "[" + OsUtil.getOsUsername() + "] [TESTING MODE]");
+            Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername()
+                    + closingBracket + " " + openingBracket + "TESTING MODE" + closingBracket);
             Test.test();
+        } else {
+
         }
 
         if (TimeUtil.millisToDays(System.currentTimeMillis() -

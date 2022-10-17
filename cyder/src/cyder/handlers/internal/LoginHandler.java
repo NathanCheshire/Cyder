@@ -459,42 +459,32 @@ public final class LoginHandler {
         CyderSplash.INSTANCE.setLoadingMessage("Checking for an AutoCypher");
 
         if (PropLoader.getBoolean(AUTOCYPHER)) {
-            Logger.log(LogTag.LOGIN, "AutoCypher Attempt");
-            CyderSplash.INSTANCE.setLoadingMessage("Auto Cyphering");
+            CyderSplash.INSTANCE.setLoadingMessage("AutoCypher found, attempting");
 
-            if (!autoCypher()) {
-                showGui();
-            }
+            if (!autoCypher()) showGui();
         } else if (!PropLoader.getBoolean(RELEASED)) {
-            ExceptionHandler.exceptionExit("Unreleased build of Cyder",
-                    "Exception", ExitCondition.NotReleased);
+            ExceptionHandler.exceptionExit("Unreleased build of Cyder", ExitCondition.NotReleased);
         } else {
             Logger.log(LogTag.LOGIN, "CYDER STARTING IN RELEASED MODE");
 
-            Optional<String> optionalUUID = UserUtil.getFirstLoggedInUser();
-
-            if (optionalUUID.isPresent()) {
-                String loggedInUUID = optionalUUID.get();
-
-                UserUtil.logoutAllUsers();
-
-                Console.INSTANCE.setUuid(loggedInUUID);
-
-                Logger.log(LogTag.LOGIN, CyderEntry.PreviouslyLoggedIn.getName().toUpperCase()
-                        + ", " + loggedInUUID);
-
-                Logger.log(LogTag.DEBUG, "Cyder Entry = " + CyderEntry.PreviouslyLoggedIn);
-                Console.INSTANCE.launch();
-            } else {
+            Optional<String> optionalUuid = UserUtil.getFirstLoggedInUser();
+            if (optionalUuid.isEmpty()) {
                 showGui();
+                return;
             }
+
+            String loggedInUuid = optionalUuid.get();
+            UserUtil.logoutAllUsers();
+            Console.INSTANCE.setUuid(loggedInUuid);
+            Logger.log(LogTag.LOGIN, CyderEntry.PreviouslyLoggedIn.getName() + ", " + loggedInUuid);
+            Console.INSTANCE.launch();
         }
     }
 
     /**
-     * The status returned by a {@link CheckPasswordStatus} call.
+     * The status returned by a {@link #checkPassword(String, String)} call.
      */
-    private enum CheckPasswordStatus {
+    private enum PasswordCheckResult {
         /**
          * The login failed due to invalid credentials.
          */
@@ -508,8 +498,7 @@ public final class LoginHandler {
          * to find the uuid and load the other user files.
          */
         SUCCESS
-
-        // todo enum could contain optional user
+        // todo enum could contain optional user maybe? to replace above of also invoking findUuid()
     }
 
     /**
@@ -521,12 +510,11 @@ public final class LoginHandler {
      * @return whether the name and pass combo was authenticated and logged in
      */
     public static boolean recognize(String name, String hashedPass, boolean autoCypherAttempt) {
-        CheckPasswordStatus status = checkPassword(name, hashedPass);
-
+        PasswordCheckResult status = checkPassword(name, hashedPass);
         switch (status) {
             case FAILED -> {
                 if (autoCypherAttempt) {
-                    priorityPrintingList.add("Autocypher failed");
+                    priorityPrintingList.add("Autocypher failed\n");
                     Logger.log(LogTag.LOGIN, CyderEntry.AutoCypher.getFailMessage());
                 } else if (UiUtil.notNullAndVisible(loginFrame)) {
                     priorityPrintingList.add("Incorrect password\n");
@@ -582,7 +570,7 @@ public final class LoginHandler {
      * @param hashedPass the already once SHA256 hashed password
      * @return the result of checking for the a user with the provided name and password
      */
-    public static CheckPasswordStatus checkPassword(String name, String hashedPass) {
+    public static PasswordCheckResult checkPassword(String name, String hashedPass) {
         LinkedList<String> names = new LinkedList<>();
 
         for (File userJsonFile : UserUtil.getUserJsons()) {
@@ -590,7 +578,7 @@ public final class LoginHandler {
         }
 
         if (!StringUtil.in(name, true, names)) {
-            return CheckPasswordStatus.UNKNOWN_USER;
+            return PasswordCheckResult.UNKNOWN_USER;
         }
 
         for (File userJsonFile : UserUtil.getUserJsons()) {
@@ -598,11 +586,11 @@ public final class LoginHandler {
 
             if (name.equalsIgnoreCase(user.getName()) && SecurityUtil.toHexString(SecurityUtil.getSha256(
                     hashedPass.toCharArray())).equals(user.getPass())) {
-                return CheckPasswordStatus.SUCCESS;
+                return PasswordCheckResult.SUCCESS;
             }
         }
 
-        return CheckPasswordStatus.FAILED;
+        return PasswordCheckResult.FAILED;
     }
 
     /**

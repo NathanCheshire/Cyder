@@ -1,5 +1,6 @@
 package cyder.handlers.internal;
 
+import com.google.common.base.Preconditions;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -206,13 +207,12 @@ public final class ExceptionHandler {
      */
     public static void silentHandle(Exception e) {
         try {
-            Optional<String> write = getPrintableException(e);
-
-            if (write.isPresent() && !write.get().trim().isEmpty()) {
-                Logger.log(LogTag.EXCEPTION, write.get());
-            }
+            Optional<String> optionalWrite = getPrintableException(e);
+            if (optionalWrite.isEmpty()) return;
+            String write = optionalWrite.get();
+            Logger.log(LogTag.EXCEPTION, write);
         } catch (Exception ex) {
-            Logger.log(LogTag.DEBUG, getPrintableException(e));
+            Logger.log(LogTag.DEBUG, getPrintableException(ex));
         }
     }
 
@@ -223,9 +223,8 @@ public final class ExceptionHandler {
      * @return Optional String possibly containing exception details and trace
      */
     public static Optional<String> getPrintableException(Exception e) {
-        //should be highly unlikely if not impossible
-        if (e == null)
-            return Optional.empty();
+        // Should be highly unlikely if not impossible
+        if (e == null) return Optional.empty();
 
         //init streams to get information from the Exception
         StringWriter sw = new StringWriter();
@@ -267,13 +266,30 @@ public final class ExceptionHandler {
      * Cyder exits.
      *
      * @param message   the message of the popup
-     * @param title     the title of the popup
      * @param condition the exit condition to log when exiting
+     * @param title     the title of the popup
      */
-    public static void exceptionExit(String message, String title, ExitCondition condition) {
+    public static void exceptionExit(String message, ExitCondition condition, String title) {
+        Preconditions.checkNotNull(message);
+        Preconditions.checkArgument(!message.isEmpty());
+        Preconditions.checkNotNull(condition);
+        Preconditions.checkNotNull(title);
+        Preconditions.checkArgument(!title.isEmpty());
+
         InformHandler.inform(new InformHandler.Builder(message)
                 .setTitle(title)
                 .setPostCloseAction(() -> OsUtil.exit(condition)));
+    }
+
+    /**
+     * Shows a popup with the provided error message. When the opened popup frame is disposed,
+     * Cyder exits.
+     *
+     * @param message   the message of the popup
+     * @param condition the exit condition to log when exiting
+     */
+    public static void exceptionExit(String message, ExitCondition condition) {
+        exceptionExit(message, condition, "Exception");
     }
 
     /**
@@ -283,6 +299,9 @@ public final class ExceptionHandler {
      * @param fatalExceptionText the exception text if the condition is false
      */
     public static void checkFatalCondition(boolean condition, String fatalExceptionText) {
+        Preconditions.checkNotNull(fatalExceptionText);
+        Preconditions.checkArgument(!fatalExceptionText.isEmpty());
+
         if (!condition) {
             throw new FatalException(fatalExceptionText);
         }
