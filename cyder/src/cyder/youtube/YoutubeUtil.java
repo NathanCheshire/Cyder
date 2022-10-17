@@ -262,15 +262,18 @@ public final class YoutubeUtil {
      */
     public static String getFirstUuid(String youtubeQuery) {
         Preconditions.checkNotNull(youtubeQuery);
+        Preconditions.checkArgument(!youtubeQuery.isEmpty());
 
         String ret = null;
 
-        String query = YOUTUBE_QUERY_BASE + youtubeQuery.replace(" ", "+");
+        String query = YOUTUBE_QUERY_BASE + youtubeQuery.replace(CyderRegexPatterns.whiteSpaceRegex, "+");
         String jsonString = NetworkUtil.readUrl(query);
 
-        if (jsonString.contains("\"videoId\":\"")) {
-            String[] parts = jsonString.split("\"videoId\":\"");
-            ret = parts[1].substring(0, 11);
+        String videoIdIdentifier = quote + VIDEO_ID + quote + colon + quote;
+        if (jsonString.contains(videoIdIdentifier)) {
+            String[] parts = jsonString.split(videoIdIdentifier);
+            // Safe to access second index since we are checking for contains above
+            ret = parts[1].substring(0, UUID_LENGTH);
         }
 
         return ret;
@@ -459,8 +462,7 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
-        // todo build url method in future
-        return YOUTUBE_THUMBNAIL_BASE + uuid + "/" + MAX_RES_DEFAULT;
+        return YOUTUBE_THUMBNAIL_BASE + uuid + forwardSlash + MAX_RES_DEFAULT;
     }
 
     /**
@@ -473,8 +475,7 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
-        // todo build url method in future
-        return YOUTUBE_THUMBNAIL_BASE + uuid + "/" + SD_DEFAULT;
+        return YOUTUBE_THUMBNAIL_BASE + uuid + forwardSlash + SD_DEFAULT;
     }
 
     /**
@@ -501,31 +502,31 @@ public final class YoutubeUtil {
      * @param query      the search query such as "black parade"
      * @return the constructed url to match the provided parameters
      */
-    @SuppressWarnings("ConstantConditions") /* unit test asserts throws for query of null */
+    @SuppressWarnings("ConstantConditions") /* Unit test asserts throws for query of null */
     public static String buildYouTubeApiV3SearchQuery(int numResults, String query) {
-        Preconditions.checkNotNull(query);
         Preconditions.checkArgument(SEARCH_QUERY_RESULTS_RANGE.contains(numResults));
+        Preconditions.checkNotNull(query);
         Preconditions.checkArgument(!query.isEmpty());
+        Preconditions.checkArgument(PropLoader.propExists(YOUTUBE_API_3_KEY));
 
-        String key = PropLoader.getString(YOUTUBE_API_3_KEY);
-        Preconditions.checkArgument(!StringUtil.isNullOrEmpty(key));
+        String youtubeKey = PropLoader.getString(YOUTUBE_API_3_KEY);
+        String[] queryWords = query.split(CyderRegexPatterns.whiteSpaceRegex);
 
-        String[] parts = query.split("\\s+");
+        StringBuilder queryBuilder = new StringBuilder();
+        for (int i = 0 ; i < queryWords.length ; i++) {
+            String append = queryWords[i].replaceAll(CyderRegexPatterns.illegalUrlCharsRegex, "");
+            queryBuilder.append(append.trim());
 
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = 0 ; i < parts.length ; i++) {
-            String append = parts[i].replaceAll("[^0-9A-Za-z\\-._~%]+", "");
-            builder.append(append.trim());
-
-            if (i != parts.length - 1 && !append.isEmpty()) {
-                builder.append(NetworkUtil.URL_SPACE);
+            if (i != queryWords.length - 1 && !append.isEmpty()) {
+                queryBuilder.append(NetworkUtil.URL_SPACE);
             }
         }
 
-        // todo could extract more here
-        return YOUTUBE_API_V3_SEARCH_BASE + YoutubeConstants.MAX_RESULTS_PARAMETER
-                + numResults + "&q=" + builder + "&type=video" + "&key=" + key;
+        return YOUTUBE_API_V3_SEARCH_BASE
+                + YoutubeConstants.MAX_RESULTS_PARAMETER + numResults
+                + queryParameter + queryBuilder
+                + videoTypeParameter + video
+                + keyParameter + youtubeKey;
     }
 
     /**

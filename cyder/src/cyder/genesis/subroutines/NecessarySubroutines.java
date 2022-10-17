@@ -39,6 +39,7 @@ public final class NecessarySubroutines {
      */
     private static final int INSTANCE_SOCKET_PORT = 5150;
 
+    // todo exposed for remote shutdown API
     /**
      * Returns the server socket used to ensure only one instance of Cyder exists.
      *
@@ -152,6 +153,4 @@ public final class NecessarySubroutines {
 
         return singularInstance.get();
     }
-
-
 }

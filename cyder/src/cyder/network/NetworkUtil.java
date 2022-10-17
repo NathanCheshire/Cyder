@@ -570,15 +570,10 @@ public class NetworkUtil {
             throw new FatalException("Not enough ip elements");
         }
         Element ipElement = ipElements.get(ipElementIndex);
-        String ip = ipElement.text().replaceAll(nonNumberRegex, "");
+        String ip = ipElement.text().replaceAll(CyderRegexPatterns.nonNumberAndPeriodRegex, "");
 
         return new IspQueryResult(isp, hostname, ip, city, state, country);
     }
-
-    /**
-     * The regex to target non numbers in a string.
-     */
-    private static final String nonNumberRegex = "[^0-9.]";
 
     /**
      * Filters the hostname out of the rest of the text of the element.

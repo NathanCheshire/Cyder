@@ -96,9 +96,29 @@ public final class YoutubeConstants {
     static final String SD_DEFAULT = "sddefault.jpg";
 
     /**
+     * The length of YouTube UUIDs.
+     */
+    static final int UUID_LENGTH = 11;
+
+    /**
+     * A quote character.
+     */
+    static final String quote = "\"";
+
+    /**
+     * A colon character.
+     */
+    static final String colon = ":";
+
+    /**
+     * The id to look for in the document returned by a url query.
+     */
+    static final String VIDEO_ID = "videoId";
+
+    /**
      * The pattern to identify a valid YouTube UUID.
      */
-    static final Pattern UUID_PATTERN = Pattern.compile("[-_A-Za-z0-9]{11}");
+    static final Pattern UUID_PATTERN = Pattern.compile("[-_A-Za-z0-9]{" + UUID_LENGTH + "}");
 
     /**
      * The delay between download button updates.
@@ -179,6 +199,31 @@ public final class YoutubeConstants {
      * The index of the matcher group the eta of the youtube download lies at.
      */
     static final int etaIndex = 4;
+
+    /**
+     * A forward slash character.
+     */
+    static final String forwardSlash = "/";
+
+    /**
+     * The url query parameter.
+     */
+    static final String queryParameter = "&q=";
+
+    /**
+     * The youtube video type url parameter.
+     */
+    static final String videoTypeParameter = "&type=";
+
+    /**
+     * The video type parameter for constructed youtube search query urls.
+     */
+    static final String video = "video";
+
+    /**
+     * The key parameter for constructed youtube search query urls.
+     */
+    static final String keyParameter = "&key=";
 
     /**
      * Suppress default constructor.

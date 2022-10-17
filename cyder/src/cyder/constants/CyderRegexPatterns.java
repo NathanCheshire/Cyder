@@ -88,6 +88,7 @@ public final class CyderRegexPatterns {
                     + "[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$]",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
+    // todo use me for instances of this
     /**
      * The regex used to match 1-n whitespace.
      */
@@ -106,7 +107,12 @@ public final class CyderRegexPatterns {
     /**
      * A regex for targeting two or more spaces.
      */
-    public static final String multipleSpacesRegex = "\\s{2,}";
+    public static final String multipleWhiteSpaceRegex = "\\s{2,}";
+
+    /**
+     * A regex for targeting characters not acceptable in a url.
+     */
+    public static final String illegalUrlCharsRegex = "[^0-9A-Za-z\\-._~%]+";
 
     /**
      * Suppress default constructor.

@@ -81,7 +81,7 @@ public final class UsbUtil {
             ImmutableList<String> standardOutput = result.getStandardOutput();
             if (standardOutput.size() > headerLines) {
                 standardOutput.stream().filter(line -> !line.isEmpty()).skip(headerLines).forEach(line -> {
-                    String[] parts = line.split(CyderRegexPatterns.multipleSpacesRegex);
+                    String[] parts = line.split(CyderRegexPatterns.multipleWhiteSpaceRegex);
                     if (parts.length == usbDeviceMemberLength) {
                         int index = 0;
                         String status = parts[index++];
