@@ -322,10 +322,7 @@ public enum CyderSplash {
     /**
      * The end drag event callback to set the console relative position if the splash frame is moved before disposal.
      */
-    private final Runnable dragEventCallback = () -> {
-        relocatedCenterPoint.set(splashFrame.getCenterPointOnScreen());
-        System.out.println("here");
-    };
+    private final Runnable dragEventCallback = () -> relocatedCenterPoint.set(splashFrame.getCenterPointOnScreen());
 
     /**
      * The label used to display what Cyder is currently doing in the startup routine.

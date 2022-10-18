@@ -2,6 +2,7 @@ package cyder.handlers.internal;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.annotations.ForReadability;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -34,41 +35,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public final class ExceptionHandler {
     /**
-     * Suppress default constructor.
-     */
-    private ExceptionHandler() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
-     * This method takes an exception, prints it to a string, and then passes the
-     * error to the SessionLogger to be logged.
-     *
-     * @param e the exception we are handling and possibly informing the user of
-     */
-    public static void handle(Exception e) {
-        try {
-            Optional<String> optionalWrite = getPrintableException(e);
-            if (optionalWrite.isPresent()) {
-                String write = optionalWrite.get();
-                if (!write.replaceAll(CyderRegexPatterns.whiteSpaceRegex, "").isEmpty()) {
-                    LogTag logTag = Logger.hasLogStarted() ? LogTag.EXCEPTION : LogTag.DEBUG;
-                    Logger.log(logTag, write);
-                }
-            }
-
-            boolean consoleOpen = Console.INSTANCE.getUuid() != null && !Console.INSTANCE.isClosed();
-            boolean silenceErrors = UserUtil.getCyderUser().getSilenceErrors().equals("1");
-            if (consoleOpen && !silenceErrors) {
-                showExceptionPane(e);
-            }
-        } catch (Exception uhOh) {
-            Logger.log(LogTag.DEBUG, getPrintableException(e));
-            Logger.log(LogTag.DEBUG, getPrintableException(uhOh));
-        }
-    }
-
-    /**
      * The red color used for exception panes.
      */
     private static final Color exceptionRed = new Color(254, 157, 158);
@@ -81,7 +47,7 @@ public final class ExceptionHandler {
     /**
      * The number of lines to display on an exception preview.
      */
-    private static final int exceptionLines = 10;
+    private static final int shownExceptionLines = 10;
 
     /**
      * The insets offset for the exception label on the frame.
@@ -129,73 +95,94 @@ public final class ExceptionHandler {
     private static final String newline = "\n";
 
     /**
+     * The name of the thread to animate out exception popups.
+     */
+    private static final String exceptionPopupDisposeAnimatorThreadName = "Exception popup dispose animator";
+
+    /**
+     * The font to use for exception popups.
+     */
+    private static final Font exceptionPopupFont = CyderFonts.DEFAULT_FONT_SMALL;
+
+    /**
+     * Suppress default constructor.
+     */
+    private ExceptionHandler() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
+
+    /**
+     * This method takes an exception, prints it to a string, and then passes the
+     * error to the SessionLogger to be logged.
+     *
+     * @param e the exception we are handling and possibly informing the user of
+     */
+    public static void handle(Exception e) {
+        try {
+            Optional<String> optionalWrite = getPrintableException(e);
+            if (optionalWrite.isPresent()) {
+                String write = optionalWrite.get();
+                if (!write.replaceAll(CyderRegexPatterns.whiteSpaceRegex, "").isEmpty()) {
+                    LogTag logTag = Logger.hasLogStarted() ? LogTag.EXCEPTION : LogTag.DEBUG;
+                    Logger.log(logTag, write);
+
+                    boolean consoleOpen = Console.INSTANCE.getUuid() != null && !Console.INSTANCE.isClosed();
+                    boolean silenceErrors = UserUtil.getCyderUser().getSilenceErrors().equals("1");
+                    if (consoleOpen && !silenceErrors) {
+                        showExceptionPane(write, e.getMessage());
+                    }
+                }
+            }
+        } catch (Exception uhOh) {
+            Logger.log(LogTag.DEBUG, getPrintableException(e));
+            Logger.log(LogTag.DEBUG, getPrintableException(uhOh));
+        }
+    }
+
+    /**
      * Shows a popup pane containing a preview of the exception.
      * If the user clicks on the popup, it vanishes immediately and the
      * current log is opened externally.
      *
-     * @param e the exception to preview/show
+     * @param printableException the printable exception text
+     * @param exceptionMessage   the result of invoking {@link Exception#getMessage()}
      */
-    private static void showExceptionPane(Exception e) {
-        Optional<String> informTextOptional = getPrintableException(e);
-        if (informTextOptional.isEmpty()) return;
-        String informText = informTextOptional.get();
-
+    private static void showExceptionPane(String printableException, String exceptionMessage) {
         AtomicBoolean escapeOpacityThread = new AtomicBoolean();
-        String[] exceptionLines = informText.split(newline);
+        ImmutableList<String> exceptionLines = ImmutableList.copyOf(printableException.split(newline));
 
-        // find max width of lines
-        int width = 0;
-        Font font = CyderFonts.DEFAULT_FONT_SMALL;
-
-        for (int i = 0 ; i < 10 ; i++) {
-            width = Math.max(width, StringUtil.getMinWidth(exceptionLines[i], font));
+        int labelWidth = 0;
+        for (int i = 0 ; i < shownExceptionLines ; i++) {
+            int currentLineWidth = StringUtil.getMinWidth(exceptionLines.get(i), exceptionPopupFont);
+            labelWidth = Math.max(labelWidth, currentLineWidth);
         }
 
-        // find height of frame
-        int height = StringUtil.getAbsoluteMinHeight(exceptionLines[0], font) * (ExceptionHandler.exceptionLines + 1);
+        int lineHeight = StringUtil.getAbsoluteMinHeight(exceptionLines.get(0), exceptionPopupFont);
+        int labelHeight = lineHeight * shownExceptionLines + 2 * offset;
 
-        // form label string
-        StringBuilder builder = new StringBuilder();
-        builder.append(BoundsUtil.OPENING_HTML_TAG);
-
-        for (int i = 0 ; i < ExceptionHandler.exceptionLines ; i++) {
-            builder.append(exceptionLines[i]);
-
-            if (i != exceptionLines.length - 1) {
-                builder.append(BoundsUtil.BREAK_TAG);
-            }
+        StringBuilder builder = new StringBuilder(BoundsUtil.OPENING_HTML_TAG);
+        for (int i = 0 ; i < shownExceptionLines ; i++) {
+            builder.append(exceptionLines.get(i));
+            if (i != exceptionLines.size() - 1) builder.append(BoundsUtil.BREAK_TAG);
         }
-
         builder.append(BoundsUtil.CLOSING_HTML_TAG);
 
-        CyderFrame borderlessFrame = CyderFrame.generateBorderlessFrame(
-                width + 2 * offset, height + 2 * offset, exceptionRed);
-        borderlessFrame.setTitle(e.getMessage());
+        int frameWidth = labelWidth + 2 * offset;
+        int frameHeight = labelHeight + 2 * offset;
+        CyderFrame borderlessFrame = CyderFrame.generateBorderlessFrame(frameWidth, frameHeight, exceptionRed);
+        borderlessFrame.setTitle(exceptionMessage);
         borderlessFrame.setFrameType(CyderFrame.FrameType.POPUP);
 
-        // generate label for text
-        JLabel label = new JLabel(builder.toString());
-        label.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                escapeOpacityThread.set(true);
-                borderlessFrame.dispose(true);
-            }
-        });
-        label.setForeground(CyderColors.navy);
-        label.setFont(CyderFonts.DEFAULT_FONT_SMALL);
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setVerticalAlignment(JLabel.CENTER);
-        label.setBounds(offset, offset, width, height);
+        String labelText = builder.toString();
+        JLabel label = generatePopupLabel(labelText, escapeOpacityThread, borderlessFrame);
+        label.setBounds(offset, offset, labelWidth, labelHeight);
         borderlessFrame.getContentPane().add(label);
 
         borderlessFrame.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_RIGHT);
-
-        // start opacity animation
         borderlessFrame.setOpacity(minimumOpacity);
         borderlessFrame.setVisible(true);
 
-        String threadName = exceptionPopupThreadAnimatorNamePrefix + e.getMessage();
+        String threadName = exceptionPopupThreadAnimatorNamePrefix + exceptionMessage;
         CyderThreadRunner.submit(() -> {
             try {
                 for (float i = minimumOpacity ; i <= maximumOpacity ; i += opacityShiftDelta) {
@@ -227,7 +214,40 @@ public final class ExceptionHandler {
                 Logger.log(LogTag.DEBUG, getPrintableException(ex));
             }
         }, threadName);
+    }
 
+    /**
+     * Generates the label for exception popups.
+     *
+     * @param labelText           the label text
+     * @param escapeOpacityThread the atomic boolean for escaping the opacity animation.
+     * @param frame               the frame the returned JLabel will be added to
+     * @return the generated label
+     */
+    @ForReadability
+    private static JLabel generatePopupLabel(String labelText, AtomicBoolean escapeOpacityThread, CyderFrame frame) {
+        JLabel label = new JLabel(labelText);
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                escapeOpacityThread.set(true);
+
+                CyderThreadRunner.submit(() -> {
+                    for (float i = frame.getOpacity() ; i >= minimumOpacity ; i -= opacityShiftDelta) {
+                        frame.setOpacity(i);
+                        frame.repaint();
+                        ThreadUtil.sleep(opacityTimeout / 2);
+                    }
+
+                    frame.dispose(true);
+                }, exceptionPopupDisposeAnimatorThreadName);
+            }
+        });
+        label.setForeground(CyderColors.navy);
+        label.setFont(CyderFonts.DEFAULT_FONT_SMALL);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+        return label;
     }
 
     /**
@@ -265,28 +285,35 @@ public final class ExceptionHandler {
 
         ImmutableList<StackTraceElement> stackTraceElements = ImmutableList.copyOf(e.getStackTrace());
         if (stackTraceElements.isEmpty()) return Optional.empty();
-        int lineNumber = stackTraceElements.get(0).getLineNumber();
+        StackTraceElement stackTraceElement = stackTraceElements.get(0);
+
+        int lineNumber = stackTraceElement.getLineNumber();
+        String lineNumberRepresentation = lineNumber == 0
+                ? "Throwing line not found in stacktrace"
+                : "From line: " + lineNumber;
+
+        String declaringClass = stackTraceElement.getClassName();
+        String declaringClassRepresentation = "Declaring class: " + declaringClass;
+
+        String filename = stackTraceElement.getFileName();
+        String filenameRepresentation = "Filename: " + filename;
 
         String atRegex = CyderRegexPatterns.whiteSpaceRegex + AT + CyderRegexPatterns.whiteSpaceRegex;
         ImmutableList<String> splitStackAt = ImmutableList.copyOf(stackTrace.split(atRegex));
 
-        StringBuilder exceptionPrintBuilder = new StringBuilder();
+        StringBuilder retBuilder = new StringBuilder(newline);
         if (!splitStackAt.isEmpty()) {
-            exceptionPrintBuilder.append(newline + "Exception origin: ").append(splitStackAt.get(0));
+            String origin = splitStackAt.get(0);
+            retBuilder.append("Exception origin: ").append(origin);
         } else {
-            exceptionPrintBuilder.append(newline + "Exception origin not found");
+            retBuilder.append("Exception origin not found");
         }
 
-        // line number
-        if (lineNumber != 0) {
-            exceptionPrintBuilder.append(newline + "From line: ").append(lineNumber);
-        } else {
-            exceptionPrintBuilder.append(newline + "Throwing line not found in stacktrace");
-        }
-
-        exceptionPrintBuilder.append(newline + "Trace: ").append(stackTrace);
-
-        return Optional.of(exceptionPrintBuilder.toString());
+        retBuilder.append(newline).append(filenameRepresentation);
+        retBuilder.append(newline).append(declaringClassRepresentation);
+        retBuilder.append(newline).append(lineNumberRepresentation);
+        retBuilder.append(newline).append("Trace: ").append(stackTrace);
+        return Optional.of(retBuilder.toString());
     }
 
     /**
