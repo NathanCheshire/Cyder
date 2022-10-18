@@ -21,8 +21,9 @@ public enum ExitCondition {
     ForcedImmediateExit(-2, "Forced Immediate Exit"),
 
     /**
-     * Reserved as this indicates something specific to JVM exits
+     * Reserved as this indicates something specific to JVM exits.
      */
+     @Deprecated
     TrueExternalStop(-1, "DO NOT OVERRIDE"),
 
     /**
@@ -31,7 +32,7 @@ public enum ExitCondition {
     GenesisControlledExit(0, "Genesis Controlled Exit"),
 
     /**
-     * The exit was schedule via the user or Cyder.
+     * The exit was schedule by a Cyder user.
      */
     ScheduledExit(1, "Genesis Controlled Exit");
 
@@ -42,7 +43,7 @@ public enum ExitCondition {
     private final int code;
 
     /**
-     * The associated description with the exit condition used for logging.
+     * The description of the exit used for logging.
      */
     private final String description;
 
@@ -52,18 +53,18 @@ public enum ExitCondition {
     }
 
     /**
-     * Returns the associated code with this exit condition.
+     * Returns the code for this exit condition.
      *
-     * @return the associated code with this exit condition
+     * @return the code for this exit condition
      */
     public int getCode() {
         return code;
     }
 
     /**
-     * Returns the associated description with this exit condition.
+     * Returns the description for this exit condition.
      *
-     * @return the associated description with this exit condition
+     * @return the description for this exit condition
      */
     public String getDescription() {
         return description;
