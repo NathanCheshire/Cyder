@@ -52,9 +52,9 @@ public enum LogTag {
     SYSTEM_IO("SYSTEM IO"),
 
     /**
-     * A user starts Cyder or enters the main program, that of the Console.
+     * A user enters input inside of the login field on the login widget frame.
      */
-    LOGIN("LOGIN"),
+    LOGIN_FIELD("LOGIN FIELD"),
 
     /**
      * A user logs out of Cyder, not necessarily a program exit.

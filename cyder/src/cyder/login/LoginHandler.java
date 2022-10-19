@@ -23,7 +23,10 @@ import cyder.ui.pane.CyderScrollPane;
 import cyder.user.User;
 import cyder.user.UserCreator;
 import cyder.user.UserUtil;
-import cyder.utils.*;
+import cyder.utils.ImageUtil;
+import cyder.utils.OsUtil;
+import cyder.utils.SecurityUtil;
+import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Optional;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -221,6 +225,21 @@ public final class LoginHandler {
     private static final ImmutableList<String> validCommands = ImmutableList.of(CREATE, LOGIN, QUIT, HELP);
 
     /**
+     * The prefix for when the login mode is username.
+     */
+    private static final String usernameModePrefix = "Username: ";
+
+    /**
+     * The prefix for the login frame title.
+     */
+    private static final String titlePrefix = "Cyder Login" + SPACE;
+
+    /**
+     * The uuid for the user attempting to log in.
+     */
+    private static String recognizedUuid = "";
+
+    /**
      * Begins the login typing animation and printing thread.
      */
     private static void startTypingAnimation() {
@@ -244,26 +263,25 @@ public final class LoginHandler {
         CyderThreadRunner.submit(() -> {
             try {
                 while (doLoginAnimations && loginFrame != null) {
+                    Semaphore semaphore = referencePane.getSemaphore();
                     if (!priorityPrintingList.isEmpty()) {
-                        referencePane.getSemaphore().acquire();
+                        semaphore.acquire();
                         String line = priorityPrintingList.removeFirst();
 
                         for (char c : line.toCharArray()) {
                             referencePane.getStringUtil().print(String.valueOf(c));
                             ThreadUtil.sleep(charTimeout);
                         }
-                        referencePane.getSemaphore().release();
-                    }
-                    //pull from the regular list second
-                    else if (!printingList.isEmpty()) {
-                        referencePane.getSemaphore().acquire();
+                        semaphore.release();
+                    } else if (!printingList.isEmpty()) {
+                        semaphore.acquire();
                         String line = printingList.removeFirst();
 
                         for (char c : line.toCharArray()) {
                             referencePane.getStringUtil().print(String.valueOf(c));
                             ThreadUtil.sleep(charTimeout);
                         }
-                        referencePane.getSemaphore().release();
+                        semaphore.release();
                     }
 
                     ThreadUtil.sleep(lineTimeout);
@@ -272,30 +290,6 @@ public final class LoginHandler {
                 ExceptionHandler.handle(e);
             }
         }, LOGIN_PRINTING_ANIMATION_THREAD_NAME);
-
-        //thread to update the input field caret position
-        CyderThreadRunner.submit(() -> {
-            try {
-                while (doLoginAnimations && loginFrame != null) {
-                    //reset caret pos
-                    if (loginField.getCaretPosition() < currentBashString.length()) {
-                        loginField.setCaretPosition(loginField.getPassword().length);
-                    }
-
-                    //if it doesn't start with bash string, reset it to start with bashString if it's not mode 2
-                    if (loginMode != LoginMode.PASSWORD &&
-                            !String.valueOf(loginField.getPassword()).startsWith(currentBashString)) {
-                        loginField.setText(currentBashString + String.valueOf(
-                                loginField.getPassword()).replace(currentBashString, "").trim());
-                        loginField.setCaretPosition(loginField.getPassword().length);
-                    }
-
-                    ThreadUtil.sleep(50);
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }, "Login Input Caret Position Updater");
     }
 
     /**
@@ -366,6 +360,14 @@ public final class LoginHandler {
             public void keyTyped(KeyEvent event) {
                 loginFieldEnterAction(event);
             }
+
+            public void keyPressed(KeyEvent event) {
+                fixLoginFieldCaretPosition();
+            }
+
+            public void keyReleased(KeyEvent event) {
+                fixLoginFieldCaretPosition();
+            }
         });
 
         shiftShowsPassword = CyderPasswordField.addShiftShowsPasswordListener(loginField);
@@ -376,8 +378,25 @@ public final class LoginHandler {
         loginFrame.finalizeAndShow();
 
         CyderSplash.INSTANCE.fastDispose();
-        if (UserUtil.noUsers()) printlnPriority("No users found; please type " + quote + "create" + quote);
+        if (UserUtil.noUsers()) printlnPriority("No users found; please type " + quote + CREATE + quote);
         startTypingAnimation();
+    }
+
+    /**
+     * Checks for the caret position in the login field being before the current bash string
+     */
+    private static void fixLoginFieldCaretPosition() {
+        if (loginMode != LoginMode.PASSWORD) {
+            int caretPosition = loginField.getCaretPosition();
+            int length = loginField.getPassword().length;
+            String prefix = switch (loginMode) {
+                case INPUT -> defaultBashString;
+                case USERNAME -> usernameModePrefix;
+                default -> throw new IllegalStateException("Invalid login mode: " + loginMode);
+            };
+            boolean beforeBashString = caretPosition < prefix.length();
+            if (beforeBashString) loginField.setCaretPosition(length);
+        }
     }
 
     /**
@@ -387,7 +406,8 @@ public final class LoginHandler {
      */
     @ForReadability
     public static String getLoginFrameTitle() {
-        return "Cyder Login " + "[" + PropLoader.getString(VERSION) + " Build" + "]";
+        String cyderVersion = PropLoader.getString(VERSION);
+        return titlePrefix + "[" + cyderVersion + " Build" + "]";
     }
 
     /**
@@ -435,8 +455,8 @@ public final class LoginHandler {
         String userInput = "";
         char[] fieldInput = loginField.getPassword();
         if (loginMode != LoginMode.PASSWORD) {
-            userInput = new String(fieldInput).replace(currentBashString, "");
-            // todo log what they entered
+            userInput = new String(fieldInput).substring(currentBashString.length());
+            Logger.log(LogTag.LOGIN_FIELD, userInput);
         }
 
         switch (loginMode) {
@@ -463,7 +483,7 @@ public final class LoginHandler {
             UserCreator.showGui();
             loginField.setText(currentBashString);
         } else if (userInput.equalsIgnoreCase(LOGIN)) {
-            currentBashString = "Username: ";
+            currentBashString = usernameModePrefix;
             loginField.setText(currentBashString);
             printlnPriority("Awaiting Username");
             loginMode = LoginMode.USERNAME;
@@ -575,13 +595,13 @@ public final class LoginHandler {
         }
 
         String loggedInUuid = optionalUuid.get();
-        Logger.log(LogTag.LOGIN, "Found previously logged in user: " + loggedInUuid);
+        Logger.log(LogTag.DEBUG, "Found previously logged in user: " + loggedInUuid);
         UserUtil.logoutAllUsers();
         Console.INSTANCE.setUuid(loggedInUuid);
         Console.INSTANCE.launch();
     }
 
-    // todo add logging back in to this class
+    // todo add debug logs to this class
 
     /**
      * Attempts to log in a user based on the provided
@@ -592,33 +612,28 @@ public final class LoginHandler {
      * @return whether the name and pass combo was authenticated and logged in
      */
     public static boolean recognize(String name, String hashedPass, boolean autoCypherAttempt) {
-        PasswordCheckResult status = checkPassword(name, hashedPass);
-        switch (status.getResult()) {
+        recognizedUuid = "";
+
+        PasswordCheckResult result = checkPassword(name, hashedPass);
+        switch (result) {
             case FAILED -> {
-                if (autoCypherAttempt) {
-                    printlnPriority("Autocypher failed");
-                } else if (UiUtil.notNullAndVisible(loginFrame)) {
-                    printlnPriority("Incorrect password");
-                    loginField.requestFocusInWindow();
-                }
+                printlnPriority(autoCypherAttempt ? "AutoCypher failed" : "Incorrect password");
+                loginField.requestFocusInWindow();
             }
             case UNKNOWN_USER -> printlnPriority("Unknown user");
             case SUCCESS -> {
-                Optional<String> optionalUuid = status.getUuid();
-                if (optionalUuid.isEmpty()) throw new IllegalStateException("Successful"
-                        + " recognize failed to provide uuid");
-                Console.INSTANCE.setUuid(optionalUuid.get());
+                if (recognizedUuid.isEmpty()) {
+                    throw new IllegalStateException("Successful recognize failed to provide uuid");
+                }
+                Console.INSTANCE.setUuid(recognizedUuid);
 
                 doLoginAnimations = false;
 
-                if (!Console.INSTANCE.isClosed()) {
-                    Console.INSTANCE.closeFrame(false, true);
-                }
-
+                if (!Console.INSTANCE.isClosed()) Console.INSTANCE.closeFrame(false, true);
                 Console.INSTANCE.launch();
                 return true;
             }
-            default -> throw new IllegalArgumentException("Invalid password status: " + status);
+            default -> throw new IllegalArgumentException("Invalid password status: " + result);
         }
 
         return false;
@@ -640,7 +655,7 @@ public final class LoginHandler {
 
         boolean namePresent = StringUtil.in(providedUsername, true, names);
         if (!namePresent) {
-            return new PasswordCheckResult(Result.UNKNOWN_USER);
+            return PasswordCheckResult.UNKNOWN_USER;
         }
 
         for (File userJsonFile : UserUtil.getUserJsons()) {
@@ -651,10 +666,10 @@ public final class LoginHandler {
             String providedPassword = SecurityUtil.toHexString(SecurityUtil.getSha256(hashedPass.toCharArray()));
 
             if (providedUsername.equalsIgnoreCase(username) && providedPassword.equals(password)) {
-                return new PasswordCheckResult(Result.SUCCESS, userJsonFile.getParentFile().getName());
+                recognizedUuid = userJsonFile.getParentFile().getName();
             }
         }
 
-        return new PasswordCheckResult(Result.FAILED);
+        return PasswordCheckResult.FAILED;
     }
 }

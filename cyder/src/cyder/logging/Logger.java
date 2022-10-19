@@ -208,8 +208,8 @@ public final class Logger {
                 logBuilder.append(LogTag.SYSTEM_IO.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
-            case LOGIN:
-                logBuilder.append(LogTag.LOGIN.constructLogTagPrepend());
+            case LOGIN_FIELD:
+                logBuilder.append(LogTag.LOGIN_FIELD.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case LOGOUT:

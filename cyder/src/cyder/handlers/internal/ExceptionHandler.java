@@ -112,14 +112,13 @@ public final class ExceptionHandler {
     }
 
     /**
-     * This method takes an exception, prints it to a string, and then passes the
-     * error to the SessionLogger to be logged.
+     * Handles an exception by converting it to a string representation and passing it to the {@link Logger}.
      *
-     * @param e the exception we are handling and possibly informing the user of
+     * @param exception the exception to handle
      */
-    public static void handle(Exception e) {
+    public static void handle(Exception exception) {
         try {
-            Optional<String> optionalWrite = getPrintableException(e);
+            Optional<String> optionalWrite = getPrintableException(exception);
             if (optionalWrite.isPresent()) {
                 String write = optionalWrite.get();
                 if (!write.replaceAll(CyderRegexPatterns.whiteSpaceRegex, "").isEmpty()) {
@@ -129,12 +128,12 @@ public final class ExceptionHandler {
                     boolean consoleOpen = Console.INSTANCE.getUuid() != null && !Console.INSTANCE.isClosed();
                     boolean silenceErrors = UserUtil.getCyderUser().getSilenceErrors().equals("1");
                     if (consoleOpen && !silenceErrors) {
-                        showExceptionPane(write, e.getMessage());
+                        showExceptionPane(write, exception.getMessage());
                     }
                 }
             }
         } catch (Exception uhOh) {
-            Logger.log(LogTag.DEBUG, getPrintableException(e));
+            Logger.log(LogTag.DEBUG, getPrintableException(exception));
             Logger.log(LogTag.DEBUG, getPrintableException(uhOh));
         }
     }
