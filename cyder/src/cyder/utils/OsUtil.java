@@ -11,6 +11,7 @@ import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.exceptions.UnsupportedOsException;
 import cyder.genesis.Cyder;
+import cyder.genesis.ProgramModeManager;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
@@ -25,6 +26,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -47,15 +49,20 @@ public final class OsUtil {
     );
 
     /**
+     * The prefix the class resource must start with for the program to be counted as starting from a JAR file.
+     */
+    private static final String jarModeResourcePrefix = "jar:";
+
+    /**
      * Whether Cyder is being run as a compiled JAR file.
      */
     public static final boolean JAR_MODE;
 
     static {
-        JAR_MODE = Objects.requireNonNull(
-                Cyder.class.getResource("Cyder.class")).toString().startsWith("jar:");
-
+        URL resource = Cyder.class.getResource("Cyder.class");
+        JAR_MODE = Objects.requireNonNull(resource).toString().startsWith(jarModeResourcePrefix);
         Logger.log(LogTag.DEBUG, "Jar mode set as: " + String.valueOf(JAR_MODE).toUpperCase());
+        ProgramModeManager.INSTANCE.refreshProgramMode();
     }
 
     /**

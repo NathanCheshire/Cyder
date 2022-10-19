@@ -10,6 +10,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
+import cyder.genesis.ProgramModeManager;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -572,6 +573,20 @@ public final class LoginHandler {
     }
 
     /**
+     * Returns whether Cyder was initially started with a successful AutoCypher.
+     *
+     * @return whether Cyder was initially started with a successful AutoCypher
+     */
+    public static boolean wasStartedViaAutoCypher() {
+        return startedViaAutoCypher;
+    }
+
+    /**
+     * Whether Cyder was initially started with a successful AutoCypher
+     */
+    private static boolean startedViaAutoCypher = false;
+
+    /**
      * Begins the login sequence to figure out how to enter Cyder and which frame to show, that of
      * the console, the login frame, or an exception pane.
      */
@@ -580,8 +595,9 @@ public final class LoginHandler {
         if (autoCypher) {
             String name = PropLoader.getString(DEBUG_HASH_NAME);
             String password = PropLoader.getString(DEBUG_HASH_PASSWORD);
-            boolean autoCypherSuccess = recognize(name, password, true);
-            if (!autoCypherSuccess) showGui();
+            startedViaAutoCypher = recognize(name, password, true);
+            ProgramModeManager.INSTANCE.refreshProgramMode();
+            if (!startedViaAutoCypher) showGui();
             return;
         }
 

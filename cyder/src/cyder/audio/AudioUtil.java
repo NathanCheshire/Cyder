@@ -510,8 +510,6 @@ public final class AudioUtil {
     //  then use static import for files, ctrl f for instances of " " as a string
     //  quote, space, colon, brackets, parenthesis
 
-    // todo log in TESTING MODE should be replaced with launched in dev debug vs ide debug... ?
-
     // todo rare case of is closed for console being false but getDominantFrame failing to get the frame
     //  needs to be mutually exclusive
 

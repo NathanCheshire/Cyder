@@ -12,7 +12,7 @@ public enum ProgramMode {
     /**
      * Cyder was started from an IDE and not a JAR file.
      */
-    IDE_NORMAL_MODE("IDE Normal", 1),
+    IDE_NORMAL("IDE Normal", 1),
 
     /**
      * Cyder was started in a debug mode by an IDE.
@@ -23,8 +23,6 @@ public enum ProgramMode {
      * Cyder was started via an AutoCypher.
      */
     DEVELOPER_DEBUG("Developer Debug", 3);
-
-    // todo need a manager for this, logging and LoginHandler is pretty messy
 
     /**
      * The name of the program mode.

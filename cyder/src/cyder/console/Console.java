@@ -1160,12 +1160,11 @@ public enum Console {
             }, DEBUG_STAT_FINDER_THREAD_NAME);
         }
 
-        // todo need to determine program mode and use
         String openingBracket = "[";
         String closingBracket = "]";
-        String programMode = "Debug Mode";
         Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername()
-                + closingBracket + " " + openingBracket + programMode + closingBracket);
+                + closingBracket + " " + openingBracket
+                + ProgramStateManager.INSTANCE.getCurrentProgramState() + closingBracket);
         if (PropLoader.getBoolean(TESTING_MODE)) Test.test();
 
         long lastStart = Long.parseLong(UserUtil.getCyderUser().getLastStart());
