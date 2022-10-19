@@ -212,6 +212,10 @@ public final class Logger {
                 logBuilder.append(LogTag.LOGIN_FIELD.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
+            case LOGIN_OUTPUT:
+                logBuilder.append(LogTag.LOGIN_OUTPUT.constructLogTagPrepend());
+                logBuilder.append(representation);
+                break;
             case LOGOUT:
                 logBuilder.append(LogTag.LOGOUT.constructLogTagPrepend());
                 logBuilder.append("[CyderUser = ").append(representation).append("]");

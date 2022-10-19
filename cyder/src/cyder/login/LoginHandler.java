@@ -1,5 +1,6 @@
 package cyder.login;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Widget;
@@ -240,6 +241,11 @@ public final class LoginHandler {
     private static String recognizedUuid = "";
 
     /**
+     * A newline character.
+     */
+    private static final char newline = '\n';
+
+    /**
      * Begins the login typing animation and printing thread.
      */
     private static void startTypingAnimation() {
@@ -267,6 +273,7 @@ public final class LoginHandler {
                     if (!priorityPrintingList.isEmpty()) {
                         semaphore.acquire();
                         String line = priorityPrintingList.removeFirst();
+                        Logger.log(LogTag.LOGIN_OUTPUT, line);
 
                         for (char c : line.toCharArray()) {
                             referencePane.getStringUtil().print(String.valueOf(c));
@@ -276,6 +283,7 @@ public final class LoginHandler {
                     } else if (!printingList.isEmpty()) {
                         semaphore.acquire();
                         String line = printingList.removeFirst();
+                        Logger.log(LogTag.LOGIN_OUTPUT, line);
 
                         for (char c : line.toCharArray()) {
                             referencePane.getStringUtil().print(String.valueOf(c));
@@ -431,11 +439,6 @@ public final class LoginHandler {
 
         return false;
     }
-
-    /**
-     * A newline character.
-     */
-    private static final char newline = '\n';
 
     /**
      * The actions to invoke when a key is pressed in the login field.
@@ -601,8 +604,6 @@ public final class LoginHandler {
         Console.INSTANCE.launch();
     }
 
-    // todo add debug logs to this class
-
     /**
      * Attempts to log in a user based on the provided
      * name and an already hashed password.
@@ -616,27 +617,40 @@ public final class LoginHandler {
 
         PasswordCheckResult result = checkPassword(name, hashedPass);
         switch (result) {
-            case FAILED -> {
-                printlnPriority(autoCypherAttempt ? "AutoCypher failed" : "Incorrect password");
-                loginField.requestFocusInWindow();
-            }
+            case FAILED -> handleFailedPasswordCheck(autoCypherAttempt);
             case UNKNOWN_USER -> printlnPriority("Unknown user");
             case SUCCESS -> {
-                if (recognizedUuid.isEmpty()) {
-                    throw new IllegalStateException("Successful recognize failed to provide uuid");
-                }
-                Console.INSTANCE.setUuid(recognizedUuid);
-
-                doLoginAnimations = false;
-
-                if (!Console.INSTANCE.isClosed()) Console.INSTANCE.closeFrame(false, true);
-                Console.INSTANCE.launch();
+                handleSuccessfulPasswordCheck();
                 return true;
             }
             default -> throw new IllegalArgumentException("Invalid password status: " + result);
         }
 
         return false;
+    }
+
+    /**
+     * Handles a failed check password invocation.
+     *
+     * @param autoCypherAttempt whether the recognize invocation was invoked with an autocypher
+     */
+    private static void handleFailedPasswordCheck(boolean autoCypherAttempt) {
+        printlnPriority(autoCypherAttempt ? "AutoCypher failed" : "Incorrect password");
+        loginField.requestFocusInWindow();
+    }
+
+    /**
+     * Handles a successful check password invocation.
+     */
+    private static void handleSuccessfulPasswordCheck() {
+        Preconditions.checkState(!recognizedUuid.isEmpty());
+
+        Console.INSTANCE.setUuid(recognizedUuid);
+
+        doLoginAnimations = false;
+
+        if (!Console.INSTANCE.isClosed()) Console.INSTANCE.closeFrame(false, true);
+        Console.INSTANCE.launch();
     }
 
     /**
@@ -654,9 +668,7 @@ public final class LoginHandler {
         }
 
         boolean namePresent = StringUtil.in(providedUsername, true, names);
-        if (!namePresent) {
-            return PasswordCheckResult.UNKNOWN_USER;
-        }
+        if (!namePresent) return PasswordCheckResult.UNKNOWN_USER;
 
         for (File userJsonFile : UserUtil.getUserJsons()) {
             User user = UserUtil.extractUser(userJsonFile);
@@ -667,6 +679,7 @@ public final class LoginHandler {
 
             if (providedUsername.equalsIgnoreCase(username) && providedPassword.equals(password)) {
                 recognizedUuid = userJsonFile.getParentFile().getName();
+                return PasswordCheckResult.SUCCESS;
             }
         }
 

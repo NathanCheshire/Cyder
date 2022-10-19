@@ -57,6 +57,11 @@ public enum LogTag {
     LOGIN_FIELD("LOGIN FIELD"),
 
     /**
+     * Output was printed to the login console.
+     */
+    LOGIN_OUTPUT("LOGIN OUTPUT"),
+
+    /**
      * A user logs out of Cyder, not necessarily a program exit.
      */
     LOGOUT("LOGOUT"),

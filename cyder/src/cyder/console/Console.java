@@ -3343,6 +3343,7 @@ public enum Console {
      * @param logoutUser whether to log out the currently logged-in user
      */
     public void closeFrame(boolean exit, boolean logoutUser) {
+        if (consoleClosed.get()) return;
         consoleClosed.set(true);
 
         saveScreenStat();
