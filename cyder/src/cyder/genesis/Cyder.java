@@ -6,8 +6,8 @@ import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.subroutines.NecessarySubroutines;
 import cyder.genesis.subroutines.SufficientSubroutines;
-import cyder.handlers.internal.LoginHandler;
 import cyder.logging.Logger;
+import cyder.login.LoginHandler;
 import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
 import cyder.time.CyderWatchdog;
@@ -71,7 +71,7 @@ public final class Cyder {
 
         SufficientSubroutines.execute();
 
-        LoginHandler.determineCyderEntry();
+        LoginHandler.showProperStartupFrame();
     }
 
     /**

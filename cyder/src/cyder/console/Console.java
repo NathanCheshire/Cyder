@@ -17,9 +17,9 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.LoginHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.login.LoginHandler;
 import cyder.math.GeometryUtil;
 import cyder.math.NumberUtil;
 import cyder.network.NetworkUtil;
@@ -1149,12 +1149,9 @@ public enum Console {
                     StatUtil.getJavaProperties().forEach(property -> getInputHandler().println(property));
 
                     Future<StatUtil.DebugStats> futureStats = StatUtil.getDebugProps();
-
-                    while (!futureStats.isDone()) {
-                        Thread.onSpinWait();
-                    }
-
+                    while (!futureStats.isDone()) Thread.onSpinWait();
                     StatUtil.DebugStats stats = futureStats.get();
+
                     stats.lines().forEach(line -> getInputHandler().println(line));
                     getInputHandler().println(stats.countryFlag());
                 } catch (Exception e) {
@@ -1163,24 +1160,22 @@ public enum Console {
             }, DEBUG_STAT_FINDER_THREAD_NAME);
         }
 
+        // todo need to determine program mode and use
         String openingBracket = "[";
         String closingBracket = "]";
-        String programMode = "Debug Mode"; // todo cyder debug mode, user mode, ide debug mode
-        if (PropLoader.getBoolean(TESTING_MODE)) {
-            Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername()
-                    + closingBracket + " " + openingBracket + "TESTING MODE" + closingBracket);
-            Test.test();
-        } else {
+        String programMode = "Debug Mode";
+        Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername()
+                + closingBracket + " " + openingBracket + programMode + closingBracket);
+        if (PropLoader.getBoolean(TESTING_MODE)) Test.test();
 
-        }
-
-        if (TimeUtil.millisToDays(System.currentTimeMillis() -
-                Long.parseLong(UserUtil.getCyderUser().getLastStart())) > ACCEPTABLE_DAYS_WITHOUT_USE) {
-            consoleCyderFrame.notify("Welcome back, " + UserUtil.getCyderUser().getName() + "!");
+        long lastStart = Long.parseLong(UserUtil.getCyderUser().getLastStart());
+        long millisSinceLastStart = System.currentTimeMillis() - lastStart;
+        if (TimeUtil.millisToDays(millisSinceLastStart) > ACCEPTABLE_DAYS_WITHOUT_USE) {
+            String username = UserUtil.getCyderUser().getName();
+            consoleCyderFrame.notify("Welcome back, " + username + "!");
         }
 
         UserUtil.getCyderUser().setLastStart(String.valueOf(System.currentTimeMillis()));
-
         introMusicCheck();
     }
 

@@ -29,7 +29,7 @@ public class ImageHandler extends InputHandler {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"java", "msu", "nathan", "html", "css", "docker", "redis", "blur"})
+    @Handle({"java", "msu", "nathan", "nate", "html", "css", "docker", "redis", "blur"})
     public static boolean handle() {
         boolean ret = true;
 
@@ -37,7 +37,7 @@ public class ImageHandler extends InputHandler {
             getInputHandler().println(new ImageIcon("static/pictures/print/duke.png"));
         } else if (getInputHandler().commandIs("msu")) {
             getInputHandler().println(new ImageIcon("static/pictures/print/msu.png"));
-        } else if (getInputHandler().commandIs("nathan")) {
+        } else if (getInputHandler().commandIs("nathan") || getInputHandler().commandIs("nate")) {
             getInputHandler().println(new ImageIcon("static/pictures/print/me.png"));
         } else if (getInputHandler().commandIs("html")) {
             getInputHandler().println(new ImageIcon("static/pictures/print/html5.png"));

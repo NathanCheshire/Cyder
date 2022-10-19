@@ -1072,12 +1072,12 @@ public final class UserUtil {
     }
 
     /**
-     * Returns the number of valid users associated with Cyder.
+     * Returns whether there are no users created for Cyder.
      *
-     * @return the number of valid users associated with Cyder
+     * @return whether there are no users created for Cyder
      */
-    public static int getUserCount() {
-        return getUserUuids().size();
+    public static boolean noUsers() {
+        return getUserUuids().isEmpty();
     }
 
     /**
@@ -1376,9 +1376,7 @@ public final class UserUtil {
         Preconditions.checkNotNull(username);
         Preconditions.checkArgument(!username.isEmpty());
 
-        if (getUserCount() == 0) {
-            return false;
-        }
+        if (noUsers()) return false;
 
         for (File userFile : getUserJsons()) {
             if (extractUser(userFile).getName().equalsIgnoreCase(username)) {
