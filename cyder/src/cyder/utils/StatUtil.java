@@ -7,7 +7,10 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Extension;
+import cyder.enums.SystemPropertyKey;
 import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.ProgramMode;
+import cyder.genesis.ProgramModeManager;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
 import cyder.threads.CyderThreadFactory;
@@ -59,11 +62,6 @@ public final class StatUtil {
     }
 
     /**
-     * The system property key to obtain the java class path.
-     */
-    private static final String JAVA_CLASS_PATH = "java.class.path";
-
-    /**
      * Returns an immutable list detailing the java system properties of the current JVM.
      *
      * @return an immutable list detailing the java system properties of the current JVM
@@ -71,26 +69,9 @@ public final class StatUtil {
     public static ImmutableList<String> getSystemProperties() {
         LinkedList<String> ret = new LinkedList<>();
 
-        String systemProps = System.getProperty(JAVA_CLASS_PATH);
-        StringBuilder separatedSystemProps = new StringBuilder();
-
-        Arrays.stream(systemProps.split(";"))
-                .forEach(part -> separatedSystemProps.append(part).append(newline));
-
-        ret.add("File Separator: " + System.getProperty("file.separator"));
-        ret.add("Class Path: " + separatedSystemProps);
-        ret.add("Java Home: " + System.getProperty("java.home"));
-        ret.add("Java Vendor: " + System.getProperty("java.vendor"));
-        ret.add("Java Vendor URL: " + System.getProperty("java.vendor.url"));
-        ret.add("Java Version: " + System.getProperty("java.version"));
-        ret.add("Line Separator: " + System.getProperty("line.separator"));
-        ret.add("OS Architecture: " + System.getProperty("os.arch"));
-        ret.add("OS Name: " + System.getProperty("os.name"));
-        ret.add("OS Version: " + System.getProperty("os.version"));
-        ret.add("OS Path Separator: " + System.getProperty("path.separator"));
-        ret.add("User Directory: " + OsUtil.USER_DIR);
-        ret.add("User Home: " + System.getProperty("user.home"));
-        ret.add("Computer Username: " + System.getProperty("user.name"));
+        Arrays.stream(SystemPropertyKey.values()).forEach(systemPropertyKey ->
+                ret.add(systemPropertyKey.getDescription() + ", key: " + systemPropertyKey.getKey()
+                        + ", value: " + systemPropertyKey.getProperty()));
 
         return ImmutableList.copyOf(ret);
     }
@@ -434,7 +415,7 @@ public final class StatUtil {
      * within the root level directory and their sizes
      */
     public static ImmutableList<FileSize> fileSizes() {
-        if (OsUtil.JAR_MODE) {
+        if (ProgramModeManager.INSTANCE.getProgramMode() == ProgramMode.NORMAL) {
             throw new IllegalMethodException("Method not allowed when in Jar mode");
         }
 
@@ -444,15 +425,16 @@ public final class StatUtil {
     }
 
     private static LinkedList<FileSize> innerFileSizes(File startDir) {
+        Preconditions.checkNotNull(startDir);
+        Preconditions.checkArgument(startDir.exists());
+
         LinkedList<FileSize> ret = new LinkedList<>();
 
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
             if (files != null && files.length > 0) {
-                for (File f : files) {
-                    ret.addAll(innerFileSizes(f));
-                }
+                Arrays.stream(files).forEach(file -> ret.addAll(innerFileSizes(file)));
             }
         } else {
             ret.add(new FileSize(startDir.getName(), startDir.length()));

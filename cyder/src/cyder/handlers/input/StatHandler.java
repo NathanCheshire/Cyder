@@ -1,5 +1,6 @@
 package cyder.handlers.input;
 
+import com.google.common.collect.ImmutableList;
 import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
@@ -43,30 +44,33 @@ public class StatHandler extends InputHandler {
         if (getInputHandler().commandIs("debug")) {
             CyderThreadRunner.submit(() -> {
                 try {
-                    for (String prop : StatUtil.getComputerMemorySpaces()) {
+                    getInputHandler().println("Querying computer memory...");
+                    ImmutableList<String> memory = StatUtil.getComputerMemorySpaces();
+                    getInputHandler().println("Computer memory:");
+                    for (String prop : memory) {
                         getInputHandler().println(prop);
                     }
 
+                    getInputHandler().println("Java properties:");
                     for (String prop : StatUtil.getJavaProperties()) {
                         getInputHandler().println(prop);
                     }
 
+                    getInputHandler().println("System properties:");
                     for (String prop : StatUtil.getSystemProperties()) {
                         getInputHandler().println(prop);
                     }
 
                     Future<StatUtil.DebugStats> futureStats = StatUtil.getDebugProps();
-
-                    while (!futureStats.isDone()) {
-                        Thread.onSpinWait();
-                    }
-
+                    while (!futureStats.isDone()) Thread.onSpinWait();
                     StatUtil.DebugStats stats = futureStats.get();
 
+                    getInputHandler().println("Debug stats:");
                     for (String line : stats.lines()) {
                         getInputHandler().println(line);
                     }
 
+                    getInputHandler().println("Country flag:");
                     getInputHandler().println(stats.countryFlag());
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);

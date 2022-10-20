@@ -7,6 +7,7 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
+import cyder.enums.SystemPropertyKey;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.exceptions.UnsupportedOsException;
@@ -230,14 +231,9 @@ public final class OsUtil {
     }
 
     /**
-     * The file separator system property key.
-     */
-    private static final String FILE_SEP_KEY = "file.separator";
-
-    /**
      * The file separator character used for this operating system.
      */
-    public static final String FILE_SEP = System.getProperty(FILE_SEP_KEY);
+    public static final String FILE_SEP = SystemPropertyKey.FILE_SEPARATOR.getProperty();
 
     /**
      * The maximum number of times something should be attempted to be deleted.
@@ -250,14 +246,9 @@ public final class OsUtil {
     public static final int MAX_FILE_CREATION_ATTEMPTS = 500;
 
     /**
-     * The user directory system property key.
-     */
-    private static final String USER_DIR_KEY = "user.dir";
-
-    /**
      * The default user directory.
      */
-    public static final String USER_DIR = System.getProperty(USER_DIR_KEY);
+    public static final String USER_DIR = SystemPropertyKey.USER_DIR.getProperty();
 
     /**
      * The root of the Windows file system.
@@ -397,19 +388,13 @@ public final class OsUtil {
         return new File(buildPath(directories));
     }
 
-    // todo enum for system.getProperty keys
-    /**
-     * The user name system property key.
-     */
-    private static final String USER_NAME_KEY = "user.name";
-
     /**
      * Returns the username of the operating system user.
      *
      * @return the username of the operating system user
      */
     public static String getOsUsername() {
-        return System.getProperty(USER_NAME_KEY);
+        return SystemPropertyKey.USER_NAME.getProperty();
     }
 
     /**
