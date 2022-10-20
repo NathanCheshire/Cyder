@@ -1,6 +1,7 @@
 package cyder.handlers.input;
 
 import com.google.common.collect.ImmutableList;
+import cyder.annotations.ForReadability;
 import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -24,74 +25,94 @@ import java.util.concurrent.Future;
  */
 public class GitHandler extends InputHandler {
     /**
+     * The git command.
+     */
+    private static final String GIT = "git";
+
+    /**
      * Suppress default constructor.
      */
     private GitHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Handle({"gitme", "github", "issues", "git", "languages"})
+    // todo test all
+    @Handle({"gitme", "github", "issues", "git clone", "languages"})
     public static boolean handle() {
-        switch (getInputHandler().getCommand()) {
-            case "gitme" -> {
-                gitme();
-                return true;
-            }
-            case "github" -> {
-                NetworkUtil.openUrl(CyderUrls.CYDER_SOURCE);
-                return true;
-            }
-            case "issues" -> {
-                printIssues();
-                return true;
-            }
-            case "git" -> {
-                if (!getInputHandler().checkArgsLength(2)) {
-                    getInputHandler().println("Supported git commands: clone");
-                } else {
-                    if (getInputHandler().getArg(0).equalsIgnoreCase("clone")) {
-                        CyderThreadRunner.submit(() -> {
-                            try {
-                                Future<Optional<Boolean>> cloned = GitHubUtil.cloneRepoToDirectory(
-                                        getInputHandler().getArg(1),
-                                        UserUtil.getUserFile(UserFile.FILES));
+        boolean ret = true;
 
-                                while (!cloned.isDone()) {
-                                    Thread.onSpinWait();
-                                }
-
-                                if (cloned.get().isPresent()) {
-                                    if (cloned.get().get() == Boolean.TRUE) {
-                                        getInputHandler().println("Clone finished");
-                                    } else {
-                                        getInputHandler().print("Clone failed");
-                                    }
-                                } else {
-                                    getInputHandler().println("Clone failed");
-                                }
-                            } catch (Exception e) {
-                                ExceptionHandler.handle(e);
-                            }
-                        }, "Git Cloner, repo: " + getInputHandler().getArg(1));
-                    } else {
-                        getInputHandler().println("Supported git commands: clone");
-                    }
-                }
-
-                return true;
-            }
-            case "languages" -> {
-                Map<String, Integer> map = GitHubUtil.getLanguages();
-
-                getInputHandler().println("Cyder uses the following languages:");
-                for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                    getInputHandler().println(entry.getKey() + " takes up " + OsUtil.formatBytes(entry.getValue()));
-                }
-
-                return true;
-            }
-            default -> throw new IllegalArgumentException("Illegal command for git handler");
+        if (getInputHandler().commandIs("gitme")) {
+            gitme();
+        } else if (getInputHandler().commandIs("github")) {
+            NetworkUtil.openUrl(CyderUrls.CYDER_SOURCE);
+        } else if (getInputHandler().commandIs("issues")) {
+            printIssues();
+        } else if (getInputHandler().inputIgnoringSpacesMatches("git clone")) {
+            cloneRepo();
+        } else if (getInputHandler().commandIs("languages")) {
+            printLanguagesUsedByCyder();
+        } else {
+            ret = false;
         }
+
+        return ret;
+    }
+
+    @ForReadability
+    private static void printLanguagesUsedByCyder() {
+        Map<String, Integer> map = GitHubUtil.getLanguages();
+
+        getInputHandler().println("Cyder uses the following languages:");
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            getInputHandler().println(entry.getKey() + " takes up " + OsUtil.formatBytes(entry.getValue()));
+        }
+    }
+
+    @ForReadability
+    private static void cloneRepo() {
+        String threadName = "Git Cloner, repo: " + getInputHandler().getArg(1);
+        CyderThreadRunner.submit(() -> {
+            try {
+                Future<Optional<Boolean>> futureCloned = GitHubUtil.cloneRepoToDirectory(
+                        getInputHandler().getArg(1), UserUtil.getUserFile(UserFile.FILES));
+
+                while (!futureCloned.isDone()) Thread.onSpinWait();
+                Optional<Boolean> cloned = futureCloned.get();
+                if (cloned.isPresent() && cloned.get()) {
+                    getInputHandler().println("Clone successfully finished");
+                } else {
+                    getInputHandler().println("Clone failed");
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, threadName);
+    }
+
+    /**
+     * An escaped quote.
+     */
+    private static final String QUOTE = "\"";
+
+    /**
+     * Generates and returns the commands to send to a process
+     * builder to perform a git add for all files in the current directory.
+     *
+     * @return the commands for a git add
+     */
+    private static String[] generateGitAddCommand() {
+        return new String[]{GIT, "add", "."};
+    }
+
+    /**
+     * Generates and returns the command to send a process builder to perform
+     * a git push for all local yet not pushed commits.
+     * Note this assumes the remote branch currently being tracked is named "main".
+     *
+     * @return the commands for a git push
+     */
+    private static String[] generateGitPushCommand() {
+        return new String[]{GIT, "push", "-u", "origin", "main"};
     }
 
     /**
@@ -103,18 +124,23 @@ public class GitHandler extends InputHandler {
      * </ul>
      */
     private static void gitme() {
-        if (!getInputHandler().checkArgsLength(1)) {
-            ProcessBuilder processBuilderAdd = new ProcessBuilder("git", "add", ".");
-            ProcessBuilder processBuilderCommit = new ProcessBuilder(
-                    "git", "commit", "-m", "\"" + getInputHandler().argsToString() + "\"");
-            ProcessBuilder processBuilderPush = new ProcessBuilder("git", "push", "-u", "origin", "main");
-
-            ImmutableList<ProcessBuilder> builders = ImmutableList.of(
-                    processBuilderAdd, processBuilderCommit, processBuilderPush);
-            ProcessUtil.runAndPrintProcessesSequential(getInputHandler(), builders);
-        } else {
-            getInputHandler().println("gitme usage: gitme [commit message without quotes]");
+        int argsLength = getInputHandler().getArgsSize();
+        if (argsLength < 1) {
+            getInputHandler().println("gitme usage: gitme [commit message, quotes not needed]");
+            return;
         }
+
+        ProcessBuilder gitAddProcessBuilder = new ProcessBuilder(generateGitAddCommand());
+
+        String commitMessage = QUOTE + getInputHandler().argsToString() + QUOTE;
+        String[] GIT_COMMIT_COMMAND = {GIT, "commit", "-m", commitMessage};
+        ProcessBuilder gitCommitProcessBuilder = new ProcessBuilder(GIT_COMMIT_COMMAND);
+
+        ProcessBuilder gitPushProcessBuilder = new ProcessBuilder(generateGitPushCommand());
+
+        ImmutableList<ProcessBuilder> builders = ImmutableList.of(
+                gitAddProcessBuilder, gitCommitProcessBuilder, gitPushProcessBuilder);
+        ProcessUtil.runAndPrintProcessesSequential(getInputHandler(), builders);
     }
 
     /**
