@@ -15,6 +15,7 @@ import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.GitHubUtil;
 import cyder.utils.OsUtil;
+import cyder.utils.StringUtil;
 
 import java.util.Map;
 import java.util.Optional;
@@ -30,13 +31,42 @@ public class GitHandler extends InputHandler {
     private static final String GIT = "git";
 
     /**
+     * The git clone command.
+     */
+    private static final String GIT_CLONE = "git clone";
+
+    /**
+     * An escaped quote.
+     */
+    private static final String QUOTE = "\"";
+
+    /**
+     * A newline character.
+     */
+    private static final String newline = "\n";
+
+    /**
+     * A space character.
+     */
+    private static final String space = " ";
+
+    /**
+     * The issue string separator.
+     */
+    private static final String issueSeparator = "----------------------------------------";
+
+    /**
+     * The name of the github issue printer thread.
+     */
+    private static final String GITHUB_ISSUE_PRINTER_THREAD_NAME = "Cyder GitHub Issue Printer";
+
+    /**
      * Suppress default constructor.
      */
     private GitHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    // todo test all
     @Handle({"gitme", "github", "issues", "git clone", "languages"})
     public static boolean handle() {
         boolean ret = true;
@@ -47,7 +77,7 @@ public class GitHandler extends InputHandler {
             NetworkUtil.openUrl(CyderUrls.CYDER_SOURCE);
         } else if (getInputHandler().commandIs("issues")) {
             printIssues();
-        } else if (getInputHandler().inputIgnoringSpacesMatches("git clone")) {
+        } else if (getInputHandler().inputIgnoringSpacesAndCaseStartsWith(GIT_CLONE)) {
             cloneRepo();
         } else if (getInputHandler().commandIs("languages")) {
             printLanguagesUsedByCyder();
@@ -70,11 +100,17 @@ public class GitHandler extends InputHandler {
 
     @ForReadability
     private static void cloneRepo() {
-        String threadName = "Git Cloner, repo: " + getInputHandler().getArg(1);
+        String repo = getInputHandler().commandAndArgsToString().substring(GIT_CLONE.length()).trim();
+        if (repo.isEmpty()) {
+            getInputHandler().println("Git clone usage: git clone [repository remote link]");
+            return;
+        }
+
+        String threadName = "Git Cloner, repo: " + repo;
         CyderThreadRunner.submit(() -> {
             try {
-                Future<Optional<Boolean>> futureCloned = GitHubUtil.cloneRepoToDirectory(
-                        getInputHandler().getArg(1), UserUtil.getUserFile(UserFile.FILES));
+                Future<Optional<Boolean>> futureCloned = GitHubUtil.cloneRepoToDirectory(repo,
+                        UserUtil.getUserFile(UserFile.FILES));
 
                 while (!futureCloned.isDone()) Thread.onSpinWait();
                 Optional<Boolean> cloned = futureCloned.get();
@@ -88,11 +124,6 @@ public class GitHandler extends InputHandler {
             }
         }, threadName);
     }
-
-    /**
-     * An escaped quote.
-     */
-    private static final String QUOTE = "\"";
 
     /**
      * Generates and returns the commands to send to a process
@@ -124,8 +155,7 @@ public class GitHandler extends InputHandler {
      * </ul>
      */
     private static void gitme() {
-        int argsLength = getInputHandler().getArgsSize();
-        if (argsLength < 1) {
+        if (getInputHandler().noArgs()) {
             getInputHandler().println("gitme usage: gitme [commit message, quotes not needed]");
             return;
         }
@@ -148,21 +178,22 @@ public class GitHandler extends InputHandler {
      */
     private static void printIssues() {
         CyderThreadRunner.submit(() -> {
-            StringBuilder builder = new StringBuilder();
             ImmutableList<Issue> issues = GitHubUtil.getIssues();
-            builder.append(issues.size()).append(" issue")
-                    .append(issues.size() == 1 ? "" : "s")
-                    .append(" found:").append("\n");
-            builder.append("----------------------------------------").append("\n");
 
-            for (Issue issue : issues) {
-                builder.append("Issue #").append(issue.number).append("\n");
-                builder.append(issue.title).append("\n");
-                builder.append(issue.body).append("\n");
-                builder.append("----------------------------------------").append("\n");
-            }
+            StringBuilder builder = new StringBuilder();
+            builder.append(issues.size()).append(space)
+                    .append(StringUtil.getPlural(issues.size(), "issue"))
+                    .append(space).append("found:").append(newline);
+            builder.append(issueSeparator).append(newline);
+
+            issues.forEach(issue -> {
+                builder.append("Issue #").append(issue.number).append(newline);
+                builder.append(issue.title).append(newline);
+                builder.append(issue.body).append(newline);
+                builder.append(issueSeparator).append(newline);
+            });
 
             getInputHandler().println(builder);
-        }, "Cyder GitHub issue getter");
+        }, GITHUB_ISSUE_PRINTER_THREAD_NAME);
     }
 }

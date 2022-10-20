@@ -1072,6 +1072,15 @@ public class BaseInputHandler {
     }
 
     /**
+     * Returns whether there are no args associated with the most recently issued command.
+     *
+     * @return whether there are no args associated with the most recently issued command
+     */
+    protected boolean noArgs() {
+        return args.isEmpty();
+    }
+
+    /**
      * Returns the arguments in String form separated by spaces.
      *
      * @return the arguments in String form separated by spaces
