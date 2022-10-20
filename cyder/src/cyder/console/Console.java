@@ -15,6 +15,7 @@ import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
+import cyder.genesis.ProgramModeManager;
 import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
@@ -1162,9 +1163,10 @@ public enum Console {
 
         String openingBracket = "[";
         String closingBracket = "]";
-        Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername()
-                + closingBracket + " " + openingBracket
-                + ProgramStateManager.INSTANCE.getCurrentProgramState() + closingBracket);
+        String space = " ";
+        String state = ProgramModeManager.INSTANCE.getProgramMode().getName();
+        Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername() + closingBracket
+                + space + openingBracket + state + closingBracket);
         if (PropLoader.getBoolean(TESTING_MODE)) Test.test();
 
         long lastStart = Long.parseLong(UserUtil.getCyderUser().getLastStart());

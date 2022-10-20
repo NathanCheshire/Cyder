@@ -1,11 +1,14 @@
 package cyder.process;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
+import cyder.threads.CyderThreadRunner;
 import cyder.utils.OsUtil;
 
 import java.io.BufferedReader;
@@ -14,6 +17,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Utilities related to processes.
@@ -204,5 +210,47 @@ public final class ProcessUtil {
         }
 
         return Optional.empty();
+    }
+
+    /**
+     * Executes the provided process and prints the output to the provided input handler in real time.
+     * Note that this process is executed on the current thread so callers should invoke this method
+     * in a separate thread if blocking is to be avoided.
+     *
+     * @param pipeTo  the input handle to print the output to
+     * @param builder the process builder to run
+     */
+    public static void runAndPrintProcess(BaseInputHandler pipeTo, ProcessBuilder builder) {
+        checkNotNull(pipeTo);
+        checkNotNull(builder);
+
+        try {
+            builder.redirectErrorStream(true);
+            Process process = builder.start();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                pipeTo.println(line);
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * Executes the provided processes successively and prints the output to the provided input handler.
+     *
+     * @param pipeTo   the input handle to print the output to
+     * @param builders the process builders to run
+     */
+    public static void runAndPrintProcessesSequential(BaseInputHandler pipeTo, ImmutableList<ProcessBuilder> builders) {
+        checkNotNull(pipeTo);
+        checkNotNull(builders);
+        checkArgument(!builders.isEmpty());
+
+        String threadName = "Successive Process Runner, pipeTo: " + pipeTo + ", builders: " + builders.size();
+        CyderThreadRunner.submit(() -> builders.forEach(builder -> runAndPrintProcess(pipeTo, builder)), threadName);
     }
 }

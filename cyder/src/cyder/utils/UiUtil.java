@@ -24,6 +24,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Utilities to control, update, modify, and create CyderFrames and ui components.
@@ -505,5 +506,20 @@ public final class UiUtil {
     public static int getWindowsTaskbarLength() {
         return (int) (getDefaultMonitorHeight() - GraphicsEnvironment.getLocalGraphicsEnvironment()
                 .getMaximumWindowBounds().getHeight());
+    }
+
+    /**
+     * Returns a list of all display modes for all connected graphics devices.
+     *
+     * @return a list of all display modes for all connected graphics devices
+     */
+    public static ImmutableList<DisplayMode> getMonitorDisplayModes() {
+        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] devices = graphicsEnvironment.getScreenDevices();
+
+        ArrayList<DisplayMode> ret = new ArrayList<>();
+        Arrays.stream(devices).forEach(device -> ret.add(device.getDisplayMode()));
+
+        return ImmutableList.copyOf(ret);
     }
 }

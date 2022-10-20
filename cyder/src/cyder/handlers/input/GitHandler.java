@@ -8,6 +8,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
 import cyder.parsers.remote.github.Issue;
+import cyder.process.ProcessUtil;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
@@ -108,8 +109,9 @@ public class GitHandler extends InputHandler {
                     "git", "commit", "-m", "\"" + getInputHandler().argsToString() + "\"");
             ProcessBuilder processBuilderPush = new ProcessBuilder("git", "push", "-u", "origin", "main");
 
-            OsUtil.runAndPrintProcessesSequential(getInputHandler(), processBuilderAdd,
-                    processBuilderCommit, processBuilderPush);
+            ImmutableList<ProcessBuilder> builders = ImmutableList.of(
+                    processBuilderAdd, processBuilderCommit, processBuilderPush);
+            ProcessUtil.runAndPrintProcessesSequential(getInputHandler(), builders);
         } else {
             getInputHandler().println("gitme usage: gitme [commit message without quotes]");
         }

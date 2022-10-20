@@ -51,11 +51,20 @@ public class UiHandler extends InputHandler {
             UiUtil.screenshotCyderFrames();
             getInputHandler().println("Successfully saved to your Files directory");
         } else if (getInputHandler().commandIs("monitors")) {
-            getInputHandler().println(OsUtil.getMonitorStatsString());
+            StringBuilder printString = new StringBuilder("Monitor display modes: ");
+            for (DisplayMode displayMode : UiUtil.getMonitorDisplayModes()) {
+                printString.append("Width: ").append(displayMode.getWidth()).append("\n");
+                printString.append("Height: ").append(displayMode.getHeight()).append("\n");
+                printString.append("Bit depth: ").append(displayMode.getBitDepth()).append("\n");
+                printString.append("Refresh rate: ").append(displayMode.getRefreshRate()).append("\n");
+            }
+
+            getInputHandler().println(printString.toString().trim());
         } else if (getInputHandler().commandIs("createuser")) {
             UserCreator.showGui();
         } else if (getInputHandler().commandIs("panic")) {
-            if (UserUtil.getCyderUser().getMinimizeOnClose().equals("1")) {
+            boolean shouldMinimize = UserUtil.getCyderUser().getMinimizeOnClose().equals("1");
+            if (shouldMinimize) {
                 UiUtil.minimizeAllFrames();
             } else {
                 OsUtil.exit(ExitCondition.GenesisControlledExit);
@@ -73,7 +82,7 @@ public class UiHandler extends InputHandler {
             Console.INSTANCE.logout();
         } else if (getInputHandler().commandIs("mouse")) {
             if (getInputHandler().checkArgsLength(2)) {
-                OsUtil.setMouseLoc(Integer.parseInt(getInputHandler().getArg(0)),
+                OsUtil.setMouseLocation(Integer.parseInt(getInputHandler().getArg(0)),
                         Integer.parseInt(getInputHandler().getArg(1)));
             } else {
                 getInputHandler().println("Mouse command usage: mouse X_PIXEL, Y_PIXEL");

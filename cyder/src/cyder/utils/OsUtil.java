@@ -12,22 +12,19 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.exceptions.UnsupportedOsException;
 import cyder.genesis.Cyder;
 import cyder.genesis.ProgramModeManager;
-import cyder.handlers.input.BaseInputHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.threads.CyderThreadRunner;
 import cyder.user.UserUtil;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Objects;
@@ -40,8 +37,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public final class OsUtil {
     /**
-     * A list of the restricted windows filenames due to backwards compatibility
-     * and the nature of "APIs are forever".
+     * A list of the restricted windows filenames due to backwards
+     * compatibility and the nature of "APIs are forever".
      */
     public static final ImmutableList<String> invalidWindowsFilenames = ImmutableList.of(
             "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8",
@@ -61,6 +58,13 @@ public final class OsUtil {
     static {
         URL resource = Cyder.class.getResource("Cyder.class");
         JAR_MODE = Objects.requireNonNull(resource).toString().startsWith(jarModeResourcePrefix);
+        onJarModeSet();
+    }
+
+    /**
+     * The actions to invoke upon {@link #JAR_MODE} being initially set.
+     */
+    private static void onJarModeSet() {
         Logger.log(LogTag.DEBUG, "Jar mode set as: " + String.valueOf(JAR_MODE).toUpperCase());
         ProgramModeManager.INSTANCE.refreshProgramMode();
     }
@@ -71,6 +75,17 @@ public final class OsUtil {
     private OsUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
+
+    /**
+     * A null character.
+     */
+    private static final String nullChar = "\0";
+
+    private static final String forwardSlash = "/";
+
+    private static final ImmutableList<String> invalidUnixFilenameChars = ImmutableList.of(
+            forwardSlash, "<", ">", "|", "&", ":"
+    );
 
     /**
      * Returns whether the provided filename is valid for the operating system
@@ -85,13 +100,12 @@ public final class OsUtil {
 
         switch (OPERATING_SYSTEM) {
             case OSX:
-                return !filename.contains("/") && !filename.contains("\0");
+                return !filename.contains(forwardSlash) && !filename.contains(nullChar);
             case WINDOWS:
-                // invalid chars for Windows in a filename
-                if (filename.matches(CyderRegexPatterns.windowsInvalidFilenameChars.pattern()))
+                if (filename.matches(CyderRegexPatterns.windowsInvalidFilenameChars.pattern())) {
                     return false;
+                }
 
-                // invalid filenames for windows, reserved names for backwards compatibility reasons
                 for (String invalidName : invalidWindowsFilenames) {
                     if (filename.equalsIgnoreCase(invalidName)) {
                         return false;
@@ -112,10 +126,9 @@ public final class OsUtil {
 
                 return !filename.endsWith(".");
             case UNIX:
-                //root dir
-                if (filename.contains("/") || filename.contains(">") || filename.contains("<")
-                        || filename.contains("|") || filename.contains(":") || filename.contains("&"))
-                    return false;
+                for (String invalidChar : invalidUnixFilenameChars) {
+                    if (filename.contains(invalidChar)) return false;
+                }
 
                 break;
             case UNKNOWN:
@@ -131,17 +144,14 @@ public final class OsUtil {
     public static final String OPERATING_SYSTEM_NAME = System.getProperty("os.name");
 
     /**
-     * Controlled program exit that calls System.exit which will also invoke the shutdown hook.
+     * Invokes a controlled program exit that eventually invokes {@link System#exit(int)}
+     * which will in tern invoke the shutdown hooks.
      *
-     * @param exitCondition the exiting code to describe why the program exited (0 is standard
-     *                      but for this program, the key/value pairs in {@link ExitCondition} are followed)
+     * @param exitCondition the exiting code to describe why the program exited
      */
     public static void exit(ExitCondition exitCondition) {
         try {
-            //ensures IO finishes and is not invoked again
             UserUtil.blockFutureIo();
-
-            //log exit
             Logger.log(LogTag.EXIT, exitCondition);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -151,10 +161,55 @@ public final class OsUtil {
     }
 
     /**
-     * The three primary operating systems.
+     * The primary operating systems.
      */
     public enum OperatingSystem {
-        OSX, WINDOWS, UNIX, UNKNOWN
+        /**
+         * Macintosh OS.
+         */
+        OSX("mac"),
+
+        /**
+         * The Windows operating system.
+         */
+        WINDOWS("win"),
+
+        /**
+         * Any Unix based operating system.
+         */
+        UNIX(ImmutableList.of("nix", "nux", "aix")),
+
+        /**
+         * The SunOS specific Unix operating system.
+         */
+        SOLARIS("sunos"),
+
+        /**
+         * An indeterminable operating system.
+         */
+        UNKNOWN("");
+
+        /**
+         * The substrings to detect this operating system
+         */
+        private final ImmutableList<String> substrings;
+
+        OperatingSystem(String substring) {
+            this(ImmutableList.of(substring));
+        }
+
+        OperatingSystem(ImmutableList<String> substrings) {
+            this.substrings = substrings;
+        }
+
+        /**
+         * Returns the substrings to detect this operating system.
+         *
+         * @return the substrings to detect this operating system
+         */
+        public ImmutableList<String> getSubstrings() {
+            return substrings;
+        }
     }
 
     /**
@@ -175,9 +230,14 @@ public final class OsUtil {
     }
 
     /**
+     * The file separator system property key.
+     */
+    private static final String FILE_SEP_KEY = "file.separator";
+
+    /**
      * The file separator character used for this operating system.
      */
-    public static final String FILE_SEP = System.getProperty("file.separator");
+    public static final String FILE_SEP = System.getProperty(FILE_SEP_KEY);
 
     /**
      * The maximum number of times something should be attempted to be deleted.
@@ -190,9 +250,14 @@ public final class OsUtil {
     public static final int MAX_FILE_CREATION_ATTEMPTS = 500;
 
     /**
+     * The user directory system property key.
+     */
+    private static final String USER_DIR_KEY = "user.dir";
+
+    /**
      * The default user directory.
      */
-    public static final String USER_DIR = System.getProperty("user.dir");
+    public static final String USER_DIR = System.getProperty(USER_DIR_KEY);
 
     /**
      * The root of the Windows file system.
@@ -200,17 +265,18 @@ public final class OsUtil {
     public static final String WINDOWS_ROOT = "c:/";
 
     /**
-     * The prefix to determine if an operating system is Windows based.
-     */
-    private static final String WINDOWS_PREFIX = "win";
-
-    /**
      * Returns whether the operating system is windows.
      *
      * @return whether the operating system is windows
      */
     public static boolean isWindows() {
-        return OPERATING_SYSTEM_NAME.toLowerCase().contains(WINDOWS_PREFIX);
+        for (String substring : OperatingSystem.WINDOWS.getSubstrings()) {
+            if (OPERATING_SYSTEM_NAME.toLowerCase().contains(substring)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -219,7 +285,13 @@ public final class OsUtil {
      * @return whether the operating system is OSX
      */
     public static boolean isOsx() {
-        return OPERATING_SYSTEM_NAME.toLowerCase().contains("mac");
+        for (String substring : OperatingSystem.OSX.getSubstrings()) {
+            if (OPERATING_SYSTEM_NAME.toLowerCase().contains(substring)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -230,15 +302,14 @@ public final class OsUtil {
      * @return whether the operating system is unix based
      */
     public static boolean isUnix() {
-        return OPERATING_SYSTEM_NAME.toLowerCase().contains("nix")
-                || OPERATING_SYSTEM_NAME.toLowerCase().contains("nux")
-                || OPERATING_SYSTEM_NAME.toLowerCase().contains("aix");
-    }
+        for (String substring : OperatingSystem.UNIX.getSubstrings()) {
+            if (OPERATING_SYSTEM_NAME.toLowerCase().contains(substring)) {
+                return true;
+            }
+        }
 
-    /**
-     * The prefix used to determine if an operating system is Solaris.
-     */
-    private static final String SOLARIS_PREFIX = "sunos";
+        return false;
+    }
 
     /**
      * Returns whether the operating system is Solaris.
@@ -246,10 +317,14 @@ public final class OsUtil {
      * @return whether the operating system is Solaris
      */
     public static boolean isSolaris() {
-        return OPERATING_SYSTEM_NAME.toLowerCase().contains(SOLARIS_PREFIX);
-    }
+        for (String substring : OperatingSystem.SOLARIS.getSubstrings()) {
+            if (OPERATING_SYSTEM_NAME.toLowerCase().contains(substring)) {
+                return true;
+            }
+        }
 
-    //end base operating system name/type setup logic
+        return false;
+    }
 
     /**
      * Opens the command shell for the operating system.
@@ -279,7 +354,7 @@ public final class OsUtil {
         return switch (OPERATING_SYSTEM) {
             case OSX -> "Terminal (Bash)";
             case WINDOWS -> "Command prompt";
-            case UNIX -> "Bash";
+            case UNIX, SOLARIS -> "Bash";
             case UNKNOWN -> "Unknown Shell";
         };
     }
@@ -322,13 +397,19 @@ public final class OsUtil {
         return new File(buildPath(directories));
     }
 
+    // todo enum for system.getProperty keys
+    /**
+     * The user name system property key.
+     */
+    private static final String USER_NAME_KEY = "user.name";
+
     /**
      * Returns the username of the operating system user.
      *
      * @return the username of the operating system user
      */
     public static String getOsUsername() {
-        return System.getProperty("user.name");
+        return System.getProperty(USER_NAME_KEY);
     }
 
     /**
@@ -345,6 +426,7 @@ public final class OsUtil {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+
         return name;
     }
 
@@ -354,7 +436,7 @@ public final class OsUtil {
      * @param x the x value to set the mouse to
      * @param y the y value to set the mouse to
      */
-    public static void setMouseLoc(int x, int y) {
+    public static void setMouseLocation(int x, int y) {
         try {
             Console.INSTANCE.getInputHandler().getRobot().mouseMove(x, y);
         } catch (Exception ex) {
@@ -365,18 +447,18 @@ public final class OsUtil {
     /**
      * Sets the mouse to the middle of the provided component.
      *
-     * @param c the component to move the mouse to the center of
+     * @param component the component to move the mouse to the center of
      */
-    public static void setMouseLoc(Component c) {
-        checkNotNull(c);
+    public static void setMouseLocation(Component component) {
+        checkNotNull(component);
 
         try {
-            Point topLeft = c.getLocationOnScreen();
+            Point topLeft = component.getLocationOnScreen();
 
-            int x = (int) (topLeft.getX() + c.getWidth() / 2);
-            int y = (int) (topLeft.getY() + c.getHeight() / 2);
+            int x = (int) (topLeft.getX() + component.getWidth() / 2);
+            int y = (int) (topLeft.getY() + component.getHeight() / 2);
 
-            setMouseLoc(x, y);
+            setMouseLocation(x, y);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
@@ -416,9 +498,7 @@ public final class OsUtil {
             File[] files = fileOrFolder.listFiles();
 
             if (files != null && files.length != 0) {
-                for (File file : files) {
-                    deleteFile(file, log);
-                }
+                Arrays.stream(files).forEach(file -> deleteFile(file, log));
             }
         }
 
@@ -433,12 +513,17 @@ public final class OsUtil {
         }
 
         if (fileOrFolder.exists() && log) {
-            Logger.log(LogTag.SYSTEM_IO, "[DELETION FAILED] file: "
-                    + fileOrFolder.getAbsolutePath());
+            Logger.log(LogTag.SYSTEM_IO, DELETION_FAILED_TAG
+                    + " file: " + fileOrFolder.getAbsolutePath());
         }
 
         return false;
     }
+
+    /**
+     * The deletion failed tag.
+     */
+    private static final String DELETION_FAILED_TAG = "[DELETION FAILED]";
 
     /**
      * Creates the provided file/folder if possible.
@@ -451,8 +536,8 @@ public final class OsUtil {
         checkNotNull(file);
 
         try {
-            int inc = 0;
-            while (inc < MAX_FILE_CREATION_ATTEMPTS) {
+            int attempts = 0;
+            while (attempts < MAX_FILE_CREATION_ATTEMPTS) {
                 boolean created;
 
                 if (isFile) {
@@ -461,12 +546,11 @@ public final class OsUtil {
                     created = file.mkdirs();
                 }
 
-                // success
                 if (file.exists() && created) {
                     return true;
                 }
 
-                inc++;
+                attempts++;
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -474,6 +558,8 @@ public final class OsUtil {
 
         return false;
     }
+
+    // todo return a class or record
 
     /**
      * Returns a string representation of all the network devices connected to the host.
@@ -498,34 +584,6 @@ public final class OsUtil {
     }
 
     /**
-     * Returns a string representation of all the monitors connected to the host.
-     *
-     * @return a string representation of all the monitors connected to the host
-     */
-    public static String getMonitorStatsString() {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice[] gs = ge.getScreenDevices();
-
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0 ; i < gs.length ; i++) {
-            DisplayMode dm = gs[i].getDisplayMode();
-            sb.append(i);
-            sb.append(", width: ");
-            sb.append(dm.getWidth());
-            sb.append(", height: ");
-            sb.append(dm.getHeight());
-            sb.append(", bit depth: ");
-            sb.append(dm.getBitDepth());
-            sb.append(", refresh rate: ");
-            sb.append(dm.getRefreshRate());
-            sb.append("\n");
-        }
-
-        return sb.toString();
-    }
-
-    /**
      * Sets the operating system's clipboard to the provided String.
      *
      * @param clipboardContents the String to set the operating system's clipboard to
@@ -536,52 +594,6 @@ public final class OsUtil {
         StringSelection selection = new StringSelection(clipboardContents);
         java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(selection, selection);
-    }
-
-    /**
-     * Executes the provided process and prints the output to the provided input handler.
-     * <p>
-     * Note that this is executed on the current thread so surround invocation of this method
-     * with a new thread to avoid blocking the calling thread.
-     *
-     * @param pipeTo  the input handle to print the output to
-     * @param builder the process builder to run
-     */
-    public static void runAndPrintProcess(BaseInputHandler pipeTo, ProcessBuilder builder) {
-        checkNotNull(pipeTo);
-        checkNotNull(builder);
-
-        try {
-            builder.redirectErrorStream(true);
-            Process process = builder.start();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                pipeTo.println(line);
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * Executes the provided processes successively and prints the output to the provided input handler.
-     *
-     * @param pipeTo   the input handle to print the output to
-     * @param builders the process builders to run
-     */
-    public static void runAndPrintProcessesSequential(BaseInputHandler pipeTo, ProcessBuilder... builders) {
-        checkNotNull(pipeTo, "pipeTo is null");
-        checkNotNull(builders, "builders are null");
-        checkArgument(builders.length > 0, "must be at least one builder");
-
-        CyderThreadRunner.submit(() -> {
-            for (ProcessBuilder builder : builders) {
-                runAndPrintProcess(pipeTo, builder);
-            }
-        }, "Successive Process Runner, pipeTo = " + pipeTo + ", builders.length() = " + builders.length);
     }
 
     /**
