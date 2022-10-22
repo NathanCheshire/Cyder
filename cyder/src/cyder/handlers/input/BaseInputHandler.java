@@ -253,7 +253,7 @@ public class BaseInputHandler {
             StringUtil.BlockedWordResult result = checkFoulLanguage();
             if (result.failed()) {
                 println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language"
-                        + " is prohibited, word: \"" + result.triggerWord() + "\"");
+                        + " is prohibited, word: \"" + result.triggerWord() + CyderStrings.quote);
                 return false;
             }
         }
@@ -378,7 +378,7 @@ public class BaseInputHandler {
                 if (!StringUtil.isNullOrEmpty(similarCommand)) {
                     Logger.log(LogTag.DEBUG, "Similar command to \""
                             + command + "\" found with tolerance of " + tolerance
-                            + ", command = \"" + similarCommand + "\"");
+                            + ", command = \"" + similarCommand + CyderStrings.quote);
 
                     if (!wrapShell) {
                         boolean autoTrigger = PropLoader.getBoolean(AUTO_TRIGGER_SIMILAR_COMMANDS_KEY);
@@ -387,10 +387,12 @@ public class BaseInputHandler {
 
                         if (tolerance >= SIMILAR_COMMAND_TOL) {
                             if (autoTrigger && toleranceMet) {
-                                println(UNKNOWN_COMMAND + "; Invoking similar command: \"" + similarCommand + "\"");
+                                println(UNKNOWN_COMMAND + "; Invoking similar command: \"" + similarCommand
+                                        + CyderStrings.quote);
                                 handle(similarCommand, false);
                             } else {
-                                println(UNKNOWN_COMMAND + "; Most similar command: \"" + similarCommand + "\"");
+                                println(UNKNOWN_COMMAND + "; Most similar command: \""
+                                        + similarCommand + CyderStrings.quote);
                             }
 
                             return;

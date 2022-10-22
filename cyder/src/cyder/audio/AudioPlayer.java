@@ -1087,7 +1087,7 @@ public final class AudioPlayer {
      */
     private static final Runnable dreamifyRunnable = () -> {
         audioPlayerFrame.notify(new CyderFrame.NotificationBuilder("Dreamifying \""
-                + FileUtil.getFilename(currentAudioFile.get()) + "\"").setViewDuration(10000));
+                + FileUtil.getFilename(currentAudioFile.get()) + CyderStrings.quote).setViewDuration(10000));
         dreamifierLocked.set(true);
 
         Future<Optional<File>> dreamifiedAudioFuture = AudioUtil.dreamifyAudio(currentAudioFile.get());

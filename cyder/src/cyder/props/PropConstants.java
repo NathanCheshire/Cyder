@@ -11,7 +11,7 @@ public final class PropConstants {
     /**
      * Lines which start with this are marked as a comment and not parsed as props.
      */
-    static final String COMMENT_PATTERN = "#";
+    static final String COMMENT_PATTERN = CyderStrings.hash;
 
     /**
      * A prop object mapping a key to a value of the props.ini file.
@@ -69,12 +69,12 @@ public final class PropConstants {
     /**
      * The separator for prop keys and values.
      */
-    static final String KEY_VALUE_SEPARATOR = ":";
+    static final String KEY_VALUE_SEPARATOR = CyderStrings.colon;
 
     /**
      * The escape char for comma.
      */
-    static final String escapeSequence = "\\";
+    static final String escapeSequence = CyderStrings.backSlash;
 
     /**
      * Suppress default constructor.

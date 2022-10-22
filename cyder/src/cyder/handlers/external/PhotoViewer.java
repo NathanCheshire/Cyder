@@ -2,6 +2,7 @@ package cyder.handlers.external;
 
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
+import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -299,7 +300,7 @@ public class PhotoViewer {
                 File newName = new File(oldName.getAbsolutePath().replace(replaceOldName, name));
 
                 if (oldName.renameTo(newName)) {
-                    pictureFrame.notify("Successfully renamed to \"" + name + "\"");
+                    pictureFrame.notify("Successfully renamed to \"" + name + CyderStrings.quote);
 
                     refreshValidFiles();
 
@@ -371,7 +372,8 @@ public class PhotoViewer {
                 setNavigationButtonsVisible(validDirectoryImages.size() >= 2);
                 ThreadUtil.sleep(DIRECTORY_POLL_DELAY);
             }
-        }, "Photo viewer directory watcher, directory=\"" + photoDirectory.getAbsolutePath() + "\"");
+        }, "Photo viewer directory watcher, directory=\""
+                + photoDirectory.getAbsolutePath() + CyderStrings.quote);
     }
 
     /**

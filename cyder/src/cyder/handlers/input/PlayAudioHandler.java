@@ -49,7 +49,7 @@ public class PlayAudioHandler extends InputHandler {
         } else if (getInputHandler().commandIs("logic")) {
             IoUtil.playGeneralAudio(StaticUtil.getStaticResource("commando.mp3"));
         } else if (getInputHandler().getCommand()
-                .replace("-", "").equals("18002738255")) {
+                .replace(CyderStrings.dash, "").equals("18002738255")) {
             IoUtil.playGeneralAudio(StaticUtil.getStaticResource("1800.mp3"));
         } else if (getInputHandler().commandIs("xxx")) {
             CyderIcons.setCurrentCyderIcon(CyderIcons.X_ICON);

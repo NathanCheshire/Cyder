@@ -426,7 +426,7 @@ public final class NotesWidget {
         File createFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.NOTES.getName(), requestedName);
         if (!OsUtil.createFile(createFile, true)) {
-            noteFrame.notify("Could not create file: \"" + requestedName + "\"");
+            noteFrame.notify("Could not create file: \"" + requestedName + CyderStrings.quote);
         }
 
         String contents = newNoteArea.getText();
@@ -437,7 +437,7 @@ public final class NotesWidget {
         }
 
         setupView(View.LIST);
-        noteFrame.notify("Added note file: \"" + requestedName + "\"");
+        noteFrame.notify("Added note file: \"" + requestedName + CyderStrings.quote);
     }
 
     /**
@@ -554,7 +554,7 @@ public final class NotesWidget {
 
         String newFilename = editNoteNameField.getTrimmedText() + Extension.TXT.getExtension();
         if (!OsUtil.isValidFilename(newFilename)) {
-            noteFrame.notify("Invalid filename: \"" + newFilename + "\"");
+            noteFrame.notify("Invalid filename: \"" + newFilename + CyderStrings.quote);
             return;
         }
 

@@ -301,7 +301,7 @@ public class NetworkUtil {
         }
 
         Logger.log(LogTag.DEBUG, "Latency of "
-                + latencyIp + ":" + latencyPort
+                + latencyIp + CyderStrings.colon + latencyPort
                 + " (" + latencyHostName + ") found to be " + TimeUtil.formatMillis(latency));
 
         return latency;

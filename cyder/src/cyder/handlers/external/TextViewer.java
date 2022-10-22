@@ -3,6 +3,7 @@ package cyder.handlers.external;
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
+import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderPartitionedLayout;
@@ -201,7 +202,7 @@ public class TextViewer {
         File parent = file.getParentFile();
         File createFile = OsUtil.buildFile(parent.getAbsolutePath(), requestedName);
         if (!OsUtil.createFile(createFile, true)) {
-            textFrame.notify("Could not create file: \"" + requestedName + "\"");
+            textFrame.notify("Could not create file: \"" + requestedName + CyderStrings.quote);
         }
         if (!OsUtil.deleteFile(file)) {
             textFrame.notify("Could not update contents of file");
@@ -216,7 +217,7 @@ public class TextViewer {
             ExceptionHandler.handle(e);
         }
 
-        textFrame.notify("Saved file and contents under: \"" + requestedName + "\"");
+        textFrame.notify("Saved file and contents under: \"" + requestedName + CyderStrings.quote);
     }
 
     /**

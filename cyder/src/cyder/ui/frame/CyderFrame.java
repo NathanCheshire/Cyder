@@ -50,6 +50,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static cyder.constants.CyderStrings.*;
 
 /**
  * CyderFrame component is the primary backbone that all Cyder lies on.
@@ -1218,7 +1219,7 @@ public class CyderFrame extends JFrame {
 
     @ForReadability
     private String generateNotificationTooltip(String time) {
-        return getTitle() + " Notification (" + time + ")";
+        return getTitle() + " Notification " + openingParenthesis + time + closingParenthesis;
     }
 
     /**
@@ -1266,7 +1267,7 @@ public class CyderFrame extends JFrame {
 
     @ForReadability
     private static String constructNotificationLogLine(String title, String text) {
-        return "[" + title + "] [NOTIFICATION] \"" + text + "\"";
+        return openingBracket + title + "] [NOTIFICATION] \"" + text + quote;
     }
 
     /**
@@ -1493,7 +1494,7 @@ public class CyderFrame extends JFrame {
      * @param fastClose whether to animate the frame away or immediately dispose the frame
      */
     public void dispose(boolean fastClose) {
-        String threadName = "[" + getTitle() + "] dispose() animation thread";
+        String threadName = openingBracket + getTitle() + closingBracket + " dispose() animation thread";
         CyderThreadRunner.submit(() -> {
             try {
                 if (disposed) return;

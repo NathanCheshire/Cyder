@@ -6,6 +6,7 @@ import cyder.audio.AudioUtil;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderRegexPatterns;
+import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.input.BaseInputHandler;
@@ -530,7 +531,7 @@ public class YoutubeDownload {
         downloadProgressBar.setFocusable(false);
         downloadProgressBar.repaint();
 
-        downloadProgressLabel = new JLabel("\"" + downloadableName + "\"");
+        downloadProgressLabel = new JLabel(CyderStrings.quote + downloadableName + CyderStrings.quote);
         downloadProgressLabel.setFont(Console.INSTANCE.generateUserFont());
         downloadProgressLabel.setForeground(CyderColors.vanilla);
         downloadProgressLabel.setHorizontalAlignment(JLabel.LEFT);

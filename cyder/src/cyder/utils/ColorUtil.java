@@ -59,7 +59,7 @@ public class ColorUtil {
         checkNotNull(hex);
         checkArgument(!hex.isEmpty());
 
-        hex = hex.replace("#", "");
+        hex = hex.replace(CyderStrings.hash, "");
         Preconditions.checkArgument(VALID_HEX_LENGTHS.contains(hex.length()));
 
         if (hex.length() == SHORTHAND_HEX_LENGTH) {
@@ -114,7 +114,7 @@ public class ColorUtil {
     public String hexToRgbString(String hex) {
         checkNotNull(hex);
 
-        hex = hex.replace("#", "");
+        hex = hex.replace(CyderStrings.hash, "");
         if (hex.length() == SHORTHAND_HEX_LENGTH) hex = expandShorthandHexColor(hex);
 
         return Integer.valueOf(hex.substring(0, 2), HEX_BASE)

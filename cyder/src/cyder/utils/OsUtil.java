@@ -79,10 +79,8 @@ public final class OsUtil {
      */
     private static final String nullChar = "\0";
 
-    private static final String forwardSlash = "/";
-
     private static final ImmutableList<String> invalidUnixFilenameChars = ImmutableList.of(
-            forwardSlash, "<", ">", "|", "&", ":"
+            CyderStrings.forwardSlash, "<", ">", "|", "&", CyderStrings.colon
     );
 
     /**
@@ -98,7 +96,7 @@ public final class OsUtil {
 
         switch (OPERATING_SYSTEM) {
             case OSX:
-                return !filename.contains(forwardSlash) && !filename.contains(nullChar);
+                return !filename.contains(CyderStrings.forwardSlash) && !filename.contains(nullChar);
             case WINDOWS:
                 if (filename.matches(CyderRegexPatterns.windowsInvalidFilenameChars.pattern())) {
                     return false;
@@ -701,7 +699,7 @@ public final class OsUtil {
     public static String formatBytes(float bytes) {
         boolean negative = bytes < 0.0f;
         if (negative) bytes *= -1.0f;
-        String sign = negative ? "-" : "";
+        String sign = negative ? CyderStrings.dash : "";
 
         if (bytes >= coalesceSpace) {
             float kilo = bytes / coalesceSpace;

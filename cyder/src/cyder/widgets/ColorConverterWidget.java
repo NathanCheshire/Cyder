@@ -4,10 +4,7 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
-import cyder.constants.CyderRegexPatterns;
+import cyder.constants.*;
 import cyder.enums.CyderInspection;
 import cyder.layouts.CyderPartitionedLayout;
 import cyder.logging.LogTag;
@@ -203,7 +200,7 @@ public class ColorConverterWidget {
         hexField.setHorizontalAlignment(JTextField.CENTER);
         hexField.setText(String.format(hexFieldStringFormatter, startingColor.getRed(),
                         startingColor.getGreen(), startingColor.getBlue())
-                .replace("#", ""));
+                .replace(CyderStrings.hash, ""));
         hexField.setBackground(CyderColors.empty);
         hexField.setToolTipText(HEX_VALUE);
         hexField.setFont(fieldFont);

@@ -122,8 +122,9 @@ public final class CalculatorWidget {
         calculatorAdd.setBounds(20, 120, buttonLength, buttonLength);
         calculatorFrame.getContentPane().add(calculatorAdd);
 
-        CyderModernButton calculatorSubtract = new CyderModernButton("-");
-        calculatorSubtract.addClickRunnable(() -> calculatorField.setText(calculatorField.getText() + "-"));
+        CyderModernButton calculatorSubtract = new CyderModernButton(CyderStrings.dash);
+        calculatorSubtract.addClickRunnable(() -> calculatorField.setText(calculatorField.getText()
+                + CyderStrings.dash));
         calculatorSubtract.setTheme(theme);
         calculatorSubtract.setBounds(115, 120, buttonLength, buttonLength);
         calculatorFrame.getContentPane().add(calculatorSubtract);
@@ -134,8 +135,9 @@ public final class CalculatorWidget {
         calculatorMultiply.setBounds(210, 120, buttonLength, buttonLength);
         calculatorFrame.getContentPane().add(calculatorMultiply);
 
-        CyderModernButton calculatorDivide = new CyderModernButton("/");
-        calculatorDivide.addClickRunnable(() -> calculatorField.setText(calculatorField.getText() + "/"));
+        CyderModernButton calculatorDivide = new CyderModernButton(CyderStrings.forwardSlash);
+        calculatorDivide.addClickRunnable(() -> calculatorField.setText(calculatorField.getText()
+                + CyderStrings.forwardSlash));
         calculatorDivide.setTheme(theme);
         calculatorDivide.setBounds(305, 120, buttonLength, buttonLength);
         calculatorFrame.getContentPane().add(calculatorDivide);

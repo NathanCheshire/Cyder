@@ -44,6 +44,9 @@ import java.util.Optional;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static cyder.constants.CyderStrings.quote;
+import static cyder.constants.CyderStrings.space;
+
 /**
  * A widget to log into Cyder or any other way that the Console might be invoked.
  */
@@ -192,16 +195,6 @@ public final class LoginHandler {
     private static final String LOGIN_PRINTING_ANIMATION_THREAD_NAME = "Login printing animation";
 
     /**
-     * An escaped quote character.
-     */
-    private static final String quote = "\"";
-
-    /**
-     * A space character.
-     */
-    private static final String SPACE = " ";
-
-    /**
      * The create command trigger.
      */
     private static final String CREATE = "create";
@@ -234,7 +227,7 @@ public final class LoginHandler {
     /**
      * The prefix for the login frame title.
      */
-    private static final String titlePrefix = "Cyder Login" + SPACE;
+    private static final String titlePrefix = "Cyder Login" + space;
 
     /**
      * The uuid for the user attempting to log in.
@@ -497,7 +490,7 @@ public final class LoginHandler {
             loginField.setText(currentBashString);
             printlnPriority("Valid commands: ");
             validCommands.forEach(command -> LoginHandler.printlnPriority(
-                    CyderStrings.BULLET_POINT + SPACE + command));
+                    CyderStrings.BULLET_POINT + space + command));
         } else {
             loginField.setText(currentBashString);
             printlnPriority("Unknown command; See " + quote + HELP + quote + " for " + HELP);

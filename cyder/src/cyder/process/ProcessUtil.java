@@ -78,7 +78,7 @@ public final class ProcessUtil {
         Preconditions.checkNotNull(command);
         Preconditions.checkArgument(!command.isEmpty());
 
-        String threadName = "getProcessOutput thread, command = \"" + command + "\"";
+        String threadName = "getProcessOutput thread, command = \"" + command + CyderStrings.quote;
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(threadName)).submit(() -> {
             ArrayList<String> standardOutput = new ArrayList<>();
@@ -131,7 +131,7 @@ public final class ProcessUtil {
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PIP.getProgramName()));
 
-        String threadName = "isPipDependencyPresent thread, packageName = \"" + packageName + "\"";
+        String threadName = "isPipDependencyPresent thread, packageName = \"" + packageName + CyderStrings.quote;
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(threadName)).submit(() -> {
             Future<ProcessResult> futureResult = getProcessOutput(Program.PIP.getProgramName()
@@ -162,7 +162,7 @@ public final class ProcessUtil {
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PIP.getProgramName()));
 
-        String threadName = "getPipDependencyVersion thread, packageName = \"" + packageName + "\"";
+        String threadName = "getPipDependencyVersion thread, packageName = \"" + packageName + CyderStrings.quote;
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(threadName)).submit(() -> {
             Future<ProcessResult> futureResult = getProcessOutput(Program.PIP.getProgramName()

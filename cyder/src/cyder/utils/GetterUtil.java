@@ -269,7 +269,7 @@ public class GetterUtil {
 
     @ForReadability
     private String getGetStringThreadName(Builder builder) {
-        return "GetString Waiter thread, title = \"" + builder.getTitle() + "\"";
+        return "GetString Waiter thread, title = \"" + builder.getTitle() + CyderStrings.quote;
     }
 
     /**
@@ -608,7 +608,7 @@ public class GetterUtil {
 
     @ForReadability
     private String getGetFileThreadName(Builder builder) {
-        return "GetFile Waiter Thread, title = \"" + builder.getTitle() + "\"";
+        return "GetFile Waiter Thread, title = \"" + builder.getTitle() + CyderStrings.quote;
     }
 
     /**
@@ -800,7 +800,7 @@ public class GetterUtil {
 
     @ForReadability
     private String getGetConfirmationThreadName(Builder builder) {
-        return "GetConfirmation Waiter Thread, title = \"" + builder.getTitle() + "\"";
+        return "GetConfirmation Waiter Thread, title = \"" + builder.getTitle() + CyderStrings.quote;
     }
 
     /**

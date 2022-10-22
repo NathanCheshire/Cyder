@@ -192,11 +192,11 @@ public final class GitHubUtil {
             }
 
             // Shouldn't be possible
-            if (!githubRepo.contains("/")) {
+            if (!githubRepo.contains(CyderStrings.forwardSlash)) {
                 return Boolean.FALSE;
             }
 
-            String[] parts = githubRepo.split("/");
+            String[] parts = githubRepo.split(CyderStrings.forwardSlash);
 
             String repoName = parts[parts.length - 1];
 
@@ -228,7 +228,7 @@ public final class GitHubUtil {
             String urlTitle = "Could not get url title";
             if (optionalUrlTitle.isPresent()) urlTitle = optionalUrlTitle.get();
             Console.INSTANCE.getInputHandler().println("Cloning: \"" + urlTitle
-                    + "\" to \"" + saveDir.getName() + OsUtil.FILE_SEP + "\"");
+                    + "\" to \"" + saveDir.getName() + OsUtil.FILE_SEP + CyderStrings.quote);
 
             try {
                 // todo use ProcessUtil

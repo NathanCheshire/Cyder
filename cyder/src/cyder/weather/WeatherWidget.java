@@ -9,6 +9,7 @@ import cyder.annotations.Widget;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
@@ -30,6 +31,8 @@ import java.awt.image.BufferedImage;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static cyder.constants.CyderStrings.colon;
 
 /**
  * A widget for showing the weather for a local area.
@@ -504,7 +507,7 @@ public class WeatherWidget {
                 useCustomLoc = true;
 
                 weatherFrame.notify("Attempting to refresh weather stats for location \""
-                        + currentLocationString + "\"");
+                        + currentLocationString + CyderStrings.quote);
 
                 repullWeatherStats();
 
@@ -976,9 +979,9 @@ public class WeatherWidget {
      */
     private String accountForGmtOffset(String absoluteTime) {
         Preconditions.checkNotNull(absoluteTime);
-        Preconditions.checkArgument(absoluteTime.contains(":"));
+        Preconditions.checkArgument(absoluteTime.contains(colon));
 
-        String[] splitTime = absoluteTime.split(":");
+        String[] splitTime = absoluteTime.split(colon);
         Preconditions.checkState(splitTime.length == 2);
 
         int hour = Integer.parseInt(splitTime[0]);
@@ -986,7 +989,7 @@ public class WeatherWidget {
 
         hour += (Integer.parseInt(weatherDataGmtOffset) / SECONDS_IN_HOUR - (parsedGmtOffset / SECONDS_IN_HOUR));
 
-        return hour + ":" + formatMinutes(minute);
+        return hour + colon + formatMinutes(minute);
     }
 
     /**

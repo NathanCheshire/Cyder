@@ -59,13 +59,19 @@ public final class CyderStrings {
      */
     public static final String LOADING = "Loading...";
 
+    // todo search for instances of these all over
     public static final String openingBracket = "[";
     public static final String closingBracket = "]";
     public static final String openingParenthesis = "(";
     public static final String closingParenthesis = ")";
     public static final String space = " ";
-    public static final String colon = " ";
+    public static final String colon = ":";
     public static final String quote = "\"";
+
+    public static final String forwardSlash = "/";
+    public static final String backSlash = "\\";
+    public static final String hash = "#";
+    public static final String dash = "-";
 
     /**
      * Instantiation of constants class not allowed.

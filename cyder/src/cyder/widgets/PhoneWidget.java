@@ -21,6 +21,8 @@ import cyder.utils.UiUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static cyder.constants.CyderStrings.*;
+
 /**
  * A phone number dialing widget.
  */
@@ -67,31 +69,6 @@ public final class PhoneWidget {
      * A regex for targeting anything that is not a digit.
      */
     private static final String NON_DIGITS_REGEX = "[^\\d.]";
-
-    /**
-     * A hash
-     */
-    private static final String HASH = "#";
-
-    /**
-     * A dash.
-     */
-    private static final String DASH = "-";
-
-    /**
-     * A space.
-     */
-    private static final String SPACE = " ";
-
-    /**
-     * An opening parenthesis.
-     */
-    private static final String OPENING = "(";
-
-    /**
-     * A closing parenthesis.
-     */
-    private static final String CLOSING = ")";
 
     /**
      * The suicide hotline special runnable.
@@ -141,7 +118,7 @@ public final class PhoneWidget {
         phoneFrame.setTitle(TITLE);
 
         numberField = new CyderTextField();
-        numberField.setText(HASH);
+        numberField.setText(hash);
         numberField.setEditable(false);
         numberField.setFont(CyderFonts.SEGOE_20);
         numberField.setBounds(20, 40, 320 - 40, 40);
@@ -306,24 +283,24 @@ public final class PhoneWidget {
         int length = num.length();
 
         if (length == 0) {
-            return HASH;
+            return hash;
         } else if (length < 5) {
             return num;
         } else if (length == 5) {
-            return num.charAt(0) + DASH + num.substring(1, 5);
+            return num.charAt(0) + dash + num.substring(1, 5);
         } else if (length == 6) {
-            return num.substring(0, 2) + DASH + num.substring(2, 6);
+            return num.substring(0, 2) + dash + num.substring(2, 6);
         } else if (length == 7) {
-            return num.substring(0, 3) + DASH + num.substring(3, 7);
+            return num.substring(0, 3) + dash + num.substring(3, 7);
         } else if (length == 8) {
-            return OPENING + num.charAt(0) + CLOSING + SPACE
-                    + num.substring(1, 4) + SPACE + num.substring(4, 8);
+            return openingParenthesis + num.charAt(0) + closingParenthesis + space
+                    + num.substring(1, 4) + space + num.substring(4, 8);
         } else if (length == 9) {
-            return OPENING + num.substring(0, 2) + CLOSING + SPACE
-                    + num.substring(2, 5) + SPACE + num.substring(5, 9);
+            return openingParenthesis + num.substring(0, 2) + closingParenthesis + space
+                    + num.substring(2, 5) + space + num.substring(5, 9);
         } else if (length == 10) {
-            return OPENING + num.substring(0, 3) + CLOSING + SPACE
-                    + num.substring(3, 6) + SPACE + num.substring(6, 10);
+            return openingParenthesis + num.substring(0, 3) + closingParenthesis + space
+                    + num.substring(3, 6) + space + num.substring(6, 10);
         } else {
             if (length > 15) {
                 currentPhoneNumber = numberField.getText();
@@ -333,8 +310,9 @@ public final class PhoneWidget {
             String leadingDigits = num.substring(0, length - 10);
             int offset = leadingDigits.length();
 
-            return (leadingDigits + SPACE + OPENING + num.substring(offset, 3 + offset) + CLOSING + SPACE
-                    + num.substring(3 + offset, 6 + offset) + SPACE + num.substring(6 + offset, length));
+            return (leadingDigits + space + openingBracket + num.substring(offset, 3 + offset) + closingParenthesis +
+                    space
+                    + num.substring(3 + offset, 6 + offset) + space + num.substring(6 + offset, length));
         }
     }
 

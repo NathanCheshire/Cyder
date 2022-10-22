@@ -255,7 +255,7 @@ public final class UserEditor {
     /**
      * The separator between user folders and user files.
      */
-    private static final String FILES_SCROLL_SEPARATOR = "/";
+    private static final String FILES_SCROLL_SEPARATOR = CyderStrings.forwardSlash;
 
     /**
      * UserFile folders to show in the files scroll list.
@@ -1923,7 +1923,7 @@ public final class UserEditor {
 
         if (validUsername.valid()) {
             UserUtil.getCyderUser().setName(newUsername);
-            editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
+            editUserFrame.notify("Username successfully changed to \"" + newUsername + CyderStrings.quote);
             Console.INSTANCE.refreshConsoleSuperTitle();
         } else {
             editUserFrame.notify(validUsername.message());
@@ -1966,11 +1966,6 @@ public final class UserEditor {
     }
 
     /**
-     * An escaped quote character.
-     */
-    private static final String ESCAPED_QUOTE = "\"";
-
-    /**
      * The maps keyword.
      */
     private static final String MAPS = "maps";
@@ -1984,13 +1979,13 @@ public final class UserEditor {
         LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
 
         for (MappedExecutable exe : exes) {
-            informationBuilder.append(ESCAPED_QUOTE)
+            informationBuilder.append(CyderStrings.quote)
                     .append(exe.getName())
-                    .append(ESCAPED_QUOTE)
+                    .append(CyderStrings.quote)
                     .append(" maps to: ")
-                    .append(ESCAPED_QUOTE)
+                    .append(CyderStrings.quote)
                     .append(exe.getFilepath())
-                    .append(ESCAPED_QUOTE)
+                    .append(CyderStrings.quote)
                     .append(BoundsUtil.BREAK_TAG);
         }
 
@@ -2042,7 +2037,7 @@ public final class UserEditor {
         newExes.add(addExe);
         UserUtil.getCyderUser().setExecutables(newExes);
 
-        editUserFrame.notify("Successfully added map \"" + name + "\" linking to: \"" + link + "\"");
+        editUserFrame.notify("Successfully added map \"" + name + "\" linking to: \"" + link + CyderStrings.quote);
         Console.INSTANCE.revalidateMenu();
     }
 

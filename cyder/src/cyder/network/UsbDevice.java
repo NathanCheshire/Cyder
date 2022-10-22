@@ -94,10 +94,10 @@ public class UsbDevice {
     @Override
     public String toString() {
         return "UsbDevice{"
-                + "status=\"" + status + "\""
-                + ", type=\"" + type + "\""
-                + ", friendlyName=\"" + friendlyName + "\""
-                + ", instanceId=\"" + instanceId + "\""
+                + "status=\"" + status + CyderStrings.quote
+                + ", type=\"" + type + CyderStrings.quote
+                + ", friendlyName=\"" + friendlyName + CyderStrings.quote
+                + ", instanceId=\"" + instanceId + CyderStrings.quote
                 + "}";
     }
 

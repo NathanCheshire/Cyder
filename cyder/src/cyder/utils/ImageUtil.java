@@ -31,6 +31,9 @@ import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import static cyder.constants.CyderStrings.quote;
+import static cyder.constants.CyderStrings.space;
+
 /**
  * Static utility methods revolving around Image manipulation.
  */
@@ -937,16 +940,6 @@ public final class ImageUtil {
     private static final String PYTHON_FUNCTIONS_SCRIPT_NAME = "python_functions.py";
 
     /**
-     * A space character.
-     */
-    private static final String SPACE = " ";
-
-    /**
-     * A quote character.
-     */
-    private static final String QUOTE = "\"";
-
-    /**
      * The blur command for the python Gaussian blur function script.
      */
     private static final String BLUR = "blur";
@@ -973,8 +966,8 @@ public final class ImageUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(GAUSSIAN_IMAGE_BLURER_THREAD_NAME)).submit(() -> {
             String functionsScriptPath = StaticUtil.getStaticPath(PYTHON_FUNCTIONS_SCRIPT_NAME);
-            String command = Program.PYTHON.getProgramName() + SPACE + functionsScriptPath
-                    + SPACE + BLUR + SPACE + QUOTE + imageFile.getAbsolutePath() + QUOTE + SPACE + radius;
+            String command = Program.PYTHON.getProgramName() + space + functionsScriptPath
+                    + space + BLUR + space + quote + imageFile.getAbsolutePath() + quote + space + radius;
 
             Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
             while (!futureResult.isDone()) Thread.onSpinWait();

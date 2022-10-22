@@ -103,7 +103,7 @@ public final class PropLoader {
             }
         }
 
-        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + "\"");
+        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + CyderStrings.quote);
     }
 
     /**
@@ -122,7 +122,7 @@ public final class PropLoader {
             }
         }
 
-        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + "\"");
+        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + CyderStrings.quote);
     }
 
     /**
@@ -141,7 +141,7 @@ public final class PropLoader {
             }
         }
 
-        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + "\"");
+        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + CyderStrings.quote);
     }
 
     /**
@@ -160,7 +160,7 @@ public final class PropLoader {
             }
         }
 
-        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + "\"");
+        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + CyderStrings.quote);
     }
 
     /**
@@ -179,7 +179,7 @@ public final class PropLoader {
             }
         }
 
-        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + "\"");
+        throw new IllegalArgumentException("Prop with key not found: key = \"" + key + CyderStrings.quote);
     }
 
     /**

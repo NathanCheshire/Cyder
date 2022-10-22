@@ -101,16 +101,6 @@ public final class YoutubeConstants {
     static final int UUID_LENGTH = 11;
 
     /**
-     * A quote character.
-     */
-    static final String quote = "\"";
-
-    /**
-     * A colon character.
-     */
-    static final String colon = ":";
-
-    /**
      * The id to look for in the document returned by a url query.
      */
     static final String VIDEO_ID = "videoId";
@@ -199,11 +189,6 @@ public final class YoutubeConstants {
      * The index of the matcher group the eta of the youtube download lies at.
      */
     static final int etaIndex = 4;
-
-    /**
-     * A forward slash character.
-     */
-    static final String forwardSlash = "/";
 
     /**
      * The url query parameter.

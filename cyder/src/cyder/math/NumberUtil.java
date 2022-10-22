@@ -150,7 +150,7 @@ public final class NumberUtil {
     /**
      * The character to denote a negative number.
      */
-    private static final String NEGATIVE_CHAR = "-";
+    private static final String NEGATIVE_CHAR = CyderStrings.dash;
 
     /**
      * Returns the string representation for the provided raw text field input straight from a user.

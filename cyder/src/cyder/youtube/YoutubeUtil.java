@@ -32,6 +32,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
+import static cyder.constants.CyderStrings.*;
 import static cyder.youtube.YoutubeConstants.*;
 
 /**
@@ -482,7 +483,7 @@ public final class YoutubeUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(YoutubeConstants.UUID_PATTERN.matcher(uuid).matches());
 
-        return YOUTUBE_THUMBNAIL_BASE + uuid + forwardSlash + SD_DEFAULT;
+        return YOUTUBE_THUMBNAIL_BASE + uuid + CyderStrings.forwardSlash + SD_DEFAULT;
     }
 
     /**

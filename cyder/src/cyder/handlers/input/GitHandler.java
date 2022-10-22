@@ -20,6 +20,9 @@ import cyder.utils.StringUtil;
 import java.util.Map;
 import java.util.concurrent.Future;
 
+import static cyder.constants.CyderStrings.quote;
+import static cyder.constants.CyderStrings.space;
+
 /**
  * A handler for commands and inputs related to git/github/gitlab.
  */
@@ -35,19 +38,9 @@ public class GitHandler extends InputHandler {
     private static final String GIT_CLONE = "git clone";
 
     /**
-     * An escaped quote.
-     */
-    private static final String QUOTE = "\"";
-
-    /**
      * A newline character.
      */
     private static final String newline = "\n";
-
-    /**
-     * A space character.
-     */
-    private static final String space = " ";
 
     /**
      * The issue string separator.
@@ -161,7 +154,7 @@ public class GitHandler extends InputHandler {
 
         ProcessBuilder gitAddProcessBuilder = new ProcessBuilder(generateGitAddCommand());
 
-        String commitMessage = QUOTE + getInputHandler().argsToString() + QUOTE;
+        String commitMessage = quote + getInputHandler().argsToString() + quote;
         String[] GIT_COMMIT_COMMAND = {GIT, "commit", "-m", commitMessage};
         ProcessBuilder gitCommitProcessBuilder = new ProcessBuilder(GIT_COMMIT_COMMAND);
 

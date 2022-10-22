@@ -29,6 +29,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 
+import static cyder.constants.CyderStrings.quote;
+
 /**
  * Utilities related to audio files, typically mp3 and wav files.
  */
@@ -107,11 +109,11 @@ public final class AudioUtil {
             String builtPath = new File(OsUtil.buildPath(
                     Dynamic.PATH,
                     "tmp", FileUtil.getFilename(mp3File) + Extension.WAV.getExtension())).getAbsolutePath();
-            String safePath = "\"" + builtPath + "\"";
+            String safePath = quote + builtPath + quote;
 
             File outputFile = new File(builtPath);
             ProcessBuilder pb = new ProcessBuilder(getFfmpegCommand(), INPUT_FLAG,
-                    "\"" + mp3File.getAbsolutePath() + "\"", safePath);
+                    quote + mp3File.getAbsolutePath() + quote, safePath);
             pb.redirectErrorStream();
             Process p = pb.start();
 
@@ -148,11 +150,11 @@ public final class AudioUtil {
             String builtPath = new File(OsUtil.buildPath(
                     Dynamic.PATH,
                     "tmp", FileUtil.getFilename(wavFile) + Extension.MP3.getExtension())).getAbsolutePath();
-            String safePath = "\"" + builtPath + "\"";
+            String safePath = quote + builtPath + quote;
 
             File outputFile = new File(builtPath);
             ProcessBuilder pb = new ProcessBuilder(getFfmpegCommand(), INPUT_FLAG,
-                    "\"" + wavFile.getAbsolutePath() + "\"", safePath);
+                    quote + wavFile.getAbsolutePath() + quote, safePath);
             pb.redirectErrorStream();
             Process p = pb.start();
 
@@ -192,11 +194,6 @@ public final class AudioUtil {
     private static final String AUDIO_DREAMIFIER = "Audio Dreamifier: ";
 
     /**
-     * An escaped quote character.
-     */
-    private static final String ESCAPED_QUOTE = "\"";
-
-    /**
      * The -filter:a flag for setting high and low pass data.
      */
     private static final String FILTER_DASH_A = "-filter:a";
@@ -204,7 +201,7 @@ public final class AudioUtil {
     /**
      * The high and low pass argument string.
      */
-    private static final String HIGHPASS_LOWPASS_ARGS = "\"highpass=f=" + HIGHPASS + ", lowpass=f=" + LOWPASS + "\"";
+    private static final String HIGHPASS_LOWPASS_ARGS = "\"highpass=f=" + HIGHPASS + ", lowpass=f=" + LOWPASS + quote;
 
     /**
      * The delay between polling milliseconds when dreamifying an audio.
@@ -230,11 +227,11 @@ public final class AudioUtil {
                 new CyderThreadFactory(executorThreadName)).submit(() -> {
 
             // in case the audio wav name contains spaces, surround with quotes
-            String safeFilename = ESCAPED_QUOTE + wavOrMp3File.getAbsolutePath() + ESCAPED_QUOTE;
+            String safeFilename = quote + wavOrMp3File.getAbsolutePath() + quote;
 
             File outputFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName(),
                     FileUtil.getFilename(wavOrMp3File) + DREAMY_SUFFIX + Extension.MP3.getExtension());
-            String safeOutputFilename = ESCAPED_QUOTE + outputFile.getAbsolutePath() + ESCAPED_QUOTE;
+            String safeOutputFilename = quote + outputFile.getAbsolutePath() + quote;
 
             String[] command = {
                     getFfmpegCommand(),
@@ -299,7 +296,7 @@ public final class AudioUtil {
                         + FileUtil.getFilename(audioFile))).submit(() -> {
             try {
                 ProcessBuilder pb = new ProcessBuilder(getFfprobeCommand(), INPUT_FLAG,
-                        "\"" + audioFile.getAbsolutePath() + "\"", "-show_format");
+                        quote + audioFile.getAbsolutePath() + quote, "-show_format");
                 Process p = pb.start();
 
                 // another precaution to ensure process is completed before file is returned
@@ -499,16 +496,12 @@ public final class AudioUtil {
             FileUtil.unzip(downloadZip, extractFolder);
             OsUtil.deleteFile(downloadZip);
 
-            return OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), YOUTUBE_DL + Extension.EXE.getExtension()).exists();
+            return OsUtil.buildFile(Dynamic.PATH, Dynamic.EXES.getDirectoryName(),
+                    YOUTUBE_DL + Extension.EXE.getExtension()).exists();
         });
     }
 
     // todo AudioUtil could be cleaner
-
-    // todo move these types of things to CyderStrings like spaces, opening brackets and parenthesis, etc.
-    //  then use static import for files, ctrl f for instances of " " as a string
-    //  quote, space, colon, brackets, parenthesis
 
     // todo rare case of is closed for console being false but getDominantFrame failing to get the frame
     //  needs to be mutually exclusive
@@ -522,11 +515,6 @@ public final class AudioUtil {
      * The command for querying an audio's length from the python functions script.
      */
     private static final String AUDIO_LENGTH = "audio_length";
-
-    /**
-     * A quote character.
-     */
-    private static final String QUOTE = "\"";
 
     /**
      * The name of the python functions script.
@@ -550,12 +538,12 @@ public final class AudioUtil {
         Preconditions.checkArgument(audioFile.exists());
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
 
-        String threadName = "getMillisFast thread, audioFile = " + QUOTE + audioFile + QUOTE;
+        String threadName = "getMillisFast thread, audioFile = " + quote + audioFile + quote;
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(threadName)).submit(() -> {
             String functionsScriptPath = StaticUtil.getStaticPath(PYTHON_FUNCTIONS_SCRIPT_NAME);
             String command = Program.PYTHON.getProgramName() + SPACE + functionsScriptPath
-                    + SPACE + AUDIO_LENGTH + SPACE + QUOTE + audioFile.getAbsolutePath() + QUOTE;
+                    + SPACE + AUDIO_LENGTH + SPACE + quote + audioFile.getAbsolutePath() + quote;
 
             Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
             while (!futureResult.isDone()) {

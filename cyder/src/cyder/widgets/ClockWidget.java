@@ -541,7 +541,7 @@ public final class ClockWidget {
             String build = openingBracket + coord.getLat() + "," + coord.getLon() + closingBracket;
 
             clockFrame.notify("Successfully updated location to " + weatherData.getName()
-                    + breakTag + GMT + ":" + space + currentGmtOffset + breakTag + build);
+                    + breakTag + GMT + CyderStrings.colon + space + currentGmtOffset + breakTag + build);
         }, "tester");
     }
 

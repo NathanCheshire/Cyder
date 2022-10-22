@@ -33,7 +33,7 @@ public class GuiTestHandler extends InputHandler {
                     String trigger = method.getAnnotation(GuiTest.class).value();
                     if (trigger.equalsIgnoreCase(getInputHandler().commandAndArgsToString())) {
                         try {
-                            getInputHandler().println("Invoking gui test \"" + method.getName() + "\"");
+                            getInputHandler().println("Invoking gui test \"" + method.getName() + CyderStrings.quote);
                             method.invoke(classer);
                             ret = true;
                         } catch (Exception e) {

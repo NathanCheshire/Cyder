@@ -50,7 +50,7 @@ public final class SpotlightUtil {
                 int length = files == null ? 0 : files.length;
 
                 Console.INSTANCE.getInputHandler().println("Windows spotlight images wiped from directory:\n\""
-                        + spotlightsDir.getAbsolutePath() + "\"");
+                        + spotlightsDir.getAbsolutePath() + CyderStrings.quote);
                 Console.INSTANCE.getInputHandler().println("Spotlights found: " + length);
 
                 if (files != null && files.length > 0) {
