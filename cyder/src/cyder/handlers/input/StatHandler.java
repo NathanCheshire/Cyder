@@ -5,6 +5,7 @@ import cyder.annotations.Handle;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
+import cyder.enums.SystemPropertyKey;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.Logger;
@@ -20,6 +21,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.concurrent.Future;
@@ -52,9 +54,8 @@ public class StatHandler extends InputHandler {
                     }
 
                     getInputHandler().println("Java properties:");
-                    for (String prop : StatUtil.getJavaProperties()) {
-                        getInputHandler().println(prop);
-                    }
+                    Arrays.stream(SystemPropertyKey.values()).forEach(propertyKey
+                            -> getInputHandler().println(propertyKey.getProperty()));
 
                     getInputHandler().println("System properties:");
                     for (String prop : StatUtil.getSystemProperties()) {
@@ -196,9 +197,8 @@ public class StatHandler extends InputHandler {
                 }
             }
         } else if (getInputHandler().inputIgnoringSpacesMatches("javaproperties")) {
-            for (String prop : StatUtil.getJavaProperties()) {
-                getInputHandler().println(prop);
-            }
+            Arrays.stream(SystemPropertyKey.values()).forEach(propertyKey
+                    -> getInputHandler().println(propertyKey.getProperty()));
         } else if (getInputHandler().commandIs("threads")) {
             getInputHandler().printlns(ThreadUtil.getThreads());
         } else if (getInputHandler().inputIgnoringSpacesMatches("daemonthreads")) {

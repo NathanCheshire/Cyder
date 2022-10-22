@@ -140,9 +140,9 @@ public final class OsUtil {
     }
 
     /**
-     * The raw operating system name.
+     * The top-level operating system name (the operating system the JVM is currently being ran on).
      */
-    public static final String OPERATING_SYSTEM_NAME = System.getProperty("os.name");
+    public static final String OPERATING_SYSTEM_NAME = SystemPropertyKey.OS_NAME.getProperty();
 
     /**
      * Invokes a controlled program exit that eventually invokes {@link System#exit(int)}
@@ -545,7 +545,6 @@ public final class OsUtil {
     }
 
     // todo return a class or record
-
     /**
      * Returns a string representation of all the network devices connected to the host.
      *

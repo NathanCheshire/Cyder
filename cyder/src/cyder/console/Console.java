@@ -12,6 +12,7 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.enums.Direction;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
+import cyder.enums.SystemPropertyKey;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
@@ -1147,7 +1148,8 @@ public enum Console {
                 try {
                     StatUtil.getSystemProperties().forEach(property -> getInputHandler().println(property));
                     StatUtil.getComputerMemorySpaces().forEach(property -> getInputHandler().println(property));
-                    StatUtil.getJavaProperties().forEach(property -> getInputHandler().println(property));
+                    Arrays.stream(SystemPropertyKey.values()).forEach(property ->
+                            getInputHandler().println(property.getProperty()));
 
                     Future<StatUtil.DebugStats> futureStats = StatUtil.getDebugProps();
                     while (!futureStats.isDone()) Thread.onSpinWait();

@@ -25,7 +25,9 @@ import java.io.FileReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -39,26 +41,6 @@ public final class StatUtil {
      */
     private StatUtil() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
-     * Returns an immutable list of all the System property key value pairs of the current JVM.
-     *
-     * @return an immutable list of all the System property key value pairs of the current JVM
-     */
-    public static ImmutableList<String> getJavaProperties() {
-        LinkedList<String> ret = new LinkedList<>();
-        Properties Props = System.getProperties();
-
-        Enumeration<?> keys = Props.keys();
-
-        while (keys.hasMoreElements()) {
-            String key = (String) keys.nextElement();
-            String value = (String) Props.get(key);
-            ret.add(key + ": " + value);
-        }
-
-        return ImmutableList.copyOf(ret);
     }
 
     /**
@@ -164,7 +146,7 @@ public final class StatUtil {
                             "Available Cores: " + Runtime.getRuntime().availableProcessors(),
                             "Available Memory: " + OsUtil.formatBytes(Runtime.getRuntime().freeMemory()),
                             "Operating System: " + OsUtil.OPERATING_SYSTEM_NAME,
-                            "Java Version: " + System.getProperty("java.version"),
+                            "Java Version: " + SystemPropertyKey.JAVA_VERSION.getProperty(),
                             "Network Interface Name: " + netIn.getName(),
                             "Network Interface Display Name: " + netIn.getDisplayName(),
                             "Network MTU: " + netIn.getMTU(),

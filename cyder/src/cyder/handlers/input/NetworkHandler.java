@@ -89,13 +89,10 @@ public class NetworkHandler extends InputHandler {
                 getInputHandler().println("Devices connected to " + OsUtil.getComputerName() + " via USB protocol:");
 
                 Future<ImmutableList<UsbDevice>> futureDevices = UsbUtil.getUsbDevices();
-                while (!futureDevices.isDone()) {
-                    Thread.onSpinWait();
-                }
+                while (!futureDevices.isDone()) Thread.onSpinWait();
 
                 try {
-                    ImmutableList<UsbDevice> devices = futureDevices.get();
-                    devices.forEach(device -> {
+                    futureDevices.get().forEach(device -> {
                         getInputHandler().println("Status: " + device.getStatus());
                         getInputHandler().println("Type: " + device.getType());
                         getInputHandler().println("Friendly name: " + device.getFriendlyName());
@@ -119,8 +116,9 @@ public class NetworkHandler extends InputHandler {
                         }
                     }
 
-                    File saveFile = new File(OsUtil.buildPath(Dynamic.PATH, "users",
-                            Console.INSTANCE.getUuid(), UserFile.FILES.getName(), saveName));
+                    File saveFile = new File(OsUtil.buildPath(Dynamic.PATH,
+                            Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid(),
+                            UserFile.FILES.getName(), saveName));
 
                     getInputHandler().println("Saving file: " + saveName + " to files directory");
 
@@ -160,7 +158,7 @@ public class NetworkHandler extends InputHandler {
                     getInputHandler().println("Invalid url");
                 }
             } else {
-                getInputHandler().println("Curl command usage: curl URL");
+                getInputHandler().println("Curl command usage: curl [URL]");
             }
         } else if (getInputHandler().inputIgnoringSpacesMatches("whereami")) {
             NetworkUtil.IspQueryResult result = NetworkUtil.getIspAndNetworkDetails();

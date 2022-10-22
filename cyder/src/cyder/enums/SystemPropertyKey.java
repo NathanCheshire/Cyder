@@ -1,7 +1,5 @@
 package cyder.enums;
 
-// todo search for all keys in project and use these enums instead
-
 /**
  * {@link System#getProperty(String)} keys.
  */
