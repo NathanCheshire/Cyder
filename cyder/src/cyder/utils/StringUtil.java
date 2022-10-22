@@ -4,6 +4,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
+import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -758,7 +759,7 @@ public class StringUtil {
         Preconditions.checkNotNull(input);
         Preconditions.checkArgument(!input.isEmpty());
 
-        String[] parts = input.split(",");
+        String[] parts = input.split(CyderStrings.comma);
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0 ; i < parts.length ; i++) {

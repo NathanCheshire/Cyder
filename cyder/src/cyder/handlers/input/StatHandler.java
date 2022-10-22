@@ -155,7 +155,7 @@ public class StatHandler extends InputHandler {
 
                 getInputHandler().println("Name: " + description.name());
                 getInputHandler().println("Description: " + description.description() + "\nTriggers: ["
-                        + triggers.toString().trim() + "]");
+                        + triggers.toString().trim() + CyderStrings.closingBracket);
                 getInputHandler().println("-------------------------------------");
             }
         } else if (getInputHandler().inputIgnoringSpacesMatches("analyzecode")) {

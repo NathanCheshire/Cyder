@@ -9,6 +9,7 @@ import cyder.audio.AudioPlayer;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
+import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
@@ -486,7 +487,7 @@ public enum Console {
      */
     public void refreshConsoleSuperTitle() {
         consoleCyderFrame.setTitle(PropLoader.getString(VERSION) +
-                " Cyder [" + UserUtil.getCyderUser().getName() + "]");
+                " Cyder [" + UserUtil.getCyderUser().getName() + CyderStrings.closingBracket);
     }
 
     /**

@@ -218,7 +218,8 @@ public final class ReflectionUtil {
                 .append(", hash = ")
                 .append(comp.hashCode())
                 .append(", bounds = (").append(comp.getX()).append(", ").append(comp.getY())
-                .append(", ").append(comp.getWidth()).append(", ").append(comp.getHeight()).append(")");
+                .append(", ").append(comp.getWidth()).append(", ").append(comp.getHeight())
+                .append(CyderStrings.closingParenthesis);
 
         ret.append(", parent frame = ").append(parentFrame);
 

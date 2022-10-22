@@ -453,8 +453,8 @@ public final class PaintWidget {
         colorHexField.addActionListener(e -> {
             String text = colorHexField.getText();
 
-            if (text.contains(",")) {
-                String[] parts = text.split(",");
+            if (text.contains(CyderStrings.comma)) {
+                String[] parts = text.split(CyderStrings.comma);
 
                 if (parts.length != 3) {
                     paintControlsFrame.notify("Could not parse color");

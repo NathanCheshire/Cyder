@@ -226,14 +226,16 @@ public final class CalculatorWidget {
         calculatorDecimal.setBounds(115, 500, buttonLength, buttonLength);
         calculatorFrame.getContentPane().add(calculatorDecimal);
 
-        CyderModernButton calculatorOpenP = new CyderModernButton("(");
-        calculatorOpenP.addClickRunnable(() -> calculatorField.setText(calculatorField.getText() + "("));
+        CyderModernButton calculatorOpenP = new CyderModernButton(CyderStrings.openingParenthesis);
+        calculatorOpenP.addClickRunnable(() -> calculatorField.setText(calculatorField.getText()
+                + CyderStrings.openingParenthesis));
         calculatorOpenP.setTheme(theme);
         calculatorOpenP.setBounds(210, 500, buttonLength, buttonLength);
         calculatorFrame.getContentPane().add(calculatorOpenP);
 
-        CyderModernButton calculatorCloseP = new CyderModernButton(")");
-        calculatorCloseP.addClickRunnable(() -> calculatorField.setText(calculatorField.getText() + ")"));
+        CyderModernButton calculatorCloseP = new CyderModernButton(CyderStrings.closingParenthesis);
+        calculatorCloseP.addClickRunnable(() -> calculatorField.setText(calculatorField.getText()
+                + CyderStrings.closingParenthesis));
         calculatorCloseP.setTheme(theme);
         calculatorCloseP.setBounds(305, 500, buttonLength, buttonLength);
         calculatorFrame.getContentPane().add(calculatorCloseP);

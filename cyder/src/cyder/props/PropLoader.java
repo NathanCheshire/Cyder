@@ -227,7 +227,7 @@ public final class PropLoader {
                         propsList.add(addProp);
 
                         Logger.log(LogTag.PROP_LOADED, "[key = " + addProp.key()
-                                + (logNextProp ? ", value = " + addProp.value() : "") + "]");
+                                + (logNextProp ? ", value = " + addProp.value() : "") + CyderStrings.closingBracket);
 
                         logNextProp = true;
                     }

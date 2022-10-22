@@ -13,6 +13,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.LinkedList;
 
+import static cyder.constants.CyderStrings.*;
+
 /**
  * Utilities necessary for the Cyder logger.
  */
@@ -21,7 +23,7 @@ public final class LoggingUtil {
      * Suppress default constructor.
      */
     private LoggingUtil() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+        throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
     }
 
     /**
@@ -31,7 +33,7 @@ public final class LoggingUtil {
      * @return the time tag placed at the beginning of all log statements
      */
     static String getLogTimeTag() {
-        return "[" + TimeUtil.getLogLineTime() + "] ";
+        return openingBracket + TimeUtil.getLogLineTime() + closingBracket + space;
     }
 
     /**
@@ -46,15 +48,17 @@ public final class LoggingUtil {
         Preconditions.checkNotNull(logLine2);
 
         // if not full line tags, directly compare
-        if (!logLine1.startsWith("[")
-                || !logLine1.contains("]")
-                || !logLine2.contains("]")
-                || !logLine2.startsWith("["))
+        if (!logLine1.startsWith(openingBracket)
+                || !logLine1.contains(closingBracket)
+                || !logLine2.contains(closingBracket)
+                || !logLine2.startsWith(openingBracket))
             return logLine1.equals(logLine2);
 
         // guaranteed to have square braces now
-        String timeTag1 = logLine1.substring(logLine1.indexOf("["), logLine2.indexOf("]") + 1).trim();
-        String timeTag2 = logLine2.substring(logLine2.indexOf("["), logLine2.indexOf("]") + 1).trim();
+        String timeTag1 = logLine1.substring(logLine1.indexOf(openingBracket),
+                logLine2.indexOf(closingBracket) + 1).trim();
+        String timeTag2 = logLine2.substring(logLine2.indexOf(openingBracket),
+                logLine2.indexOf(closingBracket) + 1).trim();
 
         logLine1 = logLine1.replace(timeTag1, "");
         logLine2 = logLine2.replace(timeTag2, "");
@@ -229,6 +233,6 @@ public final class LoggingUtil {
      */
     static String getLogRecoveryDebugLine() {
         return LoggingUtil.getLogTimeTag() + "[DEBUG]: [Log was deleted during runtime,"
-                + " recreating and restarting log at: " + TimeUtil.userTime() + "]";
+                + " recreating and restarting log at: " + TimeUtil.userTime() + CyderStrings.closingBracket;
     }
 }

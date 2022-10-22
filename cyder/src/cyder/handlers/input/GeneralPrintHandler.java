@@ -2,6 +2,7 @@ package cyder.handlers.input;
 
 import cyder.annotations.Handle;
 import cyder.console.Console;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Suggestion;
 import cyder.exceptions.IllegalMethodException;
@@ -58,7 +59,7 @@ public class GeneralPrintHandler extends InputHandler {
         } else if (getInputHandler().commandIs("alextrebek")) {
             getInputHandler().println("Do you mean who is alex trebek?");
         } else if (StringUtil.isPalindrome(getInputHandler()
-                .getCommand().replace(" ", ""))
+                .getCommand().replaceAll(CyderRegexPatterns.whiteSpaceRegex, ""))
                 && getInputHandler().getCommand().length() > 3) {
             getInputHandler().println("Nice palindrome.");
         } else if (getInputHandler().commandIs("coinflip")) {

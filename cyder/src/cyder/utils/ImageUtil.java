@@ -458,7 +458,8 @@ public final class ImageUtil {
         Preconditions.checkArgument(!frameTitle.isEmpty());
 
         CyderFrame frame = new CyderFrame(icon.getIconWidth(), icon.getIconHeight());
-        frame.setTitle("[" + icon.getIconWidth() + "x" + icon.getIconHeight() + "] " + frameTitle);
+        frame.setTitle(CyderStrings.openingBracket + icon.getIconWidth() + "x" + icon.getIconHeight()
+                + CyderStrings.closingBracket + space + frameTitle);
 
         JLabel label = new JLabel(icon);
         label.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());

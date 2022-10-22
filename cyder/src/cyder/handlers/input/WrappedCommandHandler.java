@@ -23,9 +23,9 @@ public class WrappedCommandHandler extends InputHandler {
         String command = getInputHandler().commandAndArgsToString();
 
         try {
-            int firstParen = command.indexOf("(");
+            int firstParen = command.indexOf(CyderStrings.openingParenthesis);
             int comma = command.indexOf(",");
-            int lastParen = command.indexOf(")");
+            int lastParen = command.indexOf(CyderStrings.closingParenthesis);
 
             String operation;
             String param1 = "";

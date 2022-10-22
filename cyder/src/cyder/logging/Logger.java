@@ -197,7 +197,8 @@ public final class Logger {
             case LINK:
                 logBuilder.append(LogTag.LINK.constructLogTagPrepend());
                 if (representation instanceof File) {
-                    logBuilder.append("[").append(FileUtil.getExtension((File) representation)).append("] ");
+                    logBuilder.append(CyderStrings.openingBracket)
+                            .append(FileUtil.getExtension((File) representation)).append("] ");
                 }
                 logBuilder.append(representation);
                 break;
@@ -218,7 +219,8 @@ public final class Logger {
                 break;
             case LOGOUT:
                 logBuilder.append(LogTag.LOGOUT.constructLogTagPrepend());
-                logBuilder.append("[CyderUser = ").append(representation).append("]");
+                logBuilder.append(CyderStrings.openingBracket).append("CyderUser = ")
+                        .append(representation).append(CyderStrings.closingBracket);
                 break;
             case JVM_ARGS:
                 logBuilder.append(LogTag.JVM_ARGS.constructLogTagPrepend());

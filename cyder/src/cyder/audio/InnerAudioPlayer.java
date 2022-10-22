@@ -3,6 +3,7 @@ package cyder.audio;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.console.Console;
+import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.utils.FileUtil;
@@ -138,7 +139,8 @@ class InnerAudioPlayer {
                         ExceptionHandler.handle(possibleIgnored);
                     }
                 }
-            }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(audioFile) + "]");
+            }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(audioFile)
+                    + CyderStrings.closingBracket);
 
             AudioPlayer.refreshPlayPauseButtonIcon();
         } catch (Exception ignored) {}

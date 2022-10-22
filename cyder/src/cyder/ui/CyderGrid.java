@@ -2,6 +2,7 @@ package cyder.ui;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
+import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -1443,7 +1444,7 @@ public class CyderGrid extends JLabel {
         @Override
         public String toString() {
             return x + ", " + y + ", (" + color.getRed()
-                    + "," + color.getGreen() + "," + color.getBlue() + ")";
+                    + "," + color.getGreen() + "," + color.getBlue() + CyderStrings.closingParenthesis;
         }
     }
 }

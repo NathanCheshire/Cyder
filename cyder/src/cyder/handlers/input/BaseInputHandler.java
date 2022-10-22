@@ -414,7 +414,8 @@ public class BaseInputHandler {
      */
     @ForReadability
     private void wrapShellLogic() {
-        println(UNKNOWN_COMMAND + ", passing to operating system native shell (" + OsUtil.getShellName() + ")");
+        println(UNKNOWN_COMMAND + ", passing to operating system native shell (" + OsUtil.getShellName()
+                + CyderStrings.closingParenthesis);
 
         CyderThreadRunner.submit(() -> {
             try {

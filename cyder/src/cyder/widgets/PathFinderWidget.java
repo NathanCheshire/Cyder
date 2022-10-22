@@ -331,11 +331,6 @@ public final class PathFinderWidget {
     private static final String STATE = "State:";
 
     /**
-     * A space character.
-     */
-    private static final String SPACE = " ";
-
-    /**
      * The text for the resume button.
      */
     private static final String RESUME = "Resume";
@@ -986,7 +981,7 @@ public final class PathFinderWidget {
      * Updates the state label based.
      */
     private static void updateStateLabel() {
-        currentStateLabel.setText(STATE + SPACE + currentPathingState.getStateLabelText());
+        currentStateLabel.setText(STATE + CyderStrings.space + currentPathingState.getStateLabelText());
     }
 
     /**

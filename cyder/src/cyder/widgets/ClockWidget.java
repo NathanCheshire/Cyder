@@ -37,6 +37,8 @@ import java.util.Optional;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static cyder.constants.CyderStrings.*;
+
 /**
  * A clock widget for displaying the current time in a fancy and minimalistic format.
  */
@@ -119,7 +121,7 @@ public final class ClockWidget {
     /**
      * A joiner for joining strings on commas.
      */
-    private static final Joiner commaJoiner = Joiner.on(",");
+    private static final Joiner commaJoiner = Joiner.on(CyderStrings.comma);
 
     /**
      * The list of roman numerals, organized by the angle made between the positive x axis.
@@ -538,7 +540,8 @@ public final class ClockWidget {
             currentLocation = StringUtil.capsFirstWords(possibleLocation);
 
             Coord coord = weatherData.getCoord();
-            String build = openingBracket + coord.getLat() + "," + coord.getLon() + closingBracket;
+            String build = CyderStrings.openingBracket + coord.getLat() + CyderStrings.comma
+                    + coord.getLon() + CyderStrings.closingBracket;
 
             clockFrame.notify("Successfully updated location to " + weatherData.getName()
                     + breakTag + GMT + CyderStrings.colon + space + currentGmtOffset + breakTag + build);
@@ -619,21 +622,6 @@ public final class ClockWidget {
     private static final int miniFrameHeight = 150;
 
     /**
-     * An opening parenthesis.
-     */
-    private static final String openingParenthesis = "(";
-
-    /**
-     * A closing parenthesis.
-     */
-    private static final String closingParenthesis = ")";
-
-    /**
-     * A space.
-     */
-    private static final String space = " ";
-
-    /**
      * The timezone colon text.
      */
     private static final String TIMEZONE = "Timezone:";
@@ -647,16 +635,6 @@ public final class ClockWidget {
      * The mini clock thread prefix.
      */
     private static final String minClockUpdaterThreadNamePrefix = "Mini CLock Updater";
-
-    /**
-     * An opening bracket.
-     */
-    private static final String openingBracket = "[";
-
-    /**
-     * A closing bracket.
-     */
-    private static final String closingBracket = "]";
 
     /**
      * Spawns a mini clock with its own timer based off of the current location.
@@ -692,8 +670,8 @@ public final class ClockWidget {
             miniFrame.getContentPane().add(locationLabel);
         }
 
-        String threadName = minClockUpdaterThreadNamePrefix + space + openingBracket
-                + GMT + currentGmtOffset + closingBracket;
+        String threadName = minClockUpdaterThreadNamePrefix + space + CyderStrings.openingBracket
+                + GMT + currentGmtOffset + CyderStrings.closingBracket;
         CyderThreadRunner.submit(() -> {
             // Localize since the global can change
             int localGmtOffset = currentGmtOffset;

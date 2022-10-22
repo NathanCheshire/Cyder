@@ -2,6 +2,8 @@ package cyder.logging;
 
 import cyder.enums.Dynamic;
 
+import static cyder.constants.CyderStrings.*;
+
 /**
  * Supported tags for log entries.
  */
@@ -182,7 +184,7 @@ public enum LogTag {
      * @return a log tag prepend for this log tag
      */
     public String constructLogTagPrepend() {
-        return "[" + this.logName + "]: ";
+        return openingBracket + this.logName + closingBracket + colon + space;
     }
 
     /**
@@ -192,7 +194,7 @@ public enum LogTag {
      * @return the string to prepend to the log line
      */
     public static String constructLogTagPrepend(String tagString) {
-        return "[" + tagString + "]: ";
+        return openingBracket + tagString + closingBracket + colon + space;
     }
 
     /**

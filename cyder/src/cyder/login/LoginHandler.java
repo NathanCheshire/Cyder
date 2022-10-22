@@ -6,7 +6,6 @@ import cyder.annotations.ForReadability;
 import cyder.annotations.Widget;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
-import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
@@ -44,8 +43,7 @@ import java.util.Optional;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static cyder.constants.CyderStrings.quote;
-import static cyder.constants.CyderStrings.space;
+import static cyder.constants.CyderStrings.*;
 
 /**
  * A widget to log into Cyder or any other way that the Console might be invoked.
@@ -55,7 +53,7 @@ public final class LoginHandler {
      * Suppress default constructor.
      */
     private LoginHandler() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+        throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
     }
 
     /**
@@ -409,7 +407,7 @@ public final class LoginHandler {
     @ForReadability
     public static String getLoginFrameTitle() {
         String cyderVersion = PropLoader.getString(VERSION);
-        return titlePrefix + "[" + cyderVersion + " Build" + "]";
+        return titlePrefix + openingBracket + cyderVersion + space + "Build" + closingBracket;
     }
 
     /**
@@ -490,7 +488,7 @@ public final class LoginHandler {
             loginField.setText(currentBashString);
             printlnPriority("Valid commands: ");
             validCommands.forEach(command -> LoginHandler.printlnPriority(
-                    CyderStrings.BULLET_POINT + space + command));
+                    BULLET_POINT + space + command));
         } else {
             loginField.setText(currentBashString);
             printlnPriority("Unknown command; See " + quote + HELP + quote + " for " + HELP);
@@ -505,7 +503,7 @@ public final class LoginHandler {
     private static void handleUsernameEnter(String userInput) {
         username = userInput;
         loginMode = LoginMode.PASSWORD;
-        loginField.setEchoChar(CyderStrings.ECHO_CHAR);
+        loginField.setEchoChar(ECHO_CHAR);
         loginField.setText("");
         printlnPriority("Awaiting Password (hold shift to reveal password)");
         currentBashString = defaultBashString;

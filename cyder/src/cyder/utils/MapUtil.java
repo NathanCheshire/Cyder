@@ -77,8 +77,8 @@ public final class MapUtil {
 
         String string = MAP_QUEST_HEADER + PropLoader.getString("map_quest_api_key")
                 + MAP_TYPE_PARAMETER
-                + MAP_SIZE_PARAMETER + width + "," + height
-                + MAP_LOCATIONS_PARAMETER + lat + "," + lon
+                + MAP_SIZE_PARAMETER + width + CyderStrings.comma + height
+                + MAP_LOCATIONS_PARAMETER + lat + CyderStrings.comma + lon
                 + MAP_QUEST_FOOTER;
 
         try {

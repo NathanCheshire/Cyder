@@ -192,8 +192,8 @@ public class ColorConverterWidget {
 
         CyderTextField rgbField = new CyderTextField(RGB_FIELD_LIMIT);
         rgbField.setHorizontalAlignment(JTextField.CENTER);
-        rgbField.setText(startingColor.getRed() + "," + startingColor.getGreen()
-                + "," + startingColor.getBlue());
+        rgbField.setText(startingColor.getRed() + CyderStrings.comma + startingColor.getGreen()
+                + CyderStrings.comma + startingColor.getBlue());
 
         CyderTextField hexField = new CyderTextField(hexFieldLimit);
         hexField.setKeyEventRegexMatcher(CyderRegexPatterns.hexPattern.pattern());
@@ -208,8 +208,8 @@ public class ColorConverterWidget {
             public void keyReleased(KeyEvent e) {
                 try {
                     Color hexFieldColor = ColorUtil.hexStringToColor(hexField.getText());
-                    rgbField.setText(hexFieldColor.getRed() + "," + hexFieldColor.getGreen()
-                            + "," + hexFieldColor.getBlue());
+                    rgbField.setText(hexFieldColor.getRed() + CyderStrings.comma + hexFieldColor.getGreen()
+                            + CyderStrings.comma + hexFieldColor.getBlue());
                     colorBlock.setBackground(hexFieldColor);
                 } catch (Exception ignored) {}
             }
@@ -225,9 +225,9 @@ public class ColorConverterWidget {
             public void keyReleased(KeyEvent e) {
                 try {
                     String text = rgbField.getText();
-                    if (!text.contains(",")) return;
+                    if (!text.contains(CyderStrings.comma)) return;
 
-                    String[] parts = text.split(",");
+                    String[] parts = text.split(CyderStrings.comma);
                     if (parts.length != 3) return;
 
                     int r = Integer.parseInt(parts[0]);

@@ -116,7 +116,7 @@ public class PixelationHandler extends InputHandler {
         } else {
             getInputHandler().println("Sorry, " + UserUtil.getCyderUser().getName()
                     + ", but your pixel value must be in the range ["
-                    + pixelRange.lowerEndpoint() + ", " + pixelRange.upperEndpoint() + "]");
+                    + pixelRange.lowerEndpoint() + ", " + pixelRange.upperEndpoint() + CyderStrings.closingBracket);
         }
 
         getInputHandler().resetHandlers();

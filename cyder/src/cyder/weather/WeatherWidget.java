@@ -494,13 +494,13 @@ public class WeatherWidget {
                 if (StringUtil.isNullOrEmpty(newLocation)) return;
 
                 previousLocationString = currentLocationString;
-                String[] newLocationParts = newLocation.split(",");
+                String[] newLocationParts = newLocation.split(CyderStrings.comma);
 
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0 ; i < newLocationParts.length ; i++) {
                     sb.append(StringUtil.capsFirstWords(newLocationParts[i].trim()));
 
-                    if (i != newLocationParts.length - 1) sb.append(",");
+                    if (i != newLocationParts.length - 1) sb.append(CyderStrings.comma);
                 }
 
                 currentLocationString = sb.toString();
@@ -599,7 +599,7 @@ public class WeatherWidget {
 
         windSpeedLabel = new JLabel("", SwingConstants.CENTER);
         windSpeedLabel.setText("Wind: " + windSpeed + "mph, " + windBearing
-                + "deg (" + getWindDirection(windBearing) + ")");
+                + "deg (" + getWindDirection(windBearing) + CyderStrings.closingParenthesis);
         windSpeedLabel.setForeground(CyderColors.navy);
         windSpeedLabel.setFont(CyderFonts.SEGOE_20);
         windSpeedLabel.setBounds(0, 390, 480, 30);
@@ -818,7 +818,7 @@ public class WeatherWidget {
      */
     private void refreshWeatherLabels() {
         if (currentLocationString.length() > 1) {
-            String[] parts = currentLocationString.split(",");
+            String[] parts = currentLocationString.split(CyderStrings.comma);
             StringBuilder sb = new StringBuilder();
 
             for (int i = 0 ; i < parts.length ; i++) {
@@ -847,7 +847,7 @@ public class WeatherWidget {
                 + BoundsUtil.CLOSING_HTML_TAG);
 
         windSpeedLabel.setText("Wind: " + windSpeed + "mph, " + windBearing
-                + "deg (" + getWindDirection(windBearing) + ")");
+                + "deg (" + getWindDirection(windBearing) + CyderStrings.closingParenthesis);
         humidityLabel.setText("Humidity: " + humidity + "%");
         pressureLabel.setText("Pressure: " + formatFloatMeasurement(pressure) + "atm");
         timezoneLabel.setText("Timezone: " + getGmtTimezoneLabelText());
@@ -868,7 +868,7 @@ public class WeatherWidget {
 
         windDirectionLabel.repaint();
 
-        String splitCity = currentLocationString.split(",")[0];
+        String splitCity = currentLocationString.split(CyderStrings.comma)[0];
         refreshFrameTitle(splitCity);
 
         if (weatherFrame != null) weatherFrame.toast(
@@ -1060,7 +1060,7 @@ public class WeatherWidget {
 
             setGmtIfNotSet();
 
-            String[] currentLocationParts = currentLocationString.split(",");
+            String[] currentLocationParts = currentLocationString.split(CyderStrings.comma);
             String currentLocationCityPart = currentLocationParts[0].trim();
 
             if (!currentLocationCityPart.isEmpty()) {

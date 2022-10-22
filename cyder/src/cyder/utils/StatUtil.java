@@ -133,7 +133,7 @@ public final class StatUtil {
                             "City: " + IPUtil.getIpData().getCity(),
                             "State: " + IPUtil.getIpData().getRegion(),
                             "Country: " + IPUtil.getIpData().getCountry_name()
-                                    + " (" + IPUtil.getIpData().getCountry_code() + ")",
+                                    + " (" + IPUtil.getIpData().getCountry_code() + CyderStrings.closingParenthesis,
                             "Latitude: " + IPUtil.getIpData().getLatitude() + " Degrees N",
                             "Longitude: " + IPUtil.getIpData().getLongitude() + " Degrees W",
                             "latency: " + NetworkUtil.latency(10000) + " ms",
@@ -178,8 +178,8 @@ public final class StatUtil {
 
         FileUtil.getFiles(startDir, Extension.JAVA.getExtension()).forEach(javaFile ->
                 ret.append(javaFile.getName().replace(Extension.JAVA.getExtension(), ""))
-                        .append(": ").append(totalLines(javaFile)).append(",")
-                        .append(totalComments(javaFile)).append(",")
+                        .append(": ").append(totalLines(javaFile)).append(CyderStrings.comma)
+                        .append(totalComments(javaFile)).append(CyderStrings.comma)
                         .append(totalBlankLines(javaFile)).append(newline));
 
         return ret.toString();

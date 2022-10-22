@@ -56,7 +56,7 @@ public class NumberHandler extends InputHandler {
                         getInputHandler().println(factor + ", ");
                     }
 
-                    getInputHandler().println("]");
+                    getInputHandler().println(CyderStrings.closingBracket);
                 }
             } else {
                 getInputHandler().println("Prime usage: prime NUMBER");

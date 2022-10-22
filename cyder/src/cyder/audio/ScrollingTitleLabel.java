@@ -1,6 +1,7 @@
 package cyder.audio;
 
 import com.google.common.base.Preconditions;
+import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
@@ -154,6 +155,6 @@ public class ScrollingTitleLabel {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Scrolling title label animator [" + labelText + "]");
+        }, "Scrolling title label animator [" + labelText + CyderStrings.closingBracket);
     }
 }

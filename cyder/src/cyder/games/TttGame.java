@@ -110,7 +110,7 @@ public final class TttGame {
                         tttFrame.notify("Sorry, but " + newBoardLength
                                 + " is not in the allowable range of ["
                                 + GRID_SIZE_RANGE.lowerEndpoint() + ", "
-                                + GRID_SIZE_RANGE.upperEndpoint() + "]");
+                                + GRID_SIZE_RANGE.upperEndpoint() + CyderStrings.closingBracket);
                     }
                 } catch (Exception ignored) {
                     tttFrame.notify("Unable to parse input as an integer");

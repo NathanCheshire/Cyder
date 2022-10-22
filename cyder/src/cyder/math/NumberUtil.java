@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Range;
 import cyder.annotations.ForReadability;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.utils.StringUtil;
@@ -210,9 +211,9 @@ public final class NumberUtil {
         ArrayList<String> ret = new ArrayList<>(trios.length);
 
         for (String trio : trios) {
-            ret.add(trio.replaceAll("\\s+", "")
-                    .replace("[", "")
-                    .replace("]", ""));
+            ret.add(trio.replaceAll(CyderRegexPatterns.whiteSpaceRegex, "")
+                    .replace(CyderStrings.openingBracket, "")
+                    .replace(CyderStrings.closingBracket, ""));
         }
 
         return ImmutableList.copyOf(ret);
