@@ -25,10 +25,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Objects;
+import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -544,27 +541,29 @@ public final class OsUtil {
         return false;
     }
 
-    // todo return a class or record
     /**
-     * Returns a string representation of all the network devices connected to the host.
-     *
-     * @return a string representation of all the network devices connected to the host
+     * The return record from {@link #getNetworkDevices()}.
      */
-    public static String getNetworkDevicesString() {
-        StringBuilder sb = new StringBuilder();
+    public record NetworkDevice(String displayName, String name) {}
+
+    /**
+     * Returns a list of all network devices connected to the host.
+     *
+     * @return a list of all network devices connected to the host
+     */
+    public static ImmutableList<NetworkDevice> getNetworkDevices() {
+        ArrayList<NetworkDevice> ret = new ArrayList<>();
 
         try {
-            Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
+            Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
 
-            for (NetworkInterface networkInterface : Collections.list(nets)) {
-                sb.append("Display name:").append(networkInterface.getDisplayName()).append("\n");
-                sb.append("Name:").append(networkInterface.getName()).append("\n");
-            }
+            Collections.list(networks).forEach(networkInterface
+                    -> ret.add(new NetworkDevice(networkInterface.getDisplayName(), networkInterface.getName())));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        return sb.toString();
+        return ImmutableList.copyOf(ret);
     }
 
     /**

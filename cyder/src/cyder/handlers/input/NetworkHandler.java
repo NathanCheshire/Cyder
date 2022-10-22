@@ -168,7 +168,10 @@ public class NetworkHandler extends InputHandler {
             getInputHandler().println("Your isp is: " + result.isp());
             getInputHandler().println("Your hostname is: " + result.hostname());
         } else if (getInputHandler().inputIgnoringSpacesMatches("networkdevices")) {
-            getInputHandler().println(OsUtil.getNetworkDevicesString());
+            OsUtil.getNetworkDevices().forEach(networkDevice -> {
+                getInputHandler().println("Name: " + networkDevice.name());
+                getInputHandler().println("Display name: " + networkDevice.displayName());
+            });
         } else {
             ret = false;
         }

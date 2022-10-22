@@ -69,6 +69,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static cyder.console.ConsoleConstants.*;
+import static cyder.constants.CyderStrings.*;
 
 /**
  * Singleton of components that represent the GUI way a user
@@ -1163,9 +1164,7 @@ public enum Console {
             }, DEBUG_STAT_FINDER_THREAD_NAME);
         }
 
-        String openingBracket = "[";
-        String closingBracket = "]";
-        String space = " ";
+
         String state = ProgramModeManager.INSTANCE.getProgramMode().getName();
         Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername() + closingBracket
                 + space + openingBracket + state + closingBracket);

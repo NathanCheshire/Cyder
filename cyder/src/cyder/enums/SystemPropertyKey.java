@@ -27,9 +27,9 @@ public enum SystemPropertyKey {
     OS_NAME("os.name", "Operating system name"),
     OS_ARCH("os.arch", "Operating system architecture"),
     OS_VERSION("os.version", "Operating system version"),
-    FILE_SEPARATOR("file.separator", "File separator (/on UNIX)"),
-    PATH_SEPARATOR("path.separator", "Path separator (: on UNIX)"),
-    LINE_SEPARATOR("line.separator", "Line separator (\\n on UNIX)"),
+    FILE_SEPARATOR("file.separator", "File separator (/ on Unix)"),
+    PATH_SEPARATOR("path.separator", "Path separator (: on Unix)"),
+    LINE_SEPARATOR("line.separator", "Line separator (\\n on Unix)"),
     USER_NAME("user.name", "User's account name"),
     USER_HOME("user.home", "User's home directory"),
     USER_DIR("user.dir", "User's current working directory");

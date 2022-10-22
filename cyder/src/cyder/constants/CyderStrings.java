@@ -59,6 +59,14 @@ public final class CyderStrings {
      */
     public static final String LOADING = "Loading...";
 
+    public static final String openingBracket = "[";
+    public static final String closingBracket = "]";
+    public static final String openingParenthesis = "(";
+    public static final String closingParenthesis = ")";
+    public static final String space = " ";
+    public static final String colon = " ";
+    public static final String quote = "\"";
+
     /**
      * Instantiation of constants class not allowed.
      */
