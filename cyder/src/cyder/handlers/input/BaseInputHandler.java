@@ -8,6 +8,7 @@ import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
@@ -77,21 +78,14 @@ public class BaseInputHandler {
     /**
      * The robot used for screen operations.
      */
-    private static Robot robot = setupRobot();
+    private static final Robot robot;
 
-    /**
-     * Constructs and returns a new robot instance.
-     *
-     * @return a new robot instance
-     */
-    private static Robot setupRobot() {
+    static {
         try {
-            return new Robot();
+            robot = new Robot();
         } catch (Exception e) {
-            ExceptionHandler.handle(e);
+            throw new FatalException(e);
         }
-
-        return null;
     }
 
     /**
@@ -100,10 +94,6 @@ public class BaseInputHandler {
      * @return the common robot object
      */
     public final Robot getRobot() {
-        if (robot == null) {
-            robot = setupRobot();
-        }
-
         return robot;
     }
 

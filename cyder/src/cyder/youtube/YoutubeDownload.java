@@ -28,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 
@@ -382,8 +383,11 @@ public class YoutubeDownload {
         String ffmpegAudioOutputFormat = PropLoader.getString(FFMPEG_AUDIO_OUTPUT_FORMAT);
         String extension = "." + ffmpegAudioOutputFormat;
 
+        Optional<String> optionalUrlTitle = NetworkUtil.getUrlTitle(url);
+        String urlTitle = "Unknown_title";
+        if (optionalUrlTitle.isPresent()) urlTitle = optionalUrlTitle.get();
         AtomicReference<String> parsedSaveName = new AtomicReference<>(
-                StringUtil.parseNonAscii(NetworkUtil.getUrlTitle(url))
+                StringUtil.parseNonAscii(urlTitle)
                         .replace(YOUTUBE_VIDEO_URL_TITLE_SUFFIX, "")
                         .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim());
 

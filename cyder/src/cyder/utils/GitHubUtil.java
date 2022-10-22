@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -190,7 +191,7 @@ public final class GitHubUtil {
                 return Boolean.FALSE;
             }
 
-            //this shouldn't be possible
+            // Shouldn't be possible
             if (!githubRepo.contains("/")) {
                 return Boolean.FALSE;
             }
@@ -199,16 +200,15 @@ public final class GitHubUtil {
 
             String repoName = parts[parts.length - 1];
 
-            //shouldn't be possible
+            // Shouldn't be possible
             if (!repoName.endsWith(Extension.GIT.getExtension())) {
                 return Boolean.FALSE;
             }
 
             repoName = repoName.replace(Extension.GIT.getExtension(), "");
 
-            //folder name is index of last / to the .git
-            File saveDir = new File(directory.getAbsolutePath()
-                    + OsUtil.FILE_SEP + repoName);
+            // Folder name is index of last / to the .git
+            File saveDir = OsUtil.buildFile(directory.getAbsolutePath(), repoName);
 
             if (!saveDir.exists()) {
                 if (!saveDir.mkdirs()) {
@@ -224,15 +224,17 @@ public final class GitHubUtil {
                 return Boolean.FALSE;
             }
 
-            Console.INSTANCE.getInputHandler().println("Cloning: \"" + NetworkUtil.getUrlTitle(githubRepo)
+            Optional<String> optionalUrlTitle = NetworkUtil.getUrlTitle(githubRepo);
+            String urlTitle = "Could not get url title";
+            if (optionalUrlTitle.isPresent()) urlTitle = optionalUrlTitle.get();
+            Console.INSTANCE.getInputHandler().println("Cloning: \"" + urlTitle
                     + "\" to \"" + saveDir.getName() + OsUtil.FILE_SEP + "\"");
 
             try {
+                // todo use ProcessUtil
                 Runtime rt = Runtime.getRuntime();
                 Process proc = rt.exec("git clone " + githubRepo + " " + saveDir.getAbsolutePath());
-
                 proc.waitFor();
-
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 return Boolean.FALSE;

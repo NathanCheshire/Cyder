@@ -372,7 +372,7 @@ public class NetworkUtil {
      * @param url the url to get the title of
      * @return the title of the provided url
      */
-    public static String getUrlTitle(String url) {
+    public static Optional<String> getUrlTitle(String url) {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
 
@@ -380,12 +380,12 @@ public class NetworkUtil {
 
         try {
             Document document = Jsoup.connect(url).get();
-            ret = document.title();
+            return Optional.of(document.title());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        return ret;
+        return Optional.empty();
     }
 
     /**

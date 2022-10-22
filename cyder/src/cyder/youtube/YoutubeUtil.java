@@ -216,7 +216,10 @@ public final class YoutubeUtil {
             throw new YoutubeException("Could not get raw thumbnail");
         }
 
-        String parsedAsciiSaveName = StringUtil.parseNonAscii(NetworkUtil.getUrlTitle(url))
+        Optional<String> optionalUrlTitle = NetworkUtil.getUrlTitle(url);
+        String urlTitle = "unknown_title";
+        if (optionalUrlTitle.isPresent()) urlTitle = optionalUrlTitle.get();
+        String parsedAsciiSaveName = StringUtil.parseNonAscii(urlTitle)
                 .replace("- YouTube", "")
                 .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim();
 
@@ -332,12 +335,16 @@ public final class YoutubeUtil {
 
         maxThumbnail = ImageUtil.resizeImage(maxThumbnail, maxThumbnail.getType(), newConsoleWidth, newConsoleHeight);
 
+        Optional<String> optionalUrlTitle = NetworkUtil.getUrlTitle(url);
+        String urlTitle = "Unknown_title";
+        if (optionalUrlTitle.isPresent()) urlTitle = optionalUrlTitle.get();
+
         File fullSaveFile = OsUtil.buildFile(
                 Dynamic.PATH,
                 Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(),
                 UserFile.BACKGROUNDS.getName(),
-                NetworkUtil.getUrlTitle(url) + Extension.PNG.getExtension());
+                urlTitle + Extension.PNG.getExtension());
 
         try {
             ImageIO.write(maxThumbnail, Extension.PNG.getExtension(), fullSaveFile);

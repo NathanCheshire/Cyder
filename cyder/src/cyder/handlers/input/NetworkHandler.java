@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Optional;
 import java.util.concurrent.Future;
 
 /**
@@ -108,10 +109,11 @@ public class NetworkHandler extends InputHandler {
         } else if (getInputHandler().commandIs("download")) {
             if (getInputHandler().checkArgsLength(1)) {
                 if (NetworkUtil.isValidUrl(getInputHandler().getArg(0))) {
-                    String responseName = NetworkUtil.getUrlTitle(getInputHandler().getArg(0));
+                    Optional<String> optionalResponseName = NetworkUtil.getUrlTitle(getInputHandler().getArg(0));
                     String saveName = SecurityUtil.generateUuid();
 
-                    if (responseName != null) {
+                    if (optionalResponseName.isPresent()) {
+                        String responseName = optionalResponseName.get();
                         if (!responseName.isEmpty()) {
                             saveName = responseName;
                         }
