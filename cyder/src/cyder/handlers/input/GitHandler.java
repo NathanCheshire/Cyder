@@ -38,11 +38,6 @@ public class GitHandler extends InputHandler {
     private static final String GIT_CLONE = "git clone";
 
     /**
-     * A newline character.
-     */
-    private static final String newline = "\n";
-
-    /**
      * The issue string separator.
      */
     private static final String issueSeparator = "----------------------------------------";
@@ -175,14 +170,14 @@ public class GitHandler extends InputHandler {
             StringBuilder builder = new StringBuilder();
             builder.append(issues.size()).append(space)
                     .append(StringUtil.getPlural(issues.size(), "issue"))
-                    .append(space).append("found:").append(newline);
-            builder.append(issueSeparator).append(newline);
+                    .append(space).append("found:").append(CyderStrings.newline);
+            builder.append(issueSeparator).append(CyderStrings.newline);
 
             issues.forEach(issue -> {
-                builder.append("Issue #").append(issue.number).append(newline);
-                builder.append(issue.title).append(newline);
-                builder.append(issue.body).append(newline);
-                builder.append(issueSeparator).append(newline);
+                builder.append("Issue #").append(issue.number).append(CyderStrings.newline);
+                builder.append(issue.title).append(CyderStrings.newline);
+                builder.append(issue.body).append(CyderStrings.newline);
+                builder.append(issueSeparator).append(CyderStrings.newline);
             });
 
             getInputHandler().println(builder);

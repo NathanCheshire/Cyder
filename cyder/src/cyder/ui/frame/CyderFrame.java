@@ -3610,7 +3610,7 @@ public class CyderFrame extends JFrame {
                 printingUtil.printComponent(menuItems.get(i).label());
 
                 if (i != menuItems.size() - 1) {
-                    printingUtil.print("\n");
+                    printingUtil.print(CyderStrings.newline);
                 }
             }
         } else {

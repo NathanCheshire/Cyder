@@ -188,7 +188,7 @@ public final class LoggingUtil {
         Preconditions.checkNotNull(string);
         string = string.trim();
 
-        return string.isEmpty() || string.equals("\n");
+        return string.isEmpty() || string.equals(CyderStrings.newline);
     }
 
     /**

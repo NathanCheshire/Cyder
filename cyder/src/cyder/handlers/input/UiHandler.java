@@ -53,10 +53,10 @@ public class UiHandler extends InputHandler {
         } else if (getInputHandler().commandIs("monitors")) {
             StringBuilder printString = new StringBuilder("Monitor display modes: ");
             for (DisplayMode displayMode : UiUtil.getMonitorDisplayModes()) {
-                printString.append("Width: ").append(displayMode.getWidth()).append("\n");
-                printString.append("Height: ").append(displayMode.getHeight()).append("\n");
-                printString.append("Bit depth: ").append(displayMode.getBitDepth()).append("\n");
-                printString.append("Refresh rate: ").append(displayMode.getRefreshRate()).append("\n");
+                printString.append("Width: ").append(displayMode.getWidth()).append(CyderStrings.newline);
+                printString.append("Height: ").append(displayMode.getHeight()).append(CyderStrings.newline);
+                printString.append("Bit depth: ").append(displayMode.getBitDepth()).append(CyderStrings.newline);
+                printString.append("Refresh rate: ").append(displayMode.getRefreshRate()).append(CyderStrings.newline);
             }
 
             getInputHandler().println(printString.toString().trim());

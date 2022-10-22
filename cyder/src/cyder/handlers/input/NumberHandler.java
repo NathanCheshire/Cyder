@@ -105,7 +105,7 @@ public class NumberHandler extends InputHandler {
                                 long col = streamPtr++ % numberOfColumns;
                                 sb.append(String.format("%02x ", inputStream.read()));
                                 if (col == (numberOfColumns - 1)) {
-                                    sb.append("\n");
+                                    sb.append(CyderStrings.newline);
                                 }
                             }
 

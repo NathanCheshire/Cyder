@@ -265,7 +265,7 @@ public final class MessagingUtils {
         Preconditions.checkArgument(width <= numFrames,
                 "Samples to take is greater than num frames: "
                         + "samples = " + width + ", frames = " + numFrames
-                        + "\n" + CyderStrings.EUROPEAN_TOY_MAKER);
+                        + CyderStrings.newline + CyderStrings.EUROPEAN_TOY_MAKER);
 
         int sampleLocIncrementer = (int) Math.ceil(numFrames / (double) width);
         int currentSampleLoc = 0;

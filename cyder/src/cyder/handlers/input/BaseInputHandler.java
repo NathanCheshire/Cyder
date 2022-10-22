@@ -1133,11 +1133,6 @@ public class BaseInputHandler {
     // -------------------------------------------
 
     /**
-     * The newline character.
-     */
-    private static final String NEWLINE = "\n";
-
-    /**
      * Returns whether a YouTube or bletchy thread is running.
      *
      * @return whether a YouTube or bletchy thread is running
@@ -1186,11 +1181,11 @@ public class BaseInputHandler {
     public final <T> void println(T tee) {
         if (threadsActive()) {
             consolePriorityPrintingList.add(tee);
-            consolePriorityPrintingList.add(NEWLINE);
+            consolePriorityPrintingList.add(CyderStrings.newline);
         } else {
             aquirePrintingLock();
             consolePrintingList.add(tee);
-            consolePrintingList.add(NEWLINE);
+            consolePrintingList.add(CyderStrings.newline);
             releasePrintingLock();
         }
     }
@@ -1211,7 +1206,7 @@ public class BaseInputHandler {
      */
     public final <T> void printlnPriority(T tee) {
         consolePriorityPrintingList.add(tee);
-        consolePriorityPrintingList.add(NEWLINE);
+        consolePriorityPrintingList.add(CyderStrings.newline);
     }
 
     /**

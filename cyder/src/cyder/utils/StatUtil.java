@@ -157,11 +157,6 @@ public final class StatUtil {
     }
 
     /**
-     * A new line character.
-     */
-    private static final String newline = "\n";
-
-    /**
      * Returns a string representing statistics found about all .java files found from the starting directory such as
      * comment lines, total lines, and blank lines.
      *
@@ -174,13 +169,13 @@ public final class StatUtil {
         Preconditions.checkArgument(startDir.exists());
 
         StringBuilder ret = new StringBuilder("Numbers in order represent: "
-                + "code lines, comment lines, and blank lines respectively" + newline);
+                + "code lines, comment lines, and blank lines respectively" + CyderStrings.newline);
 
         FileUtil.getFiles(startDir, Extension.JAVA.getExtension()).forEach(javaFile ->
                 ret.append(javaFile.getName().replace(Extension.JAVA.getExtension(), ""))
                         .append(": ").append(totalLines(javaFile)).append(CyderStrings.comma)
                         .append(totalComments(javaFile)).append(CyderStrings.comma)
-                        .append(totalBlankLines(javaFile)).append(newline));
+                        .append(totalBlankLines(javaFile)).append(CyderStrings.newline));
 
         return ret.toString();
     }

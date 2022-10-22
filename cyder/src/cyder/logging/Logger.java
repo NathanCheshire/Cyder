@@ -261,7 +261,7 @@ public final class Logger {
                         .append(totalObjectsCreated)
                         .append(", threads ran: ")
                         .append(CyderThreadRunner.getThreadsRan())
-                        .append("\n");
+                        .append(CyderStrings.newline);
 
                 formatAndWriteLine(eolBuilder.toString(), tag);
                 logConcluded = true;
@@ -480,7 +480,7 @@ public final class Logger {
         if (tag != LogTag.EXCEPTION) {
             writeLines(LoggingUtil.insertBreaks(line));
         } else {
-            writeLines(line.split("\n"));
+            writeLines(line.split(CyderStrings.newline));
         }
 
         println(line);

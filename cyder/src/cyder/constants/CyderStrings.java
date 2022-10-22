@@ -120,6 +120,11 @@ public final class CyderStrings {
     public static final String dash = "-";
 
     /**
+     * A newline character.
+     */
+    public static final String newline = "\n";
+
+    /**
      * Suppress default constructor.
      */
     private CyderStrings() {

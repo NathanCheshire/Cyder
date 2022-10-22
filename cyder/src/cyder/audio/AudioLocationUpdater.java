@@ -216,7 +216,8 @@ public class AudioLocationUpdater {
 
         boolean totalLength = UserUtil.getCyderUser().getAudioLength().equals("1");
         if (totalLength) {
-            secondsLeftLabel.setText(TimeUtil.formatMillis(Math.round(totalMilliSeconds)));
+            int displayMillis = Math.round(totalMilliSeconds / 1000f) * 1000;
+            secondsLeftLabel.setText(TimeUtil.formatMillis(displayMillis));
         } else {
             secondsLeftLabel.setText(TimeUtil.formatMillis(secondsLeft * 1000L));
         }

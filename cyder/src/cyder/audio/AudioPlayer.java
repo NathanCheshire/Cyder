@@ -2481,7 +2481,7 @@ public final class AudioPlayer {
                 });
 
                 printingUtil.printlnComponent(downloadButton);
-                printingUtil.println("\n");
+                printingUtil.println(CyderStrings.newline);
             }
 
             searchResultsPane.setCaretPosition(0);
@@ -2522,7 +2522,7 @@ public final class AudioPlayer {
         imageLabel.setBorder(new LineBorder(Color.black, 4));
         printingUtil.printlnComponent(imageLabel);
 
-        printingUtil.println("\n");
+        printingUtil.println(CyderStrings.newline);
 
         CyderLabel titleLabel = new CyderLabel(result.title);
         titleLabel.setForeground(CyderColors.vanilla);
@@ -2534,7 +2534,7 @@ public final class AudioPlayer {
         channelLabel.setHorizontalAlignment(JLabel.CENTER);
         printingUtil.printlnComponent(channelLabel);
 
-        printingUtil.println("\n");
+        printingUtil.println(CyderStrings.newline);
     }
 
     /**

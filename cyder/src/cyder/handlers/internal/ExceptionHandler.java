@@ -90,11 +90,6 @@ public final class ExceptionHandler {
     private static final String EXCEPTION = "Exception";
 
     /**
-     * A newline character.
-     */
-    private static final String newline = "\n";
-
-    /**
      * The name of the thread to animate out exception popups.
      */
     private static final String exceptionPopupDisposeAnimatorThreadName = "Exception popup dispose animator";
@@ -148,7 +143,7 @@ public final class ExceptionHandler {
      */
     private static void showExceptionPane(String printableException, String exceptionMessage) {
         AtomicBoolean escapeOpacityThread = new AtomicBoolean();
-        ImmutableList<String> exceptionLines = ImmutableList.copyOf(printableException.split(newline));
+        ImmutableList<String> exceptionLines = ImmutableList.copyOf(printableException.split(CyderStrings.newline));
 
         int labelWidth = 0;
         for (int i = 0 ; i < shownExceptionLines ; i++) {
@@ -300,7 +295,7 @@ public final class ExceptionHandler {
         String atRegex = CyderRegexPatterns.whiteSpaceRegex + AT + CyderRegexPatterns.whiteSpaceRegex;
         ImmutableList<String> splitStackAt = ImmutableList.copyOf(stackTrace.split(atRegex));
 
-        StringBuilder retBuilder = new StringBuilder(newline);
+        StringBuilder retBuilder = new StringBuilder(CyderStrings.newline);
         if (!splitStackAt.isEmpty()) {
             String origin = splitStackAt.get(0);
             retBuilder.append("Exception origin: ").append(origin);
@@ -308,10 +303,10 @@ public final class ExceptionHandler {
             retBuilder.append("Exception origin not found");
         }
 
-        retBuilder.append(newline).append(filenameRepresentation);
-        retBuilder.append(newline).append(declaringClassRepresentation);
-        retBuilder.append(newline).append(lineNumberRepresentation);
-        retBuilder.append(newline).append("Trace: ").append(stackTrace);
+        retBuilder.append(CyderStrings.newline).append(filenameRepresentation);
+        retBuilder.append(CyderStrings.newline).append(declaringClassRepresentation);
+        retBuilder.append(CyderStrings.newline).append(lineNumberRepresentation);
+        retBuilder.append(CyderStrings.newline).append("Trace: ").append(stackTrace);
         return Optional.of(retBuilder.toString());
     }
 

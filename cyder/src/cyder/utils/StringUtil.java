@@ -155,7 +155,7 @@ public class StringUtil {
      */
     public synchronized String getLastTextLine() {
         String text = linkedCyderPane.getJTextPane().getText();
-        String[] lines = text.split("\n");
+        String[] lines = text.split(CyderStrings.newline);
 
         if (lines.length < 1) {
             throw new FatalException("Linked pane contains no text lines");
@@ -318,7 +318,7 @@ public class StringUtil {
     public synchronized <T> void println(T print) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
-            document.insertString(document.getLength(), print.toString() + "\n", null);
+            document.insertString(document.getLength(), print.toString() + CyderStrings.newline, null);
             linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -1162,7 +1162,7 @@ public class StringUtil {
         Preconditions.checkNotNull(line);
         Preconditions.checkArgument(!line.isEmpty());
 
-        return line.replace("\n", CyderStrings.space).replace("\r", CyderStrings.space).trim();
+        return line.replace(CyderStrings.newline, CyderStrings.space).replace("\r", CyderStrings.space).trim();
     }
 
     /**
