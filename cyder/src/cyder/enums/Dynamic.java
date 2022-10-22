@@ -1,5 +1,12 @@
 package cyder.enums;
 
+import cyder.utils.OsUtil;
+
+import java.io.File;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * The folders contained in the dynamic directory.
  * Dynamic contains all the components which may be changed during runtime.
@@ -57,5 +64,31 @@ public enum Dynamic {
      */
     public String getDirectoryName() {
         return directoryName;
+    }
+
+    /**
+     * Builds the provided strings into a dynamic file by inserting the OS' path
+     * separators between the provided path strings and inserting
+     * the dynamic keyword at the beginning.
+     *
+     * @param directories the names of directories to add one after the other
+     * @return a reference to a file which may or may not exist
+     */
+    public static File buildDynamic(String... directories) {
+        checkNotNull(directories);
+        checkArgument(directories.length > 0);
+
+        StringBuilder pathString = new StringBuilder(PATH);
+        pathString.append(OsUtil.FILE_SEP);
+
+        for (int i = 0 ; i < directories.length ; i++) {
+            pathString.append(directories[i]);
+
+            if (i != directories.length - 1) {
+                pathString.append(OsUtil.FILE_SEP);
+            }
+        }
+
+        return new File(pathString.toString());
     }
 }

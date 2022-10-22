@@ -70,7 +70,7 @@ class InnerAudioPlayer {
 
         CyderThreadRunner.submit(() -> {
             try {
-                Future<Integer> futureTotalMilliSeconds = AudioUtil.getMillisFast(audioFile);
+                Future<Integer> futureTotalMilliSeconds = AudioUtil.getMillisMutagen(audioFile);
                 this.totalMilliSeconds = futureTotalMilliSeconds.get();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

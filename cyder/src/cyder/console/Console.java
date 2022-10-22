@@ -1165,7 +1165,6 @@ public enum Console {
             }, DEBUG_STAT_FINDER_THREAD_NAME);
         }
 
-
         String state = ProgramModeManager.INSTANCE.getProgramMode().getName();
         Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername() + closingBracket
                 + space + openingBracket + state + closingBracket);

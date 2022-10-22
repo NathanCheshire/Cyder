@@ -108,7 +108,7 @@ public class AudioLocationUpdater {
         CyderThreadRunner.submit(() -> {
             try {
                 File file = currentAudioFile.get();
-                Future<Integer> futureTotalMilliSeconds = AudioUtil.getMillisFast(file);
+                Future<Integer> futureTotalMilliSeconds = AudioUtil.getMillisMutagen(file);
                 this.totalMilliSeconds = futureTotalMilliSeconds.get();
                 startUpdateThread();
             } catch (Exception e) {

@@ -3714,7 +3714,7 @@ public class CyderFrame extends JFrame {
     public static CyderFrame getDominantFrame() {
         if (!Console.INSTANCE.isClosed()) {
             CyderFrame referenceFrame = Console.INSTANCE.getConsoleCyderFrame();
-            return referenceFrame.getState() == ICONIFIED ? null : referenceFrame;
+            return (referenceFrame != null && referenceFrame.getState() != ICONIFIED) ? referenceFrame : null;
         } else if (!LoginHandler.isLoginFrameClosed()
                 && LoginHandler.getLoginFrame() != null
                 && LoginHandler.getLoginFrame().isVisible()) {
@@ -4145,7 +4145,7 @@ public class CyderFrame extends JFrame {
         @Override
         public String toString() {
             return "NotificationBuilder{"
-                    + "htmlText='" + htmlText + '\''
+                    + "htmlText=" + quote + htmlText + quote
                     + ", viewDuration=" + viewDuration
                     + ", arrowDir=" + arrowDir
                     + ", onKillAction=" + onKillAction
@@ -4153,7 +4153,7 @@ public class CyderFrame extends JFrame {
                     + ", notificationType=" + notificationType
                     + ", container=" + container
                     + ", calculateViewDuration=" + calculateViewDuration
-                    + ", notifyTime='" + notifyTime + '\''
+                    + ", notifyTime=" + quote + notifyTime + quote
                     + "}";
         }
     }

@@ -14,6 +14,7 @@ import cyder.process.ProcessUtil;
 import cyder.process.Program;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.ThreadUtil;
+import cyder.time.TimeUtil;
 import cyder.user.UserFile;
 import cyder.utils.FileUtil;
 import cyder.utils.OsUtil;
@@ -23,7 +24,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -63,26 +63,6 @@ public final class AudioUtil {
      * The ffmpeg input flag.
      */
     public static final String INPUT_FLAG = "-i";
-
-    /**
-     * The primary name for the youtube-dl binary.
-     */
-    public static final String YOUTUBE_DL = "youtube-dl";
-
-    /**
-     * The primary name for the ffmpeg binary.
-     */
-    public static final String FFMPEG = "ffmpeg";
-
-    /**
-     * The primary name for the ffprobe binary.
-     */
-    public static final String FFPROBE = "ffprobe";
-
-    /**
-     * The primary name for the ffplay binary.
-     */
-    public static final String FFPLAY = "ffplay";
 
     /**
      * Suppress default constructor.
@@ -140,7 +120,8 @@ public final class AudioUtil {
      * @param wavFile the wav file to convert to mp3
      * @return the wav file converted to mp3
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored") public static Future<Optional<File>> wavToMp3(File wavFile) {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static Future<Optional<File>> wavToMp3(File wavFile) {
         Preconditions.checkNotNull(wavFile);
         Preconditions.checkArgument(FileUtil.validateExtension(wavFile, Extension.WAV.getExtension()));
 
@@ -243,24 +224,15 @@ public final class AudioUtil {
             ProcessBuilder processBuilder = new ProcessBuilder(command);
             Process process = processBuilder.start();
 
-            Future<Integer> originalFileMillis = getMillis(wavOrMp3File);
-            while (!originalFileMillis.isDone()) {
-                Thread.onSpinWait();
-            }
+            Future<Integer> originalFileMillis = getMillisFfprobe(wavOrMp3File);
+            while (!originalFileMillis.isDone()) Thread.onSpinWait();
 
-            while (!outputFile.exists()) {
-                Thread.onSpinWait();
-            }
+            while (!outputFile.exists()) Thread.onSpinWait();
 
             while (true) {
-                Future<Integer> updatedLen = getMillis(outputFile);
-
-                while (!updatedLen.isDone()) {
-                    Thread.onSpinWait();
-                }
-
+                Future<Integer> updatedLen = getMillisFfprobe(outputFile);
+                while (!updatedLen.isDone()) Thread.onSpinWait();
                 if (updatedLen.get().equals(originalFileMillis.get())) break;
-
                 ThreadUtil.sleep(pollMillisDelay);
             }
 
@@ -284,7 +256,7 @@ public final class AudioUtil {
      * @param audioFile the audio file to find the length of in milliseconds
      * @return the length of the audio file in milliseconds
      */
-    private static Future<Integer> getMillis(File audioFile) {
+    private static Future<Integer> getMillisFfprobe(File audioFile) {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
 
@@ -326,13 +298,9 @@ public final class AudioUtil {
      * @return whether ffmpeg is installed
      */
     public static boolean ffmpegInstalled() {
-        // check for the binary first being set in the Windows PATH
-        if (OsUtil.isBinaryInstalled(FFMPEG)) {
-            return true;
-        }
+        if (Program.FFMPEG.isInstalled()) return true;
 
-        // finally check dynamic/exes to see if an ffmpeg binary exists there
-        return OsUtil.isBinaryInExes(FFMPEG + Extension.EXE.getExtension());
+        return OsUtil.isBinaryInExes(Program.FFMPEG.getProgramName() + Extension.EXE.getExtension());
     }
 
     /**
@@ -343,13 +311,10 @@ public final class AudioUtil {
      * @return whether youtube-dl is installed
      */
     public static boolean youtubeDlInstalled() {
-        // check for the binary first being set in the Windows PATH
-        if (OsUtil.isBinaryInstalled(YOUTUBE_DL)) {
-            return true;
-        }
+        if (Program.YOUTUBE_DL.isInstalled()) return true;
 
         // finally check dynamic/exes to see if a youtube-dl binary exists there
-        return OsUtil.isBinaryInExes(YOUTUBE_DL + Extension.EXE.getExtension());
+        return OsUtil.isBinaryInExes(Program.YOUTUBE_DL.getProgramName() + Extension.EXE.getExtension());
     }
 
     /**
@@ -358,7 +323,8 @@ public final class AudioUtil {
      * @return whether ffprobe is installed
      */
     public static boolean ffprobeInstalled() {
-        return OsUtil.isBinaryInstalled(FFPROBE) || OsUtil.isBinaryInExes(FFPROBE + Extension.EXE.getExtension());
+        return Program.FFPROBE.isInstalled()
+                || OsUtil.isBinaryInExes(Program.FFPROBE.getFilename());
     }
 
     /**
@@ -370,8 +336,10 @@ public final class AudioUtil {
     public static String getFfmpegCommand() {
         Preconditions.checkArgument(ffmpegInstalled());
 
-        return OsUtil.isBinaryInstalled(FFMPEG) ? FFMPEG : OsUtil.buildPath(Dynamic.PATH,
-                Dynamic.EXES.getDirectoryName(), FFMPEG + Extension.EXE.getExtension());
+        return Program.FFMPEG.isInstalled() ? Program.FFMPEG.getProgramName()
+                : OsUtil.buildPath(Dynamic.PATH,
+                Dynamic.EXES.getDirectoryName(), Program.FFPROBE.getFilename());
+
     }
 
     /**
@@ -383,9 +351,9 @@ public final class AudioUtil {
     public static String getYoutubeDlCommand() {
         Preconditions.checkArgument(youtubeDlInstalled());
 
-        return OsUtil.isBinaryInstalled(YOUTUBE_DL)
-                ? YOUTUBE_DL : OsUtil.buildPath(Dynamic.PATH,
-                Dynamic.EXES.getDirectoryName(), YOUTUBE_DL + Extension.EXE.getExtension());
+        return Program.YOUTUBE_DL.isInstalled() ? Program.YOUTUBE_DL.getProgramName()
+                : OsUtil.buildPath(Dynamic.PATH,
+                Dynamic.EXES.getDirectoryName(), Program.YOUTUBE_DL.getFilename());
     }
 
     /**
@@ -396,15 +364,21 @@ public final class AudioUtil {
     public static String getFfprobeCommand() {
         Preconditions.checkArgument(ffprobeInstalled());
 
-        if (OsUtil.isBinaryInstalled(FFPROBE)) {
-            return FFPROBE;
-        } else {
-            return OsUtil.buildPath(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), FFPROBE + Extension.EXE.getExtension());
-        }
+        if (Program.FFPROBE.isInstalled()) return Program.FFPROBE.getProgramName();
+
+        return OsUtil.buildPath(Dynamic.PATH, Dynamic.EXES.getDirectoryName(),
+                Program.FFPROBE.getProgramName() + Extension.EXE.getExtension());
     }
 
+    /**
+     * The thread name for the ffmpeg downloader
+     */
     private static final String FFMPEG_DOWNLOADER_THREAD_NAME = "FFMPEG Downloader";
+
+    /**
+     * A record to associate a destination file with a url to download the file, typically a zip archive, from.
+     */
+    private record PairedFile(File file, String url) {}
 
     /**
      * Downloads ffmpeg, ffplay, and ffprobe to the exes dynamic
@@ -415,56 +389,40 @@ public final class AudioUtil {
     public static Future<Boolean> downloadFfmpegStack() {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(FFMPEG_DOWNLOADER_THREAD_NAME)).submit(() -> {
-            // an anonymous inner class to quickly link a file with a url
-            class PairedFile {
-                public final File file;
-                public final String url;
-
-                public PairedFile(File file, String url) {
-                    this.file = file;
-                    this.url = url;
-                }
-            }
-
-            ArrayList<PairedFile> downloadZips = new ArrayList<>();
-            downloadZips.add(new PairedFile(OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), FFMPEG + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFMPEG));
-            downloadZips.add(new PairedFile(OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), FFPROBE + Extension.ZIP.getExtension()),
-                    DOWNLOAD_RESOURCE_FFPROBE));
-            downloadZips.add(new PairedFile(OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), FFPLAY + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFPLAY));
+            ImmutableList<PairedFile> downloadZips = ImmutableList.of(
+                    new PairedFile(OsUtil.buildFile(Dynamic.PATH,
+                            Dynamic.EXES.getDirectoryName(), Program.FFMPEG.getProgramName()
+                                    + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFMPEG),
+                    new PairedFile(OsUtil.buildFile(Dynamic.PATH,
+                            Dynamic.EXES.getDirectoryName(), Program.FFPROBE.getProgramName()
+                                    + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFPROBE),
+                    new PairedFile(OsUtil.buildFile(Dynamic.PATH,
+                            Dynamic.EXES.getDirectoryName(), Program.FFPLAY.getProgramName()
+                                    + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFPLAY)
+            );
 
             for (PairedFile pairedZipFile : downloadZips) {
-                NetworkUtil.downloadResource(pairedZipFile.url, pairedZipFile.file);
+                NetworkUtil.downloadResource(pairedZipFile.url(), pairedZipFile.file());
 
-                while (!pairedZipFile.file.exists()) {
+                while (!pairedZipFile.file().exists()) {
                     Thread.onSpinWait();
                 }
 
-                File extractFolder = OsUtil.buildFile(
-                        Dynamic.PATH,
-                        Dynamic.EXES.getDirectoryName());
-
-                FileUtil.unzip(pairedZipFile.file, extractFolder);
-                OsUtil.deleteFile(pairedZipFile.file);
+                File extractFolder = OsUtil.buildFile(Dynamic.PATH, Dynamic.EXES.getDirectoryName());
+                FileUtil.unzip(pairedZipFile.file(), extractFolder);
+                OsUtil.deleteFile(pairedZipFile.file());
             }
 
-            ArrayList<File> resultingFiles = new ArrayList<>();
-            resultingFiles.add(OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), FFMPEG + Extension.EXE.getExtension()));
-            resultingFiles.add(OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), FFPROBE + Extension.EXE.getExtension()));
-            resultingFiles.add(OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), FFPLAY + Extension.EXE.getExtension()));
+            ImmutableList<File> resultingFiles = ImmutableList.of(
+                    OsUtil.buildFile(Dynamic.PATH,
+                            Dynamic.EXES.getDirectoryName(), Program.FFMPEG.getFilename()),
+                    OsUtil.buildFile(Dynamic.PATH,
+                            Dynamic.EXES.getDirectoryName(), Program.FFPROBE.getFilename()),
+                    OsUtil.buildFile(Dynamic.PATH,
+                            Dynamic.EXES.getDirectoryName(), Program.FFPLAY.getFilename())
+            );
 
-            boolean ret = true;
-
-            for (File file : resultingFiles) {
-                ret = ret && file.exists();
-            }
-
-            return ret;
+            return resultingFiles.stream().filter(File::exists).count() == downloadZips.size();
         });
     }
 
@@ -483,7 +441,8 @@ public final class AudioUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(YOUTUBE_DL_DOWNLOADER_THREAD_NAME)).submit(() -> {
             File downloadZip = OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.EXES.getDirectoryName(), YOUTUBE_DL + Extension.ZIP.getExtension());
+                    Dynamic.EXES.getDirectoryName(), Program.YOUTUBE_DL.getProgramName()
+                            + Extension.ZIP.getExtension());
 
             NetworkUtil.downloadResource(DOWNLOAD_RESOURCE_YOUTUBE_DL, downloadZip);
 
@@ -497,14 +456,9 @@ public final class AudioUtil {
             OsUtil.deleteFile(downloadZip);
 
             return OsUtil.buildFile(Dynamic.PATH, Dynamic.EXES.getDirectoryName(),
-                    YOUTUBE_DL + Extension.EXE.getExtension()).exists();
+                    Program.YOUTUBE_DL.getProgramName() + Extension.EXE.getExtension()).exists();
         });
     }
-
-    // todo AudioUtil could be cleaner
-
-    // todo rare case of is closed for console being false but getDominantFrame failing to get the frame
-    //  needs to be mutually exclusive
 
     /**
      * The command for querying an audio's length from the python functions script.
@@ -522,13 +476,12 @@ public final class AudioUtil {
     private static final String audioLengthProcessReturnPrefix = "Audio length: ";
 
     /**
-     * Returns the number of milliseconds in an audio file.
-     * Note this method takes an average of 200ms to complete and return.
+     * Returns the number of milliseconds in an audio file using the python dependency Mutagen.
      *
      * @param audioFile the audio file to return the duration of
      * @return the duration of the provided audio file in milliseconds
      */
-    public static Future<Integer> getMillisFast(File audioFile) {
+    public static Future<Integer> getMillisMutagen(File audioFile) {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
@@ -537,14 +490,13 @@ public final class AudioUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(threadName)).submit(() -> {
             String functionsScriptPath = StaticUtil.getStaticPath(PYTHON_FUNCTIONS_SCRIPT_NAME);
-            String command = Program.PYTHON.getProgramName() + CyderStrings.space + functionsScriptPath
-                    + CyderStrings.space + AUDIO_LENGTH + CyderStrings.space + quote + audioFile.getAbsolutePath() +
-                    quote;
+            String command = Program.PYTHON.getProgramName()
+                    + CyderStrings.space + functionsScriptPath
+                    + CyderStrings.space + AUDIO_LENGTH
+                    + CyderStrings.space + quote + audioFile.getAbsolutePath() + quote;
 
             Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
-            while (!futureResult.isDone()) {
-                Thread.onSpinWait();
-            }
+            while (!futureResult.isDone()) Thread.onSpinWait();
 
             ProcessResult result = null;
             try {
@@ -553,26 +505,27 @@ public final class AudioUtil {
                 ExceptionHandler.handle(e);
             }
 
-            int ret = 0;
-
-            if (result != null && result.getErrorOutput().isEmpty()) {
-                ImmutableList<String> standardOutput = result.getStandardOutput();
-                if (!standardOutput.isEmpty()) {
-                    String firstResult = standardOutput.get(0);
-
-                    if (firstResult.startsWith(audioLengthProcessReturnPrefix)) {
-                        firstResult = firstResult.replace(audioLengthProcessReturnPrefix, "");
-                        ret = (int) (Float.parseFloat(firstResult) * 1000.0f);
-                    }
-                }
+            if (result == null || result.hasErrors()) {
+                return 0;
             }
 
-            return ret;
+            ImmutableList<String> standardOutput = result.getStandardOutput();
+            if (standardOutput.isEmpty()) {
+                return 0;
+            }
+            String firstResult = standardOutput.get(0);
+
+            if (!firstResult.startsWith(audioLengthProcessReturnPrefix)) {
+                return 0;
+            }
+
+            firstResult = firstResult.replace(audioLengthProcessReturnPrefix, "");
+            return (int) (Float.parseFloat(firstResult) * TimeUtil.MILLISECONDS_IN_SECOND);
         });
     }
 
     /**
-     * Returns the total bytes of the file.
+     * Returns the total bytes of the file if found. Zero else.
      *
      * @param file the file to find the total bytes of
      * @return the total bytes of the file
@@ -600,7 +553,7 @@ public final class AudioUtil {
         Preconditions.checkNotNull(title);
         Preconditions.checkArgument(!title.isEmpty());
 
-        File[] files = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+        File[] files = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.MUSIC.getName()).listFiles();
 
         if (files != null && files.length > 0) {

@@ -6,20 +6,26 @@ import cyder.utils.OsUtil;
  * Common external programs/binaries utilized by Cyder.
  */
 public enum Program {
-    FFMPEG("ffmpeg"),
-    FFPROBE("ffprobe"),
-    FFPLAY("ffplay"),
-    YOUTUBE_DL("youtube-dl"),
-    PIP("pip"),
-    PYTHON("python");
+    FFMPEG("ffmpeg", "ffmpeg.exe"),
+    FFPROBE("ffprobe", "ffprobe.exe"),
+    FFPLAY("ffplay", "ffplay.exe"),
+    YOUTUBE_DL("youtube-dl", "youtube-dl.exe"),
+    PIP("pip", "pip.exe"),
+    PYTHON("python", "python.exe");
 
     /**
-     * The name of this program
+     * The name of this program.
      */
     private final String programName;
 
-    Program(String programName) {
+    /**
+     * The filename of this program.
+     */
+    private final String filename;
+
+    Program(String programName, String filename) {
         this.programName = programName;
+        this.filename = filename;
     }
 
     /**
@@ -29,6 +35,15 @@ public enum Program {
      */
     public String getProgramName() {
         return programName;
+    }
+
+    /**
+     * Returns the filename for this program. For example, ffmpeg would return "ffmpeg.exe"
+     *
+     * @return the filename for this program
+     */
+    public String getFilename() {
+        return filename;
     }
 
     /**
