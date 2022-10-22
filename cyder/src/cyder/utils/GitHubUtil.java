@@ -19,7 +19,6 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -176,7 +175,7 @@ public final class GitHubUtil {
      *                   Note this directory must exist prior to method invocation
      * @return whether the repo was successfully cloned and saved
      */
-    public static Future<Optional<Boolean>> cloneRepoToDirectory(String githubRepo, File directory) {
+    public static Future<Boolean> cloneRepoToDirectory(String githubRepo, File directory) {
         Preconditions.checkNotNull(githubRepo);
         Preconditions.checkArgument(!githubRepo.isEmpty());
         Preconditions.checkNotNull(directory);
@@ -188,12 +187,12 @@ public final class GitHubUtil {
 
             if (!validateGitHubRepoCloneUrl(githubRepo)) {
                 Console.INSTANCE.getInputHandler().println("Provided repo link is invalid");
-                return Optional.of(Boolean.FALSE);
+                return Boolean.FALSE;
             }
 
             //this shouldn't be possible
             if (!githubRepo.contains("/")) {
-                return Optional.of(Boolean.FALSE);
+                return Boolean.FALSE;
             }
 
             String[] parts = githubRepo.split("/");
@@ -202,7 +201,7 @@ public final class GitHubUtil {
 
             //shouldn't be possible
             if (!repoName.endsWith(Extension.GIT.getExtension())) {
-                return Optional.of(Boolean.FALSE);
+                return Boolean.FALSE;
             }
 
             repoName = repoName.replace(Extension.GIT.getExtension(), "");
@@ -222,7 +221,7 @@ public final class GitHubUtil {
             if (!OsUtil.isBinaryInstalled("git")) {
                 Console.INSTANCE.getInputHandler()
                         .println("Git not installed. Please install it at: " + GIT_DOWNLOAD);
-                return Optional.of(Boolean.FALSE);
+                return Boolean.FALSE;
             }
 
             Console.INSTANCE.getInputHandler().println("Cloning: \"" + NetworkUtil.getUrlTitle(githubRepo)
@@ -236,10 +235,10 @@ public final class GitHubUtil {
 
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
-                return Optional.of(Boolean.FALSE);
+                return Boolean.FALSE;
             }
 
-            return Optional.of(Boolean.TRUE);
+            return Boolean.TRUE;
         });
     }
 }

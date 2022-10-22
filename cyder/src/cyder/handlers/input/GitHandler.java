@@ -18,7 +18,6 @@ import cyder.utils.OsUtil;
 import cyder.utils.StringUtil;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.Future;
 
 /**
@@ -109,12 +108,12 @@ public class GitHandler extends InputHandler {
         String threadName = "Git Cloner, repo: " + repo;
         CyderThreadRunner.submit(() -> {
             try {
-                Future<Optional<Boolean>> futureCloned = GitHubUtil.cloneRepoToDirectory(repo,
+                Future<Boolean> futureCloned = GitHubUtil.cloneRepoToDirectory(repo,
                         UserUtil.getUserFile(UserFile.FILES));
 
                 while (!futureCloned.isDone()) Thread.onSpinWait();
-                Optional<Boolean> cloned = futureCloned.get();
-                if (cloned.isPresent() && cloned.get()) {
+                boolean cloned = futureCloned.get();
+                if (cloned) {
                     getInputHandler().println("Clone successfully finished");
                 } else {
                     getInputHandler().println("Clone failed");

@@ -491,7 +491,6 @@ public class NetworkUtil {
 
     /**
      * The class name of the html element containing the host name.
-     * (Fiction)
      */
     private static final String hostnameClassName = "prose";
 
