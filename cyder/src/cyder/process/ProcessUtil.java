@@ -36,11 +36,6 @@ public final class ProcessUtil {
     private static final String pythonVersionResultPrefix = "Python ";
 
     /**
-     * A space character.
-     */
-    private static final String SPACE = " ";
-
-    /**
      * The install keyword for pip installations.
      */
     private static final String INSTALL = "install";
@@ -116,7 +111,8 @@ public final class ProcessUtil {
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PIP.getProgramName()));
 
-        getProcessOutput(Program.PIP.getProgramName() + SPACE + INSTALL + SPACE + packageName);
+        getProcessOutput(Program.PIP.getProgramName() + CyderStrings.space + INSTALL
+                + CyderStrings.space + packageName);
     }
 
     /**
@@ -135,7 +131,7 @@ public final class ProcessUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(threadName)).submit(() -> {
             Future<ProcessResult> futureResult = getProcessOutput(Program.PIP.getProgramName()
-                    + SPACE + SHOW + SPACE + packageName);
+                    + CyderStrings.space + SHOW + CyderStrings.space + packageName);
             while (!futureResult.isDone()) Thread.onSpinWait();
 
             try {
@@ -166,7 +162,7 @@ public final class ProcessUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(threadName)).submit(() -> {
             Future<ProcessResult> futureResult = getProcessOutput(Program.PIP.getProgramName()
-                    + SPACE + SHOW + SPACE + packageName);
+                    + CyderStrings.space + SHOW + CyderStrings.space + packageName);
             while (!futureResult.isDone()) Thread.onSpinWait();
 
             try {
@@ -191,7 +187,7 @@ public final class ProcessUtil {
      */
     public static Optional<String> python3Installed() {
         Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(
-                Program.PYTHON.getProgramName() + SPACE + VERSION_ARGUMENT);
+                Program.PYTHON.getProgramName() + CyderStrings.space + VERSION_ARGUMENT);
         while (!futureResult.isDone()) Thread.onSpinWait();
 
         try {

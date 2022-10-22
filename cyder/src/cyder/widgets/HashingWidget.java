@@ -6,6 +6,7 @@ import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderFonts;
+import cyder.constants.CyderStrings;
 import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -99,14 +100,9 @@ public class HashingWidget {
     private static final String BREAK = "<br/>";
 
     /**
-     * A space.
-     */
-    private static final String SPACE = " ";
-
-    /**
      * The text of the hash result popup.
      */
-    private static final String HASH_RESULT = HASH + SPACE + "Result";
+    private static final String HASH_RESULT = HASH + CyderStrings.space + "Result";
 
     /**
      * The title of the frame.
@@ -188,7 +184,7 @@ public class HashingWidget {
         }
 
         InformHandler.inform(new InformHandler.Builder(informText)
-                .setTitle(algorithm + SPACE + HASH_RESULT)
+                .setTitle(algorithm + CyderStrings.space + HASH_RESULT)
                 .setRelativeTo(hashField));
 
         reset();

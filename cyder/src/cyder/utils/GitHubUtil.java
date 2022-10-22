@@ -233,7 +233,8 @@ public final class GitHubUtil {
             try {
                 // todo use ProcessUtil
                 Runtime rt = Runtime.getRuntime();
-                Process proc = rt.exec("git clone " + githubRepo + " " + saveDir.getAbsolutePath());
+                Process proc = rt.exec("git clone " + githubRepo + CyderStrings.space
+                        + saveDir.getAbsolutePath());
                 proc.waitFor();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

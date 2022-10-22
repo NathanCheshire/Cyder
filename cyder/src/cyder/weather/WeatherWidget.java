@@ -947,7 +947,8 @@ public class WeatherWidget {
 
         if (!city.isEmpty()) {
             String correctedCityName = StringUtil.capsFirstWords(city).trim();
-            weatherFrame.setTitle(correctedCityName + StringUtil.getApostrophe(correctedCityName) + " " + WEATHER);
+            weatherFrame.setTitle(correctedCityName + StringUtil.getApostrophe(correctedCityName)
+                    + CyderStrings.space + WEATHER);
         } else {
             weatherFrame.setTitle(DEFAULT_TITLE);
         }
@@ -966,7 +967,7 @@ public class WeatherWidget {
      */
     private String getGmtTimezoneLabelText() {
         String gmtPart = GMT + (Integer.parseInt(weatherDataGmtOffset) / SECONDS_IN_HOUR);
-        String dstPart = IPUtil.getIpData().getTime_zone().isIs_dst() ? " " + DST_ACTIVE : "";
+        String dstPart = IPUtil.getIpData().getTime_zone().isIs_dst() ? CyderStrings.space + DST_ACTIVE : "";
 
         return gmtPart + dstPart;
     }
@@ -1065,7 +1066,7 @@ public class WeatherWidget {
 
             if (!currentLocationCityPart.isEmpty()) {
                 String city = StringUtil.capsFirstWords(currentLocationCityPart);
-                weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " " + WEATHER);
+                weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + CyderStrings.space + WEATHER);
             } else {
                 weatherFrame.setTitle(DEFAULT_TITLE);
             }

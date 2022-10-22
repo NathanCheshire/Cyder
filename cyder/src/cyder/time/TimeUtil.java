@@ -99,11 +99,6 @@ public final class TimeUtil {
     public static final String MILLISECOND_ABBREVIATION = "ms";
 
     /**
-     * An empty space character.
-     */
-    private static final String SPACE = " ";
-
-    /**
      * Suppress default constructor.
      */
     private TimeUtil() {
@@ -417,7 +412,7 @@ public final class TimeUtil {
      */
     public static String getEasterSundayString() {
         MonthDay sundayDate = getEasterSundayDate(Calendar.getInstance().get(Calendar.YEAR));
-        return monthFromNumber(sundayDate.month) + " " + formatNumberSuffix(sundayDate.date);
+        return monthFromNumber(sundayDate.month) + CyderStrings.space + formatNumberSuffix(sundayDate.date);
     }
 
     /**
@@ -574,25 +569,25 @@ public final class TimeUtil {
         months -= years * MONTHS_IN_YEAR;
 
         if (years != 0) {
-            sb.append(milliFormatter.format(years)).append(YEAR_ABBREVIATION).append(SPACE);
+            sb.append(milliFormatter.format(years)).append(YEAR_ABBREVIATION).append(CyderStrings.space);
         }
         if (months != 0) {
-            sb.append(milliFormatter.format(months)).append(MONTH_ABBREVIATION).append(SPACE);
+            sb.append(milliFormatter.format(months)).append(MONTH_ABBREVIATION).append(CyderStrings.space);
         }
         if (days != 0) {
-            sb.append(milliFormatter.format(days)).append(DAY_ABBREVIATION).append(SPACE);
+            sb.append(milliFormatter.format(days)).append(DAY_ABBREVIATION).append(CyderStrings.space);
         }
         if (hours != 0) {
-            sb.append(milliFormatter.format(hours)).append(HOUR_ABBREVIATION).append(SPACE);
+            sb.append(milliFormatter.format(hours)).append(HOUR_ABBREVIATION).append(CyderStrings.space);
         }
         if (minutes != 0) {
-            sb.append(milliFormatter.format(minutes)).append(MINUTE_ABBREVIATION).append(SPACE);
+            sb.append(milliFormatter.format(minutes)).append(MINUTE_ABBREVIATION).append(CyderStrings.space);
         }
         if (seconds != 0) {
-            sb.append(milliFormatter.format(seconds)).append(SECOND_ABBREVIATION).append(SPACE);
+            sb.append(milliFormatter.format(seconds)).append(SECOND_ABBREVIATION).append(CyderStrings.space);
         }
         if (milliseconds != 0) {
-            sb.append(milliFormatter.format(milliseconds)).append(MILLISECOND_ABBREVIATION).append(SPACE);
+            sb.append(milliFormatter.format(milliseconds)).append(MILLISECOND_ABBREVIATION).append(CyderStrings.space);
         }
 
         String ret = sb.toString();

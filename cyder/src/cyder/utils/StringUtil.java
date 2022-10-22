@@ -4,6 +4,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.FatalException;
@@ -519,7 +520,7 @@ public class StringUtil {
 
         Arrays.stream(words).forEach(wordy -> {
             sb.append(Character.toUpperCase(wordy.charAt(0)));
-            sb.append(wordy.substring(1).toLowerCase()).append(" ");
+            sb.append(wordy.substring(1).toLowerCase()).append(CyderStrings.space);
         });
 
         return sb.toString().trim();
@@ -559,7 +560,7 @@ public class StringUtil {
         StringBuilder sb = new StringBuilder();
 
         for (String word : words) {
-            sb.append(replaceLeet(word)).append(" ");
+            sb.append(replaceLeet(word)).append(CyderStrings.space);
         }
 
         return sb.toString().trim();
@@ -829,7 +830,7 @@ public class StringUtil {
 
         try {
             String urlString = CyderUrls.WIKIPEDIA_SUMMARY_BASE
-                    + WIKI_SUM_PROP + query.replace(" ", NetworkUtil.URL_SPACE);
+                    + WIKI_SUM_PROP + query.replace(CyderRegexPatterns.whiteSpaceRegex, NetworkUtil.URL_SPACE);
             String jsonString = NetworkUtil.readUrl(urlString);
 
             String[] serializedPageNumber = jsonString.split("\"extract\":\"");
@@ -961,7 +962,7 @@ public class StringUtil {
     public static String getTrimmedText(String text) {
         Preconditions.checkNotNull(text);
 
-        return text.trim().replaceAll("\\s+", " ");
+        return text.trim().replaceAll(CyderRegexPatterns.whiteSpaceRegex, CyderStrings.space);
     }
 
     /**
@@ -1100,7 +1101,7 @@ public class StringUtil {
     public static String parseNonAscii(String nonAsciiContaining) {
         Preconditions.checkNotNull(nonAsciiContaining);
 
-        return getTrimmedText(nonAsciiContaining.replaceAll("[^\\x00-\\x7F]", " "));
+        return getTrimmedText(nonAsciiContaining.replaceAll("[^\\x00-\\x7F]", CyderStrings.space));
     }
 
     /**
@@ -1117,11 +1118,6 @@ public class StringUtil {
     }
 
     /**
-     * A space char.
-     */
-    private static final String SPACE = " ";
-
-    /**
      * Returns a whitespace string of n spaces.
      *
      * @param n the number of spaces for the returned string to contain
@@ -1129,7 +1125,7 @@ public class StringUtil {
      */
     public static String generateNSpaces(int n) {
         Preconditions.checkArgument(n > 0);
-        return SPACE.repeat(n);
+        return CyderStrings.space.repeat(n);
     }
 
     /**
@@ -1166,7 +1162,7 @@ public class StringUtil {
         Preconditions.checkNotNull(line);
         Preconditions.checkArgument(!line.isEmpty());
 
-        return line.replace("\n", " ").replace("\r", " ").trim();
+        return line.replace("\n", CyderStrings.space).replace("\r", CyderStrings.space).trim();
     }
 
     /**
@@ -1185,7 +1181,7 @@ public class StringUtil {
             Preconditions.checkNotNull(string);
 
             ret.append(string.trim());
-            ret.append(" ");
+            ret.append(CyderStrings.space);
         }
 
         return ret.toString().trim();
@@ -1284,10 +1280,10 @@ public class StringUtil {
         ret.append(BoundsUtil.OPENING_HTML_TAG);
 
         for (int i = 0 ; i < numLines ; i++) {
-            ret.append(" ").append(BoundsUtil.BREAK_TAG);
+            ret.append(CyderStrings.space).append(BoundsUtil.BREAK_TAG);
         }
 
-        return ret + " " + BoundsUtil.CLOSING_HTML_TAG;
+        return ret + CyderStrings.space + BoundsUtil.CLOSING_HTML_TAG;
     }
 
     /**

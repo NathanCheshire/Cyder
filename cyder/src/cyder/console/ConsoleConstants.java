@@ -81,7 +81,7 @@ public final class ConsoleConstants {
     /**
      * The released enter keyword for input focus mapping.
      */
-    public static final String RELEASED_ENTER = RELEASED + " " + ENTER;
+    public static final String RELEASED_ENTER = RELEASED + CyderStrings.space + ENTER;
 
     /**
      * The width of the taskbar menu label.

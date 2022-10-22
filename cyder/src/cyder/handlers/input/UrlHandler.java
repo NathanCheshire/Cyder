@@ -3,6 +3,7 @@ package cyder.handlers.input;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.Handle;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
@@ -88,7 +89,7 @@ public class UrlHandler extends InputHandler {
         if (getInputHandler().checkArgsLength(1)) {
             String input = getInputHandler().getArg(0);
             String browse = YOUTUBE_WORD_SEARCH_BASE
-                    .replace("REPLACE", input).replace(" ", "+");
+                    .replace("REPLACE", input).replace(CyderRegexPatterns.whiteSpaceRegex, "+");
             NetworkUtil.openUrl(browse);
         } else {
             getInputHandler().println("YoutubeWordSearch usage: YoutubeWordSearch WORD_TO_FIND");

@@ -36,11 +36,6 @@ public final class UsbUtil {
             = "Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }";
 
     /**
-     * A space character.
-     */
-    private static final String space = " ";
-
-    /**
      * The number of lines from the usb query output to ignore.
      */
     private static final int headerLines = 2;
@@ -63,7 +58,7 @@ public final class UsbUtil {
     public static Future<ImmutableList<UsbDevice>> getUsbDevices() {
         ArrayList<UsbDevice> ret = new ArrayList<>();
 
-        String command = POWER_SHELL + space + usbConnectedDevicesCommand;
+        String command = POWER_SHELL + CyderStrings.space + usbConnectedDevicesCommand;
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(USB_DEVICE_THREAD_NAME)).submit(() -> {

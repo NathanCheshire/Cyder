@@ -9,6 +9,7 @@ import cyder.annotations.Widget;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.enums.Dynamic;
@@ -2391,7 +2392,7 @@ public final class AudioPlayer {
         }
 
         // Trim and replace multiple spaces with one
-        String fieldText = rawFieldText.trim().replaceAll("\\s+", " ");
+        String fieldText = rawFieldText.trim().replaceAll(CyderRegexPatterns.whiteSpaceRegex, CyderStrings.space);
         previousSearch = fieldText;
 
         CyderThreadRunner.submit(() -> {

@@ -59,23 +59,68 @@ public final class CyderStrings {
      */
     public static final String LOADING = "Loading...";
 
+    /**
+     * An opening bracket.
+     */
     public static final String openingBracket = "[";
+
+    /**
+     * A closing bracket.
+     */
     public static final String closingBracket = "]";
+
+    /**
+     * An opening parenthesis.
+     */
     public static final String openingParenthesis = "(";
+
+    /**
+     * A closing parenthesis.
+     */
     public static final String closingParenthesis = ")";
+
+    /**
+     * A comma.
+     */
     public static final String comma = ",";
 
+    /**
+     * A space.
+     */
     public static final String space = " ";
 
+    /**
+     * A colon.
+     */
     public static final String colon = ":";
+
+    /**
+     * A quote.
+     */
     public static final String quote = "\"";
+
+    /**
+     * A forward slash.
+     */
     public static final String forwardSlash = "/";
+
+    /**
+     * A back slash.
+     */
     public static final String backSlash = "\\";
+
+    /**
+     * A hash.
+     */
     public static final String hash = "#";
+
+    /**
+     * A dash.
+     */
     public static final String dash = "-";
 
     /**
-     * Instantiation of constants class not allowed.
+     * Suppress default constructor.
      */
     private CyderStrings() {
         throw new IllegalStateException(ATTEMPTED_INSTANTIATION);

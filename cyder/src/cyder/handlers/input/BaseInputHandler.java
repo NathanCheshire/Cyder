@@ -1085,7 +1085,7 @@ public class BaseInputHandler {
             sb.append(args.get(i));
 
             if (i != args.size() - 1) {
-                sb.append(" ");
+                sb.append(CyderStrings.space);
             }
         }
 
@@ -1098,7 +1098,7 @@ public class BaseInputHandler {
      * @return the original user input, that of the command followed by the arguments
      */
     protected String commandAndArgsToString() {
-        return (this.command.trim() + " " + argsToString()).trim();
+        return (this.command.trim() + CyderStrings.space + argsToString()).trim();
     }
 
     /**

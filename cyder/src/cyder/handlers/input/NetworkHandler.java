@@ -148,7 +148,7 @@ public class NetworkHandler extends InputHandler {
 
                         getInputHandler().println(NetworkUtil.readUrl(getInputHandler().getArg(0)));
                         getInputHandler().println("Response: " + http.getResponseCode()
-                                + " " + http.getResponseMessage());
+                                + CyderStrings.space + http.getResponseMessage());
 
                         http.disconnect();
                     } catch (Exception e) {

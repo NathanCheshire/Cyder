@@ -720,7 +720,7 @@ public final class OsUtil {
             } else
                 return sign + (BYTE_FORMATTER.format(kilo) + KILOBYTE_PREFIX);
         } else {
-            return sign + bytes + " " + BYTES;
+            return sign + bytes + CyderStrings.space + BYTES;
         }
     }
 }

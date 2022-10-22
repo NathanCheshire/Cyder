@@ -134,11 +134,6 @@ public final class NumberUtil {
     }
 
     /**
-     * A space character.
-     */
-    private static final String SPACE = " ";
-
-    /**
      * The negative string.
      */
     private static final String NEGATIVE = "Negative";
@@ -194,12 +189,12 @@ public final class NumberUtil {
         }
 
         StringBuilder wordFormBuilder = new StringBuilder();
-        if (negative) wordFormBuilder.append(NEGATIVE).append(SPACE);
+        if (negative) wordFormBuilder.append(NEGATIVE).append(CyderStrings.space);
 
         int trioStringsSize = trioStrings.size();
         IntStream.range(0, trioStringsSize).forEach(index -> {
             wordFormBuilder.append(trioStrings.get(trioStringsSize - index - 1).trim());
-            wordFormBuilder.append(SPACE);
+            wordFormBuilder.append(CyderStrings.space);
         });
 
         return wordFormBuilder.toString().trim();
@@ -246,14 +241,14 @@ public final class NumberUtil {
 
         String hundredsDigitString = ONES_STRINGS.get(hundredsDigit);
         String hundredsString = StringUtil.isNullOrEmpty(hundredsDigitString)
-                ? "" : hundredsDigitString + SPACE + HUNDRED;
+                ? "" : hundredsDigitString + CyderStrings.space + HUNDRED;
 
         String belowOneHundredString;
         belowOneHundredString = TEENS_RANGE.contains(onesAndTensNumber)
                 ? TEEN_STRINGS.get(onesAndTensNumber - 10)
-                : TENS_STRINGS.get(tensDigit) + SPACE + ONES_STRINGS.get(onesDigit);
+                : TENS_STRINGS.get(tensDigit) + CyderStrings.space + ONES_STRINGS.get(onesDigit);
 
-        return StringUtil.getTrimmedText((hundredsString + SPACE + belowOneHundredString));
+        return StringUtil.getTrimmedText((hundredsString + CyderStrings.space + belowOneHundredString));
     }
 
     /**

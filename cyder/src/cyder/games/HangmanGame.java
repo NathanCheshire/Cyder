@@ -5,10 +5,7 @@ import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
-import cyder.constants.CyderStrings;
+import cyder.constants.*;
 import cyder.enums.CyderInspection;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
@@ -225,7 +222,8 @@ public final class HangmanGame {
         chosenLetters += String.valueOf(letter);
 
         if (hangmanWord.toLowerCase().contains(String.valueOf(letter))) {
-            String currentLabelText = currentWordLabel.getText().replace(" ", "")
+            String currentLabelText = currentWordLabel.getText()
+                    .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "")
                     .replaceAll("<.*?>", "");
 
             char[] wordArr = hangmanWord.toCharArray();
@@ -241,7 +239,7 @@ public final class HangmanGame {
             for (int i = 0 ; i < compArr.length ; i++) {
                 newLabelText.append(compArr[i]);
                 if (i != compArr.length - 1)
-                    newLabelText.append(" ");
+                    newLabelText.append(CyderStrings.space);
             }
 
             currentWordLabel.setText(newLabelText.toString());

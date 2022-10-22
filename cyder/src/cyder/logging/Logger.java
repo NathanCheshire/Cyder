@@ -746,7 +746,7 @@ public final class Logger {
                             String logBuilder = LoggingUtil.getLogTimeTag() + "[EOL]: "
                                     + "Log completed, Cyder crashed unexpectedly: "
                                     + "exit code: " + ExitCondition.ExternalStop.getCode()
-                                    + " " + ExitCondition.ExternalStop.getDescription()
+                                    + CyderStrings.space + ExitCondition.ExternalStop.getDescription()
                                     + ", exceptions thrown: " + exceptions;
 
                             Files.write(Paths.get(log.getAbsolutePath()),

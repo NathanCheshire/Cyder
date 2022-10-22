@@ -507,11 +507,6 @@ public final class AudioUtil {
     //  needs to be mutually exclusive
 
     /**
-     * A space character.
-     */
-    private static final String SPACE = " ";
-
-    /**
      * The command for querying an audio's length from the python functions script.
      */
     private static final String AUDIO_LENGTH = "audio_length";
@@ -542,8 +537,9 @@ public final class AudioUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(threadName)).submit(() -> {
             String functionsScriptPath = StaticUtil.getStaticPath(PYTHON_FUNCTIONS_SCRIPT_NAME);
-            String command = Program.PYTHON.getProgramName() + SPACE + functionsScriptPath
-                    + SPACE + AUDIO_LENGTH + SPACE + quote + audioFile.getAbsolutePath() + quote;
+            String command = Program.PYTHON.getProgramName() + CyderStrings.space + functionsScriptPath
+                    + CyderStrings.space + AUDIO_LENGTH + CyderStrings.space + quote + audioFile.getAbsolutePath() +
+                    quote;
 
             Future<ProcessResult> futureResult = ProcessUtil.getProcessOutput(command);
             while (!futureResult.isDone()) {

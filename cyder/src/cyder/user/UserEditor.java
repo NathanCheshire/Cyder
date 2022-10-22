@@ -1993,7 +1993,7 @@ public final class UserEditor {
         String mapsString = informationBuilder.toString();
         editUserFrame.inform(mapsString.isEmpty()
                 ? "No maps found for " + UserUtil.getCyderUser().getName()
-                : mapsString, username + StringUtil.getApostrophe(username) + " " + MAPS);
+                : mapsString, username + StringUtil.getApostrophe(username) + CyderStrings.space + MAPS);
     }
 
     /**
