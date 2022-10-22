@@ -56,7 +56,8 @@ public final class CyderUrls {
     /**
      * The link to learn about simple date patterns in Java.
      */
-    public static final String SIMPLE_DATE_PATTERN_GUIDE = "https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html";
+    public static final String SIMPLE_DATE_PATTERN_GUIDE =
+            "https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html";
 
     /**
      * The default thumbnail base url for youtube videos.

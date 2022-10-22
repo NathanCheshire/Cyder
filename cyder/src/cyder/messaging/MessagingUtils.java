@@ -27,7 +27,7 @@ import java.util.concurrent.Future;
  * Utilities related to the messaging client.
  */
 public final class MessagingUtils {
-     /**
+    /**
      * The default large width for waveform image generation.
      */
     public static final int DEFAULT_LARGE_WAVEFORM_WIDTH = 1800;
@@ -47,7 +47,7 @@ public final class MessagingUtils {
      * "Gave 'em 44, now here's 44 more."
      */
     public static final int DEFAULT_SMALL_WAVEFORM_HEIGHT = 44;
-    
+
     /**
      * Suppress default constructor.
      */
@@ -422,7 +422,7 @@ public final class MessagingUtils {
 
             JLabel imageLabel = new JLabel();
             imageLabel.setBounds(AUDIO_PREVIEW_BORDER_LEN, AUDIO_PREVIEW_BORDER_LEN,
-                    AUDIO_PREVIEW_CONTAINER_WIDTH - 2 * AUDIO_PREVIEW_BORDER_LEN , DEFAULT_SMALL_WAVEFORM_HEIGHT);
+                    AUDIO_PREVIEW_CONTAINER_WIDTH - 2 * AUDIO_PREVIEW_BORDER_LEN, DEFAULT_SMALL_WAVEFORM_HEIGHT);
             imageLabel.setIcon(ImageUtil.toImageIcon(image.get()));
 
             JLabel imageContainerLabel = new JLabel();
@@ -473,6 +473,7 @@ public final class MessagingUtils {
     private static final String SAVE = "Save";
 
     // todo rename to image or something
+
     /**
      * Generates and returns a file preview for the provided image file.
      *

@@ -78,8 +78,7 @@ public class CyderFlowLayout extends CyderLayout {
      * @param horizontalGap the horizontal gap value to use
      * @param verticalGap   the vertical gap value to use
      */
-    public CyderFlowLayout(int horizontalGap, int verticalGap)
-    {
+    public CyderFlowLayout(int horizontalGap, int verticalGap) {
         this(HorizontalAlignment.CENTER, VerticalAlignment.TOP, horizontalGap, verticalGap);
     }
 
@@ -105,8 +104,7 @@ public class CyderFlowLayout extends CyderLayout {
      * @param verticalGap         the vertical spacing value
      */
     public CyderFlowLayout(HorizontalAlignment horizontalAlignment,
-                           VerticalAlignment verticalAlignment, int horizontalGap, int verticalGap)
-    {
+                           VerticalAlignment verticalAlignment, int horizontalGap, int verticalGap) {
         this.horizontalAlignment = horizontalAlignment;
         this.verticalAlignment = verticalAlignment;
         this.horizontalGap = horizontalGap;
@@ -139,8 +137,7 @@ public class CyderFlowLayout extends CyderLayout {
         boolean contains = false;
 
         for (Component flowComponent : flowComponents) {
-            if (flowComponent == component)
-            {
+            if (flowComponent == component) {
                 contains = true;
                 break;
             }
@@ -289,7 +286,7 @@ public class CyderFlowLayout extends CyderLayout {
             // component rows are spaced evenly to take up the whole space available
             case CENTER:
                 int rowHeightsOfVisibleRows = 0;
-                for (int i = 0; i < numRows; i++) {
+                for (int i = 0 ; i < numRows ; i++) {
                     rowHeightsOfVisibleRows += maxRowHeights.get(i);
                 }
 
@@ -330,7 +327,7 @@ public class CyderFlowLayout extends CyderLayout {
         }
 
         // for all the rows we can show
-        for (int i = 0; i < numRows; i++) {
+        for (int i = 0 ; i < numRows ; i++) {
             currentRow = rows.remove(0);
 
             // the current max height for the row from the above computed list

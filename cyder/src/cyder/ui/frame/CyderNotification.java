@@ -133,7 +133,8 @@ public class CyderNotification extends JLabel {
         builder.getContainer().setVisible(builder.getNotificationType() != NotificationType.TOAST || opacity >= 128);
 
         // some fancy rendering or whatever
-        RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints qualityHints =
+                new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHints(qualityHints);
 

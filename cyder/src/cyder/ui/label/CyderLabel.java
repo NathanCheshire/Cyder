@@ -296,7 +296,7 @@ public class CyderLabel extends JLabel {
     /**
      * Styles the provided text using html to be the color provided.
      *
-     * @param text the text to style
+     * @param text  the text to style
      * @param color the color of the text
      * @return the color styled text
      */

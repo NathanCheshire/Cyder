@@ -30,10 +30,10 @@ class GridComponent {
     /**
      * Constructs a new GridComponent.
      *
-     * @param component the component to manage
-     * @param originalWidth the originally set width of the component
+     * @param component      the component to manage
+     * @param originalWidth  the originally set width of the component
      * @param originalHeight the originally set height of the component
-     * @param gridPosition the position this grid component should be kept in relative to its provided grid space
+     * @param gridPosition   the position this grid component should be kept in relative to its provided grid space
      */
     public GridComponent(Component component, int originalWidth, int originalHeight, GridPosition gridPosition) {
         this.component = component;

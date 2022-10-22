@@ -76,7 +76,7 @@ public enum UserFile {
     /**
      * Enum type representing a file that should exist within the user's directory
      *
-     * @param name   the name of the file/directory
+     * @param name the name of the file/directory
      */
     UserFile(String name) {
         this.name = name;

@@ -23,7 +23,7 @@ public enum ExitCondition {
     /**
      * Reserved as this indicates something specific to JVM exits.
      */
-     @Deprecated
+    @Deprecated
     TrueExternalStop(-1, "DO NOT OVERRIDE"),
 
     /**

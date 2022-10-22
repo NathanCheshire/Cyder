@@ -358,6 +358,7 @@ public final class IoUtil {
     }
 
     // todo make own class for this and probably close to needing a file package
+
     /**
      * A legacy DOS attribute of a file.
      */

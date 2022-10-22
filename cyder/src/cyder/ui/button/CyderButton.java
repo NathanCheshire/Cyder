@@ -201,7 +201,7 @@ public class CyderButton extends JButton {
     /**
      * Sets the pressed background color.
      *
-     * @param pressedBackgroundColor  the pressed background color
+     * @param pressedBackgroundColor the pressed background color
      */
     public void setPressedBackgroundColor(Color pressedBackgroundColor) {
         this.pressedBackgroundColor = pressedBackgroundColor;

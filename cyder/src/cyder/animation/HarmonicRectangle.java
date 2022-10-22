@@ -429,7 +429,7 @@ public class HarmonicRectangle extends JLabel {
      * @return the wave function
      */
     public static Function<Float, Double> constructWaveEquation(float amplitude, float period,
-                                                               float phaseShift, float verticalShift) {
+                                                                float phaseShift, float verticalShift) {
         return inputFloat -> amplitude * Math.sin(period * (inputFloat + phaseShift)) + verticalShift;
     }
 }
