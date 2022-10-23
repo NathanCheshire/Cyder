@@ -9,6 +9,7 @@ import cyder.annotations.Widget;
 import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.handlers.internal.ExceptionHandler;
@@ -843,7 +844,8 @@ public class WeatherWidget {
         String centeringDivText = "<div style='text-align: center; vertical-align:bottom'>";
         currentWeatherLabel.setText(BoundsUtil.OPENING_HTML_TAG
                 + centeringDivText
-                + StringUtil.capsFirstWords(weatherCondition).replace("\\s+", "<br/>")
+                + StringUtil.capsFirstWords(weatherCondition)
+                .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "<br/>")
                 + BoundsUtil.CLOSING_HTML_TAG);
 
         windSpeedLabel.setText("Wind: " + windSpeed + "mph, " + windBearing

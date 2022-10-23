@@ -963,7 +963,7 @@ public class CyderFrame extends JFrame {
         Preconditions.checkNotNull(title);
         Preconditions.checkArgument(!title.isEmpty());
 
-        title = StringUtil.getTrimmedText(StringUtil.parseNonAscii(title));
+        title = StringUtil.getTrimmedText(StringUtil.removeNonAscii(title));
 
         if (paintSuperTitle) {
             super.setTitle(title);
@@ -990,7 +990,7 @@ public class CyderFrame extends JFrame {
      */
     public void setCyderFrameTitle(String title) {
         Preconditions.checkNotNull(title);
-        title = StringUtil.getTrimmedText(StringUtil.parseNonAscii(title));
+        title = StringUtil.getTrimmedText(StringUtil.removeNonAscii(title));
 
         if (titleLabel == null) return;
 
@@ -3618,7 +3618,7 @@ public class CyderFrame extends JFrame {
                 printingUtil.printComponent(menuItems.get(i).label());
 
                 if (i != menuItems.size() - 1) {
-                    printingUtil.print(StringUtil.generateNSpaces(4));
+                    printingUtil.print(StringUtil.generateSpaces(4));
                 }
             }
         }

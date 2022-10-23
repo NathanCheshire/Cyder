@@ -388,7 +388,7 @@ public class YoutubeDownload {
         String urlTitle = "Unknown_title";
         if (optionalUrlTitle.isPresent()) urlTitle = optionalUrlTitle.get();
         AtomicReference<String> parsedSaveName = new AtomicReference<>(
-                StringUtil.parseNonAscii(urlTitle)
+                StringUtil.removeNonAscii(urlTitle)
                         .replace(YOUTUBE_VIDEO_URL_TITLE_SUFFIX, "")
                         .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim());
 
@@ -550,8 +550,8 @@ public class YoutubeDownload {
      */
     private CyderButton getCancelDownloadButton() {
         cancelButton = new CyderButton();
-        cancelButton.setLeftTextPadding(StringUtil.generateNSpaces(5));
-        cancelButton.setRightTextPadding(StringUtil.generateNSpaces(4));
+        cancelButton.setLeftTextPadding(StringUtil.generateSpaces(5));
+        cancelButton.setRightTextPadding(StringUtil.generateSpaces(4));
         cancelButton.setText(CANCEL);
         cancelButton.setFont(Console.INSTANCE.getInputField().getFont());
         cancelButton.addActionListener(e -> {

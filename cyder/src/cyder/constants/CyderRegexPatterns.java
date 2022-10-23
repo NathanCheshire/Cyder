@@ -9,19 +9,19 @@ import java.util.regex.Pattern;
  */
 public final class CyderRegexPatterns {
     /**
-     * Pattern used to validate an ipv4 address
+     * Pattern used to validate an ipv4 address.
      */
     public static final Pattern ipv4Pattern =
             Pattern.compile("\\s*[0-9]{1,3}(\\s*|\\.[0-9]{1,3}\\s*" +
                     "|\\.[0-9]{1,3}\\.[0-9]{1,3}\\s*|\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\s*)");
 
     /**
-     * Pattern used to identify 1 or more numbers
+     * Pattern used to identify one or more numbers.
      */
     public static final Pattern numberPattern = Pattern.compile("[0-9]+");
 
     /**
-     * Pattern to identify common phone number patterns
+     * Pattern to identify common phone number patterns.
      */
     public static final Pattern phoneNumberPattern =
             Pattern.compile("\\s*[0-9]?\\s*[\\-]?\\s*[(]?\\s*[0-9]{0,3}\\s*[)]?\\s*" +
@@ -88,7 +88,6 @@ public final class CyderRegexPatterns {
                     + "[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$]",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
-    // todo use me for instances of this
     /**
      * The regex used to match 1-n whitespace.
      */

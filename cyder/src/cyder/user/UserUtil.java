@@ -1299,7 +1299,7 @@ public final class UserUtil {
 
         if (username.isEmpty()) {
             return new Validation(false, NO_USERNAME);
-        } else if (!StringUtil.parseNonAscii(username).equals(username)) {
+        } else if (!StringUtil.removeNonAscii(username).equals(username)) {
             return new Validation(false, INVALID_NAME);
         } else if (usernameInUse(username)) {
             return new Validation(false, NAME_IN_USE);

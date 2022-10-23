@@ -1,5 +1,6 @@
 package cyder.utils;
 
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
@@ -67,9 +68,7 @@ public class GetterUtil {
      * Closes all get string frames associated with this instance.
      */
     public void closeAllGetStringFrames() {
-        for (CyderFrame frame : getStringFrames) {
-            frame.dispose(true);
-        }
+        getStringFrames.forEach(frame -> frame.dispose(true));
     }
 
     /**
@@ -81,9 +80,7 @@ public class GetterUtil {
      * Closes all get file frames associated with this instance.
      */
     public void closeAllGetFileFrames() {
-        for (CyderFrame frame : getFileFrames) {
-            frame.dispose(true);
-        }
+        getFileFrames.forEach(frame -> frame.dispose(true));
     }
 
     /**
@@ -95,9 +92,7 @@ public class GetterUtil {
      * Closes all get confirmation frames associated with this instance.
      */
     public void closeAllGetConfirmationFrames() {
-        for (CyderFrame frame : getConfirmationFrames) {
-            frame.dispose(true);
-        }
+        getConfirmationFrames.forEach(frame -> frame.dispose(true));
     }
 
     /**
@@ -139,6 +134,7 @@ public class GetterUtil {
     private static final LineBorder GET_STRING_SUBMIT_BUTTON_BORDER
             = new LineBorder(CyderColors.navy, 5, false);
 
+    // todo optional
     /**
      * Custom getString() method, see usage below for how to
      * setup so that the calling thread is not blocked.
@@ -168,6 +164,7 @@ public class GetterUtil {
 
         AtomicReference<String> returnString = new AtomicReference<>();
 
+        String threadName = "GetString Waiter thread, title = \"" + builder.getTitle() + CyderStrings.quote;
         CyderThreadRunner.submit(() -> {
             try {
                 BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(
@@ -240,13 +237,7 @@ public class GetterUtil {
                 Component relativeTo = builder.getRelativeTo();
                 if (relativeTo != null && builder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
-                    inputFrame.addPostCloseAction(() -> {
-                        boolean onTop = false;
-                        if (relativeTo instanceof Frame aFrame) onTop = aFrame.isAlwaysOnTop();
-                        relativeTo.setEnabled(true);
-                        if (relativeTo instanceof Frame aFrame) aFrame.setAlwaysOnTop(true);
-                        if (relativeTo instanceof Frame aFrame) aFrame.setAlwaysOnTop(onTop);
-                    });
+                    inputFrame.addPostCloseAction(generateGetterFramePostCloseAction(relativeTo));
                 }
 
                 inputFrame.setLocationRelativeTo(relativeTo);
@@ -254,7 +245,7 @@ public class GetterUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, getGetStringThreadName(builder));
+        }, threadName);
 
         try {
             while (returnString.get() == null) {
@@ -265,11 +256,6 @@ public class GetterUtil {
         }
 
         return returnString.get();
-    }
-
-    @ForReadability
-    private String getGetStringThreadName(Builder builder) {
-        return "GetString Waiter thread, title = \"" + builder.getTitle() + CyderStrings.quote;
     }
 
     /**
@@ -362,26 +348,7 @@ public class GetterUtil {
      */
     private static final LineBorder BUTTON_BORDER = new LineBorder(CyderColors.navy, 5, false);
 
-    /**
-     * Generates a window adapter for a get file frame to set the chosen file to empty on frame disposal
-     * if no file is currently set.
-     *
-     * @param setOnFileChosen the set file atomic reference
-     * @return the window adapter
-     */
-    @ForReadability
-    private static WindowAdapter generateGetFileWindowAdapter(AtomicReference<File> setOnFileChosen) {
-        return new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                File ref = setOnFileChosen.get();
-                if (ref == null || StringUtil.isNullOrEmpty(ref.getName())) {
-                    setOnFileChosen.set(NULL_FILE);
-                }
-            }
-        };
-    }
-
+    // todo optional
     /**
      * Custom getFile method, see usage below for how to setup so that the program doesn't
      * spin wait on the main GUI thread forever. Ignoring the below setup
@@ -416,9 +383,18 @@ public class GetterUtil {
         CyderFrame referenceInitFrame = new CyderFrame(frameWidth, frameHeight, backgroundColor);
 
         getFileFrames.add(referenceInitFrame);
-        referenceInitFrame.addWindowListener(generateGetFileWindowAdapter(setOnFileChosen));
+        referenceInitFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                File ref = setOnFileChosen.get();
+                if (ref == null || StringUtil.isNullOrEmpty(ref.getName())) {
+                    setOnFileChosen.set(NULL_FILE);
+                }
+            }
+        });
         directoryFrameReference.set(referenceInitFrame);
 
+        String threadName = "GetFile Waiter Thread, title = \"" + builder.getTitle() + CyderStrings.quote;
         CyderThreadRunner.submit(() -> {
             try {
                 //reset needed vars in case an instance was already ran
@@ -514,13 +490,7 @@ public class GetterUtil {
                 Component relativeTo = builder.getRelativeTo();
                 if (relativeTo != null && builder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
-                    directoryFrame.addPostCloseAction(() -> {
-                        boolean onTop = false;
-                        if (relativeTo instanceof Frame aFrame) onTop = aFrame.isAlwaysOnTop();
-                        relativeTo.setEnabled(true);
-                        if (relativeTo instanceof Frame aFrame) aFrame.setAlwaysOnTop(true);
-                        if (relativeTo instanceof Frame aFrame) aFrame.setAlwaysOnTop(onTop);
-                    });
+                    directoryFrame.addPostCloseAction(generateGetterFramePostCloseAction(relativeTo));
                 }
 
                 directoryFrame.setLocationRelativeTo(relativeTo);
@@ -531,7 +501,7 @@ public class GetterUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, getGetFileThreadName(builder));
+        }, threadName);
 
         try {
             while (setOnFileChosen.get() == null) {
@@ -604,11 +574,6 @@ public class GetterUtil {
 
             backward.push(currentDirectory);
         }, FILE_GETTER_LOADER);
-    }
-
-    @ForReadability
-    private String getGetFileThreadName(Builder builder) {
-        return "GetFile Waiter Thread, title = \"" + builder.getTitle() + CyderStrings.quote;
     }
 
     /**
@@ -706,6 +671,7 @@ public class GetterUtil {
         ret.set(null);
         AtomicReference<CyderFrame> frameReference = new AtomicReference<>();
 
+        String threadName = "GetConfirmation Waiter Thread, title = \"" + builder.getTitle() + CyderStrings.quote;
         CyderThreadRunner.submit(() -> {
             try {
                 CyderLabel textLabel = new CyderLabel();
@@ -767,14 +733,7 @@ public class GetterUtil {
                 Component relativeTo = builder.getRelativeTo();
                 if (relativeTo != null && builder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
-                    // todo clean these up
-                    frame.addPostCloseAction(() -> {
-                        boolean onTop = false;
-                        if (relativeTo instanceof Frame aFrame) onTop = aFrame.isAlwaysOnTop();
-                        relativeTo.setEnabled(true);
-                        if (relativeTo instanceof Frame aFrame) aFrame.setAlwaysOnTop(true);
-                        if (relativeTo instanceof Frame aFrame) aFrame.setAlwaysOnTop(onTop);
-                    });
+                    frame.addPostCloseAction(generateGetterFramePostCloseAction(relativeTo));
                 }
 
                 frame.setLocationRelativeTo(relativeTo);
@@ -782,7 +741,7 @@ public class GetterUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, getGetConfirmationThreadName(builder));
+        }, threadName);
 
         try {
             while (ret.get() == null) {
@@ -798,10 +757,99 @@ public class GetterUtil {
         return ret.get();
     }
 
-    @ForReadability
-    private String getGetConfirmationThreadName(Builder builder) {
-        return "GetConfirmation Waiter Thread, title = \"" + builder.getTitle() + CyderStrings.quote;
+    /**
+     * Generates and returns a runnable to run as a post-close frame action for all getter frames.
+     *
+     * @param relativeTo the relative to component
+     * @return the runnable
+     */
+    private Runnable generateGetterFramePostCloseAction(Component relativeTo) {
+        return () -> {
+            boolean onTop = false;
+            boolean isFrame = relativeTo instanceof Frame;
+            Frame frame = isFrame ? (Frame) relativeTo : null;
+            if (isFrame) onTop = frame.isAlwaysOnTop();
+
+            relativeTo.setEnabled(true);
+
+            if (isFrame) frame.setAlwaysOnTop(true);
+            if (isFrame) frame.setAlwaysOnTop(onTop);
+        };
     }
+
+    public abstract class GetBuilder {
+        public abstract String getFrameTitle();
+
+        public abstract void setFrameTitle(String frameTitle);
+
+        public abstract Component getDisableRelativeTo();
+
+        public abstract void setDisableRelativeTo(Component component);
+
+        public abstract ImmutableList<Runnable> getOnDialogDisposalRunnables();
+
+        public abstract void addOnDialogDisposalRunnable(Runnable onDialogDisposalRunnable);
+    }
+
+    public static class GetInputBuilder {
+        private String frameTitle;
+
+        private String labelText;
+        private Font labelFont;
+        private Color labelColor;
+
+        private String submitButtonText;
+        private Font submitButtonFont;
+        private Color submitButtonColor;
+
+        private String initialFieldText;
+        private String fieldHintText;
+        private Font fieldFont;
+        private Color fieldForeground;
+
+        private boolean disableRelativeTo;
+        private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
+    }
+
+    public static class GetFileBuilder {
+        private String frameTitle;
+
+        private File initialDirectory;
+        private String initialFieldText;
+        private Color fieldForeground;
+        private Font fieldFont;
+
+        private boolean isFileSelection;
+        private boolean isFolderSelection;
+
+        private String submitButtonText;
+        private Font submitButtonFont;
+        private Color submitButtonColor;
+
+        private boolean disableRelativeTo;
+        private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
+    }
+
+    public static class GetConfirmationBuilder {
+        private String frameTitle;
+
+        private String labelText;
+        private Font labelFont;
+        private Color labelColor;
+
+        private String yesButtonText;
+        private Color yesButtonColor;
+        private Font yesButtonFont;
+
+        private String noButtonText;
+        private Color noButtonColor;
+        private Font noButtonFont;
+
+        private boolean disableRelativeTo;
+        private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
+    }
+
+    // todo builder for each getter method
 
     /**
      * A builder for a getter frame.

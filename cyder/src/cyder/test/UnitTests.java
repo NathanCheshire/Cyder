@@ -333,9 +333,14 @@ public class UnitTests {
     private static final float wikiSumTol = 0.05f;
 
     /**
-     * The MGK wikipedia summary.
+     * The wiki sum search phrase.
      */
-    private static final String mgkWikiSum = """
+    private static final String wikiSumSearch = "MGK";
+
+    /**
+     * The expected wiki sum result.
+     */
+    private static final String wikiSumExpected = """
             Colson Baker (born April 22, 1990), known professionally as Machine Gun Kelly (MGK),
             is an American rapper, singer, musician, and actor. He is noted for his compositional
             blending of contemporary and alternative hip hop with rock.\\nMachine Gun Kelly released
@@ -357,10 +362,17 @@ public class UnitTests {
 
     @Test
     public void testWikiSum() {
-        int lt = StringUtil.levenshteinDistance(
-                StringUtil.getWikipediaSummary("MGK").replace("\\s+", ""),
-                mgkWikiSum.replace("\\s+", ""));
-        float difference = (float) lt / mgkWikiSum.length();
+        Optional<String> wikiSumOptional = StringUtil.getWikipediaSummary(wikiSumSearch);
+        assertTrue(wikiSumOptional.isPresent());
+
+        String wikiSum = wikiSumOptional.get();
+        String wikiSumSpacesRemoved = wikiSum.replaceAll(
+                CyderRegexPatterns.whiteSpaceRegex, "");
+        String wikiSumExpectedSpacesRemoved = wikiSumExpected.replaceAll(
+                CyderRegexPatterns.whiteSpaceRegex, "");
+
+        int lt = StringUtil.levenshteinDistance(wikiSumSpacesRemoved, wikiSumExpectedSpacesRemoved);
+        float difference = (float) lt / wikiSumExpected.length();
 
         assertTrue(difference <= wikiSumTol);
     }

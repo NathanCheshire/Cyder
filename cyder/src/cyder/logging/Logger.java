@@ -505,7 +505,7 @@ public final class Logger {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog, true))) {
             for (int i = 0 ; i < lines.length ; i++) {
                 if (i != 0) {
-                    bw.write(StringUtil.generateNSpaces(NEWLINE_SPACE_OFFSET));
+                    bw.write(StringUtil.generateSpaces(NEWLINE_SPACE_OFFSET));
                 }
 
                 // to be safe, remove new lines and trim even though there should be none
@@ -531,7 +531,7 @@ public final class Logger {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog, true))) {
             for (int i = 0 ; i < lines.size() ; i++) {
                 if (i != 0) {
-                    bw.write(StringUtil.generateNSpaces(NEWLINE_SPACE_OFFSET));
+                    bw.write(StringUtil.generateSpaces(NEWLINE_SPACE_OFFSET));
                 }
 
                 // to be safe, remove new lines and trim even though there should be none

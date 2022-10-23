@@ -195,7 +195,7 @@ public class GeneralPrintHandler extends InputHandler {
                 }
             }, "DST Checker");
         } else if ((getInputHandler().commandAndArgsToString()
-                .replaceAll("\\s+", "").startsWith("longword"))) {
+                .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "").startsWith("longword"))) {
             for (int i = 0 ; i < getInputHandler().getArgsSize() ; i++) {
                 getInputHandler().print("pneumonoultramicroscopicsilicovolcanoconiosis");
             }

@@ -53,7 +53,14 @@ public class NetworkHandler extends InputHandler {
             }
         } else if (getInputHandler().commandIs("wikisum")) {
             if (!getInputHandler().checkArgsLength(0)) {
-                getInputHandler().println(StringUtil.getWikipediaSummary(getInputHandler().argsToString()));
+                String wikiSumSearch = getInputHandler().argsToString();
+                Optional<String> wikiSumOptional = StringUtil.getWikipediaSummary(wikiSumSearch);
+                if (wikiSumOptional.isPresent()) {
+                    String wikiSum = wikiSumOptional.get();
+                    getInputHandler().println(wikiSum);
+                } else {
+                    getInputHandler().print("Wikipedia article not found");
+                }
             } else {
                 getInputHandler().println("wikisum usage: wikisum YOUR_WORD/expression");
             }

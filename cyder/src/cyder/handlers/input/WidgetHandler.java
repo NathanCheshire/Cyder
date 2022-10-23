@@ -4,6 +4,7 @@ import com.google.common.reflect.ClassPath;
 import cyder.annotations.Handle;
 import cyder.annotations.Widget;
 import cyder.console.Console;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -34,9 +35,9 @@ public class WidgetHandler extends InputHandler {
                     String[] widgetTriggers = m.getAnnotation(Widget.class).triggers();
 
                     for (String widgetTrigger : widgetTriggers) {
-                        widgetTrigger = widgetTrigger.replaceAll("\\s+", "");
+                        widgetTrigger = widgetTrigger.replaceAll(CyderRegexPatterns.whiteSpaceRegex, "");
                         String userInput = getInputHandler().commandAndArgsToString()
-                                .replaceAll("\\s+", "");
+                                .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "");
 
                         if (widgetTrigger.equalsIgnoreCase(userInput)) {
                             String shortWidgetName = ReflectionUtil.getBottomLevelClass(clazz);

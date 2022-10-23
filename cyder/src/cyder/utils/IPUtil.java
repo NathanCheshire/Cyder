@@ -51,7 +51,7 @@ public final class IPUtil {
     /**
      * Refreshes this object's IPData var
      */
-    public static void refreshIpData() {
+    private static void refreshIpData() {
         if (UserUtil.getCyderUser() == null) return;
 
         String key = PropLoader.getString("ip_key");

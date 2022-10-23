@@ -220,7 +220,7 @@ public final class YoutubeUtil {
         Optional<String> optionalUrlTitle = NetworkUtil.getUrlTitle(url);
         String urlTitle = "unknown_title";
         if (optionalUrlTitle.isPresent()) urlTitle = optionalUrlTitle.get();
-        String parsedAsciiSaveName = StringUtil.parseNonAscii(urlTitle)
+        String parsedAsciiSaveName = StringUtil.removeNonAscii(urlTitle)
                 .replace("- YouTube", "")
                 .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(), "").trim();
 

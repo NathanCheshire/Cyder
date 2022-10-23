@@ -3,10 +3,7 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
-import cyder.constants.CyderStrings;
+import cyder.constants.*;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
@@ -285,7 +282,7 @@ public final class FileSignatureWidget {
         // Text such as "0xFF 0xA0" becomes "FFA0"
         String expectedByteSignature = signatureField.getTrimmedText()
                 .replaceAll("0x", "")
-                .replaceAll("\\s+", "");
+                .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "");
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -304,7 +301,8 @@ public final class FileSignatureWidget {
             ExceptionHandler.handle(e);
         }
 
-        String byteSignatureString = stringBuilder.toString().replaceAll("\\s+", "");
+        String byteSignatureString = stringBuilder.toString()
+                .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "");
 
         if (expectedByteSignature.equalsIgnoreCase(byteSignatureString)) {
             resultLabel.setText(validFileSignatureText);

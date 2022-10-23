@@ -2,6 +2,7 @@ package cyder.handlers.input;
 
 import cyder.annotations.Handle;
 import cyder.annotations.SuppressCyderInspections;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
@@ -51,7 +52,8 @@ public class PreferenceHandler extends InputHandler {
      */
     private static boolean attemptPreferenceToggle() {
         String targetedPreference = getInputHandler().getCommand();
-        String parsedArgs = getInputHandler().argsToString().replaceAll("\\s+", "");
+        String parsedArgs = getInputHandler().argsToString()
+                .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "");
 
         for (Preference pref : Preference.getPreferences()) {
             if (targetedPreference.equalsIgnoreCase(pref.getID().trim())) {

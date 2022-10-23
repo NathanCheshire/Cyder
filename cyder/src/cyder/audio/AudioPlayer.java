@@ -2437,8 +2437,8 @@ public final class AudioPlayer {
                 AtomicBoolean mouseEntered = new AtomicBoolean(false);
 
                 CyderButton downloadButton = new CyderButton();
-                downloadButton.setLeftTextPadding(StringUtil.generateNSpaces(5));
-                downloadButton.setRightTextPadding(StringUtil.generateNSpaces(4));
+                downloadButton.setLeftTextPadding(StringUtil.generateSpaces(5));
+                downloadButton.setRightTextPadding(StringUtil.generateSpaces(4));
                 downloadButton.setText(alreadyExists ? PLAY : DOWNLOAD);
                 downloadButton.setBackground(CyderColors.regularPurple);
                 downloadButton.setForeground(CyderColors.vanilla);

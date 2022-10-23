@@ -29,6 +29,7 @@ import java.io.FileReader;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 /**
  * String utility methods along with some JTextPane utility methods
@@ -37,6 +38,7 @@ import java.util.regex.Pattern;
  * to achieve thread safety. Typically, in Cyder, this is performed via using a {@link CyderOutputPane}
  * which bundles a JTextPane, StringUtil, and Semaphore.
  */
+@SuppressWarnings("SpellCheckingInspection") /* urls */
 public class StringUtil {
     /**
      * The output pane to print to in the case an object is created.
@@ -516,7 +518,7 @@ public class StringUtil {
         Preconditions.checkArgument(!word.isEmpty());
 
         StringBuilder sb = new StringBuilder(word.length());
-        String[] words = word.split("\\s+");
+        String[] words = word.split(CyderRegexPatterns.whiteSpaceRegex);
 
         Arrays.stream(words).forEach(wordy -> {
             sb.append(Character.toUpperCase(wordy.charAt(0)));
@@ -552,7 +554,7 @@ public class StringUtil {
         }
 
         //split at spaces and run leet in each of those
-        String[] words = filter.split("\\s+");
+        String[] words = filter.split(CyderRegexPatterns.whiteSpaceRegex);
 
         if (words.length == 0)
             return filter;
@@ -660,7 +662,7 @@ public class StringUtil {
         userInput = userInput.toLowerCase();
         findWord = findWord.toLowerCase();
 
-        String[] words = userInput.split("\\s+");
+        String[] words = userInput.split(CyderRegexPatterns.whiteSpaceRegex);
 
         for (String word : words) {
             if (word.equalsIgnoreCase(findWord)) {
@@ -747,7 +749,7 @@ public class StringUtil {
      * @return the word count of the requested string
      */
     public static int countWords(String str) {
-        return (str == null || str.isEmpty()) ? 0 : str.split("\\s+").length;
+        return (str == null || str.isEmpty()) ? 0 : str.split(CyderRegexPatterns.whiteSpaceRegex).length;
     }
 
     /**
@@ -816,8 +818,9 @@ public class StringUtil {
     /**
      * The additional part for a wikipedia summary scrape.
      */
-    @SuppressWarnings("SpellCheckingInspection")
     private static final String WIKI_SUM_PROP = "&prop=extracts&exintro&explaintext&redirects=1&titles=";
+
+    // todo optional
 
     /**
      * Web scrapes Wikipedia for the appropriate article and returns the body of the wiki article.
@@ -825,23 +828,24 @@ public class StringUtil {
      * @param query the query to search wikipedia for
      * @return the wiki body result
      */
-    public static String getWikipediaSummary(String query) {
-        String ret;
-
+    public static Optional<String> getWikipediaSummary(String query) {
         try {
-            String urlString = CyderUrls.WIKIPEDIA_SUMMARY_BASE
-                    + WIKI_SUM_PROP + query.replace(CyderRegexPatterns.whiteSpaceRegex, NetworkUtil.URL_SPACE);
-            String jsonString = NetworkUtil.readUrl(urlString);
+            String ret;
+            String queryUrl = CyderUrls.WIKIPEDIA_SUMMARY_BASE + WIKI_SUM_PROP
+                    + query.replace(CyderRegexPatterns.whiteSpaceRegex, NetworkUtil.URL_SPACE);
+            String urlContents = NetworkUtil.readUrl(queryUrl);
 
-            String[] serializedPageNumber = jsonString.split("\"extract\":\"");
+            String splitOn = CyderStrings.quote + "extract"
+                    + CyderStrings.quote + CyderStrings.colon + CyderStrings.quote;
+            String[] serializedPageNumber = urlContents.split(splitOn);
             ret = serializedPageNumber[1].replace("}", "");
             ret = ret.substring(0, ret.length() - 1);
+            return Optional.of(ret);
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
-            ret = "Wiki article not found";
         }
 
-        return ret;
+        return Optional.empty();
     }
 
     /**
@@ -864,6 +868,7 @@ public class StringUtil {
         return Arrays.equals(wordOneArr, wordTwoArr);
     }
 
+    // todo technically this doesn't check for escaped tag delimiters
     /**
      * Finds the rawtext and html tags of a string and returns a linked list representing the parts.
      *
@@ -876,30 +881,38 @@ public class StringUtil {
 
         LinkedList<BoundsUtil.TaggedString> taggedStrings = new LinkedList<>();
 
-        //figure out tags
-        String textCopy = htmlText;
-        while ((textCopy.contains("<") && textCopy.contains(">"))) {
-            int firstOpeningTag = textCopy.indexOf("<");
-            int firstClosingTag = textCopy.indexOf(">");
+        String openingTagChar = "<";
+        String closingTagChar = ">";
 
-            //failsafe
-            if (firstClosingTag == -1 || firstOpeningTag == -1 || firstClosingTag < firstOpeningTag)
+        // Figure out tags
+        String textCopy = htmlText;
+        while ((textCopy.contains(openingTagChar) && textCopy.contains(closingTagChar))) {
+            int firstOpeningTag = textCopy.indexOf(openingTagChar);
+            int firstClosingTag = textCopy.indexOf(closingTagChar);
+
+            // Failsafe
+            if (firstClosingTag == -1 || firstOpeningTag == -1 || firstClosingTag < firstOpeningTag) {
                 break;
+            }
 
             String regularText = textCopy.substring(0, firstOpeningTag);
             String firstHtml = textCopy.substring(firstOpeningTag, firstClosingTag + 1);
 
-            if (!regularText.isEmpty())
+            if (!regularText.isEmpty()) {
                 taggedStrings.add(new BoundsUtil.TaggedString(regularText, BoundsUtil.TaggedString.Type.TEXT));
-            if (!firstHtml.isEmpty())
+            }
+
+            if (!firstHtml.isEmpty()) {
                 taggedStrings.add(new BoundsUtil.TaggedString(firstHtml, BoundsUtil.TaggedString.Type.HTML));
+            }
 
             textCopy = textCopy.substring(firstClosingTag + 1);
         }
 
-        //if there's remaining text, it's just non-html
-        if (!textCopy.isEmpty())
+        // If there's remaining text, it is non-html
+        if (!textCopy.isEmpty()) {
             taggedStrings.add(new BoundsUtil.TaggedString(textCopy, BoundsUtil.TaggedString.Type.TEXT));
+        }
 
         return ImmutableList.copyOf(taggedStrings);
     }
@@ -917,11 +930,9 @@ public class StringUtil {
      * @return whether the provided String was null
      */
     public static boolean isNullOrEmpty(String string) {
-        if (string == null) {
-            return true;
-        }
+        if (string == null) return true;
 
-        string = string.replaceAll("\\s+", "");
+        string = string.replaceAll(CyderRegexPatterns.whiteSpaceRegex, "");
         return string.isEmpty() || in(string, true, NULL_STRINGS);
     }
 
@@ -962,7 +973,7 @@ public class StringUtil {
     public static String getTrimmedText(String text) {
         Preconditions.checkNotNull(text);
 
-        return text.trim().replaceAll(CyderRegexPatterns.whiteSpaceRegex, CyderStrings.space);
+        return text.replaceAll(CyderRegexPatterns.whiteSpaceRegex, CyderStrings.space).trim();
     }
 
     /**
@@ -1093,12 +1104,12 @@ public class StringUtil {
     }
 
     /**
-     * Parses out all non-ascii characters from the provided string.
+     * Removes all non-ascii characters from the provided string.
      *
      * @param nonAsciiContaining the string containing non-ascii characters
      * @return the string with the non-ascii characters removed
      */
-    public static String parseNonAscii(String nonAsciiContaining) {
+    public static String removeNonAscii(String nonAsciiContaining) {
         Preconditions.checkNotNull(nonAsciiContaining);
 
         return getTrimmedText(nonAsciiContaining.replaceAll("[^\\x00-\\x7F]", CyderStrings.space));
@@ -1112,7 +1123,6 @@ public class StringUtil {
      */
     public static boolean containsNonAscii(String nonAsciiContaining) {
         Preconditions.checkNotNull(nonAsciiContaining);
-        Preconditions.checkArgument(!nonAsciiContaining.isEmpty());
 
         return CharMatcher.ascii().matchesAllOf(nonAsciiContaining);
     }
@@ -1123,8 +1133,8 @@ public class StringUtil {
      * @param n the number of spaces for the returned string to contain
      * @return the whitespace string with n spaces
      */
-    public static String generateNSpaces(int n) {
-        Preconditions.checkArgument(n > 0);
+    public static String generateSpaces(int n) {
+        Preconditions.checkArgument(n >= 0);
         return CyderStrings.space.repeat(n);
     }
 
@@ -1153,7 +1163,7 @@ public class StringUtil {
 
     /**
      * Strips all new lines and replaces them with a space.
-     * Returns the resulting String trimmed.
+     * Returns the resulting string trimmed.
      *
      * @param line the line to strip of new line characters and trim
      * @return the line stripped of new line characters and trimmed
@@ -1162,7 +1172,8 @@ public class StringUtil {
         Preconditions.checkNotNull(line);
         Preconditions.checkArgument(!line.isEmpty());
 
-        return line.replace(CyderStrings.newline, CyderStrings.space).replace("\r", CyderStrings.space).trim();
+        return line.replace(CyderStrings.newline, CyderStrings.space)
+                .replace("\r", CyderStrings.space).trim();
     }
 
     /**
@@ -1171,15 +1182,13 @@ public class StringUtil {
      * @param strings the strings to build into a single string
      * @return the combined string
      */
-    public static String separate(String... strings) {
+    public static String separateWords(String... strings) {
         Preconditions.checkNotNull(strings);
-        Preconditions.checkArgument(strings.length > 0);
 
         StringBuilder ret = new StringBuilder();
 
         for (String string : strings) {
             Preconditions.checkNotNull(string);
-
             ret.append(string.trim());
             ret.append(CyderStrings.space);
         }
@@ -1203,20 +1212,6 @@ public class StringUtil {
         Preconditions.checkNotNull(alpha);
         Preconditions.checkNotNull(beta);
 
-        return distance(alpha, beta);
-    }
-
-    /**
-     * Computes the distance between the two strings meaning
-     * the number of operations needed to morph string alpha
-     * into string beta.
-     *
-     * @param alpha the first string
-     * @param beta  the second string
-     * @return the number of operations required to transform
-     * string alpha into string beta
-     */
-    private static int distance(String alpha, String beta) {
         if (Objects.equals(alpha, beta)) {
             return 0;
         }
@@ -1279,11 +1274,10 @@ public class StringUtil {
         StringBuilder ret = new StringBuilder();
         ret.append(BoundsUtil.OPENING_HTML_TAG);
 
-        for (int i = 0 ; i < numLines ; i++) {
-            ret.append(CyderStrings.space).append(BoundsUtil.BREAK_TAG);
-        }
-
-        return ret + CyderStrings.space + BoundsUtil.CLOSING_HTML_TAG;
+        IntStream.range(0, numLines).forEach(index
+                -> ret.append(CyderStrings.space).append(BoundsUtil.BREAK_TAG));
+        ret.append(CyderStrings.space).append(BoundsUtil.CLOSING_HTML_TAG);
+        return ret.toString();
     }
 
     /**
