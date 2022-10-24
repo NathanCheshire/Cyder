@@ -270,7 +270,8 @@ public final class YoutubeUtil {
 
         String ret = null;
 
-        String query = YOUTUBE_QUERY_BASE + youtubeQuery.replace(CyderRegexPatterns.whiteSpaceRegex, "+");
+        String query = YOUTUBE_QUERY_BASE + youtubeQuery.replaceAll(
+                CyderRegexPatterns.whiteSpaceRegex, "+");
         String jsonString = NetworkUtil.readUrl(query);
 
         String videoIdIdentifier = quote + VIDEO_ID + quote + colon + quote;

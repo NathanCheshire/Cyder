@@ -258,7 +258,6 @@ public final class GetInputBuilder extends GetBuilder {
     @CanIgnoreReturnValue
     public GetInputBuilder setInitialFieldText(String initialFieldText) {
         Preconditions.checkNotNull(initialFieldText);
-        Preconditions.checkArgument(!initialFieldText.isEmpty());
 
         this.initialFieldText = initialFieldText;
         return this;

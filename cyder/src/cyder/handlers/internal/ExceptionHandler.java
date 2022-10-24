@@ -164,7 +164,8 @@ public final class ExceptionHandler {
         int frameWidth = labelWidth + 2 * offset;
         int frameHeight = labelHeight + 2 * offset;
         CyderFrame borderlessFrame = CyderFrame.generateBorderlessFrame(frameWidth, frameHeight, exceptionRed);
-        borderlessFrame.setTitle(exceptionMessage);
+        String title = exceptionMessage.isEmpty() ? "Exception" : exceptionMessage;
+        borderlessFrame.setTitle(title);
         borderlessFrame.setFrameType(CyderFrame.FrameType.POPUP);
 
         String labelText = builder.toString();
