@@ -36,7 +36,7 @@ Some examples of what you can do with Cyder include:
 <details open>
 <summary><b>Cyder Console</b></summary>
 <br>
-<img src="https://user-images.githubusercontent.com/60986919/190871454-c07fe3a8-7be2-4517-8290-1f47267d2e58.png" alt="Liminal Cyder" width="800">
+<img src="https://user-images.githubusercontent.com/60986919/197438724-45645f74-082e-4be3-9fb1-1e2d4de8339c.png" alt="Liminal Cyder" width="800">
 </details>
 
 <details>
