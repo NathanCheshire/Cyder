@@ -125,6 +125,16 @@ public final class CyderStrings {
     public static final String newline = "\n";
 
     /**
+     * The NULL string.
+     */
+    public static final String NULL = "NULL";
+
+    /**
+     * The NUL string.
+     */
+    public static final String NUL = "NUL";
+
+    /**
      * Suppress default constructor.
      */
     private CyderStrings() {

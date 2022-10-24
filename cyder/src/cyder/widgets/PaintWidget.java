@@ -180,8 +180,7 @@ public final class PaintWidget {
         paintFrame.addMenuItem("Layer Image", () -> CyderThreadRunner.submit(() -> {
             try {
                 File chosenImage = GetterUtil.getInstance().getFile(new GetterUtil.Builder("Layer Image")
-                        .setRelativeTo(paintFrame)
-                        .setFieldTooltip("Choose a png or jpg"));
+                        .setRelativeTo(paintFrame));
 
                 if (FileUtil.validateExtension(chosenImage, FileUtil.SUPPORTED_IMAGE_EXTENSIONS)) {
                     // todo implement after figuring out solution to large grids

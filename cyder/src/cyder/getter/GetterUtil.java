@@ -58,15 +58,15 @@ public class GetterUtil {
     // --------------------
 
     /**
-     * All the currently active get string frames associated with this instance.
+     * All the currently active get input frames associated with this instance.
      */
-    private final ArrayList<CyderFrame> getStringFrames = new ArrayList<>();
+    private final ArrayList<CyderFrame> getInputFrames = new ArrayList<>();
 
     /**
-     * Closes all get string frames associated with this instance.
+     * Closes all get input frames associated with this instance.
      */
-    public void closeAllGetStringFrames() {
-        getStringFrames.forEach(frame -> frame.dispose(true));
+    public void closeAllGetInputFrames() {
+        getInputFrames.forEach(frame -> frame.dispose(true));
     }
 
     /**
@@ -82,7 +82,7 @@ public class GetterUtil {
     }
 
     /**
-     * All the currently active get string confirmation associated with this instance.
+     * All the currently active get confirmation confirmation associated with this instance.
      */
     private final ArrayList<CyderFrame> getConfirmationFrames = new ArrayList<>();
 
@@ -97,7 +97,7 @@ public class GetterUtil {
      * Closes all getter frames associated with this instance.
      */
     public void closeAllGetFrames() {
-        closeAllGetStringFrames();
+        closeAllGetInputFrames();
         closeAllGetFileFrames();
         closeAllGetConfirmationFrames();
     }
@@ -107,29 +107,24 @@ public class GetterUtil {
     // ------------------------
 
     /**
-     * The minimum width for a get string popup.
+     * The minimum width for a get input popup.
      */
-    private static final int GET_STRING_MIN_WIDTH = 400;
+    private static final int GET_INPUT_MIN_WIDTH = 400;
 
     /**
      * The top and bottom padding for a string popup.
      */
-    private static final int GET_STRING_Y_PADDING = 10;
+    private static final int GET_INPUT_Y_PADDING = 10;
 
     /**
      * The left and right padding for a string popup.
      */
-    private static final int GET_STRING_X_PADDING = 40;
+    private static final int GET_INPUT_X_PADDING = 40;
 
     /**
-     * The empty string to return for getString invocations which are canceled.
+     * The line border for the get input's submit button.
      */
-    private static final String NULL = "NULL";
-
-    /**
-     * The line border for the get string's submit button.
-     */
-    private static final LineBorder GET_STRING_SUBMIT_BUTTON_BORDER
+    private static final LineBorder GET_INPUT_SUBMIT_BUTTON_BORDER
             = new LineBorder(CyderColors.navy, 5, false);
 
     /**
@@ -160,108 +155,97 @@ public class GetterUtil {
 
         AtomicReference<String> returnString = new AtomicReference<>();
 
-        String threadName = "GetString Waiter thread, title = \"" + getInputBuilder.getFrameTitle()
-                + CyderStrings.quote;
+        String threadName = "GetInput waiter thread, title: "
+                + CyderStrings.quote + getInputBuilder.getFrameTitle() + CyderStrings.quote;
         CyderThreadRunner.submit(() -> {
-            try {
-                BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(
-                        getInputBuilder.getLabelText(), getInputBuilder.getLabelFont(), GET_STRING_MIN_WIDTH);
+            BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(
+                    getInputBuilder.getLabelText(),
+                    getInputBuilder.getLabelFont(),
+                    GET_INPUT_MIN_WIDTH);
 
-                int width = boundsString.width() + 2 * GET_STRING_X_PADDING;
-                int height = boundsString.height() + 2 * GET_STRING_Y_PADDING;
-                String parsedLabelText = boundsString.text();
+            int width = boundsString.width() + 2 * GET_INPUT_X_PADDING;
+            int height = boundsString.height() + 2 * GET_INPUT_Y_PADDING;
+            String parsedLabelText = boundsString.text();
 
-                int componentWidth = width - 2 * GET_STRING_X_PADDING;
-                int componentHeight = 40;
+            int componentWidth = width - 2 * GET_INPUT_X_PADDING;
+            int componentHeight = 40;
 
-                int frameHeight = CyderDragLabel.DEFAULT_HEIGHT + height
-                        + 2 * componentHeight + 3 * GET_STRING_Y_PADDING;
-                CyderFrame inputFrame = new CyderFrame(width, frameHeight, CyderIcons.defaultBackground);
-                getStringFrames.add(inputFrame);
-                inputFrame.addPreCloseAction(() -> getStringFrames.remove(inputFrame));
-                inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
-                inputFrame.setTitle(getInputBuilder.getFrameTitle());
-                getInputBuilder.getOnDialogDisposalRunnables().forEach(inputFrame::addPostCloseAction);
+            int frameHeight = CyderDragLabel.DEFAULT_HEIGHT + height
+                    + 2 * componentHeight + 3 * GET_INPUT_Y_PADDING;
+            CyderFrame inputFrame = new CyderFrame(width, frameHeight, CyderIcons.defaultBackground);
+            getInputFrames.add(inputFrame);
+            inputFrame.addPreCloseAction(() -> getInputFrames.remove(inputFrame));
+            inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
+            inputFrame.setTitle(getInputBuilder.getFrameTitle());
+            getInputBuilder.getOnDialogDisposalRunnables().forEach(inputFrame::addPostCloseAction);
 
-                int yOff = CyderDragLabel.DEFAULT_HEIGHT + GET_STRING_Y_PADDING;
-                CyderLabel textLabel = new CyderLabel(parsedLabelText);
-                textLabel.setForeground(getInputBuilder.getLabelColor());
-                textLabel.setFont(getInputBuilder.getLabelFont());
-                textLabel.setBounds(GET_STRING_X_PADDING, yOff, boundsString.width(), boundsString.height());
-                inputFrame.getContentPane().add(textLabel);
+            int yOff = CyderDragLabel.DEFAULT_HEIGHT + GET_INPUT_Y_PADDING;
+            CyderLabel textLabel = new CyderLabel(parsedLabelText);
+            textLabel.setForeground(getInputBuilder.getLabelColor());
+            textLabel.setFont(getInputBuilder.getLabelFont());
+            textLabel.setBounds(GET_INPUT_X_PADDING, yOff, boundsString.width(), boundsString.height());
+            inputFrame.getContentPane().add(textLabel);
 
-                yOff += GET_STRING_Y_PADDING + boundsString.height();
+            yOff += GET_INPUT_Y_PADDING + boundsString.height();
 
-                CyderTextField inputField = new CyderTextField();
-                inputField.setHorizontalAlignment(JTextField.CENTER);
-                inputField.setBackground(Color.white);
+            CyderTextField inputField = new CyderTextField();
+            inputField.setHorizontalAlignment(JTextField.CENTER);
+            inputField.setBackground(Color.white);
 
-                String fieldText = getInputBuilder.getInitialFieldText();
-                if (!StringUtil.isNullOrEmpty(fieldText)) inputField.setText(fieldText);
+            String fieldText = getInputBuilder.getInitialFieldText();
+            if (!StringUtil.isNullOrEmpty(fieldText)) inputField.setText(fieldText);
 
-                String fieldHintText = getInputBuilder.getFieldHintText();
-                if (!StringUtil.isNullOrEmpty(fieldHintText)) inputField.setHintText(fieldHintText);
+            String fieldHintText = getInputBuilder.getFieldHintText();
+            if (!StringUtil.isNullOrEmpty(fieldHintText)) inputField.setHintText(fieldHintText);
 
-                String fieldRegex = getInputBuilder.getFieldRegex();
-                if (!StringUtil.isNullOrEmpty(fieldRegex)) inputField.setKeyEventRegexMatcher(fieldRegex);
+            String fieldRegex = getInputBuilder.getFieldRegex();
+            if (!StringUtil.isNullOrEmpty(fieldRegex)) inputField.setKeyEventRegexMatcher(fieldRegex);
 
-                inputField.setForeground(getInputBuilder.getFieldForeground());
-                inputField.setFont(getInputBuilder.getFieldFont());
-                inputField.setBounds(GET_STRING_X_PADDING, yOff, componentWidth, componentHeight);
-                inputFrame.getContentPane().add(inputField);
+            inputField.setForeground(getInputBuilder.getFieldForeground());
+            inputField.setFont(getInputBuilder.getFieldFont());
+            inputField.setBounds(GET_INPUT_X_PADDING, yOff, componentWidth, componentHeight);
+            inputFrame.getContentPane().add(inputField);
 
-                yOff += GET_STRING_Y_PADDING + componentHeight;
+            yOff += GET_INPUT_Y_PADDING + componentHeight;
 
-                Runnable submitAction = () -> {
-                    returnString.set((inputField.getText() == null
-                            || inputField.getText().isEmpty() ? NULL : inputField.getText()));
-                    inputFrame.dispose();
-                };
+            Runnable preCloseAction = () -> {
+                String input = inputField.getTrimmedText();
+                returnString.set(input.isEmpty() ? CyderStrings.NULL : input);
+            };
+            inputFrame.addPreCloseAction(preCloseAction);
 
-                CyderButton submit = new CyderButton(getInputBuilder.getSubmitButtonText());
-                submit.setBackground(getInputBuilder.getSubmitButtonColor());
-                inputField.addActionListener(e -> submitAction.run());
-                submit.setBorder(GET_STRING_SUBMIT_BUTTON_BORDER);
-                submit.setFont(getInputBuilder.getSubmitButtonFont());
-                submit.setForeground(CyderColors.navy);
-                submit.addActionListener(e -> submitAction.run());
-                submit.setBounds(GET_STRING_X_PADDING, yOff, componentWidth, componentHeight);
-                inputFrame.getContentPane().add(submit);
+            Runnable submitAction = () -> {
+                preCloseAction.run();
+                inputFrame.dispose();
+            };
 
-                inputFrame.addPreCloseAction(() -> {
-                    String input = inputField.getTrimmedText();
-                    if (!input.isEmpty()) {
-                        returnString.set(input);
-                    } else {
-                        returnString.set(NULL);
-                    }
-                });
+            CyderButton submitButton = new CyderButton(getInputBuilder.getSubmitButtonText());
+            submitButton.setBackground(getInputBuilder.getSubmitButtonColor());
+            inputField.addActionListener(e -> submitAction.run());
+            submitButton.setBorder(GET_INPUT_SUBMIT_BUTTON_BORDER);
+            submitButton.setFont(getInputBuilder.getSubmitButtonFont());
+            submitButton.setForeground(CyderColors.navy);
+            submitButton.addActionListener(e -> submitAction.run());
+            submitButton.setBounds(GET_INPUT_X_PADDING, yOff, componentWidth, componentHeight);
+            inputFrame.getContentPane().add(submitButton);
 
-                Component relativeTo = getInputBuilder.getRelativeTo();
-                if (relativeTo != null && getInputBuilder.isDisableRelativeTo()) {
-                    relativeTo.setEnabled(false);
-                    inputFrame.addPostCloseAction(generateGetterFramePostCloseAction(relativeTo));
-                }
-
-                inputFrame.setLocationRelativeTo(relativeTo);
-                inputFrame.setVisible(true);
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+            Component relativeTo = getInputBuilder.getRelativeTo();
+            if (relativeTo != null && getInputBuilder.isDisableRelativeTo()) {
+                relativeTo.setEnabled(false);
+                inputFrame.addPostCloseAction(generateGetterFramePostCloseAction(relativeTo));
             }
+            inputFrame.setLocationRelativeTo(relativeTo);
+            inputFrame.setVisible(true);
         }, threadName);
 
-        try {
-            while (returnString.get() == null) Thread.onSpinWait();
-        } catch (Exception ex) {
-            ExceptionHandler.handle(ex);
+        while (returnString.get() == null) {
+            Thread.onSpinWait();
         }
 
         String ret = returnString.get();
-        if (StringUtil.isNullOrEmpty(ret)) {
-            return Optional.empty();
-        } else {
-            return Optional.of(ret);
-        }
+        return StringUtil.isNullOrEmpty(ret)
+                ? Optional.empty()
+                : Optional.of(ret);
     }
 
     /**
@@ -334,10 +318,11 @@ public class GetterUtil {
      */
     private static final String INITIAL_DIRECTORY_FRAME_TITLE = "File getter";
 
+    // todo do away
     /**
      * The null file.
      */
-    private static final File NULL_FILE = new File(NULL);
+    private static final File NULL_FILE = new File(CyderStrings.NULL);
 
     /**
      * The text for the last button.
@@ -413,17 +398,12 @@ public class GetterUtil {
                 CyderFrame directoryFrame = directoryFrameReference.get();
                 directoryFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 directoryFrame.addPreCloseAction(() -> getFileFrames.remove(directoryFrame));
-                if (builder.getOnDialogDisposalRunnable() != null) {
-                    directoryFrame.addPostCloseAction(builder.getOnDialogDisposalRunnable());
-                }
+                // todo post close actions from builder
 
                 directoryFrame.setTitle(INITIAL_DIRECTORY_FRAME_TITLE);
 
                 CyderTextField dirField = new CyderTextField();
                 dirFieldRef.set(dirField);
-                if (!StringUtil.isNullOrEmpty(builder.getFieldTooltip())) {
-                    dirField.setToolTipText(builder.getFieldTooltip());
-                }
 
                 LineBorder dirFieldLineBorder = new LineBorder(textColor, 5, false);
                 dirField.setBackground(backgroundColor);
@@ -520,7 +500,9 @@ public class GetterUtil {
             directoryFrameReference.get().dispose();
         }
 
-        return setOnFileChosen.get().getName().equals(NULL) ? null : setOnFileChosen.get();
+        return setOnFileChosen.get().getName().equals(CyderStrings.NULL)
+                ? null
+                : setOnFileChosen.get();
     }
 
     @ForReadability
@@ -788,27 +770,6 @@ public class GetterUtil {
         };
     }
 
-    // todo implement me
-
-    //    public static class GetFileBuilder {
-    //        private String frameTitle;
-    //
-    //        private File initialDirectory;
-    //        private String initialFieldText;
-    //        private Color fieldForeground;
-    //        private Font fieldFont;
-    //
-    //        private boolean isFileSelection;
-    //        private boolean isFolderSelection;
-    //
-    //        private String submitButtonText;
-    //        private Font submitButtonFont;
-    //        private Color submitButtonColor;
-    //
-    //        private boolean disableRelativeTo;
-    //        private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
-    //    }
-
     /**
      * A builder for a getter frame.
      */
@@ -819,60 +780,9 @@ public class GetterUtil {
         private final String title;
 
         /**
-         * The button text for the submit button for some getter frames.
-         */
-        private String submitButtonText = "Submit";
-
-        /**
-         * The field tooltip to display for getter frames which contain a text field.
-         */
-        private String fieldTooltip = "Input";
-
-        /**
-         * The text field regex to use for getter frames which contain a text field.
-         */
-        private String fieldRegex;
-
-        /**
          * Te component to set the getter frame relative to.
          */
         private Component relativeTo;
-
-        /**
-         * The color of the submit button for most getter frames.
-         */
-        private Color submitButtonColor = CyderColors.regularRed;
-
-        /**
-         * The initial text of the field for getter frames which have a text field.
-         */
-        private String initialString = "";
-
-        /**
-         * The label text for getter frames which use a label.
-         */
-        private String labelText;
-
-        /**
-         * The text for confirming an operation.
-         */
-        private String yesButtonText = "Yes";
-
-        /**
-         * the text for denying an operation.
-         */
-        private String noButtonText = "No";
-
-        /**
-         * Whether to disable the component the getter frame was
-         * set relative to while the relative frame is open.
-         */
-        private boolean disableRelativeTo;
-
-        /**
-         * The runnable to invoke when the dialog is disposed.
-         */
-        private Runnable onDialogDisposalRunnable;
 
         /**
          * Constructs a new GetterBuilder.
@@ -883,7 +793,6 @@ public class GetterUtil {
             checkNotNull(title);
 
             this.title = title;
-            this.labelText = title;
 
             Logger.log(LogTag.OBJECT_CREATION, this);
         }
@@ -895,69 +804,6 @@ public class GetterUtil {
          */
         public String getTitle() {
             return title;
-        }
-
-        /**
-         * Returns the submit button text for getter frames which get field input from the user.
-         *
-         * @return the submit button text for getter frames which get field input from the user
-         */
-        public String getSubmitButtonText() {
-            return submitButtonText;
-        }
-
-        /**
-         * Sets the submit button text for getter frames which get field input from the user.
-         *
-         * @param submitButtonText the submit button text for getter frames which get field input from the user
-         * @return this builder
-         */
-        @CanIgnoreReturnValue
-        public Builder setSubmitButtonText(String submitButtonText) {
-            this.submitButtonText = submitButtonText;
-            return this;
-        }
-
-        /**
-         * Returns the field tooltip text for getter frames which get field input from the user.
-         *
-         * @return the field tooltip text for getter frames which get field input from the user
-         */
-        public String getFieldTooltip() {
-            return fieldTooltip;
-        }
-
-        /**
-         * Sets the field tooltip text for getter frames which get field input from the user.
-         *
-         * @param fieldTooltip the field tooltip text for getter frames which get field input from the user
-         * @return this builder
-         */
-        @CanIgnoreReturnValue
-        public Builder setFieldTooltip(String fieldTooltip) {
-            this.fieldTooltip = fieldTooltip;
-            return this;
-        }
-
-        /**
-         * returns the field regex for getter frames which get field input from the user.
-         *
-         * @return the field regex for getter frames which get field input from the user
-         */
-        public String getFieldRegex() {
-            return fieldRegex;
-        }
-
-        /**
-         * Sets the field regex for getter frames which get field input from the user.
-         *
-         * @param fieldRegex the field regex for getter frames which get field input from the user
-         * @return this builder
-         */
-        @CanIgnoreReturnValue
-        public Builder setFieldRegex(String fieldRegex) {
-            this.fieldRegex = fieldRegex;
-            return this;
         }
 
         /**
@@ -982,109 +828,12 @@ public class GetterUtil {
         }
 
         /**
-         * Returns the button background color for the submit button for getter frames which get input from a user.
-         *
-         * @return the button background color for the submit button for getter frames which get input from a user
-         */
-        public Color getSubmitButtonColor() {
-            return submitButtonColor;
-        }
-
-        /**
-         * Sets the button background color for the submit button for getter frames which get input from a user.
-         *
-         * @param submitButtonColor the button background color for the
-         *                          submit button for getter frames which get input from a user
-         * @return this builder
-         */
-        @CanIgnoreReturnValue
-        public Builder setSubmitButtonColor(Color submitButtonColor) {
-            this.submitButtonColor = submitButtonColor;
-            return this;
-        }
-
-        /**
          * Returns the initial field text for getter frames which have an input field.
          *
          * @return the initial field text for getter frames which have an input field
          */
         public String getInitialString() {
-            return initialString;
-        }
-
-        /**
-         * Sets the initial field text for getter frames which have an input field.
-         *
-         * @param initialString the initial field text for getter frames which have an input field
-         * @return this builder
-         */
-        @CanIgnoreReturnValue
-        public Builder setInitialString(String initialString) {
-            this.initialString = initialString;
-            return this;
-        }
-
-        /**
-         * Returns the text to display on the button for approving a requested operation.
-         *
-         * @return the text to display on the button for approving a requested operation
-         */
-        public String getYesButtonText() {
-            return yesButtonText;
-        }
-
-        /**
-         * Sets the text to display on the button for approving a requested operation.
-         *
-         * @param yesButtonText the text to display on the button for approving a requested operation
-         * @return this builder
-         */
-        @CanIgnoreReturnValue
-        public Builder setYesButtonText(String yesButtonText) {
-            this.yesButtonText = yesButtonText;
-            return this;
-        }
-
-        /**
-         * Returns the text to display on the button for denying a requested operation.
-         *
-         * @return the text to display on the button for denying a requested operation
-         */
-        public String getNoButtonText() {
-            return noButtonText;
-        }
-
-        /**
-         * Sets the text to display on the button for denying a requested operation.
-         *
-         * @param noButtonText the text to display on the button for denying a requested operation
-         * @return this builder
-         */
-        @CanIgnoreReturnValue
-        public Builder setNoButtonText(String noButtonText) {
-            this.noButtonText = noButtonText;
-            return this;
-        }
-
-        /**
-         * Returns the label text for getter frames which have a primary information label.
-         *
-         * @return the label text for getter frames which have a primary information label
-         */
-        public String getLabelText() {
-            return labelText;
-        }
-
-        /**
-         * Sets the label text for getter frames which have a primary information label.
-         *
-         * @param labelText the label text for getter frames which have a primary information label
-         * @return this builder
-         */
-        @CanIgnoreReturnValue
-        public Builder setLabelText(String labelText) {
-            this.labelText = labelText;
-            return this;
+            return "";
         }
 
         /**
@@ -1093,40 +842,7 @@ public class GetterUtil {
          * @return whether to disable the relativeTo component while the getter frame is active
          */
         public boolean isDisableRelativeTo() {
-            return disableRelativeTo;
-        }
-
-        /**
-         * Sets whether to disable the relativeTo component while the getter frame is active.
-         *
-         * @param disableRelativeTo whether to disable the relativeTo component while the getter frame is active
-         * @return this builder
-         */
-        @CanIgnoreReturnValue
-        public Builder setDisableRelativeTo(boolean disableRelativeTo) {
-            this.disableRelativeTo = disableRelativeTo;
-            return this;
-        }
-
-        /**
-         * Returns the runnable to invoke when the dialog is disposed.
-         *
-         * @return the runnable to invoke when the dialog is disposed
-         */
-        public Runnable getOnDialogDisposalRunnable() {
-            return onDialogDisposalRunnable;
-        }
-
-        /**
-         * Sets the runnable to invoke when the dialog is disposed.
-         *
-         * @param onDialogDisposalRunnable the runnable to invoke when the dialog is disposed
-         * @return this builder
-         */
-        @CanIgnoreReturnValue
-        public Builder setOnDialogDisposalRunnable(Runnable onDialogDisposalRunnable) {
-            this.onDialogDisposalRunnable = onDialogDisposalRunnable;
-            return this;
+            return false;
         }
     }
 }

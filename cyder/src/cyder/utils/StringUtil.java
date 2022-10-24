@@ -933,7 +933,7 @@ public class StringUtil {
     /**
      * The list of strings which are counted as null for comparisons by {@link #isNullOrEmpty(String)}.
      */
-    public static final ImmutableList<String> NULL_STRINGS = ImmutableList.of("NULL", "NUL");
+    public static final ImmutableList<String> NULL_STRINGS = ImmutableList.of(CyderStrings.NULL, CyderStrings.NUL);
 
     /**
      * Determines if the provided String is null meaning literally null,
