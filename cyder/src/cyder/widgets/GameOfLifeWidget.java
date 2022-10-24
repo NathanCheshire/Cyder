@@ -8,6 +8,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
@@ -38,6 +39,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Optional;
 
 /**
  * Conway's game of life visualizer.
@@ -702,13 +704,13 @@ public final class GameOfLifeWidget {
                 return;
             }
 
-            String saveName = GetterUtil.getInstance().getString(new GetterUtil.Builder("Save name")
-                    .setRelativeTo(conwayFrame)
-                    .setLabelText("Save Conway state file name")
-                    .setFieldTooltip("A valid filename")
-                    .setSubmitButtonText("Save Conway State"));
-
-            if (StringUtil.isNullOrEmpty(saveName)) return;
+            Optional<String> optionalSaveName = GetterUtil.getInstance().getInput(
+                    new GetInputBuilder("Save name", "Save Conway state file name")
+                            .setRelativeTo(conwayFrame)
+                            .setFieldHintText("Valid filename")
+                            .setSubmitButtonText("Save Conway State"));
+            if (optionalSaveName.isEmpty()) return;
+            String saveName = optionalSaveName.get();
 
             String filename = saveName + Extension.JSON.getExtension();
 

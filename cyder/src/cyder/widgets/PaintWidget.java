@@ -13,6 +13,7 @@ import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.GenesisConstants;
+import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
@@ -42,6 +43,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Optional;
 
 /**
  * A painting widget, not currently intended to be able to edit/markup images.
@@ -136,12 +138,13 @@ public final class PaintWidget {
                 defaultFilename = base + increment + Extension.PNG.getExtension();
             }
 
-            String filename = GetterUtil.getInstance().getString(new GetterUtil.Builder("Filename")
-                    .setRelativeTo(paintFrame)
-                    .setInitialString(defaultFilename)
-                    .setSubmitButtonColor(CyderColors.regularPink)
-                    .setSubmitButtonText("Save Image")
-                    .setFieldTooltip("The filename to save the image as"));
+            Optional<String> optionalFilename = GetterUtil.getInstance().getInput(
+                    new GetInputBuilder("Filename", "Enter the filename to save the image as")
+                            .setRelativeTo(paintFrame)
+                            .setInitialFieldText(defaultFilename)
+                            .setSubmitButtonText("Save Image"));
+            if (optionalFilename.isEmpty()) return;
+            String filename = optionalFilename.get();
 
             if (!filename.endsWith(Extension.PNG.getExtension())) {
                 filename += Extension.PNG.getExtension();
@@ -196,11 +199,14 @@ public final class PaintWidget {
         }, "Paint Grid Image Layerer"));
         paintFrame.addMenuItem("Pixelate", () -> CyderThreadRunner.submit(() -> {
             try {
-                String pixelSizeString = GetterUtil.getInstance().getString(new GetterUtil.Builder("Enter Pixel Size")
-                        .setFieldTooltip("Pixel size")
-                        .setRelativeTo(paintFrame)
-                        .setSubmitButtonText("Pixelate Grid")
-                        .setInitialString(String.valueOf(1)));
+                Optional<String> optionalPixelSizeString = GetterUtil.getInstance().getInput(
+                        new GetInputBuilder("Pixelator", "Enter the pixel size")
+                                .setFieldHintText("Pixel size")
+                                .setRelativeTo(paintFrame)
+                                .setSubmitButtonText("Pixelate Grid")
+                                .setInitialFieldText(String.valueOf(1)));
+                if (optionalPixelSizeString.isEmpty()) return;
+                String pixelSizeString = optionalPixelSizeString.get();
 
                 int pixelSize = Integer.parseInt(pixelSizeString);
 
@@ -251,11 +257,14 @@ public final class PaintWidget {
         }, "Paint Grid Pixelator"));
         paintFrame.addMenuItem("Scale", () -> CyderThreadRunner.submit(() -> {
             try {
-                String dimension = GetterUtil.getInstance().getString(new GetterUtil.Builder("Enter length")
-                        .setFieldTooltip("Grid Length")
-                        .setRelativeTo(paintFrame)
-                        .setSubmitButtonText("Scale grid")
-                        .setInitialString(String.valueOf(cyderGrid.getNodeDimensionLength())));
+                Optional<String> optionalDimension = GetterUtil.getInstance().getInput(
+                        new GetInputBuilder("Enter length", "Enter the canvas length")
+                                .setFieldHintText("Grid Length")
+                                .setRelativeTo(paintFrame)
+                                .setSubmitButtonText("Scale grid")
+                                .setInitialFieldText(String.valueOf(cyderGrid.getNodeDimensionLength())));
+                if (optionalDimension.isEmpty()) return;
+                String dimension = optionalDimension.get();
 
                 int dimensionInt = Integer.parseInt(dimension);
 

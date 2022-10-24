@@ -11,6 +11,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
@@ -24,6 +25,7 @@ import cyder.utils.UiUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.util.Optional;
 
 /**
  * A tic tac toe game widget.
@@ -93,12 +95,12 @@ public final class TttGame {
         tttFrame.setTitle("TicTacToe");
         tttFrame.addMenuItem("Board Size", () -> CyderThreadRunner.submit(() -> {
             try {
-                String sizeString = GetterUtil.getInstance().getString(
-                        new GetterUtil.Builder("Board Size")
-                                .setLabelText("Board size")
-                                .setInitialString(String.valueOf(boardLength))
+                Optional<String> optionalSizeString = GetterUtil.getInstance().getInput(
+                        new GetInputBuilder("Board Size", String.valueOf(boardLength))
                                 .setFieldRegex("[0-7]")
                                 .setRelativeTo(tttFrame));
+                if (optionalSizeString.isEmpty()) return;
+                String sizeString = optionalSizeString.get();
 
                 try {
                     int newBoardLength = Integer.parseInt(sizeString);

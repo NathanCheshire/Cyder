@@ -482,6 +482,22 @@ public class CyderTextField extends JTextField {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setHorizontalAlignment(int alignment) {
+        if (alignment == JTextField.LEFT) {
+            setHintTextAlignment(HintTextAlignment.LEFT);
+        } else if (alignment == JTextField.RIGHT) {
+            setHintTextAlignment(HintTextAlignment.RIGHT);
+        } else if (alignment == JTextField.CENTER) {
+            setHintTextAlignment(HintTextAlignment.CENTER);
+        }
+
+        super.setHorizontalAlignment(alignment);
+    }
+
+    /**
      * Adds the hint text focus listener to this field.
      */
     @ForReadability

@@ -15,6 +15,7 @@ import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
@@ -460,15 +461,18 @@ public final class UserEditor {
             CyderThreadRunner.submit(() -> {
                 GetterUtil instance = GetterUtil.getInstance();
                 addGetterInstance(instance);
-                String newName = instance.getString(
-                        new GetterUtil.Builder("Rename " + filename)
-                                .setLabelText("Rename " + filename)
-                                .setFieldTooltip("Enter a valid file name (extension will be handled)")
+                Optional<String> optionalNewName = instance.getInput(
+                        new GetInputBuilder("Rename " + filename, "Rename " + filename)
+                                .setFieldHintText("myFileName")
                                 .setRelativeTo(editUserFrame)
                                 .setSubmitButtonText("Rename")
-                                .setInitialString(FileUtil.getFilename(selectedFile)));
+                                .setInitialFieldText(FileUtil.getFilename(selectedFile)));
+                if (optionalNewName.isEmpty()) {
+                    editUserFrame.notify("File not renamed");
+                    return;
+                }
 
-                if (StringUtil.isNullOrEmpty(newName)) return;
+                String newName = optionalNewName.get();
 
                 String newFilenameAndExtension = newName + FileUtil.getExtension(selectedFile);
 

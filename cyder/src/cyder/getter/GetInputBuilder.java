@@ -46,7 +46,7 @@ public final class GetInputBuilder extends GetBuilder {
     /**
      * The submit button color
      */
-    private Color submitButtonColor = CyderColors.navy;
+    private Color submitButtonColor = CyderColors.regularRed;
 
     /**
      * The initial field text.

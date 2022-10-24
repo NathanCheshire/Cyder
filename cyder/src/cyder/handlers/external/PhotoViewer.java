@@ -3,6 +3,7 @@ package cyder.handlers.external;
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
+import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
@@ -14,7 +15,6 @@ import cyder.ui.drag.button.RightButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.user.UserUtil;
 import cyder.utils.FileUtil;
-import cyder.utils.StringUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -24,6 +24,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
+import java.util.Optional;
 
 /**
  * A widget which displays the images supported by Cyder in a provided directory.
@@ -285,15 +286,16 @@ public class PhotoViewer {
 
         CyderThreadRunner.submit(() -> {
             try {
-                String name = GetterUtil.getInstance().getString(new GetterUtil.Builder("Rename")
-                        .setRelativeTo(pictureFrame)
-                        .setFieldTooltip("Valid filename")
-                        .setSubmitButtonText("Rename"));
-
-                if (StringUtil.isNullOrEmpty(name)) {
+                Optional<String> optionalName = GetterUtil.getInstance().getInput(
+                        new GetInputBuilder("Rename", "New filename")
+                                .setRelativeTo(pictureFrame)
+                                .setFieldHintText("Valid filename")
+                                .setSubmitButtonText("Rename"));
+                if (optionalName.isEmpty()) {
                     pictureFrame.notify("File not renamed");
                     return;
                 }
+                String name = optionalName.get();
 
                 File oldName = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
                 String replaceOldName = FileUtil.getFilename(oldName);

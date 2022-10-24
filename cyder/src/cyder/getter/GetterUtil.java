@@ -27,10 +27,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
@@ -138,15 +135,16 @@ public class GetterUtil {
     // todo optional
 
     /**
-     * Custom getString() method, see usage below for how to
-     * setup so that the calling thread is not blocked.
+     * Opens up a field with a label and text field for the user to enter some input to be returned.
      * <p>
-     * USAGE:
+     * See usage below for how to setup usage of this method so that the calling thread is not blocked.
+     * <p>
+     * Usage:
      * <pre>
      *  {@code
      *  CyderThreadRunner.submit(() -> {
      *      try {
-     *          String input = GetterUtil().getInstance().getString(getterBuilder);
+     *          String input = GetterUtil().getInstance().getInput(getInputBuilder);
      *          // Other operations using input
      *      } catch (Exception e) {
      *          ErrorHandler.handle(e);
@@ -155,26 +153,25 @@ public class GetterUtil {
      *  }
      *  </pre>
      *
-     * @param builder the builder to use
-     * @return the user entered input string. NOTE: if any improper
-     * input is attempted to be returned, this function returns
-     * the string literal of NULL instead of {@code null}
+     * @param getInputBuilder the GetInputBuilder to use
+     * @return the user entered input if present. Empty optional in the case of nothing/pure whitespace
      */
-    public String getString(Builder builder) {
-        checkNotNull(builder);
-        checkNotNull(builder.getLabelText());
+    public Optional<String> getInput(GetInputBuilder getInputBuilder) {
+        checkNotNull(getInputBuilder);
+        checkNotNull(getInputBuilder.getLabelText());
 
         AtomicReference<String> returnString = new AtomicReference<>();
 
-        String threadName = "GetString Waiter thread, title = \"" + builder.getTitle() + CyderStrings.quote;
+        String threadName = "GetString Waiter thread, title = \"" + getInputBuilder.getFrameTitle()
+                + CyderStrings.quote;
         CyderThreadRunner.submit(() -> {
             try {
                 BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(
-                        builder.getLabelText(), CyderFonts.DEFAULT_FONT, GET_STRING_MIN_WIDTH);
+                        getInputBuilder.getLabelText(), getInputBuilder.getLabelFont(), GET_STRING_MIN_WIDTH);
 
                 int width = boundsString.width() + 2 * GET_STRING_X_PADDING;
                 int height = boundsString.height() + 2 * GET_STRING_Y_PADDING;
-                builder.setLabelText(boundsString.text());
+                String parsedLabelText = boundsString.text();
 
                 int componentWidth = width - 2 * GET_STRING_X_PADDING;
                 int componentHeight = 40;
@@ -185,13 +182,13 @@ public class GetterUtil {
                 getStringFrames.add(inputFrame);
                 inputFrame.addPreCloseAction(() -> getStringFrames.remove(inputFrame));
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
-                inputFrame.setTitle(builder.getTitle());
-                if (builder.getOnDialogDisposalRunnable() != null) {
-                    inputFrame.addPostCloseAction(builder.getOnDialogDisposalRunnable());
-                }
+                inputFrame.setTitle(getInputBuilder.getFrameTitle());
+                getInputBuilder.getOnDialogDisposalRunnables().forEach(inputFrame::addPostCloseAction);
 
                 int yOff = CyderDragLabel.DEFAULT_HEIGHT + GET_STRING_Y_PADDING;
-                CyderLabel textLabel = new CyderLabel(builder.getLabelText());
+                CyderLabel textLabel = new CyderLabel(parsedLabelText);
+                textLabel.setForeground(getInputBuilder.getLabelColor());
+                textLabel.setFont(getInputBuilder.getLabelFont());
                 textLabel.setBounds(GET_STRING_X_PADDING, yOff, boundsString.width(), boundsString.height());
                 inputFrame.getContentPane().add(textLabel);
 
@@ -200,17 +197,18 @@ public class GetterUtil {
                 CyderTextField inputField = new CyderTextField();
                 inputField.setHorizontalAlignment(JTextField.CENTER);
                 inputField.setBackground(Color.white);
-                String regex = builder.getFieldRegex();
-                if (!StringUtil.isNullOrEmpty(regex)) {
-                    inputField.setKeyEventRegexMatcher(regex);
-                }
 
-                String initialString = builder.getInitialString();
-                if (!StringUtil.isNullOrEmpty(initialString)) inputField.setText(initialString);
+                String fieldText = getInputBuilder.getInitialFieldText();
+                if (!StringUtil.isNullOrEmpty(fieldText)) inputField.setText(fieldText);
 
-                String tooltip = builder.getFieldTooltip();
-                if (!StringUtil.isNullOrEmpty(tooltip)) inputField.setToolTipText(tooltip);
+                String fieldHintText = getInputBuilder.getFieldHintText();
+                if (!StringUtil.isNullOrEmpty(fieldHintText)) inputField.setHintText(fieldHintText);
 
+                String fieldRegex = getInputBuilder.getFieldRegex();
+                if (!StringUtil.isNullOrEmpty(fieldRegex)) inputField.setKeyEventRegexMatcher(fieldRegex);
+
+                inputField.setForeground(getInputBuilder.getFieldForeground());
+                inputField.setFont(getInputBuilder.getFieldFont());
                 inputField.setBounds(GET_STRING_X_PADDING, yOff, componentWidth, componentHeight);
                 inputFrame.getContentPane().add(inputField);
 
@@ -222,22 +220,27 @@ public class GetterUtil {
                     inputFrame.dispose();
                 };
 
-                CyderButton submit = new CyderButton(builder.getSubmitButtonText());
-                submit.setBackground(builder.getSubmitButtonColor());
+                CyderButton submit = new CyderButton(getInputBuilder.getSubmitButtonText());
+                submit.setBackground(getInputBuilder.getSubmitButtonColor());
                 inputField.addActionListener(e -> submitAction.run());
                 submit.setBorder(GET_STRING_SUBMIT_BUTTON_BORDER);
-                submit.setFont(CyderFonts.SEGOE_20);
+                submit.setFont(getInputBuilder.getSubmitButtonFont());
                 submit.setForeground(CyderColors.navy);
                 submit.addActionListener(e -> submitAction.run());
                 submit.setBounds(GET_STRING_X_PADDING, yOff, componentWidth, componentHeight);
                 inputFrame.getContentPane().add(submit);
 
-                inputFrame.addPreCloseAction(() -> returnString.set((inputField.getText() == null
-                        || inputField.getText().isEmpty()
-                        || inputField.getText().equals(builder.getInitialString()) ? NULL : inputField.getText())));
+                inputFrame.addPreCloseAction(() -> {
+                    String input = inputField.getTrimmedText();
+                    if (!input.isEmpty()) {
+                        returnString.set(input);
+                    } else {
+                        returnString.set(NULL);
+                    }
+                });
 
-                Component relativeTo = builder.getRelativeTo();
-                if (relativeTo != null && builder.isDisableRelativeTo()) {
+                Component relativeTo = getInputBuilder.getRelativeTo();
+                if (relativeTo != null && getInputBuilder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
                     inputFrame.addPostCloseAction(generateGetterFramePostCloseAction(relativeTo));
                 }
@@ -250,14 +253,17 @@ public class GetterUtil {
         }, threadName);
 
         try {
-            while (returnString.get() == null) {
-                Thread.onSpinWait();
-            }
+            while (returnString.get() == null) Thread.onSpinWait();
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
 
-        return returnString.get();
+        String ret = returnString.get();
+        if (StringUtil.isNullOrEmpty(ret)) {
+            return Optional.empty();
+        } else {
+            return Optional.of(ret);
+        }
     }
 
     /**

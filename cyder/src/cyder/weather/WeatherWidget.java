@@ -12,6 +12,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
+import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
@@ -491,11 +492,11 @@ public class WeatherWidget {
         weatherFrame.setMenuEnabled(true);
         weatherFrame.addMenuItem("Location", () -> CyderThreadRunner.submit(() -> {
             getterUtilInstance.closeAllGetFrames();
-            String newLocation = getterUtilInstance.getString(changeLocationBuilder);
+            Optional<String> optionalNewLocation = getterUtilInstance.getInput(changeLocationBuilder);
 
             try {
-                if (StringUtil.isNullOrEmpty(newLocation)) return;
-
+                if (optionalNewLocation.isEmpty()) return;
+                String newLocation = optionalNewLocation.get();
                 previousLocationString = currentLocationString;
                 String[] newLocationParts = newLocation.split(CyderStrings.comma);
 
@@ -703,12 +704,11 @@ public class WeatherWidget {
     /**
      * The builder for changing the current weather location.
      */
-    private final GetterUtil.Builder changeLocationBuilder = new GetterUtil.Builder(CHANGE_LOCATION)
+    private final GetInputBuilder changeLocationBuilder = new GetInputBuilder(CHANGE_LOCATION, changeLocationHtmlText)
             .setRelativeTo(weatherFrame)
             .setSubmitButtonText(CHANGE_LOCATION)
-            .setInitialString(currentLocationString)
-            .setSubmitButtonColor(CyderColors.notificationForegroundColor)
-            .setLabelText(changeLocationHtmlText);
+            .setInitialFieldText(currentLocationString)
+            .setSubmitButtonColor(CyderColors.notificationForegroundColor);
 
     /**
      * The thread name for the weather stats updater.

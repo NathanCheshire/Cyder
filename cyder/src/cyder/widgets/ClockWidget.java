@@ -11,6 +11,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.AngleUtil;
@@ -509,17 +510,16 @@ public final class ClockWidget {
     @ForReadability
     private static Runnable getLocationButtonClickRunnable() {
         return () -> CyderThreadRunner.submit(() -> {
-            String possibleLocation = GetterUtil.getInstance().getString(new GetterUtil.Builder(LOCATION)
-                    .setLabelText(locationLabelText)
-                    .setInitialString(currentLocation)
-                    .setSubmitButtonText(SET_LOCATION)
-                    .setRelativeTo(clockFrame)
-                    .setDisableRelativeTo(true));
-
-            if (StringUtil.isNullOrEmpty(possibleLocation)) return;
+            Optional<String> optionalPossibleLocation = GetterUtil.getInstance().getInput(
+                    new GetInputBuilder(LOCATION, locationLabelText)
+                            .setInitialFieldText(currentLocation)
+                            .setSubmitButtonText(SET_LOCATION)
+                            .setRelativeTo(clockFrame)
+                            .setDisableRelativeTo(true));
+            if (optionalPossibleLocation.isEmpty()) return;
+            String possibleLocation = optionalPossibleLocation.get();
 
             Optional<WeatherData> optionalWeatherData = WeatherUtil.getWeatherData(possibleLocation);
-
             if (optionalWeatherData.isEmpty()) {
                 Console.INSTANCE.getConsoleCyderFrame().inform("Sorry, "
                         + "but the Weather Key has not been set or is invalid"
@@ -575,23 +575,24 @@ public final class ClockWidget {
     /**
      * The builder for getting the theme color.
      */
-    private static final GetterUtil.Builder themeColorBuilder = new GetterUtil.Builder(THEME_COLOR)
+    private static final GetInputBuilder themeColorBuilder = new GetInputBuilder(THEME_COLOR, "Theme color")
             .setRelativeTo(clockFrame)
             .setFieldRegex(colorThemeFieldRegex)
-            .setInitialString(ColorUtil.rgbToHexString(clockColor));
+            .setInitialFieldText(ColorUtil.rgbToHexString(clockColor));
 
     @ForReadability
     private static Runnable getColorButtonClickRunnable() {
         return () -> CyderThreadRunner.submit(() -> {
-            String text = GetterUtil.getInstance().getString(themeColorBuilder).trim();
-            if (StringUtil.isNullOrEmpty(text)) return;
+            Optional<String> optionalColor = GetterUtil.getInstance().getInput(themeColorBuilder);
+            if (optionalColor.isEmpty()) return;
+            String colorText = optionalColor.get().trim();
 
             Color newColor;
 
             try {
-                newColor = ColorUtil.hexStringToColor(text);
+                newColor = ColorUtil.hexStringToColor(colorText);
             } catch (Exception ignored) {
-                clockFrame.notify("Could not parse input for hex color: " + text);
+                clockFrame.notify("Could not parse input for hex color: " + colorText);
                 return;
             }
 

@@ -15,6 +15,7 @@ import cyder.enums.CyderInspection;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
@@ -994,45 +995,45 @@ public final class AudioPlayer {
         }
 
         CyderThreadRunner.submit(() -> {
-            String saveName = GetterUtil.getInstance().getString(
-                    new GetterUtil.Builder("Export Waveform")
+            Optional<String> optionalSaveName = GetterUtil.getInstance().getInput(
+                    new GetInputBuilder("Export Waveform", "Enter a name to export the waveform as")
                             .setRelativeTo(audioPlayerFrame)
-                            .setLabelText("Enter a name to export the waveform as")
                             .setSubmitButtonText("Save to files")
-                            .setInitialString(FileUtil.getFilename(getCurrentAudio()) + "_waveform"));
+                            .setInitialFieldText(FileUtil.getFilename(getCurrentAudio()) + "_waveform"));
+            if (optionalSaveName.isEmpty()) return;
+            String saveName = optionalSaveName.get();
 
-            if (!StringUtil.isNullOrEmpty(saveName)) {
-                if (OsUtil.isValidFilename(saveName)) {
-                    File saveFile = OsUtil.buildFile(
-                            Dynamic.PATH,
-                            Dynamic.USERS.getDirectoryName(),
-                            Console.INSTANCE.getUuid(),
-                            UserFile.FILES.getName(),
-                            saveName + "." + WAVEFORM_EXPORT_FORMAT);
+            if (OsUtil.isValidFilename(saveName)) {
+                File saveFile = OsUtil.buildFile(
+                        Dynamic.PATH,
+                        Dynamic.USERS.getDirectoryName(),
+                        Console.INSTANCE.getUuid(),
+                        UserFile.FILES.getName(),
+                        saveName + "." + WAVEFORM_EXPORT_FORMAT);
 
-                    Future<BufferedImage> waveform = MessagingUtils.generateLargeWaveform(currentAudioFile.get());
+                Future<BufferedImage> waveform = MessagingUtils.generateLargeWaveform(currentAudioFile.get());
 
-                    waveformExporterLocked.set(true);
+                waveformExporterLocked.set(true);
 
-                    while (!waveform.isDone()) {
-                        Thread.onSpinWait();
-                    }
-
-                    waveformExporterLocked.set(false);
-
-                    try {
-                        ImageIO.write(waveform.get(), WAVEFORM_EXPORT_FORMAT, saveFile.getAbsoluteFile());
-                        audioPlayerFrame.notify(new CyderFrame.NotificationBuilder
-                                ("Saved waveform to your files directory")
-                                .setOnKillAction(() -> PhotoViewer.getInstance(saveFile).showGui()));
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                        audioPlayerFrame.notify("Could not save waveform at this time");
-                    }
-                } else {
-                    audioPlayerFrame.notify("Invalid filename for " + OsUtil.OPERATING_SYSTEM_NAME);
+                while (!waveform.isDone()) {
+                    Thread.onSpinWait();
                 }
+
+                waveformExporterLocked.set(false);
+
+                try {
+                    ImageIO.write(waveform.get(), WAVEFORM_EXPORT_FORMAT, saveFile.getAbsoluteFile());
+                    audioPlayerFrame.notify(new CyderFrame.NotificationBuilder
+                            ("Saved waveform to your files directory")
+                            .setOnKillAction(() -> PhotoViewer.getInstance(saveFile).showGui()));
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                    audioPlayerFrame.notify("Could not save waveform at this time");
+                }
+            } else {
+                audioPlayerFrame.notify("Invalid filename for " + OsUtil.OPERATING_SYSTEM_NAME);
             }
+
         }, "AudioPlayer Waveform Exporter");
     };
 
