@@ -472,8 +472,6 @@ public final class MessagingUtils {
      */
     private static final String SAVE = "Save";
 
-    // todo rename to image or something
-
     /**
      * Generates and returns a file preview for the provided image file.
      *
@@ -481,7 +479,7 @@ public final class MessagingUtils {
      * @param onSaveRunnable the runnable to invoke when the save button is pressed
      * @return the label with the image preview and save button
      */
-    public static JLabel generatePicturePreviewLabel(File imageFile, Runnable onSaveRunnable) {
+    public static JLabel generateImagePreviewLabel(File imageFile, Runnable onSaveRunnable) {
         Preconditions.checkNotNull(imageFile);
         Preconditions.checkArgument(imageFile.exists());
         Preconditions.checkNotNull(onSaveRunnable);

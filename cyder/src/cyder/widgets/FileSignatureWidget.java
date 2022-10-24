@@ -5,6 +5,7 @@ import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.*;
 import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
 import cyder.threads.CyderThreadRunner;
@@ -12,7 +13,6 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
-import cyder.utils.GetterUtil;
 
 import javax.swing.*;
 import java.awt.*;

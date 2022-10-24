@@ -1,6 +1,5 @@
-package cyder.utils;
+package cyder.getter;
 
-import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
@@ -18,6 +17,9 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.pane.CyderScrollList;
 import cyder.user.UserUtil;
+import cyder.utils.BoundsUtil;
+import cyder.utils.OsUtil;
+import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -32,7 +34,6 @@ import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -135,6 +136,7 @@ public class GetterUtil {
             = new LineBorder(CyderColors.navy, 5, false);
 
     // todo optional
+
     /**
      * Custom getString() method, see usage below for how to
      * setup so that the calling thread is not blocked.
@@ -349,6 +351,7 @@ public class GetterUtil {
     private static final LineBorder BUTTON_BORDER = new LineBorder(CyderColors.navy, 5, false);
 
     // todo optional
+
     /**
      * Custom getFile method, see usage below for how to setup so that the program doesn't
      * spin wait on the main GUI thread forever. Ignoring the below setup
@@ -777,89 +780,49 @@ public class GetterUtil {
         };
     }
 
-    public abstract class GetBuilder {
-        public abstract String getFrameTitle();
-
-        public abstract void setFrameTitle(String frameTitle);
-
-        public abstract Component getDisableRelativeTo();
-
-        public abstract void setDisableRelativeTo(Component component);
-
-        public abstract ImmutableList<Runnable> getOnDialogDisposalRunnables();
-
-        public abstract void addOnDialogDisposalRunnable(Runnable onDialogDisposalRunnable);
-    }
-
-    public static class GetInputBuilder {
-        private String frameTitle;
-
-        private String labelText;
-        private Font labelFont;
-        private Color labelColor;
-
-        private String submitButtonText;
-        private Font submitButtonFont;
-        private Color submitButtonColor;
-
-        private String initialFieldText;
-        private String fieldHintText;
-        private Font fieldFont;
-        private Color fieldForeground;
-
-        private boolean disableRelativeTo;
-        private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
-    }
-
-    public static class GetFileBuilder {
-        private String frameTitle;
-
-        private File initialDirectory;
-        private String initialFieldText;
-        private Color fieldForeground;
-        private Font fieldFont;
-
-        private boolean isFileSelection;
-        private boolean isFolderSelection;
-
-        private String submitButtonText;
-        private Font submitButtonFont;
-        private Color submitButtonColor;
-
-        private boolean disableRelativeTo;
-        private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
-    }
-
-    public static class GetConfirmationBuilder {
-        private String frameTitle;
-
-        private String labelText;
-        private Font labelFont;
-        private Color labelColor;
-
-        private String yesButtonText;
-        private Color yesButtonColor;
-        private Font yesButtonFont;
-
-        private String noButtonText;
-        private Color noButtonColor;
-        private Font noButtonFont;
-
-        private boolean disableRelativeTo;
-        private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
-    }
-
-    // todo builder for each getter method
+    // todo implement me
+    //    public static class GetFileBuilder {
+    //        private String frameTitle;
+    //
+    //        private File initialDirectory;
+    //        private String initialFieldText;
+    //        private Color fieldForeground;
+    //        private Font fieldFont;
+    //
+    //        private boolean isFileSelection;
+    //        private boolean isFolderSelection;
+    //
+    //        private String submitButtonText;
+    //        private Font submitButtonFont;
+    //        private Color submitButtonColor;
+    //
+    //        private boolean disableRelativeTo;
+    //        private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
+    //    }
+    //
+    //    public static class GetConfirmationBuilder {
+    //        private String frameTitle;
+    //
+    //        private String labelText;
+    //        private Font labelFont;
+    //        private Color labelColor;
+    //
+    //        private String yesButtonText = "Yes";
+    //        private Color yesButtonColor;
+    //        private Font yesButtonFont;
+    //
+    //        private String noButtonText = "No";
+    //        private Color noButtonColor;
+    //        private Font noButtonFont;
+    //
+    //        private boolean disableRelativeTo;
+    //        private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
+    //    }
 
     /**
      * A builder for a getter frame.
      */
     public static class Builder {
-        /**
-         * The minimum text length of a getter frame title.
-         */
-        public static final int MINIMUM_TITLE_LENGTH = 3;
-
         /**
          * The title of the frame.
          */
@@ -928,7 +891,7 @@ public class GetterUtil {
          */
         public Builder(String title) {
             checkNotNull(title);
-            checkArgument(title.length() >= MINIMUM_TITLE_LENGTH);
+
             this.title = title;
             this.labelText = title;
 
