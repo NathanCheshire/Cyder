@@ -320,11 +320,20 @@ public class UnitTests {
         assertEquals(StringUtil.levenshteinDistance("distance", "levenshtein"), 10);
     }
 
+    private static final String defineString = "definition";
+
+    /**
+     * The expected definition for the define string.
+     */
+    private static final String expectedDefinition = "The Act Of Defining, Or Of Making Something Definite,"
+            + " Distinct, or Clear: We Need A Better Definition Of Her Responsibilities.";
+
     @Test
     public void testDefine() {
-        assertEquals(StringUtil.getDefinition("definition"),
-                "The Act Of Defining, Or Of Making Something Definite, Distinct, " +
-                        "Or Clear: We Need A Better Definition Of Her Responsibilities.");
+        Optional<String> optionalDefinition = StringUtil.getDefinition(defineString);
+        assertTrue(optionalDefinition.isPresent());
+        String definition = optionalDefinition.get();
+        assertEquals(expectedDefinition, definition);
     }
 
     /**

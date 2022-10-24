@@ -10,11 +10,11 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.math.NumberUtil;
+import cyder.network.IpUtil;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.time.TimeUtil;
 import cyder.user.UserUtil;
-import cyder.utils.IPUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.StringUtil;
@@ -184,14 +184,14 @@ public class GeneralPrintHandler extends InputHandler {
             BletchyThread.bletchy(getInputHandler().argsToString(), false, 50, true);
         } else if (getInputHandler().commandIs("dst")) {
             CyderThreadRunner.submit(() -> {
-                String location = IPUtil.getIpData().getCity() + ", "
-                        + IPUtil.getIpData().getRegion() + ", "
-                        + IPUtil.getIpData().getCountry_name();
+                String location = IpUtil.getIpData().getCity() + ", "
+                        + IpUtil.getIpData().getRegion() + ", "
+                        + IpUtil.getIpData().getCountry_name();
 
-                if (IPUtil.getIpData().getTime_zone().isIs_dst()) {
-                    getInputHandler().println("Yes, DST is underway in " + location + ".");
+                if (IpUtil.getIpData().getTime_zone().isIs_dst()) {
+                    getInputHandler().println("DST is underway in " + location + ".");
                 } else {
-                    getInputHandler().println("No, DST is not underway in " + location + ".");
+                    getInputHandler().println("DST is not underway in " + location + ".");
                 }
             }, "DST Checker");
         } else if ((getInputHandler().commandAndArgsToString()

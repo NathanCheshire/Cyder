@@ -14,7 +14,6 @@ import cyder.math.NumberUtil;
 import cyder.network.NetworkUtil;
 import cyder.ui.pane.CyderOutputPane;
 import org.atteo.evo.inflector.English;
-import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -32,7 +31,7 @@ import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 /**
- * String utility methods along with some JTextPane utility methods
+ * String utility methods along with JTextPane utility methods
  * <p>
  * Note: these methods are not thread safe and thus this class should be externally synchronized
  * to achieve thread safety. Typically, in Cyder, this is performed via using a {@link CyderOutputPane}
@@ -78,7 +77,9 @@ public class StringUtil {
         return linkedCyderPane;
     }
 
-    //begin util methods for an instance which require synchronization --------------------------------------
+    // ---------------------------------
+    // Methods which require an instance
+    // ---------------------------------
 
     /**
      * Removes the first object from the linked pane, this could be anything from a Component to a String.
@@ -364,18 +365,33 @@ public class StringUtil {
         newline();
     }
 
-    // -----------------------------------------------------------
-    // end methods which require instantiation and synchronization
-    // -----------------------------------------------------------
+    // ------------------------------------
+    // End methods which require an instance
+    // ------------------------------------
 
     /**
      * The text used to generate a menu separation label.
      */
     private static final String magicMenuSepText = "NateCheshire";
 
+    /**
+     * The starting x value for a menu separation.
+     */
     private static final int menuSepX = 0;
+
+    /**
+     * The starting y value for a menu separation.
+     */
     private static final int menuSepY = 7;
+
+    /**
+     * The width of menu separation components.
+     */
     private static final int menuSepWidth = 175;
+
+    /**
+     * The height of menu separation components.
+     */
     private static final int menuSepHeight = 5;
 
     /**
@@ -410,11 +426,8 @@ public class StringUtil {
             @Override
             public void paintComponent(Graphics g) {
                 g.setColor(getForeground());
-                g.fillRect(
-                        (int) menuSepBounds.getX(),
-                        (int) menuSepBounds.getY(),
-                        (int) menuSepBounds.getWidth(),
-                        (int) menuSepBounds.getHeight());
+                g.fillRect((int) menuSepBounds.getX(), (int) menuSepBounds.getY(),
+                        (int) menuSepBounds.getWidth(), (int) menuSepBounds.getHeight());
                 g.dispose();
             }
         };
@@ -425,11 +438,13 @@ public class StringUtil {
     /**
      * Reverses the given array
      *
-     * @param Array the array to reverse
+     * @param array the array to reverse
      * @return the reversed array
      */
-    public static char[] reverseArray(char[] Array) {
-        String reverse = new StringBuilder(new String(Array)).reverse().toString();
+    public static char[] reverseArray(char[] array) {
+        Preconditions.checkNotNull(array);
+
+        String reverse = new StringBuilder(new String(array)).reverse().toString();
         return reverse.toCharArray();
     }
 
@@ -503,7 +518,8 @@ public class StringUtil {
     public static boolean isPalindrome(String word) {
         Preconditions.checkNotNull(word);
 
-        return Arrays.equals(word.toLowerCase().toCharArray(), reverseArray(word.toLowerCase().toCharArray()));
+        return Arrays.equals(word.toLowerCase().toCharArray(),
+                reverseArray(word.toLowerCase().toCharArray()));
     }
 
     /**
@@ -543,28 +559,19 @@ public class StringUtil {
     /**
      * Filters out simple leet speech from the provided string.
      *
-     * @param filter the word to filter leet out of
+     * @param string the string to filter leet out of
      * @return the resultant string after filtering
      */
-    public static String filterLeet(String filter) {
-        Preconditions.checkNotNull(filter);
+    public static String filterLeet(String string) {
+        Preconditions.checkNotNull(string);
 
-        if (filter.isEmpty()) {
-            return filter;
-        }
-
-        //split at spaces and run leet in each of those
-        String[] words = filter.split(CyderRegexPatterns.whiteSpaceRegex);
-
-        if (words.length == 0)
-            return filter;
+        if (string.isEmpty()) return string;
+        String[] words = string.split(CyderRegexPatterns.whiteSpaceRegex);
+        if (words.length == 0) return string;
 
         StringBuilder sb = new StringBuilder();
-
-        for (String word : words) {
-            sb.append(replaceLeet(word)).append(CyderStrings.space);
-        }
-
+        Arrays.stream(words).forEach(word ->
+                sb.append(replaceLeet(word)).append(CyderStrings.space));
         return sb.toString().trim();
     }
 
@@ -586,42 +593,43 @@ public class StringUtil {
             https://cleanspeak.com/images/blog/leet-wiki-table.png
              */
 
-            if (c == '4' || c == '@' || c == '^' || c == 'z')
+            if (c == '4' || c == '@' || c == '^' || c == 'z') {
                 chars[i] = 'a';
-            else if (c == '8' || c == '6')
+            } else if (c == '8' || c == '6') {
                 chars[i] = 'b';
-            else if (c == '(' || c == '<' || c == '{')
+            } else if (c == '(' || c == '<' || c == '{') {
                 chars[i] = 'c';
-            else if (c == '3' || c == '&')
+            } else if (c == '3' || c == '&') {
                 chars[i] = 'e';
-            else if (c == '}')
+            } else if (c == '}') {
                 chars[i] = 'f';
-            else if (c == '9')
+            } else if (c == '9') {
                 chars[i] = 'g';
-            else if (c == '#')
+            } else if (c == '#') {
                 chars[i] = 'h';
-            else if (c == '1' || c == '!' || c == '|')
+            } else if (c == '1' || c == '!' || c == '|') {
                 chars[i] = 'i';
-            else if (c == ']')
+            } else if (c == ']') {
                 chars[i] = 'j';
-            else if (c == '7')
+            } else if (c == '7') {
                 chars[i] = 'l';
-            else if (c == '~')
+            } else if (c == '~') {
                 chars[i] = 'n';
-            else if (c == '0')
+            } else if (c == '0') {
                 chars[i] = 'o';
-            else if (c == '?' || c == 'q')
+            } else if (c == '?' || c == 'q') {
                 chars[i] = 'p';
-            else if (c == '2')
+            } else if (c == '2') {
                 chars[i] = 'r';
-            else if (c == '$' || c == '5')
+            } else if (c == '$' || c == '5') {
                 chars[i] = 's';
-            else if (c == '+')
+            } else if (c == '+') {
                 chars[i] = 't';
-            else if (c == '*')
+            } else if (c == '*') {
                 chars[i] = 'x';
-            else if (c == '%')
+            } else if (c == '%') {
                 chars[i] = 'z';
+            }
         }
 
         return String.valueOf(chars);
@@ -780,7 +788,6 @@ public class StringUtil {
     /**
      * The name for the element to grab from the DOM returned when getting a Dictionary.com html document.
      */
-    @SuppressWarnings("SpellCheckingInspection")
     private static final String DEFINITION_ELEMENT_NAME = "one-click-content css-nnyc96 e1q3nk1v1";
 
     /**
@@ -789,30 +796,35 @@ public class StringUtil {
     private static final String DICTIONARY_BASE = "https://www.dictionary.com/browse/";
 
     /**
+     * The pad 10 class name of elements to remove from the JSoup document.
+     */
+    private static final String PAD_10 = "pad_10";
+
+    /**
+     * The pad 20 class name of elements to remove from the JSoup document.
+     */
+    private static final String PAD_20 = "pad_20";
+
+    /**
      * Searches Dictionary.com for the provided word.
      *
      * @param word the word to find a definition for
      * @return the definition of the requested word if found
      */
-    public static String getDefinition(String word) {
-        String ret;
-
+    public static Optional<String> getDefinition(String word) {
         try {
             Document doc = Jsoup.connect(DICTIONARY_BASE + word).get();
-            Elements els = doc.getElementsByClass(DEFINITION_ELEMENT_NAME)
-                    .not(".pad_10").not(".pad_20");
+            Elements els = doc.getElementsByClass(DEFINITION_ELEMENT_NAME).not(PAD_10).not(PAD_20);
             org.jsoup.nodes.Element htmlDescription = els.get(0);
 
             Document docParsed = Jsoup.parse(String.valueOf(htmlDescription));
-            ret = capsFirstWords(docParsed.text());
-        } catch (HttpStatusException e) {
-            ret = "Word not found; check your spelling";
+            String definition = docParsed.text();
+            return Optional.of(definition);
         } catch (Exception e) {
-            ret = "Definition not found";
             ExceptionHandler.silentHandle(e);
         }
 
-        return ret;
+        return Optional.empty();
     }
 
     /**
@@ -820,7 +832,11 @@ public class StringUtil {
      */
     private static final String WIKI_SUM_PROP = "&prop=extracts&exintro&explaintext&redirects=1&titles=";
 
-    // todo optional
+    /**
+     * The string to split the wikisum results on.
+     */
+    private static final String wikiSumSplitOn = CyderStrings.quote + "extract"
+            + CyderStrings.quote + CyderStrings.colon + CyderStrings.quote;
 
     /**
      * Web scrapes Wikipedia for the appropriate article and returns the body of the wiki article.
@@ -830,17 +846,14 @@ public class StringUtil {
      */
     public static Optional<String> getWikipediaSummary(String query) {
         try {
-            String ret;
             String queryUrl = CyderUrls.WIKIPEDIA_SUMMARY_BASE + WIKI_SUM_PROP
                     + query.replace(CyderRegexPatterns.whiteSpaceRegex, NetworkUtil.URL_SPACE);
             String urlContents = NetworkUtil.readUrl(queryUrl);
 
-            String splitOn = CyderStrings.quote + "extract"
-                    + CyderStrings.quote + CyderStrings.colon + CyderStrings.quote;
-            String[] serializedPageNumber = urlContents.split(splitOn);
-            ret = serializedPageNumber[1].replace("}", "");
-            ret = ret.substring(0, ret.length() - 1);
-            return Optional.of(ret);
+            String[] serializedPageNumber = urlContents.split(wikiSumSplitOn);
+            String result = serializedPageNumber[1].replace("}", "");
+            result = result.substring(0, result.length() - 1);
+            return Optional.of(result);
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
         }

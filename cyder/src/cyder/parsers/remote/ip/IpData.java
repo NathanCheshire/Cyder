@@ -5,7 +5,7 @@ import java.util.LinkedList;
 /**
  * An object for parsing returned ip data timezone objects.
  */
-public class IPData {
+public class IpData {
     private String ip;
     private boolean is_eu;
     private String city;

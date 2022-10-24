@@ -8,9 +8,9 @@ import cyder.logging.Logger;
 import java.util.function.Function;
 
 /**
- * A cache for a value.
+ * A cache for a type.
  *
- * @param <T> the type of cached value.
+ * @param <T> the type of cache.
  */
 public class Cache<T> {
     /**
@@ -56,6 +56,7 @@ public class Cache<T> {
      * @throws IllegalStateException if the cache value is not present
      */
     public T getCache() {
+        if (!isCachePresent() && cachedValueUpdater != null) refreshCachedValue();
         Preconditions.checkState(isCachePresent());
         return cachedValue;
     }

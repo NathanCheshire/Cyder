@@ -16,6 +16,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.math.AngleUtil;
+import cyder.network.IpUtil;
 import cyder.network.NetworkUtil;
 import cyder.parsers.remote.weather.WeatherData;
 import cyder.props.PropLoader;
@@ -969,7 +970,7 @@ public class WeatherWidget {
      */
     private String getGmtTimezoneLabelText() {
         String gmtPart = GMT + (Integer.parseInt(weatherDataGmtOffset) / SECONDS_IN_HOUR);
-        String dstPart = IPUtil.getIpData().getTime_zone().isIs_dst() ? CyderStrings.space + DST_ACTIVE : "";
+        String dstPart = IpUtil.getIpData().getTime_zone().isIs_dst() ? CyderStrings.space + DST_ACTIVE : "";
 
         return gmtPart + dstPart;
     }
@@ -1023,9 +1024,9 @@ public class WeatherWidget {
     protected void repullWeatherStats() {
         CyderThreadRunner.submit(() -> {
 
-            userCity = IPUtil.getIpData().getCity();
-            userState = IPUtil.getIpData().getRegion();
-            userCountry = IPUtil.getIpData().getCountry_name();
+            userCity = IpUtil.getIpData().getCity();
+            userState = IpUtil.getIpData().getRegion();
+            userCountry = IpUtil.getIpData().getCountry_name();
 
             if (!useCustomLoc) currentLocationString = userCity + ", " + userState + ", " + userCountry;
 
