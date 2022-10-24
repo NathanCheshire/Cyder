@@ -11,6 +11,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetConfirmationBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
@@ -622,10 +623,10 @@ public final class NotesWidget {
 
             boolean pendingChanges = !pendingChangesBuilder.isEmpty();
             if (pendingChanges) {
-                GetterUtil.Builder builder = new GetterUtil.Builder("Pending changes")
+                GetConfirmationBuilder builder
+                        = new GetConfirmationBuilder("Pending changes", pendingChangesBuilder.toString())
                         .setRelativeTo(noteFrame)
                         .setDisableRelativeTo(true)
-                        .setInitialString(pendingChangesBuilder.toString())
                         .setYesButtonText(EXIT)
                         .setNoButtonText(STAY);
                 boolean shouldGoBack = GetterUtil.getInstance().getConfirmation(builder);

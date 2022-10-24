@@ -10,6 +10,7 @@ import cyder.console.Console;
 import cyder.console.ConsoleConstants;
 import cyder.constants.*;
 import cyder.enums.Direction;
+import cyder.getter.GetConfirmationBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
@@ -1502,8 +1503,7 @@ public class CyderFrame extends JFrame {
 
                 if (closingConfirmationMessage != null) {
                     boolean exit = GetterUtil.getInstance().getConfirmation(
-                            new GetterUtil.Builder("Confirmation")
-                                    .setInitialString(closingConfirmationMessage)
+                            new GetConfirmationBuilder("Confirmation", closingConfirmationMessage)
                                     .setRelativeTo(this)
                                     .setDisableRelativeTo(true));
 

@@ -15,6 +15,7 @@ import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetConfirmationBuilder;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
@@ -1872,8 +1873,7 @@ public final class UserEditor {
             GetterUtil instance = GetterUtil.getInstance();
             addGetterInstance(instance);
             boolean delete = instance.getConfirmation(
-                    new GetterUtil.Builder("Deletion Confirmation")
-                            .setInitialString(confirmationString)
+                    new GetConfirmationBuilder("Deletion Confirmation", confirmationString)
                             .setRelativeTo(editUserFrame));
 
             if (!delete) {

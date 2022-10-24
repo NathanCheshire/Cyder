@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.ui.frame.CyderFrame;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -79,9 +80,9 @@ public final class GetInputBuilder extends GetBuilder {
     private boolean disableRelativeTo;
 
     /**
-     * The relative to component.
+     * The relative to frame.
      */
-    private Frame relativeTo;
+    private CyderFrame relativeTo;
 
     /**
      * The actions to invoke when the dialog is disposed.
@@ -359,7 +360,7 @@ public final class GetInputBuilder extends GetBuilder {
      * @return the relative to frame
      */
     @Override
-    public Frame getRelativeTo() {
+    public CyderFrame getRelativeTo() {
         return relativeTo;
     }
 
@@ -371,7 +372,7 @@ public final class GetInputBuilder extends GetBuilder {
      */
     @Override
     @CanIgnoreReturnValue
-    public GetInputBuilder setRelativeTo(Frame relativeTo) {
+    public GetInputBuilder setRelativeTo(CyderFrame relativeTo) {
         this.relativeTo = relativeTo;
         return this;
     }

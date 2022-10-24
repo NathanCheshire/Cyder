@@ -1,6 +1,6 @@
 package cyder.getter;
 
-import java.awt.*;
+import cyder.ui.frame.CyderFrame;
 
 /**
  * A base getter util builder for all specific get method builders to extend.
@@ -33,14 +33,14 @@ public abstract class GetBuilder {
      *
      * @return the component to set the getter frame relative to
      */
-    public abstract Frame getRelativeTo();
+    public abstract CyderFrame getRelativeTo();
 
     /**
      * Sets the component to set the getter frame relative to.
      *
-     * @param frame the component to set the getter frame relative to
+     * @param frame the frame to set the getter frame relative to
      */
-    public abstract GetBuilder setRelativeTo(Frame frame);
+    public abstract GetBuilder setRelativeTo(CyderFrame frame);
 
     /**
      * Adds the runnable as an on dialog disposal runnable.

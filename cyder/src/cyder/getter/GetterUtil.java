@@ -132,10 +132,8 @@ public class GetterUtil {
     private static final LineBorder GET_STRING_SUBMIT_BUTTON_BORDER
             = new LineBorder(CyderColors.navy, 5, false);
 
-    // todo optional
-
     /**
-     * Opens up a field with a label and text field for the user to enter some input to be returned.
+     * Opens up frame with a field and a label for the user to enter input to be returned.
      * <p>
      * See usage below for how to setup usage of this method so that the calling thread is not blocked.
      * <p>
@@ -653,15 +651,16 @@ public class GetterUtil {
     }
 
     /**
-     * Custom getInput() method, see usage below for how to
-     * setup so that the calling thread is not blocked.
+     * Opens up a frame with a label and a yes/no button for the user to confirm or deny some action.
      * <p>
-     * USAGE:
+     * See usage below for how to setup usage of this method so that the calling thread is not blocked.
+     * <p>
+     * Usage:
      * <pre>
      *  {@code
      *  CyderThreadRunner.submit(() -> {
      *      try {
-     *          String input = GetterUtil().getInstance().getConfirmation(getterBuilder);
+     *          String input = GetterUtil().getInstance().getConfirmation(getConfirmationBuilder);
      *          // Other operations using input
      *      } catch (Exception e) {
      *          ErrorHandler.handle(e);
@@ -670,23 +669,26 @@ public class GetterUtil {
      *  }
      *  </pre>
      *
-     * @param builder the builder to use
-     * @return whether the user confirmed the operation
+     * @param getConfirmationBuilder the getConfirmationBuilder to use
+     * @return whether the user approved the requested action
      */
-    public boolean getConfirmation(Builder builder) {
-        checkNotNull(builder);
+    public boolean getConfirmation(GetConfirmationBuilder getConfirmationBuilder) {
+        checkNotNull(getConfirmationBuilder);
 
         AtomicReference<Boolean> ret = new AtomicReference<>();
         ret.set(null);
         AtomicReference<CyderFrame> frameReference = new AtomicReference<>();
 
-        String threadName = "GetConfirmation Waiter Thread, title = \"" + builder.getTitle() + CyderStrings.quote;
+        String threadName = "GetConfirmation Waiter Thread, title = \""
+                + getConfirmationBuilder.getFrameTitle() + CyderStrings.quote;
         CyderThreadRunner.submit(() -> {
             try {
                 CyderLabel textLabel = new CyderLabel();
+                textLabel.setForeground(getConfirmationBuilder.getLabelColor());
+                textLabel.setFont(getConfirmationBuilder.getLabelFont());
 
                 BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(
-                        builder.getInitialString(), textLabel.getFont());
+                        getConfirmationBuilder.getLabelText(), textLabel.getFont());
                 int textWidth = boundsString.width();
                 int textHeight = boundsString.height();
                 textLabel.setText(boundsString.text());
@@ -703,12 +705,10 @@ public class GetterUtil {
                 CyderFrame frame = new CyderFrame(frameWidth, frameHeight, CyderIcons.defaultBackgroundLarge);
                 getConfirmationFrames.add(frame);
                 frameReference.set(frame);
-                if (builder.getOnDialogDisposalRunnable() != null) {
-                    frame.addPostCloseAction(builder.getOnDialogDisposalRunnable());
-                }
+                getConfirmationBuilder.getOnDialogDisposalRunnables().forEach(frame::addPostCloseAction);
 
                 frame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
-                frame.setTitle(builder.getTitle());
+                frame.setTitle(getConfirmationBuilder.getFrameTitle());
                 frame.addPreCloseAction(() -> {
                     if (ret.get() != Boolean.TRUE) ret.set(Boolean.FALSE);
 
@@ -726,21 +726,23 @@ public class GetterUtil {
                 int buttonInnerSpacing = 30;
                 int buttonWidth = (frameWidth - buttonInnerSpacing - 2 * frameHorizontalPadding) / numButtons;
 
-                CyderButton yesButton = new CyderButton(builder.getYesButtonText());
-                yesButton.setColors(builder.getSubmitButtonColor());
+                CyderButton yesButton = new CyderButton(getConfirmationBuilder.getYesButtonText());
+                yesButton.setColors(getConfirmationBuilder.getYesButtonColor());
+                yesButton.setFont(getConfirmationBuilder.getYesButtonFont());
                 yesButton.addActionListener(e -> ret.set(Boolean.TRUE));
                 yesButton.setBounds(frameHorizontalPadding, currentY, buttonWidth, yesNoButtonHeight);
                 frame.getContentPane().add(yesButton);
 
                 int noButtonX = frameHorizontalPadding + buttonWidth + buttonInnerSpacing;
-                CyderButton noButton = new CyderButton(builder.getNoButtonText());
-                noButton.setColors(builder.getSubmitButtonColor());
+                CyderButton noButton = new CyderButton(getConfirmationBuilder.getNoButtonText());
+                noButton.setColors(getConfirmationBuilder.getNoButtonColor());
+                yesButton.setFont(getConfirmationBuilder.getNoButtonFont());
                 noButton.addActionListener(e -> ret.set(Boolean.FALSE));
                 noButton.setBounds(noButtonX, currentY, buttonWidth, yesNoButtonHeight);
                 frame.getContentPane().add(noButton);
 
-                Component relativeTo = builder.getRelativeTo();
-                if (relativeTo != null && builder.isDisableRelativeTo()) {
+                Component relativeTo = getConfirmationBuilder.getRelativeTo();
+                if (relativeTo != null && getConfirmationBuilder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
                     frame.addPostCloseAction(generateGetterFramePostCloseAction(relativeTo));
                 }
@@ -787,6 +789,7 @@ public class GetterUtil {
     }
 
     // todo implement me
+
     //    public static class GetFileBuilder {
     //        private String frameTitle;
     //
@@ -801,25 +804,6 @@ public class GetterUtil {
     //        private String submitButtonText;
     //        private Font submitButtonFont;
     //        private Color submitButtonColor;
-    //
-    //        private boolean disableRelativeTo;
-    //        private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
-    //    }
-    //
-    //    public static class GetConfirmationBuilder {
-    //        private String frameTitle;
-    //
-    //        private String labelText;
-    //        private Font labelFont;
-    //        private Color labelColor;
-    //
-    //        private String yesButtonText = "Yes";
-    //        private Color yesButtonColor;
-    //        private Font yesButtonFont;
-    //
-    //        private String noButtonText = "No";
-    //        private Color noButtonColor;
-    //        private Font noButtonFont;
     //
     //        private boolean disableRelativeTo;
     //        private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
