@@ -1,5 +1,6 @@
 package cyder.getter;
 
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -426,8 +427,6 @@ public class GetterUtil {
      */
     private final AtomicBoolean shouldUpdateSubmitButtonText = new AtomicBoolean();
 
-    // todo we could also allow an option for file extension filters
-
     /**
      * Opens up frame with a field and a file chooser for the user to enter
      * a file location or navigate to a file/directory and submit it.
@@ -547,7 +546,33 @@ public class GetterUtil {
 
                             if (file.isFile()) {
                                 if (allowFileSubmissions) {
-                                    setOnFileChosen.set(file);
+                                    ImmutableList<String> extensions = getFileBuilder.getAllowableFileExtensions();
+                                    if (!extensions.isEmpty()) {
+                                        boolean set = false;
+
+                                        for (String extension : extensions) {
+                                            if (selectedElement.endsWith(extension)) {
+                                                setOnFileChosen.set(file);
+                                                set = true;
+                                                break;
+                                            }
+                                        }
+
+                                        if (!set) {
+                                            StringBuilder extensionBuilder = new StringBuilder();
+                                            extensionBuilder.append(CyderStrings.openingBracket);
+
+                                            for (int i = 0 ; i < extensions.size() ; i++) {
+                                                extensionBuilder.append(extensions.get(i));
+                                                if (i != extensions.size() - 1) extensionBuilder.append(", ");
+                                            }
+
+                                            extensionBuilder.append(CyderStrings.closingBracket);
+                                            directoryFrame.toast("File must be one of " + extensionBuilder);
+                                        }
+                                    } else {
+                                        setOnFileChosen.set(file);
+                                    }
                                 } else {
                                     directoryFrame.toast("Cannot submit a file");
                                 }

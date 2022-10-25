@@ -81,6 +81,11 @@ public final class GetFileBuilder extends GetBuilder {
     private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
 
     /**
+     * The list of allowable file extensions.
+     */
+    private ImmutableList<String> allowableFileExtensions = ImmutableList.of();
+
+    /**
      * Constructs a new get file builder.
      *
      * @param frameTitle the frame title
@@ -140,7 +145,7 @@ public final class GetFileBuilder extends GetBuilder {
      * @return this builder
      */
     public GetFileBuilder setInitialFieldText(String initialFieldText) {
-        this.initialFieldText = initialFieldText;
+        this.initialFieldText = Preconditions.checkNotNull(initialFieldText);
         return this;
     }
 
@@ -160,7 +165,7 @@ public final class GetFileBuilder extends GetBuilder {
      * @return this builder
      */
     public GetFileBuilder setFieldForeground(Color fieldForeground) {
-        this.fieldForeground = fieldForeground;
+        this.fieldForeground = Preconditions.checkNotNull(fieldForeground);
         return this;
     }
 
@@ -180,7 +185,7 @@ public final class GetFileBuilder extends GetBuilder {
      * @return this builder
      */
     public GetFileBuilder setFieldFont(Font fieldFont) {
-        this.fieldFont = fieldFont;
+        this.fieldFont = Preconditions.checkNotNull(fieldFont);
         return this;
     }
 
@@ -240,7 +245,7 @@ public final class GetFileBuilder extends GetBuilder {
      * @return this  builder
      */
     public GetFileBuilder setSubmitButtonText(String submitButtonText) {
-        this.submitButtonText = submitButtonText;
+        this.submitButtonText = Preconditions.checkNotNull(submitButtonText);
         return this;
     }
 
@@ -260,7 +265,7 @@ public final class GetFileBuilder extends GetBuilder {
      * @return this builder
      */
     public GetFileBuilder setSubmitButtonFont(Font submitButtonFont) {
-        this.submitButtonFont = submitButtonFont;
+        this.submitButtonFont = Preconditions.checkNotNull(submitButtonFont);
         return this;
     }
 
@@ -280,7 +285,7 @@ public final class GetFileBuilder extends GetBuilder {
      * @return this builder
      */
     public GetFileBuilder setSubmitButtonColor(Color submitButtonColor) {
-        this.submitButtonColor = submitButtonColor;
+        this.submitButtonColor = Preconditions.checkNotNull(submitButtonColor);
         return this;
     }
 
@@ -347,5 +352,25 @@ public final class GetFileBuilder extends GetBuilder {
      */
     public ImmutableList<Runnable> getOnDialogDisposalRunnables() {
         return ImmutableList.copyOf(onDialogDisposalRunnables);
+    }
+
+    /**
+     * Returns the allowable file extensions list.
+     *
+     * @return the allowable file extensions list
+     */
+    public ImmutableList<String> getAllowableFileExtensions() {
+        return ImmutableList.copyOf(allowableFileExtensions);
+    }
+
+    /**
+     * Sets the allowable file extensions list.
+     *
+     * @param allowableFileExtensions the allowable file extensions list
+     * @return this builder
+     */
+    public GetFileBuilder setAllowableFileExtensions(ImmutableList<String> allowableFileExtensions) {
+        this.allowableFileExtensions = Preconditions.checkNotNull(allowableFileExtensions);
+        return this;
     }
 }
