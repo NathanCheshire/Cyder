@@ -536,9 +536,9 @@ public final class PizzaWidget {
 
         sizeGroup.clearSelection();
 
-        crustTypeScroll.clearSelectedElements();
+        crustTypeScroll.deselectAllElements();
         crustTypeScroll.getScrollPane().getHorizontalScrollBar().setValue(0);
-        pizzaToppingsScroll.clearSelectedElements();
+        pizzaToppingsScroll.deselectAllElements();
         pizzaToppingsScroll.getScrollPane().getHorizontalScrollBar().setValue(0);
 
         breadSticks.setNotChecked();

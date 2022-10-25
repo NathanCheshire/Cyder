@@ -1329,7 +1329,7 @@ public final class UserEditor {
         Console.INSTANCE.getOutputArea().setFont(applyFont);
         Console.INSTANCE.getInputField().setFont(applyFont);
         if (fontScrollReference.get() != null) {
-            fontScrollReference.get().clearSelectedElements();
+            fontScrollReference.get().deselectAllElements();
         }
         fontLabel.setFont(applyFont);
         if (fontScrollReference.get() != null) {

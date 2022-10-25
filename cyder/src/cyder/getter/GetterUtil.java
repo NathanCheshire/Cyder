@@ -1,11 +1,11 @@
 package cyder.getter;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import cyder.annotations.ForReadability;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.enums.SystemPropertyKey;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -16,9 +16,7 @@ import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.pane.CyderScrollList;
-import cyder.user.UserUtil;
 import cyder.utils.BoundsUtil;
-import cyder.utils.OsUtil;
 import cyder.utils.StringUtil;
 
 import javax.swing.*;
@@ -249,39 +247,39 @@ public class GetterUtil {
     }
 
     /**
-     * The label which holds the scroll
+     * The label which holds the scroll.
      */
-    private JLabel dirScrollLabel;
+    private JLabel directoryScrollLabel;
 
     /**
      * The last button for the file traversal stack.
      */
-    private CyderButton last;
+    private CyderButton lastDirectory;
 
     /**
-     * The next button for the file traversal stack./
+     * The next button for the file traversal stack.
      */
-    private CyderButton next;
+    private CyderButton nextDirectory;
 
     /**
      * The list of strings to display for the current files.
      */
-    private final LinkedList<String> directoryNameList = new LinkedList<>();
+    private final LinkedList<String> filesNamesList = new LinkedList<>();
 
     /**
      * The files which correspond to the current files.
      */
-    private final LinkedList<File> directoryFileList = new LinkedList<>();
+    private final LinkedList<File> filesList = new LinkedList<>();
 
     /**
      * The backward stack.
      */
-    private final Stack<File> backward = new Stack<>();
+    private final Stack<File> backwardDirectories = new Stack<>();
 
     /**
      * The forward stack.
      */
-    private final Stack<File> forward = new Stack<>();
+    private final Stack<File> forwardDirectories = new Stack<>();
 
     /**
      * The current location for the file getter.
@@ -289,19 +287,14 @@ public class GetterUtil {
     private File currentDirectory;
 
     /**
-     * The frame for the file getter.
+     * The directory frame for the file getter.
      */
-    private final AtomicReference<CyderFrame> directoryFrameReference = new AtomicReference<>();
+    private CyderFrame directoryFrame;
 
     /**
      * The scroll view for the files.
      */
-    private final AtomicReference<CyderScrollList> cyderScrollListRef = new AtomicReference<>();
-
-    /**
-     * The field for the user to enter a directory/file directly.
-     */
-    private final AtomicReference<CyderTextField> dirFieldRef = new AtomicReference<>();
+    private CyderScrollList directoryScrollList;
 
     /**
      * The file to return once chosen.
@@ -318,7 +311,6 @@ public class GetterUtil {
      */
     private static final String INITIAL_DIRECTORY_FRAME_TITLE = "File getter";
 
-    // todo do away
     /**
      * The null file.
      */
@@ -327,55 +319,77 @@ public class GetterUtil {
     /**
      * The text for the last button.
      */
-    private static final String LAST_BUTTON_TEXT = " < ";
+    private static final String LAST_BUTTON_TEXT = CyderStrings.space + "<" + CyderStrings.space;
 
     /**
      * The text for the next button.
      */
-    private static final String NEXT_BUTTON_TEXT = " > ";
+    private static final String NEXT_BUTTON_TEXT = CyderStrings.space + ">" + CyderStrings.space;
 
     /**
      * The border for the next and last buttons.
      */
     private static final LineBorder BUTTON_BORDER = new LineBorder(CyderColors.navy, 5, false);
 
-    // todo optional
+    /**
+     * The width of the directory scroll component.
+     */
+    private static final int directoryScrollWidth = 600;
 
     /**
-     * Custom getFile method, see usage below for how to setup so that the program doesn't
-     * spin wait on the main GUI thread forever. Ignoring the below setup
-     * instructions will make the application spin wait possibly forever.
-     * <p>
-     * USAGE:
-     * <pre>
-     * {@code
-     *   CyderThreadRunner.submit(() -> {
-     *         try {
-     *             File input = GetterUtil().getInstance().getFile(getterBuilder);
-     *             // Other operations using input
-     *         } catch (Exception e) {
-     *             ErrorHandler.handle(e);
-     *         }
-     *  }, THREAD_NAME).start();
-     * }
-     * </pre>
-     *
-     * @param builder the builder to use for the required params
-     * @return the user-chosen file
+     * The height of the directory scroll component.
      */
+    private static final int directoryScrollHeight = 400;
+
+    /**
+     * The padding value used for components near the get file frame.
+     */
+    private static final int padding = 10;
+
+    /**
+     * The size of the navigation buttons.
+     */
+    private static final int navButtonSize = 40;
+
+    /**
+     * The y value of the directory scroll component.
+     */
+    private static final int dirScrollYOffset = CyderDragLabel.DEFAULT_HEIGHT + navButtonSize + 2 * padding;
+
+    /**
+     * The label to let the user know the files are being loaded from the current directory for the file getter.
+     */
+    private final JLabel loadingFilesLabel = new JLabel();
+
+    /**
+     * The directory field.
+     */
+    private static CyderTextField directoryField;
+
+    /**
+     * The font for the items of the files scroll list.
+     */
+    private static final Font directoryScrollFont = new Font(CyderFonts.SEGOE_UI_BLACK, Font.BOLD, 16);
+
+    /**
+     * todo copy doc from other methods
+     */
+    // todo return optional
     public File getFile(Builder builder) {
         checkNotNull(builder);
 
-        boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
-        Color backgroundColor = darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor;
-        Color textColor = darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.navy;
+        int dirFieldXOffset = padding + navButtonSize + padding;
+        int dirFieldWidth = directoryScrollWidth - 2 * navButtonSize - 2 * padding;
+        int topComponentYOffset = CyderDragLabel.DEFAULT_HEIGHT + padding;
+        int frameXPadding = 15;
+        int frameWidth = directoryScrollWidth + 2 * frameXPadding;
+        int bottomFramePadding = 100;
+        int frameHeight = directoryScrollHeight + navButtonSize + 2 * padding + bottomFramePadding;
 
-        int frameWidth = 630;
-        int frameHeight = 510;
-        CyderFrame referenceInitFrame = new CyderFrame(frameWidth, frameHeight, backgroundColor);
+        directoryFrame = new CyderFrame(frameWidth, frameHeight);
 
-        getFileFrames.add(referenceInitFrame);
-        referenceInitFrame.addWindowListener(new WindowAdapter() {
+        getFileFrames.add(directoryFrame);
+        directoryFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
                 File ref = setOnFileChosen.get();
@@ -384,95 +398,69 @@ public class GetterUtil {
                 }
             }
         });
-        directoryFrameReference.set(referenceInitFrame);
 
-        String threadName = "GetFile Waiter Thread, title = \"" + builder.getTitle() + CyderStrings.quote;
+        String threadName = "getFile waiter thread, title: "
+                + CyderStrings.quote + builder.getTitle() + CyderStrings.quote;
         CyderThreadRunner.submit(() -> {
             try {
-                //reset needed vars in case an instance was already ran
-                backward.clear();
-                forward.clear();
-                directoryFileList.clear();
-                directoryNameList.clear();
+                resetFileHistory();
 
-                CyderFrame directoryFrame = directoryFrameReference.get();
                 directoryFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 directoryFrame.addPreCloseAction(() -> getFileFrames.remove(directoryFrame));
                 // todo post close actions from builder
-
                 directoryFrame.setTitle(INITIAL_DIRECTORY_FRAME_TITLE);
 
-                CyderTextField dirField = new CyderTextField();
-                dirFieldRef.set(dirField);
+                directoryField = new CyderTextField();
+                directoryField.setBackground(CyderColors.vanilla);
+                directoryField.setForeground(CyderColors.navy);
+                directoryField.setBorder(new LineBorder(CyderColors.navy, 5, false));
+                directoryField.addActionListener(e -> {
+                    File chosenDir = new File(directoryField.getText());
 
-                LineBorder dirFieldLineBorder = new LineBorder(textColor, 5, false);
-                dirField.setBackground(backgroundColor);
-                dirField.setForeground(textColor);
-                dirField.setBorder(dirFieldLineBorder);
-                dirField.addActionListener(e -> {
-                    File ChosenDir = new File(dirField.getText());
-
-                    if (ChosenDir.isDirectory()) {
-                        refreshBasedOnDir(ChosenDir, true);
-                    } else if (ChosenDir.isFile()) {
-                        setOnFileChosen.set(ChosenDir);
+                    if (chosenDir.isDirectory()) {
+                        currentDirectory = chosenDir;
+                        refreshFiles();
+                    } else if (chosenDir.isFile()) {
+                        setOnFileChosen.set(chosenDir);
                     }
                 });
+                directoryField.setBounds(dirFieldXOffset, topComponentYOffset, dirFieldWidth, topComponentYOffset);
+                directoryFrame.getContentPane().add(directoryField);
 
-                int dirFieldXOffset = 60;
-                int dirFieldYOffset = 40;
-                int dirFieldWidth = 500;
-                int dirFieldHeight = 40;
-                dirField.setBounds(dirFieldXOffset, dirFieldYOffset, dirFieldWidth, dirFieldHeight);
-                directoryFrame.getContentPane().add(dirField);
-                dirField.setEnabled(false);
-
-                int buttonSize = 40;
-
-                last = new CyderButton(LAST_BUTTON_TEXT);
-                last.setBorder(BUTTON_BORDER);
-                last.addActionListener(e -> {
-                    if (!backward.isEmpty() && !backward.peek().equals(currentDirectory)) {
-                        forward.push(currentDirectory);
-                        currentDirectory = backward.pop();
-                        refreshBasedOnDir(currentDirectory, false);
+                lastDirectory = new CyderButton(LAST_BUTTON_TEXT);
+                lastDirectory.setBorder(BUTTON_BORDER);
+                lastDirectory.addActionListener(e -> {
+                    if (!backwardDirectories.isEmpty() && !backwardDirectories.peek().equals(currentDirectory)) {
+                        forwardDirectories.push(currentDirectory);
+                        currentDirectory = backwardDirectories.pop();
+                        refreshFiles();
                     }
                 });
-                int lastXOffset = 10;
-                int buttonYOffset = 40;
-                last.setBounds(lastXOffset, buttonYOffset, buttonSize, buttonSize);
-                directoryFrame.getContentPane().add(last);
-                last.setEnabled(false);
+                lastDirectory.setBounds(padding, topComponentYOffset, navButtonSize, navButtonSize);
+                directoryFrame.getContentPane().add(lastDirectory);
 
-                next = new CyderButton(NEXT_BUTTON_TEXT);
-                next.setBorder(BUTTON_BORDER);
-                next.addActionListener(e -> {
-                    if (!forward.isEmpty() && !forward.peek().equals(currentDirectory)) {
-                        backward.push(currentDirectory);
-                        currentDirectory = forward.pop();
-                        refreshBasedOnDir(currentDirectory, false);
+                nextDirectory = new CyderButton(NEXT_BUTTON_TEXT);
+                nextDirectory.setBorder(BUTTON_BORDER);
+                nextDirectory.addActionListener(e -> {
+                    if (!forwardDirectories.isEmpty() && !forwardDirectories.peek().equals(currentDirectory)) {
+                        backwardDirectories.push(currentDirectory);
+                        currentDirectory = forwardDirectories.pop();
+                        refreshFiles();
                     }
                 });
-                int buttonPadding = 10;
-                next.setBounds(frameWidth - 2 * buttonPadding - buttonSize, buttonYOffset, buttonSize, buttonSize);
-                directoryFrame.getContentPane().add(next);
-                next.setEnabled(false);
+                int nextX = frameWidth - 2 * padding - navButtonSize;
+                nextDirectory.setBounds(nextX, topComponentYOffset, navButtonSize, navButtonSize);
+                directoryFrame.getContentPane().add(nextDirectory);
 
-                int mainComponentWidth = 600;
-                int mainComponentHeight = 400;
+                directoryScrollList = new CyderScrollList(directoryScrollWidth,
+                        directoryScrollHeight, CyderScrollList.SelectionPolicy.SINGLE);
+                directoryScrollList.setScrollFont(directoryScrollFont);
 
-                // label to show where files will be
-                JLabel tempLabel = new JLabel();
-                tempLabel.setText(BoundsUtil.addCenteringToHtml(CyderStrings.LOADING));
-                tempLabel.setHorizontalAlignment(JLabel.CENTER);
-                tempLabel.setVerticalAlignment(JLabel.CENTER);
-                tempLabel.setFont(CyderFonts.DEFAULT_FONT);
-                tempLabel.setForeground(darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.navy);
-                tempLabel.setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
-                        : CyderColors.navy, 5, false));
-                tempLabel.setOpaque(false);
-                tempLabel.setBounds(10, 90, mainComponentWidth, mainComponentHeight);
-                directoryFrame.getContentPane().add(tempLabel);
+                // todo button
+
+                setupLoadingFilesLabel();
+                loadingFilesLabel.setVisible(true);
+                directoryFrame.getContentPane().add(loadingFilesLabel);
 
                 Component relativeTo = builder.getRelativeTo();
                 if (relativeTo != null && builder.isDisableRelativeTo()) {
@@ -483,8 +471,14 @@ public class GetterUtil {
                 directoryFrame.setLocationRelativeTo(relativeTo);
                 directoryFrame.setVisible(true);
 
-                loadInitialGetFileFiles(builder, directoryFrame, mainComponentWidth,
-                        mainComponentHeight, darkMode, tempLabel);
+                String builderInitial = builder.getInitialString();
+                if (StringUtil.isNullOrEmpty(builderInitial))
+                    builderInitial = SystemPropertyKey.USER_DIR.getProperty();
+                currentDirectory = new File(builderInitial);
+                refreshFiles();
+                //directoryField.setText(""); // todo only if builder has initial text
+
+                // todo after set field text if builder has it
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -497,139 +491,108 @@ public class GetterUtil {
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
         } finally {
-            directoryFrameReference.get().dispose();
+            directoryFrame.dispose(true);
+            resetFileHistory();
         }
 
         return setOnFileChosen.get().getName().equals(CyderStrings.NULL)
-                ? null
-                : setOnFileChosen.get();
+                ? null : setOnFileChosen.get();
     }
 
-    @ForReadability
-    private void loadInitialGetFileFiles(Builder builder, CyderFrame directoryFrame,
-                                         int mainComponentWidth, int mainComponentHeight,
-                                         boolean darkMode, JLabel tempLabel) {
+    /**
+     * Resets the current directory and file navigation history.
+     */
+    private void resetFileHistory() {
+        currentDirectory = NULL_FILE;
+        backwardDirectories.clear();
+        forwardDirectories.clear();
+        filesList.clear();
+        filesNamesList.clear();
+    }
+
+    /**
+     * Refreshes the files scroll based off of the {@link #currentDirectory}.
+     */
+    private void refreshFiles() {
         CyderThreadRunner.submit(() -> {
-            String path = !StringUtil.isNullOrEmpty(builder.getInitialString())
-                    && new File(builder.getInitialString()).exists()
-                    ? builder.getInitialString() : OsUtil.USER_DIR;
-            currentDirectory = new File(path);
+            if (directoryScrollLabel != null) directoryFrame.remove(directoryScrollLabel);
+            loadingFilesLabel.setVisible(true);
+
+            setNavComponentsEnabled(false);
+
+            filesList.clear();
+            filesNamesList.clear();
 
             directoryFrame.setTitle(currentDirectory.getName());
 
             File[] currentDirectoryFiles = currentDirectory.listFiles();
             if (currentDirectoryFiles != null && currentDirectoryFiles.length > 0) {
-                Collections.addAll(directoryFileList, currentDirectoryFiles);
+                Collections.addAll(filesList, currentDirectoryFiles);
             }
 
-            directoryFileList.forEach(file -> directoryNameList.add(file.getName()));
+            filesList.forEach(file -> filesNamesList.add(file.getName()));
 
-            cyderScrollListRef.set(new CyderScrollList(mainComponentWidth, mainComponentHeight,
-                    CyderScrollList.SelectionPolicy.SINGLE, darkMode));
-            cyderScrollListRef.get().setScrollFont(CyderFonts.SEGOE_20.deriveFont(16f));
+            directoryScrollList.removeAllElements();
 
-            // Setup click actions
-            IntStream.range(0, directoryNameList.size()).forEach(index -> {
-                String labelText = directoryNameList.get(index);
-                Runnable clickRunnable = () -> {
-                    boolean isDirectory = directoryFileList.get(index).isDirectory();
-                    File directoryOrFile = directoryFileList.get(index);
-                    if (isDirectory) {
-                        refreshBasedOnDir(directoryOrFile, false);
+            IntStream.range(0, filesNamesList.size()).forEach(i -> {
+                File file = filesList.get(i);
+                String fileName = filesNamesList.get(i);
+
+                Runnable doubleClickAction = () -> {
+                    if (file.isDirectory()) {
+                        currentDirectory = file;
+                        refreshFiles();
                     } else {
-                        setOnFileChosen.set(directoryOrFile);
+                        setOnFileChosen.set(file);
                     }
                 };
 
-                cyderScrollListRef.get().addElement(labelText, clickRunnable);
+                directoryScrollList.addElement(fileName, doubleClickAction);
             });
 
-            int dirScrollXOffset = 10;
-            int dirScrollYOffset = 90;
-            dirScrollLabel = cyderScrollListRef.get().generateScrollList();
-            dirScrollLabel.setBounds(dirScrollXOffset, dirScrollYOffset,
-                    mainComponentWidth, mainComponentHeight);
-            directoryFrame.getContentPane().add(dirScrollLabel);
+            directoryScrollLabel = directoryScrollList.generateScrollList();
+            directoryScrollLabel.setBounds(padding, dirScrollYOffset, directoryScrollWidth, directoryScrollHeight);
+            directoryFrame.getContentPane().add(directoryScrollLabel);
 
-            next.setEnabled(true);
-            last.setEnabled(true);
+            loadingFilesLabel.setVisible(false);
+            setNavComponentsEnabled(true);
 
-            dirFieldRef.get().setText(currentDirectory.getAbsolutePath());
-            dirFieldRef.get().setEnabled(true);
-            dirFieldRef.get().requestFocus();
+            directoryField.setText(currentDirectory.getAbsolutePath());
+            directoryField.requestFocus();
 
-            tempLabel.setVisible(false);
-            directoryFrame.getContentPane().remove(tempLabel);
-
-            backward.push(currentDirectory);
+            if (!backwardDirectories.isEmpty()) {
+                File backward = backwardDirectories.peek();
+                if (backward != null && !backward.getAbsolutePath().equals(currentDirectory.getAbsolutePath())) {
+                    backwardDirectories.push(currentDirectory);
+                }
+            }
         }, FILE_GETTER_LOADER);
     }
 
     /**
-     * Refreshes the current file list based on the provided file.
-     *
-     * @param refreshDirectory the directory/file to refresh on
-     * @param wipeForward      whether to clear the forward traversal stack
+     * Sets up the loading files label.
      */
-    @ForReadability
-    private void refreshBasedOnDir(File refreshDirectory, boolean wipeForward) {
-        checkNotNull(refreshDirectory);
+    private void setupLoadingFilesLabel() {
+        loadingFilesLabel.setText(BoundsUtil.addCenteringToHtml(CyderStrings.LOADING));
+        loadingFilesLabel.setHorizontalAlignment(JLabel.CENTER);
+        loadingFilesLabel.setVerticalAlignment(JLabel.CENTER);
+        loadingFilesLabel.setFont(CyderFonts.DEFAULT_FONT);
+        loadingFilesLabel.setForeground(CyderColors.navy);
+        loadingFilesLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        loadingFilesLabel.setOpaque(false);
+        loadingFilesLabel.setBounds(padding, dirScrollYOffset, directoryScrollWidth, directoryScrollHeight);
+        loadingFilesLabel.setVisible(false);
+    }
 
-        if (wipeForward) {
-            forward.clear();
-            if (backward.isEmpty() || !backward.peek().equals(currentDirectory)) {
-                backward.push(currentDirectory);
-            }
-        }
-
-        CyderFrame directoryFrame = directoryFrameReference.get();
-        CyderScrollList scrollList = cyderScrollListRef.get();
-
-        scrollList.removeAllElements();
-        directoryFrame.remove(dirScrollLabel);
-
-        if (refreshDirectory.isFile()) refreshDirectory = refreshDirectory.getParentFile();
-        currentDirectory = refreshDirectory;
-
-        directoryNameList.clear();
-        directoryFileList.clear();
-
-        File[] currentDirectoryFiles = currentDirectory.listFiles();
-        if (currentDirectoryFiles != null && currentDirectoryFiles.length > 0) {
-            Collections.addAll(directoryFileList, currentDirectoryFiles);
-        }
-
-        directoryFileList.forEach(directoryFile -> directoryNameList.add(directoryFile.getName()));
-
-        int scrollWidth = 600;
-        int scrollHeight = 400;
-        cyderScrollListRef.set(new CyderScrollList(scrollWidth, scrollHeight,
-                CyderScrollList.SelectionPolicy.SINGLE, scrollList.isDarkMode()));
-        scrollList.setScrollFont(CyderFonts.SEGOE_20.deriveFont(16f));
-
-        IntStream.range(0, directoryNameList.size()).forEach(index -> {
-            String labelName = directoryNameList.get(index);
-            Runnable labelClickRunnable = () -> {
-                if (directoryFileList.get(index).isDirectory()) {
-                    refreshBasedOnDir(directoryFileList.get(index), true);
-                } else {
-                    setOnFileChosen.set(directoryFileList.get(index));
-                }
-            };
-            scrollList.addElement(labelName, labelClickRunnable);
-        });
-        dirScrollLabel = scrollList.generateScrollList();
-
-        int xOffset = 10;
-        int yOffset = 90;
-        dirScrollLabel.setBounds(xOffset, yOffset, scrollWidth, scrollHeight);
-
-        directoryFrame.getContentPane().add(dirScrollLabel);
-        directoryFrame.revalidate();
-        directoryFrame.repaint();
-        directoryFrame.setTitle(currentDirectory.getName());
-
-        dirFieldRef.get().setText(currentDirectory.getAbsolutePath());
+    /**
+     * Sets whether the file chooser nav buttons are enabled.
+     *
+     * @param enabled whether the file chooser nav buttons are enabled
+     */
+    private void setNavComponentsEnabled(boolean enabled) {
+        nextDirectory.setEnabled(enabled);
+        lastDirectory.setEnabled(enabled);
+        directoryField.setEnabled(enabled);
     }
 
     /**

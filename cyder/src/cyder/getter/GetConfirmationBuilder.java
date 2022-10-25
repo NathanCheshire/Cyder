@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * A builder for a get confirmation getter method.
  */
-public class GetConfirmationBuilder extends GetBuilder {
+public final class GetConfirmationBuilder extends GetBuilder {
     /**
      * The frame title.
      */

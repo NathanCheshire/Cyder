@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * A builder for a get file getter method.
  */
-public class GetFileBuilder extends GetBuilder {
+public final class GetFileBuilder extends GetBuilder {
     /**
      * The frame title.
      */

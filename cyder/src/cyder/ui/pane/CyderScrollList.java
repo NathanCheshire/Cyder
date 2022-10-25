@@ -34,12 +34,12 @@ public class CyderScrollList {
     private int width;
 
     /**
-     * The height of this scroll list
+     * The height of this scroll list.
      */
     private int height;
 
     /**
-     * Whether dark mode is active for this scroll ist
+     * Whether dark mode is active for this scroll list.
      */
     private final boolean darkMode;
 
@@ -155,7 +155,7 @@ public class CyderScrollList {
     private Font scrollFont = CyderFonts.SEGOE_20;
 
     /**
-     * Returns the font for this scroll list
+     * Returns the font for this scroll list.
      *
      * @return the font for this scroll list
      */
@@ -403,7 +403,7 @@ public class CyderScrollList {
     }
 
     /**
-     * Invokes the action linked to the element with the provided text
+     * Invokes the action linked to the element with the provided text.
      *
      * @param clickedText the text to find the corresponding action of
      */
@@ -570,8 +570,19 @@ public class CyderScrollList {
         this.selectionPolicy = selectionPolicy;
     }
 
-    private static final String SEP_LABEL = ";)";
+    /**
+     * The string for sep labels. This text is irrelevant as it is not rendered but may not be an empty string.
+     */
+    private static final String SEP_LABEL_TEXT = ";)";
+
+    /**
+     * The y value of separation labels.
+     */
     private static final int SEP_LABEL_Y = 10;
+
+    /**
+     * The height of separation labels.
+     */
     private static final int SEP_LABEL_HEIGHT = 5;
 
     /**
@@ -580,7 +591,7 @@ public class CyderScrollList {
      * @return a separation label to use for the scroll list
      */
     private JLabel generateSepLabel() {
-        CyderLabel sepLabel = new CyderLabel(SEP_LABEL) {
+        CyderLabel sepLabel = new CyderLabel(SEP_LABEL_TEXT) {
             @Override
             public void paintComponent(Graphics g) {
                 g.setColor(darkMode ? CyderColors.defaultDarkModeTextColor : nonSelectedColor);
@@ -595,10 +606,8 @@ public class CyderScrollList {
     /**
      * Deselects all selected elements from the scroll list.
      */
-    public void clearSelectedElements() {
-        for (JLabel element : elements) {
-            element.setForeground(nonSelectedColor);
-        }
+    public void deselectAllElements() {
+        elements.forEach(element -> element.setForeground(nonSelectedColor));
     }
 
     /**
