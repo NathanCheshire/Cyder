@@ -337,7 +337,7 @@ public final class PizzaWidget {
 
         crustTypeScroll = new CyderScrollList(crustScrollWidth, crustScrollHeight,
                 CyderScrollList.SelectionPolicy.SINGLE);
-        crustTypes.forEach(crustType -> crustTypeScroll.addElement(crustType, null));
+        crustTypes.forEach(crustType -> crustTypeScroll.addElement(crustType));
 
         JLabel crustTypeLabel = crustTypeScroll.generateScrollList();
         crustTypeLabel.setBounds(80, 250, 160, 200);
@@ -345,7 +345,7 @@ public final class PizzaWidget {
 
         pizzaToppingsScroll = new CyderScrollList(pizzaToppingsScrollLength, pizzaToppingsScrollLength,
                 CyderScrollList.SelectionPolicy.MULTIPLE);
-        pizzaToppings.forEach(topping -> pizzaToppingsScroll.addElement(topping, null));
+        pizzaToppings.forEach(topping -> pizzaToppingsScroll.addElement(topping));
 
         JLabel pizzaToppingsLabel = pizzaToppingsScroll.generateScrollList();
         pizzaToppingsLabel.setBounds(320, 250, 200, 200);

@@ -213,7 +213,7 @@ public class DirectoryViewer {
 
             for (int i = 0 ; i < currentFileNames.size() ; i++) {
                 int finalI = i;
-                cyderScrollList.addElement(currentFileNames.get(i), () -> {
+                cyderScrollList.addElementWithDoubleClickAction(currentFileNames.get(i), () -> {
                     if (currentFiles.get(finalI).isDirectory()) {
                         refreshBasedOnDir(currentFiles.get(finalI), true);
                     } else {
@@ -279,7 +279,7 @@ public class DirectoryViewer {
         for (int i = 0 ; i < currentFileNames.size() ; i++) {
             int eye = i;
 
-            cyderScrollList.addElement(currentFileNames.get(i), () -> {
+            cyderScrollList.addElementWithDoubleClickAction(currentFileNames.get(i), () -> {
                 if (currentFiles.get(eye).isDirectory()) {
                     refreshBasedOnDir(currentFiles.get(eye), true);
                 } else {

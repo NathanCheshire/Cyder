@@ -227,7 +227,7 @@ public final class ImageAveragerWidget {
 
         currentFiles.forEach((filename, file) -> {
             Runnable openFileRunnable = () -> IoUtil.openFile(file.getAbsolutePath());
-            imagesScroll.addElement(filename, openFileRunnable);
+            imagesScroll.addElementWithDoubleClickAction(filename, openFileRunnable);
         });
 
         imagesScroll.setItemAlignment(StyleConstants.ALIGN_LEFT);

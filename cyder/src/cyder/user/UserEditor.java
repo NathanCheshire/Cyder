@@ -819,7 +819,7 @@ public final class UserEditor {
         refreshFileLists();
 
         for (String element : filesNameList) {
-            filesScrollList.addElement(element, () -> IoUtil.openFile(getFile(element)));
+            filesScrollList.addElementWithDoubleClickAction(element, () -> IoUtil.openFile(getFile(element)));
         }
 
         JLabel filesLabel = filesScrollList.generateScrollList();
@@ -1248,7 +1248,7 @@ public final class UserEditor {
 
             CyderScrollList reference = fontScrollReference.get();
             for (String fontName : fontList) {
-                reference.addElementWithSingleCLickAction(fontName,
+                reference.addElementWithSingleClickAction(fontName,
                         () -> {
                             applyFontButton.setToolTipText("Apply font: " + fontName);
                             fontLabel.setFont(new Font(fontName, Font.BOLD, fontLabelFontSize));

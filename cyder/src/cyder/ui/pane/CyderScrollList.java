@@ -309,31 +309,117 @@ public class CyderScrollList {
      * Adds a new element to the scroll list.
      *
      * @param labelText the text for the element to have
-     * @param action    the action to invoke when the element is double clicked
      */
-    public void addElement(String labelText, Runnable action) {
+    public void addElement(String labelText) {
         Preconditions.checkNotNull(labelText);
         Preconditions.checkArgument(!labelText.isEmpty());
-        Preconditions.checkArgument(!elementInList(labelText),
-                "Element already exists in scroll list: " + labelText);
 
-        JLabel add = new JLabel(labelText);
-        add.setForeground(nonSelectedColor);
-        add.setFont(scrollFont);
-        add.setVerticalAlignment(SwingConstants.CENTER);
-        add.addMouseListener(new MouseAdapter() {
+        JLabel addElement = new JLabel(labelText);
+        addElement.setForeground(nonSelectedColor);
+        addElement.setFont(scrollFont);
+        addElement.setVerticalAlignment(SwingConstants.CENTER);
+        addElement.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() >= 2 && action != null) {
-                    action.run();
-                    add.setForeground(nonSelectedColor);
+                renderElementAsSelected(addElement.getText());
+            }
+        });
+
+        elements.add(addElement);
+    }
+
+    /**
+     * Adds a new element to the scroll list.
+     *
+     * @param labelText         the text for the element to have
+     * @param singleClickAction the action to invoke when the element is clicked once
+     */
+    public void addElementWithSingleClickAction(String labelText, Runnable singleClickAction) {
+        Preconditions.checkNotNull(labelText);
+        Preconditions.checkArgument(!labelText.isEmpty());
+        Preconditions.checkNotNull(singleClickAction);
+        Preconditions.checkArgument(!elementInList(labelText));
+
+        JLabel addElement = new JLabel(labelText);
+        addElement.setForeground(nonSelectedColor);
+        addElement.setFont(scrollFont);
+        addElement.setVerticalAlignment(SwingConstants.CENTER);
+        addElement.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                singleClickAction.run();
+                renderElementAsSelected(addElement.getText());
+            }
+        });
+
+        elements.add(addElement);
+    }
+
+    /**
+     * Adds a new element to the scroll list.
+     *
+     * @param labelText         the text for the element to have
+     * @param doubleClickAction the action to invoke when the element is double clicked
+     */
+    public void addElementWithDoubleClickAction(String labelText, Runnable doubleClickAction) {
+        Preconditions.checkNotNull(labelText);
+        Preconditions.checkArgument(!labelText.isEmpty());
+        Preconditions.checkNotNull(doubleClickAction);
+        Preconditions.checkArgument(!elementInList(labelText));
+
+        JLabel addElement = new JLabel(labelText);
+        addElement.setForeground(nonSelectedColor);
+        addElement.setFont(scrollFont);
+        addElement.setVerticalAlignment(SwingConstants.CENTER);
+        addElement.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    doubleClickAction.run();
+                    addElement.setForeground(nonSelectedColor);
                 } else {
-                    handleElementClick(add.getText());
+                    renderElementAsSelected(addElement.getText());
                 }
             }
         });
 
-        elements.add(add);
+        elements.add(addElement);
+    }
+
+    /**
+     * Adds a new element to the scroll list.
+     *
+     * @param labelText         the text for the element to have
+     * @param singleClickAction the action to invoke when the element is pressed
+     * @param doubleClickAction the action to invoke when the element is double clicked
+     */
+    public void addElementWithSingleAndDoubleClickAction(String labelText,
+                                                         Runnable singleClickAction,
+                                                         Runnable doubleClickAction) {
+        Preconditions.checkNotNull(labelText);
+        Preconditions.checkArgument(!labelText.isEmpty());
+        Preconditions.checkNotNull(singleClickAction);
+        Preconditions.checkNotNull(doubleClickAction);
+        Preconditions.checkArgument(!elementInList(labelText));
+
+        JLabel addElement = new JLabel(labelText);
+        addElement.setForeground(nonSelectedColor);
+        addElement.setFont(scrollFont);
+        addElement.setVerticalAlignment(SwingConstants.CENTER);
+        addElement.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() > 1) {
+                    doubleClickAction.run();
+                    addElement.setForeground(nonSelectedColor);
+                } else {
+                    singleClickAction.run();
+                    renderElementAsSelected(addElement.getText());
+                }
+            }
+        });
+
+        elements.add(addElement);
     }
 
     /**
@@ -350,35 +436,6 @@ public class CyderScrollList {
                 element.setForeground(selectedColor);
             }
         }
-    }
-
-    /**
-     * Adds a new element to the scroll list.
-     *
-     * @param labelText the text for the element to have
-     * @param action    the action to invoke when the element is clicked once
-     */
-    public void addElementWithSingleCLickAction(String labelText, Runnable action) {
-        Preconditions.checkNotNull(labelText);
-        Preconditions.checkArgument(!labelText.isEmpty());
-        Preconditions.checkArgument(!elementInList(labelText),
-                "Element already exists in scroll list: " + labelText);
-
-        JLabel add = new JLabel(labelText);
-        add.setForeground(nonSelectedColor);
-        add.setFont(scrollFont);
-        add.setVerticalAlignment(SwingConstants.CENTER);
-        add.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (action != null) {
-                    action.run();
-                    handleElementClick(add.getText());
-                }
-            }
-        });
-
-        elements.add(add);
     }
 
     /**
@@ -403,13 +460,13 @@ public class CyderScrollList {
     }
 
     /**
-     * Invokes the action linked to the element with the provided text.
+     * Renders the element with the provided text as selected.
      *
-     * @param clickedText the text to find the corresponding action of
+     * @param clickedText the text of the element to render as selected
      */
-    private void handleElementClick(String clickedText) {
+    private void renderElementAsSelected(String clickedText) {
         if (selectionPolicy == SelectionPolicy.SINGLE) {
-            for (JLabel element : elements) {
+            elements.forEach(element -> {
                 if (element.getText().equals(clickedText)) {
                     if (element.getForeground().equals(selectedColor)) {
                         element.setForeground(nonSelectedColor);
@@ -419,9 +476,9 @@ public class CyderScrollList {
                 } else {
                     element.setForeground(nonSelectedColor);
                 }
-            }
+            });
         } else {
-            for (JLabel element : elements) {
+            elements.forEach(element -> {
                 if (element.getText().equals(clickedText)) {
                     if (element.getForeground().equals(selectedColor)) {
                         element.setForeground(nonSelectedColor);
@@ -429,7 +486,7 @@ public class CyderScrollList {
                         element.setForeground(selectedColor);
                     }
                 }
-            }
+            });
         }
     }
 

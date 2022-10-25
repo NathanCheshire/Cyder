@@ -680,7 +680,7 @@ public final class NotesWidget {
     private static JLabel regenerateAndGetNotesScrollLabel() {
         notesScrollList = new CyderScrollList(noteScrollLength, noteScrollLength,
                 CyderScrollList.SelectionPolicy.SINGLE);
-        notesList.forEach(noteFile -> notesScrollList.addElement(noteFile.getName(), () -> {
+        notesList.forEach(noteFile -> notesScrollList.addElementWithDoubleClickAction(noteFile.getName(), () -> {
             currentNoteFile = noteFile;
             setupView(View.EDIT);
         }));
