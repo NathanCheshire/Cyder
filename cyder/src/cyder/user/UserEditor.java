@@ -16,6 +16,7 @@ import cyder.enums.ExitCondition;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.getter.GetConfirmationBuilder;
+import cyder.getter.GetFileBuilder;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
@@ -338,13 +339,11 @@ public final class UserEditor {
                 try {
                     GetterUtil instance = GetterUtil.getInstance();
                     addGetterInstance(instance);
-                    File fileToAdd = instance.getFile(
-                            new GetterUtil.Builder("Add File")
-                                    .setRelativeTo(editUserFrame));
-
-                    if (fileToAdd == null || StringUtil.isNullOrEmpty(fileToAdd.getName())) {
-                        return;
-                    }
+                    Optional<File> optionalFile = instance.getFile(new GetFileBuilder("Add File")
+                            .setRelativeTo(editUserFrame));
+                    if (optionalFile.isEmpty()) return;
+                    File fileToAdd = optionalFile.get();
+                    if (StringUtil.isNullOrEmpty(fileToAdd.getName())) return;
 
                     UserFile copyLocation = determineCopyLocation(fileToAdd);
 

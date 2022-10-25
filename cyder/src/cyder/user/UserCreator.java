@@ -9,6 +9,7 @@ import cyder.enums.CyderInspection;
 import cyder.enums.Direction;
 import cyder.enums.Dynamic;
 import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetFileBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
@@ -19,7 +20,6 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderPasswordField;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
-import cyder.utils.FileUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 import cyder.utils.UiUtil;
@@ -35,6 +35,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Optional;
 
 /**
  * A widget to create a Cyder user.
@@ -381,17 +382,16 @@ public final class UserCreator {
     private static void chooseBackground() {
         CyderThreadRunner.submit(() -> {
             try {
-                File temp = GetterUtil.getInstance()
-                        .getFile(new GetterUtil.Builder("Choose new user's background file")
+                Optional<File> optionalFile = GetterUtil.getInstance().getFile(
+                        new GetFileBuilder("Choose new user's background file")
                                 .setRelativeTo(CyderFrame.getDominantFrame()));
-                if (temp != null) {
-                    newUserBackgroundFile = temp;
-                    chooseBackgroundButton.setText(newUserBackgroundFile.getName());
+                if (optionalFile.isEmpty()) {
+                    newUserBackgroundFile = null;
+                    return;
                 }
 
-                if (temp == null || !FileUtil.isSupportedImageExtension(temp)) {
-                    newUserBackgroundFile = null;
-                }
+                newUserBackgroundFile = optionalFile.get();
+                chooseBackgroundButton.setText(newUserBackgroundFile.getName());
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }

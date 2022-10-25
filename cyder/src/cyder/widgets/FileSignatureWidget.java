@@ -5,6 +5,7 @@ import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.*;
 import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetFileBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
@@ -22,6 +23,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Optional;
 
 @Vanilla
 @CyderAuthor
@@ -235,14 +237,11 @@ public final class FileSignatureWidget {
         try {
             CyderThreadRunner.submit(() -> {
                 try {
-                    File chosenFile = GetterUtil.getInstance().getFile(
-                            new GetterUtil.Builder(CHOOSE_FILE_TO_VALIDATE)
-                                    .setRelativeTo(signatureFrame));
-
-                    if (chosenFile != null) {
-                        currentFile = chosenFile;
-                        resetResults();
-                    }
+                    Optional<File> optionalFile = GetterUtil.getInstance().getFile(
+                            new GetFileBuilder(CHOOSE_FILE_TO_VALIDATE).setRelativeTo(signatureFrame));
+                    if (optionalFile.isEmpty()) return;
+                    currentFile = optionalFile.get();
+                    resetResults();
                 } catch (Exception ex) {
                     ExceptionHandler.handle(ex);
                 }

@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.enums.SystemPropertyKey;
 import cyder.ui.frame.CyderFrame;
 
 import java.awt.*;
@@ -62,7 +63,7 @@ public final class GetFileBuilder extends GetBuilder {
     /**
      * The submit button background color.
      */
-    private Color submitButtonColor = CyderColors.regularRed;
+    private Color submitButtonColor = CyderColors.regularPink;
 
     /**
      * The frame to set the getter frame relative to.
@@ -78,6 +79,15 @@ public final class GetFileBuilder extends GetBuilder {
      * The list of runnables to invoke when the getter frame is disposed.
      */
     private final ArrayList<Runnable> onDialogDisposalRunnables = new ArrayList<>();
+
+    /**
+     * Constructs a new get file builder.
+     *
+     * @param frameTitle the frame title
+     */
+    public GetFileBuilder(String frameTitle) {
+        this(frameTitle, new File(SystemPropertyKey.USER_DIR.getProperty()));
+    }
 
     /**
      * Constructs a new get file builder.

@@ -13,6 +13,7 @@ import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.GenesisConstants;
+import cyder.getter.GetFileBuilder;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.external.PhotoViewer;
@@ -179,8 +180,10 @@ public final class PaintWidget {
         }, "Paint Grid Exporter"));
         paintFrame.addMenuItem("Layer Image", () -> CyderThreadRunner.submit(() -> {
             try {
-                File chosenImage = GetterUtil.getInstance().getFile(new GetterUtil.Builder("Layer Image")
-                        .setRelativeTo(paintFrame));
+                Optional<File> optionalFile = GetterUtil.getInstance().getFile(
+                        new GetFileBuilder("Layer Image").setRelativeTo(paintFrame));
+                if (optionalFile.isEmpty()) return;
+                File chosenImage = optionalFile.get();
 
                 if (FileUtil.validateExtension(chosenImage, FileUtil.SUPPORTED_IMAGE_EXTENSIONS)) {
                     // todo implement after figuring out solution to large grids

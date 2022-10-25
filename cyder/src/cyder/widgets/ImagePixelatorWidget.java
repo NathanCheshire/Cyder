@@ -11,6 +11,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetFileBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderPartitionedLayout;
@@ -32,6 +33,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Optional;
 
 /**
  * An image pixelator widget.
@@ -120,7 +122,7 @@ public final class ImagePixelatorWidget {
     /**
      * The builder for the choose file button.
      */
-    private static final GetterUtil.Builder getterUtilBuilder = new GetterUtil.Builder("Choose file to resize")
+    private static final GetFileBuilder getterUtilBuilder = new GetFileBuilder("Choose file to resize")
             .setRelativeTo(pixelFrame);
 
     /**
@@ -310,8 +312,9 @@ public final class ImagePixelatorWidget {
     @ForReadability
     private static void chooseImageButtonAction() {
         CyderThreadRunner.submit(() -> {
-            File chosenImageFile = GetterUtil.getInstance().getFile(getterUtilBuilder);
-            attemptToSetFileAsImage(chosenImageFile);
+            Optional<File> optionalFile = GetterUtil.getInstance().getFile(getterUtilBuilder);
+            if (optionalFile.isEmpty()) return;
+            attemptToSetFileAsImage(optionalFile.get());
         }, CHOOSE_IMAGE_WAITER_THREAD_NAME);
     }
 

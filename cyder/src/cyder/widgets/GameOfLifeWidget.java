@@ -8,6 +8,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetFileBuilder;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
@@ -481,12 +482,13 @@ public final class GameOfLifeWidget {
     @ForReadability
     private static void loadButtonAction() {
         CyderThreadRunner.submit(() -> {
-            File loadFile = GetterUtil.getInstance().getFile(new GetterUtil.Builder("Load state")
+            Optional<File> optionalFile = GetterUtil.getInstance().getFile(new GetFileBuilder("Load state")
                     .setRelativeTo(conwayFrame));
+            if (optionalFile.isEmpty()) return;
+            File file = optionalFile.get();
 
-            if (loadFile != null && loadFile.exists()
-                    && FileUtil.validateExtension(loadFile, Extension.JSON.getExtension())) {
-                fromJson(loadFile);
+            if (file.exists() && FileUtil.validateExtension(file, Extension.JSON.getExtension())) {
+                fromJson(file);
             }
         }, CONWAY_STATE_LOADER_THREAD_NAME);
     }

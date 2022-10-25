@@ -9,6 +9,7 @@ import cyder.enums.CyderInspection;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetFileBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -31,6 +32,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
@@ -107,7 +109,7 @@ public final class ImageAveragerWidget {
     /**
      * The builder for the getter util instance to add a file.
      */
-    private static final GetterUtil.Builder builder = new GetterUtil.Builder("Select any image file")
+    private static final GetFileBuilder builder = new GetFileBuilder("Select any image file")
             .setRelativeTo(averagerFrame);
 
     /**
@@ -250,10 +252,10 @@ public final class ImageAveragerWidget {
     private static void addButtonAction() {
         CyderThreadRunner.submit(() -> {
             try {
-                File addFile = GetterUtil.getInstance().getFile(builder);
-                if (addFile == null || StringUtil.isNullOrEmpty(FileUtil.getFilename(addFile))) {
-                    return;
-                }
+                Optional<File> optionalFile = GetterUtil.getInstance().getFile(builder);
+                if (optionalFile.isEmpty()) return;
+                File addFile = optionalFile.get();
+                if (StringUtil.isNullOrEmpty(FileUtil.getFilename(addFile))) return;
 
                 boolean supportedImage = FileUtil.isSupportedImageExtension(addFile);
                 if (!supportedImage) {

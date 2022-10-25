@@ -5,7 +5,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
-import cyder.enums.SystemPropertyKey;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -26,6 +25,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
@@ -422,6 +422,13 @@ public class GetterUtil {
     private static final String SUBMIT = "Submit";
 
     /**
+     * Whether the submit button text should be updated to reflect the currently selected file/directory.
+     */
+    private final AtomicBoolean shouldUpdateSubmitButtonText = new AtomicBoolean();
+
+    // todo we could also allow an option for file extension filters
+
+    /**
      * Opens up frame with a field and a file chooser for the user to enter
      * a file location or navigate to a file/directory and submit it.
      * <p>
@@ -444,8 +451,7 @@ public class GetterUtil {
      * @param getFileBuilder the GetFileBuilder to use
      * @return the user chosen file or directory. Empty optional if a file was not chosen
      */
-    // todo return optional
-    public File getFile(Builder getFileBuilder) {
+    public Optional<File> getFile(GetFileBuilder getFileBuilder) {
         checkNotNull(getFileBuilder);
 
         directoryFrame = new CyderFrame(frameWidth, frameHeight);
@@ -462,19 +468,20 @@ public class GetterUtil {
         });
 
         String threadName = "getFile waiter thread, title: "
-                + CyderStrings.quote + getFileBuilder.getTitle() + CyderStrings.quote;
+                + CyderStrings.quote + getFileBuilder.getFrameTitle() + CyderStrings.quote;
         CyderThreadRunner.submit(() -> {
             try {
                 resetFileHistory();
 
                 directoryFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 directoryFrame.addPreCloseAction(() -> getFileFrames.remove(directoryFrame));
-                // todo post close actions from builder
+                getFileBuilder.getOnDialogDisposalRunnables().forEach(directoryFrame::addPostCloseAction);
                 directoryFrame.setTitle(INITIAL_DIRECTORY_FRAME_TITLE);
 
                 directoryField = new CyderTextField();
                 directoryField.setBackground(CyderColors.vanilla);
-                directoryField.setForeground(CyderColors.navy);
+                directoryField.setForeground(getFileBuilder.getFieldForeground());
+                directoryField.setFont(getFileBuilder.getFieldFont());
                 directoryField.setBorder(new LineBorder(CyderColors.navy, 5, false));
                 directoryField.addActionListener(e -> {
                     File chosenDir = new File(directoryField.getText());
@@ -521,8 +528,12 @@ public class GetterUtil {
                         directoryScrollHeight, CyderScrollList.SelectionPolicy.SINGLE);
                 directoryScrollList.setScrollFont(directoryScrollFont);
 
-                submitButton = new CyderButton(SUBMIT);
-                submitButton.setColors(CyderColors.regularPink);
+                String buttonText = getFileBuilder.getSubmitButtonText();
+                shouldUpdateSubmitButtonText.set(buttonText.equals(SUBMIT));
+
+                submitButton = new CyderButton(buttonText);
+                submitButton.setColors(getFileBuilder.getSubmitButtonColor());
+                submitButton.setFont(getFileBuilder.getSubmitButtonFont());
                 submitButton.setBounds(padding, submitButtonY, directoryScrollWidth, navButtonSize);
                 submitButton.addActionListener(e -> {
                     Optional<String> optionalSelectedElement = directoryScrollList.getSelectedElement();
@@ -531,11 +542,23 @@ public class GetterUtil {
 
                     filesList.forEach(file -> {
                         if (file.getName().equals(selectedElement)) {
+                            boolean allowFileSubmissions = getFileBuilder.isAllowFileSubmission();
+                            boolean allowFolderSubmissions = getFileBuilder.isAllowFolderSubmission();
+
                             if (file.isFile()) {
-                                setOnFileChosen.set(file);
-                                // todo else if builder allows submission of directories
-                            } else {
-                                directoryFrame.toast("Cannot submit a directory");
+                                if (allowFileSubmissions) {
+                                    setOnFileChosen.set(file);
+                                } else {
+                                    directoryFrame.toast("Cannot submit a file");
+                                }
+                            }
+
+                            if (file.isDirectory()) {
+                                if (allowFolderSubmissions) {
+                                    setOnFileChosen.set(file);
+                                } else {
+                                    directoryFrame.toast("Cannot submit a folder");
+                                }
                             }
                         }
                     });
@@ -551,16 +574,13 @@ public class GetterUtil {
                     relativeTo.setEnabled(false);
                     directoryFrame.addPostCloseAction(generateGetterFramePostCloseAction(relativeTo));
                 }
-
                 directoryFrame.setLocationRelativeTo(relativeTo);
                 directoryFrame.setVisible(true);
 
-                String builderInitial = getFileBuilder.getInitialString();
-                if (StringUtil.isNullOrEmpty(builderInitial))
-                    builderInitial = SystemPropertyKey.USER_DIR.getProperty();
-                currentDirectory = new File(builderInitial);
+                currentDirectory = getFileBuilder.getInitialDirectory();
                 refreshFiles();
-                // todo initial directory text if present
+                String fieldText = getFileBuilder.getInitialFieldText();
+                if (!StringUtil.isNullOrEmpty(fieldText)) directoryField.setText(fieldText);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -577,8 +597,12 @@ public class GetterUtil {
             resetFileHistory();
         }
 
-        return setOnFileChosen.get().getName().equals(CyderStrings.NULL)
-                ? null : setOnFileChosen.get();
+        boolean nullFile = setOnFileChosen.get().getName().equals(CyderStrings.NULL);
+        if (nullFile) {
+            return Optional.empty();
+        } else {
+            return Optional.of(setOnFileChosen.get());
+        }
     }
 
     /**
@@ -621,8 +645,10 @@ public class GetterUtil {
                 String fileName = filesNamesList.get(i);
 
                 Runnable singleClickAction = () -> {
-                    String suffix = file.isDirectory() ? " (Directory)" : "";
-                    submitButton.setText(SUBMIT + CyderStrings.colon + CyderStrings.space + fileName + suffix);
+                    if (shouldUpdateSubmitButtonText.get()) {
+                        String suffix = file.isDirectory() ? " (Directory)" : "";
+                        submitButton.setText(SUBMIT + CyderStrings.colon + CyderStrings.space + fileName + suffix);
+                    }
                 };
 
                 Runnable doubleClickAction = () -> {
@@ -644,7 +670,9 @@ public class GetterUtil {
             directoryScrollLabel.setBounds(padding, dirScrollYOffset, directoryScrollWidth, directoryScrollHeight);
             directoryFrame.getContentPane().add(directoryScrollLabel);
 
-            submitButton.setText(SUBMIT);
+            if (shouldUpdateSubmitButtonText.get()) {
+                submitButton.setText(SUBMIT);
+            }
 
             loadingFilesLabel.setVisible(false);
             setNavComponentsEnabled(true);

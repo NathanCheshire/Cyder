@@ -15,6 +15,7 @@ import cyder.enums.CyderInspection;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.getter.GetFileBuilder;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.external.PhotoViewer;
@@ -1059,13 +1060,15 @@ public final class AudioPlayer {
 
         CyderThreadRunner.submit(() -> {
             chooseFileLocked.set(true);
-            File chosenFile =
-                    GetterUtil.getInstance().getFile(new GetterUtil.Builder("Choose an mp3 or wav file")
+            Optional<File> optionalFile = GetterUtil.getInstance().getFile(
+                    new GetFileBuilder("Audio file chooser")
                             .setRelativeTo(audioPlayerFrame));
+            if (optionalFile.isEmpty()) return;
+            File chosenFile = optionalFile.get();
 
             chooseFileLocked.set(false);
 
-            if (chosenFile != null && FileUtil.isSupportedAudioExtension(chosenFile)) {
+            if (FileUtil.isSupportedAudioExtension(chosenFile)) {
                 lastAction = LastAction.FileChosen;
 
                 if (currentFrameView.get() == FrameView.SEARCH) {
