@@ -11,11 +11,11 @@ import cyder.utils.ReflectionUtil;
 import java.lang.reflect.Method;
 
 /**
- * A handle for invoking gui tests.
+ * A handler for invoking {@link GuiTest}s.
  */
 public class GuiTestHandler extends InputHandler {
     /**
-     * Suppress default constructor
+     * Suppress default constructor.
      */
     private GuiTestHandler() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
@@ -33,7 +33,8 @@ public class GuiTestHandler extends InputHandler {
                     String trigger = method.getAnnotation(GuiTest.class).value();
                     if (trigger.equalsIgnoreCase(getInputHandler().commandAndArgsToString())) {
                         try {
-                            getInputHandler().println("Invoking gui test \"" + method.getName() + CyderStrings.quote);
+                            getInputHandler().println("Invoking gui test " + CyderStrings.quote
+                                    + method.getName() + CyderStrings.quote);
                             method.invoke(classer);
                             ret = true;
                         } catch (Exception e) {

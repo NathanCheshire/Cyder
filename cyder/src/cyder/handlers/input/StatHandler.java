@@ -115,7 +115,7 @@ public class StatHandler extends InputHandler {
             getInputHandler().println("Number of log dirs: " + days);
             getInputHandler().println("Number of logs: " + count);
         } else if (getInputHandler().commandIs("tests")) {
-            getInputHandler().println("Valid GUI tests to call:\n");
+            getInputHandler().println("Valid GUI tests to call:");
             getInputHandler().printlns(ReflectionUtil.getGuiTests());
         } else if (getInputHandler().inputIgnoringSpacesMatches("networkaddresses")) {
             try {

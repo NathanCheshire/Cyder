@@ -48,7 +48,7 @@ public final class GuiTests {
      * Tests for the switcher.
      */
     @GuiTest("switcher test")
-    private static void cyderSwitcherTest() {
+    public static void cyderSwitcherTest() {
         CyderFrame testFrame = new CyderFrame(280, 120);
         testFrame.setTitle("Switcher test");
 
@@ -76,7 +76,7 @@ public final class GuiTests {
      * Tests for the CyderGrid.
      */
     @GuiTest("grid test")
-    private static void cyderGridTest() {
+    public static void cyderGridTest() {
         CyderFrame cf = new CyderFrame(1000, 1000);
         cf.setTitle("Cyder Grid");
 
@@ -95,7 +95,7 @@ public final class GuiTests {
      * Tests for drag label buttons.
      */
     @GuiTest("drag label button test")
-    private static void dragLabelButtonTest() {
+    public static void dragLabelButtonTest() {
         CyderFrame testFrame = new CyderFrame(600, 600, CyderIcons.defaultBackground);
         testFrame.setTitle("Drag label test");
 
@@ -161,7 +161,7 @@ public final class GuiTests {
      * Tests for notifications.
      */
     @GuiTest("notification test")
-    private static void notificationTest() {
+    public static void notificationTest() {
         CyderFrame testFrame = new CyderFrame(600, 600, CyderIcons.defaultBackground);
         testFrame.setTitle("Notification Test");
 
@@ -248,7 +248,7 @@ public final class GuiTests {
     }
 
     @GuiTest("askew test")
-    private static void askewTest() {
+    public static void askewTest() {
         CyderFrame testFrame = new CyderFrame(350, 300, CyderIcons.defaultBackground);
         testFrame.setTitle("Askew Test");
 
@@ -268,7 +268,7 @@ public final class GuiTests {
      * Tests for the sliding icon label.
      */
     @GuiTest("sliding icon label test")
-    private static void iconLabelSlidingTest() {
+    public static void iconLabelSlidingTest() {
         ImageIcon theImage = new ImageIcon(ImageUtil.getImageGradient(600, 1200,
                 CyderColors.regularPink, CyderColors.regularBlue, CyderColors.regularBlue));
 
@@ -343,7 +343,7 @@ public final class GuiTests {
      * Tests for checkboxes.
      */
     @GuiTest("checkbox test")
-    private static void checkboxTest() {
+    public static void checkboxTest() {
         CyderFrame testFrame = new CyderFrame(400, 400, CyderIcons.defaultBackground);
         testFrame.setTitle("Checkbox Test");
 
@@ -365,7 +365,7 @@ public final class GuiTests {
      * Tests for the progress bar ui.
      */
     @GuiTest("progress bar test")
-    private static void progressBarTest() {
+    public static void progressBarTest() {
         CyderFrame cf = new CyderFrame(400, 100);
         cf.setTitle("ProgressBar Test");
 
@@ -397,7 +397,7 @@ public final class GuiTests {
      * Tests for the slider ui.
      */
     @GuiTest("slider test")
-    private static void cyderSliderTest() {
+    public static void cyderSliderTest() {
         CyderFrame testFrame = new CyderFrame(400, 400);
         testFrame.setTitle("Cyder Slider Test");
 
@@ -431,7 +431,7 @@ public final class GuiTests {
      * Tests for the frame title length.
      */
     @GuiTest("frame length test")
-    private static void frameTitleLengthTest() {
+    public static void frameTitleLengthTest() {
         CyderFrame cf = new CyderFrame(600, 200);
         cf.setTitle("Title Length Test");
         cf.setTitlePosition(CyderFrame.TitlePosition.LEFT);
@@ -453,7 +453,7 @@ public final class GuiTests {
      * Tests for the switch.
      */
     @GuiTest("switch test")
-    private static void switchTest() {
+    public static void switchTest() {
         CyderFrame testFrame = new CyderFrame(500, 500);
         testFrame.setTitle("CyderSwitch test");
 
@@ -469,7 +469,7 @@ public final class GuiTests {
      * Tests for the ripple label.
      */
     @GuiTest("ripple label test")
-    private static void rippleLabelTest() {
+    public static void rippleLabelTest() {
         CyderFrame rippleTestFrame = new CyderFrame(600, 600);
         rippleTestFrame.setTitle("Ripple Test");
 
@@ -498,7 +498,7 @@ public final class GuiTests {
      * Tests for the checkbox group.
      */
     @GuiTest("checkbox group test")
-    private static void checkboxGroupTest() {
+    public static void checkboxGroupTest() {
         CyderFrame testFrame = new CyderFrame(400, 110);
         testFrame.setTitle("Checkbox group test");
 
@@ -522,7 +522,7 @@ public final class GuiTests {
      * Test for the grid layout.
      */
     @GuiTest("grid layout test")
-    private static void cyderGridLayoutTest() {
+    public static void cyderGridLayoutTest() {
         //regular frame calls
         CyderFrame gridTestFrame = new CyderFrame(800, 800);
         gridTestFrame.setTitle("Grid Layout Test");
@@ -578,7 +578,7 @@ public final class GuiTests {
      * Test for the flow layout.
      */
     @GuiTest("flow layout test")
-    private static void flowLayoutTest() {
+    public static void flowLayoutTest() {
         CyderFrame testFrame = new CyderFrame(600, 600);
         testFrame.setTitle("Flow Layout Test");
 
@@ -614,7 +614,7 @@ public final class GuiTests {
      * Tests for popups switcher.
      */
     @GuiTest("inform test")
-    private static void popupTest() {
+    public static void popupTest() {
         CyderFrame testFrame = new CyderFrame(400, 120);
         testFrame.setTitle("Inform Test");
 
@@ -636,7 +636,7 @@ public final class GuiTests {
      * Tests for CyderFrame menu.
      */
     @GuiTest("menu test")
-    private static void frameMenuTest() {
+    public static void frameMenuTest() {
         CyderFrame testFrame = new CyderFrame(400, 400);
         testFrame.setTitle("Menu Test");
 
@@ -696,7 +696,7 @@ public final class GuiTests {
      * onto an inform pane custom container test.
      */
     @GuiTest("notify container test")
-    private static void notifyAndInformCustomContainerTest() {
+    public static void notifyAndInformCustomContainerTest() {
         CyderFrame testFrame = new CyderFrame(400, 400);
         testFrame.setTitle("Notify Container Test");
 
@@ -731,7 +731,7 @@ public final class GuiTests {
      * onto an inform pane custom container test.
      */
     @GuiTest("disable relative to test")
-    private static void informDisableRelativeToTest() {
+    public static void informDisableRelativeToTest() {
         CyderFrame testFrame = new CyderFrame(400, 400);
         testFrame.setTitle("Disable RelativeTo test");
 
@@ -746,7 +746,7 @@ public final class GuiTests {
      * Tests for the shape of the checkbox check.
      */
     @GuiTest("checkbox check")
-    private static void checkboxCheckTest() {
+    public static void checkboxCheckTest() {
         CyderFrame checkboxFrame = new CyderFrame(220, 350);
         checkboxFrame.setTitle("Checkbox Test");
 
@@ -803,7 +803,7 @@ public final class GuiTests {
      * Tests for partitioned layouts.
      */
     @GuiTest("partitioned layout test")
-    private static void partitionedLayoutTest() {
+    public static void partitionedLayoutTest() {
         CyderFrame horizontalFrame = new CyderFrame(200, 500);
         horizontalFrame.setTitle("Partitioned layout");
 
@@ -843,7 +843,7 @@ public final class GuiTests {
      * Tests for drag label buttons.
      */
     @GuiTest("drag label text button test")
-    private static void dragLabelTextButtonTest() {
+    public static void dragLabelTextButtonTest() {
         CyderFrame testFrame = new CyderFrame(800, 800);
         testFrame.setTitle("Drag Label Text Button Test");
 
@@ -899,7 +899,7 @@ public final class GuiTests {
      * Modern button tests.
      */
     @GuiTest("modern button test")
-    private static void modernButtonTest() {
+    public static void modernButtonTest() {
         CyderFrame testFrame = new CyderFrame();
         testFrame.setTitle("Modern button test");
         testFrame.setSize(500, 200);
@@ -950,7 +950,7 @@ public final class GuiTests {
      * Tests for the text field hint text.
      */
     @GuiTest("hint text test")
-    private static void testTextFieldHintText() {
+    public static void testTextFieldHintText() {
         CyderFrame frame = new CyderFrame();
         frame.setTitle("Test");
 
@@ -974,7 +974,7 @@ public final class GuiTests {
      * Tests for the icons and hint text of text fields.
      */
     @GuiTest("field icons test")
-    private static void testTextFieldIcons() {
+    public static void testTextFieldIcons() {
         CyderFrame frame = new CyderFrame();
         frame.setTitle("Test");
 

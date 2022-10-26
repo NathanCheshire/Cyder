@@ -19,6 +19,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.ProgramModeManager;
 import cyder.handlers.input.BaseInputHandler;
+import cyder.handlers.input.TestHandler;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -27,7 +28,6 @@ import cyder.math.GeometryUtil;
 import cyder.math.NumberUtil;
 import cyder.network.NetworkUtil;
 import cyder.props.PropLoader;
-import cyder.test.Test;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
@@ -1168,7 +1168,7 @@ public enum Console {
         String state = ProgramModeManager.INSTANCE.getProgramMode().getName();
         Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername() + closingBracket
                 + space + openingBracket + state + closingBracket);
-        if (PropLoader.getBoolean(TESTING_MODE)) Test.test();
+        if (PropLoader.getBoolean(TESTING_MODE)) TestHandler.invokeDefaultTests();
 
         long lastStart = Long.parseLong(UserUtil.getCyderUser().getLastStart());
         long millisSinceLastStart = System.currentTimeMillis() - lastStart;

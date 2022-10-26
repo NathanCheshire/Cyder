@@ -629,7 +629,7 @@ public final class ReflectionUtil {
 
         Logger.log(LogTag.DEBUG, errorString);
         InformHandler.inform(new InformHandler.Builder(errorString).setTitle(
-                StringUtil.capsFirst(handleWarning.name().replace("_", ""))));
+                StringUtil.capsFirst(handleWarning.name().replace("_", CyderStrings.space))));
     }
 
     /**

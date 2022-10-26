@@ -157,6 +157,7 @@ public class BaseInputHandler {
             UrlHandler.class,
             PreferenceHandler.class,
             GuiTestHandler.class,
+            TestHandler.class,
             WrappedCommandHandler.class
     );
 
