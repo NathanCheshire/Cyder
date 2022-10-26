@@ -344,7 +344,7 @@ public final class GetterUtil {
     /**
      * The padding value used for components near the get file frame.
      */
-    private static final int padding = 10;
+    private static final int getFilePadding = 10;
 
     /**
      * The size of the navigation buttons.
@@ -354,7 +354,7 @@ public final class GetterUtil {
     /**
      * The y value of the directory scroll component.
      */
-    private static final int dirScrollYOffset = CyderDragLabel.DEFAULT_HEIGHT + navButtonSize + 2 * padding;
+    private static final int dirScrollYOffset = CyderDragLabel.DEFAULT_HEIGHT + navButtonSize + 2 * getFilePadding;
 
     /**
      * The label to let the user know the files are being loaded from the current directory for the file getter.
@@ -374,47 +374,48 @@ public final class GetterUtil {
     /**
      * The x value of the directory field.
      */
-    private static final int directoryFieldX = padding + navButtonSize + padding;
+    private static final int directoryFieldX = getFilePadding + navButtonSize + getFilePadding;
 
     /**
      * The directory field width.
      */
-    private static final int directoryFieldWidth = directoryScrollWidth - 2 * navButtonSize - 2 * padding;
+    private static final int directoryFieldWidth = directoryScrollWidth - 2 * navButtonSize - 2 * getFilePadding;
 
     /**
-     * The y value of the components at the top of the frame.
+     * The y value of the components at the top of the get file frame.
      */
-    private static final int topComponentY = CyderDragLabel.DEFAULT_HEIGHT + padding;
+    private static final int getFileTopComponentY = CyderDragLabel.DEFAULT_HEIGHT + getFilePadding;
 
     /**
-     * The padding from all other components/padding and the frame border.
+     * The padding from all other components/padding and the get file frame border.
      */
-    private static final int frameXPadding = 15;
+    private static final int getFileFrameXPadding = 15;
 
     /**
      * The width of the file chooser frame.
      */
-    private static final int frameWidth = directoryScrollWidth + 2 * frameXPadding;
+    private static final int fileChooserFrameWidth = directoryScrollWidth + 2 * getFileFrameXPadding;
 
     /**
      * The padding on the bottom of the file chooser frame.
      */
-    private static final int bottomFramePadding = 100;
+    private static final int fileChooserBottomFramePadding = 100;
 
     /**
      * The height of the file chooser frame.
      */
-    private static final int frameHeight = directoryScrollHeight + navButtonSize + 2 * padding + bottomFramePadding;
+    private static final int frameHeight = directoryScrollHeight + navButtonSize
+            + 2 * getFilePadding + fileChooserBottomFramePadding;
 
     /**
-     * The y value of the submit button.
+     * The y value of the submit file button.
      */
-    private static final int submitButtonY = frameHeight - navButtonSize - 2 * padding;
+    private static final int submitFileButtonY = frameHeight - navButtonSize - 2 * getFilePadding;
 
     /**
-     * The submit button.
+     * The submit file button.
      */
-    private CyderButton submitButton;
+    private CyderButton submitFileButton;
 
     /**
      * The submit text for the submit button.
@@ -457,7 +458,7 @@ public final class GetterUtil {
     public Optional<File> getFile(GetFileBuilder getFileBuilder) {
         checkNotNull(getFileBuilder);
 
-        directoryFrame = new CyderFrame(frameWidth, frameHeight);
+        directoryFrame = new CyderFrame(fileChooserFrameWidth, frameHeight);
 
         getFileFrames.add(directoryFrame);
         directoryFrame.addWindowListener(new WindowAdapter() {
@@ -497,7 +498,8 @@ public final class GetterUtil {
                         setOnFileChosen.set(chosenDir);
                     }
                 });
-                directoryField.setBounds(directoryFieldX, topComponentY, directoryFieldWidth, topComponentY);
+                directoryField.setBounds(directoryFieldX, getFileTopComponentY, directoryFieldWidth,
+                        getFileTopComponentY);
                 directoryFrame.getContentPane().add(directoryField);
 
                 lastDirectory = new CyderButton(LAST_BUTTON_TEXT);
@@ -510,7 +512,7 @@ public final class GetterUtil {
                         refreshFiles();
                     }
                 });
-                lastDirectory.setBounds(padding, topComponentY, navButtonSize, navButtonSize);
+                lastDirectory.setBounds(getFilePadding, getFileTopComponentY, navButtonSize, navButtonSize);
                 directoryFrame.getContentPane().add(lastDirectory);
 
                 nextDirectory = new CyderButton(NEXT_BUTTON_TEXT);
@@ -524,8 +526,8 @@ public final class GetterUtil {
                         refreshFiles();
                     }
                 });
-                int nextX = frameWidth - 2 * padding - navButtonSize;
-                nextDirectory.setBounds(nextX, topComponentY, navButtonSize, navButtonSize);
+                int nextX = fileChooserFrameWidth - 2 * getFilePadding - navButtonSize;
+                nextDirectory.setBounds(nextX, getFileTopComponentY, navButtonSize, navButtonSize);
                 directoryFrame.getContentPane().add(nextDirectory);
 
                 directoryScrollList = new CyderScrollList(directoryScrollWidth,
@@ -535,11 +537,11 @@ public final class GetterUtil {
                 String buttonText = getFileBuilder.getSubmitButtonText();
                 shouldUpdateSubmitButtonText.set(buttonText.equals(SUBMIT));
 
-                submitButton = new CyderButton(buttonText);
-                submitButton.setColors(getFileBuilder.getSubmitButtonColor());
-                submitButton.setFont(getFileBuilder.getSubmitButtonFont());
-                submitButton.setBounds(padding, submitButtonY, directoryScrollWidth, navButtonSize);
-                submitButton.addActionListener(e -> {
+                submitFileButton = new CyderButton(buttonText);
+                submitFileButton.setColors(getFileBuilder.getSubmitButtonColor());
+                submitFileButton.setFont(getFileBuilder.getSubmitButtonFont());
+                submitFileButton.setBounds(getFilePadding, submitFileButtonY, directoryScrollWidth, navButtonSize);
+                submitFileButton.addActionListener(e -> {
                     Optional<String> optionalSelectedElement = directoryScrollList.getSelectedElement();
                     if (optionalSelectedElement.isEmpty()) return;
                     String selectedElement = optionalSelectedElement.get();
@@ -593,7 +595,7 @@ public final class GetterUtil {
                         }
                     });
                 });
-                directoryFrame.getContentPane().add(submitButton);
+                directoryFrame.getContentPane().add(submitFileButton);
 
                 setupLoadingFilesLabel();
                 loadingFilesLabel.setVisible(true);
@@ -678,7 +680,7 @@ public final class GetterUtil {
                     if (shouldUpdateSubmitButtonText.get()) {
                         String suffix = file.isDirectory()
                                 ? space + openingParenthesis + DIRECTORY + closingParenthesis : "";
-                        submitButton.setText(SUBMIT + colon + space + fileName + suffix);
+                        submitFileButton.setText(SUBMIT + colon + space + fileName + suffix);
                     }
                 };
 
@@ -698,11 +700,12 @@ public final class GetterUtil {
             });
 
             directoryScrollLabel = directoryScrollList.generateScrollList();
-            directoryScrollLabel.setBounds(padding, dirScrollYOffset, directoryScrollWidth, directoryScrollHeight);
+            directoryScrollLabel.setBounds(getFilePadding, dirScrollYOffset,
+                    directoryScrollWidth, directoryScrollHeight);
             directoryFrame.getContentPane().add(directoryScrollLabel);
 
             if (shouldUpdateSubmitButtonText.get()) {
-                submitButton.setText(SUBMIT);
+                submitFileButton.setText(SUBMIT);
             }
 
             loadingFilesLabel.setVisible(false);
@@ -738,7 +741,7 @@ public final class GetterUtil {
         loadingFilesLabel.setForeground(CyderColors.navy);
         loadingFilesLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         loadingFilesLabel.setOpaque(false);
-        loadingFilesLabel.setBounds(padding, dirScrollYOffset, directoryScrollWidth, directoryScrollHeight);
+        loadingFilesLabel.setBounds(getFilePadding, dirScrollYOffset, directoryScrollWidth, directoryScrollHeight);
         loadingFilesLabel.setVisible(false);
     }
 
@@ -753,6 +756,45 @@ public final class GetterUtil {
         directoryField.setEnabled(enabled);
     }
 
+    /**
+     * The padding of the confirmation buttons.
+     */
+    private static final int confirmationButtonXPadding = 20;
+
+    /**
+     * The height of the confirmation buttons.
+     */
+    private static final int confirmationButtonHeight = 40;
+
+    /**
+     * The padding between the top of the frame and confirmation frame components.
+     */
+    private static final int confirmationFrameTopPadding = 40;
+
+    /**
+     * The padding between the bottom of the confirmation text and the next components.
+     */
+    private static final int confirmationTextBottomPadding = 20;
+
+    /**
+     * The padding between the confirmation buttons and the bottom of the frame.
+     */
+    private static final int confirmationButtonBottomPadding = 25;
+
+    /**
+     * The padding between the frame edges and the confirmation label.
+     */
+    private static final int confirmationTextLabelXPadding = 10;
+
+    /**
+     * The number of confirmation buttons.
+     */
+    private static final int numConfirmationButtons = 2;
+
+    /**
+     * The padding between the confirmation buttons.
+     */
+    private static final int yesNoButtonPadding = 30;
 
     /**
      * Opens up a frame with a label and a yes/no button for the user to confirm or deny some action.
@@ -796,64 +838,58 @@ public final class GetterUtil {
                 int textHeight = boundsString.height();
                 textLabel.setText(boundsString.text());
 
-                // todo extract from method scope
-                int buttonXPadding = 20;
-                int confirmationButtonHeight = 40;
-                int frameTopPadding = 40;
-                int textBottomPadding = 20;
-                int buttonBottomPadding = 25;
-                int frameWidth = 2 * buttonXPadding + textWidth;
-                int frameHeight = frameTopPadding + textHeight + textBottomPadding
-                        + confirmationButtonHeight + buttonBottomPadding;
-                int textLabelXPadding = 10;
-                int numConfirmationButtons = 2;
-                int betweenButtonPadding = 30;
-                int buttonWidth = (frameWidth - betweenButtonPadding - 2 * buttonXPadding) / numConfirmationButtons;
-                int noButtonX = buttonXPadding + buttonWidth + betweenButtonPadding;
+                int confirmationFrameWidth = 2 * confirmationButtonXPadding + textWidth;
+                int confirmationFrameHeight = confirmationFrameTopPadding + textHeight
+                        + confirmationTextBottomPadding + confirmationButtonHeight + confirmationButtonBottomPadding;
+                int confirmationButtonWidth = (confirmationFrameWidth - yesNoButtonPadding
+                        - 2 * confirmationButtonXPadding) / numConfirmationButtons;
+                int noButtonX = confirmationButtonXPadding + confirmationButtonWidth + yesNoButtonPadding;
 
-                CyderFrame frame = new CyderFrame(frameWidth, frameHeight, CyderIcons.defaultBackgroundLarge);
-                getConfirmationFrames.add(frame);
-                frameReference.set(frame);
-                getConfirmationBuilder.getOnDialogDisposalRunnables().forEach(frame::addPostCloseAction);
+                CyderFrame confirmationFrame = new CyderFrame(
+                        confirmationFrameWidth, confirmationFrameHeight, CyderIcons.defaultBackgroundLarge);
+                getConfirmationFrames.add(confirmationFrame);
+                frameReference.set(confirmationFrame);
+                getConfirmationBuilder.getOnDialogDisposalRunnables().forEach(confirmationFrame::addPostCloseAction);
 
-                frame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
-                frame.setTitle(getConfirmationBuilder.getFrameTitle());
-                frame.addPreCloseAction(() -> {
+                confirmationFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
+                confirmationFrame.setTitle(getConfirmationBuilder.getFrameTitle());
+                confirmationFrame.addPreCloseAction(() -> {
                     if (ret.get() != Boolean.TRUE) {
                         ret.set(Boolean.FALSE);
                     }
 
-                    getConfirmationFrames.remove(frame);
+                    getConfirmationFrames.remove(confirmationFrame);
                 });
 
-                int currentY = frameTopPadding;
+                int currentY = confirmationFrameTopPadding;
 
-                textLabel.setBounds(textLabelXPadding, currentY, textWidth, textHeight);
-                frame.getContentPane().add(textLabel);
-                currentY += textHeight + textBottomPadding;
+                textLabel.setBounds(confirmationTextLabelXPadding, currentY, textWidth, textHeight);
+                confirmationFrame.getContentPane().add(textLabel);
+                currentY += textHeight + confirmationTextBottomPadding;
 
                 CyderButton yesButton = new CyderButton(getConfirmationBuilder.getYesButtonText());
                 yesButton.setColors(getConfirmationBuilder.getYesButtonColor());
                 yesButton.setFont(getConfirmationBuilder.getYesButtonFont());
                 yesButton.addActionListener(e -> ret.set(Boolean.TRUE));
-                yesButton.setBounds(buttonXPadding, currentY, buttonWidth, confirmationButtonHeight);
-                frame.getContentPane().add(yesButton);
+                yesButton.setBounds(confirmationButtonXPadding, currentY,
+                        confirmationButtonWidth, confirmationButtonHeight);
+                confirmationFrame.getContentPane().add(yesButton);
 
                 CyderButton noButton = new CyderButton(getConfirmationBuilder.getNoButtonText());
                 noButton.setColors(getConfirmationBuilder.getNoButtonColor());
                 yesButton.setFont(getConfirmationBuilder.getNoButtonFont());
                 noButton.addActionListener(e -> ret.set(Boolean.FALSE));
-                noButton.setBounds(noButtonX, currentY, buttonWidth, confirmationButtonHeight);
-                frame.getContentPane().add(noButton);
+                noButton.setBounds(noButtonX, currentY, confirmationButtonWidth, confirmationButtonHeight);
+                confirmationFrame.getContentPane().add(noButton);
 
                 CyderFrame relativeTo = getConfirmationBuilder.getRelativeTo();
                 if (relativeTo != null && getConfirmationBuilder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
-                    frame.addPostCloseAction(relativeTo::toFront);
+                    confirmationFrame.addPostCloseAction(relativeTo::toFront);
                 }
 
-                frame.setLocationRelativeTo(relativeTo);
-                frame.setVisible(true);
+                confirmationFrame.setLocationRelativeTo(relativeTo);
+                confirmationFrame.setVisible(true);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
