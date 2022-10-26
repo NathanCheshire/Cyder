@@ -54,7 +54,6 @@ public final class VideoUtil {
             try {
                 image = ImageIO.read(frameFile);
             } catch (Exception ignored) {
-                System.out.println("Failed to load image");
                 return;
             }
             cyderFrame.setBackground(image);
@@ -67,7 +66,7 @@ public final class VideoUtil {
             if (sleepTime >= 0) {
                 ThreadUtil.sleep(sleepTime);
             } else {
-                System.out.println("Need to skip frames, behind: " + Math.abs(sleepTime) + "ms");
+                // ("Need to skip frames, behind: " + Math.abs(sleepTime) + "ms");
             }
         }
     }

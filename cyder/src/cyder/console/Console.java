@@ -756,7 +756,6 @@ public enum Console {
         }
         // This is more so to push the frame into bounds if any part was out of bounds on the requested monitor.
         UiUtil.requestFramePosition(requestedConsoleX, requestedConsoleY, consoleCyderFrame);
-        System.out.println(consoleCyderFrame.getLocation());
     }
 
     /**

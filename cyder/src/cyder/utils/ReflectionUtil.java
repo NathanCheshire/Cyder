@@ -764,12 +764,12 @@ public final class ReflectionUtil {
         }
 
         return new SimilarCommand(StringUtil.isNullOrEmpty(mostSimilarTrigger)
-                ? Optional.empty() : Optional.of(mostSimilarTrigger), mostSimilarRatio);
+                ? Optional.empty()
+                : Optional.of(mostSimilarTrigger), mostSimilarRatio);
     }
 
     /**
-     * Returns a list the available gui tests that follow the standard
-     * naming convention to the linked JTextPane.
+     * Returns a list of valid gui triggers exposed in Cyder.
      *
      * @return a list of triggers for gui tests
      */

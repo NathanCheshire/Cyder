@@ -123,7 +123,14 @@ public final class ExceptionHandler {
                     boolean consoleOpen = Console.INSTANCE.getUuid() != null && !Console.INSTANCE.isClosed();
                     boolean silenceErrors = UserUtil.getCyderUser().getSilenceErrors().equals("1");
                     if (consoleOpen && !silenceErrors) {
-                        showExceptionPane(write, exception.getMessage());
+                        String message = "Exception";
+                        if (exception != null) {
+                            String exceptionMessage = exception.getMessage();
+                            if (exceptionMessage != null && !exceptionMessage.isEmpty()) {
+                                message = exceptionMessage;
+                            }
+                        }
+                        showExceptionPane(write, message);
                     }
                 }
             }
@@ -142,6 +149,11 @@ public final class ExceptionHandler {
      * @param exceptionMessage   the result of invoking {@link Exception#getMessage()}
      */
     private static void showExceptionPane(String printableException, String exceptionMessage) {
+        Preconditions.checkNotNull(printableException);
+        Preconditions.checkArgument(!printableException.isEmpty());
+        Preconditions.checkNotNull(exceptionMessage);
+        Preconditions.checkArgument(!exceptionMessage.isEmpty());
+
         AtomicBoolean escapeOpacityThread = new AtomicBoolean();
         ImmutableList<String> exceptionLines = ImmutableList.copyOf(printableException.split(CyderStrings.newline));
 
@@ -164,8 +176,7 @@ public final class ExceptionHandler {
         int frameWidth = labelWidth + 2 * offset;
         int frameHeight = labelHeight + 2 * offset;
         CyderFrame borderlessFrame = CyderFrame.generateBorderlessFrame(frameWidth, frameHeight, exceptionRed);
-        String title = exceptionMessage.isEmpty() ? "Exception" : exceptionMessage;
-        borderlessFrame.setTitle(title);
+        borderlessFrame.setTitle(exceptionMessage);
         borderlessFrame.setFrameType(CyderFrame.FrameType.POPUP);
 
         String labelText = builder.toString();
