@@ -252,7 +252,8 @@ public final class YoutubeUtil {
                 parsedAsciiSaveName + Extension.PNG.getExtension());
 
         try {
-            ImageIO.write(optionalBi.get(), Extension.PNG.getExtension(), saveAlbumArt);
+            boolean written = ImageIO.write(optionalBi.get(), Extension.PNG.getExtensionWithoutPeriod(), saveAlbumArt);
+            if (!written) throw new IOException("Failed to write album art");
         } catch (IOException e) {
             throw new YoutubeException("Could not write thumbnail to: " + saveAlbumArt.getAbsolutePath());
         }
@@ -349,7 +350,7 @@ public final class YoutubeUtil {
                 urlTitle + Extension.PNG.getExtension());
 
         try {
-            ImageIO.write(maxThumbnail, Extension.PNG.getExtension(), fullSaveFile);
+            ImageIO.write(maxThumbnail, Extension.PNG.getExtensionWithoutPeriod(), fullSaveFile);
             Console.INSTANCE.setBackgroundFile(fullSaveFile);
         } catch (IOException e) {
             ExceptionHandler.handle(e);

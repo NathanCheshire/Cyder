@@ -5,6 +5,7 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
+import cyder.youtube.YoutubeUtil;
 
 /**
  * A class for calling test methods manually.
@@ -30,7 +31,11 @@ public final class Test {
     public static void test() {
         CyderThreadRunner.submit(() -> {
             try {
+                // todo log the url we are downloading when we download a youtube video/audio
 
+                // todo Cyder test method to replace default test?
+
+                YoutubeUtil.downloadThumbnail("https://www.youtube.com/watch?v=9S4RCAbebxA");
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

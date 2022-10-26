@@ -361,6 +361,9 @@ public final class ReflectionUtil {
         }
     }
 
+    /**
+     * The test key word.
+     */
     private static final String TEST = "test";
 
     /**

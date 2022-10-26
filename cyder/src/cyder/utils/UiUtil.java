@@ -145,7 +145,8 @@ public final class UiUtil {
         boolean ret = false;
 
         try {
-            ret = ImageIO.write(ImageUtil.screenshotComponent(frame), Extension.PNG.getExtension(), saveFile);
+            ret = ImageIO.write(ImageUtil.screenshotComponent(frame),
+                    Extension.PNG.getExtensionWithoutPeriod(), saveFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

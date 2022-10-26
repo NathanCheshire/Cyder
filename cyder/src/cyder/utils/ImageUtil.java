@@ -1040,7 +1040,7 @@ public final class ImageUtil {
         try {
             File tmpDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName(),
                     saveName + Extension.PNG.getExtension());
-            ImageIO.write(bi, Extension.PNG.getExtension(), tmpDir);
+            ImageIO.write(bi, Extension.PNG.getExtensionWithoutPeriod(), tmpDir);
             return true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);

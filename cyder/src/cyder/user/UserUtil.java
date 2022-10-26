@@ -1193,7 +1193,7 @@ public final class UserUtil {
                 }
             }
 
-            ImageIO.write(createMe, Extension.PNG.getExtension(), backgroundFile);
+            ImageIO.write(createMe, Extension.PNG.getExtensionWithoutPeriod(), backgroundFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

@@ -164,7 +164,7 @@ public final class PaintWidget {
 
                 try {
                     File referenceFile = UserUtil.createFileInUserSpace(filename);
-                    ImageIO.write(image, Extension.PNG.getExtension(), referenceFile);
+                    ImageIO.write(image, Extension.PNG.getExtensionWithoutPeriod(), referenceFile);
 
                     paintFrame.notify(new CyderFrame.NotificationBuilder(
                             "Successfully saved grid as \"" + filename

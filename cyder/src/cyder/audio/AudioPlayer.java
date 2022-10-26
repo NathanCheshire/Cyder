@@ -146,7 +146,7 @@ public final class AudioPlayer {
     /**
      * The format of the waveform image to export.
      */
-    private static final String WAVEFORM_EXPORT_FORMAT = Extension.PNG.getExtension();
+    private static final String WAVEFORM_EXPORT_FORMAT = Extension.PNG.getExtensionWithoutPeriod();
 
     /**
      * The default text to display for the audio title label.

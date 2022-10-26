@@ -1,11 +1,9 @@
 package cyder.getter;
 
 import com.google.common.collect.ImmutableList;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
-import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -31,11 +29,12 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static cyder.constants.CyderStrings.*;
 
 /**
  * A getter utility for getting strings, confirmations, files, etc. from the user.
  */
-public class GetterUtil {
+public final class GetterUtil {
     /**
      * To obtain an instance, use {@link GetterUtil#getInstance()}.
      */
@@ -62,6 +61,16 @@ public class GetterUtil {
     private final ArrayList<CyderFrame> getInputFrames = new ArrayList<>();
 
     /**
+     * All the currently active get file frames associated with this instance.
+     */
+    private final ArrayList<CyderFrame> getFileFrames = new ArrayList<>();
+
+    /**
+     * All the currently active get confirmation confirmation associated with this instance.
+     */
+    private final ArrayList<CyderFrame> getConfirmationFrames = new ArrayList<>();
+
+    /**
      * Closes all get input frames associated with this instance.
      */
     public void closeAllGetInputFrames() {
@@ -69,21 +78,11 @@ public class GetterUtil {
     }
 
     /**
-     * All the currently active get file frames associated with this instance.
-     */
-    private final ArrayList<CyderFrame> getFileFrames = new ArrayList<>();
-
-    /**
      * Closes all get file frames associated with this instance.
      */
     public void closeAllGetFileFrames() {
         getFileFrames.forEach(frame -> frame.dispose(true));
     }
-
-    /**
-     * All the currently active get confirmation confirmation associated with this instance.
-     */
-    private final ArrayList<CyderFrame> getConfirmationFrames = new ArrayList<>();
 
     /**
      * Closes all get confirmation frames associated with this instance.
@@ -106,25 +105,24 @@ public class GetterUtil {
     // ------------------------
 
     /**
-     * The minimum width for a get input popup.
+     * The minimum width for a get input frame.
      */
-    private static final int GET_INPUT_MIN_WIDTH = 400;
+    private static final int getInputMinimumFrameWidth = 400;
 
     /**
-     * The top and bottom padding for a string popup.
+     * The top and bottom padding for a get input popup.
      */
-    private static final int GET_INPUT_Y_PADDING = 10;
+    private static final int getInputComponentYPadding = 10;
 
     /**
-     * The left and right padding for a string popup.
+     * The left and right padding for a get input popup.
      */
-    private static final int GET_INPUT_X_PADDING = 40;
+    private static final int getInputFieldAndButtonXPadding = 40;
 
     /**
-     * The line border for the get input's submit button.
+     * The height of the get input frame's input field and submit button.
      */
-    private static final LineBorder GET_INPUT_SUBMIT_BUTTON_BORDER
-            = new LineBorder(CyderColors.navy, 5, false);
+    private static final int getInputFieldAndButtonHeight = 40;
 
     /**
      * Opens up frame with a field and a label for the user to enter input to be returned.
@@ -136,7 +134,7 @@ public class GetterUtil {
      *  {@code
      *  CyderThreadRunner.submit(() -> {
      *      try {
-     *          String input = GetterUtil().getInstance().getInput(getInputBuilder);
+     *          String input = GetterUtil.getInstance().getInput(getInputBuilder);
      *          // Other operations using input
      *      } catch (Exception e) {
      *          ErrorHandler.handle(e);
@@ -154,38 +152,36 @@ public class GetterUtil {
 
         AtomicReference<String> returnString = new AtomicReference<>();
 
-        String threadName = "GetInput waiter thread, title: "
-                + CyderStrings.quote + getInputBuilder.getFrameTitle() + CyderStrings.quote;
+        String threadName = "GetInput waiter thread, title: " + quote + getInputBuilder.getFrameTitle() + quote;
         CyderThreadRunner.submit(() -> {
             BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(
                     getInputBuilder.getLabelText(),
                     getInputBuilder.getLabelFont(),
-                    GET_INPUT_MIN_WIDTH);
+                    getInputMinimumFrameWidth);
 
-            int width = boundsString.width() + 2 * GET_INPUT_X_PADDING;
-            int height = boundsString.height() + 2 * GET_INPUT_Y_PADDING;
+            int textWidth = boundsString.width() + 2 * getInputFieldAndButtonXPadding;
+            int textHeight = boundsString.height() + 2 * getInputComponentYPadding;
             String parsedLabelText = boundsString.text();
 
-            int componentWidth = width - 2 * GET_INPUT_X_PADDING;
-            int componentHeight = 40;
+            int fieldAndButtonWidth = textWidth - 2 * getInputFieldAndButtonXPadding;
+            int frameHeight = CyderDragLabel.DEFAULT_HEIGHT + textHeight
+                    + 2 * getInputFieldAndButtonHeight + 3 * getInputComponentYPadding;
 
-            int frameHeight = CyderDragLabel.DEFAULT_HEIGHT + height
-                    + 2 * componentHeight + 3 * GET_INPUT_Y_PADDING;
-            CyderFrame inputFrame = new CyderFrame(width, frameHeight, CyderIcons.defaultBackground);
+            CyderFrame inputFrame = new CyderFrame(textWidth, frameHeight, CyderIcons.defaultBackground);
             getInputFrames.add(inputFrame);
             inputFrame.addPreCloseAction(() -> getInputFrames.remove(inputFrame));
             inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
             inputFrame.setTitle(getInputBuilder.getFrameTitle());
             getInputBuilder.getOnDialogDisposalRunnables().forEach(inputFrame::addPostCloseAction);
 
-            int yOff = CyderDragLabel.DEFAULT_HEIGHT + GET_INPUT_Y_PADDING;
+            int yOff = CyderDragLabel.DEFAULT_HEIGHT + getInputComponentYPadding;
             CyderLabel textLabel = new CyderLabel(parsedLabelText);
             textLabel.setForeground(getInputBuilder.getLabelColor());
             textLabel.setFont(getInputBuilder.getLabelFont());
-            textLabel.setBounds(GET_INPUT_X_PADDING, yOff, boundsString.width(), boundsString.height());
+            textLabel.setBounds(getInputFieldAndButtonXPadding, yOff, boundsString.width(), boundsString.height());
             inputFrame.getContentPane().add(textLabel);
 
-            yOff += GET_INPUT_Y_PADDING + boundsString.height();
+            yOff += getInputComponentYPadding + boundsString.height();
 
             CyderTextField inputField = new CyderTextField();
             inputField.setHorizontalAlignment(JTextField.CENTER);
@@ -202,14 +198,15 @@ public class GetterUtil {
 
             inputField.setForeground(getInputBuilder.getFieldForeground());
             inputField.setFont(getInputBuilder.getFieldFont());
-            inputField.setBounds(GET_INPUT_X_PADDING, yOff, componentWidth, componentHeight);
+            inputField.setBounds(getInputFieldAndButtonXPadding, yOff, fieldAndButtonWidth,
+                    getInputFieldAndButtonHeight);
             inputFrame.getContentPane().add(inputField);
 
-            yOff += GET_INPUT_Y_PADDING + componentHeight;
+            yOff += getInputComponentYPadding + getInputFieldAndButtonHeight;
 
             Runnable preCloseAction = () -> {
                 String input = inputField.getTrimmedText();
-                returnString.set(input.isEmpty() ? CyderStrings.NULL : input);
+                returnString.set(input.isEmpty() ? NULL : input);
             };
             inputFrame.addPreCloseAction(preCloseAction);
 
@@ -221,17 +218,18 @@ public class GetterUtil {
             CyderButton submitButton = new CyderButton(getInputBuilder.getSubmitButtonText());
             submitButton.setBackground(getInputBuilder.getSubmitButtonColor());
             inputField.addActionListener(e -> submitAction.run());
-            submitButton.setBorder(GET_INPUT_SUBMIT_BUTTON_BORDER);
+            submitButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
             submitButton.setFont(getInputBuilder.getSubmitButtonFont());
             submitButton.setForeground(CyderColors.navy);
             submitButton.addActionListener(e -> submitAction.run());
-            submitButton.setBounds(GET_INPUT_X_PADDING, yOff, componentWidth, componentHeight);
+            submitButton.setBounds(getInputFieldAndButtonXPadding, yOff, fieldAndButtonWidth,
+                    getInputFieldAndButtonHeight);
             inputFrame.getContentPane().add(submitButton);
 
-            Component relativeTo = getInputBuilder.getRelativeTo();
+            CyderFrame relativeTo = getInputBuilder.getRelativeTo();
             if (relativeTo != null && getInputBuilder.isDisableRelativeTo()) {
                 relativeTo.setEnabled(false);
-                inputFrame.addPostCloseAction(generateGetterFramePostCloseAction(relativeTo));
+                inputFrame.addPostCloseAction(relativeTo::toFront);
             }
             inputFrame.setLocationRelativeTo(relativeTo);
             inputFrame.setVisible(true);
@@ -315,22 +313,23 @@ public class GetterUtil {
     /**
      * The null file.
      */
-    private static final File NULL_FILE = new File(CyderStrings.NULL);
+    private static final File nullFile = new File(NULL);
 
     /**
      * The text for the last button.
      */
-    private static final String LAST_BUTTON_TEXT = CyderStrings.space + "<" + CyderStrings.space;
+    private static final String LAST_BUTTON_TEXT = space + "<" + space;
 
     /**
      * The text for the next button.
      */
-    private static final String NEXT_BUTTON_TEXT = CyderStrings.space + ">" + CyderStrings.space;
+    private static final String NEXT_BUTTON_TEXT = space + ">" + space;
 
     /**
      * The border for the next and last buttons.
      */
-    private static final LineBorder BUTTON_BORDER = new LineBorder(CyderColors.navy, 5, false);
+    private static final LineBorder getFileButtonBorder
+            = new LineBorder(CyderColors.navy, 5, false);
 
     /**
      * The width of the directory scroll component.
@@ -428,6 +427,11 @@ public class GetterUtil {
     private final AtomicBoolean shouldUpdateSubmitButtonText = new AtomicBoolean();
 
     /**
+     * The directory text.
+     */
+    private static final String DIRECTORY = "Directory";
+
+    /**
      * Opens up frame with a field and a file chooser for the user to enter
      * a file location or navigate to a file/directory and submit it.
      * <p>
@@ -438,8 +442,8 @@ public class GetterUtil {
      *  {@code
      *  CyderThreadRunner.submit(() -> {
      *      try {
-     *          String input = GetterUtil().getInstance().getFile(getInputBuilder);
-     *          // Other operations using input
+     *          File userChosenFile = GetterUtil.getInstance().getFile(getInputBuilder);
+     *          // Other operations using userChosenFile
      *      } catch (Exception e) {
      *          ErrorHandler.handle(e);
      *      }
@@ -461,13 +465,12 @@ public class GetterUtil {
             public void windowClosed(WindowEvent e) {
                 File ref = setOnFileChosen.get();
                 if (ref == null || StringUtil.isNullOrEmpty(ref.getName())) {
-                    setOnFileChosen.set(NULL_FILE);
+                    setOnFileChosen.set(nullFile);
                 }
             }
         });
 
-        String threadName = "getFile waiter thread, title: "
-                + CyderStrings.quote + getFileBuilder.getFrameTitle() + CyderStrings.quote;
+        String threadName = "getFile waiter thread, title: " + quote + getFileBuilder.getFrameTitle() + quote;
         CyderThreadRunner.submit(() -> {
             try {
                 resetFileHistory();
@@ -498,7 +501,8 @@ public class GetterUtil {
                 directoryFrame.getContentPane().add(directoryField);
 
                 lastDirectory = new CyderButton(LAST_BUTTON_TEXT);
-                lastDirectory.setBorder(BUTTON_BORDER);
+                lastDirectory.setToolTipText("Previous directory");
+                lastDirectory.setBorder(getFileButtonBorder);
                 lastDirectory.addActionListener(e -> {
                     if (!backwardDirectories.isEmpty() && !backwardDirectories.peek().equals(currentDirectory)) {
                         forwardDirectories.push(currentDirectory);
@@ -510,7 +514,8 @@ public class GetterUtil {
                 directoryFrame.getContentPane().add(lastDirectory);
 
                 nextDirectory = new CyderButton(NEXT_BUTTON_TEXT);
-                nextDirectory.setBorder(BUTTON_BORDER);
+                nextDirectory.setToolTipText("Next directory");
+                nextDirectory.setBorder(getFileButtonBorder);
                 nextDirectory.addActionListener(e -> {
                     if (!forwardDirectories.isEmpty() && !forwardDirectories.peek().equals(currentDirectory)) {
                         backwardDirectories.push(currentDirectory);
@@ -560,14 +565,14 @@ public class GetterUtil {
 
                                         if (!set) {
                                             StringBuilder extensionBuilder = new StringBuilder();
-                                            extensionBuilder.append(CyderStrings.openingBracket);
+                                            extensionBuilder.append(openingBracket);
 
                                             for (int i = 0 ; i < extensions.size() ; i++) {
                                                 extensionBuilder.append(extensions.get(i));
                                                 if (i != extensions.size() - 1) extensionBuilder.append(", ");
                                             }
 
-                                            extensionBuilder.append(CyderStrings.closingBracket);
+                                            extensionBuilder.append(closingBracket);
                                             directoryFrame.toast("File must be one of " + extensionBuilder);
                                         }
                                     } else {
@@ -594,10 +599,10 @@ public class GetterUtil {
                 loadingFilesLabel.setVisible(true);
                 directoryFrame.getContentPane().add(loadingFilesLabel);
 
-                Component relativeTo = getFileBuilder.getRelativeTo();
+                CyderFrame relativeTo = getFileBuilder.getRelativeTo();
                 if (relativeTo != null && getFileBuilder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
-                    directoryFrame.addPostCloseAction(generateGetterFramePostCloseAction(relativeTo));
+                    directoryFrame.addPostCloseAction(relativeTo::toFront);
                 }
                 directoryFrame.setLocationRelativeTo(relativeTo);
                 directoryFrame.setVisible(true);
@@ -622,7 +627,7 @@ public class GetterUtil {
             resetFileHistory();
         }
 
-        boolean nullFile = setOnFileChosen.get().getName().equals(CyderStrings.NULL);
+        boolean nullFile = setOnFileChosen.get().getName().equals(NULL);
         if (nullFile) {
             return Optional.empty();
         } else {
@@ -634,7 +639,7 @@ public class GetterUtil {
      * Resets the current directory and file navigation history.
      */
     private void resetFileHistory() {
-        currentDirectory = NULL_FILE;
+        currentDirectory = nullFile;
         backwardDirectories.clear();
         forwardDirectories.clear();
         filesList.clear();
@@ -671,8 +676,9 @@ public class GetterUtil {
 
                 Runnable singleClickAction = () -> {
                     if (shouldUpdateSubmitButtonText.get()) {
-                        String suffix = file.isDirectory() ? " (Directory)" : "";
-                        submitButton.setText(SUBMIT + CyderStrings.colon + CyderStrings.space + fileName + suffix);
+                        String suffix = file.isDirectory()
+                                ? space + openingParenthesis + DIRECTORY + closingParenthesis : "";
+                        submitButton.setText(SUBMIT + colon + space + fileName + suffix);
                     }
                 };
 
@@ -725,7 +731,7 @@ public class GetterUtil {
      * Sets up the loading files label.
      */
     private void setupLoadingFilesLabel() {
-        loadingFilesLabel.setText(BoundsUtil.addCenteringToHtml(CyderStrings.LOADING));
+        loadingFilesLabel.setText(BoundsUtil.addCenteringToHtml(LOADING));
         loadingFilesLabel.setHorizontalAlignment(JLabel.CENTER);
         loadingFilesLabel.setVerticalAlignment(JLabel.CENTER);
         loadingFilesLabel.setFont(CyderFonts.DEFAULT_FONT);
@@ -747,6 +753,7 @@ public class GetterUtil {
         directoryField.setEnabled(enabled);
     }
 
+
     /**
      * Opens up a frame with a label and a yes/no button for the user to confirm or deny some action.
      * <p>
@@ -757,8 +764,8 @@ public class GetterUtil {
      *  {@code
      *  CyderThreadRunner.submit(() -> {
      *      try {
-     *          String input = GetterUtil().getInstance().getConfirmation(getConfirmationBuilder);
-     *          // Other operations using input
+     *          boolean actionApproved = GetterUtil.getInstance().getConfirmation(getConfirmationBuilder);
+     *          // Other operations using actionApproved
      *      } catch (Exception e) {
      *          ErrorHandler.handle(e);
      *      }
@@ -772,12 +779,11 @@ public class GetterUtil {
     public boolean getConfirmation(GetConfirmationBuilder getConfirmationBuilder) {
         checkNotNull(getConfirmationBuilder);
 
-        AtomicReference<Boolean> ret = new AtomicReference<>();
-        ret.set(null);
+        AtomicReference<Boolean> ret = new AtomicReference<>(null);
         AtomicReference<CyderFrame> frameReference = new AtomicReference<>();
 
-        String threadName = "GetConfirmation Waiter Thread, title = \""
-                + getConfirmationBuilder.getFrameTitle() + CyderStrings.quote;
+        String threadName = "getConfirmation waiter thread, title: "
+                + quote + getConfirmationBuilder.getFrameTitle() + quote;
         CyderThreadRunner.submit(() -> {
             try {
                 CyderLabel textLabel = new CyderLabel();
@@ -790,15 +796,21 @@ public class GetterUtil {
                 int textHeight = boundsString.height();
                 textLabel.setText(boundsString.text());
 
-                int frameHorizontalPadding = 20;
-                int yesNoButtonHeight = 40;
+                // todo extract from method scope
+                int buttonXPadding = 20;
+                int confirmationButtonHeight = 40;
                 int frameTopPadding = 40;
                 int textBottomPadding = 20;
                 int buttonBottomPadding = 25;
-
-                int frameWidth = 2 * frameHorizontalPadding + textWidth;
+                int frameWidth = 2 * buttonXPadding + textWidth;
                 int frameHeight = frameTopPadding + textHeight + textBottomPadding
-                        + yesNoButtonHeight + buttonBottomPadding;
+                        + confirmationButtonHeight + buttonBottomPadding;
+                int textLabelXPadding = 10;
+                int numConfirmationButtons = 2;
+                int betweenButtonPadding = 30;
+                int buttonWidth = (frameWidth - betweenButtonPadding - 2 * buttonXPadding) / numConfirmationButtons;
+                int noButtonX = buttonXPadding + buttonWidth + betweenButtonPadding;
+
                 CyderFrame frame = new CyderFrame(frameWidth, frameHeight, CyderIcons.defaultBackgroundLarge);
                 getConfirmationFrames.add(frame);
                 frameReference.set(frame);
@@ -807,41 +819,37 @@ public class GetterUtil {
                 frame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 frame.setTitle(getConfirmationBuilder.getFrameTitle());
                 frame.addPreCloseAction(() -> {
-                    if (ret.get() != Boolean.TRUE) ret.set(Boolean.FALSE);
+                    if (ret.get() != Boolean.TRUE) {
+                        ret.set(Boolean.FALSE);
+                    }
 
                     getConfirmationFrames.remove(frame);
                 });
 
                 int currentY = frameTopPadding;
 
-                int textLabelPadding = 10;
-                textLabel.setBounds(textLabelPadding, currentY, textWidth, textHeight);
+                textLabel.setBounds(textLabelXPadding, currentY, textWidth, textHeight);
                 frame.getContentPane().add(textLabel);
                 currentY += textHeight + textBottomPadding;
-
-                int numButtons = 2;
-                int buttonInnerSpacing = 30;
-                int buttonWidth = (frameWidth - buttonInnerSpacing - 2 * frameHorizontalPadding) / numButtons;
 
                 CyderButton yesButton = new CyderButton(getConfirmationBuilder.getYesButtonText());
                 yesButton.setColors(getConfirmationBuilder.getYesButtonColor());
                 yesButton.setFont(getConfirmationBuilder.getYesButtonFont());
                 yesButton.addActionListener(e -> ret.set(Boolean.TRUE));
-                yesButton.setBounds(frameHorizontalPadding, currentY, buttonWidth, yesNoButtonHeight);
+                yesButton.setBounds(buttonXPadding, currentY, buttonWidth, confirmationButtonHeight);
                 frame.getContentPane().add(yesButton);
 
-                int noButtonX = frameHorizontalPadding + buttonWidth + buttonInnerSpacing;
                 CyderButton noButton = new CyderButton(getConfirmationBuilder.getNoButtonText());
                 noButton.setColors(getConfirmationBuilder.getNoButtonColor());
                 yesButton.setFont(getConfirmationBuilder.getNoButtonFont());
                 noButton.addActionListener(e -> ret.set(Boolean.FALSE));
-                noButton.setBounds(noButtonX, currentY, buttonWidth, yesNoButtonHeight);
+                noButton.setBounds(noButtonX, currentY, buttonWidth, confirmationButtonHeight);
                 frame.getContentPane().add(noButton);
 
-                Component relativeTo = getConfirmationBuilder.getRelativeTo();
+                CyderFrame relativeTo = getConfirmationBuilder.getRelativeTo();
                 if (relativeTo != null && getConfirmationBuilder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
-                    frame.addPostCloseAction(generateGetterFramePostCloseAction(relativeTo));
+                    frame.addPostCloseAction(relativeTo::toFront);
                 }
 
                 frame.setLocationRelativeTo(relativeTo);
@@ -851,113 +859,8 @@ public class GetterUtil {
             }
         }, threadName);
 
-        try {
-            while (ret.get() == null) {
-                Thread.onSpinWait();
-            }
-
-            frameReference.get().removePreCloseActions();
-            frameReference.get().dispose();
-        } catch (Exception ex) {
-            ExceptionHandler.handle(ex);
-        }
-
+        while (ret.get() == null) Thread.onSpinWait();
+        frameReference.get().dispose();
         return ret.get();
-    }
-
-    /**
-     * Generates and returns a runnable to run as a post-close frame action for all getter frames.
-     *
-     * @param relativeTo the relative to component
-     * @return the runnable
-     */
-    private Runnable generateGetterFramePostCloseAction(Component relativeTo) {
-        return () -> {
-            boolean onTop = false;
-            boolean isFrame = relativeTo instanceof Frame;
-            Frame frame = isFrame ? (Frame) relativeTo : null;
-            if (isFrame) onTop = frame.isAlwaysOnTop();
-
-            relativeTo.setEnabled(true);
-
-            if (isFrame) frame.setAlwaysOnTop(true);
-            if (isFrame) frame.setAlwaysOnTop(onTop);
-        };
-    }
-
-    /**
-     * A builder for a getter frame.
-     */
-    public static class Builder {
-        /**
-         * The title of the frame.
-         */
-        private final String title;
-
-        /**
-         * Te component to set the getter frame relative to.
-         */
-        private Component relativeTo;
-
-        /**
-         * Constructs a new GetterBuilder.
-         *
-         * @param title the frame title/the text for confirmations
-         */
-        public Builder(String title) {
-            checkNotNull(title);
-
-            this.title = title;
-
-            Logger.log(LogTag.OBJECT_CREATION, this);
-        }
-
-        /**
-         * Returns the title of the getter frame.
-         *
-         * @return the title of the getter frame
-         */
-        public String getTitle() {
-            return title;
-        }
-
-        /**
-         * Returns the relative to component to set the getter frame relative to.
-         *
-         * @return the relative to component to set the getter frame relative to
-         */
-        public Component getRelativeTo() {
-            return relativeTo;
-        }
-
-        /**
-         * Sets the relative to component to set the getter frame relative to.
-         *
-         * @param relativeTo the relative to component to set the getter frame relative to
-         * @return this builder
-         */
-        @CanIgnoreReturnValue
-        public Builder setRelativeTo(Component relativeTo) {
-            this.relativeTo = relativeTo;
-            return this;
-        }
-
-        /**
-         * Returns the initial field text for getter frames which have an input field.
-         *
-         * @return the initial field text for getter frames which have an input field
-         */
-        public String getInitialString() {
-            return "";
-        }
-
-        /**
-         * Returns whether to disable the relativeTo component while the getter frame is active.
-         *
-         * @return whether to disable the relativeTo component while the getter frame is active
-         */
-        public boolean isDisableRelativeTo() {
-            return false;
-        }
     }
 }

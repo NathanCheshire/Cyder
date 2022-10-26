@@ -257,7 +257,7 @@ public final class ImagePixelatorWidget {
                 Console.INSTANCE.getUuid(), UserFile.FILES.getName(), saveName));
 
         try {
-            ImageIO.write(saveImage, Extension.PNG.getExtension(), saveFile);
+            ImageIO.write(saveImage, Extension.PNG.getExtensionWithoutPeriod(), saveFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             pixelFrame.notify("Failed to write pixelated image");

@@ -104,7 +104,7 @@ public class PixelationHandler extends InputHandler {
                             UserFile.BACKGROUNDS.getName(),
                             newName);
 
-                    ImageIO.write(img, Extension.PNG.getExtension(), saveFile);
+                    ImageIO.write(img, Extension.PNG.getExtensionWithoutPeriod(), saveFile);
 
                     getInputHandler().println("Background pixelated and saved as a separate background file.");
 

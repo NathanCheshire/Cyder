@@ -60,7 +60,7 @@ public class ColorHandler extends InputHandler {
                     File saveFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                             Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(), saveName);
 
-                    ImageIO.write(saveImage, Extension.PNG.getExtension(), saveFile);
+                    ImageIO.write(saveImage, Extension.PNG.getExtensionWithoutPeriod(), saveFile);
 
                     getInputHandler().println("Background generated, set, and saved as a separate background file.");
 

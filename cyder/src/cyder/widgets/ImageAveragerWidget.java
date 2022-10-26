@@ -335,7 +335,7 @@ public final class ImageAveragerWidget {
         Preconditions.checkNotNull(outputFile);
 
         try {
-            ImageIO.write(saveImage, Extension.PNG.getExtension(), outputFile);
+            ImageIO.write(saveImage, Extension.PNG.getExtensionWithoutPeriod(), outputFile);
             return true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
