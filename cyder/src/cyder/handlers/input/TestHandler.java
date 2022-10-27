@@ -59,6 +59,7 @@ public class TestHandler extends InputHandler {
             for (Method method : classer.getMethods()) {
                 if (method.isAnnotationPresent(CyderTest.class)) {
                     String trigger = method.getAnnotation(CyderTest.class).value();
+                    if (!trigger.equalsIgnoreCase(getInputHandler().commandAndArgsToString())) continue;
                     testTriggered = invokeTestsWithTrigger(trigger);
                     if (testTriggered) break;
                 }

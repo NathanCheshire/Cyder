@@ -2,6 +2,7 @@ package cyder.handlers.input;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import cyder.annotations.CyderTest;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Handle;
 import cyder.console.Console;
@@ -829,61 +830,71 @@ public class BaseInputHandler {
     private static final String COMPONENT = "component";
 
     /**
+     * The list of triggers that signify to remove the last two lines
+     * in order to remove the last entity appended to an output pane.
+     */
+    private static final ImmutableList<String> removeLastTwoLinesTriggers = ImmutableList.of(ICON, COMPONENT);
+
+    private static record struct(boolean branch, boolean newline, boolean content) {}
+
+    ;
+
+    /**
      * Removes the last entity added to the JTextPane whether it's a component,
      * icon, or string of multi-lined text.
      * <p>
      * In more detail, this method figures out what it'll be removing and then determines how many calls
-     * are needed to {@link StringUtil#removeLastLine()}
+     * are needed to {@link StringUtil#removeLastElement()}
      */
     public final void removeLastEntity() {
-        // todo use actual approach
-
         try {
-            boolean removeTwoLines = false;
+            ArrayList<struct> structs = new ArrayList<>();
 
-            LinkedList<Element> elements = new LinkedList<>();
             ElementIterator iterator = new ElementIterator(getJTextPane().getStyledDocument());
+
+            int count = 0;
             Element element;
+            boolean isnewline = false;
             while ((element = iterator.next()) != null) {
-                elements.add(element);
-            }
+                count++;
 
-            int leafs = 0;
+                int start = element.getStartOffset();
+                int length = element.getEndOffset() - start;
+                String text = element.getDocument().getText(start, length);
+                String elementRepresentation = element.toString().trim();
 
-            for (Element value : elements) {
-                if (value.getElementCount() == 0) {
-                    leafs++;
+                isnewline = text.equals("\n");
+                boolean branch = false;
+                boolean leafIsContent = false;
+
+                String[] parts = elementRepresentation.split(CyderRegexPatterns.whiteSpaceRegex);
+                // todo assert 2 parts
+                String type = parts[0];
+                if (type.startsWith("BranchElement")) {
+                    branch = true;
+                } else if (type.startsWith("LeafElement")) {
+                    leafIsContent = type.replace("LeafElement", "").equals("(content)");
                 }
+
+                structs.add(new struct(branch, isnewline, leafIsContent));
             }
 
-            int passedLeafs = 0;
+            // todo if branch of content, leaf not newline, branch of content, leaf is newline, remove two, else one
 
-            for (Element value : elements) {
-                if (value.getElementCount() == 0) {
-                    if (passedLeafs + 3 != leafs) {
-                        passedLeafs++;
-                        continue;
-                    }
-
-                    if (value.toString().toLowerCase().contains(ICON)
-                            || value.toString().toLowerCase().contains(COMPONENT)) {
-                        removeTwoLines = true;
-                    }
-                }
-            }
-
+            // todo another try to ensure release
             linkedOutputPane.getSemaphore().acquire();
+            if (isnewline) removeLastElement();
 
-            if (removeTwoLines) {
-                removeLastLine();
-            }
-
-            removeLastLine();
-
+            removeLastElement();
             linkedOutputPane.getSemaphore().release();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+    }
+
+    @CyderTest("jester")
+    public static void tester() {
+        Console.INSTANCE.getInputHandler().removeLastEntity();
     }
 
     /**
@@ -899,8 +910,8 @@ public class BaseInputHandler {
     /**
      * Removes the last line added to the linked JTextPane such as a component, image icon, string, or newline.
      */
-    private void removeLastLine() {
-        linkedOutputPane.getStringUtil().removeLastLine();
+    private void removeLastElement() {
+        linkedOutputPane.getStringUtil().removeLastElement();
     }
 
     // -----------------

@@ -2768,6 +2768,7 @@ public class CyderFrame extends JFrame {
      */
     @ForReadability
     private void determineInitialPinState() {
+        if (isBorderlessFrame()) return;
         CyderFrame console = Console.INSTANCE.getConsoleCyderFrame();
         if (console == null) return;
 

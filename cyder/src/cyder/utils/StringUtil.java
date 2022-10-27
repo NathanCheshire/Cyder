@@ -102,7 +102,7 @@ public class StringUtil {
      * Removes the last "thing" added to the JTextPane whether it's a component,
      * icon, or string of multi-lined text.
      * In more detail, this method figures out what it'll be removing and then determines how many calls
-     * are needed to {@link StringUtil#removeLastLine()}
+     * are needed to {@link StringUtil#removeLastElement()}
      */
     public synchronized void removeLast() {
         try {
@@ -140,10 +140,10 @@ public class StringUtil {
             linkedCyderPane.getSemaphore().acquire();
 
             if (removeTwoLines) {
-                removeLastLine();
+                removeLastElement();
             }
 
-            removeLastLine();
+            removeLastElement();
 
             linkedCyderPane.getSemaphore().release();
         } catch (Exception e) {
@@ -168,40 +168,25 @@ public class StringUtil {
     }
 
     /**
-     * Removes the last line added to the linked JTextPane. This could appear to remove nothing,
-     * but really be removing just a newline (line break) character.
+     * Removes the last element added to the linked JTextPane such as an
+     * {@link ImageIcon}, {@link JComponent}, string, or newline.
      */
-    public synchronized void removeLastLine() {
+    public synchronized void removeLastElement() {
         try {
-            ArrayList<Element> elements = new ArrayList<>();
-            ElementIterator iterator = new ElementIterator(linkedCyderPane.getJTextPane().getStyledDocument());
-            Element element;
+            Element rootElement = linkedCyderPane.getJTextPane().getDocument().getDefaultRootElement();
+            Element removeElement = rootElement.getElement(rootElement.getElementCount() - 1);
+            int start = removeElement.getStartOffset();
+            int end = removeElement.getEndOffset();
 
-            while ((element = iterator.next()) != null) {
-                elements.add(element);
+            int offset = start - 1;
+            int length = end - start;
+
+            if (offset < 0) {
+                offset = 0;
+                length -= 1;
             }
 
-            int leafs = 0;
-
-            for (Element value : elements)
-                if (value.getElementCount() == 0)
-                    leafs++;
-
-            int passedLeafs = 0;
-
-            for (Element value : elements) {
-                if (value.getElementCount() == 0) {
-                    if (passedLeafs + 2 != leafs) {
-                        passedLeafs++;
-                        continue;
-                    }
-
-                    linkedCyderPane.getJTextPane().getStyledDocument().remove(value.getStartOffset(),
-                            value.getEndOffset() - value.getStartOffset());
-                }
-            }
-        } catch (BadLocationException e) {
-            ExceptionHandler.silentHandle(e);
+            linkedCyderPane.getJTextPane().getDocument().remove(offset, length);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -882,6 +867,7 @@ public class StringUtil {
     }
 
     // todo technically this doesn't check for escaped tag delimiters
+
     /**
      * Finds the rawtext and html tags of a string and returns a linked list representing the parts.
      *

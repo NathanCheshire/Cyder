@@ -206,7 +206,7 @@ public final class ReflectionUtil {
 
         specialMethods.forEach(specialMethod -> {
             String result = specialMethod.getMethodResult();
-            if (!result.isEmpty()) {
+            if (result != null && !result.isEmpty()) {
                 ret.append(comma).append(space).append(specialMethod.getStartsWith()).append(colon).append(space);
                 ret.append(result);
             }
