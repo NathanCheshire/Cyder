@@ -1,0 +1,148 @@
+30 issues found:
+----------------------------------------
+Issue #223
+ModernTextField
+Replace the old looking cyder text fields with the new versions seen in the audio player and notes widget with a single bottom bar. Perhaps a ripple animation from the center out when focus is gained or it getting slightly bigger would be nice too.
+----------------------------------------
+Issue #222
+Consolidate single line javadoc comments
+Javadoc comments with one line of text should be translated from:
+
+```java
+/**
+* Comment here.
+*/
+```
+to
+```java
+/** Comment here. */
+```
+in order to preserve space yet maintain readability. This will only decrease comment lines in the stats generator.
+----------------------------------------
+Issue #221
+CyderGrid package
+Make a package for this, extract inner classes, and make logic better and more refined. Regression test with conway grid, paint grid, and path finding grid.
+----------------------------------------
+Issue #220
+Hangman csv to txt
+Convert any csv files to txt files.
+----------------------------------------
+Issue #218
+TeamCity
+Look into setting up a testing package structure and write unit tests for a `TemperatureUtil` first (Extract methods for conversion from the temperature widget). Then auto-run these unit tests with JUnit from team city.
+----------------------------------------
+Issue #217
+Fire animation
+Make the fire animation like from lume's front page https://lume.land/.
+
+We can do this using circles that move up at a slightly increasing rate, the color changes from red to orange and to yellow, the radius decreases, and possibly the opacity decreases. Play with number of circles generated per second. New circles should appear on top.
+----------------------------------------
+Issue #216
+CyderPasswordField extends CyderTextField
+To allow the password field to have access to the methods from the text field class, we need to refactor the password field to extend the text field.
+----------------------------------------
+Issue #213
+Printed Labels Updating
+We should keep track of all labels added to the output pane currently and update their font, font size, and foreground as it changes via or updates. This is kind of done for YouTube download progress labels and we update the font size but not the foreground or font if it were to change.
+----------------------------------------
+Issue #210
+Frame toBack
+Right clicking a frame's drag label should open a custom popup where a user can send the frame to the back if they desire
+----------------------------------------
+Issue #209
+Drag label button size prop
+Be able to change the size of drag label buttons via a prop.
+----------------------------------------
+Issue #208
+Link ErrorProne with Gradle
+Be able to run the error prone gradle plugin and fix issues locally.
+----------------------------------------
+Issue #207
+Weather icon
+Make custom weather icons for use, the description is also usually clipped so fix that too.
+----------------------------------------
+Issue #204
+Widget/Frame parser
+Oh boy.... this is getting into pretty much re-inventing Java FX and view bindings. We should have a parser to allow construction of a frame/widget from a file which will be parsed. We can bind stuff and name stuff from the file to actual UI elements designed in a class. We'll need some rails diagrams for parsing the file and some annotations for bindings such as: `@UiElement` the names must match, `@UiElement(String name)` names do not have to match, `@BuildFrom("path/to/file/TicTacToe.cf")`.
+----------------------------------------
+Issue #202
+Finish paint widget
+Finish up features of the paint widget and redo the controls so that they're smaller, perhaps in the top drag label.
+The color pallet could be it's own window.
+----------------------------------------
+Issue #199
+Remove some debug log calls
+First of all remove the `Logger.Debug` method. Whenever we're logging something as DEBUG see if we should actually have a tag for it and if so, create and replace debug tags with the new one.
+----------------------------------------
+Issue #196
+Investigate badge generator
+The text doesn't quite look centered. Test for more badges and different fonts. Maybe even change the font for the badges but not the stat image.
+----------------------------------------
+Issue #192
+Drag Label Button State
+Drag label buttons should be able to be stateful meaning they can stay red to indicate the user is on a said page or something. Use this for user editor.
+----------------------------------------
+Issue #175
+Frame transitions between monitors
+Moving a frame between monitors results in a super weird bug. This used to work in past versions so maybe figure out where it started and what changed.
+----------------------------------------
+Issue #171
+Busy animation
+In addition to the busy icon being toggle-able by the user, we should have a progress indicator such as a dot animation next to the help button (perhaps replace the help button entirely) when cyder is classified as busy.
+----------------------------------------
+Issue #170
+System audio slider
+Allow a drop down vertical slider from the console that controls any system audio that's played via IOUtil if that's the right class.
+----------------------------------------
+Issue #169
+Audio Player volume slider needs to be logarithmic
+Audio Player volume slider needs to be logarithmic.
+----------------------------------------
+Issue #168
+Messaging Widget
+Implement our custom messaging widget. Capabilities include audio and images with preview, text, links, and if the messaging window for a person isn't open, have a preference for whether to show it in the console and/or a notification in the bottom right like discord or teams.
+----------------------------------------
+Issue #167
+Color picker component
+Extract the component from paint widget for keeping track of recent colors to its own component.
+
+Methods:
++getColor()
++getColor(int)
++setMaxColorDepth(int)
++clear()
++setDefaultColor()
++setXCells(int)
++setYCells(int)
++setCellSize(int, int)
++setColor()
+----------------------------------------
+Issue #165
+Apple watch activity parser
+Look at the format of xml exported data from the apple watch and see what visualizations can be made from it.
+----------------------------------------
+Issue #164
+Bitcoin tracker
+Keyword "bitcoin" or "crypto" will show a graph of bitcoin. Allow filtering of all time, 1y, 30d, today, etc. Mouse over event should show the actual price at that time.
+----------------------------------------
+Issue #163
+To-do creator
+Make a to-do keeping widget with preferences in the frame for what the check color or shape can be, categories, and multiple lists. .todo extension
+----------------------------------------
+Issue #149
+Make backend secure
+Use https for the backend protocol.
+----------------------------------------
+Issue #148
+Make backend port configuable
+Allow the fastAPI backend port to be configured at runtime via a prop. Before doing this, the backend should be started by the Java backend somehow (necessary subroutine (make these their own method in Cyder.java)), and still work and be able to be accessed via any http://locahost/PORT. 
+----------------------------------------
+Issue #147
+Rename current background
+Implement functionality to allow a user to rename the background they are currently using.
+----------------------------------------
+Issue #132
+Don't resize backgrounds upon console entry
+Currently on lower dpi/resolution monitors, rescaling of the background image might be invoked but it might still result in an image too big for the monitor. This should NEVER happen. If we say we're resizing it, it better fit on screen.
+----------------------------------------
+

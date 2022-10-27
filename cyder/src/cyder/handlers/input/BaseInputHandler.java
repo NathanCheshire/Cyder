@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The base input handler used for linked JTextPane printing
@@ -130,7 +131,7 @@ public class BaseInputHandler {
     /**
      * The handles which contain specific triggers for pre-determined commands.
      */
-    public static final ImmutableList<Class<?>> primaryHandlers = ImmutableList.of(
+    public static final ImmutableList<Class<? extends InputHandler>> primaryHandlers = ImmutableList.of(
             PixelationHandler.class,
             GitHandler.class,
             ImageHandler.class,
@@ -150,7 +151,7 @@ public class BaseInputHandler {
      * The handles which have do not have specific triggers
      * and instead perform checks and operations on the raw command.
      */
-    public static final ImmutableList<Class<?>> finalHandlers = ImmutableList.of(
+    public static final ImmutableList<Class<? extends InputHandler>> finalHandlers = ImmutableList.of(
             GeneralPrintHandler.class,
             WidgetHandler.class,
             MathHandler.class,
@@ -254,7 +255,7 @@ public class BaseInputHandler {
             StringUtil.BlockedWordResult result = checkFoulLanguage();
             if (result.failed()) {
                 println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language"
-                        + " is prohibited, word: \"" + result.triggerWord() + CyderStrings.quote);
+                        + " is prohibited, word: " + CyderStrings.quote + result.triggerWord() + CyderStrings.quote);
                 return false;
             }
         }
@@ -287,7 +288,7 @@ public class BaseInputHandler {
     }
 
     /**
-     * Resets redirection, redirection file, and the arguments array.
+     * Resets redirection, the redirection file, and the arguments array.
      */
     private void resetMembers() {
         redirection = false;
@@ -596,7 +597,7 @@ public class BaseInputHandler {
     private final Runnable consolePrintingRunnable = () -> {
         try {
             boolean shouldDoTypingAnimation = shouldDoTypingAnimation();
-            boolean shouldDoTypingSound = shouldDoTypingSound();
+            boolean shouldDoTypingSound = UserUtil.getCyderUser().getTypingSound().equals("1");
             long lastPollTime = System.currentTimeMillis();
             int lineTimeout = PropLoader.getInteger(PRINATING_ANIMATION_LINE_KEY);
 
@@ -604,7 +605,7 @@ public class BaseInputHandler {
                 if (System.currentTimeMillis() - lastPollTime > USER_DATA_POLL_FREQUENCY_MS) {
                     lastPollTime = System.currentTimeMillis();
                     shouldDoTypingAnimation = shouldDoTypingAnimation();
-                    shouldDoTypingSound = shouldDoTypingSound();
+                    shouldDoTypingSound = UserUtil.getCyderUser().getTypingSound().equals("1");
                 }
 
                 if (!consolePriorityPrintingList.isEmpty()) {
@@ -681,7 +682,8 @@ public class BaseInputHandler {
     // -----------------------
 
     /**
-     * Inserts the provided object into the current outputArea.
+     * Inserts the provided object into the current outputArea after
+     * invoking {@link String#valueOf(Object))} on the provided object.
      *
      * @param object the object to insert
      */
@@ -736,15 +738,21 @@ public class BaseInputHandler {
     // ---------------------------
 
     /**
-     * The frequency at which to play a typing sound effect if enabled.
+     * The key to get the printing animatino sound frequency from the props.
      */
-    private static final int TYPING_SOUND_FREQUENCY = 2;
+    private static final String PRINTING_ANIMATION_SOUND_FREQUENCY = "printing_animation_sound_frequency";
 
     /**
-     * The increment we are currently on for inner char printing.
+     * The frequency at which to play a typing sound effect if enabled.
+     */
+    private static final int TYPING_ANIMATION_SOUND_FREQUENCY
+            = PropLoader.getInteger(PRINTING_ANIMATION_SOUND_FREQUENCY);
+
+    /**
+     * The number of characters appended for the the current printing animation.
      * Used to determine when to play a typing animation sound.
      */
-    private int typingSoundInc;
+    private final AtomicInteger typingAnimationCharsInserted = new AtomicInteger();
 
     /**
      * The path to the typing sound effect.
@@ -756,16 +764,6 @@ public class BaseInputHandler {
      * to the output area if printing animation is enabled.
      */
     private static final String PRINTING_ANIMATION_CHAR_TIMEOUT_KEY = "printing_animation_char_timeout";
-
-    /**
-     * Returns whether the current user has typing sound enabled.
-     *
-     * @return whether the current user has typing sound enabled
-     */
-    @ForReadability
-    private boolean shouldDoTypingSound() {
-        return UserUtil.getCyderUser().getTypingSound().equals("1");
-    }
 
     /**
      * Prints the string to the output area checking for
@@ -785,28 +783,30 @@ public class BaseInputHandler {
 
             for (char c : line.toCharArray()) {
                 String character = String.valueOf(c);
-                String insertCharacter = UserUtil.getCyderUser().getCapsMode().equals("1")
-                        ? character.toUpperCase() : character;
+                String insertChar = UserUtil.getCyderUser().getCapsMode().equals("1")
+                        ? character.toUpperCase()
+                        : character;
 
                 StyledDocument document = (StyledDocument) getJTextPane().getDocument();
-
-                document.insertString(document.getLength(), insertCharacter, null);
+                document.insertString(document.getLength(), insertChar, null);
 
                 getJTextPane().setCaretPosition(getJTextPane().getDocument().getLength());
 
-                if (typingSoundInc == TYPING_SOUND_FREQUENCY) {
+                if (typingAnimationCharsInserted.get() == TYPING_ANIMATION_SOUND_FREQUENCY) {
                     if (!shouldFinishPrinting && typingSound) {
                         IoUtil.playSystemAudio(typingSoundPath, false);
-                        typingSoundInc = 0;
+                        typingAnimationCharsInserted.set(0);
                     }
                 } else {
-                    typingSoundInc++;
+                    typingAnimationCharsInserted.getAndIncrement();
                 }
 
                 if (!shouldFinishPrinting) {
                     ThreadUtil.sleep(PropLoader.getInteger(PRINTING_ANIMATION_CHAR_TIMEOUT_KEY));
                 }
             }
+
+            typingAnimationCharsInserted.set(0);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
@@ -815,10 +815,17 @@ public class BaseInputHandler {
     }
 
     // -----------------------
-    // document entity removal
+    // Document entity removal
     // -----------------------
 
+    /**
+     * The icon text.
+     */
     private static final String ICON = "icon";
+
+    /**
+     * The component text.
+     */
     private static final String COMPONENT = "component";
 
     /**
@@ -829,6 +836,8 @@ public class BaseInputHandler {
      * are needed to {@link StringUtil#removeLastLine()}
      */
     public final void removeLastEntity() {
+        // todo use actual approach
+
         try {
             boolean removeTwoLines = false;
 
@@ -888,8 +897,7 @@ public class BaseInputHandler {
     }
 
     /**
-     * Removes the last line added to the linked JTextPane. This could appear to remove nothing,
-     * but really be removing just a newline (line break) character.
+     * Removes the last line added to the linked JTextPane such as a component, image icon, string, or newline.
      */
     private void removeLastLine() {
         linkedOutputPane.getStringUtil().removeLastLine();
@@ -936,6 +944,9 @@ public class BaseInputHandler {
         }
     }
 
+    /**
+     * The escaped string.
+     */
     private static final String ESCAPED = "Escaped";
 
     /**
@@ -1084,10 +1095,7 @@ public class BaseInputHandler {
 
         for (int i = 0 ; i < args.size() ; i++) {
             sb.append(args.get(i));
-
-            if (i != args.size() - 1) {
-                sb.append(CyderStrings.space);
-            }
+            if (i != args.size() - 1) sb.append(CyderStrings.space);
         }
 
         return sb.toString();
@@ -1149,7 +1157,7 @@ public class BaseInputHandler {
 
     private final Semaphore printingSemaphore = new Semaphore(1);
 
-    private void aquirePrintingLock() {
+    private void acquirePrintingLock() {
         try {
             printingSemaphore.acquire();
         } catch (Exception e) {
@@ -1162,51 +1170,51 @@ public class BaseInputHandler {
     }
 
     /**
-     * Prints the provided tee.
+     * Prints the provided type.
      *
-     * @param tee the tee to print
+     * @param type the type to print
      */
-    public final <T> void print(T tee) {
+    public final <T> void print(T type) {
         if (threadsActive()) {
-            consolePriorityPrintingList.add(tee);
+            consolePriorityPrintingList.add(type);
         } else {
-            consolePrintingList.add(tee);
+            consolePrintingList.add(type);
         }
     }
 
     /**
-     * Prints the provided tee followed by a newline.
+     * Prints the provided type followed by a newline.
      *
-     * @param tee the tee to print
+     * @param type the type to print
      */
-    public final <T> void println(T tee) {
+    public final <T> void println(T type) {
         if (threadsActive()) {
-            consolePriorityPrintingList.add(tee);
+            consolePriorityPrintingList.add(type);
             consolePriorityPrintingList.add(CyderStrings.newline);
         } else {
-            aquirePrintingLock();
-            consolePrintingList.add(tee);
+            acquirePrintingLock();
+            consolePrintingList.add(type);
             consolePrintingList.add(CyderStrings.newline);
             releasePrintingLock();
         }
     }
 
     /**
-     * Adds the provided tee to the priority printing list.
+     * Adds the provided type to the priority printing list.
      *
-     * @param tee the tee to add to the priority printing list
+     * @param type the type to add to the priority printing list
      */
-    public final <T> void printPriority(T tee) {
-        consolePriorityPrintingList.add(tee);
+    public final <T> void printPriority(T type) {
+        consolePriorityPrintingList.add(type);
     }
 
     /**
-     * Adds the provided tee and a newline to the priority printing list.
+     * Adds the provided type and a newline to the priority printing list.
      *
-     * @param tee the tee to add to the priority printing list
+     * @param type the type to add to the priority printing list
      */
-    public final <T> void printlnPriority(T tee) {
-        consolePriorityPrintingList.add(tee);
+    public final <T> void printlnPriority(T type) {
+        consolePriorityPrintingList.add(type);
         consolePriorityPrintingList.add(CyderStrings.newline);
     }
 

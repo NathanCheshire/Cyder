@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.*;
-import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.input.BaseInputHandler;
@@ -27,6 +26,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Optional;
 
+import static cyder.constants.CyderStrings.*;
+
 /**
  * Utilities for Jvm reflection.
  */
@@ -35,59 +36,51 @@ public final class ReflectionUtil {
      * Suppress default constructor.
      */
     private ReflectionUtil() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+        throw new IllegalMethodException(ATTEMPTED_INSTANTIATION);
     }
 
     /**
-     * Returns whether one or more of the provided objects are null.
-     *
-     * @param object  the first object
-     * @param objects the additional objects (optional)
-     * @return whether one or more of the provided objects were found to be null
+     * The class string.
      */
-    public static boolean someAreNull(Object object, Object... objects) {
-        if (object == null) return true;
+    private static final String clazz = "class";
 
-        for (Object obj : objects) {
-            if (obj == null) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+    /**
+     * The get string.
+     */
+    private static final String GET = "get";
 
     /**
      * Returns a String representation of the provided object
      * using all public get() methods found.
      *
-     * @param obj the object to build into a String
+     * @param object the object to build into a String
      * @return the string representation of the object
      */
-    private static String buildGetterString(Object obj) {
-        Preconditions.checkNotNull(obj);
+    private static String buildGetterString(Object object) {
+        Preconditions.checkNotNull(object);
 
         StringBuilder ret = new StringBuilder();
 
-        ret.append("class = ");
-        ret.append(getBottomLevelClass(obj.getClass()));
-        ret.append(", ");
+        ret.append(clazz).append(colon).append(space);
+        ret.append(getBottomLevelClass(object.getClass()));
+        ret.append(comma).append(space);
 
-        for (Method m : obj.getClass().getMethods()) {
-            if (m.getName().startsWith("get") && m.getParameterTypes().length == 0) {
+        for (Method m : object.getClass().getMethods()) {
+            if (m.getName().startsWith(GET) && m.getParameterTypes().length == 0) {
                 try {
                     ret.append(m.getName());
-                    ret.append(" = ");
-                    ret.append(m.invoke(obj));
-                    ret.append(", ");
+                    ret.append(colon).append(space);
+                    ret.append(m.invoke(object));
+                    ret.append(comma).append(space);
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
             }
         }
 
-        String retString = ret.toString().trim();
-        return retString.substring(0, retString.length() - 3).trim();
+        String retString = ret.toString();
+        retString = retString.trim().substring(0, retString.length() - 1).trim();
+        return retString;
     }
 
     /**
@@ -97,13 +90,13 @@ public final class ReflectionUtil {
      * @param clazz the class to find all getters of
      * @return a list of strings resulting from the get calls on the provided class
      */
-    public static LinkedList<String> getGetters(Class<?> clazz) {
+    public static ImmutableList<String> getGetters(Class<?> clazz) {
         Preconditions.checkNotNull(clazz);
 
         LinkedList<String> ret = new LinkedList<>();
 
         for (Method m : clazz.getMethods()) {
-            if (m.getName().startsWith("get") && m.getParameterTypes().length == 0) {
+            if (m.getName().startsWith(GET) && m.getParameterTypes().length == 0) {
                 try {
                     ret.add(m.invoke(clazz).toString());
                 } catch (Exception e) {
@@ -112,7 +105,7 @@ public final class ReflectionUtil {
             }
         }
 
-        return ret;
+        return ImmutableList.copyOf(ret);
     }
 
     /**
@@ -127,11 +120,6 @@ public final class ReflectionUtil {
         Preconditions.checkNotNull(obj);
 
         String reflectedFields = buildGetterString(obj);
-
-        if (reflectedFields.isEmpty()) {
-            reflectedFields = "No reflection data acquired";
-        }
-
         return getBottomLevelClass(obj.getClass()) + ", hash = " + obj.hashCode()
                 + ", reflection data = " + reflectedFields;
     }
@@ -141,20 +129,14 @@ public final class ReflectionUtil {
      */
     private static class SpecialMethod {
         private final String startsWith;
-        private final String logPattern;
         private String methodResult;
 
-        public SpecialMethod(String startsWith, String logPattern) {
+        public SpecialMethod(String startsWith) {
             this.startsWith = startsWith;
-            this.logPattern = logPattern;
         }
 
         public String getStartsWith() {
             return startsWith;
-        }
-
-        public String getLogPattern() {
-            return logPattern;
         }
 
         public String getMethodResult() {
@@ -170,9 +152,9 @@ public final class ReflectionUtil {
      * Special methods which should be found and invoked if found when reflecting on a ui component.
      */
     private static final ImmutableList<SpecialMethod> specialMethods = ImmutableList.of(
-            new SpecialMethod("getText", ", getText() = "),
-            new SpecialMethod("getTooltipText", ", getTooltipText() = "),
-            new SpecialMethod("getTitle", ", getTitle() = ")
+            new SpecialMethod("getText"),
+            new SpecialMethod("getTooltipText"),
+            new SpecialMethod("getTitle")
     );
 
     /**
@@ -200,8 +182,7 @@ public final class ReflectionUtil {
                         if (localInvokeResult instanceof String localInvokeResultString) {
                             if (!localInvokeResultString.isEmpty()
                                     && !StringUtil.isNullOrEmpty(localInvokeResultString)) {
-                                specialMethod.setMethodResult(specialMethod.getLogPattern()
-                                        + localInvokeResultString);
+                                specialMethod.setMethodResult(localInvokeResultString);
                             }
                         }
                     }
@@ -213,52 +194,60 @@ public final class ReflectionUtil {
 
         StringBuilder ret = new StringBuilder();
 
-        ret.append("Component = ")
+        ret.append("Component: ")
                 .append(getBottomLevelClass(comp.getClass()))
-                .append(", hash = ")
+                .append(", hash: ")
                 .append(comp.hashCode())
-                .append(", bounds = (").append(comp.getX()).append(", ").append(comp.getY())
+                .append(", bounds: (").append(comp.getX()).append(", ").append(comp.getY())
                 .append(", ").append(comp.getWidth()).append(", ").append(comp.getHeight())
-                .append(CyderStrings.closingParenthesis);
+                .append(closingParenthesis);
 
-        ret.append(", parent frame = ").append(parentFrame);
+        ret.append(", parent frame: ").append(parentFrame);
 
-        for (SpecialMethod specialMethod : specialMethods) {
-            if (!StringUtil.isNullOrEmpty(specialMethod.getMethodResult())) {
-                ret.append(specialMethod.getMethodResult());
+        specialMethods.forEach(specialMethod -> {
+            String result = specialMethod.getMethodResult();
+            if (!result.isEmpty()) {
+                ret.append(comma).append(space).append(specialMethod.getStartsWith()).append(colon).append(space);
+                ret.append(result);
             }
-        }
+        });
 
         return ret.toString();
     }
 
     /**
      * Returns the name of the class without all the package info.
-     * Example: if {@link CyderFrame} was provided, typically invoking
-     * {@link CyderFrame#toString()} would return "cyder.ui.CyderFrame"
-     * (with its hashcode appended of course). This method will simply return "CyderFrame."
+     * Example: if {@link CyderFrame} was provided, typically invoking {@link CyderFrame#toString()}
+     * would return "cyder.ui.CyderFrame" (with its hashcode appended of course).
+     * This method will simply return "CyderFrame".
      *
      * @param clazz the class to find the name of
      * @return the bottom level class name
      */
     public static String getBottomLevelClass(Class<?> clazz) {
-        String superName = clazz.toString();
+        Preconditions.checkNotNull(clazz);
 
+        String superName = clazz.toString();
         boolean inner = false;
 
-        // remove inner class IDs
+        // Remove inner class IDs
         if (superName.contains("$")) {
             superName = superName.split("\\$")[0];
             inner = true;
         }
 
-        // remove package info
+        // Remove package info
         if (superName.contains(".")) {
             String[] parts = superName.split("\\.");
             superName = parts[parts.length - 1];
         }
 
-        return superName + (inner ? " (inner)" : "");
+        String ret = superName;
+        if (inner) {
+            ret += space + openingParenthesis + "inner" + closingParenthesis;
+        }
+
+        return ret;
     }
 
     /**
@@ -273,8 +262,8 @@ public final class ReflectionUtil {
 
     static {
         try {
-            CYDER_CLASSES = ClassPath.from(Thread.currentThread().getContextClassLoader())
-                    .getTopLevelClassesRecursive(TOP_LEVEL_PACKAGE);
+            CYDER_CLASSES = ClassPath.from(Thread.currentThread()
+                    .getContextClassLoader()).getTopLevelClassesRecursive(TOP_LEVEL_PACKAGE);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -287,8 +276,7 @@ public final class ReflectionUtil {
 
     /**
      * Finds all widgets within Cyder by looking for methods annotated with {@link Widget}.
-     * The annotated method MUST take no parameters, be named
-     * {@link ReflectionUtil#STANDARD_WIDGET_SHOW_METHOD_NAME},
+     * The annotated method MUST take no parameters, be named {@link ReflectionUtil#STANDARD_WIDGET_SHOW_METHOD_NAME},
      * contain a valid description, and contain at least one trigger.
      *
      * @throws IllegalMethodException if an invalid {@link Widget} annotation is located
@@ -502,6 +490,9 @@ public final class ReflectionUtil {
         }
     }
 
+    // todo the notes widget borer isn't always visible
+    // todo have a subroutine when the prefs is open to reload from disk if files are added
+
     /**
      * A widget and it's name and triggers.
      */
@@ -629,7 +620,7 @@ public final class ReflectionUtil {
 
         Logger.log(LogTag.DEBUG, errorString);
         InformHandler.inform(new InformHandler.Builder(errorString).setTitle(
-                StringUtil.capsFirst(handleWarning.name().replace("_", CyderStrings.space))));
+                StringUtil.capsFirst(handleWarning.name().replace("_", space))));
     }
 
     /**

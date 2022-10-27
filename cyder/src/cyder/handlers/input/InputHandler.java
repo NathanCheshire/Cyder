@@ -3,7 +3,7 @@ package cyder.handlers.input;
 import cyder.console.Console;
 
 /**
- * A base of protected static utility methods for handles.
+ * A base class for InputHandlers to extend in order to enhance readability.
  */
 public abstract class InputHandler {
     /**
