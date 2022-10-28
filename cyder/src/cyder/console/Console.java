@@ -1823,6 +1823,8 @@ public enum Console {
         }
     };
 
+    // todo path bug, remove goal node if it goes out of bounds
+
     /**
      * Returns whether the provided user input should be added to the command list.
      *

@@ -173,20 +173,24 @@ public class BaseInputHandler {
      */
     public final void handle(String op, boolean userTriggered) {
         if (!handlePreliminaries(op, userTriggered)) {
-            Logger.log(LogTag.HANDLE_METHOD, "Failed handle preliminaries for op: " + op);
+            Logger.log(LogTag.HANDLE_METHOD, "Failed handle preliminaries for op: "
+                    + CyderStrings.quote + op + CyderStrings.quote);
             return;
         }
 
         if (redirectionHandler != null) {
             for (Method method : redirectionHandler.getMethods()) {
                 if (method.isAnnotationPresent(Handle.class)) {
+                    if (method.getParameterCount() != 0) continue;
+
+                    Object invocationResult = null;
                     try {
-                        if (method.invoke(redirectionHandler) instanceof Boolean bool && bool) {
-                            return;
-                        }
+                        invocationResult = method.invoke(redirectionHandler);
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
                     }
+
+                    if (invocationResult instanceof Boolean bool && bool) return;
                 }
             }
         }
@@ -194,19 +198,19 @@ public class BaseInputHandler {
         for (Class<?> handle : primaryHandlers) {
             for (Method method : handle.getMethods()) {
                 if (method.isAnnotationPresent(Handle.class)) {
-                    String[] triggers = method.getAnnotation(Handle.class).value();
+                    if (method.getParameterCount() != 0) continue;
 
+                    String[] triggers = method.getAnnotation(Handle.class).value();
                     for (String trigger : triggers) {
                         if (commandAndArgsToString().startsWith(trigger)) {
+                            Object invocationResult = null;
                             try {
-                                if (method.getParameterCount() == 0) {
-                                    if (method.invoke(handle) instanceof Boolean bool && bool) {
-                                        return;
-                                    }
-                                }
+                                invocationResult = method.invoke(handle);
                             } catch (Exception e) {
                                 ExceptionHandler.handle(e);
                             }
+
+                            if (invocationResult instanceof Boolean bool && bool) return;
                         }
                     }
                 }
@@ -216,16 +220,16 @@ public class BaseInputHandler {
         for (Class<?> handle : finalHandlers) {
             for (Method method : handle.getMethods()) {
                 if (method.isAnnotationPresent(Handle.class)) {
+                    if (method.getParameterCount() != 0) return;
+
+                    Object invocationResult = null;
                     try {
-                        if (method.getParameterCount() == 0) {
-                            // todo invocations themselves should use try catch and wrap with exception
-                            if (method.invoke(handle) instanceof Boolean bool && bool) {
-                                return;
-                            }
-                        }
+                        invocationResult = method.invoke(handle);
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
                     }
+
+                    if (invocationResult instanceof Boolean bool && bool) return;
                 }
             }
         }
@@ -242,8 +246,9 @@ public class BaseInputHandler {
      * @return whether preliminary checks successfully completed
      */
     private boolean handlePreliminaries(String command, boolean userTriggered) {
-        this.command = Preconditions.checkNotNull(command).trim();
         Preconditions.checkNotNull(linkedOutputPane);
+        Preconditions.checkNotNull(command);
+        this.command = command.trim();
 
         resetMembers();
 
@@ -383,8 +388,8 @@ public class BaseInputHandler {
 
                 if (!StringUtil.isNullOrEmpty(similarCommand)) {
                     Logger.log(LogTag.DEBUG, "Similar command to \""
-                            + command + "\" found with tolerance of " + tolerance
-                            + ", command = \"" + similarCommand + CyderStrings.quote);
+                            + command + CyderStrings.quote + " found with tolerance of " + tolerance
+                            + ", command: " + CyderStrings.quote + similarCommand + CyderStrings.quote);
 
                     if (!wrapShell) {
                         boolean autoTrigger = PropLoader.getBoolean(AUTO_TRIGGER_SIMILAR_COMMANDS_KEY);
@@ -393,12 +398,12 @@ public class BaseInputHandler {
 
                         if (tolerance >= SIMILAR_COMMAND_TOL) {
                             if (autoTrigger && toleranceMet) {
-                                println(UNKNOWN_COMMAND + "; Invoking similar command: \"" + similarCommand
-                                        + CyderStrings.quote);
+                                println(UNKNOWN_COMMAND + "; Invoking similar command: "
+                                        + CyderStrings.quote + similarCommand + CyderStrings.quote);
                                 handle(similarCommand, false);
                             } else {
-                                println(UNKNOWN_COMMAND + "; Most similar command: \""
-                                        + similarCommand + CyderStrings.quote);
+                                println(UNKNOWN_COMMAND + "; Most similar command: "
+                                        + CyderStrings.quote + similarCommand + CyderStrings.quote);
                             }
 
                             return;
@@ -408,7 +413,7 @@ public class BaseInputHandler {
             }
 
             if (wrapShell) {
-                wrapShellLogic();
+                performWrapShell();
             } else {
                 println(UNKNOWN_COMMAND);
             }
@@ -416,10 +421,10 @@ public class BaseInputHandler {
     }
 
     /**
-     * The logic performed when it is known that a wrap shell action should be taken.
+     * The actions performed when it is known that a wrap shell action should be taken.
      */
     @ForReadability
-    private void wrapShellLogic() {
+    private void performWrapShell() {
         println(UNKNOWN_COMMAND + ", passing to operating system native shell (" + OsUtil.getShellName()
                 + CyderStrings.closingParenthesis);
 
@@ -447,6 +452,12 @@ public class BaseInputHandler {
         }, WRAP_SHELL_THREAD_NAME);
     }
 
+    /**
+     * Creates and returns the process that invokes the command and args as an operating system command.
+     *
+     * @return the created process after starting
+     * @throws IOException if any IO errors occur when starting the process
+     */
     @ForReadability
     private Process createAndStartWrapShellProcess() throws IOException {
         LinkedList<String> processArgs = new LinkedList<>(args);
@@ -596,12 +607,22 @@ public class BaseInputHandler {
     }
 
     /**
+     * Returns whether the typing animation sound should be played.
+     *
+     * @return whether the typing animation sound should be played
+     */
+    @ForReadability
+    private boolean shouldDoTypingSound() {
+        return UserUtil.getCyderUser().getTypingSound().equals("1");
+    }
+
+    /**
      * The console printing animation runnable.
      */
     private final Runnable consolePrintingRunnable = () -> {
         try {
             boolean shouldDoTypingAnimation = shouldDoTypingAnimation();
-            boolean shouldDoTypingSound = UserUtil.getCyderUser().getTypingSound().equals("1");
+            boolean shouldDoTypingSound = shouldDoTypingSound();
             long lastPollTime = System.currentTimeMillis();
             int lineTimeout = PropLoader.getInteger(PRINATING_ANIMATION_LINE_KEY);
 
@@ -609,7 +630,7 @@ public class BaseInputHandler {
                 if (System.currentTimeMillis() - lastPollTime > USER_DATA_POLL_FREQUENCY_MS) {
                     lastPollTime = System.currentTimeMillis();
                     shouldDoTypingAnimation = shouldDoTypingAnimation();
-                    shouldDoTypingSound = UserUtil.getCyderUser().getTypingSound().equals("1");
+                    shouldDoTypingSound = shouldDoTypingSound();
                 }
 
                 if (!consolePriorityPrintingList.isEmpty()) {

@@ -116,6 +116,8 @@ public final class BletchyThread {
          * Starts the bletchy animation this animator is setup to perform.
          */
         public void start() {
+            String threadName = "Bletchy printing thread, finalString: "
+                    + CyderStrings.quote + prints[prints.length - 1] + CyderStrings.quote;
             CyderThreadRunner.submit(() -> {
                 try {
                     isActive = true;
@@ -144,7 +146,7 @@ public final class BletchyThread {
                     printingSemaphore.release();
                     kill();
                 }
-            }, "Bletchy printing thread, finalString = " + prints[prints.length - 1]);
+            }, threadName);
         }
 
         /**
@@ -247,6 +249,7 @@ public final class BletchyThread {
         UNICODE_CHARS = ImmutableList.copyOf(ret);
     }
 
+    // todo prop config?
     /**
      * The number of bletchy animation iterations per decode character.
      */

@@ -116,6 +116,9 @@ public class CyderGrid extends JLabel {
      */
     private final Semaphore semaphore = new Semaphore(1);
 
+    /**
+     * Acquires the semaphore.
+     */
     private void lock() {
         try {
             semaphore.acquire();
@@ -124,9 +127,17 @@ public class CyderGrid extends JLabel {
         }
     }
 
+    /**
+     * Releases the semaphore.
+     */
     private void unlock() {
         semaphore.release();
     }
+
+    /**
+     * The list of callbacks to invoke when the grid is resized.
+     */
+    private final ArrayList<Runnable> onResizeCallbacks = new ArrayList<>();
 
     /**
      * Constructs a CyderGrid object using {@link CyderGrid#DEFAULT_NODES} and {@link CyderGrid#DEFAULT_LENGTH}.
@@ -279,8 +290,8 @@ public class CyderGrid extends JLabel {
     public void setNodeDimensionLength(int len) {
         Preconditions.checkArgument(len > 0, "Dimensional length must be at least 1");
         nodes = len;
-        // redraw after the zoom
         repaint();
+        onResizeCallbacks.forEach(Runnable::run);
     }
 
     /**
@@ -641,8 +652,8 @@ public class CyderGrid extends JLabel {
                     }
                 }
 
-                // redraw after the zoom
                 repaint();
+                onResizeCallbacks.forEach(Runnable::run);
             }
         }
     };
@@ -1300,6 +1311,26 @@ public class CyderGrid extends JLabel {
 
         grid.removeAll(remove);
         unlock();
+    }
+
+    /**
+     * Adds the provided callback to invoke when the grid is resized.
+     *
+     * @param callback the callback
+     */
+    public void addOnResizeCallback(Runnable callback) {
+        onResizeCallbacks.add(Preconditions.checkNotNull(callback));
+    }
+
+    public void removeOnResizeCallback(Runnable callback) {
+        onResizeCallbacks.remove(Preconditions.checkNotNull(callback));
+    }
+
+    /**
+     * Removes all on resize callbacks.
+     */
+    public void removeAllOnResizeCallbacks() {
+        onResizeCallbacks.clear();
     }
 
     /**

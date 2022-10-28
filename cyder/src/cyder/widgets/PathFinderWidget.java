@@ -308,7 +308,7 @@ public final class PathFinderWidget {
     /**
      * The length of the grid component.
      */
-    private static final int gridLength = 800;
+    private static final int gridComponentLength = 800;
 
     /**
      * The text for the start button.
@@ -335,6 +335,8 @@ public final class PathFinderWidget {
      */
     private static final String RESUME = "Resume";
 
+    // todo deselecting start or goal should be died to set state of atomic boolean
+
     /**
      * Suppress default constructor.
      */
@@ -350,13 +352,32 @@ public final class PathFinderWidget {
         pathFindingFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
         pathFindingFrame.setTitle(TITLE);
 
-        pathfindingGrid = new CyderGrid(DEFAULT_NODES, gridLength);
-        pathfindingGrid.setBounds(100, 80, gridLength, gridLength);
+        pathfindingGrid = new CyderGrid(DEFAULT_NODES, gridComponentLength);
+        pathfindingGrid.setBounds(100, 80, gridComponentLength, gridComponentLength);
         pathfindingGrid.setMinNodes(DEFAULT_NODES);
         pathfindingGrid.setMaxNodes(MAX_NODES);
         pathfindingGrid.setDrawGridLines(true);
         pathfindingGrid.setBackground(CyderColors.vanilla);
         pathfindingGrid.setResizable(true);
+        pathfindingGrid.addOnResizeCallback(() -> {
+            LinkedList<CyderGrid.GridNode> goals = pathfindingGrid.getNodesOfColor(goalNodeColor);
+            if (goals.size() == 1) {
+                CyderGrid.GridNode localGoal = goals.get(0);
+                int maxGoalCoordinate = Math.max(localGoal.getX(), localGoal.getY());
+                if (maxGoalCoordinate >= pathfindingGrid.getNodeDimensionLength()) {
+                    pathfindingGrid.removeNodesOfColor(goalNodeColor);
+                }
+            }
+
+            LinkedList<CyderGrid.GridNode> starts = pathfindingGrid.getNodesOfColor(startNodeColor);
+            if (starts.size() == 1) {
+                CyderGrid.GridNode localStart = starts.get(0);
+                int maxStartCoordinate = Math.max(localStart.getX(), localStart.getY());
+                if (maxStartCoordinate >= pathfindingGrid.getNodeDimensionLength()) {
+                    pathfindingGrid.removeNodesOfColor(startNodeColor);
+                }
+            }
+        });
         pathfindingGrid.setSmoothScrolling(true);
         pathFindingFrame.getContentPane().add(pathfindingGrid);
         pathfindingGrid.setSaveStates(false);
