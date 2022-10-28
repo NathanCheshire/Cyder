@@ -2,7 +2,6 @@ package cyder.handlers.input;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cyder.annotations.CyderTest;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Handle;
 import cyder.console.Console;
@@ -23,7 +22,10 @@ import cyder.utils.*;
 import cyder.youtube.YoutubeUtil;
 
 import javax.swing.*;
-import javax.swing.text.*;
+import javax.swing.text.ElementIterator;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.io.*;
 import java.lang.reflect.Method;
@@ -216,6 +218,7 @@ public class BaseInputHandler {
                 if (method.isAnnotationPresent(Handle.class)) {
                     try {
                         if (method.getParameterCount() == 0) {
+                            // todo invocations themselves should use try catch and wrap with exception
                             if (method.invoke(handle) instanceof Boolean bool && bool) {
                                 return;
                             }
@@ -820,81 +823,36 @@ public class BaseInputHandler {
     // -----------------------
 
     /**
-     * The icon text.
+     * The deafult number of elements in a document.
      */
-    private static final String ICON = "icon";
+    private static final int defaultDocumentEntities = 3;
 
     /**
-     * The component text.
+     * The number of times to call {@link #removeLastElement()} from within {@link #removeLastEntity()}.
      */
-    private static final String COMPONENT = "component";
+    private static final int removeLastElementCalls = 2;
 
     /**
-     * The list of triggers that signify to remove the last two lines
-     * in order to remove the last entity appended to an output pane.
-     */
-    private static final ImmutableList<String> removeLastTwoLinesTriggers = ImmutableList.of(ICON, COMPONENT);
-
-    private static record struct(boolean branch, boolean newline, boolean content) {}
-
-    ;
-
-    /**
-     * Removes the last entity added to the JTextPane whether it's a component,
-     * icon, or string of multi-lined text.
-     * <p>
-     * In more detail, this method figures out what it'll be removing and then determines how many calls
-     * are needed to {@link StringUtil#removeLastElement()}
+     * Removes the last entity added to the JTextPane by invoking {@link #removeLastElement()} twice due
+     * to a new line always being printed last. If there are other elements present after the remove, a newline
+     * is added back to the document.
      */
     public final void removeLastEntity() {
         try {
-            ArrayList<struct> structs = new ArrayList<>();
-
             ElementIterator iterator = new ElementIterator(getJTextPane().getStyledDocument());
-
             int count = 0;
-            Element element;
-            boolean isnewline = false;
-            while ((element = iterator.next()) != null) {
-                count++;
+            while (iterator.next() != null) count++;
 
-                int start = element.getStartOffset();
-                int length = element.getEndOffset() - start;
-                String text = element.getDocument().getText(start, length);
-                String elementRepresentation = element.toString().trim();
-
-                isnewline = text.equals("\n");
-                boolean branch = false;
-                boolean leafIsContent = false;
-
-                String[] parts = elementRepresentation.split(CyderRegexPatterns.whiteSpaceRegex);
-                // todo assert 2 parts
-                String type = parts[0];
-                if (type.startsWith("BranchElement")) {
-                    branch = true;
-                } else if (type.startsWith("LeafElement")) {
-                    leafIsContent = type.replace("LeafElement", "").equals("(content)");
-                }
-
-                structs.add(new struct(branch, isnewline, leafIsContent));
-            }
-
-            // todo if branch of content, leaf not newline, branch of content, leaf is newline, remove two, else one
-
-            // todo another try to ensure release
             linkedOutputPane.getSemaphore().acquire();
-            if (isnewline) removeLastElement();
 
             removeLastElement();
+            removeLastElement();
+            if (count > defaultDocumentEntities + removeLastElementCalls) println("");
+
             linkedOutputPane.getSemaphore().release();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
-    }
-
-    @CyderTest("jester")
-    public static void tester() {
-        Console.INSTANCE.getInputHandler().removeLastEntity();
     }
 
     /**

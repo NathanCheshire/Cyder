@@ -99,59 +99,6 @@ public class StringUtil {
     }
 
     /**
-     * Removes the last "thing" added to the JTextPane whether it's a component,
-     * icon, or string of multi-lined text.
-     * In more detail, this method figures out what it'll be removing and then determines how many calls
-     * are needed to {@link StringUtil#removeLastElement()}
-     */
-    public synchronized void removeLast() {
-        try {
-            boolean removeTwoLines = false;
-
-            ArrayList<Element> elements = new ArrayList<>();
-            ElementIterator iterator = new ElementIterator(linkedCyderPane.getJTextPane().getStyledDocument());
-            Element element;
-            while ((element = iterator.next()) != null) {
-                elements.add(element);
-            }
-
-            int leafs = 0;
-
-            for (Element value : elements)
-                if (value.getElementCount() == 0)
-                    leafs++;
-
-            int passedLeafs = 0;
-
-            for (Element value : elements) {
-                if (value.getElementCount() == 0) {
-                    if (passedLeafs + 3 != leafs) {
-                        passedLeafs++;
-                        continue;
-                    }
-
-                    if (value.toString().toLowerCase().contains("icon") ||
-                            value.toString().toLowerCase().contains("component")) {
-                        removeTwoLines = true;
-                    }
-                }
-            }
-
-            linkedCyderPane.getSemaphore().acquire();
-
-            if (removeTwoLines) {
-                removeLastElement();
-            }
-
-            removeLastElement();
-
-            linkedCyderPane.getSemaphore().release();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
      * Finds the last line of text from the linked output area.
      *
      * @return the last line of raw ASCII text
@@ -190,6 +137,33 @@ public class StringUtil {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+    }
+
+    /**
+     * Returns the number of {@link Element}s contained in by the inner {@link JTextPane}s {@link StyledDocument}.
+     *
+     * @return the number of elements found
+     */
+    public synchronized int countDocumentElements() {
+        ElementIterator iterator = new ElementIterator(linkedCyderPane.getJTextPane().getStyledDocument());
+        int count = 0;
+        while (iterator.next() != null) count++;
+        return count;
+    }
+
+    /**
+     * The default number of elements of a {@link JTextPane}s {@link StyledDocument}.
+     */
+    private static final int defaultDocumentElements = 3;
+
+    /**
+     * Returns whether the inner {@link JTextPane}s {@link StyledDocument} contains more than the default
+     * number of elements, that of three.
+     *
+     * @return whether there are more than the default number of elements in the styled document
+     */
+    public synchronized boolean documentContainsMoreThanDefaultElements() {
+        return countDocumentElements() > defaultDocumentElements;
     }
 
     /*

@@ -10,6 +10,7 @@ import cyder.math.NumberUtil;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.utils.StringUtil;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
@@ -107,7 +108,7 @@ public final class BletchyThread {
         BletchyAnimator(String[] print, int milliDelay) {
             Preconditions.checkNotNull(print);
 
-            this.prints = print;
+            this.prints = Preconditions.checkNotNull(print);
             this.milliDelay = milliDelay;
         }
 
@@ -121,23 +122,26 @@ public final class BletchyThread {
 
                     printingSemaphore.acquire();
 
-                    for (int i = 1 ; i < prints.length ; i++) {
+                    Arrays.stream(prints).forEach(print -> {
                         if (!isActive) {
-                            printingSemaphore.release();
                             return;
                         }
 
-                        stringUtil.println(prints[i]);
-                        ThreadUtil.sleep(milliDelay);
-                        stringUtil.removeLastElement();
-                    }
+                        stringUtil.println(print);
 
-                    // print final string
+                        ThreadUtil.sleep(milliDelay);
+
+                        stringUtil.removeLastElement();
+                        stringUtil.removeLastElement();
+
+                        if (stringUtil.documentContainsMoreThanDefaultElements()) stringUtil.println("");
+                    });
+
                     stringUtil.println(prints[prints.length - 1]);
-                    printingSemaphore.release();
-                    kill();
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
+                } finally {
+                    printingSemaphore.release();
                     kill();
                 }
             }, "Bletchy printing thread, finalString = " + prints[prints.length - 1]);
@@ -194,6 +198,16 @@ public final class BletchyThread {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
     /**
+     * The Unicode index of the starting card suite character.
+     */
+    private static final int minCardSuiteIndex = 9824;
+
+    /**
+     * The Unicode index of the ending card suite character.
+     */
+    private static final int maxCardSuiteIndex = 9835;
+
+    /**
      * Character list of all unicode card suit characters.
      */
     private static final ImmutableList<Character> CARD_SUITS;
@@ -201,7 +215,7 @@ public final class BletchyThread {
     static {
         LinkedList<Character> ret = new LinkedList<>();
 
-        for (int i = 9824 ; i < 9836 ; i++) {
+        for (int i = minCardSuiteIndex ; i <= maxCardSuiteIndex ; i++) {
             ret.add((char) i);
         }
 
