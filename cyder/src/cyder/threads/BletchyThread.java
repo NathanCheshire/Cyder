@@ -7,6 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.NumberUtil;
+import cyder.props.PropLoader;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.utils.StringUtil;
 
@@ -249,11 +250,15 @@ public final class BletchyThread {
         UNICODE_CHARS = ImmutableList.copyOf(ret);
     }
 
-    // todo prop config?
+    /**
+     * The key to get the bletchy animation iterations per char from the props.
+     */
+    private static final String BLETCHY_ANIMATION_ITERATIONS_PER_CHAR = "bletchy_animation_iterations_per_char";
+
     /**
      * The number of bletchy animation iterations per decode character.
      */
-    private static final int ITERATIONS_PER_CHAR = 7;
+    private static final int ITERATIONS_PER_CHAR = PropLoader.getInteger(BLETCHY_ANIMATION_ITERATIONS_PER_CHAR);
 
     /**
      * Returns an array of Strings abiding by the parameters for a bletchy thread to print.
