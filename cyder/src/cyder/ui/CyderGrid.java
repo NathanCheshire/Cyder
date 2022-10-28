@@ -2,7 +2,6 @@ package cyder.ui;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
-import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
@@ -17,8 +16,6 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.concurrent.Semaphore;
-
-import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
 /**
  * A custom UI grid component.
@@ -83,7 +80,11 @@ public class CyderGrid extends JLabel {
      * An enum for adding/removing nodes from the grid.
      */
     public enum Mode {
-        ADD, DELETE, SELECTION, NONE, COLOR_SELECTION
+        ADD,
+        DELETE,
+        SELECTION,
+        NONE,
+        COLOR_SELECTION
     }
 
     /**
@@ -153,9 +154,8 @@ public class CyderGrid extends JLabel {
      * @param gridComponentLength the physical length of this component on its parent container
      */
     public CyderGrid(int nodes, int gridComponentLength) {
-        if (gridComponentLength < MIN_LENGTH)
-            throw new IllegalArgumentException("Minimum length not met: length = "
-                    + gridComponentLength + ", length width = " + MIN_LENGTH);
+        Preconditions.checkArgument(nodes > 0);
+        Preconditions.checkArgument(gridComponentLength >= MIN_LENGTH);
 
         this.nodes = nodes;
         this.gridComponentLength = gridComponentLength;
@@ -196,6 +196,8 @@ public class CyderGrid extends JLabel {
      * @return whether the provided node was found on the grid
      */
     public boolean contains(GridNode node) {
+        Preconditions.checkNotNull(node);
+
         return grid.contains(node);
     }
 
@@ -205,6 +207,8 @@ public class CyderGrid extends JLabel {
      * @param node the node to add to the grid if it not already on the grid
      */
     public void addNode(GridNode node) {
+        Preconditions.checkNotNull(node);
+
         lock();
         grid.add(node);
         unlock();
@@ -212,7 +216,7 @@ public class CyderGrid extends JLabel {
 
     /**
      * Adds a node at the provided location if it is not already on the grid.
-     * The color given to the node is {@link CyderColors#navy}.
+     * The color given to the node is {@link #nodeColor}.
      *
      * @param x the x value of the grid node to add
      * @param y the y value of the grid node to add
@@ -229,6 +233,8 @@ public class CyderGrid extends JLabel {
      * @param color the color of the node
      */
     public void addNode(int x, int y, Color color) {
+        Preconditions.checkNotNull(color);
+
         addNode(new GridNode(color, x, y));
     }
 
@@ -238,6 +244,8 @@ public class CyderGrid extends JLabel {
      * @param node the node to remove
      */
     public void removeNode(GridNode node) {
+        Preconditions.checkNotNull(node);
+
         lock();
         grid.remove(node);
         unlock();
@@ -267,6 +275,8 @@ public class CyderGrid extends JLabel {
      * @param newGrid the nodes for the current grid
      */
     public void setGridNodes(LinkedList<GridNode> newGrid) {
+        Preconditions.checkNotNull(newGrid);
+
         grid.clear();
         lock();
         grid.addAll(newGrid);
@@ -317,9 +327,8 @@ public class CyderGrid extends JLabel {
     public void paint(Graphics g) {
         super.paint(g);
 
-        //failsafe
-        if (nodes < minNodes || nodes > maxNodes)
-            return;
+        // failsafe
+        if (nodes < minNodes || nodes > maxNodes) return;
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(2));
@@ -545,8 +554,11 @@ public class CyderGrid extends JLabel {
      * @param nextState the new grid state
      */
     public void setGridState(LinkedList<GridNode> nextState) {
-        if (backwardStates.isEmpty() || !backwardStates.peek().equals(nextState))
+        Preconditions.checkNotNull(nextState);
+
+        if (backwardStates.isEmpty() || !backwardStates.peek().equals(nextState)) {
             saveState(new LinkedList<>(grid));
+        }
 
         grid = nextState;
 
@@ -613,14 +625,23 @@ public class CyderGrid extends JLabel {
     };
 
     /**
+     * The number returned by {@link MouseWheelEvent#getWheelRotation()} for scroll in events.
+     */
+    private static final int zoomingInWheelRotation = -1;
+
+    /**
+     * The number returned by {@link MouseWheelEvent#getWheelRotation()} for scroll out events.
+     */
+    private static final int zoomingOutWheelRotation = 1;
+
+    /**
      * The listener used to increase/decrease the number of nodes on the grid.
      */
     private final MouseWheelListener zoomListener = new MouseAdapter() {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
             if (e.isControlDown()) {
-                // zooming in
-                if (e.getWheelRotation() == -1) {
+                if (e.getWheelRotation() == zoomingInWheelRotation) {
                     if (nodes - 1 < minNodes)
                         return;
 
@@ -634,9 +655,7 @@ public class CyderGrid extends JLabel {
                     } else {
                         nodes -= 1;
                     }
-                }
-                // zooming out
-                else {
+                } else if (e.getWheelRotation() == zoomingOutWheelRotation) {
                     if (smoothScrolling) {
                         for (Integer increment : increments) {
                             if (increment > nodes) {
@@ -650,6 +669,8 @@ public class CyderGrid extends JLabel {
                     } else {
                         nodes += 1;
                     }
+                } else {
+                    return;
                 }
 
                 repaint();
@@ -709,6 +730,11 @@ public class CyderGrid extends JLabel {
         this.minNodes = minNodes;
     }
 
+    /**
+     * Sets the maximum number of nodes for a dimension of this instance.
+     *
+     * @param maxNodes the maximum number of nodes for a dimension of this instance
+     */
     public void setMaxNodes(int maxNodes) {
         this.maxNodes = maxNodes;
     }
@@ -719,7 +745,7 @@ public class CyderGrid extends JLabel {
      * @param nodeColor the color of the next nodes to place on the grid
      */
     public void setNodeColor(Color nodeColor) {
-        this.nodeColor = nodeColor;
+        this.nodeColor = Preconditions.checkNotNull(nodeColor);
     }
 
     /**
@@ -786,7 +812,7 @@ public class CyderGrid extends JLabel {
      * @param mode the current placement mode
      */
     public void setMode(Mode mode) {
-        this.mode = mode;
+        this.mode = Preconditions.checkNotNull(mode);
 
         // clear selection
         if (mode != Mode.SELECTION) {
@@ -847,6 +873,8 @@ public class CyderGrid extends JLabel {
      * @param pushState the state to push to the backward states
      */
     private void saveState(LinkedList<GridNode> pushState) {
+        Preconditions.checkNotNull(pushState);
+
         if (saveStates) {
             backwardStates.push(pushState);
         }
@@ -898,13 +926,22 @@ public class CyderGrid extends JLabel {
     // Cropping logic
     // --------------
 
+    /**
+     * The first point of selection.
+     */
     private Point point1Selection;
+
+    /**
+     * The second point of selection. This point can be updated as the mouse moves if it is being held down.
+     */
     private Point point2Selection;
 
     /**
      * Handles a crop action and updates the highlighted region if intended to be drawn.
      */
     private void handleCropMovement(Point node) {
+        Preconditions.checkNotNull(node);
+
         // no region selected so assign the start to both, when the movement ends
         // we can figure out which corner is which
         if (point1Selection == null) {
@@ -915,7 +952,7 @@ public class CyderGrid extends JLabel {
     }
 
     /**
-     * Crop the grid to the currently selected region.
+     * Crops the grid to the currently selected region.
      */
     public void cropToSelectedRegion() {
         if (point1Selection != null && point2Selection != null
@@ -966,7 +1003,6 @@ public class CyderGrid extends JLabel {
             point1Selection = null;
             point2Selection = null;
 
-            // repaint
             repaint();
         }
     }
@@ -1024,7 +1060,7 @@ public class CyderGrid extends JLabel {
     /**
      * Rotates the nodes in the selected region by 90 degrees to the left.
      */
-    @SuppressWarnings("SuspiciousNameCombination")  // Rotations
+    @SuppressWarnings("SuspiciousNameCombination") /* parameters seem reversed for matrix rotation logic */
     public void rotateRegion() {
         int firstX = 0;
         int firstY = 0;
@@ -1126,12 +1162,11 @@ public class CyderGrid extends JLabel {
             point2Selection = newBottomRight;
         }
 
-        // repaint
         repaint();
     }
 
     /**
-     * Reflects the selected region horizontally.
+     * Reflects the selected region across the horizontal axis.
      */
     public void reflectRegionHorizontally() {
         int firstX = 0;
@@ -1208,10 +1243,7 @@ public class CyderGrid extends JLabel {
      * @param mousePoint the mouse point of a dimension
      * @return the converted grid point of the dimension
      */
-    @SuppressWarnings("unused")
     private float mouseToGridSpace(int mousePoint) {
-        checkNotNull(mousePoint);
-
         return (mousePoint - centeringDrawOffset) / (gridComponentLength / (float) nodes);
     }
 
@@ -1225,8 +1257,6 @@ public class CyderGrid extends JLabel {
      * @return the grid point converted to mouse point
      */
     public float gridToMouseSpace(int gridPoint) {
-        checkNotNull(gridPoint);
-
         float halfNodeLen = (gridComponentLength / (float) nodes) / 2.0f;
 
         // account for node length and shift to node's center
@@ -1239,7 +1269,7 @@ public class CyderGrid extends JLabel {
      * @param runnable the runnable to invoke when the next node is placed
      */
     public void invokeWhenNodePlaced(Runnable runnable) {
-        runnablesForWhenNextNodePlaced.add(runnable);
+        runnablesForWhenNextNodePlaced.add(Preconditions.checkNotNull(runnable));
     }
 
     /**
@@ -1260,6 +1290,8 @@ public class CyderGrid extends JLabel {
      * @return a linked list of all nodes with the provided color
      */
     public LinkedList<GridNode> getNodesOfColor(Color color) {
+        Preconditions.checkNotNull(color);
+
         LinkedList<GridNode> ret = new LinkedList<>();
 
         lock();
@@ -1300,6 +1332,8 @@ public class CyderGrid extends JLabel {
      * @param color the color of the nodes to remove from the grid
      */
     public void removeNodesOfColor(Color color) {
+        Preconditions.checkNotNull(color);
+
         LinkedList<GridNode> remove = new LinkedList<>();
 
         lock();
@@ -1322,6 +1356,11 @@ public class CyderGrid extends JLabel {
         onResizeCallbacks.add(Preconditions.checkNotNull(callback));
     }
 
+    /**
+     * Removes the provided callback from the callbacks to invoke when the grid is resized.
+     *
+     * @param callback the callback to remove
+     */
     public void removeOnResizeCallback(Runnable callback) {
         onResizeCallbacks.remove(Preconditions.checkNotNull(callback));
     }
@@ -1375,7 +1414,7 @@ public class CyderGrid extends JLabel {
          * @param y     the y value of this node
          */
         public GridNode(Color color, int x, int y) {
-            this.color = color;
+            this.color = Preconditions.checkNotNull(color);
             this.x = x;
             this.y = y;
 
@@ -1397,7 +1436,7 @@ public class CyderGrid extends JLabel {
          * @param color the color of this node
          */
         public void setColor(Color color) {
-            this.color = color;
+            this.color = Preconditions.checkNotNull(color);
         }
 
         /**
@@ -1450,11 +1489,13 @@ public class CyderGrid extends JLabel {
          */
         @Override
         public boolean equals(Object node) {
-            if (node == this)
+            if (node == this) {
                 return true;
-            if (!(node instanceof GridNode other))
+            } else if (!(node instanceof GridNode)) {
                 return false;
+            }
 
+            GridNode other = (GridNode) node;
             return (x == other.x && y == other.y);
         }
 
@@ -1474,8 +1515,8 @@ public class CyderGrid extends JLabel {
          */
         @Override
         public String toString() {
-            return x + ", " + y + ", (" + color.getRed()
-                    + "," + color.getGreen() + "," + color.getBlue() + CyderStrings.closingParenthesis;
+            return "GridNode{" + "color=" + color
+                    + ", x=" + x + ", y=" + y + "}";
         }
     }
 }
