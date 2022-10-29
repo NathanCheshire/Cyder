@@ -71,9 +71,19 @@ public final class NotesWidget {
     private static final int defaultFrameHeight = 680;
 
     /**
+     * The padding between the frame and the note files scrolls.
+     */
+    private static final int noteListScrollPadding = 25;
+
+    /**
+     * The length of the note files list scroll.
+     */
+    private static final int noteListScrollLength = defaultFrameWidth - 2 * noteListScrollPadding;
+
+    /**
      * The padding between the frame and the note contents scrolls.
      */
-    private static final int noteScrollPadding = 25;
+    private static final int noteScrollPadding = 50;
 
     /**
      * The notes list scroll.
@@ -81,9 +91,9 @@ public final class NotesWidget {
     private static CyderScrollList notesScrollList;
 
     /**
-     * The length of the notes scroll.
+     * The length of the notes JTextArea.
      */
-    private static final int noteScrollLength = defaultFrameWidth - 2 * noteScrollPadding;
+    private static final int noteAreaLength = defaultFrameWidth - 2 * noteScrollPadding;
 
     /**
      * The partitioned layout for the notes scroll view.
@@ -153,7 +163,7 @@ public final class NotesWidget {
     /**
      * The height of the note scrolls.
      */
-    private static final int noteScrollHeight = noteScrollLength - 50;
+    private static final int noteScrollHeight = noteAreaLength - 2 * noteListScrollPadding;
 
     /**
      * The back button text.
@@ -241,6 +251,16 @@ public final class NotesWidget {
     private static final int SAVE_BUTTON_TIMEOUT = 500;
 
     /**
+     * The border length for the note scroll.
+     */
+    private static final int noteScrollBorderLen = 5;
+
+    /**
+     * The padding partition for primary view components.
+     */
+    private static final int viewPartitionPadding = 2;
+
+    /**
      * Suppress default constructor.
      */
     private NotesWidget() {
@@ -304,17 +324,20 @@ public final class NotesWidget {
         CyderPanel buttonPanel = new CyderPanel(buttonGridlayout);
         buttonPanel.setSize(notesLabel.getWidth(), 50);
 
-        framePartitionedLayout.spacer(2);
-        framePartitionedLayout.addComponentMaintainSize(notesLabel,
-                CyderPartitionedLayout.PartitionAlignment.TOP);
-        framePartitionedLayout.spacer(2);
+        framePartitionedLayout.spacer(viewPartitionPadding);
+        framePartitionedLayout.addComponentMaintainSize(notesLabel, CyderPartitionedLayout.PartitionAlignment.TOP);
+        framePartitionedLayout.spacer(viewPartitionPadding);
         framePartitionedLayout.addComponent(buttonPanel);
-        framePartitionedLayout.spacer(2);
+        framePartitionedLayout.spacer(viewPartitionPadding);
 
         noteFrame.setCyderLayout(framePartitionedLayout);
         noteFrame.repaint();
         revalidateFrameTitle();
     }
+
+    // todo on view load of files scroll reset changes vars
+    // todo get confirmation seems to be broken?
+    // todo scrollbars need to be repainted when loading scrolls for add and edit views
 
     /**
      * Sets up and shows the add note view.
@@ -335,9 +358,8 @@ public final class NotesWidget {
 
         newNoteArea = new JTextPane();
         newNoteArea.addKeyListener(getAddNoteKeyListener());
-        newNoteArea.setSize(noteScrollLength, noteScrollHeight);
+        newNoteArea.setSize(noteAreaLength, noteScrollHeight);
         newNoteArea.setBackground(CyderColors.vanilla);
-        newNoteArea.setBorder(new LineBorder(CyderColors.navy, 5));
         newNoteArea.setFocusable(true);
         newNoteArea.setEditable(true);
         newNoteArea.setSelectionColor(CyderColors.selectionColor);
@@ -346,14 +368,24 @@ public final class NotesWidget {
         newNoteArea.setCaret(new CyderCaret(CyderColors.navy));
         newNoteArea.setCaretColor(newNoteArea.getForeground());
 
-        CyderScrollPane noteScroll = new CyderScrollPane(newNoteArea, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,
+        // todo vars for this?
+        int noteScrollLen = noteAreaLength - 2 * noteScrollBorderLen;
+        CyderScrollPane noteScroll = new CyderScrollPane(newNoteArea,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         noteScroll.setThumbColor(CyderColors.regularPink);
-        noteScroll.setSize(noteScrollLength, noteScrollHeight);
+        noteScroll.setBorder(new LineBorder(CyderColors.navy, 5));
+        noteScroll.setSize(noteScrollLen, noteScrollLen);
         noteScroll.getViewport().setOpaque(false);
         noteScroll.setOpaque(false);
         noteScroll.setBorder(null);
         newNoteArea.setAutoscrolls(true);
+
+        JLabel noteScrollLabel = new JLabel();
+        noteScrollLabel.setSize(noteAreaLength, noteAreaLength);
+        noteScrollLabel.setBorder(new LineBorder(CyderColors.navy, noteScrollBorderLen));
+        noteScroll.setLocation(noteScrollBorderLen, noteScrollBorderLen);
+        noteScrollLabel.add(noteScroll);
 
         CyderButton backButton = new CyderButton(BACK);
         backButton.setSize(buttonSize);
@@ -370,13 +402,13 @@ public final class NotesWidget {
         buttonGridPanel.setSize(400, 50);
 
         CyderPartitionedLayout addNoteLayout = new CyderPartitionedLayout();
-        addNoteLayout.spacer(2);
+        addNoteLayout.spacer(viewPartitionPadding);
         addNoteLayout.addComponentMaintainSize(newNoteNameField);
-        addNoteLayout.spacer(2);
-        addNoteLayout.addComponentMaintainSize(noteScroll);
-        addNoteLayout.spacer(2);
+        addNoteLayout.spacer(viewPartitionPadding);
+        addNoteLayout.addComponentMaintainSize(noteScrollLabel);
+        addNoteLayout.spacer(viewPartitionPadding);
         addNoteLayout.addComponentMaintainSize(buttonGridPanel);
-        addNoteLayout.spacer(2);
+        addNoteLayout.spacer(viewPartitionPadding);
 
         noteFrame.setCyderLayout(addNoteLayout);
         revalidateFrameTitle();
@@ -484,9 +516,8 @@ public final class NotesWidget {
         noteEditArea = new JTextPane();
         noteEditArea.addKeyListener(getEditNoteKeyListener());
         noteEditArea.setText(getCurrentNoteContents());
-        noteEditArea.setSize(noteScrollLength, noteScrollHeight);
+        noteEditArea.setSize(noteAreaLength, noteScrollHeight);
         noteEditArea.setBackground(CyderColors.vanilla);
-        noteEditArea.setBorder(new LineBorder(CyderColors.navy, 5));
         noteEditArea.setFocusable(true);
         noteEditArea.setEditable(true);
         noteEditArea.setSelectionColor(CyderColors.selectionColor);
@@ -495,15 +526,22 @@ public final class NotesWidget {
         noteEditArea.setCaret(new CyderCaret(CyderColors.navy));
         noteEditArea.setCaretColor(noteEditArea.getForeground());
 
+        int noteScrollLen = noteAreaLength - 2 * noteScrollBorderLen;
         CyderScrollPane noteScroll = new CyderScrollPane(noteEditArea,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         noteScroll.setThumbColor(CyderColors.regularPink);
-        noteScroll.setSize(noteScrollLength, noteScrollHeight);
+        noteScroll.setSize(noteScrollLen, noteScrollLen);
         noteScroll.getViewport().setOpaque(false);
         noteScroll.setOpaque(false);
         noteScroll.setBorder(null);
         noteEditArea.setAutoscrolls(true);
+
+        JLabel noteScrollLabel = new JLabel();
+        noteScrollLabel.setSize(noteAreaLength, noteAreaLength);
+        noteScrollLabel.setBorder(new LineBorder(CyderColors.navy, noteScrollBorderLen));
+        noteScroll.setLocation(noteScrollBorderLen, noteScrollBorderLen);
+        noteScrollLabel.add(noteScroll);
 
         CyderButton saveButton = new CyderButton(SAVE);
         saveButton.setSize(buttonSize);
@@ -521,13 +559,13 @@ public final class NotesWidget {
         buttonGridPanel.setSize(400, 50);
 
         CyderPartitionedLayout editNoteLayout = new CyderPartitionedLayout();
-        editNoteLayout.spacer(2);
+        editNoteLayout.spacer(viewPartitionPadding);
         editNoteLayout.addComponentMaintainSize(editNoteNameField);
-        editNoteLayout.spacer(2);
-        editNoteLayout.addComponentMaintainSize(noteScroll);
-        editNoteLayout.spacer(2);
+        editNoteLayout.spacer(viewPartitionPadding);
+        editNoteLayout.addComponentMaintainSize(noteScrollLabel);
+        editNoteLayout.spacer(viewPartitionPadding);
         editNoteLayout.addComponentMaintainSize(buttonGridPanel);
-        editNoteLayout.spacer(2);
+        editNoteLayout.spacer(viewPartitionPadding);
 
         refreshUnsavedChanges();
         noteFrame.setCyderLayout(editNoteLayout);
@@ -559,7 +597,7 @@ public final class NotesWidget {
 
         String newFilename = editNoteNameField.getTrimmedText() + Extension.TXT.getExtension();
         if (!OsUtil.isValidFilename(newFilename)) {
-            noteFrame.notify("Invalid filename: \"" + newFilename + CyderStrings.quote);
+            noteFrame.notify("Invalid filename: " + CyderStrings.quote + newFilename + CyderStrings.quote);
             return;
         }
 
@@ -678,14 +716,14 @@ public final class NotesWidget {
      */
     @ForReadability
     private static JLabel regenerateAndGetNotesScrollLabel() {
-        notesScrollList = new CyderScrollList(noteScrollLength, noteScrollLength,
+        notesScrollList = new CyderScrollList(noteListScrollLength, noteListScrollLength,
                 CyderScrollList.SelectionPolicy.SINGLE);
         notesList.forEach(noteFile -> notesScrollList.addElementWithDoubleClickAction(noteFile.getName(), () -> {
             currentNoteFile = noteFile;
             setupView(View.EDIT);
         }));
         JLabel notesLabel = notesScrollList.generateScrollList();
-        notesLabel.setSize(noteScrollLength, noteScrollLength);
+        notesLabel.setSize(noteListScrollLength, noteListScrollLength);
         return notesLabel;
     }
 
