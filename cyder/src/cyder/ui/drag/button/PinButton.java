@@ -230,6 +230,14 @@ public class PinButton extends CyderDragLabelButton {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getSpecificStringRepresentation() {
+        return PinState.DEFAULT.getTooltip();
+    }
+
+    /**
      * The possible states of pin buttons.
      */
     public enum PinState {

@@ -2,9 +2,11 @@ package cyder.ui.drag.button;
 
 import com.google.common.base.Preconditions;
 import cyder.annotations.ForReadability;
+import cyder.constants.CyderStrings;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.drag.DragLabelButtonSize;
+import cyder.utils.ReflectionUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -237,7 +239,7 @@ public abstract class CyderDragLabelButton extends JLabel implements ICyderDragL
 
     // -----------
     // Hooks logic
-    // ----------
+    // -----------
 
     /**
      * The actions to invoke when this button is pressed.
@@ -510,15 +512,25 @@ public abstract class CyderDragLabelButton extends JLabel implements ICyderDragL
     abstract public void paintDragLabelButton(Graphics g);
 
     /**
+     * Returns a special string representation of this drag label button to
+     * be logged when the button is clicked to differentiate it from other buttons.
+     *
+     * @return a special string representation of this drag label button
+     */
+    abstract public String getSpecificStringRepresentation();
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
         return "CyderDragLabelButton {"
-                + "x=" + getX()
+                + "rep: " + CyderStrings.quote + getSpecificStringRepresentation() + CyderStrings.quote
+                + ", x=" + getX()
                 + ", y=" + getY()
                 + ", w=" + getWidth()
                 + ", h=" + getHeight()
+                + ", parent=" + ReflectionUtil.getComponentFrameRepresentation(this)
                 + ", clickActions: " + clickActions.size()
                 + ", mouseEnterActions: " + mouseOverActions.size()
                 + ", mouseExitActions: " + mouseExitActions.size()

@@ -85,5 +85,13 @@ public class RightButton extends CyderDragLabelButton {
         this.size = Preconditions.checkNotNull(size);
         repaint();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getSpecificStringRepresentation() {
+        return RIGHT;
+    }
 }
 

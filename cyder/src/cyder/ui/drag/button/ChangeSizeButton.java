@@ -93,4 +93,12 @@ public class ChangeSizeButton extends CyderDragLabelButton {
         this.size = Preconditions.checkNotNull(size);
         repaint();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getSpecificStringRepresentation() {
+        return CHANGE_SIZE;
+    }
 }

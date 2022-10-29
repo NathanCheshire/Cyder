@@ -158,26 +158,40 @@ public final class ReflectionUtil {
     );
 
     /**
-     * A toString() replacement method used by most Cyder ui classes.
+     * Returns a string representation of the provided component's top level frame parent if found.
      *
-     * @param comp the object to invoke toString() on
-     * @return a custom toString() representation of the provided object
+     * @param component the component
+     * @return a string representation of the provided component's top level frame parent
      */
-    public static String commonCyderUiToString(Component comp) {
-        CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(comp);
+    public static String getComponentFrameRepresentation(Component component) {
+        Preconditions.checkNotNull(component);
 
-        String parentFrame = topFrame != null
+        CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(component);
+
+        return topFrame != null
                 ? topFrame.getTitle()
-                : comp instanceof CyderFrame
+                : component instanceof CyderFrame
                 ? "Component itself is a CyderFrame"
                 : "No parent frame found";
+    }
+
+    /**
+     * A string representation of {@link Component}s used by most Cyder ui classes for logging.
+     *
+     * @param component the component
+     * @return a string representation of the provided component
+     */
+    public static String commonCyderUiToString(Component component) {
+        Preconditions.checkNotNull(component);
+
+        String parentFrame = getComponentFrameRepresentation(component);
 
         try {
-            for (Method method : comp.getClass().getMethods()) {
+            for (Method method : component.getClass().getMethods()) {
                 for (SpecialMethod specialMethod : specialMethods) {
                     if (method.getName().startsWith(specialMethod.startsWith)
                             && method.getParameterCount() == 0) {
-                        Object localInvokeResult = method.invoke(comp);
+                        Object localInvokeResult = method.invoke(component);
 
                         if (localInvokeResult instanceof String localInvokeResultString) {
                             if (!localInvokeResultString.isEmpty()
@@ -195,11 +209,11 @@ public final class ReflectionUtil {
         StringBuilder ret = new StringBuilder();
 
         ret.append("Component: ")
-                .append(getBottomLevelClass(comp.getClass()))
+                .append(getBottomLevelClass(component.getClass()))
                 .append(", hash: ")
-                .append(comp.hashCode())
-                .append(", bounds: (").append(comp.getX()).append(", ").append(comp.getY())
-                .append(", ").append(comp.getWidth()).append(", ").append(comp.getHeight())
+                .append(component.hashCode())
+                .append(", bounds: (").append(component.getX()).append(", ").append(component.getY())
+                .append(", ").append(component.getWidth()).append(", ").append(component.getHeight())
                 .append(closingParenthesis);
 
         ret.append(", parent frame: ").append(parentFrame);

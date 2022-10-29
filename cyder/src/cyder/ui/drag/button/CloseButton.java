@@ -65,6 +65,7 @@ public class CloseButton extends CyderDragLabelButton {
      */
     private static final int secondLineSubtrahend = 1;
 
+    // todo technically all of these should check g not null since the method is exposed
     /**
      * {@inheritDoc}
      */
@@ -90,5 +91,13 @@ public class CloseButton extends CyderDragLabelButton {
     public void setSize(DragLabelButtonSize size) {
         this.size = Preconditions.checkNotNull(size);
         repaint();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getSpecificStringRepresentation() {
+        return CLOSE;
     }
 }

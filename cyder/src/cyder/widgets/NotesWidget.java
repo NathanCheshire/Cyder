@@ -348,9 +348,6 @@ public final class NotesWidget {
         revalidateFrameTitle();
     }
 
-    // todo need to force cyder drag label buttons to implement their own toString method as well so we know
-    //  tooltip and what not, maybe log how many points are in the drawn polygon? something more useful too
-
     /**
      * Sets up and shows the add note view.
      */

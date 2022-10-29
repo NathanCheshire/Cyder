@@ -94,4 +94,12 @@ public class MinimizeButton extends CyderDragLabelButton {
         this.size = Preconditions.checkNotNull(size);
         repaint();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getSpecificStringRepresentation() {
+        return MINIMIZE;
+    }
 }
