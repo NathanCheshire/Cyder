@@ -490,8 +490,9 @@ public final class ReflectionUtil {
         }
     }
 
-    // todo the notes widget borer isn't always visible
+    // todo maybe remove reflection util? Methods could be in specific classes as needed
     // todo have a subroutine when the prefs is open to reload from disk if files are added
+    // todo maybe design and implement a directory listener class
 
     /**
      * A widget and it's name and triggers.

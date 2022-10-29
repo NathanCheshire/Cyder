@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Vanilla;
@@ -41,6 +42,7 @@ import java.awt.event.KeyListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -266,6 +268,11 @@ public final class NotesWidget {
     private static final int noteContentScrollLength = noteAreaLength - 2 * noteScrollBorderLen;
 
     /**
+     * The encoding format for note files.
+     */
+    private static final Charset noteFileEncoding = StandardCharsets.UTF_8;
+
+    /**
      * Suppress default constructor.
      */
     private NotesWidget() {
@@ -341,8 +348,8 @@ public final class NotesWidget {
         revalidateFrameTitle();
     }
 
-    // todo scrollbars need to be repainted when loading scrolls for add and edit views
-    // todo removing all content from note and saving doesn't work
+    // todo need to force cyder drag label buttons to implement their own toString method as well so we know
+    //  tooltip and what not, maybe log how many points are in the drawn polygon? something more useful too
 
     /**
      * Sets up and shows the add note view.
@@ -452,6 +459,16 @@ public final class NotesWidget {
      */
     private static void createNoteAction() {
         String noteName = newNoteNameField.getTrimmedText();
+        if (noteName.isEmpty()) {
+            noteFrame.notify("Missing name for note");
+            return;
+        }
+
+        if (StringUtil.in(noteName, true, getCurrentNoteFileNames())) {
+            noteFrame.notify("Note name already in use");
+            return;
+        }
+
         if (noteName.toLowerCase().endsWith(Extension.TXT.getExtension())) {
             noteName = noteName.substring(0, noteName.length() - Extension.TXT.getExtension().length());
         }
@@ -466,7 +483,9 @@ public final class NotesWidget {
         File createFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.NOTES.getName(), requestedName);
         if (!OsUtil.createFile(createFile, true)) {
-            noteFrame.notify("Could not create file: \"" + requestedName + CyderStrings.quote);
+            noteFrame.notify("Could not create file: "
+                    + CyderStrings.quote + requestedName + CyderStrings.quote);
+            return;
         }
 
         String contents = newNoteArea.getText();
@@ -477,7 +496,8 @@ public final class NotesWidget {
         }
 
         setupView(View.LIST);
-        noteFrame.notify("Added note file: \"" + requestedName + CyderStrings.quote);
+        noteFrame.notify("Added note file: "
+                + CyderStrings.quote + requestedName + CyderStrings.quote);
     }
 
     /**
@@ -488,7 +508,7 @@ public final class NotesWidget {
     private static String getCurrentNoteContents() {
         try {
             byte[] encoded = Files.readAllBytes(Paths.get(currentNoteFile.getAbsolutePath()));
-            return new String(encoded, StandardCharsets.UTF_8);
+            return new String(encoded, noteFileEncoding);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -528,14 +548,7 @@ public final class NotesWidget {
         noteEditArea.setForeground(CyderColors.navy);
         noteEditArea.setCaret(new CyderCaret(CyderColors.navy));
         noteEditArea.setCaretColor(noteEditArea.getForeground());
-        noteEditArea.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_S) {
-                    editNoteSaveButtonAction();
-                }
-            }
-        });
+        noteEditArea.addKeyListener(saveNoteEditAreaKeyListener);
 
         CyderScrollPane noteScroll = new CyderScrollPane(noteEditArea,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -580,8 +593,21 @@ public final class NotesWidget {
         refreshUnsavedChanges();
         noteFrame.setCyderLayout(editNoteLayout);
         revalidateFrameTitle();
+
         noteFrame.repaint();
     }
+
+    /**
+     * The key listener for saving the edited note contents to the note file when ctrl + s is performed.
+     */
+    private static final KeyListener saveNoteEditAreaKeyListener = new KeyAdapter() {
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_S) {
+                editNoteSaveButtonAction();
+            }
+        }
+    };
 
     /**
      * Returns a key listener for the edit note name field and content area.
@@ -605,7 +631,19 @@ public final class NotesWidget {
         if (System.currentTimeMillis() < lastSave.get() + SAVE_BUTTON_TIMEOUT) return;
         lastSave.set(System.currentTimeMillis());
 
-        String newFilename = editNoteNameField.getTrimmedText() + Extension.TXT.getExtension();
+        String noteNameFieldText = editNoteNameField.getTrimmedText();
+        if (noteNameFieldText.isEmpty()) {
+            noteFrame.notify("Missing name for note");
+            return;
+        }
+
+        if (StringUtil.in(noteNameFieldText, true, getCurrentNoteFileNames())
+                && !FileUtil.getFilename(currentNoteFile).equals(noteNameFieldText)) {
+            noteFrame.notify("Note name already in use");
+            return;
+        }
+
+        String newFilename = noteNameFieldText + Extension.TXT.getExtension();
         if (!OsUtil.isValidFilename(newFilename)) {
             noteFrame.notify("Invalid filename: " + CyderStrings.quote + newFilename + CyderStrings.quote);
             return;
@@ -626,7 +664,6 @@ public final class NotesWidget {
         currentNoteFile = newFile;
 
         String contents = noteEditArea.getText();
-        if (contents.isEmpty()) return;
         saveToCurrentNote(contents);
     }
 
@@ -817,5 +854,20 @@ public final class NotesWidget {
         newNoteContent = false;
 
         noteFrame.removeClosingConfirmation();
+    }
+
+    private static ImmutableList<String> getCurrentNoteFileNames() {
+        ArrayList<String> ret = new ArrayList<>();
+
+        File userNotesDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                Console.INSTANCE.getUuid(), UserFile.NOTES.getName());
+        if (userNotesDir.exists()) {
+            File[] noteFiles = userNotesDir.listFiles();
+            if (noteFiles != null && noteFiles.length > 0) {
+                Arrays.stream(noteFiles).forEach(noteFile -> ret.add(FileUtil.getFilename(noteFile)));
+            }
+        }
+
+        return ImmutableList.copyOf(ret);
     }
 }
