@@ -261,6 +261,11 @@ public final class NotesWidget {
     private static final int viewPartitionPadding = 2;
 
     /**
+     * The length of the note content scroll view.
+     */
+    private static final int noteContentScrollLength = noteAreaLength - 2 * noteScrollBorderLen;
+
+    /**
      * Suppress default constructor.
      */
     private NotesWidget() {
@@ -337,6 +342,7 @@ public final class NotesWidget {
     }
 
     // todo scrollbars need to be repainted when loading scrolls for add and edit views
+    // todo removing all content from note and saving doesn't work
 
     /**
      * Sets up and shows the add note view.
@@ -367,14 +373,12 @@ public final class NotesWidget {
         newNoteArea.setCaret(new CyderCaret(CyderColors.navy));
         newNoteArea.setCaretColor(newNoteArea.getForeground());
 
-        // todo vars for this?
-        int noteScrollLen = noteAreaLength - 2 * noteScrollBorderLen;
         CyderScrollPane noteScroll = new CyderScrollPane(newNoteArea,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         noteScroll.setThumbColor(CyderColors.regularPink);
         noteScroll.setBorder(new LineBorder(CyderColors.navy, 5));
-        noteScroll.setSize(noteScrollLen, noteScrollLen);
+        noteScroll.setSize(noteContentScrollLength, noteContentScrollLength);
         noteScroll.getViewport().setOpaque(false);
         noteScroll.setOpaque(false);
         noteScroll.setBorder(null);
@@ -524,13 +528,20 @@ public final class NotesWidget {
         noteEditArea.setForeground(CyderColors.navy);
         noteEditArea.setCaret(new CyderCaret(CyderColors.navy));
         noteEditArea.setCaretColor(noteEditArea.getForeground());
+        noteEditArea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_S) {
+                    editNoteSaveButtonAction();
+                }
+            }
+        });
 
-        int noteScrollLen = noteAreaLength - 2 * noteScrollBorderLen;
         CyderScrollPane noteScroll = new CyderScrollPane(noteEditArea,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         noteScroll.setThumbColor(CyderColors.regularPink);
-        noteScroll.setSize(noteScrollLen, noteScrollLen);
+        noteScroll.setSize(noteContentScrollLength, noteContentScrollLength);
         noteScroll.getViewport().setOpaque(false);
         noteScroll.setOpaque(false);
         noteScroll.setBorder(null);
