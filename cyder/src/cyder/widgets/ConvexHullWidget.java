@@ -8,10 +8,10 @@ import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.layouts.CyderPartitionedLayout;
-import cyder.ui.CyderGrid;
 import cyder.ui.CyderPanel;
 import cyder.ui.button.CyderButton;
 import cyder.ui.frame.CyderFrame;
+import cyder.ui.grid.CyderGrid;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;

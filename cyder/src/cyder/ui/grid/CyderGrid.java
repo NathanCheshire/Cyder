@@ -1,4 +1,4 @@
-package cyder.ui;
+package cyder.ui.grid;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
