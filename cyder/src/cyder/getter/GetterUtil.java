@@ -229,7 +229,10 @@ public final class GetterUtil {
             CyderFrame relativeTo = getInputBuilder.getRelativeTo();
             if (relativeTo != null && getInputBuilder.isDisableRelativeTo()) {
                 relativeTo.setEnabled(false);
-                inputFrame.addPostCloseAction(relativeTo::toFront);
+                inputFrame.addPostCloseAction(() -> {
+                    relativeTo.setEnabled(true);
+                    relativeTo.toFront();
+                });
             }
             inputFrame.setLocationRelativeTo(relativeTo);
             inputFrame.setVisible(true);
@@ -604,7 +607,10 @@ public final class GetterUtil {
                 CyderFrame relativeTo = getFileBuilder.getRelativeTo();
                 if (relativeTo != null && getFileBuilder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
-                    directoryFrame.addPostCloseAction(relativeTo::toFront);
+                    directoryFrame.addPostCloseAction(() -> {
+                        relativeTo.setEnabled(true);
+                        relativeTo.toFront();
+                    });
                 }
                 directoryFrame.setLocationRelativeTo(relativeTo);
                 directoryFrame.setVisible(true);
@@ -885,7 +891,10 @@ public final class GetterUtil {
                 CyderFrame relativeTo = getConfirmationBuilder.getRelativeTo();
                 if (relativeTo != null && getConfirmationBuilder.isDisableRelativeTo()) {
                     relativeTo.setEnabled(false);
-                    confirmationFrame.addPostCloseAction(relativeTo::toFront);
+                    confirmationFrame.addPostCloseAction(() -> {
+                        relativeTo.setEnabled(true);
+                        relativeTo.toFront();
+                    });
                 }
 
                 confirmationFrame.setLocationRelativeTo(relativeTo);

@@ -297,6 +297,7 @@ public final class NotesWidget {
      */
     private static void setupListView() {
         refreshNotesList();
+        resetUnsavedContentVars();
 
         currentNoteFile = null;
 
@@ -335,8 +336,6 @@ public final class NotesWidget {
         revalidateFrameTitle();
     }
 
-    // todo on view load of files scroll reset changes vars
-    // todo get confirmation seems to be broken?
     // todo scrollbars need to be repainted when loading scrolls for add and edit views
 
     /**
@@ -796,5 +795,16 @@ public final class NotesWidget {
         } else {
             noteFrame.removeClosingConfirmation();
         }
+    }
+
+    /**
+     * Resets the states of {@link #unsavedChanges} and {@link #newNoteContent}
+     * and removes the closing confirmation from the note frame if present.
+     */
+    private static void resetUnsavedContentVars() {
+        unsavedChanges = false;
+        newNoteContent = false;
+
+        noteFrame.removeClosingConfirmation();
     }
 }
