@@ -182,7 +182,7 @@ public final class CyderWatchdog {
      * Attempts to boostrap Cyder by quitting and opening a new instance.
      */
     private static void bootstrap() {
-        // todo spawn a new Cyder process.
-        // todo if this fails we need to have a special exit code
+        // todo spawn a new Cyder process, maybe use python if possible to invoke launching the jar?
+        // todo if this fails exit with code WatchdogBootstrapFail
     }
 }

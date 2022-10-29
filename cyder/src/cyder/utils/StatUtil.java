@@ -34,7 +34,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Utilities around general statistics gathering.
+ * Utilities for general statistics related to Cyder.
  */
 public final class StatUtil {
     /**

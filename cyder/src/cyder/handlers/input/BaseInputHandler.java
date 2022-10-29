@@ -2,8 +2,10 @@ package cyder.handlers.input;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.reflect.ClassPath;
 import cyder.annotations.ForReadability;
 import cyder.annotations.Handle;
+import cyder.annotations.Widget;
 import cyder.console.Console;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
@@ -20,6 +22,7 @@ import cyder.user.UserFile;
 import cyder.user.UserUtil;
 import cyder.utils.*;
 import cyder.youtube.YoutubeUtil;
+import org.apache.commons.text.similarity.JaroWinklerDistance;
 
 import javax.swing.*;
 import javax.swing.text.ElementIterator;
@@ -29,10 +32,8 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.io.*;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -378,7 +379,7 @@ public class BaseInputHandler {
      */
     private void unknownInput() {
         CyderThreadRunner.submit(() -> {
-            ReflectionUtil.SimilarCommand similarCommandObj = ReflectionUtil.getSimilarCommand(command);
+            SimilarCommand similarCommandObj = getSimilarCommand(command);
             boolean wrapShell = UserUtil.getCyderUser().getWrapShell().equalsIgnoreCase("1");
 
             if (similarCommandObj.command().isPresent()) {
@@ -418,6 +419,53 @@ public class BaseInputHandler {
                 println(UNKNOWN_COMMAND);
             }
         }, UNKNOWN_INPUT_HANDLER_THREAD_NAME);
+    }
+
+    /**
+     * A record representing a found similar command how close the
+     * found command is to the original string.
+     */
+    private record SimilarCommand(Optional<String> command, double tolerance) {}
+
+    /**
+     * Finds the most similar command to the unrecognized one provided.
+     *
+     * @param command the user entered command to attempt to find a similar command to
+     * @return the most similar command to the one provided
+     */
+    private static SimilarCommand getSimilarCommand(String command) {
+        Preconditions.checkNotNull(command);
+        Preconditions.checkArgument(!command.isEmpty());
+
+        String mostSimilarTrigger = "";
+        float mostSimilarRatio = 0.0f;
+
+        for (ClassPath.ClassInfo classInfo : ReflectionUtil.getCyderClasses()) {
+            Class<?> clazz = classInfo.load();
+
+            for (Method m : clazz.getMethods()) {
+                ImmutableList<String> triggers = ImmutableList.of();
+
+                if (m.isAnnotationPresent(Handle.class)) {
+                    triggers = ImmutableList.copyOf(m.getAnnotation(Handle.class).value());
+                } else if (m.isAnnotationPresent(Widget.class)) {
+                    triggers = ImmutableList.copyOf(m.getAnnotation(Widget.class).triggers());
+                }
+
+                for (String trigger : triggers) {
+                    double ratio = new JaroWinklerDistance().apply(trigger, command);
+
+                    if (ratio > mostSimilarRatio) {
+                        mostSimilarRatio = (float) ratio;
+                        mostSimilarTrigger = trigger;
+                    }
+                }
+            }
+        }
+
+        return new SimilarCommand(StringUtil.isNullOrEmpty(mostSimilarTrigger)
+                ? Optional.empty()
+                : Optional.of(mostSimilarTrigger), mostSimilarRatio);
     }
 
     /**

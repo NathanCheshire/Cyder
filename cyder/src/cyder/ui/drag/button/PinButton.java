@@ -194,6 +194,8 @@ public class PinButton extends CyderDragLabelButton {
      */
     @Override
     public void paintDragLabelButton(Graphics g) {
+        Preconditions.checkNotNull(g);
+
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
 

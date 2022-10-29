@@ -65,12 +65,13 @@ public class CloseButton extends CyderDragLabelButton {
      */
     private static final int secondLineSubtrahend = 1;
 
-    // todo technically all of these should check g not null since the method is exposed
     /**
      * {@inheritDoc}
      */
     @Override
     public void paintDragLabelButton(Graphics g) {
+        Preconditions.checkNotNull(g);
+
         Graphics2D g2d = (Graphics2D) g;
         g2d.translate(PAINT_PADDING, PAINT_PADDING);
         g2d.setColor(getPaintColor());

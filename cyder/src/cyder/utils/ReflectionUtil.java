@@ -2,7 +2,6 @@ package cyder.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.*;
 import cyder.enums.CyderInspection;
@@ -13,18 +12,15 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.props.PropConstants;
-import cyder.props.PropLoader;
 import cyder.ui.frame.CyderFrame;
-import org.apache.commons.text.similarity.JaroWinklerDistance;
 
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Optional;
 
 import static cyder.constants.CyderStrings.*;
 
@@ -85,12 +81,12 @@ public final class ReflectionUtil {
 
     /**
      * Finds all getters associated with the provided class and returns a list
-     * containing the toString representation of all values returned by all getters.
+     * containing the method names of all the public accessor methods.
      *
      * @param clazz the class to find all getters of
-     * @return a list of strings resulting from the get calls on the provided class
+     * @return a list of getter names
      */
-    public static ImmutableList<String> getGetters(Class<?> clazz) {
+    public static ImmutableList<String> getGetterNames(Class<?> clazz) {
         Preconditions.checkNotNull(clazz);
 
         LinkedList<String> ret = new LinkedList<>();
@@ -109,54 +105,119 @@ public final class ReflectionUtil {
     }
 
     /**
-     * A common method utilized by near all top-level Cyder classes
-     * as the overridden logic for their toString() methods.
-     *
-     * @param obj the obj to return a String representation for
-     * @return the String representation for the provided object
-     * detailing the classname, hashcode, and reflected data
+     * The set string used to locate setter/mutator methods of an object.
      */
-    public static String commonCyderToString(Object obj) {
-        Preconditions.checkNotNull(obj);
+    private static final String SET = "set";
 
-        String reflectedFields = buildGetterString(obj);
-        return getBottomLevelClass(obj.getClass()) + ", hash = " + obj.hashCode()
-                + ", reflection data = " + reflectedFields;
+    /**
+     * Finds all setters associated with the provided class and returns a list
+     * containing the method names of all the public mutator methods.
+     *
+     * @param clazz the class to find all mutators of
+     * @return a list of setter names
+     */
+    public static ImmutableList<String> getSetterNames(Class<?> clazz) {
+        Preconditions.checkNotNull(clazz);
+
+        LinkedList<String> ret = new LinkedList<>();
+
+        for (Method m : clazz.getMethods()) {
+            if (m.getName().startsWith(SET) && m.getParameterTypes().length == 1) {
+                try {
+                    ret.add(m.invoke(clazz).toString());
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+            }
+        }
+
+        return ImmutableList.copyOf(ret);
     }
+
+    /**
+     * A common method utilized by near all top-level Cyder classes
+     * as the overridden logic for their {@link Object#toString()} implementation.
+     *
+     * @param object the object
+     * @return the String representation for the provided object
+     * detailing the classname, hashcode, and reflected data detailed by the {@link GetterMethodResult}s
+     */
+    public static String commonCyderToString(Object object) {
+        Preconditions.checkNotNull(object);
+
+        String reflectedFields = buildGetterString(object);
+        return getBottomLevelClass(object.getClass()) + ", hash: " + object.hashCode()
+                + ", reflection data: " + reflectedFields;
+    }
+
+    // todo string util
 
     /**
      * A class used for reflection to find special methods within an object.
      */
-    private static class SpecialMethod {
+    private static class GetterMethodResult {
+        /**
+         * The prefix for the method name to start with.
+         */
         private final String startsWith;
+
+        /**
+         * The result of invoking the getter method.
+         */
         private String methodResult;
 
-        public SpecialMethod(String startsWith) {
-            this.startsWith = startsWith;
+        /**
+         * Constructs a new getter method result.
+         *
+         * @param startsWith what the method should start with
+         */
+        public GetterMethodResult(String startsWith) {
+            this.startsWith = Preconditions.checkNotNull(startsWith);
         }
 
+        /**
+         * Returns what the method should start with.
+         *
+         * @return what the method should start with
+         */
         public String getStartsWith() {
             return startsWith;
         }
 
+        /**
+         * returns the method result if set.
+         *
+         * @return the method result if set
+         */
         public String getMethodResult() {
+            Preconditions.checkState(methodResult != null);
+
             return methodResult;
         }
 
+        /**
+         * Sets the method result.
+         *
+         * @param methodResult the method result
+         */
         public void setMethodResult(String methodResult) {
+            Preconditions.checkNotNull(methodResult);
+
             this.methodResult = methodResult;
         }
     }
 
+    // todo string util
     /**
      * Special methods which should be found and invoked if found when reflecting on a ui component.
      */
-    private static final ImmutableList<SpecialMethod> specialMethods = ImmutableList.of(
-            new SpecialMethod("getText"),
-            new SpecialMethod("getTooltipText"),
-            new SpecialMethod("getTitle")
+    private static final ImmutableList<GetterMethodResult> getterMethods = ImmutableList.of(
+            new GetterMethodResult("getText"),
+            new GetterMethodResult("getTooltipText"),
+            new GetterMethodResult("getTitle")
     );
 
+    // todo string util
     /**
      * Returns a string representation of the provided component's top level frame parent if found.
      *
@@ -175,6 +236,7 @@ public final class ReflectionUtil {
                 : "No parent frame found";
     }
 
+    // todo string util
     /**
      * A string representation of {@link Component}s used by most Cyder ui classes for logging.
      *
@@ -188,15 +250,15 @@ public final class ReflectionUtil {
 
         try {
             for (Method method : component.getClass().getMethods()) {
-                for (SpecialMethod specialMethod : specialMethods) {
-                    if (method.getName().startsWith(specialMethod.startsWith)
+                for (GetterMethodResult getterMethod : getterMethods) {
+                    if (method.getName().startsWith(getterMethod.startsWith)
                             && method.getParameterCount() == 0) {
                         Object localInvokeResult = method.invoke(component);
 
                         if (localInvokeResult instanceof String localInvokeResultString) {
                             if (!localInvokeResultString.isEmpty()
                                     && !StringUtil.isNullOrEmpty(localInvokeResultString)) {
-                                specialMethod.setMethodResult(localInvokeResultString);
+                                getterMethod.setMethodResult(localInvokeResultString);
                             }
                         }
                     }
@@ -218,7 +280,7 @@ public final class ReflectionUtil {
 
         ret.append(", parent frame: ").append(parentFrame);
 
-        specialMethods.forEach(specialMethod -> {
+        getterMethods.forEach(specialMethod -> {
             String result = specialMethod.getMethodResult();
             if (result != null && !result.isEmpty()) {
                 ret.append(comma).append(space).append(specialMethod.getStartsWith()).append(colon).append(space);
@@ -267,22 +329,39 @@ public final class ReflectionUtil {
     /**
      * The top level package for Cyder.
      */
-    public static final String TOP_LEVEL_PACKAGE = "cyder";
+    public static final String TOP_LEVEL_PACKAGE_NAME = "cyder";
 
     /**
-     * A set of all classes contained within Cyder starting at {@link ReflectionUtil#TOP_LEVEL_PACKAGE}.
+     * A set of all classes contained within Cyder starting at {@link ReflectionUtil#TOP_LEVEL_PACKAGE_NAME}.
      */
-    public static ImmutableSet<ClassPath.ClassInfo> CYDER_CLASSES;
+    private static final ImmutableList<ClassPath.ClassInfo> cyderClasses;
+
+    /**
+     * Returns the class info objects of all classes found within the current build of Cyder.
+     *
+     * @return the class info objects of all classes found within the current build of Cyder
+     */
+    public static ImmutableList<ClassPath.ClassInfo> getCyderClasses() {
+        return cyderClasses;
+    }
 
     static {
+        ClassLoader currentThreadClassLoader = Thread.currentThread().getContextClassLoader();
+        ClassPath cyderClassPath = null;
+
         try {
-            CYDER_CLASSES = ClassPath.from(Thread.currentThread()
-                    .getContextClassLoader()).getTopLevelClassesRecursive(TOP_LEVEL_PACKAGE);
+            cyderClassPath = ClassPath.from(currentThreadClassLoader);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+
+        cyderClasses = cyderClassPath == null
+                ? ImmutableList.of()
+                : ImmutableList.copyOf(cyderClassPath.getTopLevelClassesRecursive(TOP_LEVEL_PACKAGE_NAME));
     }
 
+
+    // todo validation utils?
     /**
      * The standard primary method name for widget's @Widget annotated method.
      */
@@ -296,7 +375,7 @@ public final class ReflectionUtil {
      * @throws IllegalMethodException if an invalid {@link Widget} annotation is located
      */
     public static void validateWidgets() {
-        for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
+        for (ClassPath.ClassInfo classInfo : cyderClasses) {
             Class<?> clazz = classInfo.load();
 
             for (Method m : clazz.getMethods()) {
@@ -377,7 +456,7 @@ public final class ReflectionUtil {
     public static void validateTests() {
         LinkedList<String> foundTriggers = new LinkedList<>();
 
-        for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
+        for (ClassPath.ClassInfo classInfo : cyderClasses) {
             Class<?> clazz = classInfo.load();
 
             for (Method m : clazz.getMethods()) {
@@ -437,37 +516,24 @@ public final class ReflectionUtil {
      * Validates all widget classes annotated with with {@link cyder.annotations.Vanilla} annotation.
      */
     public static void validateVanillaWidgets() {
-        for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
+        for (ClassPath.ClassInfo classInfo : cyderClasses) {
             Class<?> clazz = classInfo.load();
 
             if (clazz.isAnnotationPresent(Vanilla.class)) {
                 if (clazz.isAnnotationPresent(SuppressCyderInspections.class)) {
-                    CyderInspection[] values = clazz.getAnnotation(SuppressCyderInspections.class).value();
+                    CyderInspection[] suppressedInspections = clazz.getAnnotation(
+                            SuppressCyderInspections.class).value();
 
-                    if (values != null) {
-                        boolean in = false;
-
-                        for (CyderInspection inspection : values) {
-                            if (inspection == CyderInspection.VanillaInspection) {
-                                in = true;
-                                break;
-                            }
-                        }
-
-                        if (in) {
+                    if (suppressedInspections != null) {
+                        if (Arrays.stream(suppressedInspections).anyMatch(cyderInspection
+                                -> cyderInspection == CyderInspection.VanillaInspection)) {
                             continue;
                         }
                     }
                 }
 
-                boolean widgetAnnotationFound = false;
-
-                for (Method method : clazz.getMethods()) {
-                    if (method.getName().toLowerCase().endsWith(WIDGET)) {
-                        widgetAnnotationFound = true;
-                        break;
-                    }
-                }
+                boolean widgetAnnotationFound = Arrays.stream(clazz.getMethods())
+                        .anyMatch(method -> method.getName().toLowerCase().endsWith(WIDGET));
 
                 if (!clazz.getName().toLowerCase().endsWith(WIDGET) && !widgetAnnotationFound) {
                     Logger.log(LogTag.DEBUG, "Class annotated with @Vanilla does not end"
@@ -489,119 +555,137 @@ public final class ReflectionUtil {
         }
     }
 
-    /**
-     * Ensures there are no duplicate props within the loaded props.
-     */
-    public static void validateProps() {
-        ArrayList<String> discoveredKeys = new ArrayList<>();
-
-        for (PropConstants.Prop prop : PropLoader.getProps()) {
-            if (!StringUtil.in(prop.key(), false, discoveredKeys)) {
-                discoveredKeys.add(prop.key());
-            } else {
-                Logger.log(LogTag.DEBUG, "Found duplicate prop key: " + prop.key());
-            }
-        }
-    }
-
     // todo maybe remove reflection util? Methods could be in specific classes as needed
     // todo have a subroutine when the prefs is open to reload from disk if files are added
     // todo maybe design and implement a directory listener class
 
     /**
-     * A widget and it's name and triggers.
-     */
-    public record WidgetDescription(String name, String description, String[] triggers) {}
-
-    /**
-     * Returns a list of names, descriptions, and triggers of all the widgets found within Cyder.
+     * Returns whether the provided class contains more than one {@link Handle} annotation.
      *
-     * @return a list of descriptions of all the widgets found within Cyder
+     * @param clazz the class
+     * @return whether the class contains more than one handle annotation
      */
-    public static ArrayList<WidgetDescription> getWidgetDescriptions() {
-        ArrayList<WidgetDescription> ret = new ArrayList<>();
+    public static boolean clazzContainsMoreThanOneHandle(Class<?> clazz) {
+        Preconditions.checkNotNull(clazz);
 
-        for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
-            Class<?> clazz = classInfo.load();
-
-            for (Method m : clazz.getMethods()) {
-                if (m.isAnnotationPresent(Widget.class)) {
-                    String[] triggers = m.getAnnotation(Widget.class).triggers();
-                    String description = m.getAnnotation(Widget.class).description();
-                    ret.add(new WidgetDescription(clazz.getName(), description, triggers));
-                }
-            }
-        }
-
-        return ret;
-    }
-
-    @ForReadability
-    public static boolean moreThanOneHandle(Class<?> clazz) {
         return getHandleMethods(clazz).size() > 1;
     }
 
-    @ForReadability
-    private static boolean extendsInputHandler(Class<?> clazz) {
+    /**
+     * Returns whether the provided class extends the {@link InputHandler}.
+     *
+     * @param clazz the class
+     * @return whether the provided class extends the input handler
+     */
+    public static boolean extendsInputHandler(Class<?> clazz) {
+        Preconditions.checkNotNull(clazz);
+
         return InputHandler.class.isAssignableFrom(clazz);
     }
 
-    @ForReadability
-    private static ImmutableList<Method> getHandleMethods(Class<?> clazz) {
-        LinkedList<Method> ret = new LinkedList<>();
+    /**
+     * Returns the methods annotated with {@link Handle} in the provided class.
+     *
+     * @param clazz the class
+     * @return the handle methods found
+     */
+    public static ImmutableList<Method> getHandleMethods(Class<?> clazz) {
+        Preconditions.checkNotNull(clazz);
 
-        for (Method method : clazz.getMethods()) {
-            if (method.isAnnotationPresent(Handle.class)) {
-                ret.add(method);
-            }
-        }
+        ArrayList<Method> ret = new ArrayList<>();
+        Arrays.stream(clazz.getMethods()).filter(method -> method.isAnnotationPresent(Handle.class)).forEach(ret::add);
 
         return ImmutableList.copyOf(ret);
     }
 
-    @ForReadability
-    private static boolean isFinalHandler(Class<?> clazz) {
+    /**
+     * Returns whether the provided class is contained in {@link BaseInputHandler}s final handlers list.
+     *
+     * @param clazz the class
+     * @return whether the provided class is contained in the final handlers list
+     */
+    public static boolean isFinalHandler(Class<?> clazz) {
+        Preconditions.checkNotNull(clazz);
+
         return BaseInputHandler.finalHandlers.contains(clazz);
     }
 
-    @ForReadability
-    private static boolean isPrimaryHandler(Class<?> clazz) {
+    /**
+     * Returns whether the provided class is contained in {@link BaseInputHandler}s primary handles list.
+     *
+     * @param clazz the class
+     * @return whether the provided class is contained in the primary handles list
+     */
+    public static boolean isPrimaryHandler(Class<?> clazz) {
+        Preconditions.checkNotNull(clazz);
+
         return BaseInputHandler.primaryHandlers.contains(clazz);
     }
 
-    @ForReadability
-    private static ImmutableList<String> getTriggers(Method method) {
+    /**
+     * Returns the triggers of the handle annotation on the provided method.
+     *
+     * @param method the method
+     * @return the handle triggers
+     */
+    public static ImmutableList<String> getHandleTriggers(Method method) {
+        Preconditions.checkNotNull(method);
+
         String[] triggers = method.getAnnotation(Handle.class).value();
-        LinkedList<String> ret = new LinkedList<>();
-        for (String trigger : triggers) {
-            if (!StringUtil.isNullOrEmpty(trigger)) {
-                ret.add(trigger);
-            }
-        }
+        ArrayList<String> ret = new ArrayList<>();
+        Arrays.stream(triggers).filter(trigger -> !StringUtil.isNullOrEmpty(trigger)).forEach(ret::add);
         return ImmutableList.copyOf(ret);
     }
 
-    @ForReadability
-    private static boolean isPublic(Method method) {
+    /**
+     * Returns whether the provided method is public.
+     *
+     * @param method the method
+     * @return whether the method is public
+     */
+    public static boolean isPublic(Method method) {
+        Preconditions.checkNotNull(method);
+
         return Modifier.isPublic(method.getModifiers());
     }
 
-    @ForReadability
-    private static boolean isStatic(Method method) {
+    /**
+     * Returns whether the provided method is static.
+     *
+     * @param method the method
+     * @return whether the provided method is static
+     */
+    public static boolean isStatic(Method method) {
+        Preconditions.checkNotNull(method);
+
         return Modifier.isStatic(method.getModifiers());
     }
 
-    @ForReadability
+    /**
+     * Returns whether the provided method returns a {@link Boolean} type.
+     *
+     * @param method the method
+     * @return whether the method returns a boolean
+     */
     public static boolean returnsBoolean(Method method) {
+        Preconditions.checkNotNull(method);
+
         return method.getReturnType() == boolean.class;
     }
 
-    @ForReadability
+    /**
+     * Returns whether the provided method is public, static, and returns a boolean type.
+     *
+     * @param method the method
+     * @return whether the method is public, static, and returns a boolean type
+     */
     private static boolean isPublicStaticBoolean(Method method) {
         return isPublic(method) && isStatic(method) && returnsBoolean(method);
     }
 
-    @ForReadability
+    /**
+     * The possible warnings for invalid {@link Handle}s.
+     */
     private enum HandleWarning {
         CONTAINS_HANDLE,
         MORE_THAN_ONE_HANDLE,
@@ -645,7 +729,7 @@ public final class ReflectionUtil {
     public static void validateHandles() {
         LinkedList<String> allTriggers = new LinkedList<>();
 
-        for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
+        for (ClassPath.ClassInfo classInfo : cyderClasses) {
             Class<?> clazz = classInfo.load();
 
             ImmutableList<Method> handleMethods = getHandleMethods(clazz);
@@ -657,7 +741,7 @@ public final class ReflectionUtil {
                 continue;
             }
 
-            if (moreThanOneHandle(clazz)) {
+            if (clazzContainsMoreThanOneHandle(clazz)) {
                 logHandleWarning(HandleWarning.MORE_THAN_ONE_HANDLE, getBottomLevelClass(clazz));
                 continue;
             }
@@ -680,7 +764,7 @@ public final class ReflectionUtil {
 
             if (shouldSuppressHandleInspections) continue;
 
-            ImmutableList<String> triggers = getTriggers(handleMethod);
+            ImmutableList<String> triggers = getHandleTriggers(handleMethod);
 
             boolean isPrimaryHandle = isPrimaryHandler(clazz);
             boolean isFinalHandler = isFinalHandler(clazz);
@@ -725,74 +809,5 @@ public final class ReflectionUtil {
                 }
             }
         }
-    }
-
-    /**
-     * A record representing a found similar command how close the
-     * found command is to the original string.
-     */
-    public record SimilarCommand(Optional<String> command, double tolerance) {}
-
-    /**
-     * Finds the most similar command to the unrecognized one provided.
-     *
-     * @param command the user entered command to attempt to find a similar command to
-     * @return the most similar command to the one provided
-     */
-    public static SimilarCommand getSimilarCommand(String command) {
-        Preconditions.checkNotNull(command);
-        Preconditions.checkArgument(!command.isEmpty());
-
-        String mostSimilarTrigger = "";
-        float mostSimilarRatio = 0.0f;
-
-        for (ClassPath.ClassInfo classInfo : CYDER_CLASSES) {
-            Class<?> clazz = classInfo.load();
-
-            for (Method m : clazz.getMethods()) {
-                ImmutableList<String> triggers = ImmutableList.of();
-
-                if (m.isAnnotationPresent(Handle.class)) {
-                    triggers = ImmutableList.copyOf(m.getAnnotation(Handle.class).value());
-                } else if (m.isAnnotationPresent(Widget.class)) {
-                    triggers = ImmutableList.copyOf(m.getAnnotation(Widget.class).triggers());
-                }
-
-                for (String trigger : triggers) {
-                    double ratio = new JaroWinklerDistance().apply(trigger, command);
-
-                    if (ratio > mostSimilarRatio) {
-                        mostSimilarRatio = (float) ratio;
-                        mostSimilarTrigger = trigger;
-                    }
-                }
-            }
-        }
-
-        return new SimilarCommand(StringUtil.isNullOrEmpty(mostSimilarTrigger)
-                ? Optional.empty()
-                : Optional.of(mostSimilarTrigger), mostSimilarRatio);
-    }
-
-    /**
-     * Returns a list of valid gui triggers exposed in Cyder.
-     *
-     * @return a list of triggers for gui tests
-     */
-    public static ImmutableList<String> getGuiTests() {
-        LinkedList<String> ret = new LinkedList<>();
-
-        for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
-            Class<?> clazz = classInfo.load();
-
-            for (Method m : clazz.getMethods()) {
-                if (m.isAnnotationPresent(GuiTest.class)) {
-                    String trigger = m.getAnnotation(GuiTest.class).value();
-                    ret.add(trigger);
-                }
-            }
-        }
-
-        return ImmutableList.copyOf(ret);
     }
 }

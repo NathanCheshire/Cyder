@@ -1,7 +1,10 @@
 package cyder.handlers.input;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.reflect.ClassPath;
+import cyder.annotations.GuiTest;
 import cyder.annotations.Handle;
+import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
@@ -17,13 +20,11 @@ import cyder.utils.ReflectionUtil;
 import cyder.utils.StatUtil;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
+import java.util.*;
 import java.util.concurrent.Future;
 
 /**
@@ -116,7 +117,7 @@ public class StatHandler extends InputHandler {
             getInputHandler().println("Number of logs: " + count);
         } else if (getInputHandler().commandIs("tests")) {
             getInputHandler().println("Valid GUI tests to call:");
-            getInputHandler().printlns(ReflectionUtil.getGuiTests());
+            getInputHandler().printlns(getGuiTestTriggers());
         } else if (getInputHandler().inputIgnoringSpacesMatches("networkaddresses")) {
             try {
                 Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
@@ -138,12 +139,12 @@ public class StatHandler extends InputHandler {
                 getInputHandler().println(fileSize.name() + ": " + OsUtil.formatBytes(fileSize.size()));
             }
         } else if (getInputHandler().commandIs("widgets")) {
-            ArrayList<ReflectionUtil.WidgetDescription> descriptions = ReflectionUtil.getWidgetDescriptions();
+            ArrayList<WidgetDescription> descriptions = getWidgetDescriptions();
 
             getInputHandler().println("Found " + descriptions.size() + " widgets:");
             getInputHandler().println("-------------------------------------");
 
-            for (ReflectionUtil.WidgetDescription description : descriptions) {
+            for (WidgetDescription description : descriptions) {
                 StringBuilder triggers = new StringBuilder();
 
                 for (int i = 0 ; i < description.triggers().length ; i++) {
@@ -185,7 +186,7 @@ public class StatHandler extends InputHandler {
                         getInputHandler().println("Code lines: " + codeLines);
                         getInputHandler().println("Blank lines: " + StatUtil.totalBlankLines(finalStartDir));
                         getInputHandler().println("Comment lines: " + commentLines);
-                        getInputHandler().println("Classes: " + ReflectionUtil.CYDER_CLASSES.size());
+                        getInputHandler().println("Classes: " + ReflectionUtil.getCyderClasses().size());
 
                         float ratio = ((float) codeLines / (float) commentLines);
                         getInputHandler().println("Code to comment ratio: "
@@ -208,5 +209,55 @@ public class StatHandler extends InputHandler {
         }
 
         return ret;
+    }
+
+    /**
+     * A widget and its properties.
+     */
+    private record WidgetDescription(String name, String description, String[] triggers) {}
+
+    /**
+     * Returns a list of names, descriptions, and triggers of all the widgets found within Cyder.
+     *
+     * @return a list of descriptions of all the widgets found within Cyder
+     */
+    private static ArrayList<WidgetDescription> getWidgetDescriptions() {
+        ArrayList<WidgetDescription> ret = new ArrayList<>();
+
+        for (ClassPath.ClassInfo classInfo : ReflectionUtil.getCyderClasses()) {
+            Class<?> clazz = classInfo.load();
+
+            for (Method method : clazz.getMethods()) {
+                if (method.isAnnotationPresent(Widget.class)) {
+                    String[] triggers = method.getAnnotation(Widget.class).triggers();
+                    String description = method.getAnnotation(Widget.class).description();
+                    ret.add(new WidgetDescription(clazz.getName(), description, triggers));
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Returns a list of valid gui triggers exposed in Cyder.
+     *
+     * @return a list of triggers for gui tests
+     */
+    private static ImmutableList<String> getGuiTestTriggers() {
+        LinkedList<String> ret = new LinkedList<>();
+
+        for (ClassPath.ClassInfo classInfo : ReflectionUtil.getCyderClasses()) {
+            Class<?> clazz = classInfo.load();
+
+            for (Method m : clazz.getMethods()) {
+                if (m.isAnnotationPresent(GuiTest.class)) {
+                    String trigger = m.getAnnotation(GuiTest.class).value();
+                    ret.add(trigger);
+                }
+            }
+        }
+
+        return ImmutableList.copyOf(ret);
     }
 }

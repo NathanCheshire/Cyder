@@ -7,19 +7,19 @@ import cyder.genesis.CyderSplash;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.props.PropConstants;
+import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
 import cyder.user.UserUtil;
-import cyder.utils.FileUtil;
-import cyder.utils.OsUtil;
-import cyder.utils.ReflectionUtil;
-import cyder.utils.StaticUtil;
+import cyder.utils.*;
 
 import java.awt.*;
 import java.io.File;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @SuppressWarnings("BooleanMethodIsAlwaysInverted") /* readability */
@@ -88,7 +88,7 @@ public final class NecessarySubroutines {
         UserUtil.cleanUsers();
 
         CyderSplash.INSTANCE.setLoadingMessage("Validating props");
-        ReflectionUtil.validateProps();
+        validateProps();
 
         CyderSplash.INSTANCE.setLoadingMessage("Validating Widgets");
         ReflectionUtil.validateWidgets();
@@ -153,5 +153,20 @@ public final class NecessarySubroutines {
         ThreadUtil.sleep(SINGLE_INSTANCE_ENSURER_TIMEOUT);
 
         return singularInstance.get();
+    }
+
+    /**
+     * Ensures there are no duplicate props within the loaded props.
+     */
+    private static void validateProps() {
+        ArrayList<String> discoveredKeys = new ArrayList<>();
+
+        for (PropConstants.Prop prop : PropLoader.getProps()) {
+            if (!StringUtil.in(prop.key(), false, discoveredKeys)) {
+                discoveredKeys.add(prop.key());
+            } else {
+                Logger.log(LogTag.DEBUG, "Found duplicate prop key: " + prop.key());
+            }
+        }
     }
 }

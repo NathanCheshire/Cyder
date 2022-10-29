@@ -27,7 +27,7 @@ public class WidgetHandler extends InputHandler {
 
     @Handle
     public static boolean handle() {
-        for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
+        for (ClassPath.ClassInfo classInfo : ReflectionUtil.getCyderClasses()) {
             Class<?> clazz = classInfo.load();
 
             for (Method m : clazz.getMethods()) {

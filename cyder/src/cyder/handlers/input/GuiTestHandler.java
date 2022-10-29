@@ -25,7 +25,7 @@ public class GuiTestHandler extends InputHandler {
     public static boolean handle() {
         boolean ret = false;
 
-        for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
+        for (ClassPath.ClassInfo classInfo : ReflectionUtil.getCyderClasses()) {
             Class<?> classer = classInfo.load();
 
             for (Method method : classer.getMethods()) {

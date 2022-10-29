@@ -53,7 +53,7 @@ public class TestHandler extends InputHandler {
     public static boolean handle() {
         boolean testTriggered = false;
 
-        for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
+        for (ClassPath.ClassInfo classInfo : ReflectionUtil.getCyderClasses()) {
             Class<?> classer = classInfo.load();
 
             for (Method method : classer.getMethods()) {
@@ -82,7 +82,7 @@ public class TestHandler extends InputHandler {
 
         boolean ret = false;
 
-        for (ClassPath.ClassInfo classInfo : ReflectionUtil.CYDER_CLASSES) {
+        for (ClassPath.ClassInfo classInfo : ReflectionUtil.getCyderClasses()) {
             Class<?> classer = classInfo.load();
 
             for (Method method : classer.getMethods()) {

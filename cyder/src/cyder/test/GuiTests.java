@@ -950,7 +950,7 @@ public final class GuiTests {
      * Tests for the text field hint text.
      */
     @GuiTest("hint text test")
-    public static void testTextFieldHintText() {
+    public static void textFieldHintTextTest() {
         CyderFrame frame = new CyderFrame();
         frame.setTitle("Test");
 
@@ -974,7 +974,7 @@ public final class GuiTests {
      * Tests for the icons and hint text of text fields.
      */
     @GuiTest("field icons test")
-    public static void testTextFieldIcons() {
+    public static void textFieldIconsTest() {
         CyderFrame frame = new CyderFrame();
         frame.setTitle("Test");
 
