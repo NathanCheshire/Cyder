@@ -5,6 +5,7 @@ import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
+import cyder.file.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderPartitionedLayout;
 import cyder.ui.button.CyderButton;
@@ -12,7 +13,6 @@ import cyder.ui.field.CyderCaret;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderScrollPane;
-import cyder.utils.FileUtil;
 import cyder.utils.OsUtil;
 
 import javax.swing.*;

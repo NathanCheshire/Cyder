@@ -8,6 +8,7 @@ import cyder.enums.ExitCondition;
 import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
+import cyder.file.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
@@ -15,7 +16,6 @@ import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.utils.ColorUtil;
-import cyder.utils.FileUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.StringUtil;
 
@@ -449,7 +449,7 @@ public final class Logger {
             }
 
             File proposedLogFile = new File(TimeUtil.logTime() + Extension.LOG.getExtension());
-            String uniqueFilename = FileUtil.findUniqueName(proposedLogFile, logSubDir);
+            String uniqueFilename = FileUtil.constructUniqueName(proposedLogFile, logSubDir);
             File logFile = OsUtil.buildFile(Dynamic.PATH,
                     Dynamic.LOGS.getDirectoryName(), logSubDirName, uniqueFilename);
 

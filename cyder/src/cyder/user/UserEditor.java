@@ -15,6 +15,7 @@ import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.file.FileUtil;
 import cyder.getter.GetConfirmationBuilder;
 import cyder.getter.GetFileBuilder;
 import cyder.getter.GetInputBuilder;
@@ -352,7 +353,7 @@ public final class UserEditor {
                     String uniqueNameAndExtension = fileToAdd.getName();
                     File parentFolder = UserUtil.getUserFile(copyLocation);
                     if (parentFolder.exists() && parentFolder.isDirectory()) {
-                        uniqueNameAndExtension = FileUtil.findUniqueName(fileToAdd, parentFolder);
+                        uniqueNameAndExtension = FileUtil.constructUniqueName(fileToAdd, parentFolder);
                     }
 
                     try {

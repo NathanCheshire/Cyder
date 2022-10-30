@@ -7,11 +7,11 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.file.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
-import cyder.utils.FileUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 

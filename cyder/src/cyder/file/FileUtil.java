@@ -1,4 +1,4 @@
-package cyder.utils;
+package cyder.file;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -7,6 +7,8 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.utils.OsUtil;
+import cyder.utils.StringUtil;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -31,8 +33,8 @@ public final class FileUtil {
     /**
      * The metadata signature for a png file.
      */
-    public static final ImmutableList<Integer> PNG_SIGNATURE =
-            ImmutableList.of(0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A);
+    public static final ImmutableList<Integer> PNG_SIGNATURE
+            = ImmutableList.of(0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A);
 
     /**
      * The metadata signature for a jpg file.
@@ -463,15 +465,16 @@ public final class FileUtil {
     }
 
     /**
-     * Determines a unique name for the provided file so that it may be placed in the provided directory
-     * with no collisions. Note that this returns the filename as well
+     * Determines a unique name for the provided file so that it may be placed
+     * in the provided directory without collisions.
+     * Note that this returns the complete filename and not a created {@link File} object.
      *
      * @param file      the file to find a unique name for
      * @param directory the directory to place the file in
      * @return a unique name for the file. Note this may or may not equal
-     * the original file name, but will include the extension
+     * the original file name
      */
-    public static String findUniqueName(File file, File directory) {
+    public static String constructUniqueName(File file, File directory) {
         Preconditions.checkNotNull(file);
         Preconditions.checkNotNull(directory);
         Preconditions.checkArgument(directory.exists());

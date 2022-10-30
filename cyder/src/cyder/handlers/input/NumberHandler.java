@@ -5,10 +5,10 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.file.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.math.NumberUtil;
 import cyder.threads.CyderThreadRunner;
-import cyder.utils.FileUtil;
 import cyder.utils.IoUtil;
 
 import java.io.File;

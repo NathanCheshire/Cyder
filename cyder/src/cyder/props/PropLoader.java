@@ -6,10 +6,10 @@ import cyder.annotations.ForReadability;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
+import cyder.file.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.utils.FileUtil;
 import cyder.utils.StringUtil;
 
 import java.io.*;

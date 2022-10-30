@@ -3,6 +3,7 @@ package cyder.handlers.external;
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
+import cyder.file.FileUtil;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
@@ -14,7 +15,6 @@ import cyder.ui.drag.button.LeftButton;
 import cyder.ui.drag.button.RightButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.user.UserUtil;
-import cyder.utils.FileUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

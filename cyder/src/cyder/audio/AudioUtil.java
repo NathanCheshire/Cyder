@@ -7,6 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.file.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.network.NetworkUtil;
 import cyder.process.ProcessResult;
@@ -16,7 +17,6 @@ import cyder.threads.CyderThreadFactory;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
 import cyder.user.UserFile;
-import cyder.utils.FileUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.StaticUtil;
 
