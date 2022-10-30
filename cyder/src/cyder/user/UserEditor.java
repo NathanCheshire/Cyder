@@ -60,6 +60,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
+// todo use directory watcher once implemented here
+
 /**
  * An editor for user preferences, files, colors, fonts, and more.
  */

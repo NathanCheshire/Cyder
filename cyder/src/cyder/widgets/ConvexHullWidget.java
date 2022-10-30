@@ -12,6 +12,7 @@ import cyder.ui.CyderPanel;
 import cyder.ui.button.CyderButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.grid.CyderGrid;
+import cyder.ui.grid.GridNode;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
@@ -226,12 +227,12 @@ public final class ConvexHullWidget {
     private static void checkFourCorners() {
         int min = 0;
         int max = gridComponent.getNodeDimensionLength() - 1;
-        ImmutableList<CyderGrid.GridNode> cornerNodes = ImmutableList.of(
+        ImmutableList<GridNode> cornerNodes = ImmutableList.of(
                 /* Color is irrelevant here */
-                new CyderGrid.GridNode(WALL_NODE_COLOR, min, min),
-                new CyderGrid.GridNode(WALL_NODE_COLOR, min, max),
-                new CyderGrid.GridNode(WALL_NODE_COLOR, max, min),
-                new CyderGrid.GridNode(WALL_NODE_COLOR, max, max)
+                new GridNode(WALL_NODE_COLOR, min, min),
+                new GridNode(WALL_NODE_COLOR, min, max),
+                new GridNode(WALL_NODE_COLOR, max, min),
+                new GridNode(WALL_NODE_COLOR, max, max)
         );
 
         if (gridComponent.getGridNodes().containsAll(cornerNodes)) {
@@ -259,7 +260,7 @@ public final class ConvexHullWidget {
 
         if (midPoint.equals(firstPoint) || midPoint.equals(secondPoint)) return;
 
-        CyderGrid.GridNode gridMidPoint = new CyderGrid.GridNode(WALL_NODE_COLOR, midXPoints, midYPoints);
+        GridNode gridMidPoint = new GridNode(WALL_NODE_COLOR, midXPoints, midYPoints);
         if (gridComponent.contains(gridMidPoint)) {
             gridComponent.removeNode(gridMidPoint);
         }

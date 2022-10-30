@@ -14,7 +14,7 @@ import cyder.ui.CyderPanel;
 import cyder.ui.button.CyderButton;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.frame.CyderFrame;
-import cyder.ui.grid.CyderGrid;
+import cyder.ui.grid.GridNode;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.selection.CyderSwitch;
 import cyder.ui.slider.CyderSliderUi;
@@ -133,7 +133,7 @@ public final class PerlinWidget {
     /**
      * The node array to store the open simplex noise.
      */
-    private static CyderGrid.GridNode[][] noise3D;
+    private static GridNode[][] noise3D;
 
     /**
      * The array to store the perlin noise.
@@ -535,10 +535,10 @@ public final class PerlinWidget {
         noise2D = new float[resolution];
         noise2D = generate2DNoise(instanceSeed[0], octaves);
 
-        noise3D = new CyderGrid.GridNode[resolution][resolution];
+        noise3D = new GridNode[resolution][resolution];
         for (int x = 0 ; x < resolution ; x++) {
             for (int y = 0 ; y < resolution ; y++) {
-                noise3D[x][y] = new CyderGrid.GridNode(x, y);
+                noise3D[x][y] = new GridNode(x, y);
             }
         }
     }
@@ -557,7 +557,7 @@ public final class PerlinWidget {
                     double value = noise.eval(x / featureSize, y / featureSize, timeStep);
                     Color color = generateGrayscaleColor(value);
 
-                    CyderGrid.GridNode ref = noise3D[x][y];
+                    GridNode ref = noise3D[x][y];
 
                     ref.setColor(color);
                     ref.setX(x);

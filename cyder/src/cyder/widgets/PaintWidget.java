@@ -26,6 +26,7 @@ import cyder.ui.drag.CyderDragLabel;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.grid.CyderGrid;
+import cyder.ui.grid.GridNode;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.selection.CyderCheckbox;
 import cyder.ui.selection.CyderCheckboxGroup;
@@ -157,7 +158,7 @@ public final class PaintWidget {
 
                 Graphics2D g2d = (Graphics2D) image.getGraphics();
 
-                for (CyderGrid.GridNode node : cyderGrid.getGridNodes()) {
+                for (GridNode node : cyderGrid.getGridNodes()) {
                     g2d.setColor(node.getColor());
                     g2d.fillRect(node.getX(), node.getY(), 1, 1);
                 }
@@ -223,14 +224,14 @@ public final class PaintWidget {
 
                 Graphics2D g2d = (Graphics2D) image.getGraphics();
 
-                for (CyderGrid.GridNode node : cyderGrid.getGridNodes()) {
+                for (GridNode node : cyderGrid.getGridNodes()) {
                     g2d.setColor(node.getColor());
                     g2d.fillRect(node.getX(), node.getY(), 1, 1);
                 }
 
                 BufferedImage newStateImage = ImageUtil.pixelateImage(image, pixelSize);
 
-                LinkedList<CyderGrid.GridNode> newState = new LinkedList<>();
+                LinkedList<GridNode> newState = new LinkedList<>();
 
                 for (int x = 0 ; x < newStateImage.getWidth() ; x++) {
                     for (int y = 0 ; y < newStateImage.getHeight() ; y++) {
@@ -246,7 +247,7 @@ public final class PaintWidget {
                         if (newColor.equals(Color.BLACK))
                             continue;
 
-                        newState.add(new CyderGrid.GridNode(newColor, x, y));
+                        newState.add(new GridNode(newColor, x, y));
                     }
                 }
 
@@ -277,7 +278,7 @@ public final class PaintWidget {
 
                     Graphics2D g2d = (Graphics2D) referenceImage.getGraphics();
 
-                    for (CyderGrid.GridNode node : cyderGrid.getGridNodes()) {
+                    for (GridNode node : cyderGrid.getGridNodes()) {
                         g2d.setColor(node.getColor());
                         g2d.fillRect(node.getX(), node.getY(), 1, 1);
                     }
@@ -290,7 +291,7 @@ public final class PaintWidget {
 
                     cyderGrid.setNodeDimensionLength(len);
 
-                    LinkedList<CyderGrid.GridNode> newState = new LinkedList<>();
+                    LinkedList<GridNode> newState = new LinkedList<>();
 
                     for (int x = 0 ; x < newStateImage.getWidth() ; x++) {
                         for (int y = 0 ; y < newStateImage.getHeight() ; y++) {
@@ -300,7 +301,7 @@ public final class PaintWidget {
                             if (((color >> 24) & 0xFF) == 0)
                                 continue;
 
-                            newState.add(new CyderGrid.GridNode(new Color(
+                            newState.add(new GridNode(new Color(
                                     (color >> 16) & 0xFF,
                                     (color >> 8) & 0xFF,
                                     color & 0xFF), x, y));

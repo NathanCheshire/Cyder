@@ -23,6 +23,7 @@ import cyder.ui.CyderPanel;
 import cyder.ui.button.CyderButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.grid.CyderGrid;
+import cyder.ui.grid.GridNode;
 import cyder.ui.label.CyderLabel;
 import cyder.ui.selection.CyderComboBox;
 import cyder.ui.selection.CyderSwitch;
@@ -158,12 +159,12 @@ public final class GameOfLifeWidget {
     /**
      * The state the grid was in before the user last pressed start.
      */
-    private static LinkedList<CyderGrid.GridNode> beforeStartingState;
+    private static LinkedList<GridNode> beforeStartingState;
 
     /**
      * The last state of the grid.
      */
-    private static LinkedList<CyderGrid.GridNode> lastState = new LinkedList<>();
+    private static LinkedList<GridNode> lastState = new LinkedList<>();
 
     /**
      * The conway states loaded from static/json/conway.
@@ -463,7 +464,7 @@ public final class GameOfLifeWidget {
                 beforeStartingState = new LinkedList<>();
 
                 correspondingConwayStates.get(i).getNodes().forEach(point ->
-                        beforeStartingState.add(new CyderGrid.GridNode((int) point.getX(), (int) point.getY())));
+                        beforeStartingState.add(new GridNode((int) point.getX(), (int) point.getY())));
 
                 conwayFrame.revokeAllNotifications();
                 conwayFrame.notify("Loaded state: " + correspondingConwayStates.get(i).getName());
@@ -601,13 +602,13 @@ public final class GameOfLifeWidget {
         CyderThreadRunner.submit(() -> {
             while (simulationRunning) {
                 try {
-                    LinkedList<CyderGrid.GridNode> nextState = new LinkedList<>();
+                    LinkedList<GridNode> nextState = new LinkedList<>();
 
                     int[][] nextGen = nextGeneration(cyderGridToConwayGrid(conwayGrid.getGridNodes()));
                     for (int i = 0 ; i < nextGen.length ; i++) {
                         for (int j = 0 ; j < nextGen[0].length ; j++) {
                             if (nextGen[i][j] == 1) {
-                                nextState.add(new CyderGrid.GridNode(i, j));
+                                nextState.add(new GridNode(i, j));
                             }
                         }
                     }
@@ -677,7 +678,7 @@ public final class GameOfLifeWidget {
 
             conwayGrid.setNodeDimensionLength(loadState.getGridSize());
             loadState.getNodes().forEach(point -> conwayGrid.addNode(
-                    new CyderGrid.GridNode((int) point.getX(), (int) point.getY())));
+                    new GridNode((int) point.getX(), (int) point.getY())));
 
             conwayFrame.notify("Loaded state: " + loadState.getName());
             beforeStartingState = new LinkedList<>(conwayGrid.getGridNodes());
@@ -745,7 +746,7 @@ public final class GameOfLifeWidget {
      * @param nodes the list of cyder grid nodes
      * @return the 2D array consisting of 1s and 0s
      */
-    private static int[][] cyderGridToConwayGrid(LinkedList<CyderGrid.GridNode> nodes) {
+    private static int[][] cyderGridToConwayGrid(LinkedList<GridNode> nodes) {
         int len = conwayGrid.getNodeDimensionLength();
 
         int[][] ret = new int[len][len];
