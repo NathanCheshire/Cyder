@@ -9,7 +9,7 @@ import cyder.ui.drag.button.CloseButton;
 import cyder.ui.drag.button.MinimizeButton;
 import cyder.ui.drag.button.PinButton;
 import cyder.ui.frame.CyderFrame;
-import cyder.utils.ReflectionUtil;
+import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
@@ -352,7 +352,7 @@ public class CyderDragLabel extends JLabel {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderUiToString(this);
+        return StringUtil.commonCyderUiToString(this);
     }
 
     /**

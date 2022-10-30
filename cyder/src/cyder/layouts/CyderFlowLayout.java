@@ -3,7 +3,7 @@ package cyder.layouts;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.CyderPanel;
-import cyder.utils.ReflectionUtil;
+import cyder.utils.StringUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -556,7 +556,7 @@ public class CyderFlowLayout extends CyderLayout {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderUiToString(this);
+        return StringUtil.commonCyderUiToString(this);
     }
 
     /**

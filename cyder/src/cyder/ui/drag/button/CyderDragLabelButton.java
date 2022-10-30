@@ -6,7 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.drag.DragLabelButtonSize;
-import cyder.utils.ReflectionUtil;
+import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -530,7 +530,7 @@ public abstract class CyderDragLabelButton extends JLabel implements ICyderDragL
                 + ", y=" + getY()
                 + ", w=" + getWidth()
                 + ", h=" + getHeight()
-                + ", parent=" + ReflectionUtil.getComponentFrameRepresentation(this)
+                + ", parent=" + StringUtil.getComponentParentFrameRepresentation(this)
                 + ", clickActions: " + clickActions.size()
                 + ", mouseEnterActions: " + mouseOverActions.size()
                 + ", mouseExitActions: " + mouseExitActions.size()

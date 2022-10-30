@@ -12,7 +12,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.drag.CyderDragLabel;
 import cyder.user.UserUtil;
-import cyder.utils.ReflectionUtil;
+import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
@@ -804,7 +804,7 @@ public class CyderNotification extends JLabel {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderUiToString(this);
+        return StringUtil.commonCyderUiToString(this);
     }
 
     /**

@@ -2395,6 +2395,6 @@ public class SimplexNoiseUtil {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
+        return StringUtil.commonCyderToString(this);
     }
 }

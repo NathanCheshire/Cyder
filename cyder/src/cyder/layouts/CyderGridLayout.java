@@ -3,7 +3,7 @@ package cyder.layouts;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.ui.CyderPanel;
-import cyder.utils.ReflectionUtil;
+import cyder.utils.StringUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -377,7 +377,7 @@ public class CyderGridLayout extends CyderLayout {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderUiToString(this);
+        return StringUtil.commonCyderUiToString(this);
     }
 
 }

@@ -6,7 +6,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.ui.pane.CyderScrollList;
 import cyder.utils.ColorUtil;
-import cyder.utils.ReflectionUtil;
+import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 import cyder.weather.WeatherWidget;
 import cyder.widgets.ClockWidget;
@@ -536,7 +536,7 @@ public class Preference {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
+        return StringUtil.commonCyderToString(this);
     }
 
     /**

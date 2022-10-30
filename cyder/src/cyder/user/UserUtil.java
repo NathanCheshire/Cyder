@@ -1,6 +1,7 @@
 package cyder.user;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
@@ -710,8 +711,13 @@ public final class UserUtil {
      */
     private static final String IGNORE_DATA = "ignore_data";
 
+    /**
+     * The comma splitter.
+     */
+    private static final Splitter commaSplitter = Splitter.on(",");
+
     static {
-        IGNORE_USER_DATA = ImmutableList.copyOf(PropLoader.getString(IGNORE_DATA).split(","));
+        IGNORE_USER_DATA = ImmutableList.copyOf(commaSplitter.splitToList(PropLoader.getString(IGNORE_DATA)));
     }
 
     /**

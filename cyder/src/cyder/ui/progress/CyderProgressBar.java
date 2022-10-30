@@ -2,7 +2,7 @@ package cyder.ui.progress;
 
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.utils.ReflectionUtil;
+import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
@@ -55,6 +55,6 @@ public class CyderProgressBar extends JProgressBar {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderUiToString(this);
+        return StringUtil.commonCyderUiToString(this);
     }
 }

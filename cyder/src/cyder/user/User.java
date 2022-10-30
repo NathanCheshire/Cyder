@@ -2,7 +2,6 @@ package cyder.user;
 
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;
 
 import java.util.LinkedList;
@@ -1071,6 +1070,6 @@ public class User {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
+        return StringUtil.commonCyderToString(this);
     }
 }

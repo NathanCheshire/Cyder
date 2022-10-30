@@ -5,7 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
-import cyder.utils.ReflectionUtil;
+import cyder.utils.StringUtil;
 import cyder.widgets.PaintWidget;
 
 import javax.swing.*;
@@ -317,7 +317,7 @@ public class CyderGrid extends JLabel {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderUiToString(this);
+        return StringUtil.commonCyderUiToString(this);
     }
 
     /**

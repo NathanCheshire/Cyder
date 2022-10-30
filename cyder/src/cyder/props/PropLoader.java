@@ -210,46 +210,66 @@ public final class PropLoader {
             ArrayList<Prop> propsList = new ArrayList<>();
 
             propFiles.forEach(propFile -> {
+                ArrayList<String> lines = new ArrayList<>();
+
                 try (BufferedReader reader = new BufferedReader(new FileReader(propFile))) {
                     String line;
-                    while ((line = reader.readLine()) != null) {
-                        if (isComment(line)) {
-                            continue;
-                        } else if (StringUtil.isNullOrEmpty(line)) {
-                            continue;
-                        } else if (isNoLogAnnotation(line)) {
-                            logNextProp = false;
-                            continue;
-                        }
-
-                        Prop addProp = extractProp(line);
-
-                        propsList.add(addProp);
-
-                        Logger.log(LogTag.PROP_LOADED, "[key = " + addProp.key()
-                                + (logNextProp ? ", value = " + addProp.value() : "") + CyderStrings.closingBracket);
-
-                        logNextProp = true;
-                    }
+                    while ((line = reader.readLine()) != null) lines.add(line);
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
+                }
+
+                for (String line : lines) {
+                    if (isComment(line)) {
+                        continue;
+                    } else if (StringUtil.isNullOrEmpty(line)) {
+                        continue;
+                    } else if (isNoLogAnnotation(line)) {
+                        logNextProp = false;
+                        continue;
+                    }
+
+                    Prop addProp = extractProp(line);
+                    if (propsList.contains(addProp)) {
+                        throw new FatalException("Duplicate prop found: " + addProp);
+                    }
+
+                    propsList.add(addProp);
+
+                    Logger.log(LogTag.PROP_LOADED, "[key = " + addProp.key()
+                            + (logNextProp ? ", value = " + addProp.value() : "") + CyderStrings.closingBracket);
+
+                    logNextProp = true;
                 }
             });
 
             props = ImmutableList.copyOf(propsList);
         } catch (Exception e) {
-            ExceptionHandler.handle(e);
+            // Props aren't loaded if this isn't a reloading meaning ExceptionHandler won't help us :/
+            e.printStackTrace();
             props = ImmutableList.of();
         } finally {
             propsLoaded = true;
         }
     }
 
+    /**
+     * Returns whether provided line is indicative of a comment in a prop file
+     *
+     * @param line the line to parse a prop from
+     * @return whether the provided line is a comment
+     */
     @ForReadability
     private static boolean isComment(String line) {
         return line.trim().startsWith(COMMENT_PATTERN);
     }
 
+    /**
+     * Returns whether the provided line is a "no log" annotation.
+     *
+     * @param line the line to parse a prop from
+     * @return whether the provided line is a no log annotation
+     */
     @ForReadability
     private static boolean isNoLogAnnotation(String line) {
         return line.trim().equals(Annotation.NO_LOG.getAnnotation());

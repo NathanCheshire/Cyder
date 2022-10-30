@@ -10,7 +10,6 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.BoundsUtil;
-import cyder.utils.ReflectionUtil;
 import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 import org.jsoup.Jsoup;
@@ -84,7 +83,7 @@ public class CyderLabel extends JLabel {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderUiToString(this);
+        return StringUtil.commonCyderUiToString(this);
     }
 
     /**

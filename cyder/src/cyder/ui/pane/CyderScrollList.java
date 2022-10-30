@@ -8,7 +8,7 @@ import cyder.logging.Logger;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.label.CyderLabel;
 import cyder.user.UserUtil;
-import cyder.utils.ReflectionUtil;
+import cyder.utils.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -672,6 +672,6 @@ public class CyderScrollList {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
+        return StringUtil.commonCyderToString(this);
     }
 }
