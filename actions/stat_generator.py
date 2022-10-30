@@ -12,9 +12,10 @@ BLANK_COLOR = (33, 37, 22)
 
 
 def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
-                 save_name: str, width: int = 250, height: int = 250,
+                 save_name: str, width: int = 300, height: int = 300,
                  border_length: int = 0, border_color: tuple = (255, 255, 255),
-                 text_foreground: tuple = (245, 245, 245)) -> None:
+                 text_foreground: tuple = (245, 245, 245),
+                 font_size: int = 22) -> None:
     """ 
     Exports a stats png using the provided information.
 
@@ -27,6 +28,7 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
     :param border_length: the length of the border to paint on the exported png
     :param border_color: the color the border to paint if border_length is greater than 0
     :param text_foreground: the color of the painted strings
+    :param font_size: the size of the font to use for the painted strings
     """
 
     total = code_lines + comment_lines + blank_lines
@@ -35,7 +37,7 @@ def export_stats(code_lines: int, comment_lines: int, blank_lines: int,
     code_percent = round(code_lines / float(total) * 100.0, 1)
     blank_percent = round(blank_lines / float(total) * 100.0, 1)
 
-    export_font = ImageFont.truetype(FONT_PATH, 24)
+    export_font = ImageFont.truetype(FONT_PATH, font_size)
 
     # Initial image
     blank_image = np.zeros((width, height, 3), np.uint8)
