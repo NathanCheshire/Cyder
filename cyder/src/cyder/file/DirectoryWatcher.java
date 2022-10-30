@@ -233,6 +233,4 @@ public class DirectoryWatcher {
         subscribers.stream().filter(subscriber -> subscriber.getSubscriptions().contains(event))
                 .forEach(subscriber -> subscriber.onEvent(this, event, eventFile));
     }
-
-    // todo use this in photo viewer and notes
 }

@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A class to for {@link DirectoryWatcher} subscribers.
@@ -34,6 +35,16 @@ public abstract class WatchDirectorySubscriber {
         Preconditions.checkState(!subscriptions.contains(watchDirectoryEvent));
 
         subscriptions.add(watchDirectoryEvent);
+    }
+
+    /**
+     * Subscribes to the provided events.
+     *
+     * @param watchDirectoryEvents the events to subscribe to
+     */
+    public void subscribeTo(WatchDirectoryEvent... watchDirectoryEvents) {
+        Preconditions.checkNotNull(watchDirectoryEvents);
+        Arrays.stream(watchDirectoryEvents).forEach(this::subscribeTo);
     }
 
     /**

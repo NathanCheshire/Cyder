@@ -1331,8 +1331,6 @@ public class StringUtil {
          * @return the method result if set
          */
         public String getMethodResult() {
-            Preconditions.checkState(methodResult != null);
-
             return methodResult;
         }
 

@@ -3,14 +3,16 @@ package cyder.handlers.external;
 import com.google.common.base.Preconditions;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
+import cyder.file.DirectoryWatcher;
 import cyder.file.FileUtil;
+import cyder.file.WatchDirectoryEvent;
+import cyder.file.WatchDirectorySubscriber;
 import cyder.getter.GetInputBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.threads.CyderThreadRunner;
-import cyder.threads.ThreadUtil;
 import cyder.ui.drag.button.LeftButton;
 import cyder.ui.drag.button.RightButton;
 import cyder.ui.frame.CyderFrame;
@@ -51,11 +53,6 @@ public class PhotoViewer {
     private CyderFrame pictureFrame;
 
     /**
-     * Whether this photo viewer object has been killed. This is used for the directory poller thread to exit.
-     */
-    private boolean killed;
-
-    /**
      * The next image button.
      */
     private RightButton nextButton;
@@ -64,6 +61,11 @@ public class PhotoViewer {
      * The last image button.
      */
     private LeftButton lastButton;
+
+    /**
+     * The watcher for the photo directory.
+     */
+    private final DirectoryWatcher photoDirectoryWatcher;
 
     /**
      * Returns a new instance of photo viewer with the provided starting directory.
@@ -85,8 +87,15 @@ public class PhotoViewer {
     private PhotoViewer(File photoDirectory) {
         Preconditions.checkNotNull(photoDirectory);
         Preconditions.checkArgument(photoDirectory.exists());
+        Preconditions.checkArgument(photoDirectory.exists());
 
         this.photoDirectory = photoDirectory;
+
+        File watcherDirectory = photoDirectory;
+        if (photoDirectory.isFile()) {
+            watcherDirectory = photoDirectory.getParentFile();
+        }
+        this.photoDirectoryWatcher = new DirectoryWatcher(watcherDirectory);
     }
 
     /**
@@ -133,7 +142,8 @@ public class PhotoViewer {
         lastButton.setClickAction(() -> transition(false));
         pictureFrame.getTopDragLabel().addRightButton(lastButton, 0);
 
-        startDirectoryWatcherThread();
+        revalidateNavigationButtonVisibility();
+        startDirectoryWatcher();
     }
 
     /**
@@ -154,13 +164,8 @@ public class PhotoViewer {
     private WindowAdapter generateWindowAdapter() {
         return new WindowAdapter() {
             @Override
-            public void windowOpened(WindowEvent e) {
-                killed = false;
-            }
-
-            @Override
             public void windowClosed(WindowEvent e) {
-                killed = true;
+                photoDirectoryWatcher.stopWatching();
             }
         };
     }
@@ -360,23 +365,30 @@ public class PhotoViewer {
     }
 
     /**
-     * The timeout between polling for the number of files from the image directory.
+     * Starts the directory watcher to update the visibilities of the
+     * next and last buttons based on the contents of the photo directory.
      */
-    private static final int DIRECTORY_POLL_DELAY = 5000;
+    private void startDirectoryWatcher() {
+        WatchDirectorySubscriber subscriber = new WatchDirectorySubscriber() {
+            @Override
+            public void onEvent(DirectoryWatcher broker, WatchDirectoryEvent event, File eventFile) {
+                refreshValidFiles();
+                revalidateNavigationButtonVisibility();
+            }
+        };
+        subscriber.subscribeTo(WatchDirectoryEvent.FILE_ADDED,
+                WatchDirectoryEvent.FILE_DELETED,
+                WatchDirectoryEvent.FILE_MODIFIED);
+        photoDirectoryWatcher.addSubscriber(subscriber);
+        photoDirectoryWatcher.startWatching();
+    }
 
     /**
-     * Watches the provided directory and updates the navigation button visibilities
-     * depending on the number of files in the watch directory.
+     * Revalidates the visibility of the navigation buttons.
      */
-    private void startDirectoryWatcherThread() {
-        CyderThreadRunner.submit(() -> {
-            while (!killed) {
-                refreshValidFiles();
-                setNavigationButtonsVisible(validDirectoryImages.size() >= 2);
-                ThreadUtil.sleep(DIRECTORY_POLL_DELAY);
-            }
-        }, "Photo viewer directory watcher, directory=\""
-                + photoDirectory.getAbsolutePath() + CyderStrings.quote);
+    private void revalidateNavigationButtonVisibility() {
+        refreshValidFiles();
+        setNavigationButtonsVisible(validDirectoryImages.size() > 1);
     }
 
     /**
