@@ -5,11 +5,11 @@ import com.google.common.collect.ImmutableList;
 import java.io.File;
 
 /**
- * An interface for classes to implement that wish to be used as a {@link DirectoryWatcher} file listener.
+ * An interface for classes to implement that wish to be used as a {@link DirectoryWatcher} file subscriber.
  */
-public interface WatchDirectoryListener {
+public interface WatchDirectorySubscriber {
     /**
-     * The logic to perform when an event this listener subscribed to occurs.
+     * The logic to perform when an event this subscriber subscribed to occurs.
      *
      * @param event     the event which occurred
      * @param eventFile the file which caused the event
@@ -24,9 +24,9 @@ public interface WatchDirectoryListener {
     void subscribeTo(WatchDirectoryEvent watchDirectoryEvent);
 
     /**
-     * Returns the subscriptions this listener is subscribed to.
+     * Returns the subscriptions this subscriber is subscribed to.
      *
-     * @return the subscriptions this listener is subscribed to
+     * @return the subscriptions this subscriber is subscribed to
      */
     ImmutableList<WatchDirectoryEvent> getSubscriptions();
 }

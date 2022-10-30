@@ -1,12 +1,15 @@
 package cyder.file;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 import cyder.exceptions.FatalException;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -30,6 +33,16 @@ public class DirectoryWatcher {
      * The timeout between checking the watch directory.
      */
     private int pollTimeout;
+
+    /**
+     * The map of file paths to byte sizes last cached by this directory watcher.
+     */
+    private ImmutableMap<String, Long> oldDirectoryContents = ImmutableMap.of();
+
+    /**
+     * The subscribers of {@link WatchDirectoryEvent}s this watcher produces.
+     */
+    private final ArrayList<WatchDirectorySubscriber> subscribers = new ArrayList<>();
 
     /**
      * Constructs a new directory watcher.
@@ -111,11 +124,14 @@ public class DirectoryWatcher {
      * @throws IllegalStateException if the directory is already being watched
      * @throws FatalException        if the watch directory is deleted while the watch subroutine is active
      */
+    @SuppressWarnings("ConstantConditions") /* Unboxing of Long to long */
     public void startWatching() {
         Preconditions.checkState(watchDirectory.exists());
         Preconditions.checkState(!isWatching.get());
 
         isWatching.set(true);
+
+        oldDirectoryContents = getUpdatedDirectoryContents();
 
         String threadName = "Directory Watcher, directory: " + watchDirectory.getAbsolutePath();
         CyderThreadRunner.submit(() -> {
@@ -124,7 +140,42 @@ public class DirectoryWatcher {
                     throw new FatalException("Watch directory no longer exists: " + watchDirectory.getAbsolutePath());
                 }
 
-                // todo actions
+                ImmutableMap<String, Long> newDirectoryContents = getUpdatedDirectoryContents();
+                HashMap<String, Long> unionContents = new HashMap<>(newDirectoryContents);
+                unionContents.putAll(oldDirectoryContents);
+
+                unionContents.keySet().forEach(path -> {
+                    boolean inOldContents = oldDirectoryContents.containsKey(path);
+                    boolean inNewContents = newDirectoryContents.containsKey(path);
+
+                    File currentFilePointer = new File(path);
+
+                    if (inOldContents && inNewContents) {
+                        long oldSize = oldDirectoryContents.get(path);
+                        long newSize = newDirectoryContents.get(path);
+                        if (oldSize != newSize) {
+                            if (currentFilePointer.isDirectory()) {
+                                notifySubscribers(WatchDirectoryEvent.DIRECTORY_MODIFIED, currentFilePointer);
+                            } else {
+                                notifySubscribers(WatchDirectoryEvent.FILE_MODIFIED, currentFilePointer);
+                            }
+                        }
+                    } else if (inOldContents) {
+                        if (currentFilePointer.isDirectory()) {
+                            notifySubscribers(WatchDirectoryEvent.DIRECTORY_DELETED, currentFilePointer);
+                        } else {
+                            notifySubscribers(WatchDirectoryEvent.FILE_DELETED, currentFilePointer);
+                        }
+                    } else if (inNewContents) {
+                        if (currentFilePointer.isDirectory()) {
+                            notifySubscribers(WatchDirectoryEvent.DIRECTORY_ADDED, currentFilePointer);
+                        } else {
+                            notifySubscribers(WatchDirectoryEvent.FILE_ADDED, currentFilePointer);
+                        }
+                    }
+                });
+
+                oldDirectoryContents = newDirectoryContents;
 
                 ThreadUtil.sleep(pollTimeout);
             }
@@ -133,19 +184,55 @@ public class DirectoryWatcher {
         }, threadName);
     }
 
-    // todo don't take runnable, take a thing that checks if it's a specific
-    //  file, extension, name, etc. and then invokes the runnable if true
+    /**
+     * Poll the watch directory for its contents and returns the files and sizes.
+     *
+     * @return the list of directories/files and sizes contained by watch directory
+     */
+    private ImmutableMap<String, Long> getUpdatedDirectoryContents() {
+        HashMap<String, Long> ret = new HashMap<>();
 
-    private final ArrayList<WatchDirectoryListener> onFileAddedListeners = new ArrayList<>();
-    private final ArrayList<WatchDirectoryListener> onFileRemovedListeners = new ArrayList<>();
-    private final ArrayList<WatchDirectoryListener> onFileModifiedListeners = new ArrayList<>();
+        File[] files = watchDirectory.listFiles();
+        if (files != null && files.length > 0) {
+            Arrays.stream(files).forEach(file -> ret.put(file.getAbsolutePath(), file.getTotalSpace()));
+        }
 
-    private final ArrayList<WatchDirectoryListener> onDirectoryAddedListeners = new ArrayList<>();
-    private final ArrayList<WatchDirectoryListener> onDirectoryRemovedListeners = new ArrayList<>();
-    private final ArrayList<WatchDirectoryListener> onDirectoryModifiedListeners = new ArrayList<>();
+        return ImmutableMap.copyOf(ret);
+    }
 
-    // todo file added, file removed, file updated, specific file(s) added,
-    //  specific file(s) removed, specific file(s) updated
+    /**
+     * Adds the provided subscriber to the list of subscribers to be notified when events
+     * the subscriber is subscribed to occur.
+     *
+     * @param subscriber the subscriber to add
+     */
+    public void addSubscriber(WatchDirectorySubscriber subscriber) {
+        Preconditions.checkNotNull(subscriber);
+        Preconditions.checkState(!subscribers.contains(subscriber));
+        subscribers.add(subscriber);
+    }
+
+    /**
+     * Removes the provided subscriber from the list.
+     *
+     * @param subscriber the subscriber to remove
+     */
+    public void removeSubscriber(WatchDirectorySubscriber subscriber) {
+        Preconditions.checkNotNull(subscriber);
+        Preconditions.checkState(subscribers.contains(subscriber));
+        subscribers.remove(subscriber);
+    }
+
+    /**
+     * Publishes the provided event to all subscribers of the event.
+     *
+     * @param event     the event
+     * @param eventFile the file which caused the event
+     */
+    private void notifySubscribers(WatchDirectoryEvent event, File eventFile) {
+        subscribers.stream().filter(subscriber -> subscriber.getSubscriptions().contains(event))
+                .forEach(subscriber -> subscriber.onEvent(event, eventFile));
+    }
 
     // todo use this in photo viewer and notes
 }
