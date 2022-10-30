@@ -1,32 +1,47 @@
 package cyder.file;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
- * An interface for classes to implement that wish to be used as a {@link DirectoryWatcher} file subscriber.
+ * A class to for {@link DirectoryWatcher} subscribers.
  */
-public interface WatchDirectorySubscriber {
+public abstract class WatchDirectorySubscriber {
+    /**
+     * The list of events this subscriber is subscribed to.
+     */
+    private final ArrayList<WatchDirectoryEvent> subscriptions = new ArrayList<>();
+
     /**
      * The logic to perform when an event this subscriber subscribed to occurs.
      *
+     * @param broker    the directory watcher which pushed the event to this subscriber
      * @param event     the event which occurred
      * @param eventFile the file which caused the event
      */
-    void onEvent(WatchDirectoryEvent event, File eventFile);
+    public abstract void onEvent(DirectoryWatcher broker, WatchDirectoryEvent event, File eventFile);
 
     /**
      * Subscribes to the provided event.
      *
      * @param watchDirectoryEvent the event to subscribe to
      */
-    void subscribeTo(WatchDirectoryEvent watchDirectoryEvent);
+    public void subscribeTo(WatchDirectoryEvent watchDirectoryEvent) {
+        Preconditions.checkNotNull(watchDirectoryEvent);
+        Preconditions.checkState(!subscriptions.contains(watchDirectoryEvent));
+
+        subscriptions.add(watchDirectoryEvent);
+    }
 
     /**
      * Returns the subscriptions this subscriber is subscribed to.
      *
      * @return the subscriptions this subscriber is subscribed to
      */
-    ImmutableList<WatchDirectoryEvent> getSubscriptions();
+    public ImmutableList<WatchDirectoryEvent> getSubscriptions() {
+        return ImmutableList.copyOf(subscriptions);
+    }
 }
