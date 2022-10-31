@@ -15,7 +15,10 @@ import cyder.enums.Dynamic;
 import cyder.enums.ExitCondition;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
+import cyder.file.DirectoryWatcher;
 import cyder.file.FileUtil;
+import cyder.file.WatchDirectoryEvent;
+import cyder.file.WatchDirectorySubscriber;
 import cyder.getter.GetConfirmationBuilder;
 import cyder.getter.GetFileBuilder;
 import cyder.getter.GetInputBuilder;
@@ -51,17 +54,12 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
-
-// todo use directory watcher once implemented here, and for notes?
 
 /**
  * An editor for user preferences, files, colors, fonts, and more.
@@ -144,6 +142,19 @@ public final class UserEditor {
                 FILES_SCROLL_WIDTH, FILES_SCROLL_HEIGHT, CyderScrollList.SelectionPolicy.MULTIPLE);
         filesScrollList.setBorder(null);
         filesScrollListReference.set(filesScrollList);
+
+        filesScrollList.getListPane().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+                    filesScrollList.getSelectedElements().forEach(listElement -> {
+                        File deleteFile = getFile(listElement);
+                        OsUtil.deleteFile(deleteFile);
+                        editUserFrame.notify("Deleted file: " + deleteFile.getName());
+                    });
+                }
+            }
+        });
     }
 
     /**
@@ -273,7 +284,14 @@ public final class UserEditor {
         MUSIC(UserFile.MUSIC, FileUtil::isSupportedAudioExtension),
         FILES(UserFile.FILES, (ignored) -> true);
 
+        /**
+         * The user file this scroll list folder references.
+         */
         private final UserFile userFile;
+
+        /**
+         * Whether this scroll list folder should show a certain file.
+         */
         private final Function<File, Boolean> shouldShowFunction;
 
         ScrollListFolder(UserFile userFile, Function<File, Boolean> shouldShowFunction) {
@@ -319,6 +337,56 @@ public final class UserEditor {
                 }
             }
         }
+    }
+
+    private static DirectoryWatcher musicDirectoryWatcher;
+    private static DirectoryWatcher backgroundsDirectoryWatcher;
+    private static DirectoryWatcher fileDirectoryWatcher;
+
+    /**
+     * Creates and starts the user file directory watchers.
+     */
+    private static void initializeAndStartUserFileDirectoryWatchers() {
+        if (musicDirectoryWatcher != null) musicDirectoryWatcher.stopWatching();
+        if (backgroundsDirectoryWatcher != null) backgroundsDirectoryWatcher.stopWatching();
+        if (fileDirectoryWatcher != null) fileDirectoryWatcher.stopWatching();
+
+        musicDirectoryWatcher = new DirectoryWatcher(
+                Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                        Console.INSTANCE.getUuid(), UserFile.MUSIC.getName()));
+        backgroundsDirectoryWatcher = new DirectoryWatcher(
+                Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                        Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName()));
+        fileDirectoryWatcher = new DirectoryWatcher(
+                Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                        Console.INSTANCE.getUuid(), UserFile.FILES.getName()));
+
+        WatchDirectorySubscriber subscriber = new WatchDirectorySubscriber() {
+            @Override
+            public void onEvent(DirectoryWatcher broker, WatchDirectoryEvent event, File eventFile) {
+                revalidateFilesScroll();
+            }
+        };
+        subscriber.subscribeTo(WatchDirectoryEvent.FILE_ADDED);
+        subscriber.subscribeTo(WatchDirectoryEvent.FILE_DELETED);
+
+        musicDirectoryWatcher.addSubscriber(subscriber);
+        backgroundsDirectoryWatcher.addSubscriber(subscriber);
+        fileDirectoryWatcher.addSubscriber(subscriber);
+
+        musicDirectoryWatcher.startWatching();
+        backgroundsDirectoryWatcher.startWatching();
+        fileDirectoryWatcher.startWatching();
+    }
+
+    private static void stopUserFileDirectoryWatchers() {
+        if (musicDirectoryWatcher != null) musicDirectoryWatcher.stopWatching();
+        if (backgroundsDirectoryWatcher != null) backgroundsDirectoryWatcher.stopWatching();
+        if (fileDirectoryWatcher != null) fileDirectoryWatcher.stopWatching();
+
+        musicDirectoryWatcher = null;
+        backgroundsDirectoryWatcher = null;
+        fileDirectoryWatcher = null;
     }
 
     /**
@@ -628,7 +696,7 @@ public final class UserEditor {
 
     /**
      * Returns the user file represented by the provided name from the files list.
-     * For example: backgrounds/Img.png would open Img.png if that file was present
+     * For example: backgrounds/Img.png would return Img.png if that file was present
      * in the current user's Backgrounds/ folder.
      *
      * @param name the file name such as "Backgrounds/img.jpg"
@@ -786,6 +854,8 @@ public final class UserEditor {
      * and regenerating the files scroll label in the process.
      */
     private static void switchToUserFiles() {
+        stopUserFileDirectoryWatchers();
+
         CyderPanel buttonPanel = new CyderPanel(buttonGridLayout);
         buttonPanel.setSize(CONTENT_PANE_WIDTH, FILE_BUTTON_PARTITION * CONTENT_PANE_HEIGHT);
 
@@ -800,6 +870,8 @@ public final class UserEditor {
         revalidateFilesScroll();
 
         editUserFrame.setCyderLayout(filesPartitionedLayout);
+
+        initializeAndStartUserFileDirectoryWatchers();
     }
 
     /**

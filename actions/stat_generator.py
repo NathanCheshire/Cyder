@@ -117,7 +117,7 @@ def get_compressed_number(num: int) -> str:
     return str(round(num / 1000.0, 1)) + THOUSAND
 
 
-def export_string_badge(alpha_string: str, beta_string: str, save_name: str, font_size: int = 24,
+def export_string_badge(alpha_string: str, beta_string: str, save_name: str, font_size: int = 22,
                         horizontal_padding: int = 15, vertical_padding: int = 10,
                         text_color: tuple = (245, 245, 245),
                         left_background_color: tuple = (131, 83, 5),

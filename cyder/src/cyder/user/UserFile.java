@@ -1,5 +1,11 @@
 package cyder.user;
 
+import com.google.common.base.Preconditions;
+import cyder.console.Console;
+import cyder.enums.Dynamic;
+
+import java.io.File;
+
 /**
  * Enum representing the different directories/files which should always exist within a user's directory.
  */
@@ -45,24 +51,6 @@ public enum UserFile {
     private final boolean isFile;
 
     /**
-     * Returns the name of this file.
-     *
-     * @return the name of this file
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Returns whether the object represented by this enum is a File type or directory.
-     *
-     * @return whether the object represented by this enum is a File type or directory
-     */
-    public boolean isFile() {
-        return isFile;
-    }
-
-    /**
      * Enum type representing a file that should exist within the user's directory
      *
      * @param name   the name of the file/directory
@@ -81,5 +69,35 @@ public enum UserFile {
     UserFile(String name) {
         this.name = name;
         this.isFile = false;
+    }
+
+    /**
+     * Returns the name of this file.
+     *
+     * @return the name of this file
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns whether the object represented by this enum is a File type or directory.
+     *
+     * @return whether the object represented by this enum is a File type or directory
+     */
+    public boolean isFile() {
+        return isFile;
+    }
+
+    /**
+     * Returns a pointer to this user file using the Console's currently set UUID.
+     *
+     * @return a pointer to this user file using the Console's currently set UUID
+     */
+    public File getFilePointer() {
+        Preconditions.checkNotNull(Console.INSTANCE.getUuid());
+
+        return Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                Console.INSTANCE.getUuid(), name);
     }
 }

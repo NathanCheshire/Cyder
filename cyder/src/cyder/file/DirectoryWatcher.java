@@ -185,7 +185,7 @@ public class DirectoryWatcher {
     }
 
     /**
-     * Poll the watch directory for its contents and returns the files and sizes.
+     * Polls the watch directory for its contents and returns the files and sizes.
      *
      * @return the list of directories/files and sizes contained by watch directory
      */
