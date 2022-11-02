@@ -175,14 +175,20 @@ public class DirectoryWatcher {
                     }
                 });
 
-                // todo clean up method
                 oldDirectoryContents = newDirectoryContents;
 
                 ThreadUtil.sleep(pollTimeout);
             }
 
-            isWatching.set(false);
+            cleanUpFromWatching();
         }, threadName);
+    }
+
+    /**
+     * Performs cleaning calls after the directory watching loop exits.
+     */
+    private void cleanUpFromWatching() {
+        stopWatching();
     }
 
     /**
@@ -231,7 +237,9 @@ public class DirectoryWatcher {
      * @param eventFile a file pointer which caused the event
      */
     private void notifySubscribers(WatchDirectoryEvent event, File eventFile) {
-        subscribers.stream().filter(subscriber -> subscriber.getSubscriptions().contains(event))
+        subscribers.stream()
+                .filter(subscriber -> subscriber.getSubscriptions().contains(event))
+                .filter(subscriber -> subscriber.patternsMatch(eventFile))
                 .forEach(subscriber -> subscriber.onEvent(this, event, eventFile));
     }
 }
