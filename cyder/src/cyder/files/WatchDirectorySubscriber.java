@@ -234,9 +234,9 @@ public abstract class WatchDirectorySubscriber {
 
         boolean isFile = file.isFile();
         if (isFile) {
-            if (fileNameRegex != null && filenameMatches(file)) return true;
-            if (fileExtensionRegex != null && fileExtensionMatches(file)) return true;
-            return fileRegex != null && fileMatches(file);
+            if (fileNameRegex != null && !filenameMatches(file)) return false;
+            if (fileExtensionRegex != null && !fileExtensionMatches(file)) return false;
+            if (fileRegex != null && !fileMatches(file)) return false;
         }
 
         return true;
