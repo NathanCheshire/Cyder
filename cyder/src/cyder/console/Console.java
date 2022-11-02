@@ -1108,6 +1108,31 @@ public enum Console {
      * debug properties, determining the user's last start time, auto testing, etc.
      */
     private void onLaunch() {
+        performSpecialDayChecks();
+
+        boolean debugStats = UserUtil.getCyderUser().getDebugStats().equals("1");
+        if (debugStats) showDebugStats();
+
+        String state = ProgramModeManager.INSTANCE.getProgramMode().getName();
+        Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername() + closingBracket
+                + space + openingBracket + state + closingBracket);
+        if (PropLoader.getBoolean(TESTING_MODE)) TestHandler.invokeDefaultTests();
+
+        long lastStart = Long.parseLong(UserUtil.getCyderUser().getLastStart());
+        long millisSinceLastStart = System.currentTimeMillis() - lastStart;
+        if (TimeUtil.millisToDays(millisSinceLastStart) > ACCEPTABLE_DAYS_WITHOUT_USE) {
+            String username = UserUtil.getCyderUser().getName();
+            consoleCyderFrame.notify("Welcome back, " + username + "!");
+        }
+
+        UserUtil.getCyderUser().setLastStart(String.valueOf(System.currentTimeMillis()));
+        introMusicCheck();
+    }
+
+    /**
+     * Performs the special day checks.
+     */
+    private void performSpecialDayChecks() {
         if (TimeUtil.isChristmas()) {
             consoleCyderFrame.notify("Merry Christmas!");
         }
@@ -1143,42 +1168,35 @@ public enum Console {
         if (TimeUtil.isDeveloperBirthday()) {
             getInputHandler().println("Thanks for creating me, Nate :,) Happy Birthday bud");
         }
+    }
 
-        boolean debugWindows = UserUtil.getCyderUser().getDebugWindows().equals("1");
-        if (debugWindows) {
-            CyderThreadRunner.submit(() -> {
-                try {
-                    StatUtil.getSystemProperties().forEach(property -> getInputHandler().println(property));
-                    StatUtil.getComputerMemorySpaces().forEach(property -> getInputHandler().println(property));
-                    Arrays.stream(SystemPropertyKey.values()).forEach(property ->
-                            getInputHandler().println(property.getProperty()));
+    /**
+     * Shows the debug stats, that being the following:
+     * <ul>
+     *     <li>{@link StatUtil#getSystemProperties()}</li>
+     *     <li>{@link StatUtil#getComputerMemorySpaces()}</li>
+     *     <li>{@link SystemPropertyKey#values()}</li>
+     *     <li>{@link StatUtil#getDebugProps()}</li>
+     * </ul>
+     */
+    private void showDebugStats() {
+        CyderThreadRunner.submit(() -> {
+            try {
+                StatUtil.getSystemProperties().forEach(property -> getInputHandler().println(property));
+                StatUtil.getComputerMemorySpaces().forEach(property -> getInputHandler().println(property));
+                Arrays.stream(SystemPropertyKey.values()).forEach(property ->
+                        getInputHandler().println(property.getProperty()));
 
-                    Future<StatUtil.DebugStats> futureStats = StatUtil.getDebugProps();
-                    while (!futureStats.isDone()) Thread.onSpinWait();
-                    StatUtil.DebugStats stats = futureStats.get();
+                Future<StatUtil.DebugStats> futureStats = StatUtil.getDebugProps();
+                while (!futureStats.isDone()) Thread.onSpinWait();
+                StatUtil.DebugStats stats = futureStats.get();
 
-                    stats.lines().forEach(line -> getInputHandler().println(line));
-                    getInputHandler().println(stats.countryFlag());
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-            }, DEBUG_STAT_FINDER_THREAD_NAME);
-        }
-
-        String state = ProgramModeManager.INSTANCE.getProgramMode().getName();
-        Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername() + closingBracket
-                + space + openingBracket + state + closingBracket);
-        if (PropLoader.getBoolean(TESTING_MODE)) TestHandler.invokeDefaultTests();
-
-        long lastStart = Long.parseLong(UserUtil.getCyderUser().getLastStart());
-        long millisSinceLastStart = System.currentTimeMillis() - lastStart;
-        if (TimeUtil.millisToDays(millisSinceLastStart) > ACCEPTABLE_DAYS_WITHOUT_USE) {
-            String username = UserUtil.getCyderUser().getName();
-            consoleCyderFrame.notify("Welcome back, " + username + "!");
-        }
-
-        UserUtil.getCyderUser().setLastStart(String.valueOf(System.currentTimeMillis()));
-        introMusicCheck();
+                stats.lines().forEach(line -> getInputHandler().println(line));
+                getInputHandler().println(stats.countryFlag());
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, DEBUG_STAT_FINDER_THREAD_NAME);
     }
 
     /**

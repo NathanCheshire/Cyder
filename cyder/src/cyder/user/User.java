@@ -19,9 +19,11 @@ public class User {
     }
 
     // ---------------------------------------------------
-    // primitive data types. In the future, allow
+    // Primitive data types. In the future, allow
     // this to be anything which will require methods that
     // use Class<?>, instanceof operators, and more.
+    //
+    // Preference<Boolean>, Preference<String> and such
     // ---------------------------------------------------
 
     /**
@@ -62,7 +64,7 @@ public class User {
     /**
      * Whether to open debug menus when the user logs in.
      */
-    private String debugWindows;
+    private String debugStats;
 
     /**
      * Whether to choose a random background on startup.
@@ -314,13 +316,13 @@ public class User {
     }
 
     /**
-     * Returns whether to show debug menus on start.
+     * Returns whether to show debug stats on start.
      *
-     * @return whether to show debug menus on start
+     * @return whether to show debug stats on start
      */
-    public String getDebugWindows() {
-        getterHook(Preference.DEBUG_WINDOWS, debugWindows);
-        return debugWindows;
+    public String getDebugStats() {
+        getterHook(Preference.DEBUG_STATS, debugStats);
+        return debugStats;
     }
 
     /**
@@ -722,12 +724,12 @@ public class User {
     }
 
     /**
-     * Sets whether to show debug menus on start.
+     * Sets whether to show debug stats on start.
      *
-     * @param debugWindows whether to show the debug menus on start
+     * @param debugStats whether to show the debug stats on start
      */
-    public void setDebugWindows(String debugWindows) {
-        this.debugWindows = debugWindows;
+    public void setDebugStats(String debugStats) {
+        this.debugStats = debugStats;
     }
 
     /**

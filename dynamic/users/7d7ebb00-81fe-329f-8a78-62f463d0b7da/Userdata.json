@@ -6,7 +6,7 @@
   "foreground": "0f0f0f",
   "background": "0f0f0f",
   "introMusic": "0",
-  "debugWindows": "0",
+  "debugStats": "1",
   "randomBackground": "0",
   "outputBorder": "0",
   "inputBorder": "0",

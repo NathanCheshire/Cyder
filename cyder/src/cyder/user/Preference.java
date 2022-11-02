@@ -30,7 +30,7 @@ public class Preference {
     public static final String FOREGROUND = "foreground";
     public static final String BACKGROUND = "background";
     public static final String INTRO_MUSIC = "intromusic";
-    public static final String DEBUG_WINDOWS = "debugwindows";
+    public static final String DEBUG_STATS = "debug_stats";
     public static final String RANDOM_BACKGROUND = "randombackground";
     public static final String OUTPUT_BORDER = "outputborder";
     public static final String INPUT_BORDER = "inputborder";
@@ -106,7 +106,7 @@ public class Preference {
             new Preference(INTRO_MUSIC, "Intro Music", "Play intro music on start",
                     "0", () -> Logger.log(LogTag.PREFERENCE_REFRESH, INTRO_MUSIC)),
 
-            new Preference(DEBUG_WINDOWS, "Debug Windows",
+            new Preference(DEBUG_STATS, "Debug Windows",
                     "Show debug menus on startup", "0",
                     () -> Logger.log(LogTag.PREFERENCE_REFRESH, "DEBUG_WINDOWS")),
 
