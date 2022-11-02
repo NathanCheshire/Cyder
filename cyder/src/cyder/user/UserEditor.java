@@ -142,19 +142,6 @@ public final class UserEditor {
                 FILES_SCROLL_WIDTH, FILES_SCROLL_HEIGHT, CyderScrollList.SelectionPolicy.MULTIPLE);
         filesScrollList.setBorder(null);
         filesScrollListReference.set(filesScrollList);
-
-        filesScrollList.getListPane().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-                    filesScrollList.getSelectedElements().forEach(listElement -> {
-                        File deleteFile = getFile(listElement);
-                        OsUtil.deleteFile(deleteFile);
-                        editUserFrame.notify("Deleted file: " + deleteFile.getName());
-                    });
-                }
-            }
-        });
     }
 
     /**
@@ -205,7 +192,7 @@ public final class UserEditor {
     /**
      * The current page of the user editor.
      */
-    private static Page currentPage = Page.FILES;
+    private static Page currentPage = null;
 
     /**
      * The thickness of the border for the input and output areas if enabled.
@@ -241,32 +228,40 @@ public final class UserEditor {
         editUserFrame.setBackground(CyderColors.vanilla);
         editUserFrame.setTitle(FRAME_TITLE);
         editUserFrame.addPreCloseAction(UserEditor::closeGetterFrames);
+        editUserFrame.addPreCloseAction(UserEditor::stopUserFileDirectoryWatchers);
         installDragLabelButtons();
         Console.INSTANCE.addToFrameTaskbarExceptions(editUserFrame);
         editUserFrame.finalizeAndShow();
 
-        currentPage = page;
-        page.getSwitchRunnable().run();
+        switchToPage(page);
     }
 
     /**
      * Installs the drag label items to the edit user frame.
      */
     private static void installDragLabelButtons() {
-        for (Page page : Page.values()) {
+        Arrays.stream(Page.values()).forEach(page -> {
             DragLabelTextButton menuButton = DragLabelTextButton.generateTextButton(
                     new DragLabelTextButton.Builder(page.getTitle())
                             .setTooltip(page.getTitle())
-                            .setClickAction(() -> {
-                                if (currentPage != page) {
-                                    currentPage = page;
-
-                                    closeGetterFrames();
-                                    page.getSwitchRunnable().run();
-                                }
-                            }));
+                            .setClickAction(() -> switchToPage(page)));
 
             editUserFrame.getTopDragLabel().addRightButton(menuButton, 0);
+        });
+    }
+
+    /**
+     * Switches to the provided page.
+     *
+     * @param page the page
+     */
+    private static void switchToPage(Page page) {
+        if (currentPage != page) {
+            currentPage = page;
+            if (page != Page.FILES) stopUserFileDirectoryWatchers();
+
+            closeGetterFrames();
+            page.getSwitchRunnable().run();
         }
     }
 
@@ -326,21 +321,32 @@ public final class UserEditor {
     private static void refreshFileLists() {
         filesNameList.clear();
 
-        for (ScrollListFolder folder : ScrollListFolder.values()) {
+        Arrays.stream(ScrollListFolder.values()).forEach(folder -> {
             File directoryReference = UserUtil.getUserFile(folder.getUserFile());
             File[] directoryFiles = directoryReference.listFiles();
             if (directoryFiles != null && directoryFiles.length > 0) {
-                for (File file : directoryFiles) {
+                Arrays.stream(directoryFiles).forEach(file -> {
                     if (Boolean.TRUE.equals(folder.getShouldShowFunction().apply(file))) {
                         filesNameList.add(folder.getUserFile().getName() + FILES_SCROLL_SEPARATOR + file.getName());
                     }
-                }
+                });
             }
-        }
+        });
     }
 
+    /**
+     * The directory watcher for the user's music directory.
+     */
     private static DirectoryWatcher musicDirectoryWatcher;
+
+    /**
+     * The directory watcher for the user's backgrounds directory.
+     */
     private static DirectoryWatcher backgroundsDirectoryWatcher;
+
+    /**
+     * The directory watcher for the user's files directory.
+     */
     private static DirectoryWatcher fileDirectoryWatcher;
 
     /**
@@ -379,6 +385,9 @@ public final class UserEditor {
         fileDirectoryWatcher.startWatching();
     }
 
+    /**
+     * Stops the user directory file watchers.
+     */
     private static void stopUserFileDirectoryWatchers() {
         if (musicDirectoryWatcher != null) musicDirectoryWatcher.stopWatching();
         if (backgroundsDirectoryWatcher != null) backgroundsDirectoryWatcher.stopWatching();
@@ -892,15 +901,15 @@ public final class UserEditor {
 
         refreshFileLists();
 
-        for (String element : filesNameList) {
-            filesScrollList.addElementWithDoubleClickAction(element, () -> IoUtil.openFile(getFile(element)));
-        }
+        filesNameList.forEach(element -> filesScrollList.addElementWithDoubleClickAction(
+                element, () -> IoUtil.openFile(getFile(element))));
 
         JLabel filesLabel = filesScrollList.generateScrollList();
         filesLabelReference.set(filesLabel);
         filesLabel.setBackground(CyderColors.vanilla);
         filesLabel.setBorder(null);
         filesLabel.setLocation(5, 5);
+        filesScrollList.getListPane().addKeyListener(filesScrollListKeyListener);
 
         JLabel parentBorderLabel = new JLabel();
         parentBorderLabel.setSize(FILES_SCROLL_WIDTH + 2 * 5, FILES_SCROLL_HEIGHT + 2 * 5);
@@ -911,6 +920,28 @@ public final class UserEditor {
 
         filesPartitionedLayout.setComponent(parentBorderLabel, 1);
     }
+
+    /**
+     * The key listener for the files scroll list pane to delete the selected files.
+     */
+    private static final KeyListener filesScrollListKeyListener = new KeyAdapter() {
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+                filesScrollListReference.get().getSelectedElements().forEach(listElement -> {
+                    File deleteFile = getFile(listElement);
+                    boolean deleted = OsUtil.deleteFile(deleteFile);
+                    if (deleted) {
+                        editUserFrame.notify("Deleted file: " + deleteFile.getName());
+                        revalidateFilesScroll();
+                    } else {
+                        editUserFrame.notify("Could not delete file \""
+                                + deleteFile.getName() + "\" at this time");
+                    }
+                });
+            }
+        }
+    };
 
     /**
      * The x padding between the left and right frame bounds for the files scroll.
@@ -1321,13 +1352,11 @@ public final class UserEditor {
                     .getAvailableFontFamilyNames());
 
             CyderScrollList reference = fontScrollReference.get();
-            for (String fontName : fontList) {
-                reference.addElementWithSingleClickAction(fontName,
-                        () -> {
-                            applyFontButton.setToolTipText("Apply font: " + fontName);
-                            fontLabel.setFont(new Font(fontName, Font.BOLD, fontLabelFontSize));
-                        });
-            }
+            fontList.forEach(fontName -> reference.addElementWithSingleClickAction(fontName,
+                    () -> {
+                        applyFontButton.setToolTipText("Apply font: " + fontName);
+                        fontLabel.setFont(new Font(fontName, Font.BOLD, fontLabelFontSize));
+                    }));
 
             if (currentPage == Page.FONT_AND_COLOR) {
                 CyderScrollList scrollList = fontScrollReference.get();
@@ -2057,16 +2086,14 @@ public final class UserEditor {
 
         LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
 
-        for (MappedExecutable exe : exes) {
-            informationBuilder.append(CyderStrings.quote)
-                    .append(exe.getName())
-                    .append(CyderStrings.quote)
-                    .append(" maps to: ")
-                    .append(CyderStrings.quote)
-                    .append(exe.getFilepath())
-                    .append(CyderStrings.quote)
-                    .append(BoundsUtil.BREAK_TAG);
-        }
+        exes.forEach(exe -> informationBuilder.append(CyderStrings.quote)
+                .append(exe.getName())
+                .append(CyderStrings.quote)
+                .append(" maps to: ")
+                .append(CyderStrings.quote)
+                .append(exe.getFilepath())
+                .append(CyderStrings.quote)
+                .append(BoundsUtil.BREAK_TAG));
 
         String username = UserUtil.getCyderUser().getName();
         String mapsString = informationBuilder.toString();
