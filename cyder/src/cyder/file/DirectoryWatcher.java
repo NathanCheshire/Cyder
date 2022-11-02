@@ -13,9 +13,9 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * An observer and notifier to subscribers of events which happen in a directory.
+ * An observer of evens and broker to subscribers of events which happen in a directory.
  * Instances of this class are immutable not thread safe. To achieve thread-safety,
- * clients should surrounding object method invocations with external synchronization
+ * clients should surround object method invocations using external synchronization
  * techniques.
  */
 public class DirectoryWatcher {
@@ -97,28 +97,28 @@ public class DirectoryWatcher {
     }
 
     /**
-     * Whether this directory watcher is/should be watching the watch directory.
+     * Whether this directory watcher is/should be active.
      */
     private final AtomicBoolean isWatching = new AtomicBoolean();
 
     /**
-     * Stops watching the watch directory if this water is currently watching.
+     * Stops watching the watch directory if this watcher is active.
      */
     public void stopWatching() {
         isWatching.set(false);
     }
 
     /**
-     * Returns whether this directory watcher is currently watching the watch directory.
+     * Returns whether this directory watcher is active.
      *
-     * @return whether this directory watcher is currently watching the watch directory
+     * @return whether this directory watcher is active
      */
     public boolean isWatching() {
         return isWatching.get();
     }
 
     /**
-     * Starts watching the current directory for current and future watch requests.
+     * Starts watching the watch directory for {@link WatchDirectoryEvent}s.
      *
      * @throws IllegalStateException if the watch directory DNE
      * @throws IllegalStateException if the directory is already being watched
@@ -175,6 +175,7 @@ public class DirectoryWatcher {
                     }
                 });
 
+                // todo clean up method
                 oldDirectoryContents = newDirectoryContents;
 
                 ThreadUtil.sleep(pollTimeout);
@@ -185,9 +186,9 @@ public class DirectoryWatcher {
     }
 
     /**
-     * Polls the watch directory for its contents and returns the files and sizes.
+     * Polls the watch directory for its contents and returns the file paths and sizes.
      *
-     * @return the list of directories/files and sizes contained by watch directory
+     * @return the list of directories/files and sizes contained in the watch directory
      */
     private ImmutableMap<String, Long> getUpdatedDirectoryContents() {
         HashMap<String, Long> ret = new HashMap<>();
@@ -224,10 +225,10 @@ public class DirectoryWatcher {
     }
 
     /**
-     * Publishes the provided event to all subscribers of the event.
+     * Publishes the event to all subscribers of the event.
      *
      * @param event     the event
-     * @param eventFile the file which caused the event
+     * @param eventFile a file pointer which caused the event
      */
     private void notifySubscribers(WatchDirectoryEvent event, File eventFile) {
         subscribers.stream().filter(subscriber -> subscriber.getSubscriptions().contains(event))
