@@ -11,7 +11,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
-import cyder.file.FileUtil;
+import cyder.files.FileUtil;
 import cyder.getter.GetFileBuilder;
 import cyder.getter.GetterUtil;
 import cyder.handlers.internal.ExceptionHandler;

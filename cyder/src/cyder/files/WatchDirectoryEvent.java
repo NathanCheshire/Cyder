@@ -1,4 +1,4 @@
-package cyder.file;
+package cyder.files;
 
 /**
  * Events that may occur inside of a directory.

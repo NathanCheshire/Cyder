@@ -9,7 +9,7 @@ import cyder.constants.CyderUrls;
 import cyder.enums.Extension;
 import cyder.enums.SystemPropertyKey;
 import cyder.exceptions.IllegalMethodException;
-import cyder.file.FileUtil;
+import cyder.files.FileUtil;
 import cyder.genesis.ProgramMode;
 import cyder.genesis.ProgramModeManager;
 import cyder.handlers.internal.ExceptionHandler;

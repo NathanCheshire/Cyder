@@ -7,7 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
-import cyder.file.FileUtil;
+import cyder.files.FileUtil;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;

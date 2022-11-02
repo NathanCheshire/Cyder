@@ -3,7 +3,7 @@ package cyder.messaging;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Immutable;
 import cyder.enums.Extension;
-import cyder.file.FileUtil;
+import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 
 import javax.sound.sampled.AudioFormat;

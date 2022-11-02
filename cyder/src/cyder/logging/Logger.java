@@ -8,7 +8,7 @@ import cyder.enums.ExitCondition;
 import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
-import cyder.file.FileUtil;
+import cyder.files.FileUtil;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;

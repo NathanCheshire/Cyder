@@ -1,7 +1,7 @@
 package cyder.test;
 
 import cyder.constants.CyderRegexPatterns;
-import cyder.file.FileUtil;
+import cyder.files.FileUtil;
 import cyder.math.AngleUtil;
 import cyder.time.TimeUtil;
 import cyder.utils.*;

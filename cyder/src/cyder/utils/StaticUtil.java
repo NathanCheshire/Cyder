@@ -3,7 +3,7 @@ package cyder.utils;
 import com.google.common.collect.ImmutableList;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.file.FileUtil;
+import cyder.files.FileUtil;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 

@@ -16,7 +16,7 @@ import cyder.enums.ExitCondition;
 import cyder.enums.SystemPropertyKey;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
-import cyder.file.FileUtil;
+import cyder.files.FileUtil;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.ProgramModeManager;
 import cyder.handlers.input.BaseInputHandler;
