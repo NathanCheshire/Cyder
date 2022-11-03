@@ -3783,9 +3783,6 @@ public class CyderFrame extends JFrame {
         CENTER,
     }
 
-    // todo search bug? researching doesn't properly show stats?
-    //  Also don't show the spazing out when printing everything
-
     /**
      * Sets the console to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
      *

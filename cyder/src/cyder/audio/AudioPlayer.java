@@ -55,10 +55,7 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.Port;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.text.Document;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -366,6 +363,11 @@ public final class AudioPlayer {
      * press and release to perform the percent request.
      */
     private static final int POSSIBLE_PERCENT_REQUEST_WINDOW = 100;
+
+    /**
+     * The total percent of a completed youtube audio download.
+     */
+    private static final float completedProgress = 100.0f;
 
     /**
      * Suppress default constructor.
@@ -2251,11 +2253,15 @@ public final class AudioPlayer {
         searchResultsPane.setAlignmentX(Component.CENTER_ALIGNMENT);
         searchResultsPane.setAlignmentY(Component.CENTER_ALIGNMENT);
 
+        DefaultCaret searchResultsPaneCaret = (DefaultCaret) searchResultsPane.getCaret();
+        searchResultsPaneCaret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
+
         StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_CENTER);
         StyledDocument doc = searchResultsPane.getStyledDocument();
         doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
 
         searchResultsScroll = new CyderScrollPane(searchResultsPane);
+        searchResultsScroll.getViewport().setAutoscrolls(false);
         searchResultsScroll.setThumbSize(8);
         searchResultsScroll.getViewport().setOpaque(false);
         searchResultsScroll.setFocusable(true);
@@ -2388,6 +2394,11 @@ public final class AudioPlayer {
     private static Document lastSearchResultsPage;
 
     /**
+     * The formatting results string.
+     */
+    private static final String FORMATTING_RESULTS = "Formatting results...";
+
+    /**
      * Searches YouTube for the provided text and updates the results pane with videos found.
      */
     private static void searchAndUpdate() {
@@ -2401,6 +2412,7 @@ public final class AudioPlayer {
         String fieldText = rawFieldText.trim().replaceAll(CyderRegexPatterns.whiteSpaceRegex, CyderStrings.space);
         previousSearch = fieldText;
 
+        String threadName = "YouTube Searcher, search: " + CyderStrings.quote + fieldText + CyderStrings.quote;
         CyderThreadRunner.submit(() -> {
             showInformationLabel(SEARCHING);
 
@@ -2423,13 +2435,17 @@ public final class AudioPlayer {
                         getMaxResolutionSquareThumbnail(video.getId().getVideoId())));
             }
 
-            // if user has search for something else, don't update pane
+            // if user has searched for something else while getting the search results, don't update pane
             if (!fieldText.equals(searchField.getText())) {
                 hideInformationLabel();
                 return;
             }
 
+            searchResultsScroll.setVisible(false);
+            searchResultsPane.setVisible(false);
             searchResultsPane.setText("");
+
+            showInformationLabel(FORMATTING_RESULTS);
 
             for (YoutubeSearchResult result : searchResults) {
                 Optional<File> alreadyExistsOptional = AudioUtil.getMusicFileWithName(result.title);
@@ -2477,13 +2493,13 @@ public final class AudioPlayer {
 
                     startDownloadUpdater(downloadable, downloadButton, mouseEntered);
                 });
-                downloadButton.addMouseListener(generateDownloadButtonMouseListener(
-                        downloadable, mouseEntered, downloadButton, alreadyExists));
+                downloadButton.addMouseListener(
+                        generateDownloadButtonMouseListener(downloadable, mouseEntered, downloadButton, alreadyExists));
                 downloadable.get().setOnCanceledCallback(() -> downloadButton.setText(DOWNLOAD));
                 downloadable.get().setOnDownloadedCallback(() -> {
                     downloadButton.setText(PLAY);
-                    downloadButton.addActionListener(event ->
-                            playAudioFromSearchView(downloadable.get().getAudioDownloadFile()));
+                    downloadButton.addActionListener(event -> playAudioFromSearchView(
+                            downloadable.get().getAudioDownloadFile()));
                 });
 
                 printingUtil.printlnComponent(downloadButton);
@@ -2491,11 +2507,12 @@ public final class AudioPlayer {
             }
 
             searchResultsPane.setCaretPosition(0);
+            searchResultsScroll.setVisible(true);
+            searchResultsPane.setVisible(true);
             hideInformationLabel();
 
             lastSearchResultsPage = searchResultsPane.getDocument();
-
-        }, "YouTube Searcher, search=" + fieldText);
+        }, threadName);
     }
 
     /**
@@ -2568,15 +2585,12 @@ public final class AudioPlayer {
             @Override
             public void mouseExited(MouseEvent e) {
                 mouseEntered.set(false);
-
-                if (alreadyExists) {
-                    return;
-                }
+                if (alreadyExists) return;
 
                 if (downloadable.get().isDownloading() && !downloadable.get().isCanceled()) {
                     float progress = downloadable.get().getDownloadableProgress();
 
-                    if (progress == 100.0f) {
+                    if (progress == completedProgress) {
                         downloadButton.setText(FINISHING);
                     } else {
                         downloadButton.setText(progress + "%");
@@ -2599,12 +2613,15 @@ public final class AudioPlayer {
      */
     private static void startDownloadUpdater(AtomicReference<YoutubeDownload> downloadable,
                                              CyderButton downloadButton, AtomicBoolean mouseEntered) {
+
+        String threadName = "YouTube audio downloader, name: " + CyderStrings.quote
+                + downloadable.get().getDownloadableName() + CyderStrings.quote;
         CyderThreadRunner.submit(() -> {
             while (!downloadable.get().isDone()) {
                 if (!mouseEntered.get()) {
                     float progress = downloadable.get().getDownloadableProgress();
 
-                    if (progress == 100.0f) {
+                    if (progress == completedProgress) {
                         downloadButton.setText(FINISHING);
                     } else {
                         downloadButton.setText(progress + "%");
@@ -2613,7 +2630,7 @@ public final class AudioPlayer {
 
                 ThreadUtil.sleep(YoutubeConstants.DOWNLOAD_UPDATE_DELAY);
             }
-        }, "YouTube audio downloader, name=" + downloadable.get().getDownloadableName());
+        }, threadName);
     }
 
     /**
