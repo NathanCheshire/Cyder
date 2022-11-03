@@ -938,11 +938,12 @@ public enum Console {
      */
     private void refreshConsoleMaxSize() {
         if (getCurrentBackground().getReferenceFile() != null) {
-            ImageIcon tmpImageIcon = getCurrentBackground().generateImageIcon();
-            int w = tmpImageIcon.getIconWidth();
-            int h = tmpImageIcon.getIconHeight();
+            ImageIcon currentIcon = getCurrentBackground().generateImageIcon();
+            int w = currentIcon.getIconWidth();
+            int h = currentIcon.getIconHeight();
 
             if (getConsoleDirection() == Direction.RIGHT || getConsoleDirection() == Direction.LEFT) {
+                // Not suspicious, intentional due to left/right
                 consoleCyderFrame.setMaximumSize(new Dimension(h, w));
             } else {
                 consoleCyderFrame.setMaximumSize(new Dimension(w, h));
@@ -958,17 +959,31 @@ public enum Console {
     private final WindowAdapter consoleWindowAdapter = new WindowAdapter() {
         @Override
         public void windowDeiconified(WindowEvent e) {
-            inputField.requestFocus();
-            inputField.setCaretPosition(inputField.getPassword().length);
+            onConsoleWindowDeiconified();
         }
 
         @Override
         public void windowOpened(WindowEvent e) {
-            inputField.requestFocus();
-            inputField.setCaretPosition(inputField.getPassword().length);
-            onLaunch();
+            onConsoleWindowOpened();
         }
     };
+
+    /**
+     * The actions to invoke when the console window is de-iconified.
+     */
+    private void onConsoleWindowDeiconified() {
+        inputField.requestFocus();
+        inputField.setCaretPosition(inputField.getPassword().length);
+    }
+
+    /**
+     * The actions to invoke when the console window is initially opened.
+     */
+    private void onConsoleWindowOpened() {
+        inputField.requestFocus();
+        inputField.setCaretPosition(inputField.getPassword().length);
+        onLaunch();
+    }
 
     /**
      * The name of the chime file.
@@ -1113,9 +1128,9 @@ public enum Console {
         boolean debugStats = UserUtil.getCyderUser().getDebugStats().equals("1");
         if (debugStats) showDebugStats();
 
-        String state = ProgramModeManager.INSTANCE.getProgramMode().getName();
-        Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername() + closingBracket
-                + space + openingBracket + state + closingBracket);
+        String currentProgramMode = ProgramModeManager.INSTANCE.getProgramMode().getName();
+        Logger.log(LogTag.CONSOLE_LOAD, openingBracket + OsUtil.getOsUsername()
+                + closingBracket + space + openingBracket + currentProgramMode + closingBracket);
         if (PropLoader.getBoolean(TESTING_MODE)) TestHandler.invokeDefaultTests();
 
         long lastStart = Long.parseLong(UserUtil.getCyderUser().getLastStart());
@@ -3295,10 +3310,12 @@ public enum Console {
     /**
      * Sets the console to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
      *
-     * @param screenPos the screen position to move the Console to
+     * @param screenPosition the screen position to move the Console to
      */
-    public void setLocationOnScreen(CyderFrame.ScreenPosition screenPos) {
-        consoleCyderFrame.setLocationOnScreen(screenPos);
+    public void setLocationOnScreen(CyderFrame.ScreenPosition screenPosition) {
+        Preconditions.checkNotNull(screenPosition);
+
+        consoleCyderFrame.setLocationOnScreen(screenPosition);
 
         getPinnedFrames().forEach(relativeFrame ->
                 relativeFrame.frame().setLocation(

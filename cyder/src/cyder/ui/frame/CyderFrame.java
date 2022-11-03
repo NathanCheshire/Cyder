@@ -3726,17 +3726,69 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    // todo extract me?
+
     /**
-     * The valid screen positions for a frame object.
+     * The screen positions for a {@link CyderFrame} to be placed at.
      */
     public enum ScreenPosition {
+        /**
+         * The true top left of the monitor.
+         */
+        TRUE_TOP_LEFT,
+
+        /**
+         * The top left of the monitor, accounting for the possible taskbar.
+         */
         TOP_LEFT,
+
+        /**
+         * The true top right of the monitor.
+         */
+        TRUE_TOP_RIGHT,
+
+        /**
+         * The top right of the monitor, accounting for the possible taskbar.
+         */
         TOP_RIGHT,
+
+        /**
+         * The true bottom left of the monitor.
+         */
+        TRUE_BOTTOM_LEFT,
+
+        /**
+         * The bottom left of the monitor, accounting for the possible taskbar.
+         */
         BOTTOM_LEFT,
+
+        /**
+         * The true bottom right of the monitor.
+         */
+        TRUE_BOTTOM_RIGHT,
+
+        /**
+         * The bottom right of the monitor, accounting for the possible taskbar.
+         */
         BOTTOM_RIGHT,
+
+        /**
+         * The true center of the monitor.
+         */
+        TRUE_CENTER,
+
+        /**
+         * The center of the monitor, accounting for the taskbar position.
+         */
         CENTER,
-        MIDDLE
     }
+
+    // todo implement and then test with exception throwing and move taskbar around and write gui test with buttons?
+
+    // todo taskbar location on screen/monitor util
+
+    // todo search bug? researching doesn't properly show stats?
+    //  Also don't show the spazing out when printing everything
 
     /**
      * Sets the console to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
@@ -3746,22 +3798,46 @@ public class CyderFrame extends JFrame {
     public void setLocationOnScreen(ScreenPosition screenPos) {
         Rectangle ourMonitorBounds = getMonitorBounds();
 
+        Insets monitorInsets = UiUtil.getDefaultScreenInsets();
+        int horizontalInsetsAvg = (monitorInsets.left + monitorInsets.right) / 2;
+        int verticalInsetsAvg = (monitorInsets.top + monitorInsets.bottom) / 2;
+
         switch (screenPos) {
-            case CENTER, MIDDLE, null -> setLocation(
+            case TRUE_CENTER, null -> setLocation(
                     ourMonitorBounds.x + ourMonitorBounds.width / 2 - getWidth() / 2,
                     ourMonitorBounds.y + ourMonitorBounds.height / 2 - getHeight() / 2);
-            case TOP_LEFT -> setLocation(
+            case CENTER -> setLocation(
+                    ourMonitorBounds.x + ourMonitorBounds.width / 2 - getWidth() / 2 + horizontalInsetsAvg,
+                    ourMonitorBounds.y + ourMonitorBounds.height / 2 - getHeight() / 2 + verticalInsetsAvg
+            );
+            case TRUE_TOP_LEFT -> setLocation(
                     ourMonitorBounds.x,
+                    ourMonitorBounds.y);
+            case TOP_LEFT -> setLocation(
+                    ourMonitorBounds.x + monitorInsets.left,
+                    ourMonitorBounds.y + monitorInsets.top
+            );
+            case TRUE_TOP_RIGHT -> setLocation(
+                    ourMonitorBounds.x + ourMonitorBounds.width - getWidth(),
                     ourMonitorBounds.y);
             case TOP_RIGHT -> setLocation(
-                    ourMonitorBounds.x + ourMonitorBounds.width - getWidth(),
-                    ourMonitorBounds.y);
-            case BOTTOM_LEFT -> setLocation(
+                    ourMonitorBounds.x + ourMonitorBounds.width - getWidth() - monitorInsets.right,
+                    ourMonitorBounds.y + monitorInsets.top
+            );
+            case TRUE_BOTTOM_LEFT -> setLocation(
                     ourMonitorBounds.x,
                     ourMonitorBounds.y + ourMonitorBounds.height - getHeight());
-            case BOTTOM_RIGHT -> setLocation(
+            case BOTTOM_LEFT -> setLocation(
+                    ourMonitorBounds.x + monitorInsets.left,
+                    ourMonitorBounds.y + ourMonitorBounds.height - getHeight() - monitorInsets.bottom
+            );
+            case TRUE_BOTTOM_RIGHT -> setLocation(
                     ourMonitorBounds.x + ourMonitorBounds.width - getWidth(),
                     ourMonitorBounds.y + ourMonitorBounds.height - getHeight());
+
+            case BOTTOM_RIGHT -> setLocation(
+                    ourMonitorBounds.x + ourMonitorBounds.width - getWidth() - monitorInsets.right,
+                    ourMonitorBounds.y + ourMonitorBounds.height - getHeight() - monitorInsets.bottom);
         }
     }
 

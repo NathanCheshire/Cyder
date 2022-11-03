@@ -30,7 +30,7 @@ public class Preference {
     public static final String FOREGROUND = "foreground";
     public static final String BACKGROUND = "background";
     public static final String INTRO_MUSIC = "intromusic";
-    public static final String DEBUG_STATS = "debug_stats";
+    public static final String DEBUG_STATS = "debugstats";
     public static final String RANDOM_BACKGROUND = "randombackground";
     public static final String OUTPUT_BORDER = "outputborder";
     public static final String INPUT_BORDER = "inputborder";

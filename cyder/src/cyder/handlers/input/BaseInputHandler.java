@@ -1193,8 +1193,14 @@ public class BaseInputHandler {
     // Generic print methods
     // ---------------------
 
+    /**
+     * The printing semaphore.
+     */
     private final Semaphore printingSemaphore = new Semaphore(1);
 
+    /**
+     * Aqquires the printing lock.
+     */
     private void acquirePrintingLock() {
         try {
             printingSemaphore.acquire();
@@ -1203,6 +1209,9 @@ public class BaseInputHandler {
         }
     }
 
+    /**
+     * Releases the printing lock.
+     */
     private void releasePrintingLock() {
         printingSemaphore.release();
     }
@@ -1213,6 +1222,8 @@ public class BaseInputHandler {
      * @param type the type to print
      */
     public final <T> void print(T type) {
+        Preconditions.checkNotNull(type);
+
         if (threadsActive()) {
             consolePriorityPrintingList.add(type);
         } else {
@@ -1226,6 +1237,8 @@ public class BaseInputHandler {
      * @param type the type to print
      */
     public final <T> void println(T type) {
+        Preconditions.checkNotNull(type);
+
         if (threadsActive()) {
             consolePriorityPrintingList.add(type);
             consolePriorityPrintingList.add(CyderStrings.newline);
@@ -1243,6 +1256,8 @@ public class BaseInputHandler {
      * @param type the type to add to the priority printing list
      */
     public final <T> void printPriority(T type) {
+        Preconditions.checkNotNull(type);
+
         consolePriorityPrintingList.add(type);
     }
 
@@ -1252,6 +1267,8 @@ public class BaseInputHandler {
      * @param type the type to add to the priority printing list
      */
     public final <T> void printlnPriority(T type) {
+        Preconditions.checkNotNull(type);
+
         consolePriorityPrintingList.add(type);
         consolePriorityPrintingList.add(CyderStrings.newline);
     }

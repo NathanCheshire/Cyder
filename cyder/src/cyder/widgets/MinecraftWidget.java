@@ -188,7 +188,7 @@ public final class MinecraftWidget {
         minecraftFrame.getContentPane().add(hamLabel);
 
         int x = (UiUtil.getDefaultMonitorWidth() - FRAME_WIDTH) / 2;
-        int y = UiUtil.getDefaultMonitorHeight() - FRAME_HEIGHT - UiUtil.getWindowsTaskbarLength();
+        int y = UiUtil.getDefaultMonitorHeight() - FRAME_HEIGHT - UiUtil.getWindowsTaskbarHeight();
         minecraftFrame.finalizeAndShow(new Point(x, y));
         minecraftFrame.setIconImage(BLOCK.getImage());
 

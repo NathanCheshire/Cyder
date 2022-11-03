@@ -1561,6 +1561,8 @@ public final class UserEditor {
 
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(preferencePane));
 
+        // todo reopening widget doesn't show anything?
+
         checkboxComponents.clear();
         Preference.getPreferences().stream()
                 .filter(preference -> !preference.getIgnoreForToggleSwitches())

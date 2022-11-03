@@ -31,16 +31,16 @@ public class FrameMovementHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().inputIgnoringSpacesMatches("topleft")) {
-            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TOP_LEFT);
+            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TRUE_TOP_LEFT);
         } else if (getInputHandler().inputIgnoringSpacesMatches("topright")) {
-            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TOP_RIGHT);
+            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TRUE_TOP_RIGHT);
         } else if (getInputHandler().inputIgnoringSpacesMatches("bottomleft")) {
-            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_LEFT);
+            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TRUE_BOTTOM_LEFT);
         } else if (getInputHandler().inputIgnoringSpacesMatches("bottomright")) {
-            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.BOTTOM_RIGHT);
+            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TRUE_BOTTOM_RIGHT);
         } else if (getInputHandler().inputIgnoringSpacesMatches("middle")
                 || getInputHandler().inputIgnoringSpacesMatches("center")) {
-            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.CENTER);
+            Console.INSTANCE.setLocationOnScreen(CyderFrame.ScreenPosition.TRUE_CENTER);
         } else if (getInputHandler().inputIgnoringSpacesMatches("frame titles")) {
             for (Frame f : UiUtil.getFrames()) {
                 getInputHandler().println(f.getTitle());

@@ -389,6 +389,8 @@ public final class UiUtil {
      * @return the generated key adapter
      */
     public static KeyAdapter generateKeyAdapter(boolean typed, boolean pressed, boolean released, Runnable runnable) {
+        Preconditions.checkNotNull(runnable);
+
         return new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -500,13 +502,34 @@ public final class UiUtil {
     }
 
     /**
-     * Returns the Windows taskbar height of the primary monitor
+     * Returns the Windows taskbar height of the primary monitor.
      *
      * @return the Windows taskbar height of the primary monitor
      */
-    public static int getWindowsTaskbarLength() {
-        return (int) (getDefaultMonitorHeight() - GraphicsEnvironment.getLocalGraphicsEnvironment()
-                .getMaximumWindowBounds().getHeight());
+    public static int getWindowsTaskbarHeight() {
+        return getDefaultScreenInsets().bottom;
+    }
+
+    /**
+     * Returns the insets of the default graphics device.
+     *
+     * @return the insets of the default graphics device
+     */
+    public static Insets getDefaultScreenInsets() {
+        GraphicsDevice defaultScreenDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        GraphicsConfiguration defaultConfiguration = defaultScreenDevice.getDefaultConfiguration();
+        return Toolkit.getDefaultToolkit().getScreenInsets(defaultConfiguration);
+    }
+
+    /**
+     * Returns the Windows taskbar width of the primary monitor.
+     *
+     * @return the Windows taskbar width of the primary monitor
+     */
+    public static int getWindowsTaskbarWidth() {
+        int ret = (int) (getDefaultMonitorWidth() - GraphicsEnvironment.getLocalGraphicsEnvironment()
+                .getMaximumWindowBounds().getWidth());
+        return ret == 0 ? getDefaultMonitorWidth() : ret;
     }
 
     /**
