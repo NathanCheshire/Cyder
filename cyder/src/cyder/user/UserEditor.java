@@ -229,6 +229,7 @@ public final class UserEditor {
         editUserFrame.setTitle(FRAME_TITLE);
         editUserFrame.addPreCloseAction(UserEditor::closeGetterFrames);
         editUserFrame.addPreCloseAction(UserEditor::stopUserFileDirectoryWatchers);
+        editUserFrame.addPreCloseAction(() -> currentPage = null);
         installDragLabelButtons();
         Console.INSTANCE.addToFrameTaskbarExceptions(editUserFrame);
         editUserFrame.finalizeAndShow();
@@ -1560,8 +1561,6 @@ public final class UserEditor {
         preferencePane.setBackground(Color.white);
 
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(preferencePane));
-
-        // todo reopening widget doesn't show anything?
 
         checkboxComponents.clear();
         Preference.getPreferences().stream()

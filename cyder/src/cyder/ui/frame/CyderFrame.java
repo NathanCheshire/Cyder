@@ -3783,10 +3783,6 @@ public class CyderFrame extends JFrame {
         CENTER,
     }
 
-    // todo implement and then test with exception throwing and move taskbar around and write gui test with buttons?
-
-    // todo taskbar location on screen/monitor util
-
     // todo search bug? researching doesn't properly show stats?
     //  Also don't show the spazing out when printing everything
 
