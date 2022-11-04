@@ -1,0 +1,16 @@
+name: Detect new lines
+
+on:
+  push:
+jobs:
+  detect_new_lines:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: pip install -r actions/requirements.txt
+
+      - name: Run javadoc formatter
+        run: |
+          python ./actions/javadoc_formatter.py ../cyder/src/cyder false

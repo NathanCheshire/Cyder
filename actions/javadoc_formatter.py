@@ -4,12 +4,8 @@ javadoc-formatter
 A formatter to convert multi-line javadoc comments which could be expressed on a single line, to a single line.
 """
 
-from dataclasses import replace
-import enum
-from fileinput import lineno
 import os
 import sys
-import re
 
 def find_files(starting_dir: str, extensions: list = [], recursive: bool = False) -> list:
     """ 
