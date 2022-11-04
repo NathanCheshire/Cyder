@@ -3,7 +3,7 @@ name: Format Javadoc
 on:
   push:
 jobs:
-  detect_new_lines:
+  format_java_doc:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

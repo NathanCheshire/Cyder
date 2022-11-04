@@ -92,7 +92,7 @@ def check_javadoc(file, correct: bool) -> int:
 def main():
     args = sys.argv
 
-    if len(args) != 3:
+    if len(args) != 4:
         print("Usage: python javadoc_formatter.py path/to/starting/directory/ [should_correct: bool] [should_fail_if_found: bool]")
         sys.exit(1)
 
