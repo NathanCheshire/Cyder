@@ -7,10 +7,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
+import java.lang.FunctionalInterface;
 
 /**
  * A class to for {@link DirectoryWatcher} subscribers.
  */
+ @FunctionalInterface
 public abstract class WatchDirectorySubscriber {
     /**
      * The list of events this subscriber is subscribed to.
