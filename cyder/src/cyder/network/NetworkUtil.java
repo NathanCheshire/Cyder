@@ -289,6 +289,7 @@ public class NetworkUtil {
             socket.connect(address, timeout);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+            return Integer.MAX_VALUE;
         }
 
         long stop = System.currentTimeMillis();

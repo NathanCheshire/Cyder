@@ -99,8 +99,6 @@ public class AudioLocationUpdater {
         secondsLeftLabel.setText("");
         slider.setValue(0);
 
-        updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)), false);
-
         if (!sliderPressed.get()) {
             updateSlider();
         }
@@ -110,6 +108,7 @@ public class AudioLocationUpdater {
                 File file = currentAudioFile.get();
                 Future<Integer> futureTotalMilliSeconds = AudioUtil.getMillisMutagen(file);
                 this.totalMilliSeconds = futureTotalMilliSeconds.get();
+                updateEffectLabel((int) (Math.floor(milliSecondsIn / 1000.0)), false);
                 startUpdateThread();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

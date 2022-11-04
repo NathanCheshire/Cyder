@@ -2,6 +2,7 @@ package cyder.audio;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.Futures;
 import cyder.console.Console;
 import cyder.constants.CyderStrings;
 import cyder.enums.Dynamic;
@@ -25,6 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.regex.Pattern;
@@ -264,7 +266,7 @@ public final class AudioUtil {
                 || FileUtil.validateExtension(audioFile, Extension.MP3.getExtension()));
 
         return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory("Audio Length Finder: "
+                new CyderThreadFactory("getMIllisFfprobe, file: "
                         + FileUtil.getFilename(audioFile))).submit(() -> {
             try {
                 ProcessBuilder pb = new ProcessBuilder(getFfprobeCommand(), INPUT_FLAG,
@@ -476,6 +478,11 @@ public final class AudioUtil {
     private static final String audioLengthProcessReturnPrefix = "Audio length: ";
 
     /**
+     * A map of previously computed millisecond times from audio files.
+     */
+    private static final ConcurrentHashMap<File, Integer> milliTimes = new ConcurrentHashMap<>();
+
+    /**
      * Returns the number of milliseconds in an audio file using the python dependency Mutagen.
      *
      * @param audioFile the audio file to return the duration of
@@ -486,7 +493,11 @@ public final class AudioUtil {
         Preconditions.checkArgument(audioFile.exists());
         Preconditions.checkArgument(OsUtil.isBinaryInstalled(Program.PYTHON.getProgramName()));
 
-        String threadName = "getMillisFast thread, audioFile = " + quote + audioFile + quote;
+        if (milliTimes.containsKey(audioFile)) {
+            return Futures.immediateFuture(milliTimes.get(audioFile));
+        }
+
+        String threadName = "getMillisMutagen thread, audioFile = " + quote + audioFile + quote;
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(threadName)).submit(() -> {
             String functionsScriptPath = StaticUtil.getStaticPath(PYTHON_FUNCTIONS_SCRIPT_NAME);
@@ -520,7 +531,9 @@ public final class AudioUtil {
             }
 
             firstResult = firstResult.replace(audioLengthProcessReturnPrefix, "");
-            return (int) (Float.parseFloat(firstResult) * TimeUtil.MILLISECONDS_IN_SECOND);
+            int millis = (int) (Float.parseFloat(firstResult) * TimeUtil.MILLISECONDS_IN_SECOND);
+            milliTimes.put(audioFile, millis);
+            return millis;
         });
     }
 
