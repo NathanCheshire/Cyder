@@ -13,4 +13,4 @@ jobs:
 
       - name: Run javadoc formatter
         run: |
-          python ./actions/javadoc_formatter.py . false
+          python ./actions/javadoc_formatter.py . false false
