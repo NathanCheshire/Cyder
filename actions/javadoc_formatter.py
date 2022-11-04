@@ -6,35 +6,7 @@ A formatter to convert multi-line javadoc comments which could be expressed on a
 
 import os
 import sys
-
-def find_files(starting_dir: str, extensions: list = [], recursive: bool = False) -> list:
-    """ 
-    Finds all files within the provided directory that end in one of the provided extensions.
-    :param starting_dir: the directory to start recursion from
-    :param extensions: a list of valid extensions such as [".java"]
-    :param recursive: whether to recurse through found subdirectories
-    :return: a list of discovered files
-    """
-
-    ret = []
-
-    if len(extensions) == 0:
-        raise Exception('Error: must provide valid extensions')
-
-    if os.path.isdir(starting_dir):
-        for sub_directory in os.listdir(starting_dir):
-            if recursive:
-                ret = ret + \
-                    find_files(os.path.join(starting_dir, sub_directory),
-                               extensions, recursive)
-            else:
-                ret.append(os.path.join(starting_dir, sub_directory))
-    else:
-        for extension in extensions:
-            if starting_dir.endswith(extension):
-                ret.append(starting_dir)
-
-    return ret
+from stat_generator import find_files
 
 OPENING_JAVADOC = "/**"
 CLOSING_JAVADOC = "*/"
@@ -121,20 +93,26 @@ def main():
     args = sys.argv
 
     if len(args) != 3:
-        print("Usage: python javadoc_formatter.py path/to/starting/directory/ [should_correct: bool]")
+        print("Usage: python javadoc_formatter.py path/to/starting/directory/ [should_correct: bool] [should_fail_if_found: bool]")
         sys.exit(1)
 
     starting_dir = args[1]
     should_correct = args[2].lower() == 'true'
-    print(should_correct)
+    should_fail_if_found = args[3].lower() == 'true'
 
     three_liners = 0
 
     for file in find_files(starting_dir=starting_dir, extensions=[".java"], recursive=True):
-        three_liners += check_javadoc(file, correct=should_correct)
+        current_three_liners = check_javadoc(file, correct=should_correct)
+        print("{} found to have {} three line javadocs".format(file, current_three_liners))
+        three_liners += current_three_liners
 
-    print("{} three line javadocs found, corrected: {}".format(three_liners, should_correct))
-    sys.exit(three_liners)
+    print("{} total three line javadocs found, were corrected: {}".format(three_liners, should_correct))
+
+    if should_fail_if_found:
+        sys.exit(three_liners)
+    else:
+        sys.exit(0)
 
 if __name__ == '__main__':
     main()
