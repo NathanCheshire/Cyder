@@ -1,4 +1,4 @@
-name: Detect new lines
+name: Format Javadoc
 
 on:
   push:
