@@ -82,6 +82,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static cyder.audio.AudioIcons.*;
 
+// todo load music length in as soon as possible not just when playing
+// todo cache of 1000 audio files from file signature to milliseconds?
+
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
