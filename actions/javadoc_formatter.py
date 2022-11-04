@@ -92,17 +92,16 @@ def check_javadoc(file, correct: bool) -> int:
 def main():
     args = sys.argv
 
-    if len(args) != 4:
-        print("Usage: python javadoc_formatter.py path/to/starting/directory/ [should_correct: bool] [should_fail_if_found: bool]")
+    if len(args) != 3:
+        print("Usage: python [should_correct: bool] [should_fail_if_found: bool]")
         sys.exit(1)
 
-    starting_dir = args[1]
-    should_correct = args[2].lower() == 'true'
-    should_fail_if_found = args[3].lower() == 'true'
+    should_correct = args[1].lower() == 'true'
+    should_fail_if_found = args[2].lower() == 'true'
 
     three_liners = 0
 
-    for file in find_files(starting_dir=starting_dir, extensions=[".java"], recursive=True):
+    for file in find_files(starting_dir="cyder", extensions=[".java"], recursive=True):
         current_three_liners = check_javadoc(file, correct=should_correct)
         print("{} found to have {} three line javadocs".format(file, current_three_liners))
         three_liners += current_three_liners
