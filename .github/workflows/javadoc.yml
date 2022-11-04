@@ -13,4 +13,4 @@ jobs:
 
       - name: Run javadoc formatter
         run: |
-          python ./actions/javadoc_formatter.py ../cyder/src/cyder false
+          python ./actions/javadoc_formatter.py . false
