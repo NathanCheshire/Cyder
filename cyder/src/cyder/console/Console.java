@@ -2369,30 +2369,24 @@ public enum Console {
         try {
             ArrayList<File> backgroundFiles = new ArrayList<>();
 
-            File[] backgroundFilesArr = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
-                    getUuid(), UserFile.BACKGROUNDS.getName()).listFiles();
+            File[] backgroundFilesArr = Dynamic.buildDynamic(
+                    Dynamic.USERS.getDirectoryName(), getUuid(),
+                    UserFile.BACKGROUNDS.getName()).listFiles();
             if (backgroundFilesArr != null && backgroundFilesArr.length > 0) {
-                Arrays.stream(backgroundFilesArr).forEach(file -> {
-                    if (StringUtil.in(FileUtil.getExtension(file),
-                            true, FileUtil.SUPPORTED_IMAGE_EXTENSIONS)) {
-                        backgroundFiles.add(file);
-                    }
-                });
+                Arrays.stream(backgroundFilesArr)
+                        .filter(FileUtil::isSupportedImageExtension)
+                        .forEach(backgroundFiles::add);
             }
 
             if (backgroundFiles.isEmpty()) {
+                Logger.log(LogTag.DEBUG, "No backgrounds found for user "
+                        + uuid + ", creating default background");
                 backgroundFiles.add(UserUtil.createDefaultBackground(uuid));
             }
 
             backgrounds.clear();
 
-            backgroundFiles.forEach(backgroundFile -> {
-                if (ImageUtil.isValidImage(backgroundFile)) {
-                    backgrounds.add(new ConsoleBackground(backgroundFile));
-                }
-            });
-
-            // find the index we are it if console has a content pane
+            backgroundFiles.forEach(backgroundFile -> backgrounds.add(new ConsoleBackground(backgroundFile)));
             revalidateBackgroundIndex();
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);

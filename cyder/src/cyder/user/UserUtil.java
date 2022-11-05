@@ -812,71 +812,126 @@ public final class UserUtil {
      * Clean the user directories meaning the following actions are taken:
      *
      * <ul>
+     *     <li>Ensuring the users directory is created</li>
      *     <li>Deleting non audio files from the Music/ directory</li>
      *     <li>Removing album art not linked to an audio file</li>
      *     <li>Removing backup json files which are not linked to any users</li>
      * </ul>
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static void cleanUsers() {
-        File users = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName());
-
+    public static void cleanUsers() { // todo add splash messages to this
+        File users = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName());
         if (!users.exists()) {
-            users.mkdir();
-        } else {
-            File[] uuids = users.listFiles();
+            if (!users.mkdirs()) {
+                throw new FatalException("Failed to create users directory");
+            }
 
-            if (uuids != null && uuids.length > 0) {
-                for (File user : uuids) {
-                    if (!user.isDirectory())
-                        continue;
-                    // take care of void users
-                    if (user.isDirectory() && user.getName().contains("VoidUser")) {
-                        OsUtil.deleteFile(user);
-                    } else {
-                        File musicDir = new File(OsUtil.buildPath(user.getAbsolutePath(), "Music"));
+            return;
+        }
 
-                        if (!musicDir.exists()) {
-                            continue;
-                        }
+        File[] uuids = users.listFiles();
+        if (uuids != null && uuids.length > 0) {
+            for (File user : uuids) {
+                if (!user.isDirectory()) {
+                    throw new FatalException("Found non-directory in users directory: " + user.getAbsolutePath());
+                }
 
-                        File[] files = musicDir.listFiles();
-                        ArrayList<String> validMusicFileNames = new ArrayList<>();
+                File musicDir = new File(OsUtil.buildPath(user.getAbsolutePath(), UserFile.MUSIC.getName()));
+                if (musicDir.exists()) {
+                    cleanUserMusicDirectory(musicDir, user);
+                } else {
+                    if (!OsUtil.createFile(musicDir, false)) {
+                        throw new FatalException("Failed to create user's music directory: "
+                                + musicDir.getAbsolutePath());
+                    }
+                }
 
-                        if (files != null && files.length > 0) {
-                            for (File musicFile : files) {
-                                if (!FileUtil.isSupportedAudioExtension(musicFile) && !musicFile.isDirectory()) {
-                                    OsUtil.deleteFile(musicFile);
-                                } else {
-                                    validMusicFileNames.add(FileUtil.getFilename(musicFile));
+                File backgroundsDir = new File(OsUtil.buildPath(
+                        user.getAbsolutePath(), UserFile.BACKGROUNDS.getName()));
+                if (backgroundsDir.exists()) {
+                    File[] backgroundFiles = backgroundsDir.listFiles();
+                    if (backgroundFiles != null && backgroundFiles.length > 0) {
+                        ArrayList<File> validBackgroundFiles = new ArrayList<>();
+                        Arrays.stream(backgroundFiles)
+                                .filter(FileUtil::isSupportedImageExtension)
+                                .forEach(validBackgroundFiles::add);
+
+                        for (File backgroundFile : validBackgroundFiles) {
+                            BufferedImage image = null;
+                            try {
+                                image = ImageUtil.getImageFromFile(backgroundFile);
+                            } catch (Exception e) {
+                                ExceptionHandler.handle(e);
+                            }
+
+                            if (image == null) continue;
+
+                            image = ImageUtil.ensureFitsInBounds(image, new Dimension(1000, 1000));
+
+                            try {
+                                if (!ImageIO.write(image, FileUtil.getExtensionWithoutPeriod(backgroundFile),
+                                        backgroundFile)) {
+                                    throw new FatalException("Failed to downscale image: "
+                                            + backgroundFile.getAbsolutePath());
                                 }
+                            } catch (Exception e) {
+                                ExceptionHandler.handle(e);
                             }
                         }
-
-                        File albumArtDirectory = new File(OsUtil.buildPath(user.getAbsolutePath(),
-                                UserFile.MUSIC.getName(), UserFile.ALBUM_ART));
-
-                        if (!albumArtDirectory.exists())
-                            continue;
-
-                        File[] albumArtFiles = albumArtDirectory.listFiles();
-
-                        if (albumArtFiles != null && albumArtFiles.length > 0) {
-                            for (File albumArt : albumArtFiles) {
-
-                                // if the album art file name does not match to a music file name, delete it
-                                if (!StringUtil.in(FileUtil.getFilename(albumArt),
-                                        true, validMusicFileNames)) {
-                                    OsUtil.deleteFile(albumArt);
-                                }
-                            }
-                        }
+                    }
+                } else {
+                    if (!OsUtil.createFile(backgroundsDir, false)) {
+                        throw new FatalException("Failed to create user's backgrounds directory: "
+                                + backgroundsDir.getAbsolutePath());
                     }
                 }
             }
         }
 
         cleanBackupJsons();
+    }
+
+    /**
+     * Cleans the provided user music directory by removing non
+     * audio files and album art not linked to current audio files.
+     *
+     * @param musicDirectory the user music directory
+     * @param userDirectory  the user directory
+     */
+    private static void cleanUserMusicDirectory(File musicDirectory, File userDirectory) {
+        Preconditions.checkNotNull(musicDirectory);
+        Preconditions.checkNotNull(musicDirectory);
+        Preconditions.checkArgument(musicDirectory.exists());
+        Preconditions.checkArgument(userDirectory.exists());
+        Preconditions.checkArgument(musicDirectory.isDirectory());
+        Preconditions.checkArgument(userDirectory.isDirectory());
+        Preconditions.checkArgument(musicDirectory.getName().equals(UserFile.MUSIC.getName()));
+
+        File[] files = musicDirectory.listFiles();
+        ArrayList<String> validMusicFileNames = new ArrayList<>();
+
+        // Remove non audio files from music directory
+        if (files != null && files.length > 0) {
+            Arrays.stream(files).forEach(musicFile -> {
+                if (!FileUtil.isSupportedAudioExtension(musicFile) && !musicFile.isDirectory()) {
+                    OsUtil.deleteFile(musicFile);
+                } else {
+                    validMusicFileNames.add(FileUtil.getFilename(musicFile));
+                }
+            });
+        }
+
+        File albumArtDirectory = new File(OsUtil.buildPath(userDirectory.getAbsolutePath(),
+                UserFile.MUSIC.getName(), UserFile.ALBUM_ART));
+        if (!albumArtDirectory.exists()) return;
+        File[] albumArtFiles = albumArtDirectory.listFiles();
+
+        if (albumArtFiles != null && albumArtFiles.length > 0) {
+            Arrays.stream(albumArtFiles).forEach(albumArtFile -> {
+                if (!StringUtil.in(FileUtil.getFilename(albumArtFile), true, validMusicFileNames)) {
+                    OsUtil.deleteFile(albumArtFile);
+                }
+            });
+        }
     }
 
     /**

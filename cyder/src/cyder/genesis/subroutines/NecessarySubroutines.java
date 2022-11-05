@@ -47,6 +47,7 @@ public final class NecessarySubroutines {
 
     /**
      * The port to ensure one instance of Cyder is ever active.
+     * Note this should never be configurable.
      */
     private static final int INSTANCE_SOCKET_PORT = 5150;
 
@@ -118,6 +119,7 @@ public final class NecessarySubroutines {
         CyderSplash.INSTANCE.setLoadingMessage("Validating users");
         UserUtil.validateUsers();
 
+        // todo this needs to be in a separate thread but complete before others start
         CyderSplash.INSTANCE.setLoadingMessage("Cleaning users");
         UserUtil.cleanUsers();
 

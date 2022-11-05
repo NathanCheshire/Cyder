@@ -261,13 +261,11 @@ public final class AudioUtil {
     private static Future<Integer> getMillisFfprobe(File audioFile) {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
-
-        Preconditions.checkArgument(FileUtil.validateExtension(audioFile, Extension.WAV.getExtension())
-                || FileUtil.validateExtension(audioFile, Extension.MP3.getExtension()));
+        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(audioFile));
 
         return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory("getMIllisFfprobe, file: "
-                        + FileUtil.getFilename(audioFile))).submit(() -> {
+                new CyderThreadFactory("getMillisFfprobe, file: "
+                        + quote + FileUtil.getFilename(audioFile) + quote)).submit(() -> {
             try {
                 ProcessBuilder pb = new ProcessBuilder(getFfprobeCommand(), INPUT_FLAG,
                         quote + audioFile.getAbsolutePath() + quote, "-show_format");
@@ -497,7 +495,7 @@ public final class AudioUtil {
             return Futures.immediateFuture(milliTimes.get(audioFile));
         }
 
-        String threadName = "getMillisMutagen thread, audioFile = " + quote + audioFile + quote;
+        String threadName = "getMillisMutagen thread, audioFile: " + quote + audioFile + quote;
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(threadName)).submit(() -> {
             String functionsScriptPath = StaticUtil.getStaticPath(PYTHON_FUNCTIONS_SCRIPT_NAME);

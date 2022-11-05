@@ -34,7 +34,7 @@ public class ConsoleBackground {
         Preconditions.checkArgument(referenceFile.exists());
         Preconditions.checkArgument(ImageUtil.isValidImage(referenceFile));
 
-        this.referenceFile = referenceFile;
+        setReferenceFile(referenceFile);
         Logger.log(LogTag.OBJECT_CREATION, this);
     }
 

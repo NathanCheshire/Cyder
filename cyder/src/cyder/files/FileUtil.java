@@ -220,6 +220,18 @@ public final class FileUtil {
     }
 
     /**
+     * Uses a regex to get the file extension of the provided file.
+     *
+     * @param file the file of which to return the extension of
+     * @return the file extension requested
+     */
+    public static String getExtensionWithoutPeriod(File file) {
+        checkNotNull(file);
+
+        return file.getName().replace(getFilename(file), "").substring(1);
+    }
+
+    /**
      * Returns whether the provided file ends in the expected extension.
      *
      * @param file              the file to validate the extension again

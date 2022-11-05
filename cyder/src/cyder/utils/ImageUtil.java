@@ -1065,6 +1065,20 @@ public final class ImageUtil {
     }
 
     /**
+     * Returns the buffered image read from the provided file.
+     *
+     * @param file the file
+     * @return the buffered image read from the file
+     * @throws IOException if the image cannot be read
+     */
+    public static BufferedImage getImageFromFile(File file) throws IOException {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+
+        return ImageIO.read(file);
+    }
+
+    /**
      * Returns a new buffered image resized to fit within the provided dimension.
      *
      * @param image     the image to ensure fits in the provided dimension
@@ -1081,14 +1095,15 @@ public final class ImageUtil {
             float ratio = image.getHeight() / (float) image.getWidth();
             int width = (int) dimension.getWidth();
             int height = (int) (dimension.getHeight() * ratio);
+            ret = ImageUtil.resizeImage(ret, ret.getType(), width, height);
         } else if (isVerticalImage(image) && image.getHeight() > dimension.getHeight()) {
             float ratio = image.getWidth() / (float) image.getHeight();
             int width = (int) (dimension.getWidth() * ratio);
             int height = (int) dimension.getHeight();
-            ret = ImageUtil.resizeImage(image, image.getType(), width, height);
+            ret = ImageUtil.resizeImage(ret, ret.getType(), width, height);
         } else if (isSquareImage(image) && image.getWidth() > dimension.getWidth()) {
             int len = (int) dimension.getWidth();
-            ret = ImageUtil.resizeImage(image, image.getType(), len, len);
+            ret = ImageUtil.resizeImage(ret, ret.getType(), len, len);
         }
 
         return ret;
