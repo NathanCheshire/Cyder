@@ -145,9 +145,10 @@ public class CyderDragLabel extends JLabel {
 
         draggingEnabled = new AtomicBoolean(true);
 
+        AtomicBoolean leftMouseButtonPressed = new AtomicBoolean(false);
         addMouseMotionListener(createDraggingMouseMotionListener(
-                effectFrame, draggingEnabled, xOffset, yOffset));
-        addMouseListener(createOpacityAnimationMouseListener(effectFrame));
+                effectFrame, draggingEnabled, xOffset, yOffset, leftMouseButtonPressed));
+        addMouseListener(createOpacityAnimationMouseListener(effectFrame, leftMouseButtonPressed));
 
         effectFrame.addWindowListener(createWindowListener(effectFrame));
 
@@ -157,21 +158,25 @@ public class CyderDragLabel extends JLabel {
     /**
      * Creates a mouse motion listener to allow the provided frame to be dragged.
      *
-     * @param effectFrame     the frame the motion listener will be applied to
-     * @param draggingEnabled whether dragging should be allowed
-     * @param xOffset         the current frame x offset
-     * @param yOffset         the current frame y offset
+     * @param effectFrame            the frame the motion listener will be applied to
+     * @param draggingEnabled        whether dragging should be allowed
+     * @param xOffset                the current frame x offset
+     * @param yOffset                the current frame y offset
+     * @param leftMouseButtonPressed the atomic boolean determining whether the left mouse button is currently pressed
      * @return a mouse motion listener to allow the provided frame to be dragged
      */
     private static MouseMotionListener createDraggingMouseMotionListener(
             CyderFrame effectFrame, AtomicBoolean draggingEnabled,
-            AtomicInteger xOffset, AtomicInteger yOffset) {
+            AtomicInteger xOffset, AtomicInteger yOffset,
+            AtomicBoolean leftMouseButtonPressed) {
         AtomicInteger mouseX = new AtomicInteger();
         AtomicInteger mouseY = new AtomicInteger();
 
         return new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
+                if (!leftMouseButtonPressed.get()) return;
+
                 int x = e.getXOnScreen();
                 int y = e.getYOnScreen();
 
@@ -184,6 +189,7 @@ public class CyderDragLabel extends JLabel {
                     effectFrame.setRestoreX(setX);
                     effectFrame.setRestoreY(setY);
                 }
+
             }
 
             @Override
@@ -194,22 +200,31 @@ public class CyderDragLabel extends JLabel {
         };
     }
 
+
     /**
      * Creates the opacity animation mouse listener for the provided frame.
      *
-     * @param effectFrame the frame to be used for the opacity animation
+     * @param effectFrame            the frame to be used for the opacity animation
+     * @param leftMouseButtonPressed the atomic boolean to set/reset if the left mouse button is pressed
      * @return the mouse listener for the opacity animation
      */
-    private static MouseListener createOpacityAnimationMouseListener(CyderFrame effectFrame) {
+    private static MouseListener createOpacityAnimationMouseListener(CyderFrame effectFrame,
+                                                                     AtomicBoolean leftMouseButtonPressed) {
         return new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                effectFrame.startDragEvent();
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    leftMouseButtonPressed.set(true);
+                    effectFrame.startDragEvent();
+                }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                effectFrame.endDragEvent();
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    leftMouseButtonPressed.set(false);
+                    effectFrame.endDragEvent();
+                }
             }
         };
     }
