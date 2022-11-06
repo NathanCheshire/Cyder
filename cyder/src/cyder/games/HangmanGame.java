@@ -15,6 +15,7 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.BoundsUtil;
+import cyder.utils.StaticUtil;
 import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
@@ -25,6 +26,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 /**
  * A java implementation of the classic Hangman game.
@@ -175,17 +177,30 @@ public final class HangmanGame {
     private static final String UNDERSCORE = " _ ";
 
     /**
+     * The name of the file containing the hangman words.
+     */
+    private static final String wordsFile = "hangman.txt";
+
+    /**
      * The list of words used for hangman.
      */
-    private static ImmutableList<String> words;
+    private static final ImmutableList<String> words;
 
     static {
-        try (BufferedReader br = new BufferedReader(new FileReader("static/csv/hangman.csv"))) {
-            String[] wordsArr = br.readLine().split(",");
-            words = ImmutableList.copyOf(wordsArr);
+        ArrayList<String> ret = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(StaticUtil.getStaticPath(wordsFile)))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.trim().isEmpty()) {
+                    ret.add(line);
+                }
+            }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+
+        words = ImmutableList.copyOf(ret);
     }
 
     /**
