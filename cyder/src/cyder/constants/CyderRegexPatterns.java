@@ -114,6 +114,11 @@ public final class CyderRegexPatterns {
     public static final String illegalUrlCharsRegex = "[^0-9A-Za-z\\-._~%]+";
 
     /**
+     * The regex for targeting the 26 english characters, both upper and lower case.
+     */
+    public static final String englishLettersRegex = "[A-Za-z]";
+
+    /**
      * Suppress default constructor.
      */
     private CyderRegexPatterns() {

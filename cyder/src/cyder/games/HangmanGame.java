@@ -1,11 +1,11 @@
 package cyder.games;
 
 import com.google.common.collect.ImmutableList;
-import cyder.annotations.CyderAuthor;
-import cyder.annotations.SuppressCyderInspections;
-import cyder.annotations.Vanilla;
-import cyder.annotations.Widget;
-import cyder.constants.*;
+import cyder.annotations.*;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.constants.CyderRegexPatterns;
+import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
@@ -14,13 +14,12 @@ import cyder.math.NumberUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
-import cyder.utils.BoundsUtil;
+import cyder.ui.label.CyderLabel;
 import cyder.utils.StaticUtil;
 import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -48,7 +47,7 @@ public final class HangmanGame {
     /**
      * The reset button.
      */
-    private static CyderButton restButton;
+    private static CyderButton resetButton;
 
     /**
      * The field the user enters a letter in.
@@ -63,118 +62,22 @@ public final class HangmanGame {
     /**
      * The label displaying the current hangman word.
      */
-    private static JLabel currentWordLabel;
+    private static CyderLabel currentWordLabel;
 
     /**
      * The number of wrong guesses.
      */
-    private static int numWrongGuesses = 1;
+    private static int numWrongGuesses;
 
     /**
      * The letters that have been already guessed.
      */
-    private static String chosenLetters = "";
+    private static final ArrayList<String> chosenLetters = new ArrayList<>();
 
     /**
-     * Suppress default constructor.
+     * The placeholder used for the characters on the current word label.
      */
-    private HangmanGame() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    @Widget(triggers = "hangman", description = "A hangman game")
-    public static void showGui() {
-        UiUtil.closeIfOpen(hangmanFrame);
-
-        hangmanFrame = new CyderFrame(712, 812, CyderIcons.defaultBackground);
-        hangmanFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-        hangmanFrame.setTitle("Hangman");
-
-        currentWordLabel = new JLabel("<html>Nathan Was Here</html>", SwingConstants.CENTER);
-        currentWordLabel.setFont(CyderFonts.SEGOE_20.deriveFont(22f));
-        currentWordLabel.setForeground(CyderColors.navy);
-        currentWordLabel.setBounds(60, 60, 600, 60);
-        hangmanFrame.getContentPane().add(currentWordLabel);
-
-        imageLabel = new JLabel();
-        imageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman.png"));
-        imageLabel.setBounds(100, 50, 712, 712);
-        hangmanFrame.getContentPane().add(imageLabel);
-
-        letterField = new CyderTextField();
-        letterField.setHorizontalAlignment(JTextField.CENTER);
-        letterField.setBackground(Color.white);
-        letterField.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        letterField.setKeyEventRegexMatcher("[A-Za-z]");
-        letterField.setToolTipText("Enter your letter guess here [A-Z]");
-        letterField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char code = e.getKeyChar();
-
-                if (!(Character.isAlphabetic(code) || (code == KeyEvent.VK_BACK_SPACE) || code == KeyEvent.VK_DELETE)) {
-                    e.consume();
-                    Toolkit.getDefaultToolkit().beep();
-                } else if (letterField.getText().length() > 1) {
-                    e.consume();
-                    Toolkit.getDefaultToolkit().beep();
-                } else {
-                    letterField.setText("");
-                    letterChosen(code);
-                }
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                char code = e.getKeyChar();
-
-                if (!(Character.isAlphabetic(code) || (code == KeyEvent.VK_BACK_SPACE) || code == KeyEvent.VK_DELETE))
-                    e.consume();
-                else if (letterField.getText().length() > 1) {
-                    e.consume();
-                } else {
-                    letterField.setText("");
-                    letterChosen(code);
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                char code = e.getKeyChar();
-
-                if (!(Character.isAlphabetic(code)
-                        || (code == KeyEvent.VK_BACK_SPACE) || code == KeyEvent.VK_DELETE))
-                    e.consume();
-                else if (letterField.getText().length() > 1) {
-                    e.consume();
-                } else {
-                    letterField.setText("");
-                    letterChosen(code);
-                }
-            }
-        });
-        letterField.setBounds(80, 700, 712 - 80 - 80, 40);
-        hangmanFrame.getContentPane().add(letterField);
-
-        restButton = new CyderButton("Reset");
-        restButton.setFocusPainted(false);
-        restButton.setBackground(CyderColors.regularRed);
-        restButton.setFont(CyderFonts.SEGOE_20);
-        restButton.addActionListener(e -> setup());
-        restButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        restButton.setBounds(80, 750, 712 - 80 - 80, 40);
-        hangmanFrame.getContentPane().add(restButton);
-
-        hangmanFrame.finalizeAndShow();
-        hangmanFrame.requestFocus();
-
-        setup();
-    }
-
-    /**
-     * The underscore used for the current word label.
-     */
-    private static final String UNDERSCORE = " _ ";
+    private static final String wordLabelCharPlaceholder = " _ ";
 
     /**
      * The name of the file containing the hangman words.
@@ -204,83 +107,168 @@ public final class HangmanGame {
     }
 
     /**
+     * The reset text for the reset button.
+     */
+    private static final String RESET = "Reset";
+
+    /**
+     * The play again text for the reset button.
+     */
+    private static final String PLAY_AGAIN = "Play again";
+
+    /**
+     * The default hangman icon.
+     */
+    private static final ImageIcon defaultHangmanIcon = new ImageIcon(StaticUtil.getStaticPath("hangman.png"));
+
+    /**
+     * The frame title.
+     */
+    private static final String HANGMAN = "Hangman";
+
+    /**
+     * Suppress default constructor.
+     */
+    private HangmanGame() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
+
+    @Widget(triggers = "hangman", description = "A hangman game")
+    public static void showGui() {
+        UiUtil.closeIfOpen(hangmanFrame);
+
+        hangmanFrame = new CyderFrame(712, 812, CyderIcons.defaultBackground);
+        hangmanFrame.setTitle(HANGMAN);
+
+        currentWordLabel = new CyderLabel();
+        currentWordLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        currentWordLabel.setFont(CyderFonts.SEGOE_30.deriveFont(26f));
+        currentWordLabel.setBounds(60, 60, 600, 80);
+        hangmanFrame.getContentPane().add(currentWordLabel);
+
+        imageLabel = new JLabel();
+        imageLabel.setIcon(defaultHangmanIcon);
+        imageLabel.setBounds(100, 50, 712, 712);
+        hangmanFrame.getContentPane().add(imageLabel);
+
+        letterField = new CyderTextField();
+        letterField.setHorizontalAlignment(JTextField.CENTER);
+        letterField.setBackground(Color.white);
+        letterField.setKeyEventRegexMatcher(CyderRegexPatterns.englishLettersRegex);
+        letterField.setToolTipText("Enter your letter guess here");
+        letterField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                onLetterFieldKeyAction(e);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                onLetterFieldKeyAction(e);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                onLetterFieldKeyAction(e);
+            }
+        });
+        letterField.setBounds(80, 700, 712 - 80 - 80, 40);
+        hangmanFrame.getContentPane().add(letterField);
+
+        resetButton = new CyderButton(RESET);
+        resetButton.addActionListener(e -> setup());
+        resetButton.setBounds(80, 750, 712 - 80 - 80, 40);
+        hangmanFrame.getContentPane().add(resetButton);
+
+        hangmanFrame.finalizeAndShow();
+        hangmanFrame.requestFocus();
+
+        setup();
+    }
+
+    /**
+     * The logic to be invoked on any key event that occurs in the letter field.
+     *
+     * @param e the key event
+     */
+    @ForReadability
+    private static void onLetterFieldKeyAction(KeyEvent e) {
+        char code = e.getKeyChar();
+        if (code == KeyEvent.VK_DELETE || code == KeyEvent.VK_BACK_SPACE) {
+            e.consume();
+            Toolkit.getDefaultToolkit().beep();
+            return;
+        } else if (!Character.isAlphabetic(code)) {
+            e.consume();
+            Toolkit.getDefaultToolkit().beep();
+            return;
+        }
+
+        letterField.setText("");
+        letterChosen(code);
+    }
+
+    /**
      * Sets up the hangman game.
      */
     private static void setup() {
-        currentWordLabel.setFont(CyderFonts.SEGOE_20);
-        restButton.setText("Reset");
-
+        resetButton.setText(RESET);
         letterField.setEnabled(true);
+        chosenLetters.clear();
+        chooseHangmanWord();
 
-        chosenLetters = "";
-
-        hangmanWord = words.get(NumberUtil.randInt(words.size() - 1)).toLowerCase().trim();
-
-        currentWordLabel.setText(BoundsUtil.OPENING_HTML_TAG
-                + StringUtil.fillString(hangmanWord.length(), UNDERSCORE)
-                + BoundsUtil.CLOSING_HTML_TAG);
-
-        imageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman.png"));
+        currentWordLabel.setText(StringUtil.fillString(hangmanWord.length(), wordLabelCharPlaceholder));
+        imageLabel.setIcon(defaultHangmanIcon);
 
         numWrongGuesses = 0;
     }
 
     /**
+     * Chooses a new hangman word.
+     */
+    private static void chooseHangmanWord() {
+        hangmanWord = words.get(NumberUtil.randInt(words.size() - 1)).toLowerCase();
+    }
+
+    /**
      * Performs the actions necessary when a letter is chosen.
      *
-     * @param letter the chosen letter
+     * @param chosenLetter the chosen letter
      */
-    private static void letterChosen(char letter) {
-        if (chosenLetters.contains(String.valueOf(letter)))
-            return;
+    private static void letterChosen(char chosenLetter) {
+        String letterString = String.valueOf(chosenLetter);
+        if (chosenLetters.contains(letterString)) return;
 
-        chosenLetters += String.valueOf(letter);
+        chosenLetters.add(letterString);
 
-        if (hangmanWord.toLowerCase().contains(String.valueOf(letter))) {
-            String currentLabelText = currentWordLabel.getText()
-                    .replaceAll(CyderRegexPatterns.whiteSpaceRegex, "")
-                    .replaceAll("<.*?>", "");
-
-            char[] wordArr = hangmanWord.toCharArray();
-            char[] compArr = currentLabelText.toCharArray();
-
-            for (int i = 0 ; i < wordArr.length ; i++) {
-                if (wordArr[i] == letter)
-                    compArr[i] = wordArr[i];
+        if (hangmanWord.toLowerCase().contains(letterString)) {
+            char[] wordChars = hangmanWord.toCharArray();
+            StringBuilder labelTextBuilder = new StringBuilder();
+            for (char currentLetter : wordChars) {
+                if (chosenLetters.contains(String.valueOf(currentLetter))) {
+                    labelTextBuilder.append(currentLetter);
+                } else {
+                    labelTextBuilder.append(wordLabelCharPlaceholder);
+                }
             }
 
-            StringBuilder newLabelText = new StringBuilder();
-
-            for (int i = 0 ; i < compArr.length ; i++) {
-                newLabelText.append(compArr[i]);
-                if (i != compArr.length - 1)
-                    newLabelText.append(CyderStrings.space);
-            }
-
-            currentWordLabel.setText(newLabelText.toString());
-
-            if (!currentWordLabel.getText().contains("_")) {
-                currentWordLabel.setFont(CyderFonts.SEGOE_20);
-                currentWordLabel.setText("<html>Good job! You guessed the word \"" + hangmanWord
-                        + "\" Would you like to start again?</html>");
+            String labelText = labelTextBuilder.toString();
+            if (labelText.equalsIgnoreCase(hangmanWord)) {
+                currentWordLabel.setText("You guessed the word \"" + hangmanWord + "\" Would you like to start again?");
                 letterField.setEnabled(false);
-
-                restButton.setText("Play Again");
+                resetButton.setText(PLAY_AGAIN);
+            } else {
+                currentWordLabel.setText(labelText);
             }
         } else {
-            if (numWrongGuesses == 7) {
-                imageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman8.png"));
-                currentWordLabel.setFont(CyderFonts.SEGOE_20);
-                currentWordLabel.setText("<html>Game over! You were unable to guess \"" + hangmanWord
-                        + "\" Would you like to start again?</html>");
-
-                restButton.setText("Play Again");
-
+            numWrongGuesses++;
+            imageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman"
+                    + numWrongGuesses + Extension.PNG.getExtension()));
+            if (numWrongGuesses == 8) {
+                currentWordLabel.setText("Game over! You were unable to guess \"" + hangmanWord
+                        + "\" Would you like to start again?");
+                resetButton.setText(PLAY_AGAIN);
                 letterField.setEnabled(false);
-            } else {
-                numWrongGuesses++;
-                imageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman"
-                        + numWrongGuesses + Extension.PNG.getExtension()));
             }
         }
     }

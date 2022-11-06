@@ -12,6 +12,7 @@ import cyder.ui.frame.CyderFrame;
 import cyder.utils.StringUtil;
 import cyder.utils.UiUtil;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -189,7 +190,6 @@ public class CyderDragLabel extends JLabel {
                     effectFrame.setRestoreX(setX);
                     effectFrame.setRestoreY(setY);
                 }
-
             }
 
             @Override
@@ -482,6 +482,7 @@ public class CyderDragLabel extends JLabel {
      * @param addIndex the index to append the button to in the button list
      */
     public void addRightButton(Component button, int addIndex) {
+        Preconditions.checkNotNull(button);
         Preconditions.checkArgument(!rightButtonList.contains(button));
 
         rightButtonList.add(addIndex, button);
@@ -496,6 +497,7 @@ public class CyderDragLabel extends JLabel {
      * @param addIndex the index to append the button to in the button list
      */
     public void addLeftButton(Component button, int addIndex) {
+        Preconditions.checkNotNull(button);
         Preconditions.checkArgument(!leftButtonList.contains(button));
 
         leftButtonList.add(addIndex, button);
@@ -509,6 +511,7 @@ public class CyderDragLabel extends JLabel {
      * @param newIndex the index to move the specified button to
      */
     public void setRightButtonIndex(Component button, int newIndex) {
+        Preconditions.checkNotNull(button);
         Preconditions.checkArgument(rightButtonList.contains(button));
         Preconditions.checkArgument(newIndex < rightButtonList.size());
 
@@ -534,6 +537,7 @@ public class CyderDragLabel extends JLabel {
      * @param newIndex the index to move the specified button to
      */
     public void setLeftButtonIndex(Component button, int newIndex) {
+        Preconditions.checkNotNull(button);
         Preconditions.checkArgument(leftButtonList.contains(button));
         Preconditions.checkArgument(newIndex < leftButtonList.size());
 
@@ -651,7 +655,9 @@ public class CyderDragLabel extends JLabel {
      *
      * @param rightButtonList the button list to use for this drag label's right list
      */
-    public void setRightButtonList(LinkedList<Component> rightButtonList) {
+    public void setRightButtonList(
+            @Nullable
+                    LinkedList<Component> rightButtonList) {
         removeRightButtons();
         this.rightButtonList = rightButtonList;
         refreshRightButtons();
@@ -662,7 +668,9 @@ public class CyderDragLabel extends JLabel {
      *
      * @param leftButtonList the button list to use for this drag label's left list
      */
-    public void setLeftButtonList(LinkedList<Component> leftButtonList) {
+    public void setLeftButtonList(
+            @Nullable
+                    LinkedList<Component> leftButtonList) {
         removeLeftButtons();
         this.leftButtonList = leftButtonList;
         refreshLeftButtons();
@@ -672,9 +680,7 @@ public class CyderDragLabel extends JLabel {
      * Removes all buttons from the right button list from this drag label.
      */
     public void removeRightButtons() {
-        if (rightButtonList == null) {
-            return;
-        }
+        if (rightButtonList == null) return;
 
         for (Component button : rightButtonList) {
             remove(button);
@@ -685,9 +691,7 @@ public class CyderDragLabel extends JLabel {
      * Removes all buttons from the left button list from this drag label.
      */
     public void removeLeftButtons() {
-        if (leftButtonList == null) {
-            return;
-        }
+        if (leftButtonList == null) return;
 
         for (Component button : leftButtonList) {
             remove(button);
@@ -716,9 +720,7 @@ public class CyderDragLabel extends JLabel {
      * Refreshes all right buttons and their positions.
      */
     public void refreshRightButtons() {
-        if (rightButtonList == null) {
-            return;
-        }
+        if (rightButtonList == null) return;
 
         removeRightButtons();
         effectFrame.revalidateTitlePosition();
@@ -749,9 +751,7 @@ public class CyderDragLabel extends JLabel {
      * Refreshes all left buttons and their positions.
      */
     public void refreshLeftButtons() {
-        if (leftButtonList == null) {
-            return;
-        }
+        if (leftButtonList == null) return;
 
         removeLeftButtons();
         effectFrame.revalidateTitlePosition();
