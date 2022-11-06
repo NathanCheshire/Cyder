@@ -5,6 +5,7 @@ import cyder.console.Console;
 import cyder.constants.CyderColors;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
+import cyder.props.PropLoader;
 import cyder.ui.drag.button.CloseButton;
 import cyder.ui.drag.button.MinimizeButton;
 import cyder.ui.drag.button.PinButton;
@@ -50,10 +51,26 @@ public class CyderDragLabel extends JLabel {
         FULL
     }
 
+    // todo now that is configurable, investigate glitching of clock label moving around too much
+
     /**
-     * The default height for drag labels. The Cyder standard for top labels is 30 pixels.
+     * The key to get the drag label height from the props if present.
      */
-    public static final int DEFAULT_HEIGHT = 30;
+    private static final String DRAG_LABEL_HEIGHT = "drag_label_height";
+
+    /**
+     * The default height for drag labels.
+     * The Cyder standard is set for top drag labels and is 30px.
+     */
+    public static final int DEFAULT_HEIGHT;
+
+    static {
+        if (PropLoader.propExists(DRAG_LABEL_HEIGHT)) {
+            DEFAULT_HEIGHT = PropLoader.getInteger(DRAG_LABEL_HEIGHT);
+        } else {
+            DEFAULT_HEIGHT = 30;
+        }
+    }
 
     /**
      * The width of this DragLabel.
