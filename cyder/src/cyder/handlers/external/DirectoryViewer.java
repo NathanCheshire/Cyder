@@ -29,22 +29,17 @@ public final class DirectoryViewer {
     /**
      * The frame for the directory widget.
      */
-    private static CyderFrame dirFrame;
+    private static CyderFrame directoryFrame;
 
     /**
      * The field to display the current directory and to allow manual paths to be entered.
      */
-    private static CyderTextField dirField;
-
-    /**
-     * The scroll list component to display the current files
-     */
-    private static CyderScrollList cyderScrollList;
+    private static CyderTextField directoryField;
 
     /**
      * The directory scroll label. Needed to allow removal when files are changed.
      */
-    private static JLabel dirScrollLabel;
+    private static JLabel dirScrollLabel = new JLabel();
 
     /**
      * The names of the current files.
@@ -69,7 +64,37 @@ public final class DirectoryViewer {
     /**
      * The current location of the directory widget.
      */
-    private static File currentDirectory = new File(OsUtil.USER_DIR);
+    private static File currentDirectory;
+
+    /**
+     * The width of the scroll view.
+     */
+    private static final int SCROLL_WIDTH = 600;
+
+    /**
+     * The height of the scroll view.
+     */
+    private static final int SCROLL_HEIGHT = 400;
+
+    /**
+     * The scroll list component to display the current files
+     */
+    private static CyderScrollList cyderScrollList = new CyderScrollList(SCROLL_WIDTH, SCROLL_HEIGHT);
+
+    /**
+     * The loading files label.
+     */
+    private static final JLabel loadingFilesLabel = new JLabel();
+
+    static {
+        loadingFilesLabel.setText("<html><div align=\"center\">Loading files...</div></html>");
+        loadingFilesLabel.setHorizontalAlignment(JLabel.CENTER);
+        loadingFilesLabel.setVerticalAlignment(JLabel.CENTER);
+        loadingFilesLabel.setFont(CyderFonts.DEFAULT_FONT);
+        loadingFilesLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        loadingFilesLabel.setOpaque(false);
+        loadingFilesLabel.setBounds(10, 90, SCROLL_WIDTH, SCROLL_HEIGHT);
+    }
 
     /**
      * Suppress default constructor.
@@ -84,16 +109,6 @@ public final class DirectoryViewer {
     }
 
     /**
-     * The width of the scroll view.
-     */
-    private static final int SCROLL_WIDTH = 600;
-
-    /**
-     * The height of the scroll view.
-     */
-    private static final int SCROLL_HEIGHT = 400;
-
-    /**
      * Starts the directory viewer in the provided initial directory.
      *
      * @param initialDirectory the initial directory to start in
@@ -106,26 +121,32 @@ public final class DirectoryViewer {
             initialDirectory = initialDirectory.getParentFile();
         }
 
-        UiUtil.closeIfOpen(dirFrame);
+        currentDirectory = initialDirectory;
 
-        dirFrame = new CyderFrame(630, 510, CyderColors.regularBackgroundColor);
-        dirFrame.setTitle(currentDirectory.getName());
+        UiUtil.closeIfOpen(directoryFrame);
 
-        dirField = new CyderTextField();
-        dirField.setBackground(Color.white);
-        dirField.setForeground(CyderColors.navy);
-        dirField.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        dirField.setText(currentDirectory.getAbsolutePath());
-        dirField.addActionListener(e -> {
-            File ChosenDir = new File(dirField.getText());
-            if (ChosenDir.isDirectory()) {
-                refreshOnDirectory(ChosenDir, true);
-            } else if (ChosenDir.isFile()) {
-                IoUtil.openFile(ChosenDir.getAbsolutePath());
+        directoryFrame = new CyderFrame(630, 510, CyderColors.regularBackgroundColor);
+        directoryFrame.setTitle(currentDirectory.getName());
+
+        directoryField = new CyderTextField();
+        directoryField.setBackground(Color.white);
+        directoryField.setForeground(CyderColors.navy);
+        directoryField.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        directoryField.setText(currentDirectory.getAbsolutePath());
+        directoryField.addActionListener(e -> {
+            File chosenDir = new File(directoryField.getText());
+
+            if (chosenDir.isDirectory()) {
+                forward.clear();
+                storeCurrentDirectory();
+                currentDirectory = chosenDir;
+                refreshFiles();
+            } else if (chosenDir.isFile()) {
+                IoUtil.openFile(chosenDir);
             }
         });
-        dirField.setBounds(60, 40, 500, 40);
-        dirFrame.getContentPane().add(dirField);
+        directoryField.setBounds(60, 40, 500, 40);
+        directoryFrame.getContentPane().add(directoryField);
 
         CyderButton last = new CyderButton(" < ");
         last.setFocusPainted(false);
@@ -134,18 +155,14 @@ public final class DirectoryViewer {
         last.setFont(CyderFonts.SEGOE_20);
         last.setBorder(new LineBorder(CyderColors.navy, 5, false));
         last.addActionListener(e -> {
-            //we may only go back if there's something in the back, and it's different from where we are now
             if (!backward.isEmpty() && !backward.peek().equals(currentDirectory)) {
-                // Traversing so push where we are to forward
                 forward.push(currentDirectory);
-                // Get where we're going
                 currentDirectory = backward.pop();
-                // Now simply refresh based on currentDir
-                refreshOnDirectory(currentDirectory, false);
+                refreshFiles();
             }
         });
         last.setBounds(10, 40, 40, 40);
-        dirFrame.getContentPane().add(last);
+        directoryFrame.getContentPane().add(last);
 
         CyderButton next = new CyderButton(" > ");
         next.setFocusPainted(false);
@@ -154,62 +171,47 @@ public final class DirectoryViewer {
         next.setFont(CyderFonts.SEGOE_20);
         next.setBorder(new LineBorder(CyderColors.navy, 5, false));
         next.addActionListener(e -> {
-            // Only traverse forward if the stack is not empty and forward is different from where we are
             if (!forward.isEmpty() && !forward.peek().equals(currentDirectory)) {
-                // Push where we are
                 backward.push(currentDirectory);
-                // Figure out where we need to go
+                storeCurrentDirectory();
                 currentDirectory = forward.pop();
-                // Refresh based on where we should go
-                refreshOnDirectory(currentDirectory, false);
+                refreshFiles();
             }
         });
         next.setBounds(620 - 50, 40, 40, 40);
-        dirFrame.getContentPane().add(next);
+        directoryFrame.getContentPane().add(next);
 
-        JLabel tempLabel = new JLabel();
-        tempLabel.setText("<html><div align=\"center\">Loading files...</div></html>");
-        tempLabel.setHorizontalAlignment(JLabel.CENTER);
-        tempLabel.setVerticalAlignment(JLabel.CENTER);
-        tempLabel.setFont(CyderFonts.DEFAULT_FONT);
-        tempLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        tempLabel.setOpaque(false);
-        tempLabel.setBounds(10, 90, SCROLL_WIDTH, SCROLL_HEIGHT);
-        dirFrame.getContentPane().add(tempLabel);
+        loadingFilesLabel.setVisible(true);
+        directoryFrame.getContentPane().add(loadingFilesLabel);
 
-        dirFrame.finalizeAndShow();
-        dirField.requestFocus();
+        directoryFrame.finalizeAndShow();
+        directoryField.requestFocus();
 
-        refreshOnDirectory(initialDirectory, false);
+        refreshFiles();
     }
 
     /**
-     * Refreshes the files scroll list based on the contents of the provided directory.
-     * If a file is provided, the parent is used to refresh on.
-     *
-     * @param directoryOrFile the starting directory.
-     * @param wipeForward     whether to wipe the forward directory
+     * Stores teh current directory as a previous location if necessary.
      */
-    private static void refreshOnDirectory(File directoryOrFile, boolean wipeForward) {
-        Preconditions.checkNotNull(directoryOrFile);
-        Preconditions.checkArgument(directoryOrFile.exists());
-
-        if (directoryOrFile.isFile()) {
-            directoryOrFile = directoryOrFile.getParentFile();
-        }
-
-        currentDirectory = directoryOrFile;
-
+    private static void storeCurrentDirectory() {
         if (backward.isEmpty()) {
-            backward.push(directoryOrFile);
+            backward.push(currentDirectory);
         } else {
-            if (!backward.pop().getAbsolutePath().equals(directoryOrFile.getAbsolutePath())) {
-                backward.push(directoryOrFile);
+            File backwardFile = backward.peek();
+            if (backwardFile != null && !backwardFile.getAbsolutePath().equals(currentDirectory.getAbsolutePath())) {
+                backward.push(currentDirectory);
             }
         }
+    }
+
+    /**
+     * Refreshes the files scroll list based on the current directory.
+     */
+    private static void refreshFiles() {
+        loadingFilesLabel.setVisible(true);
 
         cyderScrollList.removeAllElements();
-        dirFrame.remove(dirScrollLabel);
+        directoryFrame.remove(dirScrollLabel);
 
         currentFiles.clear();
         currentFileNames.clear();
@@ -224,24 +226,30 @@ public final class DirectoryViewer {
         cyderScrollList.setScrollFont(CyderFonts.SEGOE_20.deriveFont(16f));
 
         for (int i = 0 ; i < currentFileNames.size() ; i++) {
-            int eye = i;
-
+            int finalI = i;
             cyderScrollList.addElementWithDoubleClickAction(currentFileNames.get(i), () -> {
-                if (currentFiles.get(eye).isDirectory()) {
-                    refreshOnDirectory(currentFiles.get(eye), true);
+                File file = currentFiles.get(finalI);
+
+                if (file.isDirectory()) {
+                    forward.clear();
+                    storeCurrentDirectory();
+                    currentDirectory = file;
+                    refreshFiles();
                 } else {
-                    IoUtil.openFile(currentFiles.get(eye).getAbsolutePath());
+                    IoUtil.openFile(currentFiles.get(finalI).getAbsolutePath());
                 }
             });
         }
 
         dirScrollLabel = cyderScrollList.generateScrollList();
         dirScrollLabel.setBounds(10, 90, SCROLL_WIDTH, SCROLL_HEIGHT);
-        dirFrame.getContentPane().add(dirScrollLabel);
+        directoryFrame.getContentPane().add(dirScrollLabel);
 
-        dirFrame.revalidate();
-        dirFrame.repaint();
-        dirFrame.setTitle(currentDirectory.getName());
-        dirField.setText(currentDirectory.getAbsolutePath());
+        loadingFilesLabel.setVisible(false);
+
+        directoryFrame.revalidate();
+        directoryFrame.repaint();
+        directoryFrame.setTitle(currentDirectory.getName());
+        directoryField.setText(currentDirectory.getAbsolutePath());
     }
 }

@@ -19,12 +19,11 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.net.URL;
 
 // todo this class should be renamed to something else
 
 /**
- * A class for generating random YouTube UUIDs and attepmting to parse the resulting url for a valid video.
+ * A class for generating random YouTube UUIDs and attempting to parse the resulting url for a valid video.
  * As of 9-7-22, this has about a 1 in 92233720368 chance of succeeding every iteration.
  */
 public class YoutubeThread {
@@ -90,14 +89,14 @@ public class YoutubeThread {
                     MasterYoutubeThread.getSemaphore().release();
                     String baseURL = CyderUrls.YOUTUBE_VIDEO_HEADER + youtubeUuid;
 
-                    BufferedImage Thumbnail = ImageUtil.read(new URL(
-                            CyderUrls.THUMBNAIL_BASE_URL.replace("REPLACE", youtubeUuid)));
+                    BufferedImage Thumbnail = ImageUtil.read(
+                            CyderUrls.THUMBNAIL_BASE_URL.replace("REPLACE", youtubeUuid));
 
                     //end all scripts since this one was found
                     MasterYoutubeThread.killAll();
 
                     MasterYoutubeThread.getSemaphore().acquire();
-                    stringUtil.println("YouTube script found valid video with UUID: " + youtubeUuid);
+                    stringUtil.println("YouTube script found valid video with uuid: " + youtubeUuid);
                     MasterYoutubeThread.getSemaphore().release();
 
                     CyderFrame thumbnailFrame = new CyderFrame(Thumbnail.getWidth(),

@@ -26,6 +26,7 @@ import java.awt.image.DataBuffer;
 import java.awt.image.PixelGrabber;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.Executors;
@@ -1076,6 +1077,19 @@ public final class ImageUtil {
         Preconditions.checkArgument(file.exists());
 
         return ImageIO.read(file);
+    }
+
+    /**
+     * Returns the buffered image read from the provided input stream.
+     *
+     * @param inputStream the input stream
+     * @return the buffered image read from the provided input stream
+     * @throws IOException if the image cannot be read
+     */
+    public static BufferedImage read(InputStream inputStream) throws IOException {
+        Preconditions.checkNotNull(inputStream);
+
+        return ImageIO.read(inputStream);
     }
 
     /**

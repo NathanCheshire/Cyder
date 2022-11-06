@@ -119,7 +119,6 @@ public final class NecessarySubroutines {
         CyderSplash.INSTANCE.setLoadingMessage("Validating users");
         UserUtil.validateUsers();
 
-        // todo this needs to be in a separate thread but complete before others start
         CyderSplash.INSTANCE.setLoadingMessage("Cleaning users");
         UserUtil.cleanUsers();
 
@@ -164,7 +163,6 @@ public final class NecessarySubroutines {
         return true;
     }
 
-    // todo future maybe?
     /**
      * Returns whether this instance of Cyder is the only instance on the host OS.
      *
@@ -178,12 +176,11 @@ public final class NecessarySubroutines {
                 Logger.log(LogTag.DEBUG, "Starting instance socket on port " + INSTANCE_SOCKET_PORT);
                 serverSocket = new ServerSocket(INSTANCE_SOCKET_PORT).accept();
             } catch (Exception ignored) {
-                singularInstance.set(false);
                 Logger.log(LogTag.DEBUG, "Failed to start singular instance socket");
+                singularInstance.set(false);
             }
         }, IgnoreThread.SingularInstanceEnsurer.getName());
 
-        // started blocking method in above thread but need to wait for it to either bind or fail
         ThreadUtil.sleep(SINGLE_INSTANCE_ENSURER_TIMEOUT);
 
         return singularInstance.get();

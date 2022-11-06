@@ -10,6 +10,7 @@ import cyder.ui.label.CyderLabel;
 import cyder.user.UserUtil;
 import cyder.utils.StringUtil;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -166,10 +167,10 @@ public class CyderScrollList {
     /**
      * Sets the font for this scroll list.
      *
-     * @param f the font for this scroll list
+     * @param font the font for this scroll list
      */
-    public void setScrollFont(Font f) {
-        scrollFont = f;
+    public void setScrollFont(Font font) {
+        scrollFont = Preconditions.checkNotNull(font);
     }
 
     /**
@@ -182,7 +183,9 @@ public class CyderScrollList {
      *
      * @param border the border to surround the component with
      */
-    public void setBorder(Border border) {
+    public void setBorder(
+            @Nullable
+                    Border border) {
         this.border = border;
     }
 
@@ -195,7 +198,7 @@ public class CyderScrollList {
      * Refreshes all CyderScrollLists that have been created during the current instance of Cyder.
      */
     public static void refreshAllLists() {
-        for (CyderScrollList list : scrollLists) {
+        scrollLists.forEach(list -> {
             Component parent = SwingUtilities.getRoot(list.getScrollPane());
 
             if (parent instanceof CyderFrame parentFrame) {
@@ -203,7 +206,7 @@ public class CyderScrollList {
                     list.refreshList();
                 }
             }
-        }
+        });
     }
 
     /**
@@ -321,7 +324,7 @@ public class CyderScrollList {
         addElement.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                renderElementAsSelected(addElement.getText());
+                alternateItemClickState(addElement.getText());
             }
         });
 
@@ -348,7 +351,7 @@ public class CyderScrollList {
             @Override
             public void mouseClicked(MouseEvent e) {
                 singleClickAction.run();
-                renderElementAsSelected(addElement.getText());
+                alternateItemClickState(addElement.getText());
             }
         });
 
@@ -378,7 +381,7 @@ public class CyderScrollList {
                     doubleClickAction.run();
                     addElement.setForeground(nonSelectedColor);
                 } else {
-                    renderElementAsSelected(addElement.getText());
+                    alternateItemClickState(addElement.getText());
                 }
             }
         });
@@ -414,7 +417,7 @@ public class CyderScrollList {
                     addElement.setForeground(nonSelectedColor);
                 } else {
                     singleClickAction.run();
-                    renderElementAsSelected(addElement.getText());
+                    alternateItemClickState(addElement.getText());
                 }
             }
         });
@@ -451,6 +454,9 @@ public class CyderScrollList {
      * @param labelText the element to remove from the scroll list
      */
     public void removeElement(String labelText) {
+        Preconditions.checkNotNull(labelText);
+        Preconditions.checkArgument(!labelText.isEmpty());
+
         for (JLabel element : elements) {
             if (element.getText().equals(labelText)) {
                 elements.remove(element);
@@ -460,11 +466,11 @@ public class CyderScrollList {
     }
 
     /**
-     * Renders the element with the provided text as selected.
+     * Alternates the element with the provided text between the states of selected/non-selected.
      *
-     * @param clickedText the text of the element to render as selected
+     * @param clickedText the text of the element
      */
-    private void renderElementAsSelected(String clickedText) {
+    private void alternateItemClickState(String clickedText) {
         if (selectionPolicy == SelectionPolicy.SINGLE) {
             elements.forEach(element -> {
                 if (element.getText().equals(clickedText)) {
@@ -498,11 +504,11 @@ public class CyderScrollList {
     public LinkedList<String> getSelectedElements() {
         LinkedList<String> ret = new LinkedList<>();
 
-        for (JLabel element : elements) {
+        elements.forEach(element -> {
             if (element.getForeground().equals(selectedColor)) {
                 ret.add(element.getText());
             }
-        }
+        });
 
         return ret;
     }
@@ -533,17 +539,9 @@ public class CyderScrollList {
      * Removes the first element from this scroll list.
      */
     public void removeSelectedElement() {
-        JLabel remove = null;
-        for (JLabel element : elements) {
-            if (element.getForeground().equals(selectedColor)) {
-                remove = element;
-                break;
-            }
-        }
-
-        if (remove != null) {
-            elements.remove(remove);
-        }
+        Optional<JLabel> remove = elements.stream().filter(element -> element.getForeground()
+                .equals(selectedColor)).findFirst();
+        remove.ifPresent(elements::remove);
     }
 
     /**
@@ -624,7 +622,7 @@ public class CyderScrollList {
      * @param selectionPolicy the selection policy to use for the scroll list
      */
     public void setSelectionPolicy(SelectionPolicy selectionPolicy) {
-        this.selectionPolicy = selectionPolicy;
+        this.selectionPolicy = Preconditions.checkNotNull(selectionPolicy);
     }
 
     /**
