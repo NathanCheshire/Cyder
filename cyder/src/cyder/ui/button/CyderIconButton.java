@@ -11,9 +11,10 @@ import cyder.threads.ThreadUtil;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.stream.IntStream;
 
 /**
- * A button with an image icon.
+ * A button with an image icon as the content.
  */
 public class CyderIconButton extends JButton {
     /**
@@ -165,15 +166,15 @@ public class CyderIconButton extends JButton {
             ImageIcon hoverAndFocusIcon = builder.getHoverAndFocusIcon();
             ImageIcon defaultIcon = builder.getDefaultIcon();
 
-            for (int i = 0 ; i < iterations ; i++) {
+            IntStream.range(0, iterations).forEach(i -> {
                 setIcon(hoverAndFocusIcon);
                 ThreadUtil.sleep(msDelay);
                 setIcon(defaultIcon);
                 ThreadUtil.sleep(msDelay);
-            }
+            });
 
             setIcon(originalIcon);
-        }, FLASH_THREAD_NAME + ", iterations=" + iterations + ", delay=" + msDelay + "ms");
+        }, FLASH_THREAD_NAME + ", iterations: " + iterations + ", delay: " + msDelay + "ms");
     }
 
     private static final String FLASH_THREAD_NAME = "CyderIconButton Flash Thread";
@@ -206,13 +207,13 @@ public class CyderIconButton extends JButton {
 
         /**
          * The focus listener or adapter for the button.
-         * If none is provided, a default one is generated.
+         * If none listener is provided, a default one is generated.
          */
         private FocusListener focusListener;
 
         /**
          * The mouse listener or adapter for the button.
-         * If none is provided, a default one is generated.
+         * If no listener is provided, a default one is generated.
          */
         private MouseListener mouseListener;
 
@@ -233,7 +234,6 @@ public class CyderIconButton extends JButton {
          */
         public Builder(String tooltip, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon) {
             Preconditions.checkNotNull(tooltip);
-            Preconditions.checkArgument(!tooltip.isEmpty());
 
             Preconditions.checkNotNull(defaultIcon);
             Preconditions.checkNotNull(hoverAndFocusIcon);

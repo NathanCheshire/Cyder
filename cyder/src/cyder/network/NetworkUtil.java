@@ -268,6 +268,7 @@ public class NetworkUtil {
             Logger.log(LogTag.DEBUG, "Set latency port as " + latencyPort);
         }
 
+        //latency_name todo if this is left out, set as the name of the ip:port get title of webpage
         if (PropLoader.propExists(LATENCY_NAME)) {
             latencyHostName = PropLoader.getString(LATENCY_NAME);
             Logger.log(LogTag.DEBUG, "Set latency host name as " + latencyHostName);

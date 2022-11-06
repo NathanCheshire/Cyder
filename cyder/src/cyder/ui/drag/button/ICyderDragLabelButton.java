@@ -10,11 +10,6 @@ import java.awt.*;
  */
 public interface ICyderDragLabelButton {
     /**
-     * The default size of a drag label button.
-     */
-    DragLabelButtonSize DEFAULT_SIZE = DragLabelButtonSize.SMALL;
-
-    /**
      * Sets the size of this drag label button and repaints this button.
      *
      * @param size the new size of this drag label button
