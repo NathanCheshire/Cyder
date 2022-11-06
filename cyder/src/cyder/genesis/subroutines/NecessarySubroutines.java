@@ -164,6 +164,7 @@ public final class NecessarySubroutines {
         return true;
     }
 
+    // todo future maybe?
     /**
      * Returns whether this instance of Cyder is the only instance on the host OS.
      *

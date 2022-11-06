@@ -252,7 +252,7 @@ public class GeneralPrintHandler extends InputHandler {
                 TimeUtil.MoonPhase currentMoonPhase = currentMoonPhaseOptional.get();
 
                 try {
-                    getInputHandler().println(new ImageIcon(ImageUtil.getImageFromUrl(currentMoonPhase.urlImage())));
+                    getInputHandler().println(new ImageIcon(ImageUtil.read(currentMoonPhase.urlImage())));
                 } catch (IOException e) {
                     ExceptionHandler.handle(e);
                 }

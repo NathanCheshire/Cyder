@@ -26,7 +26,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Optional;
@@ -377,11 +376,11 @@ public final class YoutubeUtil {
         BufferedImage save = null;
 
         try {
-            save = ImageIO.read(new URL(buildMaxResThumbnailUrl(uuid)));
+            save = ImageUtil.read(buildMaxResThumbnailUrl(uuid));
         } catch (Exception e) {
             // exception here means no max res default was found
             try {
-                save = ImageIO.read(new URL(buildSdDefThumbnailUrl(uuid)));
+                save = ImageUtil.read(buildSdDefThumbnailUrl(uuid));
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
@@ -552,11 +551,11 @@ public final class YoutubeUtil {
         String thumbnailUrl = buildMaxResThumbnailUrl(uuid);
 
         try {
-            return Optional.of(ImageIO.read(new URL(thumbnailUrl)));
+            return Optional.of(ImageUtil.read(thumbnailUrl));
         } catch (Exception ignored) {
             try {
                 thumbnailUrl = buildSdDefThumbnailUrl(uuid);
-                return Optional.of(ImageIO.read(new URL(thumbnailUrl)));
+                return Optional.of(ImageUtil.read(thumbnailUrl));
             } catch (Exception ignored2) {
                 return Optional.empty();
             }

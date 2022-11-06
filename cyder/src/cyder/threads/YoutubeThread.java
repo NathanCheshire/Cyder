@@ -12,9 +12,9 @@ import cyder.time.TimeUtil;
 import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderOutputPane;
 import cyder.user.UserUtil;
+import cyder.utils.ImageUtil;
 import cyder.utils.StringUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -90,7 +90,7 @@ public class YoutubeThread {
                     MasterYoutubeThread.getSemaphore().release();
                     String baseURL = CyderUrls.YOUTUBE_VIDEO_HEADER + youtubeUuid;
 
-                    BufferedImage Thumbnail = ImageIO.read(new URL(
+                    BufferedImage Thumbnail = ImageUtil.read(new URL(
                             CyderUrls.THUMBNAIL_BASE_URL.replace("REPLACE", youtubeUuid)));
 
                     //end all scripts since this one was found

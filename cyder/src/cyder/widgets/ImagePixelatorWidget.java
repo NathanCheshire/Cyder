@@ -246,7 +246,7 @@ public final class ImagePixelatorWidget {
 
         BufferedImage currentBufferedImage;
         try {
-            currentBufferedImage = ImageIO.read(currentFile);
+            currentBufferedImage = ImageUtil.read(currentFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             pixelFrame.notify("Failed to read image file: " + currentFile.getAbsolutePath());
@@ -297,7 +297,7 @@ public final class ImagePixelatorWidget {
 
                 if (pixelSize == 0 || pixelSize == 1) return;
 
-                BufferedImage bufferedImage = ImageUtil.pixelateImage(ImageIO.read(currentFile), pixelSize);
+                BufferedImage bufferedImage = ImageUtil.pixelateImage(ImageUtil.read(currentFile), pixelSize);
                 currentDisplayImageIcon = ImageUtil.resizeIfLengthExceeded(
                         ImageUtil.toImageIcon(bufferedImage), previewImageMaxLen);
                 previewLabel.setIcon(currentDisplayImageIcon);
@@ -342,7 +342,7 @@ public final class ImagePixelatorWidget {
 
         BufferedImage newBufferedImage;
         try {
-            newBufferedImage = ImageIO.read(imageFile);
+            newBufferedImage = ImageUtil.read(imageFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             pixelFrame.notify("Could not read chosen file: " + imageFile.getAbsolutePath());

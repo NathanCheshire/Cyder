@@ -90,7 +90,7 @@ public class PixelationHandler extends InputHandler {
         if (pixelRange.contains(size)) {
             CyderThreadRunner.submit(() -> {
                 try {
-                    BufferedImage img = ImageUtil.pixelateImage(ImageIO.read(Console.INSTANCE.
+                    BufferedImage img = ImageUtil.pixelateImage(ImageUtil.read(Console.INSTANCE.
                             getCurrentBackground().getReferenceFile().getAbsoluteFile()), size);
 
                     String newName = FileUtil.getFilename(Console.INSTANCE

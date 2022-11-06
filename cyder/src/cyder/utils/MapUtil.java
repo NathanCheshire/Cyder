@@ -7,9 +7,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.props.PropLoader;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.net.URL;
 import java.net.UnknownHostException;
 
 /**
@@ -59,6 +57,11 @@ public final class MapUtil {
     private static final Range<Double> LON_RANGE = Range.closed(-180.0, 180.0);
 
     /**
+     * The map quest api key.
+     */
+    private static final String MAP_QUEST_API_KEY = "map_quest_api_key";
+
+    /**
      * Returns an ImageIcon with the provided dimensions of an
      * aerial map view centered at the provided lat, lon.
      *
@@ -75,18 +78,18 @@ public final class MapUtil {
         Preconditions.checkArgument(LAT_RANGE.contains(lat));
         Preconditions.checkArgument(LON_RANGE.contains(lon));
 
-        String string = MAP_QUEST_HEADER + PropLoader.getString("map_quest_api_key")
+        String string = MAP_QUEST_HEADER + PropLoader.getString(MAP_QUEST_API_KEY)
                 + MAP_TYPE_PARAMETER
                 + MAP_SIZE_PARAMETER + width + CyderStrings.comma + height
                 + MAP_LOCATIONS_PARAMETER + lat + CyderStrings.comma + lon
                 + MAP_QUEST_FOOTER;
 
         try {
-            return ImageUtil.toImageIcon(ImageIO.read(new URL(string)));
+            return ImageUtil.toImageIcon(ImageUtil.read(string));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        throw new UnknownHostException("Could not get resource for provided lat = " + lat + ", lon = " + lon);
+        throw new UnknownHostException("Could not get resource for provided lat: " + lat + ", lon: " + lon);
     }
 }

@@ -20,11 +20,11 @@ import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderPasswordField;
 import cyder.ui.field.CyderTextField;
 import cyder.ui.frame.CyderFrame;
+import cyder.utils.ImageUtil;
 import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 import cyder.utils.UiUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -506,7 +506,7 @@ public final class UserCreator {
 
         BufferedImage background;
         try {
-            background = ImageIO.read(newUserBackgroundFile);
+            background = ImageUtil.read(newUserBackgroundFile);
         } catch (Exception e) {
             background = UserUtil.DEFAULT_USER_SOLID_COLOR_BACKGROUND;
         }

@@ -1487,11 +1487,11 @@ public final class AudioPlayer {
 
         try {
             if (albumArtFilePng.exists()) {
-                customAlbumArt = new ImageIcon(ImageIO.read(albumArtFilePng));
+                customAlbumArt = new ImageIcon(ImageUtil.read(albumArtFilePng));
             } else if (albumArtFileJpg.exists()) {
-                customAlbumArt = new ImageIcon(ImageIO.read(albumArtFileJpg));
+                customAlbumArt = new ImageIcon(ImageUtil.read(albumArtFileJpg));
             } else {
-                customAlbumArt = new ImageIcon(ImageIO.read(DEFAULT_ALBUM_ART));
+                customAlbumArt = new ImageIcon(ImageUtil.read(DEFAULT_ALBUM_ART));
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -2647,7 +2647,7 @@ public final class AudioPlayer {
 
         if (bi == null) {
             try {
-                bi = ImageIO.read(DEFAULT_ALBUM_ART);
+                bi = ImageUtil.read(DEFAULT_ALBUM_ART);
             } catch (Exception ignored) {}
         }
 

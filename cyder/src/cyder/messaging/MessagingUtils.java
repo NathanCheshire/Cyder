@@ -13,7 +13,6 @@ import cyder.ui.button.CyderButton;
 import cyder.utils.ImageUtil;
 import cyder.utils.StringUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -489,7 +488,7 @@ public final class MessagingUtils {
         try {
             Preconditions.checkArgument(FileUtil.isSupportedImageExtension(imageFile));
 
-            ImageIcon resized = ImageUtil.resizeImage(ImageUtil.toImageIcon(ImageIO.read(imageFile)),
+            ImageIcon resized = ImageUtil.resizeImage(ImageUtil.toImageIcon(ImageUtil.read(imageFile)),
                     IMAGE_PREVIEW_LEN, IMAGE_PREVIEW_LEN);
 
             JLabel imagePreviewLabel = new JLabel();

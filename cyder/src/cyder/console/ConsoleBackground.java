@@ -8,7 +8,6 @@ import cyder.logging.Logger;
 import cyder.ui.frame.CyderFrame;
 import cyder.utils.ImageUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -74,7 +73,7 @@ public class ConsoleBackground {
         BufferedImage image = null;
 
         try {
-            image = ImageIO.read(referenceFile);
+            image = ImageUtil.read(referenceFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

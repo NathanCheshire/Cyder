@@ -46,7 +46,6 @@ import cyder.user.*;
 import cyder.utils.*;
 import cyder.youtube.YoutubeUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.text.SimpleAttributeSet;
@@ -1284,7 +1283,7 @@ public enum Console {
             Image icon = null;
 
             try {
-                icon = new ImageIcon(ImageIO.read(getCurrentBackground().getReferenceFile())).getImage();
+                icon = new ImageIcon(ImageUtil.read(getCurrentBackground().getReferenceFile())).getImage();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

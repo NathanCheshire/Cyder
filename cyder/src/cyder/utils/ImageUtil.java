@@ -246,7 +246,7 @@ public final class ImageUtil {
         BufferedImage ReturnImage = null;
 
         try {
-            Image ConsoleImage = ImageIO.read(imageFile);
+            Image ConsoleImage = read(imageFile);
             Image TransferImage = ConsoleImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ReturnImage = new BufferedImage(TransferImage.getWidth(null),
                     TransferImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
@@ -321,7 +321,7 @@ public final class ImageUtil {
         BufferedImage bufferedImage = null;
 
         try {
-            bufferedImage = ImageIO.read(new File(filepath));
+            bufferedImage = read(new File(filepath));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -641,7 +641,7 @@ public final class ImageUtil {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
 
-        return isGrayscale(ImageIO.read(file));
+        return isGrayscale(read(file));
     }
 
     /**
@@ -725,7 +725,7 @@ public final class ImageUtil {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
 
-        return isSolidColor(ImageIO.read(file));
+        return isSolidColor(read(file));
     }
 
     /**
@@ -892,11 +892,11 @@ public final class ImageUtil {
         Preconditions.checkArgument(file2.exists());
 
         try {
-            BufferedImage bi1 = ImageIO.read(file1);
+            BufferedImage bi1 = read(file1);
             DataBuffer db1 = bi1.getData().getDataBuffer();
             int size = db1.getSize();
 
-            BufferedImage bi2 = ImageIO.read(file2);
+            BufferedImage bi2 = read(file2);
             DataBuffer db2 = bi2.getData().getDataBuffer();
             int size2 = db2.getSize();
 
@@ -928,7 +928,7 @@ public final class ImageUtil {
         Preconditions.checkArgument(!file.isDirectory());
 
         try {
-            ImageIO.read(file);
+            read(file);
             return true;
         } catch (Exception ignored) {}
 
@@ -1056,7 +1056,7 @@ public final class ImageUtil {
      * @return the buffered image read from the provided url
      * @throws IOException if the provided resource cannot be loaded
      */
-    public static BufferedImage getImageFromUrl(String url) throws IOException {
+    public static BufferedImage read(String url) throws IOException {
         Preconditions.checkNotNull(url);
         Preconditions.checkArgument(!url.isEmpty());
         Preconditions.checkArgument(NetworkUtil.isValidUrl(url));
@@ -1071,7 +1071,7 @@ public final class ImageUtil {
      * @return the buffered image read from the file
      * @throws IOException if the image cannot be read
      */
-    public static BufferedImage getImageFromFile(File file) throws IOException {
+    public static BufferedImage read(File file) throws IOException {
         Preconditions.checkNotNull(file);
         Preconditions.checkArgument(file.exists());
 
@@ -1095,15 +1095,15 @@ public final class ImageUtil {
             float ratio = image.getHeight() / (float) image.getWidth();
             int width = (int) dimension.getWidth();
             int height = (int) (dimension.getHeight() * ratio);
-            ret = ImageUtil.resizeImage(ret, ret.getType(), width, height);
+            ret = resizeImage(ret, ret.getType(), width, height);
         } else if (isVerticalImage(image) && image.getHeight() > dimension.getHeight()) {
             float ratio = image.getWidth() / (float) image.getHeight();
             int width = (int) (dimension.getWidth() * ratio);
             int height = (int) dimension.getHeight();
-            ret = ImageUtil.resizeImage(ret, ret.getType(), width, height);
+            ret = resizeImage(ret, ret.getType(), width, height);
         } else if (isSquareImage(image) && image.getWidth() > dimension.getWidth()) {
             int len = (int) dimension.getWidth();
-            ret = ImageUtil.resizeImage(ret, ret.getType(), len, len);
+            ret = resizeImage(ret, ret.getType(), len, len);
         }
 
         return ret;
@@ -1134,7 +1134,7 @@ public final class ImageUtil {
         Preconditions.checkNotNull(originalIcon);
         Preconditions.checkArgument(length > 0);
 
-        BufferedImage bi = ImageUtil.toBufferedImage(originalIcon);
+        BufferedImage bi = toBufferedImage(originalIcon);
 
         int width = originalIcon.getIconWidth();
         int height = originalIcon.getIconHeight();

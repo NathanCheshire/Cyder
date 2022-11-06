@@ -286,7 +286,7 @@ public final class ImageAveragerWidget {
 
         currentFiles.forEach((filename, file) -> {
             try {
-                BufferedImage currentImage = ImageIO.read(file);
+                BufferedImage currentImage = ImageUtil.read(file);
                 width.set(Math.max(currentImage.getWidth(), width.get()));
                 height.set(Math.max(currentImage.getHeight(), height.get()));
             } catch (Exception e) {
@@ -378,7 +378,7 @@ public final class ImageAveragerWidget {
         for (File currentImageFile : averageFiles) {
             BufferedImage currentImage;
             try {
-                currentImage = ImageIO.read(currentImageFile);
+                currentImage = ImageUtil.read(currentImageFile);
             } catch (Exception e) {
                 averagerFrame.inform("IO Failure", "Failed to read image file: "
                         + currentImageFile.getAbsolutePath());

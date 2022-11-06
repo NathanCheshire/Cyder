@@ -23,6 +23,9 @@ import java.util.LinkedList;
  * A label styled for Cyder.
  */
 public class CyderLabel extends JLabel {
+    /**
+     * The default text for a cyder label.
+     */
     public static final String DEFAULT_TEXT = "I miss you";
 
     /**
@@ -61,7 +64,14 @@ public class CyderLabel extends JLabel {
         return "<div style=\"width:" + width + "px; height:" + height + "px; background:#000000\">" + text + "</div>";
     }
 
+    /**
+     * The center alignment left tag.
+     */
     private static final String alignTextTagLeft = "<html><div style='text-align: center;'>";
+
+    /**
+     * The center alignment right tag.
+     */
     private static final String alignTextTagRight = "</html>";
 
     /**
@@ -199,6 +209,7 @@ public class CyderLabel extends JLabel {
      * Starts the ripple animation.
      */
     private void startRippleAnimation() {
+        String threadName = "CyderLabel Ripple Animator, text = " + this.getText();
         CyderThreadRunner.submit(() -> {
             try {
                 //restore color so everything goes back to original foreground
@@ -289,7 +300,7 @@ public class CyderLabel extends JLabel {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "CyderLabel Ripple Animator, text = " + this.getText());
+        }, threadName);
     }
 
     /**

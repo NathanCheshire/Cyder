@@ -17,8 +17,8 @@ import cyder.ui.drag.button.LeftButton;
 import cyder.ui.drag.button.RightButton;
 import cyder.ui.frame.CyderFrame;
 import cyder.user.UserUtil;
+import cyder.utils.ImageUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -102,48 +102,51 @@ public class PhotoViewer {
      * Opens the instance of photo viewer.
      */
     public void showGui() {
-        Logger.log(LogTag.OBJECT_CREATION, this);
+        String threadName = "PhotoViewer showGui thread, initial directory: " + photoDirectory;
+        CyderThreadRunner.submit(() -> {
+            Logger.log(LogTag.OBJECT_CREATION, this);
 
-        refreshValidFiles();
+            refreshValidFiles();
 
-        File currentImage = validDirectoryImages.get(0);
+            File currentImage = validDirectoryImages.get(0);
 
-        if (photoDirectory.isFile()) {
-            for (File validDirectoryImage : validDirectoryImages) {
-                if (validDirectoryImage.equals(photoDirectory)) {
-                    currentImage = validDirectoryImage;
-                    break;
+            if (photoDirectory.isFile()) {
+                for (File validDirectoryImage : validDirectoryImages) {
+                    if (validDirectoryImage.equals(photoDirectory)) {
+                        currentImage = validDirectoryImage;
+                        break;
+                    }
                 }
             }
-        }
 
-        ImageIcon newImage;
-        newImage = scaleImageIfNeeded(currentImage);
+            ImageIcon newImage;
+            newImage = scaleImageIfNeeded(currentImage);
 
-        pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
-        pictureFrame.setBackground(Color.BLACK);
-        pictureFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-        revalidateTitle(FileUtil.getFilename(currentImage.getName()));
-        pictureFrame.setVisible(true);
-        pictureFrame.addWindowListener(generateWindowAdapter());
+            pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
+            pictureFrame.setBackground(Color.BLACK);
+            pictureFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+            revalidateTitle(FileUtil.getFilename(currentImage.getName()));
+            pictureFrame.setVisible(true);
+            pictureFrame.addWindowListener(generateWindowAdapter());
 
-        pictureFrame.finalizeAndShow();
+            pictureFrame.finalizeAndShow();
 
-        pictureFrame.setMenuEnabled(true);
-        pictureFrame.addMenuItem("Rename", this::rename);
+            pictureFrame.setMenuEnabled(true);
+            pictureFrame.addMenuItem("Rename", this::rename);
 
-        nextButton = new RightButton();
-        nextButton.setToolTipText(NEXT);
-        nextButton.setClickAction(() -> transition(true));
-        pictureFrame.getTopDragLabel().addRightButton(nextButton, 0);
+            nextButton = new RightButton();
+            nextButton.setToolTipText(NEXT);
+            nextButton.setClickAction(() -> transition(true));
+            pictureFrame.getTopDragLabel().addRightButton(nextButton, 0);
 
-        lastButton = new LeftButton();
-        lastButton.setToolTipText(LAST);
-        lastButton.setClickAction(() -> transition(false));
-        pictureFrame.getTopDragLabel().addRightButton(lastButton, 0);
+            lastButton = new LeftButton();
+            lastButton.setToolTipText(LAST);
+            lastButton.setClickAction(() -> transition(false));
+            pictureFrame.getTopDragLabel().addRightButton(lastButton, 0);
 
-        revalidateNavigationButtonVisibility();
-        startDirectoryWatcher();
+            revalidateNavigationButtonVisibility();
+            startDirectoryWatcher();
+        }, threadName);
     }
 
     /**
@@ -245,6 +248,11 @@ public class PhotoViewer {
     private static final int MAX_LEN = 800;
 
     /**
+     * The maximum dimension of the photo viewer frame.
+     */
+    private static final Dimension MAX_DIMENSION = new Dimension(MAX_LEN, MAX_LEN);
+
+    /**
      * Returns a scaled image icon for the provided image
      * file if the image is bigger than MAX_LEN x MAX_LEN.
      *
@@ -253,26 +261,14 @@ public class PhotoViewer {
      */
     private ImageIcon scaleImageIfNeeded(File imageFile) {
         try {
-            ImageIcon originalIcon = new ImageIcon(ImageIO.read(imageFile));
-            BufferedImage bi = ImageIO.read(imageFile);
-
-            int width = originalIcon.getIconWidth();
-            int height = originalIcon.getIconHeight();
-
-            if (width > height) {
-                int scaledHeight = MAX_LEN * height / width;
-                return new ImageIcon(bi.getScaledInstance(MAX_LEN, scaledHeight, Image.SCALE_SMOOTH));
-            } else if (height > width) {
-                int scaledWidth = MAX_LEN * width / height;
-                return new ImageIcon(bi.getScaledInstance(scaledWidth, MAX_LEN, Image.SCALE_SMOOTH));
-            } else {
-                return new ImageIcon(bi.getScaledInstance(MAX_LEN, MAX_LEN, Image.SCALE_SMOOTH));
-            }
+            BufferedImage bufferedImage = ImageUtil.read(imageFile);
+            bufferedImage = ImageUtil.ensureFitsInBounds(bufferedImage, MAX_DIMENSION);
+            return ImageUtil.toImageIcon(bufferedImage);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        throw new IllegalStateException("Could not generate ImageIcon at this time");
+        throw new IllegalStateException("Could not generate ImageIcon for file: " + imageFile.getAbsolutePath());
     }
 
     /**
@@ -292,9 +288,10 @@ public class PhotoViewer {
         CyderThreadRunner.submit(() -> {
             try {
                 Optional<String> optionalName = GetterUtil.getInstance().getInput(
-                        new GetInputBuilder("Rename", "New filename")
+                        new GetInputBuilder("Rename", "New filename for " + CyderStrings.quote
+                                + validDirectoryImages.get(currentIndex).getName() + CyderStrings.quote)
                                 .setRelativeTo(pictureFrame)
-                                .setFieldHintText("Valid filename")
+                                .setInitialFieldText(FileUtil.getFilename(validDirectoryImages.get(currentIndex)))
                                 .setSubmitButtonText("Rename"));
                 if (optionalName.isEmpty()) {
                     pictureFrame.notify("File not renamed");
@@ -355,9 +352,10 @@ public class PhotoViewer {
      */
     public void revalidateTitle(String title) {
         try {
-            BufferedImage bi = ImageIO.read(validDirectoryImages.get(currentIndex));
-            pictureFrame.setTitle(title + CyderStrings.openingBracket + bi.getWidth()
-                    + "x" + bi.getHeight() + CyderStrings.closingBracket);
+            BufferedImage bi = ImageUtil.read(validDirectoryImages.get(currentIndex));
+            int w = bi.getWidth();
+            int h = bi.getHeight();
+            pictureFrame.setTitle(title + CyderStrings.openingBracket + w + "x" + h + CyderStrings.closingBracket);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             pictureFrame.setTitle(title);

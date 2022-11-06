@@ -903,7 +903,10 @@ public final class UserEditor {
         refreshFileLists();
 
         filesNameList.forEach(element -> filesScrollList.addElementWithDoubleClickAction(
-                element, () -> IoUtil.openFile(getFile(element))));
+                element, () -> {
+                    editUserFrame.notify("Opening: " + FileUtil.getFilename(element));
+                    IoUtil.openFile(getFile(element));
+                }));
 
         JLabel filesLabel = filesScrollList.generateScrollList();
         filesLabelReference.set(filesLabel);

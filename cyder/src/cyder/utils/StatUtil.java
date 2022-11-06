@@ -18,7 +18,6 @@ import cyder.network.NetworkUtil;
 import cyder.threads.CyderThreadFactory;
 import cyder.time.TimeUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -26,7 +25,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -118,7 +116,7 @@ public final class StatUtil {
             InetAddress address = InetAddress.getLocalHost();
             NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
 
-            BufferedImage flag = ImageIO.read(new URL(IpUtil.getIpData().getFlag()));
+            BufferedImage flag = ImageUtil.read(IpUtil.getIpData().getFlag());
 
             int x = 2 * flag.getWidth();
             int y = 2 * flag.getHeight();

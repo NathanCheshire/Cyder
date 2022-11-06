@@ -7,7 +7,6 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.threads.ThreadUtil;
 import cyder.ui.frame.CyderFrame;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -52,7 +51,7 @@ public final class VideoUtil {
 
             BufferedImage image;
             try {
-                image = ImageIO.read(frameFile);
+                image = ImageUtil.read(frameFile);
             } catch (Exception ignored) {
                 return;
             }

@@ -74,7 +74,7 @@ public class ColorHandler extends InputHandler {
             }
         } else if (getInputHandler().inputIgnoringSpacesMatches("fixforeground")) {
             try {
-                Color backgroundDominantColor = ColorUtil.getDominantColor(ImageIO.read(
+                Color backgroundDominantColor = ColorUtil.getDominantColor(ImageUtil.read(
                         Console.INSTANCE.getCurrentBackground().getReferenceFile()));
 
                 if (shouldUseLightColor(backgroundDominantColor)) {

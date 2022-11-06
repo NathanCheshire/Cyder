@@ -12,16 +12,14 @@ import cyder.enums.Extension;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.files.FileUtil;
+import cyder.genesis.CyderSplash;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.network.NetworkUtil;
 import cyder.props.PropLoader;
-import cyder.utils.ImageUtil;
-import cyder.utils.OsUtil;
-import cyder.utils.SerializationUtil;
-import cyder.utils.StringUtil;
+import cyder.utils.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -621,7 +619,7 @@ public final class UserUtil {
                     boolean valid = true;
 
                     try (FileInputStream fis = new FileInputStream(f)) {
-                        ImageIO.read(fis).getWidth();
+                        ImageUtil.read(fis).getWidth();
                     } catch (Exception ignored) {
                         valid = false;
                     }
@@ -818,7 +816,7 @@ public final class UserUtil {
      *     <li>Removing backup json files which are not linked to any users</li>
      * </ul>
      */
-    public static void cleanUsers() { // todo add splash messages to this
+    public static void cleanUsers() {
         File users = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName());
         if (!users.exists()) {
             if (!users.mkdirs()) {
@@ -837,6 +835,8 @@ public final class UserUtil {
 
                 File musicDir = new File(OsUtil.buildPath(user.getAbsolutePath(), UserFile.MUSIC.getName()));
                 if (musicDir.exists()) {
+                    CyderSplash.INSTANCE.setLoadingMessage("Cleaning user music directory: "
+                            + FileUtil.getFilename(user));
                     cleanUserMusicDirectory(musicDir, user);
                 } else {
                     if (!OsUtil.createFile(musicDir, false)) {
@@ -848,36 +848,9 @@ public final class UserUtil {
                 File backgroundsDir = new File(OsUtil.buildPath(
                         user.getAbsolutePath(), UserFile.BACKGROUNDS.getName()));
                 if (backgroundsDir.exists()) {
-                    File[] backgroundFiles = backgroundsDir.listFiles();
-                    if (backgroundFiles != null && backgroundFiles.length > 0) {
-                        ArrayList<File> validBackgroundFiles = new ArrayList<>();
-                        Arrays.stream(backgroundFiles)
-                                .filter(FileUtil::isSupportedImageExtension)
-                                .forEach(validBackgroundFiles::add);
-
-                        for (File backgroundFile : validBackgroundFiles) {
-                            BufferedImage image = null;
-                            try {
-                                image = ImageUtil.getImageFromFile(backgroundFile);
-                            } catch (Exception e) {
-                                ExceptionHandler.handle(e);
-                            }
-
-                            if (image == null) continue;
-
-                            image = ImageUtil.ensureFitsInBounds(image, new Dimension(1000, 1000));
-
-                            try {
-                                if (!ImageIO.write(image, FileUtil.getExtensionWithoutPeriod(backgroundFile),
-                                        backgroundFile)) {
-                                    throw new FatalException("Failed to downscale image: "
-                                            + backgroundFile.getAbsolutePath());
-                                }
-                            } catch (Exception e) {
-                                ExceptionHandler.handle(e);
-                            }
-                        }
-                    }
+                    CyderSplash.INSTANCE.setLoadingMessage("Resizing user backgrounds: "
+                            + FileUtil.getFilename(user));
+                    resizeUserBackgroundFiles(backgroundsDir);
                 } else {
                     if (!OsUtil.createFile(backgroundsDir, false)) {
                         throw new FatalException("Failed to create user's backgrounds directory: "
@@ -888,6 +861,51 @@ public final class UserUtil {
         }
 
         cleanBackupJsons();
+    }
+
+    /**
+     * Resizes all the valid backgrounds in the provided user backgrounds directory.
+     *
+     * @param backgroundsDir the user backgrounds directory
+     */
+    private static void resizeUserBackgroundFiles(File backgroundsDir) {
+        Preconditions.checkNotNull(backgroundsDir);
+        Preconditions.checkArgument(backgroundsDir.exists());
+        Preconditions.checkArgument(backgroundsDir.isDirectory());
+        Preconditions.checkArgument(backgroundsDir.getName().equals(UserFile.BACKGROUNDS.getName()));
+
+        File[] backgroundFiles = backgroundsDir.listFiles();
+        if (backgroundFiles == null || backgroundFiles.length == 0) return;
+
+        ArrayList<File> validBackgroundFiles = new ArrayList<>();
+        Arrays.stream(backgroundFiles)
+                .filter(FileUtil::isSupportedImageExtension)
+                .forEach(validBackgroundFiles::add);
+
+        Dimension maximumDimension = new Dimension(UiUtil.getDefaultMonitorWidth(), UiUtil.getDefaultMonitorHeight());
+
+        for (File backgroundFile : validBackgroundFiles) {
+            BufferedImage image = null;
+            try {
+                CyderSplash.INSTANCE.setLoadingMessage("Reading background: " + FileUtil.getFilename(backgroundFile));
+                image = ImageUtil.read(backgroundFile);
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+
+            if (image == null) continue;
+            CyderSplash.INSTANCE.setLoadingMessage("Resizing background: " + FileUtil.getFilename(backgroundFile));
+            image = ImageUtil.ensureFitsInBounds(image, maximumDimension);
+
+            try {
+                if (!ImageIO.write(image, FileUtil.getExtensionWithoutPeriod(backgroundFile), backgroundFile)) {
+                    throw new FatalException("Failed to downscale image: "
+                            + backgroundFile.getAbsolutePath());
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }
     }
 
     /**
@@ -1239,7 +1257,7 @@ public final class UserUtil {
         int latency = NetworkUtil.latency(MAX_LATENCY);
         if (latency < MAX_LATENCY) {
             try {
-                createMe = ImageIO.read(new URL(CyderUrls.DEFAULT_BACKGROUND_URL));
+                createMe = ImageUtil.read(CyderUrls.DEFAULT_BACKGROUND_URL);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
