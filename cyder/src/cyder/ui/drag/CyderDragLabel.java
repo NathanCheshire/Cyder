@@ -200,7 +200,6 @@ public class CyderDragLabel extends JLabel {
         };
     }
 
-
     /**
      * Creates the opacity animation mouse listener for the provided frame.
      *

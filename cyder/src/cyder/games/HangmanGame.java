@@ -3,13 +3,13 @@ package cyder.games;
 import com.google.common.collect.ImmutableList;
 import cyder.annotations.*;
 import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderInspection;
 import cyder.enums.Extension;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.layouts.CyderPartitionedLayout;
 import cyder.math.NumberUtil;
 import cyder.ui.button.CyderButton;
 import cyder.ui.field.CyderTextField;
@@ -127,6 +127,36 @@ public final class HangmanGame {
     private static final String HANGMAN = "Hangman";
 
     /**
+     * The width of the hangman frame.
+     */
+    private static final int FRAME_WIDTH = 600;
+
+    /**
+     * The height of the hangman frame.
+     */
+    private static final int FRAME_HEIGHT = 800;
+
+    /**
+     * The font for the word label.
+     */
+    private static final Font wordLabelFont = CyderFonts.SEGOE_30.deriveFont(26f);
+
+    /**
+     * The length of the image label.
+     */
+    private static final int imageLabelLen = 512;
+
+    /**
+     * The spacing partition between components.
+     */
+    private static final int spacingLen = 3;
+
+    /**
+     * The height of the primary components, not including the image label.
+     */
+    private static final int componentHeight = 40;
+
+    /**
      * Suppress default constructor.
      */
     private HangmanGame() {
@@ -137,19 +167,25 @@ public final class HangmanGame {
     public static void showGui() {
         UiUtil.closeIfOpen(hangmanFrame);
 
-        hangmanFrame = new CyderFrame(712, 812, CyderIcons.defaultBackground);
+        hangmanFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT);
         hangmanFrame.setTitle(HANGMAN);
+
+        CyderPartitionedLayout partitionedLayout = new CyderPartitionedLayout();
 
         currentWordLabel = new CyderLabel();
         currentWordLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        currentWordLabel.setFont(CyderFonts.SEGOE_30.deriveFont(26f));
-        currentWordLabel.setBounds(60, 60, 600, 80);
-        hangmanFrame.getContentPane().add(currentWordLabel);
+        currentWordLabel.setFont(wordLabelFont);
+        currentWordLabel.setSize(imageLabelLen, 2 * componentHeight);
+        partitionedLayout.addComponentMaintainSize(currentWordLabel);
+
+        partitionedLayout.spacer(spacingLen);
 
         imageLabel = new JLabel();
         imageLabel.setIcon(defaultHangmanIcon);
-        imageLabel.setBounds(100, 50, 712, 712);
-        hangmanFrame.getContentPane().add(imageLabel);
+        imageLabel.setSize(imageLabelLen, imageLabelLen);
+        partitionedLayout.addComponentMaintainSize(imageLabel);
+
+        partitionedLayout.spacer(spacingLen);
 
         letterField = new CyderTextField();
         letterField.setHorizontalAlignment(JTextField.CENTER);
@@ -172,16 +208,19 @@ public final class HangmanGame {
                 onLetterFieldKeyAction(e);
             }
         });
-        letterField.setBounds(80, 700, 712 - 80 - 80, 40);
-        hangmanFrame.getContentPane().add(letterField);
+        letterField.setSize(imageLabelLen, componentHeight);
+        partitionedLayout.addComponentMaintainSize(letterField);
+
+        partitionedLayout.spacer(spacingLen);
 
         resetButton = new CyderButton(RESET);
         resetButton.addActionListener(e -> setup());
-        resetButton.setBounds(80, 750, 712 - 80 - 80, 40);
-        hangmanFrame.getContentPane().add(resetButton);
+        resetButton.setSize(imageLabelLen, componentHeight);
+        partitionedLayout.addComponentMaintainSize(resetButton);
 
+        hangmanFrame.setCyderLayout(partitionedLayout);
         hangmanFrame.finalizeAndShow();
-        hangmanFrame.requestFocus();
+        letterField.requestFocus();
 
         setup();
     }
