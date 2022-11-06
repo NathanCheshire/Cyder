@@ -42,11 +42,6 @@ public final class DirectoryViewer {
     private static JLabel dirScrollLabel = new JLabel();
 
     /**
-     * The names of the current files.
-     */
-    private static final LinkedList<String> currentFileNames = new LinkedList<>();
-
-    /**
      * The current files.
      */
     private static final LinkedList<File> currentFiles = new LinkedList<>();
@@ -82,6 +77,16 @@ public final class DirectoryViewer {
     private static CyderScrollList cyderScrollList = new CyderScrollList(SCROLL_WIDTH, SCROLL_HEIGHT);
 
     /**
+     * The x value of the directory scroll label and the loading files label.
+     */
+    private static final int directoryScrollX = 10;
+
+    /**
+     * The y value of the directory scroll label and the loading files label.
+     */
+    private static final int directoryScrollY = 90;
+
+    /**
      * The loading files label.
      */
     private static final JLabel loadingFilesLabel = new JLabel();
@@ -93,8 +98,43 @@ public final class DirectoryViewer {
         loadingFilesLabel.setFont(CyderFonts.DEFAULT_FONT);
         loadingFilesLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         loadingFilesLabel.setOpaque(false);
-        loadingFilesLabel.setBounds(10, 90, SCROLL_WIDTH, SCROLL_HEIGHT);
+        loadingFilesLabel.setBounds(directoryScrollX, directoryScrollY, SCROLL_WIDTH, SCROLL_HEIGHT);
     }
+
+    /**
+     * The frame widget.
+     */
+    private static final int frameWidth = 630;
+
+    /**
+     * The frame height.
+     */
+    private static final int frameHeight = 510;
+
+    /**
+     * Thee length of the nav buttons.
+     */
+    private static final int navButtonLen = 40;
+
+    /**
+     * The y values of the nav buttons.
+     */
+    private static final int navButtonYOffset = 40;
+
+    /**
+     * The x value of the last nav button.
+     */
+    private static final int navButtonLastX = 10;
+
+    /**
+     * The padding between the nav buttons and the field.
+     */
+    private static final int fieldNavButtonPadding = 25;
+
+    /**
+     * The x value of the last nav button.
+     */
+    private static final int navButtonNextX = frameWidth - navButtonLastX - 2 * fieldNavButtonPadding;
 
     /**
      * Suppress default constructor.
@@ -103,7 +143,7 @@ public final class DirectoryViewer {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
-    @Widget(triggers = "dir", description = "A directory navigator widget")
+    @Widget(triggers = {"dir", "directory"}, description = "A directory navigator widget")
     public static void showGui() {
         showGui(new File(OsUtil.USER_DIR));
     }
@@ -125,7 +165,7 @@ public final class DirectoryViewer {
 
         UiUtil.closeIfOpen(directoryFrame);
 
-        directoryFrame = new CyderFrame(630, 510, CyderColors.regularBackgroundColor);
+        directoryFrame = new CyderFrame(frameWidth, frameHeight, CyderColors.regularBackgroundColor);
         directoryFrame.setTitle(currentDirectory.getName());
 
         directoryField = new CyderTextField();
@@ -161,7 +201,7 @@ public final class DirectoryViewer {
                 refreshFiles();
             }
         });
-        last.setBounds(10, 40, 40, 40);
+        last.setBounds(navButtonLastX, navButtonYOffset, navButtonLen, navButtonLen);
         directoryFrame.getContentPane().add(last);
 
         CyderButton next = new CyderButton(" > ");
@@ -178,7 +218,7 @@ public final class DirectoryViewer {
                 refreshFiles();
             }
         });
-        next.setBounds(620 - 50, 40, 40, 40);
+        next.setBounds(navButtonNextX, navButtonYOffset, navButtonLen, navButtonLen);
         directoryFrame.getContentPane().add(next);
 
         loadingFilesLabel.setVisible(true);
@@ -191,7 +231,7 @@ public final class DirectoryViewer {
     }
 
     /**
-     * Stores teh current directory as a previous location if necessary.
+     * Stores the current directory as a previous location if necessary.
      */
     private static void storeCurrentDirectory() {
         if (backward.isEmpty()) {
@@ -214,35 +254,29 @@ public final class DirectoryViewer {
         directoryFrame.remove(dirScrollLabel);
 
         currentFiles.clear();
-        currentFileNames.clear();
 
         File[] localDirectoryFiles = currentDirectory.listFiles();
         if (localDirectoryFiles != null && localDirectoryFiles.length > 0) {
             Collections.addAll(currentFiles, localDirectoryFiles);
         }
-        currentFiles.forEach(file -> currentFileNames.add(file.getName()));
 
         cyderScrollList = new CyderScrollList(SCROLL_WIDTH, SCROLL_HEIGHT, CyderScrollList.SelectionPolicy.SINGLE);
         cyderScrollList.setScrollFont(CyderFonts.SEGOE_20.deriveFont(16f));
 
-        for (int i = 0 ; i < currentFileNames.size() ; i++) {
-            int finalI = i;
-            cyderScrollList.addElementWithDoubleClickAction(currentFileNames.get(i), () -> {
-                File file = currentFiles.get(finalI);
-
-                if (file.isDirectory()) {
-                    forward.clear();
-                    storeCurrentDirectory();
-                    currentDirectory = file;
-                    refreshFiles();
-                } else {
-                    IoUtil.openFile(currentFiles.get(finalI).getAbsolutePath());
-                }
-            });
-        }
+        currentFiles.forEach(file ->
+                cyderScrollList.addElementWithDoubleClickAction(file.getName(), () -> {
+                    if (file.isDirectory()) {
+                        forward.clear();
+                        storeCurrentDirectory();
+                        currentDirectory = file;
+                        refreshFiles();
+                    } else {
+                        IoUtil.openFile(file.getAbsolutePath());
+                    }
+                }));
 
         dirScrollLabel = cyderScrollList.generateScrollList();
-        dirScrollLabel.setBounds(10, 90, SCROLL_WIDTH, SCROLL_HEIGHT);
+        dirScrollLabel.setBounds(directoryScrollX, directoryScrollY, SCROLL_WIDTH, SCROLL_HEIGHT);
         directoryFrame.getContentPane().add(dirScrollLabel);
 
         loadingFilesLabel.setVisible(false);

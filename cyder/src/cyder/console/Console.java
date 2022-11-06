@@ -3442,7 +3442,7 @@ public enum Console {
     }
 
     // -----------------------------------------------------
-    // Dancing (Get up on teh floor, dancing all night long)
+    // Dancing (Get up on the floor, dancing all night long)
     // -----------------------------------------------------
 
     /**

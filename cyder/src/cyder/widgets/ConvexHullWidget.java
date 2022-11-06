@@ -315,7 +315,7 @@ public final class ConvexHullWidget {
 
     /**
      * Returns the node with the minimum y value from the provided list.
-     * If two points contain teh same y value, the point with the minimum x value is returned.
+     * If two points contain the same y value, the point with the minimum x value is returned.
      *
      * @param points the list of points
      * @return the bottom left most point

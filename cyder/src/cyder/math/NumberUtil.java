@@ -419,7 +419,7 @@ public final class NumberUtil {
      * @param first  the first dimensional value
      * @param second the second dimensional value
      * @param others the other n dimensional values
-     * @return the magnitude of the vector represented by teh provided values.
+     * @return the magnitude of the vector represented by the provided values.
      */
     public static double calculateMagnitude(double first, double second, double... others) {
         double summedSquares = Math.pow(first, 2) + Math.pow(second, 2);
