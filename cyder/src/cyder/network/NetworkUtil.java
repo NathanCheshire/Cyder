@@ -17,6 +17,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.threads.IgnoreThread;
 import cyder.threads.ThreadUtil;
 import cyder.time.TimeUtil;
+import cyder.utils.StringUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -159,6 +160,11 @@ public class NetworkUtil {
     public static final int SITE_PING_TIMEOUT = (int) (TimeUtil.MILLISECONDS_IN_SECOND * 5);
 
     /**
+     * The slash slash for urls.
+     */
+    private static final String slashSlash = "//";
+
+    /**
      * So no head?
      */
     private static final String HEAD = "HEAD";
@@ -226,52 +232,81 @@ public class NetworkUtil {
     }
 
     /**
-     * The name of the ip to ping by default when determining a user's latency.
+     * The default ip to use when pinging determine a user's latency.
+     * DNS changing for this would be highly unlikely.
      */
-    public static final String LATENCY_GOOGLE_HOST_NAME = "Google";
+    private static final String defaultLatencyIp = "172.217.4.78";
 
     /**
-     * The port to use when pinging google to determine a user's latency.
+     * The default port to use when pinging the default latency ip to determine a user's latency.
      */
-    public static final int LATENCY_GOOGLE_PORT = 80;
+    private static final int defaultLatencyPort = 80;
 
     /**
-     * The ip to use when pinging google to determine a user's latency.
-     * DNS changing for this would be highly unlikely. In the future, this might
-     * be changed to a remote database value.
+     * The default name of the latency ip and port.
      */
-    public static final String LATENCY_GOOGLE_IP = "172.217.4.78";
+    private static final String defaultLatencyName = "Google";
 
     /**
      * The currently set latency ip.
      */
-    private static String latencyIp = LATENCY_GOOGLE_IP;
+    private static final String latencyIp;
 
     /**
      * The currently set latency port.
      */
-    private static int latencyPort = LATENCY_GOOGLE_PORT;
+    private static final int latencyPort;
 
     /**
      * The currently set latency host name.
      */
-    private static String latencyHostName = LATENCY_GOOGLE_HOST_NAME;
+    private static String latencyHostName;
 
     static {
-        if (PropLoader.propExists(LATENCY_IP_KEY)) {
+        boolean customLatencyIpPresent = PropLoader.propExists(LATENCY_IP_KEY);
+        boolean customLatencyPortPreset = PropLoader.propExists(LATENCY_PORT_KEY);
+        boolean customLatencyNamePresent = PropLoader.propExists(LATENCY_NAME);
+
+        if (customLatencyIpPresent) {
             latencyIp = PropLoader.getString(LATENCY_IP_KEY);
             Logger.log(LogTag.DEBUG, "Set latency ip as " + latencyIp);
-        }
 
-        if (PropLoader.propExists(LATENCY_PORT_KEY)) {
-            latencyPort = PropLoader.getInteger(LATENCY_PORT_KEY);
+            latencyPort = customLatencyPortPreset ? PropLoader.getInteger(LATENCY_PORT_KEY) : defaultLatencyPort;
             Logger.log(LogTag.DEBUG, "Set latency port as " + latencyPort);
-        }
 
-        //latency_name todo if this is left out, set as the name of the ip:port get title of webpage
-        if (PropLoader.propExists(LATENCY_NAME)) {
-            latencyHostName = PropLoader.getString(LATENCY_NAME);
-            Logger.log(LogTag.DEBUG, "Set latency host name as " + latencyHostName);
+            if (customLatencyNamePresent) {
+                latencyHostName = PropLoader.getString(LATENCY_NAME);
+                Logger.log(LogTag.DEBUG, "Set latency host name as " + latencyHostName);
+            } else {
+                CyderThreadRunner.submit(() -> {
+                    latencyHostName = "Unknown";
+
+                    try {
+                        String getTitleUrl = HTTP + CyderStrings.colon + slashSlash
+                                + latencyIp + CyderStrings.colon + latencyPort;
+                        Optional<String> latencyHostNameOptional = NetworkUtil.getUrlTitle(getTitleUrl);
+                        if (latencyHostNameOptional.isEmpty()) {
+                            throw new FatalException("Failed to get latency host name using JSoup");
+                        } else {
+                            latencyHostName = StringUtil.capsFirstWords(latencyHostNameOptional.get());
+                        }
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+
+                        try {
+                            latencyHostName = InetAddress.getByName(latencyIp).getHostName();
+                        } catch (Exception e2) {
+                            ExceptionHandler.handle(e2);
+                        }
+                    }
+
+                    Logger.log(LogTag.DEBUG, "Found and set latency host name as " + latencyHostName);
+                }, IgnoreThread.LatencyHostnameFinder.getName());
+            }
+        } else {
+            latencyIp = defaultLatencyIp;
+            latencyPort = defaultLatencyPort;
+            latencyHostName = defaultLatencyName;
         }
     }
 
@@ -315,7 +350,7 @@ public class NetworkUtil {
     public static final int DEFAULT_LATENCY_TIMEOUT = 2000;
 
     /**
-     * Pings {@link #LATENCY_GOOGLE_IP} to find the latency.
+     * Pings {@link #defaultLatencyIp} to find the latency.
      *
      * @return the latency of the local internet connection to google.com
      */

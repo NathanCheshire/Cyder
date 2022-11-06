@@ -4,18 +4,20 @@ package cyder.threads;
  * Thread names to ignore when determining if Cyder should be classified as busy.
  */
 public enum IgnoreThread {
+    /* non-cyder threads */
+    AwtEventQueue0("AWT-EventQueue-0", false),
+    DestroyJavaVm("DestroyJavaVM", false),
+
     CyderBusyChecker("Cyder Busy Checker"),
-    AwtEventQueue0("AWT-EventQueue-0"),
     ConsoleClockUpdater("Console Clock Updater"),
     HourlyChimeChecker("Hourly Chime Checker"),
     HighPingChecker("High Ping Checker"),
-    DestroyJavaVm("DestroyJavaVM"),
     ConsolePrintingAnimation("Console Printing Animation"),
     SingularInstanceEnsurer("Singular Cyder Instance Ensurer"),
     ObjectCreationLogger("Object Creation Logger"),
     CyderWatchdog("Cyder Watchdog"),
     WatchdogInitializer("Watchdog Initializer"),
-    Backend("Backend");
+    LatencyHostnameFinder("Latency Hostname finder");
 
     /**
      * The name associated with the thread to ignore.
@@ -23,12 +25,17 @@ public enum IgnoreThread {
     private final String name;
 
     /**
-     * Constructs a new thread to ignore when counting worker threads.
-     *
-     * @param name the name of the thread to ignore
+     * Whether the thread is launched by Cyder internally or is a JVM process thread.
      */
+    private final boolean isCyderThread;
+
     IgnoreThread(String name) {
+        this(name, true);
+    }
+
+    IgnoreThread(String name, boolean isCyderThread) {
         this.name = name;
+        this.isCyderThread = isCyderThread;
     }
 
     /**
@@ -38,5 +45,14 @@ public enum IgnoreThread {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Returns whether this thread is a cyder thread.
+     *
+     * @return whether this thread is a cyder thread
+     */
+    public boolean isCyderThread() {
+        return isCyderThread;
     }
 }

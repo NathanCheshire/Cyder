@@ -159,7 +159,7 @@ public final class IoUtil {
                         .append(", hostname = ").append(result.hostname());
 
                 boolean autoCypher = PropLoader.getBoolean(AUTOCYPHER);
-                Logger.log(LogTag.JVM_ARGS, autoCypher ? "JVM args hidden due to AutoCypher" : argBuilder);
+                Logger.log(LogTag.JVM_ARGS, autoCypher ? "JVM args obfuscated due to AutoCypher" : argBuilder);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
