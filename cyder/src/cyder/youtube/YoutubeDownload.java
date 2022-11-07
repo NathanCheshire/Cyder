@@ -608,7 +608,7 @@ public class YoutubeDownload {
         Arrays.stream(children).filter(child -> FileUtil.getFilename(child).startsWith(nameWithoutExtension))
                 .forEach(child -> {
                     if (!OsUtil.deleteFile(child)) {
-                        Logger.log(LogTag.DEBUG, "Could not delete file resulting from youtube "
+                        Logger.log(LogTag.SYSTEM_IO, "Could not delete file resulting from youtube "
                                 + "download operation canceled, location=" + parentDirectory.getAbsolutePath()
                                 + ", name=" + nameWithoutExtension);
                     }

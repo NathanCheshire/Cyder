@@ -75,7 +75,7 @@ public final class CyderWatchdog {
      */
     public static void initializeWatchDog() {
         if (!PropLoader.getBoolean(ACTIVE_WATCHDOG)) {
-            Logger.log(LogTag.DEBUG, "Watchdog skipped");
+            Logger.log(LogTag.WATCHDOG, "Watchdog skipped");
             return;
         }
 
@@ -101,7 +101,7 @@ public final class CyderWatchdog {
                         }
                     }
                 } catch (Exception e) {
-                    Logger.log(LogTag.DEBUG, ExceptionHandler.getPrintableException(e));
+                    Logger.log(LogTag.WATCHDOG, ExceptionHandler.getPrintableException(e));
                 }
             }
         }, IgnoreThread.WatchdogInitializer.getName());
@@ -134,11 +134,11 @@ public final class CyderWatchdog {
                 if (currentState == Thread.State.RUNNABLE) {
                     ProgramState currentCyderState = ProgramStateManager.INSTANCE.getCurrentProgramState();
                     if (currentCyderState != ProgramState.NORMAL) {
-                        Logger.log(LogTag.DEBUG, "Watchdog not incremented as "
+                        Logger.log(LogTag.WATCHDOG, "Watchdog not incremented as "
                                 + "current program state is: " + currentCyderState);
                         continue;
                     } else if (JvmUtil.currentInstanceLaunchedWithDebug()) {
-                        Logger.log(LogTag.DEBUG, "Watchdog not incremented as "
+                        Logger.log(LogTag.WATCHDOG, "Watchdog not incremented as "
                                 + "current jvm session was launched using debug");
                         continue;
                     }
@@ -148,20 +148,20 @@ public final class CyderWatchdog {
                     int currentFreezeLength = watchdogCounter.get();
 
                     if (currentFreezeLength > maxSessionFreezeLength.get()) {
-                        Logger.log(LogTag.DEBUG, "Max freeze detected by watchdog: "
+                        Logger.log(LogTag.WATCHDOG, "Max freeze detected by watchdog: "
                                 + currentFreezeLength + "ms");
                         maxSessionFreezeLength.set(currentFreezeLength);
                     }
 
                     if (watchdogCounter.get() >= MAX_WATCHDOG_FREEZE_MS) {
-                        Logger.log(LogTag.DEBUG, "Halt detected by watchdog");
+                        Logger.log(LogTag.WATCHDOG, "Halt detected by watchdog");
 
                         if (OsUtil.JAR_MODE) {
-                            Logger.log(LogTag.DEBUG, "JAR_MODE detected; attempting to "
+                            Logger.log(LogTag.WATCHDOG, "JAR_MODE detected; attempting to "
                                     + "locate jar to boostrap from");
                             bootstrap();
                         } else {
-                            Logger.log(LogTag.DEBUG, "JAR_MODE is not active thus "
+                            Logger.log(LogTag.WATCHDOG, "JAR_MODE is not active thus "
                                     + "no jar can be located to boostrap from; exiting Cyder");
                             OsUtil.exit(ExitCondition.WatchdogTimeout);
                         }

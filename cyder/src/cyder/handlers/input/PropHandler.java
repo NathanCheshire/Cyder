@@ -35,9 +35,9 @@ public class PropHandler extends InputHandler {
                 getInputHandler().println("Reloading props is currently disabled"
                         + " during runtime, check your props file");
             } else {
-                Logger.log(LogTag.DEBUG, "Reloading props");
+                Logger.log(LogTag.PROPS_ACTION, "Reloading props");
                 PropLoader.reloadProps();
-                Logger.log(LogTag.DEBUG, "Props reloaded");
+                Logger.log(LogTag.PROPS_ACTION, "Props reloaded");
                 getInputHandler().println("Reloaded props. Props loaded: " + PropLoader.getProps().size());
             }
         } else ret = false;

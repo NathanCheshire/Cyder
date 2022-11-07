@@ -150,7 +150,6 @@ public final class Logger {
             println(LoggingUtil.getLogTimeTag() + LogTag.constructLogTagPrepend(LOG_CONCLUDED) + representation);
             return;
         } else if (representation instanceof String string && LoggingUtil.emptyOrNewline(string)) {
-            log(LogTag.DEBUG, "Attempted to log a new or empty line");
             return;
         }
 
@@ -267,8 +266,8 @@ public final class Logger {
                 logConcluded = true;
 
                 return;
-            case CORRUPTION:
-                logBuilder.append(LogTag.CORRUPTION.constructLogTagPrepend());
+            case USER_CORRUPTION:
+                logBuilder.append(LogTag.USER_CORRUPTION.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case DEBUG:
@@ -283,8 +282,8 @@ public final class Logger {
                 logBuilder.append(LogTag.WIDGET_OPENED.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
-            case PREFERENCE_REFRESH:
-                logBuilder.append(LogTag.PREFERENCE_REFRESH.constructLogTagPrepend());
+            case PREFERENCE:
+                logBuilder.append(LogTag.PREFERENCE.constructLogTagPrepend());
                 logBuilder.append("Key = ").append(representation);
                 break;
             case THREAD_STARTED:
@@ -335,20 +334,28 @@ public final class Logger {
                 logBuilder.append(LogTag.CONSOLE_REDIRECTION.constructLogTagPrepend());
                 logBuilder.append("console output was redirected to files/").append(representation);
                 break;
-            case CRUD_OP:
-                logBuilder.append(LogTag.CRUD_OP.constructLogTagPrepend());
-                logBuilder.append(representation);
-                break;
-            case PROP_LOADED:
-                logBuilder.append(LogTag.PROP_LOADED.constructLogTagPrepend());
-                logBuilder.append(representation);
-                break;
             case LOADING_MESSAGE:
                 logBuilder.append(LogTag.LOADING_MESSAGE.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             case USER_GET:
                 logBuilder.append(LogTag.USER_GET.constructLogTagPrepend());
+                logBuilder.append(representation);
+                break;
+            case PROPS_ACTION:
+                logBuilder.append(LogTag.PROPS_ACTION.constructLogTagPrepend());
+                logBuilder.append(representation);
+                break;
+            case PYTHON:
+                logBuilder.append(LogTag.PYTHON.constructLogTagPrepend());
+                logBuilder.append(representation);
+                break;
+            case NETWORK:
+                logBuilder.append(LogTag.NETWORK.constructLogTagPrepend());
+                logBuilder.append(representation);
+                break;
+            case HANDLE_WARNING:
+                logBuilder.append(LogTag.HANDLE_WARNING.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
             default:
@@ -513,7 +520,7 @@ public final class Logger {
                 bw.newLine();
             }
         } catch (Exception e) {
-            log(LogTag.DEBUG, ExceptionHandler.getPrintableException(e));
+            log(LogTag.EXCEPTION, ExceptionHandler.getPrintableException(e));
         }
     }
 
@@ -539,7 +546,7 @@ public final class Logger {
                 bw.newLine();
             }
         } catch (Exception e) {
-            log(LogTag.DEBUG, ExceptionHandler.getPrintableException(e));
+            log(LogTag.EXCEPTION, ExceptionHandler.getPrintableException(e));
         }
     }
 

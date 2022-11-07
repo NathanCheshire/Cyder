@@ -269,14 +269,14 @@ public class NetworkUtil {
 
         if (customLatencyIpPresent) {
             latencyIp = PropLoader.getString(LATENCY_IP_KEY);
-            Logger.log(LogTag.DEBUG, "Set latency ip as " + latencyIp);
+            Logger.log(LogTag.NETWORK, "Set latency ip as " + latencyIp);
 
             latencyPort = customLatencyPortPreset ? PropLoader.getInteger(LATENCY_PORT_KEY) : defaultLatencyPort;
-            Logger.log(LogTag.DEBUG, "Set latency port as " + latencyPort);
+            Logger.log(LogTag.NETWORK, "Set latency port as " + latencyPort);
 
             if (customLatencyNamePresent) {
                 latencyHostName = PropLoader.getString(LATENCY_NAME);
-                Logger.log(LogTag.DEBUG, "Set latency host name as " + latencyHostName);
+                Logger.log(LogTag.NETWORK, "Set latency host name as " + latencyHostName);
             } else {
                 CyderThreadRunner.submit(() -> {
                     latencyHostName = "Unknown";
@@ -300,7 +300,7 @@ public class NetworkUtil {
                         }
                     }
 
-                    Logger.log(LogTag.DEBUG, "Found and set latency host name as " + latencyHostName);
+                    Logger.log(LogTag.NETWORK, "Found and set latency host name as " + latencyHostName);
                 }, IgnoreThread.LatencyHostnameFinder.getName());
             }
         } else {
@@ -337,7 +337,7 @@ public class NetworkUtil {
             ExceptionHandler.handle(e);
         }
 
-        Logger.log(LogTag.DEBUG, "Latency of "
+        Logger.log(LogTag.NETWORK, "Latency of "
                 + latencyIp + CyderStrings.colon + latencyPort
                 + " (" + latencyHostName + ") found to be " + TimeUtil.formatMillis(latency));
 

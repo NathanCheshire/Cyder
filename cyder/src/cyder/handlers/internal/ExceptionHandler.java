@@ -117,8 +117,7 @@ public final class ExceptionHandler {
             if (optionalWrite.isPresent()) {
                 String write = optionalWrite.get();
                 if (!write.replaceAll(CyderRegexPatterns.whiteSpaceRegex, "").isEmpty()) {
-                    LogTag logTag = Logger.hasLogStarted() ? LogTag.EXCEPTION : LogTag.DEBUG;
-                    Logger.log(logTag, write);
+                    Logger.log(LogTag.EXCEPTION, write);
 
                     boolean consoleOpen = Console.INSTANCE.getUuid() != null && !Console.INSTANCE.isClosed();
                     boolean silenceErrors = UserUtil.getCyderUser().getSilenceErrors().equals("1");
@@ -135,8 +134,8 @@ public final class ExceptionHandler {
                 }
             }
         } catch (Exception uhOh) {
-            Logger.log(LogTag.DEBUG, getPrintableException(exception));
-            Logger.log(LogTag.DEBUG, getPrintableException(uhOh));
+            if (exception != null) exception.printStackTrace();
+            uhOh.printStackTrace();
         }
     }
 
@@ -217,7 +216,7 @@ public final class ExceptionHandler {
                 if (escapeOpacityThread.get()) return;
                 borderlessFrame.dispose(true);
             } catch (Exception ex) {
-                Logger.log(LogTag.DEBUG, getPrintableException(ex));
+                ex.printStackTrace();
             }
         }, threadName);
     }
@@ -269,7 +268,7 @@ public final class ExceptionHandler {
             String write = optionalWrite.get();
             Logger.log(LogTag.EXCEPTION, write);
         } catch (Exception ex) {
-            Logger.log(LogTag.DEBUG, getPrintableException(ex));
+            ex.printStackTrace();
         }
     }
 

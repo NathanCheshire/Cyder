@@ -388,7 +388,7 @@ public class BaseInputHandler {
                 if (tolerance == 1.0) return;
 
                 if (!StringUtil.isNullOrEmpty(similarCommand)) {
-                    Logger.log(LogTag.DEBUG, "Similar command to \""
+                    Logger.log(LogTag.DEBUG, "Similar command to " + CyderStrings.quote
                             + command + CyderStrings.quote + " found with tolerance of " + tolerance
                             + ", command: " + CyderStrings.quote + similarCommand + CyderStrings.quote);
 

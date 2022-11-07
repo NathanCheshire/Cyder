@@ -87,7 +87,7 @@ public enum LogTag {
     /**
      * A user became corrupted invoking the userJsonCorrupted method.
      */
-    CORRUPTION("CORRUPTION"),
+    USER_CORRUPTION("USER CORRUPTION"),
 
     /**
      * A quick debug information statement.
@@ -105,9 +105,9 @@ public enum LogTag {
     WIDGET_OPENED("WIDGET"),
 
     /**
-     * A userdata which exists as a Preference object was toggled between states and refreshed.
+     * An action related to preferences.
      */
-    PREFERENCE_REFRESH("PREFERENCE REFRESH"),
+    PREFERENCE("PREFERENCE"),
 
     /**
      * A thread was spun up and started by CyderThreadRunner.
@@ -130,25 +130,54 @@ public enum LogTag {
     FONT_LOADED("FONT LOADED"),
 
     /**
-     * A prop from props.ini was loaded.
-     */
-    PROP_LOADED("PROP LOADED"),
-
-    /**
      * The status of a thread, typically AWT-EventQueue-0.
      */
     THREAD_STATUS("THREAD STATUS"),
 
     /**
-     * A Create (PUT), Read (GET), Update (POST), or Delete (DELETE) operation was performed
-     * on the Cyder backend.
-     */
-    CRUD_OP("BACKEND CRUD"),
-
-    /**
      * The CyderSplash loading message was set.
      */
     LOADING_MESSAGE("LOADING MESSAGE"),
+
+    /**
+     * An action related to a prop occurred.
+     */
+    PROPS_ACTION("PROPS ACTION"),
+
+    /**
+     * An action related to python.
+     */
+    PYTHON("PYTHON"),
+
+    /**
+     * An action related to the network or IO.
+     */
+    NETWORK("NETWORK"),
+
+    /**
+     * An action related to the watchdog.
+     */
+    WATCHDOG("WATCHDOG"),
+
+    /**
+     * A warning related to how a handle class/method/annotation usage is used.
+     */
+    HANDLE_WARNING("HANDLE WARNING"),
+
+    /**
+     * A warning related to a widget annotation.
+     */
+    WIDGET_WARNING("WIDGET WARNING"),
+
+    /**
+     * A warning related to a gui test annotation.
+     */
+    GUI_TEST_WARNING("GUI TEST WARNING"),
+
+    /**
+     * A warning related to a vanilla annotation.
+     */
+    VANILLA_WARNING("VANILLA WARNING"),
 
     /**
      * A get call was invoked on a user object.

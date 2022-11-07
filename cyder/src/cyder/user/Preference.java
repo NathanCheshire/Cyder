@@ -80,43 +80,43 @@ public class Preference {
      */
     private static final ImmutableList<Preference> preferences = ImmutableList.of(
             new Preference(NAME, IGNORE, IGNORE, IGNORE,
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, NAME))
+                    () -> Logger.log(LogTag.PREFERENCE, NAME))
                     .setIgnoreForToggleSwitches(true)
                     .setIgnoreForUserCreation(true),
 
             new Preference(PASS, IGNORE, IGNORE, IGNORE,
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, PASS))
+                    () -> Logger.log(LogTag.PREFERENCE, PASS))
                     .setIgnoreForToggleSwitches(true)
                     .setIgnoreForUserCreation(true),
 
             new Preference(FONT, IGNORE, EMPTY, "Agency FB",
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, FONT))
+                    () -> Logger.log(LogTag.PREFERENCE, FONT))
                     .setIgnoreForToggleSwitches(true),
 
             new Preference(FOREGROUND, IGNORE, EMPTY, "f0f0f0", () -> {
-                Logger.log(LogTag.PREFERENCE_REFRESH, FOREGROUND);
+                Logger.log(LogTag.PREFERENCE, FOREGROUND);
                 Console.INSTANCE.getInputField().setForeground(
                         ColorUtil.hexStringToColor(UserUtil.getCyderUser().getForeground()));
             }).setIgnoreForToggleSwitches(true),
 
             new Preference(BACKGROUND, IGNORE, EMPTY, "101010",
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, BACKGROUND))
+                    () -> Logger.log(LogTag.PREFERENCE, BACKGROUND))
                     .setIgnoreForToggleSwitches(true),
 
             new Preference(INTRO_MUSIC, "Intro Music", "Play intro music on start",
-                    "0", () -> Logger.log(LogTag.PREFERENCE_REFRESH, INTRO_MUSIC)),
+                    "0", () -> Logger.log(LogTag.PREFERENCE, INTRO_MUSIC)),
 
             new Preference(DEBUG_STATS, "Debug Windows",
                     "Show debug menus on startup", "0",
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, "DEBUG_WINDOWS")),
+                    () -> Logger.log(LogTag.PREFERENCE, "DEBUG_WINDOWS")),
 
             new Preference(RANDOM_BACKGROUND, "Random Background",
                     "Choose a random background on startup", "0",
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, RANDOM_BACKGROUND)),
+                    () -> Logger.log(LogTag.PREFERENCE, RANDOM_BACKGROUND)),
 
             new Preference(OUTPUT_BORDER, "Output Border",
                     "Draw a border around the output area", "0", () -> {
-                Logger.log(LogTag.PREFERENCE_REFRESH, OUTPUT_BORDER);
+                Logger.log(LogTag.PREFERENCE, OUTPUT_BORDER);
 
                 if (UserUtil.getCyderUser().getOutputBorder().equals("0")) {
                     Console.INSTANCE.getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
@@ -129,7 +129,7 @@ public class Preference {
 
             new Preference(INPUT_BORDER, "Input Border", "Draw a border around the input area",
                     "0", () -> {
-                Logger.log(LogTag.PREFERENCE_REFRESH, INPUT_BORDER);
+                Logger.log(LogTag.PREFERENCE, INPUT_BORDER);
 
                 if (UserUtil.getCyderUser().getInputBorder().equals("0")) {
                     Console.INSTANCE.getInputField().setBorder(null);
@@ -140,21 +140,21 @@ public class Preference {
             }),
 
             new Preference(HOURLY_CHIMES, "Hourly Chimes", "Chime every hour", "1",
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, HOURLY_CHIMES)),
+                    () -> Logger.log(LogTag.PREFERENCE, HOURLY_CHIMES)),
 
             new Preference(SILENCE_ERRORS, "Silence Errors", "Don't open errors externally",
-                    "1", () -> Logger.log(LogTag.PREFERENCE_REFRESH, SILENCE_ERRORS)),
+                    "1", () -> Logger.log(LogTag.PREFERENCE, SILENCE_ERRORS)),
 
             new Preference(FULLSCREEN, "Fullscreen",
                     "Fullscreen Cyder (this will also cover the Windows taskbar)", "0", () -> {
-                Logger.log(LogTag.PREFERENCE_REFRESH, FULLSCREEN);
+                Logger.log(LogTag.PREFERENCE, FULLSCREEN);
                 Console.INSTANCE.setFullscreen(UserUtil.getCyderUser().getFullscreen().equals("1"));
             }),
 
             new Preference(OUTPUT_FILL, "Output Fill",
                     "Fill the output area with the color specified in the \"Fonts & Colors\" panel",
                     "0", () -> {
-                Logger.log(LogTag.PREFERENCE_REFRESH, OUTPUT_FILL);
+                Logger.log(LogTag.PREFERENCE, OUTPUT_FILL);
 
                 if (UserUtil.getCyderUser().getOutputFill().equals("0")) {
                     Console.INSTANCE.getOutputArea().setBackground(null);
@@ -171,7 +171,7 @@ public class Preference {
             new Preference(INPUT_FILL, "Input Fill",
                     "Fill the input area with the color specified in the \"Fonts & Colors\" panel",
                     "0", () -> {
-                Logger.log(LogTag.PREFERENCE_REFRESH, INPUT_FILL);
+                Logger.log(LogTag.PREFERENCE, INPUT_FILL);
 
                 if (UserUtil.getCyderUser().getInputFill().equals("0")) {
                     Console.INSTANCE.getInputField().setBackground(null);
@@ -187,109 +187,109 @@ public class Preference {
 
             new Preference(CLOCK_ON_CONSOLE, "Clock On Console",
                     "Show a clock at the top of the console", "1", () -> {
-                Logger.log(LogTag.PREFERENCE_REFRESH, CLOCK_ON_CONSOLE);
+                Logger.log(LogTag.PREFERENCE, CLOCK_ON_CONSOLE);
                 Console.INSTANCE.refreshClockText();
             }),
 
             new Preference(SHOW_SECONDS, "Show Seconds",
                     "Show seconds on the console clock if enabled", "1", () -> {
-                Logger.log(LogTag.PREFERENCE_REFRESH, SHOW_SECONDS);
+                Logger.log(LogTag.PREFERENCE, SHOW_SECONDS);
                 Console.INSTANCE.refreshClockText();
             }),
 
             new Preference(FILTER_CHAT, "Filter Chat", "Filter foul language", "1",
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, FILTER_CHAT)),
+                    () -> Logger.log(LogTag.PREFERENCE, FILTER_CHAT)),
 
             new Preference(LAST_START, IGNORE, EMPTY, String.valueOf(System.currentTimeMillis()),
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, LAST_START))
+                    () -> Logger.log(LogTag.PREFERENCE, LAST_START))
                     .setIgnoreForToggleSwitches(true),
 
             new Preference(MINIMIZE_ON_CLOSE, "Minimize On Close",
                     "Minimize the application instead of exiting whenever a close action is requested",
-                    "0", () -> Logger.log(LogTag.PREFERENCE_REFRESH, MINIMIZE_ON_CLOSE)),
+                    "0", () -> Logger.log(LogTag.PREFERENCE, MINIMIZE_ON_CLOSE)),
 
             new Preference(TYPING_ANIMATION, "Typing Animation",
                     "Typing animation on console for non-vital outputs", "1",
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, TYPING_ANIMATION)),
+                    () -> Logger.log(LogTag.PREFERENCE, TYPING_ANIMATION)),
 
             new Preference(TYPING_SOUND, "Typing Animation Sound",
                     "Typing animation sound effect to play if typing animation is enabled",
-                    "1", () -> Logger.log(LogTag.PREFERENCE_REFRESH, TYPING_SOUND)),
+                    "1", () -> Logger.log(LogTag.PREFERENCE, TYPING_SOUND)),
 
             new Preference(SHOW_BUSY_ICON, "Show Cyder Busy Icon",
                     "Show when Cyder is busy by changing the tray icon", "0",
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, SHOW_BUSY_ICON)),
+                    () -> Logger.log(LogTag.PREFERENCE, SHOW_BUSY_ICON)),
 
             new Preference(ROUNDED_WINDOWS, "Rounded Windows", "Make certain windows rounded",
                     "0", () -> {
-                Logger.log(LogTag.PREFERENCE_REFRESH, ROUNDED_WINDOWS);
+                Logger.log(LogTag.PREFERENCE, ROUNDED_WINDOWS);
                 UiUtil.repaintCyderFrames();
             }),
 
             new Preference(WINDOW_COLOR, IGNORE, EMPTY, "1A2033", () -> {
-                Logger.log(LogTag.PREFERENCE_REFRESH, WINDOW_COLOR);
+                Logger.log(LogTag.PREFERENCE, WINDOW_COLOR);
 
                 UiUtil.repaintCyderFrames();
                 Console.INSTANCE.revalidateMenuBackgrounds();
             }).setIgnoreForToggleSwitches(true),
 
             new Preference(CONSOLE_CLOCK_FORMAT, IGNORE, EMPTY, "EEEEEEEEE h:mmaa", () -> {
-                Logger.log(LogTag.PREFERENCE_REFRESH, CONSOLE_CLOCK_FORMAT);
+                Logger.log(LogTag.PREFERENCE, CONSOLE_CLOCK_FORMAT);
                 Console.INSTANCE.refreshClockText();
             }).setIgnoreForToggleSwitches(true),
 
             new Preference(YOUTUBE_UUID, IGNORE, EMPTY, "aaaaaaaaaaa",
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, YOUTUBE_UUID))
+                    () -> Logger.log(LogTag.PREFERENCE, YOUTUBE_UUID))
                     .setIgnoreForToggleSwitches(true),
 
             new Preference(IP_KEY, IGNORE, EMPTY, EMPTY,
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, IP_KEY))
+                    () -> Logger.log(LogTag.PREFERENCE, IP_KEY))
                     .setIgnoreForToggleSwitches(true),
 
             new Preference(WEATHER_KEY, IGNORE, EMPTY, EMPTY,
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, WEATHER_KEY))
+                    () -> Logger.log(LogTag.PREFERENCE, WEATHER_KEY))
                     .setIgnoreForToggleSwitches(true),
 
             new Preference(YOUTUBE_API_3_KEY, IGNORE, EMPTY, EMPTY,
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, YOUTUBE_API_3_KEY))
+                    () -> Logger.log(LogTag.PREFERENCE, YOUTUBE_API_3_KEY))
                     .setIgnoreForToggleSwitches(true),
 
             new Preference(CAPS_MODE, "Capital Letters Mode", "Capitalize all console output",
-                    "0", () -> Logger.log(LogTag.PREFERENCE_REFRESH, CAPS_MODE)),
+                    "0", () -> Logger.log(LogTag.PREFERENCE, CAPS_MODE)),
 
             new Preference(LOGGED_IN, IGNORE, EMPTY, "0",
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, LOGGED_IN))
+                    () -> Logger.log(LogTag.PREFERENCE, LOGGED_IN))
                     .setIgnoreForToggleSwitches(true),
 
             new Preference(AUDIO_LENGTH, "Show Audio Total Length",
                     "For the audio player, show the total audio time instead of the time remaining",
-                    "1", () -> Logger.log(LogTag.PREFERENCE_REFRESH, AUDIO_LENGTH)),
+                    "1", () -> Logger.log(LogTag.PREFERENCE, AUDIO_LENGTH)),
 
             new Preference(PERSISTENT_NOTIFICATIONS, "Persistent Notifications",
                     "Notifications stay on screen until manually dismissed", "0",
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, PERSISTENT_NOTIFICATIONS)),
+                    () -> Logger.log(LogTag.PREFERENCE, PERSISTENT_NOTIFICATIONS)),
 
             new Preference(DO_ANIMATIONS, "Do Animations",
                     "Use animations for things such as frame movement and notifications", "1",
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, DO_ANIMATIONS)),
+                    () -> Logger.log(LogTag.PREFERENCE, DO_ANIMATIONS)),
 
             new Preference(COMPACT_TEXT_MODE, "Compact Text",
                     "Compact the text/components in supported text panes", "0", () -> {
-                Logger.log(LogTag.PREFERENCE_REFRESH, COMPACT_TEXT_MODE);
+                Logger.log(LogTag.PREFERENCE, COMPACT_TEXT_MODE);
 
                 Console.INSTANCE.revalidateMenu();
                 CyderScrollList.refreshAllLists();
             }),
 
             new Preference(FONT_METRIC, IGNORE, EMPTY, "1", () -> {
-                Logger.log(LogTag.PREFERENCE_REFRESH, FONT_METRIC);
+                Logger.log(LogTag.PREFERENCE, FONT_METRIC);
 
                 Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
                 Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
             }).setIgnoreForToggleSwitches(true),
 
             new Preference(FONT_SIZE, IGNORE, EMPTY, "30", () -> {
-                Logger.log(LogTag.PREFERENCE_REFRESH, FONT_SIZE);
+                Logger.log(LogTag.PREFERENCE, FONT_SIZE);
 
                 Console.INSTANCE.getInputField().setFont(Console.INSTANCE.generateUserFont());
                 Console.INSTANCE.getOutputArea().setFont(Console.INSTANCE.generateUserFont());
@@ -297,29 +297,29 @@ public class Preference {
 
             new Preference(WRAP_SHELL, "Wrap Shell", "Wrap the native shell by"
                     + " passing unrecognized commands to it and allowing it to process them", "0",
-                    () -> Logger.log(LogTag.PREFERENCE_REFRESH, WRAP_SHELL)),
+                    () -> Logger.log(LogTag.PREFERENCE, WRAP_SHELL)),
 
             new Preference(DARK_MODE, "Dark Mode", "Activate a pleasant dark mode for Cyder",
-                    "0", () -> Logger.log(LogTag.PREFERENCE_REFRESH, DARK_MODE)),
+                    "0", () -> Logger.log(LogTag.PREFERENCE, DARK_MODE)),
 
             new Preference(WEATHER_MAP, "Weather Map",
                     "Show a map of the location's area in the weather widget background", "1",
                     () -> {
-                        Logger.log(LogTag.PREFERENCE_REFRESH, WEATHER_MAP);
+                        Logger.log(LogTag.PREFERENCE, WEATHER_MAP);
                         WeatherWidget.refreshAllMapBackgrounds();
                     }),
 
             new Preference(PAINT_CLOCK_LABELS, "Paint Clock Labels",
                     "Whether to paint the hour labels on the clock widget", "1",
                     () -> {
-                        Logger.log(LogTag.PREFERENCE_REFRESH, PAINT_CLOCK_LABELS);
+                        Logger.log(LogTag.PREFERENCE, PAINT_CLOCK_LABELS);
                         ClockWidget.setPaintHourLabels(UserUtil.getCyderUser().getPaintClockLabels().equals("1"));
                     }),
 
             new Preference(SHOW_SECOND_HAND, "Show Second Hand",
                     "Whether to show the second hand on the clock widget", "1",
                     () -> {
-                        Logger.log(LogTag.PREFERENCE_REFRESH, SHOW_SECOND_HAND);
+                        Logger.log(LogTag.PREFERENCE, SHOW_SECOND_HAND);
                         ClockWidget.setShowSecondHand(UserUtil.getCyderUser().getShowSecondHand().equals("1"));
                     })
 
@@ -361,7 +361,7 @@ public class Preference {
         }
 
         if (!invoked) {
-            Logger.log(LogTag.DEBUG, "Failed to invoke preference refresh."
+            Logger.log(LogTag.PREFERENCE, "Failed to invoke preference refresh."
                     + " Provided id: " + preferenceID);
         }
     }

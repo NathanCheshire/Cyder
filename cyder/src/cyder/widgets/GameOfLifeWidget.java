@@ -832,7 +832,7 @@ public final class GameOfLifeWidget {
                             correspondingConwayStates.add(loadState);
                             comboItems.add(new CyderComboBox.ComboItem(loadState.getName()));
                         } catch (Exception e) {
-                            Logger.log(LogTag.DEBUG, "Failed to load conway state: " + jsonStateFile);
+                            Logger.log(LogTag.SYSTEM_IO, "Failed to load conway state: " + jsonStateFile);
                             ExceptionHandler.handle(e);
                         }
                     });

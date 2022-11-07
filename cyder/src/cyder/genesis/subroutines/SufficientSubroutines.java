@@ -114,10 +114,10 @@ public final class SufficientSubroutines {
                     try {
                         boolean installed = futureInstalled.get();
                         if (installed) {
-                            Logger.log(LogTag.DEBUG, "Python package "
+                            Logger.log(LogTag.PYTHON, "Python package "
                                     + pythonPackage.getPackageName() + " found to be installed");
                         } else {
-                            Logger.log(LogTag.DEBUG, "MISSING Python package "
+                            Logger.log(LogTag.PYTHON, "MISSING Python package "
                                     + pythonPackage.getPackageName());
                             Console.INSTANCE.getInputHandler().println("Missing Python dependency: "
                                     + pythonPackage.getPackageName());
@@ -130,15 +130,15 @@ public final class SufficientSubroutines {
             new SufficientSubroutine(() -> {
                 Optional<String> optionalVersion = ProcessUtil.python3Installed();
                 if (optionalVersion.isEmpty()) {
-                    Logger.log(LogTag.DEBUG, "Failed to find installed Python version");
+                    Logger.log(LogTag.PYTHON, "Failed to find installed Python version");
                 } else {
                     String version = optionalVersion.get();
                     if (version.charAt(0) >= MIN_PYTHON_MAJOR_VERSION) {
-                        Logger.log(LogTag.DEBUG, "Found Python version " + version);
+                        Logger.log(LogTag.PYTHON, "Found Python version " + version);
                     } else {
                         String message = "Installed Python does not meet minimum standards, version: "
                                 + version + ", min version: " + MIN_PYTHON_MAJOR_VERSION;
-                        Logger.log(LogTag.DEBUG, message);
+                        Logger.log(LogTag.PYTHON, message);
                         Console.INSTANCE.getInputHandler().println(message);
                     }
                 }

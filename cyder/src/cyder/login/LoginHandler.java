@@ -605,7 +605,7 @@ public final class LoginHandler {
         }
 
         String loggedInUuid = optionalUuid.get();
-        Logger.log(LogTag.DEBUG, "Found previously logged in user: " + loggedInUuid);
+        Logger.log(LogTag.CONSOLE_LOAD, "Found previously logged in user: " + loggedInUuid);
         UserUtil.logoutAllUsers();
         Console.INSTANCE.setUuid(loggedInUuid);
         Console.INSTANCE.launch();

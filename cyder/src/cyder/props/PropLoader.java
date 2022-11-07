@@ -200,7 +200,7 @@ public final class PropLoader {
         Arrays.stream(propFilesArray).forEach(file -> {
             if (file.getName().startsWith(PROP_FILE_PREFIX) && FileUtil.validateExtension(file, PROP_EXTENSION)) {
                 propFiles.add(file);
-                Logger.log(LogTag.DEBUG, "Found prop file: " + file);
+                Logger.log(LogTag.PROPS_ACTION, "Found prop file: " + file);
             }
         });
 
@@ -236,7 +236,7 @@ public final class PropLoader {
 
                     propsList.add(addProp);
 
-                    Logger.log(LogTag.PROP_LOADED, "[key = " + addProp.key()
+                    Logger.log(LogTag.PROPS_ACTION, "[key = " + addProp.key()
                             + (logNextProp ? ", value = " + addProp.value() : "") + CyderStrings.closingBracket);
 
                     logNextProp = true;
@@ -414,6 +414,6 @@ public final class PropLoader {
     private static void logInjection(String line, Prop prop, File file) {
         String log = "Injected " + line + " for prop: " + prop.key()
                 + ", prop file = " + file.getName();
-        Logger.log(LogTag.DEBUG, log);
+        Logger.log(LogTag.PROPS_ACTION, log);
     }
 }

@@ -37,10 +37,10 @@ public final class StaticUtil {
 
     static {
         STATIC_FILES = FileUtil.getFiles(new File(STATIC));
-        Logger.log(LogTag.DEBUG, "Loaded " + STATIC_FILES.size() + " static resources");
+        Logger.log(LogTag.SYSTEM_IO, "Loaded " + STATIC_FILES.size() + " static resources");
 
         STATIC_FOLDERS = FileUtil.getFolders(new File(STATIC));
-        Logger.log(LogTag.DEBUG, "Loaded " + STATIC_FOLDERS.size() + " static folders");
+        Logger.log(LogTag.SYSTEM_IO, "Loaded " + STATIC_FOLDERS.size() + " static folders");
     }
 
     /**

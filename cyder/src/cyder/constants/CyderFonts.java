@@ -3,9 +3,6 @@ package cyder.constants;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import cyder.exceptions.IllegalMethodException;
-import cyder.logging.LogTag;
-import cyder.logging.Logger;
-import cyder.time.TimeUtil;
 
 import java.awt.*;
 
@@ -120,12 +117,7 @@ public final class CyderFonts {
          */
         @SuppressWarnings("MagicConstant") /* font metric checked */
         public Font generate() {
-            long start = System.currentTimeMillis();
-            Font ret = new Font(name, metric, size);
-            String constructionTime = TimeUtil.formatMillis(System.currentTimeMillis() - start);
-            Logger.log(LogTag.DEBUG, "Font generation of \"" + name + " ("
-                    + size + ")\" took: " + constructionTime);
-            return ret;
+            return new Font(name, metric, size);
         }
     }
 }

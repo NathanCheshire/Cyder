@@ -2378,7 +2378,7 @@ public enum Console {
             }
 
             if (backgroundFiles.isEmpty()) {
-                Logger.log(LogTag.DEBUG, "No backgrounds found for user "
+                Logger.log(LogTag.SYSTEM_IO, "No backgrounds found for user "
                         + uuid + ", creating default background");
                 backgroundFiles.add(UserUtil.createDefaultBackground(uuid));
             }

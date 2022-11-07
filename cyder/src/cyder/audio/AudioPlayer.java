@@ -22,8 +22,6 @@ import cyder.getter.GetterUtil;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
-import cyder.logging.LogTag;
-import cyder.logging.Logger;
 import cyder.math.NumberUtil;
 import cyder.messaging.MessagingUtils;
 import cyder.parsers.remote.youtube.YoutubeSearchResultPage;
@@ -1126,8 +1124,6 @@ public final class AudioPlayer {
                 Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName(),
                 dreamifiedFile.getName());
-
-        Logger.log(LogTag.DEBUG, "Lock released on file: " + dreamifiedFile.getAbsolutePath());
 
         try {
             Path source = dreamifiedFile.toPath();

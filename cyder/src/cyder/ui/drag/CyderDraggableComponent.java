@@ -24,19 +24,24 @@ public class CyderDraggableComponent implements MouseMotionListener {
     }
 
     /**
+     * The key to obtain whether the components are relocatable from the props.
+     */
+    private static final String COMPONENTS_RELOCATABLE = "components_relocatable";
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public final void mouseDragged(MouseEvent e) {
-        if (PropLoader.getBoolean("components_relocatable")) {
-            JFrame refFrame = (JFrame) SwingUtilities.windowForComponent(e.getComponent());
-            int x = (int) (e.getLocationOnScreen().getX() - refFrame.getX() - xMouse);
-            int y = (int) (e.getLocationOnScreen().getY() - refFrame.getY() - yMouse);
+        if (!PropLoader.getBoolean(COMPONENTS_RELOCATABLE)) return;
 
-            if (x >= 0 && y >= 0 && x < refFrame.getWidth() && y < refFrame.getHeight()) {
-                e.getComponent().setLocation(x, y);
-                Logger.log(LogTag.DEBUG, x + "," + y);
-            }
+        JFrame refFrame = (JFrame) SwingUtilities.windowForComponent(e.getComponent());
+        int x = (int) (e.getLocationOnScreen().getX() - refFrame.getX() - xMouse);
+        int y = (int) (e.getLocationOnScreen().getY() - refFrame.getY() - yMouse);
+
+        if (x >= 0 && y >= 0 && x < refFrame.getWidth() && y < refFrame.getHeight()) {
+            e.getComponent().setLocation(x, y);
+            Logger.log(LogTag.UI_ACTION, x + "," + y);
         }
     }
 

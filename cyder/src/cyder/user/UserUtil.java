@@ -274,7 +274,7 @@ public final class UserUtil {
             if (mostRecentBackup == null || !FileUtil.fileContentsEqual(jsonFile, mostRecentBackup)) {
                 File newBackup = OsUtil.buildFile(Dynamic.PATH, Dynamic.BACKUP.getDirectoryName(), backupFilename);
                 if (!newBackup.createNewFile()) {
-                    Logger.log(LogTag.DEBUG, "Failed to create backup file: "
+                    Logger.log(LogTag.SYSTEM_IO, "Failed to create backup file: "
                             + newBackup.getAbsolutePath() + ", for user: " + uuid);
                     return;
                 }
@@ -973,7 +973,7 @@ public final class UserUtil {
             String uuid = name.split("_")[0];
 
             if (!StringUtil.in(uuid, false, getUserUuids())) {
-                Logger.log(LogTag.DEBUG, "Deleting backup file not linked to user: " + name);
+                Logger.log(LogTag.SYSTEM_IO, "Deleting backup file not linked to user: " + name);
                 OsUtil.deleteFile(backupFile);
             }
         }
@@ -1040,7 +1040,7 @@ public final class UserUtil {
                     writer.close();
 
                     // log success
-                    Logger.log(LogTag.CORRUPTION,
+                    Logger.log(LogTag.USER_CORRUPTION,
                             "[BACKUP SUCCESS] Successfully restored "
                                     + uuid + " from: " + FileUtil.getFilename(userJsonBackup.get().getName()));
 
@@ -1050,7 +1050,7 @@ public final class UserUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 // exception above so proceed as normal
-                Logger.log(LogTag.CORRUPTION,
+                Logger.log(LogTag.USER_CORRUPTION,
                         "[BACKUP FAILURE] attempted restoration of " + uuid + " failed");
             }
 
@@ -1122,7 +1122,7 @@ public final class UserUtil {
                 }
 
                 InformHandler.inform(new InformHandler.Builder(informString).setTitle("Userdata Corruption"));
-                Logger.log(LogTag.CORRUPTION, "[Resulting Popup]\n" + informString);
+                Logger.log(LogTag.USER_CORRUPTION, "[Resulting Popup]\n" + informString);
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);

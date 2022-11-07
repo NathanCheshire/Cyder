@@ -173,10 +173,10 @@ public final class NecessarySubroutines {
 
         CyderThreadRunner.submit(() -> {
             try {
-                Logger.log(LogTag.DEBUG, "Starting instance socket on port " + INSTANCE_SOCKET_PORT);
+                Logger.log(LogTag.NETWORK, "Starting instance socket on port " + INSTANCE_SOCKET_PORT);
                 serverSocket = new ServerSocket(INSTANCE_SOCKET_PORT).accept();
             } catch (Exception ignored) {
-                Logger.log(LogTag.DEBUG, "Failed to start singular instance socket");
+                Logger.log(LogTag.NETWORK, "Failed to start singular instance socket");
                 singularInstance.set(false);
             }
         }, IgnoreThread.SingularInstanceEnsurer.getName());
@@ -224,7 +224,7 @@ public final class NecessarySubroutines {
                             }
                         }
 
-                        Logger.log(LogTag.DEBUG, "Method annotated with @GuiTest does not end"
+                        Logger.log(LogTag.GUI_TEST_WARNING, "Method annotated with @GuiTest does not end"
                                 + " with \"test\"; name: " + m.getName());
                     }
 
@@ -279,7 +279,7 @@ public final class NecessarySubroutines {
                             }
                         }
 
-                        Logger.log(LogTag.DEBUG, "Method annotated with @Widget is not named "
+                        Logger.log(LogTag.WIDGET_WARNING, "Method annotated with @Widget is not named "
                                 + STANDARD_WIDGET_SHOW_METHOD_NAME + "(); name: " + method.getName());
                     }
 
@@ -340,18 +340,18 @@ public final class NecessarySubroutines {
                         .anyMatch(method -> method.getName().toLowerCase().endsWith(WIDGET));
 
                 if (!clazz.getName().toLowerCase().endsWith(WIDGET) && !widgetAnnotationFound) {
-                    Logger.log(LogTag.DEBUG, "Class annotated with @Vanilla does not end"
+                    Logger.log(LogTag.VANILLA_WARNING, "Class annotated with @Vanilla does not end"
                             + " with Widget; name: " + clazz.getName());
                 }
 
                 if (!clazz.isAnnotationPresent(CyderAuthor.class)) {
-                    Logger.log(LogTag.DEBUG, "Method annotated with @Vanilla"
+                    Logger.log(LogTag.VANILLA_WARNING, "Method annotated with @Vanilla"
                             + " does not contain a @CyderAuthor annotation");
                 } else {
                     String author = clazz.getAnnotation(CyderAuthor.class).author();
 
                     if (!StringUtil.in(author, true, DEVELOPER_NAMES)) {
-                        Logger.log(LogTag.DEBUG, "Method annotated with @Vanilla"
+                        Logger.log(LogTag.VANILLA_WARNING, "Method annotated with @Vanilla"
                                 + " does not contain Nathan Cheshire as an author");
                     }
                 }
@@ -442,7 +442,7 @@ public final class NecessarySubroutines {
     private static void logHandleWarning(HandleWarning handleWarning, String classOrMethodName) {
         String errorMessagePrefix = handleWarning.getLogPrefix() + CyderStrings.colon + space + classOrMethodName;
 
-        Logger.log(LogTag.DEBUG, errorMessagePrefix);
+        Logger.log(LogTag.HANDLE_WARNING, errorMessagePrefix);
         InformHandler.inform(new InformHandler.Builder(errorMessagePrefix).setTitle(
                 StringUtil.capsFirst(handleWarning.name().replace("_", space))));
     }

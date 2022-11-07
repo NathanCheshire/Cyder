@@ -625,7 +625,7 @@ public final class UserEditor {
                         Console.INSTANCE.getInputHandler().println("Failed to rename album art: "
                                 + FileUtil.getFilename(renameMe));
                     } else {
-                        Logger.log(LogTag.DEBUG, "Renamed album art file for reference file: "
+                        Logger.log(LogTag.SYSTEM_IO, "Renamed album art file for reference file: "
                                 + oldAlbumArtName + ", renamed to: " + namePart);
                     }
                 }
