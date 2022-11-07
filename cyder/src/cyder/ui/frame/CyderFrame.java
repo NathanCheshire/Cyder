@@ -749,7 +749,7 @@ public class CyderFrame extends JFrame {
 
         Font titleFont = titleLabel.getFont();
         int titleWidth = StringUtil.getAbsoluteMinWidth(title, titleFont);
-        int titleHeight = StringUtil.getAbsoluteMinHeight(title, titleFont);
+        int titleHeight = CyderDragLabel.DEFAULT_HEIGHT;
 
         int animationDelay = 1;
         int y = Math.max(dragHeight / 2 - titleHeight / 2, 0);
@@ -763,6 +763,7 @@ public class CyderFrame extends JFrame {
                     case CENTER -> dragWidth / 2 - titleWidth / 2;
                 };
 
+                String threadName = "Title position animator, frame: " + this;
                 if (animateFrom < animateTo) {
                     CyderThreadRunner.submit(() -> {
                         for (int x = animateFrom ; x <= animateTo ; x++) {
@@ -772,7 +773,7 @@ public class CyderFrame extends JFrame {
 
                         titlePosition = newPosition;
                         revalidateTitleLocationAlignmentAndLength();
-                    }, "Title Position Animator");
+                    }, threadName);
                 } else {
                     CyderThreadRunner.submit(() -> {
                         for (int x = animateFrom ; x >= animateTo ; x--) {
@@ -782,7 +783,7 @@ public class CyderFrame extends JFrame {
 
                         titlePosition = newPosition;
                         revalidateTitleLocationAlignmentAndLength();
-                    }, "Title Position Animator");
+                    }, threadName);
                 }
             } else {
                 titlePosition = newPosition;
@@ -834,17 +835,12 @@ public class CyderFrame extends JFrame {
         if (topDrag == null) return;
 
         int dragWidth = topDrag.getWidth();
-        int dragHeight = topDrag.getHeight();
-
         int titleWidth = titleLabel.getWidth();
-        int titleHeight = titleLabel.getHeight();
-
-        int y = Math.max(dragHeight / 2 - titleHeight / 2, 0);
 
         switch (titlePosition) {
-            case LEFT -> titleLabel.setLocation(titleLabelPadding, y);
-            case RIGHT -> titleLabel.setLocation(width - titleWidth - titleLabelPadding, y);
-            case CENTER -> titleLabel.setLocation(dragWidth / 2 - titleWidth / 2, y);
+            case LEFT -> titleLabel.setLocation(titleLabelPadding, 0);
+            case RIGHT -> titleLabel.setLocation(width - titleWidth - titleLabelPadding, 0);
+            case CENTER -> titleLabel.setLocation(dragWidth / 2 - titleWidth / 2, 0);
         }
     }
 
@@ -866,7 +862,14 @@ public class CyderFrame extends JFrame {
         return frameType;
     }
 
+    /**
+     * The index of the pin button.
+     */
     private static final int PIN_BUTTON_DEFAULT_INDEX = 1;
+
+    /**
+     * The index of the minimize button.
+     */
     private static final int MINIMIZE_BUTTON_DEFAULT_INDEX = 0;
 
     /**
@@ -1928,8 +1931,7 @@ public class CyderFrame extends JFrame {
      * Revalidates the drag labels and their covers and offsets if present.
      */
     private void revalidateDragLabels() {
-        if (isBorderlessFrame())
-            return;
+        if (isBorderlessFrame()) return;
 
         topDrag.setWidth(width - 2 * FRAME_RESIZING_LEN);
         topDrag.setHeight(CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
@@ -1947,8 +1949,6 @@ public class CyderFrame extends JFrame {
         bottomDrag.setHeight(BORDER_LEN - FRAME_RESIZING_LEN);
         bottomDragCover.setBounds(0, height - FRAME_RESIZING_LEN, width, FRAME_RESIZING_LEN);
 
-        revalidateTitlePositionLocation();
-
         topDrag.setBounds(FRAME_RESIZING_LEN, FRAME_RESIZING_LEN,
                 width - 2 * FRAME_RESIZING_LEN,
                 CyderDragLabel.DEFAULT_HEIGHT - FRAME_RESIZING_LEN);
@@ -1964,15 +1964,23 @@ public class CyderFrame extends JFrame {
 
         topDrag.setXOffset(FRAME_RESIZING_LEN);
         topDrag.setYOffset(FRAME_RESIZING_LEN);
+        topDrag.revalidate();
+        topDrag.repaint();
 
         leftDrag.setXOffset(FRAME_RESIZING_LEN);
         leftDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
+        leftDrag.revalidate();
+        leftDrag.repaint();
 
         rightDrag.setXOffset(width - BORDER_LEN);
         rightDrag.setYOffset(CyderDragLabel.DEFAULT_HEIGHT);
+        rightDrag.revalidate();
+        rightDrag.repaint();
 
         bottomDrag.setXOffset(FRAME_RESIZING_LEN);
         bottomDrag.setYOffset(height - BORDER_LEN);
+        bottomDrag.revalidate();
+        bottomDrag.repaint();
     }
 
     /**
@@ -2054,8 +2062,8 @@ public class CyderFrame extends JFrame {
         }
 
         int necessaryTitleWidth = StringUtil.getAbsoluteMinWidth(title, titleLabel.getFont());
-        int necessaryTitleHeight = StringUtil.getAbsoluteMinHeight(title, titleLabel.getFont());
-        int y = Math.min(topDrag.getHeight() / 2 - necessaryTitleHeight / 2, 0);
+        int necessaryTitleHeight = CyderDragLabel.DEFAULT_HEIGHT;
+        int y = 0;
 
         // Reset default bounds, will be trimmed away below
         switch (titlePosition) {

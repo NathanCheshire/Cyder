@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Class to be used for CyderFrames, the parent is expected to be an instance of CyderFrame.
+ * A drag label to be used for CyderFrames borders.
  */
 public class CyderDragLabel extends JLabel {
     /**
@@ -33,25 +33,27 @@ public class CyderDragLabel extends JLabel {
          * The top of the frame. This is the only drag label that builds the default right button list.
          */
         TOP,
+
         /**
          * The bottom of the frame.
          */
         BOTTOM,
+
         /**
          * The left of the frame.
          */
         LEFT,
+
         /**
          * The right of the frame.
          */
         RIGHT,
+
         /**
          * The drag label takes up the full content pane or is the content pane.
          */
         FULL
     }
-
-    // todo now that is configurable, investigate glitching of clock label moving around too much
 
     /**
      * The key to get the drag label height from the props if present.
