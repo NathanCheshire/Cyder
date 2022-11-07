@@ -20,10 +20,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class DragLabelTextButton extends JLabel {
     /**
+     * Whether this drag label text button is currently hovered.
+     */
+    private final AtomicBoolean hovered;
+
+    /**
      * Suppress default constructor.
      */
     private DragLabelTextButton() {
         Logger.log(LogTag.OBJECT_CREATION, this);
+        this.hovered = new AtomicBoolean();
     }
 
     /**
@@ -69,24 +75,11 @@ public class DragLabelTextButton extends JLabel {
                 if (action != null) action.run();
             }
 
-            // todo for some reason not being repainted on hover actions?
-
             @Override
             public void mouseEntered(MouseEvent e) {
                 Runnable action = builder.getMouseEnterAction();
                 if (action != null) action.run();
-
-                if (builder.getStateSelected() != null) {
-                    System.out.println(builder.getStateSelected());
-                    if (builder.getStateSelected().get()) {
-                        ret.setForeground(builder.defaultColor);
-                    } else {
-                        ret.setForeground(builder.hoverColor);
-                    }
-                } else {
-                    ret.setForeground(builder.hoverColor);
-                }
-
+                ret.hovered.set(true);
                 ret.repaint();
             }
 
@@ -94,18 +87,7 @@ public class DragLabelTextButton extends JLabel {
             public void mouseExited(MouseEvent e) {
                 Runnable action = builder.getMouseExitAction();
                 if (action != null) action.run();
-
-                if (builder.getStateSelected() != null) {
-                    if (builder.getStateSelected().get()) {
-                        ret.setForeground(builder.hoverColor);
-                    } else {
-                        ret.setForeground(builder.defaultColor);
-                    }
-
-                } else {
-                    ret.setForeground(builder.defaultColor);
-                }
-
+                ret.hovered.set(false);
                 ret.repaint();
             }
         });
@@ -122,12 +104,24 @@ public class DragLabelTextButton extends JLabel {
 
         if (builder.getStateSelected() != null) {
             if (builder.getStateSelected().get()) {
-                setForeground(builder.hoverColor);
+                if (hovered.get()) {
+                    setForeground(builder.getDefaultColor());
+                } else {
+                    setForeground(builder.getHoverColor());
+                }
             } else {
-                setForeground(builder.defaultColor);
+                if (hovered.get()) {
+                    setForeground(builder.getHoverColor());
+                } else {
+                    setForeground(builder.getDefaultColor());
+                }
             }
         } else {
-            setForeground(builder.defaultColor);
+            if (hovered.get()) {
+                setForeground(builder.getHoverColor());
+            } else {
+                setForeground(builder.getDefaultColor());
+            }
         }
 
         super.repaint();
