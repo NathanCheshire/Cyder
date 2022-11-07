@@ -505,11 +505,14 @@ public enum Console {
                     || !consoleCyderFrame.isFocusable()
                     || !consoleCyderFrame.isDraggingEnabled()) return;
 
-            UiUtil.getCyderFrames().stream().filter(frame -> frame.isConsolePinned() && !frame.isConsole()
+            UiUtil.getCyderFrames().stream().filter(frame -> frame.isConsolePinned()
+                            && !frame.isConsole()
                             && frame.getRelativeX() != FRAME_NOT_PINNED
                             && frame.getRelativeY() != FRAME_NOT_PINNED)
-                    .forEach(frame -> frame.setLocation(consoleCyderFrame.getX() + frame.getRelativeX(),
-                            consoleCyderFrame.getY() + frame.getRelativeY()));
+                    .forEach(frame -> UiUtil.requestFramePosition(
+                            consoleCyderFrame.getX() + frame.getRelativeX(),
+                            consoleCyderFrame.getY() + frame.getRelativeY(), frame
+                    ));
         }
     };
 
@@ -519,16 +522,14 @@ public enum Console {
     private final MouseAdapter consolePinnedMouseAdapter = new MouseAdapter() {
         @Override
         public void mousePressed(MouseEvent e) {
-            if (consoleCyderFrame == null
-                    || !consoleCyderFrame.isFocusable()
+            if (consoleCyderFrame == null || !consoleCyderFrame.isFocusable()
                     || !consoleCyderFrame.isDraggingEnabled()) return;
 
             UiUtil.getCyderFrames().stream()
                     .filter(frame -> frame.isConsolePinned() && !frame.isConsole())
                     .forEach(frame -> {
-                        boolean overlap =
-                                GeometryUtil.rectanglesOverlap(consoleCyderFrame.getBounds(), frame.getBounds());
-                        if (overlap) {
+                        if (GeometryUtil.rectanglesOverlap(
+                                consoleCyderFrame.getBounds(), frame.getBounds())) {
                             frame.setRelativeX(-consoleCyderFrame.getX() + frame.getX());
                             frame.setRelativeY(-consoleCyderFrame.getY() + frame.getY());
                         } else {
@@ -3310,11 +3311,10 @@ public enum Console {
 
         consoleCyderFrame.setLocationOnScreen(screenPosition);
 
-        getPinnedFrames().forEach(relativeFrame ->
-                relativeFrame.frame().setLocation(
-                        relativeFrame.xOffset() + consoleCyderFrame.getX(),
-                        relativeFrame.yOffset() + consoleCyderFrame.getY())
-        );
+        getPinnedFrames().forEach(relativeFrame -> UiUtil.requestFramePosition(
+                relativeFrame.xOffset() + consoleCyderFrame.getX(),
+                relativeFrame.yOffset() + consoleCyderFrame.getY(),
+                relativeFrame.frame()));
     }
 
     /**
