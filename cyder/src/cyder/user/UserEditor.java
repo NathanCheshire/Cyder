@@ -534,9 +534,6 @@ public final class UserEditor {
             if (isOpenInAudioPlayer(selectedFile)) {
                 editUserFrame.notify("Cannot rename file open in audio player");
                 return;
-            } else if (isConsoleBackground(selectedFile)) {
-                editUserFrame.notify("Cannot rename current console background");
-                return;
             }
 
             CyderThreadRunner.submit(() -> {
@@ -578,6 +575,8 @@ public final class UserEditor {
             ExceptionHandler.handle(ex);
         }
     };
+
+    // todo after rename, list isn't visible?
 
     /**
      * Attempts to rename the provided file to the new proposed name + old extension.
