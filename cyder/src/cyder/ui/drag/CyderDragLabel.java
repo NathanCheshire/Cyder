@@ -759,6 +759,8 @@ public class CyderDragLabel extends JLabel {
             currentXStart -= (buttonWidth + 2 * BUTTON_SPACING);
             rightButtonComponent.setBounds(currentXStart, y, buttonWidth, buttonHeight);
             add(rightButtonComponent);
+
+            rightButtonComponent.repaint();
         }
 
         revalidate();
@@ -785,6 +787,8 @@ public class CyderDragLabel extends JLabel {
             leftButtonComponent.setBounds(currentXStart, y, buttonWidth, buttonHeight);
             currentXStart += buttonWidth + 2 * BUTTON_SPACING;
             add(leftButtonComponent);
+
+            leftButtonComponent.repaint();
         }
 
         revalidate();

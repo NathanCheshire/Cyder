@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A text button for a {@link CyderDragLabel}.
@@ -26,6 +27,20 @@ public class DragLabelTextButton extends JLabel {
     }
 
     /**
+     * The builder for this drag label text button.
+     */
+    private Builder builder;
+
+    /**
+     * Sets the builder for this drag label text button.
+     *
+     * @param builder the builder for this drag label text button
+     */
+    public void setBuilder(Builder builder) {
+        this.builder = builder;
+    }
+
+    /**
      * Constructs and returns a new drag label text button from the contents of the provided builder.
      *
      * @param builder the builder to use for construction of the text button.
@@ -35,6 +50,7 @@ public class DragLabelTextButton extends JLabel {
         Preconditions.checkNotNull(builder);
 
         DragLabelTextButton ret = new DragLabelTextButton();
+        ret.setBuilder(builder);
         ret.setText(builder.getText());
         ret.setForeground(builder.getDefaultColor());
         ret.setFont(builder.getFont());
@@ -53,12 +69,24 @@ public class DragLabelTextButton extends JLabel {
                 if (action != null) action.run();
             }
 
+            // todo for some reason not being repainted on hover actions?
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 Runnable action = builder.getMouseEnterAction();
                 if (action != null) action.run();
 
-                ret.setForeground(builder.hoverColor);
+                if (builder.getStateSelected() != null) {
+                    System.out.println(builder.getStateSelected());
+                    if (builder.getStateSelected().get()) {
+                        ret.setForeground(builder.defaultColor);
+                    } else {
+                        ret.setForeground(builder.hoverColor);
+                    }
+                } else {
+                    ret.setForeground(builder.hoverColor);
+                }
+
                 ret.repaint();
             }
 
@@ -67,12 +95,42 @@ public class DragLabelTextButton extends JLabel {
                 Runnable action = builder.getMouseExitAction();
                 if (action != null) action.run();
 
-                ret.setForeground(builder.defaultColor);
+                if (builder.getStateSelected() != null) {
+                    if (builder.getStateSelected().get()) {
+                        ret.setForeground(builder.hoverColor);
+                    } else {
+                        ret.setForeground(builder.defaultColor);
+                    }
+
+                } else {
+                    ret.setForeground(builder.defaultColor);
+                }
+
                 ret.repaint();
             }
         });
 
         return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void repaint() {
+        if (builder == null) return;
+
+        if (builder.getStateSelected() != null) {
+            if (builder.getStateSelected().get()) {
+                setForeground(builder.hoverColor);
+            } else {
+                setForeground(builder.defaultColor);
+            }
+        } else {
+            setForeground(builder.defaultColor);
+        }
+
+        super.repaint();
     }
 
     /**
@@ -133,6 +191,11 @@ public class DragLabelTextButton extends JLabel {
          * The text for the tooltip of the button.
          */
         private String tooltip;
+
+        /**
+         * Whether this drag label text button should be painted as selected.
+         */
+        private AtomicBoolean stateSelected;
 
         /**
          * Constructs a new builder.
@@ -234,6 +297,20 @@ public class DragLabelTextButton extends JLabel {
         }
 
         /**
+         * Sets the atomic boolean to determine whether the state of this drag label button should be selected
+         * meaning it will be painted using the hover color by default.
+         *
+         * @param stateSelected the state selected atomic boolean
+         * @return this builder
+         */
+        @CanIgnoreReturnValue
+        public Builder setStateSelectedAtomicBoolean(AtomicBoolean stateSelected) {
+            Preconditions.checkNotNull(stateSelected);
+            this.stateSelected = stateSelected;
+            return this;
+        }
+
+        /**
          * Returns the text for this text button.
          *
          * @return the text for this text button
@@ -303,6 +380,15 @@ public class DragLabelTextButton extends JLabel {
          */
         public String getTooltip() {
             return tooltip;
+        }
+
+        /**
+         * Returns the state selected atomic boolean.
+         *
+         * @return the state selected atomic boolean
+         */
+        public AtomicBoolean getStateSelected() {
+            return stateSelected;
         }
     }
 }

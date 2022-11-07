@@ -59,6 +59,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -163,9 +164,15 @@ public final class UserEditor {
          */
         private final Runnable switchRunnable;
 
+        /**
+         * Whether the user editor is on this page.
+         */
+        private final AtomicBoolean onPage;
+
         Page(String title, Runnable runnable) {
             this.title = title;
             this.switchRunnable = runnable;
+            this.onPage = new AtomicBoolean();
 
             Logger.log(LogTag.OBJECT_CREATION, this);
         }
@@ -187,6 +194,27 @@ public final class UserEditor {
         public Runnable getSwitchRunnable() {
             return switchRunnable;
         }
+
+        /**
+         * Returns the atomic boolean for whether the user editor is currently on this page.
+         *
+         * @return the atomic boolean for whether the user editor is currently on this page
+         */
+        public AtomicBoolean getOnPage() {
+            return onPage;
+        }
+    }
+
+    /**
+     * Sets the state of the drag label menu items.
+     *
+     * @param page the page to set as selected
+     */
+    private static void setSelectedPageMenuItem(Page page) {
+        Preconditions.checkNotNull(page);
+
+        Arrays.stream(Page.values()).forEach(iterationPage -> iterationPage.getOnPage().set(iterationPage == page));
+        editUserFrame.getTopDragLabel().refreshButtons();
     }
 
     /**
@@ -222,6 +250,8 @@ public final class UserEditor {
      * @param page the page to show on the user editor
      */
     public static void showGui(Page page) {
+        Preconditions.checkNotNull(page);
+
         UiUtil.closeIfOpen(editUserFrame);
 
         editUserFrame = new CyderFrame(FRAME_WIDTH, FRAME_HEIGHT, CyderColors.vanilla);
@@ -245,7 +275,8 @@ public final class UserEditor {
             DragLabelTextButton menuButton = DragLabelTextButton.generateTextButton(
                     new DragLabelTextButton.Builder(page.getTitle())
                             .setTooltip(page.getTitle())
-                            .setClickAction(() -> switchToPage(page)));
+                            .setClickAction(() -> switchToPage(page))
+                            .setStateSelectedAtomicBoolean(page.getOnPage()));
 
             editUserFrame.getTopDragLabel().addRightButton(menuButton, 0);
         });
@@ -861,6 +892,8 @@ public final class UserEditor {
      * and regenerating the files scroll label in the process.
      */
     private static void switchToUserFiles() {
+        setSelectedPageMenuItem(Page.FILES);
+
         stopUserFileDirectoryWatchers();
 
         CyderPanel buttonPanel = new CyderPanel(buttonGridLayout);
@@ -1100,6 +1133,8 @@ public final class UserEditor {
      * Switches to the fonts and colors page.
      */
     private static void switchToFontAndColor() {
+        setSelectedPageMenuItem(Page.FONT_AND_COLOR);
+
         CyderPartitionedLayout fontAndColorPartitionedLayout = new CyderPartitionedLayout();
         fontAndColorPartitionedLayout.setPartitionDirection(CyderPartitionedLayout.PartitionDirection.ROW);
 
@@ -1546,6 +1581,8 @@ public final class UserEditor {
      * Switches to the preferences preference page.
      */
     private static void switchToPreferences() {
+        setSelectedPageMenuItem(Page.PREFERENCES);
+
         CyderPartitionedLayout preferencesPartitionedLayout = new CyderPartitionedLayout();
 
         CyderLabel prefsTitle = new CyderLabel("Preferences");
@@ -1664,6 +1701,8 @@ public final class UserEditor {
      * Switches to the field input preference page.
      */
     private static void switchToFieldInputs() {
+        setSelectedPageMenuItem(Page.FIELDS);
+
         CyderLabel prefsTitle = new CyderLabel("Field Inputs");
         prefsTitle.setFont(CyderFonts.DEFAULT_FONT);
         prefsTitle.setSize(CONTENT_PANE_WIDTH, 50);
