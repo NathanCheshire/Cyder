@@ -566,7 +566,7 @@ public final class UserEditor {
                         default -> editUserFrame.notify("Renamed file");
                     }
 
-                    revalidateFilesScroll();
+                    switchToUserFiles();
                 } else {
                     editUserFrame.notify("Failed to rename file");
                 }
@@ -575,8 +575,6 @@ public final class UserEditor {
             ExceptionHandler.handle(ex);
         }
     };
-
-    // todo after rename, list isn't visible?
 
     /**
      * Attempts to rename the provided file to the new proposed name + old extension.

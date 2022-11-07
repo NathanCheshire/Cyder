@@ -358,6 +358,22 @@ public final class Logger {
                 logBuilder.append(LogTag.HANDLE_WARNING.constructLogTagPrepend());
                 logBuilder.append(representation);
                 break;
+            case WATCHDOG:
+                logBuilder.append(LogTag.WATCHDOG.constructLogTagPrepend());
+                logBuilder.append(representation);
+                break;
+            case WIDGET_WARNING:
+                logBuilder.append(LogTag.WIDGET_WARNING.constructLogTagPrepend());
+                logBuilder.append(representation);
+                break;
+            case VANILLA_WARNING:
+                logBuilder.append(LogTag.VANILLA_WARNING.constructLogTagPrepend());
+                logBuilder.append(representation);
+                break;
+            case GUI_TEST_WARNING:
+                logBuilder.append(LogTag.GUI_TEST_WARNING.constructLogTagPrepend());
+                logBuilder.append(representation);
+                break;
             default:
                 throw new IllegalArgumentException(MISSING_TAG_CASE_ERROR_MESSAGE + tag);
         }
