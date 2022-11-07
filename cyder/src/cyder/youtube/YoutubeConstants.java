@@ -12,6 +12,11 @@ import java.util.regex.Pattern;
  */
 public final class YoutubeConstants {
     /**
+     * The length of YouTube UUIDs.
+     */
+    public static final int UUID_LENGTH = 11;
+
+    /**
      * The youtube query base url.
      */
     static final String YOUTUBE_QUERY_BASE = "https://www.youtube.com/results?search_query=";
@@ -94,11 +99,6 @@ public final class YoutubeConstants {
      * The key used for a standard definition thumbnail.
      */
     static final String SD_DEFAULT = "sddefault.jpg";
-
-    /**
-     * The length of YouTube UUIDs.
-     */
-    static final int UUID_LENGTH = 11;
 
     /**
      * The id to look for in the document returned by a url query.

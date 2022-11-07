@@ -14,19 +14,19 @@ import cyder.ui.pane.CyderOutputPane;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
 import cyder.utils.StringUtil;
+import cyder.youtube.YoutubeConstants;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-
-// todo this class should be renamed to something else
+import java.util.Arrays;
 
 /**
  * A class for generating random YouTube UUIDs and attempting to parse the resulting url for a valid video.
- * As of 9-7-22, this has about a 1 in 92233720368 chance of succeeding every iteration.
+ * Using a single thread, this has about a 1 in 92,233,720,368 chance of succeeding every iteration.
  */
-public class YoutubeThread {
+public class YoutubeUuidChecker {
     /**
      * Boolean used for killing the YouTube threads.
      */
@@ -45,17 +45,17 @@ public class YoutubeThread {
     /**
      * YouTube's base 64 system used for UUID construction.
      */
-    public static final ImmutableList<Character> validChars =
-            ImmutableList.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-                    'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-                    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-                    'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2',
-                    '3', '4', '5', '6', '7', '8', '9', '-', '_');
+    public static final ImmutableList<Character> validChars = ImmutableList.of(
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_');
 
     /**
      * Suppress default constructor. Requires two parameters for instantiation.
      */
-    private YoutubeThread() {
+    private YoutubeUuidChecker() {
         throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
     }
 
@@ -66,7 +66,7 @@ public class YoutubeThread {
      * @param jTextPane    the JTextPane to print to
      * @param threadNumber the number this thread is in the YouTube thread list
      */
-    public YoutubeThread(JTextPane jTextPane, int threadNumber) {
+    public YoutubeUuidChecker(JTextPane jTextPane, int threadNumber) {
         Preconditions.checkNotNull(jTextPane);
 
         stringUtil = new StringUtil(new CyderOutputPane(jTextPane));
@@ -75,7 +75,7 @@ public class YoutubeThread {
             youtubeUuid = UserUtil.getCyderUser().getYoutubeUuid();
 
             Preconditions.checkNotNull(youtubeUuid);
-            Preconditions.checkArgument(youtubeUuid.length() == 11);
+            Preconditions.checkArgument(youtubeUuid.length() == YoutubeConstants.UUID_LENGTH);
 
             int numRuns = 0;
             long startTime = System.currentTimeMillis();
@@ -85,14 +85,14 @@ public class YoutubeThread {
 
                 try {
                     MasterYoutubeThread.getSemaphore().acquire();
-                    stringUtil.println("Checked UUID: " + youtubeUuid);
+                    stringUtil.println("Checked uuid: " + youtubeUuid);
                     MasterYoutubeThread.getSemaphore().release();
                     String baseURL = CyderUrls.YOUTUBE_VIDEO_HEADER + youtubeUuid;
 
                     BufferedImage Thumbnail = ImageUtil.read(
                             CyderUrls.THUMBNAIL_BASE_URL.replace("REPLACE", youtubeUuid));
 
-                    //end all scripts since this one was found
+                    // End all scripts since this one was found
                     MasterYoutubeThread.killAll();
 
                     MasterYoutubeThread.getSemaphore().acquire();
@@ -160,7 +160,7 @@ public class YoutubeThread {
                     }
                 }
             }
-        }, "Random youtube thread #" + threadNumber);
+        }, "Random youtube thread: " + threadNumber);
     }
 
     /**
@@ -177,22 +177,22 @@ public class YoutubeThread {
         char positionChar = uuid[pos];
 
         if (positionChar == validChars.get(validChars.size() - 1)) {
-            // use recursion to add to next column
             if (pos - 1 < 0) {
-                throw new IllegalArgumentException("YouTube thread overflow");
+                throw new IllegalArgumentException("YouTube uuid incrementer overflow, provided uuid: "
+                        + Arrays.toString(uuid));
             } else {
                 ret = incrementUuid(uuid, pos - 1);
             }
         } else {
             positionChar = validChars.get(findIndex(positionChar) + 1);
-            char[] cp = uuid.clone();
-            cp[pos] = positionChar;
+            char[] copy = uuid.clone();
+            copy[pos] = positionChar;
 
             if (pos + 1 <= 10) {
-                cp[pos + 1] = validChars.get(0);
+                copy[pos + 1] = validChars.get(0);
             }
 
-            ret = cp;
+            ret = copy;
         }
 
         return ret;

@@ -12,6 +12,9 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * A controlling class for {@link YoutubeUuidChecker}s.
+ */
 public final class MasterYoutubeThread {
     /**
      * The linked JTextPane to output YouTube UUIDs to.
@@ -48,7 +51,7 @@ public final class MasterYoutubeThread {
     /**
      * Accessor list of helper threads that actually check the UUIDs.
      */
-    private static final ArrayList<YoutubeThread> youtubeThreads = new ArrayList<>();
+    private static final ArrayList<YoutubeUuidChecker> YOUTUBE_UUID_CHECKERS = new ArrayList<>();
 
     /**
      * Sets the master YouTube JTextPane, and its linked semaphore.
@@ -66,10 +69,7 @@ public final class MasterYoutubeThread {
      * Kills any instances of helper YouTube threads that are currently running.
      */
     public static void killAll() {
-        for (YoutubeThread ytt : youtubeThreads) {
-            ytt.kill();
-        }
-
+        YOUTUBE_UUID_CHECKERS.forEach(YoutubeUuidChecker::kill);
         isActive = false;
     }
 
@@ -84,8 +84,8 @@ public final class MasterYoutubeThread {
         Preconditions.checkNotNull(semaphore);
 
         if (BletchyThread.isActive() || isActive()) {
-            Console.INSTANCE.getConsoleCyderFrame().notify("Cannot start bletchy/youtube thread" +
-                    " at the same time as another instance.");
+            Console.INSTANCE.getConsoleCyderFrame().notify("Cannot start bletchy/youtube thread"
+                    + " at the same time as another instance.");
             return;
         }
 
@@ -94,8 +94,8 @@ public final class MasterYoutubeThread {
         lastNotifyTime = System.currentTimeMillis();
 
         for (int i = 0 ; i < number ; i++) {
-            YoutubeThread current = new YoutubeThread(outputArea, i);
-            youtubeThreads.add(current);
+            YoutubeUuidChecker current = new YoutubeUuidChecker(outputArea, i);
+            YOUTUBE_UUID_CHECKERS.add(current);
         }
 
         Console.INSTANCE.getConsoleCyderFrame().notify("Type \"stop script\" or press ctrl + c to halt");
@@ -112,6 +112,9 @@ public final class MasterYoutubeThread {
      */
     private static long lastNotifyTime;
 
+    /**
+     * The frequency to notify the user of the time remaining until all youtube uuids have been checked.
+     */
     private static final int NOTIFY_SECOND_FREQUENCY = 60;
 
     /**
