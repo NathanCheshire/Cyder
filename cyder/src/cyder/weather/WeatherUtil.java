@@ -19,13 +19,6 @@ import java.util.Optional;
  */
 public final class WeatherUtil {
     /**
-     * Suppress default constructor.
-     */
-    private WeatherUtil() {
-        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
-    }
-
-    /**
      * The app id argument.
      */
     private static final String APP_ID = "&appid=";
@@ -34,6 +27,23 @@ public final class WeatherUtil {
      * The units argument for the weather data.
      */
     private static final String UNITS_ARG = "&units=";
+
+    /**
+     * The key to get the default location from the props.
+     */
+    private static final String DEFAULT_LOCATION = "default_location";
+
+    /**
+     * The key for obtaining the weather data key from the props.
+     */
+    public static final String WEATHER_KEY = "weather_key";
+
+    /**
+     * Suppress default constructor.
+     */
+    private WeatherUtil() {
+        throw new IllegalMethodException(CyderStrings.ATTEMPTED_INSTANTIATION);
+    }
 
     /**
      * Possible measurement scales, that of imperial or metric.
@@ -66,9 +76,26 @@ public final class WeatherUtil {
     }
 
     /**
-     * The key for obtaining the weather data key from the props.
+     * Validates the weather key from the propkeys.ini file.
+     *
+     * @return whether the weather key was valid
      */
-    public static final String WEATHER_KEY = "weather_key";
+    private static boolean validateWeatherKey() {
+        String openString = CyderUrls.OPEN_WEATHER_BASE
+                + PropLoader.getString(DEFAULT_LOCATION)
+                + APP_ID + PropLoader.getString(WEATHER_KEY)
+                + UNITS_ARG + MeasurementScale.IMPERIAL.getWeatherDataRepresentation();
+
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(new URL(openString).openStream()))) {
+            reader.readLine();
+            return true;
+        } catch (Exception ex) {
+            ExceptionHandler.silentHandle(ex);
+        }
+
+        return false;
+    }
 
     /**
      * Returns the weather data object for the provided location string if available. Empty optional else.

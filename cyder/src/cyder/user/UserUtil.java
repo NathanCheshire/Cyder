@@ -33,8 +33,6 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.Semaphore;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * Utilities regarding a user, their json file, and IO to/from that json file.
  */
@@ -100,6 +98,11 @@ public final class UserUtil {
     private static int currentLevenshteinDistance;
 
     /**
+     * The json write tag.
+     */
+    private static final String JSON_WRITE = "[JSON WRITE]";
+
+    /**
      * Writes the current User, {@link UserUtil#cyderUser},
      * to the user's json if the json exists AND the provided user
      * object contains all the data required by a user object.
@@ -107,19 +110,18 @@ public final class UserUtil {
      * is backed up and placed in dynamic/backup.
      */
     public static synchronized void writeUser() {
-        if (cyderUserFile == null || !cyderUserFile.exists() || cyderUser == null)
-            return;
+        if (cyderUserFile == null || !cyderUserFile.exists() || cyderUser == null) return;
 
         try {
-            // write to user data file
             setUserData(cyderUserFile, cyderUser);
 
-            // don't bother with other actions if the written value was no different than the previous
             if (currentLevenshteinDistance > 0) {
-                // log the write since we know the user is valid
-                Logger.log(LogTag.SYSTEM_IO, "[JSON WRITE] [Levenshtein = "
-                        + currentLevenshteinDistance + "] User was written to file: "
-                        + OsUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
+                String representation = JSON_WRITE + CyderStrings.space + CyderStrings.openingBracket
+                        + "Levenshtein: " + currentLevenshteinDistance + CyderStrings.closingBracket
+                        + CyderStrings.space + "User" + CyderStrings.space + CyderStrings.quote
+                        + cyderUser.getName() + CyderStrings.quote + " was written to file: "
+                        + OsUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName());
+                Logger.log(LogTag.SYSTEM_IO, representation);
 
                 getterSetterValidator(cyderUserFile);
                 backupUserJsonFile(cyderUserFile);
@@ -130,20 +132,17 @@ public final class UserUtil {
     }
 
     /**
-     * Sets the given user to the current Cyder user.
-     * This method should only be called if the current contents
-     * of the user, meaning possible writes within the past 100ms,
-     * can be discarded.
+     * Sets the given user to the current Cyder user. This method should only be called if the current contents
+     * of the user, meaning possible writes within the past 100ms, can be discarded.
      * <p>
-     * This method should only be called when setting
-     * the user due to a Cyder login event.
+     * This method should only be called when setting the user due to a Cyder
+     * login event, specifically via the console method {@link Console#setUuid(String)}.
      * <p>
      * If you are trying to set data for the current cyder user,
-     * call {@link UserUtil#getCyderUser()}.
+     * call {@link UserUtil#getCyderUser()} and use mutator methods on that object.
      * <p>
-     * Common usages of this, such as setting an object such
-     * as the screen stat would look like the following:
-     *
+     * Common usages of this, such as setting an object instead of a primitive attribute such
+     * as the user's {@link ScreenStat} would look like the following:
      * <pre>{@code UserUtil.getCyderUser().setScreenStat(myScreenStat);}</pre>
      *
      * @param uuid the user's uuid
@@ -152,12 +151,10 @@ public final class UserUtil {
         Preconditions.checkNotNull(uuid);
         Preconditions.checkArgument(!uuid.isEmpty());
 
-        File jsonFile = OsUtil.buildFile(Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(), uuid, UserFile.USERDATA.getName());
+        File jsonFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid, UserFile.USERDATA.getName());
 
-        Preconditions.checkArgument(jsonFile.exists(), "File does not exist");
-        Preconditions.checkArgument(FileUtil.getExtension(jsonFile).equals(Extension.JSON.getExtension()),
-                "File is not a json type");
+        Preconditions.checkArgument(jsonFile.exists());
+        Preconditions.checkArgument(FileUtil.validateExtension(jsonFile, Extension.JSON.getExtension()));
 
         cyderUserFile = jsonFile;
         cyderUser = extractUser(jsonFile);
@@ -216,8 +213,7 @@ public final class UserUtil {
     /**
      * The backup directory.
      */
-    public static final File backupDirectory = new File(
-            OsUtil.buildPath(Dynamic.PATH, Dynamic.BACKUP.getDirectoryName()));
+    public static final File backupDirectory = Dynamic.buildDynamic(Dynamic.BACKUP.getDirectoryName());
 
     /**
      * Saves the provided jsonFile to the backup directory in case
@@ -238,20 +234,20 @@ public final class UserUtil {
                 }
             }
 
-            long backupTimestamp = System.currentTimeMillis();
+            long currentTimestamp = System.currentTimeMillis();
             String uuid = FileUtil.getFilename(jsonFile.getParentFile());
-            String backupFilename = uuid + "_" + backupTimestamp + Extension.JSON.getExtension();
+            String backupFilename = uuid + uuidTimeSeparator + currentTimestamp + Extension.JSON.getExtension();
 
             File[] backups = backupDirectory.listFiles();
-            checkNotNull(backups);
+            Preconditions.checkNotNull(backups);
             long currentMaxTimestamp = 0;
 
             // find most recent timestamp that matches our uuid
             for (File backup : backups) {
                 String filename = FileUtil.getFilename(backup);
 
-                if (filename.contains("_")) {
-                    String[] parts = filename.split("_");
+                if (filename.contains(uuidTimeSeparator)) {
+                    String[] parts = filename.split(uuidTimeSeparator);
 
                     if (parts.length == 2) {
                         String foundUuid = parts[0];
@@ -267,8 +263,9 @@ public final class UserUtil {
 
             File mostRecentBackup = null;
             if (currentMaxTimestamp != 0) {
-                mostRecentBackup = OsUtil.buildFile(Dynamic.PATH,
-                        Dynamic.BACKUP.getDirectoryName(), uuid + "_" + currentMaxTimestamp);
+                mostRecentBackup = Dynamic.buildDynamic(
+                        Dynamic.BACKUP.getDirectoryName(),
+                        uuid + uuidTimeSeparator + currentMaxTimestamp);
             }
 
             if (mostRecentBackup == null || !FileUtil.fileContentsEqual(jsonFile, mostRecentBackup)) {
@@ -287,13 +284,13 @@ public final class UserUtil {
                 }
 
                 backups = backupDirectory.listFiles();
-                checkNotNull(backups);
+                Preconditions.checkNotNull(backups);
 
                 for (File backup : backups) {
                     String filename = FileUtil.getFilename(backup);
 
-                    if (filename.contains("_")) {
-                        String[] parts = filename.split("_");
+                    if (filename.contains(uuidTimeSeparator)) {
+                        String[] parts = filename.split(uuidTimeSeparator);
 
                         if (parts.length == 2) {
                             // if uuid of this backup is the user we just
@@ -312,6 +309,13 @@ public final class UserUtil {
     }
 
     /**
+     * The number to indicate a backup time was not found.
+     */
+    private static final int noBackupTime = -1;
+
+    private static final String uuidTimeSeparator = "_";
+
+    /**
      * Returns the most recent userdata.json backup for the provided user uuid.
      * If none is found, and empty optional is returned.
      *
@@ -319,52 +323,39 @@ public final class UserUtil {
      * @return the most recent backup file for the user if found
      */
     public static Optional<File> getUserJsonBackup(String uuid) {
-        Optional<File> ret = Optional.empty();
+        Preconditions.checkNotNull(uuid);
+        Preconditions.checkArgument(!uuid.isEmpty());
 
-        // get backups
         File[] backups = backupDirectory.listFiles();
+        if (backups == null || backups.length == 0) return Optional.empty();
 
-        // if backups were found
-        if (backups != null && backups.length > 0) {
-            long mostRecentTimestamp = 0;
+        long mostRecentTimestamp = noBackupTime;
+        for (File backup : backups) {
+            if (!FileUtil.getExtension(backup).equals(Extension.JSON.getExtension())) continue;
 
-            for (File backup : backups) {
-                // not sure how this would happen but still check
-                if (!FileUtil.getExtension(backup).equals(Extension.JSON.getExtension()))
-                    continue;
+            String name = FileUtil.getFilename(backup);
+            if (!name.contains(uuidTimeSeparator)) continue;
 
-                String name = FileUtil.getFilename(backup);
+            String[] parts = name.split(uuidTimeSeparator);
+            if (parts.length != 2) continue;
 
-                // if backup is properly named
-                if (name.contains("_")) {
-                    String[] parts = name.split("_");
+            String partName = parts[0];
+            if (!partName.equals(uuid)) continue;
 
-                    if (parts.length == 2) {
-                        if (parts[0].equals(uuid)) {
-                            long unixTimestamp = Long.parseLong(parts[1]);
+            long partTimestamp = Long.parseLong(parts[1]);
+            if (partTimestamp > mostRecentTimestamp) mostRecentTimestamp = partTimestamp;
+        }
 
-                            if (unixTimestamp > mostRecentTimestamp)
-                                mostRecentTimestamp = unixTimestamp;
-                        }
-                    }
-                }
-            }
+        if (mostRecentTimestamp != noBackupTime) {
+            File mostRecentBackup = Dynamic.buildDynamic(Dynamic.BACKUP.getDirectoryName(),
+                    uuid + uuidTimeSeparator + mostRecentTimestamp + Extension.JSON.getExtension());
 
-            // if a recent backup was found for the user
-            if (mostRecentTimestamp != 0) {
-                File mostRecentBackup = OsUtil.buildFile(
-                        Dynamic.PATH,
-                        Dynamic.BACKUP.getDirectoryName(),
-                        uuid + "_" + mostRecentTimestamp + Extension.JSON.getExtension());
-
-                // should always be true...
-                if (mostRecentBackup.exists()) {
-                    ret = Optional.of(mostRecentBackup);
-                }
+            if (mostRecentBackup.exists()) {
+                return Optional.of(mostRecentBackup);
             }
         }
 
-        return ret;
+        return Optional.empty();
     }
 
     /**
@@ -378,11 +369,10 @@ public final class UserUtil {
      * @param uuid the user uuid
      */
     public static void ensureUserFilesExist(String uuid) {
-        checkNotNull(uuid);
+        Preconditions.checkNotNull(uuid);
 
         for (UserFile val : UserFile.values()) {
-            if (val.getName().equals(UserFile.USERDATA.getName()))
-                continue;
+            if (val.getName().equals(UserFile.USERDATA.getName())) continue;
 
             File currentUserFile = OsUtil.buildFile(
                     Dynamic.PATH,
@@ -402,22 +392,16 @@ public final class UserUtil {
                             success = currentUserFile.mkdir();
                         }
 
-                        // if created, break
-                        if (success)
-                            break;
+                        if (success) break;
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
-
-                        // couldn't create so try again
                         attempts++;
                     }
                 }
 
                 if (attempts == MAX_CREATION_ATTEMPTS) {
-                    // log the failure
-                    Logger.log(LogTag.SYSTEM_IO,
-                            "Unable to create all user files for user [" + uuid
-                                    + "] after " + MAX_CREATION_ATTEMPTS + " attempts");
+                    Logger.log(LogTag.SYSTEM_IO, "Unable to create all user files for user ["
+                            + uuid + "] after " + MAX_CREATION_ATTEMPTS + " attempts");
                 }
             }
         }
@@ -1196,18 +1180,17 @@ public final class UserUtil {
     public static ArrayList<File> getUserJsons() {
         ArrayList<File> userFiles = new ArrayList<>();
 
-        File usersDir = OsUtil.buildFile(Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName());
+        File usersDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName());
         File[] users = usersDir.listFiles();
 
         if (users != null && users.length > 0) {
-            for (File user : users) {
+            Arrays.stream(users).forEach(user -> {
                 File json = new File(OsUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
                 if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs)) {
                     userFiles.add(json);
                 }
-            }
+            });
         }
 
         return userFiles;
@@ -1217,11 +1200,11 @@ public final class UserUtil {
      * Sets the loggedin keys of all users to 0.
      */
     public static void logoutAllUsers() {
-        for (File json : getUserJsons()) {
-            User u = extractUser(json);
-            u.setLoggedIn("0");
-            setUserData(json, u);
-        }
+        getUserJsons().forEach(jsonFile -> {
+            User user = extractUser(jsonFile);
+            user.setLoggedIn("0");
+            setUserData(jsonFile, user);
+        });
     }
 
     /**
@@ -1230,9 +1213,10 @@ public final class UserUtil {
      * @return the uuid of the first logged-in user
      */
     public static Optional<String> getFirstLoggedInUser() {
-        for (File userJSON : getUserJsons()) {
-            if (extractUser(userJSON).getLoggedIn().equals("1"))
-                return Optional.of(FileUtil.getFilename(userJSON.getParentFile().getName()));
+        for (File userJson : getUserJsons()) {
+            if (extractUser(userJson).getLoggedIn().equals("1")) {
+                return Optional.of(FileUtil.getFilename(userJson.getParentFile().getName()));
+            }
         }
 
         return Optional.empty();
@@ -1502,8 +1486,12 @@ public final class UserUtil {
     /**
      * The header for the url to validate a provided YouTube API 3 key.
      */
-    private static final String YOUTUBE_API_3_KEY_VALIDATOR_HEADER = CyderUrls.YOUTUBE_API_V3_SEARCH
-            + "?part=snippet&q=" + "gift+and+a+curse+skizzy+mars" + "&type=video&key=";
+    private static final String YOUTUBE_API_3_KEY_VALIDATOR_HEADER =
+            CyderUrls.YOUTUBE_API_V3_SEARCH
+                    + "?part=snippet"
+                    + "&q=gift+and+a+curse+skizzy+mars"
+                    + "&type=video"
+                    + "&key=";
 
     /**
      * Validates the youtube key from the propkeys.ini file.
@@ -1520,28 +1508,6 @@ public final class UserUtil {
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
-        }
-
-        return false;
-    }
-
-    /**
-     * Validates the weather key from the propkeys.ini file.
-     *
-     * @return whether the weather key was valid
-     */
-    private static boolean validateWeatherKey() {
-        String openString = CyderUrls.OPEN_WEATHER_BASE
-                + PropLoader.getString("default_weather_location")
-                + "&appid=" + PropLoader.getString("weather_key")
-                + "&units=imperial";
-
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(new URL(openString).openStream()))) {
-            reader.readLine();
-            return true;
-        } catch (Exception ex) {
-            ExceptionHandler.silentHandle(ex);
         }
 
         return false;
