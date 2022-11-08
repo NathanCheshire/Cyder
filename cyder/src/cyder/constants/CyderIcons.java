@@ -18,12 +18,6 @@ public final class CyderIcons {
     public static final ImageIcon CYDER_ICON = new ImageIcon(StaticUtil.getStaticPath("CyderIcon.png"));
 
     /**
-     * The Cyder logo used to indicate a background process is running.
-     */
-    public static final ImageIcon CYDER_BUSY_ICON = new ImageIcon(
-            StaticUtil.getStaticPath("CyderBusyIcon.png"));
-
-    /**
      * The x easter egg icon.
      */
     public static final ImageIcon X_ICON = new ImageIcon(StaticUtil.getStaticPath("x.png"));

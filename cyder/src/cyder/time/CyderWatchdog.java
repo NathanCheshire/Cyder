@@ -94,6 +94,9 @@ public final class CyderWatchdog {
                     group.enumerate(currentThreads);
 
                     for (Thread thread : currentThreads) {
+                        // yes, this actually can happen
+                        if (thread == null) continue;
+
                         // thread found so start actual watchdog timer and break out of initializer
                         if (thread.getName().equals(AWT_EVENT_QUEUE_0_NAME)) {
                             startWatchDog(thread);

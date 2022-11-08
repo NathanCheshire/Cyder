@@ -273,6 +273,8 @@ public enum Console {
         installRightDragLabelButtons();
         installLeftDragLabelButtons();
 
+        initializeBusyIcon();
+
         generateAudioMenu();
         installConsoleClock();
         installConsolePinnedWindowListeners();
@@ -298,15 +300,57 @@ public enum Console {
         TimeUtil.setConsoleFirstShownTime(System.currentTimeMillis());
         long loadTime = TimeUtil.getConsoleFirstShownTime() - TimeUtil.getAbsoluteStartTime();
         baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
-
-        showBusyAnimation();
     }
 
-    private void showBusyAnimation() {
-        int busyIconHeight = 3;
-        int busyIconWidth = consoleCyderFrame.getWidth() / 8;
+    /**
+     * The ratio of the busy width length to the console width.
+     */
+    private final int busyIconToConsoleWidthRatio = 8;
 
-        JLabel busyIcon = new JLabel() {
+    /**
+     * The height of the busy icon.
+     */
+    private final int busyIconHeight = 3;
+
+    /**
+     * The busy icon animation increment.
+     */
+    private final int busyIconAnimationIncrement = 2;
+
+    /**
+     * The busy icon animation delay.
+     */
+    private final int busyIconAnimationDelay = 4;
+
+    /**
+     * The delay the busy icon stops between sliding from the right to left and the left to the right.
+     */
+    private final int busyIconAnimationTransitionDelay = 500;
+
+    /**
+     * The busy icon for the console.
+     */
+    private JLabel busyIcon;
+
+    /**
+     * Whether the busy icon has been initialized.
+     */
+    private boolean busyIconInitialized = false;
+
+    /**
+     * Whether the busy icon should be showed currently.
+     */
+    private final AtomicBoolean shouldShowBusyAnimation = new AtomicBoolean();
+
+    /**
+     * Initializes the console busy icon.
+     */
+    private void initializeBusyIcon() {
+        Preconditions.checkState(!busyIconInitialized);
+        busyIconInitialized = true;
+
+        int busyIconWidth = consoleCyderFrame.getWidth() / busyIconToConsoleWidthRatio;
+        busyIcon = new JLabel() {
             @Override
             public void paint(Graphics g) {
                 g.setColor(CyderColors.vanilla);
@@ -317,36 +361,49 @@ public enum Console {
         consoleCyderFrame.getTopDragLabel().add(busyIcon);
 
         busyIcon.repaint();
+        busyIcon.setVisible(false);
+    }
+
+    // todo whenever the xxx song ends playing, reset the console icon back to original
+
+    /**
+     * Shows the busy animation starting from the beginning
+     */
+    private void showBusyAnimation() {
+        shouldShowBusyAnimation.set(true);
+        busyIcon.setLocation(0, 0);
+        busyIcon.repaint();
         busyIcon.setVisible(true);
 
         CyderThreadRunner.submit(() -> {
-            int inc = 2;
-            int delay = 4;
-            int betweenDelay = 500;
-
-            while (true) {
+            OUTER:
+            while (shouldShowBusyAnimation.get()) {
                 while (busyIcon.getX() + busyIcon.getWidth() < consoleCyderFrame.getWidth()) {
-                    busyIcon.setSize(consoleCyderFrame.getWidth() / 8, busyIconHeight);
-                    busyIcon.setLocation(busyIcon.getX() + inc, 0);
+                    busyIcon.setSize(consoleCyderFrame.getWidth() / busyIconToConsoleWidthRatio, busyIconHeight);
+                    busyIcon.setLocation(busyIcon.getX() + busyIconAnimationIncrement, 0);
                     busyIcon.repaint();
-                    ThreadUtil.sleep(delay);
+                    ThreadUtil.sleep(busyIconAnimationDelay);
+                    if (!shouldShowBusyAnimation.get()) break OUTER;
                 }
 
-                ThreadUtil.sleep(betweenDelay);
+                ThreadUtil.sleep(busyIconAnimationTransitionDelay);
 
                 while (busyIcon.getX() > 0) {
                     if (busyIcon.getX() + busyIcon.getWidth() > consoleCyderFrame.getWidth()) {
                         busyIcon.setLocation(consoleCyderFrame.getWidth() - busyIcon.getWidth(), 0);
                     }
 
-                    busyIcon.setSize(consoleCyderFrame.getWidth() / 8, busyIconHeight);
-                    busyIcon.setLocation(busyIcon.getX() - inc, 0);
+                    busyIcon.setSize(consoleCyderFrame.getWidth() / busyIconToConsoleWidthRatio, busyIconHeight);
+                    busyIcon.setLocation(busyIcon.getX() - busyIconAnimationIncrement, 0);
                     busyIcon.repaint();
-                    ThreadUtil.sleep(delay);
+                    ThreadUtil.sleep(busyIconAnimationDelay);
+                    if (!shouldShowBusyAnimation.get()) break OUTER;
                 }
 
-                ThreadUtil.sleep(betweenDelay);
+                ThreadUtil.sleep(busyIconAnimationTransitionDelay);
             }
+
+            busyIcon.setVisible(false);
         }, IgnoreThread.ConsoleBusyAnimation.getName());
     }
 
@@ -1133,15 +1190,14 @@ public enum Console {
                             }
                         }
 
-                        if (busyThreads == 0 && CyderIcons.getCurrentCyderIcon() != CyderIcons.X_ICON) {
-                            CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON);
-                        } else if (CyderIcons.getCurrentCyderIcon() != CyderIcons.X_ICON) {
-                            CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_BUSY_ICON);
+                        if (busyThreads == 0) {
+                            shouldShowBusyAnimation.set(false);
+                        } else {
+                            if (!shouldShowBusyAnimation.get()) showBusyAnimation();
                         }
-                    } else if (CyderIcons.getCurrentCyderIcon() != CyderIcons.X_ICON) {
-                        CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON);
                     }
 
+                    // todo extract these
                     consoleCyderFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
                     ThreadUtil.sleepWithChecks(3000, 50, consoleClosed);
                 }
