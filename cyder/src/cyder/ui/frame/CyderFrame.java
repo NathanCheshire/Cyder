@@ -16,6 +16,7 @@ import cyder.logging.LogTag;
 import cyder.logging.Logger;
 import cyder.login.LoginHandler;
 import cyder.math.AngleUtil;
+import cyder.props.PropLoader;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.ThreadUtil;
 import cyder.ui.CyderComponentResizer;
@@ -215,10 +216,31 @@ public class CyderFrame extends JFrame {
     public static final int FRAME_RESIZING_LEN = 2;
 
     /**
+     * The default border length.
+     */
+    private static final int DEFAULT_BORDER_LEN = 5;
+
+    /**
      * The size of the border drawn around the frame.
      */
-    public static final int BORDER_LEN = 5;
+    public static final int BORDER_LEN;
 
+    /**
+     * The key to get the frame border length from the props.
+     */
+    private static final String FRAME_BORDER_LENGTH = "frame_border_length";
+
+    static {
+        if (PropLoader.propExists(FRAME_BORDER_LENGTH)) {
+            BORDER_LEN = PropLoader.getInteger(FRAME_BORDER_LENGTH);
+        } else {
+            BORDER_LEN = DEFAULT_BORDER_LEN;
+        }
+    }
+
+    /**
+     * The default length of a frame.
+     */
     public static final int DEFAULT_FRAME_LEN = 400;
 
     /**
@@ -3513,7 +3535,7 @@ public class CyderFrame extends JFrame {
 
         if (menuType == MenuType.PANEL) {
             int menuHeight = 2 * paddingHeight + (menuItems.size() * (StringUtil.getAbsoluteMinHeight(
-                    String.valueOf(CyderNumbers.JENNY), CyderFonts.DEFAULT_FONT_SMALL))) + 5;
+                    String.valueOf(CyderNumbers.JENNY), CyderFonts.DEFAULT_FONT_SMALL))) + menuYOffset;
 
             if (menuHeight > getHeight() - topDrag.getHeight() - menuYOffset) {
                 menuHeight = getHeight() - topDrag.getHeight() - menuYOffset;
@@ -3702,8 +3724,6 @@ public class CyderFrame extends JFrame {
             return null;
         }
     }
-
-    // todo extract me?
 
     /**
      * Sets the console to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
