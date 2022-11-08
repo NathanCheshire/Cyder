@@ -151,7 +151,7 @@ public final class UserCreator {
         informationLabel.setForeground(CyderColors.regularGreen);
         informationLabel.setSize(300, 30);
 
-        chooseBackgroundButton = new CyderButton("Choose Background");
+        chooseBackgroundButton = new CyderButton(CHOOSE_BACKGROUND);
         chooseBackgroundButton.setToolTipText("Choose a background for the console");
         chooseBackgroundButton.setFont(CyderFonts.SEGOE_20);
         chooseBackgroundButton.setBackground(CyderColors.regularRed);
@@ -316,8 +316,7 @@ public final class UserCreator {
      * @return whether only one valid user exists within Cyder
      */
     private static boolean onlyOneUser() {
-        File[] userFiles = OsUtil.buildFile(
-                Dynamic.PATH, Dynamic.USERS.getDirectoryName()).listFiles();
+        File[] userFiles = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName()).listFiles();
 
         return userFiles != null && userFiles.length == 1;
     }
@@ -326,6 +325,16 @@ public final class UserCreator {
      * The action listener for the choose background button.
      */
     private static final ActionListener chooseBackgroundButtonActionListener = e -> chooseBackground();
+
+    /**
+     * The no background string.
+     */
+    private static final String NO_BACKGROUND = "No Background";
+
+    /**
+     * The choose background string.
+     */
+    private static final String CHOOSE_BACKGROUND = "Choose Background";
 
     /**
      * The mouse listener for changing the text of the choose background button.
@@ -337,7 +346,7 @@ public final class UserCreator {
                 if (newUserBackgroundFile != null) {
                     chooseBackgroundButton.setText(newUserBackgroundFile.getName());
                 } else {
-                    chooseBackgroundButton.setText("No Background");
+                    chooseBackgroundButton.setText(NO_BACKGROUND);
                 }
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
@@ -350,7 +359,7 @@ public final class UserCreator {
                 if (newUserBackgroundFile != null) {
                     chooseBackgroundButton.setText(newUserBackgroundFile.getName());
                 } else {
-                    chooseBackgroundButton.setText("Choose Background");
+                    chooseBackgroundButton.setText(CHOOSE_BACKGROUND);
                 }
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
@@ -458,13 +467,13 @@ public final class UserCreator {
         String uuid = SecurityUtil.generateUuidForUser();
         lastGeneratedUuid = uuid;
 
-        if (!OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid).mkdir()) {
+        if (!Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid).mkdir()) {
             createUserFrame.toast("Failed to create user folder");
             return false;
         }
 
         for (UserFile userFile : UserFile.values()) {
-            File makeMe = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid, userFile.getName());
+            File makeMe = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid, userFile.getName());
 
             if (userFile.isFile()) {
                 try {
@@ -490,7 +499,7 @@ public final class UserCreator {
         }
 
         try {
-            File destination = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+            File destination = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
                     uuid, UserFile.BACKGROUNDS.getName(), newUserBackgroundFile.getName());
             Files.copy(Paths.get(newUserBackgroundFile.getAbsolutePath()), destination.toPath());
         } catch (Exception e) {
@@ -514,8 +523,8 @@ public final class UserCreator {
         user.setScreenStat(createDefaultScreenStat(background));
         user.setExecutables(new LinkedList<>());
 
-        UserUtil.setUserData(OsUtil.buildFile(Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(), uuid, UserFile.USERDATA.getName()), user);
+        UserUtil.setUserData(Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
+                uuid, UserFile.USERDATA.getName()), user);
 
         return true;
     }

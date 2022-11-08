@@ -402,7 +402,7 @@ public final class Logger {
      */
     public static void initialize() {
         if (PropLoader.getBoolean(WIPE_LOGS_ON_START)) {
-            OsUtil.deleteFile(OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName()));
+            OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName()));
         }
 
         generateAndSetLogFile();
@@ -460,20 +460,20 @@ public final class Logger {
      */
     private static void generateAndSetLogFile() {
         try {
-            File logsDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
+            File logsDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
             if (!logsDir.exists() && !logsDir.mkdir()) {
                 throw new FatalException("Failed to create logs directory");
             }
 
             String logSubDirName = TimeUtil.logSubDirTime();
-            File logSubDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName(), logSubDirName);
+            File logSubDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName(), logSubDirName);
             if (!logSubDir.exists() && !logSubDir.mkdir()) {
                 throw new FatalException("Failed to create log directory for current day");
             }
 
             File proposedLogFile = new File(TimeUtil.logTime() + Extension.LOG.getExtension());
             String uniqueFilename = FileUtil.constructUniqueName(proposedLogFile, logSubDir);
-            File logFile = OsUtil.buildFile(Dynamic.PATH,
+            File logFile = Dynamic.buildDynamic(
                     Dynamic.LOGS.getDirectoryName(), logSubDirName, uniqueFilename);
 
             if (OsUtil.createFile(logFile, true)) {
@@ -580,7 +580,7 @@ public final class Logger {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void zipPastLogs() {
-        File topLevelLogsDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
+        File topLevelLogsDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
 
         if (!topLevelLogsDir.exists()) {
             topLevelLogsDir.mkdir();
@@ -609,7 +609,7 @@ public final class Logger {
      * Consolidates the lines of all non-zipped files within the logs/SubLogDir directory.
      */
     public static void consolidateLogLines() {
-        File logsDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
+        File logsDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
 
         if (!logsDir.exists()) return;
 
@@ -726,7 +726,7 @@ public final class Logger {
      */
     public static void concludeLogs() {
         try {
-            File logDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName());
+            File logDir = Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName());
 
             if (!logDir.exists()) return;
 

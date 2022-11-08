@@ -613,4 +613,15 @@ public final class FileUtil {
 
         return ImmutableList.copyOf(ret);
     }
+
+    /**
+     * Reads the contents of the provided file and returns the collective contents in a singular string.
+     *
+     * @param file the file whose contents to read
+     * @return the contents of the file
+     * @throws IOException if reading the file fails
+     */
+    public static String readFileContents(File file) throws IOException {
+        return Files.readString(Path.of(file.getAbsolutePath()));
+    }
 }

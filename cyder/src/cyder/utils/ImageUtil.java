@@ -1039,7 +1039,7 @@ public final class ImageUtil {
         Preconditions.checkArgument(!saveName.isEmpty());
 
         try {
-            File tmpDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName(),
+            File tmpDir = Dynamic.buildDynamic(Dynamic.TEMP.getDirectoryName(),
                     saveName + Extension.PNG.getExtension());
             ImageIO.write(bi, Extension.PNG.getExtensionWithoutPeriod(), tmpDir);
             return true;

@@ -629,7 +629,7 @@ public final class UserEditor {
         }
 
         // Attempt to find album art file to rename
-        File albumArtDir = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+        File albumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
 
         if (albumArtDir.exists()) {
@@ -774,7 +774,7 @@ public final class UserEditor {
         Preconditions.checkArgument(!name.isEmpty());
         Preconditions.checkNotNull(userFile);
 
-        File userFilesDirectory = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+        File userFilesDirectory = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), userFile.getName());
 
         File[] files = userFilesDirectory.listFiles();
@@ -2028,8 +2028,7 @@ public final class UserEditor {
 
             UiUtil.closeAllFrames(true);
 
-            OsUtil.deleteFile(OsUtil.buildFile(Dynamic.PATH,
-                    Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid()));
+            OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid()));
 
             OsUtil.exit(ExitCondition.UserDeleted);
         }, ACCOUNT_DELETION_CONFIRMATION);

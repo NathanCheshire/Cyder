@@ -110,7 +110,7 @@ public final class Cyder {
      */
     private static final ImmutableList<Thread> shutdownHooks = ImmutableList.of(
             CyderThreadRunner.createThread(() -> OsUtil.deleteFile(
-                            OsUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName()), false),
+                            Dynamic.buildDynamic(Dynamic.TEMP.getDirectoryName()), false),
                     REMOVE_TEMP_DIRECTORY_HOOK_NAME)
     );
 

@@ -20,7 +20,10 @@ import cyder.ui.frame.CyderFrame;
 import cyder.ui.pane.CyderScrollList;
 import cyder.user.UserFile;
 import cyder.user.UserUtil;
-import cyder.utils.*;
+import cyder.utils.ImageUtil;
+import cyder.utils.IoUtil;
+import cyder.utils.StringUtil;
+import cyder.utils.UiUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -299,7 +302,7 @@ public final class ImageAveragerWidget {
         ImageIcon previewImage = ImageUtil.resizeIfLengthExceeded(new ImageIcon(saveImage), maxImageLength);
 
         String saveImageName = combineImageNames() + Extension.PNG.getExtension();
-        File outputFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(),
+        File outputFile = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.BACKGROUNDS.getName(), saveImageName);
 
         CyderFrame drawFrame = new CyderFrame(previewImage.getIconWidth(), previewImage.getIconHeight(), previewImage);

@@ -28,7 +28,7 @@ public class FileHandler extends InputHandler {
         boolean ret = true;
 
         if (getInputHandler().inputIgnoringSpacesMatches("wipe logs")) {
-            OsUtil.deleteFile(OsUtil.buildFile(Dynamic.PATH, Dynamic.LOGS.getDirectoryName()));
+            OsUtil.deleteFile(Dynamic.buildDynamic(Dynamic.LOGS.getDirectoryName()));
             getInputHandler().println("Logs wiped");
         } else if (getInputHandler().inputIgnoringSpacesMatches("open current log")) {
             IoUtil.openFileOutsideProgram(Logger.getCurrentLog().getAbsolutePath());

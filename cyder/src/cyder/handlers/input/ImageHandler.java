@@ -10,7 +10,6 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.user.UserUtil;
 import cyder.utils.ImageUtil;
-import cyder.utils.OsUtil;
 import cyder.utils.SecurityUtil;
 
 import javax.swing.*;
@@ -104,7 +103,7 @@ public class ImageHandler extends InputHandler {
                         return;
                     }
 
-                    currentBackgroundFile = OsUtil.buildFile(Dynamic.PATH,
+                    currentBackgroundFile = Dynamic.buildDynamic(
                             Dynamic.TEMP.getDirectoryName(), name + Extension.PNG.getExtension());
                 }
 

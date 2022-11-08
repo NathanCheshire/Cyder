@@ -212,7 +212,7 @@ public final class AudioUtil {
             // in case the audio wav name contains spaces, surround with quotes
             String safeFilename = quote + wavOrMp3File.getAbsolutePath() + quote;
 
-            File outputFile = OsUtil.buildFile(Dynamic.PATH, Dynamic.TEMP.getDirectoryName(),
+            File outputFile = Dynamic.buildDynamic(Dynamic.TEMP.getDirectoryName(),
                     FileUtil.getFilename(wavOrMp3File) + DREAMY_SUFFIX + Extension.MP3.getExtension());
             String safeOutputFilename = quote + outputFile.getAbsolutePath() + quote;
 
@@ -390,13 +390,13 @@ public final class AudioUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(FFMPEG_DOWNLOADER_THREAD_NAME)).submit(() -> {
             ImmutableList<PairedFile> downloadZips = ImmutableList.of(
-                    new PairedFile(OsUtil.buildFile(Dynamic.PATH,
+                    new PairedFile(Dynamic.buildDynamic(
                             Dynamic.EXES.getDirectoryName(), Program.FFMPEG.getProgramName()
                                     + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFMPEG),
-                    new PairedFile(OsUtil.buildFile(Dynamic.PATH,
+                    new PairedFile(Dynamic.buildDynamic(
                             Dynamic.EXES.getDirectoryName(), Program.FFPROBE.getProgramName()
                                     + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFPROBE),
-                    new PairedFile(OsUtil.buildFile(Dynamic.PATH,
+                    new PairedFile(Dynamic.buildDynamic(
                             Dynamic.EXES.getDirectoryName(), Program.FFPLAY.getProgramName()
                                     + Extension.ZIP.getExtension()), DOWNLOAD_RESOURCE_FFPLAY)
             );
@@ -408,17 +408,17 @@ public final class AudioUtil {
                     Thread.onSpinWait();
                 }
 
-                File extractFolder = OsUtil.buildFile(Dynamic.PATH, Dynamic.EXES.getDirectoryName());
+                File extractFolder = Dynamic.buildDynamic(Dynamic.EXES.getDirectoryName());
                 FileUtil.unzip(pairedZipFile.file(), extractFolder);
                 OsUtil.deleteFile(pairedZipFile.file());
             }
 
             ImmutableList<File> resultingFiles = ImmutableList.of(
-                    OsUtil.buildFile(Dynamic.PATH,
+                    Dynamic.buildDynamic(
                             Dynamic.EXES.getDirectoryName(), Program.FFMPEG.getFilename()),
-                    OsUtil.buildFile(Dynamic.PATH,
+                    Dynamic.buildDynamic(
                             Dynamic.EXES.getDirectoryName(), Program.FFPROBE.getFilename()),
-                    OsUtil.buildFile(Dynamic.PATH,
+                    Dynamic.buildDynamic(
                             Dynamic.EXES.getDirectoryName(), Program.FFPLAY.getFilename())
             );
 
@@ -440,7 +440,7 @@ public final class AudioUtil {
     public static Future<Boolean> downloadYoutubeDl() {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory(YOUTUBE_DL_DOWNLOADER_THREAD_NAME)).submit(() -> {
-            File downloadZip = OsUtil.buildFile(Dynamic.PATH,
+            File downloadZip = Dynamic.buildDynamic(
                     Dynamic.EXES.getDirectoryName(), Program.YOUTUBE_DL.getProgramName()
                             + Extension.ZIP.getExtension());
 
@@ -450,12 +450,12 @@ public final class AudioUtil {
                 Thread.onSpinWait();
             }
 
-            File extractFolder = OsUtil.buildFile(Dynamic.PATH, Dynamic.EXES.getDirectoryName());
+            File extractFolder = Dynamic.buildDynamic(Dynamic.EXES.getDirectoryName());
 
             FileUtil.unzip(downloadZip, extractFolder);
             OsUtil.deleteFile(downloadZip);
 
-            return OsUtil.buildFile(Dynamic.PATH, Dynamic.EXES.getDirectoryName(),
+            return Dynamic.buildDynamic(Dynamic.EXES.getDirectoryName(),
                     Program.YOUTUBE_DL.getProgramName() + Extension.EXE.getExtension()).exists();
         });
     }

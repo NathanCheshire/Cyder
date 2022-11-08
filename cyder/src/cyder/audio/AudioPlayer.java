@@ -438,8 +438,7 @@ public final class AudioPlayer {
             return;
         }
 
-        currentUserAlbumArtDir = OsUtil.buildFile(Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(),
+        currentUserAlbumArtDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(),
                 Console.INSTANCE.getUuid(), UserFile.MUSIC.getName(), UserFile.ALBUM_ART);
 
         audioPlayerFrame = new CyderFrame(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN, BACKGROUND_COLOR);
@@ -1201,8 +1200,7 @@ public final class AudioPlayer {
             return;
         }
 
-        File userMusicDir = OsUtil.buildFile(Dynamic.PATH,
-                Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid(),
+        File userMusicDir = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), Console.INSTANCE.getUuid(),
                 UserFile.MUSIC.getName());
 
         // Not dreamified so attempt to find previously dreamified file if exists

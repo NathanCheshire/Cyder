@@ -190,11 +190,11 @@ public final class SecurityUtil {
      */
     public static String generateUuidForUser() {
         String uuid = SecurityUtil.generateUuid();
-        File userFolder = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid);
+        File userFolder = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid);
 
         while (userFolder.exists()) {
             uuid = SecurityUtil.generateUuid();
-            userFolder = OsUtil.buildFile(Dynamic.PATH, Dynamic.USERS.getDirectoryName(), uuid);
+            userFolder = Dynamic.buildDynamic(Dynamic.USERS.getDirectoryName(), uuid);
         }
 
         return uuid;

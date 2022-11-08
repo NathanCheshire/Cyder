@@ -42,6 +42,16 @@ public final class BoundsUtil {
     public static final String BREAK_TAG = "<br/>";
 
     /**
+     * A opening bold tag.
+     */
+    public static final String OPENING_BOLD_TAG = "<b>";
+
+    /**
+     * A closing bold tag.
+     */
+    public static final String CLOSING_BOLD_TAG = "</b>";
+
+    /**
      * Suppress default constructor.
      */
     private BoundsUtil() {
@@ -443,5 +453,18 @@ public final class BoundsUtil {
         public enum Type {
             HTML, TEXT
         }
+    }
+
+    /**
+     * Adds bold tags to the provided string.
+     *
+     * @param string the string
+     * @return the provided string with bold tags surrounding
+     */
+    public static String applyBold(String string) {
+        Preconditions.checkNotNull(string);
+        Preconditions.checkArgument(!string.isEmpty());
+
+        return OPENING_BOLD_TAG + string + CLOSING_BOLD_TAG;
     }
 }
