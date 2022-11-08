@@ -291,15 +291,63 @@ public enum Console {
             restorePreviousFrameBounds(consoleIcon);
         }
 
-        int x = consoleCyderFrame.getX();
-        int y = consoleCyderFrame.getY();
-        consoleCyderFrame.finalizeAndShow(new Point(x, y));
+        consoleCyderFrame.finalizeAndShowCurrentPoint();
 
         revalidateInputAndOutputBounds(true);
 
         TimeUtil.setConsoleFirstShownTime(System.currentTimeMillis());
         long loadTime = TimeUtil.getConsoleFirstShownTime() - TimeUtil.getAbsoluteStartTime();
         baseInputHandler.println("Console loaded in " + TimeUtil.formatMillis(loadTime));
+
+        showBusyAnimation();
+    }
+
+    private void showBusyAnimation() {
+        int busyIconHeight = 3;
+        int busyIconWidth = consoleCyderFrame.getWidth() / 8;
+
+        JLabel busyIcon = new JLabel() {
+            @Override
+            public void paint(Graphics g) {
+                g.setColor(CyderColors.vanilla);
+                g.fillRect(0, 0, busyIconWidth, busyIconHeight);
+            }
+        };
+        busyIcon.setBounds(0, 0, busyIconWidth, busyIconHeight);
+        consoleCyderFrame.getTopDragLabel().add(busyIcon);
+
+        busyIcon.repaint();
+        busyIcon.setVisible(true);
+
+        CyderThreadRunner.submit(() -> {
+            int inc = 2;
+            int delay = 4;
+            int betweenDelay = 500;
+
+            while (true) {
+                while (busyIcon.getX() + busyIcon.getWidth() < consoleCyderFrame.getWidth()) {
+                    busyIcon.setSize(consoleCyderFrame.getWidth() / 8, busyIconHeight);
+                    busyIcon.setLocation(busyIcon.getX() + inc, 0);
+                    busyIcon.repaint();
+                    ThreadUtil.sleep(delay);
+                }
+
+                ThreadUtil.sleep(betweenDelay);
+
+                while (busyIcon.getX() > 0) {
+                    if (busyIcon.getX() + busyIcon.getWidth() > consoleCyderFrame.getWidth()) {
+                        busyIcon.setLocation(consoleCyderFrame.getWidth() - busyIcon.getWidth(), 0);
+                    }
+
+                    busyIcon.setSize(consoleCyderFrame.getWidth() / 8, busyIconHeight);
+                    busyIcon.setLocation(busyIcon.getX() - inc, 0);
+                    busyIcon.repaint();
+                    ThreadUtil.sleep(delay);
+                }
+
+                ThreadUtil.sleep(betweenDelay);
+            }
+        }, IgnoreThread.ConsoleBusyAnimation.getName());
     }
 
     /**

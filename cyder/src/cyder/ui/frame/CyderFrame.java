@@ -3685,6 +3685,13 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Sets the frame's visibility to true and fades in the frame.
+     */
+    public void finalizeAndShowCurrentPoint() {
+        finalizeAndShow(new Point(getX(), getY()));
+    }
+
+    /**
      * Sets the frame's location to the provided point,
      * the visibility to true, and fades in the frame.
      *
